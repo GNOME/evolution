@@ -639,7 +639,7 @@ static const char *authors[] = {
 	NULL
 };
 
-static const char *documentors[] = { 
+static const char *documentors[] = {
 	"Aaron Weber",
 	"Binika Preet",
 	"Dan Winship",
@@ -688,7 +688,7 @@ command_help_faq (BonoboUIComponent *uih,
 {
 	/* FIXME Show when we have a faq */
 	/* FIXME use the error */
-	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);	
+	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);
 }
 #endif
 
@@ -780,7 +780,7 @@ command_forget_passwords (BonoboUIComponent *ui_component,
 			  void *data,
 			  const char *path)
 {
-	if (e_error_run (NULL, "shell:forget-passwords", NULL) == GTK_RESPONSE_OK) 
+	if (e_error_run (NULL, "shell:forget-passwords", NULL) == GTK_RESPONSE_OK)
 		e_passwords_forget_passwords();
 }
 
@@ -853,7 +853,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/FileClose", "window-close", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileExit", "application-exit", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/Edit/Settings", "preferences-desktop", E_ICON_SIZE_MENU),
-	
+
 	E_PIXMAP_END
 };
 
@@ -994,7 +994,7 @@ view_buttons_hide_item_toggled_handler (BonoboUIComponent           *ui_componen
 	gboolean is_visible;
 
 	sidebar = e_shell_window_peek_sidebar (shell_window);
-	
+
 	is_visible = state[0] == '0';
 
 	e_sidebar_set_show_buttons (sidebar, is_visible);
@@ -1026,7 +1026,7 @@ view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	gboolean is_visible;
 	GConfClient *gconf_client;
 
-	is_visible = state[0] == '1';	
+	is_visible = state[0] == '1';
 	if(is_visible)
 		gtk_widget_show (status_bar);
 	else
@@ -1047,7 +1047,7 @@ view_sidebar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	gboolean is_visible;
 	GConfClient *gconf_client;
 
-	is_visible = state[0] == '1';	
+	is_visible = state[0] == '1';
 	if(is_visible)
 		gtk_widget_show (side_bar);
 	else

@@ -141,9 +141,9 @@ e_config_upgrade(int major, int minor, int revision)
 	conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
 	config_doc = e_xml_parse_file (conf_file);
 	g_free (conf_file);
-	
+
 	if (config_doc && major <=1 && minor < 3) {
-		GConfClient *gconf;	
+		GConfClient *gconf;
 
 		/* move bonobo config to gconf */
 		gconf = gconf_client_get_default ();

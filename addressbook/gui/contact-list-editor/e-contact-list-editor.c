@@ -162,28 +162,28 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 	object_class->get_property = e_contact_list_editor_get_property;
 	object_class->dispose = e_contact_list_editor_dispose;
 
-	g_object_class_install_property (object_class, PROP_BOOK, 
+	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CONTACT, 
+	g_object_class_install_property (object_class, PROP_CONTACT,
 					 g_param_spec_object ("contact",
 							      _("Contact"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_IS_NEW_LIST, 
+	g_object_class_install_property (object_class, PROP_IS_NEW_LIST,
 					 g_param_spec_boolean ("is_new_list",
 							       _("Is New List"),
 							       /*_( */"XXX blurb" /*)*/,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE, 
+	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
@@ -253,7 +253,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "changed", G_CALLBACK(list_name_changed_cb), editor);
 	g_signal_connect (editor->visible_addrs_checkbutton,
 			  "toggled", G_CALLBACK(visible_addrs_toggled_cb), editor);
-	g_signal_connect (editor->email_entry, 
+	g_signal_connect (editor->email_entry,
 	 		  "key-press-event", G_CALLBACK(email_key_pressed), editor);
 
 	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
@@ -270,7 +270,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "clicked", G_CALLBACK(save_and_close_cb), editor);
 	g_signal_connect (editor->cancel_button,
 			  "clicked", G_CALLBACK(close_cb), editor);
-	
+
 
 	g_signal_connect (editor->list_image,
 			  "changed", G_CALLBACK(list_image_changed_cb), editor);
@@ -425,7 +425,7 @@ save_contact (EContactListEditor *cle, gboolean should_close)
 
 	if (cle->book) {
 		EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
-		
+
 		ecs->cle = cle;
 		g_object_ref (cle);
 		ecs->should_close = should_close;
@@ -539,7 +539,7 @@ e_contact_list_editor_set_property (GObject *object, guint prop_id,
 	EContactListEditor *editor;
 
 	editor = E_CONTACT_LIST_EDITOR (object);
-	
+
 	switch (prop_id){
 	case PROP_BOOK: {
 		gboolean changed;
@@ -574,7 +574,7 @@ e_contact_list_editor_set_property (GObject *object, guint prop_id,
 		gboolean changed = (editor->is_new_list != new_value);
 
 		editor->is_new_list = new_value;
-		
+
 		if (changed)
 			command_state_changed (editor);
 		break;
@@ -664,7 +664,7 @@ e_contact_list_editor_create_table(gchar *name,
 				   gchar *string1, gchar *string2,
 				   gint int1, gint int2)
 {
-	
+
 	ETableModel *model;
 	GtkWidget *table;
 	char *etspecfile;
@@ -685,8 +685,8 @@ e_contact_list_editor_create_table(gchar *name,
 	return table;
 }
 
-static gboolean 
-contact_already_exists (EContactListModel *model, const char *email) 
+static gboolean
+contact_already_exists (EContactListModel *model, const char *email)
 {
 	int row_count;
 	int row;
@@ -840,13 +840,13 @@ e_contact_list_editor_create_name_selector (gchar *name,
 
 	name_selector_model = e_name_selector_peek_model (name_selector);
 	e_name_selector_model_add_section (name_selector_model, "Members", "Members", NULL);
-	
+
 	name_selector_entry = e_name_selector_peek_section_entry (name_selector, "Members");
 
 	e_name_selector_entry_set_contact_editor_func (name_selector_entry, e_contact_editor_new);
 	e_name_selector_entry_set_contact_list_editor_func (name_selector_entry, e_contact_list_editor_new);
 	gtk_widget_show (GTK_WIDGET (name_selector_entry));
-	
+
 	return (GtkWidget *)name_selector_entry;
 }
 
@@ -862,7 +862,7 @@ add_email_cb (GtkWidget *w, EContactListEditor *editor)
 		/* Skip to the end of the list */
 		if (adj->upper - adj->lower > adj->page_size)
 			gtk_adjustment_set_value (adj, adj->upper);
-		
+
 		editor->changed = TRUE;
 
 	}
@@ -877,19 +877,19 @@ email_match_selected (GtkWidget *w, EDestination *destination, EContactListEdito
 	char *email;
 	EDestinationStore *store;
 	GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (editor->table));
-	
+
 	email = g_strdup(e_destination_get_address (destination));
 	store = e_name_selector_entry_peek_destination_store ((ENameSelectorEntry *)w);
 	e_destination_store_remove_destination (store, destination);
-	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");	
-	
+	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");
+
 	if (email && *email) {
 		e_contact_list_model_add_email (E_CONTACT_LIST_MODEL(editor->model), email);
 
 		/* Skip to the end of the list */
 		if (adj->upper - adj->lower > adj->page_size)
 			gtk_adjustment_set_value (adj, adj->upper);
-		
+
 		editor->changed = TRUE;
 	}
 
@@ -970,7 +970,7 @@ email_key_pressed (GtkWidget *w, GdkEventKey *event, EContactListEditor *editor)
 
         if (event->keyval == GDK_comma || event->keyval == GDK_Return) {
 		ENameSelectorEntry *entry = (ENameSelectorEntry *)w;
-		
+
 		g_signal_emit_by_name (entry, "activate", 0);
 		add_email_cb (w, editor);
 
@@ -1086,14 +1086,14 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 		for (c = contact_list; c; c = c->next) {
 			EContact *contact = c->data;
 
-			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) { 
+			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
 				if (e_contact_get (contact, E_CONTACT_EMAIL_1)) {
 					if (! contact_already_exists (E_CONTACT_LIST_MODEL (editor->model)
 							, e_contact_get (contact, E_CONTACT_EMAIL_1))) {
 						e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
 										  contact,
 									  0  /* Hard-wired for default e-mail */);
-		
+
 						changed = TRUE;
 					}
 				}
@@ -1252,7 +1252,7 @@ fill_in_info(EContactListEditor *editor)
 			if (name) e_destination_set_name (list_dest, name);
 			if (email) e_destination_set_email (list_dest, email);
 			e_destination_set_html_mail_pref (list_dest, html_pref);
-			
+
 			e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (editor->model), list_dest);
 		}
 
@@ -1265,7 +1265,7 @@ fill_in_info(EContactListEditor *editor)
 			e_contact_photo_free (photo);
 		}
 	}
-	
+
 	if (editor->book) {
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (editor->source_menu),

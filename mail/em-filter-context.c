@@ -35,7 +35,7 @@
 /* For poking into filter-folder guts */
 #include "em-filter-folder-element.h"
 
-#define d(x) 
+#define d(x)
 
 static void em_filter_context_class_init(EMFilterContextClass *klass);
 static void em_filter_context_init(EMFilterContext *fc);
@@ -51,7 +51,7 @@ GType
 em_filter_context_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMFilterContextClass),
@@ -64,10 +64,10 @@ em_filter_context_get_type(void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) em_filter_context_init,
 		};
-		
+
 		type = g_type_register_static(RULE_TYPE_CONTEXT, "EMFilterContext", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -76,11 +76,11 @@ em_filter_context_class_init(EMFilterContextClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	RuleContextClass *rc_class = RULE_CONTEXT_CLASS(klass);
-	
+
 	parent_class = g_type_class_ref(RULE_TYPE_CONTEXT);
-	
+
 	object_class->finalize = em_filter_context_finalise;
-	
+
 	/* override methods */
 	rc_class->rename_uri = filter_rename_uri;
 	rc_class->delete_uri = filter_delete_uri;
@@ -95,7 +95,7 @@ em_filter_context_init(EMFilterContext *fc)
 	rule_context_add_part_set((RuleContext *) fc, "actionset", filter_part_get_type(),
 				  (RCPartFunc) em_filter_context_add_action,
 				  (RCNextPartFunc) em_filter_context_next_action);
-	
+
 	rule_context_add_rule_set((RuleContext *) fc, "ruleset", em_filter_rule_get_type(),
 				  (RCRuleFunc) rule_context_add_rule, rule_context_next_rule);
 }
@@ -104,10 +104,10 @@ static void
 em_filter_context_finalise(GObject *obj)
 {
 	EMFilterContext *fc = (EMFilterContext *)obj;
-	
+
 	g_list_foreach(fc->actions, (GFunc)g_object_unref, NULL);
 	g_list_free(fc->actions);
-	
+
         G_OBJECT_CLASS(parent_class)->finalize(obj);
 }
 
@@ -115,7 +115,7 @@ em_filter_context_finalise(GObject *obj)
  * em_filter_context_new:
  *
  * Create a new EMFilterContext object.
- * 
+ *
  * Return value: A new #EMFilterContext object.
  **/
 EMFilterContext *
@@ -142,10 +142,10 @@ FilterPart *
 em_filter_context_create_action(EMFilterContext *fc, const char *name)
 {
 	FilterPart *part;
-	
+
 	if ((part = em_filter_context_find_action(fc, name)))
 		return filter_part_clone(part);
-	
+
 	return NULL;
 }
 
@@ -165,33 +165,33 @@ filter_rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GComp
 	FilterElement *element;
 	int count = 0;
 	GList *changed = NULL;
-	
+
 	d(printf("uri '%s' renamed to '%s'\n", olduri, newuri));
-	
+
 	/* For all rules, for all actions, for all elements, rename any folder elements */
 	/* Yes we could do this inside each part itself, but not today */
 	rule = NULL;
 	while ((rule = rule_context_next_rule(rc, rule, NULL))) {
 		int rulecount = 0;
-		
+
 		d(printf("checking rule '%s'\n", rule->name));
-		
+
 		l = EM_FILTER_RULE(rule)->actions;
 		while (l) {
 			action = l->data;
-			
+
 			d(printf("checking action '%s'\n", action->name));
-			
+
 			el = action->elements;
 			while (el) {
 				element = el->data;
-				
+
 				d(printf("checking element '%s'\n", element->name));
 				if (EM_IS_FILTER_FOLDER_ELEMENT(element)) {
 					d(printf(" is folder, existing uri = '%s'\n",
 						 FILTER_FOLDER(element)->uri));
 				}
-				
+
 				if (EM_IS_FILTER_FOLDER_ELEMENT(element)
 				    && cmp(((EMFilterFolderElement *)element)->uri, olduri)) {
 					d(printf(" Changed!\n"));
@@ -202,17 +202,17 @@ filter_rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GComp
 			}
 			l = l->next;
 		}
-		
+
 		if (rulecount) {
 			changed = g_list_append(changed, g_strdup(rule->name));
 			filter_rule_emit_changed(rule);
 		}
-		
+
 		count += rulecount;
 	}
-	
+
 	/* might need to call parent class, if it did anything ... parent_class->rename_uri(f, olduri, newuri, cmp); */
-	
+
 	return changed;
 }
 
@@ -221,40 +221,40 @@ filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp)
 {
 	/* We basically do similar to above, but when we find it,
 	   Remove the action, and if thats the last action, this might create an empty rule?  remove the rule? */
-	
+
 	FilterRule *rule;
 	GList *l, *el;
 	FilterPart *action;
 	FilterElement *element;
 	int count = 0;
 	GList *deleted = NULL;
-	
+
 	d(printf("uri '%s' deleted\n", uri));
-	
+
 	/* For all rules, for all actions, for all elements, check deleted folder elements */
 	/* Yes we could do this inside each part itself, but not today */
 	rule = NULL;
 	while ((rule = rule_context_next_rule(rc, rule, NULL))) {
 		int recorded = 0;
-		
+
 		d(printf("checking rule '%s'\n", rule->name));
-		
+
 		l = EM_FILTER_RULE(rule)->actions;
 		while (l) {
 			action = l->data;
-			
+
 			d(printf("checking action '%s'\n", action->name));
-			
+
 			el = action->elements;
 			while (el) {
 				element = el->data;
-				
+
 				d(printf("checking element '%s'\n", element->name));
 				if (EM_IS_FILTER_FOLDER_ELEMENT(element)) {
 					d(printf(" is folder, existing uri = '%s'\n",
 						 FILTER_FOLDER(element)->uri));
 				}
-				
+
 				if (EM_IS_FILTER_FOLDER_ELEMENT(element)
 				    && cmp(((EMFilterFolderElement *)element)->uri, uri)) {
 					d(printf(" Deleted!\n"));
@@ -274,9 +274,9 @@ filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp)
 			;
 		}
 	}
-	
+
 	/* TODO: could call parent and merge lists */
-	
+
 	return deleted;
 }
 

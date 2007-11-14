@@ -65,7 +65,7 @@ enum {
 	SEARCH_COMMENT_CONTAINS,
 	SEARCH_LOCATION_CONTAINS,
 	SEARCH_ATTENDEE_CONTAINS
-	
+
 };
 
 /* Comments are disabled because they are kind of useless right now, see bug 33247 */
@@ -164,7 +164,7 @@ cal_search_bar_class_init (CalSearchBarClass *klass)
 	klass->sexp_changed = NULL;
 	klass->category_changed = NULL;
 
-	search_bar_class->search_activated = cal_search_bar_search_activated; 
+	search_bar_class->search_activated = cal_search_bar_search_activated;
 	object_class->destroy = cal_search_bar_destroy;
 }
 
@@ -217,13 +217,13 @@ cal_search_bar_destroy (GtkObject *object)
 			free_categories (priv->categories);
 			priv->categories = NULL;
 		}
-		
+
 		if (priv->search_rule) {
 			g_object_unref (priv->search_rule);
 			priv->search_rule = NULL;
 		}
-		
-		/* FIXME 		
+
+		/* FIXME
 		if (priv->search_context) {
 			g_object_unref (priv->search_context);
 			priv->search_context = NULL;
@@ -232,7 +232,7 @@ cal_search_bar_destroy (GtkObject *object)
 		g_free (priv);
 		cal_search->priv = NULL;
 	}
-	
+
 	if (GTK_OBJECT_CLASS (cal_search_bar_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (cal_search_bar_parent_class)->destroy) (object);
 }
@@ -266,11 +266,11 @@ get_current_category (CalSearchBar *cal_search)
 
 	if (priv->view_flag == CAL_SEARCH_TASKS_DEFAULT)
 		i = viewid - CATEGORIES_TASKS_OFFSET;
-	else if (priv->view_flag == CAL_SEARCH_MEMOS_DEFAULT) 
+	else if (priv->view_flag == CAL_SEARCH_MEMOS_DEFAULT)
 		i = viewid - CATEGORIES_MEMOS_OFFSET;
 	else if (priv->view_flag == CAL_SEARCH_CALENDAR_DEFAULT)
 		i = viewid - CATEGORIES_CALENDAR_OFFSET;
-	
+
 	if (i >= 0 && i < priv->categories->len)
 		return priv->categories->pdata[i];
 	else
@@ -296,7 +296,7 @@ get_show_option_sexp (CalSearchBar *cal_search)
 
 	if (viewid == CATEGORIES_UNMATCHED)
 		return g_strdup ("(has-categories? #f)"); /* Unfiled items */
-	else if (viewid == CATEGORIES_ALL) 
+	else if (viewid == CATEGORIES_ALL)
 		return NULL; /* All items */
 
 	switch (priv->view_flag) {
@@ -345,9 +345,9 @@ get_show_option_sexp (CalSearchBar *cal_search)
 			g_free (due);
 
 			return ret;
-		} else if (viewid == COMPLETED_TASK)  
+		} else if (viewid == COMPLETED_TASK)
 			return g_strdup ("(is-completed?)");
-		else if (viewid == TASK_WITH_ATTACHMENT) 
+		else if (viewid == TASK_WITH_ATTACHMENT)
 			return g_strdup ("(has-attachments?)");
 		break;
 	case CAL_SEARCH_CALENDAR_DEFAULT:
@@ -369,7 +369,7 @@ get_show_option_sexp (CalSearchBar *cal_search)
 			g_free (end);
 
 			return ret;
-		} else if (viewid == N_DAY_APPOINTMENT) { 
+		} else if (viewid == N_DAY_APPOINTMENT) {
 			start_range = time (NULL);
 			end_range = time_add_day (start_range, 7);
 			start = isodate_from_time_t (start_range);
@@ -415,17 +415,17 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const c
 	if (text && *text) {
 	    sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
 	    g_free (text);
-	} else 
+	} else
 	    sexp = g_strdup ("(contains? \"summary\" \"\")"); /* Show all */
 
 
 	/* Apply the selected view on search */
-	if (view && *view){	
+	if (view && *view){
 	    sexp = g_strconcat ("(and ",sexp, view, ")", NULL);
 	}
- 
+
 	notify_sexp_changed (cal_search, sexp);
-	
+
 	g_free (sexp);
 }
 
@@ -463,7 +463,7 @@ regen_query (CalSearchBar *cal_search)
 
 	cal_search->priv->start = -1;
 	cal_search->priv->end = -1;
-	
+
 	/* Get the selected view */
 	show_option_sexp = get_show_option_sexp (cal_search);
 
@@ -495,11 +495,11 @@ regen_query (CalSearchBar *cal_search)
 		out = g_string_new ("");
 		filter_rule_build_code (efb->current_query, out);
 
-		if (show_option_sexp && *show_option_sexp)	
+		if (show_option_sexp && *show_option_sexp)
 		    sexp = g_strconcat ("(and ", out->str, show_option_sexp, ")", NULL);
-		
+
 		notify_sexp_changed (cal_search, sexp ? sexp : out->str);
-		
+
 		g_string_free (out, TRUE);
 		g_free(sexp);
 		break;
@@ -590,7 +590,7 @@ setup_category_options (CalSearchBar *cal_search, CALSearchBarItem *subitems, gi
 		}
 		index = i + offset;
 	}
-	
+
 	subitems[index].search.id = -1; /* terminator */
 	subitems[index].search.text = NULL;
 	subitems[index].image = NULL;
@@ -604,7 +604,7 @@ make_suboptions (CalSearchBar *cal_search)
 	CalSearchBarPrivate *priv;
 	CALSearchBarItem *subitems = NULL;
 	GtkWidget *menu;
-	
+
 	priv = cal_search->priv;
 
 	g_return_if_fail (priv->categories != NULL);
@@ -624,7 +624,7 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[1].search.id = CATEGORIES_UNMATCHED;
 		subitems[1].image = NULL;
 
-		subitems[2].search.text = NULL; 
+		subitems[2].search.text = NULL;
 		subitems[2].search.id = 0;
 		subitems[2].image = NULL;
 
@@ -650,7 +650,7 @@ make_suboptions (CalSearchBar *cal_search)
 
 		/* All the other items */
 		setup_category_options (cal_search, subitems, 8, CATEGORIES_TASKS_OFFSET);
-		
+
 		menu = generate_viewoption_menu (subitems);
 		e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
 
@@ -686,15 +686,15 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[1].search.id = CATEGORIES_UNMATCHED;
 		subitems[1].image = NULL;
 
-		subitems[2].search.text = NULL; 
+		subitems[2].search.text = NULL;
 		subitems[2].search.id = 0;
 		subitems[2].image = NULL;
 
-		subitems[3].search.text = _("Active Appointments"); 
+		subitems[3].search.text = _("Active Appointments");
 		subitems[3].search.id = ACTIVE_APPONTMENT;
 		subitems[3].image = NULL;
 
-		subitems[4].search.text = _("Next 7 Days' Appointments"); 
+		subitems[4].search.text = _("Next 7 Days' Appointments");
 		subitems[4].search.id = N_DAY_APPOINTMENT;
 		subitems[4].image = NULL;
 
@@ -705,7 +705,7 @@ make_suboptions (CalSearchBar *cal_search)
 		e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
 	}
 
-	if(subitems != NULL)	
+	if(subitems != NULL)
 		g_free (subitems);
 }
 
@@ -720,9 +720,9 @@ search_menu_activated (ESearchBar *esb, int id)
  * cal_search_bar_construct:
  * @cal_search: A calendar search bar.
  * @flags: bitfield of items to appear in the search menu
- * 
+ *
  * Constructs a calendar search bar by binding its menu and option items.
- * 
+ *
  * Return value: The same value as @cal_search.
  **/
 CalSearchBar *
@@ -733,12 +733,12 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 	int i, j;
 	char *xmlfile = NULL;
 	char *userfile = NULL;
-	FilterPart *part;	
+	FilterPart *part;
 	RuleContext *search_context;
 	FilterRule  *search_rule;
-	
+
 	g_return_val_if_fail (IS_CAL_SEARCH_BAR (cal_search), NULL);
-	
+
 	items = g_alloca ((G_N_ELEMENTS (search_option_items) + 1) * sizeof (ESearchBarItem));
 	for (i = 0, j = 0; i < G_N_ELEMENTS (search_option_items); i++, bit <<= 1) {
 		if ((flags & bit) != 0) {
@@ -748,7 +748,7 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 			j++;
 		}
 	}
-	
+
 	items[j].text = NULL;
 	items[j].id = -1;
 	search_context = rule_context_new ();
@@ -773,16 +773,16 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 	g_object_set_data_full (G_OBJECT (search_context), "user", userfile, g_free);
 	g_object_set_data_full (G_OBJECT (search_context), "system", xmlfile, g_free);
 
-	rule_context_load (search_context, xmlfile, userfile);	
+	rule_context_load (search_context, xmlfile, userfile);
 	search_rule = filter_rule_new ();
 	part = rule_context_next_part (search_context, NULL);
-	
+
 	if (part == NULL)
 		g_warning ("Could not load calendar search; no parts.");
-	else    
+	else
 		filter_rule_add_part (search_rule, filter_part_clone (part));
 
-	e_filter_bar_new_construct (search_context, xmlfile, userfile, NULL, cal_search, 
+	e_filter_bar_new_construct (search_context, xmlfile, userfile, NULL, cal_search,
 			(EFilterBar*) cal_search );
 	e_search_bar_set_menu ((ESearchBar *) cal_search, calendar_search_items);
 
@@ -795,16 +795,16 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 
 	g_free (xmlfile);
 	g_free (userfile);
-	
+
 	return cal_search;
 }
 
 /**
  * cal_search_bar_new:
  * flags: bitfield of items to appear in the search menu
- * 
+ *
  * creates a new calendar search bar.
- * 
+ *
  * return value: a newly-created calendar search bar.  you should connect to the
  * "sexp_changed" signal to monitor changes in the generated sexps.
  **/
@@ -854,7 +854,7 @@ sort_categories (GPtrArray *categories)
  * cal_search_bar_set_categories:
  * @cal_search: A calendar search bar.
  * @categories: Array of pointers to strings for the category names.
- * 
+ *
  * Sets the list of categories that are to be shown in the drop-down list
  * of a calendar search bar.  The search bar will automatically add an item
  * for "unfiled" components, that is, those that have no categories assigned
@@ -880,10 +880,10 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 /**
  * cal_search_bar_get_category:
  * @cal_search: A calendar search bar.
- * 
+ *
  * Queries the currently selected category name in a calendar search bar.
  * If "All" or "Unfiled" are selected, this function will return NULL.
- * 
+ *
  * Return value: Name of the selected category, or NULL if there is no
  * selected category.
  **/
@@ -897,13 +897,13 @@ cal_search_bar_get_category (CalSearchBar *cal_search)
 	return category;
 }
 
-void 
+void
 cal_search_bar_get_time_range (CalSearchBar *cal_search, time_t *start, time_t *end)
 {
 	CalSearchBarPrivate *priv;
 
 	g_return_if_fail (IS_CAL_SEARCH_BAR (cal_search));
-	
+
 	priv = cal_search->priv;
 
 	*start = priv->start;

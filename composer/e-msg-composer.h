@@ -68,7 +68,7 @@ void			e_msg_composer_show_attachments_ui		 (EMsgComposer *composer);
 
 void                     e_msg_composer_set_alternative                  (EMsgComposer      *composer,
 									  gboolean           alt);
-									  
+
 void                     e_msg_composer_set_headers                      (EMsgComposer      *composer,
 									  const char        *from,
 									  EDestination     **to,
@@ -190,7 +190,7 @@ void			 e_msg_composer_link_clicked			 (EMsgComposer *composer, const gchar *url
 
 EMsgComposerHdrs*	 e_msg_composer_get_hdrs			 (EMsgComposer *composer);
 void			 e_msg_composer_set_saved			 (EMsgComposer *composer);
-void			 e_msg_composer_set_send_options		 (EMsgComposer *composer, 
+void			 e_msg_composer_set_send_options		 (EMsgComposer *composer,
 									  gboolean      send_enable);
 const gchar *            e_msg_composer_get_raw_message_text              (EMsgComposer *composer);
 

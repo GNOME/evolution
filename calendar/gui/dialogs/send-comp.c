@@ -30,10 +30,10 @@
 
 /**
  * send_component_dialog:
- * 
+ *
  * Pops up a dialog box asking the user whether he wants to send a
  * iTip/iMip message
- * 
+ *
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
@@ -41,10 +41,10 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 {
 	ECalComponentVType vtype;
 	const char *id;
-	
+
 	if (e_cal_get_save_schedules (client))
 		return FALSE;
-	
+
 	vtype = e_cal_component_get_vtype (comp);
 
 	switch (vtype) {
@@ -68,7 +68,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 			   "Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
-	
+
 	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else
@@ -80,7 +80,7 @@ send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *c
 {
 	ECalComponentVType vtype;
 	const char *id;
-	
+
 	vtype = e_cal_component_get_vtype (comp);
 
 	switch (vtype) {
@@ -100,7 +100,7 @@ send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *c
 			   "Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
-	
+
 	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else

@@ -33,7 +33,7 @@
 
 
 /* is_past_event:
- * 
+ *
  * returns TRUE if @comp is in the past, FALSE otherwise.
  * Comparision is based only on date part, time part is ignored.
  */
@@ -56,10 +56,10 @@ is_past_event (ECalComponent *comp)
 
 /**
  * cancel_component_dialog:
- * 
+ *
  * Pops up a dialog box asking the user whether he wants to send a
  * cancel and delete an iTip/iMip message
- * 
+ *
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
@@ -67,12 +67,12 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 {
 	ECalComponentVType vtype;
 	const char *id;
-	
+
 	if (deleting && e_cal_get_save_schedules (client))
 		return TRUE;
-	
+
 	vtype = e_cal_component_get_vtype (comp);
-	
+
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (is_past_event (comp)) {
@@ -103,7 +103,7 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 		g_message (G_STRLOC ": Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
-	
+
 	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else

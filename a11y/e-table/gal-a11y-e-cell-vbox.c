@@ -46,7 +46,7 @@ subcell_destroyed (gpointer data)
 	GalA11yECell *cell;
 	AtkObject *parent;
 	GalA11yECellVbox *gaev;
-	
+
 	g_return_if_fail (GAL_A11Y_IS_E_CELL (data));
 	cell = GAL_A11Y_E_CELL (data);
 
@@ -199,9 +199,9 @@ gal_a11y_e_cell_vbox_get_type (void)
 
 AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 					 ECellView  *cell_view,
-					 AtkObject  *parent, 
-					 int         model_col, 
-					 int         view_col, 
+					 AtkObject  *parent,
+					 int         model_col,
+					 int         view_col,
 					 int         row)
 {
 	AtkObject *a11y;
@@ -210,13 +210,13 @@ AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 	ECellVboxView *ecvv;
 
 	a11y = g_object_new (gal_a11y_e_cell_vbox_get_type (), NULL);
-	
+
 	gal_a11y_e_cell_construct (a11y, item, cell_view, parent, model_col, view_col, row);
 
 	gaec = GAL_A11Y_E_CELL (a11y);
 	gaev = GAL_A11Y_E_CELL_VBOX (a11y);
 	ecvv = (ECellVboxView *) (gaec->cell_view);
-	gaev->a11y_subcell_count = ecvv->subcell_view_count; 
+	gaev->a11y_subcell_count = ecvv->subcell_view_count;
 	gaev->a11y_subcells = g_malloc0 (sizeof(AtkObject *)*gaev->a11y_subcell_count);
 	return a11y;
 }

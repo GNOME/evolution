@@ -49,10 +49,10 @@ typedef void (*EEventFactoryFunc)(EEvent *ee, void *);
 
 /**
  * enum _e_event_t - Event type.
- * 
+ *
  * @E_EVENT_PASS: A passthrough event handler which only receives the event.
  * @E_EVENT_SINK: A sink event handler swallows all events it processes.
- * 
+ *
  * The event type defines what type of event listener this is.
  *
  * Events should normally be @E_EVENT_PASS.
@@ -64,7 +64,7 @@ enum _e_event_t {
 
 /**
  * struct _EEventItem - An event listener item.
- * 
+ *
  * @type: The type of the event listener.
  * @priority: A signed number signifying the priority of the event
  * listener.  0 should be used normally.  This is used to order event
@@ -78,7 +78,7 @@ enum _e_event_t {
  * @user_data: Callback data.
  * @enable: Target-specific mask to qualify the receipt of events.
  * This is target and implementation specific.
- * 
+ *
  * An EEventItem defines a specific event listening point on a given
  * EEvent object.  When an event is broadcast onto an EEvent handler,
  * any matching EEventItems will be invoked in priority order.
@@ -95,7 +95,7 @@ struct _EEventItem {
 
 /**
  * struct _EEventTarget - Base EventTarget.
- * 
+ *
  * @event: Parent object.
  * @type: Target type.  Defined by the implementation.
  * @mask: Mask of this target.  This is defined by the implementation,
@@ -104,7 +104,7 @@ struct _EEventItem {
  * This defined a base EventTarget.  This must be subclassed by
  * implementations to provide contextual data for events, and define
  * the enablement qualifiers.
- * 
+ *
  **/
 struct _EEventTarget {
 	struct _EEvent *event;	/* used for virtual methods */
@@ -117,7 +117,7 @@ struct _EEventTarget {
 
 /**
  * struct _EEvent - An Event Manager.
- * 
+ *
  * @object: Superclass.
  * @priv: Private data.
  * @id: Id of this event manager.
@@ -138,7 +138,7 @@ struct _EEvent {
 
 /**
  * struct _EEventClass - Event management type.
- * 
+ *
  * @object_class: Superclass.
  * @target_free: Virtual method to free the target.
  *
@@ -187,7 +187,7 @@ typedef void (*EEventHookFunc)(struct _EPlugin *plugin, EEventTarget *target);
 
 /**
  * struct _EEventHook - An event hook.
- * 
+ *
  * @hook: Superclass.
  *
  * The EEventHook class loads and manages the meta-data required to
@@ -202,13 +202,13 @@ struct _EEventHook {
 };
 
 /**
- * struct _EEventHookClass - 
- * 
- * @hook_class: 
+ * struct _EEventHookClass -
+ *
+ * @hook_class:
  * @target_map: Table of EPluginHookTargetMaps which enumerate the
  * target types and enable bits of the implementing class.
  * @event: The EEvent instance on which all loaded events must be registered.
- * 
+ *
  * The EEventHookClass is an empty event hooking class, which must be
  * subclassed and initialised before use.
  *

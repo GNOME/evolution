@@ -64,7 +64,7 @@ struct _EItipControlPrivate {
 	GtkWidget *html;
 
 	ESourceList *source_lists[E_CAL_SOURCE_TYPE_LAST];
-	GHashTable *ecals[E_CAL_SOURCE_TYPE_LAST];	
+	GHashTable *ecals[E_CAL_SOURCE_TYPE_LAST];
 
 	ECal *current_ecal;
 	ECalSourceType type;
@@ -85,7 +85,7 @@ struct _EItipControlPrivate {
 		GtkWidget *widget;
 		gpointer pointer;
 	} vbox;
-	
+
 	char *vcalendar;
 	ECalComponent *comp;
 	icalcomponent *main_comp;
@@ -129,9 +129,9 @@ static void
 e_itip_control_class_init (EItipControlClass *klass)
 {
 	GtkObjectClass *gtkobject_class;
-	
+
 	gtkobject_class = GTK_OBJECT_CLASS (klass);
-	
+
 	gtkobject_class->destroy = e_itip_control_destroy;
 }
 
@@ -140,15 +140,15 @@ set_ok_sens (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	gboolean read_only = TRUE;
-	
+
 	priv = itip->priv;
 
 	if (!priv->ok.widget)
 		return;
-	
+
 	if (priv->current_ecal)
 		e_cal_is_read_only (priv->current_ecal, &read_only, NULL);
-	
+
 	gtk_widget_set_sensitive (priv->ok.widget, priv->current_ecal != NULL && !read_only);
 }
 
@@ -164,7 +164,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
-	
+
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 
 	if (status != E_CALENDAR_STATUS_OK) {
@@ -187,23 +187,23 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type,
 	icaltimezone *zone;
 
 	priv = itip->priv;
-	
+
 	ecal = g_hash_table_lookup (priv->ecals[type], e_source_peek_uid (source));
 	if (ecal) {
 		priv->current_ecal = ecal;
 		set_ok_sens (itip);
-		return ecal;		
+		return ecal;
 	}
-	
+
 	ecal = auth_new_cal_from_source (source, type);
-	
+
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (ecal, zone, NULL);
-	
+
 	g_signal_connect (G_OBJECT (ecal), "cal_opened", G_CALLBACK (func), data);
 
 	g_hash_table_insert (priv->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
-	
+
 	e_cal_open_async (ecal, TRUE);
 
 	return ecal;
@@ -214,7 +214,7 @@ start_calendar_server_by_uid (EItipControl *itip, const char *uid, ECalSourceTyp
 {
 	EItipControlPrivate *priv;
 	int i;
-	
+
 	priv = itip->priv;
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
@@ -224,12 +224,12 @@ start_calendar_server_by_uid (EItipControl *itip, const char *uid, ECalSourceTyp
 		if (source)
 			return start_calendar_server (itip, source, type, cal_opened_cb, itip);
 	}
-	
+
 	return NULL;
 }
 
 typedef struct {
-	EItipControl *itip;	
+	EItipControl *itip;
 	char *uid;
 	int count;
 	gboolean show_selector;
@@ -242,7 +242,7 @@ source_changed_cb (ESourceComboBox *escb, EItipControl *itip)
 	ESource *source;
 
 	source = e_source_combo_box_get_active (escb);
-	
+
 	if (priv->ok.widget)
 		gtk_widget_set_sensitive (priv->ok.widget, FALSE);
 
@@ -262,9 +262,9 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	source = e_cal_get_source (ecal);
 
 	priv = fd->itip->priv;
-	
+
 	fd->count--;
-	
+
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
 	if (status != E_CALENDAR_STATUS_OK) {
@@ -275,7 +275,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	if (e_cal_get_object (ecal, fd->uid, NULL, &icalcomp, NULL)) {
 		icalcomponent_free (icalcomp);
-		
+
 		priv->current_ecal = ecal;
 		set_ok_sens (fd->itip);
 	}
@@ -296,8 +296,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 			default:
 				uid = NULL;
 				g_return_if_reached ();
-			}	
-	
+			}
+
 			if (uid) {
 				source = e_source_list_peek_source_by_uid (priv->source_lists[priv->type], uid);
 				g_free (uid);
@@ -321,7 +321,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		} else {
 			/* FIXME Display error message to user */
 		}
-		
+
 		g_free (fd->uid);
 		g_free (fd);
 	}
@@ -336,23 +336,23 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 	const char *uid;
 
 	priv = itip->priv;
-	
+
 	e_cal_component_get_uid (comp, &uid);
 
 	groups = e_source_list_peek_groups (priv->source_lists[priv->type]);
 	for (l = groups; l; l = l->next) {
 		ESourceGroup *group;
 		GSList *sources, *m;
-		
+
 		group = l->data;
 
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
 			ESource *source;
 			ECal *ecal;
-			
+
 			source = m->data;
-			
+
 			if (!fd) {
 				fd = g_new0 (EItipControlFindData, 1);
 				fd->itip = itip;
@@ -361,8 +361,8 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 			}
 			fd->count++;
 			/* Check this return too? */
-			ecal = start_calendar_server (itip, source, priv->type, find_cal_opened_cb, fd);				
-		}		
+			ecal = start_calendar_server (itip, source, priv->type, find_cal_opened_cb, fd);
+		}
 	}
 }
 
@@ -374,7 +374,7 @@ cleanup_ecal (void *data)
 	/* Clean up any signals */
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
-	
+
 	g_object_unref (ecal);
 }
 
@@ -383,9 +383,9 @@ html_destroyed (gpointer data)
 {
 	EItipControl *itip = data;
 	EItipControlPrivate *priv;
-	
+
 	priv = itip->priv;
-	
+
 	priv->html = NULL;
 }
 
@@ -408,7 +408,7 @@ e_itip_control_init (EItipControl *itip)
 
 	priv->source_lists[E_CAL_SOURCE_TYPE_EVENT] = e_source_list_new_for_gconf_default ("/apps/evolution/calendar/sources");
 	priv->source_lists[E_CAL_SOURCE_TYPE_TODO] = e_source_list_new_for_gconf_default ("/apps/evolution/tasks/sources");
-	
+
 	/* Initialize the ecal hashes */
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		priv->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, cleanup_ecal);
@@ -421,10 +421,10 @@ e_itip_control_init (EItipControl *itip)
 	priv->delegator_name = NULL;
 	priv->my_address = NULL;
 	priv->view_only = 0;
-	
+
 	/* Html Widget */
 	priv->html = gtk_html_new ();
-	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
+	gtk_html_set_default_content_type (GTK_HTML (priv->html),
 					   "text/html; charset=utf-8");
 	gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
 	gtk_widget_show (priv->html);
@@ -494,32 +494,32 @@ e_itip_control_destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
-	
+
 	priv = itip->priv;
 
 	if (priv) {
 		int i;
 
 		clean_up (itip);
-		
+
 		priv->accounts = NULL;
-		
+
 		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
 			if (priv->ecals[i]) {
 				g_hash_table_destroy (priv->ecals[i]);
 				priv->ecals[i] = NULL;
 			}
 		}
-		
+
 		if (priv->html) {
 			g_signal_handlers_disconnect_matched (priv->html, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, itip);
 			g_object_weak_unref (G_OBJECT (priv->html), (GWeakNotify)html_destroyed, itip);
 		}
-		
+
 		g_free (priv);
 		itip->priv = NULL;
 	}
-	
+
 	(* GTK_OBJECT_CLASS (e_itip_control_parent_class)->destroy) (obj);
 }
 
@@ -535,9 +535,9 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 	EItipControlPrivate *priv;
 	icalproperty *prop;
 	char *my_alt_address = NULL;
-	
+
 	priv = itip->priv;
-	
+
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
@@ -556,7 +556,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 			attendee = NULL;
 			attendee_clean = NULL;
 		}
-		
+
 		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
 		if (param != NULL) {
 			name = icalparameter_get_cn (param);
@@ -569,10 +569,10 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 
 		if (priv->delegator_address) {
 			char *delegator_clean;
-			
+
 			delegator_clean = g_strdup (itip_strip_mailto (attendee));
 			delegator_clean = g_strstrip (delegator_clean);
-			
+
 			/* If the mailer told us the address to use, use that */
 			if (delegator_clean != NULL
 			    && !g_ascii_strcasecmp (attendee_clean, delegator_clean)) {
@@ -590,7 +590,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 			it = e_list_get_iterator((EList *)priv->accounts);
 			while (e_iterator_is_valid(it)) {
 				const EAccount *account = e_iterator_get(it);
-				
+
 				/* Check for a matching address */
 				if (attendee_clean != NULL
 				    && !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
@@ -605,17 +605,17 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 					g_object_unref(it);
 					return;
 				}
-				
+
 				/* Check for a matching cname to fall back on */
-				if (name_clean != NULL 
+				if (name_clean != NULL
 				    && !g_ascii_strcasecmp (account->id->name, name_clean))
 					my_alt_address = g_strdup (attendee_clean);
-				
+
 				e_iterator_next(it);
 			}
 			g_object_unref(it);
 		}
-		
+
 		g_free (attendee_clean);
 		g_free (name_clean);
 	}
@@ -654,7 +654,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 		}
 		g_free (text);
 	}
-	
+
 	return prop;
 }
 
@@ -789,7 +789,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		if (r->by_day[0] == ICAL_RECURRENCE_ARRAY_MAX) {
                         /* For Translators: In this can also be translated as "With the period of %d
                          week/weeks", where %d is a number. The entire sentence is of the form "Recurring:
-                         Every %d week/weeks" */			
+                         Every %d week/weeks" */
 			/* For Translators : 'Every week' is event Recurring every week */
 			/* For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit */
 			sprintf (buffer, ngettext("Every week", "Every %d weeks", r->interval), r->interval);
@@ -837,7 +837,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		size -= len;
               /* For Translators: In this can also be translated as "With the period of %d
                  month/months", where %d is a number. The entire sentence is of the form "Recurring:
-                 Every %d month/months" */		
+                 Every %d month/months" */
 		/* For Translators : 'every month' is part of the sentence 'event recurring on the (nth) day of every month.' */
 		/* For Translators : 'every %d months' is part of the sentence 'event recurring on the (nth) day of every %d months.'
 		 %d is a digit */
@@ -847,7 +847,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 	case ICAL_YEARLY_RECURRENCE:
               /* For Translators: In this can also be translated as "With the period of %d
                  year/years", where %d is a number. The entire sentence is of the form "Recurring:
-                 Every %d year/years" */		
+                 Every %d year/years" */
 		/* For Translators : 'Every year' is event Recurring every year */
 		/* For Translators : 'Every %d years' is event Recurring every %d years. %d is a digit */
 		sprintf (buffer, ngettext("Every year", "Every %d years", r->interval), r->interval);
@@ -1035,7 +1035,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	if (priv->html == NULL)
 		return;
-	
+
 	/* Html widget */
 	html_stream = gtk_html_begin (GTK_HTML (priv->html));
 	gtk_html_stream_printf (html_stream,
@@ -1101,9 +1101,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 			else
 				html = g_strdup_printf (itip_desc, _("An unknown person"));
 		}
-		
+
 		break;
-		
+
 	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_ADD:
 	case ICAL_METHOD_CANCEL:
@@ -1146,28 +1146,28 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	g_free (str);
 	if (text.value)
 		g_free (html);
-	
+
 	/* Location */
 	e_cal_component_get_location (priv->comp, &string);
 	if (string != NULL) {
 		html = e_text_to_html_full (string, E_TEXT_TO_HTML_CONVERT_NL, 0);
-		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>", 
+		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 					_("Location:"), html);
 		g_free (html);
 	}
-	
+
 	/* Status */
 	if (priv->method == ICAL_METHOD_REPLY) {
 		GSList *alist;
 
 		e_cal_component_get_attendee_list (priv->comp, &alist);
-		
+
 		if (alist != NULL) {
 			ECalComponentAttendee *a = alist->data;
 
 			gtk_html_stream_printf (html_stream, "<b>%s</b><br>",
 						_("Status:"));
-			
+
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
 				gtk_html_stream_printf (html_stream, "%s<br><br>",
@@ -1186,10 +1186,10 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 							_("Unknown"));
 			}
 		}
-		
+
 		e_cal_component_free_attendee_list (alist);
 	}
-	
+
 	/* Description */
 	e_cal_component_get_description_list (priv->comp, &l);
 	if (l)
@@ -1214,7 +1214,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 			gtk_html_write (GTK_HTML (priv->html), html_stream, options, strlen (options));
 		}
 	}
-	
+
 	const_html = "</td></tr></table>";
 	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
 
@@ -1259,7 +1259,7 @@ get_refresh_options (void)
 
 static char*
 get_cancel_options (gboolean found, icalcomponent_kind kind)
-{ 
+{
 	if (!found) {
 		switch (kind) {
 		case ICAL_VEVENT_COMPONENT:
@@ -1268,7 +1268,7 @@ get_cancel_options (gboolean found, icalcomponent_kind kind)
  			return g_strdup_printf ("<i>%s</i>", _("The task has been canceled, however it could not be found in your task lists"));
 		default:
 			g_return_val_if_reached (NULL);
-		}		
+		}
 	}
 
 	return g_strdup_printf ("<object classid=\"itip:cancel_options\"></object>");
@@ -1276,14 +1276,14 @@ get_cancel_options (gboolean found, icalcomponent_kind kind)
 
 
 static ECalComponent *
-get_real_item (EItipControl *itip) 
+get_real_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	gboolean found = FALSE;
 	const char *uid;
-	
+
 	priv = itip->priv;
 
 	e_cal_component_get_uid (priv->comp, &uid);
@@ -1306,13 +1306,13 @@ static void
 adjust_item (EItipControl *itip, ECalComponent *comp)
 {
 	ECalComponent *real_comp;
-	
+
 	real_comp = get_real_item (itip);
 	if (real_comp != NULL) {
 		ECalComponentText text;
 		const char *string;
 		GSList *l;
-		
+
 		e_cal_component_get_summary (real_comp, &text);
 		e_cal_component_set_summary (comp, &text);
 		e_cal_component_get_location (real_comp, &string);
@@ -1320,11 +1320,11 @@ adjust_item (EItipControl *itip, ECalComponent *comp)
 		e_cal_component_get_description_list (real_comp, &l);
 		e_cal_component_set_description_list (comp, l);
 		e_cal_component_free_text_list (l);
-		
+
 		g_object_unref (real_comp);
 	} else {
 		ECalComponentText text = {_("Unknown"), NULL};
-		
+
 		e_cal_component_set_summary (comp, &text);
 	}
 }
@@ -1336,7 +1336,7 @@ show_current_event (EItipControl *itip)
 	const gchar *itip_title, *itip_desc;
 	char *options;
 	gboolean show_selector = FALSE;
-	
+
 	priv = itip->priv;
 
 	priv->type = E_CAL_SOURCE_TYPE_EVENT;
@@ -1401,7 +1401,7 @@ show_current_event (EItipControl *itip)
 
 	if (priv->calendar_uid)
 		priv->current_ecal = start_calendar_server_by_uid (itip, priv->calendar_uid, priv->type);
-	else 
+	else
 		find_server (itip, priv->comp, show_selector);
 }
 
@@ -1412,7 +1412,7 @@ show_current_todo (EItipControl *itip)
 	const gchar *itip_title, *itip_desc;
 	char *options;
 	gboolean show_selector = FALSE;
-	
+
 	priv = itip->priv;
 
 	priv->type = E_CAL_SOURCE_TYPE_TODO;
@@ -1478,7 +1478,7 @@ show_current_todo (EItipControl *itip)
 
 	if (priv->calendar_uid)
 		priv->current_ecal = start_calendar_server_by_uid (itip, priv->calendar_uid, priv->type);
-	else 
+	else
 		find_server (itip, priv->comp, show_selector);
 }
 
@@ -1529,7 +1529,7 @@ get_next (icalcompiter *iter)
 		if (ret == NULL)
 			break;
 		kind = icalcomponent_isa (ret);
-	} while (ret != NULL 
+	} while (ret != NULL
 		 && kind != ICAL_VEVENT_COMPONENT
 		 && kind != ICAL_VTODO_COMPONENT
 		 && kind != ICAL_VFREEBUSY_COMPONENT);
@@ -1549,7 +1549,7 @@ show_current (EItipControl *itip)
 	priv = itip->priv;
 
 	g_object_ref (itip);
-	
+
 	if (priv->comp)
 		g_object_unref (priv->comp);
 	priv->current_ecal = NULL;
@@ -1573,7 +1573,7 @@ show_current (EItipControl *itip)
 
 		prop = icalcomponent_get_next_property (priv->ical_comp, ICAL_X_PROPERTY);
 	}
-	
+
 	/* Strip out alarms for security purposes */
 	alarm_iter = icalcomponent_begin_component (priv->ical_comp, ICAL_VALARM_COMPONENT);
 	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
@@ -1615,10 +1615,10 @@ show_current (EItipControl *itip)
 		case CAL_MINUTES:
 			trigger.u.rel_duration.minutes = interval;
 			break;
-		case CAL_HOURS:	
+		case CAL_HOURS:
 			trigger.u.rel_duration.hours = interval;
 			break;
-		case CAL_DAYS:	
+		case CAL_DAYS:
 			trigger.u.rel_duration.days = interval;
 			break;
 		default:
@@ -1671,7 +1671,7 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 		gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
 		return;
 	}
-	
+
 	priv->vcalendar = g_strdup (text);
 	priv->top_level = e_cal_util_new_top_level ();
 
@@ -1709,7 +1709,7 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	}
 
 	if (priv->ical_comp == NULL) {
-		write_error_html (itip, _("The attachment has no viewable calendar items"));		
+		write_error_html (itip, _("The attachment has no viewable calendar items"));
 		return;
 	}
 
@@ -1877,7 +1877,7 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 		icalproperty_add_parameter (prop, param);
 	} else {
 		icalparameter *param;
-		
+
 		if (address != NULL) {
 			prop = icalproperty_new_attendee (address);
 			icalcomponent_add_property (ical_comp, prop);
@@ -1891,16 +1891,16 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 			EAccount *a;
 
 			a = itip_addresses_get_default ();
-			
+
 			prop = icalproperty_new_attendee (a->id->address);
 			icalcomponent_add_property (ical_comp, prop);
-			
+
 			param = icalparameter_new_cn (a->id->name);
-			icalproperty_add_parameter (prop, param);	
+			icalproperty_add_parameter (prop, param);
 
 			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
 			icalproperty_add_parameter (prop, param);
-			
+
 			param = icalparameter_new_partstat (status);
 			icalproperty_add_parameter (prop, param);
 		}
@@ -1969,9 +1969,9 @@ update_attendee_status (EItipControl *itip)
 	const char *uid;
 	GtkWidget *dialog;
 	GError *error = NULL;
-	
+
 	priv = itip->priv;
-	
+
 	/* Obtain our version */
 	e_cal_component_get_uid (priv->comp, &uid);
 	if (e_cal_get_object (priv->current_ecal, uid, NULL, &icalcomp, NULL)) {
@@ -2027,7 +2027,7 @@ update_attendee_status (EItipControl *itip)
 					change_status (icalcomp,
 						       itip_strip_mailto (a->value),
 						       a->status);
-					e_cal_component_rescan (comp);			
+					e_cal_component_rescan (comp);
 				}
 			}
 		}
@@ -2074,7 +2074,7 @@ send_item (EItipControl *itip)
 	priv = itip->priv;
 
 	comp = get_real_item (itip);
-	
+
 	if (comp != NULL) {
 		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL, NULL, NULL);
 		g_object_unref (comp);
@@ -2181,32 +2181,32 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 static void
 option_activated_cb (GtkWidget *widget, gpointer data)
 {
-	EItipControl *itip = E_ITIP_CONTROL (data);	
+	EItipControl *itip = E_ITIP_CONTROL (data);
 	EItipControlPrivate *priv;
-	
+
 	priv = itip->priv;
 
 	priv->action = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), ACTION_DATA));
 }
 
 static void
-add_option (EItipControl *itip, GtkWidget *menu, const char *text, char action) 
+add_option (EItipControl *itip, GtkWidget *menu, const char *text, char action)
 {
 	GtkWidget *item;
-	
+
 	item = gtk_menu_item_new_with_label (text);
 	g_signal_connect (item, "activate", G_CALLBACK (option_activated_cb), itip);
 	g_object_set_data (G_OBJECT (item), ACTION_DATA, GINT_TO_POINTER ((int)action));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
-	
+
 }
 
 static void
 insert_boxes (GtkHTMLEmbedded *eb, EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	
+
 	priv = itip->priv;
 
 	priv->vbox.widget = gtk_vbox_new (FALSE, 12);
@@ -2222,39 +2222,39 @@ insert_boxes (GtkHTMLEmbedded *eb, EItipControl *itip)
 }
 
 static void
-insert_label (GtkWidget *hbox) 
+insert_label (GtkWidget *hbox)
 {
 	GtkWidget *label;
 	char *text;
-	
+
 	text = g_strdup_printf ("<b>%s</b>", _("Choose an action:"));
 	label = gtk_label_new (NULL);
 	gtk_label_set_markup (GTK_LABEL (label), text);
 	g_free (text);
 
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-	gtk_widget_show (label);	
+	gtk_widget_show (label);
 }
 
 static void
 rsvp_clicked_cb (GtkWidget *widget, gpointer data)
 {
-	EItipControl *itip = E_ITIP_CONTROL (data);	
+	EItipControl *itip = E_ITIP_CONTROL (data);
 	EItipControlPrivate *priv;
-	
+
 	priv = itip->priv;
 
 	priv->rsvp = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 }
 
 static void
-insert_rsvp (GtkWidget *hbox, EItipControl *itip) 
+insert_rsvp (GtkWidget *hbox, EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *btn;
 
 	priv = itip->priv;
-	
+
 	/* To translators: RSVP means "please reply" */
 	btn = gtk_check_button_new_with_label ("RSVP");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (btn), TRUE);
@@ -2263,15 +2263,15 @@ insert_rsvp (GtkWidget *hbox, EItipControl *itip)
 	g_signal_connect (btn, "clicked", G_CALLBACK (rsvp_clicked_cb), itip);
 
 	gtk_box_pack_start (GTK_BOX (hbox), btn, FALSE, TRUE, 0);
-	gtk_widget_show (btn);	
+	gtk_widget_show (btn);
 }
 
 static void
-insert_ok (GtkWidget *hbox, EItipControl *itip) 
+insert_ok (GtkWidget *hbox, EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	priv = itip->priv;
-	
+
 	priv->ok.widget = gtk_button_new_from_stock (GTK_STOCK_OK);
 	g_object_add_weak_pointer (G_OBJECT (priv->ok.widget), &priv->ok.pointer);
 
@@ -2280,7 +2280,7 @@ insert_ok (GtkWidget *hbox, EItipControl *itip)
 	set_ok_sens (itip);
 
 	gtk_box_pack_start (GTK_BOX (hbox), priv->ok.widget, FALSE, TRUE, 0);
-	gtk_widget_show (priv->ok.widget);	
+	gtk_widget_show (priv->ok.widget);
 }
 
 static gboolean
@@ -2288,19 +2288,19 @@ publish_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *option, *menu;
-	
+
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
-	
+
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Update"), 'U');
 	priv->action = 'U';
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
 	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), option, FALSE, TRUE, 0);
@@ -2316,21 +2316,21 @@ request_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *option, *menu;
-	
+
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
-	
+
 	option = gtk_option_menu_new ();
-	
+
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Accept"), 'A');
 	add_option (itip, menu, _("Tentatively accept"), 'T');
 	add_option (itip, menu, _("Decline"), 'D');
 	priv->action = 'A';
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
 	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), option, FALSE, TRUE, 0);
@@ -2347,19 +2347,19 @@ freebusy_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *option, *menu;
-	
+
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
-	
+
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Send Free/Busy Information"), 'F');
 	priv->action = 'F';
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
 	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
@@ -2375,19 +2375,19 @@ reply_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *option, *menu;
-	
+
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
-	
+
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Update respondent status"), 'R');
 	priv->action = 'R';
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
 	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
@@ -2403,19 +2403,19 @@ refresh_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *option, *menu;
-	
+
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
-	
+
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Send Latest Information"), 'S');
 	priv->action = 'R';
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
 	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
@@ -2431,19 +2431,19 @@ cancel_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *option, *menu;
-	
+
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
 	option = gtk_option_menu_new ();
-	
+
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Cancel"), 'C');
 	priv->action = 'C';
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 
 	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
@@ -2455,7 +2455,7 @@ cancel_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 }
 
 static gboolean
-object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
+object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 {
 	EItipControl *itip = E_ITIP_CONTROL (data);
 
@@ -2471,7 +2471,7 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		return refresh_options_object (itip, html, eb);
 	else if (!strcmp (eb->classid, "itip:cancel_options"))
 		return cancel_options_object (itip, html, eb);
-	
+
 	return FALSE;
 }
 
@@ -2492,7 +2492,7 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 		update_item (itip);
 		break;
 	case 'A':
-		status = change_status (priv->ical_comp, priv->my_address, 
+		status = change_status (priv->ical_comp, priv->my_address,
 					ICAL_PARTSTAT_ACCEPTED);
 		if (status) {
 			e_cal_component_rescan (priv->comp);
@@ -2539,43 +2539,43 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 		icalvalue *value;
 		const char *attendee;
 		GSList *l, *list = NULL;
-		
+
 		comp = e_cal_component_clone (priv->comp);
 		if (comp == NULL)
 			return;
-		
+
 		if (priv->my_address == NULL)
 			find_my_address (itip, priv->ical_comp, NULL);
 		g_return_if_fail (priv->my_address != NULL);
-		
+
 		ical_comp = e_cal_component_get_icalcomponent (comp);
-		
+
 		for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 		     prop != NULL;
 		     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
 		{
 			char *text;
-			
+
 			value = icalproperty_get_value (prop);
 			if (!value)
 				continue;
-			
+
 			attendee = icalvalue_get_string (value);
-			
+
 			text = g_strdup (itip_strip_mailto (attendee));
 			text = g_strstrip (text);
 			if (g_ascii_strcasecmp (priv->my_address, text))
 				list = g_slist_prepend (list, prop);
 			g_free (text);
 		}
-		
+
 		for (l = list; l; l = l->next) {
 			prop = l->data;
 			icalcomponent_remove_property (ical_comp, prop);
 			icalproperty_free (prop);
 		}
 		g_slist_free (list);
-		
+
 		e_cal_component_rescan (comp);
 		itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, priv->top_level, NULL, NULL);
 

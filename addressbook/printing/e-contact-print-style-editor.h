@@ -51,7 +51,7 @@ typedef struct _EContactPrintStyleEditorClass  EContactPrintStyleEditorClass;
 struct _EContactPrintStyleEditor
 {
 	GtkVBox parent;
-	
+
 	/* item specific fields */
 	GladeXML *gui;
 };

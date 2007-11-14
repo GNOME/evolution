@@ -100,10 +100,10 @@ ESMenu *es_menu_new(const char *menuid)
  * es_menu_target_new_shell:
  * @esm:
  * @flags:
- * 
+ *
  * Create a new menu target for the shell.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 ESMenuTargetShell *
 es_menu_target_new_shell(ESMenu *esm, guint32 flags)
@@ -150,7 +150,7 @@ esph_class_init(EPluginHookClass *klass)
 	/** @HookClass: Shell Main Menu
 	 * @Id: org.gnome.evolution.shell.bonobomenu:1.0
 	 * @Target: ESMenuTargetShell
-	 * 
+	 *
 	 * A hook for the main menus from the shell component.
 	 *
 	 * These menu's will be available from all components, but
@@ -171,7 +171,7 @@ GType
 es_menu_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(ESMenuHookClass), NULL, NULL, (GClassInitFunc) esph_class_init, NULL, NULL,
@@ -181,6 +181,6 @@ es_menu_hook_get_type(void)
 		esph_parent_class = g_type_class_ref(e_menu_hook_get_type());
 		type = g_type_register_static(e_menu_hook_get_type(), "ESMenuHook", &info, 0);
 	}
-	
+
 	return type;
 }

@@ -171,7 +171,7 @@ typedef struct {
 	ExchangeAccount *account;
 	ENameSelector *name_selector;
 	GtkWidget *name_selector_widget;
-	GtkWidget *folder_name_entry;	
+	GtkWidget *folder_name_entry;
 }SubscriptionInfo;
 
 static void
@@ -184,8 +184,8 @@ destroy_subscription_info (SubscriptionInfo *subscription_info)
 	g_free (subscription_info);
 }
 
-static void 
-subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data) 
+static void
+subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 {
 	SubscriptionInfo *subscription_info = data;
 	gchar *user_email_address = NULL, *folder_name = NULL, *path = NULL;
@@ -195,7 +195,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 	GList *destinations;
 	EDestination *destination;
 	ExchangeAccountFolderResult result;
-	
+
 	if (response == GTK_RESPONSE_CANCEL) {
 		gtk_widget_destroy (dialog);
 		destroy_subscription_info (subscription_info);
@@ -226,7 +226,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 				}
 			}
 
-			/* It would be nice to insensitivize the OK button appropriately 
+			/* It would be nice to insensitivize the OK button appropriately
 		   	instead of doing this, but unfortunately we can't do this for the
 		   	Bonobo control.  */
 			e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
@@ -234,8 +234,8 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 
 		folder_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (subscription_info->folder_name_entry)));
 		if (user_email_address && folder_name) {
-			result = exchange_account_discover_shared_folder (subscription_info->account, 
-									  user_email_address, 
+			result = exchange_account_discover_shared_folder (subscription_info->account,
+									  user_email_address,
 									  folder_name, &folder);
 			g_free (folder_name);
 			switch (result) {

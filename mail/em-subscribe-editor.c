@@ -104,7 +104,7 @@ struct _EMSubscribe {
 	/* pending LISTs, EMSubscribeNode's */
 	int pending_id;
 	EDList pending;
-	
+
 	/* queue of pending UN/SUBSCRIBEs, EMsg's */
 	int subscribe_id;
 	EDList subscribe;
@@ -181,7 +181,7 @@ struct _zsubscribe_msg {
 	char *path;
 };
 
-static void 
+static void
 sub_folder_subscribe (struct _mail_msg *mm)
 {
 	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
@@ -234,7 +234,7 @@ sub_folder_subscribed (struct _mail_msg *mm)
 	}
 }
 
-static void 
+static void
 sub_folder_free (struct _mail_msg *mm)
 {
 	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
@@ -306,7 +306,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			gtk_tree_model_get_iter(gtk_tree_view_get_model(sub->tree), &iter, node->path);
 		}
 
-		d(printf("flags & CAMEL_FOLDER_NOCHILDREN=%d, f & CAMEL_FOLDER_NOINFERIORS=%d\t fi->full_name=[%s], node->path=%p\n", 
+		d(printf("flags & CAMEL_FOLDER_NOCHILDREN=%d, f & CAMEL_FOLDER_NOINFERIORS=%d\t fi->full_name=[%s], node->path=%p\n",
 			 fi->flags & CAMEL_FOLDER_NOCHILDREN, fi->flags & CAMEL_FOLDER_NOINFERIORS, fi->full_name,
 			 node->path));
 
@@ -317,11 +317,11 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 				d(printf("scanning child '%s'\n", fi->child->full_name));
 				sub_fill_level(sub, fi->child, &iter, FALSE);
 			} else if (!(fi->flags & CAMEL_FOLDER_NOCHILDREN)) {
-				GtkTreeIter new_iter; 
+				GtkTreeIter new_iter;
 				d(printf("flags: CAMEL_FOLDER_NOCHILDREN is not set '%s'\n", fi->full_name));
 				gtk_tree_store_append(treestore, &new_iter, &iter);
 				gtk_tree_store_set(treestore, &new_iter, 0, 0, 1, "Loading...", 2, NULL, -1);
-			} 	
+			}
 			else {
 				if (pending)
 					e_dlist_addtail(&sub->pending, (EDListNode *)node);
@@ -404,8 +404,8 @@ sub_folderinfo_free(struct _mail_msg *mm)
 	if (!m->sub->cancel)
 		sub_editor_busy(m->sub->editor, -1);
 
-	/* Now we just load the children on demand, so set the 
-	   expand state to true if m->node is not NULL 
+	/* Now we just load the children on demand, so set the
+	   expand state to true if m->node is not NULL
 	*/
 	if (m->node)
 		gtk_tree_view_expand_row(m->sub->tree, m->node->path, FALSE);
@@ -501,7 +501,7 @@ sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 }
 
 /* double-clicking causes a node item to be evaluated directly */
-static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub) 
+static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub)
 {
 	if (!gtk_tree_view_row_expanded(tree, path))
 		gtk_tree_view_expand_row(tree, path, FALSE);
@@ -548,7 +548,7 @@ sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubs
 			return;
 		}
 	}
-	
+
 	e_dlist_addhead(&sub->pending, (EDListNode *)node);
 
 	if (sub->pending_id == -1
@@ -617,12 +617,12 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
 			(GDestroyNotify) sub_node_free);
-		
+
 		model = gtk_tree_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 		sub->tree = (GtkTreeView *) gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 		g_object_unref (model);
 		gtk_widget_show ((GtkWidget *)sub->tree);
-		
+
 		sub->widget = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sub->widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sub->widget), GTK_SHADOW_IN);
@@ -633,11 +633,11 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		g_object_set(renderer, "activatable", TRUE, NULL);
 		gtk_tree_view_insert_column_with_attributes (sub->tree, -1, _("Subscribed"), renderer, "active", 0, NULL);
 		g_signal_connect(renderer, "toggled", G_CALLBACK(sub_subscribe_toggled), sub);
-	
+
 		renderer = gtk_cell_renderer_text_new ();
 		gtk_tree_view_insert_column_with_attributes (sub->tree, -1, _("Folder"), renderer, "text", 1, NULL);
 		gtk_tree_view_set_expander_column(sub->tree, gtk_tree_view_get_column(sub->tree, 1));
-		
+
 		selection = gtk_tree_view_get_selection (sub->tree);
 		gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 		gtk_tree_view_set_headers_visible (sub->tree, FALSE);
@@ -794,10 +794,10 @@ static void
 window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	GConfClient *gconf;
-	
+
 	/* save to in-memory variable for current session access */
 	window_size = *allocation;
-	
+
 	/* save the setting across sessions */
 	gconf = gconf_client_get_default ();
 	gconf_client_set_int (gconf, "/apps/evolution/mail/subscribe_window/width", window_size.width, NULL);
@@ -829,7 +829,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	}
 	se->dialog = (GtkDialog *)glade_xml_get_widget (xml, "subscribe_dialog");
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
-	
+
 	gtk_widget_ensure_style ((GtkWidget *)se->dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
@@ -867,7 +867,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
-		
+
 		/* setup url table, and store table? */
 		if (account->enabled && account->source->url) {
 			d(printf("adding account '%s'\n", account->name));
@@ -883,31 +883,31 @@ GtkDialog *em_subscribe_editor_new(void)
 
 	gtk_option_menu_set_menu((GtkOptionMenu *)se->optionmenu, menu);
 	g_signal_connect(se->optionmenu, "changed", G_CALLBACK(sub_editor_menu_changed), se);
-	
+
 	if (window_size.width == 0) {
 		/* initialize @window_size with the previous session's size */
 		GConfClient *gconf;
 		GError *err = NULL;
-		
+
 		gconf = gconf_client_get_default ();
-		
+
 		window_size.width = gconf_client_get_int (gconf, "/apps/evolution/mail/subscribe_window/width", &err);
 		if (err != NULL) {
 			window_size.width = DEFAULT_WIDTH;
 			g_clear_error (&err);
 		}
-		
+
 		window_size.height = gconf_client_get_int (gconf, "/apps/evolution/mail/subscribe_window/height", &err);
 		if (err != NULL) {
 			window_size.height = DEFAULT_HEIGHT;
 			g_clear_error (&err);
 		}
-		
+
 		g_object_unref (gconf);
 	}
-	
+
 	gtk_window_set_default_size ((GtkWindow *) se->dialog, window_size.width, window_size.height);
 	g_signal_connect (se->dialog, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
-	
+
 	return se->dialog;
 }

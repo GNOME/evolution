@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-event-processor-types.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -69,7 +69,7 @@ typedef enum {
 	E_TEP_INSERT,
 
 	E_TEP_CAPS,
-	
+
 	E_TEP_COPY,
 	E_TEP_PASTE,
 	E_TEP_GET_SELECTION,

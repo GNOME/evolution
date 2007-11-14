@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-xml-utils.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -128,7 +128,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 		xmlFree (lang);
 		if (*best_lang_score == 0) {
 			return best_node;
-		} 
+		}
 	}
 
 	return best_node;

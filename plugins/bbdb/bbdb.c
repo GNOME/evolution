@@ -17,10 +17,10 @@
  *  modify, merge, publish, distribute, sublicense, and/or sell copies
  *  of the Software, and to permit persons to whom the Software is
  *  furnished to do so, subject to the following conditions:
- *  
+ *
  *  The above copyright notice and this permission notice shall be
  *  included in all copies or substantial portions of the Software.
- *  
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -231,7 +231,7 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 			g_object_unref ((GObject *)l->data);
 		g_list_free (contacts);
 		g_free (temp_name);
-		
+
 		return;
 	}
 
@@ -246,7 +246,7 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 		temp_name = g_string_free (tmp, FALSE);
 		name = temp_name;
 	}
-	
+
 	/* If a contact exists with this name, add the email address to it. */
 	query_string = g_strdup_printf ("(is \"full_name\" \"%s\")", name);
 	query = e_book_query_from_string (query_string);
@@ -267,21 +267,21 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 			g_free (temp_name);
 			return;
 		}
-		
+
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);
 		if (! e_book_commit_contact (book, contact, &error)) {
 			g_warning ("bbdb: Could not modify contact: %s\n", error->message);
 			g_error_free (error);
 		}
-		
+
 		for (l = contacts; l != NULL; l = l->next)
 			g_object_unref ((GObject *)l->data);
 		g_list_free (contacts);
 
 		g_free (temp_name);
 		return;
-	} 
+	}
 
 	/* Otherwise, create a new contact. */
 	contact = e_contact_new ();
@@ -307,7 +307,7 @@ bbdb_open_addressbook (int type)
 
 	gboolean     status;
 	GError      *error = NULL;
-	
+
 	gconf = gconf_client_get_default ();
 
 	/* Open the appropriate addresbook. */
@@ -379,7 +379,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
-	
+
 	gtk_widget_set_sensitive (stuff->option_menu, active);
 	if (active && !gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL)) {
 		const gchar *uri = NULL;
@@ -413,7 +413,7 @@ enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
 
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE_GAIM, active, NULL);
-	
+
 	gtk_widget_set_sensitive (stuff->gaim_option_menu, active);
 	if (active && !gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL)) {
 		selected_source = e_source_combo_box_get_active (
@@ -544,7 +544,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	g_free (str);
 	GTK_MISC (frame_label)->xalign = 0.0;
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
-	
+
 	/* Indent/padding */
 	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (frame), hbox, FALSE, TRUE, 0);
@@ -552,7 +552,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (hbox), padding_label, FALSE, FALSE, 0);
 	inner_vbox = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
-	
+
 	/* Enable BBDB checkbox */
 	check = gtk_check_button_new_with_mnemonic (_("_Automatically create entries in the addressbook when responding to messages"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
@@ -595,7 +595,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	g_signal_connect (GTK_TOGGLE_BUTTON (check_gaim), "toggled", G_CALLBACK (enable_gaim_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
 	stuff->check_gaim = check_gaim;
-	
+
 	gaim_label = gtk_label_new (_("Select Address book for Pidgin buddy list"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_label, FALSE, FALSE, 0);
 
@@ -610,7 +610,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	button = gtk_button_new_with_mnemonic (_("Synchronize with _buddy list now"));
 	g_signal_connect (GTK_BUTTON (button), "clicked", G_CALLBACK (synchronize_button_clicked_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), button, FALSE, FALSE, 0);
-	
+
 	/* Clean up */
 	g_signal_connect (page, "destroy", G_CALLBACK (cleanup_cb), stuff);
 

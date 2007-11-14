@@ -83,7 +83,7 @@ class_init (EUrlEntryClass *klass)
 	widget_class = GTK_WIDGET_CLASS (klass);
 
 	parent_class = g_type_class_ref(gtk_hbox_get_type ());
-	
+
 	object_class->destroy = destroy;
 
 	widget_class->mnemonic_activate = mnemonic_activate;
@@ -111,7 +111,7 @@ init (EUrlEntry *url_entry)
 
 	gtk_widget_show (priv->button);
 	gtk_widget_show (priv->entry);
-	
+
 	g_signal_connect (priv->button, "clicked",
 			  G_CALLBACK (button_clicked_cb), url_entry);
 	g_signal_connect (priv->entry, "changed",
@@ -122,7 +122,7 @@ static void
 destroy (GtkObject *obj)
 {
 	EUrlEntry *url_entry;
-	
+
 	url_entry = E_URL_ENTRY (obj);
 	if (url_entry->priv) {
 		g_free (url_entry->priv);
@@ -158,12 +158,12 @@ GtkWidget *
 e_url_entry_get_entry (EUrlEntry *url_entry)
 {
 	EUrlEntryPrivate *priv;
-	
+
 	g_return_val_if_fail (url_entry != NULL, NULL);
 	g_return_val_if_fail (E_IS_URL_ENTRY (url_entry), NULL);
 
 	priv = url_entry->priv;
-	
+
 	return priv->entry;
 }
 
@@ -185,10 +185,10 @@ entry_changed_cb (GtkEditable *editable, gpointer data)
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;
 	const char *url;
-	
+
 	url_entry = E_URL_ENTRY (data);
 	priv = url_entry->priv;
-	
+
 	url = gtk_entry_get_text (GTK_ENTRY (priv->entry));
 	gtk_widget_set_sensitive (priv->button, url != NULL && *url != '\0');
 }

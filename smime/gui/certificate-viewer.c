@@ -115,7 +115,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	else {
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
-	
+
 	label = glade_xml_get_widget (cvm_data->gui, "issued-by-ou");
 	if (e_cert_get_issuer_org_unit (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_org_unit (cert));
@@ -215,7 +215,7 @@ hierarchy_selection_changed (GtkTreeSelection *selection, CertificateViewerData 
 		/* and blow away the field value */
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
 					  "", 0);
-	}	
+	}
 }
 
 static void
@@ -242,7 +242,7 @@ fields_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cv
 
 		if (value) {
 			GtkTextIter text_iter;
-			
+
 			gtk_text_buffer_get_start_iter (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
 							&text_iter);
 
@@ -342,7 +342,7 @@ certificate_viewer_show (ECert *cert)
 
 	gtk_window_set_title (GTK_WINDOW (cvm_data->dialog),
 			      title);
-	
+
 	g_free (title);
 
 	fill_in_general (cvm_data, cert);

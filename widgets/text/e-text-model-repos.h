@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-model-repos.h - Standard ETextModelReposFn definitions
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -56,7 +56,7 @@ typedef struct {
 	ETextModel *model;
 	gint pos;  /* Location of first deleted character. */
 	gint len;  /* Number of characters deleted. */
-} EReposDeleteShift; 
+} EReposDeleteShift;
 
 gint e_repos_delete_shift (gint pos, gpointer data);
 

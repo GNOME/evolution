@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-click-to-add.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -52,7 +52,7 @@ typedef struct {
 	GnomeCanvasItem  *row;    /* If row is NULL, we're sitting with no data and a "Click here" message. */
 	GnomeCanvasItem  *text;   /* If text is NULL, row shouldn't be. */
 	GnomeCanvasItem  *rect;   /* What the heck.  Why not. */
-	
+
 	gdouble           width;
 	gdouble           height;
 

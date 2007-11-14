@@ -66,7 +66,7 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 	int i;
 	const char *real, *addr;
 	char *namestr;
-	
+
 	/* address types etc should handle multiple values */
 	for (i = 0; camel_internet_address_get (iaddr, i, &real, &addr); i++) {
 		part = rule_context_create_part (context, "to");
@@ -75,7 +75,7 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 		filter_option_set_current ((FilterOption *)element, "contains");
 		element = filter_part_find_element (part, "recipient");
 		filter_input_set_value ((FilterInput *)element, addr);
-		
+
 		namestr = g_strdup_printf (_("Mail to %s"), real && real[0] ? real : addr);
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
@@ -88,9 +88,9 @@ static const char *
 strip_re (const char *subject)
 {
 	const unsigned char *s, *p;
-	
+
 	s = (unsigned char *) subject;
-	
+
 	while (*s) {
 		while (isspace (*s))
 			s++;
@@ -108,7 +108,7 @@ strip_re (const char *subject)
 		} else
 			break;
 	}
-	
+
 	return (char *) s;
 }
 
@@ -135,7 +135,7 @@ rule_add_subject (RuleContext *context, FilterRule *rule, const char *text)
 {
 	FilterPart *part;
 	FilterElement *element;
-	
+
 	/* dont match on empty strings ever */
 	if (*text == 0)
 		return;
@@ -152,7 +152,7 @@ rule_add_sender (RuleContext *context, FilterRule *rule, const char *text)
 {
 	FilterPart *part;
 	FilterElement *element;
-	
+
 	/* dont match on empty strings ever */
 	if (*text == 0)
 		return;
@@ -172,12 +172,12 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 	const char *s;
 	const char *s1, *s2;
 	char *tmp;
-	
+
 	s = strip_re (subject);
 	/* dont match on empty subject */
 	if (*s == 0)
 		return;
-	
+
 	/* [blahblah] is probably a mailing list, match on it separately */
 	s1 = strchr (s, '[');
 	s2 = strchr (s, ']');
@@ -200,7 +200,7 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 		rule_add_subject (context, rule, tmp);
 		s = s1+1;
 	}
-	
+
 	/* just lump the rest together */
 	tmp = g_alloca (strlen (s) + 1);
 	strcpy (tmp, s);
@@ -213,16 +213,16 @@ rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
 {
 	FilterPart *part;
 	FilterElement *element;
-	
+
 	if (mlist[0] == 0)
 		return;
-	
+
 	part = rule_context_create_part(context, "mlist");
 	filter_rule_add_part(rule, part);
-	
+
 	element = filter_part_find_element(part, "mlist-type");
 	filter_option_set_current((FilterOption *)element, "is");
-	
+
 	element = filter_part_find_element (part, "mlist");
 	filter_input_set_value((FilterInput *)element, mlist);
 }
@@ -235,7 +235,7 @@ rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress*
 	if (flags & AUTO_FROM) {
 		const char *name, *address;
 		char *namestr;
-		
+
 		camel_internet_address_get (addr, 0, &name, &address);
 		rule_add_sender (context, rule, address);
 		if (name == NULL || name[0] == '\0')
@@ -254,15 +254,15 @@ static void
 rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, int flags)
 {
 	CamelInternetAddress *addr;
-	
+
 	rule->grouping = FILTER_GROUP_ANY;
-	
+
 	if (flags & AUTO_SUBJECT) {
 		const char *subject = msg->subject ? msg->subject : "";
 		char *namestr;
-		
+
 		rule_match_subject (context, rule, subject);
-		
+
 		namestr = g_strdup_printf (_("Subject is %s"), strip_re (subject));
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
@@ -273,7 +273,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		int i;
 		const char *name, *address;
 		char *namestr;
-		
+
 		from = camel_mime_message_get_from (msg);
 		for (i = 0; from && camel_internet_address_get (from, i, &name, &address); i++) {
 			rule_add_sender(context, rule, address);
@@ -294,7 +294,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	}
 	if (flags & AUTO_MLIST) {
 		char *name, *mlist;
-		
+
 		mlist = camel_header_raw_check_mailing_list (&((CamelMimePart *)msg)->headers);
 		if (mlist) {
 			rule_match_mlist(context, rule, mlist);
@@ -339,13 +339,13 @@ filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, int f
 {
 	EMFilterRule *rule;
 	FilterPart *part;
-	
+
 	rule = em_filter_rule_new ();
 	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
-	
+
 	part = em_filter_context_next_action (context, NULL);
 	em_filter_rule_add_action (rule, filter_part_clone (part));
-	
+
 	return (FilterRule *)rule;
 }
 
@@ -355,9 +355,9 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	EMFilterContext *fc;
 	char *user, *system;
 	FilterRule *rule;
-	
+
 	g_return_if_fail (msg != NULL);
-	
+
 	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml",
 				mail_component_peek_base_directory (mail_component_peek ()));
@@ -366,9 +366,9 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	g_free (system);
 
 	rule = filter_rule_from_message (fc, msg, flags);
-	
+
 	filter_rule_set_source (rule, source);
-	
+
 	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
 	g_object_unref (fc);
@@ -390,7 +390,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (system);
-	
+
 	changed = rule_context_rename_uri((RuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
 		d(printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri));
@@ -398,7 +398,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 			g_warning("Could not write out changed filter rules\n");
 		rule_context_free_uri_list((RuleContext *)fc, changed);
 	}
-	
+
 	g_free(user);
 	g_object_unref(fc);
 
@@ -421,13 +421,13 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (system);
-	
+
 	deleted = rule_context_delete_uri ((RuleContext *) fc, euri, g_str_equal);
 	if (deleted) {
 		GtkWidget *dialog;
 		GString *s;
 		GList *l;
-		
+
 		s = g_string_new("");
 		l = deleted;
 		while (l) {
@@ -439,13 +439,13 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		g_string_free(s, TRUE);
 		gtk_widget_show(dialog);
-		
+
 		d(printf("Folder delete/rename '%s' changed filters, resaving\n", euri));
 		if (rule_context_save ((RuleContext *) fc, user) == -1)
 			g_warning ("Could not write out changed filter rules\n");
 		rule_context_free_uri_list ((RuleContext *) fc, deleted);
 	}
-	
+
 	g_free(user);
 	g_object_unref(fc);
 	g_free(euri);

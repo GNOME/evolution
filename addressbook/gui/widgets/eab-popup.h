@@ -38,7 +38,7 @@ typedef struct _EABPopupClass EABPopupClass;
 
 /**
  * enum _eab_popup_target_t - A list of mail popup target types.
- * 
+ *
  * @EAB_POPUP_TARGET_SELECT: A selection of cards
  * @EAB_POPUP_TARGET_SOURCE: A source selection.
  *
@@ -53,7 +53,7 @@ enum _eab_popup_target_t {
 
 /**
  * enum _eab_popup_target_select_t - EABPopupTargetSelect qualifiers.
- * 
+ *
  * @EAB_POPUP_SELECT_ONE: Only one item is selected.
  * @EAB_POPUP_SELECT_MANY: Two or more items are selected.
  * @EAB_POPUP_SELECT_ANY: One or more items are selected.
@@ -77,10 +77,10 @@ enum _eab_popup_target_uri_t {
 };
 /**
  * enum _eab_popup_target_source_t - EABPopupTargetSource qualifiers.
- * 
+ *
  * @EAB_POPUP_SOURCE_PRIMARY: Has a primary selection.
  * @EAB_POPUP_SOURCE_SYSTEM: Is a 'system' folder.
- * 
+ *
  **/
 enum _eab_popup_target_source_t {
 	EAB_POPUP_SOURCE_PRIMARY = 1<<0,
@@ -94,7 +94,7 @@ typedef struct _EABPopupTargetSelectNames EABPopupTargetSelectNames;
 typedef struct _EABPopupTargetURI EABPopupTargetURI;
 /**
  * struct _EABPopupTargetSelect - A list of address cards.
- * 
+ *
  * @target: Superclass.
  * @book: Book the cards belong to.
  * @cards: All selected cards.
@@ -117,7 +117,7 @@ struct _EABPopupTargetURI {
 
 /**
  * struct _EABPopupTargetSource - A source target.
- * 
+ *
  * @target: Superclass.
  * @selector: Selector holding the source selection.
  *
@@ -133,7 +133,7 @@ struct _EABPopupTargetSource {
 
 /**
  * struct _EABPopupTargetSelectNames - A select names target.
- * 
+ *
  * @target: Superclass.
  * @model: Select names model.
  * @row: Row of item selected.

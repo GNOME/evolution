@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-util-private.h: Private functions for Evolution (not just for libeutil)
  * Copyright 2005, Novell, Inc.
  *

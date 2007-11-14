@@ -403,7 +403,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	etss->n_map = nvals;
 	etss->source = source;
 	g_object_ref (source);
-	
+
 	/* Init */
 	for (i = 0; i < nvals; i++)
 		etss->map_table [i] = i;
@@ -422,7 +422,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 							G_CALLBACK (etss_proxy_model_rows_inserted), etss);
 	etss->table_model_rows_deleted_id  = g_signal_connect (G_OBJECT (source), "model_rows_deleted",
 							G_CALLBACK (etss_proxy_model_rows_deleted), etss);
-	
+
 	return E_TABLE_MODEL (etss);
 }
 

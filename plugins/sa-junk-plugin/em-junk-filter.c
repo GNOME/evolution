@@ -116,11 +116,11 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	CamelStream *stream;
 	char *program;
 	pid_t pid;
-	
+
 
 	if (camel_debug_start ("junk")) {
 		int i;
-		
+
 		printf ("pipe_to_sa ");
 		for (i = 0; argv[i]; i++)
 			printf ("%s ", argv[i]);
@@ -134,14 +134,14 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		return rv_err;
 	}
 	g_free (program);
-	
+
 	if (pipe (fds) == -1) {
 		errnosav = errno;
 		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
 		errno = errnosav;
 		return rv_err;
 	}
-	
+
 	if (output_buffer && pipe (out_fds) == -1) {
 		errnosav = errno;
 		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
@@ -150,13 +150,13 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		errno = errnosav;
 		return rv_err;
 	}
-	
+
 	if (!(pid = fork ())) {
 		/* child process */
 		int maxfd, fd, nullfd;
-		
+
 		nullfd = open ("/dev/null", O_WRONLY);
-		
+
 		if (dup2 (fds[0], STDIN_FILENO) == -1 ||
 		    dup2 (nullfd, STDERR_FILENO) == -1 ||
 		    (output_buffer == NULL && dup2 (nullfd, STDOUT_FILENO) == -1) ||
@@ -167,11 +167,11 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 			close (out_fds [1]);
 
 		setsid ();
-		
+
 		maxfd = sysconf (_SC_OPEN_MAX);
 		for (fd = 3; fd < maxfd; fd++)
 			fcntl (fd, F_SETFD, FD_CLOEXEC);
-		
+
 		execvp (argv[0], argv);
 		_exit (rv_err & 0377);
 	} else if (pid < 0) {
@@ -185,15 +185,15 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		errno = errnosav;
 		return rv_err;
 	}
-	
+
 	/* parent process */
 	close (fds[0]);
 	if (output_buffer)
 		close (out_fds [1]);
-	
+
 	if (msg) {
 		stream = camel_stream_fs_new_with_fd (fds[1]);
-		
+
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
 		camel_stream_flush (stream);
 		camel_stream_close (stream);
@@ -207,21 +207,21 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		CamelStreamMem *memstream;
 
 		stream = camel_stream_fs_new_with_fd (out_fds[0]);
-		
+
 		memstream = (CamelStreamMem *) camel_stream_mem_new ();
 		camel_stream_mem_set_byte_array (memstream, output_buffer);
-		
+
 		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
 		camel_object_unref (stream);
 		g_byte_array_append (output_buffer, (unsigned char *)"", 1);
 
 		d(printf ("child process output: %s len: %d\n", output_buffer->data, output_buffer->len));
 	}
-	
+
 	if (wait_for_termination) {
 		d(printf ("wait for child %d termination\n", pid));
 		result = waitpid (pid, &status, 0);
-	
+
 		d(printf ("child %d terminated with result %d status %d exited %d exitstatus %d\n", pid, result, status, WIFEXITED (status), WEXITSTATUS (status)));
 
 		if (result == -1 && errno == EINTR) {
@@ -236,7 +236,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 				result = waitpid (pid, &status, WNOHANG);
 			}
 		}
-	
+
 		if (result != -1 && WIFEXITED (status))
 			return WEXITSTATUS (status);
 		else
@@ -270,17 +270,17 @@ em_junk_sa_test_spamd_running (char *binary, gboolean system)
 	pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
 
 	d(fprintf (stderr, "test if spamd is running (system %d) or using socket path %s\n", system, em_junk_sa_get_socket_path ()));
-	
+
 	argv[i++] = binary;
 	argv[i++] = "-x";
-	
+
 	if (!system) {
 		argv[i++] = "-U";
 		argv[i++] = em_junk_sa_get_socket_path ();
 	}
-	
+
 	argv[i] = NULL;
-	
+
 	rv = pipe_to_sa (NULL, "From test@127.0.0.1", argv) == 0;
 
 	d(fprintf (stderr, "result: %d (%s)\n", rv, rv ? "success" : "failed"));
@@ -298,7 +298,7 @@ em_junk_sa_test_spamassassin (void)
 		"--version",
 		NULL,
 	};
-	
+
 	if (pipe_to_sa (NULL, NULL, argv) != 0)
 		em_junk_sa_available = FALSE;
 	else
@@ -324,7 +324,7 @@ em_junk_sa_run_spamd (char *binary)
 	argv[i++] = binary;
 	argv[i++] = "--socketpath";
 	argv[i++] = em_junk_sa_get_socket_path ();
-		
+
 	if (em_junk_sa_local_only)
 		argv[i++] = "--local";
 
@@ -336,7 +336,7 @@ em_junk_sa_run_spamd (char *binary)
 	argv[i] = NULL;
 
 	d(fprintf (stderr, "trying to run %s with socket path %s\n", binary, em_junk_sa_get_socket_path ()));
-			
+
 	if (!pipe_to_sa_full (NULL, NULL, argv, -1, 0, NULL)) {
 		struct timespec time_req;
 		struct stat stat_buf;
@@ -411,7 +411,7 @@ em_junk_sa_test_spamd (void)
 		em_junk_sa_spamc_binaries [0] = em_junk_sa_spamc_gconf_binary;
 		em_junk_sa_spamc_binaries [1] = NULL;
 	}
-  
+
 	if (em_junk_sa_spamd_gconf_binary) {
 		em_junk_sa_spamd_binaries [0] = em_junk_sa_spamd_gconf_binary;
 		em_junk_sa_spamd_binaries [1] = NULL;
@@ -465,7 +465,7 @@ em_junk_sa_test_spamd (void)
 	em_junk_sa_find_spamc ();
 
 	d(fprintf (stderr, "use spamd: %s\n", em_junk_sa_use_spamc ? "yes" : "no"));
-	
+
 	em_junk_sa_spamd_tested = TRUE;
 }
 
@@ -481,7 +481,7 @@ em_junk_sa_is_available (void)
 		em_junk_sa_test_spamd ();
 
 	pthread_mutex_unlock (&em_junk_sa_init_lock);
-	
+
 	return em_junk_sa_available;
 }
 
@@ -548,7 +548,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 	CamelMimeMessage *msg = target->m;
 
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
-	
+
 	if (!em_junk_sa_is_available ())
 		return FALSE;
 
@@ -572,7 +572,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 		if (em_junk_sa_local_only)
 			argv [i++] = "--local";
 	}
-	
+
 	argv[i] = NULL;
 
 	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out) != 0;
@@ -605,25 +605,25 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 
 static guint
 get_spamassassin_version ()
-{	
+{
 	GByteArray *out = NULL;
 	int i;
-	
+
 	char * argv[3] = {
 		"sa-learn",
 		"--version",
 		NULL
 	};
-	
+
 	if (!em_junk_sa_checked_spamassassin_version){
 		out = g_byte_array_new ();
-		
+
 		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out) != 0){
 			if(out)
 				g_byte_array_free (out, TRUE);
 			return em_junk_sa_spamassassin_version;
 		}
-	
+
 		if(out->len > 0){
 			for(i = 0; i < out->len; i++){
 				if(g_ascii_isdigit (out->data[i])){
@@ -631,14 +631,14 @@ get_spamassassin_version ()
 					em_junk_sa_checked_spamassassin_version = TRUE;
 					break;
 				}
-			}	
+			}
 		}
 
 
 		if(out)
 			g_byte_array_free (out, TRUE);
 	}
-	
+
 	return em_junk_sa_spamassassin_version;
 }
 
@@ -654,18 +654,18 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 		NULL,
 		NULL
 	};
-	gchar *sub = NULL;	
+	gchar *sub = NULL;
 	CamelMimeMessage *msg = target->m;
-	
+
 	sub = g_strdup (camel_mime_message_get_subject (msg));
 	g_print ("\nreport junk?? %s\n", sub);
-		
+
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
-	
+
 	if (em_junk_sa_is_available ()) {
 		if (em_junk_sa_local_only)
 			argv[4] = "--local";
-		
+
 		pthread_mutex_lock (&em_junk_sa_report_lock);
 		pipe_to_sa (msg, NULL, argv);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
@@ -687,11 +687,11 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 	CamelMimeMessage *msg = target->m;
 
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
-	
+
 	if (em_junk_sa_is_available ()) {
 		if (em_junk_sa_local_only)
 			argv[4] = "--local";
-		
+
 		pthread_mutex_lock (&em_junk_sa_report_lock);
 		pipe_to_sa (msg, NULL, argv);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
@@ -708,13 +708,13 @@ em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 		NULL,
 		NULL
 	};
-	
+
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n"));
-	
+
 	if (em_junk_sa_is_available ()) {
 		if (em_junk_sa_local_only)
 			argv[2] = "--local";
-		
+
 		pthread_mutex_lock (&em_junk_sa_report_lock);
 		pipe_to_sa (NULL, NULL, argv);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
@@ -734,10 +734,10 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 	char *tkey;
 
 	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
-	
+
 	if (!(value = gconf_entry_get_value (entry)))
 		return;
-	
+
 	tkey = strrchr(entry->key, '/');
 	g_return_if_fail (tkey != NULL);
 
@@ -847,10 +847,10 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
    	GtkWidget *check, *vbox, *label;
 	char *text = g_strdup_printf ("    <small>%s</small>", _("This will make Spamassasin more reliable, but slower"));
 	guint i = ((GtkTable *)data->parent)->nrows;
-    
+
 	if (data->old)
                 return data->old;
-		
+
 	check = gtk_check_button_new_with_mnemonic (_("I_nclude remote tests"));
 	label = gtk_label_new (NULL);
 	gtk_label_set_markup (GTK_LABEL (label), text);

@@ -124,11 +124,11 @@ timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (prefs->timezone));
 	icalcomp = icaltimezone_get_component (zone);
 
-	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) 
+	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
-	else 
+	else
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
-	 	
+
 	calendar_config_set_timezone (icaltimezone_get_location (zone));
 }
 
@@ -334,7 +334,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 			alarm = e_source_get_property (source, "alarm");
 			if (alarm && !g_ascii_strcasecmp (alarm, "never"))
 				continue;
-				
+
 			g_message ("Unsetting for %s", e_source_peek_name (source));
 			e_source_set_property (source, "alarm", "false");
 		}
@@ -356,7 +356,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 	e_source_selector_free_selection (selection);
 
 	/* FIXME show an error if this fails? */
-	e_source_list_sync (source_list, NULL);	
+	e_source_list_sync (source_list, NULL);
 }
 
 static void
@@ -406,7 +406,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->default_reminder_units), "changed", G_CALLBACK (default_reminder_units_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
-	
+
 
 	g_signal_connect (G_OBJECT (prefs->template_url), "changed", G_CALLBACK (template_url_changed), prefs);
 }
@@ -506,14 +506,14 @@ show_config (CalendarPrefsDialog *prefs)
 	g_free (location);
 
 	icalcomp = icaltimezone_get_component (zone);
-	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) 
+	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
-	else 
+	else
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
-	
+
 	set = calendar_config_get_daylight_saving ();
 	gtk_toggle_button_set_active ((GtkToggleButton *) prefs->daylight_saving, set);
-		
+
 	/* Working Days. */
 	working_days = calendar_config_get_working_days ();
 	mask = 1 << 0;
@@ -665,7 +665,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 
 	/* Alarms tab */
 	prefs->scrolled_window = glade_xml_get_widget (gui, "calendar-source-scrolled-window");
-	
+
 	/* Free/Busy tab */
 	prefs->template_url = glade_xml_get_widget (gui, "template_url");
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);

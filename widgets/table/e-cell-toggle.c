@@ -89,7 +89,7 @@ etog_kill_view (ECellView *ecell_view)
 			g_object_unref (toggle_view->pixmap_cache[i]);
 	g_free (toggle_view->pixmap_cache);
 	g_free (ecell_view);
-}	
+}
 
 static void
 etog_realize (ECellView *ecell_view)
@@ -134,7 +134,7 @@ check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
 			gdk_pixmap_new (toggle_view->canvas->layout.bin_window, width, height,
 					gtk_widget_get_visual (GTK_WIDGET (toggle_view->canvas))->depth);
 
-			
+
 		switch (cache_seq % 3) {
 		case 0:
 			color = GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_SELECTED];
@@ -187,7 +187,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
-	
+
 	if (value < 0 || value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 			   value, toggle->n_states);
@@ -261,7 +261,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 		return FALSE;
 #endif
 
-	switch (event->type){ 
+	switch (event->type){
 	case GDK_KEY_PRESS:
 		if (event->key.keyval != GDK_space)
 			return FALSE;
@@ -269,7 +269,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
 	case GDK_BUTTON_PRESS:
 		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
 			return FALSE;
-			
+
 		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
 		return TRUE;
 
@@ -293,7 +293,7 @@ etog_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::print method
  */
 static void
-etog_print (ECellView *ecell_view, GtkPrintContext *context, 
+etog_print (ECellView *ecell_view, GtkPrintContext *context,
 	    int model_col, int view_col, int row,
 	    double width, double height)
 {
@@ -303,7 +303,7 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 	const int value = GPOINTER_TO_INT (
 			e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
-	cairo_t *cr;	
+	cairo_t *cr;
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 				value, toggle->n_states);
@@ -313,13 +313,13 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 	cr = gtk_print_context_get_cairo_context (context);
 	cairo_save(cr);
 	image = toggle->images[value];
-	cairo_translate (cr, 0 , 0);	
+	cairo_translate (cr, 0 , 0);
 	image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
 	image_width = (double)gdk_pixbuf_get_width (image);
 	image_height = (double)gdk_pixbuf_get_height (image);
-	cairo_rectangle (cr, image_width / 7, image_height / 3, 
-			image_width - image_width / 4, 
-			image_width - image_height / 7); 
+	cairo_rectangle (cr, image_width / 7, image_height / 3,
+			image_width - image_width / 4,
+			image_width - image_height / 7);
 	cairo_clip (cr);
 	gdk_cairo_set_source_pixbuf (cr, image, 0, image_height / 4);
 	cairo_paint (cr);
@@ -327,7 +327,7 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-etog_print_height (ECellView *ecell_view, GtkPrintContext *context, 
+etog_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		   int model_col, int view_col, int row,
 		   double width)
 {
@@ -377,7 +377,7 @@ etog_finalize (GObject *object)
 {
 	ECellToggle *etog = E_CELL_TOGGLE (object);
 	int i;
-	
+
 	for (i = 0; i < etog->n_states; i++)
 		g_object_unref (etog->images [i]);
 
@@ -435,7 +435,7 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
 {
 	int max_height =  0;
 	int i;
-	
+
 	etog->border = border;
 	etog->n_states = n_states;
 
@@ -459,10 +459,10 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
  * @images: a collection of @n_states images, one for each state.
  *
  * Creates a new ECell renderer that can be used to render toggle
- * buttons with the images specified in @images.  The value returned 
+ * buttons with the images specified in @images.  The value returned
  * by ETableModel::get_value is typecase into an integer and clamped
  * to the [0..n_states) range.  That will select the image rendered.
- * 
+ *
  * Returns: an ECell object that can be used to render multi-state
  * toggle cells.
  */

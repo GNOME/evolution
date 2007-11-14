@@ -470,8 +470,8 @@ e_shell_folder_title_bar_init (EShellFolderTitleBar *shell_folder_title_bar)
 
 /**
  * e_shell_folder_title_bar_construct:
- * @folder_title_bar: 
- * 
+ * @folder_title_bar:
+ *
  * Construct the folder title bar widget.
  **/
 void
@@ -552,11 +552,11 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 
 /**
  * e_shell_folder_title_bar_new:
- * @void: 
- * 
+ * @void:
+ *
  * Create a new title bar widget.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 GtkWidget *
 e_shell_folder_title_bar_new (void)
@@ -572,9 +572,9 @@ e_shell_folder_title_bar_new (void)
 
 /**
  * e_shell_folder_title_bar_set_title:
- * @folder_title_bar: 
- * @title: 
- * 
+ * @folder_title_bar:
+ * @title:
+ *
  * Set the title for the title bar.
  **/
 void
@@ -629,9 +629,9 @@ e_shell_folder_title_bar_set_folder_bar_label (EShellFolderTitleBar *folder_titl
 
 /**
  * e_shell_folder_title_bar_set_icon:
- * @folder_title_bar: 
- * @icon: 
- * 
+ * @folder_title_bar:
+ * @icon:
+ *
  * Set the name of the icon for the title bar.
  **/
 void
@@ -668,9 +668,9 @@ e_shell_folder_title_bar_set_icon (EShellFolderTitleBar *folder_title_bar,
 
 /**
  * e_shell_folder_title_bar_set_toggle_state:
- * @folder_title_bar: 
- * @state: 
- * 
+ * @folder_title_bar:
+ * @state:
+ *
  * Set whether the title bar's button is in pressed state (TRUE) or not (FALSE).
  **/
 void
@@ -689,9 +689,9 @@ e_shell_folder_title_bar_set_toggle_state (EShellFolderTitleBar *folder_title_ba
 
 /**
  * e_shell_folder_title_bar_set_clickable:
- * @folder_title_bar: 
- * @clickable: 
- * 
+ * @folder_title_bar:
+ * @clickable:
+ *
  * Specify whether the title in the @folder_title_bar is clickable.  If not,
  * the arrow pixmap is not shown.
  **/

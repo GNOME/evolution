@@ -19,7 +19,7 @@
  *
  * Authors:
  *   Ettore Perazzoli <ettore@ximian.com>
- *   Damon Chaplin <damon@ximian.com> 
+ *   Damon Chaplin <damon@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H

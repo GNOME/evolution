@@ -51,7 +51,7 @@ etc_dispose (GObject *object)
 	if (etc->text)
 		g_free (etc->text);
 	etc->text = NULL;
-	
+
 	if (G_OBJECT_CLASS (e_table_col_parent_class)->dispose)
 		G_OBJECT_CLASS (e_table_col_parent_class)->dispose (object);
 }
@@ -84,11 +84,11 @@ etc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 		break;
 	}
 }
- 
+
 static void
 e_table_col_class_init (ETableColClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);	
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = etc_dispose;
 	object_class->set_property = etc_set_property;
@@ -97,9 +97,9 @@ e_table_col_class_init (ETableColClass *klass)
 	g_object_class_install_property (object_class, PROP_COMPARE_COL,
 					 g_param_spec_int ("compare_col",
 							   _( "Width" ),
-							   "Width", 
+							   "Width",
 							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE)); 
+							   G_PARAM_READWRITE));
 }
 
 static void
@@ -112,7 +112,7 @@ e_table_col_init (ETableCol *etc)
 	etc->priority = 0;
 }
 
-/** 
+/**
  * e_table_col_new:
  * @col_idx: the column we represent in the model
  * @text: a title for this column
@@ -126,7 +126,7 @@ e_table_col_init (ETableCol *etc)
  * The ETableCol represents a column to be used inside an ETable.  The
  * ETableCol objects are inserted inside an ETableHeader (which is just a collection
  * of ETableCols).  The ETableHeader is the definition of the order in which
- * columns are shown to the user. 
+ * columns are shown to the user.
  *
  * The @text argument is the the text that will be shown as a header to the
  * user. @col_idx reflects where the data for this ETableCol object will
@@ -135,7 +135,7 @@ e_table_col_init (ETableCol *etc)
  * column will always point to the same column inside the ETableModel.
  *
  * The @ecell argument is an ECell object that needs to know how to render the
- * data in the ETableModel for this specific row. 
+ * data in the ETableModel for this specific row.
  *
  * Returns: the newly created ETableCol object.
  */
@@ -144,7 +144,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 		 ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
 {
 	ETableCol *etc;
-	
+
 	g_return_val_if_fail (expansion >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
 	g_return_val_if_fail (ecell != NULL, NULL);
@@ -152,7 +152,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	g_return_val_if_fail (text != NULL, NULL);
 
 	etc = g_object_new (E_TABLE_COL_TYPE, NULL);
-       
+
 	etc->is_pixbuf = FALSE;
 
 	etc->col_idx = col_idx;
@@ -174,7 +174,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	return etc;
 }
 
-/** 
+/**
  * e_table_col_new_with_pixbuf:
  * @col_idx: the column we represent in the model
  * @pixbuf: the image to be used for the header
@@ -187,7 +187,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  * The ETableCol represents a column to be used inside an ETable.  The
  * ETableCol objects are inserted inside an ETableHeader (which is just a collection
  * of ETableCols).  The ETableHeader is the definition of the order in which
- * columns are shown to the user. 
+ * columns are shown to the user.
  *
  * The @text argument is the the text that will be shown as a header to the
  * user. @col_idx reflects where the data for this ETableCol object will
@@ -196,7 +196,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  * column will always point to the same column inside the ETableModel.
  *
  * The @ecell argument is an ECell object that needs to know how to render the
- * data in the ETableModel for this specific row. 
+ * data in the ETableModel for this specific row.
  *
  * Returns: the newly created ETableCol object.
  */
@@ -205,7 +205,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 			     ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
 {
 	ETableCol *etc;
-	
+
 	g_return_val_if_fail (expansion >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
 	g_return_val_if_fail (ecell != NULL, NULL);

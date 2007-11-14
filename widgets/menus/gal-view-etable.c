@@ -87,7 +87,7 @@ gal_view_etable_edit            (GalView *view, GtkWindow *parent)
 			 G_CALLBACK(config_changed), view);
 }
 
-static void  
+static void
 gal_view_etable_load  (GalView *view,
 		       const char *filename)
 {

@@ -72,7 +72,7 @@ static icalcomponent_kind get_menu_type (void *data);
 void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttachments *t);
 void org_gnome_evolution_import_ics_part (EPlugin *ep, EMPopupTargetPart *t);
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 	g_slist_free (items);
@@ -89,7 +89,7 @@ static EPopupItem popup_tasks_items[] = {
 };
 
 
-void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttachments *t) 
+void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttachments *t)
 {
 	GSList *menus = NULL;
 	icalcomponent_kind kind;
@@ -98,7 +98,7 @@ void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttac
 	CamelContentType *type;
 
 	len = g_slist_length(t->attachments);
-	
+
 	if (len != 1)
 		return;
 
@@ -119,7 +119,7 @@ void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttac
 	}
 }
 
-void org_gnome_evolution_import_ics_part (EPlugin*ep, EMPopupTargetPart *t) 
+void org_gnome_evolution_import_ics_part (EPlugin*ep, EMPopupTargetPart *t)
 {
 	GSList *menus = NULL;
 	icalcomponent_kind kind;
@@ -148,7 +148,7 @@ get_menu_type (void *data)
 	char *path;
 	icalcomponent *icalcomp, *subcomp;
 	icalcomponent_kind kind;
-	EPopupTarget *target = (EPopupTarget *) data;	
+	EPopupTarget *target = (EPopupTarget *) data;
 
 	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
@@ -175,7 +175,7 @@ import_ics (EPlugin *ep, EPopupTarget *t, void *data)
 {
 	CamelMimePart *part;
 	char *path;
-	EPopupTarget *target = (EPopupTarget *) data;	
+	EPopupTarget *target = (EPopupTarget *) data;
 
 	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
@@ -189,7 +189,7 @@ import_ics (EPlugin *ep, EPopupTarget *t, void *data)
 static void
 init_widgets(char *path)
 {
-	
+
 	GtkWidget *vbox, *hbox, *dialog;
 	icalcomponent_kind kind;
 	icalcomponent *subcomp;
@@ -203,8 +203,8 @@ init_widgets(char *path)
 	char *markup;
 
 	g_return_if_fail ( path != NULL);
-	dialog = gtk_dialog_new_with_buttons (_("Import ICS"), 
-						NULL, GTK_DIALOG_DESTROY_WITH_PARENT, 
+	dialog = gtk_dialog_new_with_buttons (_("Import ICS"),
+						NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						NULL);
 	icidata->window = dialog;
@@ -254,7 +254,7 @@ init_widgets(char *path)
 	gtk_box_pack_start (GTK_BOX (hbox), scrolled, TRUE, TRUE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 6);
 	icidata->selector = selector;
-	
+
 
 	/* FIXME What if no sources? */
 	primary = e_source_list_peek_source_any (source_list);
@@ -270,7 +270,7 @@ init_widgets(char *path)
 	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), hbox);
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
-	gtk_widget_grab_focus (button); 
+	gtk_widget_grab_focus (button);
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 210,340);
 	gtk_widget_show_all (dialog);
@@ -287,12 +287,12 @@ dialog_response_cb (GtkDialog *dialog, gint response_id, ICalImporterData *icida
 
 		case GTK_RESPONSE_CANCEL :
 		case GTK_RESPONSE_DELETE_EVENT :
-			gtk_signal_emit_by_name ((GtkObject *)dialog, "close");	
+			gtk_signal_emit_by_name ((GtkObject *)dialog, "close");
 		break;
 	}
 }
 
-static void 
+static void
 dialog_close_cb (GtkDialog *dialog, ICalImporterData *icidata)
 {
 	gtk_widget_destroy ((GtkWidget *)dialog);
@@ -307,7 +307,7 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 
 	if (vtodos)
 		*vtodos = NULL;
-	
+
 	iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
 	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
@@ -356,7 +356,7 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
-static void 
+static void
 import_items(ICalImporterData *icidata)
 {
 	ESource *source;

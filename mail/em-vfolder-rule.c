@@ -68,7 +68,7 @@ GType
 em_vfolder_rule_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMVFolderRuleClass),
@@ -81,10 +81,10 @@ em_vfolder_rule_get_type(void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc)em_vfolder_rule_init,
 		};
-		
+
 		type = g_type_register_static(FILTER_TYPE_RULE, "EMVFolderRule", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -93,11 +93,11 @@ em_vfolder_rule_class_init(EMVFolderRuleClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	FilterRuleClass *fr_class =(FilterRuleClass *)klass;
-	
+
 	parent_class = g_type_class_ref(FILTER_TYPE_RULE);
-	
+
 	object_class->finalize = em_vfolder_rule_finalise;
-	
+
 	/* override methods */
 	fr_class->validate   = validate;
 	fr_class->eq = vfolder_eq;
@@ -119,10 +119,10 @@ static void
 em_vfolder_rule_finalise(GObject *obj)
 {
 	EMVFolderRule *vr =(EMVFolderRule *)obj;
-	
+
 	g_list_foreach(vr->sources, (GFunc)g_free, NULL);
 	g_list_free(vr->sources);
-	
+
         G_OBJECT_CLASS(parent_class)->finalize(obj);
 }
 
@@ -130,7 +130,7 @@ em_vfolder_rule_finalise(GObject *obj)
  * em_vfolder_rule_new:
  *
  * Create a new EMVFolderRule object.
- * 
+ *
  * Return value: A new #EMVFolderRule object.
  **/
 EMVFolderRule *
@@ -144,9 +144,9 @@ em_vfolder_rule_add_source(EMVFolderRule *vr, const char *uri)
 {
 	g_return_if_fail (EM_IS_VFOLDER_RULE(vr));
 	g_return_if_fail (uri);
-	
+
 	vr->sources = g_list_append(vr->sources, g_strdup(uri));
-	
+
 	filter_rule_emit_changed((FilterRule *)vr);
 }
 
@@ -154,9 +154,9 @@ const char *
 em_vfolder_rule_find_source(EMVFolderRule *vr, const char *uri)
 {
 	GList *l;
-	
+
 	g_return_val_if_fail (EM_IS_VFOLDER_RULE(vr), NULL);
-	
+
 	/* only does a simple string or address comparison, should
 	   probably do a decoded url comparison */
 	l = vr->sources;
@@ -165,7 +165,7 @@ em_vfolder_rule_find_source(EMVFolderRule *vr, const char *uri)
 			return l->data;
 		l = l->next;
 	}
-	
+
 	return NULL;
 }
 
@@ -173,9 +173,9 @@ void
 em_vfolder_rule_remove_source(EMVFolderRule *vr, const char *uri)
 {
 	char *found;
-	
+
 	g_return_if_fail (EM_IS_VFOLDER_RULE(vr));
-	
+
 	found =(char *)em_vfolder_rule_find_source(vr, uri);
 	if (found) {
 		vr->sources = g_list_remove(vr->sources, found);
@@ -188,7 +188,7 @@ const char *
 em_vfolder_rule_next_source(EMVFolderRule *vr, const char *last)
 {
 	GList *node;
-	
+
 	if (last == NULL) {
 		node = vr->sources;
 	} else {
@@ -198,10 +198,10 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const char *last)
 		else
 			node = g_list_next(node);
 	}
-	
+
 	if (node)
 		return (const char *)node->data;
-	
+
 	return NULL;
 }
 
@@ -209,13 +209,13 @@ static int
 validate(FilterRule *fr)
 {
 	g_return_val_if_fail(fr != NULL, 0);
-	
+
 	if (!fr->name || !*fr->name) {
 		/* FIXME: set a parent window? */
 		e_error_run(NULL, "mail:no-name-vfolder", NULL);
 		return 0;
 	}
-	
+
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
 	if (((EMVFolderRule *)fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC && ((EMVFolderRule *)fr)->sources == NULL) {
@@ -223,7 +223,7 @@ validate(FilterRule *fr)
 		e_error_run(NULL, "mail:vfolder-no-source", NULL);
 		return 0;
 	}
-	
+
 	return FILTER_RULE_CLASS(parent_class)->validate(fr);
 }
 
@@ -231,15 +231,15 @@ static int
 list_eq(GList *al, GList *bl)
 {
 	int truth = TRUE;
-	
+
 	while (truth && al && bl) {
 		char *a = al->data, *b = bl->data;
-		
+
 		truth = strcmp(a, b)== 0;
 		al = al->next;
 		bl = bl->next;
 	}
-	
+
 	return truth && al == NULL && bl == NULL;
 }
 
@@ -271,7 +271,7 @@ xml_encode(FilterRule *fr)
 		xmlAddChild(set, work);
 		l = l->next;
 	}
-	
+
 	return node;
 }
 
@@ -297,11 +297,11 @@ xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 	int result;
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	char *tmp;
-	
+
         result = FILTER_RULE_CLASS(parent_class)->xml_decode(fr, node, f);
 	if (result != 0)
 		return result;
-	
+
 	/* handle old format file, vfolder source is in filterrule */
 	if (strcmp(fr->source, "incoming")!= 0) {
 		set_with(vr, fr->source);
@@ -339,20 +339,20 @@ rule_copy(FilterRule *dest, FilterRule *src)
 {
 	EMVFolderRule *vdest, *vsrc;
 	GList *node;
-	
+
 	vdest =(EMVFolderRule *)dest;
 	vsrc =(EMVFolderRule *)src;
-	
+
 	if (vdest->sources) {
 		g_list_foreach(vdest->sources, (GFunc)g_free, NULL);
 		g_list_free(vdest->sources);
 		vdest->sources = NULL;
 	}
-	
+
 	node = vsrc->sources;
 	while (node) {
 		char *uri = node->data;
-		
+
 		vdest->sources = g_list_append(vdest->sources, g_strdup(uri));
 		node = node->next;
 	}
@@ -402,13 +402,13 @@ select_source(GtkWidget *list, struct _source_data *data)
 	GtkTreeViewColumn *column;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	
+
 	gtk_tree_view_get_cursor(data->list, &path, &column);
 	gtk_tree_model_get_iter(GTK_TREE_MODEL(data->model), &iter, path);
 	gtk_tree_path_free(path);
-	
+
 	gtk_tree_model_get(GTK_TREE_MODEL(data->model), &iter, 0, &data->current, -1);
-	
+
 	set_sensitive(data);
 }
 
@@ -417,7 +417,7 @@ select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 {
 	em_vfolder_rule_with_t with = 0;
 	GSList *group = NULL;
-	gint i = 0;	
+	gint i = 0;
 
 	if ( !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) )
 		return;
@@ -425,7 +425,7 @@ select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
 	for (i=0; i< g_slist_length(group); i++) {
-		if ( g_slist_nth_data (group, with = i) == widget ) 
+		if ( g_slist_nth_data (group, with = i) == widget )
 			break;
 	}
 
@@ -481,11 +481,11 @@ vfr_folder_response(GtkWidget *dialog, gint button, struct _source_data *data)
 		char *urinice, *euri;
 		GtkTreeSelection *selection;
 		GtkTreeIter iter;
-	
+
 		euri = em_uri_from_camel(uri);
 
 		data->vr->sources = g_list_append(data->vr->sources, euri);
-		
+
 		gtk_list_store_append(data->model, &iter);
 		urinice = format_source(euri);
 		gtk_list_store_set(data->model, &iter, 0, urinice, 1, euri, -1);
@@ -505,10 +505,10 @@ source_add(GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *emft;
 	GtkWidget *dialog;
-	
+
 	emft =(EMFolderTree *)em_folder_tree_new_with_model(mail_component_peek_tree_model(mail_component_peek()));
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT);
-	
+
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL, _("_Add"));
 	gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));
 	gtk_window_set_modal((GtkWindow *)dialog, TRUE);
@@ -525,44 +525,44 @@ source_remove(GtkWidget *widget, struct _source_data *data)
 	GtkTreeIter iter;
 	int index = 0;
 	int n;
-	
+
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data->list));
-	
+
 	source = NULL;
 	while ((source = em_vfolder_rule_next_source(data->vr, source))) {
 		path = gtk_tree_path_new();
 		gtk_tree_path_append_index(path, index);
-		
+
 		if (gtk_tree_selection_path_is_selected(selection, path)) {
 			gtk_tree_model_get_iter(GTK_TREE_MODEL(data->model), &iter, path);
-			
+
 			em_vfolder_rule_remove_source(data->vr, source);
 			gtk_list_store_remove(data->model, &iter);
 			gtk_tree_path_free(path);
-			
+
 			/* now select the next rule */
 			n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(data->model), NULL);
 			index = index >= n ? n - 1 : index;
-			
+
 			if (index >= 0) {
 				path = gtk_tree_path_new();
 				gtk_tree_path_append_index(path, index);
 				gtk_tree_model_get_iter(GTK_TREE_MODEL(data->model), &iter, path);
 				gtk_tree_path_free(path);
-				
+
 				gtk_tree_selection_select_iter(selection, &iter);
 				gtk_tree_model_get(GTK_TREE_MODEL(data->model), &iter, 0, &data->current, -1);
 			} else {
 				data->current = NULL;
 			}
-			
+
 			break;
 		}
-		
+
 		index++;
 		gtk_tree_path_free(path);
 	}
-	
+
 	set_sensitive(data);
 }
 
@@ -577,32 +577,32 @@ em_vfolder_editor_sourcelist_new(char *widget_name, char *string1, char *string2
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkListStore *model;
-	
+
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	
+
 	model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
 	table = gtk_tree_view_new_with_model((GtkTreeModel *)model);
 	gtk_tree_view_set_headers_visible((GtkTreeView *)table, FALSE);
-	
+
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes((GtkTreeView *)table, -1,
 						     _("Search Folder source"), renderer,
 						     "text", 0, NULL);
-	
+
 	selection = gtk_tree_view_get_selection((GtkTreeView *)table);
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-	
+
 	gtk_container_add(GTK_CONTAINER(scrolled), table);
-	
+
 	g_object_set_data((GObject *)scrolled, "table", table);
 	g_object_set_data((GObject *)scrolled, "model", model);
-	
+
 	gtk_widget_show(scrolled);
 	gtk_widget_show(table);
-	
+
 	g_object_unref (model);
 
 	return scrolled;
@@ -620,13 +620,13 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	GladeXML *gui;
 	int i;
 	char *gladefile;
-	
+
         widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
-	
+
 	data = g_malloc0(sizeof(*data));
 	data->rc = rc;
 	data->vr = vr;
-	
+
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-dialogs.glade",
 				      NULL);
@@ -634,18 +634,18 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	g_free (gladefile);
 
         frame = glade_xml_get_widget(gui, "vfolder_source_frame");
-	
+
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);
-	
+
 	for(i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] =(GtkButton *)glade_xml_get_widget(gui, edit_buttons[i].name);
 		g_signal_connect(data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
-	
+
 	list = glade_xml_get_widget(gui, "source_list");
 	data->list =(GtkTreeView *)g_object_get_data((GObject *)list, "table");
 	data->model =(GtkListStore *)g_object_get_data((GObject *)list, "model");
-	
+
 	source = NULL;
 	while ((source = em_vfolder_rule_next_source(vr, source))) {
 		char *nice = format_source(source);
@@ -654,9 +654,9 @@ get_widget(FilterRule *fr, RuleContext *rc)
 		gtk_list_store_set(data->model, &iter, 0, nice, 1, source, -1);
 		g_free(nice);
 	}
-	
+
 	g_signal_connect(data->list, "cursor-changed", G_CALLBACK(select_source), data);
-	
+
 	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "local_rb");
 	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
 
@@ -674,12 +674,12 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	rb = g_slist_nth_data(gtk_radio_button_get_group (rb), vr->with);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb), TRUE);
 	gtk_signal_emit_by_name (GTK_OBJECT (rb), "toggled");
-	
+
 	set_sensitive(data);
-		
+
 	g_object_unref(gui);
 
 	gtk_box_pack_start(GTK_BOX(widget), frame, TRUE, TRUE, 3);
-	
+
 	return widget;
 }

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-corba-utils.h
- * 
+ *
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Ettore Perazzoli <ettore@ximian.com>
  *

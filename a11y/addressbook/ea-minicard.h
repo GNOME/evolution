@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * ea-minicard.h
  * Copyright (C) 2000  Ximian, Inc.
  *
@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- * 
+ *
  * Author: Leon Zhang <leon.zhang@sun.com> Sun Microsystem Inc., 2003
  */
 #ifndef __EA_MINICARD_H__

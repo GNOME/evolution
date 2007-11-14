@@ -59,7 +59,7 @@ gint         e_itip_control_get_data_size    (EItipControl *itip);
 void         e_itip_control_set_from_address (EItipControl *itip,
 					      const gchar  *address);
 const gchar *e_itip_control_get_from_address (EItipControl *itip);
-void         e_itip_control_set_view_only (EItipControl *itip, 
+void         e_itip_control_set_view_only (EItipControl *itip,
 					   gboolean view_only);
 gboolean     e_itip_control_get_view_only (EItipControl *itip);
 void         e_itip_control_set_delegator_address   (EItipControl *itip,

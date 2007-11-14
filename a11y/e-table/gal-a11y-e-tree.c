@@ -106,11 +106,11 @@ et_init (GalA11yETree *a11y)
 
 /**
  * gal_a11y_e_tree_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETree class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETree class.
  **/
 GType

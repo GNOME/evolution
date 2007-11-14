@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-addressbook-view.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -212,32 +212,32 @@ eab_view_class_init (EABViewClass *klass)
 	object_class->get_property = eab_view_get_property;
 	object_class->dispose = eab_view_dispose;
 
-	g_object_class_install_property (object_class, PROP_BOOK, 
+	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_SOURCE, 
+	g_object_class_install_property (object_class, PROP_SOURCE,
 					 g_param_spec_object ("source",
 							      _("Source"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_SOURCE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_QUERY, 
+	g_object_class_install_property (object_class, PROP_QUERY,
 					 g_param_spec_string ("query",
 							      _("Query"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_TYPE, 
+	g_object_class_install_property (object_class, PROP_TYPE,
 					 g_param_spec_int ("type",
 							   _("Type"),
 							   /*_( */"XXX blurb" /*)*/,
-							   EAB_VIEW_NONE, 
+							   EAB_VIEW_NONE,
 							   EAB_VIEW_TABLE,
 							   EAB_VIEW_NONE,
 							   G_PARAM_READWRITE));
@@ -361,7 +361,7 @@ eab_view_dispose (GObject *object)
 		gtk_widget_destroy (eav->invisible);
 		eav->invisible = NULL;
 	}
-	
+
 	/*
 	if (eav->search_context) {
 		g_object_unref (eav->search_context);
@@ -450,13 +450,13 @@ eab_view_new (void)
 				   rule_context_add_part, rule_context_next_part);
 	rule_context_add_rule_set (eav->search_context, "ruleset", filter_rule_get_type (),
 				   rule_context_add_rule, rule_context_next_rule);
-	
+
 	userfile = g_build_filename ( g_get_home_dir (), ".evolution/addressbook/searches.xml", NULL);
 	xmlfile = g_build_filename (SEARCH_RULE_DIR, "addresstypes.xml", NULL);
-	
+
 	g_object_set_data_full (G_OBJECT (eav->search_context), "user", userfile, g_free);
 	g_object_set_data_full (G_OBJECT (eav->search_context), "system", xmlfile, g_free);
-	
+
 	rule_context_load (eav->search_context, xmlfile, userfile);
 
 	eav->search_rule = filter_rule_new ();
@@ -468,7 +468,7 @@ eab_view_new (void)
 		filter_rule_add_part (eav->search_rule, filter_part_clone (part));
 
 	eav->search = e_filter_bar_new (eav->search_context, xmlfile, userfile, NULL, eav);
-	
+
 	g_free (xmlfile);
 	g_free (userfile);
 
@@ -508,9 +508,9 @@ eab_view_new (void)
 				  clipboard_atom,
 				  GDK_SELECTION_TYPE_STRING,
 				  0);
-		
+
 	g_signal_connect (eav->invisible, "selection_get",
-			  G_CALLBACK (selection_get), 
+			  G_CALLBACK (selection_get),
 			  eav);
 	g_signal_connect (eav->invisible, "selection_clear_event",
 			  G_CALLBACK (selection_clear_event),
@@ -604,7 +604,7 @@ set_view_preview (EABView *view)
 				      state ? "1" : "0", NULL);
 
 	eab_view_show_contact_preview (view, state);
-	
+
 	g_object_unref (gconf_client);
 }
 
@@ -1005,7 +1005,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 		contact_and_book->closure = cards;
 		e_selection_model_foreach(selection_model, get_card_1, contact_and_book);
 	}
-	
+
 	/** @HookPoint-EABPopup:Addressbook view Context Menu
 	 * @Id: org.gnome.evolution.addressbook.view.popup
 	 * @Class: org.gnome.evolution.addresbook.popup:1.0
@@ -1055,7 +1055,7 @@ selection_changed (GObject *o, EABView *view)
 		eab_contact_display_render (EAB_CONTACT_DISPLAY (view->contact_display), NULL,
 					    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
 	}
-					    
+
 }
 
 static void
@@ -1069,7 +1069,7 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 		g_object_get(model,
 			     "book", &book,
 			     NULL);
-		
+
 		g_return_if_fail (E_IS_BOOK (book));
 
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
@@ -1228,10 +1228,10 @@ contacts_removed (EABModel *model, gpointer data, EABView *eav)
 	gint i;
 
 	for (i = 0; i < count; i ++) {
-	
-		
+
+
 		if (eav->displayed_contact == g_array_index (indices, gint, i)) {
-			
+
 			/* if the contact that's presently displayed is changed, clear the display */
 			eab_contact_display_render (EAB_CONTACT_DISPLAY (eav->contact_display), NULL,
 						    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
@@ -1288,7 +1288,7 @@ create_table_view (EABView *view)
 	ETableModel *adapter;
 	GtkWidget *table;
 	char *etspecfile;
-	
+
 	adapter = eab_table_adapter_new(view->model);
 
 	/* Here we create the table.  We give it the three pieces of
@@ -1315,7 +1315,7 @@ create_table_view (EABView *view)
 	/* drag & drop signals */
 	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
 				 drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
-	
+
 	g_signal_connect (E_TABLE_SCROLLED(table)->table,
 			  "table_drag_data_get",
 			  G_CALLBACK (table_drag_data_get),
@@ -1396,14 +1396,14 @@ search_activated (ESearchBar *esb, EABView *v)
 			}
 			g_string_free (s, TRUE);
 
-		} else 
+		} else
 			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 
 		/* Merge view and sexp */
 		subid = e_search_bar_get_viewitem_id (esb);
 
 		if (subid) {
-			master_list = get_master_list (); 
+			master_list = get_master_list ();
 			category_name = g_list_nth_data (master_list, subid-1);
 			view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
 			search_query = g_strconcat ("(and ", view_sexp, search_query, ")", NULL);
@@ -1460,7 +1460,7 @@ compare_subitems (const void *a, const void *b)
 
 	g_free (collate_a);
 	g_free (collate_b);
-	
+
 	return ret;
 }
 
@@ -1502,7 +1502,7 @@ make_suboptions (EABView *view)
 	GList *master_list;
 	gint i, N;
 	GtkWidget *menu;
-	
+
 	master_list = get_master_list ();
 	N = g_list_length (master_list);
 	subitems = g_new (EABSearchBarItem, N+2);
@@ -1521,7 +1521,7 @@ make_suboptions (EABView *view)
 	subitems[N+1].search.id = -1;
 	subitems[N+1].search.text = NULL;
 	subitems[N+1].image = NULL;
-	
+
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
 	menu = generate_viewoption_menu (subitems);
 	e_search_bar_set_viewoption_menu ((ESearchBar *)view->search, menu);
@@ -1620,7 +1620,7 @@ eab_view_setup_menus (EABView *view,
 /**
  * eab_view_discard_menus:
  * @view: An addressbook view.
- * 
+ *
  * Makes an addressbook view discard its GAL view menus and its views instance
  * objects.  This should be called when the corresponding Bonobo component is
  * deactivated.
@@ -1688,8 +1688,8 @@ eab_view_print (EABView *view, GtkPrintOperationAction action)
 	}
 }
 
-/* callback function to handle removal of contacts for 
- * which a user doesnt have write permission  
+/* callback function to handle removal of contacts for
+ * which a user doesnt have write permission
  */
 static void delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 {
@@ -1715,10 +1715,10 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	EContact *contact;
 	ETable *etable = NULL;
 	EMinicardView *card_view;
-	ESelectionModel *selection_model = NULL; 
+	ESelectionModel *selection_model = NULL;
 	char *name = NULL;
 	gint row = 0, select;
-	
+
 	list = get_selected_contacts (view);
 	contact = list->data;
 
@@ -1738,11 +1738,11 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 
 	else if (view->view_type == EAB_VIEW_TABLE) {
 		etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(view->widget));
-		row = e_table_get_cursor_row (E_TABLE (etable)); 
+		row = e_table_get_cursor_row (E_TABLE (etable));
 	}
 
 	/* confirm delete */
-	if (is_delete && 
+	if (is_delete &&
 	    !eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
 				       plural, is_list, name)) {
 		g_free (name);
@@ -1765,7 +1765,7 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 					      ids,
 					      delete_contacts_cb,
 					      NULL);
-			
+
 		g_list_free (ids);
 	}
 	else {
@@ -1778,14 +1778,14 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 						     NULL);
 		}
 	}
-	
+
 	/* Sets the cursor, at the row after the deleted row */
-	if (view->view_type == EAB_VIEW_MINICARD && row!=0) { 
+	if (view->view_type == EAB_VIEW_MINICARD && row!=0) {
 		select = e_sorter_model_to_sorted (selection_model->sorter, row);
 
 	/* Sets the cursor, before the deleted row if its the last row */
 		if (select == e_selection_model_row_count (selection_model) - 1)
-			select = select - 1; 
+			select = select - 1;
 		else
 			select = select + 1;
 
@@ -1795,12 +1795,12 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 
 	/* Sets the cursor, at the row after the deleted row */
 	else if (view->view_type == EAB_VIEW_TABLE && row!=0) {
-		select = e_table_model_to_view_row (E_TABLE (etable), row); 
-		
+		select = e_table_model_to_view_row (E_TABLE (etable), row);
+
 	/* Sets the cursor, before the deleted row if its the last row */
 		if (select == e_table_model_row_count (E_TABLE(etable)->model) - 1)
 			select = select - 1;
-		else 
+		else
 			select = select + 1;
 
 		row = e_table_view_to_model_row (E_TABLE (etable), select);
@@ -1864,7 +1864,7 @@ selection_received (GtkWidget *invisible,
 			contact_list = eab_contact_list_from_string (str);
 		} else
 			contact_list = eab_contact_list_from_string ((char *)selection_data->data);
-		
+
 		for (l = contact_list; l; l = l->next) {
 			EContact *contact = l->data;
 
@@ -1907,15 +1907,15 @@ eab_view_save_as (EABView *view, gboolean all)
 {
 	GList *list = NULL;
 	EBook *book ;
-	
-	g_object_get(view->model, 
+
+	g_object_get(view->model,
 		     "book", &book,
 		     NULL);
 
 	if (all) {
 		EBookQuery *query = e_book_query_any_field_contains("");
 		e_book_get_contacts(book, query, &list, NULL);
-	        e_book_query_unref(query);	
+	        e_book_query_unref(query);
 	}
 	else {
 		list = get_selected_contacts(view);
@@ -1987,7 +1987,7 @@ eab_view_copy (EABView *view)
 	{
 		gtk_html_copy (GTK_HTML (view->contact_display));
 	}
-	else 
+	else
 	{
 		view->clipboard_contacts = get_selected_contacts (view);
 
@@ -2035,14 +2035,14 @@ view_transfer_contacts (EABView *view, gboolean delete_from_source, gboolean all
 	GList *contacts = NULL;
 	GtkWindow *parent_window;
 
-	g_object_get(view->model, 
+	g_object_get(view->model,
 		     "book", &book,
 		     NULL);
 
 	if (all) {
 		EBookQuery *query = e_book_query_any_field_contains("");
 		e_book_get_contacts(book, query, &contacts, NULL);
-	        e_book_query_unref(query);	
+	        e_book_query_unref(query);
 	}
 	else {
 		contacts = get_selected_contacts (view);
@@ -2102,13 +2102,13 @@ eab_view_can_view (EABView  *view)
 	return view ? eab_view_selection_nonempty (view) : FALSE;
 }
 
-gboolean 
+gboolean
 eab_view_can_send (EABView  *view)
 {
 	return view ? eab_view_selection_nonempty (view) : FALSE;
 }
 
-gboolean   
+gboolean
 eab_view_can_send_to (EABView  *view)
 {
 	return view ? eab_view_selection_nonempty (view) : FALSE;

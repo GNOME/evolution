@@ -70,7 +70,7 @@
 struct _EDateEditPrivate {
 	GtkWidget *date_entry;
 	GtkWidget *date_button;
-	
+
 	GtkWidget *space;
 
 	GtkWidget *time_combo;
@@ -241,7 +241,7 @@ e_date_edit_get_type		(void)
 
 		date_edit_type = g_type_register_static (GTK_TYPE_HBOX, "EDateEdit", &date_edit_info, 0);
 	}
-	
+
 	return date_edit_type;
 }
 
@@ -308,7 +308,7 @@ e_date_edit_init		(EDateEdit	*dedit)
  *
  * Description: Creates a new #EDateEdit widget which can be used
  * to provide an easy to use way for entering dates and times.
- * 
+ *
  * Returns: a new #EDateEdit widget.
  */
 GtkWidget *
@@ -344,7 +344,7 @@ create_children			(EDateEdit	*dedit)
 	atk_object_set_name (a11y, _("Date"));
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	gtk_widget_set_size_request (priv->date_entry, 100, -1);
-	
+
 	g_signal_connect (priv->date_entry, "key_press_event",
 			  G_CALLBACK (on_date_entry_key_press),
 			  dedit);
@@ -388,7 +388,7 @@ create_children			(EDateEdit	*dedit)
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
 	priv->time_combo = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (time_store), 0);
 	g_object_unref (time_store);
-	
+
 	/* We need to make sure labels are right-aligned, since we want digits to line up,
 	 * and with a nonproportional font, the width of a space != width of a digit.
 	 * Technically, only 12-hour format needs this, but we do it always, for consistency. */
@@ -592,7 +592,7 @@ e_date_edit_get_time		(EDateEdit	*dedit)
 	struct tm tmp_tm = { 0 };
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), -1);
-	
+
 	priv = dedit->priv;
 
 	/* Try to parse any new value now. */
@@ -832,7 +832,7 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 			       date_edit_signals [CHANGED], 0);
 }
 
-void 
+void
 e_date_edit_set_date_and_time_of_day       (EDateEdit      *dedit,
 					    gint            year,
 					    gint            month,
@@ -848,7 +848,7 @@ e_date_edit_set_date_and_time_of_day       (EDateEdit      *dedit,
 						      year - 1900, month - 1, day);
 	time_changed = e_date_edit_set_time_internal (dedit, TRUE, FALSE,
 						      hour, minute);
-	
+
 	e_date_edit_update_date_entry (dedit);
 	e_date_edit_update_time_entry (dedit);
 	e_date_edit_update_time_combo_state (dedit);
@@ -1570,7 +1570,7 @@ on_time_entry_key_press			(GtkWidget	*widget,
 {
 	/* I'd like to use Alt+Up/Down for popping up the list, like Win32,
 	   but the combo steals any Up/Down keys, so we use Alt+Return. */
-#if 0	   
+#if 0
 	if (event->state & GDK_MOD1_MASK
 	    && (event->keyval == GDK_Up || event->keyval == GDK_Down)) {
 #else
@@ -1630,7 +1630,7 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 	tmp_tm.tm_year = 0;
         tmp_tm.tm_mon = 0;
         tmp_tm.tm_mday = 0;
-	
+
 	e_date_edit_check_date_changed (dedit);
 
 	if (!e_date_edit_date_is_valid (dedit)) {
@@ -1643,7 +1643,7 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
 		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
-		gtk_widget_grab_focus (GTK_WIDGET (entry));		
+		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		return FALSE;
 	}
 	return FALSE;
@@ -1656,7 +1656,7 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 					 EDateEdit	*dedit)
 {
 	GtkWidget *msg_dialog;
-	
+
 	e_date_edit_check_time_changed (dedit);
 
 	if (!e_date_edit_time_is_valid (dedit)) {
@@ -1732,7 +1732,7 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 		tmp_tm.tm_mday = priv->day;
 		tmp_tm.tm_isdst = -1;
 
-		/* This is a strftime() format for a short date. 
+		/* This is a strftime() format for a short date.
 		   %x the preferred date representation for the current locale without the time*/
 		e_utf8_strftime (buffer, sizeof (buffer), "%x", &tmp_tm);
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);

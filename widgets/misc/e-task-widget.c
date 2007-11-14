@@ -95,7 +95,7 @@ static void
 e_task_widget_class_init (ETaskWidgetClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
+
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 }
@@ -149,7 +149,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_widget_show (box);
 
 	gtk_widget_set_size_request (box, 1, -1);
-	
+
 	/* FIXME: Experimenting Spinner widget instead of an image. REWORK THIS */
 	/* priv->icon_pixbuf = g_object_ref (icon_pixbuf); */
 
@@ -239,7 +239,7 @@ e_task_wiget_unalert (ETaskWidget *task_widget)
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
 }
-	
+
 
 const char *
 e_task_widget_get_component_id  (ETaskWidget *task_widget)

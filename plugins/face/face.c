@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Author: Sankar P <psankar@novell.com>
- *   
+ *
  *  Copyright 2004 Novell, Inc. (www.novell.com)
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 #include <mail/em-menu.h>
 #include <e-util/e-error.h>
 
-#define d(x) x 
+#define d(x) x
 
 void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * target);
 int e_plugin_lib_configure (EPlugin * ep);

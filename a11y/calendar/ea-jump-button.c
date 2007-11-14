@@ -110,7 +110,7 @@ ea_jump_button_class_init (EaJumpButtonClass *klass)
 	class->get_description = ea_jump_button_get_description;
 }
 
-AtkObject* 
+AtkObject*
 ea_jump_button_new (GObject *obj)
 {
 	AtkObject *atk_obj = NULL;
@@ -197,7 +197,7 @@ jump_button_do_action (AtkAction *action,
 	    return_value = FALSE;
       break;
     }
-  return return_value; 
+  return return_value;
 }
 
 static gint
@@ -222,5 +222,5 @@ jump_button_get_keybinding (AtkAction *action,
     default:
       break;
     }
-  return return_value; 
+  return return_value;
 }

@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -141,7 +141,7 @@ e_day_view_time_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EDayViewTimeItem *dvtmitem;
 
 	dvtmitem = E_DAY_VIEW_TIME_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_DAY_VIEW:
 		dvtmitem->day_view = GTK_VALUE_POINTER (*arg);
@@ -333,12 +333,12 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 		struct icaltimetype time_now;
 		int marcus_bains_y;
 		GdkColor mb_color;
-		
+
 		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
 			GdkColormap *colormap;
-			
+
 			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
 			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
 				gdk_gc_set_foreground (gc, &mb_color);
@@ -557,13 +557,13 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 		struct icaltimetype time_now;
 		int marcus_bains_y;
 		GdkColor mb_color;
-		
+
 		cairo_save (cr);
 		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
 			GdkColormap *colormap;
-			
+
 			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
 			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
 				gdk_cairo_set_source_color (cr, &mb_color);
@@ -625,7 +625,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			layout = pango_cairo_create_layout (cr);
 			pango_layout_set_text (layout, buffer, -1);
 			pango_layout_get_pixel_size (layout, &minute_width, NULL);
-			cairo_translate (cr, minute_x2 - minute_width, row_y + small_font_y_offset);	
+			cairo_translate (cr, minute_x2 - minute_width, row_y + small_font_y_offset);
 			pango_cairo_update_layout (cr, layout);
 			pango_cairo_show_layout (cr, layout);
 			cairo_restore (cr);
@@ -800,7 +800,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 
 	for (i = 0; i < num_divisions; i++) {
 		g_snprintf (buffer, sizeof (buffer),
-		/* TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry 
+		/* TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry
 		 * to change the length of the time division in the calendar day view, e.g.
 		 * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 		 */

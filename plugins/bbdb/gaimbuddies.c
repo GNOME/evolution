@@ -19,10 +19,10 @@
  *  modify, merge, publish, distribute, sublicense, and/or sell copies
  *  of the Software, and to permit persons to whom the Software is
  *  furnished to do so, subject to the following conditions:
- *  
+ *
  *  The above copyright notice and this permission notice shall be
  *  included in all copies or substantial portions of the Software.
- *  
+ *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,7 +32,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *  DEALINGS IN THE SOFTWARE.
  */
- 
+
 #include <glib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -84,7 +84,7 @@ bbdb_sync_buddy_list_check (void)
 	char *last_sync_str;
 
 	gconf = gconf_client_get_default ();
-	
+
 	blist_path = g_build_path ("/", getenv ("HOME"), ".purple/blist.xml", NULL);
 	if (stat (blist_path, &statbuf) < 0) {
 		g_free (blist_path);
@@ -173,14 +173,14 @@ bbdb_sync_buddy_list (void)
 			g_object_unref (G_OBJECT (c));
 			continue;
 		}
-		
+
 		if (! e_book_add_contact (book, c, &error)) {
 			g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
 			g_error_free (error);
 			return;
 		}
 		g_object_unref (G_OBJECT (c));
-		
+
 	}
 
 
@@ -422,7 +422,7 @@ parse_contact (xmlNodePtr contact, GList **buddies)
 			gb->account_name = get_node_text (child);
 		else if (! strcmp ((const char *)child->name, "alias"))
 			gb->alias = get_node_text (child);
-			
+
 	}
 
 	*buddies = g_list_prepend (*buddies, gb);

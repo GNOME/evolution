@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-example-2.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -165,7 +165,7 @@ my_value_at (ETableModel *etc, int col, int row, void *data)
 static void
 my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
 {
-	if (col == COLOR_COLUMN){ 
+	if (col == COLOR_COLUMN){
 	} else if (col == IMPORTANCE_COLUMN){
 		importance_data[row] = (gboolean) val;
 	} else {
@@ -280,14 +280,14 @@ create_table ()
 
 	  First we create the header.  */
 	e_table_header = e_table_header_new ();
-	
+
 	/* Next we have to build renderers for all of the columns.
 	   Since all our columns are text columns, we can simply use
 	   the same renderer over and over again.  If we had different
 	   types of columns, we could use a different renderer for
 	   each column. */
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
-		
+
 	/* Next we create a column object for each view column and add
 	   them to the header.  We don't create a column object for
 	   the importance column since it will not be shown. */
@@ -300,7 +300,7 @@ create_table ()
 		/* Add it to the header. */
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
-       
+
 	/* Next we add a special column for the check box. */
 
 	cell_checkbox = e_cell_checkbox_new ();
@@ -343,7 +343,7 @@ main (int argc, char *argv [])
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	create_table ();
-	
+
 	gtk_main ();
 
 	e_cursors_shutdown ();

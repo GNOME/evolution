@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-item.h
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -55,7 +55,7 @@ typedef struct {
 	int              cols, rows;
 
 	int              click_count;
-	
+
 	/*
 	 * Ids for the signals we connect to
 	 */
@@ -84,7 +84,7 @@ typedef struct {
 	int              hadjustment_value_change_id;
 	int              vadjustment_change_id;
 	int              vadjustment_value_change_id;
-	
+
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
 	GdkGC           *focus_gc;
@@ -96,7 +96,7 @@ typedef struct {
 	guint 		 draw_focus:1;
 	guint 		 uniform_row_height:1;
 	guint 		 cell_views_realized:1;
-	      	    
+
 	guint 		 needs_redraw : 1;
 	guint 		 needs_compute_height : 1;
 	guint 		 needs_compute_width : 1;
@@ -146,7 +146,7 @@ typedef struct {
 	 * the size
 	 */
 	int              length_threshold;
-	
+
 	gint             row_guess;
 	ECursorMode      cursor_mode;
 

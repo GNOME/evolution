@@ -31,8 +31,8 @@ G_BEGIN_DECLS
 
 void e_cert_trust_init (CERTCertTrust *trust);
 void e_cert_trust_init_with_values (CERTCertTrust *trust,
-				    unsigned int ssl, 
-				    unsigned int email, 
+				    unsigned int ssl,
+				    unsigned int email,
 				    unsigned int objsign);
 void e_cert_trust_copy (CERTCertTrust *dst_trust, CERTCertTrust *src_trust);
 void e_cert_trust_add_ca_trust (CERTCertTrust *trust, PRBool ssl, PRBool email, PRBool objSign);
@@ -58,25 +58,25 @@ void e_cert_trust_set_trusted_peer (CERTCertTrust *trust);
 void e_cert_trust_set_user (CERTCertTrust *trust);
 PRBool e_cert_trust_has_any_ca (CERTCertTrust *trust);
 PRBool e_cert_trust_has_ca (CERTCertTrust *trust,
-			      PRBool checkSSL, 
-			      PRBool checkEmail,  
+			      PRBool checkSSL,
+			      PRBool checkEmail,
 			      PRBool checkObjSign);
 PRBool e_cert_trust_has_peer (CERTCertTrust *trust,
-				PRBool checkSSL, 
-				PRBool checkEmail,  
+				PRBool checkSSL,
+				PRBool checkEmail,
 				PRBool checkObjSign);
 PRBool e_cert_trust_has_any_user (CERTCertTrust *trust);
 PRBool e_cert_trust_has_user (CERTCertTrust *trust,
-				PRBool checkSSL, 
-				PRBool checkEmail,  
+				PRBool checkSSL,
+				PRBool checkEmail,
 				PRBool checkObjSign);
 PRBool e_cert_trust_has_trusted_ca (CERTCertTrust *trust,
-				      PRBool checkSSL, 
-				      PRBool checkEmail,  
+				      PRBool checkSSL,
+				      PRBool checkEmail,
 				      PRBool checkObjSign);
 PRBool e_cert_trust_has_trusted_peer (CERTCertTrust *trust,
-					PRBool checkSSL, 
-					PRBool checkEmail,  
+					PRBool checkSSL,
+					PRBool checkEmail,
 					PRBool checkObjSign);
 void e_cert_trust_add_trust (unsigned int *t, unsigned int v);
 PRBool e_cert_trust_has_trust (unsigned int t, unsigned int v);

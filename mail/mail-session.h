@@ -52,7 +52,7 @@ void mail_session_flush_filter_log (void);
 void mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plugin);
 
 const GList * mail_session_get_junk_plugins (void);
-	
+
 extern CamelSession *session;
 
 #ifdef __cplusplus

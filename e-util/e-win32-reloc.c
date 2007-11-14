@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-win32-reloc.c: Support relocatable installation on Win32
  * Copyright 2005, Novell, Inc.
  *
@@ -94,8 +94,8 @@ replace_prefix (const char *runtime_prefix,
 static void
 setup (void)
 {
-	char *full_prefix;  
-	char *cp_prefix; 
+	char *full_prefix;
+	char *cp_prefix;
 
         G_LOCK (mutex);
         if (localedir != NULL) {

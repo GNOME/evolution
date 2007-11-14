@@ -78,7 +78,7 @@ ec_height (ECellView *ecell_view, int model_col, int view_col, int row)
 static void
 ec_focus (ECellView *ecell_view, int model_col, int view_col, int row, int x1, int y1, int x2, int y2)
 {
-	ecell_view->focus_col = view_col; 
+	ecell_view->focus_col = view_col;
 	ecell_view->focus_row = row;
 	ecell_view->focus_x1 = x1;
 	ecell_view->focus_y1 = y1;
@@ -180,7 +180,7 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_co
 		ecell_view, event, model_col, view_col, row, flags, actions);
 }
 
-/** 
+/**
  * e_cell_new_view:
  * @ecell: the Ecell that will create the new view
  * @table_model: the table model the ecell is bound to
@@ -280,13 +280,13 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
  * @model_col: the column in the model being drawn.
  * @view_col: the column in the view being drawn (what the model maps to).
  * @row: the row being drawn
- * @width: width 
+ * @width: width
  * @height: height
  *
  * FIXME:
  */
 void
-e_cell_print (ECellView *ecell_view, GtkPrintContext *context, 
+e_cell_print (ECellView *ecell_view, GtkPrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
@@ -300,7 +300,7 @@ e_cell_print (ECellView *ecell_view, GtkPrintContext *context,
  * FIXME:
  */
 gdouble
-e_cell_print_height (ECellView *ecell_view, GtkPrintContext *context, 
+e_cell_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		     int model_col, int view_col, int row,
 		     double width)
 {
@@ -431,7 +431,7 @@ e_cell_free_state (ECellView *ecell_view, int model_col, int view_col, int row, 
 int
 e_cell_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
-	return ECVIEW_EC_CLASS(ecell_view)->max_width 
+	return ECVIEW_EC_CLASS(ecell_view)->max_width
 		(ecell_view, model_col, view_col);
 }
 
@@ -470,9 +470,9 @@ e_cell_max_width_by_row_implemented (ECellView *ecell_view)
 {
 	return (ECVIEW_EC_CLASS(ecell_view)->max_width_by_row != NULL);
 }
-	      
+
 void
-e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, 
+e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col,
 		     int row, int col_width, ETableTooltip *tooltip)
 {
 	ECVIEW_EC_CLASS(ecell_view)->show_tooltip
@@ -494,4 +494,4 @@ e_cell_style_set(ECellView *ecell_view, GtkStyle *previous_style)
 	if (ECVIEW_EC_CLASS(ecell_view)->style_set)
 		ECVIEW_EC_CLASS(ecell_view)->style_set (ecell_view, previous_style);
 }
-		 		
+

@@ -32,7 +32,7 @@
 GtkWidget* org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data);
 void commit_default_calendar (EPlugin *epl, EConfigTarget *target);
 void commit_default_book (EPlugin *epl, EConfigTarget *target);
-void 
+void
 commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 {
 	ECalConfigTargetSource *cal_target;
@@ -40,7 +40,7 @@ commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 
 	cal_target = (ECalConfigTargetSource *) target;
 	source = cal_target->source;
-	if (e_source_get_property (source, "default")) 
+	if (e_source_get_property (source, "default"))
 		e_cal_set_default_source (source, cal_target->source_type, NULL);
 }
 
@@ -54,17 +54,17 @@ commit_default_book (EPlugin *epl, EConfigTarget *target)
 	source = book_target->source;
 	if (e_source_get_property (source, "default"))
 		e_book_set_default_source (source, NULL);
-  
-    
+
+
 }
 
 static void
 default_source_changed (GtkWidget *check_box,  ESource *source)
 {
-    
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_box))) 
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_box)))
 		e_source_set_property (source, "default", "true");
-	else 
+	else
 		e_source_set_property (source, "default", NULL);
 }
 
@@ -75,16 +75,16 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *widget;
 	ESource *source;
 	EABConfigTargetSource *book_target;
- 
+
 	if (data->old)
 		return data->old;
 	widget = gtk_check_button_new_with_mnemonic (_("Mark as _default folder"));
 	book_target = (EABConfigTargetSource *) data->target;
 	source = book_target->source;
-    
+
 	if (e_source_get_property (source, "default"))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-	else 
+	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), FALSE);
 	gtk_container_add (GTK_CONTAINER (data->parent), widget);
 
@@ -108,12 +108,12 @@ org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data)
 	widget = gtk_check_button_new_with_mnemonic (_("Mark as _default folder"));
 	cal_target = (ECalConfigTargetSource *) data->target;
 	source = cal_target->source;
-    
+
 	if (e_source_get_property (source, "default"))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-	else 
+	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), FALSE);
-	
+
 	i = ((GtkTable *)data->parent)->nrows;
 	gtk_table_attach((GtkTable *)data->parent, widget, 1, 2, i, i+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 

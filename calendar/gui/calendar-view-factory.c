@@ -171,10 +171,10 @@ calendar_view_factory_new_view (GalViewFactory *factory, const char *name)
  * calendar_view_factory_construct:
  * @cal_view_factory: A calendar view factory.
  * @view_type: Type of calendar views that the factory will create.
- * 
+ *
  * Constructs a calendar view factory by setting the type of views it will
  * create.
- * 
+ *
  * Return value: The same value as @cal_view_factory.
  **/
 CalendarViewFactory *
@@ -196,9 +196,9 @@ calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
 /**
  * calendar_view_factory_new:
  * @view_type: Type of calendar views that the factory will create.
- * 
+ *
  * Creates a new factory for calendar views.
- * 
+ *
  * Return value: A newly-created calendar view factory.
  **/
 CalendarViewFactory *

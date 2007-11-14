@@ -158,7 +158,7 @@ load_pages (EShellSettingsDialog *dialog)
 	int i, j;
 
 	priv = dialog->priv;
-	
+
 	CORBA_exception_init (&ev);
 
 	control_list = bonobo_activation_query ("repo_ids.has('IDL:GNOME/Evolution/ConfigControl:" BASE_VERSION "')", NULL, &ev);
@@ -249,15 +249,15 @@ load_pages (EShellSettingsDialog *dialog)
 
 		if (page->type != NULL) {
 			Bonobo_StringList list = page->type->v._u.value_stringv;
-			
+
 			for (j = 0; j < list._length; j++) {
 				if (g_hash_table_lookup (priv->types, list._buffer[j]) == NULL)
-					g_hash_table_insert (priv->types, g_strdup (list._buffer[j]), 
+					g_hash_table_insert (priv->types, g_strdup (list._buffer[j]),
 							     GINT_TO_POINTER (i));
 			}
 		}
-		
-		
+
+
 		page_free (page);
 	}
 
@@ -276,11 +276,11 @@ impl_finalize (GObject *object)
 
 	dialog = E_SHELL_SETTINGS_DIALOG (object);
 	priv = dialog->priv;
-	
+
 	g_hash_table_destroy (priv->types);
 
 	g_free (priv);
-	
+
 	(* G_OBJECT_CLASS (e_shell_settings_dialog_parent_class)->finalize) (object);
 }
 
@@ -309,7 +309,7 @@ e_shell_settings_dialog_init (EShellSettingsDialog *dialog)
 
 	load_pages (dialog);
 	set_dialog_size (dialog);
-	
+
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Preferences"));
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 }
@@ -331,13 +331,13 @@ e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *typ
 	EShellSettingsDialogPrivate *priv;
 	gpointer key, value;
 	int page;
-	
+
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (E_IS_SHELL_SETTINGS_DIALOG (dialog));
 	g_return_if_fail (type != NULL);
 
 	priv = dialog->priv;
-	
+
 	if (!g_hash_table_lookup_extended (priv->types, type, &key, &value)) {
 		char *slash, *supertype;
 
@@ -350,7 +350,7 @@ e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *typ
 			value = NULL;
 	}
 	page = GPOINTER_TO_INT (value);
-	
+
 	e_multi_config_dialog_show_page (E_MULTI_CONFIG_DIALOG (dialog), page);
 }
 

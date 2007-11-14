@@ -70,9 +70,9 @@ struct _EMFolderTreeModelStoreInfo {
 	GtkTreeRowReference *row;
 	GHashTable *full_hash;  /* maps CamelFolderInfo::full_name's to GtkTreeRowReferences */
 	EAccount *account;
-	
+
 	char *display_name;
-	
+
 	unsigned int created_id;
 	unsigned int deleted_id;
 	unsigned int renamed_id;
@@ -82,13 +82,13 @@ struct _EMFolderTreeModelStoreInfo {
 
 struct _EMFolderTreeModel {
 	GtkTreeStore parent_object;
-	
+
 	char *filename;            /* state filename */
 	xmlDocPtr state;           /* saved expanded state from previous session */
-	
+
 	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
 	GHashTable *uri_hash;      /* maps URI's to GtkTreeRowReferences */
-	
+
 	EAccountList *accounts;
 	GHashTable *account_hash;  /* maps accounts to store-info's */
 	gulong account_changed_id;
@@ -97,20 +97,20 @@ struct _EMFolderTreeModel {
 
 struct _EMFolderTreeModelClass {
 	GtkTreeStoreClass parent_class;
-	
+
 	/* signals */
 	void     (* loading_row)        (EMFolderTreeModel *model,
 					 GtkTreePath *path,
 					 GtkTreeIter *iter);
-	
+
 	void     (* loaded_row)         (EMFolderTreeModel *model,
 					 GtkTreePath *path,
 					 GtkTreeIter *iter);
-	
+
 	void     (* folder_added)       (EMFolderTreeModel *model,
 					 const char *path,
 					 const char *uri);
-	
+
 	void     (* store_added)        (EMFolderTreeModel *model,
 					 const char *uri);
 };

@@ -89,7 +89,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 				GtkWidget *dialog;
 
 				/* XXX "LDAP" has to be removed from the folowing message
-				   so that it wil valid for other servers which provide 
+				   so that it wil valid for other servers which provide
 				   anonymous access*/
 
 				dialog = gtk_message_dialog_new (NULL,
@@ -164,7 +164,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	gchar *uri = remove_parameters_from_uri(e_book_get_uri (book));
 	const gchar *auth_domain = e_source_get_property (source, "auth-domain");
 	const gchar *component_name;
-			
+
 	component_name = auth_domain ? auth_domain : "Addressbook";
 
 	password = e_passwords_get_password (component_name, uri);
@@ -237,14 +237,14 @@ static void
 auth_required_cb (EBook *book, gpointer data)
 {
 	LoadSourceData *load_source_data = g_new0(LoadSourceData, 1);
-	
+
 	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
 	load_source_data->cancelled = FALSE;
 	addressbook_authenticate (book, FALSE, load_source_data->source,
 				  load_source_auth_cb, load_source_data);
-	
-	
-	
+
+
+
 }
 static void
 load_source_cb (EBook *book, EBookStatus status, gpointer closure)
@@ -262,7 +262,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 		auth = e_source_get_property (load_source_data->source, "auth");
 		if (auth && strcmp (auth, "none")) {
 			g_signal_connect (book, "auth_required", G_CALLBACK(auth_required_cb), NULL);
-			
+
 			if (e_book_is_online (book)) {
 				addressbook_authenticate (book, FALSE, load_source_data->source,
 							  load_source_auth_cb, closure);

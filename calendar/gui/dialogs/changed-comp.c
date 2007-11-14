@@ -37,10 +37,10 @@
  * @comp: A calendar component
  * @deleted: Whether the object is being deleted or updated
  * @changed: Whether or not the user has made changes
- * 
+ *
  * Pops up a dialog box asking the user whether changes made (if any)
  * should be thrown away because the item has been updated elsewhere
- * 
+ *
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
@@ -51,7 +51,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 	char *str;
 	gint response;
 	GList *icon_list;
-	
+
 	vtype = e_cal_component_get_vtype (comp);
 
 	if (deleted) {
@@ -76,7 +76,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 		if (changed)
 			str = g_strdup_printf (_("%s  You have made changes. Forget those changes and close the editor?"), str);
 		else
-			str = g_strdup_printf (_("%s  You have made no changes, close the editor?"), str); 
+			str = g_strdup_printf (_("%s  You have made no changes, close the editor?"), str);
 
 	} else {
 		switch (vtype) {
@@ -100,20 +100,20 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 		if (changed)
 			str = g_strdup_printf (_("%s  You have made changes. Forget those changes and update the editor?"), str);
 		else
-			str = g_strdup_printf (_("%s  You have made no changes, update the editor?"), str); 
+			str = g_strdup_printf (_("%s  You have made no changes, update the editor?"), str);
 	}
-	
+
 	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO, str);
-	
+
 	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (dialog), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 

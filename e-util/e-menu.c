@@ -148,9 +148,9 @@ em_base_init(GObjectClass *klass)
 
 /**
  * e_menu_get_type:
- * 
+ *
  * Standard GObject type function.  Used to subclass this type only.
- * 
+ *
  * Return value: The EMenu object type.
  **/
 GType
@@ -178,9 +178,9 @@ e_menu_get_type(void)
  * e_menu_construct:
  * @em: An instantiated but uninitislied EPopup.
  * @menuid: The unique identifier for this menu.
- * 
+ *
  * Construct the base menu instance based on the parameters.
- * 
+ *
  * Return value: Returns @em.
  **/
 EMenu *e_menu_construct(EMenu *em, const char *menuid)
@@ -225,7 +225,7 @@ EMenu *e_menu_construct(EMenu *em, const char *menuid)
  * associated with the menus.
  * @freefunc: If supplied, called when the menu items are no longer needed.
  * @data: user-data passed to @freefunc and activate callbacks.
- * 
+ *
  * Add new EMenuItems to the menu's.  This may be called any number of
  * times before the menu is first activated to hook onto any of the
  * menu items defined for that view.
@@ -281,9 +281,9 @@ e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EM
 
 /**
  * e_menu_remove_items:
- * @emp: 
- * @handle: 
- * 
+ * @emp:
+ * @handle:
+ *
  * Remove menu items previously added.
  **/
 void
@@ -298,7 +298,7 @@ e_menu_remove_items(EMenu *emp, void *handle)
 	if (emp->uic) {
 		for (l = node->items;l;l=g_slist_next(l)) {
 			EMenuItem *item = l->data;
-		
+
 			bonobo_ui_component_remove_verb(emp->uic, item->verb);
 		}
 	}
@@ -341,7 +341,7 @@ em_activate(BonoboUIComponent *uic, void *data, const char *cname)
  * @em: An initialised EMenu.
  * @uic: The BonoboUI component for this views menu's.
  * @act: If %TRUE, then the control is being activated.
- * 
+ *
  * This is called by the owner of the component, control, or view to
  * pass on the activate or deactivate control signals.  If the view is
  * being activated then the callbacks and menu items are setup,
@@ -424,7 +424,7 @@ void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, int act)
  * e_menu_update_target:
  * @em: An initialised EMenu.
  * @tp: Target, after this call the menu owns the target.
- * 
+ *
  * Change the target for the menu.  Once the target is changed, the
  * sensitivity state of the menu items managed by @em is re-evaluated
  * and the physical menu's updated to reflect it.
@@ -477,13 +477,13 @@ void e_menu_update_target(EMenu *em, void *tp)
  * called on all menus.
  * @func: An EMenuFactoryFunc callback.
  * @data: Callback data for @func.
- * 
+ *
  * Add a menu factory which will be called when the menu @menuid is
  * created.  The factory is free to add new items as it wishes to the
  * menu provided in the callback.
  *
  * TODO: Make the menuid a pattern?
- * 
+ *
  * Return value: A handle to the factory.
  **/
 EMenuFactory *
@@ -515,7 +515,7 @@ e_menu_class_add_factory(EMenuClass *klass, const char *menuid, EMenuFactoryFunc
  * e_menu_class_remove_factory:
  * @klass: Class on which the factory was originally added.
  * @f: Factory handle.
- * 
+ *
  * Remove a popup factory.  This must only be called once, and must
  * only be called using a valid factory handle @f.  After this call,
  * @f is undefined.
@@ -533,7 +533,7 @@ e_menu_class_remove_factory(EMenuClass *klass, EMenuFactory *f)
  * @ep: An EMenu to which this target applies.
  * @type: Target type, up to implementation.
  * @size: Size of memory to allocate.  Must be >= sizeof(EMenuTarget).
- * 
+ *
  * Allocate a new menu target suitable for this class.  @size is used
  * to specify the actual target size, which may vary depending on the
  * implementing class.
@@ -559,7 +559,7 @@ void *e_menu_target_new(EMenu *ep, int type, size_t size)
  * e_menu_target_free:
  * @ep: EMenu on which the target was allocated.
  * @o: Tareget to free.
- * 
+ *
  * Free a target.
  **/
 void
@@ -886,17 +886,17 @@ emph_class_init(EPluginHookClass *klass)
 
 /**
  * e_menu_hook_get_type:
- * 
+ *
  * Standard GObject function to get the object type.  Used to subclass
  * EMenuHook.
- * 
+ *
  * Return value: The type of the menu hook class.
  **/
 GType
 e_menu_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMenuHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -906,7 +906,7 @@ e_menu_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EMenuHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -914,7 +914,7 @@ e_menu_hook_get_type(void)
  * e_menu_hook_class_add_target_map:
  * @klass: The derived EMenuHook class.
  * @map: A map used to describe a single EMenuTarget for this class.
- * 
+ *
  * Adds a target map to a concrete derived class of EMenu.  The target
  * map enumerates a single target type, and the enable mask bit names,
  * so that the type can be loaded automatically by the EMenu class.

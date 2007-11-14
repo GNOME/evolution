@@ -35,7 +35,7 @@
 void commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target);
 GtkWidget *e_book_groupwise_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
 
-void 
+void
 commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
@@ -48,14 +48,14 @@ commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target)
 	uri_text = e_source_get_uri (source);
 	if (strncmp (uri_text, "groupwise", 9)) {
 		g_free (uri_text);
-		
+
 		return ;
-	}	
+	}
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	relative_uri = g_strconcat (";", e_source_peek_name (source), NULL);
 	e_source_set_relative_uri (source, relative_uri);
 	g_free (relative_uri);
-  
+
 	source_group = e_source_peek_group (source);
 	l = e_source_group_peek_sources(source_group);
 	if (l && l->data ) {
@@ -69,7 +69,7 @@ commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target)
 GtkWidget *
 e_book_groupwise_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	
-        
+
+
 	return NULL;
 }

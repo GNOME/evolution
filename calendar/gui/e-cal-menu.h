@@ -43,7 +43,7 @@ enum _e_cal_menu_target_t {
 
 /**
  * enum _e_cal_menu_target_select_t - ECalPopupTargetSelect qualifiers.
- * 
+ *
  * @E_CAL_MENU_SELECT_ONE: Only one item is selected.
  * @E_CAL_MENU_SELECT_MANY: More than one item selected.
  * @E_CAL_MENU_SELECT_ANY: One or more items selected.

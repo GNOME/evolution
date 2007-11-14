@@ -44,7 +44,7 @@
 #include "calendar/gui/e-cal-model.h"
 #include "addressbook/gui/widgets/eab-menu.h"
 
-#define d(x) 
+#define d(x)
 
 static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
@@ -255,7 +255,7 @@ org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *targ
 	uri = (gchar *) e_cal_get_uri (ecal);
 	if (!uri)
 		return;
-	else	
+	else
 		if (!g_str_has_prefix (uri, "exchange://"))
 			return;
 
@@ -289,7 +289,7 @@ org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *ta
 	uri = (gchar *) e_cal_get_uri (ecal);
 	if (!uri)
 		return;
-	else	
+	else
 		if (!g_str_has_prefix (uri, "exchange://"))
 			return;
 	account = exchange_operations_get_exchange_account ();
@@ -320,7 +320,7 @@ org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target
 	uri = (gchar *) e_book_get_uri (ebook);
 	if (!uri)
 		return;
-	else	
+	else
 		if (!g_str_has_prefix (uri, "exchange://"))
 			return;
 

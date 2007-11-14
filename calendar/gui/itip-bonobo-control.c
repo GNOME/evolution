@@ -78,11 +78,11 @@ stream_read (Bonobo_Stream stream)
 		memcpy (data + length, buffer->_buffer, buffer->_length);
 		length += buffer->_length;
 		data[length] = '\0';
-		
+
 		CORBA_free (buffer);
 #undef READ_CHUNK_SIZE
 	} while (1);
-	
+
 	CORBA_free (buffer);
 	CORBA_exception_free (&ev);
 
@@ -101,15 +101,15 @@ typedef struct {
 } idle_data;
 
 static gboolean
-set_data_idle_cb (gpointer data) 
-{	
+set_data_idle_cb (gpointer data)
+{
 	idle_data *id = data;
-	
+
 	e_itip_control_set_data (id->itip, id->text);
 	g_object_unref (id->itip);
 	g_free (id->text);
 	g_free (id);
-	
+
 	return FALSE;
 }
 
@@ -120,8 +120,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 {
 	EItipControl *itip = data;
 	idle_data *id;
-	
-	if (type && g_ascii_strcasecmp (type, "text/calendar") != 0 &&	    
+
+	if (type && g_ascii_strcasecmp (type, "text/calendar") != 0 &&
 	    g_ascii_strcasecmp (type, "text/x-calendar") != 0) {
 		bonobo_exception_set (ev, ex_Bonobo_Persist_WrongDataType);
 		return;
@@ -135,7 +135,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	}
 	g_object_ref (itip);
 	id->itip = itip;
-	
+
 	g_idle_add (set_data_idle_cb, id);
 }
 /*
@@ -150,8 +150,8 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	gchar *text;
 	gint len;
 
-	if (type && g_ascii_strcasecmp (type, "text/calendar") != 0 &&	    
-	    g_ascii_strcasecmp (type, "text/x-calendar") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/calendar") != 0 &&
+	    g_ascii_strcasecmp (type, "text/x-calendar") != 0) {
 		bonobo_exception_set (ev, ex_Bonobo_Persist_WrongDataType);
 		return;
 	}
@@ -169,9 +169,9 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 /* { */
 /* 	EItipControl *itip = data; */
 /* 	gint len; */
-	
+
 /* 	len = e_itip_control_get_data_size (itip); */
-	
+
 /*   	if (len > 0) */
 /* 		return len; */
 
@@ -186,9 +186,9 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 }
 
 static void
-get_prop (BonoboPropertyBag *bag, 
+get_prop (BonoboPropertyBag *bag,
 	   BonoboArg *arg,
-	   guint arg_id, 	      
+	   guint arg_id,
 	   CORBA_Environment *ev,
 	   gpointer user_data)
 {
@@ -205,9 +205,9 @@ get_prop (BonoboPropertyBag *bag,
 }
 
 static void
-set_prop ( BonoboPropertyBag *bag, 
+set_prop ( BonoboPropertyBag *bag,
 	   const BonoboArg *arg,
-	   guint arg_id, 
+	   guint arg_id,
 	   CORBA_Environment *ev,
 	   gpointer user_data)
 {
@@ -235,7 +235,7 @@ itip_bonobo_control_new (void)
 	itip = e_itip_control_new ();
 	gtk_widget_show (itip);
 	control = bonobo_control_new (itip);
-	
+
 	/* create a property bag */
 	prop_bag = bonobo_property_bag_new (get_prop, set_prop, itip);
 	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,

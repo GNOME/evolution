@@ -203,19 +203,19 @@ e_tree_model_init (ETreeModel *tree_model)
 
 /**
  * e_tree_model_node_changed:
- * @tree_model: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @tree_model:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_tree_model_pre_change  (ETreeModel *tree_model)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [PRE_CHANGE], 0);
@@ -223,19 +223,19 @@ e_tree_model_pre_change  (ETreeModel *tree_model)
 
 /**
  * e_tree_model_node_changed:
- * @tree_model: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @tree_model:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_tree_model_no_change  (ETreeModel *tree_model)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting no_change on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NO_CHANGE], 0);
@@ -243,19 +243,19 @@ e_tree_model_no_change  (ETreeModel *tree_model)
 
 /**
  * e_tree_model_node_changed:
- * @tree_model: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @tree_model:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath node)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting node_changed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_CHANGED], 0, node);
@@ -263,19 +263,19 @@ e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath node)
 
 /**
  * e_tree_model_node_data_changed:
- * @tree_model: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @tree_model:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_tree_model_node_data_changed  (ETreeModel *tree_model, ETreePath node)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting node_data_changed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_DATA_CHANGED], 0, node);
@@ -283,19 +283,19 @@ e_tree_model_node_data_changed  (ETreeModel *tree_model, ETreePath node)
 
 /**
  * e_tree_model_node_col_changed:
- * @tree_model: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @tree_model:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, int col)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting node_col_changed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_COL_CHANGED], 0, node, col);
@@ -303,11 +303,11 @@ e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, int col)
 
 /**
  * e_tree_model_node_inserted:
- * @tree_model: 
- * @parent_node: 
- * @inserted_node: 
- * 
- * 
+ * @tree_model:
+ * @parent_node:
+ * @inserted_node:
+ *
+ *
  **/
 void
 e_tree_model_node_inserted (ETreeModel *tree_model,
@@ -325,18 +325,18 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 
 /**
  * e_tree_model_node_removed:
- * @tree_model: 
- * @parent_node: 
- * @removed_node: 
- * 
- * 
+ * @tree_model:
+ * @parent_node:
+ * @removed_node:
+ *
+ *
  **/
 void
 e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETreePath removed_node, int old_position)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting node_removed on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_REMOVED], 0,
@@ -345,17 +345,17 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETree
 
 /**
  * e_tree_model_node_deleted:
- * @tree_model: 
- * @deleted_node: 
- * 
- * 
+ * @tree_model:
+ * @deleted_node:
+ *
+ *
  **/
 void
 e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting node_deleted on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_DELETED], 0, deleted_node);
@@ -363,17 +363,17 @@ e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
 
 /**
  * e_tree_model_node_request_collapse:
- * @tree_model: 
- * @collapsed_node: 
- * 
- * 
+ * @tree_model:
+ * @collapsed_node:
+ *
+ *
  **/
 void
 e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed_node)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
+
 	d(g_print("Emitting node_request_collapse on model 0x%p, a %s.\n", tree_model, gtk_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_REQUEST_COLLAPSE], 0, collapsed_node);
@@ -402,7 +402,7 @@ e_tree_model_new (void)
  *
  * return values: the ETreePath corresponding to the root node.
  */
-ETreePath 
+ETreePath
 e_tree_model_get_root (ETreeModel *etree)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
@@ -416,14 +416,14 @@ e_tree_model_get_root (ETreeModel *etree)
 
 /**
  * e_tree_model_node_get_parent:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
-ETreePath 
+ETreePath
 e_tree_model_node_get_parent (ETreeModel *etree, ETreePath node)
 {
 	g_return_val_if_fail(etree != NULL, NULL);
@@ -435,14 +435,14 @@ e_tree_model_node_get_parent (ETreeModel *etree, ETreePath node)
 
 /**
  * e_tree_model_node_get_first_child:
- * @etree: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
-ETreePath 
+ETreePath
 e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath node)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
@@ -456,14 +456,14 @@ e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath node)
 
 /**
  * e_tree_model_node_get_last_child:
- * @etree: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
-ETreePath 
+ETreePath
 e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath node)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
@@ -478,14 +478,14 @@ e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath node)
 
 /**
  * e_tree_model_node_get_next:
- * @etree: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
-ETreePath 
+ETreePath
 e_tree_model_node_get_next (ETreeModel *etree, ETreePath node)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
@@ -499,14 +499,14 @@ e_tree_model_node_get_next (ETreeModel *etree, ETreePath node)
 
 /**
  * e_tree_model_node_get_prev:
- * @etree: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
-ETreePath 
+ETreePath
 e_tree_model_node_get_prev (ETreeModel *etree, ETreePath node)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
@@ -520,12 +520,12 @@ e_tree_model_node_get_prev (ETreeModel *etree, ETreePath node)
 
 /**
  * e_tree_model_node_is_root:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 gboolean
 e_tree_model_node_is_root (ETreeModel *etree, ETreePath node)
@@ -540,12 +540,12 @@ e_tree_model_node_is_root (ETreeModel *etree, ETreePath node)
 
 /**
  * e_tree_model_node_is_expandable:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 gboolean
 e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath node)
@@ -571,12 +571,12 @@ e_tree_model_node_get_children (ETreeModel *etree, ETreePath node, ETreePath **n
 
 /**
  * e_tree_model_node_depth:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 guint
 e_tree_model_node_depth (ETreeModel *etree, ETreePath node)
@@ -761,12 +761,12 @@ e_tree_model_has_change_pending (ETreeModel *etree)
  * @etree: The ETreeModel.
  * @node: The ETreePath to the node we're getting the data from.
  * @col: the column to retrieve data from
- * 
+ *
  * Return value: This function returns the value that is stored by the
  * @etree in column @col and node @node.  The data returned can be a
  * pointer or any data value that can be stored inside a pointer.
  *
- * The data returned is typically used by an sort renderer if it wants 
+ * The data returned is typically used by an sort renderer if it wants
  * to proxy the data of cell value_at at a better sorting order.
  *
  * The data returned must be valid until the model sends a signal that
@@ -793,7 +793,7 @@ e_tree_model_sort_value_at (ETreeModel *etree, ETreePath node, int col)
  * @etree: The ETreeModel.
  * @node: The ETreePath to the node we're getting the data from.
  * @col: the column to retrieve data from
- * 
+ *
  * Return value: This function returns the value that is stored by the
  * @etree in column @col and node @node.  The data returned can be a
  * pointer or any data value that can be stored inside a pointer.
@@ -831,12 +831,12 @@ e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, int col, const voi
 
 /**
  * e_tree_model_node_is_editable:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 gboolean
 e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, int col)
@@ -851,12 +851,12 @@ e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, int col)
 
 /**
  * e_tree_model_duplicate_value:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 void *
 e_tree_model_duplicate_value (ETreeModel *etree, int col, const void *value)
@@ -871,12 +871,12 @@ e_tree_model_duplicate_value (ETreeModel *etree, int col, const void *value)
 
 /**
  * e_tree_model_free_value:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_tree_model_free_value (ETreeModel *etree, int col, void *value)
@@ -889,12 +889,12 @@ e_tree_model_free_value (ETreeModel *etree, int col, void *value)
 
 /**
  * e_tree_model_initialize_value:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 void *
 e_tree_model_initialize_value (ETreeModel *etree, int col)
@@ -909,12 +909,12 @@ e_tree_model_initialize_value (ETreeModel *etree, int col)
 
 /**
  * e_tree_model_value_is_empty:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 gboolean
 e_tree_model_value_is_empty (ETreeModel *etree, int col, const void *value)
@@ -929,12 +929,12 @@ e_tree_model_value_is_empty (ETreeModel *etree, int col, const void *value)
 
 /**
  * e_tree_model_value_to_string:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 char *
 e_tree_model_value_to_string (ETreeModel *etree, int col, const void *value)
@@ -949,12 +949,12 @@ e_tree_model_value_to_string (ETreeModel *etree, int col, const void *value)
 
 /**
  * e_tree_model_node_traverse:
- * @model: 
- * @path: 
- * @func: 
- * @data: 
- * 
- * 
+ * @model:
+ * @path:
+ * @func:
+ * @data:
+ *
+ *
  **/
 void
 e_tree_model_node_traverse (ETreeModel *model, ETreePath path, ETreePathFunc func, gpointer data)
@@ -981,12 +981,12 @@ e_tree_model_node_traverse (ETreeModel *model, ETreePath path, ETreePathFunc fun
 
 /**
  * e_tree_model_node_traverse_preorder:
- * @model: 
- * @path: 
- * @func: 
- * @data: 
- * 
- * 
+ * @model:
+ * @path:
+ * @func:
+ * @data:
+ *
+ *
  **/
 void
 e_tree_model_node_traverse_preorder (ETreeModel *model, ETreePath path, ETreePathFunc func, gpointer data)
@@ -1014,12 +1014,12 @@ e_tree_model_node_traverse_preorder (ETreeModel *model, ETreePath path, ETreePat
 
 /**
  * e_tree_model_node_traverse_preorder:
- * @model: 
- * @path: 
- * @func: 
- * @data: 
- * 
- * 
+ * @model:
+ * @path:
+ * @func:
+ * @data:
+ *
+ *
  **/
 static ETreePath
 e_tree_model_node_real_traverse (ETreeModel *model, ETreePath path, ETreePath end_path, gboolean forward_direction, ETreePathFunc func, gpointer data)
@@ -1057,12 +1057,12 @@ e_tree_model_node_real_traverse (ETreeModel *model, ETreePath path, ETreePath en
 
 /**
  * e_tree_model_node_traverse_preorder:
- * @model: 
- * @path: 
- * @func: 
- * @data: 
- * 
- * 
+ * @model:
+ * @path:
+ * @func:
+ * @data:
+ *
+ *
  **/
 ETreePath
 e_tree_model_node_find (ETreeModel *model, ETreePath path, ETreePath end_path, gboolean forward_direction, ETreePathFunc func, gpointer data)

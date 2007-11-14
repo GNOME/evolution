@@ -113,12 +113,12 @@ e_table_memory_new (void)
 
 /**
  * e_table_memory_get_data:
- * @etmm: 
- * @row: 
- * 
- * 
- * 
- * Return value: 
+ * @etmm:
+ * @row:
+ *
+ *
+ *
+ * Return value:
  **/
 gpointer
 e_table_memory_get_data (ETableMemory *etmm, int row)
@@ -131,11 +131,11 @@ e_table_memory_get_data (ETableMemory *etmm, int row)
 
 /**
  * e_table_memory_set_data:
- * @etmm: 
- * @row: 
- * @data: 
- * 
- * 
+ * @etmm:
+ * @row:
+ * @data:
+ *
+ *
  **/
 void
 e_table_memory_set_data (ETableMemory *etmm, int row, gpointer data)
@@ -148,14 +148,14 @@ e_table_memory_set_data (ETableMemory *etmm, int row, gpointer data)
 
 /**
  * e_table_memory_insert:
- * @table_model: 
- * @parent_path: 
- * @position: 
- * @data: 
- * 
- * 
- * 
- * Return value: 
+ * @table_model:
+ * @parent_path:
+ * @position:
+ * @data:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_table_memory_insert (ETableMemory *etmm,
@@ -182,12 +182,12 @@ e_table_memory_insert (ETableMemory *etmm,
 
 /**
  * e_table_memory_remove:
- * @etable: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etable:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 gpointer
 e_table_memory_remove (ETableMemory *etmm, int row)
@@ -209,12 +209,12 @@ e_table_memory_remove (ETableMemory *etmm, int row)
 
 /**
  * e_table_memory_clear:
- * @etable: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etable:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 void
 e_table_memory_clear (ETableMemory *etmm)
@@ -231,11 +231,11 @@ e_table_memory_clear (ETableMemory *etmm)
 /**
  * e_table_memory_freeze:
  * @etmm: the ETableModel to freeze.
- * 
+ *
  * This function prepares an ETableModel for a period of much change.
  * All signals regarding changes to the table are deferred until we
  * thaw the table.
- * 
+ *
  **/
 void
 e_table_memory_freeze(ETableMemory *etmm)
@@ -251,11 +251,11 @@ e_table_memory_freeze(ETableMemory *etmm)
 /**
  * e_table_memory_thaw:
  * @etmm: the ETableMemory to thaw.
- * 
+ *
  * This function thaws an ETableMemory.  All the defered signals can add
  * up to a lot, we don't know - so we just emit a model_changed
  * signal.
- * 
+ *
  **/
 void
 e_table_memory_thaw(ETableMemory *etmm)

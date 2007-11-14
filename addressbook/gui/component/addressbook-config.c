@@ -110,7 +110,7 @@ struct _AddressbookSourceDialog {
 	/* info page fields */
 	GtkWidget *host;
 	GtkWidget *auth_optionmenu;
-	AddressbookLDAPAuthType auth; 
+	AddressbookLDAPAuthType auth;
 	GtkWidget *auth_principal;
 
 	/* connecting page fields */
@@ -285,7 +285,7 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 	ldap_error = ldap_simple_bind_s (ldap, NULL, NULL);
 	if (LDAP_SUCCESS != ldap_error)
 		e_error_run ((GtkWindow *) window, "addressbook:ldap-auth", NULL);
-	
+
 	return ldap_error;
 }
 
@@ -305,7 +305,7 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
 	if (LDAP_SUCCESS != ldap_error)
 		e_error_run (GTK_WINDOW (dialog->window), "addressbook:ldap-search-base", NULL);
-	
+
 	return ldap_error;
 }
 
@@ -530,7 +530,7 @@ eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	label = gtk_label_new_with_mnemonic(_("_Type:"));
 	gtk_box_pack_start((GtkBox *)w, label, FALSE, FALSE, 0);
 
-	dropdown = (GtkComboBox *)gtk_combo_box_new();	
+	dropdown = (GtkComboBox *)gtk_combo_box_new();
 	cell = gtk_cell_renderer_text_new();
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
 	i = 0;
@@ -567,14 +567,14 @@ name_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 	e_source_set_name (sdialog->source, gtk_entry_get_text (GTK_ENTRY (sdialog->display_name)));
 }
 
-static void 
+static void
 offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		e_source_set_property (sdialog->source, "offline_sync", "1");
-	else 
-		e_source_set_property (sdialog->source, "offline_sync", "0");	
-	    
+	else
+		e_source_set_property (sdialog->source, "offline_sync", "0");
+
 }
 
 static GtkWidget *
@@ -609,7 +609,7 @@ eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 			gtk_widget_set_sensitive (GTK_WIDGET(sdialog->display_name), FALSE);
 		}
 	}
-	
+
 	g_object_unref(gui);
 
 	return w;
@@ -623,17 +623,17 @@ eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	GtkWidget *offline_setting;
 	const char *offline_sync;
 	gboolean is_local_book;
-	
+
 	is_local_book = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");
 	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
-	if (old) 
+	if (old)
 		return old;
 	else {
 		offline_setting = gtk_check_button_new_with_label (N_("Copy book content locally for offline operation"));
 		gtk_widget_show (offline_setting);
 		gtk_container_add (GTK_CONTAINER (parent), offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
-		
+
 	}
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (offline_setting), (offline_sync && g_str_equal (offline_sync, "1"))  ? TRUE : FALSE);
 	if (is_local_book)
@@ -644,12 +644,12 @@ eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 
 #ifdef HAVE_LDAP
 static gchar *
-form_ldap_search_filter (GtkWidget *w) 
+form_ldap_search_filter (GtkWidget *w)
 {
 	gchar *filter;
 	const gchar *search_filter = gtk_entry_get_text ((GtkEntry *) w);
 
-	/* this function can be used to format the search filter entered */	
+	/* this function can be used to format the search filter entered */
 	if ((strlen (search_filter) !=0) && *search_filter != '(' && *(search_filter + (strlen (search_filter-1))) != ')')
 		filter = g_strdup_printf ("(%s)", search_filter);
 	else
@@ -657,7 +657,7 @@ form_ldap_search_filter (GtkWidget *w)
 
 	return filter;
 }
- 
+
 static void
 url_changed(AddressbookSourceDialog *sdialog)
 {
@@ -737,7 +737,7 @@ eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	gtk_entry_set_text((GtkEntry *)sdialog->host, lud && lud->lud_host ? lud->lud_host : "");
 	g_signal_connect (sdialog->host, "changed", G_CALLBACK (host_changed_cb), sdialog);
 
-	sdialog->port_combo = glade_xml_get_widget (gui, "port-combo");	
+	sdialog->port_combo = glade_xml_get_widget (gui, "port-combo");
 	sprintf(port, "%u", lud && lud->lud_port? lud->lud_port : LDAP_PORT);
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (sdialog->port_combo)->entry), port);
 	g_signal_connect (GTK_COMBO(sdialog->port_combo)->entry, "changed", G_CALLBACK (port_entry_changed_cb), sdialog);
@@ -813,7 +813,7 @@ eabc_general_auth(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	sdialog->auth_optionmenu = glade_xml_get_widget (gui, "auth-optionmenu");
 	tmp = e_source_get_property(sdialog->source, "auth");
 	sdialog->auth = tmp ? ldap_parse_auth(tmp) : ADDRESSBOOK_LDAP_AUTH_NONE;
-	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->auth_optionmenu), sdialog->auth);	
+	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->auth_optionmenu), sdialog->auth);
 	g_signal_connect(sdialog->auth_optionmenu, "changed", G_CALLBACK(auth_optionmenu_changed_cb), sdialog);
 
 	sdialog->auth_principal = glade_xml_get_widget (gui, "auth-entry");

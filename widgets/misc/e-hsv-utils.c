@@ -30,22 +30,22 @@
    how much you want their respective channels modified (and in what direction).
    if it can't do the specified modification, it does it in the oppositon direction */
 void
-e_hsv_tweak (GdkColor *colour, gdouble delta_h, gdouble delta_s, gdouble delta_v) 
+e_hsv_tweak (GdkColor *colour, gdouble delta_h, gdouble delta_s, gdouble delta_v)
 {
 	gdouble h, s, v, r, g, b;
 
 	r = colour->red   / 65535.0f;
 	g = colour->green / 65535.0f;
 	b = colour->blue  / 65535.0f;
-	
+
 	e_rgb_to_hsv (r, g, b, &h, &s, &v);
-	
+
 	if (h + delta_h < 0) {
 		h -= delta_h;
 	} else {
 		h += delta_h;
 	}
-	
+
 	if (s + delta_s < 0) {
 		s -= delta_s;
 	} else {
@@ -59,7 +59,7 @@ e_hsv_tweak (GdkColor *colour, gdouble delta_h, gdouble delta_s, gdouble delta_v
 	}
 
 	e_hsv_to_rgb (h, s, v, &r, &g, &b);
-	
+
 	colour->red   = r * 65535.0f;
 	colour->green = g * 65535.0f;
 	colour->blue  = b * 65535.0f;

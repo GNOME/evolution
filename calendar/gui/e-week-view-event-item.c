@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  * Copyright 2001, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -143,7 +143,7 @@ e_week_view_event_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	item = GNOME_CANVAS_ITEM (o);
 	wveitem = E_WEEK_VIEW_EVENT_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_EVENT_NUM:
 		wveitem->event_num = GTK_VALUE_INT (*arg);
@@ -270,7 +270,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	/* Get the start & end times in 24-hour format. */
 	start_hour = event->start_minute / 60;
 	start_minute = event->start_minute % 60;
-	
+
 	/* Modulo 24 because a midnight end time will be '24' */
 	end_hour = (event->end_minute / 60) % 24;
 	end_minute = event->end_minute % 60;
@@ -617,17 +617,17 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
-	
+
 	if (e_cal_component_has_attachments (comp)) {
 		draw_attach_icon = TRUE;
 		num_icons++;
 	}
-	
+
 	if (e_cal_component_has_organizer (comp)) {
 		draw_meeting_icon = TRUE;
 		num_icons++;
 	}
-	
+
 	if (event->different_timezone) {
 		draw_timezone_icon = TRUE;
 		num_icons++;
@@ -664,7 +664,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 				 0, 0);
 		icon_x += icon_x_inc;
 	}
-	
+
 	if (draw_recurrence_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 		gdk_gc_set_clip_mask (gc, NULL);
 		gdk_draw_pixbuf (drawable, gc,
@@ -870,7 +870,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	/* Get the start & end times in 24-hour format. */
 	start_hour = event->start_minute / 60;
 	start_minute = event->start_minute % 60;
-	
+
 	/* Modulo 24 because a midnight end time will be '24' */
 	end_hour = (event->end_minute / 60) % 24;
 	end_minute = event->end_minute % 60;
@@ -886,7 +886,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD + 1;
 		rect_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
 		rect_w = x2 - x1 - E_WEEK_VIEW_EVENT_L_PAD - E_WEEK_VIEW_EVENT_R_PAD + 1;
-		
+
 		if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)),
 									  event->comp_data),
 				     &bg_color)) {
@@ -906,17 +906,17 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
 			green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
 			blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
-		}	
+		}
 
 		/* Here we draw the border around the event*/
 		cairo_save (cr);
 
-		cx0	   = rect_x; 
+		cx0	   = rect_x;
 		cy0	   = y1 + 1;
 		rect_width  = rect_w;
 		rect_height = y2 - y1 - 1;
 
-		radius = 12; 	
+		radius = 12;
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
@@ -924,17 +924,17 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
 		cairo_stroke (cr);
 		cairo_restore (cr);
-		
+
 		/* Fill it in the Event */
 
 		cairo_save (cr);
 
-		cx0	   = rect_x + 1.5; 
+		cx0	   = rect_x + 1.5;
 		cy0	   = y1 + 2.75;
 		rect_width  = rect_w - 3.;
 		rect_height = y2 - y1 - 4.5;
 
-		radius = 8; 	
+		radius = 8;
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
@@ -1045,16 +1045,16 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
 			green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
 			blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
-		}	
+		}
 
 		/* Here we draw the border around the event */
 
-		cx0	   = rect_x; 
+		cx0	   = rect_x;
 		cy0	   = y1 + 1;
 		rect_width  = rect_w;
 		rect_height = y2 - y1 - 1;
 
-		radius = 12; 	
+		radius = 12;
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
@@ -1067,12 +1067,12 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 		cairo_save (cr);
 
-		cx0	   = rect_x + 1.5; 
+		cx0	   = rect_x + 1.5;
 		cy0	   = y1 + 2.75;
 		rect_width  = rect_w - 3.;
 		rect_height = y2 - y1 - 4.5;
 
-		radius = 8; 	
+		radius = 8;
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
@@ -1254,7 +1254,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 				 time_x,
 				 time_y_small_font,
 				 layout);
-	
+
 		pango_layout_set_font_description (layout, style->font_desc);
 
 		time_x += week_view->small_digit_width * 2;
@@ -1262,7 +1262,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
 		if (!e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view))) {
 			pango_layout_set_text (layout, suffix, -1);
-	
+
 			gdk_draw_layout (drawable, gc,
 					 time_x,
 					 time_y_normal_font,
@@ -1329,7 +1329,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
-	
+
 	if (e_cal_component_has_attachments (comp)) {
 		draw_attach_icon = TRUE;
 		num_icons++;
@@ -1339,7 +1339,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		draw_meeting_icon = TRUE;
 		num_icons++;
 	}
-	
+
 	if (event->different_timezone) {
 		draw_timezone_icon = TRUE;
 		num_icons++;
@@ -1371,7 +1371,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 		icon_x += icon_x_inc;
 	}
-	
+
 	if (draw_recurrence_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 		cairo_save (cr);
 		gdk_cairo_set_source_pixbuf (cr, week_view->recurrence_icon, icon_x, icon_y);

@@ -129,7 +129,7 @@ temp_save_part(CamelMimePart *part, char *path, gboolean file)
 			g_free (utf8_mfilename);
 			filename = (const char *) mfilename;
 		}
-		
+
 		path = g_build_filename(tmpdir, filename, NULL);
 		g_free(mfilename);
 	}
@@ -173,12 +173,12 @@ ecalp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 		mfilename = g_strdup(filename);
 		e_filename_make_safe(mfilename);
 		filename = mfilename;
-	}	
+	}
 	file = e_file_dialog_save (_("Save As..."), filename);
-	
+
 	if (file)
 		temp_save_part (part, file, TRUE);
-		
+
 	g_free (file);
 	g_free (mfilename);
 }
@@ -189,10 +189,10 @@ ecalp_part_popup_save_selected(EPopup *ep, EPopupItem *item, void *data)
 	GSList *parts;
 	EPopupTarget *t = ep->target;
 	char *dir, *path;
-	
+
 	dir = e_file_dialog_save_folder (_("Select folder to save selected attachments..."));
 	parts = ((ECalPopupTargetAttachments *) t)->attachments;
-	
+
 	for (;parts; parts=parts->next) {
 		path = temp_save_part (((EAttachment *)parts->data)->body, dir, FALSE);
 		/* Probably we 'll do some reporting in next release, like listing the saved files and locations */
@@ -215,7 +215,7 @@ ecalp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 		return;
 
 	filename = g_strdup(camel_mime_part_get_filename(part));
-	   
+
 	/* if filename is blank, create a default filename based on MIME type */
 	if (!filename || !filename[0]) {
 		CamelContentType *ct;
@@ -226,13 +226,13 @@ ecalp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 	}
 
 	e_filename_make_safe(filename);
-	
+
 	path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", filename, NULL);
-	
+
 	extension = strrchr(filename, '.');
 	if (extension)
 		*extension++ = 0;
-	
+
 	/* if file exists, stick a (number) on the end */
 	while (g_file_test(path, G_FILE_TEST_EXISTS)) {
 		char *name;
@@ -241,35 +241,35 @@ ecalp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 		path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", name, NULL);
 		g_free(name);
 	}
-	
+
 	g_free(filename);
-	
+
 	if (temp_save_part(part, path, TRUE)) {
 		gconf = gconf_client_get_default();
-		
-		/* if the filename hasn't changed, blank the filename before 
+
+		/* if the filename hasn't changed, blank the filename before
 		*  setting it so that gconf detects a change and updates it */
-		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_filename", NULL)) != NULL 
+		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_filename", NULL)) != NULL
 		     && strcmp (str, path) == 0) {
 			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", "", NULL);
 		}
-		
+
 		g_free (str);
 		gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", path, NULL);
-		
+
 		/* if GNOME currently doesn't display a picture, set to "wallpaper"
 		 * display mode, otherwise leave it alone */
-		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_options", NULL)) == NULL 
+		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_options", NULL)) == NULL
 		     || strcmp(str, "none") == 0) {
 			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_options", "wallpaper", NULL);
 		}
-		
+
 		gconf_client_suggest_sync(gconf, NULL);
-		
+
 		g_free(str);
 		g_object_unref(gconf);
 	}
-	
+
 	g_free(path);
 }
 
@@ -296,7 +296,7 @@ ecalp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 		GnomeVFSMimeApplication *app = item->user_data;
 		char *uri;
 		GList *uris = NULL;
-		
+
 		uri = gnome_vfs_get_uri_from_local_path(path);
 		uris = g_list_append(uris, uri);
 
@@ -330,7 +330,7 @@ ecalp_standard_items_free(EPopup *ep, GSList *items, void *data)
 	g_slist_free(items);
 }
 
-static void 
+static void
 ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 {
 	int i, len;
@@ -359,18 +359,18 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 		filename = camel_mime_part_get_filename(attachment->body);
 
 
-		break; }		
+		break; }
 	default:
 		items = NULL;
-		len = 0;	
+		len = 0;
 	}
 
 	if (mime_type) {
 		apps = gnome_vfs_mime_get_all_applications(mime_type);
-		
+
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
 			const char *name_type;
-			
+
 			if (filename) {
 				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
 				if (!strcmp (filename, "winmail.dat"))
@@ -464,12 +464,12 @@ ECalPopup *e_cal_popup_new(const char *menuid)
 static icalproperty *
 get_attendee_prop (icalcomponent *icalcomp, const char *address)
 {
-	
+
 	icalproperty *prop;
 
 	if (!(address && *address))
 		return NULL;
-	
+
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
@@ -481,14 +481,14 @@ get_attendee_prop (icalcomponent *icalcomp, const char *address)
 	}
 	return NULL;
 }
-	
-static gboolean 
+
+static gboolean
 is_delegated (icalcomponent *icalcomp, char *user_email)
 {
 	icalproperty *prop;
 	icalparameter *param;
 	const char *delto = NULL;
-	
+
 	prop = get_attendee_prop (icalcomp, user_email);
 
 	if (prop) {
@@ -496,8 +496,8 @@ is_delegated (icalcomponent *icalcomp, char *user_email)
 		delto = icalparameter_get_delegatedto (param);
 	} else
 		return FALSE;
-	
-	prop = get_attendee_prop (icalcomp, itip_strip_mailto (delto));	
+
+	prop = get_attendee_prop (icalcomp, itip_strip_mailto (delto));
 
 	if (prop) {
 		const char *delfrom;
@@ -512,20 +512,20 @@ is_delegated (icalcomponent *icalcomp, char *user_email)
 			return TRUE;
 	}
 
-	return FALSE;	
+	return FALSE;
 }
 
 static gboolean
-needs_to_accept (icalcomponent *icalcomp, char *user_email) 
+needs_to_accept (icalcomponent *icalcomp, char *user_email)
 {
 	icalproperty *prop;
 	icalparameter *param;
 	icalparameter_partstat status;
-	
+
 	prop = get_attendee_prop (icalcomp, user_email);
 
 	/* It might be a mailing list */
-	if (!prop)	
+	if (!prop)
 		return TRUE;
 	param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 	status = icalparameter_get_partstat (param);
@@ -543,10 +543,10 @@ needs_to_accept (icalcomponent *icalcomp, char *user_email)
  * @events: An array of pointers to ECalModelComponent items.  These
  * items must be copied.  They, and the @events array will be freed by
  * the popup menu automatically.
- * 
+ *
  * Create a new selection popup target.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 ECalPopupTargetSelect *
 e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events)
@@ -555,13 +555,13 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	guint32 mask = ~0;
 	ECal *client;
 	gboolean read_only, user_org = FALSE;
-	
+
 	/* FIXME: This is duplicated in e-cal-menu */
 
 	t->model = model;
 	g_object_ref(t->model);
 	t->events = events;
-	
+
 	if (t->events->len == 0) {
 		client = e_cal_model_get_default_client(t->model);
 	} else {
@@ -583,7 +583,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 			/* Now check for any incomplete tasks and set the flags*/
 			for (; i < t->events->len; i++) {
 				ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[i];
-				if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY)) 
+				if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
 					mask &= ~E_CAL_POPUP_SELECT_NOTCOMPLETE;
 				else
 					mask &= ~E_CAL_POPUP_SELECT_COMPLETE;
@@ -640,7 +640,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 
 		if (icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
 			mask &= ~E_CAL_POPUP_SELECT_COMPLETE;
-		
+
 		g_object_unref (comp);
 		g_free (user_email);
 	}
@@ -649,8 +649,8 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	if (!read_only)
 		mask &= ~E_CAL_POPUP_SELECT_EDITABLE;
 
-	
-		
+
+
 	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 	    && !e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))
 		mask &= ~E_CAL_POPUP_SELECT_ASSIGNABLE;
@@ -697,7 +697,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 		/* check for e_target_selector's offline_status property here */
 		offline = e_source_get_property (source, "offline");
 
-		if (offline  && strcmp (offline,"1") == 0) { 
+		if (offline  && strcmp (offline,"1") == 0) {
 			/* set the menu item to Mark Offline - */
 			mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE;
 		} else {
@@ -708,7 +708,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 		mask |= E_CAL_POPUP_SOURCE_OFFLINE;
 	}
 	g_free (uri);
-	
+
 	source = e_source_selector_peek_primary_selection (selector);
 	/*check for delete_status property here*/
 	delete = e_source_get_property (source, "delete");
@@ -729,13 +729,13 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 
 /**
  * e_cal_popup_target_new_attachments:
- * @ecp: 
+ * @ecp:
  * @attachments: A list of CalAttachment objects, reffed for
  * the list.  Will be unreff'd once finished with.
- * 
+ *
  * Owns the list @attachments and their items after they're passed in.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 ECalPopupTargetAttachments *
 e_cal_popup_target_new_attachments(ECalPopup *ecp, CompEditor *editor, GSList *attachments)
@@ -752,10 +752,10 @@ e_cal_popup_target_new_attachments(ECalPopup *ecp, CompEditor *editor, GSList *a
 		if (error->code != E_CALENDAR_STATUS_BUSY)
 			read_only = TRUE;
 		g_error_free (error);
-	}	
+	}
 
-	if (!read_only && (!(flags & COMP_EDITOR_MEETING) || 
-				(flags & COMP_EDITOR_NEW_ITEM) || 
+	if (!read_only && (!(flags & COMP_EDITOR_MEETING) ||
+				(flags & COMP_EDITOR_NEW_ITEM) ||
 				(flags & COMP_EDITOR_USER_ORG)))
 		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MODIFY;
 
@@ -771,7 +771,7 @@ e_cal_popup_target_new_attachments(ECalPopup *ecp, CompEditor *editor, GSList *a
 
 	if (len > 1)
 		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MULTIPLE;
-	
+
 	t->target.mask = mask;
 
 	return t;
@@ -820,7 +820,7 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "meeting", E_CAL_POPUP_SELECT_MEETING },
 	{ "assignable", E_CAL_POPUP_SELECT_ASSIGNABLE },
 	{ "hasurl", E_CAL_POPUP_SELECT_HASURL },
-	{ "delegate", E_CAL_POPUP_SELECT_DELEGATABLE }, 
+	{ "delegate", E_CAL_POPUP_SELECT_DELEGATABLE },
 	{ "accept", E_CAL_POPUP_SELECT_ACCEPTABLE },
 	{ "not-complete", E_CAL_POPUP_SELECT_NOTCOMPLETE },
 	{ "no-save-schedules", E_CAL_POPUP_SELECT_NOSAVESCHEDULES },
@@ -833,9 +833,9 @@ static const EPopupHookTargetMask ecalph_source_masks[] = {
 	{ "system", E_CAL_POPUP_SOURCE_SYSTEM },
 	{ "user", E_CAL_POPUP_SOURCE_USER },
 	{ "offline", E_CAL_POPUP_SOURCE_OFFLINE},
-	{ "no-offline", E_CAL_POPUP_SOURCE_NO_OFFLINE},	
+	{ "no-offline", E_CAL_POPUP_SOURCE_NO_OFFLINE},
 	{ "delete", E_CAL_POPUP_SOURCE_DELETE},
-	{ "no-delete", E_CAL_POPUP_SOURCE_NO_DELETE},	
+	{ "no-delete", E_CAL_POPUP_SOURCE_NO_DELETE},
 
 	{ NULL }
 };
@@ -882,7 +882,7 @@ GType
 e_cal_popup_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(ECalPopupHookClass), NULL, NULL, (GClassInitFunc) ecalph_class_init, NULL, NULL,
@@ -892,6 +892,6 @@ e_cal_popup_hook_get_type(void)
 		ecalph_parent_class = g_type_class_ref(e_popup_hook_get_type());
 		type = g_type_register_static(e_popup_hook_get_type(), "ECalPopupHook", &info, 0);
 	}
-	
+
 	return type;
 }

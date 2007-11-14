@@ -42,7 +42,7 @@
 
 #define LOG_STREAM
 
-#define d(x) 
+#define d(x)
 
 #define EMVS_CLASS(x) ((EMVFSStreamClass *)(((CamelObject *)(x))->klass))
 
@@ -293,7 +293,7 @@ CamelType
 em_vfs_stream_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		parent_class = (CamelStreamClass *)camel_seekable_stream_get_type();
 		type = camel_type_register ((CamelType)parent_class,
@@ -305,17 +305,17 @@ em_vfs_stream_get_type (void)
 					    (CamelObjectInitFunc) em_vfs_stream_init,
 					    (CamelObjectFinalizeFunc) em_vfs_stream_finalize);
 	}
-	
+
 	return type;
 }
 
 /**
  * emvfs_stream_new:
- * @handle: 
- * 
+ * @handle:
+ *
  * Create a new camel stream from a GnomeVFS handle.  The camel stream
  * will own the handle from now on.
- * 
+ *
  * Return value: A CamelStream that will talk to @handle.  This function cannot fail.
  **/
 EMVFSStream *

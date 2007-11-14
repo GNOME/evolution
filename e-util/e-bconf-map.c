@@ -58,12 +58,12 @@ e_bconf_hex_decode (const char *val)
 {
 	const unsigned char *p = (const unsigned char *) val;
 	char *o, *res;
-	
+
 	o = res = g_malloc (strlen (val) / 2 + 1);
 	for (p = (const unsigned char *)val; (p[0] && p[1]); p += 2)
 		*o++ = (hexnib[p[0]] << 4) | hexnib[p[1]];
 	*o = 0;
-	
+
 	return res;
 }
 
@@ -72,7 +72,7 @@ e_bconf_url_decode (const char *val)
 {
 	const unsigned char *p = (const unsigned char *) val;
 	char *o, *res, c;
-	
+
 	o = res = g_malloc (strlen (val) + 1);
 	while (*p) {
 		c = *p++;
@@ -84,7 +84,7 @@ e_bconf_url_decode (const char *val)
 			*o++ = c;
 	}
 	*o = 0;
-	
+
 	return res;
 }
 
@@ -95,13 +95,13 @@ e_bconf_get_path (xmlDocPtr doc, const char *path)
 	xmlNodePtr root;
 	char *val;
 	int found;
-	
+
 	root = doc->children;
 	if (strcmp ((char *)root->name, "bonobo-config") != 0) {
 		g_warning ("not bonobo-config xml file");
 		return NULL;
 	}
-	
+
 	root = root->children;
 	while (root) {
 		if (!strcmp ((char *)root->name, "section")) {
@@ -113,7 +113,7 @@ e_bconf_get_path (xmlDocPtr doc, const char *path)
 		}
 		root = root->next;
 	}
-	
+
 	return root;
 }
 
@@ -123,7 +123,7 @@ e_bconf_get_entry (xmlNodePtr root, const char *name)
 	xmlNodePtr node = root->children;
 	int found;
 	char *val;
-	
+
 	while (node) {
 		if (!strcmp ((char *)node->name, "entry")) {
 			val = (char *)xmlGetProp (node, (const unsigned char *)"name");
@@ -134,7 +134,7 @@ e_bconf_get_entry (xmlNodePtr root, const char *name)
 		}
 		node = node->next;
 	}
-	
+
 	return node;
 }
 
@@ -143,12 +143,12 @@ e_bconf_get_value (xmlNodePtr root, const char *name)
 {
 	xmlNodePtr node = e_bconf_get_entry (root, name);
 	char *prop, *val = NULL;
-	
+
 	if (node && (prop = (char *)xmlGetProp (node, (const unsigned char *)"value"))) {
 		val = g_strdup (prop);
 		xmlFree (prop);
 	}
-	
+
 	return val;
 }
 
@@ -156,13 +156,13 @@ char *
 e_bconf_get_bool (xmlNodePtr root, const char *name)
 {
 	char *val, *res;
-	
+
 	if ((val = e_bconf_get_value (root, name))) {
 		res = g_strdup (val[0] == '1' ? "true" : "false");
 		g_free (val);
 	} else
 		res = NULL;
-	
+
 	return res;
 }
 
@@ -170,13 +170,13 @@ char *
 e_bconf_get_long (xmlNodePtr root, const char *name)
 {
 	char *val, *res;
-	
+
 	if ((val = e_bconf_get_value (root, name))) {
 		res = g_strdup (val);
 		g_free (val);
 	} else
 		res = NULL;
-	
+
 	return res;
 }
 
@@ -184,13 +184,13 @@ char *
 e_bconf_get_string (xmlNodePtr root, const char *name)
 {
 	char *val, *res;
-	
+
 	if ((val = e_bconf_get_value (root, name))) {
 		res = e_bconf_hex_decode (val);
 		g_free (val);
 	} else
 		res = NULL;
-	
+
 	return res;
 }
 
@@ -221,17 +221,17 @@ bconf_lookup_enum (xmlNodePtr root, const char *name, e_bconf_map_t *map)
 {
 	int index = 0, i;
 	char *val;
-	
+
 	if ((val = e_bconf_get_value (root, name))) {
 		index = atoi (val);
 		g_free (val);
 	}
-	
+
 	for (i = 0; map->child[i].from; i++) {
 		if (i == index)
 			return g_strdup (map->child[i].from);
 	}
-	
+
 	return NULL;
 }
 
@@ -245,7 +245,7 @@ get_name (const char *in, int index)
 {
 	GString *out = g_string_new ("");
 	char c, *res;
-	
+
 	while ((c = *in++)) {
 		if (c == '%') {
 			c = *in++;
@@ -261,10 +261,10 @@ get_name (const char *in, int index)
 			g_string_append_c (out, c);
 		}
 	}
-	
+
 	res = out->str;
 	g_string_free (out, FALSE);
-	
+
 	return res;
 }
 
@@ -273,7 +273,7 @@ build_xml (xmlNodePtr root, e_bconf_map_t *map, int index, xmlNodePtr source)
 {
 	char *name, *value;
 	xmlNodePtr node;
-	
+
 	while (map->type != E_BCONF_MAP_END) {
 		if ((map->type & E_BCONF_MAP_MASK) == E_BCONF_MAP_CHILD) {
 			node = xmlNewChild (root, NULL, (unsigned char *)map->to, NULL);
@@ -281,16 +281,16 @@ build_xml (xmlNodePtr root, e_bconf_map_t *map, int index, xmlNodePtr source)
 		} else {
 			name = get_name (map->from, index);
 			value = lookup_table[(map->type & E_BCONF_MAP_MASK) - 1] (source, name, map);
-			
+
 			d(printf ("key '%s=%s' -> ", name, value));
-			
+
 			if (map->type & E_BCONF_MAP_CONTENT) {
 				if (value && value[0])
 					xmlNewTextChild (root, NULL, (unsigned char *)map->to, (unsigned char *)value);
 			} else {
 				xmlSetProp (root, (unsigned char *)map->to, (unsigned char *)value);
 			}
-			
+
 			g_free (value);
 			g_free (name);
 		}
@@ -308,7 +308,7 @@ e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map
 	int count = 0, i;
 	GSList *list, *l;
 	char *val;
-	
+
 	source = e_bconf_get_path (config_xmldb, bconf_path);
 	if (source) {
 		list = NULL;
@@ -316,37 +316,37 @@ e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map
 			count = atoi (val);
 			g_free (val);
 		}
-		
+
 		d(printf("Found %d blobs at %s\n", count, bconf_path));
-		
+
 		for (i = 0; i < count; i++) {
 			xmlDocPtr doc;
 			xmlNodePtr root;
 			xmlChar *xmlbuf;
 			int n;
-			
+
 			doc = xmlNewDoc ((const unsigned char *)"1.0");
 			root = xmlNewDocNode (doc, NULL, (unsigned char *)name, NULL);
 			xmlDocSetRootElement (doc, root);
-			
+
 			/* This could be set with a MAP_UID type ... */
 			if (idparam) {
 				char buf[16];
-				
+
 				sprintf (buf, "%d", i);
 				xmlSetProp (root, (unsigned char *)idparam, (unsigned char *)buf);
 			}
-			
+
 			build_xml (root, map, i, source);
-			
+
 			xmlDocDumpMemory (doc, &xmlbuf, &n);
 			xmlFreeDoc (doc);
-			
+
 			list = g_slist_append (list, xmlbuf);
 		}
-		
+
 		gconf_client_set_list (gconf, gconf_path, GCONF_VALUE_STRING, list, NULL);
-		
+
 		while (list) {
 			l = list->next;
 			xmlFree (list->data);
@@ -356,7 +356,7 @@ e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map
 	} else {
 		g_warning ("could not find '%s' in old config database, skipping", bconf_path);
 	}
-	
+
 	return 0;
 }
 
@@ -372,13 +372,13 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 	GSList *list, *l;
 	char buf[32];
 	int i, j, k;
-	
+
 	/* process all flat config */
 	for (i = 0; remap_list[i].root; i++) {
 		d(printf ("Path: %s\n", remap_list[i].root));
 		if (!(source = e_bconf_get_path (config_xmldb, remap_list[i].root)))
 			continue;
-		
+
 		map = remap_list[i].map;
 		for (j = 0; map[j].from; j++) {
 			if (map[j].type & E_GCONF_MAP_LIST) {
@@ -401,12 +401,12 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 							list = g_slist_append (list, e_bconf_hex_decode (val));
 							break;
 						}
-						
+
 						g_free (val);
 						k++;
 					}
 				} while (val);
-				
+
 				if (list) {
 					path = g_strdup_printf ("/apps/evolution/%s", map[j].to);
 					gconf_client_set_list (gconf, path, gconf_type[map[j].type & E_GCONF_MAP_MASK], list, NULL);
@@ -415,7 +415,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 						g_slist_foreach (list, (GFunc) g_free, NULL);
 					g_slist_free (list);
 				}
-				
+
 				continue;
 			} else if (map[j].type == E_GCONF_MAP_ANYLIST) {
 				val = NULL;
@@ -423,13 +423,13 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 				if (!(val = e_bconf_get_value (source, map[j].from)))
 					continue;
 			}
-			
+
 			d(printf (" %s = '%s' -> %s [%d]\n",
 				  map[j].from,
 				  val == NULL ? "(null)" : val,
 				  map[j].to,
 				  map[j].type));
-			
+
 			path = g_strdup_printf ("/apps/evolution/%s", map[j].to);
 			switch (map[j].type) {
 			case E_GCONF_MAP_BOOL:
@@ -455,13 +455,13 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 			case E_GCONF_MAP_STRLIST: {
 				char *v = e_bconf_hex_decode (val);
 				char **t = g_strsplit (v, " !<-->!", 8196);
-				
+
 				list = NULL;
 				for (k = 0; t[k]; k++) {
 					list = g_slist_append (list, t[k]);
 					d(printf ("  [%d] = '%s'\n", k, t[k]));
 				}
-				
+
 				gconf_client_set_list (gconf, path, GCONF_VALUE_STRING, list, NULL);
 				g_slist_free (list);
 				g_strfreev (t);
@@ -470,12 +470,12 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 			case E_GCONF_MAP_ANYLIST: {
 				xmlNodePtr node = source->children;
 				list = NULL;
-				
+
 				/* find the entry node */
 				while (node) {
 					if (!strcmp ((char *)node->name, "entry")) {
 						int found;
-						
+
 						if ((tmp = (char *)xmlGetProp (node, (const unsigned char *)"name"))) {
 							found = strcmp ((char *)tmp, map[j].from) == 0;
 							xmlFree (tmp);
@@ -483,10 +483,10 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 								break;
 						}
 					}
-					
+
 					node = node->next;
 				}
-				
+
 				/* find the the any block */
 				if (node) {
 					node = node->children;
@@ -496,7 +496,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 						node = node->next;
 					}
 				}
-				
+
 				/* skip to the value inside it */
 				if (node) {
 					node = node->children;
@@ -506,7 +506,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 						node = node->next;
 					}
 				}
-				
+
 				if (node) {
 					node = node->children;
 					while (node) {
@@ -515,7 +515,7 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 						node = node->next;
 					}
 				}
-				
+
 				/* & store */
 				if (list) {
 					gconf_client_set_list (gconf, path, GCONF_VALUE_STRING, list, NULL);
@@ -526,19 +526,19 @@ e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *
 						list = l;
 					}
 				}
-				
+
 				break; }
 			case E_GCONF_MAP_COLOUR:
 				sprintf (buf, "#%06x", atoi (val) & 0xffffff);
 				gconf_client_set_string (gconf, path, buf, NULL);
 				break;
 			}
-			
+
 			/* FIXME: handle errors */
 			g_free (path);
 			g_free (val);
 		}
 	}
-	
+
 	return 0;
 }

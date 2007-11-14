@@ -93,7 +93,7 @@ static void
 e_task_bar_init (ETaskBar *task_bar)
 {
 	GtkWidget *label, *hbox;
-	
+
 	task_bar->priv = g_new (ETaskBarPrivate, 1);
 
 	gtk_box_set_spacing (GTK_BOX (task_bar), 10);
@@ -101,7 +101,7 @@ e_task_bar_init (ETaskBar *task_bar)
 	label = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start (GTK_BOX (task_bar), label, TRUE, TRUE, 0);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	task_bar->priv->message_label = label;
 
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -208,7 +208,7 @@ e_task_bar_remove_task (ETaskBar *task_bar,
 	if (g_list_length (GTK_BOX (task_bar->priv->hbox)->children) == 0)
 		gtk_widget_hide (GTK_WIDGET (task_bar->priv->hbox));
 }
-	
+
 ETaskWidget *
 e_task_bar_get_task_widget (ETaskBar *task_bar,
 			    int n)

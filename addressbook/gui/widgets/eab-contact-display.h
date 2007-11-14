@@ -43,7 +43,7 @@ typedef enum {
 
 struct _EABContactDisplay {
 	GtkHTML parent;
-	
+
 	EABContactDisplayPrivate *priv;
 };
 

@@ -55,36 +55,36 @@ struct _GtkWindow;
 
 struct _EMComposerPrefs {
 	GtkVBox parent_object;
-	
+
 	struct _GConfClient *gconf;
-	
+
 	struct _GladeXML *gui;
-	
+
 	/* General tab */
-	
+
 	/* Default Behavior */
 	struct _GtkToggleButton *send_html;
 	struct _GtkToggleButton *auto_smileys;
 	struct _GtkToggleButton *prompt_empty_subject;
 	struct _GtkToggleButton *prompt_bcc_only;
 	struct _GtkOptionMenu *charset;
-	
+
 	struct _GtkToggleButton *spell_check;
 	struct _GtkColorButton *color;
 	struct _GtkTreeView *language;
 	CORBA_sequence_GNOME_Spell_Language *language_seq;
 	gboolean spell_active;
-	
+
 	struct _GdkPixbuf *enabled_pixbuf;
-	
+
 	/* Forwards and Replies */
 	struct _GtkOptionMenu *forward_style;
 	struct _GtkOptionMenu *reply_style;
 	struct _GtkToggleButton *top_signature;
-	
+
 	/* Keyboard Shortcuts */
 	struct _GtkOptionMenu *shortcuts_type;
-	
+
 	/* Signatures */
 	struct _GtkTreeView *sig_list;
 	GHashTable *sig_hash;
@@ -93,10 +93,10 @@ struct _EMComposerPrefs {
 	struct _GtkButton *sig_edit;
 	struct _GtkButton *sig_delete;
 	struct _GtkHTML *sig_preview;
-	
+
 	struct _GladeXML *sig_script_gui;
 	struct _GtkWidget *sig_script_dialog;
-	
+
 	guint sig_added_id;
 	guint sig_removed_id;
 	guint sig_changed_id;
@@ -104,9 +104,9 @@ struct _EMComposerPrefs {
 
 struct _EMComposerPrefsClass {
 	GtkVBoxClass parent_class;
-	
+
 	/* signals */
-	
+
 };
 
 GType em_composer_prefs_get_type (void);

@@ -233,7 +233,7 @@ gboolean
 eab_editor_is_valid (EABEditor *editor)
 {
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), FALSE);
-	
+
 	if (EAB_EDITOR_GET_CLASS(editor)->is_valid)
 		return EAB_EDITOR_GET_CLASS(editor)->is_valid (editor);
 	else
@@ -244,17 +244,17 @@ GtkWindow*
 eab_editor_get_window (EABEditor *editor)
 {
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), NULL);
-	
+
 	if (EAB_EDITOR_GET_CLASS(editor)->get_window)
 		return EAB_EDITOR_GET_CLASS(editor)->get_window (editor);
 	else
 		return NULL;
 }
 /* This function prompts for saving if editor conents are in changed state and
-   save or discards or cancels(just returns with out doing anything) according to user input. 
-   Editor gets destoryed in case of save and discard case. 
+   save or discards or cancels(just returns with out doing anything) according to user input.
+   Editor gets destoryed in case of save and discard case.
    */
-   
+
 gboolean
 eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
 {
@@ -319,13 +319,13 @@ eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list,
 	if (is_list) {
 		/* contact list(s) */
 		if (!plural)
-			msg = g_strdup_printf (_("Are you sure you want\nto delete contact list (%s)?"), 
+			msg = g_strdup_printf (_("Are you sure you want\nto delete contact list (%s)?"),
 						name?name:"");
 		else
 			msg = g_strdup (_("Are you sure you want\nto delete these contact lists?"));
 	}
 	else {
-		/* contact(s) */ 
+		/* contact(s) */
 		if (!plural)
 			msg = g_strdup_printf (_("Are you sure you want\nto delete contact (%s)?"),
 						name?name:"");

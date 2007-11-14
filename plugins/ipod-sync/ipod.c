@@ -23,7 +23,7 @@ check_hal (void)
 	char **devices;
 	int num;
 	DBusConnection *conn;
-	
+
 	conn = dbus_bus_get (DBUS_BUS_SYSTEM, NULL);
 
 	ctx = libhal_ctx_new ();
@@ -105,7 +105,7 @@ static gboolean
 is_ipod (char *mount_point)
 {
 	gboolean ret = FALSE;
-	
+
 	char *itunes_path;
 
 	itunes_path = g_build_path (G_DIR_SEPARATOR_S, mount_point,
@@ -114,7 +114,7 @@ is_ipod (char *mount_point)
 
 	if (!g_file_test (itunes_path, G_FILE_TEST_IS_DIR))
 		goto out;
-	
+
 	ret = TRUE;
 
 out:
@@ -147,7 +147,7 @@ find_ipod_mount_point (LibHalContext *ctx)
 	for (i = 0; i < apple_count; i++)
 	{
 		udi = apple_devices[i];
-		
+
 		volumes = NULL;
 		volumes = libhal_manager_find_device_string_match (ctx,
 							"info.parent",
@@ -161,7 +161,7 @@ find_ipod_mount_point (LibHalContext *ctx)
 
 			/* Only interested if it has a filesystem. */
 			has_fs = 0;
-			
+
 			if (!libhal_device_property_exists (ctx, udi2,
 								"volume.is_filesystem", NULL) ||
 				  !libhal_device_get_property_bool (ctx, udi2,
@@ -169,7 +169,7 @@ find_ipod_mount_point (LibHalContext *ctx)
 			{
 				has_fs = 1;
 			}
-			
+
 			fsusage = libhal_device_get_property_string (ctx, udi2,
 				 				"volume.fsusage", NULL);
 
@@ -185,7 +185,7 @@ find_ipod_mount_point (LibHalContext *ctx)
 
 			if (has_fs == 0)
 				continue;
-				
+
 			device = libhal_device_get_property_string (ctx, udi2,
 									"block.device", NULL);
 
@@ -198,7 +198,7 @@ find_ipod_mount_point (LibHalContext *ctx)
 				/* It isn't, so let's attempt to mount it */
 				if (device != NULL)
 				{
-					try_mount (device);	
+					try_mount (device);
 				}
 			}
 
@@ -210,10 +210,10 @@ find_ipod_mount_point (LibHalContext *ctx)
 			}
 
 			libhal_free_string (device);
-			
+
 			mount_point = libhal_device_get_property_string (ctx, udi2,
 											"volume.mount_point", NULL);
-			
+
 			if (is_ipod (mount_point))
 			{
 				goto out;
@@ -227,15 +227,15 @@ find_ipod_mount_point (LibHalContext *ctx)
 out:
 	if (volumes != NULL)
 		libhal_free_string_array (volumes);
-	
+
 	if (apple_devices != NULL)
 		libhal_free_string_array (apple_devices);
-	
+
 	if (mount_point != NULL)
 	{
 		retval = g_strdup (mount_point);
 		libhal_free_string (mount_point);
 	}
-	
+
 	return (retval);
 }

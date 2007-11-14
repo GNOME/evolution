@@ -46,16 +46,16 @@ typedef struct _MessageTagEditorClass MessageTagEditorClass;
 
 struct _MessageTagEditor {
 	GtkDialog parent;
-	
+
 };
 
 struct _MessageTagEditorClass {
 	GtkDialogClass parent_class;
-	
+
 	/* virtual methods */
 	CamelTag * (*get_tag_list) (MessageTagEditor *editor);
 	void       (*set_tag_list) (MessageTagEditor *editor, CamelTag *tags);
-	
+
 	/* signals */
 };
 

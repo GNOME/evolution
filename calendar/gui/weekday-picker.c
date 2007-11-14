@@ -109,7 +109,7 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 	class->changed = NULL;
 }
 
-static void 
+static void
 day_clicked (WeekdayPicker *wp, int index)
 {
 	WeekdayPickerPrivate *priv = wp->priv;
@@ -324,7 +324,7 @@ get_day_text (int day_index)
 
 	/* we use strlen because we actually want to count bytes */
 	if (day_index == 6)
-		char_size = strlen (day); 
+		char_size = strlen (day);
 	else
 		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
 
@@ -459,7 +459,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 		pango_layout_set_text (layout, c, strlen (c));
 		pango_layout_get_pixel_size (layout, &w, NULL);
 		g_free (c);
-		
+
 		if (w > max_width)
 			max_width = w;
 	}
@@ -478,10 +478,10 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 
 /**
  * weekday_picker_new:
- * @void: 
- * 
+ * @void:
+ *
  * Creates a new weekday picker widget.
- * 
+ *
  * Return value: A newly-created weekday picker.
  **/
 GtkWidget *
@@ -494,7 +494,7 @@ weekday_picker_new (void)
  * weekday_picker_set_days:
  * @wp: A weekday picker.
  * @day_mask: Bitmask with the days to be selected.
- * 
+ *
  * Sets the days that are selected in a weekday picker.  In the @day_mask,
  * Sunday is bit 0, Monday is bit 1, etc.
  **/
@@ -517,9 +517,9 @@ weekday_picker_set_days (WeekdayPicker *wp, guint8 day_mask)
 /**
  * weekday_picker_get_days:
  * @wp: A weekday picker.
- * 
+ *
  * Queries the days that are selected in a weekday picker.
- * 
+ *
  * Return value: Bit mask of selected days.  Sunday is bit 0, Monday is bit 1,
  * etc.
  **/
@@ -539,7 +539,7 @@ weekday_picker_get_days (WeekdayPicker *wp)
  * weekday_picker_set_blocked_days:
  * @wp: A weekday picker.
  * @blocked_day_mask: Bitmask with the days to be blocked.
- * 
+ *
  * Sets the days that the weekday picker will prevent from being modified by the
  * user.  The @blocked_day_mask is specified in the same way as in
  * weekday_picker_set_days().
@@ -559,10 +559,10 @@ weekday_picker_set_blocked_days (WeekdayPicker *wp, guint8 blocked_day_mask)
 /**
  * weekday_picker_get_blocked_days:
  * @wp: A weekday picker.
- * 
+ *
  * Queries the set of days that the weekday picker prevents from being modified
  * by the user.
- * 
+ *
  * Return value: Bit mask of blocked days, with the same format as that returned
  * by weekday_picker_get_days().
  **/
@@ -583,7 +583,7 @@ weekday_picker_get_blocked_days (WeekdayPicker *wp)
  * @wp: A weekday picker.
  * @week_start_day: Index of the day that defines the start of the week; 0 is
  * Sunday, 1 is Monday, etc.
- * 
+ *
  * Sets the day that defines the start of the week for a weekday picker.
  **/
 void
@@ -604,9 +604,9 @@ weekday_picker_set_week_start_day (WeekdayPicker *wp, int week_start_day)
 /**
  * weekday_picker_get_week_start_day:
  * @wp: A weekday picker.
- * 
+ *
  * Queries the day that defines the start of the week in a weekday picker.
- * 
+ *
  * Return value: Index of the day that defines the start of the week.  See
  * weekday_picker_set_week_start_day() to see how this is represented.
  **/

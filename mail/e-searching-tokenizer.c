@@ -14,12 +14,12 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -41,7 +41,7 @@
 #include "libedataserver/e-memory.h"
 #include "libedataserver/e-msgport.h"
 
-#define d(x) 
+#define d(x)
 
 enum {
 	MATCH_SIGNAL,
@@ -144,7 +144,7 @@ loop:
 			r<<=1;
 			m<<=5;
 		} while (r & 0x40);
-		
+
 		*ptr = p;
 
 		v &= ~m;
@@ -224,7 +224,7 @@ struct _trie {
 	EMemChunk *match_chunks;
 };
 
-static void 
+static void
 dump_trie(struct _state *s, int d)
 {
 	char *p = alloca(d*2+1);
@@ -232,7 +232,7 @@ dump_trie(struct _state *s, int d)
 
 	memset(p, ' ', d*2);
 	p[d*2]=0;
-	
+
 	printf("%s[state] %p: %d  fail->%p\n", p, s, s->final, s->fail);
 	m = s->matches;
 	while (m) {
@@ -359,7 +359,7 @@ build_trie(int nocase, int len, unsigned char **words)
 			q = q->next;
 		}
 	}
-	
+
 	d(printf("After failure analysis\n"));
 	d(dump_trie(&trie->root, 0));
 
@@ -971,18 +971,18 @@ e_searching_tokenizer_finalise (GObject *obj)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (obj);
 	struct _ESearchingTokenizerPrivate *p = st->priv;
-	
+
 	search_info_free (p->primary);
 	search_info_free (p->secondary);
 	if (p->engine)
 		searcher_free(p->engine);
-	
-	/* again wtf? 
+
+	/* again wtf?
 	shared_state_unref (st->priv->shared);
 	*/
-	
+
 	g_free (p);
-	
+
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		G_OBJECT_CLASS (parent_class)->finalize(obj);
 }
@@ -992,9 +992,9 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *klass)
 {
 	GObjectClass *obj_class = (GObjectClass *) klass;
 	HTMLTokenizerClass *tok_class = HTML_TOKENIZER_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (HTML_TYPE_TOKENIZER);
-	
+
 	signals[MATCH_SIGNAL] =
 		g_signal_new ("match",
 			      E_TYPE_SEARCHING_TOKENIZER,
@@ -1004,12 +1004,12 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *klass)
 			      NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	
+
 	obj_class->finalize = e_searching_tokenizer_finalise;
-	
+
 	tok_class->begin = e_searching_tokenizer_begin;
 	tok_class->end = e_searching_tokenizer_end;
-	
+
 	tok_class->peek_token = e_searching_tokenizer_peek_token;
 	tok_class->next_token = e_searching_tokenizer_next_token;
 	tok_class->has_more = e_searching_tokenizer_has_more;
@@ -1026,7 +1026,7 @@ e_searching_tokenizer_init (ESearchingTokenizer *st)
 	p->primary = search_info_new();
 	search_info_set_flags(p->primary, SEARCH_BOLD, SEARCH_CASE|SEARCH_BOLD);
 	search_info_set_colour(p->primary, "red");
-	
+
 	p->secondary = search_info_new();
 	search_info_set_flags(p->secondary, SEARCH_BOLD, SEARCH_CASE|SEARCH_BOLD);
 	search_info_set_colour(p->secondary, "purple");
@@ -1036,7 +1036,7 @@ GType
 e_searching_tokenizer_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (ESearchingTokenizerClass),
@@ -1047,10 +1047,10 @@ e_searching_tokenizer_get_type (void)
 			0,
 			(GInstanceInitFunc) e_searching_tokenizer_init,
 		};
-		
+
 		type = g_type_register_static (HTML_TYPE_TOKENIZER, "ESearchingTokenizer", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -1067,7 +1067,7 @@ e_searching_tokenizer_new (void)
 static char *get_token(HTMLTokenizer *t)
 {
 	HTMLTokenizerClass *klass = HTML_TOKENIZER_CLASS (parent_class);
-	
+
 	return klass->has_more(t) ? klass->next_token(t) : NULL;
 }
 
@@ -1132,19 +1132,19 @@ e_searching_tokenizer_next_token (HTMLTokenizer *tok)
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
 	int oldmatched;
 	char *token;
-	
+
 	/* If no search is active, just use the default method. */
 	if (st->priv->engine == NULL)
 		return HTML_TOKENIZER_CLASS (parent_class)->next_token (tok);
-	
+
 	oldmatched = st->priv->engine->matchcount;
-	
+
 	token = searcher_next_token(st->priv->engine);
 
 	/* not sure if this has to be accurate or just say we had some matches */
 	if (oldmatched != st->priv->engine->matchcount)
 		g_signal_emit (st, signals[MATCH_SIGNAL], 0);
-	
+
 	return token;
 }
 
@@ -1170,22 +1170,22 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *orig_st = E_SEARCHING_TOKENIZER (tok);
 	ESearchingTokenizer *new_st = E_SEARCHING_TOKENIZER (e_searching_tokenizer_new ());
-	
+
 	search_info_free(new_st->priv->primary);
 	search_info_free(new_st->priv->secondary);
-	
+
 	new_st->priv->primary = search_info_clone(orig_st->priv->primary);
 	new_st->priv->secondary = search_info_clone(orig_st->priv->secondary);
-	
+
 	/* what the fucking what???? */
 #if 0
 	shared_state_ref (orig_st->priv->shared);
 	shared_state_unref (new_st->priv->shared);
 	new_st->priv->shared = orig_st->priv->shared;
 #endif
-	
+
 	g_signal_connect_swapped (new_st, "match", G_CALLBACK(matched), orig_st);
-	
+
 	return HTML_TOKENIZER (new_st);
 }
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
@@ -1194,7 +1194,7 @@ void
 e_searching_tokenizer_set_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-	
+
 	search_info_clear(st->priv->primary);
 	search_info_add_string(st->priv->primary, search_str);
 }
@@ -1203,7 +1203,7 @@ void
 e_searching_tokenizer_add_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-	
+
 	search_info_add_string(st->priv->primary, search_str);
 }
 
@@ -1211,7 +1211,7 @@ void
 e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *st, gboolean iscase)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-	
+
 	search_info_set_flags(st->priv->primary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
@@ -1219,7 +1219,7 @@ void
 e_searching_tokenizer_set_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-	
+
 	search_info_clear(st->priv->secondary);
 	search_info_add_string(st->priv->secondary, search_str);
 }
@@ -1228,7 +1228,7 @@ void
 e_searching_tokenizer_add_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-	
+
 	search_info_add_string(st->priv->secondary, search_str);
 }
 
@@ -1236,7 +1236,7 @@ void
 e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, gboolean iscase)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
-	
+
 	search_info_set_flags(st->priv->secondary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
@@ -1245,9 +1245,9 @@ gint
 e_searching_tokenizer_match_count (ESearchingTokenizer *st)
 {
 	g_return_val_if_fail (E_IS_SEARCHING_TOKENIZER (st), -1);
-	
+
 	if (st->priv->engine && st->priv->primary->strv->len)
 		return st->priv->engine->matchcount;
-	
+
 	return 0;
 }

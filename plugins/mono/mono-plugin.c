@@ -184,7 +184,7 @@ void *
 org_gnome_evolution_mono_get_type(void *a, void *b)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EPluginMonoClass), NULL, NULL, (GClassInitFunc) epm_class_init, NULL, NULL,
@@ -196,6 +196,6 @@ org_gnome_evolution_mono_get_type(void *a, void *b)
 		domain = mono_jit_init("Evolution");
 		mono_thread_attach(domain);
 	}
-	
+
 	return GUINT_TO_POINTER(type);
 }

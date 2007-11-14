@@ -50,7 +50,7 @@ GType
 filter_part_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterPartClass),
@@ -63,10 +63,10 @@ filter_part_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_part_init,
 		};
-		
+
 		type = g_type_register_static (G_TYPE_OBJECT, "FilterPart", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -74,9 +74,9 @@ static void
 filter_part_class_init (FilterPartClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (G_TYPE_OBJECT);
-	
+
 	object_class->finalize = filter_part_finalise;
 }
 
@@ -91,18 +91,18 @@ filter_part_finalise (GObject *obj)
 {
 	FilterPart *fp = (FilterPart *) obj;
 	GList *l;
-	
+
 	l = fp->elements;
 	while (l) {
 		g_object_unref (l->data);
 		l = l->next;
 	}
-	
+
 	g_list_free (fp->elements);
 	g_free (fp->name);
 	g_free (fp->title);
 	g_free (fp->code);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -110,7 +110,7 @@ filter_part_finalise (GObject *obj)
  * filter_part_new:
  *
  * Create a new FilterPart object.
- * 
+ *
  * Return value: A new #FilterPart object.
  **/
 FilterPart *
@@ -124,16 +124,16 @@ filter_part_validate (FilterPart *fp)
 {
 	gboolean correct = TRUE;
 	GList *l;
-	
+
 	l = fp->elements;
 	while (l && correct) {
 		FilterElement *fe = l->data;
-		
+
 	        correct = filter_element_validate (fe);
-		
+
 		l = l->next;
 	}
-	
+
 	return correct;
 }
 
@@ -142,25 +142,25 @@ filter_part_eq (FilterPart *fp, FilterPart *fc)
 {
 	int truth;
 	GList *al, *bl;
-	
+
 	truth = ((fp->name && fc->name && strcmp(fp->name, fc->name) == 0)
 		 || (fp->name == NULL && fc->name == NULL))
 		&& ((fp->title && fc->title && strcmp(fp->title, fc->title) == 0)
 		    || (fp->title == NULL && fc->title == NULL))
 		&& ((fp->code && fc->code && strcmp(fp->code, fc->code) == 0)
 		    || (fp->code == NULL && fc->code == NULL));
-	
+
 	al = fp->elements;
 	bl = fc->elements;
 	while (truth && al && bl) {
 		FilterElement *a = al->data, *b = bl->data;
-		
+
 		truth = filter_element_eq(a, b);
-		
+
 		al = al->next;
 		bl = bl->next;
 	}
-	
+
 	return truth && al == NULL && bl == NULL;
 }
 
@@ -170,12 +170,12 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 	xmlNodePtr n;
 	char *type, *str;
 	FilterElement *el;
-	
+
 	str = (char *)xmlGetProp (node, (const unsigned char *)"name");
 	ff->name = g_strdup (str);
 	if (str)
 		xmlFree (str);
-	
+
 	n = node->children;
 	while (n) {
 		if (!strcmp ((char *)n->name, "input")) {
@@ -209,7 +209,7 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 		}
 		n = n->next;
 	}
-	
+
 	return 0;
 }
 
@@ -219,9 +219,9 @@ filter_part_xml_encode (FilterPart *fp)
 	GList *l;
 	FilterElement *fe;
 	xmlNodePtr part, value;
-	
+
 	g_return_val_if_fail (fp != NULL, NULL);
-	
+
 	part = xmlNewNode (NULL, (const unsigned char *)"part");
 	xmlSetProp (part, (const unsigned char *)"name", (unsigned char *)fp->name);
 	l = fp->elements;
@@ -231,7 +231,7 @@ filter_part_xml_encode (FilterPart *fp)
 		xmlAddChild (part, value);
 		l = g_list_next (l);
 	}
-	
+
 	return part;
 }
 
@@ -242,10 +242,10 @@ filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 	FilterElement *fe;
 	xmlNodePtr n;
 	char *name;
-	
+
 	g_return_val_if_fail (fp != NULL, -1);
 	g_return_val_if_fail (node != NULL, -1);
-	
+
 	n = node->children;
 	while (n) {
 		if (!strcmp ((char *)n->name, "value")) {
@@ -259,7 +259,7 @@ filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 		}
 		n = n->next;
 	}
-	
+
 	return 0;
 }
 
@@ -269,7 +269,7 @@ filter_part_clone (FilterPart *fp)
 	FilterPart *new;
 	GList *l;
 	FilterElement *fe, *ne;
-	
+
 	new = (FilterPart *) g_object_new (G_OBJECT_TYPE (fp), NULL, NULL);
 	new->name = g_strdup (fp->name);
 	new->title = g_strdup (fp->title);
@@ -281,7 +281,7 @@ filter_part_clone (FilterPart *fp)
 		new->elements = g_list_append (new->elements, ne);
 		l = g_list_next (l);
 	}
-	
+
 	return new;
 }
 
@@ -291,9 +291,9 @@ filter_part_copy_values (FilterPart *dst, FilterPart *src)
 {
 	GList *dstl, *srcl, *dstt;
 	FilterElement *de, *se;
-	
+
 	/* NOTE: we go backwards, it just works better that way */
-	
+
 	/* for each source type, search the dest type for
 	   a matching type in the same order */
 	srcl = g_list_last (src->elements);
@@ -310,7 +310,7 @@ filter_part_copy_values (FilterPart *dst, FilterPart *src)
 			}
 			dstt = dstt->prev;
 		}
-		
+
 		srcl = srcl->prev;
 	}
 }
@@ -320,17 +320,17 @@ filter_part_find_element (FilterPart *ff, const char *name)
 {
 	GList *l = ff->elements;
 	FilterElement *fe;
-	
+
 	if (name == NULL)
 		return NULL;
-	
+
 	while (l) {
 		fe = l->data;
 		if (fe->name && !strcmp (fe->name, name))
 			return fe;
 		l = g_list_next (l);
 	}
-	
+
 	return NULL;
 }
 
@@ -342,28 +342,28 @@ filter_part_get_widget (FilterPart *ff)
 	GList *l = ff->elements;
 	FilterElement *fe;
 	GtkWidget *w;
-	
+
 	hbox = gtk_hbox_new (FALSE, 3);
-	
+
 	while (l) {
 		fe = l->data;
 		w = filter_element_get_widget (fe);
 		if (w)
 			gtk_box_pack_start (GTK_BOX (hbox), w, IS_FILTER_FILE (fe), IS_FILTER_FILE (fe), 3);
-		
+
 		l = g_list_next (l);
 	}
-	
+
 	gtk_widget_show_all (hbox);
-	
+
 	return hbox;
 }
 
 /**
  * filter_part_build_code:
- * @ff: 
- * @out: 
- * 
+ * @ff:
+ * @out:
+ *
  * Outputs the code of a part.
  **/
 void
@@ -371,10 +371,10 @@ filter_part_build_code (FilterPart *ff, GString *out)
 {
 	GList *l = ff->elements;
 	FilterElement *fe;
-	
+
 	if (ff->code)
 		filter_part_expand_code (ff, ff->code, out);
-	
+
 	while (l) {
 		fe = l->data;
 		filter_element_build_code (fe, out, ff);
@@ -384,9 +384,9 @@ filter_part_build_code (FilterPart *ff, GString *out)
 
 /**
  * filter_part_build_code_list:
- * @l: 
- * @out: 
- * 
+ * @l:
+ * @out:
+ *
  * Construct a list of the filter parts code into
  * a single string.
  **/
@@ -394,7 +394,7 @@ void
 filter_part_build_code_list (GList *l, GString *out)
 {
 	FilterPart *fp;
-	
+
 	while (l) {
 		fp = l->data;
 		filter_part_build_code (fp, out);
@@ -405,20 +405,20 @@ filter_part_build_code_list (GList *l, GString *out)
 
 /**
  * filter_part_find_list:
- * @l: 
- * @name: 
- * 
+ * @l:
+ * @name:
+ *
  * Find a filter part stored in a list.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 FilterPart *
 filter_part_find_list (GList *l, const char *name)
 {
 	FilterPart *part;
-	
+
 	d(printf ("Find part named %s\n", name));
-	
+
 	while (l) {
 		part = l->data;
 		if (!strcmp (part->name, name)) {
@@ -427,18 +427,18 @@ filter_part_find_list (GList *l, const char *name)
 		}
 		l = l->next;
 	}
-	
+
 	return NULL;
 }
 
 /**
  * filter_part_next_list:
- * @l: 
+ * @l:
  * @last: The last item retrieved, or NULL to start
  * from the beginning of the list.
- * 
+ *
  * Iterate through a filter part list.
- * 
+ *
  * Return value: The next value in the list, or NULL if the
  * list is expired.
  **/
@@ -446,7 +446,7 @@ FilterPart *
 filter_part_next_list (GList *l, FilterPart *last)
 {
 	GList *node = l;
-	
+
 	if (last != NULL) {
 		node = g_list_find (node, last);
 		if (node == NULL)
@@ -454,19 +454,19 @@ filter_part_next_list (GList *l, FilterPart *last)
 		else
 			node = node->next;
 	}
-	
+
 	if (node)
 		return node->data;
-	
+
 	return NULL;
 }
 
 /**
  * filter_part_expand_code:
- * @ff: 
- * @str: 
- * @out: 
- * 
+ * @ff:
+ * @str:
+ * @out:
+ *
  * Expands the variables in string @str based on the values of the part.
  **/
 void
@@ -476,7 +476,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 	char *name = alloca (32);
 	int len, namelen = 32;
 	FilterElement *fe;
-	
+
 	start = source;
 	while (start && (newstart = strstr (start, "${"))
 		&& (end = strstr (newstart+2, "}")) ) {
@@ -513,34 +513,34 @@ int main(int argc, char **argv)
 	xmlNodePtr node;
 	FilterPart *ff;
 	GString *code;
-	
+
 	gnome_init ("test", "0.0", argc, argv);
-	
+
 	system = xmlParseFile ("form.xml");
 	if (system == NULL) {
 		printf("i/o error\n");
 		return 1;
 	}
-	
+
 	ff = filter_part_new ();
 	filter_part_xml_create (ff, system->root);
-	
+
 	w = filter_part_get_widget (ff);
-	
+
 	dialog = gtk_dialog_new ();
 	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_BUTTONS_OK, NULL);
 	gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 	gtk_window_set_title ((GtkWindow *) dialog, _("Test"));
 	gtk_window_set_policy ((GtkWindow *) dialog, FALSE, TRUE, FALSE);
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, w, TRUE, TRUE, 0);
-	
+
 	gtk_dialog_run ((GtkDialog *) dialog);
 	gtk_widget_destroy (dialog);
-	
+
 	code = g_string_new ("");
 	filter_part_build_code (ff, code);
 	printf("code is:\n%s\n", code->str);
-	
+
 	return 0;
 }
 #endif

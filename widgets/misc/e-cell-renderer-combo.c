@@ -6,7 +6,7 @@
  * Copyright (C) 2003 Ximian Inc.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public 
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -53,7 +53,7 @@ ecrc_editing_done (GtkCellEditable *editable, ECellRendererCombo *cell)
 		return;
 
 	new_text = e_combo_cell_editable_get_text (E_COMBO_CELL_EDITABLE (editable));
-                                                             
+
 	g_signal_emit_by_name (cell, "edited", cell->priv->path, new_text);
 	g_free (cell->priv->path);
 	cell->priv->path = NULL;
@@ -84,7 +84,7 @@ ecrc_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 }
 
 static void
-ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area, 
+ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area,
 	       gint *x_offset, gint *y_offset, gint *width, gint *height)
 {
 	GtkWidget *btn;
@@ -158,7 +158,7 @@ e_cell_renderer_combo_class_init (ECellRendererComboClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
 	GObjectClass *obj_class = G_OBJECT_CLASS (class);
-	
+
 	obj_class->get_property = ecrc_get_prop;
 	obj_class->set_property = ecrc_set_prop;
 	obj_class->finalize = ecrc_finalize;

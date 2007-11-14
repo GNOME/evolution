@@ -1,12 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
- * Author : 
+/*
+ * Author :
  *  JP Rosevear <jpr@ximian.com>
  *
  * Copyright 2003, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -43,7 +43,7 @@ e_mini_calendar_config_set_property (GObject *object, guint property_id, const G
 	EMiniCalendarConfig *mini_config;
 
 	mini_config = E_MINI_CALENDAR_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_CALENDAR:
 		e_mini_calendar_config_set_calendar (mini_config, g_value_get_object (value));
@@ -60,7 +60,7 @@ e_mini_calendar_config_get_property (GObject *object, guint property_id, GValue 
 	EMiniCalendarConfig *mini_config;
 
 	mini_config = E_MINI_CALENDAR_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_CALENDAR:
 		g_value_set_object (value, e_mini_calendar_config_get_calendar (mini_config));
@@ -75,9 +75,9 @@ static void
 e_mini_calendar_config_dispose (GObject *object)
 {
 	EMiniCalendarConfig *mini_config = E_MINI_CALENDAR_CONFIG (object);
-	
+
 	e_mini_calendar_config_set_calendar (mini_config, NULL);
-	
+
 	if (G_OBJECT_CLASS (e_mini_calendar_config_parent_class)->dispose)
 		G_OBJECT_CLASS (e_mini_calendar_config_parent_class)->dispose (object);
 }
@@ -87,11 +87,11 @@ e_mini_calendar_config_finalize (GObject *object)
 {
 	EMiniCalendarConfig *mini_config = E_MINI_CALENDAR_CONFIG (object);
 	EMiniCalendarConfigPrivate *priv;
-	
+
 	priv = mini_config->priv;
 
 	g_free (priv);
-	
+
 	if (G_OBJECT_CLASS (e_mini_calendar_config_parent_class)->finalize)
 		G_OBJECT_CLASS (e_mini_calendar_config_parent_class)->finalize (object);
 }
@@ -101,7 +101,7 @@ e_mini_calendar_config_class_init (EMiniCalendarConfigClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GParamSpec *spec;
-	
+
 	/* Method override */
 	gobject_class->set_property = e_mini_calendar_config_set_property;
 	gobject_class->get_property = e_mini_calendar_config_get_property;
@@ -124,14 +124,14 @@ EMiniCalendarConfig *
 e_mini_calendar_config_new (ECalendar *mini_cal)
 {
 	EMiniCalendarConfig *mini_config;
-	
+
 	mini_config = g_object_new (e_mini_calendar_config_get_type (), "calendar", mini_cal, NULL);
 
 	return mini_config;
 }
 
 ECalendar *
-e_mini_calendar_config_get_calendar (EMiniCalendarConfig *mini_config) 
+e_mini_calendar_config_get_calendar (EMiniCalendarConfig *mini_config)
 {
 	EMiniCalendarConfigPrivate *priv;
 
@@ -139,14 +139,14 @@ e_mini_calendar_config_get_calendar (EMiniCalendarConfig *mini_config)
 	g_return_val_if_fail (E_IS_MINI_CALENDAR_CONFIG (mini_config), NULL);
 
 	priv = mini_config->priv;
-	
+
 	return priv->mini_cal;
 }
 
 static void
-set_week_start (ECalendar *mini_cal) 
+set_week_start (ECalendar *mini_cal)
 {
-	int week_start_day;	
+	int week_start_day;
 
 	week_start_day = calendar_config_get_week_start_day ();
 
@@ -163,14 +163,14 @@ week_start_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointe
 {
 	EMiniCalendarConfig *mini_config = data;
 	EMiniCalendarConfigPrivate *priv;
-	
+
 	priv = mini_config->priv;
-	
+
 	set_week_start (priv->mini_cal);
 }
 
 static void
-set_dnav_show_week_no (ECalendar *mini_cal) 
+set_dnav_show_week_no (ECalendar *mini_cal)
 {
 	gboolean show_week_no;
 
@@ -186,29 +186,29 @@ dnav_show_week_no_changed_cb (GConfClient *client, guint id, GConfEntry *entry, 
 {
 	EMiniCalendarConfig *mini_config = data;
 	EMiniCalendarConfigPrivate *priv;
-	
+
 	priv = mini_config->priv;
-	
+
 	set_dnav_show_week_no (priv->mini_cal);
 }
 
 void
-e_mini_calendar_config_set_calendar (EMiniCalendarConfig *mini_config, ECalendar *mini_cal) 
+e_mini_calendar_config_set_calendar (EMiniCalendarConfig *mini_config, ECalendar *mini_cal)
 {
 	EMiniCalendarConfigPrivate *priv;
 	guint not;
 	GList *l;
-	
+
 	g_return_if_fail (mini_config != NULL);
 	g_return_if_fail (E_IS_MINI_CALENDAR_CONFIG (mini_config));
 
 	priv = mini_config->priv;
-	
+
 	if (priv->mini_cal) {
 		g_object_unref (priv->mini_cal);
 		priv->mini_cal = NULL;
 	}
-	
+
 	for (l = priv->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 
@@ -218,7 +218,7 @@ e_mini_calendar_config_set_calendar (EMiniCalendarConfig *mini_config, ECalendar
 	/* If the new view is NULL, return right now */
 	if (!mini_cal)
 		return;
-	
+
 	priv->mini_cal = g_object_ref (mini_cal);
 
 	/* Week start */

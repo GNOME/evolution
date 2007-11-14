@@ -42,21 +42,21 @@ typedef struct _EMFolderSelectorClass   EMFolderSelectorClass;
 
 struct _EMFolderSelector {
 	GtkDialog parent;
-	
+
 	guint32 flags;
 	struct _EMFolderTree *emft;
-	
+
 	struct _GtkEntry *name_entry;
 	char *selected_path;
 	char *selected_uri;
-	
+
 	char *created_uri;
 	guint created_id;
 };
 
 struct _EMFolderSelectorClass {
 	GtkDialogClass parent_class;
-	
+
 };
 
 enum {

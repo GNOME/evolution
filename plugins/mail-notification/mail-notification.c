@@ -36,7 +36,7 @@
 #include <mail/em-folder-tree-model.h>
 #include <camel/camel-folder.h>
 
-#ifdef HAVE_LIBNOTIFY	
+#ifdef HAVE_LIBNOTIFY
 #include <libnotify/notify.h>
 #endif
 
@@ -50,7 +50,7 @@ void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 static gboolean enabled = FALSE;
 static GtkStatusIcon *status_icon = NULL;
 
-#ifdef HAVE_LIBNOTIFY	
+#ifdef HAVE_LIBNOTIFY
 static gboolean notification_callback (gpointer notify);
 static NotifyNotification *notify = NULL;
 #endif
@@ -67,7 +67,7 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 		return;
 	}
 
-#ifdef HAVE_LIBNOTIFY	
+#ifdef HAVE_LIBNOTIFY
 	notify_notification_close (notify, NULL);
 #endif
 	gtk_status_icon_set_visible (status_icon, FALSE);
@@ -76,28 +76,28 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 }
 
 static void
-#ifdef HAVE_LIBNOTIFY	
+#ifdef HAVE_LIBNOTIFY
 icon_activated (GtkStatusIcon *icon, NotifyNotification *notify)
 #else
 icon_activated (GtkStatusIcon *icon, gpointer notify)
 #endif
 {
 	g_static_mutex_lock (&mlock);
-#ifdef HAVE_LIBNOTIFY		
+#ifdef HAVE_LIBNOTIFY
 	notify_notification_close (notify, NULL);
-#endif	
+#endif
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_static_mutex_unlock (&mlock);
 
 }
 
-#ifdef HAVE_LIBNOTIFY	
+#ifdef HAVE_LIBNOTIFY
 gboolean
 notification_callback (gpointer notify)
 {
 	printf("fff\n");
 	return (!notify_notification_show(notify, NULL));
-	
+
 }
 #endif
 
@@ -119,7 +119,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	is_key = gconf_client_get (client, GCONF_KEY_BLINK, NULL);
 	if (!is_key)
 		gconf_client_set_bool (client, GCONF_KEY_BLINK, TRUE, NULL);
-	else 
+	else
 		gconf_value_free (is_key);
 
 	if (!status_icon) {
@@ -133,10 +133,10 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 
 	gtk_status_icon_set_tooltip (status_icon, msg);
 	gtk_status_icon_set_visible (status_icon, TRUE);
-	gtk_status_icon_set_blinking (status_icon, 
+	gtk_status_icon_set_blinking (status_icon,
 			gconf_client_get_bool (client, GCONF_KEY_BLINK, NULL));
 
-#ifdef HAVE_LIBNOTIFY	
+#ifdef HAVE_LIBNOTIFY
 	/* See whether the notification key has already been set */
 	is_key = gconf_client_get (client, GCONF_KEY_NOTIFICATION, NULL);
 	if (!is_key)
@@ -150,8 +150,8 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 			fprintf(stderr,"notify init error");
 
 		notify  = notify_notification_new (
-				_("New email"), 
-				msg, 
+				_("New email"),
+				msg,
 				"stock_mail",
 				NULL);
 		notify_notification_attach_to_status_icon (notify, status_icon);
@@ -166,13 +166,13 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 	g_free (folder);
 	g_free (msg);
 	g_object_unref (client);
-#ifdef HAVE_LIBNOTIFY		
+#ifdef HAVE_LIBNOTIFY
 	g_signal_connect (G_OBJECT (status_icon), "activate",
 			  G_CALLBACK (icon_activated), notify);
 #else
 	g_signal_connect (G_OBJECT (status_icon), "activate",
 			  G_CALLBACK (icon_activated), NULL);
-#endif	
+#endif
 	g_static_mutex_unlock (&mlock);
 }
 
@@ -186,7 +186,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 		enabled = TRUE;
 	else
 		enabled = FALSE;
-	
+
 	return 0;
 }
 

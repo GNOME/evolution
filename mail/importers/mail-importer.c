@@ -56,10 +56,10 @@
 
 /**
  * mail_importer_make_local_folder:
- * @folderpath: 
- * 
+ * @folderpath:
+ *
  * Check a local folder exists at path @folderpath, and if not, create it.
- * 
+ *
  * Return value: The physical uri of the folder, or NULL if the folder did
  * not exist and could not be created.
  **/
@@ -86,12 +86,12 @@ mail_importer_add_line (MailImporter *importer,
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
 	CamelException *ex;
-	
+
 	if (importer->mstream == NULL)
 		importer->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
 
 	camel_stream_write (CAMEL_STREAM (importer->mstream), str,  strlen (str));
-	
+
 	if (finished == FALSE)
 		return;
 
@@ -102,7 +102,7 @@ mail_importer_add_line (MailImporter *importer,
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  CAMEL_STREAM (importer->mstream));
-	
+
 	camel_object_unref (importer->mstream);
 	importer->mstream = NULL;
 
@@ -133,7 +133,7 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 
 struct _import_mbox_msg {
 	struct _mail_msg msg;
-	
+
 	char *path;
 	char *uri;
 	CamelOperation *cancel;
@@ -298,7 +298,7 @@ static void
 import_mbox_free (struct _mail_msg *mm)
 {
 	struct _import_mbox_msg *m = (struct _import_mbox_msg *)mm;
-	
+
 	if (m->cancel)
 		camel_operation_unref(m->cancel);
 	g_free(m->uri);
@@ -436,11 +436,11 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 
 /**
  * mail_importer_import_folders_sync:
- * @filepath: 
- * @: 
- * @flags: 
- * @cancel: 
- * 
+ * @filepath:
+ * @:
+ * @flags:
+ * @cancel:
+ *
  * import from a base path @filepath into the root local folder tree,
  * scanning all sub-folders.
  *

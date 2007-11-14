@@ -49,5 +49,5 @@ org_gnome_copy_tool_copy_address(void *ep, EMPopupTargetURI *t)
 		g_free(addr);
 		camel_url_free(curl);
 		camel_object_unref(cia);
-	}	
+	}
 }

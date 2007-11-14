@@ -132,9 +132,9 @@ ep_class_init(GObjectClass *klass)
 
 /**
  * e_event_get_type:
- * 
+ *
  * Standard GObject type function.  Used to subclass EEvent.
- * 
+ *
  * Return value: The EEvent type.
  **/
 GType
@@ -161,9 +161,9 @@ e_event_get_type(void)
  * e_event_construct:
  * @ep: An instantiated but uninitialised EEvent.
  * @id: Event manager id.
- * 
+ *
  * Construct the base event instance with standard parameters.
- * 
+ *
  * Return value: Returns @ep.
  **/
 EEvent *e_event_construct(EEvent *ep, const char *id)
@@ -179,7 +179,7 @@ EEvent *e_event_construct(EEvent *ep, const char *id)
  * @items: A list of EEventItems event listeners to register on this event manager.
  * @freefunc: A function called when the @items list is no longer needed.
  * @data: callback data for @freefunc and for item event handlers.
- * 
+ *
  * Adds @items to the list of events listened to on the event manager @emp.
  *
  * Return value: An opaque key which can later be passed to remove_items.
@@ -206,9 +206,9 @@ e_event_add_items(EEvent *emp, GSList *items, EEventItemsFunc freefunc, void *da
 
 /**
  * e_event_remove_items:
- * @emp: 
- * @handle: 
- * 
+ * @emp:
+ * @handle:
+ *
  * Remove items previously added.  They MUST have been previously
  * added, and may only be removed once.
  **/
@@ -226,7 +226,7 @@ e_event_remove_items(EEvent *emp, void *handle)
 		g_slist_foreach(emp->priv->sorted, (GFunc)g_free, NULL);
 		g_slist_free(emp->priv->sorted);
 		emp->priv->sorted = NULL;
-	}	
+	}
 }
 
 static int
@@ -248,7 +248,7 @@ ee_cmp(const void *ap, const void *bp)
  * @ee: An initialised EEvent, potentially with registered event listeners.
  * @id: Event name.  This will be compared against EEventItem.id.
  * @target: The target describing the event context.  This will be implementation defined.
- * 
+ *
  * Emit an event.  @target will automatically be freed once its
  * emission is complete.
  **/
@@ -272,7 +272,7 @@ e_event_emit(EEvent *emp, const char *id, EEventTarget *target)
 
 		for (;node->next;node=node->next) {
 			GSList *l = node->events;
-			
+
 			for (;l;l=g_slist_next(l)) {
 				struct _event_info *info;
 
@@ -312,7 +312,7 @@ e_event_emit(EEvent *emp, const char *id, EEventTarget *target)
  * @ep: An initialised EEvent instance.
  * @type: type, up to implementor
  * @size: The size of memory to allocate.  This must be >= sizeof(EEventTarget).
- * 
+ *
  * Allocate a new event target suitable for this class.  It is up to
  * the implementation to define the available target types and their
  * structure.
@@ -338,7 +338,7 @@ void *e_event_target_new(EEvent *ep, int type, size_t size)
  * e_event_target_free:
  * @ep: An initialised EEvent instance on which this target was allocated.
  * @o: The target to free.
- * 
+ *
  * Free a target.  This invokes the virtual free method on the EEventClass.
  **/
 void
@@ -526,17 +526,17 @@ emph_class_init(EPluginHookClass *klass)
 
 /**
  * e_event_hook_get_type:
- * 
+ *
  * Standard GObject function to get the EEvent object type.  Used to
  * subclass EEventHook.
- * 
+ *
  * Return value: The type of the event hook class.
  **/
 GType
 e_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EEventHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -546,7 +546,7 @@ e_event_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EEventHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -555,7 +555,7 @@ e_event_hook_get_type(void)
  * @klass: The derived EEventHook class.
  * @map: A map used to describe a single EEventTarget type for this
  * class.
- * 
+ *
  * Add a target map to a concrete derived class of EEvent.  The target
  * map enumerates a single target type and th eenable mask bit names,
  * so that the type can be loaded automatically by the base EEvent class.

@@ -148,7 +148,7 @@ struct _RecurrencePagePrivate {
 
 	GtkWidget *recurs;
 	gboolean custom;
-	
+
 	GtkWidget *params;
 	GtkWidget *interval_value;
 	GtkWidget *interval_unit;
@@ -170,7 +170,7 @@ struct _RecurrencePagePrivate {
 
 	GtkWidget *month_num_menu;
 	enum month_num_options month_num;
-	
+
 	/* For ending date, created by hand */
 	GtkWidget *ending_date_edit;
 	struct icaltimetype ending_date_tt;
@@ -193,7 +193,7 @@ struct _RecurrencePagePrivate {
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *preview_calendar;
 	EMiniCalendarConfig *preview_calendar_config;
-	
+
 	gboolean updating;
 };
 
@@ -354,7 +354,7 @@ clear_widgets (RecurrencePage *rpage)
 	priv = rpage->priv;
 
 	priv->custom = FALSE;
-	
+
 	priv->weekday_day_mask = 0;
 
 	priv->month_index = 1;
@@ -382,7 +382,7 @@ clear_widgets (RecurrencePage *rpage)
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
 	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_option_menu_set (priv->ending_menu, 
+	e_dialog_option_menu_set (priv->ending_menu,
 				  ENDING_FOR,
 				  ending_types_map);
 	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
@@ -476,12 +476,12 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	GtkWidget *label;
 
 	priv = rpage->priv;
-	
+
 	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
 		sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
 
 	recurs = e_dialog_toggle_get (priv->recurs);
-	
+
 	/* We can't preview that well for instances right now */
 	if (e_cal_component_is_instance (priv->comp))
 		gtk_widget_set_sensitive (priv->preview_calendar, FALSE);
@@ -524,13 +524,13 @@ sensitize_buttons (RecurrencePage *rpage)
 	priv = rpage->priv;
 	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
 		sensitize = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
-	
+
 	selected_rows = gtk_tree_selection_count_selected_rows (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
 		read_only = TRUE;
-	
+
 	if (!read_only) {
 		e_cal_component_get_uid (priv->comp, &uid);
 
@@ -646,7 +646,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 	case ICAL_MONTHLY_RECURRENCE: {
 		enum month_num_options month_num;
 		enum month_day_options month_day;
-		
+
 		g_return_if_fail (GTK_BIN (priv->special)->child != NULL);
 		g_return_if_fail (priv->month_day_menu != NULL);
 		g_return_if_fail (GTK_IS_OPTION_MENU (priv->month_day_menu));
@@ -662,7 +662,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 			month_num = -1;
 		else
 			month_num++;
-		
+
 		switch (month_day) {
 		case MONTH_DAY_NTH:
 			if (month_num == -1)
@@ -786,7 +786,7 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 	model = GTK_TREE_MODEL (priv->exception_list_store);
 
 	recurs = e_dialog_toggle_get (priv->recurs);
-	
+
 	if (recurs && priv->custom) {
 		/* We just keep whatever the component has currently */
 	} else if (recurs) {
@@ -844,7 +844,7 @@ preview_recur (RecurrencePage *rpage)
 	ECalComponentDateTime cdt;
 	GSList *l;
 	icaltimezone *zone = NULL;
-	
+
 	priv = rpage->priv;
 
 	/* If our component has not been set yet through ::fill_widgets(), we
@@ -955,7 +955,7 @@ month_num_submenu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 {
 	GtkWidget *item;
 	int month_index;
-	
+
 	item = gtk_menu_get_active (GTK_MENU (menu_shell));
 	item = gtk_menu_get_active (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (item))));
 
@@ -969,14 +969,14 @@ make_recur_month_num_submenu (const char *title, int start, int end)
 {
 	GtkWidget *submenu, *item;
 	int i;
-	
+
 	submenu = gtk_menu_new ();
 	for (i = start; i < end; i++) {
 		item = gtk_menu_item_new_with_label (_(e_cal_recur_nth[i]));
 		gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (i + 1));
 		gtk_widget_show (item);
-	}	
+	}
 
 	item = gtk_menu_item_new_with_label (_(title));
 	gtk_widget_show (item);
@@ -990,28 +990,28 @@ make_recur_month_num_menu (int month_index)
 {
 	static const char *options[] = {
 		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
-		 * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or 
+		 * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
 		 */
 		N_("first"),
 		/* TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 		 * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
-		 * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or 
+		 * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
 		 */
 		N_("second"),
 		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
-		 * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or 
+		 * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
 		 */
 		N_("third"),
 		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
-		 * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or 
+		 * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
 		 */
 		N_("fourth"),
 		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
-		 * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or 
+		 * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
 		 */
 		N_("last")
@@ -1044,20 +1044,20 @@ make_recur_month_num_menu (int month_index)
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), submenu_item);
 	gtk_widget_show (submenu_item);
 
-	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
-	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
+	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 	 * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 	 */
 	item = make_recur_month_num_submenu (_("1st to 10th"), 0, 10);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
-	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
-	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
+	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 	 * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 	 */
 	item = make_recur_month_num_submenu (_("11th to 20th"), 10, 20);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
-	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of 
-	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s) 
+	/* TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
+	 * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 	 * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 	 */
 	item = make_recur_month_num_submenu (_("21st to 31st"), 20, 31);
@@ -1081,7 +1081,7 @@ make_recur_month_menu (void)
 {
 	static const char *options[] = {
 		/* For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
-		   (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or 
+		   (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 		   the name of a week day (like 'Monday' or 'Friday') always follow. */
 		N_("day"),
 		N_("Monday"),
@@ -1144,7 +1144,7 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		e_dialog_option_menu_set (priv->month_num_menu, 0, month_num_options_map);
 		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);
 	}
-	
+
 	if (month_num == MONTH_NUM_DAY && month_day != MONTH_DAY_NTH)
 		e_dialog_option_menu_set (priv->month_day_menu,
 					  MONTH_DAY_NTH,
@@ -1171,7 +1171,7 @@ month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
-	
+
 	month_num = e_dialog_option_menu_get (priv->month_num_menu,
 					      month_num_options_map);
 	month_day = e_dialog_option_menu_get (priv->month_day_menu,
@@ -1220,7 +1220,7 @@ make_monthly_special (RecurrencePage *rpage)
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
-	/* TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]' 
+	/* TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 	 * (dropdown menu options are in [square brackets])."
 	 */
 	label = gtk_label_new (_("on the"));
@@ -1359,11 +1359,11 @@ make_ending_until_special (RecurrencePage *rpage)
 	gtk_widget_show_all (GTK_WIDGET (de));
 
 	/* Set the value */
-	
+
   if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
 		e_cal_component_get_dtstart (priv->comp, &dt_start);
 		/* Setting the default until time to 2 weeks */
-		icaltime_adjust (dt_start.value, 14, 0, 0, 0); 
+		icaltime_adjust (dt_start.value, 14, 0, 0, 0);
 		e_date_edit_set_date (de, dt_start.value->year, dt_start.value->month, dt_start.value->day);
 		e_cal_component_free_datetime (&dt_start);
 	} else {
@@ -1502,7 +1502,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 				ECal *client = COMP_EDITOR_PAGE (rpage)->client;
 				ECalComponentDateTime dt;
 				icaltimezone *from_zone, *to_zone;
-			
+
 				e_cal_component_get_dtstart (priv->comp, &dt);
 
 				if (dt.value->is_date)
@@ -1566,7 +1566,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
 
-	/* Keep a copy of the component so that we can expand the recurrence 
+	/* Keep a copy of the component so that we can expand the recurrence
 	 * set for the preview.
 	 */
 
@@ -1577,7 +1577,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	if (!e_cal_component_has_organizer (comp))
 		 page->flags |= COMP_EDITOR_PAGE_USER_ORG;
-	
+
 	/* Don't send off changes during this time */
 	priv->updating = TRUE;
 
@@ -1763,7 +1763,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			if (nth == -1) {
 				ECalComponentDateTime dt;
-				
+
 				e_cal_component_get_dtstart (comp, &dt);
 				priv->month_index = dt.value->day;
 				priv->month_num = MONTH_NUM_LAST;
@@ -1772,7 +1772,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				priv->month_num = MONTH_NUM_DAY;
 			}
 			priv->month_day = MONTH_DAY_NTH;
-			
+
 		} else if (n_by_day == 1) {
 			enum icalrecurrencetype_weekday weekday;
 			int pos;
@@ -1828,7 +1828,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			if (pos == -1)
 				priv->month_num = MONTH_NUM_LAST;
-			else 
+			else
 				priv->month_num = pos - 1;
 			priv->month_day = month_day;
 		} else
@@ -1936,7 +1936,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		dt.tzid = dates->start->tzid;
 		e_cal_component_set_dtstart (priv->comp, &dt);
 	}
-	
+
 	if (dates->end) {
 		icaltime = *dates->end->value;
 		dt.tzid = dates->end->tzid;
@@ -1948,7 +1948,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	if (mask != priv->weekday_blocked_day_mask) {
 		priv->weekday_day_mask = priv->weekday_day_mask | mask;
 		priv->weekday_blocked_day_mask = mask;
-		
+
 		if (priv->weekday_picker != NULL) {
 			weekday_picker_set_days (WEEKDAY_PICKER (priv->weekday_picker),
 						 priv->weekday_day_mask);
@@ -1972,7 +1972,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		g_date_free (start);
 		g_date_free (end);
 	}
-	
+
 	/* Make sure the preview gets updated. */
 	preview_recur (rpage);
 }
@@ -2005,26 +2005,26 @@ get_widgets (RecurrencePage *rpage)
 
 	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
-	      
+
 	priv->recurs = GW ("recurs");
 	priv->params = GW ("params");
-	      
+
 	priv->interval_value = GW ("interval-value");
 	priv->interval_unit = GW ("interval-unit");
 	priv->special = GW ("special");
 	priv->ending_menu = GW ("ending-menu");
 	priv->ending_special = GW ("ending-special");
 	priv->custom_warning_bin = GW ("custom-warning-bin");
-	      
+
 	priv->exception_list = GW ("exception-list");
 	priv->exception_add = GW ("exception-add");
 	priv->exception_modify = GW ("exception-modify");
 	priv->exception_delete = GW ("exception-delete");
-	      
+
 	priv->preview_bin = GW ("preview-bin");
 
 #undef GW
-	
+
 	return (priv->recurs
 		&& priv->params
 		&& priv->interval_value
@@ -2077,7 +2077,7 @@ type_toggled_cb (GtkToggleButton *toggle, gpointer data)
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recurs)) || read_only)
 		gtk_widget_set_sensitive (priv->exception_add, FALSE);
-	else 
+	else
 		gtk_widget_set_sensitive (priv->exception_add, TRUE);
 }
 
@@ -2127,7 +2127,7 @@ create_exception_dialog (RecurrencePage *rpage, const char *title, GtkWidget **d
 {
 	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *toplevel;
-	
+
 	priv = rpage->priv;
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
@@ -2140,7 +2140,7 @@ create_exception_dialog (RecurrencePage *rpage, const char *title, GtkWidget **d
 	*date_edit = comp_editor_new_date_edit (TRUE, FALSE, TRUE);
 	gtk_widget_show (*date_edit);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), *date_edit, FALSE, TRUE, 6);
-	
+
 	return dialog;
 }
 
@@ -2151,33 +2151,33 @@ exception_add_cb (GtkWidget *widget, gpointer data)
 	RecurrencePage *rpage;
 	GtkWidget *dialog, *date_edit;
 	gboolean date_set;
-	
+
 	rpage = RECURRENCE_PAGE (data);
 
 	dialog = create_exception_dialog (rpage, _("Add exception"), &date_edit);
-	
+
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		ECalComponentDateTime dt;
 		struct icaltimetype icaltime = icaltime_null_time ();
 
 		field_changed (rpage);
-		
+
 		dt.value = &icaltime;
-		
+
 		/* We use DATE values for exceptions, so we don't need a TZID. */
 		dt.tzid = NULL;
 		icaltime.is_date = 1;
-		
+
 		date_set = e_date_edit_get_date (E_DATE_EDIT (date_edit),
 						 &icaltime.year,
 						 &icaltime.month,
 						 &icaltime.day);
 		g_return_if_fail (date_set);
-		
+
 		append_exception (rpage, &dt);
 		preview_recur (rpage);
 	}
-	
+
 	gtk_widget_destroy (dialog);
 }
 
@@ -2202,34 +2202,34 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 	}
 
 	current_dt = e_date_time_list_get_date_time (priv->exception_list_store, &iter);
-	
+
 	dialog = create_exception_dialog (rpage, _("Modify exception"), &date_edit);
-	e_date_edit_set_date (E_DATE_EDIT (date_edit), 
+	e_date_edit_set_date (E_DATE_EDIT (date_edit),
 			      current_dt->value->year, current_dt->value->month, current_dt->value->day);
-	
+
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		ECalComponentDateTime dt;
 		struct icaltimetype icaltime = icaltime_null_time ();
 		struct icaltimetype *tt;
 
 		field_changed (rpage);
-		
+
 		dt.value = &icaltime;
 		tt = dt.value;
-		e_date_edit_get_date (E_DATE_EDIT (date_edit), 
+		e_date_edit_get_date (E_DATE_EDIT (date_edit),
 				      &tt->year, &tt->month, &tt->day);
 		tt->hour = 0;
 		tt->minute = 0;
 		tt->second = 0;
 		tt->is_date = 1;
-		
+
 		/* No TZID, since we are using a DATE value now. */
 		dt.tzid = NULL;
-		
+
 		e_date_time_list_set_date_time (priv->exception_list_store, &iter, &dt);
 		preview_recur (rpage);
 	}
-	
+
 	gtk_widget_destroy (dialog);
 }
 
@@ -2303,7 +2303,7 @@ field_changed (RecurrencePage *rpage)
 	RecurrencePagePrivate *priv;
 
 	priv = rpage->priv;
-	
+
 	if (!priv->updating)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (rpage));
 }
@@ -2349,13 +2349,13 @@ init_widgets (RecurrencePage *rpage)
 			    rpage);
 
 	/* Recurrence units */
-	
+
 	g_signal_connect(GTK_OPTION_MENU (priv->interval_unit), "changed",
 			    G_CALLBACK (interval_selection_done_cb),
 			    rpage);
 
 	/* Recurrence ending */
-	
+
 	g_signal_connect(GTK_OPTION_MENU (priv->ending_menu), "changed",
 			    G_CALLBACK (ending_selection_done_cb), rpage);
 

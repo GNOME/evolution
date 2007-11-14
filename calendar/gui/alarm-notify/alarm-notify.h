@@ -47,7 +47,7 @@ struct _AlarmMsg {
 
  	 void (*receive_msg)(EThread *e, struct _AlarmMsg *msg, void *data);	/* message received */
 	 void *data;
-	 
+
 	 /* Private Usage */
 	 struct _AlarmMsgPrivate *priv;
 };

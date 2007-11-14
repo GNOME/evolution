@@ -53,9 +53,9 @@ struct _GalA11yECellVboxClass
 GType gal_a11y_e_cell_vbox_get_type	(void);
 AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 					 ECellView  *cell_view,
-					 AtkObject  *parent, 
-					 int         model_col, 
-					 int         view_col, 
+					 AtkObject  *parent,
+					 int         model_col,
+					 int         view_col,
 					 int         row);
 
 #ifdef __cplusplus

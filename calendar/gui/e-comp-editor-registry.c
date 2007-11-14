@@ -64,7 +64,7 @@ e_comp_editor_registry_dispose (GObject *obj)
 
 	reg = E_COMP_EDITOR_REGISTRY (obj);
 	priv = reg->priv;
-	
+
 	if (priv->editors) {
 		g_hash_table_destroy (priv->editors);
 		priv->editors = NULL;
@@ -122,14 +122,14 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 	ECompEditorRegistryData *rdata;
 	ECalComponent *comp;
 	const char *uid;
-	
+
 	g_return_if_fail (reg != NULL);
 	g_return_if_fail (E_IS_COMP_EDITOR_REGISTRY (reg));
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	priv = reg->priv;
-	
+
 	comp = comp_editor_get_comp (editor);
 	e_cal_component_get_uid (comp, &uid);
 
@@ -150,7 +150,7 @@ e_comp_editor_registry_find (ECompEditorRegistry *reg, const char *uid)
 {
 	ECompEditorRegistryPrivate *priv;
 	ECompEditorRegistryData *rdata;
-	
+
 	g_return_val_if_fail (reg != NULL, NULL);
 	g_return_val_if_fail (E_IS_COMP_EDITOR_REGISTRY (reg), NULL);
 	g_return_val_if_fail (uid != NULL, NULL);
@@ -160,7 +160,7 @@ e_comp_editor_registry_find (ECompEditorRegistry *reg, const char *uid)
 	rdata = g_hash_table_lookup (priv->editors, uid);
 	if (rdata != NULL)
 		return rdata->editor;
-	
+
 	return NULL;
 }
 
@@ -172,16 +172,16 @@ foreach_close_cb (gpointer key, gpointer value, gpointer data)
 	rdata = value;
 
 	g_signal_handlers_block_matched (rdata->editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, data);
-	
+
 	comp_editor_focus (rdata->editor);
 	if (!comp_editor_close (rdata->editor)) {
 		g_signal_handlers_unblock_matched (rdata->editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, data);
 		return FALSE;
 	}
-	
+
 	g_free (rdata->uid);
 	g_free (rdata);
-		
+
 	return TRUE;
 }
 
@@ -189,7 +189,7 @@ gboolean
 e_comp_editor_registry_close_all (ECompEditorRegistry *reg)
 {
 	ECompEditorRegistryPrivate *priv;
-	
+
 	g_return_val_if_fail (reg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_COMP_EDITOR_REGISTRY (reg), FALSE);
 
@@ -198,12 +198,12 @@ e_comp_editor_registry_close_all (ECompEditorRegistry *reg)
 	g_hash_table_foreach_remove (priv->editors, foreach_close_cb, reg);
 	if (g_hash_table_size (priv->editors) != 0)
 		return FALSE;
-	
+
 	return TRUE;
 }
 
 static void
-editor_destroy_cb (gpointer data, GObject *where_object_was) 
+editor_destroy_cb (gpointer data, GObject *where_object_was)
 {
 	ECompEditorRegistryData *rdata = data;
 

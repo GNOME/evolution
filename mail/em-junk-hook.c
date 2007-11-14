@@ -64,11 +64,11 @@ static const EPluginHookTargetKey emjh_flag_map[] = {
 static const char *
 em_junk_get_name (CamelJunkPlugin *csp);
 
-static void 
+static void
 em_junk_init(CamelJunkPlugin *csp)
 {
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
-	
+
 	((EPluginClass *)G_OBJECT_GET_CLASS(item->hook->hook.plugin))->enable(item->hook->hook.plugin, 1);
 }
 
@@ -84,7 +84,7 @@ em_junk_get_name (CamelJunkPlugin *csp)
 
 }
 
-static gboolean 
+static gboolean
 em_junk_check_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 {
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
@@ -100,7 +100,7 @@ em_junk_check_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 	return FALSE;
 }
 
-static void 
+static void
 em_junk_report_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 {
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
@@ -114,7 +114,7 @@ em_junk_report_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 	}
 }
 
-static void 
+static void
 em_junk_report_non_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 {
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
@@ -127,24 +127,24 @@ em_junk_report_non_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 	}
 }
 
-static void 
+static void
 em_junk_commit_reports(CamelJunkPlugin *csp)
 {
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
 
-	if (item->hook && item->hook->hook.plugin->enabled) 
+	if (item->hook && item->hook->hook.plugin->enabled)
 		e_plugin_invoke(item->hook->hook.plugin, item->commit_reports, NULL);
 
 }
 
-static void 
+static void
 emj_dispose (GObject *object)
 {
 	if (parent_class->dispose)
 		parent_class->dispose (object);
 }
 
-static void 
+static void
 emj_finalize (GObject *object)
 {
 	if (parent_class->finalize)
@@ -174,7 +174,7 @@ emjh_free_group(EMJunkHookGroup *group)
 static struct _EMJunkHookItem *
 emjh_construct_item(EPluginHook *eph, EMJunkHookGroup *group, xmlNodePtr root)
 {
-	struct _EMJunkHookItem *item; 
+	struct _EMJunkHookItem *item;
 	CamelJunkPlugin junk_plugin = {
 		em_junk_get_name,
 		1,
@@ -193,16 +193,16 @@ emjh_construct_item(EPluginHook *eph, EMJunkHookGroup *group, xmlNodePtr root)
 	item->report_non_junk = e_plugin_xml_prop(root, "report_non_junk");
 	item->commit_reports = e_plugin_xml_prop(root, "commit_reports");
 	item->validate_binary = e_plugin_xml_prop(root, "validate_binary");
-	
+
 	item->plugin_name = e_plugin_xml_prop(root, "name");
 	item->hook = emjh;
-	
+
 	if (item->check_junk == NULL || item->report_junk == NULL || item->report_non_junk == NULL || item->commit_reports == NULL)
 		goto error;
-	
+
 	/* Add the plugin to the session plugin list*/
 	mail_session_add_junk_plugin (item->plugin_name, CAMEL_JUNK_PLUGIN (&(item->csp)));
-	
+
 	return item;
 error:
 	printf ("ERROR");
@@ -224,7 +224,7 @@ emjh_construct_group(EPluginHook *eph, xmlNodePtr root)
 		goto error;
 
 	node = root->children;
-	
+
 	/* We'll processs only  the first item from xml file*/
 	while (node) {
 		if (0 == strcmp((char *)node->name, "item")) {
@@ -235,14 +235,14 @@ emjh_construct_group(EPluginHook *eph, xmlNodePtr root)
 				group->items = g_slist_append(group->items, item);
 			break;
 		}
-		
+
 		node = node->next;
 	}
 
 	return group;
 error:
 	emjh_free_group(group);
-	
+
 	return NULL;
 }
 
@@ -250,7 +250,7 @@ static int
 emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
-		
+
 	d(printf("loading junk hook\n"));
 
 	if (((EPluginHookClass *)emjh_parent_class)->construct(eph, ep, root) == -1)
@@ -273,7 +273,7 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 		}
 		node = node->next;
 	}
-	
+
 	eph->plugin = ep;
 
 	return 0;
@@ -284,7 +284,7 @@ static void
 emjh_enable(EPluginHook *eph, int state)
 {
 	GSList *g;
-	
+
 	g = emjh->groups;
 	if (emjh_types == NULL)
 		return;
@@ -315,7 +315,7 @@ GType
 em_junk_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMJunkHookClass), NULL, NULL, (GClassInitFunc) emjh_class_init, NULL, NULL,
@@ -325,7 +325,7 @@ em_junk_hook_get_type(void)
 		emjh_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EMJunkHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -342,7 +342,7 @@ GType
 emj_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMJunkClass), NULL, NULL, (GClassInitFunc) emj_class_init, NULL, NULL,
@@ -352,11 +352,11 @@ emj_get_type(void)
 		emj_parent = g_type_class_ref(G_TYPE_OBJECT);
 		type = g_type_register_static(G_TYPE_OBJECT, "EMJunk", &info, 0);
 	}
-	
+
 	return type;
 }
 
-void 
+void
 em_junk_hook_register_type(GType type)
 {
 	EMJunk *klass;

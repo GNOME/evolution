@@ -293,7 +293,7 @@ setup_e_table (ECalListView *cal_list_view)
 			  "double_click", G_CALLBACK (e_cal_list_view_on_table_double_click), cal_list_view);
 	g_signal_connect (e_table_scrolled_get_table (cal_list_view->table_scrolled),
 			  "right-click", G_CALLBACK (e_cal_list_view_on_table_right_click), cal_list_view);
-	g_signal_connect_after (e_table_scrolled_get_table (cal_list_view->table_scrolled), 
+	g_signal_connect_after (e_table_scrolled_get_table (cal_list_view->table_scrolled),
 				"cursor_change", G_CALLBACK (e_cal_list_view_cursor_change_cb), cal_list_view);
 
 	/* Attach and show widget */
@@ -322,7 +322,7 @@ e_cal_list_view_new (void)
 {
 	ECalListView *cal_list_view;
 	ECalModel *model;
-	
+
 	model = E_CAL_MODEL (e_cal_model_calendar_new ());
 	e_cal_model_set_flags (model, E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
 
@@ -388,16 +388,16 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
-static gboolean 
-find_meeting (icalcomponent *icalcomp) 
+static gboolean
+find_meeting (icalcomponent *icalcomp)
 {
 	icalproperty *prop = NULL;
 
 	prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-	
+
 	return prop ? TRUE: FALSE;
 }
-		
+
 
 static gboolean
 e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
@@ -408,7 +408,7 @@ e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, Gdk
 
 	comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)), row);
 	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client,
-					  comp_data->icalcomp, find_meeting (comp_data->icalcomp));	
+					  comp_data->icalcomp, find_meeting (comp_data->icalcomp));
 
 	return TRUE;
 }

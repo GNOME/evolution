@@ -246,7 +246,7 @@ void calendar_config_set_free_busy (GSList * url_list);
 
 gchar *calendar_config_get_free_busy_template (void);
 void calendar_config_set_free_busy_template (const gchar *template);
-guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func, 
+guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
 							   gpointer data);
 
 /* Shows the timezone dialog if the user hasn't set a default timezone. */

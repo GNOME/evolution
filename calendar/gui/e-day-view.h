@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -379,7 +379,7 @@ struct _EDayView
 	/* The event for which a popup menu is being displayed, as above. */
 	gint popup_event_day;
 	gint popup_event_num;
-	
+
 	/* The currently selected region. If selection_start_day is -1 there is
 	   no current selection. If start_row or end_row is -1 then the
 	   selection is in the top canvas. */

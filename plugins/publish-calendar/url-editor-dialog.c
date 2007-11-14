@@ -287,10 +287,10 @@ set_from_uri (UrlEditorDialog *dialog)
 	else
 		uri->service_type = TYPE_URI;
 
-	if (euri->user) 
+	if (euri->user)
 		gtk_entry_set_text (GTK_ENTRY (dialog->username_entry), euri->user);
 
-	if (euri->host)	
+	if (euri->host)
 		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), euri->host);
 
 	if (euri->port) {

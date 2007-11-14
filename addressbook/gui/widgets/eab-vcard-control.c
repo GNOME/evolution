@@ -112,8 +112,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char *vcard;
 	EABVCardControl *vcard_control = data;
 
-	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&	    
-	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&
+	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;
@@ -140,8 +140,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	if (list && list->next) {
 		char *message;
 		int length = g_list_length (list) - 1;
-		message = g_strdup_printf (ngettext("There is one other contact.", 
-						    "There are %d other contacts.", length), 
+		message = g_strdup_printf (ngettext("There is one other contact.",
+						    "There are %d other contacts.", length),
 					   length);
 		gtk_label_set_text (GTK_LABEL (vcard_control->label), message);
 		g_free (message);
@@ -163,8 +163,8 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char             *vcard;
 	int               length;
 
-	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&	    
-	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&
+	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;

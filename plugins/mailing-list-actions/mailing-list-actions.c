@@ -91,7 +91,7 @@ void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action
 	mail_get_message (sel->folder, (const char*) g_ptr_array_index (sel->uids, 0),
 	                  emla_list_action_do, data, mail_thread_new);
 }
-	
+
 void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	emla_action_data *action_data = (emla_action_data *) data;
@@ -127,7 +127,7 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 			goto exit;
 		}
 	}
-	
+
 	/* parse the action value */
 	while (*headerpos) {
 		/* skip whitespace */
@@ -136,7 +136,7 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 			e_error_run (NULL, "org.gnome.mailing-list-actions:malformed-header", emla_action_headers[t].header, header, NULL);
 			goto exit;
 		}
-		
+
 		/* get URL portion */
 		url = g_strndup(headerpos, end - headerpos);
 
@@ -163,22 +163,22 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 			gnome_url_show (url, &err);
 			if (!err)
 				goto exit;
-			g_error_free (err);			
+			g_error_free (err);
 		}
 		g_free (url);
 		url = NULL;
 		headerpos = end++;
-		
+
 		/* ignore everything 'till next comma */
 		headerpos = strchr (headerpos, ',');
 		if (!headerpos)
 			break;
 		headerpos++;
 	}
-	
+
 	/* if we got here, there's no valid action */
 	e_error_run (NULL, "org.gnome.mailing-list-actions:no-action", header, NULL);
-	
+
 exit:
 	free (action_data->uri);
 	free (action_data);

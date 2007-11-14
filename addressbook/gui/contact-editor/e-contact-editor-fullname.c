@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * eab-contact-editor-phones.c
  * Copyright (C) 2003  Ximian, Inc.
  * Author: Chris Toshok <toshok@ximian.com>
@@ -85,13 +85,13 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 	object_class->get_property = e_contact_editor_fullname_get_property;
 	object_class->dispose = e_contact_editor_fullname_dispose;
 
-	g_object_class_install_property (object_class, PROP_NAME, 
+	g_object_class_install_property (object_class, PROP_NAME,
 					 g_param_spec_pointer ("name",
 							       _("Name"),
 							       /*_( */"XXX blurb" /*)*/,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE, 
+	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
@@ -157,7 +157,7 @@ e_contact_editor_fullname_dispose (GObject *object)
 		g_object_unref(e_contact_editor_fullname->gui);
 		e_contact_editor_fullname->gui = NULL;
 	}
-	
+
 	if (e_contact_editor_fullname->name) {
 		e_contact_name_free(e_contact_editor_fullname->name);
 		e_contact_editor_fullname->name = NULL;
@@ -185,7 +185,7 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 	EContactEditorFullname *e_contact_editor_fullname;
 
 	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
-	
+
 	switch (prop_id){
 	case PROP_NAME:
 		e_contact_name_free(e_contact_editor_fullname->name);

@@ -110,7 +110,7 @@ static void
 junk_settings_destroy (GtkObject *obj)
 {
 	JunkSettings *js = (JunkSettings *) obj;
-	free_all (js);	
+	free_all (js);
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -148,16 +148,16 @@ free_node(JunkEntry *nentry)
 	return;
 }
 
-static JunkEntry * 
+static JunkEntry *
 find_node(GList *list, gchar *match)
 {
 	JunkEntry *one_entry = NULL;
-	EGwJunkEntry *ent = NULL; 
+	EGwJunkEntry *ent = NULL;
 	GList *tmp;
 	gint i ;
-	
+
 	if(list){
-		tmp = g_list_first(list); 
+		tmp = g_list_first(list);
 		for(i=0; tmp  ; i++)
 		{
 			one_entry = tmp->data;
@@ -169,11 +169,11 @@ find_node(GList *list, gchar *match)
 			tmp= g_list_next(tmp);
 		}
 	}
-	
+
 	return NULL;
 }
 
-static void 
+static void
 free_all (JunkSettings *js)
 {
 	if (js->junk_list){
@@ -190,7 +190,7 @@ get_junk_list (JunkSettings *js)
 	char *entry;
 	char *msg;
 	int use_junk, use_block, use_pab, persistence;
-	
+
 	if (E_IS_GW_CONNECTION (js->cnc)) {
 		if (e_gw_connection_get_junk_settings (js->cnc, &use_junk, &use_block, &use_pab, &persistence) == E_GW_CONNECTION_STATUS_OK) {
 			if (use_junk) {
@@ -207,15 +207,15 @@ get_junk_list (JunkSettings *js)
 		if (e_gw_connection_get_junk_entries (js->cnc, &(list)) == E_GW_CONNECTION_STATUS_OK) {
 			js->users = g_list_length (list);
 			if (js->users) {
-/* I populate the list and set flags to 0 for the existing users*/ 
+/* I populate the list and set flags to 0 for the existing users*/
 				while (list) {
 					JunkEntry *junk_entry = g_new0 (JunkEntry , 1);
 					junk_entry->entry = list->data;
-					junk_entry->flag = 0;	
+					junk_entry->flag = 0;
 					entry = g_strdup ((junk_entry->entry)->match);
 					msg = g_strdup_printf ("%s", entry);
 					gtk_list_store_append (GTK_LIST_STORE (js->model), &(js->iter));
-					gtk_list_store_set (GTK_LIST_STORE (js->model), &(js->iter), 0, msg, -1);			 
+					gtk_list_store_set (GTK_LIST_STORE (js->model), &(js->iter), 0, msg, -1);
 					js->junk_list = g_list_append (js->junk_list, junk_entry);
 
 					g_free (msg);
@@ -224,7 +224,7 @@ get_junk_list (JunkSettings *js)
 					entry = NULL;
 					list = list->next;
 				}
-			} 
+			}
 		}
 		else
 			g_warning("Could not get the JUNK List");
@@ -243,11 +243,11 @@ commit_changes (JunkSettings *js)
 
 	for (node = js->junk_list; node; node = node->next)
 	{
-		junk_entry = node->data;	
+		junk_entry = node->data;
 		if (junk_entry->flag & 0x1)
-			new_list = g_list_append (new_list, junk_entry->entry);	
+			new_list = g_list_append (new_list, junk_entry->entry);
 		else if (junk_entry->flag & 0x4) {
-			remove_list = g_list_append (remove_list, junk_entry->entry);	
+			remove_list = g_list_append (remove_list, junk_entry->entry);
 		}
 	}
 
@@ -288,14 +288,14 @@ commit_changes (JunkSettings *js)
 	remove_list = NULL;
 }
 
-static void 
+static void
 enable_clicked (GtkRadioButton *button, JunkSettings *js)
 {
-	js->flag_for_ok = 0;        
+	js->flag_for_ok = 0;
 	gtk_widget_set_sensitive (GTK_WIDGET (js->table) ,TRUE);
 }
 
-static void 
+static void
 disable_clicked (GtkRadioButton *button, JunkSettings *js)
 {
 	js->flag_for_ok = 2;
@@ -310,17 +310,17 @@ add_clicked(GtkButton *button, JunkSettings *js)
 	JunkEntry *new_entry = NULL;
 	EGwJunkEntry *junk_entry = NULL;
 	gchar *msg = NULL;
-	
+
 	self_email = g_strdup (e_gw_connection_get_user_email (js->cnc));
 		email = gtk_entry_get_text (js->entry);
 		/* You can't mark junk sender yourself*/
 		if (g_strrstr (email, "@") == NULL || (!g_ascii_strcasecmp (email , self_email)) || !g_ascii_strcasecmp (email, "" ))
-		       return; 	
-		else {	
+		       return;
+		else {
 			/*check whether already exists*/
 			if (js->junk_list && email){
 				new_entry = find_node (js->junk_list, (gchar *)email);
-				if (new_entry) 
+				if (new_entry)
 					return;
 
 			}
@@ -331,13 +331,13 @@ add_clicked(GtkButton *button, JunkSettings *js)
 			new_entry->entry = junk_entry;
 			new_entry->flag = 1;
 			msg = g_strdup (email);
-			gtk_list_store_append (GTK_LIST_STORE (js->model), &(js->iter)); 
+			gtk_list_store_append (GTK_LIST_STORE (js->model), &(js->iter));
 			gtk_list_store_set (GTK_LIST_STORE (js->model), &(js->iter), 0, msg, -1);
 			g_free(msg);
 			js->junk_list = g_list_append (js->junk_list, new_entry);
 			js->flag_for_ok = 0;
 		}
-	gtk_entry_set_text (GTK_ENTRY(js->entry), ""); 
+	gtk_entry_set_text (GTK_ENTRY(js->entry), "");
 }
 
 static void
@@ -348,9 +348,9 @@ remove_clicked(GtkButton *button, JunkSettings *js)
 
 	gtk_tree_model_get ((GtkTreeModel *) js->model, &(js->iter), 0, &email, -1);
 	entry = find_node (js->junk_list, email);
-	if (entry->flag & 0x1) {	
+	if (entry->flag & 0x1) {
 		js->junk_list = g_list_remove (js->junk_list, entry);
-		free_node(entry);		
+		free_node(entry);
 	} else {
 		entry->flag = 0;
 		entry->flag |= 0x4;
@@ -360,19 +360,19 @@ remove_clicked(GtkButton *button, JunkSettings *js)
 }
 
 
-static void 
+static void
 user_selected(GtkTreeSelection *selection, JunkSettings *js)
 {
 	GtkTreeModel *model;
-	
+
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	if (gtk_tree_selection_get_selected (selection, &model, &(js->iter))){
 		gtk_widget_set_sensitive (GTK_WIDGET (js->remove), TRUE);
 
-	} 
+	}
 }
-	
-static void 
+
+static void
 junk_settings_construct (JunkSettings *js)
 {
 	GladeXML *xml;
@@ -384,7 +384,7 @@ junk_settings_construct (JunkSettings *js)
 	xml = glade_xml_new (gladefile, ROOTNODE, NULL);
 	g_free (gladefile);
 
-	js->xml =xml; 
+	js->xml =xml;
 
 	if (!js->xml) {
 		g_warning ("could not get xml");

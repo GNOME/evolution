@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
- * Author : 
+/*
+ * Author :
  *  JP Rosevear <jpr@ximian.com>
  *  Nathan Owens <pianocomp81@yahoo.com>
  *
  * Copyright 2003, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ struct _EMemoTableConfigPrivate {
 	EMemoTable *table;
 
 	ECellDateEditConfig *cell_config;
-	
+
 	GList *notifications;
 };
 
@@ -47,7 +47,7 @@ e_memo_table_config_set_property (GObject *object, guint property_id, const GVal
 	EMemoTableConfig *table_config;
 
 	table_config = E_MEMO_TABLE_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_TABLE:
 		e_memo_table_config_set_table (table_config, g_value_get_object (value));
@@ -64,7 +64,7 @@ e_memo_table_config_get_property (GObject *object, guint property_id, GValue *va
 	EMemoTableConfig *table_config;
 
 	table_config = E_MEMO_TABLE_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_TABLE:
 		g_value_set_object (value, e_memo_table_config_get_table (table_config));
@@ -81,7 +81,7 @@ e_memo_table_config_dispose (GObject *object)
 	EMemoTableConfig *table_config = E_MEMO_TABLE_CONFIG (object);
 
 	e_memo_table_config_set_table (table_config, NULL);
-	
+
 	if (G_OBJECT_CLASS (e_memo_table_config_parent_class)->dispose)
 		G_OBJECT_CLASS (e_memo_table_config_parent_class)->dispose (object);
 }
@@ -91,11 +91,11 @@ e_memo_table_config_finalize (GObject *object)
 {
 	EMemoTableConfig *table_config = E_MEMO_TABLE_CONFIG (object);
 	EMemoTableConfigPrivate *priv;
-	
+
 	priv = table_config->priv;
 
 	g_free (priv);
-	
+
 	if (G_OBJECT_CLASS (e_memo_table_config_parent_class)->finalize)
 		G_OBJECT_CLASS (e_memo_table_config_parent_class)->finalize (object);
 }
@@ -128,14 +128,14 @@ EMemoTableConfig *
 e_memo_table_config_new (EMemoTable *table)
 {
 	EMemoTableConfig *table_config;
-	
+
 	table_config = g_object_new (e_memo_table_config_get_type (), "table", table, NULL);
 
 	return table_config;
 }
 
 EMemoTable *
-e_memo_table_config_get_table (EMemoTableConfig *table_config) 
+e_memo_table_config_get_table (EMemoTableConfig *table_config)
 {
 	EMemoTableConfigPrivate *priv;
 
@@ -143,16 +143,16 @@ e_memo_table_config_get_table (EMemoTableConfig *table_config)
 	g_return_val_if_fail (E_IS_MEMO_TABLE_CONFIG (table_config), NULL);
 
 	priv = table_config->priv;
-	
+
 	return priv->table;
 }
 
 static void
-set_timezone (EMemoTable *table) 
+set_timezone (EMemoTable *table)
 {
 	ECalModel *model;
 	icaltimezone *zone;
-	
+
 	zone = calendar_config_get_icaltimezone ();
 	model = e_memo_table_get_model (table);
 	if (model)
@@ -164,14 +164,14 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 {
 	EMemoTableConfig *table_config = data;
 	EMemoTableConfigPrivate *priv;
-	
+
 	priv = table_config->priv;
-	
+
 	set_timezone (priv->table);
 }
 
 static void
-set_twentyfour_hour (EMemoTable *table) 
+set_twentyfour_hour (EMemoTable *table)
 {
 	ECalModel *model;
 	gboolean use_24_hour;
@@ -188,29 +188,29 @@ twentyfour_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gp
 {
 	EMemoTableConfig *table_config = data;
 	EMemoTableConfigPrivate *priv;
-	
+
 	priv = table_config->priv;
-	
+
 	set_twentyfour_hour (priv->table);
 }
 
 void
-e_memo_table_config_set_table (EMemoTableConfig *table_config, EMemoTable *table) 
+e_memo_table_config_set_table (EMemoTableConfig *table_config, EMemoTable *table)
 {
 	EMemoTableConfigPrivate *priv;
 	guint not;
 	GList *l;
-	
+
 	g_return_if_fail (table_config != NULL);
 	g_return_if_fail (E_IS_MEMO_TABLE_CONFIG (table_config));
 
 	priv = table_config->priv;
-	
+
 	if (priv->table) {
 		g_object_unref (priv->table);
 		priv->table = NULL;
 	}
-	
+
 	if (priv->cell_config) {
 		g_object_unref (priv->cell_config);
 		priv->cell_config = NULL;
@@ -225,17 +225,17 @@ e_memo_table_config_set_table (EMemoTableConfig *table_config, EMemoTable *table
 	/* If the new view is NULL, return right now */
 	if (!table)
 		return;
-	
+
 	priv->table = g_object_ref (table);
 
 	/* Time zone */
 	set_timezone (table);
-	
+
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, table_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* 24 Hour format */
-	set_twentyfour_hour (table);	
+	set_twentyfour_hour (table);
 
 	not = calendar_config_add_notification_24_hour_format (twentyfour_hour_changed_cb, table_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));

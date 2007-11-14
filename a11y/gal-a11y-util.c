@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
  * Copyright (C) 2002 Ximian, Inc.

@@ -243,15 +243,15 @@ eccp_get_source_name (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 	return entry;
 }
 
-static void 
+static void
 offline_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
 {
-	
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		e_source_set_property (sdialog->source, "offline_sync", "1");
-	else 
-		e_source_set_property (sdialog->source, "offline_sync", "0");	
-	    
+	else
+		e_source_set_property (sdialog->source, "offline_sync", "0");
+
 }
 
 static GtkWidget *
@@ -268,9 +268,9 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 	else {
 		row = ((GtkTable*)parent)->nrows;
 
-		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)	
+		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y calendar contents locally for offline operation"));
-		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)	
+		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y task list contents locally for offline operation"));
 		else if(sdialog->source_type == E_CAL_SOURCE_TYPE_JOURNAL)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y memo list contents locally for offline operation"));
@@ -280,7 +280,7 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 		gtk_table_attach (GTK_TABLE (parent), offline_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	}
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (offline_setting), (offline_sync && g_str_equal (offline_sync, "1"))  ? TRUE : FALSE);
 	if (is_local)
 	  gtk_widget_hide (offline_setting);
@@ -397,7 +397,7 @@ static ECalConfigItem ecmp_items[] = {
 	{ 0 },
 };
 
-/** 
+/**
  * cs_load_sources:
  * @sdialog: dialog where to load sources list
  * @conf_key: configuration key where to get sources' list
@@ -463,7 +463,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 	e_source_set_absolute_uri (sdialog->source, NULL);
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
-	sdialog->source_type = E_CAL_SOURCE_TYPE_EVENT; 
+	sdialog->source_type = E_CAL_SOURCE_TYPE_EVENT;
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; eccp_items[i].path; i++)
 		items = g_slist_prepend (items, &eccp_items[i]);
@@ -478,7 +478,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 		sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("Calendar Properties"));
 	else
 		sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("New Calendar"));
-		
+
 	/* forces initial validation */
 	if (!sdialog->original_source)
 		e_config_target_changed ((EConfig *)ec, E_CONFIG_TARGET_CHANGED_STATE);

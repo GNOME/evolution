@@ -98,7 +98,7 @@ typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 
 struct _EMEventTargetSendReceive {
 	EEventTarget target;
-	
+
 	struct _GtkWidget *table;
 	gpointer data;
 	int row;

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-search-bar.c
  *
  * Copyright (C) 2001 Ximian, Inc.
@@ -74,10 +74,10 @@ static void
 full_rule_editor_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
-	
+
 	if (response == GTK_RESPONSE_OK)
 		rule_context_save (efb->context, efb->userrules);
-	
+
 	gtk_widget_destroy (dialog);
 }
 
@@ -86,19 +86,19 @@ rule_editor_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
 	FilterRule *rule;
-	
+
 	if (response == GTK_RESPONSE_OK) {
 		rule = g_object_get_data (G_OBJECT (dialog), "rule");
 		if (rule) {
 			if (!filter_rule_validate (rule))
 				return;
-			
+
 			rule_context_add_rule (efb->context, rule);
 			/* FIXME: check return */
 			rule_context_save (efb->context, efb->userrules);
 		}
 	}
-	
+
 	gtk_widget_destroy (dialog);
 }
 
@@ -109,7 +109,7 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 	/* the below generates a compiler warning about incompatible pointer types */
 	ESearchBar *esb = (ESearchBar *)efb;
 	FilterRule *rule;
-	
+
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY) {
 		rule = g_object_get_data ((GObject *) dialog, "rule");
 		if (rule) {
@@ -117,7 +117,7 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 
 			if (!filter_rule_validate (rule))
 				return;
-			
+
 			efb->current_query = rule;
 			g_object_ref (rule);
 			g_signal_emit_by_name (efb, "search_activated");
@@ -128,7 +128,7 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 			e_search_bar_set_text (esb,_("Advanced Search"));
 			gtk_widget_set_sensitive (esb->clear_button, TRUE);
-				
+
 			if (response == GTK_RESPONSE_APPLY) {
 				if (!rule_context_find_rule (efb->context, rule->name, rule->source))
 					rule_context_add_rule (efb->context, rule);
@@ -139,7 +139,7 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 	} else {
 		e_search_bar_set_item_id (esb, esb->last_search_option);
 	}
-	
+
 	if (response != GTK_RESPONSE_APPLY)
 		gtk_widget_destroy (dialog);
 }
@@ -160,20 +160,20 @@ static void
 do_advanced (ESearchBar *esb)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-	
+
 	d(printf("Advanced search!\n"));
-	
+
 	if (!efb->save_dialog && !efb->setquery) {
 		GtkWidget *dialog, *w;
 		FilterRule *rule;
-		
+
 		if (efb->current_query)
 			rule = filter_rule_clone (efb->current_query);
 		else {
 			rule = filter_rule_new ();
 			efb->current_query = rule;
 		}
-		
+
 		w = filter_rule_get_widget (rule, efb->context);
 		filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 		gtk_container_set_border_width (GTK_CONTAINER (w), 12);
@@ -183,17 +183,17 @@ do_advanced (ESearchBar *esb)
 						      GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,
 						      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-		
+
 		efb->save_dialog = dialog;
 		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-		
+
 		gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 		gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 300);
 		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
 		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
-		
+
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
-		
+
 		g_object_ref (rule);
 		g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);
 
@@ -202,9 +202,9 @@ do_advanced (ESearchBar *esb)
 
 		g_signal_connect (dialog, "response", G_CALLBACK (rule_advanced_response), efb);
 		g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
-		
+
 		e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
-		
+
 		gtk_widget_show (dialog);
 	}
 }
@@ -215,7 +215,7 @@ save_search_dialog (ESearchBar *esb)
 	FilterRule *rule;
 	char *name, *text;
 	GtkWidget *dialog, *w;
-			
+
 	EFilterBar *efb = (EFilterBar *)esb;
 
 	rule = filter_rule_clone (efb->current_query);
@@ -224,7 +224,7 @@ save_search_dialog (ESearchBar *esb)
 	filter_rule_set_name (rule, name);
 	g_free (text);
 	g_free (name);
-			
+
 	w = filter_rule_get_widget (rule, efb->context);
 	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 	gtk_container_set_border_width (GTK_CONTAINER (w), 12);
@@ -261,14 +261,14 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 	EFilterBar *efb = (EFilterBar *)esb;
 	GtkWidget *dialog;
 	GtkStyle *style;
-	
+
 	d(printf ("menubar activated!\n"));
 
 	switch (id) {
 	case E_FILTERBAR_EDIT_ID:
 		if (!efb->save_dialog) {
 			efb->save_dialog = dialog = (GtkWidget *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING, _("_Searches"));
-			
+
 			gtk_window_set_title (GTK_WINDOW (dialog), _("Searches"));
 			g_signal_connect (dialog, "response", G_CALLBACK (full_rule_editor_response), efb);
 			g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
@@ -276,9 +276,9 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		}
 		break;
 	case E_FILTERBAR_SAVE_ID:
-		if (efb->current_query && !efb->save_dialog) 
+		if (efb->current_query && !efb->save_dialog)
 			save_search_dialog (esb);
-		
+
 		d(printf("Save menu\n"));
 		break;
 	case E_FILTERBAR_ADVANCED_ID:
@@ -288,14 +288,14 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
 #if d(!)0
 			GString *out = g_string_new ("");
-			
+
 			printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name);
 			filter_rule_build_code (efb->menu_rules->pdata[id - efb->menu_base], out);
 			printf("query: '%s'\n", out->str);
 			g_string_free (out, TRUE);
 #endif
 			efb->current_query = (FilterRule *)efb->menu_rules->pdata[id - efb->menu_base];
-			
+
 			efb->setquery = TRUE;
 			e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
 			efb->setquery = FALSE;
@@ -307,14 +307,14 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text [GTK_STATE_SELECTED] ));
 			gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, &(style->base [GTK_STATE_SELECTED] ));
 			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base [GTK_STATE_SELECTED] ));
-			e_search_bar_set_text (esb,_("Advanced Search"));	
+			e_search_bar_set_text (esb,_("Advanced Search"));
 			g_signal_emit_by_name (efb, "search_activated", NULL);
 			efb->setquery = FALSE;
 		} else {
 			return;
 		}
 	}
-	
+
 	g_signal_stop_emission_by_name (esb, "menu_activated");
 }
 
@@ -324,7 +324,7 @@ option_changed (ESearchBar *esb, void *data)
 	EFilterBar *efb = (EFilterBar *)esb;
 	int id = e_search_bar_get_item_id (esb);
 	char *query;
-	
+
 	d(printf("option changed, id = %d, setquery = %s %d\n", id, efb->setquery ? "true" : "false", esb->block_search));
 
 	if (esb->scopeitem_id == E_FILTERBAR_CURRENT_MESSAGE_ID) {
@@ -332,7 +332,7 @@ option_changed (ESearchBar *esb, void *data)
 	} else {
 		gtk_widget_set_sensitive (esb->option_button, TRUE);
 	}
-	
+
 	if (efb->setquery)
 		return;
 
@@ -384,7 +384,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	char *source;
 	GSList *gtksux = NULL;
 	int num;
-	
+
 	/* So gtk calls a signal again if you connect to it WHILE inside a changed event.
 	   So this snot is to work around that shit fucked up situation */
 	for (i=0;i<rules->len;i++)
@@ -402,7 +402,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		dup_item_no_subitems (&dup_item, items + i);
 		g_array_append_vals (menu, &dup_item, 1);
 	}
-	
+
 	*start = id;
 
 	if (type == 0) {
@@ -453,10 +453,10 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		g_slist_free_1(gtksux);
 		gtksux = next;
 	}
-	
+
 	/* always add on the advanced menu */
 	if (type == 1) {
-		ESearchBarItem sb_items[2] = { E_FILTERBAR_SEPARATOR, E_FILTERBAR_ADVANCED, 
+		ESearchBarItem sb_items[2] = { E_FILTERBAR_SEPARATOR, E_FILTERBAR_ADVANCED,
 					       /* E_FILTERBAR_SEPARATOR, E_FILTERBAR_SAVE */ };
 		ESearchBarItem dup_items[2];
 
@@ -466,11 +466,11 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		/* dup_item_no_subitems (&dup_items[3], &sb_items[3]); */
 		g_array_append_vals (menu, &dup_items, 2);
 	}
-	
+
 	item.id = -1;
 	item.text = NULL;
 	g_array_append_vals (menu, &item, 1);
-	
+
 	return menu;
 }
 
@@ -504,11 +504,11 @@ static void
 free_items (ESearchBarItem *items)
 {
 	int i;
-	
-	for (i = 0; items[i].id != -1; i++) 
+
+	for (i = 0; items[i].id != -1; i++)
 		g_free (items[i].text);
 
-	
+
 	g_free (items);
 }
 
@@ -519,22 +519,22 @@ set_menu (ESearchBar *esb, ESearchBarItem *items)
 	EFilterBar *efb = E_FILTER_BAR (esb);
 	ESearchBarItem *default_items;
 	int i, num;
-	
+
 	if (efb->default_items)
 		free_items (efb->default_items);
-	
+
 	for (num = 0; items[num].id != -1; num++)
 		;
-	
+
 	default_items = g_new (ESearchBarItem, num + 1);
 	for (i = 0; i < num + 1; i++) {
 		default_items[i].text = g_strdup (items[i].text);
 		default_items[i].id = items[i].id;
 		default_items[i].type = items[i].type;
 	}
-	
+
 	efb->default_items = default_items;
-	
+
 	generate_menu (esb, default_items);
 }
 
@@ -543,11 +543,11 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 {
 	GArray *menu;
 	EFilterBar *efb = (EFilterBar *)esb;
-	
+
 	menu = build_items (esb, items, 1, &efb->option_base, efb->option_rules);
 	((ESearchBarClass *)parent_class)->set_option (esb, (ESearchBarItem *)menu->data);
 	free_built_items (menu);
-	
+
 	e_search_bar_set_item_id (esb, efb->option_base);
 }
 
@@ -556,7 +556,7 @@ context_changed (RuleContext *context, gpointer user_data)
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 	ESearchBar *esb = E_SEARCH_BAR (user_data);
-	
+
 	/* just generate whole menu again */
 	generate_menu (esb, efb->default_items);
 }
@@ -566,7 +566,7 @@ context_rule_removed (RuleContext *context, FilterRule *rule, gpointer user_data
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 	ESearchBar *esb = E_SEARCH_BAR (user_data);
-	
+
 	/* just generate whole menu again */
 	generate_menu (esb, efb->default_items);
 }
@@ -576,7 +576,7 @@ rule_changed (FilterRule *rule, gpointer user_data)
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 	ESearchBar *esb = E_SEARCH_BAR (user_data);
-	
+
 	/* just generate whole menu again */
 	generate_menu (esb, efb->default_items);
 }
@@ -589,12 +589,12 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 {
 	EFilterBar *efb = (EFilterBar *) object;
 	ESearchBar *esb = E_SEARCH_BAR (object);
-	
+
 	switch (property_id) {
 	case PROP_QUERY:
 		if (efb->current_query) {
 			GString *out = g_string_new ("");
-			
+
 			filter_rule_build_code (efb->current_query, out);
 			g_value_take_string (value, out->str);
 			g_string_free (out, FALSE);
@@ -609,9 +609,9 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 		int searchscope, item_id, n, view_id;
 		xmlNodePtr root, node;
 		xmlDocPtr doc;
-		
+
 		item_id = e_search_bar_get_item_id ((ESearchBar *) efb);
-		
+
 		doc = xmlNewDoc ((const unsigned char *)"1.0");
 		root = xmlNewDocNode (doc, NULL, (const unsigned char *)"state", NULL);
 		xmlDocSetRootElement (doc, root);
@@ -620,7 +620,7 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 
 		if (searchscope < E_FILTERBAR_CURRENT_FOLDER_ID)
 			item_id = esb->last_search_option;
-		
+
 		if (item_id == E_FILTERBAR_ADVANCED_ID) {
 			/* advanced query, save the filterbar state */
 			node = xmlNewChild (root, NULL, (const unsigned char *)"filter-bar", NULL);
@@ -631,12 +631,12 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 			xmlSetProp (node, (const unsigned char *)"searchscope", (unsigned char *)buf);
 			sprintf (buf, "%d", view_id);
 			xmlSetProp (node, (const unsigned char *)"view_id", (unsigned char *)buf);
-			
-			xmlAddChild (node, filter_rule_xml_encode (efb->current_query));			
+
+			xmlAddChild (node, filter_rule_xml_encode (efb->current_query));
 		} else {
 			/* simple query, save the searchbar state */
 			text = e_search_bar_get_text ((ESearchBar *) efb);
-			
+
 			node = xmlNewChild (root, NULL, (const unsigned char *)"search-bar", NULL);
 			xmlSetProp (node, (const unsigned char *)"text", (unsigned char *)(text ? text : ""));
 			sprintf (buf, "%d", item_id);
@@ -647,18 +647,18 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 			xmlSetProp (node, (const unsigned char *)"view_id", (unsigned char *)buf);
 			g_free (text);
 		}
-		
+
 		xmlDocDumpMemory (doc, &xmlbuf, &n);
 		xmlFreeDoc (doc);
-		
+
 		/* remap to glib memory */
 		text = g_malloc (n + 1);
 		memcpy (text, (char *)xmlbuf, n);
 		text[n] = '\0';
 		xmlFree (xmlbuf);
-		
+
 		g_value_take_string (value, text);
-		
+
 		break; }
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -671,14 +671,14 @@ xml_get_prop_int (xmlNodePtr node, const char *prop)
 {
 	char *buf;
 	int ret;
-	
+
 	if ((buf = (char *)xmlGetProp (node, (unsigned char *)prop))) {
 		ret = strtol (buf, NULL, 10);
 		xmlFree (buf);
 	} else {
 		ret = -1;
 	}
-	
+
 	return ret;
 }
 
@@ -691,26 +691,26 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 	const char *state;
 	xmlDocPtr doc;
 	gboolean rule_set = FALSE, is_cur_folder=FALSE;
-	int view_id, scope, item_id;	
-	
+	int view_id, scope, item_id;
+
 	switch (property_id) {
 	case PROP_STATE:
 		if ((state = g_value_get_string (value))) {
 			if (!(doc = xmlParseDoc ((unsigned char *) state)))
 				return;
-			
+
 			root = doc->children;
 			if (strcmp ((char *)root->name, "state") != 0) {
 				xmlFreeDoc (doc);
 				return;
 			}
-			
+
 			node = root->children;
 			while (node != NULL) {
 				if (!strcmp ((char *)node->name, "filter-bar")) {
 					FilterRule *rule = NULL;
 
-					
+
 					view_id = xml_get_prop_int (node, "view_id");
 					scope = xml_get_prop_int (node, "searchscope");
 					item_id = xml_get_prop_int (node, "item_id");
@@ -719,12 +719,12 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 
 					if (scope == E_FILTERBAR_CURRENT_FOLDER_ID)
 						is_cur_folder = TRUE;
-					
+
 					if ((node = node->children)) {
 						GtkStyle *style = gtk_widget_get_default_style ();
-						
+
 						rule = filter_rule_new ();
-						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {			
+						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {
 							gtk_widget_modify_base (E_SEARCH_BAR (efb)->entry, GTK_STATE_NORMAL, NULL);
 							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
 							gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, NULL);
@@ -736,7 +736,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 							gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 							gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 							gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
-							gtk_widget_modify_base (((ESearchBar *)efb)->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));							
+							gtk_widget_modify_base (((ESearchBar *)efb)->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 							g_object_set_data_full (object, "rule", rule, (GDestroyNotify) g_object_unref);
 						}
 					}
@@ -746,31 +746,31 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						esb->block_search = TRUE;
 						e_search_bar_set_text (esb, _("Advanced Search"));
 						e_search_bar_set_item_menu ((ESearchBar *) efb, item_id);
-						e_search_bar_set_search_scope ((ESearchBar *) efb, scope);						
+						e_search_bar_set_search_scope ((ESearchBar *) efb, scope);
 						esb->block_search = FALSE;
 						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
 						if (efb->config && efb->current_query) {
 							char *query = e_search_bar_get_text (esb);
 							efb->config (efb, efb->current_query, item_id, query, efb->config_data);
 							g_free (query);
-							
+
 						}
 					}
 					e_search_bar_set_viewitem_id ((ESearchBar *) efb, view_id);
 					efb->current_query = rule;
 					efb->setquery = TRUE;
-					e_search_bar_set_item_id ((ESearchBar *) efb, E_FILTERBAR_ADVANCED_ID);			
+					e_search_bar_set_item_id ((ESearchBar *) efb, E_FILTERBAR_ADVANCED_ID);
 					efb->setquery = FALSE;
-					
+
 					break;
 				} else if (!strcmp ((char *)node->name, "search-bar")) {
 					int subitem_id, item_id, scope, view_id;
 					char *text;
 					GtkStyle *style = gtk_widget_get_default_style ();
-					
+
 					/* set the text first (it doesn't emit a signal) */
 
-					
+
 					/* now set the item_id and subitem_id */
 					item_id = xml_get_prop_int (node, "item_id");
 					subitem_id = xml_get_prop_int (node, "subitem_id");
@@ -791,7 +791,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					if (text && *text) {
 						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
 						if (efb->config && efb->current_query)
-							efb->config (efb, efb->current_query, item_id, text, efb->config_data);						
+							efb->config (efb, efb->current_query, item_id, text, efb->config_data);
 						gtk_widget_set_sensitive (esb->clear_button, TRUE);
 						gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
@@ -799,23 +799,23 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						gtk_widget_modify_base (((ESearchBar *)efb)->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 					} else {
 						gtk_widget_modify_base (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
-						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);		
+						gtk_widget_modify_text (((ESearchBar *)efb)->entry, GTK_STATE_NORMAL, NULL);
 						gtk_widget_modify_base (((ESearchBar *)efb)->icon_entry, GTK_STATE_NORMAL, NULL);
 						e_search_bar_paint (esb);
 						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
 						if (efb->config && efb->current_query)
-							efb->config (efb, efb->current_query, item_id, "", efb->config_data);						
+							efb->config (efb, efb->current_query, item_id, "", efb->config_data);
 					}
-					
+
 					xmlFree (text);
 
 
 					break;
 				}
-				
+
 				node = node->next;
 			}
-			
+
 			xmlFreeDoc (doc);
 		} else {
 			/* set default state */
@@ -823,16 +823,16 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 			e_search_bar_set_viewitem_id ((ESearchBar *) efb, 0);
 			e_search_bar_set_search_scope ((ESearchBar *) efb, E_FILTERBAR_CURRENT_FOLDER_ID);
 		}
-		
+
 		/* we don't want to run option_changed */
 		efb->setquery = TRUE;
 		g_signal_emit_by_name (efb, "search_activated", NULL);
 		efb->setquery = FALSE;
-		
+
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;	
+		break;
 	}
 }
 
@@ -854,15 +854,15 @@ static void
 dispose (GObject *object)
 {
 	EFilterBar *bar;
-	
+
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_FILTER_BAR (object));
-	
+
 	bar = E_FILTER_BAR (object);
-	
+
 	if (bar->context != NULL && bar->userrules != NULL)
 		rule_context_save (bar->context, bar->userrules);
-	
+
 	if (bar->menu_rules != NULL) {
 		clear_rules(bar, bar->menu_rules);
 		clear_rules(bar, bar->option_rules);
@@ -902,24 +902,24 @@ class_init (EFilterBarClass *klass)
 	GObjectClass *object_class = (GObjectClass *) klass;
 	ESearchBarClass *esb_class = (ESearchBarClass *) klass;
 	GParamSpec *pspec;
-	
+
 	parent_class = g_type_class_ref (e_search_bar_get_type ());
-	
+
 	object_class->dispose = dispose;
 	object_class->get_property = get_property;
 	object_class->set_property = set_property;
-	
+
 	esb_class->set_menu = set_menu;
 	esb_class->set_option = set_option;
-	
+
 	pspec = g_param_spec_string ("query", NULL, NULL, NULL, G_PARAM_READABLE);
 	g_object_class_install_property (object_class, PROP_QUERY, pspec);
-	
+
 	pspec = g_param_spec_string ("state", NULL, NULL, NULL, G_PARAM_READWRITE);
 	g_object_class_install_property (object_class, PROP_STATE, pspec);
-	
+
 	/*gtk_object_add_arg_type ("EFilterBar::query", GTK_TYPE_STRING, GTK_ARG_READABLE, ARG_QUERY);*/
-	
+
 #if 0
 	esb_signals [QUERY_CHANGED] =
 		gtk_signal_new ("query_changed",
@@ -928,7 +928,7 @@ class_init (EFilterBarClass *klass)
 				G_STRUCT_OFFSET (EFilterBarClass, query_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-	
+
 	esb_signals [MENU_ACTIVATED] =
 		gtk_signal_new ("menu_activated",
 				GTK_RUN_LAST,
@@ -936,7 +936,7 @@ class_init (EFilterBarClass *klass)
 				G_STRUCT_OFFSET (EFilterBarClass, menu_activated),
 				g_cclosure_marshal_VOID__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
-	
+
 	gtk_object_class_add_signals (object_class, esb_signals, LAST_SIGNAL);
 #endif
 }
@@ -947,7 +947,7 @@ init (EFilterBar *efb)
 	g_signal_connect (efb, "menu_activated", G_CALLBACK (menubar_activated), NULL);
 	g_signal_connect (efb, "query_changed", G_CALLBACK (option_changed), NULL);
 	g_signal_connect (efb, "search_activated", G_CALLBACK (option_changed), NULL);
-	
+
 	efb->menu_rules = g_ptr_array_new ();
 	efb->option_rules = g_ptr_array_new ();
 }
@@ -963,16 +963,16 @@ e_filter_bar_new (RuleContext *context,
 		  void *data)
 {
 	EFilterBar *bar;
-	
+
 	bar = g_object_new (e_filter_bar_get_type (), NULL);
 
  	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
-		
+
 	return bar;
 }
 
 
-void 
+void
 e_filter_bar_new_construct (RuleContext *context,
 		  const char *systemrules,
 		  const char *userrules,
@@ -983,18 +983,18 @@ e_filter_bar_new_construct (RuleContext *context,
 
 	bar->context = context;
 	g_object_ref (context);
-	
+
 	bar->config = config;
 	bar->config_data = data;
-	
+
 	bar->systemrules = g_strdup (systemrules);
 	bar->userrules = g_strdup (userrules);
-	
+
 	bar->all_account_search_vf = NULL;
 	bar->account_search_vf = NULL;
-	
+
 	e_search_bar_construct ((ESearchBar *)bar, &item, &item);
-	
+
 	g_signal_connect (context, "changed", G_CALLBACK (context_changed), bar);
 	g_signal_connect (context, "rule_removed", G_CALLBACK (context_rule_removed), bar);
 
@@ -1004,7 +1004,7 @@ GtkType
 e_filter_bar_get_type (void)
 {
 	static GtkType type = 0;
-	
+
 	if (!type) {
 		static const GtkTypeInfo info = {
 			"EFilterBar",
@@ -1016,9 +1016,9 @@ e_filter_bar_get_type (void)
 		       	/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-		
+
 		type = gtk_type_unique (e_search_bar_get_type (), &info);
 	}
-	
+
 	return type;
 }

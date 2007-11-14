@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-header-utils.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -232,13 +232,13 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
  * @str: the string we're drawing, passed in so we can change the layout if it needs eliding.
  * @max_width: Maximum width in which the string must fit.
  * @center: Whether to center the string in the available area if it does fit.
- * 
+ *
  * Draws a string, possibly trimming it so that it fits inside the specified
  * maximum width.  If it does not fit, an elision indicator is drawn after the
  * last character that does fit.
  **/
 static void
-e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget, 
+e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 			    int x, int y, PangoLayout *layout, char *str,
 			    int max_width, gboolean center)
 {
@@ -317,7 +317,7 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
  * @button_width: Width for the complete button.
  * @button_height: Height for the complete button.
  * @arrow: Arrow type to use as a sort indicator.
- * 
+ *
  * Draws a button suitable for a table header.
  **/
 void
@@ -462,7 +462,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			g_object_unref (pixmap);
 		}
 	} else {
-		e_table_draw_elided_string (drawable, gc, widget, 
+		e_table_draw_elided_string (drawable, gc, widget,
 					    inner_x, inner_y,
 					    layout, ecol->text, inner_width, TRUE);
 	}

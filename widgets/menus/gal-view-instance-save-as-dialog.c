@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-define-views-dialog.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -117,7 +117,7 @@ gal_view_instance_save_as_dialog_set_property (GObject *object, guint prop_id, c
 	GalViewInstanceSaveAsDialog *dialog;
 
 	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
-	
+
 	switch (prop_id){
 	case PROP_INSTANCE:
 		if (g_value_get_object (value))
@@ -174,7 +174,7 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *k
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
 	object_class->dispose      = gal_view_instance_save_as_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_INSTANCE, 
+	g_object_class_install_property (object_class, PROP_INSTANCE,
 					 g_param_spec_object ("instance",
 							      _("Instance"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -223,7 +223,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 		gal_view_instance_save_as_dialog_set_instance (dialog, dialog->instance);
 		gtk_widget_show_all (table);
 	}
-	
+
 	gvisad_setup_radio_buttons (dialog);
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Current View"));

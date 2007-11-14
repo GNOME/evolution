@@ -36,7 +36,7 @@
 
 #define LOG_STREAM
 
-#define d(x) 
+#define d(x)
 
 #define EMSS_CLASS(x) ((EMSyncStreamClass *)(((CamelObject *)(x))->klass))
 
@@ -90,7 +90,7 @@ CamelType
 em_sync_stream_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 #ifdef LOG_STREAM
 		dolog = getenv("EVOLUTION_MAIL_LOG_HTML") != NULL;
@@ -104,7 +104,7 @@ em_sync_stream_get_type (void)
 					    (CamelObjectInitFunc) em_sync_stream_init,
 					    (CamelObjectFinalizeFunc) em_sync_stream_finalize);
 	}
-	
+
 	return type;
 }
 
@@ -112,9 +112,9 @@ static void
 em_sync_stream_class_init (EMSyncStreamClass *klass)
 {
 	CamelStreamClass *stream_class = CAMEL_STREAM_CLASS (klass);
-	
+
 	parent_class = (CamelStreamClass *) CAMEL_STREAM_TYPE;
-	
+
 	/* virtual method overload */
 	stream_class->write = stream_write;
 	stream_class->flush = stream_flush;
@@ -170,7 +170,7 @@ emcs_gui_received(GIOChannel *source, GIOCondition cond, void *data)
 #endif
 		break;
 	}
-	
+
 	e_msgport_reply((EMsg *)msg);
 	d(printf("%p: gui sync op jobs done\n", emss));
 

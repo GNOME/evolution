@@ -75,13 +75,13 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	char *mount = ipod_get_mount();
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
-	
+
 	/* use g_file api here to build path*/
 	dest_uri = g_strdup_printf("%s/%s/Evolution-Addressbook-%s.vcf", mount, "Contacts", e_source_peek_name (primary_source));
 	g_free (mount);
-	
+
 	uri = e_source_get_uri (primary_source);
-	
+
 	book = e_book_new_from_uri (uri, NULL);
 
 	if (!book
@@ -112,7 +112,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 				EContact *contact = tmp->data;
 				gchar *temp = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 				gchar *vcard;
-				
+
 				vcard = g_strconcat(temp, "\r\n", NULL);
 				if ((result = gnome_vfs_write (handle, (gconstpointer) vcard, strlen (vcard), &bytes_written))
 				    != GNOME_VFS_OK) {
@@ -137,7 +137,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	g_free (uri);
 }
 
-static void 
+static void
 destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type)
 {
 	FormatHandler *handler = NULL;
@@ -155,7 +155,7 @@ destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType
 	handler->save (handler, ep, target, type, dest_uri);
 
 	sync();
-	
+
 	g_free (dest_uri);
 	g_free (mount);
 	g_free (handler);
@@ -175,7 +175,7 @@ org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	if (!ipod_check_status(FALSE))
 		return;
-	
+
 	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_TODO);
 }
 

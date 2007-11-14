@@ -42,7 +42,7 @@ struct _EMeetingAttendeePrivate {
 	gchar *delfrom;
 
 	icalparameter_partstat status;
-	
+
 	gchar *sentby;
 	gchar *cn;
 	gchar *language;
@@ -58,7 +58,7 @@ struct _EMeetingAttendeePrivate {
 	EMeetingTime busy_periods_end;
 	gboolean start_busy_range_set;
 	gboolean end_busy_range_set;
-	
+
 	gint longest_period_in_days;
 };
 
@@ -98,16 +98,16 @@ string_test (gchar *string)
 }
 
 static gboolean
-string_is_set (gchar *string) 
+string_is_set (gchar *string)
 {
 	if (string != NULL && *string != '\0')
 		return TRUE;
-	
+
 	return FALSE;
 }
 
 static void
-notify_changed (EMeetingAttendee *ia) 
+notify_changed (EMeetingAttendee *ia)
 {
 	g_signal_emit_by_name (G_OBJECT (ia), "changed");
 }
@@ -131,16 +131,16 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 
 	priv->delto = string_test (NULL);
 	priv->delfrom = string_test (NULL);
-	
+
 	priv->status = ICAL_PARTSTAT_NONE;
-	
+
 	priv->sentby = string_test (NULL);
 	priv->cn = string_test (NULL);
 	priv->language = string_test (NULL);
 
 	priv->edit_level = E_MEETING_ATTENDEE_EDIT_FULL;
 	priv->has_calendar_info = FALSE;
-	
+
 	priv->busy_periods = g_array_new (FALSE, FALSE, sizeof (EMeetingFreeBusyPeriod));
 	priv->busy_periods_sorted = FALSE;
 
@@ -154,7 +154,7 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 
 	priv->start_busy_range_set = FALSE;
 	priv->end_busy_range_set = FALSE;
-	
+
 	priv->longest_period_in_days = 0;
 }
 
@@ -177,9 +177,9 @@ e_meeting_attendee_finalize (GObject *obj)
 	g_free (priv->sentby);
 	g_free (priv->cn);
 	g_free (priv->language);
-	
+
 	g_array_free (priv->busy_periods, TRUE);
-	
+
 	g_free (priv);
 
 	if (G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize)
@@ -196,7 +196,7 @@ GObject *
 e_meeting_attendee_new_from_e_cal_component_attendee (ECalComponentAttendee *ca)
 {
 	EMeetingAttendee *ia;
-	
+
 	ia = E_MEETING_ATTENDEE (g_object_new (E_TYPE_MEETING_ATTENDEE, NULL));
 
 	e_meeting_attendee_set_address (ia, g_strdup (ca->value));
@@ -210,7 +210,7 @@ e_meeting_attendee_new_from_e_cal_component_attendee (ECalComponentAttendee *ca)
 	e_meeting_attendee_set_sentby (ia, g_strdup (ca->sentby));
 	e_meeting_attendee_set_cn (ia, g_strdup (ca->cn));
 	e_meeting_attendee_set_language (ia, g_strdup (ca->language));
-	
+
 	return G_OBJECT (ia);
 }
 
@@ -221,7 +221,7 @@ e_meeting_attendee_as_e_cal_component_attendee (EMeetingAttendee *ia)
 	ECalComponentAttendee *ca;
 
 	priv = ia->priv;
-	
+
 	ca = g_new0 (ECalComponentAttendee, 1);
 
 	ca->value = priv->address;
@@ -243,9 +243,9 @@ const gchar *
 e_meeting_attendee_get_fburi (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->fburi;
 }
 
@@ -253,12 +253,12 @@ void
 e_meeting_attendee_set_fburi (EMeetingAttendee *ia, gchar *fburi)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->fburi != NULL)
 		g_free (priv->fburi);
-	
+
 	priv->fburi = string_test (fburi);
 
 	notify_changed (ia);
@@ -268,9 +268,9 @@ const gchar *
 e_meeting_attendee_get_address (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->address;
 }
 
@@ -278,12 +278,12 @@ void
 e_meeting_attendee_set_address (EMeetingAttendee *ia, gchar *address)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->address != NULL)
 		g_free (priv->address);
-	
+
 	priv->address = string_test (address);
 
 	notify_changed (ia);
@@ -293,9 +293,9 @@ gboolean
 e_meeting_attendee_is_set_address (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return string_is_set (priv->address);
 }
 
@@ -303,9 +303,9 @@ const gchar *
 e_meeting_attendee_get_member (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->member;
 }
 
@@ -313,12 +313,12 @@ void
 e_meeting_attendee_set_member (EMeetingAttendee *ia, gchar *member)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->member != NULL)
 		g_free (priv->member);
-	
+
 	priv->member = string_test (member);
 
 	notify_changed (ia);
@@ -328,7 +328,7 @@ gboolean
 e_meeting_attendee_is_set_member (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return string_is_set (priv->member);
@@ -338,19 +338,19 @@ icalparameter_cutype
 e_meeting_attendee_get_cutype (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->cutype;
 }
 
-void 
+void
 e_meeting_attendee_set_cutype (EMeetingAttendee *ia, icalparameter_cutype cutype)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	priv->cutype = cutype;
 
 	notify_changed (ia);
@@ -360,9 +360,9 @@ icalparameter_role
 e_meeting_attendee_get_role (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->role;
 }
 
@@ -370,21 +370,21 @@ void
 e_meeting_attendee_set_role (EMeetingAttendee *ia, icalparameter_role role)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	priv->role = role;
 
 	notify_changed (ia);
 }
 
-gboolean 
+gboolean
 e_meeting_attendee_get_rsvp (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->rsvp;
 }
 
@@ -392,9 +392,9 @@ void
 e_meeting_attendee_set_rsvp (EMeetingAttendee *ia, gboolean rsvp)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	priv->rsvp = rsvp;
 
 	notify_changed (ia);
@@ -404,9 +404,9 @@ const gchar *
 e_meeting_attendee_get_delto (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->delto;
 }
 
@@ -414,12 +414,12 @@ void
 e_meeting_attendee_set_delto (EMeetingAttendee *ia, gchar *delto)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->delto != NULL)
 		g_free (priv->delto);
-	
+
 	priv->delto = string_test (delto);
 
 	notify_changed (ia);
@@ -429,7 +429,7 @@ gboolean
 e_meeting_attendee_is_set_delto (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return string_is_set (priv->delto);
@@ -439,9 +439,9 @@ const gchar *
 e_meeting_attendee_get_delfrom (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->delfrom;
 }
 
@@ -449,12 +449,12 @@ void
 e_meeting_attendee_set_delfrom (EMeetingAttendee *ia, gchar *delfrom)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->delfrom != NULL)
 		g_free (priv->delfrom);
-	
+
 	priv->delfrom = string_test (delfrom);
 
 	notify_changed (ia);
@@ -464,7 +464,7 @@ gboolean
 e_meeting_attendee_is_set_delfrom (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return string_is_set (priv->delfrom);
@@ -474,9 +474,9 @@ icalparameter_partstat
 e_meeting_attendee_get_status (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->status;
 }
 
@@ -484,9 +484,9 @@ void
 e_meeting_attendee_set_status (EMeetingAttendee *ia, icalparameter_partstat status)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	priv->status = status;
 
 	notify_changed (ia);
@@ -496,9 +496,9 @@ const gchar *
 e_meeting_attendee_get_sentby (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->sentby;
 }
 
@@ -506,12 +506,12 @@ void
 e_meeting_attendee_set_sentby (EMeetingAttendee *ia, gchar *sentby)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->sentby != NULL)
 		g_free (priv->sentby);
-	
+
 	priv->sentby = string_test (sentby);
 
 	notify_changed (ia);
@@ -521,7 +521,7 @@ gboolean
 e_meeting_attendee_is_set_sentby (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return string_is_set (priv->sentby);
@@ -531,9 +531,9 @@ const gchar *
 e_meeting_attendee_get_cn (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->cn;
 }
 
@@ -541,12 +541,12 @@ void
 e_meeting_attendee_set_cn (EMeetingAttendee *ia, gchar *cn)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->cn != NULL)
 		g_free (priv->cn);
-	
+
 	priv->cn = string_test (cn);
 
 	notify_changed (ia);
@@ -556,7 +556,7 @@ gboolean
 e_meeting_attendee_is_set_cn (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return string_is_set (priv->cn);
@@ -566,9 +566,9 @@ const gchar *
 e_meeting_attendee_get_language (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->language;
 }
 
@@ -576,12 +576,12 @@ void
 e_meeting_attendee_set_language (EMeetingAttendee *ia, gchar *language)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	if (priv->language != NULL)
 		g_free (priv->language);
-	
+
 	priv->language = string_test (language);
 
 	notify_changed (ia);
@@ -591,7 +591,7 @@ gboolean
 e_meeting_attendee_is_set_language (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return string_is_set (priv->language);
@@ -601,7 +601,7 @@ EMeetingAttendeeType
 e_meeting_attendee_get_atype (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	if (priv->cutype == ICAL_CUTYPE_ROOM
@@ -611,7 +611,7 @@ e_meeting_attendee_get_atype (EMeetingAttendee *ia)
 	if (priv->role == ICAL_ROLE_CHAIR
 	    || priv->role == ICAL_ROLE_REQPARTICIPANT)
 		return E_MEETING_ATTENDEE_REQUIRED_PERSON;
-	
+
 	return E_MEETING_ATTENDEE_OPTIONAL_PERSON;
 }
 
@@ -620,7 +620,7 @@ EMeetingAttendeeEditLevel
 e_meeting_attendee_get_edit_level (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	g_return_val_if_fail (ia != NULL, E_MEETING_ATTENDEE_EDIT_NONE);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), E_MEETING_ATTENDEE_EDIT_NONE);
 
@@ -629,11 +629,11 @@ e_meeting_attendee_get_edit_level (EMeetingAttendee *ia)
 	return priv->edit_level;
 }
 
-void 
+void
 e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEditLevel level)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	g_return_if_fail (ia != NULL);
 	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
@@ -684,7 +684,7 @@ static void
 ensure_periods_sorted (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	if (priv->busy_periods_sorted)
@@ -701,7 +701,7 @@ gboolean
 e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return priv->has_calendar_info;
@@ -711,7 +711,7 @@ void
 e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia, gboolean has_calendar_info)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	priv->has_calendar_info = has_calendar_info;
@@ -721,12 +721,12 @@ const GArray *
 e_meeting_attendee_get_busy_periods (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	ensure_periods_sorted (ia);
-	
-	return priv->busy_periods;	
+
+	return priv->busy_periods;
 }
 
 gint
@@ -738,7 +738,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 	GDate tmp_date;
 
 	priv = ia->priv;
-	
+
 	/* Make sure the busy periods have been sorted. */
 	ensure_periods_sorted (ia);
 
@@ -756,12 +756,12 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 
 	while (lower < upper) {
 		middle = (lower + upper) >> 1;
-	  
+
 		period = &g_array_index (priv->busy_periods,
 					 EMeetingFreeBusyPeriod, middle);
 
 		cmp = g_date_compare (&tmp_date, &period->start.date);
-	  
+
 		if (cmp == 0)
 			break;
 		else if (cmp < 0)
@@ -793,7 +793,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 }
 
 gboolean
-e_meeting_attendee_add_busy_period (EMeetingAttendee *ia, 
+e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 				    gint start_year,
 				    gint start_month,
 				    gint start_day,
@@ -816,7 +816,7 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 	g_return_val_if_fail (busy_type < E_MEETING_FREE_BUSY_LAST, FALSE);
 
 	priv = ia->priv;
-	
+
 	/* Check the dates are valid. */
 	if (!g_date_valid_dmy (start_day, start_month, start_year))
 		return FALSE;
@@ -850,13 +850,13 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 		if (!g_date_valid (&priv->busy_periods_start.date)) {
 			priv->busy_periods_start.date = period.start.date;
 			priv->busy_periods_start.hour = period.start.hour;
-			priv->busy_periods_start.minute = period.start.minute;			
+			priv->busy_periods_start.minute = period.start.minute;
 		} else {
 			switch (g_date_compare (&period.start.date, &priv->busy_periods_start.date)) {
 			case -1:
 				priv->busy_periods_start.date = period.start.date;
 				priv->busy_periods_start.hour = period.start.hour;
-				priv->busy_periods_start.minute = period.start.minute;			
+				priv->busy_periods_start.minute = period.start.minute;
 				break;
 			case 0:
 				if (period.start.hour < priv->busy_periods_start.hour
@@ -864,7 +864,7 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 					&& period.start.minute < priv->busy_periods_start.minute)) {
 					priv->busy_periods_start.date = period.start.date;
 					priv->busy_periods_start.hour = period.start.hour;
-					priv->busy_periods_start.minute = period.start.minute;			
+					priv->busy_periods_start.minute = period.start.minute;
 					break;
 				}
 				break;
@@ -875,7 +875,7 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 		if (!g_date_valid (&priv->busy_periods_end.date)) {
 			priv->busy_periods_end.date = period.end.date;
 			priv->busy_periods_end.hour = period.end.hour;
-			priv->busy_periods_end.minute = period.end.minute;			
+			priv->busy_periods_end.minute = period.end.minute;
 		} else {
 			switch (g_date_compare (&period.end.date, &priv->busy_periods_end.date)) {
 			case 0:
@@ -884,19 +884,19 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 					&& period.end.minute > priv->busy_periods_end.minute)) {
 					priv->busy_periods_end.date = period.end.date;
 					priv->busy_periods_end.hour = period.end.hour;
-					priv->busy_periods_end.minute = period.end.minute;			
+					priv->busy_periods_end.minute = period.end.minute;
 					break;
 				}
 				break;
 			case 1:
 				priv->busy_periods_end.date = period.end.date;
 				priv->busy_periods_end.hour = period.end.hour;
-				priv->busy_periods_end.minute = period.end.minute;			
+				priv->busy_periods_end.minute = period.end.minute;
 				break;
 			}
 		}
 	}
-	
+
 	g_array_append_val (priv->busy_periods, period);
 	priv->has_calendar_info = TRUE;
 	priv->busy_periods_sorted = FALSE;
@@ -911,7 +911,7 @@ EMeetingTime
 e_meeting_attendee_get_start_busy_range (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
 
 	return priv->busy_periods_start;
@@ -921,9 +921,9 @@ EMeetingTime
 e_meeting_attendee_get_end_busy_range (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	priv = ia->priv;
-	
+
 	return priv->busy_periods_end;
 }
 
@@ -936,11 +936,11 @@ e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
 					 gint start_minute)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
 	priv = ia->priv;
-	
+
 	/* Check the dates are valid. */
 	if (!g_date_valid_dmy (start_day, start_month, start_year))
 		return FALSE;
@@ -956,7 +956,7 @@ e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
 	priv->busy_periods_start.minute = start_minute;
 
 	priv->start_busy_range_set = TRUE;
-	
+
 	return TRUE;
 }
 
@@ -969,11 +969,11 @@ e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
 				       gint end_minute)
 {
 	EMeetingAttendeePrivate *priv;
-	
+
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
 	priv = ia->priv;
-	
+
 	/* Check the dates are valid. */
 	if (!g_date_valid_dmy (end_day, end_month, end_year))
 		return FALSE;
@@ -989,7 +989,7 @@ e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
 	priv->busy_periods_end.minute = end_minute;
 
 	priv->end_busy_range_set = TRUE;
-	
+
 	return TRUE;
 }
 
@@ -1002,7 +1002,7 @@ e_meeting_attendee_clear_busy_periods (EMeetingAttendee *ia)
 	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
 	priv = ia->priv;
-	
+
 	g_array_set_size (priv->busy_periods, 0);
 	priv->busy_periods_sorted = TRUE;
 

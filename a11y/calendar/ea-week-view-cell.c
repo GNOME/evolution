@@ -167,7 +167,7 @@ ea_week_view_cell_class_init (EaWeekViewCellClass *klass)
 
 }
 
-AtkObject* 
+AtkObject*
 ea_week_view_cell_new (GObject *obj)
 {
 	gpointer object;
@@ -232,7 +232,7 @@ ea_week_view_cell_get_name (AtkObject *accessible)
                         new_column = cell->column + start_day;
                         new_row = cell->row;
                 }
-                        
+
 		column_label = atk_table_get_column_description (ATK_TABLE (ea_main_item),
 								 new_column);
 		row_label = atk_table_get_row_description (ATK_TABLE (ea_main_item),
@@ -275,7 +275,7 @@ ea_week_view_cell_ref_state_set (AtkObject *obj)
 
   if (x + width < parent_x || x > parent_x + parent_width ||
       y + height < parent_y || y > parent_y + parent_height)
-	  /* the cell is out of the main canvas */	  
+	  /* the cell is out of the main canvas */
 	  ;
   else
 	  atk_state_set_add_state (state_set, ATK_STATE_VISIBLE);
@@ -324,7 +324,7 @@ ea_week_view_cell_get_index_in_parent (AtkObject *accessible)
 
 /* Atk Component Interface */
 
-static void 
+static void
 atk_component_interface_init (AtkComponentIface *iface)
 {
 	g_return_if_fail (iface != NULL);
@@ -333,7 +333,7 @@ atk_component_interface_init (AtkComponentIface *iface)
         iface->grab_focus = component_interface_grab_focus;
 }
 
-static void 
+static void
 component_interface_get_extents (AtkComponent *component,
 				 gint *x, gint *y, gint *width, gint *height,
 				 AtkCoordType coord_type)
@@ -391,7 +391,7 @@ component_interface_get_extents (AtkComponent *component,
 	                *y += week_view->row_offsets[cell->row*2]- scroll_y;
                 }
         } else {
-                if (start_day < 3) { 
+                if (start_day < 3) {
                         if (cell->column < 3) {
                                 *height = week_view->row_heights[cell->column*2]*2;
                                 *width = week_view->col_widths[0];
@@ -438,8 +438,8 @@ component_interface_get_extents (AtkComponent *component,
                                 *y += week_view->row_offsets[(cell->column - 1)*2]- scroll_y;
                         } else {
                                 *height = week_view->row_heights[(cell->column)*2]*2;
-                                *width = week_view->col_widths[0]; 
-                                *x += week_view->col_offsets[0] - scroll_x; 
+                                *width = week_view->col_widths[0];
+                                *x += week_view->col_offsets[0] - scroll_x;
                                 *y += week_view->row_offsets[cell->column*2]- scroll_y;
                         }
                 } else {

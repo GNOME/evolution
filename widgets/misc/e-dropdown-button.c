@@ -19,7 +19,7 @@
  *
  * Authors:
  *   Ettore Perazzoli <ettore@ximian.com>
- *   Damon Chaplin <damon@ximian.com> 
+ *   Damon Chaplin <damon@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -167,7 +167,7 @@ e_dropdown_button_init (EDropdownButton *dropdown_button)
  * @dropdown_button: A pointer to an %EDropdownButton object
  * @label_text: Text to display in the button
  * @menu: The menu to pop up when the button is pressed
- * 
+ *
  * Construct the @dropdown_button with the specified @label_text and the
  * associated @menu.
  **/
@@ -216,10 +216,10 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
  * e_dropdown_button_new:
  * @label_text: Text to display in the button
  * @menu: The menu to pop up when the button is pressed
- * 
+ *
  * Create a new dropdown button.  When the button is clicked, the specified
  * @menu will be popped up.
- * 
+ *
  * Return value: A pointer to the newly created %EDropdownButton.
  **/
 GtkWidget *

@@ -92,11 +92,11 @@ e_profile_event_get_type(void)
 
 /**
  * e_profile_event_peek:
- * @void: 
- * 
+ * @void:
+ *
  * Get the singular instance of the profile event handler.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EProfileEvent *e_profile_event_peek(void)
 {
@@ -185,7 +185,7 @@ GType
 e_profile_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EProfileEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
@@ -195,6 +195,6 @@ e_profile_event_hook_get_type(void)
 		emeh_parent_class = g_type_class_ref(e_event_hook_get_type());
 		type = g_type_register_static(e_event_hook_get_type(), "EProfileEventHook", &info, 0);
 	}
-	
+
 	return type;
 }

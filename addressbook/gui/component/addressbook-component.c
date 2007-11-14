@@ -101,7 +101,7 @@ ensure_sources (AddressbookComponent *component)
 
 			group = E_SOURCE_GROUP (g->data);
 
-			/* compare only file:// part. If user home dir name changes we do not want to create 
+			/* compare only file:// part. If user home dir name changes we do not want to create
 			   one more group  */
 
 			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
@@ -132,7 +132,7 @@ ensure_sources (AddressbookComponent *component)
 		   homedir name changes */
 		if (strcmp (base_uri_proto, e_source_group_peek_base_uri (on_this_computer))) {
 		    e_source_group_set_base_uri (on_this_computer, base_uri_proto);
-		    
+
 		    /* *sigh* . We shouldn't  need this sync call here as set_base_uri
 		       call results in synching to gconf, but that happens in idle loop
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
@@ -176,7 +176,7 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 	AddressbookComponent *addressbook_component = data;
 	AddressbookComponentPrivate *priv;
 	GList *l;
-	
+
 	priv = addressbook_component->priv;
 
 	for (l = priv->views; l; l = l->next) {
@@ -285,7 +285,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	EBook *book;
-	GConfClient *gconf_client;	
+	GConfClient *gconf_client;
 	ESourceList *source_list;
 	char *uid;
 
@@ -345,9 +345,9 @@ impl_handleURI (PortableServer_Servant servant,
 	l = g_list_last (priv->views);
 	if (!l)
 		return;
-	
+
 	view = l->data;
-		
+
 	if (!strncmp (uri, "contacts:", 9)) {
 		EUri *euri = e_uri_new (uri);
 		const char *p;
@@ -358,17 +358,17 @@ impl_handleURI (PortableServer_Servant servant,
 		if (p) {
 			while (*p) {
 				len = strcspn (p, "=&");
-			
+
 				/* If it's malformed, give up. */
 				if (p[len] != '=')
 					break;
-			
+
 				header = (char *) p;
 				header[len] = '\0';
 				p += len + 1;
-			
+
 				clen = strcspn (p, "&");
-			
+
 				content = g_strndup (p, clen);
 
 				if (!g_ascii_strcasecmp (header, "source-uid")) {
@@ -386,15 +386,15 @@ impl_handleURI (PortableServer_Servant servant,
 						p += 4;
 				}
 			}
-			
+
 			addressbook_view_edit_contact (view, src_uid, contact_uid);
-			
+
 			g_free (src_uid);
 			g_free (contact_uid);
 		}
 		e_uri_free (euri);
 	}
-	
+
 }
 
 static void

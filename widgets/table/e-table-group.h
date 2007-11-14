@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-group.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -48,7 +48,7 @@ typedef struct {
 	 */
 	ETableHeader *full_header;
 	ETableHeader *header;
-	
+
 	/*
 	 * The model we pull data from.
 	 */
@@ -61,7 +61,7 @@ typedef struct {
 	guint transparent : 1;
 
 	guint has_focus : 1;
-	
+
 	guint frozen : 1;
 } ETableGroup;
 

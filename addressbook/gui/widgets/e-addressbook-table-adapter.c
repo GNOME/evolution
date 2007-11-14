@@ -152,7 +152,7 @@ addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 	else if (contact && e_contact_get ((EContact *) contact, E_CONTACT_IS_LIST))
 		/* we only allow editing of the name and file as for
                    lists */
-		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS; 
+		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS;
 	else
 		return col < E_CONTACT_LAST_SIMPLE_STRING;
 #endif
@@ -265,10 +265,10 @@ remove_contacts (EABModel *model,
 {
 	GArray *indices = (GArray *) data;
 	int count = indices->len;
-	
-	
+
+
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
-	if (count == 1) 
+	if (count == 1)
 		e_table_model_rows_deleted (E_TABLE_MODEL (adapter), g_array_index (indices, gint, 0), 1);
 	else
 		e_table_model_changed (E_TABLE_MODEL (adapter));

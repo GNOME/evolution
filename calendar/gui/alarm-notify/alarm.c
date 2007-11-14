@@ -145,13 +145,13 @@ setup_timeout (void)
 	 * current time we timeout immediately */
 	diff = MAX (0, ar->trigger - time (NULL));
 	now = time (NULL);
-	
+
 	/* Add the time out */
 	g_message ("Setting timeout for %d %lu %lu", diff, ar->trigger, now);
 	g_message (" %s", ctime (&ar->trigger));
 	g_message (" %s", ctime (&now));
 	timeout_id = g_timeout_add (diff * 1000, alarm_ready_cb, NULL);
-	
+
 }
 
 /* Used from g_list_insert_sorted(); compares the trigger times of two AlarmRecord structures. */
@@ -175,7 +175,7 @@ queue_alarm (AlarmRecord *ar)
 	/* Track the current head of the list in case there are changes */
 	old_head = alarms;
 
-	/* Insert the new alarm in order if the alarm's trigger time is 
+	/* Insert the new alarm in order if the alarm's trigger time is
 	   after the current time */
 	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
 
@@ -226,7 +226,7 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 /**
  * alarm_remove:
  * @alarm: A queued alarm identifier.
- * 
+ *
  * Removes an alarm from the alarm queue.
  **/
 void
@@ -274,7 +274,7 @@ alarm_remove (gpointer alarm)
 
 /**
  * alarm_done:
- * 
+ *
  * Terminates the alarm timer mechanism.  This should be called at the end of
  * the program.
  **/

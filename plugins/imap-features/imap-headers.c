@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Author: Sankar P <psankar@novell.com>
- *   
+ *
  *  Copyright 2004 Novell, Inc. (www.novell.com)
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -67,13 +67,13 @@ void imap_headers_abort (EPlugin *efp, EConfigHookItemFactoryData *data);
 void imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data);
 GtkWidget * org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data);
 
-void 
+void
 imap_headers_abort (EPlugin *efp, EConfigHookItemFactoryData *data)
 {
 	/* Nothing to do here */
 }
 
-void 
+void
 imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
@@ -137,13 +137,13 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 static gboolean
 epif_header_is_valid (const char *header)
 {
-	gint len = g_utf8_strlen (header, -1); 
+	gint len = g_utf8_strlen (header, -1);
 
 	if (header[0] == 0
 	    || g_utf8_strchr (header, len, ':') != NULL
 	    || g_utf8_strchr (header, len, ' ') != NULL)
 		return FALSE;
-	
+
 	return TRUE;
 }
 
@@ -153,21 +153,21 @@ epif_add_sensitivity (EPImapFeaturesData *ui)
 	const char *entry_contents;
 	GtkTreeIter iter;
 	gboolean valid;
-	
-	/* the add header button should be sensitive if the text box contains 
-	 * a valid header string, that is not a duplicate with something already 
+
+	/* the add header button should be sensitive if the text box contains
+	 * a valid header string, that is not a duplicate with something already
 	 * in the list view */
 	entry_contents = gtk_entry_get_text (GTK_ENTRY (ui->entry_header));
 	if (!epif_header_is_valid (entry_contents)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
 		return;
 	}
-	
+
 	/* check if this is a duplicate */
 	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (ui->store), &iter);
 	while (valid) {
 		char *header_name;
-		
+
 		gtk_tree_model_get (GTK_TREE_MODEL (ui->store), &iter,
 						    0, &header_name,
 						    -1);
@@ -175,10 +175,10 @@ epif_add_sensitivity (EPImapFeaturesData *ui)
 			gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
 			return;
  		}
-		
+
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (ui->store), &iter);
 	}
-	
+
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), TRUE);
 }
 
@@ -189,12 +189,12 @@ epif_add_header (GtkButton *button, EPImapFeaturesData *ui)
 	GtkTreeIter iter, first;
 
 	model = gtk_tree_view_get_model (ui->custom_headers_tree);
-	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL); 
+	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
 	gtk_tree_store_set (GTK_TREE_STORE(model), &iter, 0, gtk_entry_get_text (ui->entry_header), -1);
 
 	if (gtk_tree_model_get_iter_first (model, &first)!=FALSE)
 		gtk_widget_set_sensitive (GTK_WIDGET (ui->remove_header), TRUE);
-		
+
 	gtk_entry_set_text (ui->entry_header, "");
 	epif_add_sensitivity (ui);
 }
@@ -207,14 +207,14 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 	GtkTreeIter iter, first;
 	GtkTreePath *path;
 	gboolean valid = TRUE;
-	
+
 	select = gtk_tree_view_get_selection (ui->custom_headers_tree);
 
 	if (gtk_tree_selection_get_selected (select, &model, &iter))
 	{
 		path = gtk_tree_model_get_path (model, &iter);
 		gtk_tree_store_remove(GTK_TREE_STORE(model), &iter);
-		
+
 		if (gtk_tree_path_prev (path)) {
 			gtk_tree_model_get_iter (model, &iter, path);
 		} else {
@@ -224,10 +224,10 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 		if (valid)
 			gtk_tree_selection_select_iter (select, &iter);
 	}
-	
+
 	if (gtk_tree_model_get_iter_first (model, &first)==FALSE)
 		gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
-		
+
 	epif_add_sensitivity (ui);
 }
 
@@ -297,7 +297,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 			ui->custom_headers_array = g_strsplit (custom_headers, " ", -1);
 			while (ui->custom_headers_array[i] ) {
 				if (strlen(g_strstrip(ui->custom_headers_array[i]))) {
-					gtk_tree_store_append (ui->store, &iter, NULL); 
+					gtk_tree_store_append (ui->store, &iter, NULL);
 					gtk_tree_store_set (ui->store, &iter, 0, ui->custom_headers_array[i], -1);
 				}
 				i++;
@@ -311,7 +311,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 		if (camel_url_get_param (url, "all_headers")) {
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ui->all_headers), TRUE);
 				gtk_widget_set_sensitive (ui->custom_headers_box, FALSE);
-		} else if (camel_url_get_param (url, "basic_headers")) 
+		} else if (camel_url_get_param (url, "basic_headers"))
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ui->basic_headers), TRUE);
 		camel_url_free (url);
 	}

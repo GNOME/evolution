@@ -141,11 +141,11 @@ static void
 emmb_class_init(GObjectClass *klass)
 {
 	klass->finalize = emmb_finalise;
-	
+
 	((GtkObjectClass *)klass)->destroy = emmb_destroy;
-	
+
 	((EMFolderViewClass *) klass)->update_message_style = FALSE;
-	
+
 	((EMFolderViewClass *)klass)->set_message = emmb_set_message;
 	((EMFolderViewClass *)klass)->activate = emmb_activate;
 }
@@ -177,10 +177,10 @@ static void
 window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	GConfClient *gconf;
-	
+
 	/* save to in-memory variable for current session access */
 	window_size = *allocation;
-	
+
 	/* save the setting across sessions */
 	gconf = gconf_client_get_default ();
 	gconf_client_set_int (gconf, "/apps/evolution/mail/message_window/width", window_size.width, NULL);
@@ -193,7 +193,7 @@ emmb_list_message_selected (struct _MessageList *ml, const char *uid, EMMessageB
 {
 	EMFolderView *emfv = (EMFolderView *) emmb;
 	CamelMessageInfo *info;
-	
+
 	if (uid && (info = camel_folder_get_message_info (emfv->folder, uid))) {
 		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
 		gtk_widget_grab_focus ((GtkWidget *) (emmb->view.preview->formathtml.html));
@@ -222,10 +222,10 @@ messagebrowser_key_pressed (EMMessageBrowser *emmb, GdkEventKey *event, void *us
 {
 	if (event->keyval == GDK_Escape) {
 		gtk_widget_destroy(gtk_widget_get_toplevel((GtkWidget *)emmb));
-		g_signal_stop_emission_by_name (emmb, "key-press-event"); 
+		g_signal_stop_emission_by_name (emmb, "key-press-event");
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -246,34 +246,34 @@ GtkWidget *em_message_browser_window_new(void)
 	bonobo_ui_component_set_container(uic, BONOBO_OBJREF(uicont), NULL);
 
 	em_folder_view_activate((EMFolderView *)emmb, uic, TRUE);
-	
+
 	if (window_size.width == 0) {
 		/* initialize @window_size with the previous session's size */
 		GConfClient *gconf;
 		GError *err = NULL;
-		
+
 		gconf = gconf_client_get_default ();
-		
+
 		window_size.width = gconf_client_get_int (gconf, "/apps/evolution/mail/message_window/width", &err);
 		if (err != NULL) {
 			window_size.width = DEFAULT_WIDTH;
 			g_clear_error (&err);
 		}
-		
+
 		window_size.height = gconf_client_get_int (gconf, "/apps/evolution/mail/message_window/height", &err);
 		if (err != NULL) {
 			window_size.height = DEFAULT_HEIGHT;
 			g_clear_error (&err);
 		}
-		
+
 		g_object_unref (gconf);
 	}
-	
+
 	gtk_window_set_default_size ((GtkWindow *) emmb->window, window_size.width, window_size.height);
 	g_signal_connect (emmb->window, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
 	g_signal_connect (((EMFolderView *) emmb)->list, "message_selected", G_CALLBACK (emmb_list_message_selected), emmb);
-	g_signal_connect (emmb, "key-press-event" , G_CALLBACK (messagebrowser_key_pressed), NULL); 
-	
+	g_signal_connect (emmb, "key-press-event" , G_CALLBACK (messagebrowser_key_pressed), NULL);
+
 	/* cleanup? */
 
 	return (GtkWidget *)emmb;
@@ -286,19 +286,19 @@ emmb_set_message(EMFolderView *emfv, const char *uid, int nomarkseen)
 {
 	EMMessageBrowser *emmb = (EMMessageBrowser *) emfv;
 	CamelMessageInfo *info;
-	
+
 	emmb_parent->set_message(emfv, uid, nomarkseen);
-	
+
 	if (uid == NULL) {
 		gtk_widget_destroy((GtkWidget *)emfv);
 		return;
 	}
-	
+
 	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
 		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
 		camel_folder_free_message_info (emfv->folder, info);
 	}
-	
+
 	/* Well we don't know if it got displayed (yet) ... but whatever ... */
 	if (!nomarkseen)
 		camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
@@ -327,7 +327,7 @@ emmb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state)
 		bonobo_ui_component_set_prop(uic, "/commands/EditPaste", "sensitive", "0", NULL);
 	} else {
 		const BonoboUIVerb *v;
-		
+
 		for (v = &emmb_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
 

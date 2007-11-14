@@ -116,7 +116,7 @@ ecp_set_value (ECellText *cell, ETableModel *model, int col, int row,
 }
 
 static void
-e_cell_percent_class_init (ECellPercentClass *ecpc) 
+e_cell_percent_class_init (ECellPercentClass *ecpc)
 {
 	ECellTextClass *ectc = (ECellTextClass *) ecpc;
 
@@ -140,7 +140,7 @@ e_cell_percent_init (ECellPercent *ecp)
  * interpreted as being an int.
  *
  * See ECellText for other features.
- * 
+ *
  * Returns: an ECell object that can be used to render numbers.
  */
 ECell *
@@ -149,6 +149,6 @@ e_cell_percent_new (const char *fontname, GtkJustification justify)
 	ECellPercent *ecn = g_object_new (E_CELL_PERCENT_TYPE, NULL);
 
 	e_cell_text_construct (E_CELL_TEXT(ecn), fontname, justify);
-      
+
 	return (ECell *) ecn;
 }

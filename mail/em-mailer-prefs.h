@@ -62,14 +62,14 @@ struct _EMMailerPrefsHeader {
 
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
-	
+
 	GNOME_Evolution_Shell shell;
-	
+
 	struct _GladeXML *gui;
 	struct _GConfClient *gconf;
-	
+
 	/* General tab */
-	
+
 	/* Message Display */
 	struct _GtkToggleButton *timeout_toggle;
 	struct _GtkSpinButton *timeout;
@@ -80,28 +80,28 @@ struct _EMMailerPrefs {
 	struct _GtkOptionMenu *charset;
 	struct _GtkToggleButton *citation_highlight;
 	struct _GtkColorButton *citation_color;
-	
+
 	/* Deleting Mail */
 	struct _GtkToggleButton *empty_trash;
 	struct _GtkOptionMenu *empty_trash_days;
 	struct _GtkToggleButton *confirm_expunge;
-	
+
 	/* New Mail Notification */
 	struct _GtkToggleButton *notify_not;
 	struct _GtkToggleButton *notify_beep;
 	struct _GtkToggleButton *notify_play_sound;
 	struct _GtkFileChooserButton *notify_sound_file;
-	
+
 	/* HTML Mail tab */
 	struct _GtkFontButton *font_variable;
 	struct _GtkFontButton *font_fixed;
 	struct _GtkToggleButton *font_share;
-	
+
 	/* Loading Images */
 	struct _GtkToggleButton *images_always;
 	struct _GtkToggleButton *images_sometimes;
 	struct _GtkToggleButton *images_never;
-	
+
 	struct _GtkToggleButton *show_animated;
 	struct _GtkToggleButton *autodetect_links;
 	struct _GtkToggleButton *prompt_unwanted_html;
@@ -126,7 +126,7 @@ struct _EMMailerPrefs {
 	struct _GtkToggleButton *check_incoming;
 	struct _GtkToggleButton *empty_junk;
 	struct _GtkOptionMenu *empty_junk_days;
-	
+
 	struct _GtkToggleButton *sa_local_tests_only;
 	struct _GtkToggleButton *sa_use_daemon;
 	struct _GtkComboBox *default_junk_plugin;
@@ -136,9 +136,9 @@ struct _EMMailerPrefs {
 
 struct _EMMailerPrefsClass {
 	GtkVBoxClass parent_class;
-	
+
 	/* signals */
-	
+
 };
 
 GtkType em_mailer_prefs_get_type (void);

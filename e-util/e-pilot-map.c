@@ -30,7 +30,7 @@
 
 #include "e-pilot-map.h"
 
-typedef struct 
+typedef struct
 {
 	char *uid;
 	gboolean archived;
@@ -65,7 +65,7 @@ real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean 
 	if (pid != 0) {
 		new_pid = g_new (guint32, 1);
 		*new_pid = pid;
-	}	
+	}
 	new_uid = g_strdup (uid);
 
 	/* Values */
@@ -76,13 +76,13 @@ real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean 
 		if (touch)
 			pnode->touched = TRUE;
 	}
-	
+
 	unode = g_new0 (EPilotMapUidNode, 1);
 	unode->pid = pid;
 	unode->archived = archived;
 	if (touch)
 		unode->touched = TRUE;
-	
+
 	/* Insertion */
 	if (pid != 0)
 		g_hash_table_insert (map->pid_map, new_pid, pnode);
@@ -93,14 +93,14 @@ static void
 map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
 {
 	char *tstring;
-	
+
 	tstring = g_strdup_printf ("%ld", t);
 	xmlSetProp (node, (unsigned char *)name, (unsigned char *)tstring);
 	g_free (tstring);
 }
 
 static void
-map_sax_start_element (void *data, const xmlChar *name, 
+map_sax_start_element (void *data, const xmlChar *name,
 		       const xmlChar **attrs)
 {
 	EPilotMap *map = (EPilotMap *)data;
@@ -108,15 +108,15 @@ map_sax_start_element (void *data, const xmlChar *name,
 	if (!strcmp ((char *)name, "PilotMap")) {
 		while (attrs && *attrs != NULL) {
 			const xmlChar **val = attrs;
-			
+
 			val++;
-			if (!strcmp ((char *)*attrs, "timestamp")) 
+			if (!strcmp ((char *)*attrs, "timestamp"))
 				map->since = (time_t)strtoul ((char *)*val, NULL, 0);
 
 			attrs = ++val;
 		}
 	}
-	 
+
 	if (!strcmp ((char *)name, "map")) {
 		const char *uid = NULL;
 		guint32 pid = 0;
@@ -124,17 +124,17 @@ map_sax_start_element (void *data, const xmlChar *name,
 
 		while (attrs && *attrs != NULL) {
 			const xmlChar **val = attrs;
-			
+
 			val++;
-			if (!strcmp ((char *)*attrs, "uid")) 
+			if (!strcmp ((char *)*attrs, "uid"))
 				uid = (char *)*val;
-			
+
 			if (!strcmp ((char *)*attrs, "pilot_id"))
 				pid = strtoul ((char *)*val, NULL, 0);
 
 			if (!strcmp ((char *)*attrs, "archived"))
 				archived = strtoul ((char *)*val, NULL, 0)== 1 ? TRUE : FALSE;
-				
+
 			attrs = ++val;
 		}
 
@@ -156,7 +156,7 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 
 	if (wd->touched_only && !unode->touched)
 		return;
-	
+
 	mnode = xmlNewChild (root, NULL, (const unsigned char *)"map", NULL);
 	xmlSetProp (mnode, (const unsigned char *)"uid", (unsigned char *)uid);
 
@@ -172,38 +172,38 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 	}
 }
 
-gboolean 
+gboolean
 e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid)
 {
 	EPilotMapPidNode *pnode;
 
 	g_return_val_if_fail (map != NULL, FALSE);
-	
+
 	pnode = g_hash_table_lookup (map->pid_map, &pid);
 
 	if (pnode == NULL)
 		return FALSE;
-	
+
 	return pnode->archived;
 }
 
-gboolean 
+gboolean
 e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
 {
 	EPilotMapUidNode *unode;
 
 	g_return_val_if_fail (map != NULL, FALSE);
 	g_return_val_if_fail (uid != NULL, FALSE);
-	
+
 	unode = g_hash_table_lookup (map->uid_map, uid);
 
 	if (unode == NULL)
 		return FALSE;
-	
+
 	return unode->archived;
 }
 
-void 
+void
 e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived)
 {
         EPilotMapPidNode *pnode;
@@ -228,7 +228,7 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 	real_e_pilot_map_insert (map, pid, uid, archived, TRUE);
 }
 
-void 
+void
 e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 {
 	EPilotMapPidNode *pnode;
@@ -247,7 +247,7 @@ e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 	g_hash_table_remove (map->pid_map, &pid);
 }
 
-void 
+void
 e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 {
 	EPilotMapPidNode *pnode;
@@ -267,28 +267,28 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 }
 
 
-guint32 
-e_pilot_map_lookup_pid (EPilotMap *map, const char *uid, gboolean touch) 
+guint32
+e_pilot_map_lookup_pid (EPilotMap *map, const char *uid, gboolean touch)
 {
 	EPilotMapUidNode *unode = NULL;
 
 	g_return_val_if_fail (map != NULL, 0);
 	g_return_val_if_fail (uid != NULL, 0);
-	
+
 	unode = g_hash_table_lookup (map->uid_map, uid);
 
 	if (unode == NULL)
 		return 0;
-	
+
 	if (touch) {
 		EPilotMapPidNode *pnode = NULL;
-		
+
 		pnode = g_hash_table_lookup (map->pid_map, &unode->pid);
 		if (pnode != NULL)
 			pnode->touched = TRUE;
-		unode->touched = TRUE;	
+		unode->touched = TRUE;
 	}
-	
+
 	return unode->pid;
 }
 
@@ -298,26 +298,26 @@ e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid, gboolean touch)
 	EPilotMapPidNode *pnode = NULL;
 
 	g_return_val_if_fail (map != NULL, NULL);
-	
+
 	pnode = g_hash_table_lookup (map->pid_map, &pid);
 
 	if (pnode == NULL)
 		return NULL;
-	
+
 	if (touch) {
 		EPilotMapUidNode *unode = NULL;
-		
+
 		unode = g_hash_table_lookup (map->uid_map, pnode->uid);
 		g_return_val_if_fail (unode != NULL, NULL);
-		
+
 		unode->touched = TRUE;
 		pnode->touched = TRUE;
 	}
-	
+
 	return pnode->uid;
 }
 
-int 
+int
 e_pilot_map_read (const char *filename, EPilotMap **map)
 {
 	xmlSAXHandler handler;
@@ -349,12 +349,12 @@ e_pilot_map_read (const char *filename, EPilotMap **map)
 	}
 
 	new_map->write_touched_only = FALSE;
-	
+
 	*map = new_map;
-	
+
 	return 0;
 }
-		
+
 int
 e_pilot_map_write (const char *filename, EPilotMap *map)
 {
@@ -364,7 +364,7 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 
 	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (map != NULL, -1);
-	
+
 	doc = xmlNewDoc ((const unsigned char *)"1.0");
 	if (doc == NULL) {
 		g_warning ("Pilot map file could not be created\n");
@@ -377,7 +377,7 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	wd.touched_only = map->write_touched_only;
 	wd.root = xmlDocGetRootElement(doc);
 	g_hash_table_foreach (map->uid_map, map_write_foreach, &wd);
-	
+
 	/* Write the file */
 	xmlSetDocCompressMode (doc, 0);
 	ret = e_xml_save_file (filename, doc);
@@ -385,7 +385,7 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 		g_warning ("Pilot map file '%s' could not be saved\n", filename);
 		return -1;
 	}
-	
+
 	xmlFreeDoc (doc);
 
 	return 0;
@@ -403,7 +403,7 @@ e_pilot_map_clear (EPilotMap *map)
 	map->write_touched_only = FALSE;
 }
 
-void 
+void
 e_pilot_map_destroy (EPilotMap *map)
 {
 	g_return_if_fail (map != NULL);

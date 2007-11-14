@@ -50,7 +50,7 @@ static void  update_timestamp (EPublishUri *uri);
 static void publish (EPublishUri *uri);
 
 static void
-publish_uri_async (EPublishUri *uri) 
+publish_uri_async (EPublishUri *uri)
 {
 	GThread *thread = NULL;
 	GError *error = NULL;
@@ -83,13 +83,13 @@ publish (EPublishUri *uri)
 
 		password = e_passwords_get_password ("Calendar", uri->location);
 		username = gnome_vfs_uri_get_user_name (vfs_uri);
-		req_pass = ((username && *username) && !(uri->service_type == TYPE_ANON_FTP && 
+		req_pass = ((username && *username) && !(uri->service_type == TYPE_ANON_FTP &&
 					!strcmp (username, "anonymous"))) ? TRUE:FALSE;
 
 		if (!password && req_pass) {
 			gboolean remember;
 			char *prompt = g_strdup_printf (_("Enter the password for `%s'"), uri->location);
-			
+
 			password = e_passwords_ask_password (_("Enter password"), "", uri->location, prompt,
 						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
 						     &remember,
@@ -500,7 +500,7 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->treeview = glade_xml_get_widget (xml, "url list");
 	if (store == NULL)
 		store = gtk_list_store_new (URL_LIST_N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
-	else 
+	else
 		gtk_list_store_clear (store);
 
 	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (store));
@@ -556,7 +556,7 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	return toplevel;
 }
 
-static gpointer 
+static gpointer
 publish_urls (gpointer data)
 {
 	GSList *l;
@@ -574,7 +574,7 @@ action_publish (EPlugin *ep, ECalMenuTargetSelect *t)
 {
 	GThread *thread = NULL;
 	GError *error = NULL;
-	
+
 	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
 	if (!thread) {
 		g_warning (G_STRLOC ": %s", error->message);

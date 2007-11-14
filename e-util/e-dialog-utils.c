@@ -82,7 +82,7 @@ e_notice (gpointer parent, GtkMessageType type, const char *format, ...)
 					 str);
 	va_end (args);
 	g_free (str);
-	
+
 	if (parent)
 		e_dialog_set_transient_for (GTK_WINDOW (dialog), parent);
 	gtk_dialog_run (GTK_DIALOG (dialog));
@@ -117,7 +117,7 @@ e_notice_with_xid (GdkNativeWindow parent, GtkMessageType type, const char *form
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	va_end (args);
 	g_free (str);
-	
+
 	if (parent)
 		e_dialog_set_transient_for_xid (GTK_WINDOW (dialog), parent);
 	gtk_dialog_run (GTK_DIALOG (dialog));
@@ -158,7 +158,7 @@ window_is_wm_toplevel (Display *display, Window window)
  * e_dialog_set_transient_for:
  * @dialog: a dialog window
  * @parent_widget: the parent for @dialog
- * 
+ *
  * This sets the parent for @dialog to be @parent_widget. Unlike
  * gtk_window_set_transient_for(), this doesn't need @parent_widget to
  * be the actual toplevel, and also works if @parent_widget is
@@ -218,7 +218,7 @@ dialog_realized (GtkWindow *dialog, gpointer xid)
  * e_dialog_set_transient_for_xid:
  * @dialog: a dialog window
  * @xid: the X Window parent
- * 
+ *
  * Like e_dialog_set_transient_for(), but use an XID to specify the
  * parent window.
  **/
@@ -263,7 +263,7 @@ save_ok (GtkWidget *widget, gpointer data)
 	GtkWidget *fs;
 	char **filename = data;
 	char *uri;
-	
+
 	fs = gtk_widget_get_toplevel (widget);
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (fs));
 
@@ -271,7 +271,7 @@ save_ok (GtkWidget *widget, gpointer data)
 		e_file_update_save_path(gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER(fs)), TRUE);
 		*filename = uri;
 	}
-	
+
 	gtk_main_quit ();
 }
 
@@ -293,13 +293,13 @@ e_file_dialog_save (const char *title, const char *fname)
 	selection = e_file_get_save_filesel(NULL, title, fname, GTK_FILE_CHOOSER_ACTION_SAVE);
 
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (filechooser_response), &filename);
-	
+
 	gtk_widget_show (GTK_WIDGET (selection));
 	gtk_grab_add (GTK_WIDGET (selection));
 	gtk_main ();
-	
+
 	gtk_widget_destroy (GTK_WIDGET (selection));
-	
+
 	return filename;
 }
 
@@ -309,13 +309,13 @@ save_folder_ok (GtkWidget *widget, gpointer data)
 	GtkWidget *fs;
 	char **filename = data;
 	char *uri;
-	
+
 	fs = gtk_widget_get_toplevel (widget);
 	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (fs));
-	
+
 	e_file_update_save_path(uri, FALSE);
 	*filename = uri;
-	
+
 	gtk_main_quit ();
 }
 
@@ -336,13 +336,13 @@ e_file_dialog_save_folder (const char *title)
 
 	selection = e_file_get_save_filesel(NULL, title, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (folderchooser_response), &filename);
-	
+
 	gtk_widget_show (GTK_WIDGET (selection));
 	gtk_grab_add (GTK_WIDGET (selection));
 	gtk_main ();
-	
+
 	gtk_widget_destroy (GTK_WIDGET (selection));
-	
+
 	return filename;
 }
 

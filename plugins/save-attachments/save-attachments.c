@@ -218,8 +218,8 @@ save_part(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *d)
 	/* FIXME: if part == data->msg then we need to save this
 	 * differently, not using the envelope MimePart */
 
-	/* 
-	 * The underlying em_utils_save_part_to_file ain't using gnome-vfs. Therefor 
+	/*
+	 * The underlying em_utils_save_part_to_file ain't using gnome-vfs. Therefor
 	 * the POSIX access-call should suffice for checking the file existence.
 	 */
 
@@ -297,7 +297,7 @@ toggle_changed(GtkWidget *entry, const char *spath, struct _save_data *data)
 {
         GtkTreePath *path;
         GtkTreeIter iter;
-        
+
         path = gtk_tree_path_new_from_string(spath);
         if (gtk_tree_model_get_iter((GtkTreeModel *)data->model, &iter, path)) {
 		gboolean on;
@@ -305,7 +305,7 @@ toggle_changed(GtkWidget *entry, const char *spath, struct _save_data *data)
                 gtk_tree_model_get((GtkTreeModel *)data->model, &iter, 0, &on, -1);
 		gtk_tree_store_set(data->model, &iter, 0, !on, -1);
         }
-        
+
         gtk_tree_path_free (path);
 }
 
@@ -360,7 +360,7 @@ save_got_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, vo
 	g_signal_connect(renderer, "toggled", G_CALLBACK(toggle_changed), data);
 
 	gtk_tree_view_insert_column_with_attributes((GtkTreeView *)tree, -1,
-						    _("Save"), renderer, "active", 0, NULL);	
+						    _("Save"), renderer, "active", 0, NULL);
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes((GtkTreeView *)tree, -1,
 						    _("Name"), renderer, "text", 2, NULL);

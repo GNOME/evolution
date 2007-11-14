@@ -69,7 +69,7 @@ corba_recipientlist_to_destv (const GNOME_Evolution_Composer_RecipientList *cl)
 		if (*recip->name)
 			e_destination_set_name (destv[i], recip->name);
 		e_destination_set_email (destv[i], recip->address);
-		
+
 	}
 	destv[cl->_length] = NULL;
 
@@ -92,38 +92,38 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 	EAccount *account;
 	EIterator *iter;
 	int found = 0;
-	
+
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
-	
+
 	account = mail_config_get_account_by_name (from);
 	if (!account) {
 		accounts = mail_config_get_accounts ();
 		iter = e_list_get_iterator ((EList *) accounts);
 		while (e_iterator_is_valid (iter)) {
 			account = (EAccount *) e_iterator_get (iter);
-			
+
 			if (!g_ascii_strcasecmp (account->id->address, from)) {
 				found = TRUE;
 				break;
 			}
-			
+
 			e_iterator_next (iter);
 		}
-		
+
 		g_object_unref (iter);
-		
+
 		if (!found)
 			account = mail_config_get_default_account ();
 	}
-	
+
 	tov  = corba_recipientlist_to_destv (to);
 	ccv  = corba_recipientlist_to_destv (cc);
 	bccv = corba_recipientlist_to_destv (bcc);
-	
+
 	e_msg_composer_set_headers (composer->composer, account->name,
 				    tov, ccv, bccv, subject);
-	
+
 	e_destination_freev (tov);
 	e_destination_freev (ccv);
 	e_destination_freev (bccv);
@@ -159,7 +159,7 @@ impl_Composer_set_body (PortableServer_Servant servant,
 
 	if (!g_ascii_strcasecmp (mime_type, "text/plain")) {
 		char *htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		
+
 		e_msg_composer_set_body_text (composer->composer, htmlbody, -1);
 		g_free (htmlbody);
 	} else if (!g_ascii_strcasecmp (mime_type, "text/html"))
@@ -330,20 +330,20 @@ enum_objects (BonoboItemHandler *handler, gpointer data, CORBA_Environment *ev)
 }
 #endif
 
-static Bonobo_Unknown 
+static Bonobo_Unknown
 get_object (BonoboItemHandler *h, const char *item_name, gboolean only_if_exists,
 	    gpointer data, CORBA_Environment *ev)
 {
 	EvolutionComposer *composer = data;
 	GSList *options, *l;
-	
+
 	options = bonobo_item_option_parse (item_name);
 	for (l = options; l; l = l->next){
 		BonoboItemOption *option = l->data;
 
 		if (strcmp (option->key, "visible") == 0){
 			gboolean show = 1;
-			
+
 			if (option->value)
 				show = atoi (option->value);
 
@@ -362,7 +362,7 @@ evolution_composer_construct (EvolutionComposer *composer,
 			      GNOME_Evolution_Composer corba_object)
 {
 	BonoboObject *item_handler;
-	
+
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (EVOLUTION_IS_COMPOSER (composer));
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);

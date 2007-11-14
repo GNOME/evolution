@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-tree.c - Tree cell object.
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -128,13 +128,13 @@ ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ECellTree *ect = E_CELL_TREE (ecell);
 	ECellTreeView *tree_view = g_new0 (ECellTreeView, 1);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (e_table_item_view)->canvas;
-	
+
 	tree_view->cell_view.ecell = ecell;
 	tree_view->cell_view.e_table_model = table_model;
 	tree_view->cell_view.e_table_item_view = e_table_item_view;
         tree_view->cell_view.kill_view_cb = NULL;
         tree_view->cell_view.kill_view_cb_data = NULL;
-	
+
 	/* create our subcell view */
 	tree_view->subcell_view = e_cell_new_view (ect->subcell, table_model, e_table_item_view /* XXX */);
 
@@ -176,7 +176,7 @@ ect_realize (ECellView *ecell_view)
 
 	tree_view->gc = gdk_gc_new (GTK_WIDGET (tree_view->canvas)->window);
 
-	gdk_gc_set_line_attributes (tree_view->gc, 1, 
+	gdk_gc_set_line_attributes (tree_view->gc, 1,
 				    GDK_LINE_ON_OFF_DASH,
 				    GDK_CAP_NOT_LAST,
 				    GDK_JOIN_MITER);
@@ -220,7 +220,7 @@ draw_retro_expander (ECellTreeView *ectv, GdkDrawable *drawable, gboolean expand
 			 NULL,
 			 image,
 			 rect->x, rect->y,
-			 rect->width - image_width / 2, 
+			 rect->width - image_width / 2,
 			 rect->height - image_height / 2,
 			 image_width, image_height,
 			 GDK_RGB_DITHER_NORMAL,
@@ -290,7 +290,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		rect.y = y1;
 		rect.width = subcell_offset + node_image_width;
 		rect.height = y2 - y1;
-	
+
 		gdk_gc_set_clip_rectangle (tree_view->gc, &rect);
 		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
@@ -427,7 +427,7 @@ event_in_expander (GdkEvent *event, gint offset, gint height)
  * ECell::height method
  */
 static int
-ect_height (ECellView *ecell_view, int model_col, int view_col, int row) 
+ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
@@ -489,7 +489,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 					GdkRectangle area;
 					animate_closure_t *closure = g_new0 (animate_closure_t, 1);
 					int hgt;
-					
+
 					e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
 								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 					area.width = offset - 2;
@@ -497,7 +497,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 					if (hgt != area.height) /* Composite cells */
 						area.height += hgt;
-					
+
 					draw_expander (tree_view, GTK_LAYOUT (tree_view->canvas)->bin_window,
 						       expanded ? GTK_EXPANDER_SEMI_EXPANDED : GTK_EXPANDER_SEMI_COLLAPSED,
 						       GTK_STATE_NORMAL, &area);
@@ -581,21 +581,21 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 
 	if (!per_row)
 		subcell_max_width = e_cell_max_width (tree_view->subcell_view, model_col, view_col);
-	
+
 	for (row = 0; row < number_of_rows; row++) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
 		ETreePath node;
 		GdkPixbuf *node_image;
 		int node_image_width = 0;
-		
+
 		int offset, subcell_offset;
 #if 0
 		gboolean expanded, expandable;
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
 #endif
-		
+
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-		
+
 		offset = offset_of_node (ecell_view->e_table_model, row);
 		subcell_offset = offset;
 
@@ -623,7 +623,7 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 		if (expandable) {
 			GdkPixbuf *image;
 
-			image = (expanded 
+			image = (expanded
 				 ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
 				 : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
 
@@ -643,7 +643,7 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 static void
 ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 		  int col_width, ETableTooltip *tooltip)
-{		
+{
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
@@ -663,12 +663,12 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
  */
 static char *
 ect_get_bg_color (ECellView *ecell_view, int row)
-{		
+{
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
 	return e_cell_get_bg_color (tree_view->subcell_view, row);
 }
-		
+
 /*
  * ECellView::enter_edit method
  */
@@ -694,7 +694,7 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 }
 
 static void
-ect_print (ECellView *ecell_view, GtkPrintContext *context, 
+ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
@@ -789,7 +789,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-ect_print_height (ECellView *ecell_view, GtkPrintContext *context, 
+ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		  int model_col, int view_col, int row,
 		  double width)
 {
@@ -859,10 +859,10 @@ e_cell_tree_init (ECellTree *ect)
  * @closed_pixbuf: pixbuf to be used instead of the '+' icon.
  * @draw_lines: whether or not to draw the lines between parents/children/siblings.
  * @subcell: the ECell to render to the right of the tree effects.
- * 
+ *
  * Constructs an ECellTree.  used by subclasses that need to
  * initialize a nested ECellTree.  See e_cell_tree_new() for more info.
- * 
+ *
  **/
 void
 e_cell_tree_construct (ECellTree *ect,
@@ -870,7 +870,7 @@ e_cell_tree_construct (ECellTree *ect,
 		       GdkPixbuf *closed_pixbuf,
 		       gboolean draw_lines,
 		       ECell *subcell)
-{		       
+{
 	ect->subcell = subcell;
 	if (subcell)
 		g_object_ref_sink (subcell);
@@ -893,14 +893,14 @@ e_cell_tree_construct (ECellTree *ect,
  * @closed_pixbuf: pixbuf to be used instead of the '+' icon.
  * @draw_lines: whether or not to draw the lines between parents/children/siblings.
  * @subcell: the ECell to render to the right of the tree effects.
- * 
+ *
  * Creates a new ECell renderer that can be used to render tree
  * effects that come from an ETreeModel.  Various assumptions are made
  * as to the fact that the ETableModel the ETable this cell is
  * associated with is in fact an ETreeModel.  The cell uses special
  * columns to get at structural information (needed to draw the
  * lines/icons.
- * 
+ *
  * Return value: an ECell object that can be used to render trees.
  **/
 ECell *

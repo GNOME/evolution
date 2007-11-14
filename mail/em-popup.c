@@ -165,12 +165,12 @@ EMPopup *em_popup_new(const char *menuid)
 /**
  * em_popup_target_new_select:
  * @folder: The selection will ref this for the life of it.
- * @folder_uri: 
+ * @folder_uri:
  * @uids: The selection will free this when done with it.
- * 
+ *
  * Create a new selection popup target.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMPopupTargetSelect *
 em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
@@ -194,10 +194,10 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 
 	camel_object_ref(folder);
 	mask &= ~EM_POPUP_SELECT_FOLDER;
-	
+
 	if (em_utils_folder_is_sent(folder, folder_uri))
 		mask &= ~EM_POPUP_SELECT_EDIT;
-	
+
 	draft_or_outbox = em_utils_folder_is_drafts(folder, folder_uri) || em_utils_folder_is_outbox(folder, folder_uri);
 	if (!draft_or_outbox && uids->len == 1)
 		mask &= ~EM_POPUP_SELECT_ADD_SENDER;
@@ -229,11 +229,11 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 		} else if (draft_or_outbox) {
 			/* Show none option */
 			mask |= EM_POPUP_SELECT_NOT_JUNK;
-			mask |= EM_POPUP_SELECT_JUNK;			
+			mask |= EM_POPUP_SELECT_JUNK;
 		} else {
 			/* Show both options */
 			mask &= ~EM_POPUP_SELECT_NOT_JUNK;
-			mask &= ~EM_POPUP_SELECT_JUNK;			
+			mask &= ~EM_POPUP_SELECT_JUNK;
 		}
 
 		if (flags & CAMEL_MESSAGE_DELETED)
@@ -334,20 +334,20 @@ em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, g
 		mask &= ~(EM_POPUP_FOLDER_STORE|EM_POPUP_FOLDER_INFERIORS);
 	else
 		mask &= ~EM_POPUP_FOLDER_FOLDER;
-	
+
 	url = camel_url_new(uri, NULL);
 	if (url == NULL)
 		goto done;
-	
+
 	if (!(popup_flags & EM_POPUP_FOLDER_STORE)) {
 		const char *path;
-		
+
 		if (popup_flags & EM_POPUP_FOLDER_DELETE)
 			mask &= ~EM_POPUP_FOLDER_DELETE;
-		
+
 		if (!(info_flags & CAMEL_FOLDER_NOINFERIORS))
 			mask &= ~EM_POPUP_FOLDER_INFERIORS;
-	
+
 		if (info_flags & CAMEL_FOLDER_TYPE_OUTBOX)
 			mask &= ~EM_POPUP_FOLDER_OUTBOX;
 		else
@@ -355,17 +355,17 @@ em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, g
 
 		if (!(info_flags & CAMEL_FOLDER_NOSELECT))
 			mask &= ~EM_POPUP_FOLDER_SELECT;
-		
+
 		if (info_flags & CAMEL_FOLDER_VIRTUAL)
 			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
-		
+
 		if ((path = url->fragment ? url->fragment : url->path)) {
 			if ((!strcmp (url->protocol, "vfolder") && !strcmp (path, CAMEL_UNMATCHED_NAME))
 			    || (!strcmp (url->protocol, "maildir") && !strcmp (path, "."))) /* hack for maildir toplevel folder */
 				mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
 		}
 	}
-	
+
 	camel_url_free(url);
 done:
 	t->target.mask = mask;
@@ -375,13 +375,13 @@ done:
 
 /**
  * em_popup_target_new_attachments:
- * @emp: 
+ * @emp:
  * @attachments: A list of EMsgComposerAttachment objects, reffed for
  * the list.  Will be unreff'd once finished with.
- * 
+ *
  * Owns the list @attachments and their items after they're passed in.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMPopupTargetAttachments *
 em_popup_target_new_attachments(EMPopup *emp, GSList *attachments)
@@ -399,7 +399,7 @@ em_popup_target_new_attachments(EMPopup *emp, GSList *attachments)
 			mask &= ~ EM_POPUP_ATTACHMENTS_IMAGE;
 		if (CAMEL_IS_MIME_MESSAGE(camel_medium_get_content_object((CamelMedium *) ((EAttachment *) attachments->data)->body)))
 			mask &= ~EM_POPUP_ATTACHMENTS_MESSAGE;
-		
+
 		mask &= ~ EM_POPUP_ATTACHMENTS_ONE;
 	}
 	if (len > 1)
@@ -435,7 +435,7 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 	unsigned int i=1;
 	CamelMimePart *part = NULL;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
 	else
 		part = ((EMPopupTargetPart *) t)->part;
@@ -444,7 +444,7 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 		return;
 
 	filename = g_strdup(camel_mime_part_get_filename(part));
-	   
+
 	/* if filename is blank, create a default filename based on MIME type */
 	if (!filename || !filename[0]) {
 		CamelContentType *ct;
@@ -455,13 +455,13 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 	}
 
 	e_filename_make_safe(filename);
-	
+
 	path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", filename, NULL);
-	
+
 	extension = strrchr(filename, '.');
 	if (extension)
 		*extension++ = 0;
-	
+
 	/* if file exists, stick a (number) on the end */
 	while (g_file_test(path, G_FILE_TEST_EXISTS)) {
 		char *name;
@@ -470,35 +470,35 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 		path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", name, NULL);
 		g_free(name);
 	}
-	
+
 	g_free(filename);
-	
+
 	if (em_utils_save_part_to_file(ep->target->widget, path, part)) {
 		gconf = gconf_client_get_default();
-		
-		/* if the filename hasn't changed, blank the filename before 
+
+		/* if the filename hasn't changed, blank the filename before
 		*  setting it so that gconf detects a change and updates it */
-		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_filename", NULL)) != NULL 
+		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_filename", NULL)) != NULL
 		     && strcmp (str, path) == 0) {
 			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", "", NULL);
 		}
-		
+
 		g_free (str);
 		gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", path, NULL);
-		
+
 		/* if GNOME currently doesn't display a picture, set to "wallpaper"
 		 * display mode, otherwise leave it alone */
-		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_options", NULL)) == NULL 
+		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_options", NULL)) == NULL
 		     || strcmp(str, "none") == 0) {
 			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_options", "wallpaper", NULL);
 		}
-		
+
 		gconf_client_suggest_sync(gconf, NULL);
-		
+
 		g_free(str);
 		g_object_unref(gconf);
 	}
-	
+
 	g_free(path);
 }
 
@@ -509,11 +509,11 @@ emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
 	else
 		part = ((EMPopupTargetPart *) t)->part;
-	
+
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
 	em_utils_reply_to_message(NULL, NULL, message, REPLY_MODE_SENDER, NULL);
 }
@@ -525,11 +525,11 @@ emp_part_popup_reply_list (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
 	else
 		part = ((EMPopupTargetPart *) t)->part;
-		
+
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
 	em_utils_reply_to_message(NULL, NULL, message, REPLY_MODE_LIST, NULL);
 }
@@ -541,11 +541,11 @@ emp_part_popup_reply_all (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
 	else
 		part = ((EMPopupTargetPart *) t)->part;
-	
+
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
 	em_utils_reply_to_message(NULL, NULL, message, REPLY_MODE_ALL, NULL);
 }
@@ -557,10 +557,10 @@ emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) 
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
 	else
-		part = ((EMPopupTargetPart *) t)->part;	
+		part = ((EMPopupTargetPart *) t)->part;
 
 	/* TODO: have a emfv specific override so we can get the parent folder uri */
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *) part);
@@ -598,7 +598,7 @@ emp_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
 {
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
 	GError *err = NULL;
-		
+
 	gnome_url_show(t->uri, &err);
 	if (err) {
 		g_warning("gnome_url_show: %s", err->message);
@@ -653,7 +653,7 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 	CamelMimePart *part;
 
 	printf("in emp_apps_open_in\n");
-	if (target->type == EM_POPUP_TARGET_ATTACHMENTS) 
+	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
 	else
 		part = ((EMPopupTargetPart *) target)->part;
@@ -663,7 +663,7 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 		GnomeVFSMimeApplication *app = item->user_data;
 		char *uri;
 		GList *uris = NULL;
-		
+
 		uri = gnome_vfs_get_uri_from_local_path(path);
 		uris = g_list_append(uris, uri);
 
@@ -724,7 +724,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	case EM_POPUP_TARGET_PART: {
 		EMPopupTargetPart *t = (EMPopupTargetPart *)emp->target;
 		mime_type = camel_data_wrapper_get_mime_type((CamelDataWrapper *)t->part);
-		filename = camel_mime_part_get_filename(t->part);		
+		filename = camel_mime_part_get_filename(t->part);
 
 		items = emp_standard_object_popups;
 		len = LEN(emp_standard_object_popups);
@@ -733,10 +733,10 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		EMPopupTargetAttachments *t = (EMPopupTargetAttachments *)emp->target;
 		GSList *list = t->attachments;
 		EAttachment *attachment;
-	
+
 		if (g_slist_length(list) != 1 || !((EAttachment *)list->data)->is_available_local) {
 			items = NULL;
-			len = 0;		
+			len = 0;
 			break;
 		}
 
@@ -747,18 +747,18 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 
 		items = emp_attachment_object_popups;
 		len = LEN(emp_attachment_object_popups);
-		break; }		
+		break; }
 	default:
 		items = NULL;
 		len = 0;
 	}
-	
+
 	if (mime_type) {
 		apps = gnome_vfs_mime_get_all_applications(mime_type);
-		
+
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
 			const char *name_type;
-			
+
 			if (filename) {
 				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
 				if (!strcmp (filename, "winmail.dat"))
@@ -860,7 +860,7 @@ static const EPopupHookTargetMask emph_select_masks[] = {
 	{ "add_sender", EM_POPUP_SELECT_ADD_SENDER },
 	{ "folder", EM_POPUP_SELECT_FOLDER },
 	{ "junk", EM_POPUP_SELECT_JUNK },
-	{ "not_junk", EM_POPUP_SELECT_NOT_JUNK },	
+	{ "not_junk", EM_POPUP_SELECT_NOT_JUNK },
 	{ NULL }
 };
 
@@ -933,7 +933,7 @@ GType
 em_popup_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMPopupHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -943,6 +943,6 @@ em_popup_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_popup_hook_get_type());
 		type = g_type_register_static(e_popup_hook_get_type(), "EMPopupHook", &info, 0);
 	}
-	
+
 	return type;
 }

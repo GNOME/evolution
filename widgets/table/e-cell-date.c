@@ -1,4 +1,4 @@
-/* 
+/*
  * e-cell-date.c - Date item for e-table.
  * Copyright 2001, Ximian, Inc.
  *
@@ -151,7 +151,7 @@ e_cell_date_init (ECellDate *ecd)
  * rendered with strikeout, underline, or bolded.  In the case of the
  * "color_column" argument, the column in the model is expected to
  * have a string that can be parsed by gdk_color_parse().
- * 
+ *
  * Returns: an ECell object that can be used to render dates.
  */
 ECell *
@@ -160,7 +160,7 @@ e_cell_date_new (const char *fontname, GtkJustification justify)
 	ECellDate *ecd = g_object_new (E_CELL_DATE_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
-      
+
 	return (ECell *) ecd;
 }
 

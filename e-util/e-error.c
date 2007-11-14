@@ -45,7 +45,7 @@
 #include "e-util-private.h"
 #include "e-error.h"
 
-#define d(x) 
+#define d(x)
 
 struct _e_error_button {
 	struct _e_error_button *next;
@@ -110,7 +110,7 @@ static int
 map_response(const char *name)
 {
 	int i;
-	
+
 	for (i=0;i<sizeof(response_map)/sizeof(response_map[0]);i++)
 		if (!strcmp(name, response_map[i].name))
 			return response_map[i].id;
@@ -169,7 +169,7 @@ ee_load(const char *path)
 	char *tmp;
 
 	d(printf("loading error file %s\n", path));
-	
+
 	doc = e_xml_parse_file (path);
 	if (doc == NULL) {
 		g_warning("Error file '%s' not found", path);
@@ -239,7 +239,7 @@ ee_load(const char *path)
 				e->default_response = map_response(tmp);
 				xmlFree(tmp);
 			}
-			
+
 			tmp = (char *)xmlGetProp(error, (const unsigned char *)"scroll");
 			if (tmp) {
 				if (!strcmp(tmp, "yes"))
@@ -550,9 +550,9 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
 		gtk_box_pack_start((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
 		gtk_window_set_default_size ((GtkWindow *)dialog, 360, 180);
-	} else 
+	} else
 		gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 0);
-		
+
 	gtk_widget_show_all(hbox);
 
 	gtk_box_pack_start((GtkBox *)dialog->vbox, hbox, TRUE, TRUE, 0);
@@ -562,16 +562,16 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 /**
  * e_error_new:
- * @parent: 
+ * @parent:
  * @tag: error identifier
  * @arg0: The first argument for the error formatter.  The list must
  * be NULL terminated.
- * 
+ *
  * Creates a new error widget.  The @tag argument is used to determine
  * which error to use, it is in the format domain:error-id.  The NULL
  * terminated list of arguments, starting with @arg0 is used to fill
  * out the error definition.
- * 
+ *
  * Return value: A GtkDialog which can be used for showing an error
  * dialog asynchronously.
  **/
@@ -604,13 +604,13 @@ e_error_runv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 /**
  * e_error_run:
- * @parent: 
- * @tag: 
- * @arg0: 
- * 
+ * @parent:
+ * @tag:
+ * @arg0:
+ *
  * Sets up, displays, runs and destroys a standard evolution error
  * dialog based on @tag, which is in the format domain:error-id.
- * 
+ *
  * Return value: The response id of the button pressed.
  **/
 int
@@ -638,8 +638,8 @@ remove_parent(GtkWidget *w, GtkWidget *parent)
 
 /**
  * e_error_default_parent:
- * @parent: 
- * 
+ * @parent:
+ *
  * Bit of a hack, set a default parent that will be used to parent any
  * error boxes if none is supplied.
  *

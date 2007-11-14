@@ -164,9 +164,9 @@ ep_base_init(GObjectClass *klass)
 
 /**
  * e_popup_get_type:
- * 
+ *
  * Standard GObject type function.
- * 
+ *
  * Return value: The EPopup object type.
  **/
 GType
@@ -192,11 +192,11 @@ e_popup_get_type(void)
 /**
  * e_popup_new - Create an targetless popup menu manager.
  * @menuid: Unique ID for this menu.
- * 
+ *
  * Create a targetless popup menu object.  This can be used as a
  * helper for creating popup menu's with no target.  Such popup menu's
  * wont be very pluggable.
- * 
+ *
  * Return value: A new EPopup.
  **/
 EPopup *e_popup_new(const char *menuid)
@@ -212,9 +212,9 @@ EPopup *e_popup_new(const char *menuid)
  * e_popup_construct:
  * @ep: An instantiated but uninitialised EPopup.
  * @menuid: The menu identifier.
- * 
+ *
  * Construct the base popup instance with standard parameters.
- * 
+ *
  * Return value: Returns @ep.
  **/
 EPopup *e_popup_construct(EPopup *ep, const char *menuid)
@@ -233,7 +233,7 @@ EPopup *e_popup_construct(EPopup *ep, const char *menuid)
  * longer needed.
  * @data: user-data passed to @freefunc, and passed to all activate
  * methods.
- * 
+ *
  * Add new EPopupItems to the menus.  Any with the same path
  * will override previously defined menu items, at menu building
  * time.  This may be called any number of times before the menu is
@@ -385,7 +385,7 @@ ep_build_tree(struct _item_node *inode, guint32 mask)
 			break;
 		case E_POPUP_RADIO: {
 			char *ppath = inode->parent?inode->parent->item->path:NULL;
-			
+
 			menuitem = (GtkMenuItem *)gtk_radio_menu_item_new(g_hash_table_lookup(group_hash, ppath));
 			g_hash_table_insert(group_hash, ppath, gtk_radio_menu_item_get_group((GtkRadioMenuItem *)menuitem));
 			gtk_check_menu_item_set_active((GtkCheckMenuItem *)menuitem, item->type & E_POPUP_ACTIVE);
@@ -565,12 +565,12 @@ ep_popup_done(GtkWidget *w, EPopup *emp)
  * @target: If set, the target of the selection.  Static menu
  * items will be added.  The target will be freed once complete.
  * @mask: Enable/disable and visibility mask.
- * 
+ *
  * Like popup_create_menu, but automatically sets up the menu
  * so that it is destroyed once a selection takes place, and
  * the EPopup is unreffed.  This is the normal entry point as it
  * automates most memory management for popup menus.
- * 
+ *
  * Return value: A menu, to popup.
  **/
 GtkMenu *
@@ -597,11 +597,11 @@ e_popup_create_menu_once(EPopup *emp, EPopupTarget *target, guint32 mask)
  *
  * This is a class-static method used to register factory callbacks
  * against specific menu's.
- * 
+ *
  * The factory method will be invoked before the menu is created.
  * This way, the factory may add any additional menu items it wishes
  * based on the context supplied in the @target.
- * 
+ *
  * Return value: A handle to the factory which can be used to remove
  * it later.
  **/
@@ -622,7 +622,7 @@ e_popup_class_add_factory(EPopupClass *klass, const char *menuid, EPopupFactoryF
  * e_popup_class_remove_factory:
  * @klass: The EPopup derived class.
  * @f: The factory handle returned by e_popup_class_add_factory().
- * 
+ *
  * Remove a popup menu factory. If it has not been added, or it has
  * already been removed, then the result is undefined (i.e. it will
  * crash).
@@ -644,7 +644,7 @@ e_popup_class_remove_factory(EPopupClass *klass, EPopupFactory *f)
  * @type: type, defined by the implementing class.
  * @size: The size of memory to allocate for the target.  It must be
  * equal or greater than the size of EPopupTarget.
- * 
+ *
  * Allocate a new popup target suitable for this popup type.
  **/
 void *e_popup_target_new(EPopup *ep, int type, size_t size)
@@ -668,7 +668,7 @@ void *e_popup_target_new(EPopup *ep, int type, size_t size)
  * e_popup_target_free:
  * @ep: An EPopup derived object.
  * @o: The target, previously allocated by e_popup_target_new().
- * 
+ *
  * Free the target against @ep. Note that targets are automatically
  * freed if they are passed to the menu creation functions, so this is
  * only required if you are using the target for other purposes.
@@ -912,7 +912,7 @@ emph_class_init(EPluginHookClass *klass)
 
 /**
  * e_popup_hook_get_type:
- * 
+ *
  * Standard GObject function to get the object type.  Used to subclass
  * EPopupHook.
  *
@@ -922,7 +922,7 @@ GType
 e_popup_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EPopupHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -932,7 +932,7 @@ e_popup_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EPopupHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -941,7 +941,7 @@ e_popup_hook_get_type(void)
  * @klass: The derived EPopupHook class.
  * @map: A map used to describe a single EPopupTarget type for this
  * class.
- * 
+ *
  * Add a target map to a concrete derived class of EPopup.  The target
  * map enumerates a single target type and the enable mask bit names,
  * so that the type can be loaded automatically by the EPopup class.

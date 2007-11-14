@@ -12,12 +12,12 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -133,7 +133,7 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 		if (qa->cb)
 			qa->cb (NULL, qa->closure);
 	}
-	
+
 	quick_add_unref (qa);
 }
 
@@ -157,7 +157,7 @@ contact_added_cb (EContactEditor *ce, EBookStatus status, EContact *contact, gpo
 
 		if (qa->cb)
 			qa->cb (qa->contact, qa->closure);
-	
+
 		/* We don't need to unref qa because we set_data_full below */
 		g_object_set_data (G_OBJECT (ce), "quick_add", NULL);
 	}
@@ -257,7 +257,7 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 		quick_add_merge_contact (qa);
 
 	} else if (button == QUICK_ADD_RESPONSE_EDIT_FULL) {
-		
+
 		/* EDIT FULL */
 		edit_contact (qa);
 
@@ -304,9 +304,9 @@ build_quick_add_dialog (QuickAdd *qa)
 					      NULL);
 
 	gtk_widget_ensure_style (dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
 					0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area),
 					12);
 
 	g_signal_connect (dialog, "response", G_CALLBACK (clicked_cb), qa);
@@ -337,8 +337,8 @@ build_quick_add_dialog (QuickAdd *qa)
 	g_signal_connect (
 		qa->option_menu, "changed",
 		G_CALLBACK (source_changed), qa);
-	
-	g_object_unref (source_list);	
+
+	g_object_unref (source_list);
 
 	table = GTK_TABLE (gtk_table_new (3, 2, FALSE));
 	gtk_table_set_row_spacings (table, 6);
@@ -377,13 +377,13 @@ build_quick_add_dialog (QuickAdd *qa)
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
-	gtk_container_set_border_width (GTK_CONTAINER (table), 
+	gtk_container_set_border_width (GTK_CONTAINER (table),
 					12);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 			    GTK_WIDGET (table),
 			    FALSE, FALSE, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
-	
+
 	return dialog;
 }
 
@@ -452,13 +452,13 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 			in_quote = !in_quote;
 	}
 
-	
+
 	if (last_at == NULL) {
 		/* No at sign, so we treat it all as the name */
 		name = g_strdup (text);
 	} else {
 		gboolean bad_char = FALSE;
-		
+
 		/* walk backwards to whitespace or a < or a quote... */
 		while (last_at >= text && !bad_char
 		       && !(isspace ((gint) *last_at) || *last_at == '<' || *last_at == '"')) {
@@ -482,9 +482,9 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 	}
 
 	/* If all else has failed, make it the name. */
-	if (name == NULL && email == NULL) 
+	if (name == NULL && email == NULL)
 		name = g_strdup (text);
-		
+
 
 
 	/* Clean up email, remove bracketing <>s */
@@ -502,7 +502,7 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 		if (changed)
 			g_strstrip (email);
 	}
-	
+
 
 	e_contact_quick_add (name, email, cb, closure);
 	g_free (name);

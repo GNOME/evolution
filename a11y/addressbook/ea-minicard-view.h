@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * ea-minicard-view.h
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Leon Zhang <leon.zhang@sun.com> Sun Microsystem Inc., 2003

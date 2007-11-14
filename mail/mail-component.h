@@ -52,13 +52,13 @@ enum _mail_component_folder_t {
 
 struct _MailComponent {
 	EvolutionComponent parent;
-	
+
 	MailComponentPrivate *priv;
 };
 
 struct _MailComponentClass {
 	EvolutionComponentClass parent_class;
-	
+
 	POA_GNOME_Evolution_MailComponent__epv epv;
 };
 

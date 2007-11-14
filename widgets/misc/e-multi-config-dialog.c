@@ -39,12 +39,12 @@
 
 struct _EMultiConfigDialogPrivate {
 	GSList *pages;
-	
+
 	GtkWidget *list_e_table;
 	ETableModel *list_e_table_model;
-	
+
 	GtkWidget *notebook;
-	
+
 	int set_page_timeout_id;
 	int set_page_timeout_page;
 };
@@ -85,7 +85,7 @@ create_page_container (const char *description,
 
 	vbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0); 
+	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
 
 	gtk_widget_show (widget);
 	gtk_widget_show (vbox);
@@ -248,7 +248,7 @@ canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
 {
 	int i;
 	int row_count;
-	
+
 	row_count = e_table_model_row_count (dialog->priv->list_e_table_model);
 	for (i = 0; i < row_count; i++) {
 		fill_in_pixbufs (dialog, i);
@@ -285,9 +285,9 @@ e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (multi_config_dialog)->action_area), 12);
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12); 
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
 	dialog_vbox = GTK_DIALOG (multi_config_dialog)->vbox;
-	
+
 	gtk_container_add (GTK_CONTAINER (dialog_vbox), hbox);
 
 	list_e_table_model = e_table_memory_store_new (columns);
@@ -336,7 +336,7 @@ e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (multi_config_dialog), GTK_RESPONSE_OK);
-	
+
 
 	gtk_window_set_policy (GTK_WINDOW (multi_config_dialog),
 			       FALSE /* allow_shrink */,

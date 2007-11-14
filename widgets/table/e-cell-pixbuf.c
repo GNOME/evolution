@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-pixbuf.c - An ECell that displays a GdkPixbuf
  * Copyright 2001, Ximian, Inc.
  *
@@ -215,14 +215,14 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::print method
  */
 static void
-pixbuf_print (ECellView *ecell_view, GtkPrintContext *context, 
+pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
 	GdkPixbuf *pixbuf;
 	int scale;
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
-	
+
 	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	if (pixbuf == NULL)
 		return;
@@ -231,12 +231,12 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 	cairo_save (cr);
 	cairo_translate (cr, 0, (double)(height - scale) / (double)2);
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, (double)scale, (double)scale);
-	cairo_paint (cr);	
+	cairo_paint (cr);
 	cairo_restore (cr);
 }
 
 static gdouble
-pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context, 
+pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		     int model_col, int view_col, int row,
 		     double width)
 {
@@ -249,11 +249,11 @@ pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 			return 6;
 		}
 	}
-	
+
 	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	if (!pixbuf)
 		return 0;
-	
+
 	/* We give ourselves 3 pixels of padding on either side */
 	return gdk_pixbuf_get_height (pixbuf);
 }
@@ -331,7 +331,7 @@ pixbuf_get_property (GObject *object,
 	ECellPixbuf *pixbuf;
 
 	pixbuf = E_CELL_PIXBUF (object);
-	
+
 	switch (prop_id) {
 	case PROP_SELECTED_COLUMN:
 		g_value_set_int (value, pixbuf->selected_column);

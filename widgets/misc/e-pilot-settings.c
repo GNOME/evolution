@@ -30,7 +30,7 @@
 #include <libedataserverui/e-source-combo-box.h>
 #include "e-pilot-settings.h"
 
-struct _EPilotSettingsPrivate 
+struct _EPilotSettingsPrivate
 {
 	GtkWidget *source;
 	GtkWidget *secret;
@@ -81,7 +81,7 @@ static void
 init (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	priv = g_new0 (EPilotSettingsPrivate, 1);
 
 	ps->priv = priv;
@@ -93,7 +93,7 @@ build_ui (EPilotSettings *ps, ESourceList *source_list)
 {
 	EPilotSettingsPrivate *priv;
 	GtkWidget *lbl;
-	
+
 	priv = ps->priv;
 
 	gtk_table_resize (GTK_TABLE (ps), 2, 2);
@@ -134,12 +134,12 @@ e_pilot_settings_new (ESourceList *source_list)
 {
 	EPilotSettings *ps;
 	EPilotSettingsPrivate *priv;
-	
+
 	ps = g_object_new (E_TYPE_PILOT_SETTINGS, NULL);
 	priv = ps->priv;
 
 	build_ui (ps, source_list);
-	
+
 	return GTK_WIDGET (ps);
 }
 
@@ -147,7 +147,7 @@ ESource *
 e_pilot_settings_get_source (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_val_if_fail (ps != NULL, NULL);
 	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
 
@@ -161,7 +161,7 @@ void
 e_pilot_settings_set_source (EPilotSettings *ps, ESource *source)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_if_fail (ps != NULL);
 	g_return_if_fail (E_IS_PILOT_SETTINGS (ps));
 
@@ -175,12 +175,12 @@ gboolean
 e_pilot_settings_get_secret (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_val_if_fail (ps != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), FALSE);
 
 	priv = ps->priv;
-	
+
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->secret));
 }
 
@@ -188,7 +188,7 @@ void
 e_pilot_settings_set_secret (EPilotSettings *ps, gboolean secret)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_if_fail (ps != NULL);
 	g_return_if_fail (E_IS_PILOT_SETTINGS (ps));
 

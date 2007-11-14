@@ -56,7 +56,7 @@ typedef struct {
 	ssize_t   (*sync_write)      (CamelStream *stream, const char *buffer, size_t n);
 	int       (*sync_close)      (CamelStream *stream);
 	int       (*sync_flush)      (CamelStream *stream);
-	
+
 } EMSyncStreamClass;
 
 CamelType    em_sync_stream_get_type (void);

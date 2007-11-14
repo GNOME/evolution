@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-model-repos.c - Standard ETextModelReposFn definitions
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -45,7 +45,7 @@ e_repos_absolute (gint pos, gpointer data)
 		gint len = e_text_model_get_text_length (info->model);
 		pos += len + 1;
 	}
-	
+
 	return e_text_model_validate_position (info->model, pos);
 }
 

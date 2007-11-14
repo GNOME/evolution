@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-sorter.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -47,14 +47,14 @@ typedef struct {
 						 int         row);
 	gint      (*sorted_to_model)            (ESorter    *sorter,
 						 int         row);
-	  
+
 	void      (*get_model_to_sorted_array)  (ESorter    *sorter,
 						 int       **array,
 						 int        *count);
 	void      (*get_sorted_to_model_array)  (ESorter    *sorter,
 						 int       **array,
 						 int        *count);
-	  
+
 	gboolean  (*needs_sorting)              (ESorter    *sorter);
 } ESorterClass;
 

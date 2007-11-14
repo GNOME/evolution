@@ -53,7 +53,7 @@ typedef struct _EMinicardLabelClass  EMinicardLabelClass;
 struct _EMinicardLabel
 {
 	GnomeCanvasGroup parent;
-	
+
 	/* item specific fields */
 	double width;
 	double height;

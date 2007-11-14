@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-tree.h - Tree cell object.
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *

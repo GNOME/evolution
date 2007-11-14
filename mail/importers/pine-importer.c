@@ -1,22 +1,22 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* pine-importer.c
- * 
- * Authors: 
+ *
+ * Authors:
  *    Iain Holmes  <iain@ximian.com>
  *    Michael Zucchi <notzed@ximian.com>
  *
  * Copyright 2001 Ximian, Inc. (www.ximian.com)
  * Copyright 2004 Novell, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -177,7 +177,7 @@ import_contacts(void)
 	printf("importing pine addressbook\n");
 
 	if (!e_book_get_addressbooks(&source_list, NULL))
-		return;		
+		return;
 
 	name = g_build_filename(g_get_home_dir(), ".addressbook", NULL);
 	fp = fopen(name, "r");
@@ -192,7 +192,7 @@ import_contacts(void)
 		g_warning ("Could not create EBook.");
 		return;
 	}
-	
+
 	e_book_open(book, TRUE, NULL);
 	g_object_unref(primary);
 	g_object_unref(source_list);
@@ -349,7 +349,7 @@ mail_importer_pine_import(EImport *ei, EImportTarget *target)
 	m->status = camel_operation_new(pine_status, m);
 
 	id = m->msg.seq;
-	
+
 	e_thread_put(mail_thread_queued, (EMsg *)m);
 
 	return id;

@@ -87,14 +87,14 @@ static void	ecp_leave_edit		(ECellView	*ecv,
 					 int		 row,
 					 void		*edit_context);
 static void	ecp_print		(ECellView	*ecv,
-					 GtkPrintContext *context, 
+					 GtkPrintContext *context,
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row,
 					 double		 width,
 					 double		 height);
 static gdouble	ecp_print_height	(ECellView	*ecv,
-					 GtkPrintContext *context, 
+					 GtkPrintContext *context,
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row,
@@ -102,7 +102,7 @@ static gdouble	ecp_print_height	(ECellView	*ecv,
 static int	ecp_max_width		(ECellView	*ecv,
 					 int		 model_col,
 					 int		 view_col);
-static void	ecp_show_tooltip	(ECellView	*ecv, 
+static void	ecp_show_tooltip	(ECellView	*ecv,
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row,
@@ -194,7 +194,7 @@ ecp_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecell);
 	ECellPopupView *ecp_view;
-	
+
 	/* We must have a child ECell before we create any views. */
 	g_return_val_if_fail (ecp->child != NULL, NULL);
 
@@ -370,7 +370,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
  * ECell::height method
  */
 static int
-ecp_height (ECellView *ecv, int model_col, int view_col, int row) 
+ecp_height (ECellView *ecv, int model_col, int view_col, int row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -405,7 +405,7 @@ ecp_leave_edit (ECellView *ecv, int model_col, int view_col, int row,
 
 
 static void
-ecp_print (ECellView *ecv, GtkPrintContext *context, 
+ecp_print (ECellView *ecv, GtkPrintContext *context,
 	   int model_col, int view_col, int row, double width, double height)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
@@ -416,7 +416,7 @@ ecp_print (ECellView *ecv, GtkPrintContext *context,
 
 
 static gdouble
-ecp_print_height (ECellView *ecv, GtkPrintContext *context, 
+ecp_print_height (ECellView *ecv, GtkPrintContext *context,
 		  int model_col, int view_col, int row,
 		  double width)
 {
@@ -439,7 +439,7 @@ ecp_max_width (ECellView *ecv,
 
 
 static void
-ecp_show_tooltip (ECellView *ecv, 
+ecp_show_tooltip (ECellView *ecv,
 		  int model_col,
 		  int view_col,
 		  int row,
@@ -454,7 +454,7 @@ ecp_show_tooltip (ECellView *ecv,
 
 static char *
 ecp_get_bg_color (ECellView *ecell_view, int row)
-{		
+{
 	ECellPopupView *ecp_view = (ECellPopupView *) ecell_view;
 
 	return e_cell_get_bg_color (ecp_view->child_view, row);

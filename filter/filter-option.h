@@ -44,18 +44,18 @@ struct _filter_option {
 
 struct _FilterOption {
 	FilterElement parent_object;
-	
+
 	const char *type;	/* static memory, type name written to xml */
-	
+
 	GList *options;
 	struct _filter_option *current;
 };
 
 struct _FilterOptionClass {
 	FilterElementClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

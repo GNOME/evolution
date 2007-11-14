@@ -80,19 +80,19 @@ static BonoboObjectClass *parent_class = NULL;
 extern ECompEditorRegistry *comp_editor_registry;
 
 
-typedef struct 
+typedef struct
 {
 	ESourceList *source_list;
-	
+
 	GSList *source_selection;
-	
+
 	ETasks *tasks;
 	ETable *table;
 	ETableModel *model;
 
 	EInfoLabel *info_label;
 	GtkWidget *source_selector;
-	
+
 	BonoboControl *view_control;
 	BonoboControl *sidebar_control;
 	BonoboControl *statusbar_control;
@@ -112,9 +112,9 @@ struct _TasksComponentPrivate {
 	GSList *source_selection;
 
 	GList *views;
-	
+
 	ECal *create_ecal;
-	
+
 	GList *notifications;
 };
 
@@ -153,7 +153,7 @@ ensure_sources (TasksComponent *component)
 
 			group = E_SOURCE_GROUP (g->data);
 
-			/* compare only file:// part. If user home dir name changes we do not want to create 
+			/* compare only file:// part. If user home dir name changes we do not want to create
 			   one more group  */
 
 			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
@@ -245,10 +245,10 @@ static gboolean
 is_in_selection (GSList *selection, ESource *source)
 {
 	GSList *l;
-	
+
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
-		
+
 		if (!strcmp (e_source_peek_uid (selected_source), e_source_peek_uid (source)))
 			return TRUE;
 	}
@@ -260,10 +260,10 @@ static gboolean
 is_in_uids (GSList *uids, ESource *source)
 {
 	GSList *l;
-	
+
 	for (l = uids; l; l = l->next) {
 		const char *uid = l->data;
-		
+
 		if (!strcmp (uid, e_source_peek_uid (source)))
 			return TRUE;
 	}
@@ -275,19 +275,19 @@ static void
 update_uris_for_selection (TasksComponentView *component_view)
 {
 	GSList *selection, *l, *uids_selected = NULL;
-	
+
 	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	
+
 	for (l = component_view->source_selection; l; l = l->next) {
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
 			e_tasks_remove_todo_source (component_view->tasks, old_selected_source);
-	}	
-	
+	}
+
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
-		
+
 		e_tasks_add_todo_source (component_view->tasks, selected_source);
 		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
 	}
@@ -318,7 +318,7 @@ update_uri_for_primary_selection (TasksComponentView *component_view)
 	etable = e_calendar_table_get_table (cal_table);
 
 	tasks_control_sensitize_commands (component_view->view_control, component_view->tasks, e_table_selected_count (etable));
-	
+
 	/* Save the selection for next time we start up */
 	calendar_config_set_primary_tasks (e_source_peek_uid (source));
 }
@@ -337,10 +337,10 @@ update_selection (TasksComponentView *component_view)
 	for (l = selection; l; l = l->next) {
 		ESource *source = l->data;
 
-		if (!is_in_uids (uids_selected, source)) 
+		if (!is_in_uids (uids_selected, source))
 			e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	}
-	
+
 	e_source_selector_free_selection (selection);
 
 	/* Make sure the whole selection is there */
@@ -349,9 +349,9 @@ update_selection (TasksComponentView *component_view)
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
-		if (source) 
+		if (source)
 			e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-		
+
 		g_free (uid);
 	}
 	g_slist_free (uids_selected);
@@ -368,7 +368,7 @@ update_primary_selection (TasksComponentView *component_view)
 		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
 		g_free (uid);
 	}
-	
+
 	if (source) {
 		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
 	} else {
@@ -385,7 +385,7 @@ copy_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	TasksComponentView *component_view = data;
 	ESource *selected_source;
-	
+
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
@@ -425,7 +425,7 @@ delete_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 				e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
 								   selected_source);
 			}
-			
+
 			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
 			e_source_list_sync (component_view->source_list, NULL);
 		}
@@ -524,7 +524,7 @@ set_info (TasksComponentView *component_view)
 {
 	GString *message = g_string_new (NULL);
 	int rows, selected_rows;
-	
+
 	rows = e_table_model_row_count (component_view->model);
 	selected_rows =  e_table_selected_count (component_view->table);
 
@@ -587,11 +587,11 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 }
 
 static gboolean
-selector_tree_drag_drop (GtkWidget *widget, 
-			 GdkDragContext *context, 
-			 int x, 
-			 int y, 
-			 guint time, 
+selector_tree_drag_drop (GtkWidget *widget,
+			 GdkDragContext *context,
+			 int x,
+			 int y,
+			 guint time,
 			 CalendarComponent *component)
 {
 	GtkTreeViewColumn *column;
@@ -601,12 +601,12 @@ selector_tree_drag_drop (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gpointer data;
-	
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path, 
+
+	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path,
 					     &column, &cell_x, &cell_y))
 		return FALSE;
-	
-	
+
+
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 
 	if (!gtk_tree_model_get_iter (model, &iter, path)) {
@@ -615,17 +615,17 @@ selector_tree_drag_drop (GtkWidget *widget,
 	}
 
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	
+
 	if (E_IS_SOURCE_GROUP (data)) {
 		g_object_unref (data);
 		gtk_tree_path_free (path);
 		return FALSE;
 	}
-	
+
 	gtk_tree_path_free (path);
 	return TRUE;
 }
-	
+
 static gboolean
 selector_tree_drag_motion (GtkWidget *widget,
 			   GdkDragContext *context,
@@ -640,21 +640,21 @@ selector_tree_drag_motion (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GdkDragAction action = GDK_ACTION_DEFAULT;
-	
+
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
 		goto finish;
-	
+
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	
+
 	if (!gtk_tree_model_get_iter (model, &iter, path))
 		goto finish;
-	
+
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
 
 	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
 		goto finish;
-	
+
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
 	action = context->suggested_action;
 	if (action == GDK_ACTION_COPY && (context->actions & GDK_ACTION_MOVE))
@@ -677,11 +677,11 @@ update_single_object (ECal *client, icalcomponent *icalcomp)
 	icalcomponent *tmp_icalcomp;
 
 	uid = (char *) icalcomponent_get_uid (icalcomp);
-	
+
 	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
 		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
 
-	return e_cal_create_object (client, icalcomp, &uid, NULL);	
+	return e_cal_create_object (client, icalcomp, &uid, NULL);
 }
 
 static gboolean
@@ -699,7 +699,7 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
 	while (subcomp) {
 		gboolean success;
-		
+
 		kind = icalcomponent_isa (subcomp);
 		if (kind == ICAL_VTIMEZONE_COMPONENT) {
 			icaltimezone *zone;
@@ -725,10 +725,10 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 }
 
 static void
-selector_tree_drag_data_received (GtkWidget *widget, 
-				  GdkDragContext *context, 
-				  gint x, 
-				  gint y, 
+selector_tree_drag_data_received (GtkWidget *widget,
+				  GdkDragContext *context,
+				  gint x,
+				  gint y,
 				  GtkSelectionData *data,
 				  guint info,
 				  guint time,
@@ -748,13 +748,13 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
 		goto finish;
-	
+
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	
+
 	if (!gtk_tree_model_get_iter (model, &iter, path))
 		goto finish;
-       
-	
+
+
 	gtk_tree_model_get (model, &iter, 0, &source, -1);
 
 	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source) || !data->data)
@@ -849,12 +849,12 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		gtk_tree_path_free (path);
 
 	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
-}	
+}
 
 static void
 selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
 {
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), 
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget),
 					NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
@@ -867,33 +867,33 @@ control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
 	if (activate) {
 		BonoboUIComponent *uic;
 		uic = bonobo_control_get_ui_component (component_view->view_control);
-		
+
 		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
-	}	
+	}
 }
 
 static void
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{	
+{
 	TasksComponent *component = data;
 	TasksComponentPrivate *priv;
-	
+
 	priv = component->priv;
 
 	g_object_unref (priv->create_ecal);
 	priv->create_ecal = NULL;
-	
+
 	priv->notifications = g_list_remove (priv->notifications, GUINT_TO_POINTER (id));
 }
 
 static ECal *
-setup_create_ecal (TasksComponent *component, TasksComponentView *component_view) 
+setup_create_ecal (TasksComponent *component, TasksComponentView *component_view)
 {
 	TasksComponentPrivate *priv;
 	ESource *source = NULL;
 	char *uid;
 	guint not;
-	
+
 	priv = component->priv;
 
 	if (component_view) {
@@ -903,18 +903,18 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 		if (default_ecal)
 			return default_ecal;
 	}
-	
+
 	if (priv->create_ecal)
-		return priv->create_ecal; 
-	
-	/* Get the current primary calendar, or try to set one if it doesn't already exist */		
+		return priv->create_ecal;
+
+	/* Get the current primary calendar, or try to set one if it doesn't already exist */
 	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
 		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
 		g_free (uid);
 
 		priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-	} 
+	}
 
 	if (!priv->create_ecal) {
 		/* Try to create a default if there isn't one */
@@ -922,19 +922,19 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 		if (source)
 			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 	}
-		
+
 	if (priv->create_ecal) {
 		icaltimezone *zone;
-		
+
 		zone = calendar_config_get_icaltimezone ();
 		e_cal_set_default_timezone (priv->create_ecal, zone, NULL);
 
 		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
 			GtkWidget *dialog;
-			
+
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-							 _("Unable to open the task list '%s' for creating events and meetings"), 
+							 _("Unable to open the task list '%s' for creating events and meetings"),
 							 e_source_peek_name (source));
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
@@ -944,7 +944,7 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 
 	} else {
 		GtkWidget *dialog;
-			
+
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 						 _("There is no calendar available for creating tasks"));
@@ -952,10 +952,10 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 		gtk_widget_destroy (dialog);
 
 		return NULL;
-	}		
+	}
 
 	/* Handle the fact it may change on us */
-	not = calendar_config_add_notification_primary_tasks (config_create_ecal_changed_cb, 
+	not = calendar_config_add_notification_primary_tasks (config_create_ecal_changed_cb,
 							      component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
@@ -982,15 +982,15 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 	ECal *ecal;
 	ECalComponent *comp;
 	TaskEditor *editor;
-	guint32 flags = 0;	
-	
+	guint32 flags = 0;
+
 	ecal = setup_create_ecal (task_component, component_view);
 	if (!ecal)
 		return FALSE;
 
 	if (is_assigned)
 		flags |= COMP_EDITOR_IS_ASSIGNED;
-	
+
 	flags |= COMP_EDITOR_NEW_ITEM | COMP_EDITOR_USER_ORG;
 
 	editor = task_editor_new (ecal, flags);
@@ -1015,18 +1015,18 @@ create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type
 	TasksComponentPrivate *priv;
 	TasksComponentView *component_view = NULL;
 	GList *l;
-	
+
 	priv = tasks_component->priv;
-	
+
 	for (l = priv->views; l; l = l->next) {
 		component_view = l->data;
 
 		if (component_view->creatable_items_handler == handler)
 			break;
-		
+
 		component_view = NULL;
 	}
-	
+
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
 		create_new_todo (tasks_component, FALSE, component_view);
 	} else if (strcmp (item_type_name, CREATE_TASK_ASSIGNED_ID) == 0) {
@@ -1044,28 +1044,28 @@ create_component_view (TasksComponent *tasks_component)
 	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
 	AtkObject *a11y;
-	
+
 	priv = tasks_component->priv;
 
 	/* Create the calendar component view */
 	component_view = g_new0 (TasksComponentView, 1);
-	
+
 	/* Add the source lists */
 	component_view->source_list = g_object_ref (priv->source_list);
-	
+
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (tasks_component->priv->source_list);
 	e_source_selector_set_select_new ((ESourceSelector *)component_view->source_selector, TRUE);
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
 	atk_object_set_name (a11y, _("Task Source Selector"));
 
-	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
+	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion),
 			  tasks_component);
-	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), 
+	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave),
 			  tasks_component);
-	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), 
+	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop),
 			  tasks_component);
-	g_signal_connect (component_view->source_selector, "drag-data-received", 
+	g_signal_connect (component_view->source_selector, "drag-data-received",
 			  G_CALLBACK (selector_tree_drag_data_received), tasks_component);
 
 	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
@@ -1105,9 +1105,9 @@ create_component_view (TasksComponent *tasks_component)
 	component_view->model = E_TABLE_MODEL (e_calendar_table_get_model (e_tasks_get_calendar_table (component_view->tasks)));
 
 	/* This signal is thrown if backends die - we update the selector */
-	g_signal_connect (component_view->tasks, "source_added", 
+	g_signal_connect (component_view->tasks, "source_added",
 			  G_CALLBACK (source_added_cb), component_view);
-	g_signal_connect (component_view->tasks, "source_removed", 
+	g_signal_connect (component_view->tasks, "source_removed",
 			  G_CALLBACK (source_removed_cb), component_view);
 
 	/* Create status bar */
@@ -1117,9 +1117,9 @@ create_component_view (TasksComponent *tasks_component)
 	gtk_widget_show (statusbar_widget);
 
 	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
-	
+
 	e_calendar_table_set_activity_handler (e_tasks_get_calendar_table (component_view->tasks), component_view->activity_handler);
-	
+
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
 	g_signal_connect (component_view->source_selector, "selection_changed",
@@ -1137,7 +1137,7 @@ create_component_view (TasksComponent *tasks_component)
 	set_info (component_view);
 	g_signal_connect (component_view->table, "selection_change",
 			  G_CALLBACK (table_selection_change_cb), component_view);
-	g_signal_connect (component_view->model, "model_changed", 
+	g_signal_connect (component_view->model, "model_changed",
 			  G_CALLBACK (model_changed_cb), component_view);
 	g_signal_connect (component_view->model, "model_rows_inserted",
 			  G_CALLBACK (model_rows_inserted_cb), component_view);
@@ -1145,7 +1145,7 @@ create_component_view (TasksComponent *tasks_component)
 			  G_CALLBACK (model_rows_deleted_cb), component_view);
 
 	/* Load the selection from the last run */
-	update_selection (component_view);	
+	update_selection (component_view);
 	update_primary_selection (component_view);
 
 	return component_view;
@@ -1153,15 +1153,15 @@ create_component_view (TasksComponent *tasks_component)
 
 static void
 destroy_component_view (TasksComponentView *component_view)
-{	
+{
 	GList *l;
-	
+
 	if (component_view->source_list)
 		g_object_unref (component_view->source_list);
 
 	if (component_view->source_selection)
 		e_source_selector_free_selection (component_view->source_selection);
-	
+
 	for (l = component_view->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 	g_list_free (component_view->notifications);
@@ -1181,12 +1181,12 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 	TasksComponent *tasks_component = data;
 	TasksComponentPrivate *priv;
 	GList *l;
-	
+
 	priv = tasks_component->priv;
 
 	for (l = priv->views; l; l = l->next) {
 		TasksComponentView *component_view = l->data;
-		
+
 		if (G_OBJECT (component_view->view_control) == where_the_object_was) {
 			priv->views = g_list_remove (priv->views, component_view);
 			destroy_component_view (component_view);
@@ -1205,7 +1205,7 @@ impl_createView (PortableServer_Servant servant,
 	TasksComponentPrivate *priv;
 	TasksComponentView *component_view;
 	EComponentView *ecv;
-	
+
 	priv = component->priv;
 
 	/* Create the calendar component view */
@@ -1219,7 +1219,7 @@ impl_createView (PortableServer_Servant servant,
 
 	g_object_weak_ref (G_OBJECT (component_view->view_control), view_destroyed_cb, component);
 	priv->views = g_list_append (priv->views, component_view);
-	
+
 	/* TODO: Make TasksComponentView just subclass EComponentView */
 	ecv = e_component_view_new_controls (parent, "tasks", component_view->sidebar_control,
 					     component_view->view_control, component_view->statusbar_control);
@@ -1257,17 +1257,17 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 		if (p) {
 			while (*p) {
 				len = strcspn (p, "=&");
-			
+
 				/* If it's malformed, give up. */
 				if (p[len] != '=')
 					break;
-			
+
 				header = (char *) p;
 				header[len] = '\0';
 				p += len + 1;
-			
+
 				clen = strcspn (p, "&");
-			
+
 				content = g_strndup (p, clen);
 				if (!g_ascii_strcasecmp (header, "source-uid")) {
 					src_uid = g_strdup (content);
@@ -1289,7 +1289,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 			if (uid && src_uid) {
 				e_tasks_open_task_id (view->tasks, src_uid, uid, rid);
 			}
-				
+
 			g_free (src_uid);
 			g_free (uid);
 			g_free (rid);
@@ -1345,7 +1345,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
-	
+
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
 		if (!create_new_todo (tasks_component, FALSE, NULL))
 			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
@@ -1368,7 +1368,7 @@ impl_dispose (GObject *object)
 	TasksComponent *tasks_component = TASKS_COMPONENT (object);
 	TasksComponentPrivate *priv = tasks_component->priv;
 	GList *l;
-	
+
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
 		priv->source_list = NULL;
@@ -1385,7 +1385,7 @@ impl_dispose (GObject *object)
 
 	for (l = priv->views; l; l = l->next) {
 		TasksComponentView *component_view = l->data;
-	
+
 		g_object_weak_unref (G_OBJECT (component_view->view_control), view_destroyed_cb, tasks_component);
 	}
 	g_list_free (priv->views);
@@ -1404,10 +1404,10 @@ impl_finalize (GObject *object)
 {
 	TasksComponentPrivate *priv = TASKS_COMPONENT (object)->priv;
 	GList *l;
-	
+
 	for (l = priv->views; l; l = l->next) {
 		TasksComponentView *component_view = l->data;
-		
+
 		destroy_component_view (component_view);
 	}
 	g_list_free (priv->views);
@@ -1448,7 +1448,7 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 	priv->config_directory = g_build_filename (g_get_home_dir (),
 						   ".evolution", "tasks", "config",
 						   NULL);
-	
+
 	component->priv = priv;
 	ensure_sources (component);
 }
@@ -1489,7 +1489,7 @@ tasks_component_peek_config_directory (TasksComponent *component)
 ESourceList *
 tasks_component_peek_source_list (TasksComponent *component)
 {
-	return component->priv->source_list;	
+	return component->priv->source_list;
 }
 
 BONOBO_TYPE_FUNC_FULL (TasksComponent, GNOME_Evolution_Component, PARENT_TYPE, tasks_component)

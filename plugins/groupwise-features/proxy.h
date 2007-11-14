@@ -2,7 +2,7 @@
  *
  * Copyright (C) 2005 Novell, Inc.
  *
- * Authors: 
+ * Authors:
  * Shreyas Srinivasan <sshreyas@novell.com>
  * Sankar P <psankar@novell.com>
  *

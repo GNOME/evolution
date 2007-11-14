@@ -115,16 +115,16 @@ struct _EMFolderBrowserPrivate {
 	double default_scroll_position;
 	guint idle_scroll_id;
 	guint list_scrolled_id;
-	
+
 	guint vpane_resize_id;
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
-	
+
 	char *select_uid;
 	guint folder_changed_id;
 
 	guint show_wide:1;
 	gboolean scope_restricted;
-	
+
 	EMMenu *menu;		/* toplevel menu manager */
 };
 
@@ -241,7 +241,7 @@ emfb_pane_realised(GtkWidget *w, EMFolderBrowser *emfb)
 	GConfClient *gconf;
 
 	gconf = mail_config_get_gconf_client ();
-	
+
 	if (emfb->priv->show_wide)
 		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int(gconf, "/apps/evolution/mail/display/hpaned_size", NULL));
 	else
@@ -260,9 +260,9 @@ emfb_pane_button_release_event(GtkWidget *w, GdkEventButton *e, EMFolderBrowser 
 		else
 			gconf_client_set_int(gconf, "/apps/evolution/mail/display/paned_size",
 					     gtk_paned_get_position(GTK_PANED(w)), NULL);
-			
+
 	}
-	
+
 	return FALSE;
 }
 
@@ -288,7 +288,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 			str = e_str_without_underscores (_(emfb_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
  			if (emfb_view_items[i].image)
- 				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU)); 
+ 				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (emfb_view_items[i].image, E_ICON_SIZE_MENU));
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();
@@ -311,24 +311,24 @@ generate_viewoption_menu (GtkWidget *emfv)
 			GdkColor colour;
 			GdkGC *gc;
 			GtkWidget *image;
-			
+
 			gdk_color_parse(label->colour, &colour);
 			gdk_colormap_alloc_color(gdk_colormap_get_system(), &colour, FALSE, TRUE);
-		
+
 			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
 			gc = gdk_gc_new(((GtkWidget *)emfv)->window);
 			gdk_gc_set_foreground(gc, &colour);
 			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
-			g_object_unref(gc); 
-			
-			image = gtk_image_new_from_pixmap(pixmap, NULL); 
+			g_object_unref(gc);
+
+			image = gtk_image_new_from_pixmap(pixmap, NULL);
 			str = e_str_without_underscores (label->name);
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			g_free (str);
-			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image); 
+			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image);
 			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
 					   GINT_TO_POINTER (VIEW_LABEL));
-		
+
 			g_object_set_data (G_OBJECT (menu_item), "LabelTag",
 					   g_strdup(label->tag));
 		}
@@ -343,7 +343,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 			str = e_str_without_underscores (_(temp_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			if (temp_view_items[i].image)
-				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU)); 
+				gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, e_icon_factory_get_image (temp_view_items[i].image, E_ICON_SIZE_MENU));
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();
@@ -369,13 +369,13 @@ viewoption_menu_generator ()
 	ESearchBarItem dup_item;
 	GSList *l;
 
-	for (i = 0; emfb_view_items[i].search.id != -1; i++) 
+	for (i = 0; emfb_view_items[i].search.id != -1; i++)
 		g_array_append_vals (menu, &emfb_view_items[i], 1);
 
 	for (l = mail_config_get_labels(); l; l = l->next) {
 		ESearchBarItem item;
 		MailConfigLabel *label = l->data;
-	
+
 		item.text = label->name;
 		item.id = VIEW_LABEL;
 
@@ -397,9 +397,9 @@ emfb_realize (GtkWidget *widget)
 	EMFolderBrowser *emfb = (EMFolderBrowser *)widget;
 
 	menu = generate_viewoption_menu(widget);
-	e_search_bar_set_viewoption_menu ((ESearchBar *)emfb->search, menu);	
+	e_search_bar_set_viewoption_menu ((ESearchBar *)emfb->search, menu);
 }
-	      
+
 static void
 html_scroll (GtkHTML *html,
 	GtkOrientation orientation,
@@ -413,10 +413,10 @@ html_scroll (GtkHTML *html,
 
 	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
 		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
-		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);		
+		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
 	} else if (scroll_type == GTK_SCROLL_PAGE_BACKWARD) {
 		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
-		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);		
+		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
 	}
 }
 static void
@@ -455,11 +455,11 @@ emfb_init(GObject *o)
 		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
 		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
 		EFilterBar *efb;
-		
+
 		emfb->search = e_filter_bar_new(search_context, systemrules, userrules, emfb_search_config_search, emfb);
 		efb = (EFilterBar *)emfb->search;
 		efb->account_search_vf = NULL;
-		efb->all_account_search_vf = NULL;		
+		efb->all_account_search_vf = NULL;
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
 		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
@@ -470,7 +470,7 @@ emfb_init(GObject *o)
 		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
 		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
 		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
-		
+
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
 	}
 
@@ -483,7 +483,7 @@ emfb_init(GObject *o)
 	gtk_widget_show(emfb->vpane);
 
 	gtk_box_pack_start_defaults((GtkBox *)emfb, emfb->vpane);
-	
+
 	gtk_paned_add1((GtkPaned *)emfb->vpane, (GtkWidget *)emfb->view.list);
 	gtk_widget_show((GtkWidget *)emfb->view.list);
 
@@ -510,7 +510,7 @@ static void
 emfb_finalise(GObject *o)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
-	
+
 	g_free (emfb->priv->select_uid);
 	g_free (emfb->priv);
 
@@ -526,12 +526,12 @@ emfb_destroy(GtkObject *o)
 		g_signal_handler_disconnect(((EMFolderView *)emfb)->list, emfb->priv->list_built_id);
 		emfb->priv->list_built_id = 0;
 	}
-	
+
 	if (emfb->priv->list_scrolled_id) {
 		g_signal_handler_disconnect (((EMFolderView *) emfb)->list, emfb->priv->list_scrolled_id);
 		emfb->priv->list_scrolled_id = 0;
 	}
-	
+
 	if (emfb->priv->idle_scroll_id) {
 		g_source_remove (emfb->priv->idle_scroll_id);
 		emfb->priv->idle_scroll_id = 0;
@@ -539,7 +539,7 @@ emfb_destroy(GtkObject *o)
 
 	if (emfb->view.folder && emfb->priv->folder_changed_id)
 		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
-	
+
 	((GtkObjectClass *)emfb_parent)->destroy(o);
 }
 
@@ -604,7 +604,7 @@ GtkWidget *em_folder_browser_new(void)
 	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
 	 * @Target: EMMenuTargetSelect
 	 *
-	 * The main menu of mail view of the main application window. 
+	 * The main menu of mail view of the main application window.
 	 * If the folder is NULL (not selected), the target will be empty, not NULL.
 	 */
 	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
@@ -620,12 +620,12 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 			emfb->priv->scope_restricted = FALSE;
 		}
-			
+
 		return;
 	}
-	
+
 	emfb->view.preview_active = state;
-	
+
 	if (state) {
 		GConfClient *gconf = mail_config_get_gconf_client ();
 		int paned_size /*, y*/;
@@ -639,8 +639,8 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		if (emfb->view.list->cursor_uid) {
 			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
-			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);		
-			emfb->priv->scope_restricted = FALSE;			
+			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
+			emfb->priv->scope_restricted = FALSE;
 			strcpy(uid, emfb->view.list->cursor_uid);
 			em_folder_view_set_message(&emfb->view, uid, FALSE);
 		}
@@ -655,7 +655,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		emfb->view.displayed_uid = NULL;
 
 		gtk_widget_hide(emfb->priv->preview);
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);		
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);
@@ -713,22 +713,22 @@ static void
 emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-	
+
 	d(printf("menu activated\n"));
-	
+
 	switch (id) {
 	case ESB_SAVE:
 		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
-			FilterRule *rule = vfolder_clone_rule(efb->current_query);			
+			FilterRule *rule = vfolder_clone_rule(efb->current_query);
 			char *name, *text;
-			
+
 			text = e_search_bar_get_text(esb);
 			name = g_strdup_printf("%s %s", rule->name, (text&&text[0])?text:"''");
 			g_free (text);
 			filter_rule_set_name(rule, name);
 			g_free (name);
-			
+
 			filter_rule_set_source(rule, FILTER_SOURCE_INCOMING);
 			em_vfolder_rule_add_source((EMVFolderRule *)rule, emfb->view.folder_uri);
 			vfolder_gui_add_rule((EMVFolderRule *)rule);
@@ -750,7 +750,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 	partl = rule->parts;
 	while (partl) {
 		FilterPart *part = partl->data;
-		
+
 		if (!strcmp(part->name, "subject")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "subject");
 			if (input)
@@ -759,7 +759,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
 			if (input)
 				filter_input_set_value(input, query);
-			
+
 			words = camel_search_words_split((unsigned char *)query);
 			for (i=0;i<words->len;i++)
 				strings = g_slist_prepend(strings, g_strdup(words->words[i]->word));
@@ -773,7 +773,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 			if (input)
 				filter_input_set_value(input, query);
 		}
-		
+
 		partl = partl->next;
 	}
 
@@ -826,7 +826,7 @@ get_view_query (ESearchBar *esb)
         case VIEW_NO_LABEL:
 		/* FIXME : cannot hard code this query */
 	        view_sexp = "(and (match-all (not (= (user-tag \"label\")  \"important\")))"
-                            "(match-all (not (= (user-tag \"label\")  \"work\"))) (match-all (not (= (user-tag \"label\")  \"personal\")))" 
+                            "(match-all (not (= (user-tag \"label\")  \"work\"))) (match-all (not (= (user-tag \"label\")  \"personal\")))"
 			    "(match-all (not (= (user-tag \"label\")  \"todo\"))) (match-all (not (= (user-tag \"label\")  \"later\"))) ))";
 		break;
         case VIEW_LABEL:
@@ -949,14 +949,14 @@ vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList 
 {
 	struct _setup_msg *m;
 	int id;
-	
+
 	m = mail_msg_new(&vfolder_setup_op, NULL, sizeof (*m));
 	m->folder = folder;
 	camel_object_ref(folder);
 	m->query = g_strdup(query);
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
-	
+
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 
@@ -981,7 +981,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 	if (emfv->list == NULL || emfv->folder == NULL)
 		return;
-	
+
 	id = e_search_bar_get_search_scope (esb);
 
 	switch (id) {
@@ -1013,11 +1013,11 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    break;
 		    }
 
-		    g_object_get (esb, "query", &search_word, NULL);		    
+		    g_object_get (esb, "query", &search_word, NULL);
 		    if (efb->account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->account_search_vf)->expression) ) {
 			    break;
 		    }
-		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);		    
+		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);
 
 		    /* Disable the folder tree */
 		    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_ACTIVATED], 0);
@@ -1044,12 +1044,12 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->account_search_vf);
 			    emfb_set_search_folder (emfv, (CamelFolder *)efb->account_search_vf, folder_uri);
 			    g_free (folder_uri);
-			    g_free (storeuri);			    
+			    g_free (storeuri);
 		    } else {
 			    /* Reuse the existing search folder */
 			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->account_search_vf, search_word);
 		    }
-		    
+
 		    break;
 
 	    case E_FILTERBAR_ALL_ACCOUNTS_ID:
@@ -1061,18 +1061,18 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 				    efb->all_account_search_vf=NULL;
 			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
-			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);		    
+			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
 			    break;
 		    }
 
 		    g_object_get (esb, "query", &search_word, NULL);
-		    
+
 		    if (search_word && efb->all_account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->all_account_search_vf)->expression) )  {
 			    /* No real search apart from the existing one */
 			    break;
 		    }
-		    
-		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);		    
+
+		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);
 		    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_ACTIVATED], 0);
 
 		    if (!efb->all_account_search_vf) {
@@ -1121,13 +1121,13 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    /* Reuse the existing search folder */
 			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->all_account_search_vf, search_word);
 		    }
-		    
+
 		    break;
 	}
 	g_object_get (esb, "state", &search_state, NULL);
 	camel_object_meta_set (emfv->folder, "evolution:search_state", search_state);
 	camel_object_state_write (emfv->folder);
-	
+
 	/* Merge the view and search expresion*/
 	view_sexp = get_view_query (esb);
 	g_object_get (esb, "query", &search_word, NULL);
@@ -1159,7 +1159,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	gboolean state, folder_choose = TRUE;
 	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
 		return FALSE;
-	
+
 	switch (ev->key.keyval) {
 	case GDK_space:
 		if (!emfb->view.preview->caret_mode) {
@@ -1167,11 +1167,11 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 			if (!state) {
 				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
 				if (!folder_choose)
-					folder_choose = message_list_select(((EMFolderView *) emfb)->list, 
+					folder_choose = message_list_select(((EMFolderView *) emfb)->list,
 								    MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
 			}
 
-		} else 
+		} else
 			em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
 		break;
 	case GDK_BackSpace:
@@ -1180,7 +1180,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 			if (!state) {
 				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN);
 				if (!folder_choose)
-					folder_choose = message_list_select(((EMFolderView *) emfb)->list, 
+					folder_choose = message_list_select(((EMFolderView *) emfb)->list,
 								    MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
 			}
 
@@ -1190,7 +1190,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	default:
 		return FALSE;
 	}
-	
+
 	if (!folder_choose && !emfb->view.preview->caret_mode) {
 		//check for unread messages. if yes .. rewindback to the folder
 		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
@@ -1216,10 +1216,10 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 		return;
 
 	if (uid && *uid && emfb->priv->scope_restricted && emfb->view.preview_active) {
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);		
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 		emfb->priv->scope_restricted = FALSE;
 	} else if ( !(uid && *uid) && !emfb->priv->scope_restricted) {
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);		
+		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 	}
 
@@ -1272,7 +1272,7 @@ static void
 emfb_edit_invert_selection(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-	
+
 	message_list_invert_selection(emfv->list);
 }
 
@@ -1280,7 +1280,7 @@ static void
 emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-	
+
 	message_list_select_all(emfv->list);
 	gtk_widget_grab_focus ((GtkWidget *)emfv->list);
 }
@@ -1289,7 +1289,7 @@ static void
 emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-	
+
 	message_list_select_thread(emfv->list);
 }
 
@@ -1411,7 +1411,7 @@ emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
 		if ((fi = em_folder_tree_get_selected_folder_info (tree)) != NULL) {
 			em_folder_utils_create_folder(fi, tree);
 			camel_folder_info_free(fi);
-		}	
+		}
 	} else {
 		em_folder_utils_create_folder(NULL, tree);
 	}
@@ -1452,7 +1452,7 @@ static void
 emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-	
+
 	message_list_hide_add(emfv->list, "(match-all (system-flag \"seen\"))", ML_HIDE_SAME, ML_HIDE_SAME);
 }
 
@@ -1501,7 +1501,7 @@ static void
 emfb_tools_filters(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
-	
+
 	em_utils_edit_filters ((GtkWidget *) emfb);
 }
 
@@ -1559,7 +1559,7 @@ static BonoboUIVerb emfb_verbs[] = {
 	/* ViewThreaded is a toggle */
 
 	BONOBO_UI_UNSAFE_VERB ("ViewThreadsExpandAll", emfb_expand_all_threads),
-	BONOBO_UI_UNSAFE_VERB ("ViewThreadsCollapseAll", emfb_collapse_all_threads),	
+	BONOBO_UI_UNSAFE_VERB ("ViewThreadsCollapseAll", emfb_collapse_all_threads),
 
 	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
 	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
@@ -1574,7 +1574,7 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", emfb_tools_subscriptions),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", emfb_tools_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("FocusSearch", emfb_focus_search),
-	
+
 	/* ViewPreview is a toggle */
 
 	BONOBO_UI_VERB_END
@@ -1620,7 +1620,7 @@ emfb_view_threaded(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_
 
 	/* FIXME: do set_threaded via meta-data listener on folder? */
 	message_list_set_threaded(emfv->list, state[0] != '0');
-	
+
 	/* FIXME: update selection state? */
 }
 
@@ -1679,13 +1679,13 @@ emfb_list_scrolled (MessageList *ml, EMFolderBrowser *emfb)
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	double position;
 	char *state;
-	
+
 	position = message_list_get_scrollbar_position (ml);
 	state = g_strdup_printf ("%f", position);
-	
+
 	if (camel_object_meta_set (emfv->folder, "evolution:list_scroll_position", state))
 		camel_object_state_write (emfv->folder);
-	
+
 	g_free (state);
 }
 
@@ -1695,20 +1695,20 @@ scroll_idle_cb (EMFolderBrowser *emfb)
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	double position;
 	char *state;
-	
+
 	if ((state = camel_object_meta_get (emfv->folder, "evolution:list_scroll_position"))) {
 		position = strtod (state, NULL);
 		g_free (state);
 	} else {
 		position = emfb->priv->default_scroll_position;
 	}
-	
+
 	message_list_set_scrollbar_position (emfv->list, position);
-	
+
 	emfb->priv->list_scrolled_id = g_signal_connect (emfv->list, "message_list_scrolled", G_CALLBACK (emfb_list_scrolled), emfb);
-	
+
 	emfb->priv->idle_scroll_id = 0;
-	
+
 	return FALSE;
 }
 
@@ -1754,10 +1754,10 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	double position = 0.0f;
-	
+
 	g_signal_handler_disconnect (ml, emfb->priv->list_built_id);
 	emfb->priv->list_built_id = 0;
-	
+
 	if (emfv->list->cursor_uid == NULL) {
 		if (emfb->priv->select_uid) {
 			CamelMessageInfo *mi;
@@ -1771,7 +1771,7 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 				g_free (emfb->priv->select_uid);
 				emfb->priv->select_uid = NULL;
 			}
-			
+
 			/* change the default to the current position */
 			position = message_list_get_scrollbar_position (ml);
 		} else {
@@ -1780,9 +1780,9 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 			/*message_list_select (ml, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);*/
 		}
 	}
-	
+
 	emfb->priv->default_scroll_position = position;
-	
+
 	/* FIXME: this is a gross workaround for an etable bug that I can't fix - bug #55303 */
 	/* this needs to be a lower priority than anything in e-table-item/e-canvas, since
 	 * e_canvas_item_region_show_relay() uses a timeout, we have to use a timeout of the
@@ -1797,14 +1797,14 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	char *state;
-	
+
 	message_list_freeze(emfv->list);
-	
+
 	if (emfb->priv->list_scrolled_id) {
 		g_signal_handler_disconnect (emfv->list, emfb->priv->list_scrolled_id);
 		emfb->priv->list_scrolled_id = 0;
 	}
-	
+
 	if (emfb->priv->idle_scroll_id) {
 		g_source_remove (emfb->priv->idle_scroll_id);
 		emfb->priv->idle_scroll_id = 0;
@@ -1824,7 +1824,7 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		"<column source=\"7\"/> <column source=\"13\"/> "
 		"<grouping><leaf column=\"7\" ascending=\"false\"/> </grouping> </ETableState>";
 	e_tree_set_state (((MessageList *)emfv->list)->tree, state);
-	
+
 	message_list_thaw(emfv->list);
 }
 
@@ -1834,14 +1834,14 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
-	
+
 	message_list_freeze(emfv->list);
-	
+
 	if (emfb->priv->list_scrolled_id) {
 		g_signal_handler_disconnect (emfv->list, emfb->priv->list_scrolled_id);
 		emfb->priv->list_scrolled_id = 0;
 	}
-	
+
 	if (emfb->priv->idle_scroll_id) {
 		g_source_remove (emfb->priv->idle_scroll_id);
 		emfb->priv->idle_scroll_id = 0;
@@ -1853,7 +1853,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	}
 
 	emfb_parent->set_folder(emfv, folder, uri);
-	
+
 	/* This is required since we get activated the first time
 	   before the folder is open and need to override the
 	   defaults */
@@ -1862,7 +1862,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		int state;
 		gboolean safe;
 		GConfClient *gconf = mail_config_get_gconf_client();
-		
+
 		safe = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/safe_list", NULL);
 		if (safe) {
 			if (camel_object_meta_set(emfv->folder, "evolution:show_preview", "0") &&
@@ -1886,7 +1886,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		em_folder_browser_show_preview(emfb, state);
 		if (emfv->uic)
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
-		
+
 		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list"))) {
 			state = sstate[0] != '0';
 			g_free(sstate);
@@ -1895,10 +1895,10 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		message_list_set_threaded(emfv->list, state);
 		if (emfv->uic) {
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
-			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);		
-			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);					
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);
+			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);
 		}
-		
+
 		if (emfv->uic) {
 			state = (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0;
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/HideDeleted", "sensitive", state?"1":"0", NULL);
@@ -1908,7 +1908,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		sstate = camel_object_meta_get(folder, "evolution:search_state");
 		g_object_set(emfb->search, "state", sstate, NULL);
 		g_free(sstate);
-		
+
 		/* set the query manually, so we dont pop up advanced or saved search stuff */
 
 		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid"))) {
@@ -1917,7 +1917,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			g_free(p->select_uid);
 			p->select_uid = NULL;
 		}
-		
+
 		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
 			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 	}
@@ -1949,7 +1949,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		g_signal_handler_block(emfb->vpane, emfb->priv->vpane_resize_id);
 		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size": "/apps/evolution/mail/display/paned_size", NULL));
 		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);
-		
+
 		/* (Pre)view toggle */
 		if (emfv->folder
 		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:show_preview"))) {
@@ -1962,7 +1962,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 		em_folder_browser_show_preview((EMFolderBrowser *)emfv, state);
 		bonobo_ui_component_add_listener(uic, "ViewPreview", emfb_view_preview, emfv);
-	
+
 		/* Stop button */
 		state = mail_msg_active((unsigned int)-1);
 		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", state?"1":"0", NULL);
@@ -1991,8 +1991,8 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		}
 
 		bonobo_ui_component_set_prop(uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
-		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);		
-		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);				
+		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);
+		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);
 		bonobo_ui_component_add_listener(uic, "ViewThreaded", emfb_view_threaded, emfv);
 		message_list_set_threaded(emfv->list, state);
 
@@ -2002,9 +2002,9 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "0", NULL);
 		} else {
 			bonobo_ui_component_set_prop(uic, "/commands/ViewAfter", "state", "0", NULL);
-			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "1", NULL);			
+			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "1", NULL);
 		}
-		
+
 		bonobo_ui_component_add_listener(uic, "ViewAfter", emfb_show_next, emfv);
 		bonobo_ui_component_add_listener(uic, "ViewBelow", emfb_show_below, emfv);
 		/* em_folder_browser_show_wide((EMFolderBrowser *)emfv, state); */
@@ -2018,7 +2018,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, uic);
 	} else {
 		const BonoboUIVerb *v;
-		
+
 		for (v = &emfb_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
 

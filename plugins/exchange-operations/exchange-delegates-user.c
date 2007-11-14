@@ -76,8 +76,8 @@ const char *exchange_delegates_user_folder_names[] = {
 	"calendar", "tasks", "inbox", "contacts"
 };
 
-/* To translators: The folder names to be displayed in the message being 
-   sent to the delegatee. 
+/* To translators: The folder names to be displayed in the message being
+   sent to the delegatee.
 */
 static const char *folder_names_for_display[] = {
 	N_("Calendar"), N_("Tasks"), N_("Inbox"), N_("Contacts")
@@ -177,11 +177,11 @@ parent_window_destroyed (gpointer dialog, GObject *where_parent_window_was)
 */
 static const char *
 map_to_full_role_name (E2kPermissionsRole role_nam)
-{	
+{
 	const char *role_name;
 
 	switch (role_nam)
-	{	
+	{
 	/* To translators: The following are the various types of permissions that can
 	   assigned by an user to his folders.
 	*/
@@ -195,7 +195,7 @@ map_to_full_role_name (E2kPermissionsRole role_nam)
 
 		case E2K_PERMISSIONS_ROLE_REVIEWER: role_name = g_strdup (
 							_("Reviewer (read-only)"));
-						    break;	
+						    break;
 
 		default: role_name = g_strdup (_("None"));
 			 break;
@@ -224,10 +224,10 @@ em_utils_delegates_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
  * Return value: %TRUE for "OK", %FALSE for "Cancel".
  **/
 gboolean
-exchange_delegates_user_edit (ExchangeAccount *account, 
+exchange_delegates_user_edit (ExchangeAccount *account,
 			     ExchangeDelegatesUser *user,
 			     GtkWidget *parent_window)
-{	
+{
 	GladeXML *xml;
 	GtkWidget *dialog, *table, *label, *menu, *check, *check_delegate;
 	char *title;
@@ -303,11 +303,11 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 	/* The following piece of code is used to construct a mail message to be sent to a Delegate
 	   summarizing all the permissions set for him on the user's various folders.
-	*/	
+	*/
 	check_delegate = glade_xml_get_widget (xml, "delegate_mail");
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_delegate)) == TRUE) {
 		if (button == GTK_RESPONSE_OK) {
-			
+
 			EAccount *eaccount;
 			CamelMimeMessage *delegate_mail = camel_mime_message_new ();
 			CamelMultipart *body = camel_multipart_new ();
@@ -315,13 +315,13 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			CamelDataWrapper *delegate_mail_text, *delegate_mail_data;
 			CamelContentType *type;
 			CamelInternetAddress *addr;
-			CamelStream *stream;	
+			CamelStream *stream;
 			CamelFolder *out_folder;
-			CamelMessageInfo *info;			
+			CamelMessageInfo *info;
 			char *self_address, *delegate_mail_subject;
 			char *role_name;
 			char *role_name_final = "";
-			
+
 			const char *recipient_address;
 			const char *delegate_exchange_dn;
 			const char *msg_part1 = NULL, *msg_part2 = NULL;
@@ -332,7 +332,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			/* Create toplevel container */
 			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
 					"multipart/alternative;");
-			camel_multipart_set_boundary (body, NULL);	
+			camel_multipart_set_boundary (body, NULL);
 
 			/* Create textual receipt */
 			delegate_mail_text = camel_data_wrapper_new ();
@@ -341,13 +341,13 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_data_wrapper_set_mime_type_field (delegate_mail_text, type);
 			camel_content_type_unref (type);
 			stream = camel_stream_mem_new ();
-			
-			/* To translators: This is a part of the message to be sent to the delegatee 
+
+			/* To translators: This is a part of the message to be sent to the delegatee
 			   summarizing the permissions assigned to him.
 			*/
 			msg_part1 = _("This message was sent automatically by Evolution to inform you that you have been "
 				    	"designated as a delegate. You can now send messages on my behalf.");
-			
+
 			/* To translators: Another chunk of the same message.
 			*/
 			msg_part2 = _("You have been given the following permissions on my folders:");
@@ -367,14 +367,14 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) == TRUE) {
 				/* To translators: This message is included if the delegatee has been given access
 				   to the private items.
-				*/   
+				*/
 				camel_stream_printf (stream, "<br>%s", _("You are also permitted "
 							"to see my private items."));
 			}
 			else
 				/* To translators: This message is included if the delegatee has not been given access
 				   to the private items.
-				*/ 
+				*/
 				camel_stream_printf (stream, "<br>%s", _("However you are not permitted "
 							 "to see my private items."));
 			camel_data_wrapper_construct_from_stream (delegate_mail_text, stream);
@@ -386,7 +386,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_medium_set_content_object (CAMEL_MEDIUM (part), delegate_mail_text);
 			camel_object_unref (delegate_mail_text);
 			camel_multipart_add_part (body, part);
-			camel_object_unref (part);	
+			camel_object_unref (part);
 
 			/* Create the machine-readable receipt */
 			delegate_mail_data = camel_data_wrapper_new ();
@@ -401,7 +401,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_medium_set_content_object (CAMEL_MEDIUM (part), delegate_mail_data);
 			camel_object_unref (delegate_mail_data);
 			camel_multipart_add_part (body, part);
-			camel_object_unref (part);	
+			camel_object_unref (part);
 
 			/* Finish creating the message */
 			camel_medium_set_content_object (CAMEL_MEDIUM (delegate_mail), CAMEL_DATA_WRAPPER (body));
@@ -432,9 +432,9 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			if(eaccount) {
 				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail),
 							 "X-Evolution-Account", eaccount->uid);
-				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail), 
+				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail),
 							 "X-Evolution-Transport", eaccount->transport->url);
-				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail), 
+				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail),
 							 "X-Evolution-Fcc", eaccount->sent_folder_uri);
 			}
 

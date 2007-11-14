@@ -73,13 +73,13 @@ typedef enum {
 
 struct _EvolutionImporter {
 	BonoboObject parent;
-	
+
 	EvolutionImporterPrivate *priv;
 };
 
 struct _EvolutionImporterClass {
 	BonoboObjectClass parent_class;
-	
+
 	POA_GNOME_Evolution_Importer__epv epv;
 };
 

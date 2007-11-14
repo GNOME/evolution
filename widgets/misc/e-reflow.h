@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-reflow.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -60,7 +60,7 @@ typedef struct _EReflowClass  EReflowClass;
 struct _EReflow
 {
 	GnomeCanvasGroup parent;
-	
+
 	/* item specific fields */
 	EReflowModel *model;
 	guint model_changed_id;
@@ -132,7 +132,7 @@ struct _EReflowClass
 	void (*column_width_changed) (EReflow *reflow, double width);
 };
 
-/* 
+/*
  * To be added to a reflow, an item must have the argument "width" as
  * a Read/Write argument and "height" as a Read Only argument.  It
  * should also do an ECanvas parent reflow request if its size

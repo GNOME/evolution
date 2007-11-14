@@ -92,8 +92,8 @@ gal_view_factory_get_type_code (GalViewFactory *factory)
 static void
 gal_view_factory_class_init      (GalViewFactoryClass *klass)
 {
-	klass->get_title = NULL;     
-	klass->new_view  = NULL;     
+	klass->get_title = NULL;
+	klass->new_view  = NULL;
 }
 
 static void

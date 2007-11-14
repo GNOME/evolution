@@ -129,7 +129,7 @@ evolution_config_control_class_init (EvolutionConfigControlClass *class)
 	epv = &class->epv;
 	epv->_get_control     = impl__get_control;
 	epv->_get_eventSource = impl__get_eventSource;
-	
+
 	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 

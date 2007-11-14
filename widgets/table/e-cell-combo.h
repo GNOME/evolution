@@ -57,7 +57,7 @@ GType      e_cell_combo_get_type		(void);
 ECell     *e_cell_combo_new			(void);
 
 /* These must be UTF-8. */
-void       e_cell_combo_set_popdown_strings	(ECellCombo	*ecc, 
+void       e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 						 GList		*strings);
 
 #endif /* _E_CELL_COMBO_H_ */

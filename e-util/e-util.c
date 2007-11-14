@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-util.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -62,9 +62,9 @@ e_str_without_underscores (const char *s)
 	char *new_string;
 	const char *sp;
 	char *dp;
-	
+
 	new_string = g_malloc (strlen (s) + 1);
-	
+
 	dp = new_string;
 	for (sp = s; *sp != '\0'; sp ++) {
 		if (*sp != '_') {
@@ -78,7 +78,7 @@ e_str_without_underscores (const char *s)
 		}
 	}
 	*dp = 0;
-	
+
 	return new_string;
 }
 
@@ -91,7 +91,7 @@ e_str_compare (gconstpointer x, gconstpointer y)
 		else
 			return x ? -1 : 1;
 	}
-	
+
 	return strcmp (x, y);
 }
 
@@ -128,7 +128,7 @@ e_collate_compare (gconstpointer x, gconstpointer y)
 		else
 			return x ? -1 : 1;
 	}
-	
+
 	return g_utf8_collate (x, y);
 }
 
@@ -154,7 +154,7 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 		g_warning ("Couldn't save item");
 		return 1;
 	}
-	
+
 	while (length > 0) {
 		gnome_vfs_write(handle, data, length, &bytes);
 		if (bytes > 0) {
@@ -348,7 +348,7 @@ e_format_number_float (gfloat number)
 	gchar          *value;
 
 	locality = localeconv();
-	
+
 	int_part = floor (number);
 	str_intpart = do_format_number_as_float ((gdouble) int_part);
 
@@ -418,7 +418,7 @@ e_bsearch (gconstpointer key,
 						l = idx + 1;
 				}
 				*start = l;
-				
+
 				l = lsave;
 				u = usave;
 			}
@@ -508,7 +508,7 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 	return(ret);
 }
 
-gsize 
+gsize
 e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
                            const struct tm *tm)
 {
@@ -551,7 +551,7 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
  * @nptr:    the string to convert to a numeric value.
  * @endptr:  if non-NULL, it returns the character after
  *           the last character used in the conversion.
- * 
+ *
  * Converts a string to a gdouble value.  This function detects
  * strings either in the standard C locale or in the current locale.
  *
@@ -562,7 +562,7 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
  *
  * To convert from a double to a string in a locale-insensitive way, use
  * @g_ascii_dtostr.
- * 
+ *
  * Return value: the gdouble value.
  **/
 gdouble
@@ -611,10 +611,10 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 
 		if (*p == '.') {
 			decimal_point_pos = p++;
-             
+
 			while (isxdigit ((guchar)*p))
 				p++;
-             
+
 			if (*p == 'p' || *p == 'P')
 				p++;
 			if (*p == '+' || *p == '-')
@@ -647,7 +647,7 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 		}
 	}
 	/* For the other cases, we need not convert the decimal point */
-  
+
 	if (!decimal_point_pos)
 		return strtod (nptr, endptr);
 
@@ -685,14 +685,14 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
  * @buffer: A buffer to place the resulting string in
  * @buf_len: The length of the buffer.
  * @format: The printf-style format to use for the
- *          code to use for converting. 
+ *          code to use for converting.
  * @d: The double to convert
  *
  * Converts a double to a string, using the '.' as
  * decimal_point. To format the number you pass in
  * a printf-style formating string. Allowed conversion
- * specifiers are eEfFgG. 
- * 
+ * specifiers are eEfFgG.
+ *
  * If you want to generates enough precision that converting
  * the string back using @g_strtod gives the same machine-number
  * (on machines with IEEE compatible 64bit doubles) use the format
@@ -715,9 +715,9 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 	g_return_val_if_fail (buffer != NULL, NULL);
 	g_return_val_if_fail (format[0] == '%', NULL);
 	g_return_val_if_fail (strpbrk (format + 1, "'l%") == NULL, NULL);
- 
+
 	format_char = format[strlen (format) - 1];
-  
+
 	g_return_val_if_fail (format_char == 'e' || format_char == 'E' ||
 			      format_char == 'f' || format_char == 'F' ||
 			      format_char == 'g' || format_char == 'G',
@@ -830,7 +830,7 @@ get_font_options (void)
 	/* Antialiasing */
 	antialiasing = gconf_client_get_string (gconf,
 			"/desktop/gnome/font_rendering/antialiasing", NULL);
-	if (antialiasing == NULL) 
+	if (antialiasing == NULL)
 		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
 	else {
 		if (strcmp (antialiasing, "grayscale") == 0)

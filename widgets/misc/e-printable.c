@@ -51,7 +51,7 @@ static void
 e_printable_class_init (EPrintableClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
+
 	e_printable_signals [PRINT_PAGE] =
 		g_signal_new ("print_page",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -89,7 +89,7 @@ e_printable_class_init (EPrintableClass *klass)
 			      e_util_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
 			      G_TYPE_DOUBLE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
 			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
-	
+
 	e_printable_signals [WILL_FIT] =
 		g_signal_new ("will_fit",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -100,7 +100,7 @@ e_printable_class_init (EPrintableClass *klass)
 			      G_TYPE_BOOLEAN, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
 			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
-	klass->print_page = NULL;    
+	klass->print_page = NULL;
 	klass->data_left = NULL;
 	klass->reset = NULL;
 	klass->height = NULL;
@@ -128,7 +128,7 @@ e_printable_print_page          (EPrintable        *e_printable,
 {
 	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
-	
+
 	g_signal_emit (e_printable,
 		       e_printable_signals [PRINT_PAGE], 0,
 		       context,
@@ -157,7 +157,7 @@ e_printable_reset               (EPrintable        *e_printable)
 {
 	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
-	
+
 	g_signal_emit (e_printable,
 		       e_printable_signals [RESET], 0);
 }

@@ -62,9 +62,9 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		g_error_free (error);
 		return FALSE;
 	}
-	
+
 	if (e_cal_get_cal_address (client, &email, &error)) {
-		if (email && *email)	
+		if (email && *email)
 			users = g_list_append (users, email);
 	}
 
@@ -93,14 +93,14 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		/* FIXME: EError */
 		g_object_unref (client);
 		g_error_free (error);
-		if (users) 
+		if (users)
 			g_list_free (users);
 		g_free (email);
-		
+
 		return FALSE;
 	}
-	
-	if (users) 
+
+	if (users)
 		g_list_free (users);
 
 	g_free (email);

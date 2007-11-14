@@ -109,12 +109,12 @@ ECalMenu *e_cal_menu_new(const char *menuid)
 /**
  * e_cal_menu_target_new_select:
  * @folder: The selection will ref this for the life of it.
- * @folder_uri: 
+ * @folder_uri:
  * @uids: The selection will free this when done with it.
- * 
+ *
  * Create a new selection popup target.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 ECalMenuTargetSelect *
 e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray *events)
@@ -146,9 +146,9 @@ e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray
 
 		if (!e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 		    && !e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK)
-		    && !icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY)) 
+		    && !icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY))
 			mask &= ~E_CAL_MENU_SELECT_ASSIGNABLE;
-		
+
 		if (!icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY))
 			mask &= ~ E_CAL_MENU_SELECT_NOTCOMPLETE;
 
@@ -278,7 +278,7 @@ GType
 e_cal_menu_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(ECalMenuHookClass), NULL, NULL, (GClassInitFunc) ecalph_class_init, NULL, NULL,
@@ -288,6 +288,6 @@ e_cal_menu_hook_get_type(void)
 		ecalph_parent_class = g_type_class_ref(e_menu_hook_get_type());
 		type = g_type_register_static(e_menu_hook_get_type(), "ECalMenuHook", &info, 0);
 	}
-	
+
 	return type;
 }

@@ -54,7 +54,7 @@ GType
 filter_int_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterIntClass),
@@ -67,10 +67,10 @@ filter_int_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_int_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterInt", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -79,11 +79,11 @@ filter_int_class_init (FilterIntClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = filter_int_finalise;
-	
+
 	/* override methods */
 	fe_class->eq = int_eq;
 	fe_class->clone = int_clone;
@@ -106,9 +106,9 @@ static void
 filter_int_finalise (GObject *obj)
 {
 	FilterInt *fi = (FilterInt *) obj;
-	
+
 	g_free (fi->type);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -116,7 +116,7 @@ filter_int_finalise (GObject *obj)
  * filter_int_new:
  *
  * Create a new FilterInt object.
- * 
+ *
  * Return value: A new #FilterInt object.
  **/
 FilterInt *
@@ -129,13 +129,13 @@ FilterInt *
 filter_int_new_type (const char *type, int min, int max)
 {
 	FilterInt *fi;
-	
+
 	fi = filter_int_new ();
-	
+
 	fi->type = g_strdup (type);
 	fi->min = min;
 	fi->max = max;
-	
+
 	return fi;
 }
 
@@ -179,18 +179,18 @@ xml_encode (FilterElement *fe)
 	FilterInt *fs = (FilterInt *)fe;
 	char intval[32];
 	const char *type;
-	
+
 	type = fs->type?fs->type:"integer";
-	
+
 	d(printf("Encoding %s as xml\n", type));
-	
+
 	value = xmlNewNode (NULL, (const unsigned char *)"value");
 	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
 	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)type);
-	
+
 	sprintf(intval, "%d", fs->val);
 	xmlSetProp (value, (unsigned char *)type, (unsigned char *)intval);
-	
+
 	return value;
 }
 
@@ -200,20 +200,20 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	FilterInt *fs = (FilterInt *)fe;
 	char *name, *type;
 	char *intval;
-	
+
 	d(printf("Decoding integer from xml %p\n", fe));
-	
+
 	name = (char *)xmlGetProp (node, (const unsigned char *)"name");
 	d(printf ("Name = %s\n", name));
 	xmlFree (fe->name);
 	fe->name = name;
-	
+
 	type = (char *)xmlGetProp(node, (const unsigned char *)"type");
 	d(printf ("Type = %s\n", type));
 	g_free(fs->type);
 	fs->type = g_strdup(type);
 	xmlFree(type);
-	
+
 	intval = (char *)xmlGetProp (node, (unsigned char *)(fs->type ? fs->type : "integer"));
 	if (intval) {
 		d(printf ("Value = %s\n", intval));
@@ -223,7 +223,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		d(printf ("Value = ?unknown?\n"));
 		fs->val = 0;
 	}
-	
+
 	return 0;
 }
 
@@ -231,7 +231,7 @@ static void
 spin_changed (GtkWidget *spin, FilterElement *fe)
 {
 	FilterInt *fs = (FilterInt *)fe;
-	
+
 	fs->val = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
 }
 
@@ -241,16 +241,16 @@ get_widget (FilterElement *fe)
 	GtkWidget *spin;
 	GtkObject *adjustment;
 	FilterInt *fs = (FilterInt *)fe;
-	
+
 	adjustment = gtk_adjustment_new (0.0, (gfloat)fs->min, (gfloat)fs->max, 1.0, 1.0, 1.0);
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (adjustment), fs->max>fs->min+1000?5.0:1.0, 0);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spin), TRUE);
-	
+
 	if (fs->val)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), (gfloat) fs->val);
-	
+
 	g_signal_connect (spin, "value-changed", G_CALLBACK (spin_changed), fe);
-	
+
 	return spin;
 }
 

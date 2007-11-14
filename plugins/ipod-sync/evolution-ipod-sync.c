@@ -25,7 +25,7 @@ ipod_check_status (gboolean silent)
 {
 	LibHalContext *ctx;
 	DBusConnection *conn;
-	
+
 	if (check_hal () == FALSE)
 	{
 		if (!silent) {
@@ -45,9 +45,9 @@ ipod_check_status (gboolean silent)
 			gtk_widget_destroy (message);
 		}
 		return FALSE;
-			
+
 	}
-	
+
 	conn = dbus_bus_get (DBUS_BUS_SYSTEM, NULL);
 
 	ctx = libhal_ctx_new ();
@@ -55,7 +55,7 @@ ipod_check_status (gboolean silent)
 	if (!libhal_ctx_init(ctx, NULL))
 		return FALSE;
 
-	
+
 	mount_point = find_ipod_mount_point (ctx);
 
 	if (mount_point == NULL) {

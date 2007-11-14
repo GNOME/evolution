@@ -38,16 +38,16 @@ typedef struct _FilterInputClass FilterInputClass;
 
 struct _FilterInput {
 	FilterElement parent_object;
-	
+
 	char *type;		/* name of type */
 	GList *values;		/* strings */
 };
 
 struct _FilterInputClass {
 	FilterElementClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

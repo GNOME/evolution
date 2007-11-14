@@ -37,7 +37,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 {
 	gint size = GPOINTER_TO_INT(e_table_model_value_at(model, col, row));
 	gfloat fsize;
-	
+
 	if (size < 1024) {
 		return g_strdup_printf ("%d bytes", size);
 	} else {
@@ -94,7 +94,7 @@ e_cell_size_init (ECellSize *e_cell_size)
  * rendered with strikeout, underline, or bolded.  In the case of the
  * "color_column" argument, the column in the model is expected to
  * have a string that can be parsed by gdk_color_parse().
- * 
+ *
  * Returns: an ECell object that can be used to render file sizes.  */
 ECell *
 e_cell_size_new (const char *fontname, GtkJustification justify)
@@ -102,7 +102,7 @@ e_cell_size_new (const char *fontname, GtkJustification justify)
 	ECellSize *ecd = g_object_new (E_CELL_SIZE_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
-      
+
 	return (ECell *) ecd;
 }
 

@@ -59,9 +59,9 @@ ExchangeDelegatesUser *exchange_delegates_user_new_from_gc (E2kGlobalCatalog    
 							    const char            *email,
 							    GByteArray            *creator_entryid);
 
-gboolean  exchange_delegates_user_edit (ExchangeAccount  *account, ExchangeDelegatesUser *user, 
+gboolean  exchange_delegates_user_edit (ExchangeAccount  *account, ExchangeDelegatesUser *user,
 					GtkWidget *parent_window);
- 
+
 
 
 #ifdef __cplusplus

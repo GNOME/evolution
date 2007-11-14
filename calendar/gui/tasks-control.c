@@ -97,12 +97,12 @@ static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
                                                 gpointer               data,
                                                 const char             *path);
 
-static void tasks_control_view_preview	       (BonoboUIComponent *uic, 
-						const char *path, 
-						Bonobo_UIComponent_EventType type, 
-						const char *state, 
+static void tasks_control_view_preview	       (BonoboUIComponent *uic,
+						const char *path,
+						Bonobo_UIComponent_EventType type,
+						const char *state,
 						void *data);
-	  
+
 BonoboControl *
 tasks_control_new (void)
 {
@@ -218,9 +218,9 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 
 	ecal = e_cal_model_get_default_client (model);
 
-	if (ecal) 
+	if (ecal)
 		e_cal_is_read_only (ecal, &read_only, NULL);
-		
+
 	sensitize_items (uic, tasks_sensitize_table, t->target.mask);
 	e_menu_update_target ((EMenu *)menu, (EMenuTarget *)t);
 }
@@ -266,7 +266,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/Toolbar/Paste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
-	
+
 	E_PIXMAP_END
 };
 void
@@ -302,8 +302,8 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 			       NULL);
 	g_free (xmlfile);
 
-	e_pixmaps_update (uic, pixmaps);	
-		
+	e_pixmaps_update (uic, pixmaps);
+
 	e_tasks_setup_view_menus (tasks, uic);
 
 	/* Signals from the tasks widget; also sensitize the menu items as appropriate */
@@ -320,7 +320,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	state = calendar_config_get_preview_state();
 
 	bonobo_ui_component_thaw (uic, NULL);
-	
+
 	bonobo_ui_component_add_listener(uic, "ViewPreview", tasks_control_view_preview, tasks);
 	bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 	/* Show the dialog for setting the timezone if the user hasn't chosen
@@ -441,7 +441,7 @@ confirm_purge (ETasks *tasks)
 {
 	GtkWidget *dialog, *checkbox, *parent;
 	int button;
-	
+
 	if (!calendar_config_get_confirm_purge ())
 		return TRUE;
 
@@ -457,12 +457,12 @@ confirm_purge (ETasks *tasks)
 	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
 	gtk_widget_show (checkbox);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 6);
-	
-	button = gtk_dialog_run (GTK_DIALOG (dialog));	
+
+	button = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (button == GTK_RESPONSE_YES && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
 		calendar_config_set_confirm_purge (FALSE);
 	gtk_widget_destroy (dialog);
-	
+
 	return button == GTK_RESPONSE_YES ? TRUE : FALSE;
 }
 
@@ -535,7 +535,7 @@ tasks_control_forward_cmd (BonoboUIComponent *uic,
 	        ETasks *tasks;
                ECalendarTable *cal_table;
                ECalModelComponent *comp_data;
-	
+
                tasks = E_TASKS (data);
                cal_table = e_tasks_get_calendar_table (tasks);
                comp_data = e_calendar_table_get_selected_comp (cal_table);
@@ -555,7 +555,7 @@ tasks_control_view_preview (BonoboUIComponent *uic, const char *path, Bonobo_UIC
 
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-	
+
 	tasks = E_TASKS (data);
 
 	calendar_config_set_preview_state (state[0] != '0');

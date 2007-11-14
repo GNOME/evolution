@@ -57,7 +57,7 @@ typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
 
 /**
  * struct _EMFormatHTMLJob - A formatting job.
- * 
+ *
  * @next: Double linked list header.
  * @prev: Double linked list header.
  * @format: Set by allocation function.
@@ -68,7 +68,7 @@ typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
  * cancelled the display.  So the callback should free any extra data
  * it allocated every time it is called.
  * @u: Union data, free for caller to use.
- * 
+ *
  * This object is used to queue a long-running-task which cannot be
  * processed in the primary thread.  When its turn comes, the job will
  * be de-queued and the @callback invoked to perform its processing,
@@ -107,7 +107,7 @@ typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, struct _GtkHTMLEmb
 
 /**
  * struct _EMFormatHTMLPObject - Pending object.
- * 
+ *
  * @next: Double linked list header.
  * @prev: Double linked list header.
  * @free: Invoked when the object is no longer needed.
@@ -115,7 +115,7 @@ typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, struct _GtkHTMLEmb
  * @classid: The assigned class id as passed to add_pobject().
  * @func: Callback function.
  * @part: The part as passed to add_pobject().
- * 
+ *
  * This structure is used to track OBJECT tags which have been
  * inserted into the HTML stream.  When GtkHTML requests them the
  * @func will be invoked to create the embedded widget.
@@ -145,25 +145,25 @@ struct _EMFormatHTMLPObject {
 
 /**
  * struct _EMFormatHTML - HTML formatter object.
- * 
- * @format: 
- * @priv: 
- * @html: 
- * @pending_object_list: 
- * @headers: 
- * @text_html_flags: 
- * @body_colour: 
- * @text_colour: 
- * @frame_colour: 
- * @content_colour: 
- * @citation_colour: 
- * @load_http:2: 
- * @load_http_now:1: 
- * @mark_citations:1: 
- * @simple_headers:1: 
- * @hide_headers:1: 
- * @show_icon:1: 
- * 
+ *
+ * @format:
+ * @priv:
+ * @html:
+ * @pending_object_list:
+ * @headers:
+ * @text_html_flags:
+ * @body_colour:
+ * @text_colour:
+ * @frame_colour:
+ * @content_colour:
+ * @citation_colour:
+ * @load_http:2:
+ * @load_http_now:1:
+ * @mark_citations:1:
+ * @simple_headers:1:
+ * @hide_headers:1:
+ * @show_icon:1:
+ *
  * Most of these fields are private or read-only.
  *
  * The base HTML formatter object.  This object drives HTML generation
@@ -193,12 +193,12 @@ struct _EMFormatHTML {
 	unsigned int simple_headers:1; /* simple header format, no box/table */
 	unsigned int hide_headers:1; /* no headers at all */
 	unsigned int show_icon:1; /* show an icon when the sender used Evo */
-	guint32 header_wrap_flags; 
+	guint32 header_wrap_flags;
 };
 
 struct _EMFormatHTMLClass {
 	EMFormatClass format_class;
-	
+
 };
 
 GType em_format_html_get_type(void);

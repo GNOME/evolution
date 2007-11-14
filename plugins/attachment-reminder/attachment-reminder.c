@@ -226,7 +226,7 @@ clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, U
 	GtkTreeSelection *selection;
 	char *keyword;
 	gboolean valid;
-	
+
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	/* move to the previous node */
 	valid = gtk_tree_path_prev(path);
@@ -308,7 +308,7 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    CLUE_KEYWORD_COLUMN, new_clue, -1);
 
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);	
+	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
 
 	if (path) {
@@ -340,7 +340,7 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 	path = gtk_tree_model_get_path (model, &iter);
 	if (path)
 		valid = gtk_tree_path_prev(path);
-	
+
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
 	len = gtk_tree_model_iter_n_children (model, NULL);
@@ -377,7 +377,7 @@ clue_edit_clicked (GtkButton *button, UIData *ui)
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);	
+	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
 
 	if (path) {
@@ -413,7 +413,7 @@ selection_changed (GtkTreeSelection *selection, UIData *ui)
 	}
 }
 
-void 
+void
 e_plugin_lib_configure (EPlugin *epl)
 {
 	GtkWidget *dialog;
@@ -444,7 +444,7 @@ e_plugin_lib_configure (EPlugin *epl)
 
 	if (store == NULL)
 		store = gtk_list_store_new (CLUE_N_COLUMNS, G_TYPE_STRING);
-	else 
+	else
 		gtk_list_store_clear (store);
 
 	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (store));

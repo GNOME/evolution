@@ -35,10 +35,10 @@
 /**
  * string_is_empty:
  * @value: A string.
- * 
+ *
  * Returns whether a string is NULL, the empty string, or completely made up of
  * whitespace characters.
- * 
+ *
  * Return value: TRUE if the string is empty, FALSE otherwise.
  **/
 gboolean

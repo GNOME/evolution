@@ -137,7 +137,7 @@ get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
 				if (model_zone)
 					icaltimezone_convert_time (&tt_end, zone, model_zone);
 			} else
-				tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date, 
+				tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date,
 						model_zone);
 		}
 
@@ -226,7 +226,7 @@ set_dtend (ECalModelComponent *comp_data, const void *value)
 	icalproperty *prop;
 	icalparameter *param;
 	const char *tzid;
-	
+
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
 	if (prop)
 		param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
@@ -243,7 +243,7 @@ set_dtend (ECalModelComponent *comp_data, const void *value)
 
 		return;
 	}
-	
+
 	/* If the TZID is set to "UTC", we set the is_utc flag. */
 	tzid = dv->zone ? icaltimezone_get_tzid (dv->zone) : "UTC";
 	if (tzid && !strcmp (tzid, "UTC"))
@@ -384,7 +384,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 					comp_data->client, NULL, NULL, NULL);
 	} else {
 		g_warning (G_STRLOC ": Could not modify the object!");
-		
+
 		/* FIXME Show error dialog */
 	}
 

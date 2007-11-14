@@ -50,8 +50,8 @@ typedef struct {
 	EImportTarget *target;
 
 	guint idle_id;
-	
-	int state;	
+
+	int state;
 	FILE *file;
 	gulong size;
 	gint count;
@@ -73,14 +73,14 @@ typedef struct {
 #define FLAG_OTHER_ADDRESS 0x04
 #define FLAG_STREET        0x08
 #define FLAG_CITY          0x10
-#define FLAG_STATE	   0x20		
+#define FLAG_STATE	   0x20
 #define FLAG_POSTAL_CODE   0x40
 #define FLAG_COUNTRY       0x80
-#define FLAG_POBOX         0x70 
+#define FLAG_POBOX         0x70
 #define FLAG_DATE_BDAY     0x03
-#define FLAG_BIRTH_DAY	   0x05	
+#define FLAG_BIRTH_DAY	   0x05
 #define FLAG_BIRTH_YEAR    0x07
-#define FLAG_BIRTH_MONTH   0x50	
+#define FLAG_BIRTH_MONTH   0x50
 #define FLAG_DATE_ANNIVERSARY 0x30
 #define FLAG_INVALID       0xff
 	int flags;
@@ -158,7 +158,7 @@ static import_fields csv_fields_outlook[] = {
 	{"Hobby", NOMAP},
 	{"Home Address PO Box", NOMAP, FLAG_HOME_ADDRESS|FLAG_POBOX},
 	{"Initials", NOMAP},
-	{"Internet FREE/BUSY", E_CONTACT_FREEBUSY_URL}, 
+	{"Internet FREE/BUSY", E_CONTACT_FREEBUSY_URL},
 	{"Keywords", NOMAP},
 	{"Language", NOMAP},
 	{"Location", NOMAP},
@@ -218,8 +218,8 @@ static import_fields csv_fields_mozilla[] = {
 	{"Custom 3", NOMAP},
 	{"Custom 4", NOMAP},
 	{"Notes", NOMAP},
-	
-	
+
+
 };
 
 static import_fields csv_fields_evolution[] = {
@@ -265,15 +265,15 @@ add_to_notes(EContact *contact, gint i, char *val) {
 	const gchar *old_text;
 	const gchar *field_text = NULL;
 	GString *new_text;
-	
+
 	old_text = e_contact_get_const(contact, E_CONTACT_NOTE);
 	if(importer == OUTLOOK_IMPORTER)
 		field_text = csv_fields_outlook[i].csv_attribute;
 	else if(importer == MOZILLA_IMPORTER)
 		field_text = csv_fields_mozilla[i].csv_attribute;
 	else
-		field_text = csv_fields_evolution[i].csv_attribute;	
-	
+		field_text = csv_fields_evolution[i].csv_attribute;
+
 	new_text = g_string_new(old_text);
 	if(strlen(new_text->str) != 0)
 		new_text = g_string_append_c(new_text, '\n');
@@ -302,7 +302,7 @@ date_from_string (const char *str)
 		length = t - str;
 	else
 		length = strlen(str);
-	
+
 	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i+1])) {
 		date->month = str[i] * 10 + str[i+1] - '0' * 11;
 		i = i+3;
@@ -321,13 +321,13 @@ date_from_string (const char *str)
 		i = i+2;
 	}
 	date->year = str[i] * 1000 + str[i+1] * 100 + str[i+2] * 10 + str[i+3] - '0' * 1111;
-			
+
 	return date;
 }
 
-static gboolean 
+static gboolean
 parseLine (CSVImporter *gci, EContact *contact, char **buf) {
-	
+
 	char *ptr = *buf;
 	GString *value;
 	gint i = 0;
@@ -343,7 +343,7 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 	work_address = g_new0(EContactAddress, 1);
 	other_address = g_new0(EContactAddress, 1);
 	bday = g_new0(EContactDate, 1);
-	
+
 	while(*ptr != '\n') {
 		value = g_string_new("");
 		while(*ptr != delimiter) {
@@ -455,7 +455,7 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 				case FLAG_DATE_BDAY:
 					e_contact_set(contact, E_CONTACT_BIRTH_DATE, date_from_string(value->str));
 					break;
-					
+
 				case FLAG_DATE_ANNIVERSARY:
 					e_contact_set(contact, E_CONTACT_ANNIVERSARY, date_from_string(value->str));
 					break;
@@ -472,9 +472,9 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 
 				case FLAG_INVALID:
 					break;
-					
+
 				default:
-					add_to_notes(contact, i, value->str);	
+					add_to_notes(contact, i, value->str);
 
 				}
 			}
@@ -495,13 +495,13 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 	g_string_free(other_street, TRUE);
 
 	if(home_address->locality || home_address->country ||
-	   home_address->code || home_address->region || home_address->street)		
+	   home_address->code || home_address->region || home_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_HOME, home_address);
 	if(work_address->locality || work_address->country ||
-	   work_address->code || work_address->region || work_address->street)		
+	   work_address->code || work_address->region || work_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_WORK, work_address);
 	if(other_address->locality || other_address->country ||
-	   other_address->code || other_address->region || other_address->street)		
+	   other_address->code || other_address->region || other_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_OTHER, other_address);
 
 	if(importer !=  OUTLOOK_IMPORTER) {
@@ -520,12 +520,12 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	char *buf;
 	char c;
 
-	/*	
-	if(!fgets(line, sizeof(line),f)) 
+	/*
+	if(!fgets(line, sizeof(line),f))
 		return NULL;
 
 	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
-		if(!fgets(line, sizeof(line),f)) 
+		if(!fgets(line, sizeof(line),f))
 			return NULL;
 		gci->count ++;
 	}
@@ -552,7 +552,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 		else
 			g_string_append_unichar(line, c);
 	}
-	
+
 	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
 		g_string_free (line, TRUE);
 		line = g_string_new("");
@@ -575,7 +575,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 			}
 			else
 				g_string_append_unichar(line, c);
-		}	
+		}
 		gci->count ++;
 	}
 
@@ -583,12 +583,12 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	str = g_string_append (str, line->str);
 
 	g_string_free (line, TRUE);
-	
+
 	if(strlen(str->str) == 0) {
 		g_string_free(str, TRUE);
 		return NULL;
 	}
-	
+
 	contact = e_contact_new();
 
 	buf = str->str;
@@ -639,14 +639,14 @@ csv_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
-	ESourceList *source_list;	
+	ESourceList *source_list;
 
 	/* FIXME Better error handling */
 	if (!e_book_get_addressbooks (&source_list, NULL))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
-	
+
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
@@ -677,7 +677,7 @@ csv_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	char *ext;
 	int i;
 	EImportTargetURI *s;
-	
+
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
@@ -759,26 +759,26 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	fseek(file, 0, SEEK_SET);
 
 	e_book_open(gci->book, FALSE, NULL);
-       	
+
 	gci->idle_id = g_idle_add (csv_import_contacts, gci);
 }
 
 static void
-outlook_csv_import(EImport *ei, EImportTarget *target, EImportImporter *im) 
+outlook_csv_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	importer = OUTLOOK_IMPORTER;
 	csv_import(ei, target, im);
 }
 
 static void
-mozilla_csv_import(EImport *ei, EImportTarget *target, EImportImporter *im) 
+mozilla_csv_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	importer = MOZILLA_IMPORTER;
 	csv_import(ei, target, im);
 }
 
 static void
-evolution_csv_import(EImport *ei, EImportTarget *target, EImportImporter *im) 
+evolution_csv_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	importer = EVOLUTION_IMPORTER;
 	csv_import(ei, target, im);
@@ -791,7 +791,7 @@ csv_cancel(EImport *ei, EImportTarget *target, EImportImporter *im) {
 	if(gci)
 		gci->state = 1;
 }
-	
+
 
 static EImportImporter csv_outlook_importer = {
 	E_IMPORT_TARGET_URI,
@@ -825,7 +825,7 @@ evolution_csv_outlook_importer_peek(void)
 {
 	csv_outlook_importer.name = _("Outlook CSV or Tab (.csv, .tab)");
 	csv_outlook_importer.description = _("Outlook CSV and Tab Importer");
-	
+
 	return &csv_outlook_importer;
 }
 
@@ -833,8 +833,8 @@ EImportImporter *
 evolution_csv_mozilla_importer_peek(void)
 {
 	csv_mozilla_importer.name = _("Mozilla CSV or Tab (.csv, .tab)");
-	csv_mozilla_importer.description = _("Mozilla CSV and Tab Importer"); 	
-	
+	csv_mozilla_importer.description = _("Mozilla CSV and Tab Importer");
+
 	return &csv_mozilla_importer;
 }
 
@@ -842,7 +842,7 @@ EImportImporter *
 evolution_csv_evolution_importer_peek(void)
 {
 	csv_evolution_importer.name = _("Evolution CSV or Tab (.csv, .tab)");
-	csv_evolution_importer.description = _("Evolution CSV and Tab Importer"); 	
-	
+	csv_evolution_importer.description = _("Evolution CSV and Tab Importer");
+
 	return &csv_evolution_importer;
 }

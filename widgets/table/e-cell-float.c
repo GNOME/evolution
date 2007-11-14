@@ -40,9 +40,9 @@ static char *
 ecf_get_text(ECellText *cell, ETableModel *model, int col, int row)
 {
 	gfloat   *fvalue;
-	
+
 	fvalue = e_table_model_value_at (model, col, row);
-	
+
 	return e_format_number_float (*fvalue);
 }
 
@@ -76,7 +76,7 @@ e_cell_float_init (ECellFloat *cell_float)
  * interpreted as being an int.
  *
  * See ECellText for other features.
- * 
+ *
  * Returns: an ECell object that can be used to render floats.
  */
 ECell *
@@ -85,7 +85,7 @@ e_cell_float_new (const char *fontname, GtkJustification justify)
 	ECellFloat *ecn = g_object_new (E_CELL_FLOAT_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecn), fontname, justify);
-      
+
 	return (ECell *) ecn;
 }
 

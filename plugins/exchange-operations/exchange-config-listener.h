@@ -59,10 +59,10 @@ void 			remove_folder_esource (ExchangeAccount *account, FolderType folder_type,
 ExchangeConfigListenerStatus exchange_config_listener_get_offline_status (ExchangeConfigListener *excl, gint *mode);
 
 void exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl,
-							 const char *old_name, 
+							 const char *old_name,
 							 const char *new_name);
 
-ExchangeAccountResult exchange_config_listener_authenticate (ExchangeConfigListener *excl, 
+ExchangeAccountResult exchange_config_listener_authenticate (ExchangeConfigListener *excl,
 							ExchangeAccount *account);
 
 #ifdef __cplusplus

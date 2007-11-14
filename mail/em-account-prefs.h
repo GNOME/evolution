@@ -53,31 +53,31 @@ typedef struct _EMAccountPrefsClass EMAccountPrefsClass;
 
 struct _EMAccountPrefs {
 	GtkVBox parent_object;
-	
+
 	GNOME_Evolution_Shell shell;
-	
+
 	GladeXML *gui;
-	
+
 	GtkWidget *druid;
 	GtkWidget *editor;
-	
+
 	GtkTreeView *table;
-	
+
 	GtkButton *mail_add;
 	GtkButton *mail_edit;
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
 	GtkButton *mail_able;
-	
+
 	guint destroyed : 1;
 	guint changed : 1;
 };
 
 struct _EMAccountPrefsClass {
 	GtkVBoxClass parent_class;
-	
+
 	/* signals */
-	
+
 };
 
 

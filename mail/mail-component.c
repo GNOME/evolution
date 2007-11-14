@@ -88,7 +88,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
-#define d(x) 
+#define d(x)
 
 static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
 static void view_changed_timeout_remove (EComponentView *component_view);
@@ -101,7 +101,7 @@ static BonoboObjectClass *parent_class = NULL;
 #define OFFLINE 0
 #define ONLINE 1
 
-struct _store_info {	
+struct _store_info {
 	CamelStore *store;
 	char *name;
 
@@ -126,18 +126,18 @@ struct _MailComponentPrivate {
 	int quit_expunge;	/* expunge on quit this time around? */
 
 	char *base_directory;
-	
+
 	EMFolderTreeModel *model;
 
 	EActivityHandler *activity_handler;
-	
+
 	MailAsyncEvent *async_event;
 	GHashTable *store_hash; /* stores store_info objects by store */
-	
+
 	RuleContext *search_context;
-	
+
 	char *context_path;	/* current path for right-click menu */
-	
+
 	CamelStore *local_store;
 
 	EComponentView *component_view;
@@ -227,7 +227,7 @@ static void
 mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
 {
 	struct _store_info *si;
-	
+
 	MAIL_COMPONENT_DEFAULT(component);
 
 	si = store_info_new(store, name);
@@ -320,13 +320,13 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-	
+
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		EAccountService *service;
 		EAccount *account;
 		const char *name;
-		
+
 		account = (EAccount *) e_iterator_get (iter);
 		service = account->source;
 		name = account->name;
@@ -338,10 +338,10 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 		    && service->url[0]
 		    && strncmp(service->url, "mbox:", 5) != 0)
 			mail_component_load_store_by_uri (component, service->url, name);
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
 }
 
@@ -353,7 +353,7 @@ setup_search_context (MailComponent *component)
 	if (priv->search_context == NULL) {
 		char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
 		char *system = g_build_filename (EVOLUTION_PRIVDATADIR, "searchtypes.xml", NULL);
-		
+
 		priv->search_context = (RuleContext *)em_search_context_new ();
 		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
 		g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
@@ -379,14 +379,14 @@ static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
 {
 	EMFolderTreeModel *model;
-	
+
 	if ((flags & CAMEL_FOLDER_NOSELECT) || !path) {
 		em_folder_view_set_folder (view, NULL, NULL);
 	} else {
 		model = em_folder_tree_get_model (emft);
 		em_folder_tree_model_set_selected (model, uri);
 		em_folder_tree_model_save_state (model);
-		
+
 		em_folder_view_set_folder_uri (view, uri);
 	}
 }
@@ -407,17 +407,17 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 
 	uic = bonobo_control_get_ui_component (control);
 	g_return_if_fail (uic != NULL);
-	
+
 	if (activate) {
 		Bonobo_UIContainer container;
-		
+
 		container = bonobo_control_get_remote_ui_container (control, NULL);
 		bonobo_ui_component_set_container (uic, container, NULL);
 		bonobo_object_release_unref (container, NULL);
-		
+
 		g_return_if_fail (container == bonobo_ui_component_get_container(uic));
 		g_return_if_fail (container != CORBA_OBJECT_NIL);
-		
+
 		em_folder_view_activate (view, uic, activate);
 		e_user_creatable_items_handler_activate(g_object_get_data((GObject *)view, "e-creatable-items-handler"), uic);
 	} else {
@@ -452,7 +452,7 @@ impl_dispose (GObject *object)
 		g_object_unref (priv->search_context);
 		priv->search_context = NULL;
 	}
-	
+
 	if (priv->local_store != NULL) {
 		camel_object_unref (priv->local_store);
 		priv->local_store = NULL;
@@ -469,20 +469,20 @@ impl_finalize (GObject *object)
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
 
 	g_free (priv->base_directory);
-	
+
 	mail_async_event_destroy (priv->async_event);
-	
+
 	g_hash_table_destroy (priv->store_hash);
-	
+
 	if (mail_async_event_destroy (priv->async_event) == -1) {
 		g_warning("Cannot destroy async event: would deadlock");
 		g_warning(" system may be unstable at exit");
 	}
-	
+
 	g_free (priv->context_path);
 	g_mutex_free(priv->lock);
 	g_free (priv);
-	
+
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
@@ -490,7 +490,7 @@ static void
 view_on_url (GObject *emitter, const char *url, const char *nice_url, MailComponent *mail_component)
 {
 	MailComponentPrivate *priv = mail_component->priv;
-	
+
 	e_activity_handler_set_message (priv->activity_handler, nice_url);
 }
 
@@ -576,7 +576,7 @@ view_changed_timeout_remove (EComponentView *component_view)
 	if (v) {
 		g_source_remove(GPOINTER_TO_INT(v));
 		g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
-		
+
 		el = g_object_get_data((GObject *)component_view, "info-label");
 		emfv = g_object_get_data((GObject *)el, "folderview");
 		g_object_unref(el);
@@ -587,7 +587,7 @@ view_changed_timeout_remove (EComponentView *component_view)
 static int
 view_changed_timeout(void *d)
 {
-	EComponentView *component_view = d;	
+	EComponentView *component_view = d;
 	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 	EMFolderView *emfv = g_object_get_data((GObject *)el, "folderview");
 
@@ -609,17 +609,17 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 
 	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
-	
+
 	if (mc->priv->quit_state != -1) {
 		if (v) {
-			g_source_remove(GPOINTER_TO_INT(v));			
+			g_source_remove(GPOINTER_TO_INT(v));
 			g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
 			g_object_unref (emfv);
 			g_object_unref (el);
 		}
 
 		return;
-			
+
 	}
 	/* This can get called 3 times every cursor move, so
 	   we don't need to/want to run it immediately */
@@ -635,13 +635,13 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 	g_object_set_data((GObject *)component_view, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
 }
 
-static void 
+static void
 disable_folder_tree (gpointer *emfb, GtkWidget *widget)
 {
 	gtk_widget_set_sensitive (widget, FALSE);
 }
 
-static void 
+static void
 enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
@@ -688,16 +688,16 @@ impl_createView (PortableServer_Servant servant,
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
 	char *uri;
-	
+
 	mail_session_set_interactive(TRUE);
 	mc_startup(mail_component);
 
 	view_widget = em_folder_browser_new ();
-	
+
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
-	
+
 	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
 		gboolean expanded;
 
@@ -710,12 +710,12 @@ impl_createView (PortableServer_Servant servant,
 
 		g_free (uri);
 	}
-	
+
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
-	
+
 	g_signal_connect (view_widget, "on-url", G_CALLBACK (view_on_url), mail_component);
 	em_folder_view_set_statusbar ((EMFolderView*)view_widget, FALSE);
-	
+
 	statusbar_widget = e_task_bar_new ();
 	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
 
@@ -748,7 +748,7 @@ impl_createView (PortableServer_Servant servant,
 	g_signal_connect(((EMFolderBrowser *)view_widget), "account_search_activated", G_CALLBACK (disable_folder_tree), tree_widget);
 	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), component_view);
 	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), component_view);
-	
+
 	g_object_set_data((GObject*)info, "folderview", view_widget);
 	g_object_set_data((GObject*)view_widget, "foldertree", tree_widget);
 
@@ -766,7 +766,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	if (!e_msg_composer_request_close_all())
 		return FALSE;
-	
+
 	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
 	if (folder != NULL
 	    && camel_session_is_online(session)
@@ -802,7 +802,7 @@ mc_quit_delete (CamelStore *store, struct _store_info *si, MailComponent *mc)
 		GPtrArray *uids;
 		int i;
 
-		uids =  camel_folder_get_uids (folder); 
+		uids =  camel_folder_get_uids (folder);
 		camel_folder_freeze(folder);
 		for (i=0;i<uids->len;i++)
 			camel_folder_set_message_flags(folder, uids->pdata[i], CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
@@ -818,13 +818,13 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	if (mc->priv->quit_state == -1)
 		mc->priv->quit_state = MC_QUIT_START;
-	
+
 	mail_config_prune_proxies ();
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
 		int now = time(NULL)/60/60/24, days;
 		gboolean empty_junk;
-		
+
 		GConfClient *gconf = mail_config_get_gconf_client();
 
 		mail_vfolder_shutdown();
@@ -841,7 +841,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 			g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_delete, mc);
 			gconf_client_set_int(gconf, "/apps/evolution/mail/junk/empty_date", now, NULL);
 		}
-		
+
 		g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_sync, mc);
 
 		if (mc->priv->quit_expunge)
@@ -902,7 +902,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointe
 	if (strcmp(type, "message") == 0) {
 		if (!em_utils_check_user_can_send_mail(NULL))
 			return 0;
-	
+
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
 		em_folder_utils_create_folder(NULL, tree);
@@ -917,7 +917,7 @@ create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_
 {
 	EMFolderTree *tree = data;
 	char *uri = em_folder_tree_get_selected_uri(tree);
-	
+
 	create_item(item_type_name, em_folder_tree_get_model(tree), uri, (gpointer) tree);
 	g_free(uri);
 }
@@ -961,13 +961,13 @@ handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
 			const char* uid;
 
 			uid = camel_url_get_param(url, "uid");
-			if (uid == NULL) 
+			if (uid == NULL)
 				g_warning("Could not forward the message. UID is NULL.");
 			else {
 				uids = g_ptr_array_new();
 				g_ptr_array_add(uids, g_strdup(uid));
 
-				if (!strcmp(forward, "attached")) 
+				if (!strcmp(forward, "attached"))
 					em_utils_forward_attached(folder, uids, uri);
 				else if (!strcmp(forward, "inline"))
 					em_utils_forward_inline(folder, uids, uri);
@@ -1029,7 +1029,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	CamelException ex;
 
 	component = mail_component_peek ();
-	
+
 	camel_exception_init (&ex);
 	if (em_migrate (component->priv->base_directory, major, minor, revision, &ex) == -1) {
 		GNOME_Evolution_Component_UpgradeFailed *failedex;
@@ -1083,7 +1083,7 @@ setline_check(void *key, void *value, void *data)
 	}
 }
 
-int 
+int
 status_check (GNOME_Evolution_ShellState shell_state)
 {
 	int status = 0;
@@ -1094,7 +1094,7 @@ status_check (GNOME_Evolution_ShellState shell_state)
 		    status = OFFLINE;
 		    if (em_utils_prompt_user (NULL, "/apps/evolution/mail/prompts/quick_offline", "mail:ask-quick-offline", NULL))
 		    	break;
-	    case GNOME_Evolution_FORCED_OFFLINE: 
+	    case GNOME_Evolution_FORCED_OFFLINE:
 		    /*Network is down so change network state on the camel session*/
 		    status = OFFLINE;
 		    /* Cancel all operations as they wont happen anyway cos Network is down*/
@@ -1104,7 +1104,7 @@ status_check (GNOME_Evolution_ShellState shell_state)
 	    case GNOME_Evolution_USER_ONLINE:
 		    camel_session_set_network_state (session, TRUE);
 		    status = ONLINE;
-	}	  
+	}
 
 	return status;
 }
@@ -1156,12 +1156,12 @@ mail_component_class_init (MailComponentClass *class)
 	POA_GNOME_Evolution_Component__epv *epv = &((EvolutionComponentClass *)class)->epv;
 	POA_GNOME_Evolution_MailComponent__epv *mepv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	
+
 	parent_class = g_type_class_peek_parent (class);
-	
+
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
-	
+
 	epv->createView          = impl_createView;
 	epv->requestQuit = impl_requestQuit;
 	epv->quit = impl_quit;
@@ -1186,10 +1186,10 @@ static void
 mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
-	
+
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
-	
+
 	priv->lock = g_mutex_new();
 	priv->quit_state = -1;
 
@@ -1203,19 +1203,19 @@ mail_component_init (MailComponent *component)
 #endif
 	if (g_mkdir_with_parents (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
-	
+
 	priv->model = em_folder_tree_model_new (priv->base_directory);
-	
+
 	priv->activity_handler = e_activity_handler_new ();
-	
+
 	mail_session_init (priv->base_directory);
-	
+
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new_full (
 		NULL, NULL,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_hash_free);
-	
+
 	mail_autoreceive_init();
 }
 
@@ -1275,7 +1275,7 @@ mail_component_add_store (MailComponent *component, CamelStore *store, const cha
  * @component: mail component
  * @uri: uri of store
  * @name: name of store (used for display purposes)
- * 
+ *
  * Return value: Pointer to the newly added CamelStore.  The caller is supposed
  * to ref the object if it wants to store it.
  **/
@@ -1287,14 +1287,14 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	CamelProvider *prov;
 
 	MAIL_COMPONENT_DEFAULT(component);
-	
+
 	camel_exception_init (&ex);
-	
+
 	/* Load the service (don't connect!). Check its provider and
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-	
+
 	prov = camel_provider_get(uri, &ex);
 	if (prov == NULL) {
 		/* EPFIXME: real error dialog */
@@ -1303,10 +1303,10 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 		camel_exception_clear (&ex);
 		return NULL;
 	}
-	
+
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return NULL;
-	
+
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* EPFIXME: real error dialog */
@@ -1318,7 +1318,7 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 
 	mail_component_add_store(component, store, name);
 	camel_object_unref (store);
-	
+
 	return store;
 }
 
@@ -1343,19 +1343,19 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	 * any call to camel_session_get_{service,store} with the same
 	 * URL will always return the same object. So this works.
 	 */
-	
+
 	if (g_hash_table_lookup (priv->store_hash, store) == NULL)
 		return;
-	
+
 	camel_object_ref (store);
 	g_hash_table_remove (priv->store_hash, store);
-	
+
 	/* so i guess potentially we could have a race, add a store while one
 	   being removed.  ?? */
 	mail_note_store_remove (store);
-	
+
 	em_folder_tree_model_remove_store (priv->model, store);
-	
+
 	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
 }
 
@@ -1366,13 +1366,13 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	CamelStore *store;
 
 	MAIL_COMPONENT_DEFAULT(component);
-	
+
 	if (!(prov = camel_provider_get(uri, NULL)))
 		return;
-	
+
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
-	
+
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
 	if (store != NULL) {
 		mail_component_remove_store (component, store);
@@ -1431,18 +1431,18 @@ mail_component_peek_local_store (MailComponent *mc)
 {
 	MAIL_COMPONENT_DEFAULT (mc);
 	mc_setup_local_store (mc);
-	
+
 	return mc->priv->local_store;
 }
 
 /**
  * mail_component_get_folder:
- * @mc: 
- * @id: 
- * 
+ * @mc:
+ * @id:
+ *
  * Get a standard/default folder by id.  This call is thread-safe.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 struct _CamelFolder *
 mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
@@ -1457,12 +1457,12 @@ mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
 
 /**
  * mail_component_get_folder_uri:
- * @mc: 
- * @id: 
- * 
+ * @mc:
+ * @id:
+ *
  * Get a standard/default folder's uri.  This call is thread-safe.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 const char *
 mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id)

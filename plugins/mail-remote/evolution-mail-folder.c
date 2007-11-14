@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* 
+/*
  * Copyright (C) 2005  Novell, Inc.
  *
  * Authors: Michael Zucchi <notzed@novell.com>
@@ -216,7 +216,7 @@ impl_getMessage(PortableServer_Servant _servant, const CORBA_char * uid, CORBA_E
 	return out;
 }
 
-static void 
+static void
 impl_appendMessage(PortableServer_Servant _servant, const Evolution_Mail_MessageInfoSet*mi, const Evolution_Mail_MessageStream message, CORBA_Environment *ev)
 {
 	EvolutionMailFolder *emf = (EvolutionMailFolder *)bonobo_object_from_servant(_servant);

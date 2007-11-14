@@ -45,7 +45,7 @@ static void
 em_vfolder_context_class_init(EMVFolderContextClass *klass)
 {
 	parent_class = g_type_class_ref(RULE_TYPE_CONTEXT);
-	
+
 	((GObjectClass *)klass)->finalize = em_vfolder_context_finalise;
 	((RuleContextClass *)klass)->new_element = vfolder_new_element;
 }
@@ -55,7 +55,7 @@ em_vfolder_context_init(EMVFolderContext *vc)
 {
 	rule_context_add_part_set((RuleContext *) vc, "partset", filter_part_get_type(),
 				   rule_context_add_part, rule_context_next_part);
-	
+
 	rule_context_add_rule_set((RuleContext *) vc, "ruleset", em_vfolder_rule_get_type(),
 				   rule_context_add_rule, rule_context_next_rule);
 
@@ -66,7 +66,7 @@ GType
 em_vfolder_context_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMVFolderContextClass),
@@ -79,10 +79,10 @@ em_vfolder_context_get_type(void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) em_vfolder_context_init,
 		};
-		
+
 		type = g_type_register_static(RULE_TYPE_CONTEXT, "EMVFolderContext", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -90,7 +90,7 @@ em_vfolder_context_get_type(void)
  * em_vfolder_context_new:
  *
  * Create a new EMVFolderContext object.
- * 
+ *
  * Return value: A new #EMVFolderContext object.
  **/
 EMVFolderContext *

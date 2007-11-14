@@ -49,11 +49,11 @@ gal_a11y_e_tree_factory_init (GalA11yETreeFactory *factory)
 
 /**
  * gal_a11y_e_tree_factory_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETreeFactory class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETreeFactory class.
  **/
 GType

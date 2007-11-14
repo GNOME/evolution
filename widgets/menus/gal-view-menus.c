@@ -99,7 +99,7 @@ remove_instance (GalViewMenus *gvm)
 	if (gvm->priv->instance) {
 		if (gvm->priv->instance_changed_id != 0)
 			g_signal_handler_disconnect (gvm->priv->instance, gvm->priv->instance_changed_id);
-		
+
 		if (gvm->priv->instance->collection && gvm->priv->collection_changed_id != 0)
 			g_signal_handler_disconnect (gvm->priv->instance->collection, gvm->priv->collection_changed_id);
 	}
@@ -154,7 +154,7 @@ gal_view_menus_finalize (GObject *object)
 
 	if (gvm->priv->component)
 		bonobo_object_unref (gvm->priv->component);
-	
+
 	if (gvm->priv->define_views_dialog)
 		g_object_weak_unref (G_OBJECT (gvm->priv->define_views_dialog), clear_define_views_dialog, gvm);
 
@@ -285,7 +285,7 @@ build_menus(GalViewMenus *menus)
 
 	place = bonobo_ui_node_new_child(submenu, "placeholder");
 	bonobo_ui_node_set_attr(place, "name", "ViewBegin");
-	
+
 	submenu = bonobo_ui_node_new_child(place, "submenu");
 	bonobo_ui_node_set_attr(submenu, "name", "CurrentView");
 	bonobo_ui_node_set_attr(submenu, "_label", N_("C_urrent View"));
@@ -302,7 +302,7 @@ build_menus(GalViewMenus *menus)
 		ListenerClosure *closure;
 		char *label;
 		char *tip;
-		
+
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
 		bonobo_ui_node_set_attr(menuitem, "id", item->id);
@@ -343,7 +343,7 @@ build_menus(GalViewMenus *menus)
 			menuitem = bonobo_ui_node_new_child(submenu, "separator");
 			bonobo_ui_node_set_attr(menuitem, "name", "GalView:first_sep");
 			bonobo_ui_node_set_attr(menuitem, "f", "");
-		
+
 
 			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 			bonobo_ui_node_set_attr(menuitem, "name", "custom_view");
@@ -366,7 +366,7 @@ build_menus(GalViewMenus *menus)
 
 			command = bonobo_ui_node_new_child(commands, "cmd");
 			bonobo_ui_node_set_attr(command, "name", "SaveCurrentView");
-			bonobo_ui_node_set_attr(command, "_tip", N_("Save current custom view"));			
+			bonobo_ui_node_set_attr(command, "_tip", N_("Save current custom view"));
 		}
 
 		menuitem = bonobo_ui_node_new_child(submenu, "separator");
@@ -380,7 +380,7 @@ build_menus(GalViewMenus *menus)
 
 		command = bonobo_ui_node_new_child(commands, "cmd");
 		bonobo_ui_node_set_attr(command, "name", "DefineViews");
-		bonobo_ui_node_set_attr(command, "_tip", N_("Create or edit views"));			
+		bonobo_ui_node_set_attr(command, "_tip", N_("Create or edit views"));
 	}
 
 	xml = bonobo_ui_node_to_string(root, TRUE);

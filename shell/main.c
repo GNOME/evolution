@@ -383,7 +383,7 @@ idle_cb (gchar **uris)
 	CORBA_Object_release (corba_shell, &ev);
 
 	CORBA_exception_free (&ev);
-	
+
 	if (shell == NULL) {
 		/*there is another instance but because we don't open any windows
 		we must notify the startup was complete manually*/
@@ -397,7 +397,7 @@ idle_cb (gchar **uris)
 #ifndef G_OS_WIN32
 
 /* SIGSEGV handling.
-   
+
    The GNOME SEGV handler will lose if it's not run from the main Gtk
    thread. So if we have to redirect the signal if the crash happens in another
    thread.  */
@@ -440,7 +440,7 @@ setup_segv_redirect (void)
 	sigaction (SIGSEGV, &sa, NULL);
 	sigaction (SIGBUS, &sa, NULL);
 	sigaction (SIGFPE, &sa, NULL);
-		
+
 	sa.sa_handler = SIG_IGN;
 	sigaction (SIGXFSZ, &sa, NULL);
 	gnome_segv_handler = osa.sa_handler;
@@ -459,19 +459,19 @@ static const GOptionEntry options[] = {
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
 	  N_("Start in online mode"), NULL },
 #ifdef KILL_PROCESS_CMD
-	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev, 
+	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev,
 	  N_("Forcibly shut down all Evolution components"), NULL },
 #endif
 #if DEVELOPMENT
-	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate, 
+	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate,
 	  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
 #endif
-	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log, 
+	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log,
 	  N_("Send the debugging output of all components to a file."), NULL },
-	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin, 
+	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
 	  N_("Disable loading of any plugins."), NULL },
-	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview, 
-	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },	
+	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
+	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },
 	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
 	  &setup_only, NULL, NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
@@ -506,7 +506,7 @@ main (int argc, char **argv)
 
 	g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
 
-	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
+	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
@@ -546,7 +546,7 @@ main (int argc, char **argv)
 	}
 
 	setup_segv_redirect ();
-	
+
 	if (evolution_debug_log) {
 		int fd;
 
@@ -596,11 +596,11 @@ main (int argc, char **argv)
 
 	g_object_unref (client);
 #else
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);	
+	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 #endif
-	
+
 	bonobo_main ();
-	
+
 	e_icon_factory_shutdown ();
 	g_object_unref (program);
 	gnome_sound_shutdown ();

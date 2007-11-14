@@ -112,7 +112,7 @@ static void	set_map_timezone		(ETimezoneDialog *etd,
 						 icaltimezone    *zone);
 static void	on_combo_changed		(GtkEditable	*entry,
 						 ETimezoneDialog *etd);
-static void	map_destroy_cb			(gpointer data, 
+static void	map_destroy_cb			(gpointer data,
 						 GObject *where_object_was);
 
 G_DEFINE_TYPE (ETimezoneDialog, e_timezone_dialog, G_TYPE_OBJECT)
@@ -311,7 +311,7 @@ get_local_offset (void)
 	time_t now = time(NULL), t_gmt, t_local;
 	struct tm gmt, local;
 	int diff;
-		
+
 	gmtime_r (&now, &gmt);
 	localtime_r (&now, &local);
 	t_gmt = mktime (&gmt);
@@ -326,7 +326,7 @@ static icaltimezone*
 get_local_timezone(void)
 {
 	icaltimezone *zone;
-	
+
 	tzset();
 	zone =  icaltimezone_get_builtin_timezone_from_offset (-timezone, tzname[0]);
 
@@ -420,13 +420,13 @@ zone_display_name_with_offset (icaltimezone *zone)
 	int offset;
 	char buffer [100];
 	time_t now = time(NULL);
-	
+
 	gmtime_r ((const time_t *) &now, &local);
 	tt = tm_to_icaltimetype (&local, TRUE);
 	offset = icaltimezone_get_utc_offset(zone, &tt, NULL);
 
 	format_utc_offset (offset, buffer);
-	
+
 	display_name = icaltimezone_get_display_name (zone);
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
@@ -438,7 +438,7 @@ static const char *
 zone_display_name (icaltimezone *zone)
 {
 	const char *display_name;
-	
+
 	display_name = icaltimezone_get_display_name (zone);
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
@@ -479,7 +479,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	double longitude, latitude;
 	icaltimezone *new_zone;
 	char *display=NULL;
-	
+
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
@@ -503,7 +503,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	gtk_label_set_text (GTK_LABEL (priv->preview_label), display);
 
 	g_free (display);
-	
+
 	return TRUE;
 }
 
@@ -543,7 +543,7 @@ on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
-	
+
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
@@ -570,31 +570,31 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
-	
+
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
 	e_map_window_to_world (priv->map, (double) event->x, (double) event->y,
 			       &longitude, &latitude);
-	
+
 	if (event->button != 1) {
 	        e_map_zoom_out (priv->map);
 	} else {
 		if (e_map_get_magnification (priv->map) <= 1.0)
 		        e_map_zoom_to_location (priv->map, longitude,
 						latitude);
-	
+
 		if (priv->point_selected)
 		        e_map_point_set_color_rgba (priv->map,
 						    priv->point_selected,
 						    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		priv->point_selected = priv->point_hover;
-		
+
 		priv->zone = get_zone_from_point (etd, priv->point_selected);
 		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
 				    zone_display_name (priv->zone));
 	}
-	
+
 	return TRUE;
 }
 
@@ -673,7 +673,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 {
 	ETimezoneDialogPrivate *priv;
 	char *display = NULL;
-	
+
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
  	if (!zone) {
@@ -684,7 +684,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 	if (zone)
 		display = zone_display_name_with_offset(zone);
-	
+
 	priv = etd->priv;
 
 	priv->zone = zone;
@@ -796,7 +796,7 @@ e_timezone_dialog_reparent (ETimezoneDialog *etd,
 static void
 map_destroy_cb(gpointer data, GObject *where_object_was)
 {
-	
+
 	ETimezoneDialogPrivate *priv = data;
 	if (priv->timeout_id) {
 		g_source_remove(priv->timeout_id);

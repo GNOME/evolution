@@ -109,7 +109,7 @@ static void
 class_init (MailSessionClass *mail_session_class)
 {
 	CamelSessionClass *camel_session_class = CAMEL_SESSION_CLASS (mail_session_class);
-	
+
 	/* virtual method override */
 	camel_session_class->get_password = get_password;
 	camel_session_class->forget_password = forget_password;
@@ -125,7 +125,7 @@ static CamelType
 mail_session_get_type (void)
 {
 	static CamelType mail_session_type = CAMEL_INVALID_TYPE;
-	
+
 	if (mail_session_type == CAMEL_INVALID_TYPE) {
 		ms_parent_class = (CamelSessionClass *)camel_session_get_type();
 		mail_session_type = camel_type_register (
@@ -138,7 +138,7 @@ mail_session_get_type (void)
 			(CamelObjectInitFunc) init,
 			(CamelObjectFinalizeFunc) finalise);
 	}
-	
+
 	return mail_session_type;
 }
 
@@ -147,12 +147,12 @@ static char *
 make_key (CamelService *service, const char *item)
 {
 	char *key;
-	
+
 	if (service)
 		key = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	else
 		key = g_strdup (item);
-	
+
 	return key;
 }
 
@@ -206,7 +206,7 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 					if (account)
 						title = g_strdup_printf (_("Enter Password for %s"), account->name);
 					else
-						title = g_strdup (_("Enter Password"));				
+						title = g_strdup (_("Enter Password"));
 				}
 				if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
 					eflags = E_PASSWORDS_REMEMBER_NEVER;
@@ -285,15 +285,15 @@ static void
 user_message_response (GtkDialog *dialog, int button, struct _user_message_msg *m)
 {
 	gtk_widget_destroy ((GtkWidget *) dialog);
-	
+
 	message_dialog = NULL;
-	
+
 	/* if !allow_cancel, then we've already replied */
 	if (m->allow_cancel) {
 		m->result = button == GTK_RESPONSE_OK;
 		e_msgport_reply((EMsg *)m);
 	}
-	
+
 	/* check for pendings */
 	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
 		do_user_message((struct _mail_msg *)m);
@@ -316,12 +316,12 @@ do_user_message (struct _mail_msg *mm)
 {
 	struct _user_message_msg *m = (struct _user_message_msg *)mm;
 	int type;
-	
+
 	if (!m->ismain && message_dialog != NULL) {
 		e_dlist_addtail (&message_list, (EDListNode *)m);
 		return;
 	}
-	
+
 	switch (m->type) {
 	case CAMEL_SESSION_ALERT_INFO:
 		type = 0;
@@ -338,10 +338,10 @@ do_user_message (struct _mail_msg *mm)
 
 	if (m->allow_cancel)
 		type += 3;
-	
+
 	message_dialog = (GtkDialog *)e_error_new(NULL, error_type[type], m->prompt, NULL);
 	g_object_set ((GObject *) message_dialog, "allow_shrink", TRUE, "allow_grow", TRUE, NULL);
-	
+
 	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
 	if (m->allow_cancel) {
 		if (m->ismain) {
@@ -380,7 +380,7 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 		return FALSE;
 
 	if (cancel)
-		user_message_reply = e_msgport_new ();	
+		user_message_reply = e_msgport_new ();
 	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
 	m->ismain = pthread_equal(pthread_self(), mail_gui_thread);
 	m->type = type;
@@ -421,7 +421,7 @@ main_play_sound (CamelFilterDriver *driver, char *filename, gpointer user_data)
 		gnome_sound_play (filename);
 	else
 		gdk_beep ();
-	
+
 	g_free (filename);
 	camel_object_unref (session);
 }
@@ -430,9 +430,9 @@ static void
 session_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
 {
 	MailSession *ms = (MailSession *) session;
-	
+
 	camel_object_ref (session);
-	
+
 	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_play_sound,
 			       driver, g_strdup (filename), user_data);
 }
@@ -448,9 +448,9 @@ static void
 session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 {
 	MailSession *ms = (MailSession *) session;
-	
+
 	camel_object_ref (session);
-	
+
 	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_system_beep,
 			       driver, user_data, NULL);
 }
@@ -463,36 +463,36 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	char *user, *system;
 	GConfClient *gconf;
 	RuleContext *fc;
-	
+
 	gconf = mail_config_get_gconf_client ();
-	
+
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
 	rule_context_load (fc, system, user);
 	g_free (system);
 	g_free (user);
-	
+
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
-	
+
 	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/filters/log", NULL)) {
 		MailSession *ms = (MailSession *) session;
-		
+
 		if (ms->filter_logfile == NULL) {
 			char *filename;
-			
+
 			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/filters/logfile", NULL);
 			if (filename) {
 				ms->filter_logfile = g_fopen (filename, "a+");
 				g_free (filename);
 			}
 		}
-		
+
 		if (ms->filter_logfile)
 			camel_filter_driver_set_logfile (driver, ms->filter_logfile);
 	}
-	
+
 	camel_filter_driver_set_shell_func (driver, mail_execute_shell_command, NULL);
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
@@ -505,29 +505,29 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 
 	if (strcmp (type, FILTER_SOURCE_JUNKTEST) != 0) {
 		GString *fsearch, *faction;
-		
+
 		fsearch = g_string_new ("");
 		faction = g_string_new ("");
-		
+
 		if (!strcmp (type, FILTER_SOURCE_DEMAND))
 			type = FILTER_SOURCE_INCOMING;
-		
+
 		/* add the user-defined rules next */
 		while ((rule = rule_context_next_rule (fc, rule, type))) {
 			g_string_truncate (fsearch, 0);
 			g_string_truncate (faction, 0);
-		
+
 			filter_rule_build_code (rule, fsearch);
 			em_filter_rule_build_action ((EMFilterRule *) rule, faction);
 			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
 		}
-		
+
 		g_string_free (fsearch, TRUE);
 		g_string_free (faction, TRUE);
 	}
-	
+
 	g_object_unref (fc);
-	
+
 	return driver;
 }
 
@@ -579,15 +579,15 @@ mail_session_get_password (const char *url_string)
 	CamelURL *url;
 	char *simple_url;
 	char *passwd;
-	
+
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
+
 	passwd = e_passwords_get_password ("Mail", simple_url);
-	
+
 	g_free (simple_url);
-	
+
 	return passwd;
 }
 
@@ -597,13 +597,13 @@ mail_session_add_password (const char *url_string,
 {
 	CamelURL *url;
 	char *simple_url;
-	
+
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
+
 	e_passwords_add_password (simple_url, passwd);
-	
+
 	g_free (simple_url);
 }
 
@@ -612,13 +612,13 @@ mail_session_remember_password (const char *url_string)
 {
 	CamelURL *url;
 	char *simple_url;
-	
+
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
+
 	e_passwords_remember_password ("Mail", simple_url);
-	
+
 	g_free (simple_url);
 }
 
@@ -649,14 +649,14 @@ mail_session_init (const char *base_directory)
 {
 	char *camel_dir;
 	GConfClient *gconf;
-	
+
 	if (camel_init (base_directory, TRUE) != 0)
 		exit (0);
 
 	camel_provider_init();
 
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
-	
+
 	camel_dir = g_strdup_printf ("%s/mail", base_directory);
 	camel_session_construct (session, camel_dir);
 
@@ -670,7 +670,7 @@ mail_session_init (const char *base_directory)
 
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);
-	
+
 	g_free (camel_dir);
 }
 
@@ -684,20 +684,20 @@ void
 mail_session_set_interactive (gboolean interactive)
 {
 	MAIL_SESSION (session)->interactive = interactive;
-	
+
 	if (!interactive) {
 		struct _user_message_msg *um;
-		
+
 		d(printf ("Gone non-interactive, checking for outstanding interactive tasks\n"));
 
 		e_passwords_cancel();
-		
+
 		/* flush/cancel pending user messages */
 		while ((um = (struct _user_message_msg *) e_dlist_remhead (&message_list))) {
 			d(printf ("Flusing message request: %s\n", um->prompt));
 			e_msgport_reply((EMsg *) um);
 		}
-		
+
 		/* and the current */
 		if (message_dialog) {
 			d(printf("Destroying message dialogue\n"));
@@ -717,7 +717,7 @@ void
 mail_session_flush_filter_log (void)
 {
 	MailSession *ms = (MailSession *) session;
-	
+
 	if (ms->filter_logfile)
 		fflush (ms->filter_logfile);
 }
@@ -728,10 +728,10 @@ mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plu
 	MailSession *ms = (MailSession *) session;
 	GConfClient *gconf;
 	char *def_plugin;
-	
+
 	gconf = mail_config_get_gconf_client ();
 	def_plugin = gconf_client_get_string (gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
-	
+
 	ms->junk_plugins = g_list_append(ms->junk_plugins, junk_plugin);
 	if (def_plugin && plugin_name) {
 		if (!strcmp(def_plugin, plugin_name)) {
@@ -747,6 +747,6 @@ mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plu
 const GList *
 mail_session_get_junk_plugins (void)
 {
-	MailSession *ms = (MailSession *) session;	
+	MailSession *ms = (MailSession *) session;
 	return ms->junk_plugins;
 }

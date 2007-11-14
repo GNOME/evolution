@@ -159,7 +159,7 @@ static struct _send_data *
 setup_send_data(void)
 {
 	struct _send_data *data;
-	
+
 	if (send_data == NULL) {
 		send_data = data = g_malloc0(sizeof(*data));
 		data->lock = g_mutex_new();
@@ -320,7 +320,7 @@ format_url(const char *internal_url, const char *account_name)
 			pretty_url = g_strdup_printf("<b>%s (%s)</b>: %s", account_name, url->protocol, url->host);
 		else if (url->path)
 			pretty_url = g_strdup_printf("<b>%s (%s)</b>: %s", account_name, url->protocol, url->path);
-		else 
+		else
 			pretty_url = g_strdup_printf("<b>%s (%s)</b>", account_name, url->protocol);
 	}
 	else {
@@ -328,7 +328,7 @@ format_url(const char *internal_url, const char *account_name)
 			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->host);
 		else if (url->path)
 			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->path);
-		else 
+		else
 			pretty_url = g_strdup_printf("<b>%s</b>", url->protocol);
 	}
 	camel_url_free(url);
@@ -353,7 +353,7 @@ get_receive_type(const char *url)
 
 	if (!provider)
 		return SEND_INVALID;
-	
+
 	if (provider->object_types[CAMEL_PROVIDER_STORE]) {
 		if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
 			return SEND_UPDATE;
@@ -362,7 +362,7 @@ get_receive_type(const char *url)
 	} else if (provider->object_types[CAMEL_PROVIDER_TRANSPORT]) {
 		return SEND_SEND;
 	}
-	
+
 	return SEND_INVALID;
 }
 
@@ -376,7 +376,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	struct _send_data *data;
         GtkWidget *send_icon;
 	GtkWidget *recv_icon;
-	GtkWidget *scrolled_window; 
+	GtkWidget *scrolled_window;
 	GtkWidget *label;
 	GtkWidget *status_label;
 	GtkWidget *progress_bar;
@@ -390,7 +390,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 
 	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
-	
+
 	gtk_widget_ensure_style ((GtkWidget *)gd);
 	gtk_container_set_border_width ((GtkContainer *)gd->vbox, 0);
 	gtk_container_set_border_width ((GtkContainer *)gd->action_area, 6);
@@ -402,34 +402,34 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON));
 	gtk_widget_show (cancel_button);
 	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
-	
+
 	icon_list = e_icon_factory_get_icon_list ("mail-send-receive");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (gd), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	num_sources = 0;
-	
+
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->source->url)
 			num_sources++;
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	table = gtk_table_new (num_sources, 4, FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 6);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 6);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);	
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolled_window),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
@@ -437,48 +437,48 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_scrolled_window_add_with_viewport (
 		GTK_SCROLLED_WINDOW (scrolled_window), table);
 	gtk_box_pack_start (
-		GTK_BOX (gd->vbox), scrolled_window, TRUE, TRUE, 0); 
+		GTK_BOX (gd->vbox), scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_set_size_request (gd->vbox, 600, 200);
-	gtk_widget_show (scrolled_window);	
+	gtk_widget_show (scrolled_window);
 
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
 	data = setup_send_data ();
-	
+
 	row = 0;
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		EAccountService *source;
-		
+
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		source = account->source;
 		if (!account->enabled || !source->url) {
 			e_iterator_next (iter);
 			continue;
 		}
-		
+
 		/* see if we have an outstanding download active */
 		info = g_hash_table_lookup (data->active, source->url);
 		if (info == NULL) {
 			send_info_t type;
-			
+
 			type = get_receive_type (source->url);
 			if (type == SEND_INVALID || type == SEND_SEND) {
 				e_iterator_next (iter);
 				continue;
 			}
-			
+
 			info = g_malloc0 (sizeof (*info));
 			info->type = type;
-			
+
 			d(printf("adding source %s\n", source->url));
-			
+
 			info->uri = g_strdup (source->url);
 			info->keep = source->keep_on_server;
 			info->cancel = camel_operation_new (operation_status, info);
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
-			
+
 			g_hash_table_insert (data->active, info->uri, info);
 			list = g_list_prepend (list, info);
 		} else if (info->progress_bar != NULL) {
@@ -487,7 +487,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			continue;
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
-		
+
 		recv_icon = e_icon_factory_get_image (
 			"mail-inbox", E_ICON_SIZE_LARGE_TOOLBAR);
 	       	pretty_url = format_url (source->url, account->name);
@@ -496,9 +496,9 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 		gtk_label_set_markup (GTK_LABEL (label), pretty_url);
 		g_free (pretty_url);
-		
+
 		progress_bar = gtk_progress_bar_new ();
-		
+
 		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
 		status_label = gtk_label_new (
@@ -510,7 +510,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		/* g_object_set(data->label, "bold", TRUE, NULL); */
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
-		
+
 	        gtk_table_attach (
 			GTK_TABLE (table), recv_icon,
 			0, 1, row, row+2, 0, 0, 0, 0);
@@ -526,43 +526,43 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		gtk_table_attach (
 			GTK_TABLE (table), status_label,
 			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		
+
 		info->progress_bar = progress_bar;
 		info->status_label = status_label;
 		info->cancel_button = cancel_button;
 		info->data = data;
-                
+
 		g_signal_connect (
 			cancel_button, "clicked",
 			G_CALLBACK (receive_cancel), info);
 		e_iterator_next (iter);
 		row = row + 2;
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	/* Hook: If some one wants to hook on to the sendreceive dialog, this is the way to go. */
 	target = em_event_target_new_send_receive (em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
 	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
-	
+
 	if (outbox && destination) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
 			info->type = SEND_SEND;
 			d(printf("adding dest %s\n", destination));
-			
+
 			info->uri = g_strdup (destination);
 			info->keep = FALSE;
 			info->cancel = camel_operation_new (operation_status, info);
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
-			
+
 			g_hash_table_insert (data->active, SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
-		
+
 		send_icon = e_icon_factory_get_image (
 			"mail-outbox", E_ICON_SIZE_LARGE_TOOLBAR);
 		pretty_url = format_url (destination, NULL);
@@ -572,7 +572,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		gtk_label_set_markup (GTK_LABEL (label), pretty_url);
 
 		g_free (pretty_url);
-		
+
 		progress_bar = gtk_progress_bar_new ();
 		cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
@@ -582,7 +582,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
-		
+
 		gtk_table_attach (
 			GTK_TABLE (table), send_icon,
 			0, 1, row, row+2, 0, 0, 0, 0);
@@ -598,27 +598,27 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		gtk_table_attach (
 			GTK_TABLE (table), status_label,
 			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		
+
 		info->progress_bar = progress_bar;
 		info->cancel_button = cancel_button;
 		info->data = data;
 		info->status_label = status_label;
-		
+
 		g_signal_connect (
 			cancel_button, "clicked",
 			G_CALLBACK (receive_cancel), info);
 		gtk_widget_show_all (table);
 	}
-	
+
 	gtk_widget_show (GTK_WIDGET (gd));
-	
+
 	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
-	
+
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
-	
+
 	data->infos = list;
 	data->gd = gd;
-	
+
 	return data;
 }
 
@@ -752,7 +752,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	/* we recheck that the folder hasn't snuck in while we were loading it... */
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock(info->data->lock);
-	
+
 	if (g_hash_table_lookup_extended (info->data->folders, uri, &oldkey, &oldinfoptr)) {
 		oldinfo = (struct _folder_info *) oldinfoptr;
 		camel_object_unref(oldinfo->folder);
@@ -764,11 +764,11 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		oldinfo->uri = g_strdup(uri);
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
-	
+
 	camel_object_ref (folder);
-	
+
 	g_mutex_unlock(info->data->lock);
-	
+
 	return folder;
 }
 
@@ -885,7 +885,7 @@ static void
 receive_update_got_store (char *uri, CamelStore *store, void *data)
 {
 	struct _send_info *info = data;
-	
+
 	if (store) {
 		mail_note_store(store, info->cancel, receive_update_got_folderinfo, info);
 	} else {
@@ -901,7 +901,7 @@ mail_send_receive (void)
 	EAccountList *accounts;
 	EAccount *account;
 	GList *scan;
-	
+
 	if (send_recv_dialog != NULL) {
 		if (GTK_WIDGET_REALIZED(send_recv_dialog)) {
 			gdk_window_show(send_recv_dialog->window);
@@ -909,14 +909,14 @@ mail_send_receive (void)
 		}
 		return send_recv_dialog;
 	}
-	
+
 	if (!camel_session_is_online (session))
 		return send_recv_dialog;
-	
+
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport->url)
 		return send_recv_dialog;
-	
+
 	accounts = mail_config_get_accounts ();
 
 	outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
@@ -924,7 +924,7 @@ mail_send_receive (void)
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
-		
+
 		switch(info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail(info->uri, info->keep,
@@ -1093,22 +1093,22 @@ mail_receive_uri (const char *uri, int keep)
 	struct _send_data *data;
 	CamelFolder *outbox_folder;
 	send_info_t type;
-	
+
 	data = setup_send_data();
 	info = g_hash_table_lookup(data->active, uri);
 	if (info != NULL) {
 		d(printf("download of %s still in progress\n", uri));
 		return;
 	}
-	
+
 	d(printf("starting non-interactive download of '%s'\n", uri));
-	
+
 	type = get_receive_type (uri);
 	if (type == SEND_INVALID || type == SEND_SEND) {
 		d(printf ("unsupported provider: '%s'\n", uri));
 		return;
 	}
-	
+
 	info = g_malloc0 (sizeof (*info));
 	info->type = type;
 	info->progress_bar = NULL;
@@ -1120,11 +1120,11 @@ mail_receive_uri (const char *uri, int keep)
 	info->data = data;
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;
-	
+
 	d(printf("Adding new info %p\n", info));
-	
+
 	g_hash_table_insert (data->active, info->uri, info);
-	
+
 	switch (info->type) {
 	case SEND_RECEIVE:
 		mail_fetch_mail (info->uri, info->keep,
@@ -1160,11 +1160,11 @@ mail_send (void)
 	struct _send_info *info;
 	struct _send_data *data;
 	send_info_t type;
-	
+
 	transport = mail_config_get_default_transport ();
-	if (!transport || !transport->url) 
+	if (!transport || !transport->url)
 		return;
-	
+
 	data = setup_send_data ();
 	info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 	if (info != NULL) {
@@ -1172,15 +1172,15 @@ mail_send (void)
 		d(printf("send of %s still in progress\n", transport->url));
 		return;
 	}
-	
+
 	d(printf("starting non-interactive send of '%s'\n", transport->url));
-	
+
 	type = get_receive_type (transport->url);
 	if (type == SEND_INVALID) {
 		d(printf ("unsupported provider: '%s'\n", transport->url));
 		return;
 	}
-	
+
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
 	info->progress_bar = NULL;
@@ -1192,11 +1192,11 @@ mail_send (void)
 	info->data = data;
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;
-	
+
 	d(printf("Adding new info %p\n", info));
-	
+
 	g_hash_table_insert (data->active, SEND_URI_KEY, info);
-	
+
 	/* todo, store the folder in info? */
 	outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	mail_send_queue (outbox_folder, info->uri,

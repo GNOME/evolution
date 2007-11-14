@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas-vbox.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -72,15 +72,15 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 
 	klass->add_item       = e_canvas_vbox_real_add_item;
 	klass->add_item_start = e_canvas_vbox_real_add_item_start;
- 
+
 	object_class->set_property = e_canvas_vbox_set_property;
 	object_class->get_property = e_canvas_vbox_get_property;
 	object_class->dispose      = e_canvas_vbox_dispose;
-  
+
 	/* GnomeCanvasItem method overrides */
 	item_class->event       = e_canvas_vbox_event;
 	item_class->realize     = e_canvas_vbox_realize;
-  
+
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
 							      _( "Width" ),
@@ -128,7 +128,7 @@ e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value,
 
 	item = GNOME_CANVAS_ITEM (object);
 	e_canvas_vbox = E_CANVAS_VBOX (object);
-	
+
 	switch (prop_id){
 	case PROP_WIDTH:
 	case PROP_MINIMUM_WIDTH:
@@ -233,7 +233,7 @@ e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 			return GNOME_CANVAS_ITEM_CLASS (e_canvas_vbox_parent_class)->event (item, event);
 	}
 	return return_val;
-	
+
 }
 
 static void
@@ -241,7 +241,7 @@ e_canvas_vbox_realize (GnomeCanvasItem *item)
 {
 	if (GNOME_CANVAS_ITEM_CLASS(e_canvas_vbox_parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS(e_canvas_vbox_parent_class)->realize) (item);
-	
+
 	e_canvas_vbox_resize_children(item);
 	e_canvas_item_request_reflow(item);
 }
@@ -332,7 +332,7 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 			if (max_width < item_width)
 				max_width = item_width;
 			list = g_list_next(list);
-			
+
 			for( ; list; list = g_list_next(list)) {
 				running_height += e_canvas_vbox->spacing;
 
@@ -349,7 +349,7 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 				if (max_width < item_width)
 					max_width = item_width;
 			}
-				 
+
 		}
 		e_canvas_vbox->height = running_height;
 		e_canvas_vbox->width = max_width;
@@ -372,4 +372,4 @@ e_canvas_vbox_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT_GET_CLASS(e_canvas_vbox))->add_item_start)
 		(E_CANVAS_VBOX_CLASS(GTK_OBJECT_GET_CLASS(e_canvas_vbox))->add_item_start) (e_canvas_vbox, item);
 }
-	
+

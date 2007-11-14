@@ -70,14 +70,14 @@ idle_do_action (gpointer data)
 
 	event.x = 0;
 	event.y = 0;
-                                                                                
+
         event.type = GDK_BUTTON_PRESS;
         event.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(etcta)->canvas)->bin_window;
         event.button = 1;
         event.send_event = TRUE;
         event.time = GDK_CURRENT_TIME;
         event.axes = NULL;
-                                                                                
+
         g_signal_emit_by_name (etcta, "event", &event, &finished);
 
 	return FALSE;
@@ -97,7 +97,7 @@ static void
 atk_action_interface_init (AtkActionIface *iface)
 {
 	g_return_if_fail (iface != NULL);
-                                                                                
+
 	iface->do_action = etcta_do_action;
 	iface->get_n_actions = etcta_get_n_actions;
 	iface->get_description = etcta_get_description;
@@ -184,11 +184,11 @@ etcta_init (GalA11yETableClickToAdd *a11y)
 
 /**
  * gal_a11y_e_table_click_to_add_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETableClickToAdd class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETableClickToAdd class.
  **/
 GType
@@ -222,9 +222,9 @@ gal_a11y_e_table_click_to_add_get_type (void)
 
 		parent_type = atk_object_factory_get_accessible_type (factory);
                 type = gal_a11y_type_register_static_with_private (PARENT_TYPE,
-				"GalA11yETableClickToAdd", &info, 0, 
+				"GalA11yETableClickToAdd", &info, 0,
 				sizeof(GalA11yETableClickToAddPrivate), &priv_offset);
-                                                                                
+
                 g_type_add_interface_static (type, ATK_TYPE_ACTION, &atk_action_info);
 
 	}
@@ -238,7 +238,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
         ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 	GalA11yETableClickToAdd *a11y;
 	GalA11yETableClickToAddPrivate *priv;
-	
+
 	g_return_val_if_fail (item, TRUE);
 
 	g_return_val_if_fail (GAL_A11Y_IS_E_TABLE_CLICK_TO_ADD(data), FALSE);

@@ -78,7 +78,7 @@ save_session_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown,
 	args[1] = NULL;
 	gnome_client_set_restart_command (client, 1, args);
 	g_free (args[0]);
-	
+
 	return TRUE;
 }
 
@@ -157,7 +157,7 @@ main (int argc, char **argv)
 	init_session ();
 
 	/* FIXME Ideally we should not use camel libraries in calendar, though it is the case
-	   currently for attachments. Remove this once that is fixed. 
+	   currently for attachments. Remove this once that is fixed.
 	   Initialise global camel_object_type */
 	camel_object_get_type();
 

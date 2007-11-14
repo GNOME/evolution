@@ -45,7 +45,7 @@ typedef struct _ETaskBarClass   ETaskBarClass;
 
 struct _ETaskBar {
 	GtkHBox          parent;
-	
+
 	ETaskBarPrivate *priv;
 };
 

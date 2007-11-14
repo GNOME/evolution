@@ -120,9 +120,9 @@ impl_requestCreateItem (PortableServer_Servant servant,
 {
 	EvolutionTestComponent *evolution_test_component = EVOLUTION_TEST_COMPONENT (bonobo_object_from_servant (servant));
 	EvolutionTestComponentPrivate *priv;
-	
+
 	priv = evolution_test_component->priv;
-	
+
 	if (strcmp (item_type_name, CREATE_TEST_ID) == 0) {
 		g_message ("Creating test item");
 	} else {
@@ -171,7 +171,7 @@ factory (BonoboGenericFactory *factory,
 		bonobo_object_ref (object);
 		return object;
 	}
-	
+
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 
 	return NULL;

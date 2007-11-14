@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *   Bolian Yin <bolian.yin@sun.com>
  *
@@ -176,7 +176,7 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y, ETableItem *item, gboolean
 	} else
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 
-	if (notify && cell) 
+	if (notify && cell)
 		atk_focus_tracker_notify (cell);
 }
 
@@ -251,7 +251,7 @@ eti_get_extents (AtkComponent *component,
 
 	parent = ATK_OBJECT (component)->accessible_parent;
 	if (parent && ATK_IS_COMPONENT (parent))
-		atk_component_get_extents (ATK_COMPONENT (parent), x, y, 
+		atk_component_get_extents (ATK_COMPONENT (parent), x, y,
 					width, height,
 					coord_type);
 
@@ -313,7 +313,7 @@ cell_destroyed (gpointer data)
 	g_return_if_fail (cell->item && G_IS_OBJECT (cell->item));
 
         if (cell->item) {
-                g_object_unref (cell->item);  
+                g_object_unref (cell->item);
                 cell->item = NULL;
         }
 
@@ -354,7 +354,7 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 					   (GWeakNotify) cell_destroyed,
 					   ret);
 			/* if current cell is focused, add FOCUSED state */
-			if (e_selection_model_cursor_row (item->selection) == GAL_A11Y_E_CELL (ret)->row && 
+			if (e_selection_model_cursor_row (item->selection) == GAL_A11Y_E_CELL (ret)->row &&
 					e_selection_model_cursor_col (item->selection) == GAL_A11Y_E_CELL (ret)->model_col)
 				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (ret), ATK_STATE_FOCUSED, FALSE);
 		} else
@@ -439,7 +439,7 @@ eti_get_column_extent_at (AtkTable *table,
 		return -1;
 
 	e_table_item_get_cell_geometry (item,
-					&row, 
+					&row,
 					&column,
 					NULL,
 					NULL,
@@ -462,7 +462,7 @@ eti_get_row_extent_at (AtkTable *table,
 		return -1;
 
 	e_table_item_get_cell_geometry (item,
-					&row, 
+					&row,
 					&column,
 					NULL,
 					NULL,
@@ -537,7 +537,7 @@ eti_get_summary (AtkTable *table)
 	return NULL;
 }
 
-static gboolean 
+static gboolean
 table_is_row_selected (AtkTable *table, gint row)
 {
 	ETableItem *item;
@@ -556,7 +556,7 @@ table_is_row_selected (AtkTable *table, gint row)
 	return e_selection_model_is_row_selected(item->selection, view_to_model_row (item, row));
 }
 
-static gboolean 
+static gboolean
 table_is_selected (AtkTable *table, gint row, gint column)
 {
 	return table_is_row_selected (table, row);
@@ -591,7 +591,7 @@ table_get_selected_rows (AtkTable *table, gint **rows_selected)
 	return n_selected;
 }
 
-static gboolean 
+static gboolean
 table_add_row_selection (AtkTable *table, gint row)
 {
 	ETableItem *item;
@@ -608,7 +608,7 @@ table_add_row_selection (AtkTable *table, gint row)
 	return TRUE;
 }
 
-static gboolean 
+static gboolean
 table_remove_row_selection (AtkTable *table, gint row)
 {
 	ETableItem *item;
@@ -662,7 +662,7 @@ eti_atk_component_iface_init (AtkComponentIface *iface)
 }
 
 static void
-eti_rows_inserted (ETableModel * model, int row, int count, 
+eti_rows_inserted (ETableModel * model, int row, int count,
 		   AtkObject * table_item)
 {
 	gint n_cols,n_rows,i,j;
@@ -676,11 +676,11 @@ eti_rows_inserted (ETableModel * model, int row, int count,
 	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
 
 	old_nrows = GET_PRIVATE(item_a11y)->rows;
-	
+
 	g_return_if_fail (n_cols > 0 && n_rows > 0);
 	g_return_if_fail (old_nrows == n_rows - count);
 
-	GET_PRIVATE(table_item)->rows = n_rows; 
+	GET_PRIVATE(table_item)->rows = n_rows;
 
 	g_signal_emit_by_name (table_item, "row-inserted", row,
 			       count, NULL);
@@ -697,12 +697,12 @@ eti_rows_inserted (ETableModel * model, int row, int count,
 }
 
 static void
-eti_rows_deleted (ETableModel * model, int row, int count, 
+eti_rows_deleted (ETableModel * model, int row, int count,
 		  AtkObject * table_item)
 {
 	gint i,j, n_rows, n_cols, old_nrows;
 	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
-	
+
 	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
         n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
 
@@ -748,7 +748,7 @@ enum {
         ETI_HEADER_NEW_ADDED,
         ETI_HEADER_REMOVED,
 };
-                                                                                
+
 /*
  * 1. Check what actually happened: column reorder, remove or add
  * 2. Update cache
@@ -757,17 +757,17 @@ enum {
 static void
 eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 {
-                                                                                
+
         gboolean reorder_found=FALSE, added_found=FALSE, removed_found=FALSE;
         GalA11yETableItem * a11y_item;
         ETableCol ** cols, **prev_cols;
         GalA11yETableItemPrivate *priv;
         gint *state = NULL, *prev_state = NULL, *reorder = NULL;
         gint i,j,n_rows,n_cols, prev_n_cols;
-                                                                                
+
         a11y_item = GAL_A11Y_E_TABLE_ITEM (a11y);
         priv = GET_PRIVATE (a11y_item);
-                                                                                
+
 	/* Assume rows do not changed. */
         n_rows = priv->rows;
 
@@ -776,9 +776,9 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 
         cols = e_table_header_get_columns (eth);
 	n_cols = eth->col_count;
-                                                                                
+
         g_return_if_fail (cols && prev_cols && n_cols > 0);
-                                                                                
+
         /* Init to ETI_HEADER_UNCHANGED. */
         state = g_malloc0 (sizeof (gint) * n_cols);
         prev_state = g_malloc0 (sizeof (gint) * prev_n_cols);
@@ -799,7 +799,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
                                 break;
                         }
                 }
-                                                                                
+
                 /* cols[i] is new added column. */
                 if ( j == prev_n_cols ) {
 			added_found = TRUE;
@@ -812,7 +812,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
                 for (j = 0 ; j < n_cols && cols[j]; j ++)
                         if ( prev_cols [j] == cols[i] )
 				break;
-                                                                                
+
                 /* Removed columns found. */
                 if ( j == n_cols ) {
 			removed_found = TRUE;
@@ -861,7 +861,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 
 
 static void
-eti_real_initialize (AtkObject *obj, 
+eti_real_initialize (AtkObject *obj,
 		     gpointer data)
 {
 	ETableItem * eti;
@@ -940,11 +940,11 @@ static void eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 
 /**
  * gal_a11y_e_table_item_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETableItem class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETableItem class.
  **/
 GType
@@ -1029,7 +1029,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	GET_PRIVATE (a11y)->cols = item->cols;
 	GET_PRIVATE (a11y)->rows = item->rows;
 
-        GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);                                                                                
+        GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);
         if ( GET_PRIVATE (a11y)->columns == NULL)
                 return NULL;
 
@@ -1058,7 +1058,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 			accessible->role = ATK_ROLE_TREE_TABLE;
 		} else if (E_IS_TABLE (GET_PRIVATE (a11y)->widget)) {
 			accessible->role = ATK_ROLE_TABLE;
-		} 
+		}
 	}
 
 	if (item)
@@ -1181,7 +1181,7 @@ eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 
 	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
 
-	if (atk_state_set_contains_state (priv->state_set, ATK_STATE_DEFUNCT)) 
+	if (atk_state_set_contains_state (priv->state_set, ATK_STATE_DEFUNCT))
 		return;
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (a11y)));

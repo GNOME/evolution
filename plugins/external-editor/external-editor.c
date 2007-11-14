@@ -127,9 +127,9 @@ void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 			camel_mime_part_set_content ((CamelMimePart *)message, tokens [5], strlen (tokens [5]), "text/plain");
 
 
-			/* FIXME: We need to make mail-remote working properly. 
-			   So that we neednot invoke composer widget at all. 
-			   May be we can do it now itself by invoking local CamelTransport. 
+			/* FIXME: We need to make mail-remote working properly.
+			   So that we neednot invoke composer widget at all.
+			   May be we can do it now itself by invoking local CamelTransport.
 			   But all that is not needed for the first release.
 			 */
 
@@ -148,5 +148,5 @@ void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 	system (query);
 	g_free (query);
 
-#endif	
+#endif
 }

@@ -409,7 +409,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 
 	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
 		return;
-	
+
 	view = gnome_calendar_get_current_view_widget (gcal);
 
 	menu = gnome_calendar_get_calendar_menu (gcal);

@@ -47,18 +47,18 @@ gal_a11y_e_cell_toggle_get_type (void)
         NULL, /* instance init */
         NULL /* value table */
       };
-                                                                                
+
 
       type = g_type_register_static (GAL_A11Y_TYPE_E_CELL,
                                      "GalA11yECellToggle", &tinfo, 0);
       gal_a11y_e_cell_type_add_action_interface (type);
-	
+
     }
   return type;
 }
 
 
-static void 
+static void
 gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -118,7 +118,7 @@ model_change_cb (ETableModel *etm,
 }
 
 
-AtkObject* 
+AtkObject*
 gal_a11y_e_cell_toggle_new (ETableItem *item,
 			    ECellView  *cell_view,
 			    AtkObject  *parent,
@@ -147,7 +147,7 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
                                    view_col,
                                    row);
 
-	gal_a11y_e_cell_add_action (cell, 
+	gal_a11y_e_cell_add_action (cell,
 				    _("toggle"),	       /* action name*/
 				    _("toggle the cell"), /* action description */
 				    NULL,              /* action keybinding */

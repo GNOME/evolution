@@ -246,7 +246,7 @@ get_completed (ECalModelComponent *comp_data)
 		comp_data->completed->tt = tt_completed;
 
 		if (icaltime_get_tzid (tt_completed)
-		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_completed), &zone, NULL)) 
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_completed), &zone, NULL))
 			comp_data->completed->zone = zone;
 		else
 			comp_data->completed->zone = NULL;
@@ -276,7 +276,7 @@ get_due (ECalModelComponent *comp_data)
 		comp_data->due->tt = tt_due;
 
 		if (icaltime_get_tzid (tt_due)
-		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_due), &zone, NULL)) 
+		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_due), &zone, NULL))
 			comp_data->due->zone = zone;
 		else
 			comp_data->due->zone = NULL;
@@ -384,7 +384,7 @@ is_complete (ECalModelComponent *comp_data)
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
 	if (prop && icalproperty_get_status (prop) == ICAL_STATUS_COMPLETED)
 		return TRUE;
-	
+
 	return FALSE;
 }
 
@@ -418,10 +418,10 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 		due_tt = icalproperty_get_due (prop);
 		if (due_tt.is_date) {
 			int cmp;
-			
+
 			now_tt = icaltime_current_time_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
 			cmp = icaltime_compare_date_only (due_tt, now_tt);
-			
+
 			if (cmp < 0)
 				return E_CAL_MODEL_TASKS_DUE_OVERDUE;
 			else if (cmp == 0)
@@ -442,7 +442,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 
 			now_tt = icaltime_current_time_with_zone (zone);
 
-			if (icaltime_compare (due_tt, now_tt) <= 0) 
+			if (icaltime_compare (due_tt, now_tt) <= 0)
 				return E_CAL_MODEL_TASKS_DUE_OVERDUE;
 			else
 				if (icaltime_compare_date_only (due_tt, now_tt) == 0)
@@ -554,7 +554,7 @@ set_due (ECalModelComponent *comp_data, const void *value)
 	icalproperty *prop;
 	icalparameter *param;
 	const char *tzid;
-	
+
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
 	if (prop)
 		param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
@@ -571,7 +571,7 @@ set_due (ECalModelComponent *comp_data, const void *value)
 
 		return;
 	}
-	
+
 	/* If the TZID is set to "UTC", we set the is_utc flag. */
 	tzid = dv->zone ? icaltimezone_get_tzid (dv->zone) : "UTC";
 	if (tzid && !strcmp (tzid, "UTC"))
@@ -641,7 +641,7 @@ set_geo (ECalModelComponent *comp_data, const char *value)
 			prop = icalproperty_new_geo (geo);
 			icalcomponent_add_property (comp_data->icalcomp, prop);
 		}
-			
+
 	}
 }
 
@@ -691,7 +691,7 @@ set_status (ECalModelComponent *comp_data, const char *value)
 
 	case ICAL_STATUS_COMPLETED:
 		ensure_task_complete (comp_data, -1);
-		break;		
+		break;
 	default:
 		break;
 	}
@@ -731,12 +731,12 @@ set_percent (ECalModelComponent *comp_data, const void *value)
 				icalcomponent_remove_property (comp_data->icalcomp, prop);
 				icalproperty_free (prop);
 			}
-			
+
 			if (percent > 0)
 				set_status (comp_data, _("In Progress"));
 		}
 	}
-	
+
 }
 
 static void
@@ -904,7 +904,7 @@ static void
 ecmt_free_value (ETableModel *etm, int col, void *value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
-	
+
 	if (col < E_CAL_MODEL_FIELD_LAST) {
 		E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->free_value (etm, col, value);
 		return;
@@ -1060,7 +1060,7 @@ ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 				ETableModel *source_model, gint row)
 {
 	void *value;
-	
+
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (comp_data != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
@@ -1076,7 +1076,7 @@ ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 		if (GPOINTER_TO_INT (value) != 100 && GPOINTER_TO_INT (value) != 0)
 			set_status (comp_data, e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
 	}
-	
+
 	set_due (comp_data,
 		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
 	set_geo (comp_data,
@@ -1114,7 +1114,7 @@ void e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelCompo
 	ensure_task_complete (comp_data, -1);
 
 	/*e_table_model_row_changed (E_TABLE_MODEL (model), model_row);*/
-	
+
 	commit_component_changes (comp_data);
 }
 
@@ -1131,15 +1131,15 @@ void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelCom
 
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (comp_data != NULL);
-	
+
 	/* we will receive changes when committed, so don't do this */
 	/*e_table_model_pre_change (E_TABLE_MODEL (model));*/
 
 	/* Status */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY); 
-	if (prop) 
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	if (prop)
 		icalproperty_set_status (prop, ICAL_STATUS_NEEDSACTION);
-	else 	     
+	else
 		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_NEEDSACTION));
 
 	/*complete property*/
@@ -1198,7 +1198,7 @@ e_cal_model_tasks_update_due_tasks (ECalModelTasks *model)
 	{
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 		status = get_due_status (E_CAL_MODEL_TASKS (model), comp_data);
-		if((status == E_CAL_MODEL_TASKS_DUE_TODAY) || (status == E_CAL_MODEL_TASKS_DUE_OVERDUE)) 
+		if((status == E_CAL_MODEL_TASKS_DUE_TODAY) || (status == E_CAL_MODEL_TASKS_DUE_OVERDUE))
 		{
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_changed (E_TABLE_MODEL (model), row);

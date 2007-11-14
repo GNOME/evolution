@@ -253,7 +253,7 @@ GType
 em_format_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMFormatHookClass), NULL, NULL, (GClassInitFunc) emfh_class_init, NULL, NULL,
@@ -263,7 +263,7 @@ em_format_hook_get_type(void)
 		emfh_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EMFormatHook", &info, 0);
 	}
-	
+
 	return type;
 }
 

@@ -38,7 +38,7 @@
 
 #include "libedataserver/e-msgport.h"
 
-#define d(x) 
+#define d(x)
 
 /* fixed-point scale factor for scaled images in cache */
 #define EMIS_SCALE (1024)
@@ -72,7 +72,7 @@ CamelType
 em_icon_stream_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		parent_class = (EMSyncStreamClass *)em_sync_stream_get_type();
 		type = camel_type_register (em_sync_stream_get_type(),
@@ -86,7 +86,7 @@ em_icon_stream_get_type (void)
 
 		emis_cache = em_cache_new(60, sizeof(struct _emis_cache_node), emis_cache_free);
 	}
-	
+
 	return type;
 }
 
@@ -274,7 +274,7 @@ em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int ma
 	GdkPixbuf *pb = NULL;
 
 	/* forces the cache to be setup if not */
-	em_icon_stream_get_type();	
+	em_icon_stream_get_type();
 
 	node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, key);
 	if (node) {
@@ -326,7 +326,7 @@ em_icon_stream_is_resized(const char *key, unsigned int maxwidth, unsigned int m
 {
 	int res = FALSE;
 	struct _emis_cache_node *node;
-	
+
 	/* forces the cache to be setup if not */
 	em_icon_stream_get_type();
 

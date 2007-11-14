@@ -42,7 +42,7 @@ struct _proxyLogin{
     GList *proxy_list;
 
     /* Private Dialog Information*/
-    proxyLoginPrivate *priv;  
+    proxyLoginPrivate *priv;
 };
 
 struct _proxyLoginClass {

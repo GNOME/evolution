@@ -1,4 +1,4 @@
-/* 
+/*
    Copyright (C) 2004 Novell, Inc.
    Author: Radek Doulik
 
@@ -26,7 +26,7 @@
 #include "gtkhtml/gtkhtml-embedded.h"
 #include "gst/gst.h"
 
-#define d(x) 
+#define d(x)
 
 void org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t);
 
@@ -159,11 +159,11 @@ org_gnome_audio_inline_gst_callback (GstBus * bus, GstMessage * message, gpointe
 			      if (old_state == new_state)
 				      break;
 
-			      if (po->play_button) 
+			      if (po->play_button)
 					gtk_widget_set_sensitive (po->play_button, new_state <= GST_STATE_PAUSED);
-			      if (po->pause_button) 
+			      if (po->pause_button)
 					gtk_widget_set_sensitive (po->pause_button, new_state > GST_STATE_PAUSED);
-			      if (po->stop_button) 
+			      if (po->stop_button)
 				      	gtk_widget_set_sensitive (po->stop_button, new_state >= GST_STATE_PAUSED);
 			}
 
@@ -270,7 +270,7 @@ org_gnome_audio_inline_button_panel (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMF
 	po->play_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_PLAY, G_CALLBACK (org_gnome_audio_inline_play_clicked), po, TRUE));
 	po->pause_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_PAUSE, G_CALLBACK (org_gnome_audio_inline_pause_clicked), po, FALSE));
 	po->stop_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_STOP, G_CALLBACK (org_gnome_audio_inline_stop_clicked), po, FALSE));
-		
+
 	gtk_widget_show (box);
 	gtk_container_add ((GtkContainer *) eb, box);
 

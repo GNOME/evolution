@@ -118,14 +118,14 @@ e_shell_folder_name_is_valid (const char *name,
 			*reason_return = _("No folder name specified.");
 		return FALSE;
 	}
-	
+
 	/* GtkEntry is broken - if you hit KP_ENTER you get a \r inserted... */
 	if (strchr (name, '\r')) {
 		if (reason_return != NULL)
 			*reason_return = _("Folder name cannot contain the Return character.");
 		return FALSE;
 	}
-	
+
 	if (strchr (name, E_PATH_SEPARATOR) != NULL) {
 		if (reason_return != NULL)
 			*reason_return = _("Folder name cannot contain the character \"/\".");
@@ -145,7 +145,7 @@ e_shell_folder_name_is_valid (const char *name,
 	}
 
 	*reason_return = NULL;
-	
+
 	return TRUE;
 }
 

@@ -106,7 +106,7 @@ struct _EShellWindowPrivate {
 
 	/* The sidebar.  */
 	GtkWidget *sidebar;
-	
+
 	/* Notebooks used to switch between components.  */
 	GtkWidget *sidebar_notebook;
 	GtkWidget *view_notebook;
@@ -467,7 +467,7 @@ sidebar_button_pressed_callback (ESidebar       *sidebar,
 		ComponentView *component_view;
 
 		if ((component_view = get_component_view (window, button_id))) {
-			e_shell_create_window (window->priv->shell.eshell, 
+			e_shell_create_window (window->priv->shell.eshell,
 					       component_view->component_id,
 					       window);
 		}
@@ -624,7 +624,7 @@ setup_nm_support (EShellWindow *window)
 	       e_shell_nm_glib_initialise (window);
 	#elif NM_SUPPORT
 	       e_shell_dbus_initialise (window);
-	#endif             
+	#endif
 }
 
 static void
@@ -688,7 +688,7 @@ setup_widgets (EShellWindow *window)
 	gboolean visible;
 	char *style;
 	int mode;
-	
+
 	priv->paned = gtk_hpaned_new ();
 	gtk_widget_show (priv->paned);
 
@@ -730,7 +730,7 @@ setup_widgets (EShellWindow *window)
 	style = gconf_client_get_string (gconf_client,
 					 "/apps/evolution/shell/view_defaults/buttons_style",
 					 NULL);
-	
+
  	if (gconf_string_to_enum (button_styles, style, &mode)) {
 		switch (mode) {
 		case E_SIDEBAR_MODE_TEXT:
@@ -755,7 +755,7 @@ setup_widgets (EShellWindow *window)
 						      "state", "1", NULL);
 			break;
 		}
-		
+
 		e_sidebar_set_mode (E_SIDEBAR (priv->sidebar), mode);
 	}
 	g_free (style);
@@ -870,7 +870,7 @@ impl_dispose (GObject *object)
 	EShellWindowPrivate *priv = self->priv;
 
 	priv->destroyed = TRUE;
-	
+
 	if (priv->shell.eshell != NULL) {
 		g_object_remove_weak_pointer (G_OBJECT (priv->shell.eshell), &priv->shell.pointer);
 		priv->shell.eshell = NULL;
@@ -889,11 +889,11 @@ impl_dispose (GObject *object)
 	if (priv->store_window_size_timer) {
 		g_source_remove (priv->store_window_size_timer);
 		self->priv->store_window_size_timer = 0;
-		
+
 		/* There was a timer. Let us store the settings.*/
-		store_window_size (GTK_WIDGET (self));		
+		store_window_size (GTK_WIDGET (self));
 	}
-	
+
 	#ifdef NM_SUPPORT_GLIB
 		e_shell_nm_glib_dispose (E_SHELL_WINDOW (object));
 	#elif NM_SUPPORT
@@ -1015,7 +1015,7 @@ e_shell_window_init (EShellWindow *shell_window)
 	priv->tooltips = gtk_tooltips_new ();
 	priv->shell_view = e_shell_view_new(shell_window);
 	priv->destroyed = FALSE;
-	
+
 	shell_window->priv = priv;
 
 	/** @HookPoint: Shell Main Menu
@@ -1234,7 +1234,7 @@ e_shell_window_save_defaults (EShellWindow *window)
 				       NULL);
 		g_free (prop);
 	}
-	
+
 	/* SideBar visibility setting */
 	prop = bonobo_ui_component_get_prop (e_shell_window_peek_bonobo_ui_component (window),
 					     "/commands/ViewSideBar",
@@ -1248,7 +1248,7 @@ e_shell_window_save_defaults (EShellWindow *window)
 				       NULL);
 		g_free (prop);
 	}
-	
+
 
 	g_object_unref (client);
 }

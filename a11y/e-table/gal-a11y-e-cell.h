@@ -74,16 +74,16 @@ void       gal_a11y_e_cell_construct  (AtkObject  *object,
 				       int         row);
 
 void	gal_a11y_e_cell_type_add_action_interface (GType type);
-                                                                                
+
 gboolean gal_a11y_e_cell_add_action	(GalA11yECell	*cell,
 				         const gchar     *action_name,
 					 const gchar     *action_description,
 					 const gchar     *action_keybinding,
 					 ACTION_FUNC     action_func);
-                                                                                
+
 gboolean gal_a11y_e_cell_remove_action	(GalA11yECell	*cell,
                                          gint           action_id);
-                                                                                
+
 gboolean gal_a11y_e_cell_remove_action_by_name (GalA11yECell        *cell,
                                           	const gchar     *action_name);
 

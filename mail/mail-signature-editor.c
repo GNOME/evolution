@@ -45,7 +45,7 @@
 #include "mail-signature-editor.h"
 #include "mail-config.h"
 
-#define d(x) 
+#define d(x)
 
 #define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:" GTKHTML_API_VERSION
 
@@ -54,11 +54,11 @@ typedef struct _ESignatureEditor {
 	GtkWidget *control;
 	GtkWidget *name_entry;
 	GtkWidget *info_frame;
-	
+
 	ESignature *sig;
 	gboolean is_new;
 	gboolean html;
-	
+
 	GNOME_GtkHTML_Editor_Engine engine;
 } ESignatureEditor;
 
@@ -80,14 +80,14 @@ static void
 menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev)
 {
 	char *err;
-	
+
 	/* errno is set if the rename() fails in menu_file_save_cb */
-	
+
 	err = ev->_major != CORBA_NO_EXCEPTION ? bonobo_exception_get_text (ev) : g_strdup (g_strerror (errno));
-	
+
 	e_error_run(NULL, "mail:no-save-signature", err, NULL);
 	g_warning ("Exception while saving signature: %s", err);
-	
+
 	g_free (err);
 }
 
@@ -97,20 +97,20 @@ get_text (Bonobo_PersistStream persist, const char *format, CORBA_Environment *e
 	BonoboStream *stream;
 	BonoboStreamMem *stream_mem;
 	GByteArray *text;
-	
+
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
 	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 				   format, ev);
-	
+
 	if (ev->_major != CORBA_NO_EXCEPTION)
 		return NULL;
-		
+
 	stream_mem = BONOBO_STREAM_MEM (stream);
-	
+
 	text = g_byte_array_new ();
 	g_byte_array_append (text, (unsigned char *)stream_mem->buffer, stream_mem->pos);
 	bonobo_object_unref (BONOBO_OBJECT (stream));
-	
+
 	return text;
 }
 
@@ -118,19 +118,19 @@ static ssize_t
 write_all (int fd, const char *buf, size_t n)
 {
 	ssize_t w, nwritten = 0;
-	
+
 	do {
 		do {
 			w = write (fd, buf + nwritten, n - nwritten);
 		} while (w == -1 && (errno == EINTR || errno == EAGAIN));
-		
+
 		if (w > 0)
 			nwritten += w;
 	} while (nwritten < n && w != -1);
-	
+
 	if (w == -1)
 		return -1;
-	
+
 	return nwritten;
 }
 
@@ -189,20 +189,20 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 	editor->sig->html = editor->html;
 
 	name = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (editor->name_entry))));
-	
+
 	if (g_str_equal(name, "") ) {
 		e_error_run ((GtkWindow *)editor->win, "mail:blank-signature", NULL);
-		return;	
+		return;
 	}
-	
+
 	if ( (signature = (ESignature *)e_signature_list_find (mail_config_get_signatures (), E_SIGNATURE_FIND_NAME, name)) && !g_str_equal(signature->uid, editor->sig->uid) ) {
 		e_error_run ((GtkWindow *)editor->win, "mail:signature-already-exists", name, NULL);
-		return;	
+		return;
 	}
-	 
+
 	if (editor->sig->name)
 		g_free (editor->sig->name);
-	
+
 	editor->sig->name = name;
 
 	/* if the signature isn't already saved in the config, save it there now... */
@@ -249,17 +249,17 @@ do_exit (ESignatureEditor *editor)
 
 		button = e_error_run((GtkWindow *)editor->win, "mail:ask-signature-changed", NULL);
 		exit_dialog_cb (button, editor);
-	} else 
+	} else
 		destroy_editor (editor);
 
 	CORBA_exception_free (&ev);
 }
 
-static int 
+static int
 delete_event_cb (GtkWidget *w, GdkEvent *event, ESignatureEditor *editor)
 {
 	do_exit (editor);
-	
+
 	return TRUE;
 }
 
@@ -267,7 +267,7 @@ static void
 menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	ESignatureEditor *editor;
-	
+
 	editor = E_SIGNATURE_EDITOR (data);
 	do_exit (editor);
 }
@@ -276,9 +276,9 @@ static void
 menu_file_save_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	ESignatureEditor *editor;
-	
+
 	editor = E_SIGNATURE_EDITOR (data);
-	
+
 	menu_file_save_cb (uic, editor, path);
 }
 
@@ -287,7 +287,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSave",       menu_file_save_cb),
 	BONOBO_UI_VERB ("FileClose",      menu_file_close_cb),
 	BONOBO_UI_VERB ("FileSaveClose",  menu_file_save_close_cb),
-	
+
 	BONOBO_UI_VERB_END
 };
 
@@ -295,10 +295,10 @@ static void
 load_signature (ESignatureEditor *editor)
 {
 	CORBA_Environment ev;
-	
+
 	if (editor->html) {
 		Bonobo_PersistFile pfile_iface;
-		
+
 		CORBA_exception_init (&ev);
 		pfile_iface = Bonobo_Unknown_queryInterface (bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),"IDL:Bonobo/PersistFile:1.0", &ev);
 		Bonobo_PersistFile_load (pfile_iface, editor->sig->filename, &ev);
@@ -307,34 +307,34 @@ load_signature (ESignatureEditor *editor)
 		Bonobo_PersistStream pstream_iface;
 		BonoboStream *stream;
 		char *data, *html;
-		
+
 		data = e_msg_composer_get_sig_file_content (editor->sig->filename, FALSE);
 		html = g_strdup_printf ("<PRE>\n%s", data);
 		g_free (data);
-		
+
 		CORBA_exception_init (&ev);
 		pstream_iface = Bonobo_Unknown_queryInterface
 			(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
 			 "IDL:Bonobo/PersistStream:1.0",&ev);
 		stream = bonobo_stream_mem_create (html, strlen (html), TRUE, FALSE);
-		
+
 		if (stream == NULL) {
 			g_warning ("Couldn't create memory stream\n");
 		} else {
 			BonoboObject *stream_object;
 			Bonobo_Stream corba_stream;
-			
+
 			stream_object = BONOBO_OBJECT (stream);
 			corba_stream = bonobo_object_corba_objref (stream_object);
 			Bonobo_PersistStream_load (pstream_iface, corba_stream,
 						   "text/html", &ev);
 		}
-		
+
 		Bonobo_Unknown_unref (pstream_iface, &ev);
 		CORBA_Object_release (pstream_iface, &ev);
 		CORBA_exception_free (&ev);
 		bonobo_object_unref (BONOBO_OBJECT (stream));
-		
+
 		g_free (html);
 	}
 }
@@ -354,10 +354,10 @@ format_html_cb (BonoboUIComponent           *component,
 
 {
 	ESignatureEditor *editor = (ESignatureEditor *) data;
-	
+
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-	
+
 	editor->html = atoi (state);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", TC_CORBA_boolean, editor->html, NULL);
 }
@@ -371,12 +371,12 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	BonoboUIContainer *container;
 	GtkWidget *vbox, *hbox, *label, *frame, *vbox1;
 	char *xmlfile;
-	
+
 	if (!sig->filename || !*sig->filename)
 		return;
-	
+
 	editor = g_new0 (ESignatureEditor, 1);
-	
+
 	editor->sig = sig;
 	editor->html = sig->html;
 	editor->is_new = is_new;
@@ -389,9 +389,9 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	g_object_set (editor->win, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 
 	g_object_set_data (G_OBJECT(editor->win), "name-changed", GINT_TO_POINTER(0));
-	
+
 	container = bonobo_window_get_ui_container (BONOBO_WINDOW(editor->win));
-	
+
 	component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (component, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
@@ -406,24 +406,24 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 
 	editor->control = bonobo_widget_new_control (GNOME_GTKHTML_EDITOR_CONTROL_ID,
 						     bonobo_ui_component_get_container (component));
-	
+
 	if (editor->control == NULL) {
 		g_warning ("Cannot get '" GNOME_GTKHTML_EDITOR_CONTROL_ID "'.");
-		
+
 		destroy_editor (editor);
 		return;
 	}
-	
+
 	editor->engine = (GNOME_GtkHTML_Editor_Engine) Bonobo_Unknown_queryInterface
 		(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)), "IDL:GNOME/GtkHTML/Editor/Engine:1.0", &ev);
 	CORBA_exception_free(&ev);
 	load_signature (editor);
-	
+
 	bonobo_ui_component_set_prop (component, "/commands/FormatHtml", "state", editor->html ? "1" : "0", NULL);
 	bonobo_ui_component_add_listener (component, "FormatHtml", format_html_cb, editor);
-	
+
 	g_signal_connect (editor->win, "delete_event", G_CALLBACK (delete_event_cb), editor);
-	
+
 	vbox = gtk_vbox_new (FALSE, 0);
 	hbox = gtk_hbox_new (FALSE, 4);
 	vbox1 = gtk_vbox_new (FALSE, 3);
@@ -444,12 +444,12 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
 	gtk_widget_show_all (vbox);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), editor->control);
-	
+
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), vbox);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", TC_CORBA_boolean, editor->html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
 	gtk_widget_show (GTK_WIDGET (editor->control));
-	
+
 	if (is_new)
 		gtk_widget_grab_focus (editor->name_entry);
 	else {

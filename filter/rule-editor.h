@@ -43,33 +43,33 @@ typedef struct _RuleEditorUndo	RuleEditorUndo;
 
 struct _RuleEditor {
 	GtkDialog parent_object;
-	
+
 	GtkListStore *model;
 	GtkTreeView *list;
-	
+
 	RuleContext *context;
 	FilterRule *current;
 	FilterRule *edit;	/* for editing/adding rules, so we only do 1 at a time */
-	
+
 	GtkWidget *dialog;
-	
+
 	char *source;
-	
+
 	struct _RuleEditorUndo *undo_log;	/* cancel/undo log */
 	unsigned int undo_active:1; /* we're performing undo */
-	
+
 	struct _RuleEditorPrivate *priv;
 };
 
 struct _RuleEditorClass {
 	GtkDialogClass parent_class;
-	
+
 	/* virtual methods */
 	void (*set_sensitive) (RuleEditor *);
 	void (*set_source) (RuleEditor *, const char *source);
-	
+
 	FilterRule *(*create_rule) (RuleEditor *);
-	
+
 	/* signals */
 };
 
@@ -82,7 +82,7 @@ enum {
 
 struct _RuleEditorUndo {
 	struct _RuleEditorUndo *next;
-	
+
 	unsigned int type;
 	FilterRule *rule;
 	int rank;

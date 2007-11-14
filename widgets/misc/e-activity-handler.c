@@ -246,7 +246,7 @@ static void
 e_activity_handler_class_init (EActivityHandlerClass *activity_handler_class)
 {
 	GObjectClass *object_class = (GObjectClass *) activity_handler_class;
-	
+
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 }

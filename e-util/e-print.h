@@ -31,4 +31,4 @@ void			e_print_run_page_setup_dialog	(GtkWindow *parent);
 
 G_END_DECLS
 
-#endif 
+#endif

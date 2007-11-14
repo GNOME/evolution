@@ -7,12 +7,12 @@
     This program is free software; you can redistribute it and/or
     modify it under the terms of version 2 of the GNU General Public
     License as published by the Free Software Foundation.
- 
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public
     License along with this program; if not, write to the
     Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
@@ -83,7 +83,7 @@ impl_event (PortableServer_Servant _servant,
 		}
 	} else if (!strcmp (name, "image_url")) {
 		gchar *url;
-		
+
 		if ((url = e_msg_composer_resolve_image_url (l->composer, BONOBO_ARG_GET_STRING (arg)))) {
 			rv = bonobo_arg_new (BONOBO_ARG_STRING);
 			BONOBO_ARG_SET_STRING (rv, url);
@@ -92,22 +92,22 @@ impl_event (PortableServer_Servant _servant,
 		}
 	} else if (!strcmp (name, "delete")) {
 		e_msg_composer_delete (l->composer);
-		
+
 	} else if (!strcmp (name, "url_requested")) {
 		GNOME_GtkHTML_Editor_URLRequestEvent *e = arg->_value;
 		CamelMimePart *part;
 		GByteArray *ba;
 		CamelStream *cstream;
 		CamelDataWrapper *wrapper;
-	
+
 		if (!e->url || e->stream == CORBA_OBJECT_NIL)
 			return get_any_null ();
 
 		part = e_msg_composer_url_requested (l->composer, e->url);
-		
+
 		if (!part)
 			return get_any_null ();
-		
+
 		/* Write the data to a CamelStreamMem... */
 		ba = g_byte_array_new ();
 		cstream = camel_stream_mem_new_with_byte_array (ba);
@@ -116,7 +116,7 @@ impl_event (PortableServer_Servant _servant,
 		bonobo_stream_client_write (e->stream, ba->data, ba->len, ev);
 
 		camel_object_unref (cstream);
-			
+
 	} else if (!strcmp (name, "link_clicked")) {
 		e_msg_composer_link_clicked (l->composer, BONOBO_ARG_GET_STRING (arg));
 	}
@@ -149,6 +149,6 @@ listener_new (EMsgComposer *composer)
 
 	listener = g_object_new (EDITOR_LISTENER_TYPE, NULL);
 	listener->composer = composer;
-	
+
 	return listener;
 }

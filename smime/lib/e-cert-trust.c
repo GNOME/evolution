@@ -28,27 +28,27 @@
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
  * the License at http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS
  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
- * 
+ *
  * The Original Code is the Netscape security libraries.
- * 
+ *
  * The Initial Developer of the Original Code is Netscape
- * Communications Corporation.  Portions created by Netscape are 
+ * Communications Corporation.  Portions created by Netscape are
  * Copyright (C) 2000 Netscape Communications Corporation.  All
  * Rights Reserved.
- * 
+ *
  * Contributor(s):
  *  Ian McGreer <mcgreer@netscape.com>
  *  Javier Delgadillo <javi@netscape.com>
- * 
+ *
  * Alternatively, the contents of this file may be used under the
  * terms of the GNU General Public License Version 2 or later (the
- * "GPL"), in which case the provisions of the GPL are applicable 
- * instead of those above.  If you wish to allow use of your 
+ * "GPL"), in which case the provisions of the GPL are applicable
+ * instead of those above.  If you wish to allow use of your
  * version of this file only under the terms of the GPL and not to
  * allow others to use your version of this file under the MPL,
  * indicate your decision by deleting the provisions above and
@@ -74,8 +74,8 @@ e_cert_trust_init (CERTCertTrust *trust)
 
 void
 e_cert_trust_init_with_values (CERTCertTrust *trust,
-			       unsigned int ssl, 
-			       unsigned int email, 
+			       unsigned int ssl,
+			       unsigned int email,
 			       unsigned int objsign)
 {
   memset(trust, 0, sizeof(CERTCertTrust));
@@ -90,7 +90,7 @@ e_cert_trust_copy (CERTCertTrust *trust, CERTCertTrust *t)
   if (t)
     memcpy(trust, t, sizeof(CERTCertTrust));
   else
-    memset(trust, 0, sizeof(CERTCertTrust)); 
+    memset(trust, 0, sizeof(CERTCertTrust));
 }
 
 void
@@ -241,7 +241,7 @@ e_cert_trust_set_trusted_ca (CERTCertTrust *trust)
 				  PR_FALSE, PR_FALSE);
 }
 
-void 
+void
 e_cert_trust_set_valid_peer (CERTCertTrust *trust)
 {
   e_cert_trust_set_ssl_trust (trust,
@@ -258,7 +258,7 @@ e_cert_trust_set_valid_peer (CERTCertTrust *trust)
 				  PR_FALSE, PR_FALSE);
 }
 
-void 
+void
 e_cert_trust_set_valid_server_peer (CERTCertTrust *trust)
 {
   e_cert_trust_set_ssl_trust (trust,
@@ -275,7 +275,7 @@ e_cert_trust_set_valid_server_peer (CERTCertTrust *trust)
 				  PR_FALSE, PR_FALSE);
 }
 
-void 
+void
 e_cert_trust_set_trusted_peer (CERTCertTrust *trust)
 {
   e_cert_trust_set_ssl_trust (trust,
@@ -321,8 +321,8 @@ e_cert_trust_has_any_ca (CERTCertTrust *trust)
 
 PRBool
 e_cert_trust_has_ca (CERTCertTrust *trust,
-		     PRBool checkSSL, 
-		     PRBool checkEmail,  
+		     PRBool checkSSL,
+		     PRBool checkEmail,
 		     PRBool checkObjSign)
 {
   if (checkSSL && !e_cert_trust_has_trust(trust->sslFlags, CERTDB_VALID_CA))
@@ -336,8 +336,8 @@ e_cert_trust_has_ca (CERTCertTrust *trust,
 
 PRBool
 e_cert_trust_has_peer (CERTCertTrust *trust,
-		       PRBool checkSSL, 
-		       PRBool checkEmail,  
+		       PRBool checkSSL,
+		       PRBool checkEmail,
 		       PRBool checkObjSign)
 {
   if (checkSSL && !e_cert_trust_has_trust(trust->sslFlags, CERTDB_VALID_PEER))
@@ -361,8 +361,8 @@ e_cert_trust_has_any_user (CERTCertTrust *trust)
 
 PRBool
 e_cert_trust_has_user (CERTCertTrust *trust,
-		       PRBool checkSSL, 
-		       PRBool checkEmail,  
+		       PRBool checkSSL,
+		       PRBool checkEmail,
 		       PRBool checkObjSign)
 {
   if (checkSSL && !e_cert_trust_has_trust(trust->sslFlags, CERTDB_USER))
@@ -376,8 +376,8 @@ e_cert_trust_has_user (CERTCertTrust *trust,
 
 PRBool
 e_cert_trust_has_trusted_ca (CERTCertTrust *trust,
-			     PRBool checkSSL, 
-			     PRBool checkEmail,  
+			     PRBool checkSSL,
+			     PRBool checkEmail,
 			     PRBool checkObjSign)
 {
   if (checkSSL && !(e_cert_trust_has_trust(trust->sslFlags, CERTDB_TRUSTED_CA) ||
@@ -386,7 +386,7 @@ e_cert_trust_has_trusted_ca (CERTCertTrust *trust,
   if (checkEmail && !(e_cert_trust_has_trust(trust->emailFlags, CERTDB_TRUSTED_CA) ||
                       e_cert_trust_has_trust(trust->emailFlags, CERTDB_TRUSTED_CLIENT_CA)))
     return PR_FALSE;
-  if (checkObjSign && 
+  if (checkObjSign &&
        !(e_cert_trust_has_trust(trust->objectSigningFlags, CERTDB_TRUSTED_CA) ||
          e_cert_trust_has_trust(trust->objectSigningFlags, CERTDB_TRUSTED_CLIENT_CA)))
     return PR_FALSE;
@@ -395,15 +395,15 @@ e_cert_trust_has_trusted_ca (CERTCertTrust *trust,
 
 PRBool
 e_cert_trust_has_trusted_peer (CERTCertTrust *trust,
-			       PRBool checkSSL, 
-			       PRBool checkEmail,  
+			       PRBool checkSSL,
+			       PRBool checkEmail,
 			       PRBool checkObjSign)
 {
   if (checkSSL && !(e_cert_trust_has_trust(trust->sslFlags, CERTDB_TRUSTED)))
     return PR_FALSE;
   if (checkEmail && !(e_cert_trust_has_trust(trust->emailFlags, CERTDB_TRUSTED)))
     return PR_FALSE;
-  if (checkObjSign && 
+  if (checkObjSign &&
        !(e_cert_trust_has_trust(trust->objectSigningFlags, CERTDB_TRUSTED)))
     return PR_FALSE;
   return PR_TRUE;

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text.c - Text item for evolution.
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -155,7 +155,7 @@ static void e_text_editable_set_position (GtkEditable    *editable,
 					  gint            position);
 static gint e_text_editable_get_position (GtkEditable    *editable);
 #endif
-			   
+
 /* IM Context Callbacks */
 static void     e_text_commit_cb               (GtkIMContext *context,
 						const gchar  *str,
@@ -203,7 +203,7 @@ e_text_dispose (GObject *object)
 	text->tooltip_owner = 0;
 
 	if (text->model_changed_signal_id)
-		g_signal_handler_disconnect (text->model, 
+		g_signal_handler_disconnect (text->model,
 					     text->model_changed_signal_id);
 	text->model_changed_signal_id = 0;
 
@@ -236,13 +236,13 @@ e_text_dispose (GObject *object)
 		g_source_remove(text->timeout_id);
 		text->timeout_id = 0;
 	}
-	
+
 	if (text->timer) {
 		g_timer_stop(text->timer);
 		g_timer_destroy(text->timer);
 		text->timer = NULL;
 	}
-				
+
 	if ( text->tooltip_timeout ) {
 		g_source_remove (text->tooltip_timeout);
 		text->tooltip_timeout = 0;
@@ -297,7 +297,7 @@ insert_preedit_text (EText *text)
 	text->text = e_text_model_get_text(text->model);
 	length = strlen (text->text);
 
-	g_string_prepend_len (tmp_string, text->text,length); 
+	g_string_prepend_len (tmp_string, text->text,length);
 
 	if (text->preedit_len)
 		gtk_im_context_get_preedit_string (text->im_context,
@@ -309,7 +309,7 @@ insert_preedit_text (EText *text)
 	else
 		text->preedit_len  = preedit_length = 0;
 
-	cpos = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;	
+	cpos = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;
 
 	if (preedit_length) {
 		g_string_insert (tmp_string, cpos, preedit_string);
@@ -428,7 +428,7 @@ reset_layout (EText *text)
 		pango_layout_context_changed (text->layout);
 
 		text->font_desc = pango_font_description_new ();
-		pango_font_description_set_size (text->font_desc, 
+		pango_font_description_set_size (text->font_desc,
 			pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
 		pango_font_description_set_family (text->font_desc,
 			pango_font_description_get_family ((GTK_WIDGET (item->canvas))->style->font_desc));
@@ -679,7 +679,7 @@ e_text_set_property (GObject *object,
 	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
 	gboolean color_changed;
-	
+
 	gboolean needs_update = 0;
 	gboolean needs_reflow = 0;
 
@@ -694,7 +694,7 @@ e_text_set_property (GObject *object,
 		if ( text->model_changed_signal_id )
 			g_signal_handler_disconnect (text->model,
 					     text->model_changed_signal_id);
-		
+
 		if ( text->model_repos_signal_id )
 			g_signal_handler_disconnect (text->model,
 						     text->model_repos_signal_id);
@@ -731,7 +731,7 @@ e_text_set_property (GObject *object,
 		}
 		text->tep = E_TEXT_EVENT_PROCESSOR(g_value_get_object (value));
 		g_object_ref(text->tep);
-		text->tep_command_id = 
+		text->tep_command_id =
 			g_signal_connect(text->tep,
 					 "command",
 					 G_CALLBACK(e_text_command),
@@ -898,7 +898,7 @@ e_text_set_property (GObject *object,
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
-		
+
 	case PROP_BREAK_CHARACTERS:
 		if ( text->break_characters ) {
 			g_free(text->break_characters);
@@ -930,7 +930,7 @@ e_text_set_property (GObject *object,
 		}
 		needs_reflow = 1;
 		break;
-		
+
 	case PROP_DRAW_BORDERS:
 		if (text->draw_borders != g_value_get_boolean (value)) {
 			text->draw_borders = g_value_get_boolean (value);
@@ -1096,7 +1096,7 @@ e_text_get_property (GObject *object,
 	case PROP_TEXT_HEIGHT:
 		g_value_set_double (value, text->height / text->item.canvas->pixels_per_unit);
 		break;
-		
+
 	case PROP_EDITABLE:
 		g_value_set_boolean (value, text->editable);
 		break;
@@ -1112,7 +1112,7 @@ e_text_get_property (GObject *object,
 	case PROP_LINE_WRAP:
 		g_value_set_boolean (value, text->line_wrap);
 		break;
-		
+
 	case PROP_BREAK_CHARACTERS:
 		g_value_set_string (value, g_strdup (text->break_characters));
 		break;
@@ -1136,11 +1136,11 @@ e_text_get_property (GObject *object,
 	case PROP_DRAW_BACKGROUND:
 		g_value_set_boolean (value, text->draw_background);
 		break;
-		
+
 	case PROP_DRAW_BUTTON:
 		g_value_set_boolean (value, text->draw_button);
 		break;
-		
+
 	case PROP_ALLOW_NEWLINES:
 		g_value_set_boolean (value, text->allow_newlines);
 		break;
@@ -1152,7 +1152,7 @@ e_text_get_property (GObject *object,
 	case PROP_IM_CONTEXT:
 		g_value_set_object (value, text->im_context);
 		break;
-		
+
 	case PROP_HANDLE_POPUP:
 		g_value_set_boolean (value, text->handle_popup);
 		break;
@@ -1252,7 +1252,7 @@ e_text_realize (GnomeCanvasItem *item)
 	gdk_color_context_query_color (item->canvas->cc, &text->color);
 	gdk_gc_set_foreground (text->gc, &text->color);
 #endif
-	
+
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 }
@@ -1282,7 +1282,7 @@ _get_tep(EText *text)
 {
 	if (!text->tep) {
 		text->tep = e_text_event_processor_emacs_like_new();
-		text->tep_command_id = 
+		text->tep_command_id =
 			g_signal_connect(text->tep,
 					 "command",
 					 G_CALLBACK(e_text_command),
@@ -1399,7 +1399,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			     "width", &thiswidth,
 			     "height", &thisheight,
 			     NULL);
-		
+
 		if (text->draw_borders){
 
 			gtk_paint_shadow (widget->style, drawable,
@@ -1412,9 +1412,9 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		if (text->draw_background) {
 			gtk_paint_flat_box (widget->style, drawable,
 					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
-					    NULL, widget, "entry_bg", 
+					    NULL, widget, "entry_bg",
 					    thisx + widget->style->xthickness,
-					    thisy + widget->style->ythickness, 
+					    thisy + widget->style->ythickness,
 					    thiswidth - widget->style->xthickness * 2,
 					    thisheight - widget->style->ythickness * 2);
 		}
@@ -1513,7 +1513,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 
-	insert_preedit_text (text);	
+	insert_preedit_text (text);
 
 	if (!pango_layout_get_text (text->layout))
 		return;
@@ -1533,7 +1533,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		rect.y = ypos;
 		rect.width = text->clip_cwidth - text->xofs;
 		rect.height = text->clip_cheight - text->yofs;
-		
+
 		gdk_gc_set_clip_rectangle (main_gc, &rect);
 		clip_rect = &rect;
 	}
@@ -1583,7 +1583,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 				if (start_index < line->start_index + line->length
 				    && end_index > line->start_index) {
-					
+
 					if (start_index <= line->start_index)
 						s = line->start_index;
 					else
@@ -1624,7 +1624,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			}
 
 			gdk_gc_set_clip_region (text_gc, clip_region);
-			gdk_draw_layout (drawable, text_gc, 
+			gdk_draw_layout (drawable, text_gc,
 					 xpos, ypos,
 					 text->layout);
 
@@ -1807,7 +1807,7 @@ _blink_scroll_timeout (gpointer data)
 	gulong current_time;
 	gboolean scroll = FALSE;
 	gboolean redraw = FALSE;
-	
+
 	g_timer_elapsed(text->timer, &current_time);
 
 	if (text->scroll_start + SCROLL_WAIT_TIME > 1000000) {
@@ -1917,7 +1917,7 @@ tooltip_ungrab (GtkWidget *tooltip, GdkEvent *event, EText *text)
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
 
 	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
-	
+
 	gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas), event);
 
 	return TRUE;
@@ -1994,7 +1994,7 @@ _do_tooltip (gpointer data)
 	canvas = e_canvas_new ();
 
 	gtk_container_add (GTK_CONTAINER (tooltip_window), canvas);
-	
+
 	/* Get the longest line length */
 	pango_layout_get_size (text->layout, &max_width, NULL);
 
@@ -2094,7 +2094,7 @@ _do_tooltip (gpointer data)
 			      "x2", (double) tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      "y2", (double) tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      NULL);
-	
+
 	gtk_widget_show (canvas);
 	gtk_widget_realize (tooltip_window);
 
@@ -2102,11 +2102,11 @@ _do_tooltip (gpointer data)
 				     tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 				     tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0,
-					tooltip_width + (text->draw_borders ? BORDER_INDENT * 2 : 0), 
+					tooltip_width + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	g_signal_connect (tooltip_window, "event",
 			  G_CALLBACK(tooltip_event), text);
-	
+
 	g_object_weak_ref (G_OBJECT (tooltip_window),
 			   tooltip_destroy, text);
 	g_object_ref (text);
@@ -2118,9 +2118,9 @@ _do_tooltip (gpointer data)
 	gdk_keyboard_grab (tooltip_window->window, FALSE, GDK_CURRENT_TIME);
 
 	g_signal_connect (tooltip_window, "key-press-event", G_CALLBACK (tooltip_ungrab), text);
-	
+
 	text->tooltip_owner = TRUE;
-	
+
 	text->tooltip_timeout = 0;
 
 	return FALSE;
@@ -2212,11 +2212,11 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				/* Evil hack to disconnect the signal handlers for the previous Etext
 				 * which was not disconnected because of being in preedit mode.
 				 * In preedit mode the widget can go out of focus due to popups associated
-				 * with preedit.,but still the callbacks need to be connected. 
-				 * Here when a new text widget comes into focus we can disconnect the 
+				 * with preedit.,but still the callbacks need to be connected.
+				 * Here when a new text widget comes into focus we can disconnect the
 				 * old one.Shouldn't hurt much, as in worst case, save_text which should
-				 * be disconnected will be overwritten and we will have signal 
-			   	 * handlers connect to  multiple e-texts but with subsequent commit these 
+				 * be disconnected will be overwritten and we will have signal
+			   	 * handlers connect to  multiple e-texts but with subsequent commit these
 				 * should go away.
 				 */
 
@@ -2244,8 +2244,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				start_editing (text);
 				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
 			} else {
-				/* Incase we are not disconnecting the signals 
-				 * for text, we are saving text for 
+				/* Incase we are not disconnecting the signals
+				 * for text, we are saving text for
 				 * disconnecting in the next focus_in.
 				 */
 				if (!text->preedit_len && text->im_context) {
@@ -2275,11 +2275,11 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		return_val = 0;
 		break;
-	case GDK_KEY_PRESS: 
+	case GDK_KEY_PRESS:
 
 		/* Handle S-F10 key binding here. */
 
-		if (event->key.keyval == GDK_F10 
+		if (event->key.keyval == GDK_F10
 		    && (event->key.state & GDK_SHIFT_MASK)
 		    && text->handle_popup ){
 
@@ -2337,7 +2337,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (event->type == GDK_KEY_PRESS)
 				g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
 					       e_tep_event.key.keyval, e_tep_event.key.state);
-			
+
 
 			if (e_tep_event.key.string)
 				g_free (e_tep_event.key.string);
@@ -2354,8 +2354,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
 #if 0
-		if ((!text->editing) 
-		    && text->editable 
+		if ((!text->editing)
+		    && text->editable
 		    && event->type == GDK_BUTTON_RELEASE
 		    && event->button.button == 1) {
 			GdkEventButton button = event->button;
@@ -2373,8 +2373,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.type = GDK_BUTTON_RELEASE;
 		}
 #else
-		if ((!text->editing) 
-		    && text->editable 
+		if ((!text->editing)
+		    && text->editable
 		    && (event->button.button == 1 ||
 			event->button.button == 2)) {
 			e_canvas_item_grab_focus (item, TRUE);
@@ -2394,10 +2394,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			}
 		}
 
-		/* Create our own double and triple click events, 
+		/* Create our own double and triple click events,
 		   as gnome-canvas doesn't forward them to us */
 		if (event->type == GDK_BUTTON_PRESS) {
-			if (text->dbl_timeout == 0 && 
+			if (text->dbl_timeout == 0 &&
 			    text->tpl_timeout == 0) {
 				text->dbl_timeout = g_timeout_add (200,
 								   _click,
@@ -2408,10 +2408,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 					text->tpl_timeout = g_timeout_add (200, _click, &(text->tpl_timeout));
 				} else {
 					e_tep_event.type = GDK_3BUTTON_PRESS;
-				}				     
+				}
 			}
 		}
-		
+
 		if (text->editing) {
 			GdkEventButton button = event->button;
 			e_tep_event.button.time = button.time;
@@ -2472,7 +2472,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				text->tooltip_timeout = 0;
 			}
 		}
-		
+
 		text->pointer_in = FALSE;
 		if (text->editing || text->draw_borders) {
 			if ( ! text->default_cursor_shown ) {
@@ -2495,7 +2495,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 void
 e_text_copy_clipboard (EText *text)
 {
-	gint selection_start_pos; 
+	gint selection_start_pos;
 	gint selection_end_pos;
 
 	selection_start_pos = MIN (text->selection_start, text->selection_end);
@@ -2573,7 +2573,7 @@ primary_get_cb (GtkClipboard     *clipboard,
 	sel_end = g_utf8_offset_to_pointer (text->text, sel_end) - text->text;
 
 	if (sel_start != sel_end) {
-		gtk_selection_data_set_text (selection_data, 
+		gtk_selection_data_set_text (selection_data,
 					     text->text + sel_start,
 					     sel_end - sel_start);
 	}
@@ -2596,13 +2596,13 @@ e_text_update_primary_selection (EText *text)
 		{ "UTF8_STRING", 0, 0 },
 		{ "UTF-8", 0, 0 },
 		{ "STRING", 0, 0 },
-		{ "TEXT",   0, 0 }, 
+		{ "TEXT",   0, 0 },
 		{ "COMPOUND_TEXT", 0, 0 }
 	};
 	GtkClipboard *clipboard;
 
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas), GDK_SELECTION_PRIMARY);
-  
+
 	if (text->selection_start != text->selection_end) {
 		if (!gtk_clipboard_set_with_owner (clipboard, targets, G_N_ELEMENTS (targets),
 						   primary_get_cb, primary_clear_cb, G_OBJECT (text)))
@@ -2620,7 +2620,7 @@ paste_received (GtkClipboard *clipboard,
 		gpointer      data)
 {
 	EText *etext = E_TEXT (data);
-      
+
 	if (text && g_utf8_validate (text, strlen (text), NULL)) {
 		if (etext->selection_end != etext->selection_start)
 			e_text_delete_selection (etext);
@@ -2728,7 +2728,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 		gtk_widget_show (menuitem);
 		submenu = gtk_menu_new ();
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
-      
+
 		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 
 		gtk_im_multicontext_append_menuitems (GTK_IM_MULTICONTEXT (text->im_context),
@@ -2813,7 +2813,7 @@ next_word (EText *text, int start)
 			}
 		}
 	}
-			
+
 	return g_utf8_pointer_to_offset (text->text, p);
 }
 
@@ -2831,7 +2831,7 @@ find_offset_into_line (EText *text, int offset_into_text, char **start_of_line)
 	}
 	else {
 		p = g_utf8_find_prev_char (text->text, p);
-		
+
 		while (p && p > text->text) {
 			if (*p == '\n') {
 				if (start_of_line)
@@ -2859,11 +2859,11 @@ _get_updated_position (EText *text, gboolean direction)
 	char *p = NULL;
 	gint new_pos = 0;
 	gint length = 0;
-	
+
 	/* Basic sanity test, return whatever position we are currently at. */
 	g_return_val_if_fail (text->layout != NULL, text->selection_end);
 
-	length = g_utf8_strlen (text->text, -1);	
+	length = g_utf8_strlen (text->text, -1);
 
 	/* length checks to make sure we are not wandering off into nonexistant memory... */
 	if((text->selection_end >= length) && (TRUE == direction))	/* forward */
@@ -2871,7 +2871,7 @@ _get_updated_position (EText *text, gboolean direction)
 	/* checking for -ve value wont hurt! */
 	if((text->selection_end <= 0) && (FALSE == direction))		/* backward */
 		return 0;
-	
+
 	/* check for validness of full text->text */
 	if(!g_utf8_validate(text->text, -1, NULL))
 		return text->selection_end;
@@ -2891,13 +2891,13 @@ _get_updated_position (EText *text, gboolean direction)
 			p = g_utf8_next_char (p);
 		else
 			p = g_utf8_prev_char (p);
-			
+
 		/* validate the new string & return with original position if check fails */
 		if(!g_utf8_validate (p, -1, NULL))
 			break;	/* will return old value of new_pos */
-			
+
 		new_pos = g_utf8_pointer_to_offset (text->text, p);
-		
+
 		/* if is_cursor_position is set, cursor can appear in front of character.
 		   i.e. this is a grapheme boundary AND make some sanity checks */
 		if((new_pos >=0) && (new_pos < n_attrs) && (log_attrs[new_pos].is_cursor_position))
@@ -2908,10 +2908,10 @@ _get_updated_position (EText *text, gboolean direction)
 			break;
 		}
 	}
-	
+
 	if(log_attrs)
 		g_free(log_attrs);
-	
+
 	return new_pos;
 }
 
@@ -2926,7 +2926,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	gint new_pos = 0;
 
 	switch (command->position) {
-		
+
 	case E_TEP_VALUE:
 		new_pos = command->value;
 		break;
@@ -2946,7 +2946,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_START_OF_LINE:
 
 		if (text->selection_end >= 1) {
-			
+
 			p = g_utf8_offset_to_pointer (text->text, text->selection_end);
 			if (p != text->text) {
 				p = g_utf8_find_prev_char (text->text, p);
@@ -2965,7 +2965,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_END_OF_LINE:
 		new_pos = -1;
 		length = g_utf8_strlen (text->text, -1);
-		
+
 		if (text->selection_end >= length) {
 			new_pos = length;
 		} else {
@@ -2976,7 +2976,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 				if (*p == '\n') {
 					new_pos = g_utf8_pointer_to_offset (text->text, p);
 					p = NULL;
-				} else 
+				} else
 					p = g_utf8_next_char (p);
 			}
 		}
@@ -2993,7 +2993,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			new_pos = length;
 		else
 			new_pos = _get_updated_position(text, TRUE);	/* get updated position to display cursor */
-		
+
 		break;
 
 	case E_TEP_BACKWARD_CHARACTER:
@@ -3032,7 +3032,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 				}
 			}
 		}
-					
+
 		break;
 
 	case E_TEP_FORWARD_LINE: {
@@ -3107,7 +3107,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		/* This is a silly hack to cause double-clicking on an object
 		   to activate that object.
 		   (Normally, double click == select word, which is why this is here.) */
-		
+
 		obj_num = e_text_model_get_object_at_offset (text->model, text->selection_start);
 		if (obj_num != -1) {
 			e_text_model_activate_nth_object (text->model, obj_num);
@@ -3140,7 +3140,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start);
-		
+
 		length = g_utf8_strlen (text->text, -1);
 		if (text->selection_end >= length) {
 			new_pos = length;
@@ -3169,7 +3169,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 	case E_TEP_FORWARD_PARAGRAPH:
 	case E_TEP_BACKWARD_PARAGRAPH:
-		
+
 	case E_TEP_FORWARD_PAGE:
 	case E_TEP_BACKWARD_PAGE:
 		new_pos = text->selection_end;
@@ -3288,7 +3288,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	case E_TEP_SELECT:
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start); /* paranoia */
 		text->selection_end = _get_position(text, command);
-		
+
 		e_text_update_primary_selection (text);
 
 		use_start = FALSE;
@@ -3346,7 +3346,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		break;
 	case E_TEP_GRAB:
 		e_canvas_item_grab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
-				    GNOME_CANVAS_ITEM(text), 
+				    GNOME_CANVAS_ITEM(text),
 				    GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
 				    text->i_cursor,
 				    command->time,
@@ -3392,7 +3392,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 
 		/* check if we are using selection_start or selection_end for moving? */
 		selection_index = use_start ? text->selection_start : text->selection_end;
-		
+
 		/* convert to a byte index */
 		selection_index = g_utf8_offset_to_pointer (text->text, selection_index) - text->text;
 
@@ -3431,14 +3431,14 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			if (xpos + 2 < text->xofs_edit) {
 				text->xofs_edit = xpos;
 			}
-                                                                                                
+
 			clip_width = text->clip_width;
 			if (clip_width >= 0 && text->draw_borders) {
 				clip_width -= 6;
 				if (clip_width < 0)
 					clip_width = 0;
 			}
-                                                                                                
+
 			if (xpos + pango_pos.width - clip_width > text->xofs_edit) {
 				text->xofs_edit = xpos + pango_pos.width - clip_width;
 			}
@@ -3456,13 +3456,13 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 				clip_height = text->height;
 			else
 				clip_height = text->clip_height;
-                                                                                                
+
 			if (clip_height >= 0 && text->draw_borders) {
 				clip_height -= 6;
 				if (clip_height < 0)
 					clip_height = 0;
 			}
-                                                                                                
+
 			if (ypos - clip_height > text->yofs_edit) {
 				text->yofs_edit = ypos - clip_height;
 			}
@@ -3572,7 +3572,7 @@ e_text_class_init (ETextClass *klass)
 							       _( "Strikeout" ),
 							       FALSE,
 							       G_PARAM_READWRITE));
-               
+
 	g_object_class_install_property (gobject_class, PROP_ANCHOR,
 					 g_param_spec_enum ("anchor",
 							    _( "Anchor" ),
@@ -3798,12 +3798,12 @@ e_text_init (EText *text)
 
 	text->revert                  = NULL;
 
-	text->model_changed_signal_id = 
+	text->model_changed_signal_id =
 		g_signal_connect (text->model,
 				  "changed",
 				  G_CALLBACK (e_text_text_model_changed),
 				  text);
-	text->model_repos_signal_id   = 
+	text->model_repos_signal_id   =
 		g_signal_connect (text->model,
 				  "reposition",
 				  G_CALLBACK (e_text_text_model_reposition),
@@ -3894,9 +3894,9 @@ e_text_commit_cb (GtkIMContext *context,
 	}
 }
 
-/* 
+/*
  * Fetch cursor location into Strong or Weak positions so as to
- * display the preedit candidate selection window in the right place 
+ * display the preedit candidate selection window in the right place
  */
 static void
 e_text_get_cursor_locations (EText *text,
@@ -3939,7 +3939,7 @@ static void
 update_im_cursor_position (EText *text)
 {
 	GdkRectangle area;
-	
+
 	e_text_get_cursor_locations (text, &area, NULL);
 
 	gtk_im_context_set_cursor_location (text->im_context, &area);
@@ -3952,7 +3952,7 @@ e_text_preedit_changed_cb (GtkIMContext *context,
 	gchar *preedit_string = NULL;
  	gint cursor_pos;
 
-	gtk_im_context_get_preedit_string (context, &preedit_string, 
+	gtk_im_context_get_preedit_string (context, &preedit_string,
 					   NULL, &cursor_pos);
 
  	cursor_pos = CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1));
@@ -3971,7 +3971,7 @@ e_text_retrieve_surrounding_cb (GtkIMContext *context,
 					text->text,
 					strlen (text->text),
 					g_utf8_offset_to_pointer (text->text, MIN (text->selection_start, text->selection_end)) - text->text);
-	
+
 	return TRUE;
 }
 

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
  * Copyright (C) 2002 Ximian, Inc.
@@ -51,11 +51,11 @@ gal_a11y_e_table_factory_init (GalA11yETableFactory *factory)
 
 /**
  * gal_a11y_e_table_factory_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETableFactory class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETableFactory class.
  **/
 GType

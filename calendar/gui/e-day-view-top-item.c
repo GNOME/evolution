@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -124,7 +124,7 @@ e_day_view_top_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EDayViewTopItem *dvtitem;
 
 	dvtitem = E_DAY_VIEW_TOP_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_DAY_VIEW:
 		dvtitem->day_view = GTK_VALUE_POINTER (*arg);
@@ -798,7 +798,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			clip_rect.y = 2 - y;
 			clip_rect.width = day_view->day_widths[day];
 			clip_rect.height = item_height - 2;
-	
+
 			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
@@ -952,7 +952,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	/* Fill the background with white to play with transparency */
 	cairo_save (cr);
-	x0	   = item_x - x + 4; 
+	x0	   = item_x - x + 4;
 	y0	   = item_y + 1 - y;
 	rect_width  = item_w - 8;
 	rect_height = item_h - 2;
@@ -969,7 +969,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* Draw the border around the event */
 
 	cairo_save (cr);
-	x0	   = item_x - x + 4; 
+	x0	   = item_x - x + 4;
 	y0	   = item_y + 1 - y;
 	rect_width  = item_w - 8;
 	rect_height = item_h - 2;
@@ -987,15 +987,15 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	cairo_save (cr);
 
-	x0	   = item_x - x + 5.5; 
+	x0	   = item_x - x + 5.5;
 	y0	   = item_y + 2.5 - y;
 	rect_width  = item_w - 11;
 	rect_height = item_h - 5;
 
-	radius = 10; 	
+	radius = 10;
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
-	
+
 	if (gradient){
 		pat = cairo_pattern_create_linear (item_x - x + 5.5, item_y + 2.5 - y,
 						item_x - x + 5, item_y - y + item_h + 7.5);
@@ -1155,7 +1155,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		gdk_cairo_set_source_pixbuf (cr, day_view->recurrence_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
-	
+
 		icon_x -= icon_x_inc;
 	}
 
@@ -1164,7 +1164,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		gdk_cairo_set_source_pixbuf (cr, day_view->attach_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
-	
+
 		icon_x -= icon_x_inc;
 	}
 	if (icon_x <= max_icon_x && e_cal_component_has_alarms (comp)) {
@@ -1172,7 +1172,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		gdk_cairo_set_source_pixbuf (cr, day_view->reminder_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
-	
+
 		icon_x -= icon_x_inc;
 	}
 
@@ -1181,11 +1181,11 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		gdk_cairo_set_source_pixbuf (cr, day_view->meeting_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
-	
+
 		icon_x -= icon_x_inc;
 	}
 
-	/* draw categories icons */ 
+	/* draw categories icons */
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;
@@ -1273,7 +1273,7 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 			gdk_cairo_set_source_color (cr, &bg_color);
 		} else {
 			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-		} 
+		}
 	} else {
 		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
 	}

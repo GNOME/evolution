@@ -3,7 +3,7 @@
  * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: 
+ * Authors:
  *   Jesse Pavel <jpavel@ximian.com>
  *   JP Rosevear <jpr@ximian.com>
  *

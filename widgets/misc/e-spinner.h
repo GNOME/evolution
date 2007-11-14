@@ -23,7 +23,7 @@
  */
 
 /*
- * From Nautilus ephy-spinner.h 
+ * From Nautilus ephy-spinner.h
  */
 #ifndef E_SPINNER_H
 #define E_SPINNER_H

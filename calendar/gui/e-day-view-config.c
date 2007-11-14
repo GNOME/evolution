@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 2003, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -44,7 +44,7 @@ e_day_view_config_set_property (GObject *object, guint property_id, const GValue
 	EDayViewConfig *view_config;
 
 	view_config = E_DAY_VIEW_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_VIEW:
 		e_day_view_config_set_view (view_config, g_value_get_object (value));
@@ -61,7 +61,7 @@ e_day_view_config_get_property (GObject *object, guint property_id, GValue *valu
 	EDayViewConfig *view_config;
 
 	view_config = E_DAY_VIEW_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_VIEW:
 		g_value_set_object (value, e_day_view_config_get_view (view_config));
@@ -78,7 +78,7 @@ e_day_view_config_dispose (GObject *object)
 	EDayViewConfig *view_config = E_DAY_VIEW_CONFIG (object);
 
 	e_day_view_config_set_view (view_config, NULL);
-	
+
 	if (G_OBJECT_CLASS (e_day_view_config_parent_class)->dispose)
 		G_OBJECT_CLASS (e_day_view_config_parent_class)->dispose (object);
 }
@@ -88,11 +88,11 @@ e_day_view_config_finalize (GObject *object)
 {
 	EDayViewConfig *view_config = E_DAY_VIEW_CONFIG (object);
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
 
 	g_free (priv);
-	
+
 	if (G_OBJECT_CLASS (e_day_view_config_parent_class)->finalize)
 		G_OBJECT_CLASS (e_day_view_config_parent_class)->finalize (object);
 }
@@ -102,7 +102,7 @@ e_day_view_config_class_init (EDayViewConfigClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GParamSpec *spec;
-	
+
 	/* Method override */
 	gobject_class->set_property = e_day_view_config_set_property;
 	gobject_class->get_property = e_day_view_config_get_property;
@@ -125,14 +125,14 @@ EDayViewConfig *
 e_day_view_config_new (EDayView *day_view)
 {
 	EDayViewConfig *view_config;
-	
+
 	view_config = g_object_new (e_day_view_config_get_type (), "view", day_view, NULL);
 
 	return view_config;
 }
 
 EDayView *
-e_day_view_config_get_view (EDayViewConfig *view_config) 
+e_day_view_config_get_view (EDayViewConfig *view_config)
 {
 	EDayViewConfigPrivate *priv;
 
@@ -140,16 +140,16 @@ e_day_view_config_get_view (EDayViewConfig *view_config)
 	g_return_val_if_fail (E_IS_DAY_VIEW_CONFIG (view_config), NULL);
 
 	priv = view_config->priv;
-	
+
 	return priv->view;
 }
 
 static void
-set_timezone (EDayView *day_view) 
+set_timezone (EDayView *day_view)
 {
 	icaltimezone *zone;
-	
-	zone = calendar_config_get_icaltimezone ();	
+
+	zone = calendar_config_get_icaltimezone ();
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (day_view), zone);
 }
 
@@ -158,16 +158,16 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_timezone (priv->view);
 }
 
 static void
-set_week_start (EDayView *day_view) 
+set_week_start (EDayView *day_view)
 {
-	int week_start_day;	
+	int week_start_day;
 
 	week_start_day = calendar_config_get_week_start_day ();
 
@@ -182,14 +182,14 @@ week_start_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointe
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_week_start (priv->view);
 }
 
 static void
-set_twentyfour_hour (EDayView *day_view) 
+set_twentyfour_hour (EDayView *day_view)
 {
 	gboolean use_24_hour;
 
@@ -206,16 +206,16 @@ twentyfour_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gp
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_twentyfour_hour (priv->view);
 }
 
 static void
-set_working_days (EDayView *day_view) 
+set_working_days (EDayView *day_view)
 {
-	CalWeekdays working_days;	
+	CalWeekdays working_days;
 
 	working_days = calendar_config_get_working_days ();
 
@@ -227,19 +227,19 @@ working_days_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_working_days (priv->view);
 }
 
 static void
-set_day_start_hour (EDayView *day_view) 
+set_day_start_hour (EDayView *day_view)
 {
 	int start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
-	
+
 	start_hour = calendar_config_get_day_start_hour ();
 
 	e_day_view_set_working_day (day_view, start_hour, start_minute, end_hour, end_minute);
@@ -250,19 +250,19 @@ day_start_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_day_start_hour (priv->view);
 }
 
 static void
-set_day_start_minute (EDayView *day_view) 
+set_day_start_minute (EDayView *day_view)
 {
 	int start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
-	
+
 	start_minute = calendar_config_get_day_start_minute ();
 
 	e_day_view_set_working_day (day_view, start_hour, start_minute, end_hour, end_minute);
@@ -273,19 +273,19 @@ day_start_minute_changed_cb (GConfClient *client, guint id, GConfEntry *entry, g
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_day_start_minute (priv->view);
 }
 
 static void
-set_day_end_hour (EDayView *day_view) 
+set_day_end_hour (EDayView *day_view)
 {
 	int start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
-	
+
 	end_hour = calendar_config_get_day_end_hour ();
 
 	e_day_view_set_working_day (day_view, start_hour, start_minute, end_hour, end_minute);
@@ -296,20 +296,20 @@ day_end_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_day_end_hour (priv->view);
 }
 
 
 static void
-set_day_end_minute (EDayView *day_view) 
+set_day_end_minute (EDayView *day_view)
 {
 	int start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
-	
+
 	end_minute = calendar_config_get_day_end_minute ();
 
 	e_day_view_set_working_day (day_view, start_hour, start_minute, end_hour, end_minute);
@@ -320,16 +320,16 @@ day_end_minute_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_day_end_minute (priv->view);
 }
 
 static void
-set_time_divisions (EDayView *day_view) 
+set_time_divisions (EDayView *day_view)
 {
-	int time_divisions;	
+	int time_divisions;
 
 	time_divisions = calendar_config_get_time_divisions ();
 
@@ -341,14 +341,14 @@ time_divisions_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_time_divisions (priv->view);
 }
 
 static void
-set_marcus_bains (EDayView *day_view) 
+set_marcus_bains (EDayView *day_view)
 {
 	gboolean show_marcus_bains_line;
 	const char *dayview_color, *timebar_color;
@@ -363,14 +363,14 @@ marcus_bains_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_marcus_bains (priv->view);
 }
 
 static void
-set_show_event_end (EDayView *day_view) 
+set_show_event_end (EDayView *day_view)
 {
 	gboolean show_event_end;
 
@@ -384,30 +384,30 @@ show_event_end_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 {
 	EDayViewConfig *view_config = data;
 	EDayViewConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_show_event_end (priv->view);
 }
 
 void
-e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view) 
+e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 {
 	EDayViewConfigPrivate *priv;
 	gint not_1, not_2, mbnot;
 	guint not;
 	GList *l;
-	
+
 	g_return_if_fail (view_config != NULL);
 	g_return_if_fail (E_IS_DAY_VIEW_CONFIG (view_config));
 
 	priv = view_config->priv;
-	
+
 	if (priv->view) {
 		g_object_unref (priv->view);
 		priv->view = NULL;
 	}
-	
+
 	for (l = priv->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 
@@ -417,27 +417,27 @@ e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 	/* If the new view is NULL, return right now */
 	if (!day_view)
 		return;
-	
+
 	priv->view = g_object_ref (day_view);
 
 	/* Time zone */
 	set_timezone (day_view);
-	
+
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* Week start */
-	set_week_start (day_view);	
+	set_week_start (day_view);
 
 	not = calendar_config_add_notification_week_start_day (week_start_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* 24 Hour format */
-	set_twentyfour_hour (day_view);	
+	set_twentyfour_hour (day_view);
 
 	not = calendar_config_add_notification_24_hour_format (twentyfour_hour_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-	
+
 	/* Working days */
 	set_working_days (day_view);
 

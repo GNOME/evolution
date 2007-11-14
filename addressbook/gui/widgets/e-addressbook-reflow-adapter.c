@@ -232,7 +232,7 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 
 	g_signal_connect (item, "drag_begin",
 			  G_CALLBACK(adapter_drag_begin), adapter);
-	
+
 	return item;
 }
 
@@ -264,12 +264,12 @@ remove_contacts (EABModel *model,
 {
 	GArray *indices = (GArray *) data;
 	int count = indices->len;
-	
+
 	if (count == 1)
 		e_reflow_model_item_removed (E_REFLOW_MODEL (adapter), g_array_index (indices, gint, 0));
-	else 
+	else
 		e_reflow_model_changed (E_REFLOW_MODEL (adapter));
-	
+
 }
 
 static void
@@ -378,7 +378,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 	object_class->get_property = addressbook_get_property;
 	object_class->dispose = addressbook_dispose;
 
-	g_object_class_install_property (object_class, PROP_BOOK, 
+	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,

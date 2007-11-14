@@ -131,8 +131,8 @@ EABPopup *eab_popup_new(const char *menuid)
  * @cards: Cards selected.  This will be freed on completion.
  *
  * Create a new selection popup target.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 
 
@@ -180,7 +180,7 @@ eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, G
 		email = e_contact_get(E_CONTACT(contact), E_CONTACT_EMAIL);
 		if (email) {
 			has_email = TRUE;
-			
+
 			g_list_foreach(email, (GFunc)g_free, NULL);
 			g_list_free(email);
 		}
@@ -352,7 +352,7 @@ GType
 eab_popup_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EABPopupHookClass), NULL, NULL, (GClassInitFunc) eabph_class_init, NULL, NULL,
@@ -362,6 +362,6 @@ eab_popup_hook_get_type(void)
 		eabph_parent_class = g_type_class_ref(e_popup_hook_get_type());
 		type = g_type_register_static(e_popup_hook_get_type(), "EABPopupHook", &info, 0);
 	}
-	
+
 	return type;
 }

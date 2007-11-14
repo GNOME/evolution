@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 2003, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -56,7 +56,7 @@ typedef enum {
 	E_CAL_VIEW_MOVE_LEFT,
 	E_CAL_VIEW_MOVE_RIGHT,
 	E_CAL_VIEW_MOVE_PAGE_UP,
-	E_CAL_VIEW_MOVE_PAGE_DOWN	
+	E_CAL_VIEW_MOVE_PAGE_DOWN
 } ECalViewMoveDirection;
 
 #define E_CALENDAR_VIEW_EVENT_FIELDS \
@@ -70,12 +70,12 @@ typedef enum {
 	GtkWidget *tooltip; \
 	gint	timeout; \
 	GdkColor *color; \
-	gint x,y; 
+	gint x,y;
 
 typedef struct {
 	E_CALENDAR_VIEW_EVENT_FIELDS
 } ECalendarViewEvent;
- 
+
 typedef struct _ECalendarView        ECalendarView;
 typedef struct _ECalendarViewClass   ECalendarViewClass;
 typedef struct _ECalendarViewPrivate ECalendarViewPrivate;
@@ -143,7 +143,7 @@ void           e_calendar_view_delete_selected_occurrence (ECalendarView *cal_vi
 
 GtkMenu       *e_calendar_view_create_popup_menu (ECalendarView *cal_view);
 
-void           e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart, 
+void           e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart,
 				     icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas);
 void           e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 						    time_t dtstart,

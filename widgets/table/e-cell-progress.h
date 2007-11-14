@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-progress.h - Progress display cell object.
  * Copyright 1999-2002, Ximian, Inc.
  * Copyright 2001, 2002, Krisztian Pifko <monsta@users.sourceforge.net>

@@ -134,7 +134,7 @@ e_table_model_value_at (ETableModel *e_table_model, int col, int row)
  * e_table_model_set_value_at:
  * @e_table_model: the table model to operate on.
  * @col: the column where the data will be stored in the model.
- * @row: the row where the data will be stored in the model. 
+ * @row: the row where the data will be stored in the model.
  * @value: the data to be stored.
  *
  * This function instructs the model to store the value in @data in the
@@ -277,8 +277,8 @@ e_table_model_finalize (GObject *object)
 static void
 e_table_model_class_init (ETableModelClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);	
-	
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	object_class->finalize = e_table_model_finalize;
 
 	e_table_model_signals [MODEL_NO_CHANGE] =
@@ -345,27 +345,27 @@ e_table_model_class_init (ETableModelClass *klass)
 			      e_util_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
-	klass->column_count        = NULL;     
-	klass->row_count           = NULL;        
+	klass->column_count        = NULL;
+	klass->row_count           = NULL;
 	klass->append_row          = NULL;
 
-	klass->value_at            = NULL;         
-	klass->set_value_at        = NULL;     
-	klass->is_cell_editable    = NULL; 
+	klass->value_at            = NULL;
+	klass->set_value_at        = NULL;
+	klass->is_cell_editable    = NULL;
 
 	klass->has_save_id         = NULL;
 	klass->get_save_id         = NULL;
 
 	klass->has_change_pending  = NULL;
 
-	klass->duplicate_value     = NULL;  
-	klass->free_value          = NULL;       
-	klass->initialize_value    = NULL; 
-	klass->value_is_empty      = NULL;   
+	klass->duplicate_value     = NULL;
+	klass->free_value          = NULL;
+	klass->initialize_value    = NULL;
+	klass->value_is_empty      = NULL;
 	klass->value_to_string     = NULL;
 
-	klass->model_no_change     = NULL;    
-	klass->model_changed       = NULL;    
+	klass->model_no_change     = NULL;
+	klass->model_changed       = NULL;
 	klass->model_row_changed   = NULL;
 	klass->model_cell_changed  = NULL;
 	klass->model_rows_inserted = NULL;
@@ -396,11 +396,11 @@ e_table_model_pre_change (ETableModel *e_table_model)
 
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
-	g_signal_emit (G_OBJECT (e_table_model), 
+	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals [MODEL_PRE_CHANGE], 0);
 	d(depth--);
 }
@@ -423,10 +423,10 @@ e_table_model_no_change (ETableModel *e_table_model)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
-	
+
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
@@ -453,10 +453,10 @@ e_table_model_changed (ETableModel *e_table_model)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
-	
+
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
@@ -483,7 +483,7 @@ e_table_model_row_changed (ETableModel *e_table_model, int row)
 
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
@@ -511,7 +511,7 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row, col));
 	d(depth++);
@@ -539,7 +539,7 @@ e_table_model_rows_inserted (ETableModel *e_table_model, int row, int count)
 
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
@@ -582,7 +582,7 @@ e_table_model_rows_deleted (ETableModel *e_table_model, int row, int count)
 
 	if (ETM_FROZEN (e_table_model))
 		return;
-	
+
 	d(print_tabs());
 	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);

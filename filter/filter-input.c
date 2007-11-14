@@ -59,7 +59,7 @@ GType
 filter_input_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterInputClass),
@@ -72,10 +72,10 @@ filter_input_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_input_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterInput", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -84,11 +84,11 @@ filter_input_class_init (FilterInputClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = filter_input_finalise;
-	
+
 	/* override methods */
 	fe_class->validate = validate;
 	fe_class->eq = input_eq;
@@ -110,11 +110,11 @@ static void
 filter_input_finalise (GObject *obj)
 {
 	FilterInput *fi = (FilterInput *) obj;
-	
+
 	xmlFree (fi->type);
 	g_list_foreach (fi->values, (GFunc)g_free, NULL);
 	g_list_free (fi->values);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -122,7 +122,7 @@ filter_input_finalise (GObject *obj)
  * filter_input_new:
  *
  * Create a new FilterInput object.
- * 
+ *
  * Return value: A new #FilterInput object.
  **/
 FilterInput *
@@ -135,12 +135,12 @@ FilterInput *
 filter_input_new_type_name (const char *type)
 {
 	FilterInput *fi;
-	
+
 	fi = filter_input_new ();
 	fi->type = (char *)xmlStrdup ((xmlChar *)type);
-	
+
 	d(printf("new type %s = %p\n", type, fi));
-	
+
 	return fi;
 }
 
@@ -148,7 +148,7 @@ void
 filter_input_set_value (FilterInput *fi, const char *value)
 {
 	GList *l;
-	
+
 	d(printf("set_value '%s'\n", value));
 
 	l = fi->values;
@@ -157,7 +157,7 @@ filter_input_set_value (FilterInput *fi, const char *value)
 		l = g_list_next (l);
 	}
 	g_list_free (fi->values);
-	
+
 	fi->values = g_list_append (NULL, g_strdup (value));
 }
 
@@ -166,37 +166,37 @@ validate (FilterElement *fe)
 {
 	FilterInput *fi = (FilterInput *)fe;
 	gboolean valid = TRUE;
-	
+
 	if (fi->values && !strcmp (fi->type, "regex")) {
 		const char *pattern;
 		regex_t regexpat;
 		int regerr;
-		
+
 		pattern = fi->values->data;
-		
+
 		if ((regerr = regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE))) {
 			size_t reglen;
 			char *regmsg;
-			
-			/* regerror gets called twice to get the full error string 
+
+			/* regerror gets called twice to get the full error string
 			   length to do proper posix error reporting */
 			reglen = regerror (regerr, &regexpat, 0, 0);
 			regmsg = g_malloc0 (reglen + 1);
 			regerror (regerr, &regexpat, regmsg, reglen);
-			
+
 			/* FIXME: FilterElement should probably have a
 			   GtkWidget member pointing to the value gotten with
 			   ::get_widget() so that we can get the parent window
 			   here. */
 			e_error_run(NULL, "filter:bad-regexp", pattern, regmsg, NULL);
 			g_free (regmsg);
-			
+
 			valid = FALSE;
 		}
-		
+
 		regfree (&regexpat);
 	}
-	
+
 	return valid;
 }
 
@@ -204,13 +204,13 @@ static int
 list_eq (GList *al, GList *bl)
 {
 	int truth = TRUE;
-	
+
 	while (truth && al && bl) {
 		truth = strcmp ((char *) al->data, (char *) bl->data) == 0;
 		al = al->next;
 		bl = bl->next;
 	}
-	
+
 	return truth && al == NULL && bl == NULL;
 }
 
@@ -218,7 +218,7 @@ static int
 input_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterInput *fi = (FilterInput *)fe, *ci = (FilterInput *)cm;
-	
+
 	return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& strcmp (fi->type, ci->type) == 0
 		&& list_eq (fi->values, ci->values);
@@ -238,11 +238,11 @@ xml_encode (FilterElement *fe)
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
 	char *type;
-	
+
 	type = fi->type ? fi->type : "string";
-	
+
 	d(printf ("Encoding %s as xml\n", type));
-	
+
 	value = xmlNewNode (NULL, (const unsigned char *)"value");
 	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
 	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)type);
@@ -250,16 +250,16 @@ xml_encode (FilterElement *fe)
 	while (l) {
 		xmlNodePtr cur;
 		xmlChar *str = l->data;
-		
+
                 cur = xmlNewChild (value, NULL, (unsigned char *)type, NULL);
-		
+
 		str = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNodeSetContent (cur, str);
 		xmlFree (str);
-		
+
 		l = l->next;
 	}
-	
+
 	return value;
 }
 
@@ -270,7 +270,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	char *name, *str, *type;
 	xmlNodePtr n;
 	GList *l;
-	
+
 	l = fi->values;
 	while (l) {
 		g_free (l->data);
@@ -281,7 +281,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 
 	name = (char *)xmlGetProp (node, (const unsigned char *)"name");
 	type = (char *)xmlGetProp (node, (const unsigned char *)"type");
-	
+
 	d(printf("Decoding %s from xml %p\n", type, fe));
 	d(printf ("Name = %s\n", name));
 	xmlFree (fe->name);
@@ -293,7 +293,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		if (!strcmp ((char *)n->name, type)) {
 			if (!(str = (char *)xmlNodeGetContent (n)))
 				str = (char *)xmlStrdup ((const unsigned char *)"");
-			
+
 			d(printf ("  '%s'\n", str));
 			fi->values = g_list_append (fi->values, g_strdup (str));
 			xmlFree (str);
@@ -302,7 +302,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		}
 		n = n->next;
 	}
-	
+
 	return 0;
 }
 
@@ -312,9 +312,9 @@ entry_changed (GtkEntry *entry, FilterElement *fe)
 	FilterInput *fi = (FilterInput *) fe;
 	const char *new;
 	GList *l;
-	
+
 	new = gtk_entry_get_text (entry);
-	
+
 	d(printf("entry_changed '%s'\n", new));
 
 	/* NOTE: entry only supports a single value ... */
@@ -323,9 +323,9 @@ entry_changed (GtkEntry *entry, FilterElement *fe)
 		g_free (l->data);
 		l = l->next;
 	}
-	
+
 	g_list_free (fi->values);
-	
+
 	fi->values = g_list_append (NULL, g_strdup (new));
 }
 
@@ -334,13 +334,13 @@ get_widget (FilterElement *fe)
 {
 	GtkWidget *entry;
 	FilterInput *fi = (FilterInput *)fe;
-	
+
 	entry = gtk_entry_new ();
 	if (fi->values && fi->values->data)
 		gtk_entry_set_text (GTK_ENTRY (entry), (const char *) fi->values->data);
-	
+
 	g_signal_connect (entry, "changed", G_CALLBACK (entry_changed), fe);
-	
+
 	return entry;
 }
 
@@ -357,7 +357,7 @@ format_sexp (FilterElement *fe, GString *out)
 	GList *l;
 
 	d(printf("format_sexp, first elem=%p\n", fi->values));
-	
+
 	l = fi->values;
 	while (l) {
 		e_sexp_encode_string (out, l->data);

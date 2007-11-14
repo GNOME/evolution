@@ -102,7 +102,7 @@ etmc_sort_value_at (ETreeModel *etm, ETreePath node, int col)
 
 	if (etmc->sort_value_at)
 		return etmc->sort_value_at (etm, node, col, etmc->model_data);
-	else 
+	else
 		return etmc->value_at (etm, node, col, etmc->model_data);
 }
 
@@ -156,7 +156,7 @@ static void *
 etmc_initialize_value (ETreeModel *etm, int col)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->initialize_value)
 		return etmc->initialize_value (etm, col, etmc->model_data);
 	else
@@ -167,7 +167,7 @@ static gboolean
 etmc_value_is_empty (ETreeModel *etm, int col, const void *value)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->value_is_empty)
 		return etmc->value_is_empty (etm, col, value, etmc->model_data);
 	else
@@ -178,7 +178,7 @@ static char *
 etmc_value_to_string (ETreeModel *etm, int col, const void *value)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->value_to_string)
 		return etmc->value_to_string (etm, col, value, etmc->model_data);
 	else
@@ -220,7 +220,7 @@ e_tree_memory_callbacks_init (ETreeMemoryCallbacks *etmc)
 
 /**
  * e_tree_memory_callbacks_new:
- * 
+ *
  * This initializes a new ETreeMemoryCallbacksModel object.
  * ETreeMemoryCallbacksModel is an implementaiton of the somewhat
  * abstract class ETreeMemory.  The ETreeMemoryCallbacksModel is
@@ -231,8 +231,8 @@ e_tree_memory_callbacks_init (ETreeMemoryCallbacks *etmc)
  * Instead, ETreeMemoryCallbacksModel uses a setup based in callback functions, every
  * callback function signature mimics the signature of each ETreeModel method
  * and passes the extra @data pointer to each one of the method to provide them
- * with any context they might want to use. 
- * 
+ * with any context they might want to use.
+ *
  * ETreeMemoryCallbacks is to ETreeMemory as ETableSimple is to ETableModel.
  *
  * Return value: An ETreeMemoryCallbacks object (which is also an

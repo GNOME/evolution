@@ -105,7 +105,7 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 
 	if (vtodos)
 		*vtodos = NULL;
-	
+
 	iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
 	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
@@ -218,7 +218,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	GtkWidget *nb;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
-	
+
 	hbox = gtk_hbox_new (FALSE, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 6);
 
@@ -389,7 +389,7 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 		if (icalcomp) {
 			if (icalcomponent_is_valid (icalcomp))
 				ret = TRUE;
-			else 
+			else
 				ret = FALSE;
 			icalcomponent_free (icalcomp);
 		}
@@ -487,7 +487,7 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 			icalcomponent *icalcomp;
 
 			icalcomp = icalvcal_convert (vcal);
-		
+
 			if (icalcomp) {
 				icalcomponent_free (icalcomp);
 				ret = TRUE;

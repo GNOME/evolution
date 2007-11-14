@@ -47,11 +47,11 @@
  * the component instead.
  * @widget: A widget to use as a basis for conversion from UTF8 into font
  * encoding.
- * 
+ *
  * Pops up a dialog box asking the user whether he wants to delete a number of
  * calendar components.  The dialog will not appear, however, if the
  * configuration option for confirmation is turned off.
- * 
+ *
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.  If the
  * configuration option for confirmation is turned off, this function will
  * unconditionally return TRUE.
@@ -65,7 +65,7 @@ delete_component_dialog (ECalComponent *comp,
 	const char *id;
 	char *arg0 = NULL;
 	int response;
-	
+
 	if (comp) {
 		g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 		g_return_val_if_fail (n_comps == 1, FALSE);
@@ -82,14 +82,14 @@ delete_component_dialog (ECalComponent *comp,
 
 	if (comp) {
 		ECalComponentText summary;
-		
+
 		vtype = e_cal_component_get_vtype (comp);
-		
+
 		if (!consider_as_untitled) {
 			e_cal_component_get_summary (comp, &summary);
 			arg0 = g_strdup (summary.value);
 		}
-		
+
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
 			if (arg0)
@@ -146,14 +146,14 @@ delete_component_dialog (ECalComponent *comp,
 				   vtype);
 			return FALSE;
 		}
-		
+
 		if (n_comps > 1)
 			arg0 = g_strdup_printf ("%d", n_comps);
 	}
-	
+
 	response = e_error_run ((GtkWindow *) gtk_widget_get_toplevel (widget), id, arg0, NULL);
 	g_free (arg0);
-	
+
 	return response == GTK_RESPONSE_YES;
 }
 
@@ -167,7 +167,7 @@ cb_toggled_cb (GtkWidget *toggle, gpointer data)
 	gtk_widget_set_sensitive (entry, active);
 }
 
-gboolean 
+gboolean
 prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent)
 {
 	char *message = NULL;
@@ -175,7 +175,7 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 	GtkMessageDialog *dialog = NULL;
 	GtkWidget *cb, *label, *entry, *vbox, *sw, *frame;
 	gboolean ret_val = FALSE;
-	
+
 	type = e_cal_component_get_vtype (comp);
 
 	switch (type) {
@@ -193,13 +193,13 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 			return FALSE;
 	}
 
-	dialog = (GtkMessageDialog *) gtk_message_dialog_new_with_markup 
-		((GtkWindow *) gtk_widget_get_toplevel (parent), GTK_DIALOG_MODAL, 
+	dialog = (GtkMessageDialog *) gtk_message_dialog_new_with_markup
+		((GtkWindow *) gtk_widget_get_toplevel (parent), GTK_DIALOG_MODAL,
 		 GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "<b>%s</b>", message);
 	g_free (message);
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
-	
+
 	gtk_box_set_spacing ((GtkBox *) (GTK_DIALOG (dialog)->vbox), 12);
 	vbox = GTK_WIDGET (GTK_DIALOG (dialog)->vbox);
 
@@ -207,7 +207,7 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 	gtk_container_add (GTK_CONTAINER (vbox), cb);
 
 	label = gtk_label_new_with_mnemonic ("_Retract comment");
-	
+
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_label_widget ((GtkFrame *) frame, label);
 	gtk_frame_set_label_align ((GtkFrame *) frame, 0, 0);
@@ -216,7 +216,7 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)sw, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		
+
 	entry = gtk_text_view_new ();
 	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)sw, entry);
 	gtk_label_set_mnemonic_widget ((GtkLabel *)label, entry);
@@ -237,7 +237,7 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 			gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
 			gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 
-			*retract_text = gtk_text_buffer_get_text (text_buffer, &text_iter_start, 
+			*retract_text = gtk_text_buffer_get_text (text_buffer, &text_iter_start,
 					&text_iter_end, FALSE);
 		}
 	}

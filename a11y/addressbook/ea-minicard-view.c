@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * ea-minicard-view.c
  * Copyright (C) 2000  Ximian, Inc.
- * Author:  Leon Zhang < leon.zhang@sun.com> 
+ * Author:  Leon Zhang < leon.zhang@sun.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -90,13 +90,13 @@ ea_minicard_view_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-			
+
 		static const GInterfaceInfo atk_action_info = {
 			(GInterfaceInitFunc) atk_action_interface_init,
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-					
+
 		/*
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (GailWidget, in this case) */
@@ -115,7 +115,7 @@ ea_minicard_view_get_type (void)
 					     &atk_selection_info);
 		g_type_add_interface_static (type, ATK_TYPE_ACTION,
 					     &atk_action_info);
-		
+
 	}
 
 	return type;
@@ -150,7 +150,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 
 	if (!reflow)
 		return NULL;
-	
+
 	/* Get the current name of minicard view*/
 	card_view = E_MINICARD_VIEW (reflow);
 	g_object_get (card_view->adapter, "book", &book, NULL);
@@ -179,7 +179,7 @@ ea_minicard_view_get_description (AtkObject *accessible)
 	return _("evolution addressbook");
 }
 
-AtkObject* 
+AtkObject*
 ea_minicard_view_new (GObject *obj)
 {
 	GObject *object;
@@ -197,18 +197,18 @@ static gint
 ea_minicard_view_get_n_children (AtkObject *accessible)
 {
 	EReflow *reflow;
-	
+
 	gint child_num = 0;
-	
+
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), -1);
-	
+
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible)));
 
 	if (!reflow)
 		return -1;
-	
+
 	child_num = reflow->count;
-	
+
 	return child_num;
 }
 
@@ -216,7 +216,7 @@ static AtkStateSet *ea_minicard_view_ref_state_set (AtkObject *obj)
 {
 	AtkStateSet *state_set = NULL;
 	GObject *gobj = NULL;
-	
+
 	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
 	if( !state_set )
 		state_set = atk_state_set_new ();
@@ -224,7 +224,7 @@ static AtkStateSet *ea_minicard_view_ref_state_set (AtkObject *obj)
 	gobj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj));
 	if( !gobj )
 		return state_set;
-	
+
 	atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
 	atk_state_set_add_state (state_set, ATK_STATE_SENSITIVE);
 	atk_state_set_add_state (state_set, ATK_STATE_SHOWING);
@@ -241,11 +241,11 @@ ea_minicard_view_ref_child (AtkObject *accessible, gint index)
 	EMinicard *card = NULL;
 
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
-	
+
 	child_num = atk_object_get_n_accessible_children (accessible);
 	if (child_num <= 0 || index < 0 || index >= child_num)
 		return NULL;
-	
+
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
 	if (!reflow)
 		return NULL;
@@ -282,13 +282,13 @@ selection_interface_add_selection (AtkSelection *selection, gint i)
 {
 	AtkGObjectAccessible *atk_gobj= NULL;
 	EReflow *reflow = NULL;
-	
+
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (selection);
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (atk_gobj));
-	
+
 	if (!reflow)
 		return FALSE;
-	
+
 	selection_interface_clear_selection (selection);
 	e_selection_model_select_single_row (reflow->selection, i);
 
@@ -306,9 +306,9 @@ selection_interface_clear_selection (AtkSelection *selection)
 
 	if( !reflow )
 		return FALSE;
-	
+
 	e_selection_model_clear (reflow->selection);
-	
+
 	return TRUE;
 }
 
@@ -329,7 +329,7 @@ selection_interface_get_selection_count (AtkSelection *selection)
 
 	if (!reflow )
 		return FALSE;
-	
+
 	return e_selection_model_selected_count (reflow->selection);
 }
 
@@ -417,4 +417,4 @@ atk_action_interface_get_name (AtkAction *iface, gint i)
 
 	return action_name[i];
 }
-		
+

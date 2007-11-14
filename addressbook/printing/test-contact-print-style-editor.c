@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * test-contact-print-style-editor.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -42,7 +42,7 @@ static void destroy_callback(GtkWidget *app, gpointer data)
 #if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {
-  
+
   const gchar *authors[] =
   {
     "Christopher James Lahey <clahey@umich.edu>",
@@ -55,7 +55,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 		      authors,
 		      _( "This should test the contact print style editor widget" ),
 		      NULL);
-  gtk_widget_show (about);                                            
+  gtk_widget_show (about);
 }
 #endif
 
@@ -76,7 +76,7 @@ int main( int argc, char *argv[] )
   app = gnome_app_new("Contact Print Style Editor Test", NULL);
 
   editor = e_contact_print_style_editor_new("");
-  
+
   gnome_app_set_contents( GNOME_APP( app ), editor );
 
   /* Connect the signals */
@@ -86,7 +86,7 @@ int main( int argc, char *argv[] )
 
   gtk_widget_show_all( app );
 
-  bonobo_main(); 
+  bonobo_main();
 
   /* Not reached. */
   return 0;

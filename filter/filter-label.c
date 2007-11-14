@@ -39,7 +39,7 @@
 #include <libedataserver/e-sexp.h>
 #include "e-util/e-util.h"
 
-#define d(x) 
+#define d(x)
 
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 
@@ -55,7 +55,7 @@ GType
 filter_label_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterLabelClass),
@@ -68,10 +68,10 @@ filter_label_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_label_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_OPTION, "FilterLabel", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -80,11 +80,11 @@ filter_label_class_init (FilterLabelClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_OPTION);
-	
+
 	object_class->finalize = filter_label_finalise;
-	
+
 	/* override methods */
 	fe_class->xml_create = xml_create;
 }
@@ -105,7 +105,7 @@ filter_label_finalise (GObject *obj)
  * filter_label_new:
  *
  * Create a new FilterLabel object.
- * 
+ *
  * Return value: A new #FilterLabel object.
  **/
 FilterLabel *
@@ -143,12 +143,12 @@ int
 filter_label_index (const char *label)
 {
 	int i;
-	
+
 	for (i = 0; i < sizeof (labels) / sizeof (labels[0]); i++) {
 		if (strcmp (labels[i].value, label) == 0)
 			return i;
 	}
-	
+
 	return -1;
 }
 
@@ -160,26 +160,26 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	GSList *list, *l;
 	char *title, *p, *nounderscores_title;
 	int i = 0;
-	
+
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
-	
+
 	gconf = gconf_client_get_default ();
-	
+
 	l = list = gconf_client_get_list (gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
 	while (l != NULL) {
 		title = (char *) l->data;
 		if ((p = strrchr (title, ':')))
 			*p++ = '\0';
-		
+
 		nounderscores_title = e_str_without_underscores (title);
-		
+
 		filter_option_add (fo, i < 5 ? labels[i++].value : (p ? p : "#ffffff"), nounderscores_title, NULL);
 		g_free (title);
 		g_free (nounderscores_title);
-		
+
 		l = l->next;
 	}
 	g_slist_free (list);
-	
+
 	g_object_unref (gconf);
 }

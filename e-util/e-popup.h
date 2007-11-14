@@ -148,12 +148,12 @@ struct _EPopupTarget {
 
 /**
  * struct _EPopup - A Popup menu manager.
- * 
+ *
  * @object: Superclass, GObject.
  * @priv: Private data.
  * @menuid: The id of this menu instance.
  * @target: The current target during the display of the popup menu.
- * 
+ *
  * The EPopup manager object.  Each popup menu is built using this
  * one-off object which is created each time the popup is invoked.
  */
@@ -168,15 +168,15 @@ struct _EPopup {
 };
 
 /**
- * struct _EPopupClass - 
- * 
+ * struct _EPopupClass -
+ *
  * @object_class: Superclass type.
  * @factories: A list of factories for this particular class of popup
  * menu.
  * @target_free: Virtual method to free the popup target.  The base
  * class frees the allocation and unrefs the popup pointer
  * structure.
- * 
+ *
  * The EPopup class definition.  This should be sub-classed for each
  * component that wants to provide hookable popup menus.  The
  * sub-class only needs to know how to allocate and free the various target
@@ -229,15 +229,15 @@ typedef struct _EPluginHookTargetKey EPopupHookTargetMask;
 typedef void (*EPopupHookFunc)(struct _EPlugin *plugin, EPopupTarget *target);
 
 /**
- * struct _EPopupHookMenu - 
- * 
+ * struct _EPopupHookMenu -
+ *
  * @hook: Parent pointer.
  * @id: The identifier of the menu to which these items belong.
  * @target_type: The target number of the type of target these menu
  * items expect. It will generally also be defined by the menu id.
  * @items: A list of EPopupItems.
  * @factory: If supplied, a function to call
- * 
+ *
  * The structure used to keep track of all of the items that a plugin
  * wishes to add to a given menu. This is used internally by a factory
  * method set on EPlugin to add the right menu items to a given menu.
@@ -252,7 +252,7 @@ struct _EPopupHookMenu {
 
 /**
  * struct _EPopupHook - A popup menu hook.
- * 
+ *
  * @hook: Superclass.
  * @menus: A list of EPopupHookMenus, for all menus registered on
  * this hook type.
@@ -267,14 +267,14 @@ struct _EPopupHook {
 };
 
 /**
- * struct _EPopupHookClass - 
- * 
+ * struct _EPopupHookClass -
+ *
  * @hook_class: Superclass.
  * @target_map: Table of EPluginHookTargetMaps which enumerate the
  * target types and enable bits of the implementing class.
  * @popup_class: The EPopupClass of the corresponding popup manager
  * for the implementing class.
- * 
+ *
  * The EPopupHookClass is a concrete class, however it is empty on its
  * own.  It needs to be sub-classed and initialised appropriately.
  *

@@ -36,7 +36,7 @@ typedef struct _EMVFolderContextClass EMVFolderContextClass;
 
 struct _EMVFolderContext {
 	RuleContext parent_object;
-	
+
 };
 
 struct _EMVFolderContextClass {

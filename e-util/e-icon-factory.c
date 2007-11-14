@@ -110,22 +110,22 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 			int width;
 			GDir *dir;
 			char *x;
-			
+
 			if (!(dir = g_dir_open (EVOLUTION_ICONSDIR, 0, NULL))) {
 				goto done;
 			}
-			
+
 			/* scan icon directories looking for an icon with a size >= the size we need. */
 			while ((dent = g_dir_read_name (dir))) {
 				if (!(dent[0] >= '1' && dent[0] <= '9'))
 					continue;
-				
+
 				if (((width = strtol (dent, &x, 10)) < size) || *x != 'x')
 					continue;
-				
+
 				if (((strtol (x + 1, &x, 10)) != width) || *x != '\0')
 					continue;
-				
+
 				/* if the icon exists in this directory, we can [use/scale] it */
 				g_free (filename);
 				basename = g_strconcat (icon_name, ".png", NULL);
@@ -137,7 +137,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 				if ((unscaled = gdk_pixbuf_new_from_file (filename, NULL)))
 					break;
 			}
-			
+
 			g_dir_close (dir);
 		} else {
 			gchar *size_x_size;
@@ -213,8 +213,8 @@ e_icon_factory_init (void)
 
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme,
-                                   EVOLUTION_DATADIR G_DIR_SEPARATOR_S 
-                                   "evolution" G_DIR_SEPARATOR_S 
+                                   EVOLUTION_DATADIR G_DIR_SEPARATOR_S
+                                   "evolution" G_DIR_SEPARATOR_S
                                    BASE_VERSION G_DIR_SEPARATOR_S "icons");
 	g_signal_connect (
 		icon_theme, "changed",
@@ -386,12 +386,12 @@ e_icon_factory_get_icon_list (const char *icon_name)
 	for (i = 0; i < G_N_ELEMENTS (icon_list_sizes); i++) {
 		size = icon_list_sizes[i];
 		sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
-		
+
 		if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
 			if ((icon = load_icon (icon_key, icon_name, size, FALSE)))
 				g_hash_table_insert (name_to_icon, icon->name, icon);
 		}
-		
+
 		if (icon && icon->pixbuf) {
 			list = g_list_prepend (list, icon->pixbuf);
 			g_object_ref (icon->pixbuf);

@@ -51,13 +51,13 @@ typedef struct _EMsgComposerHdrsPrivate EMsgComposerHdrsPrivate;
 
 struct _EMsgComposerHdrs {
 	GtkTable parent;
-	
+
 	EMsgComposerHdrsPrivate *priv;
-	
+
 	EAccount *account;
-	
+
 	guint32 visible_mask;
-	
+
 	gboolean has_changed;
 };
 

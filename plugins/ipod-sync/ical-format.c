@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- *  Authors: Rodrigo Moya <rodrigo@novell.com> 
+ *  Authors: Rodrigo Moya <rodrigo@novell.com>
  *           Philip Van Hoof <pvanhoof@gnome.org>
- *           
+ *
  *  Copyright 2004 Novell, Inc. (www.novell.com)
  *
  *  This program is free software; you can redistribute it and/or
@@ -85,7 +85,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 
 		while (objects != NULL) {
 			icalcomponent *icalcomp = objects->data;
-			
+
 			icalcomponent_add_component (top_level, icalcomp);
 
 			/* remove item from the list */

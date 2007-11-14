@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-hbox.h - Hbox cell object.
  * Copyright 2006, Novell, Inc.
  *
@@ -54,7 +54,7 @@ typedef struct {
 	int           subcell_view_count;
 	ECellView   **subcell_views;
 	int          *model_cols;
-	int    *def_size_cols;	
+	int    *def_size_cols;
 } ECellHboxView;
 
 typedef struct {

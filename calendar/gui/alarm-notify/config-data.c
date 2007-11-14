@@ -101,10 +101,10 @@ config_data_get_calendars (const char *key)
 	ESourceList *cal_sources;
 	gboolean state;
 	GSList *gconf_list;
-	
+
 	if (!inited)
 		conf_client = gconf_client_get_default ();
-	
+
 	gconf_list = gconf_client_get_list (conf_client,
 					    key,
 					    GCONF_VALUE_STRING,
@@ -117,12 +117,12 @@ config_data_get_calendars (const char *key)
 		return cal_sources;
 	}
 
-	state = gconf_client_get_bool (conf_client, 
+	state = gconf_client_get_bool (conf_client,
 				      "/apps/evolution/calendar/notify/notify_with_tray",
 				      NULL);
 	if (!state) /* Should be old client*/ {
 		GSList *source;
-		gconf_client_set_bool (conf_client, 
+		gconf_client_set_bool (conf_client,
 				      "/apps/evolution/calendar/notify/notify_with_tray",
 				      TRUE,
 				      NULL);
@@ -149,11 +149,11 @@ config_data_get_calendars (const char *key)
 	}
 
 	return cal_sources;
-	
+
 }
 
 void
-config_data_replace_string_list (const char *key, 
+config_data_replace_string_list (const char *key,
 				 const char *old,
 				 const char *new)
 {
@@ -166,9 +166,9 @@ config_data_replace_string_list (const char *key,
 					key,
 					GCONF_VALUE_STRING,
 					NULL);
-		
+
 	for (tmp = source; tmp; tmp = tmp->next) {
-		
+
 		if (strcmp (tmp->data, old) == 0) {
 			gboolean state;
 
@@ -205,7 +205,7 @@ config_data_get_timezone (void)
 
 	ensure_inited ();
 
-	location = gconf_client_get_string (conf_client, 
+	location = gconf_client_get_string (conf_client,
 					    "/apps/evolution/calendar/display/timezone",
 					    NULL);
 	if (location && location[0]) {
@@ -246,7 +246,7 @@ config_data_get_notify_with_tray (void)
 /**
  * config_data_set_last_notification_time:
  * @t: A time value.
- * 
+ *
  * Saves the last notification time so that it can be fetched the next time the
  * alarm daemon is run.  This way the daemon can show alarms that should have
  * triggered while it was not running.
@@ -271,9 +271,9 @@ config_data_set_last_notification_time (time_t t)
 
 /**
  * config_data_get_last_notification_time:
- * 
+ *
  * Queries the last saved value for alarm notification times.
- * 
+ *
  * Return value: The last saved value, or -1 if no value had been saved before.
  **/
 time_t
@@ -295,7 +295,7 @@ config_data_get_last_notification_time (void)
 /**
  * config_data_save_blessed_program:
  * @program: a program name
- * 
+ *
  * Saves a program name as "blessed"
  **/
 void
@@ -317,9 +317,9 @@ config_data_save_blessed_program (const char *program)
 /**
  * config_data_is_blessed_program:
  * @program: a program name
- * 
+ *
  * Checks to see if a program is blessed
- * 
+ *
  * Return value: TRUE if program is blessed, FALSE otherwise
  **/
 gboolean

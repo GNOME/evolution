@@ -36,7 +36,7 @@ e_pilot_utf8_to_pchar (const char *string)
 
 	if (!string)
 		return NULL;
-	
+
 	res = convert_ToPilotChar ("UTF-8", string, strlen (string), &pstring);
 
 	if (res != 0)
@@ -53,12 +53,12 @@ e_pilot_utf8_from_pchar (const char *string)
 
 	if (!string)
 		return NULL;
-	
+
 	res = convert_FromPilotChar ("UTF-8", string, strlen (string), &ustring);
-	
+
 	if (res != 0)
 		ustring = strdup (string);
-	
+
 	return ustring;
 }
 
@@ -76,7 +76,7 @@ e_pilot_get_sync_source (ESourceList *source_list)
 
 		for (s = e_source_group_peek_sources (group); s; s = s->next) {
 			ESource *source = E_SOURCE (s->data);
-			
+
 			if (e_source_get_property (source, "pilot-sync"))
 				return source;
 		}
@@ -89,7 +89,7 @@ void
 e_pilot_set_sync_source (ESourceList *source_list, ESource *source)
 {
 	GSList *g;
-	
+
 	g_return_if_fail (source_list != NULL);
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 

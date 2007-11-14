@@ -105,7 +105,7 @@ GType
 filter_datespec_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterDatespecClass),
@@ -118,10 +118,10 @@ filter_datespec_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_datespec_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterDatespec", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -130,11 +130,11 @@ filter_datespec_class_init (FilterDatespecClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = filter_datespec_finalise;
-	
+
 	/* override methods */
 	fe_class->validate = validate;
 	fe_class->eq = date_eq;
@@ -157,9 +157,9 @@ static void
 filter_datespec_finalise (GObject *obj)
 {
 	FilterDatespec *fd = (FilterDatespec *) obj;
-	
+
 	g_free (fd->priv);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -167,7 +167,7 @@ filter_datespec_finalise (GObject *obj)
  * filter_datespec_new:
  *
  * Create a new FilterDatespec object.
- * 
+ *
  * Return value: A new #FilterDatespec object.
  **/
 FilterDatespec *
@@ -181,7 +181,7 @@ validate (FilterElement *fe)
 {
 	FilterDatespec *fds = (FilterDatespec *) fe;
 	gboolean valid;
-	
+
 	valid = fds->type != FDST_UNKNOWN;
 	if (!valid) {
 		/* FIXME: FilterElement should probably have a
@@ -190,7 +190,7 @@ validate (FilterElement *fe)
                    here. */
 		e_error_run(NULL, "filter:no-date", NULL);
 	}
-	
+
 	return valid;
 }
 
@@ -198,7 +198,7 @@ static int
 date_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterDatespec *fd = (FilterDatespec *)fe, *cd = (FilterDatespec *)cm;
-	
+
         return FILTER_ELEMENT_CLASS (parent_class)->eq(fe, cm)
 		&& (fd->type == cd->type)
 		&& (fd->value == cd->value);
@@ -217,19 +217,19 @@ xml_encode (FilterElement *fe)
 	xmlNodePtr value, work;
 	FilterDatespec *fds = (FilterDatespec *)fe;
 	char str[32];
-	
+
 	d(printf ("Encoding datespec as xml\n"));
-	
+
 	value = xmlNewNode (NULL, (const unsigned char *)"value");
 	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
 	xmlSetProp (value, (const unsigned char *)"type", (const unsigned char *)"datespec");
-	
+
 	work = xmlNewChild (value, NULL, (const unsigned char *)"datespec", NULL);
 	sprintf (str, "%d", fds->type);
 	xmlSetProp (work, (const unsigned char *)"type", (unsigned char *)str);
 	sprintf (str, "%d", (int)fds->value);
 	xmlSetProp (work, (const unsigned char *)"value", (unsigned char *)str);
-	
+
 	return value;
 }
 
@@ -239,12 +239,12 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	FilterDatespec *fds = (FilterDatespec *)fe;
 	xmlNodePtr n;
 	xmlChar *val;
-	
+
 	d(printf ("Decoding datespec from xml %p\n", fe));
-	
+
 	xmlFree (fe->name);
 	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
-	
+
 	n = node->children;
 	while (n) {
 		if (!strcmp ((char *)n->name, "datespec")) {
@@ -258,7 +258,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		}
 		n = n->next;
 	}
-	
+
 	return 0;
 }
 
@@ -271,7 +271,7 @@ get_best_span (time_t val)
 		if (val % timespans[i].seconds == 0)
 			return i;
 	}
-	
+
 	return 0;
 }
 
@@ -281,7 +281,7 @@ set_button (FilterDatespec *fds)
 {
 	char buf[128];
 	char *label = buf;
-	
+
 	switch (fds->type) {
 	case FDST_UNKNOWN:
 		label = _("<click here to select a date>");
@@ -291,7 +291,7 @@ set_button (FilterDatespec *fds)
 		break;
 	case FDST_SPECIFIED: {
 		struct tm tm;
-		
+
 		localtime_r(&fds->value, &tm);
 		/* strftime for date filter display, only needs to show a day date (i.e. no time) */
 		strftime(buf, sizeof(buf), _("%d-%b-%Y"), &tm);
@@ -301,7 +301,7 @@ set_button (FilterDatespec *fds)
 			label = _("now");
 		else {
 			int span, count;
-			
+
 			span = get_best_span(fds->value);
 			count = fds->value / timespans[span].seconds;
 			sprintf(buf, ngettext(timespans[span].past_singular, timespans[span].past_plural, count), count);
@@ -312,14 +312,14 @@ set_button (FilterDatespec *fds)
 			label = _("now");
 		else {
 			int span, count;
-			
+
 			span = get_best_span(fds->value);
 			count = fds->value / timespans[span].seconds;
 			sprintf(buf, ngettext(timespans[span].future_singular, timespans[span].future_plural, count), count);
 		}
 		break;
 	}
-	
+
 	gtk_label_set_text((GtkLabel *)fds->priv->label_button, label);
 }
 
@@ -327,12 +327,12 @@ static void
 get_values (FilterDatespec *fds)
 {
 	struct _FilterDatespecPrivate *p = PRIV(fds);
-	
+
 	switch(fds->priv->type) {
 	case FDST_SPECIFIED: {
 		guint year, month, day;
 		struct tm tm;
-		
+
 		gtk_calendar_get_date((GtkCalendar *)p->calendar_specify, &year, &month, &day);
 		memset(&tm, 0, sizeof(tm));
 		tm.tm_mday = day;
@@ -344,7 +344,7 @@ get_values (FilterDatespec *fds)
 	case FDST_X_FUTURE:
 	case FDST_X_AGO: {
 		int val;
-		
+
 		val = gtk_spin_button_get_value_as_int((GtkSpinButton *)p->spin_relative);
 		fds->value = timespans[p->span].seconds * val;
 		break; }
@@ -352,7 +352,7 @@ get_values (FilterDatespec *fds)
 	default:
 		break;
 	}
-	
+
 	fds->type = p->type;
 }
 
@@ -362,11 +362,11 @@ set_values (FilterDatespec *fds)
 	int note_type;
 
 	struct _FilterDatespecPrivate *p = PRIV(fds);
-	
+
 	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
 
 	note_type = fds->type==FDST_X_FUTURE ? FDST_X_AGO : fds->type; // FUTURE and AGO use the same notebook pages/etc.
-	
+
 	switch (p->type) {
 	case FDST_NOW:
 	case FDST_UNKNOWN:
@@ -375,7 +375,7 @@ set_values (FilterDatespec *fds)
 	case FDST_SPECIFIED:
 	{
 		struct tm tm;
-		
+
 		localtime_r(&fds->value, &tm);
 		gtk_calendar_select_month((GtkCalendar*)p->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
 		gtk_calendar_select_day((GtkCalendar*)p->calendar_specify, tm.tm_mday);
@@ -394,7 +394,7 @@ set_values (FilterDatespec *fds)
 		gtk_option_menu_set_history((GtkOptionMenu*)p->option_past_future, 1);
 		break;
 	}
-	
+
 	gtk_notebook_set_current_page ((GtkNotebook*) p->notebook_type, note_type);
 	gtk_option_menu_set_history ((GtkOptionMenu*) p->option_type, note_type);
 }
@@ -415,7 +415,7 @@ static void
 set_option_relative (GtkMenu *menu, FilterDatespec *fds)
 {
 	GtkWidget *w;
-	
+
 	w = gtk_menu_get_active (menu);
 	fds->priv->span = g_list_index (GTK_MENU_SHELL (menu)->children, w);
 }
@@ -424,7 +424,7 @@ static void
 set_option_past_future (GtkMenu *menu, FilterDatespec *fds)
 {
 	GtkWidget *w;
-	
+
 	w = gtk_menu_get_active (menu);
 	if(g_list_index (GTK_MENU_SHELL (menu)->children, w) == 0)
 		fds->type = fds->priv->type = FDST_X_AGO;
@@ -442,11 +442,11 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	char *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
 					       "filter.glade",
 					       NULL);
-	
+
 	gui = glade_xml_new (filter_glade, "filter_datespec", NULL);
 	g_free (filter_glade);
 	toplevel = glade_xml_get_widget (gui, "filter_datespec");
-	
+
 	dialog = (GtkDialog *) gtk_dialog_new ();
 	gtk_window_set_title ((GtkWindow *) dialog, _("Select a time to compare against"));
 	gtk_dialog_add_buttons (dialog,
@@ -454,30 +454,30 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_has_separator (dialog, FALSE);
-	
+
 	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
 	p->option_type = glade_xml_get_widget (gui, "option_type");
 	p->calendar_specify = glade_xml_get_widget (gui, "calendar_specify");
 	p->spin_relative = glade_xml_get_widget (gui, "spin_relative");
 	p->option_relative = glade_xml_get_widget (gui, "option_relative");
 	p->option_past_future = glade_xml_get_widget (gui, "option_past_future");
-	
+
 	set_values (fds);
-	
+
 	g_signal_connect (GTK_OPTION_MENU (p->option_type)->menu, "deactivate",
 			  G_CALLBACK (set_option_type), fds);
 	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate",
 			  G_CALLBACK (set_option_relative), fds);
 	g_signal_connect (GTK_OPTION_MENU (p->option_past_future)->menu, "deactivate",
 			  G_CALLBACK (set_option_past_future), fds);
-	
+
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
-	
+
 	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK) {
 		get_values (fds);
 		set_button (fds);
 	}
-	
+
 	gtk_widget_destroy ((GtkWidget *)dialog);
 }
 
@@ -486,32 +486,32 @@ get_widget (FilterElement *fe)
 {
 	FilterDatespec *fds = (FilterDatespec *)fe;
 	GtkWidget *button;
-	
+
 	fds->priv->label_button = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (fds->priv->label_button), 0.5, 0.5);
 	set_button(fds);
-	
+
 	button = gtk_button_new();
 	gtk_container_add (GTK_CONTAINER (button), fds->priv->label_button);
 	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked), fds);
-	
+
 	gtk_widget_show (button);
 	gtk_widget_show (fds->priv->label_button);
-	
+
 	return button;
 }
 
-static void 
+static void
 build_code (FilterElement *fe, GString *out, struct _FilterPart *fp)
 {
 	return;
 }
 
-static void 
+static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterDatespec *fds = (FilterDatespec *)fe;
-	
+
 	switch (fds->type) {
 	case FDST_UNKNOWN:
 		g_warning ("user hasn't selected a datespec yet!");

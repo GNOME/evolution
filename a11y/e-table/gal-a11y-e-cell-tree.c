@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Tim Wo <tim.wo@sun.com>, Sun Microsystem Inc. 2003.
  *
  * Copyright (C) 2002 Ximian, Inc.
@@ -89,7 +89,7 @@ ectr_do_action_expand (AtkAction *action)
         ETreePath node;
 	ETreeModel *tree_model;
         ETreeTableAdapter *tree_table_adapter;
-        
+
         a11y = GAL_A11Y_E_CELL (action);
 	table_model = a11y->item->table_model;
 	node = e_table_model_value_at (table_model, -1, a11y->row);
@@ -112,7 +112,7 @@ ectr_do_action_collapse (AtkAction *action)
         ETreePath node;
 	ETreeModel *tree_model;
         ETreeTableAdapter *tree_table_adapter;
-        
+
         a11y = GAL_A11Y_E_CELL (action);
 	table_model = a11y->item->table_model;
         node = e_table_model_value_at (table_model, -1, a11y->row);
@@ -178,7 +178,7 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
         ETreePath node;
         ETreeModel *tree_model;
         ETreeTableAdapter *tree_table_adapter;
- 
+
 	ECellView *subcell_view;
 	subcell_view = e_cell_tree_view_get_subcell_view (cell_view);
 

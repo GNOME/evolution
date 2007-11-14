@@ -48,14 +48,14 @@ typedef enum _FilterDatespec_type {
 struct _FilterDatespec {
 	FilterElement parent;
 	struct _FilterDatespecPrivate *priv;
-	
+
 	FilterDatespec_type type;
-	
+
 	/* either a timespan, an absolute time, or 0
 	 * depending on type -- the above mapping to
 	 * (X_FUTURE, X_AGO, SPECIFIED, NOW)
 	 */
-	
+
 	time_t value;
 };
 

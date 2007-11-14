@@ -56,7 +56,7 @@ static void
 simple_append_row (ETableModel *etm, ETableModel *source, int row)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
-	
+
 	if (simple->append_row)
 		simple->append_row (etm, source, row, simple->data);
 }
@@ -139,7 +139,7 @@ static void *
 simple_initialize_value (ETableModel *etm, int col)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
-	
+
 	if (simple->initialize_value)
 		return simple->initialize_value (etm, col, simple->data);
 	else
@@ -150,7 +150,7 @@ static gboolean
 simple_value_is_empty (ETableModel *etm, int col, const void *value)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
-	
+
 	if (simple->value_is_empty)
 		return simple->value_is_empty (etm, col, value, simple->data);
 	else
@@ -161,7 +161,7 @@ static char *
 simple_value_to_string (ETableModel *etm, int col, const void *value)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
-	
+
 	if (simple->value_to_string)
 		return simple->value_to_string (etm, col, value, simple->data);
 	else
@@ -219,7 +219,7 @@ e_table_simple_init (ETableSimple *simple)
  * Instead, ETableSimpleModel uses a setup based in callback functions, every
  * callback function signature mimics the signature of each ETableModel method
  * and passes the extra @data pointer to each one of the method to provide them
- * with any context they might want to use. 
+ * with any context they might want to use.
  *
  * Returns: An ETableSimpleModel object (which is also an ETableModel
  * object).

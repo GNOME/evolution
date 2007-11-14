@@ -357,7 +357,7 @@ etsm_is_path_selected (ETreeSelectionModel *etsm, ETreePath path)
 	return FALSE;
 }
 
-/** 
+/**
  * e_selection_model_is_row_selected
  * @selection: #ESelectionModel to check
  * @n: The row to check
@@ -398,7 +398,7 @@ etsm_row_foreach_cb (gpointer key, gpointer value, gpointer user_data)
 		mac->callback(row, mac->closure);
 }
 
-/** 
+/**
  * e_selection_model_foreach
  * @selection: #ESelectionModel to traverse
  * @callback: The callback function to call back.
@@ -407,7 +407,7 @@ etsm_row_foreach_cb (gpointer key, gpointer value, gpointer user_data)
  * This routine calls the given callback function once for each
  * selected row, passing closure as the closure.
  */
-static void 
+static void
 etsm_foreach (ESelectionModel *selection,
 	      EForeachFunc     callback,
 	      gpointer         closure)
@@ -422,7 +422,7 @@ etsm_foreach (ESelectionModel *selection,
 	g_hash_table_foreach(etsm->priv->paths, etsm_row_foreach_cb, &mac);
 }
 
-/** 
+/**
  * e_selection_model_clear
  * @selection: #ESelectionModel to clear
  *
@@ -440,7 +440,7 @@ etsm_clear(ESelectionModel *selection)
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
 
-/** 
+/**
  * e_selection_model_selected_count
  * @selection: #ESelectionModel to count
  *
@@ -463,7 +463,7 @@ etsm_row_count (ESelectionModel *selection)
 	return e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta));
 }
 
-/** 
+/**
  * e_selection_model_select_all
  * @selection: #ESelectionModel to select all
  *
@@ -490,7 +490,7 @@ etsm_select_all (ESelectionModel *selection)
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), get_cursor_row(etsm), etsm->priv->cursor_col);
 }
 
-/** 
+/**
  * e_selection_model_invert_selection
  * @selection: #ESelectionModel to invert
  *
@@ -802,28 +802,28 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	esm_class->move_selection_end = etsm_move_selection_end ;
 	esm_class->set_selection_end  = etsm_set_selection_end  ;
 
-	g_object_class_install_property (object_class, PROP_CURSOR_ROW, 
+	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",
 							   _("Cursor Row"),
 							   /*_( */"XXX blurb" /*)*/,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_COL, 
+	g_object_class_install_property (object_class, PROP_CURSOR_COL,
 					 g_param_spec_int ("cursor_col",
 							   _("Cursor Column"),
 							   /*_( */"XXX blurb" /*)*/,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MODEL, 
+	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
 							      _("Model"),
 							      "XXX blurb",
 							      E_TREE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_ETTA, 
+	g_object_class_install_property (object_class, PROP_ETTA,
 					 g_param_spec_object ("etta",
 							      "ETTA",
 							      "XXX blurb",

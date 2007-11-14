@@ -37,7 +37,7 @@
  * cal_comp_util_add_exdate:
  * @comp: A calendar component object.
  * @itt: Time for the exception.
- * 
+ *
  * Adds an exception date to the current list of EXDATE properties in a calendar
  * component object.
  **/
@@ -85,7 +85,7 @@ e_cal_component_compare_tzid (const char *tzid1, const char *tzid2)
  * cal_comp_util_compare_event_timezones:
  * @comp: A calendar component object.
  * @client: A #ECal.
- * 
+ *
  * Checks if the component uses the given timezone for both the start and
  * the end time, or if the UTC offsets of the start and end times are the same
  * as in the given zone.
@@ -191,14 +191,14 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
  * @comp: A calendar component.
  * @client: Calendar client where the component purportedly lives.
  * @widget: Widget to be used as the basis for UTF8 conversion.
- * 
+ *
  * Assumming a calendar component with an empty SUMMARY property (as per
  * string_is_empty()), asks whether the user wants to delete it based on
  * whether the appointment is on the calendar server or not.  If the
  * component is on the server, this function will present a confirmation
  * dialog and delete the component if the user tells it to.  If the component
  * is not on the server it will just return TRUE.
- * 
+ *
  * Return value: A result code indicating whether the component
  * was not on the server and is to be deleted locally, whether it
  * was on the server and the user deleted it, or whether the
@@ -223,7 +223,7 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	 * the user.
 	 */
 	e_cal_component_get_uid (comp, &uid);
-	
+
 	/*TODO We should not be checking for this here. But since e_cal_util_construct_instance does not
 	  create the instances of all day events, so we dafault to old behaviour */
 	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
@@ -246,10 +246,10 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 
 /**
  * cal_comp_event_new_with_defaults:
- * 
+ *
  * Creates a new VEVENT component and adds any default alarms to it as set in
  * the program's configuration values.
- * 
+ *
  * Return value: A newly-created calendar component.
  **/
 ECalComponent *
@@ -272,7 +272,7 @@ cal_comp_event_new_with_defaults (ECal *client)
 
 		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
 	}
-	
+
 	if (!calendar_config_get_use_default_reminder ())
 		return comp;
 
@@ -303,11 +303,11 @@ cal_comp_event_new_with_defaults (ECal *client)
 		trigger.u.rel_duration.minutes = interval;
 		break;
 
-	case CAL_HOURS:	
+	case CAL_HOURS:
 		trigger.u.rel_duration.hours = interval;
 		break;
 
-	case CAL_DAYS:	
+	case CAL_DAYS:
 		trigger.u.rel_duration.days = interval;
 		break;
 
@@ -324,7 +324,7 @@ cal_comp_event_new_with_defaults (ECal *client)
 }
 
 ECalComponent *
-cal_comp_event_new_with_current_time (ECal *client, gboolean all_day) 
+cal_comp_event_new_with_current_time (ECal *client, gboolean all_day)
 {
 	ECalComponent *comp;
 	struct icaltimetype itt;
@@ -334,23 +334,23 @@ cal_comp_event_new_with_current_time (ECal *client, gboolean all_day)
 	comp = cal_comp_event_new_with_defaults (client);
 
 	g_return_val_if_fail (comp, NULL);
-	
+
 	zone = calendar_config_get_icaltimezone ();
 	if (all_day) {
 		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
 
 		dt.value = &itt;
 		dt.tzid = icaltimezone_get_tzid (zone);
-		
+
 		e_cal_component_set_dtstart (comp, &dt);
-		e_cal_component_set_dtend (comp, &dt);		
+		e_cal_component_set_dtend (comp, &dt);
 	} else {
 		itt = icaltime_current_time_with_zone (zone);
 		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
-		
+
 		dt.value = &itt;
 		dt.tzid = icaltimezone_get_tzid (zone);
-		
+
 		e_cal_component_set_dtstart (comp, &dt);
 		icaltime_adjust (&itt, 0, 1, 0, 0);
 		e_cal_component_set_dtend (comp, &dt);
@@ -367,7 +367,7 @@ cal_comp_task_new_with_defaults (ECal *client)
 
 	if (!e_cal_get_default_object (client, &icalcomp, NULL))
 		icalcomp = icalcomponent_new (ICAL_VTODO_COMPONENT);
-	
+
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		icalcomponent_free (icalcomp);
@@ -386,7 +386,7 @@ cal_comp_memo_new_with_defaults (ECal *client)
 
 	if (!e_cal_get_default_object (client, &icalcomp, NULL))
 		icalcomp = icalcomponent_new (ICAL_VJOURNAL_COMPONENT);
-	
+
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		icalcomponent_free (icalcomp);
@@ -400,7 +400,7 @@ cal_comp_memo_new_with_defaults (ECal *client)
 /**
  * cal_comp_util_get_n_icons:
  * @comp: A calendar component object.
- * 
+ *
  * Get the number of icons owned by the component.
  *
  * Returns: the number of icons owned by the component.

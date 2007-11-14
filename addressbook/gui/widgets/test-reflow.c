@@ -102,7 +102,7 @@ static void resize(GnomeCanvas *canvas, gpointer data)
 	gnome_canvas_item_set( rect,
 			       "x2", (double) width,
 			       "y2", (double) last_alloc.height,
-			       NULL );	
+			       NULL );
 }
 
 int main( int argc, char *argv[] )
@@ -157,7 +157,7 @@ int main( int argc, char *argv[] )
   e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
 			     GTK_POLICY_AUTOMATIC,
 			     GTK_POLICY_NEVER);
-  
+
   gtk_container_add (GTK_CONTAINER (scrollframe), canvas);
 
   gnome_app_set_contents( GNOME_APP( app ), scrollframe );
@@ -172,7 +172,7 @@ int main( int argc, char *argv[] )
   gtk_widget_show_all( app );
   gdk_window_set_back_pixmap( GTK_LAYOUT(canvas)->bin_window, NULL, FALSE);
 
-  gtk_main(); 
+  gtk_main();
 
   /* Not reached. */
   return 0;

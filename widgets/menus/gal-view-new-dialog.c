@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-view-new-dialog.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -60,14 +60,14 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 	object_class->get_property = gal_view_new_dialog_get_property;
 	object_class->dispose      = gal_view_new_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_NAME, 
+	g_object_class_install_property (object_class, PROP_NAME,
 					 g_param_spec_string ("name",
 							      _("Name"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FACTORY, 
+	g_object_class_install_property (object_class, PROP_FACTORY,
 					 g_param_spec_object ("factory",
 							      _("Factory"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -114,7 +114,7 @@ static void
 gal_view_new_dialog_dispose (GObject *object)
 {
 	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG(object);
-	
+
 	if (gal_view_new_dialog->gui)
 		g_object_unref(gal_view_new_dialog->gui);
 	gal_view_new_dialog->gui = NULL;
@@ -137,7 +137,7 @@ sensitize_ok_response (GalViewNewDialog *dialog)
 {
 	gboolean ok = TRUE;
 	const char *text;
-	
+
 	text = gtk_entry_get_text (GTK_ENTRY (dialog->entry));
 	if (!text || !text[0])
 		ok = FALSE;
@@ -244,7 +244,7 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 	GtkWidget *entry;
 
 	dialog = GAL_VIEW_NEW_DIALOG (object);
-	
+
 	switch (prop_id){
 	case PROP_NAME:
 		entry = glade_xml_get_widget(dialog->gui, "entry-name");

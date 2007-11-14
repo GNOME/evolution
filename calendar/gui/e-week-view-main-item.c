@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -110,7 +110,7 @@ e_week_view_main_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EWeekViewMainItem *wvmitem;
 
 	wvmitem = E_WEEK_VIEW_MAIN_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_WEEK_VIEW:
 		wvmitem->week_view = GTK_VALUE_POINTER (*arg);
@@ -281,7 +281,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 					    width - 5, line_y - y);
 		}
 	}
-	
+
 	/* Display the date in the top of the cell.
 	   In the week view, display the long format "10 January" in all cells,
 	   or abbreviate it to "10 Jan" or "10" if that doesn't fit.
@@ -338,10 +338,10 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	} else if (week_view->multi_week_view) {
 		struct icaltimetype tt;
 
-		/* Check if we are drawing today */		
+		/* Check if we are drawing today */
 		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		if (g_date_get_year (date) == tt.year 
+		if (g_date_get_year (date) == tt.year
 		    && g_date_get_month (date) == tt.month
 		    && g_date_get_day (date) == tt.day) {
 			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
@@ -357,11 +357,11 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		g_date_strftime (buffer, sizeof (buffer),
 				 format_string ? format_string : "<b>%d</b>", date);
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
-		pango_layout_set_markup (layout, buffer, strlen(buffer));	
+		pango_layout_set_markup (layout, buffer, strlen(buffer));
 	} else {
 		g_date_strftime (buffer, sizeof (buffer),
 				 format_string ? format_string : "%d", date);
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);	
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
 	}
 
 	pango_layout_get_pixel_size (layout, &date_width, NULL);
@@ -440,9 +440,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	   month starts (defaults are white for odd - January, March, ... and
 	   light gray for even). In the week view the background is always the
 	   same color, the color used for the odd months in the month view. */
-	if (week_view->multi_week_view && (month % 2 == 0)) 
+	if (week_view->multi_week_view && (month % 2 == 0))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
-	else 
+	else
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
 
 	cairo_save (cr);
@@ -481,7 +481,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		}
 
-		if (week_view->multi_week_view) { 
+		if (week_view->multi_week_view) {
 			cairo_rectangle (cr, x + 2, y + 1,
 					    width - 5,
 					    E_WEEK_VIEW_DATE_T_PAD - 1 +
@@ -493,9 +493,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 				    width - 5, line_y - y);
 			cairo_fill (cr);
 		}
-	}	
-	cairo_restore (cr);	
-	
+	}
+	cairo_restore (cr);
+
 	/* Display the date in the top of the cell.
 	   In the week view, display the long format "10 January" in all cells,
 	   or abbreviate it to "10 Jan" or "10" if that doesn't fit.
@@ -553,10 +553,10 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	} else if (week_view->multi_week_view) {
 		struct icaltimetype tt;
 
-		/* Check if we are drawing today */		
+		/* Check if we are drawing today */
 		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		if (g_date_get_year (date) == tt.year 
+		if (g_date_get_year (date) == tt.year
 		    && g_date_get_month (date) == tt.month
 		    && g_date_get_day (date) == tt.day) {
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
@@ -577,7 +577,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		layout = pango_cairo_create_layout (cr);
 		pango_layout_set_font_description (layout, font_desc);
 		pango_layout_set_text (layout, buffer, -1);
-		pango_layout_set_markup (layout, buffer, strlen(buffer));	
+		pango_layout_set_markup (layout, buffer, strlen(buffer));
 	} else {
 		g_date_strftime (buffer, sizeof (buffer),
 				 format_string ? format_string : "%d", date);

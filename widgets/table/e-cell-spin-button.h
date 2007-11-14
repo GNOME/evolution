@@ -7,9 +7,9 @@
  * Authors:
  *   Mikael Hallendal <micke@codefactory.se>
  *
- * Celltype for drawing a spinbutton in a cell. 
+ * Celltype for drawing a spinbutton in a cell.
  *
- * Used ECellPopup by Damon Chaplin <damon@ximian.com> as base for 
+ * Used ECellPopup by Damon Chaplin <damon@ximian.com> as base for
  * buttondrawings.
  *
  * This library is free software; you can redistribute it and/or
@@ -58,7 +58,7 @@ typedef struct {
 	ECellSpinButtonData    min;
 	ECellSpinButtonData    max;
 	ECellSpinButtonData    step;
-	
+
 	gboolean               up_pressed;
 	gboolean               down_pressed;
 
@@ -66,7 +66,7 @@ typedef struct {
 
 typedef struct {
 	ECellClass    parent_class;
-	
+
 	/* Functions */
 	void    (*step)    (ECellSpinButton       *mcsb,
 			    ECellView             *ecv,
@@ -82,9 +82,9 @@ ECell *    e_cell_spin_button_new          (gint     min,
 					    ECell   *child_cell);
 
 ECell *    e_cell_spin_button_new_float    (gfloat    min,
- 					    gfloat    max, 
+ 					    gfloat    max,
  					    gfloat    step,
-					    ECell    *child_cell); 
+					    ECell    *child_cell);
 
 
 void       e_cell_spin_button_step         (ECellSpinButton       *mcsb,

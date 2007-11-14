@@ -33,7 +33,7 @@ void
 e_auto_kill_popup_menu_on_selection_done (GtkMenu *menu)
 {
 	g_return_if_fail (GTK_IS_MENU (menu));
-	
+
 	g_signal_connect (menu, "selection_done", G_CALLBACK (gtk_widget_destroy), menu);
 }
 

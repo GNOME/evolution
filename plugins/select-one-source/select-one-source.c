@@ -35,10 +35,10 @@ org_gnome_select_one_source (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	GSList *selection, *l;
 	ESource *primary_source;
-	
+
 	selection = e_source_selector_get_selection (target->selector);
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
-	
+
 	for (l = selection; l; l = l->next) {
 		ESource *source = l->data;
 
@@ -47,6 +47,6 @@ org_gnome_select_one_source (EPlugin *ep, ECalPopupTargetSource *target)
 	}
 
 	e_source_selector_select_source (target->selector, primary_source);
-	
+
 	e_source_selector_free_selection (selection);
 }

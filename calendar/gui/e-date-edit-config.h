@@ -1,12 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
- * Author : 
+/*
+ * Author :
  *  JP Rosevear <jpr@ximian.com>
  *
  * Copyright 2003, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 #define E_DATE_EDIT_CONFIG(obj)          GTK_CHECK_CAST (obj, e_date_edit_config_get_type (), EDateEditConfig)
 #define E_DATE_EDIT_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_date_edit_config_get_type (), EDateEditConfigClass)
 #define E_IS_DATE_EDIT_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_date_edit_config_get_type ())
-        
+
 typedef struct _EDateEditConfig        EDateEditConfig;
 typedef struct _EDateEditConfigClass   EDateEditConfigClass;
 typedef struct _EDateEditConfigPrivate EDateEditConfigPrivate;

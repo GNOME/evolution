@@ -115,8 +115,8 @@ EABMenu *eab_menu_new(const char *menuid)
  * @cards: Cards selected.  This will be freed on completion and the array indices unreferenced.
  *
  * Create a new selection menu target.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EABMenuTargetSelect *
 eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, int readonly, GPtrArray *cards)
@@ -139,7 +139,7 @@ eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, int readonly, GPt
 		email = e_contact_get(E_CONTACT(contact), E_CONTACT_EMAIL);
 		if (email) {
 			has_email = TRUE;
-			
+
 			g_list_foreach(email, (GFunc)g_free, NULL);
 			g_list_free(email);
 		}
@@ -243,7 +243,7 @@ GType
 eab_menu_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EABMenuHookClass), NULL, NULL, (GClassInitFunc) eabmph_class_init, NULL, NULL,
@@ -253,6 +253,6 @@ eab_menu_hook_get_type(void)
 		eabmph_parent_class = g_type_class_ref(e_menu_hook_get_type());
 		type = g_type_register_static(e_menu_hook_get_type(), "EABMenuHook", &info, 0);
 	}
-	
+
 	return type;
 }

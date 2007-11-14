@@ -275,7 +275,7 @@ static ETableCol *
 current_search_col (ETree *et)
 {
 	if (!et->priv->search_col_set) {
-		et->priv->current_search_col = 
+		et->priv->current_search_col =
 			e_table_util_calculate_current_search_col (et->priv->header,
 								   et->priv->full_header,
 								   et->priv->sort_info,
@@ -608,10 +608,10 @@ e_tree_init (ETree *e_tree)
 
 	e_tree->priv->search                 = e_table_search_new();
 
-	e_tree->priv->search_search_id       = 
+	e_tree->priv->search_search_id       =
 		g_signal_connect (G_OBJECT (e_tree->priv->search), "search",
 				  G_CALLBACK (et_search_search), e_tree);
-	e_tree->priv->search_accept_id       = 
+	e_tree->priv->search_accept_id       =
 		g_signal_connect (G_OBJECT (e_tree->priv->search), "accept",
 				  G_CALLBACK (et_search_accept), e_tree);
 
@@ -1124,7 +1124,7 @@ e_tree_setup_table (ETree *e_tree)
 /**
  * e_tree_set_search_column:
  * @e_tree: #ETree object that will be modified
- * @col: Column index to use for searches 
+ * @col: Column index to use for searches
  *
  * This routine sets the current search column to be used for keypress
  * searches of the #ETree. If -1 is passed in for column, the current
@@ -1269,11 +1269,11 @@ e_tree_get_state_object (ETree *e_tree)
 /**
  * e_tree_get_state:
  * @e_tree: The #ETree to act on
- * 
+ *
  * Builds a state object based on the current state and returns the
  * string corresponding to that state.
- * 
- * Return value: 
+ *
+ * Return value:
  * A string describing the current state of the #ETree.
  **/
 gchar *
@@ -1310,9 +1310,9 @@ e_tree_save_state (ETree      *e_tree,
 /**
  * e_tree_get_spec:
  * @e_tree: The #ETree to query
- * 
+ *
  * Returns the specification object.
- * 
+ *
  * Return value:
  **/
 ETableSpecification *
@@ -1352,7 +1352,7 @@ et_table_rows_deleted (ETableModel *table_model, int row, int count, ETree *et)
 
 	prev_node = e_tree_node_at_row (et, row-1);
 	node = e_tree_get_cursor (et);
-	
+
 	/* Check if the cursor is a child of the node directly before the
 	 * deleted region (implying that an expander was collapsed with
 	 * the cursor inside it) */
@@ -1377,7 +1377,7 @@ et_connect_to_etta (ETree *et)
 
 	et->priv->table_cell_change_id = g_signal_connect (et->priv->etta, "model_cell_changed",
 							   G_CALLBACK (et_table_cell_changed), et);
-	
+
 	et->priv->table_rows_delete_id = g_signal_connect (et->priv->etta, "model_rows_deleted",
 							   G_CALLBACK (et_table_rows_deleted), et);
 
@@ -1473,10 +1473,10 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_str: The spec.
  * @state_str: An optional state.  (%NULL is valid.)
- * 
+ *
  * This is the internal implementation of e_tree_new() for use by
  * subclasses or language bindings.  See e_tree_new() for details.
- * 
+ *
  * Return value: %TRUE on success, %FALSE if an error occurred
  **/
 gboolean
@@ -1535,7 +1535,7 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
  * This is the internal implementation of e_tree_new_from_spec_file()
  * for use by subclasses or language bindings.  See
  * e_tree_new_from_spec_file() for details.
- * 
+ *
  * Return value: %TRUE on success, %FALSE if an error occurred
  **/
 gboolean
@@ -1593,7 +1593,7 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
  * @ete: An optional #ETableExtras  (%NULL is valid.)
  * @spec: The spec
  * @state: An optional state  (%NULL is valid.)
- * 
+ *
  * This function creates an #ETree from the given parameters.  The
  * #ETreeModel is a tree model to be represented.  The #ETableExtras
  * is an optional set of pixbufs, cells, and sorting functions to be
@@ -1604,8 +1604,8 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
  * default sorting state and such.  @state is an optional string
  * specifying the current sorting state and such.  If @state is NULL,
  * then the default state from the spec will be used.
- * 
- * Return value: 
+ *
+ * Return value:
  * The newly created #ETree or %NULL if there's an error.
  **/
 GtkWidget *
@@ -1634,7 +1634,7 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_fn: The filename of the spec.
  * @state_fn: An optional state file.  (%NULL is valid.)
- * 
+ *
  * This is very similar to e_tree_new(), except instead of passing in
  * strings you pass in the file names of the spec and state to load.
  *
@@ -1644,8 +1644,8 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
  * @state_fn is the filename of the initial state to load.  If this is
  * %NULL or if the specified file doesn't exist, the default state
  * from the spec file is used.
- * 
- * Return value: 
+ *
+ * Return value:
  * The newly created #ETree or %NULL if there's an error.
  **/
 GtkWidget *
@@ -1851,7 +1851,7 @@ et_set_property (GObject *object,
 					       NULL);
 		}
 		break;
-		
+
 	case PROP_DRAW_FOCUS:
 		etree->priv->draw_focus = g_value_get_boolean (value);
 		if (etree->priv->item) {
@@ -2111,12 +2111,12 @@ e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpo
 	cursor = e_tree_get_cursor (et);
 	row = e_tree_table_adapter_row_of_node (et->priv->etta, cursor);
 	row_count = e_table_model_row_count (E_TABLE_MODEL (et->priv->etta));
-	
+
 	if (params & E_TREE_FIND_NEXT_FORWARD)
 		found = find_next_in_range (et, row + 1, row_count - 1, func, data);
 	else
 		found = find_prev_in_range (et, row == -1 ? -1 : row - 1, 0, func, data);
-	
+
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
 		e_tree_set_cursor (et, found);
@@ -2541,7 +2541,7 @@ e_tree_drag_begin (ETree            *tree,
  * @y: Y coordinate for the pixel
  * @row_return: Pointer to return the row value
  * @col_return: Pointer to return the column value
- * 
+ *
  * Return the row and column for the cell in which the pixel at (@x, @y) is
  * contained.
  **/
@@ -2577,7 +2577,7 @@ e_tree_get_cell_at (ETree *tree,
  * @y_return: Returns the y coordinate of the upper right hand corner of the cell with respect to the widget.
  * @width_return: Returns the width of the cell.
  * @height_return: Returns the height of the cell.
- * 
+ *
  * Computes the data about this cell.
  **/
 void
@@ -2739,7 +2739,7 @@ scroll_timeout (gpointer data)
 			       et->priv->last_drop_x,
 			       et->priv->last_drop_y,
 			       et->priv->last_drop_time);
-			       
+
 
 	return TRUE;
 }
@@ -2866,8 +2866,8 @@ context_connect (ETree *et, GdkDragContext *context)
 {
 	if (context == et->priv->last_drop_context)
        		return;
-	
-	if (et->priv->last_drop_context) 
+
+	if (et->priv->last_drop_context)
 		g_object_weak_unref (G_OBJECT(et->priv->last_drop_context), context_destroyed, et);
 	else
 		g_object_ref (et);
@@ -3000,7 +3000,7 @@ et_drag_drop(GtkWidget *widget,
 	et->priv->drop_path = NULL;
 	et->priv->drop_col = -1;
 
-	collapse_drag (et, path); 
+	collapse_drag (et, path);
 
 	scroll_off (et);
 	return ret_val;
@@ -3222,7 +3222,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_TYPE_POINTER,
 			      G_TYPE_INT,
 			      GDK_TYPE_DRAG_CONTEXT);
-	
+
 	et_signals[TREE_DRAG_LEAVE] =
 		g_signal_new ("tree_drag_leave",
 			      G_OBJECT_CLASS_TYPE (object_class),

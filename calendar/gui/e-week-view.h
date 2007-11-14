@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  * Copyright 2001, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -108,7 +108,7 @@ typedef enum
 	E_WEEK_VIEW_COLOR_DATES,
 	E_WEEK_VIEW_COLOR_DATES_SELECTED,
 	E_WEEK_VIEW_COLOR_TODAY,
-	
+
 	E_WEEK_VIEW_COLOR_LAST
 } EWeekViewColors;
 
@@ -205,7 +205,7 @@ struct _EWeekView
 	gboolean multi_week_view;
 
 	gboolean update_base_date;
-	
+
 	/* How many weeks we are showing. This is only relevant if
 	   display_month is TRUE. */
 	gint weeks_shown;
@@ -336,7 +336,7 @@ struct _EWeekView
 
 	/* remember last selected interval when click and restore on double click,
 	   if we double clicked inside that interval. */
-	guint32 bc_event_time; 
+	guint32 bc_event_time;
 	time_t before_click_dtstart;
 	time_t before_click_dtend;
 };

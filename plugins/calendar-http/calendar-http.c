@@ -90,7 +90,7 @@ url_changed (GtkEntry *entry, ESource *source)
 
 		secure_checkbox = g_object_get_data (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
 		                                     "secure_checkbox");
-                 
+
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (secure_checkbox), TRUE);
 	}
 
@@ -227,12 +227,12 @@ option_changed (GtkOptionMenu *option, ECalConfigTargetSource *t)
 	g_free (refresh_str);
 }
 
-static void 
+static void
 secure_setting_changed (GtkWidget *widget, ESource *source)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		e_source_set_property (source, "use_ssl", "1");
-	else 
+	else
 		e_source_set_property (source, "use_ssl", "0");
 }
 
@@ -342,7 +342,7 @@ e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	secure_prop = e_source_get_property (t->source, "use_ssl");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (secure_setting), (secure_prop && g_str_equal (secure_prop, "1"))  ? TRUE : FALSE);
-  
+
 	g_signal_connect (secure_setting, "toggled", G_CALLBACK (secure_setting_changed), t->source);
 
 	gtk_widget_show (secure_setting);
@@ -350,7 +350,7 @@ e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	/* Store pointer to secure checkbox so we can retrieve it in url_changed() */
 	g_object_set_data (G_OBJECT (parent), "secure_checkbox", (gpointer)secure_setting);
-	
+
 	return secure_setting;
 }
 

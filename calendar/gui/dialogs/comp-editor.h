@@ -107,7 +107,7 @@ gboolean      comp_editor_save_comp        (CompEditor             *editor,
 void          comp_editor_delete_comp      (CompEditor             *editor);
 gboolean      comp_editor_send_comp        (CompEditor             *editor,
 					    ECalComponentItipMethod  method);
-GSList        *comp_editor_get_mime_attach_list (CompEditor        *editor); 
+GSList        *comp_editor_get_mime_attach_list (CompEditor        *editor);
 gboolean      comp_editor_close            (CompEditor             *editor);
 void          comp_editor_focus            (CompEditor             *editor);
 

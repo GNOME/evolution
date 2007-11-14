@@ -53,7 +53,7 @@ struct _EConfigPage {
 
 struct _EConfigPageClass {
 	GtkEventBoxClass parent_class;
-	
+
 };
 
 

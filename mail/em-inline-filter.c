@@ -33,7 +33,7 @@
 
 #include "em-utils.h"
 
-#define d(x) 
+#define d(x)
 
 static void em_inline_filter_class_init (EMInlineFilterClass *klass);
 static void em_inline_filter_init (CamelObject *object);
@@ -49,7 +49,7 @@ CamelType
 em_inline_filter_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		parent_class = (CamelMimeFilterClass *)camel_mime_filter_get_type();
 
@@ -62,7 +62,7 @@ em_inline_filter_get_type (void)
 					   (CamelObjectInitFunc) em_inline_filter_init,
 					   (CamelObjectFinalizeFunc) em_inline_filter_finalize);
 	}
-	
+
 	return type;
 }
 
@@ -129,7 +129,7 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	CamelMimePart *part;
 	CamelStream *mem;
 	char *type;
-	
+
 	if (emif->state == EMIF_PLAIN || emif->state == EMIF_PGPSIGNED || emif->state == EMIF_PGPENCRYPTED)
 		encoding = emif->base_encoding;
 	else
@@ -142,11 +142,11 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	}
 	mem = camel_stream_mem_new_with_byte_array(emif->data);
 	emif->data = g_byte_array_new();
-	
+
 	dw = camel_data_wrapper_new();
 	camel_data_wrapper_construct_from_stream(dw, mem);
 	camel_object_unref(mem);
-	
+
 	if (emif_types[emif->state].plain && emif->base_type) {
 		camel_content_type_ref (emif->base_type);
 		content_type = emif->base_type;
@@ -155,17 +155,17 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 		type = camel_content_type_format (emif->base_type);
 		content_type = camel_content_type_decode (type);
 		g_free (type);
-		
+
 		g_free (content_type->type);
 		g_free (content_type->subtype);
 		content_type->type = g_strdup (emif_types[emif->state].type);
 		content_type->subtype = g_strdup (emif_types[emif->state].subtype);
 	}
-	
+
 	camel_data_wrapper_set_mime_type_field (dw, content_type);
 	camel_content_type_unref (content_type);
 	dw->encoding = encoding;
-	
+
 	part = camel_mime_part_new();
 	camel_medium_set_content_object((CamelMedium *)part, dw);
 	camel_mime_part_set_encoding(part, encoding);
@@ -203,7 +203,7 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 
 		while (inptr < inend && *inptr != '\n')
 			inptr++;
-			
+
 		if (inptr == inend) {
 			if (!final) {
 				camel_mime_filter_backup(f, start, inend-start);
@@ -378,12 +378,12 @@ emif_reset(CamelMimeFilter *f)
  * raw data being processed.
  * @base_type: The base content-type of the raw data, should always be
  * text/plain.
- * 
+ *
  * Create a filter which will scan a (text) stream for
  * embedded parts.  You can then retrieve the contents
  * as a CamelMultipart object.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMInlineFilter *
 em_inline_filter_new(CamelTransferEncoding base_encoding, CamelContentType *base_type)

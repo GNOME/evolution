@@ -104,7 +104,7 @@ emp_target_free(EConfig *ep, EConfigTarget *t)
 			break; }
 		case EM_CONFIG_TARGET_ACCOUNT: {
 			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
-			
+
 			if (((EMConfig *)ep)->priv->account_changed_id) {
 				g_signal_handler_disconnect(s->account, ((EMConfig *)ep)->priv->account_changed_id);
 				((EMConfig *)ep)->priv->account_changed_id = 0;
@@ -157,7 +157,7 @@ emp_set_target(EConfig *ep, EConfigTarget *t)
 			break; }
 		case EM_CONFIG_TARGET_ACCOUNT: {
 			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
-			
+
 			((EMConfig *)ep)->priv->account_changed_id = g_signal_connect(s->account, "changed", G_CALLBACK(emp_account_changed), ep);
 			break; }
 		}
@@ -306,7 +306,7 @@ GType
 em_config_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMConfigHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -316,6 +316,6 @@ em_config_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_config_hook_get_type());
 		type = g_type_register_static(e_config_hook_get_type(), "EMConfigHook", &info, 0);
 	}
-	
+
 	return type;
 }

@@ -22,7 +22,7 @@
  * Authors:
  *  Gilbert Fang <gilbert.fang@sun.com>, Sun Microsystem Inc. 2003.
  *
- * This file is mainly from the gailfactory.h of GAIL. 
+ * This file is mainly from the gailfactory.h of GAIL.
  */
 
 #ifndef _GAL_A11Y_FACTORY_H__

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-field-chooser.c
  * Copyright (C) 2001  Ximian, Inc.
  * Author: Chris Toshok <toshok@ximian.com>
@@ -76,7 +76,7 @@ void
 eab_error_dialog (const char *msg, EBookStatus status)
 {
 	const char *status_str = status_to_string [status];
-	
+
 	if (status_str)
 		e_error_run (NULL, "addressbook:generic-error", msg, _(status_str), NULL);
 }
@@ -86,7 +86,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 {
 	char *label_string, *label = NULL, *uri;
 	GtkWidget *dialog;
-	
+
 	g_return_if_fail (source != NULL);
 
 	uri = e_source_get_uri (source);
@@ -97,7 +97,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
                                  "for offline usage. Please load the addressbook once in online mode "
                                  "to download its contents");
 	}
-		
+
 	else if (!strncmp (uri, "file:", 5)) {
 		char *path = g_filename_from_uri (uri, NULL, NULL);
 		label = g_strdup_printf (
@@ -109,7 +109,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	else if (!strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
 #ifdef HAVE_LDAP
-		label_string = 
+		label_string =
 			_("We were unable to open this addressbook.  This either "
 			  "means you have entered an incorrect URI, or the LDAP server "
 			  "is unreachable.");
@@ -126,12 +126,12 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 			  "means you have entered an incorrect URI, or the server "
 			  "is unreachable.");
 	}
-	
+
 	dialog  = e_error_new ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
-	
+
 	gtk_widget_show (dialog);
-	g_free (label);	
+	g_free (label);
 	g_free (uri);
 }
 
@@ -168,7 +168,7 @@ eab_search_result_dialog      (GtkWidget *parent,
 	default:
 		g_return_if_reached ();
 	}
-	
+
 	e_error_run ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
 }
 
@@ -340,7 +340,7 @@ file_exists(GtkWindow *window, const char *filename)
 typedef struct {
 	GtkWidget *filesel;
 	char *vcard;
-	gboolean has_multiple_contacts; 
+	gboolean has_multiple_contacts;
 } SaveAsInfo;
 
 static void
@@ -350,11 +350,11 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	char *uri;
 	gint error = 0;
 	gint response = 0;
-	
+
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));	
-	
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));
+
 	if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		response = file_exists(GTK_WINDOW (info->filesel), filename);
 		switch (response) {
@@ -365,12 +365,12 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		}
 	}
 
-	error = e_write_file_uri (uri, info->vcard);	    
+	error = e_write_file_uri (uri, info->vcard);
 	if (error != 0) {
 		char *err_str_ext;
 		if (info->has_multiple_contacts) {
 			/* more than one, finding the total number of contacts might
-			 * hit performance while saving large number of contacts 
+			 * hit performance while saving large number of contacts
 			 */
 			err_str_ext = ngettext ("contact", "contacts", 2);
 		}
@@ -378,16 +378,16 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 			err_str_ext = ngettext ("contact", "contacts", 1);
 		}
 
-		/* translators: Arguments, err_str_ext (item to be saved: "contact"/"contacts"), 
-		 * destination file name, and error code will fill the placeholders 
-		 * {0}, {1} and {2}, respectively in the error message formed 
+		/* translators: Arguments, err_str_ext (item to be saved: "contact"/"contacts"),
+		 * destination file name, and error code will fill the placeholders
+		 * {0}, {1} and {2}, respectively in the error message formed
 		 */
-		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error", 
+		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error",
 					 err_str_ext, filename, g_strerror (errno));
 		gtk_widget_destroy(GTK_WIDGET(info->filesel));
 		return;
 	}
-	    
+
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
 }
 
@@ -430,7 +430,7 @@ make_safe_filename (char *name)
 		safe = g_strdup (name);
 
 	e_filename_make_safe (safe);
-	
+
 	return safe;
 }
 
@@ -523,7 +523,7 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
-	
+
 	info->filesel = filesel;
 	info->vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
@@ -624,7 +624,7 @@ do_delete (gpointer data, gpointer user_data)
 	EBook *book = user_data;
 	EContact *contact = data;
 	const char *id;
-	
+
 	id = e_contact_get_const (contact, E_CONTACT_UID);
 	e_book_remove_contact(book, id, NULL);
 }
@@ -664,7 +664,7 @@ contact_added_cb (EBook* book, EBookStatus status, const char *id, gpointer user
 	if (status != E_BOOK_ERROR_OK && status != E_BOOK_ERROR_CANCELLED) {
 		process->book_status = FALSE;
 		eab_error_dialog (_("Error adding contact"), status);
-	} 
+	}
 	else if (status == E_BOOK_ERROR_CANCELLED) {
 		process->book_status = FALSE;
 	}
@@ -786,7 +786,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 		return;
 
 	CORBA_exception_init (&ev);
-	
+
 	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
 
 	/* Figure out how many addresses of each kind we have. */
@@ -819,7 +819,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc_list->_maximum = cc_list->_length = 0;
-		
+
 	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	bcc_list->_maximum = bcc_length;
 	bcc_list->_length = bcc_length;
@@ -845,7 +845,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 
 			if (is_list) {
 				for (iterator = emails; iterator; iterator = iterator->next) {
-					
+
 					if (is_hidden) {
 						recipient = &(bcc_list->_buffer[bcc_i]);
 						++bcc_i;
@@ -853,7 +853,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 						recipient = &(to_list->_buffer[to_i]);
 						++to_i;
 					}
-					
+
 					name = NULL;
 					addr = NULL;
 					if (iterator && iterator->data) {
@@ -863,7 +863,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 
 					recipient->name    = CORBA_string_dup (name ? name : "");
 					recipient->address = CORBA_string_dup (addr ? addr : "");
-					
+
 					g_free (name);
 					g_free (addr);
 				}
@@ -882,7 +882,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 
 				if (nth >= length)
 					nth = 0;
-					
+
 				if (contact_name) {
 					name = e_contact_name_to_string (contact_name);
 					e_contact_name_free (contact_name);
@@ -891,7 +891,7 @@ eab_send_to_contact_and_email_num_list (GList *c)
 					name = NULL;
 
 				addr = g_strdup (g_list_nth_data (emails, nth));
-					
+
 
 				recipient->name    = CORBA_string_dup (name ? name : "");
 				recipient->address = CORBA_string_dup (addr ? addr : "");
@@ -948,11 +948,11 @@ eab_send_contact_list_as_attachment (GList *contacts)
 		return;
 
 	CORBA_exception_init (&ev);
-	
+
 	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
 
 
-		
+
 	content_type = CORBA_string_dup ("text/x-vcard");
 	filename = CORBA_string_dup ("");
 
@@ -975,17 +975,17 @@ eab_send_contact_list_as_attachment (GList *contacts)
 	memcpy (attach_data->_buffer, tempstr, attach_data->_length);
 	g_free (tempstr);
 
-	GNOME_Evolution_Composer_attachData (composer_server, 
+	GNOME_Evolution_Composer_attachData (composer_server,
 					     content_type, filename, description,
 					     show_inline, attach_data,
 					     &ev);
-	
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
 		CORBA_exception_free (&ev);
 		return;
 	}
-	
+
 	CORBA_free (content_type);
 	CORBA_free (filename);
 	CORBA_free (description);
@@ -993,7 +993,7 @@ eab_send_contact_list_as_attachment (GList *contacts)
 
 	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	to_list->_maximum = to_list->_length = 0;
-		
+
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc_list->_maximum = cc_list->_length = 0;
 
@@ -1025,7 +1025,7 @@ eab_send_contact_list_as_attachment (GList *contacts)
 		subject = CORBA_string_dup (tempstr);
 		g_free (tempstr);
 	}
-		
+
 	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
 
 	CORBA_free (to_list);

@@ -100,12 +100,12 @@ make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_
 		e_plugin_hook_register_type(em_popup_hook_get_type());
 		e_plugin_hook_register_type(em_menu_hook_get_type());
 		e_plugin_hook_register_type(em_config_hook_get_type());
-		
+
 		em_format_hook_register_type(em_format_get_type());
 		em_format_hook_register_type(em_format_html_get_type());
 		em_format_hook_register_type(em_format_html_display_get_type());
 		em_junk_hook_register_type(emj_get_type());
-		
+
 		e_plugin_hook_register_type(em_format_hook_get_type());
 		e_plugin_hook_register_type(em_event_hook_get_type());
 		e_plugin_hook_register_type(em_junk_hook_get_type());

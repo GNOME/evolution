@@ -58,9 +58,9 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 	GtkWidget *showinline = NULL;
 	char *path;
 	GList *icon_list;
-	
+
 	path = g_object_get_data ((GObject *) editor, "attach_path");
-	
+
 	if (flags & SELECTOR_MODE_SAVE)
 		selection = gtk_file_chooser_dialog_new (title,
 							 NULL,
@@ -75,49 +75,49 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 							 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							 GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 							 NULL);
-	
+
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (selection), FALSE);
-	
+
 	if ((flags & SELECTOR_MODE_SAVE) == 0)
 		gtk_file_chooser_set_select_multiple ((GtkFileChooser *) selection, (flags & SELECTOR_MODE_MULTI));
-	
+
 	/* restore last path used */
 	if (!path)
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), g_get_home_dir ());
 	else
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), path);
-	
+
         if (showinline_p) {
 		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (selection), showinline);
         }
-	
+
 	gtk_window_set_transient_for ((GtkWindow *) selection, (GtkWindow *) editor);
 	gtk_window_set_wmclass ((GtkWindow *) selection, "fileselection", "Evolution:editor");
 	gtk_window_set_modal ((GtkWindow *) selection, TRUE);
-	
+
 	icon_list = e_icon_factory_get_icon_list ("mail-message-new");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (selection), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	if (gtk_dialog_run ((GtkDialog *) selection) == GTK_RESPONSE_OK) {
 		if (showinline_p)
 			*showinline_p = gtk_toggle_button_get_active ((GtkToggleButton *) showinline);
-		
+
 		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection)));
-		
+
 		g_object_set_data_full ((GObject *) editor, "attach_path", g_strdup_printf ("%s/", path), g_free);
 		g_free (path);
 	} else {
 		gtk_widget_destroy (selection);
 		selection = NULL;
 	}
-	
+
 	return selection;
 }
 
@@ -139,7 +139,7 @@ comp_editor_select_file (CompEditor *editor, const char *title, gboolean save_mo
 	guint32 flags = save_mode ? SELECTOR_MODE_SAVE : SELECTOR_MODE_MULTI;
 	GtkWidget *selection;
 	char *name = NULL;
-	
+
 	selection = run_selector (editor, title, flags, NULL);
 	if (selection) {
 		name = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection)));
@@ -154,15 +154,15 @@ comp_editor_select_file_attachments (CompEditor *editor, gboolean *showinline_p)
 {
 	GtkWidget *selection;
 	GPtrArray *list = NULL;
-	
+
 	selection = run_selector (editor, _("Attach file(s)"), SELECTOR_MODE_MULTI, showinline_p);
-	
+
 	if (selection) {
 		GSList *l, *n;
-		
+
 		if ((l = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (selection)))) {
 			list = g_ptr_array_new ();
-			
+
 			while (l) {
 				n = l->next;
 				g_ptr_array_add (list, l->data);
@@ -170,10 +170,10 @@ comp_editor_select_file_attachments (CompEditor *editor, gboolean *showinline_p)
 				l = n;
 			}
 		}
-		
+
 		gtk_widget_destroy (selection);
 	}
-	
+
 	return list;
 }
 

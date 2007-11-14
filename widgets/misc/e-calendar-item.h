@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 2000, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -78,7 +78,7 @@ typedef enum
 	E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED,
 	E_CALENDAR_ITEM_COLOR_SELECTION_BG,
 	E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG,
-	
+
 	E_CALENDAR_ITEM_COLOR_LAST
 } ECalendarItemColors;
 
@@ -168,7 +168,7 @@ struct _ECalendarItem
 	   be changed when the user explicitly selects a day. */
 	gboolean move_selection_when_moving;
 
-	/* Whether the selection day is preserved when we  move back/forward 
+	/* Whether the selection day is preserved when we  move back/forward
 	   one month. Used for the work week and week view. */
 	gboolean preserve_day_when_moving;
 

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- *  Author: 
+ *  Author:
  *  Sankar P ( psankar@novell.com )
  *
  *  Copyright 2004 Novell, Inc. (www.novell.com)
@@ -40,17 +40,17 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 {
 	EGwConnection *cnc;
 	CamelFolder *folder = (CamelFolder *)data;
-	CamelStore *store = folder->parent_store;	
+	CamelStore *store = folder->parent_store;
 	char *id;
-	
-	cnc = get_cnc (store);	
+
+	cnc = get_cnc (store);
 	id = (char *)item->user_data;
 
 	if (e_gw_connection_retract_request (cnc, id, NULL, FALSE, FALSE) != E_GW_CONNECTION_STATUS_OK )
 		e_error_run (NULL, "org.gnome.evolution.message.retract:retract-failure", NULL);
 	else {
 		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));	
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));
 		gtk_dialog_run (GTK_DIALOG(dialog));
 		gtk_widget_destroy (dialog);
 	}
@@ -87,6 +87,6 @@ void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t)
 			menus = g_slist_prepend (menus, &popup_items[i]);
 
 		e_popup_add_items (t->target.popup, menus, NULL, popup_free, t->folder);
-	} 
+	}
 	return ;
 }

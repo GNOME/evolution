@@ -43,11 +43,11 @@ static void popup_cell_action (GalA11yECell *cell);
 
 /**
  * gal_a11y_e_cell_popup_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yECellPopup class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yECellPopup class.
  **/
 GType
@@ -99,7 +99,7 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 
 	if (popupcell && popupcell->popup_cell_view)
 	        child_view = popupcell->popup_cell_view->child_view;
-	
+
  	if (child_view && child_view->ecell) {
 		a11y = gal_a11y_e_cell_registry_get_object (NULL,
 							    item,
@@ -120,7 +120,7 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 	       	}
 	g_return_val_if_fail (a11y != NULL, NULL);
 	cell = GAL_A11Y_E_CELL(a11y);
-	gal_a11y_e_cell_add_action (cell, 
+	gal_a11y_e_cell_add_action (cell,
 				    _("popup"),	       /* action name*/
 				    _("popup a child"), /* action description */
 				    "<Alt>Down",              /* action keybinding */
@@ -136,12 +136,12 @@ popup_cell_action (GalA11yECell *cell)
 	gint finished;
 	GdkEvent event;
 
-	event.key.type = GDK_KEY_PRESS; 
+	event.key.type = GDK_KEY_PRESS;
 	event.key.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(cell->item)->canvas)->bin_window;;
 	event.key.send_event = TRUE;
 	event.key.time = GDK_CURRENT_TIME;
 	event.key.state = GDK_MOD1_MASK;
 	event.key.keyval = GDK_Down;
-  
+
 	g_signal_emit_by_name (cell->item, "event", &event, &finished);
 }

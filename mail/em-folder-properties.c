@@ -84,10 +84,10 @@ emfp_commit(EConfig *ec, GSList *items, void *data)
 	struct _prop_data *prop_data = data;
 	CamelArgV *argv = prop_data->argv;
 	int i;
-	
+
 	for (i = 0; i < argv->argc; i++) {
 		CamelArg *arg = &argv->argv[i];
-		
+
 		switch (arg->tag & CAMEL_ARG_TYPE) {
 		case CAMEL_ARG_BOO:
 			arg->ca_int = gtk_toggle_button_get_active ((GtkToggleButton *) prop_data->widgets[i]);
@@ -101,7 +101,7 @@ emfp_commit(EConfig *ec, GSList *items, void *data)
 			break;
 		}
 	}
-	
+
 	camel_object_setv (prop_data->object, NULL, argv);
 }
 
@@ -110,7 +110,7 @@ emfp_free(EConfig *ec, GSList *items, void *data)
 {
 	struct _prop_data *prop_data = data;
 	int i;
-	
+
 	g_slist_free(items);
 
 	for (i = 0; i < prop_data->argv->argc; i++) {
@@ -120,7 +120,7 @@ emfp_free(EConfig *ec, GSList *items, void *data)
 
 	camel_object_free (prop_data->object, CAMEL_FOLDER_PROPERTIES, prop_data->properties);
 	camel_object_free (prop_data->object, CAMEL_FOLDER_NAME, prop_data->name);
-	
+
 	camel_object_unref (prop_data->object);
 	g_free (prop_data->argv);
 
@@ -150,7 +150,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	gtk_widget_show (label);
 	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
 	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-	
+
 	sprintf(countstr, "%d", prop_data->unread);
 	label = gtk_label_new (countstr);
 	gtk_widget_show (label);
@@ -164,7 +164,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	gtk_widget_show (label);
 	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
 	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-	
+
 	sprintf(countstr, "%d", prop_data->total);
 	label = gtk_label_new (countstr);
 	gtk_widget_show (label);
@@ -177,7 +177,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	i = 0;
 	while (l) {
 		CamelProperty *prop = l->data;
-		
+
 		switch (prop->tag & CAMEL_ARG_TYPE) {
 		case CAMEL_ARG_BOO:
 			w = gtk_check_button_new_with_label (prop->description);
@@ -191,7 +191,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
 			gtk_widget_show (label);
 			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
-			
+
 			w = gtk_entry_new ();
 			gtk_widget_show (w);
 			if (prop_data->argv->argv[i].ca_str) {
@@ -206,7 +206,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			g_warning ("This shouldn't be reached\n");
 			break;
 		}
-		
+
 		row++;
 		l = l->next;
 		i++;
@@ -250,16 +250,16 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	camel_object_ref (folder);
 
 	/*
-	  Get number of VISIBLE and DELETED messages, instead of TOTAL messages.  VISIBLE+DELETED 
+	  Get number of VISIBLE and DELETED messages, instead of TOTAL messages.  VISIBLE+DELETED
 	   gives the correct count that matches the label below the Send & Receive button
 	*/
 	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &prop_data->properties, CAMEL_FOLDER_NAME, &prop_data->name,
 			  CAMEL_FOLDER_VISIBLE, &prop_data->total, CAMEL_FOLDER_UNREAD, &prop_data->unread, CAMEL_FOLDER_DELETED, &deleted, NULL);
-	
+
 	gconf = mail_config_get_gconf_client ();
 	hide_deleted = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 
-	/* 
+	/*
 	   Do the calculation only for those accounts that support VTRASHes
 	 */
 	if (store->flags & CAMEL_STORE_VTRASH) {
@@ -302,20 +302,20 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	argv->argc = count;
 	arggetv = g_malloc0 (sizeof (*arggetv) + (count - CAMEL_ARGV_MAX) * sizeof (arggetv->argv[0]));
 	arggetv->argc = count;
-	
+
 	i = 0;
 	l = prop_data->properties;
 	while (l) {
 		CamelProperty *prop = l->data;
-		
+
 		argv->argv[i].tag = prop->tag;
 		arggetv->argv[i].tag = prop->tag;
 		arggetv->argv[i].ca_ptr = &argv->argv[i].ca_ptr;
-		
+
 		l = l->next;
 		i++;
 	}
-	
+
 	camel_object_getv (prop_data->object, NULL, arggetv);
 	g_free (arggetv);
 	prop_data->argv = argv;
@@ -351,7 +351,7 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, w, TRUE, TRUE, 0);
 
 	/* we do 'apply on ok' ... since instant apply may apply some very long running tasks */
-	
+
 	g_signal_connect (dialog, "response", G_CALLBACK (emfp_dialog_response), prop_data);
 	gtk_widget_show (dialog);
 }
@@ -359,9 +359,9 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 /**
  * em_folder_properties_show:
  * @parent: parent window for dialogue (currently unused)
- * @folder: 
- * @uri: 
- * 
+ * @folder:
+ * @uri:
+ *
  * Show folder properties for @folder and @uri.  If @folder is passed
  * as NULL, then the folder @uri will be loaded first.
  **/

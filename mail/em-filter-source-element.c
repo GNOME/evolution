@@ -73,7 +73,7 @@ GType
 em_filter_source_element_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMFilterSourceElementClass),
@@ -86,10 +86,10 @@ em_filter_source_element_get_type(void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc)em_filter_source_element_init,
 		};
-		
+
 		type = g_type_register_static(FILTER_TYPE_ELEMENT, "EMFilterSourceElement", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -98,11 +98,11 @@ em_filter_source_element_class_init(EMFilterSourceElementClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS(klass);
-	
+
 	parent_class = g_type_class_ref(FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = em_filter_source_element_finalize;
-	
+
 	/* override methods */
 	fe_class->eq = source_eq;
 	fe_class->xml_create = xml_create;
@@ -127,7 +127,7 @@ em_filter_source_element_finalize(GObject *obj)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)obj;
 	GList *i = fs->priv->sources;
-	
+
 	while (i) {
 		SourceInfo *info = i->data;
 		g_free(info->account_name);
@@ -137,12 +137,12 @@ em_filter_source_element_finalize(GObject *obj)
 		g_free(info);
 		i = g_list_next(i);
 	}
-	
+
 	g_list_free(fs->priv->sources);
 	g_free(fs->priv->current_url);
 
 	g_free(fs->priv);
-	
+
 	G_OBJECT_CLASS(parent_class)->finalize(obj);
 }
 
@@ -156,7 +156,7 @@ static int
 source_eq(FilterElement *fe, FilterElement *cm)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe, *cs = (EMFilterSourceElement *)cm;
-	
+
 	return FILTER_ELEMENT_CLASS(parent_class)->eq(fe, cm)
 		&&((fs->priv->current_url && cs->priv->current_url
 		     && strcmp(fs->priv->current_url, cs->priv->current_url)== 0)
@@ -174,16 +174,16 @@ static xmlNodePtr
 xml_encode(FilterElement *fe)
 {
 	xmlNodePtr value;
-	
+
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
-	
+
 	value = xmlNewNode(NULL, (const unsigned char *)"value");
 	xmlSetProp(value, (const unsigned char *)"name", (unsigned char *)fe->name);
 	xmlSetProp(value, (const unsigned char *)"type", (const unsigned char *)"uri");
-	
+
 	if (fs->priv->current_url)
 		xmlNewTextChild(value, NULL, (const unsigned char *)"uri", (unsigned char *)fs->priv->current_url);
-	
+
 	return value;
 }
 
@@ -193,23 +193,23 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	CamelURL *url;
 	char *uri;
-	
+
 	node = node->children;
 	while (node != NULL) {
 		if (!strcmp((char *)node->name, "uri")) {
 			uri = (char *)xmlNodeGetContent(node);
 			url = camel_url_new(uri, NULL);
 			xmlFree(uri);
-			
+
 			g_free(fs->priv->current_url);
 			fs->priv->current_url = camel_url_to_string(url, CAMEL_URL_HIDE_ALL);
 			camel_url_free(url);
 			break;
 		}
-		
+
 		node = node->next;
 	}
-	
+
 	return 0;
 }
 
@@ -219,16 +219,16 @@ clone(FilterElement *fe)
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	EMFilterSourceElement *cpy = em_filter_source_element_new();
 	GList *i;
-	
+
 	((FilterElement *)cpy)->name = (char *)xmlStrdup((unsigned char *)fe->name);
-	
+
 	cpy->priv->current_url = g_strdup(fs->priv->current_url);
-	
+
 	for (i = fs->priv->sources; i != NULL; i = g_list_next(i)) {
 		SourceInfo *info = (SourceInfo *)i->data;
 		em_filter_source_element_add_source(cpy, info->account_name, info->name, info->address, info->url);
 	}
-	
+
 	return (FilterElement *)cpy;
 }
 
@@ -236,7 +236,7 @@ static void
 source_changed(GtkWidget *item, EMFilterSourceElement *fs)
 {
 	SourceInfo *info = (SourceInfo *)g_object_get_data((GObject *)item, "source");
-	
+
 	g_free(fs->priv->current_url);
 	fs->priv->current_url = g_strdup(info->url);
 }
@@ -251,60 +251,60 @@ get_widget(FilterElement *fe)
 	GList *i;
 	SourceInfo *first = NULL;
 	int index, current_index;
-	
+
 	if (fs->priv->sources == NULL)
 		em_filter_source_element_get_sources(fs);
-	
+
 	menu = gtk_menu_new();
-	
+
 	index = 0;
 	current_index = -1;
-	
+
 	for (i = fs->priv->sources; i != NULL; i = g_list_next(i)) {
 		SourceInfo *info = (SourceInfo *)i->data;
 		char *label;
-		
+
 		if (info->url != NULL) {
 			if (first == NULL)
 				first = info;
-			
+
 			if (info->account_name && strcmp(info->account_name, info->address))
 				label = g_strdup_printf("%s <%s>(%s)", info->name,
 							 info->address, info->account_name);
 			else
 				label = g_strdup_printf("%s <%s>", info->name, info->address);
-			
+
 			item = gtk_menu_item_new_with_label(label);
 			g_free(label);
-			
+
 			g_object_set_data((GObject *)item, "source", info);
 			g_signal_connect(item, "activate", G_CALLBACK(source_changed), fs);
-			
+
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 			gtk_widget_show(item);
-			
+
 			if (fs->priv->current_url && !strcmp(info->url, fs->priv->current_url))
 				current_index = index;
-			
+
 			index++;
 		}
 	}
-	
+
 	omenu = gtk_option_menu_new();
 	gtk_option_menu_set_menu(GTK_OPTION_MENU(omenu), menu);
-	
+
 	if (current_index >= 0) {
 		gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), current_index);
 	} else {
 		gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), 0);
 		g_free(fs->priv->current_url);
-		
+
 		if (first)
 			fs->priv->current_url = g_strdup(first->url);
 		else
 			fs->priv->current_url = NULL;
 	}
-	
+
 	return omenu;
 }
 
@@ -318,7 +318,7 @@ static void
 format_sexp(FilterElement *fe, GString *out)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
-	
+
 	e_sexp_encode_string(out, fs->priv->current_url);
 }
 
@@ -328,15 +328,15 @@ em_filter_source_element_add_source(EMFilterSourceElement *fs, const char *accou
 			  const char *addr, const char *url)
 {
 	SourceInfo *info;
-	
+
 	g_return_if_fail(EM_IS_FILTER_SOURCE_ELEMENT(fs));
-	
+
 	info = g_new0(SourceInfo, 1);
 	info->account_name = g_strdup(account_name);
 	info->name = g_strdup(name);
 	info->address = g_strdup(addr);
 	info->url = g_strdup(url);
-	
+
 	fs->priv->sources = g_list_append(fs->priv->sources, info);
 }
 
@@ -349,12 +349,12 @@ em_filter_source_element_get_sources(EMFilterSourceElement *fs)
 	EIterator *it;
 	char *uri;
 	CamelURL *url;
-	
+
 	/* should this get the global object from mail? */
 	gconf = gconf_client_get_default();
 	accounts = e_account_list_new(gconf);
 	g_object_unref(gconf);
-	
+
 	for (it = e_list_get_iterator((EList *)accounts);
 	     e_iterator_is_valid(it);
 	     e_iterator_next(it)) {

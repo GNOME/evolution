@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
+/*
  * LDIF importer.  LDIF is the file format of an exported Netscape
  * addressbook.
  *
@@ -155,7 +155,7 @@ getValue( char **src )
 static void
 populate_contact_address (EContactAddress *address, char *attr, char *value)
 {
-	if (!g_ascii_strcasecmp (attr, "locality") || 
+	if (!g_ascii_strcasecmp (attr, "locality") ||
 	    !g_ascii_strcasecmp (attr, "l") ||
 	    !g_ascii_strcasecmp (attr, "mozillaHomeLocalityName"))
 		address->locality = g_strdup (value);
@@ -179,7 +179,7 @@ populate_contact_address (EContactAddress *address, char *attr, char *value)
 			address->ext = g_strconcat (temp, ",\n", value, NULL);
 			g_free (temp);
 		}
-		else { 
+		else {
 			address->ext = g_strdup (value);
 		}
 	}
@@ -209,8 +209,8 @@ populate_contact_address (EContactAddress *address, char *attr, char *value)
 }
 
 static gboolean
-parseLine (LDIFImporter *gci, EContact *contact, 
-	   EContactAddress *work_address, EContactAddress *home_address, 
+parseLine (LDIFImporter *gci, EContact *contact,
+	   EContactAddress *work_address, EContactAddress *home_address,
 	   char **buf)
 {
 	char *ptr;
@@ -371,7 +371,7 @@ getNextLDIFEntry(LDIFImporter *gci, FILE *f )
 	    work_address->code || work_address->region || work_address->street) {
 		e_contact_set (contact, E_CONTACT_ADDRESS_WORK, work_address);
 	}
-	if (home_address->locality || home_address->country || home_address->ext || 
+	if (home_address->locality || home_address->country || home_address->ext ||
 	    home_address->code || home_address->region || home_address->street) {
 		e_contact_set (contact, E_CONTACT_ADDRESS_HOME, home_address);
 	}
@@ -419,7 +419,7 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 
 			email_attrs = g_list_append (email_attrs, attr);
 		}
-	}		
+	}
 	e_contact_set_attributes (contact, E_CONTACT_EMAIL, email_attrs);
 
 	g_list_foreach (email, (GFunc) g_free, NULL);
@@ -514,14 +514,14 @@ ldif_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
-	ESourceList *source_list;	
+	ESourceList *source_list;
 
 	/* FIXME Better error handling */
 	if (!e_book_get_addressbooks (&source_list, NULL))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
-	
+
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);

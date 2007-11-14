@@ -105,7 +105,7 @@ model_changed_idle(ETableSelectionModel *etsm)
 			char *save_id = e_table_model_get_save_id(etm, i);
 			if (g_hash_table_lookup(etsm->hash, save_id))
 				e_selection_model_change_one_row(E_SELECTION_MODEL(etsm), i, TRUE);
-			
+
 			if (etsm->cursor_id && !strcmp(etsm->cursor_id, save_id)) {
 				cursor_row = i;
 				cursor_col = e_selection_model_cursor_col(E_SELECTION_MODEL(etsm));
@@ -261,7 +261,7 @@ static void
 etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
-	
+
 	switch (prop_id){
 	case PROP_MODEL:
 		drop_model(etsm);
@@ -298,14 +298,14 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 
 	esma_class->get_row_count = etsm_get_row_count;
 
-	g_object_class_install_property (object_class, PROP_MODEL, 
+	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
 							      _("Model"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEADER, 
+	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
 							      _("Header"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -313,7 +313,7 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 							      G_PARAM_READWRITE));
 }
 
-/** 
+/**
  * e_table_selection_model_new
  *
  * This routine creates a new #ETableSelectionModel.

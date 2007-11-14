@@ -28,23 +28,23 @@
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
  * the License at http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS
  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
- * 
+ *
  * The Original Code is the Netscape security libraries.
- * 
+ *
  * The Initial Developer of the Original Code is Netscape
- * Communications Corporation.  Portions created by Netscape are 
+ * Communications Corporation.  Portions created by Netscape are
  * Copyright (C) 2000 Netscape Communications Corporation.  All
  * Rights Reserved.
- * 
+ *
  * Alternatively, the contents of this file may be used under the
  * terms of the GNU General Public License Version 2 or later (the
- * "GPL"), in which case the provisions of the GPL are applicable 
- * instead of those above.  If you wish to allow use of your 
+ * "GPL"), in which case the provisions of the GPL are applicable
+ * instead of those above.  If you wish to allow use of your
  * version of this file only under the terms of the GPL and not to
  * allow others to use your version of this file under the MPL,
  * indicate your decision by deleting the provisions above and
@@ -114,7 +114,7 @@ e_pkcs12_dispose (GObject *object)
 
 	g_free (pk->priv);
 	pk->priv = NULL;
-	
+
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -196,8 +196,8 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **erro
 		}
 
 		/* feed the file data into the decoder */
-		srv = SEC_PKCS12DecoderUpdate(dcx, 
-					      (unsigned char*) buf, 
+		srv = SEC_PKCS12DecoderUpdate(dcx,
+					      (unsigned char*) buf,
 					      amount);
 		if (srv) {
 			/* XXX g_error */
@@ -228,9 +228,9 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 		const char *inptr = passwd;
 		unsigned char *outptr;
 		gunichar2 c;
-		
+
 		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
-		
+
 		outptr =  pwd->data;
 		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
 			inptr = g_utf8_next_char (inptr);
@@ -238,10 +238,10 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 			*outptr++ = ((char *) &c)[0];
 			*outptr++ = ((char *) &c)[1];
 		}
-		
+
 		*outptr++ = 0;
 		*outptr++ = 0;
-		
+
 		memset (passwd, 0, strlen (passwd));
 		g_free (passwd);
 	}
@@ -333,7 +333,7 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const char *path, GError **error)
 	gboolean rv = TRUE;
 	gboolean wantRetry;
 	PK11SlotInfo *slot;
-  
+
 	printf ("importing pkcs12 from `%s'\n", path);
 
 	slot = PK11_GetInternalKeySlot();
@@ -371,7 +371,7 @@ nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
 	/* The user is trying to import a PKCS#12 file that doesn't have the
 	   attribute we use to set the nickname.  So in order to reduce the
 	   number of interactions we require with the user, we'll build a nickname
-	   for the user.  The nickname isn't prominently displayed in the UI, 
+	   for the user.  The nickname isn't prominently displayed in the UI,
 	   so it's OK if we generate one on our own here.
 	   XXX If the NSS API were smarter and actually passed a pointer to
 	       the CERTCertificate* we're importing we could actually just
@@ -385,12 +385,12 @@ nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
 
 		/* If we've gotten this far, that means there isn't a certificate
 		   in the database that has the same subject name as the cert we're
-		   trying to import.  So we need to come up with a "nickname" to 
-		   satisfy the NSS requirement or fail in trying to import.  
-		   Basically we use a default nickname from a properties file and 
+		   trying to import.  So we need to come up with a "nickname" to
+		   satisfy the NSS requirement or fail in trying to import.
+		   Basically we use a default nickname from a properties file and
 		   see if a certificate exists with that nickname.  If there isn't, then
-		   create update the count by one and append the string '#1' Or 
-		   whatever the count currently is, and look for a cert with 
+		   create update the count by one and append the string '#1' Or
+		   whatever the count currently is, and look for a cert with
 		   that nickname.  Keep updating the count until we find a nickname
 		   without a corresponding cert.
 		   XXX If a user imports *many* certs without the 'friendly name'
@@ -423,6 +423,6 @@ static gboolean
 handle_error(int myerr)
 {
 	printf ("handle_error (%d)\n", myerr);
-	
+
 	return FALSE;
 }

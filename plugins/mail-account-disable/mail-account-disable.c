@@ -47,7 +47,7 @@ static EPopupItem popup_items[] = {
 	{ E_POPUP_ITEM, "20.emc.04", N_("Proxy _Logout"), mail_account_disable, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
 };
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 	g_slist_free (items);
@@ -65,11 +65,11 @@ mail_account_disable (EPopup *ep, EPopupItem *p, void *data)
 
 	if (mail_config_has_proxies (account))
 		mail_config_remove_account_proxies (account);
-		
+
 	account->enabled = !account->enabled;
 	e_account_list_change (mail_config_get_accounts (), account);
 	mail_component_remove_store_by_uri (component, account->source->url);
- 
+
 	if (account->parent_uid)
 		mail_config_remove_account (account);
 

@@ -153,17 +153,17 @@ typedef struct _EMAccountEditorPrivate {
 	guint sig_removed_id;
 	guint sig_changed_id;
 	const char *sig_uid;
-	
+
 	/* incoming mail */
 	EMAccountEditorService source;
-	
+
 	/* extra incoming config */
 	CamelProvider *extra_provider;
 	GSList *extra_items;	/* this is freed by the econfig automatically */
 
 	/* outgoing mail */
 	EMAccountEditorService transport;
-	
+
 	/* account management */
 	GtkEntry *identity_entries[5];
 	struct _GtkToggleButton *default_account;
@@ -275,14 +275,14 @@ em_account_editor_get_type(void)
 
 /**
  * em_account_editor_new:
- * @account: 
- * @type: 
- * 
+ * @account:
+ * @type:
+ *
  * Create a new account editor.  If @account is NULL then this is to
  * create a new account, else @account is copied to a working
  * structure and is for editing an existing account.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, char *id)
 {
@@ -320,12 +320,12 @@ is_email (const char *address)
 	/* This is supposed to check if the address's domain could be
            an FQDN but alas, it's not worth the pain and suffering. */
 	const char *at;
-	
+
 	at = strchr (address, '@');
 	/* make sure we have an '@' and that it's not the first or last char */
 	if (!at || at == address || *(at + 1) == '\0')
 		return FALSE;
-	
+
 	return TRUE;
 }
 
@@ -391,7 +391,7 @@ emae_display_license(EMAccountEditor *emae, CamelProvider *prov)
 	char *tmp;
 	GtkResponseType response = GTK_RESPONSE_NONE;
 	char *gladefile;
-	
+
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-dialogs.glade",
 				      NULL);
@@ -407,8 +407,8 @@ emae_display_license(EMAccountEditor *emae, CamelProvider *prov)
 	g_signal_connect(glade_xml_get_widget(xml, "license_checkbutton"),
 			 "toggled", G_CALLBACK(emae_license_state), dialog);
 
-	tmp = g_strdup_printf(_("\nPlease read carefully the license agreement\n" 
-				"for %s displayed below\n" 
+	tmp = g_strdup_printf(_("\nPlease read carefully the license agreement\n"
+				"for %s displayed below\n"
 				"and tick the check box for accepting it\n"), prov->license);
 	gtk_label_set_text((GtkLabel *)glade_xml_get_widget(xml, "license_top_label"), tmp);
 	g_free(tmp);
@@ -424,7 +424,7 @@ emae_display_license(EMAccountEditor *emae, CamelProvider *prov)
 
 	gtk_widget_destroy(dialog);
 	g_object_unref(xml);
-	
+
 	return (response == GTK_RESPONSE_ACCEPT);
 }
 
@@ -438,14 +438,14 @@ emae_check_license(EMAccountEditor *emae, CamelProvider *prov)
 		GSList *providers_list, *l;
 
 		providers_list = gconf_client_get_list (gconf, "/apps/evolution/mail/licenses", GCONF_VALUE_STRING, NULL);
-		
+
 		for (l = providers_list, accepted = FALSE; l && !accepted; l = g_slist_next(l))
 			accepted = (strcmp((char *)l->data, prov->protocol) == 0);
 
 		if (!accepted
 		    && (accepted = emae_display_license(emae, prov)) == TRUE) {
 			providers_list = g_slist_append(providers_list, g_strdup(prov->protocol));
-			gconf_client_set_list(gconf, 
+			gconf_client_set_list(gconf,
 					      "/apps/evolution/mail/licenses",
 					      GCONF_VALUE_STRING,
 					      providers_list, NULL);
@@ -463,7 +463,7 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 {
 	EMAccountEditor *emae = user_data;
 	const char *uri;
-	
+
 	uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->drafts_folder_button, uri);
 	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->drafts_folder_button, emae);
@@ -771,7 +771,7 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GladeXML *xml)
 	EAccountReceiptPolicy current = emae->account->receipt_policy;
 	static struct {
 		EAccountReceiptPolicy policy;
-		char *label;			
+		char *label;
 	} receipt_policies[] = {
 		{ E_ACCOUNT_RECEIPT_NEVER,  N_("Never") },
 		{ E_ACCOUNT_RECEIPT_ALWAYS, N_("Always") },
@@ -789,9 +789,9 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GladeXML *xml)
 				    1, receipt_policies[i].policy,
 				    -1);
 		if (current == receipt_policies[i].policy)
-			active = i;		
+			active = i;
 	}
-	
+
 	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
 	gtk_combo_box_set_active(dropdown, active);
 
@@ -1021,7 +1021,7 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 {
 	const char *port;
 	char *host;
-	
+
 	/* FIXME: what if this was a raw IPv6 address? */
 	if (txt && (port = strchr(txt, ':'))) {
 		camel_url_set_port(url, atoi(port+1));
@@ -1174,16 +1174,16 @@ emae_service_url_path_changed(EMAccountEditorService *service, void (*setval)(Ca
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	CamelServiceAuthType *authtype;
-	
+
 	CamelURL *url = emae_account_url(service->emae, emae_service_info[service->type].account_uri_key);
 	const char *text = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
 
 	setval(url, (text && text[0])?text:NULL);
-	
+
 	if (text && text[0] && setval == camel_url_set_user) {
 		dropdown = service->authtype;
 		if(dropdown) {
-			id = gtk_combo_box_get_active (dropdown);	
+			id = gtk_combo_box_get_active (dropdown);
 			if (id != -1) {
 				model = gtk_combo_box_get_model (dropdown);
 					if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
@@ -1194,7 +1194,7 @@ emae_service_url_path_changed(EMAccountEditorService *service, void (*setval)(Ca
 			}
 		}
 	}
-	
+
 	emae_uri_changed(service, url);
 	camel_url_free(url);
 }
@@ -1274,7 +1274,7 @@ emae_service_provider_changed(EMAccountEditorService *service)
 
 		enable = e_account_writable_option(service->emae->account, service->provider->protocol, "use_ssl");
 		gtk_widget_set_sensitive((GtkWidget *)service->use_ssl, enable);
-			
+
 		enable = e_account_writable(service->emae->account, emae_service_info[service->type].save_passwd_key);
 		gtk_widget_set_sensitive((GtkWidget *)service->remember, enable);
 
@@ -1293,7 +1293,7 @@ emae_service_provider_changed(EMAccountEditorService *service)
 					if (j == 0) {
 						if (dwidget == NULL && enable)
 							dwidget = w;
-						
+
 						if (info->setval && !hide)
 							info->setval(url, enable?gtk_entry_get_text((GtkEntry *)w):NULL);
 					}
@@ -1319,7 +1319,7 @@ emae_service_provider_changed(EMAccountEditorService *service)
 					camel_url_set_authmech(url, NULL);
 				}
 			}
-			
+
 			emae_refresh_authtype(service->emae, service);
 			if (service->needs_auth && !CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_AUTH))
 				gtk_widget_show((GtkWidget *)service->needs_auth);
@@ -1410,7 +1410,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 			current[len] = 0;
 		}
 	}
-		
+
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
 
 	i = 0;
@@ -1549,7 +1549,7 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 			} else {
 				avail = TRUE;
 			}
-			
+
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter, 0, authtype->name, 1, authtype, 2, !avail, -1);
 
@@ -1800,7 +1800,7 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 #endif
 		gtk_widget_hide(glade_xml_get_widget(xml, "sigAddNew"));
 	}
-	
+
 	w = glade_xml_get_widget(xml, item->label);
 	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
 		GladeXML *druidxml;
@@ -2269,7 +2269,7 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	/* Special Folders "Reset Defaults" button */
 	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (xml, "default_folders_button");
 	g_signal_connect (gui->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), emae);
-	
+
 	/* Always Cc/Bcc */
 	emae_account_toggle(emae, "always_cc", E_ACCOUNT_CC_ALWAYS, xml);
 	emae_account_entry(emae, "cc_addrs", E_ACCOUNT_CC_ADDRS, xml);
@@ -2280,8 +2280,8 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 
 	gtk_widget_set_sensitive( (GtkWidget *)gui->sent_folder_button,
 				  e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
-				  && 
-				  (emae->priv->source.provider ? !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE) 
+				  &&
+				  (emae->priv->source.provider ? !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE)
 				);
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
@@ -2291,7 +2291,7 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 
 	/* Receipt policy */
 	emae_setup_receipt_policy (emae, xml);
-	
+
 	w = glade_xml_get_widget(xml, item->label);
 	gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Defaults")));
 
@@ -2328,7 +2328,7 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	emae_account_toggle(emae, "pgp_always_sign", E_ACCOUNT_PGP_ALWAYS_SIGN, xml);
 	emae_account_toggle(emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN, xml);
 	emae_account_toggle(emae, "pgp_always_trust", E_ACCOUNT_PGP_ALWAYS_TRUST, xml);
-	
+
 #if defined (HAVE_NSS)
 	/* TODO: this should handle its entry separately? */
 	gui->smime_sign_key = emae_account_entry(emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY, xml);
@@ -2352,7 +2352,7 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	{
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
-		
+
 		frame = glade_xml_get_widget(xml, "smime_vbox");
 		gtk_widget_destroy(frame);
 	}
@@ -2435,7 +2435,7 @@ emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 					      NULL);
 		druidxml = glade_xml_new(gladefile, "management_page", NULL);
 		g_free (gladefile);
-		
+
 		page = glade_xml_get_widget(druidxml, "management_page");
 
 		gtk_widget_reparent(w, ((GnomeDruidPageStandard *)page)->vbox);
@@ -2629,10 +2629,10 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 		}
 	}
 
-	/* 
-	   Setting a flag on the Account if it is marked as default. It is done in this way instead of 
-	   using a temporary variable so as to keep track of which account is marked as default in case of 
-	   editing multiple accounts at a time 
+	/*
+	   Setting a flag on the Account if it is marked as default. It is done in this way instead of
+	   using a temporary variable so as to keep track of which account is marked as default in case of
+	   editing multiple accounts at a time
 	 */
 	if (gtk_toggle_button_get_active(emae->priv->default_account))
 		g_object_set_data (G_OBJECT (emae->account), "default_flagged", GINT_TO_POINTER(1));
@@ -2680,10 +2680,10 @@ add_new_store (char *uri, CamelStore *store, void *user_data)
 {
 	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
-	
+
 	if (store == NULL)
 		return;
-	
+
 	mail_component_add_store (component, store, account->name);
 }
 

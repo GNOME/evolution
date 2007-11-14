@@ -39,18 +39,18 @@ static void pulse (void)
  */
 static void error_dialog (char *title, char *error)
 {
-	GtkWidget *error_dlg = 
+	GtkWidget *error_dlg =
 			gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 											"<span weight=\"bold\" size=\"larger\">"
 											"%s</span>\n\n%s.", title, error);
-	
+
 	gtk_dialog_set_has_separator (GTK_DIALOG (error_dlg), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (error_dlg), 5);
 	gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (error_dlg)->label),
 									  TRUE);
 	gtk_dialog_set_default_response (GTK_DIALOG (error_dlg),
 												GTK_RESPONSE_OK);
-	
+
 	gtk_dialog_run (GTK_DIALOG (error_dlg));
 	gtk_widget_destroy (error_dlg);
 }
@@ -114,8 +114,8 @@ static void
 force_little_endian (gunichar2 *data, int length)
 {
 	int i;
-	
-	/* We're big-endian? 
+
+	/* We're big-endian?
 	   (A little tidier than before) */
 	if (G_BYTE_ORDER == G_BIG_ENDIAN)
 	{
@@ -128,7 +128,7 @@ force_little_endian (gunichar2 *data, int length)
 
 			data[i] = c;
 		}
-	}	
+	}
 }
 
 /**
@@ -147,7 +147,7 @@ write_to_ipod (GString *str, char *path, char *filename)
 	gunichar2	*utf16;
 	guchar		bom[2] = {0xFF, 0xFE};
 	int			i, count;
-	
+
 	output_path = g_build_path (G_DIR_SEPARATOR_S,
 										ipod_info.mount_point,
 										path, NULL);
@@ -164,11 +164,11 @@ write_to_ipod (GString *str, char *path, char *filename)
 	output_file = g_build_filename (output_path, filename, NULL);
 
 	g_free (output_path);
-	
+
 	f = fopen (output_file, "w");
 
 	g_free (output_file);
-	
+
 	if (f == NULL)
 	{
 		critical_error (_("Could not export data!"), strerror (errno));
@@ -179,24 +179,24 @@ write_to_ipod (GString *str, char *path, char *filename)
 	if (g_utf8_validate (utf8, -1, NULL))
 	{
 		utf16 = g_utf8_to_utf16 (utf8, -1, NULL, NULL, NULL);
-		
+
 		/* Swap the bytes if we're big-endian so that the output
 		 * remains little-endian according to the BOM. */
 		force_little_endian (utf16, g_utf8_strlen (utf8, -1));
 	}
-	
+
 	count = 2 * g_utf8_strlen (utf8, -1);
-	
-	/* Write the BOM 
+
+	/* Write the BOM
 	 * 0xFF 0xFE
 	 * UTF-16 Little Endian
 	 */
 	for (i = 0; i < 2; i++)
 		fwrite (&bom[i], 1, 1, f);
-	
+
 	if ((fwrite(utf16, count, 1, f) != 1) &&
 		 (count > 0))
-	{	
+	{
 		g_free (utf16);
 		fclose (f);
 		critical_error (_("Could not export data!"),
@@ -217,15 +217,15 @@ uri_list_to_vcard_string (GSList *uris)
 	GSList		*uri;
 
 	qry = e_book_query_field_exists (E_CONTACT_FILE_AS);
-	
+
 	str = g_string_new (NULL);
-	
+
 	for (uri = uris; uri != NULL; uri = uri->next)
 	{
 		g_assert (uri->data != NULL);
 
 		book = e_book_new_from_uri (uri->data, NULL);
-	
+
 		if (e_book_open (book, TRUE, NULL) == FALSE)
 		{
 			error_dialog (_("Could not open addressbook!"),
@@ -247,7 +247,7 @@ uri_list_to_vcard_string (GSList *uris)
 		{
 			gchar *tmp;
 			EContact *contact = E_CONTACT (c->data);
-			
+
 			tmp = e_vcard_to_string (E_VCARD (contact),
 											 EVC_FORMAT_VCARD_30);
 
@@ -259,7 +259,7 @@ uri_list_to_vcard_string (GSList *uris)
 
 		if (contacts != NULL)
 			g_list_free (contacts);
-		
+
 		g_object_unref (book);
 	}
 
@@ -277,7 +277,7 @@ uri_list_to_vcal_string (GSList *uris, ECalSourceType type)
 	icalcomponent *obj = NULL;
 	GList			*objects = NULL, *o = NULL;
 	GSList		*uri;
-	
+
 	str = g_string_new (NULL);
 
 	for (uri = uris; uri != NULL; uri = uri->next)
@@ -285,7 +285,7 @@ uri_list_to_vcal_string (GSList *uris, ECalSourceType type)
 		g_assert (uri->data != NULL);
 
 		cal = e_cal_new_from_uri (uri->data, type);
-		
+
 		if (e_cal_open (cal, TRUE, NULL) == FALSE)
 		{
 			error_dialog (_("Could not open calendar/todo!"),
@@ -295,14 +295,14 @@ uri_list_to_vcal_string (GSList *uris, ECalSourceType type)
 			continue;
 		}
 
-		
+
 		e_cal_get_object_list (cal, "#t", &objects, NULL);
 
 		for (o = objects; o != NULL; o = o->next)
 		{
 			gchar *tmp;
 			icalcomponent *comp;
-		
+
 			g_assert (o->data != NULL);
 
 			comp = o->data;
@@ -310,7 +310,7 @@ uri_list_to_vcal_string (GSList *uris, ECalSourceType type)
 			g_string_append (str, tmp);
 			g_free (tmp);
 		}
-		
+
 		g_object_unref (cal);
 	}
 
@@ -326,15 +326,15 @@ export_addressbook (void)
 	GSList *uris;
 	GString *data;
 	pulse ();
-	
+
 	uris = get_source_uris_for_type (EBOOK_SOURCE_LIST);
 
 	pulse ();
-	
+
 	data = uri_list_to_vcard_string (uris);
 
 	write_to_ipod (data, "/Contacts/", "evolution.vcf");
-	
+
 	g_string_free (data, TRUE);
 
 	pulse ();
@@ -360,11 +360,11 @@ export_calendar (void)
 	data = uri_list_to_vcal_string (uris, E_CAL_SOURCE_TYPE_EVENT);
 
 	write_to_ipod (data, "/Calendars/", "evolution-cal.ics");
-	
+
 	g_string_free (data, TRUE);
 
 	free_uri_list (uris);
-	
+
 	pulse ();
 }
 
@@ -388,7 +388,7 @@ export_tasks (void)
 	g_string_free (data, TRUE);
 
 	free_uri_list (uris);
-	
+
 	pulse ();
 }
 
@@ -396,13 +396,13 @@ void
 export_to_ipod (void)
 {
 	pulse ();
-	
+
 	if (ipod_info.addressbook == TRUE)
 		export_addressbook ();
 
 	if (ipod_info.calendar == TRUE)
 		export_calendar ();
-	
+
 	if (ipod_info.tasks == TRUE)
 		export_tasks ();
 

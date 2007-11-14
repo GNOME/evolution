@@ -57,7 +57,7 @@ GType
 filter_option_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterOptionClass),
@@ -70,10 +70,10 @@ filter_option_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_option_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterOption", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -82,11 +82,11 @@ filter_option_class_init (FilterOptionClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = filter_option_finalise;
-	
+
 	/* override methods */
 	fe_class->eq = option_eq;
 	fe_class->xml_create = xml_create;
@@ -117,10 +117,10 @@ static void
 filter_option_finalise (GObject *obj)
 {
 	FilterOption *fo = (FilterOption *) obj;
-	
+
 	g_list_foreach (fo->options, (GFunc)free_option, NULL);
 	g_list_free (fo->options);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -128,7 +128,7 @@ filter_option_finalise (GObject *obj)
  * filter_option_new:
  *
  * Create a new FilterOption object.
- * 
+ *
  * Return value: A new #FilterOption object.
  **/
 FilterOption *
@@ -142,7 +142,7 @@ find_option (FilterOption *fo, const char *name)
 {
 	GList *l = fo->options;
 	struct _filter_option *op;
-	
+
 	while (l) {
 		op = l->data;
 		if (!strcmp (name, op->value)) {
@@ -150,7 +150,7 @@ find_option (FilterOption *fo, const char *name)
 		}
 		l = g_list_next (l);
 	}
-	
+
 	return NULL;
 }
 
@@ -158,7 +158,7 @@ void
 filter_option_set_current (FilterOption *option, const char *name)
 {
 	g_return_if_fail (IS_FILTER_OPTION(option));
-	
+
 	option->current = find_option (option, name);
 }
 
@@ -167,15 +167,15 @@ struct _filter_option *
 filter_option_add(FilterOption *fo, const char *value, const char *title, const char *code)
 {
 	struct _filter_option *op;
-	
+
 	g_return_val_if_fail (IS_FILTER_OPTION(fo), NULL);
 	g_return_val_if_fail(find_option(fo, value) == NULL, NULL);
-	
+
 	op = g_malloc(sizeof(*op));
 	op->title = g_strdup(title);
 	op->value = g_strdup(value);
 	op->code = g_strdup(code);
-	
+
 	fo->options = g_list_append(fo->options, op);
 	if (fo->current == NULL)
 		fo->current = op;
@@ -187,7 +187,7 @@ static int
 option_eq(FilterElement *fe, FilterElement *cm)
 {
 	FilterOption *fo = (FilterOption *)fe, *co = (FilterOption *)cm;
-	
+
 	return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& ((fo->current && co->current && strcmp(fo->current->value, co->current->value) == 0)
 		    || (fo->current == NULL && co->current == NULL));
@@ -198,15 +198,15 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;
 	xmlNodePtr n, work;
-	
+
 	/* parent implementation */
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
-	
+
 	n = node->children;
 	while (n) {
 		if (!strcmp ((char *)n->name, "option")) {
 			char *tmp, *value, *title = NULL, *code = NULL;
-			
+
 			value = (char *)xmlGetProp (n, (const unsigned char *)"value");
 			work = n->children;
 			while (work) {
@@ -214,7 +214,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 					if (!title) {
 						if (!(tmp = (char *)xmlNodeGetContent (work)))
 							tmp = (char *)xmlStrdup ((const unsigned char *)"");
-						
+
 						title = g_strdup (tmp);
 						xmlFree (tmp);
 					}
@@ -222,14 +222,14 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 					if (!code) {
 						if (!(tmp = (char*)xmlNodeGetContent (work)))
 							tmp = (char *)xmlStrdup ((const unsigned char *)"");
-						
+
 						code = g_strdup (tmp);
 						xmlFree (tmp);
 					}
 				}
 				work = work->next;
 			}
-			
+
 			filter_option_add (fo, value, title, code);
 			xmlFree (value);
 			g_free (title);
@@ -246,14 +246,14 @@ xml_encode (FilterElement *fe)
 {
 	xmlNodePtr value;
 	FilterOption *fo = (FilterOption *)fe;
-	
+
 	d(printf ("Encoding option as xml\n"));
 	value = xmlNewNode (NULL, (const unsigned char *)"value");
 	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
 	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)fo->type);
 	if (fo->current)
 		xmlSetProp (value, (const unsigned char *)"value", (unsigned char *)fo->current->value);
-	
+
 	return value;
 }
 
@@ -262,7 +262,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;
 	char *value;
-	
+
 	d(printf ("Decoding option from xml\n"));
 	xmlFree (fe->name);
 	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
@@ -280,7 +280,7 @@ static void
 option_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterOption *fo = (FilterOption *)fe;
-	
+
 	fo->current = g_object_get_data ((GObject *) widget, "option");
 }
 
@@ -295,7 +295,7 @@ get_widget (FilterElement *fe)
 	GList *l = fo->options;
 	struct _filter_option *op;
 	int index = 0, current = 0;
-	
+
 	menu = gtk_menu_new ();
 	while (l) {
 		op = l->data;
@@ -310,19 +310,19 @@ get_widget (FilterElement *fe)
 		} else if (!first) {
 			first = item;
 		}
-		
+
 		l = g_list_next (l);
 		index++;
 	}
-	
+
 	omenu = gtk_option_menu_new ();
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	
+
 	if (first)
 		g_signal_emit_by_name (first, "activate", fe);
-	
+
 	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
-	
+
 	return omenu;
 }
 
@@ -330,9 +330,9 @@ static void
 build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
 	FilterOption *fo = (FilterOption *)fe;
-	
+
 	d(printf ("building option code %p, current = %p\n", fo, fo->current));
-	
+
 	if (fo->current && fo->current->code)
 		filter_part_expand_code (ff, fo->current->code, out);
 }
@@ -341,7 +341,7 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterOption *fo = (FilterOption *)fe;
-	
+
 	if (fo->current)
 		e_sexp_encode_string (out, fo->current->value);
 }
@@ -352,9 +352,9 @@ clone (FilterElement *fe)
 	FilterOption *fo = (FilterOption *)fe, *new;
 	GList *l;
 	struct _filter_option *op, *newop;
-	
+
 	d(printf ("cloning option\n"));
-	
+
         new = FILTER_OPTION (FILTER_ELEMENT_CLASS (parent_class)->clone (fe));
 	l = fo->options;
 	while (l) {
@@ -364,8 +364,8 @@ clone (FilterElement *fe)
 			new->current = newop;
 		l = l->next;
 	}
-	
+
 	d(printf ("cloning option code %p, current = %p\n", new, new->current));
-	
+
 	return (FilterElement *) new;
 }

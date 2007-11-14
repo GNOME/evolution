@@ -92,7 +92,7 @@ ctd_response(GtkWidget *w, guint id, CertTrustDialogData *data)
 					   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
 					   e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE,  FALSE),
 					   e_cert_trust_has_trusted_ca (icert->trust, FALSE, FALSE, TRUE));
-						   
+
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 			gboolean trust_ssl, trust_email, trust_objsign;
 
@@ -105,7 +105,7 @@ ctd_response(GtkWidget *w, guint id, CertTrustDialogData *data)
 						   trust_ssl,
 						   trust_email,
 						   trust_objsign);
-				
+
 			CERT_ChangeCertTrust(CERT_GetDefaultCertDB(), icert, &trust);
 		}
 

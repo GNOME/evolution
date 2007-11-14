@@ -165,10 +165,10 @@ ets_class_init (ETableSorterClass *klass)
 	sorter_class->model_to_sorted           = ets_model_to_sorted           ;
 	sorter_class->sorted_to_model           = ets_sorted_to_model           ;
 	sorter_class->get_model_to_sorted_array = ets_get_model_to_sorted_array ;
-	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array ;		
+	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array ;
 	sorter_class->needs_sorting             = ets_needs_sorting             ;
 
-	g_object_class_install_property (object_class, PROP_SORT_INFO, 
+	g_object_class_install_property (object_class, PROP_SORT_INFO,
 					 g_param_spec_object ("sort_info",
 							      _("Sort Info"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -198,7 +198,7 @@ ETableSorter *
 e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
 	ETableSorter *ets = g_object_new (E_TABLE_SORTER_TYPE, NULL);
-	
+
 	ets->sort_info = sort_info;
 	g_object_ref(ets->sort_info);
 	ets->full_header = full_header;
@@ -220,7 +220,7 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 							G_CALLBACK (ets_sort_info_changed), ets);
 	ets->group_info_changed_id = g_signal_connect (sort_info, "group_info_changed",
 							G_CALLBACK (ets_sort_info_changed), ets);
-	
+
 	return ets;
 }
 

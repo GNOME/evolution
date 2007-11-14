@@ -51,7 +51,7 @@ sanity_check (const char *filename)
 	g_free (command);
 
 	g_message ("Sanity check result %d:%d %d", WIFEXITED (result), WEXITSTATUS (result), result);
-	
+
 	return WIFEXITED (result) && (WEXITSTATUS (result) == 0);
 }
 
@@ -73,7 +73,7 @@ dialog_prompt_user(GtkWindow *parent, const char *string, const char *tag, const
 	gtk_container_set_border_width((GtkContainer *)check, 12);
 	gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
 	gtk_widget_show (check);
-	
+
 	button = gtk_dialog_run ((GtkDialog *) mbox);
 
 	if (button == GTK_RESPONSE_YES)
@@ -82,7 +82,7 @@ dialog_prompt_user(GtkWindow *parent, const char *string, const char *tag, const
 		mask |= BR_START;
 
 	gtk_widget_destroy(mbox);
-	
+
 	return mask;
 }
 
@@ -94,17 +94,17 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 	int response;
 
 	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file"), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
-								  
+
 /* 	dlg = gtk_file_chooser_dialog_new (_("Select name of the Evolution backup file"), GTK_WINDOW (target->target.widget),  */
 /* 					   GTK_FILE_CHOOSER_ACTION_SAVE,  */
 /* 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
 /* 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL); */
 
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dlg), "evolution-backup.tar.gz");
-	
+
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
-	
+
 	response = gtk_dialog_run (GTK_DIALOG (dlg));
 	if (response == GTK_RESPONSE_OK) {
 		char *filename;
@@ -113,19 +113,19 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 
 		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
 		e_file_update_save_path(uri, TRUE);
-		
+
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
 		gtk_widget_destroy (dlg);
-	
+
 		mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after backup"), "org.gnome.backup-restore:backup-confirm", NULL);
-		if (mask & BR_OK) 
+		if (mask & BR_OK)
 			backup (filename, (mask & BR_START) ? TRUE: FALSE);
 
 		g_free (filename);
 
 		return;
 	}
-	
+
 	gtk_widget_destroy (dlg);
 }
 
@@ -137,15 +137,15 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 	int response;
 
 	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file to restore"), NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
-								  
+
 /* 	dlg = gtk_file_chooser_dialog_new (_("Select Evolution backup file to restore"), GTK_WINDOW (target->target.widget),  */
 /* 					   GTK_FILE_CHOOSER_ACTION_OPEN,  */
 /* 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
 /* 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL); */
-	
+
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
-	
+
 	response = gtk_dialog_run (GTK_DIALOG (dlg));
 	if (response == GTK_RESPONSE_OK) {
 		char *filename;
@@ -153,30 +153,30 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 
 		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
 		e_file_update_save_path(uri, TRUE);
-		
+
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
 		gtk_widget_destroy (dlg);
-		
+
 		if (sanity_check (filename)) {
 			guint32 mask;
-		
+
 			mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after restore"), "org.gnome.backup-restore:restore-confirm", NULL);
-			if (mask & BR_OK) 
+			if (mask & BR_OK)
 				restore (filename, mask & BR_START);
 		} else {
 			e_error_run (GTK_WINDOW (target->target.widget), "org.gnome.backup-restore:invalid-backup", NULL);
 		}
-		
+
 		g_free (filename);
 
 		return;
 	}
-	
+
 	gtk_widget_destroy (dlg);
 }
 
 static void
-check_toggled (GtkToggleButton *button, GnomeDruid *druid) 
+check_toggled (GtkToggleButton *button, GnomeDruid *druid)
 {
 	 GtkWidget *box = g_object_get_data ((GObject *)button, "box");
 	gboolean state =  gtk_toggle_button_get_active ((GtkToggleButton *)button);
@@ -184,17 +184,17 @@ check_toggled (GtkToggleButton *button, GnomeDruid *druid)
 
 	gtk_widget_set_sensitive (box, state);
 	gnome_druid_set_show_finish (druid, state);
-	if (state && !prevfile) 
+	if (state && !prevfile)
 		gnome_druid_set_buttons_sensitive (druid, TRUE, FALSE, TRUE, TRUE);
 	else
 		gnome_druid_set_buttons_sensitive (druid, TRUE, TRUE, TRUE, TRUE);
 
 	g_object_set_data ((GObject *)druid, "restore", GINT_TO_POINTER (state?1:0));
-	
+
 }
 
 static void
-restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data) 
+restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data)
 {
 	gboolean state = GPOINTER_TO_INT(g_object_get_data((GObject *)druid, "restore")) ? TRUE:FALSE;
 	char *file = g_object_get_data ((GObject *)druid, "restore-file");
@@ -204,7 +204,7 @@ restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data
 			 e_error_run ((GtkWindow *)druid, "org.gnome.backup-restore:invalid-backup", NULL);
 		} else
 			restore (file, TRUE);
-		
+
 	}
 }
 
@@ -216,14 +216,14 @@ file_changed (GtkFileChooser *chooser, GnomeDruid *druid)
 
 	uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (chooser));
 	e_file_update_save_path(uri, TRUE);
-	
+
 	file = gtk_file_chooser_get_filename (chooser);
 	prevfile = g_object_get_data ((GObject *)druid, "restore-file");
 	g_object_set_data ((GObject *)druid, "restore-file", file);
 	g_free (prevfile);
 	if (file) {
 		gnome_druid_set_buttons_sensitive (druid, TRUE, TRUE, TRUE, TRUE);
-	} else 
+	} else
 		gnome_druid_set_buttons_sensitive (druid, TRUE, FALSE, TRUE, TRUE);
 
 }
@@ -232,14 +232,14 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
 	GtkWidget *page;
 	GtkWidget *box, *hbox, *label, *cbox, *button;
-	
+
 	page = gnome_druid_page_standard_new_with_vals (_("Restore from backup"), NULL, NULL);
 	hbox = gtk_hbox_new (FALSE, 6);
 	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. \nIt also restores all your personal settings, mail filters etc."));
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
 	box = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
-	
+
 	hbox = gtk_hbox_new (FALSE, 6);
 	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup file"));
 	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), hook_data->parent);

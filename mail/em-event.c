@@ -80,7 +80,7 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 		break; }
 	case EM_EVENT_TARGET_COMPOSER : {
 		EMEventTargetComposer *s = (EMEventTargetComposer *)t;
-		
+
 		if (s->composer)
 			g_object_unref (s->composer);
 		break; }
@@ -119,11 +119,11 @@ em_event_get_type(void)
 
 /**
  * em_event_peek:
- * @void: 
- * 
+ * @void:
+ *
  * Get the singular instance of the mail event handler.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMEvent *em_event_peek(void)
 {
@@ -249,7 +249,7 @@ GType
 em_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
@@ -259,6 +259,6 @@ em_event_hook_get_type(void)
 		emeh_parent_class = g_type_class_ref(e_event_hook_get_type());
 		type = g_type_register_static(e_event_hook_get_type(), "EMEventHook", &info, 0);
 	}
-	
+
 	return type;
 }

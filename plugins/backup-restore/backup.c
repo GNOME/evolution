@@ -59,7 +59,7 @@ static const GOptionEntry options[] = {
 #define CANCEL(x) if (x) return;
 
 static void
-backup (const char *filename) 
+backup (const char *filename)
 {
 	char *command;
 
@@ -91,17 +91,17 @@ backup (const char *filename)
 		CANCEL (complete);
 		txt = _("Restarting Evolution");
 		complete=TRUE;
-		
+
 		s (EVOLUTION);
 	}
 
 }
 
 static void
-restore (const char *filename) 
+restore (const char *filename)
 {
 	char *command;
-	
+
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
@@ -127,7 +127,7 @@ restore (const char *filename)
 	s ("rm -rf " GCONF_DUMP_PATH);
 	s ("rm -rf " EVOLUTION_DIR_BACKUP);
 	s ("rm -rf ~/.camel_certs_old");
-	
+
 	if (restart_arg) {
 		CANCEL (complete);
 		txt = _("Restarting Evolution");
@@ -138,14 +138,14 @@ restore (const char *filename)
 }
 
 static void
-check (const char *filename) 
+check (const char *filename)
 {
 	char *command;
 
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", filename);
 	result = system (command);
 	g_free (command);
-	
+
 	g_message ("First result %d", result);
 	if (result)
 		exit (result);
@@ -158,7 +158,7 @@ check (const char *filename)
 
 }
 
-static gboolean 
+static gboolean
 pbar_update()
 {
 	if (!complete) {
@@ -171,7 +171,7 @@ pbar_update()
 	return FALSE;
 }
 
-static gpointer 
+static gpointer
 thread_start (gpointer data)
 {
 	if (backup_op)
@@ -182,11 +182,11 @@ thread_start (gpointer data)
 		check (chk_file);
 
 	complete = TRUE;
-	
+
 	return GINT_TO_POINTER(result);
 }
 
-static gboolean 
+static gboolean
 idle_cb(gpointer data)
 {
 	GThread *t;
@@ -207,11 +207,11 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 {
 	/* We will cancel only backup/restore operations and not the check operation */
 	complete = TRUE;
-	
+
 	/* If the response is not of delete_event then destroy the event */
 	if (response != GTK_RESPONSE_NONE)
 		gtk_widget_destroy (dlg);
-	
+
 	/* We will kill just the tar operation. Rest of the them will be just a second of microseconds.*/
 	s ("pkill tar");
 
@@ -233,7 +233,7 @@ main (int argc, char **argv)
 
 	context = g_option_context_new (NULL);
 	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-	program = gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv, 
+	program = gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv,
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
 				      GNOME_PARAM_NONE);
@@ -267,9 +267,9 @@ main (int argc, char **argv)
                         	                          GTK_STOCK_CANCEL,
                                 	                  GTK_RESPONSE_REJECT,
                                         	          NULL);
-		if (oper && file) 
+		if (oper && file)
 			str = g_strdup_printf(oper, file);
-	
+
 		vbox = gtk_vbox_new (FALSE, 6);
 		if (str) {
 			hbox = gtk_hbox_new (FALSE, 12);
@@ -285,7 +285,7 @@ main (int argc, char **argv)
 
 
 		gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 0);
-		
+
 		gtk_container_add (GTK_CONTAINER (GTK_DIALOG(progress_dialog)->vbox), vbox);
 		gtk_window_set_default_size ((GtkWindow *) progress_dialog,450, 120);
 		g_signal_connect (progress_dialog, "response", G_CALLBACK(dlg_response), NULL);
@@ -298,6 +298,6 @@ main (int argc, char **argv)
 
 	g_idle_add (idle_cb, NULL);
 	gtk_main ();
-	
+
 	return result;
 }

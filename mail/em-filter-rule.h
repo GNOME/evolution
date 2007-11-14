@@ -36,7 +36,7 @@ typedef struct _EMFilterRuleClass EMFilterRuleClass;
 
 struct _EMFilterRule {
 	FilterRule parent_object;
-	
+
 	GList *actions;
 };
 

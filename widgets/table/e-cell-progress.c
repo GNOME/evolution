@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-progress.c - Progress display cell object.
  * Copyright 1999-2002, Ximian, Inc.
  * Copyright 2001, 2002, Krisztian Pifko <monsta@users.sourceforge.net>
@@ -64,14 +64,14 @@ eprog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ECellProgressView *progress_view = g_new0 (ECellProgressView, 1);
 	ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
-	
+
 	progress_view->cell_view.ecell = ecell;
 	progress_view->cell_view.e_table_model = table_model;
 	progress_view->cell_view.e_table_item_view = e_table_item_view;
         progress_view->cell_view.kill_view_cb = NULL;
         progress_view->cell_view.kill_view_cb_data = NULL;
 	progress_view->canvas = canvas;
-	
+
 	return (ECellView *) progress_view;
 }
 
@@ -87,7 +87,7 @@ eprog_kill_view (ECellView *ecell_view)
             g_list_free(progress_view->cell_view.kill_view_cb_data);
 
 	g_free (ecell_view);
-}	
+}
 
 static void
 eprog_realize (ECellView *ecell_view)
@@ -112,7 +112,7 @@ eprog_unrealize (ECellView *ecv)
 static void
 eprog_clear (ECellProgress *progress)
 {
-  memset(progress->buffer,0x00,progress->width*progress->height*4);  
+  memset(progress->buffer,0x00,progress->width*progress->height*4);
 }
 
 static void
@@ -158,7 +158,7 @@ static void
 eprog_draw_bar (ECellProgress *progress, guchar red, guchar green, guchar blue, gint value)
 {
   gint i, j, w;
-  
+
   w=value*(progress->width-2*(progress->padding+progress->border+1))/progress->max;
   for (i=(progress->padding+progress->border+1)*4;i<(progress->padding+progress->border+1+w)*4;i+=4){
     for (j=0;j<progress->height-2*(progress->padding+progress->border+1);j++){
@@ -180,10 +180,10 @@ eprog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 {
 	ECellProgress *progress = E_CELL_PROGRESS (ecell_view->ecell);
 	int x, y;
-	
+
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
-	
+
 	if ((value > progress->max)||(value < progress->min)){
 		g_warning ("Value from the table model is %d, the states we support are [%d..%d]\n",
 			   value, progress->min, progress->max);
@@ -257,7 +257,7 @@ eprog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col
 	case GDK_BUTTON_PRESS:
 		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
 			return FALSE;
-		
+
 		eprog_set_value (progress_view, model_col, view_col, row, value + 1);
 		return TRUE;
 
@@ -292,7 +292,7 @@ static void
 eprog_dispose (GObject *object)
 {
 	ECellProgress *eprog = E_CELL_PROGRESS (object);
-	
+
 	g_object_unref (eprog->image);
 	g_free (eprog->image);
 	g_free (eprog->buffer);
@@ -371,7 +371,7 @@ e_cell_progress_construct (ECellProgress *eprog, int padding, int border, int mi
  * Creates a new ECell renderer that can be used to render progress
  * bars displaying the percentage of the current value between min
  * and max.
- * 
+ *
  * Returns: an ECell object that can be used to render progress cells.
  */
 ECell *

@@ -51,10 +51,10 @@
 
 /**
  * e_fsutils_usage:
- * @path: 
- * 
+ * @path:
+ *
  * Calculate the amount of disk space used by a given path.
- * 
+ *
  * Return value: The number of 1024 byte blocks used by the
  * filesystem.
  **/
@@ -118,10 +118,10 @@ fail:
 
 /**
  * e_fsutils_avail:
- * @path: 
- * 
+ * @path:
+ *
  * Find the available disk space at the given path.
- * 
+ *
  * Return value: -1 if it could not be determined, otherwise the
  * number of disk blocks, expressed as system-independent, 1024 byte
  * blocks.

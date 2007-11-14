@@ -519,7 +519,7 @@ resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_childr
 				path->child_needs_resort = 0;
 			}
 		}
-		path->needs_resort = 0;	
+		path->needs_resort = 0;
 		path->child_needs_resort = 0;
 		path->needs_regen_to_sort = 0;
 		path->resort_all_children = 0;
@@ -920,7 +920,7 @@ static void *
 ets_initialize_value (ETreeModel *etm, int col)
 {
 	ETreeSorted *ets = E_TREE_SORTED(etm);
-	
+
 	return e_tree_model_initialize_value (ets->priv->source, col);
 }
 
@@ -928,7 +928,7 @@ static gboolean
 ets_value_is_empty (ETreeModel *etm, int col, const void *value)
 {
 	ETreeSorted *ets = E_TREE_SORTED(etm);
-	
+
 	return e_tree_model_value_is_empty (ets->priv->source, col, value);
 }
 
@@ -936,7 +936,7 @@ static char *
 ets_value_to_string (ETreeModel *etm, int col, const void *value)
 {
 	ETreeSorted *ets = E_TREE_SORTED(etm);
-	
+
 	return e_tree_model_value_to_string (ets->priv->source, col, value);
 }
 
@@ -1153,7 +1153,7 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 	GObjectClass *object_class       = G_OBJECT_CLASS (klass);
 
 	klass->node_resorted             = NULL;
-	
+
 	object_class->dispose            = ets_dispose;
 	object_class->finalize           = ets_finalize;
 
@@ -1239,9 +1239,9 @@ e_tree_sorted_init (ETreeSorted *ets)
 
 /**
  * e_tree_sorted_construct:
- * @etree: 
- * 
- * 
+ * @etree:
+ *
+ *
  **/
 void
 e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
@@ -1340,7 +1340,7 @@ e_tree_sorted_node_resorted  (ETreeSorted *sorted, ETreePath node)
 {
 	g_return_if_fail (sorted != NULL);
 	g_return_if_fail (E_IS_TREE_SORTED (sorted));
-	
+
 	g_signal_emit (G_OBJECT (sorted), signals [NODE_RESORTED], 0, node);
 }
 

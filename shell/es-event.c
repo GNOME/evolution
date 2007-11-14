@@ -90,11 +90,11 @@ es_event_get_type(void)
 
 /**
  * es_event_peek:
- * @void: 
- * 
+ * @void:
+ *
  * Get the singular instance of the shell event handler.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 ESEvent *es_event_peek(void)
 {
@@ -148,7 +148,7 @@ es_event_target_new_upgrade(ESEvent *eme, int major, int minor, int revision)
 	t->minor = minor;
 	t->revision = revision;
 
-	return t;	
+	return t;
 }
 
 /* ********************************************************************** */
@@ -185,7 +185,7 @@ emeh_class_init(EPluginHookClass *klass)
 	/** @HookClass: Shell Main Menu
 	 * @Id: org.gnome.evolution.shell.events:1.0
 	 * @Target: ESEventTargetState
-	 * 
+	 *
 	 * A hook for events coming from the shell.
 	 **/
 
@@ -202,7 +202,7 @@ GType
 es_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(ESEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
@@ -212,6 +212,6 @@ es_event_hook_get_type(void)
 		emeh_parent_class = g_type_class_ref(e_event_hook_get_type());
 		type = g_type_register_static(e_event_hook_get_type(), "ESEventHook", &info, 0);
 	}
-	
+
 	return type;
 }

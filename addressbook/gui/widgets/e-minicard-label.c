@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-minicard-label.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -203,7 +203,7 @@ e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *va
 	GnomeCanvasItem *item;
 
 	e_minicard_label = E_MINICARD_LABEL (object);
-	item = GNOME_CANVAS_ITEM (object);	
+	item = GNOME_CANVAS_ITEM (object);
 
 	switch (prop_id){
 	case PROP_WIDTH:
@@ -344,7 +344,7 @@ static gboolean
 e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	EMinicardLabel *e_minicard_label;
- 
+
 	e_minicard_label = E_MINICARD_LABEL (item);
 
 	switch( event->type ) {
@@ -371,7 +371,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	}
 	case GDK_BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE: 
+	case GDK_BUTTON_RELEASE:
 	case GDK_MOTION_NOTIFY:
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY: {
@@ -382,7 +382,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 	default:
 		break;
 	}
-  
+
 	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)
 		return (* GNOME_CANVAS_ITEM_CLASS( parent_class )->event) (item, event);
 	else
@@ -413,7 +413,7 @@ set_colors (EMinicardLabel *label)
 		GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (label)->canvas);
 		GtkStyle *style = gtk_widget_get_style (canvas);
 		if (label->has_focus) {
-			gnome_canvas_item_set (label->rect, 
+			gnome_canvas_item_set (label->rect,
 					       "outline_color_gdk", &style->mid[GTK_STATE_SELECTED],
 					       "fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
 					       NULL);
@@ -453,21 +453,21 @@ static void
 e_minicard_label_reflow(GnomeCanvasItem *item, int flags)
 {
 	EMinicardLabel *e_minicard_label = E_MINICARD_LABEL(item);
-	
+
 	gint old_height;
 	gdouble text_height;
 	gdouble left_width;
 
 	old_height = e_minicard_label->height;
 
-	g_object_get(e_minicard_label->fieldname, 
+	g_object_get(e_minicard_label->fieldname,
 		     "text_height", &text_height,
 		     NULL);
 
 	e_minicard_label->height = text_height;
 
 
-	g_object_get(e_minicard_label->field, 
+	g_object_get(e_minicard_label->field,
 		     "text_height", &text_height,
 		     NULL);
 

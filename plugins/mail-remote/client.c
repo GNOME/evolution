@@ -219,7 +219,7 @@ add_message(Evolution_Mail_Folder folder, const char *msg)
 	mis.flagMask = CAMEL_MESSAGE_SEEN;
 
 	mem = (BonoboObject *)evolution_mail_messagestream_new_buffer(msg, strlen(msg));
-			
+
 	printf("attempt send mail to store\n");
 	Evolution_Mail_Folder_appendMessage(folder, &mis, bonobo_object_corba_objref(mem), &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -260,9 +260,9 @@ static int domain(void *data)
 		Evolution_Mail_Properties *props;
 #endif
 		Evolution_Mail_Store store = stores->_buffer[i].store;
-		
+
 		printf("store %p '%s' uid '%s'\n", store, stores->_buffer[i].name, stores->_buffer[i].uid);
-			
+
 #if 0
 		Evolution_Mail_Store_getProperties(store, &names, &props, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
@@ -287,12 +287,12 @@ static int domain(void *data)
 		{
 			char *msg = "To: notzed@novell.com\r\n"
 				"Subject: This is a test from auto-send\r\n"
-				"\r\n" 
+				"\r\n"
 				"Blah blah, test message!\r\n";
 			BonoboObject *mem;
 
 			mem = (BonoboObject *)evolution_mail_messagestream_new_buffer(msg, strlen(msg));
-			
+
 			printf("attempt send mail to store\n");
 			Evolution_Mail_Store_sendMessage(store, bonobo_object_corba_objref(mem), &ev);
 			if (ev._major != CORBA_NO_EXCEPTION)
@@ -313,7 +313,7 @@ static int domain(void *data)
 				if (!strcmp(folders->_buffer[f].full_name, "Private")) {
 					const char *msg = "To: notzed@novell.com\r\n"
 						"Subject: This is a test append from client\r\n"
-						"\r\n" 
+						"\r\n"
 						"Blah blah, test appended message!\r\n";
 
 					list_folder(folders->_buffer[f].folder);

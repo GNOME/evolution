@@ -190,7 +190,7 @@ main (int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv, 
+	gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv,
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,
 			    NULL);
 

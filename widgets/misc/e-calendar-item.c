@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *  Bolian Yin <bolian.yin@sun.com>
  *
  * Copyright 2000, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -389,7 +389,7 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->move_selection_when_moving = TRUE;
 	calitem->preserve_day_when_moving = FALSE;
 	calitem->display_popup = TRUE;
-	
+
 	calitem->x1 = 0.0;
 	calitem->y1 = 0.0;
 	calitem->x2 = 0.0;
@@ -548,7 +548,7 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	item = GNOME_CANVAS_ITEM (o);
 	calitem = E_CALENDAR_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_YEAR:
 		ivalue = GTK_VALUE_INT (*arg);
@@ -971,11 +971,11 @@ layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, int day_index)
 
 	/* we use strlen because we actually want to count bytes */
 	if (day_index == 6)
-		char_size = strlen (day); 
+		char_size = strlen (day);
 	else
 		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
 
-	pango_layout_set_text (layout, day, char_size);	
+	pango_layout_set_text (layout, day, char_size);
 }
 
 static void
@@ -1543,7 +1543,7 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 	gdk_cairo_set_source_color (cr, &base);
 	cairo_rectangle (cr, calitem->x1 - x, calitem->y1 - y,
 			    calitem->x2 - calitem->x1 + 1,
-			    calitem->y2 - calitem->y1 + 1);   
+			    calitem->y2 - calitem->y1 + 1);
 	cairo_fill (cr);
 	cairo_restore (cr);
 
@@ -1618,11 +1618,11 @@ layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, int day_index)
 
 	/* we use strlen because we actually want to count bytes */
 	if (day_index == 6)
-		char_size = strlen (day); 
+		char_size = strlen (day);
 	else
 		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
 
-	pango_layout_set_text (layout, day, char_size);	
+	pango_layout_set_text (layout, day, char_size);
 }
 
 static void
@@ -1992,7 +1992,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 			pango_layout_set_text (layout, buffer, num_chars);
 			cairo_translate (cr, text_x, text_y);
 			pango_cairo_update_layout (cr, layout);
-			pango_cairo_show_layout (cr, layout);	
+			pango_cairo_show_layout (cr, layout);
 			cairo_restore (cr);
 		}
 
@@ -2077,7 +2077,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 					gdk_cairo_set_source_color (cr, box_color);
 					cairo_rectangle (cr, day_x , day_y,
 							    calitem->cell_width - 1,
-							    calitem->cell_height - 1); 
+							    calitem->cell_height - 1);
 					cairo_stroke (cr);
 					cairo_restore (cr);
 				}
@@ -2098,7 +2098,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				digit = day_num % 10;
 				day_x -= calitem->digit_widths[digit];
 				buffer[num_chars++] = digit + '0';
-				
+
 				cairo_save (cr);
 				if (fg_color) {
 					gdk_cairo_set_source_color (cr, fg_color);
@@ -2118,7 +2118,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				pango_cairo_show_layout (cr, layout);
 				cairo_restore (cr);
 			}
-			
+
 			/* See if we've reached the end of a month. */
 			if (day_num == days_in_month[mon]) {
 				month_offset++;
@@ -2150,7 +2150,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	gdk_gc_set_foreground (fg_gc, &style->fg[GTK_STATE_NORMAL]);
 
 	g_object_unref (layout);
-	
+
 	pango_font_metrics_unref (font_metrics);
 	cairo_destroy (cr);
 }
@@ -2165,35 +2165,35 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 	GDate date;
 	guint weekday, yearday;
 	int offset, week_num;
-	
+
 	/* FIXME: check what happens at year boundaries. */
-	
+
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, day, month + 1, year);
-	
+
 	/* This results in a value of 0 (Monday) - 6 (Sunday). (or -1 on error - oops!!) */
 	weekday = g_date_get_weekday (&date) - 1;
-	
+
 	/* Calculate the offset from the start of the week. */
 	offset = (calitem->week_start_day + 7 - weekday) % 7;
-	
+
 	/* Calculate the day of the year, from 0 to 365. */
 	yearday = g_date_get_day_of_year (&date) - 1;
-	
+
 	/* If the week starts on or after 29th December, it is week 1 of the
 	   next year, since there are 4 days in the next year. */
 	g_date_subtract_days (&date, offset);
 	if (g_date_get_month (&date) == 12 && g_date_get_day (&date) >= 29)
 		return 1;
-	
+
 	/* Calculate the week number, from 0. */
 	week_num = (yearday - offset) / 7;
-	
+
 	/* If the first week starts on or after Jan 5th, then we need to add
 	   1 since the previous week will really be the first week. */
 	if ((yearday - offset) % 7 >= 4)
 		week_num++;
-	
+
 	/* Add 1 so week numbers are from 1 to 53. */
 	return week_num + 1;
 }
@@ -2549,7 +2549,7 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 						      &all_week))
 		return FALSE;
 
-	if (event->button.button == 3 && day == -1 
+	if (event->button.button == 3 && day == -1
 	    && e_calendar_item_get_display_popup (calitem)) {
 		e_calendar_item_show_popup_menu (calitem,
 						 (GdkEventButton*) event,
@@ -3077,7 +3077,7 @@ e_calendar_item_set_first_month(ECalendarItem	*calitem,
 			gint selected_day;
 			struct tm tmp_tm = { 0 };
 
-			old_days_in_selection = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, 
+			old_days_in_selection = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day,
 										    calitem->selection_end_month_offset, calitem->selection_end_day);
 
 			/* Calculate the currently selected day */
@@ -3086,9 +3086,9 @@ e_calendar_item_set_first_month(ECalendarItem	*calitem,
 			tmp_tm.tm_mday = calitem->selection_start_day;
 			tmp_tm.tm_isdst = -1;
 			mktime (&tmp_tm);
-			
+
 			selected_day = (tmp_tm.tm_wday + 6) % 7;
-			
+
 			/* Make sure the selection will be displayed. */
 			if (calitem->selection_start_month_offset < 0
 			    || calitem->selection_start_month_offset >= num_months) {
@@ -3137,7 +3137,7 @@ e_calendar_item_get_max_days_sel       (ECalendarItem	*calitem)
 
 
 /* Set the maximum number of days selectable */
-void	 
+void
 e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
 					gint             days)
 {
@@ -3147,7 +3147,7 @@ e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
 
 
 /* Get the maximum number of days before whole weeks are selected */
-gint     
+gint
 e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem)
 {
 	return calitem->days_to_start_week_selection;
@@ -3155,21 +3155,21 @@ e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem)
 
 
 /* Set the maximum number of days before whole weeks are selected */
-void	 
+void
 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
 					gint            days)
 {
 	calitem->days_to_start_week_selection = days;
 }
 
-gboolean 
+gboolean
 e_calendar_item_get_display_popup      (ECalendarItem	*calitem)
 {
 	return calitem->display_popup;
 }
 
 
-void	 
+void
 e_calendar_item_set_display_popup      (ECalendarItem	*calitem,
 					gboolean        display)
 {
@@ -3609,7 +3609,7 @@ e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
 }
 
-void 
+void
 e_calendar_item_style_set (GtkWidget *widget, ECalendarItem *calitem)
 {
 	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX] = widget->style->bg[GTK_STATE_SELECTED];
@@ -3671,13 +3671,13 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 		calitem->month += (months_shown - 1);
 		e_calendar_item_normalize_date (calitem, &calitem->year,
 						&calitem->month);
-		
+
 		e_calendar_item_get_month_info (calitem, 0, 0,
 						&first_day_offset,
 						&days_in_month,
 						&days_in_prev_month);
 
-		if (end_day >= E_CALENDAR_ROWS_PER_MONTH * E_CALENDAR_COLS_PER_MONTH - 
+		if (end_day >= E_CALENDAR_ROWS_PER_MONTH * E_CALENDAR_COLS_PER_MONTH -
 		    first_day_offset - days_in_month) {
 			need_update = TRUE;
 

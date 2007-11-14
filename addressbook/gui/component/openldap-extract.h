@@ -217,7 +217,7 @@ get_token( const char ** sp, char ** token_val )
 /*  		kind = TK_UNEXPCHAR; */
 /*  		break; */
 	}
-	
+
 	return kind;
 }
 
@@ -746,7 +746,7 @@ static char *ldap_utf8_strchr( const char *str, const char *chr )
 	for( ; *str != '\0'; LDAP_UTF8_INCR(str) ) {
 		if( ldap_x_utf8_to_ucs4( str ) == ldap_x_utf8_to_ucs4( chr ) ) {
 			return (char *) str;
-		} 
+		}
 	}
 
 	return NULL;
@@ -761,7 +761,7 @@ static size_t ldap_utf8_strcspn( const char *str, const char *set )
 		for( cset = set; *cset != '\0'; LDAP_UTF8_INCR(cset) ) {
 			if( ldap_x_utf8_to_ucs4( cstr ) == ldap_x_utf8_to_ucs4( cset ) ) {
 				return cstr - str;
-			} 
+			}
 		}
 	}
 
@@ -781,7 +781,7 @@ static size_t ldap_utf8_strspn( const char *str, const char *set )
 
 			if( ldap_x_utf8_to_ucs4( cstr ) == ldap_x_utf8_to_ucs4( cset ) ) {
 				break;
-			} 
+			}
 		}
 	}
 
@@ -951,7 +951,7 @@ ldap_free_urldesc( LDAPURLDesc *ludp )
 	if ( ludp == NULL ) {
 		return;
 	}
-	
+
 	if ( ludp->lud_scheme != NULL ) {
 		LDAP_FREE( ludp->lud_scheme );
 	}
@@ -1202,7 +1202,7 @@ ldap_url_parse_ext( LDAP_CONST char *url_in, LDAPURLDesc **ludpp )
 	 * anything real.
 	 */
 	if( (p == NULL) && (q != NULL) && ((q = strchr( q, '?')) != NULL)) {
-		q++;		
+		q++;
 		/* ? immediately followed by question */
 		if( *q == '?') {
 			q++;

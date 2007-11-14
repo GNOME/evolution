@@ -154,7 +154,7 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-		
+
 		if (e_cert_db_import_pkcs12_file (e_cert_db_peek (),
 						  filename, NULL /* XXX */)) {
 			/* there's no telling how many certificates were added during the import,
@@ -201,7 +201,7 @@ delete_your (GtkWidget *widget, CertificateManagerData *cfm)
 			g_object_unref (cert);
 		}
 	}
-					     
+
 }
 
 static void
@@ -447,7 +447,7 @@ delete_contact (GtkWidget *widget, CertificateManagerData *cfm)
 			g_object_unref (cert);
 		}
 	}
-					     
+
 }
 
 static void
@@ -527,7 +527,7 @@ static void
 view_ca (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	GtkTreeIter iter;
-	
+
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->authoritycerts_treeview)),
 					     NULL,
 					     &iter)) {
@@ -551,7 +551,7 @@ static void
 edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	GtkTreeIter iter;
-	
+
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->authoritycerts_treeview)),
 					     NULL,
 					     &iter)) {
@@ -570,7 +570,7 @@ edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 						   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
 						   e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE,  FALSE),
 						   e_cert_trust_has_trusted_ca (icert->trust, FALSE, FALSE, TRUE));
-						   
+
 			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 				gboolean trust_ssl, trust_email, trust_objsign;
 				CERTCertTrust trust;
@@ -584,7 +584,7 @@ edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 							   trust_ssl,
 							   trust_email,
 							   trust_objsign);
-				
+
 				CERT_ChangeCertTrust (CERT_GetDefaultCertDB(), icert, &trust);
 			}
 
@@ -670,7 +670,7 @@ delete_ca (GtkWidget *widget, CertificateManagerData *cfm)
 			g_object_unref (cert);
 		}
 	}
-					     
+
 }
 
 static void
@@ -736,7 +736,7 @@ add_user_cert (CertificateManagerData *cfm, ECert *cert)
 		if (!parent_iter) {
 			/* create a new toplevel node */
 			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-		
+
 			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 					    0, organization, -1);
 
@@ -780,7 +780,7 @@ add_contact_cert (CertificateManagerData *cfm, ECert *cert)
 		if (!parent_iter) {
 			/* create a new toplevel node */
 			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-		
+
 			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 					    0, organization, -1);
 
@@ -823,7 +823,7 @@ add_ca_cert (CertificateManagerData *cfm, ECert *cert)
 			/* create a new toplevel node */
 			gtk_tree_store_append (GTK_TREE_STORE (model),
 					       &iter, NULL);
-		
+
 			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 					    0, organization, -1);
 

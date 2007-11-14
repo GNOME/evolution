@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
  * Copyright (C) 2002 Ximian, Inc.
@@ -193,7 +193,7 @@ ect_get_caret_offset (AtkText *text)
 		gchar *full_text = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 		end = g_utf8_pointer_to_offset (full_text, full_text + end);
 		g_free (full_text);
-		
+
 		return end;
 	}
 	else
@@ -261,7 +261,7 @@ ect_get_offset_at_point (AtkText *text,
 }
 
 
-static gint 
+static gint
 ect_get_n_selections (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
@@ -344,7 +344,7 @@ ect_add_selection (AtkText *text,
 
 		real_start = MIN (start_offset, end_offset);
 		real_end   = MAX (start_offset, end_offset);
-		
+
 		real_start = MIN (MAX (0, real_start), len);
 		real_end   = MIN (MAX (0, real_end), len);
 
@@ -376,7 +376,7 @@ ect_remove_selection (AtkText *text,
 					  gaec->view_col, gaec->row,
 					  &selection_start,
 					  &selection_end)
-	    && selection_start != selection_end 
+	    && selection_start != selection_end
 	    && e_cell_text_set_selection (gaec->cell_view,
 					  gaec->view_col, gaec->row,
 					  selection_end, selection_end)) {
@@ -418,7 +418,7 @@ ect_set_caret_offset (AtkText *text,
 		offset = len;
 	else
 		offset = MIN (MAX (0, offset), len);
-	
+
 	offset = g_utf8_offset_to_pointer (full_text, offset) - full_text;
 
 	g_free (full_text);
@@ -598,7 +598,7 @@ ect_class_init (GalA11yECellTextClass *klass)
 {
 	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
+
 	parent_class              = g_type_class_ref (PARENT_TYPE);
 	a11y->get_name            = ect_get_name;
 	object_class->dispose     = ect_dispose;
@@ -619,11 +619,11 @@ ect_action_init (GalA11yECellText *a11y)
 
 /**
  * gal_a11y_e_cell_text_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yECellText class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yECellText class.
  **/
 GType
@@ -670,7 +670,7 @@ static void
 cell_text_destroyed (gpointer data)
 {
 	g_return_if_fail (GAL_A11Y_IS_E_CELL_TEXT (data));
-	
+
 	g_object_unref (data);
 }
 
@@ -685,7 +685,7 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 	AtkObject *a11y;
 	GalA11yECell *gaec;
 	GalA11yECellText *gaet;
-	ECellText *ect; 
+	ECellText *ect;
 
 	a11y = g_object_new (gal_a11y_e_cell_text_get_type (), NULL);
 
@@ -701,9 +701,9 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 	/* will be unrefed in cell_text_destroyed */
 	g_object_ref (a11y);
 
-	gaet->inserted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell),		  
+	gaet->inserted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell),
 						"text_inserted", G_CALLBACK (ect_text_inserted_cb), a11y);
-	gaet->deleted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell), 
+	gaet->deleted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell),
 					     "text_deleted", G_CALLBACK (ect_text_deleted_cb), a11y);
 
 	g_object_weak_ref (G_OBJECT (((ECellView *)cell_view)->ecell),

@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -96,7 +96,7 @@ e_week_view_titles_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EWeekViewTitlesItem *wvtitem;
 
 	wvtitem = E_WEEK_VIEW_TITLES_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_WEEK_VIEW:
 		wvtitem->week_view = GTK_VALUE_POINTER (*arg);

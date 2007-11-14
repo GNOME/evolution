@@ -73,16 +73,16 @@ org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *targe
 	GConfValue  *is_key;
 
 	client = gconf_client_get_default ();
-	
+
 	/* See whether the check default mailer key has already been set */
 	is_key = gconf_client_get(client, GCONF_KEY_CHECKDEFAULT, NULL);
 	if(!is_key) {
 		gconf_client_set_bool(client, GCONF_KEY_CHECKDEFAULT, TRUE, NULL);
 		gconf_value_free (is_key);
 	}
-	
+
 	/* Check whether we're supposed to check whether or not we are the default mailer */
-	if(gconf_client_get_bool(client, GCONF_KEY_CHECKDEFAULT, NULL)) { 
+	if(gconf_client_get_bool(client, GCONF_KEY_CHECKDEFAULT, NULL)) {
 		mailer  = gconf_client_get_string(client, GCONF_KEY_MAILTO_COMMAND, NULL);
 
 		/* Check whether we are the default mailer */
@@ -93,7 +93,7 @@ org_gnome_default_mailer_check_default (EPlugin *ep, ESEventTargetUpgrade *targe
 				gconf_client_set_string(client, GCONF_KEY_MAILTO_COMMAND, EVOLUTION_MAILTO_COMMAND, NULL);
 			}
 		}
-		
+
 		g_free(mailer);
 	}
 

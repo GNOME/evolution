@@ -118,7 +118,7 @@ ea_cal_view_class_init (EaCalViewClass *klass)
 	class->initialize = ea_cal_view_real_initialize;
 }
 
-AtkObject* 
+AtkObject*
 ea_cal_view_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -169,7 +169,7 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 				  accessible);
 }
 
-static AtkObject* 
+static AtkObject*
 ea_cal_view_get_parent (AtkObject *accessible)
 {
 	ECalendarView *cal_view;

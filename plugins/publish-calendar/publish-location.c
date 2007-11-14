@@ -60,12 +60,12 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	username = xmlGetProp (root, (const unsigned char *)"username");
 
 	vfs_uri = gnome_vfs_uri_new ((char *)location);
-	
+
 	if (!vfs_uri) {
 		g_warning ("Could not form the uri for %s \n", location);
-		goto cleanup;		
+		goto cleanup;
 	}
-	
+
 	gnome_vfs_uri_set_user_name ((GnomeVFSURI *)vfs_uri, (char *)username);
 	temp = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD | GNOME_VFS_URI_HIDE_PASSWORD);
 	uri->location = g_strdup_printf ("dav://%s", temp);
@@ -132,7 +132,7 @@ e_publish_uri_from_xml (const gchar *xml)
 	if ((username = xmlGetProp (root, (const unsigned char *)"username"))) {
 		xmlFree (username);
 		return migrateURI (xml, doc);
-		
+
 	}
 
 	uri = g_new0 (EPublishUri, 1);

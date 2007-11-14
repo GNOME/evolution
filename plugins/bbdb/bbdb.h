@@ -13,7 +13,7 @@
 
 
 /* How often to poll the buddy list for changes (every two minutes) */
-#define BBDB_BLIST_CHECK_INTERVAL (2 * 60 * 1000) 
+#define BBDB_BLIST_CHECK_INTERVAL (2 * 60 * 1000)
 
 /* bbdb.c */
 EBook *bbdb_open_addressbook (int type);

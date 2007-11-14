@@ -59,9 +59,9 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 	GtkWidget *showinline = NULL;
 	GList *icon_list;
 	char *path;
-	
+
 	path = g_object_get_data ((GObject *) composer, "attach_path");
-	
+
 	if (flags & SELECTOR_MODE_SAVE)
 		selection = gtk_file_chooser_dialog_new (title,
 							 NULL,
@@ -76,37 +76,37 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 							 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							 _("A_ttach"), GTK_RESPONSE_OK,
 							 NULL);
-	
+
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (selection), FALSE);
-	
+
 	if ((flags & SELECTOR_MODE_SAVE) == 0)
 		gtk_file_chooser_set_select_multiple ((GtkFileChooser *) selection, (flags & SELECTOR_MODE_MULTI));
-	
+
 	/* restore last path used */
 	if (!path)
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), g_get_home_dir ());
 	else
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), path);
-	
+
         if (flags & SELECTOR_SHOW_INLINE) {
 		showinline = gtk_check_button_new_with_mnemonic (_("_Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (selection), showinline);
 		g_object_set_data((GObject *)selection, "show-inline", showinline);
         }
-	
+
 	gtk_window_set_transient_for ((GtkWindow *) selection, (GtkWindow *) composer);
 	gtk_window_set_wmclass ((GtkWindow *) selection, "fileselection", "Evolution:composer");
 	gtk_window_set_modal ((GtkWindow *) selection, FALSE);
-	
+
 	icon_list = e_icon_factory_get_icon_list ("mail-message-new");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (selection), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	return selection;
 }
 
@@ -143,7 +143,7 @@ select_file_response(GtkWidget *selector, guint response, struct _EMsgComposer *
 void e_msg_composer_select_file(struct _EMsgComposer *composer, GtkWidget **w, EMsgComposerSelectFileFunc func, const char *title, int save)
 {
 	if (*w) {
-		gtk_window_present((GtkWindow *)*w);			
+		gtk_window_present((GtkWindow *)*w);
 		return;
 	}
 
@@ -163,7 +163,7 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 		EMsgComposerSelectAttachFunc func = g_object_get_data((GObject *)selector, "callback");
 		GtkToggleButton *showinline = g_object_get_data((GObject *)selector, "show-inline");
 		char *path = NULL;
-		
+
 		char *filename = NULL;
 		names = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (selector));
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector));
@@ -175,7 +175,7 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 			g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
 
 		func(composer, names, gtk_toggle_button_get_active(showinline));
-		
+
 		e_msg_composer_show_attachments_ui (composer);
 
 
@@ -189,7 +189,7 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 void e_msg_composer_select_file_attachments(struct _EMsgComposer *composer, GtkWidget **w, EMsgComposerSelectAttachFunc func)
 {
 	if (*w) {
-		gtk_window_present((GtkWindow *)*w);			
+		gtk_window_present((GtkWindow *)*w);
 		return;
 	}
 

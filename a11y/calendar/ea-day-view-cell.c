@@ -166,7 +166,7 @@ ea_day_view_cell_class_init (EaDayViewCellClass *klass)
 	class->get_index_in_parent = ea_day_view_cell_get_index_in_parent;
 }
 
-AtkObject* 
+AtkObject*
 ea_day_view_cell_new (GObject *obj)
 {
 	gpointer object;
@@ -263,7 +263,7 @@ ea_day_view_cell_ref_state_set (AtkObject *obj)
 
   if (x + width < parent_x || x > parent_x + parent_width ||
       y + height < parent_y || y > parent_y + parent_height)
-	  /* the cell is out of the main canvas */	  
+	  /* the cell is out of the main canvas */
 	  ;
   else
 	  atk_state_set_add_state (state_set, ATK_STATE_VISIBLE);
@@ -312,7 +312,7 @@ ea_day_view_cell_get_index_in_parent (AtkObject *accessible)
 
 /* Atk Component Interface */
 
-static void 
+static void
 atk_component_interface_init (AtkComponentIface *iface)
 {
 	g_return_if_fail (iface != NULL);
@@ -321,7 +321,7 @@ atk_component_interface_init (AtkComponentIface *iface)
 	iface->grab_focus = component_interface_grab_focus;
 }
 
-static void 
+static void
 component_interface_get_extents (AtkComponent *component,
 				 gint *x, gint *y, gint *width, gint *height,
 				 AtkCoordType coord_type)

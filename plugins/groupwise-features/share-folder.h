@@ -60,11 +60,11 @@ struct _GtkVBox;
 
 struct _ShareFolder {
 	GtkVBox parent_object;
-	
+
 	struct _GladeXML *xml;
-	
+
 	/* General tab */
-	
+
 	/* Default Behavior */
 	struct _GtkTreeView *user_list;
 	struct _GtkTextView *message;
@@ -83,7 +83,7 @@ struct _ShareFolder {
 	struct _GtkVBox  *vbox;
 	struct _GtkVBox  *table;
 	struct _GtkWidget *window;
-	
+
 	GList *users_list;
 	EGwContainer *gcontainer;
 	gint users;
@@ -99,12 +99,12 @@ struct _ShareFolder {
 	GList *container_list;
 	GtkTreeIter iter;
 	ENameSelector *name_selector;
-	
+
 };
 
 struct _ShareFolderClass {
 	GtkVBoxClass parent_class;
-	
+
 };
 
 GType share_folderget_type (void);

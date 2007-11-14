@@ -93,12 +93,12 @@ static void account_changed (EAccountList *account_listener,
 static void account_removed (EAccountList *account_listener,
 			     EAccount     *account);
 #if LDEAD
-static void exchange_add_autocompletion_folders (GConfClient *gc_client, 
+static void exchange_add_autocompletion_folders (GConfClient *gc_client,
 						 ExchangeAccount *account);
 #endif
-static gboolean exchange_camel_urls_is_equal (const gchar *url1, 
+static gboolean exchange_camel_urls_is_equal (const gchar *url1,
 					      const gchar *url2);
-static void remove_selected_non_offline_esources (ExchangeAccount *account, 
+static void remove_selected_non_offline_esources (ExchangeAccount *account,
 						  const char *gconf_key);
 static void
 class_init (GObjectClass *object_class)
@@ -218,7 +218,7 @@ set_special_mail_folder (ExchangeAccount *account, const char *folder_type,
 	/* sample url_string: exchange://pnayak;auth=NTLM@164.99.168.136/ */
 	/* sample path:  personal/Drafts */
 	uri_len = strlen (url_string) + 1;
-	path = g_build_filename (physical_uri + uri_len, NULL); 
+	path = g_build_filename (physical_uri + uri_len, NULL);
 	*folder_uri = g_strconcat (url_string, path, NULL);
 	g_free (path);
 	g_free (url_string);
@@ -293,20 +293,20 @@ add_account_esources (ExchangeAccount *account,
 	exchange_account_is_offline_sync_set (account, &mode);
 	if (mode == OFFLINE_MODE) {
 		/* If account is marked for offline sync during account
-		 * creation, mark all the folders for offline sync 
+		 * creation, mark all the folders for offline sync
 		 */
 		offline_mode = TRUE;
 	}
 
 	username = exchange_account_get_username (account);
 
-	/* For each component create a source group */ 
+	/* For each component create a source group */
 
 	cal_source_group = e_source_group_new (account->account_name,
 					       EXCHANGE_URI_PREFIX);
-	tasks_source_group = e_source_group_new (account->account_name, 
+	tasks_source_group = e_source_group_new (account->account_name,
 					   	 EXCHANGE_URI_PREFIX);
-	contacts_source_group = e_source_group_new (account->account_name, 
+	contacts_source_group = e_source_group_new (account->account_name,
 					   	    EXCHANGE_URI_PREFIX);
 
 	if (!e_source_list_add_group (contacts_source_list, contacts_source_group, -1) ||
@@ -327,12 +327,12 @@ add_account_esources (ExchangeAccount *account,
 				e_source_set_property (source, "username", username);
 			e_source_set_property (source, "auth", "1");
 			e_source_set_property (source, "auth-domain", "Exchange");
-			e_source_group_add_source (contacts_source_group, 
+			e_source_group_add_source (contacts_source_group,
 						   source, -1);
 			g_object_unref (source);
 		}
 		else if (folder->type == EXCHANGE_CALENDAR_FOLDER){
-			relative_uri = g_strdup (folder->uri + 
+			relative_uri = g_strdup (folder->uri +
 						 strlen (EXCHANGE_URI_PREFIX));
 			source = e_source_new (folder->name, relative_uri);
 			if (offline_mode)
@@ -341,7 +341,7 @@ add_account_esources (ExchangeAccount *account,
 				e_source_set_property (source, "username", username);
 			e_source_set_property (source, "auth", "1");
 			e_source_set_property (source, "auth-domain", "Exchange");
-			e_source_group_add_source (cal_source_group, 
+			e_source_group_add_source (cal_source_group,
 						   source, -1);
 #if 0
 			ids = gconf_client_get_list (client,
@@ -358,10 +358,10 @@ add_account_esources (ExchangeAccount *account,
 			g_object_unref (source);
 			g_free (relative_uri);
 
-	
+
 		}
 		else if (folder->type == EXCHANGE_TASKS_FOLDER){
-			relative_uri = g_strdup (folder->uri + 
+			relative_uri = g_strdup (folder->uri +
 						 strlen (EXCHANGE_URI_PREFIX));
 			source = e_source_new (folder->name, relative_uri);
 			if (offline_mode == ONLINE_MODE)
@@ -370,7 +370,7 @@ add_account_esources (ExchangeAccount *account,
 				e_source_set_property (source, "username", username);
 			e_source_set_property (source, "auth", "1");
 			e_source_set_property (source, "auth-domain", "Exchange");
-			e_source_group_add_source (tasks_source_group, 
+			e_source_group_add_source (tasks_source_group,
 						   source, -1);
 #if 0
 			ids = gconf_client_get_list (client,
@@ -388,7 +388,7 @@ add_account_esources (ExchangeAccount *account,
 			g_free (relative_uri);
 		}
 	}
-		
+
 	e_source_list_sync (cal_source_list, NULL);
 	e_source_list_sync (tasks_source_list, NULL);
 	e_source_list_sync (contacts_source_list, NULL);
@@ -410,7 +410,7 @@ add_new_sources (ExchangeAccount *account)
 {
 	GPtrArray *exchange_folders;
 
-	exchange_folders = exchange_account_get_folders (account);                                                                                 
+	exchange_folders = exchange_account_get_folders (account);
         if (exchange_folders && exchange_folders->len > 0) {
 		int i;
 		const char *folder_type;
@@ -427,7 +427,7 @@ add_new_sources (ExchangeAccount *account)
 			hier = e_folder_exchange_get_hierarchy (folder);
 			if (hier->type != EXCHANGE_HIERARCHY_PUBLIC) {
 				folder_name = e_folder_get_name (folder);
-				folder_uri = e_folder_get_physical_uri (folder); 
+				folder_uri = e_folder_get_physical_uri (folder);
 				folder_type = e_folder_get_type_string (folder);
 
 				if (!(strcmp (folder_type, "calendar")) ||
@@ -451,7 +451,7 @@ add_new_sources (ExchangeAccount *account)
 				}
 
 				if (create_esource)
-					add_folder_esource (account, type, 
+					add_folder_esource (account, type,
 							folder_name, folder_uri);
 			} /* End hierarchy type check */
 		} /* End for loop */
@@ -463,7 +463,7 @@ add_sources (ExchangeAccount *account)
 {
 	GPtrArray *exchange_folders;
 
-	exchange_folders = exchange_account_get_folders (account);                                                                                 
+	exchange_folders = exchange_account_get_folders (account);
         if (exchange_folders && exchange_folders->len > 0) {
 		int i;
 		const char *folder_type;
@@ -479,14 +479,14 @@ add_sources (ExchangeAccount *account)
 			if (!(strcmp (folder_type, "calendar")) ||
 			    !(strcmp (folder_type, "calendar/public"))) {
 				folder_info->name = e_folder_get_name (folder);
-				folder_info->uri = e_folder_get_physical_uri (folder); 
+				folder_info->uri = e_folder_get_physical_uri (folder);
 				folder_info->type = EXCHANGE_CALENDAR_FOLDER;
 				folders = g_slist_append (folders, folder_info);
 			}
 			else if (!(strcmp (folder_type, "tasks")) ||
 			    	 !(strcmp (folder_type, "tasks/public"))) {
 				folder_info->name = e_folder_get_name (folder);
-				folder_info->uri = e_folder_get_physical_uri (folder); 
+				folder_info->uri = e_folder_get_physical_uri (folder);
 				folder_info->type = EXCHANGE_TASKS_FOLDER;
 				folders = g_slist_append (folders, folder_info);
 			}
@@ -494,7 +494,7 @@ add_sources (ExchangeAccount *account)
 			    	 !(strcmp (folder_type, "contacts/public")) ||
 			    	 !(strcmp (folder_type, "contacts/ldap"))) {
 				folder_info->name = e_folder_get_name (folder);
-				folder_info->uri = e_folder_get_physical_uri (folder); 
+				folder_info->uri = e_folder_get_physical_uri (folder);
 				folder_info->type = EXCHANGE_CONTACTS_FOLDER;
 				folders = g_slist_append (folders, folder_info);
 			}
@@ -509,8 +509,8 @@ add_sources (ExchangeAccount *account)
 }
 #endif
 
-static void 
-remove_account_esource (ExchangeAccount *account, 
+static void
+remove_account_esource (ExchangeAccount *account,
 		        FolderType folder_type)
 {
 	ESourceGroup *group;
@@ -528,10 +528,10 @@ remove_account_esource (ExchangeAccount *account,
 	client = gconf_client_get_default ();
 
 	if (folder_type == EXCHANGE_CONTACTS_FOLDER)
-		source_list = e_source_list_new_for_gconf ( client, 
+		source_list = e_source_list_new_for_gconf ( client,
 							CONF_KEY_CONTACTS);
 	else if (folder_type == EXCHANGE_CALENDAR_FOLDER)
-		source_list = e_source_list_new_for_gconf ( client, 
+		source_list = e_source_list_new_for_gconf ( client,
 							CONF_KEY_CAL);
 	else if (folder_type == EXCHANGE_TASKS_FOLDER)
 		source_list = e_source_list_new_for_gconf ( client,
@@ -555,19 +555,19 @@ remove_account_esource (ExchangeAccount *account,
 				/* Remove from the selected folders */
 				if (folder_type == EXCHANGE_CALENDAR_FOLDER) {
 					ids = gconf_client_get_list (
-							client, 
-							CONF_KEY_SELECTED_CAL_SOURCES , 
+							client,
+							CONF_KEY_SELECTED_CAL_SOURCES ,
 							GCONF_VALUE_STRING, NULL);
 					if (ids) {
 						node_to_be_deleted = g_slist_find_custom (
-									ids, 
-									source_uid, 
+									ids,
+									source_uid,
 									(GCompareFunc) strcmp);
 						if (node_to_be_deleted) {
 							g_free (node_to_be_deleted->data);
-							ids = g_slist_delete_link (ids, 
+							ids = g_slist_delete_link (ids,
 									node_to_be_deleted);
-							gconf_client_set_list (client, 
+							gconf_client_set_list (client,
 								CONF_KEY_SELECTED_CAL_SOURCES,
 								GCONF_VALUE_STRING, ids, NULL);
 						}
@@ -576,19 +576,19 @@ remove_account_esource (ExchangeAccount *account,
 					}
 				}
 				else if (folder_type == EXCHANGE_TASKS_FOLDER) {
-					ids = gconf_client_get_list (client, 
-								CONF_KEY_SELECTED_TASKS_SOURCES , 
+					ids = gconf_client_get_list (client,
+								CONF_KEY_SELECTED_TASKS_SOURCES ,
 								GCONF_VALUE_STRING, NULL);
 					if (ids) {
 						node_to_be_deleted = g_slist_find_custom (
 									ids,
-									source_uid, 
+									source_uid,
 									(GCompareFunc) strcmp);
 						if (node_to_be_deleted) {
 							g_free (node_to_be_deleted->data);
-							ids = g_slist_delete_link (ids, 
+							ids = g_slist_delete_link (ids,
 									node_to_be_deleted);
-							gconf_client_set_list (client, 
+							gconf_client_set_list (client,
 								CONF_KEY_SELECTED_TASKS_SOURCES,
 								GCONF_VALUE_STRING, ids, NULL);
 						}
@@ -617,17 +617,17 @@ remove_account_esources (ExchangeAccount *account)
 }
 
 #ifdef HAVE_KRB5
-static char * 
+static char *
 get_new_exchange_password (ExchangeAccount *account)
 {
 	char *old_password, *new_password;
 
 	old_password = exchange_account_get_password (account);
 	new_password = exchange_get_new_password (old_password, 0);
-	
+
 	if (new_password) {
-		exchange_account_set_password (account, 
-					       old_password, 
+		exchange_account_set_password (account,
+					       old_password,
 					       new_password);
 		g_free (old_password);
 		return new_password;
@@ -661,7 +661,7 @@ display_passwd_expiry_message (int max_passwd_age, ExchangeAccount *account)
 	GtkLabel *warning_msg_label;
 	char *passwd_expiry_msg =
 		g_strdup_printf (_("Your password will expire in the next %d days"), max_passwd_age);
-	
+
 	xml = glade_xml_new (FILENAME, ROOTNODE, NULL);
 	g_return_if_fail (xml != NULL);
 	top_widget = glade_xml_get_widget (xml, ROOTNODE);
@@ -677,17 +677,17 @@ display_passwd_expiry_message (int max_passwd_age, ExchangeAccount *account)
 	g_signal_connect (change_passwd_button,
 			  "clicked",
 			  G_CALLBACK (change_passwd_cb),
-			  account); 
+			  account);
 #endif
 	response = gtk_dialog_run (GTK_DIALOG (top_widget));
-	
+
 	gtk_widget_destroy (top_widget);
 	g_object_unref (xml);
 	g_free (passwd_expiry_msg);
 }
 
-ExchangeAccountResult 
-exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener, ExchangeAccount *account) 
+ExchangeAccountResult
+exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener, ExchangeAccount *account)
 {
 	ExchangeConfigListenerPrivate *priv;
 	ExchangeAccountResult result;
@@ -707,7 +707,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 	remember_password = camel_url_get_param (camel_url, "save-passwd");
 	password = e_passwords_get_password ("Exchange", key);
 	if (!password) {
-		oldremember = remember = exchange_account_is_save_password (account);	
+		oldremember = remember = exchange_account_is_save_password (account);
 		title = g_strdup_printf (_("Enter Password for %s"), account->account_name);
 		password = e_passwords_ask_password (title, "Exchange", key, title,
 						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET,
@@ -760,17 +760,17 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 
 		switch (result) {
 			case EXCHANGE_ACCOUNT_QUOTA_RECIEVE_ERROR:
-				current_quota_usage = g_strdup_printf ("%.2f", 
+				current_quota_usage = g_strdup_printf ("%.2f",
 							account->mbox_size);
 				error_code = "org-gnome-exchange-operations:account-quota-error";
 				break;
 			case EXCHANGE_ACCOUNT_QUOTA_SEND_ERROR:
-				current_quota_usage = g_strdup_printf ("%.2f", 
+				current_quota_usage = g_strdup_printf ("%.2f",
 							account->mbox_size);
 				error_code = "org-gnome-exchange-operations:account-quota-send-error";
 				break;
 			case EXCHANGE_ACCOUNT_QUOTA_WARN:
-				current_quota_usage = g_strdup_printf ("%.2f", 
+				current_quota_usage = g_strdup_printf ("%.2f",
 							account->mbox_size);
 				error_code = "org-gnome-exchange-operations:account-quota-warn";
 				break;
@@ -780,14 +780,14 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 
 		if (current_quota_usage) {
 			widget = e_error_new (NULL, error_code, current_quota_usage);
-			g_signal_connect ((GtkDialog *)widget, "response", 
+			g_signal_connect ((GtkDialog *)widget, "response",
 					  G_CALLBACK (gtk_widget_destroy), widget);
 			gtk_widget_show (widget);
 			g_free (current_quota_usage);
 		}
 
-		/* reset result, so that we check if the password 
-		 * expiry warning period 
+		/* reset result, so that we check if the password
+		 * expiry warning period
 		 */
 		result = EXCHANGE_ACCOUNT_CONNECT_SUCCESS;
 	}
@@ -821,7 +821,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 					g_object_unref (xml);
 					return result;
 				}
-	
+
 				response = gtk_dialog_run (GTK_DIALOG (dialog));
 				gtk_widget_destroy (dialog);
 				g_object_unref (xml);
@@ -925,7 +925,7 @@ requires_relogin (char *current_url, char *new_url)
 		relogin = TRUE;
 		goto end;
 	}
-	
+
 	if (current_uri->authmech || new_uri->authmech) {
 		if (current_uri->authmech && new_uri->authmech) {
 	    		if (strcmp (current_uri->authmech, new_uri->authmech)) {
@@ -933,7 +933,7 @@ requires_relogin (char *current_url, char *new_url)
 				relogin = TRUE;
 				goto end;
 			}
-		} 
+		}
 		else {
 			/* Auth mechanism is set for the first time */
 			relogin = TRUE;
@@ -941,10 +941,10 @@ requires_relogin (char *current_url, char *new_url)
 		}
 	}
 
-	for (i=0; i<n_params; i++) { 
+	for (i=0; i<n_params; i++) {
 		current_param_val = e2k_uri_get_param (current_uri, params[i]);
-		new_param_val = e2k_uri_get_param (new_uri, params[i]); 
-	
+		new_param_val = e2k_uri_get_param (new_uri, params[i]);
+
 		if (current_param_val && new_param_val) {
 			/* both the urls have params to be compared */
 			if (strcmp (current_param_val, new_param_val)) {
@@ -990,11 +990,11 @@ account_changed (EAccountList *account_list, EAccount *account)
 		return;
 	}
 
-	/* FIXME: The order of the parameters in the Camel URL string is not in 
+	/* FIXME: The order of the parameters in the Camel URL string is not in
 	 * order for the two given strings. So, we will not be able to use
 	 * plain string comparison. Instead compare the parameters one by one.
 	 */
-	if (exchange_camel_urls_is_equal (config_listener->priv->configured_uri, 
+	if (exchange_camel_urls_is_equal (config_listener->priv->configured_uri,
 					  account->source->url) &&
 	    !strcmp (config_listener->priv->configured_name, account->name)) {
 		/* The user changed something we don't care about. */
@@ -1025,18 +1025,18 @@ account_changed (EAccountList *account_list, EAccount *account)
 		return;
 	}
 
-	/* If account name has changed, or the url value has changed, which 
-	 * could be due to change in hostname or some parameter value, 
-	 * remove old e-sources 
+	/* If account name has changed, or the url value has changed, which
+	 * could be due to change in hostname or some parameter value,
+	 * remove old e-sources
 	 */
-	if (requires_relogin (config_listener->priv->configured_uri, 
+	if (requires_relogin (config_listener->priv->configured_uri,
 			      account->source->url)) {
 		remove_account_esources (priv->exchange_account);
 		exchange_account_forget_password (priv->exchange_account);
 	} else if (strcmp (config_listener->priv->configured_name, account->name)) {
 /* 		remove_account_esources (priv->exchange_account); */
 		exchange_config_listener_modify_esource_group_name (config_listener,
-								    config_listener->priv->configured_name, 
+								    config_listener->priv->configured_name,
 								    account->name);
 		g_free (config_listener->priv->configured_name);
 		config_listener->priv->configured_name = g_strdup (account->name);
@@ -1045,9 +1045,9 @@ account_changed (EAccountList *account_list, EAccount *account)
 		/* FIXME: Do ESources need to be modified? */
 		return;
 	}
-	
+
 	/* Nope. Let the user know we're ignoring him. */
-	e_error_run (NULL, "org-gnome-exchange-operations:apply-restart", 
+	e_error_run (NULL, "org-gnome-exchange-operations:apply-restart",
 		     priv->configured_name, NULL);
 
 	/* But note the new URI so if he changes something else, we
@@ -1085,7 +1085,7 @@ account_removed (EAccountList *account_list, EAccount *account)
 		priv->configured_uri = NULL;
 		g_free (priv->configured_name);
 		priv->configured_name = NULL;
-	} 
+	}
 }
 
 static gboolean
@@ -1124,7 +1124,7 @@ exchange_config_listener_get_offline_status (ExchangeConfigListener *excl,
 	gconf_value_free (value);
 	return status;
 
-}	
+}
 
 /**
  * exchange_config_listener_new:
@@ -1170,22 +1170,22 @@ exchange_config_listener_get_accounts (ExchangeConfigListener *config_listener)
 /**
  * exchange_config_listener_modify_esource_group_name
  *
- * @excl: Handle for Exchange Config Listener 
+ * @excl: Handle for Exchange Config Listener
  * @old_name: Old name of the ESourceGroup
  * @new_name: New name of the ESourceGroup
  *
  * This function modifies the old source group name to the specified new
  * source group name
- **/ 
-void 
+ **/
+void
 exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl,
-							 const char *old_name, 
+							 const char *old_name,
 							 const char *new_name)
 {
 	GConfClient *client;
 	ESourceGroup *group;
 	GSList *groups;
-	ESourceList *c_source_list = NULL, *t_source_list = NULL, 
+	ESourceList *c_source_list = NULL, *t_source_list = NULL,
 		*a_source_list = NULL;
 
 	client = excl->priv->gconf;
@@ -1236,14 +1236,14 @@ exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl
 #if LDEAD
 /**
  * exchange_add_autocompletion_folders:
- * 
+ *
  * @gc_client: GConfClient handle
  * @account: ExchangeAccount handle
  *
  * This function adds the GAL of the Exchange account to the autocompletion list
  * while configuring a new Exchange account
  *
- **/ 
+ **/
 static void
 exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *account)
 {
@@ -1262,7 +1262,7 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
                     &&
 		    strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
-			
+
 			for( ; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 				const gchar *absolute_uri;
@@ -1286,8 +1286,8 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
 
 
 /**
- * exchange_camel_urls_is_equal 
- * 
+ * exchange_camel_urls_is_equal
+ *
  * @url1: CAMEL URL string 1
  * @url2: CAMEL URL string 2
  *
@@ -1296,7 +1296,7 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
  *
  * Return Value: Boolean result of the comparision.
  *
- **/ 
+ **/
 static gboolean
 exchange_camel_urls_is_equal (const gchar *url1, const gchar *url2)
 {
@@ -1311,7 +1311,7 @@ exchange_camel_urls_is_equal (const gchar *url1, const gchar *url2)
 	};
 	const int n_params = 5;
 	int i;
-	
+
 	curl1 = camel_url_new (url1, NULL);
 	curl2 = camel_url_new (url2, NULL);
 
@@ -1325,7 +1325,7 @@ exchange_camel_urls_is_equal (const gchar *url1, const gchar *url2)
 			g_free (curl1);
 			g_free (curl2);
 			return FALSE;
-		}		
+		}
 		g_free (param1);
 		g_free (param2);
 	}
@@ -1337,14 +1337,14 @@ exchange_camel_urls_is_equal (const gchar *url1, const gchar *url2)
 
 /**
  * remove_selected_non_offline_esources
- * 
+ *
  * @account: Handle for Exchange Account
  * @gconf_key: GConf key of the calendar or tasks
  *
- * This function removes the non-offline calendars and taks list from the 
+ * This function removes the non-offline calendars and taks list from the
  * selection list
- **/ 
-static void 
+ **/
+static void
 remove_selected_non_offline_esources (ExchangeAccount *account, const char *gconf_key)
 {
 	ESourceGroup *group;
@@ -1388,21 +1388,21 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const char *gcon
 				source_uid = e_source_peek_uid (source);
 
 				/* Remove from the selected folders */
-				ids = gconf_client_get_list (client, 
-							     selected_gconf_key, 
+				ids = gconf_client_get_list (client,
+							     selected_gconf_key,
 							     GCONF_VALUE_STRING, NULL);
 				if (ids) {
 					offline_mode = e_source_get_property (source, "offline_sync");
-					if (!offline_mode || 
+					if (!offline_mode ||
 					    (offline_mode && strcmp (offline_mode, "1"))) {
-						while ((node_to_be_deleted = 
-							g_slist_find_custom (ids, 
-									     source_uid, 
+						while ((node_to_be_deleted =
+							g_slist_find_custom (ids,
+									     source_uid,
 									     (GCompareFunc) strcmp))) {
 							g_free (node_to_be_deleted->data);
-							ids = g_slist_delete_link (ids, 
+							ids = g_slist_delete_link (ids,
 										   node_to_be_deleted);
-							gconf_client_set_list (client, 
+							gconf_client_set_list (client,
 									       selected_gconf_key,
 									       GCONF_VALUE_STRING, ids, NULL);
 						}
@@ -1415,7 +1415,7 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const char *gcon
 			e_source_list_sync (source_list, NULL);
 		}
 	}
-	
+
 	g_free (selected_gconf_key);
 	g_object_unref (source_list);
 	g_object_unref (client);

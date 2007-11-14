@@ -63,7 +63,7 @@ gal_view_edit            (GalView *view,
  * @view: The view to load to
  * @filename: The file to load from
  */
-void  
+void
 gal_view_load  (GalView *view,
 		const char *filename)
 {
@@ -179,10 +179,10 @@ gal_view_class_init      (GalViewClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	klass->edit           = NULL;     
-	klass->load           = NULL;     
-	klass->save           = NULL;     
-	klass->get_title      = NULL;     
+	klass->edit           = NULL;
+	klass->load           = NULL;
+	klass->save           = NULL;
+	klass->get_title      = NULL;
 	klass->clone          = NULL;
 
 	klass->changed        = NULL;

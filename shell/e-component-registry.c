@@ -201,7 +201,7 @@ query_components (EComponentRegistry *registry)
 		}
 
 		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", languages);
-		
+
 		tooltips = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_tooltips", languages);
 
 		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", languages);

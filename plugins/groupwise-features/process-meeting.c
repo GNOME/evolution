@@ -50,14 +50,14 @@ static EPopupItem popup_items[] = {
 { E_POPUP_ITEM, "43.decline", N_("Decline"), on_decline_meeting, NULL, GTK_STOCK_CANCEL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
 };
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 	g_slist_free (items);
 	items = NULL;
 }
 
-void 
+void
 org_gnome_accept (EPlugin *ep, ECalPopupTargetSelect *target)
 {
 	GSList *menus = NULL;
@@ -116,8 +116,8 @@ receive_objects (gpointer data)
 {
 	GError *error = NULL;
 	ReceiveData *r_data = data;
-	
-	
+
+
 	icalcomponent_set_method (r_data->icalcomp, ICAL_METHOD_REQUEST);
 
 	if (!e_cal_receive_objects (r_data->ecal, r_data->icalcomp, &error)) {
@@ -158,7 +158,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 		}
 		g_free (text);
 	}
-	
+
 	return prop;
 }
 static void
@@ -187,7 +187,7 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 	}
 }
 
-static void 
+static void
 process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 {
 	GList *selected;
@@ -202,7 +202,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 		GThread *thread = NULL;
 		GError *error = NULL;
 		char *address = NULL;
-		
+
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		address = itip_get_comp_attendee (comp, event->comp_data->client);
 
@@ -212,7 +212,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 		/* Free comp */
 		g_object_unref (comp);
 		comp = NULL;
-		
+
 		clone = icalcomponent_new_clone (event->comp_data->icalcomp);
 		change_status (clone, address, status);
 
@@ -233,11 +233,11 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 				icalproperty *prop;
 				const char *uid = icalcomponent_get_uid (r_data->icalcomp);
 
-				prop = icalproperty_new_x ("All");	
+				prop = icalproperty_new_x ("All");
 				icalproperty_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
 				icalcomponent_add_property (r_data->icalcomp, prop);
 
-				prop = icalproperty_new_x (uid);	
+				prop = icalproperty_new_x (uid);
 				icalproperty_set_x_name (prop, "X-GW-RECURRENCE-KEY");
 				icalcomponent_add_property (r_data->icalcomp, prop);
 
@@ -255,7 +255,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 	}
 }
 
-/*FIXME the data does not give us the ECalendarView object. 
+/*FIXME the data does not give us the ECalendarView object.
   we should remove the global c_view variable once we get it from the data*/
 static void
 on_accept_meeting (EPopup *ep, EPopupItem *pitem, void *data)

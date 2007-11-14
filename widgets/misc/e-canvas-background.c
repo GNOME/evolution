@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas-background.c - background color for canvas.
  * Copyright 2001, Ximian, Inc.
  *
@@ -96,7 +96,7 @@ ecb_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
 	/* Wrong BBox's are the source of redraw nightmares */
 
 	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (ecb), i2c);
-	
+
 	i1.x = ecb->priv->x1;
 	i1.y = ecb->priv->y1;
 	i2.x = ecb->priv->x2;
@@ -336,7 +336,7 @@ static void
 ecb_realize (GnomeCanvasItem *item)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-	
+
 	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize)
                 GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize (item);
 
@@ -346,7 +346,7 @@ ecb_realize (GnomeCanvasItem *item)
 		gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
 
 	set_stipple (ecb, NULL, FALSE);
-	
+
 	ecb->priv->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
 }
@@ -370,7 +370,7 @@ ecb_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	int x1, x2, y1, y2;
 	double i2c [6];
 	ArtPoint upper_left, lower_right, ecb_base_point;
-	
+
 	/*
 	 * Find out our real position after grouping
 	 */
@@ -423,7 +423,7 @@ static void
 ecb_style_set (ECanvasBackground *ecb, GtkStyle *previous_style)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
-		
+
 	if (GTK_WIDGET_REALIZED (item->canvas)) {
 		gdk_gc_set_foreground (ecb->priv->gc, &GTK_WIDGET(item->canvas)->style->base[GTK_STATE_NORMAL]);
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
@@ -435,7 +435,7 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (ecb_class);
 	GObjectClass *object_class = G_OBJECT_CLASS (ecb_class);
-	
+
 	object_class->dispose       = ecb_dispose;
 	object_class->set_property  = ecb_set_property;
 	object_class->get_property  = ecb_get_property;

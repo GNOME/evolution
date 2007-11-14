@@ -62,7 +62,7 @@ typedef struct _EABViewClass  EABViewClass;
 struct _EABView
 {
 	GtkVBox parent;
-	
+
 	/* item specific fields */
 	EABViewType view_type;
 

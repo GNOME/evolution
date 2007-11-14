@@ -63,7 +63,7 @@ static gint table_interface_get_column_at_index (AtkTable *table,
 static gint table_interface_get_row_at_index (AtkTable *table,
 					      gint     index);
 static AtkObject* table_interface_ref_at (AtkTable *table,
-					  gint     row, 
+					  gint     row,
 					  gint     column);
 static gint table_interface_get_n_rows (AtkTable *table);
 static gint table_interface_get_n_columns (AtkTable *table);
@@ -229,7 +229,7 @@ ea_day_view_main_item_class_init (EaDayViewMainItemClass *klass)
 	class->get_index_in_parent = ea_day_view_main_item_get_index_in_parent;
 }
 
-AtkObject* 
+AtkObject*
 ea_day_view_main_item_new (GObject *obj)
 {
 	AtkObject *accessible;
@@ -451,7 +451,7 @@ ea_day_view_main_item_time_change_cb (EDayView *day_view, gpointer data)
 			       "active-descendant-changed",
 			       item_cell);
         	g_signal_emit_by_name (data, "selection_changed");
-                
+
                 atk_focus_tracker_notify (item_cell);
                 g_object_unref (item_cell);
 	}
@@ -618,7 +618,7 @@ ea_day_view_main_item_destory_cell_data (EaDayViewMainItem *ea_main_item)
 
 /* Atk Component Interface */
 
-static void 
+static void
 atk_component_interface_init (AtkComponentIface *iface)
 {
 	g_return_if_fail (iface != NULL);
@@ -626,7 +626,7 @@ atk_component_interface_init (AtkComponentIface *iface)
 	iface->get_extents = component_interface_get_extents;
 }
 
-static void 
+static void
 component_interface_get_extents (AtkComponent *component,
 				 gint *x, gint *y, gint *width, gint *height,
 				 AtkCoordType coord_type)
@@ -654,7 +654,7 @@ component_interface_get_extents (AtkComponent *component,
 
 /* atk table interface */
 
-static void 
+static void
 atk_table_interface_init (AtkTableIface *iface)
 {
 	g_return_if_fail (iface != NULL);
@@ -687,9 +687,9 @@ atk_table_interface_init (AtkTableIface *iface)
 	iface->get_column_description = table_interface_get_column_description;
 }
 
-static AtkObject* 
+static AtkObject*
 table_interface_ref_at (AtkTable *table,
-			gint     row, 
+			gint     row,
 			gint     column)
 {
 	gint index;
@@ -700,7 +700,7 @@ table_interface_ref_at (AtkTable *table,
 	return ea_day_view_main_item_ref_child (ATK_OBJECT (ea_main_item), index);
 }
 
-static gint 
+static gint
 table_interface_get_n_rows (AtkTable *table)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -720,7 +720,7 @@ table_interface_get_n_rows (AtkTable *table)
 	return day_view->rows;
 }
 
-static gint 
+static gint
 table_interface_get_n_columns (AtkTable *table)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -787,7 +787,7 @@ table_interface_get_column_extent_at (AtkTable      *table,
 	return width;
 }
 
-static gint 
+static gint
 table_interface_get_row_extent_at (AtkTable      *table,
 				   gint          row,
 				   gint          column)
@@ -808,7 +808,7 @@ table_interface_get_row_extent_at (AtkTable      *table,
 	return height;
 }
 
-static gboolean 
+static gboolean
 table_interface_is_row_selected (AtkTable *table,
 				 gint     row)
 {
@@ -838,16 +838,16 @@ table_interface_is_row_selected (AtkTable *table,
 	return FALSE;
 }
 
-static gboolean 
-table_interface_is_selected (AtkTable *table, 
-			     gint     row, 
+static gboolean
+table_interface_is_selected (AtkTable *table,
+			     gint     row,
 			     gint     column)
 {
 	return table_interface_is_row_selected (table, row) &&
 		table_interface_is_column_selected (table, column);
 }
 
-static gboolean 
+static gboolean
 table_interface_is_column_selected (AtkTable *table,
 				    gint     column)
 {
@@ -871,7 +871,7 @@ table_interface_is_column_selected (AtkTable *table,
 	return FALSE;
 }
 
-static gint 
+static gint
 table_interface_get_selected_rows (AtkTable *table,
 				   gint     **rows_selected)
 {
@@ -912,7 +912,7 @@ table_interface_get_selected_rows (AtkTable *table,
 	return n_rows;
 }
 
-static gint 
+static gint
 table_interface_get_selected_columns (AtkTable *table,
 				      gint **columns_selected)
 {
@@ -946,8 +946,8 @@ table_interface_get_selected_columns (AtkTable *table,
 	return n_columns;
 }
 
-static gboolean 
-table_interface_add_row_selection (AtkTable *table, 
+static gboolean
+table_interface_add_row_selection (AtkTable *table,
 				   gint row)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -979,15 +979,15 @@ table_interface_add_row_selection (AtkTable *table,
 	return TRUE;
 }
 
-static gboolean 
-table_interface_remove_row_selection (AtkTable *table, 
+static gboolean
+table_interface_remove_row_selection (AtkTable *table,
 				      gint row)
 {
 	return FALSE;
 }
 
-static gboolean 
-table_interface_add_column_selection (AtkTable *table, 
+static gboolean
+table_interface_add_column_selection (AtkTable *table,
 				      gint column)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -1016,24 +1016,24 @@ table_interface_add_column_selection (AtkTable *table,
 	return TRUE;
 }
 
-static gboolean 
-table_interface_remove_column_selection (AtkTable *table, 
+static gboolean
+table_interface_remove_column_selection (AtkTable *table,
 					 gint     column)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return FALSE;
 }
 
-static AtkObject* 
-table_interface_get_row_header (AtkTable *table, 
+static AtkObject*
+table_interface_get_row_header (AtkTable *table,
 				gint     row)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return NULL;
 }
 
-static AtkObject* 
-table_interface_get_column_header (AtkTable *table, 
+static AtkObject*
+table_interface_get_column_header (AtkTable *table,
 				   gint     in_col)
 {
 	/* FIXME: NOT IMPLEMENTED */
@@ -1202,7 +1202,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 	return TRUE;
 }
 
-static AtkObject*  
+static AtkObject*
 selection_interface_ref_selection (AtkSelection *selection, gint i)
 {
 	gint count;

@@ -112,7 +112,7 @@ CamelType
 em_message_stream_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		type = camel_type_register (CAMEL_STREAM_TYPE,
 					    "EMMessageStream",
@@ -123,7 +123,7 @@ em_message_stream_get_type (void)
 					    (CamelObjectInitFunc) em_message_stream_init,
 					    (CamelObjectFinalizeFunc) em_message_stream_finalize);
 	}
-	
+
 	return type;
 }
 

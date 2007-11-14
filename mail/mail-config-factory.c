@@ -41,7 +41,7 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 	GNOME_Evolution_Shell shell = (GNOME_Evolution_Shell) user_data;
 	EvolutionConfigControl *control;
 	GtkWidget *prefs = NULL;
-	
+
 	if (!strcmp (component_id, EM_ACCOUNT_PREFS_CONTROL_ID)) {
 		prefs = em_account_prefs_new (shell);
 	} else if (!strcmp (component_id, EM_MAILER_PREFS_CONTROL_ID)) {
@@ -51,10 +51,10 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 	} else {
 		g_return_val_if_reached(NULL);
 	}
-	
+
 	gtk_widget_show_all (prefs);
-	
+
 	control = evolution_config_control_new (prefs);
-	
+
 	return BONOBO_OBJECT (control);
 }

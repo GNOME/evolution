@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table.h - A graphical view of a Table.
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -129,7 +129,7 @@ typedef struct {
 
 	guint uniform_row_height : 1;
 	guint allow_grouping : 1;
-	
+
 	guint always_search : 1;
 	guint search_col_set : 1;
 
@@ -195,8 +195,8 @@ typedef struct {
 						  int                 row,
 						  int                 col,
 						  GdkDragContext     *context);
-	
-	/* Target side drag signals */	   
+
+	/* Target side drag signals */
 	void (* table_drag_leave)	           (ETable	       *table,
 						    int                 row,
 						    int                 col,

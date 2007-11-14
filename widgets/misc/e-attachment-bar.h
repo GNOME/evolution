@@ -52,13 +52,13 @@ typedef struct _EAttachmentBarClass EAttachmentBarClass;
 struct _EAttachmentBar {
 	GnomeIconList parent;
 	gboolean expand;
-	
+
 	struct _EAttachmentBarPrivate *priv;
 };
 
 struct _EAttachmentBarClass {
 	GnomeIconListClass parent_class;
-	
+
 	void (* changed) (EAttachmentBar *bar);
 };
 

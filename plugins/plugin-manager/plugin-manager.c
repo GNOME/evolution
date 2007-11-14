@@ -91,7 +91,7 @@ eppm_show_plugin(Manager *m, EPlugin *ep)
 		string = g_strdup_printf("<span size=\"x-large\">%s</span>", ep->name);
 		gtk_label_set_markup(GTK_LABEL(m->items[LABEL_NAME]), string);
 		g_free(string);
-		
+
 		if (ep->authors) {
 			GSList *l = ep->authors;
 			GString *out = g_string_new("");
@@ -154,7 +154,7 @@ eppm_enable_toggled(GtkCellRendererToggle *renderer, const char *path_string, Ma
 	EPlugin *plugin;
 
 	path = gtk_tree_path_new_from_string(path_string);
-	
+
 	if (gtk_tree_model_get_iter(m->model, &iter, path)) {
 		gtk_tree_model_get(m->model, &iter, COL_PLUGIN_DATA, &plugin, -1);
 		e_plugin_enable(plugin, !plugin->enabled);
@@ -165,7 +165,7 @@ eppm_enable_toggled(GtkCellRendererToggle *renderer, const char *path_string, Ma
 				   COL_PLUGIN_ENABLED, plugin->enabled,
 				   -1);
 	}
-	
+
 	gtk_tree_path_free(path);
 }
 
@@ -231,8 +231,8 @@ org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t)
 	m->dialog = (GtkDialog *)gtk_dialog_new_with_buttons(_("Plugin Manager"),
 							     (GtkWindow *)gtk_widget_get_toplevel(t->target.widget),
 							     GTK_DIALOG_DESTROY_WITH_PARENT,
-							     _("Con_figure"), RESPONSE_CONFIGURE, 
-							     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, 
+							     _("Con_figure"), RESPONSE_CONFIGURE,
+							     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 							     NULL);
 
 	gtk_window_set_default_size((GtkWindow *)m->dialog, 640, 400);
@@ -377,7 +377,7 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
 	return 0;
 }
 
-int 
+int
 e_plugin_lib_configure(EPluginLib *ep)
 {
 	d(printf ("\n\a e_plugin_lib_configure in plugin-manager\n\a"));

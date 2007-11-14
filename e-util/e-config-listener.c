@@ -572,7 +572,7 @@ e_config_listener_remove_dir (EConfigListener *cl, const char *dir)
 	slist = gconf_client_all_entries (cl->priv->db, dir, NULL);
         for (iter = slist; iter != NULL; iter = iter->next) {
                 GConfEntry *entry = iter->data;
-                                                                                                
+
                 key = gconf_entry_get_key (entry);
                 gconf_client_unset (cl->priv->db, key, NULL);
                 gconf_entry_free (entry);

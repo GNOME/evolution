@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-size-test.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -41,16 +41,16 @@
  * the ETableSimple class.  Instead of creating your own ETableModel
  * class, you simply create a new object of the ETableSimple class.  You
  * give it a bunch of functions that act as callbacks.
- * 
+ *
  * You also get to pass a void * to ETableSimple and it gets passed to
  * your callbacks.  This would be for having multiple models of the same
  * type.  This is just an example though, so we statically define all the
  * data and ignore the void *data parameter.
- * 
+ *
  * In our example we will be creating a table model with 6 columns and 10
  * rows.  This corresponds to having 6 different types of information and
  * 10 different sets of data in our database.
- * 
+ *
  * The headers will be hard coded, as will be the example data.
  *
  */
@@ -234,7 +234,7 @@ create_table (void)
 	 * First we create the header.
 	 */
 	e_table_header = e_table_header_new ();
-	
+
 	/*
 	 * Next we have to build renderers for all of the columns.
 	 * Since all our columns are text columns, we can simply use
@@ -298,7 +298,7 @@ main (int argc, char *argv [])
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	create_table ();
-	
+
 	gtk_main ();
 
 	e_cursors_shutdown ();

@@ -47,7 +47,7 @@
 
 #include <glib/gi18n.h>
 
-#define d(x) 
+#define d(x)
 
 struct _EConfigFactory {
 	struct _EConfigFactory *next, *prev;
@@ -179,10 +179,10 @@ ep_base_init(GObjectClass *klass)
 
 /**
  * e_config_get_type:
- * 
+ *
  * Standard GObject method.  Used to subclass for the concrete
  * implementations.
- * 
+ *
  * Return value: EConfig type.
  **/
 GType
@@ -211,9 +211,9 @@ e_config_get_type(void)
  * @type: The type of configuration manager, @E_CONFIG_BOOK or
  * @E_CONFIG_DRUID.
  * @id: The name of the configuration window this manager drives.
- * 
+ *
  * Used by implementing classes to initialise base parameters.
- * 
+ *
  * Return value: @ep is returned.
  **/
 EConfig *e_config_construct(EConfig *ep, int type, const char *id)
@@ -238,7 +238,7 @@ EConfig *e_config_construct(EConfig *ep, int type, const char *id)
  * @freefunc: If supplied, called to free the item list (and/or items)
  * once they are no longer needed.
  * @data: Data for the callback methods.
- * 
+ *
  * Add new EConfigItems to the configuration window.  Nothing will be
  * done with them until the widget is built.
  *
@@ -264,7 +264,7 @@ e_config_add_items(EConfig *ec, GSList *items, EConfigItemsFunc commitfunc, ECon
  * @pageid: pageid to check.
  * @check: checking callback.
  * @data: user-data for the callback.
- * 
+ *
  * Add a page-checking function callback.  It will be called to validate the
  * data in the given page or pages.  If @pageid is NULL then it will be called
  * to validate every page, or the whole configuration window.
@@ -678,7 +678,7 @@ ec_rebuild(EConfig *emp)
 				}
 
 				frame = g_object_new(gtk_frame_get_type(),
-						     "shadow_type", GTK_SHADOW_NONE, 
+						     "shadow_type", GTK_SHADOW_NONE,
 						     "label_widget", label,
 						     "child", g_object_new(gtk_alignment_get_type(),
 									   "left_padding", 12,
@@ -772,7 +772,7 @@ ec_rebuild(EConfig *emp)
  * e_config_set_target:
  * @emp: An initialised EConfig.
  * @target: A target allocated from @emp.
- * 
+ *
  * Sets the target object for the config window.  Generally the target
  * is set only once, and will supply its own "changed" signal which
  * can be used to drive the modal.  This is a virtual method so that
@@ -800,12 +800,12 @@ ec_widget_destroy(GtkWidget *w, EConfig *ec)
 /**
  * e_config_create_widget:
  * @emp: An initialised EConfig object.
- * 
+ *
  * Create the widget described by @emp.  Only the core widget
  * appropriate for the given type is created, i.e. a GtkNotebook for
  * the E_CONFIG_BOOK type and a GnomeDruid for the E_CONFIG_DRUID
  * type.
- * 
+ *
  * This object will be self-driving, but will not close itself once
  * complete.
  *
@@ -877,7 +877,7 @@ ec_dialog_response(GtkWidget *d, int id, EConfig *ec)
  * @emp: Initialised and configured EMConfig derived instance.
  * @parent: Parent window or NULL.
  * @title: Title of window or dialog.
- * 
+ *
  * Create a managed GtkWindow object from @emp.  This window will be
  * fully driven by the EConfig @emp.  If @emp.type is
  * @E_CONFIG_DRUID, then this will be a toplevel GtkWindow containing
@@ -886,7 +886,7 @@ ec_dialog_response(GtkWidget *d, int id, EConfig *ec)
  *
  * Unless reffed otherwise, the management object @emp will be
  * finalised when the widget is.
- * 
+ *
  * Return value: The window widget.  This is also stored in @emp.window.
  **/
 GtkWidget *
@@ -949,9 +949,9 @@ ec_idle_handler_for_rebuild (gpointer data)
 
 /**
  * e_config_target_changed:
- * @emp: 
- * @how: 
- * 
+ * @emp:
+ * @how:
+ *
  * Indicate that the target has changed.  This may be called by the
  * self-aware target itself, or by the driving code.  If @how is
  * %E_CONFIG_TARGET_CHANGED_REBUILD, then the entire configuration
@@ -987,8 +987,8 @@ void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
 
 /**
  * e_config_abort:
- * @ec: 
- * 
+ * @ec:
+ *
  * Signify that the stateful configuration changes must be discarded
  * to all listeners.  This is used by self-driven druid or notebook, or
  * may be used by code using the widget directly.
@@ -1007,8 +1007,8 @@ void e_config_abort(EConfig *ec)
 
 /**
  * e_config_commit:
- * @ec: 
- * 
+ * @ec:
+ *
  * Signify that the stateful configuration changes should be saved.
  * This is used by the self-driven druid or notebook, or may be used
  * by code driving the widget directly.
@@ -1027,12 +1027,12 @@ void e_config_commit(EConfig *ec)
 
 /**
  * e_config_page_check:
- * @ec: 
+ * @ec:
  * @pageid: The path of the page item.
- * 
+ *
  * Check that a given page is complete.  If @pageid is NULL, then check
  * the whole config.  No check is made that the page actually exists.
- * 
+ *
  * Return value: FALSE if the data is inconsistent/incomplete.
  **/
 gboolean e_config_page_check(EConfig *ec, const char *pageid)
@@ -1052,11 +1052,11 @@ gboolean e_config_page_check(EConfig *ec, const char *pageid)
 
 /**
  * e_config_page_get:
- * @ec: 
+ * @ec:
  * @pageid: The path of the page item.
- * 
+ *
  * Retrieve the page widget corresponding to @pageid.
- * 
+ *
  * Return value: The page widget.  It will be the root GtkNotebook
  * container or the GnomeDruidPage object.
  **/
@@ -1077,12 +1077,12 @@ GtkWidget *e_config_page_get(EConfig *ec, const char *pageid)
 
 /**
  * e_config_page_next:
- * @ec: 
+ * @ec:
  * @pageid: The path of the page item.
- * 
+ *
  * Find the path of the next visible page after @pageid.  If @pageid
  * is NULL then find the first visible page.
- * 
+ *
  * Return value: The path of the next page, or @NULL if @pageid was the
  * last configured and visible page.
  **/
@@ -1108,12 +1108,12 @@ const char *e_config_page_next(EConfig *ec, const char *pageid)
 
 /**
  * e_config_page_next:
- * @ec: 
+ * @ec:
  * @pageid: The path of the page item.
- * 
+ *
  * Find the path of the previous visible page before @pageid.  If @pageid
  * is NULL then find the last visible page.
- * 
+ *
  * Return value: The path of the previous page, or @NULL if @pageid was the
  * first configured and visible page.
  **/
@@ -1147,12 +1147,12 @@ const char *e_config_page_prev(EConfig *ec, const char *pageid)
  * @func: An EConfigFactoryFunc to call when the window @id is being
  * created.
  * @data: Callback data.
- * 
+ *
  * Add a config factory which will be called to add_items() any
  * extra items's if wants to, to the current Config window.
  *
  * TODO: Make the id a pattern?
- * 
+ *
  * Return value: A handle to the factory.
  **/
 EConfigFactory *
@@ -1171,7 +1171,7 @@ e_config_class_add_factory(EConfigClass *klass, const char *id, EConfigFactoryFu
 /**
  * e_config_class_remove_factory:
  * @f: Handle from :class_add_factory() call.
- * 
+ *
  * Remove a config factory.  The handle @f may only be removed once.
  **/
 void
@@ -1187,7 +1187,7 @@ e_config_class_remove_factory(EConfigClass *klass, EConfigFactory *f)
  * @ep: Parent EConfig object.
  * @type: type, up to implementor
  * @size: Size of object to allocate.
- * 
+ *
  * Allocate a new config target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
@@ -1212,7 +1212,7 @@ void *e_config_target_new(EConfig *ep, int type, size_t size)
  * e_config_target_free:
  * @ep: Parent EConfig object.
  * @o: The target to fre.
- * 
+ *
  * Free a target.  The implementing class can override this method to
  * free custom targets.
  **/
@@ -1291,10 +1291,10 @@ ech_check(EConfig *ec, const char *pageid, void *data)
 {
 	struct _EConfigHookGroup *group = data;
 	EConfigHookPageCheckData hdata;
-	
+
 	if (!group->hook->hook.plugin->enabled)
 		return TRUE;
-	
+
 	hdata.config = ec;
 	hdata.target = ec->target;
 	hdata.pageid = pageid?pageid:"";
@@ -1496,16 +1496,16 @@ emph_class_init(EPluginHookClass *klass)
 
 /**
  * e_config_hook_get_type:
- * 
+ *
  * Standard GObject function to get the object type.
- * 
+ *
  * Return value: The EConfigHook class type.
  **/
 GType
 e_config_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EConfigHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -1515,7 +1515,7 @@ e_config_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EConfigHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -1525,7 +1525,7 @@ e_config_hook_get_type(void)
  * @klass: The dervied EconfigHook class.
  * @map: A map used to describe a single EConfigTarget type for this
  * class.
- * 
+ *
  * Add a targe tmap to a concrete derived class of EConfig.  The
  * target map enumates the target types available for the implenting
  * class.

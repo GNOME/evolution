@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright © 2000 Eazel, Inc.
  * Copyright © 2002-2004 Marco Pesenti Gritti
  * Copyright © 2004, 2006 Christian Persch
@@ -20,13 +20,13 @@
  * Author: Andy Hertzfeld <andy@eazel.com>
  *
  * Ephy port by Marco Pesenti Gritti <marco@it.gnome.org>
- * 
+ *
  * $Id: e-spinner.c 12639 2006-12-12 17:06:55Z chpe $
  */
 
 /*
  * From Nautilus ephy-spinner.c
- */ 
+ */
 
 #include "config.h"
 
@@ -259,7 +259,7 @@ e_spinner_images_load (GdkScreen *screen,
 	if (icon_info == NULL)
 	{
 		g_warning ("Throbber animation not found");
-	
+
 		/* If the icon naming spec compliant name wasn't found, try the old name */
 		icon_info = gtk_icon_theme_lookup_icon (icon_theme,
 							SPINNER_FALLBACK_ICON_NAME,
@@ -463,7 +463,7 @@ e_spinner_cache_init (ESpinnerCache *cache)
 static void
 e_spinner_cache_finalize (GObject *object)
 {
-	ESpinnerCache *cache = E_SPINNER_CACHE (object); 
+	ESpinnerCache *cache = E_SPINNER_CACHE (object);
 	ESpinnerCachePrivate *priv = cache->priv;
 
 	g_hash_table_destroy (priv->hash);
@@ -644,7 +644,7 @@ e_spinner_expose (GtkWidget *widget,
 
 	/* Otherwise |images| will be NULL anyway */
 	g_return_val_if_fail (images->n_animation_pixbufs > 0, FALSE);
-		
+
 	g_return_val_if_fail (details->current_image >= 0 &&
 		  details->current_image < images->n_animation_pixbufs, FALSE);
 

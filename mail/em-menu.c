@@ -139,12 +139,12 @@ EMMenu *em_menu_new(const char *menuid)
 /**
  * em_menu_target_new_select:
  * @folder: The selection will ref this for the life of it.
- * @folder_uri: 
+ * @folder_uri:
  * @uids: The selection will free this when done with it.
- * 
+ *
  * Create a new selection popup target.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMMenuTargetSelect *
 em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
@@ -168,10 +168,10 @@ em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *
 
 	camel_object_ref(folder);
 	mask &= ~EM_MENU_SELECT_FOLDER;
-	
+
 	if (em_utils_folder_is_sent(folder, folder_uri))
 		mask &= ~EM_MENU_SELECT_EDIT;
-	
+
 	if (!(em_utils_folder_is_drafts(folder, folder_uri)
 	      || em_utils_folder_is_outbox(folder, folder_uri))
 	    && uids->len == 1)
@@ -196,7 +196,7 @@ em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *
 			mask &= ~EM_MENU_SELECT_MARK_UNREAD;
 		else
 			mask &= ~EM_MENU_SELECT_MARK_READ;
-		
+
 		if (flags & CAMEL_MESSAGE_DELETED)
 			mask &= ~EM_MENU_SELECT_UNDELETE;
 		else
@@ -211,7 +211,7 @@ em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *
 			mask &= ~EM_MENU_SELECT_MARK_NOJUNK;
 		else
 			mask &= ~EM_MENU_SELECT_MARK_JUNK;
-			
+
 		tmp = camel_message_info_user_tag(info, "follow-up");
 		if (tmp && *tmp) {
 			mask &= ~EM_MENU_SELECT_FLAG_CLEAR;
@@ -236,12 +236,12 @@ em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *
 
 /**
  * em_menu_target_new_window:
- * @emp: 
- * @window: 
- * 
+ * @emp:
+ * @window:
+ *
  * create a dummy target which references some sort of widget.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMMenuTargetWidget *
 em_menu_target_new_widget(EMMenu *emp, struct _GtkWidget *w)
@@ -352,7 +352,7 @@ GType
 em_menu_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMMenuHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -362,6 +362,6 @@ em_menu_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_menu_hook_get_type());
 		type = g_type_register_static(e_menu_hook_get_type(), "EMMenuHook", &info, 0);
 	}
-	
+
 	return type;
 }

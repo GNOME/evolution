@@ -54,7 +54,7 @@ e_table_column_finalize (GObject *object)
 	 */
 	for (i = 0; i < cols; i++)
 		e_table_column_remove (etc, i);
-	
+
 	G_OBJECT_CLASS (e_table_column_parent_class)->finalize (object);
 }
 
@@ -73,8 +73,8 @@ e_table_column_class_init (GtkObjectClass *object_class)
 			      NULL, NULL,
 			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
-	etc_signals [DIMENSION_CHANGE] = 
-		g_signal_new ("dimension_change", 
+	etc_signals [DIMENSION_CHANGE] =
+		g_signal_new ("dimension_change",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableColumn, dimension_change),
@@ -94,7 +94,7 @@ void
 e_table_column_add_column (ETableColumn *etc, ETableCol *tc, int pos)
 {
 	ETableCol **new_ptr;
-	
+
 	g_return_if_fail (etc != NULL);
 	g_return_if_fail (E_IS_TABLE_COLUMN (etc));
 	g_return_if_fail (tc != NULL);
@@ -137,14 +137,14 @@ int
 e_table_column_index (ETableColumn *etc, const char *identifier)
 {
 	int i;
-	
+
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 	g_return_val_if_fail (identifier != NULL, 0);
 
 	for (i = 0; i < etc->col_count; i++){
 		ETableCol *tc = etc->columns [i];
-		
+
 		if (strcmp (i->id, identifier) == 0)
 			return i;
 	}
@@ -156,7 +156,7 @@ int
 e_table_column_get_index_at (ETableColumn *etc, int x_offset)
 {
 	int i, total;
-	
+
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 	g_return_val_if_fail (identifier != NULL, 0);
@@ -177,7 +177,7 @@ e_table_column_get_columns (ETableColumn *etc)
 {
 	ETableCol **ret;
 	int i;
-	
+
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 
@@ -202,7 +202,7 @@ ve_table_column_get_selected (ETableColumn *etc)
 {
 	int i;
 	int selected = 0;
-	
+
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 
@@ -218,7 +218,7 @@ int
 e_table_column_total_width (ETableColumn *etc)
 {
 	int total;
-	
+
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 

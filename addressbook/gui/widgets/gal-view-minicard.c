@@ -22,7 +22,7 @@
 
 static GalViewClass *gal_view_minicard_parent_class;
 
-static void  
+static void
 gal_view_minicard_load (GalView *view,
 			const char *filename)
 {

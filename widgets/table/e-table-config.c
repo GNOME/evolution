@@ -131,8 +131,8 @@ config_get_property (GObject *object,
 static void
 e_table_config_class_init (ETableConfigClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);	
-	
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	klass->changed        = NULL;
 
 	object_class->finalize = config_finalize;
@@ -279,11 +279,11 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			config->temp_state->sort_info);
 		widgets = &config->group [0];
 	}
-	
+
 	for (i = 0; i < 4; i++){
 		gboolean sensitive = (i <= count);
 		char *text = "";
-		
+
 		gtk_widget_set_sensitive (widgets [i].frames, sensitive);
 
 		/*
@@ -295,7 +295,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		g_signal_handler_block (
 			widgets [i].combo,
 			widgets [i].changed_id);
-		
+
 		if (i < count){
 			GtkToggleButton *a, *d;
 			ETableSortColumn col =
@@ -306,7 +306,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				:  e_table_sort_info_grouping_get_nth (
 					config->temp_state->sort_info,
 					i);
-			
+
 			ETableColumnSpecification *column =
 				find_column_in_spec (config->source_spec, col.column);
 
@@ -329,11 +329,11 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				widgets [i].radio_ascending);
 			d = GTK_TOGGLE_BUTTON (
 				widgets [i].radio_descending);
-			
+
 			gtk_toggle_button_set_active (col.ascending ? a:d, 1);
 		} else {
 			GtkToggleButton *t;
-			
+
 			t = GTK_TOGGLE_BUTTON (
 				widgets [i].radio_ascending);
 
@@ -370,13 +370,13 @@ config_sort_info_update (ETableConfig *config)
 	for (i = 0; i < count; i++) {
 		ETableSortColumn col = e_table_sort_info_sorting_get_nth (info, i);
 		ETableColumnSpecification *column;
-		
+
 		column = find_column_in_spec (config->source_spec, col.column);
 		if (!column){
 			g_warning ("Could not find column model in specification");
 			continue;
 		}
-		
+
 		g_string_append (res, dgettext (config->domain, (column)->title));
 		g_string_append_c (res, ' ');
 		g_string_append (
@@ -387,10 +387,10 @@ config_sort_info_update (ETableConfig *config)
 		if ((i + 1) != count)
 			g_string_append (res, ", ");
 	}
-	
+
 	if (res->str [0] == 0)
 		g_string_append (res, _("Not sorted"));
-	
+
 	gtk_label_set_text (GTK_LABEL(config->sort_label), res->str);
 
 	g_string_free (res, TRUE);
@@ -484,7 +484,7 @@ config_fields_info_update (ETableConfig *config)
 			break;
 		}
 	}
-	
+
 	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
 	g_string_free (res, TRUE);
 }
@@ -503,13 +503,13 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		is_sort
 		? config->sort [0].combo
 		: config->group [0].combo));
-		
+
 
 	if (is_sort)
 		dialog = GTK_DIALOG (config->dialog_sort);
 	else
 		dialog = GTK_DIALOG (config->dialog_group_by);
-	
+
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (config->dialog_toplevel));
 
 	do {
@@ -541,10 +541,10 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			running = 0;
 			break;
 		}
-		
+
 	} while (running);
 	gtk_widget_hide (GTK_WIDGET (dialog));
-	
+
 	if (is_sort)
 		config_sort_info_update (config);
 	else
@@ -585,7 +585,7 @@ do_fields_config_dialog (ETableConfig *config)
 			running = 0;
 			break;
 		}
-		
+
 	} while (running);
 	gtk_widget_hide (GTK_WIDGET (config->dialog_show_fields));
 
@@ -619,51 +619,51 @@ create_global_store (ETableConfig *config)
 	}
 }
 
-static char *spec = "<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" " 	 
-" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">" 	 
-"<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" 	 
-"<ETableState> <column source=\"0\"/>" 	 
-"<grouping/>" 	 
-"</ETableState>" 	 
-"</ETableSpecification>"; 	 
-  	 
-GtkWidget *e_table_proxy_etable_shown_new (void); 	 
-  	 
-GtkWidget * 	 
-e_table_proxy_etable_shown_new (void) 	 
-{ 	 
-	ETableModel *model = NULL; 	 
-	GtkWidget *widget; 	 
-	ETableScrolled *ets; 	 
-  	 
-	model = e_table_subset_variable_new (global_store); 	 
-  	 
-	widget = e_table_scrolled_new (model, NULL, spec, NULL); 	 
-	ets = E_TABLE_SCROLLED (widget); 	 
-	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Show Fields")); 	 
-  	 
-	return widget; 	 
-} 	 
-  	 
-GtkWidget *e_table_proxy_etable_available_new (void); 	 
-  	 
-GtkWidget * 	 
-e_table_proxy_etable_available_new (void) 	 
-{ 	 
-	ETableModel *model; 	 
-	GtkWidget *widget; 	 
-	ETableScrolled *ets; 	 
-  	 
-	model = e_table_without_new (global_store, 	 
-				     NULL, NULL, NULL, NULL, NULL, NULL, NULL); 	 
-  	 
-	e_table_without_show_all (E_TABLE_WITHOUT (model)); 	 
-  	 
-	widget = e_table_scrolled_new (model, NULL, spec, NULL); 	 
-	ets = E_TABLE_SCROLLED (widget); 	 
-	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Available Fields")); 	 
-  	 
-	return widget; 	 
+static char *spec = "<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" "
+" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">"
+"<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>"
+"<ETableState> <column source=\"0\"/>"
+"<grouping/>"
+"</ETableState>"
+"</ETableSpecification>";
+
+GtkWidget *e_table_proxy_etable_shown_new (void);
+
+GtkWidget *
+e_table_proxy_etable_shown_new (void)
+{
+	ETableModel *model = NULL;
+	GtkWidget *widget;
+	ETableScrolled *ets;
+
+	model = e_table_subset_variable_new (global_store);
+
+	widget = e_table_scrolled_new (model, NULL, spec, NULL);
+	ets = E_TABLE_SCROLLED (widget);
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Show Fields"));
+
+	return widget;
+}
+
+GtkWidget *e_table_proxy_etable_available_new (void);
+
+GtkWidget *
+e_table_proxy_etable_available_new (void)
+{
+	ETableModel *model;
+	GtkWidget *widget;
+	ETableScrolled *ets;
+
+	model = e_table_without_new (global_store,
+				     NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+	e_table_without_show_all (E_TABLE_WITHOUT (model));
+
+	widget = e_table_scrolled_new (model, NULL, spec, NULL);
+	ets = E_TABLE_SCROLLED (widget);
+	atk_object_set_name (gtk_widget_get_accessible ((GtkWidget *)ets->table), _("Available Fields"));
+
+	return widget;
 }
 
 static void
@@ -703,7 +703,7 @@ dialog_response (GtkWidget *dialog, int response_id, ETableConfig *config)
 	    || response_id == GTK_RESPONSE_OK) {
 		gtk_widget_destroy (dialog);
 	}
-}	
+}
 
 /*
  * Invoked by the Glade auto-connect code
@@ -743,7 +743,7 @@ static GtkWidget *
 configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
 {
 	GtkWidget *w;
-	
+
 	w = glade_xml_get_widget (gui, widget_name);
 
 	return w;
@@ -768,7 +768,7 @@ get_source_model_col_index (ETableConfig *config, gint idx)
 	ETableModel *src_model = E_TABLE_SUBSET (config->available_model)->source;
 
         visible_index = e_table_subset_view_to_model_row (E_TABLE_SUBSET (config->available_model), idx);
-	
+
 	return GPOINTER_TO_INT (e_table_model_value_at (src_model, 1, visible_index));
 }
 
@@ -786,7 +786,7 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 	if (s != NULL) {
 		ETableSortColumn c;
 		int col;
-		
+
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
 			g_warning ("sort: This should not happen (%s)", s);
@@ -798,7 +798,7 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 			config->sort [idx].radio_ascending)->active;
 		c.column = col;
 		e_table_sort_info_sorting_set_nth (sort_info, idx, c);
-		  
+
 		update_sort_and_group_config_dialog (config, TRUE);
 	}  else {
 		e_table_sort_info_sorting_truncate (sort_info, idx);
@@ -816,7 +816,7 @@ sort_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *sort)
 	ETableConfigSortWidgets *base = &config->sort[0];
 	int idx = sort - base;
 	ETableSortColumn c;
-	
+
 	c = e_table_sort_info_sorting_get_nth (si, idx);
 	c.ascending = t->active;
 	e_table_sort_info_sorting_set_nth (si, idx, c);
@@ -827,7 +827,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 {
 	GSList *l;
 	int i;
-	
+
 	for (i = 0; i < 4; i++){
 		char buffer [80];
 
@@ -838,7 +838,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 			GTK_COMBO_BOX (config->sort[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
-		config->sort [i].frames = 
+		config->sort [i].frames =
 			glade_xml_get_widget (gui, buffer);
 
 		snprintf (
@@ -896,7 +896,7 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 	if (s != NULL) {
 		ETableSortColumn c;
 		int col;
-		
+
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
 			g_warning ("grouping: this should not happen, %s", s);
@@ -908,7 +908,7 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 			config->group [idx].radio_ascending)->active;
 		c.column = col;
 		e_table_sort_info_grouping_set_nth (sort_info, idx, c);
-		  
+
 		update_sort_and_group_config_dialog (config, FALSE);
 	}  else {
 		e_table_sort_info_grouping_truncate (sort_info, idx);
@@ -926,7 +926,7 @@ group_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *group)
 	ETableConfigSortWidgets *base = &config->group[0];
 	int idx = group - base;
 	ETableSortColumn c;
-	
+
 	c = e_table_sort_info_grouping_get_nth (si, idx);
 	c.ascending = t->active;
 	e_table_sort_info_grouping_set_nth (si, idx, c);
@@ -937,7 +937,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 {
 	GSList *l;
 	int i;
-	
+
 	for (i = 0; i < 4; i++){
 		char buffer [80];
 
@@ -949,7 +949,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 			GTK_COMBO_BOX (config->group[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-group-%d", i + 1);
-		config->group [i].frames = 
+		config->group [i].frames =
 			glade_xml_get_widget (gui, buffer);
 
 		snprintf (
@@ -969,11 +969,11 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 			"checkbutton-group-%d", i+1);
 		config->group [i].view_check = glade_xml_get_widget (
 			gui, buffer);
-		
+
 		config->group [i].e_table_config = config;
 	}
 
-	
+
 	for (l = config->column_names; l; l = l->next){
 		char *label = l->data;
 
@@ -1211,7 +1211,7 @@ setup_gui (ETableConfig *config)
 	g_free (filename);
 
 	g_object_unref (global_store);
-	
+
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
 
@@ -1284,7 +1284,7 @@ e_table_config_construct (ETableConfig        *config,
 	g_return_val_if_fail (header != NULL, NULL);
 	g_return_val_if_fail (spec != NULL, NULL);
 	g_return_val_if_fail (state != NULL, NULL);
-	
+
 	config->source_spec = spec;
 	config->source_state = state;
 	config->header = g_strdup (header);
@@ -1314,7 +1314,7 @@ e_table_config_construct (ETableConfig        *config,
 	config_sort_info_update   (config);
 	config_group_info_update  (config);
 	config_fields_info_update (config);
-	
+
 	return E_TABLE_CONFIG (config);
 }
 

@@ -110,7 +110,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 	struct icaltimetype itt;
 	icaltimezone *zone;
         struct tm tm;
-        char buf[256];                                                                                              
+        char buf[256];
 
 	if (dt->tzid) {
 		/* If we can't find the zone, we'll guess its "local" */
@@ -121,13 +121,13 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 	} else {
 		zone = NULL;
 	}
-	
-	
+
+
 	itt = *dt->value;
 	if (zone)
 		icaltimezone_convert_time (&itt, zone, default_zone);
         tm = icaltimetype_to_tm (&itt);
-                                                                                              
+
         e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
                                      FALSE, FALSE, buf, sizeof (buf));
 
@@ -184,7 +184,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 	/* Start table */
 	gtk_html_stream_printf (stream, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
-				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"></TD></TR>");	
+				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"></TD></TR>");
 
 	/* write location */
 	e_cal_component_get_location (comp, &location);
@@ -213,7 +213,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		e_cal_component_free_datetime (&dt);
 		g_free (str);
 	}
-	
+
 	/* write Due Date */
 	e_cal_component_get_due (comp, &dt);
 	if (dt.value != NULL) {
@@ -224,7 +224,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		e_cal_component_free_datetime (&dt);
 		g_free (str);
 	}
-	
+
 	/* write status */
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Status:"));
 	e_cal_component_get_status (comp, &status);
@@ -307,7 +307,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
 		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);
 	}
-	
+
 	gtk_html_stream_printf (stream, "</TABLE>");
 
 	/* close document */
@@ -319,7 +319,7 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 {
 	ECalComponentPreviewPrivate *priv;
 	GtkWidget *scroll;
-	
+
 	priv = g_new0 (ECalComponentPreviewPrivate, 1);
 	preview->priv = priv;
 
@@ -343,7 +343,7 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 	gtk_container_add (GTK_CONTAINER (scroll), priv->html);
 	gtk_container_add (GTK_CONTAINER (preview), scroll);
 	gtk_widget_show_all (scroll);
-	
+
 	priv->zone = icaltimezone_get_utc_timezone ();
 }
 
@@ -373,9 +373,9 @@ static void
 e_cal_component_preview_class_init (ECalComponentPreviewClass *klass)
 {
 	GtkObjectClass *object_class;
-	
+
 	object_class = (GtkObjectClass *) klass;
-	
+
 	object_class->destroy = e_cal_component_preview_destroy;
 }
 
@@ -393,7 +393,7 @@ icaltimezone *
 e_cal_component_preview_get_default_timezone (ECalComponentPreview *preview)
 {
 	ECalComponentPreviewPrivate *priv;
-	
+
 	g_return_val_if_fail (preview != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview), NULL);
 
@@ -406,13 +406,13 @@ void
 e_cal_component_preview_set_default_timezone (ECalComponentPreview *preview, icaltimezone *zone)
 {
 	ECalComponentPreviewPrivate *priv;
-	
+
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
 	g_return_if_fail (zone != NULL);
 
 	priv = preview->priv;
-	
+
 	priv->zone = zone;
 }
 
@@ -428,8 +428,8 @@ e_cal_component_preview_display (ECalComponentPreview *preview, ECal *ecal, ECal
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	priv = preview->priv;
-	
-	stream = gtk_html_begin (GTK_HTML (priv->html));	
+
+	stream = gtk_html_begin (GTK_HTML (priv->html));
 	write_html (stream, ecal, comp, priv->zone);
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 }
@@ -441,9 +441,9 @@ e_cal_component_preview_clear (ECalComponentPreview *preview)
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
-	
+
 	priv = preview->priv;
-	
+
 	gtk_html_load_empty (GTK_HTML (priv->html));
 }
 

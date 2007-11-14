@@ -71,7 +71,7 @@ typedef struct {
 
 	/* The client */
 	ECal *ecal;
-	
+
 	/* Toplevel */
 	GtkWidget *toplevel;
 
@@ -89,7 +89,7 @@ typedef struct {
 	GtkWidget *repeat_unit;
 
 	GtkWidget *option_notebook;
-	
+
 	/* Display alarm widgets */
 	GtkWidget *dalarm_group;
 	GtkWidget *dalarm_message;
@@ -212,7 +212,7 @@ alarm_to_dialog (Dialog *dialog)
 	gboolean repeat;
 	ECalComponentAlarmAction action;
 	char *email;
-	int i;	
+	int i;
 
 	/* Clean the page */
 	clear_widgets (dialog);
@@ -232,7 +232,7 @@ alarm_to_dialog (Dialog *dialog)
 	    && e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
 		ECalComponentAttendee *a;
 		GSList attendee_list;
-		
+
 		a = g_new0 (ECalComponentAttendee, 1);
 		a->value = email;
 		attendee_list.data = a;
@@ -429,7 +429,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	GList *l;
-	
+
 	/* Attendees */
 	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
 	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
@@ -440,7 +440,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 		ECalComponentAttendee *a;
 
 		dest = l->data;
-		
+
 		a = g_new0 (ECalComponentAttendee, 1);
 		a->value = e_destination_get_email (dest);
 		a->cn = e_destination_get_name (dest);
@@ -455,7 +455,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->malarm_message)))
 		return;
-	
+
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
 	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
@@ -574,11 +574,11 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 		description.value = str;
 		description.altrep = NULL;
-		
+
 		e_cal_component_alarm_set_description (alarm, &description);
 
 	g_free (str);
-	
+
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
@@ -621,7 +621,7 @@ populate_widgets_from_alarm (Dialog *dialog)
 		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:	
+	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:
 		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
 		break;
         default:
@@ -790,7 +790,7 @@ get_widgets (Dialog *dialog)
 	dialog->malarm_addressbook = GW ("malarm-addressbook");
 	dialog->malarm_message = GW ("malarm-message");
 	dialog->malarm_description = GW ("malarm-description");
-	
+
 	dialog->palarm_group = GW ("palarm-group");
 	dialog->palarm_program = GW ("palarm-program");
 	dialog->palarm_args = GW ("palarm-args");
@@ -821,7 +821,7 @@ get_widgets (Dialog *dialog)
 		&& dialog->malarm_description
 		&& dialog->palarm_group
 		&& dialog->palarm_program
-		&& dialog->palarm_args);		
+		&& dialog->palarm_args);
 }
 
 #if 0
@@ -910,7 +910,7 @@ check_custom_sound (Dialog *dialog)
 {
 	char *str, *dir;
 	gboolean sens;
-	
+
 	str = gtk_file_chooser_get_filename (
 		GTK_FILE_CHOOSER (dialog->aalarm_file_chooser));
 
@@ -943,7 +943,7 @@ static void
 aalarm_attach_changed_cb (GtkWidget *widget, gpointer data)
 {
 	Dialog *dialog = data;
-	
+
 	check_custom_sound (dialog);
 }
 
@@ -954,7 +954,7 @@ check_custom_message (Dialog *dialog)
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	gboolean sens;
-	
+
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
 	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
@@ -982,7 +982,7 @@ static void
 dalarm_description_changed_cb (GtkWidget *widget, gpointer data)
 {
 	Dialog *dialog = data;
-	
+
 	check_custom_message (dialog);
 }
 
@@ -991,7 +991,7 @@ check_custom_program (Dialog *dialog)
 {
 	char *str;
 	gboolean sens;
-	
+
 	str = e_dialog_editable_get (dialog->palarm_program);
 
 	sens = str && *str;
@@ -1002,7 +1002,7 @@ static void
 palarm_program_changed_cb (GtkWidget *widget, gpointer data)
 {
 	Dialog *dialog = data;
-	
+
 	check_custom_program (dialog);
 }
 
@@ -1037,7 +1037,7 @@ malarm_addresses_changed_cb  (GtkWidget *editable,
 			      gpointer   data)
 {
 	Dialog *dialog = data;
-	
+
 	check_custom_email (dialog);
 }
 
@@ -1057,7 +1057,7 @@ static void
 malarm_description_changed_cb (GtkWidget *widget, gpointer data)
 {
 	Dialog *dialog = data;
-	
+
 	check_custom_email (dialog);
 }
 
@@ -1068,7 +1068,7 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	char *dir;
 	ECalComponentAlarmAction action;
 	int page = 0, i;
-	
+
 	action = e_dialog_option_menu_get (dialog->action, action_map);
 	for (i = 0; action_map[i] != -1 ; i++) {
 		if (action == action_map[i]) {
@@ -1076,11 +1076,11 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 			break;
 		}
 	}
-	
+
 	gtk_notebook_set_current_page (
 		GTK_NOTEBOOK (dialog->option_notebook), page);
 
-	switch (action) {	
+	switch (action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
 		dir = calendar_config_get_dir_path ();
 		if ( dir && *dir )
@@ -1114,7 +1114,7 @@ init_widgets (Dialog *dialog)
 {
 	GtkWidget *menu;
 	GtkTextBuffer *text_buffer;
-	
+
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
 	g_signal_connect (menu, "selection_done",
 			  G_CALLBACK (action_selection_done_cb),
@@ -1158,12 +1158,12 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	int response_id;
 	GList *icon_list;
 	char *gladefile;
-	
+
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
 	dialog.alarm = alarm;
 	dialog.ecal = ecal;
-	
+
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "alarm-dialog.glade",
 				      NULL);
@@ -1201,7 +1201,7 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 
 	gtk_window_set_transient_for (GTK_WINDOW (dialog.toplevel),
 				      GTK_WINDOW (parent));
-  
+
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 
 	if (response_id == GTK_RESPONSE_OK)

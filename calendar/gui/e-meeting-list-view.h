@@ -1,4 +1,4 @@
-/* 
+/*
  * e-meeting-list-view.h
  *
  * Author: Mike Kestner <mkestner@ximian.com>

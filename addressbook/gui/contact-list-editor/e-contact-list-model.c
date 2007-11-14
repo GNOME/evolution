@@ -208,9 +208,9 @@ e_contact_list_model_add_email (EContactListModel *model,
 
 	for (row = 0; row < row_count; row++) {
 		list_email = (char *) e_table_model_value_at (E_TABLE_MODEL (model), 1, row);
-		
+
 		if (strcmp (list_email, email) == 0) {
-			if (e_error_run (NULL, "addressbook:ask-list-add-exists", 
+			if (e_error_run (NULL, "addressbook:ask-list-add-exists",
 					 email) != GTK_RESPONSE_YES)
 				return;
 			break;

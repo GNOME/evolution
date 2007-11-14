@@ -48,7 +48,7 @@
 
 #include "format-handler.h"
 
-static void 
+static void
 add_string_to_rdf (xmlNodePtr node, const gchar *tag, const char *value);
 
 /* Use { */
@@ -72,7 +72,7 @@ calendar_config_get_timezone (void)
 		config = gconf_client_get_default ();
 
 	retval = gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
-	if (!retval) 
+	if (!retval)
 		retval = g_strdup ("UTC");
 
 	return retval;
@@ -97,7 +97,7 @@ display_error_message (GtkWidget *parent, GError *error)
 }
 
 /* Some helpers for the xml stuff */
-static void 
+static void
 add_list_to_rdf (xmlNodePtr node, const gchar *tag, GSList *list_in, gint type)
 {
 	if (list_in) {
@@ -126,7 +126,7 @@ add_list_to_rdf (xmlNodePtr node, const gchar *tag, GSList *list_in, gint type)
 	}
 }
 
-static void 
+static void
 add_nummeric_to_rdf (xmlNodePtr node, const gchar *tag, gint *nummeric)
 {
 	if (nummeric) {
@@ -149,7 +149,7 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 		/*
 		 * Translator: the %FT%T is the thirth argument for a strftime function.
 		 * It lets you define the formatting of the date in the rdf-file.
-		 * Also check out http://www.w3.org/2002/12/cal/tzd 
+		 * Also check out http://www.w3.org/2002/12/cal/tzd
 		 * */
 		e_utf8_strftime (str, 200, _("%FT%T"), &mytm);
 
@@ -166,7 +166,7 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 }
 
 
-static void 
+static void
 add_string_to_rdf (xmlNodePtr node, const gchar *tag, const char *value)
 {
 	if (value) {
@@ -183,10 +183,10 @@ static void
 do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri)
 {
 
-	/* 
-	 * According to some documentation about CSV, newlines 'are' allowed 
+	/*
+	 * According to some documentation about CSV, newlines 'are' allowed
 	 * in CSV-files. But you 'do' have to put the value between quotes.
-	 * The helper 'string_needsquotes' will check for that 
+	 * The helper 'string_needsquotes' will check for that
 	 *
 	 * http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm
 	 * http://www.creativyst.com/cgi-bin/Prod/15/eg/csv2xml.pl
@@ -219,7 +219,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	uri = gnome_vfs_uri_new (dest_uri);
 
 	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result == GNOME_VFS_OK) 
+	if (result == GNOME_VFS_OK)
 		doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
 			 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
 
@@ -228,7 +228,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 		if (result != GNOME_VFS_OK) {
 			gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE, TRUE, GNOME_VFS_PERM_USER_ALL);
 			result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-		} 
+		}
 	}
 
 
@@ -274,7 +274,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			ECalComponentDateTime temp_dt;
 			struct icaltimetype *temp_time;
 			int *temp_int;
-			ECalComponentText temp_comptext; 
+			ECalComponentText temp_comptext;
 			xmlNodePtr c_node = xmlNewChild (fnode, NULL, (const unsigned char *)"component", NULL);
 			xmlNodePtr node = xmlNewChild (c_node, NULL, (const unsigned char *)"Vevent", NULL);
 

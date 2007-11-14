@@ -50,9 +50,9 @@ typedef struct {
 struct _ESidebarPrivate {
 	ESidebarMode mode;
 	ESidebarMode toolbar_mode;
-	
+
 	gboolean show;
-	
+
 	GtkWidget *selection_widget;
 	GSList *buttons;
 
@@ -222,7 +222,7 @@ layout_buttons (ESidebar *sidebar)
 		gtk_widget_size_request (GTK_WIDGET (button->button_widget), &requisition);
 
 		max_btn_height = MAX (max_btn_height, requisition.height);
-		max_btn_width = MAX (max_btn_width, requisition.width);	
+		max_btn_width = MAX (max_btn_width, requisition.width);
 	}
 
 	/* Figure out how many rows and columns we'll use. */
@@ -264,7 +264,7 @@ layout_buttons (ESidebar *sidebar)
 	/* Layout the buttons. */
 	for (i = row_last; i >= 0; i --) {
 		int len, extra_width;
-		
+
 		y -= max_btn_height;
 		x = H_PADDING + allocation->x;
 		len = g_slist_length (rows[i]);
@@ -306,13 +306,13 @@ do_layout (ESidebar *sidebar)
 		y = layout_buttons (sidebar);
 	else
 		y = allocation->y + allocation->height;
-	
+
 	/* Place the selection widget.  */
 	child_allocation.x = allocation->x;
 	child_allocation.y = allocation->y;
 	child_allocation.width = allocation->width;
 	child_allocation.height = y - allocation->y;
-	
+
 	gtk_widget_size_allocate (sidebar->priv->selection_widget, & child_allocation);
 }
 
@@ -380,7 +380,7 @@ impl_size_request (GtkWidget *widget,
 
 	if (!sidebar->priv->show)
 		return;
-	
+
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		Button *button = p->data;
 		GtkRequisition button_requisition;
@@ -418,7 +418,7 @@ impl_dispose (GObject *object)
 		gconf_client_notify_remove (gconf_client, priv->style_changed_id);
 		priv->style_changed_id = 0;
 	}
-	
+
  	g_object_unref (gconf_client);
 
 	(* G_OBJECT_CLASS (e_sidebar_parent_class)->dispose) (object);
@@ -431,7 +431,7 @@ boolean_handled_accumulator (GSignalInvocationHint *ihint,
 			     gpointer               dummy)
 {
 	gboolean handled;
-	
+
 	handled = g_value_get_boolean (handler_return);
 	g_value_set_boolean (return_accu, handled);
 
@@ -493,7 +493,7 @@ e_sidebar_init (ESidebar *sidebar)
 	ESidebarPrivate *priv;
 
 	GTK_WIDGET_SET_FLAGS (sidebar, GTK_NO_WINDOW);
-  
+
 	priv = g_new0 (ESidebarPrivate, 1);
 	sidebar->priv = priv;
 
@@ -550,12 +550,12 @@ e_sidebar_add_button (ESidebar *sidebar,
 
 	icon_widget = gtk_image_new_from_pixbuf (icon);
 	gtk_widget_show (icon_widget);
-	
+
 	label_widget = gtk_label_new (label);
 	gtk_misc_set_alignment (GTK_MISC (label_widget), 0.0, 0.5);
 	gtk_widget_show (label_widget);
 	button_tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (button_tooltips), button_widget, tooltips, NULL);		
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (button_tooltips), button_widget, tooltips, NULL);
 
 	switch (INTERNAL_MODE (sidebar)) {
 	case E_SIDEBAR_MODE_TEXT:
@@ -653,7 +653,7 @@ set_mode_internal (ESidebar *sidebar, ESidebarMode mode )
 
 	if (mode == INTERNAL_MODE (sidebar))
 		return;
-	
+
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		Button *button = p->data;
 
@@ -703,8 +703,8 @@ style_changed_notify (GConfClient *gconf, guint id, GConfEntry *entry, void *dat
 {
 	ESidebar *sidebar = data;
  	char *val;
- 	int mode;	
- 
+ 	int mode;
+
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 	if (val == NULL || !gconf_string_to_enum (toolbar_styles, val, &mode))
 		mode = E_SIDEBAR_MODE_BOTH;
@@ -728,9 +728,9 @@ e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
 		if (sidebar->priv->style_changed_id) {
 			gconf_client_notify_remove (gconf_client, sidebar->priv->style_changed_id);
 			sidebar->priv->style_changed_id = 0;
-		}		
+		}
 	}
-	
+
 	if (mode != E_SIDEBAR_MODE_TOOLBAR) {
 		set_mode_internal (sidebar, mode);
 
@@ -747,7 +747,7 @@ e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
 									   style_changed_notify, sidebar, NULL, NULL);
 		style_changed_notify (gconf_client, 0, NULL, sidebar);
 	}
-	
+
 	g_object_unref (gconf_client);
 
 	sidebar->priv->mode = mode;
@@ -760,7 +760,7 @@ e_sidebar_set_show_buttons  (ESidebar *sidebar, gboolean show)
 
 	if (sidebar->priv->show == show)
 		return;
-	
+
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		Button *button = p->data;
 
@@ -774,7 +774,7 @@ e_sidebar_set_show_buttons  (ESidebar *sidebar, gboolean show)
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 }
-		
+
 gboolean
 e_sidebar_get_show_buttons  (ESidebar *sidebar)
 {

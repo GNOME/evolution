@@ -53,14 +53,14 @@ void org_gnome_save_calendar (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target);
 
 
-static void 
+static void
 extra_widget_foreach_hide (GtkWidget *widget, gpointer data)
 {
 	if (widget != data)
 		gtk_widget_hide (widget);
 }
 
-static void 
+static void
 on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
 {
 	FormatHandler *handler = NULL;
@@ -68,23 +68,23 @@ on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_combo_box_get_model (combobox);
 
-	gtk_container_foreach (GTK_CONTAINER (extra_widget), 
+	gtk_container_foreach (GTK_CONTAINER (extra_widget),
 		extra_widget_foreach_hide, combobox);
 
 	gtk_combo_box_get_active_iter (combobox, &iter);
 
-	gtk_tree_model_get (model, &iter, 
+	gtk_tree_model_get (model, &iter,
 		DEST_HANDLER, &handler, -1);
 
 
 	if (handler->options_widget)
 	{
 		gtk_widget_show (handler->options_widget);
-	} 
+	}
 
 }
 
-static void 
+static void
 format_handlers_foreach_free (gpointer data, gpointer user_data)
 {
 	FormatHandler *handler = data;
@@ -98,14 +98,14 @@ format_handlers_foreach_free (gpointer data, gpointer user_data)
 	g_free (data);
 }
 
-static void 
+static void
 ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type)
 {
 	FormatHandler *handler = NULL;
 
 	GtkWidget *extra_widget = gtk_vbox_new (FALSE, 0);
 	GtkComboBox *combo = GTK_COMBO_BOX(gtk_combo_box_new ());
-	GtkTreeModel *model = GTK_TREE_MODEL (gtk_list_store_new 
+	GtkTreeModel *model = GTK_TREE_MODEL (gtk_list_store_new
 		(N_DEST_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER));
 	GtkCellRenderer *renderer=NULL;
 	GtkListStore *store = GTK_LIST_STORE (model);
@@ -116,33 +116,33 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	GList *format_handlers = NULL;
 
 	/* The available formathandlers */
-	format_handlers = g_list_append (format_handlers, 
+	format_handlers = g_list_append (format_handlers,
 		ical_format_handler_new ());
-	format_handlers = g_list_append (format_handlers, 
+	format_handlers = g_list_append (format_handlers,
 		csv_format_handler_new ());
-	format_handlers = g_list_append (format_handlers, 
+	format_handlers = g_list_append (format_handlers,
 		rdf_format_handler_new ());
 
 	/* The Type GtkComboBox */
-	gtk_box_pack_start (GTK_BOX (extra_widget), GTK_WIDGET (combo), 
+	gtk_box_pack_start (GTK_BOX (extra_widget), GTK_WIDGET (combo),
 		TRUE, TRUE, 0);
 	gtk_combo_box_set_model (combo, model);
 
 	gtk_list_store_clear (store);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), 
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo),
 			renderer, "text", DEST_NAME_COLUMN, NULL);
 
 	while (format_handlers) {
 		handler = format_handlers->data;
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, DEST_NAME_COLUMN, 
+		gtk_list_store_set (store, &iter, DEST_NAME_COLUMN,
 			handler->combo_label, -1);
 		gtk_list_store_set (store, &iter, DEST_HANDLER, handler, -1);
 
 		if (handler->options_widget) {
-			gtk_box_pack_start (GTK_BOX (extra_widget), 
+			gtk_box_pack_start (GTK_BOX (extra_widget),
 				GTK_WIDGET (handler->options_widget), TRUE, TRUE, 0);
 			gtk_widget_hide (handler->options_widget);
 		}
@@ -157,7 +157,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	}
 
 
-	g_signal_connect (G_OBJECT(combo), "changed", 
+	g_signal_connect (G_OBJECT(combo), "changed",
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
 
 	dialog = gtk_file_chooser_dialog_new (_("Select destination file"),
@@ -178,10 +178,10 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 		char *tmp = NULL;
 
 		gtk_combo_box_get_active_iter (combo, &iter);
-		gtk_tree_model_get (model, &iter, 
+		gtk_tree_model_get (model, &iter,
 			DEST_HANDLER, &handler, -1);
 
-	       dest_uri = gtk_file_chooser_get_uri 
+	       dest_uri = gtk_file_chooser_get_uri
 			(GTK_FILE_CHOOSER (dialog));
 
 		tmp = strstr (dest_uri, handler->filename_ext);
@@ -202,7 +202,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	g_list_free (format_handlers);
 
 	/* Now we can destroy it */
-	gtk_widget_destroy (dialog);	
+	gtk_widget_destroy (dialog);
 	g_free (dest_uri);
 
 }

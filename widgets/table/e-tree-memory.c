@@ -166,11 +166,11 @@ e_tree_path_unlink (ETreeMemoryPath *path)
 /**
  * e_tree_memory_freeze:
  * @etmm: the ETreeModel to freeze.
- * 
+ *
  * This function prepares an ETreeModel for a period of much change.
  * All signals regarding changes to the tree are deferred until we
  * thaw the tree.
- * 
+ *
  **/
 void
 e_tree_memory_freeze(ETreeMemory *etmm)
@@ -186,11 +186,11 @@ e_tree_memory_freeze(ETreeMemory *etmm)
 /**
  * e_tree_memory_thaw:
  * @etmm: the ETreeMemory to thaw.
- * 
+ *
  * This function thaws an ETreeMemory.  All the defered signals can add
  * up to a lot, we don't know - so we just emit a model_changed
  * signal.
- * 
+ *
  **/
 void
 e_tree_memory_thaw(ETreeMemory *etmm)
@@ -399,9 +399,9 @@ e_tree_memory_init (ETreeMemory *etmm)
 
 /**
  * e_tree_memory_construct:
- * @etree: 
- * 
- * 
+ * @etree:
+ *
+ *
  **/
 void
 e_tree_memory_construct (ETreeMemory *etmm)
@@ -432,18 +432,18 @@ void
 e_tree_memory_set_expanded_default         (ETreeMemory *etree, gboolean expanded)
 {
 	g_return_if_fail (etree != NULL);
-	
+
 	etree->priv->expanded_default = expanded;
 }
 
 /**
  * e_tree_memory_node_get_data:
- * @etmm: 
- * @node: 
- * 
- * 
- * 
- * Return value: 
+ * @etmm:
+ * @node:
+ *
+ *
+ *
+ * Return value:
  **/
 gpointer
 e_tree_memory_node_get_data (ETreeMemory *etmm, ETreePath node)
@@ -457,11 +457,11 @@ e_tree_memory_node_get_data (ETreeMemory *etmm, ETreePath node)
 
 /**
  * e_tree_memory_node_set_data:
- * @etmm: 
- * @node: 
- * @node_data: 
- * 
- * 
+ * @etmm:
+ * @node:
+ * @node_data:
+ *
+ *
  **/
 void
 e_tree_memory_node_set_data (ETreeMemory *etmm, ETreePath node, gpointer node_data)
@@ -475,14 +475,14 @@ e_tree_memory_node_set_data (ETreeMemory *etmm, ETreePath node, gpointer node_da
 
 /**
  * e_tree_memory_node_insert:
- * @tree_model: 
- * @parent_path: 
- * @position: 
- * @node_data: 
- * 
- * 
- * 
- * Return value: 
+ * @tree_model:
+ * @parent_path:
+ * @position:
+ * @node_data:
+ *
+ *
+ *
+ * Return value:
  **/
 ETreePath
 e_tree_memory_node_insert (ETreeMemory *tree_model,
@@ -530,14 +530,14 @@ ETreePath e_tree_memory_node_insert_id     (ETreeMemory *etree, ETreePath parent
 
 /**
  * e_tree_memory_node_insert_before:
- * @etree: 
- * @parent: 
- * @sibling: 
- * @node_data: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @parent:
+ * @sibling:
+ * @node_data:
+ *
+ *
+ *
+ * Return value:
  **/
 ETreePath
 e_tree_memory_node_insert_before (ETreeMemory *etree,
@@ -585,12 +585,12 @@ child_free(ETreeMemory *etree, ETreeMemoryPath *node)
 
 /**
  * e_tree_memory_node_remove:
- * @etree: 
- * @path: 
- * 
- * 
- * 
- * Return value: 
+ * @etree:
+ * @path:
+ *
+ *
+ *
+ * Return value:
  **/
 gpointer
 e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
@@ -606,7 +606,7 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 	if (!etree->priv->frozen) {
 		e_tree_model_pre_change(E_TREE_MODEL(etree));
 		for (old_position = 0, sibling = path;
-		     sibling; 
+		     sibling;
 		     old_position++, sibling = sibling->prev_sibling)
 			/* Empty intentionally*/;
 		old_position --;
@@ -661,7 +661,7 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 	ETreeMemoryPath *last;
 
 	e_tree_model_pre_change (E_TREE_MODEL (etmm));
-	
+
 	i = 0;
 	for (child = path->first_child; child; child = child->next_sibling)
 		i++;

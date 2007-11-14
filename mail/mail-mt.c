@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
@@ -49,7 +49,7 @@
 /*#define MALLOC_CHECK*/
 #define LOG_OPS
 #define LOG_LOCKS
-#define d(x) 
+#define d(x)
 
 static void set_stop(int sensitive);
 static void mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data);
@@ -249,17 +249,17 @@ void mail_msg_check_error(void *msg)
 	struct _mail_msg *m = msg;
 	char *what;
 	GtkDialog *gd;
-	
+
 #ifdef MALLOC_CHECK
 	checkmem(m);
 	checkmem(m->cancel);
 	checkmem(m->priv);
 #endif
-	
+
 	/* don't report any errors if we are not in interactive mode */
 	if (!mail_session_get_interactive ())
 		return;
-	
+
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL
 	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID)
@@ -336,7 +336,7 @@ int mail_msg_active(unsigned int msgid)
 	int active;
 
 	MAIL_MT_LOCK(mail_msg_lock);
-	if (msgid == (unsigned int)-1) 
+	if (msgid == (unsigned int)-1)
 		active = g_hash_table_size(mail_msg_active_table) > 0;
 	else
 		active = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid)) != NULL;
@@ -542,7 +542,7 @@ mail_msg_destroy(EThread *e, EMsg *msg, void *data)
 	checkmem(m);
 	checkmem(m->cancel);
 	checkmem(m->priv);
-#endif	
+#endif
 
 	mail_msg_free(m);
 }
@@ -734,7 +734,7 @@ int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsync
 	m->ea = ea;
 	m->type = type;
 	m->have_thread = FALSE;
-	
+
 	id = m->msg.seq;
 	g_mutex_lock(ea->lock);
 	ea->tasks = g_slist_prepend(ea->tasks, m);
@@ -881,7 +881,7 @@ void *mail_call_main(mail_call_t type, MailMainFunc func, ...)
 
 	ret = m->ret;
 	mail_msg_free(m);
-	
+
 	return ret;
 }
 
@@ -946,20 +946,20 @@ static void do_op_status(struct _mail_msg *mm)
 	struct _mail_msg_priv *data;
 	char *out, *p, *o, c;
 	int pc;
-	
+
 	g_return_if_fail (pthread_equal(mail_gui_thread, pthread_self ()));
-	
+
 	MAIL_MT_LOCK (mail_msg_lock);
-	
+
 	msg = g_hash_table_lookup (mail_msg_active_table, m->data);
 
 	if (msg == NULL) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 		return;
 	}
-	
+
 	data = msg->priv;
-	
+
 	out = alloca (strlen (m->what) * 2 + 1);
 	o = out;
 	p = m->what;
@@ -969,22 +969,22 @@ static void do_op_status(struct _mail_msg *mm)
 		*o++ = c;
 	}
 	*o = 0;
-	
+
 	pc = m->pc;
-	
+
 	if (data->activity_id == 0) {
 		char *what;
-		
+
 		/* its being created/removed?  well leave it be */
 		if (data->activity_state == 1 || data->activity_state == 3) {
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			return;
 		} else {
 			data->activity_state = 1;
-			
+
 			if (progress_icon == NULL)
 				progress_icon = e_icon_factory_get_icon ("mail-unread", E_ICON_SIZE_MENU);
-			
+
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->ops->describe_msg)
 				what = msg->ops->describe_msg (msg, FALSE);
@@ -993,11 +993,11 @@ static void do_op_status(struct _mail_msg *mm)
 			/* uncommenting because message is not very useful for a user, see bug 271734*/
 			else {
 				what = g_strdup("");
-			} 
-			
+			}
+
 
 			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
-			
+
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
@@ -1011,7 +1011,7 @@ static void do_op_status(struct _mail_msg *mm)
 				camel_exception_clear (&msg->ex);
 				g_free (msg->priv);
 				g_free (msg);
-				
+
 				if (activity_id != 0)
 					mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
 								NULL, GINT_TO_POINTER (activity_id), NULL);
@@ -1048,7 +1048,7 @@ static void
 mail_operation_status (struct _CamelOperation *op, const char *what, int pc, void *data)
 {
 	struct _op_status_msg *m;
-	
+
 	d(printf("got operation statys: %s %d%%\n", what, pc));
 
 	m = mail_msg_new(&op_status_op, NULL, sizeof(*m));
@@ -1073,10 +1073,10 @@ static void
 set_stop (int sensitive)
 {
 	static int last = FALSE;
-	
+
 	if (last == sensitive)
 		return;
-	
+
 	/*bonobo_ui_component_set_prop (uic, "/commands/MailStop", "sensitive", sensitive ? "1" : "0", NULL);*/
 	last = sensitive;
 }

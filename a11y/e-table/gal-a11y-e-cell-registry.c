@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
  * Copyright (C) 2002 Ximian, Inc.
@@ -51,11 +51,11 @@ gal_a11y_e_cell_registry_init (GalA11yECellRegistry *registry)
 
 /**
  * gal_a11y_e_cell_registry_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yECellRegistry class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yECellRegistry class.
  **/
 GType

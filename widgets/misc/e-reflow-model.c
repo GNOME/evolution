@@ -246,7 +246,7 @@ e_reflow_model_changed (EReflowModel *e_reflow_model)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
-	
+
 	d(print_tabs());
 	d(g_print("Emitting model_changed on model 0x%p.\n", e_reflow_model));
 	d(depth++);
@@ -269,7 +269,7 @@ e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
-	
+
 	d(print_tabs());
 	d(g_print("Emitting comparison_changed on model 0x%p.\n", e_reflow_model));
 	d(depth++);
@@ -283,7 +283,7 @@ e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
  * @e_reflow_model: The model changed.
  * @position: The position the items were insert in.
  * @count: The number of items inserted.
- * 
+ *
  * Use this function to notify any views of the reflow model that a number of items have been inserted.
  **/
 void
@@ -305,7 +305,7 @@ e_reflow_model_items_inserted (EReflowModel *e_reflow_model, int position, int c
  * e_reflow_model_item_removed:
  * @e_reflow_model: The model changed.
  * @n: The position from which the items were removed.
- * 
+ *
  * Use this function to notify any views of the reflow model that an
  * item has been removed.
  **/

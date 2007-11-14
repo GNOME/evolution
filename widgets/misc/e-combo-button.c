@@ -130,7 +130,7 @@ paint (EComboButton *combo_button,
 			      "focus-line-width", &focus_width,
 			      "focus-padding", &focus_pad,
 			      "interior-focus", &interior_focus,
-			      NULL); 
+			      NULL);
 
 	if (GTK_WIDGET_HAS_DEFAULT (widget)
 	    && GTK_BUTTON (widget)->relief == GTK_RELIEF_NORMAL)
@@ -154,14 +154,14 @@ paint (EComboButton *combo_button,
 			       GTK_WIDGET_STATE (widget), shadow_type,
 			       area, widget, "button",
 			       x, y, separator_x, height);
-	
+
 		if (width - separator_x > 0)
 			gtk_paint_box (widget->style, widget->window,
 				       GTK_WIDGET_STATE (widget), shadow_type,
 				       area, widget, "button",
 				       separator_x, y, width - separator_x, height);
 	}
-	
+
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
 		if (interior_focus) {
 			x += widget->style->xthickness + focus_pad;
@@ -254,7 +254,7 @@ impl_destroy (GtkObject *object)
 			gtk_widget_destroy (priv->arrow_image);
 			priv->arrow_image = NULL;
 		}
-		
+
 		if (priv->icon != NULL) {
 			g_object_unref (priv->icon);
 			priv->icon = NULL;
@@ -263,7 +263,7 @@ impl_destroy (GtkObject *object)
 		g_free (priv);
 		combo_button->priv = NULL;
 	}
-	
+
 	(* GTK_OBJECT_CLASS (e_combo_button_parent_class)->destroy) (object);
 }
 
@@ -304,11 +304,11 @@ impl_button_press_event (GtkWidget *widget,
 	combo_button = E_COMBO_BUTTON (widget);
 	priv = combo_button->priv;
 
-	if (event->type == GDK_BUTTON_PRESS && 
+	if (event->type == GDK_BUTTON_PRESS &&
 	    (event->button == 1 || event->button == 3)) {
 		GTK_BUTTON (widget)->button_down = TRUE;
 
-		if (event->button == 3 || 
+		if (event->button == 3 ||
 		    event->x >= priv->arrow_image->allocation.x) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
@@ -355,7 +355,7 @@ impl_expose_event (GtkWidget *widget,
 		return FALSE;
 
 	bin = GTK_BIN (widget);
-      
+
 	paint (E_COMBO_BUTTON (widget), &event->area);
 
 	child_event = *event;
@@ -446,7 +446,7 @@ e_combo_button_init (EComboButton *combo_button)
 
 	priv = g_new (EComboButtonPrivate, 1);
 	combo_button->priv = priv;
-	
+
 	priv->icon              = NULL;
 	priv->menu              = NULL;
 	priv->menu_popped_up    = FALSE;
@@ -457,7 +457,7 @@ void
 e_combo_button_pack_hbox (EComboButton *combo_button)
 {
 	EComboButtonPrivate *priv;
-	
+
 	priv = combo_button->priv;
 
 	if(priv->is_already_packed){
@@ -481,9 +481,9 @@ e_combo_button_pack_hbox (EComboButton *combo_button)
 	gtk_box_pack_end (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
 			  GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->arrow_image);
-	
+
 	gtk_widget_show (priv->hbox);
-	
+
 	priv->is_already_packed = TRUE;
 }
 
@@ -491,9 +491,9 @@ void
 e_combo_button_pack_vbox (EComboButton *combo_button)
 {
 	EComboButtonPrivate *priv;
-	
+
 	priv = combo_button->priv;
-	
+
 	if(priv->is_already_packed){
 		gtk_widget_destroy (priv->hbox);
 	}
@@ -504,7 +504,7 @@ e_combo_button_pack_vbox (EComboButton *combo_button)
 
    	priv->vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (priv->vbox);
-	
+
 	priv->icon_image = e_icon_factory_get_image (NULL, E_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->icon_image, TRUE, TRUE, 0);
 	gtk_widget_show (priv->icon_image);
@@ -515,14 +515,14 @@ e_combo_button_pack_vbox (EComboButton *combo_button)
 	gtk_widget_show (priv->label);
 
 	gtk_box_pack_start (GTK_BOX(priv->hbox),priv->vbox, TRUE, TRUE, 0);
-	
+
 	priv->arrow_image = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_end (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
 			  GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->arrow_image);
-	
+
 	gtk_widget_show (priv->hbox);
-	
+
 	priv->is_already_packed = TRUE;
 }
 

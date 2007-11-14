@@ -54,7 +54,7 @@ static void
 gal_a11y_e_table_column_header_dispose (GObject *object)
 {
 	GalA11yETableColumnHeader *a11y = GAL_A11Y_E_TABLE_COLUMN_HEADER (object);
-	GalA11yETableColumnHeaderPrivate *priv = GET_PRIVATE (a11y);	
+	GalA11yETableColumnHeaderPrivate *priv = GET_PRIVATE (a11y);
 
 	if (priv->state_set) {
 		g_object_unref (priv->state_set);
@@ -63,7 +63,7 @@ gal_a11y_e_table_column_header_dispose (GObject *object)
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);
-	
+
 }
 
 static void
@@ -108,7 +108,7 @@ gal_a11y_e_table_column_header_do_action (AtkAction *action,
 			}
 			else if (E_IS_TABLE (widget))
 				ethi = E_TABLE_HEADER_ITEM (E_TABLE (widget)->header_item);
-			else 
+			else
 				break;
 			ethi_change_sort_state (ethi, col);
 		default:

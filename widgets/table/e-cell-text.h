@@ -8,7 +8,7 @@
  *   Chris Lahey <clahey@ximian.com>
  *
  * A lot of code taken from:
- * 
+ *
  * Text item type for GnomeCanvas widget
  *
  * GnomeCanvas is basically a port of the Tk toolkit's most excellent
@@ -63,7 +63,7 @@ typedef struct {
 
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
 	guint editable : 1;		/* Whether the text can be edited. */
-	
+
 	int strikeout_column;
 	int underline_column;
 	int bold_column;

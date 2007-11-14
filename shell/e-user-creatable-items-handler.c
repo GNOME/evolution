@@ -382,7 +382,7 @@ execute_verb (EUserCreatableItemsHandler *handler,
 				CORBA_Environment ev;
 
 				CORBA_exception_init (&ev);
-				
+
 				GNOME_Evolution_Component_requestCreateItem (component->component, id, &ev);
 
 				if (ev._major != CORBA_NO_EXCEPTION)
@@ -706,8 +706,8 @@ new_button_change (GConfClient *gconf,
 	priv = handler->priv;
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 
-	set_combo_button_style (E_COMBO_BUTTON (priv->new_button), 
-				val, priv->default_menu_item->icon);	
+	set_combo_button_style (E_COMBO_BUTTON (priv->new_button),
+				val, priv->default_menu_item->icon);
 
 	g_free (val);
 	gtk_widget_show (priv->new_button);
@@ -731,7 +731,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gtk_widget_show_all (priv->new_menu);
 	e_combo_button_set_menu (E_COMBO_BUTTON (priv->new_button),
 				 GTK_MENU (priv->new_menu));
-        
+
 	g_signal_connect (priv->new_button, "activate_default",
 			  G_CALLBACK (default_activate), handler);
 
@@ -745,11 +745,11 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	}
 
 	gtk_widget_set_sensitive (priv->new_button, TRUE);
-	
-	set_combo_button_style (E_COMBO_BUTTON (priv->new_button), 
-				val, priv->default_menu_item->icon);	
 
-	gconf_client_notify_add(gconf,"/desktop/gnome/interface/toolbar_style", 
+	set_combo_button_style (E_COMBO_BUTTON (priv->new_button),
+				val, priv->default_menu_item->icon);
+
+	gconf_client_notify_add(gconf,"/desktop/gnome/interface/toolbar_style",
 		(GConfClientNotifyFunc)new_button_change, handler, NULL, NULL);
 
 	gtk_widget_show (priv->new_button);
@@ -775,7 +775,7 @@ impl_set_property (GObject *object, guint prop_id,
 	case PROP_THIS_COMPONENT:
 		handler->priv->this_component = g_value_dup_string (value);
 
-		get_components_from_bonobo (handler);	
+		get_components_from_bonobo (handler);
 		ensure_menu_items (handler);
 		break;
 	default:
@@ -843,7 +843,7 @@ static void
 e_user_creatable_items_handler_class_init (EUserCreatableItemsHandlerClass *klass)
 {
 	GObjectClass *object_class;
-	
+
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose      = impl_dispose;
 	object_class->finalize     = impl_finalize;
@@ -888,7 +888,7 @@ e_user_creatable_items_handler_new (const char *component_alias,
  * e_user_creatable_items_handler_activate:
  * @handler: the #EUserCreatableItemsHandler
  * @ui_component: the #BonoboUIComponent to attach to
- * 
+ *
  * Set up the menus and toolbar items for @ui_component.
  **/
 void

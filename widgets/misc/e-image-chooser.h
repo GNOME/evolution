@@ -49,7 +49,7 @@ struct _EImageChooserClass
 	/* signals */
 	void (*changed) (EImageChooser *chooser);
 
-	
+
 };
 
 GtkWidget *e_image_chooser_new      (void);

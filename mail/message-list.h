@@ -60,14 +60,14 @@ enum {
 	COL_RECIPIENTS,
 	COL_MIXED_SENDER,
 	COL_MIXED_RECIPIENTS,
-	
+
 	/* normalised strings */
 	COL_FROM_NORM,
 	COL_SUBJECT_NORM,
 	COL_TO_NORM,
-	
+
 	COL_LAST,
-	
+
 	/* Invisible columns */
 	COL_DELETED,
 	COL_UNREAD,
@@ -100,34 +100,34 @@ struct _MessageList {
 	char *folder_uri;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
-	
+
 	GHashTable *normalised_hash;
-	
+
 	/* UID's to hide.  Keys in the mempool */
 	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
 	GHashTable	 *hidden;
 	struct _EMemPool *hidden_pool;
 	int hide_unhidden;           /* total length, before hiding */
 	int hide_before, hide_after; /* hide ranges of messages */
-	
+
 	/* Current search string, or %NULL */
 	char *search;
-	
+
 	/* are we regenerating the message_list because set_folder was just called? */
 	guint just_set_folder : 1;
-	
+
 	/* Are we displaying threaded view? */
 	guint threaded : 1;
 
 	guint expand_all :1;
 	guint collapse_all :1;
-	
+
 	/* do we automatically hide deleted messages? */
 	guint hidedeleted : 1;
 
 	/* do we automatically hide junk messages? */
 	guint hidejunk : 1;
-	
+
 	/* frozen count */
 	guint frozen:16;
 

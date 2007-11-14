@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- *  Authors: Rodrigo Moya <rodrigo@novell.com> 
+ *  Authors: Rodrigo Moya <rodrigo@novell.com>
  *           Philip Van Hoof <pvanhoof@gnome.org>
- *           
+ *
  *  Copyright 2004 Novell, Inc. (www.novell.com)
  *
  *  This program is free software; you can redistribute it and/or
@@ -68,16 +68,16 @@ insert_tz_comps (icalparameter *param, void *cb_data)
 	GError *error = NULL;
 
 	tzid = icalparameter_get_tzid (param);
-	
+
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
-	
+
 	if (!e_cal_get_timezone (tdata->ecal, tzid, &zone, &error)) {
 		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
 		g_error_free (error);
 		return;
 	}
-	
+
 	tzcomp = icalcomponent_new_clone (icaltimezone_get_component (zone));
 	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
 }
@@ -97,7 +97,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 	GList *objects;
 	icalcomponent *top_level = NULL;
 	GnomeVFSURI *uri;
-	gboolean doit = TRUE;	
+	gboolean doit = TRUE;
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
@@ -127,7 +127,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 
 		while (objects != NULL) {
 			icalcomponent *icalcomp = objects->data;
-		
+
 			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);
 
@@ -142,7 +142,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 
 		/* save the file */
 		uri = gnome_vfs_uri_new (dest_uri);
-	
+
 		result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
 		if (result == GNOME_VFS_OK)
 			doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
@@ -157,18 +157,18 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 						       gnome_vfs_result_to_string (result));
 					}
 			}
-	
+
 			if (result == GNOME_VFS_OK) {
 				char *ical_str;
 				GnomeVFSFileSize bytes_written;
-	
+
 				ical_str = icalcomponent_as_ical_string (top_level);
 				if ((result = gnome_vfs_write (handle, (gconstpointer) ical_str, strlen (ical_str), &bytes_written))
 				    != GNOME_VFS_OK) {
 					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
 								       gnome_vfs_result_to_string (result));
 				}
-	
+
 				gnome_vfs_close (handle);
 			}
 		}

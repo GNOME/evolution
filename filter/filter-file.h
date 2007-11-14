@@ -43,16 +43,16 @@ typedef struct _FilterFileClass FilterFileClass;
 
 struct _FilterFile {
 	FilterElement parent_object;
-	
+
 	char *type;
 	char *path;
 };
 
 struct _FilterFileClass {
 	FilterElementClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

@@ -49,8 +49,8 @@ typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, int snooze_mins, gpo
 AlarmNotificationsDialog *
 notified_alarms_dialog_new (void);
 
-GtkTreeIter 
-add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger, 
+GtkTreeIter
+add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger,
 				time_t occur_start, time_t occur_end,
 				ECalComponentVType vtype, const char *summary,
 				const char *description, const char *location,
