@@ -159,7 +159,7 @@ ex_create_folder_info (CamelStore *store, char *name, char *uri,
         if (!path)
                 return NULL;
 
-        info = g_new0 (CamelFolderInfo, 1);
+        info = camel_folder_info_new ();
         info->name = name;
         info->uri = uri;
         info->full_name = g_strdup (path + 1);

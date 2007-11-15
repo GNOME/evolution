@@ -1,3 +1,8 @@
+2007-11-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-tree.c (em_folder_tree_get_selected_folder_info):
+	Call camel_folder_info_new() instead of g_new0().
+
 2007-11-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #263236

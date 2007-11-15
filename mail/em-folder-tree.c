@@ -2547,7 +2547,7 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
 				    COL_STRING_DISPLAY_NAME, &name,
 				    COL_STRING_URI, &uri, -1);
 
-	fi = g_new0(CamelFolderInfo, 1);
+	fi = camel_folder_info_new ();
 	fi->full_name = g_strdup (full_name);
 	fi->uri = g_strdup (uri);
 	fi->name = g_strdup (name);

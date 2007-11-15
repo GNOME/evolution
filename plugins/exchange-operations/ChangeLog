@@ -1,3 +1,8 @@
+2007-11-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* exchange-folder.c (ex_create_folder_info):
+	Call camel_folder_info_new() instead of g_new0().
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* exchange-account-setup.c: (org_gnome_exchange_settings),
