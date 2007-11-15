@@ -1,3 +1,7 @@
+2007-11-15  Marcel Telka  <marcel@telka.sk>
+
+	* sk.po: Fixed bug 422993. Thanks to Hanka Zalska. 
+
 2007-11-14  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
