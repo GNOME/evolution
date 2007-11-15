@@ -175,25 +175,32 @@ lookup_account_info (const char *key)
 #define SELECTED_JOURNALS 	"/apps/evolution/calendar/memos/selected_memos"
 
 static void
-add_cal_esource (EAccount *account, GSList *folders, const char* conf_key, ExchangeMAPIFolderType folder_type, CamelURL *url)
+add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType folder_type, CamelURL *url)
 {
 	ESourceList *source_list = NULL;
 	ESourceGroup *group = NULL;
- 
+	const gchar *conf_key = NULL, *source_selection_key = NULL, *primary_source_name = NULL;
  	GSList *temp_list = NULL;
 	GConfClient* client;
 	GSList *ids, *temp ;
-	char *relative_uri;
-	char *source_selection_key;
+	gchar *relative_uri;
 
-	if (folder_type ==  MAPI_FOLDER_TYPE_APPOINTMENT) 
+	if (folder_type ==  MAPI_FOLDER_TYPE_APPOINTMENT) { 
+		conf_key = CALENDAR_SOURCES;
 		source_selection_key = SELECTED_CALENDARS;
-	else if (folder_type == MAPI_FOLDER_TYPE_TASK)
+//		primary_source_name = "Calendar";
+	} else if (folder_type == MAPI_FOLDER_TYPE_TASK) { 
+		conf_key = TASK_SOURCES;
 		source_selection_key = SELECTED_TASKS;
-	else if (folder_type == MAPI_FOLDER_TYPE_JOURNAL)
+//		primary_source_name = "Tasks";
+	} else if (folder_type == MAPI_FOLDER_TYPE_MEMO) {
+		conf_key = JOURNAL_SOURCES;
 		source_selection_key = SELECTED_JOURNALS;
-	else 
-		source_selection_key = NULL;
+//		primary_source_name = "Notes";
+	} else {
+		g_warning ("%s(%d): %s: Unknown ExchangeMAPIFolderType\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+		return;
+	} 
 
 	client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (client, conf_key);
@@ -203,25 +210,29 @@ add_cal_esource (EAccount *account, GSList *folders, const char* conf_key, Excha
 	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
  		ExchangeMAPIFolder *folder = temp_list->data;
 		ESource *source = NULL;
-		char *tmp = NULL;
+		gchar *tmp = NULL;
 
 		if (folder->container_class != folder_type)
 			continue;
 
-		relative_uri = g_strdup_printf ("%s@%s/", url->user, url->host);
+		tmp = g_strdup_printf ("%016llx", folder->folder_id);
+		relative_uri = g_strdup_printf ("%s@%s/%s/", url->user, url->host, tmp);
 		source = e_source_new (folder->folder_name, relative_uri);
 		e_source_set_property (source, "auth", "1");
 		e_source_set_property (source, "auth-domain", "MAPI");
 		e_source_set_property (source, "username", url->user);
 		e_source_set_property(source, "host", url->host);
-		e_source_set_property(source, "profile", camel_url_get_param (url, "profile"));
-		e_source_set_property(source, "domain", camel_url_get_param (url, "domain"));
 		e_source_set_property (source, "offline_sync", 
 					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
+		e_source_set_property(source, "profile", camel_url_get_param (url, "profile"));
+		e_source_set_property(source, "domain", camel_url_get_param (url, "domain"));
 
-		tmp = g_strdup_printf ("%016llx", folder->folder_id);
 		e_source_set_property(source, "folder-id", tmp);
-		g_free (tmp);
+		/* FIXME: The primary folders cannot be deleted */
+#if 0
+		if (strcmp (folder->folder_name, primary_source_name) == 0) 
+			e_source_set_property (source, "delete", "no");
+#endif
 #if 0 
 		if (folder->parent_folder_name) {
 			e_source_set_property (source, "parent_folder_name", folder->parent_folder_name);
@@ -244,6 +255,7 @@ add_cal_esource (EAccount *account, GSList *folders, const char* conf_key, Excha
 
 		g_object_unref (source);
 		g_free (relative_uri);
+		g_free (tmp);
 	}
 
 	if (!e_source_list_add_group (source_list, group, -1))
@@ -257,24 +269,29 @@ add_cal_esource (EAccount *account, GSList *folders, const char* conf_key, Excha
 }
 
 static void 
-remove_cal_esource (EAccount *existing_account_info, const char *conf_key, ExchangeMAPIFolderType folder_type, const char* relative_uri)
+remove_cal_esource (EAccount *existing_account_info, ExchangeMAPIFolderType folder_type, const gchar* relative_uri)
 {
 	ESourceList *list;
+	const gchar *conf_key = NULL, *source_selection_key = NULL;
         GSList *groups;
 	gboolean found_group;
 	GConfClient* client;
 	GSList *ids;
 	GSList *node_tobe_deleted;
-	char *source_selection_key;
 
-	if (folder_type ==  MAPI_FOLDER_TYPE_APPOINTMENT) 
+	if (folder_type ==  MAPI_FOLDER_TYPE_APPOINTMENT) { 
+		conf_key = CALENDAR_SOURCES;
 		source_selection_key = SELECTED_CALENDARS;
-	else if (folder_type == MAPI_FOLDER_TYPE_TASK)
+	} else if (folder_type == MAPI_FOLDER_TYPE_TASK) { 
+		conf_key = TASK_SOURCES;
 		source_selection_key = SELECTED_TASKS;
-	else if (folder_type == MAPI_FOLDER_TYPE_JOURNAL)
+	} else if (folder_type == MAPI_FOLDER_TYPE_MEMO) {
+		conf_key = JOURNAL_SOURCES;
 		source_selection_key = SELECTED_JOURNALS;
-	else 
-		source_selection_key = NULL;	
+	} else {
+		g_warning ("%s(%d): %s: Unknown ExchangeMAPIFolderType\n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+		return;
+	} 
 
         client = gconf_client_get_default();
         list = e_source_list_new_for_gconf (client, conf_key);
@@ -297,7 +314,7 @@ remove_cal_esource (EAccount *existing_account_info, const char *conf_key, Excha
 				if (source_relative_uri == NULL)
 					continue;
 
-				if (strcmp (source_relative_uri, relative_uri) == 0 && source_selection_key) {
+				if (g_str_has_prefix (source_relative_uri, relative_uri) && source_selection_key) {
 					ids = gconf_client_get_list (client, source_selection_key , 
 								     GCONF_VALUE_STRING, NULL);
 					node_tobe_deleted = g_slist_find_custom (ids, e_source_peek_uid (source), (GCompareFunc) strcmp);
@@ -384,8 +401,6 @@ modify_esource (const char* conf_key, ExchangeAccountInfo *old_account_info, con
 	g_object_unref (client);
 	camel_url_free (url);
 	g_free (old_relative_uri);
-
-	
 }
 #endif
 
@@ -399,9 +414,9 @@ add_calendar_sources (EAccount *account, GSList *folders, ExchangeAccountInfo *i
 	
 	url = camel_url_new (info->source_url, NULL);
 
-	add_cal_esource (account, folders, CALENDAR_SOURCES, MAPI_FOLDER_TYPE_APPOINTMENT, url);
-	add_cal_esource (account, folders, TASK_SOURCES, MAPI_FOLDER_TYPE_TASK, url);
-	add_cal_esource (account, folders, JOURNAL_SOURCES, MAPI_FOLDER_TYPE_JOURNAL, url);
+	add_cal_esource (account, folders, MAPI_FOLDER_TYPE_APPOINTMENT, url);
+	add_cal_esource (account, folders, MAPI_FOLDER_TYPE_TASK, url);
+	add_cal_esource (account, folders, MAPI_FOLDER_TYPE_MEMO, url);
 	
 	camel_url_free (url);
 }
@@ -413,14 +428,14 @@ static void
 remove_calendar_sources (EAccount *account, ExchangeAccountInfo *info)
 {
 	CamelURL *url;
-	char *relative_uri;
+	gchar *relative_uri;
 
 	url = camel_url_new (info->source_url, NULL);
-
 	relative_uri =  g_strdup_printf ("%s@%s/", url->user, url->host);
-	remove_cal_esource (account, CALENDAR_SOURCES, MAPI_FOLDER_TYPE_APPOINTMENT, relative_uri);
-	remove_cal_esource (account, TASK_SOURCES, MAPI_FOLDER_TYPE_TASK, relative_uri);
-	remove_cal_esource (account, JOURNAL_SOURCES, MAPI_FOLDER_TYPE_JOURNAL, relative_uri);
+
+	remove_cal_esource (account, MAPI_FOLDER_TYPE_APPOINTMENT, relative_uri);
+	remove_cal_esource (account, MAPI_FOLDER_TYPE_TASK, relative_uri);
+	remove_cal_esource (account, MAPI_FOLDER_TYPE_MEMO, relative_uri);
 	
 	camel_url_free (url);
 	g_free (relative_uri);

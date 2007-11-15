@@ -1,3 +1,9 @@
+2007-11-15  Suman Manjunath  <msuman@novell.com>
+
+	* exchange-account-listener.c: (add_cal_esource),
+	(remove_cal_esource), (modify_esource), (add_calendar_sources),
+	(remove_calendar_sources): Code optimization, changed _JOURNAL to _MEMO
+
 2007-10-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* exchange-account-listener.c:
