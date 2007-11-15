@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-13 21:43+0100\n"
-"PO-Revision-Date: 2007-11-13 22:06+0100\n"
+"PO-Revision-Date: 2007-11-16 00:50+0100\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -2893,7 +2893,7 @@ msgstr "Ľubovoľné pole obsahuje"
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
 msgid "Email begins with"
-msgstr "E-mail končí na"
+msgstr "E-mail začína na"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
