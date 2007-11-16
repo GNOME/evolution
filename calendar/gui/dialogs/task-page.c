@@ -939,13 +939,13 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 			/* Sanity Check */
 			if (a == NULL) {
-				e_notice (page, GTK_MESSAGE_ERROR,
+				e_notice (priv->main, GTK_MESSAGE_ERROR,
 						_("The organizer selected no longer has an account."));
 				return FALSE;
 			}
 
 			if (a->id->address == NULL || strlen (a->id->address) == 0) {
-				e_notice (page, GTK_MESSAGE_ERROR,
+				e_notice (priv->main, GTK_MESSAGE_ERROR,
 						_("An organizer is required."));
 				return FALSE;
 			}
@@ -969,7 +969,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		}
 
 		if (e_meeting_store_count_actual_attendees (priv->model) < 1) {
-			e_notice (page, GTK_MESSAGE_ERROR,
+			e_notice (priv->main, GTK_MESSAGE_ERROR,
 					_("At least one attendee is required."));
 			return FALSE;
 		}
