@@ -1,3 +1,14 @@
+2007-11-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #492793
+
+	* gui/dialogs/task-page.c: (task_page_fill_component):
+	* gui/dialogs/comp-editor.c: (page_changed_cb),
+	(page_summary_changed_cb), (page_dates_changed_cb):
+	* gui/dialogs/event-page.c: (event_page_fill_component):
+	* gui/dialogs/memo-page.c: (memo_page_fill_component):
+	Pass real widget as parent to e_notice, not a GObject.
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #491345

@@ -2894,7 +2894,7 @@ page_changed_cb (GtkObject *obj, gpointer data)
 	comp_editor_set_changed (editor, TRUE);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (editor, GTK_MESSAGE_INFO,
+		e_notice (priv->notebook, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -2948,7 +2948,7 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 			comp_editor_page_set_summary (l->data, summary);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (editor, GTK_MESSAGE_INFO,
+		e_notice (priv->notebook, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -2972,7 +2972,7 @@ page_dates_changed_cb (GtkObject *obj,
 			comp_editor_page_set_dates (l->data, dates);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (editor, GTK_MESSAGE_INFO,
+		e_notice (priv->notebook, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
