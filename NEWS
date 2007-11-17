@@ -1,3 +1,41 @@
+Evolution 2.21.2 2007-11-12
+---------------------------
+
+Bug fixes:
+	#231166: Do not start appointment time drop-down at midnight (Milan Crha)
+	#255051: No way to abort creation of new task (Milan Crha)
+	#315101: Receiving list of components, so made changes here to reflect it (Milan Crha)
+	#318592: Allow UI notification of links inserted in composer (Milan Crha)
+	#318604: Automatically enable view of the task list you add a task to (Milan Crha)
+	#334675: When only one message is selected, try to use selected text in preview as description, instead of whole message body (Milan Crha)
+	#341085: Use 'x_offset' instead of changing event size when has icons (Milan Crha)
+	#343011: restore collapse state of selected folder after start (Milan Crha)
+	#346693: Too Many All Day Events force Calendar to grow beyond screen-height (Milan Crha)
+	#351932: Ensure due date is not before start date (Milan Crha)
+	#353779: Allow convert more than one mail to meeting with one click (Milan Crha)
+	#353780: Stop processing immediately when page is filled incorrectly (Milan Crha)
+	#359267: Not all memos are showed in calendar view (Milan Crha)
+	#463946: Fix of critical warning and misused variable (Milan Crha)
+	#478704: Remove dead files from source control (Matthew Barnes)
+	#483785, #209425: Get rid of deprecated icons from gnome-icon-theme (Michael Monreal)
+	#484064: Use mail-message-new instead of mail-send for composing mail to contact, contacts or group (Michael Monreal)
+	#487318: Fix typo in D-Bus (Gilles Dartiguelongue)
+	#488298: Disable marking of Drafts as junk (Milan Crha)
+	#491345: Hide completed tasks option requires evo's restart (Milan Crha)
+	#492058: Name the anonymous unions to build with the Sun Studio compiler. (Damien Carbery)
+	#492102: Use mail-mark-read icon (Michael Monreal)
+	#492106: Use the about icon from the freedesktop spec, not the deprecated gnomeui icon (Michael Monreal)
+	#492170: Replace the old color definitions with very similar colors from the Tango color palette (Michael Monreal)
+	#492692: Plug memory leak (Milan Crha)
+	#493646: Fixed a crash at startup (Sankar P)
+	
+Updated Translations:
+	Ignacio Casal Quinteiro (gl)
+	Washington Lins (pt_BR)
+	Jorge Gonzalez (es)
+	David Planella (ca)
+	Kjartan Maraas (nb)
+
 Evolution 2.21.1 2007-10-29
 ---------------------------
 
