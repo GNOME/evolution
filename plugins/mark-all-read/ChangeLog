@@ -1,3 +1,10 @@
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* org-gnome-mark-all-read.eplug.xml:
+	right click menu reordering
+
 2007-11-05  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #492102

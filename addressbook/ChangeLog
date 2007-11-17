@@ -1,3 +1,10 @@
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* gui/component/addressbook-view.c:
+	right click menu reordering
+
 2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Remove dead files from source control.  The dates below

@@ -1,3 +1,12 @@
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* gui/calendar-component.c:
+	* gui/memos-component.c:
+	* gui/tasks-component.c:
+	right click menu reordering
+
 2007-11-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #492793

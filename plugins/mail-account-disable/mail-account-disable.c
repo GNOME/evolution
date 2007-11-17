@@ -43,8 +43,8 @@ void mail_account_disable (EPopup *ep, EPopupItem *p, void *data);
 void org_gnome_create_mail_account_disable (EPlugin *ep, EMPopupTargetFolder *t);
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "20.emc.04", N_("_Disable"), mail_account_disable, NULL, NULL, 0, EM_POPUP_FOLDER_STORE },
-	{ E_POPUP_ITEM, "20.emc.04", N_("Proxy _Logout"), mail_account_disable, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
+	{ E_POPUP_ITEM, "40.emc.04", N_("_Disable"), mail_account_disable, NULL, NULL, 0, EM_POPUP_FOLDER_STORE },
+	{ E_POPUP_ITEM, "40.emc.04", N_("Proxy _Logout"), mail_account_disable, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
 };
 
 static void

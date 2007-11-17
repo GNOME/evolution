@@ -2112,23 +2112,26 @@ static EPopupItem emft_popup_items[] = {
 
 	{ E_POPUP_BAR, "10.emc" },
 #endif
-	{ E_POPUP_ITEM, "10.emc.00", N_("_Copy..."), emft_popup_copy, NULL, "stock_folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "10.emc.01", N_("_Move..."), emft_popup_move, NULL, "stock_folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-
-	{ E_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
+	{ E_POPUP_ITEM, "10.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
+
+	{ E_POPUP_ITEM, "10.emc.05", N_("_Copy..."), emft_popup_copy, NULL, "stock_folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ E_POPUP_ITEM, "10.emc.06", N_("_Move..."), emft_popup_move, NULL, "stock_folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+
 	/* FIXME: need to disable for undeletable folders */
+	{ E_POPUP_BAR,  "20.emc" },
 	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "edit-delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "20.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "20.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
-	{ E_POPUP_ITEM, "20.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
+
+	{ E_POPUP_BAR, "30.emc" },
+	{ E_POPUP_ITEM, "30.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "30.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
+	{ E_POPUP_ITEM, "30.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
 
 
-	{ E_POPUP_BAR, "80.emc" },
-	{ E_POPUP_ITEM, "80.emc.00", N_("_Properties"), emft_popup_properties, NULL, "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
+	{ E_POPUP_BAR, "99.emc" },
+	{ E_POPUP_ITEM, "99.emc.00", N_("_Properties"), emft_popup_properties, NULL, "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
-static EPopupItem trash_popup_item = {E_POPUP_ITEM, "20.emc.03", N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
+static EPopupItem trash_popup_item = {E_POPUP_ITEM, "30.emc.05", N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
 
 static void
 emft_popup_free(EPopup *ep, GSList *items, void *data)

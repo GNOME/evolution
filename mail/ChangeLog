@@ -1,3 +1,10 @@
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* em-folder-tree.c:
+	right click menu reordering
+
 2007-11-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-tree.c (em_folder_tree_get_selected_folder_info):

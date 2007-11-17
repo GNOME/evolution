@@ -952,11 +952,13 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 
 static EPopupItem abv_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "contact-new", 0, 0 },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
- 	{ E_POPUP_BAR,  "40.bar"},
- 	{ E_POPUP_ITEM, "40.saveasvcard", N_("Save As Vcard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_BAR,  "30.bar"},
-	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
+ 	{ E_POPUP_ITEM, "20.saveasvcard", N_("Save As Vcard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
+
+	{ E_POPUP_BAR,  "30.bar" },
+	{ E_POPUP_ITEM, "30.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
+
+	{ E_POPUP_BAR,  "99.bar" },
+	{ E_POPUP_ITEM, "99.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
 };
 
 static void
