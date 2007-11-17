@@ -48,6 +48,7 @@
 
 void org_gnome_sync_calendar (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_sync_memos (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target);
 
 
@@ -148,7 +149,21 @@ destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType
 	/* The available formathandlers */
 	handler= ical_format_handler_new ();
 
-	path = g_strdup_printf((type==E_CAL_SOURCE_TYPE_EVENT)? "Evolution-Calendar-%s" : "Evolution-Tasks-%s", e_source_peek_name (primary_source));
+	switch (type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		path = g_strdup_printf ("Evolution-Calendar-%s", e_source_peek_name (primary_source));
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		path = g_strdup_printf ("Evolution-Tasks-%s", e_source_peek_name (primary_source));
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		path = g_strdup_printf ("Evolution-Tasks-%s", e_source_peek_name (primary_source));
+		break;
+	default:
+		path = NULL;
+		g_assert_not_reached ();
+	}
+
 	dest_uri = g_strdup_printf("%s/%s/%s.ics", mount, "Calendars", path);
 	g_free (path);
 
@@ -179,6 +194,14 @@ org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target)
 	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_TODO);
 }
 
+void
+org_gnome_sync_memos (EPlugin *ep, ECalPopupTargetSource *target)
+{
+	if (!ipod_check_status(FALSE))
+		return;
+	
+	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_JOURNAL);
+}
 
 void
 org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target)

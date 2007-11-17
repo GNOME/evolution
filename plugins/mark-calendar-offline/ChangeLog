@@ -1,3 +1,12 @@
+2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495872
+
+	* mark-calendar-offline.c: (org_gnome_mark_no_offline),
+	(org_gnome_mark_offline):
+	* org-gnome-mark-calendar-offline.eplug.xml:
+	add tasks and memos support
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

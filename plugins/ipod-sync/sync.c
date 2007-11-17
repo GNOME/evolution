@@ -24,6 +24,7 @@
 #define EBOOK_SOURCE_LIST "/apps/evolution/addressbook/sources"
 #define ECAL_SOURCE_LIST "/apps/evolution/calendar/sources"
 #define ETASK_SOURCE_LIST "/apps/evolution/tasks/sources"
+#define EMEMO_SOURCE_LIST "/apps/evolution/memos/sources"
 
 extern GtkWidget *progress_bar;
 extern IPod ipod_info;
@@ -392,6 +393,30 @@ export_tasks (void)
 	pulse ();
 }
 
+/* Attempt to export the memo list(s). */
+static void
+export_memos (void)
+{
+	GSList *uris;
+	GString *data;
+
+	pulse ();
+
+	uris = get_source_uris_for_type (EMEMO_SOURCE_LIST);
+
+	pulse ();
+
+	data = uri_list_to_vcal_string (uris, E_CAL_SOURCE_TYPE_JOURNAL);
+
+	write_to_ipod (data, "/Calendars/", "evolution-memo.ics");
+
+	g_string_free (data, TRUE);
+
+	free_uri_list (uris);
+	
+	pulse ();
+}
+
 void
 export_to_ipod (void)
 {
@@ -405,6 +430,9 @@ export_to_ipod (void)
 
 	if (ipod_info.tasks == TRUE)
 		export_tasks ();
+
+	if (ipod_info.memos == TRUE)
+		export_memos ();
 
 	pulse ();
 	sync ();

@@ -1,3 +1,11 @@
+2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495872
+
+	* org-gnome-save-calendar.eplug.xml:
+	* save-calendar.c: (org_gnome_save_memos):
+	add memo support
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045

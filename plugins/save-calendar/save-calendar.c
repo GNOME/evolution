@@ -51,6 +51,7 @@ enum {  /* GtkComboBox enum */
 
 void org_gnome_save_calendar (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_save_memos (EPlugin *ep, ECalPopupTargetSource *target);
 
 
 static void
@@ -217,4 +218,10 @@ void
 org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	ask_destination_and_save (ep, target, E_CAL_SOURCE_TYPE_TODO);
+}
+
+void
+org_gnome_save_memos (EPlugin *ep, ECalPopupTargetSource *target)
+{
+	ask_destination_and_save (ep, target, E_CAL_SOURCE_TYPE_JOURNAL);
 }

@@ -31,11 +31,11 @@
 #include <libedataserverui/e-source-selector.h>
 #include <calendar/gui/e-cal-popup.h>
 
-void org_gnome_mark_calendar_offline (EPlugin *ep, ECalPopupTargetSource *target);
-void org_gnome_mark_calendar_no_offline (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_mark_offline (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_mark_no_offline (EPlugin *ep, ECalPopupTargetSource *target);
 
 void
-org_gnome_mark_calendar_no_offline (EPlugin *ep, ECalPopupTargetSource *target)
+org_gnome_mark_no_offline (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	ESource *source;
 
@@ -44,7 +44,7 @@ org_gnome_mark_calendar_no_offline (EPlugin *ep, ECalPopupTargetSource *target)
 }
 
 void
-org_gnome_mark_calendar_offline (EPlugin *ep, ECalPopupTargetSource *target)
+org_gnome_mark_offline (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	ESource *source;
 

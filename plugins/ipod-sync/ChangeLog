@@ -1,3 +1,12 @@
+2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495872
+
+	* ipod-sync.c: (org_gnome_sync_memos):
+	* org-gnome-ipod-sync-evolution.eplug.xml:
+	* sync.c: (export_memos), (export_to_ipod):
+	add memo support
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* evolution-ipod-sync.c: (ipod_check_status): Don't mix code
