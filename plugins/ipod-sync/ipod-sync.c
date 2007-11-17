@@ -157,7 +157,7 @@ destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType
 		path = g_strdup_printf ("Evolution-Tasks-%s", e_source_peek_name (primary_source));
 		break;
 	case E_CAL_SOURCE_TYPE_JOURNAL:
-		path = g_strdup_printf ("Evolution-Tasks-%s", e_source_peek_name (primary_source));
+		path = g_strdup_printf ("Evolution-Memos-%s", e_source_peek_name (primary_source));
 		break;
 	default:
 		path = NULL;
