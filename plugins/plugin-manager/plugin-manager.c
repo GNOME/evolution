@@ -190,7 +190,7 @@ eppm_response(GtkDialog *w, int button, Manager *m)
 	if (button == GTK_RESPONSE_CLOSE) {
 		gtk_widget_destroy((GtkWidget*)w);
 		dialog = NULL;
-	} else {
+	} else if (button == RESPONSE_CONFIGURE) {
 		GtkTreeSelection *selection = NULL;
 		GtkTreeModel *model = NULL;
 		GtkTreeIter iter;
