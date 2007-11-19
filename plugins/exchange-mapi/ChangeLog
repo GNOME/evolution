@@ -1,3 +1,8 @@
+2007-11-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-account-listener.c: (add_addressbook_sources): Set the GAL
+	and GAL limit part of the e-source.
+
 2007-11-15  Suman Manjunath  <msuman@novell.com>
 
 	* exchange-account-listener.c: (add_cal_esource),
