@@ -450,14 +450,16 @@ sensitize_widgets (TaskPage *tpage)
 		gtk_widget_hide (priv->attendee_box);
 		gtk_widget_hide (priv->organizer);
 		gtk_widget_hide (priv->invite);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("_Group:"));
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("_Group:"));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->source_selector);
 	} else {
 		gtk_widget_show (priv->invite);
 		gtk_widget_show (priv->calendar_label);
 		gtk_widget_show (priv->list_box);
 		gtk_widget_show (priv->attendee_box);
 		gtk_widget_show (priv->organizer);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *) priv->org_cal_label, _("Or_ganizer:"));
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("Organi_zer:"));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), GTK_COMBO (priv->organizer)->entry);
 	}
 }
 void
@@ -1517,6 +1519,8 @@ get_widgets (TaskPage *tpage)
 
 	priv->source_selector = GW ("source");
 
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->source_selector);
+
 #undef GW
 
 	return (priv->summary
@@ -1527,6 +1531,7 @@ get_widgets (TaskPage *tpage)
 		&& priv->description
 		&& priv->categories_btn
 		&& priv->categories
+		&& priv->organizer
 		);
 }
 

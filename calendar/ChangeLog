@@ -1,3 +1,11 @@
+2007-11-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #401337
+
+	* gui/dialogs/task-page.glade:
+	* gui/dialogs/task-page.c: (sensitize_widgets), (get_widgets):
+	Use other mnemonic for Organizer and let it work properly.
+
 2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #495875
