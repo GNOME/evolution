@@ -1,3 +1,10 @@
+2007-11-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #493783
+
+	* em-format-html.c: (efh_format_timeout): Do not erase old content
+	when re-formatting same mail, so keep scroll position.
+
 2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #495875
