@@ -1,20 +1,23 @@
+# translation of oc.po to Occitan
 # Occitan translation of evolution.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 # Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
 #
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.11.1\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 16:19+0100\n"
-"PO-Revision-Date: 2007-10-14 13:20+0200\n"
-"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"PO-Revision-Date: 2007-11-20 14:30+0100\n"
+"Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -422,8 +425,7 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:20
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:21
@@ -491,8 +493,7 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:34
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35 ../mail/em-vfolder-rule.c:512
@@ -952,8 +953,7 @@ msgid "Email address"
 msgstr "Adreça electronica"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
@@ -3711,7 +3711,7 @@ msgstr "Poliças"
 
 #: ../addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "Poliça :"
 
 #: ../addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
@@ -3797,7 +3797,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr "Retrach"
+msgstr "Contrast"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
@@ -3926,8 +3926,7 @@ msgid "NUMBER"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:102
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:116
@@ -3977,13 +3976,11 @@ msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:7
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:8
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:9
@@ -4088,8 +4085,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:33
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:34
@@ -4277,7 +4273,7 @@ msgstr ""
 #: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:139
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
-msgstr "_Enviar"
+msgstr "_Velocitat :"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "_Send Notice"
@@ -4591,8 +4587,7 @@ msgid "Calendars to run alarms for"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:6
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
@@ -4863,8 +4858,7 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
@@ -4898,8 +4892,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
@@ -4927,8 +4920,7 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
@@ -5350,8 +5342,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -6701,7 +6692,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1675 ../calendar/gui/e-memo-table.c:920
 #: ../mail/em-folder-view.c:1229 ../mail/em-popup.c:567 ../mail/em-popup.c:578
 msgid "_Save As..."
-msgstr ""
+msgstr "_Enregistrar coma..."
 
 #: ../calendar/gui/e-cal-popup.c:280 ../mail/em-popup.c:568
 #: ../mail/em-popup.c:579
@@ -6802,7 +6793,7 @@ msgstr "_Estampar..."
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr ""
+msgstr "C_opar"
 
 #: ../calendar/gui/e-calendar-table.c:1332
 #: ../calendar/gui/e-calendar-view.c:1663
@@ -7192,8 +7183,7 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1258
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1336
@@ -7869,7 +7859,7 @@ msgstr "Informacions sul calendièr"
 
 #: ../calendar/gui/itip-utils.c:749
 msgid "Updated"
-msgstr ""
+msgstr "Mes a jorn"
 
 #: ../calendar/gui/itip-utils.c:757
 msgid "Refresh"
@@ -9937,8 +9927,7 @@ msgid "Insert Attachment"
 msgstr ""
 
 #: ../composer/e-msg-composer.c:818
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
 #: ../composer/e-msg-composer.c:825
@@ -9976,7 +9965,7 @@ msgstr ""
 #. NB: This function is never used anymore
 #: ../composer/e-msg-composer.c:1772
 msgid "Open File"
-msgstr "Dobrir un fichièr"
+msgstr "Dubrir fichièr"
 
 #: ../composer/e-msg-composer.c:2237 ../mail/em-account-editor.c:606
 #: ../mail/em-account-editor.c:651 ../mail/em-account-editor.c:718
@@ -10130,7 +10119,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
-msgstr ""
+msgstr "_Enregistrar lo messatge"
 
 #: ../data/evolution.desktop.in.in.h:1
 msgid "Evolution Mail and Calendar"
@@ -10183,8 +10172,7 @@ msgid "The printing system reported the following details about the error:"
 msgstr ""
 
 #: ../e-util/e-print.c:151
-msgid ""
-"The printing system did not report any additional details about the error."
+msgid "The printing system did not report any additional details about the error."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:2
@@ -10484,7 +10472,7 @@ msgstr "meses"
 
 #: ../filter/filter.glade.h:19 ../mail/mail-config.glade.h:188
 msgid "seconds"
-msgstr "segondas"
+msgstr "milisegondas"
 
 #: ../filter/filter.glade.h:20
 msgid "the current time"
@@ -10520,8 +10508,7 @@ msgid "Composer Preferences"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -11776,8 +11763,7 @@ msgstr ""
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:797 ../mail/em-mailer-prefs.c:852
 #, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
+msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr ""
 
 #: ../mail/em-mailer-prefs.c:818
@@ -12225,8 +12211,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:75
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:76
@@ -13009,7 +12994,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:95
 msgid "KB"
-msgstr "Ko"
+msgstr "ko"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Languages Table"
@@ -13696,13 +13681,11 @@ msgid "New Search Folder"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:1
-msgid ""
-"A folder named &quot;{0}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:2
-msgid ""
-"A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:3
@@ -13740,8 +13723,7 @@ msgid "Are you sure you want to delete this account?"
 msgstr "Sètz segur que volètz suprimir aqueste compte ?"
 
 #: ../mail/mail.error.xml.h:11
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:12
@@ -14134,8 +14116,7 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:114
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:115
@@ -14586,8 +14567,7 @@ msgid "Are you sure you want to close Evolution?"
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid ""
-"Are you sure you want to restore Evolution from the selected backup file?"
+msgid "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
@@ -14634,8 +14614,7 @@ msgstr ""
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:473
-msgid ""
-"_Automatically create entries in the addressbook when responding to messages"
+msgid "_Automatically create entries in the addressbook when responding to messages"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:479
@@ -14813,8 +14792,7 @@ msgid "Check whether Evolution is the default mailer"
 msgstr ""
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
@@ -15710,7 +15688,7 @@ msgstr ""
 
 #: ../plugins/face/face.c:67
 msgid "PNG files"
-msgstr ""
+msgstr "Fichièrs PNG"
 
 #: ../plugins/face/org-gnome-face-ui.xml.h:1
 msgid "_Face"
@@ -16553,8 +16531,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:386
@@ -16648,8 +16625,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, c-format
-msgid ""
-"<b>%s</b> through %s has sent back the following assigned task response:"
+msgid "<b>%s</b> through %s has sent back the following assigned task response:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:476
@@ -16669,8 +16645,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:486
 #, c-format
-msgid ""
-"<b>%s</b> through %s has proposed the following task assignment changes:"
+msgid "<b>%s</b> through %s has proposed the following task assignment changes:"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:488
@@ -16827,8 +16802,7 @@ msgid "This meeting has been delegated"
 msgstr ""
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -16897,8 +16871,7 @@ msgid "No store available"
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid ""
-"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
 msgstr ""
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
@@ -16960,8 +16933,7 @@ msgid "Mailing _List"
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -17631,8 +17603,7 @@ msgid "Last upgraded configuration version"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
@@ -17707,8 +17678,7 @@ msgid "Whether the toolbar should be visible."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27
@@ -17898,7 +17868,7 @@ msgstr "Tèst novè"
 
 #: ../shell/test/evolution-test-component.c:108
 msgid "_Test"
-msgstr "_Tèst"
+msgstr "_Tèxt"
 
 #: ../shell/test/evolution-test-component.c:109
 msgid "Create a new test item"
@@ -18377,8 +18347,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -18712,7 +18681,7 @@ msgstr "Tot seleccionar"
 #: ../ui/evolution-composer-entries.xml.h:11 ../ui/evolution-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr "_Tot seleccionar"
+msgstr "Seleccionar un fichièr"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
@@ -19301,8 +19270,7 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -19952,7 +19920,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
-msgstr "Enregistrar coma"
+msgstr "Enregistrar coma :"
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save Draft"
@@ -19988,7 +19956,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Send"
-msgstr "Enviar"
+msgstr "Segondas"
 
 #: ../ui/evolution-message-composer.xml.h:36
 #: ../ui/evolution-signature-editor.xml.h:23
@@ -20141,7 +20109,7 @@ msgstr ""
 
 #: ../ui/evolution-task-editor.xml.h:10
 msgid "Time Zone"
-msgstr ""
+msgstr "Fus orari"
 
 #: ../ui/evolution-task-editor.xml.h:24
 msgid "_Status Details"
@@ -20765,11 +20733,11 @@ msgstr "Unicode"
 
 #: ../widgets/misc/e-charset-picker.c:77
 msgid "Western European"
-msgstr ""
+msgstr "European central"
 
 #: ../widgets/misc/e-charset-picker.c:78
 msgid "Western European, New"
-msgstr ""
+msgstr "European central"
 
 #: ../widgets/misc/e-charset-picker.c:97 ../widgets/misc/e-charset-picker.c:98
 #: ../widgets/misc/e-charset-picker.c:99
@@ -20781,7 +20749,7 @@ msgstr "Tradicional"
 #: ../widgets/misc/e-charset-picker.c:102
 #: ../widgets/misc/e-charset-picker.c:103
 msgid "Simplified"
-msgstr ""
+msgstr "Chinés simplificat"
 
 #: ../widgets/misc/e-charset-picker.c:106
 msgid "Ukrainian"
@@ -20915,7 +20883,7 @@ msgstr ""
 
 #: ../widgets/misc/e-filter-bar.c:272
 msgid "Searches"
-msgstr ""
+msgstr "Recèrcas"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:111
 msgid "_Save Search..."
@@ -21426,7 +21394,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
 msgid "Selection model"
-msgstr ""
+msgstr "_Tot seleccionar"
 
 #: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-container.c:939
@@ -21563,7 +21531,7 @@ msgstr ""
 #: ../widgets/text/e-entry.c:1223 ../widgets/text/e-entry.c:1224
 #: ../widgets/text/e-text.c:3586 ../widgets/text/e-text.c:3587
 msgid "Justification"
-msgstr ""
+msgstr "Justificacion"
 
 #: ../widgets/text/e-entry.c:1265 ../widgets/text/e-entry.c:1266
 #: ../widgets/text/e-text.c:3686 ../widgets/text/e-text.c:3687
@@ -21675,80 +21643,3 @@ msgstr ""
 msgid "Handle Popup"
 msgstr ""
 
-#~ msgid "<- _Remove"
-#~ msgstr "<- _Suprimir"
-
-#~ msgid "_Add ->"
-#~ msgstr "_Apondre ->"
-
-#~ msgid "_Address: "
-#~ msgstr "_Adreça : "
-
-#~ msgid "Organization"
-#~ msgstr "Organizacion"
-
-#~ msgid "Add Calendar"
-#~ msgstr "Apondre un calendièr"
-
-#~ msgid "_Add Calendar"
-#~ msgstr "_Apondre un calendièr"
-
-#~ msgid "_Manual"
-#~ msgstr "_Manual"
-
-#~ msgid "The orientation of the tray."
-#~ msgstr "L'orientacion de la zòna de notificacion."
-
-#~ msgid "Enable"
-#~ msgstr "Activar"
-
-#~ msgid "<b>Then</b>"
-#~ msgstr "<b>Doncas</b>"
-
-#~ msgid "Settings"
-#~ msgstr "Paramètres"
-
-#~ msgid "_Edit..."
-#~ msgstr "_Edicion..."
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "E-mail"
-#~ msgstr "Corrièl"
-
-#~ msgid "%a %b %d"
-#~ msgstr "%a %b %d"
-
-#~ msgid "%a %d %Y"
-#~ msgstr "%a %d %Y"
-
-#~ msgid "%a %b %d %Y"
-#~ msgstr "%a %b %d %Y"
-
-#~ msgid "range"
-#~ msgstr "Airal"
-
-#~ msgid "<b>Action</b>"
-#~ msgstr "<b>Accion</b>"
-
-#~ msgid "<b>Date and Time</b>"
-#~ msgstr "<b>Data e ora</b>"
-
-#~ msgid "%H:%M"
-#~ msgstr "%H:%M"
-
-#~ msgid "%I:%M %p"
-#~ msgstr "%I:%M %p"
-
-#~ msgid "Fo_rward"
-#~ msgstr "Faire _suivre"
-
-#~ msgid "Fontset"
-#~ msgstr "Jeu de police"
-
-#~ msgid "Font"
-#~ msgstr "Police"
-
-#~ msgid "GDKFont"
-#~ msgstr "GDKFont"

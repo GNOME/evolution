@@ -1,27 +1,28 @@
+# translation of oc.po to Occitan
 # Occitan translation of evolution manual
 #
 # Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
 #
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: manual_evolution\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-16 12:37+0100\n"
-"PO-Revision-Date: 2007-10-14 13:19+0200\n"
+"PO-Revision-Date: 2007-11-20 14:29+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:239(None)
-msgid ""
-"@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
-msgstr ""
-"@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgid "@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgstr "@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -36,18 +37,14 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:430(None)
-msgid ""
-"@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
-msgstr ""
-"@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
+msgid "@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
+msgstr "@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:440(None)
-msgid ""
-"@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
-msgstr ""
-"@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
+msgid "@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
+msgstr "@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -62,26 +59,20 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:524(None)
-msgid ""
-"@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
-msgstr ""
-"@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
+msgid "@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
+msgstr "@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:545(None)
-msgid ""
-"@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
-msgstr ""
-"@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
+msgid "@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
+msgstr "@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:592(None)
-msgid ""
-"@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
-msgstr ""
-"@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
+msgid "@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
+msgstr "@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -106,18 +97,14 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:683(None)
-msgid ""
-"@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
-msgstr ""
-"@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
+msgid "@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
+msgstr "@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:730(None)
-msgid ""
-"@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
-msgstr ""
-"@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
+msgid "@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
+msgstr "@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -133,8 +120,7 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:932(None)
 msgid "@@image: 'figures/evo_mail_a.png'; md5=cf315e85737412c6ee3c3202b8807701"
-msgstr ""
-"@@image: 'figures/evo_mail_a.png'; md5=cf315e85737412c6ee3c3202b8807701"
+msgstr "@@image: 'figures/evo_mail_a.png'; md5=cf315e85737412c6ee3c3202b8807701"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -185,10 +171,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1015(None)
-msgid ""
-"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
-msgstr ""
-"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
+msgid "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
+msgstr "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -203,41 +187,32 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1178(None)
-msgid ""
-"@@image: 'figures/evo_newmail.png'; md5=16ab09468afc659751ebe117369a3912"
-msgstr ""
-"@@image: 'figures/evo_newmail.png'; md5=16ab09468afc659751ebe117369a3912"
+msgid "@@image: 'figures/evo_newmail.png'; md5=16ab09468afc659751ebe117369a3912"
+msgstr "@@image: 'figures/evo_newmail.png'; md5=16ab09468afc659751ebe117369a3912"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1195(None)
 msgid "@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
-msgstr ""
-"@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
+msgstr "@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1210(None)
-msgid ""
-"@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
-msgstr ""
-"@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
+msgid "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
+msgstr "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1380(None)
-msgid ""
-"@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
-msgstr ""
-"@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
+msgid "@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
+msgstr "@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1468(None)
-msgid ""
-"@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
-msgstr ""
-"@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
+msgid "@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
+msgstr "@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -272,10 +247,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1900(None)
-msgid ""
-"@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
-msgstr ""
-"@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
+msgid "@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
+msgstr "@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -290,10 +263,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2350(None)
-msgid ""
-"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-msgstr ""
-"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+msgid "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+msgstr "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -328,41 +299,32 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2684(None)
-msgid ""
-"@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
-msgstr ""
-"@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
+msgid "@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
+msgstr "@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2714(None)
-msgid ""
-"@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
-msgstr ""
-"@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
+msgid "@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
+msgstr "@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2720(None)
-msgid ""
-"@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
-msgstr ""
-"@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
+msgid "@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
+msgstr "@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2747(None)
-msgid ""
-"@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
-msgstr ""
-"@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
+msgid "@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
+msgstr "@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2995(None)
 msgid "@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
-msgstr ""
-"@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
+msgstr "@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -387,18 +349,14 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3220(None)
-msgid ""
-"@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
-msgstr ""
-"@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
+msgid "@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
+msgstr "@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3475(None)
-msgid ""
-"@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
-msgstr ""
-"@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
+msgid "@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
+msgstr "@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -409,10 +367,8 @@ msgstr "@@image: 'figures/evo_cal_a.png'; md5=08a60dd21a8c52bace4a9d1d606b3ff5"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3653(None)
-msgid ""
-"@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
-msgstr ""
-"@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
+msgid "@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
+msgstr "@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -427,10 +383,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3802(None)
-msgid ""
-"@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
-msgstr ""
-"@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
+msgid "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
+msgstr "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -459,18 +413,14 @@ msgstr "@@image: 'figures/evo_memo_a.png'; md5=d3e1bb4520b51afabc1b396fdd4ab82c"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4952(None)
-msgid ""
-"@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
-msgstr ""
-"@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgid "@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgstr "@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4962(None)
-msgid ""
-"@@image: 'figures/exchng-rec-mails.png'; md5=29dcaf684be7ea3554afe4f96885bc4e"
-msgstr ""
-"@@image: 'figures/exchng-rec-mails.png'; md5=29dcaf684be7ea3554afe4f96885bc4e"
+msgid "@@image: 'figures/exchng-rec-mails.png'; md5=29dcaf684be7ea3554afe4f96885bc4e"
+msgstr "@@image: 'figures/exchng-rec-mails.png'; md5=29dcaf684be7ea3554afe4f96885bc4e"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -485,18 +435,14 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5005(None)
-msgid ""
-"@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
-msgstr ""
-"@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
+msgid "@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
+msgstr "@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5027(None)
-msgid ""
-"@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
-msgstr ""
-"@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
+msgid "@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
+msgstr "@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -511,10 +457,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5076(None) C/evolution.xml:5311(None)
-msgid ""
-"@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
-msgstr ""
-"@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
+msgid "@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
+msgstr "@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -555,10 +499,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5270(None)
-msgid ""
-"@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
-msgstr ""
-"@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
+msgid "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
+msgstr "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -593,18 +535,14 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5664(None)
-msgid ""
-"@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
-msgstr ""
-"@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
+msgid "@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
+msgstr "@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5696(None)
-msgid ""
-"@@image: 'figures/evo_shd_memo_a.png'; md5=dd7069c9f52641dd13101c1dd935feb8"
-msgstr ""
-"@@image: 'figures/evo_shd_memo_a.png'; md5=dd7069c9f52641dd13101c1dd935feb8"
+msgid "@@image: 'figures/evo_shd_memo_a.png'; md5=dd7069c9f52641dd13101c1dd935feb8"
+msgstr "@@image: 'figures/evo_shd_memo_a.png'; md5=dd7069c9f52641dd13101c1dd935feb8"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -619,34 +557,26 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5826(None)
-msgid ""
-"@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
-msgstr ""
-"@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
+msgid "@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
+msgstr "@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5891(None)
-msgid ""
-"@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
-msgstr ""
-"@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
+msgid "@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
+msgstr "@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6036(None)
-msgid ""
-"@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
-msgstr ""
-"@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
+msgid "@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
+msgstr "@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6058(None)
-msgid ""
-"@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
-msgstr ""
-"@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
+msgid "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
+msgstr "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -667,10 +597,8 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6333(None)
-msgid ""
-"@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
-msgstr ""
-"@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
+msgid "@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
+msgstr "@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -681,10 +609,8 @@ msgstr "@@image: 'figures/evo_junk_a.png'; md5=9ea63d33ed9dae0df3a8a62a85063340"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6947(None)
-msgid ""
-"@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
-msgstr ""
-"@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
+msgid "@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
+msgstr "@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
 
 #: C/evolution.xml:16(title) C/evolution.xml:7338(para)
 msgid "Evolution 2.12 User Guide"
@@ -718,7 +644,7 @@ msgstr "Radhika PC"
 
 #: C/evolution.xml:43(revnumber) C/evolution.xml:51(revnumber)
 msgid "2.10"
-msgstr ""
+msgstr "2.10"
 
 #: C/evolution.xml:44(date)
 msgid "March 14, 2007"
@@ -771,7 +697,7 @@ msgstr ""
 
 #: C/evolution.xml:89(link) C/evolution.xml:156(title)
 msgid "Getting Started"
-msgstr ""
+msgstr "Per començar"
 
 #: C/evolution.xml:92(link) C/evolution.xml:1112(title)
 msgid "Sending and Receiving E-Mail"
@@ -1017,8 +943,7 @@ msgid "(Optional) Type a reply to address in the Reply-To field."
 msgstr ""
 
 #: C/evolution.xml:254(para)
-msgid ""
-"Use this field if you want replies to messages sent to a different address."
+msgid "Use this field if you want replies to messages sent to a different address."
 msgstr ""
 
 #: C/evolution.xml:257(para)
@@ -1043,8 +968,7 @@ msgid "Click Forward."
 msgstr ""
 
 #: C/evolution.xml:268(para)
-msgid ""
-"The Receiving E-mail option lets you determine where you get your e-mail."
+msgid "The Receiving E-mail option lets you determine where you get your e-mail."
 msgstr ""
 
 #: C/evolution.xml:270(para)
@@ -1514,8 +1438,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:488(para)
-msgid ""
-"Select if you want Evolution to use custom commands to connect to Evolution."
+msgid "Select if you want Evolution to use custom commands to connect to Evolution."
 msgstr ""
 
 #: C/evolution.xml:489(para)
@@ -1535,8 +1458,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:496(para)
-msgid ""
-"Select if you want Evolution to override server-supplied folder namespaces."
+msgid "Select if you want Evolution to override server-supplied folder namespaces."
 msgstr ""
 
 #: C/evolution.xml:497(para)
@@ -1634,8 +1556,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:588(para)
-msgid ""
-"Select if you want to use the <emphasis>.folders</emphasis> summary file."
+msgid "Select if you want to use the <emphasis>.folders</emphasis> summary file."
 msgstr ""
 
 #: C/evolution.xml:601(para)
@@ -1645,8 +1566,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:629(para) C/evolution.xml:651(para)
-msgid ""
-"Select if you want to store status headers in Elm, Pine, and Mutt formats."
+msgid "Select if you want to store status headers in Elm, Pine, and Mutt formats."
 msgstr ""
 
 #: C/evolution.xml:641(title)
@@ -1896,7 +1816,7 @@ msgstr ""
 
 #: C/evolution.xml:787(title)
 msgid "Status Bar:"
-msgstr ""
+msgstr "Barra d'estat :"
 
 #: C/evolution.xml:788(para)
 msgid ""
@@ -2205,8 +2125,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:909(para)
-msgid ""
-"You can also rearrange folders and messages by dragging and dropping them."
+msgid "You can also rearrange folders and messages by dragging and dropping them."
 msgstr ""
 
 #: C/evolution.xml:910(para)
@@ -2412,8 +2331,7 @@ msgid "To take the backup,"
 msgstr ""
 
 #: C/evolution.xml:984(para)
-msgid ""
-"Select File &gt; Backup Settings to select the folder to save the backup."
+msgid "Select File &gt; Backup Settings to select the folder to save the backup."
 msgstr ""
 
 #: C/evolution.xml:986(para)
@@ -2522,8 +2440,7 @@ msgid "evolution mailto:<varname>joe@somewhere.net</varname>"
 msgstr ""
 
 #: C/evolution.xml:1062(para)
-msgid ""
-"Starts Evolution and begins composing a message to the e-mail address listed."
+msgid "Starts Evolution and begins composing a message to the e-mail address listed."
 msgstr ""
 
 #: C/evolution.xml:1067(para)
@@ -2647,8 +2564,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1149(para)
-msgid ""
-"If the message is more than one screen long, the spacebar works as pagedown."
+msgid "If the message is more than one screen long, the spacebar works as pagedown."
 msgstr ""
 
 #: C/evolution.xml:1152(para)
@@ -2779,8 +2695,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1211(para)
-msgid ""
-"Use the following procedure to set the limit of addresses to be displayed:"
+msgid "Use the following procedure to set the limit of addresses to be displayed:"
 msgstr ""
 
 #: C/evolution.xml:1214(para)
@@ -2792,8 +2707,7 @@ msgid "Select Mail Preferences"
 msgstr ""
 
 #: C/evolution.xml:1220(para)
-msgid ""
-"Check &ldquo;Shrink To/CC/Bcc headers to column&rdquo; to limit the address"
+msgid "Check &ldquo;Shrink To/CC/Bcc headers to column&rdquo; to limit the address"
 msgstr ""
 
 #: C/evolution.xml:1223(para)
@@ -3558,7 +3472,7 @@ msgstr "Espleches"
 
 #: C/evolution.xml:1602(para)
 msgid "Shortcuts"
-msgstr ""
+msgstr "Acorchis"
 
 #: C/evolution.xml:1609(para)
 msgid "Reply to sender"
@@ -3593,8 +3507,7 @@ msgid "Ctrl+F"
 msgstr ""
 
 #: C/evolution.xml:1647(para)
-msgid ""
-"The message composer makes several text searching features available to you."
+msgid "The message composer makes several text searching features available to you."
 msgstr ""
 
 #: C/evolution.xml:1649(title)
@@ -3850,8 +3763,7 @@ msgid "Inserting a Rule"
 msgstr ""
 
 #: C/evolution.xml:1799(para)
-msgid ""
-"You can insert a horizontal line into the text to help divide two sections:"
+msgid "You can insert a horizontal line into the text to help divide two sections:"
 msgstr ""
 
 #: C/evolution.xml:1802(para)
@@ -3968,8 +3880,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1879(para)
-msgid ""
-"Select the desired option for send message receipts from the drop-down list."
+msgid "Select the desired option for send message receipts from the drop-down list."
 msgstr ""
 
 #: C/evolution.xml:1884(title)
@@ -4041,8 +3952,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:1933(para)
-msgid ""
-"Add your comments on the message in the composition frame, then click Send."
+msgid "Add your comments on the message in the composition frame, then click Send."
 msgstr ""
 
 #: C/evolution.xml:1936(para)
@@ -4146,8 +4056,7 @@ msgid "RSVP:"
 msgstr ""
 
 #: C/evolution.xml:1986(para)
-msgid ""
-"Select this option if you want your response sent to the meeting organizers."
+msgid "Select this option if you want your response sent to the meeting organizers."
 msgstr ""
 
 #: C/evolution.xml:1992(para)
@@ -4735,8 +4644,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:2319(para)
-msgid ""
-"Select Import Data and Settings From Older Programs, then click Forward."
+msgid "Select Import Data and Settings From Older Programs, then click Forward."
 msgstr ""
 
 #: C/evolution.xml:2320(para)
@@ -4775,8 +4683,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:2332(para)
-msgid ""
-"Copy the files to the system or partition that Evolution is installed on."
+msgid "Copy the files to the system or partition that Evolution is installed on."
 msgstr ""
 
 #: C/evolution.xml:2335(para)
@@ -5092,8 +4999,7 @@ msgid "Select Follow Up or press Shift+Ctrl+G."
 msgstr ""
 
 #: C/evolution.xml:2498(para)
-msgid ""
-"A dialog box opens to allow you to set the type of flag and the due date."
+msgid "A dialog box opens to allow you to set the type of flag and the due date."
 msgstr ""
 
 #: C/evolution.xml:2502(para)
@@ -5352,8 +5258,7 @@ msgid "Sender Contain:"
 msgstr ""
 
 #: C/evolution.xml:2636(para)
-msgid ""
-"Finds messages whose From: header contains a match for your search text."
+msgid "Finds messages whose From: header contains a match for your search text."
 msgstr ""
 
 #: C/evolution.xml:2639(title)
@@ -5664,8 +5569,7 @@ msgid "Attachments:"
 msgstr ""
 
 #: C/evolution.xml:2808(para) C/evolution.xml:3053(para)
-msgid ""
-"Creates a filter based on whether there is an attachment for the e-mail."
+msgid "Creates a filter based on whether there is an attachment for the e-mail."
 msgstr ""
 
 #: C/evolution.xml:2811(title)
@@ -6041,8 +5945,7 @@ msgid "Checks whether the message matchs all the criteria listed."
 msgstr ""
 
 #: C/evolution.xml:3065(para)
-msgid ""
-"Select the folders where this search folder will search. Your options are:"
+msgid "Select the folders where this search folder will search. Your options are:"
 msgstr ""
 
 #: C/evolution.xml:3067(title)
@@ -7082,8 +6985,7 @@ msgid "Using the Free/Busy View"
 msgstr ""
 
 #: C/evolution.xml:3696(link) C/evolution.xml:4013(title)
-msgid ""
-"Publishing Calendar and Free/Busy Information Without a Groupware Server"
+msgid "Publishing Calendar and Free/Busy Information Without a Groupware Server"
 msgstr ""
 
 #: C/evolution.xml:3699(link) C/evolution.xml:4046(title)
@@ -7127,8 +7029,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:3731(para)
-msgid ""
-"Select the required duration on the calender view and enter the summary."
+msgid "Select the required duration on the calender view and enter the summary."
 msgstr ""
 
 #: C/evolution.xml:3734(para)
@@ -7164,8 +7065,7 @@ msgid "If the event is an all day event, specify a starting and ending date."
 msgstr ""
 
 #: C/evolution.xml:3756(para)
-msgid ""
-"If the event is not an all day event, specify a starting and ending time."
+msgid "If the event is not an all day event, specify a starting and ending time."
 msgstr ""
 
 #: C/evolution.xml:3759(para)
@@ -7283,8 +7183,7 @@ msgid "Display:"
 msgstr ""
 
 #: C/evolution.xml:3814(para)
-msgid ""
-"A notification pops up on your screen to remind you of your appointment."
+msgid "A notification pops up on your screen to remind you of your appointment."
 msgstr ""
 
 #: C/evolution.xml:3819(title)
@@ -7360,8 +7259,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:3850(para)
-msgid ""
-"You can categorize appointments in the same way you can categorize contacts."
+msgid "You can categorize appointments in the same way you can categorize contacts."
 msgstr ""
 
 #: C/evolution.xml:3853(para)
@@ -7469,8 +7367,7 @@ msgid "Click Add to add the e-mail addresses of people you want to invite."
 msgstr ""
 
 #: C/evolution.xml:3896(para)
-msgid ""
-"To remove an attendee from the list, select an attendee and press Remove."
+msgid "To remove an attendee from the list, select an attendee and press Remove."
 msgstr ""
 
 #: C/evolution.xml:3899(para)
@@ -7498,8 +7395,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:3914(para)
-msgid ""
-"If the event is an all day event, specify a starting date and an ending date."
+msgid "If the event is an all day event, specify a starting date and an ending date."
 msgstr ""
 
 #: C/evolution.xml:3917(para)
@@ -7541,8 +7437,7 @@ msgid "Click Save to save the meeting."
 msgstr ""
 
 #: C/evolution.xml:3954(para)
-msgid ""
-"An e-mail is sent out to all the recipients, inviting them to your event."
+msgid "An e-mail is sent out to all the recipients, inviting them to your event."
 msgstr ""
 
 #: C/evolution.xml:3956(para)
@@ -7612,8 +7507,7 @@ msgid "To access the free/busy view:"
 msgstr ""
 
 #: C/evolution.xml:3995(para)
-msgid ""
-"Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy."
+msgid "Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy."
 msgstr ""
 
 #: C/evolution.xml:4000(para)
@@ -7629,8 +7523,7 @@ msgid "Attendee List:"
 msgstr ""
 
 #: C/evolution.xml:4005(para)
-msgid ""
-"The Attendee List shows the people who have been invited to the appointment."
+msgid "The Attendee List shows the people who have been invited to the appointment."
 msgstr ""
 
 #: C/evolution.xml:4008(title)
@@ -7940,8 +7833,7 @@ msgid "Specify the name and color for the task list."
 msgstr ""
 
 #: C/evolution.xml:4264(para)
-msgid ""
-"(Optional) If the task is an online list, specify the URL of the task list."
+msgid "(Optional) If the task is an online list, specify the URL of the task list."
 msgstr ""
 
 #: C/evolution.xml:4270(para)
@@ -8350,8 +8242,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:4798(para)
-msgid ""
-"Evolution Exchange supports the following basic Microsoft Exchange features:"
+msgid "Evolution Exchange supports the following basic Microsoft Exchange features:"
 msgstr ""
 
 #: C/evolution.xml:4801(para) C/evolution.xml:6502(link)
@@ -8606,8 +8497,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:4991(para)
-msgid ""
-"Click Edit &gt; Preferences or press Shift+Ctrl+S, then click Mail Accounts."
+msgid "Click Edit &gt; Preferences or press Shift+Ctrl+S, then click Mail Accounts."
 msgstr ""
 
 #: C/evolution.xml:4994(para)
@@ -9008,8 +8898,7 @@ msgid "Check the folders you want to subscribe to."
 msgstr ""
 
 #: C/evolution.xml:5275(para)
-msgid ""
-"The folders you have subscribed to appear in the folder list at the left."
+msgid "The folders you have subscribed to appear in the folder list at the left."
 msgstr ""
 
 #: C/evolution.xml:5278(para)
@@ -9094,8 +8983,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5332(para)
-msgid ""
-"You can directly select the participants from the following address lists."
+msgid "You can directly select the participants from the following address lists."
 msgstr ""
 
 #: C/evolution.xml:5338(para)
@@ -9150,8 +9038,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:5376(para)
-msgid ""
-"Evolution&trade; can access accounts on Novell&reg; GroupWise&reg; 7 system."
+msgid "Evolution&trade; can access accounts on Novell&reg; GroupWise&reg; 7 system."
 msgstr ""
 
 #: C/evolution.xml:5379(link) C/evolution.xml:5402(title)
@@ -9665,13 +9552,11 @@ msgid "Return Notification:"
 msgstr ""
 
 #: C/evolution.xml:5785(para) C/evolution.xml:5907(para)
-msgid ""
-"In the Return Notification, specify the type of return receipt you want."
+msgid "In the Return Notification, specify the type of return receipt you want."
 msgstr ""
 
 #: C/evolution.xml:5798(para)
-msgid ""
-"Right-click an e-mail in your Sent folder, then click Track Message Status."
+msgid "Right-click an e-mail in your Sent folder, then click Track Message Status."
 msgstr ""
 
 #: C/evolution.xml:5799(para)
@@ -9738,8 +9623,7 @@ msgid "Click Delay message delivery."
 msgstr ""
 
 #: C/evolution.xml:5851(para)
-msgid ""
-"Set the Date and Time until you want the message to be held in the Outbox."
+msgid "Set the Date and Time until you want the message to be held in the Outbox."
 msgstr ""
 
 #: C/evolution.xml:5861(para)
@@ -9765,8 +9649,7 @@ msgid "Delegating an Item"
 msgstr ""
 
 #: C/evolution.xml:5874(para)
-msgid ""
-"In the Calendar, right-click the meeting or appointment you want to delegate."
+msgid "In the Calendar, right-click the meeting or appointment you want to delegate."
 msgstr ""
 
 #: C/evolution.xml:5877(para)
@@ -10037,8 +9920,7 @@ msgid "Removing an E-Mail Address from Your Junk List"
 msgstr ""
 
 #: C/evolution.xml:6113(para)
-msgid ""
-"Select the message to mark as junk, then click the Junk icon or press Ctrl+J."
+msgid "Select the message to mark as junk, then click the Junk icon or press Ctrl+J."
 msgstr ""
 
 #: C/evolution.xml:6114(para)
@@ -10267,7 +10149,7 @@ msgstr ""
 
 #: C/evolution.xml:6259(title)
 msgid "Identity:"
-msgstr ""
+msgstr "Identitat :"
 
 #: C/evolution.xml:6260(para)
 msgid ""
@@ -10475,8 +10357,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6321(para)
-msgid ""
-"This option may not be needed if you have chosen to download ALL Headers."
+msgid "This option may not be needed if you have chosen to download ALL Headers."
 msgstr ""
 
 #: C/evolution.xml:6323(para)
@@ -10498,8 +10379,7 @@ msgid ""
 msgstr ""
 
 #: C/evolution.xml:6337(para)
-msgid ""
-"Click Fetch All Headers to download all the available header information."
+msgid "Click Fetch All Headers to download all the available header information."
 msgstr ""
 
 #: C/evolution.xml:6339(para)
@@ -11352,8 +11232,7 @@ msgid "Search Filter:"
 msgstr ""
 
 #: C/evolution.xml:6791(para)
-msgid ""
-"The search filter can be set here for all the LDAP queries. For example:"
+msgid "The search filter can be set here for all the LDAP queries. For example:"
 msgstr ""
 
 #: C/evolution.xml:6793(para)
@@ -11453,8 +11332,7 @@ msgid "Copy From Pilot:"
 msgstr ""
 
 #: C/evolution.xml:6842(para)
-msgid ""
-"If there is any new data on the handheld device, copy it to the computer."
+msgid "If there is any new data on the handheld device, copy it to the computer."
 msgstr ""
 
 #: C/evolution.xml:6845(title)
@@ -11578,8 +11456,7 @@ msgid "Mount your Windows drive or the disk where you saved the mail files."
 msgstr ""
 
 #: C/evolution.xml:6893(para)
-msgid ""
-"Copy all the mail files into your home directory or another convenient place."
+msgid "Copy all the mail files into your home directory or another convenient place."
 msgstr ""
 
 #: C/evolution.xml:6896(para)
@@ -11595,8 +11472,7 @@ msgid "To import the data files:"
 msgstr ""
 
 #: C/evolution.xml:6905(para)
-msgid ""
-"In Evolution, open the File Import assistant by clicking File &gt; Import."
+msgid "In Evolution, open the File Import assistant by clicking File &gt; Import."
 msgstr ""
 
 #: C/evolution.xml:6908(para)
@@ -11604,8 +11480,7 @@ msgid "Click Next, then select Import A Single File."
 msgstr ""
 
 #: C/evolution.xml:6911(para)
-msgid ""
-"Leave the file type as Automatic, then click Browse to select the data file."
+msgid "Leave the file type as Automatic, then click Browse to select the data file."
 msgstr ""
 
 #: C/evolution.xml:6912(para)
@@ -11711,8 +11586,7 @@ msgid "Moving the Display Up and Down in the Preview Pane:"
 msgstr ""
 
 #: C/evolution.xml:6982(para)
-msgid ""
-"Press the Spacebar to move down a page. Press Backspace to move up a page."
+msgid "Press the Spacebar to move down a page. Press Backspace to move up a page."
 msgstr ""
 
 #: C/evolution.xml:6985(title)
@@ -11934,8 +11808,7 @@ msgid "Daniel Persson for Swedish (.se)"
 msgstr ""
 
 #: C/evolution.xml:7096(para)
-msgid ""
-"Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)"
+msgid "Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)"
 msgstr ""
 
 #: C/evolution.xml:7099(para)
@@ -12419,7 +12292,7 @@ msgstr ""
 
 #: C/evolution.xml:7339(para)
 msgid "July 2007"
-msgstr ""
+msgstr "Julhet de 2007"
 
 #: C/evolution.xml:7341(member)
 msgid ""
