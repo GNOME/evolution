@@ -1,3 +1,16 @@
+2007-11-20  Suman Manjunath  <msuman@novell.com>
+
+	* exchange-account-listener.c:
+	(exchange_account_listener_get_folder_list), (finalize),
+	(lookup_account_info), (add_cal_esource), (modify_cal_esource),
+	(modify_calendar_sources), (modify_addressbook_sources),
+	(account_added), (account_removed), (account_changed),
+	(exchange_account_listener_construct):
+	* exchange-account-listener.h: Hide e-source when account is disabled. 
+	Modfiy e-source if account info is changed. 
+	If new addressbooks/calendars are added/modified in other clients, the
+	changes can be seen in Evolution after a disable->enable account. 
+
 2007-11-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* exchange-account-listener.c: (add_addressbook_sources): Set the GAL
