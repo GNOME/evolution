@@ -1,5 +1,13 @@
 2007-11-20  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #480514
+
+	* em-folder-browser.c: (get_view_query),
+	(emfb_search_search_activated): Let work "Last 5 Days' Messages" and
+	"Recent messages" filters in Sent folder too.
+
+2007-11-20  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #493783
 
 	* em-format-html.c: (efh_format_timeout): Do not erase old content

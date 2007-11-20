@@ -789,7 +789,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 }
 
 static char *
-get_view_query (ESearchBar *esb)
+get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 {
 	char *view_sexp = NULL;
 	gint id;
@@ -812,10 +812,16 @@ get_view_query (ESearchBar *esb)
 		view_sexp = "(match-all (system-flag  \"Seen\"))";
 		break;
         case VIEW_RECENT_MESSAGES:
-		view_sexp = "(match-all (> (get-received-date) (- (get-current-date) 86400)))";
+		if (!em_utils_folder_is_sent (folder, folder_uri))
+			view_sexp = "(match-all (> (get-received-date) (- (get-current-date) 86400)))";
+		else
+			view_sexp = "(match-all (> (get-sent-date) (- (get-current-date) 86400)))";
 		break;
 	case VIEW_LAST_FIVE_DAYS:
-		view_sexp = " (match-all (> (get-received-date) (- (get-current-date) 432000)))";
+		if (!em_utils_folder_is_sent (folder, folder_uri))
+			view_sexp = " (match-all (> (get-received-date) (- (get-current-date) 432000)))";
+		else
+			view_sexp = " (match-all (> (get-sent-date) (- (get-current-date) 432000)))";
 		break;
         case VIEW_WITH_ATTACHMENTS:
 		view_sexp = "(match-all (system-flag \"Attachments\"))";
@@ -1129,7 +1135,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	camel_object_state_write (emfv->folder);
 
 	/* Merge the view and search expresion*/
-	view_sexp = get_view_query (esb);
+	view_sexp = get_view_query (esb, emfv->folder, emfv->folder_uri);
 	g_object_get (esb, "query", &search_word, NULL);
 
 	if (search_word && *search_word)
