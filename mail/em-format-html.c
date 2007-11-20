@@ -1383,10 +1383,11 @@ efh_format_timeout(struct _format_msg *m)
 		mail_msg_free(m);
 		p->last_part = NULL;
 	} else {
-		hstream = gtk_html_begin(efh->html);
-		gtk_html_stream_printf(hstream, "<h5>%s</h5>",
-						_("Formatting Message..."));
-		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+		if (p->last_part != m->message) {
+			hstream = gtk_html_begin (efh->html);
+			gtk_html_stream_printf (hstream, "<h5>%s</h5>", _("Formatting Message..."));
+			gtk_html_stream_close (hstream, GTK_HTML_STREAM_OK);
+		}
 
 		hstream = NULL;
 		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
