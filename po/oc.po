@@ -10,14 +10,13 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 16:19+0100\n"
-"PO-Revision-Date: 2007-11-20 14:30+0100\n"
+"PO-Revision-Date: 2007-11-21 19:48+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -10975,7 +10974,7 @@ msgstr ""
 
 #: ../mail/em-filter-rule.c:516
 msgid "Add Ac_tion"
-msgstr ""
+msgstr "Apondre una ac_cion"
 
 #: ../mail/em-folder-browser.c:184
 msgid "C_reate Search Folder From Search..."
@@ -20337,7 +20336,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "Opcions de _sincronizacion..."
 
 #: ../ui/evolution.xml.h:54
 msgid "_Text only"
@@ -21457,7 +21456,7 @@ msgstr "Apondre una c_olomna..."
 
 #: ../widgets/table/e-table-header-item.c:1481
 msgid "A_lignment"
-msgstr ""
+msgstr "A_linhament"
 
 #: ../widgets/table/e-table-header-item.c:1482
 msgid "B_est Fit"
