@@ -1,5 +1,12 @@
 2007-11-22  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #498551
+
+	* em-folder-tree.c: (emft_get_folder_info__got):
+	Remove placeholder node even for store if no children found.
+
+2007-11-22  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #256899 by Chaya
 
 	* mail-config.glade:

@@ -1782,14 +1782,14 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 		/* no children afterall... remove the "Loading..." placeholder node */
 		emft_update_model_expanded_state (priv, &root, FALSE);
 
+		gtk_tree_store_remove (model, &iter);
+
 		if (is_store) {
 			path = gtk_tree_model_get_path ((GtkTreeModel *) model, &root);
 			gtk_tree_view_collapse_row (priv->treeview, path);
 			emft_queue_save_state (m->emft);
 			gtk_tree_path_free (path);
 			return;
-		} else {
-			gtk_tree_store_remove (model, &iter);
 		}
 	} else {
 		int fully_loaded = (m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? TRUE : FALSE;
