@@ -67,7 +67,6 @@ struct _EMAccountPrefs {
 	GtkButton *mail_edit;
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
-	GtkButton *mail_able;
 
 	guint destroyed : 1;
 	guint changed : 1;

@@ -1,3 +1,14 @@
+2007-11-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #256899 by Chaya
+
+	* mail-config.glade:
+	* em-account-prefs.h: (struct _EMAccountPrefs):
+	* em-account-prefs.c: (account_delete_clicked),
+	(account_able_clicked), (account_able_toggled),
+	(account_cursor_change), (em_account_prefs_construct):
+	Remove "Disable/Enable" button from Mail Accounts preferences.
+
 2007-11-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #480514

@@ -270,7 +270,6 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), FALSE);
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), FALSE);
 		}
 	}
 }
@@ -317,29 +316,6 @@ account_able_changed(EAccount *account)
 }
 
 static void
-account_able_clicked (GtkButton *button, gpointer user_data)
-{
-	EMAccountPrefs *prefs = user_data;
-	GtkTreeSelection *selection;
-	EAccount *account;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	selection = gtk_tree_view_get_selection (prefs->table);
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 3, &account, -1);
-		account->enabled = !account->enabled;
-		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
-
-		gtk_button_set_label (prefs->mail_able, account->enabled ? _("Di_sable") : _("E_nable"));
-
-		/* let the rest of the application know it changed */
-		e_account_list_change (mail_config_get_accounts(), account);
-		account_able_changed (account);
-	}
-}
-
-static void
 account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_data)
 {
 	EMAccountPrefs *prefs = user_data;
@@ -375,9 +351,6 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 		account_able_changed (account);
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
 
-		if (gtk_tree_selection_iter_is_selected (selection, &iter))
-			gtk_button_set_label (prefs->mail_able, account->enabled ? _("Di_sable") : _("E_nable"));
-
 		/* let the rest of the application know it changed */
 	}
 
@@ -408,10 +381,6 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		if (state) {
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 			url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-			if (account->source && account->enabled)
-				gtk_button_set_label (prefs->mail_able, _("Di_sable"));
-			else
-				gtk_button_set_label (prefs->mail_able, _("E_nable"));
 		} else {
 			gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
 		}
@@ -429,8 +398,6 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), state);
 }
 
 static void
@@ -596,9 +563,6 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 
 	prefs->mail_default = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDefault"));
 	g_signal_connect (prefs->mail_default, "clicked", G_CALLBACK (account_default_clicked), prefs);
-
-	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
-	g_signal_connect (prefs->mail_able, "clicked", G_CALLBACK (account_able_clicked), prefs);
 
 	g_signal_connect (gtk_tree_view_get_selection (prefs->table),
 			  "changed", G_CALLBACK (account_cursor_change), prefs);
