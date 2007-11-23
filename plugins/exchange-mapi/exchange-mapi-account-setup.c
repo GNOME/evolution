@@ -40,10 +40,20 @@
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "exchange-account-listener.h"
+#include <addressbook/gui/widgets/eab-config.h>
+#include <mapi/exchange-mapi-folder.h>
+#include <mapi/exchange-mapi-connection.h>
 
-
+/* Account Setup */
 GtkWidget *org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_mapi_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
+
+/* New Addressbook/CAL */
+GtkWidget *exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data);
+gboolean exchange_mapi_check (EPlugin *epl, EConfigHookPageCheckData *data);
+void exchange_mapi_commit (EPlugin *epl, EConfigTarget *target);
+
+
 
 #define DEFAULT_PROF_PATH ".evolution/mapi-profiles.ldb"
 #define E_PASSWORD_COMPONENT "ExchangeMAPI"
@@ -386,5 +396,242 @@ org_gnome_exchange_mapi_check_options(EPlugin *epl, EConfigHookPageCheckData *da
 		return TRUE;
 	
 	return status;
+}
+
+enum {
+	CONTACTSNAME_COL,
+	CONTACTSFID_COL,
+	CONTACTSFOLDER_COL,
+	NUM_COLS
+};
+
+
+static gboolean
+check_node (GtkTreeStore *ts, ExchangeMAPIFolder *folder, GtkTreeIter *iter)
+{
+	mapi_id_t fid;
+	gboolean status = FALSE;
+	GtkTreeIter parent;
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (ts), iter, 1, &fid, -1);
+	if (fid && folder->parent_folder_id == fid) {
+		/* Do something */
+		GtkTreeIter node;
+		gtk_tree_store_append (ts, &node, iter);		
+		gtk_tree_store_set (ts, &node, 0, folder->folder_name, 1, folder->folder_id, 2, folder,-1);		
+		return TRUE;
+	}
+
+	if (gtk_tree_model_iter_has_child (ts, iter)) {
+		GtkTreeIter child;
+		gtk_tree_model_iter_children (ts, &child, iter);
+		status = check_node (ts, folder, &child);
+	}
+
+	while (gtk_tree_model_iter_next (ts, iter) && !status) {
+		status = check_node (ts, folder, iter);
+	}
+	
+	return status;
+}
+
+static void
+add_to_store (GtkTreeStore *ts, ExchangeMAPIFolder *folder)
+{
+	GtkTreeIter iter;
+	
+	gtk_tree_model_get_iter_first (ts, &iter);
+	if (!check_node (ts, folder, &iter)) {
+		GtkTreeIter node;
+		gtk_tree_store_append (ts, &node, &iter);		
+		gtk_tree_store_set (ts, &node, 0, folder->folder_name, 1, folder->folder_id, -1);
+		
+	}
+}
+
+static void
+add_folders (GSList *folders, GtkTreeStore *ts, ExchangeMAPIFolderType type)
+{
+	GSList *tmp = folders;
+	GtkTreeIter iter;
+	char *node = _("Personal Folders");
+	mapi_id_t last = 0;
+	
+	gtk_tree_store_append (ts, &iter, NULL);
+	gtk_tree_store_set (ts, &iter, 0, node, -1);
+	while (tmp) {
+		ExchangeMAPIFolder *folder = tmp->data;
+		printf("%s\n", folder->folder_name);
+		if (folder->container_class == type)
+			add_to_store (ts, folder);
+		tmp = tmp->next;
+	}
+}
+
+static void
+exchange_mapi_cursor_change (GtkTreeView *treeview, ESource *source)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel     *model;
+	GtkTreeIter       iter;
+	mapi_id_t pfid;
+	gchar *sfid=NULL;
+	
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+	gtk_tree_selection_get_selected(selection, &model, &iter);
+
+	gtk_tree_model_get (model, &iter, CONTACTSFID_COL, &pfid, -1);
+	sfid = g_strdup_printf ("%016llx", pfid);
+	e_source_set_property (source, "parent-fid", sfid); 
+	g_free (sfid);
+}
+
+enum DialogType {
+	ADDRESSBOOK,
+	CALENDAR,
+	TASKS,
+	MEMOS
+};
+GtkWidget *
+exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	GtkWidget *vbox, *label, *scroll, *tv;
+	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
+	ESource *source = t->source;
+	char *uri_text;
+	GtkCellRenderer *rcell;
+	GtkTreeStore *ts;
+	GtkTreeViewColumn *tvc;
+	GtkListStore *model;
+	char *acc;
+	GSList *folders = exchange_account_listener_peek_folder_list ();
+	int type;
+	GtkWidget *parent;
+
+	uri_text = e_source_get_uri (source);
+	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi", 4)) {
+		return NULL;
+	}
+
+	if (!strcmp (data->config->id, "org.gnome.evolution.calendar.calendarProperties")) {
+		type = CALENDAR;
+	} else if (!strcmp (data->config->id, "com.novell.evolution.addressbook.config.accountEditor")) {
+		type = ADDRESSBOOK;
+	}//FIXME: Do for rest.
+
+	acc = e_source_group_peek_name (e_source_peek_group (source));
+	ts = gtk_tree_store_new (NUM_COLS, G_TYPE_STRING, G_TYPE_INT64, G_TYPE_POINTER);
+
+	add_folders (folders, ts, type == CALENDAR ? MAPI_FOLDER_TYPE_APPOINTMENT : MAPI_FOLDER_TYPE_CONTACT);
+	
+	vbox = gtk_vbox_new (FALSE, 6);
+
+	if (type == CALENDAR) {
+		int row = ((GtkTable*) data->parent)->nrows;
+		gtk_table_attach (GTK_TABLE (data->parent), vbox, 0, 2, row+1, row+2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	} else {
+		gtk_container_add (GTK_CONTAINER (data->parent), vbox);
+	}
+	label = gtk_label_new_with_mnemonic (_("_Location:"));
+	gtk_widget_show (label);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+	
+	rcell = gtk_cell_renderer_text_new ();
+	tvc = gtk_tree_view_column_new_with_attributes (acc, rcell, "text", CONTACTSNAME_COL, NULL);
+	tv = gtk_tree_view_new_with_model (GTK_TREE_MODEL (ts));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tv), tvc);
+	g_object_set (tv,"expander-column", tvc, "headers-visible", TRUE, NULL);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (tv));
+	
+	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
+	g_object_set (scroll, "height-request", 150, NULL);
+	gtk_container_add (GTK_CONTAINER (scroll), tv);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), tv);
+	g_signal_connect (G_OBJECT (tv), "cursor-changed", G_CALLBACK (exchange_mapi_cursor_change), t->source);
+	gtk_widget_show_all (scroll);
+
+	gtk_box_pack_start (GTK_BOX (vbox), scroll, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (vbox);
+	return vbox;
+}
+
+gboolean
+exchange_mapi_check (EPlugin *epl, EConfigHookPageCheckData *data)
+{
+	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
+	ESource *source = t->source;
+	char *uri_text;
+
+	uri_text = e_source_get_uri (source);
+	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi", 4))
+		return TRUE;
+
+	//FIXME: Offline handling
+	if (!e_source_get_property (source, "parent-fid"))
+		return FALSE;
+	
+	return TRUE;
+}
+
+void exchange_mapi_commit (EPlugin *epl, EConfigTarget *target)
+{
+	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
+	ESource *source = t->source;
+	char *uri_text, *sfid, *tmp;
+	mapi_id_t fid, pfid;
+	ESourceGroup *grp;
+	int type;
+	
+	uri_text = e_source_get_uri (source);
+	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi", 4))
+		return;
+
+	if (!strcmp (target->config->id, "org.gnome.evolution.calendar.calendarProperties")) {
+		type = CALENDAR;
+	} else if (!strcmp (target->config->id, "com.novell.evolution.addressbook.config.accountEditor")) {
+		type = ADDRESSBOOK;
+	}
+	//FIXME: Do for rest.
+	
+	//FIXME: Offline handling
+	sfid = e_source_get_property (source, "parent-fid");
+	sscanf (sfid, "%016llx", &pfid);
+
+	fid = exchange_mapi_create_folder (type == ADDRESSBOOK ? olFolderContacts : olFolderCalendar, pfid, e_source_peek_name (source));
+	printf("Created %016llx\n", fid);
+	grp = e_source_peek_group (source);
+	e_source_set_property (source, "auth", "plain/password");
+	e_source_set_property (source, "auth-domain", "MAPI");
+	e_source_set_property(source, "user", e_source_group_get_property (grp, "user"));
+	e_source_set_property(source, "host", e_source_group_get_property (grp, "host"));
+	e_source_set_property(source, "profile", e_source_group_get_property (grp, "profile"));
+	e_source_set_property(source, "domain", e_source_group_get_property (grp, "domain"));
+	e_source_set_relative_uri (source, g_strconcat (";",e_source_peek_name (source), NULL));
+
+	tmp = g_strdup_printf ("%016llx", fid);
+	e_source_set_property(source, "folder-id", tmp);
+	g_free (tmp);
+	e_source_set_property (source, "completion", "true");
+
+	if (type == CALENDAR) {
+			GSList *ids, *temp;
+			GConfClient *client = gconf_client_get_default ();
+
+			ids = gconf_client_get_list (client, "/apps/evolution/calendar/display/selected_calendars" , GCONF_VALUE_STRING, NULL);
+			ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
+			gconf_client_set_list (client, "/apps/evolution/calendar/display/selected_calendars", GCONF_VALUE_STRING, ids, NULL);
+			temp  = ids;
+			for (; temp != NULL; temp = g_slist_next (temp))
+				g_free (temp->data);
+
+			g_slist_free (ids);
+			g_object_unref (client);
+	}
+
+	return;
 }
 

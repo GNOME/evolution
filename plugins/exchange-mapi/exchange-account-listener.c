@@ -216,6 +216,9 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 	group = e_source_group_new (account->name, MAPI_URI_PREFIX);
 	e_source_group_set_property (group, "create_source", "yes");
 	e_source_group_set_property (group, "profile", camel_url_get_param (url, "profile"));
+	e_source_group_set_property (group, "username", url->user);
+	e_source_group_set_property (group, "host", url->host);
+	e_source_group_set_property (group, "domain", camel_url_get_param (url, "domain"));
 
 	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
  		ExchangeMAPIFolder *folder = temp_list->data;
@@ -464,6 +467,10 @@ add_addressbook_sources (EAccount *account, GSList *folders)
 	client = gconf_client_get_default ();
 	list = e_source_list_new_for_gconf (client, "/apps/evolution/addressbook/sources" );
 	group = e_source_group_new (account->name, base_uri);
+	e_source_group_set_property (group, "user", url->user);
+	e_source_group_set_property (group, "host", url->host);
+	e_source_group_set_property (group, "profile", camel_url_get_param (url, "profile"));
+	e_source_group_set_property (group, "domain", camel_url_get_param (url, "domain"));
 
 	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
  		ExchangeMAPIFolder *folder = temp_list->data;
@@ -483,7 +490,6 @@ add_addressbook_sources (EAccount *account, GSList *folders)
 		g_free (tmp);
 		e_source_set_property (source, "offline_sync", 
 					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
-//		e_source_set_property(source, "offline_sync", "1");
 		e_source_set_property (source, "completion", "true");
 		e_source_group_add_source (group, source, -1);
 		g_object_unref (source);
@@ -754,6 +760,15 @@ exchange_account_listener_construct (ExchangeAccountListener *config_listener)
 	g_signal_connect (config_listener->priv->account_list, "account_added", G_CALLBACK (account_added), NULL);
 	g_signal_connect (config_listener->priv->account_list, "account_changed", G_CALLBACK (account_changed), NULL);
 	g_signal_connect (config_listener->priv->account_list, "account_removed", G_CALLBACK (account_removed), NULL);    
+}
+
+GSList *
+exchange_account_listener_peek_folder_list ()
+{
+	if (!folders_list)
+		folders_list = exchange_mapi_peek_folder_list ();
+	
+	return folders_list;
 }
 
 GType
