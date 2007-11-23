@@ -1,3 +1,10 @@
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #353807
+
+	* mail-to-task.c: (do_mail_to_task): Notice user if any error occur
+	during opening calendar, calendar is readonly or when add fails.
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #334675

@@ -30,6 +30,7 @@
 #include "mail/em-utils.h"
 #include "mail/em-folder-view.h"
 #include "mail/em-format-html.h"
+#include "e-util/e-dialog-utils.h"
 #include <gtkhtml/gtkhtml.h>
 #include <calendar/common/authentication.h>
 
@@ -261,9 +262,18 @@ do_mail_to_task (AsyncData *data)
 	ECal *client = data->client;
 	struct _CamelFolder *folder = data->folder;
 	GPtrArray *uids = data->uids;
+	GError *err = NULL;
+	gboolean readonly = FALSE;
 
 	/* open the task client */
-	if (e_cal_open (client, FALSE, NULL)) {
+	if (!e_cal_open (client, FALSE, &err)) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot open calendar. %s"), err ? err->message : "");
+	} else if (!e_cal_is_read_only (client, &readonly, &err) || readonly) {
+		if (err)
+			e_notice (NULL, GTK_MESSAGE_ERROR, err->message);
+		else
+			e_notice (NULL, GTK_MESSAGE_ERROR, _("Selected source is read only, thus cannot create task there. Select other source, please."));
+	} else {
 		int i;
 
 		for (i = 0; i < (uids ? uids->len : 0); i++) {
@@ -313,7 +323,13 @@ do_mail_to_task (AsyncData *data)
 			icalcomponent_add_property (icalcomp, icalprop);
 
 			/* save the task to the selected source */
-			e_cal_create_object (client, icalcomp, NULL, NULL);
+			if (!e_cal_create_object (client, icalcomp, NULL, &err)) {
+				g_warning ("Could not create object: %s", err ? err->message : "Unknown error");
+
+				if (err)
+					g_error_free (err);
+				err = NULL;
+			}
 
 			g_object_unref (comp);
 		}
@@ -325,6 +341,9 @@ do_mail_to_task (AsyncData *data)
 	g_free (data->selected_text);
 	g_free (data);
 	data = NULL;
+
+	if (err)
+		g_error_free (err);
 
 	return TRUE;
 }
