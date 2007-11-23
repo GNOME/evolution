@@ -1,5 +1,12 @@
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #494414
+
+	* em-folder-selection-button.c: (set_contents): If used uri points
+	to an account, then prepend account's name to folder name.
+
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #494425
 
 	* em-utils.c: (get_unique_file_names):

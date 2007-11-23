@@ -34,6 +34,7 @@
 #include <glib/gi18n.h>
 
 #include "mail-component.h"
+#include "mail-config.h"
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-utils.h"
@@ -130,7 +131,16 @@ set_contents (EMFolderSelectionButton *button)
 	char *folder_name = em_utils_folder_name_from_uri (priv->uri);
 
 	if (folder_name) {
-		gtk_label_set_text (GTK_LABEL (priv->label), _(folder_name));
+		EAccount *account = mail_config_get_account_by_source_url (priv->uri);
+
+		if (account) {
+			char *tmp = folder_name;
+			folder_name = g_strdup_printf ("%s/%s", e_account_get_string (account, E_ACCOUNT_NAME), _(folder_name));
+			g_free (tmp);
+			gtk_label_set_text (GTK_LABEL (priv->label), folder_name);
+		} else
+			gtk_label_set_text (GTK_LABEL (priv->label), _(folder_name));
+
 		g_free (folder_name);
 	} else {
 		set_contents_unselected (button);
