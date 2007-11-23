@@ -1,3 +1,10 @@
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #484603
+
+	* gui/e-week-view.c: (e_week_view_reshape_event_span):
+	Do not forget for organizer icon when counting used icons.
+
 2007-11-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #401337
