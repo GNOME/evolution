@@ -1,3 +1,12 @@
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #495711
+
+	* gui/contact-editor/e-contact-editor.h: (struct _EContactEditor):
+	* gui/contact-editor/e-contact-editor.c: (full_name_response),
+	(full_name_clicked), (e_contact_editor_init):
+	Keep track of previously created Full Name dialog and reuse it.
+
 2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #495875

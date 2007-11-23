@@ -2619,7 +2619,8 @@ full_name_response (GtkDialog *dialog, int response, EContactEditor *editor)
 
 		file_as_set_style(editor, style);
 	}
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	editor->fullname_dialog = NULL;
 }
 
 static gint
@@ -2627,18 +2628,23 @@ full_name_editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer d
 {
 	if (widget) {
 		if (GTK_IS_WIDGET (widget))
-			gtk_widget_destroy(widget);
-		}
+			gtk_widget_destroy (widget);
+	}
 	return TRUE;
 }
 
 static void
 full_name_clicked (GtkWidget *button, EContactEditor *editor)
 {
-	GtkDialog *dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->name));
+	GtkDialog *dialog;
 	gboolean fullname_supported;
 
+	if (editor->fullname_dialog) {
+		gtk_window_present (GTK_WINDOW (editor->fullname_dialog));
+		return;
+	}
 
+	dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->name));
 	fullname_supported = is_field_supported (editor, E_CONTACT_FULL_NAME);
 
 	g_object_set (dialog,
@@ -2652,7 +2658,8 @@ full_name_clicked (GtkWidget *button, EContactEditor *editor)
 	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
 			    G_CALLBACK (full_name_editor_delete_event_cb), GTK_WIDGET (dialog));
 
-	gtk_widget_show (GTK_WIDGET(dialog));
+	gtk_widget_show (GTK_WIDGET (dialog));
+	editor->fullname_dialog = GTK_WIDGET (dialog);
 }
 
 
@@ -3326,6 +3333,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->image_changed = FALSE;
 	e_contact_editor->in_async_call = FALSE;
 	e_contact_editor->target_editable = TRUE;
+	e_contact_editor->fullname_dialog = NULL;
 	e_contact_editor->categories_dialog = NULL;
 
 	e_contact_editor->load_source_id = 0;
