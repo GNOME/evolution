@@ -466,6 +466,8 @@ start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType
 	ECal *ecal;
 	icaltimezone *zone = NULL;
 
+	g_return_val_if_fail (source != NULL, NULL);
+
 	ecal = g_hash_table_lookup (pitip->ecals[type], e_source_peek_uid (source));
 	if (ecal) {
 		pitip->current_ecal = ecal;
@@ -519,6 +521,8 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 	FormatItipPObject *pitip = data;
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
+
+	g_return_if_fail (source != NULL);
 
 	start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
 }

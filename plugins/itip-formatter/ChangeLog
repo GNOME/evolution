@@ -1,3 +1,10 @@
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #458237
+
+	* itip-formatter.c: (start_calendar_server), (source_selected_cb):
+	Check for non-NULL source before using it to prevent a crash.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* itip-view.c: (itip_view_get_source_list), (itip_view_get_source),
