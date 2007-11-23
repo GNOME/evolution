@@ -177,6 +177,10 @@ table_selection_change_cb (ETable *etable, gpointer data)
 	n_selected = e_table_selected_count (etable);
 	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SELECTION_CHANGED],
 			 n_selected);
+
+	if (n_selected != 1)
+		e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (memos->priv->preview));
+
 }
 
 static void

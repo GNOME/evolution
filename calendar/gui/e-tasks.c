@@ -190,6 +190,9 @@ table_selection_change_cb (ETable *etable, gpointer data)
 	n_selected = e_table_selected_count (etable);
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SELECTION_CHANGED],
 			 n_selected);
+
+	if (n_selected != 1)
+		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (tasks->priv->preview));
 }
 
 static void

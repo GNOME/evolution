@@ -1,5 +1,16 @@
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #325730
+
+	* gui/e-memos.c: (table_selection_change_cb):
+	* gui/e-tasks.c: (table_selection_change_cb):
+	Clear task/memo preview when have more or less than one row selected.
+	* gui/e-cal-model.c: (e_cal_view_objects_added_cb),
+	(e_cal_view_objects_removed_cb), (remove_client_objects):
+	First delete, then notify, so we read from updated store.
+
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #484603
 
 	* gui/e-week-view.c: (e_week_view_reshape_event_span):
