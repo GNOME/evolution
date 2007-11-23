@@ -1,5 +1,13 @@
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #494425
+
+	* em-utils.c: (get_unique_file_names):
+	New helper function to "assign" unique file name to each part.
+	* em-utils.c: (em_utils_save_parts): Use new helper function.
+
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #335931
 
 	* message-list.c: (struct _regen_list_msg): New member last_row.
