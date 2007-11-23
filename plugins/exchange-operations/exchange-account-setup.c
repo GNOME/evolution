@@ -658,6 +658,9 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* Track the authenticate label, so we can destroy it if e-config is to destroy the hbox */
 	g_object_set_data((GObject *)hbox, "authenticate-label", label);
 
+	/* check for correctness of the input in the owa_entry */
+	owa_editor_entry_changed (owa_entry, data->config);
+
 	g_free (owa_url);
 	return hbox;
 }
