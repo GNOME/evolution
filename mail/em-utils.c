@@ -418,12 +418,90 @@ exit:
 	g_free (filename);
 }
 
+/* It "assigns" to each part its unique file name, based on the appearance.
+   parts contains CamelMimePart, returned value contains gchar *, in same
+   order as parts; resulting list should free data and GSList itself as well.
+*/
+static GSList *
+get_unique_file_names (GSList *parts)
+{
+	GSList *iter;
+	GSList *file_names = NULL;
+
+	if (!parts)
+		return NULL;
+
+	for (iter = parts; iter != NULL; iter = iter->next) {
+		CamelMimePart *part = iter->data;
+		const gchar *utf8_filename;
+		gchar *filename;
+
+		utf8_filename = emu_save_get_filename_for_part (part);
+		filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
+		em_filename_make_safe (filename);
+
+		file_names = g_slist_prepend (file_names, filename);
+	}
+
+	if (file_names) {
+		GSList *sorted_file_names;
+		gint counter = 1;
+		const gchar *last;
+		GCompareFunc cmp_func = (GCompareFunc) strcmp;
+
+		#ifdef G_OS_WIN32
+		cmp_func = (GCompareFunc) g_ascii_strcasecmp;
+		#endif
+
+		/* we prepended, so reverse to make right order */
+		file_names = g_slist_reverse (file_names);
+
+		sorted_file_names = g_slist_sort (g_slist_copy (file_names), cmp_func);
+		last = sorted_file_names->data;
+		for (iter = sorted_file_names->next; iter; iter = iter->next) {
+			char *name = iter->data;
+
+			if (name && last && cmp_func (name, last) == 0) {
+				gchar *new_name;
+				gchar *p = strrchr (name, '.');
+				GSList *i2;
+
+				/* if we have an extension, then place number before it (at p is ".ext"),
+				   otherwise just append number in brackets */
+				if (p)
+					new_name = g_strdup_printf ("%.*s(%d)%s", (int) (p - name), name, counter, p);
+				else
+					new_name = g_strdup_printf ("%s(%d)", name, counter);
+
+				/* we need to find the proper item in unsorted list and replace with new name;
+				   we should always find that item, so no check for leaks */
+				for (i2 = file_names; i2; i2 = i2->next) {
+					if (i2->data == name) {
+						g_free (name);
+						i2->data = new_name;
+						break;
+					}
+				}
+
+				counter++;
+			} else {
+				last = name;
+				counter = 1;
+			}
+		}
+
+		g_slist_free (sorted_file_names);
+	}
+
+	return file_names;
+}
+
 void
 em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 {
 	GtkWidget *file_chooser;
 	gchar *path_uri;
-	GSList *iter;
+	GSList *iter, *file_names, *iter_file;
 
 	file_chooser = e_file_get_save_filesel (
 		parent, prompt, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
@@ -435,17 +513,16 @@ em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 
 	e_file_update_save_path (path_uri, FALSE);
 
-	for (iter = parts; iter != NULL; iter = iter->next) {
+	file_names = get_unique_file_names (parts);
+
+	for (iter = parts, iter_file = file_names; iter && iter_file; iter = iter->next, iter_file = iter_file->next) {
 		CamelMimePart *part = iter->data;
-		const gchar *utf8_filename;
 		gchar *uri, *filename;
 
-		utf8_filename = emu_save_get_filename_for_part (part);
-		filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
-		em_filename_make_safe (filename);
-
+		filename = iter_file->data;
 		uri = g_build_path ("/", path_uri, filename, NULL);
 		g_free (filename);
+		iter_file->data = NULL;
 
 		/* XXX Would be nice to mention _why_ we can't save. */
 		if (e_file_can_save (GTK_WINDOW (file_chooser), uri))
@@ -456,6 +533,7 @@ em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 		g_free (uri);
 	}
 
+	g_slist_free (file_names);
 	g_free (path_uri);
 
 exit:
