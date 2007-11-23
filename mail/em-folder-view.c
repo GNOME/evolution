@@ -1007,6 +1007,15 @@ emfv_popup_mark_unimportant(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+emfv_select_next_message (EMFolderView *emfv, int count, gboolean always_can_previous)
+{
+	if (emfv && count == 1) {
+		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && (emfv->hide_deleted || always_can_previous))
+			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+	}
+}
+
+static void
 emfv_popup_mark_junk (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
@@ -1015,8 +1024,8 @@ emfv_popup_mark_junk (EPopup *ep, EPopupItem *pitem, void *data)
 	count = em_folder_view_mark_selected(emfv,
 					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
 					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
-	if (count == 1)
-		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
+
+	emfv_select_next_message (emfv, count, TRUE);
 }
 
 static void
@@ -1028,8 +1037,8 @@ emfv_popup_mark_nojunk (EPopup *ep, EPopupItem *pitem, void *data)
 	count = em_folder_view_mark_selected(emfv,
 					     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
 					     CAMEL_MESSAGE_JUNK_LEARN);
-	if (count == 1)
-		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
+
+	emfv_select_next_message (emfv, count, TRUE);
 }
 
 #define DelInVFolderCheckName  "DelInVFolderCheck"
@@ -1086,10 +1095,7 @@ emfv_delete_msg_response (GtkWidget *dialog, int response, gpointer data)
 		message_list_free_uids(emfv->list, uids);
 		camel_folder_thaw(emfv->folder);
 
-		if (count == 1) {
-			if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
-				message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
-		}
+		emfv_select_next_message (emfv, count, FALSE);
 	}
 
 	if (dialog)

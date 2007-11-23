@@ -3241,7 +3241,6 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 	    || (message_list->cursor_uid != NULL && new_uid != NULL && !strcmp (message_list->cursor_uid, new_uid)))
 		return;
 
-	message_list->cursor_row = row;
 	g_free (message_list->cursor_uid);
 	message_list->cursor_uid = g_strdup (new_uid);
 
@@ -3734,6 +3733,8 @@ struct _regen_list_msg {
 
 	CamelFolder *folder;
 	GPtrArray *summary;
+
+	int last_row; /* last selected (cursor) row */
 };
 
 /*
@@ -3758,10 +3759,15 @@ regen_list_regen (struct _mail_msg *mm)
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	GPtrArray *uids, *uidnew, *showuids, *searchuids = NULL;
 	CamelMessageInfo *info;
+	ETreePath cursor;
 	int i;
 
 	if (m->folder != m->ml->folder)
 		return;
+
+	cursor = e_tree_get_cursor (m->ml->tree);
+	if (cursor)
+		m->last_row = e_tree_table_adapter_row_of_node (e_tree_get_table_adapter (m->ml->tree), cursor);
 
 	e_profile_event_emit("list.getuids", m->folder->full_name, 0);
 
@@ -3848,10 +3854,22 @@ regen_list_regen (struct _mail_msg *mm)
 
 		/* first, hide matches */
 		if (m->ml->hidden) {
+			int subtr = 0;
+
 			for (i = 0; i < uids->len; i++) {
 				if (g_hash_table_lookup (m->ml->hidden, uids->pdata[i]) == NULL)
 					g_ptr_array_add (uidnew, uids->pdata[i]);
+				else if (m->last_row >= 0) {
+					/* if we are going to hide message above last selected row, then we should
+					   decrease our last row number, to put cursor on a proper place. */
+					ETreePath node = g_hash_table_lookup (m->ml->uid_nodemap, (const char *) uids->pdata[i]);
+
+					if (node && m->last_row > e_tree_table_adapter_row_of_node (e_tree_get_table_adapter (m->ml->tree), node))
+						subtr ++;
+				}
 			}
+
+			m->last_row -= subtr;
 		}
 
 		/* then calculate the subrange visible and chop it out */
@@ -3970,6 +3988,19 @@ regen_list_regened (struct _mail_msg *mm)
 		m->ml->pending_select_uid = NULL;
 		message_list_select_uid(m->ml, uid);
 		g_free(uid);
+	} else if (m->ml->regen == NULL && m->ml->cursor_uid == NULL && m->last_row != -1) {
+		ETreeTableAdapter *etta = e_tree_get_table_adapter (m->ml->tree);
+
+		if (m->last_row >= e_table_model_row_count (E_TABLE_MODEL (etta)))
+			m->last_row = e_table_model_row_count (E_TABLE_MODEL (etta)) - 1;
+		
+		if (m->last_row >= 0) {
+			ETreePath path;
+
+			path = e_tree_table_adapter_node_at_row (etta, m->last_row);
+			if (path)
+				select_path (m->ml, path);
+		}
 	}
 
 	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
@@ -4095,6 +4126,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	g_object_ref(ml);
 	m->folder = ml->folder;
 	camel_object_ref(m->folder);
+	m->last_row = -1;
 
 	if ((!m->hidedel || !m->dotree) && ml->thread_tree) {
 		camel_folder_thread_messages_unref(ml->thread_tree);

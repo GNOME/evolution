@@ -1,3 +1,20 @@
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #335931
+
+	* message-list.c: (struct _regen_list_msg): New member last_row.
+	* message-list.c: (regen_list_regen): Store last_row for later use.
+	* message-list.c: (regen_list_regened): Restore row based on last_row
+	when no uid was selected before.
+	* message-list.c: (mail_regen_list): Init new last_row member.
+	* em-folder-view.c: (emfv_select_next_message): New helper function
+	to select messages in list.
+	* em-folder-view.c: (emfv_popup_mark_junk), (emfv_popup_mark_nojunk),
+	(emfv_popup_delete): Using new helper function, so get same behavior.
+
+	* message-list.h: (struct _MessageList):
+	* message-list.c: (on_cursor_activated_cmd): Removed cursor_row member.
+
 2007-11-22  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #498551

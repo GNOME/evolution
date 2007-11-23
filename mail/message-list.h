@@ -132,7 +132,6 @@ struct _MessageList {
 	guint frozen:16;
 
 	/* Where the ETree cursor is. */
-	int cursor_row;
 	char *cursor_uid;
 
 	/* Row-selection and seen-marking timers */
