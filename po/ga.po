@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-01 22:01-0600\n"
-"PO-Revision-Date: 2007-11-01 21:59-0700\n"
+"POT-Creation-Date: 2007-11-24 15:45-0700\n"
+"PO-Revision-Date: 2007-11-03 15:59-0700\n"
 "Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -314,7 +314,7 @@ msgstr "Cill Tábla"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
-#: ../widgets/table/e-table-click-to-add.c:571
+#: ../widgets/table/e-table-click-to-add.c:581
 #, fuzzy
 msgid "click to add"
 msgstr "<Cliceáil chun é a chur leis>"
@@ -745,7 +745,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2238
+#: ../plugins/itip-formatter/itip-formatter.c:2242
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Ginearálta"
@@ -1504,7 +1504,7 @@ msgstr "Seoladh"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:179
-#: ../widgets/table/e-cell-text.c:1831 ../widgets/text/e-entry.c:1258
+#: ../widgets/table/e-cell-text.c:1832 ../widgets/text/e-entry.c:1258
 #: ../widgets/text/e-entry.c:1259 ../widgets/text/e-text.c:3681
 #: ../widgets/text/e-text.c:3682
 msgid "Editable"
@@ -3183,7 +3183,7 @@ msgid "Error getting book view"
 msgstr "Tharla earráid agus an leabhar seoltaí á léamh"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
-#: ../widgets/table/e-table-click-to-add.c:500
+#: ../widgets/table/e-table-click-to-add.c:510
 #: ../widgets/table/e-table-selection-model.c:307
 #: ../widgets/table/e-table.c:3337
 #: ../widgets/table/e-tree-selection-model.c:821
@@ -3216,7 +3216,7 @@ msgid "Save as VCard..."
 msgstr "Sábháil mar VCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:959
-#: ../calendar/gui/dialogs/comp-editor.c:1124
+#: ../calendar/gui/dialogs/comp-editor.c:1127
 #: ../calendar/gui/e-calendar-table.c:1403
 #: ../calendar/gui/e-calendar-view.c:1678 ../calendar/gui/e-memo-table.c:975
 #: ../ui/evolution-addressbook.xml.h:56
@@ -3479,7 +3479,7 @@ msgstr "Suíomh Gréasáin"
 #: ../addressbook/gui/widgets/e-minicard.c:150
 #: ../widgets/misc/e-canvas-vbox.c:86 ../widgets/misc/e-canvas-vbox.c:87
 #: ../widgets/misc/e-reflow.c:1433 ../widgets/misc/e-reflow.c:1434
-#: ../widgets/table/e-table-click-to-add.c:514
+#: ../widgets/table/e-table-click-to-add.c:524
 #: ../widgets/table/e-table-col.c:99
 #: ../widgets/table/e-table-field-chooser-item.c:657
 #: ../widgets/table/e-table-group-container.c:966
@@ -3495,7 +3495,7 @@ msgstr "Leithead"
 #: ../addressbook/gui/widgets/e-minicard.c:157
 #: ../widgets/misc/e-canvas-vbox.c:98 ../widgets/misc/e-canvas-vbox.c:99
 #: ../widgets/misc/e-reflow.c:1441 ../widgets/misc/e-reflow.c:1442
-#: ../widgets/table/e-table-click-to-add.c:521
+#: ../widgets/table/e-table-click-to-add.c:531
 #: ../widgets/table/e-table-field-chooser-item.c:664
 #: ../widgets/table/e-table-group-container.c:959
 #: ../widgets/table/e-table-group-container.c:960
@@ -4145,7 +4145,7 @@ msgid "Format"
 msgstr "Formáid"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
-#: ../widgets/table/e-table-click-to-add.c:493
+#: ../widgets/table/e-table-click-to-add.c:503
 #: ../widgets/table/e-table-field-chooser-dialog.c:81
 #: ../widgets/table/e-table-field-chooser-item.c:650
 #: ../widgets/table/e-table-field-chooser.c:81
@@ -4262,7 +4262,7 @@ msgstr "Scáthlíniú"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:964
+#: ../plugins/exchange-operations/exchange-account-setup.c:967
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
@@ -4817,7 +4817,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr ""
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2229
+#: ../plugins/itip-formatter/itip-formatter.c:2233
 #, fuzzy
 msgid "Calendar and Tasks"
 msgstr "Taispeáin &Tascanna san Fhéilire"
@@ -4876,7 +4876,7 @@ msgstr "Meamraim"
 
 # tg
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:538 ../calendar/gui/e-tasks.c:1357
+#: ../calendar/gui/e-calendar-table.c:538 ../calendar/gui/e-tasks.c:1358
 #: ../calendar/gui/gnome-cal.c:1539 ../calendar/gui/print.c:1809
 #: ../calendar/gui/tasks-component.c:535
 #: ../calendar/gui/tasks-component.c:1026 ../calendar/gui/tasks-control.c:482
@@ -6302,25 +6302,25 @@ msgstr "Cumsaíodh Tarraingt"
 msgid "Could not update object"
 msgstr "Níorbh fhéidir réad \"%1\" a athainmniú."
 
-#: ../calendar/gui/dialogs/comp-editor.c:971 ../composer/e-msg-composer.c:2585
+#: ../calendar/gui/dialogs/comp-editor.c:974 ../composer/e-msg-composer.c:2585
 #, fuzzy, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "Iatái&n:"
 msgstr[1] "Ceangaltán"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1003
+#: ../calendar/gui/dialogs/comp-editor.c:1006
 #, fuzzy
 msgid "Hide Attachment _Bar"
 msgstr "Folaigh an Barra Stádais"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1006
-#: ../calendar/gui/dialogs/comp-editor.c:1542
+#: ../calendar/gui/dialogs/comp-editor.c:1009
+#: ../calendar/gui/dialogs/comp-editor.c:1548
 #, fuzzy
 msgid "Show Attachment _Bar"
 msgstr "Taispeáin Barra na Roghchlár"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1125
+#: ../calendar/gui/dialogs/comp-editor.c:1128
 #: ../calendar/gui/dialogs/event-page.c:1977
 #: ../calendar/gui/dialogs/task-page.c:1255 ../composer/e-msg-composer.c:3739
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6329,78 +6329,79 @@ msgstr "Taispeáin Barra na Roghchlár"
 msgid "_Remove"
 msgstr "_Bain"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1126
+#: ../calendar/gui/dialogs/comp-editor.c:1129
 #: ../composer/e-msg-composer.c:3740 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:35
 msgid "_Properties"
 msgstr "_Airíonna"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1128
+#: ../calendar/gui/dialogs/comp-editor.c:1131
 #: ../composer/e-msg-composer.c:3742
 msgid "_Add attachment..."
 msgstr "_Cuir iatán leis..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1566
+#: ../calendar/gui/dialogs/comp-editor.c:1572
 #: ../mail/em-format-html-display.c:2320
 msgid "Show Attachments"
 msgstr "Taispeáin Iatáin"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1567
+#: ../calendar/gui/dialogs/comp-editor.c:1573
 msgid "Press space key to toggle attachment bar"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2173
-#: ../calendar/gui/dialogs/comp-editor.c:2216
+#: ../calendar/gui/dialogs/comp-editor.c:2179
+#: ../calendar/gui/dialogs/comp-editor.c:2222
 msgid "Edit Appointment"
 msgstr "Eagar Coinne"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2179
-#: ../calendar/gui/dialogs/comp-editor.c:2222
+#: ../calendar/gui/dialogs/comp-editor.c:2185
+#: ../calendar/gui/dialogs/comp-editor.c:2228
 #, c-format
 msgid "Meeting - %s"
 msgstr "Cruinniú - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2181
-#: ../calendar/gui/dialogs/comp-editor.c:2224
+#: ../calendar/gui/dialogs/comp-editor.c:2187
+#: ../calendar/gui/dialogs/comp-editor.c:2230
 #, c-format
 msgid "Appointment - %s"
 msgstr "Coinne - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2185
-#: ../calendar/gui/dialogs/comp-editor.c:2228
+#: ../calendar/gui/dialogs/comp-editor.c:2191
+#: ../calendar/gui/dialogs/comp-editor.c:2234
 #, fuzzy, c-format
 msgid "Assigned Task - %s"
 msgstr "An Chéad Tasc &Eile"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2187
-#: ../calendar/gui/dialogs/comp-editor.c:2230
+#: ../calendar/gui/dialogs/comp-editor.c:2193
+#: ../calendar/gui/dialogs/comp-editor.c:2236
 #, c-format
 msgid "Task - %s"
 msgstr "Tasc - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2190
-#: ../calendar/gui/dialogs/comp-editor.c:2233
+#: ../calendar/gui/dialogs/comp-editor.c:2196
+#: ../calendar/gui/dialogs/comp-editor.c:2239
 #, c-format
 msgid "Memo - %s"
 msgstr "Meamram - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2201
-#: ../calendar/gui/dialogs/comp-editor.c:2243
+#: ../calendar/gui/dialogs/comp-editor.c:2207
+#: ../calendar/gui/dialogs/comp-editor.c:2249
 msgid "No summary"
 msgstr "Gan achoimhre"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2791 ../mail/em-utils.c:370
+#: ../calendar/gui/dialogs/comp-editor.c:2809 ../mail/em-utils.c:370
+#: ../plugins/prefer-plain/prefer-plain.c:79
 #: ../widgets/misc/e-attachment-bar.c:361
 msgid "attachment"
 msgstr "iatán"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2880
-#: ../calendar/gui/dialogs/comp-editor.c:2934
-#: ../calendar/gui/dialogs/comp-editor.c:2958
+#: ../calendar/gui/dialogs/comp-editor.c:2898
+#: ../calendar/gui/dialogs/comp-editor.c:2952
+#: ../calendar/gui/dialogs/comp-editor.c:2976
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2987
+#: ../calendar/gui/dialogs/comp-editor.c:3005
 #, fuzzy
 msgid "Unable to use current version!"
 msgstr "%X%P: ní féidir spleáchóg leagain `%s' a aimsiú\n"
@@ -6539,7 +6540,7 @@ msgid "Event with no end date"
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:1313
-#: ../calendar/gui/dialogs/memo-page.c:702
+#: ../calendar/gui/dialogs/memo-page.c:703
 #: ../calendar/gui/dialogs/task-page.c:884
 #, fuzzy
 msgid "Start date is wrong"
@@ -6561,13 +6562,13 @@ msgid "End time is wrong"
 msgstr "Tá d'am tosaithe níos déanaí ná d'am críochnaithe."
 
 #: ../calendar/gui/dialogs/event-page.c:1515
-#: ../calendar/gui/dialogs/memo-page.c:741
+#: ../calendar/gui/dialogs/memo-page.c:742
 #: ../calendar/gui/dialogs/task-page.c:943
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:1521
-#: ../calendar/gui/dialogs/memo-page.c:747
+#: ../calendar/gui/dialogs/memo-page.c:748
 #: ../calendar/gui/dialogs/task-page.c:949
 #, fuzzy
 msgid "An organizer is required."
@@ -6589,7 +6590,7 @@ msgid "Unable to open the calendar '%s'."
 msgstr "Ní féidir féilire a chruthú: %1"
 
 #: ../calendar/gui/dialogs/event-page.c:2768
-#: ../calendar/gui/dialogs/memo-page.c:957
+#: ../calendar/gui/dialogs/memo-page.c:958
 #: ../calendar/gui/dialogs/task-page.c:1764
 #, fuzzy, c-format
 msgid "You are acting on behalf of %s"
@@ -6632,9 +6633,9 @@ msgstr "Saincheap"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1920
-#: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1504
-#: ../widgets/misc/e-dateedit.c:1718
+#: ../plugins/itip-formatter/itip-formatter.c:1924
+#: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1517
+#: ../widgets/misc/e-dateedit.c:1728
 msgid "None"
 msgstr "Neamhní"
 
@@ -6730,14 +6731,14 @@ msgstr "Eagraí:"
 msgid "Memo"
 msgstr "Meamram"
 
-#: ../calendar/gui/dialogs/memo-page.c:919
+#: ../calendar/gui/dialogs/memo-page.c:920
 #, fuzzy, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Ní féidir an comhad seo a oscailt."
 
-#: ../calendar/gui/dialogs/memo-page.c:1103 ../mail/em-format-html.c:1520
-#: ../mail/em-format-html.c:1534 ../mail/em-format-html.c:1592
-#: ../mail/em-format-html.c:1618 ../mail/em-format-quote.c:207
+#: ../calendar/gui/dialogs/memo-page.c:1104 ../mail/em-format-html.c:1521
+#: ../mail/em-format-html.c:1535 ../mail/em-format-html.c:1593
+#: ../mail/em-format-html.c:1619 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:888 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:18
 msgid "To"
@@ -7336,9 +7337,9 @@ msgstr "Níl"
 #: ../calendar/gui/e-meeting-list-view.c:169
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1210
+#: ../calendar/gui/e-meeting-store.c:222 ../mail/em-utils.c:1288
 #: ../plugins/itip-formatter/itip-formatter.c:394
-#: ../plugins/itip-formatter/itip-formatter.c:1945
+#: ../plugins/itip-formatter/itip-formatter.c:1949
 #: ../plugins/plugin-manager/plugin-manager.c:82
 #: ../widgets/misc/e-attachment-bar.c:724
 #: ../widgets/misc/e-charset-picker.c:64
@@ -7889,13 +7890,13 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/itip-utils.c:730
-#: ../plugins/itip-formatter/itip-formatter.c:1933
+#: ../plugins/itip-formatter/itip-formatter.c:1937
 #, fuzzy
 msgid "Accepted"
 msgstr "Glactha"
 
 #: ../calendar/gui/e-itip-control.c:1168 ../calendar/gui/itip-utils.c:733
-#: ../plugins/itip-formatter/itip-formatter.c:1936
+#: ../plugins/itip-formatter/itip-formatter.c:1940
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Earráid ghlactha"
@@ -7904,7 +7905,7 @@ msgstr "Earráid ghlactha"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:736 ../calendar/gui/itip-utils.c:765
-#: ../plugins/itip-formatter/itip-formatter.c:1939
+#: ../plugins/itip-formatter/itip-formatter.c:1943
 #, fuzzy
 msgid "Declined"
 msgstr "Diúltaithe"
@@ -8139,7 +8140,7 @@ msgid "Attendee status updated\n"
 msgstr "Sealadach"
 
 #: ../calendar/gui/e-itip-control.c:2042
-#: ../plugins/itip-formatter/itip-formatter.c:1229
+#: ../plugins/itip-formatter/itip-formatter.c:1233
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
@@ -8307,7 +8308,7 @@ msgstr "Sealadach"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/itip-utils.c:739
-#: ../plugins/itip-formatter/itip-formatter.c:1942
+#: ../plugins/itip-formatter/itip-formatter.c:1946
 #, fuzzy
 msgid "Delegated"
 msgstr "Tarmligthe"
@@ -8468,7 +8469,7 @@ msgstr "Cliceáil chun seirbhís a chur leis"
 msgid "Memo sort"
 msgstr "Sórtáil De &Réir"
 
-#: ../calendar/gui/e-memos.c:732 ../calendar/gui/e-tasks.c:844
+#: ../calendar/gui/e-memos.c:732 ../calendar/gui/e-tasks.c:845
 #: ../calendar/gui/gnome-cal.c:2822
 #, c-format
 msgid ""
@@ -8488,27 +8489,27 @@ msgstr "Taisce á luchtú"
 msgid "Opening memos at %s"
 msgstr "$(TARGET) á oscailt ag $(HOST)"
 
-#: ../calendar/gui/e-memos.c:1035 ../calendar/gui/e-tasks.c:1249
+#: ../calendar/gui/e-memos.c:1035 ../calendar/gui/e-tasks.c:1250
 #, fuzzy
 msgid "Deleting selected objects..."
 msgstr "Súmáil Réada Roghnaithe"
 
-#: ../calendar/gui/e-tasks.c:894
+#: ../calendar/gui/e-tasks.c:895
 #, fuzzy
 msgid "Loading tasks"
 msgstr "Tascanna á luchtú..."
 
-#: ../calendar/gui/e-tasks.c:981
+#: ../calendar/gui/e-tasks.c:982
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Ag oscailt tascanna as %s"
 
-#: ../calendar/gui/e-tasks.c:1226
+#: ../calendar/gui/e-tasks.c:1227
 #, fuzzy
 msgid "Completing tasks..."
 msgstr "Tascanna CD"
 
-#: ../calendar/gui/e-tasks.c:1276
+#: ../calendar/gui/e-tasks.c:1277
 msgid "Expunging"
 msgstr ""
 
@@ -11507,8 +11508,8 @@ msgstr "Loga smachtú an dramhphoist"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:605
 #: ../mail/importers/elm-importer.c:341 ../mail/importers/pine-importer.c:387
-#: ../mail/mail-component.c:568 ../mail/mail-component.c:569
-#: ../mail/mail-component.c:726
+#: ../mail/mail-component.c:567 ../mail/mail-component.c:568
+#: ../mail/mail-component.c:725
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Post"
@@ -11982,7 +11983,7 @@ msgstr "a thosaíonn le"
 msgid "Stop Processing"
 msgstr "Earráid: \"%1\" agus %2 á phróiseáil"
 
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1691
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1692
 #: ../mail/em-format-quote.c:320 ../mail/em-format.c:891
 #: ../mail/em-mailer-prefs.c:92 ../mail/message-list.etspec.h:17
 #: ../mail/message-tag-followup.c:336
@@ -12344,7 +12345,7 @@ msgstr "_Lipéad"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1248 ../widgets/misc/e-dateedit.c:473
+#: ../mail/em-folder-view.c:1248 ../widgets/misc/e-dateedit.c:496
 msgid "_None"
 msgstr "_Neamhní"
 
@@ -12624,9 +12625,8 @@ msgid "Attachment"
 msgstr "Iatán"
 
 #: ../mail/em-format-html-display.c:2119
-#, fuzzy
 msgid "Save attachment as"
-msgstr "&Sábháil Iatán Mar..."
+msgstr "Sábháil iatán mar"
 
 #: ../mail/em-format-html-display.c:2123
 #, fuzzy
@@ -12634,9 +12634,8 @@ msgid "Select folder to save all attachments"
 msgstr "&Sábháil gach iatán san fhillteán seo:"
 
 #: ../mail/em-format-html-display.c:2174
-#, fuzzy
 msgid "_Save Selected..."
-msgstr "&Sábháil Comhaid Roghnaithe"
+msgstr "_Sábháil Roghnaithe..."
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2241
@@ -12656,9 +12655,8 @@ msgid "S_ave All"
 msgstr "Gach Comhad"
 
 #: ../mail/em-format-html-display.c:2322
-#, fuzzy
 msgid "No Attachment"
-msgstr "nach bhfuil iatán aige"
+msgstr "Gan Iatán"
 
 #: ../mail/em-format-html-display.c:2453 ../mail/em-format-html-display.c:2491
 #, fuzzy
@@ -12734,64 +12732,63 @@ msgstr "Seol &Teachtaireacht..."
 msgid "Formatting Message..."
 msgstr "Seol &Teachtaireacht..."
 
-#: ../mail/em-format-html.c:1520 ../mail/em-format-quote.c:207
+#: ../mail/em-format-html.c:1521 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:886 ../mail/em-mailer-prefs.c:87
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:332
 msgid "From"
 msgstr "Ó"
 
-#: ../mail/em-format-html.c:1520 ../mail/em-format-quote.c:207
+#: ../mail/em-format-html.c:1521 ../mail/em-format-quote.c:207
 #: ../mail/em-format.c:887 ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
 msgstr "Freagrair-Do"
 
-#: ../mail/em-format-html.c:1520 ../mail/em-format-html.c:1535
-#: ../mail/em-format-html.c:1599 ../mail/em-format-html.c:1621
+#: ../mail/em-format-html.c:1521 ../mail/em-format-html.c:1536
+#: ../mail/em-format-html.c:1600 ../mail/em-format-html.c:1622
 #: ../mail/em-format-quote.c:207 ../mail/em-format.c:889
 #: ../mail/em-mailer-prefs.c:90
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1520 ../mail/em-format-html.c:1536
-#: ../mail/em-format-html.c:1605 ../mail/em-format-html.c:1624
+#: ../mail/em-format-html.c:1521 ../mail/em-format-html.c:1537
+#: ../mail/em-format-html.c:1606 ../mail/em-format-html.c:1625
 #: ../mail/em-format-quote.c:207 ../mail/em-format.c:890
 #: ../mail/em-mailer-prefs.c:91
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1695 ../mail/em-format-quote.c:329
+#: ../mail/em-format-html.c:1696 ../mail/em-format-quote.c:329
 #: ../mail/em-mailer-prefs.c:1198
 msgid "Mailer"
 msgstr "Postóir"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1722
+#: ../mail/em-format-html.c:1723
 msgid " (%a, %R %Z)"
 msgstr "(%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1727
+#: ../mail/em-format-html.c:1728
 msgid " (%R %Z)"
 msgstr " (%R %Z)"
 
-#: ../mail/em-format-html.c:1739 ../mail/em-format-quote.c:336
+#: ../mail/em-format-html.c:1740 ../mail/em-format-quote.c:336
 #: ../mail/em-format.c:892 ../mail/em-mailer-prefs.c:93
-#: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:341
-#: ../widgets/misc/e-dateedit.c:363
+#: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:344
+#: ../widgets/misc/e-dateedit.c:366
 msgid "Date"
 msgstr "Dáta"
 
-#: ../mail/em-format-html.c:1762 ../mail/em-format.c:893
+#: ../mail/em-format-html.c:1763 ../mail/em-format.c:893
 #: ../mail/em-mailer-prefs.c:94
-#, fuzzy
 msgid "Newsgroups"
 msgstr "Grúpaí Nuachta"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1852
+#: ../mail/em-format-html.c:1853
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr ""
@@ -12995,16 +12992,16 @@ msgstr "Scagairí Teachtaireachta"
 msgid "message"
 msgstr "scéal"
 
-#: ../mail/em-utils.c:563
+#: ../mail/em-utils.c:641
 msgid "Save Message..."
 msgstr "Sábháil Scéal...."
 
-#: ../mail/em-utils.c:612
+#: ../mail/em-utils.c:690
 msgid "Add address"
 msgstr "Suimigh seoladh"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1096
+#: ../mail/em-utils.c:1174
 #, fuzzy, c-format
 msgid "Messages from %s"
 msgstr "Teachtaireachtaí á scriosadh ón fhreastalaí..."
@@ -13418,9 +13415,8 @@ msgid "Run junk test on incoming mail"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:87
-#, fuzzy
 msgid "Save directory"
-msgstr "Ní féidir an chomhadlann reatha a shábháil"
+msgstr "Sábháil comhadlann"
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "Search for the sender photo in local addressbooks"
@@ -13493,9 +13489,8 @@ msgid "Subscribe dialog default width"
 msgstr "Leithead fuinneoige réamhshocraithe (i bpicteilíní)"
 
 #: ../mail/evolution-mail.schemas.in.h:106
-#, fuzzy
 msgid "Terminal font"
-msgstr "Cló Comhrá"
+msgstr "Cló teirminéil"
 
 #: ../mail/evolution-mail.schemas.in.h:107
 #, fuzzy
@@ -13772,87 +13767,87 @@ msgstr "líosta ríomhphost %s"
 msgid "Add Filter Rule"
 msgstr "Cuir Riail Nua Leis..."
 
-#: ../mail/mail-component.c:530
-#, fuzzy, c-format
-msgid "%d deleted"
-msgid_plural "%d deleted"
-msgstr[0] "Scriosta"
-msgstr[1] "Scrioste"
-
-#: ../mail/mail-component.c:532
-#, fuzzy, c-format
-msgid "%d junk"
-msgid_plural "%d junk"
-msgstr[0] "Dramhphost"
-msgstr[1] "%d nua"
-
-#: ../mail/mail-component.c:535
-#, fuzzy, c-format
-msgid "%d draft"
-msgid_plural "%d drafts"
-msgstr[0] "Dréacht"
-msgstr[1] "%d la(e)"
-
-#: ../mail/mail-component.c:537
-#, fuzzy, c-format
-msgid "%d sent"
-msgid_plural "%d sent"
-msgstr[0] "Seolta"
-msgstr[1] "%d soicínd"
-
-#: ../mail/mail-component.c:539
-#, fuzzy, c-format
-msgid "%d unsent"
-msgid_plural "%d unsent"
-msgstr[0] "Gan Seoladh"
-msgstr[1] "%d nua"
-
-#: ../mail/mail-component.c:545
-#, fuzzy, c-format
-msgid "%d unread, "
-msgid_plural "%d unread, "
-msgstr[0] "Gan léamh"
-msgstr[1] "%d nua"
-
-#: ../mail/mail-component.c:546
-#, fuzzy, c-format
-msgid "%d total"
-msgid_plural "%d total"
-msgstr[0] "Iomlán"
-msgstr[1] "%d íomlán"
-
-#: ../mail/mail-component.c:550
+#: ../mail/mail-component.c:528
 #, fuzzy, c-format
 msgid " %d selected, "
 msgid_plural " %d selected, "
 msgstr[0] "Roghnaithe"
 msgstr[1] "Scrioste"
 
-#: ../mail/mail-component.c:877
+#: ../mail/mail-component.c:532
+#, fuzzy, c-format
+msgid "%d deleted"
+msgid_plural "%d deleted"
+msgstr[0] "Scriosta"
+msgstr[1] "Scrioste"
+
+#: ../mail/mail-component.c:534
+#, fuzzy, c-format
+msgid "%d junk"
+msgid_plural "%d junk"
+msgstr[0] "Dramhphost"
+msgstr[1] "%d nua"
+
+#: ../mail/mail-component.c:537
+#, fuzzy, c-format
+msgid "%d draft"
+msgid_plural "%d drafts"
+msgstr[0] "Dréacht"
+msgstr[1] "%d la(e)"
+
+#: ../mail/mail-component.c:539
+#, fuzzy, c-format
+msgid "%d sent"
+msgid_plural "%d sent"
+msgstr[0] "Seolta"
+msgstr[1] "%d soicínd"
+
+#: ../mail/mail-component.c:541
+#, fuzzy, c-format
+msgid "%d unsent"
+msgid_plural "%d unsent"
+msgstr[0] "Gan Seoladh"
+msgstr[1] "%d nua"
+
+#: ../mail/mail-component.c:547
+#, fuzzy, c-format
+msgid "%d unread, "
+msgid_plural "%d unread, "
+msgstr[0] "Gan léamh"
+msgstr[1] "%d nua"
+
+#: ../mail/mail-component.c:548
+#, fuzzy, c-format
+msgid "%d total"
+msgid_plural "%d total"
+msgstr[0] "Iomlán"
+msgstr[1] "%d íomlán"
+
+#: ../mail/mail-component.c:876
 msgid "New Mail Message"
 msgstr "Teachtaireacht Phoist Nua"
 
-#: ../mail/mail-component.c:878
+#: ../mail/mail-component.c:877
 msgid "_Mail Message"
 msgstr "_Teachtaireacht Phoist"
 
-#: ../mail/mail-component.c:879
+#: ../mail/mail-component.c:878
 msgid "Compose a new mail message"
 msgstr "Cruthaigh scéal phost nua"
 
-#: ../mail/mail-component.c:885
+#: ../mail/mail-component.c:884
 msgid "New Mail Folder"
 msgstr "Fillteán Poist Nua"
 
-#: ../mail/mail-component.c:886
+#: ../mail/mail-component.c:885
 msgid "Mail _Folder"
 msgstr "Fillteán Poist Nua"
 
-#: ../mail/mail-component.c:887
+#: ../mail/mail-component.c:886
 msgid "Create a new mail folder"
 msgstr "Cruthaigh fillteán poist nua"
 
-#: ../mail/mail-component.c:1034
+#: ../mail/mail-component.c:1033
 msgid "Failed upgrading Mail settings or folders."
 msgstr ""
 
@@ -14021,14 +14016,12 @@ msgid "Account Management"
 msgstr "Bainisteoireacht Chuntas"
 
 #: ../mail/mail-config.glade.h:35
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "Cuir Printéir &Nua Leis"
+msgstr "Cuir Síniú _Nua Leis..."
 
 #: ../mail/mail-config.glade.h:36
-#, fuzzy
 msgid "Add _Script"
-msgstr "Cuir script úsáideora leis:"
+msgstr "Cuir _Script Leis"
 
 #: ../mail/mail-config.glade.h:37
 msgid "Al_ways sign outgoing messages when using this account"
@@ -14157,9 +14150,8 @@ msgid "Done"
 msgstr "Déanta"
 
 #: ../mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Drafts _Folder:"
-msgstr "Fillteán na n&Dréachtanna:"
+msgstr "_Fillteán Dréachtaí:"
 
 #: ../mail/mail-config.glade.h:75
 msgid "Email Accounts"
@@ -14203,9 +14195,8 @@ msgid "Format messages in _HTML"
 msgstr "Seol mar HTML amháin"
 
 #: ../mail/mail-config.glade.h:85
-#, fuzzy
 msgid "Full Nam_e:"
-msgstr "Vítneam"
+msgstr "_Ainm Iomlán:"
 
 #: ../mail/mail-config.glade.h:87
 msgid "HTML Mail"
@@ -14220,9 +14211,7 @@ msgstr "Ceanntásca"
 msgid "Highlight _quotations with"
 msgstr "RockRidge le díth ainm"
 
-# ie
 #: ../mail/mail-config.glade.h:92
-#, fuzzy
 msgid "Inline"
 msgstr "Inlíne"
 
@@ -14312,18 +14301,16 @@ msgid "Quoted"
 msgstr "Teachtaireacht athfhriotail san áireamh..."
 
 #: ../mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Re_member password"
-msgstr "Me&abhraigh focal faire"
+msgstr "Meabhraigh _focal faire"
 
 #: ../mail/mail-config.glade.h:118
 msgid "Re_ply-To:"
 msgstr "_Freagra-Chuig:"
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid "Remember _password"
-msgstr "Meabhraigh focal faire"
+msgstr "Meabhraigh _focal faire"
 
 #: ../mail/mail-config.glade.h:121
 msgid "S_earch for sender photograph only in local addressbooks"
@@ -14348,9 +14335,8 @@ msgid "Se_lect..."
 msgstr "_Roghnaigh..."
 
 #: ../mail/mail-config.glade.h:127
-#, fuzzy
 msgid "Select Drafts Folder"
-msgstr "Roghnaigh Fillteán Baile"
+msgstr "Roghnaigh Fillteán Dréachtaí"
 
 #: ../mail/mail-config.glade.h:128
 #, fuzzy
@@ -14402,15 +14388,11 @@ msgstr "_Cineál Freastalaí: "
 msgid "Sig_ning certificate:"
 msgstr "Gan Teastas Freastalaí"
 
-# SG
 #: ../mail/mail-config.glade.h:140
-#, fuzzy
 msgid "Signat_ure:"
-msgstr "&Pictiúr"
+msgstr "_Síniú:"
 
-# SG
 #: ../mail/mail-config.glade.h:141
-#, fuzzy
 msgid "Signatures"
 msgstr "Sínithe"
 
@@ -16413,22 +16395,22 @@ msgstr "URL ó "
 msgid "A_uthenticate"
 msgstr "Saghas _Udarú :"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:837
+#: ../plugins/exchange-operations/exchange-account-setup.c:840
 #, fuzzy
 msgid "Authentication Type"
 msgstr "Cineál fíordheimhnithe"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:851
+#: ../plugins/exchange-operations/exchange-account-setup.c:854
 msgid "Ch_eck for Supported Types"
 msgstr ""
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:957
+#: ../plugins/exchange-operations/exchange-account-setup.c:960
 #: ../plugins/exchange-operations/exchange-contacts.c:212
 #, c-format
 msgid "%s KB"
 msgstr "%s KB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:959
+#: ../plugins/exchange-operations/exchange-account-setup.c:962
 #: ../plugins/exchange-operations/exchange-contacts.c:214
 msgid "0 KB"
 msgstr "0 KB"
@@ -17428,7 +17410,7 @@ msgid "<b>Users:</b>"
 msgstr "Úsáideoirí"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#: ../widgets/table/e-table-click-to-add.c:507
+#: ../widgets/table/e-table-click-to-add.c:517
 msgid "Message"
 msgstr "Teachtaireacht"
 
@@ -17797,200 +17779,200 @@ msgid "iPod Synchronization"
 msgstr "Sioncrónú Uathoibríoch"
 
 #: ../plugins/itip-formatter/itip-formatter.c:428
-#: ../plugins/itip-formatter/itip-formatter.c:549
+#: ../plugins/itip-formatter/itip-formatter.c:553
 #, fuzzy, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Comhad féilire le luchtú"
 
-#: ../plugins/itip-formatter/itip-formatter.c:569
+#: ../plugins/itip-formatter/itip-formatter.c:573
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:595
+#: ../plugins/itip-formatter/itip-formatter.c:599
 #, fuzzy, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Taispeáin &Tascanna san Fhéilire"
 
-#: ../plugins/itip-formatter/itip-formatter.c:671
+#: ../plugins/itip-formatter/itip-formatter.c:675
 #, fuzzy
 msgid "Unable to find any calendars"
 msgstr "Ní féidir an soláthraí cuardaigh a aimsiú."
 
-#: ../plugins/itip-formatter/itip-formatter.c:678
+#: ../plugins/itip-formatter/itip-formatter.c:682
 msgid "Unable to find this meeting in any calendar"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:682
+#: ../plugins/itip-formatter/itip-formatter.c:686
 msgid "Unable to find this task in any task list"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:686
+#: ../plugins/itip-formatter/itip-formatter.c:690
 msgid "Unable to find this memo in any memo list"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:759
+#: ../plugins/itip-formatter/itip-formatter.c:763
 msgid "Searching for an existing version of this appointment"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:922
+#: ../plugins/itip-formatter/itip-formatter.c:926
 #, fuzzy
 msgid "Unable to parse item"
 msgstr "Earráid: Ní féidir an comhad %1 a pharsáil.\n"
 
-#: ../plugins/itip-formatter/itip-formatter.c:980
+#: ../plugins/itip-formatter/itip-formatter.c:984
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Ní féidir sonraí an fhéilire a léamh: "
 
-#: ../plugins/itip-formatter/itip-formatter.c:992
+#: ../plugins/itip-formatter/itip-formatter.c:996
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:996
+#: ../plugins/itip-formatter/itip-formatter.c:1000
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1001
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1006
+#: ../plugins/itip-formatter/itip-formatter.c:1010
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1100
+#: ../plugins/itip-formatter/itip-formatter.c:1104
 #, fuzzy, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Bainte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1107
+#: ../plugins/itip-formatter/itip-formatter.c:1111
 msgid "Sent a cancelation notice to the delegate"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1109
+#: ../plugins/itip-formatter/itip-formatter.c:1113
 #, fuzzy
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Teíp ag dealaigh fillteán: %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1194
+#: ../plugins/itip-formatter/itip-formatter.c:1198
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1221
+#: ../plugins/itip-formatter/itip-formatter.c:1225
 #, fuzzy, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Ní féidir sonraí an leabhair seoltaí a nuashonrú: "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1225
+#: ../plugins/itip-formatter/itip-formatter.c:1229
 #, fuzzy
 msgid "Attendee status updated"
 msgstr "Sealadach"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1250
+#: ../plugins/itip-formatter/itip-formatter.c:1254
 #, fuzzy
 msgid "Meeting information sent"
 msgstr ""
 "Seoladh teachtaireacht chuig:\n"
 "%1%2"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1253
+#: ../plugins/itip-formatter/itip-formatter.c:1257
 #, fuzzy
 msgid "Task information sent"
 msgstr ""
 "Seoladh teachtaireacht chuig:\n"
 "%1%2"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1256
+#: ../plugins/itip-formatter/itip-formatter.c:1260
 #, fuzzy
 msgid "Memo information sent"
 msgstr ""
 "Seoladh teachtaireacht chuig:\n"
 "%1%2"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1265
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1268
+#: ../plugins/itip-formatter/itip-formatter.c:1272
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1271
+#: ../plugins/itip-formatter/itip-formatter.c:1275
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1346
-#: ../plugins/itip-formatter/itip-formatter.c:1361
+#: ../plugins/itip-formatter/itip-formatter.c:1350
+#: ../plugins/itip-formatter/itip-formatter.c:1365
 #, fuzzy
 msgid "The calendar attached is not valid"
 msgstr "Níl an t-am sonraithe bailí."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1347
-#: ../plugins/itip-formatter/itip-formatter.c:1362
+#: ../plugins/itip-formatter/itip-formatter.c:1351
+#: ../plugins/itip-formatter/itip-formatter.c:1366
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1397
-#: ../plugins/itip-formatter/itip-formatter.c:1415
-#: ../plugins/itip-formatter/itip-formatter.c:1496
+#: ../plugins/itip-formatter/itip-formatter.c:1401
+#: ../plugins/itip-formatter/itip-formatter.c:1419
+#: ../plugins/itip-formatter/itip-formatter.c:1500
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1398
-#: ../plugins/itip-formatter/itip-formatter.c:1416
-#: ../plugins/itip-formatter/itip-formatter.c:1497
+#: ../plugins/itip-formatter/itip-formatter.c:1402
+#: ../plugins/itip-formatter/itip-formatter.c:1420
+#: ../plugins/itip-formatter/itip-formatter.c:1501
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1427
+#: ../plugins/itip-formatter/itip-formatter.c:1431
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1428
+#: ../plugins/itip-formatter/itip-formatter.c:1432
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:2047
+#: ../plugins/itip-formatter/itip-formatter.c:2051
 #, fuzzy
 msgid "This meeting recurs"
 msgstr "Cealaíodh an cruinniú seo"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2050
+#: ../plugins/itip-formatter/itip-formatter.c:2054
 #, fuzzy
 msgid "This task recurs"
 msgstr "Mionathraigh an Tasc seo..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:2053
+#: ../plugins/itip-formatter/itip-formatter.c:2057
 #, fuzzy
 msgid "This memo recurs"
 msgstr "Name=Comhad Meamraim"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2254
+#: ../plugins/itip-formatter/itip-formatter.c:2258
 #, fuzzy
 msgid "_Delete message after acting"
 msgstr "Scrios Dialóga Dúnta tar éis (Lá)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2264
-#: ../plugins/itip-formatter/itip-formatter.c:2296
+#: ../plugins/itip-formatter/itip-formatter.c:2268
+#: ../plugins/itip-formatter/itip-formatter.c:2300
 #, fuzzy
 msgid "Conflict Search"
 msgstr "Inneall Cuardaigh"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2279
+#: ../plugins/itip-formatter/itip-formatter.c:2283
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
@@ -18890,22 +18872,22 @@ msgstr "Téacs Amháin"
 msgid "Prefer plain-text"
 msgstr "Foclóir gnáth-théacs"
 
-#: ../plugins/prefer-plain/prefer-plain.c:105
+#: ../plugins/prefer-plain/prefer-plain.c:139
 #, fuzzy
 msgid "Show HTML if present"
 msgstr "Taispeáin ainmneacha gearra (má tá siad ar fáil)"
 
-#: ../plugins/prefer-plain/prefer-plain.c:106
+#: ../plugins/prefer-plain/prefer-plain.c:140
 #, fuzzy
 msgid "Prefer PLAIN"
 msgstr "Clog Simplí"
 
-#: ../plugins/prefer-plain/prefer-plain.c:107
+#: ../plugins/prefer-plain/prefer-plain.c:141
 #, fuzzy
 msgid "Only ever show PLAIN"
 msgstr "Ná taispeáin ach fuinneoga íoslaghdaithe"
 
-#: ../plugins/prefer-plain/prefer-plain.c:150
+#: ../plugins/prefer-plain/prefer-plain.c:184
 #, fuzzy
 msgid "HTML _Mode"
 msgstr "Scoránaigh Foinse HTML"
@@ -23024,43 +23006,43 @@ msgstr "Eile..."
 msgid "Ch_aracter Encoding"
 msgstr "T&acar carachtar"
 
-#: ../widgets/misc/e-dateedit.c:321
+#: ../widgets/misc/e-dateedit.c:322
 msgid "Date and Time"
 msgstr "Dáta agus Am"
 
-#: ../widgets/misc/e-dateedit.c:340
+#: ../widgets/misc/e-dateedit.c:343
 msgid "Text entry to input date"
 msgstr ""
 
-#: ../widgets/misc/e-dateedit.c:362
+#: ../widgets/misc/e-dateedit.c:365
 #, fuzzy
 msgid "Click this button to show a calendar"
 msgstr "Brúigh an cnaipe seo chun fillteán nua a chruthú."
 
-#: ../widgets/misc/e-dateedit.c:384
+#: ../widgets/misc/e-dateedit.c:407
 msgid "Combo box to select time"
 msgstr ""
 
-#: ../widgets/misc/e-dateedit.c:385
+#: ../widgets/misc/e-dateedit.c:408
 msgid "Time"
 msgstr "Am"
 
-#: ../widgets/misc/e-dateedit.c:459
+#: ../widgets/misc/e-dateedit.c:482
 msgid "No_w"
 msgstr "_Anois"
 
-#: ../widgets/misc/e-dateedit.c:465
+#: ../widgets/misc/e-dateedit.c:488
 msgid "_Today"
 msgstr "_Inniu"
 
 # SG
-#: ../widgets/misc/e-dateedit.c:1631
+#: ../widgets/misc/e-dateedit.c:1641
 #, fuzzy
 msgid "Invalid Date Value"
 msgstr "Luach neamhbhailí."
 
 # SG
-#: ../widgets/misc/e-dateedit.c:1657
+#: ../widgets/misc/e-dateedit.c:1667
 #, fuzzy
 msgid "Invalid Time Value"
 msgstr "Amluach inmheánach"
@@ -23507,27 +23489,27 @@ msgstr "Colún Nua"
 msgid "Unselected Column"
 msgstr "Colún Nua"
 
-#: ../widgets/table/e-cell-text.c:1803
+#: ../widgets/table/e-cell-text.c:1804
 #, fuzzy
 msgid "Strikeout Column"
 msgstr "Colún Nua"
 
-#: ../widgets/table/e-cell-text.c:1810
+#: ../widgets/table/e-cell-text.c:1811
 #, fuzzy
 msgid "Underline Column"
 msgstr "Colún Nua"
 
-#: ../widgets/table/e-cell-text.c:1817
+#: ../widgets/table/e-cell-text.c:1818
 #, fuzzy
 msgid "Bold Column"
 msgstr "Colún Nua"
 
-#: ../widgets/table/e-cell-text.c:1824
+#: ../widgets/table/e-cell-text.c:1825
 #, fuzzy
 msgid "Color Column"
 msgstr "Colún Nua"
 
-#: ../widgets/table/e-cell-text.c:1838
+#: ../widgets/table/e-cell-text.c:1839
 #, fuzzy
 msgid "BG Color Column"
 msgstr "Athraigh Dath an Chúlra"
