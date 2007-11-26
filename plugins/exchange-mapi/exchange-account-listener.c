@@ -219,6 +219,7 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 	e_source_group_set_property (group, "username", url->user);
 	e_source_group_set_property (group, "host", url->host);
 	e_source_group_set_property (group, "domain", camel_url_get_param (url, "domain"));
+	e_source_group_set_property (group, "use_ssl", camel_url_get_param (url, "use_ssl"));
 
 	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
  		ExchangeMAPIFolder *folder = temp_list->data;
@@ -242,26 +243,26 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 		e_source_set_property (source, "profile", camel_url_get_param (url, "profile"));
 		e_source_set_property (source, "domain", camel_url_get_param (url, "domain"));
 		e_source_set_property (source, "folder-id", tmp);
+		g_free (tmp);
 		/* FIXME: The primary folders cannot be deleted */
 #if 0
 		if (strcmp (folder->folder_name, primary_source_name) == 0) 
 			e_source_set_property (source, "delete", "no");
 #endif
-#if 0 
-		if (folder->parent_folder_name) {
-			e_source_set_property (source, "parent_folder_name", folder->parent_folder_name);
-			e_source_set_property (source, "parent_folder_id", folder->parent_folder_id);
+		if (folder->parent_folder_id) {
+			tmp = g_strdup_printf ("%016llx", folder->parent_folder_id);
+			e_source_set_property (source, "parent-fid", tmp);
+			g_free (tmp);
 		}
-#endif
+
 		e_source_group_add_source (group, source, -1);
 
 		if (source_selection_key) {
 			ids = gconf_client_get_list (client, source_selection_key , GCONF_VALUE_STRING, NULL);
 			ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
 			gconf_client_set_list (client,  source_selection_key, GCONF_VALUE_STRING, ids, NULL);
-			temp  = ids;
 
-			for (; temp != NULL; temp = g_slist_next (temp))
+			for (temp = ids; temp != NULL; temp = g_slist_next (temp))
 				g_free (temp->data);
 
 			g_slist_free (ids);
@@ -269,7 +270,6 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 
 		g_object_unref (source);
 		g_free (relative_uri);
-		g_free (tmp);
 	}
 
 	if (!e_source_list_add_group (source_list, group, -1))

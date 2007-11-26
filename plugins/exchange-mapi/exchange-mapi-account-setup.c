@@ -41,6 +41,7 @@
 #include "mail/em-config.h"
 #include "exchange-account-listener.h"
 #include <addressbook/gui/widgets/eab-config.h>
+#include <calendar/gui/e-cal-config.h>
 #include <mapi/exchange-mapi-folder.h>
 #include <mapi/exchange-mapi-connection.h>
 
@@ -50,9 +51,14 @@ gboolean org_gnome_exchange_mapi_check_options(EPlugin *epl, EConfigHookPageChec
 
 /* New Addressbook/CAL */
 GtkWidget *exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data);
-gboolean exchange_mapi_check (EPlugin *epl, EConfigHookPageCheckData *data);
-void exchange_mapi_commit (EPlugin *epl, EConfigTarget *target);
 
+/* New Addressbook */
+gboolean exchange_mapi_book_check (EPlugin *epl, EConfigHookPageCheckData *data);
+void exchange_mapi_book_commit (EPlugin *epl, EConfigTarget *target);
+
+/* New calendar/task list/memo list */
+gboolean exchange_mapi_cal_check (EPlugin *epl, EConfigHookPageCheckData *data);
+void exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target);
 
 
 #define DEFAULT_PROF_PATH ".evolution/mapi-profiles.ldb"
@@ -450,7 +456,7 @@ add_to_store (GtkTreeStore *ts, ExchangeMAPIFolder *folder)
 }
 
 static void
-add_folders (GSList *folders, GtkTreeStore *ts, ExchangeMAPIFolderType type)
+add_folders (GSList *folders, GtkTreeStore *ts)
 {
 	GSList *tmp = folders;
 	GtkTreeIter iter;
@@ -462,8 +468,7 @@ add_folders (GSList *folders, GtkTreeStore *ts, ExchangeMAPIFolderType type)
 	while (tmp) {
 		ExchangeMAPIFolder *folder = tmp->data;
 		printf("%s\n", folder->folder_name);
-		if (folder->container_class == type)
-			add_to_store (ts, folder);
+		add_to_store (ts, folder);
 		tmp = tmp->next;
 	}
 }
@@ -486,12 +491,6 @@ exchange_mapi_cursor_change (GtkTreeView *treeview, ESource *source)
 	g_free (sfid);
 }
 
-enum DialogType {
-	ADDRESSBOOK,
-	CALENDAR,
-	TASKS,
-	MEMOS
-};
 GtkWidget *
 exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
@@ -513,25 +512,20 @@ exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data)
 		return NULL;
 	}
 
-	if (!strcmp (data->config->id, "org.gnome.evolution.calendar.calendarProperties")) {
-		type = CALENDAR;
-	} else if (!strcmp (data->config->id, "com.novell.evolution.addressbook.config.accountEditor")) {
-		type = ADDRESSBOOK;
-	}//FIXME: Do for rest.
-
 	acc = e_source_group_peek_name (e_source_peek_group (source));
 	ts = gtk_tree_store_new (NUM_COLS, G_TYPE_STRING, G_TYPE_INT64, G_TYPE_POINTER);
 
-	add_folders (folders, ts, type == CALENDAR ? MAPI_FOLDER_TYPE_APPOINTMENT : MAPI_FOLDER_TYPE_CONTACT);
+	add_folders (folders, ts);
 	
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	if (type == CALENDAR) {
+	if (!strcmp (data->config->id, "org.gnome.evolution.calendar.calendarProperties")) {
 		int row = ((GtkTable*) data->parent)->nrows;
 		gtk_table_attach (GTK_TABLE (data->parent), vbox, 0, 2, row+1, row+2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
-	} else {
+	} else if (!strcmp (data->config->id, "com.novell.evolution.addressbook.config.accountEditor")) {
 		gtk_container_add (GTK_CONTAINER (data->parent), vbox);
 	}
+
 	label = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
@@ -560,48 +554,51 @@ exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 gboolean
-exchange_mapi_check (EPlugin *epl, EConfigHookPageCheckData *data)
+exchange_mapi_book_check (EPlugin *epl, EConfigHookPageCheckData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
-	char *uri_text;
+	char *uri_text = e_source_get_uri (source);
 
-	uri_text = e_source_get_uri (source);
-	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi", 4))
+	if (!uri_text)
 		return TRUE;
 
-	//FIXME: Offline handling
-	if (!e_source_get_property (source, "parent-fid"))
+	/* FIXME: Offline handling */
+
+	/* not a MAPI account */
+	if (g_ascii_strncasecmp (uri_text, "mapi", 4)) {
+		g_free (uri_text);
+		return TRUE;
+	}
+
+	/* does not have a parent-fid which is needed for folder creation on server */
+	if (!e_source_get_property (source, "parent-fid")) {
+		g_free (uri_text);
 		return FALSE;
-	
+	}
+
+	g_free (uri_text);
 	return TRUE;
 }
 
-void exchange_mapi_commit (EPlugin *epl, EConfigTarget *target)
+void 
+exchange_mapi_book_commit (EPlugin *epl, EConfigTarget *target)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
 	char *uri_text, *sfid, *tmp;
 	mapi_id_t fid, pfid;
 	ESourceGroup *grp;
-	int type;
 	
 	uri_text = e_source_get_uri (source);
 	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi", 4))
 		return;
-
-	if (!strcmp (target->config->id, "org.gnome.evolution.calendar.calendarProperties")) {
-		type = CALENDAR;
-	} else if (!strcmp (target->config->id, "com.novell.evolution.addressbook.config.accountEditor")) {
-		type = ADDRESSBOOK;
-	}
-	//FIXME: Do for rest.
 	
 	//FIXME: Offline handling
 	sfid = e_source_get_property (source, "parent-fid");
 	sscanf (sfid, "%016llx", &pfid);
 
-	fid = exchange_mapi_create_folder (type == ADDRESSBOOK ? olFolderContacts : olFolderCalendar, pfid, e_source_peek_name (source));
+	fid = exchange_mapi_create_folder (olFolderContacts, pfid, e_source_peek_name (source));
 	printf("Created %016llx\n", fid);
 	grp = e_source_peek_group (source);
 	e_source_set_property (source, "auth", "plain/password");
@@ -617,21 +614,121 @@ void exchange_mapi_commit (EPlugin *epl, EConfigTarget *target)
 	g_free (tmp);
 	e_source_set_property (source, "completion", "true");
 
-	if (type == CALENDAR) {
-			GSList *ids, *temp;
-			GConfClient *client = gconf_client_get_default ();
+	return;
+}
 
-			ids = gconf_client_get_list (client, "/apps/evolution/calendar/display/selected_calendars" , GCONF_VALUE_STRING, NULL);
-			ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
-			gconf_client_set_list (client, "/apps/evolution/calendar/display/selected_calendars", GCONF_VALUE_STRING, ids, NULL);
-			temp  = ids;
-			for (; temp != NULL; temp = g_slist_next (temp))
-				g_free (temp->data);
 
-			g_slist_free (ids);
-			g_object_unref (client);
+/* New calendar/task list/memo list */
+gboolean
+exchange_mapi_cal_check (EPlugin *epl, EConfigHookPageCheckData *data)
+{
+	ECalConfigTargetSource *t = (ECalConfigTargetSource *)(data->target);
+	ESource *source = t->source;
+	char *uri_text = e_source_get_uri (source);
+
+	if (!uri_text)
+		return TRUE;
+
+	/* FIXME: Offline handling */
+
+	/* not a MAPI account */
+	if (g_ascii_strncasecmp (uri_text, "mapi", 4)) {
+		g_free (uri_text);
+		return TRUE;
 	}
+
+	/* does not have a parent-fid which is needed for folder creation on server */
+	if (!e_source_get_property (source, "parent-fid")) {
+		g_free (uri_text);
+		return FALSE;
+	}
+
+	g_free (uri_text);
+	return TRUE;
+}
+
+void 
+exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target)
+{
+	ECalConfigTargetSource *t = (ECalConfigTargetSource *) target;
+	ESource *source = t->source;
+	gchar *uri_text, *tmp;
+	mapi_id_t fid, pfid;
+	ESourceGroup *grp;
+	int type;
+	const gchar *source_selection_key = NULL, *sfid;
+
+	uri_text = e_source_get_uri (source);
+	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi://", 7))
+		return;
+
+	g_free (uri_text);
+
+	switch (t->source_type) {
+		case E_CAL_SOURCE_TYPE_EVENT: 
+			type = olFolderCalendar; 
+			source_selection_key = "/apps/evolution/calendar/display/selected_calendars";
+			break;
+		case E_CAL_SOURCE_TYPE_TODO: 
+			type = olFolderTasks; 
+			source_selection_key = "/apps/evolution/calendar/tasks/selected_tasks";
+			break;
+		case E_CAL_SOURCE_TYPE_JOURNAL: 
+			type = olFolderNotes; 
+			source_selection_key = "/apps/evolution/calendar/memos/selected_memos";
+			break;
+		default: 
+			type = olFolderCalendar; 
+			source_selection_key = "/apps/evolution/calendar/display/selected_calendars";
+			break;
+	}
+
+	//FIXME: Offline handling
+
+	sfid = e_source_get_property (source, "parent-fid");
+	sscanf (sfid, "%016llx", &pfid);
+
+	fid = exchange_mapi_create_folder (type, pfid, e_source_peek_name (source));
+	printf("Created %016llx\n", fid);
+
+	grp = e_source_peek_group (source);
+
+	e_source_set_property (source, "auth", "1");
+	e_source_set_property (source, "auth-domain", "MAPI");
+
+	tmp = e_source_group_get_property (grp, "use_ssl");
+	e_source_set_property (source, "use_ssl", tmp);
+	g_free (tmp);
+
+	tmp = e_source_group_get_property (grp, "username");
+	e_source_set_property (source, "username", tmp);
+	g_free (tmp);
+	
+	tmp = e_source_group_get_property (grp, "host");
+	e_source_set_property (source, "host", tmp);
+	g_free (tmp);
+
+//	e_source_set_property (source, "offline_sync", 
+//				       camel_url_get_param (url, "offline_sync") ? "1" : "0");
+
+	tmp = e_source_group_get_property (grp, "profile");
+	e_source_set_property (source, "profile", tmp);
+	g_free (tmp);
+
+	tmp = e_source_group_get_property (grp, "domain");
+	e_source_set_property (source, "domain", tmp);
+	g_free (tmp);
+
+	tmp = g_strdup_printf ("%016llx", fid);
+	e_source_set_property (source, "folder-id", tmp);
+	g_free (tmp);
+
+	/* make sure we set relative uri after we set the props needed to create the relative uri */
+	tmp = g_strdup_printf ("%s@%s/%s/", e_source_get_property (source, "username"), e_source_get_property (source, "host"), e_source_get_property (source, "folder-id"));
+	e_source_set_relative_uri (source, tmp);
+	g_free (tmp);
 
 	return;
 }
+
 
