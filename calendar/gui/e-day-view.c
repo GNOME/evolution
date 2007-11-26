@@ -7633,16 +7633,22 @@ e_day_view_on_editing_started (EDayView *day_view,
 	day_view->editing_event_num = event_num;
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
-		gint item_y, scroll_y;
+		gint item_x, item_y, item_w, item_h, scroll_y;
+		gint start_day, end_day;
 
 		e_day_view_reshape_long_event (day_view, event_num);
 
-		/* and ensure it's visible too */
-		item_y = (event_num * (day_view->top_row_height + 1)) - 1;
-		scroll_y = gtk_adjustment_get_value (GTK_LAYOUT (day_view->top_canvas)->vadjustment);
-		if (item_y + day_view->top_row_height > day_view->top_canvas->allocation.height + scroll_y ||
-		    item_y < scroll_y)
-			gnome_canvas_scroll_to (GNOME_CANVAS (day_view->top_canvas), 0, item_y);
+		if (e_day_view_get_long_event_position (day_view, event_num,
+						       &start_day, &end_day,
+						       &item_x, &item_y,
+						       &item_w, &item_h)) {
+			/* and ensure it's visible too */
+			/*item_y = (event_num * (day_view->top_row_height + 1)) - 1;*/
+			scroll_y = gtk_adjustment_get_value (GTK_LAYOUT (day_view->top_canvas)->vadjustment);
+			if (item_y + day_view->top_row_height > day_view->top_canvas->allocation.height + scroll_y ||
+			    item_y < scroll_y)
+				gnome_canvas_scroll_to (GNOME_CANVAS (day_view->top_canvas), 0, item_y);
+		}
 	} else {
 		day_view->resize_bars_event_day = day;
 		day_view->resize_bars_event_num = event_num;

@@ -1,5 +1,12 @@
 2007-11-26  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #346693
+
+	* gui/e-day-view.c: (e_day_view_on_editing_started):
+	Ensure new event in top canvas will be visible.
+
+2007-11-26  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #380644
 
 	* gui/dialogs/task-page.h: (task_page_add_attendee):
