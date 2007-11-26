@@ -1,3 +1,14 @@
+2007-11-26  Suman Manjunath  <msuman@novell.com>
+
+	** committing ChangeLog entry for r34580
+
+	* exchange-account-listener.c: (add_cal_esource):
+	* exchange-mapi-account-setup.c: (exchange_mapi_book_check), 
+	(exchange_mapi_book_commit), (exchange_mapi_cal_check), 
+	(exchange_mapi_cal_commit), (add_folders), (exchange_mapi_create):
+	* org-gnome-exchange-mapi.eplug.xml:
+	Support for adding new calendar/task list/memo list.
+
 2007-11-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Added support for Create Calendar/Addressbook.
