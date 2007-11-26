@@ -1,3 +1,20 @@
+2007-11-26  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fixes bug #495951
+
+	* menus/gal-view-instance-save-as-dialog.c:
+	(gal_view_instance_save_as_dialog_set_instance),
+	(gvisad_setup_validate_button), (gvisad_setup_radio_buttons),
+	(gvisad_entry_changed),
+	(gal_view_instance_save_as_dialog_set_property),
+	(gal_view_instance_save_as_dialog_dispose),
+	(gal_view_instance_save_as_dialog_init),
+	(gal_view_instance_save_as_dialog_new),
+	(gal_view_instance_save_as_dialog_save):
+	* menus/gal-view-instance-save-as-dialog.glade:
+	* menus/gal-view-instance-save-as-dialog.h:
+	Use GtkTreeView in place of ETable
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #341085
