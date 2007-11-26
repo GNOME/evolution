@@ -838,7 +838,7 @@ static void
 use_remote_tests_cb (GtkWidget *widget, gpointer data)
 {
 	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-   	gconf_client_set_bool (em_junk_sa_gconf, data, active, NULL);
+   	gconf_client_set_bool (em_junk_sa_gconf, data, !active, NULL);
 }
 
 GtkWidget *
@@ -859,7 +859,7 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (check), FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (label), FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_sa_local_only);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), !em_junk_sa_local_only);
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (use_remote_tests_cb), "/apps/evolution/mail/junk/sa/local_only");
 	gtk_table_attach((GtkTable *)data->parent, vbox, 0, 1, i, i+1, 0, 0, 0, 0);
 	gtk_widget_show_all (vbox);
