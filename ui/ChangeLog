@@ -1,3 +1,10 @@
+2007-11-26  Andre Klapper  <a9016009@gmx.de>
+ 
+ 	** Fixes bug #497810
+ 
+ 	* evolution.xml:
+ 	add "Evolution FAQ" help menu item 
+
 2007-11-26 Nicholas Miell <nmiell@gmail.com>
 
 	** Part of fix for bug #216485

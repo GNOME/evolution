@@ -1,3 +1,10 @@
+2007-11-26  Andre Klapper  <a9016009@gmx.de>
+
+	** Fixes bug #497810
+
+	* e-shell-window-commands.c:
+	add "Evolution FAQ" help menu item
+
 2007-11-02  Damien Carbery  <damien.carbery@sun.com>
 
 	** Fixes bug #492058

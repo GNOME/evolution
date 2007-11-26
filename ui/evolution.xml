@@ -39,6 +39,9 @@
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
 
+    <cmd name="HelpOpenFAQ" _label="Evolution _FAQ" 
+      _tip="Open the Frequently Asked Questions webpage"/>
+
     <cmd name="SendReceive"
      _tip="Send queued items and retrieve new items"
      pixtype="pixbuf"/>
@@ -159,10 +162,8 @@
 
       <separator f="" name="eshell2"/>
 
-      <!-- <menuitem name="HelpFAQ" verb=""
+      <menuitem name="HelpOpenFAQ" verb=""
 	_label="Evolution _FAQ"/> 
-
-      <separator/> -->
 
       <menuitem name="HelpSubmitBug" verb=""
 	_label="Submit _Bug Report"/>

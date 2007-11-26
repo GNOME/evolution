@@ -679,18 +679,20 @@ command_about (BonoboUIComponent *uih,
 		NULL);
 }
 
-#if 0
-/* Unused */
 static void
-command_help_faq (BonoboUIComponent *uih,
+command_open_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
-		  const char *path)
+ 		  const char *path)
 {
-	/* FIXME Show when we have a faq */
-	/* FIXME use the error */
-	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);
-}
-#endif
+ 	GError *error = NULL;
+
+	gnome_url_show ("http://www.go-evolution.org/FAQ", &error);
+	if (error != NULL) {
+		e_notice (NULL, GTK_MESSAGE_ERROR,
+				_("Error opening the FAQ webpage."));
+ 		g_error_free (error);
+ 	}
+ }
 
 static void
 command_quick_reference (BonoboUIComponent *uih,
@@ -837,6 +839,7 @@ static BonoboUIVerb tools_verbs[] = {
 
 static BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB ("QuickReference", (BonoboUIVerbFn) command_quick_reference),
+	BONOBO_UI_VERB ("HelpOpenFAQ", (BonoboUIVerbFn) command_open_faq),
 	BONOBO_UI_VERB ("HelpSubmitBug", (BonoboUIVerbFn) command_submit_bug),
 	BONOBO_UI_VERB ("HelpAbout", (BonoboUIVerbFn) command_about),
 
