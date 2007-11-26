@@ -699,7 +699,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		GSList *l;
 		int row;
 		char *user_email;
-		user_email = itip_get_comp_attendee (comp, client);	
+		user_email = itip_get_comp_attendee (comp, client);
 		
 		if (!priv->meeting_shown) {
 			bonobo_ui_component_set_prop (editor->uic, "/commands/ActionFreeBusy", "hidden", "0", NULL);
@@ -719,10 +719,9 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 				if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
 					e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
 
+				event_page_add_attendee (priv->event_page, ia);
 
-				e_meeting_store_add_attendee (priv->model, ia);
-
-				g_object_unref(ia);
+				g_object_unref (ia);
 			}
 
 			/* If we aren't the organizer we can still change our own status */
@@ -753,7 +752,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	
 		event_page_set_meeting (priv->event_page, TRUE);	
 		priv->meeting_shown = TRUE;
-	}	
+	}
+
 	e_cal_component_free_attendee_list (attendees);
 
 	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)));

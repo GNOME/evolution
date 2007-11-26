@@ -794,14 +794,13 @@ e_meeting_store_remove_attendee (EMeetingStore *store, EMeetingAttendee *attende
 	}	
 	
 	if (row != -1) {
-
-		g_ptr_array_remove_index (store->priv->attendees, row);		
-		g_object_unref (attendee);
-
 		path = gtk_tree_path_new ();
 		gtk_tree_path_append_index (path, row);
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
 		gtk_tree_path_free (path);
+
+		g_ptr_array_remove_index (store->priv->attendees, row);		
+		g_object_unref (attendee);
 	}
 }
 
@@ -815,10 +814,11 @@ e_meeting_store_remove_all_attendees (EMeetingStore *store)
 
 	for (i = 0; i < store->priv->attendees->len; i++) {
 		EMeetingAttendee *attendee = g_ptr_array_index (store->priv->attendees, i);
-		g_object_unref (attendee);
 
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
 		gtk_tree_path_next (path);
+
+		g_object_unref (attendee);
 	}
 
 	g_ptr_array_set_size (store->priv->attendees, 0);

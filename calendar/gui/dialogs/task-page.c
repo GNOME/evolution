@@ -1118,6 +1118,8 @@ remove_attendee (TaskPage *page, EMeetingAttendee *ia)
 		
 		if (e_meeting_attendee_get_delto (ia) != NULL)
 			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+
+		e_meeting_list_view_remove_attendee_from_name_selector (priv->list_view, ia);
 		e_meeting_store_remove_attendee (priv->model, ia);
 
 		ia = ib;
@@ -2099,4 +2101,24 @@ task_page_create_source_option_menu (void)
 
 	gtk_widget_show (menu);
 	return menu;
+}
+
+/**
+ * task_page_add_attendee
+ * Add attendee to meeting store and name selector.
+ * @param tpage TaskPage.
+ * @param attendee Attendee to be added.
+ **/
+void
+task_page_add_attendee (TaskPage *tpage, EMeetingAttendee *attendee)
+{
+	TaskPagePrivate *priv;
+
+	g_return_if_fail (tpage != NULL);
+	g_return_if_fail (IS_TASK_PAGE (tpage));
+	
+	priv = tpage->priv;
+
+	e_meeting_store_add_attendee (priv->model, attendee);
+	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
 }
