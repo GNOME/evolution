@@ -150,6 +150,7 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "EditInvertSelection", EM_POPUP_SELECT_FOLDER },
 	{ "EditSelectAll", EM_POPUP_SELECT_FOLDER },
 	{ "EditSelectThread", EM_FOLDER_VIEW_SELECT_THREADED },
+	{ "EditSelectSubthread", EM_FOLDER_VIEW_SELECT_THREADED },
 	{ "FolderExpunge", EM_POPUP_SELECT_FOLDER },
 	{ "FolderCopy", EM_POPUP_SELECT_FOLDER },
 	{ "FolderMove", EM_POPUP_SELECT_FOLDER },
@@ -1300,6 +1301,14 @@ emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
+emfb_edit_select_subthread(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderView *emfv = data;
+
+	message_list_select_subthread (emfv->list);
+}
+
+static void
 emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
@@ -1555,6 +1564,7 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", emfb_edit_invert_selection),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", emfb_edit_select_all),
         BONOBO_UI_UNSAFE_VERB ("EditSelectThread", emfb_edit_select_thread),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectSubthread", emfb_edit_select_subthread),
 	BONOBO_UI_UNSAFE_VERB ("ChangeFolderProperties", emfb_folder_properties),
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", emfb_folder_expunge),
 	/* HideDeleted is a toggle */

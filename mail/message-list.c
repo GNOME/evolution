@@ -718,30 +718,40 @@ select_node (ETreeModel *model, ETreePath path, gpointer user_data)
 }
 
 static void
+select_thread (MessageList *message_list, void (*selector)(ETreePath, gpointer))
+{
+	ETreeSelectionModel *etsm;
+	thread_select_info_t tsi;
+
+	tsi.ml = message_list;
+	tsi.paths = g_ptr_array_new ();
+
+	etsm = (ETreeSelectionModel *) e_tree_get_selection_model (message_list->tree);
+
+	e_tree_selected_path_foreach (message_list->tree, selector, &tsi);
+
+	e_tree_selection_model_select_paths (etsm, tsi.paths);
+
+	g_ptr_array_free (tsi.paths, TRUE);
+}
+
+static void
 thread_select_foreach (ETreePath path, gpointer user_data)
 {
 	thread_select_info_t *tsi = (thread_select_info_t *) user_data;
 	ETreeModel *model = tsi->ml->model;
-	ETreePath node;
+	ETreePath node, last;
 
-	/* @path part of the initial selection. If it has children,
-	 * we select them as well. If it doesn't, we select its siblings and
-	 * their children (ie, the current node must be inside the thread
-	 * that the user wants to mark.
-	 */
+	node = path;
 
-	if (e_tree_model_node_get_first_child (model, path)) {
-		node = path;
-	} else {
-		node = e_tree_model_node_get_parent (model, path);
+	do {
+		last = node;
+		node = e_tree_model_node_get_parent (model, node);
+	} while (!e_tree_model_node_is_root (model, node));
 
-		/* Let's make an exception: if no parent, then we're about
-		 * to mark the whole tree. No. */
-		if (e_tree_model_node_is_root (model, node))
-			node = path;
-	}
+	g_ptr_array_add (tsi->paths, last);
 
-	e_tree_model_node_traverse (model, node, select_node, tsi);
+	e_tree_model_node_traverse (model, last, select_node, tsi);
 }
 
 /**
@@ -753,17 +763,28 @@ thread_select_foreach (ETreePath path, gpointer user_data)
 void
 message_list_select_thread (MessageList *message_list)
 {
-	ETreeSelectionModel *etsm;
-	thread_select_info_t tsi;
+	select_thread (message_list, thread_select_foreach);
+}
 
-	tsi.ml = message_list;
-	tsi.paths = g_ptr_array_new ();
+static void
+subthread_select_foreach (ETreePath path, gpointer user_data)
+{
+	thread_select_info_t *tsi = (thread_select_info_t *) user_data;
+	ETreeModel *model = tsi->ml->model;
 
-	etsm = (ETreeSelectionModel *) e_tree_get_selection_model (message_list->tree);
+	e_tree_model_node_traverse (model, path, select_node, tsi);
+}
 
-	e_tree_selected_path_foreach (message_list->tree, thread_select_foreach, &tsi);
-	e_tree_selection_model_select_paths(etsm, tsi.paths);
-	g_ptr_array_free (tsi.paths, TRUE);
+/**
+ * message_list_select_subthread:
+ * @message_list: Message List widget
+ *
+ * Selects all messages in the current subthread (based on cursor).
+ **/
+void
+message_list_select_subthread (MessageList *message_list)
+{
+	select_thread (message_list, subthread_select_foreach);
 }
 
 /**

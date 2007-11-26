@@ -1,3 +1,17 @@
+2007-11-26 Nicholas Miell <nmiell@gmail.com>
+
+	** Fix for bug #216485
+	Edit->Select thread menu fix and improvement.
+
+	* em-folder-browser.c: (emfb_edit_select_subthread): new function,
+	(emfb_enable_map, emfb_verbs) hook it up
+	* message-list.c: (select_thread): new function based on
+	thread_select_foreach, (thread_select_foreach): remove the logic
+	now in select_thread, (message_list_select_thread): use
+	select_thread, (subthread_select_foreach): new function,
+	(message_list_select_subthread): new function
+	* message-list.h: (message_list_select_subthread): add prototype
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #494414

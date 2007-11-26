@@ -198,6 +198,7 @@ void           message_list_select_next_thread (MessageList *ml);
 /* selection manipulation */
 void           message_list_select_all (MessageList *ml);
 void           message_list_select_thread (MessageList *ml);
+void           message_list_select_subthread (MessageList *ml);
 void           message_list_invert_selection (MessageList *ml);
 
 /* clipboard stuff */

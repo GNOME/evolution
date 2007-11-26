@@ -1,3 +1,10 @@
+2007-11-26 Nicholas Miell <nmiell@gmail.com>
+
+	** Part of fix for bug #216485
+
+	* evolution-mail-list.xml
+	Add Select Message Subthread
+
 2007-11-10  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #209425

@@ -22,6 +22,10 @@
      _tip="Select all visible messages"
      accel="*Control*a"/>
 
+    <cmd name="EditSelectSubthread"
+     _tip="Select all replies to the currently selected message"
+     accel="*Control**Shift*h"/>
+
     <cmd name="EditSelectThread"
      _tip="Select all messages in the same thread as the selected message"
      accel="*Control*h"/>
@@ -113,6 +117,7 @@
         <placeholder name="MessagesInFolder">
           <menuitem name="EditSelectAll" verb="" _label="Select _All Messages"/>
           <menuitem name="EditSelectThread" verb="" _label="Select Message _Thread"/>
+          <menuitem name="EditSelectSubthread" verb="" _label="Select Message S_ubthread"/>
           <menuitem name="MessageMarkAllAsRead" verb="" _label="Mar_k All Messages as Read"/>
           <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
         </placeholder>
