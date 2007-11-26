@@ -3378,3 +3378,23 @@ event_page_get_name_selector (EventPage *epage)
 
 	return e_meeting_list_view_get_name_selector (priv->list_view);
 }
+
+/**
+ * event_page_add_attendee
+ * Add attendee to meeting store and name selector.
+ * @param epage EventPage.
+ * @param attendee Attendee to be added.
+ **/
+void
+event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
+{
+	EventPagePrivate *priv;
+
+	g_return_if_fail (epage != NULL);
+	g_return_if_fail (IS_EVENT_PAGE (epage));
+	
+	priv = epage->priv;
+
+	e_meeting_store_add_attendee (priv->model, attendee);
+	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
+}

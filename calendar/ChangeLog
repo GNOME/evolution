@@ -1,3 +1,22 @@
+2007-11-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #380644
+
+	* gui/dialogs/task-page.h: (task_page_add_attendee):
+	* gui/dialogs/task-page.c: (task_page_add_attendee):
+	* gui/dialogs/event-page.h: (event_page_add_attendee):
+	* gui/dialogs/event-page.c: (event_page_add_attendee):
+	New function to add attendee to store and name selector.
+	* gui/dialogs/task-page.c: (remove_attendee): Remove attendee also
+	from name selector (keep consistent).
+	* gui/dialogs/task-editor.c: (task_editor_edit_comp):
+	Use task_page_add_attendee to add known attendees.
+	* gui/dialogs/event-editor.c: (event_editor_edit_comp):
+	Use event_page_add_attendee to add known attendees.
+
+	* gui/e-meeting-store.c: (e_meeting_store_remove_all_attendees),
+	(e_meeting_store_remove_attendee): Code cleanup by Matthew Barnes.
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #325730

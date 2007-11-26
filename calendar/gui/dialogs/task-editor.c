@@ -522,9 +522,9 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
 			if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
  				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
-  			e_meeting_store_add_attendee (priv->model, ia);
+			task_page_add_attendee (priv->task_page, ia);
 
-			g_object_unref(ia);
+			g_object_unref (ia);
 		}
 
 		/* If we aren't the organizer we can still change our own status */
