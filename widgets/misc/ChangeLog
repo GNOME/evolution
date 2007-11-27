@@ -1,3 +1,10 @@
+2007-11-27  Milan Crha  <mcrha@redhat.com>
+
+	** Reverting patch for bug #231166
+
+	* As Matthew Barnes found, the patch requires newer gtk+ than whole
+	stable release, so reverting here (it was kept in trunk).
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #231166
