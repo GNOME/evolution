@@ -123,10 +123,13 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 
 		if (dialog->options->delivery_enabled) {
 			EMsgComposerHdrs *hdrs = e_msg_composer_get_hdrs(composer);
+			EAccount *account;
+			char *mdn_address;
 
-			char *mdn_address = hdrs->account->id->reply_to;
+			account = e_msg_composer_hdrs_get_from_account (hdrs);
+			mdn_address = account->id->reply_to;
 			if (!mdn_address || !*mdn_address)
-				mdn_address = hdrs->account->id->address;
+				mdn_address = account->id->address;
 			e_msg_composer_modify_header (composer, "Return-Receipt-To", mdn_address);
 		}
 		else
@@ -134,10 +137,13 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 
 		if (dialog->options->read_enabled) {
 			EMsgComposerHdrs *hdrs = e_msg_composer_get_hdrs(composer);
+			EAccount *account;
+			char *mdn_address;
 
-			char *mdn_address = hdrs->account->id->reply_to;
+			account = e_msg_composer_hdrs_get_from_account (hdrs);
+			mdn_address = account->id->reply_to;
 			if (!mdn_address || !*mdn_address)
-				mdn_address = hdrs->account->id->address;
+				mdn_address = account->id->address;
 
 			e_msg_composer_modify_header (composer, "Disposition-Notification-To", mdn_address);
 		}

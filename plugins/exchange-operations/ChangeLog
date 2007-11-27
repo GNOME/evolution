@@ -1,3 +1,10 @@
+2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* exchange-mail-send-options.c (append_to_header):
+	Use e_msg_composer_hdrs_get_from_account() to obtain the EAccount.
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #479081

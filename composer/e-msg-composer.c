@@ -520,8 +520,11 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	CamelMimePart *part;
 	CamelException ex;
 	GByteArray *data;
+	EAccount *account;
 	char *charset;
 	int i;
+
+	account = e_msg_composer_hdrs_get_from_account (hdrs);
 
 	if (p->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
@@ -543,9 +546,9 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 	/* Message Disposition Notification */
 	if (p->request_receipt) {
-		char *mdn_address = hdrs->account->id->reply_to;
+		char *mdn_address = account->id->reply_to;
 		if (!mdn_address || !*mdn_address)
-			mdn_address = hdrs->account->id->address;
+			mdn_address = account->id->address;
 
 		camel_medium_add_header (CAMEL_MEDIUM (new), "Disposition-Notification-To", mdn_address);
 	}
@@ -747,8 +750,8 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			camel_mime_part_set_encoding (part, plain_encoding);
 		camel_object_unref (current);
 
-		if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
-			pgp_userid = hdrs->account->pgp_key;
+		if (account && account->pgp_key && *account->pgp_key) {
+			pgp_userid = account->pgp_key;
 		} else {
 			from = e_msg_composer_hdrs_get_from(hdrs);
 			camel_internet_address_get(from, 0, NULL, &pgp_userid);
@@ -757,7 +760,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		if (p->pgp_sign) {
 			CamelMimePart *npart = camel_mime_part_new();
 
-			cipher = mail_crypto_get_pgp_cipher_context(hdrs->account);
+			cipher = mail_crypto_get_pgp_cipher_context(account);
 			camel_cipher_sign(cipher, pgp_userid, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
 			camel_object_unref(cipher);
 
@@ -774,14 +777,14 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			CamelMimePart *npart = camel_mime_part_new();
 
 			/* check to see if we should encrypt to self, NB gets removed immediately after use */
-			if (hdrs->account && hdrs->account->pgp_encrypt_to_self && pgp_userid)
+			if (account && account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_add (recipients, g_strdup (pgp_userid));
 
-			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);
+			cipher = mail_crypto_get_pgp_cipher_context (account);
 			camel_cipher_encrypt(cipher, pgp_userid, recipients, part, npart, &ex);
 			camel_object_unref (cipher);
 
-			if (hdrs->account && hdrs->account->pgp_encrypt_to_self && pgp_userid)
+			if (account && account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_set_size(recipients, recipients->len - 1);
 
 			if (camel_exception_is_set (&ex)) {
@@ -813,14 +816,14 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		camel_object_unref(current);
 
 		if (p->smime_sign
-		    && (hdrs->account == NULL || hdrs->account->smime_sign_key == NULL || hdrs->account->smime_sign_key[0] == 0)) {
+		    && (account == NULL || account->smime_sign_key == NULL || account->smime_sign_key[0] == 0)) {
 			camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Cannot sign outgoing message: No signing certificate set for this account"));
 			goto exception;
 		}
 
 		if (p->smime_encrypt
-		    && (hdrs->account == NULL || hdrs->account->smime_sign_key == NULL || hdrs->account->smime_sign_key[0] == 0)) {
+		    && (account == NULL || account->smime_sign_key == NULL || account->smime_sign_key[0] == 0)) {
 			camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Cannot encrypt outgoing message: No encryption certificate set for this account"));
 			goto exception;
@@ -834,12 +837,12 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			/* if we're also encrypting, envelope-sign rather than clear-sign */
 			if (p->smime_encrypt) {
 				camel_smime_context_set_sign_mode((CamelSMIMEContext *)cipher, CAMEL_SMIME_SIGN_ENVELOPED);
-				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
-			} else if (hdrs->account && hdrs->account->smime_encrypt_key && *hdrs->account->smime_encrypt_key) {
-				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
+				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
+			} else if (account && account->smime_encrypt_key && *account->smime_encrypt_key) {
+				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
 			}
 
-			camel_cipher_sign(cipher, hdrs->account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
+			camel_cipher_sign(cipher, account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
 			camel_object_unref(cipher);
 
 			if (camel_exception_is_set(&ex)) {
@@ -853,11 +856,11 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 		if (p->smime_encrypt) {
 			/* check to see if we should encrypt to self, NB removed after use */
-			if (hdrs->account->smime_encrypt_to_self)
-				g_ptr_array_add(recipients, g_strdup (hdrs->account->smime_encrypt_key));
+			if (account->smime_encrypt_to_self)
+				g_ptr_array_add(recipients, g_strdup (account->smime_encrypt_key));
 
 			cipher = camel_smime_context_new(session);
-			camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
+			camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
 
 			camel_cipher_encrypt(cipher, NULL, recipients, part, (CamelMimePart *)new, &ex);
 			camel_object_unref(cipher);
@@ -865,7 +868,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			if (camel_exception_is_set(&ex))
 				goto exception;
 
-			if (hdrs->account->smime_encrypt_to_self)
+			if (account->smime_encrypt_to_self)
 				g_ptr_array_set_size(recipients, recipients->len - 1);
 		}
 
@@ -1186,7 +1189,8 @@ get_signature_html (EMsgComposer *composer)
 		char *address;
 		char *name;
 
-		id = E_MSG_COMPOSER_HDRS (p->hdrs)->account->id;
+		id = e_msg_composer_hdrs_get_from_account (
+			E_MSG_COMPOSER_HDRS (p->hdrs))->id;
 		address = id->address ? camel_text_to_html (id->address, CONVERT_SPACES, 0) : NULL;
 		name = id->name ? camel_text_to_html (id->name, CONVERT_SPACES, 0) : NULL;
 		organization = id->organization ? camel_text_to_html (id->organization, CONVERT_SPACES, 0) : NULL;
@@ -2737,10 +2741,11 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (data);
 	EMsgComposerPrivate *p = composer->priv;
+	EAccount *account;
 
-	if (hdrs->account) {
-		EAccount *account = hdrs->account;
+	account = e_msg_composer_hdrs_get_from_account (hdrs);
 
+	if (account) {
 		e_msg_composer_set_pgp_sign (composer,
 					     account->pgp_always_sign &&
 					     (!account->pgp_no_imip_sign || !p->mime_type ||
@@ -4058,10 +4063,14 @@ set_editor_signature (EMsgComposer *composer)
 {
 	EAccountIdentity *id;
 	EMsgComposerPrivate *p = composer->priv;
+	EAccount *account;
 
-	g_return_if_fail (E_MSG_COMPOSER_HDRS (p->hdrs)->account != NULL);
+	account = e_msg_composer_hdrs_get_from_account (
+		E_MSG_COMPOSER_HDRS (p->hdrs));
 
-	id = E_MSG_COMPOSER_HDRS (p->hdrs)->account->id;
+	g_return_if_fail (account != NULL);
+
+	id = account->id;
 	if (id->sig_uid)
 		p->signature = mail_config_get_signature_by_uid (id->sig_uid);
 	else
@@ -5133,7 +5142,10 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 
 	if (g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) == 0) {
 		EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (p->hdrs);
-		if (hdrs->account && hdrs->account->pgp_no_imip_sign)
+		EAccount *account;
+
+		account = e_msg_composer_hdrs_get_from_account (hdrs);
+		if (account && account->pgp_no_imip_sign)
 			e_msg_composer_set_pgp_sign (composer, FALSE);
 	}
 }
@@ -5608,7 +5620,7 @@ e_msg_composer_get_preferred_account (EMsgComposer *composer)
 
 	hdrs = E_MSG_COMPOSER_HDRS (p->hdrs);
 
-	return hdrs->account;
+	return e_msg_composer_hdrs_get_from_account (hdrs);
 }
 
 

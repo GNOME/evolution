@@ -21,11 +21,10 @@
  * Author: Ettore Perazzoli
  */
 
-
 #ifndef ___E_MSG_COMPOSER_HDRS_H__
 #define ___E_MSG_COMPOSER_HDRS_H__
 
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 
 #include <bonobo/bonobo-ui-component.h>
 
@@ -33,20 +32,28 @@
 #include <camel/camel-mime-message.h>
 #include <libebook/e-destination.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#define E_TYPE_MSG_COMPOSER_HDRS \
+	(e_msg_composer_hdrs_get_type ())
+#define E_MSG_COMPOSER_HDRS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrs))
+#define E_MSG_COMPOSER_HDRS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrsClass))
+#define E_IS_MSG_COMPOSER_HDRS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MSG_COMPOSER_HDRS))
+#define E_IS_MSG_COMPOSER_HDRS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MSG_COMPOSER_HDRS))
+#define E_MSG_COMPOSER_HDRS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrsClass))
 
-#define E_TYPE_MSG_COMPOSER_HDRS		(e_msg_composer_hdrs_get_type ())
-#define E_MSG_COMPOSER_HDRS(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrs))
-#define E_MSG_COMPOSER_HDRS_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrsClass))
-#define E_IS_MSG_COMPOSER_HDRS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
-#define E_IS_MSG_COMPOSER_HDRS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
+G_BEGIN_DECLS
 
-
-typedef struct _EMsgComposerHdrs        EMsgComposerHdrs;
-typedef struct _EMsgComposerHdrsClass   EMsgComposerHdrsClass;
+typedef struct _EMsgComposerHdrs EMsgComposerHdrs;
+typedef struct _EMsgComposerHdrsClass EMsgComposerHdrsClass;
 typedef struct _EMsgComposerHdrsPrivate EMsgComposerHdrsPrivate;
 
 struct _EMsgComposerHdrs {
@@ -54,17 +61,11 @@ struct _EMsgComposerHdrs {
 
 	EMsgComposerHdrsPrivate *priv;
 
-	EAccount *account;
-
 	guint32 visible_mask;
-
-	gboolean has_changed;
 };
 
 struct _EMsgComposerHdrsClass {
 	GtkTableClass parent_class;
-
-	void (* show_address_dialog) (EMsgComposerHdrs *hdrs);
 
 	void (* subject_changed) (EMsgComposerHdrs *hdrs, gchar *subject);
 
@@ -79,19 +80,32 @@ typedef enum {
 	E_MSG_COMPOSER_VISIBLE_TO         = (1 << 2),
 	E_MSG_COMPOSER_VISIBLE_CC         = (1 << 3),
 	E_MSG_COMPOSER_VISIBLE_BCC        = (1 << 4),
-	E_MSG_COMPOSER_VISIBLE_POSTTO     = (1 << 5),  /* for posting to folders */
+	E_MSG_COMPOSER_VISIBLE_POSTTO     = (1 << 5),
 	E_MSG_COMPOSER_VISIBLE_SUBJECT    = (1 << 7)
 } EMsgComposerHeaderVisibleFlags;
 
-#define E_MSG_COMPOSER_VISIBLE_MASK_SENDER     (E_MSG_COMPOSER_VISIBLE_FROM | E_MSG_COMPOSER_VISIBLE_REPLYTO)
-#define E_MSG_COMPOSER_VISIBLE_MASK_BASIC      (E_MSG_COMPOSER_VISIBLE_MASK_SENDER | E_MSG_COMPOSER_VISIBLE_SUBJECT)
-#define E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS (E_MSG_COMPOSER_VISIBLE_TO | E_MSG_COMPOSER_VISIBLE_CC | E_MSG_COMPOSER_VISIBLE_BCC)
+#define E_MSG_COMPOSER_VISIBLE_MASK_SENDER \
+	(E_MSG_COMPOSER_VISIBLE_FROM | \
+	 E_MSG_COMPOSER_VISIBLE_REPLYTO)
 
-#define E_MSG_COMPOSER_VISIBLE_MASK_MAIL (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS)
-#define E_MSG_COMPOSER_VISIBLE_MASK_POST (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_POSTTO)
+#define E_MSG_COMPOSER_VISIBLE_MASK_BASIC \
+	(E_MSG_COMPOSER_VISIBLE_MASK_SENDER | \
+	 E_MSG_COMPOSER_VISIBLE_SUBJECT)
 
+#define E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS \
+	(E_MSG_COMPOSER_VISIBLE_TO | \
+	 E_MSG_COMPOSER_VISIBLE_CC | \
+	 E_MSG_COMPOSER_VISIBLE_BCC)
 
-GtkType     e_msg_composer_hdrs_get_type           (void);
+#define E_MSG_COMPOSER_VISIBLE_MASK_MAIL \
+	(E_MSG_COMPOSER_VISIBLE_MASK_BASIC | \
+	 E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS)
+
+#define E_MSG_COMPOSER_VISIBLE_MASK_POST \
+	(E_MSG_COMPOSER_VISIBLE_MASK_BASIC | \
+	 E_MSG_COMPOSER_VISIBLE_POSTTO)
+
+GType		e_msg_composer_hdrs_get_type	(void);
 GtkWidget  *e_msg_composer_hdrs_new                (BonoboUIComponent *uic, int visible_mask, int visible_flags);
 
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
@@ -101,7 +115,8 @@ void        e_msg_composer_hdrs_to_redirect        (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
 
 
-void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
+EAccount *  e_msg_composer_hdrs_get_from_account   (EMsgComposerHdrs *hdrs);
+gboolean    e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);
 void        e_msg_composer_hdrs_set_reply_to       (EMsgComposerHdrs *hdrs,
 						    const char *reply_to);
@@ -116,8 +131,8 @@ void        e_msg_composer_hdrs_set_post_to        (EMsgComposerHdrs *hdrs,
 void        e_msg_composer_hdrs_set_post_to_list   (EMsgComposerHdrs *hdrs,
 						    GList *urls);
 void        e_msg_composer_hdrs_set_post_to_base   (EMsgComposerHdrs *hdrs,
-					            const char       *base,
-						    const char       *post_to);
+					            const gchar      *base,
+						    const gchar      *post_to);
 void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
@@ -134,7 +149,6 @@ const char    *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
 GList         *e_msg_composer_hdrs_get_post_to     (EMsgComposerHdrs *hdrs);
 
 GtkWidget  *e_msg_composer_hdrs_get_from_hbox      (EMsgComposerHdrs *hdrs);
-GtkWidget  *e_msg_composer_hdrs_get_from_omenu     (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
@@ -147,9 +161,6 @@ void        e_msg_composer_hdrs_set_visible_mask   (EMsgComposerHdrs *hdrs,
 void        e_msg_composer_hdrs_set_visible        (EMsgComposerHdrs *hdrs,
 						    int visible_flags);
 
-#ifdef _cplusplus
-}
-#endif /* _cplusplus */
-
+G_END_DECLS
 
 #endif /* __E_MSG_COMPOSER_HDRS_H__ */

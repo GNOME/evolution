@@ -34,6 +34,7 @@ glade_DATA = e-send-options.glade \
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
+	e-account-combo-box.h			\
 	e-activity-handler.h			\
 	e-attachment.h				\
 	e-attachment-bar.h			\
@@ -81,6 +82,7 @@ widgetsinclude_HEADERS =			\
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
 	$(pilot_sources)			\
+	e-account-combo-box.c			\
 	e-activity-handler.c			\
 	e-calendar.c				\
 	e-attachment.c				\

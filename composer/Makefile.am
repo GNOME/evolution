@@ -58,6 +58,17 @@ INCLUDES =								\
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
+	e-composer-common.h			\
+	e-composer-header.c			\
+	e-composer-header.h			\
+	e-composer-from-header.c		\
+	e-composer-from_header.h		\
+	e-composer-name-header.c		\
+	e-composer-name-header.h		\
+	e-composer-post-header.c		\
+	e-composer-post-header.h		\
+	e-composer-text-header.c		\
+	e-composer-text-header.h		\
 	e-msg-composer-hdrs.c			\
 	e-msg-composer-hdrs.h			\
 	e-msg-composer-select-file.c		\
