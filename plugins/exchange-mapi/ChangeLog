@@ -1,5 +1,10 @@
 2007-11-27  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* exchange-mapi-account-setup.c: (create_profile),
+	(org_gnome_exchange_mapi_account_setup): Fix the domain name field
+
+2007-11-27  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* exchange-mapi-account-setup.c: (create_profile): Fix 2 logins for
 	account creation.
 

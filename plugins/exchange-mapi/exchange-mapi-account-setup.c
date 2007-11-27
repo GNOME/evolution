@@ -96,7 +96,6 @@ create_profile(const char *username, const char *password, const char *domain, c
 	struct mapi_session *session = NULL;
 
 	printf("Create profile with %s %s (****) %s %s\n", username, password, domain, server);
-	MAPIUninitialize ();
 	workstation = "localhost";
 	profpath = g_build_filename (g_getenv("HOME"), DEFAULT_PROF_PATH, NULL);
 	if (!g_file_test (profpath, G_FILE_TEST_EXISTS)) {
@@ -337,6 +336,7 @@ org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData 
 	GtkWidget *label;
 	GtkWidget *domain_name;
 	GtkWidget *auth_button;
+	char *domain;
 
 	int row = 0;
 
@@ -368,6 +368,10 @@ org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData 
 		gtk_table_attach (GTK_TABLE (data->parent), GTK_WIDGET (hbox), 1, 2, row, row+1, GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0); 
 
 		gtk_signal_connect(GTK_OBJECT(auth_button), "clicked",  GTK_SIGNAL_FUNC(validate_credentials), data->config);
+
+		domain = camel_url_get_param (url, "domain");
+		if (domain)
+			gtk_entry_set_text (domain_name, domain);
 	}
 
 	return GTK_WIDGET (hbox);
