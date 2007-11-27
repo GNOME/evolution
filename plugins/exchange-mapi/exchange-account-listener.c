@@ -44,6 +44,8 @@ LIMBAPI_CFLAGS or something is going wrong */
 /*stores some info about all currently existing mapi accounts 
   list of ExchangeAccountInfo structures */
 
+#define E_PASSWORD_COMPONENT "ExchangeMAPI"
+
 static 	GList *mapi_accounts = NULL;
 static	GSList *folders_list = NULL;
 struct _ExchangeAccountListenerPrivate {
@@ -457,7 +459,6 @@ add_addressbook_sources (EAccount *account, GSList *folders)
 	const char* use_ssl;
 	gboolean is_frequent_contacts = FALSE, is_writable = FALSE;
 
-	printf("URL %s\n", account->source->url);
         url = camel_url_new (account->source->url, NULL);
 	if (url == NULL) {
 		return FALSE;
@@ -611,7 +612,8 @@ account_added (EAccountList *account_listener, EAccount *account)
 	EAccount *parent;
 	gboolean status;
 	CamelURL *parent_url;
-
+	
+	d(printf("account added\n"));
 	if (!is_mapi_account (account))
 		return;
 	
@@ -619,7 +621,6 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->uid = g_strdup (account->uid);
 	info->name = g_strdup (account->name);
 	info->source_url = g_strdup (account->source->url);
-	printf("account happens\n");
 
 	/* Fetch the folders into a global list for future use.*/
 	exchange_account_listener_get_folder_list ();
@@ -635,7 +636,9 @@ static void
 account_removed (EAccountList *account_listener, EAccount *account)
 {
        	ExchangeAccountInfo *info;
+	CamelURL *url;
 	
+	d(printf("Account removed\n"));
 	if (!is_mapi_account (account))
 		return;
 	
@@ -651,11 +654,20 @@ account_removed (EAccountList *account_listener, EAccount *account)
 	remove_calendar_sources (account, info);
 
 	mapi_accounts = g_list_remove (mapi_accounts, info);
+        url = camel_url_new (info->source_url, NULL);
+	if (url != NULL) {
+		char *profile = camel_url_get_param (url, "profile");
+		exchange_mapi_delete_profile (profile);
+		camel_url_free (url);
+	}
+
 	g_free (info->uid);
 	g_free (info->name);
 	g_free (info->source_url);
         g_free (info);
 }
+
+#define CMP(parm) strcmp(camel_url_get_param(old_url, parm), camel_url_get_param(new_url, parm))
 
 static void
 account_changed (EAccountList *account_listener, EAccount *account)
@@ -663,9 +675,8 @@ account_changed (EAccountList *account_listener, EAccount *account)
 	gboolean bis_mapi_account;
 	CamelURL *old_url, *new_url;
 	ExchangeAccountInfo *existing_account_info;
-	const char *old_use_ssl, *new_use_ssl;
-	const char *old_poa_address, *new_poa_address;
-	
+
+	d(printf("account changed\n"));
 	bis_mapi_account = is_mapi_account (account);
 	
 	existing_account_info = lookup_account_info (account->uid);
@@ -680,51 +691,70 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		account_added (account_listener, account);
 	} else if (existing_account_info != NULL && !bis_mapi_account) {
 		/*MAPI account is changed to some other type */
-		remove_calendar_sources (account, existing_account_info);
-		remove_addressbook_sources (existing_account_info);
-		mapi_accounts = g_list_remove (mapi_accounts, existing_account_info);
-		g_free (existing_account_info->uid);
-		g_free (existing_account_info->name);
-		g_free (existing_account_info->source_url);
-		g_free (existing_account_info);		
-	} else if (existing_account_info != NULL && bis_mapi_account) {		
+		account_removed (account_listener, account);
+	} else if (existing_account_info != NULL && bis_mapi_account) {
+		gboolean modified = FALSE;
 		if (!account->enabled) {
-			account_removed (account_listener, account);
+			remove_addressbook_sources (existing_account_info);
+			remove_calendar_sources (account, existing_account_info);
 			return;
 		}
 
 		/* some info of mapi account is changed . update the sources with new info if required */
 		old_url = camel_url_new (existing_account_info->source_url, NULL);
-		old_poa_address = old_url->host; 
-		old_use_ssl = camel_url_get_param (old_url, "use_ssl");
-
-		if (!old_poa_address || strlen (old_poa_address) == 0)
-			return;
 
 		new_url = camel_url_new (account->source->url, NULL);
-		new_poa_address = new_url->host; 
-		new_use_ssl = camel_url_get_param (new_url, "use_ssl");
+		if (CMP("domain") || strcmp (old_url->user, new_url->user)|| strcmp (old_url->host, new_url->host)) {
+			/* Need to recreate the profile */
+			char *password, *key;
+			gboolean status;
 
-		if (!new_poa_address || strlen (new_poa_address) == 0)
-			return;
+			key = camel_url_to_string (new_url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+			password = e_passwords_get_password (E_PASSWORD_COMPONENT, key);
+			if (!password) {
+				gboolean remember = FALSE;
+				gchar *title;
+		
+				title = g_strdup_printf (_("Enter Password for %s"), new_url->user);
+				password = e_passwords_ask_password (title, E_PASSWORD_COMPONENT, key, title,
+								     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET,
+								     &remember, NULL);
+				g_free (title);
 
-		if (  strcmp (old_poa_address, new_poa_address)
-		   || strcmp (old_url->user, new_url->user)
-//	           || (!old_use_ssl) 
-//		   || strcmp (old_use_ssl, new_use_ssl)
-		   ) {			
-			account_removed (account_listener, account);
-			account_added (account_listener, account);
-		} else if (strcmp (existing_account_info->name, account->name)) {
+				if (!password) {
+					g_warning ("Password canceled");
+					return;
+				}
+			} 
+			status = exchange_mapi_create_profile (new_url->user, password, camel_url_get_param (new_url, "domain"), new_url->host);		
+			if (!status) {
+				//FIXME: Give a warning and forget password.
+				g_warning ("Unable to create profile");
+				return;
+			}
+
+		}
+
+		if (strcmp (existing_account_info->name, account->name)) {
 			/* just the source group names have to be modified.. no sweat.. */
 			modify_addressbook_sources (account, existing_account_info);
 			modify_calendar_sources (account, existing_account_info, new_url);
+			modified = TRUE;
+		} else {
+			remove_addressbook_sources (existing_account_info);
+			remove_calendar_sources (account, existing_account_info);
 		}
-		
+
 		g_free (existing_account_info->name);
 		g_free (existing_account_info->source_url);
 		existing_account_info->name = g_strdup (account->name);
 		existing_account_info->source_url = g_strdup (account->source->url);
+		if (!modified) {
+			add_addressbook_sources (account, folders_list);
+			add_calendar_sources (account, folders_list, existing_account_info);
+		}
+
+		//FIXME: Update the profile about domain/server/user
 		camel_url_free (old_url);
 		camel_url_free (new_url);
 	}	

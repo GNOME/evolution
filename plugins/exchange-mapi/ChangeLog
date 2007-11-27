@@ -1,5 +1,16 @@
 2007-11-27  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Add support for delete/disable accounts. Modify partly should work
+	unless you modify user/domain/host.
+
+	* exchange-account-listener.c: (add_addressbook_sources),
+	(account_added), (account_removed), (account_changed):
+	* exchange-mapi-account-setup.c: (exchange_mapi_delete_profile),
+	(exchange_mapi_create_profile), (validate_credentials),
+	(org_gnome_exchange_mapi_account_setup):
+
+2007-11-27  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* exchange-mapi-account-setup.c: (create_profile),
 	(org_gnome_exchange_mapi_account_setup): Fix the domain name field
 

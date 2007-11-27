@@ -45,6 +45,8 @@
 #include <mapi/exchange-mapi-folder.h>
 #include <mapi/exchange-mapi-connection.h>
 
+#define d(x) x
+
 /* Account Setup */
 GtkWidget *org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_mapi_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
@@ -86,8 +88,45 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 	return 0;
 }
 
-static gboolean 
-create_profile(const char *username, const char *password, const char *domain, const char *server)
+gboolean
+exchange_mapi_delete_profile (char *profile)
+{
+	enum MAPISTATUS	retval;
+	gchar *profname = NULL, *profpath = NULL;
+
+	exchange_mapi_connection_close ();
+
+	profpath = g_build_filename (g_getenv("HOME"), DEFAULT_PROF_PATH, NULL);
+	if (!g_file_test (profpath, G_FILE_TEST_EXISTS)) {
+		g_warning ("No need to delete profile. DB itself is missing\n");
+		return TRUE;
+	}
+
+	if (MAPIInitialize(profpath) != MAPI_E_SUCCESS){
+		retval = GetLastError();
+		mapi_errstr("MAPIInitialize", GetLastError());
+
+		if (retval == MAPI_E_SESSION_LIMIT){
+			d(printf("%s(%d):%s:%s \n", __FILE__, __LINE__, __PRETTY_FUNCTION__, "Unable to init profile store"));
+		} else {
+ 			g_free(profpath);
+ 		}
+		exchange_mapi_connection_close ();
+		return FALSE;
+	}
+
+	if ((retval = DeleteProfile(profile)) != MAPI_E_SUCCESS) {
+		mapi_errstr("DeleteProfile: Unable to delete: ", GetLastError());
+		exchange_mapi_connection_close ();
+		return FALSE;
+	}	
+	exchange_mapi_connection_close ();
+
+	return TRUE;
+}
+
+gboolean 
+exchange_mapi_create_profile(const char *username, const char *password, const char *domain, const char *server)
 {
 	enum MAPISTATUS	retval;
 	enum MAPISTATUS status;
@@ -95,7 +134,10 @@ create_profile(const char *username, const char *password, const char *domain, c
 	gchar *profname = NULL, *profpath = NULL;
 	struct mapi_session *session = NULL;
 
-	printf("Create profile with %s %s (****) %s %s\n", username, password, domain, server);
+	/* Drop Any previsous connection */
+	exchange_mapi_connection_close ();
+
+	d(printf("Create profile with %s %s (****) %s %s\n", username, password, domain, server));
 	workstation = "localhost";
 	profpath = g_build_filename (g_getenv("HOME"), DEFAULT_PROF_PATH, NULL);
 	if (!g_file_test (profpath, G_FILE_TEST_EXISTS)) {
@@ -107,11 +149,12 @@ create_profile(const char *username, const char *password, const char *domain, c
 			return FALSE;
 		}
 	}
-	printf("profpath %s\n", profpath);
+
+	d(printf("profpath %s\n", profpath));
 	if (MAPIInitialize(profpath) != MAPI_E_SUCCESS){
 		status = GetLastError();
 		if (status == MAPI_E_SESSION_LIMIT){
-			printf("%s(%d):%s:%s \n", __FILE__, __LINE__, __PRETTY_FUNCTION__, "[exchange_mapi_plugin] Still connected");
+			d(printf("%s(%d):%s:%s \n", __FILE__, __LINE__, __PRETTY_FUNCTION__, "[exchange_mapi_plugin] Still connected"));
 			mapi_errstr("MAPIInitialize", GetLastError());
 		} else {
  			g_free(profpath);
@@ -119,13 +162,13 @@ create_profile(const char *username, const char *password, const char *domain, c
  		}
 	}
 
-	printf("[exchange_mapi_plugin] Profile creation");
+	d(printf("[exchange_mapi_plugin] Profile creation\n"));
 
 	profname = g_strdup_printf("%s@%s", username, domain);
 	while(CreateProfile(profname, username, password, 0) == -1){
 		retval = GetLastError();
 		if(retval ==  MAPI_E_NO_ACCESS){
-			printf("[exchange_mapi_plugin] The profile alderly exist !. Deleting it and will recreate");
+			d(printf("The profile alderly exist !. Deleting it and will recreate\n"));
 			if (DeleteProfile(profname) == -1) {
 				retval = GetLastError();
 				mapi_errstr("[exchange_mapi_plugin] DeleteProfile() ", retval);
@@ -145,33 +188,32 @@ create_profile(const char *username, const char *password, const char *domain, c
 	
 	
 	/* Login now */
-	printf("Logging into the server\n");
+	d(printf("Logging into the server\n"));
 	if (MapiLogonProvider(&session, profname, NULL, PROVIDER_ID_NSPI) == -1){
 		retval = GetLastError();
 		mapi_errstr("[exchange_mapi_plugin] Error ", retval);
 		if (retval == MAPI_E_NETWORK_ERROR){
-			printf("Network error\n");
+			g_warning ("MAPI Login: Network error\n");
 			return FALSE;
 		}
 		if (retval == MAPI_E_LOGON_FAILED){
-			printf("LOGIN Failed\n");
+			g_warning ("MAPI Login: LOGIN Failed\n");
 			return FALSE;
 		}
-		printf("Generic error\n");
+		g_warning ("MAPI Login: Generic error\n");
 		return FALSE;
 	}
 
 
 	
-	printf("Login succeeded: Yeh\n");
-	printf("[exchange_mapi_plugin] Ambigous name and process filling\n");
+	d(printf("Login succeeded: Yeh\n"));
 	if (ProcessNetworkProfile(session, username, NULL, NULL) == -1){
 		retval = GetLastError();
 		mapi_errstr("[exchange_mapi_plugin] : ProcessNetworkProfile", retval);
 		if (retval != MAPI_E_SUCCESS && retval != 0x1){
 			mapi_errstr("[exchange_mapi_plugin] ProcessNetworkProfile() ", retval);
 			if (retval == MAPI_E_NOT_FOUND){
-				printf("Bad user\n");
+				g_warning ("Bad user\n");
 			}
 			if (DeleteProfile(profname) == -1){
 				retval = GetLastError();
@@ -185,37 +227,9 @@ create_profile(const char *username, const char *password, const char *domain, c
 		mapi_errstr("[exchange_mapi_plugin] SetDefaultProfile() ", GetLastError());
 		return FALSE;
 	}
-
-	MAPIUninitialize ();
-/*
-	if (MAPIInitialize(profpath) != MAPI_E_SUCCESS){
-		g_free(profpath);
-		status = GetLastError();
-		if (status == MAPI_E_SESSION_LIMIT){
-			puts("[Openchange_plugin] openchange-lwmapi.c - Still connected");
-			mapi_errstr("MAPIInitialize", GetLastError());
-
-			
-		}
-		else 
-			return NULL;
-	}
-
-	if (MapiLogonEx(&session, profname, NULL) == -1){
-		retval = GetLastError();
-		mapi_errstr("[Openchange_plugin] Error ", retval);
-		if (retval == MAPI_E_NETWORK_ERROR){
-			printf("Network error\n");
-			return NULL;
-		}
-		if (retval == MAPI_E_LOGON_FAILED){
-			printf("LOGIN Failed\n");
-			return NULL;
-		}
-		printf("Generic error\n");
-		return NULL;
-	}
-*/	
+	
+	/* Close the connection, so that we can login with what we created */
+	exchange_mapi_connection_close ();
 	g_free (profpath);
 
 	/*Initialize a global connection */
@@ -256,14 +270,15 @@ validate_credentials (GtkWidget *widget, EConfig *config)
 			memcpy(user, id_name, at-id_name);
 			user[at-id_name] = 0; 
 			camel_url_set_user (url, user);
-			printf("%s(%d):%s:user : %s \n", __FILE__, __LINE__, __PRETTY_FUNCTION__, user);
+			g_free (user);
+			user = NULL;
 		}
 	}
 
 	domain_name = camel_url_get_param (url, "domain");
 	
 	key = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-	password = e_passwords_get_password ("Exchange", key);
+	password = e_passwords_get_password (E_PASSWORD_COMPONENT, key);
 	if (!password) {
 		gboolean remember = FALSE;
 		gchar *title;
@@ -274,13 +289,15 @@ validate_credentials (GtkWidget *widget, EConfig *config)
 						     &remember, NULL);
 		g_free (title);
 
-		if (!password) return;
+		if (!password) {
+			camel_url_free (url);
+			return;
+		}
 	} 
 
 	/* Yah, we have the username, password, domain and server. Lets create everything. */
 
-	status = create_profile (url->user, password, domain_name, url->host);
-	//FIXME: Is there a way to keep the session persistent than having a global variable?
+	status = exchange_mapi_create_profile (url->user, password, domain_name, url->host);
 
 	if (status) {
 		/* Things are successful.*/
@@ -299,6 +316,7 @@ validate_credentials (GtkWidget *widget, EConfig *config)
 
 	g_free (key);
 	g_free (password);
+	camel_url_free (url);
 }
 
 static void
@@ -374,6 +392,7 @@ org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData 
 			gtk_entry_set_text (domain_name, domain);
 	}
 
+	camel_url_free (url);
 	return GTK_WIDGET (hbox);
 }
 
