@@ -2535,6 +2535,7 @@ print_comp (ECalComponent *comp, ECal *client, GtkPrintOperationAction action)
 	pci.client = client;
 
 	operation = e_print_operation_new ();
+	gtk_print_operation_set_n_pages (operation, 1);
 
 	g_signal_connect (
 		operation, "draw-page",

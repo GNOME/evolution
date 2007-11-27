@@ -1,5 +1,11 @@
 2007-11-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #500024
+
+	* gui/print.c: (print_comp): Set number of pages first.
+
+2007-11-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #214645
 
 	* gui/e-week-view.c: (e_week_view_get_day_position),
