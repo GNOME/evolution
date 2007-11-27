@@ -96,9 +96,8 @@ create_profile(const char *username, const char *password, const char *domain, c
 	struct mapi_session *session = NULL;
 
 	printf("Create profile with %s %s (****) %s %s\n", username, password, domain, server);
-	
+	MAPIUninitialize ();
 	workstation = "localhost";
-
 	profpath = g_build_filename (g_getenv("HOME"), DEFAULT_PROF_PATH, NULL);
 	if (!g_file_test (profpath, G_FILE_TEST_EXISTS)) {
 		/* Create MAPI Profile */
@@ -109,7 +108,7 @@ create_profile(const char *username, const char *password, const char *domain, c
 			return FALSE;
 		}
 	}
-
+	printf("profpath %s\n", profpath);
 	if (MAPIInitialize(profpath) != MAPI_E_SUCCESS){
 		status = GetLastError();
 		if (status == MAPI_E_SESSION_LIMIT){
@@ -166,7 +165,7 @@ create_profile(const char *username, const char *password, const char *domain, c
 
 	
 	printf("Login succeeded: Yeh\n");
-	printf("[exchange_mapi_plugin] Ambigous name and process filling");
+	printf("[exchange_mapi_plugin] Ambigous name and process filling\n");
 	if (ProcessNetworkProfile(session, username, NULL, NULL) == -1){
 		retval = GetLastError();
 		mapi_errstr("[exchange_mapi_plugin] : ProcessNetworkProfile", retval);

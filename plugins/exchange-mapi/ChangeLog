@@ -1,3 +1,8 @@
+2007-11-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-mapi-account-setup.c: (create_profile): Fix 2 logins for
+	account creation.
+
 2007-11-26  Suman Manjunath  <msuman@novell.com>
 
 	** committing ChangeLog entry for r34580
