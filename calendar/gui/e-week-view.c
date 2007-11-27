@@ -1978,8 +1978,12 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 
 	*day_w = week_view->col_widths[cell_x];
 	*day_h = week_view->row_heights[cell_y];
-	if (cell_h == 2)
+
+	while (cell_h > 1) {
 		*day_h += week_view->row_heights[cell_y + 1];
+		cell_h --;
+		cell_y ++;
+	}
 }
 
 
@@ -2214,7 +2218,7 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 				     gint y)
 {
 	gint col, row, grid_x = -1, grid_y = -1, week, day;
-	gint weekend_col, box, weekend_box;
+	gint weekend_col;
 
 	/* First we convert it to a grid position. */
 	for (col = 0; col <= week_view->columns; col++) {
@@ -2249,12 +2253,17 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 	} else {
 		week = 0;
 
-		box = grid_x * 3 + grid_y / 2;
-		weekend_box = (5 + 7 - week_view->display_start_day) % 7;
-		day = box;
-		if (box > weekend_box
-		    ||( box == weekend_box && grid_y % 2 == 1))
-			day++;
+		for (day = 0; day < 7; day ++) {
+			gint day_x = 0, day_y = 0, rows = 0;
+			e_week_view_layout_get_day_position (day, FALSE, 1, week_view->display_start_day, week_view->compress_weekend,
+								&day_x, &day_y, &rows);
+
+			if (grid_x == day_x && grid_y >= day_y && grid_y < day_y + rows)
+				break;
+		}
+
+		if (day == 7)
+			return -1;
 	}
 
 	return week * 7 + day;

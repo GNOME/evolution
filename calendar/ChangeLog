@@ -1,3 +1,14 @@
+2007-11-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #214645
+
+	* gui/e-week-view.c: (e_week_view_get_day_position),
+	(e_week_view_convert_position_to_day):
+	* gui/e-week-view-layout.c: (e_week_view_layout_event),
+	(e_week_view_layout_get_span_position):
+	Collapses non-working days to occupy one row and expand other days
+	if possible.
+
 2007-11-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #346693
