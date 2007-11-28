@@ -17,13 +17,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef __E_CONTACT_LIST_EDITOR_H__
 #define __E_CONTACT_LIST_EDITOR_H__
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <glade/glade.h>
-#include <table/e-table-model.h>
 #include <libedataserverui/e-name-selector.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
@@ -32,66 +32,34 @@
 #include <libebook/e-contact.h>
 #include <libebook/e-destination.h>
 
+#define E_TYPE_CONTACT_LIST_EDITOR \
+	(e_contact_list_editor_get_type ())
+#define E_CONTACT_LIST_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditor))
+#define E_CONTACT_LIST_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorClass))
+#define E_IS_CONTACT_LIST_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CONTACT_LIST_EDITOR))
+#define E_IS_CONTACT_LIST_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_CONTACT_LIST_EDITOR))
+#define E_CONTACT_LIST_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_CONTACT_LIST_EDITOR	   (e_contact_list_editor_get_type ())
-#define E_CONTACT_LIST_EDITOR(obj)	   (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditor))
-#define E_CONTACT_LIST_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorClass))
-#define E_IS_CONTACT_LIST_EDITOR(obj)	   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
-#define E_IS_CONTACT_LIST_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
-
-typedef struct _EContactListEditor       EContactListEditor;
-typedef struct _EContactListEditorClass  EContactListEditorClass;
+typedef struct _EContactListEditor EContactListEditor;
+typedef struct _EContactListEditorClass EContactListEditorClass;
+typedef struct _EContactListEditorPrivate EContactListEditorPrivate;
 
 struct _EContactListEditor
 {
 	EABEditor parent;
-
-	/* item specific fields */
-	EBook *book;
-
-	EContact *contact;
-
-	GladeXML *gui;
-	GtkWidget *app;
-
-	GtkWidget *table;
-	ETableModel *model;
-	GtkWidget *email_entry;
-	GtkWidget *list_name_entry;
-	GtkWidget *add_button;
-	GtkWidget *remove_button;
-	GtkWidget *select_button;
-	GtkWidget *list_image_button;
-	GtkWidget *visible_addrs_checkbutton;
-	GtkWidget *list_image;
-	GtkWidget *source_menu;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-
-	ENameSelector *name_selector;
-
-	/* Whether we are editing a new contact or an existing one */
-	guint is_new_list : 1;
-
-	/* Whether the image chooser widget has been changed. */
-	guint image_set : 1;
-
-	/* Whether the contact has been changed since bringing up the contact editor */
-	guint changed : 1;
-
-	/* Whether the contact editor will accept modifications */
-	guint editable : 1;
-
-	/* Whether the target book accepts storing of contact lists */
-	guint allows_contact_lists : 1;
-
-	/* Whether an async wombat call is in progress */
-	guint in_async_call : 1;
-
-	/* ID for async load_source call */
-	guint  load_source_id;
-	EBook *load_book;
+	EContactListEditorPrivate *priv;
 };
 
 struct _EContactListEditorClass
@@ -99,15 +67,31 @@ struct _EContactListEditorClass
 	EABEditorClass parent_class;
 };
 
-EContactListEditor *e_contact_list_editor_new                (EBook *book,
-							      EContact *list_contact,
-							      gboolean is_new_list,
-							      gboolean editable);
-GType               e_contact_list_editor_get_type           (void);
-
-gboolean            e_contact_list_editor_request_close_all  (void);
+GType		e_contact_list_editor_get_type	(void);
+EContactListEditor * e_contact_list_editor_new	(EBook *book,
+						 EContact *list_contact,
+						 gboolean is_new_list,
+						 gboolean editable);
+EBook *		e_contact_list_editor_get_book	(EContactListEditor *editor);
+void		e_contact_list_editor_set_book	(EContactListEditor *editor,
+						 EBook *book);
+EContact *	e_contact_list_editor_get_contact
+						(EContactListEditor *editor);
+void		e_contact_list_editor_set_contact
+						(EContactListEditor *editor,
+						 EContact *contact);
+gboolean	e_contact_list_editor_get_is_new_list
+						(EContactListEditor *editor);
+void		e_contact_list_editor_set_is_new_list
+						(EContactListEditor *editor,
+						 gboolean is_new_list);
+gboolean	e_contact_list_editor_get_editable
+						(EContactListEditor *editor);
+void		e_contact_list_editor_set_editable
+						(EContactListEditor *editor,
+						 gboolean editable);
+gboolean	e_contact_list_editor_request_close_all (void);
 
 G_END_DECLS
-
 
 #endif /* __E_CONTACT_LIST_EDITOR_H__ */

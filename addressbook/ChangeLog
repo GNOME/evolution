@@ -1,3 +1,26 @@
+2007-11-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #489652
+
+	Migrate the contact list editor from ETable to GtkTreeView and
+	fix some HIG issues.
+
+	* gui/contact-list-editor/Makefile.am:
+	Remove e-contact-list-editor.etspec
+	Remove e-contact-list-editor-marshal.list
+
+	* gui/contact-list-editor/contact-list-editor.glade:
+	Fix some HIG issues and give all the widgets proper names.
+
+	* gui/contact-list-editor/e-contact-list-model.c:
+	* gui/contact-list-editor/e-contact-list-model.h:
+	EContactListModel is now a subclass of GtkListStore.
+
+	* gui/contact-list-editor/e-contact-list.c:
+	* gui/contact-list-editor/e-contact-list.h:
+	Use a GtkTreeView instead of an ETable for displaying members.
+	Refactor everything; see bug #489652 for more details.
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #495711
