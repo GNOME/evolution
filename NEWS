@@ -1,3 +1,31 @@
+Evolution 2.12.2 2007-11-26
+----------------------------
+
+Bug fixes:
+	#231166: Do not start appointment time drop-down at midnight (Milan Crha)
+	#255051: New task creation can now be aborted by pressing "Escape" (Milan Crha)
+	#271734: Show description of operation, if available, instead of empty string (Milan Crha)
+	#353780: Stop processing immediately when page is filled incorrectly (Milan Crha)
+	#458237: Check for non-NULL source before using it to prevent a crash (Milan Crha)
+	#479081: Check for input validity immediately after creating setup widgets (Milan Crha)
+	#484603: Do not forget about organizer icon when counting used icons. (Milan Crha)
+	#487922: Sometimes evolution does not recognize attachments (Milan Crha)
+	#490538: Free memory properly (Milan Crha)
+	#491345: Hide completed tasks option requires evo's restart (Milan Crha)
+	#492692: Plug memory leak (Milan Crha)
+	#492793: Pass real widget as parent to e_notice, not a GObject. (Milan Crha)
+	#493783: Message viewer jumps to the top when asking an attachment to be displayed inline (Milan Crha)
+	#494425: Allow saving of multiple attachments with same name (Milan Crha)
+	#498551: Forgotten "Loading..." node under account name with no subscribed folders (Milan Crha)
+
+Updated Translations:
+	Seán de Búrca (ga)
+	Hanka Zalska, Matej Krizan (sk)
+	Ignacio Casal Quinteiro (gl)
+	WashingtonLins (pt_BR)
+	Changwoo Ryu (ko)
+	Anas Husseini (ar)
+
 Evolution 2.12.1 2007-10-15
 ----------------------------
 
