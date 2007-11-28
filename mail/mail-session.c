@@ -43,6 +43,7 @@
 
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-account-combo-box.h"
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"

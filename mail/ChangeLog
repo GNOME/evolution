@@ -1,3 +1,8 @@
+2007-11-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-session.c:
+	Fix an implicit function declaration caused by my last commit.
+
 2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #495123
