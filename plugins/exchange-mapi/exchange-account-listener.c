@@ -722,10 +722,12 @@ account_changed (EAccountList *account_listener, EAccount *account)
 				g_free (title);
 
 				if (!password) {
+					g_free (key);
 					g_warning ("Password canceled");
 					return;
 				}
 			} 
+			g_free (key);
 			status = exchange_mapi_create_profile (new_url->user, password, camel_url_get_param (new_url, "domain"), new_url->host);		
 			if (!status) {
 				//FIXME: Give a warning and forget password.

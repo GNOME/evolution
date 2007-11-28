@@ -1,3 +1,11 @@
+2007-11-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Cleanup everything in plugins.
+
+	* exchange-account-listener.c: (account_changed):
+	* exchange-mapi-account-setup.c: (exchange_mapi_delete_profile),
+	(validate_credentials):
+
 2007-11-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Add support for delete/disable accounts. Modify partly should work

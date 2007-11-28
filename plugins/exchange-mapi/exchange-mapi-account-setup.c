@@ -106,20 +106,22 @@ exchange_mapi_delete_profile (char *profile)
 		retval = GetLastError();
 		mapi_errstr("MAPIInitialize", GetLastError());
 
-		if (retval == MAPI_E_SESSION_LIMIT){
+		if (retval == MAPI_E_SESSION_LIMIT)
 			d(printf("%s(%d):%s:%s \n", __FILE__, __LINE__, __PRETTY_FUNCTION__, "Unable to init profile store"));
-		} else {
- 			g_free(profpath);
- 		}
+
+		g_free(profpath);
 		exchange_mapi_connection_close ();
 		return FALSE;
 	}
+
+	g_free(profpath);
 
 	if ((retval = DeleteProfile(profile)) != MAPI_E_SUCCESS) {
 		mapi_errstr("DeleteProfile: Unable to delete: ", GetLastError());
 		exchange_mapi_connection_close ();
 		return FALSE;
 	}	
+
 	exchange_mapi_connection_close ();
 
 	return TRUE;
@@ -288,13 +290,13 @@ validate_credentials (GtkWidget *widget, EConfig *config)
 						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET,
 						     &remember, NULL);
 		g_free (title);
+		g_free (key);
 
 		if (!password) {
 			camel_url_free (url);
 			return;
 		}
 	} 
-
 	/* Yah, we have the username, password, domain and server. Lets create everything. */
 
 	status = exchange_mapi_create_profile (url->user, password, domain_name, url->host);
