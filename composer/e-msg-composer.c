@@ -86,6 +86,7 @@
 #include "misc/e-expander.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
 #include <mail/em-event.h>
 
 #include <camel/camel-session.h>
@@ -131,6 +132,8 @@
 #endif
 
 #define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:" GTKHTML_API_VERSION
+
+#define COMPOSER_CURRENT_FOLDER_KEY "/apps/evolution/mail/composer/current_folder"
 
 #define d(x)
 
@@ -1061,6 +1064,17 @@ prepare_engine (EMsgComposer *composer)
 
 			p->eeditor_engine = CORBA_OBJECT_NIL;
 			g_warning ("Can't establish Editor Listener\n");
+		} else {
+			gchar *path;
+			GConfClient *gconf = gconf_client_get_default ();
+
+			path = gconf_client_get_string (gconf, COMPOSER_CURRENT_FOLDER_KEY, NULL);
+			g_object_unref (gconf);
+
+			/* change it only if we have set path before */
+			if (path && *path)
+				e_msg_composer_set_attach_path (composer, path);
+			g_free (path);
 		}
 	} else {
 		p->eeditor_engine = CORBA_OBJECT_NIL;
@@ -1068,6 +1082,74 @@ prepare_engine (EMsgComposer *composer)
 	}
 
 	CORBA_exception_free (&ev);
+}
+
+/**
+ * e_msg_composer_set_attach_path
+ * Attach path is used to be preset when choosing files. This function ensures same path
+ * in editor and in composer.
+ * @param composer Composer.
+ * @param path Path to be used. Should not be NULL.
+ **/
+void
+e_msg_composer_set_attach_path (EMsgComposer *composer, const gchar *path)
+{
+	GConfClient *gconf;
+	GError *error = NULL;
+
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (path != NULL);
+
+	gconf = gconf_client_get_default ();
+	gconf_client_set_string (gconf, COMPOSER_CURRENT_FOLDER_KEY, path, &error);
+	g_object_unref (gconf);
+
+	if (error) {
+		g_warning ("Could not write current_folder setting: %s", error->message);
+		g_error_free (error);
+	}
+
+	if (composer->priv->eeditor_engine) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+	
+		GNOME_GtkHTML_Editor_Engine_setFilePath (composer->priv->eeditor_engine, path, &ev);
+
+		CORBA_exception_free (&ev);
+	}
+
+	/* do this as last thing here, so we can do e_msg_composer_set_attach_path (composer, e_msg_composer_get_attach_path (composer)) */
+	g_object_set_data_full ((GObject *) composer, "attach_path", g_strdup (path), g_free);
+}
+
+/**
+ * e_msg_composer_get_attach_path
+ * Last path, if any, used to select file.
+ * @param composer Composer.
+ * @return Last used path, or NULL when not set yet.
+ **/
+const gchar *
+e_msg_composer_get_attach_path (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, g_object_get_data ((GObject *) composer, "attach_path"));
+
+	if (composer->priv->eeditor_engine) {
+		char *str;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+
+		str = GNOME_GtkHTML_Editor_Engine_getFilePath (composer->priv->eeditor_engine, &ev);
+		if (ev._major == CORBA_NO_EXCEPTION && str)
+			e_msg_composer_set_attach_path (composer, str);
+		if (str)
+			CORBA_free (str);
+
+		CORBA_exception_free (&ev);
+	}
+
+	return g_object_get_data ((GObject *) composer, "attach_path");
 }
 
 static char *
@@ -4513,6 +4595,7 @@ set_signature_gui (EMsgComposer *composer)
 				p->signature = mail_config_get_signature_by_name (name);
 				g_free (name);
 			}
+			CORBA_free (str);
 		}
 
 		sig_select_item (composer);

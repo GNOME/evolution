@@ -119,6 +119,8 @@ impl_event (PortableServer_Servant _servant,
 
 	} else if (!strcmp (name, "link_clicked")) {
 		e_msg_composer_link_clicked (l->composer, BONOBO_ARG_GET_STRING (arg));
+	} else if (!strcmp (name, "file_path_changed")) {
+		e_msg_composer_set_attach_path (l->composer, e_msg_composer_get_attach_path (l->composer));
 	}
 
 	return rv ? rv : get_any_null ();

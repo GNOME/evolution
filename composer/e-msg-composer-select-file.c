@@ -58,9 +58,9 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 	GtkWidget *selection;
 	GtkWidget *showinline = NULL;
 	GList *icon_list;
-	char *path;
+	const char *path;
 
-	path = g_object_get_data ((GObject *) composer, "attach_path");
+	path = e_msg_composer_get_attach_path (composer);
 
 	if (flags & SELECTOR_MODE_SAVE)
 		selection = gtk_file_chooser_dialog_new (title,
@@ -120,7 +120,8 @@ select_file_response(GtkWidget *selector, guint response, struct _EMsgComposer *
 
 		name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector));
 		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector)));
-		g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
+		e_msg_composer_set_attach_path (composer, path);
+		g_free (path);
 
 		func(composer, name);
 	}
@@ -172,7 +173,8 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 			g_free (filename);
 		}
 		if (path)
-			g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
+			e_msg_composer_set_attach_path (composer, path);
+		g_free (path);
 
 		func(composer, names, gtk_toggle_button_get_active(showinline));
 

@@ -196,6 +196,10 @@ const gchar *            e_msg_composer_get_raw_message_text              (EMsgC
 
 struct _EAttachmentBar*          e_msg_composer_get_attachment_bar                (EMsgComposer *composer);
 
+void                     e_msg_composer_set_attach_path                  (EMsgComposer *composer, const gchar *path);
+const gchar *            e_msg_composer_get_attach_path                  (EMsgComposer *composer);
+
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

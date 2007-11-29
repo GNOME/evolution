@@ -1116,5 +1116,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/current_folder</key>
+      <applyto>/apps/evolution/mail/composer/current_folder</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <locale name="C">
+         <short>Composer load/attach directory</short>
+         <long>
+           Directory for loading/attaching files to composer
+         </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

@@ -1,3 +1,21 @@
+2007-11-29  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #271551
+
+	* e-msg-composer.h: (e_msg_composer_set_attach_path),
+	(e_msg_composer_get_attach_path):
+	* e-msg-composer.c: (e_msg_composer_set_attach_path),
+	(e_msg_composer_get_attach_path):
+	Functions to set/get attach path to both composer and editor.
+	* e-msg-composer.c: (prepare_engine):
+	Set last used path right after creation of the engine.
+	* e-msg-composer-select-file.c: (get_selector), (select_file_response),
+	(select_attach_response): Using new functions.
+	* listener.c: (impl_event): Store new file path when received event
+	about its change.
+
+	* e-msg-composer.c: (set_signature_gui): Leak fix.
+
 2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #495123

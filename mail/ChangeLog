@@ -1,3 +1,10 @@
+2007-11-29  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #271551
+
+	* evolution-mail.schemas.in:
+	New key "/apps/evolution/mail/composer/current_folder".
+
 2007-11-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-session.c:
