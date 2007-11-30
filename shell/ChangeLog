@@ -1,3 +1,11 @@
+2007-11-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #400213
+
+	* e-shell-window.c: (load_icons): Function removed.
+	* e-shell-window.c: (update_offline_toggle_status):
+	Do not use pixmaps and masks, load images from file, instead.
+
 2007-09-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* main.c: (main): Fix for a build break.
