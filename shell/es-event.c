@@ -30,6 +30,7 @@
 #include <glib.h>
 
 #include "es-event.h"
+#include "e-shell.h"
 
 static GObjectClass *eme_parent;
 static ESEvent *es_event;

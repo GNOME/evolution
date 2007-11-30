@@ -26,12 +26,13 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
-#include "e-shell.h"
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
+
+struct _EShell;  /* Avoid including "e-shell.h" */
 
 typedef struct _ESEvent ESEvent;
 typedef struct _ESEventClass ESEventClass;
@@ -56,7 +57,7 @@ typedef struct _ESEventTargetShell ESEventTargetShell;
 struct _ESEventTargetShell {
 	EEventTarget target;
 
-	EShell *shell;
+	struct _EShell *shell;
 };
 
 struct _ESEventTargetState {
@@ -91,7 +92,7 @@ GType es_event_get_type(void);
 ESEvent *es_event_peek(void);
 
 ESEventTargetState *es_event_target_new_state(ESEvent *emp, int state);
-ESEventTargetShell *es_event_target_new_shell(ESEvent *eme, EShell *shell);
+ESEventTargetShell *es_event_target_new_shell(ESEvent *eme, struct _EShell *shell);
 ESEventTargetUpgrade *es_event_target_new_upgrade(ESEvent *emp, int major, int minor, int revision);
 
 /* ********************************************************************** */
