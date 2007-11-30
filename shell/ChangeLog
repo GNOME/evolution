@@ -1,3 +1,14 @@
+2007-11-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #499920
+
+	* es-event.h:
+	Avoid including private header "e-shell.h".
+	Use a forward declaration of EShell instead.
+
+	* es-event.c:
+	Safe to include "e-shell.h" here.
+
 2007-11-30  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #400213
