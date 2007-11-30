@@ -143,12 +143,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE (EShellWindow, e_shell_window, BONOBO_TYPE_WINDOW)
 
 /* The icons for the offline/online status.  */
-
-static GdkPixmap *offline_pixmap = NULL;
-static GdkBitmap *offline_mask = NULL;
-
-static GdkPixmap *online_pixmap = NULL;
-static GdkBitmap *online_mask = NULL;
+#define OFFLINE_ICON "offline.png"
+#define ONLINE_ICON  "online.png"
 
 static gboolean store_window_size (GtkWidget* widget);
 
@@ -367,8 +363,8 @@ static void
 update_offline_toggle_status (EShellWindow *window)
 {
 	EShellWindowPrivate *priv;
-	GdkPixmap *icon_pixmap;
-	GdkBitmap *icon_mask;
+	const char *icon;
+	char *icon_file;
 	const char *tooltip;
 	gboolean sensitive;
 	guint32 flags = 0;
@@ -378,23 +374,20 @@ update_offline_toggle_status (EShellWindow *window)
 
 	switch (e_shell_get_line_status (priv->shell.eshell)) {
 	case E_SHELL_LINE_STATUS_ONLINE:
-		icon_pixmap = online_pixmap;
-		icon_mask   = online_mask;
+		icon        = ONLINE_ICON;
 		sensitive   = TRUE;
 		tooltip     = _("Evolution is currently online. "
 				"Click on this button to work offline.");
 		flags = ES_MENU_SHELL_ONLINE;
 		break;
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
-		icon_pixmap = online_pixmap;
-		icon_mask   = online_mask;
+		icon        = ONLINE_ICON;
 		sensitive   = FALSE;
 		tooltip     = _("Evolution is in the process of going offline.");
 		flags = ES_MENU_SHELL_OFFLINE;
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
-		icon_pixmap = offline_pixmap;
-		icon_mask   = offline_mask;
+		icon        = OFFLINE_ICON;
 		sensitive   = TRUE;
 		tooltip     = _("Evolution is currently offline. "
 				"Click on this button to work online.");
@@ -404,7 +397,9 @@ update_offline_toggle_status (EShellWindow *window)
 		g_return_if_reached ();
 	}
 
-	gtk_image_set_from_pixmap (GTK_IMAGE (priv->offline_toggle_image), icon_pixmap, icon_mask);
+	icon_file = g_build_filename (EVOLUTION_IMAGESDIR, icon, NULL);
+	gtk_image_set_from_file (GTK_IMAGE (priv->offline_toggle_image), icon_file);
+	g_free (icon_file);
 	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
 	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
 
@@ -525,33 +520,6 @@ ui_engine_remove_hint_callback (BonoboUIEngine *engine,
 /* Widgetry.  */
 
 static void
-load_icons (void)
-{
-	GdkPixbuf *pixbuf;
-	char *png_file_name;
-
-	png_file_name = g_build_filename (EVOLUTION_IMAGESDIR, "offline.png", NULL);
-	pixbuf = gdk_pixbuf_new_from_file (png_file_name, NULL);
-	if (pixbuf == NULL) {
-		g_warning ("Cannot load `%s'", png_file_name);
-	} else {
-		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &offline_pixmap, &offline_mask, 128);
-		g_object_unref (pixbuf);
-	}
-	g_free (png_file_name);
-
-	png_file_name = g_build_filename (EVOLUTION_IMAGESDIR, "online.png", NULL);
-	pixbuf = gdk_pixbuf_new_from_file (png_file_name, NULL);
-	if (pixbuf == NULL) {
-		g_warning ("Cannot load `%s'", png_file_name);
-	} else {
-		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &online_pixmap, &online_mask, 128);
-		g_object_unref (pixbuf);
-	}
-	g_free (png_file_name);
-}
-
-static void
 setup_offline_toggle (EShellWindow *window)
 {
 	EShellWindowPrivate *priv;
@@ -571,7 +539,7 @@ setup_offline_toggle (EShellWindow *window)
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (toggle), hbox);
 
-	image = gtk_image_new_from_pixmap (offline_pixmap, offline_mask);
+	image = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
 
 	label = gtk_label_new ("");
@@ -1003,8 +971,6 @@ e_shell_window_class_init (EShellWindowClass *klass)
 						   NULL, NULL,
 						   g_cclosure_marshal_VOID__VOID,
 						   G_TYPE_NONE, 0);
-
-	load_icons ();
 }
 
 static void
