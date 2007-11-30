@@ -1476,6 +1476,9 @@ hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPt
 
 		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
 		g_list_free (objects);
+
+		/* to notify about changes, because in call of row_deleted there are still all events */
+		e_table_model_changed (E_TABLE_MODEL (model));
 	}
 }
 

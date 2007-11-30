@@ -1424,11 +1424,10 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 
 			pos = get_position_in_array (priv->objects, comp_data);
 			e_table_model_pre_change (E_TABLE_MODEL (model));
+			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
  			if (g_ptr_array_remove (priv->objects, comp_data))
 	 			e_cal_model_free_component_data (comp_data);
-
-			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
  		}
 
 		e_cal_component_free_id (id);
@@ -1490,13 +1489,15 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 			pos = get_position_in_array (priv->objects, comp_data);
 
 			e_table_model_pre_change (E_TABLE_MODEL (model));
+			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
 			if (g_ptr_array_remove (priv->objects, comp_data))
 				e_cal_model_free_component_data (comp_data);
-
-			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 		}
 	}
+
+	/* to notify about changes, because in call of row_deleted there are still all events */
+	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
 static void
@@ -1669,13 +1670,15 @@ remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 
 		if (comp_data->client == client_data->client) {
 			e_table_model_pre_change (E_TABLE_MODEL (model));
+			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
 
 			g_ptr_array_remove (model->priv->objects, comp_data);
 			e_cal_model_free_component_data (comp_data);
-
-			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
 		}
 	}
+
+	/* to notify about changes, because in call of row_deleted there are still all events */
+	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
 static void

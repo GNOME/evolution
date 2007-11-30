@@ -1,3 +1,13 @@
+2007-11-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #325730
+
+	* gui/e-calendar-table.c: (hide_completed_rows):
+	* gui/e-cal-model.c: (e_cal_view_objects_added_cb),
+	(e_cal_view_objects_removed_cb), (remove_client_objects):
+	Reverting part of previous patch (2007-11-23) and added
+	notifications about model_changed after done with deleting.
+
 2007-11-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #500024
