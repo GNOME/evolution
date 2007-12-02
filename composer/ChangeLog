@@ -1,3 +1,22 @@
+2007-12-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* e-msg-composer.c:
+	* e-msg-composer-hdrs.h:
+	* e-msg-composer-hdrs.c:
+	Move signature handling to e-msg-composer-hdrs.c.
+	Use an ESignatureComboBox.
+
+	* e-composer-from-header.h:
+	* e-composer-from-header.c:
+	Clean up the GtkHBox hack.  The signature combo is now packed
+	directly into the GtkTable.
+
+	* e-composer-name-header.c:
+	* e-composer-text-header.c:
+	Code cleanup.
+
 2007-11-29  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #271551

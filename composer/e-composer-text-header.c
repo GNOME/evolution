@@ -1,5 +1,9 @@
 #include "e-composer-text-header.h"
 
+/* Convenience macro */
+#define E_COMPOSER_TEXT_HEADER_GET_ENTRY(header) \
+	(GTK_ENTRY (E_COMPOSER_HEADER (header)->input_widget))
+
 static gpointer parent_class;
 
 static void
@@ -96,25 +100,22 @@ e_composer_text_header_new_button (const gchar *label)
 const gchar *
 e_composer_text_header_get_text (EComposerTextHeader *header)
 {
-	GtkWidget *input_widget;
+	GtkEntry *entry;
 
 	g_return_val_if_fail (E_IS_COMPOSER_TEXT_HEADER (header), NULL);
 
-	input_widget = E_COMPOSER_HEADER (header)->input_widget;
-	return gtk_entry_get_text (GTK_ENTRY (input_widget));
+	entry = E_COMPOSER_TEXT_HEADER_GET_ENTRY (header);
+	return gtk_entry_get_text (entry);
 }
 
 void
 e_composer_text_header_set_text (EComposerTextHeader *header,
                                  const gchar *text)
 {
-	GtkWidget *input_widget;
+	GtkEntry *entry;
 
 	g_return_if_fail (E_IS_COMPOSER_TEXT_HEADER (header));
 
-	if (text == NULL)
-		text = "";
-
-	input_widget = E_COMPOSER_HEADER (header)->input_widget;
-	gtk_entry_set_text (GTK_ENTRY (input_widget), text);
+	entry = E_COMPOSER_TEXT_HEADER_GET_ENTRY (header);
+	gtk_entry_set_text (entry, (text != NULL) ? text : "");
 }

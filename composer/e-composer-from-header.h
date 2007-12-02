@@ -33,11 +33,9 @@ G_BEGIN_DECLS
 
 typedef struct _EComposerFromHeader EComposerFromHeader;
 typedef struct _EComposerFromHeaderClass EComposerFromHeaderClass;
-typedef struct _EComposerFromHeaderPrivate EComposerFromHeaderPrivate;
 
 struct _EComposerFromHeader {
 	EComposerHeader parent;
-	EComposerFromHeaderPrivate *priv;
 };
 
 struct _EComposerFromHeaderClass {

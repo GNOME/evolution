@@ -155,8 +155,12 @@ account_combo_box_refresh_cb (EAccountList *account_list,
 skip:
 	/* Restore the previously selected account. */
 	account = e_account_combo_box_get_active (combo_box);
+	if (account != NULL)
+		g_object_ref (account);
 	gtk_combo_box_set_model (GTK_COMBO_BOX (combo_box), model);
 	e_account_combo_box_set_active (combo_box, account);
+	if (account != NULL)
+		g_object_unref (account);
 }
 
 static GObject *

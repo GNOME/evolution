@@ -1,12 +1,8 @@
 #include "e-composer-from-header.h"
 
-#define E_COMPOSER_FROM_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_FROM_HEADER, EComposerFromHeaderPrivate))
-
-struct _EComposerFromHeaderPrivate {
-	GtkWidget *combo_box;
-};
+/* Convenience macro */
+#define E_COMPOSER_FROM_HEADER_GET_COMBO_BOX(header) \
+	(E_ACCOUNT_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget))
 
 static gpointer parent_class;
 
@@ -18,50 +14,21 @@ composer_from_header_changed_cb (EAccountComboBox *combo_box,
 }
 
 static void
-composer_from_header_dispose (GObject *object)
-{
-	EComposerFromHeaderPrivate *priv;
-
-	priv = E_COMPOSER_FROM_HEADER_GET_PRIVATE (object);
-
-	if (priv->combo_box != NULL) {
-		g_object_unref (priv->combo_box);
-		priv->combo_box = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-static void
 composer_from_header_class_init (EComposerFromHeaderClass *class)
 {
-	GObjectClass *object_class;
-
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EComposerFromHeaderPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = composer_from_header_dispose;
 }
 
 static void
 composer_from_header_init (EComposerFromHeader *header)
 {
-	GtkWidget *hbox;
 	GtkWidget *widget;
 
-	header->priv = E_COMPOSER_FROM_HEADER_GET_PRIVATE (header);
-
-	hbox = g_object_ref_sink (gtk_hbox_new (FALSE, 6));
-	E_COMPOSER_HEADER (header)->input_widget = hbox;
-
-	widget = e_account_combo_box_new ();
+	widget = g_object_ref_sink (e_account_combo_box_new ());
 	g_signal_connect (
 		widget, "changed",
 		G_CALLBACK (composer_from_header_changed_cb), header);
-	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
-	header->priv->combo_box = g_object_ref_sink (widget);
+	E_COMPOSER_HEADER (header)->input_widget = widget;
 	gtk_widget_show (widget);
 }
 
@@ -108,7 +75,7 @@ e_composer_from_header_set_account_list (EComposerFromHeader *header,
 
 	g_return_if_fail (E_IS_COMPOSER_FROM_HEADER (header));
 
-	combo_box = E_ACCOUNT_COMBO_BOX (header->priv->combo_box);
+	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
 	e_account_combo_box_set_account_list (combo_box, account_list);
 }
 
@@ -119,7 +86,7 @@ e_composer_from_header_get_active (EComposerFromHeader *header)
 
 	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
 
-	combo_box = E_ACCOUNT_COMBO_BOX (header->priv->combo_box);
+	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
 	return e_account_combo_box_get_active (combo_box);
 }
 
@@ -131,7 +98,7 @@ e_composer_from_header_set_active (EComposerFromHeader *header,
 
 	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), FALSE);
 
-	combo_box = E_ACCOUNT_COMBO_BOX (header->priv->combo_box);
+	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
 	return e_account_combo_box_set_active (combo_box, account);
 }
 
@@ -142,7 +109,7 @@ e_composer_from_header_get_active_name (EComposerFromHeader *header)
 
 	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
 
-	combo_box = E_ACCOUNT_COMBO_BOX (header->priv->combo_box);
+	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
 	return e_account_combo_box_get_active_name (combo_box);
 }
 
@@ -154,7 +121,7 @@ e_composer_from_header_set_active_name (EComposerFromHeader *header,
 
 	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), FALSE);
 
-	combo_box = E_ACCOUNT_COMBO_BOX (header->priv->combo_box);
+	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
 	return e_account_combo_box_set_active_name (combo_box, account_name);
 }
 

@@ -41,6 +41,7 @@
 #include "mail/mail-config.h"
 #include "mail/mail-session.h"
 #include "e-account-combo-box.h"
+#include "e-signature-combo-box.h"
 
 #include "e-composer-header.h"
 #include "e-composer-from-header.h"
@@ -68,6 +69,7 @@ enum {
 	SUBJECT_CHANGED,
 	HDRS_CHANGED,
 	FROM_CHANGED,
+	SIGNATURE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -78,6 +80,7 @@ struct _EMsgComposerHdrsPrivate {
 	BonoboUIComponent *uic;
 
 	EComposerHeader *headers[NUM_HEADERS];
+	GtkWidget *signature_combo_box;
 };
 
 static gpointer parent_class;
@@ -102,6 +105,12 @@ from_changed (EComposerFromHeader *from_header, EMsgComposerHdrs *hdrs)
 		E_COMPOSER_TEXT_HEADER (header), account->id->reply_to);
 
 	g_signal_emit (hdrs, signal_ids[FROM_CHANGED], 0);
+}
+
+static void
+signature_changed (EMsgComposerHdrs *hdrs)
+{
+	g_signal_emit (hdrs, signal_ids[SIGNATURE_CHANGED], 0);
 }
 
 static void
@@ -176,6 +185,7 @@ msg_composer_hdrs_constructor (GType type,
 {
 	GObject *object;
 	EMsgComposerHdrsPrivate *priv;
+	GtkWidget *widget;
 	guint rows, ii;
 
 	/* Chain up to parent's constructor() method. */
@@ -185,7 +195,7 @@ msg_composer_hdrs_constructor (GType type,
 	priv = E_MSG_COMPOSER_HDRS_GET_PRIVATE (object);
 
 	rows = G_N_ELEMENTS (priv->headers);
-	gtk_table_resize (GTK_TABLE (object), rows, 2);
+	gtk_table_resize (GTK_TABLE (object), rows, 4);
 	gtk_table_set_row_spacings (GTK_TABLE (object), 0);
 	gtk_table_set_col_spacings (GTK_TABLE (object), 6);
 
@@ -198,8 +208,26 @@ msg_composer_hdrs_constructor (GType type,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->input_widget,
-			1, 2, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+			1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
 	}
+
+	/* Leave room in the "From" row for signature stuff. */
+	gtk_container_child_set (
+		GTK_CONTAINER (object),
+		priv->headers[HEADER_FROM]->input_widget,
+		"right-attach", 2, NULL);
+
+	/* Now add the signature stuff. */
+	widget = gtk_label_new_with_mnemonic (_("Si_gnature:"));
+	gtk_table_attach (
+		GTK_TABLE (object), widget,
+		2, 3, HEADER_FROM, HEADER_FROM + 1, 0, 0, 0, 3);
+	gtk_table_attach (
+		GTK_TABLE (object), priv->signature_combo_box,
+		3, 4, HEADER_FROM, HEADER_FROM + 1, 0, 0, 0, 3);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (widget), priv->signature_combo_box);
+	gtk_widget_show (widget);
 
 	return object;
 }
@@ -222,6 +250,11 @@ msg_composer_hdrs_dispose (GObject *object)
 			g_object_unref (priv->headers[ii]);
 			priv->headers[ii] = NULL;
 		}
+	}
+
+	if (priv->signature_combo_box != NULL) {
+		g_object_unref (priv->signature_combo_box);
+		priv->signature_combo_box = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -267,6 +300,14 @@ msg_composer_hdrs_class_init (EMsgComposerHdrsClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+
+	signal_ids[SIGNATURE_CHANGED] =
+		g_signal_new ("signature_changed",
+			      E_TYPE_MSG_COMPOSER_HDRS,
+			      G_SIGNAL_RUN_LAST,
+			      0, NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 static void
@@ -274,6 +315,7 @@ msg_composer_hdrs_init (EMsgComposerHdrs *hdrs)
 {
 	EComposerHeader *header;
 	ENameSelector *name_selector;
+	GtkWidget *widget;
 
 	hdrs->priv = E_MSG_COMPOSER_HDRS_GET_PRIVATE (hdrs);
 
@@ -318,6 +360,19 @@ msg_composer_hdrs_init (EMsgComposerHdrs *hdrs)
 	e_composer_from_header_set_account_list (
 		E_COMPOSER_FROM_HEADER (hdrs->priv->headers[HEADER_FROM]),
 		mail_config_get_accounts ());
+
+	widget = e_signature_combo_box_new ();
+	e_signature_combo_box_set_signature_list (
+		E_SIGNATURE_COMBO_BOX (widget),
+		mail_config_get_signatures ());
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (signature_changed), hdrs);
+	g_signal_connect_swapped (
+		widget, "refreshed",
+		G_CALLBACK (signature_changed), hdrs);
+	hdrs->priv->signature_combo_box = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
 }
 
 GType
@@ -557,6 +612,29 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 
 	header = E_COMPOSER_FROM_HEADER (hdrs->priv->headers[HEADER_FROM]);
 	return e_composer_from_header_set_active_name (header, account_name);
+}
+
+ESignature *
+e_msg_composer_hdrs_get_signature (EMsgComposerHdrs *hdrs)
+{
+	ESignatureComboBox *combo_box;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	combo_box = E_SIGNATURE_COMBO_BOX (hdrs->priv->signature_combo_box);
+	return e_signature_combo_box_get_active (combo_box);
+}
+
+gboolean
+e_msg_composer_hdrs_set_signature (EMsgComposerHdrs *hdrs,
+                                   ESignature *signature)
+{
+	ESignatureComboBox *combo_box;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), FALSE);
+
+	combo_box = E_SIGNATURE_COMBO_BOX (hdrs->priv->signature_combo_box);
+	return e_signature_combo_box_set_active (combo_box, signature);
 }
 
 void

@@ -10,6 +10,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_COMPOSER_NAME_HEADER, EComposerNameHeaderPrivate))
 
+/* Convenience macro */
+#define E_COMPOSER_NAME_HEADER_GET_ENTRY(header) \
+	(E_NAME_SELECTOR_ENTRY (E_COMPOSER_HEADER (header)->input_widget))
+
 enum {
 	PROP_0,
 	PROP_NAME_SELECTOR
@@ -250,15 +254,14 @@ e_composer_name_header_get_destinations (EComposerNameHeader *header)
 {
 	EDestinationStore *store;
 	EDestination **destinations;
-	GtkWidget *input_widget;
+	ENameSelectorEntry *entry;
 	GList *list, *iter;
 	gint ii = 0;
 
 	g_return_val_if_fail (E_IS_COMPOSER_NAME_HEADER (header), NULL);
 
-	input_widget = E_COMPOSER_HEADER (header)->input_widget;
-	store = e_name_selector_entry_peek_destination_store (
-		E_NAME_SELECTOR_ENTRY (input_widget));
+	entry = E_COMPOSER_NAME_HEADER_GET_ENTRY (header);
+	store = e_name_selector_entry_peek_destination_store (entry);
 
 	list = e_destination_store_list_destinations (store);
 	destinations = g_new0 (EDestination *, g_list_length (list) + 1);
@@ -276,15 +279,14 @@ e_composer_name_header_set_destinations (EComposerNameHeader *header,
                                          EDestination **destinations)
 {
 	EDestinationStore *store;
-	GtkWidget *input_widget;
+	ENameSelectorEntry *entry;
 	GList *list, *iter;
 	gint ii;
 
 	g_return_if_fail (E_IS_COMPOSER_NAME_HEADER (header));
 
-	input_widget = E_COMPOSER_HEADER (header)->input_widget;
-	store = e_name_selector_entry_peek_destination_store (
-		E_NAME_SELECTOR_ENTRY (input_widget));
+	entry = E_COMPOSER_NAME_HEADER_GET_ENTRY (header);
+	store = e_name_selector_entry_peek_destination_store (entry);
 
 	/* Clear the destination store. */
 	list = e_destination_store_list_destinations (store);

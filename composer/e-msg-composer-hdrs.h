@@ -28,6 +28,7 @@
 
 #include <bonobo/bonobo-ui-component.h>
 
+#include <e-util/e-signature.h>
 #include <libedataserver/e-account.h>
 #include <camel/camel-mime-message.h>
 #include <libebook/e-destination.h>
@@ -118,6 +119,9 @@ void        e_msg_composer_hdrs_to_redirect        (EMsgComposerHdrs *hdrs,
 EAccount *  e_msg_composer_hdrs_get_from_account   (EMsgComposerHdrs *hdrs);
 gboolean    e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);
+ESignature *e_msg_composer_hdrs_get_signature      (EMsgComposerHdrs *hdrs);
+gboolean    e_msg_composer_hdrs_set_signature      (EMsgComposerHdrs *hdrs,
+						    ESignature *signature);
 void        e_msg_composer_hdrs_set_reply_to       (EMsgComposerHdrs *hdrs,
 						    const char *reply_to);
 void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
