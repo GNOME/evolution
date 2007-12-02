@@ -43,7 +43,6 @@ addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/contact-editor/im.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
-addressbook/gui/contact-list-editor/e-contact-list-editor.etspec
 addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade
 addressbook/gui/merging/eab-contact-duplicate-detected.glade
 addressbook/gui/merging/eab-contact-merging.c
@@ -175,6 +174,8 @@ calendar/gui/tasktypes.xml
 calendar/gui/weekday-picker.c
 calendar/importers/icalendar-importer.c
 calendar/zones.h
+composer/e-composer-name-header.c
+composer/e-composer-post-header.c
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer-select-file.c
 composer/e-msg-composer.c
@@ -363,6 +364,7 @@ plugins/mail-notification/apps-evolution-mail-notification.schemas.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
 plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml
+plugins/mail-to-task/mail-to-task.c
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
@@ -489,6 +491,7 @@ widgets/misc/e-selection-model-array.c
 widgets/misc/e-selection-model.c
 widgets/misc/e-send-options.c
 widgets/misc/e-send-options.glade
+widgets/misc/e-signature-combo-box.c
 widgets/misc/e-task-widget.c
 widgets/misc/e-url-entry.c
 widgets/misc/gal-categories.glade
