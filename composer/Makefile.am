@@ -62,7 +62,7 @@ libcomposer_la_SOURCES = 			\
 	e-composer-header.c			\
 	e-composer-header.h			\
 	e-composer-from-header.c		\
-	e-composer-from_header.h		\
+	e-composer-from-header.h		\
 	e-composer-name-header.c		\
 	e-composer-name-header.h		\
 	e-composer-post-header.c		\
