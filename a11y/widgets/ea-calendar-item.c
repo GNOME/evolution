@@ -1119,8 +1119,7 @@ ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem, gint column,
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	gchar *week_char;
-	gint char_size;
+	const gchar *abbr_name;
 
 	g_return_val_if_fail (ea_calitem, FALSE);
 
@@ -1129,17 +1128,12 @@ ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem, gint column,
 	if (!g_obj)
 		return FALSE;
 
+	/* Columns are 0 = Monday ... 6 = Sunday */
 	calitem = E_CALENDAR_ITEM (g_obj);
-	week_char = g_utf8_offset_to_pointer (calitem->days, column);
-	char_size = strlen (calitem->days) -
-		strlen (g_utf8_find_next_char (calitem->days, NULL));
+	abbr_name = e_get_weekday_name (column + 1, TRUE);
+	g_strlcpy (buffer, abbr_name, buffer_size);
 
-	if (week_char && char_size < buffer_size) {
-		memcpy (buffer, week_char, char_size);
-		buffer[char_size] = '\0';
-		return TRUE;
-	}
-	return FALSE;
+	return TRUE;
 }
 
 /* the coordinate the e-calendar canvas coord */

@@ -28,6 +28,7 @@
 #include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
+#include <e-util/e-util.h>
 #include "weekday-picker.h"
 
 
@@ -315,20 +316,12 @@ colorize_items (WeekdayPicker *wp)
 static char *
 get_day_text (int day_index)
 {
-	/* The first letter of each day of the week starting with Sunday */
-	const char *str = _("SMTWTFS");
-	char *day;
-	int char_size = 0;
+	GDateWeekday weekday;
 
-	day = g_utf8_offset_to_pointer (str, day_index);
+	/* Convert from tm_wday to GDateWeekday. */
+	weekday = (day_index == 0) ? G_DATE_SUNDAY : day_index;
 
-	/* we use strlen because we actually want to count bytes */
-	if (day_index == 6)
-		char_size = strlen (day);
-	else
-		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
-
-	return g_strndup (day, char_size);
+	return g_strdup (e_get_weekday_name (weekday, TRUE));
 }
 
 static void

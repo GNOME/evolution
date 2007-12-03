@@ -82,6 +82,10 @@ gsize		e_utf8_strftime_fix_am_pm	(gchar *str,
 						 gsize max,
 						 const gchar *fmt,
 						 const struct tm *tm);
+const gchar *	e_get_month_name		(GDateMonth month,
+						 gboolean abbreviated);
+const gchar *	e_get_weekday_name		(GDateWeekday weekday,
+						 gboolean abbreviated);
 
 /* String to/from double conversion functions */
 gdouble		e_flexible_strtod		(const gchar *nptr,

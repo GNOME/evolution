@@ -547,6 +547,100 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 }
 
 /**
+ * e_get_month_name:
+ * @month: month index
+ * @abbreviated: if %TRUE, abbreviate the month name
+ *
+ * Returns the localized name for @month.  If @abbreviated is %TRUE,
+ * returns the locale's abbreviated month name.
+ *
+ * Returns: localized month name
+ **/
+const gchar *
+e_get_month_name (GDateMonth month,
+                  gboolean abbreviated)
+{
+	/* Make the indices correspond to the enum values. */
+	static const gchar *abbr_names[G_DATE_DECEMBER + 1];
+	static const gchar *full_names[G_DATE_DECEMBER + 1];
+	static gboolean first_time = TRUE;
+
+	g_return_val_if_fail (month >= G_DATE_JANUARY, NULL);
+	g_return_val_if_fail (month <= G_DATE_DECEMBER, NULL);
+
+	if (G_UNLIKELY (first_time)) {
+		gchar buffer[256];
+		GDateMonth ii;
+		GDate date;
+
+		memset (abbr_names, 0, sizeof (abbr_names));
+		memset (full_names, 0, sizeof (full_names));
+
+		/* First Julian day was in January. */
+		g_date_set_julian (&date, 1);
+
+		for (ii = G_DATE_JANUARY; ii <= G_DATE_DECEMBER; ii++) {
+			g_date_strftime (buffer, sizeof (buffer), "%b", &date);
+			abbr_names[ii] = g_intern_string (buffer);
+			g_date_strftime (buffer, sizeof (buffer), "%B", &date);
+			full_names[ii] = g_intern_string (buffer);
+			g_date_add_months (&date, 1);
+		}
+
+		first_time = FALSE;
+	}
+
+	return abbreviated ? abbr_names[month] : full_names[month];
+}
+
+/**
+ * e_get_weekday_name:
+ * @weekday: weekday index
+ * @abbreviated: if %TRUE, abbreviate the weekday name
+ *
+ * Returns the localized name for @weekday.  If @abbreviated is %TRUE,
+ * returns the locale's abbreviated weekday name.
+ *
+ * Returns: localized weekday name
+ **/
+const gchar *
+e_get_weekday_name (GDateWeekday weekday,
+                    gboolean abbreviated)
+{
+	/* Make the indices correspond to the enum values. */
+	static const gchar *abbr_names[G_DATE_SUNDAY + 1];
+	static const gchar *full_names[G_DATE_SUNDAY + 1];
+	static gboolean first_time = TRUE;
+
+	g_return_val_if_fail (weekday >= G_DATE_MONDAY, NULL);
+	g_return_val_if_fail (weekday <= G_DATE_SUNDAY, NULL);
+
+	if (G_UNLIKELY (first_time)) {
+		gchar buffer[256];
+		GDateWeekday ii;
+		GDate date;
+
+		memset (abbr_names, 0, sizeof (abbr_names));
+		memset (full_names, 0, sizeof (full_names));
+
+		/* First Julian day was a Monday. */
+		g_date_set_julian (&date, 1);
+
+		for (ii = G_DATE_MONDAY; ii <= G_DATE_SUNDAY; ii++) {
+			g_date_strftime (buffer, sizeof (buffer), "%a", &date);
+			abbr_names[ii] = g_intern_string (buffer);
+			g_date_strftime (buffer, sizeof (buffer), "%A", &date);
+			full_names[ii] = g_intern_string (buffer);
+			g_date_add_days (&date, 1);
+		}
+
+		first_time = FALSE;
+	}
+
+	return abbreviated ? abbr_names[weekday] : full_names[weekday];
+}
+
+/**
  * e_flexible_strtod:
  * @nptr:    the string to convert to a numeric value.
  * @endptr:  if non-NULL, it returns the character after

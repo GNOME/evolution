@@ -1,3 +1,10 @@
+2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747
+
+	* gui/weekday-picker.c (get_day_text):
+	Convert the day_index to GDateWeekday and call e_get_weekday_name().
+
 2007-11-30  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #325730

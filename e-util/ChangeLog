@@ -1,3 +1,11 @@
+2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747
+
+	* e-utils.c (e_get_month_name), (e_get_weekday_name):
+	New functions cache localized month and weekday names (respectively)
+	for easier retrieval than resorting to strftime().
+
 2007-11-13  Ondrej Jirman  <megous@megous.com>
 
 	** Fix for bug #494320

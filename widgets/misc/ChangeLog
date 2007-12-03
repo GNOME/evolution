@@ -1,3 +1,11 @@
+2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747
+
+	* e-calendar-item.h (struct _ECalendarItem):
+	* e-calendar-item.c (e_calendar_item_init), (e_calendar_item_draw):
+	Lose the local weekday name cache and just call e_get_weekday_name().
+
 2007-12-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #495123

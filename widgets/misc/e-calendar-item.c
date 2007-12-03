@@ -411,10 +411,6 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->time_callback_data = NULL;
 	calitem->time_callback_destroy = NULL;
 
-	/* Translators: These are the first characters of each day of the
-	   week, 'M' for 'Monday', 'T' for Tuesday etc. */
-	calitem->days = _("MTWTFSS");
-
 	calitem->signal_emission_idle_id = 0;
 }
 
@@ -964,18 +960,11 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 static void
 layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, int day_index)
 {
-	char *day;
-	int char_size = 0;
+	const gchar *abbr_name;
 
-	day = g_utf8_offset_to_pointer (calitem->days, day_index);
-
-	/* we use strlen because we actually want to count bytes */
-	if (day_index == 6)
-		char_size = strlen (day);
-	else
-		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
-
-	pango_layout_set_text (layout, day, char_size);
+	/* day_index: 0 = Monday ... 6 = Sunday */
+	abbr_name = e_get_weekday_name (day_index + 1, TRUE);
+	pango_layout_set_text (layout, abbr_name, -1);
 }
 
 static void
@@ -1611,18 +1600,11 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 static void
 layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, int day_index)
 {
-	char *day;
-	int char_size = 0;
+	const gchar *abbr_name;
 
-	day = g_utf8_offset_to_pointer (calitem->days, day_index);
-
-	/* we use strlen because we actually want to count bytes */
-	if (day_index == 6)
-		char_size = strlen (day);
-	else
-		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
-
-	pango_layout_set_text (layout, day, char_size);
+	/* day_index: 0 = Monday ... 6 = Sunday */
+	abbr_name = e_get_weekday_name (day_index + 1, TRUE);
+	pango_layout_set_text (layout, abbr_name, -1);
 }
 
 static void

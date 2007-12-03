@@ -1,3 +1,10 @@
+2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747
+
+	* widgets/ea-calendar-item.c (ea_calendar_item_get_column_label):
+	Get the column label via e_get_weekday_name().
+
 2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* addressbook/ea-addressbook.c:

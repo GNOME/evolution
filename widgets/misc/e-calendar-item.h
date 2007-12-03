@@ -216,9 +216,6 @@ struct _ECalendarItem
 	gint selection_real_start_month_offset;
 	gint selection_real_start_day;
 
-	/* The first character of each day of the week, e.g. 'MTWTFSS'. */
-	gchar *days;
-
 	/* Widths of the day characters. */
 	gint day_widths[7];
 
