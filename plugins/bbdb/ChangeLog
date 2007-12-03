@@ -1,3 +1,10 @@
+2007-12-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #391062
+
+	* bbdb.c: (bbdb_open_addressbook): Dont add contacts, if it is enabled
+	to do so.
+
 2007-08-24  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #440807

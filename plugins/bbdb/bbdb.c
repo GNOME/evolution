@@ -265,13 +265,19 @@ bbdb_open_addressbook (int type)
 	GConfClient *gconf;
 	char        *uri;
 	EBook       *book = NULL;
-
-	gboolean     enable;
-
 	gboolean     status;
 	GError      *error = NULL;
-	
+	gboolean enable = TRUE;
+
 	gconf = gconf_client_get_default ();
+
+	/* Check to see if we're supposed to be running */
+	if (type == AUTOMATIC_CONTACTS_ADDRESSBOOK)
+		enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
+	if (!enable) {
+		g_object_unref (G_OBJECT (gconf));
+		return NULL;
+	}
 
 	/* Open the appropriate addresbook. */
 	if (type == GAIM_ADDRESSBOOK)
