@@ -356,7 +356,7 @@ task_page_set_view_role (TaskPage *page, gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Role", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, state);
 }
 
 void
@@ -364,7 +364,7 @@ task_page_set_view_status (TaskPage *page, gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Status", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, state);
 }
 
 void
@@ -372,7 +372,7 @@ task_page_set_view_type (TaskPage *page, gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Type", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, state);
 }
 
 void
@@ -380,7 +380,7 @@ task_page_set_view_rsvp (TaskPage *page, gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
 }
 
 void
@@ -2050,12 +2050,11 @@ init_widgets (TaskPage *tpage)
 
 	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Attendee                          ",
-			TRUE);
-	e_meeting_list_view_column_set_visible (priv->list_view, "Role", calendar_config_get_show_role());
-	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", calendar_config_get_show_rsvp());
-	e_meeting_list_view_column_set_visible (priv->list_view, "Status", calendar_config_get_show_status());
-	e_meeting_list_view_column_set_visible (priv->list_view, "Type", calendar_config_get_show_type());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, calendar_config_get_show_role ());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, calendar_config_get_show_rsvp ());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, calendar_config_get_show_status ());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, calendar_config_get_show_type ());
 
 	task_page_set_show_categories (tpage, calendar_config_get_show_categories());
 

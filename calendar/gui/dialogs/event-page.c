@@ -752,7 +752,7 @@ event_page_set_view_role (EventPage *epage, gboolean state)
 {
 	EventPagePrivate *priv = epage->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Role", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, state);
 }
 
 void
@@ -760,7 +760,7 @@ event_page_set_view_status (EventPage *epage, gboolean state)
 {
 	EventPagePrivate *priv = epage->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Status", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, state);
 }
 
 void
@@ -768,7 +768,7 @@ event_page_set_view_type (EventPage *epage, gboolean state)
 {
 	EventPagePrivate *priv = epage->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Type", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, state);
 }
 
 void
@@ -776,7 +776,7 @@ event_page_set_view_rsvp (EventPage *epage, gboolean state)
 {
 	EventPagePrivate *priv = epage->priv;
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", state);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
 }
 
 void
@@ -2984,12 +2984,11 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->start_timezone), "changed",
 			    G_CALLBACK (start_timezone_changed_cb), epage);
 
-	e_meeting_list_view_column_set_visible (priv->list_view, "Attendee                          ",
-			TRUE);
-	e_meeting_list_view_column_set_visible (priv->list_view, "Role", calendar_config_get_show_role());
-	e_meeting_list_view_column_set_visible (priv->list_view, "RSVP", calendar_config_get_show_rsvp());
-	e_meeting_list_view_column_set_visible (priv->list_view, "Status", calendar_config_get_show_status());
-	e_meeting_list_view_column_set_visible (priv->list_view, "Type", calendar_config_get_show_type());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, calendar_config_get_show_role ());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, calendar_config_get_show_rsvp ());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, calendar_config_get_show_status ());
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, calendar_config_get_show_type ());
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
