@@ -1,3 +1,11 @@
+2007-12-03  Denis Washington  <denisw@svn.gnome.org>
+
+	** Fix for bug #363644
+
+	* mail-send-recv.c:
+	Added a 6px padding around the scrolled window so that
+	it's border doesn't look like a separator on the bottom.
+
 2007-11-29  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #271551
