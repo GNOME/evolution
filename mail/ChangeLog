@@ -1,3 +1,10 @@
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #466241
+
+	* mail-config.glade: Added a mnemonic to "Authentication type"
+	in the recieving mail section of configuration
+
 2007-12-03  Denis Washington  <denisw@svn.gnome.org>
 
 	** Fix for bug #363644

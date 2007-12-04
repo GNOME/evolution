@@ -1610,8 +1610,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <child>
 		    <widget class="GtkLabel" id="label474">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;Authentication Type&lt;/span&gt;</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;_Authentication Type&lt;/span&gt;</property>
+		      <property name="use_underline">True</property>
+		      <property name="mnemonic_widget">source_auth_dropdown</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>

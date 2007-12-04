@@ -1,3 +1,10 @@
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #466241
+
+	* exchange-account-setup.c: (org_gnome_exchange_auth_section):
+	Added a mnemonic to the Authentication Type label/dropdown
+
 2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #495123

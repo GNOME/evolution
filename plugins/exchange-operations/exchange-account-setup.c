@@ -837,8 +837,8 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	label_text = g_strdup_printf("<b>%s</b>", _("Authentication Type"));
-	auth_label = gtk_label_new (label_text);
+	label_text = g_strdup_printf("<b>%s</b>", _("_Authentication Type"));
+	auth_label = gtk_label_new_with_mnemonic (label_text);
 	g_free (label_text);
 	gtk_label_set_justify (GTK_LABEL (auth_label), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (auth_label), 0, 0.5);
@@ -848,8 +848,8 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 	label_hide = gtk_label_new("\n");
 
 	hbox = gtk_hbox_new (FALSE, 6);
-
 	dropdown = (GtkComboBox * )gtk_combo_box_new ();
+	gtk_label_set_mnemonic_widget (GTK_LABEL (auth_label), GTK_WIDGET (dropdown));
 
 	button = gtk_button_new_with_mnemonic (_("Ch_eck for Supported Types"));
 
