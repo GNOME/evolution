@@ -1,5 +1,12 @@
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
+	** Part of fix for bug #466499
+
+	* em-account-editor.c: (emae_option_toggle):
+	Added support for mnemonics in config options from camel
+
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
 	** Fix for bug #466497
 
 	* mail-config.glade: Changed some mnemonics to stop l being used
