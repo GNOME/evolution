@@ -1,3 +1,10 @@
+2007-12-04  Alex Kloss  <alexkloss@att.net>
+
+	** Fix for bug #466503
+
+	* mail-config.glade: Fix for a mnemonic conflict in 
+	Preferences -> Mail Preferences -> Junk tab.
+
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
 	** Part of fix for bug #466499
