@@ -122,6 +122,9 @@ struct _ItipViewPrivate {
 	GtkWidget *update_check;
 	gboolean update_show;
 
+	GtkWidget *options_box;
+	GtkWidget *free_time_check;
+
 	GtkWidget *button_box;
 	gboolean buttons_sensitive;
 
@@ -1109,6 +1112,13 @@ itip_view_init (ItipView *view)
 
 	g_signal_connect (priv->recur_check, "toggled", G_CALLBACK (recur_toggled_cb), view);
 
+	priv->options_box = gtk_vbox_new (FALSE, 2);
+	gtk_widget_show (priv->options_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->options_box, FALSE, FALSE, 0);
+
+	priv->free_time_check = gtk_check_button_new_with_mnemonic (_("Show time as _free"));
+	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->free_time_check, FALSE, FALSE, 0);
+
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_END);
@@ -2094,4 +2104,26 @@ itip_view_set_show_recur_check (ItipView *view, gboolean show)
 		gtk_widget_hide (view->priv->recur_check);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->recur_check), FALSE);
 	}
+}
+
+void
+itip_view_set_show_free_time_check (ItipView *view, gboolean show)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	if (show)
+		gtk_widget_show (view->priv->free_time_check);
+	else  {
+		gtk_widget_hide (view->priv->free_time_check);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->free_time_check), FALSE);
+	}
+}
+
+gboolean
+itip_view_get_free_time_check_state (ItipView *view)
+{
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->free_time_check));
 }

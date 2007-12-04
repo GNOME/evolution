@@ -1617,11 +1617,17 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	ECalComponentTransparency trans;
 	gboolean flag;
 
-	e_cal_component_get_transparency (pitip->comp, &trans);
-	/* FIXME we should be providing an option to accept as free or busy */
-	if (trans == E_CAL_COMPONENT_TRANSP_NONE)
-		e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
+	if (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) {
+		if (itip_view_get_free_time_check_state (ITIP_VIEW (pitip->view)))
+			e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
+		else
+			e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
+	} else {
+		e_cal_component_get_transparency (pitip->comp, &trans);
 
+		if (trans == E_CAL_COMPONENT_TRANSP_NONE)
+			e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
+	}
 
 	if (!pitip->to_address && pitip->current_ecal != NULL)
 		e_cal_get_cal_address (pitip->current_ecal, &pitip->to_address, NULL);
@@ -2139,6 +2145,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 	if (response_enabled) {
 		g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
+
+		itip_view_set_show_free_time_check (ITIP_VIEW (pitip->view), pitip->type == E_CAL_SOURCE_TYPE_EVENT && (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST));
 
 		if (pitip->calendar_uid)
 			pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);

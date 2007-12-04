@@ -1,3 +1,14 @@
+2007-12-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #220846
+
+	* itip-view.h:
+	* itip-view.c: (itip_view_set_show_free_time_check),
+	(itip_view_get_free_time_check_state), (struct _ItipViewPrivate),
+	(itip_view_init):
+	* itip-formatter.c: (view_response_cb), (format_itip_object):
+	New option to accept meeting request as free time.
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #458237
