@@ -3855,7 +3855,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			<widget class="GtkCheckButton" id="smime_sign_default">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Digitally _sign outgoing messages (by default)</property>
+			  <property name="label" translatable="yes">Digitally sign o_utgoing messages (by default)</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3997,7 +3997,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkLabel" id="button98">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Se_lect...</property>
+					  <property name="label" translatable="yes">S_elect...</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4169,7 +4169,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkLabel" id="label472">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">S_elect...</property>
+					  <property name="label" translatable="yes">_Select...</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>

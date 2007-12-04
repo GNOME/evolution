@@ -1,5 +1,12 @@
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
+	** Fix for bug #466497
+
+	* mail-config.glade: Changed some mnemonics to stop l being used
+	as a mnemonic key
+
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
 	** Fix for bug #466241
 
 	* mail-config.glade: Added a mnemonic to "Authentication type"
