@@ -2036,7 +2036,7 @@ static GtkWidget *
 emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
 	EMAccountEditor *emae = data;
-	GtkWidget *w, *box;
+	GtkWidget *w, *box, *spin;
 	int row;
 
 	if (emae->priv->source.provider == NULL
@@ -2054,11 +2054,12 @@ emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *par
 	emae_account_toggle_widget(emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_AUTO_CHECK);
 	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
 
-	w = gtk_spin_button_new_with_range(1.0, 1440.0, 1.0);
-	emae_account_spinint_widget(emae, (GtkSpinButton *)w, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME);
-	gtk_box_pack_start((GtkBox *)box, w, FALSE, TRUE, 0);
+	spin = gtk_spin_button_new_with_range(1.0, 1440.0, 1.0);
+	emae_account_spinint_widget(emae, (GtkSpinButton *)spin, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME);
+	gtk_box_pack_start((GtkBox *)box, spin, FALSE, TRUE, 0);
 
-	w = gtk_label_new(_("minutes"));
+	w = gtk_label_new_with_mnemonic (_("minu_tes"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (w), spin);
 	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(box);

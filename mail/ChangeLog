@@ -1,3 +1,10 @@
+2007-12-04  Alex Kloss  <alexkloss@att.net>
+
+	** Fix for bug #329578
+
+	* em-account-editor.c: (emae_receive_options_item):
+	Add mnemonic for "minutes" widget
+
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
 	** Fix for bug #446029
