@@ -259,7 +259,7 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 	flags &= ~EM_FOLDER_SELECTOR_CAN_CREATE;
 
 	emfs = g_object_new (em_folder_selector_get_type (), NULL);
-	em_folder_selector_construct (emfs, emft, flags, title, text, _("Create"));
+	em_folder_selector_construct (emfs, emft, flags, title, text, _("C_reate"));
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOINFERIORS);
 
 	hbox = gtk_hbox_new (FALSE, 0);

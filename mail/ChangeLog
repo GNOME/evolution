@@ -1,3 +1,10 @@
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #347329
+
+	* em-folder-selector.c: (em_folder_selector_create_new):
+	Added a mnemonic to the 'Create' button of the 'New Folder' dialog
+
 2007-12-04  Alex Kloss  <alexkloss@att.net>
 
 	** Fix for bug #329578
