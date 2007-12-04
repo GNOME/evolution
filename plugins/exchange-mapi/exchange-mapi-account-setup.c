@@ -50,6 +50,7 @@
 /* Account Setup */
 GtkWidget *org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_mapi_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
+void org_gnome_exchange_mapi_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 /* New Addressbook/CAL */
 GtkWidget *exchange_mapi_create (EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -637,6 +638,7 @@ exchange_mapi_book_commit (EPlugin *epl, EConfigTarget *target)
 	e_source_set_property(source, "folder-id", tmp);
 	g_free (tmp);
 	e_source_set_property (source, "completion", "true");
+	// Update the folder list in the plugin and ExchangeMAPIFolder
 
 	return;
 }
@@ -752,6 +754,7 @@ exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target)
 	e_source_set_relative_uri (source, tmp);
 	g_free (tmp);
 
+	// Update the folder list in the plugin and ExchangeMAPIFolder
 	return;
 }
 

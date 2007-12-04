@@ -50,6 +50,7 @@ struct _ExchangeAccountListenerClass {
 void 			exchange_account_listener_get_folder_list (void);
 GType                   exchange_account_listener_get_type (void);
 ExchangeAccountListener *exchange_account_listener_new (void);
+void                    exchange_account_listener_free_folder_list ();
 
 G_END_DECLS
 

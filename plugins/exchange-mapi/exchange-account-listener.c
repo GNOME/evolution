@@ -45,7 +45,7 @@ LIMBAPI_CFLAGS or something is going wrong */
   list of ExchangeAccountInfo structures */
 
 #define E_PASSWORD_COMPONENT "ExchangeMAPI"
-
+#define d(x) x
 static 	GList *mapi_accounts = NULL;
 static	GSList *folders_list = NULL;
 struct _ExchangeAccountListenerPrivate {
@@ -184,6 +184,24 @@ lookup_account_info (const char *key)
 #define SELECTED_CALENDARS 	"/apps/evolution/calendar/display/selected_calendars"
 #define SELECTED_TASKS 		"/apps/evolution/calendar/tasks/selected_tasks"
 #define SELECTED_JOURNALS 	"/apps/evolution/calendar/memos/selected_memos"
+
+
+GSList *
+exchange_account_listener_peek_folder_list ()
+{
+	if (!folders_list)
+		folders_list = exchange_mapi_peek_folder_list ();
+	
+	return folders_list;
+}
+
+void
+exchange_account_listener_free_folder_list ()
+{
+	
+	exchange_mapi_folder_list_free ();
+	folders_list = NULL;
+}
 
 static void
 add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType folder_type, CamelURL *url)
@@ -693,6 +711,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		/*MAPI account is changed to some other type */
 		account_removed (account_listener, account);
 	} else if (existing_account_info != NULL && bis_mapi_account) {
+		gboolean bnew = FALSE;
 		gboolean modified = FALSE;
 		if (!account->enabled) {
 			remove_addressbook_sources (existing_account_info);
@@ -735,9 +754,11 @@ account_changed (EAccountList *account_listener, EAccount *account)
 				return;
 			}
 
+			bnew = TRUE;
+
 		}
 
-		if (strcmp (existing_account_info->name, account->name)) {
+		if (!bnew && strcmp (existing_account_info->name, account->name)) {
 			/* just the source group names have to be modified.. no sweat.. */
 			modify_addressbook_sources (account, existing_account_info);
 			modify_calendar_sources (account, existing_account_info, new_url);
@@ -751,7 +772,10 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		g_free (existing_account_info->source_url);
 		existing_account_info->name = g_strdup (account->name);
 		existing_account_info->source_url = g_strdup (account->source->url);
-		if (!modified) {
+		if (bnew || !modified) {
+			/* Free the old folderlist and get a new one */
+			exchange_account_listener_free_folder_list ();
+			exchange_account_listener_peek_folder_list ();
 			add_addressbook_sources (account, folders_list);
 			add_calendar_sources (account, folders_list, existing_account_info);
 		}
@@ -792,15 +816,6 @@ exchange_account_listener_construct (ExchangeAccountListener *config_listener)
 	g_signal_connect (config_listener->priv->account_list, "account_added", G_CALLBACK (account_added), NULL);
 	g_signal_connect (config_listener->priv->account_list, "account_changed", G_CALLBACK (account_changed), NULL);
 	g_signal_connect (config_listener->priv->account_list, "account_removed", G_CALLBACK (account_removed), NULL);    
-}
-
-GSList *
-exchange_account_listener_peek_folder_list ()
-{
-	if (!folders_list)
-		folders_list = exchange_mapi_peek_folder_list ();
-	
-	return folders_list;
 }
 
 GType

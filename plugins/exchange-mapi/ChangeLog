@@ -1,3 +1,14 @@
+2007-12-04  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fixup mapi folder 
+
+	* exchange-account-listener.c:
+	(exchange_account_listener_peek_folder_list),
+	(exchange_account_listener_free_folder_list), (account_changed):
+	* exchange-account-listener.h:
+	* exchange-mapi-account-setup.c: (exchange_mapi_book_commit),
+	(exchange_mapi_cal_commit):
+
 2007-11-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Cleanup everything in plugins.
