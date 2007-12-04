@@ -1,6 +1,10 @@
+2007-12-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: evolution 2.21.3 release.
+
 2007-11-12  Srinivasa Ragavan  <sragavan@novell.com>
 
-	* NEWS, configure.in: Evolution 2.21.2 release.
+	* NEWS, configure.in: evolution 2.21.2 release.
 
 2007-11-14  Matthew Barnes  <mbarnes@redhat.com>
 

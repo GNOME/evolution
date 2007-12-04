@@ -1,3 +1,48 @@
+Evolution 2.21.3 2007-12-03
+---------------------------
+
+Bug fixes:
+	#214645: Collapses non-working days to occupy one row and expand other days if possible (Milan Crha)
+	#216485: Add Select Message Subthread (Nicholas Miell)
+	#216485: Edit->Select thread menu fix and improvement (Nicholas Miell)
+	#256899: Remove "Disable/Enable" button from Mail Accounts preferences (Chaya)
+	#271551: File manager used during composer should remember last directory (Milan Crha)
+	#325730: Tasks preview pane not refreshed on delete event (Milan Crha)
+	#335931: Disappearing of the bottom-most mail leaves invalid selection (Milan Crha)
+	#346693: Ensure new event in top canvas will be visible. (Milan Crha)
+	#353807: Notice user if any error occur during opening calendar, calendar is readonly or when add fails. (Milan Crha)
+	#380644: "Required Participants" dialog does not show meeting participants (Milan Crha, Matthew Barnes)
+	#391062: Automatic contacts are now added only if enabled (Srinivasa Ragavan)
+	#400213: Do not use pixmaps and masks, load images from file, instead (Milan Crha)
+	#401337: Use other mnemonic for Organizer and let it work properly (Milan Crha)
+	#401523: Selectable text in imap headers page. (Lucky)
+	#458237: Check for non-NULL source before using it to prevent a crash (Milan Crha)
+	#479081: Check for input validity immediately after creating setup widgets (Milan Crha)
+	#480514: Let "Last 5 Days' Messages" and "Recent messages" filters work in Sent folder too (Milan Crha)
+	#484603: Do not forget for organizer icon when counting used icons. (Milan Crha)
+	#489652: Migrate the contact list editor from ETable to GtkTreeView and fix some HIG issues (Matthew Barnes)
+	#493783: Do not erase old content when re-formatting same mail, so keep scroll position (Milan Crha)
+	#494414: If used uri points to an account, then prepend account's name to folder name (Milan Crha)
+	#494425: 'Save All' handles duplicate attachement names incorrectly (Milan Crha)
+	#495123: Refactor composer headers (Matthew Barnes)
+	#495711: Keep track of previously created Full Name dialog and reuse it (Milan Crha)
+	#495872: Add memo support (Gilles Dartiguelongue)
+	#495875: Right click menu reordering (Gilles Dartiguelongue)
+	#495951: Use GtkTreeView in place of ETable (Gilles Dartiguelongue)
+	#497810: Add "Evolution FAQ" help menu item (Andre Klapper)
+	#498173: Plugin configure dialog pops up automatically (Sankar P)
+	#498551: Forgotten "Loading..." node under nntp server (Milan Crha)
+	#499644: The behavior of the "Include remote tests" check button was swapped with respect to its state. (Matthew Barnes)
+	#499920: Missing header files has to be shipped (Matthew Barnes)
+	#500024: Set number of pages first (Milan Crha)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Ivar Smolin (et)
+	Matej Urbančič(sl)
+	Yannig Marchegay (oc)
+	Daniel Nylander (sv)
+
 Evolution 2.21.2 2007-11-12
 ---------------------------
 
