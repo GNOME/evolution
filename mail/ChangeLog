@@ -1,3 +1,10 @@
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #446029
+
+	* em-format-html-display.c: (em_format_html_get_search_dialog):
+	Fix for a mnemonic conflict in 'Find in Message' feature.
+
 2007-12-04  Alex Kloss  <alexkloss@att.net>
 
 	** Fix for bug #466503

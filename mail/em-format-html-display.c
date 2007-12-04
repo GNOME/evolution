@@ -654,7 +654,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 
 	p->search_entry_box = gtk_hbox_new (FALSE, 0);
 
-	label1 = gtk_label_new_with_mnemonic (_("Fi_nd:"));
+	label1 = gtk_label_new_with_mnemonic (_("Fin_d:"));
 	gtk_widget_show (label1);
 	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), label1, FALSE, FALSE, 5);
 
