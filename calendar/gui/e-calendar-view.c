@@ -1657,7 +1657,7 @@ static EPopupItem ecv_main_items [] = {
 	{ E_POPUP_ITEM, "30.task", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
 
 	{ E_POPUP_BAR, "40."},
-	{ E_POPUP_ITEM, "40.print", N_("_Print..."), on_print, NULL, GTK_STOCK_PRINT, 0, 0 },
+	{ E_POPUP_ITEM, "40.print", N_("P_rint..."), on_print, NULL, GTK_STOCK_PRINT, 0, 0 },
 
 	{ E_POPUP_BAR, "50." },
 	{ E_POPUP_ITEM, "50.paste", N_("_Paste"), on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
@@ -1673,7 +1673,7 @@ static EPopupItem ecv_main_items [] = {
 static EPopupItem ecv_child_items [] = {
 	{ E_POPUP_ITEM, "00.open", N_("_Open"), on_edit_appointment, NULL, GTK_STOCK_OPEN, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), on_save_as, NULL, GTK_STOCK_SAVE_AS, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "20.print", N_("_Print..."), on_print_event, NULL, GTK_STOCK_PRINT, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "20.print", N_("Pri_nt..."), on_print_event, NULL, GTK_STOCK_PRINT, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, "30." },
 

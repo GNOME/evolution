@@ -1325,7 +1325,7 @@ static EPopupItem tasks_popup_items [] = {
 	{ E_POPUP_ITEM, "03.open", N_("_Open"), e_calendar_table_on_open_task, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "05.openweb", N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
 	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), e_calendar_table_on_save_as, NULL, GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.print", N_("_Print..."), e_calendar_table_on_print_task, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "20.print", N_("P_rint..."), e_calendar_table_on_print_task, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
 
 	{ E_POPUP_BAR, "30.bar" },
 

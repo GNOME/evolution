@@ -1,4 +1,13 @@
-2008-12-04  Wang Xin  <jedy.wang@sun.com>
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #354265
+
+	* gui/e-calender-table.c:
+	* gui/e-memo-table.c:
+	* gui/e-calender-view.c:
+	Fixed mnemonic clash between print and paste mnemonics
+
+2007-12-04  Wang Xin  <jedy.wang@sun.com>
 
 	Fixes #501182.
 
