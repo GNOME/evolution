@@ -5,6 +5,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <libxml/tree.h>
+#include <gtk/gtkwidget.h>
 
 /* ********************************************************************** */
 
@@ -85,7 +86,7 @@ struct _EPluginClass {
 	int (*construct)(EPlugin *, xmlNodePtr root);
 	void *(*invoke)(EPlugin *, const char *name, void *data);
 	void (*enable)(EPlugin *, int state);
-	void (*configure)(EPlugin *);
+	GtkWidget *(*get_configure_widget)(EPlugin *);
 };
 
 GType e_plugin_get_type(void);
@@ -99,9 +100,8 @@ void e_plugin_register_type(GType type);
 
 void *e_plugin_invoke(EPlugin *ep, const char *name, void *data);
 void e_plugin_enable(EPlugin *eph, int state);
-void e_plugin_configure (EPlugin *eph);
 
-gboolean e_plugin_is_configurable (EPlugin *ep);
+GtkWidget *e_plugin_get_configure_widget (EPlugin *ep);
 
 /* static helpers */
 /* maps prop or content to 'g memory' */
@@ -123,7 +123,7 @@ typedef void *(*EPluginLibFunc)(EPluginLib *ep, void *data);
  * initialised.  In the future it may also be called when the plugin
  * is disabled. */
 typedef int (*EPluginLibEnableFunc)(EPluginLib *ep, int enable);
-typedef int (*EPluginLibConfigureFunc)(EPluginLib *ep);
+typedef void *(*EPluginLibGetConfigureWidgetFunc)(EPluginLib *ep);
 
 /**
  * struct _EPluginLib -

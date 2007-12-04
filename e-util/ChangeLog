@@ -1,3 +1,14 @@
+2007-12-04  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #500210
+
+	* e-plugin.h:
+	* e-plugin.c: (e_plugin_configure), (e_plugin_is_configurable),
+	(epl_configure), (e_plugin_get_configure_widget),
+	(epl_get_configure_widget): Removed old configure functions,
+	replaced by get_configure_widget functions, to be able show
+	plugin configuration in a tab of plugin manager.
+
 2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #392747

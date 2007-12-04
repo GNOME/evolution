@@ -685,18 +685,20 @@ e_plugin_enable(EPlugin *ep, int state)
 }
 
 /**
-* e_plugin_configure:
-* @ep:
-*
-*
-**/
-
-void
-e_plugin_configure (EPlugin *ep)
+ * e_plugin_get_configure_widget
+ *
+ * @param ep EPlugin of our interest.
+ * @return Configure widget or NULL if there is no configure option for the plugin.
+ *
+ * Plugin itself should have implemented "e_plugin_lib_get_configure_widget" function
+ * of prototype EPluginLibGetConfigureWidgetFunc.
+ **/
+GtkWidget *
+e_plugin_get_configure_widget (EPlugin *ep)
 {
 	EPluginClass *ptr;
 	ptr = ((EPluginClass *)G_OBJECT_GET_CLASS(ep));
-        ptr->configure (ep);
+        return ptr->get_configure_widget (ep);
 }
 
 /**
@@ -929,37 +931,23 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	return 0;
 }
 
-gboolean
-e_plugin_is_configurable (EPlugin *ep)
+static GtkWidget *
+epl_get_configure_widget (EPlugin *ep)
 {
-	EPluginLibConfigureFunc configure;
+	EPluginLibGetConfigureWidgetFunc get_configure_widget;
 
-	pd(printf ("\n epl_configure \n"));
+	pd (printf ("\n epl_get_configure_widget \n"));
 
-	if (epl_loadmodule(ep) != 0) {
-		pd(printf ("\n epl_loadmodule  \n"));
-		return FALSE;
+	if (epl_loadmodule (ep) != 0) {
+		pd (printf ("\n epl_loadmodule  \n"));
+		return NULL;
 	}
 
-	if (g_module_symbol(epl->module, "e_plugin_lib_configure", (void *)&configure)) {
-		pd(printf ("\n g_module_symbol is loaded\n"));
-		return TRUE;
+	if (g_module_symbol (epl->module, "e_plugin_lib_get_configure_widget", (void *)&get_configure_widget)) {
+		pd (printf ("\n g_module_symbol is loaded\n"));
+		return (GtkWidget*) get_configure_widget (epl);
 	}
-	return FALSE;
-}
-
-static void
-epl_configure (EPlugin *ep)
-{
-	EPluginLibConfigureFunc configure;
-
-	pd(printf ("\n epl_configure \n"));
-
-	/* Probably we dont need a load_module */
-	if (g_module_symbol(epl->module, "e_plugin_lib_configure", (void *)&configure)) {
-		pd(printf ("\n g_module_symbol is loaded\n"));
-		configure (epl);
-	}
+	return NULL;
 }
 
 static void
@@ -1009,7 +997,7 @@ epl_class_init(EPluginClass *klass)
 	klass->construct = epl_construct;
 	klass->invoke = epl_invoke;
 	klass->enable = epl_enable;
-	klass->configure = epl_configure;
+	klass->get_configure_widget = epl_get_configure_widget;
 	klass->type = "shlib";
 }
 
