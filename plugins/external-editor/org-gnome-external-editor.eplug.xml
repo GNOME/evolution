@@ -7,7 +7,7 @@
     location="@PLUGINDIR@/liborg-gnome-external-editor@SOEXT@"
     _name="External Editor">
     <author name="Sankar P" email="sankar2u@gmail.com"/>
-    <_description>A plugin for using an external editor as the composer. You can send only plain-text mails. </_description>
+    <_description>A plugin for using an external editor as the composer. You can send only plain-text messages.</_description>
 
     <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
 

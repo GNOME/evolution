@@ -1,3 +1,12 @@
+2007-12-04  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Denis Washington <denisw@svn.gnome.org>
+
+	** Fix for bug #496298
+	* org-gnome-external-editor.eplug.xml:
+	* org-gnome-external-editor.xml:
+	Change mails to messages.
+
 2007-10-25  Sankar P  <psankar@novell.com>
 
 	* Makefile.am:
