@@ -1,3 +1,9 @@
+2008-12-04  Wang Xin  <jedy.wang@sun.com>
+
+	Fixes #501182.
+
+	* gui/gnome-cal.c: (update_todo_view): Handle NULL pointer.
+
 2007-12-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #440497
