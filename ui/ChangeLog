@@ -1,3 +1,11 @@
+2007-12-04  Alex Kloss  <alexkloss@att.net>
+
+	** Fixes bug #444227
+
+	* evolution-mail-global.xml:
+	Make string for PrepareForOffline more descriptive
+	Add mnemonic to PrepareForOffline menu item
+
 2007-11-26  Andre Klapper  <a9016009@gmx.de>
  
  	** Fixes bug #497810
