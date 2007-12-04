@@ -1,3 +1,9 @@
+2007-12-04  David Turner <cillian64@googlemail.com>
+
+	** Fix for bug #458824
+
+	* e-table-config.glade: Added mnemonics to the "Group" dialog
+
 2007-11-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #255051

@@ -591,7 +591,7 @@
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">Clear All</property>
+	      <property name="label" translatable="yes">Clear _All</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -683,7 +683,7 @@
 			    <widget class="GtkCheckButton" id="checkbutton-group-1">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Show field in View</property>
+			      <property name="label" translatable="yes">_Show field in View</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -920,7 +920,7 @@
 			    <widget class="GtkCheckButton" id="checkbutton-group-2">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Show field in View</property>
+			      <property name="label" translatable="yes">Show _field in View</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -1157,7 +1157,7 @@
 			    <widget class="GtkCheckButton" id="checkbutton-group-3">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Show field in View</property>
+			      <property name="label" translatable="yes">Show field i_n View</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -1394,7 +1394,7 @@
 			    <widget class="GtkCheckButton" id="checkbutton-group-4">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Show field in View</property>
+			      <property name="label" translatable="yes">Show field in _View</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
