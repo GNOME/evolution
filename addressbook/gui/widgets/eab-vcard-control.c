@@ -225,11 +225,11 @@ toggle_full_vcard(GtkWidget *button, gpointer data)
 
 	if (vcard_control->render_mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
 		vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
-		label = _("Show Full VCard");
+		label = _("Show Full vCard");
 	}
 	else {
 		vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-		label = _("Show Compact VCard");
+		label = _("Show Compact vCard");
 	}
 
 	gtk_button_set_label (GTK_BUTTON (button), label);
@@ -276,7 +276,7 @@ eab_vcard_control_new (void)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (bbox), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (bbox), 12);
 
-	button1 = gtk_button_new_with_label(_("Show Full VCard"));
+	button1 = gtk_button_new_with_label(_("Show Full vCard"));
 	g_signal_connect (button1, "clicked",
 			  G_CALLBACK (toggle_full_vcard), vcard_control);
 	gtk_box_pack_start (GTK_BOX (bbox), button1, FALSE, FALSE, 0);

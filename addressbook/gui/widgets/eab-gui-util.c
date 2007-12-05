@@ -957,10 +957,10 @@ eab_send_contact_list_as_attachment (GList *contacts)
 	filename = CORBA_string_dup ("");
 
 	if (contacts->next) {
-		description = CORBA_string_dup (_("Multiple VCards"));
+		description = CORBA_string_dup (_("Multiple vCards"));
 	} else {
 		char *file_as = e_contact_get (E_CONTACT (contacts->data), E_CONTACT_FILE_AS);
-		tempstr = g_strdup_printf (_("VCard for %s"), file_as);
+		tempstr = g_strdup_printf (_("vCard for %s"), file_as);
 		description = CORBA_string_dup (tempstr);
 		g_free (tempstr);
 		g_free (file_as);

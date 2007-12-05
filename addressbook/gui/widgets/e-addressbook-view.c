@@ -811,7 +811,7 @@ save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	GList *contacts = get_contact_list ((EABPopupTargetSelect *)ep->target);
 
 	if (contacts) {
-		eab_contact_list_save(_("Save as VCard..."), contacts, NULL);
+		eab_contact_list_save(_("Save as vCard..."), contacts, NULL);
 		g_list_free(contacts);
 	}
 }
@@ -938,7 +938,7 @@ static EPopupItem eabv_popup_items[] = {
 	{ E_POPUP_ITEM, "15.newlist", N_("New Contact _List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "30.saveas", N_("_Save as VCard..."), save_as, NULL, "document-save-as", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, "30.saveas", N_("_Save as vCard..."), save_as, NULL, "document-save-as", 0, EAB_POPUP_SELECT_ANY },
 	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contact"), send_as, NULL, "mail-forward", EAB_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contacts"), send_as, NULL, "mail-forward", EAB_POPUP_SELECT_MANY },
 	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contact"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
@@ -1921,7 +1921,7 @@ eab_view_save_as (EABView *view, gboolean all)
 		list = get_selected_contacts(view);
 	}
 	if (list)
-		eab_contact_list_save (_("Save as VCard..."), list, NULL);
+		eab_contact_list_save (_("Save as vCard..."), list, NULL);
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 }

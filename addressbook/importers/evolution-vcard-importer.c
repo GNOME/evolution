@@ -544,8 +544,8 @@ static EImportImporter vcard_importer = {
 EImportImporter *
 evolution_vcard_importer_peek(void)
 {
-	vcard_importer.name = _("VCard (.vcf, .gcrd)");
-	vcard_importer.description = _("Evolution VCard Importer");
+	vcard_importer.name = _("vCard (.vcf, .gcrd)");
+	vcard_importer.description = _("Evolution vCard Importer");
 
 	return &vcard_importer;
 }

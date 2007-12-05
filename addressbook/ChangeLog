@@ -1,3 +1,17 @@
+2007-12-05  Lucky Wankhede  <wlakke@novell.com>
+
+	** Fix for bug #409121
+
+	* gui/component/addressbook-view.c:
+	* gui/widgets/e-addressbook-view.c: (save_as), (eab_view_save_as):
+	* gui/widgets/eab-gui-util.c:
+	(eab_send_contact_list_as_attachment):
+	* gui/widgets/eab-vcard-control.c: (toggle_full_vcard),
+	(eab_vcard_control_new):
+	* importers/evolution-vcard-importer.c:
+	(evolution_vcard_importer_peek): Corrected misspelled instances
+	of vCard
+
 2007-11-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #489652
