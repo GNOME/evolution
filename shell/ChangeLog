@@ -1,3 +1,12 @@
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add basic support for crash recovery
+
+	* apps_evolution_shell.schemas.in: Keys to recover and recovery dialog.
+	* e-shell.c: (e_shell_quit): Delete the lock while quitting.
+	* main.c: (show_recovery_warning), (idle_cb): Create lock and also show 
+	the warning dialog.
+
 2007-11-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #499920

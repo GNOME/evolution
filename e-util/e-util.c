@@ -1017,3 +1017,52 @@ e_file_get_save_path (void)
 	return (uri);
 }
 
+/* Evolution Locks for crash recovery */
+
+#define LOCK_FILE ".running"
+
+static const gchar *
+get_lock_filename (void)
+{
+	static gchar *filename = NULL;
+
+	if (G_UNLIKELY (filename == NULL))
+		filename = g_build_filename (g_get_home_dir (), ".evolution", LOCK_FILE, NULL);
+
+	return filename;
+}
+
+gboolean
+e_file_lock_create ()
+{
+	const char *fname = get_lock_filename ();
+	gboolean status = FALSE;
+
+	int fd = g_creat (fname, S_IRUSR|S_IWUSR);
+	if (fd == -1){
+		g_warning ("Lock file '%s' creation failed, error %d\n", fname, errno);
+	} else {
+		status = TRUE;
+		close (fd);
+	}
+
+	return status;
+}
+
+void
+e_file_lock_destroy ()
+{
+	const char *fname = get_lock_filename ();
+
+	if (g_unlink (fname) == -1){
+		g_warning ("Lock destroy: failed to unlink file '%s'!",fname);
+	}
+}
+
+gboolean 
+e_file_lock_exists ()
+{
+	const char *fname = get_lock_filename ();
+
+	return g_file_test (fname, G_FILE_TEST_EXISTS);
+}

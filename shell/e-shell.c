@@ -1377,6 +1377,9 @@ e_shell_quit(EShell *shell)
 				e_shell_window_save_defaults (p->data);
 		}
 		can_quit = !es_run_quit(shell);
+
+		/* Mark a safe quit by destroying the lock. */
+		e_file_lock_destroy ();
 	}
 
 	return can_quit;

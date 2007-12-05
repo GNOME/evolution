@@ -1,3 +1,10 @@
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-util.c: (get_lock_filename), (e_file_lock_create),
+	(e_file_lock_destroy), (e_file_lock_exists): Add utility functions for 
+	startup-running lock create, check and delete.
+	* e-util.h:
+
 2007-12-04  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #500210

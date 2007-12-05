@@ -31,6 +31,7 @@
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
 #include "e-util/e-profile-event.h"
+#include "e-util/e-util.h"
 
 #include "e-shell.h"
 #include "es-menu.h"
@@ -91,6 +92,11 @@
 
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
+#define SKIP_RECOVERY_DIALOG_KEY \
+	"/apps/evolution/shell/skip_recovery_dialog"
+#define RECOVERY_KEY \
+	"/apps/evolution/shell/recovery"
+
 
 static EShell *shell = NULL;
 
@@ -284,6 +290,70 @@ destroy_config (GConfClient *client)
 
 #endif /* DEVELOPMENT */
 
+static int
+show_recovery_warning(void)
+{
+	GtkWidget *vbox;
+	GtkWidget *label;
+	GtkWidget *warning_dialog;
+	GtkWidget *checkbox;
+	GtkWidget *alignment;
+	gboolean skip;
+	char *text;
+	int flags = 0, response;
+
+	warning_dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Evolution Crash Recovery"));
+	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
+	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), _("Ig_nore"), GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), _("_Recover"), GTK_RESPONSE_OK);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (warning_dialog), FALSE);
+
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->action_area), 12);
+
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), vbox,
+			    TRUE, TRUE, 0);
+
+	text = g_strdup(
+		/* xgettext:no-c-format */
+		_("Evolution appears to have exited unexpectedly the last time it was\n"
+		  "run.  As a precautionary measure, all preview panes will be hidden.\n"
+		  "You can restore the preview panes from the View menu.\n"));
+	label = gtk_label_new (text);
+	g_free(text);
+
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+
+	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
+
+	checkbox = gtk_check_button_new_with_mnemonic (_("_Do not show this again"));
+
+	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
+
+	gtk_container_add (GTK_CONTAINER (alignment), checkbox);
+	gtk_box_pack_start (GTK_BOX (vbox), alignment, TRUE, TRUE, 0);
+
+	gtk_widget_show_all (warning_dialog);
+
+	response = gtk_dialog_run (GTK_DIALOG (warning_dialog));
+	
+	if (response != GTK_RESPONSE_CANCEL)
+		flags = flags|(1<<1);
+
+	skip = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+	if (skip)
+		flags = flags|(1<<2);
+
+	gtk_widget_destroy (warning_dialog);
+
+	return flags;
+}
+
 static void
 open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
 {
@@ -363,8 +433,36 @@ idle_cb (gchar **uris)
 	if (shell != NULL) {
 		if (uris != NULL)
 			open_uris (corba_shell, uris);
-		else
+		else {
+			GConfClient *client = gconf_client_get_default ();
+			
+			if (gconf_client_get_bool (client, RECOVERY_KEY, NULL) && e_file_lock_exists ()) {
+				/* It should have crashed last time or a force-shutdown */
+				gboolean skip = gconf_client_get_bool (client, SKIP_RECOVERY_DIALOG_KEY, NULL);
+				gboolean recover = TRUE;
+				if (!skip){
+					int flags = show_recovery_warning ();
+
+					gconf_client_set_bool (client, SKIP_RECOVERY_DIALOG_KEY, (flags & (1<<2)) ? TRUE : FALSE, NULL);
+					recover = (flags & (1<<1)) ? TRUE: FALSE;
+				}
+
+				if (recover) {
+					/* Disable the previews */
+					gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
+					gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
+					gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
+					gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
+				}
+				/* Let us not delete and recreate a lock, instead reuse it. We don't use timestamps anyways */
+			} else {
+				/* What great can we do, if lock creation fails ?*/
+				e_file_lock_create ();
+			}
+			g_object_unref (client);
+
 			e_shell_create_window (shell, default_component_id, NULL);
+		}
 	} else {
 		CORBA_Environment ev;
 
