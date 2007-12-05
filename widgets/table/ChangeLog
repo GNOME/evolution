@@ -1,3 +1,10 @@
+2007-12-05  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #408170
+
+	* e-table-header-item.c: (ethi_header_context_menu): Added
+	mnemonics to the "Custom" and "Sort By" menu options
+
 2007-12-04  David Turner <cillian64@googlemail.com>
 
 	** Fix for bug #458824

@@ -1539,7 +1539,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
 						 128, info, GETTEXT_PACKAGE);
 
-	menu_item = gtk_menu_item_new_with_label (_("Sort By"));
+	menu_item = gtk_menu_item_new_with_mnemonic (_("_Sort By"));
 	gtk_widget_show (menu_item);
 	sub_menu = gtk_menu_new ();
 	gtk_widget_show (sub_menu);
@@ -1557,7 +1557,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	}
 
 	/* Custom */
-	menu_item = gtk_check_menu_item_new_with_label (_("Custom"));
+	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Custom"));
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
 	if (sort_col == -1)
