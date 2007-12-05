@@ -1,3 +1,8 @@
+2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump libgtkhtml requirement to 3.17.3 due to bug #271551.
+
 2007-12-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: evolution 2.21.3 release.
