@@ -1,3 +1,8 @@
+2007-12-05  Sankar P  <psankar@novell.com>
+
+	* attachment-reminder.c: (e_plugin_lib_get_configure_widget):
+	Move preferences to the configure tab.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* attachment-reminder.c: (check_for_attachment_clues),

@@ -38,6 +38,8 @@
 #include <camel/camel-multipart.h>
 
 #include <e-util/e-error.h>
+#include <e-util/e-plugin.h>
+
 #include <mail/em-utils.h>
 
 #include "widgets/misc/e-attachment-bar.h"
@@ -63,7 +65,7 @@ enum {
 };
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
-void e_plugin_lib_configure (EPlugin *epl);
+GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
 GtkWidget* org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
@@ -413,8 +415,8 @@ selection_changed (GtkTreeSelection *selection, UIData *ui)
 	}
 }
 
-void
-e_plugin_lib_configure (EPlugin *epl)
+GtkWidget *
+e_plugin_lib_get_configure_widget (EPlugin *epl)
 {
 	GtkWidget *dialog;
 	GladeXML *xml;
@@ -508,8 +510,9 @@ e_plugin_lib_configure (EPlugin *epl)
 
 	g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG(dialog)->vbox), hbox);
-	gtk_widget_show_all (dialog);
+	//gtk_container_add (GTK_CONTAINER (GTK_DIALOG(dialog)->vbox), hbox);
+	//gtk_widget_show_all (dialog);
+	return hbox;
 }
 
 
