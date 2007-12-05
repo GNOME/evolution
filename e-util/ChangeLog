@@ -1,5 +1,9 @@
 2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* e-util.h: Fix a compiler warning
+
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* e-util.c: (get_lock_filename), (e_file_lock_create),
 	(e_file_lock_destroy), (e_file_lock_exists): Add utility functions for 
 	startup-running lock create, check and delete.
