@@ -1282,11 +1282,12 @@ update_memo_view (GnomeCalendar *gcal)
 			g_free (priv->memo_sexp);
 		}
 
-		priv->memo_sexp = g_strdup_printf ("(not (has-start?)) or (and (occur-in-time-range? (make-time \"%s\")"
-				"                           (make-time \"%s\"))"
-				"     %s)",
+		priv->memo_sexp = g_strdup_printf ("(or (not (has-start?)) (and (occur-in-time-range? (make-time \"%s\")"
+				" (make-time \"%s\"))"
+				"  %s))",
 				iso_start, iso_end,
 				priv->sexp ? priv->sexp : "");
+
 		e_cal_model_set_search_query (model, priv->memo_sexp);
 
 		g_free (iso_start);

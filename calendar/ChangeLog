@@ -1,3 +1,10 @@
+2007-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #501474
+
+	* gui/gnome-cal.c: (update_memo_view):
+	Fix wrong expression from bug #359267
+
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
 	** Fix for bug #354265
