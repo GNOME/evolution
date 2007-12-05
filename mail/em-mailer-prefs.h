@@ -80,6 +80,7 @@ struct _EMMailerPrefs {
 	struct _GtkOptionMenu *charset;
 	struct _GtkToggleButton *citation_highlight;
 	struct _GtkColorButton *citation_color;
+	struct _GtkToggleButton *magic_spacebar;
 
 	/* Deleting Mail */
 	struct _GtkToggleButton *empty_trash;

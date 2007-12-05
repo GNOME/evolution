@@ -136,6 +136,7 @@ void mail_config_remove_account (struct _EAccount *account);
 void mail_config_set_default_account (struct _EAccount *account);
 int mail_config_get_address_count (void);
 int mail_config_get_message_limit (void);
+gboolean mail_config_get_enable_magic_spacebar ();
 
 void mail_config_remove_account_proxies (struct _EAccount *account);
 void mail_config_prune_proxies (void);

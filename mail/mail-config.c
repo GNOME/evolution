@@ -110,7 +110,8 @@ typedef struct {
 	guint mlimit_notify_id;
 	gboolean mlimit;
 	gint mlimit_size;
-
+	guint magic_spacebar_notify_id;
+	gboolean magic_spacebar;
 
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
@@ -360,6 +361,13 @@ gconf_mlimit_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_magic_spacebar_changed (GConfClient *client, guint cnxn_id,
+			     GConfEntry *entry, gpointer user_data)
+{
+	config->magic_spacebar = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/magic_spacebar", NULL);
+}
+
+static void
 gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 			  GConfEntry *entry, gpointer user_data)
 {
@@ -399,6 +407,8 @@ mail_config_init (void)
 							  gconf_mlimit_changed, NULL, NULL, NULL);
 	config->mlimit_size_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/message_text_part_limit",
 							  gconf_mlimit_size_changed, NULL, NULL, NULL);
+	config->magic_spacebar_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/magic_spacebar",
+							  gconf_magic_spacebar_changed, NULL, NULL, NULL);		
 	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
 							   gconf_style_changed, NULL, NULL, NULL);
 	config->mark_citations__notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/mark_citations",
@@ -424,6 +434,7 @@ mail_config_init (void)
 	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
 	config->mlimit = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/force_message_limit", NULL);
 	config->mlimit_size = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
+	config->magic_spacebar = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/magic_spacebar", NULL);
 	config->accounts = e_account_list_new (config->gconf);
 	config->signatures = e_signature_list_new (config->gconf);
 }
@@ -572,6 +583,12 @@ mail_config_get_message_limit (void)
 		return -1;
 
 	return config->mlimit_size;
+}
+
+gboolean
+mail_config_get_enable_magic_spacebar ()
+{
+	return config->magic_spacebar;
 }
 
 const char *

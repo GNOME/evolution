@@ -1,3 +1,17 @@
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Added a preference to disable Magic Spacebar.
+
+	* em-folder-browser.c: (html_scroll), (emfb_list_key_press): Check the cfg 
+	  before invoking Magic Spacebar
+	* em-mailer-prefs.c: (em_mailer_prefs_construct): Preference window handling
+	* em-mailer-prefs.h:
+	* evolution-mail.schemas.in:
+	* mail-config.c: (gconf_magic_spacebar_changed),
+	(mail_config_init), (mail_config_get_enable_magic_spacebar): Add it part of MC.
+	* mail-config.glade: 
+	* mail-config.h:
+
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
 	** Fix for bug #347329

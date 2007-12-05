@@ -927,6 +927,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 			    "/apps/evolution/mail/display/force_message_limit",
 			    G_CALLBACK (toggle_button_toggled));
 
+	prefs->magic_spacebar = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "magic_spacebar_checkbox"));
+	toggle_button_init (prefs, prefs->magic_spacebar, FALSE,
+			    "/apps/evolution/mail/display/magic_spacebar",
+			    G_CALLBACK (toggle_button_toggled));
+
 	prefs->mlimit_count = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "mlimit_spin"));
 	spin_button_init (prefs, prefs->mlimit_count,
 			  "/apps/evolution/mail/display/message_text_part_limit",

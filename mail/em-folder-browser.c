@@ -409,7 +409,7 @@ html_scroll (GtkHTML *html,
 	EMFolderBrowser *emfb)
 
 {
-	if (html->binding_handled || orientation != GTK_ORIENTATION_VERTICAL)
+	if (html->binding_handled || orientation != GTK_ORIENTATION_VERTICAL || !mail_config_get_enable_magic_spacebar ())
 		return;
 
 	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
@@ -1169,7 +1169,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 
 	switch (ev->key.keyval) {
 	case GDK_space:
-		if (!emfb->view.preview->caret_mode) {
+		if (!emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
 			state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-forward");
 			if (!state) {
 				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
@@ -1182,7 +1182,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 			em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
 		break;
 	case GDK_BackSpace:
-		if (!emfb->view.preview->caret_mode) {
+		if (!emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
 			state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-backward");
 			if (!state) {
 				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN);
@@ -1198,7 +1198,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		return FALSE;
 	}
 
-	if (!folder_choose && !emfb->view.preview->caret_mode) {
+	if (!folder_choose && !emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
 		//check for unread messages. if yes .. rewindback to the folder
 		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
 		switch (ev->key.keyval) {

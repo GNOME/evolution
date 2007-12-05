@@ -184,6 +184,19 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/magic_spacebar</key>
+      <applyto>/apps/evolution/mail/display/magic_spacebar</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Enable or disable magic space bar</short>
+         <long> Enable this to use Space bar key to scroll in message preview, message list and folders.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mark_citations</key>
       <applyto>/apps/evolution/mail/display/mark_citations</applyto>
       <owner>evolution-mail</owner>
