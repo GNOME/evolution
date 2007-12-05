@@ -60,6 +60,7 @@
 #include <misc/e-dateedit.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-cursor.h>
+#include <e-util/e-util.h>
 
 #include "calendar-component.h"
 #include "calendar-config.h"
@@ -2064,6 +2065,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	gint max_date_width, longest_weekday_width, longest_month_width, width;
 	gint day, longest_weekday, month, longest_month;
 	gchar buffer[128];
+	const gchar *name;
 	PangoContext *pango_context;
 	PangoLayout *layout;
 
@@ -2081,23 +2083,21 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	longest_weekday_width = 0;
 	longest_weekday = G_DATE_MONDAY;
 	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
-		g_date_strftime (buffer, sizeof (buffer), "%A", &date);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_weekday_name (day, FALSE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 		if (width > longest_weekday_width) {
 			longest_weekday = day;
 			longest_weekday_width = width;
 		}
-		g_date_add_days (&date, 1);
 	}
 
 	/* Now find the biggest month name. */
 	longest_month_width = 0;
 	longest_month = G_DATE_JANUARY;
 	for (month = G_DATE_JANUARY; month <= G_DATE_DECEMBER; month++) {
-		g_date_set_month (&date, month);
-		g_date_strftime (buffer, sizeof (buffer), "%B", &date);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_month_name (month, FALSE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 		if (width > longest_month_width) {
 			longest_month = month;
@@ -2130,16 +2130,14 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	/* Now try it with abbreviated weekday names. */
 	longest_weekday_width = 0;
 	longest_weekday = G_DATE_MONDAY;
-	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
 	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
-		g_date_strftime (buffer, sizeof (buffer), "%a", &date);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_weekday_name (day, TRUE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 		if (width > longest_weekday_width) {
 			longest_weekday = day;
 			longest_weekday_width = width;
 		}
-		g_date_add_days (&date, 1);
 	}
 
 	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,

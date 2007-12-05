@@ -1,3 +1,15 @@
+2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747 (extra cleanup work)
+
+	* gui/e-day-view.c (e_day_view_style_set):
+	* gui/e-week-view-titles-item.c (e_week_view_titles_item_draw):
+	* gui/e-week-view.c (e_week_view_style_set):
+	* gui/print.c (print_month_summary):
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_recalc_date_form):
+	Call e_get_month_name() or e_get_weekday_name() instead of
+	e_utf8_strftime() or g_date_strftime().
+
 2007-12-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #501474

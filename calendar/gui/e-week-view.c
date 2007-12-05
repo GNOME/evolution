@@ -52,6 +52,7 @@
 #include <misc/e-unicode.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-util.h>
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
@@ -815,8 +816,7 @@ e_week_view_style_set (GtkWidget *widget,
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
 	gint span_num;
-	GDate date;
-	gchar buffer[128];
+	const gchar *name;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -873,37 +873,31 @@ e_week_view_style_set (GtkWidget *widget,
 
 	/* Save the sizes of various strings in the font, so we can quickly
 	   decide which date formats to use. */
-	g_date_clear (&date, 1);
-	g_date_set_dmy (&date, 27, 3, 2000);	/* Must be a Monday. */
 
 	max_day_width = 0;
 	max_abbr_day_width = 0;
 	for (day = 0; day < 7; day++) {
-		g_date_strftime (buffer, 128, "%A", &date);
-		day_width = get_string_width (layout, buffer);
+		name = e_get_weekday_name (day + 1, FALSE);
+		day_width = get_string_width (layout, name);
 		week_view->day_widths[day] = day_width;
 		max_day_width = MAX (max_day_width, day_width);
 
-		g_date_strftime (buffer, 128, "%a", &date);
-		day_width = get_string_width (layout, buffer);
+		name = e_get_weekday_name (day + 1, TRUE);
+		day_width = get_string_width (layout, name);
 		week_view->abbr_day_widths[day] = day_width;
 		max_abbr_day_width = MAX (max_abbr_day_width, day_width);
-
-		g_date_add_days (&date, 1);
 	}
 
 	max_month_width = 0;
 	max_abbr_month_width = 0;
 	for (month = 0; month < 12; month++) {
-		g_date_set_month (&date, month + 1);
-
-		g_date_strftime (buffer, 128, "%B", &date);
-		month_width = get_string_width (layout, buffer);
+		name = e_get_month_name (month + 1, FALSE);
+		month_width = get_string_width (layout, name);
 		week_view->month_widths[month] = month_width;
 		max_month_width = MAX (max_month_width, month_width);
 
-		g_date_strftime (buffer, 128, "%b", &date);
-		month_width = get_string_width (layout, buffer);
+		name = e_get_month_name (month + 1, TRUE);
+		month_width = get_string_width (layout, name);
 		week_view->abbr_month_widths[month] = month_width;
 		max_abbr_month_width = MAX (max_abbr_month_width, month_width);
 	}

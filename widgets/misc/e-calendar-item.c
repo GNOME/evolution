@@ -3724,8 +3724,8 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 {
 	GtkWidget *menu, *submenu, *menuitem, *label;
 	gint year, month;
+	const gchar *name;
 	gchar buffer[64];
-	struct tm tmp_tm;
 
 	menu = gtk_menu_new ();
 
@@ -3744,19 +3744,13 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 				     GINT_TO_POINTER (month_offset));
 
 		for (month = 0; month < 12; month++) {
-			memset (&tmp_tm, 0, sizeof (tmp_tm));
-			tmp_tm.tm_year = year - 1900;
-			tmp_tm.tm_mon = month;
-			tmp_tm.tm_mday = 1;
-			tmp_tm.tm_isdst = -1;
-			mktime (&tmp_tm);
-			e_utf8_strftime (buffer, sizeof (buffer), "%B", &tmp_tm);
+			name = e_get_month_name (month + 1, FALSE);
 
 			menuitem = gtk_menu_item_new ();
 			gtk_widget_show (menuitem);
 			gtk_container_add (GTK_CONTAINER (submenu), menuitem);
 
-			label = gtk_label_new (buffer);
+			label = gtk_label_new (name);
 			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 			gtk_widget_show (label);
 			gtk_container_add (GTK_CONTAINER (menuitem), label);

@@ -1687,8 +1687,8 @@ e_day_view_style_set (GtkWidget *widget,
 	gint month, day, width;
 	gint longest_month_width, longest_abbreviated_month_width;
 	gint longest_weekday_width, longest_abbreviated_weekday_width;
-	struct tm date_tm;
 	gchar buffer[128];
+	const gchar *name;
 	gint times_width;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
@@ -1775,18 +1775,11 @@ e_day_view_style_set (GtkWidget *widget,
 	e_day_view_update_top_scroll (day_view, TRUE);
 
 	/* Find the longest full & abbreviated month names. */
-	memset (&date_tm, 0, sizeof (date_tm));
-	date_tm.tm_year = 100;
-	date_tm.tm_mday = 1;
-	date_tm.tm_isdst = -1;
-
 	longest_month_width = 0;
 	longest_abbreviated_month_width = 0;
 	for (month = 0; month < 12; month++) {
-		date_tm.tm_mon = month;
-
-		e_utf8_strftime (buffer, sizeof (buffer), "%B", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_month_name (month + 1, FALSE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_month_width) {
@@ -1794,8 +1787,8 @@ e_day_view_style_set (GtkWidget *widget,
 			day_view->longest_month_name = month;
 		}
 
-		e_utf8_strftime (buffer, sizeof (buffer), "%b", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_month_name (month + 1, TRUE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_abbreviated_month_width) {
@@ -1805,19 +1798,11 @@ e_day_view_style_set (GtkWidget *widget,
 	}
 
 	/* Find the longest full & abbreviated weekday names. */
-	memset (&date_tm, 0, sizeof (date_tm));
-	date_tm.tm_year = 100;
-	date_tm.tm_mon = 0;
-	date_tm.tm_isdst = -1;
-
 	longest_weekday_width = 0;
 	longest_abbreviated_weekday_width = 0;
 	for (day = 0; day < 7; day++) {
-		date_tm.tm_mday = 2 + day;
-		date_tm.tm_wday = day;
-
-		e_utf8_strftime (buffer, sizeof (buffer), "%A", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_weekday_name (day + 1, FALSE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_weekday_width) {
@@ -1825,8 +1810,8 @@ e_day_view_style_set (GtkWidget *widget,
 			day_view->longest_weekday_name = day;
 		}
 
-		e_utf8_strftime (buffer, sizeof (buffer), "%a", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_weekday_name (day + 1, TRUE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_abbreviated_weekday_width) {
@@ -1888,8 +1873,8 @@ e_day_view_style_set (GtkWidget *widget,
 	gint month, day, width;
 	gint longest_month_width, longest_abbreviated_month_width;
 	gint longest_weekday_width, longest_abbreviated_weekday_width;
-	struct tm date_tm;
 	gchar buffer[128];
+	const gchar *name;
 	gint times_width;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
@@ -1969,18 +1954,11 @@ e_day_view_style_set (GtkWidget *widget,
 	e_day_view_update_top_scroll (day_view, TRUE);
 
 	/* Find the longest full & abbreviated month names. */
-	memset (&date_tm, 0, sizeof (date_tm));
-	date_tm.tm_year = 100;
-	date_tm.tm_mday = 1;
-	date_tm.tm_isdst = -1;
-
 	longest_month_width = 0;
 	longest_abbreviated_month_width = 0;
 	for (month = 0; month < 12; month++) {
-		date_tm.tm_mon = month;
-
-		e_utf8_strftime (buffer, sizeof (buffer), "%B", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_month_name (month + 1, FALSE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_month_width) {
@@ -1988,8 +1966,8 @@ e_day_view_style_set (GtkWidget *widget,
 			day_view->longest_month_name = month;
 		}
 
-		e_utf8_strftime (buffer, sizeof (buffer), "%b", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_month_name (month + 1, TRUE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_abbreviated_month_width) {
@@ -1999,19 +1977,11 @@ e_day_view_style_set (GtkWidget *widget,
 	}
 
 	/* Find the longest full & abbreviated weekday names. */
-	memset (&date_tm, 0, sizeof (date_tm));
-	date_tm.tm_year = 100;
-	date_tm.tm_mon = 0;
-	date_tm.tm_isdst = -1;
-
 	longest_weekday_width = 0;
 	longest_abbreviated_weekday_width = 0;
 	for (day = 0; day < 7; day++) {
-		date_tm.tm_mday = 2 + day;
-		date_tm.tm_wday = day;
-
-		e_utf8_strftime (buffer, sizeof (buffer), "%A", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_weekday_name (day + 1, FALSE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_weekday_width) {
@@ -2019,8 +1989,8 @@ e_day_view_style_set (GtkWidget *widget,
 			day_view->longest_weekday_name = day;
 		}
 
-		e_utf8_strftime (buffer, sizeof (buffer), "%a", &date_tm);
-		pango_layout_set_text (layout, buffer, -1);
+		name = e_get_weekday_name (day + 1, TRUE);
+		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		if (width > longest_abbreviated_weekday_width) {

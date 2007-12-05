@@ -1,3 +1,10 @@
+2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747 (extra cleanup work)
+
+	* e-calendar-item.c (e_calendar_item_show_popup_menu):
+	Call e_get_month_name() instead of e_utf8_strftime().
+
 2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #392747

@@ -1778,7 +1778,7 @@ print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whenc
 	char buffer[100];
 	PangoFontDescription *font;
 	gboolean compress_weekend;
-	int columns, col, weekday, len, month;
+	int columns, col, weekday, month;
 	double font_size, cell_width, x1, x2, y1, y2;
 
 	weekday = calendar_config_get_week_start_day ();
@@ -1815,16 +1815,16 @@ print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whenc
 	y2 = top + font_size * 1.5;
 
 	for (col = 0; col < columns; col++) {
-		if (tm.tm_wday == 6 && compress_weekend) {
-			e_utf8_strftime (buffer, sizeof (buffer), "%a/", &tm);
-			len = strlen (buffer);
-			tm.tm_mday++;
-			tm.tm_wday = (tm.tm_wday + 1) % 7;
-			e_utf8_strftime (buffer + len, sizeof (buffer) - len,
-				  "%a", &tm);
-		} else {
-			e_utf8_strftime (buffer, sizeof (buffer), "%A", &tm);
-		}
+		if (tm.tm_wday == 6 && compress_weekend)
+			g_snprintf (
+				buffer, sizeof (buffer), "%s/%s",
+				e_get_weekday_name (G_DATE_SATURDAY, TRUE),
+				e_get_weekday_name (G_DATE_SUNDAY, TRUE));
+		else
+			g_snprintf (
+				buffer, sizeof (buffer), "%s",
+				e_get_weekday_name (
+				tm.tm_wday ? tm.tm_wday : 7, FALSE));
 
 		x1 = left + cell_width * col;
 		x2 = x1 + cell_width;
