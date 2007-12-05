@@ -1,5 +1,9 @@
 2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* mail-config.h: Fix a compiler warning.
+
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Added a preference to disable Magic Spacebar.
 
 	* em-folder-browser.c: (html_scroll), (emfb_list_key_press): Check the cfg 
