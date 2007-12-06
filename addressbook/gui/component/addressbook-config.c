@@ -629,7 +629,7 @@ eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	if (old)
 		return old;
 	else {
-		offline_setting = gtk_check_button_new_with_label (N_("Copy book content locally for offline operation"));
+		offline_setting = gtk_check_button_new_with_mnemonic (N_("Copy _book content locally for offline operation"));
 		gtk_widget_show (offline_setting);
 		gtk_container_add (GTK_CONTAINER (parent), offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
