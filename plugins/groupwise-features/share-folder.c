@@ -728,6 +728,7 @@ share_folder_construct (ShareFolder *sf)
 	name_selector_entry = e_name_selector_peek_section_entry (sf->name_selector, "Add User");
 	g_signal_connect (name_selector_entry, "changed",
 			G_CALLBACK (addressbook_entry_changed), sf);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (glade_xml_get_widget (sf->xml, "label557")), GTK_WIDGET (name_selector_entry));
 
 	sf->add_button = GTK_BUTTON (glade_xml_get_widget(sf->xml, "Add"));
 	g_signal_connect((GtkWidget *) sf->add_button, "clicked", G_CALLBACK (add_clicked), sf);

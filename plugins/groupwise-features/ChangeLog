@@ -1,3 +1,12 @@
+2007-12-06  Alex Kloss  <alexkloss@att.net>
+
+	** Fix for bug #347328
+
+	* properties.glade:
+	Fix mnemonic clash over 'c', add mnemonic for 'Name' entry
+	* share-folder.c: (share_folder_construct):
+	Connect name_selector_entry and its label
+
 2007-11-12  indu  <indu_ait@yahoo.co.in>
 
           ** Fix for bug #458515
