@@ -1,3 +1,11 @@
+2007-12-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #263236
+
+	* em-folder-view.c: (emfv_delete_msg_response):
+	Look for "Do not ask me again" check in alignment, so
+	let it works properly.
+
 2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-config.h: Fix a compiler warning.

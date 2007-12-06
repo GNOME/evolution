@@ -1054,17 +1054,24 @@ emfv_delete_msg_response (GtkWidget *dialog, int response, gpointer data)
 
 		if (dialog) {
 			GList *children, *l;
+			GtkWidget *check = NULL;
 
 			children = gtk_container_get_children (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox));
 			for (l = children; l; l = l->next) {
-				if (GTK_IS_CHECK_BUTTON (l->data) &&
-				    !strcmp (gtk_widget_get_name (GTK_WIDGET (l->data)), DelInVFolderCheckName))
-					break;
+				if (GTK_IS_ALIGNMENT (l->data)) {
+					check =  gtk_bin_get_child (GTK_BIN (l->data));
+
+					if (check && GTK_IS_CHECK_BUTTON (check) &&
+					    !strcmp (gtk_widget_get_name (check), DelInVFolderCheckName))
+						break;
+
+					check = NULL;
+				}
 			}
 
-			if (l) {
+			if (check) {
 				GConfClient *gconf = gconf_client_get_default ();
-				gconf_client_set_bool (gconf, DelInVFolderKey, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (l->data)), NULL);
+				gconf_client_set_bool (gconf, DelInVFolderKey, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)), NULL);
 				g_object_unref (gconf);
 			}
 
