@@ -1,3 +1,11 @@
+2007-12-07  Bob Mauchin  <zebob.m@pengzone.org>
+
+	** Fix for bug #438769
+
+	* filter-rule.c: (get_widget): Changed label from 'Search name' to 
+	'Rule name' in the add-new-message-filter dialog - i.e. 
+	edit -> message filters -> add
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-datespec.c: (set_values):
