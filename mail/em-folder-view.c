@@ -1325,17 +1325,19 @@ static EPopupItem emfv_popup_items[] = {
 
 	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL },
 	{ E_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("Search Folder from _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("Search Folder from Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("Search Folder from _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("Search Folder from Mailing _List"),
+	/* Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on. */ 
+	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("Search Folder based on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("Search Folder based on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("Search Folder based on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("Search Folder based on Mailing _List"),
 	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL },
-	{ E_POPUP_ITEM, "90.filter.00/10.00", N_("Filter on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/10.01", N_("Filter on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/10.02", N_("Filter on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/10.03", N_("Filter on _Mailing List"),
+	/* Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on. */ 
+	{ E_POPUP_ITEM, "90.filter.00/10.00", N_("Filter based on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/10.01", N_("Filter based on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/10.02", N_("Filter based on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+	{ E_POPUP_ITEM, "90.filter.00/10.03", N_("Filter based on _Mailing List"),
 	  emfv_popup_filter_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 };
 

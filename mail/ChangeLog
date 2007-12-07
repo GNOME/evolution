@@ -1,3 +1,11 @@
+2007-12-07  Akhil Laddha  <lakhil@novell.com>
+
+	** Fix for bug #475508
+
+	* em-folder-view.c:
+	Changed the string for search folder and filter creation from
+	message list to make it understandable.
+
 2007-12-07  Denis Washington <denisw@svn.gnome.org>
 
 	** Fix for bug #500561
