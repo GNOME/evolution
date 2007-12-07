@@ -1,3 +1,13 @@
+2007-12-07  Alex Kloss  <alexkloss@att.net>
+
+	** Fix for bug #329706
+
+	* em-utils.c (em_utils_prompt_user):
+	Add mnemonic 'd' to 'Do not show...' checkbox
+	* mail.error.xml:
+	Remove redundant 'Send anyway' label
+	Reorder buttons to 'Send','Cancel' as per HIG
+
 2007-12-07  Akhil Laddha  <lakhil@novell.com>
 
 	** Fix for bug #475508

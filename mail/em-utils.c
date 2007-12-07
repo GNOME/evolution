@@ -117,7 +117,7 @@ em_utils_prompt_user(GtkWindow *parent, const char *promptkey, const char *tag, 
 	va_end(ap);
 
 	if (promptkey) {
-		check = gtk_check_button_new_with_label (_("Do not show this message again."));
+		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
 		gtk_container_set_border_width((GtkContainer *)check, 12);
 		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
 		gtk_widget_show (check);

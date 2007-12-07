@@ -14,10 +14,9 @@
   <error id="ask-send-html" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to send a message in HTML format?</_primary>
     <_secondary xml:space="preserve">Please make sure the following recipients are willing and able to receive HTML email:
-{0}
-Send anyway?</_secondary>
-    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+{0}</_secondary>
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   </error>
 
   <error id="ask-send-no-subject" type="question" default="GTK_RESPONSE_YES">
