@@ -30,6 +30,10 @@
      _tip="Select all messages in the same thread as the selected message"
      accel="*Control*h"/>
 
+    <cmd name="MessageMarkAllAsRead"
+     _tip="Mark all messages in the folder as read"
+     pixtype="pixbuf"/>
+
     <cmd name="ChangeFolderProperties"
      _tip="Change the properties of this folder"
      pixtype="pixbuf"/>

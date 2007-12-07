@@ -1,3 +1,10 @@
+2007-12-07  Denis Washington <denisw@svn.gnome.org>
+
+	** Fix for bug #500561
+
+	* em-folder-browser.c: Added icon for mark all messages as read menu 
+	item.
+
 2007-12-06  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #263236
