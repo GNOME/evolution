@@ -7,10 +7,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.9.6\n"
+"Project-Id-Version: evolution 2.21.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-06 19:13+0100\n"
-"PO-Revision-Date: 2007-12-06 19:27+0100\n"
+"POT-Creation-Date: 2007-12-08 14:13+0100\n"
+"PO-Revision-Date: 2007-12-08 14:20+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -846,7 +846,7 @@ msgstr "Lagre som vCard..."
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
 #: ../mail/em-folder-tree.c:2123 ../mail/em-folder-view.c:1303
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
-#: ../ui/evolution-mail-list.xml.h:34 ../ui/evolution-memos.xml.h:16
+#: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Delete"
 msgstr "_Slett"
@@ -3301,7 +3301,7 @@ msgid "_Open Link in Browser"
 msgstr "_Åpne lenke i nettleser"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2684
+#: ../mail/em-folder-view.c:2686
 msgid "_Copy Link Location"
 msgstr "_Kopier lokasjon for lenke"
 
@@ -4422,7 +4422,7 @@ msgid "_Save Changes"
 msgstr "_Lagre endringer"
 
 #: ../calendar/calendar.error.xml.h:74
-#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:143
+#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Send"
@@ -5272,7 +5272,7 @@ msgstr "_Kopier..."
 #: ../calendar/gui/dialogs/comp-editor.c:1129
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
 #: ../composer/e-msg-composer.c:3634 ../mail/em-folder-tree.c:2132
-#: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:37
+#: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "Egenska_per..."
 
@@ -6752,7 +6752,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s for en ukjent utløsertype"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3082
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3084
 #, c-format
 msgid "Click to open %s"
 msgstr "Klikk for å åpne %s"
@@ -10136,7 +10136,9 @@ msgstr "_Bcc:"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
-msgstr "Skriv inn adressene som skal motta en kopi av meldingen uten å vises i mottakerlisten for meldingen."
+msgstr ""
+"Skriv inn adressene som skal motta en kopi av meldingen uten å vises i "
+"mottakerlisten for meldingen."
 
 #: ../composer/e-msg-composer-hdrs.c:353
 msgid "_Post To:"
@@ -10179,6 +10181,7 @@ msgid "Show _Attachment Bar"
 msgstr "Vis ve_dleggsfelt"
 
 #: ../composer/e-msg-composer.c:1453 ../composer/e-msg-composer.c:1487
+#: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Ukjent årsak"
 
@@ -10437,7 +10440,7 @@ msgstr "Filen &quot;{0}&quot; eksisterer."
 msgid "Overwrite file?"
 msgstr "Overskriv fil?"
 
-#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:142
+#: ../e-util/e-system.error.xml.h:7 ../mail/mail.error.xml.h:141
 msgid "_Overwrite"
 msgstr "_Overskriv"
 
@@ -10584,8 +10587,8 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:800
-msgid "_Search name:"
-msgstr "_Søkenavn:"
+msgid "R_ule name:"
+msgstr "Regel_navn:"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
@@ -11440,7 +11443,7 @@ msgstr "_Ny mappe..."
 msgid "_Move..."
 msgstr "_Flytt..."
 
-#: ../mail/em-folder-tree.c:2126 ../ui/evolution-mail-list.xml.h:38
+#: ../mail/em-folder-tree.c:2126 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "End_re navn..."
 
@@ -11452,7 +11455,7 @@ msgstr "O_ppdater"
 msgid "Fl_ush Outbox"
 msgstr "T_øm utboks"
 
-#: ../mail/em-folder-tree.c:2134 ../mail/mail.error.xml.h:139
+#: ../mail/em-folder-tree.c:2134 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "_Tøm papirkurven"
 
@@ -11493,7 +11496,7 @@ msgstr "Spesifiser hvor mappen skal opprettes:"
 msgid "Mail Deletion Failed"
 msgstr "Sletting av e-post feilet"
 
-#: ../mail/em-folder-view.c:1091 ../mail/mail.error.xml.h:127
+#: ../mail/em-folder-view.c:1091 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Du har ikke tilstrekkelige rettigheter til å slette denne meldingen."
 
@@ -11581,78 +11584,80 @@ msgstr "Fj_ern flagg"
 msgid "Crea_te Rule From Message"
 msgstr "Oppre_tt regel fra melding"
 
-#: ../mail/em-folder-view.c:1328
-msgid "Search Folder from _Subject"
-msgstr "Søkemappe på e_mne"
-
+#. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1329
-msgid "Search Folder from Se_nder"
-msgstr "Søkemappe på se_nder"
+msgid "Search Folder based on _Subject"
+msgstr "Søkemappe ba_sert på emne"
 
 #: ../mail/em-folder-view.c:1330
-msgid "Search Folder from _Recipients"
-msgstr "Søkemappe på mottake_re"
+msgid "Search Folder based on Se_nder"
+msgstr "Søkemappe basert på se_nder"
 
 #: ../mail/em-folder-view.c:1331
-msgid "Search Folder from Mailing _List"
-msgstr "Søkemappe på e-post_liste"
+msgid "Search Folder based on _Recipients"
+msgstr "Søkemappe basert på mottake_re"
 
-#: ../mail/em-folder-view.c:1335
-msgid "Filter on Sub_ject"
-msgstr "Filtrer på em_ne"
+#: ../mail/em-folder-view.c:1332
+msgid "Search Folder based on Mailing _List"
+msgstr "Søkemappe basert på e-post_liste"
 
-#: ../mail/em-folder-view.c:1336
-msgid "Filter on Sen_der"
-msgstr "Filtrer på sen_der"
-
+#. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1337
-msgid "Filter on Re_cipients"
-msgstr "Filtrer på motta_ker"
+msgid "Filter based on Sub_ject"
+msgstr "Filter basert på em_ne"
 
 #: ../mail/em-folder-view.c:1338
-msgid "Filter on _Mailing List"
-msgstr "Filtrer på e-_postliste"
+msgid "Filter based on Sen_der"
+msgstr "Filter basert på sen_der"
+
+#: ../mail/em-folder-view.c:1339
+msgid "Filter based on Re_cipients"
+msgstr "Filter basert på motta_kere"
+
+#: ../mail/em-folder-view.c:1340
+msgid "Filter based on _Mailing List"
+msgstr "Filter basert på e-_postliste"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2174 ../mail/em-folder-view.c:2218
+#: ../mail/em-folder-view.c:2176 ../mail/em-folder-view.c:2220
 msgid "Default"
 msgstr "Forvalgt"
 
-#: ../mail/em-folder-view.c:2436
+#: ../mail/em-folder-view.c:2438
 msgid "Unable to retrieve message"
 msgstr "Kunne ikke hente ut melding"
 
-#: ../mail/em-folder-view.c:2455
+#: ../mail/em-folder-view.c:2457
 msgid "Retrieving Message..."
 msgstr "Henter melding..."
 
-#: ../mail/em-folder-view.c:2683
+#: ../mail/em-folder-view.c:2685
 msgid "C_all To..."
 msgstr "R_ing til..."
 
-#: ../mail/em-folder-view.c:2686
+#: ../mail/em-folder-view.c:2688
 msgid "Create _Search Folder"
 msgstr "Opprett _søkemappe"
 
-#: ../mail/em-folder-view.c:2687
+#: ../mail/em-folder-view.c:2689
 msgid "_From this Address"
 msgstr "_Fra denne adressen"
 
-#: ../mail/em-folder-view.c:2688
+#: ../mail/em-folder-view.c:2690
 msgid "_To this Address"
 msgstr "_Til denne adressen"
 
-#: ../mail/em-folder-view.c:3063
+#: ../mail/em-folder-view.c:3065
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klikk for å sende melding til %s"
 
-#: ../mail/em-folder-view.c:3075
+#: ../mail/em-folder-view.c:3077
 #, c-format
 msgid "Click to call %s"
 msgstr "Klikk for å ringe %s"
 
-#: ../mail/em-folder-view.c:3080
+#: ../mail/em-folder-view.c:3082
 msgid "Click to hide/unhide addresses"
 msgstr "Klikk for å skjule/vise adresser"
 
@@ -12171,8 +12176,8 @@ msgid "No server has been selected"
 msgstr "Ingen tjener er valgt"
 
 #: ../mail/em-utils.c:120
-msgid "Do not show this message again."
-msgstr "Ikke vis denne meldingen igjen."
+msgid "_Do not show this message again."
+msgstr "Ikke vis _denne meldingen igjen."
 
 #: ../mail/em-utils.c:315
 msgid "Message Filters"
@@ -12238,7 +12243,7 @@ msgstr "Forvalgt bredde for skrivevindu"
 
 #: ../mail/evolution-mail.schemas.in.h:9
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "Katalog for å laste/legge ved vedlegg i redigeringsprogrammet"
 
 #: ../mail/evolution-mail.schemas.in.h:10
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12360,7 +12365,7 @@ msgstr ""
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
-msgstr ""
+msgstr "Aktiver dette for å bruke mellomrom-tasten til å gå forover i meldingsvisning, meldingsliste og mapper."
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Enable to render message text part of limited size."
@@ -12406,13 +12411,10 @@ msgid ""
 msgstr "Hvis det ikke finnes et innebygd program v"
 
 #: ../mail/evolution-mail.schemas.in.h:45
-#, fuzzy
 msgid ""
 "It disables the feature where repeated prompts to ask if delete messages "
 "from search folder."
-msgstr ""
-"Deaktiverer funksjonen hvor gjentatte spørsmål stilles om frakoblet "
-"synkronisering kreves."
+msgstr "Deaktiverer funksjonen hvor gjentatte spørsmål stilles om sletting av meldinger fra søkemapper."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid ""
@@ -12585,9 +12587,8 @@ msgid "Prompt to check if the user wants to go offline immediately"
 msgstr "Spør om bruker ønsker å gå til frakoblet modus med en gang"
 
 #: ../mail/evolution-mail.schemas.in.h:82
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "S_pør ved sending av meldinger med tomt emnefelt"
+msgstr "Spør ved sletting av meldinger fra søkemappe"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Prompt when user expunges"
@@ -12792,14 +12793,11 @@ msgstr ""
 "sammenslått tilstand som forvalg. Evolution må startes på nytt"
 
 #: ../mail/evolution-mail.schemas.in.h:126
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
-msgstr ""
-"Denne innstillingen spesifiserer om tråder skal være i utvidet eller "
-"sammenslått tilstand som forvalg. Evolution må startes på nytt"
+msgstr "Denne innstillingen spesifiserer om tråder skal sorteres basert på siste melding i hver tråd i stedet for meldingens dato. Evolution må startes på nytt."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Thread the message list."
@@ -12907,7 +12905,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "Om tråder sorteres basert på siste melding i den tråden"
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Width of the message-list pane"
@@ -14523,66 +14521,63 @@ msgstr ""
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
-"{0}\n"
-"Send anyway?"
+"{0}"
 msgstr ""
-"Vennligst sjekk at følgende mottakere kan og ønsker å motta e-post som "
-"HTML:\n"
-"{0}\n"
-"Send likevel?"
+"Sjekk at følgende mottakere kan og ønsker å motta e-post som HTML:\n"
+"{0}"
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:85
 msgid "Please provide an unique name to identify this signature."
 msgstr "Oppgi et unikt navn for å identifisere denne signaturen."
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:86
 msgid "Please wait."
 msgstr "Vennligst vent."
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:87
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgstr ""
 "Det oppsto et problem under migrering av gammel meldingsmappe &quot;{0}"
 "&quot;."
 
-#: ../mail/mail.error.xml.h:89
+#: ../mail/mail.error.xml.h:88
 msgid "Querying server"
 msgstr "Spør tjener"
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:89
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Spør tjener etter en liste med støttede autentiseringsmekanismer."
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:90
 msgid "Read receipt requested."
 msgstr "Lesekvittering etterspurt."
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:91
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgstr ""
 "Vil du virkelig slette mappen &quot;{0}&quot; og alle dens undermapper?"
 
-#: ../mail/mail.error.xml.h:93
+#: ../mail/mail.error.xml.h:92
 msgid "Search Folders automatically updated."
 msgstr "Søkemapper oppdatert automatisk."
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:93
 msgid "Send Receipt"
 msgstr "Send kvittering"
 
-#: ../mail/mail.error.xml.h:95
+#: ../mail/mail.error.xml.h:94
 msgid "Signature Already Exists"
 msgstr "Signaturen eksisterer allerede"
 
-#: ../mail/mail.error.xml.h:96
+#: ../mail/mail.error.xml.h:95
 msgid "Synchronize"
 msgstr "Synkroniser"
 
-#: ../mail/mail.error.xml.h:97
+#: ../mail/mail.error.xml.h:96
 msgid "Synchronize folders locally for offline usage?"
 msgstr "Synkroniser mapper lokalt for frakoblet bruk?"
 
-#: ../mail/mail.error.xml.h:98
+#: ../mail/mail.error.xml.h:97
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
@@ -14590,7 +14585,7 @@ msgstr ""
 "Systemmapper kreves for at Evolution skal fungere korrekt og du kan ikke "
 "endre navn på, flytte eller slette disse."
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:98
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -14606,7 +14601,7 @@ msgstr ""
 "meldingen likevel. For å unngå dette bør du legge inn minst en mottaker i "
 "Til: eller Cc:."
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:101
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -14620,7 +14615,7 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "og er nå oppdatert."
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:106
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -14634,11 +14629,11 @@ msgstr ""
 "    &quot;{1}&quot;\n"
 "og er nå oppdatert."
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:111
 msgid "The script file must exist and be executable."
 msgstr "Skriptfilen må eksistere og være kjørbar."
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:112
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -14646,20 +14641,20 @@ msgstr ""
 "Denne mappen er lagt til implisitt. Gå til redigering av søkemapper og legg "
 "den inn eksplisitt hvis det er nødvendig."
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:114
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
 "Denne meldingen kan ikke sendes fordi kontoen du sender med ikke er aktiv"
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:115
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 "Denne meldingen kan ikke sendes fordi du ikke har oppgitt noen mottakere"
 
-#: ../mail/mail.error.xml.h:117
+#: ../mail/mail.error.xml.h:116
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -14667,21 +14662,21 @@ msgstr ""
 "Tjener støtter ikke denne typen autentisering. Det kan hende den ikke "
 "støtter autentisering i det hele tatt."
 
-#: ../mail/mail.error.xml.h:118
+#: ../mail/mail.error.xml.h:117
 msgid "This signature has been changed, but has not been saved."
 msgstr "Denne signaturen er endret, men er ikke lagret."
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:118
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
 msgstr "Dette vil merke alle meldinger i valgt mappe med undermapper som lest."
 
-#: ../mail/mail.error.xml.h:120
+#: ../mail/mail.error.xml.h:119
 msgid "Unable to connect to the GroupWise server."
 msgstr "Kunne ikke koble til GroupWise-tjener."
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:120
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -14689,48 +14684,49 @@ msgstr ""
 "Kan ikke åpne skisse-mappen for denne kontoen. Vil du bruke forvalgt mappe "
 "for skisser i stedet?"
 
-#: ../mail/mail.error.xml.h:122
+#: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
 msgstr "Kan ikke lese lisensfilen."
 
-#: ../mail/mail.error.xml.h:123
+#: ../mail/mail.error.xml.h:122
 msgid "Use _Default"
 msgstr "Bruk _forvalg"
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:123
 msgid "Use default drafts folder?"
 msgstr "Bruk forvalgt mappe for skisser?"
 
-#: ../mail/mail.error.xml.h:125
+#: ../mail/mail.error.xml.h:124
 msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual "
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
-"Advarsel: Hvis du sletter meldinger fra en søkemappe sletter du de faktiske meldingene fra dine lokale eller eksterne mapper.\n"
+"Advarsel: Hvis du sletter meldinger fra en søkemappe sletter du de faktiske "
+"meldingene fra dine lokale eller eksterne mapper.\n"
 "Vil du virkelig gjøre dette?"
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
 msgstr "Du har ikke fylt ut all nødvendig informasjon."
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:128
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Du har usendte meldinger. Vil du avslutte likevel?"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:129
 msgid "You may not create two accounts with the same name."
 msgstr "Du kan ikke opprette to kontoer med samme navn."
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:130
 msgid "You must name this Search Folder."
 msgstr "Du må gi navn til denne søkemappen."
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:131
 msgid "You must specify a folder."
 msgstr "Du må oppgi en mappe."
 
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:132
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -14740,31 +14736,31 @@ msgstr ""
 "Enten ved å velge mappene individuelt og/eller å velge alle lokale mapper, "
 "alle eksterne mapper eller begge deler."
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:134
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgstr "Din pålogging på tjener &quot;{0}&quot; som &quot;{0}&quot; feilet."
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:135
 msgid "_Append"
 msgstr "_Legg til"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:136
 msgid "_Discard changes"
 msgstr "_Forkast endringene"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:137
 msgid "_Do not Synchronize"
 msgstr "I_kke synkroniser"
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:139
 msgid "_Expunge"
 msgstr "T_øm"
 
-#: ../mail/mail.error.xml.h:141
+#: ../mail/mail.error.xml.h:140
 msgid "_Open Messages"
 msgstr "_Åpne meldinger"
 
-#: ../mail/mail.error.xml.h:144
+#: ../mail/mail.error.xml.h:143
 msgid "on Current Folder and _Subfolders"
 msgstr "denne mappen og _undermapper"
 
@@ -16344,7 +16340,9 @@ msgstr "Sjekk rettighetene for mappen"
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
-msgstr "Et tillegg for å bruke et eksternt redigeringsprogram til å skrive nye meldinger. Du kan kun sende meldinger i vanlig tekst."
+msgstr ""
+"Et tillegg for å bruke et eksternt redigeringsprogram til å skrive nye "
+"meldinger. Du kan kun sende meldinger i vanlig tekst."
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -17617,7 +17615,9 @@ msgstr "Kan ikke åpne kalender. %s"
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
-msgstr "Valgt kilde er skrivebeskyttet og oppgaver kan ikke opprettes der. Velg en annen kilde."
+msgstr ""
+"Valgt kilde er skrivebeskyttet og oppgaver kan ikke opprettes der. Velg en "
+"annen kilde."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
@@ -18369,7 +18369,7 @@ msgstr "Konfigurasjonsversjon"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Decides whether the crash recovery should be run or not"
-msgstr ""
+msgstr "Bestemmer om gjenoppretting etter krasj skal kjøres eller ikke"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18471,7 +18471,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Whether crash recovery should be done or not"
-msgstr ""
+msgstr "Om gjenoppretting etter krasj skal utføres eller ikke"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18496,10 +18496,8 @@ msgstr ""
 "Om advarselsdialogen i utviklingsversjoner av Evolution blir hoppet over."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
-#, fuzzy
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
-msgstr ""
-"Om advarselsdialogen i utviklingsversjoner av Evolution blir hoppet over."
+msgstr "Om varseldialogen for gjenoppretting av Evolution skal hoppes over."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -20210,78 +20208,82 @@ msgid "Mar_k All Messages as Read"
 msgstr "Mer_k alle meldinger som lest"
 
 #: ../ui/evolution-mail-list.xml.h:17
+msgid "Mark all messages in the folder as read"
+msgstr "Merk alle meldinger i en mappe som lest"
+
+#: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
 msgstr "Lim inn melding(er) fra utklippstavlen"
 
-#: ../ui/evolution-mail-list.xml.h:18
+#: ../ui/evolution-mail-list.xml.h:19
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Fjern alle slettede meldinger fra denne mappen permanent"
 
-#: ../ui/evolution-mail-list.xml.h:19
+#: ../ui/evolution-mail-list.xml.h:20
 msgid "Permanently remove this folder"
 msgstr "Fjern denne mappen permanent"
 
-#: ../ui/evolution-mail-list.xml.h:20
+#: ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh..."
 msgstr "O_ppdater..."
 
-#: ../ui/evolution-mail-list.xml.h:21
+#: ../ui/evolution-mail-list.xml.h:22
 msgid "Refresh the folder"
 msgstr "Oppdater mappen"
 
-#: ../ui/evolution-mail-list.xml.h:22
+#: ../ui/evolution-mail-list.xml.h:23
 msgid "Select Message S_ubthread"
 msgstr "Velg _undertråd for melding"
 
-#: ../ui/evolution-mail-list.xml.h:23
+#: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
 msgstr "Velg meldings_tråd"
 
-#: ../ui/evolution-mail-list.xml.h:24
+#: ../ui/evolution-mail-list.xml.h:25
 msgid "Select _All Messages"
 msgstr "Velg _alle meldinger"
 
-#: ../ui/evolution-mail-list.xml.h:25
+#: ../ui/evolution-mail-list.xml.h:26
 msgid "Select all and only the messages that are not currently selected"
 msgstr "Velg alle og bare meldinger som ikke allerede er valgt"
 
-#: ../ui/evolution-mail-list.xml.h:26
+#: ../ui/evolution-mail-list.xml.h:27
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Velg alle meldinger i samme tråd som den valgte meldingen"
 
-#: ../ui/evolution-mail-list.xml.h:27
+#: ../ui/evolution-mail-list.xml.h:28
 msgid "Select all replies to the currently selected message"
 msgstr "Velg alle svar til den valgt melding"
 
-#: ../ui/evolution-mail-list.xml.h:28
+#: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
 msgstr "Velg alle synlige meldinger"
 
-#: ../ui/evolution-mail-list.xml.h:29
+#: ../ui/evolution-mail-list.xml.h:30
 msgid "Show Hidde_n Messages"
 msgstr "Vis skjulte meldi_nger"
 
-#: ../ui/evolution-mail-list.xml.h:30
+#: ../ui/evolution-mail-list.xml.h:31
 msgid "Show messages that have been temporarily hidden"
 msgstr "Vis meldinger som er midlertidig skjult"
 
-#: ../ui/evolution-mail-list.xml.h:31
+#: ../ui/evolution-mail-list.xml.h:32
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Skjul alle leste meldinger midlertidig"
 
-#: ../ui/evolution-mail-list.xml.h:32
+#: ../ui/evolution-mail-list.xml.h:33
 msgid "Temporarily hide the selected messages"
 msgstr "Skjul valgte meldinger midlertidig"
 
-#: ../ui/evolution-mail-list.xml.h:33
+#: ../ui/evolution-mail-list.xml.h:34
 msgid "Threaded Message list"
 msgstr "Meldingsliste med tråder"
 
-#: ../ui/evolution-mail-list.xml.h:35
+#: ../ui/evolution-mail-list.xml.h:36
 msgid "_Group By Threads"
 msgstr "_Grupper etter tråder"
 
-#: ../ui/evolution-mail-list.xml.h:36 ../ui/evolution-mail-message.xml.h:116
+#: ../ui/evolution-mail-list.xml.h:37 ../ui/evolution-mail-message.xml.h:116
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
 msgstr "_Melding"
@@ -22602,3 +22604,30 @@ msgstr "IM-kontekst"
 #: ../widgets/text/e-text.c:3778 ../widgets/text/e-text.c:3779
 msgid "Handle Popup"
 msgstr "Håndter sprettopp"
+
+#: ../plugins/mail-remote/client.c:30
+#, c-format
+msgid "System error: %s"
+msgstr "Systemfeil: %s"
+
+#: ../plugins/mail-remote/client.c:32
+#, c-format
+msgid "Camel error: %s"
+msgstr "Feil i Camel: %s"
+
+#: ../plugins/mail-remote/evolution-mail-store.c:476
+msgid "Account cannot send e-mail"
+msgstr "Kontoen kan ikke sende e-post"
+
+#: ../plugins/mail-remote/evolution-mail-store.c:605
+msgid "No store available"
+msgstr "Lager ikke tilgjengelig."
+
+#: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
+msgid ""
+"A plugin which implements a CORBA interface for accessing mail data remotely."
+msgstr "Et tillegg som implementerer et CORBA-grensesnitt for å aksessere e-postdata eksternt."
+
+#: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
+msgid "Mail Remote"
+msgstr "Ekstern aksess til e-post"

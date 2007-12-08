@@ -520,3 +520,7 @@ widgets/table/e-tree-scrolled.c
 widgets/table/e-tree-selection-model.c
 widgets/table/e-tree.c
 widgets/text/e-text.c
+plugins/mail-remote/client.c
+plugins/mail-remote/e-corba-utils.c
+plugins/mail-remote/evolution-mail-store.c
+plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml
