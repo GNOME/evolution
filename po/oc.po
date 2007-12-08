@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 16:19+0100\n"
-"PO-Revision-Date: 2007-12-08 15:11+0100\n"
+"PO-Revision-Date: 2007-12-08 15:24+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -4492,7 +4492,7 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1536
 #, c-format
 msgid "You have %d alarms"
-msgstr ""
+msgstr "Avètz %s alarmas"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1698
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1726
@@ -6063,7 +6063,7 @@ msgstr "per"
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr ""
+msgstr "fins a"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
@@ -14260,7 +14260,7 @@ msgstr "Uèi %l:%M %p"
 
 #: ../mail/message-list.c:1524 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
-msgstr "Ièr %H:%M"
+msgstr "Ièr a %H:%M"
 
 #: ../mail/message-list.c:1536 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
@@ -21132,7 +21132,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Until:"
-msgstr ""
+msgstr "_Fins a :"
 
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "_When convenient"
