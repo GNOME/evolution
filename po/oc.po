@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 16:19+0100\n"
-"PO-Revision-Date: 2007-11-21 19:48+0100\n"
+"PO-Revision-Date: 2007-12-08 15:11+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -27,12 +27,12 @@ msgstr "quasernet d'adreças evolution"
 #: ../a11y/addressbook/ea-minicard-view.c:33
 #: ../addressbook/gui/component/addressbook-component.c:228
 msgid "New Contact"
-msgstr "Novèl contacte"
+msgstr "Contacte novèl"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:236
 msgid "New Contact List"
-msgstr "Novèla tièra de contactes"
+msgstr "Tièra de contactes novèla"
 
 #: ../a11y/addressbook/ea-minicard-view.c:162
 #, c-format
@@ -66,7 +66,7 @@ msgstr ""
 
 #: ../a11y/calendar/ea-cal-view-event.c:272
 msgid "It is a meeting."
-msgstr "Es una reunion."
+msgstr "Es un acamp."
 
 #: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
@@ -87,7 +87,7 @@ msgstr ""
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "New Appointment"
-msgstr "Novèl rendètz-vos"
+msgstr "Rendètz-vos novèl"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "New All Day Event"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: ../a11y/calendar/ea-cal-view.c:304
 msgid "New Meeting"
-msgstr "Novèla reunion"
+msgstr "Acamp novèl"
 
 #: ../a11y/calendar/ea-cal-view.c:305
 msgid "Go to Today"
@@ -655,7 +655,7 @@ msgstr "Crear una tièra de contactes"
 #: ../addressbook/gui/component/addressbook-component.c:244
 #: ../addressbook/gui/component/addressbook-config.c:1206
 msgid "New Address Book"
-msgstr "Novèl quasernet d'adreças"
+msgstr "Quasernet d'adreças novèl"
 
 #: ../addressbook/gui/component/addressbook-component.c:245
 msgid "Address _Book"
@@ -794,7 +794,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-view.c:954
 msgid "_New Address Book"
-msgstr "_Novèl quasernet d'adreças"
+msgstr "Quasernet d'adreças _novèl"
 
 #. FIXME: need to disable for undeletable folders
 #: ../addressbook/gui/component/addressbook-view.c:955
@@ -2756,7 +2756,7 @@ msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr "Novèl contacte :"
+msgstr "Contacte novèl :"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
@@ -2865,7 +2865,7 @@ msgstr "_Dobrir"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:961
 msgid "_New Contact..."
-msgstr "_Novèl contacte..."
+msgstr "Contacte _novèl..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "New Contact _List..."
@@ -3732,7 +3732,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr "Caps"
+msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
@@ -6676,7 +6676,7 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:422
 msgid "Save As..."
-msgstr ""
+msgstr "Enregistrar coma..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2165
 msgid "Select folder to save selected attachments..."
@@ -6705,7 +6705,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:789
 #, c-format
 msgid "Open in %s..."
-msgstr ""
+msgstr "Dobrir dins %s..."
 
 #: ../calendar/gui/e-calendar-table.c:347
 msgid "0%"
@@ -6765,7 +6765,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1224 ../calendar/gui/e-memo-table.c:815
 #: ../composer/e-msg-composer.c:1388
 msgid "Save as..."
-msgstr ""
+msgstr "Enregistrar coma..."
 
 #: ../calendar/gui/e-calendar-table.c:1320
 #: ../calendar/gui/e-calendar-view.c:1657
@@ -6897,7 +6897,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1669
 msgid "Select T_oday"
-msgstr ""
+msgstr "Seleccionar _uèi"
 
 #: ../calendar/gui/e-calendar-view.c:1670
 msgid "_Select Date..."
@@ -7564,7 +7564,7 @@ msgstr ""
 #: ../calendar/gui/e-meeting-time-sel-item.c:464
 #: ../calendar/gui/e-meeting-time-sel.c:2116
 msgid "%A, %B %d, %Y"
-msgstr "%A %B %d %Y"
+msgstr "%A %d de %B de %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -9860,7 +9860,7 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:672
 msgid "_Reply-To:"
-msgstr ""
+msgstr "_Respondre a :"
 
 #.
 #. * From
@@ -10313,13 +10313,13 @@ msgstr "Important"
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1056
 #: ../mail/mail-config.glade.h:150
 msgid "To Do"
-msgstr ""
+msgstr "De far"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1057
 #: ../mail/mail-config.glade.h:97
 msgid "Later"
-msgstr ""
+msgstr "Pus tard"
 
 #: ../filter/filter-part.c:533
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:3
@@ -10356,7 +10356,7 @@ msgstr ""
 
 #: ../filter/filter-rule.c:892
 msgid "Replies"
-msgstr ""
+msgstr "Responsas"
 
 #: ../filter/filter-rule.c:892
 msgid "Replies and parents"
@@ -11029,7 +11029,7 @@ msgstr ""
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:149
 msgid "Unread messages:"
-msgstr ""
+msgstr "Messatges pas legits :"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
@@ -11074,7 +11074,7 @@ msgstr "Borrolhons"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
-msgstr ""
+msgstr "Brústia de recepcion"
 
 #: ../mail/em-folder-tree-model.c:472 ../mail/mail-component.c:155
 msgid "Outbox"
@@ -11159,7 +11159,7 @@ msgstr "_Visualizacion"
 
 #: ../mail/em-folder-tree.c:2098
 msgid "Open in _New Window"
-msgstr ""
+msgstr "Dobrir dins una fenèstra _novèla"
 
 #: ../mail/em-folder-tree.c:2103
 msgid "_Move..."
@@ -11511,7 +11511,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:1398
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "abans %B %d, %Y, %l:%M %p"
+msgstr "abans lo %d de %B de %Y, a %l:%M %p"
 
 #: ../mail/em-format-html-display.c:1458
 msgid "_View Inline"
@@ -11558,7 +11558,7 @@ msgstr "Enregistr_ar"
 
 #: ../mail/em-format-html-display.c:2259
 msgid "S_ave All"
-msgstr ""
+msgstr "Tot enregistr_ar"
 
 #: ../mail/em-format-html-display.c:2322
 msgid "No Attachment"
@@ -11649,7 +11649,7 @@ msgstr "Bcc"
 #: ../mail/em-format-html.c:1687 ../mail/em-format-quote.c:329
 #: ../mail/em-mailer-prefs.c:1198
 msgid "Mailer"
-msgstr ""
+msgstr "Client de corrièls"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1714
@@ -11690,7 +11690,7 @@ msgstr "De"
 #: ../mail/em-format-quote.c:207 ../mail/em-format.c:885
 #: ../mail/em-mailer-prefs.c:88
 msgid "Reply-To"
-msgstr ""
+msgstr "Respondre a :"
 
 #: ../mail/em-format.c:1155
 #, c-format
@@ -11871,7 +11871,7 @@ msgstr "messatge"
 
 #: ../mail/em-utils.c:563
 msgid "Save Message..."
-msgstr ""
+msgstr "Enregistrar lo messatge..."
 
 #: ../mail/em-utils.c:612
 msgid "Add address"
@@ -12673,12 +12673,12 @@ msgstr "_Personal"
 #. forest green
 #: ../mail/mail-config.c:84
 msgid "_To Do"
-msgstr ""
+msgstr "_De far"
 
 #. blue
 #: ../mail/mail-config.c:85
 msgid "_Later"
-msgstr ""
+msgstr "_Pus tard"
 
 #: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
@@ -12977,7 +12977,7 @@ msgstr "Messatges HTML"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Headers"
-msgstr "Caps"
+msgstr "Encaps"
 
 #: ../mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
@@ -13074,7 +13074,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:118
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "_Respondre a :"
 
 #: ../mail/mail-config.glade.h:120
 msgid "Remember _password"
@@ -13578,7 +13578,7 @@ msgstr ""
 
 #: ../mail/mail-send-recv.c:391
 msgid "Send & Receive Mail"
-msgstr ""
+msgstr "Enviar e recebre de messatges"
 
 #: ../mail/mail-send-recv.c:398
 msgid "Cancel _All"
@@ -14205,7 +14205,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:137
 msgid "_Open Messages"
-msgstr ""
+msgstr "_Dobrir los messatges"
 
 #: ../mail/mail.error.xml.h:140
 msgid "on Current Folder and _Subfolders"
@@ -14304,7 +14304,7 @@ msgstr ""
 
 #: ../mail/message-list.etspec.h:14
 msgid "Sent Messages"
-msgstr ""
+msgstr "Messatges enviats"
 
 #: ../mail/message-list.etspec.h:15
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -15128,7 +15128,7 @@ msgstr ""
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
 msgid "_Inbox:"
-msgstr ""
+msgstr "Brústia de _recepcion :"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:18
 msgid "_Summarize permissions"
@@ -15299,7 +15299,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Role: "
-msgstr ""
+msgstr "Ròtle : "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
 msgid "<b>Message Settings</b>"
@@ -17009,7 +17009,7 @@ msgstr "_Modificar lo messatge"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
 msgid "_Send message"
-msgstr ""
+msgstr "_Enviar lo messatge"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact List _Owner"
@@ -19740,7 +19740,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
-msgstr "_Cargar d'imatges"
+msgstr "_Cargar los imatges"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Message Source"
@@ -19760,7 +19760,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Open in New Window"
-msgstr ""
+msgstr "_Dobrir dins una fenèstra novèla"
 
 #: ../ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
@@ -19772,7 +19772,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
-msgstr ""
+msgstr "_Enregistrar lo messatge..."
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
@@ -19780,7 +19780,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
-msgstr ""
+msgstr "_Pas legits"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
@@ -19915,7 +19915,7 @@ msgstr ""
 
 #: ../ui/evolution-message-composer.xml.h:24
 msgid "S_end"
-msgstr ""
+msgstr "_Enviar"
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
@@ -19923,7 +19923,7 @@ msgstr "Enregistrar coma :"
 
 #: ../ui/evolution-message-composer.xml.h:27
 msgid "Save Draft"
-msgstr ""
+msgstr "Enregistrar lo borrolhon"
 
 #: ../ui/evolution-message-composer.xml.h:28
 msgid "Save _As..."
@@ -19931,11 +19931,11 @@ msgstr "Enregistrar _coma..."
 
 #: ../ui/evolution-message-composer.xml.h:29
 msgid "Save _Draft"
-msgstr ""
+msgstr "Enregistrar lo _borrolhon"
 
 #: ../ui/evolution-message-composer.xml.h:30
 msgid "Save as draft"
-msgstr ""
+msgstr "Enregistrar coma _borrolhon"
 
 #: ../ui/evolution-message-composer.xml.h:31
 msgid "Save in folder..."
@@ -20057,14 +20057,14 @@ msgstr "H_TML"
 
 #: ../ui/evolution-signature-editor.xml.h:17
 msgid "Save and Close"
-msgstr ""
+msgstr "Enregistrar e tampar"
 
 #.
 #. <menuitem name="FileSave" verb="" _label="_Save"/>
 #.
 #: ../ui/evolution-signature-editor.xml.h:21
 msgid "Save and _Close"
-msgstr ""
+msgstr "Enregistrar e _tampar"
 
 #: ../ui/evolution-signature-editor.xml.h:22
 msgid "Save the current file and close the window"
@@ -20228,7 +20228,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:18
 msgid "New _Window"
-msgstr "Novèla _fenèstra"
+msgstr "_Fenèstra novèla"
 
 #: ../ui/evolution.xml.h:19
 msgid "Page Set_up..."
@@ -20244,7 +20244,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:22
 msgid "Send / _Receive"
-msgstr ""
+msgstr "Enviar / _recebre"
 
 #: ../ui/evolution.xml.h:23
 msgid "Send queued items and retrieve new items"
@@ -20801,7 +20801,7 @@ msgstr "Ora"
 
 #: ../widgets/misc/e-dateedit.c:459
 msgid "No_w"
-msgstr ""
+msgstr "A_ra"
 
 #: ../widgets/misc/e-dateedit.c:465
 msgid "_Today"
