@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 16:19+0100\n"
-"PO-Revision-Date: 2007-12-09 16:38+0100\n"
+"PO-Revision-Date: 2007-12-09 16:53+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -21295,7 +21295,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.glade.h:20
 msgid "_Sort..."
-msgstr ""
+msgstr "_Ordenar..."
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:67
 #: ../widgets/table/e-table-field-chooser-item.c:634
@@ -21328,7 +21328,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-container.c:345
 #, c-format
 msgid "%s : %s (%d item)"
-msgstr ""
+msgstr "%s : %s (%d element)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
@@ -21463,7 +21463,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1542
 msgid "Sort By"
-msgstr ""
+msgstr "Ordenar per"
 
 #: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
