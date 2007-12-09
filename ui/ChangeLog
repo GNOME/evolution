@@ -1,3 +1,9 @@
+2007-12-09  Andre Klapper  <a9016009@gmx.de>
+ 
+ 	* evolution.xml:
+ 	change "Evolution FAQ" menu item name to "Frequently Asked questions".
+	if i think of it, our users should not need a geek dictionary.
+
 2007-12-07  Denis Washington <denisw@svn.gnome.org>
 
 	** Fix for bug #500561

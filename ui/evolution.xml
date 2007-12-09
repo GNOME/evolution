@@ -39,7 +39,7 @@
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
 
-    <cmd name="HelpOpenFAQ" _label="Evolution _FAQ" 
+    <cmd name="HelpOpenFAQ" _label="_Frequently Asked Questions" 
       _tip="Open the Frequently Asked Questions webpage"/>
 
     <cmd name="SendReceive"
