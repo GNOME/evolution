@@ -1,3 +1,19 @@
+2007-12-10  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Fixes bug 474651
+
+	* addressbook/gui/contact-editor/eab-editor.c:
+	* plugins/save-calendar/ical-format.c:
+	* plugins/save-calendar/csv-format.c:
+	* plugins/save-calendar/rdf-format.c:
+	* plugins/ipod-sync/ical-format.c:
+	* plugins/ipod-sync/ipod-sync.c:
+	* plugins/ipod-sync/evolution-ipod-sync.c:
+	* calendar/gui/dialogs/changed-comp.c:
+	* calendar/gui/dialogs/copy-source-dialog.c:
+	* calendar/gui/dialogs/delete-error.c:
+	Use format strings in gtk_message_dialog_new
+
 2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

@@ -39,7 +39,7 @@ show_error (GtkWindow *parent, const char *msg)
 {
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, msg);
+	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", msg);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

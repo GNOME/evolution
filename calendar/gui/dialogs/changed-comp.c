@@ -105,7 +105,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 
 	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_YES_NO, str);
+					 GTK_BUTTONS_YES_NO, "%s", str);
 
 	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	if (icon_list) {

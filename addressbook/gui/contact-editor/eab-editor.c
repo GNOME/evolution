@@ -337,6 +337,7 @@ eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list,
 					 0,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_NONE,
+					 "%s",
 					 msg);
 	g_free (msg);
 
