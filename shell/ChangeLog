@@ -1,3 +1,9 @@
+2007-12-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #502501
+
+	* main.c: (show_recovery_warning): Re use the existing string.
+
 2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Add basic support for crash recovery

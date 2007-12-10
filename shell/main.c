@@ -331,7 +331,7 @@ show_recovery_warning(void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
-	checkbox = gtk_check_button_new_with_mnemonic (_("_Do not show this again"));
+	checkbox = gtk_check_button_new_with_mnemonic (_("_Do not show this message again"));
 
 	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
 
