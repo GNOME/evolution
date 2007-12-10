@@ -1,3 +1,11 @@
+2007-12-10  Jeff Cai  <jeff.cai@sun.com>
+
+	** Fix for bug #501677
+
+	* em-folder-view.c: (emfv_setting_notify):
+	If it is not FolderBrowser object, the pane size
+	signal is not sent.
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #494425

@@ -2905,7 +2905,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		EMFolderBrowser *emfb = (EMFolderBrowser *)emfv;
 		int paned_size;
 
-		if (!emfb->vpane || !emfv->preview_active)
+		if (!emfv->list_active || !emfb->vpane || !emfv->preview_active)
 			return;
 
 		paned_size = gconf_value_get_int (value);
