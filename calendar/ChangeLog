@@ -1,3 +1,10 @@
+2007-12-11  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #501969
+
+	* gui/gnome-cal.c: (client_cal_opened_cb):
+	Passwords should not be forgotten on all errors
+
 2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #392747 (extra cleanup work)

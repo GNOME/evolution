@@ -43,6 +43,8 @@
 #include <bonobo/bonobo-exception.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-url.h>
+#include <libedataserverui/e-passwords.h>
+
 #include "e-util/e-config-listener.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
@@ -2651,6 +2653,17 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		e_error_run (NULL, "calendar:server-version", NULL);
 		status = E_CALENDAR_STATUS_OK;
 		break;
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED: 
+		{
+			const gchar *auth_domain = e_source_get_property (source, "auth-domain");
+			const gchar *component_name;
+
+			component_name = auth_domain ? auth_domain : "Calendar";
+
+			/* Warn the user password is wrong */
+			e_passwords_forget_password (component_name, e_cal_get_uri(ecal));
+			return;
+		}
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 		if (source_type == E_CAL_SOURCE_TYPE_EVENT)
 			e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),

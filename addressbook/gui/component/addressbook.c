@@ -120,7 +120,10 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 			component_name = auth_domain ? auth_domain : "Addressbook";
 
-			e_passwords_forget_password (component_name, stripped_uri);
+			if (status == E_BOOK_ERROR_AUTHENTICATION_FAILED) {
+				e_passwords_forget_password (component_name, stripped_uri);
+			}
+
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
 
 			g_free (stripped_uri);
