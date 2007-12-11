@@ -1,5 +1,17 @@
 2007-12-11  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #502318
+
+	* em-format-html-display.c: (struct _EMFormatHTMLDisplayPrivate),
+	(efhd_search_destroy), (em_format_html_get_search_dialog),
+	(em_format_html_display_search), (em_format_html_display_search_with),
+	(em_format_html_display_search_close), (efhd_complete):
+	Track search dialog activity rather based on flag than on widget
+	existence, because the pointer to that widget it still
+	there (non-NULL) even after destroy of that widget.
+
+2007-12-11  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #336074
 
 	* mail-send-recv.c: (get_folders):

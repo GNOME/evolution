@@ -135,6 +135,7 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *search_case_check;
 	char *search_text;
 	int search_wrap;	/* are we doing a wrap search */
+	gboolean search_active; /* if the search is active */
 
 	/* for Attachment bar */
 	GtkWidget *attachment_bar;
@@ -601,6 +602,7 @@ efhd_search_destroy(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 	p->search_text = NULL;
 	gtk_widget_hide((GtkWidget *)p->search_dialog);
 	em_format_html_display_set_search(efhd, EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY, NULL);
+	p->search_active = FALSE;
 }
 
 static void
@@ -705,6 +707,8 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	g_signal_connect (button2, "clicked", G_CALLBACK(efhd_search_response), efhd);
 	g_signal_connect (button3, "clicked", G_CALLBACK(efhd_search_response_back), efhd);
 
+	p->search_active = FALSE;
+
 	efhd_update_matches(efhd);
 
 	return (GtkWidget *)p->search_dialog;
@@ -737,14 +741,17 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
 	if (p->search_dialog){
-               GtkWidget *toplevel;
-               gtk_widget_show ( (GtkWidget *)(p->search_dialog));
-               gtk_widget_grab_focus ( (GtkWidget *)(p->search_entry));
-	       gtk_widget_show ( (GtkWidget *) p->search_entry_box);
+		GtkWidget *toplevel;
 
-               toplevel = gtk_widget_get_toplevel ((GtkWidget *)(p->search_dialog));
+		gtk_widget_show (GTK_WIDGET (p->search_dialog));
+		gtk_widget_grab_focus (p->search_entry);
+		gtk_widget_show (p->search_entry_box);
 
-               g_signal_connect (toplevel, "set-focus",
+		p->search_active = TRUE;
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (p->search_dialog));
+
+		g_signal_connect (toplevel, "set-focus",
                                  G_CALLBACK (set_focus_cb), efhd);
 	}
 
@@ -761,14 +768,15 @@ em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
 	if (p->search_dialog){
-               gtk_widget_show ( (GtkWidget *)(p->search_dialog));
+		gtk_widget_show (GTK_WIDGET (p->search_dialog));
+		p->search_active = TRUE;
 
-	       /* Set the query */
-	       gtk_entry_set_text (GTK_ENTRY (p->search_entry), word);
-	       gtk_widget_hide ( (GtkWidget *) p->search_entry_box);
+		/* Set the query */
+		gtk_entry_set_text (GTK_ENTRY (p->search_entry), word);
+		gtk_widget_hide (p->search_entry_box);
 
-	       /* Trigger the search */
-	       gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
+		/* Trigger the search */
+		gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
 	}
 }
 
@@ -777,7 +785,7 @@ em_format_html_display_search_close (EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
-	if (p->search_dialog)
+	if (p->search_dialog && p->search_active)
 		efhd_search_destroy(GTK_WIDGET (p->search_dialog), efhd);
 }
 
@@ -919,7 +927,7 @@ efhd_complete(EMFormat *emf)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)emf;
 
-	if (efhd->priv->search_dialog)
+	if (efhd->priv->search_dialog && efhd->priv->search_active)
 		efhd_update_matches(efhd);
 
 	if (efhd->priv->files) {
