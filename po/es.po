@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-08 13:22+0000\n"
-"PO-Revision-Date: 2007-12-09 19:51+0100\n"
+"POT-Creation-Date: 2007-12-10 08:35+0000\n"
+"PO-Revision-Date: 2007-12-11 06:29+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11470,7 +11470,7 @@ msgstr "Analizando carpetas en «%s»"
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:31
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
-#: ../ui/evolution.xml.h:53
+#: ../ui/evolution.xml.h:54
 msgid "_View"
 msgstr "_Ver"
 
@@ -14573,8 +14573,8 @@ msgid ""
 "HTML email:\n"
 "{0}"
 msgstr ""
-"Asegúrese de que los siguientes destinatarios desean y son capaces de recibir "
-"correo-e en HTML:\n"
+"Asegúrese de que los siguientes destinatarios desean y son capaces de "
+"recibir correo-e en HTML:\n"
 "{0}"
 
 #: ../mail/mail.error.xml.h:85
@@ -18705,7 +18705,7 @@ msgstr "Error al abrir la página web de P+F."
 msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
-#: ../shell/e-shell-window-commands.c:901 ../ui/evolution.xml.h:55
+#: ../shell/e-shell-window-commands.c:901 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
@@ -18880,8 +18880,8 @@ msgstr ""
 "previa. Puede restablecer los paneles de vista previa desde el menú Ver.\n"
 
 #: ../shell/main.c:334
-msgid "_Do not show this again"
-msgstr "No mostrar otra vez este mensaje"
+msgid "_Do not show this message again"
+msgstr "_No mostrar otra vez este mensaje."
 
 #: ../shell/main.c:554
 msgid "Start Evolution activating the specified component"
@@ -19748,7 +19748,7 @@ msgstr "_Mover contacto a…"
 msgid "_Move Folder Contacts To"
 msgstr "_Mover contactos de la carpeta a"
 
-#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:47
+#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:48
 msgid "_New"
 msgstr "_Nuevo"
 
@@ -19966,7 +19966,7 @@ msgstr "_Cerrar"
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:44
+#: ../ui/evolution-editor.xml.h:20 ../ui/evolution.xml.h:45
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -21333,35 +21333,39 @@ msgstr "_Cerrar ventana"
 msgid "_Forget Passwords"
 msgstr "_Olvidar contraseñas"
 
-#: ../ui/evolution.xml.h:45
+#: ../ui/evolution.xml.h:44
+msgid "_Frequently Asked Questions"
+msgstr "_Preguntas más frecuentes"
+
+#: ../ui/evolution.xml.h:46
 msgid "_Hide buttons"
 msgstr "_Ocultar botones"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:47
 msgid "_Icons only"
 msgstr "Sólo _iconos"
 
-#: ../ui/evolution.xml.h:48
+#: ../ui/evolution.xml.h:49
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../ui/evolution.xml.h:49
+#: ../ui/evolution.xml.h:50
 msgid "_Quit"
 msgstr "_Salir"
 
-#: ../ui/evolution.xml.h:50
+#: ../ui/evolution.xml.h:51
 msgid "_Switcher Appearance"
 msgstr "Apariencia del _selector"
 
-#: ../ui/evolution.xml.h:51
+#: ../ui/evolution.xml.h:52
 msgid "_Synchronization Options..."
 msgstr "Opciones de _sincronización…"
 
-#: ../ui/evolution.xml.h:52
+#: ../ui/evolution.xml.h:53
 msgid "_Text only"
 msgstr "Sólo _texto"
 
-#: ../ui/evolution.xml.h:54
+#: ../ui/evolution.xml.h:55
 msgid "_Window"
 msgstr "_Ventana"
 
@@ -22700,7 +22704,9 @@ msgstr "No hay almacén disponible"
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
 msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr "Un complemento que implementa una interfaz CORBA para acceder a datos de correo de forma remota."
+msgstr ""
+"Un complemento que implementa una interfaz CORBA para acceder a datos de "
+"correo de forma remota."
 
 #: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
 msgid "Mail Remote"
