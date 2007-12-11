@@ -842,21 +842,18 @@ static struct _mail_msg_op refresh_folders_op = {
 };
 
 static void
-get_folders(CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
+get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 {
-	while (info) {
-		/* FIXME: this is hardcoded temporarily, until the backend itself
-		   controls this refresh process.
-		   TODO: add virtual camel_store_refresh_info() which does this ... */
-		if (camel_url_get_param(((CamelService *)store)->url, "check_all") != NULL
-				|| (strcmp(((CamelService *)store)->url->protocol, "imap") != 0
-					&& strcmp(((CamelService *)store)->url->protocol, "groupwise") != 0
-					&& strcmp(((CamelService *)store)->url->protocol, "scalix") != 0
-					&& strcmp(((CamelService *)store)->url->protocol, "exchange") != 0 )
+	CamelException ex;
 
-				|| (info->flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
-			g_ptr_array_add(folders, g_strdup(info->uri));
-		get_folders(store, folders, info->child);
+	camel_exception_init (&ex);
+
+	while (info) {
+		if (camel_store_can_refresh_folder (store, info, &ex))
+			g_ptr_array_add (folders, g_strdup (info->uri));
+		camel_exception_clear (&ex);
+
+		get_folders (store, folders, info->child);
 		info = info->next;
 	}
 }

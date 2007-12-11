@@ -1,3 +1,11 @@
+2007-12-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #336074
+
+	* mail-send-recv.c: (get_folders):
+	Determine whether refresh folder from the store based on result of new
+	store's function 'camel_store_can_refresh_folder'.
+
 2007-12-10  Jeff Cai  <jeff.cai@sun.com>
 
 	* em-folder-view.c: (emfv_setting_notify):
