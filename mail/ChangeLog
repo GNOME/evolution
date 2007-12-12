@@ -1,3 +1,10 @@
+2007-12-12  Alex "weej" Jones  <alex@weej.com>
+
+	** Fix for bug #503111
+
+	* mail-session.c: (mail_session_add_junk_plugin):
+	Suppress "Loading %s as the default junk plugin" message.
+
 2007-12-10  Jeff Cai  <jeff.cai@sun.com>
 
 	** Fix for bug #501677
