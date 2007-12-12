@@ -1,3 +1,12 @@
+2007-12-13  Tobias Mueller  <tobiasmue@svn.gnome.org>
+	Patch by evilninjasquirrel@hotbrev.com
+	
+	** Fixes bug 474043
+	* plugins/exchange-operations/exchange-operations.c:
+	* plugins/exchange-operations/exchange-operations.h
+	Prevent buffer overflows, by introducing a fourth parameter to
+	exchange_operations_tokenize_string - a max size to copy
+
 2007-12-04  David Turner  <cillian64@googlemail.com>
 
 	** Fix for bug #466241

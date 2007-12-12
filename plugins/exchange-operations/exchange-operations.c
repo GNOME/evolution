@@ -72,11 +72,11 @@ exchange_is_offline (gint *mode)
 
 /* FIXME: See if a GLib variant of this function available */
 gboolean
-exchange_operations_tokenize_string (char **string, char *token, char delimit)
+exchange_operations_tokenize_string (char **string, char *token, char delimit, unsigned int maxsize)
 {
-	int i=0;
+	unsigned int i=0;
 	char *str=*string;
-	while (*str!=delimit && *str!='\0') {
+	while (*str!=delimit && *str!='\0' && i<maxsize-1) {
 		token[i++]=*str++;
 	}
 	while (*str==delimit)
@@ -97,7 +97,7 @@ exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *pare
 	gchar *uri;
 	gboolean status, found;
 
-	exchange_operations_tokenize_string (&luri, nodename, '/');
+	exchange_operations_tokenize_string (&luri, nodename, '/', sizeof(nodename));
 
        	if (!nodename[0]) {
 		return TRUE;
@@ -153,7 +153,7 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 	if (!luri)
 		return;
 
-	exchange_operations_tokenize_string (&luri, nodename, '/');
+	exchange_operations_tokenize_string (&luri, nodename, '/', sizeof(nodename));
        	if (!nodename[0]) {
 		return;
 	}
