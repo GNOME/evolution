@@ -951,7 +951,7 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("There is no calendar available for creating tasks"));
+						 "%s", _("There is no calendar available for creating tasks"));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 

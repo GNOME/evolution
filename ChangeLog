@@ -1,3 +1,17 @@
+2007-12-13  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Fixes bug 474651
+	* calendar/gui/memos-component.c:
+	* addressbook/gui/component/addressbook.c:
+	* calendar/gui/tasks-control.c:
+	* calendar/gui/tasks-component.c:
+	* widgets/misc/e-dateedit.c:
+	* calendar/gui/e-cal-model-tasks.c:
+	* widgets/misc/e-cell-percent.c:
+	* calendar/gui/e-itip-control.c:
+	* calendar/gui/comp-editor-factory.c:
+	Use format strings in gtk_message_dialog_new
+
 2007-12-10  Tobias Mueller  <tobiasmue@svn.gnome.org>
 
 	** Fixes bug 474651

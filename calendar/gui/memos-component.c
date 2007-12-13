@@ -963,7 +963,7 @@ setup_create_ecal (MemosComponent *component, MemosComponentView *component_view
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("There is no calendar available for creating memos"));
+						 "%s", _("There is no calendar available for creating memos"));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 

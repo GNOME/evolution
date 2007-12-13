@@ -96,7 +96,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 						0,
 						GTK_MESSAGE_WARNING,
 						GTK_BUTTONS_OK,
-						_("Accessing LDAP Server anonymously"));
+						"%s", _("Accessing LDAP Server anonymously"));
 				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
 				if (data->cb)

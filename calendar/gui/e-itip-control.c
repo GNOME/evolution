@@ -1951,7 +1951,7 @@ update_item (EItipControl *itip)
 			NULL, 0,
 			GTK_MESSAGE_INFO,
 			GTK_BUTTONS_OK,
-			_("Update complete\n"));
+			"%s", _("Update complete\n"));
 	}
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
