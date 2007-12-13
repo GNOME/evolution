@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+ <!ENTITY % HTMLlat1
+   PUBLIC "-//W3C//ENTITIES Latin 1 for XHTML//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml-lat1.ent">
+ %HTMLlat1;
+ <!ENTITY % HTMLspecial
+   PUBLIC "-//W3C//ENTITIES Special for XHTML//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml-special.ent">
+ %HTMLspecial;
+ <!ENTITY % HTMLsymbol
+   PUBLIC "-//W3C//ENTITIES Symbols for XHTML//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml-symbol.ent">
+ %HTMLsymbol;
  <!ENTITY appname "Evolution" >
  <!ENTITY appversion "2.12" >
  <!ENTITY z-3rdParty "*" >
@@ -9,6 +21,7 @@
  <!ENTITY z-CLM "(CLM)" >
  <!ENTITY z-nbhyph "-" >
  <!ENTITY z-nbspace " " >
+ <!ENTITY verbar "|" >
 ] >
 
 <?yelp:chunk-depth 3?>

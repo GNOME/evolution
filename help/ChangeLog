@@ -1,3 +1,8 @@
+2007-12-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* help/C/evolution.xml:
+	Fix all "entity not defined" warnings (#437579).
+
 2007-11-21  Yannig Marchegay <yannig@marchegay.org> 
 
 	* oc.po: Updated Occitan translation
