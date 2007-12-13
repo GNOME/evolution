@@ -273,7 +273,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
 
-		gtk_html_stream_printf (stream, "<TD>");
+		gtk_html_stream_printf (stream, "<TD><PRE>");
 
 		for (node = l; node != NULL; node = node->next) {
 			gint i, len;
@@ -296,7 +296,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 			g_string_free (string, TRUE);
 		}
 
-		gtk_html_stream_printf (stream, "</TD></TR>");
+		gtk_html_stream_printf (stream, "</PRE></TD></TR>");
 
 		e_cal_component_free_text_list (l);
 	}
