@@ -1,3 +1,8 @@
+2007-12-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-send-recv.c:
+	Fix an implicit function declaration.
+
 2007-12-12  Alex "weej" Jones  <alex@weej.com>
 
 	** Fix for bug #503111

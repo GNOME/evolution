@@ -47,6 +47,7 @@
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-operation.h"
+#include "camel/camel-store.h"
 
 #include "mail-mt.h"
 #include "mail-component.h"
