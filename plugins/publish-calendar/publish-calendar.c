@@ -87,7 +87,7 @@ publish (EPublishUri *uri)
 					!strcmp (username, "anonymous"))) ? TRUE:FALSE;
 
 		if (!password && req_pass) {
-			gboolean remember;
+			gboolean remember = FALSE;
 			char *prompt = g_strdup_printf (_("Enter the password for `%s'"), uri->location);
 
 			password = e_passwords_ask_password (_("Enter password"), "", uri->location, prompt,
