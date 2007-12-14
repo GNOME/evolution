@@ -1,3 +1,19 @@
+2007-12-15  Johnny Jacob  <jjohnny@novell.com>
+
+	** Cleanup of attachment reminder over Milan Crha's work.
+	
+	* attachment-reminder.c (check_for_attachment_clues): Unref gconf_client.
+	(commit_changes): reuse ui->gconf.
+	(e_plugin_lib_get_configure_widget): Remove unnecessary 
+	gconf_client_get_default ()
+
+2007-12-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #502312
+
+	* attachment-reminder.c: A little cleanup of configuration part of
+	the plugin to not use global variables and free memory properly.
+
 2007-12-05  Sankar P  <psankar@novell.com>
 
 	* attachment-reminder.c: (e_plugin_lib_get_configure_widget):
