@@ -1,3 +1,13 @@
+2007-12-14  Sankar P  <psankar@novell.com>
+
+	* em-folder-tree-model.c: (emft_model_unread_count_changed),
+	(em_folder_tree_model_init),
+	(em_folder_tree_model_set_unread_count):
+	* em-folder-tree.c: (em_folder_tree_construct):
+	Moving some code from tree to model where it belongs.
+	Fixes some CPU usage issue whenever (un)read count is updated.
+	Hopefully no regresssions.
+
 2007-12-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-send-recv.c:

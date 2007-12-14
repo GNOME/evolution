@@ -162,7 +162,6 @@ static void emft_queue_save_state (EMFolderTree *emft);
 
 static void emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter *iter, gboolean expanded);
 
-static void emft_model_row_changed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, EMFolderTree *emft);
 static void emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, EMFolderTree *emft);
 static gboolean emft_tree_test_collapse_row (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static void emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
@@ -546,7 +545,6 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	priv->treeview = folder_tree_new (emft, model);
 	gtk_widget_show ((GtkWidget *) priv->treeview);
 
-	g_signal_connect (priv->model, "row-changed", G_CALLBACK (emft_model_row_changed), emft);
 	g_signal_connect (priv->treeview, "row-expanded", G_CALLBACK (emft_tree_row_expanded), emft);
 	g_signal_connect (priv->treeview, "test-collapse-row", G_CALLBACK (emft_tree_test_collapse_row), emft);
 	g_signal_connect (priv->treeview, "row-activated", G_CALLBACK (emft_tree_row_activated), emft);
@@ -1856,30 +1854,6 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 	em_folder_tree_model_set_expanded (priv->model, key, expanded);
 	g_free (full_name);
 	g_free (key);
-}
-
-static void
-emft_model_row_changed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, EMFolderTree *emft)
-{
-	GtkTreeIter parent_iter;
-	GtkTreeIter child_iter = *iter;
-
-	g_signal_handlers_block_by_func (model, emft_model_row_changed, emft);
-
-	/* Folders are displayed with a bold weight to indicate that
-	   they contain unread messages.  We signal that parent rows
-	   have changed here to update them. */
-
-	while (gtk_tree_model_iter_parent (model, &parent_iter, &child_iter)) {
-		GtkTreePath *parent_path;
-
-		parent_path = gtk_tree_model_get_path (model, &parent_iter);
-		gtk_tree_model_row_changed (model, parent_path, &parent_iter);
-		gtk_tree_path_free (parent_path);
-		child_iter = parent_iter;
-	}
-
-	g_signal_handlers_unblock_by_func (model, emft_model_row_changed, emft);
 }
 
 static void

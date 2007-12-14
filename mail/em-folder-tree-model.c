@@ -251,6 +251,30 @@ store_info_free (struct _EMFolderTreeModelStoreInfo *si)
 }
 
 static void
+emft_model_unread_count_changed (GtkTreeModel *model, GtkTreeIter *iter)
+{
+	GtkTreeIter parent_iter;
+	GtkTreeIter child_iter = *iter;
+
+	g_signal_handler_block (model, emft_model_unread_count_changed);
+
+	/* Folders are displayed with a bold weight to indicate that
+	   they contain unread messages.  We signal that parent rows
+	   have changed here to update them. */
+
+	while (gtk_tree_model_iter_parent (model, &parent_iter, &child_iter)) {
+		GtkTreePath *parent_path;
+
+		parent_path = gtk_tree_model_get_path (model, &parent_iter);
+		gtk_tree_model_row_changed (model, parent_path, &parent_iter);
+		gtk_tree_path_free (parent_path);
+		child_iter = parent_iter;
+	}
+
+	g_signal_handler_unblock (model, emft_model_unread_count_changed);
+}
+
+static void
 em_folder_tree_model_init (EMFolderTreeModel *model)
 {
 	model->store_hash = g_hash_table_new_full (
@@ -269,6 +293,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->account_changed_id = g_signal_connect (model->accounts, "account-changed", G_CALLBACK (account_changed), model);
 	model->account_removed_id = g_signal_connect (model->accounts, "account-removed", G_CALLBACK (account_removed), model);
+	//g_signal_connect (model, "row-changed", G_CALLBACK (emft_model_unread_count_changed), NULL);
 }
 
 static void
@@ -1255,6 +1280,9 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	gtk_tree_path_free (tree_path);
 
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter, COL_UINT_UNREAD, unread, -1);
+
+	/* May be this is from where we should probagate unread count to parents etc. */
+	emft_model_unread_count_changed (model, &iter);
 }
 
 
