@@ -757,36 +757,6 @@
       </locale>
     </schema>
 
-    <!-- New Mail Notification settings -->
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/notify/type</key>
-      <applyto>/apps/evolution/mail/notify/type</applyto>
-      <owner>evolution-mail</owner>
-      <type>int</type>
-      <default>0</default>
-      <locale name="C">
-         <short>New Mail Notify type</short>
-         <long>
-          Specifies the type of New Mail Notification the user wishes to use.
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/notify/sound</key>
-      <applyto>/apps/evolution/mail/notify/sound</applyto>
-      <owner>evolution-mail</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-         <short>New Mail Notify sound file</short>
-         <long>
-          Sound file to play when new mail arrives.
-         </long>
-      </locale>
-    </schema>
-
     <!-- Prompt settings -->
 
     <schema>

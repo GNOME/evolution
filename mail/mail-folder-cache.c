@@ -123,15 +123,6 @@ static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_
 static guint ping_id = 0;
 static gboolean ping_cb (gpointer user_data);
 
-static guint notify_id = 0;
-static int notify_type = -1;
-
-static time_t last_notify = 0;
-static time_t last_newmail = 0;
-static guint notify_idle_id = 0;
-static gboolean notify_idle_cb (gpointer user_data);
-
-
 /* Store to storeinfo table, active stores */
 static GHashTable *stores = NULL;
 
@@ -153,43 +144,6 @@ free_update(struct _folder_update *up)
 	g_free(up->oldfull);
 	g_free(up->olduri);
 	g_free(up);
-}
-
-static gboolean
-notify_idle_cb (gpointer user_data)
-{
-	GConfClient *gconf;
-	char *filename;
-
-	gconf = mail_config_get_gconf_client ();
-
-	switch (notify_type) {
-	case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
-		filename = gconf_client_get_string (gconf, "/apps/evolution/mail/notify/sound", NULL);
-		if (filename != NULL) {
-			gnome_sound_play (filename);
-			g_free (filename);
-		}
-		break;
-	case MAIL_CONFIG_NOTIFY_BEEP:
-		gdk_beep ();
-		break;
-	default:
-		break;
-	}
-
-	time (&last_notify);
-
-	notify_idle_id = 0;
-
-	return FALSE;
-}
-
-static void
-notify_type_changed (GConfClient *client, guint cnxn_id,
-		     GConfEntry *entry, gpointer user_data)
-{
-	notify_type = gconf_client_get_int (client, "/apps/evolution/mail/notify/type", NULL);
 }
 
 static void
@@ -230,21 +184,6 @@ real_flush_updates(void *o, void *event_data, void *data)
 
 		/* update unread counts */
 		em_folder_tree_model_set_unread_count (model, up->store, up->full_name, up->unread);
-		/* new mail notification */
-		if (notify_type == -1) {
-			/* need to track the user's new-mail-notification settings... */
-			GConfClient *gconf;
-
-			gconf = mail_config_get_gconf_client ();
-			gconf_client_add_dir (gconf, "/apps/evolution/mail/notify",
-					      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-			notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/notify",
-							     notify_type_changed, NULL, NULL, NULL);
-			notify_type = gconf_client_get_int (gconf, "/apps/evolution/mail/notify/type", NULL);
-		}
-
-		if (notify_type != 0 && up->new && notify_idle_id == 0 && (last_newmail - last_notify >= NOTIFY_THROTTLE))
-			notify_idle_id = g_idle_add_full (G_PRIORITY_LOW, notify_idle_cb, NULL, NULL);
 
 		if (up->uri) {
 			EMEvent *e = em_event_peek();
@@ -474,15 +413,11 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				flags = camel_message_info_flags (info);
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
-				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
-				    (camel_message_info_date_received (info) > last_newmail))
+				    ((flags & CAMEL_MESSAGE_DELETED) == 0))
 					new++;
 			}
 		}
 	}
-
-	if (new > 0)
-		time (&last_newmail);
 
 	LOCK(info_lock);
 	if (stores != NULL

@@ -66,6 +66,7 @@
 #include "e-util/e-signature-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-plugin.h"
 
 #include "mail-config.h"
 #include "em-utils.h"
@@ -2728,6 +2729,90 @@ emm_setup_initial(const char *evolution_dir)
 	return 0;
 }
 
+static gboolean
+is_in_plugs_list (GSList *list, const gchar *value)
+{
+	GSList *l;
+
+	for (l = list; l; l = l->next) {
+		if (l->data && !strcmp (l->data, value))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/*
+ * em_update_message_notify_settings_2_21
+ * DBus plugin and sound email notification was merged to mail-notification plugin,
+ * so move these options to new locations.
+ */
+static void
+em_update_message_notify_settings_2_21 (void)
+{
+	GConfClient *client;
+	GConfValue  *is_key;
+	gboolean dbus, status;
+	GSList *list;
+	gchar *str;
+	gint val;
+
+	client = gconf_client_get_default ();
+
+	is_key = gconf_client_get (client, "/apps/evolution/eplugin/mail-notification/dbus-enabled", NULL);
+	if (is_key) {
+		/* already migrated, so do not migrate again */
+		gconf_value_free (is_key);
+		g_object_unref (client);
+
+		return;
+	}
+
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-blink-icon",
+				gconf_client_get_bool (client, "/apps/evolution/mail/notification/blink-status-icon", NULL), NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-notification",
+				gconf_client_get_bool (client, "/apps/evolution/mail/notification/notification", NULL), NULL);
+
+	list = gconf_client_get_list (client, "/apps/evolution/eplugin/disabled", GCONF_VALUE_STRING, NULL);
+	dbus = !is_in_plugs_list (list, "org.gnome.evolution.new_mail_notify");
+	status = !is_in_plugs_list (list, "org.gnome.evolution.mail_notification");
+
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/dbus-enabled", dbus, NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-enabled", status, NULL);
+
+	if (!status) {
+		/* enable this plugin, because it holds all those other things */
+		GSList *plugins, *l;
+
+		plugins = e_plugin_list_plugins ();
+
+		for (l = plugins; l; l = l->next) {
+			EPlugin *p = l->data;
+
+			if (p && p->id && !strcmp (p->id, "org.gnome.evolution.mail_notification")) {
+				e_plugin_enable (p, 1);
+				break;
+			}
+		}
+
+		g_slist_foreach (plugins, (GFunc)g_object_unref, NULL);
+		g_slist_free (plugins);
+	}
+
+	g_slist_foreach (list, (GFunc) g_free, NULL);
+	g_slist_free (list);
+
+	val = gconf_client_get_int (client, "/apps/evolution/mail/notify/type", NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/sound-enabled", val == 1 || val == 2, NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/sound-beep", val == 0 || val == 1, NULL);
+
+	str = gconf_client_get_string (client, "/apps/evolution/mail/notify/sound", NULL);
+	gconf_client_set_string (client, "/apps/evolution/eplugin/mail-notification/sound-file", str ? str : "", NULL);
+	g_free (str);
+
+	g_object_unref (client);
+}
+
 int
 em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
 {
@@ -2813,6 +2898,10 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	if (major < 2 || (major == 2 && minor < 12)) {
 		em_update_accounts_2_11 ();
 	}
+
+	if (major < 2 || (major == 2 && minor < 22))
+		em_update_message_notify_settings_2_21 ();
+
 #endif	/* !G_OS_WIN32 */
 	return 0;
 }

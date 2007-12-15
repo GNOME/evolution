@@ -1,3 +1,19 @@
+2007-12-15  Milan Crha  <mcrha@redhat.com>
+ 
+ 	** Part of fix for bug #492702
+ 
+ 	* mail-config.h:
+ 	* mail-config.glade:
+ 	* evolution-mail.schemas.in:
+ 	* mail-folder-cache.h:
+ 	* mail-folder-cache.c:
+ 	* em-mailer-prefs.h:
+ 	* em-mailer-prefs.c: Moved bits of sound notification
+ 	on new messages to mail-notification plugin.
+ 	* em-migrate.c: (is_in_plugs_list),
+ 	(em_update_message_notify_settings_2_21), (em_migrate):
+ 	Migration code to move old options to new plugin options.
+ 
 2007-12-14  Sankar P  <psankar@novell.com>
 
 	* em-folder-tree-model.c: (emft_model_unread_count_changed),

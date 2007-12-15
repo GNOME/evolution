@@ -87,12 +87,6 @@ struct _EMMailerPrefs {
 	struct _GtkOptionMenu *empty_trash_days;
 	struct _GtkToggleButton *confirm_expunge;
 
-	/* New Mail Notification */
-	struct _GtkToggleButton *notify_not;
-	struct _GtkToggleButton *notify_beep;
-	struct _GtkToggleButton *notify_play_sound;
-	struct _GtkFileChooserButton *notify_sound_file;
-
 	/* HTML Mail tab */
 	struct _GtkFontButton *font_variable;
 	struct _GtkFontButton *font_fixed;

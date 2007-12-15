@@ -1,3 +1,13 @@
+2007-12-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #492702
+
+	* apps-evolution-mail-notification.schemas.in:
+	* mail-notification.c:
+	* org-gnome-mail-notification.eplug.xml:
+	New-mail-notification plugin and sound notification has been merged
+	to this plugin, with couple of options in plugins Configuration tab.
+
 2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-notification.c:

@@ -81,12 +81,6 @@ typedef enum {
 } MailConfigDisplayStyle;
 
 typedef enum {
-	MAIL_CONFIG_NOTIFY_NOT,
-	MAIL_CONFIG_NOTIFY_BEEP,
-	MAIL_CONFIG_NOTIFY_PLAY_SOUND,
-} MailConfigNewMailNotify;
-
-typedef enum {
 	MAIL_CONFIG_XMAILER_NONE            = 0,
 	MAIL_CONFIG_XMAILER_EVO             = 1,
 	MAIL_CONFIG_XMAILER_OTHER           = 2,
