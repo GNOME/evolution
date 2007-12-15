@@ -863,23 +863,23 @@
      <title>Changing Switcher Appearance:</title>
      <para>To change the appearance of  your switcher click <emphasis>View &gt; Switcher Appearance</emphasis> from the Menu bar. Under Switcher Appearance you can select:</para>
      <formalpara id="b13cep2o">
-      <title>Icons and text:</title>
+      <title>Icons and Text:</title>
       <para>Displays buttons with the label and the icon corresponding to it.</para>
      </formalpara>
      <formalpara id="b13ceqsq">
-      <title>Icons only:</title>
+      <title>Icons Only:</title>
       <para>Shows only the icons.</para>
      </formalpara>
      <formalpara id="b13ceqv1">
-      <title>Texts only:</title>
+      <title>Texts Only:</title>
       <para> Displays buttons with the label, not the icons.</para>
      </formalpara>
      <formalpara id="b13cfibm">
-      <title>Toolbar style:</title>
+      <title>Toolbar Style:</title>
       <para>Shows buttons using the desktop toolbar settings.</para>
      </formalpara>
      <formalpara id="b13cfifx">
-      <title>Hide buttons:</title>
+      <title>Hide Buttons:</title>
       <para>This option hides all the shortcut buttons of switcher.</para>
      </formalpara>
     </section>
