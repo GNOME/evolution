@@ -1,3 +1,9 @@
+2007-12-17  Srinivasa Ragavan <sragavan@novell.com>
+
+	** Fix for bug #430369 
+
+	* mail-session.c: (mail_session_init): Init in the main gui thread.
+
 2007-12-12  Alex "weej" Jones  <alex@weej.com>
 
 	** Fix for bug #503111

@@ -656,7 +656,8 @@ mail_session_init (const char *base_directory)
 	camel_provider_init();
 
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
-	
+	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
+
 	camel_dir = g_strdup_printf ("%s/mail", base_directory);
 	camel_session_construct (session, camel_dir);
 
