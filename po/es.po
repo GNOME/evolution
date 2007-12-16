@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-15 12:02+0000\n"
-"PO-Revision-Date: 2007-12-15 22:14+0100\n"
+"POT-Creation-Date: 2007-12-16 03:58+0000\n"
+"PO-Revision-Date: 2007-12-16 13:20+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10225,7 +10225,6 @@ msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
 #: ../composer/e-msg-composer.c:1453 ../composer/e-msg-composer.c:1487
-#: ../plugins/mail-remote/e-corba-utils.c:135
 msgid "Unknown reason"
 msgstr "Razón desconocida"
 
@@ -11381,27 +11380,27 @@ msgstr "Carpetas de búsqueda"
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
 
-#: ../mail/em-folder-tree-model.c:492 ../mail/mail-component.c:154
+#: ../mail/em-folder-tree-model.c:494 ../mail/mail-component.c:154
 msgid "Drafts"
 msgstr "Borradores"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:495 ../mail/em-folder-tree.c:2542
+#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2542
 #: ../mail/mail-component.c:153
 #: ../plugins/exchange-operations/exchange-delegates-user.c:83
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
-#: ../mail/em-folder-tree-model.c:498 ../mail/mail-component.c:155
+#: ../mail/em-folder-tree-model.c:500 ../mail/mail-component.c:155
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
-#: ../mail/em-folder-tree-model.c:500 ../mail/mail-component.c:156
+#: ../mail/em-folder-tree-model.c:502 ../mail/mail-component.c:156
 msgid "Sent"
 msgstr "Correo enviado"
 
-#: ../mail/em-folder-tree-model.c:522 ../mail/em-folder-tree-model.c:829
+#: ../mail/em-folder-tree-model.c:524 ../mail/em-folder-tree-model.c:831
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -17576,7 +17575,9 @@ msgstr "Genera un mensaje D-BUS cuando llega un mensaje de correo nuevo."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "If true, then Beep, otherwise will play sound file when new messages arrive."
-msgstr "Si está activado pitará, de otra manera reproducirá un archivo de sonido cuando llegue correo nuevo."
+msgstr ""
+"Si está activado pitará, de otra manera reproducirá un archivo de sonido "
+"cuando llegue correo nuevo."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify messages in Inbox only."
@@ -17592,7 +17593,9 @@ msgstr "Mensaje emergente junto con el icono."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "Mostrar el icono de correo nuevo en el área de notificación cuando llegan nuevos mensajes."
+msgstr ""
+"Mostrar el icono de correo nuevo en el área de notificación cuando llegan "
+"nuevos mensajes."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
@@ -17600,7 +17603,9 @@ msgstr "Nombre del archivo de sonido que reproducir."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "Archivo que reproducir cuando llega un mensaje nuevo, si no se debe reproducir un pitido."
+msgstr ""
+"Archivo que reproducir cuando llega un mensaje nuevo, si no se debe "
+"reproducir un pitido."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
 msgid "Whether play sound or beep when new messages arrive."
@@ -17608,7 +17613,9 @@ msgstr "Indica si se debe reproducir un sonido o pitar cuando llega un mensaje n
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "Indica si se debe mostrar un mensaje sobre el icono cuando llega un mensaje nuevo."
+msgstr ""
+"Indica si se debe mostrar un mensaje sobre el icono cuando llega un mensaje "
+"nuevo."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
@@ -17616,7 +17623,9 @@ msgstr "Indica si el icono debe parpadear o no."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "Indica si se deben notificar sólo los mensajes en la carpeta bandeja de entrada."
+msgstr ""
+"Indica si se deben notificar sólo los mensajes en la carpeta bandeja de "
+"entrada."
 
 #: ../plugins/mail-notification/mail-notification.c:248
 msgid "Generate a _D-Bus message"
@@ -17686,8 +17695,8 @@ msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
 msgstr ""
-"Genera un mensaje D-Bus o notifica al usuario con un icono en el área de notificación "
-"y un mensaje de notificación siempre que llegue correo nuevo."
+"Genera un mensaje D-Bus o notifica al usuario con un icono en el área de "
+"notificación y un mensaje de notificación siempre que llegue correo nuevo."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -20232,7 +20241,7 @@ msgid "_Copy Folder To..."
 msgstr "_Copiar carpeta a…"
 
 #: ../ui/evolution-mail-global.xml.h:21
-msgid "_Download messages for offline usage"
+msgid "_Download Messages for Offline Usage"
 msgstr "_Descargar mensajes para trabajar sin conexión"
 
 #: ../ui/evolution-mail-global.xml.h:22
@@ -21279,7 +21288,7 @@ msgid "I_mport..."
 msgstr "I_mportar…"
 
 #: ../ui/evolution.xml.h:15
-msgid "Icons _and text"
+msgid "Icons _and Text"
 msgstr "Iconos _y texto"
 
 #: ../ui/evolution.xml.h:16
@@ -21355,8 +21364,8 @@ msgid "Toggle whether we are working offline."
 msgstr "Cambiar si se está trabajando desconectado."
 
 #: ../ui/evolution.xml.h:36
-msgid "Tool_bar style"
-msgstr "_Estilo de la barra de herramientas"
+msgid "Tool_bar Style"
+msgstr "Estilo de la _barra de herramientas"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
@@ -21383,11 +21392,11 @@ msgid "_Frequently Asked Questions"
 msgstr "_Preguntas más frecuentes"
 
 #: ../ui/evolution.xml.h:46
-msgid "_Hide buttons"
+msgid "_Hide Buttons"
 msgstr "_Ocultar botones"
 
 #: ../ui/evolution.xml.h:47
-msgid "_Icons only"
+msgid "_Icons Only"
 msgstr "Sólo _iconos"
 
 #: ../ui/evolution.xml.h:49
@@ -21407,7 +21416,7 @@ msgid "_Synchronization Options..."
 msgstr "Opciones de _sincronización…"
 
 #: ../ui/evolution.xml.h:53
-msgid "_Text only"
+msgid "_Text Only"
 msgstr "Sólo _texto"
 
 #: ../ui/evolution.xml.h:55
@@ -22728,32 +22737,4 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3778 ../widgets/text/e-text.c:3779
 msgid "Handle Popup"
 msgstr "Tirador emergente"
-
-#: ../plugins/mail-remote/client.c:30
-#, c-format
-msgid "System error: %s"
-msgstr "Error del sistema: %s"
-
-#: ../plugins/mail-remote/client.c:32
-#, c-format
-msgid "Camel error: %s"
-msgstr "Error de camel: %s"
-
-#: ../plugins/mail-remote/evolution-mail-store.c:476
-msgid "Account cannot send e-mail"
-msgstr "La cuenta no puede enviar correo-e"
-
-#: ../plugins/mail-remote/evolution-mail-store.c:605
-msgid "No store available"
-msgstr "No hay almacén disponible"
-
-#: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:1
-msgid "A plugin which implements a CORBA interface for accessing mail data remotely."
-msgstr ""
-"Un complemento que implementa una interfaz CORBA para acceder a datos de "
-"correo de forma remota."
-
-#: ../plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml.h:2
-msgid "Mail Remote"
-msgstr "Correo remoto"
 
