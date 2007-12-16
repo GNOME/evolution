@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-08 11:14-0200\n"
+"POT-Creation-Date: 2007-12-16 02:06-0200\n"
 "PO-Revision-Date: 2007-09-30 21:29-0400\n"
 "Last-Translator: Rodrigo Flores <rodrigomarquesflores@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -15203,8 +15203,7 @@ msgstr "Restaurador do Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr ""
-"Um plug-in para fazer backup e restaurar configurações e dados do Evolution."
+msgstr "Faz backup e restaura configurações e dados do Evolution."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -16493,8 +16492,7 @@ msgstr "Lista de Tarefas"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "A plugin to setup groupwise calendar and contacts sources."
-msgstr ""
-"Um plug-in para configurar fontes de agendas e de contatos do GroupWise."
+msgstr "Um plug-in que configura fontes de agendas e de contatos do GroupWise."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "Groupwise Account Setup"
@@ -16796,7 +16794,7 @@ msgstr "Estado do Rastreador de Mensagem..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr "Um plug-in para configurar fontes de agendas hula."
+msgstr "Um plug-in que configura fontes de agendas hula."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -17956,7 +17954,7 @@ msgstr "Nova Notificação de Mensagem"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr "Um plug-in para gerenciar quais plug-ins estão habilitados ou não."
+msgstr "Gerencia quais plug-ins estão habilitados ou não."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
@@ -18195,8 +18193,7 @@ msgstr "Opções do SpamAssassin"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
-"Um plug-in para salvar todos os anexos ou partes de uma mensagem de uma vez."
+msgstr "Salva todos os anexos ou partes de uma mensagem de uma vez."
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3

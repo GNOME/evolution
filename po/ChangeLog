@@ -1,3 +1,8 @@
+2007-12-16  Leonardo Ferreira Fontenelle  <leonardof@svn.gnome.org>
+
+	* pt_BR.po: Plugin descriptions are now translated in the present
+	tense, thanks to Rodrigo Flores.
+
 2007-12-08  Leonardo Ferreira Fontenelle  <leonardof@svn.gnome.org>
 
 	* pt_BR.po: Minor fix in Brazilian Portuguese translation by Rodrigo
