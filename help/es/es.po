@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2007-12-13 21:46+0000\n"
-"PO-Revision-Date: 2007-12-14 16:02+0100\n"
+"POT-Creation-Date: 2007-12-15 22:12+0000\n"
+"PO-Revision-Date: 2007-12-16 13:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1067,10 +1067,10 @@ msgid ""
 "configuration instructions, see <link linkend=\"bstfw13\">Remote "
 "Configuration Options</link>."
 msgstr ""
-"Seleccione esta opción si se conecta a Novell GroupWise. Nov®ell "
-"GroupWise conserva la información de correo-e, calendario, y contactos en el "
-"servidor. Para las instrucciones de configuración, vea <link linkend="
-"\"bstfw13\">Opciones de configuración remotas</link>."
+"Seleccione esta opción si se conecta a Novell GroupWise. Nov®ell GroupWise "
+"conserva la información de correo-e, calendario, y contactos en el servidor. "
+"Para las instrucciones de configuración, vea <link linkend=\"bstfw13"
+"\">Opciones de configuración remotas</link>."
 
 #: C/evolution.xml:293(title)
 msgid "Microsoft Exchange:"
@@ -2372,7 +2372,7 @@ msgstr ""
 "del selector puede seleccionar:"
 
 #: C/evolution.xml:866(title)
-msgid "Icons and text:"
+msgid "Icons and Text:"
 msgstr "Iconos y texto:"
 
 #: C/evolution.xml:867(para)
@@ -2380,7 +2380,7 @@ msgid "Displays buttons with the label and the icon corresponding to it."
 msgstr "Muestra botones con la etiqueta y el icono correspondiente en él."
 
 #: C/evolution.xml:870(title)
-msgid "Icons only:"
+msgid "Icons Only:"
 msgstr "Sólo iconos:"
 
 #: C/evolution.xml:871(para)
@@ -2388,7 +2388,7 @@ msgid "Shows only the icons."
 msgstr "Muestra sólo los iconos."
 
 #: C/evolution.xml:874(title)
-msgid "Texts only:"
+msgid "Texts Only:"
 msgstr "Sólo texto:"
 
 #: C/evolution.xml:875(para)
@@ -2396,7 +2396,7 @@ msgid "Displays buttons with the label, not the icons."
 msgstr "Muestra botones con la etiqueta, pero no iconos."
 
 #: C/evolution.xml:878(title)
-msgid "Toolbar style:"
+msgid "Toolbar Style:"
 msgstr "Estilo de barra de herramientas:"
 
 #: C/evolution.xml:879(para)
@@ -2406,7 +2406,7 @@ msgstr ""
 "escritorio."
 
 #: C/evolution.xml:882(title)
-msgid "Hide buttons:"
+msgid "Hide Buttons:"
 msgstr "Ocultar botones:"
 
 #: C/evolution.xml:883(para)
@@ -3132,7 +3132,9 @@ msgstr ""
 
 #: C/evolution.xml:1180(para)
 msgid "‘Get Mail' in the Evolution toolbar replaced with Send/Receive tool in SLED."
-msgstr "Se ha sustituido «Obtener correo» en la barra de herramientas de Evolution por «Enviar/Recibir»."
+msgstr ""
+"Se ha sustituido «Obtener correo» en la barra de herramientas de Evolution "
+"por «Enviar/Recibir»."
 
 #: C/evolution.xml:1182(para)
 msgid ""
@@ -3268,7 +3270,9 @@ msgstr "Seleccione Opciones de correo"
 
 #: C/evolution.xml:1233(para)
 msgid "Check “Shrink To/CC/Bcc headers to column” to limit the address"
-msgstr "Marque la columna «Reducir las cabeceras Para/CC/Cco a» para limitar las direcciones"
+msgstr ""
+"Marque la columna «Reducir las cabeceras Para/CC/Cco a» para limitar las "
+"direcciones"
 
 #: C/evolution.xml:1236(para)
 msgid "Enter the limit in the field."
@@ -3765,9 +3769,8 @@ msgstr ""
 "Las claves actuales varían por idiomas y estilo de entrada. Por ejemplo, el "
 "método de entrada cirílico usa combinaciones de teclado de latín "
 "transliterado para obtener el alfabeto cirílico, combinando letras donde sea "
-"necesario. «Zh» y «ya» proporcionan letras simples "
-"cirílicas apropiadas, y la comilla simple (‘) proporciona un carácter "
-"de signo suave."
+"necesario. «Zh» y «ya» proporcionan letras simples cirílicas apropiadas, y "
+"la comilla simple (‘) proporciona un carácter de signo suave."
 
 #: C/evolution.xml:1437(para)
 msgid ""
@@ -3879,8 +3882,8 @@ msgid ""
 "sent the next time you connect."
 msgstr ""
 "El modo desconectado le permite comunicarse con sistemas de almacenamiento "
-"de correo remoto tales como GroupWise®;, IMAP o Exchange en situaciones "
-"en las que no podrá estar siempre conectado a la red local. Evolution guarda "
+"de correo remoto tales como GroupWise®;, IMAP o Exchange en situaciones en "
+"las que no podrá estar siempre conectado a la red local. Evolution guarda "
 "copia de una o más carpetas y le permite crear nuevos mensajes, guardarlos "
 "en la Bandeja de salida y enviarlo en cuanto vuelva a conectarse."
 
@@ -4097,9 +4100,10 @@ msgid ""
 "sending. If it finds the keywords such as “attach” in your e-mail and no "
 "actual attached file, you are reminded of missing attachments."
 msgstr ""
-"Busca cada correo electrónico que esté enviando basándose en las palabras clave "
-"que haya añadido aquí. Si en su correo-e encuentra palabras clave tales como «adjuntar» "
-"y no hay un archivo adjunto, se le recuerda que faltan adjuntos."
+"Busca cada correo electrónico que esté enviando basándose en las palabras "
+"clave que haya añadido aquí. Si en su correo-e encuentra palabras clave "
+"tales como «adjuntar» y no hay un archivo adjunto, se le recuerda que faltan "
+"adjuntos."
 
 #: C/evolution.xml:1561(para)
 msgid ""
@@ -5184,8 +5188,8 @@ msgid ""
 msgstr ""
 "Por ejemplo, suponga que Antonio quiere enviar un mensaje cifrado a su amigo "
 "Jorge. Él busca su clave pública en un servidor público y entonces le pide a "
-"Evolution que cifre el mensaje. El mensaje ahora tiene una apariencia del estilo "
-"«@#$23ui7yr87#@!48970fsd». Cuando le llega a Jorge, él usa su clave "
+"Evolution que cifre el mensaje. El mensaje ahora tiene una apariencia del "
+"estilo «@#$23ui7yr87#@!48970fsd». Cuando le llega a Jorge, él usa su clave "
 "privada para descifrarlo y el mensaje quedará listo para su lectura."
 
 #: C/evolution.xml:2054(title)
@@ -9770,10 +9774,10 @@ msgid ""
 "calendars on Evolution."
 msgstr ""
 "Evolution le permite ver y gestionar calendarios en servidores remotos "
-"CalDAV tales como Hula. Par®a obtener más información acerca de Hula, "
-"vea la <ulink url=\"http://www.hula-project.org\">página web del proyecto "
-"Hula</ulink>. El procedimiento para crear un calendario CalDAV es similar al "
-"del calendario Web remoto. Puede ver y crear acontecimientos en las cuentas "
+"CalDAV tales como Hula. Par®a obtener más información acerca de Hula, vea la "
+"<ulink url=\"http://www.hula-project.org\">página web del proyecto Hula</"
+"ulink>. El procedimiento para crear un calendario CalDAV es similar al del "
+"calendario Web remoto. Puede ver y crear acontecimientos en las cuentas "
 "CalDAV igual que en los otros calendarios de Evolution."
 
 #: C/evolution.xml:4253(para)
@@ -10290,8 +10294,8 @@ msgid ""
 "it is free software and is licensed under the GPL."
 msgstr ""
 "Evolution&trade; Exchange para Microsoft Exchange permite a los clientes de "
-"Evolution acceder a cuentas en servidores Microsoft Exchange 2000 y 2003. "
-"Al igual que Evolution, es software libre y está licenciado bajo la GPL."
+"Evolution acceder a cuentas en servidores Microsoft Exchange 2000 y 2003. Al "
+"igual que Evolution, es software libre y está licenciado bajo la GPL."
 
 #: C/evolution.xml:4790(link) C/evolution.xml:4810(title)
 msgid "Evolution Exchange Features"
@@ -10568,9 +10572,9 @@ msgid ""
 "ulink> has additional information about checking to make sure that your "
 "Exchange server accepts connections from Evolution."
 msgstr ""
-"La <ulink url=\"http://support.novell.com\">base de conocimiento de "
-"Novell®</ulink> contiene información adicional para asegurar que su "
-"servidor Exchange acepte las conexiones de Evolution."
+"La <ulink url=\"http://support.novell.com\">base de conocimiento de Novell®</"
+"ulink> contiene información adicional para asegurar que su servidor Exchange "
+"acepte las conexiones de Evolution."
 
 #: C/evolution.xml:4948(para)
 msgid ""
@@ -11182,13 +11186,16 @@ msgid ""
 "account, select ‘Remember the password'checkbox. To find more information "
 "about Reminders see<link linkend=\"bshly4v\">Reminders</link>"
 msgstr ""
-"Los recordatorios de reuniones en su calendario de Exchange no funcionarán hasta que "
-"ejecute Evolution al menos una vez después de iniciar la sesión. Este comportamiento difiere del "
-"de los recordatorios administrados localmente, que funcionan desde el mismo momento que inicia la sesión, "
+"Los recordatorios de reuniones en su calendario de Exchange no funcionarán "
+"hasta que ejecute Evolution al menos una vez después de iniciar la sesión. "
+"Este comportamiento difiere del de los recordatorios administrados "
+"localmente, que funcionan desde el mismo momento que inicia la sesión, "
 "independientemene de ya haya ejecutado Evolution en la sesión, de tal manera "
-"que pueda establecer una hora conveniente para una reunión. Para activar los ajustes de los recordatorios "
-"en su cuenta de Exchange, seleccione la casilla de verificación «Recordar la contraseña». Para obtener más información "
-"acerca de los Recordatorios vea <link linkend=\"bshly4v\">Recordatorios</link>."
+"que pueda establecer una hora conveniente para una reunión. Para activar los "
+"ajustes de los recordatorios en su cuenta de Exchange, seleccione la casilla "
+"de verificación «Recordar la contraseña». Para obtener más información "
+"acerca de los Recordatorios vea <link linkend=\"bshly4v\">Recordatorios</"
+"link>."
 
 #: C/evolution.xml:5303(para)
 msgid ""
@@ -11348,9 +11355,7 @@ msgstr ""
 
 #: C/evolution.xml:5389(para)
 msgid "Evolution™ can access accounts on Novell® GroupWise® 7 system."
-msgstr ""
-"Evolution&trade; puede acceder a cuentas en el sistema Novell "
-"ro®upWise 7.  ®"
+msgstr "Evolution&trade; puede acceder a cuentas en el sistema Novell ro®upWise 7.  ®"
 
 #: C/evolution.xml:5392(link) C/evolution.xml:5415(title)
 msgid "GroupWise Features"
@@ -12518,8 +12523,8 @@ msgid ""
 "Evolution™ supports mail connectivity to Hula® servers through IMAP and "
 "calendaring support through CalDAV."
 msgstr ""
-"Evolution&trade; soporta conectividad de correo en servidores Hula a "
-"t®ravés de IMAP y soporta calendarios a través de CalDAV."
+"Evolution&trade; soporta conectividad de correo en servidores Hula a t®ravés "
+"de IMAP y soporta calendarios a través de CalDAV."
 
 #: C/evolution.xml:6196(para)
 msgid ""
@@ -12780,11 +12785,11 @@ msgid ""
 msgstr ""
 "Seleccione de qué manera desea recibir su correo. Puede descargarlo desde un "
 "servidor (<link linkend=\"pop\"/>POP</link>), leerlo y conservarlo en el "
-"mismo servidor (Microsoft Exchange, Novell®; GroupWise® o <link "
-"linkend=\"imap\">IMAP</link>), o leerlo de archivos que ya están en su "
-"escritorio. Es posible que el servidor le permita utilizar conexiones "
-"cifradas (SSL, Secure Socket Layer). Puede seleccionar una opción de las "
-"tres dadas: Sin cifrado, cifrado TLS o cifrado SSL."
+"mismo servidor (Microsoft Exchange, Novell®; GroupWise® o <link linkend="
+"\"imap\">IMAP</link>), o leerlo de archivos que ya están en su escritorio. "
+"Es posible que el servidor le permita utilizar conexiones cifradas (SSL, "
+"Secure Socket Layer). Puede seleccionar una opción de las tres dadas: Sin "
+"cifrado, cifrado TLS o cifrado SSL."
 
 #: C/evolution.xml:6279(para)
 msgid ""
@@ -14175,8 +14180,8 @@ msgstr ""
 "ObjectClass=*: Lista todos los objetos del servidor. ObjectClass=User: Lista "
 "sólo los objetos del usuario. Filter (|(ObjectClass=User)"
 "(ObjectClass=groupOfNames)): Obtiene los objetos del usuario y de la lista "
-"de contactos. (&amp;(mail=*)(ObjectClass=*)): Lista los objetos asociados con "
-"las direcciones de correo-e."
+"de contactos. (&amp;(mail=*)(ObjectClass=*)): Lista los objetos asociados "
+"con las direcciones de correo-e."
 
 #: C/evolution.xml:6808(para)
 msgid ""
@@ -15259,12 +15264,12 @@ msgid ""
 "my soap.” For more information, enter <command>man grep</command> from the "
 "command line."
 msgstr ""
-"Una expresión regular (regex) es una manera de describir una cadena de "
-"texto mediante meta-caracteres o símbolos comodín. Por ejemplo la sentencia "
-"fly.*so[au]p encuentra cualquier frase que empiece por «fly» y acabe en "
-"«soup» o en «soap». Si hace una búsqueda con esa expresión podría encontrar "
-"tanto «fly in my soup» como «fly in soap». Para obtener más información "
-"introduzca <command>man grep</command> en la línea de comandos."
+"Una expresión regular (regex) es una manera de describir una cadena de texto "
+"mediante meta-caracteres o símbolos comodín. Por ejemplo la sentencia fly.*so"
+"[au]p encuentra cualquier frase que empiece por «fly» y acabe en «soup» o en "
+"«soap». Si hace una búsqueda con esa expresión podría encontrar tanto «fly "
+"in my soup» como «fly in soap». Para obtener más información introduzca "
+"<command>man grep</command> en la línea de comandos."
 
 #: C/evolution.xml:7262(glossterm)
 msgid "script"
