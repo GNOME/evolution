@@ -1,6 +1,11 @@
 2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution.xml:
+	Fix capitalization of "Download Messages..." (HIG 8.3.2).
+
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution.xml:
 	Fix capitalization of "Switcher Appearance" menu (HIG 8.3.2).
 
 2007-12-09  Andre Klapper  <a9016009@gmx.de>

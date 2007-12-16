@@ -1,3 +1,9 @@
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-tree-model.c (emft_model_unread_count_changed),
+	(emfolder_tree_model_set_unread_count):
+	Fix recently introduced compiler warnings.
+
 2007-12-15  Milan Crha  <mcrha@redhat.com>
  
  	** Part of fix for bug #492702

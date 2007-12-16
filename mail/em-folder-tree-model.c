@@ -256,7 +256,8 @@ emft_model_unread_count_changed (GtkTreeModel *model, GtkTreeIter *iter)
 	GtkTreeIter parent_iter;
 	GtkTreeIter child_iter = *iter;
 
-	g_signal_handler_block (model, emft_model_unread_count_changed);
+	g_signal_handlers_block_by_func (
+		model, emft_model_unread_count_changed, NULL);
 
 	/* Folders are displayed with a bold weight to indicate that
 	   they contain unread messages.  We signal that parent rows
@@ -271,7 +272,8 @@ emft_model_unread_count_changed (GtkTreeModel *model, GtkTreeIter *iter)
 		child_iter = parent_iter;
 	}
 
-	g_signal_handler_unblock (model, emft_model_unread_count_changed);
+	g_signal_handlers_unblock_by_func (
+		model, emft_model_unread_count_changed, NULL);
 }
 
 static void
@@ -1281,8 +1283,8 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter, COL_UINT_UNREAD, unread, -1);
 
-	/* May be this is from where we should probagate unread count to parents etc. */
-	emft_model_unread_count_changed (model, &iter);
+	/* May be this is from where we should propagate unread count to parents etc. */
+	emft_model_unread_count_changed (GTK_TREE_MODEL (model), &iter);
 }
 
 

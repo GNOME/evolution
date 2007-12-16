@@ -1,3 +1,12 @@
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	* plugins/mail-remote:
+	Just remove the mail-remote plugin altogether so we stop going
+	back and forth over whether the tranlatable files should be added
+	to POTFILES.in.  We can always add it back once we get it working
+	again.
+
 2007-12-13  Tobias Mueller  <tobiasmue@svn.gnome.org>
 
 	** Fixes bug 474651
