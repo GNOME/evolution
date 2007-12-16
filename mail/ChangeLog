@@ -1,5 +1,11 @@
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #430369 
+
+	* mail-session.c: (mail_session_init): Init in the main gui thread.
+
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Non-intrusive errror reporting and basic logging support.
 
 	* em-folder-browser.c: (emfb_help_debug): Invoke the debug menu.
