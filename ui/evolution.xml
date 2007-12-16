@@ -161,6 +161,7 @@
         _label="_Quick Reference"/>
 
       <separator f="" name="eshell2"/>
+      <placeholder name="PlaceHolderDebug"/>
 
       <menuitem name="HelpOpenFAQ" verb=""
 	_label="Evolution _FAQ"/> 

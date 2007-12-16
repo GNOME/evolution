@@ -112,6 +112,10 @@ typedef struct {
 	gint mlimit_size;
 	guint magic_spacebar_notify_id;
 	gboolean magic_spacebar;
+	guint error_time;
+	guint error_notify_id;
+	guint error_level;
+	guint error_level_id;
 
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
@@ -340,6 +344,20 @@ gconf_address_count_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_error_time_changed (GConfClient *client, guint cnxn_id,
+			     GConfEntry *entry, gpointer user_data)
+{
+	config->error_time = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_timeout", NULL);
+}
+
+static void
+gconf_error_level_changed (GConfClient *client, guint cnxn_id,
+			     GConfEntry *entry, gpointer user_data)
+{
+	config->error_level = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_level", NULL);
+}
+
+static void
 gconf_address_compress_changed (GConfClient *client, guint cnxn_id,
 			     GConfEntry *entry, gpointer user_data)
 {
@@ -403,6 +421,11 @@ mail_config_init (void)
 							  gconf_address_compress_changed, NULL, NULL, NULL);
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_count",
 							  gconf_address_count_changed, NULL, NULL, NULL);
+	config->error_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/error_timeout",
+							  gconf_error_time_changed, NULL, NULL, NULL);
+	config->error_level_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/error_level",
+							  gconf_error_level_changed, NULL, NULL, NULL);
+
 	config->mlimit_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/force_message_limit",
 							  gconf_mlimit_changed, NULL, NULL, NULL);
 	config->mlimit_size_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/message_text_part_limit",
@@ -432,6 +455,9 @@ mail_config_init (void)
 	config_cache_mime_types ();
 	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
 	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
+	config->error_time = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_timeout", NULL);	
+	config->error_level= gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_level", NULL);	
+
 	config->mlimit = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/force_message_limit", NULL);
 	config->mlimit_size = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
 	config->magic_spacebar = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/magic_spacebar", NULL);
@@ -574,6 +600,24 @@ mail_config_get_address_count (void)
 		return -1;
 
 	return config->address_count;
+}
+
+guint
+mail_config_get_error_timeout  (void)
+{	
+	if (!config)
+		mail_config_init ();
+
+	return config->error_time;
+}
+
+guint
+mail_config_get_error_level  (void)
+{	
+	if (!config)
+		mail_config_init ();
+
+	return config->error_level;
 }
 
 int

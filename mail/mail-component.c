@@ -46,10 +46,12 @@
 #include "em-folder-selection.h"
 #include "em-folder-utils.h"
 #include "em-migrate.h"
+#include "e-util/e-icon-factory.h"
 
 #include "misc/e-info-label.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-logger.h"
 
 #include "em-search-context.h"
 #include "mail-config.h"
@@ -139,6 +141,7 @@ struct _MailComponentPrivate {
 	char *context_path;	/* current path for right-click menu */
 
 	CamelStore *local_store;
+	ELogger *logger;
 
 	EComponentView *component_view;
 };
@@ -481,6 +484,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv->context_path);
 	g_mutex_free(priv->lock);
+	g_object_unref (priv->logger);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -1205,8 +1209,10 @@ mail_component_init (MailComponent *component)
 		abort ();
 
 	priv->model = em_folder_tree_model_new (priv->base_directory);
-
+	priv->logger = e_logger_create ("mail");
 	priv->activity_handler = e_activity_handler_new ();
+	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
+	e_activity_handler_set_error_flush_time (priv->activity_handler, mail_config_get_error_timeout ()*1000);
 
 	mail_session_init (priv->base_directory);
 
@@ -1493,6 +1499,227 @@ mail_indicate_new_mail (gboolean have_new_mail)
 
 	if (mc->priv->component_view)
 		e_component_view_set_button_icon (mc->priv->component_view, icon);
+}
+
+struct _log_data {
+	int level;
+	char *key;
+	char *text;
+	char *icon;
+	GdkPixbuf *pbuf;
+} ldata [] = {
+	{ E_LOG_ERROR, N_("Error"), N_("Errors"), "stock_dialog-error" },
+	{ E_LOG_WARNINGS, N_("Warning"), N_("Warnings and Errors"), "stock_dialog-warning" },
+	{ E_LOG_DEBUG, N_("Debug"), N_("Error, Warnings and Debug messages"), "stock_dialog-info" }
+};
+
+enum
+{
+	COL_LEVEL = 0,
+	COL_TIME,
+	COL_DATA
+};
+
+static void
+render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
+	       GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
+{
+	static gboolean initialised = FALSE;
+	gint level;
+	int i;
+
+	if (!initialised) {
+		for (i=E_LOG_ERROR; i<=E_LOG_DEBUG; i++) {
+			ldata[i].pbuf = e_icon_factory_get_icon (ldata[i].icon, E_ICON_SIZE_MENU);
+		}
+		initialised = TRUE;
+	}
+	
+	gtk_tree_model_get (model, iter, COL_LEVEL, &level, -1);
+	g_object_set (renderer, "pixbuf", ldata[level].pbuf, "visible", TRUE, NULL);
+}
+
+static void
+render_level (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
+	      GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
+{
+	gint level;
+
+	gtk_tree_model_get (model, iter, COL_LEVEL, &level, -1);
+	g_object_set (renderer, "text", ldata[level].key, NULL);
+}
+
+static void
+render_date (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
+	      GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
+{
+	time_t t;
+	char sdt[100]; /* Should be sufficient? */
+	
+	gtk_tree_model_get (model, iter, COL_TIME, &t, -1);
+	strftime (sdt, 100, "%x %X", localtime (&t));
+	g_object_set (renderer, "text", sdt, NULL);
+}
+
+
+
+static void
+append_logs (const char *txt, GtkListStore *store)
+{
+	char **str;
+	
+	str = g_strsplit (txt, 	":", 3);
+	if (str[0] && str[1] && str[2]) {
+		int level;
+		time_t time;
+		char *data;
+		GtkTreeIter iter;
+
+		level = atoi (str[0]);
+		time = atol (str[1]);
+		data = strrchr (str[2], '\n');
+		*data = 0;
+		data = str[2];
+		
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, level,
+				   COL_TIME, time,
+				   COL_DATA, data,
+				   -1);
+	} else 
+		printf("Unable to decode error log: %s\n", txt);
+	
+	g_strfreev (str);
+		
+
+}
+
+static void
+spin_value_changed (GtkSpinButton *b, gpointer data)
+{
+	int value = gtk_spin_button_get_value_as_int (b);
+	GConfClient *client = mail_config_get_gconf_client ();
+
+	gconf_client_set_int (client, "/apps/evolution/mail/display/error_timeout", value, NULL);
+}
+
+void
+mail_component_show_logger (gpointer top)
+{
+	MailComponent *mc = mail_component_peek ();
+	GtkWidget *window, *hbox, *vbox, *spin, *label, *combo, *scrolled;
+	ELogger *logger = mc->priv->logger;
+	int i;
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
+	GtkTreeView *treeview;
+	GtkTreeViewColumn *column;
+
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for ((GtkWindow *) window, (GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) top));
+	gtk_container_set_border_width ((GtkContainer *) window, 6);
+
+	gtk_window_set_title ((GtkWindow *) window, _("Debug Logs"));
+	vbox = gtk_vbox_new (FALSE, 6);
+	hbox = gtk_hbox_new (FALSE, 6);	
+	gtk_container_add ((GtkContainer *) window, vbox);
+	label = gtk_label_new_with_mnemonic (_("Show _errors in the status bar for"));
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	spin = gtk_spin_button_new_with_range(1.0, 60.0, 1.0);
+	gtk_spin_button_set_value ((GtkSpinButton *) spin, (double) mail_config_get_error_timeout ());
+	g_signal_connect (spin, "value-changed", G_CALLBACK (spin_value_changed), NULL);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, spin);
+	gtk_box_pack_start ((GtkBox *) hbox, spin, FALSE, FALSE, 6);
+	label = gtk_label_new_with_mnemonic (_("seconds."));
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) vbox, hbox, FALSE, FALSE, 6);
+
+	combo = gtk_combo_box_new_text ();
+	for (i = E_LOG_ERROR; i <=E_LOG_DEBUG; i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), ldata[i].text);
+	gtk_combo_box_set_active ((GtkComboBox *) combo, mail_config_get_error_level ());
+
+	hbox = gtk_hbox_new (FALSE, 6);	
+	label = gtk_label_new_with_mnemonic (_("Log Messages:"));
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, combo);	
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) hbox, combo, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) vbox, hbox, FALSE, FALSE, 6);
+	
+	store = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_LONG, G_TYPE_STRING);
+	e_logger_get_logs (logger, (ELogFunction) append_logs, store); 
+	if (0)
+	{
+		GtkTreeIter iter;
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, 0,
+				   COL_TIME, "21/12/07 10:55 PM",
+				   COL_DATA, "Error Refreshing Folder",
+				   -1);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, 1,
+				   COL_TIME, "21/12/07 10:55 PM",
+				   COL_DATA, "Error refreshing folder",
+				   -1);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, 2,
+				   COL_TIME, "21/12/07 10:55 PM",
+				   COL_DATA, "Error refreshing folder",
+				   -1);
+	}
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE (store),
+					     COL_TIME, GTK_SORT_DESCENDING);
+
+
+	treeview = (GtkTreeView *)gtk_tree_view_new();
+	gtk_tree_view_set_rules_hint ((GtkTreeView *) treeview, TRUE);	
+	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview), FALSE);
+	gtk_tree_view_set_model(treeview, GTK_TREE_MODEL (store));
+	gtk_tree_view_set_search_column(treeview, COL_DATA);
+	gtk_tree_view_set_headers_visible(treeview, TRUE);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column ((GtkTreeView *) treeview, column);
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func (column, renderer, render_pixbuf, NULL, NULL);
+
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column ((GtkTreeView *) treeview, column);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_title (column, _("Log Level"));
+	gtk_tree_view_column_set_cell_data_func (column, renderer, render_level, NULL, NULL);
+
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column ((GtkTreeView *) treeview, column);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_set_title (column, _("Time"));	
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func (column, renderer, render_date, NULL, NULL);
+
+	
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes(treeview,
+						    -1, _("Messages"),
+						    renderer, "text", COL_DATA,
+						    NULL);
+	
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
+
+	gtk_container_add (GTK_CONTAINER (scrolled), (GtkWidget *) treeview);
+
+	gtk_box_pack_start ((GtkBox *) vbox, (GtkWidget *) scrolled, TRUE, TRUE, 6);
+	gtk_widget_show_all (window);
 }
 
 BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_MailComponent, PARENT_TYPE, mail_component)

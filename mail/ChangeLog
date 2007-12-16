@@ -1,3 +1,26 @@
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Non-intrusive errror reporting and basic logging support.
+
+	* em-folder-browser.c: (emfb_help_debug): Invoke the debug menu.
+	* evolution-mail.schemas.in: Schema for error timeout and level.
+	* mail-component.c: (mail_component_init), (render_pixbuf),
+	(render_level), (render_date), (append_logs), (spin_value_changed),
+	(mail_component_show_logger): Handle the lifecycle of the logger.
+	* mail-component.h: Api to show the logger.
+	* mail-config.c: (gconf_error_time_changed),
+	(gconf_error_level_changed), (mail_config_init),
+	(mail_config_get_error_timeout), (mail_config_get_error_level): Load
+	and get the error time and level.
+	* mail-config.h:
+	* mail-mt.c: (mail_msg_set_cancelable), (mail_msg_new),
+	(end_event_callback), (mail_msg_free), (mail_msg_check_error),
+	(operation_cancel), (do_op_status): Revamp the error handling.
+	* mail-mt.h:
+	* mail-ops.c: (send_queue_send), (mail_send_queue): Handle the send/receive 
+	case of error reporting separately.
+	* mail-send-recv.c: (free_send_info), (mail_send):
+
 2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-tree-model.c (emft_model_unread_count_changed),

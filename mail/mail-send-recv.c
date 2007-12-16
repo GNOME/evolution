@@ -149,7 +149,8 @@ static void
 free_send_info(struct _send_info *info)
 {
 	g_free(info->uri);
-	camel_operation_unref(info->cancel);
+	if (info->cancel)
+		camel_operation_unref(info->cancel);
 	if (info->timeout_id != 0)
 		g_source_remove(info->timeout_id);
 	g_free(info->what);
@@ -1187,7 +1188,7 @@ mail_send (void)
 	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
 	info->keep = FALSE;
-	info->cancel = camel_operation_new (operation_status, info);
+	info->cancel = NULL; 
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;

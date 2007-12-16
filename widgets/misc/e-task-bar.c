@@ -40,6 +40,7 @@ struct _ETaskBarPrivate
 
 G_DEFINE_TYPE (ETaskBar, e_task_bar, GTK_TYPE_HBOX)
 
+#if 0	
 static void
 reduce_displayed_activities_per_component (ETaskBar *task_bar)
 {
@@ -82,7 +83,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 	g_hash_table_destroy (component_ids_hash);
 }
-
+#endif 
 
 static void
 e_task_bar_class_init (ETaskBarClass *klass)
@@ -185,9 +186,34 @@ e_task_bar_prepend_task (ETaskBar *task_bar,
 		gtk_widget_queue_resize (GTK_WIDGET (task_widget));
 	}
 
-	reduce_displayed_activities_per_component (task_bar);
+	/* We don't restrict */
+	/* reduce_displayed_activities_per_component (task_bar);*/
 
 	gtk_widget_show (GTK_WIDGET (task_bar->priv->hbox));
+}
+
+void
+e_task_bar_remove_task_from_id (ETaskBar *task_bar,
+			guint id)
+{
+	ETaskWidget *task_widget;
+
+	g_return_if_fail (task_bar != NULL);
+	g_return_if_fail (E_IS_TASK_BAR (task_bar));
+
+	task_widget = e_task_bar_get_task_widget_from_id (task_bar, id);
+	if (!task_widget) {
+		printf("Failed...\n");
+		return;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (task_widget));
+
+	/* We don't restrict here on */
+	/* reduce_displayed_activities_per_component (task_bar); */
+
+	if (g_list_length (GTK_BOX (task_bar->priv->hbox)->children) == 0)
+		gtk_widget_hide (GTK_WIDGET (task_bar->priv->hbox));
 }
 
 void
@@ -203,13 +229,40 @@ e_task_bar_remove_task (ETaskBar *task_bar,
 	task_widget = e_task_bar_get_task_widget (task_bar, n);
 	gtk_widget_destroy (GTK_WIDGET (task_widget));
 
-	reduce_displayed_activities_per_component (task_bar);
+	/* We don't restrict here on */
+	/* reduce_displayed_activities_per_component (task_bar); */
 
 	if (g_list_length (GTK_BOX (task_bar->priv->hbox)->children) == 0)
 		gtk_widget_hide (GTK_WIDGET (task_bar->priv->hbox));
 }
 
 ETaskWidget *
+e_task_bar_get_task_widget_from_id (ETaskBar *task_bar,
+			    guint id)
+{
+	GtkBoxChild *child_info;
+	ETaskWidget *w = NULL;
+	GList *list;
+
+	g_return_val_if_fail (task_bar != NULL, NULL);
+	g_return_val_if_fail (E_IS_TASK_BAR (task_bar), NULL);
+
+	list = GTK_BOX (task_bar->priv->hbox)->children;
+	while (list) {
+		child_info = list->data;
+		w = (ETaskWidget *) child_info->widget;
+		if (w && w->id == id)
+			break;
+
+		w = NULL;
+		list = list->next;
+	}
+	
+	return w;
+}
+
+ETaskWidget *
+
 e_task_bar_get_task_widget (ETaskBar *task_bar,
 			    int n)
 {

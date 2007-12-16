@@ -419,10 +419,10 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	struct _e_error_button *b;
 	GtkWidget *hbox, *w, *scroll=NULL;
 	char *tmp, *domain, *id;
-	GString *out;
+	GString *out, *oerr;
 	GPtrArray *args;
 	GtkDialog *dialog;
-	gchar *str;
+	gchar *str, *perr=NULL, *serr=NULL;
 
 	if (error_table == NULL)
 		ee_load_tables();
@@ -529,11 +529,19 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
 		ee_build_label(out, dgettext(table->translation_domain, e->primary), args);
 		g_string_append(out, "</span>\n\n");
+		oerr = g_string_new("");
+		ee_build_label(oerr, dgettext(table->translation_domain, e->primary), args);
+		perr = g_strdup (oerr->str);
+		g_string_free (oerr, TRUE);
 	}
-
-	if (e->secondary)
+	
+	if (e->secondary) {
 		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args);
-
+		oerr = g_string_new("");
+		ee_build_label(oerr, dgettext(table->translation_domain, e->secondary), args);
+		serr = g_strdup (oerr->str);
+		g_string_free (oerr, TRUE);
+	}
 	g_ptr_array_free(args, TRUE);
 
 	if (e->scroll) {
@@ -556,7 +564,9 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	gtk_widget_show_all(hbox);
 
 	gtk_box_pack_start((GtkBox *)dialog->vbox, hbox, TRUE, TRUE, 0);
-
+	g_object_set_data_full ((GObject *) dialog, "primary", perr, g_free);
+	g_object_set_data_full ((GObject *) dialog, "secondary", serr, g_free);
+	
 	return (GtkWidget *)dialog;
 }
 

@@ -64,6 +64,7 @@ int mail_msg_active(unsigned int msgid);
 void *mail_cancel_hook_add(GDestroyNotify func, void *data);
 void mail_cancel_hook_remove(void *handle);
 void mail_cancel_all(void);
+void mail_msg_set_cancelable (struct _mail_msg *msg, gboolean status);
 
 /* request a string/password */
 char *mail_get_password (CamelService *service, const char *prompt,

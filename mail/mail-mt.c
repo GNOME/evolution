@@ -67,6 +67,8 @@ struct _mail_msg_priv {
 	int activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
 				   pointer itself for locking/race conditions */
 	int activity_id;
+	GtkWidget *error;
+	gboolean cancelable;
 };
 
 static GdkPixbuf *progress_icon = NULL;
@@ -87,6 +89,11 @@ pthread_t mail_gui_thread;
 MailAsyncEvent *mail_async_event;
 
 static void mail_msg_destroy(EThread *e, EMsg *msg, void *data);
+
+void mail_msg_set_cancelable (struct _mail_msg *msg, gboolean status)
+{
+	msg->priv->cancelable = status;
+}
 
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 {
@@ -129,6 +136,7 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 	msg->cancel = camel_operation_new(mail_operation_status, GINT_TO_POINTER(msg->seq));
 	camel_exception_init(&msg->ex);
 	msg->priv = g_malloc0(sizeof(*msg->priv));
+	msg->priv->cancelable = TRUE;
 
 	g_hash_table_insert(mail_msg_active_table, GINT_TO_POINTER(msg->seq), msg);
 
@@ -144,12 +152,18 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 }
 
 
-static void end_event_callback (CamelObject *o, void *event_data, void *data)
+static void end_event_callback (CamelObject *o, void *event_data, void *error)
 {
 	EActivityHandler *activity_handler = mail_component_peek_activity_handler (mail_component_peek ());
 	guint activity_id = GPOINTER_TO_INT (event_data);
 
-	e_activity_handler_operation_finished (activity_handler, activity_id);
+	if (!error) {
+		e_activity_handler_operation_finished (activity_handler, activity_id);
+	} else {
+		d(printf("Yahooooo, we got it nonintrusively\n"));
+		e_activity_handler_operation_set_error (activity_handler, activity_id, error);
+
+	}
 }
 
 
@@ -181,6 +195,7 @@ void mail_msg_free(void *msg)
 {
 	struct _mail_msg *m = msg;
 	int activity_id;
+	GtkWidget *error = NULL;
 
 #ifdef MALLOC_CHECK
 	checkmem(m);
@@ -212,11 +227,18 @@ void mail_msg_free(void *msg)
 		return;
 	} else {
 		activity_id = m->priv->activity_id;
+		error = m->priv->error;
+		if (error && !activity_id) {
+			e_activity_handler_make_error (mail_component_peek_activity_handler (mail_component_peek ()), "mail",
+							g_object_get_data ((GObject *) error, "primary"), error);
+			printf("Making error\n");
+		}
+
 	}
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
-	if (m->cancel) {
+	if (m->cancel && m->cancel != -1) {
 		camel_operation_mute(m->cancel);
 		camel_operation_unref(m->cancel);
 	}
@@ -228,7 +250,7 @@ void mail_msg_free(void *msg)
 
 	if (activity_id != 0)
 		mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
-				      NULL, GINT_TO_POINTER (activity_id), NULL);
+				      NULL, GINT_TO_POINTER (activity_id), error);
 }
 
 /* hash table of ops->dialogue of active errors */
@@ -286,7 +308,10 @@ void mail_msg_check_error(void *msg)
 	g_hash_table_insert(active_errors, m->ops, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->ops);
 	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->ops);
-	gtk_widget_show((GtkWidget *)gd);
+	if (m->priv->cancelable)
+		m->priv->error = gd;
+	else
+		gtk_widget_show((GtkWidget *)gd);
 }
 
 void mail_msg_cancel(unsigned int msgid)
@@ -927,6 +952,12 @@ void mail_disable_stop(void)
 	MAIL_MT_UNLOCK(status_lock);
 }
 
+static void
+operation_cancel (CamelOperation *p)
+{
+	camel_operation_cancel (p);
+}
+
 /* ******************************************************************************** */
 
 struct _op_status_msg {
@@ -995,8 +1026,7 @@ static void do_op_status(struct _mail_msg *mm)
 				what = g_strdup("");
 			}
 
-
-			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
+			data->activity_id = e_activity_handler_cancelable_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE, operation_cancel, msg->cancel);
 
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);

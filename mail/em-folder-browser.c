@@ -1550,6 +1550,12 @@ emfb_focus_search(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
+emfb_help_debug (BonoboUIComponent *uid, void *data, const char *path)
+{
+	mail_component_show_logger ((GtkWidget *) data);
+}
+
+static void
 emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
 {
 	/* FIXME: rename/refactor this */
@@ -1583,6 +1589,7 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("FolderRefresh", emfb_folder_refresh),
 	BONOBO_UI_UNSAFE_VERB ("FolderRename", emfb_folder_rename),
 	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
+	BONOBO_UI_UNSAFE_VERB ("HelpDebug", emfb_help_debug),
 
 	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),

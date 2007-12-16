@@ -162,6 +162,8 @@ void mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri);
 /* static utility functions */
 char *mail_config_folder_to_cachename (struct _CamelFolder *folder, const char *prefix);
 char *mail_config_folder_to_safe_url (struct _CamelFolder *folder);
+guint mail_config_get_error_timeout  (void);
+guint mail_config_get_error_level  (void);
 
 GType evolution_mail_config_get_type (void);
 

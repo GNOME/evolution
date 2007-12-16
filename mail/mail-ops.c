@@ -724,6 +724,11 @@ send_queue_send(struct _mail_msg *mm)
 
 	if (m->cancel)
 		camel_operation_register (m->cancel);
+ 	else
+ 		camel_operation_register (mm->cancel);
+ 
+ 	if (!m->cancel)
+ 		camel_operation_start (NULL, _("Sending message"));
 
 	camel_exception_init (&ex);
 
@@ -734,6 +739,8 @@ send_queue_send(struct _mail_msg *mm)
 		int pc = (100 * i) / send_uids->len;
 
 		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, send_uids->len);
+ 		if (!m->cancel)
+ 			camel_operation_progress (NULL, (i+1) * 100 / send_uids->len);
 
 		mail_send_message (m->queue, send_uids->pdata[i], m->destination, m->driver, &ex);
 		if (camel_exception_is_set (&ex)) {
@@ -779,9 +786,15 @@ send_queue_send(struct _mail_msg *mm)
 		camel_folder_sync (sent_folder, FALSE, &ex);
 		camel_exception_clear (&ex);
 	}
+ 
+ 	if (!m->cancel)
+ 		camel_operation_end (NULL);
 
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);
+ 	else
+ 		camel_operation_unregister (mm->cancel);
+ 
 }
 
 static void
@@ -830,6 +843,10 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 	if (cancel) {
 		m->cancel = cancel;
 		camel_operation_ref(cancel);
+		camel_operation_unref (((struct _mail_msg *) m)->cancel);
+		mail_msg_set_cancelable ((struct _mail_msg *)m, FALSE);
+
+		((struct _mail_msg *) m)->cancel = NULL;
 	}
 	m->status = status;
 	m->status_data = status_data;

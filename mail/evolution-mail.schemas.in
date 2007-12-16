@@ -918,6 +918,34 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/error_timeout</key>
+      <applyto>/apps/evolution/mail/display/error_timeout</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>60</default>
+      <locale name="C">
+         <short>Amount of time in seconds the error should be showed on the status bar.</short>
+         <long>
+	Amount of time in seconds the error should be showed on the status bar.
+         </long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/error_level</key>
+      <applyto>/apps/evolution/mail/display/error_level</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+         <short>Level beyond which it should the message should be logged.</short>
+         <long> This can have three possible values. 0 for errors. 1 for warnings. 
+	 	2 for debug messages.
+         </long>
+      </locale>
+    </schema>
+
+
     <!-- Labels and Colours -->
 
     <schema>

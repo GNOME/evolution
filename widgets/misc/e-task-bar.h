@@ -66,7 +66,11 @@ void         e_task_bar_prepend_task     (ETaskBar    *task_bar,
 					  ETaskWidget *task_widget);
 void         e_task_bar_remove_task      (ETaskBar    *task_bar,
 					  int          n);
+ETaskWidget * e_task_bar_get_task_widget_from_id (ETaskBar *task_bar, 
+						  guint id);
 
+void 	    e_task_bar_remove_task_from_id (ETaskBar *task_bar,
+					    guint id);
 ETaskWidget *e_task_bar_get_task_widget  (ETaskBar    *task_bar,
 					  int          n);
 

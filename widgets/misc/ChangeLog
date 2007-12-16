@@ -1,3 +1,30 @@
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Revamped Activity handler and task bar/widget for non-intrusive 
+	error reporting
+
+	* e-activity-handler.c: (activity_info_new), (activity_info_free),
+	(task_widget_new_from_activity_info), (setup_task_bar),
+	(e_activity_handler_init),
+	(e_activity_handler_set_error_flush_time),
+	(e_activity_handler_set_logger), (cancel_wrapper),
+	(e_activity_handler_cancelable_operation_started),
+	(e_activity_handler_operation_started), (handle_error),
+	(error_cleanup), (e_activity_handler_make_error),
+	(e_activity_handler_operation_set_error),
+	(e_activity_handler_operation_progressing),
+	(e_activity_handler_operation_finished):
+	* e-activity-handler.h:
+	* e-task-bar.c: (e_task_bar_prepend_task),
+	(e_task_bar_remove_task_from_id), (e_task_bar_remove_task),
+	(e_task_bar_get_task_widget_from_id):
+	* e-task-bar.h:
+	* e-task-widget.c: (e_task_widget_init), (button_press_event_cb),
+	(prepare_popup), (e_task_widget_construct),
+	(e_task_widget_new_with_cancel), (e_task_widget_new),
+	(e_task_widget_update_image):
+	* e-task-widget.h:
+
 2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #392747 (extra cleanup work)

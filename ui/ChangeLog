@@ -1,3 +1,8 @@
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-global.xml: Add Debug Log menu item for mailer.
+	* evolution.xml: Add place holder for Debug menu item.
+
 2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution.xml:

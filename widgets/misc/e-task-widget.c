@@ -26,12 +26,15 @@
 
 #include "e-task-widget.h"
 #include "e-spinner.h"
+#include <e-util/e-icon-factory.h>
 
 #include <gtk/gtkframe.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtktooltips.h>
+#include <gtk/gtktoolbutton.h>
+#include <gtk/gtkbox.h>
 
 #include <glib/gi18n.h>
 
@@ -45,7 +48,11 @@ struct _ETaskWidgetPrivate {
 
 	GdkPixbuf *icon_pixbuf;
 	GtkWidget *label;
+	GtkWidget *box;
 	GtkWidget *image;
+
+	void (*cancel_func) (gpointer data);
+	gpointer data;
 };
 
 G_DEFINE_TYPE (ETaskWidget, e_task_widget, GTK_TYPE_EVENT_BOX)
@@ -112,8 +119,35 @@ e_task_widget_init (ETaskWidget *task_widget)
 	priv->icon_pixbuf  = NULL;
 	priv->label        = NULL;
 	priv->image        = NULL;
+	priv->box	   = NULL;
 
 	task_widget->priv = priv;
+	task_widget->id = 0;
+}
+
+static gboolean
+button_press_event_cb (GtkWidget *w, gpointer data)
+{
+	ETaskWidget *tw = (ETaskWidget *) data;
+	ETaskWidgetPrivate *priv = tw->priv;
+
+	priv->cancel_func (priv->data);
+
+	return TRUE;
+}
+
+static gboolean
+prepare_popup (ETaskWidget *widget, GdkEventButton *event)
+{
+	if (event->type != GDK_BUTTON_PRESS)
+		return FALSE;
+
+	if (event->button != 3)
+		return FALSE;
+	
+	/* FIXME: Implement Cancel */
+
+	return TRUE;
 }
 
 
@@ -121,17 +155,20 @@ void
 e_task_widget_construct (ETaskWidget *task_widget,
 			 GdkPixbuf *icon_pixbuf,
 			 const char *component_id,
-			 const char *information)
+			 const char *information,
+			 void (*cancel_func) (gpointer data),
+			 gpointer data)
 {
 	ETaskWidgetPrivate *priv;
 	/*GdkPixmap *pixmap;
 	GdkBitmap *mask;*/
 	GtkWidget *box;
 	GtkWidget *frame;
+	GtkWidget *image = e_icon_factory_get_image ("gtk-stop", E_ICON_SIZE_MENU);
+	GtkWidget *tool;
 
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
-	g_return_if_fail (icon_pixbuf != NULL);
 	g_return_if_fail (component_id != NULL);
 	g_return_if_fail (information != NULL);
 
@@ -154,27 +191,56 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	/* priv->icon_pixbuf = g_object_ref (icon_pixbuf); */
 
 	/* gdk_pixbuf_render_pixmap_and_mask (icon_pixbuf, &pixmap, &mask, 128); */
-
+	priv->box = gtk_hbox_new (FALSE, 0);
 	priv->image = e_spinner_new ();
 	e_spinner_set_size (E_SPINNER (priv->image), GTK_ICON_SIZE_SMALL_TOOLBAR);
 	e_spinner_start (E_SPINNER (priv->image));
 	/* gtk_image_new_from_pixmap (pixmap, mask); */
 	gtk_widget_show (priv->image);
-	gtk_box_pack_start (GTK_BOX (box), priv->image, FALSE, TRUE, 0);
-
+	gtk_widget_show (priv->box);
+	gtk_box_pack_start (GTK_BOX (priv->box), priv->image, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (box), priv->box, FALSE, TRUE, 0);
 	priv->label = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 	gtk_widget_show (priv->label);
 	gtk_box_pack_start (GTK_BOX (box), priv->label, TRUE, TRUE, 0);
+	if (cancel_func) {
+		tool = (GtkWidget *) gtk_tool_button_new (image, NULL);
+		gtk_box_pack_end (GTK_BOX (box), tool, FALSE, TRUE, 0);
+		gtk_widget_show_all (tool);
 
-	/* g_object_unref (pixmap);
-	if (mask)
-		g_object_unref (mask); */
+		gtk_widget_set_sensitive (tool, cancel_func != NULL);
+		priv->cancel_func = cancel_func;
+		priv->data = data;
+		g_signal_connect (tool, "clicked",  G_CALLBACK (button_press_event_cb), task_widget);
+		/* g_object_unref (pixmap);
+		if (mask)
+			g_object_unref (mask); */
+ 		g_signal_connect (task_widget, "button-press-event", G_CALLBACK (prepare_popup), task_widget);
+
+	}
 
 	priv->tooltips = gtk_tooltips_new ();
 	g_object_ref_sink (priv->tooltips);
 
 	e_task_widget_update (task_widget, information, -1.0);
+}
+
+GtkWidget *
+e_task_widget_new_with_cancel (GdkPixbuf *icon_pixbuf,
+		   const char *component_id,
+		   const char *information,
+		   void (*cancel_func) (gpointer data),
+		   gpointer data)
+{
+	ETaskWidget *task_widget;
+
+	g_return_val_if_fail (information != NULL, NULL);
+
+	task_widget = g_object_new (e_task_widget_get_type (), NULL);
+	e_task_widget_construct (task_widget, icon_pixbuf, component_id, information, cancel_func, data);
+
+	return GTK_WIDGET (task_widget);
 }
 
 GtkWidget *
@@ -188,9 +254,26 @@ e_task_widget_new (GdkPixbuf *icon_pixbuf,
 	g_return_val_if_fail (information != NULL, NULL);
 
 	task_widget = g_object_new (e_task_widget_get_type (), NULL);
-	e_task_widget_construct (task_widget, icon_pixbuf, component_id, information);
+	e_task_widget_construct (task_widget, icon_pixbuf, component_id, information, NULL, NULL);
 
 	return GTK_WIDGET (task_widget);
+}
+
+GtkWidget *
+e_task_widget_update_image (ETaskWidget *task_widget,
+			    char *stock, char *text)
+{
+	GtkWidget *img, *tool;
+
+	img = e_icon_factory_get_image ("stock_dialog-warning", E_ICON_SIZE_MENU);
+	tool = (GtkWidget *) gtk_tool_button_new (img, NULL);
+	gtk_box_pack_start (GTK_BOX(task_widget->priv->box), tool, FALSE, TRUE, 0);
+	gtk_widget_destroy (task_widget->priv->image);
+	gtk_widget_show_all (task_widget->priv->box);
+	task_widget->priv->image = img;
+	gtk_label_set_text (GTK_LABEL (task_widget->priv->label), text);
+
+	return tool;
 }
 
 
