@@ -1,3 +1,69 @@
+Evolution 2.21.4 2007-12-17
+---------------------------
+
+New in 2.21.4:
+	Basic support for non-intrusive error reporting and error logging in Mailer (Srinivasa Ragavan)
+	Add basic support for crash detection (Srinivasa Ragavan)
+	Basic Message tagging support (aka Custom labels) (Sankar P / Milan Crha)
+
+Bug fixes:
+	#220846: New option to accept meeting request as free time (Milan Crha)
+	#263236: Look for "Do not ask me again" check in alignment, so let it works properly (Milan Crha)
+	#329578: Add mnemonic for "minutes" widget (Alex Kloss)
+	#329706: Confirmation dialog for HTML Message needs some improvements (Alex Kloss)
+	#336074: Check for mail only in active folders (Milan Crha)
+	#340267: Show description in preview as preformatted text, so tabulators are kept instead of treated as white spaces (Milan Crha)
+	#347328: Fix mnemonic clash over 'c', add mnemonic for 'Name' entry (Alex Kloss)
+	#347329: Added a mnemonic to the 'Create' button of the 'New Folder' dialog (David Turner)
+	#354265: Fixed mnemonic clash between print and paste mnemonics (David Turner)
+	#392747: Abbreviated day names are in english for month view, while they appear in indic lang chars when seen in print-preview/actual-print (Matthew Barnes)
+	#408170: Added mnemonics to the "Custom" and "Sort By" menu options (David Turner)
+	#409121: Corrected misspelled instances of vCard (Lucky Wankhede)
+	#430369: Crash in ea_setting_setup() (Srinivasa Ragavan)
+	#437579: Fix all "entity not defined" warnings (Matthew Barnes)
+	#438769: Changed label from 'Search name' to 'Rule name' in edit -> message filters -> add (Bob Mauchin)
+	#444227: Make string for PrepareForOffline more descriptive. Add mnemonic to PrepareForOffline menu item (Alex Kloss)
+	#446029: Fix for a mnemonic conflict in 'Find in Message' feature (David Turner)
+	#458824: Added mnemonics to the "Group" dialog (David Turner)
+	#466241: Added a mnemonic to "Authentication type" in the recieving mail section of configuration (David Turner)
+	#466497: Changed some mnemonics to stop l being used as a mnemonic key (David Turner)
+	#466499: Added support for mnemonics in config options from camel (David Turner)
+	#466503: Fix for a mnemonic conflict in Preferences -> Mail Preferences -> Junk tab (Alex Kloss)
+	#468277: Added a mnemonic to "Copy book content locally for offline operation" (David Turner)
+	#474043: Prevent buffer overflows, by introducing a max size to copy (Evil Ninja Squirrel)
+	#474651: Use format strings in gtk_message_dialog_new (Tobias Mueller)
+	#475508: Changed the string for search folder and filter creation from message list to make it understandable (Akhil Laddha)
+	#492702: Moved bits of sound notification on new messages to mail-notification plugin. (Milan Crha)
+	#500210: Show plugin configuration in a tab of plugin manager (Milan Crha)
+	#500561: Added icon for mark all messages as read menu item. (Denis Washington)
+	#501474: Fix wrong expression from bug #359267 (Milan Crha)
+	#501677: If it is not FolderBrowser object, the pane size signal is not sent (Jeff Cai)
+	#501969: Passwords should not be forgotten on all errors (Sankar P)
+	#502188: Initialize "remember" variable to FALSE. (nickspoon0@gmail.com)
+	#502312: A little cleanup of configuration part of the plugin to not use global variables and free memory properly (Milan Crha)
+	#502318: Critical warnings fixed when closing message window (Milan Crha)
+	#502501: Re use the existing string (Srinivasa Ragavan)
+	#503111: Suppress "Loading %s as the default junk plugin" message (Alex "weej" Jones)
+
+Other Contributors:
+	Fixes some CPU usage issue whenever (un)read count is updated (Sankar P/Michael Meeks)
+	Added a preference to disable Magic Spacebar (Srinivasa Ragavan)
+	Fix an implicit function declaration. (Matthew Barnes)
+	Bump libgtkhtml requirement to 3.17.3 due to bug #271551 (Matthew Barnes)
+	Cleanup of attachment reminder over Milan Crha's work (Johnny Jacob)
+	Move preferences of attachment reminder plugin to the configure tab (Sankar P)
+	Fix capitalization of "Download Messages..." & "Switcher Appearance" menu (Matthew Barnes)
+
+Updated Translations:
+	Kjartan Maraas (nb)
+	Kostas Papadimas (el)
+	Jorge Gonzalez (es)
+	Matej Urbančič(sl)
+	Andre Klapper (de)
+	Rodrigo Flores (pt_BR)
+	Daniel Nylander (sv)
+	Seán de Búrca (ga)
+
 Evolution 2.21.3 2007-12-03
 ---------------------------
 
