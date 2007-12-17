@@ -581,7 +581,7 @@ static void
 new_notify_sound (EMEventTargetFolder *t)
 {
 	time_t last_newmail;
-	struct _SoundNotifyData data = {0, 0};
+	static struct _SoundNotifyData data = {0, 0};
 
 	time (&last_newmail);
 

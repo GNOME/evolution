@@ -1,3 +1,10 @@
+2007-12-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #504030
+
+	* mail-notification.c: (new_notify_sound):
+	Do not play sound on every new mail arrival in a row.
+
 2007-12-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #492702
