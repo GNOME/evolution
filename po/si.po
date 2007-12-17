@@ -2794,12 +2794,12 @@ msgstr ""
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
 msgid "Email begins with"
-msgstr "විද්‍යුත් තැපැල ආරම්ඹ වනුයේ"
+msgstr "විද්‍යුත් තැපැල ආරම්භ වනුයේ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
 msgid "Name begins with"
-msgstr "නම ආරම්ඹ වනුයේ"
+msgstr "නම ආරම්භ වනුයේ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:150
 msgid "No contacts"
@@ -3832,7 +3832,7 @@ msgstr "ප්‍රමාණය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
-msgstr "නව පිටුවක ආරම්ඹකරන්න"
+msgstr "නව පිටුවක ආරම්භ කරන්න"
 
 #: ../addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
@@ -6384,7 +6384,7 @@ msgstr "සාමාන්‍ය"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:472 ../calendar/gui/print.c:2342
 msgid "Not Started"
-msgstr "ආරම්ඹව නැත"
+msgstr "ආරම්භව නැත"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
@@ -7119,7 +7119,7 @@ msgstr ""
 #. For Translators : 'starts' is starts:date implying a task starts on what date
 #: ../calendar/gui/e-itip-control.c:888
 msgid "Starts"
-msgstr "ආරම්ඹය"
+msgstr "ආරම්භය"
 
 #. For Translators : 'ends' is ends:date implying a task ends on what date
 #: ../calendar/gui/e-itip-control.c:902
@@ -7644,7 +7644,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:619
 msgid "_Start time:"
-msgstr "ආරම්ඹක වේලාව (_S):"
+msgstr "ආරම්භක වේලාව (_S):"
 
 #: ../calendar/gui/e-meeting-time-sel.c:646
 msgid "_End time:"
@@ -17353,7 +17353,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:393
 msgid "Start"
-msgstr "ආරම්ඹන්න"
+msgstr "ආරම්භන්න"
 
 #: ../plugins/save-calendar/csv-format.c:394
 msgid "End"
@@ -17761,7 +17761,7 @@ msgstr ""
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:584
 msgid "translator-credits"
-msgstr "පරිවර්තන ස්තුතිය"
+msgstr "ඩනිෂ්ක නවින් <danishka@gmail.com>"
 
 #: ../shell/e-shell-window-commands.c:595
 msgid "Evolution Website"
