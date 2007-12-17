@@ -1200,22 +1200,42 @@ emfv_popup_copy(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-emfv_set_label(EMFolderView *emfv, const char *label)
+emfv_set_label (EMFolderView *emfv, const char *label)
 {
-	GPtrArray *uids = message_list_get_selected(emfv->list);
+	GPtrArray *uids = message_list_get_selected (emfv->list);
 	int i;
 
-	for (i=0;i<uids->len;i++)
-		camel_folder_set_message_user_tag(emfv->folder, uids->pdata[i], "label", label);
+	for (i = 0; i < uids->len; i++)
+		camel_folder_set_message_user_flag (emfv->folder, uids->pdata[i], label, TRUE);
 
-	message_list_free_uids(emfv->list, uids);
+	message_list_free_uids (emfv->list, uids);
+}
+
+static void
+emfv_unset_label (EMFolderView *emfv, const char *label)
+{
+	GPtrArray *uids = message_list_get_selected (emfv->list);
+	int i;
+
+	for (i = 0; i < uids->len; i++) {
+		camel_folder_set_message_user_flag (emfv->folder, uids->pdata[i], label, FALSE);
+		camel_folder_set_message_user_tag (emfv->folder, uids->pdata[i], "label", NULL);
+	}
+
+	message_list_free_uids (emfv->list, uids);
 }
 
 static void
 emfv_popup_label_clear(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
-	emfv_set_label(emfv, NULL);
+	GSList *l;
+	MailConfigLabel *label; 
+
+	for (l = mail_config_get_labels(); l; l = l->next) {
+		label = l->data;
+		emfv_unset_label(emfv, label->tag);
+	}
 }
 
 static void
@@ -1223,7 +1243,10 @@ emfv_popup_label_set(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
 
-	emfv_set_label(emfv, pitem->user_data);
+	if (pitem->type & E_POPUP_ACTIVE)
+		emfv_set_label (emfv, pitem->user_data);
+	else
+		emfv_unset_label (emfv, pitem->user_data);
 }
 
 static void
@@ -1341,6 +1364,38 @@ static EPopupItem emfv_popup_items[] = {
 	  emfv_popup_filter_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 };
 
+static enum _e_popup_t
+emfv_popup_labels_get_state_for_tag (EMFolderView *emfv, GPtrArray *uids, const char *label_tag)
+{
+	enum _e_popup_t state = 0;
+	int i;
+	gboolean exists = FALSE, not_exists = FALSE;
+
+	g_return_val_if_fail (emfv != 0, state);
+	g_return_val_if_fail (label_tag != NULL, state);
+
+	for (i = 0; i < uids->len && (!exists || !not_exists); i++) {
+		if (camel_folder_get_message_user_flag (emfv->folder, uids->pdata[i], label_tag))
+			exists = TRUE;
+		else {
+			const char *label = mail_config_get_new_label_tag (camel_folder_get_message_user_tag (emfv->folder, uids->pdata[i], "label"));
+
+			/* backward compatibility... */
+			if (label && !strcmp (label, label_tag))
+				exists = TRUE;
+			else
+				not_exists = TRUE;
+		}
+	}
+
+	if (exists && not_exists)
+		state = E_POPUP_INCONSISTENT;
+	else if (exists)
+		state = E_POPUP_ACTIVE;
+
+	return state;
+}
+
 static void
 emfv_popup_labels_free(EPopup *ep, GSList *l, void *data)
 {
@@ -1388,6 +1443,8 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 
 	i = 1;
 	if (!on_display) {
+		GPtrArray *uids = message_list_get_selected (emfv->list);
+
 		for (l = mail_config_get_labels(); l; l = l->next) {
 			EPopupItem *item;
 			MailConfigLabel *label = l->data;
@@ -1396,7 +1453,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 			GdkGC *gc;
 
 			item = g_malloc0(sizeof(*item));
-			item->type = E_POPUP_IMAGE;
+			item->type = E_POPUP_TOGGLE | emfv_popup_labels_get_state_for_tag (emfv, uids, label->tag);
 			item->path = g_strdup_printf("60.label.00/00.label.%02d", i++);
 			item->label = label->name;
 			item->activate = emfv_popup_label_set;
@@ -1404,7 +1461,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 
 			item->visible = EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY;
 
-			gdk_color_parse(label->colour, &colour);
+			gdk_color_parse (label->colour, &colour);
 			gdk_colormap_alloc_color(gdk_colormap_get_system(), &colour, FALSE, TRUE);
 
 			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
@@ -1418,6 +1475,8 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 
 			label_list = g_slist_prepend(label_list, item);
 		}
+
+		message_list_free_uids (emfv->list, uids);
 	}
 
 	e_popup_add_items((EPopup *)emp, label_list, NULL, emfv_popup_labels_free, emfv);

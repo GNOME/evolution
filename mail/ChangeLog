@@ -1,3 +1,28 @@
+2007-12-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211353
+
+	* message-list.etspec:
+	* message-list.h:
+	* message-list.c: Added new column to show labels.
+	* filtertypes.xml:
+	* vfoldertypes.xml:
+	Code for label filters/search folders has been changed.
+	* mail-config.glade:
+	* em-folder-view.c: (emfv_set_label), (emfv_unset_label),
+	(emfv_popup_label_clear), (emfv_popup_label_set),
+	(emfv_popup_labels_get_state_for_tag), (emfv_popup):
+	Labels popup submenu is now shown with checkboxes so one can set
+	more than one label to the message and unset only one label from
+	message. There has been added new function, because of this.
+	* mail-config.h:
+	* mail-config.c: New "interface" functions to work with labels.
+	* em-mailer-prefs.h:
+	* em-mailer-prefs.c: Editing labels in tree.
+	* em-folder-browser.c:
+	Labels in show menu reflect changes in preferences.
+
+
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #430369 

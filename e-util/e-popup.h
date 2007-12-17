@@ -50,7 +50,9 @@ typedef void (*EPopupItemsFunc)(EPopup *ep, GSList *items, void *data);
 /**
  * enum _e_popup_t - Popup item type enumeration.
  * @E_POPUP_ITEM: A simple menu item.
- * @E_POPUP_TOGGLE: A toggle menu item.
+ * @E_POPUP_TOGGLE: A toggle menu item. If struct _EPopupItem::image is
+ * not NULL, then it points to GtkImage directly and there is a toggle
+ * with an image and caption shown in the popup menu.
  * @E_POPUP_RADIO: A radio menu item.  Note that the radio group is
  * global for the entire (sub) menu.  i.e. submenu's must be used to
  * separate radio button menu items.
@@ -63,6 +65,8 @@ typedef void (*EPopupItemsFunc)(EPopup *ep, GSList *items, void *data);
  * @E_POPUP_TYPE_MASK: Mask used to separate item type from option bits.
  * @E_POPUP_ACTIVE: An option bit to signify that the radio button or
  * toggle button is active.
+ * @E_POPUP_INCONSISTENT: An option to toggle only, if set, the toggle
+ * is shown in inconsistent state. This is used before E_POPUP_ACTIVE.
  */
 enum _e_popup_t {
 	E_POPUP_ITEM = 0,
@@ -73,6 +77,7 @@ enum _e_popup_t {
 	E_POPUP_BAR,
 	E_POPUP_TYPE_MASK = 0xffff,
 	E_POPUP_ACTIVE = 0x10000,
+	E_POPUP_INCONSISTENT = 0x20000
 };
 
 /* FIXME: activate passes back no context data apart from that provided.

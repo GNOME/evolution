@@ -102,11 +102,11 @@ struct _EMMailerPrefs {
 	struct _GtkToggleButton *prompt_unwanted_html;
 
 	/* Labels and Colours tab */
-	struct {
-		struct _GtkEntry *name;
-		struct _GtkColorButton *color;
-	} labels[5];
-	struct _GtkButton *restore_labels;
+	struct _GtkWidget *label_add;
+	struct _GtkWidget *label_remove;
+	struct _GtkWidget *label_color;
+	struct _GtkWidget *label_tree;
+	struct _GtkListStore *label_list_store;
 
 	/* Headers tab */
 	struct _GtkButton *add_header;

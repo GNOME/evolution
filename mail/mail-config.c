@@ -77,12 +77,14 @@
 #include "mail-tools.h"
 
 /* Note, the first element of each MailConfigLabel must NOT be translated */
-MailConfigLabel label_defaults[5] = {
-	{ "important", N_("I_mportant"), "#EF2929" },  /* red */
-	{ "work",      N_("_Work"),      "#F57900" },  /* orange */
-	{ "personal",  N_("_Personal"),  "#4E9A06" },  /* green */
-	{ "todo",      N_("_To Do"),     "#3465A4" },  /* blue */
-	{ "later",     N_("_Later"),     "#75507B" }   /* purple */
+/* Note, the label tag should Always starts with prefix "$Label"!
+         It's also because filters and search folders, so beware people. */
+MailConfigLabel label_defaults[LABEL_DEFAULTS_NUM] = {
+	{ "$Labelimportant", N_("I_mportant"), "#EF2929" },  /* red */
+	{ "$Labelwork",      N_("_Work"),      "#F57900" },  /* orange */
+	{ "$Labelpersonal",  N_("_Personal"),  "#4E9A06" },  /* green */
+	{ "$Labeltodo",      N_("_To Do"),     "#3465A4" },  /* blue */
+	{ "$Labellater",     N_("_Later"),     "#75507B" }   /* purple */
 };
 
 typedef struct {
@@ -163,75 +165,95 @@ config_clear_labels (void)
 static void
 config_cache_labels (void)
 {
-	GSList *labels, *list, *tail, *n;
+	GSList *labels, *list, *head;
 	MailConfigLabel *label;
-	char *buf, *colour;
+	char *buf;
 	int num = 0;
 
-	tail = labels = NULL;
+	labels = NULL;
 
-	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
+	head = gconf_client_get_list (config->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
 
-	while (list != NULL) {
-		buf = list->data;
+	for (list = head; list; list = list->next) {
+		char *color, *name, *tag;
+		name = buf = list->data;
+		color = strrchr (buf, ':');
 
-		if (num < 5 && (colour = strrchr (buf, ':'))) {
-			label = g_new (MailConfigLabel, 1);
+		*color++ = '\0';
+		tag = strchr (color, '|');
+		if (tag)
+			*tag++ = '\0';
 
-			*colour++ = '\0';
-			label->tag = g_strdup(label_defaults[num].tag);
+		label = g_new (MailConfigLabel, 1);
 
-			/* Don't translate an empty string */
-			if (buf == NULL || buf[0] == '\0')
-			        label->name = g_strdup (_("Unnamed"));
-			else
-			        label->name = g_strdup (_(buf));
-
-			label->colour = g_strdup (colour);
-
-			n = g_slist_alloc ();
-			n->next = NULL;
-			n->data = label;
-
-			if (tail == NULL)
-				labels = n;
-			else
-				tail->next = n;
-
-			tail = n;
-
+		/* Needed for Backward Compatibility */
+		if (num < LABEL_DEFAULTS_NUM) {
+			label->name = g_strdup (_(buf));
+			label->tag = g_strdup (label_defaults[num].tag);
 			num++;
+		} else if (!tag) {
+			g_free (buf);
+			g_free (label);
+			continue;
+		} else {
+			label->name = g_strdup (name);
+			label->tag = g_strdup (tag);
 		}
 
-		g_free (buf);
+		label->colour = g_strdup (color);
+		labels = g_slist_prepend (labels, label);
 
-		n = list->next;
-		g_slist_free_1 (list);
-		list = n;
+		g_free (buf);
 	}
 
-	while (num < 5) {
+	if (head)
+		g_slist_free (head);
+
+	while (num < LABEL_DEFAULTS_NUM) {
 		/* complete the list with defaults */
 		label = g_new (MailConfigLabel, 1);
 		label->tag = g_strdup (label_defaults[num].tag);
 		label->name = g_strdup (_(label_defaults[num].name));
 		label->colour = g_strdup (label_defaults[num].colour);
 
-		n = g_slist_alloc ();
-		n->next = NULL;
-		n->data = label;
-
-		if (tail == NULL)
-			labels = n;
-		else
-			tail->next = n;
-
-		tail = n;
+		labels = g_slist_prepend (labels, label);
 
 		num++;
 	}
 
-	config->labels = labels;
+	config->labels = g_slist_reverse (labels);
+}
+
+/* stores the actual cache to gconf */
+static gboolean
+config_cache_labels_flush (void)
+{
+	GSList *l, *text_labels;
+
+	if (!config || !config->labels)
+		return FALSE;
+
+	text_labels = NULL;
+
+	for (l = config->labels; l; l = l->next) {
+		MailConfigLabel *label = l->data;
+
+		if (label && label->tag && label->name && label->colour)
+			text_labels = g_slist_prepend (text_labels, g_strdup_printf ("%s:%s|%s", label->name, label->colour, label->tag));
+	}
+
+	if (!text_labels)
+		return FALSE;
+
+	text_labels = g_slist_reverse (text_labels);
+
+	gconf_client_set_list (config->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, text_labels, NULL);
+
+	g_slist_foreach (text_labels, (GFunc)g_free, NULL);
+	g_slist_free (text_labels);
+
+	/* not true if gconf failed to write; who cares */
+	return TRUE;
 }
 
 static void
@@ -587,12 +609,6 @@ mail_config_is_corrupt (void)
 	return config->corrupt;
 }
 
-GSList *
-mail_config_get_labels (void)
-{
-	return config->labels;
-}
-
 int
 mail_config_get_address_count (void)
 {
@@ -635,34 +651,286 @@ mail_config_get_enable_magic_spacebar ()
 	return config->magic_spacebar;
 }
 
-const char *
-mail_config_get_label_color_by_name (const char *name)
-{
-	MailConfigLabel *label;
-	GSList *node;
+/* public Label functions */
 
-	node = config->labels;
-	while (node != NULL) {
-		label = node->data;
-		if (!strcmp (label->tag, name))
-			return label->colour;
-		node = node->next;
+/**
+ * config_get_label
+ *
+ * Looks for label in labels cache by tag and returns actual pointer to cache.
+ * @param tag Tag of label you are looking for.
+ * @return Pointer to cache data if label with such tag exists or NULL. Do not free it!
+ **/
+static MailConfigLabel *
+config_get_label (const char *tag)
+{
+	GSList *l;
+
+	g_return_val_if_fail (tag != NULL, NULL);
+
+	for (l = config->labels; l; l = l->next) {
+		MailConfigLabel *label = l->data;
+	
+		if (label && label->tag && !strcmp (tag, label->tag))
+			return label;
 	}
 
 	return NULL;
 }
 
-const char *
-mail_config_get_label_color_by_index (int index)
+/**
+ * mail_config_get_labels
+ *
+ * @return list of known labels, each member data is MailConfigLabel structure.
+ *         Returned list should not be freed, neither data inside it.
+ **/
+GSList *
+mail_config_get_labels (void)
+{
+	return config->labels;
+}
+
+/**
+ * mail_config_get_next_label_tag
+ *
+ * @param id [out] if not NULL, then assigned used number of the next free tag.
+ * @return Next free tag, which can be used for new label.
+ *         Returned pointer should be freed with g_free.
+ *
+ * @note All labels should always start with "$Label" string, it's very important
+ *       for filters and search folders!
+ **/
+char *
+mail_config_get_next_label_tag (int *id)
+{
+	char *tag = NULL;
+	int count = LABEL_DEFAULTS_NUM;
+
+	/* who wants more than 100 labels? */
+	while (!tag && count <= 100) {
+		count++;
+		tag = g_strdup_printf ("$Label%d", count);
+
+		if (config_get_label (tag)) {
+			g_free (tag);
+			tag = NULL;
+		}
+	}
+
+	if (id)
+		*id = count;
+
+	return tag;
+}
+
+/**
+ * mail_config_is_system_label
+ *
+ * @return Whether the tag is one of default/system labels or not.
+ **/
+gboolean
+mail_config_is_system_label (const char *tag)
+{
+	int i;
+
+	if (!tag)
+		return FALSE;
+
+	for (i = 0; i < LABEL_DEFAULTS_NUM; i++) {
+		if (strcmp (tag, label_defaults[i].tag) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ * mail_config_add_label
+ * Creates new label at the end of actual list of labels.
+ *
+ * @param tag Unique identifier of this new label.
+ * @param name User readable name of this label. Should not be NULL.
+ * @param color Color assigned to this label. Should not be NULL.
+ * @return Whether was added.
+ **/
+gboolean
+mail_config_add_label (const char *tag, const char *name, const GdkColor *color)
 {
 	MailConfigLabel *label;
 
-	label = g_slist_nth_data (config->labels, index);
+	g_return_val_if_fail (tag != NULL, FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_val_if_fail (color != NULL, FALSE);
 
-	if (label)
-		return label->colour;
+	if (config_get_label (tag) != NULL)
+		return FALSE;
+
+	label = g_new0 (MailConfigLabel, 1);
+	label->tag = g_strdup (tag);
+	label->name = g_strdup (name);
+	label->colour = gdk_color_to_string (color);
+
+	config->labels = g_slist_append (config->labels, label);
+
+	return config_cache_labels_flush ();
+}
+
+/**
+ * mail_config_remove_label
+ *
+ * @param tag Tag of the label to remove.
+ * @return Whether was removed.
+ **/
+gboolean
+mail_config_remove_label (const char *tag)
+{
+	MailConfigLabel *label;
+
+	g_return_val_if_fail (tag != NULL, FALSE);
+
+	label = config_get_label (tag);
+	if (!label)
+		return FALSE;
+
+	config->labels = g_slist_remove (config->labels, label);
+
+	g_free (label);
+
+	return config_cache_labels_flush ();
+}
+
+/**
+ * mail_config_get_label_name
+ *
+ * @param tag Tag of the label of our interest.
+ * @return Name of the label with that tag or NULL, if no such label exists.
+ **/
+const char *
+mail_config_get_label_name (const char *tag)
+{
+	MailConfigLabel *label;
+
+	g_return_val_if_fail (tag != NULL, NULL);
+
+	label = config_get_label (tag);
+	if (!label)
+		return NULL;
+
+	return label->name;
+}
+
+/**
+ * mail_config_get_label_color
+ *
+ * @param tag Tag of the label of our interest.
+ * @param color [out] Actual color of the label with that tag, or unchanged if failed.
+ * @return Whether found such label and color has been set.
+ **/
+gboolean
+mail_config_get_label_color (const char *tag, GdkColor *color)
+{
+	MailConfigLabel *label;
+
+	g_return_val_if_fail (tag != NULL, FALSE);
+	g_return_val_if_fail (color != NULL, FALSE);
+
+	label = config_get_label (tag);
+	if (!label)
+		return FALSE;
+
+	return gdk_color_parse (label->colour, color);
+}
+
+/**
+ * mail_config_get_label_color_str
+ *
+ * @param tag Tag of the label of our interest.
+ * @return String representation of that label, or NULL, is no such label exists.
+ **/
+const char *
+mail_config_get_label_color_str (const char *tag)
+{
+	MailConfigLabel *label;
+
+	g_return_val_if_fail (tag != NULL, FALSE);
+
+	label = config_get_label (tag);
+	if (!label)
+		return FALSE;
+
+	return label->colour;
+}
+
+/**
+ * mail_config_get_new_label_tag
+ *
+ * @param old_tag Tag of the label from old version of Evolution.
+ * @return New tag name equivalent with the old tag, or NULL if no such name existed before.
+ **/
+const char *
+mail_config_get_new_label_tag (const char *old_tag)
+{
+	int i;
+
+	if (!old_tag)
+		return NULL;
+
+	for (i = 0; i < LABEL_DEFAULTS_NUM; i++) {
+		/* default labels have same name as those old, only with prefix "$Label" */
+		if (!strcmp (old_tag, label_defaults[i].tag + 6))
+			return label_defaults[i].tag;
+	}
 
 	return NULL;
+}
+
+/**
+ * mail_config_set_label_name
+ *
+ * @param tag Tag of the label of our interest.
+ * @param name New name for the label.
+ * @return Whether successfully saved.
+ **/
+gboolean
+mail_config_set_label_name (const char *tag, const char *name)
+{
+	MailConfigLabel *label;
+
+	g_return_val_if_fail (tag != NULL, FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
+
+	label = config_get_label (tag);
+	if (!label)
+		return FALSE;
+
+	g_free (label->name);
+	label->name = g_strdup (name);
+
+	return config_cache_labels_flush ();
+}
+
+/**
+ * mail_config_set_label_color
+ *
+ * @param tag Tag of the label of our interest.
+ * @param color New color for the label.
+ * @return Whether successfully saved.
+ **/
+gboolean
+mail_config_set_label_color (const char *tag, const GdkColor *color)
+{
+	MailConfigLabel *label;
+
+	g_return_val_if_fail (tag != NULL, FALSE);
+	g_return_val_if_fail (color != NULL, FALSE);
+
+	label = config_get_label (tag);
+	if (!label)
+		return FALSE;
+
+	g_free (label->colour);
+	label->colour = gdk_color_to_string (color);
+
+	return config_cache_labels_flush ();
 }
 
 const char **

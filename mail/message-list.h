@@ -60,6 +60,7 @@ enum {
 	COL_RECIPIENTS,
 	COL_MIXED_SENDER,
 	COL_MIXED_RECIPIENTS,
+	COL_LABELS,
 
 	/* normalised strings */
 	COL_FROM_NORM,

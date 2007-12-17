@@ -1,3 +1,10 @@
+2007-12-14  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211353
+
+	* e-search-bar.c: (e_search_bar_get_viewitem_id):
+	Return -1 if no viewmenu is setup yet.
+
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Revamped Activity handler and task bar/widget for non-intrusive 

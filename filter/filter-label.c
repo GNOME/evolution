@@ -38,6 +38,7 @@
 #include "filter-label.h"
 #include <libedataserver/e-sexp.h>
 #include "e-util/e-util.h"
+#include "mail/mail-config.h"
 
 #define d(x)
 
@@ -114,38 +115,36 @@ filter_label_new (void)
 	return (FilterLabel *) g_object_new (FILTER_TYPE_LABEL, NULL, NULL);
 }
 
-static struct {
-	char *title;
-	char *value;
-} labels[] = {
-	{ N_("Important"), "important" },
-	{ N_("Work"),      "work"      },
-	{ N_("Personal"),  "personal"  },
-	{ N_("To Do"),     "todo"      },
-	{ N_("Later"),     "later"     },
-};
-
 int filter_label_count (void)
 {
-	return sizeof (labels) / sizeof (labels[0]);
+	GSList *labels = mail_config_get_labels ();
+
+	return g_slist_length (labels);
 }
 
 const char *
 filter_label_label (int i)
 {
-	if (i < 0 || i >= sizeof (labels) / sizeof (labels[0]))
+	GSList *labels = mail_config_get_labels ();
+
+	if (i < 0 || i >= g_slist_length (labels))
 		return NULL;
 	else
-		return labels[i].value;
+		/* the return value is always without preceding "$Label" */
+		return ((MailConfigLabel *) g_slist_nth (labels, i))->tag + 6;
 }
 
 int
 filter_label_index (const char *label)
 {
 	int i;
+	GSList *labels = mail_config_get_labels ();
 
-	for (i = 0; i < sizeof (labels) / sizeof (labels[0]); i++) {
-		if (strcmp (labels[i].value, label) == 0)
+	for (i = 0; labels; i++, labels = labels->next) {
+		MailConfigLabel *lbl = labels->data;
+
+		/* the return value is always without preceding "$Label" */
+		if (lbl && lbl->tag && strcmp (lbl->tag + 6, label) == 0)
 			return i;
 	}
 
@@ -156,30 +155,20 @@ static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *) fe;
-	GConfClient *gconf;
 	GSList *list, *l;
-	char *title, *p, *nounderscores_title;
-	int i = 0;
 
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 
-	gconf = gconf_client_get_default ();
+	list = mail_config_get_labels ();
 
-	l = list = gconf_client_get_list (gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
-	while (l != NULL) {
-		title = (char *) l->data;
-		if ((p = strrchr (title, ':')))
-			*p++ = '\0';
+	for (l = list; l; l = l->next) {
+		MailConfigLabel *label = l->data;
+		char *title;
 
-		nounderscores_title = e_str_without_underscores (title);
+		title = e_str_without_underscores (label->name);
 
-		filter_option_add (fo, i < 5 ? labels[i++].value : (p ? p : "#ffffff"), nounderscores_title, NULL);
+		filter_option_add (fo, label->tag + 6, title, NULL);
+
 		g_free (title);
-		g_free (nounderscores_title);
-
-		l = l->next;
 	}
-	g_slist_free (list);
-
-	g_object_unref (gconf);
 }

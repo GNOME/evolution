@@ -934,6 +934,7 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_MIXED_RECIPIENTS:
 	case COL_FOLLOWUP_FLAG:
 	case COL_LOCATION:
+	case COL_LABELS:
 		return g_strdup (value);
 	default:
 		g_warning ("This shouldn't be reached\n");
@@ -967,6 +968,7 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	case COL_RECIPIENTS:
 	case COL_MIXED_SENDER:
 	case COL_MIXED_RECIPIENTS:
+	case COL_LABELS:
 		g_free (value);
 		break;
 	default:
@@ -1000,6 +1002,7 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_RECIPIENTS:
 	case COL_MIXED_SENDER:
 	case COL_MIXED_RECIPIENTS:
+	case COL_LABELS:
 		return g_strdup ("");
 	default:
 		g_warning ("This shouldn't be reached\n");
@@ -1034,6 +1037,7 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_RECIPIENTS:
 	case COL_MIXED_SENDER:
 	case COL_MIXED_RECIPIENTS:
+	case COL_LABELS:
 		return !(value && *(char *)value);
 	default:
 		g_warning ("This shouldn't be reached\n");
@@ -1102,6 +1106,7 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_RECIPIENTS:
 	case COL_MIXED_SENDER:
 	case COL_MIXED_RECIPIENTS:
+	case COL_LABELS:
 		return g_strdup (value);
 	default:
 		g_warning ("This shouldn't be reached\n");
@@ -1232,6 +1237,55 @@ sanitize_recipients (const gchar *string)
 	return g_string_free (recipients, FALSE);
 }
 
+static int
+get_all_labels (CamelMessageInfo *msg_info, char **label_str, gboolean get_tags)
+{
+	GString *str;
+	const char *old_label;
+	int count = 0;
+	const CamelFlag *flag;
+
+	str = g_string_new ("");
+
+	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next) {
+		/* We will be able to show in the column even unknown labels from
+		   other Evolution, because every label starts with "$Label".
+		   This doesn't apply for filters and search folders, but here
+		   we can see that we should add new labels to this Evolution too. */
+		if (strncmp (flag->name, "$Label", 6) == 0) {
+			const char *name = NULL;
+
+			if (str->len)
+				g_string_append (str, ", ");
+
+			if (!get_tags)
+				name = mail_config_get_label_name (flag->name);
+
+			g_string_append (str, get_tags || !name ? flag->name : name);
+			count++;
+		}
+	}
+
+	old_label = mail_config_get_new_label_tag (camel_message_info_user_tag (msg_info, "label"));
+
+	if (old_label != NULL) {
+		const char *name = NULL;
+
+		if (str->len)
+			g_string_append (str, ", ");
+
+		if (!get_tags)
+			name = mail_config_get_label_name (old_label);
+
+		g_string_append (str, get_tags || !name ? old_label : name);
+		++count;
+	}
+
+	*label_str = g_string_free (str, FALSE);
+
+	return count;
+}
+
 static void *
 ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 {
@@ -1355,25 +1409,24 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER (!(flags & CAMEL_MESSAGE_SEEN));
 	}
 	case COL_COLOUR: {
-		const char *colour, *due_by, *completed, *label;
+		const char *colour, *due_by, *completed;
+		char *labels_string = NULL;
+		int n;
 
 		/* Priority: colour tag; label tag; important flag; due-by tag */
 
 		/* This is astonisngly poorly written code */
 
+		/* To add to the woes, what color to show when the user choose multiple labels ?
+		Don't say that I need to have the new labels [with subject] column visible always */
+
 		colour = camel_message_info_user_tag(msg_info, "colour");
 		due_by = camel_message_info_user_tag(msg_info, "due-by");
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
-		label = camel_message_info_user_tag(msg_info, "label");
 		if (colour == NULL) {
-		find_colour:
-			if (label != NULL) {
-				colour = mail_config_get_label_color_by_name (label);
-				if (colour == NULL) {
-					/* dead label? */
-					label = NULL;
-					goto find_colour;
-				}
+			if ((n = get_all_labels (msg_info,  &labels_string, TRUE)) == 1) {
+
+				colour = mail_config_get_label_color_str (labels_string);
 			} else if (camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
@@ -1386,6 +1439,9 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 					colour = "#A7453E";
 			}
 		}
+
+		g_free (labels_string);
+
 		return (void *) colour;
 	}
 	case COL_LOCATION: {
@@ -1440,6 +1496,23 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		}
 		else
 			return (void *)("");
+	}
+	case COL_LABELS:{
+		char *str = NULL;
+		GString *cleansed_str;
+
+		cleansed_str = g_string_new ("");
+
+		if (get_all_labels (msg_info, &str, FALSE)) {
+			int i;
+			for (i = 0; str[i] != '\0'; ++i) {
+				if (str[i] != '_') {
+					g_string_append_c (cleansed_str, str[i]);
+				}
+			}
+			return (void *) (g_string_free (cleansed_str, FALSE));
+		} else
+			return (void *) ("");
 	}
  	default:
 		g_warning ("This shouldn't be reached\n");

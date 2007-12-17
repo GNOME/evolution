@@ -1491,6 +1491,9 @@ e_search_bar_get_viewitem_id (ESearchBar *search_bar)
 	g_return_val_if_fail (search_bar != NULL, -1);
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
 
+	if (!search_bar->viewoption_menu)
+		return -1;
+
 	menu_item = gtk_menu_get_active (GTK_MENU (search_bar->viewoption_menu));
 	viewitem_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "EsbItemId"));
 

@@ -31,6 +31,7 @@
   <ETableColumn model_col="15"  _title="Recipients" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string" priority="10"/>
   <ETableColumn model_col="16"  _title="Messages" expansion="1.0" minimum_width="32" resizable="true" cell="render_composite_from" compare="address_compare" search="string" priority="10"   sortable="false"/>
   <ETableColumn model_col="17"  _title="Sent Messages" expansion="1.0" minimum_width="32" resizable="true" cell="render_composite_to" compare="address_compare" search="string" priority="10"   sortable="false"/>
+  <ETableColumn model_col="18"  _title="Labels" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="string" search="string" priority="10"/>
 
   <ETableState>
     <column source="0"/> <column source="3"/> <column source="1"/>

@@ -126,6 +126,8 @@ struct _EMFolderBrowserPrivate {
 	gboolean scope_restricted;
 
 	EMMenu *menu;		/* toplevel menu manager */
+
+	guint labels_change_notify_id; /* mail_config's notify id */
 };
 
 typedef struct EMFBSearchBarItem {
@@ -201,6 +203,9 @@ enum {
 	VIEW_MESSAGES_MARKED_AS_IMPORTANT,
 	VIEW_CUSTOMIZE
 };
+
+/* label IDs are set above this number */
+#define VIEW_ITEMS_MASK 63
 
 /* Options for View */
 static EMFBSearchBarItem emfb_view_items[] = {
@@ -304,7 +309,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	}
 
 	/* Add the labels */
-	for (l = mail_config_get_labels(); l; l = l->next) {
+	for (l = mail_config_get_labels(), i = 0; l; l = l->next, i++) {
 		MailConfigLabel *label = l->data;
 		if (label->name && *(label->name)) {
 			char *str;
@@ -328,10 +333,11 @@ generate_viewoption_menu (GtkWidget *emfv)
 			g_free (str);
 			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image);
 			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-					   GINT_TO_POINTER (VIEW_LABEL));
+					   GINT_TO_POINTER (VIEW_LABEL + (VIEW_ITEMS_MASK + 1) * i));
 
+			/* label->tag starts with "$Label" so it's safe to do */
 			g_object_set_data (G_OBJECT (menu_item), "LabelTag",
-					   g_strdup(label->tag));
+					   g_strdup (label->tag + 6));
 		}
 
 		gtk_widget_show (menu_item);
@@ -396,9 +402,16 @@ emfb_realize (GtkWidget *widget)
 {
 	GtkWidget *menu;
 	EMFolderBrowser *emfb = (EMFolderBrowser *)widget;
+	int id;
 
-	menu = generate_viewoption_menu(widget);
-	e_search_bar_set_viewoption_menu ((ESearchBar *)emfb->search, menu);
+	menu = generate_viewoption_menu (widget);
+	id = e_search_bar_get_viewitem_id (E_SEARCH_BAR (emfb->search));
+
+	e_search_bar_set_viewoption_menu (E_SEARCH_BAR (emfb->search), menu);
+
+	/* restore last selected ID, if any */
+	if (id != -1)
+		e_search_bar_set_viewitem_id (E_SEARCH_BAR (emfb->search), id);
 }
 
 static void
@@ -420,6 +433,16 @@ html_scroll (GtkHTML *html,
 		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
 	}
 }
+
+static void
+gconf_labels_changed (GConfClient *client, guint cnxn_id,
+		      GConfEntry *entry, gpointer user_data)
+{
+	/* regenerate menu option whenever something changed in labels */
+	if (user_data)
+		emfb_realize (user_data);
+}
+
 static void
 emfb_init(GObject *o)
 {
@@ -456,6 +479,7 @@ emfb_init(GObject *o)
 		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
 		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
 		EFilterBar *efb;
+		GConfClient *gconf;
 
 		emfb->search = e_filter_bar_new(search_context, systemrules, userrules, emfb_search_config_search, emfb);
 		efb = (EFilterBar *)emfb->search;
@@ -473,6 +497,9 @@ emfb_init(GObject *o)
 		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
 
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
+
+		gconf = mail_config_get_gconf_client ();
+		emfb->priv->labels_change_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/labels", gconf_labels_changed, emfb, NULL, NULL);
 	}
 
 	emfb->priv->show_wide = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/show_wide", NULL);
@@ -540,6 +567,15 @@ emfb_destroy(GtkObject *o)
 
 	if (emfb->view.folder && emfb->priv->folder_changed_id)
 		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
+
+	if (emfb->priv->labels_change_notify_id) {
+		GConfClient *gconf = mail_config_get_gconf_client ();
+
+		if (gconf)
+			gconf_client_notify_remove (gconf, emfb->priv->labels_change_notify_id);
+
+		emfb->priv->labels_change_notify_id = 0;
+	}
 
 	((GtkObjectClass *)emfb_parent)->destroy(o);
 }
@@ -796,12 +832,13 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 	gint id;
 	GtkWidget *menu_item;
 	char *tag;
+	gboolean duplicate = TRUE;
 
 	/* Get the current selected view */
 	id = e_search_bar_get_viewitem_id (esb);
 	menu_item = e_search_bar_get_selected_viewitem (esb);
 
-	switch (id) {
+	switch (id & VIEW_ITEMS_MASK) {
 	case VIEW_ALL_MESSAGES:
 		view_sexp = " ";
 		break;
@@ -830,15 +867,27 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 	case VIEW_NOT_JUNK:
 		view_sexp = "(match-all (not (system-flag \"junk\")))";
 		break;
-        case VIEW_NO_LABEL:
-		/* FIXME : cannot hard code this query */
-	        view_sexp = "(and (match-all (not (= (user-tag \"label\")  \"important\")))"
-                            "(match-all (not (= (user-tag \"label\")  \"work\"))) (match-all (not (= (user-tag \"label\")  \"personal\")))"
-			    "(match-all (not (= (user-tag \"label\")  \"todo\"))) (match-all (not (= (user-tag \"label\")  \"later\"))) ))";
-		break;
+        case VIEW_NO_LABEL: {
+		GSList *l;
+		GString *s = g_string_new ("(and");
+
+		for (l = mail_config_get_labels (); l; l = l->next) {
+			MailConfigLabel *label = (MailConfigLabel *)l->data;
+
+			/* tag is always with "$Label" prefix */
+			if (label && label->tag)
+				g_string_append_printf (s, " (match-all (not (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\"))))", label->tag + 6, label->tag + 6);
+		}
+
+		g_string_append (s, ")");
+
+		duplicate = FALSE;
+	        view_sexp = g_string_free (s, FALSE);
+		} break;
         case VIEW_LABEL:
 		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
-		view_sexp = g_strdup_printf ("(match-all (= (user-tag \"label\")  \"%s\"))",tag);
+		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\" )))", tag, tag);
+		duplicate = FALSE;
 		break;
 	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
 		view_sexp = "(match-all (system-flag  \"Flagged\"))";
@@ -850,6 +899,10 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		view_sexp = " ";
 		break;
 	}
+
+	if (duplicate)
+		view_sexp = g_strdup (view_sexp);
+
 	return view_sexp;
 }
 
@@ -1147,6 +1200,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	message_list_set_search(emfb->view.list, search_word);
 
 	g_free (search_word);
+	g_free (view_sexp);
 
 	camel_exception_free (ex);
 }

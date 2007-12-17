@@ -260,13 +260,13 @@
    <option value="is">
     <title>is</title>
     <code>
-       (match-all (= (user-tag "label") ${versus}))
+       (match-all (or (= (user-tag "label") ${versus}) (user-flag (+ "$Label" ${versus}))))
     </code>
    </option>
    <option value="is-not">
     <title>is not</title>
     <code>
-       (match-all (not (= (user-tag "label") ${versus})))
+       (match-all (not (or (= (user-tag "label") ${versus}) (user-flag (+ "$Label" ${versus})))))
     </code>
    </option>
   </input>

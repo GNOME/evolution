@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gdk/gdkcolor.h>
 
 #include "camel/camel-provider.h" /* can't forward-declare enums, bah */
 
@@ -94,7 +95,7 @@ typedef struct {
 } MailConfigLabel;
 
 #define LABEL_DEFAULTS_NUM 5
-extern MailConfigLabel label_defaults[5];
+extern MailConfigLabel label_defaults[LABEL_DEFAULTS_NUM];
 
 /* Configuration */
 void mail_config_init (void);
@@ -108,9 +109,17 @@ struct _GConfClient *mail_config_get_gconf_client (void);
 gboolean mail_config_is_configured            (void);
 gboolean mail_config_is_corrupt               (void);
 
-GSList *mail_config_get_labels (void);
-const char *mail_config_get_label_color_by_name (const char *name);
-const char *mail_config_get_label_color_by_index (int index);
+GSList *    mail_config_get_labels          (void);
+char *      mail_config_get_next_label_tag  (int *id);
+gboolean    mail_config_is_system_label     (const char *tag);
+gboolean    mail_config_add_label           (const char *tag, const char *name, const GdkColor *color);
+gboolean    mail_config_remove_label        (const char *tag);
+const char *mail_config_get_label_name      (const char *tag);
+gboolean    mail_config_get_label_color     (const char *tag, GdkColor *color);
+const char *mail_config_get_label_color_str (const char *tag);
+const char *mail_config_get_new_label_tag   (const char *old_tag);
+gboolean    mail_config_set_label_name      (const char *tag, const char *name);
+gboolean    mail_config_set_label_color     (const char *tag, const GdkColor *color);
 
 const char **mail_config_get_allowable_mime_types (void);
 

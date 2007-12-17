@@ -1,3 +1,12 @@
+2007-12-14  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211353
+
+	* e-popup.h:
+	* e-popup.c: (ep_build_tree):
+	Toggles can be in inconsistent state now, and can also contain
+	an image, which is a pointer to GtkImage widget.
+
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Makefile.am: Add e-logger.[ch] to compilation

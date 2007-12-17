@@ -37,6 +37,7 @@
 #include <gtk/gtkseparatormenuitem.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkhbox.h>
 
 #include "e-popup.h"
 
@@ -381,7 +382,13 @@ ep_build_tree(struct _item_node *inode, guint32 mask)
 			break;
 		case E_POPUP_TOGGLE:
 			menuitem = (GtkMenuItem *)gtk_check_menu_item_new();
-			gtk_check_menu_item_set_active((GtkCheckMenuItem *)menuitem, item->type & E_POPUP_ACTIVE);
+			if (item->type & E_POPUP_INCONSISTENT)
+				gtk_check_menu_item_set_inconsistent (GTK_CHECK_MENU_ITEM (menuitem), TRUE);
+			else
+				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem), item->type & E_POPUP_ACTIVE);
+
+			if (item->image)
+				gtk_widget_show (item->image);
 			break;
 		case E_POPUP_RADIO: {
 			char *ppath = inode->parent?inode->parent->item->path:NULL;
@@ -411,7 +418,17 @@ ep_build_tree(struct _item_node *inode, guint32 mask)
 			label = gtk_label_new_with_mnemonic(dgettext(inode->menu->domain, item->label));
 			gtk_misc_set_alignment((GtkMisc *)label, 0.0, 0.5);
 			gtk_widget_show(label);
-			gtk_container_add((GtkContainer *)menuitem, label);
+			if (item->image && (item->type & E_POPUP_TYPE_MASK) == E_POPUP_TOGGLE) {
+				GtkWidget *hbox = gtk_hbox_new (FALSE, 4);
+
+				gtk_box_pack_start (GTK_BOX (hbox), item->image, FALSE, FALSE, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), label,       TRUE,  TRUE,  0);
+				gtk_widget_show (hbox);
+				gtk_container_add (GTK_CONTAINER (menuitem), hbox);
+			} else
+				gtk_container_add((GtkContainer *)menuitem, label);
+		} else if (item->image && (item->type & E_POPUP_TYPE_MASK) == E_POPUP_TOGGLE) {
+			gtk_container_add (GTK_CONTAINER (menuitem), item->image);
 		}
 
 		if (item->activate)
