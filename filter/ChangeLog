@@ -1,3 +1,9 @@
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* filter-label.c: (filter_label_count), (filter_label_label),
+	(filter_label_index), (xml_create): Removing cyclic dependency caused 
+	by mail_config_get_labels.
+
 2007-12-14  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #211353
