@@ -1,3 +1,7 @@
+2007-12-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-mt.c (do_op_status): Fix another compiler warning.
+
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-mt.c: (mail_msg_free), (mail_msg_check_error): Fix some compiler warnings.

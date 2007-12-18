@@ -952,12 +952,6 @@ void mail_disable_stop(void)
 	MAIL_MT_UNLOCK(status_lock);
 }
 
-static void
-operation_cancel (CamelOperation *p)
-{
-	camel_operation_cancel (p);
-}
-
 /* ******************************************************************************** */
 
 struct _op_status_msg {
@@ -1026,7 +1020,7 @@ static void do_op_status(struct _mail_msg *mm)
 				what = g_strdup("");
 			}
 
-			data->activity_id = e_activity_handler_cancelable_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE, operation_cancel, msg->cancel);
+			data->activity_id = e_activity_handler_cancelable_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE, (void (*) (gpointer)) camel_operation_cancel, msg->cancel);
 
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);
