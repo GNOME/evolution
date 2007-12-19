@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.21.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-17 16:16+0100\n"
-"PO-Revision-Date: 2007-12-17 16:29+0100\n"
+"POT-Creation-Date: 2007-12-19 14:56+0100\n"
+"PO-Revision-Date: 2007-12-19 15:04+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -1154,7 +1154,10 @@ msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
-msgstr "Dette er porten på LDAP-tjeneren som Evolution vil prøve å koble til. En liste med standardporter er gitt. Spør din systemadministrator hvilken port du skal bruke."
+msgstr ""
+"Dette er porten på LDAP-tjeneren som Evolution vil prøve å koble til. En "
+"liste med standardporter er gitt. Spør din systemadministrator hvilken port "
+"du skal bruke."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
@@ -12223,7 +12226,7 @@ msgstr "Lar evolution vise tekstdel av begrenset størrelse"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 msgid "Amount of time in seconds the error should be showed on the status bar."
-msgstr ""
+msgstr "Antall sekunder feilen skal vises i statuslinjen."
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "Automatic emoticon recognition"
@@ -12454,7 +12457,7 @@ msgstr "Sist gang papirkurven ble tømt"
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Level beyond which it should the message should be logged."
-msgstr ""
+msgstr "Over dette nivået skal meldingen logges."
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid "List of Labels and their associated colors"
@@ -12741,7 +12744,9 @@ msgstr "Skrift med variabel bredde for meldingsvisning"
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
-msgstr "Denne har tre mulige verdier. 0 for feil. 1 for advarsler. 2 for feilsøkingsmeldinger."
+msgstr ""
+"Denne har tre mulige verdier. 0 for feil. 1 for advarsler. 2 for "
+"feilsøkingsmeldinger."
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid ""
@@ -13511,7 +13516,7 @@ msgstr "Meldingsredigering"
 #: ../mail/mail-config.glade.h:101
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr ""
+msgstr "Merk: Understrek i etikettnavnet brukes som hurtigtastidentifikator i menyen."
 
 #: ../mail/mail-config.glade.h:102
 msgid ""
@@ -17620,61 +17625,53 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Genererer en D-BUS-melding når nye meldinger ankommer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-#, fuzzy
 msgid ""
 "If true, then Beep, otherwise will play sound file when new messages arrive."
-msgstr "Spill en l_ydfil når nye meldinger ankommer"
+msgstr "Pip hvis «true», eller spill en lydfil når nye meldinger ankommer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify messages in Inbox only."
 msgstr "Varsle kun om meldinger i innboks."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play sound when new messages arrive."
-msgstr "Spill en l_ydfil når nye meldinger ankommer"
+msgstr "Spill en lyd når nye meldinger ankommer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
 msgstr "Vis melding sammen med ikonet."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "I_kke gi beskjed når nye meldinger ankommer"
+msgstr "Vis ikon for ny melding i varslingsområdet når nye meldinger ankommer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
 msgstr "Navn på lydfil som skal spilles av."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "Lydfil som skal spilles av når nye meldinger ankommer."
+msgstr "Lydfil som skal spilles av når nye meldinger ankommer hvis pip-modus ikke er aktivert."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "Spill en l_ydfil når nye meldinger ankommer"
+msgstr "Om en lydfil eller et pip skal spilles av når nye meldinger ankommer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#, fuzzy
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "Genererer en D-BUS-melding når nye meldinger ankommer."
+msgstr "Om en melding skal vises over ikonet når nye meldinger ankommer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-#, fuzzy
 msgid "Whether the icon should blink or not."
-msgstr "Om gjenoppretting etter krasj skal utføres eller ikke"
+msgstr "Om ikonet skal blinke eller ikke."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "Im nye meldinger kun skal varsles i innboksen."
 
 #: ../plugins/mail-notification/mail-notification.c:248
-#, fuzzy
 msgid "Generate a _D-Bus message"
-msgstr "Genererer meldingsliste"
+msgstr "Genererer en _D-Bus-melding"
 
 #: ../plugins/mail-notification/mail-notification.c:357
 #, c-format
@@ -17700,27 +17697,24 @@ msgid "Show icon in _notification area"
 msgstr "Vis ikon i varslingsområdet"
 
 #: ../plugins/mail-notification/mail-notification.c:436
-#, fuzzy
 msgid "B_link icon in notification area"
-msgstr "_Tilpass varslingsmelding"
+msgstr "B_linkende ikon i varslingsområdet"
 
 #: ../plugins/mail-notification/mail-notification.c:438
 msgid "Popup _message together with the icon"
-msgstr ""
+msgstr "Vis _melding sammen med ikonet"
 
 #: ../plugins/mail-notification/mail-notification.c:619
-#, fuzzy
 msgid "_Play sound when new messages arrive"
-msgstr "Spill en l_ydfil når nye meldinger ankommer"
+msgstr "S_pill en lydfil når nye meldinger ankommer"
 
 #: ../plugins/mail-notification/mail-notification.c:625
 msgid "_Beep"
 msgstr "_Pip"
 
 #: ../plugins/mail-notification/mail-notification.c:626
-#, fuzzy
 msgid "Play _sound file"
-msgstr "Velg en lydfil"
+msgstr "_Spill en lydfil"
 
 #: ../plugins/mail-notification/mail-notification.c:637
 msgid "Specify _filename:"
@@ -17736,16 +17730,13 @@ msgstr "Sp_ill"
 
 #: ../plugins/mail-notification/mail-notification.c:773
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "Varslingsmelding kun for _innboks"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
-msgstr ""
-"Varsler brukeren med et ikon i varslingsområdet og en melding hver gang det "
-"har kommet en ny melding."
+msgstr "Genererer en D-Bus-melding eller varsler brukeren med et ikon i varslingsområdet og en melding hver gang det har kommet en ny melding."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -20270,7 +20261,7 @@ msgstr "Abonner eller fjern abonnement på mapper på eksterne tjenere"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "Vis feilsøkingskonsoll for loggmeldinger"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
