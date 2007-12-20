@@ -386,7 +386,7 @@ em_folder_properties_show(GtkWindow *parent, CamelFolder *folder, const char *ur
 	}
 
 	if (folder == NULL)
-		mail_get_folder(uri, 0, emfp_dialog_got_folder, NULL, mail_thread_new);
+		mail_get_folder(uri, 0, emfp_dialog_got_folder, NULL, mail_msg_unordered_push);
 	else
 		emfp_dialog_got_folder((char *)uri, folder, NULL);
 }

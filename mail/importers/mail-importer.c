@@ -132,7 +132,7 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 }
 
 struct _import_mbox_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	char *path;
 	char *uri;
@@ -142,8 +142,8 @@ struct _import_mbox_msg {
 	void *done_data;
 };
 
-static char *
-import_mbox_describe(struct _mail_msg *mm, int complete)
+static gchar *
+import_mbox_desc (struct _import_mbox_msg *m)
 {
 	return g_strdup (_("Importing mailbox"));
 }
@@ -190,9 +190,8 @@ decode_mozilla_status(const char *tmp)
 }
 
 static void
-import_mbox_import(struct _mail_msg *mm)
+import_mbox_exec (struct _import_mbox_msg *m)
 {
-	struct _import_mbox_msg *m = (struct _import_mbox_msg *) mm;
 	CamelFolder *folder;
 	CamelMimeParser *mp = NULL;
 	struct stat st;
@@ -207,7 +206,7 @@ import_mbox_import(struct _mail_msg *mm)
 	if (m->uri == NULL || m->uri[0] == 0)
 		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
 	else
-		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &mm->ex);
+		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
 
 	if (folder == NULL)
 		return;
@@ -262,11 +261,11 @@ import_mbox_import(struct _mail_msg *mm)
 				flags |= decode_status(tmp);
 
 			camel_message_info_set_flags(info, flags, ~0);
-			camel_folder_append_message(folder, msg, info, NULL, &mm->ex);
+			camel_folder_append_message(folder, msg, info, NULL, &m->base.ex);
 			camel_message_info_free(info);
 			camel_object_unref(msg);
 
-			if (camel_exception_is_set(&mm->ex))
+			if (camel_exception_is_set(&m->base.ex))
 				break;
 
 			camel_mime_parser_step(mp, NULL, NULL);
@@ -286,30 +285,27 @@ fail1:
 }
 
 static void
-import_mbox_done(struct _mail_msg *mm)
+import_mbox_done (struct _import_mbox_msg *m)
 {
-	struct _import_mbox_msg *m = (struct _import_mbox_msg *)mm;
-
 	if (m->done)
-		m->done(m->done_data, &mm->ex);
+		m->done(m->done_data, &m->base.ex);
 }
 
 static void
-import_mbox_free (struct _mail_msg *mm)
+import_mbox_free (struct _import_mbox_msg *m)
 {
-	struct _import_mbox_msg *m = (struct _import_mbox_msg *)mm;
-
 	if (m->cancel)
 		camel_operation_unref(m->cancel);
 	g_free(m->uri);
 	g_free(m->path);
 }
 
-static struct _mail_msg_op import_mbox_op = {
-	import_mbox_describe,
-	import_mbox_import,
-	import_mbox_done,
-	import_mbox_free,
+static MailMsgInfo import_mbox_info = {
+	sizeof (struct _import_mbox_msg),
+	(MailMsgDescFunc) import_mbox_desc,
+	(MailMsgExecFunc) import_mbox_exec,
+	(MailMsgDoneFunc) import_mbox_done,
+	(MailMsgFreeFunc) import_mbox_free
 };
 
 int
@@ -318,7 +314,7 @@ mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperatio
 	struct _import_mbox_msg *m;
 	int id;
 
-	m = mail_msg_new(&import_mbox_op, NULL, sizeof (*m));
+	m = mail_msg_new(&import_mbox_info);
 	m->path = g_strdup(path);
 	m->uri = g_strdup(folderuri);
 	m->done = done;
@@ -328,8 +324,8 @@ mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperatio
 		camel_operation_ref(cancel);
 	}
 
-	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	id = m->base.seq;
+	mail_msg_fast_ordered_push (m);
 
 	return id;
 }
@@ -339,7 +335,7 @@ mail_importer_import_mbox_sync(const char *path, const char *folderuri, CamelOpe
 {
 	struct _import_mbox_msg *m;
 
-	m = mail_msg_new(&import_mbox_op, NULL, sizeof (*m));
+	m = mail_msg_new(&import_mbox_info);
 	m->path = g_strdup(path);
 	m->uri = g_strdup(folderuri);
 	if (cancel) {
@@ -347,9 +343,9 @@ mail_importer_import_mbox_sync(const char *path, const char *folderuri, CamelOpe
 		camel_operation_ref(cancel);
 	}
 
-	import_mbox_import(&m->msg);
-	import_mbox_done(&m->msg);
-	mail_msg_free(&m->msg);
+	import_mbox_exec(m);
+	import_mbox_done(m);
+	mail_msg_unref(m);
 }
 
 struct _import_folders_data {

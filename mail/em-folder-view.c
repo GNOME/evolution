@@ -72,6 +72,7 @@
 #include <gtkhtml/gtkhtml-stream.h>
 
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-msgport.h>
 
 #include "menus/gal-view-etable.h"
 #include "menus/gal-view-factory-etable.h"
@@ -778,7 +779,7 @@ emfv_got_folder(char *uri, CamelFolder *folder, void *data)
 static void
 emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 {
-	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_queued);
+	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_msg_fast_ordered_push);
 }
 
 static void
@@ -1885,7 +1886,7 @@ filter_type_uid (CamelFolder *folder, const char *uid, const char *source, int t
 	data->type = type;
 	data->source = source;
 
-	mail_get_message (folder, uid, filter_type_got_message, data, mail_thread_new);
+	mail_get_message (folder, uid, filter_type_got_message, data, mail_msg_unordered_push);
 }
 
 static void
@@ -1983,7 +1984,7 @@ vfolder_type_uid (CamelFolder *folder, const char *uid, const char *uri, int typ
 	data->type = type;
 	data->uri = g_strdup (uri);
 
-	mail_get_message (folder, uid, vfolder_type_got_message, data, mail_thread_new);
+	mail_get_message (folder, uid, vfolder_type_got_message, data, mail_msg_unordered_push);
 }
 
 static void
@@ -2560,7 +2561,7 @@ emfv_message_selected_timeout(void *data)
 						       emfv->displayed_uid);
 			gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
 */
-			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
+			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_msg_fast_ordered_push);
 		} else {
 			e_profile_event_emit("goto.empty", "", 0);
 			g_free(emfv->priv->selected_uid);

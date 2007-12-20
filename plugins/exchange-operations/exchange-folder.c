@@ -140,7 +140,7 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *da
 	inbox_physical_uri = e_folder_get_physical_uri (inbox);
 
 	/* To get the CamelStore/Folder */
-        mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_thread_new);
+	mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_msg_unordered_push);
 
 
 }

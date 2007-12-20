@@ -44,7 +44,7 @@ org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *t)
 		return;
 	}
 
-	mail_get_folder(t->uri, 0, mar_got_folder, NULL, mail_thread_new);
+	mail_get_folder(t->uri, 0, mar_got_folder, NULL, mail_msg_unordered_push);
 }
 
 static void

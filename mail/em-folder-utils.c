@@ -85,7 +85,7 @@ emfu_is_special_local_folder (const char *name)
 }
 
 struct _EMCopyFolders {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	/* input data */
 	CamelStore *fromstore;
@@ -97,18 +97,15 @@ struct _EMCopyFolders {
 	int delete;
 };
 
-static char *
-emft_copy_folders__desc (struct _mail_msg *mm, int complete)
+static gchar *
+emft_copy_folders__desc (struct _EMCopyFolders *m, gint complete)
 {
-	struct _EMCopyFolders *m = (struct _EMCopyFolders *) mm;
-
 	return g_strdup_printf (_("Copying `%s' to `%s'"), m->frombase, m->tobase);
 }
 
 static void
-emft_copy_folders__copy (struct _mail_msg *mm)
+emft_copy_folders__exec (struct _EMCopyFolders *m)
 {
-	struct _EMCopyFolders *m = (struct _EMCopyFolders *) mm;
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	GList *pending = NULL, *deleting = NULL, *l;
 	GString *fromname, *toname;
@@ -116,7 +113,7 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 	const char *tmp;
 	int fromlen;
 
-	if (!(fi = camel_store_get_folder_info (m->fromstore, m->frombase, flags, &mm->ex)))
+	if (!(fi = camel_store_get_folder_info (m->fromstore, m->frombase, flags, &m->base.ex)))
 		return;
 
 	pending = g_list_append (pending, fi);
@@ -156,8 +153,8 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				d(printf ("this folder is selectable\n"));
 				if (m->tostore == m->fromstore && m->delete) {
-					camel_store_rename_folder (m->fromstore, info->full_name, toname->str, &mm->ex);
-					if (camel_exception_is_set (&mm->ex))
+					camel_store_rename_folder (m->fromstore, info->full_name, toname->str, &m->base.ex);
+					if (camel_exception_is_set (&m->base.ex))
 						goto exception;
 
 					/* this folder no longer exists, unsubscribe it */
@@ -166,16 +163,16 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 
 					deleted = 1;
 				} else {
-					if (!(fromfolder = camel_store_get_folder (m->fromstore, info->full_name, 0, &mm->ex)))
+					if (!(fromfolder = camel_store_get_folder (m->fromstore, info->full_name, 0, &m->base.ex)))
 						goto exception;
 
-					if (!(tofolder = camel_store_get_folder (m->tostore, toname->str, CAMEL_STORE_FOLDER_CREATE, &mm->ex))) {
+					if (!(tofolder = camel_store_get_folder (m->tostore, toname->str, CAMEL_STORE_FOLDER_CREATE, &m->base.ex))) {
 						camel_object_unref (fromfolder);
 						goto exception;
 					}
 
 					uids = camel_folder_get_uids (fromfolder);
-					camel_folder_transfer_messages_to (fromfolder, uids, tofolder, NULL, m->delete, &mm->ex);
+					camel_folder_transfer_messages_to (fromfolder, uids, tofolder, NULL, m->delete, &m->base.ex);
 					camel_folder_free_uids (fromfolder, uids);
 
 					if (m->delete)
@@ -186,7 +183,7 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 				}
 			}
 
-			if (camel_exception_is_set (&mm->ex))
+			if (camel_exception_is_set (&m->base.ex))
 				goto exception;
 			else if (m->delete && !deleted)
 				deleting = g_list_prepend (deleting, info);
@@ -227,10 +224,8 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 }
 
 static void
-emft_copy_folders__free (struct _mail_msg *mm)
+emft_copy_folders__free (struct _EMCopyFolders *m)
 {
-	struct _EMCopyFolders *m = (struct _EMCopyFolders *) mm;
-
 	camel_object_unref (m->fromstore);
 	camel_object_unref (m->tostore);
 
@@ -238,11 +233,12 @@ emft_copy_folders__free (struct _mail_msg *mm)
 	g_free (m->tobase);
 }
 
-static struct _mail_msg_op copy_folders_op = {
-	emft_copy_folders__desc,
-	emft_copy_folders__copy,
-	NULL,
-	emft_copy_folders__free,
+static MailMsgInfo copy_folders_info = {
+	sizeof (struct _EMCopyFolders),
+	(MailMsgDescFunc) emft_copy_folders__desc,
+	(MailMsgExecFunc) emft_copy_folders__exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) emft_copy_folders__free
 };
 
 int
@@ -251,7 +247,7 @@ em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelS
 	struct _EMCopyFolders *m;
 	int seq;
 
-	m = mail_msg_new (&copy_folders_op, NULL, sizeof (struct _EMCopyFolders));
+	m = mail_msg_new (&copy_folders_info);
 	camel_object_ref (fromstore);
 	m->fromstore = fromstore;
 	camel_object_ref (tostore);
@@ -259,9 +255,9 @@ em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelS
 	m->frombase = g_strdup (frombase);
 	m->tobase = g_strdup (tobase);
 	m->delete = delete;
-	seq = m->msg.seq;
+	seq = m->base.seq;
 
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	mail_msg_unordered_push (m);
 
 	return seq;
 }
@@ -558,7 +554,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 }
 
 struct _EMCreateFolder {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	/* input data */
 	CamelStore *store;
@@ -582,41 +578,33 @@ struct _EMCreateFolderTempData
 	char *uri;
 };
 
-static char *
-emfu_create_folder__desc (struct _mail_msg *mm, int done)
+static gchar *
+emfu_create_folder__desc (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	return g_strdup_printf (_("Creating folder `%s'"), m->full_name);
 }
 
 static void
-emfu_create_folder__create (struct _mail_msg *mm)
+emfu_create_folder__exec (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
 
-	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &mm->ex))) {
+	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &m->base.ex))) {
 		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder (m->store, m->full_name, &mm->ex);
+			camel_store_subscribe_folder (m->store, m->full_name, &m->base.ex);
 	}
 }
 
 static void
-emfu_create_folder__created (struct _mail_msg *mm)
+emfu_create_folder__done (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	if (m->done)
 		m->done (m->fi, m->user_data);
 }
 
 static void
-emfu_create_folder__free (struct _mail_msg *mm)
+emfu_create_folder__free (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	camel_store_free_folder_info (m->store, m->fi);
 	camel_object_unref (m->store);
 	g_free (m->full_name);
@@ -624,11 +612,12 @@ emfu_create_folder__free (struct _mail_msg *mm)
 	g_free (m->name);
 }
 
-static struct _mail_msg_op create_folder_op = {
-	emfu_create_folder__desc,
-	emfu_create_folder__create,
-	emfu_create_folder__created,
-	emfu_create_folder__free,
+static MailMsgInfo create_folder_info = {
+	sizeof (struct _EMCreateFolder),
+	(MailMsgDescFunc) emfu_create_folder__desc,
+	(MailMsgExecFunc) emfu_create_folder__exec,
+	(MailMsgDoneFunc) emfu_create_folder__done,
+	(MailMsgFreeFunc) emfu_create_folder__free
 };
 
 
@@ -649,7 +638,7 @@ emfu_create_folder_real (CamelStore *store, const char *full_name, void (* done)
 		parent = namebuf;
 	}
 
-	m = mail_msg_new (&create_folder_op, NULL, sizeof (struct _EMCreateFolder));
+	m = mail_msg_new (&create_folder_info);
 	camel_object_ref (store);
 	m->store = store;
 	m->full_name = g_strdup (full_name);
@@ -660,8 +649,8 @@ emfu_create_folder_real (CamelStore *store, const char *full_name, void (* done)
 
 	g_free (namebuf);
 
-	id = m->msg.seq;
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	id = m->base.seq;
+	mail_msg_unordered_push (m);
 
 	return id;
 }

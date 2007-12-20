@@ -846,7 +846,7 @@ fail:
 /* TODO: Merge the drop handling code/menu's into one spot using a popup target for details */
 /* Drop handling */
 struct _DragDataReceivedAsync {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	/* input data */
 	GdkDragContext *context;
@@ -871,17 +871,16 @@ emft_drop_folder(struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", m->selection->data, m->full_name));
 
-	if (!(src = mail_tool_uri_to_folder((char *)m->selection->data, 0, &m->msg.ex)))
+	if (!(src = mail_tool_uri_to_folder((char *)m->selection->data, 0, &m->base.ex)))
 		return;
 
 	em_folder_utils_copy_folders(src->parent_store, src->full_name, m->store, m->full_name?m->full_name:"", m->move);
 	camel_object_unref(src);
 }
 
-static char *
-emft_drop_async_desc (struct _mail_msg *mm, int done)
+static gchar *
+emft_drop_async__desc (struct _DragDataReceivedAsync *m)
 {
-	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
 	CamelURL *url;
 	char *buf;
 
@@ -905,9 +904,8 @@ emft_drop_async_desc (struct _mail_msg *mm, int done)
 }
 
 static void
-emft_drop_async_drop (struct _mail_msg *mm)
+emft_drop_async__exec (struct _DragDataReceivedAsync *m)
 {
-	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
 	CamelFolder *folder;
 
 	/* for types other than folder, we can't drop to the root path */
@@ -915,14 +913,14 @@ emft_drop_async_drop (struct _mail_msg *mm)
 		/* copy or move (aka rename) a folder */
 		emft_drop_folder(m);
 	} else if (m->full_name == NULL) {
-		camel_exception_set (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
+		camel_exception_set (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot drop message(s) into toplevel store"));
-	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &mm->ex))) {
+	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &m->base.ex))) {
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
-			em_utils_selection_get_uidlist(m->selection, folder, m->move, &mm->ex);
-			m->moved = m->move && !camel_exception_is_set(&mm->ex);
+			em_utils_selection_get_uidlist(m->selection, folder, m->move, &m->base.ex);
+			m->moved = m->move && !camel_exception_is_set(&m->base.ex);
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */
@@ -940,10 +938,25 @@ emft_drop_async_drop (struct _mail_msg *mm)
 }
 
 static void
-emft_drop_async_free (struct _mail_msg *mm)
+emft_drop_async__done (struct _DragDataReceivedAsync *m)
 {
-	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	gboolean success, delete;
 
+	/* ?? */
+	if (m->aborted) {
+		success = FALSE;
+		delete = FALSE;
+	} else {
+		success = !camel_exception_is_set (&m->base.ex);
+		delete = success && m->move && !m->moved;
+	}
+	
+	gtk_drag_finish (m->context, success, delete, GDK_CURRENT_TIME);
+}
+
+static void
+emft_drop_async__free (struct _DragDataReceivedAsync *m)
+{
 	g_object_unref(m->context);
 	camel_object_unref(m->store);
 	g_free(m->full_name);
@@ -952,18 +965,19 @@ emft_drop_async_free (struct _mail_msg *mm)
 	g_free(m->selection);
 }
 
-static struct _mail_msg_op emft_drop_async_op = {
-	emft_drop_async_desc,
-	emft_drop_async_drop,
-	NULL,
-	emft_drop_async_free,
+static MailMsgInfo emft_drop_async_info = {
+	sizeof (struct _DragDataReceivedAsync),
+	(MailMsgDescFunc) emft_drop_async__desc,
+	(MailMsgExecFunc) emft_drop_async__exec,
+	(MailMsgDoneFunc) emft_drop_async__done,
+	(MailMsgFreeFunc) emft_drop_async__free
 };
 
 static void
 tree_drag_data_action(struct _DragDataReceivedAsync *m)
 {
 	m->move = m->action == GDK_ACTION_MOVE;
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	mail_msg_unordered_push (m);
 }
 
 static void
@@ -990,7 +1004,7 @@ emft_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 	struct _DragDataReceivedAsync *m = data;
 
 	m->aborted = TRUE;
-	mail_msg_free(&m->msg);
+	mail_msg_unref(m);
 }
 
 static EPopupItem emft_drop_popup_menu[] = {
@@ -1046,7 +1060,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 		return;
 	}
 
-	m = mail_msg_new (&emft_drop_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
+	m = mail_msg_new (&emft_drop_async_info);
 	m->context = context;
 	g_object_ref(context);
 	m->store = store;
@@ -1685,7 +1699,7 @@ dump_fi (CamelFolderInfo *fi, int depth)
 #endif
 
 struct _EMFolderTreeGetFolderInfo {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	/* input data */
 	GtkTreeRowReference *root;
@@ -1698,10 +1712,9 @@ struct _EMFolderTreeGetFolderInfo {
 	CamelFolderInfo *fi;
 };
 
-static char *
-emft_get_folder_info__desc(struct _mail_msg *mm, int done)
+static gchar *
+emft_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *)mm;
 	char *ret, *name;
 
 	name = camel_service_get_name((CamelService *)m->store, TRUE);
@@ -1711,18 +1724,16 @@ emft_get_folder_info__desc(struct _mail_msg *mm, int done)
 }
 
 static void
-emft_get_folder_info__get (struct _mail_msg *mm)
+emft_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
-	m->fi = camel_store_get_folder_info (m->store, m->top, flags, &mm->ex);
+	m->fi = camel_store_get_folder_info (m->store, m->top, flags, &m->base.ex);
 }
 
 static void
-emft_get_folder_info__got (struct _mail_msg *mm)
+emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
 	struct _EMFolderTreePrivate *priv = m->emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeIter root, iter;
@@ -1750,7 +1761,7 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	gtk_tree_model_get_iter ((GtkTreeModel *) model, &root, path);
 
 	/* if we had an error, then we need to re-set the load subdirs state and collapse the node */
-	if (!m->fi && camel_exception_is_set(&mm->ex)) {
+	if (!m->fi && camel_exception_is_set(&m->base.ex)) {
 		gtk_tree_store_set(model, &root, COL_BOOL_LOAD_SUBDIRS, TRUE, -1);
 		gtk_tree_view_collapse_row (priv->treeview, path);
 		gtk_tree_path_free (path);
@@ -1805,10 +1816,8 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 }
 
 static void
-emft_get_folder_info__free (struct _mail_msg *mm)
+emft_get_folder_info__free (struct _EMFolderTreeGetFolderInfo *m)
 {
-	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
-
 	camel_store_free_folder_info (m->store, m->fi);
 
 	gtk_tree_row_reference_free (m->root);
@@ -1817,11 +1826,12 @@ emft_get_folder_info__free (struct _mail_msg *mm)
 	g_free (m->top);
 }
 
-static struct _mail_msg_op get_folder_info_op = {
-	emft_get_folder_info__desc,
-	emft_get_folder_info__get,
-	emft_get_folder_info__got,
-	emft_get_folder_info__free,
+static MailMsgInfo get_folder_info_info = {
+	sizeof (struct _EMFolderTreeGetFolderInfo),
+	(MailMsgDescFunc) emft_get_folder_info__desc,
+	(MailMsgExecFunc) emft_get_folder_info__exec,
+	(MailMsgDoneFunc) emft_get_folder_info__done,
+	(MailMsgFreeFunc) emft_get_folder_info__free
 };
 
 static void
@@ -1884,7 +1894,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 
 	gtk_tree_store_set((GtkTreeStore *)model, root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
 
-	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
+	m = mail_msg_new (&get_folder_info_info);
 	m->root = gtk_tree_row_reference_new (model, tree_path);
 	camel_object_ref (store);
 	m->store = store;
@@ -1893,7 +1903,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	m->top = full_name;
 	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST;
 
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	mail_msg_unordered_push (m);
 }
 
 static gboolean

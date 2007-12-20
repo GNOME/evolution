@@ -89,7 +89,7 @@ void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action
 	data->uri = strdup (sel->uri);
 
 	mail_get_message (sel->folder, (const char*) g_ptr_array_index (sel->uids, 0),
-	                  emla_list_action_do, data, mail_thread_new);
+			emla_list_action_do, data, mail_msg_unordered_push);
 }
 
 void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)

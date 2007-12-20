@@ -1,3 +1,12 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* gui/alarm-notify/alarm-notify.c:
+	* gui/alarm-notify/alarm-notify.h:
+	* gui/alarm-notify/alarm-queue.c:
+	Rewrite message passing to use GThreadPool instead of EThread.
+
 2007-12-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #340267

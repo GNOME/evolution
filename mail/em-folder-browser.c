@@ -908,7 +908,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 
 
 struct _setup_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	CamelFolder *folder;
 	char *query;
@@ -916,16 +916,15 @@ struct _setup_msg {
 	GList *sources_folder;
 };
 
-static char *
-vfolder_setup_desc(struct _mail_msg *mm, int done)
+static gchar *
+vfolder_setup_desc(struct _setup_msg *m)
 {
 	return g_strdup(_("Searching"));
 }
 
 static void
-vfolder_setup_do(struct _mail_msg *mm)
+vfolder_setup_exec(struct _setup_msg *m)
 {
-	struct _setup_msg *m = (struct _setup_msg *)mm;
 	GList *l, *list = NULL;
 	CamelFolder *folder;
 
@@ -936,12 +935,12 @@ vfolder_setup_do(struct _mail_msg *mm)
 	l = m->sources_uri;
 	while (l) {
 		d(printf(" Adding uri: %s\n", (char *)l->data));
-		folder = mail_tool_uri_to_folder (l->data, 0, &mm->ex);
+		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
 		if (folder) {
 			list = g_list_append(list, folder);
 		} else {
 			g_warning("Could not open vfolder source: %s", (char *)l->data);
-			camel_exception_clear(&mm->ex);
+			camel_exception_clear(&m->base.ex);
 		}
 		l = l->next;
 	}
@@ -965,17 +964,13 @@ vfolder_setup_do(struct _mail_msg *mm)
 }
 
 static void
-vfolder_setup_done(struct _mail_msg *mm)
+vfolder_setup_done(struct _setup_msg *m)
 {
-	struct _setup_msg *m = (struct _setup_msg *)mm;
-
-	m = m;
 }
 
 static void
-vfolder_setup_free (struct _mail_msg *mm)
+vfolder_setup_free (struct _setup_msg *m)
 {
-	struct _setup_msg *m = (struct _setup_msg *)mm;
 	GList *l;
 
 	camel_object_unref(m->folder);
@@ -996,11 +991,12 @@ vfolder_setup_free (struct _mail_msg *mm)
 	g_list_free(m->sources_folder);
 }
 
-static struct _mail_msg_op vfolder_setup_op = {
-	vfolder_setup_desc,
-	vfolder_setup_do,
-	vfolder_setup_done,
-	vfolder_setup_free,
+static MailMsgInfo vfolder_setup_info = {
+	sizeof (struct _setup_msg),
+	(MailMsgDescFunc) vfolder_setup_desc,
+	(MailMsgExecFunc) vfolder_setup_exec,
+	(MailMsgDoneFunc) vfolder_setup_done,
+	(MailMsgFreeFunc) vfolder_setup_free
 };
 
 /* sources_uri should be camel uri's */
@@ -1010,15 +1006,15 @@ vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList 
 	struct _setup_msg *m;
 	int id;
 
-	m = mail_msg_new(&vfolder_setup_op, NULL, sizeof (*m));
+	m = mail_msg_new(&vfolder_setup_info);
 	m->folder = folder;
 	camel_object_ref(folder);
 	m->query = g_strdup(query);
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
 
-	id = m->msg.seq;
-	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
+	id = m->base.seq;
+	mail_msg_slow_ordered_push (m);
 
 	return id;
 }

@@ -1,3 +1,10 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* itip-formatter.c:
+	Use the new MailMsg API for messages.
+
 2007-12-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #220846

@@ -1,3 +1,10 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* exchange_folder.c:
+	Use the new MailMsg API for messages.
+
 2007-12-13  Tobias Mueller  <tobiasmue@svn.gnome.org>
 	Patch by evilninjasquirrel@hotbrev.com
 	

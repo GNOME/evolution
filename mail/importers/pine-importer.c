@@ -56,7 +56,7 @@
 #define d(x) x
 
 struct _pine_import_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	EImport *import;
 	EImportTarget *target;
@@ -223,8 +223,8 @@ import_contacts(void)
 	g_object_unref(book);
 }
 
-static char *
-pine_import_describe (struct _mail_msg *mm, int complete)
+static gchar *
+pine_import_desc (struct _pine_import_msg *m)
 {
 	return g_strdup (_("Importing Pine data"));
 }
@@ -236,10 +236,8 @@ static MailImporterSpecial pine_special_folders[] = {
 };
 
 static void
-pine_import_import(struct _mail_msg *mm)
+pine_import_exec(struct _pine_import_msg *m)
 {
-	struct _pine_import_msg *m = (struct _pine_import_msg *) mm;
-
 	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
 		import_contacts();
 
@@ -253,13 +251,11 @@ pine_import_import(struct _mail_msg *mm)
 }
 
 static void
-pine_import_imported(struct _mail_msg *mm)
+pine_import_done(struct _pine_import_msg *m)
 {
-	struct _pine_import_msg *m = (struct _pine_import_msg *)mm;
-
 	printf("importing complete\n");
 
-	if (!camel_exception_is_set(&mm->ex)) {
+	if (!camel_exception_is_set(&m->base.ex)) {
 		GConfClient *gconf;
 
 		gconf = gconf_client_get_default();
@@ -274,10 +270,8 @@ pine_import_imported(struct _mail_msg *mm)
 }
 
 static void
-pine_import_free(struct _mail_msg *mm)
+pine_import_free(struct _pine_import_msg *m)
 {
-	struct _pine_import_msg *m = (struct _pine_import_msg *)mm;
-
 	camel_operation_unref(m->status);
 
 	g_free(m->status_what);
@@ -326,11 +320,12 @@ pine_status_timeout(void *data)
 	return TRUE;
 }
 
-static struct _mail_msg_op pine_import_op = {
-	pine_import_describe,
-	pine_import_import,
-	pine_import_imported,
-	pine_import_free,
+static MailMsgInfo pine_import_info = {
+	sizeof (struct _pine_import_msg),
+	(MailMsgDescFunc) pine_import_desc,
+	(MailMsgExecFunc) pine_import_exec,
+	(MailMsgDoneFunc) pine_import_done,
+	(MailMsgFreeFunc) pine_import_free
 };
 
 static int
@@ -339,7 +334,7 @@ mail_importer_pine_import(EImport *ei, EImportTarget *target)
 	struct _pine_import_msg *m;
 	int id;
 
-	m = mail_msg_new(&pine_import_op, NULL, sizeof (*m));
+	m = mail_msg_new(&pine_import_info);
 	g_datalist_set_data(&target->data, "pine-msg", m);
 	m->import = ei;
 	g_object_ref(m->import);
@@ -348,9 +343,9 @@ mail_importer_pine_import(EImport *ei, EImportTarget *target)
 	m->status_lock = g_mutex_new();
 	m->status = camel_operation_new(pine_status, m);
 
-	id = m->msg.seq;
+	id = m->base.seq;
 
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	mail_msg_fast_ordered_push (m);
 
 	return id;
 }

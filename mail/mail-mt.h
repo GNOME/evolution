@@ -23,48 +23,65 @@
 #ifndef _MAIL_MT
 #define _MAIL_MT
 
-#include <pthread.h>
 #include "camel/camel-exception.h"
-#include "libedataserver/e-msgport.h"
 #include "camel/camel-object.h"
 #include "camel/camel-operation.h"
 
-typedef struct _mail_msg {
-	EMsg msg;		/* parent type */
-	struct _mail_msg_op *ops; /* operation functions */
+typedef struct _MailMsg MailMsg;
+typedef struct _MailMsgInfo MailMsgInfo;
+typedef struct _MailMsgPrivate MailMsgPrivate;
+
+typedef gchar *	(*MailMsgDescFunc)	(MailMsg *msg);
+typedef void	(*MailMsgExecFunc)	(MailMsg *msg);
+typedef void	(*MailMsgDoneFunc)	(MailMsg *msg);
+typedef void	(*MailMsgFreeFunc)	(MailMsg *msg);
+typedef void	(*MailMsgDispatchFunc)	(gpointer msg);
+
+struct _MailMsg {
+	MailMsgInfo *info;
+	volatile gint ref_count;
 	unsigned int seq;	/* seq number for synchronisation */
+	gint priority;		/* priority (default = 0) */
 	CamelOperation *cancel;	/* a cancellation/status handle */
 	CamelException ex;	/* an initialised camel exception, upto the caller to use this */
-	struct _mail_msg_priv *priv; /* private for internal use */
-} mail_msg_t;
+	MailMsgPrivate *priv;
+};
 
-/* callback functions for thread message */
-typedef struct _mail_msg_op {
-	char *(*describe_msg)(struct _mail_msg *msg, int complete);
-
-	void (*receive_msg)(struct _mail_msg *msg);	/* message received */
-	void (*reply_msg)(struct _mail_msg *msg);	/* message replied */
-	void (*destroy_msg)(struct _mail_msg *msg);	/* finalise message */
-} mail_msg_op_t;
+struct _MailMsgInfo {
+	gsize size;
+	MailMsgDescFunc desc;
+	MailMsgExecFunc exec;
+	MailMsgDoneFunc done;
+	MailMsgFreeFunc free;
+};
 
 /* setup ports */
 void mail_msg_init(void);
 void mail_msg_cleanup (void);
 
+gboolean mail_in_main_thread (void);
+
 /* allocate a new message */
-void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size);
-void mail_msg_free(void *msg);
-void mail_msg_check_error(void *msg);
+gpointer mail_msg_new (MailMsgInfo *info);
+gpointer mail_msg_ref (gpointer msg);
+void mail_msg_unref (gpointer msg);
+void mail_msg_check_error (gpointer msg);
 void mail_msg_cancel(unsigned int msgid);
 void mail_msg_wait(unsigned int msgid);
 void mail_msg_wait_all(void);
 int mail_msg_active(unsigned int msgid);
 
+/* dispatch a message */
+void mail_msg_main_loop_push (gpointer msg);
+void mail_msg_unordered_push (gpointer msg);
+void mail_msg_fast_ordered_push (gpointer msg);
+void mail_msg_slow_ordered_push (gpointer msg);
+
 /* To implement the stop button */
-void *mail_cancel_hook_add(GDestroyNotify func, void *data);
-void mail_cancel_hook_remove(void *handle);
-void mail_cancel_all(void);
-void mail_msg_set_cancelable (struct _mail_msg *msg, gboolean status);
+GHook * mail_cancel_hook_add (GHookFunc func, gpointer data);
+void mail_cancel_hook_remove (GHook *hook);
+void mail_cancel_all (void);
+void mail_msg_set_cancelable (gpointer msg, gboolean status);
 
 /* request a string/password */
 char *mail_get_password (CamelService *service, const char *prompt,
@@ -112,24 +129,6 @@ void *mail_call_main(mail_call_t type, MailMainFunc func, ...);
 /* use with caution.  only works with active message's anyway */
 void mail_enable_stop(void);
 void mail_disable_stop(void);
-
-/* a message port that receives messages in the gui thread, used for sending port */
-extern EMsgPort *mail_gui_port;
-/* a message port that receives messages in the gui thread, used for the reply port */
-extern EMsgPort *mail_gui_reply_port;
-
-/* some globally available threads */
-#ifndef G_OS_WIN32
-extern EThread *mail_thread_queued;	/* for operations that can (or should) be queued */
-#else
-EThread *mail_win32_get_mail_thread_queued (void);
-#define mail_thread_queued mail_win32_get_mail_thread_queued ()
-#endif
-extern EThread *mail_thread_new;	/* for operations that should run in a new thread each time */
-extern EThread *mail_thread_queued_slow;	/* for operations that can (or should) be queued, but take a long time */
-
-/* The main thread. */
-extern pthread_t mail_gui_thread;
 
 /* A generic proxy event for anything that can be proxied during the life of the mailer (almost nothing) */
 /* Note that almost all objects care about the lifecycle of their events, so this cannot be used */

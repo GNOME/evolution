@@ -808,15 +808,14 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 
 
 struct _ping_store_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	CamelStore *store;
 };
 
-static char *
-ping_store_desc (struct _mail_msg *mm, int done)
+static gchar *
+ping_store_desc (struct _ping_store_msg *m)
 {
-	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
 	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
 	char *msg;
 
@@ -827,10 +826,9 @@ ping_store_desc (struct _mail_msg *mm, int done)
 }
 
 static void
-ping_store_ping (struct _mail_msg *mm)
+ping_store_exec (struct _ping_store_msg *m)
 {
 	gboolean online = FALSE;
-	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
 
 	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED) {
 		if (CAMEL_IS_DISCO_STORE (m->store) &&
@@ -841,22 +839,21 @@ ping_store_ping (struct _mail_msg *mm)
 			online = TRUE;
 	}
 	if (online)
-		camel_store_noop (m->store, &mm->ex);
+		camel_store_noop (m->store, &m->base.ex);
 }
 
 static void
-ping_store_free (struct _mail_msg *mm)
+ping_store_free (struct _ping_store_msg *m)
 {
-	struct _ping_store_msg *m = (struct _ping_store_msg *) mm;
-
 	camel_object_unref (m->store);
 }
 
-static struct _mail_msg_op ping_store_op = {
-	ping_store_desc,
-	ping_store_ping,
-	NULL,
-	ping_store_free
+static MailMsgInfo ping_store_info = {
+	sizeof (struct _ping_store_msg),
+	(MailMsgDescFunc) ping_store_desc,
+	(MailMsgExecFunc) ping_store_exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) ping_store_free
 };
 
 static void
@@ -868,11 +865,11 @@ ping_store (gpointer key, gpointer val, gpointer user_data)
 	if (CAMEL_SERVICE (store)->status != CAMEL_SERVICE_CONNECTED)
 		return;
 
-	m = mail_msg_new (&ping_store_op, NULL, sizeof (struct _ping_store_msg));
+	m = mail_msg_new (&ping_store_info);
 	m->store = store;
 	camel_object_ref (store);
 
-	e_thread_put (mail_thread_queued_slow, (EMsg *) m);
+	mail_msg_slow_ordered_push (m);
 }
 
 static gboolean
@@ -917,7 +914,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 	int hook = 0;
 
 	g_return_if_fail (CAMEL_IS_STORE(store));
-	g_return_if_fail (pthread_equal(pthread_self(), mail_gui_thread));
+	g_return_if_fail (mail_in_main_thread());
 
 	LOCK(info_lock);
 

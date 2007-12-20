@@ -1942,7 +1942,7 @@ ml_tree_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 /* TODO: merge this with the folder tree stuff via empopup targets */
 /* Drop handling */
 struct _drop_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	GdkDragContext *context;
 
@@ -1959,11 +1959,9 @@ struct _drop_msg {
 	unsigned int aborted:1;
 };
 
-static char *
-ml_drop_async_desc (struct _mail_msg *mm, int done)
+static gchar *
+ml_drop_async_desc (struct _drop_msg *m)
 {
-	struct _drop_msg *m = (struct _drop_msg *) mm;
-
 	if (m->move)
 		return g_strdup_printf(_("Moving messages into folder %s"), m->folder->full_name);
 	else
@@ -1971,13 +1969,11 @@ ml_drop_async_desc (struct _mail_msg *mm, int done)
 }
 
 static void
-ml_drop_async_drop(struct _mail_msg *mm)
+ml_drop_async_exec (struct _drop_msg *m)
 {
-	struct _drop_msg *m = (struct _drop_msg *)mm;
-
 	switch (m->info) {
 	case DND_X_UID_LIST:
-		em_utils_selection_get_uidlist(m->selection, m->folder, m->action == GDK_ACTION_MOVE, &mm->ex);
+		em_utils_selection_get_uidlist(m->selection, m->folder, m->action == GDK_ACTION_MOVE, &m->base.ex);
 		break;
 	case DND_MESSAGE_RFC822:
 		em_utils_selection_get_message(m->selection, m->folder);
@@ -1989,9 +1985,8 @@ ml_drop_async_drop(struct _mail_msg *mm)
 }
 
 static void
-ml_drop_async_done(struct _mail_msg *mm)
+ml_drop_async_done (struct _drop_msg *m)
 {
-	struct _drop_msg *m = (struct _drop_msg *)mm;
 	gboolean success, delete;
 
 	/* ?? */
@@ -1999,7 +1994,7 @@ ml_drop_async_done(struct _mail_msg *mm)
 		success = FALSE;
 		delete = FALSE;
 	} else {
-		success = !camel_exception_is_set (&mm->ex);
+		success = !camel_exception_is_set (&m->base.ex);
 		delete = success && m->move && !m->moved;
 	}
 
@@ -2007,10 +2002,8 @@ ml_drop_async_done(struct _mail_msg *mm)
 }
 
 static void
-ml_drop_async_free(struct _mail_msg *mm)
+ml_drop_async_free (struct _drop_msg *m)
 {
-	struct _drop_msg *m = (struct _drop_msg *)mm;
-
 	g_object_unref(m->context);
 	camel_object_unref(m->folder);
 
@@ -2018,18 +2011,19 @@ ml_drop_async_free(struct _mail_msg *mm)
 	g_free(m->selection);
 }
 
-static struct _mail_msg_op ml_drop_async_op = {
-	ml_drop_async_desc,
-	ml_drop_async_drop,
-	ml_drop_async_done,
-	ml_drop_async_free,
+static MailMsgInfo ml_drop_async_info = {
+	sizeof (struct _drop_msg),
+	(MailMsgDescFunc) ml_drop_async_desc,
+	(MailMsgExecFunc) ml_drop_async_exec,
+	(MailMsgDoneFunc) ml_drop_async_done,
+	(MailMsgFreeFunc) ml_drop_async_free
 };
 
 static void
 ml_drop_action(struct _drop_msg *m)
 {
 	m->move = m->action == GDK_ACTION_MOVE;
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	mail_msg_unordered_push (m);
 }
 
 static void
@@ -2056,7 +2050,7 @@ ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 	struct _drop_msg *m = data;
 
 	m->aborted = TRUE;
-	mail_msg_free(&m->msg);
+	mail_msg_unref(m);
 }
 
 static EPopupItem ml_drop_popup_menu[] = {
@@ -2086,7 +2080,7 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 	if (!ml->folder || data->data == NULL || data->length == -1)
 		return;
 
-	m = mail_msg_new(&ml_drop_async_op, NULL, sizeof(*m));
+	m = mail_msg_new(&ml_drop_async_info);
 	m->context = context;
 	g_object_ref(context);
 	m->folder = ml->folder;
@@ -3811,7 +3805,7 @@ save_hide_state (MessageList *ml)
 
 /* ** REGENERATE MESSAGELIST ********************************************** */
 struct _regen_list_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	int complete;
 
@@ -3841,16 +3835,15 @@ struct _regen_list_msg {
 
  */
 
-static char *
-regen_list_describe (struct _mail_msg *mm, gint complete)
+static gchar *
+regen_list_desc (struct _regen_list_msg *m)
 {
 	return g_strdup (_("Generating message list"));
 }
 
 static void
-regen_list_regen (struct _mail_msg *mm)
+regen_list_exec (struct _regen_list_msg *m)
 {
-	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	GPtrArray *uids, *uidnew, *showuids, *searchuids = NULL;
 	CamelMessageInfo *info;
 	ETreePath cursor;
@@ -3885,7 +3878,7 @@ regen_list_regen (struct _mail_msg *mm)
 			} else
 				expr = "(match-all (not (system-flag \"deleted\")))";
 		}
-		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &mm->ex);
+		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
 	} else {
 		char *expr;
 
@@ -3895,23 +3888,23 @@ regen_list_regen (struct _mail_msg *mm)
 				sprintf(expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
 			} else
 				expr = "(match-all (not (system-flag \"junk\")))";
-			searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &mm->ex);
+			searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
 		} else {
 			if (m->search)
-				searchuids = uids = camel_folder_search_by_expression (m->folder, m->search, &mm->ex);
+				searchuids = uids = camel_folder_search_by_expression (m->folder, m->search, &m->base.ex);
 			else
 				uids = camel_folder_get_uids (m->folder);
 		}
 	}
 
-	if (camel_exception_is_set (&mm->ex))
+	if (camel_exception_is_set (&m->base.ex))
 		return;
 
 	/* perform hiding */
 	if (m->hideexpr && camel_folder_has_search_capability(m->folder)) {
-		uidnew = camel_folder_search_by_expression (m->ml->folder, m->hideexpr, &mm->ex);
+		uidnew = camel_folder_search_by_expression (m->ml->folder, m->hideexpr, &m->base.ex);
 		/* well, lets not abort just because this faileld ... */
-		camel_exception_clear (&mm->ex);
+		camel_exception_clear (&m->base.ex);
 
 		if (uidnew) {
 			MESSAGE_LIST_LOCK(m->ml, hide_lock);
@@ -3998,7 +3991,7 @@ regen_list_regen (struct _mail_msg *mm)
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
-	if (!camel_operation_cancel_check(mm->cancel)) {
+	if (!camel_operation_cancel_check(m->base.cancel)) {
 		/* update/build a new tree */
 		if (m->dotree) {
 			if (m->tree)
@@ -4027,17 +4020,15 @@ regen_list_regen (struct _mail_msg *mm)
 }
 
 static void
-regen_list_regened (struct _mail_msg *mm)
+regen_list_done (struct _regen_list_msg *m)
 {
-	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
-
 	if (m->ml->priv->destroyed)
 		return;
 
 	if (!m->complete)
 		return;
 
-	if (camel_operation_cancel_check(mm->cancel))
+	if (camel_operation_cancel_check(m->base.cancel))
 		return;
 
 	if (m->ml->folder != m->folder)
@@ -4101,9 +4092,8 @@ regen_list_regened (struct _mail_msg *mm)
 }
 
 static void
-regen_list_free (struct _mail_msg *mm)
+regen_list_free (struct _regen_list_msg *m)
 {
-	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	int i;
 
 	e_profile_event_emit("list.regenerated", m->folder->full_name, 0);
@@ -4131,11 +4121,12 @@ regen_list_free (struct _mail_msg *mm)
 	g_object_unref(m->ml);
 }
 
-static struct _mail_msg_op regen_list_op = {
-	regen_list_describe,
-	regen_list_regen,
-	regen_list_regened,
-	regen_list_free,
+static MailMsgInfo regen_list_info = {
+	sizeof (struct _regen_list_msg),
+	(MailMsgDescFunc) regen_list_desc,
+	(MailMsgExecFunc) regen_list_exec,
+	(MailMsgDoneFunc) regen_list_done,
+	(MailMsgFreeFunc) regen_list_free
 };
 
 static gboolean
@@ -4145,7 +4136,7 @@ ml_regen_timeout(struct _regen_list_msg *m)
 
 	m->ml->regen = g_list_prepend(m->ml->regen, m);
 	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	mail_msg_fast_ordered_push (m);
 
 	m->ml->regen_timeout_msg = NULL;
 	m->ml->regen_timeout_id = 0;
@@ -4161,7 +4152,7 @@ mail_regen_cancel(MessageList *ml)
 		GList *l = ml->regen;
 
 		while (l) {
-			struct _mail_msg *mm = l->data;
+			MailMsg *mm = l->data;
 
 			if (mm->cancel)
 				camel_operation_cancel(mm->cancel);
@@ -4173,7 +4164,7 @@ mail_regen_cancel(MessageList *ml)
 	if (ml->regen_timeout_id) {
 		g_source_remove(ml->regen_timeout_id);
 		ml->regen_timeout_id = 0;
-		mail_msg_free((struct _mail_msg *)ml->regen_timeout_msg);
+		mail_msg_unref(ml->regen_timeout_msg);
 		ml->regen_timeout_msg = NULL;
 	}
 }
@@ -4208,7 +4199,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	}
 #endif
 
-	m = mail_msg_new (&regen_list_op, NULL, sizeof (*m));
+	m = mail_msg_new (&regen_list_info);
 	m->ml = ml;
 	m->search = g_strdup (search);
 	m->hideexpr = g_strdup (hideexpr);

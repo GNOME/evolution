@@ -1990,7 +1990,7 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 		ESource *source = s->data;
 		GList *contacts;
 		EBook *book;
-		void *hook;
+		GHook *hook;
 
 		d(printf(" checking '%s'\n", e_source_get_uri(source)));
 

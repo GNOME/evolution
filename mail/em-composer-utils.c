@@ -557,7 +557,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
 		int id;
 
-		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_thread_new);
+		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_msg_unordered_push);
 		mail_msg_wait (id);
 
 		if (!folder || !account->enabled) {
@@ -1108,7 +1108,7 @@ em_utils_redirect_message_by_uid (CamelFolder *folder, const char *uid)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 
-	mail_get_message (folder, uid, redirect_msg, NULL, mail_thread_new);
+	mail_get_message (folder, uid, redirect_msg, NULL, mail_msg_unordered_push);
 }
 
 static void
@@ -1139,7 +1139,7 @@ em_utils_handle_receipt (CamelFolder *folder, const char *uid, CamelMimeMessage 
 	}
 
 	if (msg == NULL) {
-		mail_get_messagex(folder, uid, emu_handle_receipt_message, NULL, mail_thread_new);
+		mail_get_messagex(folder, uid, emu_handle_receipt_message, NULL, mail_msg_unordered_push);
 		camel_message_info_free(info);
 		return;
 	}
@@ -1953,7 +1953,7 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 		rd->source = source;
 		if (rd->source)
 			g_object_ref(rd->source);
-		mail_get_message(folder, uid, reply_to_message, rd, mail_thread_new);
+		mail_get_message(folder, uid, reply_to_message, rd, mail_msg_unordered_push);
 
 		return;
 	}
@@ -2125,5 +2125,5 @@ em_utils_post_reply_to_message_by_uid (CamelFolder *folder, const char *uid)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 
-	mail_get_message (folder, uid, post_reply_to_message, NULL, mail_thread_new);
+	mail_get_message (folder, uid, post_reply_to_message, NULL, mail_msg_unordered_push);
 }

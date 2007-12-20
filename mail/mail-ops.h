@@ -30,13 +30,14 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include "mail-mt.h"
+
 #include "camel/camel-store.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
-#include "libedataserver/e-msgport.h"
 #include "libedataserver/e-account.h"
 
 void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
@@ -55,12 +56,12 @@ void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 void mail_get_message (CamelFolder *folder, const char *uid,
 		       void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data),
 		       void *data,
-		       EThread *thread);
+		       MailMsgDispatchFunc dispatch);
 
 void
 mail_get_messagex(CamelFolder *folder, const char *uid,
 		  void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
-		  void *data, EThread *thread);
+		  void *data, MailMsgDispatchFunc dispatch);
 
 /* get several messages */
 void mail_get_messages (CamelFolder *folder, GPtrArray *uids,
@@ -70,7 +71,7 @@ void mail_get_messages (CamelFolder *folder, GPtrArray *uids,
 /* same for a folder */
 int mail_get_folder (const char *uri, guint32 flags,
 		     void (*done) (char *uri, CamelFolder *folder, void *data), void *data,
-		     EThread *thread);
+		     MailMsgDispatchFunc dispatch);
 
 /* and for a store */
 int mail_get_store (const char *uri, CamelOperation *op,

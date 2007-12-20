@@ -1,3 +1,62 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* mail-mt.h:
+	Overhaul the message passing API:
+	- Define a MailMsg type as the base message struct.
+	- Define types for the various callback functions.
+	- Add a priority value to each message (not yet used).
+	- Add a reference count to each message.
+	- Define a MailMsgInfo type for the virtual function table.
+	- Record the size of message sub-types in MailMsgInfo.
+	- New/changed functions:
+	    mail_msg_new()   - Easier to use.
+	    mail_msg_ref()   - Increase reference count.
+	    mail_msg_unref() - Decrease reference count.
+	    mail_msg_main_loop_push()    }
+	    mail_msg_unordered_push()    } Submit MailMsgs to various
+	    mail_msg_fast_ordered_push() } message-processing threads.
+	    mail_msg_slow_ordered_push() }
+
+	* mail-mt.c (mail_msg_new):
+	Use GSlice for memory allocation.
+
+	* mail-mt.c (mail_msg_ref), (mail_msg_unref):
+	New functions increment/decrement a MailMsg's reference count.
+
+	* mail-mt.c (mail_cancel_hood_add), (mail_cancel_hook_remove):
+	Convert the 'cancel_hook_list' from an  EDList to a GHookList and
+	modify the API accordingly.
+
+	* mail-mt.c:
+	Use GThreadPools instead of EThreads.
+	Use GAsyncQueues instead of EMsgPorts.
+
+	* em-composer-utils.c:
+	* em-folder-browser.c:
+	* em-folder-properties.c:
+	* em-folder-tree.c:
+	* em-folder-utils.c:
+	* em-folder-view.c:
+	* em-format-html-print.c:
+	* em-format-html.c:
+	* em-subscribe-editor.c:
+	* em-sync-stream.c:
+	* importers/elm-importer.c:
+	* importers/mail-importer.c:
+	* importers/pine-importer.c:
+	* mail-component.c:
+	* mail-folder-cache.c:
+	* mail-mt.c:
+	* mail-ops.c:
+	* mail-ops.h:
+	* mail-send-recv.c:
+	* mail-session.c:
+	* mail-vfolder.c:
+	* message-list.c:
+	Use the new MailMsg API for messages.
+
 2007-12-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-mt.c (do_op_status): Fix another compiler warning.

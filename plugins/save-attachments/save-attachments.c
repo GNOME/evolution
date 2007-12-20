@@ -403,5 +403,5 @@ org_gnome_save_attachments_save(EPlugin *ep, EMMenuTargetSelect *target)
 	camel_object_ref(data->folder);
 	data->uid = g_strdup(target->uids->pdata[0]);
 
-	mail_get_message(data->folder, data->uid, save_got_message, data, mail_thread_new);
+	mail_get_message(data->folder, data->uid, save_got_message, data, mail_msg_unordered_push);
 }

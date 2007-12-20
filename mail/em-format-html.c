@@ -176,7 +176,7 @@ efh_gtkhtml_destroy(GtkHTML *html, EMFormatHTML *efh)
 	if (efh->priv->format_timeout_id != 0) {
 		g_source_remove(efh->priv->format_timeout_id);
 		efh->priv->format_timeout_id = 0;
-		mail_msg_free(efh->priv->format_timeout_msg);
+		mail_msg_unref(efh->priv->format_timeout_msg);
 		efh->priv->format_timeout_msg = NULL;
 	}
 
@@ -1205,7 +1205,7 @@ efh_builtin_init(EMFormatHTMLClass *efhc)
 
 /* Sigh, this is so we have a cancellable, async rendering thread */
 struct _format_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	EMFormatHTML *format;
 	EMFormat *format_source;
@@ -1215,14 +1215,15 @@ struct _format_msg {
 	CamelMimeMessage *message;
 };
 
-static char *efh_format_desc(struct _mail_msg *mm, int done)
+static gchar *
+efh_format_desc (struct _format_msg *m)
 {
 	return g_strdup(_("Formatting message"));
 }
 
-static void efh_format_do(struct _mail_msg *mm)
+static void
+efh_format_exec (struct _format_msg *m)
 {
-	struct _format_msg *m = (struct _format_msg *)mm;
 	struct _EMFormatHTMLJob *job;
 	struct _EMFormatPURITree *puri_level;
 	int cancelled = FALSE;
@@ -1307,10 +1308,9 @@ static void efh_format_do(struct _mail_msg *mm)
 	((EMFormat *)m->format)->pending_uri_level = puri_level;
 }
 
-static void efh_format_done(struct _mail_msg *mm)
+static void
+efh_format_done (struct _format_msg *m)
 {
-	struct _format_msg *m = (struct _format_msg *)mm;
-
 	d(printf("formatting finished\n"));
 
 	m->format->load_http_now = FALSE;
@@ -1318,10 +1318,9 @@ static void efh_format_done(struct _mail_msg *mm)
 	g_signal_emit_by_name(m->format, "complete");
 }
 
-static void efh_format_free(struct _mail_msg *mm)
+static void
+efh_format_free (struct _format_msg *m)
 {
-	struct _format_msg *m = (struct _format_msg *)mm;
-
 	d(printf("formatter freed\n"));
 	g_object_unref(m->format);
 	if (m->estream) {
@@ -1337,11 +1336,12 @@ static void efh_format_free(struct _mail_msg *mm)
 		g_object_unref(m->format_source);
 }
 
-static struct _mail_msg_op efh_format_op = {
-	efh_format_desc,
-	efh_format_do,
-	efh_format_done,
-	efh_format_free,
+static MailMsgInfo efh_format_info = {
+	sizeof (struct _format_msg),
+	(MailMsgDescFunc) efh_format_desc,
+	(MailMsgExecFunc) efh_format_exec,
+	(MailMsgDoneFunc) efh_format_done,
+	(MailMsgFreeFunc) efh_format_free
 };
 
 static gboolean
@@ -1352,7 +1352,7 @@ efh_format_timeout(struct _format_msg *m)
 	struct _EMFormatHTMLPrivate *p = efh->priv;
 
 	if (m->format->html == NULL) {
-		mail_msg_free(m);
+		mail_msg_unref(m);
 		return FALSE;
 	}
 
@@ -1380,7 +1380,7 @@ efh_format_timeout(struct _format_msg *m)
 	if (m->message == NULL) {
 		hstream = gtk_html_begin(efh->html);
 		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
-		mail_msg_free(m);
+		mail_msg_unref(m);
 		p->last_part = NULL;
 	} else {
 		if (p->last_part != m->message) {
@@ -1403,8 +1403,8 @@ efh_format_timeout(struct _format_msg *m)
 			p->last_part = m->message;
 		}
 
-		efh->priv->format_id = m->msg.seq;
-		e_thread_put(mail_thread_new, (EMsg *)m);
+		efh->priv->format_id = m->base.seq;
+		mail_msg_unordered_push (m);
 	}
 
 	efh->priv->format_timeout_id = 0;
@@ -1428,11 +1428,11 @@ static void efh_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid
 		d(printf(" timeout for last still active, removing ...\n"));
 		g_source_remove(efh->priv->format_timeout_id);
 		efh->priv->format_timeout_id = 0;
-		mail_msg_free(efh->priv->format_timeout_msg);
+		mail_msg_unref(efh->priv->format_timeout_msg);
 		efh->priv->format_timeout_msg = NULL;
 	}
 
-	m = mail_msg_new(&efh_format_op, NULL, sizeof(*m));
+	m = mail_msg_new(&efh_format_info);
 	m->format = (EMFormatHTML *)emf;
 	g_object_ref(emf);
 	m->format_source = emfsource;

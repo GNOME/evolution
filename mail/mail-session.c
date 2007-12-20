@@ -35,7 +35,7 @@
 #include <libgnome/gnome-sound.h>
 
 #include <libedataserverui/e-passwords.h>
-#include <libedataserver/e-msgport.h>
+#include <libedataserver/e-flag.h>
 
 #include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
 #include <camel/camel-filter-driver.h>
@@ -265,21 +265,22 @@ forget_password (CamelSession *session, CamelService *service, const char *domai
 
 /* ********************************************************************** */
 
-static GtkDialog *message_dialog;
-static EDList message_list = E_DLIST_INITIALISER(message_list);
+static gpointer user_message_dialog;
+static GQueue user_message_queue = { NULL, NULL, 0 };
 
 struct _user_message_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	CamelSessionAlertType type;
 	char *prompt;
+	EFlag *done;
 
 	unsigned int allow_cancel:1;
 	unsigned int result:1;
 	unsigned int ismain:1;
 };
 
-static void do_user_message (struct _mail_msg *mm);
+static void user_message_exec (struct _user_message_msg *m);
 
 /* clicked, send back the reply */
 static void
@@ -287,126 +288,122 @@ user_message_response (GtkDialog *dialog, int button, struct _user_message_msg *
 {
 	gtk_widget_destroy ((GtkWidget *) dialog);
 
-	message_dialog = NULL;
+	user_message_dialog = NULL;
 
 	/* if !allow_cancel, then we've already replied */
 	if (m->allow_cancel) {
 		m->result = button == GTK_RESPONSE_OK;
-		e_msgport_reply((EMsg *)m);
+		e_flag_set (m->done);
 	}
 
 	/* check for pendings */
-	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
-		do_user_message((struct _mail_msg *)m);
+	if (!g_queue_is_empty (&user_message_queue)) {
+		m = g_queue_pop_head (&user_message_queue);
+		user_message_exec (m);
+		mail_msg_unref (m);
+	}
 }
 
 static void
-user_message_destroy_notify (struct _user_message_msg *m, GObject *deadbeef)
+user_message_exec (struct _user_message_msg *m)
 {
-	message_dialog = NULL;
-}
+	const gchar *error_type;
 
-/* This is kinda ugly/inefficient, but oh well, it works */
-static const char *error_type[] = {
-	"mail:session-message-info", "mail:session-message-warning", "mail:session-message-error",
-	"mail:session-message-info-cancel", "mail:session-message-warning-cancel", "mail:session-message-error-cancel"
-};
-
-static void
-do_user_message (struct _mail_msg *mm)
-{
-	struct _user_message_msg *m = (struct _user_message_msg *)mm;
-	int type;
-
-	if (!m->ismain && message_dialog != NULL) {
-		e_dlist_addtail (&message_list, (EDListNode *)m);
+	if (!m->ismain && user_message_dialog != NULL) {
+		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
 		return;
 	}
 
 	switch (m->type) {
-	case CAMEL_SESSION_ALERT_INFO:
-		type = 0;
-		break;
-	case CAMEL_SESSION_ALERT_WARNING:
-		type = 1;
-		break;
-	case CAMEL_SESSION_ALERT_ERROR:
-		type = 2;
-		break;
-	default:
-		type = 0;
+		case CAMEL_SESSION_ALERT_INFO:
+			error_type = m->allow_cancel ?
+				"mail:session-message-info-cancel" :
+				"mail:session-message-info";
+			break;
+		case CAMEL_SESSION_ALERT_WARNING:
+			error_type = m->allow_cancel ?
+				"mail:session-message-warning-cancel" :
+				"mail:session-message-warning";
+			break;
+		case CAMEL_SESSION_ALERT_ERROR:
+			error_type = m->allow_cancel ?
+				"mail:session-message-error-cancel" :
+				"mail:session-message-error";
+			break;
+		default:
+			g_assert_not_reached ();
 	}
 
-	if (m->allow_cancel)
-		type += 3;
+	user_message_dialog = e_error_new (NULL, error_type, m->prompt, NULL);
+	g_object_set (
+		user_message_dialog, "allow_shrink", TRUE,
+		"allow_grow", TRUE, NULL);
 
-	message_dialog = (GtkDialog *)e_error_new(NULL, error_type[type], m->prompt, NULL);
-	g_object_set ((GObject *) message_dialog, "allow_shrink", TRUE, "allow_grow", TRUE, NULL);
-
-	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
-	if (m->allow_cancel) {
-		if (m->ismain) {
-			user_message_response(message_dialog, gtk_dialog_run (message_dialog), m);
-		} else {
-			g_signal_connect (message_dialog, "response", G_CALLBACK (user_message_response), m);
-			gtk_widget_show ((GtkWidget *) message_dialog);
-		}
+	/* We only need to wait for the result if we allow cancel
+	 * otherwise show but send result back instantly */
+	if (m->allow_cancel && m->ismain) {
+		gint response = gtk_dialog_run (user_message_dialog);
+		user_message_response (user_message_dialog, response, m);
 	} else {
-		g_signal_connect (message_dialog, "response", G_CALLBACK (gtk_widget_destroy), message_dialog);
-		g_object_weak_ref ((GObject *) message_dialog, (GWeakNotify) user_message_destroy_notify, m);
-		gtk_widget_show ((GtkWidget *) message_dialog);
-		mail_msg_free(m);
+		g_signal_connect (
+			user_message_dialog, "response",
+			G_CALLBACK (user_message_response), m);
+		gtk_widget_show (user_message_dialog);
 	}
 }
 
 static void
-free_user_message(struct _mail_msg *mm)
+user_message_free (struct _user_message_msg *m)
 {
-	struct _user_message_msg *m = (struct _user_message_msg *)mm;
-
 	g_free(m->prompt);
+	e_flag_free(m->done);
 }
 
-static struct _mail_msg_op user_message_op = { NULL, do_user_message, NULL, free_user_message };
+static MailMsgInfo user_message_info = {
+	sizeof (struct _user_message_msg),
+	(MailMsgDescFunc) NULL,
+	(MailMsgExecFunc) user_message_exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) user_message_free
+};
 
 static gboolean
 alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel)
 {
 	MailSession *mail_session = MAIL_SESSION (session);
-	struct _user_message_msg *m, *r;
-	EMsgPort *user_message_reply = NULL;
-	gboolean ret;
+	struct _user_message_msg *m;
+	gboolean result = TRUE;
 
 	if (!mail_session->interactive)
 		return FALSE;
 
-	if (cancel)
-		user_message_reply = e_msgport_new ();
-	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
-	m->ismain = pthread_equal(pthread_self(), mail_gui_thread);
+	m = mail_msg_new (&user_message_info);
+	m->ismain = mail_in_main_thread ();
 	m->type = type;
-	m->prompt = g_strdup(prompt);
+	m->prompt = g_strdup (prompt);
+	m->done = e_flag_new ();
 	m->allow_cancel = cancel;
 
-	if (m->ismain)
-		do_user_message((struct _mail_msg *)m);
-	else {
-		extern EMsgPort *mail_gui_port2;
+	if (cancel)
+		mail_msg_ref (m);
 
-		e_msgport_put(mail_gui_port2, (EMsg *)m);
-	}
+	if (m->ismain)
+		user_message_exec (m);
+	else
+		mail_msg_main_loop_push (m);
 
 	if (cancel) {
-		r = (struct _user_message_msg *)e_msgport_wait(user_message_reply);
-		g_return_val_if_fail (m == r, FALSE);
+		e_flag_wait (m->done);
+		result = m->result;
+		mail_msg_unref (m);
+	}
 
-		ret = m->result;
-		mail_msg_free(m);
-		e_msgport_destroy(user_message_reply);
-	} else
-		ret = TRUE;
+	if (m->ismain) {
+		user_message_free (m);
+		mail_msg_unref (m);
+	}
 
-	return ret;
+	return result;
 }
 
 static CamelFolder *
@@ -542,7 +539,7 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 /* TODO: This is very temporary, until we have a better way to do the progress reporting,
    we just borrow a dummy mail-mt thread message and hook it onto out camel thread message */
 
-static mail_msg_op_t ms_thread_ops_dummy = { NULL };
+static MailMsgInfo ms_thread_info_dummy = { sizeof (MailMsg) };
 
 static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size)
 {
@@ -551,7 +548,7 @@ static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops
 	/* We create a dummy mail_msg, and then copy its cancellation port over to ours, so
 	   we get cancellation and progress in common with hte existing mail code, for free */
 	if (msg) {
-		struct _mail_msg *m = mail_msg_new(&ms_thread_ops_dummy, NULL, sizeof(struct _mail_msg));
+		MailMsg *m = mail_msg_new(&ms_thread_info_dummy);
 
 		msg->data = m;
 		camel_operation_unref(msg->op);
@@ -564,7 +561,7 @@ static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops
 
 static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m)
 {
-	mail_msg_free(m->data);
+	mail_msg_unref(m->data);
 	ms_parent_class->thread_msg_free(session, m);
 }
 
@@ -689,22 +686,23 @@ mail_session_set_interactive (gboolean interactive)
 	MAIL_SESSION (session)->interactive = interactive;
 
 	if (!interactive) {
-		struct _user_message_msg *um;
+		struct _user_message_msg *msg;
 
 		d(printf ("Gone non-interactive, checking for outstanding interactive tasks\n"));
 
 		e_passwords_cancel();
 
 		/* flush/cancel pending user messages */
-		while ((um = (struct _user_message_msg *) e_dlist_remhead (&message_list))) {
-			d(printf ("Flusing message request: %s\n", um->prompt));
-			e_msgport_reply((EMsg *) um);
+		while (!g_queue_is_empty (&user_message_queue)) {
+			msg = g_queue_pop_head (&user_message_queue);
+			e_flag_set (msg->done);
+			mail_msg_unref (msg);
 		}
 
 		/* and the current */
-		if (message_dialog) {
+		if (user_message_dialog) {
 			d(printf("Destroying message dialogue\n"));
-			gtk_widget_destroy ((GtkWidget *) message_dialog);
+			gtk_widget_destroy ((GtkWidget *) user_message_dialog);
 		}
 	}
 }

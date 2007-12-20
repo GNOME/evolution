@@ -1,3 +1,10 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* folder-unsubscribe.c:
+	Use the new MailMsg API for messages.
+
 2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #495875

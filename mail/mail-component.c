@@ -1010,7 +1010,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 		if (camel_url_get_param(url, "uid") != NULL) {
 			char *curi = em_uri_to_camel(uri);
 
-			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_thread_new);
+			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_msg_unordered_push);
 			g_free(curi);
 		} else {
 			g_warning("email uri's must include a uid parameter");

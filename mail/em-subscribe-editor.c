@@ -173,7 +173,7 @@ sub_unref(EMSubscribe *sub)
 /* ** Subscribe folder operation **************************************** */
 
 struct _zsubscribe_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	EMSubscribe *sub;
 	EMSubscribeNode *node;
@@ -182,20 +182,18 @@ struct _zsubscribe_msg {
 };
 
 static void
-sub_folder_subscribe (struct _mail_msg *mm)
+sub_folder_exec (struct _zsubscribe_msg *m)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
-
 	if (m->subscribe)
-		camel_store_subscribe_folder (m->sub->store, m->node->info->full_name, &mm->ex);
+		camel_store_subscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
 	else
-		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &mm->ex);
+		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
 }
 
 static void
-sub_folder_subscribed (struct _mail_msg *mm)
+sub_folder_done (struct _zsubscribe_msg *m)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *)mm, *next;
+	struct _zsubscribe_msg *next;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	EMSubscribeNode *node;
@@ -205,7 +203,7 @@ sub_folder_subscribed (struct _mail_msg *mm)
 	if (m->sub->cancel)
 		return;
 
-	if (!camel_exception_is_set(&mm->ex)) {
+	if (!camel_exception_is_set(&m->base.ex)) {
 		if (m->subscribe)
 			m->node->info->flags |= CAMEL_FOLDER_SUBSCRIBED;
 		else
@@ -226,8 +224,8 @@ sub_folder_subscribed (struct _mail_msg *mm)
 	/* queue any further ones, or if out, update the ui */
 	next = (struct _zsubscribe_msg *)e_dlist_remhead(&m->sub->subscribe);
 	if (next) {
-		next->sub->subscribe_id = next->msg.seq;
-		e_thread_put(mail_thread_new, (EMsg *)next);
+		next->sub->subscribe_id = next->base.seq;
+		mail_msg_unordered_push (next);
 	} else {
 		/* should it go off the model instead? */
 		sub_selection_changed(gtk_tree_view_get_selection(m->sub->tree), m->sub);
@@ -235,19 +233,18 @@ sub_folder_subscribed (struct _mail_msg *mm)
 }
 
 static void
-sub_folder_free (struct _mail_msg *mm)
+sub_folder_free (struct _zsubscribe_msg *m)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
-
 	g_free(m->path);
 	sub_unref(m->sub);
 }
 
-static struct _mail_msg_op sub_subscribe_folder_op = {
-	NULL, /*subscribe_folder_desc,*/
-	sub_folder_subscribe,
-	sub_folder_subscribed,
-	sub_folder_free,
+static MailMsgInfo sub_subscribe_folder_info = {
+	sizeof (struct _zsubscribe_msg),
+	(MailMsgDescFunc) NULL,
+	(MailMsgExecFunc) sub_folder_exec,
+	(MailMsgDoneFunc) sub_folder_done,
+	(MailMsgFreeFunc) sub_folder_free
 };
 
 /* spath is tree path in string form */
@@ -257,18 +254,18 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const 
 	struct _zsubscribe_msg *m;
 	int id;
 
-	m = mail_msg_new (&sub_subscribe_folder_op, NULL, sizeof(*m));
+	m = mail_msg_new (&sub_subscribe_folder_info);
 	m->sub = sub;
 	sub_ref(sub);
 	m->node = node;
 	m->subscribe = state;
 	m->path = g_strdup(spath);
 
-	id = m->msg.seq;
+	id = m->base.seq;
 	if (sub->subscribe_id == -1) {
 		sub->subscribe_id = id;
 		d(printf("running subscribe folder '%s'\n", spath));
-		e_thread_put (mail_thread_new, (EMsg *)m);
+		mail_msg_unordered_push (m);
 	} else {
 		d(printf("queueing subscribe folder '%s'\n", spath));
 		e_dlist_addtail(&sub->subscribe, (EDListNode *)m);
@@ -339,7 +336,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 /* async query of folderinfo */
 
 struct _emse_folderinfo_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	int seq;
 
@@ -349,31 +346,29 @@ struct _emse_folderinfo_msg {
 };
 
 static void
-sub_folderinfo_get (struct _mail_msg *mm)
+sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 {
-	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
 	char *pub_full_name=NULL;
 
 	if (m->seq == m->sub->seq) {
-		camel_operation_register(mm->cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
-		camel_operation_unregister(mm->cancel);
+		camel_operation_register(m->base.cancel);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &m->base.ex);
+		camel_operation_unregister(m->base.cancel);
 	}
 }
 
 static void
-sub_folderinfo_got(struct _mail_msg *mm)
+sub_folderinfo_done (struct _emse_folderinfo_msg *m)
 {
-	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
 	EMSubscribeNode *node;
 
 	m->sub->pending_id = -1;
 	if (m->sub->cancel || m->seq != m->sub->seq)
 		return;
 
-	if (camel_exception_is_set (&mm->ex)) {
+	if (camel_exception_is_set (&m->base.ex)) {
 		g_warning ("Error getting folder info from store: %s",
-			   camel_exception_get_description (&mm->ex));
+			   camel_exception_get_description (&m->base.ex));
 	}
 
 	if (m->info) {
@@ -394,10 +389,8 @@ sub_folderinfo_got(struct _mail_msg *mm)
 }
 
 static void
-sub_folderinfo_free(struct _mail_msg *mm)
+sub_folderinfo_free (struct _emse_folderinfo_msg *m)
 {
-	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
-
 	if (m->info)
 		m->sub->info_list = g_slist_prepend(m->sub->info_list, m->info);
 
@@ -413,11 +406,12 @@ sub_folderinfo_free(struct _mail_msg *mm)
 	sub_unref(m->sub);
 }
 
-static struct _mail_msg_op sub_folderinfo_op = {
-	NULL, /*sub_folderinfo_desc,  we do our own progress reporting/cancellation */
-	sub_folderinfo_get,
-	sub_folderinfo_got,
-	sub_folderinfo_free,
+static MailMsgInfo sub_folderinfo_info = {
+	sizeof (struct _emse_folderinfo_msg),
+	(MailMsgDescFunc) NULL,
+	(MailMsgExecFunc) sub_folderinfo_exec,
+	(MailMsgDoneFunc) sub_folderinfo_done,
+	(MailMsgFreeFunc) sub_folderinfo_free
 };
 
 static int
@@ -429,19 +423,19 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 	d(printf("%s:%d:%s: Starting get folderinfo of '%s'\n", __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__,
 		 node?node->info->full_name:"<root>"));
 
-	m = mail_msg_new (&sub_folderinfo_op, NULL, sizeof(*m));
+	m = mail_msg_new (&sub_folderinfo_info);
 	sub_ref(sub);
 	m->sub = sub;
 	m->node = node;
 	m->seq = sub->seq;
 
-	sub->pending_id = m->msg.seq;
+	sub->pending_id = m->base.seq;
 
 	sub_editor_busy(sub->editor, 1);
 
-	id = m->msg.seq;
+	id = m->base.seq;
 
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	mail_msg_unordered_push (m);
 	return id;
 }
 
@@ -571,7 +565,7 @@ sub_destroy(GtkWidget *w, EMSubscribe *sub)
 		mail_msg_cancel(sub->subscribe_id);
 
 	while ( (m = (struct _zsubscribe_msg *)e_dlist_remhead(&sub->subscribe)) )
-		mail_msg_free(m);
+		mail_msg_unref(m);
 
 	sub_unref(sub);
 }

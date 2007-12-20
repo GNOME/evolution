@@ -45,10 +45,6 @@ struct _AlarmNotifyPrivate {
         GMutex *mutex;
 };
 
-EThread *alarm_operation_thread;	/* for operations that can (or should) be queued */
-EMsgPort *alarm_reply_port;
-static GIOChannel *alarm_reply_channel;
-
 #define d(x) x
 
 
@@ -286,71 +282,11 @@ alarm_notify_finalize (GObject *object)
 	g_mutex_free (priv->mutex);
 	g_free (priv);
 
-	e_thread_destroy(alarm_operation_thread);
-	g_io_channel_unref(alarm_reply_channel);
-	e_msgport_destroy(alarm_reply_port);
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
-
-static guint
-alarm_channel_setup(EMsgPort **port, GIOChannel **channel, GIOFunc func)
-{
-	GSource *source;
-	guint id;
-
-	d (printf("%s:%d (alarm_channel_setup) - Channel Setup\n ", __FILE__, __LINE__));
-	*port = e_msgport_new();
-#ifndef G_OS_WIN32
-	*channel = g_io_channel_unix_new(e_msgport_fd(*port));
-#else
-	*channel = g_io_channel_win32_new_socket(e_msgport_fd(*port));
-#endif
-	source = g_io_create_watch(*channel, G_IO_IN);
-	g_source_set_callback(source, (GSourceFunc)func, *port, NULL);
-	g_source_set_can_recurse(source, FALSE);
-	id = g_source_attach(source, NULL);
-	g_source_unref(source);
-
-	return id;
-}
-
-static void
-alarm_msg_destroy(EThread *e, EMsg *msg, void *data)
-{
-	AlarmMsg *m = (AlarmMsg *)msg;
-
-	/* Free the private */
-	g_free (m->data); /* Mostly it is a structure allocated as a carrier*/
-	g_free (m);
-}
-
-static gboolean
-alarm_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
-{
-	EMsgPort *port = (EMsgPort *)d;
-	EMsg *m;
-
-	while (( m = e_msgport_get(port))) {
-		d (printf("%s:%d (alarm_msgport_replied) - %p: Replied to GUI thread\n", __FILE__, __LINE__, m));
-		alarm_msg_destroy(NULL, m, NULL);
-	}
-
-	return TRUE;
-}
-
-static void
-alarm_msg_received(EThread *e, EMsg *msg, void *data)
-{
-	AlarmMsg *m = (AlarmMsg *)msg;
-
-	d(printf("%s:%d (alarm_msg_received) - %p: Received at thread %" G_GINT64_MODIFIER "x\n", __FILE__, __LINE__, m, e_util_pthread_id(pthread_self())));
-	if (m->receive_msg) {
-		m->receive_msg (e, m, data);
-	}
-}
 
 /**
  * alarm_notify_new:
@@ -363,23 +299,10 @@ alarm_msg_received(EThread *e, EMsg *msg, void *data)
 AlarmNotify *
 alarm_notify_new (void)
 {
-	AlarmNotify *an;
-
-	d (printf("%s:%d (alarm_notify_new) - Alarm Notify New \n ", __FILE__, __LINE__));
-
-	/* Create a thread for alarm queue operation*/
-	alarm_channel_setup(&alarm_reply_port, &alarm_reply_channel, alarm_msgport_replied);
-
-	alarm_operation_thread = e_thread_new(E_THREAD_QUEUE);
-	e_thread_set_msg_destroy(alarm_operation_thread, alarm_msg_destroy, NULL);
-	e_thread_set_msg_received(alarm_operation_thread, alarm_msg_received, NULL);
-	e_thread_set_reply_port(alarm_operation_thread, alarm_reply_port);
-
-	an = g_object_new (TYPE_ALARM_NOTIFY,
-			   "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL),
-			   NULL);
-
-	return an;
+	return g_object_new (TYPE_ALARM_NOTIFY,
+		"poa", bonobo_poa_get_threaded (
+			ORBIT_THREAD_HINT_PER_REQUEST, NULL),
+		NULL);
 }
 
 static void

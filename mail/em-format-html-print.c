@@ -228,7 +228,7 @@ em_format_html_print_message (EMFormatHTMLPrint *efhp,
 	g_object_ref (efhp);
 
 	mail_get_message (
-		folder, uid, emfhp_got_message, efhp, mail_thread_new);
+		folder, uid, emfhp_got_message, efhp, mail_msg_unordered_push);
 }
 
 void

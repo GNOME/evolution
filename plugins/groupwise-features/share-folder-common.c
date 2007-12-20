@@ -121,7 +121,7 @@ shared_folder_abort (EPlugin *ep, EConfigTarget *target)
 }
 
 struct _EMCreateFolder {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	/* input data */
 	CamelStore *store;
@@ -137,31 +137,26 @@ struct _EMCreateFolder {
 	void *user_data;
 };
 
-static char *
-create_folder__desc (struct _mail_msg *mm, int done)
+static gchar *
+create_folder_desc (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	return g_strdup_printf (_("Creating folder `%s'"), m->full_name);
 }
 
 static void
-create_folder__create (struct _mail_msg *mm)
+create_folder_exec (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
 
-	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &mm->ex))) {
+	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &m->base.ex))) {
 		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder (m->store, m->full_name, &mm->ex);
+			camel_store_subscribe_folder (m->store, m->full_name, &m->base.ex);
 	}
 }
 
 static void
-create_folder__created (struct _mail_msg *mm)
+create_folder_done (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
 	struct ShareInfo *ssi = (struct ShareInfo *) m->user_data;
 	CamelStore *store = CAMEL_STORE (m->store) ;
 	EGwConnection *ccnc;
@@ -180,10 +175,8 @@ create_folder__created (struct _mail_msg *mm)
 }
 
 static void
-create_folder__free (struct _mail_msg *mm)
+create_folder_free (struct _EMCreateFolder *m)
 {
-	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
-
 	camel_store_free_folder_info (m->store, m->fi);
 	camel_object_unref (m->store);
 	g_free (m->full_name);
@@ -191,11 +184,12 @@ create_folder__free (struct _mail_msg *mm)
 	g_free (m->name);
 }
 
-static struct _mail_msg_op create_folder_op = {
-	create_folder__desc,
-	create_folder__create,
-	create_folder__created,
-	create_folder__free,
+static MailMsgInfo create_folder_info = {
+	sizeof (struct _EMCreateFolder),
+	(MailMsgDescFunc) create_folder_desc,
+	(MailMsgExecFunc) create_folder_exec,
+	(MailMsgDoneFunc) create_folder_done,
+	(MailMsgFreeFunc) create_folder_free
 };
 
 static void
@@ -229,7 +223,7 @@ create_folder (CamelStore *store, const char *full_name, void (* done) (struct _
 		parent = namebuf;
 	}
 
-	m = mail_msg_new (&create_folder_op, NULL, sizeof (struct _EMCreateFolder));
+	m = mail_msg_new (&create_folder_info);
 	camel_object_ref (store);
 	m->store = store;
 	m->full_name = g_strdup (full_name);
@@ -238,8 +232,8 @@ create_folder (CamelStore *store, const char *full_name, void (* done) (struct _
 	m->user_data = (struct ShareInfo *) user_data;
 	m->done = done;
 	g_free (namebuf);
-	id = m->msg.seq;
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	id = m->base.seq;
+	mail_msg_unordered_push (m);
 
 	return id;
 }

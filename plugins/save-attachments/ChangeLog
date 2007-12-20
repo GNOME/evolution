@@ -1,3 +1,10 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* save-attachments.c:
+	Use the new MailMsg API for messages.
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

@@ -1551,47 +1551,38 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 }
 
 struct _opencal_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	char *command; /* command line to run */
 };
 
 static char *
-open_calendar_desc (struct _mail_msg *mm, int done)
+open_calendar__desc (struct _opencal_msg *m, gint complete)
 {
 	return g_strdup (_("Opening calendar"));
 }
 
 static void
-open_calendar_do (struct _mail_msg *mm)
+open_calendar__exec (struct _opencal_msg *m)
 {
-	struct _opencal_msg *m = (struct _opencal_msg *)mm;
-
 	if (!g_spawn_command_line_async (m->command, NULL)) {
 		g_warning ("Could not launch %s", m->command);
 	}
 }
 
 static void
-open_calendar_done (struct _mail_msg *mm)
+open_calendar__free (struct _opencal_msg *m)
 {
-	/*struct _opencal_msg *m = (struct _opencal_msg *)mm;*/
-}
-
-static void
-open_calendar_free (struct _mail_msg *mm)
-{
-	struct _opencal_msg *m = (struct _opencal_msg *)mm;
-
 	g_free (m->command);
 	m->command = NULL;
 }
 
-static struct _mail_msg_op open_calendar_op = {
-	open_calendar_desc,
-	open_calendar_do,
-	open_calendar_done,
-	open_calendar_free,
+static MailMsgInfo open_calendar_info = {
+	sizeof (struct _opencal_msg),
+	(MailMsgDescFunc) open_calendar__desc,
+	(MailMsgExecFunc) open_calendar__exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) open_calendar__free,
 };
 
 static gboolean
@@ -1600,10 +1591,10 @@ idle_open_cb (gpointer data)
 	FormatItipPObject *pitip = data;
 	struct _opencal_msg *m;
 
-	m = mail_msg_new (&open_calendar_op, NULL, sizeof (*m));
+	m = mail_msg_new (&open_calendar_info);
 	m->command = g_strdup_printf ("evolution \"calendar://?startdate=%s&enddate=%s\"",
 				   isodate_from_time_t (pitip->start_time), isodate_from_time_t (pitip->end_time));
-	e_thread_put (mail_thread_queued_slow, (EMsg *)m);
+	mail_msg_slow_ordered_push (m);
 
 	return FALSE;
 }
