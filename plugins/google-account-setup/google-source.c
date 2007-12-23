@@ -154,6 +154,21 @@ ssl_changed (GtkToggleButton *button, ESource *source)
 #endif
 
 
+static gboolean
+is_email (const char *address)
+{
+	/* This is supposed to check if the address's domain could be
+           an FQDN but alas, it's not worth the pain and suffering. */
+	const char *at;
+
+	at = strchr (address, '@');
+	/* make sure we have an '@' and that it's not the first or last char */
+	if (!at || at == address || *(at + 1) == '\0')
+		return FALSE;
+
+	return TRUE;
+}
+
 static void
 user_changed (GtkEntry *editable, ESource *source)
 {
@@ -183,7 +198,7 @@ user_changed (GtkEntry *editable, ESource *source)
 
 	projection = g_strdup ("/private/full");
 
-	if (!g_str_has_suffix (user, "gmail.com\0")) {
+	if (!is_email (user)) {
 		user = g_strconcat (user, "@gmail.com", NULL);
 	}
 
