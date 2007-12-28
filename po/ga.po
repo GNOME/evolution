@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-24 17:46-0700\n"
-"PO-Revision-Date: 2007-12-24 17:45-0700\n"
+"POT-Creation-Date: 2007-12-27 23:59-0700\n"
+"PO-Revision-Date: 2007-12-27 23:59-0700\n"
 "Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -673,7 +673,7 @@ msgstr "Pearsanta"
 #: ../addressbook/gui/component/addressbook-component.c:162
 #: ../addressbook/gui/component/addressbook-migrate.c:515
 msgid "On LDAP Servers"
-msgstr "Ar Freastalaithe LDAP"
+msgstr "Ar Fhreastalaithe LDAP"
 
 #: ../addressbook/gui/component/addressbook-component.c:229
 msgid "_Contact"
@@ -959,15 +959,15 @@ msgstr "<b>Taispeáint</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
-msgstr "<b>Á Íosluchtú</b>"
+msgstr "<b>Íosluchtú</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Searching</b>"
-msgstr "<b>Á Chuardach</b>"
+msgstr "<b>Cuardach</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "<b>Server Information</b>"
-msgstr "<b>Eolas faoin bhFreastalaí</b>"
+msgstr "<b>Eolas Freastalaí</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "<b>Type:</b>"
@@ -977,15 +977,10 @@ msgstr "<b>Cineál:</b>"
 msgid "Add Address Book"
 msgstr "Cuir Leabhar Seoltaí Leis"
 
-# ##
-# ## Languages (ISO 639 code in brackets)
-# ## 	The 'msgid' names and spellings for languages are those listed
-# ##     in iso-639.def from glibc
-# aa
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 #: ../mail/em-account-editor.c:777
 msgid "Always"
-msgstr "i gCónaí"
+msgstr "I gCónaí"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
@@ -1214,7 +1209,6 @@ msgid "_Timeout:"
 msgstr "Teorainn Ama"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
-#, fuzzy
 msgid "_Use secure connection:"
 msgstr "Úsáid nasc daingean:"
 
@@ -1296,7 +1290,6 @@ msgstr "Ainm _Fhada..."
 msgid "Image"
 msgstr "Íomhá"
 
-# mt
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:68
 msgid "MSN Messenger"
@@ -1596,7 +1589,6 @@ msgstr "An Bheilís"
 msgid "Benin"
 msgstr "Beinin"
 
-# BM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bermuda"
 msgstr "Beirmiúda"
@@ -1620,7 +1612,6 @@ msgstr "Boisnia agus Heirseagaivéin"
 msgid "Botswana"
 msgstr "An Bhotsuáin"
 
-# BV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Bouvet Island"
 msgstr "Oileán Bouvet"
@@ -1640,7 +1631,6 @@ msgstr "Críocha Briotanacha an Aigéin Indiaigh"
 msgid "Brunei Darussalam"
 msgstr "Brúiné Dárasalám"
 
-# BG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Bulgaria"
 msgstr "An Bhulgáir"
@@ -1748,7 +1738,6 @@ msgstr "An Cósta Eabhair"
 msgid "Croatia"
 msgstr "An Chróit"
 
-# CU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "Cuba"
 msgstr "Cúba"
@@ -4141,9 +4130,8 @@ msgid "Right:"
 msgstr "Ar Dheis:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:34
-#, fuzzy
 msgid "Sections:"
-msgstr "Rannóga"
+msgstr "Rannáin:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
 #, fuzzy
@@ -5197,15 +5185,13 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:102
-#, fuzzy
 msgid "Show the \"Preview\" pane"
-msgstr "Pána Réamhamhairc"
+msgstr "Taispeán an pána \"Réamhamharc\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
 #: ../mail/evolution-mail.schemas.in.h:103
-#, fuzzy
 msgid "Show the \"Preview\" pane."
-msgstr "Pána Réamhamhairc"
+msgstr "Taispeán an pána \"Réamhamharc\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
 msgid "Show timezone field in the event/meeting editor"
@@ -5825,18 +5811,16 @@ msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Ginearálta</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#, fuzzy
 msgid "<span weight=\"bold\">Task List</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Liosta Tascanna</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Time</span>"
 msgstr "<span weight=\"bold\">Am</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Work Week</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Seachtain Oibre</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
@@ -7152,7 +7136,6 @@ msgid "Confidential"
 msgstr "Faoi Rún"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
-#, fuzzy
 msgid "End Date"
 msgstr "Dáta Deiridh"
 
@@ -7443,20 +7426,17 @@ msgid "New _Appointment..."
 msgstr "_Coinne Nua..."
 
 #: ../calendar/gui/e-calendar-view.c:1655
-#, fuzzy
 msgid "New All Day _Event"
-msgstr "Lá Caille Bahá'i"
+msgstr "_Teagmhas an Lá ar Fad Nua"
 
 #: ../calendar/gui/e-calendar-view.c:1656
-#, fuzzy
 msgid "New _Meeting"
-msgstr "Cuardach Nua"
+msgstr "_Cruinniú Nua"
 
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1667
-#, fuzzy
 msgid "_Current View"
-msgstr "Féach ar an gcomhad reatha"
+msgstr "Amharc _Reatha"
 
 #: ../calendar/gui/e-calendar-view.c:1669
 msgid "Select T_oday"
@@ -8001,9 +7981,8 @@ msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2085 ../calendar/gui/e-itip-control.c:2142
-#, fuzzy
 msgid "Item sent!\n"
-msgstr "Bearta Seolta"
+msgstr "Mír seolta!\n"
 
 #: ../calendar/gui/e-itip-control.c:2091 ../calendar/gui/e-itip-control.c:2150
 #, fuzzy
@@ -8263,14 +8242,12 @@ msgid "Required people and _one resource"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:620
-#, fuzzy
 msgid "_Start time:"
-msgstr "Am tosaithe: %1"
+msgstr "Am _tosaithe:"
 
 #: ../calendar/gui/e-meeting-time-sel.c:647
-#, fuzzy
 msgid "_End time:"
-msgstr "Am deiridh: %1"
+msgstr "Am _deiridh:"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
@@ -8376,14 +8353,12 @@ msgid "Updating query"
 msgstr "Freastalaí na nIarratas"
 
 #: ../calendar/gui/gnome-cal.c:2508
-#, fuzzy
 msgid "_Custom View"
-msgstr "Barra Uirlisí Amhairc"
+msgstr "_Amharc Saincheaptha"
 
 #: ../calendar/gui/gnome-cal.c:2509
-#, fuzzy
 msgid "_Save Custom View"
-msgstr "&Sábháil an Phróifíl Amhairc..."
+msgstr "_Sábháil Amharc Saincheaptha"
 
 #: ../calendar/gui/gnome-cal.c:2514
 #, fuzzy
@@ -11242,16 +11217,15 @@ msgstr "Am Reatha"
 msgid "the time you specify"
 msgstr "Caithfidh tú gníomh a thabhairt"
 
-# el
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:291
 #: ../plugins/calendar-weather/calendar-weather.c:564
 #: ../plugins/google-account-setup/google-source.c:398
 msgid "weeks"
-msgstr "seachtanna"
+msgstr "seachtain"
 
 #: ../filter/filter.glade.h:23
 msgid "years"
-msgstr "bliana"
+msgstr "bliain"
 
 #: ../filter/rule-editor.c:380
 #, fuzzy
@@ -11297,7 +11271,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
-msgstr "Comhphairt Post Evolution"
+msgstr "Comhphairt Phost Evolution"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 #, fuzzy
@@ -11505,7 +11479,6 @@ msgid "Attachments"
 msgstr "Iatáin"
 
 #: ../mail/em-filter-i18n.h:6
-#, fuzzy
 msgid "Beep"
 msgstr "Bíp"
 
@@ -11746,9 +11719,8 @@ msgid "Sender"
 msgstr "Seoltóir"
 
 #: ../mail/em-filter-i18n.h:57
-#, fuzzy
 msgid "Set Status"
-msgstr "&Socraigh an Stádas"
+msgstr "Socraigh Stádas"
 
 #: ../mail/em-filter-i18n.h:58
 msgid "Size (kB)"
@@ -11787,11 +11759,9 @@ msgstr "Earráid: \"%1\" agus %2 á phróiseáil"
 msgid "Subject"
 msgstr "Ábhar"
 
-# US
 #: ../mail/em-filter-i18n.h:66
-#, fuzzy
 msgid "Unset Status"
-msgstr "Barra stádais"
+msgstr "Díshocraigh Stádas"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:489
@@ -11799,9 +11769,8 @@ msgid "Then"
 msgstr "Ansin"
 
 #: ../mail/em-filter-rule.c:517
-#, fuzzy
 msgid "Add Ac_tion"
-msgstr "Cuir Eisceacht Leis"
+msgstr "Cuir _Gníomh Leis"
 
 #: ../mail/em-folder-browser.c:187
 #, fuzzy
@@ -13738,9 +13707,8 @@ msgid "Show _errors in the status bar for"
 msgstr ""
 
 #: ../mail/mail-component.c:1634
-#, fuzzy
 msgid "seconds."
-msgstr "soicind"
+msgstr "soicind."
 
 #: ../mail/mail-component.c:1644
 #, fuzzy
@@ -13844,9 +13812,8 @@ msgid "<span weight=\"bold\">Labels and Colors</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Luchtú Íomhánna</span>"
 
 #: ../mail/mail-config.glade.h:19
 #, fuzzy
@@ -13969,9 +13936,8 @@ msgid "C_haracter set:"
 msgstr "&Socraigh Scagairí"
 
 #: ../mail/mail-config.glade.h:48
-#, fuzzy
 msgid "C_olor"
-msgstr "_Dath:"
+msgstr "_Dath"
 
 #: ../mail/mail-config.glade.h:49
 msgid "Ch_eck for Supported Types "
@@ -14267,9 +14233,8 @@ msgid "Select Sent Folder"
 msgstr "Roghnaigh Fillteán"
 
 #: ../mail/mail-config.glade.h:130
-#, fuzzy
 msgid "Sending Mail"
-msgstr "Earráid agus Ríomhphost á Sheoladh."
+msgstr "Post á Sheoladh"
 
 #: ../mail/mail-config.glade.h:131
 #, fuzzy
@@ -15076,14 +15041,12 @@ msgid "Could not save signature file."
 msgstr "Níorbh fhéidir comhad cumraíochta X a shábháil"
 
 #: ../mail/mail.error.xml.h:43
-#, fuzzy
 msgid "Delete &quot;{0}&quot;?"
-msgstr "&Scrios Íomhá"
+msgstr "Scrios &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:44
-#, fuzzy
 msgid "Delete account?"
-msgstr "&Scrios Cuntas"
+msgstr "Scrios cuntas?"
 
 #: ../mail/mail.error.xml.h:45
 #, fuzzy
@@ -15265,7 +15228,6 @@ msgid "Please provide an unique name to identify this signature."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:86
-#, fuzzy
 msgid "Please wait."
 msgstr "Fan go fóill."
 
@@ -16053,9 +16015,8 @@ msgid "Weather: Cloudy"
 msgstr "Aimsir scamallach"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
-#, fuzzy
 msgid "Weather: Fog"
-msgstr "Cumasaigh Ceo"
+msgstr "Aimsir: Ceo"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 #, fuzzy
@@ -16083,9 +16044,8 @@ msgid "Weather: Thunderstorms"
 msgstr "Tuairisc Aimsire"
 
 #: ../plugins/calendar-weather/calendar-weather.c:267
-#, fuzzy
 msgid "Select a location"
-msgstr "Suíomh an fhreastalaí:"
+msgstr "Roghnaigh suíomh"
 
 #: ../plugins/calendar-weather/calendar-weather.c:652
 #, fuzzy
@@ -16518,9 +16478,8 @@ msgid "Folder Name"
 msgstr "Ainm Fillteáin"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:137
-#, fuzzy
 msgid "Folder Size"
-msgstr "Leithead:"
+msgstr "Méid Fhillteáin"
 
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:310
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
@@ -16614,14 +16573,12 @@ msgstr ""
 "Rachaidh d'fhocal faire as feidhm i %n lá."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
-#, fuzzy
 msgid "_Change Password"
-msgstr "Athraigh &Focal Faire..."
+msgstr "_Athraigh Focal Faire"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:305
-#, fuzzy
 msgid "(Permission denied.)"
-msgstr "Níl cead agat."
+msgstr "(Diúltaíodh cead.)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
 msgid "Add User:"
@@ -16636,9 +16593,8 @@ msgid "<b>Permissions</b>"
 msgstr "<b>Ceadanna</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
-#, fuzzy
 msgid "Cannot Delete"
-msgstr "Ní féidir %1 a scriosadh: %2"
+msgstr "Ní Féidir a Scriosadh"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 #, fuzzy
@@ -16691,9 +16647,8 @@ msgid "Folder visible"
 msgstr "Deilbhíní infheicthe:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:13
-#, fuzzy
 msgid "Read items"
-msgstr "Gearrchuntas den léamh: %d comhad, %d rud\n"
+msgstr "Léigh míreanna"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
 msgid "Role: "
@@ -16758,9 +16713,8 @@ msgid "_User"
 msgstr "_Úsáideoir"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:17
-#, fuzzy
 msgid "button-user"
-msgstr "Athainmnigh Úsáideoir"
+msgstr "button-user"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:143
 msgid "Select User"
@@ -16916,14 +16870,12 @@ msgid "Folder already exists"
 msgstr "Tá an chomhadlann ann cheana"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
-#, fuzzy
 msgid "Folder does not exist"
-msgstr "Níl an Fillteán Ann"
+msgstr "Níl fillteán ann"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
-#, fuzzy
 msgid "Folder offline"
-msgstr "Úsáid As Líne..."
+msgstr "Fillteán as líne"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1283
@@ -17181,9 +17133,8 @@ msgid "Unsubscribe Folders"
 msgstr "Fillteáin á léamh"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
-#, fuzzy
 msgid "_Unsubscribe"
-msgstr "Díliostáil"
+msgstr "_Díliostáil"
 
 #: ../plugins/google-account-setup/google-source.c:71
 #: ../plugins/google-account-setup/google-source.c:78
@@ -17410,9 +17361,8 @@ msgid "Proxy"
 msgstr "Seachfhreastalaí"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "Ai&nm an chuntais:"
+msgstr "<b>Ainm Cuntais</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 #, fuzzy
@@ -17454,9 +17404,8 @@ msgid "Enter the users and set permissions"
 msgstr "Socraigh úsáideoirí agus focail fhaire"
 
 #: ../plugins/groupwise-features/share-folder-common.c:336
-#, fuzzy
 msgid "New _Shared Folder..."
-msgstr "Cuir comhfhillteáin leis"
+msgstr "Comh_fhillteán Nua..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:444
 #, fuzzy
@@ -17473,9 +17422,8 @@ msgid "Modify"
 msgstr "Athraigh"
 
 #: ../plugins/groupwise-features/status-track.c:105
-#, fuzzy
 msgid "Message Status"
-msgstr "[%1] %2"
+msgstr "Stádas Teactaireachta"
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:119
@@ -17492,9 +17440,8 @@ msgid "Creation date:"
 msgstr "Dáta a Cruthaíodh"
 
 #: ../plugins/groupwise-features/status-track.c:187
-#, fuzzy
 msgid "Recipient: "
-msgstr "Faighteoir"
+msgstr "Faighteoir:"
 
 #: ../plugins/groupwise-features/status-track.c:194
 #, fuzzy
@@ -18298,15 +18245,13 @@ msgstr "_Nuashonraigh"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:1012
-#, fuzzy
 msgid "Start time:"
-msgstr "Am tosaithe: %1"
+msgstr "Am tosaithe:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:1021
-#, fuzzy
 msgid "End time:"
-msgstr "Am deiridh: %1"
+msgstr "Am deiridh:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:1037
@@ -18492,14 +18437,12 @@ msgid "_Play sound when new messages arrive"
 msgstr "Ar theacht teachtaireachtaí nua i"
 
 #: ../plugins/mail-notification/mail-notification.c:625
-#, fuzzy
 msgid "_Beep"
-msgstr "Bíp"
+msgstr "_Bíp"
 
 #: ../plugins/mail-notification/mail-notification.c:626
-#, fuzzy
 msgid "Play _sound file"
-msgstr "Roghnaigh Comhad Fuaime"
+msgstr "Seinn comhad _fuaime"
 
 #: ../plugins/mail-notification/mail-notification.c:637
 #, fuzzy
@@ -18507,15 +18450,12 @@ msgid "Specify _filename:"
 msgstr "Ainm aschomhaid"
 
 #: ../plugins/mail-notification/mail-notification.c:638
-#, fuzzy
 msgid "Select sound file"
-msgstr "Roghnaigh Comhad Fuaime"
+msgstr "Roghnaigh comhad fuaime"
 
-# PW
 #: ../plugins/mail-notification/mail-notification.c:639
-#, fuzzy
 msgid "Pl_ay"
-msgstr "Palau"
+msgstr "_Seinn"
 
 #: ../plugins/mail-notification/mail-notification.c:773
 msgid "Notify new messages for _Inbox only"
@@ -18881,9 +18821,8 @@ msgid "Only ever show PLAIN"
 msgstr "Ná taispeáin ach fuinneoga íoslaghdaithe"
 
 #: ../plugins/prefer-plain/prefer-plain.c:184
-#, fuzzy
 msgid "HTML _Mode"
-msgstr "Scoránaigh Foinse HTML"
+msgstr "_Mód HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print from the composer."
@@ -18934,9 +18873,9 @@ msgstr "Eolas faoin Fhillteán Líonra"
 
 #: ../plugins/publish-calendar/publish-calendar.c:91
 #: ../smime/gui/component.c:47
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for `%s'"
-msgstr "Iontráil focal faire do 'XX'"
+msgstr "Iontráil an focal faire le `%s'"
 
 #: ../plugins/publish-calendar/publish-calendar.c:416
 #, fuzzy
@@ -19008,20 +18947,20 @@ msgid "_Publish as:"
 msgstr "Foilsigh Mar..."
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
-#, fuzzy
 msgid "_Remember password"
-msgstr "Meabhraigh focal faire"
+msgstr "_Meabhraigh focal faire"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Username:"
 msgstr "_Ainm Úsáideora:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:28
-#, fuzzy
 msgid ""
 "iCal\n"
 "Free/Busy"
-msgstr "Tá KArchiver gnóthach"
+msgstr ""
+"iCal\n"
+"Saor/Gnóthach"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:108
 #, fuzzy
@@ -19060,19 +18999,16 @@ msgstr ""
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
 #: ../plugins/save-attachments/save-attachments.c:330
-#, fuzzy
 msgid "Save attachments"
-msgstr "Sábháil Iatáin..."
+msgstr "Sábháil iatáin"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments..."
 msgstr "Sábháil Iatáin..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "Sábháil Gach Iatán"
+msgstr "Sábháil gach iatán"
 
 #: ../plugins/save-attachments/save-attachments.c:336
 #, fuzzy
@@ -19097,7 +19033,6 @@ msgid "%F %T"
 msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:381
-#, fuzzy
 msgid "UID"
 msgstr "UID"
 
@@ -19107,24 +19042,20 @@ msgid "Description List"
 msgstr "Liosta Cainéal"
 
 #: ../plugins/save-calendar/csv-format.c:384
-#, fuzzy
 msgid "Categories List"
-msgstr "Taispeáin liosta catagóirí"
+msgstr "Liosta Catagóirí"
 
 #: ../plugins/save-calendar/csv-format.c:385
-#, fuzzy
 msgid "Comment List"
-msgstr "Comment=Liosta Thíosluchtaithe Kget"
+msgstr "Liosta Nótaí"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Created"
 msgstr "Cruthaithe"
 
 #: ../plugins/save-calendar/csv-format.c:388
-#, fuzzy
 msgid "Contact List"
-msgstr "Liosta Teagmhála"
+msgstr "Liosta Teagmhálacha"
 
 #: ../plugins/save-calendar/csv-format.c:389
 msgid "Start"
@@ -19149,7 +19080,6 @@ msgid "Attendees List"
 msgstr "Liosta Cainéal"
 
 #: ../plugins/save-calendar/csv-format.c:397
-#, fuzzy
 msgid "Modified"
 msgstr "Athraithe"
 
@@ -19183,9 +19113,8 @@ msgid "Comma separated value format (.csv)"
 msgstr "Comhad 'luachanna deighilte le camóga' (*.csv)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Save Selected"
-msgstr "Sábháil na Cáipéisí Roghnaithe"
+msgstr "Sábháil Roghnaithe"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 #, fuzzy
@@ -19193,9 +19122,8 @@ msgid "Saves selected calendar or tasks list to disk."
 msgstr "Sábháil an tadhallaí seo mar VCard."
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "_Save to Disk"
-msgstr "Sábháil chuig Diosca"
+msgstr "_Sábháil chuig Diosca"
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -19657,9 +19585,8 @@ msgid "Switch to %s"
 msgstr "&Athraigh Go"
 
 #: ../shell/e-shell.c:640
-#, fuzzy
 msgid "Uknown system error."
-msgstr "Tharla earráid chórais."
+msgstr "Earráid chórais anaithnid."
 
 #: ../shell/e-shell.c:836 ../shell/e-shell.c:837
 #, c-format
@@ -19671,9 +19598,8 @@ msgid "OK"
 msgstr "Ceart go Leor"
 
 #: ../shell/e-shell.c:1277
-#, fuzzy
 msgid "Invalid arguments"
-msgstr "E176: Tá líon na n-argóintí mícheart"
+msgstr "Argóintí neamhbhailí"
 
 #: ../shell/e-shell.c:1279
 #, fuzzy
@@ -19786,9 +19712,8 @@ msgid "Evolution Crash Recovery"
 msgstr "Athshlánaigh Cúltaca"
 
 #: ../shell/main.c:308
-#, fuzzy
 msgid "Ig_nore"
-msgstr "Déan neamhaird de"
+msgstr "Tabhair _Neamhaird Air"
 
 #: ../shell/main.c:323
 #, no-c-format
@@ -19991,9 +19916,8 @@ msgid "Select a certificate to import..."
 msgstr "Roghnaigh an Catalóg le hIompórtáil"
 
 #: ../smime/gui/certificate-manager.c:146
-#, fuzzy
 msgid "All PKCS12 files"
-msgstr "Gach Comhad & Comhadlann"
+msgstr "Gach comhad PKCS12"
 
 #: ../smime/gui/certificate-manager.c:151
 #: ../smime/gui/certificate-manager.c:394
@@ -20053,7 +19977,6 @@ msgid "Enter new password for certificate database"
 msgstr "Iontráil an focal faire nua do <b>%1</b>, le do thoil:"
 
 #: ../smime/gui/component.c:72
-#, fuzzy
 msgid "Enter new password"
 msgstr "Iontráil focal faire nua"
 
@@ -20073,9 +19996,8 @@ msgid ""
 msgstr "CRL Eisithe ag:"
 
 #: ../smime/gui/e-cert-selector.c:174
-#, fuzzy
 msgid "Select certificate"
-msgstr "Roghnaigh Teastas"
+msgstr "Roghnaigh teastas"
 
 #: ../smime/gui/smime-ui.glade.h:1
 #, fuzzy
@@ -20531,9 +20453,8 @@ msgid "Co_py All Contacts To..."
 msgstr "Cói_peáil Gach Teagmháil Go..."
 
 #: ../ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Contact _Preview"
-msgstr "Réamhamharc ar Theachtaireacht"
+msgstr "_Réamhamharc Teagmhála"
 
 #: ../ui/evolution-addressbook.xml.h:6
 #: ../ui/evolution-composer-entries.xml.h:1 ../ui/evolution-memos.xml.h:2
@@ -21882,9 +21803,8 @@ msgid "_Message Source"
 msgstr "Foinse _Theachtaireachta"
 
 #: ../ui/evolution-mail-message.xml.h:119
-#, fuzzy
 msgid "_Next Message"
-msgstr "A&n Chéad Teachtaireacht Eile"
+msgstr "An Chéad Teachtaireacht _Eile"
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Normal Size"
@@ -21895,14 +21815,12 @@ msgid "_Not Junk"
 msgstr "_Post Ceart"
 
 #: ../ui/evolution-mail-message.xml.h:122
-#, fuzzy
 msgid "_Open in New Window"
-msgstr "Oscail i bhFuinneog Nua"
+msgstr "_Oscail i bhFuinneog Nua"
 
 #: ../ui/evolution-mail-message.xml.h:123
-#, fuzzy
 msgid "_Previous Message"
-msgstr "Teachtaireacht &Roimhe Seo"
+msgstr "Teachtaireacht _Roimhe Seo"
 
 #: ../ui/evolution-mail-message.xml.h:125
 #, fuzzy
@@ -22541,9 +22459,8 @@ msgid "_Window"
 msgstr "_Fuinneog"
 
 #: ../views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "By _Company"
-msgstr "Comhlacht"
+msgstr "De Réir _Comhlachta"
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
@@ -22600,7 +22517,6 @@ msgstr "Clóigh leanúint anseo"
 msgid "For _Wide View"
 msgstr "Féach tuairiscí ar $a iarracht"
 
-# as
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
 msgstr "_Teachtaireachtaí"
@@ -22684,14 +22600,12 @@ msgid "Instance"
 msgstr "Ásc"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:286
-#, fuzzy
 msgid "Save Current View"
-msgstr "Féach ar an gcomhad reatha"
+msgstr "Sábháil Amharc Reatha"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
-#, fuzzy
 msgid "_Create new view"
-msgstr "Dearadh Nua &Amhairc"
+msgstr "_Cruthaigh amharc nua"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 #, fuzzy
@@ -23091,7 +23005,6 @@ msgstr "Cuardach Ardmód"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:233
-#, fuzzy
 msgid "Save Search"
 msgstr "Sábháil Cuardach"
 
@@ -23104,9 +23017,8 @@ msgid "Searches"
 msgstr "Cuardaigh"
 
 #: ../widgets/misc/e-filter-bar.h:100 ../widgets/misc/e-filter-bar.h:111
-#, fuzzy
 msgid "_Save Search..."
-msgstr "Sábháil Cuardach"
+msgstr "_Sábháil Cuardach..."
 
 #: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
 #, fuzzy
@@ -23114,9 +23026,8 @@ msgid "_Edit Saved Searches..."
 msgstr "Cuir Airíonna an Chuardaigh Shábháilte do %S in Eagar"
 
 #: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
-#, fuzzy
 msgid "_Advanced Search..."
-msgstr "Cuardach Casta"
+msgstr "Cuardach C_asta..."
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
@@ -23139,9 +23050,8 @@ msgid "Choose Image"
 msgstr "Roghnaigh Íomhá"
 
 #: ../widgets/misc/e-map.c:626
-#, fuzzy
 msgid "World Map"
-msgstr "Téa&ma Léarscáile"
+msgstr "Léarscáil an Domhain"
 
 #: ../widgets/misc/e-map.c:628
 msgid ""
@@ -23237,15 +23147,13 @@ msgstr " _i "
 
 #: ../widgets/misc/e-selection-model-array.c:543
 #: ../widgets/table/e-tree-selection-model.c:807
-#, fuzzy
 msgid "Cursor Row"
-msgstr "Ró Tábla"
+msgstr "Ró Cursóra"
 
 #: ../widgets/misc/e-selection-model-array.c:550
 #: ../widgets/table/e-tree-selection-model.c:814
-#, fuzzy
 msgid "Cursor Column"
-msgstr "Colún Nua"
+msgstr "Colún Cursóra"
 
 #: ../widgets/misc/e-selection-model.c:210
 #, fuzzy
@@ -23258,9 +23166,8 @@ msgid "Selection Mode"
 msgstr "Mód an Roghnaithe"
 
 #: ../widgets/misc/e-selection-model.c:225
-#, fuzzy
 msgid "Cursor Mode"
-msgstr "Mód &Lánscáileán"
+msgstr "Mód Cursóra"
 
 #: ../widgets/misc/e-send-options.c:522
 #, fuzzy
@@ -23481,9 +23388,8 @@ msgid "Bold Column"
 msgstr "Colún Nua"
 
 #: ../widgets/table/e-cell-text.c:1825
-#, fuzzy
 msgid "Color Column"
-msgstr "Colún Nua"
+msgstr "Colún Datha"
 
 #: ../widgets/table/e-cell-text.c:1839
 #, fuzzy
@@ -23503,31 +23409,25 @@ msgid "(Descending)"
 msgstr "(Ag dul síos)"
 
 #: ../widgets/table/e-table-config.c:392
-#, fuzzy
 msgid "Not sorted"
-msgstr "(gan sórtáil);ardaitheach;íslitheach"
+msgstr "Gan sórtáil"
 
 #: ../widgets/table/e-table-config.c:433
-#, fuzzy
 msgid "No grouping"
-msgstr "Gan Grúpáil"
+msgstr "Gan grúpáil"
 
-# FI
 #: ../widgets/table/e-table-config.c:643
 #: ../widgets/table/e-table-config.glade.h:11
-#, fuzzy
 msgid "Show Fields"
-msgstr "Taispeáin Réimsí Saincheaptha"
+msgstr "Taispeáin Réimsí"
 
 #: ../widgets/table/e-table-config.c:664
-#, fuzzy
 msgid "Available Fields"
-msgstr "Réimsí ar fáil"
+msgstr "Réimsí ar Fáil"
 
 #: ../widgets/table/e-table-config.glade.h:1
-#, fuzzy
 msgid "A_vailable Fields:"
-msgstr "Réimsí saincheaptha"
+msgstr "Réimsí ar _Fáil:"
 
 #: ../widgets/table/e-table-config.glade.h:2
 #: ../widgets/table/e-table-header-item.c:1582
@@ -23548,9 +23448,8 @@ msgid "Descending"
 msgstr "Ag dul síos"
 
 #: ../widgets/table/e-table-config.glade.h:8
-#, fuzzy
 msgid "Group Items By"
-msgstr "Grúpáil de réir &Suímh"
+msgstr "Grúpáil Míreanna de Réir"
 
 #: ../widgets/table/e-table-config.glade.h:9
 msgid "Move _Down"
@@ -23580,14 +23479,12 @@ msgid "Sort"
 msgstr "Sórtáil"
 
 #: ../widgets/table/e-table-config.glade.h:16
-#, fuzzy
 msgid "Sort Items By"
-msgstr "Sórtáil de réir Colúin"
+msgstr "Sórtáil Míreanna de Réir"
 
 #: ../widgets/table/e-table-config.glade.h:17
-#, fuzzy
 msgid "Then By"
-msgstr "Ansin de réir"
+msgstr "Ansin de Réir"
 
 #: ../widgets/table/e-table-config.glade.h:19
 #, fuzzy
@@ -23595,9 +23492,8 @@ msgid "_Fields Shown..."
 msgstr "Taispeáin Colúin"
 
 #: ../widgets/table/e-table-config.glade.h:20
-#, fuzzy
 msgid "_Group By..."
-msgstr "&Grúpáil De Réir"
+msgstr "_Grúpáil de Réir..."
 
 #: ../widgets/table/e-table-config.glade.h:22
 #, fuzzy
@@ -23644,18 +23540,24 @@ msgid ""
 msgstr ""
 
 #: ../widgets/table/e-table-group-container.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] "Mír"
-msgstr[1] ""
+msgstr[0] "%s : %s (%d mhír)"
+msgstr[1] "%s : %s (%d mhír)"
+msgstr[2] "%s : %s (%d mhír)"
+msgstr[3] "%s : %s (%d mír)"
+msgstr[4] "%s : %s (%d mír)"
 
 #: ../widgets/table/e-table-group-container.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] "Mír"
-msgstr[1] "%s (%d)"
+msgstr[0] "%s (%d mhír)"
+msgstr[1] "%s (%d mhír)"
+msgstr[2] "%s (%d mhír)"
+msgstr[3] "%s (%d mír)"
+msgstr[4] "%s (%d mír)"
 
 #: ../widgets/table/e-table-group-container.c:896
 #: ../widgets/table/e-table-group-container.c:897
@@ -23740,7 +23642,6 @@ msgstr "Airde an ró roghnaithe"
 #: ../widgets/table/e-table-group-container.c:953
 #: ../widgets/table/e-table-group-leaf.c:642
 #: ../widgets/table/e-table-group-leaf.c:643
-#, fuzzy
 msgid "Frozen"
 msgstr "Reoite"
 
@@ -23760,9 +23661,8 @@ msgid "Sort _Descending"
 msgstr "Sórtáil in ord Íslitheach"
 
 #: ../widgets/table/e-table-header-item.c:1474
-#, fuzzy
 msgid "_Unsort"
-msgstr "Sort"
+msgstr "_Díshórtáil"
 
 #: ../widgets/table/e-table-header-item.c:1476
 #, fuzzy
@@ -23793,9 +23693,8 @@ msgid "B_est Fit"
 msgstr "Laghdaigh go leithead leathanaigh"
 
 #: ../widgets/table/e-table-header-item.c:1484
-#, fuzzy
 msgid "Format Column_s..."
-msgstr "&Formáid an Cholúin..."
+msgstr "Formáidigh Colúi_n..."
 
 #: ../widgets/table/e-table-header-item.c:1486
 #, fuzzy
@@ -23819,7 +23718,7 @@ msgstr "Taispeáin &cur síos"
 #: ../widgets/table/e-table-header-item.c:1914
 #: ../widgets/table/e-table-sorter.c:173
 msgid "Sort Info"
-msgstr "Eolas Sort"
+msgstr "Eolas Sórtála"
 
 #: ../widgets/table/e-table-header-item.c:1928
 #: ../widgets/table/e-tree-scrolled.c:225
@@ -23844,9 +23743,8 @@ msgstr "Ró Tábla"
 
 #: ../widgets/table/e-table.c:3321 ../widgets/table/e-tree.c:3340
 #: ../widgets/table/e-tree.c:3341
-#, fuzzy
 msgid "Always search"
-msgstr "Inneall Cuardaigh"
+msgstr "Cuardaigh i gcónaí"
 
 #: ../widgets/table/e-table.c:3328
 #, fuzzy
@@ -23934,14 +23832,12 @@ msgid "Text height"
 msgstr "Airde an téacs"
 
 #: ../widgets/text/e-text.c:3686 ../widgets/text/e-text.c:3687
-#, fuzzy
 msgid "Use ellipsis"
-msgstr "FOCALBHÁ LÁÓISE"
+msgstr "Úsáid focalbhá"
 
 #: ../widgets/text/e-text.c:3693 ../widgets/text/e-text.c:3694
-#, fuzzy
 msgid "Ellipsis"
-msgstr "FOCALBHÁ LÁÓISE"
+msgstr "Focalbhá"
 
 #: ../widgets/text/e-text.c:3700 ../widgets/text/e-text.c:3701
 #, fuzzy
