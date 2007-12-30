@@ -401,7 +401,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
 	gchar *uri_text, *gname, *gruri, *ruri = NULL, *path = NULL, *path_prefix, *oldpath=NULL;
-	gchar *username, *authtype;
+	gchar *username, *windows_domain, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
@@ -426,7 +426,13 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	if (!is_exchange_personal_folder (account, uri_text))
 		return;
 
-	username = exchange_account_get_username (account);
+	windows_domain = exchange_account_get_windows_domain (account);
+	if (windows_domain)
+		username = g_strdup_printf ("%s\\%s", windows_domain,
+					    exchange_account_get_username (account));
+	else
+		username = g_strdup (exchange_account_get_username (account));
+
 	authtype = exchange_account_get_authtype (account);
 
 	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
@@ -519,6 +525,9 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	}
 done:
 	g_free (ruri);
+	g_free (username);
+	if (authtype)
+		g_free (authtype);
 	g_free (path);
 	g_free (oldpath);
 	g_free (contacts_old_src_uri);

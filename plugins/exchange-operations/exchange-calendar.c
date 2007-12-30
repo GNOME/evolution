@@ -370,7 +370,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) target;
 	ESource *source = t->source;
 	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix, *oldpath=NULL;
-	gchar *username, *authtype;
+	gchar *username, *windows_domain, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
@@ -394,7 +394,13 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	if (!is_exchange_personal_folder (account, uri_text))
 		return;
 
-	username = exchange_account_get_username (account);
+	windows_domain = exchange_account_get_windows_domain (account);
+	if (windows_domain)
+		username = g_strdup_printf ("%s\\%s", windows_domain,
+					    exchange_account_get_username (account));
+	else
+		username = g_strdup (exchange_account_get_username (account));
+
 	authtype = exchange_account_get_authtype (account);
 
 	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
@@ -510,6 +516,9 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 
 done:
 	g_free (uri_text);
+	g_free (username);
+	if (authtype)
+		g_free (authtype);
 	g_free (ruri);
 	g_free (path);
 	g_free (ftype);

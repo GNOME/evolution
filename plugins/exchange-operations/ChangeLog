@@ -1,3 +1,11 @@
+2007-12-31  Sushma Rai  <rsushma@novell.com>
+
+	** Fixes bug #327965
+
+	* exchange-calendar.c (e_exchange_calendar_commit): 
+	* exchange-contacts.c (e_exchange_contacts_commit): Setting the 
+	e-source property username with domain if the domain is specified.
+
 2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #362638
