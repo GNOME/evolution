@@ -1,7 +1,6 @@
-# translation of oc.po to Occitan
-# Occitan translation of evolution manual
-#
-# Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
+# Occitan translation of evolution.
+# Copyright (C) 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the evolution package.
 #
 # Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
@@ -9,13 +8,13 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-16 12:37+0100\n"
-"PO-Revision-Date: 2007-11-21 19:45+0100\n"
+"PO-Revision-Date: 2007-12-28 10:28+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4"
+"Plural-Forms: nplurals=2; plural=(n > 1);"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -613,7 +612,7 @@ msgstr "@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd3
 
 #: C/evolution.xml:16(title) C/evolution.xml:7338(para)
 msgid "Evolution 2.12 User Guide"
-msgstr ""
+msgstr "Guida de l'utilizaire d'Evolution 2.12"
 
 #: C/evolution.xml:21(firstname) C/evolution.xml:23(corpauthor)
 #: C/evolution.xml:39(para) C/evolution.xml:47(para) C/evolution.xml:55(para)
@@ -635,7 +634,7 @@ msgstr "2.12"
 
 #: C/evolution.xml:36(date) C/evolution.xml:79(invpartnumber)
 msgid "September 2007"
-msgstr ""
+msgstr "Setembre de 2007"
 
 #: C/evolution.xml:38(para) C/evolution.xml:46(para) C/evolution.xml:62(para)
 msgid "Radhika PC"
@@ -685,7 +684,7 @@ msgstr ""
 
 #: C/evolution.xml:85(title)
 msgid "About This Guide"
-msgstr ""
+msgstr "A prepaus de la guida"
 
 #: C/evolution.xml:86(para)
 msgid ""
@@ -700,7 +699,7 @@ msgstr "Per començar"
 
 #: C/evolution.xml:92(link) C/evolution.xml:1112(title)
 msgid "Sending and Receiving E-Mail"
-msgstr ""
+msgstr "Enviar e recebre de messatges electronics"
 
 #: C/evolution.xml:95(link) C/evolution.xml:2227(title)
 msgid "Organizing Your E-Mail"
@@ -819,15 +818,15 @@ msgstr ""
 
 #: C/evolution.xml:162(link) C/evolution.xml:170(title)
 msgid "Starting Evolution for the First Time"
-msgstr ""
+msgstr "Aviar Evolution pel primièr còp"
 
 #: C/evolution.xml:165(link) C/evolution.xml:755(title)
 msgid "Using Evolution: An Overview"
-msgstr ""
+msgstr "Utilizar Evolution : ulhada"
 
 #: C/evolution.xml:173(para)
 msgid "Start the Evolution client."
-msgstr ""
+msgstr "Aviatz lo client Evolution."
 
 #: C/evolution.xml:181(para)
 msgid "GNOME:"
@@ -835,7 +834,7 @@ msgstr "GNOME :"
 
 #: C/evolution.xml:184(para)
 msgid "Click Applications &gt; Office &gt; Evolution."
-msgstr ""
+msgstr "Clicatz sus Aplicacions &gt; Burèu &gt; Evolution."
 
 #: C/evolution.xml:189(para)
 msgid "KDE:"
@@ -843,7 +842,7 @@ msgstr "KDE :"
 
 #: C/evolution.xml:192(para)
 msgid "Click the K menu &gt; Office &gt; More Programs &gt; Evolution."
-msgstr ""
+msgstr "Clicatz sul menut K &gt; Burèu &gt; Mai de programas &gt; Evolution."
 
 #: C/evolution.xml:197(para)
 msgid "Command Line:"
@@ -851,11 +850,11 @@ msgstr "Linha de comandas :"
 
 #: C/evolution.xml:200(para)
 msgid "Enter <command>evolution</command>."
-msgstr ""
+msgstr "Picatz <command>evolution</command>."
 
 #: C/evolution.xml:210(title)
 msgid "Using the First-Run Assistant"
-msgstr ""
+msgstr "Utilizar l'assistent dels primièrs passes"
 
 #: C/evolution.xml:211(para)
 msgid ""
@@ -902,7 +901,7 @@ msgstr ""
 
 #: C/evolution.xml:229(link) C/evolution.xml:718(title)
 msgid "Account Management"
-msgstr ""
+msgstr "Gestion de compte"
 
 #: C/evolution.xml:232(link) C/evolution.xml:724(title)
 msgid "Time Zone"
@@ -2393,7 +2392,7 @@ msgstr ""
 
 #: C/evolution.xml:1023(title)
 msgid "Command Line Options"
-msgstr ""
+msgstr "Opcions de linha de comanda"
 
 #: C/evolution.xml:1024(para)
 msgid ""
@@ -2495,7 +2494,7 @@ msgstr ""
 
 #: C/evolution.xml:1116(link) C/evolution.xml:1133(title)
 msgid "Reading Mail"
-msgstr ""
+msgstr "Legir de messatges electronics"
 
 #: C/evolution.xml:1119(link) C/evolution.xml:1376(title)
 msgid "Composing New E-Mail Messages"
@@ -2541,7 +2540,7 @@ msgstr ""
 
 #: C/evolution.xml:1141(title)
 msgid "Magic Spacebar For Reading Mail"
-msgstr ""
+msgstr "Barra d'espaci magica per la lectura dels messatges electronics"
 
 #: C/evolution.xml:1142(para)
 msgid ""
@@ -2587,7 +2586,7 @@ msgstr ""
 
 #: C/evolution.xml:1164(title)
 msgid "Checking for New Mail"
-msgstr ""
+msgstr "Verificar se i a de messatges novèls"
 
 #: C/evolution.xml:1165(para)
 msgid ""
@@ -2620,7 +2619,7 @@ msgstr ""
 
 #: C/evolution.xml:1174(title)
 msgid "New Mail Notification"
-msgstr ""
+msgstr "Notificacion de messatge novèl"
 
 #: C/evolution.xml:1175(para)
 msgid ""
@@ -2639,7 +2638,7 @@ msgstr ""
 
 #: C/evolution.xml:1183(title)
 msgid "Vertical View Vs Classical View"
-msgstr ""
+msgstr "Visualizacion verticala vs visualizacion classica"
 
 #: C/evolution.xml:1184(para)
 msgid ""
@@ -2652,7 +2651,7 @@ msgstr ""
 
 #: C/evolution.xml:1186(title)
 msgid "Vertical View:"
-msgstr ""
+msgstr "Visualizacion verticala :"
 
 #: C/evolution.xml:1187(para)
 msgid "To switch to vertical view"
@@ -3491,7 +3490,7 @@ msgstr ""
 
 #: C/evolution.xml:1625(para)
 msgid "Reply to All"
-msgstr ""
+msgstr "Respondre a totes"
 
 #: C/evolution.xml:1628(para)
 msgid "Shift+Ctrl+R"
@@ -4020,7 +4019,7 @@ msgstr ""
 
 #: C/evolution.xml:1973(title)
 msgid "Accept:"
-msgstr ""
+msgstr "Acceptar :"
 
 #: C/evolution.xml:1974(para)
 msgid ""
@@ -4797,7 +4796,7 @@ msgstr ""
 
 #: C/evolution.xml:2378(para)
 msgid "Recipients"
-msgstr ""
+msgstr "Destinataris"
 
 #: C/evolution.xml:2381(para) C/evolution.xml:2387(para)
 msgid "Sender"
@@ -4809,7 +4808,7 @@ msgstr "Emplaçament"
 
 #: C/evolution.xml:2390(para)
 msgid "Due By"
-msgstr ""
+msgstr "Tèrme : abans"
 
 #: C/evolution.xml:2393(para)
 msgid "Follow Up Flag"
@@ -4829,7 +4828,7 @@ msgstr "A"
 
 #: C/evolution.xml:2405(para)
 msgid "Received"
-msgstr ""
+msgstr "Recebut"
 
 #: C/evolution.xml:2408(para)
 msgid "Date"
@@ -4845,7 +4844,7 @@ msgstr "De"
 
 #: C/evolution.xml:2417(para)
 msgid "Attachment"
-msgstr ""
+msgstr "Fichièr junt"
 
 #: C/evolution.xml:2420(para)
 msgid "Score"
@@ -4918,7 +4917,7 @@ msgstr ""
 
 #: C/evolution.xml:2452(title)
 msgid "Adding a Column:"
-msgstr ""
+msgstr "Apondre una colomna :"
 
 #: C/evolution.xml:2453(para)
 msgid ""
@@ -5138,7 +5137,7 @@ msgstr "Messatges pas legits"
 
 #: C/evolution.xml:2550(para)
 msgid "No Label"
-msgstr ""
+msgstr "Pas cap d'etiqueta"
 
 #: C/evolution.xml:2553(para) C/evolution.xml:2595(para)
 msgid "Important"
@@ -5161,7 +5160,7 @@ msgstr "De far"
 
 #: C/evolution.xml:2565(para) C/evolution.xml:2607(para)
 msgid "Later"
-msgstr ""
+msgstr "Pus tard"
 
 #: C/evolution.xml:2568(para)
 msgid "Read Messages"
@@ -5169,11 +5168,11 @@ msgstr ""
 
 #: C/evolution.xml:2571(para)
 msgid "Recent Messages"
-msgstr ""
+msgstr "Messatges recents"
 
 #: C/evolution.xml:2574(para)
 msgid "Last 5 Days' Messages"
-msgstr ""
+msgstr "Messatges dels 5 darrièrs jorns"
 
 #: C/evolution.xml:2577(para)
 msgid "Messages with Attachments"
@@ -5274,11 +5273,11 @@ msgstr ""
 
 #: C/evolution.xml:2647(para)
 msgid "Current Folder"
-msgstr ""
+msgstr "lo repertòri actual"
 
 #: C/evolution.xml:2650(para)
 msgid "Current Account"
-msgstr ""
+msgstr "lo compte actual"
 
 #: C/evolution.xml:2653(para)
 msgid "All Accounts"
@@ -5430,7 +5429,7 @@ msgstr ""
 
 #: C/evolution.xml:2754(title) C/evolution.xml:3004(title)
 msgid "Sender:"
-msgstr ""
+msgstr "Expedidor :"
 
 #: C/evolution.xml:2755(para)
 msgid "The sender's address."
@@ -6306,7 +6305,7 @@ msgstr "Lo nom comença per"
 
 #: C/evolution.xml:3251(para)
 msgid "Email begins with"
-msgstr ""
+msgstr "Lo messatge comença per"
 
 #: C/evolution.xml:3254(para)
 msgid "Any field contains"
@@ -6436,7 +6435,7 @@ msgstr ""
 #: C/evolution.xml:3342(para) C/evolution.xml:4181(para)
 #: C/evolution.xml:4531(para) C/evolution.xml:4727(para)
 msgid "Strategies"
-msgstr ""
+msgstr "Estrategias"
 
 #: C/evolution.xml:3345(para) C/evolution.xml:4184(para)
 #: C/evolution.xml:4534(para) C/evolution.xml:4730(para)
@@ -6799,7 +6798,7 @@ msgstr ""
 
 #: C/evolution.xml:3559(link) C/evolution.xml:4553(title)
 msgid "Memos"
-msgstr ""
+msgstr "Memòs"
 
 #: C/evolution.xml:3562(link) C/evolution.xml:4749(title)
 msgid "Configuring Time Zones"
@@ -6844,7 +6843,7 @@ msgstr ""
 
 #: C/evolution.xml:3596(para)
 msgid "Work Week"
-msgstr ""
+msgstr "Setmana de trabalh"
 
 #: C/evolution.xml:3599(para)
 msgid "control+j"
@@ -6969,11 +6968,11 @@ msgstr "Rendètz-vos"
 
 #: C/evolution.xml:3684(link) C/evolution.xml:3877(title)
 msgid "Sending a Meeting Invitation"
-msgstr ""
+msgstr "Enviar un convit a una amassada"
 
 #: C/evolution.xml:3687(link) C/evolution.xml:3961(title)
 msgid "Accepting and Replying to a Meeting Request"
-msgstr ""
+msgstr "Acceptar e respondre a una demanda d'amassada"
 
 #: C/evolution.xml:3690(link) C/evolution.xml:3979(title)
 msgid "Reading Responses to Meeting Requests"
@@ -7619,7 +7618,7 @@ msgstr ""
 #: C/evolution.xml:4066(para) C/evolution.xml:4383(para)
 #: C/evolution.xml:4618(para)
 msgid "Summary contains"
-msgstr ""
+msgstr "Lo resumit conten"
 
 #: C/evolution.xml:4069(para) C/evolution.xml:4386(para)
 #: C/evolution.xml:4621(para)
@@ -7693,7 +7692,7 @@ msgstr ""
 #: C/evolution.xml:4121(para) C/evolution.xml:4462(para)
 #: C/evolution.xml:4673(para)
 msgid "Any Category"
-msgstr ""
+msgstr "Quina categoria que siá"
 
 #: C/evolution.xml:4124(para) C/evolution.xml:4465(para)
 #: C/evolution.xml:4676(para)
@@ -7702,11 +7701,11 @@ msgstr ""
 
 #: C/evolution.xml:4127(para)
 msgid "Active Appointments"
-msgstr ""
+msgstr "Rendètz-voses actius"
 
 #: C/evolution.xml:4130(para)
 msgid "Next 7 Days' Appointments"
-msgstr ""
+msgstr "Rendètz-voses pel 7 jorns que venon"
 
 #: C/evolution.xml:4145(para) C/evolution.xml:4495(para)
 msgid "Favourites"
@@ -8006,7 +8005,7 @@ msgstr ""
 
 #: C/evolution.xml:4434(title)
 msgid "Active Tasks:"
-msgstr ""
+msgstr "Prètzfaches actius :"
 
 #: C/evolution.xml:4435(para)
 msgid ""
@@ -8062,7 +8061,7 @@ msgstr ""
 
 #: C/evolution.xml:4471(para)
 msgid "Active Tasks"
-msgstr ""
+msgstr "Prètzfaches actius"
 
 #: C/evolution.xml:4474(para)
 msgid "Over Due Tasks"
@@ -8222,7 +8221,7 @@ msgstr ""
 
 #: C/evolution.xml:4783(link) C/evolution.xml:5066(title)
 msgid "Accessing the Exchange Server"
-msgstr ""
+msgstr "Accedir a un servidor Exchange"
 
 #: C/evolution.xml:4786(link) C/evolution.xml:5074(title)
 msgid "Settings Exclusive to Evolution Exchange"
@@ -8594,7 +8593,7 @@ msgstr ""
 
 #: C/evolution.xml:5079(link) C/evolution.xml:5102(title)
 msgid "Send Options"
-msgstr ""
+msgstr "Opcions de mandadís"
 
 #: C/evolution.xml:5082(link) C/evolution.xml:5184(title)
 msgid "Access Delegation"
@@ -9177,7 +9176,7 @@ msgstr ""
 
 #: C/evolution.xml:5485(para)
 msgid "Archive"
-msgstr ""
+msgstr "Actiu"
 
 #: C/evolution.xml:5492(para)
 msgid ""
@@ -10026,7 +10025,7 @@ msgstr ""
 
 #: C/evolution.xml:6220(link) C/evolution.xml:6658(title)
 msgid "Certificates"
-msgstr ""
+msgstr "Certificats"
 
 #: C/evolution.xml:6223(para)
 msgid ""
@@ -10497,7 +10496,7 @@ msgstr ""
 
 #: C/evolution.xml:6402(title)
 msgid "New Mail Notifications:"
-msgstr ""
+msgstr "Notificacions de messatge novèl :"
 
 #: C/evolution.xml:6403(para)
 msgid ""
@@ -10827,7 +10826,7 @@ msgstr ""
 
 #: C/evolution.xml:6563(link) C/evolution.xml:6603(title)
 msgid "Display"
-msgstr "Afichar"
+msgstr "Visualizar"
 
 #: C/evolution.xml:6566(link) C/evolution.xml:6636(title)
 msgid "Alarms"
@@ -10835,7 +10834,7 @@ msgstr "Alarmas"
 
 #: C/evolution.xml:6569(link) C/evolution.xml:6649(title)
 msgid "Calendar Publishing"
-msgstr ""
+msgstr "Publicacion de calendièr"
 
 #: C/evolution.xml:6575(para)
 msgid "The General page lets you set the following options:"
@@ -11430,8 +11429,8 @@ msgstr ""
 #: C/evolution.xml:6885(para)
 msgid ""
 "Mozilla creates a set of files in the directory<command> Windows"
-"\\Application_Data\\Mozilla\\Profiles\\(UserName)\\(Random Letters)\\Mail"
-"\\Local Folders\\OutlookMail\\</command>. The data files are those that have "
+" Application_Data Mozilla Profiles (UserName) (Random Letters) Mail"
+" Local Folders OutlookMail </command>. The data files are those that have "
 "no file extension."
 msgstr ""
 
@@ -11460,7 +11459,7 @@ msgstr ""
 
 #: C/evolution.xml:6896(para)
 msgid "Start Evolution."
-msgstr ""
+msgstr "Aviar Evolution."
 
 #: C/evolution.xml:6899(para)
 msgid "Select File &gt; New Folder to create the folders you want."
@@ -11826,7 +11825,7 @@ msgstr ""
 
 #: C/evolution.xml:7111(glossterm)
 msgid "Assistant"
-msgstr ""
+msgstr "Assistent"
 
 #: C/evolution.xml:7113(para)
 msgid ""
@@ -11836,7 +11835,7 @@ msgstr ""
 
 #: C/evolution.xml:7117(glossterm)
 msgid "attachment"
-msgstr ""
+msgstr "fichièr junt"
 
 #: C/evolution.xml:7119(para)
 msgid ""
@@ -12332,5 +12331,5 @@ msgstr ""
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
 #: C/evolution.xml:0(None)
 msgid "translator-credits"
-msgstr "Yannig Marchegay (Kokoyaya) <yannig@marchegay.org)"
+msgstr "Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>"
 
