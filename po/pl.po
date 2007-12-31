@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-23 20:34+0100\n"
-"PO-Revision-Date: 2007-12-24 00:19+0100\n"
+"POT-Creation-Date: 2007-12-31 13:06+0100\n"
+"PO-Revision-Date: 2007-12-31 15:41+0100\n"
 "Last-Translator: wadim dziedzic <wdziedzi@aviary.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -677,9 +677,8 @@ msgid "_Type:"
 msgstr "_Typ:"
 
 #: ../addressbook/gui/component/addressbook-config.c:632
-#, fuzzy
 msgid "Copy _book content locally for offline operation"
-msgstr "Lokalne kopiowanie zawartości książki dla operacji bez podłączenia"
+msgstr "Lokalne _kopiowanie zawartości książki dla operacji bez podłączenia"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -811,9 +810,8 @@ msgid "_New Address Book"
 msgstr "_Nowa książka adresowa"
 
 #: ../addressbook/gui/component/addressbook-view.c:955
-#, fuzzy
 msgid "Save As vCard..."
-msgstr "Zapisz jako VCard..."
+msgstr "Zapisz jako vCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
@@ -2140,7 +2138,7 @@ msgstr "San Marino"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sao Tome And Principe"
-msgstr "Wyspy Świętego tomasza i Książęca"
+msgstr "Wyspy Świętego Tomasza i Książęca"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Saudi Arabia"
@@ -2670,9 +2668,8 @@ msgid "_Location:"
 msgstr "_Położenie:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
-#, fuzzy
 msgid "<b>Members</b>"
-msgstr "<b>Użytkownicy :</b>"
+msgstr "<b>Członkowie:</b>"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
@@ -2680,9 +2677,8 @@ msgid "Contact List Editor"
 msgstr "Edytor listy kontaktów"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#, fuzzy
 msgid "Select..."
-msgstr "Wybi_erz..."
+msgstr "Wybierz..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "_Hide addresses when sending mail to this list"
@@ -2841,9 +2837,8 @@ msgstr "Rodzaj"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:814
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1924
-#, fuzzy
 msgid "Save as vCard..."
-msgstr "Zapisz jako VCard..."
+msgstr "Zapisz jako vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/dialogs/comp-editor.c:1127
@@ -2863,9 +2858,8 @@ msgid "New Contact _List..."
 msgstr "Nowa _lista kontaktów..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
-#, fuzzy
 msgid "_Save as vCard..."
-msgstr "Z_apisz jako VCard..."
+msgstr "Z_apisz jako vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 msgid "_Forward Contact"
@@ -3371,7 +3365,7 @@ msgstr "Sukces"
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:53
 msgid "Backend busy"
-msgstr "Wsparcie zajęte"
+msgstr "Mechanizm przetwarzania zajęty"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:54
@@ -3506,11 +3500,11 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:160
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "Podprogram obsługujący tę książkę adresową nie może przeanalizować tego zapytania."
+msgstr "Mechanizm książki adresowej nie mógł przeanalizować tego zapytania."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:163
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "Program obsługujący tę książkę adresową odrzucił wykonanie tego zapytania."
+msgstr "Mechanizm książki adresowej odrzucił wykonanie tego zapytania."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:166
 msgid "This query did not complete successfully."
@@ -3623,14 +3617,13 @@ msgid "Copy contacts to"
 msgstr "Skopiowanie kontaktów do"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:960
-#, fuzzy
 msgid "Multiple vCards"
-msgstr "Plik VCard z wieloma pozycjami"
+msgstr "Wiele wpisów vCard"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:963
-#, fuzzy, c-format
+#, c-format
 msgid "vCard for %s"
-msgstr "Plik VCard z pozycją %s"
+msgstr "vCard dla %s"
 
 # wd ??
 #: ../addressbook/gui/widgets/eab-gui-util.c:1004
@@ -3657,14 +3650,12 @@ msgstr[2] "Jest jeszcze %d innych kontaktów."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:279
-#, fuzzy
 msgid "Show Full vCard"
-msgstr "Wyświetlanie pełnej wizytówki VCard"
+msgstr "Wyświetl pełną wizytówkę vCard"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:232
-#, fuzzy
 msgid "Show Compact vCard"
-msgstr "Wyświetlenie okrojonej wizytówki VCard"
+msgstr "Wyświetl skróconą wizytówkę vCard"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
 msgid "Save in addressbook"
@@ -3716,14 +3707,12 @@ msgid "Evolution LDIF importer"
 msgstr "Importer LDIF Evolution"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
-#, fuzzy
 msgid "vCard (.vcf, .gcrd)"
-msgstr "VCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
-#, fuzzy
 msgid "Evolution vCard Importer"
-msgstr "Importer VCard Evolution"
+msgstr "Importer vCard Evolution"
 
 #: ../addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -6518,9 +6507,8 @@ msgstr "Szczegóły zadania"
 
 #: ../calendar/gui/dialogs/task-page.c:461
 #: ../calendar/gui/dialogs/task-page.glade.h:4
-#, fuzzy
 msgid "Organi_zer:"
-msgstr "Organizator:"
+msgstr "Organi_zator:"
 
 #: ../calendar/gui/dialogs/task-page.c:859
 msgid "Due date is wrong"
@@ -6908,7 +6896,6 @@ msgstr "_Otwórz stronę WWW"
 #: ../calendar/gui/e-calendar-table.c:1328
 #: ../calendar/gui/e-calendar-view.c:1660
 #: ../calendar/gui/e-memo-table.c:923
-#, fuzzy
 msgid "P_rint..."
 msgstr "Wy_drukuj..."
 
@@ -7039,9 +7026,8 @@ msgid "_Select Date..."
 msgstr "_Wybierz datę..."
 
 #: ../calendar/gui/e-calendar-view.c:1676
-#, fuzzy
 msgid "Pri_nt..."
-msgstr "Wy_drukuj..."
+msgstr "Wydr_ukuj..."
 
 #: ../calendar/gui/e-calendar-view.c:1686
 msgid "Cop_y to Calendar..."
@@ -9846,51 +9832,51 @@ msgstr "Europa/Zaporoże"
 
 #: ../calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr "Europa/Zurich"
+msgstr "Europa/Zurych"
 
 #: ../calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr "Indyk/Antananarywa"
+msgstr "Ocean Indyjski/Antananarywa"
 
 #: ../calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr "Indyk/Czagos"
+msgstr "Ocean Indyjski/Czagos"
 
 #: ../calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr "Indyk/Wyspa_Bożego_Narodzenia"
+msgstr "Ocean Indyjski/Wyspa_Bożego_Narodzenia"
 
 #: ../calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr "Indyk/Wyspy_Kokosowe"
+msgstr "Ocean Indyjski/Wyspy Kokosowe"
 
 #: ../calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr "Indyk/Komory"
+msgstr "Ocean Indyjski/Komory"
 
 #: ../calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr "Indyk/Wyspy_Kerguelena"
+msgstr "Ocean Indyjski/Wyspy Kerguelena"
 
 #: ../calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr "Indyk/Mahe"
+msgstr "Ocean Indyjski/Mahe"
 
 #: ../calendar/zones.h:345
 msgid "Indian/Maldives"
-msgstr "Indyk/Malediwy"
+msgstr "Ocean Indyjski/Malediwy"
 
 #: ../calendar/zones.h:346
 msgid "Indian/Mauritius"
-msgstr "Indyk/auritius"
+msgstr "Ocean Indyjski/Mauritius"
 
 #: ../calendar/zones.h:347
 msgid "Indian/Mayotte"
-msgstr "Indyk/Majotta"
+msgstr "Ocean indyjski/Majotta"
 
 #: ../calendar/zones.h:348
 msgid "Indian/Reunion"
-msgstr "Indyk/Reunion"
+msgstr "Ocean Indyjski/Reunion"
 
 #: ../calendar/zones.h:349
 msgid "Pacific/Apia"
@@ -10050,7 +10036,7 @@ msgstr "Pacyfik/Yap"
 
 #: ../composer/e-composer-name-header.c:95
 msgid "Click here for the address book"
-msgstr "Kliknij tu aby otworzyć książkę adresową"
+msgstr "Kliknij, aby otworzyć książkę adresową"
 
 #: ../composer/e-composer-post-header.c:117
 msgid "Posting destination"
@@ -10062,7 +10048,7 @@ msgstr "Foldery do których będzie wysłana wiadomość."
 
 #: ../composer/e-composer-post-header.c:152
 msgid "Click here to select folders to post to"
-msgstr "Kliknij aby wybrać foldery do których wysłać"
+msgstr "Kliknij, aby wybrać foldery docelowe wysyłki"
 
 #. Now add the signature stuff.
 #: ../composer/e-msg-composer-hdrs.c:221
@@ -10098,9 +10084,8 @@ msgid "_Bcc:"
 msgstr "_Bcc:"
 
 #: ../composer/e-msg-composer-hdrs.c:348
-#, fuzzy
 msgid "Enter the addresses that will receive a carbon copy of the message without appearing in the recipient list of the message"
-msgstr "Proszę podać adresy, pod które zostanie przesłana kopia wiadomości bez listy odbiorców."
+msgstr "Proszę podać adresy, które nie mają się pojawić w liście odbiorców, a pod które zostanie przesłana kopia wiadomości "
 
 #: ../composer/e-msg-composer-hdrs.c:353
 msgid "_Post To:"
@@ -10295,9 +10280,8 @@ msgid "_Save Message"
 msgstr "_Zapisz wiadomość"
 
 #: ../data/evolution.desktop.in.in.h:1
-#, fuzzy
 msgid "Evolution Mail and Calendar"
-msgstr "Komponent poczty programu Evolution"
+msgstr "Evolution - poczta i kalendarz"
 
 #: ../data/evolution.desktop.in.in.h:2
 #: ../shell/e-shell-window-commands.c:672
@@ -10305,9 +10289,8 @@ msgid "Groupware Suite"
 msgstr "Pakiet do pracy grupowej"
 
 #: ../data/evolution.desktop.in.in.h:3
-#, fuzzy
 msgid "Manage your email, contacts and schedule"
-msgstr "Konfiguracja kont pocztowych"
+msgstr "Zarządzanie wiadomościami, kontaktami i planami"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10539,7 +10522,6 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:800
-#, fuzzy
 msgid "R_ule name:"
 msgstr "Nazwa _reguły:"
 
@@ -10548,9 +10530,8 @@ msgid "Find items that meet the following criteria"
 msgstr "Znajdź obiekty spełniające poniższe kryteria"
 
 #: ../filter/filter-rule.c:862
-#, fuzzy
 msgid "A_dd Filter Criteria"
-msgstr "Dodanie reguły filtru"
+msgstr "_Dodaj regułę filtru"
 
 #: ../filter/filter-rule.c:868
 msgid "If all criteria are met"
@@ -10841,14 +10822,12 @@ msgid "Receiving Email"
 msgstr "Odbieranie poczty"
 
 #: ../mail/em-account-editor.c:2053
-#, fuzzy
 msgid "Check for _new messages every"
-msgstr "Automatyczne sprawdzanie _nowych wiadomości co"
+msgstr "Sprawdzanie _nowych wiadomości co"
 
 #: ../mail/em-account-editor.c:2061
-#, fuzzy
 msgid "minu_tes"
-msgstr "minut"
+msgstr "minu_t"
 
 #: ../mail/em-account-editor.c:2235
 #: ../mail/mail-config.glade.h:129
@@ -10875,9 +10854,8 @@ msgstr "Opcje odbioru"
 
 #: ../mail/em-account-editor.c:2398
 #: ../mail/em-account-editor.c:2489
-#, fuzzy
 msgid "Checking for New Messages"
-msgstr "Nowe wiadomości"
+msgstr "Sprawdzanie nowych wiadomości"
 
 #: ../mail/em-account-editor.c:2840
 #: ../mail/mail-config.glade.h:32
@@ -10941,7 +10919,7 @@ msgstr "nieznany nadawca"
 #. * variables, see em-composer-utils.c:1514
 #: ../mail/em-composer-utils.c:1743
 msgid "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"
-msgstr "Dnia ${Day}-${Month}-${Year}, ${AbbrevWeekdayName} o godzinie ${24Hour}:${Minute} ${TimeZone}, ${Sender} pisze:"
+msgstr "Dnia ${Year}-${Month}-${Day}, ${AbbrevWeekdayName} o godzinie ${24Hour}:${Minute} ${TimeZone}, ${Sender} pisze:"
 
 #: ../mail/em-composer-utils.c:1884
 msgid "-----Original Message-----"
@@ -11311,9 +11289,8 @@ msgid "<click here to select a folder>"
 msgstr "<kliknij, aby wybrać folder> "
 
 #: ../mail/em-folder-selector.c:262
-#, fuzzy
 msgid "C_reate"
-msgstr "Utwórz"
+msgstr "_Utwórz"
 
 #: ../mail/em-folder-selector.c:266
 msgid "Folder _name:"
@@ -11609,45 +11586,37 @@ msgstr "_Utwórz regułę na podstawie wiadomości"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1353
-#, fuzzy
 msgid "Search Folder based on _Subject"
-msgstr "Folder w oparciu o _temat"
+msgstr "Folder wyszukiwania w oparciu o _temat"
 
 #: ../mail/em-folder-view.c:1354
-#, fuzzy
 msgid "Search Folder based on Se_nder"
-msgstr "Folder w oparciu o _nadawcę"
+msgstr "Folder wyszukiwania w oparciu o _nadawcę"
 
 #: ../mail/em-folder-view.c:1355
-#, fuzzy
 msgid "Search Folder based on _Recipients"
-msgstr "Folder w oparciu o _odbiorców"
+msgstr "Folder wyszukiwania w oparciu o _odbiorców"
 
 #: ../mail/em-folder-view.c:1356
-#, fuzzy
 msgid "Search Folder based on Mailing _List"
-msgstr "Folder w oparciu o _listę dyskusyjną"
+msgstr "Folder wyszukiwania w oparciu o _listę dyskusyjną"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1361
-#, fuzzy
 msgid "Filter based on Sub_ject"
-msgstr "Filtr w oparciu o t_emat"
+msgstr "Filtr na podstawie t_ematu"
 
 #: ../mail/em-folder-view.c:1362
-#, fuzzy
 msgid "Filter based on Sen_der"
-msgstr "Filtr w oparciu o n_adawcę"
+msgstr "Filtr na podstawie n_adawcy"
 
 #: ../mail/em-folder-view.c:1363
-#, fuzzy
 msgid "Filter based on Re_cipients"
-msgstr "Filtr w oparciu o o_dbiorców"
+msgstr "Filtr na podstawie o_dbiorców"
 
 #: ../mail/em-folder-view.c:1364
-#, fuzzy
 msgid "Filter based on _Mailing List"
-msgstr "Filtr w oparciu o li_stę dyskusyjną"
+msgstr "Filtr na podstawie li_stę dyskusyjnej"
 
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:2236
@@ -11702,7 +11671,6 @@ msgid "Matches: %d"
 msgstr "Trafienia: %d"
 
 #: ../mail/em-format-html-display.c:659
-#, fuzzy
 msgid "Fin_d:"
 msgstr "Znaj_dź:"
 
@@ -12087,19 +12055,16 @@ msgid "Once per month"
 msgstr "Co miesiąc"
 
 #: ../mail/em-mailer-prefs.c:271
-#, fuzzy
 msgid "Color"
-msgstr "Kolory"
+msgstr "Kolor"
 
 #: ../mail/em-mailer-prefs.c:274
-#, fuzzy
 msgid "Tag"
-msgstr "temu"
+msgstr "Etykieta"
 
 #: ../mail/em-mailer-prefs.c:414
-#, fuzzy
 msgid "Select color for label..."
-msgstr "_Wybierz datę..."
+msgstr "Kolor dla etykiety..."
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:958
@@ -12211,9 +12176,8 @@ msgid "No server has been selected"
 msgstr "Nie wybrano serwera"
 
 #: ../mail/em-utils.c:120
-#, fuzzy
 msgid "_Do not show this message again."
-msgstr "Nie pokazuj tego komunikatu w przyszłości."
+msgstr "_Nie pokazuj tego komunikatu w przyszłości."
 
 #: ../mail/em-utils.c:315
 msgid "Message Filters"
@@ -12252,12 +12216,11 @@ msgstr "Zezwala na wyświetlanie części tekstu o ograniczonym rozmiarze"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 msgid "Amount of time in seconds the error should be showed on the status bar."
-msgstr ""
+msgstr "Czas pokazywania błędu w pasku statusu (w sekundach)."
 
 #: ../mail/evolution-mail.schemas.in.h:3
-#, fuzzy
 msgid "Automatic emoticon recognition"
-msgstr "Automatyczne rozpoznawanie odnośników"
+msgstr "Automatyczne rozpoznawanie emotikon"
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Automatic link recognition"
@@ -12284,9 +12247,8 @@ msgid "Composer Window default width"
 msgstr "Domyślna szerokość okna tworzenia wiadomości"
 
 #: ../mail/evolution-mail.schemas.in.h:10
-#, fuzzy
 msgid "Composer load/attach directory"
-msgstr "Brak katalogu wyjściowego"
+msgstr "Katalog załączników okna tworzenia wiadomości"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12349,9 +12311,8 @@ msgid "Default width of the Subscribe dialog"
 msgstr "Domyślna szerokość okna subskrypcji"
 
 #: ../mail/evolution-mail.schemas.in.h:26
-#, fuzzy
 msgid "Directory for loading/attaching files to composer"
-msgstr "Katalog do zapisu plików komponentów poczty"
+msgstr "Katalog wczytywania/dołączania plików dla edytora poczty"
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Directory for saving mail component files"
@@ -12382,9 +12343,8 @@ msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Włączenie trybu karetki, dzięki czemu widać kursor podczas czytania wiadomości."
 
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid "Enable or disable magic space bar"
-msgstr "Włącza/wyłącza funkcję 'znajdź wprowadzając'"
+msgstr "Włącza/wyłącza funkcję 'magiczna spacja'"
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid "Enable or disable type ahead search feature"
@@ -12396,7 +12356,7 @@ msgstr "Włącza funkcję wyszukiwania w panelu bocznym, która pozwala na wyszu
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Enable this to use Space bar key to scroll in message preview, message list and folders."
-msgstr ""
+msgstr "Należy włączyć, aby używać klawisza spacji do przewijania wiadomości, ich listy i folderów."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid "Enable to render message text part of limited size."
@@ -12431,9 +12391,8 @@ msgid "If there isn't a builtin viewer for a particular mime-type inside Evoluti
 msgstr "Jeżeli nie ma wbudowanej przeglądarki w Evolution dla konkretnego typu MIME, do wyświetlenia zawartości zostanie użyty komponenet bonobo przeglądarki z bazy MIME GNOME, wskazywany przez jeden z elementów MIME na liście."
 
 #: ../mail/evolution-mail.schemas.in.h:46
-#, fuzzy
 msgid "It disables the feature where repeated prompts to ask if delete messages from search folder."
-msgstr "Wyłącza funkcje, które wymagają wielokrotnych pytań w przypadku synchronizacji offline."
+msgstr "Wyłącza pytanie w przypadku usuwania wiadomości z folderu wyszukiwania."
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "It disables the feature where repeated prompts to ask if offline sync is required."
@@ -12492,9 +12451,8 @@ msgid "Load images for HTML messages over http"
 msgstr "Pobieranie obrazów dla wiadomości HTML poprzez protokół HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:61
-#, fuzzy
 msgid "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net 1 - Load images in messages from contacts 2 - Always load images off the net"
-msgstr "Pobieranie obrazów dla wiadomości HTML poprzez protokół HTTP(S). Możliwe wartości to: 0 - bez pobierania obrazów z sieci, 1 - pobieranie obrazów jeżeli nadawca jest w książce adresowej, 2 - pobieranie wszystkich obrazów."
+msgstr "Pobieranie obrazów dla wiadomości HTML poprzez protokół http(s). Możliwe wartości to: 0 - bez pobierania obrazów z sieci, 1 - pobieranie obrazów jeżeli nadawca jest w książce adresowej, 2 - pobieranie wszystkich obrazów."
 
 #: ../mail/evolution-mail.schemas.in.h:62
 msgid "Log filter actions"
@@ -12577,17 +12535,16 @@ msgid "Prompt to check if the user wants to go offline immediately"
 msgstr "Wyświetla pytanie czy użytkownik chce przejść natychmiast w tryb offline"
 
 #: ../mail/evolution-mail.schemas.in.h:82
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "Potwierdzanie przy wysyłaniu wiadomości bez _tematu"
+msgstr "Potwierdzanie przy usuwaniu wiadomości z folderu wyszukiwania"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Prompt when user expunges"
-msgstr "Potwierdzenie podczas opróżniania folderu przez użytkownika"
+msgstr "Potwierdzanie podczas opróżniania folderu przez użytkownika"
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Prompt when user only fills Bcc"
-msgstr "Potwierdzenie jeżeli użytkownik wypełnił tylko pole ukrytego adresata (Bcc)"
+msgstr "Potwierdzanie jeżeli użytkownik wypełnił tylko pole ukrytego adresata (Bcc)"
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Prompt when user tries to open 10 or more messages at once"
@@ -12603,16 +12560,15 @@ msgstr "Potwierdzanie przy wysyłaniu wiadomości bez adresatów w polach Do lub
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr "Potwierdzenie przy próbie wysłania niepożądanego formatu HTML"
+msgstr "Potwierdzanie przy próbie wysłania niepożądanego formatu HTML"
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid "Prompt while marking multiple messages"
-msgstr "Potwierdzenie podczas zaznaczania wielu wiadomości"
+msgstr "Potwierdzanie podczas zaznaczania wielu wiadomości"
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Recognize emoticons in text and replace them with images."
-msgstr "Rozpoznawanie buziek w tekście i zamienianie ich na obrazy."
+msgstr "Rozpoznawanie emotikon w tekście i zamienianie ich na obrazy."
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Recognize links in text and replace them."
@@ -12743,9 +12699,8 @@ msgid "This setting specifies whether the threads should be in expanded or colla
 msgstr "Ta opcja określa czy wątki mają być domyślnie rozwinięte lub zwinięta. Po zmianie wymagane jest ponowne uruchomienie Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:125
-#, fuzzy
 msgid "This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart."
-msgstr "Ta opcja określa czy wątki mają być domyślnie rozwinięte lub zwinięta. Po zmianie wymagane jest ponowne uruchomienie Evolution."
+msgstr "Ta opcja określa czy wątki mają być sortowane na podstawie ostatniej wiadomości czy na podstawie daty. Po zmianie wymagane jest ponowne uruchomienie Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Thread the message list."
@@ -12849,7 +12804,7 @@ msgstr "Określa, czy powrócić do wątkowania według tematu, jeżeli wiadomo�
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "Określa czy sortować wątki na podstawie ostatniej wiadomości danym wątku."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Width of the message-list pane"
@@ -12940,7 +12895,7 @@ msgid "Add Filter Rule"
 msgstr "Dodanie reguły filtru"
 
 #: ../mail/mail-component.c:528
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d zaznaczona, "
@@ -12999,9 +12954,9 @@ msgstr[2] "%d nieprzeczytanych, "
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] "%d wiadomość"
-msgstr[1] "%d wiadomości"
-msgstr[2] "%d wiadomości"
+msgstr[0] "%d razem"
+msgstr[1] "%d razem"
+msgstr[2] "%d razem"
 
 #: ../mail/mail-component.c:885
 msgid "New Mail Message"
@@ -13029,50 +12984,47 @@ msgstr "Tworzy nowy folder wiadomości"
 
 #: ../mail/mail-component.c:1042
 msgid "Failed upgrading Mail settings or folders."
-msgstr "Nie powiodło się zaktualizowanie ustawień poczty lub folderów."
+msgstr "Aktualizacja ustawień poczty lub folderów zakończona niepowodzeniem."
 
 #: ../mail/mail-component.c:1511
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: ../mail/mail-component.c:1511
 msgid "Errors"
-msgstr ""
+msgstr "Błędy"
 
 #: ../mail/mail-component.c:1512
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "Ostrzeżenia i błędy"
 
 #: ../mail/mail-component.c:1513
 msgid "Debug"
-msgstr ""
+msgstr "Debug"
 
 #: ../mail/mail-component.c:1513
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "Informacje typu błąd, ostrzeżenie i debug"
 
 #: ../mail/mail-component.c:1623
-#, fuzzy
 msgid "Debug Logs"
-msgstr "Dziennik WWW"
+msgstr "Dziennik debug"
 
 #: ../mail/mail-component.c:1627
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "Wyświetlanie w pasku stanu _błędów dla "
 
 #: ../mail/mail-component.c:1634
-#, fuzzy
 msgid "seconds."
-msgstr "sekund"
+msgstr "sekund."
 
 #: ../mail/mail-component.c:1644
-#, fuzzy
 msgid "Log Messages:"
-msgstr "Wiadomości"
+msgstr "Informacje dziennika:"
 
 #: ../mail/mail-component.c:1696
 msgid "Log Level"
-msgstr ""
+msgstr "Poziom zapisu"
 
 #: ../mail/mail-component.c:1703
 #: ../widgets/misc/e-dateedit.c:408
@@ -13158,7 +13110,6 @@ msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Usuwanie wiadomości</span>"
 
 #: ../mail/mail-config.glade.h:15
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 msgstr "<span weight=\"bold\">Wyświetlane _nagłówki wiadomości</span>"
 
@@ -13220,9 +13171,8 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Konfiguracja serwera</span>"
 
 #: ../mail/mail-config.glade.h:31
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\">Rodzaj uwierzytelniania</span>"
+msgstr "<span weight=\"bold\">Rodzaj _uwierzytelniania</span>"
 
 #: ../mail/mail-config.glade.h:33
 msgid "Account Management"
@@ -13241,9 +13191,8 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "P_odpisuj wszystkie wiadomości wychodzące podczas używania tego konta"
 
 #: ../mail/mail-config.glade.h:37
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
-msgstr "Przy wysyłaniu zaszyfrowanych wiadomości s_zyfruj także do siebie"
+msgstr "S_zyfruj także wysyłane do siebie zaszyfrowane wiadomości"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Alway_s carbon-copy (cc) to:"
@@ -13258,18 +13207,16 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Ufaj kluczom we własnej bazie kluczy podczas szyfrowania"
 
 #: ../mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
-msgstr "Przy wysyłaniu zaszyfrowanych wiadomości _szyfrowanie także do siebie"
+msgstr "Zawsze szyfruj _wysyłane do siebie zaszyfrowane wiadomości"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Attach original message"
 msgstr "Załączenie oryginalnej wiadomości"
 
 #: ../mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Automatically insert _emoticon images"
-msgstr "Automatyczne _wstawianie obrazków emotikon"
+msgstr "Automatyczne _wstawianie emotikon"
 
 #: ../mail/mail-config.glade.h:45
 msgid "Baltic (ISO-8859-13)"
@@ -13284,18 +13231,16 @@ msgid "C_haracter set:"
 msgstr "_Zestaw znaków:"
 
 #: ../mail/mail-config.glade.h:48
-#, fuzzy
 msgid "C_olor"
-msgstr "K_olor:"
+msgstr "K_olor"
 
 #: ../mail/mail-config.glade.h:49
 msgid "Ch_eck for Supported Types "
 msgstr "_Sprawdź obsługiwane typy "
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Check incoming _messages for junk"
-msgstr "_Wyszukaj niechciane wiadomości w przychodzących"
+msgstr "_Wyszukiwanie niechcianych w nowych wiadomościach"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check spelling while I _type"
@@ -13351,19 +13296,16 @@ msgid "Default character e_ncoding:"
 msgstr "Domyślne kodowanie z_naków:"
 
 #: ../mail/mail-config.glade.h:67
-#, fuzzy
 msgid "Delete junk messages on e_xit"
 msgstr "_Usuwanie niechcianych wiadomości przy wyjściu"
 
 #: ../mail/mail-config.glade.h:69
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Podpisyw_anie cyfrowe wychodzących wiadomości (domyślnie)"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Do not format text contents in messages if the text si_ze exceeds"
-msgstr "Bez _formatowania jeśli rozmiar przekracza"
+msgstr "Bez _formatowania treści tekstowej jeśli rozmiar przekracza"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -13391,7 +13333,7 @@ msgstr "_Opróżnianie folderów śmietnika przy zakończeniu"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Enable Magic S_pacebar "
-msgstr ""
+msgstr "Magiczna _spacja"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
@@ -13422,9 +13364,8 @@ msgid "Full Nam_e:"
 msgstr "Imię i _nazwisko:"
 
 #: ../mail/mail-config.glade.h:87
-#, fuzzy
 msgid "HTML Messages"
-msgstr "Wiadomości"
+msgstr "Wiadomości HTML"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Headers"
@@ -13468,7 +13409,7 @@ msgstr "Edytor wiadomości"
 
 #: ../mail/mail-config.glade.h:101
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr ""
+msgstr "Uwaga: podkreślenie w nazwie używane jest jako identyfikator skrótu w menu."
 
 #: ../mail/mail-config.glade.h:102
 msgid "Note: you will not be prompted for a password until you connect for the first time"
@@ -13673,9 +13614,8 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "_Przy odpowiadaniu sygnatura ponad wiadomością oryginalną"
 
 #: ../mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Load images in messages from contacts"
-msgstr "_Pokazuj obrazki w wiadomościach od osób z kontaktów"
+msgstr "_Pokazuj obrazy w wiadomościach od osób z kontaktów"
 
 #: ../mail/mail-config.glade.h:159
 msgid "_Make this my default account"
@@ -13710,7 +13650,6 @@ msgid "_Script:"
 msgstr "_Skrypt:"
 
 #: ../mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Select..."
 msgstr "Wybi_erz..."
 
@@ -13720,7 +13659,6 @@ msgid "_Show image animations"
 msgstr "_Wyświetlaj animacje"
 
 #: ../mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Zdję_cie nadawcy w podglądzie wiadomości"
 
@@ -13882,9 +13820,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Dodanie do lokalanego folderu \"Wysłane\" nie powiodło się: %s"
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "_Wyślij wiadomość"
+msgstr "Wysyłanie wiadomości"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14320,14 +14257,12 @@ msgid "Delete account?"
 msgstr "Usunąć konto?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "Nie można dodać folderu wyszukiwania &quot;{0}&quot;."
+msgstr "Usunąć wiadomości z folderu wyszukiwania &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "Kopiuje zaznaczone wiadomości do innego folderu"
+msgstr "Usunąć wiadomości z folderu wyszukiwania?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -14467,15 +14402,13 @@ msgid "Please enter a valid email address in the To: field. You can search for e
 msgstr "Proszę podać poprawny adres e-mail w polu Do. Można wyszukać adresy e-mail klikając na przycisku Do: obok pola tekstowego."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive HTML email:\n"
 "{0}"
 msgstr ""
 "Proszę upewnić się, że wymienieni niżej odbiorcy chcą otrzymywać i mają możliwość \n"
 "czytania wiadomości w postaci HTML:\n"
-"{0}\n"
-"Mimo wszystko wysłać?"
+"{0}"
 
 #: ../mail/mail.error.xml.h:85
 msgid "Please provide an unique name to identify this signature."
@@ -14538,7 +14471,7 @@ msgid ""
 msgstr ""
 "Wysyłana lista kontaktów ma skonfigurowane ukrywanie listy odbiorców.\n"
 "\n"
-"Wiele systemów pocztowych dodaje nagłówek Apparently-To (Najwyraźniej-Do) do listów które posiadają tylko odbiorców BCC (ukrytych adresatów). Nagłówek ten w przypadku dołożenia, wyświetli wszystkich odbiorców w liście. Aby temu zpobiec, należy dodać przynajmniej jednego odbiorę do pola Dla: lub CC: (kopia)."
+"Wiele systemów pocztowych dodaje nagłówek Apparently-To (Najwyraźniej-Do) do listów które posiadają tylko odbiorców BCC (ukrytych adresatów). Nagłówek ten w przypadku dołożenia, wyświetli wszystkich odbiorców w liście. Aby temu zapobiec, należy dodać przynajmniej jednego odbiorę do pola Dla: lub CC: (kopia)."
 
 #: ../mail/mail.error.xml.h:101
 msgid ""
@@ -14627,6 +14560,8 @@ msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"Uwaga: usunięcie wiadomości z folderu wyszukiwania spowoduje także usunięcie wiadomości z jej oryginalnego folderu.\n"
+"Czy na pewno usunąć tą wiadomość?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -14776,9 +14711,8 @@ msgid "Follow Up Flag"
 msgstr "Znacznik kontynuacji"
 
 #: ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Labels"
-msgstr "Etykieta"
+msgstr "Etykiety"
 
 #: ../mail/message-list.etspec.h:11
 msgid "Received"
@@ -15080,7 +15014,6 @@ msgstr "Kontakty automatyczne"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-#, fuzzy
 msgid "_Automatically create entries in the addressbook when responding to messages"
 msgstr "_Automatyczne tworzenie wpisów w książce adresowej przy odpowiadaniu na wiadomości"
 
@@ -15115,12 +15048,10 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:303
-#, fuzzy
 msgid "Convert message text to _Unicode"
 msgstr "Konwertowanie tekstu do _Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-#, fuzzy
 msgid "Convert mail messages to Unicode"
 msgstr "Konwertuje tekst wiadomości do Unicode"
 
@@ -15392,9 +15323,8 @@ msgid "A_uthenticate"
 msgstr "_Uwierzytelnienie"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:840
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "Rodzaj uwierzytelniania"
+msgstr "Rodzaj _uwierzytelniania"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:854
 msgid "Ch_eck for Supported Types"
@@ -16161,22 +16091,20 @@ msgstr "Sprawdź uprawnienia folderu"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid "A plugin for using an external editor as the composer. You can send only plain-text messages."
-msgstr ""
+msgstr "Wtyczka umożliwiająca pisanie wiadomości w zewnętrznym edytorze. Można wysyłać tylko wiadomości tekstowe."
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
-#, fuzzy
 msgid "External Editor"
-msgstr "Edytor kontaktów"
+msgstr "Zewnętrzny edytor "
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-#, fuzzy
 msgid "Compose in External Editor"
-msgstr "Domyślna szerokość okna tworzenia wiadomości"
+msgstr "Napisz w edytorze zewnętrznym"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "Tworzenie wiadomości za pomocą zewnętrznego edytora"
 
 #: ../plugins/face/face.c:57
 msgid "Select a (48*48) png of size < 700bytes"
@@ -16191,7 +16119,6 @@ msgid "_Face"
 msgstr "_Obraz"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
-#, fuzzy
 msgid "Attach Face header to outgoing messages. First time the user needs to configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces This will be used in messages that are sent further."
 msgstr "Dołącza nagłówek Face do wysyłanych wiadomości. Najpierw należy wybrać obraz png 48x48. Jest on kodowany za pomocą base64 i przechowywany w ~/.evolution/faces. Następnie będzie on używany w wysyłanych wiadomościach."
 
@@ -16218,19 +16145,16 @@ msgstr "O_dsubskrybuj"
 
 #: ../plugins/google-account-setup/google-source.c:71
 #: ../plugins/google-account-setup/google-source.c:78
-#, fuzzy
 msgid "Google"
-msgstr "przełącz"
+msgstr "Google"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup google calendar."
-msgstr "Wtyczka do ustawień kalendarzy programu Hula."
+msgstr "Wtyczka do ustawień kalendarza Google."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
-#, fuzzy
 msgid "Google sources"
-msgstr "Zasoby"
+msgstr "Źródła Google"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
@@ -16347,7 +16271,6 @@ msgid "<b>Users:</b>"
 msgstr "<b>Użytkownicy :</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "C_ustomize notification message"
 msgstr "Dos_tosuj komunikaty powiadamiania"
 
@@ -16531,9 +16454,8 @@ msgid "Completed: "
 msgstr "Zakończono:"
 
 #: ../plugins/groupwise-features/status-track.c:225
-#, fuzzy
 msgid "Undelivered: "
-msgstr "Nie dostarczono:"
+msgstr "Niedostarczone:"
 
 #: ../plugins/groupwise-features/status-track.c:249
 msgid "Track Message Status..."
@@ -16659,9 +16581,8 @@ msgid "iCalendar format (.ics)"
 msgstr "Format iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
-msgstr "Synchronizuje wybrane zadanie/kalendarz/książkę adresową z Apple iPod"
+msgstr "Synchronizuje wybrane zadanie/notatkę/kalendarz/książkę adresową z Apple iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -17285,9 +17206,8 @@ msgid "_Apply to all instances"
 msgstr "_Zastosuj do wszystkich instancji"
 
 #: ../plugins/itip-formatter/itip-view.c:1119
-#, fuzzy
 msgid "Show time as _free"
-msgstr "Wyświetlanie czasu jako zaję_ty"
+msgstr "Wyświetlanie czasu jako _wolny"
 
 #: ../plugins/itip-formatter/itip-view.c:1852
 msgid "_Tasks :"
@@ -17330,96 +17250,87 @@ msgid "Disable Account"
 msgstr "Wyłącz konto"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
-#, fuzzy
 msgid "Beep or play sound file."
-msgstr "Plik dźwiękowy"
+msgstr "Dzwonek lub odegranie pliku dźwiękowego."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "Miganie ikoną w obszarze powiadamiania."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "Włącza wiadomości D-Bus."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-#, fuzzy
 msgid "Enable icon in notification area."
-msgstr "Powiadomienia o nowych wiadomościach (libnotify)"
+msgstr "Włącza ikonę w obszarze powiadamienia."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Generuje komunikat D-BUS po otrzymaniu nowych wiadomości."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "If true, then Beep, otherwise will play sound file when new messages arrive."
-msgstr ""
+msgstr "Jeśli \"true\" to dźwięk systemowy, w innym wypadku odegra plik dźwiękowy gdy nadejdzie nowa wiadomość."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
-#, fuzzy
 msgid "Notify messages in Inbox only."
-msgstr "Przenoszenie wiadomości do folderu %s"
+msgstr "Powiadamianie o nowej poczcie tylko dla folderu Odebrane."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play sound when new messages arrive."
-msgstr "_Odtwarzanie dźwięku po otrzymaniu nowej wiadomości"
+msgstr "Odtwarzanie dźwięku po otrzymaniu nowej wiadomości."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "Okno informacyjne oraz ikona."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "Powiadamia o nowych wiadomościach za pomocą ikony w polu systemowym i powiadomienia."
+msgstr "Powiadamia o nowych wiadomościach za pomocą ikony w polu systemowym."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
-#, fuzzy
 msgid "Sound file name to be played."
-msgstr "Nie podano nazwy pliku."
+msgstr "Nazwa pliku dźwiękowego do odtworzenia."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "Odtwarzany plik dźwięku po otrzymaniu nowej wiadomości."
+msgstr "Nazwa pliku dźwiękowego do odtworzenia, jeśli nie jest aktywny dzwonek systemowy."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "_Odtwarzanie dźwięku po otrzymaniu nowej wiadomości"
+msgstr "Określa czy po otrzymaniu nowej wiadomości odegrać dźwięk czy dzwonek systemowy."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
+msgstr "Określa czy wyświetlać informacje nad ikoną gdy nadejdzie nowa wiadomość."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-#, fuzzy
 msgid "Whether the icon should blink or not."
-msgstr "Określa, czy panel boczny jest widoczny."
+msgstr "Określa czy ikona powinna mrugać."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "Określa czy powiadamiać o nowych wiadomościach tylko dla folderu Odebrane."
 
 #: ../plugins/mail-notification/mail-notification.c:248
-#, fuzzy
 msgid "Generate a _D-Bus message"
-msgstr "Tworzenie listy wiadomości"
+msgstr "Generacja komunikatu _D-Bus"
 
 #: ../plugins/mail-notification/mail-notification.c:357
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have received %d new messages\n"
 "in %s."
-msgstr "Otrzymano %d wiadomość w %s"
+msgstr ""
+"Otrzymano %d wiadomości\n"
+" w folderze %s"
 
 #: ../plugins/mail-notification/mail-notification.c:362
-#, fuzzy, c-format
+#, c-format
 msgid "You have received %d new messages."
-msgstr "Otrzymano %d wiadomość w %s"
+msgstr "Otrzymano %d wiadomości."
 
 #: ../plugins/mail-notification/mail-notification.c:373
 #: ../plugins/mail-notification/mail-notification.c:378
@@ -17427,33 +17338,28 @@ msgid "New email"
 msgstr "Nowa wiadomość"
 
 #: ../plugins/mail-notification/mail-notification.c:433
-#, fuzzy
 msgid "Show icon in _notification area"
-msgstr "Wyświetlanie przypomnień z w obszarze powiadamiania"
+msgstr "Wyświetlanie i_kony z w obszarze powiadamiania"
 
 #: ../plugins/mail-notification/mail-notification.c:436
-#, fuzzy
 msgid "B_link icon in notification area"
-msgstr "Dos_tosuj komunikaty powiadamiania"
+msgstr "_Mruganie ikony w obszarze powiadamiania"
 
 #: ../plugins/mail-notification/mail-notification.c:438
 msgid "Popup _message together with the icon"
-msgstr ""
+msgstr "O_kno informacyjne wraz z ikoną"
 
 #: ../plugins/mail-notification/mail-notification.c:619
-#, fuzzy
 msgid "_Play sound when new messages arrive"
 msgstr "_Odtwarzanie dźwięku po otrzymaniu nowej wiadomości"
 
 #: ../plugins/mail-notification/mail-notification.c:625
-#, fuzzy
 msgid "_Beep"
-msgstr "Brzęczyk"
+msgstr "D_zwonek systemowy"
 
 #: ../plugins/mail-notification/mail-notification.c:626
-#, fuzzy
 msgid "Play _sound file"
-msgstr "Plik dźwiękowy"
+msgstr "Odt_worzenie pliku dźwiękowego"
 
 #: ../plugins/mail-notification/mail-notification.c:637
 msgid "Specify _filename:"
@@ -17464,22 +17370,20 @@ msgid "Select sound file"
 msgstr "Plik dźwiękowy"
 
 #: ../plugins/mail-notification/mail-notification.c:639
-#, fuzzy
 msgid "Pl_ay"
-msgstr "Palau"
+msgstr "Od_twórz"
 
 #: ../plugins/mail-notification/mail-notification.c:773
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "Powiadamianie tylko dla folderu _Odebrane"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-Bus message or notifies the user with an icon in notification area and a notification message whenever a new message has arrived."
-msgstr "Powiadamia o nowych wiadomościach za pomocą ikony w polu systemowym i powiadomienia."
+msgstr "Generuje komunikat D-Bus lub powiadamia o nowych wiadomościach za pomocą ikony w polu systemowym i powiadomienia."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
-msgstr "Powiadomienie o nowych wiadomościach"
+msgstr "Powiadamianie o nowych wiadomościach"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid "A plugin which allows the creation of meetings from the contents of a mail message."
@@ -17494,13 +17398,13 @@ msgid "Mail to meeting"
 msgstr "Wiadomość w zebranie"
 
 #: ../plugins/mail-to-task/mail-to-task.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open calendar. %s"
-msgstr "Nie można otworzyć pliku"
+msgstr "Nie można otworzyć kalendarza. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid "Selected source is read only, thus cannot create task there. Select other source, please."
-msgstr ""
+msgstr "Wybrane źródło jest tylko do odczytu i nie można utworzyć tutaj zadania. Proszę wybrać inne źródło."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid "A plugin which allows the creation of tasks from the contents of a mail message."
@@ -17691,14 +17595,12 @@ msgid "Marks the selected calendar for offline viewing."
 msgstr "Oznacza wybrnay kalendarz do przeglądania w trybie offline"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
-#, fuzzy
 msgid "_Do not make available for offline use"
 msgstr "_Nie udostępniaj w trybie offline"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Make available for offline use"
-msgstr "_Oznacz kalendarz do użycia w trybie offline"
+msgstr "_Oznacz do użycia w trybie offline"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -17744,18 +17646,16 @@ msgid "Note: Some changes will not take effect until restart"
 msgstr "Uwaga: Część zmian odniesie skutek po ponownym uruchomieniu programu"
 
 #: ../plugins/plugin-manager/plugin-manager.c:262
-#, fuzzy
 msgid "Overview"
-msgstr "Recenzja"
+msgstr "Przegląd"
 
 #: ../plugins/plugin-manager/plugin-manager.c:263
-#, fuzzy
 msgid "Configuration"
-msgstr "Konfiguracja poczty"
+msgstr "Konfiguracja"
 
 #: ../plugins/plugin-manager/plugin-manager.c:279
 msgid "There is no configuration option for this plugin."
-msgstr ""
+msgstr "Brak opcji konfiguracyjnych dla tej wtyczki."
 
 #: ../plugins/plugin-manager/plugin-manager.c:332
 #: ../plugins/plugin-manager/plugin-manager.c:394
@@ -17798,7 +17698,6 @@ msgid "HTML _Mode"
 msgstr "_Tryb HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-#, fuzzy
 msgid "Gives an option to print from the composer."
 msgstr "Pozwala drukować wiadomości z okna tworzenia"
 
@@ -18116,9 +18015,8 @@ msgid "Show _only this Calendar"
 msgstr "P_okaż tylko ten kalendarz"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Memo List"
-msgstr "P_okaż tylko tę listę zadań"
+msgstr "P_okaż tylko tę listę notatek"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:5
 msgid "Show _only this Task List"
@@ -18226,7 +18124,7 @@ msgstr "Wersja konfiguracji"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Decides whether the crash recovery should be run or not"
-msgstr ""
+msgstr "Określa czy odzyskiwanie po awarii powinno być uruchomione"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18265,9 +18163,8 @@ msgid "Skip development warning dialog"
 msgstr "Pominięcie ostrzegawczego okna o rozwojowej wersji"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "Skip recovery warning dialog"
-msgstr "Pominięcie ostrzegawczego okna o rozwojowej wersji"
+msgstr "Pominięcie ostrzegawczego okna przywracania"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 #: ../shell/main.c:556
@@ -18312,7 +18209,7 @@ msgstr "Określa, czy Evolution będzie uruchomiony w trybie bez podłączenia d
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Whether crash recovery should be done or not"
-msgstr ""
+msgstr "Określa, czy odzyskiwanie po awarii powinno zostać przeprowadzone"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18335,9 +18232,8 @@ msgid "Whether the warning dialog in development versions of Evolution is skippe
 msgstr "Określa, czy okno ostrzegające o rozwojowej wersji Evolution nie będzie wyświetlane."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
-#, fuzzy
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
-msgstr "Określa, czy okno ostrzegające o rozwojowej wersji Evolution nie będzie wyświetlane."
+msgstr "Określa, czy okno ostrzegające przywracaniu danych Evolution będzie wyświetlane."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -18468,9 +18364,8 @@ msgid "Evolution Website"
 msgstr "Witryna WWW Evolution"
 
 #: ../shell/e-shell-window-commands.c:692
-#, fuzzy
 msgid "Error opening the FAQ webpage."
-msgstr "Błąd podczas otwierania kalendarza"
+msgstr "Błąd podczas otwierania witryny FAQ."
 
 #: ../shell/e-shell-window-commands.c:888
 msgid "_Work Online"
@@ -18637,14 +18532,12 @@ msgid "Do not tell me again"
 msgstr "Nie informuj ponownie"
 
 #: ../shell/main.c:306
-#, fuzzy
 msgid "Evolution Crash Recovery"
-msgstr "Przywracanie kopii Evolution"
+msgstr "Przywracanie danych Evolution"
 
 #: ../shell/main.c:308
-#, fuzzy
 msgid "Ig_nore"
-msgstr "Zignoruj"
+msgstr "Zig_noruj"
 
 #: ../shell/main.c:323
 #, no-c-format
@@ -18653,11 +18546,13 @@ msgid ""
 "run.  As a precautionary measure, all preview panes will be hidden.\n"
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
+"Program Evolution prawdopodobnie zakończył się nieprawidłowo.\n"
+"Dla bezpieczeństwa wszystkie pola podglądu zostaną ukryte. Można je\n"
+"przywrócić za  pomocą opcji w menu \"Widok\".\n"
 
 #: ../shell/main.c:334
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "Nie pokazuj tego komunikatu w przyszłości."
+msgstr "_Nie pokazuj tego komunikatu w przyszłości"
 
 #: ../shell/main.c:554
 msgid "Start Evolution activating the specified component"
@@ -19975,7 +19870,7 @@ msgstr "Pozwala za zasubskrybowanie lub odsubskrybowanie folderów na zdalnych s
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "Proszę otworzyć konsolę debug aby odczytać wpisy dziennika"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
@@ -19986,14 +19881,12 @@ msgid "_Copy Folder To..."
 msgstr "S_kopiuj folder do..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Debug Logs"
-msgstr "Dziennik _WWW:"
+msgstr "Dziennik _debugowania"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "Pobieranie wiadomości do trybu offline"
+msgstr "_Pobierz wiadomości do trybu offline"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -20080,9 +19973,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "_Oznacz wszystkie wiadomości jako przeczytane"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "Oznaczyć wszystkie wiadomości w podfolderach jako przeczytane?"
+msgstr "Oznacza wszystkie wiadomości w folderze jako przeczytane"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
@@ -20105,9 +19997,8 @@ msgid "Refresh the folder"
 msgstr "Odświeżanie folderu"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "Zaznacz _wątek"
+msgstr "Zaznacz _podwątek"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
@@ -20126,9 +20017,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "Zaznacza wszystkie wiadomości w bieżącym wątku"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "Zaznacza wszystkie wiadomości w bieżącym wątku"
+msgstr "Zaznacza wszystkie odpowiedzi na zaznaczoną wiadomość"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -21025,9 +20915,8 @@ msgid "Display window buttons with text only"
 msgstr "Wyświetla przyciski okna z samym tekstem"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Evolution"
+msgstr "FAQ Evolution"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21046,7 +20935,6 @@ msgid "I_mport..."
 msgstr "_Importuj..."
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
 msgstr "Ikony i te_kst"
 
@@ -21064,7 +20952,7 @@ msgstr "No_we okno"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "Otwiera stronę często zadawanych pytań"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
@@ -21123,7 +21011,6 @@ msgid "Toggle whether we are working offline."
 msgstr "Przełącza pomiędzy trybami pracy z podłączeniem i bez podłączenia do sieci."
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
 msgstr "Styl paska _narzędziowego"
 
@@ -21149,15 +21036,13 @@ msgstr "_Usuń hasła"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "_Często zadawane pytania (FAQ)"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Hide Buttons"
 msgstr "_Ukryj przyciski"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Icons Only"
 msgstr "Tylko i_kony"
 
@@ -21178,7 +21063,6 @@ msgid "_Synchronization Options..."
 msgstr "Opcje _synchronizacji..."
 
 #: ../ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Text Only"
 msgstr "Tylko _tekst"
 
@@ -21794,16 +21678,14 @@ msgstr "Szerokość kolumny"
 #: ../widgets/misc/e-search-bar.c:348
 #: ../widgets/misc/e-search-bar.c:477
 #: ../widgets/misc/e-search-bar.c:479
-#, fuzzy
 msgid "Search"
-msgstr "Wy_szukiwanie"
+msgstr "Wyszukiwanie"
 
 #: ../widgets/misc/e-search-bar.c:348
 #: ../widgets/misc/e-search-bar.c:477
 #: ../widgets/misc/e-search-bar.c:479
-#, fuzzy
 msgid "Click here to change the search type"
-msgstr "Wybór załącznika"
+msgstr "Kliknięcie - zmiana typu wyszukiwania"
 
 #: ../widgets/misc/e-search-bar.c:607
 msgid "_Search"
@@ -22117,9 +21999,8 @@ msgid "Clear All"
 msgstr "Wyczyść wszystko"
 
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear _All"
-msgstr "Wyczyść wszystko"
+msgstr "_Wyczyść wszystko"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
@@ -22139,19 +22020,16 @@ msgid "Move _Up"
 msgstr "W _górę"
 
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Show _field in View"
-msgstr "Pokaż pole w widoku"
+msgstr "_Pokaż pole w widoku"
 
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Show field i_n View"
-msgstr "Pokaż pole w widoku"
+msgstr "P_okaż pole w widoku"
 
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Show field in _View"
-msgstr "Pokaż pole w widoku"
+msgstr "Po_każ pole w widoku"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
@@ -22174,9 +22052,8 @@ msgid "_Group By..."
 msgstr "_Grupuj według..."
 
 #: ../widgets/table/e-table-config.glade.h:22
-#, fuzzy
 msgid "_Show field in View"
-msgstr "Pokaż pole w widoku"
+msgstr "Pok_aż pole w widoku"
 
 #: ../widgets/table/e-table-config.glade.h:23
 msgid "_Show these fields in order:"
@@ -22375,15 +22252,13 @@ msgid "Custo_mize Current View..."
 msgstr "Dopasuj bi_eżący widok..."
 
 #: ../widgets/table/e-table-header-item.c:1542
-#, fuzzy
 msgid "_Sort By"
-msgstr "Sortuj wg"
+msgstr "_Sortuj wg"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
-#, fuzzy
 msgid "_Custom"
-msgstr "Własny widok"
+msgstr "_Własny"
 
 #: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
