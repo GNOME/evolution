@@ -1,3 +1,7 @@
+2008-01-01  Suman Manjunath  <msuman@novell.com>
+
+	* Makefile.am: Added a missing "\" separator.
+
 2007-12-04  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fixup mapi folder 
