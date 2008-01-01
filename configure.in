@@ -184,6 +184,17 @@ PKG_CHECK_MODULES(EVOLUTION_DATA_SERVER,
          libegroupwise-$EDS_PACKAGE >= eds_minimum_version])
 
 
+dnl ******************
+dnl User documentation
+dnl ******************
+AC_MSG_CHECKING([whether to build user documentation])
+AC_ARG_WITH([help],
+	[AC_HELP_STRING([--with-help],
+	[Build user documentation [default=yes]])],
+	with_help="$withval", with_help="yes")
+AM_CONDITIONAL(WITH_HELP, test "x$with_help" != "xno")
+AC_MSG_RESULT($with_help)
+
 dnl ******************************
 dnl iconv checking
 dnl ******************************
@@ -1813,7 +1824,6 @@ AC_ARG_ENABLE([default-binary],
 
 AM_CONDITIONAL(DEFAULT_BINARY, test x$enable_default_binary = xyes)
 
-
 dnl ********************
 dnl KDE applnk directory
 dnl ********************
@@ -2005,18 +2015,19 @@ echo "
 fi
 
 echo "
-	LDAP support:     $msg_ldap
-	HAL:		  $HAVE_HAL"
+	LDAP support:        $msg_ldap
+	HAL:		     $HAVE_HAL"
 if test "$msg_nntp" = "yes"; then
 echo "\
-	NNTP support:     $msg_nntp"
+	NNTP support:        $msg_nntp"
 fi
 echo "\
-	Pilot conduits:   $msg_pilot
-	Libnotify:	  $HAVE_LIBNOTIFY
-	Kerberos 4/5:     $msg_krb4/$msg_krb5
-	SSL support:      $msg_ssl
-	SMIME support:    $msg_smime
-	Plugins:	  $msg_plugins
-	DBus API version  $DBUS_VERSION
+	Pilot conduits:      $msg_pilot
+	Libnotify:	     $HAVE_LIBNOTIFY
+	Kerberos 4/5:        $msg_krb4/$msg_krb5
+	SSL support:         $msg_ssl
+	SMIME support:       $msg_smime
+	Plugins:	     $msg_plugins
+	DBus API version:    $DBUS_VERSION
+	User documentation:  $with_help
 "

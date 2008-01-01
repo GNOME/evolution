@@ -1,3 +1,9 @@
+2008-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Add --with[out]-help option to make it possible to skip
+	building and installing user documentation.  (#504541)
+
 2007-12-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in: Version bump to 2.21.5
