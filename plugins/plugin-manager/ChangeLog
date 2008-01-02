@@ -1,3 +1,8 @@
+2008-02-01  Andre Klapper  <a9016009@gmx.de>
+
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	fix spelling.
+
 2007-12-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #500210

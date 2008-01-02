@@ -365,7 +365,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 
 		subvbox = gtk_vbox_new (FALSE, 6);
 
-		markup = g_strdup_printf ("<span weight=\"bold\">%s :</span>", _(label_info[i].label));
+		markup = g_strdup_printf ("<span weight=\"bold\">%s:</span>", _(label_info[i].label));
 		m->labels[i] = g_object_new (gtk_label_get_type (),
 					     "label", markup,
 					     "use_markup", TRUE,
