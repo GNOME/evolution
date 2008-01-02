@@ -1,3 +1,8 @@
+2008-01-02  Andre Klapper  <a9016009@gmx.de>
+
+	* mail-config.glade:
+	add mnemonic_widget for default junk plugin. see bug #476264.
+
 2008-01-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-event.c: (eme_target_free):
