@@ -1,5 +1,16 @@
 2008-01-02  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #317823
+
+	* em-format-html-display.c: (efhd_get_uri_puri):
+	New helper function to dig up uri or puri from the GtkHtml.
+	If the object is an image, then pass it as puri or uri, depends
+	on the source of the image.
+	* em-format-html-display.c: (efhd_html_button_press_event),
+	(em_format_html_display_popup_menu): Using new helper function.
+
+2008-01-02  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #364642
 
 	* em-composer-prefs.h: (struct _EMComposerPrefs):

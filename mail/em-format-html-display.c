@@ -837,31 +837,62 @@ efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh)
 	return;
 }
 
+static void
+efhd_get_uri_puri (GtkWidget *html, GdkEventButton *event, EMFormatHTMLDisplay *efhd, char **uri, EMFormatPURI **puri)
+{
+	char *url, *img_url;
+
+	g_return_if_fail (html != NULL);
+	g_return_if_fail (GTK_IS_HTML (html));
+	g_return_if_fail (efhd != NULL);
+
+	if (event) {
+		url = gtk_html_get_url_at (GTK_HTML (html), event->x, event->y);
+		img_url = gtk_html_get_image_src_at (GTK_HTML (html), event->x, event->y);
+	} else {
+		url = gtk_html_get_cursor_url (GTK_HTML (html));
+		img_url = gtk_html_get_cursor_image_src (GTK_HTML (html));
+	}
+
+	if (!url && img_url) {
+		if (strstr (img_url, "://") || g_ascii_strncasecmp (img_url, "cid:", 4) == 0) {
+			url = img_url;
+			img_url = NULL;
+		} else
+			url = g_strconcat ("file://", img_url, NULL);
+	}
+
+	if (url && puri)
+		*puri = em_format_find_puri((EMFormat *)efhd, url);
+
+	if (uri) {
+		*uri = url;
+		url = NULL;
+	}
+}
+
 static int
 efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efhd)
 {
-	char *uri;
-	gboolean res = FALSE;
+	char *uri = NULL;
 	EMFormatPURI *puri = NULL;
+	gboolean res = FALSE;
 
 	if (event->button != 3)
 		return FALSE;
 
-	uri = gtk_html_get_url_at (GTK_HTML (widget), event->x, event->y);
-
 	d(printf("popup button pressed\n"));
 
-	if (uri && !strncmp (uri, "##", 2))
-	    return TRUE;
+	efhd_get_uri_puri (widget, event, efhd, &uri, &puri);
 
-	if (uri) {
-		puri = em_format_find_puri((EMFormat *)efhd, uri);
-		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
+	if (uri && !strncmp (uri, "##", 2)) {
+		g_free (uri);
+		return TRUE;
 	}
 
 	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
 
-	g_free(uri);
+	g_free (uri);
 
 	return res;
 }
@@ -870,20 +901,17 @@ gboolean
 em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd)
 {
 	GtkHTML *html;
-	char *url;
-	gboolean res = FALSE;
+	char *uri = NULL;
 	EMFormatPURI *puri = NULL;
+	gboolean res = FALSE;
 
 	html = efhd->formathtml.html;
 
-	url = gtk_html_get_cursor_url (html);
+	efhd_get_uri_puri (GTK_WIDGET (html), NULL, efhd, &uri, &puri);
 
-	if (url)
-		puri = em_format_find_puri((EMFormat *)efhd, url);
+	g_signal_emit ((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, uri, puri?puri->part:NULL, &res);
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, url, puri?puri->part:NULL, &res);
-
-	g_free(url);
+	g_free (uri);
 
 	return res;
 }
