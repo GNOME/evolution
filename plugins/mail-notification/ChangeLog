@@ -1,3 +1,8 @@
+2008-01-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-notification.c: (new_notify_status): Show the actual displayed
+	folder name rather than the decoded/handled one from uri.
+
 2007-12-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #504030

@@ -350,13 +350,8 @@ new_notify_status (EMEventTargetFolder *t)
 	}
 
 	if (!status_count) {
-		char *folder;
-
 		status_count = t->new;
-		folder = em_utils_folder_name_from_uri (t->uri);
-		msg = g_strdup_printf (_("You have received %d new messages\nin %s."), status_count, folder);
-
-		g_free (folder);
+		msg = g_strdup_printf (_("You have received %d new messages\nin %s."), status_count, t->name);
 	} else {
 		status_count += t->new;
 		msg = g_strdup_printf (_("You have received %d new messages."), status_count);
