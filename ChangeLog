@@ -1,6 +1,11 @@
 2008-01-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:
+	Bump GtkHTML requirement to 3.17.5 for bug #317823.
+
+2008-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
 	Add --with[out]-help option to make it possible to skip
 	building and installing user documentation.  (#504541)
 
