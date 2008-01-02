@@ -401,7 +401,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 		gconf_client_set_string (
 			stuff->target->gconf,
 			GCONF_KEY_WHICH_ADDRESSBOOK,
-			uri, &error);
+			uri ? uri : "", &error);
 
 		if (error != NULL) {
 			g_warning ("%s", error->message);

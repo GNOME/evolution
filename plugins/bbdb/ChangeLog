@@ -1,3 +1,9 @@
+2008-01-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #502914
+
+	* bbdb.c: (enable_toggled_cb): Do not write NULL into gconf.
+
 2007-12-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #391062
