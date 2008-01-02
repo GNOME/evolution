@@ -60,6 +60,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/request_receipt</key>
+      <applyto>/apps/evolution/mail/composer/request_receipt</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Always request read receipt</short>
+         <long>
+	 Whether a read receipt request gets added to every message by default.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/inline_spelling</key>
       <applyto>/apps/evolution/mail/composer/inline_spelling</applyto>
       <owner>evolution-mail</owner>

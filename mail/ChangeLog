@@ -1,3 +1,14 @@
+2008-01-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #364642
+
+	* em-composer-prefs.h: (struct _EMComposerPrefs):
+	* em-composer-prefs.c: (em_composer_prefs_construct):
+	* mail-config.glade:
+	* evolution-mail.schemas.in:
+	(/apps/evolution/mail/composer/request_receipt):
+	New option in Composer tab to preset Request Read Receipt in composer.
+
 2008-01-02  Andre Klapper  <a9016009@gmx.de>
 
 	* mail-config.glade:

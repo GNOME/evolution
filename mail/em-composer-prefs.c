@@ -918,6 +918,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	toggle_button_init (prefs, prefs->auto_smileys, FALSE,
 			    "/apps/evolution/mail/composer/magic_smileys");
 
+	prefs->auto_request_receipt = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkRequestReceipt"));
+	toggle_button_init (prefs, prefs->auto_request_receipt, FALSE,
+			    "/apps/evolution/mail/composer/request_receipt");
+
 	prefs->top_signature = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkTopSignature"));
 	toggle_button_init (prefs, prefs->top_signature, FALSE,
 			    "/apps/evolution/mail/composer/top_signature");

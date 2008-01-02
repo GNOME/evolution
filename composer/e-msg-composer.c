@@ -3833,6 +3833,7 @@ create_composer (int visible_mask)
 
 	gconf = gconf_client_get_default ();
 	composer_settings_update (gconf, 0, NULL, composer);
+	e_msg_composer_set_request_receipt (composer, gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/request_receipt", NULL));
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/composer", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	p->notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/composer",
 						       composer_settings_update, composer, NULL, NULL);

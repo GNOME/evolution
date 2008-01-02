@@ -65,6 +65,7 @@ struct _EMComposerPrefs {
 	/* Default Behavior */
 	struct _GtkToggleButton *send_html;
 	struct _GtkToggleButton *auto_smileys;
+	struct _GtkToggleButton *auto_request_receipt;
 	struct _GtkToggleButton *prompt_empty_subject;
 	struct _GtkToggleButton *prompt_bcc_only;
 	struct _GtkOptionMenu *charset;
