@@ -66,7 +66,7 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 	switch (t->type) {
 	case EM_EVENT_TARGET_FOLDER: {
 		EMEventTargetFolder *s = (EMEventTargetFolder *)t;
-
+		g_free (s->name);
 		g_free(s->uri);
 		break; }
 	case EM_EVENT_TARGET_MESSAGE: {

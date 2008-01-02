@@ -1246,6 +1246,42 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store,
 	return FALSE;
 }
 
+char *
+em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const char *full)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *row;
+	GtkTreePath *tree_path;
+	GtkTreeIter iter;
+	char *name = NULL;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (full != NULL, FALSE);
+
+	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
+		u(printf("  can't find store\n"));
+		return NULL;
+	}
+
+	if (!(row = g_hash_table_lookup (si->full_hash, full))) {
+		u(printf("  can't find row\n"));
+		return NULL;
+	}
+
+	tree_path = gtk_tree_row_reference_get_path (row);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, tree_path)) {
+		gtk_tree_path_free (tree_path);
+		return NULL;
+	}
+
+	gtk_tree_path_free (tree_path);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, COL_STRING_DISPLAY_NAME, &name, -1);
+
+	return name;
+}
+
 void
 em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *full, int unread)
 {

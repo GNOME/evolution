@@ -75,6 +75,7 @@ struct _EMEventTargetFolder {
 	char *uri;
 	guint  new;
 	gboolean is_inbox;
+	char *name;
 };
 
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
