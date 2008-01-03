@@ -13747,7 +13747,7 @@ msgid ""
 msgstr ""
 "Velkommen til assistenten for konfigurasjon av Evolution e-post.\n"
 "\n"
-"Klikk «Neste» for å begynne. "
+"Klikk «Framover» for å begynne. "
 
 #: ../mail/mail-config.glade.h:152
 msgid "_Add Signature"
