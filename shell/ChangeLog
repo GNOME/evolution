@@ -1,3 +1,15 @@
+2008-01-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #219197
+
+	* e-shell.h:
+	* e-shell.c: (e_shell_can_quit), (e_shell_do_quit), (e_shell_quit):
+	Call of e_shell_quit divided into two functions, one to check if quit
+	is acceptable by all components and second to do quit.
+	* main.c: (gnome_master_client_save_yourself_cb),
+	(gnome_master_client_die_cb), (main):
+	Quit application when session dies.
+
 2007-12-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #502501

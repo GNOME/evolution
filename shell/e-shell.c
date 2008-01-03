@@ -1334,7 +1334,7 @@ es_run_quit(EShell *shell)
 }
 
 gboolean
-e_shell_quit(EShell *shell)
+e_shell_can_quit (EShell *shell)
 {
 	EShellPrivate *priv;
 	GSList *component_infos;
@@ -1368,21 +1368,42 @@ e_shell_quit(EShell *shell)
 			break;
 	}
 
-	if (can_quit) {
-		GList *p = shell->priv->windows;
+	return can_quit;
+}
 
-		for (; p != NULL; p = p->next) {
-			gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
-			if (p == shell->priv->windows)
-				e_shell_window_save_defaults (p->data);
-		}
-		can_quit = !es_run_quit(shell);
+gboolean
+e_shell_do_quit (EShell *shell)
+{
+	EShellPrivate *priv;
+	GList *p;
+	gboolean can_quit;
 
-		/* Mark a safe quit by destroying the lock. */
-		e_file_lock_destroy ();
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	priv = shell->priv;
+
+	if (priv->preparing_to_quit)
+		return FALSE;
+
+	for (p = shell->priv->windows; p != NULL; p = p->next) {
+		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+
+		if (p == shell->priv->windows)
+			e_shell_window_save_defaults (p->data);
 	}
 
+	can_quit = !es_run_quit (shell);
+
+	/* Mark a safe quit by destroying the lock. */
+	e_file_lock_destroy ();
+
 	return can_quit;
+}
+
+gboolean
+e_shell_quit (EShell *shell)
+{
+	return e_shell_can_quit (shell) && e_shell_do_quit (shell);
 }
 
 /**

@@ -129,7 +129,9 @@ void  e_shell_show_settings  (EShell       *shell,
 			      const char   *type,
 			      EShellWindow *shell_window);
 
-gboolean e_shell_quit (EShell *shell);
+gboolean e_shell_can_quit (EShell *shell);
+gboolean e_shell_do_quit  (EShell *shell);
+gboolean e_shell_quit     (EShell *shell);
 
 const char *e_shell_construct_result_to_string (EShellConstructResult result);
 

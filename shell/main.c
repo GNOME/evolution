@@ -61,6 +61,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-client.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-moniker-util.h>
@@ -549,6 +550,18 @@ setup_segv_redirect (void)
 #define setup_segv_redirect() 0
 #endif
 
+static gint
+gnome_master_client_save_yourself_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown, GnomeInteractStyle interact_style, gint fast, gpointer user_data)
+{
+	return !shell || e_shell_can_quit (shell);
+}
+
+static void
+gnome_master_client_die_cb (GnomeClient *client)
+{
+	e_shell_do_quit (shell);
+}
+
 static const GOptionEntry options[] = {
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &default_component_id,
 	  N_("Start Evolution activating the specified component"), NULL },
@@ -588,6 +601,7 @@ main (int argc, char **argv)
 	gboolean skip_warning_dialog;
 #endif
 	GnomeProgram *program;
+	GnomeClient *master_client;
 	GOptionContext *context;
 	char *filename;
 
@@ -656,6 +670,11 @@ main (int argc, char **argv)
 		} else
 			g_warning ("Could not set up debugging output file.");
 	}
+
+	master_client = gnome_master_client ();
+
+	g_signal_connect (G_OBJECT (master_client), "save_yourself", G_CALLBACK (gnome_master_client_save_yourself_cb), NULL);
+	g_signal_connect (G_OBJECT (master_client), "die", G_CALLBACK (gnome_master_client_die_cb), NULL);
 
 	glade_init ();
 	e_cursors_init ();
