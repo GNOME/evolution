@@ -1013,7 +1013,8 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 	editor = memo_editor_new (ecal, flags);
 	comp = cal_comp_memo_new_with_defaults (ecal);
 
-	g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_memos_get_calendar_table (component_view->memos));
+	if (component_view->memos)
+		g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_memos_get_calendar_table (component_view->memos));
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 	comp_editor_focus (COMP_EDITOR (editor));

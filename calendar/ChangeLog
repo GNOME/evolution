@@ -1,3 +1,11 @@
+2008-01-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #506814
+
+	* gui/tasks-component.c: (create_new_todo):
+	* gui/tasks-component.c: (create_new_todo): Add the signal only if the
+	view is present.
+
 2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #362638

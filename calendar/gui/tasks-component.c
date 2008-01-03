@@ -1000,7 +1000,8 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 	editor = task_editor_new (ecal, flags);
 	comp = cal_comp_task_new_with_defaults (ecal);
 
-	g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_tasks_get_calendar_table (component_view->tasks));
+	if (component_view)
+		g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_tasks_get_calendar_table (component_view->tasks));
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 	if (is_assigned)
