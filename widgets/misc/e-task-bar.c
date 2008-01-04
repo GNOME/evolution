@@ -26,6 +26,7 @@
 
 #include "e-task-bar.h"
 
+#include <gtk/gtkiconfactory.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmisc.h>
 
@@ -94,6 +95,7 @@ static void
 e_task_bar_init (ETaskBar *task_bar)
 {
 	GtkWidget *label, *hbox;
+	gint height;
 
 	task_bar->priv = g_new (ETaskBarPrivate, 1);
 
@@ -108,6 +110,12 @@ e_task_bar_init (ETaskBar *task_bar)
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (task_bar), hbox);
 	task_bar->priv->hbox = GTK_HBOX (hbox);
+
+	/* Make the task bar large enough to accomodate a small icon.
+	 * XXX The "* 2" is a fudge factor to allow for some padding.
+	 *     The true value is probably buried in a style property. */
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
+	gtk_widget_set_size_request (GTK_WIDGET (task_bar), -1, height * 2);
 }
 
 
