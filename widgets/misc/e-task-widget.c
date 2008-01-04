@@ -164,8 +164,6 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	GdkBitmap *mask;*/
 	GtkWidget *box;
 	GtkWidget *frame;
-	GtkWidget *image = e_icon_factory_get_image ("gtk-stop", E_ICON_SIZE_MENU);
-	GtkWidget *tool;
 
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
@@ -205,6 +203,9 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_widget_show (priv->label);
 	gtk_box_pack_start (GTK_BOX (box), priv->label, TRUE, TRUE, 0);
 	if (cancel_func) {
+		GtkWidget *image = e_icon_factory_get_image ("gtk-stop", E_ICON_SIZE_MENU);
+		GtkWidget *tool;
+
 		tool = (GtkWidget *) gtk_tool_button_new (image, NULL);
 		gtk_box_pack_end (GTK_BOX (box), tool, FALSE, TRUE, 0);
 		gtk_widget_show_all (tool);
@@ -261,11 +262,11 @@ e_task_widget_new (GdkPixbuf *icon_pixbuf,
 
 GtkWidget *
 e_task_widget_update_image (ETaskWidget *task_widget,
-			    char *stock, char *text)
+			    const char *stock, const char *text)
 {
 	GtkWidget *img, *tool;
 
-	img = e_icon_factory_get_image ("stock_dialog-warning", E_ICON_SIZE_MENU);
+	img = e_icon_factory_get_image (stock, E_ICON_SIZE_MENU);
 	tool = (GtkWidget *) gtk_tool_button_new (img, NULL);
 	gtk_box_pack_start (GTK_BOX(task_widget->priv->box), tool, FALSE, TRUE, 0);
 	gtk_widget_destroy (task_widget->priv->image);

@@ -1,3 +1,11 @@
+2008-01-04  Milan Crha  <mcrha@redhat.com>
+
+	* Part of bug #504480
+	* e-task-widget.c: (e_task_widget_construct):
+	Possible leak fix.
+	* e-task-widget.c: (e_task_widget_update_image):
+	Function prototype changed and using parameter stock now.
+
 2008-01-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #504480

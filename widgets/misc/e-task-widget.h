@@ -76,7 +76,7 @@ void  e_task_widget_update  (ETaskWidget *task_widget,
 			     double       completion);
 GtkWidget *
 e_task_widget_update_image (ETaskWidget *task_widget,
-			    char *stock, char *text);
+			    const char *stock, const char *text);
 
 void  e_task_wiget_alert    (ETaskWidget *task_widget);
 void  e_task_wiget_unalert  (ETaskWidget *task_widget);
