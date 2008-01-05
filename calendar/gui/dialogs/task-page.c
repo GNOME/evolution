@@ -70,7 +70,6 @@ struct _TaskPagePrivate {
 	EAccountList *accounts;
 	GList *address_strings;
 	EMeetingAttendee *ia;
-	char *default_address;
 	char *user_add;
 	ECalComponent *comp;
 
@@ -215,7 +214,6 @@ task_page_init (TaskPage *tpage)
 	priv->accounts = NULL;
 	priv->address_strings = NULL;
 	priv->ia = NULL;
-	priv->default_address = NULL;
 	priv->invite = NULL;
 
 	priv->model = NULL;
@@ -699,6 +697,8 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			if (organizer.value != NULL) {
 				const gchar *strip = itip_strip_mailto (organizer.value);
 				gchar *string;
+				GList *list = NULL;
+
 				if (itip_organizer_is_user (comp, page->client) || itip_sentby_is_user (comp)) {
 					if (e_cal_get_static_capability (
 								page->client,
@@ -722,7 +722,14 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				else
 					string = g_strdup (strip);
 
+				if (!priv->user_org) {
+					list = g_list_append (list, string);
+					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
+					gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->organizer)->entry), FALSE);
+				}
+
 				g_free (string);
+				g_list_free (list);
 				priv->existing = TRUE;
 			}
 		} else {
@@ -2070,6 +2077,7 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 	GList *l;
 	EAccount *def_account;
 	gchar *def_address = NULL;
+	const char *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;
@@ -2089,25 +2097,27 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 	else
 		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
-	priv->default_address = NULL;
+	default_address = NULL;
 	if (user_addr)
-		for (l = priv->address_strings; l != NULL && user_addr; l = l->next)
+		for (l = priv->address_strings; l != NULL; l = l->next)
 			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-				priv->default_address = (gchar *) l->data;
+				default_address = (const char *) l->data;
 				break;
 			}
 
-	if (!priv->default_address && def_address)
-		priv->default_address = def_address;
+	if (!default_address && def_address)
+		default_address = def_address;
 
-	if (priv->default_address) {
+	if (default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
+			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), default_address);
 			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
 			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
+
+	g_free (def_address);
 }
 
 /**
@@ -2158,6 +2168,7 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 
 		a = (EAccount *)e_iterator_get(it);
 
+		/* skip disabled accounts */
 		if (!a->enabled)
 			continue;
 

@@ -98,7 +98,6 @@ struct _MemoPagePrivate {
 	GtkWidget *source_selector;
 
 	GList *address_strings;
-	char *default_address;
 
 	ENameSelector *name_selector;
 
@@ -178,7 +177,6 @@ memo_page_init (MemoPage *mpage)
 	priv->updating = FALSE;
 
 	priv->address_strings = NULL;
-	priv->default_address = NULL;
 }
 
 /* Destroy handler for the memo page */
@@ -931,7 +929,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, MemoPage *mpage)
 
 				e_cal_get_cal_address(client, &backend_addr, NULL);
 
-				if (backend_addr && (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_IS_SHARED))
+				if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_IS_SHARED)
 					memo_page_select_organizer (mpage, backend_addr);
 
 				set_subscriber_info_string (mpage, backend_addr);
@@ -1114,12 +1112,13 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 	GList *l;
 	EAccount *def_account;
 	gchar *def_address = NULL;
+	const char *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const char *user_addr = NULL;
 
 	def_account = itip_addresses_get_default();
-	if (def_account)
+	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	priv = mpage->priv;
@@ -1131,26 +1130,29 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 	if (user_addr)
 		subscribed_cal = TRUE;
 	else
-		user_addr = backend_address;
+		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
-	priv->default_address = NULL;
-	for (l = priv->address_strings; l != NULL; l = l->next)
-		if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-			priv->default_address = (gchar *) l->data;
-			break;
-		}
+	default_address = NULL;
+	if (user_addr)
+		for (l = priv->address_strings; l != NULL; l = l->next)
+			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
+				default_address = (const char *) l->data;
+				break;
+			}
 
-	if (!priv->default_address && def_account)
-		priv->default_address = def_address;
+	if (!default_address && def_account)
+		default_address = def_address;
 
-	if (priv->default_address) {
+	if (default_address) {
 		if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), priv->default_address);
+			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), default_address);
 			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
 			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->org_combo)->button), !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
+
+	g_free (def_address);
 }
 
 /**
@@ -1199,6 +1201,11 @@ memo_page_construct (MemoPage *mpage)
 			gchar *full = NULL;
 
 			a = (EAccount *)e_iterator_get(it);
+
+			/* skip disabled accounts */
+			if (!a->enabled)
+				continue;
+
 			full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 			priv->address_strings = g_list_append(priv->address_strings, full);

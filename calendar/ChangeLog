@@ -1,3 +1,17 @@
+2008-01-03  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #270605
+
+	* gui/dialogs/event-page.c: (event_page_init),
+	(event_page_select_organizer), (event_page_construct): Code cleanup
+	* gui/dialogs/memo-page.c: (memo_page_init), (source_changed_cb),
+	(memo_page_select_organizer), (memo_page_construct): Skip disabled 
+	accounts.
+	* gui/dialogs/task-page.c: (task_page_init),
+	(task_page_fill_widgets), (task_page_select_organizer),
+	(task_page_construct): Code cleanup, show organizer of assigned tasks,
+	if it already exists.
+
 2008-01-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/memos-component.c: (create_new_memo): Refix the last patch
