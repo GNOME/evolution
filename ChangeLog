@@ -1,3 +1,8 @@
+2008-01-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* data/evolution.desktop.in.in:
+	Submit bugs to the "BugBuddyBugs" Bugzilla component (#507311).
+
 2007-11-26  Srinivas Ragavan <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.12.2 release
