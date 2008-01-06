@@ -1,3 +1,10 @@
+2008-01-07  João Vale  <jpvale@gmail.com>
+
+	** Fix for bug #375580
+
+	* ipod-sync.c: (destination_save_addressbook): Use ISO-8859-1 encoding
+	to store contacts in iPod. 
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* evolution-ipod-sync.c: (ipod_get_mount):
@@ -51,7 +58,7 @@
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* Created the iPod sync plugin. It based on Justin Wakes bounty
-	work and rodrigo's save callendar plugin.
+	work and rodrigo's save calendar plugin.
 
 
 
