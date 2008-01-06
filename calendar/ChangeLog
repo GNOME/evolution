@@ -1,3 +1,12 @@
+2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
+
+	** Fix for bug #492188
+
+	* gui/dialogs/comp-editor.c:
+
+	Use the new Tangoized icons instead of deprecated icons from 
+	gnome-icon-theme.
+
 2008-01-03  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #270605

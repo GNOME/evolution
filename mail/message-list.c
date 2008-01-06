@@ -2054,8 +2054,8 @@ ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem ml_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), ml_drop_popup_copy, NULL, "stock_folder-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), ml_drop_popup_move, NULL, "stock_folder-move", 0 },
+	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), ml_drop_popup_copy, NULL, "folder-copy", 0 },
+	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), ml_drop_popup_move, NULL, "folder-move", 0 },
 	{ E_POPUP_BAR, "10.emc" },
 	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
 };

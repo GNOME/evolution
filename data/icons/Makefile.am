@@ -10,6 +10,10 @@ public_icons = \
 	$(NULL)
 
 private_icons = \
+	hicolor_actions_16x16_folder-copy.png \
+	hicolor_actions_16x16_folder-move.png \
+	hicolor_actions_16x16_mail-copy.png \
+	hicolor_actions_16x16_mail-move.png \
  	hicolor_actions_16x16_go-today.png \
 	hicolor_actions_16x16_view-calendar-day.png \
 	hicolor_actions_16x16_view-calendar-list.png \

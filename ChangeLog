@@ -1,3 +1,12 @@
+2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
+
+	** Fix for bug #492188
+
+	* data/icons/Makefile.am:
+
+	Use the new Tangoized icons instead of deprecated icons from 
+	gnome-icon-theme.
+
 2008-01-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* data/evolution.desktop.in.in:

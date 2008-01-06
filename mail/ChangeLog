@@ -1,3 +1,15 @@
+2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
+
+	** Fix for bug #492188
+
+	* em-folder-browser.c:
+	* em-folder-tree.c:
+	* em-folder-view.c:
+	* message-list.c:
+
+	Use the new Tangoized icons instead of deprecated icons from 
+	gnome-icon-theme.
+
 2008-01-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #317823

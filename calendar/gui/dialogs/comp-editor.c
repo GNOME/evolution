@@ -460,8 +460,8 @@ drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), drop_popup_copy, NULL, "stock_mail-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), drop_popup_move, NULL, "stock_mail-move", 0 },
+	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), drop_popup_copy, NULL, "mail-copy", 0 },
+	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), drop_popup_move, NULL, "mail-move", 0 },
 	{ E_POPUP_BAR, "10.emc" },
 	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), drop_popup_cancel, NULL, NULL, 0 },
 };

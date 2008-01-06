@@ -1010,8 +1010,8 @@ emft_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 static EPopupItem emft_drop_popup_menu[] = {
 	{ E_POPUP_ITEM, "00.emc.00", N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
 	{ E_POPUP_ITEM, "00.emc.01", N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), emft_drop_popup_copy, NULL, "stock_folder-copy", 2 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), emft_drop_popup_move, NULL, "stock_folder-move", 2 },
+	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), emft_drop_popup_copy, NULL, "folder-copy", 2 },
+	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), emft_drop_popup_move, NULL, "folder-move", 2 },
 	{ E_POPUP_BAR, "10.emc" },
 	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, "dialog-cancel", 0 },
 };
@@ -2099,8 +2099,8 @@ static EPopupItem emft_popup_items[] = {
 	/* FIXME: need to disable for nochildren folders */
 	{ E_POPUP_ITEM, "10.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
 
-	{ E_POPUP_ITEM, "10.emc.05", N_("_Copy..."), emft_popup_copy, NULL, "stock_folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "10.emc.06", N_("_Move..."), emft_popup_move, NULL, "stock_folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, "10.emc.05", N_("_Copy..."), emft_popup_copy, NULL, "folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ E_POPUP_ITEM, "10.emc.06", N_("_Move..."), emft_popup_move, NULL, "folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 
 	/* FIXME: need to disable for undeletable folders */
 	{ E_POPUP_BAR,  "20.emc" },
