@@ -113,9 +113,12 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 				EContact *contact = tmp->data;
 				gchar *temp = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 				gchar *vcard;
+				gchar *converted_vcard;
+				gsize vcard_latin1_length;
 
 				vcard = g_strconcat(temp, "\r\n", NULL);
-				if ((result = gnome_vfs_write (handle, (gconstpointer) vcard, strlen (vcard), &bytes_written))
+				converted_vcard = g_convert(vcard, -1, "ISO-8859-1", "UTF-8", NULL, &vcard_latin1_length, NULL);
+				if ((result = gnome_vfs_write (handle, (gconstpointer) converted_vcard, vcard_latin1_length, &bytes_written))
 				    != GNOME_VFS_OK) {
 					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
 							       gnome_vfs_result_to_string (result));
@@ -124,6 +127,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 				g_object_unref (contact);
 				g_free (temp);
 				g_free (vcard);
+				g_free (converted_vcard);
 		}
 	}
 
