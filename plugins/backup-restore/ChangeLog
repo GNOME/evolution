@@ -1,3 +1,9 @@
+2008-01-06  Christian Krause  <chkr@plauener.de>
+
+	* backup.c: (backup), (restore), (check), (main): Initialize static 
+	variables before use, not-NULL checks for filename before
+	backup/restore/check operations. 
+
 2007-08-07  Johnny Jacob  <jjohnny@novell.com>
 	
 	* Committed on behalf of Anand V M   <avmuttagi@gmail.com>

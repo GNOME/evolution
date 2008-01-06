@@ -21,11 +21,11 @@
 #define ARCHIVE_NAME "evolution-backup.tar.gz"
 
 static gboolean backup_op = FALSE;
-static char *bk_file;
+static char *bk_file = NULL;
 static gboolean restore_op = FALSE;
-static char *res_file;
+static char *res_file = NULL;
 static gboolean check_op = FALSE;
-static char *chk_file;
+static char *chk_file = NULL;
 static gboolean restart_arg = FALSE;
 static gboolean gui_arg = FALSE;
 static gchar **opt_remaining = NULL;
@@ -63,6 +63,8 @@ backup (const char *filename)
 {
 	char *command;
 
+	g_return_if_fail (filename && *filename);
+
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
@@ -71,7 +73,6 @@ backup (const char *filename)
 	CANCEL (complete);
 	txt = _("Backing Evolution accounts and settings");
 	s ("gconftool-2 --dump " GCONF_DIR " > " GCONF_DUMP_PATH);
-
 
 	CANCEL (complete);
 	txt = _("Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)");
@@ -101,6 +102,8 @@ static void
 restore (const char *filename)
 {
 	char *command;
+
+	g_return_if_fail (filename && *filename);
 
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
@@ -141,6 +144,8 @@ static void
 check (const char *filename)
 {
 	char *command;
+
+	g_return_if_fail (filename && *filename);
 
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", filename);
 	result = system (command);
@@ -238,21 +243,22 @@ main (int argc, char **argv)
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
 				      GNOME_PARAM_NONE);
 
-
-	for (i = 0; i < g_strv_length (opt_remaining); i++) {
-		if (backup_op) {
-			oper = _("Backing up to the folder %s");
-			d(g_message ("Backing up to the folder %s", (char *) opt_remaining[i]));
-			bk_file = g_strdup ((char *) opt_remaining[i]);
-			file = bk_file;
-		} else if (restore_op) {
-			oper = _("Restoring from the folder %s");
-			d(g_message ("Restoring from the folder %s", (char *) opt_remaining[i]));
-			res_file = g_strdup ((char *) opt_remaining[i]);
-			file = res_file;
-		} else if (check_op) {
-			d(g_message ("Checking %s", (char *) opt_remaining[i]));
-			chk_file = g_strdup ((char *) opt_remaining[i]);
+	if (opt_remaining) {
+		for (i = 0; i < g_strv_length (opt_remaining); i++) {
+			if (backup_op) {
+				oper = _("Backing up to the folder %s");
+				d(g_message ("Backing up to the folder %s", (char *) opt_remaining[i]));
+				bk_file = g_strdup ((char *) opt_remaining[i]);
+				file = bk_file;
+			} else if (restore_op) {
+				oper = _("Restoring from the folder %s");
+				d(g_message ("Restoring from the folder %s", (char *) opt_remaining[i]));
+				res_file = g_strdup ((char *) opt_remaining[i]);
+				file = res_file;
+			} else if (check_op) {
+				d(g_message ("Checking %s", (char *) opt_remaining[i]));
+				chk_file = g_strdup ((char *) opt_remaining[i]);
+			}
 		}
 	}
 
@@ -267,6 +273,7 @@ main (int argc, char **argv)
                         	                          GTK_STOCK_CANCEL,
                                 	                  GTK_RESPONSE_REJECT,
                                         	          NULL);
+
 		if (oper && file)
 			str = g_strdup_printf(oper, file);
 
@@ -281,8 +288,6 @@ main (int argc, char **argv)
 		hbox = gtk_hbox_new (FALSE, 12);
 		pbar = gtk_progress_bar_new ();
 		gtk_box_pack_start ((GtkBox *)hbox, pbar, TRUE, TRUE, 6);
-
-
 
 		gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 0);
 

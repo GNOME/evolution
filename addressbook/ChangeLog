@@ -1,3 +1,10 @@
+2008-01-06  Christian Krause  <chkr@plauener.de>
+
+	** Fix for bug #506772
+
+	* tools/evolution-addressbook-export.c: (main): Not-NULL check for a 
+	string array before finding its length. 
+
 2007-12-11  Sankar P  <psankar@novell.com>
 
 	** Fix for bug #501969
