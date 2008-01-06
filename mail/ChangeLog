@@ -1,3 +1,11 @@
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #497914
+
+	* em-mailer-prefs.c: (emmp_header_is_valid):
+	backport changes from the copy/pasted code in imap-headers
+	plugin.
+
 2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
 
 	** Fix for bug #492188

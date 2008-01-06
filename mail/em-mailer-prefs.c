@@ -462,16 +462,12 @@ emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
 static gboolean
 emmp_header_is_valid (const char *header)
 {
-	const char *p = header;
+	gint len = g_utf8_strlen (header, -1);
 
-	if (header[0] == 0)
+	if (header[0] == 0
+	    || g_utf8_strchr (header, len, ':') != NULL
+	    || g_utf8_strchr (header, len, ' ') != NULL)
 		return FALSE;
-
-	while (*p) {
-		if ((*p == ':') || (*p == ' '))
-			return FALSE;
-		p++;
-	}
 
 	return TRUE;
 }
