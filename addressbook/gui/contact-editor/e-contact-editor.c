@@ -3786,6 +3786,7 @@ e_contact_editor_create_date(gchar *name,
 					   TRUE);
 	e_date_edit_set_show_time (E_DATE_EDIT (widget), FALSE);
 	e_date_edit_set_time (E_DATE_EDIT (widget), -1);
+	e_date_edit_set_twodigit_year_can_future (E_DATE_EDIT (widget), FALSE);
 
 	a11y = gtk_widget_get_accessible (e_date_edit_get_entry (E_DATE_EDIT(widget)));
 	if (a11y != NULL) {

@@ -65,8 +65,6 @@
 #include <e-util/e-util.h>
 #include "e-calendar.h"
 
-
-
 struct _EDateEditPrivate {
 	GtkWidget *date_entry;
 	GtkWidget *date_button;
@@ -128,6 +126,8 @@ struct _EDateEditPrivate {
 	EDateEditGetTimeCallback time_callback;
 	gpointer time_callback_data;
 	GtkDestroyNotify time_callback_destroy;
+
+	gboolean twodigit_year_can_future;
 };
 
 enum {
@@ -295,6 +295,8 @@ e_date_edit_init		(EDateEdit	*dedit)
 	priv->time_callback = NULL;
 	priv->time_callback_data = NULL;
 	priv->time_callback_destroy = NULL;
+
+	priv->twodigit_year_can_future = TRUE;
 
 	create_children (dedit);
 
@@ -1476,9 +1478,21 @@ e_date_edit_parse_date (EDateEdit *dedit,
 			const gchar *date_text,
 			struct tm *date_tm)
 {
-	if (e_time_parse_date (date_text, date_tm) != E_TIME_PARSE_OK)
+	gboolean twodigit_year = FALSE;
+
+	if (e_time_parse_date_ex (date_text, date_tm, &twodigit_year) != E_TIME_PARSE_OK)
 		return FALSE;
 
+	if (twodigit_year && !dedit->priv->twodigit_year_can_future) {
+		time_t t = time (NULL);
+		struct tm *today_tm = localtime (&t);
+
+		/* it was only 2 digit year in dedit and it was interpreted as in the future,
+		   but we don't want it as this, so decrease by 100 years to last century */
+		if (date_tm->tm_year > today_tm->tm_year)
+			date_tm->tm_year -= 100;
+	}
+	
 	return TRUE;
 }
 
@@ -1645,6 +1659,9 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
 		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		return FALSE;
+	} else {
+		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
+		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
 	}
 	return FALSE;
 }
@@ -1727,14 +1744,18 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 	if (priv->date_set_to_none || !priv->date_is_valid) {
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
 	} else {
+		/* This is a strftime() format for a short date. 
+		   %x the preferred date representation for the current locale without the time,
+		   but has forced to use 4 digit year */
+		char *format = e_time_get_d_fmt_with_4digit_year ();
+
 		tmp_tm.tm_year = priv->year;
 		tmp_tm.tm_mon = priv->month;
 		tmp_tm.tm_mday = priv->day;
 		tmp_tm.tm_isdst = -1;
 
-		/* This is a strftime() format for a short date.
-		   %x the preferred date representation for the current locale without the time*/
-		e_utf8_strftime (buffer, sizeof (buffer), "%x", &tmp_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
+		g_free (format);
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
 	}
 
@@ -2108,6 +2129,20 @@ e_date_edit_set_time_internal	(EDateEdit	*dedit,
 	return time_changed;
 }
 
+gboolean   e_date_edit_get_twodigit_year_can_future (EDateEdit  *dedit)
+{
+	g_return_val_if_fail (dedit != NULL, FALSE);
+
+	return dedit->priv->twodigit_year_can_future;
+}
+
+void       e_date_edit_set_twodigit_year_can_future (EDateEdit  *dedit,
+						     gboolean    value)
+{
+	g_return_if_fail (dedit != NULL);
+
+	dedit->priv->twodigit_year_can_future = value;
+}
 
 /* Sets a callback to use to get the current time. This is useful if the
    application needs to use its own timezone data rather than rely on the
@@ -2141,4 +2176,3 @@ e_date_edit_get_entry       (EDateEdit      *dedit)
 
 	return GTK_WIDGET(priv->date_entry);
 }
-

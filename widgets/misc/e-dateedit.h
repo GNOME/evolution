@@ -169,6 +169,10 @@ gboolean   e_date_edit_get_make_time_insensitive(EDateEdit	*dedit);
 void	   e_date_edit_set_make_time_insensitive(EDateEdit	*dedit,
 						 gboolean	 make_insensitive);
 
+/* Whether two-digit years in date could be modified as in future; default is TRUE */
+gboolean   e_date_edit_get_twodigit_year_can_future (EDateEdit  *dedit);
+void       e_date_edit_set_twodigit_year_can_future (EDateEdit  *dedit,
+						     gboolean    value);
 
 /* Sets a callback to use to get the current time. This is useful if the
    application needs to use its own timezone data rather than rely on the

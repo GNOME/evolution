@@ -1,3 +1,20 @@
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #339813
+
+	* e-dateedit.h: (e_date_edit_get_twodigit_year_can_future),
+	(e_date_edit_set_twodigit_year_can_future):
+	Added new option for component.
+	* e-dateedit.c: (e_date_edit_get_twodigit_year_can_future),
+	(e_date_edit_set_twodigit_year_can_future),
+	(struct _EDateEditPrivate::twodigit_year_can_future),
+	(e_date_edit_init), (e_date_edit_parse_date):
+	Implementing new option for component.
+	* e-dateedit.c: (on_date_entry_focus_out):
+	Always repaint value on focus out.
+	* e-dateedit.c: (e_date_edit_update_date_entry):
+	Forced to always show 4-digit year.
+
 2008-01-04  Milan Crha  <mcrha@redhat.com>
 
 	* Part of bug #504480
