@@ -948,6 +948,17 @@ vfolder_load_storage(void)
 	g_free(storeuri);
 }
 
+/**
+ * vfolder_loaded
+ * Test if we have vfolder already inited or not.
+ * @return Whether was vfolder inited or not (by call of @ref vfolder_load_storage).
+ **/
+gboolean
+vfolder_loaded (void)
+{
+	return vfolder_hash != NULL;
+}
+
 void
 vfolder_revert(void)
 {
@@ -1113,6 +1124,10 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 	GtkWidget *w;
 	GtkDialog *gd;
 
+	/* this should be done before we call this function */
+	if (!vfolder_loaded ())
+		vfolder_load_storage ();
+
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
 
 	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New Search Folder"),
@@ -1142,6 +1157,10 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 
 	g_return_if_fail (msg != NULL);
 
+	/* ensures vfolder is running */
+	if (!vfolder_loaded ())
+		vfolder_load_storage ();
+
 	rule = (EMVFolderRule*)em_vfolder_rule_from_message(context, msg, flags, source);
 	vfolder_gui_add_rule(rule);
 }
@@ -1152,6 +1171,10 @@ vfolder_gui_add_from_address(CamelInternetAddress *addr, int flags, const char *
 	EMVFolderRule *rule;
 
 	g_return_if_fail (addr != NULL);
+
+	/* ensures vfolder is running */
+	if (!vfolder_loaded ())
+		vfolder_load_storage ();
 
 	rule = (EMVFolderRule*)em_vfolder_rule_from_address(context, addr, flags, source);
 	vfolder_gui_add_rule(rule);

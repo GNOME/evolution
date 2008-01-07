@@ -707,6 +707,10 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	if (CAMEL_IS_VEE_STORE(store)) {
 		EMVFolderRule *rule;
 
+		/* ensures vfolder is running */
+		if (!vfolder_loaded ())
+			vfolder_load_storage ();
+
 		rule = em_vfolder_rule_new();
 		filter_rule_set_name((FilterRule *)rule, path);
 		vfolder_gui_add_rule(rule);

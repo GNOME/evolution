@@ -428,6 +428,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/enable_vfolders</key>
+      <applyto>/apps/evolution/mail/display/enable_vfolders</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Enable Search Folders</short>
+         <long>
+          Enable Search Folders on startup.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/safe_list</key>
       <applyto>/apps/evolution/mail/display/safe_list</applyto>
       <owner>evolution-mail</owner>

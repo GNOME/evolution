@@ -1128,6 +1128,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->citation_color, FALSE);
 	g_free (buf);
 
+	prefs->enable_search_folders = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSearchFolders"));
+	toggle_button_init (prefs, prefs->enable_search_folders, FALSE,
+			    "/apps/evolution/mail/display/enable_vfolders",
+			    G_CALLBACK (toggle_button_toggled));
+
 	/* Deleting Mail */
 	prefs->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
 	prefs->empty_trash_days = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuEmptyTrashDays"));

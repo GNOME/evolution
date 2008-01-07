@@ -368,6 +368,7 @@ static void
 mc_startup(MailComponent *mc)
 {
 	static int started = 0;
+	GConfClient *gconf;
 
 	if (started)
 		return;
@@ -375,7 +376,11 @@ mc_startup(MailComponent *mc)
 
 	mc_setup_local_store(mc);
 	load_accounts(mc, mail_config_get_accounts());
-	vfolder_load_storage();
+
+	gconf = mail_config_get_gconf_client();
+
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", NULL))
+		vfolder_load_storage();
 }
 
 static void

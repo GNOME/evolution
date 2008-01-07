@@ -1,3 +1,23 @@
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #300336
+
+	* mail-vfolder.h: (vfolder_loaded):
+	* mail-vfolder.c: (vfolder_loaded): New helper function.
+	* em-folder-utils.c: (emfu_popup_new_folder_response):
+	* mail-vfolder.c: (vfolder_gui_add_rule),
+	(vfolder_gui_add_from_message), (vfolder_gui_add_from_address):
+	* em-folder-browser.c: (emfb_search_menu_activated):
+	* em-folder-view.c: (emp_uri_popup_vfolder_sender),
+	(emp_uri_popup_vfolder_recipient), (vfolder_type_current):
+	Ensure vfolder is running.
+	* mail-component.c: (mc_startup): Do not start vfolder when
+	disabled by option '/apps/evolution/mail/display/enable_vfolders'.
+	* evolution-mail.schemas.in: Added schema for new option.
+	* mail-config.glade:
+	* em-mailer-prefs.h:
+	* em-mailer-prefs.c: Added checkbox for "Enable Search Folders" option.
+
 2008-01-06  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #497914

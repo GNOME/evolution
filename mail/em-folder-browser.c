@@ -757,9 +757,14 @@ emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 	case ESB_SAVE:
 		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
-			FilterRule *rule = vfolder_clone_rule(efb->current_query);
+			FilterRule *rule;
 			char *name, *text;
 
+			/* ensures vfolder is running */
+			if (!vfolder_loaded ())
+				vfolder_load_storage ();
+
+			rule = vfolder_clone_rule (efb->current_query);
 			text = e_search_bar_get_text(esb);
 			name = g_strdup_printf("%s %s", rule->name, (text&&text[0])?text:"''");
 			g_free (text);

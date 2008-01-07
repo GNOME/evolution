@@ -1,3 +1,10 @@
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #300336
+
+	* share-folder-common.c: (users_dialog_response):
+	Ensure vfolder is running.
+
 2007-12-06  Alex Kloss  <alexkloss@att.net>
 
 	** Fix for bug #347328

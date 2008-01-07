@@ -1940,6 +1940,10 @@ emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, void *data)
 	}
 
 	if (url->path && url->path[0]) {
+		/* ensures vfolder is running */
+		if (!vfolder_loaded ())
+			vfolder_load_storage ();
+
 		addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
 		vfolder_gui_add_from_address (addr, AUTO_FROM, emfv->folder_uri);
@@ -1966,6 +1970,10 @@ emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, void *data)
 	}
 
 	if (url->path && url->path[0]) {
+		/* ensures vfolder is running */
+		if (!vfolder_loaded ())
+			vfolder_load_storage ();
+
 		addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
 		vfolder_gui_add_from_address (addr, AUTO_TO, emfv->folder_uri);
@@ -1994,8 +2002,13 @@ vfolder_type_current (EMFolderView *emfv, int type)
 
 	uids = message_list_get_selected (emfv->list);
 
-	if (uids->len == 1)
+	if (uids->len == 1) {
+		/* ensures vfolder is running */
+		if (!vfolder_loaded ())
+			vfolder_load_storage ();
+
 		vfolder_type_uid (emfv->folder, (char *) uids->pdata[0], emfv->folder_uri, type);
+	}
 
 	em_utils_uids_free (uids);
 }

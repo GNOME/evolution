@@ -10,6 +10,7 @@ struct _EMVFolderRule;
 struct _CamelInternetAddress;
 
 void vfolder_load_storage(void);
+gboolean vfolder_loaded (void);
 void vfolder_revert(void);
 
 void vfolder_edit (void);
