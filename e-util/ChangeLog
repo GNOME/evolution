@@ -1,3 +1,10 @@
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #507363
+
+	* e-cursor.c: (e_cursor_set):
+	Also check if toplevel widget has non-NULL window property.
+
 2007-12-14  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #211353

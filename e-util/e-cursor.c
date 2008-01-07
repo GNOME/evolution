@@ -46,7 +46,7 @@ void e_cursor_set (GtkWidget *widget, ECursorType cursor)
 	GdkCursor *window_cursor;
 
 	toplevel = gtk_widget_get_toplevel (widget);
-	if (GTK_WIDGET_TOPLEVEL (toplevel)) {
+	if (GTK_WIDGET_TOPLEVEL (toplevel) && toplevel->window) {
 
 		switch (cursor) {
 			case E_CURSOR_NORMAL :
