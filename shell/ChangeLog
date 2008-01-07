@@ -1,3 +1,8 @@
+2008-01-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window-commands.c:
+	Update copyright notice in About dialog.
+
 2008-01-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #219197
