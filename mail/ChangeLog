@@ -1,3 +1,9 @@
+2008-01-08  Djihed Afifi <djihed@gmail.com>
+
+	** Fix for bug #309432
+
+	* em-format-html.c: Fix message headers for RTL languages.
+
 2008-01-08  Colin Leroy  <colin@colino.net>
 
 	** Fix for bug #499145
