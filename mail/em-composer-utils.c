@@ -1179,7 +1179,7 @@ em_utils_receipt_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageI
 void
 em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 {
-	/* See RFC #2298 for a description of message receipts */
+	/* See RFC #3798 for a description of message receipts */
 	EAccount *account = guess_account (message, folder);
 	CamelMimeMessage *receipt = camel_mime_message_new ();
 	CamelMultipart *body = camel_multipart_new ();
@@ -1226,6 +1226,7 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	receipt_text = camel_data_wrapper_new ();
 	type = camel_content_type_new ("text", "plain");
 	camel_content_type_set_param (type, "format", "flowed");
+	camel_content_type_set_param (type, "charset", "UTF-8");
 	camel_data_wrapper_set_mime_type_field (receipt_text, type);
 	camel_content_type_unref (type);
 	stream = camel_stream_mem_new ();
@@ -1237,33 +1238,38 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), receipt_text);
+	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 	camel_object_unref (receipt_text);
 	camel_multipart_add_part (body, part);
 	camel_object_unref (part);
 
 	/* Create the machine-readable receipt */
 	receipt_data = camel_data_wrapper_new ();
-	stream = camel_stream_mem_new ();
 	part = camel_mime_part_new ();
 
 	ua = g_strdup_printf ("%s; %s", hostname, "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	recipient = g_strdup_printf ("rfc822; %s", self_address);
 
 	type = camel_content_type_new ("message", "disposition-notification");
-	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (part), type);
+	camel_data_wrapper_set_mime_type_field (receipt_data, type);
 	camel_content_type_unref (type);
-	camel_medium_add_header (CAMEL_MEDIUM (part), "Reporting-UA", ua);
-	camel_medium_add_header (CAMEL_MEDIUM (part), "Final-Recipient", recipient);
-	camel_medium_add_header (CAMEL_MEDIUM (part), "Original-Message-ID", message_id);
-	camel_medium_add_header (CAMEL_MEDIUM (part), "Disposition", "manual-action/MDN-sent-manually; displayed");
+
+	stream = camel_stream_mem_new ();
+	camel_stream_printf (stream,
+			     "Reporting-UA: %s\n"
+			     "Final-Recipient: %s\n"
+			     "Original-Message-ID: %s\n"
+			     "Disposition: manual-action/MDN-sent-manually; displayed\n",
+			     ua, recipient, message_id);
+	camel_data_wrapper_construct_from_stream (receipt_data, stream);
+	camel_object_unref (stream);
 
 	g_free (ua);
 	g_free (recipient);
 	g_free (fake_msgid);
 
-	camel_data_wrapper_construct_from_stream (receipt_data, stream);
-	camel_object_unref (stream);
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), receipt_data);
+	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_7BIT);
 	camel_object_unref (receipt_data);
 	camel_multipart_add_part (body, part);
 	camel_object_unref (part);
