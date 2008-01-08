@@ -2321,8 +2321,13 @@ prepare_offline_desc (struct _set_offline_msg *m)
 static void
 prepare_offline_exec (struct _set_offline_msg *m)
 {
-	camel_disco_store_prepare_for_offline (CAMEL_DISCO_STORE (m->store),
+	if (CAMEL_IS_DISCO_STORE (m->store)) {
+		camel_disco_store_prepare_for_offline (CAMEL_DISCO_STORE (m->store),
 				      	       &m->base.ex);
+	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
+		camel_offline_store_prepare_for_offline (CAMEL_OFFLINE_STORE (m->store),
+							 &m->base.ex);
+	}						 
 }
 
 static void

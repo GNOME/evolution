@@ -1,3 +1,10 @@
+2008-01-08  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #474118
+
+	* mail-ops.c: (prepare_offline_exec): Check for the right type of store
+	and invoke appropriate functions. 
+
 2008-01-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #300336
