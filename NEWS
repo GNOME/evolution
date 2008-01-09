@@ -1,3 +1,22 @@
+Evolution 2.12.3 2008-01-07
+----------------------------
+
+Bug fixes:
+	#391062: Dont add contacts, if it is enabled to do so. (Srinivasa Ragavan)
+	#400213: Do not use pixmaps and masks, load images from file, instead (Milan Crha)
+	#430369: Init in the main gui thread (Srinivasa Ragavan)
+	#440497: "view" menu items for meetings not working in non-english env's (Milan Crha)
+	#499920: Missing header files have to be shipped (Matthew Barnes)
+	#501182: Handle NULL pointer (Wang Xin)
+	#501677: Fixed a crash when resizing the preview pane (Jeff Cai)
+	#503111: Suppress "Loading %s as the default junk plugin" message (Alex "weej" Jones)
+	#507311: Submit bugs to the "BugBuddyBugs" Bugzilla component (Matthew Barnes)
+
+Updated Translations:
+	Danishka Navin (si)
+	Rodrigo Flores (pt_BR)
+	Daniel Nylander (sv)
+
 Evolution 2.12.2 2007-11-26
 ----------------------------
 
