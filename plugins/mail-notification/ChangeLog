@@ -1,3 +1,13 @@
+2008-01-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #492702
+
+	* Makefile.am:
+	* mail-notification.c: (org_gnome_mail_new_notify),
+	(org_gnome_mail_read_notify), (e_plugin_lib_enable),
+	(e_plugin_lib_get_configure_widget): Make the dbus portion of the
+	plugin conditional if it is there.
+
 2008-01-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-notification.c: (new_notify_status): Show the actual displayed

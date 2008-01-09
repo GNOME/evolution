@@ -1697,11 +1697,11 @@ plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face" 
+plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore" 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="backup-restore folder-unsubscribe mail-to-meeting save-attachments external-editor"
+plugins_experimental_always="folder-unsubscribe mail-to-meeting save-attachments external-editor"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
@@ -1767,24 +1767,27 @@ then
 	fi
 fi
 
-if echo ${plugins_enabled} | grep "new-mail-notify" > /dev/null ; then
-	if ${PKG_CONFIG} --exists dbus-glib-1 ; then
-		dnl **************************************************
-		dnl * New Mail Notify plugin
-		dnl **************************************************
-		PKG_CHECK_MODULES(NMN, dbus-glib-1)
-		AC_SUBST(NMN_CFLAGS)
-		AC_SUBST(NMN_LIBS)
+if ${PKG_CONFIG} --exists dbus-glib-1 ; then
+	dnl **************************************************
+	dnl * Mail Notification plugin's DBus messages
+	dnl **************************************************
+	PKG_CHECK_MODULES(NMN, dbus-glib-1)
+	AC_SUBST(NMN_CFLAGS)
+	AC_SUBST(NMN_LIBS)
 
-		# Get the version of the DBus API, so we can hack around API changes until the API stabilises:
-		# multiply by 1000 to convert decimal to integer; so e.g. 0.31 become 310
-		# since preprocessor values must be integral
-		DBUS_VERSION="`$PKG_CONFIG --modversion dbus-1 | $AWK '{print 1000 * $1}'`"
-		AC_SUBST(DBUS_VERSION)
-	else
-		plugins_enabled=`echo $plugins_enabled | sed -e "s/new-mail-notify//g"`
-		echo "warning: dbus-glib-1 was not found, new-mail-notify plugin will not be built."
-	fi
+	# Get the version of the DBus API, so we can hack around API changes until the API stabilises:
+	# multiply by 1000 to convert decimal to integer; so e.g. 0.31 become 310
+	# since preprocessor values must be integral
+	DBUS_VERSION="`$PKG_CONFIG --modversion dbus-1 | $AWK '{print 1000 * $1}'`"
+	AC_SUBST(DBUS_VERSION)
+	AC_DEFINE(HAVE_DBUS,1,[Define if you have DBUS support])
+	AC_SUBST(HAVE_DBUS)
+	AM_CONDITIONAL(ENABLE_DBUS, true)
+	
+else
+	echo "warning: dbus-glib-1 was not found, Mail notification plugins's dbus message support not built"
+	AM_CONDITIONAL(ENABLE_DBUS, false)
+
 fi
 
 if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
@@ -1964,7 +1967,6 @@ plugins/mail-notification/Makefile
 plugins/mail-to-meeting/Makefile
 plugins/mail-to-task/Makefile
 plugins/mono/Makefile
-plugins/new-mail-notify/Makefile
 plugins/subject-thread/Makefile
 plugins/save-attachments/Makefile
 plugins/save-calendar/Makefile

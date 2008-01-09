@@ -29,8 +29,12 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
 #include <libgnome/libgnome.h>
+
+#ifdef HAVE_DBUS
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
+#endif
+
 #include <time.h>
 
 #include "e-util/e-config.h"
@@ -110,6 +114,8 @@ set_part_enabled (const gchar *gconf_key, gboolean enable)
 /* -------------------------------------------------------------------  */
 /*                           DBUS part                                  */
 /* -------------------------------------------------------------------  */
+
+#ifdef HAVE_DBUS
 
 #define DBUS_PATH		"/org/gnome/evolution/mail/newmail"
 #define DBUS_INTERFACE		"org.gnome.evolution.mail.dbus.Signal"
@@ -253,6 +259,8 @@ get_config_widget_dbus (void)
 
 	return w;
 }
+
+#endif
 
 /* -------------------------------------------------------------------  */
 /*                     Notification area part                           */
@@ -700,9 +708,10 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 
 	g_static_mutex_lock (&mlock);
 
+#ifdef HAVE_DBUS	
 	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 		new_notify_dbus (t);
-
+#endif
 	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 		new_notify_status (t);
 
@@ -722,9 +731,10 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 
 	g_static_mutex_lock (&mlock);
 
+#ifdef HAVE_DBUS
 	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 		read_notify_dbus (t);
-
+#endif
 	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 		read_notify_status (t);
 
@@ -738,9 +748,10 @@ int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
 	if (enable) {
+#ifdef HAVE_DBUS		
 		if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 			enable_dbus (enable);
-
+#endif
 		if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 			enable_status (enable);
 
@@ -749,7 +760,9 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 
 		enabled = TRUE;
 	} else {
+#ifdef HAVE_DBUS
 		enable_dbus (enable);
+#endif 
 		enable_status (enable);
 		enable_sound (enable);
 
@@ -772,10 +785,11 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_widget_show (check);
 	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
+#ifdef HAVE_DBUS	
 	cfg = get_config_widget_dbus ();
 	if (cfg)
 		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
-
+#endif 
 	cfg = get_config_widget_status ();
 	if (cfg)
 		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);

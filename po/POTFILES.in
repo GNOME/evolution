@@ -373,8 +373,6 @@ plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
 plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml
 plugins/mono/org-gnome-evolution-mono.eplug.xml
-plugins/new-mail-notify/new-mail-notify.c
-plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.xml
 plugins/plugin-manager/plugin-manager.c

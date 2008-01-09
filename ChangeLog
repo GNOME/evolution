@@ -1,3 +1,10 @@
+2008-01-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #492702
+
+	* configure.in: Just disable the dbus message part of mail
+	notification if dbus isn't there. Also remove new-mail-notify plugin.
+
 2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
 
 	** Fix for bug #492188
