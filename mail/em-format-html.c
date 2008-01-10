@@ -1910,7 +1910,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					gchar *cp;
 
 					/* Skip over spaces */
-					for (cp = header->name; *cp == ' '; cp++);
+					for (cp = header->value; *cp == ' '; cp++);
 					face_header_value = g_base64_decode (cp, &face_header_len);
 					face_header_value = g_realloc (face_header_value, face_header_len + 1);
 					face_header_value[face_header_len] = 0;
