@@ -1,5 +1,17 @@
 2008-01-10  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #507067
+
+	* em-format-html-display.c: (efhd_get_uri_puri):
+	Leak fix and enhanced behavior to return more than one URI separated
+	by new line character ('\n'), if possible.
+	* em-folder-view.c: (emfv_uri_popup_free): Free item itself too,
+	because since now we use new allocated items, not the static one.
+	* em-folder-view.c: (emfv_free_em_popup), (emfv_append_menu),
+	(emfv_format_popup_event): Merge menus for more URIs and for part too.
+
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #211353
 
 	* filtertypes.xml:

@@ -2789,18 +2789,71 @@ emfv_uri_popup_free(EPopup *ep, GSList *list, void *data)
 
 		g_free(item->user_data);
 		item->user_data = NULL;
+		g_free (item);
 		g_slist_free_1(list);
 
 		list = n;
 	}
 }
 
+static void
+emfv_free_em_popup (gpointer emp)
+{
+	EPopup *ep = (EPopup *)emp;
+
+	if (!ep)
+		return;
+
+	if (ep->target) {
+		/* without this the next unref on ep does nothing */
+		e_popup_target_free (ep, ep->target);
+		ep->target = NULL;
+	}
+
+	g_object_unref (ep);
+}
+
+static GtkMenu *
+emfv_append_menu (EMPopup *des_emp, GtkMenu *des_menu, EMPopup *src_emp, GtkMenu *src_menu)
+{
+	GtkWidget *separator;
+	GList *children, *p;
+	char *name;
+
+	if (!src_menu)
+		return des_menu;
+
+	if (!des_menu)
+		return src_menu;
+
+	separator = gtk_separator_menu_item_new ();
+	gtk_widget_show (separator);
+	gtk_menu_shell_append (GTK_MENU_SHELL (des_menu), separator);
+
+	children = gtk_container_get_children (GTK_CONTAINER (src_menu));
+	for (p = children; p; p = p->next) {
+		g_object_ref (p->data);
+		gtk_container_remove (GTK_CONTAINER (src_menu), p->data);
+		gtk_menu_shell_append (GTK_MENU_SHELL (des_menu), p->data);
+		g_object_unref (p->data);
+	}
+
+	g_list_free (children);
+	gtk_widget_destroy (GTK_WIDGET (src_menu));
+
+	/* free src_emp together with des_emp; name contains unique identifier */
+	name = g_strdup_printf ("emp_%p", src_emp);
+	g_object_set_data_full (G_OBJECT (des_emp), name, src_emp, emfv_free_em_popup);
+	g_free (name);
+
+	return des_menu;
+}
+
 static int
 emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, CamelMimePart *part, EMFolderView *emfv)
 {
-	EMPopup *emp;
-	EPopupTarget *target;
-	GtkMenu *menu;
+	GtkMenu *menu = NULL;
+	EMPopup *main_emp = NULL;
 
 	if (uri == NULL && part == NULL) {
 		/* So we don't try and popup with nothing selected - rather odd result! */
@@ -2834,29 +2887,97 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	 * This is the context menu shown when clicking on inline
 	 * content such as a picture.
 	 */
-	emp = em_popup_new("org.gnome.evolution.mail.folderview.popup");
-	if (part)
-		target = (EPopupTarget *)em_popup_target_new_part(emp, part, NULL);
-	else {
-		GSList *menus = NULL;
-		int i;
-		EMPopupTargetURI *t;
 
-		t = em_popup_target_new_uri(emp, uri);
-		target = (EPopupTarget *)t;
+	if (uri) {
+		gboolean have_more_uris = strchr (uri, '\n') != NULL;
+		const char *act, *next;
 
-		for (i=0;i<sizeof(emfv_uri_popups)/sizeof(emfv_uri_popups[0]);i++) {
-			emfv_uri_popups[i].user_data = g_strdup(t->uri);
-			menus = g_slist_prepend(menus, &emfv_uri_popups[i]);
+		for (act = uri; act; act = next) {
+			char *u;
+			next = strchr (act, '\n');
+			if (next) {
+				u = g_strndup (act, next - act);
+				next++;
+			} else
+				u = g_strdup (act);
+
+			if (u && *u) {
+				GSList *menus = NULL;
+				int i;
+				EMPopupTargetURI *t;
+				EMPopup *emp;
+				EPopupTarget *target;
+				GtkMenu *mymenu;
+
+				emp = em_popup_new ("org.gnome.evolution.mail.folderview.popup");
+				t = em_popup_target_new_uri(emp, u);
+				target = (EPopupTarget *)t;
+
+				for (i = 0; i < sizeof (emfv_uri_popups)/sizeof (emfv_uri_popups[0]); i++) {
+					EPopupItem *itm = g_malloc0 (sizeof (EPopupItem));
+
+					memcpy (itm, &emfv_uri_popups[i], sizeof (EPopupItem));
+					itm->user_data = g_strdup (t->uri);
+					menus = g_slist_prepend (menus, itm);
+				}
+				e_popup_add_items ((EPopup *)emp, menus, NULL, emfv_uri_popup_free, emfv);
+				mymenu = e_popup_create_menu_once ((EPopup *)emp, target, 0);
+
+				if (have_more_uris) {
+					GtkWidget *item;
+
+					if (strlen (u) > 100) {
+						GString *str;
+						char *c;
+
+						/* the url should be in the form of http://a.b.c/... and we want to
+						   see where the image comes from, so skip first 10 characters and
+						   find the first '/' there */
+						c = strchr (u + 10, '/');
+						if (!c)
+							str = g_string_new_len (u, 40);
+						else
+							str = g_string_new_len (u, MAX (c - u + 1, 40));
+
+						g_string_append (str, "...");
+						g_string_append (str, u + strlen (u) - 40);
+
+						item = gtk_menu_item_new_with_label (str->str);
+
+						g_string_free (str, TRUE);
+					} else
+						item = gtk_menu_item_new_with_label (u);
+
+					gtk_widget_set_sensitive (item, FALSE);
+					gtk_widget_show (item);
+					gtk_menu_shell_insert (GTK_MENU_SHELL (mymenu), item, 0);
+				}
+
+				menu = emfv_append_menu (main_emp, menu, emp, mymenu);
+				if (!main_emp)
+					main_emp = emp;
+			}
+
+			g_free (u);
 		}
-		e_popup_add_items((EPopup *)emp, menus, NULL, emfv_uri_popup_free, emfv);
 	}
 
-	menu = e_popup_create_menu_once((EPopup *)emp, target, 0);
+	if (part) {
+		EMPopup *emp;
+		EPopupTarget *target;
+
+		emp = em_popup_new ("org.gnome.evolution.mail.folderview.popup");
+		target = (EPopupTarget *)em_popup_target_new_part(emp, part, NULL);
+
+		menu = emfv_append_menu (main_emp, menu, emp, e_popup_create_menu_once ((EPopup *)emp, target, 0));
+		if (!main_emp)
+			main_emp = emp;
+	}
+	
 	if (event == NULL)
 		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	else
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
 }

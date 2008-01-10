@@ -854,21 +854,39 @@ efhd_get_uri_puri (GtkWidget *html, GdkEventButton *event, EMFormatHTMLDisplay *
 		img_url = gtk_html_get_cursor_image_src (GTK_HTML (html));
 	}
 
-	if (!url && img_url) {
-		if (strstr (img_url, "://") || g_ascii_strncasecmp (img_url, "cid:", 4) == 0) {
-			url = img_url;
-			img_url = NULL;
-		} else
-			url = g_strconcat ("file://", img_url, NULL);
+	if (img_url) {
+		if (!(strstr (img_url, "://") || g_ascii_strncasecmp (img_url, "cid:", 4) == 0)) {
+			char *u = g_strconcat ("file://", img_url, NULL);
+			g_free (img_url);
+			img_url = u;
+		}
 	}
 
-	if (url && puri)
-		*puri = em_format_find_puri((EMFormat *)efhd, url);
+	if (puri) {
+		if (url)
+			*puri = em_format_find_puri ((EMFormat *)efhd, url);
+
+		if (!*puri && img_url)
+			*puri = em_format_find_puri ((EMFormat *)efhd, img_url);
+	}
 
 	if (uri) {
-		*uri = url;
-		url = NULL;
+		*uri = NULL;
+		if (img_url && g_ascii_strncasecmp (img_url, "cid:", 4) != 0) {
+			if (url)
+				*uri = g_strdup_printf ("%s\n%s", url, img_url);
+			else {
+				*uri = img_url;
+				img_url = NULL;
+			}
+		} else {
+			*uri = url;
+			url = NULL;
+		}
 	}
+
+	g_free (url);
+	g_free (img_url);
 }
 
 static int
