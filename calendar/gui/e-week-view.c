@@ -2943,6 +2943,14 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	if (!span->text_item)
 		return FALSE;
 
+	if (week_view->editing_event_num >= 0) {
+		EWeekViewEvent *editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+
+		/* do not change to other part of same component - the event is spread into more days */
+		if (editing && event && editing->comp_data == event->comp_data)
+			return FALSE;
+	}
+
 	if (initial_text) {
 		gnome_canvas_item_set (span->text_item,
 				       "text", initial_text,
@@ -2960,6 +2968,9 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
 	if (event_num >= week_view->events->len || event->comp_data != comp_data) {
+		/* When got in because of other comp_data, then be sure we go through all events */
+		event_num = week_view->events->len;
+
 		/* Unfocussing can cause a removal but not a new
 		 * addition so just run backwards through the
 		 * events */

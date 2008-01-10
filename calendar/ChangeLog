@@ -1,3 +1,15 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #457842
+
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_double_click):
+	* gui/e-week-view.c: (e_week_view_start_editing_event):
+	Do not call edit/start editing of the event when double clicked
+	on the same component as is actually editing.
+
+	* gui/calendar-commands.c: (gcal_calendar_selection_changed_cb):
+	Removed forgotten printf call.
+
 2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
 
 	** Fix for bug #492188

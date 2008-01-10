@@ -1667,6 +1667,14 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				wveitem->event_num);
 
+	if (week_view->editing_event_num >= 0) {
+		EWeekViewEvent *editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+
+		/* do not call edit of the component, if double clicked on the same component - the event is spread into more days */
+		if (editing && event && editing->comp_data == event->comp_data)
+			return TRUE;
+	}
+
 	e_week_view_stop_editing_event (week_view);
 
 	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (week_view), event->comp_data->client, event->comp_data->icalcomp, FALSE);

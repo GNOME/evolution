@@ -490,8 +490,6 @@ gcal_calendar_selection_changed_cb (GnomeCalendar *gcal, gpointer data)
 
 	control = BONOBO_CONTROL (data);
 
-	printf("calendar selection changed\n");
-
 	calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 }
 
