@@ -1,3 +1,14 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #448441
+
+	* addressbook.error.xml: New message "error-read-only" added.
+	* gui/contact-editor/e-contact-quick-add.c: (struct _QuickAdd),
+	(merge_cb), (sanitize_widgets), (source_changed),
+	(build_quick_add_dialog):
+	Disable "OK" and "Edit Full" buttons if no source is selected.
+	Also set always book from combo, do not use the new created.
+
 2008-01-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #339813

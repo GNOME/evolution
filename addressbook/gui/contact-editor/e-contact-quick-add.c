@@ -43,6 +43,7 @@
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
 #include "eab-contact-merging.h"
+#include "e-util/e-error.h"
 
 typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {
@@ -54,6 +55,7 @@ struct _QuickAdd {
 	EContactQuickAddCallback cb;
 	gpointer closure;
 
+	GtkWidget *dialog;
 	GtkWidget *name_entry;
 	GtkWidget *email_entry;
 	GtkWidget *option_menu;
@@ -122,7 +124,11 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	if (status == E_BOOK_ERROR_OK) {
-		eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
+		if (e_book_is_writable (book))
+			eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
+		else
+			e_error_run (NULL, "addressbook:error-read-only", e_source_peek_name (e_book_get_source (book)), NULL);
+
 		if (qa->cb)
 			qa->cb (qa->contact, qa->closure);
 		g_object_unref (book);
@@ -269,17 +275,35 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 }
 
 static void
+sanitize_widgets (QuickAdd *qa)
+{
+	gboolean enabled = TRUE;
+
+	g_return_if_fail (qa != NULL);
+	g_return_if_fail (qa->dialog != NULL);
+
+	/* do not call here e_book_is_writable (qa->book), because it requires opened book, which takes time for remote books */
+	enabled = qa->book != NULL && e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->option_menu));
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (qa->dialog), QUICK_ADD_RESPONSE_EDIT_FULL, enabled);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (qa->dialog), GTK_RESPONSE_OK, enabled);
+}
+
+static void
 source_changed (ESourceComboBox *source_combo_box, QuickAdd *qa)
 {
 	ESource *source;
 
 	source = e_source_combo_box_get_active (source_combo_box);
-
-	if (qa->book) {
-		g_object_unref (qa->book);
-		qa->book = NULL;
+	if (source != NULL) {
+		if (qa->book) {
+			g_object_unref (qa->book);
+			qa->book = NULL;
+		}
+		qa->book = e_book_new (source, NULL);
 	}
-	qa->book = e_book_new (source, NULL);
+
+	sanitize_widgets (qa);
 }
 
 static GtkWidget *
@@ -311,6 +335,8 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	g_signal_connect (dialog, "response", G_CALLBACK (clicked_cb), qa);
 
+	qa->dialog = dialog;
+
 	qa->name_entry = gtk_entry_new ();
 	if (qa->name)
 		gtk_entry_set_text (GTK_ENTRY (qa->name_entry), qa->name);
@@ -328,11 +354,32 @@ build_quick_add_dialog (QuickAdd *qa)
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (qa->option_menu),
 		e_book_get_source (book));
+
+	if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->option_menu))) {
+		/* this means the e_book_new_default_addressbook didn't find any "default" nor "system" source,
+		    and created new one for us. That is wrong, choose one from combo instead. */
+
+		if (book) {
+			g_object_unref (book);
+			book = NULL;
+		}
+
+		book = e_book_new (e_source_list_peek_source_any (source_list), NULL);
+		e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (qa->option_menu), e_book_get_source (book));
+
+		if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->option_menu))) {
+			/* Does it failed again? What is going on? */
+			if (book)
+				g_object_unref (book);
+			book = NULL;
+		}
+	}
+
 	if (qa->book) {
 		g_object_unref (qa->book);
 		qa->book = NULL;
 	}
-	qa->book = book ;
+	qa->book = book;
 	source_changed (E_SOURCE_COMBO_BOX (qa->option_menu), qa);
 	g_signal_connect (
 		qa->option_menu, "changed",

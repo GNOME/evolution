@@ -118,4 +118,10 @@
   <_secondary>Permission Denied.</_secondary>
  </error>
 
+ <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
+  <_primary>Cannot add new contact</_primary>
+  <_secondary>The address book {0} is read only, thus you cannot add contacts there. Select other address book, please.</_secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
 </error-list>
