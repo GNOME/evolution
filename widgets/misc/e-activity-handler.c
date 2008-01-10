@@ -40,6 +40,7 @@
 struct _ActivityInfo {
 	char *component_id;
 	GdkPixbuf *icon_pixbuf;
+	int error_type;
 	guint id;
 	char *information;
 	gboolean cancellable;
@@ -61,6 +62,9 @@ struct _EActivityHandlerPrivate {
 	guint error_flush_interval;
 
 };
+
+/* In the status bar, we show only errors and info. Errors are pictured as warnings. */
+const char *icon_data [] = {"stock_dialog-warning", "stock_dialog-info"};
 
 G_DEFINE_TYPE (EActivityHandler, e_activity_handler, G_TYPE_OBJECT)
 
@@ -202,12 +206,15 @@ setup_task_bar (EActivityHandler *activity_handler,
 		if (info->error) {
 			/* Prepare to handle existing errors*/
 			GtkWidget *tool;
+			const char *stock;
 
-			tool = e_task_widget_update_image (task_widget, "stock_dialog-warning", g_object_get_data (info->error, "error"));
+			stock = info->error_type ? icon_data [1] : icon_data[0];
+			tool = e_task_widget_update_image (task_widget, (char *)stock, info->information);
 			g_object_set_data ((GObject *) task_widget, "tool", tool);
 			g_object_set_data ((GObject *) task_widget, "error", info->error);
 			g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
 			g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(info->id));
+			g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(info->error_type));
 			g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);			
 		}
 	}
@@ -380,7 +387,6 @@ cancel_wrapper (gpointer pdata)
 		e_logger_log (handler->priv->logger, E_LOG_ERROR, g_object_get_data (data->info->error, "primary"), 
 						    g_object_get_data (data->info->error, "secondary"));
 		gtk_widget_destroy (data->info->error);
-		printf("%p %p %d\n", data->info->error, data->info, data->info->id);
 		data->info->error = NULL;
 		for (sp = handler->priv->task_bars; sp != NULL; sp = sp->next) {
 			ETaskBar *task_bar;
@@ -481,14 +487,15 @@ handle_error (ETaskWidget *task)
 	GtkWidget *tool, *error;
 	EActivityHandler *activity_handler;
 	guint id;
-	
+	int error_type  = GPOINTER_TO_INT((g_object_get_data ((GObject *) task, "error-type")));
 	tool = g_object_get_data ((GObject *) task, "tool");
 	error = g_object_get_data ((GObject *) task, "error");
 	activity_handler = g_object_get_data ((GObject *) task, "activity-handler");
 	id = GPOINTER_TO_UINT (g_object_get_data ((GObject *) task, "activity"));
 	e_activity_handler_operation_finished (activity_handler, id);
 	gtk_widget_show (error);
-	e_logger_log (activity_handler->priv->logger, E_LOG_ERROR, g_object_get_data ((GObject *) error, "primary"), 
+	e_logger_log (activity_handler->priv->logger, error_type, 
+		      g_object_get_data ((GObject *) error, "primary"), 
 				    g_object_get_data ((GObject *) error, "secondary"));
 }
 
@@ -510,7 +517,7 @@ error_cleanup (EActivityHandler *activity_handler)
 			berror = TRUE;
 		if (info->error && info->error_time && (now - info->error_time) > 5 ) {
 			/* Error older than wanted time. So cleanup */
-			e_logger_log (priv->logger, E_LOG_ERROR, g_object_get_data (info->error, "primary"), 
+			e_logger_log (priv->logger, info->error_type, g_object_get_data (info->error, "primary"), 
 						    g_object_get_data (info->error, "secondary"));
 			gtk_widget_destroy (info->error);
 			node = p;
@@ -536,22 +543,25 @@ error_cleanup (EActivityHandler *activity_handler)
 guint
 e_activity_handler_make_error (EActivityHandler *activity_handler,
 				      const char *component_id,
-				      const char *information,
+				      int error_type,
 				      GtkWidget  *error)
 {
 	EActivityHandlerPrivate *priv;
 	ActivityInfo *activity_info;
 	unsigned int activity_id;
 	GSList *p;
-
+	char *information = g_object_get_data((GObject *) error, "primary");
 	priv = activity_handler->priv;
+	const char *img;
 
 	activity_id = get_new_activity_id (activity_handler);
 
 	activity_info = activity_info_new (component_id, activity_id, NULL, information, TRUE);
 	activity_info->error = error;
 	activity_info->error_time = time (NULL);
-
+	activity_info->error_type = error_type;
+	
+	img = error_type ? icon_data[1] : icon_data[0];
 	for (p = priv->task_bars; p != NULL; p = p->next) {
 		ETaskBar *task_bar;
 		ETaskWidget *task_widget;
@@ -562,11 +572,12 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 		task_widget->id = activity_id;
 		e_task_bar_prepend_task (E_TASK_BAR (p->data), task_widget);
 		
-		tool = e_task_widget_update_image (task_widget, "stock_dialog-warning", g_object_get_data ((GObject *) error, "primary"));
+		tool = e_task_widget_update_image (task_widget, (char *)img, information);
 		g_object_set_data ((GObject *) task_widget, "tool", tool);
 		g_object_set_data ((GObject *) task_widget, "error", error);
 		g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
 		g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(activity_id));
+		g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(error_type));
 		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);		
 	}
 
@@ -598,6 +609,8 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 	activity_info = (ActivityInfo *) p->data;
 	activity_info->error = error;
 	activity_info->error_time = time (NULL);
+	activity_info->error_type = E_LOG_ERROR;
+	activity_info->information = g_strdup (g_object_get_data ((GObject *) error, "primary"));
 	for (sp = priv->task_bars; sp != NULL; sp = sp->next) {
 		ETaskBar *task_bar;
 		ETaskWidget *task_widget;
@@ -608,11 +621,12 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 		if (!task_widget)
 			continue;
 
-		tool = e_task_widget_update_image (task_widget, "stock_dialog-warning", g_object_get_data ((GObject *) error, "primary"));
+		tool = e_task_widget_update_image (task_widget, (char *)icon_data[0], g_object_get_data ((GObject *) error, "primary"));
 		g_object_set_data ((GObject *) task_widget, "tool", tool);
 		g_object_set_data ((GObject *) task_widget, "error", error);
 		g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
 		g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(activity_id));
+		g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(E_LOG_ERROR));
 		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);
 	}
 

@@ -79,6 +79,7 @@
 #include "em-format-quote.h"
 #include "em-account-editor.h"
 #include "e-attachment.h"
+#include "e-activity-handler.h"
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
@@ -299,7 +300,8 @@ em_utils_edit_filters (GtkWidget *parent)
 	g_free (system);
 
 	if (((RuleContext *) fc)->error) {
-		e_error_run((GtkWindow *)parent, "mail:filter-load-error", ((RuleContext *)fc)->error, NULL);
+		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:filter-load-error", ((RuleContext *)fc)->error, NULL);
+		em_utils_show_error_silent (w);
 		return;
 	}
 
@@ -564,8 +566,9 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 
 	dirname = g_path_get_dirname(filename);
 	if (g_mkdir_with_parents(dirname, 0777) == -1) {
-		e_error_run((GtkWindow *)parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
+		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
 		g_free(dirname);
+		em_utils_show_error_silent (w);
 		return FALSE;
 	}
 	g_free(dirname);
@@ -578,7 +581,8 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 	}
 
 	if (g_stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
-		e_error_run((GtkWindow *)parent, "mail:no-write-path-notfile", filename, NULL);
+		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:no-write-path-notfile", filename, NULL);
+		em_utils_show_error_silent (w);
 		return FALSE;
 	}
 
@@ -1275,10 +1279,12 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 	const char *filename;
 	char *tmpdir, *path, *utf8_mfilename = NULL, *mfilename = NULL;
 	int done;
+	GtkWidget *w;
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
 	if (tmpdir == NULL) {
-		e_error_run((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
+		w = e_error_new((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
+		em_utils_show_error_silent (w);
 		return NULL;
 	}
 
@@ -2213,4 +2219,28 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 
 		g_object_unref (iter);
 	}
+}
+
+
+static void error_response(GtkObject *o, int button, void *data)
+{
+	gtk_widget_destroy((GtkWidget *)o);
+}
+
+void
+em_utils_show_error_silent (GtkWidget *widget)
+{
+	EActivityHandler *handler = mail_component_peek_activity_handler (mail_component_peek ());
+	if(!g_object_get_data ((GObject *) widget, "response-handled"))
+		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
+	e_activity_handler_make_error (handler, "mail", E_LOG_ERROR, widget);
+}
+
+void
+em_utils_show_info_silent (GtkWidget *widget)
+{
+	EActivityHandler *handler = mail_component_peek_activity_handler (mail_component_peek ());
+	if(!g_object_get_data ((GObject *) widget, "response-handled"))
+		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
+	e_activity_handler_make_error (handler, "mail", E_LOG_WARNINGS, widget);
 }

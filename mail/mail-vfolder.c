@@ -586,8 +586,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 		char *user;
 
 		dialog = e_error_new(NULL, "mail:vfolder-updated", changed->str, uri, NULL);
-		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
-		gtk_widget_show (dialog);
+		em_utils_show_info_silent (dialog);
 
 		user = g_strdup_printf ("%s/mail/vfolders.xml",
 					mail_component_peek_base_directory (mail_component_peek ()));
@@ -1061,8 +1060,10 @@ vfolder_edit_rule(const char *uri)
 		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {
+		GtkWidget *w;
 		/* TODO: we should probably just create it ... */
-		e_error_run(NULL, "mail:vfolder-notexist", uri, NULL);
+		w = e_error_new(NULL, "mail:vfolder-notexist", uri, NULL);
+		em_utils_show_error_silent (w);
 	}
 
 	if (url)

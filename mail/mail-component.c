@@ -1624,7 +1624,7 @@ mail_component_show_logger (gpointer top)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for ((GtkWindow *) window, (GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) top));
 	gtk_container_set_border_width ((GtkContainer *) window, 6);
-
+	gtk_window_set_default_size ((GtkWindow *)window, 500, 400);
 	gtk_window_set_title ((GtkWindow *) window, _("Debug Logs"));
 	vbox = gtk_vbox_new (FALSE, 6);
 	hbox = gtk_hbox_new (FALSE, 6);	

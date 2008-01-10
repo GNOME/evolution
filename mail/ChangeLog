@@ -1,3 +1,21 @@
+2008-01-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Most of the errors are now non-intrusive 
+
+	* em-folder-utils.c: (emfu_copy_folder_selected),
+	(emfu_delete_response), (em_folder_utils_delete_folder):
+	* em-folder-view.c: (emfv_delete_msg_response):
+	* em-utils.c: (em_utils_edit_filters),
+	(em_utils_save_part_to_file), (em_utils_temp_save_part),
+	(error_response), (em_utils_show_error_silent),
+	(em_utils_show_info_silent):
+	* em-utils.h:
+	* mail-autofilter.c: (mail_filter_delete_uri):
+	* mail-component.c: (mail_component_show_logger):
+	* mail-mt.c: (mail_msg_free):
+	* mail-session.c: (do_user_message):
+	* mail-vfolder.c: (mail_vfolder_delete_uri), (vfolder_edit_rule):
+
 2008-01-10  Sankar P  <psankar@novell.com>
 
 	* em-format-html.c: (efh_format_headers):

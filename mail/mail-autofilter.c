@@ -436,9 +436,8 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		}
 
 		dialog = e_error_new(NULL, "mail:filter-updated", s->str, euri, NULL);
-		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		g_string_free(s, TRUE);
-		gtk_widget_show(dialog);
+		em_utils_show_info_silent (dialog);
 
 		d(printf("Folder delete/rename '%s' changed filters, resaving\n", euri));
 		if (rule_context_save ((RuleContext *) fc, user) == -1)

@@ -47,6 +47,7 @@
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
+#include "em-utils.h"
 #include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
@@ -331,7 +332,8 @@ user_message_exec (struct _user_message_msg *m)
 				"mail:session-message-error";
 			break;
 		default:
-			g_assert_not_reached ();
+			error_type = NULL;
+			g_return_if_reached ();
 	}
 
 	user_message_dialog = e_error_new (NULL, error_type, m->prompt, NULL);
@@ -345,10 +347,11 @@ user_message_exec (struct _user_message_msg *m)
 		gint response = gtk_dialog_run (user_message_dialog);
 		user_message_response (user_message_dialog, response, m);
 	} else {
+		g_object_set_data ((GObject *) user_message_dialog, "response-handled", GINT_TO_POINTER(TRUE));
 		g_signal_connect (
 			user_message_dialog, "response",
 			G_CALLBACK (user_message_response), m);
-		gtk_widget_show (user_message_dialog);
+		em_utils_show_error_silent (user_message_dialog);
 	}
 }
 

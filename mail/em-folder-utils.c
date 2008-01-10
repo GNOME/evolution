@@ -290,8 +290,9 @@ emfu_copy_folder_selected (const char *uri, void *data)
 	}
 
 	if (cfd->delete && fromstore == mail_component_peek_local_store (NULL) && emfu_is_special_local_folder (cfd->fi->full_name)) {
-		e_error_run(NULL,
+		GtkWidget *w = e_error_new (NULL,
 			    "mail:no-rename-special-folder", cfd->fi->full_name, NULL);
+		em_utils_show_error_silent (w);
 		goto fail;
 	}
 
@@ -438,8 +439,9 @@ emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
 		camel_exception_init (&ex);
 		emfu_delete_folders (store, full_name, &ex);
 		if (camel_exception_is_set (&ex)) {
-			e_error_run(NULL,
+			GtkWidget *w = e_error_new(NULL,
 				    "mail:no-delete-folder", full_name, ex.desc, NULL);
+			em_utils_show_error_silent (w);
 			camel_exception_clear (&ex);
 		}
 	}
@@ -457,7 +459,8 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 	local = mail_component_peek_local_store (NULL);
 
 	if (folder->parent_store == local && emfu_is_special_local_folder (folder->full_name)) {
-		e_error_run(NULL, "mail:no-delete-special-folder", folder->full_name, NULL);
+		dialog = e_error_new (NULL, "mail:no-delete-special-folder", folder->full_name, NULL);
+		em_utils_show_error_silent (dialog);
 		return;
 	}
 

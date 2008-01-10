@@ -269,8 +269,8 @@ e_task_widget_update_image (ETaskWidget *task_widget,
 	img = e_icon_factory_get_image (stock, E_ICON_SIZE_MENU);
 	tool = (GtkWidget *) gtk_tool_button_new (img, NULL);
 	gtk_box_pack_start (GTK_BOX(task_widget->priv->box), tool, FALSE, TRUE, 0);
-	gtk_widget_destroy (task_widget->priv->image);
 	gtk_widget_show_all (task_widget->priv->box);
+	gtk_widget_hide (task_widget->priv->image);
 	task_widget->priv->image = img;
 	gtk_label_set_text (GTK_LABEL (task_widget->priv->label), text);
 

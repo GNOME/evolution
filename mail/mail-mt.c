@@ -260,8 +260,7 @@ mail_msg_unref (gpointer msg)
 		activity_id = mail_msg->priv->activity_id;
 		error = mail_msg->priv->error;
 		if (error && !activity_id) {
-			e_activity_handler_make_error (mail_component_peek_activity_handler (mail_component_peek ()), "mail",
-							g_object_get_data ((GObject *) error, "primary"), error);
+			e_activity_handler_make_error (mail_component_peek_activity_handler (mail_component_peek ()), "mail", E_LOG_ERROR, error);
 			printf("Making error\n");
 		}
 

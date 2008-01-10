@@ -1,3 +1,13 @@
+2008-01-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add better support to show info/errors
+
+	* e-activity-handler.c: (setup_task_bar), (cancel_wrapper),
+	(handle_error), (error_cleanup), (e_activity_handler_make_error),
+	(e_activity_handler_operation_set_error):
+	* e-activity-handler.h:
+	* e-task-widget.c: (e_task_widget_update_image):
+
 2008-01-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #339813
