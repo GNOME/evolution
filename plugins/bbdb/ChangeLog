@@ -1,3 +1,11 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #496402
+
+	* gaimbuddies.c: (parse_buddy_group), (get_all_blocked),
+	(bbdb_get_gaim_buddy_list), (free_gaim_body), (free_buddy_list),
+	(parse_buddy_group): Do not synchronize blocked bodies from pidgin.
+
 2008-01-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #502914
