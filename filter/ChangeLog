@@ -1,3 +1,14 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211353
+
+	* filter-option.h:
+	* filter-option.c: (filter_option_get_current),
+	(filter_option_remove_all): New functions to be able to refill options
+	even after initialization of the filter element.
+	* filter-label.c: Added support to notify changes on labels in runtime
+	and use actual labels.
+
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* filter-label.c: (filter_label_count), (filter_label_label),

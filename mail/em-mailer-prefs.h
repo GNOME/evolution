@@ -104,10 +104,11 @@ struct _EMMailerPrefs {
 
 	/* Labels and Colours tab */
 	struct _GtkWidget *label_add;
+	struct _GtkWidget *label_edit;
 	struct _GtkWidget *label_remove;
-	struct _GtkWidget *label_color;
 	struct _GtkWidget *label_tree;
 	struct _GtkListStore *label_list_store;
+	guint labels_change_notify_id; /* mail_config's notify id */
 
 	/* Headers tab */
 	struct _GtkButton *add_header;

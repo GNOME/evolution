@@ -82,6 +82,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-util-labels.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-html-display.h"
@@ -309,8 +310,8 @@ generate_viewoption_menu (GtkWidget *emfv)
 	}
 
 	/* Add the labels */
-	for (l = mail_config_get_labels(), i = 0; l; l = l->next, i++) {
-		MailConfigLabel *label = l->data;
+	for (l = mail_config_get_labels (), i = 0; l; l = l->next, i++) {
+		EUtilLabel *label = l->data;
 		if (label->name && *(label->name)) {
 			char *str;
 			GdkPixmap *pixmap;
@@ -335,9 +336,8 @@ generate_viewoption_menu (GtkWidget *emfv)
 			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
 					   GINT_TO_POINTER (VIEW_LABEL + (VIEW_ITEMS_MASK + 1) * i));
 
-			/* label->tag starts with "$Label" so it's safe to do */
 			g_object_set_data (G_OBJECT (menu_item), "LabelTag",
-					   g_strdup (label->tag + 6));
+					   g_strdup (strncmp (label->tag, "$Label", 6) == 0 ? label->tag + 6 : label->tag));
 		}
 
 		gtk_widget_show (menu_item);
@@ -379,9 +379,9 @@ viewoption_menu_generator ()
 	for (i = 0; emfb_view_items[i].search.id != -1; i++)
 		g_array_append_vals (menu, &emfb_view_items[i], 1);
 
-	for (l = mail_config_get_labels(); l; l = l->next) {
+	for (l = mail_config_get_labels (); l; l = l->next) {
 		ESearchBarItem item;
-		MailConfigLabel *label = l->data;
+		EUtilLabel *label = l->data;
 
 		item.text = label->name;
 		item.id = VIEW_LABEL;
@@ -499,7 +499,7 @@ emfb_init(GObject *o)
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
 
 		gconf = mail_config_get_gconf_client ();
-		emfb->priv->labels_change_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/labels", gconf_labels_changed, emfb, NULL, NULL);
+		emfb->priv->labels_change_notify_id = gconf_client_notify_add (gconf, E_UTIL_LABELS_GCONF_KEY, gconf_labels_changed, emfb, NULL, NULL);
 	}
 
 	emfb->priv->show_wide = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/show_wide", NULL);
@@ -877,11 +877,16 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		GString *s = g_string_new ("(and");
 
 		for (l = mail_config_get_labels (); l; l = l->next) {
-			MailConfigLabel *label = (MailConfigLabel *)l->data;
+			EUtilLabel *label = (EUtilLabel *)l->data;
 
-			/* tag is always with "$Label" prefix */
-			if (label && label->tag)
-				g_string_append_printf (s, " (match-all (not (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\"))))", label->tag + 6, label->tag + 6);
+			if (label && label->tag) {
+				const gchar *tag = label->tag;
+
+				if (strncmp (tag, "$Label", 6) == 0)
+					tag += 6;
+
+				g_string_append_printf (s, " (match-all (not (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\"))))", tag, tag, tag);
+			}
 		}
 
 		g_string_append (s, ")");
@@ -891,7 +896,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		} break;
         case VIEW_LABEL:
 		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
-		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\" )))", tag, tag);
+		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\")))", tag, tag, tag);
 		duplicate = FALSE;
 		break;
 	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:

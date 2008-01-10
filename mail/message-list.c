@@ -52,6 +52,7 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#include "e-util/e-util-labels.h"
 
 #include "misc/e-gui-utils.h"
 
@@ -1244,29 +1245,27 @@ get_all_labels (CamelMessageInfo *msg_info, char **label_str, gboolean get_tags)
 	const char *old_label;
 	int count = 0;
 	const CamelFlag *flag;
+	GSList *labels;
 
+	labels = mail_config_get_labels ();
 	str = g_string_new ("");
 
 	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next) {
-		/* We will be able to show in the column even unknown labels from
-		   other Evolution, because every label starts with "$Label".
-		   This doesn't apply for filters and search folders, but here
-		   we can see that we should add new labels to this Evolution too. */
-		if (strncmp (flag->name, "$Label", 6) == 0) {
-			const char *name = NULL;
+		const char *name = e_util_labels_get_name (labels, flag->name);
 
+		if (name) {
 			if (str->len)
 				g_string_append (str, ", ");
 
-			if (!get_tags)
-				name = mail_config_get_label_name (flag->name);
+			if (get_tags)
+				name = flag->name;
 
-			g_string_append (str, get_tags || !name ? flag->name : name);
+			g_string_append (str, name);
 			count++;
 		}
 	}
 
-	old_label = mail_config_get_new_label_tag (camel_message_info_user_tag (msg_info, "label"));
+	old_label = e_util_labels_get_new_tag (camel_message_info_user_tag (msg_info, "label"));
 
 	if (old_label != NULL) {
 		const char *name = NULL;
@@ -1275,9 +1274,9 @@ get_all_labels (CamelMessageInfo *msg_info, char **label_str, gboolean get_tags)
 			g_string_append (str, ", ");
 
 		if (!get_tags)
-			name = mail_config_get_label_name (old_label);
+			name = e_util_labels_get_name (labels, old_label);
 
-		g_string_append (str, get_tags || !name ? old_label : name);
+		g_string_append (str, (get_tags || !name) ? old_label : name);
 		++count;
 	}
 
@@ -1426,7 +1425,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		if (colour == NULL) {
 			if ((n = get_all_labels (msg_info,  &labels_string, TRUE)) == 1) {
 
-				colour = mail_config_get_label_color_str (labels_string);
+				colour = e_util_labels_get_color_str (mail_config_get_labels (), labels_string);
 			} else if (camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";

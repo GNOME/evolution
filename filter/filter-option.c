@@ -183,6 +183,29 @@ filter_option_add(FilterOption *fo, const char *value, const char *title, const 
 	return op;
 }
 
+const char *
+filter_option_get_current (FilterOption *option)
+{
+	g_return_val_if_fail (IS_FILTER_OPTION (option), NULL);
+
+	if (!option->current)
+		return NULL;
+
+	return option->current->value;
+}
+
+void
+filter_option_remove_all (FilterOption *fo)
+{
+	g_return_if_fail (IS_FILTER_OPTION (fo));
+
+	g_list_foreach (fo->options, (GFunc)free_option, NULL);
+	g_list_free (fo->options);
+	fo->options = NULL;
+
+	fo->current = NULL;
+}
+
 static int
 option_eq(FilterElement *fe, FilterElement *cm)
 {

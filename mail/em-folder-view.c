@@ -89,6 +89,7 @@
 #include "e-util/e-print.h"
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-util-labels.h"
 
 #include "filter/filter-rule.h"
 
@@ -1233,9 +1234,9 @@ emfv_popup_label_clear(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
 	GSList *l;
-	MailConfigLabel *label; 
+	EUtilLabel *label; 
 
-	for (l = mail_config_get_labels(); l; l = l->next) {
+	for (l = mail_config_get_labels (); l; l = l->next) {
 		label = l->data;
 		emfv_unset_label(emfv, label->tag);
 	}
@@ -1250,6 +1251,18 @@ emfv_popup_label_set(EPopup *ep, EPopupItem *pitem, void *data)
 		emfv_set_label (emfv, pitem->user_data);
 	else
 		emfv_unset_label (emfv, pitem->user_data);
+}
+
+static void
+emfv_popup_label_new (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EMFolderView *emfv = data;
+	char *tag = e_util_labels_add_with_dlg (NULL, NULL);
+
+	if (tag) {
+		emfv_set_label (emfv, tag);
+		g_free (tag);
+	}
 }
 
 static void
@@ -1343,6 +1356,8 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_SUBMENU, "60.label.00", N_("_Label"), NULL, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "60.label.00/00.label", N_("_None"), emfv_popup_label_clear, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_BAR, "60.label.00/00.label.00", NULL, NULL, NULL, NULL },
+	{ E_POPUP_BAR, "60.label.00/01.label", NULL, NULL, NULL, NULL },
+	{ E_POPUP_ITEM, "60.label.00/01.label.00", N_("_New Label"), emfv_popup_label_new, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, "70.emfv.06", NULL, NULL, NULL, NULL },
 
@@ -1381,7 +1396,7 @@ emfv_popup_labels_get_state_for_tag (EMFolderView *emfv, GPtrArray *uids, const 
 		if (camel_folder_get_message_user_flag (emfv->folder, uids->pdata[i], label_tag))
 			exists = TRUE;
 		else {
-			const char *label = mail_config_get_new_label_tag (camel_folder_get_message_user_tag (emfv->folder, uids->pdata[i], "label"));
+			const char *label = e_util_labels_get_new_tag (camel_folder_get_message_user_tag (emfv->folder, uids->pdata[i], "label"));
 
 			/* backward compatibility... */
 			if (label && !strcmp (label, label_tag))
@@ -1448,9 +1463,9 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event, int on_display)
 	if (!on_display) {
 		GPtrArray *uids = message_list_get_selected (emfv->list);
 
-		for (l = mail_config_get_labels(); l; l = l->next) {
+		for (l = mail_config_get_labels (); l; l = l->next) {
 			EPopupItem *item;
-			MailConfigLabel *label = l->data;
+			EUtilLabel *label = l->data;
 			GdkPixmap *pixmap;
 			GdkColor colour;
 			GdkGC *gc;

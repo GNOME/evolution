@@ -1,3 +1,26 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211353
+
+	* filtertypes.xml:
+	* vfoldertypes.xml:
+	* em-folder-view.c:
+	* em-folder-browser.c:
+	* em-mailer-prefs.h:
+	* em-mailer-prefs.c:
+	* mail-config.h:
+	* mail-config.c:
+	* mail-config.glade:
+	* message-list.c:
+	Label tags are now generated based on label name when creating, except
+	of first 5 labels. New menu option "New Label" in popup menu over
+	message list and editing of labels has been changed in Preferences.
+	Also renaming tab in Preferences for "Labels", not "Colors", and the
+	tab label too.
+	mail-config-label... functions was moved to e-util/e-util-labels.c/.h.
+	* message-list.etspec: Normalized columns has been moved by one
+	when label column has been added.
+
 2008-01-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Most of the errors are now non-intrusive 

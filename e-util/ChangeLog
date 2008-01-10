@@ -1,3 +1,11 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211353
+
+	* Makefile.am:
+	* e-util-labels.h:
+	* e-util-labels.c: New files to work with labels.
+
 2008-01-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #507363

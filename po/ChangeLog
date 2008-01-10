@@ -1,3 +1,7 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	* POTFILES.in: Added new file e-util/e-util-labels.c
+
 2008-01-09  Changwoo Ryu  <cwryu@debian.org>
 
 	* ko.po: Updated Korean translation.

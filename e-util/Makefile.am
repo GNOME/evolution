@@ -73,6 +73,7 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
 	e-util.h				\
+	e-util-labels.h				\
 	e-util-marshal.h			\
 	e-xml-utils.h
 
@@ -111,6 +112,7 @@ libeutil_la_SOURCES =				\
 	e-text-event-processor-emacs-like.c     \
 	e-text-event-processor.c                \
 	e-util.c				\
+	e-util-labels.c				\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	$(PLATFORM_SOURCES)
