@@ -413,6 +413,7 @@ shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
 shell/e-shell-settings-dialog.c
 shell/e-shell-utils.c
+shell/e-shell-view.c
 shell/e-shell-window-commands.c
 shell/e-shell-window.c
 shell/e-shell.c

@@ -1,3 +1,11 @@
+2008-01-11  Changwoo Ryu  <cwryu@debian.org>
+
+	** Fix for bug #508282
+
+	* e-shell-window.c (switch_view): 
+	* e-shell-view.c (impl_ShellView_setTitle): Mark the window title
+	for translation.
+
 2008-01-07  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-window-commands.c:
