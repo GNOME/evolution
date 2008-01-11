@@ -600,7 +600,7 @@ e_attachment_new_from_mime_part (CamelMimePart *part)
 	new->body = part;
 	new->guessed_type = FALSE;
 	new->is_available_local = TRUE;
-	new->size = 0;
+	new->size = camel_mime_part_get_content_size (part);
 	new->file_name = g_strdup (camel_mime_part_get_filename(part));
 
 	return new;
