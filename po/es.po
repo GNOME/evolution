@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-10 15:53+0000\n"
-"PO-Revision-Date: 2008-01-10 17:42+0100\n"
+"POT-Creation-Date: 2008-01-10 16:44+0000\n"
+"PO-Revision-Date: 2008-01-11 13:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <<gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -452,8 +452,8 @@ msgid ""
 "The address book {0} is read only, thus you cannot add contacts there. "
 "Select other address book, please."
 msgstr ""
-"La libreta de direcciones {0} es de sólo lectura, por ello no puede añadir contactos en ella. "
-"Seleccione otra libreta de direcciones."
+"La libreta de direcciones {0} es de sólo lectura, por ello no puede añadir "
+"contactos en ella. Seleccione otra libreta de direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "The image you have selected is large. Do you want to resize and store it?"
@@ -18885,6 +18885,13 @@ msgstr "El nombre de la carpeta no puede contener el carácter «#»."
 msgid "'.' and '..' are reserved folder names."
 msgstr "'.' y '..' son nombres reservados de carpetas."
 
+#. To translators: This is the window title and %s is the
+#. component name. Most translators will want to keep it as is.
+#: ../shell/e-shell-view.c:49 ../shell/e-shell-window.c:341
+#, c-format
+msgid "%s - Evolution"
+msgstr "%s - Evolution"
+
 #: ../shell/e-shell-window-commands.c:77
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr "Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
@@ -18936,19 +18943,19 @@ msgstr "_Trabajar desconectado"
 msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
-#: ../shell/e-shell-window.c:379
+#: ../shell/e-shell-window.c:381
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution está conectado. Pulse este botón para trabajar desconectado."
 
-#: ../shell/e-shell-window.c:386
+#: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution está en proceso de desconectarse."
 
-#: ../shell/e-shell-window.c:392
+#: ../shell/e-shell-window.c:394
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution está desconectado. Pulse este botón para trabajar conectado."
 
-#: ../shell/e-shell-window.c:793
+#: ../shell/e-shell-window.c:795
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
