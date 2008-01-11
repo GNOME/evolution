@@ -1,3 +1,10 @@
+2008-01-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #508731
+
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_full):
+	Have a safe default, if the values from gconf isn't so nice.
+
 2008-01-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #457842

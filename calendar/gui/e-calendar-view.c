@@ -1923,6 +1923,9 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 		int time_div = calendar_config_get_time_divisions ();
 		int hours, mins;
 
+		if (!time_div) /* Possible if your gconf values aren't so nice */
+			time_div = 30; 
+
 		if (time_day_begin (now) == time_day_begin (dtstart)) {
 			/* same day as today */
 			hours = local.tm_hour;
