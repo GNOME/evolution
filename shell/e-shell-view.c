@@ -29,6 +29,7 @@
 #include <glib.h>
 
 #include <gtk/gtkwindow.h>
+#include <glib/gi18n.h>
 
 #include "e-shell-view.h"
 #include "e-shell-window.h"
