@@ -196,10 +196,8 @@ eppm_free (void *data)
 static void
 eppm_response (GtkDialog *w, int button, Manager *m)
 {
-	if (button == GTK_RESPONSE_CLOSE) {
-		gtk_widget_destroy (GTK_WIDGET (w));
-		dialog = NULL;
-	}
+	gtk_widget_destroy (GTK_WIDGET (w));
+	dialog = NULL;
 }
 
 void
@@ -217,7 +215,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 	GtkWidget *subvbox;
 
 	if (dialog) {
-		gdk_window_raise (GTK_WIDGET (dialog)->window);
+		gtk_window_present (GTK_WINDOW (dialog));
 		return;
 	}
 
@@ -280,7 +278,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 	gtk_widget_hide (def_configure_label);
 	gtk_box_pack_start (GTK_BOX (configure_page), def_configure_label, FALSE, FALSE, 6);
 
-	store = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER, GTK_TYPE_WIDGET);
+	store = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_POINTER);
 
 	/* fill store */
 	m->plugins = e_plugin_list_plugins ();
@@ -395,6 +393,8 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 
 	g_object_set_data_full (G_OBJECT (m->dialog), "plugin-manager", m, eppm_free);
 	g_signal_connect (m->dialog, "response", G_CALLBACK (eppm_response), m);
+
+	dialog = m->dialog;
 
 	gtk_widget_show (GTK_WIDGET (m->dialog));
 }

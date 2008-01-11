@@ -1,3 +1,14 @@
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #502303
+
+	* plugin-manager.c: (eppm_response):
+	Always destroy dialog and unset global variable.
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	Use G_TYPE_POINTER instead of GTK_TYPE_WIDGET in a list store
+	to get rid of reference counting troubles on configuration
+	widgets of plugins. Remember created dialog for future use.
+
 2008-02-01  Andre Klapper  <a9016009@gmx.de>
 
 	* plugin-manager.c: (org_gnome_plugin_manager_manage):
