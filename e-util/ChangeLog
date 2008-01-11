@@ -1,3 +1,14 @@
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488213
+
+	* e-icon-factory.h: (e_icon_factory_pixbuf_scale):
+	* e-icon-factory.c: (e_icon_factory_pixbuf_scale):
+	New global function for pixbuf scaling which speeds up scaling when
+	HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H.
+	* e-icon-factory.c: (load_icon):
+	Use global function e_icon_factory_pixbuf_scale for scaling pixbufs.
+
 2008-01-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #211353

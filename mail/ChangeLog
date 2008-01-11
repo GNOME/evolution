@@ -1,3 +1,11 @@
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488213
+
+	* em-icon-stream.c: (emis_fit):
+	* em-format-html-display.c: (efhd_attachment_button):
+	Use global function e_icon_factory_pixbuf_scale for scaling pixbufs.
+
 2008-01-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #507067

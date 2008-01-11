@@ -41,6 +41,8 @@
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtksettings.h>
 
+#include "e-util/e-icon-factory.h"
+
 /* Spinner cache implementation */
 
 #define E_TYPE_SPINNER_CACHE			(e_spinner_cache_get_type())
@@ -222,8 +224,7 @@ scale_to_size (GdkPixbuf *pixbuf,
 
 	if (pw != dw || ph != dh)
 	{
-		result = gdk_pixbuf_scale_simple (pixbuf, dw, dh,
-						  GDK_INTERP_BILINEAR);
+		result = e_icon_factory_pixbuf_scale (pixbuf, dw, dh);
 		g_object_unref (pixbuf);
 		return result;
 	}

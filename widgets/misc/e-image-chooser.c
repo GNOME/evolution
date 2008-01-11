@@ -34,6 +34,7 @@
 
 #include "e-image-chooser.h"
 #include "e-util/e-util-marshal.h"
+#include "e-util/e-icon-factory.h"
 
 struct _EImageChooserPrivate {
 
@@ -292,9 +293,7 @@ set_image_from_data (EImageChooser *chooser,
 
 			printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
 
-			scaled = gdk_pixbuf_scale_simple (pixbuf,
-							  new_width, new_height,
-							  GDK_INTERP_BILINEAR);
+			scaled = e_icon_factory_pixbuf_scale (pixbuf, new_width, new_height);
 
 			composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
 						    chooser->priv->image_width, chooser->priv->image_height);

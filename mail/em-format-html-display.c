@@ -1937,7 +1937,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		GdkPixbuf *pixbuf, *mini;
 
 		if ((pixbuf = e_icon_for_mime_type (simple_type, 24))) {
-			if ((mini = gdk_pixbuf_scale_simple (pixbuf, 24, 24, GDK_INTERP_BILINEAR))) {
+			if ((mini = e_icon_factory_pixbuf_scale (pixbuf, 24, 24))) {
 				gtk_image_set_from_pixbuf ((GtkImage *) w, mini);
 				g_object_unref (mini);
 			}

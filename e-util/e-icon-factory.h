@@ -55,4 +55,6 @@ GtkWidget *e_icon_factory_get_image         (const char *icon_name, int icon_siz
 
 GList     *e_icon_factory_get_icon_list     (const char *icon_name);
 
+GdkPixbuf *e_icon_factory_pixbuf_scale      (GdkPixbuf *pixbuf, int width, int height);
+
 #endif /* _E_ICON_FACTORY_H_ */

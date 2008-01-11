@@ -30,11 +30,9 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-#include <libgnomeui/gnome-thumbnail.h>
-#endif
 #include <gtk/gtkimage.h>
 #include "em-icon-stream.h"
+#include "e-util/e-icon-factory.h"
 
 #include "libedataserver/e-msgport.h"
 
@@ -187,11 +185,7 @@ emis_fit(GdkPixbuf *pixbuf, int maxwidth, int maxheight, int *scale)
 		if (height <= 0)
 			height = 1;
 
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-		mini = gnome_thumbnail_scale_down_pixbuf(pixbuf, width, height);
-#else
-		mini = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
-#endif
+		mini = e_icon_factory_pixbuf_scale (pixbuf, width, height);
 	}
 
 	return mini;

@@ -2293,7 +2293,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 								height = 96;
 							}
 
-							new = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+							new = e_icon_factory_pixbuf_scale (pixbuf, width, height);
 							if (new) {
 								GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
 								gchar *format_name = gdk_pixbuf_format_get_name (format);

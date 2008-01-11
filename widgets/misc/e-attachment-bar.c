@@ -241,7 +241,7 @@ e_attachment_bar_create_attachment_cache (EAttachment *attachment)
 				}
 			}
 
-			attachment->pixbuf_cache = gdk_pixbuf_scale_simple (pixbuf, width,height,GDK_INTERP_BILINEAR);
+			attachment->pixbuf_cache = e_icon_factory_pixbuf_scale (pixbuf, width, height);
 			pixbuf = attachment->pixbuf_cache;
 			g_object_ref(pixbuf);
 		} else {
@@ -334,8 +334,7 @@ update (EAttachmentBar *bar)
 					}
 				}
 
-				attachment->pixbuf_cache = gdk_pixbuf_scale_simple (pixbuf, width, height,
-										    GDK_INTERP_BILINEAR);
+				attachment->pixbuf_cache = e_icon_factory_pixbuf_scale (pixbuf, width, height);
 				pixbuf = attachment->pixbuf_cache;
 				g_object_ref (pixbuf);
 			} else {

@@ -32,6 +32,9 @@
 
 #include <gtk/gtkicontheme.h>
 #include <gtk/gtkimage.h>
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+#include <libgnomeui/gnome-thumbnail.h>
+#endif
 
 #include "e-icon-factory.h"
 #include "e-util-private.h"
@@ -161,7 +164,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 	if (unscaled != NULL) {
 		if(gdk_pixbuf_get_width(unscaled) != size || gdk_pixbuf_get_height(unscaled) != size)
 		{
-			pixbuf = gdk_pixbuf_scale_simple (unscaled, size, size, GDK_INTERP_BILINEAR);
+			pixbuf = e_icon_factory_pixbuf_scale (unscaled, size, size);
 			g_object_unref (unscaled);
 		} else
 			pixbuf = unscaled;
@@ -401,4 +404,31 @@ e_icon_factory_get_icon_list (const char *icon_name)
 	g_static_mutex_unlock (&mutex);
 
 	return list;
+}
+
+/**
+ * e_icon_factory_pixbuf_scale
+ * Scales pixbuf to desired size.
+ * @param pixbuf Pixbuf to be scaled.
+ * @param width Desired width, if less or equal to 0, then changed to 1.
+ * @param height Desired height, if less or equal to 0, then changed to 1.
+ * @return Scaled pixbuf.
+ **/
+GdkPixbuf *
+e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, int width, int height)
+{
+	g_return_val_if_fail (pixbuf != NULL, NULL);
+
+	if (width <= 0)
+		width = 1;
+
+	if (height <= 0)
+		height = 1;
+
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+	/* because this can only scale down, not up */
+	if (gdk_pixbuf_get_width (pixbuf) > width && gdk_pixbuf_get_height (pixbuf) > height)
+		return gnome_thumbnail_scale_down_pixbuf (pixbuf, width, height);
+#endif
+	return gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 }

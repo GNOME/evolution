@@ -1,3 +1,13 @@
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488213
+
+	* e-spinner.c: (scale_to_size):
+	* e-image-chooser.c: (set_image_from_data):
+	* e-attachment-bar.c: (e_attachment_bar_create_attachment_cache),
+	(update):
+	Use global function e_icon_factory_pixbuf_scale for scaling pixbufs.
+
 2008-01-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Add better support to show info/errors
