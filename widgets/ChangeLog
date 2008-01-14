@@ -1,3 +1,11 @@
+2008-01-14  Mayank Jain  <mayank.gnu@gmail.com>
+
+	** Fix for bug #348638
+
+	* text/e-text.c: (insert_preedit_text), (reset_layout_attrs),
+	(e_text_draw): Cleanly remove pre-edit buffer on pressing backspace in 
+	day-view, for non-ascii characters as well. 
+
 2007-11-26  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fixes bug #495951

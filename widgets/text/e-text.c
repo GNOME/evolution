@@ -288,7 +288,7 @@ insert_preedit_text (EText *text)
 	PangoAttrList *preedit_attrs = NULL;
 	gchar *preedit_string = NULL;
 	GString *tmp_string = g_string_new (NULL);
-	gint length = 0, cpos = 0, preedit_length = 0;
+	gint length = 0, cpos = 0;
 	gboolean new_attrs = FALSE;
 
 	if (text->layout == NULL || !GTK_IS_IM_CONTEXT (text->im_context))
@@ -299,19 +299,18 @@ insert_preedit_text (EText *text)
 
 	g_string_prepend_len (tmp_string, text->text,length);
 
-	if (text->preedit_len)
-		gtk_im_context_get_preedit_string (text->im_context,
-					   &preedit_string, &preedit_attrs,
-					   NULL);
+	/* we came into this function only when text->preedit_len was not 0
+	 * so we can safely fetch the preedit string */
+	gtk_im_context_get_preedit_string (
+		text->im_context, &preedit_string, &preedit_attrs, NULL);
 
-	if (preedit_string && g_utf8_validate (preedit_string, -1, NULL))
-		text->preedit_len = preedit_length = strlen (preedit_string);
-	else
-		text->preedit_len  = preedit_length = 0;
+	if (preedit_string && g_utf8_validate (preedit_string, -1, NULL)) {
 
-	cpos = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;
+		text->preedit_len = strlen (preedit_string);
 
-	if (preedit_length) {
+		cpos = g_utf8_offset_to_pointer (
+			text->text, text->selection_start) - text->text;
+
 		g_string_insert (tmp_string, cpos, preedit_string);
 
 		reset_layout_attrs (text);
@@ -324,15 +323,14 @@ insert_preedit_text (EText *text)
 
 		pango_layout_set_text (text->layout, tmp_string->str, tmp_string->len);
 
-		pango_attr_list_splice (attrs, preedit_attrs, cpos, preedit_length);
+		pango_attr_list_splice (attrs, preedit_attrs, cpos, text->preedit_len);
 
 		if (new_attrs) {
 			pango_layout_set_attributes (text->layout, attrs);
 			pango_attr_list_unref (attrs);
 		}
-
-		update_im_cursor_position (text);
-	}
+	} else
+		text->preedit_len = 0;
 
 	if (preedit_string)
 		g_free (preedit_string);
@@ -389,9 +387,12 @@ reset_layout_attrs (EText *text)
 			pango_attr_list_insert_before (attrs, attr);
 		}
 	}
+
 	pango_layout_set_attributes (text->layout, attrs);
+	
 	if (attrs)
 		pango_attr_list_unref (attrs);
+	
 	calc_height (text);
 }
 
@@ -1512,8 +1513,15 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 
+	/* Insert preedit text only when im_context signals are connected & 
+	 * text->preedit_len is not zero */
+	if (text->im_context_signals_registered && text->preedit_len)
+		insert_preedit_text (text);
 
-	insert_preedit_text (text);
+	/* Need to reset the layout to cleanly clear the preedit buffer when 
+	 * typing in CJK & using backspace on the preedit */
+	if(!text->preedit_len)
+		reset_layout (text);
 
 	if (!pango_layout_get_text (text->layout))
 		return;
