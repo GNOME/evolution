@@ -1,3 +1,8 @@
+2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* apps-evolution-attachment-reminder.schemas.in: Add
+	missing punctuation.
+
 2007-12-15  Johnny Jacob  <jjohnny@novell.com>
 
 	** Cleanup of attachment reminder over Milan Crha's work.

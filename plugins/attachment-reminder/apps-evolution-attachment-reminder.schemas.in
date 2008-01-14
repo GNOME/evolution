@@ -8,7 +8,7 @@
       <default>true</default>
       <locale name="C">
         <short>Enable attachment reminder plugin</short>
-        <long>Enable attachment reminder plugin</long>
+        <long>Enable attachment reminder plugin.</long>
       </locale>
     </schema>
 
@@ -32,7 +32,7 @@
 	       in a message body</short>
          <long>
 	       List of clues for the attachment reminder plugin to look for
-	       in a message body
+	       in a message body.
          </long>
       </locale>
     </schema>
