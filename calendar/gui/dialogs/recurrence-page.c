@@ -207,6 +207,8 @@ static gboolean recurrence_page_fill_widgets (CompEditorPage *page, ECalComponen
 static gboolean recurrence_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 static void preview_date_range_changed_cb (ECalendarItem *item, gpointer data);
+static void interval_selection_done_cb (GtkOptionMenu *menu, gpointer data);
+static void ending_selection_done_cb (GtkOptionMenu *menu, gpointer data);
 
 static void field_changed (RecurrencePage *apage);
 static void make_ending_count_special (RecurrencePage *rpage);
@@ -284,6 +286,11 @@ recurrence_page_finalize (GObject *object)
 
 	g_signal_handlers_disconnect_matched (E_CALENDAR (priv->preview_calendar)->calitem, G_SIGNAL_MATCH_FUNC,
 			    0, 0, NULL, preview_date_range_changed_cb, NULL);
+
+	g_signal_handlers_disconnect_by_func (GTK_OPTION_MENU (priv->interval_unit), 
+			    G_CALLBACK (interval_selection_done_cb), rpage);
+	g_signal_handlers_disconnect_by_func (GTK_OPTION_MENU (priv->ending_menu), 
+			    G_CALLBACK (ending_selection_done_cb), rpage);
 
 	if (priv->main)
 		g_object_unref (priv->main);

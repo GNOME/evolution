@@ -1,3 +1,10 @@
+2008-01-14  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #339620
+
+	* gui/dialogs/recurrence-page.c: (recurrence_page_finalize): Disconnect
+	signal handlers on destroy.
+
 2008-01-14  Suresh Chandrasekharan  <suresh.chandrasekharan@sun.com>
 
 	** Fix for bug #264404
