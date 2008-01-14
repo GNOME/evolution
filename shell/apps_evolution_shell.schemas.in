@@ -62,7 +62,7 @@
       <default>true</default>
       <locale name="C">
         <short>Whether crash recovery should be done or not</short>
-	<long>Decides whether the crash recovery should be run or not</long>
+	<long>Decides whether the crash recovery should be run or not.</long>
       </locale>
     </schema>
 
@@ -238,7 +238,7 @@
       <type>list</type>
       <list_type>string</list_type>
       <locale name="C">
-        <long>A string description of the current printer settings</long>
+        <long>A string description of the current printer settings.</long>
       </locale>
     </schema>
   </schemalist>  
