@@ -1,3 +1,10 @@
+2008-01-14  David Turner  <cillian64@googlemail.com>
+
+	** Partial fix for bug #498095
+
+	* gui/contact-editor/contact-editor.glade: Changed mnemonics on
+	"Categories" and "Nickname" to fix a clash. 
+
 2008-01-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #488213
