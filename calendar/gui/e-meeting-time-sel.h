@@ -262,6 +262,8 @@ struct _EMeetingTimeSelector
 	gboolean fb_refresh_not;
 
 	GdkCursorType last_cursor_set;
+
+	guint style_change_idle_id;
 };
 
 

@@ -355,7 +355,7 @@ get_recipients (ECalComponent *comp)
 	     icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
 		const char *xname = icalproperty_get_x_name (icalprop);
 
-		if (xname && 0 == strcmp (xname, "X-EVOLUTION-RECIPIENTS"))
+		if (xname && strcmp (xname, "X-EVOLUTION-RECIPIENTS") == 0)
 			break;
 	}
 

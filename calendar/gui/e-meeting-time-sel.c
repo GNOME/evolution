@@ -263,6 +263,7 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 								     mts);
 
 	mts->fb_refresh_not = 0;
+	mts->style_change_idle_id = 0;
 }
 
 
@@ -842,6 +843,12 @@ e_meeting_time_selector_destroy (GtkObject *object)
 
 	if (mts->fb_refresh_not != 0) {
 		g_source_remove (mts->fb_refresh_not);
+		mts->fb_refresh_not = 0;
+	}
+
+	if (mts->style_change_idle_id != 0) {
+		g_source_remove (mts->style_change_idle_id);
+		mts->style_change_idle_id = 0;
 	}
 
 	if (GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)
@@ -891,9 +898,8 @@ get_cell_height (GtkTreeView *tree)
 	return height;
 }
 
-static void
-e_meeting_time_selector_style_set (GtkWidget *widget,
-				   GtkStyle  *previous_style)
+static gboolean
+style_change_idle_func (gpointer widget)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTime saved_time;
@@ -903,9 +909,6 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
-
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)(widget, previous_style);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
@@ -928,7 +931,8 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
 	}
 
-	mts->row_height = get_cell_height (GTK_TREE_VIEW (mts->list_view));
+	/* add also some padding for lines so it fits better */
+	mts->row_height = get_cell_height (GTK_TREE_VIEW (mts->list_view)) + 2;
 	mts->col_width = max_hour_width + 6;
 
 	e_meeting_time_selector_save_position (mts, &saved_time);
@@ -956,6 +960,23 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
+
+	mts->style_change_idle_id = 0;
+
+	return FALSE;
+}
+
+static void
+e_meeting_time_selector_style_set (GtkWidget *widget,
+				   GtkStyle  *previous_style)
+{
+	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (widget);
+
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)(widget, previous_style);
+
+	if (!mts->style_change_idle_id)
+		mts->style_change_idle_id = g_idle_add (style_change_idle_func, widget);
 }
 
 /* This draws a shadow around the top display and main display. */

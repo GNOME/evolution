@@ -1,5 +1,17 @@
 2008-01-14  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #507359
+
+	* gui/e-meeting-time-sel.h: (struct _EMeetingTimeSelector):
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_class_init),
+	(e_meeting_time_selector_destroy), (style_change_idle_func),
+	(e_meeting_time_selector_style_set): Recalculate sizes in idle queue,
+	which will ensure the style is propagated in list_view too, because we
+	read from there the height of the row and the style isn't set there
+	before it is set in our widget.
+
+2008-01-14  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #490464
 
 	* gui/dialogs/memo-page.c: (get_recipients): New helper function to
