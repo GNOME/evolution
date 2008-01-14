@@ -1,5 +1,14 @@
 2008-01-14  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #333695
+
+	* gui/print.c: (get_type_as_string), (get_role_as_string),
+	(print_attendees), (print_comp_draw_page):
+	Helper functions to print attendees and their types and roles
+	in detailed print of the event.
+
+2008-01-14  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #507359
 
 	* gui/e-meeting-time-sel.h: (struct _EMeetingTimeSelector):

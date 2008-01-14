@@ -955,6 +955,92 @@ free_event_array (GArray *array)
 	g_array_set_size (array, 0);
 }
 
+static const char *
+get_type_as_string (icalparameter_cutype cutype)
+{
+	const char *res;
+
+	switch (cutype) {
+		case ICAL_CUTYPE_NONE:       res = NULL;            break;
+		case ICAL_CUTYPE_INDIVIDUAL: res = _("Individual"); break;
+		case ICAL_CUTYPE_GROUP:      res = _("Group");      break;
+		case ICAL_CUTYPE_RESOURCE:   res = _("Resource");   break;
+		case ICAL_CUTYPE_ROOM:       res = _("Room");       break;
+		default:                     res = _("Unknown");    break;
+	}
+
+	return res;
+}
+
+static const char *
+get_role_as_string (icalparameter_role role)
+{
+	const char *res;
+
+	switch (role) {
+		case ICAL_ROLE_NONE:           res = NULL;                      break;
+		case ICAL_ROLE_CHAIR:          res = _("Chair");                break;
+		case ICAL_ROLE_REQPARTICIPANT: res = _("Required Participant"); break;
+		case ICAL_ROLE_OPTPARTICIPANT: res = _("Optional Participant"); break;
+		case ICAL_ROLE_NONPARTICIPANT: res = _("Non-Participant");      break;
+		default:                       res = _("Unknown");              break;
+	}
+
+	return res;
+}
+
+static double
+print_attendees (GtkPrintContext *context, PangoFontDescription *font, cairo_t *cr,
+		 double left, double right, double top, double bottom,
+		 ECalComponent *comp)
+{
+	GSList *attendees = NULL, *l;
+
+	g_return_val_if_fail (context != NULL, top);
+	g_return_val_if_fail (font != NULL, top);
+	g_return_val_if_fail (cr != NULL, top);
+
+	e_cal_component_get_attendee_list (comp, &attendees);
+
+	for (l = attendees; l; l = l->next) {
+		ECalComponentAttendee *attendee = l->data;
+
+		if (attendee && attendee->value && *attendee->value) {
+			GString *text;
+			const char *tmp;
+
+			tmp = get_type_as_string (attendee->cutype);
+			text = g_string_new (tmp ? tmp : "");
+
+			if (tmp)
+				g_string_append (text, " ");
+
+			/* it's usually in form of "mailto:email@domain" */
+			tmp = strchr (attendee->value, ':');
+			g_string_append (text, tmp ? tmp + 1 : attendee->value);
+
+			tmp = get_role_as_string (attendee->role);
+			if (tmp) {
+				g_string_append (text, " (");
+				g_string_append (text, tmp);
+				g_string_append (text, ")");
+			}
+
+			if (top > bottom) {
+				top = 10.0;
+				cairo_show_page (cr);
+			}
+
+			top = bound_text (context, font, text->str, left + 40.0, top, right, bottom);
+
+			g_string_free (text, TRUE);
+		}
+	}
+
+	e_cal_component_free_attendee_list (attendees);
+
+	return top;
+}
 
 static void
 print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
@@ -2387,11 +2473,22 @@ print_comp_draw_page (GtkPrintOperation *operation,
 				  top + 3, width, height);
 		g_free (location_string);
 	}
-	pango_font_description_free (font);
 
 	/* Date information */
 	print_date_label (context, comp, client, 0.0, width, top + 3, top + 15);
 	top += 20;
+
+	/* Attendees */
+	if (e_cal_component_has_attendees (comp)) {
+		top = bound_text (context, font, _("Attendees: "), 0.0, top, width, height);
+		pango_font_description_free (font);
+		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
+		top = print_attendees (context, font, cr, 0.0, width, top, height, comp);
+		top += get_font_size (font) - 6;
+	}
+
+	pango_font_description_free (font);
+
 	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
