@@ -1,3 +1,7 @@
+2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* evolution-mail.schemas.in: Add missing punctuation.
+
 2008-01-14  Gert Kulyk  <gkulyk@yahoo.de>
 
 	** Fix for bug #350932

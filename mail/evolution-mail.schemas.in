@@ -165,7 +165,7 @@
       <default>600</default>
       <locale name="C">
          <short>Composer Window default width</short>
-         <long>Default width of the Composer Window</long>
+         <long>Default width of the Composer Window.</long>
       </locale>
     </schema>
 
@@ -177,7 +177,7 @@
       <default>500</default>
       <locale name="C">
          <short>Composer Window default height</short>
-         <long>Default height of the Composer Window</long>
+         <long>Default height of the Composer Window.</long>
       </locale>
     </schema>
 
@@ -276,9 +276,9 @@
          <short>Load images for HTML messages over http</short>
          <long>
           Load images for HTML messages over http(s). Possible values are:
-          0 - Never load images off the net
-          1 - Load images in messages from contacts
-          2 - Always load images off the net
+          0 - Never load images off the net.
+          1 - Load images in messages from contacts.
+          2 - Always load images off the net.
          </long>
       </locale>
     </schema>
@@ -380,7 +380,7 @@
       <locale name="C">
          <short>Show the sender email in the messages column in the message list</short>
          <long>
-          Show the email of the sender in the messages composite column in the message list
+          Show the email of the sender in the messages composite column in the message list.
          </long>
       </locale>
     </schema>
@@ -392,9 +392,9 @@
       <type>int</type>
       <default>1500</default>
       <locale name="C">
-         <short>Timeout for marking message as Seen</short>
+         <short>Timeout for marking message as seen</short>
          <long>
-          Timeout for marking message as Seen.
+          Timeout for marking message as seen.
          </long>
       </locale>
     </schema>
@@ -434,9 +434,9 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Enable Search Folders</short>
+         <short>Enable search folders</short>
          <long>
-          Enable Search Folders on startup.
+          Enable search folders on startup.
          </long>
       </locale>
     </schema>
@@ -507,7 +507,7 @@
       <locale name="C">
          <short>Variable width font</short>
          <long>
-	 The variable width font for mail display 
+	 The variable width font for mail display.
          </long>
       </locale>
     </schema>
@@ -521,7 +521,7 @@
       <locale name="C">
          <short>Terminal font</short>
          <long>
-	 The terminal font for mail display 
+	 The terminal font for mail display.
          </long>
       </locale>
     </schema>
@@ -535,7 +535,7 @@
       <locale name="C">
          <short>Use custom fonts</short>
          <long>
-	 Use custom fonts for displaying mail
+	 Use custom fonts for displaying mail.
          </long>
       </locale>
     </schema>
@@ -549,7 +549,7 @@
       <locale name="C">
          <short>Thread the message-list</short>
          <long>
-          Thread the message list.
+         Thread the message list.
          </long>
       </locale>
     </schema>
@@ -578,7 +578,7 @@
       <locale name="C">
          <short>Allows evolution to display text part of limited size</short>
          <long>
-		 Enable to render message text part of limited size.
+	 Enable to render message text part of limited size.
          </long>
       </locale>
     </schema>
@@ -592,9 +592,9 @@
       <locale name="C">
          <short>Text message part limit</short>
          <long>
-		 This decides the max size of the text part that can be formatted under
-		 evolution. The default is 4MB / 4096 KB and is specified interms of KB.
-		 </long>
+	 This decides the max size of the text part that can be formatted under
+	 evolution. The default is 4MB / 4096 KB and is specified interms of KB.
+	 </long>
       </locale>
     </schema>
 
@@ -638,7 +638,7 @@
          <short>Default value for thread expand state</short>
          <long>
 	  This setting specifies whether the threads should be in expanded
-	  or collapsed state by default. Evolution requires a restart
+	  or collapsed state by default. Evolution requires a restart.
          </long>
       </locale>
     </schema>
@@ -669,7 +669,7 @@
       <default>600</default>
       <locale name="C">
          <short>Message Window default width</short>
-         <long>Default width of the Message Window</long>
+         <long>Default width of the message window.</long>
       </locale>
     </schema>
 
@@ -681,7 +681,7 @@
       <default>400</default>
       <locale name="C">
          <short>Message Window default height</short>
-         <long>Default height of the Message Window</long>
+         <long>Default height of the message window.</long>
       </locale>
     </schema>
 
@@ -695,7 +695,7 @@
       <default>600</default>
       <locale name="C">
          <short>Subscribe dialog default width</short>
-         <long>Default width of the Subscribe dialog</long>
+         <long>Default width of the subscribe dialog.</long>
       </locale>
     </schema>
 
@@ -707,7 +707,7 @@
       <default>400</default>
       <locale name="C">
          <short>Subscribe dialog default height</short>
-         <long>Default height of the Subscribe dialog</long>
+         <long>Default height of the subscribe dialog.</long>
       </locale>
     </schema>
 
@@ -1007,7 +1007,7 @@
       <locale name="C">
          <short>Check incoming mail being junk</short>
          <long>
-          Run junk test on incoming mail
+          Run junk test on incoming mail.
          </long>
       </locale>
     </schema>
@@ -1093,7 +1093,7 @@
       <locale name="C">
          <short>Use SpamAssassin daemon and client</short>
          <long>
-          Use SpamAssassin daemon and client (spamc/spamd)
+          Use SpamAssassin daemon and client (spamc/spamd).
          </long>
       </locale>
     </schema>
@@ -1153,7 +1153,7 @@
       <locale name="C">
          <short>Save directory</short>
          <long>
-           Directory for saving mail component files
+           Directory for saving mail component files.
          </long>
       </locale>
     </schema>
@@ -1166,7 +1166,7 @@
       <locale name="C">
          <short>Composer load/attach directory</short>
          <long>
-           Directory for loading/attaching files to composer
+           Directory for loading/attaching files to composer.
          </long>
       </locale>
     </schema>
