@@ -7127,8 +7127,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (day_view, item);
-		if (event && event->key.keyval == GDK_Return) {
-			day_view->resize_event_num = -1;
+		if (!E_TEXT (item)->preedit_len && event && event->key.keyval == GDK_Return) {
 			day_view->resize_event_num = -1;
 
 			/* We set the keyboard focus to the EDayView, so the

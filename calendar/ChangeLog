@@ -1,3 +1,11 @@
+2008-01-14  Suresh Chandrasekharan  <suresh.chandrasekharan@sun.com>
+
+	** Fix for bug #264404
+
+	* gui/e-day-view.c (e_day_view_on_text_item_event):
+	* gui/e-week-view.c (e_week_view_on_text_item_event):
+	Pass down Enter if in preedit-mode.
+
 2008-01-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #508731

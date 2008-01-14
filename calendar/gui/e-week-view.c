@@ -3061,7 +3061,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	switch (gdkevent->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (week_view, item);
-		if (gdkevent && gdkevent->key.keyval == GDK_Return) {
+		if (!E_TEXT (item)->preedit_len && gdkevent && gdkevent->key.keyval == GDK_Return) {
 			/* We set the keyboard focus to the EDayView, so the
 			   EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
