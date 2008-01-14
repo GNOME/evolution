@@ -338,6 +338,34 @@ sensitize_widgets (MemoPage *mpage)
 			, NULL);
 }
 
+/* returns empty string rather than NULL because of simplicity of usage */
+static const char *
+get_recipients (ECalComponent *comp)
+{
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+
+	g_return_val_if_fail (comp != NULL, "");
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+
+	/* first look if we have there such property */
+	for (icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	     icalprop;
+	     icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
+		const char *xname = icalproperty_get_x_name (icalprop);
+
+		if (xname && 0 == strcmp (xname, "X-EVOLUTION-RECIPIENTS"))
+			break;
+	}
+
+	if (icalprop)
+		return icalproperty_get_x (icalprop);
+
+	return "";
+}
+
+
 /* fill_widgets handler for the memo page */
 static gboolean
 memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
@@ -434,6 +462,7 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				string = g_strdup (strip);
 
 			if (itip_organizer_is_user (comp, page->client) || itip_sentby_is_user (comp)) {
+				gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), string);
 			} else {
 				list = g_list_append (list, string);
 				gtk_combo_set_popdown_strings (GTK_COMBO (priv->org_combo), list);
@@ -451,6 +480,9 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (priv->source_selector),
 		e_cal_get_source (page->client));
+
+	if (priv->to_entry && (page->flags & COMP_EDITOR_PAGE_IS_SHARED) && !(page->flags & COMP_EDITOR_PAGE_NEW_ITEM))
+		gtk_entry_set_text (GTK_ENTRY (priv->to_entry), get_recipients (comp));
 
 	priv->updating = FALSE;
 
@@ -723,7 +755,8 @@ memo_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	if (str)
 		g_free (str);
 
-	if ((page->flags & COMP_EDITOR_PAGE_IS_SHARED) && fill_comp_with_recipients (priv->name_selector, comp)) {
+	/* change recipients only when creating new item, after that no such action is available */
+	if ((page->flags & COMP_EDITOR_PAGE_IS_SHARED) && (page->flags & COMP_EDITOR_PAGE_NEW_ITEM) && fill_comp_with_recipients (priv->name_selector, comp)) {
 		ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 
 		EAccount *a;
@@ -1221,13 +1254,16 @@ memo_page_construct (MemoPage *mpage)
 		gtk_widget_show (priv->org_label);
 		gtk_widget_show (priv->org_combo);
 
-		if (flags & COMP_EDITOR_PAGE_NEW_ITEM) {
-			priv->name_selector = e_name_selector_new ();
-			priv->to_entry = get_to_entry (priv->name_selector);
-			gtk_container_add ((GtkContainer *)priv->to_hbox, priv->to_entry);
-			gtk_widget_show (priv->to_hbox);
-			gtk_widget_show (priv->to_entry);
-			gtk_widget_show (priv->to_button);
+		priv->name_selector = e_name_selector_new ();
+		priv->to_entry = get_to_entry (priv->name_selector);
+		gtk_container_add ((GtkContainer *)priv->to_hbox, priv->to_entry);
+		gtk_widget_show (priv->to_hbox);
+		gtk_widget_show (priv->to_entry);
+		gtk_widget_show (priv->to_button);
+
+		if (!(flags & COMP_EDITOR_PAGE_NEW_ITEM)) {
+			gtk_widget_set_sensitive (priv->to_button, FALSE);
+			gtk_widget_set_sensitive (priv->to_entry, FALSE);
 		}
 	}
 

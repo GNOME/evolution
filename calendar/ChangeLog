@@ -1,3 +1,15 @@
+2008-01-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #490464
+
+	* gui/dialogs/memo-page.c: (get_recipients): New helper function to
+	obtain recipients from the component.
+	* gui/dialogs/memo-page.c: (memo_page_fill_widgets),
+	(memo_page_fill_component), (memo_page_construct):
+	Always show recipient's widgets for shared memo, but keep it readonly
+	when editing old event. Also make sure the organizer is set by
+	the value in the component, not by the default account.
+
 2008-01-14  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #339620
