@@ -883,7 +883,8 @@
       <locale name="C">
          <short>Prompt to check if the user wants to go offline immediately </short>
          <long>
-	 It disables the feature where repeated prompts to ask if offline sync is required.
+	 It disables/enables the repeated prompts to ask if offline 
+	 sync is required before going into offline mode.
          </long>
       </locale>
     </schema>
@@ -897,7 +898,9 @@
       <locale name="C">
          <short>Prompt when deleting messages in search folder</short>
          <long>
-	 It disables the feature where repeated prompts to ask if delete messages from search folder.
+	 It disables/enables the repeated prompts to warn that deleting
+	 messages from a search folder permanently deletes the message, not
+	 simply removing it from the search results.
          </long>
       </locale>
     </schema>

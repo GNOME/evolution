@@ -1,3 +1,10 @@
+2008-01-14  Martin Meyer  <elreydetodo@gmail.com>
+
+	** Fix for bug #496301
+
+	* evolution-mail.schemas.in: Made the long description of a couple of 
+	schemas more readable. 
+
 2008-01-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #488213
