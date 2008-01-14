@@ -4625,6 +4625,16 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	/* Remove any other X-Evolution-* headers that may have been set */
 	xev = mail_tool_remove_xevolution_headers (message);
 	camel_header_raw_clear(&xev);
+	
+	/* Check for receipt request */
+	if (camel_medium_get_header(CAMEL_MEDIUM(message), "Disposition-Notification-To")) {
+		e_msg_composer_set_request_receipt (new, TRUE);
+	}
+	
+	/* Check for mail priority */
+	if (camel_medium_get_header(CAMEL_MEDIUM(message), "X-Priority")) {
+		e_msg_composer_set_priority (new, TRUE);
+	}
 
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (message)->headers;

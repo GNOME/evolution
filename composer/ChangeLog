@@ -1,3 +1,12 @@
+2008-01-14  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #502783
+	** Patch from <nickspoon0@gmail.com>
+
+	* e-msg-composer.c: (e_msg_composer_new_with_message): Restore states 
+	of 'Request Read Receipt' and 'Prioritize Message' when opening a
+	draft message. 
+
 2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
 
 	** Fix for bug #492188
