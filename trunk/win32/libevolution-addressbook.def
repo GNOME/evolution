@@ -1,0 +1,14 @@
+EXPORTS
+	addressbook_load
+	addressbook_load_cancel
+	addressbook_load_default_book
+	e_minicard_activate_editor
+	e_minicard_get_type
+	e_minicard_view_get_type
+	eab_load_error_dialog
+	eab_merging_book_add_contact
+	eab_merging_book_commit_contact
+	eab_prompt_save_dialog
+	eab_show_contact_editor
+	eab_show_contact_list_editor
+	eab_view_get_type

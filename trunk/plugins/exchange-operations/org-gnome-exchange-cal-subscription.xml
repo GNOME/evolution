@@ -1,0 +1,15 @@
+<Root>
+  <commands>
+    <cmd name="FolderSubscription" _label="Subscribe to Other User's Calendar"
+      _tip="Subscribe to Other User's Calendar"/>
+  </commands>
+
+  <menu>
+    <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="FolderSubscription" verb=""/>
+      </placeholder>
+    </submenu>
+  </menu>
+
+</Root>

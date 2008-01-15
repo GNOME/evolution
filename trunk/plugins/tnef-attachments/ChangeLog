@@ -1,0 +1,22 @@
+2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* tnef-plugin.c: (e_plugin_lib_enable): Avoid reentrancy in enable.
+
+2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* org-gnome-tnef-attachments.eplug.xml:	Fixed bugs where the .so wasn't 
+	reffered rightly.
+
+2007-07-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Cleanups from Lucky Wankhede 
+
+	* org-gnome-tnef-attachments.eplug.xml:
+	* tnef-plugin.c: (org_gnome_format_tnef), (processTnef),
+	(saveVCard), (printRrule), (saveVCalendar), (saveVTask),
+	(fprintProperty), (fprintUserProp):
+
+2007-06-07 Lucky Wankhede <wlakke@novell.com>
+	* New implementation for tnef
+	* For reading "winmail.dat" kind of attachements
+	* using libytnef

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<e-plugin-list>
+	<e-plugin type="shlib"
+	          location="@PLUGINDIR@/liborg-gnome-bogo-junk-plugin.so"
+	          id="org.gnome.evolution.bogo.bf_junk_plugin"
+	          name="Bogofilter junk plugin">
+		<_description>Filters junk messages using Bogofilter.</_description>
+		<author name="Mikhail Zabaluev" email="mhz@altlinux.org"/>
+		<hook class="org.gnome.evolution.mail.junk:1.0">
+			<group id="EMJunk" >
+				<item name="Bogofilter" report_non_junk="em_junk_bf_report_non_junk"
+				      report_junk="em_junk_bf_report_junk"
+				      check_junk="em_junk_bf_check_junk"
+				      commit_reports="em_junk_bf_commit_reports" 
+				      validate_binary="em_junk_bf_validate_binary"/>
+			</group>
+		</hook>
+		<!-- hook into the 'mail properties' menu -->
+		<hook class="org.gnome.evolution.mail.config:1.0">
+		        <group target="prefs" id="org.gnome.evolution.mail.prefs">
+				<item type="section_table" path="40.junk/30.options" _label="Bogofilter Options"/>
+				<item type="item_table" path="40.junk/40.options" factory="org_gnome_bogo_convert_unicode"/>
+		        </group>
+			    </hook>
+
+	</e-plugin>
+</e-plugin-list>

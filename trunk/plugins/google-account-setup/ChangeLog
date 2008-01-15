@@ -1,0 +1,15 @@
+2007-12-23  Nyall Dawson <nyall@zombiepigs.net>
+
+	** Fix for bug #503954
+
+	* google-source.c: (is_email), (user_changed): Accept custom domain 
+	names while setting up account.
+
+2007-10-30  Sankar P  <psankar@novell.com>
+
+	* ChangeLog:
+	Every plugin should have a ChangeLog. Added.
+
+	* google-source.c: 
+	Commented an unused function. 
+	Marked Debug statements conditional.

@@ -1,0 +1,25 @@
+<Root>
+  <commands>
+    <cmd name="ListHelp" _tip="Get information about the usage of the list this message belongs to"/>
+    <cmd name="ListSubscribe" _tip="Subscribe to the mailing list this message belongs to"/>
+    <cmd name="ListUnsubscribe" _tip="Unsubscribe to the mailing list this message belongs to"/>
+    <cmd name="ListPost" _tip="Post a message to the mailing list this message belongs to"/>
+    <cmd name="ListOwner" _tip="Contact the owner of the mailing list this message belongs to"/>
+    <cmd name="ListArchive" _tip="Get an archive of the list this message belongs to"/>
+  </commands>
+
+  <menu>
+    <placeholder name="MessagePlaceholder">
+      <submenu name="Message">
+      <submenu name="List" _label="Mailing _List">    
+        <menuitem verb="ListHelp" _label="Get List _Usage Information"/>
+        <menuitem verb="ListSubscribe" _label="_Subscribe to List"/>
+        <menuitem verb="ListUnsubscribe" _label="_Unsubscribe from List"/>
+        <menuitem verb="ListPost" _label="_Post Message to List"/>
+        <menuitem verb="ListOwner" _label="Contact List _Owner"/>
+        <menuitem verb="ListArchive" _label="Get List _Archive"/>
+      </submenu>
+    </submenu>
+    </placeholder>
+  </menu>
+</Root>

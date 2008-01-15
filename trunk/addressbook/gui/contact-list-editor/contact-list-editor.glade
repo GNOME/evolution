@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--*- mode: xml -*-->
+<glade-interface>
+  <widget class="GtkDialog" id="dialog">
+    <property name="visible">True</property>
+    <property name="border_width">6</property>
+    <property name="title" translatable="yes" context="yes">Contact List Editor</property>
+    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="icon_name">stock_contact-list</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+    <property name="has_separator">False</property>
+    <signal name="delete_event" handler="contact_list_editor_delete_event_cb"/>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="dialog-vbox">
+        <property name="visible">True</property>
+        <child>
+          <widget class="GtkTable" id="table">
+            <property name="visible">True</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <property name="border_width">6</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">12</property>
+            <property name="row_spacing">12</property>
+            <child>
+              <widget class="GtkImage" id="image">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="icon_size">6</property>
+                <property name="icon_name">stock_addressbook</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="x_options"></property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkTable" id="source-table">
+                <property name="visible">True</property>
+                <property name="n_rows">2</property>
+                <property name="n_columns">2</property>
+                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <child>
+                  <widget class="GtkLabel" id="list-name-label">
+                    <property name="visible">True</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes" context="yes">_List name:</property>
+                    <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">list-name-entry</property>
+                  </widget>
+                  <packing>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="source-label">
+                    <property name="visible">True</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes" context="yes">_Where:</property>
+                    <property name="use_underline">True</property>
+                  </widget>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkEntry" id="list-name-entry">
+                    <property name="visible">True</property>
+                    <property name="invisible_char">*</property>
+                    <signal name="changed" handler="contact_list_editor_list_name_entry_changed_cb"/>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Custom" id="source-combo-box">
+                    <property name="creation_function">contact_list_editor_create_source_combo_box</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkVBox" id="members-vbox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <widget class="GtkLabel" id="members-label">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes" context="yes">&lt;b&gt;Members&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkAlignment" id="members-alignment">
+                    <property name="visible">True</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <widget class="GtkTable" id="members-table">
+                        <property name="visible">True</property>
+                        <property name="n_rows">4</property>
+                        <property name="n_columns">2</property>
+                        <property name="column_spacing">6</property>
+                        <property name="row_spacing">6</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="members-instructions">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes" context="yes">_Type an email address or drag a contact into the list below:</property>
+                            <property name="use_underline">True</property>
+                            <property name="justify">GTK_JUSTIFY_CENTER</property>
+                          </widget>
+                          <packing>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Custom" id="email-entry">
+                            <property name="creation_function">contact_list_editor_create_name_selector</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkScrolledWindow" id="scrolled-window">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+                            <child>
+                              <widget class="GtkTreeView" id="tree-view">
+                                <property name="visible">True</property>
+                                <property name="headers_visible">False</property>
+                                <property name="search_column">0</property>
+                                <signal name="drag_motion" handler="contact_list_editor_drag_motion_cb"/>
+                                <signal name="key_press_event" handler="contact_list_editor_tree_view_key_press_event_cb"/>
+                                <signal name="drag_data_received" handler="contact_list_editor_drag_data_received_cb"/>
+                                <signal name="drag_drop" handler="contact_list_editor_drag_drop_cb"/>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="check-button">
+                            <property name="visible">True</property>
+                            <property name="is_focus">True</property>
+                            <property name="label" translatable="yes" context="yes">_Hide addresses when sending mail to this list</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <signal name="toggled" handler="contact_list_editor_check_button_toggled_cb"/>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkVBox" id="members-buttons">
+                            <property name="visible">True</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <widget class="GtkButton" id="add-button">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="is_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_markup">Add an email to the List</property>
+                                <property name="tooltip_text">Add an email to the List</property>
+                                <property name="label" context="yes">gtk-add</property>
+                                <property name="use_stock">True</property>
+                                <property name="xalign">0</property>
+                                <property name="response_id">0</property>
+                                <signal name="clicked" handler="contact_list_editor_add_button_clicked_cb"/>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="remove-button">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="is_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_markup">Remove an email address from the List</property>
+                                <property name="tooltip_text">Remove an email address from the List</property>
+                                <property name="label" context="yes">gtk-remove</property>
+                                <property name="use_stock">True</property>
+                                <property name="xalign">0</property>
+                                <property name="response_id">0</property>
+                                <signal name="clicked" handler="contact_list_editor_remove_button_clicked_cb"/>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="select-button">
+                                <property name="visible">True</property>
+                                <property name="is_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="has_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_markup">Insert email addresses from Address Book</property>
+                                <property name="tooltip_text">Insert email addresses from Address Book</property>
+                                <property name="label" translatable="yes" context="yes">Select...</property>
+                                <property name="response_id">0</property>
+                                <signal name="clicked" handler="contact_list_editor_select_button_clicked_cb"/>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkAlignment" id="members-buttons-alignment">
+                                <property name="visible">True</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options"></property>
+                          </packing>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="dialog-action-area">
+            <property name="visible">True</property>
+            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <child>
+              <widget class="GtkButton" id="cancel-button">
+                <property name="visible">True</property>
+                <property name="is_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="label" context="yes">gtk-cancel</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="contact_list_editor_cancel_button_clicked_cb"/>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="ok-button">
+                <property name="visible">True</property>
+                <property name="can_default">True</property>
+                <property name="label" context="yes">gtk-ok</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="contact_list_editor_ok_button_clicked_cb"/>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">GTK_PACK_END</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>

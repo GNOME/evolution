@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.face" type="shlib" _name="Face" 
+		location="@PLUGINDIR@/liborg-gnome-face@SOEXT@">
+
+		<author name="Sankar P" email="psankar@novell.com"/>
+		<_description>Attach Face header to outgoing messages. First time the user needs to configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/faces  This will be used in messages that are sent further.</_description>
+
+		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
+			<menu id="org.gnome.evolution.mail.composer" target="widget">
+				<ui file="@PLUGINDIR@/org-gnome-face-ui.xml"/>
+				<item
+					type="item"
+					verb="Face"
+					path="/commands/Face"			   
+					activate="org_gnome_composer_face"
+					enable="one"
+				/>
+			</menu>
+		</hook>
+	</e-plugin>
+</e-plugin-list>

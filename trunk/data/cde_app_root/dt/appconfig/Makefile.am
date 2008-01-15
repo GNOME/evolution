@@ -1,0 +1,1 @@
+SUBDIRS = appmanager icons types

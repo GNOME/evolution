@@ -1,0 +1,78 @@
+2008-01-06  Christian Krause  <chkr@plauener.de>
+
+	* backup.c: (backup), (restore), (check), (main): Initialize static 
+	variables before use, not-NULL checks for filename before
+	backup/restore/check operations. 
+
+2007-08-07  Johnny Jacob  <jjohnny@novell.com>
+	
+	* Committed on behalf of Anand V M   <avmuttagi@gmail.com>
+	
+	** Fix for bug #458508
+
+	* backup-restore-plugin: string issues resolved.
+
+2007-08-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* backup-restore.c: (org_gnome_backup_restore_restore): Popup the
+	right warning
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* backup.c: Remove BASE_VERSION from the binary
+
+2007-06-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #428328 from Ghislain MARY
+
+	* backup.c: (main): Use GOptions from popt
+
+2007-04-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Reworked Backup/Restore plugin. It comes in File menu for
+	backup/restore. It also provides a option to restore, while setting up
+	a new account. Option added to show GUI progress for backup/restore.
+
+	* Makefile.am: Added error file to build.
+	* backup-restore.c: (backup), (restore), (sanity_check),
+	(dialog_prompt_user), (org_gnome_backup_restore_backup),
+	(org_gnome_backup_restore_restore), (check_toggled),
+	(restore_wizard), (file_changed), (backup_restore_page),
+	(backup_restore_commit), (backup_restore_abort):
+	* backup.c: (backup), (restore), (check), (pbar_update),
+	(thread_start), (idle_cb), (dlg_response), (main):
+	* org-gnome-backup-restore.eplug.xml:
+	* org-gnome-backup-restore.error.xml:
+	* org-gnome-backup-restore.xml:
+
+2007-04-02  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* org-gnome-backup-restore.eplug.xml:
+	Cleanup. 
+	Fixes part of #301149
+
+2007-03-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #419524
+
+	* Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>.
+
+2005-05-11  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: setup built_sources & cleanfiles.
+
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (plugin_DATA): 
+	* org-gnome-backup-restore.eplug.xml: s/.in/.xml & i18n.
+
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-backup-restore.eplug.in: Added author and fixed description.
+
+2004-12-16  JP Rosevear  <jpr@novell.com>
+
+	* Imported backup/restore plugin
+

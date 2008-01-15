@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+    <e-plugin id="org.gnome.evolution.mark_calendar_offline" type="shlib" 
+	_name="Mark calendar offline" 
+	location="@PLUGINDIR@/liborg-gnome-mark-calendar-offline@SOEXT@">
+	<author name="Harish Krishnaswamy" email="kharish@novell.com"/>
+       	<_description>Marks the selected calendar for offline viewing.</_description>
+
+		<hook class="org.gnome.evolution.calendar.popup:1.0">
+			<menu id="org.gnome.evolution.calendar.source.popup" target="source">
+				<item type="item" path="38.mark_calendar_offline" _label="_Make available for offline use" icon="stock_disconnect"  visible="offline" activate="org_gnome_mark_offline"/>
+			</menu>
+			<menu id="org.gnome.evolution.calendar.source.popup" target="source">
+				<item type="item" path="38.mark_calendar_no_offline" _label="_Do not make available for offline use" icon="stock_connect"  visible="no-offline" activate="org_gnome_mark_no_offline"/>
+			</menu>
+
+			<menu id="org.gnome.evolution.memos.source.popup" target="source">
+				<item type="item" path="38.mark_memos_offline" _label="_Make available for offline use" icon="stock_disconnect"  visible="offline" activate="org_gnome_mark_offline"/>
+			</menu>
+			<menu id="org.gnome.evolution.memos.source.popup" target="source">
+				<item type="item" path="38.mark_memos_no_offline" _label="_Do not make available for offline use" icon="stock_connect"  visible="no-offline" activate="org_gnome_mark_no_offline"/>
+			</menu>
+
+			<menu id="org.gnome.evolution.tasks.source.popup" target="source">
+				<item type="item" path="38.mark_tasks_offline" _label="_Make available for offline use" icon="stock_disconnect"  visible="offline" activate="org_gnome_mark_offline"/>
+			</menu>
+			<menu id="org.gnome.evolution.tasks.source.popup" target="source">
+				<item type="item" path="38.mark_tasks_no_offline" _label="_Do not make available for offline use" icon="stock_connect"  visible="no-offline" activate="org_gnome_mark_no_offline"/>
+			</menu>
+		</hook>
+
+	</e-plugin>
+</e-plugin-list>

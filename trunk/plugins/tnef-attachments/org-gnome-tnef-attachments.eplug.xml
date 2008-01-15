@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.mail.tnefattachments"
+    location="@PLUGINDIR@/liborg-gnome-tnef-attachments@SOEXT@"
+    _name="TNEF Attachment decoder">
+    <_description>A simple plugin which uses ytnef to decode tnef attachments.</_description>
+    <author name="Lucky Wankhede" email="wlakke@novell.com"/>
+
+    <hook class="org.gnome.evolution.mail.format:1.0">
+      <group id="EMFormatHTML">
+	<item flags="inline_disposition" mime_type="application/vnd.ms-tnef"
+	  format="org_gnome_format_tnef"/>
+      </group>
+      <group id="EMFormatHTMLDisplay">
+	<item flags="inline_disposition" mime_type="application/vnd.ms-tnef"
+	  format="org_gnome_format_tnef"/>
+      </group>
+    </hook>
+  </e-plugin>
+</e-plugin-list>

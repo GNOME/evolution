@@ -1,0 +1,18 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/bogofilter/unicode</key>
+      <applyto>/apps/evolution/mail/junk/bogofilter/unicode</applyto>
+      <owner>bf-eplugin</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Convert mail messages to Unicode</short>
+        <long>
+          Convert message text to Unicode UTF-8 to unify spam/ham tokens
+          coming from different character sets.
+        </long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>

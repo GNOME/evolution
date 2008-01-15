@@ -1,0 +1,81 @@
+<Root>
+  <commands>
+    <cmd name="TasksOpenTask" _tip="View the selected task" accel="*Control*o"/>
+    <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="pixbuf"
+	 accel="*Control*p"/>
+    <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="pixbuf"/>
+
+    <cmd name="TasksCut" _tip="Cut selected tasks" accel="*Control*x" pixtype="pixbuf"/>
+    <cmd name="TasksCopy" _tip="Copy selected tasks" accel="*Control*c" pixtype="pixbuf"/>
+    <cmd name="TasksPaste" _tip="Paste tasks from the clipboard" accel="*Control*v" pixtype="pixbuf"/>
+    <cmd name="TasksDelete" _tip="Delete selected tasks" accel="*Control*d" sensitive="0"
+         pixtype="pixbuf"/>
+    <cmd name="TasksMarkComplete" _tip="Mark selected tasks as complete" accel="*Control*k" sensitive="0"/>
+
+    <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
+    <cmd name="TasksAssign" _label="_Assign Task"/>
+    <cmd name="TasksForward" _label="_Forward as iCalendar" accel="*Control*f" pixtype="pixbuf"/>
+
+    <cmd name="ViewPreview" _tip="Show task preview window" accel="*Control*m" type="toggle"/>
+
+  </commands>
+  
+  <menu>
+    <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="OpenTask" verb="TasksOpenTask" _label="_Open Task"/>
+      </placeholder>
+      <placeholder name="Print">
+	<menuitem name="PrintPreview" verb="TasksPrintPreview" _label="Print Pre_view"/>
+
+	<menuitem name="Print" verb="TasksPrint" accel="*Control*p" _label="_Print..."/>
+      </placeholder>
+
+    </submenu>
+
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder">
+	<menuitem name="TasksCut" verb="" _label="C_ut"/>
+	<menuitem name="TasksCopy" verb="" _label="_Copy"/>
+	<menuitem name="TasksPaste" verb="" _label="_Paste"/>
+
+	<separator/>
+
+	<menuitem name="TasksDelete" verb="" _label="_Delete"/>
+
+	<separator/>
+
+	<menuitem name="TasksMarkComplete" verb="" _label="Mar_k as Complete"/>
+      </placeholder>
+    </submenu>
+
+    <submenu name="View" _label="_View">
+      <placeholder name="ViewPreview">
+        <menuitem name="ViewPreview" verb="" _label="Task _Preview"/>
+      </placeholder>
+    </submenu>
+
+    <placeholder name="ActionsPlaceholder">
+    <submenu name="Actions" _label="_Actions">
+	<menuitem name="TasksPurge" verb=""/>
+	<menuitem name="TasksAssign" verb=""/>
+	<menuitem name="TasksForward" verb=""/>
+    </submenu>
+    </placeholder>
+
+  </menu>
+
+  <dockitem name="Toolbar">
+    <toolitem name="Cut" _label="Cut" verb="TasksCut" pixtype="pixbuf"/>
+    <toolitem name="Copy" _label="Copy" verb="TasksCopy" pixtype="pixbuf"/>
+    <toolitem name="Paste" _label="Paste" verb="TasksPaste" pixtype="pixbuf"/>
+
+    <separator/>
+
+    <toolitem name="Print" _label="Print" verb="TasksPrint" pixtype="pixbuf"/>
+
+    <toolitem name="Delete" _label="Delete" verb="TasksDelete" pixtype="pixbuf"/>
+
+  </dockitem>
+
+</Root>

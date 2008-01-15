@@ -1,0 +1,41 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/attachment_presend_check</key>
+      <applyto>/apps/evolution/mail/prompts/attachment_presend_check</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable attachment reminder plugin</short>
+        <long>Enable attachment reminder plugin.</long>
+      </locale>
+    </schema>
+
+
+    <!-- Labels and Colours -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/attachment_reminder_clues</key>
+      <applyto>/apps/evolution/mail/attachment_reminder_clues</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+
+      <!-- The following are the keywords used by the plugin to understand
+      whether the user wanted to send a attachment. The list can have any
+      number of strings.-->
+
+      <default>[attachment,attaching,attached,enclosed]</default>
+      <locale name="C">
+         <short>List of clues for the attachment reminder plugin to look for
+	       in a message body</short>
+         <long>
+	       List of clues for the attachment reminder plugin to look for
+	       in a message body.
+         </long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>
+

@@ -1,0 +1,16 @@
+<Root>
+  <commands>
+    <cmd name="FolderSubscription" _label="Subscribe to Other User's Folder"
+      _tip="Subscribe to Other User's Folder"/>
+  </commands>
+
+  <menu>
+    <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="FolderSubscription" verb=""/>
+      </placeholder>
+    </submenu>
+
+
+  </menu>
+</Root>

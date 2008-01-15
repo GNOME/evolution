@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<error-list domain="org.gnome.evolution.message.retract">
+	<error id="retract-failure" type="error">
+		<primary>Message retract failed</primary>
+		<secondary>The server did not allow the selected message to be retracted.</secondary>
+	</error>
+</error-list> 

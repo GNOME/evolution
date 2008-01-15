@@ -1,0 +1,117 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t letter -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=letter quickref.ps
+\documentclass[12pt]{article}
+\usepackage[utf-8]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[italian]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Scheda riferimenti veloci di Evolution}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Globale}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Componenti}}		&					\\
+		Posta					& \textbf{Ctrl+1}			\\
+		Contatti				& \textbf{Ctrl+2}			\\
+		Calendario				& \textbf{Ctrl+3}			\\
+		Compiti					& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Memo					& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Controlli}}		&					\\
+		Nuovo elemento in modalità attuale	& \textbf{Ctrl+N}			\\
+		Sposta focus tra riquadri		& \textbf{F6}				\\
+		Pulisci barra di ricerca		& \textbf{Maiusc+Ctrl+Q}			\\
+		Chiudia finestra			& \textbf{Ctrl+W}			\\
+		Apri nuova finestra			& \textbf{Maiusc+Ctrl+W}			\\
+		\vspace{1.5mm}
+		Esci da Evolution			& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Selezione}}		&					\\
+		Stampa selezione			& \textbf{Ctrl+P}			\\
+		Salva selezione 			& \textbf{Ctrl+S}			\\
+		Elimina selezione			& \textbf{Canc} o \textbf{Backspace}	\\
+		Sposta email/contatti su cartella	& \textbf{Maiusc+Ctrl+V}			\\
+		Copia email/contatti su cartella	& \textbf{Maiusc+Ctrl+Y}			\\
+	\end{tabular*}
+	\section*{Componenti Contatti/Memo}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Comandi generici}}	&					\\
+		Nuovo contatto				& \textbf{Maiusc+Ctrl+C}			\\
+		Nuova lista contatti			& \textbf{Maiusc+Ctrl+L}			\\
+		Nuovo memo				& \textbf{Maiusc+Ctrl+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{Componente Posta}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Comandi generici}}	&					\\
+		Nuovo messaggio				& \textbf{Maiusc+Ctrl+M}			\\
+		\vspace{1.5mm}
+		Invia/Ricevi messaggi			& \textbf{F9}				\\
+		\textit{\textbf{Selezione}}		&					\\
+		Applica filtri				& \textbf{Ctrl+Y}			\\
+		Apri in nuova finestra 			& \textbf{Invio} o \textbf{Ctrl+O}	\\
+		\vspace{1.5mm}
+		Inoltra selezione			& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Riquadro elenco messaggi}}	&					\\
+		Successivo messaggio non letto		& \textbf{.} oppure \textbf{]}		\\
+		\vspace{1.5mm}
+		Precedente messaggio non letto		& \textbf{,} oppure \textbf{[}		\\
+		\textit{\textbf{Riquadro anteprima}}	&					\\
+		Rispondi a mittente			& \textbf{Ctrl+R}			\\
+		Rispondi a lista			& \textbf{Ctrl+L}			\\
+		Rispondi a tutti destinatari 		& \textbf{Maiusc+Ctrl+R}			\\
+		Scorri in alto				& \textbf{Backspace}			\\
+		Scorri in basso				& \textbf{Spazio}			\\
+	\end{tabular*}
+	\section*{Componenti Compiti/Calendario}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Comandi generici}}	&					\\
+		Nuovo appuntamento			& \textbf{Maiusc+Ctrl+A}			\\
+		Nuova riunione				& \textbf{Maiusc+Ctrl+E}			\\
+		\vspace{1.5mm}
+		Nuovo compito				& \textbf{Maiusc+Ctrl+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Navigazione}}		&					\\
+		Vai a oggi				& \textbf{Ctrl+T}			\\
+		Vai alla data				& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}

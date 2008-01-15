@@ -1,0 +1,28 @@
+<e-plugin-list>
+	<e-plugin
+	  type="shlib"
+	  id="org.gnome.evolution.attachment-reminder"
+	  _name="Attachment Reminder"
+ 	  location="@PLUGINDIR@/liborg-gnome-evolution-attachment-reminder@SOEXT@">
+
+	  	<_description>Looks for clues in a message for mention of
+	  	attachments and warns if the attachment is missing</_description>
+
+		<author name="Johnny Jacob" email="jjohnny@novell.com"/>
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event
+			   id="composer.presendchecks"
+			   handle="org_gnome_evolution_attachment_reminder"
+			   target="message"
+			/>
+		</hook>
+
+		<hook class="org.gnome.evolution.mail.config:1.0">
+		        <group target="prefs" id="org.gnome.evolution.mail.composerPrefs">
+				<item type="section" path="00.general/10.alerts/" factory="org_gnome_attachment_reminder_config_option"/>
+		        </group>
+		</hook>
+
+	</e-plugin>
+</e-plugin-list>

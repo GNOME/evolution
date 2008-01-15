@@ -1,0 +1,91 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* save-attachments.c:
+	Use the new MailMsg API for messages.
+
+2007-04-02  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>
+
+	* org-gnome-save-attachments.eplug.xml:
+	Cleanup. 
+	Fixes part of #301149
+
+2007-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* save-attachments.c:
+	Evolution requires GLib 2.10 now; remove dead backward-compatibility
+	code for GLib < 2.8 (#418971).
+
+2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* save-attachments.c: (save_got_message):
+	mark strings as translatable. See bug #399381 for details.
+
+2006-07-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fixes bug #341369
+	* save-attachments.c: fixing a memory leak.
+
+2006-02-28  Shi Pu <shi.pu@sun.com>
+
+	** Fixes #323853
+
+	* save-attachments.c: (save_response), (entry_changed),
+	(save_got_message):
+	replace GnomeFileEntry by GtkFileChooserButton.
+
+2005-12-17  Tor Lillqvist  <tml@novell.com>
+
+	* save-attachments.c (entry_changed): Use GLib API to manipulate
+	pathname.
+
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* save-attachments.c: moved e-error to e-util
+
+2005-05-13  Rodney Dawes  <dobey@novell.com>
+
+	* org-gnome-save-attachments.xml: Update for new menu layout
+
+2005-05-12  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: setup built_sources/cleanfiles.
+
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: 
+	* org-gnome-save-attachments.eplug.xml: s/.in/.xml/ & i18n.
+
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-save-attachments.eplug.in: Removed plugin from the
+	name.
+	Fixed description and added author
+
+2005-02-07  Not Zed  <NotZed@Ximian.com>
+
+	* save-attachments.c (save_part): fix the access() call test.
+
+2005-01-04  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* save-attachments.c: Use standard error messages
+
+2004-12-27  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* save-attachments.c: Warning when overwriting file
+
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist xml menu file
+
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist .eplug.in file
+
+2004-10-20  Not Zed  <NotZed@Ximian.com>
+
+	* Imported save-attachments example plugin.
+
