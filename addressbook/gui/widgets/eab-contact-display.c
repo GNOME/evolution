@@ -325,10 +325,19 @@ render_name_value (GtkHTMLStream *html_stream, const char *label, const char *st
 {
 	char *value = e_text_to_html (str, html_flags);
 
-	gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-	if (icon)
-		gtk_html_stream_printf (html_stream, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\">", icon);
-	gtk_html_stream_printf (html_stream, "</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>", label, value);
+	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL) {
+		gtk_html_stream_printf (html_stream, "<tr><td align=\"right\" valign=\"top\">%s</td> <td align=\"right\" valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td>", value, label);
+		gtk_html_stream_printf (html_stream, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+		if (icon)
+			gtk_html_stream_printf (html_stream, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\"></td></tr>", icon);
+		else
+			gtk_html_stream_printf (html_stream, "</td></tr>");
+	} else {
+		gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+		if (icon)
+			gtk_html_stream_printf (html_stream, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\">", icon);
+		gtk_html_stream_printf (html_stream, "</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>", label, value);
+	}
 
 	g_free (value);
 }
@@ -350,15 +359,22 @@ accum_address (GString *gstr, EContact *contact, const char *html_label, EContac
 {
 	EContactAddress *adr;
 	const char *label;
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 
 	label = e_contact_get_const (contact, label_field);
 	if (label) {
 		char *html = e_text_to_html (label, E_TEXT_TO_HTML_CONVERT_NL);
 
 #ifdef mapping_works
-		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">%s</td></tr>", html_label, _("(map)"), html);
+		if (is_rtl)
+			g_string_append_printf (gstr, "<tr><td align=\"right\" valign=\"top\">%s</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label, _("(map)"));
+		else
+			g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">%s</td></tr>", html_label, _("(map)"), html);
 #else
-		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\">%s</td></tr>", html_label, html);
+		if (is_rtl)
+			g_string_append_printf (gstr, "<tr><td align=\"right\" valign=\"top\">%s</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label);
+		else
+			g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\">%s</td></tr>", html_label, html);
 #endif
 
 		g_free (html);
@@ -368,8 +384,11 @@ accum_address (GString *gstr, EContact *contact, const char *html_label, EContac
 	adr = e_contact_get (contact, adr_field);
 	if (adr &&
 	    (adr->po || adr->ext || adr->street || adr->locality || adr->region || adr->code || adr->country)) {
+		if (is_rtl)
+			g_string_append_printf (gstr, "<tr><td align=\"right\" valign=\"top\">");
+		else
+			g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">", html_label, _("map"));
 
-		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">", html_label, _("map"));
 
 		if (adr->po && *adr->po) g_string_append_printf (gstr, "%s<br>", adr->po);
 		if (adr->ext && *adr->ext) g_string_append_printf (gstr, "%s<br>", adr->ext);
@@ -379,7 +398,10 @@ accum_address (GString *gstr, EContact *contact, const char *html_label, EContac
 		if (adr->code && *adr->code) g_string_append_printf (gstr, "%s<br>", adr->code);
 		if (adr->country && *adr->country) g_string_append_printf (gstr, "%s<br>", adr->country);
 
-		g_string_append_printf (gstr, "</td></tr>");
+		if (is_rtl)
+			g_string_append_printf (gstr, "</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html_label, _("map"));
+		else
+			g_string_append_printf (gstr, "</td></tr>");
 	}
 	if (adr)
 		e_contact_address_free (adr);
@@ -390,10 +412,19 @@ accum_name_value (GString *gstr, const char *label, const char *str, const char 
 {
 	char *value = e_text_to_html (str, html_flags);
 
-	g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-	if (icon)
-		g_string_append_printf (gstr, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\">", icon);
-	g_string_append_printf (gstr, "</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>", label, value);
+	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL) {
+		g_string_append_printf (gstr, "<tr><td valign=\"top\" align=\"right\">%s</td> <td align=\"right\" valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td>", value, label);
+		g_string_append_printf (gstr, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+		if (icon)
+			g_string_append_printf (gstr, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\"></td></tr>", icon);
+		else 
+			g_string_append_printf (gstr, "</td></tr>");
+	} else {
+		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+		if (icon)
+			g_string_append_printf (gstr, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\">", icon);
+		g_string_append_printf (gstr, "</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>", label, value);
+	}
 
 	g_free (value);
 }
@@ -494,6 +525,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 {
 	GString *accum;
 	GList *email_list, *l, *email_attr_list, *al;
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 #ifdef HANDLE_MAILTO_INTERNALLY
 	int email_num = 0;
 #endif
@@ -529,10 +561,16 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	if (accum->len) {
 
 #ifdef HANDLE_MAILTO_INTERNALLY
-		gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-		gtk_html_stream_printf (html_stream,
+		if (is_rtl) {
+			gtk_html_stream_printf (html_stream,
+					"<tr><td valign=\"top\" align=\"right\">%s</td> <td valign=\"top\" align=\"right\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>",
+					accum->str, _("Email"));
+		} else {
+			gtk_html_stream_printf (html_stream, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+			gtk_html_stream_printf (html_stream,
 					"</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>",
 					_("Email"), accum->str);
+		}
 #else
 		render_name_value (html_stream, _("Email"), accum->str, NULL,
 				   E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_NL);
@@ -612,6 +650,7 @@ static void
 eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact)
 {
 	GtkHTMLStream *html_stream;
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 
 	if (display->priv->contact)
 		g_object_unref (display->priv->contact);
@@ -621,14 +660,14 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 
 	html_stream = gtk_html_begin (GTK_HTML (display));
 	gtk_html_stream_write (html_stream, HTML_HEADER, sizeof (HTML_HEADER) - 1);
-	gtk_html_stream_write (html_stream, "<body>\n", 7);
+	gtk_html_stream_printf (html_stream, "<body><table width=\"100%%\"><tr><td %s>\n", is_rtl ? " align=\"right\" " : "");
 
 	if (contact) {
 		const char *str;
 		char *html;
 		EContactPhoto *photo;
 
-		gtk_html_stream_printf (html_stream, "<table cellspacing=\"20\" border=\"0\"><td valign=\"top\">");
+		gtk_html_stream_printf (html_stream, "<table cellspacing=\"20\" border=\"0\"><td %s valign=\"top\">", is_rtl ? " align=\"right\" " : "");
 		photo = e_contact_get (contact, E_CONTACT_PHOTO);
 		if (!photo)
 			photo = e_contact_get (contact, E_CONTACT_LOGO);
@@ -638,7 +677,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 			e_contact_photo_free (photo);
 		}
 
-		gtk_html_stream_printf (html_stream, "</td><td valign=\"top\">\n");
+ 		gtk_html_stream_printf (html_stream, "</td><td %s valign=\"top\">\n", is_rtl ? " align=\"right\" " : "");
 
 		str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (!str)
@@ -664,7 +703,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 		gtk_html_stream_printf (html_stream, "</td></tr></table>\n");
 	}
 
-	gtk_html_stream_write (html_stream, "</body></html>\n", 15);
+	gtk_html_stream_printf (html_stream, "</td></tr></table></body></html>\n");
 	gtk_html_end (GTK_HTML (display), html_stream, GTK_HTML_STREAM_OK);
 }
 

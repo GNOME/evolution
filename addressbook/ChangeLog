@@ -1,3 +1,10 @@
+2008-01-15  Djihed Afifi  <djihed@gmail.com>
+
+	** Fix for bug #507564
+
+	* gui/widgets/eab-contact-display.c: Fix contact view for RTL
+	languages.
+
 2008-01-14  David Turner  <cillian64@googlemail.com>
 
 	** Partial fix for bug #498095
