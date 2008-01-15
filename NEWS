@@ -1,3 +1,72 @@
+Evolution 2.21.5 2008-01-14
+---------------------------
+
+New in 2.21.5:
+	Mail errors are now non-intrusive (Srinivasa Ragavan)
+	RTL fixes - Mail and Addressbook (Djihed Afifi)
+
+Bug fixes:
+	#211353: Allow categories to be assigned to emails (Milan Crha)
+	#219197: Quit application when session dies (Milan Crha)
+	#270605: Skip disabled accounts. (Suman Manjunath)
+	#300336: Added checkbox for "Enable Search Folders" option (Milan Crha)
+	#300336: Ensure vfolder is running. (Milan Crha)
+	#309432: Fix message headers for RTL languages. (Djihed Afifi)
+	#317823: Bump GtkHTML requirement to 3.17.5 (Matthew Barnes)
+	#317823: Save inline pictures embedded into HTML Mails (Milan Crha)
+	#327965: Fixed multiple password prompts in an exchange account (Sushma Rai)
+	#329692: Get the content size of the MIME part (Jean-Christophe BEGUE)
+	#333695: Print attenddes/roles in the print view (Milan Crha)
+	#339813: Setting new option 'e_date_edit_set_twodigit_year_can_future' to FALSE (Milan Crha)
+	#348638: Remove pre-edit buffer cleanly in day view (Mayank Jain)
+	#350932: Enable the use of scrollable tabs in the mail-preferences dialog. (Gert Kulyk)
+	#362638: Overhaul the message passing API (Matthew Barnes)
+	#364642: New option in Composer tab to preset Request Read Receipt in composer (Milan Crha)
+	#375580: Use ISO-8859-1 encoding to store contacts in iPod (João Vale)
+	#448441: Disable "OK" and "Edit Full" buttons if no source is selected. Also set always book from combo, do not use the new created (Milan Crha)
+	#457842: Do not call edit/start editing of the event when double clicked on the same component as is actually editing (Milan Crha)
+	#474118: Check for the right type of store and invoke appropriate functions (Bharath Acharya)
+	#476264: Add mnemonic_widget for default junk plugin (Andre Klapper)
+	#488213: Fix locks when displaying e-mail with large tiff drawing attached (Milan Crha)
+	#492188: Use the new Tangoized icons instead of deprecated icons from gnome-icon-theme. (Michael Monreal)
+	#492702: Just disable the dbus message part of mail notification if dbus isn't there. Also remove new-mail-notify plugin (Srinivasa Ragavan)
+	#496301: Clean up the schema (Martin Meyer)
+	#496402: Do not synchronize blocked bodies from pidgin (Milan Crha)
+	#497914: backport changes from the copy/pasted code in imap-headers plugin (Gilles Dartiguelongue)
+	#498095: Fix mnemonic issues (David Turner)
+	#499145: Follow RFC 3798 to send return receipts. (Colin Leroy)
+	#502303: Plugins configure widgets are not freed correctly in plugin-mamager (Milan Crha)
+	#502783: Restore message states (read receipt/priority) when opening from a draft (nickspoon0@gmail.com)
+	#502914: Do not write NULL into gconf (Milan Crha)
+	#503954: Accept custom domain names while setting up account (Nyall Dawson)
+	#504480: Increases the height of the ETaskBar to eliminate the constant resizing (Milan Crha)
+	#504541: Add --with[out]-help option to make it possible to skip building and installing user documentation (Matthew Barnes)
+	#506772: Not-NULL check for a string array before finding its length (Christian Krause)
+	#506814: Add the signal only if the view is present (Srinivasa Ragavan)
+	#507067: Can't save pictures embedded in HTML Mail when picture = link (Milan Crha)
+	#507311: Submit bugs to the "BugBuddyBugs" Bugzilla component (Matthew Barnes)
+	#507359: 
+	#507363: Also check if toplevel widget has non-NULL window property (Milan Crha)
+	#508282: Mark the window title for translation. (Changwoo Ryu)
+	#508678: Included missing header glib/gi18n.h (Bharath Acharya)
+	#508731: Have a safe default, if the values from gconf isn't so nice. (Srinivasa Ragavan)
+
+Updated Translations:
+	Amitakhya Phukan (as)
+	Espen Stefansen (nb)
+	Jorge Gonzalez (es)
+	Luca Ferretti (it)
+	Changwoo Ryu (ko)
+	Inaki Larranaga Murgoitio (eu)
+	Erdal Ronahi (ku)
+	Clytie Siddall (vi)
+	Kjartan Maraas (nb)
+	Yannig Marchegay (oc)
+	Wadim Dziedzic (pl)
+	Daniel Nylander (sv)
+	Seán de Búrca (ga)
+	Djihed Afifi (ar)
+
 Evolution 2.21.4 2007-12-17
 ---------------------------
 
