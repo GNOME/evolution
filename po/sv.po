@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-15 01:13+0100\n"
-"PO-Revision-Date: 2008-01-15 01:26+0100\n"
+"PO-Revision-Date: 2008-01-15 01:38+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -12866,43 +12866,43 @@ msgstr "Typsnitt med variabelt breddsteg"
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid "View/Bcc menu item is checked"
-msgstr "Menyposten Visa/Blindkopia är ikryssad"
+msgstr "Menyobjektet Visa/Blindkopia är ikryssat"
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "View/Bcc menu item is checked."
-msgstr "Menyposten Visa/Blindkopia är ikryssad."
+msgstr "Menyobjektet Visa/Blindkopia är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid "View/Cc menu item is checked"
-msgstr "Menyposten Visa/Kopia är ikryssad"
+msgstr "Menyobjektet Visa/Kopia är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "View/Cc menu item is checked."
-msgstr "Menyposten Visa/Kopia är ikryssad."
+msgstr "Menyobjektet Visa/Kopia är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid "View/From menu item is checked"
-msgstr "Menyposten Visa/Från är ikryssad"
+msgstr "Menyobjektet Visa/Från är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "View/From menu item is checked."
-msgstr "Menyposten Visa/Från är ikryssad."
+msgstr "Menyobjektet Visa/Från är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:149
 msgid "View/PostTo menu item is checked"
-msgstr "Menyposten Visa/Posta till är ikryssad"
+msgstr "Menyobjektet Visa/Posta till är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid "View/PostTo menu item is checked."
-msgstr "Menyposten Visa/Posta till är ikryssad."
+msgstr "Menyobjektet Visa/Posta till är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "View/ReplyTo menu item is checked"
-msgstr "Menyposten Visa/Svara till är ikryssad"
+msgstr "Menyobjektet Visa/Svara till är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "View/ReplyTo menu item is checked."
-msgstr "Menyposten Visa/Svara till är ikryssad."
+msgstr "Menyobjektet Visa/Svara till är ikryssat."
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Whether a read receipt request gets added to every message by default."
