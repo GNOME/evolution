@@ -1,3 +1,10 @@
+2008-01-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #333695
+
+	* gui/print.c: (print_attendees): Print attendee name instead of email
+	address if available.
+
 2008-01-14  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #333695

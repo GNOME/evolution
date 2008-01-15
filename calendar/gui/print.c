@@ -1015,9 +1015,13 @@ print_attendees (GtkPrintContext *context, PangoFontDescription *font, cairo_t *
 			if (tmp)
 				g_string_append (text, " ");
 
-			/* it's usually in form of "mailto:email@domain" */
-			tmp = strchr (attendee->value, ':');
-			g_string_append (text, tmp ? tmp + 1 : attendee->value);
+			if (attendee->cn && *attendee->cn)
+				g_string_append (text, attendee->cn);
+			else {
+				/* it's usually in form of "mailto:email@domain" */
+				tmp = strchr (attendee->value, ':');
+				g_string_append (text, tmp ? tmp + 1 : attendee->value);
+			}
 
 			tmp = get_role_as_string (attendee->role);
 			if (tmp) {
