@@ -1,3 +1,12 @@
+2008-01-16  Suman Manjunath  <msuman@novell.com>
+
+	* exchange-account-listener.c: (add_cal_esource),
+	(remove_cal_esource), (modify_cal_esource), (add_calendar_sources),
+	(remove_calendar_sources), (modify_calendar_sources),
+	(add_addressbook_sources), (remove_addressbook_sources),
+	(modify_addressbook_sources), (account_changed): Use the same base_uri
+	for calendar ESource as addressbook does. Some code cleanup. 
+
 2008-01-01  Suman Manjunath  <msuman@novell.com>
 
 	* Makefile.am: Added a missing "\" separator.
