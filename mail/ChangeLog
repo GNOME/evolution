@@ -1,3 +1,10 @@
+2008-01-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #509697
+
+	* mail-vfolder.c: (vfolder_edit):
+	Ensure search folders are running before calling anything from this.
+
 2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* evolution-mail.schemas.in: Add missing punctuation.

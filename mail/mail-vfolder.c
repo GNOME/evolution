@@ -1001,6 +1001,10 @@ vfolder_edit (void)
 		return;
 	}
 
+	/* ensures vfolder is running */
+	if (!vfolder_loaded ())
+		vfolder_load_storage ();
+
 	vfolder_editor = GTK_WIDGET (em_vfolder_editor_new (context));
 	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("Search Folders"));
 	g_signal_connect(vfolder_editor, "response", G_CALLBACK(em_vfolder_editor_response), NULL);
