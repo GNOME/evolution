@@ -1,5 +1,13 @@
 2008-01-16  Matthew Barnes  <mbarnes@redhat.com>
 
+	* em-folder-browser.c:
+	* message-list.c:
+	Change of heart; decided we like the old "emblem-important" 
+	icon better than "mail-mark-important" for the message list
+	and "Show" combo box.
+
+2008-01-16  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #509741
 
 	* mail-session.c (user_message_exec):
