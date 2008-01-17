@@ -36,9 +36,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
-#include <libsoup/soup-session-async.h>
-#include <libsoup/soup-message.h>
-#include <libsoup/soup-uri.h>
+#include <libsoup/soup.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include <time.h>
@@ -1748,7 +1746,7 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	icalcomponent *icomp = NULL;
 	SoupSession *session;
 	SoupMessage *msg;
-	SoupUri *real_uri;
+	SoupURI *real_uri;
 	char *ical_string;
 
 	toplevel = e_cal_util_new_top_level ();
@@ -1773,18 +1771,19 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 		return FALSE;
 	}
 
-	real_uri->user = g_strdup (username);
-	real_uri->passwd = g_strdup (password);
+	soup_uri_set_user (real_uri, username);
+	soup_uri_set_password (real_uri, password);
 
-	/* build the SOAP message */
+	/* build the message */
 	msg = soup_message_new_from_uri (SOUP_METHOD_PUT, real_uri);
+	soup_uri_free (real_uri);
 	if (!msg) {
 		g_warning (G_STRLOC ": Could not build SOAP message");
 		g_object_unref (session);
 		return FALSE;
 	}
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
-	soup_message_set_request (msg, "text/calendar", SOUP_BUFFER_USER_OWNED,
+	soup_message_set_request (msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
 				  ical_string, strlen (ical_string));
 
 	/* send message to server */
@@ -1792,12 +1791,13 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
 		g_warning(G_STRLOC ": Could not publish Free/Busy: %d: %s",
 			  msg->status_code,
-			  soup_status_get_phrase (msg->status_code));
+			  msg->reason_phrase);
+		g_object_unref (msg);
 		g_object_unref (session);
 		return FALSE;
 	}
 
-	soup_uri_free (real_uri);
+	g_object_unref (msg);
 	g_object_unref (session);
 
 	return TRUE;
