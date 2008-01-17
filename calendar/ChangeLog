@@ -1,3 +1,11 @@
+2008-01-17  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #426159
+
+	* gui/alarm-notify/alarm-notify-dialog.c: (snooze_pressed_cb):
+	* gui/alarm-notify/alarm-notify.glade: Allow users to snooze for 
+	1+ hour 0 minutes. 
+
 2008-01-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #333695

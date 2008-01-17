@@ -175,6 +175,8 @@ edit_pressed_cb (GtkButton *button, gpointer user_data)
 	(* funcinfo->func) (ALARM_NOTIFY_EDIT, -1, funcinfo->func_data);
 }
 
+#define DEFAULT_SNOOZE_MINS 5
+
 static void
 snooze_pressed_cb (GtkButton *button, gpointer user_data)
 {
@@ -194,6 +196,8 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 
 	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_min));
 	snooze_timeout += 60 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_hrs)));
+	if (!snooze_timeout)
+		snooze_timeout = DEFAULT_SNOOZE_MINS;
 	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
 
 }
