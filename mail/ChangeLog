@@ -1,3 +1,12 @@
+2008-01-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #509741
+
+	* mail-session.c (user_message_exec):
+	Fix a crash that occurs when prompted to accept a certificate.
+	This is just a quick temporary fix; Srini and I have a more
+	sophisticated solution in mind.
+
 2008-01-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #509697

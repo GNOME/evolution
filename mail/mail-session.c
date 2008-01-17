@@ -351,7 +351,13 @@ user_message_exec (struct _user_message_msg *m)
 		g_signal_connect (
 			user_message_dialog, "response",
 			G_CALLBACK (user_message_response), m);
-		em_utils_show_error_silent (user_message_dialog);
+
+		/* If the dialog has no "primary" text, there's nothing to
+		 * display in the status bar.  So just show the dialog. */
+		if (g_object_get_data (user_message_dialog, "primary"))
+			em_utils_show_error_silent (user_message_dialog);
+		else
+			gtk_widget_show (user_message_dialog);
 	}
 }
 
