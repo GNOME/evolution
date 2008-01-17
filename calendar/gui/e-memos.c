@@ -86,7 +86,6 @@ struct _EMemosPrivate {
 
 	gchar *current_uid;
 	char *sexp;
-	guint update_timeout;
 
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
@@ -293,14 +292,6 @@ update_view (EMemos *memos)
 	e_cal_model_set_search_query (model, priv->sexp);
 
 	e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview));
-}
-
-static gboolean
-update_view_cb (EMemos *memos)
-{
-	update_view (memos);
-
-	return TRUE;
 }
 
 static void
@@ -549,9 +540,6 @@ setup_widgets (EMemos *memos)
 	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), memos);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), memos);
 
-	/* Timeout check to hide completed items */
-	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_view_cb, memos, NULL);
-
 	/* create the memo detail */
 	priv->preview = e_cal_component_memo_preview_new ();
 	e_cal_component_memo_preview_set_default_timezone (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview), calendar_config_get_icaltimezone ());
@@ -742,11 +730,6 @@ e_memos_destroy (GtkObject *object)
 		if (priv->sexp) {
 			g_free (priv->sexp);
 			priv->sexp = NULL;
-		}
-
-		if (priv->update_timeout) {
-			g_source_remove (priv->update_timeout);
-			priv->update_timeout = 0;
 		}
 
 		if (priv->memos_view_config) {

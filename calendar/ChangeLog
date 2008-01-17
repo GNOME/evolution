@@ -1,3 +1,11 @@
+2008-01-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #509879
+
+	* gui/e-memos.c: (struct _EMemosPrivate), (update_view_cb),
+	(setup_widgets), (e_memos_destroy):
+	Drop code to clear memo preview every 60 seconds.
+
 2008-01-17  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #426159
