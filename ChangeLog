@@ -1,3 +1,10 @@
+2008-01-15  Dan Winship  <danw@gnome.org>
+
+	* configure.in: Require libsoup-2.4. (Remove old "either 2.2 or
+	2.4" support, which only ever worked because there was an old CVS
+	version of libsoup that claimed to be 2.4 but still had the 2.2
+	API.)
+
 2008-01-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in: Version bump to 2.21.90

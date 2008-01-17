@@ -1519,16 +1519,7 @@ AC_SUBST(LIBNOTIFY_CFLAGS)
 AC_SUBST(LIBNOTIFY_LIBS)
 
 dnl --- evolution-calendar flags
-PKG_CHECK_MODULES(SOUPTEMP, libsoup-2.4, have_libsoup_24="yes", have_libsoup_24="no")
-if test $have_libsoup_24 = yes; then
-    LIBSOUP_REQUIRED=2.3.0
-    LIBSOUP=libsoup-2.4
-else
-    LIBSOUP_REQUIRED=2.2.2
-    LIBSOUP=libsoup-2.2
-fi
-
-EVO_SET_COMPILE_FLAGS(LIBSOUP, $LIBSOUP >= $LIBSOUP_REQUIRED)
+EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
