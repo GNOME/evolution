@@ -1,3 +1,9 @@
+2008-01-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* imap-headers.c: (imap_headers_commit), (org_gnome_imap_headers):
+	Such a useful IMAP plugin. But doesn't detect USE_IMAP for GW users.
+	Fixed it.
+
 2007-12-02  Tobias Mueller  <tobiasmue@svn.gnome.org>
 	* imap-headers.glade:
 	Make it selectable, fixes bug 401523, patch by

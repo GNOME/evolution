@@ -78,11 +78,13 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	EAccount *account;
+	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
-	if (g_str_has_prefix (account->source->url, "imap://")) {
+	if (g_str_has_prefix (account->source->url, "imap://") ||
+			(use_imap && g_str_has_prefix (account->source->url, "groupwise://"))) {
 		EAccount *temp = NULL;
 		EAccountList *accounts = mail_config_get_accounts ();
 		CamelURL *url = NULL;
@@ -259,13 +261,14 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	GtkTreeIter first, iter;
-
+	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
+	
 	ui = g_new0 (EPImapFeaturesData, 1);
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
-	if(!g_str_has_prefix (account->source->url, "imap://"))
+	if(!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
 		return NULL;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "imap-headers.glade", NULL);
