@@ -389,6 +389,7 @@ update_offline_toggle_status (EShellWindow *window)
 		flags = ES_MENU_SHELL_OFFLINE;
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
+	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
 		icon        = OFFLINE_ICON;
 		sensitive   = TRUE;
 		tooltip     = _("Evolution is currently offline. "
@@ -414,7 +415,8 @@ update_offline_toggle_status (EShellWindow *window)
 static void
 update_send_receive_sensitivity (EShellWindow *window)
 {
-	if (e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_OFFLINE)
+	if (e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_OFFLINE || 
+		e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_FORCED_OFFLINE)
 		bonobo_ui_component_set_prop (window->priv->ui_component,
 					      "/commands/SendReceive",
 					      "sensitive", "0", NULL);
@@ -484,6 +486,7 @@ offline_toggle_clicked_callback (GtkButton *button,
 		e_shell_go_offline (priv->shell.eshell, window, GNOME_Evolution_USER_OFFLINE);
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
+	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
 		e_shell_go_online (priv->shell.eshell, window, GNOME_Evolution_USER_ONLINE);
 		break;
 	default:

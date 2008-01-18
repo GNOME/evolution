@@ -1,3 +1,15 @@
+2008-01-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #329712
+
+	* e-shell-window-commands.c: (update_offline_menu_item):
+	* e-shell-window.c: (update_offline_toggle_status),
+	(update_send_receive_sensitivity),
+	(offline_toggle_clicked_callback):
+	* e-shell.c: (e_shell_construct), (e_shell_save_settings),
+	(set_line_status):
+	* e-shell.h: Add a new state to maintian forced offline.
+
 2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* apps_evolution_shell.schemas.in: Add missing punctuation.

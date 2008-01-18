@@ -883,6 +883,7 @@ update_offline_menu_item (EShellWindow *shell_window,
 
 	switch (line_status) {
 	case E_SHELL_LINE_STATUS_OFFLINE:
+	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
 					      "label", _("_Work Online"), NULL);
