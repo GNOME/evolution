@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-15 16:57+0100\n"
-"PO-Revision-Date: 2008-01-15 16:55+0100\n"
+"POT-Creation-Date: 2008-01-18 18:13+0100\n"
+"PO-Revision-Date: 2008-01-18 18:15+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -4569,7 +4569,7 @@ msgid "Memo_s"
 msgstr "_Zirkularrak"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1166
+#: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1149
 #: ../calendar/gui/gnome-cal.c:1701 ../calendar/gui/memos-component.c:548
 #: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:356
 #: ../calendar/gui/memos-control.c:372
@@ -4623,7 +4623,7 @@ msgid_plural "hours"
 msgstr[0] "ordu"
 msgstr[1] "ordu"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:273
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
 msgstr "Hasierako ordua"
 
@@ -5432,7 +5432,7 @@ msgstr "Metodo hori ez da onartzen egutegia irekitzean"
 msgid "Permission denied to open the calendar"
 msgstr "Egutegia irekitzeko baimena ukatu egin da"
 
-#: ../calendar/gui/comp-editor-factory.c:428 ../shell/e-shell.c:1285
+#: ../calendar/gui/comp-editor-factory.c:428 ../shell/e-shell.c:1290
 msgid "Unknown error"
 msgstr "Errore ezezaguna"
 
@@ -7425,12 +7425,12 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1174
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:199
-#: ../calendar/gui/itip-utils.c:730
+#: ../calendar/gui/itip-utils.c:728
 #: ../plugins/itip-formatter/itip-formatter.c:2009
 msgid "Accepted"
 msgstr "Onartua"
 
-#: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:733
+#: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:731
 #: ../plugins/itip-formatter/itip-formatter.c:2012
 msgid "Tentatively Accepted"
 msgstr "Oraingoz onartua"
@@ -7438,7 +7438,7 @@ msgstr "Oraingoz onartua"
 #: ../calendar/gui/e-itip-control.c:1182
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:178 ../calendar/gui/e-meeting-store.c:201
-#: ../calendar/gui/itip-utils.c:736 ../calendar/gui/itip-utils.c:765
+#: ../calendar/gui/itip-utils.c:734 ../calendar/gui/itip-utils.c:763
 #: ../plugins/itip-formatter/itip-formatter.c:2015
 msgid "Declined"
 msgstr "Ukatua"
@@ -7705,7 +7705,7 @@ msgstr "Eguneratu erantzun-emailearen egoera"
 msgid "Send Latest Information"
 msgstr "Bidali azken orduko informazioa"
 
-#: ../calendar/gui/e-itip-control.c:2444 ../calendar/gui/itip-utils.c:753
+#: ../calendar/gui/e-itip-control.c:2444 ../calendar/gui/itip-utils.c:751
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Utzi"
@@ -7816,7 +7816,7 @@ msgstr "Behin-behinekoa"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
-#: ../calendar/gui/itip-utils.c:739
+#: ../calendar/gui/itip-utils.c:737
 #: ../plugins/itip-formatter/itip-formatter.c:2018
 msgid "Delegated"
 msgstr "Delegatua"
@@ -7958,7 +7958,7 @@ msgstr "_Ezabatu hautatutako zirkularrak"
 msgid "Click to add a memo"
 msgstr "Egin klik zirkularra gehitzeko"
 
-#: ../calendar/gui/e-memos.c:805 ../calendar/gui/e-tasks.c:920
+#: ../calendar/gui/e-memos.c:788 ../calendar/gui/e-tasks.c:920
 #: ../calendar/gui/gnome-cal.c:2867
 #, c-format
 msgid ""
@@ -7968,16 +7968,16 @@ msgstr ""
 "Errorea %s(e)n:\n"
 " %s"
 
-#: ../calendar/gui/e-memos.c:854
+#: ../calendar/gui/e-memos.c:837
 msgid "Loading memos"
 msgstr "Zirkularrak kargatzen"
 
-#: ../calendar/gui/e-memos.c:935
+#: ../calendar/gui/e-memos.c:918
 #, c-format
 msgid "Opening memos at %s"
 msgstr "%s - zirkularrak irekitzen"
 
-#: ../calendar/gui/e-memos.c:1108 ../calendar/gui/e-tasks.c:1325
+#: ../calendar/gui/e-memos.c:1091 ../calendar/gui/e-tasks.c:1325
 msgid "Deleting selected objects..."
 msgstr "Hautatutako objektuak ezabatzen..."
 
@@ -8106,57 +8106,57 @@ msgstr "iraila"
 msgid "_Select Today"
 msgstr "_Hautatu Gaur"
 
-#: ../calendar/gui/itip-utils.c:451 ../calendar/gui/itip-utils.c:500
-#: ../calendar/gui/itip-utils.c:606
+#: ../calendar/gui/itip-utils.c:449 ../calendar/gui/itip-utils.c:498
+#: ../calendar/gui/itip-utils.c:604
 msgid "An organizer must be set."
 msgstr "Antolatzailea ezarri behar da."
 
-#: ../calendar/gui/itip-utils.c:487
+#: ../calendar/gui/itip-utils.c:485
 msgid "At least one attendee is necessary"
 msgstr "Partaide bat behar da gutxienez"
 
-#: ../calendar/gui/itip-utils.c:692 ../calendar/gui/itip-utils.c:815
+#: ../calendar/gui/itip-utils.c:690 ../calendar/gui/itip-utils.c:813
 msgid "Event information"
 msgstr "Gertaera-informazioa"
 
-#: ../calendar/gui/itip-utils.c:694 ../calendar/gui/itip-utils.c:817
+#: ../calendar/gui/itip-utils.c:692 ../calendar/gui/itip-utils.c:815
 msgid "Task information"
 msgstr "Zereginaren informazioa"
 
-#: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:819
+#: ../calendar/gui/itip-utils.c:694 ../calendar/gui/itip-utils.c:817
 msgid "Memo information"
 msgstr "Zirkularraren informazioa"
 
-#: ../calendar/gui/itip-utils.c:698 ../calendar/gui/itip-utils.c:837
+#: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:835
 msgid "Free/Busy information"
 msgstr "Libre/okupatuta informazioa"
 
-#: ../calendar/gui/itip-utils.c:700
+#: ../calendar/gui/itip-utils.c:698
 msgid "Calendar information"
 msgstr "Egutegi-informazioa"
 
-#: ../calendar/gui/itip-utils.c:749
+#: ../calendar/gui/itip-utils.c:747
 msgid "Updated"
 msgstr "Eguneratuta"
 
-#: ../calendar/gui/itip-utils.c:757
+#: ../calendar/gui/itip-utils.c:755
 msgid "Refresh"
 msgstr "Freskatu"
 
-#: ../calendar/gui/itip-utils.c:761
+#: ../calendar/gui/itip-utils.c:759
 msgid "Counter-proposal"
 msgstr "Kontraproposamena"
 
-#: ../calendar/gui/itip-utils.c:833
+#: ../calendar/gui/itip-utils.c:831
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Libre/okupatuta informazioa (%s - %s)"
 
-#: ../calendar/gui/itip-utils.c:843
+#: ../calendar/gui/itip-utils.c:841
 msgid "iCalendar information"
 msgstr "iCalendar informazioa"
 
-#: ../calendar/gui/itip-utils.c:1010
+#: ../calendar/gui/itip-utils.c:1008
 msgid "You must be an attendee of the event."
 msgstr "Gertaerako partaide izan behar duzu."
 
@@ -10540,7 +10540,7 @@ msgstr "Etiketaren izena ezin da hutsa izan."
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr ""
+msgstr "Etiketa honen etiketa badago lehendik ere. Aldatu etiketa honen izena."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -11439,7 +11439,7 @@ msgid "Folder _name:"
 msgstr "_Karpetaren izena:"
 
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:921 ../mail/mail-vfolder.c:1005
+#: ../mail/mail-vfolder.c:921 ../mail/mail-vfolder.c:1009
 msgid "Search Folders"
 msgstr "Bilatu karpeta"
 
@@ -14310,11 +14310,11 @@ msgstr "Bilaketa-karpeta eguneratzen - '%s:%s'"
 msgid "Updating Search Folders for '%s'"
 msgstr "Bilaketa-karpetak eguneratzen - '%s'"
 
-#: ../mail/mail-vfolder.c:1044
+#: ../mail/mail-vfolder.c:1048
 msgid "Edit Search Folder"
 msgstr "Editatu bilaketa-karpeta"
 
-#: ../mail/mail-vfolder.c:1134
+#: ../mail/mail-vfolder.c:1138
 msgid "New Search Folder"
 msgstr "Bilaketa berrien karpeta"
 
@@ -16320,7 +16320,7 @@ msgid "Folder offline"
 msgstr "Karpeta lineaz kanpo"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
-#: ../shell/e-shell.c:1283
+#: ../shell/e-shell.c:1288
 msgid "Generic error"
 msgstr "Errore generikoa"
 
@@ -16912,11 +16912,11 @@ msgstr "Hula egutegi-iturburua konfiguratzeko plugin-a"
 msgid "Hula Account Setup"
 msgstr "Hula kontuaren konfigurazioa"
 
-#: ../plugins/imap-features/imap-headers.c:319
+#: ../plugins/imap-features/imap-headers.c:322
 msgid "Custom Headers"
 msgstr "Goiburu pertsonalizatuak"
 
-#: ../plugins/imap-features/imap-headers.c:332
+#: ../plugins/imap-features/imap-headers.c:335
 msgid "IMAP Headers"
 msgstr "IMAP goiburuak"
 
@@ -18928,15 +18928,15 @@ msgstr "Evolution-en web gunea"
 msgid "Error opening the FAQ webpage."
 msgstr "Errorea MEG (Maiz Egindako Galderak) gunea irekitzean."
 
-#: ../shell/e-shell-window-commands.c:888
+#: ../shell/e-shell-window-commands.c:889
 msgid "_Work Online"
 msgstr "_Lan egin linean"
 
-#: ../shell/e-shell-window-commands.c:901 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "_Lan egin lineaz kanpo"
 
-#: ../shell/e-shell-window-commands.c:914
+#: ../shell/e-shell-window-commands.c:915
 msgid "Work Offline"
 msgstr "Lan egin lineaz kanpo"
 
@@ -18949,12 +18949,12 @@ msgstr ""
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution lineaz kanpo jartzeko prozesuan dago."
 
-#: ../shell/e-shell-window.c:394
+#: ../shell/e-shell-window.c:395
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr ""
 "Evolution lineaz kanpo dago. Egin klik botoi honetan linean lan egiteko."
 
-#: ../shell/e-shell-window.c:795
+#: ../shell/e-shell-window.c:798
 #, c-format
 msgid "Switch to %s"
 msgstr "Aldatu hona: %s"
@@ -18963,24 +18963,24 @@ msgstr "Aldatu hona: %s"
 msgid "Uknown system error."
 msgstr "Sistemako errore ezezaguna"
 
-#: ../shell/e-shell.c:836 ../shell/e-shell.c:837
+#: ../shell/e-shell.c:838 ../shell/e-shell.c:839
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1275 ../widgets/misc/e-cell-date-edit.c:255
+#: ../shell/e-shell.c:1280 ../widgets/misc/e-cell-date-edit.c:255
 msgid "OK"
 msgstr "Ados"
 
-#: ../shell/e-shell.c:1277
+#: ../shell/e-shell.c:1282
 msgid "Invalid arguments"
 msgstr "Argumentu baliogabeak"
 
-#: ../shell/e-shell.c:1279
+#: ../shell/e-shell.c:1284
 msgid "Cannot register on OAF"
 msgstr "Ezin da OAFen erregistratu"
 
-#: ../shell/e-shell.c:1281
+#: ../shell/e-shell.c:1286
 msgid "Configuration Database not found"
 msgstr "Ez da aurkitu konfigurazioko datu-basea"
 
