@@ -1,3 +1,9 @@
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* message-list.etspec: Remove the focus cursor on the message list.
+	The message list now has a nice cairo rendered row. This looks very
+	close to the GtkTreeView thing.
+
 2008-01-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-browser.c:
