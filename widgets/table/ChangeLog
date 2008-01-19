@@ -1,3 +1,12 @@
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-cell-toggle.c: (etog_new_view), (etog_kill_view), (etog_draw),
+	(etog_print), (e_cell_toggle_class_init),
+	(e_cell_toggle_construct): Removed the pixmap cache. It wasn't giving
+	alpha for the cairo rendered message list row.
+	* e-table-item.c: (eti_draw): Render the rows with Cairo. It looks
+	same as GtkTreeView and seems nice.
+
 2007-12-05  David Turner  <cillian64@googlemail.com>
 
 	** Fix for bug #408170

@@ -1830,6 +1830,9 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET(item->canvas);
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
+	cairo_t *cr;
+
+	cr = gdk_cairo_create (drawable);
 
 	/*
 	 * Find out our real position after grouping
@@ -1954,6 +1957,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ECellFlags flags;
 			gboolean free_background;
 			GdkColor *background;
+			int x1, x2, y1, y2;
+			cairo_pattern_t *pat;
 
 			switch (eti->cursor_mode) {
 			case E_CURSOR_SIMPLE:
@@ -1968,12 +1973,52 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				break;
 			}
 
+			x1 = xd;
+			y1 = yd+1;
+			x2 = x1 + ecol->width;
+			y2 = yd+height;
+
 			background = eti_get_cell_background_color (eti, row, col, col_selected, &free_background);
 
-			gdk_gc_set_foreground (eti->fill_gc, background);
-			gdk_draw_rectangle (drawable, eti->fill_gc, TRUE,
-					    xd, yd, ecol->width, height);
+			cairo_save (cr);
+			pat = cairo_pattern_create_linear (0, y1, 0, y2);
+			cairo_pattern_add_color_stop_rgba (pat, 0.0, background->red/65535.0 , 
+								     background->green/65535.0, 
+								     background->blue/65535.0, selected ? 0.8: 1.0);
 
+			cairo_pattern_add_color_stop_rgba (pat, 0.5, background->red/65535.0 , 
+								     background->green/65535.0, 
+								     background->blue/65535.0, 0.9);
+
+			cairo_pattern_add_color_stop_rgba (pat, 1, background->red/65535.0 , 
+								   background->green/65535.0, 
+								   background->blue/65535.0, selected ? 0.8 : 1.0);
+			cairo_rectangle (cr, x1, y1, ecol->width, height-1);
+			cairo_set_source (cr, pat);
+			cairo_fill_preserve (cr);
+			cairo_pattern_destroy (pat);
+			cairo_set_line_width (cr, 0);
+			cairo_stroke (cr);
+			cairo_restore (cr);
+
+			cairo_save (cr);
+			cairo_set_line_width (cr, 1.0);
+			cairo_set_source_rgba (cr, background->red/65535.0 , 
+						   background->green/65535.0, 
+						   background->blue/65535.0, 1);
+			cairo_move_to (cr, x1, y1);
+			cairo_line_to (cr, x2, y1);
+			cairo_stroke (cr);
+
+			cairo_set_line_width (cr, 1.0);
+			cairo_set_source_rgba (cr, background->red/65535.0 , 
+						  background->green/65535.0, 
+						  background->blue/65535.0, 1);
+			cairo_move_to (cr, x1, y2);
+			cairo_line_to (cr, x2, y2);
+			cairo_stroke (cr);
+			cairo_restore (cr); 
+			
 			if (free_background)
 				gdk_color_free (background);
 
@@ -2062,6 +2107,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		gdk_draw_rectangle (drawable, eti->focus_gc, FALSE,
 				    f_x1, f_y1, f_x2 - f_x1 - 1, f_y2 - f_y1 - 1);
 	}
+	cairo_destroy (cr);
+
 }
 
 static double
