@@ -1,3 +1,10 @@
+2008-01-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump some additional package requirements for libsoup-2.4:
+		libbonobo-2.0 >= 2.20.3
+		glib-2.0 >= 2.15.3
+
 2008-01-15  Dan Winship  <danw@gnome.org>
 
 	* configure.in: Require libsoup-2.4. (Remove old "either 2.2 or
