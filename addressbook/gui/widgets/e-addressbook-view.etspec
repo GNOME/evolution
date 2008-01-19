@@ -1,4 +1,4 @@
-<ETableSpecification draw-grid="true" cursor-mode="line">
+<ETableSpecification draw-grid="true" cursor-mode="line" draw-focus="false">
   <ETableColumn model_col= "2" _title="File As"           expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="collate"/>
   <ETableColumn model_col= "4" _title="Full Name"         expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="collate"/>
   <ETableColumn model_col= "5" _title="Given Name"        expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="collate"/>
