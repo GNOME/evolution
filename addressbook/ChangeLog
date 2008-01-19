@@ -1,5 +1,9 @@
 2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* gui/widgets/e-addressbook-view.etspec: Revert my last patch.
+
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* gui/widgets/e-addressbook-view.etspec: Take off the cursor/focus.
 	Now we have a nice cairo rendered message list row.
 
