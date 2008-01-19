@@ -1,3 +1,8 @@
+2008-01-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-shell.c: (set_line_status): Fix a regression due to my previous
+	commit.
+
 2008-01-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #329712

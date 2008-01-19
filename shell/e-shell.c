@@ -1145,7 +1145,7 @@ set_line_status(EShell *shell, GNOME_Evolution_ShellState shell_state)
 		status = TRUE;
 
 	if ((status && priv->line_status == E_SHELL_LINE_STATUS_ONLINE)
-	    || (!status && priv->line_status == shell_state))
+	    || (!status && priv->line_status == E_SHELL_LINE_STATUS_OFFLINE && !forced))
 		return;
 
 	/* we use 'going offline' to mean 'changing status' now */
