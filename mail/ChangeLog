@@ -1,5 +1,10 @@
 2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* message-list.etspec: Revert the last cursor remove commit. It breaks
+	selections with CTRL. May be, cairofy the cursor.
+	
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* message-list.etspec: Remove the focus cursor on the message list.
 	The message list now has a nice cairo rendered row. This looks very
 	close to the GtkTreeView thing.

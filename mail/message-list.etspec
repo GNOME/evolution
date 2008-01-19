@@ -1,4 +1,4 @@
-<ETableSpecification cursor-mode="line" draw-grid="false" draw-focus="false" selection-mode="browse">
+<ETableSpecification cursor-mode="line" draw-grid="false" draw-focus="true" selection-mode="browse">
   <ETableColumn model_col="0" _title="Status" pixbuf="status" expansion="0.0" minimum_width="18" resizable="false" cell="render_message_status" compare="integer" />
 
   <ETableColumn model_col="1" _title="Flagged" pixbuf="flagged" expansion="0.0" minimum_width="18" resizable="false" cell="render_flagged" compare="integer"/>
