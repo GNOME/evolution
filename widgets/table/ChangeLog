@@ -1,5 +1,9 @@
 2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* e-table-item.c: (eti_draw): Draw the cursor only for multiselection.
+
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* e-cell-toggle.c: (etog_new_view), (etog_kill_view), (etog_draw),
 	(etog_print), (e_cell_toggle_class_init),
 	(e_cell_toggle_construct): Removed the pixmap cache. It wasn't giving

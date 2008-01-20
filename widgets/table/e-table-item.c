@@ -2044,13 +2044,13 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			e_cell_draw (ecell_view, drawable, ecol->col_idx, col, row, flags,
 				     xd, yd, xd + ecol->width, yd + height);
 
-			if (!f_found) {
+			if (!f_found && !selected) {
 				switch (eti->cursor_mode) {
 				case E_CURSOR_LINE:
 					if (view_to_model_row(eti, row) == cursor_row) {
 						f_x1 = floor (eti_base.x) - x;
 						f_x2 = floor (lower_right.x) - x;
-						f_y1 = yd;
+						f_y1 = yd+1;
 						f_y2 = yd + height;
 						f_found = TRUE;
 					}
@@ -2105,7 +2105,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	if (eti->draw_focus && f_found) {
 		gdk_gc_set_ts_origin (eti->focus_gc, f_x1, f_y1);
 		gdk_draw_rectangle (drawable, eti->focus_gc, FALSE,
-				    f_x1, f_y1, f_x2 - f_x1 - 1, f_y2 - f_y1 - 1);
+				    f_x1, f_y1, f_x2 - f_x1 - 1, f_y2 - f_y1);
 	}
 	cairo_destroy (cr);
 
