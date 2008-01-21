@@ -34,10 +34,14 @@
 #include "util/eab-book-util.h"
 #include <libebook/e-destination.h>
 #include "e-util/e-error.h"
+#include "e-util/e-html-utils.h"
 #include "misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>
 #include "eab-contact-merging.h"
 #include <gnome.h>
+
+/* we link to camel for decoding quoted printable email addresses */
+#include <camel/camel-mime-utils.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
@@ -932,6 +936,25 @@ eab_send_to_contact_and_email_num_list (GList *c)
 	CORBA_exception_free (&ev);
 }
 
+static const char *
+get_email (EContact *contact, EContactField field_id, gchar **to_free)
+{
+	char *name = NULL, *mail = NULL;
+	const char *value = e_contact_get_const (contact, field_id);
+
+	*to_free = NULL;
+
+	if (eab_parse_qp_email (value, &name, &mail)) {
+		*to_free = g_strdup_printf ("%s <%s>", name, mail);
+		value = *to_free;
+	}
+
+	g_free (name);
+	g_free (mail);
+
+	return value;
+}
+
 static void
 eab_send_contact_list_as_attachment (GList *contacts)
 {
@@ -1005,18 +1028,25 @@ eab_send_contact_list_as_attachment (GList *contacts)
 	} else {
 		EContact *contact = contacts->data;
 		const gchar *tempstr2;
+		gchar *tempfree = NULL;
 
 		tempstr2 = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (!tempstr2 || !*tempstr2)
 			tempstr2 = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
 		if (!tempstr2 || !*tempstr2)
 			tempstr2 = e_contact_get_const (contact, E_CONTACT_ORG);
-		if (!tempstr2 || !*tempstr2)
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
-		if (!tempstr2 || !*tempstr2)
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
-		if (!tempstr2 || !*tempstr2)
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
+		if (!tempstr2 || !*tempstr2) {
+			g_free (tempfree);
+			tempstr2 = get_email (contact, E_CONTACT_EMAIL_1, &tempfree);
+		}
+		if (!tempstr2 || !*tempstr2) {
+			g_free (tempfree);
+			tempstr2 = get_email (contact, E_CONTACT_EMAIL_2, &tempfree);
+		}
+		if (!tempstr2 || !*tempstr2) {
+			g_free (tempfree);
+			tempstr2 = get_email (contact, E_CONTACT_EMAIL_3, &tempfree);
+		}
 
 		if (!tempstr2 || !*tempstr2)
 			tempstr = g_strdup_printf (_("Contact information"));
@@ -1024,6 +1054,7 @@ eab_send_contact_list_as_attachment (GList *contacts)
 			tempstr = g_strdup_printf (_("Contact information for %s"), tempstr2);
 		subject = CORBA_string_dup (tempstr);
 		g_free (tempstr);
+		g_free (tempfree);
 	}
 
 	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
@@ -1117,4 +1148,58 @@ eab_create_image_chooser_widget(gchar *name,
 	}
 
 	return w;
+}
+
+/* To parse something like...
+=?UTF-8?Q?=E0=A4=95=E0=A4=95=E0=A4=AC=E0=A5=82=E0=A5=8B=E0=A5=87?=\t\n=?UTF-8?Q?=E0=A4=B0?=\t\n<aa@aa.ccom>
+and return the decoded representation of name & email parts.
+*/
+gboolean
+eab_parse_qp_email (const gchar *string, gchar **name, gchar **email)
+{
+	struct _camel_header_address *address;
+	gboolean res = FALSE;
+
+	address = camel_header_address_decode (string, "UTF-8");
+
+	if (!address)
+		return FALSE;
+
+	/* report success only when we have filled both name and email address */
+	if (address->type == CAMEL_HEADER_ADDRESS_NAME  && address->name && *address->name && address->v.addr && *address->v.addr) {
+		*name = g_strdup (address->name);
+		*email = g_strdup (address->v.addr);
+		res = TRUE;
+	}
+
+	camel_header_address_unref (address);
+
+	return res;
+}
+
+/* This is only wrapper to parse_qp_mail, it decodes string and if returned TRUE,
+   then makes one string and returns it, otherwise returns NULL.
+   Returned string is usable to place directly into GtkHtml stream.
+   Returned value should be freed with g_free. */
+char *
+eab_parse_qp_email_to_html (const gchar *string)
+{
+	char *name = NULL, *mail = NULL;
+	char *html_name, *html_mail;
+	char *value;
+
+	if (!eab_parse_qp_email (string, &name, &mail))
+		return NULL;
+
+	html_name = e_text_to_html (name, 0);
+	html_mail = e_text_to_html (mail, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+
+	value = g_strdup_printf ("%s &lt;%s&gt;", html_name, html_mail);
+
+	g_free (html_name);
+	g_free (html_mail);
+	g_free (name);
+	g_free (mail);
+
+	return value;
 }

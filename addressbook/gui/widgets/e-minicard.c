@@ -839,7 +839,6 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 	GnomeCanvasGroup *group;
 	EMinicardField *minicard_field;
 	char *name;
-	char *string;
 	GList *l, *le;
 	int count =0;
 	GList *emails = e_contact_get (e_minicard->contact, E_CONTACT_EMAIL);
@@ -847,20 +846,32 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 
 	for (l=email_list, le=emails; l!=NULL && count < limit && le!=NULL; l = l->next, le=le->next) {
 		const gchar *tmp;
+		char *email = NULL;
+		char *string = NULL;
+		char *full_string = NULL;
+		gboolean parser_check;
 
 		tmp = get_email_location ((EVCardAttribute *) l->data);
 		if (tmp)
 			name = g_strdup_printf ("%s:", tmp);
 		else
 			name = g_strdup ("");
-		string = e_text_to_html (le->data, 0);
+
+		parser_check = eab_parse_qp_email ((const gchar *) le->data, &string, &email);
+		if (parser_check) {
+			/* if true, we had a quoted printable mail address */
+			full_string = g_strdup_printf ("%s <%s>", string, email);
+		} else {
+			/* we got a NON-quoted printable string */
+			string = g_strdup (le->data);
+		}
 
 		new_item = e_minicard_label_new(group);
 
 		gnome_canvas_item_set( new_item,
 				       "width", e_minicard->width - 4.0,
 				       "fieldname", name,
-				       "field", string,
+				       "field", parser_check ? full_string : string,
 				       "max_field_name_length", left_width,
 				       "editable", FALSE /* e_minicard->editable */,
 				       NULL );
@@ -882,8 +893,10 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		e_minicard->fields = g_list_append( e_minicard->fields, minicard_field);
 		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 		count++;
-		g_free(name);
-		g_free(string);
+		g_free (name);
+		g_free (string);
+		g_free (full_string);
+		g_free (email);
 	}
 	g_list_foreach (emails, (GFunc) g_free, NULL);
 	g_list_free (emails);

@@ -1,3 +1,22 @@
+2008-01-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #324604 inspired by patch of makuchaku (Mayank)
+
+	* gui/widgets/eab-gui-util.h:
+	* gui/widgets/eab-gui-util.c: (eab_parse_qp_email),
+	(eab_parse_qp_email_to_html): New helper functions for decoding
+	email addresses from RFC822 or RFC2047 form to UTF-8.
+	* gui/widgets/e-minicard.c: (add_email_field):
+	* gui/widgets/eab-contact-display.c: (render_contact_list),
+	(render_contact), (eab_contact_display_render_compact):
+	* gui/widgets/e-addressbook-table-adapter.c:
+	(struct _EAddressbookTableAdapterPrivate), (addressbook_dispose),
+	(addressbook_value_at), (addressbook_set_value_at), (remove_contacts),
+	(modify_contact), (model_changed), (eab_table_adapter_construct):
+	* gui/widgets/eab-gui-util.c: (get_email),
+	(eab_send_contact_list_as_attachment):
+	Ensure the print of the email is transformed from RFC822 or RFC2047.
+
 2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/widgets/e-addressbook-view.etspec: Revert my last patch.

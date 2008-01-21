@@ -488,10 +488,18 @@ render_contact_list (GtkHTMLStream *html_stream, EContact *contact)
 
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 	for (l = email_list; l; l = l->next) {
-		char *html = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
-		gtk_html_stream_printf (html_stream, "%s<br>", html);
-		g_free (html);
+		gchar *value;
+
+		value = eab_parse_qp_email_to_html (l->data);
+
+		if (!value)
+			value = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+
+		gtk_html_stream_printf (html_stream, "%s<br>", value);
+
+		g_free (value);
 	}
+
 	gtk_html_stream_printf (html_stream, "</td></tr></table>");
 }
 
@@ -542,18 +550,35 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 	email_attr_list = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
 
 	for (l = email_list, al=email_attr_list; l && al; l = l->next, al = al->next) {
-#ifdef HANDLE_MAILTO_INTERNALLY
-		char *html = e_text_to_html (l->data, 0);
+		char *html = NULL, *name = NULL, *mail = NULL;
 		char *attr_str = (char *)get_email_location ((EVCardAttribute *) al->data);
-		g_string_append_printf (accum, "%s<a href=\"internal-mailto:%d\">%s</a> <font color=" HEADER_COLOR ">(%s)</font>", nl, email_num, html, attr_str?attr_str:"");
+
+#ifdef HANDLE_MAILTO_INTERNALLY
+		if (!eab_parse_qp_email (l->data, &name, &mail))
+			mail = e_text_to_html (l->data, 0);
+
+		g_string_append_printf (accum, "%s%s%s<a href=\"internal-mailto:%d\">%s</a>%s <font color=" HEADER_COLOR ">(%s)</font>", 
+						nl,
+						name ? name : "",
+						name ? " &lt;" : "",
+						email_num,
+						mail,
+						name ? "&gt;" : "",
+						attr_str ? attr_str : "");
 		email_num ++;
-		g_free (html);
+#else
+		html = eab_parse_qp_email_to_html (l->data);
+
+		if (!html)
+			html = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+
+		g_string_append_printf (accum, "%s%s <font color=" HEADER_COLOR ">(%s)</font>", nl, html, attr_str ? attr_str : "");
+#endif
 		nl = "<br>";
 
-#else
-		g_string_append_printf (accum, "%s%s <font color=" HEADER_COLOR ">(%s)</font>", nl, (char*)l->data, get_email_location ((EVCardAttribute *) al->data));
-		nl = "\n";
-#endif
+		g_free (html);
+		g_free (name);
+		g_free (mail);
 	}
 	g_list_foreach (email_list, (GFunc)g_free, NULL);
 	g_list_free (email_list);
@@ -821,28 +846,33 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 				g_free (html);
 			}
 
+			#define print_email() {								\
+				html = eab_parse_qp_email_to_html (str);				\
+													\
+				if (!html)								\
+					html = e_text_to_html (str, 0); 				\
+													\
+				gtk_html_stream_printf (html_stream, "%s%s", comma ? ", " : "", html);	\
+				g_free (html);								\
+				comma = TRUE;								\
+			}
+
 			gtk_html_stream_printf (html_stream, "<b>%s:</b> ", _("Email"));
 			str = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
-			if (str) {
-				html = e_text_to_html (str, 0);
-				gtk_html_stream_printf (html_stream, "%s", str);
-				g_free (html);
-				comma = TRUE;
-			}
+			if (str)
+				print_email ();
+
 			str = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
-			if (str) {
-				html = e_text_to_html (str, 0);
-				gtk_html_stream_printf (html_stream, "%s%s", comma ? ", " : "", str);
-				g_free (html);
-				comma = TRUE;
-			}
+			if (str)
+				print_email ();
+
 			str = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
-			if (str) {
-				html = e_text_to_html (str, 0);
-				gtk_html_stream_printf (html_stream, "%s%s", comma ? ", " : "", str);
-				g_free (html);
-			}
+			if (str)
+				print_email ();
+
 			gtk_html_stream_write (html_stream, "<br>", 4);
+
+			#undef print_email
 
 			str = e_contact_get_const (contact, E_CONTACT_HOMEPAGE_URL);
 			if (str) {
