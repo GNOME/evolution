@@ -1,3 +1,9 @@
+2008-01-21  Sankar P  <psankar@novell.com>
+
+	* configure.in:
+	Add missing directory in configure.in
+	Fixes build break
+
 2008-01-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

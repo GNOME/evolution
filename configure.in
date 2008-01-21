@@ -1897,6 +1897,7 @@ help/quickref/es/Makefile
 help/quickref/hu/Makefile
 help/quickref/it/Makefile
 help/quickref/fr/Makefile
+help/quickref/oc/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
