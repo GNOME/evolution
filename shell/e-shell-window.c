@@ -45,6 +45,7 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktooltips.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkiconfactory.h>
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
@@ -606,10 +607,16 @@ setup_status_bar (EShellWindow *window)
 	EShellWindowPrivate *priv;
 	BonoboUIEngine *ui_engine;
 	GConfClient *gconf_client;
+	gint height;
 
 	priv = window->priv;
 
 	priv->status_bar = gtk_hbox_new (FALSE, 2);
+
+	/* Make the status bar as large as the task bar. */
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
+	gtk_widget_set_size_request (GTK_WIDGET (priv->status_bar), -1, height * 2);
+
 	gconf_client = gconf_client_get_default ();
 	if(gconf_client_get_bool (gconf_client,"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
 		gtk_widget_show (priv->status_bar);

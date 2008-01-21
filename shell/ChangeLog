@@ -1,3 +1,10 @@
+2008-01-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window.c (setup_status_bar):
+	Make the status bar height as large as the task bar to eliminate
+	"bouncing" when navigating the main menu.  Patch by Jean-Christophe
+	Begue (#509509).
+
 2008-01-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-shell.c: (set_line_status): Fix a regression due to my previous
