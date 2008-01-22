@@ -1,3 +1,11 @@
+2008-01-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #503551
+
+	* gui/widgets/e-minicard-view-widget.c: (selection_row_change):
+	Emit selection changed signal even when unselecting, because
+	we enable/disable menu items on selection change.
+
 2008-01-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #324604 inspired by patch of makuchaku (Mayank)

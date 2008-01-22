@@ -307,12 +307,6 @@ selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 static void
 selection_row_change (ESelectionModel *esm, int row, EMinicardViewWidget *widget)
 {
-	gboolean selected = e_selection_model_is_row_selected (esm, row);
-
-	/* we only handle the selected case here */
-	if (!selected)
-		return;
-
 	selection_change (esm, widget);
 }
 
