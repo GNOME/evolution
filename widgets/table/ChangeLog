@@ -1,5 +1,14 @@
 2008-01-22  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #511105
+
+	* e-tree-table-adapter.c: (e_tree_table_adapter_load_expanded_state):
+	* e-table-item.c: (eti_draw):
+	* e-table-column-specification.c: (free_strings): 
+	Free allocated memory properly.
+
+2008-01-22  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #511094
 
 	* e-cell-text.c: (ect_draw): Set proper foreground color based

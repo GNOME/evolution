@@ -1872,7 +1872,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	 * Nothing to paint
 	 */
 	if (first_col == -1)
-		return;
+		goto exit;
 
 	/*
 	 * Compute row span.
@@ -1881,7 +1881,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		first_row = (y          - floor (eti_base.y) - height_extra) / (eti_row_height (eti, -1) + height_extra);
 		last_row  = (y + height - floor (eti_base.y)               ) / (eti_row_height (eti, -1) + height_extra) + 1;
 		if (first_row > last_row)
-			return;
+			goto exit;
 		y_offset = floor (eti_base.y) - y + height_extra + first_row * (eti_row_height (eti, -1) + height_extra);
 		if (first_row < 0)
 			first_row = 0;
@@ -1912,11 +1912,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		last_row = row;
 
 		if (first_row == -1)
-			return;
+			goto exit;
 	}
 
 	if (first_row == -1)
-		return;
+		goto exit;
 
 	/*
 	 * Draw cells
@@ -2107,8 +2107,9 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		gdk_draw_rectangle (drawable, eti->focus_gc, FALSE,
 				    f_x1, f_y1, f_x2 - f_x1 - 1, f_y2 - f_y1);
 	}
-	cairo_destroy (cr);
 
+exit:
+	cairo_destroy (cr);
 }
 
 static double

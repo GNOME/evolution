@@ -1050,6 +1050,8 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 			file_default = TRUE;
 		else
 			file_default = FALSE; /* Even unspecified we'll consider as false */
+
+		g_free (state);
 	}
 
 	/* Incase the default is changed, lets forget the changes and stick to default */

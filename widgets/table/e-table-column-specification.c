@@ -50,6 +50,8 @@ free_strings (ETableColumnSpecification *etcs)
 	etcs->compare = NULL;
 	g_free(etcs->search);
 	etcs->search = NULL;
+	g_free (etcs->sortable);
+	etcs->sortable = NULL;
 }
 
 static void
