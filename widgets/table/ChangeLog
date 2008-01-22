@@ -1,3 +1,10 @@
+2008-01-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511094
+
+	* e-cell-text.c: (ect_draw): Set proper foreground color based
+	on focused/non-focused canvas.
+
 2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-table-item.c: (eti_draw): Draw the cursor only for multiselection.

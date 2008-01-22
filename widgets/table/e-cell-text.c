@@ -741,7 +741,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	selected = flags & E_CELL_SELECTED;
 
 	if (selected) {
+		if (GTK_WIDGET_HAS_FOCUS (canvas))
 			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
+		else
+			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
 	} else {
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 
