@@ -637,7 +637,7 @@ attempt_upgrade (EShell *shell, int major, int minor, int revision)
 				printf("Upgrade of component failed, unsupported prior version\n");
 			} else {
 				exception_text = bonobo_exception_get_text (&ev);
-				res = e_error_run(NULL, "shell:upgrade-failed", exception_text, _("Uknown system error."), NULL);
+				res = e_error_run(NULL, "shell:upgrade-failed", exception_text, _("Unknown system error."), NULL);
 				g_free (exception_text);
 				if (res == GTK_RESPONSE_CANCEL)
 					success = FALSE;

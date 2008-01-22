@@ -1,3 +1,10 @@
+2008-01-22  Jan Tichavsky  <Jan.Tichavsky@gmail.com>
+
+	** Fix for bug #511232
+	
+	* e-shell.c: Fixed typo Uknown -> Unknown
+	(patch committed by Andre Klapper)
+
 2008-01-21  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-window.c (setup_status_bar):
