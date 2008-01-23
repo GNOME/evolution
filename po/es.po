@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-14 11:37+0000\n"
-"PO-Revision-Date: 2008-01-14 17:29+0100\n"
+"POT-Creation-Date: 2008-01-23 03:23+0000\n"
+"PO-Revision-Date: 2008-01-23 11:11+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <<gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -670,7 +670,7 @@ msgstr "En este equipo"
 #: ../addressbook/gui/component/addressbook-component.c:152
 #: ../addressbook/gui/component/addressbook-migrate.c:505
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: ../addressbook/gui/widgets/eab-contact-display.c:597
+#: ../addressbook/gui/widgets/eab-contact-display.c:660
 #: ../calendar/gui/calendar-component.c:248
 #: ../calendar/gui/memos-component.c:209 ../calendar/gui/migration.c:491
 #: ../calendar/gui/migration.c:590 ../calendar/gui/migration.c:1103
@@ -1300,7 +1300,7 @@ msgstr "<b>Trabajo</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:184
-#: ../addressbook/gui/widgets/eab-contact-display.c:551
+#: ../addressbook/gui/widgets/eab-contact-display.c:614
 msgid "AIM"
 msgstr "AIM"
 
@@ -1363,7 +1363,7 @@ msgstr "Teléfono"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:238
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:202
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
-#: ../addressbook/gui/widgets/eab-contact-display.c:580
+#: ../addressbook/gui/widgets/eab-contact-display.c:643
 #: ../mail/em-migrate.c:1055
 msgid "Work"
 msgstr "Trabajo"
@@ -1477,8 +1477,8 @@ msgid "_Zip/Postal Code:"
 msgstr "_Código postal:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:97
-#: ../addressbook/gui/widgets/eab-contact-display.c:577
-#: ../addressbook/gui/widgets/eab-contact-display.c:592
+#: ../addressbook/gui/widgets/eab-contact-display.c:640
+#: ../addressbook/gui/widgets/eab-contact-display.c:655
 msgid "Address"
 msgstr "Dirección"
 
@@ -1494,7 +1494,7 @@ msgstr "Dirección"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:179
-#: ../widgets/table/e-cell-text.c:1832 ../widgets/text/e-text.c:3687
+#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-text.c:3687
 #: ../widgets/text/e-text.c:3688
 msgid "Editable"
 msgstr "Editable"
@@ -2485,7 +2485,7 @@ msgstr "Mensajería AOL"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
-#: ../addressbook/gui/widgets/eab-contact-display.c:554
+#: ../addressbook/gui/widgets/eab-contact-display.c:617
 msgid "Jabber"
 msgstr "Jabber"
 
@@ -2499,7 +2499,7 @@ msgstr "Mensajería Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
-#: ../addressbook/gui/widgets/eab-contact-display.c:553
+#: ../addressbook/gui/widgets/eab-contact-display.c:616
 msgid "ICQ"
 msgstr "ICQ"
 
@@ -2531,22 +2531,22 @@ msgid "Other"
 msgstr "Otro"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
-#: ../addressbook/gui/widgets/eab-contact-display.c:556
+#: ../addressbook/gui/widgets/eab-contact-display.c:619
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
-#: ../addressbook/gui/widgets/eab-contact-display.c:557
+#: ../addressbook/gui/widgets/eab-contact-display.c:620
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
-#: ../addressbook/gui/widgets/eab-contact-display.c:555
+#: ../addressbook/gui/widgets/eab-contact-display.c:618
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
-#: ../addressbook/gui/widgets/eab-contact-display.c:552
+#: ../addressbook/gui/widgets/eab-contact-display.c:615
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -2868,9 +2868,10 @@ msgstr "Co_mbinar"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:258
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: ../addressbook/gui/widgets/eab-contact-display.c:535
-#: ../addressbook/gui/widgets/eab-contact-display.c:537
-#: ../addressbook/gui/widgets/eab-contact-display.c:785
+#: ../addressbook/gui/widgets/eab-contact-display.c:592
+#: ../addressbook/gui/widgets/eab-contact-display.c:597
+#: ../addressbook/gui/widgets/eab-contact-display.c:600
+#: ../addressbook/gui/widgets/eab-contact-display.c:860
 #: ../plugins/groupwise-features/junk-settings.c:425 ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "Correo-e"
@@ -2924,7 +2925,7 @@ msgstr "Error al obtener la vista de libro"
 msgid "Model"
 msgstr "Modelo"
 
-#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:104
+#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:131
 msgid "Error modifying card"
 msgstr "Error al modificar la tarjeta"
 
@@ -3028,12 +3029,12 @@ msgstr "Cualquier categoría"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1705
-#: ../addressbook/gui/widgets/eab-gui-util.c:71
+#: ../addressbook/gui/widgets/eab-gui-util.c:75
 msgid "Other error"
 msgstr "Otro error"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:571
+#: ../addressbook/gui/widgets/eab-contact-display.c:634
 msgid "Assistant"
 msgstr "Secretario"
 
@@ -3071,7 +3072,7 @@ msgid "Categories"
 msgstr "Categorías"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-#: ../addressbook/gui/widgets/eab-contact-display.c:566
+#: ../addressbook/gui/widgets/eab-contact-display.c:629
 msgid "Company"
 msgstr "Empresa"
 
@@ -3120,22 +3121,22 @@ msgid "Journal"
 msgstr "Diario"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:570
+#: ../addressbook/gui/widgets/eab-contact-display.c:633
 msgid "Manager"
 msgstr "Jefe"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-#: ../addressbook/gui/widgets/eab-contact-display.c:591
+#: ../addressbook/gui/widgets/eab-contact-display.c:654
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:545
+#: ../addressbook/gui/widgets/eab-contact-display.c:608
 msgid "Nickname"
 msgstr "Apodo"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-#: ../addressbook/gui/widgets/eab-contact-display.c:604
+#: ../addressbook/gui/widgets/eab-contact-display.c:667
 msgid "Note"
 msgstr "Nota"
 
@@ -3171,7 +3172,7 @@ msgid "Role"
 msgstr "Papel"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
-#: ../addressbook/gui/widgets/eab-contact-display.c:595
+#: ../addressbook/gui/widgets/eab-contact-display.c:658
 msgid "Spouse"
 msgstr "Cónyuge"
 
@@ -3212,7 +3213,7 @@ msgstr "Sitio web"
 #: ../widgets/table/e-table-group-container.c:967
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
-#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#: ../widgets/table/e-table-item.c:3069 ../widgets/table/e-table-item.c:3070
 #: ../widgets/text/e-text.c:3729 ../widgets/text/e-text.c:3730
 msgid "Width"
 msgstr "Anchura"
@@ -3227,7 +3228,7 @@ msgstr "Anchura"
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
-#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-table-item.c:3075 ../widgets/table/e-table-item.c:3076
 #: ../widgets/text/e-text.c:3737 ../widgets/text/e-text.c:3738
 msgid "Height"
 msgstr "Altura"
@@ -3348,37 +3349,39 @@ msgid "Copy _Email Address"
 msgstr "Copiar dirección de _correo-e"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:296
-#: ../addressbook/gui/widgets/eab-contact-display.c:359
+#: ../addressbook/gui/widgets/eab-contact-display.c:370
+#: ../addressbook/gui/widgets/eab-contact-display.c:372
 msgid "(map)"
 msgstr "(mapa)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:306
-#: ../addressbook/gui/widgets/eab-contact-display.c:372
+#: ../addressbook/gui/widgets/eab-contact-display.c:390
+#: ../addressbook/gui/widgets/eab-contact-display.c:402
 msgid "map"
 msgstr "mapa"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:456
-#: ../addressbook/gui/widgets/eab-contact-display.c:763
+#: ../addressbook/gui/widgets/eab-contact-display.c:487
+#: ../addressbook/gui/widgets/eab-contact-display.c:827
 msgid "List Members"
 msgstr "Listar miembros"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:567
+#: ../addressbook/gui/widgets/eab-contact-display.c:630
 msgid "Department"
 msgstr "Departamento"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:568
+#: ../addressbook/gui/widgets/eab-contact-display.c:631
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:569
+#: ../addressbook/gui/widgets/eab-contact-display.c:632
 msgid "Position"
 msgstr "Posición"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:572
+#: ../addressbook/gui/widgets/eab-contact-display.c:635
 msgid "Video Chat"
 msgstr "Charla por vídeo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:573
+#: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:99
 #: ../calendar/gui/calendar-component.c:795
 #: ../calendar/gui/dialogs/calendar-setup.c:370
@@ -3394,149 +3397,149 @@ msgstr "Charla por vídeo"
 msgid "Calendar"
 msgstr "Calendario"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:574
+#: ../addressbook/gui/widgets/eab-contact-display.c:637
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: ../calendar/gui/dialogs/event-editor.c:369
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:575
-#: ../addressbook/gui/widgets/eab-contact-display.c:590
+#: ../addressbook/gui/widgets/eab-contact-display.c:638
+#: ../addressbook/gui/widgets/eab-contact-display.c:653
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:576
+#: ../addressbook/gui/widgets/eab-contact-display.c:639
 msgid "Fax"
 msgstr "Fax"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:587
+#: ../addressbook/gui/widgets/eab-contact-display.c:650
 msgid "Home Page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:588
+#: ../addressbook/gui/widgets/eab-contact-display.c:651
 msgid "Web Log"
 msgstr "Diario web"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:593
+#: ../addressbook/gui/widgets/eab-contact-display.c:656
 #: ../calendar/gui/e-calendar-view.c:2321
 msgid "Birthday"
 msgstr "Cumpleaños"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:594
+#: ../addressbook/gui/widgets/eab-contact-display.c:657
 #: ../calendar/gui/e-calendar-view.c:2322
 msgid "Anniversary"
 msgstr "Aniversario"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:781
+#: ../addressbook/gui/widgets/eab-contact-display.c:845
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:812
+#: ../addressbook/gui/widgets/eab-contact-display.c:881
 msgid "Home page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:820
+#: ../addressbook/gui/widgets/eab-contact-display.c:889
 msgid "Blog"
 msgstr "Diario web"
 
 #. E_BOOK_ERROR_OK
-#: ../addressbook/gui/widgets/eab-gui-util.c:51
+#: ../addressbook/gui/widgets/eab-gui-util.c:55
 msgid "Success"
 msgstr "Éxito"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
-#: ../addressbook/gui/widgets/eab-gui-util.c:53
+#: ../addressbook/gui/widgets/eab-gui-util.c:57
 msgid "Backend busy"
 msgstr "Backend ocupado"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
-#: ../addressbook/gui/widgets/eab-gui-util.c:54
+#: ../addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Repository offline"
 msgstr "Repositorio desconectado"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
-#: ../addressbook/gui/widgets/eab-gui-util.c:55
+#: ../addressbook/gui/widgets/eab-gui-util.c:59
 msgid "Address Book does not exist"
 msgstr "La libreta de direcciones no existe"
 
 #. E_BOOK_ERROR_NO_SELF_CONTACT
-#: ../addressbook/gui/widgets/eab-gui-util.c:56
+#: ../addressbook/gui/widgets/eab-gui-util.c:60
 msgid "No Self Contact defined"
 msgstr "No hay definido un contacto para sí mismo"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
-#: ../addressbook/gui/widgets/eab-gui-util.c:59
+#: ../addressbook/gui/widgets/eab-gui-util.c:63
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:49
 msgid "Permission denied"
 msgstr "Permiso denegado"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
-#: ../addressbook/gui/widgets/eab-gui-util.c:60
+#: ../addressbook/gui/widgets/eab-gui-util.c:64
 msgid "Contact not found"
 msgstr "Contacto no encontrado"
 
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
-#: ../addressbook/gui/widgets/eab-gui-util.c:61
+#: ../addressbook/gui/widgets/eab-gui-util.c:65
 msgid "Contact ID already exists"
 msgstr "Ya existe el ID del contacto"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
-#: ../addressbook/gui/widgets/eab-gui-util.c:62
+#: ../addressbook/gui/widgets/eab-gui-util.c:66
 msgid "Protocol not supported"
 msgstr "Protocolo no implementado"
 
 #. E_BOOK_ERROR_CANCELLED
-#: ../addressbook/gui/widgets/eab-gui-util.c:63
+#: ../addressbook/gui/widgets/eab-gui-util.c:67
 #: ../calendar/gui/dialogs/task-details-page.glade.h:3
 #: ../calendar/gui/e-cal-component-preview.c:239
 #: ../calendar/gui/e-cal-model-tasks.c:350
 #: ../calendar/gui/e-cal-model-tasks.c:665
-#: ../calendar/gui/e-calendar-table.c:403 ../calendar/gui/print.c:2516
+#: ../calendar/gui/e-calendar-table.c:403 ../calendar/gui/print.c:2520
 msgid "Canceled"
 msgstr "Cancelado"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
-#: ../addressbook/gui/widgets/eab-gui-util.c:64
+#: ../addressbook/gui/widgets/eab-gui-util.c:68
 msgid "Could not cancel"
 msgstr "No es posible cancelar"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
-#: ../addressbook/gui/widgets/eab-gui-util.c:65
+#: ../addressbook/gui/widgets/eab-gui-util.c:69
 #: ../calendar/gui/comp-editor-factory.c:422
 msgid "Authentication Failed"
 msgstr "Falló en la autenticación"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
-#: ../addressbook/gui/widgets/eab-gui-util.c:66
+#: ../addressbook/gui/widgets/eab-gui-util.c:70
 msgid "Authentication Required"
 msgstr "Autenticación requerida"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
-#: ../addressbook/gui/widgets/eab-gui-util.c:67
+#: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "TLS not Available"
 msgstr "TLS no disponible"
 
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
-#: ../addressbook/gui/widgets/eab-gui-util.c:69
+#: ../addressbook/gui/widgets/eab-gui-util.c:73
 msgid "No such source"
 msgstr "No existe ese origen"
 
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
-#: ../addressbook/gui/widgets/eab-gui-util.c:70
+#: ../addressbook/gui/widgets/eab-gui-util.c:74
 msgid "Not available in offline mode"
 msgstr "No disponible en modo desconectado"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
-#: ../addressbook/gui/widgets/eab-gui-util.c:72
+#: ../addressbook/gui/widgets/eab-gui-util.c:76
 msgid "Invalid server version"
 msgstr "Versión del servidor inválida"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:95
+#: ../addressbook/gui/widgets/eab-gui-util.c:99
 msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -3547,7 +3550,7 @@ msgstr ""
 "uso desconectado. Por favor, cargue la libreta de direcciones una vez en "
 "modo conectado para descargar su contenido"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:104
+#: ../addressbook/gui/widgets/eab-gui-util.c:108
 #, c-format
 msgid ""
 "We were unable to open this addressbook.  Please check that the path %s "
@@ -3556,7 +3559,7 @@ msgstr ""
 "No es posible abrir esta libreta de direcciones. Compruebe que la ruta %s "
 "exista y que tenga permisos para acceder a ella."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:113
+#: ../addressbook/gui/widgets/eab-gui-util.c:117
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
@@ -3564,7 +3567,7 @@ msgstr ""
 "No es posible abrir esta libreta de direcciones.  Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:118
+#: ../addressbook/gui/widgets/eab-gui-util.c:122
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3574,7 +3577,7 @@ msgstr ""
 "usar LDAP en Evolution debe instalar un paquete de Evolution con LDAP "
 "activado."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:125
+#: ../addressbook/gui/widgets/eab-gui-util.c:129
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
@@ -3582,7 +3585,7 @@ msgstr ""
 "No es posible abrir esta libreta de direcciones. Esto significa que ha "
 "introducido una URI errónea, o que el servidor LDAP es inaccesible."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:148
+#: ../addressbook/gui/widgets/eab-gui-util.c:152
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3595,7 +3598,7 @@ msgstr ""
 "aumente el límite de resultados en las preferencias del servidor\n"
 "de directorios para esta libreta de direcciones."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:154
+#: ../addressbook/gui/widgets/eab-gui-util.c:158
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -3608,45 +3611,45 @@ msgstr ""
 "tiempo en las opciones del servidor de directorios para esta libreta\n"
 " de direcciones."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:160
+#: ../addressbook/gui/widgets/eab-gui-util.c:164
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr "El backend de esta libreta de direcciones no pudo analizar esta consulta."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:163
+#: ../addressbook/gui/widgets/eab-gui-util.c:167
 msgid "The backend for this addressbook refused to perform this query."
 msgstr "El backend para esta libreta de direcciones rehusó a efectuar esta consulta."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:166
+#: ../addressbook/gui/widgets/eab-gui-util.c:170
 msgid "This query did not complete successfully."
 msgstr "Esta consulta no se completó con éxito."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:188
+#: ../addressbook/gui/widgets/eab-gui-util.c:192
 msgid "Error adding list"
 msgstr "Error al añadir la lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:188
-#: ../addressbook/gui/widgets/eab-gui-util.c:666
+#: ../addressbook/gui/widgets/eab-gui-util.c:192
+#: ../addressbook/gui/widgets/eab-gui-util.c:670
 msgid "Error adding contact"
 msgstr "Error al añadir el contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:199
+#: ../addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error modifying list"
 msgstr "Error al modificar la lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:199
+#: ../addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error modifying contact"
 msgstr "Error al modificar el contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:211
+#: ../addressbook/gui/widgets/eab-gui-util.c:215
 msgid "Error removing list"
 msgstr "Error al eliminar la lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:211
-#: ../addressbook/gui/widgets/eab-gui-util.c:616
+#: ../addressbook/gui/widgets/eab-gui-util.c:215
+#: ../addressbook/gui/widgets/eab-gui-util.c:620
 msgid "Error removing contact"
 msgstr "Error al eliminar el contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:293
+#: ../addressbook/gui/widgets/eab-gui-util.c:297
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3661,16 +3664,16 @@ msgstr[1] ""
 "Abrir %d contactos abrirá %d ventanas nuevas también.\n"
 "¿Quiere realmente mostrar todos estos contactos?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:301
+#: ../addressbook/gui/widgets/eab-gui-util.c:305
 msgid "_Don't Display"
 msgstr "_No mostrar"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:302
+#: ../addressbook/gui/widgets/eab-gui-util.c:306
 msgid "Display _All Contacts"
 msgstr "Mostrar t_odos los contactos"
 
 #. For Translators only: "it" refers to the filename %s.
-#: ../addressbook/gui/widgets/eab-gui-util.c:328
+#: ../addressbook/gui/widgets/eab-gui-util.c:332
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3679,64 +3682,64 @@ msgstr ""
 "%s ya existe\n"
 "¿Quiere sobreescribirlo?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:332
+#: ../addressbook/gui/widgets/eab-gui-util.c:336
 msgid "Overwrite"
 msgstr "Sobreescribir"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:375
-#: ../addressbook/gui/widgets/eab-gui-util.c:378
+#: ../addressbook/gui/widgets/eab-gui-util.c:379
+#: ../addressbook/gui/widgets/eab-gui-util.c:382
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "contacto"
 msgstr[1] "contactos"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:424
+#: ../addressbook/gui/widgets/eab-gui-util.c:428
 msgid "card.vcf"
 msgstr "tarjeta.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:461
+#: ../addressbook/gui/widgets/eab-gui-util.c:465
 msgid "Select Address Book"
 msgstr "Seleccione la libreta de direcciones"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:575
+#: ../addressbook/gui/widgets/eab-gui-util.c:579
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:727
+#: ../addressbook/gui/widgets/eab-gui-util.c:731
 msgid "Move contact to"
 msgstr "Mover contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:729
+#: ../addressbook/gui/widgets/eab-gui-util.c:733
 msgid "Copy contact to"
 msgstr "Copiar contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:732
+#: ../addressbook/gui/widgets/eab-gui-util.c:736
 msgid "Move contacts to"
 msgstr "Mover contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:734
+#: ../addressbook/gui/widgets/eab-gui-util.c:738
 msgid "Copy contacts to"
 msgstr "Copiar contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:960
+#: ../addressbook/gui/widgets/eab-gui-util.c:983
 msgid "Multiple vCards"
 msgstr "vCards múltiples"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:963
+#: ../addressbook/gui/widgets/eab-gui-util.c:986
 #, c-format
 msgid "vCard for %s"
 msgstr "vCard para %s"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1004
-#: ../addressbook/gui/widgets/eab-gui-util.c:1022
+#: ../addressbook/gui/widgets/eab-gui-util.c:1027
+#: ../addressbook/gui/widgets/eab-gui-util.c:1052
 msgid "Contact information"
 msgstr "Información de contacto"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:1024
+#: ../addressbook/gui/widgets/eab-gui-util.c:1054
 #, c-format
 msgid "Contact information for %s"
 msgstr "Información de contacto de %s"
@@ -4553,7 +4556,7 @@ msgid "Memo_s"
 msgstr "_Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1166
+#: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1149
 #: ../calendar/gui/gnome-cal.c:1701 ../calendar/gui/memos-component.c:548
 #: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:356
 #: ../calendar/gui/memos-control.c:372
@@ -4562,7 +4565,7 @@ msgstr "Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:460 ../calendar/gui/e-tasks.c:1433
-#: ../calendar/gui/gnome-cal.c:1573 ../calendar/gui/print.c:1961
+#: ../calendar/gui/gnome-cal.c:1573 ../calendar/gui/print.c:1965
 #: ../calendar/gui/tasks-component.c:539
 #: ../calendar/gui/tasks-component.c:1090 ../calendar/gui/tasks-control.c:495
 #: ../calendar/gui/tasks-control.c:511
@@ -4607,7 +4610,7 @@ msgid_plural "hours"
 msgstr[0] "hora"
 msgstr[1] "horas"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:273
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
 msgstr "Hora de inicio"
 
@@ -5432,7 +5435,7 @@ msgstr "Método no soportado al abrir el calendario"
 msgid "Permission denied to open the calendar"
 msgstr "Permiso denegado para abrir el calendario"
 
-#: ../calendar/gui/comp-editor-factory.c:428 ../shell/e-shell.c:1285
+#: ../calendar/gui/comp-editor-factory.c:428 ../shell/e-shell.c:1290
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -5918,23 +5921,23 @@ msgstr "%s  No ha realizado cambios, ¿quiere actualizar el editor?"
 msgid "Validation error: %s"
 msgstr "Error de validación: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2333
+#: ../calendar/gui/dialogs/comp-editor-util.c:187 ../calendar/gui/print.c:2337
 msgid " to "
 msgstr " a "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2337
+#: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2341
 msgid " (Completed "
 msgstr "(Completado "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2339
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2343
 msgid "Completed "
 msgstr "Completado "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2344
+#: ../calendar/gui/dialogs/comp-editor-util.c:198 ../calendar/gui/print.c:2348
 msgid " (Due "
 msgstr " (Vence "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2346
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2350
 msgid "Due "
 msgstr "Vence "
 
@@ -6351,7 +6354,7 @@ msgstr "Organizador"
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2441
+#: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2445
 msgid "Memo"
 msgstr "Nota"
 
@@ -6613,7 +6616,7 @@ msgstr "<span weight=\"bold\">Estado</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:663
 #: ../calendar/gui/e-calendar-table.c:402 ../calendar/gui/e-itip-control.c:933
 #: ../calendar/gui/e-meeting-store.c:184 ../calendar/gui/e-meeting-store.c:207
-#: ../calendar/gui/print.c:2513 ../plugins/save-calendar/csv-format.c:386
+#: ../calendar/gui/print.c:2517 ../plugins/save-calendar/csv-format.c:386
 msgid "Completed"
 msgstr "Terminado"
 
@@ -6628,7 +6631,7 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:346
 #: ../calendar/gui/e-cal-model-tasks.c:661
 #: ../calendar/gui/e-cal-model-tasks.c:736
-#: ../calendar/gui/e-calendar-table.c:401 ../calendar/gui/print.c:2510
+#: ../calendar/gui/e-calendar-table.c:401 ../calendar/gui/print.c:2514
 msgid "In Progress"
 msgstr "En proceso"
 
@@ -6649,7 +6652,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-component-preview.c:243
 #: ../calendar/gui/e-cal-model-tasks.c:344
 #: ../calendar/gui/e-cal-model-tasks.c:659
-#: ../calendar/gui/e-calendar-table.c:400 ../calendar/gui/print.c:2507
+#: ../calendar/gui/e-calendar-table.c:400 ../calendar/gui/print.c:2511
 msgid "Not Started"
 msgstr "Sin comenzar"
 
@@ -7226,7 +7229,7 @@ msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2219 ../calendar/gui/print.c:2470
+#: ../calendar/gui/e-calendar-view.c:2219 ../calendar/gui/print.c:2474
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
@@ -7274,7 +7277,7 @@ msgstr "divisiones de %02i minutos"
 #: ../calendar/gui/e-day-view-top-item.c:1354
 #: ../calendar/gui/e-day-view.c:2141
 #: ../calendar/gui/e-week-view-main-item.c:310
-#: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1652
+#: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1656
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
@@ -7431,12 +7434,12 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1174
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:199
-#: ../calendar/gui/itip-utils.c:730
+#: ../calendar/gui/itip-utils.c:728
 #: ../plugins/itip-formatter/itip-formatter.c:2009
 msgid "Accepted"
 msgstr "Aceptado"
 
-#: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:733
+#: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:731
 #: ../plugins/itip-formatter/itip-formatter.c:2012
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
@@ -7444,7 +7447,7 @@ msgstr "Aceptado provisionalmente"
 #: ../calendar/gui/e-itip-control.c:1182
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:178 ../calendar/gui/e-meeting-store.c:201
-#: ../calendar/gui/itip-utils.c:736 ../calendar/gui/itip-utils.c:765
+#: ../calendar/gui/itip-utils.c:734 ../calendar/gui/itip-utils.c:763
 #: ../plugins/itip-formatter/itip-formatter.c:2015
 msgid "Declined"
 msgstr "Rehusado"
@@ -7713,7 +7716,7 @@ msgstr "Actualizar el estado del remitente"
 msgid "Send Latest Information"
 msgstr "Enviar la última información"
 
-#: ../calendar/gui/e-itip-control.c:2444 ../calendar/gui/itip-utils.c:753
+#: ../calendar/gui/e-itip-control.c:2444 ../calendar/gui/itip-utils.c:751
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Cancelar"
@@ -7824,7 +7827,7 @@ msgstr "Provisional"
 
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
-#: ../calendar/gui/itip-utils.c:739
+#: ../calendar/gui/itip-utils.c:737
 #: ../plugins/itip-formatter/itip-formatter.c:2018
 msgid "Delegated"
 msgstr "Delegado"
@@ -7966,7 +7969,7 @@ msgstr "_Borrar las notas seleccionadas"
 msgid "Click to add a memo"
 msgstr "Pulse aquí para añadir una nota"
 
-#: ../calendar/gui/e-memos.c:805 ../calendar/gui/e-tasks.c:920
+#: ../calendar/gui/e-memos.c:788 ../calendar/gui/e-tasks.c:920
 #: ../calendar/gui/gnome-cal.c:2867
 #, c-format
 msgid ""
@@ -7976,16 +7979,16 @@ msgstr ""
 "Error en %s:\n"
 " %s"
 
-#: ../calendar/gui/e-memos.c:854
+#: ../calendar/gui/e-memos.c:837
 msgid "Loading memos"
 msgstr "Cargando notas"
 
-#: ../calendar/gui/e-memos.c:935
+#: ../calendar/gui/e-memos.c:918
 #, c-format
 msgid "Opening memos at %s"
 msgstr "Abriendo notas en %s"
 
-#: ../calendar/gui/e-memos.c:1108 ../calendar/gui/e-tasks.c:1325
+#: ../calendar/gui/e-memos.c:1091 ../calendar/gui/e-tasks.c:1325
 msgid "Deleting selected objects..."
 msgstr "Borrando los objetos seleccionados…"
 
@@ -8014,7 +8017,7 @@ msgstr "Seleccione la zona horaria"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:327
-#: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1633
+#: ../calendar/gui/e-week-view-main-item.c:541 ../calendar/gui/print.c:1637
 msgid "%d %B"
 msgstr "%e de %B"
 
@@ -8114,57 +8117,57 @@ msgstr "Septiembre"
 msgid "_Select Today"
 msgstr "_Seleccionar hoy"
 
-#: ../calendar/gui/itip-utils.c:451 ../calendar/gui/itip-utils.c:500
-#: ../calendar/gui/itip-utils.c:606
+#: ../calendar/gui/itip-utils.c:449 ../calendar/gui/itip-utils.c:498
+#: ../calendar/gui/itip-utils.c:604
 msgid "An organizer must be set."
 msgstr "Debe especificar un organizador."
 
-#: ../calendar/gui/itip-utils.c:487
+#: ../calendar/gui/itip-utils.c:485
 msgid "At least one attendee is necessary"
 msgstr "Es necesario por lo menos un participante"
 
-#: ../calendar/gui/itip-utils.c:692 ../calendar/gui/itip-utils.c:815
+#: ../calendar/gui/itip-utils.c:690 ../calendar/gui/itip-utils.c:813
 msgid "Event information"
 msgstr "Información del acontecimiento"
 
-#: ../calendar/gui/itip-utils.c:694 ../calendar/gui/itip-utils.c:817
+#: ../calendar/gui/itip-utils.c:692 ../calendar/gui/itip-utils.c:815
 msgid "Task information"
 msgstr "Información de la tarea"
 
-#: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:819
+#: ../calendar/gui/itip-utils.c:694 ../calendar/gui/itip-utils.c:817
 msgid "Memo information"
 msgstr "Información de la nota"
 
-#: ../calendar/gui/itip-utils.c:698 ../calendar/gui/itip-utils.c:837
+#: ../calendar/gui/itip-utils.c:696 ../calendar/gui/itip-utils.c:835
 msgid "Free/Busy information"
 msgstr "Información de disponibilidad"
 
-#: ../calendar/gui/itip-utils.c:700
+#: ../calendar/gui/itip-utils.c:698
 msgid "Calendar information"
 msgstr "Información de calendario"
 
-#: ../calendar/gui/itip-utils.c:749
+#: ../calendar/gui/itip-utils.c:747
 msgid "Updated"
 msgstr "Actualizado"
 
-#: ../calendar/gui/itip-utils.c:757
+#: ../calendar/gui/itip-utils.c:755
 msgid "Refresh"
 msgstr "Actualizar"
 
-#: ../calendar/gui/itip-utils.c:761
+#: ../calendar/gui/itip-utils.c:759
 msgid "Counter-proposal"
 msgstr "Contra-propuesta"
 
-#: ../calendar/gui/itip-utils.c:833
+#: ../calendar/gui/itip-utils.c:831
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Información de disponibilidad (de %s a %s)"
 
-#: ../calendar/gui/itip-utils.c:843
+#: ../calendar/gui/itip-utils.c:841
 msgid "iCalendar information"
 msgstr "Información de iCalendar"
 
-#: ../calendar/gui/itip-utils.c:1010
+#: ../calendar/gui/itip-utils.c:1008
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
@@ -8446,54 +8449,54 @@ msgstr "Vi"
 msgid "Sa"
 msgstr "Sa"
 
-#: ../calendar/gui/print.c:2437
+#: ../calendar/gui/print.c:2441
 msgid "Appointment"
 msgstr "Cita"
 
-#: ../calendar/gui/print.c:2439
+#: ../calendar/gui/print.c:2443
 msgid "Task"
 msgstr "Tarea"
 
-#: ../calendar/gui/print.c:2461
+#: ../calendar/gui/print.c:2465
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumen: %s"
 
-#: ../calendar/gui/print.c:2483
+#: ../calendar/gui/print.c:2487
 msgid "Attendees: "
 msgstr "Participantes: "
 
-#: ../calendar/gui/print.c:2523
+#: ../calendar/gui/print.c:2527
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: ../calendar/gui/print.c:2540
+#: ../calendar/gui/print.c:2544
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
-#: ../calendar/gui/print.c:2552
+#: ../calendar/gui/print.c:2556
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje completado: %i"
 
-#: ../calendar/gui/print.c:2564
+#: ../calendar/gui/print.c:2568
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2577
+#: ../calendar/gui/print.c:2581
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: ../calendar/gui/print.c:2588
+#: ../calendar/gui/print.c:2592
 msgid "Contacts: "
 msgstr "Contactos: "
 
 #. TODO Allow the user to customize the title.
-#: ../calendar/gui/print.c:2690
+#: ../calendar/gui/print.c:2694
 msgid "Upcoming Appointments"
 msgstr "Eventos próximos"
 
@@ -11445,7 +11448,7 @@ msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:921 ../mail/mail-vfolder.c:1005
+#: ../mail/mail-vfolder.c:921 ../mail/mail-vfolder.c:1009
 msgid "Search Folders"
 msgstr "Carpetas de búsqueda"
 
@@ -12586,9 +12589,9 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
-"Desactiva/activa los mensajes repetitivos de advertencia de que borrar mensajes de "
-"una carpeta de búsqueda borra permanentemente el mensaje, no sólo los elimina "
-"de los resultados de la búsqueda."
+"Desactiva/activa los mensajes repetitivos de advertencia de que borrar "
+"mensajes de una carpeta de búsqueda borra permanentemente el mensaje, no "
+"sólo los elimina de los resultados de la búsqueda."
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid "Last time empty junk was run"
@@ -12654,9 +12657,10 @@ msgid ""
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
 "Always load images off the net."
 msgstr ""
-"Cargar imágenes de los mensajes HTML sobre http(s). Los valores posibles son: 0: "
-"Nunca cargar imágenes desde la red; 1: Cargar imágenes si el remitente está "
-"en la libreta de direcciones; 2: Siempre cargar imágenes desde la red."
+"Cargar imágenes de los mensajes HTML sobre http(s). Los valores posibles "
+"son: 0: Nunca cargar imágenes desde la red; 1: Cargar imágenes si el "
+"remitente está en la libreta de direcciones; 2: Siempre cargar imágenes "
+"desde la red."
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "Log filter actions"
@@ -12829,8 +12833,8 @@ msgid ""
 "Show the email of the sender in the messages composite column in the message "
 "list."
 msgstr ""
-"Muestra el correo-e del remitente en la columna de composición de mensajes en "
-"la lista de mesajes."
+"Muestra el correo-e del remitente en la columna de composición de mensajes "
+"en la lista de mesajes."
 
 #: ../mail/evolution-mail.schemas.in.h:108
 msgid "Show the photo of the sender in the message reading pane."
@@ -12948,7 +12952,8 @@ msgid ""
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
 "Este ajuste especifica si las conversaciones, de forma predeterminada, "
-"deberían estar en estado expandido o contraído. Evolution necesita reiniciarse."
+"deberían estar en estado expandido o contraído. Evolution necesita "
+"reiniciarse."
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -14328,11 +14333,11 @@ msgstr "Actualizando carpetas de búsqueda para «%s: %s»"
 msgid "Updating Search Folders for '%s'"
 msgstr "Actualizando carpetas de búsqueda para «%s»"
 
-#: ../mail/mail-vfolder.c:1044
+#: ../mail/mail-vfolder.c:1048
 msgid "Edit Search Folder"
 msgstr "Editar carpeta de búsqueda"
 
-#: ../mail/mail-vfolder.c:1134
+#: ../mail/mail-vfolder.c:1138
 msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
@@ -16328,7 +16333,7 @@ msgid "Folder offline"
 msgstr "Carpeta desconectada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
-#: ../shell/e-shell.c:1283
+#: ../shell/e-shell.c:1288
 msgid "Generic error"
 msgstr "Error genérico"
 
@@ -16922,11 +16927,11 @@ msgstr "Un complemento para configurar fuentes de calendarios hula."
 msgid "Hula Account Setup"
 msgstr "Configuración de la cuenta Hula"
 
-#: ../plugins/imap-features/imap-headers.c:319
+#: ../plugins/imap-features/imap-headers.c:322
 msgid "Custom Headers"
 msgstr "Cabeceras personalizadas"
 
-#: ../plugins/imap-features/imap-headers.c:332
+#: ../plugins/imap-features/imap-headers.c:335
 msgid "IMAP Headers"
 msgstr "Cabeceras IMAP"
 
@@ -18907,7 +18912,7 @@ msgstr "'.' y '..' son nombres reservados de carpetas."
 
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
-#: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:341
+#: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:342
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -18951,57 +18956,57 @@ msgstr "Página web de Evolution"
 msgid "Error opening the FAQ webpage."
 msgstr "Error al abrir la página web de P+F."
 
-#: ../shell/e-shell-window-commands.c:888
+#: ../shell/e-shell-window-commands.c:889
 msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
-#: ../shell/e-shell-window-commands.c:901 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
-#: ../shell/e-shell-window-commands.c:914
+#: ../shell/e-shell-window-commands.c:915
 msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
-#: ../shell/e-shell-window.c:381
+#: ../shell/e-shell-window.c:382
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution está conectado. Pulse este botón para trabajar desconectado."
 
-#: ../shell/e-shell-window.c:388
+#: ../shell/e-shell-window.c:389
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution está en proceso de desconectarse."
 
-#: ../shell/e-shell-window.c:394
+#: ../shell/e-shell-window.c:396
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution está desconectado. Pulse este botón para trabajar conectado."
 
-#: ../shell/e-shell-window.c:795
+#: ../shell/e-shell-window.c:805
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
 
 #: ../shell/e-shell.c:640
-msgid "Uknown system error."
-msgstr "Error de sistema desconocido."
+msgid "Unknown system error."
+msgstr "Error del sistema desconocido."
 
-#: ../shell/e-shell.c:836 ../shell/e-shell.c:837
+#: ../shell/e-shell.c:838 ../shell/e-shell.c:839
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KiB"
 
-#: ../shell/e-shell.c:1275 ../widgets/misc/e-cell-date-edit.c:255
+#: ../shell/e-shell.c:1280 ../widgets/misc/e-cell-date-edit.c:255
 msgid "OK"
 msgstr "Aceptar"
 
-#: ../shell/e-shell.c:1277
+#: ../shell/e-shell.c:1282
 msgid "Invalid arguments"
 msgstr "Argumentos inválidos"
 
-#: ../shell/e-shell.c:1279
+#: ../shell/e-shell.c:1284
 msgid "Cannot register on OAF"
 msgstr "No es posible registrar en OAF"
 
-#: ../shell/e-shell.c:1281
+#: ../shell/e-shell.c:1286
 msgid "Configuration Database not found"
 msgstr "No se encontró la base de datos de configuración"
 
@@ -21924,14 +21929,14 @@ msgstr "Y2"
 #: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1426
 #: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:635
-#: ../widgets/table/e-table-item.c:3014
+#: ../widgets/table/e-table-item.c:3062
 msgid "Minimum width"
 msgstr "Ancho mínimo"
 
 #: ../widgets/misc/e-canvas-vbox.c:93 ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3063
 msgid "Minimum Width"
 msgstr "Ancho mínimo"
 
@@ -22481,23 +22486,23 @@ msgstr "Columna enfocada"
 msgid "Unselected Column"
 msgstr "Columna deseleccionada"
 
-#: ../widgets/table/e-cell-text.c:1804
+#: ../widgets/table/e-cell-text.c:1807
 msgid "Strikeout Column"
 msgstr "Tachar columna"
 
-#: ../widgets/table/e-cell-text.c:1811
+#: ../widgets/table/e-cell-text.c:1814
 msgid "Underline Column"
 msgstr "Subrayar columna"
 
-#: ../widgets/table/e-cell-text.c:1818
+#: ../widgets/table/e-cell-text.c:1821
 msgid "Bold Column"
 msgstr "Columna en negrita"
 
-#: ../widgets/table/e-cell-text.c:1825
+#: ../widgets/table/e-cell-text.c:1828
 msgid "Color Column"
 msgstr "Color de la columna"
 
-#: ../widgets/table/e-cell-text.c:1839
+#: ../widgets/table/e-cell-text.c:1842
 msgid "BG Color Column"
 msgstr "Color de fondo de la columna"
 
@@ -22656,7 +22661,7 @@ msgstr[1] "%s (%d elementos)"
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-leaf.c:572
 #: ../widgets/table/e-table-group-leaf.c:573
-#: ../widgets/table/e-table-item.c:2972 ../widgets/table/e-table-item.c:2973
+#: ../widgets/table/e-table-item.c:3020 ../widgets/table/e-table-item.c:3021
 msgid "Alternating Row Colors"
 msgstr "Alternar colores de las filas"
 
@@ -22664,7 +22669,7 @@ msgstr "Alternar colores de las filas"
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-leaf.c:579
 #: ../widgets/table/e-table-group-leaf.c:580
-#: ../widgets/table/e-table-item.c:2979 ../widgets/table/e-table-item.c:2980
+#: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
 #: ../widgets/table/e-tree.c:3307 ../widgets/table/e-tree.c:3308
 msgid "Horizontal Draw Grid"
 msgstr "Dibujar rejilla horizontal"
@@ -22673,7 +22678,7 @@ msgstr "Dibujar rejilla horizontal"
 #: ../widgets/table/e-table-group-container.c:911
 #: ../widgets/table/e-table-group-leaf.c:586
 #: ../widgets/table/e-table-group-leaf.c:587
-#: ../widgets/table/e-table-item.c:2986 ../widgets/table/e-table-item.c:2987
+#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
 #: ../widgets/table/e-tree.c:3313 ../widgets/table/e-tree.c:3314
 msgid "Vertical Draw Grid"
 msgstr "Dibujar rejilla vertical"
@@ -22682,7 +22687,7 @@ msgstr "Dibujar rejilla vertical"
 #: ../widgets/table/e-table-group-container.c:918
 #: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
-#: ../widgets/table/e-table-item.c:2993 ../widgets/table/e-table-item.c:2994
+#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
 #: ../widgets/table/e-tree.c:3319 ../widgets/table/e-tree.c:3320
 msgid "Draw focus"
 msgstr "Dibujar el foco"
@@ -22691,7 +22696,7 @@ msgstr "Dibujar el foco"
 #: ../widgets/table/e-table-group-container.c:925
 #: ../widgets/table/e-table-group-leaf.c:600
 #: ../widgets/table/e-table-group-leaf.c:601
-#: ../widgets/table/e-table-item.c:3000 ../widgets/table/e-table-item.c:3001
+#: ../widgets/table/e-table-item.c:3048 ../widgets/table/e-table-item.c:3049
 msgid "Cursor mode"
 msgstr "Modo del cursor"
 
@@ -22699,7 +22704,7 @@ msgstr "Modo del cursor"
 #: ../widgets/table/e-table-group-container.c:932
 #: ../widgets/table/e-table-group-leaf.c:614
 #: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-item.c:2965 ../widgets/table/e-table-item.c:2966
+#: ../widgets/table/e-table-item.c:3013 ../widgets/table/e-table-item.c:3014
 msgid "Selection model"
 msgstr "Modelo de selección"
 
@@ -22707,7 +22712,7 @@ msgstr "Modelo de selección"
 #: ../widgets/table/e-table-group-container.c:939
 #: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
-#: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
+#: ../widgets/table/e-table-item.c:3055 ../widgets/table/e-table-item.c:3056
 #: ../widgets/table/e-table.c:3307 ../widgets/table/e-tree.c:3301
 #: ../widgets/table/e-tree.c:3302
 msgid "Length Threshold"
@@ -22717,7 +22722,7 @@ msgstr "Umbral de longitud"
 #: ../widgets/table/e-table-group-container.c:946
 #: ../widgets/table/e-table-group-leaf.c:649
 #: ../widgets/table/e-table-group-leaf.c:650
-#: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-table-item.c:3089 ../widgets/table/e-table-item.c:3090
 #: ../widgets/table/e-table.c:3314 ../widgets/table/e-tree.c:3333
 #: ../widgets/table/e-tree.c:3334
 msgid "Uniform row height"
@@ -22802,15 +22807,15 @@ msgstr "Ordenar información"
 msgid "Tree"
 msgstr "Árbol"
 
-#: ../widgets/table/e-table-item.c:2951 ../widgets/table/e-table-item.c:2952
+#: ../widgets/table/e-table-item.c:2999 ../widgets/table/e-table-item.c:3000
 msgid "Table header"
 msgstr "Cabecera de la tabla"
 
-#: ../widgets/table/e-table-item.c:2958 ../widgets/table/e-table-item.c:2959
+#: ../widgets/table/e-table-item.c:3006 ../widgets/table/e-table-item.c:3007
 msgid "Table model"
 msgstr "Modelo de la tabla"
 
-#: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-table-item.c:3082 ../widgets/table/e-table-item.c:3083
 msgid "Cursor row"
 msgstr "Fila del cursor"
 
