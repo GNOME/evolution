@@ -1,3 +1,18 @@
+2008-01-23  Andre Klapper  <a9016009@gmx.de>
+
+	* de/figures/evo_gwreceive_a.png:
+	* de/figures/evo_identity_a.png:
+	* de/figures/evo_imapreceive_a.png:
+	* de/figures/evo_maildirreceive_a.png:
+	* de/figures/evo_mboxreceive_a.png:
+	* de/figures/evo_mhreceive_a.png:
+	* de/figures/evo_popreceive_a.png:
+	* de/figures/evo_receive_setup_a.png:
+	* de/figures/evo_send_setup_a.png:
+	* de/figures/evo_timezone_a.png:
+	* de/figures/evo_usereceive_a.png:
+	Added localized screenshots.
+
 2008-01-20  Yannig Marchegay <yannig@marchegay.org>
 
 	* oc.po: Updated Occitan translation.
