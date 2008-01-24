@@ -1,3 +1,9 @@
+2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-cell-pixbuf.c: (pixbuf_draw), (pixbuf_height), (pixbuf_print),
+	(pixbuf_print_height), (pixbuf_max_width): Cairfy pixbuf renderer for
+	settings window.
+
 2008-01-22  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #511105

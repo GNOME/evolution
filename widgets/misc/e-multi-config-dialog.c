@@ -214,45 +214,8 @@ e_multi_config_dialog_class_init (EMultiConfigDialogClass *class)
 			   ((color).blue & 0xff00) >> 8)
 
 static void
-fill_in_pixbufs (EMultiConfigDialog *dialog, int row)
-{
-	GdkPixbuf *original = e_table_model_value_at (dialog->priv->list_e_table_model, 1, row);
-	GtkWidget *canvas;
-	guint32 colors[3];
-	int i;
-
-	if (original == NULL)
-		return;
-
-	canvas = GTK_WIDGET (e_table_scrolled_get_table (E_TABLE_SCROLLED (dialog->priv->list_e_table))->table_canvas);
-
-	colors[0] = RGB_COLOR (canvas->style->bg [GTK_STATE_SELECTED]);
-	colors[1] = RGB_COLOR (canvas->style->bg [GTK_STATE_ACTIVE]);
-	colors[2] = RGB_COLOR (canvas->style->base [GTK_STATE_NORMAL]);
-
-	for (i = 0; i < 3; i++) {
-		GdkPixbuf *pixbuf = gdk_pixbuf_composite_color_simple (original,
-								       gdk_pixbuf_get_width (original),
-								       gdk_pixbuf_get_height (original),
-								       GDK_INTERP_BILINEAR,
-								       255,
-								       1,
-								       colors[i], colors[i]);
-		e_table_model_set_value_at (dialog->priv->list_e_table_model, i + 2, row, pixbuf);
-		g_object_unref(pixbuf);
-	}
-}
-
-static void
 canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
 {
-	int i;
-	int row_count;
-
-	row_count = e_table_model_row_count (dialog->priv->list_e_table_model);
-	for (i = 0; i < row_count; i++) {
-		fill_in_pixbufs (dialog, i);
-	}
 }
 
 
@@ -384,10 +347,6 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 	priv->pages = g_slist_append (priv->pages, page_widget);
 
 	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon, NULL, NULL, NULL);
-
-	if (GTK_WIDGET_REALIZED (e_table_scrolled_get_table (E_TABLE_SCROLLED (dialog->priv->list_e_table))->table_canvas)) {
-		fill_in_pixbufs (dialog, e_table_model_row_count (priv->list_e_table_model) - 1);
-	}
 
 	page_no = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  create_page_container (description, GTK_WIDGET (page_widget)),

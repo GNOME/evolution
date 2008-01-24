@@ -1,3 +1,9 @@
+2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-multi-config-dialog.c: (canvas_realize),
+	(e_multi_config_dialog_add_page): Enable for Cairofication of the
+	settings dialogs's etable.
+
 2008-01-11  Jeffrey Stedfast  <fejj@novell.com>
 
 	Patch by Jean-Christophe BEGUE to fix bug #329692.
