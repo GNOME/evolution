@@ -1,6 +1,7 @@
 2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #510779
+	** Fix for bug #504103
 
 	* em-mailer-prefs.c: (jh_tree_refill), (jh_add_cb), (jh_remove_cb),
 	(init_junk_tree), (custom_junk_button_toggled),
