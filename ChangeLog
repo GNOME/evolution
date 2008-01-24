@@ -1,7 +1,7 @@
 2008-01-24  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Include camel in E_UTIL compile flags and libs, as
-	at least libeutil uses a camel function now.
+	libeutil uses camel_utf8_utf7().
 
 2008-01-24  Matthew Barnes  <mbarnes@redhat.com>
 
