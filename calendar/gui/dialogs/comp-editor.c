@@ -643,7 +643,7 @@ get_attachment_list (CompEditor *editor)
 	GSList *parts = NULL, *list = NULL, *p = NULL;
 	const char *comp_uid = NULL;
 	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
-
+	int ticker=0;
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
 	parts = e_attachment_bar_get_parts((EAttachmentBar *)editor->priv->attachment_bar);
@@ -661,9 +661,16 @@ get_attachment_list (CompEditor *editor)
 		 * as a mime part file into the directory denoting the
 		 * calendar source */
 		utf8_safe_fname = camel_file_util_safe_filename (camel_mime_part_get_filename ((CamelMimePart *) p->data));
-		safe_fname = g_filename_from_utf8 ((const char *) utf8_safe_fname, -1, NULL, NULL, NULL);
-		g_free (utf8_safe_fname);
 
+		/* It is absolutely fine to get a NULL from the filename of 
+		 * mime part. We assume that it is named "Attachment"
+		 * in mailer. I'll do that with a ticker */
+		if (!utf8_safe_fname)
+			safe_fname = g_strdup_printf ("%s-%d", _("attachment"), ticker++);
+		else {
+			safe_fname = g_filename_from_utf8 ((const char *) utf8_safe_fname, -1, NULL, NULL, NULL);
+			g_free (utf8_safe_fname);
+		}
 		filename = g_strdup_printf ("%s-%s", comp_uid, safe_fname);
 
 		attach_file_url = g_build_path ("/", local_store, filename, NULL);
