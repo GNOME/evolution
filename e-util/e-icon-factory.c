@@ -206,6 +206,8 @@ icon_theme_changed_cb (GtkIconTheme *icon_theme, gpointer user_data)
 void
 e_icon_factory_init (void)
 {
+	gchar *path;
+
 	if (name_to_icon != NULL)
 		return;
 
@@ -215,10 +217,13 @@ e_icon_factory_init (void)
 		(GDestroyNotify) icon_free);
 
 	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_append_search_path (icon_theme,
-                                   EVOLUTION_DATADIR G_DIR_SEPARATOR_S
-                                   "evolution" G_DIR_SEPARATOR_S
-                                   BASE_VERSION G_DIR_SEPARATOR_S "icons");
+	path = g_build_filename (EVOLUTION_DATADIR,
+				 "evolution",
+				 BASE_VERSION,
+				 "icons",
+				 NULL);
+	gtk_icon_theme_append_search_path (icon_theme, path);
+	g_free (path);
 	g_signal_connect (
 		icon_theme, "changed",
 		G_CALLBACK (icon_theme_changed_cb), NULL);
