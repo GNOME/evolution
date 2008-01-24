@@ -1,5 +1,12 @@
 2008-01-24  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #402487
+
+	* em-folder-browser.c: (emfb_search_search_activated),
+	(generate_viewoption_menu): Memory leak fix.
+
+2008-01-24  Milan Crha  <mcrha@redhat.com>
+
 	** Part of bug #511488
 
 	* mail-vfolder.h:

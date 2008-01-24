@@ -412,12 +412,12 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const c
 	if (!text)
 		return; /* This is an error in the UTF8 conversion, not an empty string! */
 
-	if (text && *text) {
+	if (text && *text)
 	    sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
-	    g_free (text);
-	} else
+	else
 	    sexp = g_strdup ("(contains? \"summary\" \"\")"); /* Show all */
 
+	g_free (text);
 
 	/* Apply the selected view on search */
 	if (view && *view){

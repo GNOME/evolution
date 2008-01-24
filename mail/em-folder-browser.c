@@ -336,8 +336,9 @@ generate_viewoption_menu (GtkWidget *emfv)
 			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
 					   GINT_TO_POINTER (VIEW_LABEL + (VIEW_ITEMS_MASK + 1) * i));
 
-			g_object_set_data (G_OBJECT (menu_item), "LabelTag",
-					   g_strdup (strncmp (label->tag, "$Label", 6) == 0 ? label->tag + 6 : label->tag));
+			g_object_set_data_full (G_OBJECT (menu_item), "LabelTag",
+						g_strdup (strncmp (label->tag, "$Label", 6) == 0 ? label->tag + 6 : label->tag),
+						g_free);
 		}
 
 		gtk_widget_show (menu_item);
@@ -1033,7 +1034,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	EFilterBar *efb = (EFilterBar *)esb;
-	char *search_state, *view_sexp, *folder_uri=NULL;
+	char *search_state = NULL, *view_sexp, *folder_uri=NULL;
 	char *word = NULL, *storeuri = NULL, *search_word = NULL;
 	gint id, i;
 	CamelFolder *folder;
@@ -1058,6 +1059,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    } else {
 			    em_format_html_display_search_close (emfb->view.preview);
 		    }
+		    g_free (word);
 		    return;
 		    break;
 
@@ -1075,9 +1077,13 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
+			    g_free (word);
+			    word = NULL;
 			    break;
 		    }
 
+		    g_free (word);
+		    word = NULL;
 		    g_object_get (esb, "query", &search_word, NULL);
 		    if (efb->account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->account_search_vf)->expression) ) {
 			    break;
@@ -1127,8 +1133,13 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
+			    g_free (word);
+			    word = NULL;
 			    break;
 		    }
+
+		    g_free (word);
+		    word = NULL;
 
 		    g_object_get (esb, "query", &search_word, NULL);
 
@@ -1192,10 +1203,18 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	g_object_get (esb, "state", &search_state, NULL);
 	camel_object_meta_set (emfv->folder, "evolution:search_state", search_state);
 	camel_object_state_write (emfv->folder);
+	g_free (search_state);
+
+	if (search_word) {
+		g_free (search_word);
+		search_word = NULL;
+	}
 
 	/* Merge the view and search expresion*/
 	view_sexp = get_view_query (esb, emfv->folder, emfv->folder_uri);
 	g_object_get (esb, "query", &search_word, NULL);
+
+	word = search_word;
 
 	if (search_word && *search_word)
 		search_word = g_strconcat ("(and ", view_sexp, search_word, " )", NULL);
@@ -1204,6 +1223,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 	message_list_set_search(emfb->view.list, search_word);
 
+	g_free (word);
 	g_free (search_word);
 	g_free (view_sexp);
 

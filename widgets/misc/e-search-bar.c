@@ -205,7 +205,7 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 {
 	ESearchBar *esb;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	const char *text;
+	char *text;
 
 	esb = E_SEARCH_BAR (data);
 	text = e_search_bar_get_text (esb);
@@ -222,6 +222,7 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
 	}
 
+	g_free (text);
 	emit_search_activated (esb);
 }
 
@@ -530,7 +531,7 @@ entry_key_press_cb (GtkWidget *widget,
 static void
 scopeoption_changed_cb (GtkWidget *option_menu, ESearchBar *search_bar)
 {
-	const gchar *text = NULL;
+	char *text = NULL;
 
 	text = e_search_bar_get_text (search_bar);
 	if (!(text && *text))
@@ -538,6 +539,8 @@ scopeoption_changed_cb (GtkWidget *option_menu, ESearchBar *search_bar)
 
 	if(!search_bar->block_search)
 		emit_query_changed (search_bar);
+
+	g_free (text);
 }
 #endif
 

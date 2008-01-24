@@ -1,3 +1,10 @@
+2008-01-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #402487
+
+	* e-search-bar.c: (search_now_verb_cb), (scopeoption_changed_cb):
+	Memory leak fix.
+
 2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-multi-config-dialog.c: (canvas_realize),
