@@ -1,3 +1,8 @@
+2008-01-25  Tor Lillqvist  <tml@novell.com>
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Link with
+	libefilterbar.
+
 2008-01-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #402487
