@@ -773,6 +773,7 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	EMinicardField *minicard_field;
 	char *name;
 	char *string;
+ 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);	
 
 	group = GNOME_CANVAS_GROUP( e_minicard );
 
@@ -784,16 +785,16 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
 		gnome_canvas_item_set( new_item,
 				       "width", e_minicard->width - 4.0,
-				       "fieldname", string,
-			    	   "field", "",
+				       "fieldname", is_rtl ? "" : string,
+			    	       "field", is_rtl ? string : "",
 			 	      "max_field_name_length", left_width,
 			    	   "editable", FALSE /* e_minicard->editable */,
 			    	   NULL );
 	else
 		gnome_canvas_item_set( new_item,
 				       "width", e_minicard->width - 4.0,
-				       "fieldname", name,
-			    	   "field", string,
+				       "fieldname", is_rtl ? string : name,
+			    	   "field", is_rtl ? name : string,
 			 	      "max_field_name_length", left_width,
 			    	   "editable", FALSE /* e_minicard->editable */,
 			    	   NULL );
@@ -841,6 +842,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 	char *name;
 	GList *l, *le;
 	int count =0;
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);	
 	GList *emails = e_contact_get (e_minicard->contact, E_CONTACT_EMAIL);
 	group = GNOME_CANVAS_GROUP( e_minicard );
 
@@ -848,7 +850,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		const gchar *tmp;
 		char *email = NULL;
 		char *string = NULL;
-		char *full_string = NULL;
+		char *parsed_name = NULL;
 		gboolean parser_check;
 
 		tmp = get_email_location ((EVCardAttribute *) l->data);
@@ -857,10 +859,10 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		else
 			name = g_strdup ("");
 
-		parser_check = eab_parse_qp_email ((const gchar *) le->data, &string, &email);
+		parser_check = eab_parse_qp_email ((const gchar *) le->data, &parsed_name, &email);
 		if (parser_check) {
 			/* if true, we had a quoted printable mail address */
-			full_string = g_strdup_printf ("%s <%s>", string, email);
+			string = g_strdup_printf ("%s <%s>", parsed_name, email);
 		} else {
 			/* we got a NON-quoted printable string */
 			string = g_strdup (le->data);
@@ -870,12 +872,11 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 
 		gnome_canvas_item_set( new_item,
 				       "width", e_minicard->width - 4.0,
-				       "fieldname", name,
-				       "field", parser_check ? full_string : string,
+				       "fieldname", is_rtl ? string : name,
+				       "field", is_rtl ? name : string,
 				       "max_field_name_length", left_width,
 				       "editable", FALSE /* e_minicard->editable */,
 				       NULL );
-
 
 #ifdef notyet
 		g_object_set(E_MINICARD_LABEL(new_item)->field,
@@ -895,7 +896,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		count++;
 		g_free (name);
 		g_free (string);
-		g_free (full_string);
+		g_free (parsed_name);
 		g_free (email);
 	}
 	g_list_foreach (emails, (GFunc) g_free, NULL);

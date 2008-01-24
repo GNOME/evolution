@@ -393,16 +393,21 @@ static void
 e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 {
 	double left_width;
+	double fieldnamewidth;
+	double fieldwidth;
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 	if (e_minicard_label->max_field_name_length != -1 && ((e_minicard_label->width / 2) - 4 > e_minicard_label->max_field_name_length))
 		left_width = e_minicard_label->max_field_name_length;
 	else
 		left_width = e_minicard_label->width / 2 - 4;
 
+	fieldnamewidth = (double) MAX ( left_width, 0 );
+	fieldwidth = (double) MAX ( e_minicard_label->width - 8 - left_width, 0 );
 	gnome_canvas_item_set( e_minicard_label->fieldname,
-			       "clip_width", (double) MAX ( left_width, 0 ),
+			       "clip_width", is_rtl ? fieldwidth : fieldnamewidth,
 			       NULL );
 	gnome_canvas_item_set( e_minicard_label->field,
-			       "clip_width", (double) MAX ( e_minicard_label->width - 8 - left_width, 0 ),
+			       "clip_width", is_rtl ? fieldnamewidth : fieldwidth,
 			       NULL );
 }
 
