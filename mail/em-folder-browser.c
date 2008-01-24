@@ -761,8 +761,7 @@ emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 			char *name, *text;
 
 			/* ensures vfolder is running */
-			if (!vfolder_loaded ())
-				vfolder_load_storage ();
+			vfolder_load_storage ();
 
 			rule = vfolder_clone_rule (efb->current_query);
 			text = e_search_bar_get_text(esb);

@@ -896,11 +896,24 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 void
 vfolder_load_storage(void)
 {
+	/* lock for loading storage, it is safe to call it more than once */
+	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
 	char *user, *storeuri;
 	FilterRule *rule;
 	char *xmlfile;
 
+	pthread_mutex_lock (&lock);
+
+	if (vfolder_hash) {
+		/* we have already initialized */
+		pthread_mutex_unlock (&lock);
+		return;
+	}
+
 	vfolder_hash = g_hash_table_new(g_str_hash, g_str_equal);
+
+	pthread_mutex_unlock (&lock);
 
 	/* first, create the vfolder store, and set it up */
 	storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
@@ -947,17 +960,6 @@ vfolder_load_storage(void)
 	g_free(storeuri);
 }
 
-/**
- * vfolder_loaded
- * Test if we have vfolder already inited or not.
- * @return Whether was vfolder inited or not (by call of @ref vfolder_load_storage).
- **/
-gboolean
-vfolder_loaded (void)
-{
-	return vfolder_hash != NULL;
-}
-
 void
 vfolder_revert(void)
 {
@@ -1002,8 +1004,7 @@ vfolder_edit (void)
 	}
 
 	/* ensures vfolder is running */
-	if (!vfolder_loaded ())
-		vfolder_load_storage ();
+	vfolder_load_storage ();
 
 	vfolder_editor = GTK_WIDGET (em_vfolder_editor_new (context));
 	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("Search Folders"));
@@ -1130,8 +1131,7 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 	GtkDialog *gd;
 
 	/* this should be done before we call this function */
-	if (!vfolder_loaded ())
-		vfolder_load_storage ();
+	vfolder_load_storage ();
 
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
 
@@ -1163,8 +1163,7 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 	g_return_if_fail (msg != NULL);
 
 	/* ensures vfolder is running */
-	if (!vfolder_loaded ())
-		vfolder_load_storage ();
+	vfolder_load_storage ();
 
 	rule = (EMVFolderRule*)em_vfolder_rule_from_message(context, msg, flags, source);
 	vfolder_gui_add_rule(rule);
@@ -1178,8 +1177,7 @@ vfolder_gui_add_from_address(CamelInternetAddress *addr, int flags, const char *
 	g_return_if_fail (addr != NULL);
 
 	/* ensures vfolder is running */
-	if (!vfolder_loaded ())
-		vfolder_load_storage ();
+	vfolder_load_storage ();
 
 	rule = (EMVFolderRule*)em_vfolder_rule_from_address(context, addr, flags, source);
 	vfolder_gui_add_rule(rule);

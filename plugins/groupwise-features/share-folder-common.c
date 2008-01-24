@@ -274,8 +274,7 @@ users_dialog_response(GtkWidget *dialog, int response, struct ShareInfo *ssi)
 		EMVFolderRule *rule;
 
 		/* ensures vfolder is running */
-		if (!vfolder_loaded ())
-			vfolder_load_storage ();
+		vfolder_load_storage ();
 
 		rule = em_vfolder_rule_new();
 		filter_rule_set_name((FilterRule *)rule, path);

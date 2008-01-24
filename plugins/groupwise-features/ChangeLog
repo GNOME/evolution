@@ -1,3 +1,10 @@
+2008-01-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of bug #511488
+
+	* share-folder-common.c: (users_dialog_response): The logic to check
+	if vfolder is running has been changed, so reflect it here too.
+
 2008-01-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #300336
