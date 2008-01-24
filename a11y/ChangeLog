@@ -1,3 +1,8 @@
+2008-01-24  Tor Lillqvist  <tml@novell.com>
+
+	* widgets/Makefile.am (libevolution_widgets_a11y_la_LIBADD): Link
+	with libeutil.la for e_get_weekday_name().
+
 2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #392747
