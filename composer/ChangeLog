@@ -1,3 +1,11 @@
+2008-01-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #509124
+
+	* e-msg-composer.c (e_msg_composer_get_message_print),
+	(e_msg_composer_get_message_draft):
+	Check result of build_message() for NULL before proceeding.
+
 2008-01-14  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #502783

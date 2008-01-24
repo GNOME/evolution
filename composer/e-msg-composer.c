@@ -5276,6 +5276,9 @@ e_msg_composer_get_message_print (EMsgComposer *composer, gboolean save_html_obj
 	GString *flags;
 
 	msg = build_message (composer, save_html_object_data);
+	if (msg == NULL)
+		return NULL;
+
 	temp_composer = e_msg_composer_new_with_message (msg);
 	camel_object_unref (msg);
 
@@ -5302,8 +5305,10 @@ e_msg_composer_get_message_print (EMsgComposer *composer, gboolean save_html_obj
 	temp_composer->priv->smime_encrypt = FALSE;
 
 	msg = build_message (temp_composer, save_html_object_data);
-	camel_medium_set_header (CAMEL_MEDIUM (msg),
-		"X-Evolution-Format", flags->str);
+	if (msg != NULL)
+		camel_medium_set_header (
+			CAMEL_MEDIUM (msg),
+			"X-Evolution-Format", flags->str);
 
 	e_msg_composer_delete (temp_composer);
 	g_string_free (flags, TRUE);
@@ -5335,6 +5340,8 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	p->smime_encrypt = FALSE;
 
 	msg = build_message (composer, TRUE);
+	if (msg == NULL)
+		return NULL;
 
 	p->send_html = old_send_html;
 	p->pgp_sign = old_flags[0];
