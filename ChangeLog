@@ -1,3 +1,8 @@
+2008-01-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.90 for new Camel functions.
+
 2008-01-21  Sankar P  <psankar@novell.com>
 
 	* configure.in:

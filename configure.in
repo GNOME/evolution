@@ -13,7 +13,7 @@ GTKHTML_PACKAGE=3.14
 # Required Packages
 m4_define([glib_minimum_version], [2.15.3])
 m4_define([gtk_minimum_version], [2.12.0])
-m4_define([eds_minimum_version], [2.21.4])
+m4_define([eds_minimum_version], [2.21.90])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_vfs_minimum_version], [2.4.0])
 m4_define([libbonobo_minimum_version], [2.20.3])
