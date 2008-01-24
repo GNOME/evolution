@@ -1,3 +1,9 @@
+2008-01-24  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (libemiscwidgets_la_LIBADD): Fix typo:
+	s/EVOLUTON_MAIL_LIBS/EVOLUTION_MAIL_LIBS/. No need to use
+	CAMEL_LIBS as EVOLUTION_MAIL_LIBS already covers that.
+
 2008-01-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #402487
