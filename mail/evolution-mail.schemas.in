@@ -969,7 +969,7 @@
       <type>int</type>
       <default>0</default>
       <locale name="C">
-         <short>Level beyond which it should the message should be logged.</short>
+         <short>Level beyond which the message should be logged.</short>
          <long> This can have three possible values. 0 for errors. 1 for warnings. 
 	 	2 for debug messages.
          </long>
@@ -1098,6 +1098,47 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/lookup_addressbook</key>
+      <applyto>/apps/evolution/mail/junk/lookup_addressbook</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Determines whether to lookup in addressbook for sender email</short>
+         <long>
+	 Determines whether to loopup the sender email in addressbook. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote addressbooks (like ldap) are marked for autocompletion.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/check_custom_header</key>
+      <applyto>/apps/evolution/mail/junk/check_custom_header</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Determines whether to use custom headers to check for junk</short>
+         <long>
+          Determines whether to use custom headers to check for junk. If this option is enabled and the headers are mentioned, it will be improve the junk checking speed.
+         </long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/custom_header</key>
+      <applyto>/apps/evolution/mail/junk/custom_header</applyto>
+      <owner>evolution-mail</owner>
+       <type>list</type>
+      <list_type>string</list_type>
+      <default>[X-Spam-Flag=YES,X-Spam-Level=*****]</default>
+      <locale name="C">
+         <short>Specifies the header to check for junk.</short>
+         <long>
+	 Specifies the header to check for junk. The format is headername=value in gconf.
+         </long>
+      </locale>
+    </schema>
     <!-- Account settings -->
 
     <schema>

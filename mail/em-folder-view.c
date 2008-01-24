@@ -589,7 +589,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 {
 	static GalViewCollection *collection = NULL;
 	struct _EMFolderViewPrivate *p = emfv->priv;
-	gboolean outgoing, show_wide;
+	gboolean outgoing, show_wide=FALSE;
 	char *id;
 
 	g_return_if_fail (emfv->folder);
@@ -647,7 +647,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 	id = mail_config_folder_to_safe_url (emfv->folder);
 	p->view_instance = gal_view_instance_new (collection, id);
 
-	show_wide = em_folder_browser_get_wide ((EMFolderBrowser *) emfv);
+	show_wide = emfv->list_active ? em_folder_browser_get_wide ((EMFolderBrowser *) emfv):FALSE;
 	if (show_wide) {
 		char *safe_id, *filename;
 
@@ -3158,7 +3158,8 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 
 		if (camel_object_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1" : "0"))
 			camel_object_state_write (emfv->folder);
-		em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
+		if (emfv->list_active)
+			em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
 		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
 		break; }
 	case EMFV_SHOW_DELETED: {

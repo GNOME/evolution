@@ -197,6 +197,10 @@ enum {
 	LABEL_LIST_COLUMN_NAME
 };
 
+enum {
+	JH_LIST_COLUMN_NAME,
+	JH_LIST_COLUMN_VALUE,
+};
 static void
 label_sensitive_buttons (EMMailerPrefs *prefs)
 {
@@ -300,6 +304,156 @@ label_tree_refill (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpoint
 
 	label_sensitive_buttons (prefs);
 	e_util_labels_free (labels);
+}
+
+
+static void
+jh_tree_refill (EMMailerPrefs *prefs)
+{
+	GtkListStore *store = prefs->junk_header_list_store;
+	GSList *l, *cjh = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+
+	gtk_list_store_clear (store);
+
+	for (l = cjh; l; l = l->next) {
+		GtkTreeIter iter;
+		char **tokens = g_strsplit (l->data, "=", 2);
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			JH_LIST_COLUMN_NAME , tokens[0] ? tokens[0] : "",
+			JH_LIST_COLUMN_VALUE, tokens[1] ? tokens[1] : "" ,
+			-1);
+		g_strfreev (tokens);
+	}
+
+	g_slist_foreach (cjh, (GFunc) g_free, NULL);
+	g_slist_free (cjh);
+}
+
+static void
+jh_add_cb (GtkWidget *widget, gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+	GtkWidget *dialog, *l1, *l2, *entry1, *entry2, *vbox, *hbox;
+	int response;
+	dialog = gtk_dialog_new_with_buttons (_("Add Custom Junk Header"), (GtkWindow *)gtk_widget_get_toplevel (widget), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	hbox = gtk_hbox_new (FALSE, 0);
+	l1 = gtk_label_new_with_mnemonic (_("Header Name:"));
+	l2 = gtk_label_new_with_mnemonic (_("Header Value Contains:"));
+	entry1 = gtk_entry_new ();
+	entry2 = gtk_entry_new ();
+	gtk_box_pack_start ((GtkBox *) hbox, l1, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *)hbox, entry1, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox, l2, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *)hbox, entry2, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
+	
+	gtk_widget_show_all (vbox);
+	gtk_container_add ((GtkContainer *)((GtkDialog *)dialog)->vbox, vbox);
+	response = gtk_dialog_run ((GtkDialog *)dialog);
+	if (response == GTK_RESPONSE_ACCEPT) {
+		const char *name = gtk_entry_get_text ((GtkEntry *)entry1);
+		const char *value = gtk_entry_get_text ((GtkEntry *)entry2);
+		char *tok;
+		GSList *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		
+		//FIXME: Validate the values
+		
+		tok = g_strdup_printf ("%s=%s", name, value);
+		list = g_slist_append (list, tok);
+		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
+		g_slist_foreach (list, (GFunc)g_free, NULL);
+
+		g_slist_free (list);
+	}
+	gtk_widget_destroy (dialog);
+	jh_tree_refill (prefs);
+}
+
+static void
+jh_remove_cb (GtkWidget *widget, gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (prefs != NULL);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->junk_header_tree));
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		char *name=NULL, *value=NULL;
+		GSList *prev = NULL, *node, *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		gtk_tree_model_get (model, &iter, JH_LIST_COLUMN_NAME, &name, JH_LIST_COLUMN_VALUE, &value, -1);
+		node = list;
+		while (node) {
+			char *test;
+			int len = strlen (name);
+			test = strncmp (node->data, name, len) == 0 ? node->data+len:NULL;
+
+			if (test) {
+				test++;
+				if (strcmp (test, value) == 0)
+					break;
+			}
+				
+			prev = node;
+			node = node->next;
+		}
+
+		if (prev && !node) {
+			/* Not found. So what? */
+		} else if (prev && node) {
+			prev->next = node->next;
+			g_free (node->data);
+		} else if (!prev && node) {
+			list = list->next;
+			g_free (node->data);
+		}
+
+		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
+
+		g_slist_foreach (list, (GFunc)g_free, NULL);
+		g_slist_free (list);
+		g_free (name);
+		g_free (value);
+
+		jh_tree_refill (prefs);
+	}
+}
+
+
+static GtkListStore *
+init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
+{
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
+	gint col;
+
+	g_return_val_if_fail (label_tree != NULL, NULL);
+	g_return_val_if_fail (prefs != NULL, NULL);
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (label_tree), GTK_TREE_MODEL (store));
+
+	renderer = gtk_cell_renderer_text_new ();
+	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Contains Value"), renderer, "text", JH_LIST_COLUMN_VALUE, NULL);
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+
+	label_tree_refill (NULL, 0, NULL, prefs);
+
+	return store;
 }
 
 static GtkListStore *
@@ -668,6 +822,23 @@ photo_toggle_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->photo_local, TRUE);
 	else
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->photo_local, FALSE);
+}
+
+static void
+custom_junk_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+{
+	toggle_button_toggled (toggle, prefs);
+	if (gtk_toggle_button_get_active (toggle)) {
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_remove, TRUE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_add, TRUE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_tree, TRUE);
+	} else {
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_tree, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_add, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_remove, FALSE);
+	}
+
+
 }
 
 #if 0
@@ -1316,6 +1487,25 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->plugin_status = GTK_LABEL (glade_xml_get_widget (gui, "plugin_status"));
 	prefs->plugin_image = GTK_IMAGE (glade_xml_get_widget (gui, "plugin_image"));
 	junk_plugin_setup (GTK_WIDGET (prefs->default_junk_plugin), prefs);
+
+	prefs->junk_header_check = (GtkToggleButton *)glade_xml_get_widget (gui, "junk_header_check");
+	prefs->junk_header_tree = (GtkTreeView *)glade_xml_get_widget (gui, "junk_header_tree");
+	prefs->junk_header_add = (GtkButton *)glade_xml_get_widget (gui, "junk_header_add");
+	prefs->junk_header_remove = (GtkButton *)glade_xml_get_widget (gui, "junk_header_remove");
+	prefs->junk_book_lookup = (GtkToggleButton *)glade_xml_get_widget (gui, "lookup_book");
+	toggle_button_init (prefs, prefs->junk_book_lookup, FALSE,
+			    "/apps/evolution/mail/junk/lookup_addressbook",
+			    G_CALLBACK (toggle_button_toggled));
+
+	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *)prefs->junk_header_tree, prefs);
+	toggle_button_init (prefs, prefs->junk_header_check, FALSE,
+			    "/apps/evolution/mail/junk/check_custom_header",
+			    G_CALLBACK (custom_junk_button_toggled));
+
+	custom_junk_button_toggled (prefs->junk_header_check, prefs);
+	jh_tree_refill (prefs);
+	g_signal_connect (G_OBJECT (prefs->junk_header_add), "clicked", G_CALLBACK (jh_add_cb), prefs);
+	g_signal_connect (G_OBJECT (prefs->junk_header_remove), "clicked", G_CALLBACK (jh_remove_cb), prefs);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs(ec, prefs->gconf);

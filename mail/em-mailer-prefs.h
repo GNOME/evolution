@@ -123,12 +123,20 @@ struct _EMMailerPrefs {
 	struct _GtkToggleButton *check_incoming;
 	struct _GtkToggleButton *empty_junk;
 	struct _GtkOptionMenu *empty_junk_days;
-
+	
 	struct _GtkToggleButton *sa_local_tests_only;
 	struct _GtkToggleButton *sa_use_daemon;
 	struct _GtkComboBox *default_junk_plugin;
 	struct _GtkLabel *plugin_status;
 	struct _GtkImage *plugin_image;
+
+	struct _GtkToggleButton *junk_header_check;
+	struct _GtkTreeView *junk_header_tree;
+	struct _GtkListStore *junk_header_list_store;	
+	struct _GtkButton *junk_header_add;
+	struct _GtkButton *junk_header_remove;
+	struct _GtkToggleButton *junk_book_lookup;
+
 };
 
 struct _EMMailerPrefsClass {

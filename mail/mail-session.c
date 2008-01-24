@@ -86,6 +86,7 @@ static char *get_password(CamelSession *session, CamelService *service, const ch
 static void forget_password(CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
 static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
+static gboolean lookup_addressbook(CamelSession *session, const char *name);
 
 static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
 static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
@@ -117,7 +118,7 @@ class_init (MailSessionClass *mail_session_class)
 	camel_session_class->forget_password = forget_password;
 	camel_session_class->alert_user = alert_user;
 	camel_session_class->get_filter_driver = get_filter_driver;
-
+	camel_session_class->lookup_addressbook = lookup_addressbook;
 	camel_session_class->thread_msg_new = ms_thread_msg_new;
 	camel_session_class->thread_msg_free = ms_thread_msg_free;
 	camel_session_class->thread_status = ms_thread_status;
@@ -375,6 +376,23 @@ static MailMsgInfo user_message_info = {
 	(MailMsgDoneFunc) NULL,
 	(MailMsgFreeFunc) user_message_free
 };
+
+static gboolean
+lookup_addressbook(CamelSession *session, const char *name)
+{
+	CamelInternetAddress *addr;
+	gboolean ret;
+
+	if (!mail_config_get_lookup_book ())
+		return FALSE;
+
+	addr = camel_internet_address_new ();
+	camel_address_decode ((CamelAddress *)addr, name);
+	ret = em_utils_in_addressbook(addr);
+	camel_object_unref (addr);
+
+	return ret;
+}
 
 static gboolean
 alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel)
@@ -679,7 +697,7 @@ mail_session_init (const char *base_directory)
 
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);
-
+	mail_config_reload_junk_headers ();
 	g_free (camel_dir);
 }
 
@@ -759,4 +777,13 @@ mail_session_get_junk_plugins (void)
 {
 	MailSession *ms = (MailSession *) session;
 	return ms->junk_plugins;
+}
+
+void
+mail_session_set_junk_headers (const char **name, const char **value, int len)
+{
+	if (!session)
+		return;
+
+	camel_session_set_junk_headers (session, name, value, len);
 }

@@ -1,3 +1,31 @@
+2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #510779
+
+	* em-mailer-prefs.c: (jh_tree_refill), (jh_add_cb), (jh_remove_cb),
+	(init_junk_tree), (custom_junk_button_toggled),
+	(em_mailer_prefs_construct): Added UI for the new junk preferences.
+	* em-mailer-prefs.h:
+	* evolution-mail.schemas.in: Add schema for junk header and address
+	lookup.
+	* mail-config.c: (gconf_jh_check_changed),
+	(gconf_lookup_book_changed), (gconf_jh_headers_changed),
+	(mail_config_init), (mail_config_reload_junk_headers),
+	(mail_config_get_lookup_book):
+	* mail-config.glade:
+	* mail-config.h:
+	* mail-session.c: (class_init), (lookup_addressbook),
+	(mail_session_init), (mail_session_set_junk_headers):
+	* mail-session.h:
+
+2008-01-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #405777
+
+	* em-folder-view.c: (emfv_setup_view_instance),
+	(emfv_setting_notify): Don't break abstraction. Call the right derived
+	class.
+
 2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* message-list.etspec: Revert the last cursor remove commit. It breaks

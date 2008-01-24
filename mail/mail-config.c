@@ -111,6 +111,13 @@ typedef struct {
 
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
+
+	GSList *jh_header;
+	gboolean jh_check;
+	guint jh_header_id;
+	guint jh_check_id;
+	gboolean book_lookup;
+	guint book_lookup_id;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -251,6 +258,59 @@ gconf_style_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
+		     GConfEntry *entry, gpointer user_data)
+{
+	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
+	if (!config->jh_check) {
+		mail_session_set_junk_headers (NULL, NULL, 0);
+	} else {
+		config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		GSList *node = config->jh_header;
+		GPtrArray *name, *value;
+		name = g_ptr_array_new ();
+		value = g_ptr_array_new ();
+		while (node && node->data) {
+			char **tok = g_strsplit (node->data, "=", 2);
+			g_ptr_array_add (name, g_strdup(tok[0]));
+			g_ptr_array_add (value, g_strdup(tok[1]));
+			node = node->next;
+			g_strfreev (tok);
+		}
+		mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+		g_ptr_array_free (name, TRUE);
+		g_ptr_array_free (value, TRUE);
+	}
+}
+
+static void
+gconf_lookup_book_changed (GConfClient *client, guint cnxn_id,
+			  GConfEntry *entry, gpointer data)
+{
+	config->book_lookup = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/lookup_addressbook", NULL);
+}
+
+static void
+gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
+		     GConfEntry *entry, gpointer user_data)
+{
+	config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+	GSList *node = config->jh_header;
+	GPtrArray *name, *value;
+	name = g_ptr_array_new ();
+	value = g_ptr_array_new ();
+	while (node && node->data) {
+		char **tok = g_strsplit (node->data, "=", 2);
+		g_ptr_array_add (name, g_strdup(tok[0]));
+		g_ptr_array_add (value, g_strdup(tok[1]));
+		node = node->next;
+		g_strfreev (tok);
+	}
+	mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+}
+
+
+static void
 gconf_address_count_changed (GConfClient *client, guint cnxn_id,
 			     GConfEntry *entry, gpointer user_data)
 {
@@ -329,6 +389,9 @@ mail_config_init (void)
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (config->gconf, "/GNOME/Spell",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/junk",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
 							  gconf_style_changed, NULL, NULL, NULL);
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_compress",
@@ -377,6 +440,18 @@ mail_config_init (void)
 	config->magic_spacebar = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/magic_spacebar", NULL);
 	config->accounts = e_account_list_new (config->gconf);
 	config->signatures = e_signature_list_new (config->gconf);
+
+	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
+	config->jh_check_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/junk/check_custom_header",
+								     gconf_jh_check_changed, NULL, NULL, NULL);
+	config->jh_header_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/junk/custom_header",
+								     gconf_jh_headers_changed, NULL, NULL, NULL);
+	config->book_lookup = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/lookup_addressbook", NULL);
+	config->book_lookup_id  = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/junk/lookup_addressbook",
+								     gconf_lookup_book_changed, NULL, NULL, NULL);
+
+	gconf_jh_check_changed (config->gconf, 0, NULL, config);
+
 }
 
 
@@ -1023,6 +1098,28 @@ mail_config_remove_signature (ESignature *signature)
 
 	e_signature_list_remove (config->signatures, signature);
 	mail_config_save_signatures ();
+}
+
+void
+mail_config_reload_junk_headers ()
+{
+	/* It automatically sets in the session */
+	if (config == NULL)
+		mail_config_init ();
+	else 
+		gconf_jh_check_changed (config->gconf, 0, NULL, config);
+
+}
+
+gboolean
+mail_config_get_lookup_book()
+{
+	/* It automatically sets in the session */
+	if (config == NULL)
+		mail_config_init ();
+
+	return config->book_lookup;
+
 }
 
 char *
