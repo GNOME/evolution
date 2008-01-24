@@ -2618,9 +2618,9 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 	classid = g_strdup_printf("optional%s", emf->part_id->str);
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_optional);
-	info->handle = em_format_find_handler(emf, "text/plain");;
+	info->handle = em_format_find_handler(emf, "text/plain");
 	info->shown = FALSE;
-	info->snoop_mime_type = g_strdup("text/plain");
+	info->snoop_mime_type = "text/plain";
 	info->attachment = e_attachment_new_from_mime_part (info->puri.part);
 	info->mstream = (CamelStreamMem *)mstream;
 	if (emf->valid) {

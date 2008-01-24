@@ -1,5 +1,14 @@
 2008-01-24  Milan Crha  <mcrha@redhat.com>
 
+	** Partial fix for bug #395939
+
+	* em-format.c: (emf_inlinepgp_signed):
+	* em-format-html-display.c: (efhd_format_optional):
+	* em-folder-view.c: (emfv_destroy):
+	Memory leak fix.
+
+2008-01-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #402487
 
 	* em-folder-browser.c: (emfb_search_search_activated),

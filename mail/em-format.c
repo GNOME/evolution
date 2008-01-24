@@ -1625,6 +1625,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	dw = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (dw, ostream);
 	camel_data_wrapper_set_mime_type (dw, type);
+	g_free (type);
 
 	opart = camel_mime_part_new ();
 	camel_medium_set_content_object ((CamelMedium *) opart, dw);

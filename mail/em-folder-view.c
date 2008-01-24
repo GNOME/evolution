@@ -390,6 +390,9 @@ emfv_destroy (GtkObject *o)
 	g_free(p->selected_uid);
 	p->selected_uid = NULL;
 
+	g_free (emfv->displayed_uid);
+	emfv->displayed_uid = NULL;
+
 	emfv->preview = NULL;
 	emfv->list = NULL;
 	emfv->preview_active = FALSE;
