@@ -22,6 +22,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-vee-folder.h>
+#include <camel/camel-operation.h>
 
 #include "e-search-bar.h"
 
@@ -75,7 +76,7 @@ struct _EFilterBar {
 
 	CamelVeeFolder *all_account_search_vf;
 	CamelVeeFolder *account_search_vf;
-
+	CamelOperation *account_search_cancel;
 };
 
 struct _EFilterBarClass

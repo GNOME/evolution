@@ -1,3 +1,8 @@
+2007-01-25  Johnny Jacob  <jjohnny@novell.com>
+  
+  	* e-filter-bar.h : Added a cameloperation cancel field for vfolder
+  	based search.
+	
 2008-01-24  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (libemiscwidgets_la_LIBADD): Fix typo:

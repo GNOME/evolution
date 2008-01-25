@@ -1,4 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * e-search-bar.c
  *
@@ -992,6 +993,7 @@ e_filter_bar_new_construct (RuleContext *context,
 
 	bar->all_account_search_vf = NULL;
 	bar->account_search_vf = NULL;
+ 	bar->account_search_cancel = NULL;
 
 	e_search_bar_construct ((ESearchBar *)bar, &item, &item);
 

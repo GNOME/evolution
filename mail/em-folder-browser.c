@@ -61,6 +61,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vee-store.h>
+#include <camel/camel-operation.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
@@ -486,6 +487,7 @@ emfb_init(GObject *o)
 		efb = (EFilterBar *)emfb->search;
 		efb->account_search_vf = NULL;
 		efb->all_account_search_vf = NULL;
+ 		efb->account_search_cancel = NULL;
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
 		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
@@ -921,6 +923,7 @@ struct _setup_msg {
 	MailMsg base;
 
 	CamelFolder *folder;
+	CamelOperation *cancel;
 	char *query;
 	GList *sources_uri;
 	GList *sources_folder;
@@ -937,6 +940,9 @@ vfolder_setup_exec(struct _setup_msg *m)
 {
 	GList *l, *list = NULL;
 	CamelFolder *folder;
+
+	if (m->cancel)
+		camel_operation_register (m->cancel);
 
 	d(printf("Setting up Search Folder: %s\n", m->folder->full_name));
 
@@ -1011,7 +1017,7 @@ static MailMsgInfo vfolder_setup_info = {
 
 /* sources_uri should be camel uri's */
 static int
-vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList *sources_folder)
+vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList *sources_folder, CamelOperation *cancel)
 {
 	struct _setup_msg *m;
 	int id;
@@ -1022,6 +1028,10 @@ vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList 
 	m->query = g_strdup(query);
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
+
+ 	if (cancel) {
+ 		m->cancel = cancel;
+ 	}
 
 	id = m->base.seq;
 	mail_msg_slow_ordered_push (m);
@@ -1070,10 +1080,14 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	    case E_FILTERBAR_CURRENT_ACCOUNT_ID:
 		    word = e_search_bar_get_text (esb);
 		    if (!(word && *word)) {
-			    mail_cancel_all ();
 			    if (efb->account_search_vf) {
 				    camel_object_unref (efb->account_search_vf);
 				    efb->account_search_vf = NULL;
+				    if (efb->account_search_cancel) {
+					    camel_operation_cancel (efb->account_search_cancel);
+					    camel_operation_unref (efb->account_search_cancel);
+					    efb->account_search_cancel = NULL;
+				    }
 			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
@@ -1109,8 +1123,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    efb->account_search_vf = (CamelVeeFolder *)camel_vee_folder_new (vfolder_store,_("Account Search"),CAMEL_STORE_VEE_FOLDER_AUTO);
 
 			    /* Set the search expression  */
-
-			    vfolder_setup ((CamelFolder *)efb->account_search_vf, search_word, NULL, folder_list_account);
+			    efb->account_search_cancel = camel_operation_new (NULL, NULL);
+			    vfolder_setup ((CamelFolder *)efb->account_search_vf, search_word, NULL, folder_list_account, efb->account_search_cancel);
 
 			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->account_search_vf);
 			    emfb_set_search_folder (emfv, (CamelFolder *)efb->account_search_vf, folder_uri);
@@ -1126,10 +1140,14 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	    case E_FILTERBAR_ALL_ACCOUNTS_ID:
 		    word = e_search_bar_get_text (esb);
 		    if (!(word && *word)) {
-			    mail_cancel_all ();
 			    if (efb->all_account_search_vf) {
 				    camel_object_unref (efb->all_account_search_vf);
 				    efb->all_account_search_vf=NULL;
+				    if (efb->account_search_cancel) {
+					    camel_operation_cancel (efb->account_search_cancel);
+					    camel_operation_unref (efb->account_search_cancel);
+					    efb->account_search_cancel = NULL;
+				    }
 			    }
 			    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_CLEARED], 0);
 			    gtk_widget_set_sensitive (esb->scopeoption, TRUE);
@@ -1187,9 +1205,11 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 				    l = l->next;
 			    }
 
-			    vfolder_setup ((CamelFolder *)efb->all_account_search_vf, search_word, NULL, folder_list);
+			    efb->account_search_cancel = camel_operation_new (NULL, NULL);
+			    vfolder_setup ((CamelFolder *)efb->all_account_search_vf, search_word, NULL, folder_list, efb->account_search_cancel);
 
 			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->all_account_search_vf);
+
 			    emfb_set_search_folder (emfv, (CamelFolder *)efb->all_account_search_vf, folder_uri);
 			    g_free (folder_uri);
 			    g_free (storeuri);
