@@ -1,4 +1,11 @@
 2008-01-25  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #371011
+	
+	* e-msg-composer.c (e_msg_composer_show_sig_file): Insert a new 
+	paragraph for signature.
+
+2008-01-25  Johnny Jacob  <jjohnny@novell.com>
  
 	** Fixes bug #503327 & #503678
 	
