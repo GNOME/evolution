@@ -94,7 +94,9 @@ void
 org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 {
 	GConfClient *gconf;
-	char *rawstr = NULL, *filtered_str = NULL;
+	GByteArray *raw_msg_barray;
+
+	gchar *filtered_str = NULL;
 
 	gconf = gconf_client_get_default ();
 	if (!gconf_client_get_bool (gconf, GCONF_KEY_ATTACHMENT_REMINDER, NULL)){
@@ -103,11 +105,15 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 	} else
 		g_object_unref (gconf);
 
-	rawstr = g_strdup (e_msg_composer_get_raw_message_text (t->composer));
+	raw_msg_barray = e_msg_composer_get_raw_message_text (t->composer);
 
-	filtered_str = strip_text_msg (rawstr);
+	if (!raw_msg_barray)
+		return;
 
-	g_free (rawstr);
+	raw_msg_barray = g_byte_array_append (raw_msg_barray, (const guint8 *)"", 1);
+
+	filtered_str = strip_text_msg (raw_msg_barray->data);
+	g_byte_array_free (raw_msg_barray, TRUE);
 
 	/* Set presend_check_status for the composer*/
 	if (check_for_attachment_clues (filtered_str) && !check_for_attachment (t->composer))
@@ -135,6 +141,7 @@ check_for_attachment_clues (gchar *msg)
 	guint msg_length;
 
 	gconf = gconf_client_get_default ();
+
 
 	/* Get the list from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
@@ -176,12 +183,13 @@ strip_text_msg (gchar *msg)
 {
 	gchar **lines = g_strsplit ( msg, "\n", -1);
 	gchar *stripped_msg = g_strdup (" ");
-
 	guint i=0;
+	gchar *temp;
 
 	while (lines [i]){
 		if (lines [i] != NULL && !g_str_has_prefix (g_strstrip(lines[i]), ">")){
-			gchar *temp = stripped_msg;
+			temp = stripped_msg;
+
 			stripped_msg = g_strconcat (" ", stripped_msg, lines[i], NULL);
 
 			g_free (temp);
@@ -191,7 +199,10 @@ strip_text_msg (gchar *msg)
 
 	g_strfreev (lines);
 
-	return g_utf8_strdown (stripped_msg, -1);
+	temp = g_utf8_strdown (stripped_msg, -1);
+	g_free (stripped_msg);
+
+	return temp;
 }
 
 static void

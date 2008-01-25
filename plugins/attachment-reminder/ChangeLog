@@ -1,3 +1,11 @@
+2008-01-24  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes bug #503327 & #503678
+	
+	* attachment-reminder.c (strip_text_msg): Memory leak Fix.
+	(org_gnome_evolution_attachment_reminder): Free	GByteArray.
+	NULL terminate string.
+	
 2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* apps-evolution-attachment-reminder.schemas.in: Add

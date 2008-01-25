@@ -192,7 +192,7 @@ EMsgComposerHdrs*	 e_msg_composer_get_hdrs			 (EMsgComposer *composer);
 void			 e_msg_composer_set_saved			 (EMsgComposer *composer);
 void			 e_msg_composer_set_send_options		 (EMsgComposer *composer,
 									  gboolean      send_enable);
-const gchar *            e_msg_composer_get_raw_message_text              (EMsgComposer *composer);
+GByteArray *            e_msg_composer_get_raw_message_text              (EMsgComposer *composer);
 
 struct _EAttachmentBar*          e_msg_composer_get_attachment_bar                (EMsgComposer *composer);
 

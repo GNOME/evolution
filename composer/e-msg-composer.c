@@ -6262,7 +6262,7 @@ e_msg_composer_unset_autosaved (EMsgComposer *composer)
  *
  * Returns the text/plain of the message from composer
  **/
-const gchar *
+GByteArray *
 e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 {
        GByteArray *data = NULL;
@@ -6271,7 +6271,7 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 
        data = get_text (p->persist_stream_interface, "text/plain");
        if (data)
-		return (const gchar *)data->data;
+		return data;
 
        return NULL;
 }

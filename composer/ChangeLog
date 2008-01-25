@@ -1,3 +1,10 @@
+2008-01-25  Johnny Jacob  <jjohnny@novell.com>
+ 
+	** Fixes bug #503327 & #503678
+	
+ 	* e-msg-composer.c (e_msg_composer_get_raw_message_text): Return
+ 	GByteArray instead of gchar*
+ 
 2008-01-24  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #509124
