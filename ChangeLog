@@ -1,3 +1,10 @@
+2008-01-25  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libevolution-mail.def: Add two more entries for
+	bootstrapping. The mail/importers/libevolution-mail-importers
+	library depends on the libevolution-mail library which hasn't been
+	built yet when libevolution-mail-importers is built.
+
 2008-01-24  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Include camel in E_UTIL compile flags and libs, as
