@@ -1,3 +1,11 @@
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #475781
+
+	* csv-format.c: (do_save_calendar_csv):
+	* rdf-format.c: (do_save_calendar_rdf):
+	Fix memory leaks around ECalComponentDateTime.
+
 2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #495872

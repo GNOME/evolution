@@ -320,19 +320,16 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 				e_cal_component_free_text_list (temp_list);
 
 			e_cal_component_get_dtstart (comp, &temp_dt);
-			 add_time_to_rdf (node, "dtstart", temp_dt.value ? temp_dt.value : NULL);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			add_time_to_rdf (node, "dtstart", temp_dt.value ? temp_dt.value : NULL);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_dtend (comp, &temp_dt);
 			add_time_to_rdf (node, "dtend", temp_dt.value ? temp_dt.value : NULL);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_due (comp, &temp_dt);
 			add_time_to_rdf (node, "due", temp_dt.value ? temp_dt.value : NULL);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_percent (comp, &temp_int);
 			add_nummeric_to_rdf (node, "percentComplete", temp_int);

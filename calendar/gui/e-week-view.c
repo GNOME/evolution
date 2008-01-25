@@ -3532,20 +3532,27 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime dt;
+					struct icaltimetype tt;
+					char *tzid;
 
 					e_cal_component_get_dtstart (comp, &dt);
 					if (dt.value->zone) {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
 							dt.value->is_date,
 							dt.value->zone);
 					} else {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
 							dt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 					}
+					tzid = g_strdup (dt.tzid);
+					e_cal_component_free_datetime (&dt);
+					dt.value = &tt;
+					dt.tzid = tzid;
 					e_cal_component_set_dtstart (comp, &dt);
+					g_free (tzid);
 
 					e_cal_component_get_dtend (comp, &dt);
 					if (dt.value->zone) {
@@ -3559,7 +3566,12 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 							dt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 					}
+					tzid = g_strdup (dt.tzid);
+					e_cal_component_free_datetime (&dt);
+					dt.value = &tt;
+					dt.tzid = tzid;
 					e_cal_component_set_dtend (comp, &dt);
+					g_free (tzid);
 
 					e_cal_component_set_rdate_list (comp, NULL);
 					e_cal_component_set_rrule_list (comp, NULL);

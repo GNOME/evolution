@@ -211,9 +211,9 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
 					_("Start Date:"), str);
 
-		e_cal_component_free_datetime (&dt);
 		g_free (str);
 	}
+	e_cal_component_free_datetime (&dt);
 
 	/* write description and URL */
 	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");

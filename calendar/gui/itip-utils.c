@@ -1109,6 +1109,7 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 			icaltimezone_convert_time (&r->until, from_zone, to_zone);
 			r->until.is_utc = TRUE;
 
+			e_cal_component_free_datetime (&dt);
 			e_cal_component_set_rrule_list (clone, rrule_list);
 			e_cal_component_abort_sequence (clone);
 		}
@@ -1515,6 +1516,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 			time = g_strdup (ctime (&start));
 		}
 
+		e_cal_component_free_datetime (&dtstart);
 
 		body = g_string_new ("<br><br><hr><br><b>______ Original Appointment ______ </b><br><br><table>");
 

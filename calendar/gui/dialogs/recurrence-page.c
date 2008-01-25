@@ -1528,6 +1528,8 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 				r->until.second = 0;
 				r->until.is_date = TRUE;
 				r->until.is_utc = FALSE;
+
+				e_cal_component_free_datetime (&dt);
 			}
 
 			priv->ending_date_tt = r->until;
@@ -1774,6 +1776,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				e_cal_component_get_dtstart (comp, &dt);
 				priv->month_index = dt.value->day;
 				priv->month_num = MONTH_NUM_LAST;
+				e_cal_component_free_datetime (&dt);
 			} else {
 				priv->month_index = nth;
 				priv->month_num = MONTH_NUM_DAY;

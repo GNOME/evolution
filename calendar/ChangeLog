@@ -1,5 +1,23 @@
 2008-01-25  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #475781
+
+	* gui/dialogs/recurrence-page.c: (fill_ending_date),
+	(recurrence_page_fill_widgets):
+	* gui/dialogs/memo-page.c: (memo_page_fill_widgets):
+	* gui/e-day-view.c: 2*(e_day_view_finish_long_event_resize),
+	2*(e_day_view_on_editing_stopped):
+	* gui/itip-utils.c: (comp_compliant), (reply_to_calendar_comp):
+	* gui/e-week-view.c: (e_week_view_on_editing_stopped):
+	* gui/e-calendar-view.c: (e_calendar_view_add_event),
+	(e_calendar_view_get_tooltips):
+	* gui/e-cal-component-preview.c: (write_html):
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	* gui/e-cal-model.c: (add_instance_cb):
+	Fix memory leaks around ECalComponentDateTime.
+
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #510409
 
 	* gui/e-memos.c: (obtain_list_of_components):

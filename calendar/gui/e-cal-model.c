@@ -1347,6 +1347,7 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	to_set.value = &time;
 	to_set.tzid = datetime.tzid;
 	e_cal_component_set_dtstart (comp, &to_set);
+	e_cal_component_free_datetime (&datetime);
 
 	/* set the right instance end date to component*/
 	e_cal_component_get_dtend (comp, &datetime);
@@ -1355,6 +1356,7 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	to_set.value = &time;
 	to_set.tzid = datetime.tzid;
 	e_cal_component_set_dtend (comp, &to_set);
+	e_cal_component_free_datetime (&datetime);
 
 	comp_data = g_new0 (ECalModelComponent, 1);
 	comp_data->client = g_object_ref (rdata->client);

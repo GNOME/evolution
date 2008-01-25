@@ -4969,23 +4969,31 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	date.tzid = NULL;
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE) {
-		e_cal_component_get_dtstart (comp, &date);
-		is_date = date.value->is_date;
+		ECalComponentDateTime ecdt;
+
+		e_cal_component_get_dtstart (comp, &ecdt);
+		is_date = ecdt.value && ecdt.value->is_date;
 		if (!is_date)
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		dt = day_view->day_starts[day_view->resize_start_row];
 		*date.value = icaltime_from_timet_with_zone (dt, is_date,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		e_cal_component_set_dtstart (comp, &date);
+		e_cal_component_free_datetime (&ecdt);
+		date.tzid = NULL; /* do not reuse it later */
 	} else {
-		e_cal_component_get_dtend (comp, &date);
-		is_date = date.value->is_date;
+		ECalComponentDateTime ecdt;
+
+		e_cal_component_get_dtend (comp, &ecdt);
+		is_date = ecdt.value && ecdt.value->is_date;
 		if (!is_date)
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
 		*date.value = icaltime_from_timet_with_zone (dt, is_date,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		e_cal_component_set_dtend (comp, &date);
+		e_cal_component_free_datetime (&ecdt);
+		date.tzid = NULL; /* do not reuse it later */
 	}
 
 	e_cal_component_commit_sequence (comp);
@@ -5209,23 +5217,31 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	date.tzid = NULL;
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE) {
-		e_cal_component_get_dtstart (comp, &date);
-		is_date = date.value->is_date;
+		ECalComponentDateTime ecdt;
+
+		e_cal_component_get_dtstart (comp, &ecdt);
+		is_date = ecdt.value && ecdt.value->is_date;
 		if (!is_date)
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		dt = day_view->day_starts[day_view->resize_start_row];
 		*date.value = icaltime_from_timet_with_zone (dt, is_date,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		e_cal_component_set_dtstart (comp, &date);
+		e_cal_component_free_datetime (&ecdt);
+		date.tzid = NULL; /* do not reuse it later */
 	} else {
+		ECalComponentDateTime ecdt;
+
 		e_cal_component_get_dtend (comp, &date);
-		is_date = date.value->is_date;
+		is_date = ecdt.value && ecdt.value->is_date;
 		if (!is_date)
 			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
 		*date.value = icaltime_from_timet_with_zone (dt, is_date,
 							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		e_cal_component_set_dtend (comp, &date);
+		e_cal_component_free_datetime (&ecdt);
+		date.tzid = NULL; /* do not reuse it later */
 	}
 
 	e_cal_component_commit_sequence (comp);
@@ -7733,35 +7749,41 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 				}
 
 				if (mod == CALOBJ_MOD_THIS) {
-					ECalComponentDateTime dt;
+					ECalComponentDateTime olddt, dt;
 
-					e_cal_component_get_dtstart (comp, &dt);
-					if (dt.value->zone) {
+					e_cal_component_get_dtstart (comp, &olddt);
+					if (olddt.value->zone) {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
-							dt.value->is_date,
-							dt.value->zone);
+							olddt.value->is_date,
+							olddt.value->zone);
 					} else {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
-							dt.value->is_date,
+							olddt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 					}
+					dt.tzid = olddt.tzid;
 					e_cal_component_set_dtstart (comp, &dt);
+					dt.tzid = NULL;
+					e_cal_component_free_datetime (&olddt);
 
-					e_cal_component_get_dtend (comp, &dt);
-					if (dt.value->zone) {
+					e_cal_component_get_dtend (comp, &olddt);
+					if (olddt.value->zone) {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
-							dt.value->is_date,
-							dt.value->zone);
+							olddt.value->is_date,
+							olddt.value->zone);
 					} else {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
-							dt.value->is_date,
+							olddt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 					}
+					dt.tzid = olddt.tzid;
 					e_cal_component_set_dtend (comp, &dt);
+					dt.tzid = NULL;
+					e_cal_component_free_datetime (&olddt);
 
 					e_cal_component_set_rdate_list (comp, NULL);
 					e_cal_component_set_rrule_list (comp, NULL);
@@ -7890,35 +7912,41 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 				}
 
 				if (mod == CALOBJ_MOD_THIS) {
-					ECalComponentDateTime dt;
+					ECalComponentDateTime olddt, dt;
 
-					e_cal_component_get_dtstart (comp, &dt);
-					if (dt.value->zone) {
+					e_cal_component_get_dtstart (comp, &olddt);
+					if (olddt.value->zone) {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
-							dt.value->is_date,
-							dt.value->zone);
+							olddt.value->is_date,
+							olddt.value->zone);
 					} else {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
-							dt.value->is_date,
+							olddt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 					}
+					dt.tzid = olddt.tzid;
 					e_cal_component_set_dtstart (comp, &dt);
+					dt.tzid = NULL;
+					e_cal_component_free_datetime (&olddt);
 
-					e_cal_component_get_dtend (comp, &dt);
-					if (dt.value->zone) {
+					e_cal_component_get_dtend (comp, &olddt);
+					if (olddt.value->zone) {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
-							dt.value->is_date,
-							dt.value->zone);
+							olddt.value->is_date,
+							olddt.value->zone);
 					} else {
 						*dt.value = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
-							dt.value->is_date,
+							olddt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 					}
+					dt.tzid = olddt.tzid;
 					e_cal_component_set_dtend (comp, &dt);
+					dt.tzid = NULL;
+					e_cal_component_free_datetime (&olddt);
 
 					e_cal_component_set_rdate_list (comp, NULL);
 					e_cal_component_set_rrule_list (comp, NULL);

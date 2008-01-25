@@ -363,13 +363,16 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	g_free (uid);
 
 	/* set the timezone properly */
-	dt.value = &itime;
 	e_cal_component_get_dtstart (comp, &dt);
 	dt.tzid = icaltimezone_get_tzid (default_zone);
 	e_cal_component_set_dtstart (comp, &dt);
+	e_cal_component_free_datetime (&dt);
+
 	e_cal_component_get_dtend (comp, &dt);
 	dt.tzid = icaltimezone_get_tzid (default_zone);
 	e_cal_component_set_dtend (comp, &dt);
+	e_cal_component_free_datetime (&dt);
+
 	e_cal_component_commit_sequence (comp);
 
 	/* FIXME Error handling */
@@ -2245,6 +2248,9 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	tmp1 = get_label(dtstart.value, zone, default_zone);
 	tmp = calculate_time (t_start, t_end);
+
+	e_cal_component_free_datetime (&dtstart);
+	e_cal_component_free_datetime (&dtend);
 
 	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
 	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);

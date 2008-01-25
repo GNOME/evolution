@@ -413,6 +413,7 @@ memo_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				      start_tt->day);
 	} else if (!(page->flags & COMP_EDITOR_PAGE_NEW_ITEM))
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
+	e_cal_component_free_datetime (&d);
 
 	/* Classification. */
 	e_cal_component_get_classification (comp, &cl);

@@ -462,18 +462,15 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 			e_cal_component_get_dtstart (comp, &temp_dt);
 			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_dtend (comp, &temp_dt);
 			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_due (comp, &temp_dt);
 			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_percent (comp, &temp_int);
 			line = add_nummeric_to_csv (line, temp_int, config);

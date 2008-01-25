@@ -2082,16 +2082,16 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	/* Set the recurrence id */
 	if (check_is_instance (icalcomp) && datetime.value) {
 		ECalComponentRange *recur_id;
-
-		*datetime.value = icaltime_convert_to_zone (*datetime.value, to_zone);
-		datetime.tzid = icaltimezone_get_tzid (to_zone);
+		struct icaltimetype icaltime = icaltime_convert_to_zone (*datetime.value, to_zone);
 
 		recur_id = g_new0 (ECalComponentRange, 1);
 		recur_id->type = E_CAL_COMPONENT_RANGE_SINGLE;
-		recur_id->datetime = datetime;
+		recur_id->datetime.value = &icaltime;
+		recur_id->datetime.tzid = icaltimezone_get_tzid (to_zone);
 		e_cal_component_set_recurid (pitip->comp, recur_id);
-	} else
-       		e_cal_component_free_datetime (&datetime);
+		g_free (recur_id); /* it's ok to call g_free here */
+	}
+	e_cal_component_free_datetime (&datetime);
 
 	e_cal_component_get_dtend (pitip->comp, &datetime);
 	pitip->end_time = 0;
