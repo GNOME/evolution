@@ -2518,6 +2518,7 @@ e_week_view_reshape_events (EWeekView *week_view)
 				EWeekViewEventSpan *span;
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
 				e_canvas_item_grab_focus (span->text_item, TRUE);
+				g_free (week_view->last_edited_comp_string);
 				week_view->last_edited_comp_string = NULL;
 			}
 		}

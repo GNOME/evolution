@@ -1,3 +1,15 @@
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #510409
+
+	* gui/e-memos.c: (obtain_list_of_components):
+	* gui/e-tasks.c: (obtain_list_of_components):
+	* gui/e-calendar-table.c: (e_calendar_table_copy_clipboard):
+	* gui/e-memo-table.c: (e_memo_table_copy_clipboard):
+	Do not free memmory owned by libical.
+	* gui/e-week-view.c: (e_week_view_reshape_events):
+	Free memory before assigning NULL.
+
 2008-01-25  Tor Lillqvist  <tml@novell.com>
 
 	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Link with

@@ -417,7 +417,9 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 			const char *source_uid = e_source_peek_uid (source);
 
 			*list = g_slist_prepend (*list, g_strdup_printf ("%s\n%s", source_uid, comp_str));
-			g_free (comp_str);
+
+			/* do not free this pointer, it owns libical */
+			/* g_free (comp_str); */
 		}
 
 		icalcomponent_free (vcal);
