@@ -1,3 +1,8 @@
+2008-01-25  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (liborg_gnome_evolution_google_la_LIBADD): Fix typo:
+	s/EVOLUTION_CALENDAR_LIB1S/EVOLUTION_CALENDAR_LIBS/.
+
 2007-12-23  Nyall Dawson <nyall@zombiepigs.net>
 
 	** Fix for bug #503954

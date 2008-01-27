@@ -13,7 +13,7 @@ liborg_gnome_evolution_google_la_SOURCES =        \
 	google-source.c
 
 liborg_gnome_evolution_google_la_LIBADD = 	\
-	$(EVOLUTION_CALENDAR_LIB1S)		\
+	$(EVOLUTION_CALENDAR_LIBS)		\
 	$(EPLUGIN_LIBS)		
 
 liborg_gnome_evolution_google_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
