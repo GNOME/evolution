@@ -2758,6 +2758,37 @@ emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderVie
 	}
 }
 
+static gchar *
+url_unescape_amp (const gchar *url)
+{
+	gchar *buff;
+	int i, j, amps;
+
+	if (!url)
+		return NULL;
+
+	amps = 0;
+	for (i = 0; url [i]; i++) {
+		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
+			amps++;
+	}
+
+	buff = g_strdup (url);
+
+	if (!amps)
+		return buff;
+
+	for (i = 0, j = 0; url [i]; i++, j++) {
+		buff [j] = url [i];
+
+		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
+			i += 4;
+	}
+	buff [j] = 0;
+
+	return buff;
+}
+
 static void
 emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 {
@@ -2765,7 +2796,7 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 	struct _EMFolderViewPrivate *p = emfv->priv;
 
 	g_free(p->selection_uri);
-	p->selection_uri = g_strdup(pitem->user_data);
+	p->selection_uri = url_unescape_amp(pitem->user_data);
 
 	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
 	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());

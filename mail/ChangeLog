@@ -1,3 +1,10 @@
+2008-01-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #506948
+
+	* em-folder-view.c: (url_unescape_amp), (emp_uri_popup_link_copy):
+	Copy the unescaped url
+
 2008-01-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #504062
