@@ -46,8 +46,8 @@ typedef enum {
 	E_CAL_MODEL_TASKS_FIELD_PRIORITY,
 	E_CAL_MODEL_TASKS_FIELD_STATUS,
 	E_CAL_MODEL_TASKS_FIELD_URL,
-	E_CAL_MODEL_TASKS_FIELD_LAST,
-	E_CAL_MODEL_TASKS_FIELD_STRIKEOUT /* it's another virtual readonly column */
+	E_CAL_MODEL_TASKS_FIELD_STRIKEOUT, /* it's another virtual readonly column */
+	E_CAL_MODEL_TASKS_FIELD_LAST
 } ECalModelTasksField;
 
 typedef struct {

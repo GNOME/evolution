@@ -1,3 +1,11 @@
+2008-01-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #240073
+
+	* gui/e-cal-model-tasks.h: (enum ECalModelTasksField):
+	Move strikeout field to known fields, otherwise the "Click to add" row
+	will have text strikeouted.
+
 2008-01-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/print.c: (print_week_summary): Free the component
