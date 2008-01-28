@@ -1,3 +1,8 @@
+2008-01-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-calendar.c: (e_exchange_calendar_commit): Fixes a double
+	free.
+
 2007-12-31  Sushma Rai  <rsushma@novell.com>
 
 	** Fixes bug #327965

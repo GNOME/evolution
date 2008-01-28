@@ -480,6 +480,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 			if (authtype) {
 				e_source_set_property (source, "auth-type", authtype);
 				g_free (authtype);
+				authtype=NULL;
 			}
 			e_source_set_property (source, "auth", "1");
 			if (rename) {
