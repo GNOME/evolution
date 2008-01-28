@@ -1805,6 +1805,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	/* Free everything. */
 	for (event_num = 0; event_num < psi.events->len; event_num++) {
 		event = &g_array_index (psi.events, EWeekViewEvent, event_num);
+		e_cal_model_free_component_data (event->comp_data);
 	}
 	g_array_free (psi.events, TRUE);
 	g_array_free (spans, TRUE);
