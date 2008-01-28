@@ -475,9 +475,12 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 			subject++;
 
 		string = (const char *) subject;
+		normalised = g_utf8_collate_key (string, -1);
+	} else {
+		/* because addresses require strings, not collate keys */
+		normalised = g_strdup (string);
 	}
 
-	normalised = g_utf8_collate_key (string, -1);
 	e_poolv_set (poolv, index, normalised, TRUE);
 
 	return e_poolv_get (poolv, index);

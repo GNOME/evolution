@@ -1,3 +1,11 @@
+2008-01-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #504062
+
+	* message-list.c: (get_normalised_string): Store strings for addresses,
+	 instead of collate keys.
+	* message-list.etspec: Compare Subject as strings, not as collate.
+
 2008-01-28  Andre Klapper  <a9016009@gmx.de>
 
 	* em-filter-i18n.h: Added translator comments.

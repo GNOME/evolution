@@ -9,7 +9,7 @@
 
   <ETableColumn model_col="4" compare_col="19" _title="From" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string" priority="10"/>
 
-  <ETableColumn model_col="5" compare_col="20" _title="Subject" expansion="1.6" minimum_width="32" resizable="true" cell="render_tree" compare="collate" search="string"/>
+  <ETableColumn model_col="5" compare_col="20" _title="Subject" expansion="1.6" minimum_width="32" resizable="true" cell="render_tree" compare="string" search="string"/>
 
   <ETableColumn model_col="6" _title="Date" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
 
