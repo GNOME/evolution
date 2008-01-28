@@ -40,6 +40,15 @@
 
 2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #511488
+
+	* em-folder-tree-model.c: (em_folder_tree_model_signal_block):
+	* em-folder-tree-model.h: Function to block folder-created function.
+	* mail-vfolder.c: (vfolder_load_storage): Block the signal handler
+	when loading.
+
+2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #510779
 	** Fix for bug #504103
 

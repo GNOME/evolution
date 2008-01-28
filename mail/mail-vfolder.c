@@ -36,6 +36,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
+#include "em-folder-tree-model.h"
 #include "em-utils.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-editor.h"
@@ -63,7 +64,6 @@ static GHashTable *vfolder_hash;
 /* This is a slightly hacky solution to shutting down, we poll this variable in various
    loops, and just quit processing if it is set. */
 static volatile int shutdown;		/* are we shutting down? */
-
 /* more globals ... */
 extern CamelSession *session;
 
@@ -902,6 +902,7 @@ vfolder_load_storage(void)
 	char *user, *storeuri;
 	FilterRule *rule;
 	char *xmlfile;
+	struct _EMFolderTreeModel *model = mail_component_peek_tree_model (mail_component_peek ());
 
 	pthread_mutex_lock (&lock);
 
@@ -950,12 +951,21 @@ vfolder_load_storage(void)
 
 	/* and setup the rules we have */
 	rule = NULL;
+
+	d(printf("rule added: %s\n", rule->name));
+
+	/* Note: We block the signal handlers to be exact folder_created, since 
+	 * there is a race betweeen folder_created emitted through camel_store_get_folder and 
+	 * the store info that is fetched and added for vfolder. Due to this, two vfolders 
+	 * appear on the search folder. See bug BGO #511488 */
+	em_folder_tree_model_signal_block (model, vfolder_store, TRUE);
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		if (rule->name)
 			context_rule_added((RuleContext *)context, rule);
 		else
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 	}
+	em_folder_tree_model_signal_block (model, vfolder_store, FALSE);	
 
 	g_free(storeuri);
 }
