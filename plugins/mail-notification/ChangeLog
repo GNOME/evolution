@@ -1,3 +1,10 @@
+2008-01-21  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes 504567.
+	
+	* mail-notification.c (new_notify_status): Add ngettext support for 
+	strings.
+
 2008-01-09  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #492702
