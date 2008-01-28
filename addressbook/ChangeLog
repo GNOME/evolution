@@ -1,3 +1,10 @@
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512020
+
+	* gui/widgets/e-addressbook-view.c: (get_master_list):
+	Use only searchable categories, like in calendar.
+
 2008-01-23  Djihed Afifi  <djihed@gmail.com>
 
 	** Fix for bug #391408

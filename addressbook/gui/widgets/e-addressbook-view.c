@@ -1538,8 +1538,19 @@ get_master_list (void)
 {
 	static GList *category_list = NULL;
 
-	if (category_list == NULL)
-		category_list = e_categories_get_list ();
+	if (category_list == NULL) {
+		GList *l, *p = e_categories_get_list ();
+
+		for (l = p; l; l = l->next) {
+			if (e_categories_is_searchable ((const char *) l->data))
+				category_list = g_list_prepend (category_list, l->data);
+		}
+
+		category_list = g_list_reverse (category_list);
+
+		g_list_free (p);
+	}
+
 	return category_list;
 }
 
