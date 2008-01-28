@@ -1,3 +1,9 @@
+2008-01-28  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes Bug #511226.
+	
+	* apps-evolution-mail-notification.schemas.in: String fixes.
+
 2008-01-21  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fixes 504567.
