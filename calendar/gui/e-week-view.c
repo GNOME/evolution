@@ -1926,19 +1926,33 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	e_cal_model_free_component_data (event->comp_data);
 	event->comp_data = NULL;
 
-	/* We leave the span elements in the array, but set the canvas item
-	   pointers to NULL. */
-	for (span_num = 0; span_num < event->num_spans; span_num++) {
-		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-				       event->spans_index + span_num);
+	if (week_view->spans) {
+		/* We leave the span elements in the array, but set the canvas item
+		   pointers to NULL. */
+		for (span_num = 0; span_num < event->num_spans; span_num++) {
+			span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+					       event->spans_index + span_num);
 
-		if (span->text_item) {
-			gtk_object_destroy (GTK_OBJECT (span->text_item));
-			span->text_item = NULL;
+			if (span->text_item) {
+				gtk_object_destroy (GTK_OBJECT (span->text_item));
+				span->text_item = NULL;
+			}
+			if (span->background_item) {
+				gtk_object_destroy (GTK_OBJECT (span->background_item));
+				span->background_item = NULL;
+			}
 		}
-		if (span->background_item) {
-			gtk_object_destroy (GTK_OBJECT (span->background_item));
-			span->background_item = NULL;
+
+		/* Update event_num numbers for already created spans with event_num higher than our event_num */
+		for (span_num = 0; span_num < week_view->spans->len; span_num++) {
+			span = &g_array_index (week_view->spans, EWeekViewEventSpan, span_num);
+
+			if (span && span->background_item && E_IS_WEEK_VIEW_EVENT_ITEM (span->background_item)) {
+				EWeekViewEventItem *wveitem = E_WEEK_VIEW_EVENT_ITEM (span->background_item);
+
+				if (wveitem->event_num > event_num)
+					wveitem->event_num--;
+			}
 		}
 	}
 
