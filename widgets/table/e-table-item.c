@@ -1985,10 +1985,10 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			cairo_pattern_add_color_stop_rgba (pat, 0.0, background->red/65535.0 , 
 								     background->green/65535.0, 
 								     background->blue/65535.0, selected ? 0.8: 1.0);
-
-			cairo_pattern_add_color_stop_rgba (pat, 0.5, background->red/65535.0 , 
-								     background->green/65535.0, 
-								     background->blue/65535.0, 0.9);
+			if (selected)
+				cairo_pattern_add_color_stop_rgba (pat, 0.5, background->red/65535.0 , 
+									     background->green/65535.0, 
+									     background->blue/65535.0, 0.9);
 
 			cairo_pattern_add_color_stop_rgba (pat, 1, background->red/65535.0 , 
 								   background->green/65535.0, 
