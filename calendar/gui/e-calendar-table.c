@@ -255,7 +255,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
@@ -268,7 +268,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
@@ -291,7 +291,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Classification field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      "editable", FALSE,
@@ -313,7 +313,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Priority field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      "editable", FALSE,
@@ -336,7 +336,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Percent field. */
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
@@ -365,7 +365,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Transparency field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      "editable", FALSE,
@@ -386,7 +386,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Status field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell),
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_COMPLETE,
+		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      "editable", FALSE,

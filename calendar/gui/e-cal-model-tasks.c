@@ -330,6 +330,16 @@ get_priority (ECalModelComponent *comp_data)
 	return "";
 }
 
+static gboolean
+is_status_canceled (ECalModelComponent *comp_data)
+{
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+
+	return prop && icalproperty_get_status (prop) == ICAL_STATUS_CANCELLED;
+}
+
 static char *
 get_status (ECalModelComponent *comp_data)
 {
@@ -477,7 +487,7 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
 
-	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
+	g_return_val_if_fail (col >= 0 && (col < E_CAL_MODEL_TASKS_FIELD_LAST || col == E_CAL_MODEL_TASKS_FIELD_STRIKEOUT), NULL);
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
@@ -490,6 +500,8 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 		return get_completed (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_STRIKEOUT :
+		return GINT_TO_POINTER (is_status_canceled (comp_data) || is_complete (comp_data));
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 		return GINT_TO_POINTER (is_complete (comp_data));
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
