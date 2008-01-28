@@ -1,3 +1,8 @@
+2008-01-28  Andre Klapper  <a9016009@gmx.de>
+
+	* proxy-add-dialog.glade: string "Read" needs gettext context, 
+	translator comments.  
+
 2008-01-24  Milan Crha  <mcrha@redhat.com>
 
 	** Part of bug #511488
@@ -23,9 +28,9 @@
 
 2007-11-12  indu  <indu_ait@yahoo.co.in>
 
-          ** Fix for bug #458515
-          *  status-track.c: (recipient->undelivered_date)
-             string corrected
+	** Fix for bug #458515
+	*  status-track.c: (recipient->undelivered_date): 
+	string corrected
 
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
@@ -45,10 +50,10 @@
 	Use standard icon names where applicable.
 
 2007-08-17  Johnny Jacob  <jjohnny@novell.com>
- 
- 	** Fix for bug #458715.
+
+	** Fix for bug #458715.
 	
-        * proxy.c : (proxy_page_changed_cb) : Do not include "<All User
+	* proxy.c : (proxy_page_changed_cb) : Do not include "<All User
 	Access>" in the list. And use g_malloc0.
 	
 2007-08-16  Milan Crha  <mcrha@redhat.com>
@@ -117,7 +122,7 @@
 
 2007-02-05  Sankar P  <psankar@novell.com>
 
-        * junk-settings.c:
+	* junk-settings.c:
 	Include missing header file
 
 2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
@@ -141,7 +146,7 @@
 2007-01-18  Raghavendran <raghavguru7@gmail.com>
 	
 	* org-gnome-groupwise-features.xml: 
-  	* mail-send-options.c :
+	* mail-send-options.c :
 	Added code for implementing Send options via
 	a data hook .
 2006-11-17  Harish Krishnaswamy  <kharish@novell.com>

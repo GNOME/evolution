@@ -1,10 +1,15 @@
+2008-01-28  Andre Klapper  <a9016009@gmx.de>
+
+	* em-filter-i18n.h: Added translator comments.
+	* message-tag-followup.c: Added translator comments. 
+
 2008-01-25  Johnny Jacob  <jjohnny@novell.com>
- 
- 	** Fix for #467581.
- 
- 	* em-folder-browser.c : Don't cancel all threads for a vfolder
- 	based search (all/account search). Introduced cameloperation for
-  	this and cancel it on clear.
+
+	** Fix for #467581.
+
+	* em-folder-browser.c : Don't cancel all threads for a vfolder
+	based search (all/account search). Introduced cameloperation for
+	this and cancel it on clear.
 	
 2008-01-24  Milan Crha  <mcrha@redhat.com>
 

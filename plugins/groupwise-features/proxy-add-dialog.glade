@@ -433,7 +433,7 @@
 				<widget class="GtkCheckButton" id="mailRead">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">_Read</property>
+				  <property name="label" translatable="yes" context="yes" comments="To Translators: strip the part in front of the | and the | itself">permission to read|_Read</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>
@@ -457,7 +457,8 @@
 				<widget class="GtkCheckButton" id="appRead">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">_Read</property>
+				  <property name="label" translatable="yes" context="yes" comments="To Translators: strip the part in front of the | and the | itself">permission to read|_Read</property>
+
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>
@@ -481,7 +482,7 @@
 				<widget class="GtkCheckButton" id="noteRead">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">_Read</property>
+				  <property name="label" translatable="yes" context="yes" comments="To Translators: strip the part in front of the | and the | itself">permission to read|_Read</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>
@@ -505,7 +506,7 @@
 				<widget class="GtkCheckButton" id="taskRead">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">_Read</property>
+				  <property name="label" translatable="yes" context="yes" comments="To Translators: strip the part in front of the | and the | itself">permission to read|_Read</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>

@@ -347,6 +347,7 @@
 	  <separator f="" name="emaillist4"/>
 
           <submenu name="MessageMarkAs" _label="Mar_k as">
+	    <!-- Translators: "Read" as in "has been read" (evolution-mail-message.xml) -->
             <menuitem name="MessageMarkAsRead" verb="" _label="_Read"/>
             <menuitem name="MessageMarkAsUnRead" verb="" _label="_Unread"/>
 

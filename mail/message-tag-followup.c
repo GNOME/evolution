@@ -78,6 +78,7 @@ static char *available_flags[] = {
 	N_("For Your Information"),
 	N_("Forward"),
 	N_("No Response Necessary"),
+	/* Translators: "Read" as in "has been read" (message-tag-followup.c) */
 	N_("Read"),
 	N_("Reply"),
 	N_("Reply to All"),

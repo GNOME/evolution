@@ -1,3 +1,7 @@
+2008-01-28  Andre Klapper  <a9016009@gmx.de>
+
+	* evolution-mail-message.xml: Added translator comments.
+
 2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* evolution-mail-global.xml: Add Debug Log menu item for mailer.
@@ -14,9 +18,9 @@
 	Fix capitalization of "Switcher Appearance" menu (HIG 8.3.2).
 
 2007-12-09  Andre Klapper  <a9016009@gmx.de>
- 
- 	* evolution.xml:
- 	change "Evolution FAQ" menu item name to "Frequently Asked questions".
+
+	* evolution.xml:
+	change "Evolution FAQ" menu item name to "Frequently Asked questions".
 	if i think of it, our users should not need a geek dictionary.
 
 2007-12-07  Denis Washington <denisw@svn.gnome.org>
@@ -35,11 +39,11 @@
 	Add mnemonic to PrepareForOffline menu item
 
 2007-11-26  Andre Klapper  <a9016009@gmx.de>
- 
- 	** Fixes bug #497810
- 
- 	* evolution.xml:
- 	add "Evolution FAQ" help menu item 
+
+	** Fixes bug #497810
+
+	* evolution.xml:
+	add "Evolution FAQ" help menu item 
 
 2007-11-26 Nicholas Miell <nmiell@gmail.com>
 

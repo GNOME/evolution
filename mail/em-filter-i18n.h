@@ -49,6 +49,7 @@ char *s = N_("Message is not Junk");
 char *s = N_("Move to Folder");
 char *s = N_("Pipe to Program");
 char *s = N_("Play Sound");
+/* Translators: "Read" as in "has been read" (em-filter-i18n.h) */
 char *s = N_("Read");
 char *s = N_("Recipients");
 char *s = N_("Regex Match");
