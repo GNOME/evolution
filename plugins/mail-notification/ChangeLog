@@ -1,5 +1,10 @@
 2008-01-28  Johnny Jacob  <jjohnny@novell.com>
 
+	* mail-notification.c (new_notify_status): Adding proper 
+	comments for strings.
+
+2008-01-28  Johnny Jacob  <jjohnny@novell.com>
+
 	** Fixes Bug #511226.
 	
 	* apps-evolution-mail-notification.schemas.in: String fixes.

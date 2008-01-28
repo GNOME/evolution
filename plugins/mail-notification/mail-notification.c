@@ -356,9 +356,10 @@ new_notify_status (EMEventTargetFolder *t)
 		status_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("mail-unread", E_ICON_SIZE_LARGE_TOOLBAR));
 	}
-	/* Translators : '%d' is the number of mails recieved and '%s' is the name of the folder*/
+
 	if (!status_count) {
 		status_count = t->new;
+		/* To translators: '%d' is the number of mails recieved and '%s' is the name of the folder*/
 		msg = g_strdup_printf (ngettext ("You have received %d new message\nin %s.",
 						 "You have received %d new messages\nin %s.",
 						 status_count),status_count, t->name);
