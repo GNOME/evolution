@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Danishka Navin <snavin@redhat.com>, 2007.
+# Danishka Navin <danishka@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: si\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-03 07:47+0100\n"
-"PO-Revision-Date: 2007-09-13 11:57+0530\n"
-"Last-Translator: Danishka Navin <snavin@redhat.com>\n"
+"PO-Revision-Date: 2008-01-29 12:21+0530\n"
+"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,8 +38,8 @@ msgstr "නව සම්බන්ධතා ලැයිස්තුව"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "දැනට ඇති ලිපින පොතේ %s බහලුම තුළ කාඩ් %d ඇත"
-msgstr[1] ""
+msgstr[0] "දැනට ඇති ලිපින පොතේ %s බහලුම තුළ කාඩ් %d ක් ඇත"
+msgstr[1] "දැනට ඇති ලිපින පොතේ %s බහලුම තුළ කාඩ් %d ක් ඇත"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:13
@@ -1534,7 +1535,7 @@ msgstr "බ්‍රසීලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "බ්‍රිතාන්‍යයේ ඉන්දියානු සාගර ටෙරටරිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Brunei Darussalam"
@@ -1622,7 +1623,7 @@ msgstr "කොස්ට රිකා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "කොට් ඩි'ඉවොයර්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Croatia"
@@ -1670,7 +1671,7 @@ msgstr "එල් සැල්වදෝරය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "එක්වටෝරියල් ගිනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Eritrea"
@@ -1690,7 +1691,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
-msgstr ""
+msgstr "ෆැරෝයි දූපත්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
@@ -1706,7 +1707,7 @@ msgstr "ප්‍රංශය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Guiana"
-msgstr ""
+msgstr "ෆ්‍රෙන්ච් ගයනාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Polynesia"
@@ -1754,7 +1755,7 @@ msgstr "ග්‍රෙනාඩා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guadeloupe"
-msgstr ""
+msgstr "‍ගෝඩිලෝප්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guam"
@@ -1766,11 +1767,11 @@ msgstr "ග්වාතමාලාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guernsey"
-msgstr ""
+msgstr "ගුවර්න්සි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guinea"
-msgstr ""
+msgstr "ගිනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guinea-bissau"
@@ -1830,7 +1831,7 @@ msgstr "අයර්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Isle of Man"
-msgstr ""
+msgstr "අයිල් ඔෆ් මෑන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Israel"
@@ -1882,7 +1883,7 @@ msgstr "කුවේටය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "කිර්ජිස්ථාන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Laos"
@@ -1962,7 +1963,7 @@ msgstr "මාටිනික්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritania"
-msgstr ""
+msgstr "මවුරිටේනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mauritius"
@@ -2074,7 +2075,7 @@ msgstr "පාකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palau"
-msgstr ""
+msgstr "පලාවු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
@@ -2114,7 +2115,7 @@ msgstr "පෘතුගාලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Puerto Rico"
-msgstr ""
+msgstr "පෝටො රිකෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Qatar"
@@ -2134,7 +2135,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Rwanda"
-msgstr ""
+msgstr "ර්වන්ඩා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
@@ -2230,7 +2231,7 @@ msgstr "සූඩානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
-msgstr ""
+msgstr "සුරිනාමි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Svalbard And Jan Mayen Islands"
@@ -2338,7 +2339,7 @@ msgstr "උස්බකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Vanuatu"
-msgstr ""
+msgstr "වැනුආටු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Venezuela"
@@ -3029,7 +3030,7 @@ msgstr "ISDN දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Journal"
-msgstr ""
+msgstr "දෛනික සටහන්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
@@ -13234,7 +13235,8 @@ msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
-msgstr "ඉවොලුෂන් තැපැල් මානකරණ සහකරු වෙතට සාදරයෙන් පිළිගනිමු.\n"
+msgstr ""
+"ඉවොලුෂන් තැපැල් මානකරණ සහකරු වෙතට සාදරයෙන් පිළිගනිමු.\n"
 "\n"
 "ඇරඹීමට \"ඉදිරියට\" ක්ලික් කරන්න. "
 
@@ -20847,7 +20849,7 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "දර්ශකයේ පරතරය"
 
 #: ../widgets/misc/e-expander.c:233
 msgid "Spacing around expander arrow"
