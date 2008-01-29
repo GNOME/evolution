@@ -375,7 +375,7 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance, const char *vi
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	d(g_print("%s: view_id set to %s\n", G_GNUC_FUNCTION, view_id));
+	d(g_print("%s: view_id set to %s\n", G_STRFUNC, view_id));
 
 	if (instance->current_id && !strcmp (instance->current_id, view_id))
 		return;

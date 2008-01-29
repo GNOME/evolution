@@ -120,8 +120,8 @@ typedef struct _ImportData {
 /*#define IMPORTER_DEBUG*/
 
 #ifdef IMPORTER_DEBUG
-#define IN g_print ("=====> %s (%d)\n", G_GNUC_FUNCTION, __LINE__)
-#define OUT g_print ("<==== %s (%d)\n", G_GNUC_FUNCTION, __LINE__)
+#define IN g_print ("=====> %s (%d)\n", G_STRFUNC, __LINE__)
+#define OUT g_print ("<==== %s (%d)\n", G_STRFUNC, __LINE__)
 #else
 #define IN
 #define OUT

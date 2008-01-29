@@ -1,3 +1,9 @@
+2008-01-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/widgets/e-minicard.c:
+	* gui/widgets/gal-view-minicard.c:
+	Replace G_GNUC_FUNCTION (deprecated) with G_STRFUNC.
+
 2008-01-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #512020

@@ -714,7 +714,7 @@ receive_done (char *uri, void *data)
 		gtk_widget_set_sensitive (info->cancel_button, FALSE);
 
 	/* remove/free this active download */
-	d(printf("%s: freeing info %p\n", G_GNUC_FUNCTION, info));
+	d(printf("%s: freeing info %p\n", G_STRFUNC, info));
 	if (info->type == SEND_SEND)
 		g_hash_table_steal(info->data->active, SEND_URI_KEY);
 	else

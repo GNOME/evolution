@@ -347,7 +347,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 		}
 		break;
 	case PROP_HAS_CURSOR:
-		d(g_print("%s: PROP_HAS_CURSOR\n", G_GNUC_FUNCTION));
+		d(g_print("%s: PROP_HAS_CURSOR\n", G_STRFUNC));
 		if (e_minicard->has_cursor != g_value_get_boolean (value))
 			set_has_cursor (e_minicard, g_value_get_boolean (value));
 		break;
@@ -588,7 +588,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_FOCUS_CHANGE:
 		{
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
-			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", G_GNUC_FUNCTION, focus_event->in?"in":"out"));
+			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", G_STRFUNC, focus_event->in?"in":"out"));
 			if (focus_event->in) {
 				/* Chris: When EMinicard gets the cursor, if it doesn't have the focus, it should take it.  */
 				e_minicard->has_focus = TRUE;
