@@ -55,7 +55,7 @@ msgstr "සම්බන්ධතාව:"
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr "ඉවෝලුශන් කුඩා කාඩ්පත"
+msgstr "ඉවෝලුෂන් කුඩා කාඩ්පත"
 
 #: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
@@ -354,7 +354,7 @@ msgstr "සම්බන්ධතා ගෙනයා නොහැක"
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Category editor not available."
-msgstr ""
+msgstr "ප්‍රභේද සැකසුම භාවිතයට නැත."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid ""
@@ -369,7 +369,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr ""
+msgstr "ලිපින පොත ඉවත් කළ නොහැක."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -575,15 +575,15 @@ msgstr "ඉවෝලුශන් ලිපින පොත"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Address Book address pop-up"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොතේ ලිපින උපත්තනය"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book address viewer"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොතේ ලිපින දසුන"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Address Book card viewer"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොතේ කාඩ්පත් දසුන"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Address Book component"
@@ -4848,7 +4848,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:65
 #: ../plugins/startup-wizard/startup-wizard.c:108
 msgid "Timezone"
-msgstr ""
+msgstr "වේලා කළාපය"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 msgid ""
@@ -10728,8 +10728,8 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-" ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
-"${TimeZone} දා, ${Sender} ලියන ලඳි:"
+" ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} දින ${24Hour}:${Minute} ට "
+"${TimeZone}, ${Sender} ලියන ලඳි:"
 
 #: ../mail/em-composer-utils.c:1880
 msgid "-----Original Message-----"
@@ -10790,15 +10790,15 @@ msgstr "මැකුවා"
 
 #: ../mail/em-filter-i18n.h:13
 msgid "does not contain"
-msgstr ""
+msgstr "අඩංගු නැත"
 
 #: ../mail/em-filter-i18n.h:14
 msgid "does not end with"
-msgstr ""
+msgstr "සමඟ අඩංගු නොවේ"
 
 #: ../mail/em-filter-i18n.h:15
 msgid "does not exist"
-msgstr ""
+msgstr "ඇතුළත් නැත"
 
 #: ../mail/em-filter-i18n.h:16
 msgid "does not return"
@@ -13086,10 +13086,13 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
+"කරුණාකර ඔබගේ නම සහ විද්‍යුත් තැපැල් ලිපිනය පහත ඇතුළත් කරන්න. පහත දැක්වෙන \"විකල්ප\" ක්‍ෂේත්‍ර "
+"පිරවීම අනිවාර්ය නොවන අතර, ඔබ යවන විද්‍යුත් තැපැල් සමඟ එම තොරතුරු යැවීමට අවශ්‍යනම් "
+"පමණක් එම තොරතුරු සම්පූර්‍ණ කරන්න."
 
 #: ../mail/mail-config.glade.h:113
 msgid "Please select among the following options"
-msgstr ""
+msgstr "කරුණාකර පහත විකල්ප අතරින් එකක් තෝරන්න"
 
 #: ../mail/mail-config.glade.h:114
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13231,7 +13234,9 @@ msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
-msgstr ""
+msgstr "ඉවොලුෂන් තැපැල් මානකරණ සහකරු වෙතට සාදරයෙන් පිළිගනිමු.\n"
+"\n"
+"ඇරඹීමට \"ඉදිරියට\" ක්ලික් කරන්න. "
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Add Signature"
@@ -17461,11 +17466,11 @@ msgstr ""
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Startup wizard"
-msgstr ""
+msgstr "ඇරඹුම් විශාරද"
 
 #: ../plugins/startup-wizard/startup-wizard.c:84
 msgid "Evolution Setup Assistant"
-msgstr ""
+msgstr "ඉවොලුෂන් සැකසීමේ සහකරු"
 
 #: ../plugins/startup-wizard/startup-wizard.c:87
 msgid "Welcome"
@@ -17478,10 +17483,13 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"ඉවොලුෂන් වෙතට සාඳරයෙන් පිළිගන්නෙමු. මීළඟට ලැබෙන මුහුණත් මඟින් ඉවොලුෂන් ඔබගේ විද්‍යුත් තැපැල් ගිණුම් වෙතට සම්බන්ධ වීමට සහ වෙනත් යෙදුම් වෙතින් ගොනු ආයාත කිරීමට අවස්ථාව සලසාදෙනු ඇත. \n"
+"\n"
+"කරුණාකර ඉදිරියට කරගෙන යාම සඳහා \"ඉදිරියට\" බොත්තම ක්ලික් කරන්න. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:134
 msgid "Importing files"
-msgstr ""
+msgstr "ගොනු ආයාත කරමින්"
 
 #: ../plugins/startup-wizard/startup-wizard.c:136
 #: ../shell/e-shell-importer.c:147
@@ -17497,7 +17505,7 @@ msgstr "%s වෙතින්:"
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:508
 msgid "Importing data."
-msgstr ""
+msgstr "ගොනු ආයාත කරමින්."
 
 #: ../plugins/startup-wizard/startup-wizard.c:233
 #: ../shell/e-shell-importer.c:522
@@ -17551,7 +17559,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
-msgstr ""
+msgstr "මානකරණ වෙළුම"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Default sidebar width"
@@ -20443,7 +20451,7 @@ msgstr "එකතුව"
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
-msgstr ""
+msgstr "%s සඳහා දසුන් නිර්වචනය"
 
 #: ../widgets/menus/gal-define-views-dialog.c:368
 #: ../widgets/menus/gal-define-views-dialog.c:370
@@ -20453,7 +20461,7 @@ msgstr "දසුන් නිර්වචනය"
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
 msgid "Define Views for \"%s\""
-msgstr ""
+msgstr "\"%s\" සඳහා දසුන් නිර්වචනය"
 
 #: ../widgets/menus/gal-view-factory-etable.c:37
 #: ../widgets/table/e-table-header-item.c:1910
@@ -20504,7 +20512,7 @@ msgstr "දසුන තෝරන්න: %s"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Current view is a customized view"
-msgstr ""
+msgstr "දැනට ඇති දසුන රිසිකළ දසුනකි"
 
 #: ../widgets/menus/gal-view-menus.c:364
 msgid "Save Custom View..."
@@ -20567,7 +20575,7 @@ msgstr "MIME වර්‍ගය:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "ඇමුණුමේ ස්වයංක්‍රීය දර්ශනය යෝජනා කරන්න"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -20601,7 +20609,7 @@ msgstr "වර්‍ණය පුරවන්න"
 #: ../widgets/text/e-text.c:3570 ../widgets/text/e-text.c:3577
 #: ../widgets/text/e-text.c:3578
 msgid "GDK fill color"
-msgstr ""
+msgstr "GDK පිරවුම් වර්‍ණය"
 
 #: ../widgets/misc/e-canvas-background.c:474
 #: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-entry.c:1251
@@ -20656,7 +20664,7 @@ msgstr "දැන්"
 #: ../widgets/misc/e-cell-date-edit.c:795
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "වේලාව තිබිය යුතුම ආකාරය වනුයේ: %s"
 
 #: ../widgets/misc/e-cell-percent.c:79
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -20749,7 +20757,7 @@ msgstr "අක්‍ෂර කේතාංඛනය"
 
 #: ../widgets/misc/e-charset-picker.c:238
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "භාවිතා කළයුතු අක්‍ෂර කේතාංඛනය ඇතුළත් කරන්න"
 
 #: ../widgets/misc/e-charset-picker.c:345
 msgid "Other..."
@@ -20769,7 +20777,7 @@ msgstr ""
 
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "දිනදර්ශනය දර්ශනයට මෙම බොත්තම ක්ලික් කරන්න"
 
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Combo box to select time"
@@ -20908,7 +20916,7 @@ msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
-msgstr "සමඟ සමකාලීක කරන්න:"
+msgstr "සමකාලීක කළ යුත්තේ:"
 
 #: ../widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
@@ -21131,11 +21139,11 @@ msgstr "%s (%d%% නිමවිය)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "Click here to go to URL"
-msgstr ""
+msgstr "URL වෙතට යාම සඳහා මෙතන ක්ලික් කරන්න"
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "ප්‍රධාන ප්‍රභේද ලැස්තුව සකසන්න..."
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Item(s) belong to these _categories:"
@@ -21163,31 +21171,31 @@ msgstr "තෝරාගත් තීරුව"
 
 #: ../widgets/table/e-cell-pixbuf.c:390
 msgid "Focused Column"
-msgstr ""
+msgstr "නාභිගත තීරුව"
 
 #: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Unselected Column"
-msgstr ""
+msgstr "නොතේරු තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1798
 msgid "Strikeout Column"
-msgstr ""
+msgstr "හරස්ඉර තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1805
 msgid "Underline Column"
-msgstr ""
+msgstr "යටිඉර තීරුව "
 
 #: ../widgets/table/e-cell-text.c:1812
 msgid "Bold Column"
-msgstr ""
+msgstr "තද තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1819
 msgid "Color Column"
-msgstr ""
+msgstr "වර්‍ණ තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1833
 msgid "BG Color Column"
-msgstr ""
+msgstr "BG වර්‍ණ තීරුව"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
@@ -21292,7 +21300,7 @@ msgstr "අනුපිළිවෙළට සකසා නැත"
 
 #: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
-msgstr ""
+msgstr "සමූහගතව නොවේ"
 
 #: ../widgets/table/e-table-config.c:662
 msgid "Available Fields"
@@ -21300,7 +21308,7 @@ msgstr "භාවිතයට ඇති ක්‍ෂේත්‍ර"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
-msgstr ""
+msgstr "සමූහගත කළයුත්තේ... _G"
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
@@ -21311,22 +21319,22 @@ msgstr ""
 #: ../widgets/table/e-table-field-chooser.c:67
 #: ../widgets/table/e-table-header-item.c:1875
 msgid "DnD code"
-msgstr ""
+msgstr "DnD කේතය"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:74
 #: ../widgets/table/e-table-field-chooser-item.c:643
 #: ../widgets/table/e-table-field-chooser.c:74
 #: ../widgets/table/e-table-header-item.c:1889
 msgid "Full Header"
-msgstr "පූර්‍ණ ශීර්ෂක"
+msgstr "පූර්‍ණ ශීර්ෂකය"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:116
 msgid "Add a column..."
-msgstr "තීරුවත් එක්කරන්න"
+msgstr "තීරුවක් එක්කරන්න..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
-msgstr ""
+msgstr "ක්‍ෂේත්‍ර තෝරනය"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
@@ -21338,15 +21346,15 @@ msgstr ""
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] "%s : %s (අයිතම %d)"
-msgstr[1] ""
+msgstr[0] "%s : %s (අයිතම %d ක්)"
+msgstr[1] "%s : %s (අයිතම %d ක්)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] "%s (අයිතම %d)"
-msgstr[1] ""
+msgstr[0] "%s (අයිතම %d ක්)"
+msgstr[1] "%s (අයිතම %d ක්)"
 
 #: ../widgets/table/e-table-group-container.c:896
 #: ../widgets/table/e-table-group-container.c:897
@@ -21397,7 +21405,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
-msgstr ""
+msgstr "තේරිමේ ආකෘතිය"
 
 #: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-container.c:939
@@ -21468,7 +21476,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1488
 msgid "Format Column_s..."
-msgstr ""
+msgstr "තීරු සංයුතිය සකසන්න... (_s)"
 
 #: ../widgets/table/e-table-header-item.c:1490
 msgid "Custo_mize Current View..."
@@ -21480,7 +21488,7 @@ msgstr "අනුපිළිවෙළට සැකසන අයුර"
 
 #: ../widgets/table/e-table-header-item.c:1882
 msgid "Font Description"
-msgstr ""
+msgstr "අක්‍ෂර විස්තරය"
 
 #: ../widgets/table/e-table-header-item.c:1903
 #: ../widgets/table/e-table-sorter.c:173
@@ -21499,7 +21507,7 @@ msgstr "වගු ශීර්ෂකය"
 
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
-msgstr ""
+msgstr "වගු ආකෘතිය"
 
 #: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
@@ -21508,11 +21516,11 @@ msgstr ""
 #: ../widgets/table/e-table.c:3321 ../widgets/table/e-tree.c:3340
 #: ../widgets/table/e-tree.c:3341
 msgid "Always search"
-msgstr ""
+msgstr "සැමවිටම සොයන්න"
 
 #: ../widgets/table/e-table.c:3328
 msgid "Use click to add"
-msgstr ""
+msgstr "එක් කිරීමට ක්ලික් කරන්න"
 
 #: ../widgets/table/e-tree.c:3326 ../widgets/table/e-tree.c:3327
 msgid "ETree table adapter"
@@ -21564,17 +21572,17 @@ msgstr "උපරිම පෙළ"
 #: ../widgets/text/e-entry.c:1300 ../widgets/text/e-entry.c:1301
 #: ../widgets/text/e-text.c:3670 ../widgets/text/e-text.c:3671
 msgid "Allow newlines"
-msgstr ""
+msgstr "අළුත් පේළි අනුමත කරන්න"
 
 #: ../widgets/text/e-entry.c:1307 ../widgets/text/e-entry.c:1308
 #: ../widgets/text/e-text.c:3663 ../widgets/text/e-text.c:3664
 msgid "Draw borders"
-msgstr ""
+msgstr "චිත්‍රණ රාමූ"
 
 #: ../widgets/text/e-entry.c:1314 ../widgets/text/e-entry.c:1315
 #: ../widgets/text/e-text.c:3677 ../widgets/text/e-text.c:3678
 msgid "Draw background"
-msgstr ""
+msgstr "චිත්‍රණ පසුබිම"
 
 #: ../widgets/text/e-entry.c:1321 ../widgets/text/e-entry.c:1322
 #: ../widgets/text/e-text.c:3684 ../widgets/text/e-text.c:3685
@@ -21608,15 +21616,15 @@ msgstr "ඇන්කරය"
 
 #: ../widgets/text/e-text.c:3520 ../widgets/text/e-text.c:3521
 msgid "Clip Width"
-msgstr "පසුර පළල"
+msgstr "ක්ලිප් පළල"
 
 #: ../widgets/text/e-text.c:3527 ../widgets/text/e-text.c:3528
 msgid "Clip Height"
-msgstr "පසුර උස"
+msgstr "ක්ලිප් උස"
 
 #: ../widgets/text/e-text.c:3534 ../widgets/text/e-text.c:3535
 msgid "Clip"
-msgstr "පසුර"
+msgstr "ක්ලිප්"
 
 #: ../widgets/text/e-text.c:3541 ../widgets/text/e-text.c:3542
 msgid "Fill clip rectangle"
