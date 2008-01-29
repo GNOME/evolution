@@ -343,7 +343,7 @@ e_component_registry_activate (EComponentRegistry *registry,
 
 	info = e_component_registry_peek_info (registry, ECR_FIELD_ID, id);
 	if (info == NULL) {
-		g_warning (G_STRFUNC " - Unknown id \"%s\"", id);
+		g_warning ("%s - Unknown id \"%s\"", G_STRFUNC, id);
 		return CORBA_OBJECT_NIL;
 	}
 
