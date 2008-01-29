@@ -1,3 +1,7 @@
+2008-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.21.90 release.
+
 2008-01-25  Tor Lillqvist  <tml@novell.com>
 
 	* win32/libevolution-mail.def: Add two more entries for
