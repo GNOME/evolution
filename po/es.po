@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-28 07:04+0000\n"
-"PO-Revision-Date: 2008-01-28 13:32+0100\n"
+"POT-Creation-Date: 2008-01-30 18:18+0000\n"
+"PO-Revision-Date: 2008-01-30 21:09+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3335,7 +3335,7 @@ msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2776
+#: ../mail/em-folder-view.c:2807
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
@@ -6803,7 +6803,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3296
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3327
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -11758,33 +11758,33 @@ msgstr "No no pudo obtenerse el mensaje"
 msgid "Retrieving Message..."
 msgstr "Obteniendo mensaje…"
 
-#: ../mail/em-folder-view.c:2775
+#: ../mail/em-folder-view.c:2806
 msgid "C_all To..."
 msgstr "Ll_amar a…"
 
-#: ../mail/em-folder-view.c:2778
+#: ../mail/em-folder-view.c:2809
 msgid "Create _Search Folder"
 msgstr "Crear carpeta de _búsqueda"
 
-#: ../mail/em-folder-view.c:2779
+#: ../mail/em-folder-view.c:2810
 msgid "_From this Address"
 msgstr "_Desde esta dirección"
 
-#: ../mail/em-folder-view.c:2780
+#: ../mail/em-folder-view.c:2811
 msgid "_To this Address"
 msgstr "_A esta dirección"
 
-#: ../mail/em-folder-view.c:3277
+#: ../mail/em-folder-view.c:3308
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
 
-#: ../mail/em-folder-view.c:3289
+#: ../mail/em-folder-view.c:3320
 #, c-format
 msgid "Click to call %s"
 msgstr "Pulse para llamar a %s"
 
-#: ../mail/em-folder-view.c:3294
+#: ../mail/em-folder-view.c:3325
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
@@ -17842,7 +17842,9 @@ msgstr "Genera un mensaje D-BUS cuando llega un mensaje de correo nuevo."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "If true, then beep, otherwise will play sound file when new messages arrive."
-msgstr "Si está activado pitará, de otra manera reproducirá un archivo de sonido cuando lleguen mensajes nuevos."
+msgstr ""
+"Si está activado pitará, de otra manera reproducirá un archivo de sonido "
+"cuando lleguen mensajes nuevos."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -17896,7 +17898,8 @@ msgstr ""
 msgid "Generate a _D-Bus message"
 msgstr "Generar un mensaje _D-Bus"
 
-#: ../plugins/mail-notification/mail-notification.c:362
+#. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
+#: ../plugins/mail-notification/mail-notification.c:363
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -17911,55 +17914,55 @@ msgstr[1] ""
 "Ha recibido %d mensajes nuevos\n"
 "en %s."
 
-#: ../plugins/mail-notification/mail-notification.c:367
+#: ../plugins/mail-notification/mail-notification.c:368
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Ha recibido %d mensaje nuevo."
 msgstr[1] "Ha recibido %d mensajes nuevos."
 
-#: ../plugins/mail-notification/mail-notification.c:379
-#: ../plugins/mail-notification/mail-notification.c:384
+#: ../plugins/mail-notification/mail-notification.c:380
+#: ../plugins/mail-notification/mail-notification.c:385
 msgid "New email"
 msgstr "Nuevo correo-e"
 
-#: ../plugins/mail-notification/mail-notification.c:439
+#: ../plugins/mail-notification/mail-notification.c:440
 msgid "Show icon in _notification area"
 msgstr "Mostrar icono en el área de _notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:442
+#: ../plugins/mail-notification/mail-notification.c:443
 msgid "B_link icon in notification area"
 msgstr "Icono pa_rpadeante en el área de notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:444
+#: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
 msgstr "_Mensaje emergente junto con el icono"
 
-#: ../plugins/mail-notification/mail-notification.c:625
+#: ../plugins/mail-notification/mail-notification.c:626
 msgid "_Play sound when new messages arrive"
 msgstr "Re_producir un sonido cuando llegue correo nuevo"
 
-#: ../plugins/mail-notification/mail-notification.c:631
+#: ../plugins/mail-notification/mail-notification.c:632
 msgid "_Beep"
 msgstr "_Pitar"
 
-#: ../plugins/mail-notification/mail-notification.c:632
+#: ../plugins/mail-notification/mail-notification.c:633
 msgid "Play _sound file"
 msgstr "Reproducir archivo de _sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:643
+#: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
 msgstr "Especificar nombre de a_rchivo:"
 
-#: ../plugins/mail-notification/mail-notification.c:644
+#: ../plugins/mail-notification/mail-notification.c:645
 msgid "Select sound file"
 msgstr "Seleccione un arhivo de sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:645
+#: ../plugins/mail-notification/mail-notification.c:646
 msgid "Pl_ay"
 msgstr "Reprod_ucir"
 
-#: ../plugins/mail-notification/mail-notification.c:784
+#: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar nuevos mensajes sólo para la _bandeja de entrada"
 
@@ -18751,8 +18754,8 @@ msgid "Configuration version"
 msgstr "Versión de la configuración"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
-msgid "Decides whether the crash recovery should be run or not."
-msgstr "Decide si se debe ejecutar la recuperación de cuelgue o no."
+msgid "Decides whether the crash detection should be run or not."
+msgstr "Decide si se debe ejecutar la detección de cuelgue o no."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18853,8 +18856,8 @@ msgstr ""
 "conectado."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-msgid "Whether crash recovery should be done or not"
-msgstr "Indica si se debe realizar la recuperación de cuelgue"
+msgid "Whether crash detection should be done or not"
+msgstr "Indica si se debe realizar la detección de cuelgue o no"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -19191,8 +19194,8 @@ msgid "Do not tell me again"
 msgstr "No preguntarme más veces"
 
 #: ../shell/main.c:307
-msgid "Evolution Crash Recovery"
-msgstr "Restaurador de cuelgues de Evolution"
+msgid "Evolution Crash Detection"
+msgstr "Detección de cuelgues de Evolution"
 
 #: ../shell/main.c:309
 msgid "Ig_nore"
