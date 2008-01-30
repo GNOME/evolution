@@ -304,7 +304,7 @@ show_recovery_warning(void)
 	int flags = 0, response;
 
 	warning_dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Evolution Crash Recovery"));
+	gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Evolution Crash Detection"));
 	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
 	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), _("Ig_nore"), GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), _("_Recover"), GTK_RESPONSE_OK);

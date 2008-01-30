@@ -61,8 +61,8 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Whether crash recovery should be done or not</short>
-	<long>Decides whether the crash recovery should be run or not.</long>
+        <short>Whether crash detection should be done or not</short>
+	<long>Decides whether the crash detection should be run or not.</long>
       </locale>
     </schema>
 
