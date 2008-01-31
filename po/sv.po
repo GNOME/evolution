@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-31 08:37+0100\n"
-"PO-Revision-Date: 2008-01-31 08:47+0100\n"
+"POT-Creation-Date: 2008-01-31 22:56+0100\n"
+"PO-Revision-Date: 2008-01-31 23:10+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -11532,7 +11532,7 @@ msgstr "_Byt namn..."
 
 #: ../mail/em-folder-tree.c:2111
 msgid "Re_fresh"
-msgstr "Up_pdatera"
+msgstr "Upp_datera"
 
 #: ../mail/em-folder-tree.c:2112
 msgid "Fl_ush Outbox"
@@ -12320,7 +12320,7 @@ msgstr "Meddelanden från %s"
 
 #: ../mail/em-vfolder-editor.c:112
 msgid "Search _Folders"
-msgstr "Sök_mappar"
+msgstr "Sökma_ppar"
 
 #: ../mail/em-vfolder-rule.c:592
 msgid "Search Folder source"
@@ -15135,7 +15135,7 @@ msgstr "Åters_täll inställningar..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "I_nställningar för säkerhetskopiering..."
+msgstr "Inst_ällningar för säkerhetskopiering..."
 
 #: ../plugins/bbdb/bbdb.c:541
 #: ../plugins/bbdb/bbdb.c:550
@@ -16487,7 +16487,7 @@ msgstr "_Skriv"
 #. To Translators: strip the part in front of the | and the | itself
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
 msgid "permission to read|_Read"
-msgstr "_Läs"
+msgstr "_Läst"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -17541,7 +17541,7 @@ msgstr "En insticksmodul som möjliggör skapandet av sammanträden utifrån inn
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
-msgstr "Kon_vertera till sammanträde"
+msgstr "Konvertera till sammantr_äde"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
 msgid "Mail to meeting"
@@ -17563,7 +17563,7 @@ msgstr "En insticksmodul som möjliggör skapandet av uppgifter utifrån innehå
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
 msgid "Con_vert to Task"
-msgstr "Kon_vertera till uppgift"
+msgstr "Konvertera till _uppgift"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 msgid "Mail to task"
@@ -20009,7 +20009,7 @@ msgstr "Sök_mappar"
 
 #: ../ui/evolution-mail-global.xml.h:14
 msgid "Show Message _Preview"
-msgstr "Visa meddelande_förhandsgranskning"
+msgstr "Visa _förhandsgranskning av meddelande"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview below the message list"
@@ -20061,7 +20061,7 @@ msgstr "_Ny..."
 
 #: ../ui/evolution-mail-global.xml.h:28
 msgid "_Preview"
-msgstr "_Förhandsgranskning"
+msgstr "F_örhandsgranskning"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -20101,7 +20101,7 @@ msgstr "Klipp ut markerade meddelanden till urklipp"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr "Fäll _ut alla trådar"
+msgstr "Fäll ut alla tr_ådar"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
@@ -20113,7 +20113,7 @@ msgstr "Fäll ut alla meddelandetrådar"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
-msgstr "Dölj _markerade meddelanden"
+msgstr "Döl_j markerade meddelanden"
 
 #: ../ui/evolution-mail-list.xml.h:13
 msgid "Hide _Deleted Messages"
@@ -20129,7 +20129,7 @@ msgstr "Dölj borttagna meddelanden istället för att visa dem överstrukna"
 
 #: ../ui/evolution-mail-list.xml.h:16
 msgid "Mar_k All Messages as Read"
-msgstr "Mar_kera alla meddelanden som lästa"
+msgstr "Markera a_lla meddelanden som lästa"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Mark all messages in the folder as read"
@@ -20161,7 +20161,7 @@ msgstr "Välj meddelandets _undertråd"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
-msgstr "Markera meddelande_tråd"
+msgstr "Markera meddelandetr_åd"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "Select _All Messages"
@@ -20392,7 +20392,7 @@ msgstr "Öka textstorleken"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
-msgstr "Mar_kera som"
+msgstr "Mark_era som"
 
 #: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected messages as having been read"
@@ -20468,7 +20468,7 @@ msgstr "Pos_ta nytt meddelande till mapp"
 
 #: ../ui/evolution-mail-message.xml.h:69
 msgid "Post a Repl_y"
-msgstr "Posta ett s_var"
+msgstr "P_osta ett svar"
 
 #: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a message to a Public folder"
@@ -20609,11 +20609,11 @@ msgstr "S_kräp"
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Load Images"
-msgstr "_Läs in bilder"
+msgstr "L_äs in bilder"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Message Source"
-msgstr "_Meddelandekälla"
+msgstr "Me_ddelandekälla"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
@@ -20643,7 +20643,7 @@ msgstr "_Citerad"
 #. Translators: "Read" as in "has been read" (evolution-mail-message.xml)
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Read"
-msgstr "_Läs"
+msgstr "_Läst"
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Save Message..."
@@ -21078,7 +21078,7 @@ msgstr "Visa fönsterknappar med endast text"
 
 #: ../ui/evolution.xml.h:10
 msgid "Evolution _FAQ"
-msgstr "_Frågor och svar om Evolution"
+msgstr "Vanliga fr_ågor om Evolution"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21118,7 +21118,7 @@ msgstr "Öppna webbsidan för frågor och svar"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
-msgstr "Sidinställni_ngar..."
+msgstr "Sidinstäl_lningar..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
@@ -21130,7 +21130,7 @@ msgstr "Skicka / Ta emot"
 
 #: ../ui/evolution.xml.h:24
 msgid "Send / _Receive"
-msgstr "Skicka / _Ta emot"
+msgstr "Ski_cka / Ta emot"
 
 #: ../ui/evolution.xml.h:25
 msgid "Send queued items and retrieve new items"
@@ -21162,7 +21162,7 @@ msgstr "Skicka felrapport"
 
 #: ../ui/evolution.xml.h:33
 msgid "Submit _Bug Report"
-msgstr "Skicka _felrapport"
+msgstr "Skicka in f_elrapport"
 
 #: ../ui/evolution.xml.h:34
 msgid "Submit a bug report using Bug Buddy"
@@ -21194,7 +21194,7 @@ msgstr "S_täng fönster"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Forget Passwords"
-msgstr "_Glöm lösenord"
+msgstr "Glöm lös_enord"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
@@ -21400,7 +21400,7 @@ msgstr "Definiera vyer..."
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
-msgstr "Akt_uell vy"
+msgstr "Aktu_ell vy"
 
 #: ../widgets/menus/gal-view-menus.c:315
 #, c-format
