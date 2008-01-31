@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-31 08:37+0100\n"
-"PO-Revision-Date: 2008-01-31 08:38+0100\n"
+"PO-Revision-Date: 2008-01-31 08:47+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -11499,7 +11499,7 @@ msgstr "_Flytta till mapp"
 #: ../mail/mail-ops.c:1055
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "Genomsöker mappar i \"%s\""
+msgstr "Söker igenom mappar i \"%s\""
 
 #: ../mail/em-folder-tree.c:2094
 #: ../ui/evolution-addressbook.xml.h:64
@@ -13012,7 +13012,7 @@ msgstr "Importerar \"%s\""
 #: ../mail/importers/mail-importer.c:372
 #, c-format
 msgid "Scanning %s"
-msgstr "Genomsöker %s"
+msgstr "Söker igenom %s"
 
 #: ../mail/importers/pine-importer.c:229
 msgid "Importing Pine data"
