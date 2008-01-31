@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-31 22:56+0100\n"
-"PO-Revision-Date: 2008-01-31 23:10+0100\n"
+"PO-Revision-Date: 2008-01-31 23:32+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -20561,7 +20561,7 @@ msgstr "Ångra borttagning av de markerade meddelandena"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Uni_mportant"
-msgstr "_Oviktigt"
+msgstr "Ovikti_gt"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
