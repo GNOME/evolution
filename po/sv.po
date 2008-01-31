@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-28 09:00+0100\n"
-"PO-Revision-Date: 2008-01-28 09:11+0100\n"
+"POT-Creation-Date: 2008-01-31 08:37+0100\n"
+"PO-Revision-Date: 2008-01-31 08:38+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -3259,7 +3259,7 @@ msgid "_Open Link in Browser"
 msgstr "_Öppna länk i webbläsare"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2776
+#: ../mail/em-folder-view.c:2807
 msgid "_Copy Link Location"
 msgstr "_Kopiera länkplats"
 
@@ -6657,7 +6657,7 @@ msgstr "%s för en okänd triggertyp"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
 #: ../calendar/gui/e-cal-component-preview.c:72
-#: ../mail/em-folder-view.c:3296
+#: ../mail/em-folder-view.c:3327
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicka för att öppna %s"
@@ -11731,33 +11731,33 @@ msgstr "Kan inte hämta meddelande"
 msgid "Retrieving Message..."
 msgstr "Hämtar meddelande..."
 
-#: ../mail/em-folder-view.c:2775
+#: ../mail/em-folder-view.c:2806
 msgid "C_all To..."
 msgstr "R_ing till..."
 
-#: ../mail/em-folder-view.c:2778
+#: ../mail/em-folder-view.c:2809
 msgid "Create _Search Folder"
 msgstr "Skapa ny _sökmapp"
 
-#: ../mail/em-folder-view.c:2779
+#: ../mail/em-folder-view.c:2810
 msgid "_From this Address"
 msgstr "_Från denna adress"
 
-#: ../mail/em-folder-view.c:2780
+#: ../mail/em-folder-view.c:2811
 msgid "_To this Address"
 msgstr "_Till denna adress"
 
-#: ../mail/em-folder-view.c:3277
+#: ../mail/em-folder-view.c:3308
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicka för att skicka e-post till %s"
 
-#: ../mail/em-folder-view.c:3289
+#: ../mail/em-folder-view.c:3320
 #, c-format
 msgid "Click to call %s"
 msgstr "Klicka för att ringa till %s"
 
-#: ../mail/em-folder-view.c:3294
+#: ../mail/em-folder-view.c:3325
 msgid "Click to hide/unhide addresses"
 msgstr "Klicka för att dölja/visa adresser"
 
@@ -17459,7 +17459,8 @@ msgstr "Huruvida notifiering av nya meddelanden endast ska göras för Inkorgen.
 msgid "Generate a _D-Bus message"
 msgstr "Generera ett _D-Bus-meddelande"
 
-#: ../plugins/mail-notification/mail-notification.c:362
+#. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
+#: ../plugins/mail-notification/mail-notification.c:363
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -17474,55 +17475,55 @@ msgstr[1] ""
 "Du har fått %d nya meddelanden\n"
 "i %s."
 
-#: ../plugins/mail-notification/mail-notification.c:367
+#: ../plugins/mail-notification/mail-notification.c:368
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Du har fått %d nytt meddelande."
 msgstr[1] "Du har fått %d nya meddelanden."
 
-#: ../plugins/mail-notification/mail-notification.c:379
-#: ../plugins/mail-notification/mail-notification.c:384
+#: ../plugins/mail-notification/mail-notification.c:380
+#: ../plugins/mail-notification/mail-notification.c:385
 msgid "New email"
 msgstr "Nya e-postmeddelanden"
 
-#: ../plugins/mail-notification/mail-notification.c:439
+#: ../plugins/mail-notification/mail-notification.c:440
 msgid "Show icon in _notification area"
 msgstr "Visa ikon i _notifieringsytan"
 
-#: ../plugins/mail-notification/mail-notification.c:442
+#: ../plugins/mail-notification/mail-notification.c:443
 msgid "B_link icon in notification area"
 msgstr "B_linka med ikon i notifieringsytan"
 
-#: ../plugins/mail-notification/mail-notification.c:444
+#: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
 msgstr "Visa popup_meddelande tillsammans med ikonen"
 
-#: ../plugins/mail-notification/mail-notification.c:625
+#: ../plugins/mail-notification/mail-notification.c:626
 msgid "_Play sound when new messages arrive"
 msgstr "Spela _upp ljud när nya meddelanden anländer"
 
-#: ../plugins/mail-notification/mail-notification.c:631
+#: ../plugins/mail-notification/mail-notification.c:632
 msgid "_Beep"
 msgstr "_Pip"
 
-#: ../plugins/mail-notification/mail-notification.c:632
+#: ../plugins/mail-notification/mail-notification.c:633
 msgid "Play _sound file"
 msgstr "Spela upp _ljudfil"
 
-#: ../plugins/mail-notification/mail-notification.c:643
+#: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
 msgstr "Ange _filnamn:"
 
-#: ../plugins/mail-notification/mail-notification.c:644
+#: ../plugins/mail-notification/mail-notification.c:645
 msgid "Select sound file"
 msgstr "Välj ljudfil"
 
-#: ../plugins/mail-notification/mail-notification.c:645
+#: ../plugins/mail-notification/mail-notification.c:646
 msgid "Pl_ay"
 msgstr "Spela u_pp"
 
-#: ../plugins/mail-notification/mail-notification.c:784
+#: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
 msgstr "Notifiera om nya meddelanden endast för _inkorgen"
 
@@ -18268,8 +18269,8 @@ msgid "Configuration version"
 msgstr "Konfigurationsversion"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
-msgid "Decides whether the crash recovery should be run or not."
-msgstr "Bestämmer huruvida kraschåterställning ska köras eller inte."
+msgid "Decides whether the crash detection should be run or not."
+msgstr "Bestämmer huruvida kraschdetekteringen ska köras eller inte."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18353,8 +18354,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Huruvida Evolution kommer att starta i frånkopplat läge istället för anslutet läge."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-msgid "Whether crash recovery should be done or not"
-msgstr "Huruvida kraschåterställning ska genomföras eller inte"
+msgid "Whether crash detection should be done or not"
+msgstr "Huruvida kraschdetektering ska genomföras eller inte"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18691,8 +18692,8 @@ msgid "Do not tell me again"
 msgstr "Tala inte om för mig igen"
 
 #: ../shell/main.c:307
-msgid "Evolution Crash Recovery"
-msgstr "Evolutions kraschåterställning"
+msgid "Evolution Crash Detection"
+msgstr "Evolutions kraschdetektering"
 
 #: ../shell/main.c:309
 msgid "Ig_nore"
