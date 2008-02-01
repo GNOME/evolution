@@ -44,6 +44,7 @@
 #include <calendar/gui/e-cal-config.h>
 #include <mapi/exchange-mapi-folder.h>
 #include <mapi/exchange-mapi-connection.h>
+#include <mapi/exchange-mapi-utils.h>
 
 #define d(x) x
 
@@ -511,7 +512,7 @@ exchange_mapi_cursor_change (GtkTreeView *treeview, ESource *source)
 	gtk_tree_selection_get_selected(selection, &model, &iter);
 
 	gtk_tree_model_get (model, &iter, CONTACTSFID_COL, &pfid, -1);
-	sfid = g_strdup_printf ("%016llx", pfid);
+	sfid = exchange_mapi_util_mapi_id_to_string (pfid);
 	e_source_set_property (source, "parent-fid", sfid); 
 	g_free (sfid);
 }
@@ -621,10 +622,10 @@ exchange_mapi_book_commit (EPlugin *epl, EConfigTarget *target)
 	
 	//FIXME: Offline handling
 	sfid = e_source_get_property (source, "parent-fid");
-	sscanf (sfid, "%016llx", &pfid);
+	exchange_mapi_util_mapi_id_from_string (sfid, &pfid);
 
 	fid = exchange_mapi_create_folder (olFolderContacts, pfid, e_source_peek_name (source));
-	printf("Created %016llx\n", fid);
+	printf("Created %016llX\n", fid);
 	grp = e_source_peek_group (source);
 	e_source_set_property (source, "auth", "plain/password");
 	e_source_set_property (source, "auth-domain", "MAPI");
@@ -634,7 +635,7 @@ exchange_mapi_book_commit (EPlugin *epl, EConfigTarget *target)
 	e_source_set_property(source, "domain", e_source_group_get_property (grp, "domain"));
 	e_source_set_relative_uri (source, g_strconcat (";",e_source_peek_name (source), NULL));
 
-	tmp = g_strdup_printf ("%016llx", fid);
+	tmp = exchange_mapi_util_mapi_id_to_string (fid);
 	e_source_set_property(source, "folder-id", tmp);
 	g_free (tmp);
 	e_source_set_property (source, "completion", "true");
@@ -687,7 +688,6 @@ exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target)
 	uri_text = e_source_get_uri (source);
 	if (uri_text && g_ascii_strncasecmp (uri_text, "mapi://", 7))
 		return;
-
 	g_free (uri_text);
 
 	switch (t->source_type) {
@@ -712,10 +712,10 @@ exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target)
 	//FIXME: Offline handling
 
 	sfid = e_source_get_property (source, "parent-fid");
-	sscanf (sfid, "%016llx", &pfid);
+	exchange_mapi_util_mapi_id_from_string (sfid, &pfid);
 
 	fid = exchange_mapi_create_folder (type, pfid, e_source_peek_name (source));
-	printf("Created %016llx\n", fid);
+	printf("Created %016llX\n", fid);
 
 	grp = e_source_peek_group (source);
 
@@ -745,13 +745,9 @@ exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target)
 	e_source_set_property (source, "domain", tmp);
 	g_free (tmp);
 
-	tmp = g_strdup_printf ("%016llx", fid);
-	e_source_set_property (source, "folder-id", tmp);
-	g_free (tmp);
-
-	/* make sure we set relative uri after we set the props needed to create the relative uri */
-	tmp = g_strdup_printf ("%s@%s/%s/", e_source_get_property (source, "username"), e_source_get_property (source, "host"), e_source_get_property (source, "folder-id"));
+	tmp = exchange_mapi_util_mapi_id_to_string (fid);
 	e_source_set_relative_uri (source, tmp);
+	e_source_set_property (source, "folder-id", tmp);
 	g_free (tmp);
 
 	// Update the folder list in the plugin and ExchangeMAPIFolder
