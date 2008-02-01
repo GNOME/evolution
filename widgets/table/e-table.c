@@ -835,7 +835,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		/* Fall through */
 	default:
 		init_search (et);
-		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK)) == 0
+		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK | GDK_MOD4_MASK | GDK_MOD5_MASK)) == 0
 		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
 			(key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
 			(key->keyval >= GDK_0 && key->keyval <= GDK_9)))

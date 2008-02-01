@@ -1,3 +1,11 @@
+2008-02-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512623
+
+	* e-tree.c: (item_key_press):
+	Check only if Ctrl/Alt/Shift is pressed when required Shift only.
+	* e-table.c: (group_key_press): Ignore/consider GDK_MODEx_MASK states.
+
 2008-01-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* e-table-item.c: (eti_draw): Fix some gradient issues.
