@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+/* -*- Mf (id ode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  *  Sushma Rai <rsushma@novell.com>
  *  Copyright (C) 2004 Novell, Inc.
@@ -437,8 +437,9 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 
 	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL);
 
-	url = camel_url_new(source_url, NULL);
-	if (url->user == NULL) {
+	if (source_url && source_url[0] != '\0')
+		url = camel_url_new(source_url, NULL);
+	if (url && url->user == NULL) {
 		id_name = e_account_get_string (target_account->account, E_ACCOUNT_ID_ADDRESS);
 		if (id_name) {
 			at = strchr(id_name, '@');
@@ -513,7 +514,10 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 
 	/* NB: we set the button active only if we have a parsable uri entered */
 
-	url = camel_url_new(e_account_get_string(target->account, E_ACCOUNT_SOURCE_URL), NULL);
+	const char * target_url = e_account_get_string(target->account, E_ACCOUNT_SOURCE_URL);
+	if (target_url && target_url[0] != '\0')
+		url = camel_url_new(target_url, NULL);
+	else url = NULL;
 	uri = gtk_entry_get_text((GtkEntry *)entry);
 	if (uri && uri[0]) {
 		camel_url_set_param(url, "owa_url", uri);
@@ -579,7 +583,10 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
-	url = camel_url_new(source_url, NULL);
+	if (source_url && source_url[0] != '\0')
+		url = camel_url_new(source_url, NULL);
+	else
+		url = NULL;
 	if (url == NULL
 	    || strcmp(url->protocol, "exchange") != 0) {
 		if (url)
@@ -682,7 +689,11 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 	    strcmp (data->pageid, "20.receive_options") == 0) {
 		CamelURL *url;
 
-		url = camel_url_new(e_account_get_string(target->account,  E_ACCOUNT_SOURCE_URL), NULL);
+		const char * target_url = e_account_get_string(target->account,  E_ACCOUNT_SOURCE_URL);
+		if (target_url && target_url[0] != '\0')
+			url = camel_url_new(target_url, NULL);
+		else
+			url = NULL;
 		/* Note: we only care about exchange url's, we WILL get called on all other url's too. */
 		if (url != NULL
 		    && strcmp(url->protocol, "exchange") == 0
@@ -726,7 +737,10 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
-	url = camel_url_new (source_url, NULL);
+	if (source_url && source_url[0] != '\0')
+		url = camel_url_new (source_url, NULL);
+	else
+		url = NULL;
 	if (url == NULL
 	    || strcmp (url->protocol, "exchange") != 0) {
 		if (url)

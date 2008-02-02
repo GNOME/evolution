@@ -1,3 +1,12 @@
+2008-02-02  Jeff Cai <jeff.cai@sun.com>
+
+	** Fixes bug #513395
+
+	* exchange-account-setup.c: (owa_authenticate_user),
+	(owa_editor_entry_changed), (org_gnome_exchange_owa_url),
+	(org_gnome_exchange_check_options), (org_gnome_exchange_commit):
+	Check parameters before calling camel_url_new
+
 2008-01-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* exchange-calendar.c: (e_exchange_calendar_commit): Fixes a double
