@@ -132,7 +132,6 @@ static void e_text_insert(EText *text, const char *string);
 
 static void reset_layout_attrs (EText *text);
 
-static void update_im_cursor_position (EText *text);
 #if 0
 /* GtkEditable Methods */
 static void e_text_editable_do_insert_text (GtkEditable    *editable,
@@ -3900,57 +3899,6 @@ e_text_commit_cb (GtkIMContext *context,
 		e_text_insert (text, str);
 		g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
 	}
-}
-
-/*
- * Fetch cursor location into Strong or Weak positions so as to
- * display the preedit candidate selection window in the right place
- */
-static void
-e_text_get_cursor_locations (EText *text,
-			     GdkRectangle *strong_pos,
-			     GdkRectangle *weak_pos)
-{
-	double x1, y1;
-	PangoRectangle pango_strong_pos;
-	PangoRectangle pango_weak_pos;
-	int cx, cy;
-	gint index;
-
-	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (text), &x1, &y1, NULL, NULL);
-
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (GNOME_CANVAS_ITEM (text)->canvas), &cx, &cy);
-
-	index = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;
-
-	pango_layout_get_cursor_pos (text->layout, index + text->preedit_pos,
-				     strong_pos ? &pango_strong_pos : NULL,
-				     weak_pos ? &pango_weak_pos : NULL);
-
-	if (strong_pos) {
-		strong_pos->x = x1 - cx - text->xofs_edit + pango_strong_pos.x / PANGO_SCALE;
-		strong_pos->y = y1 - cy - text->yofs_edit + pango_strong_pos.y / PANGO_SCALE;
-		strong_pos->width = 0;
-		strong_pos->height = pango_strong_pos.height / PANGO_SCALE;
-	}
-
-	if (weak_pos) {
-		weak_pos->x = x1 - cx - text->xofs_edit + pango_weak_pos.x / PANGO_SCALE;
-		weak_pos->y = y1 - cy - text->yofs_edit + pango_weak_pos.y / PANGO_SCALE;
-		weak_pos->width = 0;
-		weak_pos->height = pango_weak_pos.height / PANGO_SCALE;
-	}
-}
-
-/* Update IM's cursor position to display candidate selection window */
-static void
-update_im_cursor_position (EText *text)
-{
-	GdkRectangle area;
-
-	e_text_get_cursor_locations (text, &area, NULL);
-
-	gtk_im_context_set_cursor_location (text->im_context, &area);
 }
 
 static void

@@ -112,7 +112,7 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 
 	raw_msg_barray = g_byte_array_append (raw_msg_barray, (const guint8 *)"", 1);
 
-	filtered_str = strip_text_msg (raw_msg_barray->data);
+	filtered_str = strip_text_msg ((gchar *) raw_msg_barray->data);
 	g_byte_array_free (raw_msg_barray, TRUE);
 
 	/* Set presend_check_status for the composer*/

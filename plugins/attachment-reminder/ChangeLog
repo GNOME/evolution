@@ -1,3 +1,8 @@
+2008-02-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* attachment-reminder.c (org_gnome_evolution_attachment_reminder):
+	Fix a compiler warning.
+
 2008-01-24  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fixes bug #503327 & #503678
