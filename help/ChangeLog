@@ -1,3 +1,9 @@
+2008-02-04  Wouter Bolsterlee <wbolster@gnome.org>    
+
+	** Fix for bug #513285
+
+	* C/evolution.xml: Do not use entities.
+
 2008-02-01  Arangenl Angov <arangel@linux.net.mk>
 
 	* mk.po: Added partly translated mk.po.
