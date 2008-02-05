@@ -1,3 +1,24 @@
+2008-02-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Rewrite of itip-formatter bits. It was written around carrying
+	EMFormatHTMLPobject. But that would be freed just after the formatter
+	thread ends. So all the time, it was working on dead pointer. Now I
+	have made EMFormatPURI and carried it around well. It might need a
+	good review though.
+
+	** Fix for bug #468427
+	Fixes a lot of crashes around itip-formatter.
+
+	* itip-formatter.c: (find_to_address), (find_from_address),
+	(get_real_item), (adjust_item), (set_buttons_sensitive),
+	(cal_opened_cb), (start_calendar_server),
+	(start_calendar_server_by_uid), (source_selected_cb),
+	(find_cal_opened_cb), (find_server), (update_item),
+	(remove_delegate), (update_attendee_status), (send_item),
+	(set_itip_error), (extract_itip_data), (idle_open_cb),
+	(view_response_cb), (format_itip_object), (puri_free),
+	(format_itip), (itip_attachment_frame):
+
 2008-01-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #475781

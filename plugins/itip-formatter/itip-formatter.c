@@ -44,6 +44,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-config.h>
+#include <mail/em-format.h>
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
 #include <mail/mail-tools.h>
@@ -61,12 +62,15 @@
 
 #define d(x)
 
-void format_itip (EPlugin *ep, EMFormatHookTarget *target);
-GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
+struct _itip_puri {
+	EMFormatPURI puri;
 
-typedef struct {
-	EMFormatHTMLPObject pobject;
+	const EMFormatHandler *handle;
+	CamelFolder *folder;
+	CamelMimeMessage *msg;
+	CamelMimePart *part;
 
+	char *uid;
 	GtkWidget *view;
 
 	ESourceList *source_lists[E_CAL_SOURCE_TYPE_LAST];
@@ -104,10 +108,16 @@ typedef struct {
 	guint progress_info_id;
 
 	gboolean delete_message;
-} FormatItipPObject;
+
+};
+
+
+void format_itip (EPlugin *ep, EMFormatHookTarget *target);
+GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
+static void itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 
 typedef struct {
-	FormatItipPObject *pitip;
+	struct _itip_puri *puri;
 	char *uid;
 	char *rid;
 
@@ -188,7 +198,7 @@ find_attendee_if_sentby (icalcomponent *ical_comp, const char *address)
 }
 
 static void
-find_to_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
+find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
 {
 	EIterator *it;
 
@@ -286,7 +296,7 @@ find_to_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparamet
 }
 
 static void
-find_from_address (FormatItipPObject *pitip, icalcomponent *ical_comp)
+find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 {
 	EIterator *it;
 	icalproperty *prop;
@@ -348,7 +358,7 @@ find_from_address (FormatItipPObject *pitip, icalcomponent *ical_comp)
 }
 
 static ECalComponent *
-get_real_item (FormatItipPObject *pitip)
+get_real_item (struct _itip_puri *pitip)
 {
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
@@ -372,7 +382,7 @@ get_real_item (FormatItipPObject *pitip)
 }
 
 static void
-adjust_item (FormatItipPObject *pitip, ECalComponent *comp)
+adjust_item (struct _itip_puri *pitip, ECalComponent *comp)
 {
 	ECalComponent *real_comp;
 
@@ -399,7 +409,7 @@ adjust_item (FormatItipPObject *pitip, ECalComponent *comp)
 }
 
 static void
-set_buttons_sensitive (FormatItipPObject *pitip)
+set_buttons_sensitive (struct _itip_puri *pitip)
 {
 	gboolean read_only = TRUE;
 
@@ -413,7 +423,7 @@ set_buttons_sensitive (FormatItipPObject *pitip)
 static void
 cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 {
-	FormatItipPObject *pitip = data;
+	struct _itip_puri *pitip = data;
 	ESource *source;
 	ECalSourceType source_type;
 
@@ -461,7 +471,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 }
 
 static ECal *
-start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType type, FormatItipOpenFunc func, gpointer data)
+start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalSourceType type, FormatItipOpenFunc func, gpointer data)
 {
 	ECal *ecal;
 	icaltimezone *zone = NULL;
@@ -498,7 +508,7 @@ start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType
 }
 
 static ECal *
-start_calendar_server_by_uid (FormatItipPObject *pitip, const char *uid, ECalSourceType type)
+start_calendar_server_by_uid (struct _itip_puri *pitip, const char *uid, ECalSourceType type)
 {
 	int i;
 
@@ -518,7 +528,7 @@ start_calendar_server_by_uid (FormatItipPObject *pitip, const char *uid, ECalSou
 static void
 source_selected_cb (ItipView *view, ESource *source, gpointer data)
 {
-	FormatItipPObject *pitip = data;
+	struct _itip_puri *pitip = data;
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
@@ -531,7 +541,7 @@ static void
 find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 {
 	FormatItipFindData *fd = data;
-	FormatItipPObject *pitip = fd->pitip;
+	struct _itip_puri *pitip = fd->puri;
 	ESource *source;
 	ECalSourceType source_type;
 	icalcomponent *icalcomp;
@@ -703,13 +713,12 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 }
 
 static void
-find_server (FormatItipPObject *pitip, ECalComponent *comp)
+find_server (struct _itip_puri *pitip, ECalComponent *comp)
 {
 	FormatItipFindData *fd = NULL;
 	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
 	const char *uid;
 	const char *rid;
-	CamelFolder *folder;
 	CamelURL *url;
 	char *uri;
 	ESource *source = NULL, *current_source = NULL;
@@ -717,8 +726,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 	e_cal_component_get_uid (comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (comp);
 
-	folder = (((pitip->pobject).format)->format).folder;
-        url = CAMEL_SERVICE (folder->parent_store)->url;
+        url = CAMEL_SERVICE (pitip->folder->parent_store)->url;
         uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
@@ -774,7 +782,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 			char *start = NULL, *end = NULL;
 
 			fd = g_new0 (FormatItipFindData, 1);
-			fd->pitip = pitip;
+			fd->puri = pitip;
 			fd->uid = g_strdup (uid);
 			fd->rid = g_strdup (rid);
 
@@ -894,7 +902,7 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 }
 
 static gboolean
-update_item (FormatItipPObject *pitip, ItipViewResponse response)
+update_item (struct _itip_puri *pitip, ItipViewResponse response)
 {
 	struct icaltimetype stamp;
 	icalproperty *prop;
@@ -933,7 +941,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	if ((response != ITIP_VIEW_RESPONSE_CANCEL)
 		&& (response != ITIP_VIEW_RESPONSE_DECLINE)){
 		GSList *attachments = NULL, *new_attachments = NULL, *l;
-		CamelMimeMessage *msg = ((EMFormat *) pitip->pobject.format)->message;
+		CamelMimeMessage *msg = pitip->msg;
 
 		e_cal_component_get_attachment_list (clone_comp, &attachments);
 
@@ -952,7 +960,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 
 					/* Skip the actual message and the text/calendar part */
 					/* FIXME Do we need to skip anything else? */
-					if (part == (CamelMimePart *) msg || part == pitip->pobject.part)
+					if (part == (CamelMimePart *) msg || part == pitip->part)
 						continue;
 
 					new_uri = em_utils_temp_save_part (NULL, part, FALSE);
@@ -1099,7 +1107,7 @@ send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, cons
 }
 
 static void
-remove_delegate (FormatItipPObject *pitip, const char *delegate, const char *delegator, ECalComponent *comp)
+remove_delegate (struct _itip_puri *pitip, const char *delegate, const char *delegator, ECalComponent *comp)
 {
 	gboolean status;
 	char *comment = g_strdup_printf (_("Organizer has removed the delegate %s "), itip_strip_mailto (delegate));
@@ -1118,7 +1126,7 @@ remove_delegate (FormatItipPObject *pitip, const char *delegate, const char *del
 }
 
 static void
-update_attendee_status (FormatItipPObject *pitip)
+update_attendee_status (struct _itip_puri *pitip)
 {
 	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp = NULL, *org_icalcomp;
@@ -1240,7 +1248,7 @@ update_attendee_status (FormatItipPObject *pitip)
 }
 
 static void
-send_item (FormatItipPObject *pitip)
+send_item (struct _itip_puri *pitip)
 {
 	ECalComponent *comp;
 
@@ -1303,7 +1311,7 @@ get_next (icalcompiter *iter)
 }
 
 static void
-set_itip_error (FormatItipPObject *pitip, GtkContainer *container, const char *primary, const char *secondary)
+set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const char *primary, const char *secondary)
 {
 	GtkWidget *vbox, *label;
 	char *message;
@@ -1328,7 +1336,7 @@ set_itip_error (FormatItipPObject *pitip, GtkContainer *container, const char *p
 }
 
 static gboolean
-extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
+extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
 {
 	CamelDataWrapper *content;
 	CamelStream *mem;
@@ -1341,7 +1349,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	ECalComponent *comp;
 	char *my_address;
 
-	content = camel_medium_get_content_object ((CamelMedium *) pitip->pobject.part);
+	content = camel_medium_get_content_object ((CamelMedium *) pitip->part);
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 
@@ -1588,7 +1596,7 @@ static MailMsgInfo open_calendar_info = {
 static gboolean
 idle_open_cb (gpointer data)
 {
-	FormatItipPObject *pitip = data;
+	struct _itip_puri *pitip = data;
 	struct _opencal_msg *m;
 
 	m = mail_msg_new (&open_calendar_info);
@@ -1602,7 +1610,7 @@ idle_open_cb (gpointer data)
 static void
 view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 {
-	FormatItipPObject *pitip = data;
+	struct _itip_puri *pitip = data;
 	gboolean status = FALSE, delete_invitation_from_cache = FALSE;
 	icalproperty *prop;
 	ECalComponentTransparency trans;
@@ -1694,7 +1702,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		CamelFolderChangeInfo *changes = NULL;
 		const char *tag = NULL;
 		CamelMessageInfo *mi;
-		mi = camel_folder_summary_uid (((EMFormat *) pitip->pobject.format)->folder->summary, ((EMFormat *) pitip->pobject.format)->uid);
+		mi = camel_folder_summary_uid (pitip->folder->summary, pitip->uid);
 		if (mi) {
 			changes = camel_folder_change_info_new ();
 
@@ -1707,32 +1715,32 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 					GPtrArray *summary_array;
 					int i=0;
 
-					summary_array = camel_folder_summary_array (((EMFormat *) pitip->pobject.format)->folder->summary);
+					summary_array = camel_folder_summary_array (pitip->folder->summary);
 					for (i=0; i<summary_array->len; i++) {
 						mi = (CamelMessageInfo *)g_ptr_array_index (summary_array, i);
 						camel_message_info_ref (mi);
 						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
 
-							camel_folder_summary_remove_uid(((EMFormat *) pitip->pobject.format)->folder->summary, (char *)(mi->uid));
+							camel_folder_summary_remove_uid(pitip->folder->summary, (char *)(mi->uid));
 							camel_folder_change_info_remove_uid (changes, (char *)(mi->uid));
 						}
 						camel_message_info_free (mi);
 					}
-					camel_folder_summary_array_free (((EMFormat *) pitip->pobject.format)->folder->summary, summary_array);
+					camel_folder_summary_array_free (pitip->folder->summary, summary_array);
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
-				camel_folder_summary_remove_uid(((EMFormat *) pitip->pobject.format)->folder->summary, ((EMFormat *) pitip->pobject.format)->uid);
-				camel_folder_change_info_remove_uid (changes, (char *)((EMFormat *) pitip->pobject.format)->uid);
+				camel_folder_summary_remove_uid(pitip->folder->summary, pitip->uid);
+				camel_folder_change_info_remove_uid (changes, pitip->uid);
 			}
-			camel_object_trigger_event (((EMFormat *) pitip->pobject.format)->folder, "folder_changed", changes);
+			camel_object_trigger_event (pitip->folder, "folder_changed", changes);
 			camel_folder_change_info_free (changes);
 		}
 	}
 
 	if (!delete_invitation_from_cache && pitip->delete_message) {
 		g_message ("Deleting!");
-		camel_folder_delete_message (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid);
+		camel_folder_delete_message (pitip->folder, pitip->uid);
 	}
 
 
@@ -1804,7 +1812,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
                 e_cal_component_rescan (comp);
                 if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL)) {
-			camel_folder_set_message_flags (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
+			camel_folder_set_message_flags (pitip->folder, pitip->uid, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
 		}
 
                 g_object_unref (comp);
@@ -1856,7 +1864,7 @@ in_proper_folder (CamelFolder *folder)
 static gboolean
 format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
-	FormatItipPObject *pitip = (FormatItipPObject *) pobject;
+	struct _itip_puri *info;
 	ECalComponentText text;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime datetime;
@@ -1868,119 +1876,121 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	int i;
 	gboolean response_enabled;
 
+	info = (struct _itip_puri *) em_format_find_puri((EMFormat *)efh, pobject->classid);
+	
 	/* Accounts */
-	pitip->accounts = itip_addresses_get ();
+	info->accounts = itip_addresses_get ();
 
 	/* Source Lists and open ecal clients */
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		if (!e_cal_get_sources (&pitip->source_lists[i], i, NULL))
+		if (!e_cal_get_sources (&info->source_lists[i], i, NULL))
 			/* FIXME More error handling? */
-			pitip->source_lists[i] = NULL;
+			info->source_lists[i] = NULL;
 
 		/* Initialize the ecal hashes */
-		pitip->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, cleanup_ecal);
+		info->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, cleanup_ecal);
 	}
 
 	/* FIXME Handle multiple VEVENTS with the same UID, ie detached instances */
-	if (!extract_itip_data (pitip, GTK_CONTAINER (eb)))
+	if (!extract_itip_data (info, GTK_CONTAINER (eb)))
 		return TRUE;
 
-	pitip->view = itip_view_new ();
-	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
-	gtk_widget_show (pitip->view);
+	info->view = itip_view_new ();
+	gtk_container_add (GTK_CONTAINER (eb), info->view);
+	gtk_widget_show (info->view);
 
 	response_enabled = in_proper_folder (((EMFormat*)efh)->folder);
 
 	if (!response_enabled) {
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_HIDE_ALL);
+		itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_HIDE_ALL);
 	} else {
-		switch (pitip->method) {
+		switch (info->method) {
 		case ICAL_METHOD_PUBLISH:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_PUBLISH);
 			break;
 		case ICAL_METHOD_REQUEST:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_REQUEST);
 			break;
 		case ICAL_METHOD_REPLY:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REPLY);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_REPLY);
 			break;
 		case ICAL_METHOD_ADD:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ADD);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_ADD);
 			break;
 		case ICAL_METHOD_CANCEL:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_CANCEL);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_CANCEL);
 			break;
 		case ICAL_METHOD_REFRESH:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REFRESH);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_REFRESH);
 			break;
 		case ICAL_METHOD_COUNTER:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_COUNTER);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_COUNTER);
 			break;
 		case ICAL_METHOD_DECLINECOUNTER:
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_DECLINECOUNTER);
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_DECLINECOUNTER);
 			break;
 		case ICAL_METHOD_X :
 			/* Handle appointment requests from Microsoft Live. This is
 			 * a best-at-hand-now handling. Must be revisited when we have
 			 * better access to the source of such meetings */
-			pitip->method = ICAL_METHOD_REQUEST;
-			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_REQUEST);
+			info->method = ICAL_METHOD_REQUEST;
+			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_REQUEST);
 			break;
 		default:
 			return FALSE;
 		}
 	}
 
-	itip_view_set_item_type (ITIP_VIEW (pitip->view), pitip->type);
+	itip_view_set_item_type (ITIP_VIEW (info->view), info->type);
 
 	if (response_enabled) {
-		switch (pitip->method) {
+		switch (info->method) {
 		case ICAL_METHOD_REQUEST:
 			/* FIXME What about the name? */
-			itip_view_set_delegator (ITIP_VIEW (pitip->view), pitip->delegator_name ? pitip->delegator_name : pitip->delegator_address);
+			itip_view_set_delegator (ITIP_VIEW (info->view), info->delegator_name ? info->delegator_name : info->delegator_address);
 		case ICAL_METHOD_PUBLISH:
 		case ICAL_METHOD_ADD:
 		case ICAL_METHOD_CANCEL:
 		case ICAL_METHOD_DECLINECOUNTER:
-			itip_view_set_show_update (ITIP_VIEW (pitip->view), FALSE);
+			itip_view_set_show_update (ITIP_VIEW (info->view), FALSE);
 
 			/* An organizer sent this */
-			e_cal_component_get_organizer (pitip->comp, &organizer);
+			e_cal_component_get_organizer (info->comp, &organizer);
 			org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
 
-			itip_view_set_organizer (ITIP_VIEW (pitip->view), org);
+			itip_view_set_organizer (ITIP_VIEW (info->view), org);
 			if (organizer.sentby)
-				itip_view_set_organizer_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (organizer.sentby));
+				itip_view_set_organizer_sentby (ITIP_VIEW (info->view), itip_strip_mailto (organizer.sentby));
 
-			if (pitip->my_address) {
-				if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), pitip->my_address))
-				&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), pitip->my_address))
-				&& (pitip->to_address && g_ascii_strcasecmp (pitip->to_address, pitip->my_address)))
-					itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->to_name ? pitip->to_name : pitip->to_address);
+			if (info->my_address) {
+				if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), info->my_address))
+				&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), info->my_address))
+				&& (info->to_address && g_ascii_strcasecmp (info->to_address, info->my_address)))
+					itip_view_set_proxy (ITIP_VIEW (info->view), info->to_name ? info->to_name : info->to_address);
 			}
 			break;
 		case ICAL_METHOD_REPLY:
 		case ICAL_METHOD_REFRESH:
 		case ICAL_METHOD_COUNTER:
-			itip_view_set_show_update (ITIP_VIEW (pitip->view), TRUE);
+			itip_view_set_show_update (ITIP_VIEW (info->view), TRUE);
 
 			/* An attendee sent this */
-			e_cal_component_get_attendee_list (pitip->comp, &list);
+			e_cal_component_get_attendee_list (info->comp, &list);
 			if (list != NULL) {
 				ECalComponentAttendee *attendee;
 
 				attendee = list->data;
 
-				itip_view_set_attendee (ITIP_VIEW (pitip->view), attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
+				itip_view_set_attendee (ITIP_VIEW (info->view), attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
 
 				if (attendee->sentby)
-					itip_view_set_attendee_sentby (ITIP_VIEW (pitip->view), itip_strip_mailto (attendee->sentby));
+					itip_view_set_attendee_sentby (ITIP_VIEW (info->view), itip_strip_mailto (attendee->sentby));
 
-				if (pitip->my_address) {
-					if (!(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), pitip->my_address))
-					&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), pitip->my_address))
-					&& (pitip->from_address && g_ascii_strcasecmp (pitip->from_address, pitip->my_address)))
-						itip_view_set_proxy (ITIP_VIEW (pitip->view), pitip->from_name ? pitip->from_name : pitip->from_address);
+				if (info->my_address) {
+					if (!(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), info->my_address))
+					&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), info->my_address))
+					&& (info->from_address && g_ascii_strcasecmp (info->from_address, info->my_address)))
+						itip_view_set_proxy (ITIP_VIEW (info->view), info->from_name ? info->from_name : info->from_address);
 				}
 
 				e_cal_component_free_attendee_list (list);
@@ -1992,54 +2002,54 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		}
 	}
 
-	e_cal_component_get_summary (pitip->comp, &text);
-	itip_view_set_summary (ITIP_VIEW (pitip->view), text.value ? text.value : _("None"));
+	e_cal_component_get_summary (info->comp, &text);
+	itip_view_set_summary (ITIP_VIEW (info->view), text.value ? text.value : _("None"));
 
-	e_cal_component_get_location (pitip->comp, &string);
-	itip_view_set_location (ITIP_VIEW (pitip->view), string);
+	e_cal_component_get_location (info->comp, &string);
+	itip_view_set_location (ITIP_VIEW (info->view), string);
 
 	/* Status really only applies for REPLY */
-	if (response_enabled && pitip->method == ICAL_METHOD_REPLY) {
-		e_cal_component_get_attendee_list (pitip->comp, &list);
+	if (response_enabled && info->method == ICAL_METHOD_REPLY) {
+		e_cal_component_get_attendee_list (info->comp, &list);
 		if (list != NULL) {
 			ECalComponentAttendee *a = list->data;
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
-				itip_view_set_status (ITIP_VIEW (pitip->view), _("Accepted"));
+				itip_view_set_status (ITIP_VIEW (info->view), _("Accepted"));
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
-				itip_view_set_status (ITIP_VIEW (pitip->view), _("Tentatively Accepted"));
+				itip_view_set_status (ITIP_VIEW (info->view), _("Tentatively Accepted"));
 				break;
 			case ICAL_PARTSTAT_DECLINED:
-				itip_view_set_status (ITIP_VIEW (pitip->view), _("Declined"));
+				itip_view_set_status (ITIP_VIEW (info->view), _("Declined"));
 				break;
 			case ICAL_PARTSTAT_DELEGATED:
-				itip_view_set_status (ITIP_VIEW (pitip->view), _("Delegated"));
+				itip_view_set_status (ITIP_VIEW (info->view), _("Delegated"));
 				break;
 			default:
-				itip_view_set_status (ITIP_VIEW (pitip->view), _("Unknown"));
+				itip_view_set_status (ITIP_VIEW (info->view), _("Unknown"));
 			}
 		}
 		e_cal_component_free_attendee_list (list);
 	}
 
-	if (pitip->method == ICAL_METHOD_REPLY
-	    || pitip->method == ICAL_METHOD_COUNTER
-	    || pitip->method == ICAL_METHOD_DECLINECOUNTER) {
+	if (info->method == ICAL_METHOD_REPLY
+	    || info->method == ICAL_METHOD_COUNTER
+	    || info->method == ICAL_METHOD_DECLINECOUNTER) {
 		/* FIXME Check spec to see if multiple comments are actually valid */
 		/* Comments for iTIP are limited to one per object */
-		e_cal_component_get_comment_list (pitip->comp, &list);
+		e_cal_component_get_comment_list (info->comp, &list);
 		if (list) {
 			ECalComponentText *text = list->data;
 
 			if (text->value)
-				itip_view_set_comment (ITIP_VIEW (pitip->view), text->value);
+				itip_view_set_comment (ITIP_VIEW (info->view), text->value);
 		}
 		e_cal_component_free_text_list (list);
 	}
 
-	e_cal_component_get_description_list (pitip->comp, &list);
+	e_cal_component_get_description_list (info->comp, &list);
 	for (l = list; l; l = l->next) {
 		ECalComponentText *text = l->data;
 
@@ -2051,14 +2061,14 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	e_cal_component_free_text_list (list);
 
 	if (gstring) {
-		itip_view_set_description (ITIP_VIEW (pitip->view), gstring->str);
+		itip_view_set_description (ITIP_VIEW (info->view), gstring->str);
 		g_string_free (gstring, TRUE);
 	}
 
 	to_zone = calendar_config_get_icaltimezone ();
 
-	e_cal_component_get_dtstart (pitip->comp, &datetime);
-	pitip->start_time = 0;
+	e_cal_component_get_dtstart (info->comp, &datetime);
+	info->start_time = 0;
 	if (datetime.value) {
 		struct tm start_tm;
 
@@ -2067,17 +2077,17 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		if (datetime.value->is_utc)
 			from_zone = icaltimezone_get_utc_timezone ();
 		else if (!datetime.value->is_utc && datetime.tzid)
-			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
+			from_zone = icalcomponent_get_timezone (info->top_level, datetime.tzid);
 		else
 			from_zone = NULL;
 
 		start_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
 
-		itip_view_set_start (ITIP_VIEW (pitip->view), &start_tm);
-		pitip->start_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
+		itip_view_set_start (ITIP_VIEW (info->view), &start_tm);
+		info->start_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
 
-	icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+	icalcomp = e_cal_component_get_icalcomponent (info->comp);
 
 	/* Set the recurrence id */
 	if (check_is_instance (icalcomp) && datetime.value) {
@@ -2088,13 +2098,13 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		recur_id->type = E_CAL_COMPONENT_RANGE_SINGLE;
 		recur_id->datetime.value = &icaltime;
 		recur_id->datetime.tzid = icaltimezone_get_tzid (to_zone);
-		e_cal_component_set_recurid (pitip->comp, recur_id);
+		e_cal_component_set_recurid (info->comp, recur_id);
 		g_free (recur_id); /* it's ok to call g_free here */
 	}
 	e_cal_component_free_datetime (&datetime);
 
-	e_cal_component_get_dtend (pitip->comp, &datetime);
-	pitip->end_time = 0;
+	e_cal_component_get_dtend (info->comp, &datetime);
+	info->end_time = 0;
 	if (datetime.value) {
 		struct tm end_tm;
 
@@ -2103,30 +2113,30 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		if (datetime.value->is_utc)
 			from_zone = icaltimezone_get_utc_timezone ();
 		else if (!datetime.value->is_utc && datetime.tzid)
-			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
+			from_zone = icalcomponent_get_timezone (info->top_level, datetime.tzid);
 		else
 			from_zone = NULL;
 
 		end_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
 
-		itip_view_set_end (ITIP_VIEW (pitip->view), &end_tm);
-		pitip->end_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
+		itip_view_set_end (ITIP_VIEW (info->view), &end_tm);
+		info->end_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
 	e_cal_component_free_datetime (&datetime);
 
 	/* Recurrence info */
 	/* FIXME Better recurring description */
-	if (e_cal_component_has_recurrences (pitip->comp)) {
+	if (e_cal_component_has_recurrences (info->comp)) {
 		/* FIXME Tell the user we don't support recurring tasks */
-		switch (pitip->type) {
+		switch (info->type) {
 		case E_CAL_SOURCE_TYPE_EVENT:
-			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This meeting recurs"));
+			itip_view_add_upper_info_item (ITIP_VIEW (info->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This meeting recurs"));
 			break;
 		case E_CAL_SOURCE_TYPE_TODO:
-			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This task recurs"));
+			itip_view_add_upper_info_item (ITIP_VIEW (info->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This task recurs"));
 			break;
 		case E_CAL_SOURCE_TYPE_JOURNAL:
-			itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
+			itip_view_add_upper_info_item (ITIP_VIEW (info->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
 			break;
 		default:
 			g_assert_not_reached ();
@@ -2135,25 +2145,26 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	}
 
 	if (response_enabled) {
-		g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
+		g_signal_connect (info->view, "response", G_CALLBACK (view_response_cb), info);
 
-		itip_view_set_show_free_time_check (ITIP_VIEW (pitip->view), pitip->type == E_CAL_SOURCE_TYPE_EVENT && (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST));
+		itip_view_set_show_free_time_check (ITIP_VIEW (info->view), info->type == E_CAL_SOURCE_TYPE_EVENT && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
 
-		if (pitip->calendar_uid)
-			pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);
+		if (info->calendar_uid)
+			info->current_ecal = start_calendar_server_by_uid (info, info->calendar_uid, info->type);
 		else {
-			find_server (pitip, pitip->comp);
-			set_buttons_sensitive (pitip);
+			find_server (info, info->comp);
+			set_buttons_sensitive (info);
 		}
 	}
 
 	return TRUE;
 }
 
+
 static void
-pitip_free (EMFormatHTMLPObject *pobject)
+puri_free (EMFormatPURI *puri)
 {
-	FormatItipPObject *pitip = (FormatItipPObject *) pobject;
+	struct _itip_puri *pitip = (struct _itip_puri*) puri;
 	int i;
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
@@ -2201,22 +2212,31 @@ pitip_free (EMFormatHTMLPObject *pobject)
 	pitip->delegator_name = NULL;
 	g_free (pitip->my_address);
 	pitip->my_address = NULL;
+	g_free (pitip->uid);
 }
+
 
 void
 format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
-	FormatItipPObject *pitip;
+	EMFormatHTMLPObject *pobj;
 	GConfClient *gconf;
 	char *classid;
+	struct _itip_puri *puri;
 
 	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
 
-	pitip = (FormatItipPObject *) em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (FormatItipPObject), classid, target->part, format_itip_object);
-	pitip->pobject.free = pitip_free;
+	puri = (struct _itip_puri *)em_format_add_puri(target->format, sizeof(struct _itip_puri), classid, target->part, itip_attachment_frame);
+
+	pobj = em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
 
 	gconf = gconf_client_get_default ();
-	pitip->delete_message = gconf_client_get_bool (gconf, GCONF_KEY_DELETE, NULL);
+	puri->delete_message = gconf_client_get_bool (gconf, GCONF_KEY_DELETE, NULL);
+	puri->folder = ((EMFormat *) target->format)->folder;
+	puri->uid = g_strdup (((EMFormat *) target->format)->uid);
+	puri->msg = ((EMFormat *) target->format)->message;
+	puri->part = target->part;
+	puri->puri.free = puri_free;
 	g_object_unref (gconf);
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
@@ -2384,5 +2404,15 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_widget_show_all (page);
 
 	return page;
+}
+
+static void
+itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+{
+	struct _itip_puri *info = (struct _itip_puri *)puri;
+
+	d(printf("writing to frame content, handler is '%s'\n", info->handle->mime_type));
+	info->handle->handler(emf, stream, info->puri.part, info->handle);
+	camel_stream_close(stream);
 }
 
