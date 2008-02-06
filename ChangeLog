@@ -1,3 +1,10 @@
+2008-02-06  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: Correct file names that have had the
+	@BASE_VERSION@ dropped. Look for message locales first from
+	share/locale, as that is where they get stuffed when building
+	against a properly built GNU gettext.
+
 2008-01-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in: Evolution 2.21.91 version bump.

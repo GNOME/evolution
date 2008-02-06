@@ -33,19 +33,19 @@ bin/libecontacteditor-0.dll
 bin/libecontactlisteditor-0.dll
 bin/libevolution-calendar-importers-0.dll
 bin/libevolution-mail-importers-0.dll
-bin/evolution-@BASE_VERSION@.exe
-lib/bonobo/servers/GNOME_Evolution_Shell_@BASE_VERSION@.server
-lib/bonobo/servers/GNOME_Evolution_Addressbook_@BASE_VERSION@.server
-lib/bonobo/servers/GNOME_Evolution_Calendar_AlarmNotify_@BASE_VERSION@.server
-lib/bonobo/servers/GNOME_Evolution_Calendar_@BASE_VERSION@.server
-lib/bonobo/servers/GNOME_Evolution_Mail_@BASE_VERSION@.server
+bin/evolution.exe
+lib/bonobo/servers/GNOME_Evolution_Shell.server
+lib/bonobo/servers/GNOME_Evolution_Addressbook.server
+lib/bonobo/servers/GNOME_Evolution_Calendar_AlarmNotify.server
+lib/bonobo/servers/GNOME_Evolution_Calendar.server
+lib/bonobo/servers/GNOME_Evolution_Mail.server
 lib/evolution/@BASE_VERSION@/components/libevolution-addressbook.dll
 lib/evolution/@BASE_VERSION@/components/libevolution-calendar.dll
 lib/evolution/@BASE_VERSION@/components/libevolution-mail.dll
 libexec/evolution/@BASE_VERSION@/evolution-addressbook-export.exe
 libexec/evolution/@BASE_VERSION@/evolution-alarm-notify.exe
-share/mime-info/evolution-@BASE_VERSION@.keys
-share/mime-info/evolution-@BASE_VERSION@.mime
+share/mime-info/evolution.keys
+share/mime-info/evolution.mime
 share/evolution/@BASE_VERSION@/errors
 share/evolution/@BASE_VERSION@/glade
 share/evolution/@BASE_VERSION@/ecps
@@ -61,10 +61,14 @@ share/evolution/@BASE_VERSION@/views
 etc/gconf
 EOF
 
-zip -r $ZIP share/pixmaps share/evolution/@BASE_VERSION@/images
+zip -r $ZIP share/evolution/@BASE_VERSION@/images
 zip $ZIP lib/evolution/@BASE_VERSION@/plugins/*.eplug lib/evolution/@BASE_VERSION@/plugins/*.dll lib/evolution/@BASE_VERSION@/plugins/*.xml lib/evolution/@BASE_VERSION@/plugins/*.glade
 
-zip $ZIP lib/locale/*/LC_MESSAGES/evolution-@BASE_VERSION@.mo
+if [ -f share/locale/de/LC_MESSAGES/evolution-@BASE_VERSION@.mo ]; then
+  zip $ZIP share/locale/*/LC_MESSAGES/evolution-@BASE_VERSION@.mo
+else
+  zip $ZIP lib/locale/*/LC_MESSAGES/evolution-@BASE_VERSION@.mo
+fi
 
 rm $DEVZIP
 zip -r $DEVZIP -@ <<EOF
@@ -90,11 +94,10 @@ lib/libecontacteditor.dll.a
 lib/libecontactlisteditor.dll.a
 lib/libevolution-calendar-importers.dll.a
 lib/libevolution-mail-importers.dll.a
-lib/pkgconfig/evolution-shell-@BASE_VERSION@.pc
-lib/pkgconfig/evolution-plugin-@BASE_VERSION@.pc
+lib/pkgconfig/evolution-shell.pc
+lib/pkgconfig/evolution-plugin.pc
 include/evolution-@BASE_VERSION@/e-conduit
 include/evolution-@BASE_VERSION@/e-util
-include/evolution-@BASE_VERSION@/a11y
 include/evolution-@BASE_VERSION@/table
 include/evolution-@BASE_VERSION@/text
 include/evolution-@BASE_VERSION@/misc
