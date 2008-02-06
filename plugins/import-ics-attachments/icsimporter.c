@@ -64,7 +64,6 @@ static void prepare_tasks (icalcomponent *icalcomp, GList *vtodos);
 static void import_items(ICalImporterData *icidata);
 static gboolean update_objects (ECal *client, icalcomponent *icalcomp);
 static void dialog_response_cb (GtkDialog *dialog, gint response_id, ICalImporterData *icidata);
-static void dialog_close_cb (GtkDialog *dialog, ICalImporterData *icidata);
 static void ical_import_done(ICalImporterData *icidata);
 static void init_widgets (char *path);
 static icalcomponent_kind get_menu_type (void *data);
@@ -212,10 +211,6 @@ init_widgets(char *path)
 			  "response",
 			  G_CALLBACK (dialog_response_cb),
 			  icidata);
-	g_signal_connect (dialog,
-			  "close",
-			  G_CALLBACK (dialog_close_cb),
-			  icidata);
 
 	vbox = GTK_DIALOG(dialog)->vbox;
 	hbox = gtk_hbox_new (FALSE, FALSE);
@@ -275,6 +270,7 @@ init_widgets(char *path)
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 210,340);
 	gtk_widget_show_all (dialog);
 	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -287,15 +283,8 @@ dialog_response_cb (GtkDialog *dialog, gint response_id, ICalImporterData *icida
 
 		case GTK_RESPONSE_CANCEL :
 		case GTK_RESPONSE_DELETE_EVENT :
-			gtk_signal_emit_by_name ((GtkObject *)dialog, "close");
 		break;
 	}
-}
-
-static void
-dialog_close_cb (GtkDialog *dialog, ICalImporterData *icidata)
-{
-	gtk_widget_destroy ((GtkWidget *)dialog);
 }
 
 /* This removes all components except VEVENTs and VTIMEZONEs from the toplevel */
@@ -421,7 +410,6 @@ ical_import_done(ICalImporterData *icidata)
 {
 	g_object_unref (icidata->client);
 	icalcomponent_free (icidata->icalcomp);
-	gtk_signal_emit_by_name (GTK_OBJECT (icidata->window), "close");
 	g_free (icidata);
 }
 

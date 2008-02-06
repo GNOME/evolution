@@ -1,3 +1,11 @@
+2008-02-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #514622
+
+	* icsimporter.c: (dialog_close_cb): Drop this function.
+	* icsimporter.c: (init_widgets), (dialog_response_cb),
+	(ical_import_done): Do not call "close" on already closed dialog.
+
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
 	* icsimporter.c: (prepare_events), (prepare_tasks):
