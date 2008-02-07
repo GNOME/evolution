@@ -1,3 +1,10 @@
+2008-02-07  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #514771
+
+	* tnef-plugin.c: (saveVCalendar): Fixed a crasher while decoding 
+	TNEF attachments. 
+
 2007-08-27  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* tnef-plugin.c: (e_plugin_lib_enable): Avoid reentrancy in enable.

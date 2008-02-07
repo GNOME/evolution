@@ -1030,7 +1030,7 @@ void saveVCalendar(TNEFStruct *tnef) {
 	    buf = (variableLength *)g_malloc (sizeof(variableLength));
             if ((buf->data = DecompressRTF(filename, &(buf->size))) != NULL) {
                 fprintf(fptr, "DESCRIPTION:");
-                printRtf(fptr, &buf);
+                printRtf(fptr, buf);
                 free(buf->data);
             }
 
