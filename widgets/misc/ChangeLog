@@ -1,3 +1,11 @@
+2008-02-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #249501
+
+	* e-attachment.c: (attachment_guess_mime_type):
+	gnome_vfs_get_file_info expects URI,
+	thus if file_name contains '%' it failed.
+
 2007-01-25  Johnny Jacob  <jjohnny@novell.com>
   
   	* e-filter-bar.h : Added a cameloperation cancel field for vfolder

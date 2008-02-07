@@ -235,6 +235,21 @@ attachment_guess_mime_type (const char *file_name)
 					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+
+	if (result != GNOME_VFS_OK) {
+		CamelURL *url;
+		char *uri;
+
+		url = camel_url_new ("file://", NULL);
+		camel_url_set_path (url, file_name);
+		uri = camel_url_to_string (url, 0);
+		camel_url_free (url);
+
+		result = gnome_vfs_get_file_info (uri, info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE | GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+
+		g_free (uri);
+	}
+
 	if (result == GNOME_VFS_OK) {
 		gchar *content = NULL;
 
