@@ -1,5 +1,12 @@
 2008-02-07  Paul Bolle  <pebolle@tiscali.nl>
 
+	** Fix for bug #514736
+
+	* org-gnome-tnef-attachments.eplug.xml: Added 'application/ms-tnef' 
+	MIME type for TNEF attachment decoding. 
+
+2008-02-07  Paul Bolle  <pebolle@tiscali.nl>
+
 	** Fix for bug #514771
 
 	* tnef-plugin.c: (saveVCalendar): Fixed a crasher while decoding 
