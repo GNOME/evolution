@@ -36,7 +36,12 @@ DOC_FIGURES =  \
 	figures/evo_cal_prop_a.png		\
 	figures/evo_calstatus_a.png		\
 	figures/evo_contacteditor_a.png 	\
+	figures/evo_crash_recovery.png		\
+	figures/evo_custom_header.png		\
+	figures/evo_debuglogs_a.png		\
 	figures/evo_delegate_permission_a.png	\
+	figures/evo_dialog-info.png		\
+	figures/evo_dialog-warning.png		\
 	figures/evo_edit_rule_a.png 		\
 	figures/evo_edit_search.png 		\
 	figures/evo_email_a.png 		\
@@ -50,6 +55,8 @@ DOC_FIGURES =  \
 	figures/evo_imapheader_a.png 		\
 	figures/evo_imapreceive_a.png 		\
 	figures/evo_import_asst_a.png 		\
+	figures/evo_label_a.PNG			\
+	figures/evo_labels_a.png		\
 	figures/evo_mail_a.png 			\
 	figures/evo_mail_callout_a.png 		\
 	figures/evo_maildirreceive_a.png 	\
@@ -98,6 +105,7 @@ DOC_FIGURES =  \
 	figures/full-5.png 			\
 	figures/full-6.png 			\
 	figures/full-7.png 			\
+	figures/google_cal_view.png		\
 	figures/mail-druid-pic.png 		\
 	figures/mailer_preferences.png 		\
 	figures/mail-inbox.png 			\

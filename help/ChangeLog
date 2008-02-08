@@ -1,3 +1,15 @@
+2008-02-08  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	** Fixes #511600, #511602
+	
+	* C/figures, Makefile.am : Added new figures.
+	
+	* C/evolution.xml : New features until Jan 2008 - 
+	google calender, crash detection, non intrusive error message, 
+	advanced conf option for Junk mails, magic space bar.
+	
 2008-02-04  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation

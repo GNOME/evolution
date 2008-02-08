@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
  <!ENTITY appname "Evolution" >
- <!ENTITY appversion "2.12" >
+ <!ENTITY appversion "2.22" >
  <!ENTITY z-3rdParty "*" >
  <!ENTITY z-SM "(SM)" >
  <!ENTITY z-CM "(CM)" >
@@ -27,20 +27,20 @@
    User's Guide to the Evolution Groupware Suite and Email Client
    </title>
    <date>
-     2002-2007
+     2002-2008
    </date>
    <revhistory>
      <revision>
        <revnumber>&appversion;</revnumber>
-       <date>September 2007</date>
+       <date>March 2008</date>
        <revdescription>
 	 <para role="author">Radhika PC</para>
 	 <para role="publisher">Novell, Inc</para>
        </revdescription>
      </revision>
      <revision>
-       <revnumber>2.10</revnumber>
-       <date>March 14, 2007</date>
+       <revnumber>2.12</revnumber>
+       <date>September 2007</date>
        <revdescription>
 	 <para role="author">Radhika PC</para>
 	 <para role="publisher">Novell, Inc</para>
@@ -75,7 +75,7 @@
    </abstract>
   <productname>&appname;™</productname>
   <productnumber>&appversion;</productnumber>
-  <invpartnumber>September 2007</invpartnumber>
+  <invpartnumber>February 2008</invpartnumber>
   <title>User guide</title>
  </bookinfo>
 
@@ -1018,6 +1018,12 @@
    </section>
   </section>
 
+  <section id="b1a5acwx">
+   <title>Crash Recovery</title>
+   <para>Evolution displays a crash detection message when you restart it after a crash.</para>
+   <mediaobject id="b1a5aezg"><imageobject><imagedata format="PNG" fileref="figures/evo_crash_recovery.png"/></imageobject></mediaobject>
+   <para>Click Ignore to restore the preview pane displayed when Evolution was crashed. If you click Recover, Evolution opens with all preview panes hidden.</para>
+  </section>
   <section id="bsekq8r">
    <title>Command Line Options</title>
    <para>Evolution has a number of command line options that you can use. You can find the full list by entering the command <command>man evolution</command> or <command>evolution --help</command>. The most important command line options are:</para>
@@ -1171,11 +1177,9 @@
 
    <section id="b17qh4uo">
     <title>New Mail Notification</title>
-    <para>Evolution notifies you of new e-mail arriving. When you receive a new mail in your inbox, Evolution display an e-mail notifier at the notification area for a few seconds.</para>
-    <mediaobject id="b17qhblw"><imageobject><imagedata format="PNG" fileref="figures/evo_mail_notifier.png"/></imageobject></mediaobject>
-    <para>The e-mail notification feature also includes a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> that disappears when you open the new e-mail. You can also click the icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> to turn the notifier off.</para>
-    <mediaobject id="b17qhgui"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
-    
+    <para>Evolution notifies you of new e-mail arriving. When you receive a new mail in your inbox,  a blinking icon appears on the Switcher.</para>
+    <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
+    <para>You can also view a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/>  in the notification area that disappears when you open the new e-mail. You can keep the mose over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
    </section>
 
    <section id="b131ni8g">
@@ -1517,7 +1521,7 @@
 
     <section id="b17rcxmf">
      <title>Attachment Reminder:</title>
-     <para>With Attachment plugin enabled, Evolution reminds you to attach a file to your email if it appears that you have not. If it finds that you have missed to attach a file, a message is displayed as shown below:</para>
+     <para>With Attachment Reminder plugin enabled, Evolution reminds you to attach a file to your email if it appears that you have not. If it finds that you have missed to attach a file, a message is displayed as shown below:</para>
      <mediaobject id="b17rcrvr"><imageobject><imagedata format="PNG" fileref="figures/attach_reminder_a.png.png"/></imageobject></mediaobject>
      <orderedlist>
       <listitem id="b17rctav">
@@ -1535,8 +1539,11 @@
        
       </listitem>
       <listitem id="b17rcq0r">
-       <para>Click Add to add keywords such as “Attach” or “Attachment”.</para>
-       <para>Based on the keywords you have added here, it searches every email you are sending. If it finds the keywords such as “attach” in your e-mail and no actual attached file, you are reminded of missing attachments.</para>
+       <para>Click Add to add keywords such as &ldquo;Attach&rdquo; or &ldquo;Attachment&rdquo;.</para>
+       <para>Based on the keywords you have added here, it searches every email you are sending. If it finds the keywords such as &ldquo;attach&rdquo; in your e-mail and no actual attached file, you are reminded of missing attachments.</para>
+      </listitem>
+      <listitem id="b1a57zh3">
+       <para>To edit any of the existing keywords, select the keyword and click Edit and modify.</para>
       </listitem>
      </orderedlist>
     </section>
@@ -2094,7 +2101,16 @@
     <title>Getting and Using GPG Public Keys</title>
     <para>To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to get the public key and add it to your keyring.</para>
     <para>To get public keys from a public key server, enter the command<command> gpg --recv-keys --keyserver wwwkeys.pgp.net <varname>keyid</varname></command>, substituting <varname>keyid</varname> for your recipient's ID. You need to enter your password, and the ID is automatically added to your keyring.</para>
-    <para>If someone sends you a public key directly, save it as a plain text file and enter the command <command>gpg <varname>--filename</varname></command> to add it to your keyring.</para>
+    <note>
+     <para>The domain &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; is assigned to multiple hosts in various networks. 
+     The gpg utility tries to connect to one in the current network; and if that particular host is down, 
+     it fails with a time-out.</para>
+     <para>To avoid this, Type <command>$ host wwwkeys.pgp.net</command> in a terminal console and get the IP address of the hosts. 
+      You can ping each of them to find the one which is up and running. Now, you can replace wwwkeys.pgp.net in the gpg --recv-keys
+      --keyserver wwwkeys.pgp.net keyid command with that 
+      explicit IP number as returned by the host utility.</para> 
+    </note>
+    <para>If someone sends you a public key directly, save it as a plain text file and enter the command <command>gpg <varname>--import</varname></command> to add it to your keyring.</para>
    </section>
 
    <section id="encrypt-evo-integ">
@@ -3670,8 +3686,56 @@
     </tip>
     <para>Click Mark as default folder if you want to mark this folder as your default calendar folder.</para>
    </section>
+  
+   <section id="b1a47igh">
+    <title>Google Calendar </title>
+    <para>Evolution allows you to access your Google calendar. You can view the Google calendar offline and create, modify and delete the calendar items online.</para>
+    <para>To integrate Google calendar to Evolution:</para>
+    <orderedlist>
+     <listitem id="b1a47ou5">
+      <para>Click New, then select Calendar to open the New Calendar dialog.</para>
+     </listitem>
+     <listitem id="b1a49odb">
+      <para>Select Google from the Type drop-down list.</para>
+      <mediaobject id="b1a4ahp1"><imageobject><imagedata format="PNG" fileref="figures/google_cal_view.png"/></imageobject></mediaobject>
+      
+     </listitem>
+     <listitem id="b1a4aebo">
+      <para>Enter the following:</para>
+      <itemizedlist>
+       <listitem>
+        <formalpara id="b1a4aey4">
+         <title>Name:</title>
+         <para>Specify a name for the Google calendar</para>
+        </formalpara>
+       </listitem>
+       <listitem>
+        <formalpara id="b1a4af9o">
+         <title>Username:</title>
+         <para>Specify your username for your Google account</para>
+        </formalpara>
+       </listitem>
+      </itemizedlist>
+     </listitem>
+     <listitem id="b1a4ah6w">
+      <para>Set the time to automatically refresh the calendar. </para>
+     </listitem>
+     <listitem id="b1a4ak4r">
+      <para>Select Use SSL to enable SSL for communication between Evolution and Google server.</para>
+     </listitem>
+     <listitem id="b1a4amec">
+      <para>If you want to set a color label for the calendar, click the Color tab and select the desired color and click OK.</para>
+     </listitem>
+     <listitem id="b1a4ao1h">
+      <para>If you want to view the calendar items offline, select Copy calendar content locally for offline operation check box.</para>
+      <para>If you have marked for offline operation, you cannot modify or create the calendar items.</para>
+     </listitem>
+     <listitem id="b1a4awms">
+      <para>Click OK to save your modifications.</para>
+     </listitem>
+    </orderedlist>
+   </section>
   </section>
-
   <section id="usage-calendar-apts">
    <title>Scheduling With the Evolution Calendar</title>
    <para>There are two types of events you can schedule with Evolution: appointments and meetings. An appointment is an event you schedule for yourself only, and a meeting is an event that you schedule multiple people for. You can also use the busy/free search for meetings to determine the availability of invitees.</para>
@@ -6218,6 +6282,9 @@
    <listitem>
     <para><link linkend="bshoty0">Certificates</link></para>
    </listitem>
+   <listitem>
+    <para><link linkend="b1a4ol61">Debug Logs</link></para>
+   </listitem>
   </itemizedlist>
   <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column, similar to the Evolution switcher, that lets you choose which portion of  Evolution to customize. The right part of the window is where you make your actual changes.</para>
   <mediaobject id="config-prefs-mail-fig"><imageobject><imagedata format="PNG" fileref="figures/mailer_preferences.png"/></imageobject></mediaobject>
@@ -6390,7 +6457,7 @@
     </formalpara>
     <formalpara id="bsbho3f">
      <title>Message Display:</title>
-     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable ‘Fall back to threading message by subject’ to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling ‘Shrink To/CC/BCC header to’ option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. </para>
+     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable ‘Fall back to threading message by subject’ to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling ‘Shrink To/CC/BCC header to’ option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders. </para>
     </formalpara>
     <para>To group the messages as threads select View &gt; Group By threads or press Ctrl +T.</para>
     <formalpara id="bsbhq3y">
@@ -6422,8 +6489,39 @@
    </section>
 
    <section id="mail-prefs-colors">
-    <title>Color Preferences</title>
-    <para>The Mail Color preferences tool lets you select color labels for different kinds of messages. Click a color to change the color, or change the label associated with that color. Click revert to go back to previous settings.</para>
+    <title>Label Preferences</title>
+    <para>The Label preferences option lets you add color labels for different kinds of messages. You can add, edit or remove the labels. You can also assign colors to each label you have created. </para>
+    <mediaobject id="b1ahji7w"><imageobject><imagedata format="PNG" fileref="figures/evo_labels_a.png"/></imageobject></mediaobject>
+    <note>
+     <para>You cannot remove the default labels.</para>
+    </note>
+    <orderedlist>
+     <listitem id="b1a58p9g">
+      <para>Click Add and specify the name in the Label Name dialog.</para>
+     </listitem>
+     <listitem id="b1a58pyg">
+      <para>Click the color tab and select a color, then click OK.</para>
+     </listitem>
+    </orderedlist>
+    <para>To edit label properties:</para>
+    <orderedlist>
+     <listitem id="b1a58tbo">
+      <para>Select the label and click Edit.</para>
+     </listitem>
+     <listitem id="b1a58vfx">
+      <para>Edit name and color, then click OK.</para>
+     </listitem>
+    </orderedlist>
+    <para>To assign a label for mail:</para>
+    <orderedlist>
+     <listitem id="b1a58ynk">
+      <para>Right-click the message from the message preview.</para>
+     </listitem>
+     <listitem id="b1a58zoy">
+      <para>Click Label and select the desired label for the message.</para>
+      <mediaobject id="b1a59ar0"><imageobject><imagedata format="PNG" fileref="figures/evo_label_a.png"/></imageobject></mediaobject>
+     </listitem>
+    </orderedlist>
    </section>
 
    <section id="mail-prefs-headers">
@@ -6801,6 +6899,24 @@
      </listitem>
     </orderedlist>
    </section>
+  </section>
+  
+  <section id="b1a4ol61">
+   <title>Debug Logs</title>
+   <para>Evolution allows you to view the error logs and set the display duration for the error message in the statusbar. When an error occurs, statusbar display the error message for the specified duration and then it is moved to the debug file. </para>
+   <orderedlist>
+    <listitem id="b1a4opqg">
+     <para>From Help menu, select Debug Logs.</para>
+     <mediaobject id="b1a4or91"><imageobject><imagedata format="PNG" fileref="figures/evo_debuglogs_a.png"/></imageobject></mediaobject>
+    </listitem>
+    <listitem id="b1a4orv0">
+     <para>Specify the display duration for the error messages. </para>
+     <para>The messages remain in the statusbar for this specified time.</para>
+    </listitem>
+   </orderedlist>
+   <note>
+    <para>The <inlinegraphic format="PNG" fileref="figures/evo_dialog-warning.png"/> icon indicates that the error message displayed is a warning. The <inlinegraphic format="PNG" fileref="figures/evo_dialog-info.png"/> icon is displayed with a &ldquo;for-your-information&rdquo; message.</para>
+   </note>
   </section>
  </chapter>
 
