@@ -533,7 +533,8 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		ee_build_label(oerr, dgettext(table->translation_domain, e->primary), args);
 		perr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
-	}
+	} else
+		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
 	
 	if (e->secondary) {
 		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args);
@@ -638,6 +639,36 @@ e_error_run(GtkWindow *parent, const char *tag, const char *arg0, ...)
 	gtk_widget_destroy(w);
 
 	return res;
+}
+
+/**
+ * e_error_count_buttons:
+ * @dialog: a #GtkDialog
+ *
+ * Counts the number of buttons in @dialog's action area.
+ *
+ * Returns: number of action area buttons
+ **/
+guint
+e_error_count_buttons (GtkDialog *dialog)
+{
+	GtkContainer *action_area;
+	GList *children, *iter;
+	guint n_buttons = 0;
+
+	g_return_val_if_fail (GTK_DIALOG (dialog), 0);
+
+	action_area = GTK_CONTAINER (dialog->action_area);
+	children = gtk_container_get_children (action_area);
+
+	/* Iterate over the children looking for buttons. */
+	for (iter = children; iter != NULL; iter = iter->next)
+		if (GTK_IS_BUTTON (iter->data))
+			n_buttons++;
+
+	g_list_free (children);
+
+	return n_buttons;
 }
 
 static void

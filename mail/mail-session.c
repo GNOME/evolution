@@ -342,23 +342,31 @@ user_message_exec (struct _user_message_msg *m)
 		user_message_dialog, "allow_shrink", TRUE,
 		"allow_grow", TRUE, NULL);
 
-	/* We only need to wait for the result if we allow cancel
-	 * otherwise show but send result back instantly */
-	if (m->allow_cancel && m->ismain) {
-		gint response = gtk_dialog_run (user_message_dialog);
-		user_message_response (user_message_dialog, response, m);
+	/* Use the number of dialog buttons as a heuristic for whether to
+	 * emit a status bar message or present the dialog immediately, the
+	 * thought being if there's more than one button then something is
+	 * probably blocked until the user responds. */
+	if (e_error_count_buttons (user_message_dialog) > 1) {
+		if (m->ismain) {
+			gint response;
+
+			response = gtk_dialog_run (user_message_dialog);
+			user_message_response (
+				user_message_dialog, response, m);
+		} else {
+			g_signal_connect (
+				user_message_dialog, "response",
+				G_CALLBACK (user_message_response), m);
+			gtk_widget_show (user_message_dialog);
+		}
 	} else {
-		g_object_set_data ((GObject *) user_message_dialog, "response-handled", GINT_TO_POINTER(TRUE));
 		g_signal_connect (
 			user_message_dialog, "response",
 			G_CALLBACK (user_message_response), m);
-
-		/* If the dialog has no "primary" text, there's nothing to
-		 * display in the status bar.  So just show the dialog. */
-		if (g_object_get_data (user_message_dialog, "primary"))
-			em_utils_show_error_silent (user_message_dialog);
-		else
-			gtk_widget_show (user_message_dialog);
+		g_object_set_data (
+			user_message_dialog, "response-handled",
+			GINT_TO_POINTER (TRUE));
+		em_utils_show_error_silent (user_message_dialog);
 	}
 }
 

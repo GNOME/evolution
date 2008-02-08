@@ -1,3 +1,15 @@
+2008-02-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #509741
+
+	* e-error.c (e_error_newv):
+	If the error dialog has no primary text, fallback to the window
+	title for the "primary" data key.  This is what gets displayed
+	in the status bar.
+
+	* e-error.c (e_error_count_buttons):
+	New function counts buttons in a dialog's action area.
+
 2008-01-24  Tor Lillqvist  <tml@novell.com>
 
 	* e-icon-factory.c (e_icon_factory_init): Construct pathname under

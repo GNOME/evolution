@@ -1,3 +1,12 @@
+2008-02-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #509741
+
+	* mail-session.c (user_message_exec):
+	Use the number of dialog buttons as a heuristic for whether to
+	display a message in the status bar or immediately present the
+	dialog to the user.
+
 2008-01-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-send-recv.c:
