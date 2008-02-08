@@ -1104,6 +1104,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 		for (l = uids; l != NULL; l = l->next) {
 			alarm = e_cal_component_get_alarm (comp, l->data);
 			e_cal_component_alarm_get_trigger (alarm, &trigger);
+			e_cal_component_alarm_free (alarm);
 
 			if ((trigger.type == E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START
 			     && trigger.u.rel_duration.is_neg)) {
@@ -1136,7 +1137,6 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 				local->appt->alarm = 1;
 				break;
 			}
-			e_cal_component_alarm_free (alarm);
 		}
 		cal_obj_uid_list_free (uids);
 	}

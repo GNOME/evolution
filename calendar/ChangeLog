@@ -1,3 +1,11 @@
+2008-02-08  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fixes for bug #395939
+
+	* gui/alarm-notify/alarm-queue.c: (update_cqa):
+	* conduits/calendar/calendar-conduit.c: (local_record_from_comp):
+	Free alarm properly.
+
 2008-01-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #240073

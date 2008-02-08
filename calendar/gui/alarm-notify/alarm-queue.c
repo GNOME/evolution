@@ -2179,11 +2179,16 @@ update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 	for (qa_list = cqa->queued_alarms; qa_list; qa_list = qa_list->next) {
 		QueuedAlarm *qa = qa_list->data;
 		char *check_auid = (char *) qa->instance->auid;
+		ECalComponentAlarm *alarm;
 
-		if (e_cal_component_get_alarm (newcomp, check_auid))
+		alarm = e_cal_component_get_alarm (newcomp, check_auid);
+		if (alarm) {
+			e_cal_component_alarm_free (alarm);
 			continue;
-		else {
-			if (e_cal_component_get_alarm (oldcomp, check_auid)) { /* Need to update QueuedAlarms */
+		} else {
+			alarm = e_cal_component_get_alarm (oldcomp, check_auid);
+			if (alarm) { /* Need to update QueuedAlarms */
+				e_cal_component_alarm_free (alarm);
 				if (alarms == NULL) {
 					d(printf("%s:%d (update_cqa) - No alarms found in the modified component\n",__FILE__, __LINE__));
 					break;
