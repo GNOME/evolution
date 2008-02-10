@@ -120,7 +120,8 @@
 
  <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
   <_primary>Cannot add new contact</_primary>
-  <_secondary>The address book {0} is read only, thus you cannot add contacts there. Select other address book, please.</_secondary>
+  <!-- For Translators: {0} is the name of the address book source -->
+  <_secondary>'{0}' is a read-only address book source. Switch to Contacts View and highlight an address book that can accept contacts.</_secondary>
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 

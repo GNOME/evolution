@@ -1,3 +1,13 @@
+2008-02-10  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #510642
+
+	* gui/dialogs/comp-editor.c: (prompt_and_save_changes),
+	(menu_file_save_cb):
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_for):
+	* calendar.error.xml: Improved string for read-only-calendar 
+	error-message. 
+
 2008-02-08  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fixes for bug #395939

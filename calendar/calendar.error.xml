@@ -230,7 +230,8 @@
  
  <error id="prompt-read-only-cal" type="error" default="GTK_RESPONSE_YES">
   <_primary>Cannot create a new event</_primary>
-  <_secondary>You have a read-only calendar source selected. Change to Calendar View and highlight a calendar that can accept appointments.</_secondary>
+  <!-- For Translators: {0} is the name of the calendar source -->
+  <_secondary>'{0}' is a read-only calendar source. Switch to Calendar View and highlight a calendar that can accept appointments.</_secondary>
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 

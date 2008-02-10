@@ -378,9 +378,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Show the sender email in the messages column in the message list</short>
+         <short>Sender email-address column in the message list</short>
          <long>
-          Show the email of the sender in the messages composite column in the message list.
+          Show the email-address of the sender in a separate column in the message list.
          </long>
       </locale>
     </schema>
@@ -956,9 +956,9 @@
       <type>int</type>
       <default>60</default>
       <locale name="C">
-         <short>Amount of time in seconds the error should be showed on the status bar.</short>
+         <short>Amount of time in seconds the error should be shown on the status bar.</short>
          <long>
-	Amount of time in seconds the error should be showed on the status bar.
+	Amount of time in seconds the error should be shown on the status bar.
          </long>
       </locale>
     </schema>
