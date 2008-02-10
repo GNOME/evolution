@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-30 18:18+0000\n"
-"PO-Revision-Date: 2008-01-30 21:09+0100\n"
+"POT-Creation-Date: 2008-02-10 17:03+0000\n"
+"PO-Revision-Date: 2008-02-10 19:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -345,7 +345,16 @@ msgstr "Conmutar barra de adjuntos"
 msgid "activate"
 msgstr "activar"
 
-#: ../addressbook/addressbook.error.xml.h:1
+#. For Translators: {0} is the name of the address book source
+#: ../addressbook/addressbook.error.xml.h:2
+msgid ""
+"'{0}' is a read-only address book source. Switch to Contacts View and "
+"highlight an address book that can accept contacts."
+msgstr ""
+"«{0}» es una fuente de libreta de direcciones de sólo lectura. Cambie a la vista "
+"de contactos y resalte una libreta de direcciones que pueda aceptar contactos."
+
+#: ../addressbook/addressbook.error.xml.h:3
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
@@ -353,23 +362,23 @@ msgstr ""
 "Ya existe un contacto con esa dirección. ¿Quiere añadir una tarjeta nueva "
 "con la misma dirección de todas formas?"
 
-#: ../addressbook/addressbook.error.xml.h:2
+#: ../addressbook/addressbook.error.xml.h:4
 msgid "Address '{0}' already exists."
 msgstr "La dirección «{0}» ya existe."
 
-#: ../addressbook/addressbook.error.xml.h:3
+#: ../addressbook/addressbook.error.xml.h:5
 msgid "Cannot add new contact"
 msgstr "No se puede añadir un contacto nuevo"
 
-#: ../addressbook/addressbook.error.xml.h:4
+#: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
 msgstr "El contacto no se puede mover."
 
-#: ../addressbook/addressbook.error.xml.h:5
+#: ../addressbook/addressbook.error.xml.h:7
 msgid "Category editor not available."
 msgstr "No hay un editor de categorías disponible."
 
-#: ../addressbook/addressbook.error.xml.h:6
+#: ../addressbook/addressbook.error.xml.h:8
 msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
@@ -380,15 +389,15 @@ msgstr ""
 "distinguen las mayúsculas, su tecla de bloqueo de mayúsculas puede estar "
 "activada."
 
-#: ../addressbook/addressbook.error.xml.h:7
+#: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
 msgstr "No es posible obtener el esquema de información del servidor LDAP."
 
-#: ../addressbook/addressbook.error.xml.h:8
+#: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove addressbook."
 msgstr "No es posible eliminar la libreta de direcciones."
 
-#: ../addressbook/addressbook.error.xml.h:9
+#: ../addressbook/addressbook.error.xml.h:11
 msgid ""
 "Currently you can access only GroupWise System Address Book from Evolution. "
 "Please use some other GroupWise mail client once, to get your GroupWise "
@@ -399,69 +408,61 @@ msgstr ""
 "una sola vez, para obtener sus Contactos Frecuentes de GroupWise y las "
 "carpetas personales de contactos de GroupWise."
 
-#: ../addressbook/addressbook.error.xml.h:10
+#: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
 msgstr "¿Quiere borrar la libreta de direcciones «{0}»?"
 
-#: ../addressbook/addressbook.error.xml.h:11
+#: ../addressbook/addressbook.error.xml.h:13
 msgid "Error loading addressbook."
 msgstr "Error al cargar la libreta de direcciones."
 
-#: ../addressbook/addressbook.error.xml.h:12
+#: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
 msgstr "Error al guardar {0} a {1}: {2}"
 
-#: ../addressbook/addressbook.error.xml.h:13
+#: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
 msgstr "No es posible autenticar con el servidor LDAP."
 
 #. Unknown error
-#: ../addressbook/addressbook.error.xml.h:14
+#: ../addressbook/addressbook.error.xml.h:16
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1716
 msgid "Failed to delete contact"
 msgstr "Falló al borrar el contacto"
 
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "GroupWise Address book creation:"
 msgstr "Creación de libreta de direcciones GroupWise:"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
 msgstr "El servidor LDAP no respondió con una información del esquema válida."
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "Permission Denied."
 msgstr "Permiso denegado."
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "Server Version"
 msgstr "Versión del servidor"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:21
 msgid "Some features may not work properly with your current server"
 msgstr ""
 "Algunas características quizá no funcionen apropiadamente con su servidor "
 "actual"
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:22
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "La libreta de direcciones de Evolution ha terminado inesperadamente."
 
-#: ../addressbook/addressbook.error.xml.h:21
-msgid ""
-"The address book {0} is read only, thus you cannot add contacts there. "
-"Select other address book, please."
-msgstr ""
-"La libreta de direcciones {0} es de sólo lectura, por ello no puede añadir "
-"contactos en ella. Seleccione otra libreta de direcciones."
-
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 "La imagen que ha seleccionado es grande. ¿Quiere redimensionarla y "
 "almacenarla?"
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:24
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -471,21 +472,21 @@ msgstr ""
 "soporta esta funcionalidad o quizá esté mal configurado. Pida a su "
 "administrador de sistema las bases de búsqueda soportadas."
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:25
 msgid "This address book will be removed permanently."
 msgstr "Esta libreta de direcciones se eliminará para siempre."
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This addressbook could not be opened."
 msgstr "Esta libreta de direcciones no se pudo abrir."
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "This addressbook server does not have any suggested search bases."
 msgstr ""
 "Este servidor de libretas de direcciones no tiene ninguna de las bases de "
 "búsqueda sugeridas."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:28
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -494,27 +495,27 @@ msgstr ""
 "nombre del servidor podría estar mal escrito o su conexión de red quizá esté "
 "caída."
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "This server does not support LDAPv3 schema information."
 msgstr "Este servidor no soporta el esquema de información LDAPv3."
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to open addressbook"
 msgstr "Es imposible abrir la libreta de direcciones"
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:31
 msgid "Unable to perform search."
 msgstr "Es imposible efectuar la búsqueda."
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:32
 msgid "Unable to save {0}."
 msgstr "Es imposible guardar {0}."
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:33
 msgid "Would you like to save your changes?"
 msgstr "¿Desea guardar los cambios?"
 
-#: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/addressbook.error.xml.h:34
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -522,7 +523,7 @@ msgstr ""
 "Está moviendo un contacto desde una libreta a otra, pero no puede ser "
 "eliminado de la de origen. ¿Quiere guardar una copia en vez de mover?"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:35
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
@@ -532,49 +533,49 @@ msgstr ""
 "problemas usando Evolution. Para los mejores resultados el servidor debería "
 "actualizarse a una versión soportada"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:36
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr "Ha modificado este contacto. ¿Desea guardar estos cambios?"
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:37
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Los contactos para {0} no estarán disponibles hasta que Evolution se "
 "reinicie."
 
-#: ../addressbook/addressbook.error.xml.h:37 ../mail/em-vfolder-rule.c:512
+#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:512
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:18
 msgid "_Add"
 msgstr "_Añadir"
 
-#: ../addressbook/addressbook.error.xml.h:38
+#: ../addressbook/addressbook.error.xml.h:39
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../addressbook/addressbook.error.xml.h:39
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "_Do not save"
 msgstr "_No guardar"
 
-#: ../addressbook/addressbook.error.xml.h:40
+#: ../addressbook/addressbook.error.xml.h:41
 msgid "_Resize"
 msgstr "_Redimensionar"
 
-#: ../addressbook/addressbook.error.xml.h:41
+#: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
 msgstr "_Usar tal cual es"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
-#: ../addressbook/addressbook.error.xml.h:43
+#: ../addressbook/addressbook.error.xml.h:44
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid "{0}"
 msgstr "{0}"
 
 #. For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT")
-#: ../addressbook/addressbook.error.xml.h:45
+#: ../addressbook/addressbook.error.xml.h:46
 msgid "{1}"
 msgstr "{1}"
 
@@ -737,7 +738,7 @@ msgstr "Copiar la li_breta localmente para trabajar desconectado"
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2318
+#: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "General"
@@ -1494,8 +1495,8 @@ msgstr "Dirección"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:179
-#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-text.c:3687
-#: ../widgets/text/e-text.c:3688
+#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-text.c:3686
+#: ../widgets/text/e-text.c:3687
 msgid "Editable"
 msgstr "Editable"
 
@@ -2920,8 +2921,8 @@ msgstr "Error al obtener la vista de libro"
 #: ../widgets/table/e-table-click-to-add.c:510
 #: ../widgets/table/e-table-selection-model.c:303
 #: ../widgets/table/e-table.c:3335
-#: ../widgets/table/e-tree-selection-model.c:821 ../widgets/text/e-text.c:3551
-#: ../widgets/text/e-text.c:3552
+#: ../widgets/table/e-tree-selection-model.c:821 ../widgets/text/e-text.c:3550
+#: ../widgets/text/e-text.c:3551
 msgid "Model"
 msgstr "Modelo"
 
@@ -3214,7 +3215,7 @@ msgstr "Sitio web"
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-item.c:3069 ../widgets/table/e-table-item.c:3070
-#: ../widgets/text/e-text.c:3729 ../widgets/text/e-text.c:3730
+#: ../widgets/text/e-text.c:3728 ../widgets/text/e-text.c:3729
 msgid "Width"
 msgstr "Anchura"
 
@@ -3229,7 +3230,7 @@ msgstr "Anchura"
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:3075 ../widgets/table/e-table-item.c:3076
-#: ../widgets/text/e-text.c:3737 ../widgets/text/e-text.c:3738
+#: ../widgets/text/e-text.c:3736 ../widgets/text/e-text.c:3737
 msgid "Height"
 msgstr "Altura"
 
@@ -3968,7 +3969,7 @@ msgstr "Escala de grises"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:967
+#: ../plugins/exchange-operations/exchange-account-setup.c:981
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
@@ -4092,7 +4093,16 @@ msgstr "En modo normal, no hay necesidad de la opción de tamaño."
 msgid "Unhandled error"
 msgstr "Error no tratado"
 
-#: ../calendar/calendar.error.xml.h:1
+#. For Translators: {0} is the name of the calendar source
+#: ../calendar/calendar.error.xml.h:2
+msgid ""
+"'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
+"a calendar that can accept appointments."
+msgstr ""
+"«{0}» es una fuente de calendario de sólo lectura. Cambie a la vista "
+"de calendario y resalte un calendario que pueda aceptar citas."
+
+#: ../calendar/calendar.error.xml.h:3
 msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
@@ -4100,7 +4110,7 @@ msgstr ""
 "Añadir un resumen con sentido a su cita dará a sus destinatarios una idea de "
 "qué trata su cita."
 
-#: ../calendar/calendar.error.xml.h:2
+#: ../calendar/calendar.error.xml.h:4
 msgid ""
 "Adding a meaningful summary to your task will give your recipients an idea "
 "of what your task is about."
@@ -4108,130 +4118,130 @@ msgstr ""
 "Añadir un Resumen con sentido a su tarea dará a sus destinatarios una idea "
 "de qué trata su tarea."
 
-#: ../calendar/calendar.error.xml.h:3
+#: ../calendar/calendar.error.xml.h:5
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr "Toda la información de de estas notas se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:4
+#: ../calendar/calendar.error.xml.h:6
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr "Toda la información en esta nota se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:5
+#: ../calendar/calendar.error.xml.h:7
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr "Toda la información de estas citas se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:6
+#: ../calendar/calendar.error.xml.h:8
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr "Toda la información de de estas tareas se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:7
+#: ../calendar/calendar.error.xml.h:9
 msgid "All information on this appointment will be deleted and can not be restored."
 msgstr "Toda la información de esta cita se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Toda la información acerca de esta reunión se borrará y no se podrá "
 "recuperar."
 
-#: ../calendar/calendar.error.xml.h:9
+#: ../calendar/calendar.error.xml.h:11
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr "Toda la información acerca de esta nota se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:10
+#: ../calendar/calendar.error.xml.h:12
 msgid "All information on this task will be deleted and can not be restored."
 msgstr "Toda la información acerca de esta tarea se borrará y no se podrá recuperar."
 
-#: ../calendar/calendar.error.xml.h:11
+#: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the '{0}' task?"
 msgstr "¿Seguro que quiere borrar la tarea «{0}»?"
 
-#: ../calendar/calendar.error.xml.h:12
+#: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "¿Seguro que quiere borrar la cita titulada «{0}»?"
 
-#: ../calendar/calendar.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the memo '{0}'?"
 msgstr "¿Seguro que quiere borrar la nota «{0}»?"
 
-#: ../calendar/calendar.error.xml.h:14
+#: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "¿Seguro que quiere borrar estas {0} citas?"
 
-#: ../calendar/calendar.error.xml.h:15
+#: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr "¿Seguro que quiere borrar estas {0} notas?"
 
-#: ../calendar/calendar.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "¿Seguro que quiere borrar estas {0} tareas?"
 
-#: ../calendar/calendar.error.xml.h:17
+#: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete this appointment?"
 msgstr "¿Seguro que quiere borrar esta cita?"
 
-#: ../calendar/calendar.error.xml.h:18
+#: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:183
 msgid "Are you sure you want to delete this meeting?"
 msgstr "¿Seguro que quiere borrar esta reunión?"
 
-#: ../calendar/calendar.error.xml.h:19
+#: ../calendar/calendar.error.xml.h:21
 #: ../calendar/gui/dialogs/delete-comp.c:189
 msgid "Are you sure you want to delete this memo?"
 msgstr "¿Seguro que quiere borrar esta nota?"
 
-#: ../calendar/calendar.error.xml.h:20
+#: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:186
 msgid "Are you sure you want to delete this task?"
 msgstr "¿Seguro que quiere borrar esta tarea?"
 
-#: ../calendar/calendar.error.xml.h:21
+#: ../calendar/calendar.error.xml.h:23
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "¿Seguro que quiere guardar la nota sin un resumen?"
 
-#: ../calendar/calendar.error.xml.h:22
+#: ../calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to send the appointment without a summary?"
 msgstr "¿Seguro que quiere enviar la cita sin un resumen?"
 
-#: ../calendar/calendar.error.xml.h:23
+#: ../calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to send the task without a summary?"
 msgstr "¿Seguro que quiere enviar la tarea sin un resumen?"
 
-#: ../calendar/calendar.error.xml.h:24
+#: ../calendar/calendar.error.xml.h:26
 msgid "Cannot create a new event"
 msgstr "No es posible crear un acontecimiento nuevo"
 
-#: ../calendar/calendar.error.xml.h:25
+#: ../calendar/calendar.error.xml.h:27
 msgid "Delete calendar '{0}'?"
 msgstr "¿Desea borrar el calendario «{0}»?"
 
-#: ../calendar/calendar.error.xml.h:26
+#: ../calendar/calendar.error.xml.h:28
 msgid "Delete memo list '{0}'?"
 msgstr "¿Desea borrar la lista de notas «{0}»?"
 
-#: ../calendar/calendar.error.xml.h:27
+#: ../calendar/calendar.error.xml.h:29
 msgid "Delete task list '{0}'?"
 msgstr "¿Desea borrar la lista de tareas «{0}»?"
 
-#: ../calendar/calendar.error.xml.h:28
+#: ../calendar/calendar.error.xml.h:30
 msgid "Do _not Send"
 msgstr "_No enviar"
 
-#: ../calendar/calendar.error.xml.h:29
+#: ../calendar/calendar.error.xml.h:31
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "Descarga en progreso. ¿Desea guardar la cita?"
 
-#: ../calendar/calendar.error.xml.h:30
+#: ../calendar/calendar.error.xml.h:32
 msgid "Download in progress. Do you want to save the task?"
 msgstr "Descarga en progreso. ¿Desea guardar la tarea?"
 
-#: ../calendar/calendar.error.xml.h:31
+#: ../calendar/calendar.error.xml.h:33
 msgid "Editor could not be loaded."
 msgstr "No es posible cargar el editor."
 
-#: ../calendar/calendar.error.xml.h:32
+#: ../calendar/calendar.error.xml.h:34
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -4239,25 +4249,25 @@ msgstr ""
 "Se enviarán invitaciones por correo-e a todos los participantes y se les "
 "permitirá aceptar esta tarea."
 
-#: ../calendar/calendar.error.xml.h:33
+#: ../calendar/calendar.error.xml.h:35
 msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Se enviarán invitaciones por correo-e a todos los participantes y se les "
 "permitirá responder."
 
-#: ../calendar/calendar.error.xml.h:34
+#: ../calendar/calendar.error.xml.h:36
 msgid "Error loading calendar"
 msgstr "Error al cargar el calendario"
 
-#: ../calendar/calendar.error.xml.h:35
+#: ../calendar/calendar.error.xml.h:37
 msgid "Error loading memo list"
 msgstr "Error al cargar la lista de notas"
 
-#: ../calendar/calendar.error.xml.h:36
+#: ../calendar/calendar.error.xml.h:38
 msgid "Error loading task list"
 msgstr "Error al cargar la lista de tareas"
 
-#: ../calendar/calendar.error.xml.h:37
+#: ../calendar/calendar.error.xml.h:39
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
@@ -4265,7 +4275,7 @@ msgstr ""
 "Si no envía una notificación de cancelación, los otros participantes quizá "
 "no sepan que la reunión se ha cancelado."
 
-#: ../calendar/calendar.error.xml.h:38
+#: ../calendar/calendar.error.xml.h:40
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the memo has been deleted."
@@ -4273,7 +4283,7 @@ msgstr ""
 "Si no envía una notificación de cancelación, los otros participantes quizá "
 "no sepan que la nota se ha borrado."
 
-#: ../calendar/calendar.error.xml.h:39
+#: ../calendar/calendar.error.xml.h:41
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
@@ -4281,7 +4291,7 @@ msgstr ""
 "Si no envía una notificación de cancelación, los otros participantes quizá "
 "no sepan que la tarea ha sido borrada."
 
-#: ../calendar/calendar.error.xml.h:40
+#: ../calendar/calendar.error.xml.h:42
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -4289,7 +4299,7 @@ msgstr ""
 "Al enviar información actualizada permite que otros participantes mantengan "
 "sus calendarios al día."
 
-#: ../calendar/calendar.error.xml.h:41
+#: ../calendar/calendar.error.xml.h:43
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -4297,7 +4307,7 @@ msgstr ""
 "El envío de información actualizada permite que otros participantes "
 "mantengan su lista de tareas al día."
 
-#: ../calendar/calendar.error.xml.h:42
+#: ../calendar/calendar.error.xml.h:44
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -4305,7 +4315,7 @@ msgstr ""
 "Hay algunos adjuntos descargándose. Guardar la cita podría resultar en la "
 "pérdida de esos adjuntos."
 
-#: ../calendar/calendar.error.xml.h:43
+#: ../calendar/calendar.error.xml.h:45
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -4313,85 +4323,85 @@ msgstr ""
 "Hay algunos adjuntos descargándose. Guardar la tarea podría resultar en la "
 "pérdida de esos adjuntos."
 
-#: ../calendar/calendar.error.xml.h:44
+#: ../calendar/calendar.error.xml.h:46
 msgid "Some features may not work properly with your current server."
 msgstr ""
 "Algunas características quizá no funcionen correctamente con su servidor "
 "actual."
 
-#: ../calendar/calendar.error.xml.h:45
+#: ../calendar/calendar.error.xml.h:47
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "El calendario de Evolution ha terminado inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:46
+#: ../calendar/calendar.error.xml.h:48
 msgid "The Evolution memo has quit unexpectedly."
 msgstr "Las notas de Evolution han terminado inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/calendar.error.xml.h:49
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Las tareas de Evolution han terminado inesperadamente."
 
-#: ../calendar/calendar.error.xml.h:48
+#: ../calendar/calendar.error.xml.h:50
 msgid "The calendar is not marked for offline usage."
 msgstr "El calendario no está marcado para usarse sin conexión."
 
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:51
 msgid "The memo list is not marked for offline usage"
 msgstr "La lista de notas no está marcada para usarse sin conexión"
 
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:52
 msgid "The task list is not marked for offline usage."
 msgstr "La lista de tareas no está marcada para usarse sin conexión."
 
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:53
 msgid "This calendar will be removed permanently."
 msgstr "Este calendario se eliminará permanentemente."
 
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:54
 msgid "This memo list will be removed permanently."
 msgstr "Esta lista de notas se eliminará permanentemente."
 
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:55
 msgid "This task list will be removed permanently."
 msgstr "Esta lista de tareas se eliminará permanentemente."
 
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to save your changes to this appointment?"
 msgstr "¿Desea guardar los cambios de esta cita?"
 
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to save your changes to this memo?"
 msgstr "¿Desea guardar los cambios de esta nota?"
 
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to save your changes to this task?"
 msgstr "¿Desea guardar los cambios de esta tarea?"
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send a cancelation notice for this memo?"
 msgstr "¿Quiere enviar una notificación de cancelación para esta nota?"
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "¿Quiere enviar a todos los participantes una notificación de cancelación?"
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "¿Quiere enviar invitaciones a la reunión a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:62
 msgid "Would you like to send this task to participants?"
 msgstr "¿Quiere enviar esta tarea a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:63
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "¿Quiere enviar información de la reunión actualizada a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:64
 msgid "Would you like to send updated task information to participants?"
 msgstr "¿Quiere enviar información actualizada de las tareas a los participantes?"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:65
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -4401,63 +4411,55 @@ msgstr ""
 "problemas usando Evolution. Para los mejores resultados el servidor debería "
 "actualizarse a una versión soportada."
 
-#: ../calendar/calendar.error.xml.h:64
-msgid ""
-"You have a read-only calendar source selected. Change to Calendar View and "
-"highlight a calendar that can accept appointments."
-msgstr ""
-"Tiene seleccionado un calendario remoto de sólo lectura. Cambie a la vista "
-"de calendario y resalte un calendario que pueda aceptar citas."
-
-#: ../calendar/calendar.error.xml.h:65
+#: ../calendar/calendar.error.xml.h:66
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Ha cambiado esta cita, pero no la ha guardado aún."
 
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:67
 msgid "You have changed this task, but not yet saved it."
 msgstr "Ha realizado cambios a esta tarea, pero no la ha guardado aún."
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:68
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Ha realizado cambios a esta nota, pero no los ha guardado aún."
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:69
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Sus calendarios no estarán disponibles hasta que reinicie Evolution."
 
-#: ../calendar/calendar.error.xml.h:69
+#: ../calendar/calendar.error.xml.h:70
 msgid "Your memos will not be available until Evolution is restarted."
 msgstr "Sus notas no estarán disponibles hasta que reinicie Evolution."
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:71
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Sus tareas no estarán disponibles hasta que reinicie Evolution."
 
-#: ../calendar/calendar.error.xml.h:71
+#: ../calendar/calendar.error.xml.h:72
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Descartar cambios"
 
-#: ../calendar/calendar.error.xml.h:72 ../ui/evolution-editor.xml.h:23
+#: ../calendar/calendar.error.xml.h:73 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:59
 msgid "_Save"
 msgstr "_Guardar"
 
-#: ../calendar/calendar.error.xml.h:73
+#: ../calendar/calendar.error.xml.h:74
 msgid "_Save Changes"
 msgstr "_Guardar cambios"
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:75
 #: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Enviar"
 
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:76
 msgid "_Send Notice"
 msgstr "_Enviar notificación"
 
-#: ../calendar/calendar.error.xml.h:76
+#: ../calendar/calendar.error.xml.h:77
 msgid "{0}."
 msgstr "{0}."
 
@@ -4510,7 +4512,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "No es posible escribir el bloque de aplicación ToDo del Pilot"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2309
+#: ../plugins/itip-formatter/itip-formatter.c:2329
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
@@ -5004,12 +5006,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Mostrar el campo de estado en el editor de acontecimientos/tareas/reuniones"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#: ../mail/evolution-mail.schemas.in.h:109
+#: ../mail/evolution-mail.schemas.in.h:110
 msgid "Show the \"Preview\" pane"
 msgstr "Mostrar el panel de vista previa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#: ../mail/evolution-mail.schemas.in.h:110
+#: ../mail/evolution-mail.schemas.in.h:111
 msgid "Show the \"Preview\" pane."
 msgstr "Mostrar el panel de vista previa."
 
@@ -6271,7 +6273,7 @@ msgstr "Personalizar"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1996
+#: ../plugins/itip-formatter/itip-formatter.c:2006
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1531
 #: ../widgets/misc/e-dateedit.c:1745
 #: ../widgets/misc/e-signature-combo-box.c:50
@@ -6932,8 +6934,8 @@ msgstr "No"
 #: ../calendar/gui/e-meeting-store.c:114 ../calendar/gui/e-meeting-store.c:149
 #: ../calendar/gui/e-meeting-store.c:212 ../calendar/gui/print.c:969
 #: ../calendar/gui/print.c:986 ../mail/em-utils.c:1294
-#: ../plugins/itip-formatter/itip-formatter.c:395
-#: ../plugins/itip-formatter/itip-formatter.c:2021
+#: ../plugins/itip-formatter/itip-formatter.c:405
+#: ../plugins/itip-formatter/itip-formatter.c:2031
 #: ../plugins/plugin-manager/plugin-manager.c:84
 #: ../widgets/misc/e-attachment-bar.c:721
 #: ../widgets/misc/e-charset-picker.c:64
@@ -7436,12 +7438,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:199
 #: ../calendar/gui/itip-utils.c:728
-#: ../plugins/itip-formatter/itip-formatter.c:2009
+#: ../plugins/itip-formatter/itip-formatter.c:2019
 msgid "Accepted"
 msgstr "Aceptado"
 
 #: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:731
-#: ../plugins/itip-formatter/itip-formatter.c:2012
+#: ../plugins/itip-formatter/itip-formatter.c:2022
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
@@ -7449,7 +7451,7 @@ msgstr "Aceptado provisionalmente"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:178 ../calendar/gui/e-meeting-store.c:201
 #: ../calendar/gui/itip-utils.c:734 ../calendar/gui/itip-utils.c:763
-#: ../plugins/itip-formatter/itip-formatter.c:2015
+#: ../plugins/itip-formatter/itip-formatter.c:2025
 msgid "Declined"
 msgstr "Rehusado"
 
@@ -7669,7 +7671,7 @@ msgid "Attendee status updated\n"
 msgstr "Estado del participante actualizado\n"
 
 #: ../calendar/gui/e-itip-control.c:2054
-#: ../plugins/itip-formatter/itip-formatter.c:1234
+#: ../plugins/itip-formatter/itip-formatter.c:1242
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "El estado del participante no pudo actualizarse porque ya no existe el "
@@ -7829,7 +7831,7 @@ msgstr "Provisional"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
 #: ../calendar/gui/itip-utils.c:737
-#: ../plugins/itip-formatter/itip-formatter.c:2018
+#: ../plugins/itip-formatter/itip-formatter.c:2028
 msgid "Delegated"
 msgstr "Delegado"
 
@@ -8589,7 +8591,7 @@ msgstr "Reuniones y citas"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
-#: ../plugins/itip-formatter/itip-formatter.c:1562
+#: ../plugins/itip-formatter/itip-formatter.c:1570
 msgid "Opening calendar"
 msgstr "Apertura del calendario"
 
@@ -12374,7 +12376,7 @@ msgid "Always request read receipt"
 msgstr "Siempre solicitar confirmación de lectura"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-msgid "Amount of time in seconds the error should be showed on the status bar."
+msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Tiempo en segundos que deberá mostrarse el error en la barra de estado."
 
 #: ../mail/evolution-mail.schemas.in.h:4
@@ -12860,42 +12862,38 @@ msgid "Send HTML mail by default."
 msgstr "Envía el correo en HTML por omisión."
 
 #: ../mail/evolution-mail.schemas.in.h:104
+msgid "Sender email-address column in the message list"
+msgstr "Columna del correo-e del remitente en la lista de mensajes"
+
+#: ../mail/evolution-mail.schemas.in.h:105
 msgid "Show Animations"
 msgstr "Mostrar animaciones"
 
-#: ../mail/evolution-mail.schemas.in.h:105
+#: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show animated images as animations."
 msgstr "Muestra las imágenes animadas como animaciones."
 
-#: ../mail/evolution-mail.schemas.in.h:106
+#: ../mail/evolution-mail.schemas.in.h:107
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Muestra los mensajes borrados (tachados) en la lista de mensajes."
 
-#: ../mail/evolution-mail.schemas.in.h:107
+#: ../mail/evolution-mail.schemas.in.h:108
 msgid "Show deleted messages in the message-list"
 msgstr "Muestra los mensajes borrados en la lista de mensajes"
 
-#: ../mail/evolution-mail.schemas.in.h:108
+#: ../mail/evolution-mail.schemas.in.h:109
 msgid "Show photo of the sender"
 msgstr "Mostrar la foto del remitente"
 
-#: ../mail/evolution-mail.schemas.in.h:111
-msgid ""
-"Show the email of the sender in the messages composite column in the message "
-"list."
-msgstr ""
-"Muestra el correo-e del remitente en la columna de composición de mensajes "
-"en la lista de mesajes."
-
 #: ../mail/evolution-mail.schemas.in.h:112
-msgid "Show the photo of the sender in the message reading pane."
-msgstr "Muestra la foto del remitente en el panel de lectura de mensajes."
+msgid ""
+"Show the email-address of the sender in a separate column in the message "
+"list."
+msgstr "Muestra el correo-e del remitente en una columna separada en la lista de mensajes."
 
 #: ../mail/evolution-mail.schemas.in.h:113
-msgid "Show the sender email in the messages column in the message list"
-msgstr ""
-"Muestra el correo-e del remitente en la columna de mensajes en la lista de "
-"mensajes"
+msgid "Show the photo of the sender in the message reading pane."
+msgstr "Muestra la foto del remitente en el panel de lectura de mensajes."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Specifies the header to check for junk."
@@ -13368,8 +13366,8 @@ msgid " Ch_eck for Supported Types "
 msgstr "_Comprobar tipos soportados "
 
 #: ../mail/mail-config.glade.h:2
-msgid "(Note: Requires restart)"
-msgstr "(Nota: Requiere reiniciar)"
+msgid "(Note: Requires restart of the application)"
+msgstr "(Nota: Requiere reiniciar la aplicación)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -15793,29 +15791,29 @@ msgstr "Tamaño de las carpetas"
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:618
+#: ../plugins/exchange-operations/exchange-account-setup.c:625
 msgid "_OWA URL:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:644
+#: ../plugins/exchange-operations/exchange-account-setup.c:651
 msgid "A_uthenticate"
 msgstr "A_utenticar"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:840
+#: ../plugins/exchange-operations/exchange-account-setup.c:854
 msgid "_Authentication Type"
 msgstr "Tipo de _autenticación"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:854
+#: ../plugins/exchange-operations/exchange-account-setup.c:868
 msgid "Ch_eck for Supported Types"
 msgstr "_Comprobar tipos soportados "
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:960
+#: ../plugins/exchange-operations/exchange-account-setup.c:974
 #: ../plugins/exchange-operations/exchange-contacts.c:212
 #, c-format
 msgid "%s KB"
 msgstr "%s KiB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:962
+#: ../plugins/exchange-operations/exchange-account-setup.c:976
 #: ../plugins/exchange-operations/exchange-contacts.c:214
 msgid "0 KB"
 msgstr "0 KiB"
@@ -17056,27 +17054,27 @@ msgstr "Un complemento para las características en las cuentas IMAP."
 msgid "IMAP Features"
 msgstr "Características IMAP"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:83
+#: ../plugins/import-ics-attachments/icsimporter.c:82
 msgid "_Import to Calendar"
 msgstr "_Importar al calendario"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:88
+#: ../plugins/import-ics-attachments/icsimporter.c:87
 msgid "_Import to Tasks"
 msgstr "_Importar a las tareas"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:206
+#: ../plugins/import-ics-attachments/icsimporter.c:205
 msgid "Import ICS"
 msgstr "Importar ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:233
+#: ../plugins/import-ics-attachments/icsimporter.c:228
 msgid "Select Task List"
 msgstr "Seleccione la lista de tareas"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:237
+#: ../plugins/import-ics-attachments/icsimporter.c:232
 msgid "Select Calendar"
 msgstr "Seleccione el calendario"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:267
+#: ../plugins/import-ics-attachments/icsimporter.c:262
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Importar"
@@ -17132,130 +17130,130 @@ msgstr "Sincronizar con iPod"
 msgid "iPod Synchronization"
 msgstr "Sincronización con iPod"
 
-#: ../plugins/itip-formatter/itip-formatter.c:429
-#: ../plugins/itip-formatter/itip-formatter.c:554
+#: ../plugins/itip-formatter/itip-formatter.c:439
+#: ../plugins/itip-formatter/itip-formatter.c:564
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "No es posible cargar el calendario «%s»"
 
-#: ../plugins/itip-formatter/itip-formatter.c:574
+#: ../plugins/itip-formatter/itip-formatter.c:584
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Una cita en el calendario «%s» entra en conflicto con esta reunión"
 
-#: ../plugins/itip-formatter/itip-formatter.c:600
+#: ../plugins/itip-formatter/itip-formatter.c:610
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Se encontró la cita en el calendario «%s»"
 
-#: ../plugins/itip-formatter/itip-formatter.c:676
+#: ../plugins/itip-formatter/itip-formatter.c:686
 msgid "Unable to find any calendars"
 msgstr "No se puede encontrar ningún calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:683
+#: ../plugins/itip-formatter/itip-formatter.c:693
 msgid "Unable to find this meeting in any calendar"
 msgstr "No se puede encontrar esta reunión en ningún calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:687
+#: ../plugins/itip-formatter/itip-formatter.c:697
 msgid "Unable to find this task in any task list"
 msgstr "No se puede encontrar esta tarea en ninguna lista de tareas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:691
+#: ../plugins/itip-formatter/itip-formatter.c:701
 msgid "Unable to find this memo in any memo list"
 msgstr "No se puede encontrar esta nota en ninguna lista de notas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:764
+#: ../plugins/itip-formatter/itip-formatter.c:772
 msgid "Searching for an existing version of this appointment"
 msgstr "Buscando una versión existente de esta cita"
 
-#: ../plugins/itip-formatter/itip-formatter.c:927
+#: ../plugins/itip-formatter/itip-formatter.c:935
 msgid "Unable to parse item"
 msgstr "No es posible interpretar el elemento"
 
-#: ../plugins/itip-formatter/itip-formatter.c:985
+#: ../plugins/itip-formatter/itip-formatter.c:993
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "No es posible enviar el elemento al calendario «%s»: %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:997
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Enviado al calendario «%s» como aceptado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1001
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Enviado al calendario «%s» como tentativa"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1006
+#: ../plugins/itip-formatter/itip-formatter.c:1014
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Enviado al calendario «%s» como rehusado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1011
+#: ../plugins/itip-formatter/itip-formatter.c:1019
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Enviado al calendario «%s» como cancelado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1105
+#: ../plugins/itip-formatter/itip-formatter.c:1113
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "El organizador ha quitado al delegado %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1112
+#: ../plugins/itip-formatter/itip-formatter.c:1120
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Enviar una notificación de cancelación al delegado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1114
+#: ../plugins/itip-formatter/itip-formatter.c:1122
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "No es posible enviar una notificación de cancelación al delegado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1199
+#: ../plugins/itip-formatter/itip-formatter.c:1207
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "El estado de asistencia no pudo actualizarse debido a que el estado es "
 "inválido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1226
+#: ../plugins/itip-formatter/itip-formatter.c:1234
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "No es posible actualizar la asistencia. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1230
+#: ../plugins/itip-formatter/itip-formatter.c:1238
 msgid "Attendee status updated"
 msgstr "Estado de asistencia actualizado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1255
+#: ../plugins/itip-formatter/itip-formatter.c:1263
 msgid "Meeting information sent"
 msgstr "Información de reunión enviada"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1266
 msgid "Task information sent"
 msgstr "Información de la tarea enviada"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1261
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "Memo information sent"
 msgstr "Información de la nota enviada"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1270
+#: ../plugins/itip-formatter/itip-formatter.c:1278
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "No se puede enviar la información de la reunión, la reunión no existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1273
+#: ../plugins/itip-formatter/itip-formatter.c:1281
 msgid "Unable to send task information, the task does not exist"
 msgstr "No se puede enviar la información de la tarea, la tarea no existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1276
+#: ../plugins/itip-formatter/itip-formatter.c:1284
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "No se puede enviar la información de la nota, la nota no existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1351
-#: ../plugins/itip-formatter/itip-formatter.c:1366
+#: ../plugins/itip-formatter/itip-formatter.c:1359
+#: ../plugins/itip-formatter/itip-formatter.c:1374
 msgid "The calendar attached is not valid"
 msgstr "El calendario adjunto no es válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1352
-#: ../plugins/itip-formatter/itip-formatter.c:1367
+#: ../plugins/itip-formatter/itip-formatter.c:1360
+#: ../plugins/itip-formatter/itip-formatter.c:1375
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17263,15 +17261,15 @@ msgstr ""
 "El mensaje dice contener un calendario, pero el calendario no es un "
 "iCalendar válido."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1402
-#: ../plugins/itip-formatter/itip-formatter.c:1420
-#: ../plugins/itip-formatter/itip-formatter.c:1502
+#: ../plugins/itip-formatter/itip-formatter.c:1410
+#: ../plugins/itip-formatter/itip-formatter.c:1428
+#: ../plugins/itip-formatter/itip-formatter.c:1510
 msgid "The item in the calendar is not valid"
 msgstr "El elemento en el calendario no es válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1403
-#: ../plugins/itip-formatter/itip-formatter.c:1421
-#: ../plugins/itip-formatter/itip-formatter.c:1503
+#: ../plugins/itip-formatter/itip-formatter.c:1411
+#: ../plugins/itip-formatter/itip-formatter.c:1429
+#: ../plugins/itip-formatter/itip-formatter.c:1511
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17279,11 +17277,11 @@ msgstr ""
 "El mensaje contiene un calendario, pero el calendario no contiene ningún "
 "acontecimiento, tarea o información de disponibilidad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1432
+#: ../plugins/itip-formatter/itip-formatter.c:1440
 msgid "The calendar attached contains multiple items"
 msgstr "El calendario adjunto contiene elementos múltiples"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1433
+#: ../plugins/itip-formatter/itip-formatter.c:1441
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17291,31 +17289,31 @@ msgstr ""
 "Para procesar todos estos elementos, el archivo debería guardarse y el "
 "calendario importarse"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2123
+#: ../plugins/itip-formatter/itip-formatter.c:2133
 msgid "This meeting recurs"
 msgstr "Esta reunión se repite"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2126
+#: ../plugins/itip-formatter/itip-formatter.c:2136
 msgid "This task recurs"
 msgstr "Esta tarea se repite"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2129
+#: ../plugins/itip-formatter/itip-formatter.c:2139
 msgid "This memo recurs"
 msgstr "Esta nota se repite"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2334
+#: ../plugins/itip-formatter/itip-formatter.c:2354
 msgid "_Delete message after acting"
 msgstr "_Borrar el mensaje después de actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2344
-#: ../plugins/itip-formatter/itip-formatter.c:2376
+#: ../plugins/itip-formatter/itip-formatter.c:2364
+#: ../plugins/itip-formatter/itip-formatter.c:2396
 msgid "Conflict Search"
 msgstr "Búsqueda de conflictos"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2359
+#: ../plugins/itip-formatter/itip-formatter.c:2379
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccione los calendario en los que buscar conflictos entre reuniones"
 
@@ -20006,7 +20004,7 @@ msgstr "Guarda los contactos seleccionados en una VCard."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "Guarda los contactos de la carpeta seleccionada como VCard"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2723
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2722
 msgid "Select All"
 msgstr "Seleccionar todo"
 
@@ -21931,13 +21929,13 @@ msgstr "Tipo de vista:"
 msgid "Attachment Bar"
 msgstr "Barra de adjuntos"
 
-#: ../widgets/misc/e-attachment.c:291 ../widgets/misc/e-attachment.c:306
-#: ../widgets/misc/e-attachment.c:507 ../widgets/misc/e-attachment.c:524
+#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
+#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "No es posible adjuntar el archivo %s: %s"
 
-#: ../widgets/misc/e-attachment.c:299 ../widgets/misc/e-attachment.c:516
+#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "No es posible adjuntar el archivo %s: no es un archivo normal"
@@ -21969,23 +21967,23 @@ msgid "Month Calendar"
 msgstr "Calendario mensual"
 
 #: ../widgets/misc/e-canvas-background.c:453
-#: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-text.c:3643
-#: ../widgets/text/e-text.c:3644
+#: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-text.c:3642
+#: ../widgets/text/e-text.c:3643
 msgid "Fill color"
 msgstr "Color de relleno"
 
 #: ../widgets/misc/e-canvas-background.c:460
 #: ../widgets/misc/e-canvas-background.c:461
 #: ../widgets/misc/e-canvas-background.c:467
-#: ../widgets/misc/e-canvas-background.c:468 ../widgets/text/e-text.c:3650
-#: ../widgets/text/e-text.c:3651 ../widgets/text/e-text.c:3658
-#: ../widgets/text/e-text.c:3659
+#: ../widgets/misc/e-canvas-background.c:468 ../widgets/text/e-text.c:3649
+#: ../widgets/text/e-text.c:3650 ../widgets/text/e-text.c:3657
+#: ../widgets/text/e-text.c:3658
 msgid "GDK fill color"
 msgstr "Color de relleno GDK"
 
 #: ../widgets/misc/e-canvas-background.c:474
-#: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-text.c:3665
-#: ../widgets/text/e-text.c:3666
+#: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-text.c:3664
+#: ../widgets/text/e-text.c:3665
 msgid "Fill stipple"
 msgstr "Punteo de relleno"
 
@@ -22206,11 +22204,11 @@ msgstr "Etiqueta del widget"
 msgid "A widget to display in place of the usual expander label"
 msgstr "Un widget para mostrar en lugar de la etiqueta usual del expansor"
 
-#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3354
+#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3356
 msgid "Expander Size"
 msgstr "Tamaño del expansor"
 
-#: ../widgets/misc/e-expander.c:224 ../widgets/table/e-tree.c:3355
+#: ../widgets/misc/e-expander.c:224 ../widgets/table/e-tree.c:3357
 msgid "Size of the expander arrow"
 msgstr "Tamaño de la flecha del expansor"
 
@@ -22338,8 +22336,8 @@ msgstr "Vacia_r"
 msgid "Item ID"
 msgstr "ID de elemento"
 
-#: ../widgets/misc/e-search-bar.c:879 ../widgets/text/e-text.c:3565
-#: ../widgets/text/e-text.c:3566
+#: ../widgets/misc/e-search-bar.c:879 ../widgets/text/e-text.c:3564
+#: ../widgets/text/e-text.c:3565
 msgid "Text"
 msgstr "Texto"
 
@@ -22753,7 +22751,7 @@ msgstr "Alternar colores de las filas"
 #: ../widgets/table/e-table-group-leaf.c:579
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-item.c:3027 ../widgets/table/e-table-item.c:3028
-#: ../widgets/table/e-tree.c:3307 ../widgets/table/e-tree.c:3308
+#: ../widgets/table/e-tree.c:3309 ../widgets/table/e-tree.c:3310
 msgid "Horizontal Draw Grid"
 msgstr "Dibujar rejilla horizontal"
 
@@ -22762,7 +22760,7 @@ msgstr "Dibujar rejilla horizontal"
 #: ../widgets/table/e-table-group-leaf.c:586
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-item.c:3034 ../widgets/table/e-table-item.c:3035
-#: ../widgets/table/e-tree.c:3313 ../widgets/table/e-tree.c:3314
+#: ../widgets/table/e-tree.c:3315 ../widgets/table/e-tree.c:3316
 msgid "Vertical Draw Grid"
 msgstr "Dibujar rejilla vertical"
 
@@ -22771,7 +22769,7 @@ msgstr "Dibujar rejilla vertical"
 #: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-item.c:3041 ../widgets/table/e-table-item.c:3042
-#: ../widgets/table/e-tree.c:3319 ../widgets/table/e-tree.c:3320
+#: ../widgets/table/e-tree.c:3321 ../widgets/table/e-tree.c:3322
 msgid "Draw focus"
 msgstr "Dibujar el foco"
 
@@ -22796,8 +22794,8 @@ msgstr "Modelo de selección"
 #: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-item.c:3055 ../widgets/table/e-table-item.c:3056
-#: ../widgets/table/e-table.c:3307 ../widgets/table/e-tree.c:3301
-#: ../widgets/table/e-tree.c:3302
+#: ../widgets/table/e-table.c:3307 ../widgets/table/e-tree.c:3303
+#: ../widgets/table/e-tree.c:3304
 msgid "Length Threshold"
 msgstr "Umbral de longitud"
 
@@ -22806,8 +22804,8 @@ msgstr "Umbral de longitud"
 #: ../widgets/table/e-table-group-leaf.c:649
 #: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-item.c:3089 ../widgets/table/e-table-item.c:3090
-#: ../widgets/table/e-table.c:3314 ../widgets/table/e-tree.c:3333
-#: ../widgets/table/e-tree.c:3334
+#: ../widgets/table/e-table.c:3314 ../widgets/table/e-tree.c:3335
+#: ../widgets/table/e-tree.c:3336
 msgid "Uniform row height"
 msgstr "Altura uniforme de la fila"
 
@@ -22902,8 +22900,8 @@ msgstr "Modelo de la tabla"
 msgid "Cursor row"
 msgstr "Fila del cursor"
 
-#: ../widgets/table/e-table.c:3321 ../widgets/table/e-tree.c:3340
-#: ../widgets/table/e-tree.c:3341
+#: ../widgets/table/e-table.c:3321 ../widgets/table/e-tree.c:3342
+#: ../widgets/table/e-tree.c:3343
 msgid "Always search"
 msgstr "Buscar siempre"
 
@@ -22911,119 +22909,119 @@ msgstr "Buscar siempre"
 msgid "Use click to add"
 msgstr "Pulsar para añadir"
 
-#: ../widgets/table/e-tree.c:3326 ../widgets/table/e-tree.c:3327
+#: ../widgets/table/e-tree.c:3328 ../widgets/table/e-tree.c:3329
 msgid "ETree table adapter"
 msgstr "Adaptador de tabla Etree"
 
-#: ../widgets/table/e-tree.c:3347
+#: ../widgets/table/e-tree.c:3349
 msgid "Retro Look"
 msgstr "Apariencia retro"
 
-#: ../widgets/table/e-tree.c:3348
+#: ../widgets/table/e-tree.c:3350
 msgid "Draw lines and +/- expanders."
 msgstr "Dibujar líneas y expansores +/−."
 
-#: ../widgets/text/e-text.c:2735
+#: ../widgets/text/e-text.c:2734
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
-#: ../widgets/text/e-text.c:3558 ../widgets/text/e-text.c:3559
+#: ../widgets/text/e-text.c:3557 ../widgets/text/e-text.c:3558
 msgid "Event Processor"
 msgstr "Procesador de acontecimientos"
 
-#: ../widgets/text/e-text.c:3572 ../widgets/text/e-text.c:3573
+#: ../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3572
 msgid "Bold"
 msgstr "Negrita"
 
-#: ../widgets/text/e-text.c:3579 ../widgets/text/e-text.c:3580
+#: ../widgets/text/e-text.c:3578 ../widgets/text/e-text.c:3579
 msgid "Strikeout"
 msgstr "Tachar"
 
-#: ../widgets/text/e-text.c:3586 ../widgets/text/e-text.c:3587
+#: ../widgets/text/e-text.c:3585 ../widgets/text/e-text.c:3586
 msgid "Anchor"
 msgstr "Ancla"
 
-#: ../widgets/text/e-text.c:3594 ../widgets/text/e-text.c:3595
+#: ../widgets/text/e-text.c:3593 ../widgets/text/e-text.c:3594
 msgid "Justification"
 msgstr "Justificación"
 
-#: ../widgets/text/e-text.c:3601 ../widgets/text/e-text.c:3602
+#: ../widgets/text/e-text.c:3600 ../widgets/text/e-text.c:3601
 msgid "Clip Width"
 msgstr "Anchura del clip"
 
-#: ../widgets/text/e-text.c:3608 ../widgets/text/e-text.c:3609
+#: ../widgets/text/e-text.c:3607 ../widgets/text/e-text.c:3608
 msgid "Clip Height"
 msgstr "Altura del clip"
 
-#: ../widgets/text/e-text.c:3615 ../widgets/text/e-text.c:3616
+#: ../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
 msgid "Clip"
 msgstr "Clip"
 
-#: ../widgets/text/e-text.c:3622 ../widgets/text/e-text.c:3623
+#: ../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
 msgid "Fill clip rectangle"
 msgstr "Rellenar el rectángulo del clip"
 
-#: ../widgets/text/e-text.c:3629 ../widgets/text/e-text.c:3630
+#: ../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
 msgid "X Offset"
 msgstr "Desplazamiento en X"
 
-#: ../widgets/text/e-text.c:3636 ../widgets/text/e-text.c:3637
+#: ../widgets/text/e-text.c:3635 ../widgets/text/e-text.c:3636
 msgid "Y Offset"
 msgstr "Desplazamiento en Y"
 
-#: ../widgets/text/e-text.c:3672 ../widgets/text/e-text.c:3673
+#: ../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
 msgid "Text width"
 msgstr "Anchura del texto"
 
-#: ../widgets/text/e-text.c:3679 ../widgets/text/e-text.c:3680
+#: ../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
 msgid "Text height"
 msgstr "Altura del texto"
 
-#: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
+#: ../widgets/text/e-text.c:3693 ../widgets/text/e-text.c:3694
 msgid "Use ellipsis"
 msgstr "Usar elipsis"
 
-#: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
+#: ../widgets/text/e-text.c:3700 ../widgets/text/e-text.c:3701
 msgid "Ellipsis"
 msgstr "Elipsis"
 
-#: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
+#: ../widgets/text/e-text.c:3707 ../widgets/text/e-text.c:3708
 msgid "Line wrap"
 msgstr "Ajuste de línea"
 
-#: ../widgets/text/e-text.c:3715 ../widgets/text/e-text.c:3716
+#: ../widgets/text/e-text.c:3714 ../widgets/text/e-text.c:3715
 msgid "Break characters"
 msgstr "Caracteres de ruptura"
 
-#: ../widgets/text/e-text.c:3722 ../widgets/text/e-text.c:3723
+#: ../widgets/text/e-text.c:3721 ../widgets/text/e-text.c:3722
 msgid "Max lines"
 msgstr "Líneas máximas"
 
-#: ../widgets/text/e-text.c:3744 ../widgets/text/e-text.c:3745
+#: ../widgets/text/e-text.c:3743 ../widgets/text/e-text.c:3744
 msgid "Draw borders"
 msgstr "Dibujar bordes"
 
-#: ../widgets/text/e-text.c:3751 ../widgets/text/e-text.c:3752
+#: ../widgets/text/e-text.c:3750 ../widgets/text/e-text.c:3751
 msgid "Allow newlines"
 msgstr "Permitir nuevas líneas"
 
-#: ../widgets/text/e-text.c:3758 ../widgets/text/e-text.c:3759
+#: ../widgets/text/e-text.c:3757 ../widgets/text/e-text.c:3758
 msgid "Draw background"
 msgstr "Dibujar fondo"
 
-#: ../widgets/text/e-text.c:3765 ../widgets/text/e-text.c:3766
+#: ../widgets/text/e-text.c:3764 ../widgets/text/e-text.c:3765
 msgid "Draw button"
 msgstr "Dibujar botón"
 
-#: ../widgets/text/e-text.c:3772 ../widgets/text/e-text.c:3773
+#: ../widgets/text/e-text.c:3771 ../widgets/text/e-text.c:3772
 msgid "Cursor position"
 msgstr "Posición del cursor"
 
-#: ../widgets/text/e-text.c:3779 ../widgets/text/e-text.c:3780
+#: ../widgets/text/e-text.c:3778 ../widgets/text/e-text.c:3779
 msgid "IM Context"
 msgstr "Contexto IM"
 
-#: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
+#: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr "irador emergente"
 
