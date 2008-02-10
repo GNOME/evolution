@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-31 22:56+0100\n"
-"PO-Revision-Date: 2008-01-31 23:32+0100\n"
+"POT-Creation-Date: 2008-02-10 18:19+0100\n"
+"PO-Revision-Date: 2008-02-10 18:22+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -350,153 +350,154 @@ msgstr "Växla bilagerad"
 msgid "activate"
 msgstr "aktivera"
 
-#: ../addressbook/addressbook.error.xml.h:1
+#. For Translators: {0} is the name of the address book source
+#: ../addressbook/addressbook.error.xml.h:2
+msgid "'{0}' is a read-only address book source. Switch to Contacts View and highlight an address book that can accept contacts."
+msgstr "\"{0}\" är en skrivskyddad adressbokskälla. Växla till Kontaktervy och markera en adressbok som kan ta emot kontakter."
+
+#: ../addressbook/addressbook.error.xml.h:3
 msgid "A contact already exists with this address. Would you like to add a new card with the same address anyway?"
 msgstr "Det finns redan en kontakt med denna adress. Vill du ändå lägga till ett nytt kort med samma adress?"
 
-#: ../addressbook/addressbook.error.xml.h:2
+#: ../addressbook/addressbook.error.xml.h:4
 msgid "Address '{0}' already exists."
 msgstr "Adressen \"{0}\" finns redan."
 
-#: ../addressbook/addressbook.error.xml.h:3
+#: ../addressbook/addressbook.error.xml.h:5
 msgid "Cannot add new contact"
 msgstr "Kan inte lägga till ny kontakt"
 
-#: ../addressbook/addressbook.error.xml.h:4
+#: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
 msgstr "Kan inte flytta kontakt."
 
-#: ../addressbook/addressbook.error.xml.h:5
+#: ../addressbook/addressbook.error.xml.h:7
 msgid "Category editor not available."
 msgstr "Kategoriredigeraren är inte tillgänglig."
 
-#: ../addressbook/addressbook.error.xml.h:6
+#: ../addressbook/addressbook.error.xml.h:8
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
 msgstr "Kontrollera att ditt lösenord är rättstavat och att du använder en inloggningsmetod som stöds. Kom ihåg att lösenord skiljer på gemener och versaler; din Caps Lock kan vara aktiverad."
 
-#: ../addressbook/addressbook.error.xml.h:7
+#: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
 msgstr "Kunde inte hämta schemainformation för LDAP-servern."
 
-#: ../addressbook/addressbook.error.xml.h:8
+#: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove addressbook."
 msgstr "Kunde inte ta bort adressboken."
 
-#: ../addressbook/addressbook.error.xml.h:9
+#: ../addressbook/addressbook.error.xml.h:11
 msgid "Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr "För närvarande kan du endast komma åt systemadressboken i GroupWise från Evolution. Använd någon annan GroupWise-klient en gång för att få tag på dina ofta använda kontakter och mappar för personliga kontakter i GroupWise."
 
-#: ../addressbook/addressbook.error.xml.h:10
+#: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
 msgstr "Ta bort adressboken \"{0}\"?"
 
-#: ../addressbook/addressbook.error.xml.h:11
+#: ../addressbook/addressbook.error.xml.h:13
 msgid "Error loading addressbook."
 msgstr "Fel vid inläsning av adressbok."
 
-#: ../addressbook/addressbook.error.xml.h:12
+#: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
 msgstr "Fel vid sparande av {0} till {1}: {2}"
 
-#: ../addressbook/addressbook.error.xml.h:13
+#: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
 msgstr "Misslyckades med att autentisera med LDAP-server."
 
 #. Unknown error
-#: ../addressbook/addressbook.error.xml.h:14
+#: ../addressbook/addressbook.error.xml.h:16
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1716
 msgid "Failed to delete contact"
 msgstr "Misslyckades med att ta bort kontakt"
 
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "GroupWise Address book creation:"
 msgstr "Skapande av GroupWise-adressbok:"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
 msgstr "LDAP-servern svarade inte med giltig schemainformation."
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "Permission Denied."
 msgstr "Åtkomst nekas."
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "Server Version"
 msgstr "Serverversion"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:21
 msgid "Some features may not work properly with your current server"
 msgstr "En del funktioner kanske inte fungerar korrekt med din nuvarande server"
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:22
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Evolutions adressbok har oväntat avslutats."
 
-#: ../addressbook/addressbook.error.xml.h:21
-msgid "The address book {0} is read only, thus you cannot add contacts there. Select other address book, please."
-msgstr "Adressboken {0} är skrivskyddad och du kan därför inte lägga till kontakter där. Välj en annan adressbok."
-
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr "Den bild som du har valt är stor. Vill du ändra storleken på den och lagra den?"
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases."
 msgstr "Denna LDAP-server kanske använder en äldre version av LDAP som inte stöder denna funktionalitet, eller så kan den vara felkonfigurerad. Fråga din administratör om de sökbaser som stöds."
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:25
 msgid "This address book will be removed permanently."
 msgstr "Denna adressbok kommer att tas bort permanent."
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This addressbook could not be opened."
 msgstr "Denna adressbok kunde inte öppnas."
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "This addressbook server does not have any suggested search bases."
 msgstr "Denna adressboksserver har inga föreslagna sökbaser."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "This addressbook server might be unreachable or the server name may be misspelled or your network connection could be down."
 msgstr "Denna adressboksserver kan vara onåbar, servernamnet kan vara felstavat, eller så kan din nätverksanslutning vara nere."
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "This server does not support LDAPv3 schema information."
 msgstr "Denna server stöder inte LDAPv3-schemainformation."
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to open addressbook"
 msgstr "Kan inte öppna adressbok"
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:31
 msgid "Unable to perform search."
 msgstr "Kan inte utföra sökning."
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:32
 msgid "Unable to save {0}."
 msgstr "Kan inte spara {0}."
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:33
 msgid "Would you like to save your changes?"
 msgstr "Vill du spara dina ändringar?"
 
-#: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/addressbook.error.xml.h:34
 msgid "You are attempting to move a contact from one addressbook to another but it cannot be removed from the source. Do you want to save a copy instead?"
 msgstr "Du försöker flytta en kontakt från en adressbok till en annan men den kan inte flyttas från källan. Vill du spara en kopia istället?"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:35
 msgid "You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version"
 msgstr "Du ansluter till en GroupWise-server som inte stöds och kan råka ut för problem vid användningen av Evolution. För bästa resultat bör servern uppgraderas till en version som stöds"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:36
 msgid "You have made modifications to this contact. Do you want to save these changes?"
 msgstr "Du har ändrat denna kontakt. Vill du spara dessa ändringar?"
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:37
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "Dina kontakter för {0} kommer inte att vara tillgängliga förrän Evolution har startats om."
 
-#: ../addressbook/addressbook.error.xml.h:37
+#: ../addressbook/addressbook.error.xml.h:38
 #: ../mail/em-vfolder-rule.c:512
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
@@ -504,26 +505,26 @@ msgstr "Dina kontakter för {0} kommer inte att vara tillgängliga förrän Evol
 msgid "_Add"
 msgstr "_Lägg till"
 
-#: ../addressbook/addressbook.error.xml.h:38
+#: ../addressbook/addressbook.error.xml.h:39
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: ../addressbook/addressbook.error.xml.h:39
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "_Do not save"
 msgstr "_Spara inte"
 
-#: ../addressbook/addressbook.error.xml.h:40
+#: ../addressbook/addressbook.error.xml.h:41
 msgid "_Resize"
 msgstr "_Ändra storlek"
 
-#: ../addressbook/addressbook.error.xml.h:41
+#: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
 msgstr "_Använd som det är"
 
 # Vad är detta?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
-#: ../addressbook/addressbook.error.xml.h:43
+#: ../addressbook/addressbook.error.xml.h:44
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid "{0}"
 msgstr "{0}"
@@ -531,7 +532,7 @@ msgstr "{0}"
 # Vad är detta?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #. For Translators: {1} is the error status string (eg: "E_BOOK_ERROR_NO_SELF_CONTACT")
-#: ../addressbook/addressbook.error.xml.h:45
+#: ../addressbook/addressbook.error.xml.h:46
 msgid "{1}"
 msgstr "{1}"
 
@@ -703,7 +704,7 @@ msgstr "Kopiera _bokinnehåll lokalt för frånkopplad användning"
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222
 #: ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2318
+#: ../plugins/itip-formatter/itip-formatter.c:2338
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Allmänt"
@@ -1398,8 +1399,8 @@ msgstr "Adress"
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:179
 #: ../widgets/table/e-cell-text.c:1835
+#: ../widgets/text/e-text.c:3686
 #: ../widgets/text/e-text.c:3687
-#: ../widgets/text/e-text.c:3688
 msgid "Editable"
 msgstr "Redigerbar"
 
@@ -2825,8 +2826,8 @@ msgstr "Fel vid hämtande av bokvy"
 #: ../widgets/table/e-table-selection-model.c:303
 #: ../widgets/table/e-table.c:3335
 #: ../widgets/table/e-tree-selection-model.c:821
+#: ../widgets/text/e-text.c:3550
 #: ../widgets/text/e-text.c:3551
-#: ../widgets/text/e-text.c:3552
 msgid "Model"
 msgstr "Modell"
 
@@ -3132,8 +3133,8 @@ msgstr "Webbplats"
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-item.c:3069
 #: ../widgets/table/e-table-item.c:3070
+#: ../widgets/text/e-text.c:3728
 #: ../widgets/text/e-text.c:3729
-#: ../widgets/text/e-text.c:3730
 msgid "Width"
 msgstr "Bredd"
 
@@ -3151,8 +3152,8 @@ msgstr "Bredd"
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:3075
 #: ../widgets/table/e-table-item.c:3076
+#: ../widgets/text/e-text.c:3736
 #: ../widgets/text/e-text.c:3737
-#: ../widgets/text/e-text.c:3738
 msgid "Height"
 msgstr "Höjd"
 
@@ -3873,7 +3874,7 @@ msgstr "Skuggning"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:967
+#: ../plugins/exchange-operations/exchange-account-setup.c:981
 #: ../plugins/exchange-operations/exchange-calendar.c:231
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
@@ -3991,325 +3992,326 @@ msgstr "Storleksflaggan behövs inte i normalt läge."
 msgid "Unhandled error"
 msgstr "Fel som inte hanteras"
 
-#: ../calendar/calendar.error.xml.h:1
+#. For Translators: {0} is the name of the calendar source
+#: ../calendar/calendar.error.xml.h:2
+msgid "'{0}' is a read-only calendar source. Switch to Calendar View and highlight a calendar that can accept appointments."
+msgstr "\"{0}\" är en skrivskyddad kalenderkälla. Växla till Kalendervy och markera en kalender som kan ta emot möten."
+
+#: ../calendar/calendar.error.xml.h:3
 msgid "Adding a meaningful summary to your appointment will give your recipients an idea of what your appointment is about."
 msgstr "Att lägga till en meningsfull sammanfattning till ditt möte kommer att ge dina mottagare en ledtråd om vad mötet handlar om."
 
-#: ../calendar/calendar.error.xml.h:2
+#: ../calendar/calendar.error.xml.h:4
 msgid "Adding a meaningful summary to your task will give your recipients an idea of what your task is about."
 msgstr "Att lägga till en meningsfull sammanfattning till din uppgift kommer att ge dina mottagare en ledtråd om vad uppgiften handlar om."
 
-#: ../calendar/calendar.error.xml.h:3
+#: ../calendar/calendar.error.xml.h:5
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr "All information i dessa memon kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:4
+#: ../calendar/calendar.error.xml.h:6
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr "All information i detta memo kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:5
+#: ../calendar/calendar.error.xml.h:7
 msgid "All information on these appointments will be deleted and can not be restored."
 msgstr "All information om dessa möten kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:6
+#: ../calendar/calendar.error.xml.h:8
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr "All information om dessa uppgifter kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:7
+#: ../calendar/calendar.error.xml.h:9
 msgid "All information on this appointment will be deleted and can not be restored."
 msgstr "All information om detta möte kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
 msgstr "All information om detta sammanträde kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:9
+#: ../calendar/calendar.error.xml.h:11
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr "All information om detta memo kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:10
+#: ../calendar/calendar.error.xml.h:12
 msgid "All information on this task will be deleted and can not be restored."
 msgstr "All information om denna uppgift kommer att tas bort och kan inte återställas."
 
-#: ../calendar/calendar.error.xml.h:11
+#: ../calendar/calendar.error.xml.h:13
 msgid "Are you sure you want to delete the '{0}' task?"
 msgstr "Är du säker på att du vill ta bort uppgiften \"{0}\"?"
 
-#: ../calendar/calendar.error.xml.h:12
+#: ../calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Är du säker på att du vill ta bort mötet med namnet \"{0}\"?"
 
-#: ../calendar/calendar.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the memo '{0}'?"
 msgstr "Är du säker på att du vill ta bort memot \"{0}\"?"
 
-#: ../calendar/calendar.error.xml.h:14
+#: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "Är du säker på att du vill ta bort dessa {0} möten?"
 
-#: ../calendar/calendar.error.xml.h:15
+#: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Är du säker på att du vill ta bort dessa {0} memon?"
 
-#: ../calendar/calendar.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Är du säker på att du vill ta bort dessa {0} uppgifter?"
 
-#: ../calendar/calendar.error.xml.h:17
+#: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete this appointment?"
 msgstr "Är du säker på att du vill ta bort detta möte?"
 
-#: ../calendar/calendar.error.xml.h:18
+#: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:183
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Är du säker på att du vill ta bort detta sammanträde?"
 
-#: ../calendar/calendar.error.xml.h:19
+#: ../calendar/calendar.error.xml.h:21
 #: ../calendar/gui/dialogs/delete-comp.c:189
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Är du säker på att du vill ta bort detta memo?"
 
-#: ../calendar/calendar.error.xml.h:20
+#: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:186
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Är du säker på att du vill ta bort denna uppgift?"
 
-#: ../calendar/calendar.error.xml.h:21
+#: ../calendar/calendar.error.xml.h:23
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Är du säker på att du vill spara memot utan en sammanfattning?"
 
-#: ../calendar/calendar.error.xml.h:22
+#: ../calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to send the appointment without a summary?"
 msgstr "Är du säker på att du vill skicka mötet utan en sammanfattning?"
 
-#: ../calendar/calendar.error.xml.h:23
+#: ../calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to send the task without a summary?"
 msgstr "Är du säker på att du vill skicka uppgiften utan en sammanfattning?"
 
 # Detta kräver nog en förklaring.
 # http://bugzilla.ximian.com/show_bug.cgi?id=61088
-#: ../calendar/calendar.error.xml.h:24
+#: ../calendar/calendar.error.xml.h:26
 msgid "Cannot create a new event"
 msgstr "Kan inte skapa ett nytt evenemang"
 
-#: ../calendar/calendar.error.xml.h:25
+#: ../calendar/calendar.error.xml.h:27
 msgid "Delete calendar '{0}'?"
 msgstr "Ta bort kalendern \"{0}\"?"
 
-#: ../calendar/calendar.error.xml.h:26
+#: ../calendar/calendar.error.xml.h:28
 msgid "Delete memo list '{0}'?"
 msgstr "Ta bort memolistan \"{0}\"?"
 
-#: ../calendar/calendar.error.xml.h:27
+#: ../calendar/calendar.error.xml.h:29
 msgid "Delete task list '{0}'?"
 msgstr "Ta bort uppgiftslistan \"{0}\"?"
 
-#: ../calendar/calendar.error.xml.h:28
+#: ../calendar/calendar.error.xml.h:30
 msgid "Do _not Send"
 msgstr "Skicka i_nte"
 
-#: ../calendar/calendar.error.xml.h:29
+#: ../calendar/calendar.error.xml.h:31
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "Hämtning pågår. Vill du spara mötet?"
 
-#: ../calendar/calendar.error.xml.h:30
+#: ../calendar/calendar.error.xml.h:32
 msgid "Download in progress. Do you want to save the task?"
 msgstr "Hämtning pågår. Vill du spara uppgiften?"
 
-#: ../calendar/calendar.error.xml.h:31
+#: ../calendar/calendar.error.xml.h:33
 msgid "Editor could not be loaded."
 msgstr "Redigerare kunde inte läsas in."
 
-#: ../calendar/calendar.error.xml.h:32
+#: ../calendar/calendar.error.xml.h:34
 msgid "Email invitations will be sent to all participants and allow them to accept this task."
 msgstr "E-posta inbjudningar till alla deltagare och låt dem acceptera denna uppgift."
 
 # Vad är RSVP?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61071
-#: ../calendar/calendar.error.xml.h:33
+#: ../calendar/calendar.error.xml.h:35
 msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr "E-postinbjudningar kommer att skickas ut till alla deltagare och möjliggöra för dem att svara."
 
-#: ../calendar/calendar.error.xml.h:34
+#: ../calendar/calendar.error.xml.h:36
 msgid "Error loading calendar"
 msgstr "Fel vid inläsning av kalendern"
 
-#: ../calendar/calendar.error.xml.h:35
+#: ../calendar/calendar.error.xml.h:37
 msgid "Error loading memo list"
 msgstr "Fel vid inläsning av memolista"
 
-#: ../calendar/calendar.error.xml.h:36
+#: ../calendar/calendar.error.xml.h:38
 msgid "Error loading task list"
 msgstr "Fel vid inläsning av uppgiftslista"
 
-#: ../calendar/calendar.error.xml.h:37
+#: ../calendar/calendar.error.xml.h:39
 msgid "If you do not send a cancelation notice, the other participants may not know the meeting is canceled."
 msgstr "Om du inte skickar ett avbokningsmeddelande kan det hända att de andra deltagarna inte vet om att sammanträdet är avbokat."
 
-#: ../calendar/calendar.error.xml.h:38
+#: ../calendar/calendar.error.xml.h:40
 msgid "If you do not send a cancelation notice, the other participants may not know the memo has been deleted."
 msgstr "Om du inte skickar ett avbokningsmeddelande kan det hända att de andra deltagarna inte vet om att memot är borttaget."
 
-#: ../calendar/calendar.error.xml.h:39
+#: ../calendar/calendar.error.xml.h:41
 msgid "If you do not send a cancelation notice, the other participants may not know the task has been deleted."
 msgstr "Om du inte skickar ett avbokningsmeddelande kan det hända att de andra deltagarna inte vet om att uppgiften är borttagen."
 
-#: ../calendar/calendar.error.xml.h:40
+#: ../calendar/calendar.error.xml.h:42
 msgid "Sending updated information allows other participants to keep their calendars up to date."
 msgstr "Att skicka uppdaterad information möjliggör för andra deltagare att hålla sina kalendrar uppdaterade."
 
-#: ../calendar/calendar.error.xml.h:41
+#: ../calendar/calendar.error.xml.h:43
 msgid "Sending updated information allows other participants to keep their task lists up to date."
 msgstr "Att skicka uppdaterad information möjliggör för andra deltagare att hålla sina uppgiftslistor uppdaterade."
 
-#: ../calendar/calendar.error.xml.h:42
+#: ../calendar/calendar.error.xml.h:44
 msgid "Some attachments are being downloaded. Saving the appointment would result in the loss of these attachments."
 msgstr "Det finns några bilagor som hämtas. Att spara mötet kommer att göra att mötet sparas utan dessa kvarvarande bilagor."
 
-#: ../calendar/calendar.error.xml.h:43
+#: ../calendar/calendar.error.xml.h:45
 msgid "Some attachments are being downloaded. Saving the task would result in the loss of these attachments."
 msgstr "Det finns några bilagor som hämtas. Att spara uppgiften kommer att göra att uppgiften sparas utan dessa kvarvarande bilagor."
 
-#: ../calendar/calendar.error.xml.h:44
+#: ../calendar/calendar.error.xml.h:46
 msgid "Some features may not work properly with your current server."
 msgstr "En del funktioner kanske inte fungerar korrekt med din nuvarande server."
 
-#: ../calendar/calendar.error.xml.h:45
+#: ../calendar/calendar.error.xml.h:47
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution-kalendern har oväntat avslutats."
 
-#: ../calendar/calendar.error.xml.h:46
+#: ../calendar/calendar.error.xml.h:48
 msgid "The Evolution memo has quit unexpectedly."
 msgstr "Evolution-memot har oväntat avslutats."
 
-#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/calendar.error.xml.h:49
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Evolution-uppgifterna har oväntat avslutats."
 
-#: ../calendar/calendar.error.xml.h:48
+#: ../calendar/calendar.error.xml.h:50
 msgid "The calendar is not marked for offline usage."
 msgstr "Kalendern är inte märkt för frånkopplad användning."
 
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:51
 msgid "The memo list is not marked for offline usage"
 msgstr "Memolistan är inte märkt för frånkopplad användning"
 
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:52
 msgid "The task list is not marked for offline usage."
 msgstr "Uppgiftslistan är inte märkt för frånkopplad användning."
 
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:53
 msgid "This calendar will be removed permanently."
 msgstr "Denna kalender kommer att tas bort permanent."
 
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:54
 msgid "This memo list will be removed permanently."
 msgstr "Denna memolista kommer att tas bort permanent."
 
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:55
 msgid "This task list will be removed permanently."
 msgstr "Denna uppgiftslista kommer att tas bort permanent."
 
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:56
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Vill du spara dina ändringar i detta möte?"
 
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:57
 msgid "Would you like to save your changes to this memo?"
 msgstr "Vill du spara dina ändringar i detta memo?"
 
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:58
 msgid "Would you like to save your changes to this task?"
 msgstr "Vill du spara dina ändringar i denna uppgift?"
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to send a cancelation notice for this memo?"
 msgstr "Vill du skicka ett avbokningsmeddelande för detta memo?"
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "Vill du skicka ett avbokningsmeddelande till alla deltagare?"
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Vill du skicka ut sammanträdesinbjudningar till deltagarna?"
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:62
 msgid "Would you like to send this task to participants?"
 msgstr "Vill du skicka denna uppgift till deltagarna?"
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:63
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Vill du skicka uppdaterad sammanträdesinformation till deltagarna?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:64
 msgid "Would you like to send updated task information to participants?"
 msgstr "Vill du skicka uppdaterad uppgiftsinformation till deltagarna?"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:65
 msgid "You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results, the server should be upgraded to a supported version."
 msgstr "Du ansluter till en GroupWise-server som inte stöds och kan råka ut för problem vid användningen av Evolution. För bästa resultat bör servern uppgraderas till en version som stöds."
 
-#: ../calendar/calendar.error.xml.h:64
-msgid "You have a read-only calendar source selected. Change to Calendar View and highlight a calendar that can accept appointments."
-msgstr "Du har en skrivskyddad kalenderkälla vald. Ändra till Kalendervy och markera en kalender som kan ta emot möten."
-
-#: ../calendar/calendar.error.xml.h:65
+#: ../calendar/calendar.error.xml.h:66
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Du har gjort ändringar i detta möte, men inte sparat dem än."
 
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:67
 msgid "You have changed this task, but not yet saved it."
 msgstr "Du har gjort ändringar i denna uppgift, men inte sparat dem än."
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:68
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Du har gjort ändringar i detta memo, men inte sparat dem än."
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:69
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Dina kalendrar kommer inte att vara tillgängliga förrän Evolution har startats om."
 
-#: ../calendar/calendar.error.xml.h:69
+#: ../calendar/calendar.error.xml.h:70
 msgid "Your memos will not be available until Evolution is restarted."
 msgstr "Dina memon kommer inte att vara tillgängliga förrän Evolution har startats om."
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:71
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Dina uppgifter kommer inte att vara tillgängliga förrän Evolution har startats om."
 
-#: ../calendar/calendar.error.xml.h:71
+#: ../calendar/calendar.error.xml.h:72
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "_Förkasta ändringar"
 
-#: ../calendar/calendar.error.xml.h:72
+#: ../calendar/calendar.error.xml.h:73
 #: ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:59
 msgid "_Save"
 msgstr "_Spara"
 
-#: ../calendar/calendar.error.xml.h:73
+#: ../calendar/calendar.error.xml.h:74
 msgid "_Save Changes"
 msgstr "_Spara ändringar"
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:75
 #: ../composer/mail-composer.error.xml.h:33
 #: ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Skicka"
 
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:76
 msgid "_Send Notice"
 msgstr "_Skicka meddelande"
 
 # Vad är detta?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61062
-#: ../calendar/calendar.error.xml.h:76
+#: ../calendar/calendar.error.xml.h:77
 msgid "{0}."
 msgstr "{0}."
 
@@ -4362,7 +4364,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Kunde inte skriva pilotens att-göra-programblock"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2309
+#: ../plugins/itip-formatter/itip-formatter.c:2329
 msgid "Calendar and Tasks"
 msgstr "Kalender och uppgifter"
 
@@ -4834,12 +4836,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Visa statusfältet i evenemang/uppgift/sammanträdesredigeraren"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#: ../mail/evolution-mail.schemas.in.h:109
+#: ../mail/evolution-mail.schemas.in.h:110
 msgid "Show the \"Preview\" pane"
 msgstr "Visa panelen \"Förhandsvisning\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#: ../mail/evolution-mail.schemas.in.h:110
+#: ../mail/evolution-mail.schemas.in.h:111
 msgid "Show the \"Preview\" pane."
 msgstr "Visa panelen \"Förhandsvisning\"."
 
@@ -6105,7 +6107,7 @@ msgstr "Anpassa"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:200
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1996
+#: ../plugins/itip-formatter/itip-formatter.c:2006
 #: ../widgets/misc/e-cell-date-edit.c:247
 #: ../widgets/misc/e-dateedit.c:1531
 #: ../widgets/misc/e-dateedit.c:1745
@@ -6802,8 +6804,8 @@ msgstr "Nej"
 #: ../calendar/gui/print.c:969
 #: ../calendar/gui/print.c:986
 #: ../mail/em-utils.c:1294
-#: ../plugins/itip-formatter/itip-formatter.c:395
-#: ../plugins/itip-formatter/itip-formatter.c:2021
+#: ../plugins/itip-formatter/itip-formatter.c:405
+#: ../plugins/itip-formatter/itip-formatter.c:2031
 #: ../plugins/plugin-manager/plugin-manager.c:84
 #: ../widgets/misc/e-attachment-bar.c:721
 #: ../widgets/misc/e-charset-picker.c:64
@@ -7354,13 +7356,13 @@ msgstr "<br> Granska följande information, och välj sedan en åtgärd från me
 #: ../calendar/gui/e-meeting-store.c:176
 #: ../calendar/gui/e-meeting-store.c:199
 #: ../calendar/gui/itip-utils.c:728
-#: ../plugins/itip-formatter/itip-formatter.c:2009
+#: ../plugins/itip-formatter/itip-formatter.c:2019
 msgid "Accepted"
 msgstr "Accepterat"
 
 #: ../calendar/gui/e-itip-control.c:1178
 #: ../calendar/gui/itip-utils.c:731
-#: ../plugins/itip-formatter/itip-formatter.c:2012
+#: ../plugins/itip-formatter/itip-formatter.c:2022
 msgid "Tentatively Accepted"
 msgstr "Preliminärt accepterat"
 
@@ -7370,7 +7372,7 @@ msgstr "Preliminärt accepterat"
 #: ../calendar/gui/e-meeting-store.c:201
 #: ../calendar/gui/itip-utils.c:734
 #: ../calendar/gui/itip-utils.c:763
-#: ../plugins/itip-formatter/itip-formatter.c:2015
+#: ../plugins/itip-formatter/itip-formatter.c:2025
 msgid "Declined"
 msgstr "Avslaget"
 
@@ -7585,7 +7587,7 @@ msgid "Attendee status updated\n"
 msgstr "Deltagarstatus är uppdaterad\n"
 
 #: ../calendar/gui/e-itip-control.c:2054
-#: ../plugins/itip-formatter/itip-formatter.c:1234
+#: ../plugins/itip-formatter/itip-formatter.c:1242
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Deltagarstatusen kan inte uppdateras eftersom objektet inte längre finns"
 
@@ -7760,7 +7762,7 @@ msgstr "Preliminärt"
 #: ../calendar/gui/e-meeting-store.c:182
 #: ../calendar/gui/e-meeting-store.c:205
 #: ../calendar/gui/itip-utils.c:737
-#: ../plugins/itip-formatter/itip-formatter.c:2018
+#: ../plugins/itip-formatter/itip-formatter.c:2028
 msgid "Delegated"
 msgstr "Delegerat"
 
@@ -8529,7 +8531,7 @@ msgstr "Möten och sammanträden"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
-#: ../plugins/itip-formatter/itip-formatter.c:1562
+#: ../plugins/itip-formatter/itip-formatter.c:1570
 msgid "Opening calendar"
 msgstr "Öppnar kalender"
 
@@ -12335,8 +12337,8 @@ msgid "Always request read receipt"
 msgstr "Begär alltid läskvitto"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-msgid "Amount of time in seconds the error should be showed on the status bar."
-msgstr "Mängden tid (i sekunder) som felet ska visas på statusraden."
+msgid "Amount of time in seconds the error should be shown on the status bar."
+msgstr "Den tidsperiod i sekunder som felet ska visas på statusraden."
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Automatic emoticon recognition"
@@ -12739,36 +12741,36 @@ msgid "Send HTML mail by default."
 msgstr "Skicka HTML-brev som standard."
 
 #: ../mail/evolution-mail.schemas.in.h:104
+msgid "Sender email-address column in the message list"
+msgstr "Kolumn för avsändarens e-postadress i meddelandelistan"
+
+#: ../mail/evolution-mail.schemas.in.h:105
 msgid "Show Animations"
 msgstr "Visa animationer"
 
-#: ../mail/evolution-mail.schemas.in.h:105
+#: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show animated images as animations."
 msgstr "Visa animerade bilder som animationer."
 
-#: ../mail/evolution-mail.schemas.in.h:106
+#: ../mail/evolution-mail.schemas.in.h:107
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Visa borttagna meddelanden (med en genomstrykning) i meddelandelistan."
 
-#: ../mail/evolution-mail.schemas.in.h:107
+#: ../mail/evolution-mail.schemas.in.h:108
 msgid "Show deleted messages in the message-list"
 msgstr "Visa borttagna meddelanden i meddelandelistan"
 
-#: ../mail/evolution-mail.schemas.in.h:108
+#: ../mail/evolution-mail.schemas.in.h:109
 msgid "Show photo of the sender"
 msgstr "Visa fotot på avsändaren"
 
-#: ../mail/evolution-mail.schemas.in.h:111
-msgid "Show the email of the sender in the messages composite column in the message list."
-msgstr "Visa avsändarens e-postadress i meddelandets kompositkolumn i meddelandelistan."
-
 #: ../mail/evolution-mail.schemas.in.h:112
-msgid "Show the photo of the sender in the message reading pane."
-msgstr "Visa avsändarens foto i meddelandets läsningspanel."
+msgid "Show the email-address of the sender in a separate column in the message list."
+msgstr "Visa avsändarens e-postadress i en separat kolumn i meddelandelistan."
 
 #: ../mail/evolution-mail.schemas.in.h:113
-msgid "Show the sender email in the messages column in the message list"
-msgstr "Visa avsändarens e-postadress i meddelandekolumnen i meddelandelistan"
+msgid "Show the photo of the sender in the message reading pane."
+msgstr "Visa avsändarens foto i meddelandets läsningspanel."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Specifies the header to check for junk."
@@ -13191,8 +13193,8 @@ msgid " Ch_eck for Supported Types "
 msgstr " _Kontrollera vilka typer som stöds "
 
 #: ../mail/mail-config.glade.h:2
-msgid "(Note: Requires restart)"
-msgstr "(Observera: Kräver omstart)"
+msgid "(Note: Requires restart of the application)"
+msgstr "(Observera: Kräver omstart av programmet)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -15448,29 +15450,29 @@ msgstr "Mappstorlek"
 msgid "Exchange Settings"
 msgstr "Exchange-inställningar"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:618
+#: ../plugins/exchange-operations/exchange-account-setup.c:625
 msgid "_OWA URL:"
 msgstr "_OWA-URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:644
+#: ../plugins/exchange-operations/exchange-account-setup.c:651
 msgid "A_uthenticate"
 msgstr "A_utentisera"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:840
+#: ../plugins/exchange-operations/exchange-account-setup.c:854
 msgid "_Authentication Type"
 msgstr "_Autentiseringstyp"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:854
+#: ../plugins/exchange-operations/exchange-account-setup.c:868
 msgid "Ch_eck for Supported Types"
 msgstr "_Kontrollera vilka typer som stöds"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:960
+#: ../plugins/exchange-operations/exchange-account-setup.c:974
 #: ../plugins/exchange-operations/exchange-contacts.c:212
 #, c-format
 msgid "%s KB"
 msgstr "%s KB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:962
+#: ../plugins/exchange-operations/exchange-account-setup.c:976
 #: ../plugins/exchange-operations/exchange-contacts.c:214
 #, c-format
 msgid "0 KB"
@@ -16666,27 +16668,27 @@ msgstr "En insticksmodul för funktionerna i IMAP-konton."
 msgid "IMAP Features"
 msgstr "IMAP-funktioner"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:83
+#: ../plugins/import-ics-attachments/icsimporter.c:82
 msgid "_Import to Calendar"
 msgstr "_Importera till kalender"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:88
+#: ../plugins/import-ics-attachments/icsimporter.c:87
 msgid "_Import to Tasks"
 msgstr "_Importera till uppgifter"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:206
+#: ../plugins/import-ics-attachments/icsimporter.c:205
 msgid "Import ICS"
 msgstr "Importera ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:233
+#: ../plugins/import-ics-attachments/icsimporter.c:228
 msgid "Select Task List"
 msgstr "Välj uppgiftslista"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:237
+#: ../plugins/import-ics-attachments/icsimporter.c:232
 msgid "Select Calendar"
 msgstr "Välj kalender"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:267
+#: ../plugins/import-ics-attachments/icsimporter.c:262
 #: ../shell/e-shell-importer.c:703
 msgid "_Import"
 msgstr "_Importera"
@@ -16733,176 +16735,176 @@ msgstr "Synkronisera till iPod"
 msgid "iPod Synchronization"
 msgstr "iPod-synkronisering"
 
-#: ../plugins/itip-formatter/itip-formatter.c:429
-#: ../plugins/itip-formatter/itip-formatter.c:554
+#: ../plugins/itip-formatter/itip-formatter.c:439
+#: ../plugins/itip-formatter/itip-formatter.c:564
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Misslyckades med att läsa in kalendern \"%s\""
 
-#: ../plugins/itip-formatter/itip-formatter.c:574
+#: ../plugins/itip-formatter/itip-formatter.c:584
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Ett möte i kalendern \"%s\" är i konflikt med detta sammanträde"
 
-#: ../plugins/itip-formatter/itip-formatter.c:600
+#: ../plugins/itip-formatter/itip-formatter.c:610
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Hittade mötet i kalendern \"%s\""
 
-#: ../plugins/itip-formatter/itip-formatter.c:676
+#: ../plugins/itip-formatter/itip-formatter.c:686
 msgid "Unable to find any calendars"
 msgstr "Kunde inte hitta några kalendrar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:683
+#: ../plugins/itip-formatter/itip-formatter.c:693
 msgid "Unable to find this meeting in any calendar"
 msgstr "Kunde inte hitta detta sammanträde i någon kalender"
 
-#: ../plugins/itip-formatter/itip-formatter.c:687
+#: ../plugins/itip-formatter/itip-formatter.c:697
 msgid "Unable to find this task in any task list"
 msgstr "Kunde inte hitta denna uppgift i någon uppgiftslista"
 
-#: ../plugins/itip-formatter/itip-formatter.c:691
+#: ../plugins/itip-formatter/itip-formatter.c:701
 msgid "Unable to find this memo in any memo list"
 msgstr "Kunde inte hitta detta memo i någon memolista"
 
-#: ../plugins/itip-formatter/itip-formatter.c:764
+#: ../plugins/itip-formatter/itip-formatter.c:772
 msgid "Searching for an existing version of this appointment"
 msgstr "Söker efter en befintlig version av detta möte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:927
+#: ../plugins/itip-formatter/itip-formatter.c:935
 msgid "Unable to parse item"
 msgstr "Kan inte tolka objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:985
+#: ../plugins/itip-formatter/itip-formatter.c:993
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan inte skicka objekt till kalendern \"%s\". %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:997
+#: ../plugins/itip-formatter/itip-formatter.c:1005
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Skickade till kalendern \"%s\" som accepterat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1001
+#: ../plugins/itip-formatter/itip-formatter.c:1009
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Skickade till kalendern \"%s\" som preliminärt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1006
+#: ../plugins/itip-formatter/itip-formatter.c:1014
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Skickade till kalendern \"%s\" som avslaget"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1011
+#: ../plugins/itip-formatter/itip-formatter.c:1019
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Skickade till kalendern \"%s\" som avbrutet"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1105
+#: ../plugins/itip-formatter/itip-formatter.c:1113
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisatören har tagit bort delegaten %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1112
+#: ../plugins/itip-formatter/itip-formatter.c:1120
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Skickade ett avbokningsmeddelande till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1114
+#: ../plugins/itip-formatter/itip-formatter.c:1122
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kunde inte skicka en avbokningsnotering till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1199
+#: ../plugins/itip-formatter/itip-formatter.c:1207
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltagarstatus kunde inte uppdateras eftersom statusen är ogiltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1226
+#: ../plugins/itip-formatter/itip-formatter.c:1234
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kan inte uppdatera deltagare. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1230
+#: ../plugins/itip-formatter/itip-formatter.c:1238
 msgid "Attendee status updated"
 msgstr "Deltagarstatusen är uppdaterad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1255
+#: ../plugins/itip-formatter/itip-formatter.c:1263
 msgid "Meeting information sent"
 msgstr "Sammanträdesinformation skickad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1266
 msgid "Task information sent"
 msgstr "Uppgiftsinformation skickad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1261
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "Memo information sent"
 msgstr "Memoinformation skickad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1270
+#: ../plugins/itip-formatter/itip-formatter.c:1278
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Kunde inte skicka sammanträdesinformation, sammanträdet finns inte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1273
+#: ../plugins/itip-formatter/itip-formatter.c:1281
 msgid "Unable to send task information, the task does not exist"
 msgstr "Kunde inte skicka uppgiftsinformation, uppgiften finns inte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1276
+#: ../plugins/itip-formatter/itip-formatter.c:1284
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Kunde inte skicka memoinformation, memot finns inte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1351
-#: ../plugins/itip-formatter/itip-formatter.c:1366
+#: ../plugins/itip-formatter/itip-formatter.c:1359
+#: ../plugins/itip-formatter/itip-formatter.c:1374
 msgid "The calendar attached is not valid"
 msgstr "Den bifogade kalendern är inte giltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1352
-#: ../plugins/itip-formatter/itip-formatter.c:1367
+#: ../plugins/itip-formatter/itip-formatter.c:1360
+#: ../plugins/itip-formatter/itip-formatter.c:1375
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Meddelandet påstår sig innehålla en kalender, men kalendern är inte en giltig iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1402
-#: ../plugins/itip-formatter/itip-formatter.c:1420
-#: ../plugins/itip-formatter/itip-formatter.c:1502
+#: ../plugins/itip-formatter/itip-formatter.c:1410
+#: ../plugins/itip-formatter/itip-formatter.c:1428
+#: ../plugins/itip-formatter/itip-formatter.c:1510
 msgid "The item in the calendar is not valid"
 msgstr "Objektet i kalendern är inte giltigt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1403
-#: ../plugins/itip-formatter/itip-formatter.c:1421
-#: ../plugins/itip-formatter/itip-formatter.c:1503
+#: ../plugins/itip-formatter/itip-formatter.c:1411
+#: ../plugins/itip-formatter/itip-formatter.c:1429
+#: ../plugins/itip-formatter/itip-formatter.c:1511
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Meddelandet innehåller en kalender, men kalendern innehåller inga händelser, uppgifter eller ledig-/upptageninformation"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1432
+#: ../plugins/itip-formatter/itip-formatter.c:1440
 msgid "The calendar attached contains multiple items"
 msgstr "Den bifogade kalendern innehåller flera objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1433
+#: ../plugins/itip-formatter/itip-formatter.c:1441
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "För att kunna behandla alla dessa objekt bör filen sparas och kalendern importeras"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2123
+#: ../plugins/itip-formatter/itip-formatter.c:2133
 msgid "This meeting recurs"
 msgstr "Detta möte upprepas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2126
+#: ../plugins/itip-formatter/itip-formatter.c:2136
 msgid "This task recurs"
 msgstr "Denna uppgift upprepas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2129
+#: ../plugins/itip-formatter/itip-formatter.c:2139
 msgid "This memo recurs"
 msgstr "Detta memo upprepas"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2334
+#: ../plugins/itip-formatter/itip-formatter.c:2354
 msgid "_Delete message after acting"
 msgstr "_Ta bort meddelande efter åtgärd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2344
-#: ../plugins/itip-formatter/itip-formatter.c:2376
+#: ../plugins/itip-formatter/itip-formatter.c:2364
+#: ../plugins/itip-formatter/itip-formatter.c:2396
 msgid "Conflict Search"
 msgstr "Konfliktsökning"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2359
+#: ../plugins/itip-formatter/itip-formatter.c:2379
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Välj de kalendrar som ska genomsökas efter sammanträdeskonflikter"
 
@@ -19480,7 +19482,7 @@ msgid "Save the contacts of the selected folder as VCard"
 msgstr "Spara kontakterna i den markerade mappen som VCard"
 
 #: ../ui/evolution-addressbook.xml.h:34
-#: ../widgets/text/e-text.c:2723
+#: ../widgets/text/e-text.c:2722
 msgid "Select All"
 msgstr "Markera allt"
 
@@ -21447,16 +21449,16 @@ msgstr "Typ av vy:"
 msgid "Attachment Bar"
 msgstr "Bilagerad"
 
-#: ../widgets/misc/e-attachment.c:291
 #: ../widgets/misc/e-attachment.c:306
-#: ../widgets/misc/e-attachment.c:507
-#: ../widgets/misc/e-attachment.c:524
+#: ../widgets/misc/e-attachment.c:321
+#: ../widgets/misc/e-attachment.c:522
+#: ../widgets/misc/e-attachment.c:539
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Kan inte bifoga filen %s: %s"
 
-#: ../widgets/misc/e-attachment.c:299
-#: ../widgets/misc/e-attachment.c:516
+#: ../widgets/misc/e-attachment.c:314
+#: ../widgets/misc/e-attachment.c:531
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Kan inte bifoga filen %s: inte en vanlig fil"
@@ -21489,8 +21491,8 @@ msgstr "Månadskalender"
 
 #: ../widgets/misc/e-canvas-background.c:453
 #: ../widgets/misc/e-canvas-background.c:454
+#: ../widgets/text/e-text.c:3642
 #: ../widgets/text/e-text.c:3643
-#: ../widgets/text/e-text.c:3644
 msgid "Fill color"
 msgstr "Fyllningsfärg"
 
@@ -21498,18 +21500,18 @@ msgstr "Fyllningsfärg"
 #: ../widgets/misc/e-canvas-background.c:461
 #: ../widgets/misc/e-canvas-background.c:467
 #: ../widgets/misc/e-canvas-background.c:468
+#: ../widgets/text/e-text.c:3649
 #: ../widgets/text/e-text.c:3650
-#: ../widgets/text/e-text.c:3651
+#: ../widgets/text/e-text.c:3657
 #: ../widgets/text/e-text.c:3658
-#: ../widgets/text/e-text.c:3659
 msgid "GDK fill color"
 msgstr "GDK-fyllningsfärg"
 
 # Osäker
 #: ../widgets/misc/e-canvas-background.c:474
 #: ../widgets/misc/e-canvas-background.c:475
+#: ../widgets/text/e-text.c:3664
 #: ../widgets/text/e-text.c:3665
-#: ../widgets/text/e-text.c:3666
 msgid "Fill stipple"
 msgstr "Fyll stöppling"
 
@@ -21731,12 +21733,12 @@ msgid "A widget to display in place of the usual expander label"
 msgstr "En widget att visa istället för den vanliga expanderaretiketten"
 
 #: ../widgets/misc/e-expander.c:223
-#: ../widgets/table/e-tree.c:3354
+#: ../widgets/table/e-tree.c:3356
 msgid "Expander Size"
 msgstr "Expanderarstorlek"
 
 #: ../widgets/misc/e-expander.c:224
-#: ../widgets/table/e-tree.c:3355
+#: ../widgets/table/e-tree.c:3357
 msgid "Size of the expander arrow"
 msgstr "Storlek på expanderarpilen"
 
@@ -21868,8 +21870,8 @@ msgid "Item ID"
 msgstr "Objekt-ID"
 
 #: ../widgets/misc/e-search-bar.c:879
+#: ../widgets/text/e-text.c:3564
 #: ../widgets/text/e-text.c:3565
-#: ../widgets/text/e-text.c:3566
 msgid "Text"
 msgstr "Text"
 
@@ -22287,8 +22289,8 @@ msgstr "Färger för alternerande rader"
 #: ../widgets/table/e-table-group-leaf.c:580
 #: ../widgets/table/e-table-item.c:3027
 #: ../widgets/table/e-table-item.c:3028
-#: ../widgets/table/e-tree.c:3307
-#: ../widgets/table/e-tree.c:3308
+#: ../widgets/table/e-tree.c:3309
+#: ../widgets/table/e-tree.c:3310
 msgid "Horizontal Draw Grid"
 msgstr "Rutnät för horisontell ritning"
 
@@ -22298,8 +22300,8 @@ msgstr "Rutnät för horisontell ritning"
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-item.c:3034
 #: ../widgets/table/e-table-item.c:3035
-#: ../widgets/table/e-tree.c:3313
-#: ../widgets/table/e-tree.c:3314
+#: ../widgets/table/e-tree.c:3315
+#: ../widgets/table/e-tree.c:3316
 msgid "Vertical Draw Grid"
 msgstr "Rutnät för vertikal ritning"
 
@@ -22309,8 +22311,8 @@ msgstr "Rutnät för vertikal ritning"
 #: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-item.c:3041
 #: ../widgets/table/e-table-item.c:3042
-#: ../widgets/table/e-tree.c:3319
-#: ../widgets/table/e-tree.c:3320
+#: ../widgets/table/e-tree.c:3321
+#: ../widgets/table/e-tree.c:3322
 msgid "Draw focus"
 msgstr "Rita fokus"
 
@@ -22339,8 +22341,8 @@ msgstr "Markeringsmodell"
 #: ../widgets/table/e-table-item.c:3055
 #: ../widgets/table/e-table-item.c:3056
 #: ../widgets/table/e-table.c:3307
-#: ../widgets/table/e-tree.c:3301
-#: ../widgets/table/e-tree.c:3302
+#: ../widgets/table/e-tree.c:3303
+#: ../widgets/table/e-tree.c:3304
 msgid "Length Threshold"
 msgstr "Längdtröskelvärde"
 
@@ -22351,8 +22353,8 @@ msgstr "Längdtröskelvärde"
 #: ../widgets/table/e-table-item.c:3089
 #: ../widgets/table/e-table-item.c:3090
 #: ../widgets/table/e-table.c:3314
-#: ../widgets/table/e-tree.c:3333
-#: ../widgets/table/e-tree.c:3334
+#: ../widgets/table/e-tree.c:3335
+#: ../widgets/table/e-tree.c:3336
 msgid "Uniform row height"
 msgstr "Identisk radhöjd"
 
@@ -22451,8 +22453,8 @@ msgid "Cursor row"
 msgstr "Markörrad"
 
 #: ../widgets/table/e-table.c:3321
-#: ../widgets/table/e-tree.c:3340
-#: ../widgets/table/e-tree.c:3341
+#: ../widgets/table/e-tree.c:3342
+#: ../widgets/table/e-tree.c:3343
 msgid "Always search"
 msgstr "Sök alltid"
 
@@ -22460,148 +22462,154 @@ msgstr "Sök alltid"
 msgid "Use click to add"
 msgstr "Använd klick för att lägga till"
 
-#: ../widgets/table/e-tree.c:3326
-#: ../widgets/table/e-tree.c:3327
+#: ../widgets/table/e-tree.c:3328
+#: ../widgets/table/e-tree.c:3329
 msgid "ETree table adapter"
 msgstr "ETree-tabelladapter"
 
-#: ../widgets/table/e-tree.c:3347
+#: ../widgets/table/e-tree.c:3349
 msgid "Retro Look"
 msgstr "Retroutseende"
 
-#: ../widgets/table/e-tree.c:3348
+#: ../widgets/table/e-tree.c:3350
 msgid "Draw lines and +/- expanders."
 msgstr "Rita linjer och +/--expanderare."
 
-#: ../widgets/text/e-text.c:2735
+#: ../widgets/text/e-text.c:2734
 msgid "Input Methods"
 msgstr "Inmatningsmetoder"
 
+#: ../widgets/text/e-text.c:3557
 #: ../widgets/text/e-text.c:3558
-#: ../widgets/text/e-text.c:3559
 msgid "Event Processor"
 msgstr "Händelsebehandlare"
 
+#: ../widgets/text/e-text.c:3571
 #: ../widgets/text/e-text.c:3572
-#: ../widgets/text/e-text.c:3573
 msgid "Bold"
 msgstr "Fet"
 
+#: ../widgets/text/e-text.c:3578
 #: ../widgets/text/e-text.c:3579
-#: ../widgets/text/e-text.c:3580
 msgid "Strikeout"
 msgstr "Genomstruken"
 
+#: ../widgets/text/e-text.c:3585
 #: ../widgets/text/e-text.c:3586
-#: ../widgets/text/e-text.c:3587
 msgid "Anchor"
 msgstr "Ankare"
 
+#: ../widgets/text/e-text.c:3593
 #: ../widgets/text/e-text.c:3594
-#: ../widgets/text/e-text.c:3595
 msgid "Justification"
 msgstr "Justering"
 
+#: ../widgets/text/e-text.c:3600
 #: ../widgets/text/e-text.c:3601
-#: ../widgets/text/e-text.c:3602
 msgid "Clip Width"
 msgstr "Klippbredd"
 
+#: ../widgets/text/e-text.c:3607
 #: ../widgets/text/e-text.c:3608
-#: ../widgets/text/e-text.c:3609
 msgid "Clip Height"
 msgstr "Klipphöjd"
 
+#: ../widgets/text/e-text.c:3614
 #: ../widgets/text/e-text.c:3615
-#: ../widgets/text/e-text.c:3616
 msgid "Clip"
 msgstr "Klipp"
 
+#: ../widgets/text/e-text.c:3621
 #: ../widgets/text/e-text.c:3622
-#: ../widgets/text/e-text.c:3623
 msgid "Fill clip rectangle"
 msgstr "Fyll klipprektangel"
 
+#: ../widgets/text/e-text.c:3628
 #: ../widgets/text/e-text.c:3629
-#: ../widgets/text/e-text.c:3630
 msgid "X Offset"
 msgstr "X-avstånd"
 
+#: ../widgets/text/e-text.c:3635
 #: ../widgets/text/e-text.c:3636
-#: ../widgets/text/e-text.c:3637
 msgid "Y Offset"
 msgstr "Y-avstånd"
 
+#: ../widgets/text/e-text.c:3671
 #: ../widgets/text/e-text.c:3672
-#: ../widgets/text/e-text.c:3673
 msgid "Text width"
 msgstr "Textbredd"
 
+#: ../widgets/text/e-text.c:3678
 #: ../widgets/text/e-text.c:3679
-#: ../widgets/text/e-text.c:3680
 msgid "Text height"
 msgstr "Texthöjd"
 
+#: ../widgets/text/e-text.c:3693
 #: ../widgets/text/e-text.c:3694
-#: ../widgets/text/e-text.c:3695
 msgid "Use ellipsis"
 msgstr "Använd ellips"
 
+#: ../widgets/text/e-text.c:3700
 #: ../widgets/text/e-text.c:3701
-#: ../widgets/text/e-text.c:3702
 msgid "Ellipsis"
 msgstr "Ellips"
 
+#: ../widgets/text/e-text.c:3707
 #: ../widgets/text/e-text.c:3708
-#: ../widgets/text/e-text.c:3709
 msgid "Line wrap"
 msgstr "Radbrytning"
 
+#: ../widgets/text/e-text.c:3714
 #: ../widgets/text/e-text.c:3715
-#: ../widgets/text/e-text.c:3716
 msgid "Break characters"
 msgstr "Brytningstecken"
 
+#: ../widgets/text/e-text.c:3721
 #: ../widgets/text/e-text.c:3722
-#: ../widgets/text/e-text.c:3723
 msgid "Max lines"
 msgstr "Max rader"
 
+#: ../widgets/text/e-text.c:3743
 #: ../widgets/text/e-text.c:3744
-#: ../widgets/text/e-text.c:3745
 msgid "Draw borders"
 msgstr "Rita ramar"
 
+#: ../widgets/text/e-text.c:3750
 #: ../widgets/text/e-text.c:3751
-#: ../widgets/text/e-text.c:3752
 msgid "Allow newlines"
 msgstr "Tillåt nyrader"
 
+#: ../widgets/text/e-text.c:3757
 #: ../widgets/text/e-text.c:3758
-#: ../widgets/text/e-text.c:3759
 msgid "Draw background"
 msgstr "Rita bakgrund"
 
+#: ../widgets/text/e-text.c:3764
 #: ../widgets/text/e-text.c:3765
-#: ../widgets/text/e-text.c:3766
 msgid "Draw button"
 msgstr "Rita knapp"
 
+#: ../widgets/text/e-text.c:3771
 #: ../widgets/text/e-text.c:3772
-#: ../widgets/text/e-text.c:3773
 msgid "Cursor position"
 msgstr "Markörposition"
 
+#: ../widgets/text/e-text.c:3778
 #: ../widgets/text/e-text.c:3779
-#: ../widgets/text/e-text.c:3780
 msgid "IM Context"
 msgstr "IM-sammanhang"
 
+#: ../widgets/text/e-text.c:3785
 #: ../widgets/text/e-text.c:3786
-#: ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Handtagspopupfönster"
 
+#~ msgid ""
+#~ "The address book {0} is read only, thus you cannot add contacts there. "
+#~ "Select other address book, please."
+#~ msgstr ""
+#~ "Adressboken {0} är skrivskyddad och du kan därför inte lägga till "
+#~ "kontakter där. Välj en annan adressbok."
 #~ msgid "Select Drafts Folder"
 #~ msgstr "Välj utkastmapp"
 #~ msgid "Select Sent Folder"
