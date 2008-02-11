@@ -386,6 +386,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/vertical_view_fonts</key>
+      <applyto>/apps/evolution/mail/display/vertical_view_fonts</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</short>
+         <long> 
+	 Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mark_seen_timeout</key>
       <applyto>/apps/evolution/mail/display/mark_seen_timeout</applyto>
       <owner>evolution-mail</owner>

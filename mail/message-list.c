@@ -1669,10 +1669,13 @@ static ECell * create_composite_cell (int col)
 	gboolean show_email;
 	int i;
 	int alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
+	gboolean same_font = FALSE;
 
 	gconf = mail_config_get_gconf_client ();
-	fixed_name = gconf_client_get_string (gconf, "/desktop/gnome/interface/monospace_font_name", NULL);
 	show_email = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_email", NULL);
+	same_font = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/vertical_view_fonts", NULL);
+	if (!same_font)
+		fixed_name = gconf_client_get_string (gconf, "/desktop/gnome/interface/monospace_font_name", NULL);
 
 	cell_vbox = e_cell_vbox_new ();
 

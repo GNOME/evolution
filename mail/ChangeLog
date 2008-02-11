@@ -1,3 +1,11 @@
+2008-02-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #411576
+
+	* evolution-mail.schemas.in: Add a key to decide if same fonts gotto
+	be used in message list in vertical view column.
+	* message-list.c: (create_composite_cell):
+
 2008-02-10  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #510642
