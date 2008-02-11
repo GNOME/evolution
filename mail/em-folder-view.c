@@ -1027,7 +1027,7 @@ emfv_popup_mark_junk (EPopup *ep, EPopupItem *pitem, void *data)
 	int count;
 
 	count = em_folder_view_mark_selected(emfv,
-					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
+					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN,
 					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
 
 	emfv_select_next_message (emfv, count, TRUE);
@@ -1040,8 +1040,8 @@ emfv_popup_mark_nojunk (EPopup *ep, EPopupItem *pitem, void *data)
 	int count;
 
 	count = em_folder_view_mark_selected(emfv,
-					     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
-					     CAMEL_MESSAGE_JUNK_LEARN);
+					     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN,
+					     CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN);
 
 	emfv_select_next_message (emfv, count, TRUE);
 }

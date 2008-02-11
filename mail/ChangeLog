@@ -1,3 +1,10 @@
+2008-02-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #515054
+
+	* em-folder-view.c: (emfv_popup_mark_junk), (emfv_popup_mark_nojunk):
+	Also clear/set new CAMEL_MESSAGE_NOTJUNK flag.
+
 2008-02-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #411576
