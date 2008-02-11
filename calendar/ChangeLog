@@ -1,3 +1,8 @@
+2008-02-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/alarm-notify/alarm-notify.c: (alarm_notify_add_calendar): Google
+	Calendar alarm works now.
+
 2008-02-10  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #510642
