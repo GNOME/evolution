@@ -1,3 +1,8 @@
+2008-02-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.91 for CAMEL_MESSAGE_NOTJUNK.
+
 2008-02-06  Tor Lillqvist  <tml@novell.com>
 
 	* evolution-zip.in: Correct file names that have had the
