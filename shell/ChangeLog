@@ -1,3 +1,8 @@
+2008-02-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* main.c (kill_dataserver):
+	Add commands to kill recent versions of evolution-data-server.
+
 2008-01-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* apps_evolution_shell.schemas.in: Change Crash Recovery to Crash
