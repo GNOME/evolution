@@ -699,6 +699,8 @@ set_status (ECalModelComponent *comp_data, const char *value)
 
 	case ICAL_STATUS_CANCELLED:
 		ensure_task_not_complete (comp_data);
+		/* do this again, because the previous function changed status to NEEDSACTION */
+		icalproperty_set_status (prop, status);
 		break;
 
 	case ICAL_STATUS_COMPLETED:

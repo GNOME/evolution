@@ -1,5 +1,12 @@
 2008-02-14  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #516453
+
+	* gui/e-cal-model-tasks.c: (set_status):
+	Change Not Started status back to Canceled when Canceled requested.
+
+2008-02-14  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #514987
 
 	* gui/e-calendar-table.etspec:
