@@ -220,6 +220,39 @@ priority_compare_cb (gconstpointer a, gconstpointer b)
 		return 0;
 }
 
+static gint
+status_from_string (const char *str)
+{
+	int status = -2;
+
+	if (!str || !str[0])
+		status = -1;
+	else if (!g_utf8_collate (str, _("Not Started")))
+		status = 0;
+	else if (!g_utf8_collate (str, _("In Progress")))
+		status = 1;
+	else if (!g_utf8_collate (str, _("Completed")))
+		status = 2;
+	else if (!g_utf8_collate (str, _("Canceled")))
+		status = 3;
+
+	return status;
+}
+
+static gint
+status_compare_cb (gconstpointer a, gconstpointer b)
+{
+	int sa = status_from_string ((const char *)a);
+	int sb = status_from_string ((const char *)b);
+
+	if (sa < sb)
+		return -1;
+	else if (sa > sb)
+		return 1;
+
+	return 0;
+}
+
 static void
 row_appended_cb (ECalModel *model, ECalendarTable *cal_table)
 {
@@ -412,6 +445,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 				    percent_compare_cb);
 	e_table_extras_add_compare (extras, "priority-compare",
 				    priority_compare_cb);
+	e_table_extras_add_compare (extras, "status-compare",
+				    status_compare_cb);
 
 	/* Create pixmaps */
 
