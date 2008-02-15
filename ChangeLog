@@ -1,3 +1,8 @@
+2008-02-15  Johnny Jacob  <jjohnny@novell.com>
+
+	* configure.in (libmapi_ldif_dir): Added. Points to 
+	libmapi's ldif directory. used in plugin for profile creation.
+
 2007-10-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in: Code drop for the Exchange MAPI plugin.

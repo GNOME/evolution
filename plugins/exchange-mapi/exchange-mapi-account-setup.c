@@ -146,8 +146,7 @@ exchange_mapi_create_profile(const char *username, const char *password, const c
 	profpath = g_build_filename (g_getenv("HOME"), DEFAULT_PROF_PATH, NULL);
 	if (!g_file_test (profpath, G_FILE_TEST_EXISTS)) {
 		/* Create MAPI Profile */
-		//FIXME: Get the PATH from Makefile
-		if (CreateProfileStore (profpath, "/usr/local/samba/share/setup") != MAPI_E_SUCCESS) {
+		if (CreateProfileStore (profpath, LIBAMPI_LDIF_DIR) != MAPI_E_SUCCESS) {
 			g_warning ("Profile Database creation failed\n");
 			g_free (profpath);
 			return FALSE;

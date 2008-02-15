@@ -1180,6 +1180,8 @@ if test "x$enable_exchange_mapi" = "xyes"; then
 		libmapi="libmapi"
 		msg_exchange_mapi=yes
 		EXCHANGE_MAPI_PLUGIN="exchange-mapi"
+		libmapi_ldif_dir=`pkg-config --variable=datadir libmapi`/setup
+		AC_SUBST(libmapi_ldif_dir)
 	else
 		libmapi==""
 	fi

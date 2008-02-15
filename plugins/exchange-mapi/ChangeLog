@@ -1,3 +1,10 @@
+2008-02-15  Johnny Jacob  <jjohnny@novell.com>
+
+	* Makefile.am (INCLUDES): LIBAMPI_LDIF_DIR. Added.
+
+	* exchange-mapi-account-setup.c (exchange_mapi_create_profile): Remove
+	hardcoded path for createprofile's ldif directory.
+
 2008-02-01  Suman Manjunath  <msuman@novell.com>
 
 	* exchange-mapi-account-setup.c: (exchange_mapi_cursor_change),

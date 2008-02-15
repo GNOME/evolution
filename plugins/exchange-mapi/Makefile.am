@@ -7,6 +7,7 @@ INCLUDES = -I .						\
 	$(CAMEL_EXCHANGE_CFLAGS) 			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\" 		\
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\" 		\
+	-DLIBAMPI_LDIF_DIR=\""$(libmapi_ldif_dir)"\"	\
 	$(LIBMAPI_CFLAGS)
 
 
