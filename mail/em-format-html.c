@@ -309,6 +309,12 @@ em_format_html_set_mark_citations(EMFormatHTML *emfh, int state, guint32 citatio
 	if (emfh->mark_citations ^ state || emfh->citation_colour != citation_colour) {
 		emfh->mark_citations = state;
 		emfh->citation_colour = citation_colour;
+
+		if (state)
+			emfh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+		else
+			emfh->text_html_flags &= ~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+
 		em_format_redraw((EMFormat *)emfh);
 	}
 }
