@@ -1,3 +1,10 @@
+2008-02-12  Wadim Dziedzic <wadimd@svn.gnome.org>
+
+	* help/quickref/pl/quickref.pdf:
+	* help/quickref/pl/quickref.tex:
+	* help/quickref/pl/Makefile.am:
+	* help/quickref/Makefile.am: Polish translation of quickref added.
+
 2008-02-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation.
