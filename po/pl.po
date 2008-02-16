@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-15 23:57+0100\n"
-"PO-Revision-Date: 2008-02-16 14:42+0100\n"
+"PO-Revision-Date: 2008-02-16 15:05+0100\n"
 "Last-Translator: wadim dziedzic <nikdo@aviary.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -11634,7 +11634,7 @@ msgstr "Oz_nacz jako nieważną"
 
 #: ../mail/em-folder-view.c:1355
 msgid "Mark as _Junk"
-msgstr "Oznacz jako _spam"
+msgstr "Ozna_cz jako niechcianą"
 
 #: ../mail/em-folder-view.c:1356
 msgid "Mark as _Not Junk"
