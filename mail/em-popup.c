@@ -652,7 +652,6 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
 
-	printf("in emp_apps_open_in\n");
 	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
 	else

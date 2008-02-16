@@ -1,3 +1,9 @@
+2008-02-16  Aidan Delaney  <a.j.delaney@brighton.ac.uk>
+
+	** Fix for bug #516234
+
+	* em-popup.c: (emp_apps_open_in): Removed a stray printf() statement. 
+
 2008-02-15  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #515659
