@@ -240,6 +240,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 			g_free (folder_name);
 			switch (result) {
 				case EXCHANGE_ACCOUNT_FOLDER_OK:
+					exchange_account_rescan_tree (subscription_info->account);
 					break;
 				case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
@@ -296,6 +297,11 @@ create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
 	GladeXML *glade_xml;
 	GtkWidget *dialog, *ok_button;
 	SubscriptionInfo *subscription_info;
+	int mode;
+
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return FALSE;
 
 	subscription_info = g_new0 (SubscriptionInfo, 1);
 	subscription_info->account = account;
