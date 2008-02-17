@@ -840,6 +840,8 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 	static char record[0xffff];
 #endif
 
+	memset(&p, 0, sizeof (p));
+
 	g_assert (local->comp != NULL);
 	g_assert (local->appt != NULL );
 

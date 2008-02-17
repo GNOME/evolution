@@ -473,6 +473,8 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 	static char record[0xffff];
 #endif
 
+	memset(&p, 0, sizeof (p));
+
 	g_assert (local->comp != NULL);
 	g_assert (local->memo != NULL );
 

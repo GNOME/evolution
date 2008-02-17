@@ -621,6 +621,8 @@ local_record_to_pilot_record (EToDoLocalRecord *local,
 
 	memset (&p, 0, sizeof (GnomePilotRecord));
 
+	memset(&p, 0, sizeof (p));
+
 	p.ID = local->local.ID;
 	p.category = local->local.category;
 	p.attr = local->local.attr;

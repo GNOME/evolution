@@ -1,3 +1,12 @@
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Downstream patches from OpenSUSE
+
+	* conduits/calendar/calendar-conduit.c:
+	(local_record_to_pilot_record):
+	* conduits/memo/memo-conduit.c: (local_record_to_pilot_record):
+	* conduits/todo/todo-conduit.c: (local_record_to_pilot_record):
+
 2008-02-14  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #516453
