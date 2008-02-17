@@ -22428,7 +22428,7 @@ msgstr "Xoá hết"
 
 #: ../widgets/table/e-table-config.glade.h:4
 msgid "Clear _All"
-msgstr "_Gột tất cả"
+msgstr "_Xoá tất cả"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
