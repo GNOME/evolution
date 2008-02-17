@@ -343,6 +343,7 @@ mergeit (EContactMergingLookup *lookup)
 		     value = 1;
 		     break;
 	case GTK_RESPONSE_CANCEL:
+	default:
 	             value = 0;
 		     break;
 	}
