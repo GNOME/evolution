@@ -64,10 +64,16 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	DBusError error;
 	const char *object;
 	ShellLineStatus status;
-	EShellWindow *window = E_SHELL_WINDOW (user_data);
-	EShell *shell = e_shell_window_peek_shell ((EShellWindow *) user_data);
+	EShellWindow *window = NULL;
+	EShell *shell = NULL;
 	GNOME_Evolution_ShellState shell_state;
 	EShellLineStatus line_status;
+
+ 	if (!user_data || !E_IS_SHELL_WINDOW (user_data))
+ 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+ 
+ 	window = E_SHELL_WINDOW (user_data);
+ 	shell = e_shell_window_peek_shell (window);
 
 	dbus_error_init (&error);
 	object = dbus_message_get_path (message);

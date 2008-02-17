@@ -1,3 +1,9 @@
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #159736. Patch from OpenSUSE.
+
+	* e-shell-nm.c: (e_shell_network_monitor):
+
 2008-02-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	* main.c (kill_dataserver):
