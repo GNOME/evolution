@@ -4306,7 +4306,7 @@ msgstr "_Zapisz zmiany"
 #: ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
-msgstr "Wyś_lij"
+msgstr "_Wyślij"
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "_Send Notice"
@@ -10394,7 +10394,7 @@ msgstr "_Nadpisz"
 
 #: ../e-util/e-util-labels.c:45
 msgid "I_mportant"
-msgstr "_Ważna"
+msgstr "_Ważne"
 
 #. red
 #: ../e-util/e-util-labels.c:46
@@ -10418,15 +10418,15 @@ msgstr "Póź_niej"
 
 #: ../e-util/e-util-labels.c:317
 msgid "Label _Name:"
-msgstr "_Nazwa oznaczenia:"
+msgstr "_Nazwa etykiety:"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Edit Label"
-msgstr "Modyfikuj oznaczenie"
+msgstr "Edycja etykiety"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Add Label"
-msgstr "Dodaj oznaczenie"
+msgstr "Dodawanie etykiety"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
@@ -10434,7 +10434,7 @@ msgstr "Nazwa oznaczenia nie może być pusta."
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr "Oznaczenie z taką etykietą już istnieje. Proszę zmienić nazwę oznaczenia."
+msgstr "Etykieta z taką nazwą już istnieje. Proszę zmienić nazwę."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -11077,7 +11077,7 @@ msgstr "Nie istnieje"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "Draft"
-msgstr "Roboczy"
+msgstr "Szkic"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "ends with"
@@ -11243,7 +11243,7 @@ msgstr "Nadawca"
 
 #: ../mail/em-filter-i18n.h:63
 msgid "Set Label"
-msgstr "Ustaw oznaczenie"
+msgstr "Ustaw etykietę"
 
 #: ../mail/em-filter-i18n.h:64
 msgid "Set Status"
@@ -11646,7 +11646,7 @@ msgstr "Oznacz do k_ontynuacji..."
 
 #: ../mail/em-folder-view.c:1359
 msgid "_Label"
-msgstr "_Oznaczenie"
+msgstr "_Etykieta"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
@@ -11657,7 +11657,7 @@ msgstr "_Brak"
 
 #: ../mail/em-folder-view.c:1363
 msgid "_New Label"
-msgstr "_Nowe oznaczenie"
+msgstr "_Nowa etykieta"
 
 # FIXME - upewnić się, że tak a nie inaczej :)
 #: ../mail/em-folder-view.c:1367
@@ -13108,9 +13108,9 @@ msgstr[2] "%d nieprzeczytanych, "
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] "%d razem"
-msgstr[1] "%d razem"
-msgstr[2] "%d razem"
+msgstr[0] "%d wiadomość"
+msgstr[1] "%d wiadomości"
+msgstr[2] "%d wiadomości"
 
 #: ../mail/mail-component.c:890
 msgid "New Mail Message"
@@ -13249,11 +13249,11 @@ msgstr "<span weight=\"bold\">Wyświetlane _nagłówki wiadomości</span>"
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr "<span weight=\"bold\">Oznaczenia</span>"
+msgstr "<span weight=\"bold\">Etykiety</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr "<span weight=\"bold\">Wczytywanie obrazów</span>"
+msgstr "<span weight=\"bold\">Pobieranie obrazów z sieci</span>"
 
 #: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Display</span>"
@@ -13322,7 +13322,7 @@ msgstr "Dodaj _skrypt"
 
 #: ../mail/mail-config.glade.h:37
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "P_odpisuj wszystkie wiadomości wychodzące podczas używania tego konta"
+msgstr "P_odpisywanie wszystkich wiadomości wychodzących podczas używania tego konta"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Also encrypt to sel_f when sending encrypted messages"
@@ -13738,7 +13738,7 @@ msgstr "_Dodaj podpis"
 
 #: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
-msgstr "Zawsze p_obieraj obrazy z Sieci"
+msgstr "Z_awsze"
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Default junk plugin:"
@@ -13746,7 +13746,7 @@ msgstr "_Domyślna wtyczka niechcianych:"
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr "Nie podpisuj żądań _zebrań (dla zgodności z programem Outlook)"
+msgstr "Bez podpisywania żądań _zebrań (dla zgodności z programem Outlook)"
 
 #: ../mail/mail-config.glade.h:159
 msgid "_Forward style:"
@@ -13758,7 +13758,7 @@ msgstr "_Przy odpowiadaniu sygnatura ponad wiadomością oryginalną"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Load images in messages from contacts"
-msgstr "_Pokazuj obrazy w wiadomościach od osób z kontaktów"
+msgstr "_Tylko w wiadomościach od osób z kontaktów"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
@@ -13770,7 +13770,7 @@ msgstr "O_znaczanie wiadomości jako \"przeczytane\" po upływie"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Never load images from the Internet"
-msgstr "_Bez pobierania jakichkolwiek obrazów z sieci"
+msgstr "_Nigdy"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Path:"
@@ -13778,7 +13778,7 @@ msgstr "Ś_cieżka:"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr "_Zapytaj przy wysyłaniu wiadomości w formacie HTML do osób, które ich nie chcą"
+msgstr "_Pytanie podczas wysyłania wiadomości w formacie HTML do osób, które ich nie chcą"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
@@ -13799,7 +13799,7 @@ msgstr "Wybi_erz..."
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:174
 msgid "_Show image animations"
-msgstr "_Wyświetlaj animacje"
+msgstr "_Wyświetlanie animacji"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Show the photograph of sender in the message preview"
@@ -13908,8 +13908,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Wiadomości wybrane do kontynuacji są wyświetlone pod spodem.\n"
-"Proszę wybrać kontynuuj z menu \"Znacznik\"."
+"Wiadomości wybrane do kontynuacji są wyświetlone poniżej.\n"
+"Proszę wybrać Kontynuuj z menu \"Znacznik\"."
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
@@ -13917,7 +13917,7 @@ msgstr "Zaakcep_towanie licencji"
 
 #: ../mail/mail-dialogs.glade.h:24
 msgid "_Due By:"
-msgstr "_Wykonianie do:"
+msgstr "_Wykonanie do:"
 
 #: ../mail/mail-dialogs.glade.h:25
 msgid "_Flag:"
@@ -17931,11 +17931,11 @@ msgstr "U_aktywnij"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
 msgid "P_ort:"
-msgstr "_Port:"
+msgstr "P_ort:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
 msgid "Publishing Location"
-msgstr "Położenie pub_likacji"
+msgstr "Położenie publikacji"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:12
 msgid "Publishing _Frequency:"
@@ -20815,7 +20815,7 @@ msgstr "Zapisz j_ako..."
 
 #: ../ui/evolution-message-composer.xml.h:29
 msgid "Save _Draft"
-msgstr "Zapisz r_oboczy"
+msgstr "Zapisz _szkic"
 
 #: ../ui/evolution-message-composer.xml.h:30
 msgid "Save as draft"
@@ -21758,12 +21758,12 @@ msgstr "Przestrzeń dokoła strzałki rozwijającej"
 #: ../widgets/misc/e-filter-bar.c:311
 #: ../widgets/misc/e-filter-bar.c:748
 msgid "Advanced Search"
-msgstr "Zaawansowane wyszukiwanie"
+msgstr " Wyszukiwanie zaawansowane"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:234
 msgid "Save Search"
-msgstr "Zapisz wyszukiwanie"
+msgstr "Zapis wyszukiwania"
 
 #: ../widgets/misc/e-filter-bar.c:271
 msgid "_Searches"
