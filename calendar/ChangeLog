@@ -1,5 +1,16 @@
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bnc #160049. Patch from OpenSUSE.
+
+	* common/authentication.c: (build_pass_key),
+	(auth_cal_forget_password):
+	* common/authentication.h:
+	* gui/e-tasks.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	* gui/gnome-cal.c: (client_cal_opened_cb):
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Downstream patches from OpenSUSE
 
 	* conduits/calendar/calendar-conduit.c:

@@ -2642,6 +2642,10 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	default:
 		break;
 	}
+
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED && source_type == E_CAL_SOURCE_TYPE_EVENT)
+		auth_cal_forget_password (ecal);
+
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
 		break;

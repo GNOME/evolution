@@ -964,6 +964,9 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 	priv = tasks->priv;
 
 	source = e_cal_get_source (ecal);
+	
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
+		auth_cal_forget_password (ecal);
 
 	switch (status) {
 	case E_CALENDAR_STATUS_OK :
@@ -1009,6 +1012,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 	priv = tasks->priv;
 
 	source = e_cal_get_source (ecal);
+
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
+		auth_cal_forget_password (ecal);
 
 	switch (status) {
 	case E_CALENDAR_STATUS_OK :
