@@ -30,8 +30,11 @@
 #include <mail/mail-component.h>
 #include <mail/mail-send-recv.h>
 #include <camel/camel-multipart.h>
+#include <camel/camel-mime-utils.h>
 #include <camel/camel-stream-mem.h>
 #include <exchange-account.h>
+#include "exchange-delegates.h"
+#include <exchange/exchange-account.h>
 #include <e2k-global-catalog.h>
 #include <e2k-marshal.h>
 #include <e2k-sid.h>
@@ -50,6 +53,8 @@
 
 #undef GTK_DISABLE_DEPRECATED
 #include <gtk/gtkoptionmenu.h>
+
+#include <glib.h>
 
 #include <string.h>
 

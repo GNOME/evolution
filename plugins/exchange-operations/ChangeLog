@@ -1,5 +1,11 @@
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Patch from OpenSUSE.
+
+	* exchange-delegates-user.c: Warnings.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* exchange-folder-subscription.c: (subscribe_to_folder),
 	(create_folder_subscription_dialog): Pushing  a downstream patch from
 	OpenSUSE.
