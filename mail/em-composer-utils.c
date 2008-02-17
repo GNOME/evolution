@@ -732,6 +732,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 	e_msg_composer_drop_editor_undo (composer);
 
 	gtk_widget_show ((GtkWidget *) composer);
+	gdk_window_raise (((GtkWidget *) composer)->window);
 }
 
 /**

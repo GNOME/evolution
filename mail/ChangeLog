@@ -1,3 +1,9 @@
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #153807
+
+	* em-composer-utils.c: (em_utils_post_to_folder): Patch from OpenSUSE.
+
 2008-02-16  Aidan Delaney  <a.j.delaney@brighton.ac.uk>
 
 	** Fix for bug #516234
