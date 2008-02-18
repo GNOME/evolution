@@ -1,3 +1,12 @@
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* send-options.c: (get_source):
+	* share-folder-common.c: (get_container_id):
+	* install-shared.c: (install_folder_response):
+	Memory leak fix.
+
 2008-01-28  Andre Klapper  <a9016009@gmx.de>
 
 	* proxy-add-dialog.glade: string "Read" needs gettext context, 

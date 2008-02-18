@@ -1493,8 +1493,11 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		char **sender_name = NULL;
 		str = camel_message_info_from (msg_info);
 		if(str && str[0] != '\0'){
-			sender_name=g_strsplit(str,"<",2);
-			return (void *)(*sender_name);
+			char *res;
+			sender_name = g_strsplit (str,"<",2);
+			res = g_strdup (*sender_name);
+			g_strfreev (sender_name);
+			return (void *)(res);
 		}
 		else
 			return (void *)("");

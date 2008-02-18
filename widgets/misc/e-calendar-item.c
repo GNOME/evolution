@@ -1678,8 +1678,10 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	/* Just return if the month is outside the given area. */
 	if (month_x >= width || month_x + calitem->month_width <= 0
-	    || month_y >= height || month_y + calitem->month_height <= 0)
+	    || month_y >= height || month_y + calitem->month_height <= 0) {
+		cairo_destroy (cr);
 		return;
+	}
 
 	month = calitem->month + row * calitem->cols + col;
 	year = calitem->year + month / 12;
@@ -1746,6 +1748,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	if (clip_width <= 0 || clip_height <= 0) {
 		g_object_unref (layout);
+		cairo_destroy (cr);
 		return;
 	}
 

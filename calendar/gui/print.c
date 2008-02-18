@@ -1992,8 +1992,10 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 
 		x = left;
 		xend = right - 2;
-		if (y > bottom)
+		if (y > bottom) {
+			g_object_unref (comp);
 			break;
+		}
 
 		/* Print the box to put the tick in. */
 		print_border (context, x + 2, x + 8, y + 6, y + 15, 0.1, -1.0);

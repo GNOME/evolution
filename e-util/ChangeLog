@@ -1,3 +1,9 @@
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* e-config.c: (ep_finalise): Use proper member to free.
+
 2008-02-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #509741

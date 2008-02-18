@@ -1,3 +1,9 @@
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* itip-formatter.c: (idle_open_cb): Memory Leak fix.
+
 2008-02-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Rewrite of itip-formatter bits. It was written around carrying

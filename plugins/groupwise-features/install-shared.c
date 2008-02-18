@@ -97,6 +97,7 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 		camel_exception_init (&ex);
 		if (!(store = (CamelStore *) camel_session_get_service (mail_component_peek_session(NULL), uri, CAMEL_PROVIDER_STORE, &ex))) {
 			camel_exception_clear (&ex);
+			g_strfreev (names);
 			return;
 		}
 
@@ -122,12 +123,15 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 				camel_exception_init (&ex);
 				if (!(provider = camel_provider_get(uri, &ex))) {
 					camel_exception_clear (&ex);
+					g_strfreev (names);
 					return;
 				}
 
 				/* make sure the new store belongs in the tree */
-				if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+				if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
+					g_strfreev (names);
 					return;
+				}
 
 				em_folder_tree_model_add_store (model, store, account->name);
 				camel_object_unref (store);

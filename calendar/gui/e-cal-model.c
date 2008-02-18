@@ -1748,7 +1748,6 @@ static void
 redo_queries (ECalModel *model)
 {
 	ECalModelPrivate *priv;
-	char *iso_start, *iso_end;
 	GList *l;
 	int len;
 
@@ -1758,6 +1757,8 @@ redo_queries (ECalModel *model)
 		g_free (priv->full_sexp);
 
 	if (priv->start != -1 && priv->end != -1) {
+		char *iso_start, *iso_end;
+
 		iso_start = isodate_from_time_t (priv->start);
 		iso_end = isodate_from_time_t (priv->end);
 
@@ -1766,6 +1767,8 @@ redo_queries (ECalModel *model)
 						   "     %s)",
 						   iso_start, iso_end,
 						   priv->search_sexp ? priv->search_sexp : "");
+		g_free (iso_start);
+		g_free (iso_end);
 	} else if (priv->search_sexp) {
 		priv->full_sexp = g_strdup (priv->search_sexp);
 	} else {

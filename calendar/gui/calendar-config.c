@@ -1572,6 +1572,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 				sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
 			else
 				sexp = g_strdup_printf ("(completed-before? (make-time \"%s\"))", isodate);
+			g_free (isodate);
 		}
 	}
 

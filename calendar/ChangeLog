@@ -1,3 +1,25 @@
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* gui/dialogs/comp-editor.c: (drop_action):
+	* gui/calendar-config.c:
+	(calendar_config_get_hide_completed_tasks_sexp):
+	* gui/comp-editor-factory.c: (edit_existing):
+	* gui/e-day-view.c: (e_day_view_reshape_long_event),
+	(e_day_view_on_top_canvas_drag_data_received):
+	* gui/e-day-view-main-item.c:
+	(e_day_view_main_item_draw_events_in_vbars),
+	(e_day_view_main_item_draw_long_events_in_vbars):
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw_long_event):
+	* gui/e-cal-model.c: (redo_queries):
+	* gui/e-calendar-table.c: (e_calendar_table_open_task):
+	* gui/e-memo-table.c: (open_memo):
+	* gui/print.c: (print_todo_details):
+	* gui/migration.c: (get_source_name):
+	Memory leak fix.
+	* gui/e-week-view.c: (e_week_view_reshape_events): Simplifies things.
+
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bnc #178778 

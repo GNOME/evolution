@@ -374,6 +374,7 @@ get_source (ESourceList *list)
 			if (so_uri) {
 				if (!strcmp (so_uri, uri)) {
 					g_free (so_uri), so_uri = NULL;
+					g_strfreev (temp);
 					return E_SOURCE (r->data);
 				}
 				g_free (so_uri), so_uri = NULL;

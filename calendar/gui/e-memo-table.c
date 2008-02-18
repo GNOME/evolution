@@ -764,6 +764,7 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 		medit = COMP_EDITOR (memo_editor_new (comp_data->client, flags));
 
 		comp_editor_edit_comp (medit, comp);
+		g_object_unref (comp);
 
 		e_comp_editor_registry_add (comp_editor_registry, medit, FALSE);
 	}

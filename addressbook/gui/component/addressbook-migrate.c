@@ -216,6 +216,8 @@ get_source_name (ESourceGroup *group, const char *path)
 
 	} while (conflict);
 
+	g_strfreev (p);
+
 	return g_string_free (s, FALSE);
 }
 

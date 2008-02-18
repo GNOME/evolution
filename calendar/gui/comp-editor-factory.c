@@ -281,6 +281,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	/* Set the object on the editor */
 	comp_editor_edit_comp (editor, comp);
 	comp_editor_focus (editor);
+	g_object_unref (comp);
 
 	oc->editor_count++;
 	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);

@@ -664,6 +664,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		g_free (filename);
 		filename = g_strdup_printf ("current_wide_view-%s.xml", safe_id);
 		p->view_instance->current_view_filename = g_build_filename (collection->local_dir, filename, NULL);
+		g_free (filename);
 		g_free (safe_id);
 	}
 	g_free (id);

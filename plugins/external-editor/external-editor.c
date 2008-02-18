@@ -41,6 +41,7 @@ static CamelInternetAddress * convert_to_camel_internet_address (char * emails)
 				camel_internet_address_add (cia, " ", address_tokens [i]);
 				d(printf ("\nAdding camel_internet_address[%s] \n", address_tokens [i]));
 			}
+			g_strfreev (address_tokens);
 
 			return cia;
 		}
@@ -139,6 +140,8 @@ void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 			g_signal_connect (GTK_OBJECT (composer), "save-draft", G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
 
 			gtk_widget_show (GTK_WIDGET (composer));
+
+			g_strfreev (tokens);
 		}
 	}
 #else

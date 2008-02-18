@@ -1598,11 +1598,16 @@ idle_open_cb (gpointer data)
 {
 	struct _itip_puri *pitip = data;
 	struct _opencal_msg *m;
+	char *start, *end;
 
+	start = isodate_from_time_t (pitip->start_time);
+	end = isodate_from_time_t (pitip->end_time);
 	m = mail_msg_new (&open_calendar_info);
-	m->command = g_strdup_printf ("evolution \"calendar://?startdate=%s&enddate=%s\"",
-				   isodate_from_time_t (pitip->start_time), isodate_from_time_t (pitip->end_time));
+	m->command = g_strdup_printf ("evolution \"calendar://?startdate=%s&enddate=%s\"", start, end);
 	mail_msg_slow_ordered_push (m);
+
+	g_free (start);
+	g_free (end);
 
 	return FALSE;
 }

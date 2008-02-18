@@ -489,6 +489,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv->context_path);
 	g_mutex_free(priv->lock);
+	g_object_unref (priv->model);
 	g_object_unref (priv->logger);
 	g_free (priv);
 

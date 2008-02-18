@@ -310,7 +310,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 			}
 		}
 
-		g_free (urls);
+		g_strfreev (urls);
 		success = TRUE;
 		break;
 	case DND_TYPE_TEXT_VCARD:

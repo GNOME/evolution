@@ -531,8 +531,9 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 			g_free (name);
 		}
 		e_gw_connection_free_container_list (container_list);
-		if (names)
-		g_strfreev(names);
 	}
+
+	if (names)
+		g_strfreev (names);
 	return id;
 }

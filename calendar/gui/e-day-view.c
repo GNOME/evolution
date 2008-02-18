@@ -5795,6 +5795,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 				    text_x, item_y);
 
 	g_object_unref (layout);
+	g_object_unref (comp);
 }
 
 
@@ -9085,8 +9086,10 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_is_instance (comp)) {
-				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE))
+				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+					g_object_unref (comp);
 					return;
+				}
 
 				if (mod == CALOBJ_MOD_THIS) {
 					e_cal_component_set_rdate_list (comp, NULL);

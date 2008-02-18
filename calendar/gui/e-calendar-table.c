@@ -1075,6 +1075,7 @@ e_calendar_table_open_task (ECalendarTable *cal_table, ECal *client, icalcompone
 
 		tedit = COMP_EDITOR (task_editor_new (client, flags));
 		comp_editor_edit_comp (tedit, comp);
+		g_object_unref (comp);
 
 		if (flags & COMP_EDITOR_IS_ASSIGNED)
 			task_editor_show_assignment (TASK_EDITOR (tedit));

@@ -115,11 +115,11 @@ e_cursors_init (void)
 	e_color_init ();
 
 	for (i = 0; cursors [i].hot_x; i++){
-		GdkBitmap *bitmap = NULL, *mask = NULL;
-
 		if (cursors [i].hot_x < 0)
 			cursors [i].cursor = gdk_cursor_new (cursors [i].hot_y);
 		else {
+			GdkBitmap *bitmap = NULL, *mask = NULL;
+
 			create_bitmap_and_mask_from_xpm (&bitmap, &mask, cursors [i].xpm);
 
 			/* The foreground and background colours are reversed.
@@ -131,6 +131,9 @@ e_cursors_init (void)
 					&e_black, &e_white,
 					cursors [i].hot_x,
 					cursors [i].hot_y);
+
+			g_object_unref (bitmap);
+			g_object_unref (mask);
 		}
 	}
 

@@ -135,7 +135,7 @@ ep_finalise(GObject *o)
 		g_free(wn);
 	}
 
-	while ( (cn = (struct _check_node *)e_dlist_remhead(&p->widgets)) ) {
+	while ( (cn = (struct _check_node *)e_dlist_remhead(&p->checks)) ) {
 		g_free(cn->pageid);
 		g_free(cn);
 	}

@@ -428,8 +428,10 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* If we are editing the event we don't show the icons or the start
 	   & end times. */
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT
-	    && day_view->editing_event_num == event_num)
+	    && day_view->editing_event_num == event_num) {
+		g_object_unref (comp);
 		return;
+	}
 
 	/* Determine the position of the label, so we know where to place the
 	   icons. Note that since the top canvas never scrolls we don't need
@@ -1048,8 +1050,11 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* If we are editing the event we don't show the icons or the start
 	   & end times. */
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT
-	    && day_view->editing_event_num == event_num)
+	    && day_view->editing_event_num == event_num) {
+		g_object_unref (comp);
+		cairo_destroy (cr);
 		return;
+	}
 
 	/* Determine the position of the label, so we know where to place the
 	   icons. Note that since the top canvas never scrolls we don't need

@@ -1,3 +1,10 @@
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* gui/component/addressbook-migrate.c: (get_source_name):
+	Memory leak fix.
+
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* gui/merging/eab-contact-merging.c: (mergeit): Upstream patch from

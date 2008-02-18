@@ -2525,9 +2525,9 @@ e_week_view_reshape_events (EWeekView *week_view)
 
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
-			current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
 			if (week_view->last_edited_comp_string == NULL)
 				continue;
+			current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
 			if (strncmp (current_comp_string, week_view->last_edited_comp_string,50) == 0) {
 				EWeekViewEventSpan *span;
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);

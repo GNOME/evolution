@@ -2962,7 +2962,7 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 			g_free (str);
 		}
 
-		g_free (urls);
+		g_strfreev (urls);
 		success = TRUE;
 		break;
 	case DND_TYPE_TEXT_VCARD:

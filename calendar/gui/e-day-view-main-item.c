@@ -373,21 +373,27 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 
 		/* If the event is TRANSPARENT, skip it. */
 		e_cal_component_get_transparency (comp, &transparency);
-		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT)
+		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		/* We can skip the events in the first column since they will
 		   draw over this anyway. */
-		if (event->num_columns > 0 && event->start_row_or_col == 0)
+		if (event->num_columns > 0 && event->start_row_or_col == 0) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		bar_y = event->start_minute * day_view->row_height / day_view->mins_per_row;
 		bar_h = event->end_minute * day_view->row_height / day_view->mins_per_row - bar_y;
 		bar_y -= y;
 
 		/* Skip it if it isn't visible. */
-		if (bar_y >= height || bar_y + bar_h <= 0)
+		if (bar_y >= height || bar_y + bar_h <= 0) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    grid_x, bar_y,
@@ -427,14 +433,18 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 
 		/* If the event is TRANSPARENT, skip it. */
 		e_cal_component_get_transparency (comp, &transparency);
-		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT)
+		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		if (!e_day_view_find_long_event_days (event,
 						      day_view->days_shown,
 						      day_view->day_starts,
-						      &start_day, &end_day))
+						      &start_day, &end_day)) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		for (day = start_day; day <= end_day; day++) {
 			grid_x = day_view->day_offsets[day] + 1 - x;
@@ -1099,21 +1109,27 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 
 		/* If the event is TRANSPARENT, skip it. */
 		e_cal_component_get_transparency (comp, &transparency);
-		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT)
+		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		/* We can skip the events in the first column since they will
 		   draw over this anyway. */
-		if (event->num_columns > 0 && event->start_row_or_col == 0)
+		if (event->num_columns > 0 && event->start_row_or_col == 0) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		bar_y = event->start_minute * day_view->row_height / day_view->mins_per_row;
 		bar_h = event->end_minute * day_view->row_height / day_view->mins_per_row - bar_y;
 		bar_y -= y;
 
 		/* Skip it if it isn't visible. */
-		if (bar_y >= height || bar_y + bar_h <= 0)
+		if (bar_y >= height || bar_y + bar_h <= 0) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		cairo_rectangle (cr, grid_x, bar_y,
 			       E_DAY_VIEW_BAR_WIDTH - 2, bar_h);
@@ -1169,14 +1185,18 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 
 		/* If the event is TRANSPARENT, skip it. */
 		e_cal_component_get_transparency (comp, &transparency);
-		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT)
+		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		if (!e_day_view_find_long_event_days (event,
 						      day_view->days_shown,
 						      day_view->day_starts,
-						      &start_day, &end_day))
+						      &start_day, &end_day)) {
+			g_object_unref (comp);
 			continue;
+		}
 
 		for (day = start_day; day <= end_day; day++) {
 			grid_x = day_view->day_offsets[day] + 1 - x;
