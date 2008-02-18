@@ -430,9 +430,9 @@ e_calendar_item_destroy		(GtkObject *o)
 		calitem->styles = NULL;
 	}
 
-	if (calitem->signal_emission_idle_id != 0) {
+	if (calitem->signal_emission_idle_id > 0) {
 		g_source_remove (calitem->signal_emission_idle_id);
-		calitem->signal_emission_idle_id = 0;
+		calitem->signal_emission_idle_id = -1;
 	}
 
 	if (calitem->font_desc) {

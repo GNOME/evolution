@@ -1,5 +1,11 @@
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bnc #178778 
+
+	* gui/dialogs/recurrence-page.c: (preview_recur):
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bnc #160049. Patch from OpenSUSE.
 
 	* common/authentication.c: (build_pass_key),

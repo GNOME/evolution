@@ -857,7 +857,7 @@ preview_recur (RecurrencePage *rpage)
 	/* If our component has not been set yet through ::fill_widgets(), we
 	 * cannot preview the recurrence.
 	 */
-	if (!priv->comp || e_cal_component_is_instance (priv->comp))
+	if (!priv || !priv->comp || e_cal_component_is_instance (priv->comp))
 		return;
 
 	/* Create a scratch component with the start/end and

@@ -1,3 +1,9 @@
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #178778
+
+	* e-calendar-item.c: (e_calendar_item_destroy):
+
 2008-02-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #249501
