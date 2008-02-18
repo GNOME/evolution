@@ -831,10 +831,13 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	mail_config_prune_proxies ();
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
+		extern int camel_application_is_exiting;
 		int now = time(NULL)/60/60/24, days;
 		gboolean empty_junk;
 
 		GConfClient *gconf = mail_config_get_gconf_client();
+
+		camel_application_is_exiting = TRUE;
 
 		mail_vfolder_shutdown();
 

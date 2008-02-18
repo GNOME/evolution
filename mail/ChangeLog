@@ -1,5 +1,12 @@
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #167638
+
+	* mail-component.c: (impl_quit): Upstreamed Fejj's OpenSUSE patch for
+	faster quitting.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bnc #153807
 
 	* em-composer-utils.c: (em_utils_post_to_folder): Patch from OpenSUSE.
