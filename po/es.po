@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:15+0000\n"
-"PO-Revision-Date: 2008-02-18 12:17+0100\n"
+"PO-Revision-Date: 2008-02-18 21:06+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10447,7 +10447,7 @@ msgstr "Suite de trabajo en grupo"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "Manage your email, contacts and schedule"
-msgstr "Gestione su correp-e, contactos y calendario"
+msgstr "Gestione su correo-e, contactos y calendario"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
