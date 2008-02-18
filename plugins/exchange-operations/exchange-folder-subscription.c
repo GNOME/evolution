@@ -282,7 +282,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 
 		g_object_unref (folder);
 		path = g_strdup_printf ("/%s", user_email_address);
-		exchange_account_open_folder (subscription_info->account, g_strdup_printf ("/%s", path));
+		exchange_account_open_folder (subscription_info->account, path);
 		g_free (path);
 		g_free (user_email_address);
 		gtk_widget_destroy (dialog);
