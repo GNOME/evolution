@@ -79,7 +79,7 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	object = dbus_message_get_path (message);
 
 	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
-		 strcmp (dbus_message_get_path (message), DBUS_PATH_LOCAL) == 0) {
+		object && !strcmp (object, DBUS_PATH_LOCAL)) {
 		dbus_connection_unref (dbus_connection);
 		dbus_connection = NULL;
 

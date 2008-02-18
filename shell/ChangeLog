@@ -1,5 +1,18 @@
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bnc #173186
+
+	* e-shell-nm.c: (e_shell_network_monitor): Upstreamed Fejj's OpenSUSE
+	patch. Crash while quitting.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	reviewed by: <delete if not using a buddy>
+
+	* e-shell-nm.c: (e_shell_network_monitor):
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bnc #159736. Patch from OpenSUSE.
 
 	* e-shell-nm.c: (e_shell_network_monitor):
