@@ -1,3 +1,7 @@
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* ical-format.c: (do_save_calendar_ical): Patch from OpenSUSE
+
 2008-01-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #475781
