@@ -1,5 +1,13 @@
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* Fix for bug #339266 
+
+	* exchange-account-setup.c:
+	(org_gnome_exchange_show_folder_size_factory): Upstreamed OpenSUSE
+	patch.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #294999
 
 	* exchange-folder-subscription.c: (subscribe_to_folder): Upstreamed
