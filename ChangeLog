@@ -1,3 +1,9 @@
+2008-02-18  Akhil Laddha  <lakhil@novell.com>
+
+        ** Fix for bug #517129
+
+	* configure.in: Fix build break of pl translation.
+
 2008-02-13  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in: Evolution 2.21.92 version bump.
