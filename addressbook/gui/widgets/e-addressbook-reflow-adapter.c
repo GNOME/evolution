@@ -181,6 +181,7 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 
 		if (contact1 && contact2) {
 			const char *file_as1, *file_as2;
+			const char *uid1, *uid2;
 			file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
 			file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
 			if (file_as1 && file_as2)
@@ -189,8 +190,14 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 				return -1;
 			if (file_as2)
 				return 1;
-			return strcmp(e_contact_get_const (contact1, E_CONTACT_UID),
-				      e_contact_get_const (contact2, E_CONTACT_UID));
+			uid1 = e_contact_get_const (contact1, E_CONTACT_UID);
+			uid2 = e_contact_get_const (contact2, E_CONTACT_UID);
+			if (uid1 && uid2)
+				return strcmp(uid1, uid2);
+			if (uid1)
+				return -1;
+			if (uid2)
+				return 1;
 		}
 		if (contact1)
 			return -1;

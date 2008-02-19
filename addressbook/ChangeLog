@@ -1,3 +1,10 @@
+2008-02-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #517458
+
+	* gui/widgets/e-addressbook-reflow-adapter.c:
+	(addressbook_compare): Handle broken UIDs.
+
 2008-02-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #515744
