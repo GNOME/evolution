@@ -1,3 +1,10 @@
+2008-02-19  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #517072
+
+	* itip-view.c: (set_summary_text):
+	Properly escape summary text.
+
 2008-02-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #515744

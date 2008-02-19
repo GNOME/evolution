@@ -594,7 +594,7 @@ set_summary_text (ItipView *view)
 
 	priv = view->priv;
 
-	summary = g_strdup_printf ("<b>%s</b>", priv->summary);
+	summary = g_markup_printf_escaped ("<b>%s</b>", priv->summary);
 
 	gtk_label_set_text (GTK_LABEL (priv->summary_label), summary);
 	gtk_label_set_use_markup (GTK_LABEL (priv->summary_label), TRUE);
