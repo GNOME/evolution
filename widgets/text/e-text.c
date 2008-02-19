@@ -1700,7 +1700,7 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	    cy > text->clip_cy + clip_height)
 		return 1;
 
-	if (text->fill_clip_rectangle)
+	if (text->fill_clip_rectangle || !text->text || !*text->text)
 		return 0;
 
 	cx -= text->cx;

@@ -1,3 +1,10 @@
+2008-02-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #383438
+
+	* text/e-text.c: (e_text_point):
+	Report "mouse over" even with no text entered.
+
 2008-02-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* text/e-text.c (update_im_cursor_position):
