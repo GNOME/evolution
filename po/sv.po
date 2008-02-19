@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-19 21:14+0100\n"
-"PO-Revision-Date: 2008-02-19 21:15+0100\n"
+"PO-Revision-Date: 2008-02-19 21:19+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -17740,7 +17740,7 @@ msgstr "Markera alla som lästa"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
 msgid "Mark Me_ssages as Read"
-msgstr "Markera me_ddelanden som lästa"
+msgstr "Markera meddelanden som _lästa"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
