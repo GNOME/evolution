@@ -391,9 +391,7 @@ emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_printf(stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->\n"
-				    "<blockquote type=cite>\n"
-				    "<font color=\"#%06x\">\n",
-				    emfq->citation_colour & 0xffffff);
+				    "<blockquote type=cite>\n");
 
 	if (((CamelMimePart *)emf->message) != part) {
 		camel_stream_printf(stream,  "%s</br>\n", _("-------- Forwarded Message --------"));
@@ -404,7 +402,7 @@ emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 	em_format_part (emf, stream, part);
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
-		camel_stream_write_string(stream, "</blockquote></font><!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->");
+		camel_stream_write_string(stream, "</blockquote><!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->");
 }
 
 static void
