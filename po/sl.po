@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-28 16:28+0100\n"
-"PO-Revision-Date: 2008-02-19 15:56+0100\n"
+"PO-Revision-Date: 2008-02-19 17:50+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -12560,9 +12560,8 @@ msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "Onemogoči/omogoči opozorilo med označevanjem več sporočil."
 
 #: ../mail/evolution-mail.schemas.in.h:55
-#, fuzzy
 msgid "It disables/enables the repeated prompts to ask if offline sync is required before going into offline mode."
-msgstr "Onemogoči možnost ponavljajočih se opozoril z vprašanjem ali je treba sistem uskladiti za delo brez povezave."
+msgstr "Onemogoči ali omogoči možnost ponavljajočih se opozoril z vprašanjem ali je treba sistem uskladiti za delo brez povezave."
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "It disables/enables the repeated prompts to warn that deleting messages from a search folder permanently deletes the message, not simply removing it from the search results."
@@ -12617,7 +12616,6 @@ msgid "Load images for HTML messages over http"
 msgstr "Naloži slike sporočil HTML preko HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:69
-#, fuzzy
 msgid "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net. 1 - Load images in messages from contacts. 2 - Always load images off the net."
 msgstr "Naloži slike sporočil HTML preko http(s). Mogoče vrednosti so: 0 - Nikoli ne nalagaj slik s spleta 1 - Naloži slike v sporočilih oseb v imeniku 2 - Vedno naloži slike s spleta"
 
@@ -12762,9 +12760,8 @@ msgid "Send HTML mail by default."
 msgstr "Privzeto pošiljaj pošto v obliki HTML."
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Sender email-address column in the message list"
-msgstr "E-pošto pošiljatelja prikaži v stolpcu sporočil na seznamu sporočil"
+msgstr "Stolpec elektronskega naslova v seznamu sporočil"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show Animations"
@@ -12787,9 +12784,8 @@ msgid "Show photo of the sender"
 msgstr "Prikaži fotografije pošiljatelja"
 
 #: ../mail/evolution-mail.schemas.in.h:113
-#, fuzzy
 msgid "Show the email-address of the sender in a separate column in the message list."
-msgstr "E-pošto pošiljatelja prikaži v posebnem stolpcu na seznamu sporočil"
+msgstr "Prikaži elektronski naslov pošiljatelja v posebnem stolpcu na seznamu sporočil"
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Show the photo of the sender in the message reading pane."
@@ -12872,9 +12868,8 @@ msgid "This sets the number of addresses to show in default message list view, b
 msgstr "To določa število naslovov, ki se prikažejo v privzetem pogledu seznama sporočil, preko katerega se prikaže '...'."
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart."
-msgstr "Nastavitev določa ali naj privzeto niti drevesne oblike sporočil ostanejo razširnjene lai skrčene. Spreminjanje nastavitve zahteva ponoven zagon programa."
+msgstr "Nastavitev določa ali naj niti sporočil ostanejo privzeto razširjene ali skrčene. Spreminjanje nastavitve zahteva ponoven zagon programa."
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart."
@@ -12978,7 +12973,7 @@ msgstr "Predmet menija Pogled/OdgovoriNa je označen."
 
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr ""
+msgstr "Ali se povratnica samodejno doda privzeto k vsakemu sporočilu."
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
@@ -13591,7 +13586,7 @@ msgstr "Sestavljalnik sporočil"
 
 #: ../mail/mail-config.glade.h:105
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr ""
+msgstr "Opomba: Vezaj v oznaki imena se uporablja kot določilo hitrega dostopa do menija."
 
 #: ../mail/mail-config.glade.h:106
 msgid "Note: you will not be prompted for a password until you connect for the first time"
@@ -13737,7 +13732,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:146
 msgid "This option will be overridden if a match for custom junk headers is found."
-msgstr ""
+msgstr "Možnost bo prepisana, je najdena glava po meri za neželeno pošto."
 
 #: ../mail/mail-config.glade.h:147
 msgid ""
@@ -14974,7 +14969,6 @@ msgid "List of clues for the attachment reminder plugin to look for in a message
 msgstr "Seznam namigov za vstavek opomnika priponke, ki ga je mogoče najti v telesu sporočila."
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:4
-#, fuzzy
 msgid "List of clues for the attachment reminder plugin to look for in a message body."
 msgstr "Seznam namigov za vstavek opomnika priponke, ki ga je mogoče najti v telesu sporočila."
 
@@ -16261,7 +16255,6 @@ msgid "Check folder permissions"
 msgstr "Preveri dovoljenja map"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for using an external editor as the composer. You can send only plain-text messages."
 msgstr "Vstavek za uporabo zunanjega urejevalnika besedila. Pošiljate lahko le gola besedilna sporočila."
 
@@ -17427,7 +17420,7 @@ msgstr "Zapiskaj ali predvajaj zvočno datoteko."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "Utripaj ikono na obvestilnem pladnju."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
@@ -17458,28 +17451,24 @@ msgid "Popup message together with the icon."
 msgstr "Pojavno sporočilo naj se prikaže skupaj z ikono."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "Ne obveščaj ob priho_du nove pošte"
+msgstr "Prikaži ikono nove pošte na pladnju obvestil."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
 msgstr "Ime zvočne datoteke za predvajanje."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "Zvočna datoteka, ki se predvaja ob prispetju nove pošte."
+msgstr "Zvočna datoteka, ki se predvaja ob prispetju nove pošte, če ni določen le pisk."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "Ob prihodu nove pošte predvajaj z_vok"
+msgstr "Ali naj zapiska oziroma predvaja zvok ob prejemu novega sporočila."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#, fuzzy
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "Ustvari sporočilo D-BUS, ko prispe nova pošta."
+msgstr "Ali naj prikaže sporočilo preko ikone ob prejemu novega sporočila."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
@@ -17570,9 +17559,8 @@ msgid "Notify new messages for _Inbox only"
 msgstr "Prikaži obvestilo le za nova sporočila v mapi _prihajajočih sporočil"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-Bus message or notifies the user with an icon in notification area and a notification message whenever a new message has arrived."
-msgstr "Opomni uporabnika z ikono v opravilni vrstici in krajšim pojavnim sporočilom, da je prispela nova pošta."
+msgstr "Ustvari D-Bus sporočilo ali pa opomni uporabnika z ikono v opozorilni vrstici, da je prispelo novo sporočilo."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -17597,7 +17585,7 @@ msgstr "Ni mogoče odpreti koledarja. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid "Selected source is read only, thus cannot create task there. Select other source, please."
-msgstr ""
+msgstr "Izbrani vir je samo za branje, zato ni mogoče ustvariti opravila. Prosim, izberite drug vir."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid "A plugin which allows the creation of tasks from the contents of a mail message."
@@ -18303,18 +18291,16 @@ msgid "Evolution Test component"
 msgstr "Komponenta za preizkušanje Evolutiona"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-#, fuzzy
 msgid "A string description of the current printer settings."
-msgstr "Opis trenutnih nastavitev tiskanja"
+msgstr "Opis trenutnih nastavitev tiskanja."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
 msgstr "Različica nastavitev"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
-#, fuzzy
 msgid "Decides whether the crash detection should be run or not."
-msgstr "Ali naj ikona utripa ali ne."
+msgstr "Določa ali naj se zažene zaznavanje sesutja ali ne."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18398,9 +18384,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Ali naj se Evolution zažene v načinu brez povezave namestu z povezavo."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-#, fuzzy
 msgid "Whether crash detection should be done or not"
-msgstr "Ali naj ikona utripa ali ne."
+msgstr "Ali naj se zažene zaznavanje sesutja ali ne."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18740,6 +18725,9 @@ msgid ""
 "run.  As a precautionary measure, all preview panes will be hidden.\n"
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
+"Vide ti je, da se je program Evolution ob zadnjem zagonu nenadoma sesul.\n"
+"Zaradi varnosti, bodo vsa okna pogledov skrita.\n"
+"Okna lahko obnovite preko menija pogled.\n"
 
 #: ../shell/main.c:337
 msgid "_Do not show this message again"
