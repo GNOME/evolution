@@ -1,3 +1,8 @@
+2008-02-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.92 for camel_application_is_exiting.
+
 2008-02-18  Akhil Laddha  <lakhil@novell.com>
 
         ** Fix for bug #517129
