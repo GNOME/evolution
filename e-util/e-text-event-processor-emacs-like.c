@@ -131,18 +131,18 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 	 */
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		if (event->button.button == 1) {
+		if (event->button.button == 1 || event->button.button == 2) {
 			command.action = E_TEP_GRAB;
 			command.time = event->button.time;
 			g_signal_emit_by_name (tep, "command", &command);
-			if (event->button.state & GDK_SHIFT_MASK)
+			if (event->button.button == 1 && event->button.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
 			else
 				command.action = E_TEP_MOVE;
 			command.position = E_TEP_VALUE;
 			command.value = event->button.position;
 			command.time = event->button.time;
-			tep_el->mouse_down = TRUE;
+			tep_el->mouse_down = event->button.button == 1;
 		}
 		break;
 	case GDK_2BUTTON_PRESS:

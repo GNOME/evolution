@@ -1,3 +1,10 @@
+2008-02-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #209353
+
+	* e-table-item.c: (eti_event):
+	Pass Home/End keys to cell when editing.
+
 2008-02-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #512623

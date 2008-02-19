@@ -2701,7 +2701,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 			}
 
-
 			g_signal_emit (eti, eti_signals [KEY_PRESS], 0,
 				       model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
 			if ((!return_val) &&
@@ -2743,6 +2742,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		case GDK_Home:
 		case GDK_KP_Home:
+			if (eti_editing (eti)) {
+				handled = FALSE;
+				break;
+			}
+
 			if (eti->cursor_mode != E_CURSOR_LINE) {
 				eti_cursor_move (eti, model_to_view_row(eti, cursor_row), 0);
 				return_val = TRUE;
@@ -2751,6 +2755,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		case GDK_End:
 		case GDK_KP_End:
+			if (eti_editing (eti)) {
+				handled = FALSE;
+				break;
+			}
+
 			if (eti->cursor_mode != E_CURSOR_LINE) {
 				eti_cursor_move (eti, model_to_view_row(eti, cursor_row), eti->cols - 1);
 				return_val = TRUE;
