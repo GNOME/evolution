@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-18 23:16+0100\n"
-"PO-Revision-Date: 2008-02-18 23:17+0100\n"
+"POT-Creation-Date: 2008-02-19 21:14+0100\n"
+"PO-Revision-Date: 2008-02-19 21:15+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -1398,7 +1398,7 @@ msgstr "Adress"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:301
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1176
 #: ../addressbook/gui/widgets/e-addressbook-model.c:312
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:397
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
@@ -2718,7 +2718,7 @@ msgstr "Medlemmar i kontaktlista"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1146
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:383
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
 #: ../addressbook/gui/widgets/e-addressbook-view.c:217
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:508
@@ -2816,7 +2816,7 @@ msgstr[0] "%d kontakt"
 msgstr[1] "%d kontakter"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:397
 #: ../addressbook/gui/widgets/e-addressbook-view.c:231
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:515
@@ -2827,7 +2827,7 @@ msgstr "Fråga"
 msgid "Error getting book view"
 msgstr "Fel vid hämtande av bokvy"
 
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:411
 #: ../widgets/table/e-table-click-to-add.c:510
 #: ../widgets/table/e-table-selection-model.c:303
 #: ../widgets/table/e-table.c:3335
@@ -3137,8 +3137,8 @@ msgstr "Webbplats"
 #: ../widgets/table/e-table-group-container.c:967
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
-#: ../widgets/table/e-table-item.c:3069
-#: ../widgets/table/e-table-item.c:3070
+#: ../widgets/table/e-table-item.c:3078
+#: ../widgets/table/e-table-item.c:3079
 #: ../widgets/text/e-text.c:3728
 #: ../widgets/text/e-text.c:3729
 msgid "Width"
@@ -3156,8 +3156,8 @@ msgstr "Bredd"
 #: ../widgets/table/e-table-group-container.c:960
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
-#: ../widgets/table/e-table-item.c:3075
-#: ../widgets/table/e-table-item.c:3076
+#: ../widgets/table/e-table-item.c:3084
+#: ../widgets/table/e-table-item.c:3085
 #: ../widgets/text/e-text.c:3736
 #: ../widgets/text/e-text.c:3737
 msgid "Height"
@@ -10980,7 +10980,7 @@ msgid "Signature(s)"
 msgstr "Signatur(er)"
 
 #: ../mail/em-composer-utils.c:898
-#: ../mail/em-format-quote.c:399
+#: ../mail/em-format-quote.c:397
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Vidarebefordrat meddelande --------"
 
@@ -14129,7 +14129,7 @@ msgstr "Skicka och ta emot e-post"
 
 #: ../mail/mail-send-recv.c:400
 msgid "Cancel _All"
-msgstr "Avbryt _allt"
+msgstr "Avbryt a_llt"
 
 #: ../mail/mail-send-recv.c:510
 msgid "Updating..."
@@ -21547,7 +21547,7 @@ msgstr "Y2"
 #: ../widgets/misc/e-reflow.c:1426
 #: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:635
-#: ../widgets/table/e-table-item.c:3062
+#: ../widgets/table/e-table-item.c:3071
 msgid "Minimum width"
 msgstr "Minsta bredd"
 
@@ -21555,7 +21555,7 @@ msgstr "Minsta bredd"
 #: ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:974
 #: ../widgets/table/e-table-group-leaf.c:636
-#: ../widgets/table/e-table-item.c:3063
+#: ../widgets/table/e-table-item.c:3072
 msgid "Minimum Width"
 msgstr "Minsta bredd"
 
@@ -22286,8 +22286,8 @@ msgstr[1] "%s (%d objekt)"
 #: ../widgets/table/e-table-group-container.c:897
 #: ../widgets/table/e-table-group-leaf.c:572
 #: ../widgets/table/e-table-group-leaf.c:573
-#: ../widgets/table/e-table-item.c:3020
-#: ../widgets/table/e-table-item.c:3021
+#: ../widgets/table/e-table-item.c:3029
+#: ../widgets/table/e-table-item.c:3030
 msgid "Alternating Row Colors"
 msgstr "Färger för alternerande rader"
 
@@ -22295,8 +22295,8 @@ msgstr "Färger för alternerande rader"
 #: ../widgets/table/e-table-group-container.c:904
 #: ../widgets/table/e-table-group-leaf.c:579
 #: ../widgets/table/e-table-group-leaf.c:580
-#: ../widgets/table/e-table-item.c:3027
-#: ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-table-item.c:3036
+#: ../widgets/table/e-table-item.c:3037
 #: ../widgets/table/e-tree.c:3309
 #: ../widgets/table/e-tree.c:3310
 msgid "Horizontal Draw Grid"
@@ -22306,8 +22306,8 @@ msgstr "Rutnät för horisontell ritning"
 #: ../widgets/table/e-table-group-container.c:911
 #: ../widgets/table/e-table-group-leaf.c:586
 #: ../widgets/table/e-table-group-leaf.c:587
-#: ../widgets/table/e-table-item.c:3034
-#: ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-table-item.c:3043
+#: ../widgets/table/e-table-item.c:3044
 #: ../widgets/table/e-tree.c:3315
 #: ../widgets/table/e-tree.c:3316
 msgid "Vertical Draw Grid"
@@ -22317,8 +22317,8 @@ msgstr "Rutnät för vertikal ritning"
 #: ../widgets/table/e-table-group-container.c:918
 #: ../widgets/table/e-table-group-leaf.c:593
 #: ../widgets/table/e-table-group-leaf.c:594
-#: ../widgets/table/e-table-item.c:3041
-#: ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-table-item.c:3050
+#: ../widgets/table/e-table-item.c:3051
 #: ../widgets/table/e-tree.c:3321
 #: ../widgets/table/e-tree.c:3322
 msgid "Draw focus"
@@ -22328,8 +22328,8 @@ msgstr "Rita fokus"
 #: ../widgets/table/e-table-group-container.c:925
 #: ../widgets/table/e-table-group-leaf.c:600
 #: ../widgets/table/e-table-group-leaf.c:601
-#: ../widgets/table/e-table-item.c:3048
-#: ../widgets/table/e-table-item.c:3049
+#: ../widgets/table/e-table-item.c:3057
+#: ../widgets/table/e-table-item.c:3058
 msgid "Cursor mode"
 msgstr "Markörläge"
 
@@ -22337,8 +22337,8 @@ msgstr "Markörläge"
 #: ../widgets/table/e-table-group-container.c:932
 #: ../widgets/table/e-table-group-leaf.c:614
 #: ../widgets/table/e-table-group-leaf.c:615
-#: ../widgets/table/e-table-item.c:3013
-#: ../widgets/table/e-table-item.c:3014
+#: ../widgets/table/e-table-item.c:3022
+#: ../widgets/table/e-table-item.c:3023
 msgid "Selection model"
 msgstr "Markeringsmodell"
 
@@ -22346,8 +22346,8 @@ msgstr "Markeringsmodell"
 #: ../widgets/table/e-table-group-container.c:939
 #: ../widgets/table/e-table-group-leaf.c:607
 #: ../widgets/table/e-table-group-leaf.c:608
-#: ../widgets/table/e-table-item.c:3055
-#: ../widgets/table/e-table-item.c:3056
+#: ../widgets/table/e-table-item.c:3064
+#: ../widgets/table/e-table-item.c:3065
 #: ../widgets/table/e-table.c:3307
 #: ../widgets/table/e-tree.c:3303
 #: ../widgets/table/e-tree.c:3304
@@ -22358,8 +22358,8 @@ msgstr "Längdtröskelvärde"
 #: ../widgets/table/e-table-group-container.c:946
 #: ../widgets/table/e-table-group-leaf.c:649
 #: ../widgets/table/e-table-group-leaf.c:650
-#: ../widgets/table/e-table-item.c:3089
-#: ../widgets/table/e-table-item.c:3090
+#: ../widgets/table/e-table-item.c:3098
+#: ../widgets/table/e-table-item.c:3099
 #: ../widgets/table/e-table.c:3314
 #: ../widgets/table/e-tree.c:3335
 #: ../widgets/table/e-tree.c:3336
@@ -22445,18 +22445,18 @@ msgstr "Sorteringsinformation"
 msgid "Tree"
 msgstr "Träd"
 
-#: ../widgets/table/e-table-item.c:2999
-#: ../widgets/table/e-table-item.c:3000
+#: ../widgets/table/e-table-item.c:3008
+#: ../widgets/table/e-table-item.c:3009
 msgid "Table header"
 msgstr "Tabellhuvud"
 
-#: ../widgets/table/e-table-item.c:3006
-#: ../widgets/table/e-table-item.c:3007
+#: ../widgets/table/e-table-item.c:3015
+#: ../widgets/table/e-table-item.c:3016
 msgid "Table model"
 msgstr "Tabellmodell"
 
-#: ../widgets/table/e-table-item.c:3082
-#: ../widgets/table/e-table-item.c:3083
+#: ../widgets/table/e-table-item.c:3091
+#: ../widgets/table/e-table-item.c:3092
 msgid "Cursor row"
 msgstr "Markörrad"
 
