@@ -235,6 +235,7 @@ init_widgets(char *path)
 
 	markup = g_markup_printf_escaped ("<b>%s</b>", label_str);
 	gtk_label_set_markup (GTK_LABEL (label), markup);
+	g_free (markup);
 	hbox = gtk_hbox_new (FALSE, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 6);
