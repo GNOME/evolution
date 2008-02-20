@@ -1,3 +1,10 @@
+2008-02-20  Jeff Cai<jeff.cai@sun.com>
+
+	** Fix for bug #516648
+
+	* configure.in:
+	Use "pkill -x" to kill processes on Solaris.
+
 2008-02-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

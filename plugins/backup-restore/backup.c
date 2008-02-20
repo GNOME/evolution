@@ -13,8 +13,8 @@
 #include <libgnome/gnome-util.h>
 
 #define EVOLUTION "evolution"
-#define EVOLUTION_DIR "~/.evolution/"
-#define EVOLUTION_DIR_BACKUP "~/.evolution-old/"
+#define EVOLUTION_DIR "$HOME/.evolution/"
+#define EVOLUTION_DIR_BACKUP "$HOME/.evolution-old/"
 #define GCONF_DUMP_FILE "backup-restore-gconf.xml"
 #define GCONF_DUMP_PATH EVOLUTION_DIR GCONF_DUMP_FILE
 #define GCONF_DIR "/apps/evolution"
@@ -81,7 +81,7 @@ backup (const char *filename)
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
-	command = g_strdup_printf ("cd ~ && tar zpcf %s .evolution .camel_certs", filename);
+	command = g_strdup_printf ("cd $HOME && tar zpcf %s .evolution .camel_certs", filename);
 	s (command);
 	g_free (command);
 
@@ -113,11 +113,11 @@ restore (const char *filename)
 	CANCEL (complete);
 	txt = _("Backup current Evolution data");
 	s ("mv " EVOLUTION_DIR " " EVOLUTION_DIR_BACKUP);
-	s ("mv ~/.camel_certs ~/.camel_certs_old");
+	s ("mv $HOME/.camel_certs ~/.camel_certs_old");
 
 	CANCEL (complete);
 	txt = _("Extracting files from backup");
-	command = g_strdup_printf ("cd ~ && tar zxf %s", filename);
+	command = g_strdup_printf ("cd $HOME && tar zxf %s", filename);
 	s (command);
 	g_free (command);
 
@@ -129,7 +129,7 @@ restore (const char *filename)
 	txt = _("Removing temporary backup files");
 	s ("rm -rf " GCONF_DUMP_PATH);
 	s ("rm -rf " EVOLUTION_DIR_BACKUP);
-	s ("rm -rf ~/.camel_certs_old");
+	s ("rm -rf $HOME/.camel_certs_old");
 
 	if (restart_arg) {
 		CANCEL (complete);

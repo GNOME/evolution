@@ -1203,7 +1203,7 @@ dnl *****************
 
 case "$host" in
 *solaris*)
-	AC_PATH_PROGS(KILL_PROCESS_CMD, pkill)
+	KILL_PROCESS_CMD="/usr/bin/pkill -x"
 	;;
 *)
 	AC_PATH_PROGS(KILL_PROCESS_CMD, killall pkill)
