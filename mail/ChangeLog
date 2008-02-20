@@ -1,3 +1,10 @@
+2008-02-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #469292
+
+	* em-format-quote.c: (emfq_format_clone): Add empty line only when top
+	posting is enabled.
+
 2008-02-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #516349

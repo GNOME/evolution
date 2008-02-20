@@ -36,9 +36,11 @@
 
 #include <libedataserver/e-iconv.h>
 #include <glib/gi18n.h>
+#include <gconf/gconf-client.h>
 
 #include "em-stripsig-filter.h"
 #include "em-format-quote.h"
+#include "mail-config.h"
 
 struct _EMFormatQuotePrivate {
 	int dummy;
@@ -148,8 +150,8 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMime
 	((EMFormatClass *)emfq_parent)->format_clone(emf, folder, uid, msg, src);
 
 	camel_stream_reset(emfq->stream);
-
-	emfq_format_empty_line(emf, emfq->stream, (CamelMimePart *)msg, NULL);
+	if (gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/composer/top_signature", NULL))
+		emfq_format_empty_line(emf, emfq->stream, (CamelMimePart *)msg, NULL);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
 		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);
