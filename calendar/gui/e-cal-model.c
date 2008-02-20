@@ -242,6 +242,7 @@ e_cal_model_dispose (GObject *object)
 		}
 
 		priv->clients = NULL;
+		priv->default_client = NULL;
 	}
 
 	if (G_OBJECT_CLASS (e_cal_model_parent_class)->dispose)
@@ -1700,6 +1701,9 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 
 		return;
 	}
+
+	if (model->priv->default_client == client_data->client)
+		model->priv->default_client = NULL;
 
 	/* Remove the client from the list */
 	model->priv->clients = g_list_remove (model->priv->clients, client_data);

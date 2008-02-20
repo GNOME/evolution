@@ -1,5 +1,12 @@
 2008-02-20  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #440426
+
+	* gui/e-cal-model.c: (e_cal_model_dispose), (remove_client):
+	Unset also default_client if removing it.
+
+2008-02-20  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #515744
 
 	* gui/dialogs/comp-editor.c: (drop_action):
