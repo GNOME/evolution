@@ -1,3 +1,10 @@
+2008-02-20  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Follow up on bug #517072
+
+	* itip-view.c: (set_calendar_sender_text), (set_tasklist_sender_text),
+	(set_journal_sender_text): Properly escape text here too.
+
 2008-02-19  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #517072
