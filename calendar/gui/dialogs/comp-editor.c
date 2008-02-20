@@ -279,21 +279,16 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 
 		for (i = 0; urls[i] != NULL; i++) {
 			str = g_strstrip (urls[i]);
-			if (urls[i][0] == '#') {
-				g_free(str);
+			if (urls[i][0] == '#')
 				continue;
-			}
 
 			if (!g_ascii_strncasecmp (str, "mailto:", 7)) {
 				/* TODO does not handle mailto now */
-				g_free (str);
 			} else {
 				url = camel_url_new (str, NULL);
 
-				if (url == NULL) {
-					g_free (str);
+				if (url == NULL)
 					continue;
-				}
 
 				if (!g_ascii_strcasecmp (url->protocol, "file"))
 					e_attachment_bar_attach
@@ -306,7 +301,6 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 						 str, "attachment");
 
 				camel_url_free (url);
-				g_free (str);
 			}
 		}
 

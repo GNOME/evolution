@@ -1,3 +1,10 @@
+2008-02-20  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* e-msg-composer.c: (drop_action):
+	Fixing previous fix - do not double free.
+
 2008-02-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #515744

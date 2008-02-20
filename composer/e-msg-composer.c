@@ -2953,13 +2953,10 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 
 		for (i = 0; urls[i] != NULL; i++) {
 			str = g_strstrip (urls[i]);
-			if (str[0] == '#' || str[0] == '\0') {
-				g_free (str);
+			if (str[0] == '#' || str[0] == '\0')
 				continue;
-			}
 
 			handle_uri (composer, str, html_dnd);
-			g_free (str);
 		}
 
 		g_strfreev (urls);
