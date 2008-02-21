@@ -10,7 +10,7 @@
 # Ivica Micev <icko@elfasko.org.mk>, 2006.
 # Jovan Naumovski <jovan@lugola.net>, 2006, 2007, 2008.
 # Arangel Angov <ufo@linux.net.mk>, 2006, 2007, 2008.
-# Arangel Angov <arangel@linux.net.mk>, 2007.
+# Arangel Angov <arangel@linux.net.mk>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: mk\n"
