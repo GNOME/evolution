@@ -1042,8 +1042,9 @@ struct _get_folderinfo_msg {
 
 	CamelStore *store;
 	CamelFolderInfo *info;
-	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
 	void *data;
+	gboolean can_clear; /* whether we can clear folder info */
 };
 
 static gchar *
@@ -1078,13 +1079,15 @@ get_folderinfo_done (struct _get_folderinfo_msg *m)
 	}
 
 	if (m->done)
-		m->done (m->store, m->info, m->data);
+		m->can_clear = m->done (m->store, m->info, m->data);
+	else
+		m->can_clear = TRUE;
 }
 
 static void
 get_folderinfo_free (struct _get_folderinfo_msg *m)
 {
-	if (m->info)
+	if (m->info && m->can_clear)
 		camel_store_free_folder_info(m->store, m->info);
 	camel_object_unref(m->store);
 }
@@ -1098,7 +1101,7 @@ static MailMsgInfo get_folderinfo_info = {
 };
 
 int
-mail_get_folderinfo (CamelStore *store, CamelOperation *op, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+mail_get_folderinfo (CamelStore *store, CamelOperation *op, gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _get_folderinfo_msg *m;
 	int id;

@@ -29,10 +29,11 @@
 
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
-   runtime via the folder_created event */
+   runtime via the folder_created event.
+   The 'done' function returns if we can free folder info. */
 void
 mail_note_store (CamelStore *store, CamelOperation *op,
-		 void (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
+		 gboolean (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
 		 void *data);
 
 /* de-note a store */

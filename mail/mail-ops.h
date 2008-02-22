@@ -103,7 +103,7 @@ void mail_empty_trash (EAccount *account,
 
 /* get folder info asynchronously */
 int mail_get_folderinfo (CamelStore *store, CamelOperation *op,
-			 void (*done)(CamelStore *store, CamelFolderInfo *info, void *data),
+			 gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data),
 			 void *data);
 
 /* remove an existing folder */

@@ -778,12 +778,30 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 
 /* ********************************************************************** */
 
+static void
+get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
+{
+	CamelException ex;
+
+	camel_exception_init (&ex);
+
+	while (info) {
+		if (camel_store_can_refresh_folder (store, info, &ex))
+			g_ptr_array_add (folders, g_strdup (info->uri));
+		camel_exception_clear (&ex);
+
+		get_folders (store, folders, info->child);
+		info = info->next;
+	}
+}
+
 struct _refresh_folders_msg {
 	MailMsg base;
 
 	struct _send_info *info;
 	GPtrArray *folders;
 	CamelStore *store;
+	CamelFolderInfo *finfo;
 };
 
 static gchar *
@@ -798,6 +816,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 	int i;
 	CamelFolder *folder;
 	CamelException ex = CAMEL_EXCEPTION_INITIALISER;
+
+	get_folders (m->store, m->folders, m->finfo);
 
 	for (i=0;i<m->folders->len;i++) {
 		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, &ex);
@@ -829,6 +849,8 @@ refresh_folders_free (struct _refresh_folders_msg *m)
 	for (i=0;i<m->folders->len;i++)
 		g_free(m->folders->pdata[i]);
 	g_ptr_array_free(m->folders, TRUE);
+
+	camel_store_free_folder_info (m->store, m->finfo);
 	camel_object_unref(m->store);
 }
 
@@ -840,24 +862,7 @@ static MailMsgInfo refresh_folders_info = {
 	(MailMsgFreeFunc) refresh_folders_free
 };
 
-static void
-get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
-{
-	CamelException ex;
-
-	camel_exception_init (&ex);
-
-	while (info) {
-		if (camel_store_can_refresh_folder (store, info, &ex))
-			g_ptr_array_add (folders, g_strdup (info->uri));
-		camel_exception_clear (&ex);
-
-		get_folders (store, folders, info->child);
-		info = info->next;
-	}
-}
-
-static void
+static gboolean
 receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	if (info) {
@@ -865,18 +870,22 @@ receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *da
 		struct _refresh_folders_msg *m;
 		struct _send_info *sinfo = data;
 
-		get_folders(store, folders, info);
-
 		m = mail_msg_new(&refresh_folders_info);
 		m->store = store;
 		camel_object_ref(store);
 		m->folders = folders;
 		m->info = sinfo;
+		m->finfo = info;
 
 		mail_msg_unordered_push (m);
+
+		/* do not free folder info, we will free it later */
+		return FALSE;
 	} else {
 		receive_done ("", data);
 	}
+
+	return TRUE;
 }
 
 static void

@@ -723,7 +723,7 @@ struct _update_data {
 	int id;			/* id for cancellation */
 	guint cancel:1;		/* also tells us we're cancelled */
 
-	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
 	void *data;
 };
 
@@ -782,11 +782,12 @@ mail_note_store_remove(CamelStore *store)
 	UNLOCK(info_lock);
 }
 
-static void
+static gboolean
 update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 {
 	struct _update_data *ud = data;
 	struct _store_info *si;
+	gboolean res = TRUE;
 
 	d(printf("Got folderinfo for store %s\n", store->parent_object.provider->protocol));
 
@@ -803,8 +804,10 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 	UNLOCK(info_lock);
 
 	if (ud->done)
-		ud->done(store, fi, ud->data);
+		res = ud->done (store, fi, ud->data);
 	g_free(ud);
+
+	return res;
 }
 
 
@@ -906,7 +909,7 @@ store_online_cb (CamelStore *store, void *data)
 
 void
 mail_note_store(CamelStore *store, CamelOperation *op,
-		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+		gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
 	struct _update_data *ud;

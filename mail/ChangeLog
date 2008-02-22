@@ -1,5 +1,23 @@
+2008-02-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512776
+
+	* Changes below prevents deadlock on start or send/receive.
+	* mail-send-recv.c: (struct _refresh_folders_msg),
+	(refresh_folders_exec), (refresh_folders_free),
+	(receive_update_got_folderinfo): Do not look for active folders in
+	main thread, rather do it in other thread and free folder info later.
+	* mail-ops.h: (mail_get_folderinfo):
+	* mail-ops.c: (struct _get_folderinfo_msg), (get_folderinfo_done),
+	(get_folderinfo_free), (mail_get_folderinfo):
+	* mail-folder-cache.h: (mail_note_store):
+	* mail-folder-cache.c: (struct _update_data), (update_folders),
+	(mail_note_store):
+	* mail-component.c: (mc_add_store_done): 
+	The 'done' function returns if we can free folder info or not.
+
 2008-02-22  Srinivasa Ragavan  <sragavan@novell.com>
-	
+
 	** Fix for BNC #358697
 
 	* em-folder-browser.c: (emfb_set_folder): Make sure the default search

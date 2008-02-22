@@ -206,7 +206,7 @@ store_info_unref(struct _store_info *si)
 	g_free(si);
 }
 
-static void
+static gboolean
 mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	struct _store_info *si = data;
@@ -223,6 +223,8 @@ mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 	}
 
 	store_info_unref(si);
+
+	return TRUE;
 }
 
 /* Utility functions.  */
