@@ -1387,6 +1387,7 @@ contact_list_editor_add_destination (EVCardAttribute *attr,
 	gint email_num = -1;
 	GList *list, *iter;
 	GList *values;
+	char *value;
 
 	destination = e_destination_new ();
 
@@ -1407,15 +1408,16 @@ contact_list_editor_add_destination (EVCardAttribute *attr,
 			contact_uid = param_data;
 		else if (!g_ascii_strcasecmp (param_name, EVC_X_DEST_EMAIL_NUM))
 			email_num = atoi (param_data);
-		else if (!g_ascii_strcasecmp (param_name, EVC_X_DEST_NAME))
-			e_destination_set_name (destination, param_data);
-		else if (!g_ascii_strcasecmp (param_name, EVC_X_DEST_EMAIL))
-			e_destination_set_email (destination, param_data);
 		else if (!g_ascii_strcasecmp (param_name, EVC_X_DEST_HTML_MAIL))
 			e_destination_set_html_mail_pref (
 				destination,
 				!g_ascii_strcasecmp (param_data, "true"));
 	}
+
+	value = e_vcard_attribute_get_value (attr);
+	if (value)
+		e_destination_set_raw (destination, value);
+	g_free (value);
 
 	if (contact_uid != NULL)
 		e_destination_set_contact_uid (

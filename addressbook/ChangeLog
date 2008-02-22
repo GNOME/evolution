@@ -1,3 +1,11 @@
+2008-02-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #514836
+
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(contact_list_editor_add_destination):
+	Obsoleting EVC_X_DEST_EMAIL and EVC_X_DEST_NAME.
+
 2008-02-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #517458
