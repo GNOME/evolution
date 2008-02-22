@@ -2029,8 +2029,32 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 
 		/* Fixme */
 		sstate = camel_object_meta_get(folder, "evolution:search_state");
-		g_object_set(emfb->search, "state", sstate, NULL);
-		g_free(sstate);
+		if (sstate) {
+			g_object_set(emfb->search, "state", sstate, NULL);
+			g_free(sstate);
+		} else {
+			gboolean outgoing;
+			outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
+				|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
+				|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
+
+			e_search_bar_set_text ((ESearchBar *)emfb->search, "");
+
+			if (outgoing) {
+				e_search_bar_set_item_id ((ESearchBar *)emfb->search, 1);
+				((ESearchBar *)emfb->search)->block_search = TRUE;
+				e_search_bar_set_item_menu ((ESearchBar *)emfb->search, 1);
+				((ESearchBar *)emfb->search)->block_search = FALSE;
+
+			} else {
+				e_search_bar_set_item_id ((ESearchBar *)emfb->search, 0);
+				((ESearchBar *)emfb->search)->block_search = TRUE;
+				e_search_bar_set_item_menu ((ESearchBar *)emfb->search, 0);
+				((ESearchBar *)emfb->search)->block_search = FALSE;
+
+			}
+			e_search_bar_paint ((ESearchBar *)emfb->search);
+		}
 
 		/* set the query manually, so we dont pop up advanced or saved search stuff */
 

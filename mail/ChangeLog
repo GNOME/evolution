@@ -1,3 +1,10 @@
+2008-02-22  Srinivasa Ragavan  <sragavan@novell.com>
+	
+	** Fix for BNC #358697
+
+	* em-folder-browser.c: (emfb_set_folder): Make sure the default search
+	filter for sent/draft/outbox is "Recipients Contain"
+
 2008-02-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #469292
