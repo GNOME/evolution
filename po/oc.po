@@ -14444,7 +14444,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:95
 msgid "Synchronize"
-msgstr "Sincronisar"
+msgstr "Sincronizar"
 
 #: ../mail/mail.error.xml.h:96
 msgid "Synchronize folders locally for offline usage?"
