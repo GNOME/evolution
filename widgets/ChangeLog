@@ -1,3 +1,16 @@
+2008-02-23  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #471779
+
+	* e-timezone-dialog/e-timezone-dialog.c:
+	(e_timezone_dialog_add_timezones), (e_timezone_dialog_construct),
+	(on_map_leave), (on_map_button_pressed),
+	(e_timezone_dialog_set_timezone), (on_combo_changed),
+	(timezone_combo_get_active_text), (timezone_combo_set_active_text):
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Timezone entries in the combo-box are now sorted alphabetically. 
+	Migrated deprecated widget to GtkComboBox. 
+
 2008-02-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #383438
