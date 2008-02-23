@@ -1,3 +1,8 @@
+2008-02-23  Andre Klapper  <a9016009@gmx.de>
+
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Fix the string freeze break of the former commit.
+
 2008-02-23  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #471779
