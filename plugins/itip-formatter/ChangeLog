@@ -1,3 +1,10 @@
+2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes#516408
+	* itip-formatter.c (find_attendee), (find_to_address),
+	(find_from_address), (update_item): Free the memory returned 
+	by libical.
+
 2008-02-20  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Follow up on bug #517072

@@ -141,7 +141,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
-		const char *attendee;
+		char *attendee;
 		char *text;
 
 		attendee = icalproperty_get_value_as_string (prop);
@@ -153,9 +153,11 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 		text = g_strstrip (text);
 		if (text && !g_ascii_strcasecmp (address, text)) {
 			g_free (text);
+			g_free (attendee);
 			break;
 		}
 		g_free (text);
+		g_free (attendee);
 	}
 
 	return prop;
@@ -219,7 +221,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 			prop = find_attendee (ical_comp, account->id->address);
 
 			if (prop) {
-				const char *text;
+				char *text;
 				icalparameter *param;
 
 				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
@@ -229,6 +231,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 				text = icalproperty_get_value_as_string (prop);
 
 				pitip->to_address = g_strdup (itip_strip_mailto (text));
+				g_free (text);
 				g_strstrip (pitip->to_address);
 
 				pitip->my_address = g_strdup (account->id->address);
@@ -268,7 +271,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 			prop = find_attendee_if_sentby (ical_comp, account->id->address);
 
 			if (prop) {
-				const char *text;
+				char *text;
 				icalparameter *param;
 
 				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
@@ -278,6 +281,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 				text = icalproperty_get_value_as_string (prop);
 
 				pitip->to_address = g_strdup (itip_strip_mailto (text));
+				g_free (text);
 				g_strstrip (pitip->to_address);
 
 				pitip->my_address = g_strdup (account->id->address);
@@ -300,7 +304,7 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 {
 	EIterator *it;
 	icalproperty *prop;
-	const char *organizer;
+	char *organizer;
 	icalparameter *param;
 	const char *organizer_sentby;
 	char *organizer_clean = NULL;
@@ -315,6 +319,7 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 	if (organizer) {
 		organizer_clean = g_strdup (itip_strip_mailto (organizer));
 		organizer_clean = g_strstrip (organizer_clean);
+		g_free (organizer);
 	}
 
 	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
@@ -911,6 +916,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 	ESource *source;
 	GError *error = NULL;
 	gboolean result = TRUE;
+	char *str;
 
 	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
 	 * the user accepted/declined the request. (Outlook ignores
@@ -922,7 +928,9 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 	 * and you then look at it in Outlook).
 	 */
 	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
-	prop = icalproperty_new_x (icaltime_as_ical_string (stamp));
+	str = icaltime_as_ical_string (stamp);
+	prop = icalproperty_new_x (str);
+	g_free (str);
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
 	icalcomponent_add_property (pitip->ical_comp, prop);
 
