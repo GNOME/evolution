@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-02-22 22:38+0200\n"
+"PO-Revision-Date: 2008-02-23 10:54+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -11426,9 +11426,8 @@ msgid "<click here to select a folder>"
 msgstr "<kausta valimiseks klõpsa siia>"
 
 #: ../mail/em-folder-selector.c:262
-#, fuzzy
 msgid "C_reate"
-msgstr "Loo"
+msgstr "L_oo"
 
 #: ../mail/em-folder-selector.c:266
 msgid "Folder _name:"
@@ -16656,14 +16655,14 @@ msgid ""
 "configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/"
 "faces This will be used in messages that are sent further."
 msgstr ""
-"Näopildi lisamine väljuvate sõnumite päisesse. Esimesel korral peam kasutaja "
+"Näopildi lisamine väljuvate sõnumite päisesse. Esimesel korral peab kasutaja "
 "määrama 48*48 PNG-pildi, mis kodeeritakse BASE64-vormingusse ja "
 "salvestatakse kataloogi ~/.evolution/faces. Seda pilti hakatakse tulevikus "
 "kasutama väljuvatele sõnumitele päisesse lisamiseks."
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
-msgstr "_Näopilt"
+msgstr "Näopilt"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:56
 #, c-format
@@ -17934,7 +17933,7 @@ msgstr "Uus e-sõnum"
 
 #: ../plugins/mail-notification/mail-notification.c:440
 msgid "Show icon in _notification area"
-msgstr "_Teavitusalas kuvatakse ikooni"
+msgstr "Teavitusalas kuvatakse _ikooni"
 
 #: ../plugins/mail-notification/mail-notification.c:443
 msgid "B_link icon in notification area"
@@ -17942,21 +17941,19 @@ msgstr "Teavitusala ikooni _vilgutatakse"
 
 #: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
-msgstr "Ikooniga koos ku_vatakse ka sõnumit"
+msgstr "Ikoo_niga koos kuvatakse ka sõnumit"
 
 #: ../plugins/mail-notification/mail-notification.c:626
 msgid "_Play sound when new messages arrive"
-msgstr "Uue sõnumi saabumise_l esitatakse heli"
+msgstr "Uue sõnumi saabumisel esitatakse _heli"
 
 #: ../plugins/mail-notification/mail-notification.c:632
-#, fuzzy
 msgid "_Beep"
-msgstr "Piiksu"
+msgstr "_Piiksutakse"
 
 #: ../plugins/mail-notification/mail-notification.c:633
-#, fuzzy
 msgid "Play _sound file"
-msgstr "Helifaili valimine"
+msgstr "Esitatakse heli_faili"
 
 #: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
@@ -17968,7 +17965,7 @@ msgstr "Helifaili valimine"
 
 #: ../plugins/mail-notification/mail-notification.c:646
 msgid "Pl_ay"
-msgstr ""
+msgstr "_Esita"
 
 #: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
@@ -18316,9 +18313,8 @@ msgid "HTML _Mode"
 msgstr "_HTML-režiim"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-#, fuzzy
 msgid "Gives an option to print from the composer."
-msgstr "Võimalus sõnumikoostajast sõnumi printimiseks"
+msgstr "Võimalus sõnumikoostajast sõnumi printimiseks."
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 msgid "Print Message"
@@ -20527,9 +20523,8 @@ msgid "_Copy Folder To..."
 msgstr "_Kopeeri kaustad asukohta..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Debug Logs"
-msgstr "Veebilo_gi:"
+msgstr "Silumislo_gid"
 
 #: ../ui/evolution-mail-global.xml.h:23
 #, fuzzy
@@ -22635,9 +22630,8 @@ msgid "Clear All"
 msgstr "Puhasta kõik"
 
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear _All"
-msgstr "Puhasta kõik"
+msgstr "Puhasta _kõik"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
@@ -22657,19 +22651,16 @@ msgid "Move _Up"
 msgstr "Liiguta ü_les"
 
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Show _field in View"
-msgstr "Väljade näitamine vaates"
+msgstr "Välja _näidatakse vaates"
 
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Show field i_n View"
-msgstr "Väljade näitamine vaates"
+msgstr "Välja näidatakse vaa_tes"
 
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Show field in _View"
-msgstr "Väljade näitamine vaates"
+msgstr "Välja näidatakse vaat_es"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
@@ -22692,9 +22683,8 @@ msgid "_Group By..."
 msgstr "_Grupeerimine..."
 
 #: ../widgets/table/e-table-config.glade.h:22
-#, fuzzy
 msgid "_Show field in View"
-msgstr "Väljade näitamine vaates"
+msgstr "_Välja näidatakse vaates"
 
 #: ../widgets/table/e-table-config.glade.h:23
 msgid "_Show these fields in order:"
@@ -22875,9 +22865,8 @@ msgid "Custo_mize Current View..."
 msgstr "Kohanda käesolevat _vaadet..."
 
 #: ../widgets/table/e-table-header-item.c:1542
-#, fuzzy
 msgid "_Sort By"
-msgstr "Sortimine"
+msgstr "_Sordi välja järgi"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
@@ -23161,14 +23150,8 @@ msgstr ""
 #~ msgid "_Phone List"
 #~ msgstr "_Telefonide loend"
 
-#~ msgid "<- _Remove"
-#~ msgstr "<- _Eemalda"
-
 #~ msgid "Sh_ow these fields in order:"
 #~ msgstr "Välju _näidatakse sellest järjestuses:"
-
-#~ msgid "_Add ->"
-#~ msgstr "_Lisa ->"
 
 #~ msgid "Emulate label resize"
 #~ msgstr "Sildi suuruse muutmise emuleerimine"
