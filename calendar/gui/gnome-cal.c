@@ -3819,13 +3819,14 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				GError *error = NULL;
 
 				if (e_cal_util_component_is_instance (m->data) || e_cal_util_component_has_recurrences (m->data)) {
-					const char *rid = NULL;
+					char *rid = NULL;
 					struct icaltimetype recur_id = icalcomponent_get_recurrenceid (m->data);
 
 					if (!icaltime_is_null_time (recur_id) )
 						rid = icaltime_as_ical_string (recur_id);
 
 					e_cal_remove_object_with_mod (client, uid, rid, CALOBJ_MOD_ALL, &error);
+					g_free (rid);
 				} else {
 					e_cal_remove_object (client, uid, &error);
 				}

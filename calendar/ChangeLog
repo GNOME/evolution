@@ -1,3 +1,28 @@
+2008-02-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes#516408
+	* gui/dialogs/e-send-options-utils.c
+	(e_sendoptions_utils_fill_component):
+	* gui/e-cal-model.c (search_by_id_and_client):
+	* gui/e-calendar-table.c (copy_row_cb),
+	(e_calendar_table_copy_clipboard):
+	* gui/e-calendar-view.c (e_calendar_view_copy_clipboard),
+	(icalcomp_contains_category):
+	* gui/e-day-view.c (model_rows_deleted_cb),
+	(e_day_view_find_event_from_uid), (e_day_view_reshape_day_events),
+	(e_day_view_on_drag_data_get):
+	* gui/e-itip-control.c (update_item):
+	* gui/e-memo-table.c (copy_row_cb), (e_memo_table_copy_clipboard):
+	* gui/e-memos.c (obtain_list_of_components):
+	* gui/e-tasks.c (obtain_list_of_components):
+	* gui/e-week-view.c (model_rows_deleted_cb),
+	(e_week_view_reshape_events), (e_week_view_find_event_from_uid):
+	* gui/gnome-cal.c (gnome_calendar_purge):
+	* gui/itip-utils.c (comp_limit_attendees), (itip_send_comp),
+	(reply_to_calendar_comp), (itip_publish_comp): Free the memory
+	returned by libical
+
+
 2008-02-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #440426

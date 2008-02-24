@@ -619,7 +619,8 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 	for (i = row + count; i > row; i--) {
 		gint day, event_num;
-		const char *uid, *rid = NULL;
+		const char *uid = NULL;
+		char *rid = NULL;
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
@@ -637,6 +638,7 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 		if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
+		g_free (rid);
 	}
 
 	gtk_widget_queue_draw (day_view->top_canvas);
@@ -2641,7 +2643,8 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
-	const char *u, *r;
+	const char *u;
+	char *r = NULL;
 
 	if (!uid)
 		return FALSE;
@@ -2661,8 +2664,11 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 					r = icaltime_as_ical_string (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
 					if (!r || !*r)
 						continue;
-					if (strcmp (rid, r) != 0)
+					if (strcmp (rid, r) != 0) {
+						g_free (r);
 						continue;
+					}
+					g_free (r);
 				}
 
 				*day_return = day;
@@ -5815,13 +5821,17 @@ e_day_view_reshape_day_events (EDayView *day_view,
 		e_day_view_reshape_day_event (day_view, day, event_num);
 		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
 		current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
-		if (day_view->last_edited_comp_string == NULL)
+		if (day_view->last_edited_comp_string == NULL) {
+			g_free (current_comp_string);
 			continue;
+		}			
+
 		if (strncmp (current_comp_string, day_view->last_edited_comp_string,50) == 0) {
 			e_canvas_item_grab_focus (event->canvas_item, TRUE);
 			g_free (day_view->last_edited_comp_string);
 			day_view-> last_edited_comp_string = NULL;
 		}
+		g_free (current_comp_string);
 	}
 }
 
@@ -8951,6 +8961,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		}
 
 		icalcomponent_free (vcal);
+		g_free (comp_str);
 	}
 }
 

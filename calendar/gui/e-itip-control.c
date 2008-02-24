@@ -1914,6 +1914,7 @@ update_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	struct icaltimetype stamp;
+	char *str;
 	icalproperty *prop;
 	icalcomponent *clone;
 	GtkWidget *dialog;
@@ -1931,7 +1932,9 @@ update_item (EItipControl *itip)
 	 * and you then look at it in Outlook).
 	 */
 	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
-	prop = icalproperty_new_x (icaltime_as_ical_string (stamp));
+	str = icaltime_as_ical_string (stamp);
+	prop = icalproperty_new_x (str);
+	g_free (str);
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
 	icalcomponent_add_property (priv->ical_comp, prop);
 

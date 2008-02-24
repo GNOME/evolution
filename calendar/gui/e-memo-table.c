@@ -555,6 +555,7 @@ copy_row_cb (int model_row, gpointer data)
 					     icalcomponent_new_clone (child));
 		icalcomponent_free (child);
 	}
+	g_free (comp_str);
 }
 
 static void
@@ -610,6 +611,7 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 
 	/* free memory */
 	icalcomponent_free (memo_table->tmp_vcal);
+	g_free (comp_str);
 	memo_table->tmp_vcal = NULL;
 }
 

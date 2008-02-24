@@ -520,6 +520,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 		}
 
 		icalcomponent_free (vcal);
+		g_free (comp_str);
 	}
 }
 

@@ -884,7 +884,7 @@ comp_limit_attendees (ECalComponent *comp)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_ATTENDEE_PROPERTY))
 	{
-		const char *attendee;
+		char *attendee;
 		char *attendee_text;
 		icalparameter *param;
 		const char *attendee_sentby;
@@ -901,6 +901,7 @@ comp_limit_attendees (ECalComponent *comp)
 			continue;
 
 		attendee_text = g_strdup (itip_strip_mailto (attendee));
+		g_free (attendee);
 		attendee_text = g_strstrip (attendee_text);
 		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, attendee_text) != NULL;
 
@@ -1228,7 +1229,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	CORBA_char *subject = NULL, *body = NULL, *content_type = NULL;
 	CORBA_char *from = NULL, *filename = NULL, *description = NULL;
 	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
-	char *ical_string;
+	char *ical_string = NULL;
 	CORBA_Environment ev;
 	gboolean retval = FALSE;
 
@@ -1388,6 +1389,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		CORBA_free (attach_data->_buffer);
 		CORBA_free (attach_data);
 	}
+	g_free (ical_string);
 
 	return retval;
 }
@@ -1406,7 +1408,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 	CORBA_char *subject = NULL, *content_type = NULL;
 	char tmp [256];
 	CORBA_char *from = NULL;
-	char *ical_string;
+	char *ical_string = NULL;
 	CORBA_Environment ev;
 	gboolean retval = FALSE;
 
@@ -1591,7 +1593,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 		CORBA_free (subject);
 	if (content_type != NULL)
 		CORBA_free (content_type);
-
+	g_free (ical_string);
 	return retval;
 }
 
@@ -1749,7 +1751,7 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	SoupSession *session;
 	SoupMessage *msg;
 	SoupURI *real_uri;
-	char *ical_string;
+	char *ical_string = NULL;
 
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);
@@ -1761,7 +1763,6 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	icomp = comp_fb_normalize (icalcomp);
 
 	icalcomponent_add_component (toplevel, icomp);
-	ical_string = icalcomponent_as_ical_string (toplevel);
 
 	/* Publish the component */
 	session = soup_session_async_new ();
@@ -1784,7 +1785,9 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 		g_object_unref (session);
 		return FALSE;
 	}
+
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
+	ical_string = icalcomponent_as_ical_string (toplevel);
 	soup_message_set_request (msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
 				  ical_string, strlen (ical_string));
 
@@ -1796,11 +1799,13 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 			  msg->reason_phrase);
 		g_object_unref (msg);
 		g_object_unref (session);
+		g_free (ical_string);
 		return FALSE;
 	}
 
 	g_object_unref (msg);
 	g_object_unref (session);
+	g_free (ical_string);
 
 	return TRUE;
 }

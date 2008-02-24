@@ -881,6 +881,7 @@ copy_row_cb (int model_row, gpointer data)
 					     icalcomponent_new_clone (child));
 		icalcomponent_free (child);
 	}
+	g_free (child);
 }
 
 /**
@@ -917,6 +918,7 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 
 	/* free memory */
 	icalcomponent_free (cal_table->tmp_vcal);
+	g_free (comp_str);
 	cal_table->tmp_vcal = NULL;
 }
 

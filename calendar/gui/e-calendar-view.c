@@ -771,6 +771,7 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 
 	/* free memory */
 	icalcomponent_free (vcal_comp);
+	g_free (comp_str);
 	g_list_free (selected);
 }
 
@@ -2297,11 +2298,13 @@ icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
 	for (property = icalcomponent_get_first_property (icalcomp, ICAL_CATEGORIES_PROPERTY);
 	     property != NULL;
 	     property = icalcomponent_get_next_property (icalcomp, ICAL_CATEGORIES_PROPERTY)) {
-		const char *value = icalproperty_get_value_as_string (property);
+		char *value = icalproperty_get_value_as_string (property);
 
 		if (value && strcmp (category, value) == 0){
+			g_free (value);
 			return TRUE;
 		}
+		g_free (value);
 	}
 
 	return FALSE;

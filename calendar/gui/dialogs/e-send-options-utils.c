@@ -183,9 +183,14 @@ e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp
 
 		if (gopts->delay_enabled) {
 			struct icaltimetype temp;
+			char *str;
+
 			icaltimezone *zone = calendar_config_get_icaltimezone ();
 			temp = icaltime_from_timet_with_zone (gopts->delay_until, FALSE, zone);
-			prop = icalproperty_new_x (icaltime_as_ical_string (temp));
+
+			str = icaltime_as_ical_string (temp);
+			prop = icalproperty_new_x (str);
+			g_free (str);
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-DELAY");
 			icalcomponent_add_property (icalcomp, prop);
 		}

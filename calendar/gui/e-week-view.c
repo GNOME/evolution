@@ -396,7 +396,8 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 	for (i = row + count; i > row; i--) {
 		gint event_num;
-		const char *uid, *rid = NULL;
+		const char *uid;
+		char *rid = NULL;
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
@@ -414,6 +415,7 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
+		g_free (rid);
 	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -2535,6 +2537,7 @@ e_week_view_reshape_events (EWeekView *week_view)
 				g_free (week_view->last_edited_comp_string);
 				week_view->last_edited_comp_string = NULL;
 			}
+			g_free (current_comp_string);
 		}
 	}
 
@@ -3663,7 +3666,8 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 
 	num_events = week_view->events->len;
 	for (event_num = 0; event_num < num_events; event_num++) {
-		const char *u, *r;
+		const char *u;
+		char *r = NULL;
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
@@ -3677,8 +3681,11 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 				r = icaltime_as_ical_string (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
 				if (!r || !*r)
 					continue;
-				if (strcmp (rid, r) != 0)
+				if (strcmp (rid, r) != 0) {
+					g_free (r);
 					continue;
+				}
+				g_free (r);
 			}
 
 			*event_num_return = event_num;

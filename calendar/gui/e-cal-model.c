@@ -1297,7 +1297,8 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 		ECalModelComponent *comp_data = g_ptr_array_index (priv->objects, i);
 
 		if (comp_data) {
-			const char *uid, *rid;
+			const char *uid;
+			char *rid = NULL;
 			gboolean has_rid = (id->rid && *id->rid);
 
 			uid = icalcomponent_get_uid (comp_data->icalcomp);
@@ -1306,11 +1307,15 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 			if (uid && *uid) {
 				if ((!client || comp_data->client == client) && !strcmp (id->uid, uid)) {
 					if (has_rid) {
-						if (!(rid && *rid && !strcmp (rid, id->rid)))
+						if (!(rid && *rid && !strcmp (rid, id->rid))) {
+							g_free (rid);
 							continue;
+						}
 					}
+					g_free (rid);
 					return comp_data;
 				}
+			g_free (rid);
 			}
 		}
 	}
