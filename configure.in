@@ -630,6 +630,8 @@ else
 fi
 AM_CONDITIONAL(ENABLE_CAIRO, [test x$enable_cairo_calendar = xyes])
 
+AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
+
 dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
