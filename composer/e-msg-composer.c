@@ -5419,14 +5419,16 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 		GNOME_GtkHTML_Editor_Engine_freeze (p->eeditor_engine, &ev);
 		GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-position-save", &ev);
 		GNOME_GtkHTML_Editor_Engine_undoBegin (p->eeditor_engine, "Set signature", "Reset signature", &ev);
+
 		delete_old_signature (composer);
 		html = get_signature_html (composer);
 		if (html) {
 			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "insert-paragraph", &ev);
-			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-backward", &ev);
-			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "insert-paragraph", &ev);
-
-			/* printf ("insert %s\n", html); */
+			if (!GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-backward", &ev))
+				GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "insert-paragraph", &ev);
+			else
+				GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "cursor-forward", &ev);
+		/* printf ("insert %s\n", html); */
 			GNOME_GtkHTML_Editor_Engine_setParagraphData (p->eeditor_engine, "orig", "0", &ev);
 			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "indent-zero", &ev);
 			GNOME_GtkHTML_Editor_Engine_runCommand (p->eeditor_engine, "style-normal", &ev);
