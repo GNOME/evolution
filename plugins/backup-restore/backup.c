@@ -81,7 +81,7 @@ backup (const char *filename)
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
-	command = g_strdup_printf ("cd $HOME && tar zpcf %s .evolution .camel_certs", filename);
+	command = g_strdup_printf ("cd $HOME && tar cf - .evolution .camel_certs | gzip > %s", filename);
 	s (command);
 	g_free (command);
 
@@ -117,7 +117,7 @@ restore (const char *filename)
 
 	CANCEL (complete);
 	txt = _("Extracting files from backup");
-	command = g_strdup_printf ("cd $HOME && tar zxf %s", filename);
+	command = g_strdup_printf ("cd $HOME && gzip -cd %s| tar xf -", filename);
 	s (command);
 	g_free (command);
 
