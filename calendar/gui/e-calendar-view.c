@@ -696,7 +696,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 
 		e_cal_component_get_uid (comp, &uid);
 		if (e_cal_component_is_instance (comp)) {
-			const char *rid;
+			char *rid = NULL;
 			icalcomponent *icalcomp;
 
 			/* when cutting detached instances, only cut that instance */
@@ -709,6 +709,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 			} else
 				e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL,
 						CALOBJ_MOD_ALL, &error);
+			g_free (rid);
 		} else
 			e_cal_remove_object (event->comp_data->client, uid, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
@@ -958,6 +959,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 
 	if (delete) {
 		const char *uid;
+		char *rid = NULL;
 
 		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
@@ -971,15 +973,16 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 			g_object_unref (comp);
 			return;
 		}
-
+		rid = e_cal_component_get_recurid_as_string (comp);
 		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 			e_cal_remove_object_with_mod (event->comp_data->client, uid,
-				e_cal_component_get_recurid_as_string (comp), CALOBJ_MOD_ALL, &error);
+				rid, CALOBJ_MOD_ALL, &error);
 		else
 			e_cal_remove_object (event->comp_data->client, uid, &error);
 
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
+		g_free (rid);
 	}
 
 	g_object_unref (comp);
@@ -1069,7 +1072,8 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
 
 	if (delete) {
-		const char *uid, *rid = NULL;
+		const char *uid;
+		char *rid = NULL;
 		ECalComponentDateTime dt;
 		icaltimezone *zone = NULL;
 		gboolean is_instance = FALSE;
@@ -1128,6 +1132,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
+		g_free (rid);
 	}
 
 	/* free memory */

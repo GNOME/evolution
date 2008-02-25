@@ -1,3 +1,13 @@
+2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #516498
+	* gui/comp-util.c: (cal_comp_is_on_server):
+	* gui/e-calendar-view.c: (e_calendar_view_cut_clipboard),
+	(delete_event), (e_calendar_view_delete_selected_occurrence):
+	* gui/e-day-view.c: (process_component):
+	* gui/e-week-view.c: (process_component): Free memory returned 
+	by e_cal_component_get_recurid_as_string.						  	
+
 2008-02-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes#516408
@@ -21,7 +31,6 @@
 	* gui/itip-utils.c (comp_limit_attendees), (itip_send_comp),
 	(reply_to_calendar_comp), (itip_publish_comp): Free the memory
 	returned by libical
-
 
 2008-02-20  Milan Crha  <mcrha@redhat.com>
 

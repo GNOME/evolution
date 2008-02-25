@@ -517,7 +517,8 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 static void
 process_component (EDayView *day_view, ECalModelComponent *comp_data)
 {
-	const char *uid, *rid;
+	const char *uid;
+	char *rid = NULL;
 	ECalComponent *comp;
 	AddEventData add_event_data;
 
@@ -546,6 +547,7 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 	e_day_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, &add_event_data);
 
 	g_object_unref (comp);
+	g_free (rid);
 }
 
 static void

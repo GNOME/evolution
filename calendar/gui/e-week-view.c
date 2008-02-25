@@ -303,7 +303,8 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	ECalComponent *comp = NULL;
 	AddEventData add_event_data;
 	/* rid is never used in this function? */
-	const char *uid, *rid;
+	const char *uid;
+	char *rid = NULL;
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
@@ -329,6 +330,7 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	e_week_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, FALSE, &add_event_data);
 
 	g_object_unref (comp);
+	g_free (rid);
 }
 
 static void

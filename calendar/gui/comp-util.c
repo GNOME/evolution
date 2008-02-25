@@ -207,7 +207,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 gboolean
 cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 {
-	const char *uid, *rid = NULL;
+	const char *uid;
+	char *rid = NULL;
 	icalcomponent *icalcomp;
 	GError *error = NULL;
 
@@ -232,6 +233,7 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 
 	if (e_cal_get_object (client, uid, rid, &icalcomp, &error)) {
 		icalcomponent_free (icalcomp);
+		g_free (rid);
 
 		return TRUE;
 	}
@@ -240,6 +242,7 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 		g_warning (G_STRLOC ": %s", error->message);
 
 	g_clear_error (&error);
+	g_free (rid);
 
 	return FALSE;
 }
