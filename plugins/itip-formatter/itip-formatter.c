@@ -723,7 +723,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 	FormatItipFindData *fd = NULL;
 	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
 	const char *uid;
-	const char *rid;
+	char *rid = NULL;
 	CamelURL *url;
 	char *uri;
 	ESource *source = NULL, *current_source = NULL;
@@ -789,7 +789,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 			fd = g_new0 (FormatItipFindData, 1);
 			fd->puri = pitip;
 			fd->uid = g_strdup (uid);
-			fd->rid = g_strdup (rid);
+			fd->rid = rid;
 
 			if (pitip->start_time && pitip->end_time) {
 				start = isodate_from_time_t (pitip->start_time);
@@ -1138,7 +1138,8 @@ update_attendee_status (struct _itip_puri *pitip)
 {
 	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp = NULL, *org_icalcomp;
-	const char *uid, *rid;
+	const char *uid;
+	char *rid = NULL;
 	const char *delegate;
 	GError *error = NULL;
 
@@ -1253,6 +1254,7 @@ update_attendee_status (struct _itip_puri *pitip)
  cleanup:
 	if (comp != NULL)
 		g_object_unref (comp);
+	g_free (rid);
 }
 
 static void

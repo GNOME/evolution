@@ -1,5 +1,10 @@
 2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* itip-formatter.c: (find_server), (update_attendee_status): Free
+	the memory returned by e_cal_component_get_recurid_as_string.								     
+
+2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes#516408
 	* itip-formatter.c (find_attendee), (find_to_address),
 	(find_from_address), (update_item): Free the memory returned 
