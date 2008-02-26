@@ -11,14 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 08:31-0300\n"
-"PO-Revision-Date: 2008-02-25 23:17-0300\n"
+"POT-Creation-Date: 2008-02-26 18:34-0300\n"
+"PO-Revision-Date: 2008-02-14 13:26-0400\n"
 "Last-Translator: Washington Lins <washington-lins@uol.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -364,9 +366,8 @@ msgid "Address '{0}' already exists."
 msgstr "O endereço \"{0}\" já existe."
 
 #: ../addressbook/addressbook.error.xml.h:5
-#, fuzzy
 msgid "Cannot add new contact"
-msgstr "Criar um novo contato"
+msgstr "Não foi possivel inserir um novo contato"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
@@ -384,7 +385,7 @@ msgid ""
 msgstr ""
 "Verifique se a sua senha está correta e se você está usando um método de "
 "login com suporte. Lembre-se de que várias senhas diferenciam maiúsculas de "
-"minúsculas; sua tecla Fixa (Caps Lock) pode estar ligada."
+"minúsculas; sua tecla caps lock pode estar ligada."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
@@ -1129,7 +1130,7 @@ msgstr "Bases de Pesquisa com Suporte"
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
-msgstr "Criptografia TLS"
+msgstr "Encriptação TLS"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
@@ -1506,251 +1507,202 @@ msgstr "Endereço"
 msgid "Editable"
 msgstr "Editável"
 
-# US
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "United States"
 msgstr "Estados Unidos"
 
-# AF
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Afghanistan"
 msgstr "Afeganistão"
 
-# AL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Albania"
 msgstr "Albânia"
 
-# DZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Algeria"
 msgstr "Argélia"
 
-# AS
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "American Samoa"
 msgstr "Samoa Americana"
 
-# AD
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Andorra"
 msgstr "Andorra"
 
-# AO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Angola"
 msgstr "Angola"
 
-# AI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Anguilla"
-msgstr "Anguila"
+msgstr "Anguilla"
 
-# AQ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antarctica"
-msgstr "Antártida"
+msgstr "Antártica"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Antigua And Barbuda"
 msgstr "Antígua e Barbuda"
 
-# AR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Argentina"
 msgstr "Argentina"
 
-# AM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
 msgid "Armenia"
 msgstr "Armênia"
 
-# AW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
 msgid "Aruba"
 msgstr "Aruba"
 
-# AU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Australia"
 msgstr "Austrália"
 
-# AT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Austria"
 msgstr "Áustria"
 
-# AZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Azerbaijan"
-msgstr "Azerbaidjão"
+msgstr "Azerbaijão"
 
-# BS
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Bahamas"
 msgstr "Bahamas"
 
-# BH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Bahrain"
-msgstr "Barein"
+msgstr "Bahrain"
 
-# BD
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Bangladesh"
 msgstr "Bangladesh"
 
-# BB
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Barbados"
 msgstr "Barbados"
 
-# Também chamado de "Belarus"
-# BY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Belarus"
-msgstr "Bielo-Rússia"
+msgstr "Beielorússia"
 
-# BE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Belgium"
 msgstr "Bélgica"
 
-# BZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Belize"
 msgstr "Belize"
 
-# BJ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Benin"
 msgstr "Benin"
 
-# BM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bermuda"
-msgstr "Bermuda"
+msgstr "Bermudas"
 
-# BT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bhutan"
 msgstr "Butão"
 
-# BO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Bolivia"
 msgstr "Bolívia"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Bosnia And Herzegowina"
-msgstr "Bósnia e Herzegóvina"
+msgstr "Bósnia e Herzegovina"
 
-# BW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Botswana"
-msgstr "Botsuana"
+msgstr "Botswana"
 
-# BV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Bouvet Island"
-msgstr "Ilha Bouvet"
+msgstr "Ilhas Bouvet"
 
-# BR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brazil"
 msgstr "Brasil"
 
-# IO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "British Indian Ocean Territory"
-msgstr "Território Britânico do Oceano Índico"
+msgstr "Território do Oceano Índico Britânico"
 
-# BN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Brunei Darussalam"
-msgstr "Brunei"
+msgstr "Brunei Darussalam"
 
-# BG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Bulgaria"
 msgstr "Bulgária"
 
-# BF
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Burkina Faso"
-msgstr "Burquina"
+msgstr "Burkina Faso"
 
-# BI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Burundi"
 msgstr "Burundi"
 
-# KH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Cambodia"
 msgstr "Camboja"
 
-# CM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Cameroon"
 msgstr "Camarões"
 
-# CA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Canada"
 msgstr "Canadá"
 
-# CV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cape Verde"
 msgstr "Cabo Verde"
 
-# KY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Cayman Islands"
 msgstr "Ilhas Cayman"
 
-# CF
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Central African Republic"
 msgstr "República Centro-Africana"
 
-# TD
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "Chad"
 msgstr "Chade"
 
-# CL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
 msgid "Chile"
 msgstr "Chile"
 
-# CN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "China"
 msgstr "China"
 
-# CX
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Christmas Island"
-msgstr "Ilha Christmas"
+msgstr "Ilhas Christmas"
 
-# CC
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Cocos (Keeling) Islands"
-msgstr "Ilhas Cocos"
+msgstr "Ilhas dos Cocos"
 
-# CO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
 msgid "Colombia"
 msgstr "Colômbia"
 
-# KM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Comoros"
 msgstr "Comores"
 
-# CG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo"
 msgstr "Congo"
@@ -1759,12 +1711,10 @@ msgstr "Congo"
 msgid "Congo, The Democratic Republic Of The"
 msgstr "Congo, República Democrática do"
 
-# CK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cook Islands"
 msgstr "Ilhas Cook"
 
-# CR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Costa Rica"
 msgstr "Costa Rica"
@@ -1773,77 +1723,62 @@ msgstr "Costa Rica"
 msgid "Cote d'Ivoire"
 msgstr "Costa do Marfim"
 
-# HR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Croatia"
 msgstr "Croácia"
 
-# CU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "Cuba"
 msgstr "Cuba"
 
-# CY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
 msgid "Cyprus"
 msgstr "Chipre"
 
-# CZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Czech Republic"
-msgstr "República Tcheca"
+msgstr "República Checa"
 
-# DK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Denmark"
 msgstr "Dinamarca"
 
-# DJ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Djibouti"
-msgstr "Djibuti"
+msgstr "Djibouti"
 
-# DM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Dominica"
-msgstr "Domínica"
+msgstr "Dominica"
 
-# DO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Dominican Republic"
 msgstr "República Dominicana"
 
-# EC
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Ecuador"
 msgstr "Equador"
 
-# EG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "Egypt"
 msgstr "Egito"
 
-# SV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "El Salvador"
 msgstr "El Salvador"
 
-# GQ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Equatorial Guinea"
 msgstr "Guiné Equatorial"
 
-# ER
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Eritrea"
-msgstr "Eritréia"
+msgstr "Eritrea"
 
-# EE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Estonia"
 msgstr "Estônia"
 
-# ET
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Ethiopia"
 msgstr "Etiópia"
@@ -1852,32 +1787,26 @@ msgstr "Etiópia"
 msgid "Falkland Islands"
 msgstr "Ilhas Falkland (Malvinas)"
 
-# FO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
 msgstr "Ilhas Faroe"
 
-# FJ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
 msgstr "Fiji"
 
-# FI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "Finland"
 msgstr "Finlândia"
 
-# FR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "France"
 msgstr "França"
 
-# GF
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Guiana"
 msgstr "Guiana Francesa"
 
-# PF
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Polynesia"
 msgstr "Polinésia Francesa"
@@ -1886,72 +1815,58 @@ msgstr "Polinésia Francesa"
 msgid "French Southern Territories"
 msgstr "Territórios Franceses do Sul"
 
-# GA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gabon"
 msgstr "Gabão"
 
-# GM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Gambia"
 msgstr "Gâmbia"
 
-# GE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Georgia"
 msgstr "Geórgia"
 
-# DE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Germany"
 msgstr "Alemanha"
 
-# GH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Ghana"
 msgstr "Gana"
 
-# GI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-# GR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greece"
 msgstr "Grécia"
 
-# GL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Greenland"
 msgstr "Groenlândia"
 
-# GD
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Grenada"
 msgstr "Granada"
 
-# GP
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guadeloupe"
 msgstr "Guadalupe"
 
-# GU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guam"
 msgstr "Guam"
 
-# GT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Guatemala"
 msgstr "Guatemala"
 
-# DE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guernsey"
 msgstr "Guernsey"
 
-# GN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guinea"
 msgstr "Guiné"
@@ -1960,12 +1875,10 @@ msgstr "Guiné"
 msgid "Guinea-bissau"
 msgstr "Guiné-Bissau"
 
-# GY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Guyana"
 msgstr "Guiana"
 
-# HT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Haiti"
 msgstr "Haiti"
@@ -1978,32 +1891,26 @@ msgstr "Ilhas Heard e McDonald"
 msgid "Holy See"
 msgstr "Santa Sé"
 
-# HN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Honduras"
 msgstr "Honduras"
 
-# HK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-# HU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
 msgid "Hungary"
 msgstr "Hungria"
 
-# IS
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
 msgid "Iceland"
 msgstr "Islândia"
 
-# IN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
 msgid "India"
 msgstr "Índia"
 
-# ID
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
 msgid "Indonesia"
 msgstr "Indonésia"
@@ -2012,12 +1919,10 @@ msgstr "Indonésia"
 msgid "Iran"
 msgstr "Irã"
 
-# IQ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Iraq"
 msgstr "Iraque"
 
-# IE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Ireland"
 msgstr "Irlanda"
@@ -2026,22 +1931,18 @@ msgstr "Irlanda"
 msgid "Isle of Man"
 msgstr "Ilha de Man"
 
-# IL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Israel"
 msgstr "Israel"
 
-# IT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Italy"
 msgstr "Itália"
 
-# JM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Jamaica"
 msgstr "Jamaica"
 
-# JP
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Japan"
 msgstr "Japão"
@@ -2050,22 +1951,18 @@ msgstr "Japão"
 msgid "Jersey"
 msgstr "Jersey"
 
-# JO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Jordan"
 msgstr "Jordânia"
 
-# KZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kazakhstan"
 msgstr "Cazaquistão"
 
-# KE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kenya"
 msgstr "Quênia"
 
-# KI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Kiribati"
 msgstr "Kiribati"
@@ -2078,12 +1975,10 @@ msgstr "Coréia do Norte"
 msgid "Korea, Republic Of"
 msgstr "Coréia do Sul"
 
-# KW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kuwait"
 msgstr "Kuwait"
 
-# KG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
 msgstr "Quirguistão"
@@ -2092,22 +1987,18 @@ msgstr "Quirguistão"
 msgid "Laos"
 msgstr "Laos"
 
-# LV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Latvia"
 msgstr "Letônia"
 
-# LB
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lebanon"
 msgstr "Líbano"
 
-# LS
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Lesotho"
 msgstr "Lesoto"
 
-# LR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Liberia"
 msgstr "Libéria"
@@ -2116,22 +2007,18 @@ msgstr "Libéria"
 msgid "Libya"
 msgstr "Líbia"
 
-# LI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-# LT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Lithuania"
 msgstr "Lituânia"
 
-# LU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-# MO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macao"
 msgstr "Macau"
@@ -2140,62 +2027,50 @@ msgstr "Macau"
 msgid "Macedonia"
 msgstr "Macedônia"
 
-# MG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Madagascar"
 msgstr "Madagascar"
 
-# MW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malawi"
-msgstr "Malaui"
+msgstr "Malawi"
 
-# MY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Malaysia"
 msgstr "Malásia"
 
-# MV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Maldives"
 msgstr "Maldivas"
 
-# ML
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Mali"
 msgstr "Mali"
 
-# MT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Malta"
 msgstr "Malta"
 
-# MH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Marshall Islands"
 msgstr "Ilhas Marshall"
 
-# MQ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Martinique"
 msgstr "Martinica"
 
-# MR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritania"
 msgstr "Mauritânia"
 
-# MU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mauritius"
 msgstr "Maurício"
 
-# YT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mayotte"
 msgstr "Mayotte"
 
-# MX
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Mexico"
 msgstr "México"
@@ -2208,117 +2083,94 @@ msgstr "Micronésia"
 msgid "Moldova, Republic Of"
 msgstr "Moldova, República da"
 
-# MC
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Monaco"
 msgstr "Mônaco"
 
-# MN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Mongolia"
 msgstr "Mongólia"
 
-# MS
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Montserrat"
 msgstr "Montserrat"
 
-# MA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Morocco"
 msgstr "Marrocos"
 
-# MZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Mozambique"
 msgstr "Moçambique"
 
-# MM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Myanmar"
 msgstr "Myanmar"
 
-# NA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Namibia"
 msgstr "Namíbia"
 
-# NR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nauru"
 msgstr "Nauru"
 
-# NP
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Nepal"
 msgstr "Nepal"
 
-# NL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands"
-msgstr "Países Baixos"
+msgstr "Holanda"
 
-# AN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Netherlands Antilles"
 msgstr "Antilhas Holandesas"
 
-# NC
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Caledonia"
 msgstr "Nova Caledônia"
 
-# NZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "New Zealand"
 msgstr "Nova Zelândia"
 
-# NI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Nicaragua"
 msgstr "Nicarágua"
 
-# NE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Niger"
-msgstr "Níger"
+msgstr "Niger"
 
-# NG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Nigeria"
 msgstr "Nigéria"
 
-# NU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Niue"
 msgstr "Niue"
 
-# NF
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Norfolk Island"
-msgstr "Ilha Norfolk"
+msgstr "Ilhas Norfolk"
 
-# MP
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Northern Mariana Islands"
 msgstr "Ilhas Marianas do Norte"
 
-# NO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Norway"
 msgstr "Noruega"
 
-# OM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Oman"
 msgstr "Omã"
 
-# PK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Pakistan"
 msgstr "Paquistão"
 
-# PW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palau"
 msgstr "Palau"
@@ -2327,72 +2179,58 @@ msgstr "Palau"
 msgid "Palestinian Territory"
 msgstr "Território Palestino"
 
-# PA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Panama"
 msgstr "Panamá"
 
-# PG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Papua New Guinea"
 msgstr "Papua Nova Guiné"
 
-# PY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Paraguay"
 msgstr "Paraguai"
 
-# PE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Peru"
 msgstr "Peru"
 
-# PH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Philippines"
 msgstr "Filipinas"
 
-# PN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Pitcairn"
 msgstr "Pitcairn"
 
-# PL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Poland"
 msgstr "Polônia"
 
-# PT
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Portugal"
 msgstr "Portugal"
 
-# PR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Puerto Rico"
 msgstr "Porto Rico"
 
-# QA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Qatar"
-msgstr "Catar"
+msgstr "Qatar"
 
-# RE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Reunion"
 msgstr "Reunião"
 
-# RO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Romania"
 msgstr "Romênia"
 
-# RU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Russian Federation"
 msgstr "Federação Russa"
 
-# RW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Rwanda"
 msgstr "Ruanda"
@@ -2401,7 +2239,6 @@ msgstr "Ruanda"
 msgid "Saint Kitts And Nevis"
 msgstr "Saint Kitts e Nevis"
 
-# LC
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Lucia"
 msgstr "Santa Lúcia"
@@ -2410,26 +2247,22 @@ msgstr "Santa Lúcia"
 msgid "Saint Vincent And The Grenadines"
 msgstr "São Vicente e Granadinas"
 
-# WS
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Samoa"
 msgstr "Samoa"
 
-# SM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "San Marino"
-msgstr "São Marino"
+msgstr "San Marino"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sao Tome And Principe"
 msgstr "São Tome e Príncipe"
 
-# SA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Saudi Arabia"
 msgstr "Arábia Saudita"
 
-# SN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Senegal"
 msgstr "Senegal"
@@ -2438,42 +2271,34 @@ msgstr "Senegal"
 msgid "Serbia And Montenegro"
 msgstr "Sérvia e Montenegro"
 
-# SC
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Seychelles"
 msgstr "Seychelles"
 
-# SL
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Sierra Leone"
 msgstr "Serra Leoa"
 
-# SG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Singapore"
-msgstr "Cingapura"
+msgstr "Singapura"
 
-# SK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "Slovakia"
 msgstr "Eslováquia"
 
-# SI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Slovenia"
 msgstr "Eslovênia"
 
-# SB
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Solomon Islands"
 msgstr "Ilhas Salomão"
 
-# SO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Somalia"
 msgstr "Somália"
 
-# ZA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "South Africa"
 msgstr "África do Sul"
@@ -2482,12 +2307,10 @@ msgstr "África do Sul"
 msgid "South Georgia And The South Sandwich Islands"
 msgstr "Ilhas Georgia do Sul e Sandwich do Sul"
 
-# ES
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Spain"
 msgstr "Espanha"
 
-# LK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
@@ -2500,12 +2323,10 @@ msgstr "St. Helena"
 msgid "St. Pierre And Miquelon"
 msgstr "St. Pierre e Miquelon"
 
-# SD
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Sudan"
 msgstr "Sudão"
 
-# SR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
 msgstr "Suriname"
@@ -2514,17 +2335,14 @@ msgstr "Suriname"
 msgid "Svalbard And Jan Mayen Islands"
 msgstr "Ilhas Svalbard e Jan Mayen"
 
-# SZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Swaziland"
 msgstr "Suazilândia"
 
-# SE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Sweden"
 msgstr "Suécia"
 
-# CH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Switzerland"
 msgstr "Suíça"
@@ -2533,21 +2351,18 @@ msgstr "Suíça"
 msgid "Syria"
 msgstr "Síria"
 
-# TW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Taiwan"
-msgstr "Taiwan"
+msgstr "Formosa"
 
-# TJ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tajikistan"
-msgstr "Tadjiquistão"
+msgstr "Tajiquistão"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tanzania, United Republic Of"
 msgstr "Tanzânia, República Unida da"
 
-# TH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Thailand"
 msgstr "Tailândia"
@@ -2556,36 +2371,30 @@ msgstr "Tailândia"
 msgid "Timor-Leste"
 msgstr "Timor Leste"
 
-# TG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Togo"
 msgstr "Togo"
 
-# TK
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tokelau"
-msgstr "Toquelau"
+msgstr "Tokelau"
 
-# TO
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Tonga"
 msgstr "Tonga"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Trinidad And Tobago"
-msgstr "Trinidade e Tobago"
+msgstr "Trinidad e Tobago"
 
-# TN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Tunisia"
 msgstr "Tunísia"
 
-# TR
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Turkey"
 msgstr "Turquia"
 
-# TM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turkmenistan"
 msgstr "Turcomenistão"
@@ -2594,22 +2403,18 @@ msgstr "Turcomenistão"
 msgid "Turks And Caicos Islands"
 msgstr "Ilhas Turks e Caicos"
 
-# TV
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-# UG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Uganda"
 msgstr "Uganda"
 
-# UA
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "Ukraine"
 msgstr "Ucrânia"
 
-# AE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "United Arab Emirates"
 msgstr "Emirados Árabes Unidos"
@@ -2618,66 +2423,54 @@ msgstr "Emirados Árabes Unidos"
 msgid "United Kingdom"
 msgstr "Reino Unido"
 
-# UM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "United States Minor Outlying Islands"
-msgstr "Ilhas Menores Distantes dos Estados Unidos"
+msgstr "Ilhas ao Largo dos Estados Unidos"
 
-# UY
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uruguay"
 msgstr "Uruguai"
 
-# UZ
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Uzbekistan"
 msgstr "Uzbequistão"
 
-# VU
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-# VE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Venezuela"
 msgstr "Venezuela"
 
-# VN
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Viet Nam"
 msgstr "Vietnã"
 
-# VG
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, British"
-msgstr "Ilhas Virgens Britânicas"
+msgstr "Ilhas Virgens, Inglaterra"
 
-# VI
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Virgin Islands, U.S."
-msgstr "Ilhas Virgens dos Estados Unidos"
+msgstr "Ilhas Virgens, EUA"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Wallis And Futuna Islands"
 msgstr "Ilhas Wallis e Futuna"
 
-# EH
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Western Sahara"
-msgstr "Saara Ocidental"
+msgstr "Sahara Ocidental"
 
-# YE
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:376
 msgid "Yemen"
-msgstr "Iêmen"
+msgstr "Yemen"
 
-# ZM
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:377
 msgid "Zambia"
 msgstr "Zâmbia"
 
-# ZW
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:378
 msgid "Zimbabwe"
 msgstr "Zimbábue"
@@ -5285,7 +5078,7 @@ msgid ""
 msgstr ""
 "O fuso horário padrão para ser usado para datas e horas na agenda, como um "
 "fuso horário não traduzido do banco de dados Olsen de fusos como, por "
-"exemplo, \"America/Sao Paulo\"."
+"exemplo, \"America/New York\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:63
 msgid "Time divisions"
@@ -6922,9 +6715,8 @@ msgstr "Detalhes de Tarefa"
 
 #: ../calendar/gui/dialogs/task-page.c:459
 #: ../calendar/gui/dialogs/task-page.glade.h:4
-#, fuzzy
 msgid "Organi_zer:"
-msgstr "Organizador:"
+msgstr "Organi_zador:"
 
 #: ../calendar/gui/dialogs/task-page.c:866
 msgid "Due date is wrong"
@@ -7281,9 +7073,8 @@ msgstr "Abrir Página da _Web"
 
 #: ../calendar/gui/e-calendar-table.c:1368
 #: ../calendar/gui/e-calendar-view.c:1669 ../calendar/gui/e-memo-table.c:927
-#, fuzzy
 msgid "P_rint..."
-msgstr "Im_primir..."
+msgstr "Imp_rimir..."
 
 #: ../calendar/gui/e-calendar-table.c:1372
 #: ../calendar/gui/e-calendar-view.c:1689 ../calendar/gui/e-memo-table.c:931
@@ -7402,9 +7193,8 @@ msgid "_Select Date..."
 msgstr "_Selecionar Data..."
 
 #: ../calendar/gui/e-calendar-view.c:1685
-#, fuzzy
 msgid "Pri_nt..."
-msgstr "Im_primir..."
+msgstr "I_mprimir..."
 
 #: ../calendar/gui/e-calendar-view.c:1695
 msgid "Cop_y to Calendar..."
@@ -8699,9 +8489,8 @@ msgid "Summary: %s"
 msgstr "Resumo: %s"
 
 #: ../calendar/gui/print.c:2490
-#, fuzzy
 msgid "Attendees: "
-msgstr "Participantes"
+msgstr "Participantes:"
 
 #: ../calendar/gui/print.c:2530
 #, c-format
@@ -10771,7 +10560,7 @@ msgstr "_Pessoal"
 #. green
 #: ../e-util/e-util-labels.c:48
 msgid "_To Do"
-msgstr "Ta_refa"
+msgstr "A Fa_zer"
 
 #. blue
 #: ../e-util/e-util-labels.c:49
@@ -10788,16 +10577,15 @@ msgstr "Editar Rótulo"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Add Label"
-msgstr "Adicionar Rótulo"
+msgstr "adcionar Rótulo"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
-msgstr "Rótulo não pode ser vazio."
+msgstr "Rótulo não pode ser vázio"
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr ""
-"Já existe um rótulo com a mesma etiqueta. Por favor renomeie esse rótulo"
+msgstr "Já existe um rótuno com a mesma tag. Por favor renomeie esse rótulo"
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10925,18 +10713,16 @@ msgid "Test"
 msgstr "Teste"
 
 #: ../filter/filter-rule.c:800
-#, fuzzy
 msgid "R_ule name:"
-msgstr "Nome da regra"
+msgstr "Nome da _regra:"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
 msgstr "Encontrar itens que atendem os seguintes critérios"
 
 #: ../filter/filter-rule.c:862
-#, fuzzy
 msgid "A_dd Filter Criteria"
-msgstr "Adicionar Regra de Filtro"
+msgstr "Adicionar critérios no Filtro"
 
 #: ../filter/filter-rule.c:868
 msgid "If all criteria are met"
@@ -11217,14 +11003,12 @@ msgid "Receiving Email"
 msgstr "Recebendo E-mail"
 
 #: ../mail/em-account-editor.c:2053
-#, fuzzy
 msgid "Check for _new messages every"
 msgstr "Verificar automaticamente _novas mensagens"
 
 #: ../mail/em-account-editor.c:2061
-#, fuzzy
 msgid "minu_tes"
-msgstr "minutos"
+msgstr "minu_tos"
 
 #: ../mail/em-account-editor.c:2235 ../mail/mail-config.glade.h:131
 msgid "Sending Email"
@@ -11246,9 +11030,8 @@ msgid "Receiving Options"
 msgstr "Opções de Recepção"
 
 #: ../mail/em-account-editor.c:2398 ../mail/em-account-editor.c:2489
-#, fuzzy
 msgid "Checking for New Messages"
-msgstr "Verificando novas mensagens"
+msgstr "Verificando Novas Mensagens"
 
 #: ../mail/em-account-editor.c:2840 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
@@ -11340,7 +11123,7 @@ msgstr "Anexos"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "BCC"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -11348,12 +11131,11 @@ msgstr "Bip"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr ""
+msgstr "CC"
 
 #: ../mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Completed On"
-msgstr "Concluída "
+msgstr "Concluída Em"
 
 #: ../mail/em-filter-i18n.h:10
 msgid "contains"
@@ -11472,14 +11254,12 @@ msgid "is not Flagged"
 msgstr "não está Marcada"
 
 #: ../mail/em-filter-i18n.h:38
-#, fuzzy
 msgid "is not set"
-msgstr "não é"
+msgstr "não está definido"
 
 #: ../mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "is set"
-msgstr "não é"
+msgstr "está definido"
 
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:96
 #: ../ui/evolution-mail-message.xml.h:48
@@ -11573,9 +11353,8 @@ msgid "Sender"
 msgstr "Remetente"
 
 #: ../mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Set Label"
-msgstr "Editar Rótulo"
+msgstr "Definir Rótulo"
 
 #: ../mail/em-filter-i18n.h:64
 msgid "Set Status"
@@ -11624,9 +11403,8 @@ msgid "Then"
 msgstr "Então"
 
 #: ../mail/em-filter-rule.c:517
-#, fuzzy
 msgid "Add Ac_tion"
-msgstr "Adicionar exceção"
+msgstr "Adicionar Açã_o"
 
 #: ../mail/em-folder-browser.c:189
 msgid "C_reate Search Folder From Search..."
@@ -11701,9 +11479,8 @@ msgid "<click here to select a folder>"
 msgstr "<clique aqui para selecionar uma pasta>"
 
 #: ../mail/em-folder-selector.c:262
-#, fuzzy
 msgid "C_reate"
-msgstr "Criar"
+msgstr "C_riar"
 
 #: ../mail/em-folder-selector.c:266
 msgid "Folder _name:"
@@ -11955,9 +11732,8 @@ msgid "_None"
 msgstr "_Nenhum"
 
 #: ../mail/em-folder-view.c:1364
-#, fuzzy
 msgid "_New Label"
-msgstr "Sem Rótulo"
+msgstr "_novo Rótulo"
 
 #: ../mail/em-folder-view.c:1368
 msgid "Fla_g Completed"
@@ -11973,45 +11749,37 @@ msgstr "Criar _Regra a Partir da Mensagem"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1374
-#, fuzzy
 msgid "Search Folder based on _Subject"
-msgstr "Pasta de Pesquisa por Ass_unto..."
+msgstr "Pasta de Pesquisa por A_ssunto"
 
 #: ../mail/em-folder-view.c:1375
-#, fuzzy
 msgid "Search Folder based on Se_nder"
-msgstr "Pasta _de Pesquisa por Remetente..."
+msgstr "Pasta de Pesquisa por Remete_nte"
 
 #: ../mail/em-folder-view.c:1376
-#, fuzzy
 msgid "Search Folder based on _Recipients"
-msgstr "Pasta de Pesquisa por Des_tinatários..."
+msgstr "Pasta de Pesquisa por Destinatá_rios"
 
 #: ../mail/em-folder-view.c:1377
-#, fuzzy
 msgid "Search Folder based on Mailing _List"
-msgstr "Pasta de Pesquisa por _Lista de Discussão..."
+msgstr "Pasta de Pesquisa por _Lista de Discussão"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1382
-#, fuzzy
 msgid "Filter based on Sub_ject"
-msgstr "Filtro por _Assunto..."
+msgstr "Filtro por A_ssunto"
 
 #: ../mail/em-folder-view.c:1383
-#, fuzzy
 msgid "Filter based on Sen_der"
-msgstr "Filtro por _Remetente..."
+msgstr "Filtro por R_emetente"
 
 #: ../mail/em-folder-view.c:1384
-#, fuzzy
 msgid "Filter based on Re_cipients"
-msgstr "Filtro por _Destinatários..."
+msgstr "Filtro por Des_tinatários"
 
 #: ../mail/em-folder-view.c:1385
-#, fuzzy
 msgid "Filter based on _Mailing List"
-msgstr "Filtro por _Lista de Discussão..."
+msgstr "Filtro por L_ista de Discussão"
 
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:2267 ../mail/em-folder-view.c:2311
@@ -12063,7 +11831,6 @@ msgid "Matches: %d"
 msgstr "Ocorrências: %d"
 
 #: ../mail/em-format-html-display.c:659
-#, fuzzy
 msgid "Fin_d:"
 msgstr "Locali_zar:"
 
@@ -12458,34 +12225,28 @@ msgid "Once per month"
 msgstr "Uma vez por mês"
 
 #: ../mail/em-mailer-prefs.c:341
-#, fuzzy
 msgid "Add Custom Junk Header"
-msgstr "Cabeçalhos Customizados"
+msgstr "Adicionar Cabeçalho Personalizado de SPAM"
 
 #: ../mail/em-mailer-prefs.c:345
-#, fuzzy
 msgid "Header Name:"
-msgstr "_Nome da Pasta:"
+msgstr "Nome do Cabeçalho:"
 
 #: ../mail/em-mailer-prefs.c:346
-#, fuzzy
 msgid "Header Value Contains:"
-msgstr "Remetente contém"
+msgstr "Valor do Cabeçalho Contém:"
 
 #: ../mail/em-mailer-prefs.c:451
-#, fuzzy
 msgid "Contains Value"
-msgstr "Continuar"
+msgstr "Contém valor"
 
 #: ../mail/em-mailer-prefs.c:473
-#, fuzzy
 msgid "Color"
-msgstr "Cores"
+msgstr "Cor"
 
 #: ../mail/em-mailer-prefs.c:476
-#, fuzzy
 msgid "Tag"
-msgstr "atrás"
+msgstr "Etiqueta"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1140
@@ -12614,7 +12375,6 @@ msgid "No server has been selected"
 msgstr "Não foi selecionado um servidor"
 
 #: ../mail/em-utils.c:121
-#, fuzzy
 msgid "_Do not show this message again."
 msgstr "_Não mostrar esta mensagem novamente."
 
@@ -12653,18 +12413,17 @@ msgid "Allows evolution to display text part of limited size"
 msgstr "Permite que o Evolution exiba uma parte do texto de tamanho limitado"
 
 #: ../mail/evolution-mail.schemas.in.h:2
-#, fuzzy
 msgid "Always request read receipt"
-msgstr "_Solicitar Recibo de Leitura"
+msgstr "Sempre solicitar um recibo de leitura"
 
 #: ../mail/evolution-mail.schemas.in.h:3
+#, fuzzy
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "Tempo em segundos que o erro deve ser mostrado na barra de status."
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 msgid "Automatic emoticon recognition"
-msgstr "Reconhecimento automático de links"
+msgstr "Reconhecimento automático de carinhas"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Automatic link recognition"
@@ -12692,7 +12451,7 @@ msgstr "Largura padrão da Janela de Redator"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "diretório de carga/anexo do redator"
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12727,17 +12486,14 @@ msgid "Default forward style"
 msgstr "Estilo de encaminhamento padrão"
 
 #: ../mail/evolution-mail.schemas.in.h:19
-#, fuzzy
 msgid "Default height of the Composer Window."
 msgstr "Altura padrão da Janela do Redator."
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Default height of the message window."
 msgstr "Altura padrão da Janela de Mensagem."
 
 #: ../mail/evolution-mail.schemas.in.h:21
-#, fuzzy
 msgid "Default height of the subscribe dialog."
 msgstr "Altura padrão do diálogo de Inscrição."
 
@@ -12750,23 +12506,20 @@ msgid "Default value for thread expand state"
 msgstr "Valor padrão para o estado de expansão da discussão"
 
 #: ../mail/evolution-mail.schemas.in.h:24
-#, fuzzy
 msgid "Default width of the Composer Window."
 msgstr "Largura padrão da Janela de Redator."
 
 #: ../mail/evolution-mail.schemas.in.h:25
-#, fuzzy
 msgid "Default width of the message window."
 msgstr "Largura padrão da Janela de Mensagem."
 
 #: ../mail/evolution-mail.schemas.in.h:26
-#, fuzzy
 msgid "Default width of the subscribe dialog."
 msgstr "Largura padrão do diálogo de Inscrição."
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr ""
+msgstr "Procurar no catálogo de endereços o e-mail do remetente"
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid ""
@@ -12775,10 +12528,14 @@ msgid ""
 "can be slow, if remote addressbooks (like ldap) are marked for "
 "autocompletion."
 msgstr ""
+"Procurar no catálogo de endereços o e-mail do remetente. Se encontrado não "
+"será classificado como SPAM. Procurar nos livros marcados para completar "
+"automaticamente. Se estiverem marcados catálogos de endereços remotos (como "
+"ldap), poderá ser demorado para completar automaticamente."
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
-msgstr ""
+msgstr "Utilizar cabeçalhos personalizados para procurar por SPAM"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid ""
@@ -12786,6 +12543,9 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
+"Determines whether to use custom headers to check for junk.  Se esta opção "
+"estiver habilitada e os cabeçalhos forem mencionados, a verificação de SPAM "
+"será mais rápida."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
@@ -12794,12 +12554,10 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Directory for loading/attaching files to composer."
-msgstr "Diretório para salvar arquivos de e-mail."
+msgstr "Diretório para carregar/anexar arquivos no redator."
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Directory for saving mail component files."
 msgstr "Diretório para salvar arquivos de e-mail."
 
@@ -12829,22 +12587,20 @@ msgstr ""
 "Habilitar o modo cursor, de forma que você veja um cursor ao ler correio."
 
 #: ../mail/evolution-mail.schemas.in.h:40
-#, fuzzy
 msgid "Enable or disable magic space bar"
-msgstr "Habilitar ou desabilitar o recurso de pesquisa à medida que se escreve"
+msgstr "habilitar ou desabilitar a barra de espaço magica"
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Enable or disable type ahead search feature"
 msgstr "Habilitar ou desabilitar o recurso de pesquisa à medida que se escreve"
 
 #: ../mail/evolution-mail.schemas.in.h:42
-#, fuzzy
 msgid "Enable search folders"
-msgstr "Pastas de Pesquisa"
+msgstr "Habilitar Pastas de Pesquisa"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "Habilitar pastas de pesquisa ao iniciar."
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -12863,6 +12619,8 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Habilitar isto para usar a tecla Barra de Espaçospara rolar na visualização "
+"de mensagem, lista de mensagens e pastas"
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12916,13 +12674,12 @@ msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "Desabilita/habilita o aviso enquanto marca mensagens múltiplas."
 
 #: ../mail/evolution-mail.schemas.in.h:55
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
 msgstr ""
-"Desabilita o recurso onde repetido lembretes repetem para perguntar caso "
-"mensagens sejam excluídas da pasta de pesquisa."
+"Habilita/Desabilita o recurso onde lembretes repetem para perguntar se a "
+"sincronização desconectada é exigida após entrar no modo off-line."
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid ""
@@ -12930,6 +12687,9 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
+"Desabilita/habilita o recurso onde lembretes repetem o aviso de que apagar "
+"mensagens da pasta de pesquisa apaga-as permanentemente e nao simplesmente "
+"as remove do resultado da procura."
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Last time empty junk was run"
@@ -12941,7 +12701,7 @@ msgstr "A última vez que a lixeira foi esvaziada"
 
 #: ../mail/evolution-mail.schemas.in.h:59
 msgid "Level beyond which the message should be logged."
-msgstr ""
+msgstr "Nível além de que a mensagem dever ser registrada."
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "List of Labels and their associated colors"
@@ -12991,7 +12751,6 @@ msgid "Load images for HTML messages over http"
 msgstr "Carregar imagens em mensagens HTML usando HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:69
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
@@ -13088,9 +12847,8 @@ msgstr ""
 "Perguntar para conferir se o usuário deseja ficar desconectado imediatamente"
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "_Perguntar ao enviar mensagens com um assunto vazio"
+msgstr "Perguntar ao excluir mensagens na pasta de pesquisa"
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Prompt when user expunges"
@@ -13128,7 +12886,6 @@ msgid "Prompt while marking multiple messages"
 msgstr "Avisar enquanto marcar mensagens múltiplas"
 
 #: ../mail/evolution-mail.schemas.in.h:98
-#, fuzzy
 msgid "Recognize emoticons in text and replace them with images."
 msgstr "Reconhecer carinhas no texto e substituí-las por imagens."
 
@@ -13137,7 +12894,6 @@ msgid "Recognize links in text and replace them."
 msgstr "Reconhecer links no texto e substituí-los."
 
 #: ../mail/evolution-mail.schemas.in.h:100
-#, fuzzy
 msgid "Run junk test on incoming mail."
 msgstr "Executar teste de spam nas recebidas"
 
@@ -13200,13 +12956,15 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Specifies the header to check for junk."
-msgstr ""
+msgstr "Define o cabeçalho para checar por SPAM."
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
 "Specifies the header to check for junk. The format is headername=value in "
 "gconf."
 msgstr ""
+"Define o cabeçalho para checar por SPAM. O formato é headername=value no "
+"gconf."
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Spell check inline"
@@ -13241,20 +12999,20 @@ msgid "The last time empty trash was run, in days since the epoch."
 msgstr "A última vez que a lixeira foi esvaziada, em dias desde a época."
 
 #: ../mail/evolution-mail.schemas.in.h:125
-#, fuzzy
 msgid "The terminal font for mail display."
 msgstr "A fonte de terminal para exibição de correio."
 
 #: ../mail/evolution-mail.schemas.in.h:126
-#, fuzzy
 msgid "The variable width font for mail display."
-msgstr "A fonte de largura variável para exibição de correio."
+msgstr "A fonte de largura variável para exibição de correio"
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
+"Isso admite três valores possíveis. 0 para erros, 1 para aviso e 2 para "
+"mensagens de depuração"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -13280,7 +13038,7 @@ msgid ""
 "mail in the list and removes the preview for that folder."
 msgstr ""
 "Esta opção deve ser de única leitura e, depois de lida restaurada para o "
-"valor \"false\". Ela desmarca o correio na lista e elimina a visualização "
+"valor \"false\". Ela desmarca o correio na lista e elimina a prévisualização "
 "para essa pasta."
 
 #: ../mail/evolution-mail.schemas.in.h:131
@@ -13308,7 +13066,6 @@ msgstr ""
 "de mensagens, além desse número será mostrado \"...\"."
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -13317,14 +13074,14 @@ msgstr ""
 "padrão. Evolution requer reinicialização."
 
 #: ../mail/evolution-mail.schemas.in.h:135
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
-"Este ajuste especifica se as discussões ficarão expandidas ou contraídas por "
-"padrão. Evolution requer reinicialização."
+"Este ajuste define se as discussões devem ser ordenadas com base na última "
+"mensagem em cada conversação ao invés da data da mensagem. O Evolution "
+"necessita ser reiniciado."
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "Thread the message list."
@@ -13339,12 +13096,10 @@ msgid "Thread the message-list based on Subject"
 msgstr "Encadear a lista de mensagens baseado no assunto"
 
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "Timeout for marking message as seen"
 msgstr "Tempo limite para marcar a mensagem como Lida"
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "Timeout for marking message as seen."
 msgstr "Tempo limite para marcar a mensagem como Lida."
 
@@ -13357,7 +13112,6 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "Usar o daemon e cliente do SpamAssassin"
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "Usar o daemon e cliente do SpamAssassin (spamc/spamd)"
 
@@ -13366,7 +13120,6 @@ msgid "Use custom fonts"
 msgstr "Usar fontes personalizadas"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "Use custom fonts for displaying mail."
 msgstr "Usar fontes personalizadas para exibir as mensagens"
 
@@ -13428,7 +13181,7 @@ msgstr "Item de menu Ver/Responder A está selecionado."
 
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr ""
+msgstr "Enviar pedido de recibo de leitura a cada mensagem por padrão."
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid ""
@@ -13440,7 +13193,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "Ordenar as conversações com base na sua última mensagem"
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Width of the message-list pane"
@@ -13529,7 +13282,7 @@ msgid "Add Filter Rule"
 msgstr "Adicionar Regra de Filtro"
 
 #: ../mail/mail-component.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d selecionada,"
@@ -13614,46 +13367,43 @@ msgstr "Falha ao atualizar configurações ou pastas de correio."
 
 #: ../mail/mail-component.c:1522
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: ../mail/mail-component.c:1522
 msgid "Errors"
-msgstr ""
+msgstr "Erros"
 
 #: ../mail/mail-component.c:1523
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "Avisos e Erros"
 
 #: ../mail/mail-component.c:1524
 msgid "Debug"
-msgstr ""
+msgstr "Depurar"
 
 #: ../mail/mail-component.c:1524
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "Erro, Mensagens de Aviso e de Depuração"
 
 #: ../mail/mail-component.c:1634
-#, fuzzy
 msgid "Debug Logs"
-msgstr "Web Log"
+msgstr "Logs de Depuração"
 
 #: ../mail/mail-component.c:1638
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "Mostrar _erros na barra de status para"
 
 #: ../mail/mail-component.c:1645
-#, fuzzy
 msgid "seconds."
-msgstr "segundos"
+msgstr "segundos."
 
 #: ../mail/mail-component.c:1655
-#, fuzzy
 msgid "Log Messages:"
-msgstr "Mensagens"
+msgstr "Mensagens do Log:"
 
 #: ../mail/mail-component.c:1707
 msgid "Log Level"
-msgstr ""
+msgstr "Nível do Log"
 
 #: ../mail/mail-component.c:1714 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
@@ -13669,8 +13419,9 @@ msgid " Ch_eck for Supported Types "
 msgstr " V_erificar Tipos com Suporte "
 
 #: ../mail/mail-config.glade.h:2
+#, fuzzy
 msgid "(Note: Requires restart of the application)"
-msgstr ""
+msgstr "(Nota: É nescessário reiniciar)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13717,14 +13468,12 @@ msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Excluir Correio</span>"
 
 #: ../mail/mail-config.glade.h:16
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 msgstr "<span weight=\"bold\">_Cabeçalhos de Correio Exibidos</span>"
 
 #: ../mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr "<span weight=\"bold\">Alertas</span>"
+msgstr "<span weight=\"bold\">Rótulo</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13780,7 +13529,6 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Configuração do Servidor</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
 msgstr "<span weight=\"bold\">Tipo de Autenticação</span>"
 
@@ -13801,7 +13549,6 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "_Sempre assinar mensagens enviadas ao usar esta conta"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr "Também criptogra_far para mim mesmo ao enviar mensagens criptografadas"
 
@@ -13818,21 +13565,18 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Con_fiar sempre nas chaves em meu chaveiro ao criptografar"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Sempre criptografar para mim _mesmo ao enviar mensagens criptografadas"
 
 #: ../mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always request rea_d receipt"
-msgstr "_Solicitar Recibo de Leitura"
+msgstr "Sempre solicitar um recibo _de leitura"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "Anexar a mensagem original"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _emoticon images"
 msgstr "Inserir automaticamente imag_ens de carinhas"
 
@@ -13849,18 +13593,16 @@ msgid "C_haracter set:"
 msgstr "Con_junto de caracteres:"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "C_heck custom headers for junk"
-msgstr "Verificar se as mensagens recebidas são spam"
+msgstr "Verificar cabeçalhos personalizados por SPAM"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "_Verificar Tipos com Suporte "
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check incoming _messages for junk"
-msgstr "Verificar se as mensagens recebidas são spam"
+msgstr "Procurar em mensagens _recebidas por spam"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -13911,21 +13653,20 @@ msgid "Default character e_ncoding:"
 msgstr "Co_dificação de caracteres padrão:"
 
 #: ../mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Delete junk messages on e_xit"
 msgstr "E_xcluir spam ao sair"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "_Assinar digitalmente mensagens enviadas (por padrão)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
 msgstr ""
+"Não marcar me_nsagens como SPAM se o rementente estiver o meu catálogo de "
+"endereços."
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not format text contents in messages if the text si_ze exceeds"
 msgstr "Não formatar conteúdo texto no e-mail se o tamanho do texto e_xcede"
 
@@ -13955,12 +13696,11 @@ msgstr "_Esvaziar lixeiras ao sair"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
-msgstr ""
+msgstr "Habilitar Barra de E_spaço Magica"
 
 #: ../mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Enable Sea_rch Folders"
-msgstr "Pastas de Pesquisa"
+msgstr "Habilitar Pastas de Pesquisa"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Encry_ption certificate:"
@@ -13991,9 +13731,8 @@ msgid "Full Nam_e:"
 msgstr "Nome _Completo:"
 
 #: ../mail/mail-config.glade.h:90
-#, fuzzy
 msgid "HTML Messages"
-msgstr "Mensagens"
+msgstr "Mensagens HTML"
 
 #: ../mail/mail-config.glade.h:91
 msgid "Headers"
@@ -14016,7 +13755,6 @@ msgid "KB"
 msgstr "KB"
 
 #: ../mail/mail-config.glade.h:98 ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Labels"
 msgstr "Rótulo"
 
@@ -14044,6 +13782,8 @@ msgstr "Redator de Mensagens"
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
+"Nota: O sublinhado no nome do rótulo indica que ele é usado como "
+"identificador mnemônico no menu."
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -14211,6 +13951,8 @@ msgstr ""
 msgid ""
 "This option will be overridden if a match for custom junk headers is found."
 msgstr ""
+"Esta opção será ignorada se for encontrada uma equivalência para cabeçalhos "
+"de mensagens não solicitadas."
 
 #: ../mail/mail-config.glade.h:147
 msgid ""
@@ -14264,7 +14006,6 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "_Manter assinatura sobre a mensagem original ao responder"
 
 #: ../mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Load images in messages from contacts"
 msgstr "_Carregar imagens nas mensagens a partir dos contatos"
 
@@ -14301,9 +14042,8 @@ msgid "_Script:"
 msgstr "_Script:"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Select..."
-msgstr "Selecionar..."
+msgstr "_Selecionar..."
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:174
@@ -14311,7 +14051,6 @@ msgid "_Show image animations"
 msgstr "Mostrar Animaçõe_s"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Mo_strar a foto do remetente na visualização do e-mail"
 
@@ -14469,9 +14208,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Falha ao acrescentar à pasta local \"Enviada\": %s"
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "En_viar mensagem"
+msgstr "Enviando mensagem"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14930,8 +14668,7 @@ msgid ""
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Verifique se a sua senha está correta. Lembre-se que várias senhas "
-"diferenciam maiúsculas de minúsculas; sua tecla Fixa (Caps Lock) pode estar "
-"ligada."
+"diferenciam maiúsculas de minúsculas; sua tecla caps lock pode estar ligada."
 
 #: ../mail/mail.error.xml.h:42
 msgid "Could not save signature file."
@@ -14946,14 +14683,12 @@ msgid "Delete account?"
 msgstr "Excluir conta?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "Não foi possível adicionar a Pasta de Pesquisa &quot;{0}&quot;."
+msgstr "Apagar mensagens na pasta de pesquisa &quot;{0}&quot;??"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "Copiar mensagens selecionadas para outra pasta"
+msgstr "Excluir mensagens na Pasta de Pesquisa?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -15119,7 +14854,6 @@ msgstr ""
 "entrada."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -15309,6 +15043,9 @@ msgid ""
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"Aviso: Excluindo uma mensagem de uma Pasta e Pesquisa você estará excluindo "
+"essa mensagem da sua pasta local ou remota.\n"
+"Você tem certeza que deseja fazer isso?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -15776,7 +15513,7 @@ msgid ""
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
-"Isto irá apagar todos os seus dados e configurações do Evolution e restaurá-"
+"Isto irá apagar todos os seus dados e configurações do Evolution e restaura-"
 "los a partir do backup. A Restauração do Evolution só poderá ser iniciada "
 "quando o Evolution não estiver em execução. Por favor, certifique-se de "
 "fechar todas as janela não salvas antes de prosseguir. Se você deseja que o "
@@ -17237,7 +16974,7 @@ msgstr "_Escrever"
 #. To Translators: strip the part in front of the | and the | itself
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
 msgid "permission to read|_Read"
-msgstr "_Ler"
+msgstr "_Lida"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -18247,11 +17984,11 @@ msgstr "Nome do arquivo de som a ser tocado."
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr ""
 "Arquivo de som a ser tocado quando novas mensagens chegarem, do contrario "
-"será tocado um bip."
+"será tocado um beep."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "Tocar um som ou um bip quando novas mensagens chegarem."
+msgstr "Tocar um som ou um beep quando novas mensagens chegarem."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
@@ -20894,7 +20631,7 @@ msgstr "Inscrever ou cancelar a inscrição de pastas em servidores remotos"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "Ver o console de depuração mas as mensagens de log"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
@@ -20905,14 +20642,12 @@ msgid "_Copy Folder To..."
 msgstr "_Copiar a Pasta Para..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Debug Logs"
-msgstr "_Web Log:"
+msgstr "_Logs de Depuração"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "Baixar mensagens para leitura desconectado"
+msgstr "Baixar mensagens para leitura _desconectado"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -21000,9 +20735,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "Marcar Mensagens como Lidas"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "Marcar todas as mensagens nesta pasta e sub-pastas como lidas?"
+msgstr "Marcar todas as mensagens nesta pasta e como lidas"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
@@ -21025,9 +20759,8 @@ msgid "Refresh the folder"
 msgstr "Atualizando a pasta"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "Selecionar o Ca_beçalhos da Mensagem"
+msgstr "Selecionar o S_ubabeçalhos da Mensagem"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
@@ -21049,11 +20782,8 @@ msgstr ""
 "selecionada"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr ""
-"Selecionar todas as mensagens no mesmo encadeamento como a mensagem "
-"selecionada"
+msgstr "Selecionar todas as respostas para a mensagem selecionada atualmente"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -21950,9 +21680,8 @@ msgid "Display window buttons with text only"
 msgstr "Mostrar botões de janela usando texto"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Evolution"
+msgstr "_FAQ do Evolution"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21973,7 +21702,6 @@ msgid "I_mport..."
 msgstr "_Importar..."
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
 msgstr "Ícones _e texto"
 
@@ -21991,7 +21719,7 @@ msgstr "Nova _Janela"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "Abrir página do Perguntas Feitas com Freqüência (FAQ)"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
@@ -22050,7 +21778,6 @@ msgid "Toggle whether we are working offline."
 msgstr "Alternar se estamos trabalhando desconectados."
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
 msgstr "Estilo da _barra de ferramentas"
 
@@ -22076,15 +21803,13 @@ msgstr "Esquecer _Senhas"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "FAQ - Perguntas Feitas com _Freqüência"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Hide Buttons"
 msgstr "_Ocultar botões"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Icons Only"
 msgstr "Somente _Ícones"
 
@@ -22105,7 +21830,6 @@ msgid "_Synchronization Options..."
 msgstr "Opções de _Sincronização..."
 
 #: ../ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Text Only"
 msgstr "Somente _Texto"
 
@@ -22151,7 +21875,7 @@ msgstr "Pasta _Enviadas"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
-msgstr "Por S_tatus"
+msgstr "Por Es_tado"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
