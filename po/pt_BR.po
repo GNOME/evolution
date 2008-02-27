@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 18:34-0300\n"
-"PO-Revision-Date: 2008-02-14 13:26-0400\n"
+"POT-Creation-Date: 2008-02-27 08:39-0300\n"
+"PO-Revision-Date: 2008-02-26 21:56-0400\n"
 "Last-Translator: Washington Lins <washington-lins@uol.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -345,13 +345,12 @@ msgstr "ativado"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
 msgstr ""
-"Você selecionou uma agenda somente de leitura. Altere a visão de agenda e "
-"destaque uma agenda que aceite compromissos."
+"\"{0}\" é um catálogo de endereços somente de leitura. Alterne para para a "
+"Visão de Contatos e selecione um livro de endereços que aceite contatos."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -4110,13 +4109,12 @@ msgstr "Erro não manipulado"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
 msgstr ""
-"Você selecionou uma agenda somente de leitura. Altere a visão de agenda e "
-"destaque uma agenda que aceite compromissos."
+"\"{0}\" é uma agenda somente de leitura. Alterne para para a Visão de "
+"Agendas e selecione uma que aceite a marcação de compromissos"
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -12417,7 +12415,6 @@ msgid "Always request read receipt"
 msgstr "Sempre solicitar um recibo de leitura"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-#, fuzzy
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Tempo em segundos que o erro deve ser mostrado na barra de status."
 
@@ -12543,7 +12540,7 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
-"Determines whether to use custom headers to check for junk.  Se esta opção "
+"Utilizar cabeçalhos personalizados para procurar por SPAM. Se esta opção "
 "estiver habilitada e os cabeçalhos forem mencionados, a verificação de SPAM "
 "será mais rápida."
 
@@ -12552,6 +12549,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
+"Utilizar as mesmas fontes para ambas as linhas \"De\" e  \"\"Assunto\" na "
+"coluna \"Mensagens\" na visão vertical.\""
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -12914,10 +12913,8 @@ msgid "Send HTML mail by default."
 msgstr "Enviar correio HTML por padrão."
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Sender email-address column in the message list"
-msgstr ""
-"Mostrar o e-mail do remetente na coluna de mensagens na lista de mensagens"
+msgstr "Mostrar coluna do e-mail do remetente na lista de mensagens"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show Animations"
@@ -12940,13 +12937,12 @@ msgid "Show photo of the sender"
 msgstr "Mostrar foto do remetente"
 
 #: ../mail/evolution-mail.schemas.in.h:113
-#, fuzzy
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
-"Mostrar o e-mail do remetente na coluna de composição de mensagens na lista "
-"de mensagens."
+"Mostrar o e-mail do remetente em uma coluna separada na na lista de "
+"mensagens."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Show the photo of the sender in the message reading pane."
@@ -13419,9 +13415,8 @@ msgid " Ch_eck for Supported Types "
 msgstr " V_erificar Tipos com Suporte "
 
 #: ../mail/mail-config.glade.h:2
-#, fuzzy
 msgid "(Note: Requires restart of the application)"
-msgstr "(Nota: É nescessário reiniciar)"
+msgstr "(Nota: É necessário reiniciar a aplicação)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -18860,9 +18855,8 @@ msgid "Configuration version"
 msgstr "Versão de configuração"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
-#, fuzzy
 msgid "Decides whether the crash detection should be run or not."
-msgstr "Decide fazer a recuperação de quebra "
+msgstr "Executa a recuperação de quebra."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18964,7 +18958,6 @@ msgstr ""
 "Se o Evolution deve iniciar em modo desconectado em vez de modo conectado."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-#, fuzzy
 msgid "Whether crash detection should be done or not"
 msgstr "Faz a recuperação de quebra"
 
@@ -19306,7 +19299,6 @@ msgid "Do not tell me again"
 msgstr "Não me diga novamente"
 
 #: ../shell/main.c:309
-#, fuzzy
 msgid "Evolution Crash Detection"
 msgstr "Restaurador do Evolution"
 
