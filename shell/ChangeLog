@@ -1,3 +1,8 @@
+2008-03-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* main.c: (main): Committing the build fix that comes up if
+	DEVELOPMENT is enabled.
+
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bnc #173186
