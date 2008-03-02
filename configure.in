@@ -1944,6 +1944,7 @@ mail/default/lt/Makefile
 mail/default/mk/Makefile
 mail/default/zh_CN/Makefile
 mail/default/ja/Makefile
+mail/default/ko/Makefile
 mail/default/nl/Makefile
 mail/default/pl/Makefile
 mail/default/pt/Makefile
