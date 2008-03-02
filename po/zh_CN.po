@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-23 20:44+0000\n"
-"PO-Revision-Date: 2008-03-01 15:34+0800\n"
+"PO-Revision-Date: 2008-03-02 14:02+0800\n"
 "Last-Translator: YangZhang <zyangmath@gmail.com>\n"
 "Language-Team: Chinese i18n <i18n-zh@googlegroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -339,11 +339,11 @@ msgstr "激活"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
-msgstr "您选择了只读日历源。请更改为日历视图，然后选择可接受约会的日历。"
+msgstr "“{0}”是只读的地址簿源。切换到联系人视图，然后选中一个可"
+"接受联系人的地址簿。"
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -4030,11 +4030,10 @@ msgstr "未处理的错误"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
-msgstr "您选择了只读日历源。请更改为日历视图，然后选择可接受约会的日历。"
+msgstr "“{0}”是只读日历源。切换到日历视图，然后选择可接受约会的日历。"
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -10354,7 +10353,7 @@ msgstr "标签名称不能为空。"
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr ""
+msgstr "已存在同名的标签。请重命名您的标签。"
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10867,7 +10866,7 @@ msgstr "附件"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "BCC"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -10878,9 +10877,8 @@ msgid "CC"
 msgstr "CC"
 
 #: ../mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Completed On"
-msgstr "已完成 "
+msgstr "完成于"
 
 #: ../mail/em-filter-i18n.h:10
 msgid "contains"
@@ -12263,9 +12261,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Directory for loading/attaching files to composer."
-msgstr "保存邮件组件文件的目录"
+msgstr "邮件写作器用来加载/附加文件的目录"
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Directory for saving mail component files."
@@ -12296,9 +12293,8 @@ msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "启用光标模式，这样您在读取邮件时就能看到光标了。"
 
 #: ../mail/evolution-mail.schemas.in.h:40
-#, fuzzy
 msgid "Enable or disable magic space bar"
-msgstr "启用或禁用自动前进功能"
+msgstr "启用或禁用魔术空格键"
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Enable or disable type ahead search feature"
@@ -12310,7 +12306,7 @@ msgstr "启用搜索文件夹"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "启动时启用搜索文件夹。"
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -12445,14 +12441,13 @@ msgid "Load images for HTML messages over http"
 msgstr "在 HTML 信件中装入 HTTP 图像"
 
 #: ../mail/evolution-mail.schemas.in.h:69
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
 "Always load images off the net."
 msgstr ""
 "在 HTML 信件中装入 http(s) 图像。可供选择的值有：0 - 决不从网上装入图像，1 - "
-"如果发送者在地址簿中则装入图像，2 - 总是从网上装入图像"
+"如果发送者在地址簿中则装入图像，2 - 总是从网上装入图像。"
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Log filter actions"
@@ -12733,19 +12728,18 @@ msgid ""
 msgstr "设定默认信件视图中要显示的地址数，超过的部分显示为“...”。"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr "此设置指定了默认情况下线索是被展开还是被折叠。需要重启 Evolution。"
 
 #: ../mail/evolution-mail.schemas.in.h:135
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
-msgstr "此设置指定了默认情况下线索是被展开还是被折叠。需要重启 Evolution。"
+msgstr "此设置指定了默认情况下是否将线索按线索中的最新消息而不是"
+"消息日期排序。需要重启 Evolution。"
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "Thread the message list."
@@ -12760,14 +12754,12 @@ msgid "Thread the message-list based on Subject"
 msgstr "基于主题按线索编排信件列表"
 
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "Timeout for marking message as seen"
-msgstr "将信件标为已看的超时"
+msgstr "将信件标为已看的超时时长"
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "Timeout for marking message as seen."
-msgstr "将信件标为已看的超时。"
+msgstr "将信件标为已看的超时时长。"
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid "UID string of the default account."
@@ -12778,18 +12770,16 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "使用垃圾克星守护程序和客户"
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "使用垃圾克星守护程序和客户(spamc/spamd)"
+msgstr "使用 SpamAssassin 守护程序和客户端(spamc/spamd)。"
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Use custom fonts"
 msgstr "使用自定义字体"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "Use custom fonts for displaying mail."
-msgstr "使用自定义字体显示邮件"
+msgstr "使用自定义字体显示邮件。"
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Use only local spam tests."
@@ -12948,7 +12938,7 @@ msgid "Add Filter Rule"
 msgstr "添加过滤规则"
 
 #: ../mail/mail-component.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "已选中 %d 个，"
@@ -13044,27 +13034,24 @@ msgid "Error, Warnings and Debug messages"
 msgstr ""
 
 #: ../mail/mail-component.c:1634
-#, fuzzy
 msgid "Debug Logs"
-msgstr "Web 日志"
+msgstr "调试日志"
 
 #: ../mail/mail-component.c:1638
 msgid "Show _errors in the status bar for"
 msgstr ""
 
 #: ../mail/mail-component.c:1645
-#, fuzzy
 msgid "seconds."
-msgstr "秒"
+msgstr "秒。"
 
 #: ../mail/mail-component.c:1655
-#, fuzzy
 msgid "Log Messages:"
-msgstr "信件"
+msgstr "日志消息："
 
 #: ../mail/mail-component.c:1707
 msgid "Log Level"
-msgstr ""
+msgstr "日志级别"
 
 #: ../mail/mail-component.c:1714 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
@@ -13081,7 +13068,7 @@ msgstr "检查支持的类型(_E)"
 
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
-msgstr ""
+msgstr "(注意：需要重启应用程序)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13128,14 +13115,12 @@ msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">删除邮件</span>"
 
 #: ../mail/mail-config.glade.h:16
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 
 #: ../mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr "<span weight=\"bold\">警告</span>"
+msgstr "<span weight=\"bold\">标签</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13191,9 +13176,8 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">服务器配置</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\">认证类型</span>"
+msgstr "<span weight=\"bold\">认证类型(_A)</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -13212,9 +13196,8 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "当使用该账户时总是发送签名信件(_W)"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
-msgstr "当发送加密邮件时总是对自身加密(_F)"
+msgstr "当发送加密邮件时也对自身加密(_F)"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
@@ -13229,23 +13212,20 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "加密时总是信任我的密钥环中的密钥(_T)"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "当发送加密邮件时总是对自身加密(_M)"
 
 #: ../mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always request rea_d receipt"
-msgstr "请求阅读收条(_E)"
+msgstr "请求阅读收条(_D)"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "附加原始信件"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _emoticon images"
-msgstr "自动插入表情图像(_S)"
+msgstr "自动插入表情图像(_E)"
 
 #: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-13)"
@@ -13260,18 +13240,16 @@ msgid "C_haracter set:"
 msgstr "字符集(_H)："
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "C_heck custom headers for junk"
-msgstr "检查收到的邮件是否是垃圾邮件(_C)"
+msgstr "检查自定义信头以判别垃圾邮件(_H)"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "检查支持的类型(_E)"
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check incoming _messages for junk"
-msgstr "检查收到的邮件是否是垃圾邮件(_C)"
+msgstr "检查收到的邮件是否是垃圾邮件(_M)"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -13321,21 +13299,18 @@ msgid "Default character e_ncoding:"
 msgstr "默认字符编码(_N)："
 
 #: ../mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Delete junk messages on e_xit"
 msgstr "退出时删除垃圾邮件(_X)"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
-msgstr "对寄出的信件进行数字签名(默认)(_S)"
+msgstr "对寄出的信件进行数字签名(默认)(_U)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not format text contents in messages if the text si_ze exceeds"
 msgstr "如果文本超出大小限制，则不格式化邮件中的文本内容(_Z)"
 
@@ -13368,9 +13343,8 @@ msgid "Enable Magic S_pacebar "
 msgstr ""
 
 #: ../mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Enable Sea_rch Folders"
-msgstr "搜索文件夹"
+msgstr "启用搜索文件夹(_R)"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Encry_ption certificate:"
@@ -13401,9 +13375,8 @@ msgid "Full Nam_e:"
 msgstr "全名(_E)："
 
 #: ../mail/mail-config.glade.h:90
-#, fuzzy
 msgid "HTML Messages"
-msgstr "信件"
+msgstr "HTML 信件"
 
 #: ../mail/mail-config.glade.h:91
 msgid "Headers"
@@ -13426,7 +13399,6 @@ msgid "KB"
 msgstr "KB"
 
 #: ../mail/mail-config.glade.h:98 ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Labels"
 msgstr "标签"
 
@@ -13666,9 +13638,8 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "回复时保留原始信件的签名(_K)"
 
 #: ../mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Load images in messages from contacts"
-msgstr "装入联系人发来的邮件中的图像(_L)"
+msgstr "装入来自联系人的邮件中的图像(_L)"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Make this my default account"
@@ -13703,9 +13674,8 @@ msgid "_Script:"
 msgstr "脚本(_S)："
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Select..."
-msgstr "选择(_E)..."
+msgstr "选择(_S)..."
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:174
@@ -13713,7 +13683,6 @@ msgid "_Show image animations"
 msgstr "显示图像动画(_S)"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
 msgstr "在电子邮件预览中显示发送者的照片(_S)"
 
@@ -13871,9 +13840,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr "追加到本地“已发”文件夹失败：%s"
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "发送信件(_S)"
+msgstr "发送信件"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14322,14 +14290,12 @@ msgid "Delete account?"
 msgstr "删除账户吗？"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "无法添加搜索文件夹“{0}”。"
+msgstr "删除搜索文件夹“{0}”中的信件吗？"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "把选中的信件复制到其它文件夹"
+msgstr "删除搜索文件夹中的信件吗？"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -14483,15 +14449,13 @@ msgstr ""
 "邮件地址。"
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}"
 msgstr ""
 "请确定下列收件人愿意并且能够接收 HTML 邮件：\n"
-"{0}\n"
-"仍然发送吗？"
+"{0}"
 
 #: ../mail/mail.error.xml.h:85
 msgid "Please provide an unique name to identify this signature."
@@ -14883,9 +14847,8 @@ msgid "Enable attachment reminder plugin"
 msgstr "启用附件提醒插件"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
-#, fuzzy
 msgid "Enable attachment reminder plugin."
-msgstr "启用附件提醒插件"
+msgstr "启用附件提醒插件。"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:3
 msgid ""
@@ -14894,11 +14857,10 @@ msgid ""
 msgstr "消息主体中的用于附件提醒插件的线索列表"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:4
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
-msgstr "消息主体中的用于附件提醒插件的线索列表"
+msgstr "消息主体中的用于附件提醒插件的线索列表。"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
 msgid "Keywords"
@@ -15131,7 +15093,6 @@ msgstr "自动联系人"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-#, fuzzy
 msgid ""
 "_Automatically create entries in the addressbook when responding to messages"
 msgstr "回复邮件时自动在地址簿中创建联系人项(_A)"
@@ -15174,14 +15135,12 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:303
-#, fuzzy
 msgid "Convert message text to _Unicode"
-msgstr "将邮件文本转换为 _Unicode"
+msgstr "将信件文本转换为 _Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-#, fuzzy
 msgid "Convert mail messages to Unicode"
-msgstr "将邮件文本转换为 Unicode"
+msgstr "将邮件消息转换为 Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:2
 msgid ""
@@ -15461,9 +15420,8 @@ msgid "A_uthenticate"
 msgstr "身份验证(_U)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:854
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "身份验证类型"
+msgstr "身份验证类型(_A)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:868
 msgid "Ch_eck for Supported Types"
@@ -16251,18 +16209,16 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
-#, fuzzy
 msgid "External Editor"
-msgstr "联系人编辑器"
+msgstr "外部编辑器"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-#, fuzzy
 msgid "Compose in External Editor"
-msgstr "编写窗口的默认宽度"
+msgstr "在外部编辑器中写作"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "使用外部编辑器写作信件"
 
 #: ../plugins/face/face.c:57
 msgid "Select a (48*48) png of size < 700bytes"
@@ -16277,7 +16233,6 @@ msgid "_Face"
 msgstr "头像(_F)"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Attach Face header to outgoing messages. First time the user needs to "
 "configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/"
@@ -16310,19 +16265,16 @@ msgstr "退订(_U)"
 
 #: ../plugins/google-account-setup/google-source.c:71
 #: ../plugins/google-account-setup/google-source.c:78
-#, fuzzy
 msgid "Google"
-msgstr "切换"
+msgstr "Google"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup google calendar."
-msgstr "设置 Hula 日历源的插件。"
+msgstr "设置 Google 日历源的插件。"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
-#, fuzzy
 msgid "Google sources"
-msgstr "资源"
+msgstr "Google 源"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
@@ -16438,14 +16390,12 @@ msgid "<b>Users:</b>"
 msgstr "<b>用户数：</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "C_ustomize notification message"
-msgstr "自定义通知消息(_C)"
+msgstr "自定义通知消息(_U)"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "联系人..."
+msgstr "联系人(_T)..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:517
@@ -16514,9 +16464,8 @@ msgstr "写入(_W)"
 
 #. To Translators: strip the part in front of the | and the | itself
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
-#, fuzzy
 msgid "permission to read|_Read"
-msgstr "没有权限"
+msgstr "读(_R)"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -16624,7 +16573,6 @@ msgid "Completed: "
 msgstr "已完成："
 
 #: ../plugins/groupwise-features/status-track.c:225
-#, fuzzy
 msgid "Undelivered: "
 msgstr "未投递："
 
@@ -16760,9 +16708,8 @@ msgid "iCalendar format (.ics)"
 msgstr "iCalendar 格式(.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
-msgstr "将选中的任务/日历/地址簿与 Apple iPod 同步"
+msgstr "将选中的任务/备忘/日历/地址簿与 Apple iPod 同步"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -17400,9 +17347,8 @@ msgid "_Apply to all instances"
 msgstr "应用到全部实例(_A)"
 
 #: ../plugins/itip-formatter/itip-view.c:1119
-#, fuzzy
 msgid "Show time as _free"
-msgstr "将时间显示为忙(_B)"
+msgstr "将时间显示为空闲(_F)"
 
 #: ../plugins/itip-formatter/itip-view.c:1852
 msgid "_Tasks :"
@@ -17448,27 +17394,24 @@ msgid "Disable Account"
 msgstr "禁用账户"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
-#, fuzzy
 msgid "Beep or play sound file."
-msgstr "选择声音文件"
+msgstr "发出哔的一声或播放声音文件。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "闪烁通知区域图标。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "启用 D-Bus 消息。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-#, fuzzy
 msgid "Enable icon in notification area."
-msgstr "启用新邮件的 libnotify 通知"
+msgstr "启用通知区图标。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
-#, fuzzy
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "新邮件到达时生成 D-BUS 信息。"
+msgstr "新邮件到达时生成 D-Bus 信息。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid ""
@@ -17480,54 +17423,48 @@ msgid "Notify new messages for Inbox only."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play sound when new messages arrive."
-msgstr "新邮件到达时播放声音文件(_V)"
+msgstr "新邮件到达时播放声音。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "当新邮件到达时使用通知区图标和通知消息通知用户。"
+msgstr "新邮件到达时在通知区显示新邮件图标。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
-msgstr ""
+msgstr "待播放的声音文件名。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "新邮件到达时要播放的声音文件。"
+msgstr "不在 beep 模式下时新邮件到达要播放的声音文件。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "新邮件到达时播放声音文件(_V)"
+msgstr "新邮件到达时是播放声音文件还是哔一下。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-#, fuzzy
 msgid "Whether the icon should blink or not."
-msgstr "侧边栏是否可见。"
+msgstr "是否闪烁图标。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:254
-#, fuzzy
 msgid "Generate a _D-Bus message"
-msgstr "生成信件列表"
+msgstr "生成 _D-Bus 消息"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:363
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have received %d new message\n"
 "in %s."
@@ -17537,10 +17474,10 @@ msgid_plural ""
 msgstr[0] "您在 %2$s 中收到了 %1$d 封新邮件。"
 
 #: ../plugins/mail-notification/mail-notification.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "您在 %2$s 中收到了 %1$d 封新邮件。"
+msgstr[0] "您收到了 %d 封新邮件。"
 
 #: ../plugins/mail-notification/mail-notification.c:380
 #: ../plugins/mail-notification/mail-notification.c:385
@@ -17548,33 +17485,28 @@ msgid "New email"
 msgstr "新电子邮件"
 
 #: ../plugins/mail-notification/mail-notification.c:440
-#, fuzzy
 msgid "Show icon in _notification area"
-msgstr "在通知托盘中显示提醒"
+msgstr "在通知区显示图标(_N)"
 
 #: ../plugins/mail-notification/mail-notification.c:443
-#, fuzzy
 msgid "B_link icon in notification area"
-msgstr "自定义通知消息(_C)"
+msgstr "闪烁通知区图标(_L)"
 
 #: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:626
-#, fuzzy
 msgid "_Play sound when new messages arrive"
-msgstr "新邮件到达时播放声音文件(_V)"
+msgstr "新邮件到达时播放声音(_P)"
 
 #: ../plugins/mail-notification/mail-notification.c:632
-#, fuzzy
 msgid "_Beep"
-msgstr "响铃"
+msgstr "响铃(_B)"
 
 #: ../plugins/mail-notification/mail-notification.c:633
-#, fuzzy
 msgid "Play _sound file"
-msgstr "选择声音文件"
+msgstr "播放声音文件(_S)"
 
 #: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
@@ -17585,20 +17517,18 @@ msgid "Select sound file"
 msgstr "选择声音文件"
 
 #: ../plugins/mail-notification/mail-notification.c:646
-#, fuzzy
 msgid "Pl_ay"
-msgstr "帕劳群岛"
+msgstr "播放(_A)"
 
 #: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
 msgstr ""
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
-msgstr "当新邮件到达时使用通知区图标和通知消息通知用户。"
+msgstr "当新邮件到达时使用通知区图标和通知消息通知用户或生成一条 D-Bus 消息。"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -17619,9 +17549,9 @@ msgid "Mail to meeting"
 msgstr "邮寄到会议"
 
 #: ../plugins/mail-to-task/mail-to-task.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open calendar. %s"
-msgstr "无法打开文件"
+msgstr "无法打开日历。%s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid ""
@@ -17829,14 +17759,12 @@ msgid "Marks the selected calendar for offline viewing."
 msgstr "将选中日历标为脱机查看。"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
-#, fuzzy
 msgid "_Do not make available for offline use"
-msgstr "不将此日历标为脱机(_D)"
+msgstr "不标为可脱机使用(_D)"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Make available for offline use"
-msgstr "将日历标为脱机使用(_M)"
+msgstr "标为可脱机使用(_M)"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -17878,18 +17806,16 @@ msgid "Note: Some changes will not take effect until restart"
 msgstr "注意：某些更改直到重新启动后才生效"
 
 #: ../plugins/plugin-manager/plugin-manager.c:260
-#, fuzzy
 msgid "Overview"
-msgstr "回顾"
+msgstr "概览"
 
 #: ../plugins/plugin-manager/plugin-manager.c:261
-#, fuzzy
 msgid "Configuration"
-msgstr "邮件配置"
+msgstr "配置"
 
 #: ../plugins/plugin-manager/plugin-manager.c:277
 msgid "There is no configuration option for this plugin."
-msgstr ""
+msgstr "此插件无配置选项。"
 
 #: ../plugins/plugin-manager/plugin-manager.c:330
 #: ../plugins/plugin-manager/plugin-manager.c:392
@@ -17933,9 +17859,8 @@ msgid "HTML _Mode"
 msgstr "HT_ML 模式"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-#, fuzzy
 msgid "Gives an option to print from the composer."
-msgstr "在撰写器中添加打印邮件的选项"
+msgstr "在撰写器中添加打印邮件的选项。"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 msgid "Print Message"
@@ -18249,9 +18174,8 @@ msgid "Show _only this Calendar"
 msgstr "只显示此日历(_O)"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Memo List"
-msgstr "只显示此任务列表(_O)"
+msgstr "只显示此备忘列表(_O)"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:5
 msgid "Show _only this Task List"
@@ -18353,9 +18277,8 @@ msgid "Evolution Test component"
 msgstr "Evolution 测试组件"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-#, fuzzy
 msgid "A string description of the current printer settings."
-msgstr "当前打印机设置的字符串描述"
+msgstr "当前打印机设置的字符串描述。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
@@ -18363,7 +18286,7 @@ msgstr "配置版本"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Decides whether the crash detection should be run or not."
-msgstr ""
+msgstr "决定是否运行崩溃检测。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -18403,9 +18326,8 @@ msgid "Skip development warning dialog"
 msgstr "跳过开发警告对话框"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "Skip recovery warning dialog"
-msgstr "跳过开发警告对话框"
+msgstr "跳过恢复警告对话框"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
 msgid "Start in offline mode"
@@ -18457,9 +18379,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "是否以脱机模式而非联机模式启动 Evolution。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-#, fuzzy
 msgid "Whether crash detection should be done or not"
-msgstr "窗口按钮是否可见。"
+msgstr "回收站删除是否执行"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18483,9 +18404,8 @@ msgid ""
 msgstr "是否跳过 Evoltuion 开发版本的警告。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
-#, fuzzy
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
-msgstr "是否跳过 Evoltuion 开发版本的警告。"
+msgstr "是否跳过 Evoltuion 恢复警告对话框。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -18589,9 +18509,9 @@ msgstr "“.”和“..”是保留文件夹名。"
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
 #: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Evolution"
-msgstr "Evolution"
+msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window-commands.c:77
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -18624,9 +18544,8 @@ msgid "Evolution Website"
 msgstr "Evolution 网站"
 
 #: ../shell/e-shell-window-commands.c:692
-#, fuzzy
 msgid "Error opening the FAQ webpage."
-msgstr "打开日历时出错"
+msgstr "打开 FAQ 网页时出错。"
 
 #: ../shell/e-shell-window-commands.c:889
 msgid "_Work Online"
@@ -18658,7 +18577,6 @@ msgid "Switch to %s"
 msgstr "切换到 %s"
 
 #: ../shell/e-shell.c:640
-#, fuzzy
 msgid "Unknown system error."
 msgstr "未知的系统错误。"
 
@@ -18784,14 +18702,12 @@ msgid "Do not tell me again"
 msgstr "不要再通知我"
 
 #: ../shell/main.c:309
-#, fuzzy
 msgid "Evolution Crash Detection"
-msgstr "Evolution 信息"
+msgstr "Evolution 崩溃检测"
 
 #: ../shell/main.c:311
-#, fuzzy
 msgid "Ig_nore"
-msgstr "忽略"
+msgstr "忽略(_N)"
 
 #: ../shell/main.c:326
 #, no-c-format
@@ -18802,9 +18718,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/main.c:337
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "不再显示此信息。"
+msgstr "不再显示此信息(_D)"
 
 #: ../shell/main.c:569
 msgid "Start Evolution activating the specified component"
@@ -20084,7 +19999,7 @@ msgstr "订阅或退订远程服务器上的文件夹"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "查看调试控制台以获得日志信息"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
@@ -20095,14 +20010,12 @@ msgid "_Copy Folder To..."
 msgstr "文件夹复制到(_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Debug Logs"
-msgstr "_Web 日志："
+msgstr "调试日志(_D)"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "下载信件进行脱机处理"
+msgstr "下载信件以离线使用(_D)"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -20190,9 +20103,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "把全部信件标记为已读(_K)"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "将此文件夹及其子文件夹中的信件全部标记为已读吗？"
+msgstr "将此文件夹中的所有信件标记为已读"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
@@ -20215,9 +20127,8 @@ msgid "Refresh the folder"
 msgstr "刷新文件夹"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "选择信件线索(_T)"
+msgstr "选择信件子线索(_U)"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
@@ -20236,9 +20147,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "把同一线索中的所有信件选择为选中信件"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "把同一线索中的所有信件选择为选中信件"
+msgstr "选择当前选中信件的所有回复"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -21132,9 +21042,8 @@ msgid "Display window buttons with text only"
 msgstr "显示只有文字的窗口按钮"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Evolution"
+msgstr "Evolution _FAQ"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21153,7 +21062,6 @@ msgid "I_mport..."
 msgstr "导入(_M)..."
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
 msgstr "图标和文字(_A)"
 
@@ -21171,7 +21079,7 @@ msgstr "新建窗口(_W)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "打开 FAQ 网页"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
@@ -21230,7 +21138,6 @@ msgid "Toggle whether we are working offline."
 msgstr "切换是否脱机工作。"
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
 msgstr "工具栏样式(_B)"
 
@@ -21256,15 +21163,13 @@ msgstr "丢弃密码(_F)"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "常见问答(FAQ)(_F)"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Hide Buttons"
 msgstr "隐藏按钮(_H)"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Icons Only"
 msgstr "只有图标(_I)"
 
@@ -21285,7 +21190,6 @@ msgid "_Synchronization Options..."
 msgstr "同步选项(_S)..."
 
 #: ../ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Text Only"
 msgstr "只有文字(_T)"
 
@@ -21885,15 +21789,13 @@ msgstr "列宽"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Search"
-msgstr "搜索(_S)"
+msgstr "搜索"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Click here to change the search type"
-msgstr "单击此处可便附加文件"
+msgstr "单击此处更改搜索类型"
 
 #: ../widgets/misc/e-search-bar.c:610
 msgid "_Search"
@@ -22204,9 +22106,8 @@ msgid "Clear All"
 msgstr "全部清除"
 
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear _All"
-msgstr "全部清除"
+msgstr "全部清除(_A)"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
@@ -22226,19 +22127,16 @@ msgid "Move _Up"
 msgstr "上移(_U)"
 
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Show _field in View"
-msgstr "在视图中显示域"
+msgstr "在视图中显示域(_F)"
 
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Show field i_n View"
-msgstr "在视图中显示域"
+msgstr "在视图中显示域(_N)"
 
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Show field in _View"
-msgstr "在视图中显示域"
+msgstr "在视图中显示域(_V)"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
@@ -22261,9 +22159,8 @@ msgid "_Group By..."
 msgstr "分组依据(_G)..."
 
 #: ../widgets/table/e-table-config.glade.h:22
-#, fuzzy
 msgid "_Show field in View"
-msgstr "在视图中显示域"
+msgstr "在视图中显示域(_S)"
 
 #: ../widgets/table/e-table-config.glade.h:23
 msgid "_Show these fields in order:"
@@ -22440,15 +22337,13 @@ msgid "Custo_mize Current View..."
 msgstr "自定义当前视图(_M)..."
 
 #: ../widgets/table/e-table-header-item.c:1542
-#, fuzzy
 msgid "_Sort By"
-msgstr "排序方式"
+msgstr "排序方式(_S)"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
-#, fuzzy
 msgid "_Custom"
-msgstr "自定义"
+msgstr "自定义(_C)"
 
 #: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
