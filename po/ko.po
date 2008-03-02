@@ -5,12 +5,13 @@
 # Eunju Kim <eukim@redhat.com>, 2007.
 # Changwoo Ryu <cwryu@debian.org>, 2003-2006, 2007, 2008.
 #
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-21 02:11+0900\n"
-"PO-Revision-Date: 2008-02-21 00:06+0900\n"
+"POT-Creation-Date: 2008-03-03 04:35+0900\n"
+"PO-Revision-Date: 2008-03-03 04:36+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +170,7 @@ msgstr "%Y년 %b %e일 %A"
 #: ../a11y/calendar/ea-gnome-calendar.c:191
 #: ../calendar/gui/calendar-component.c:750
 #: ../calendar/gui/e-day-view-top-item.c:1363
-#: ../calendar/gui/e-day-view.c:2158
+#: ../calendar/gui/e-day-view.c:2162
 #: ../calendar/gui/e-week-view-main-item.c:319
 #: ../calendar/gui/e-week-view-main-item.c:533
 msgid "%a %d %b"
@@ -203,7 +204,7 @@ msgstr "%Y년 %b %e일"
 #: ../a11y/calendar/ea-gnome-calendar.c:221
 #: ../calendar/gui/calendar-component.c:776
 #: ../calendar/gui/e-day-view-top-item.c:1367
-#: ../calendar/gui/e-day-view.c:2174
+#: ../calendar/gui/e-day-view.c:2178
 #: ../calendar/gui/e-week-view-main-item.c:333
 #: ../calendar/gui/e-week-view-main-item.c:547
 msgid "%d %b"
@@ -648,7 +649,7 @@ msgstr "여기서 S/MIME 인증서를 관리합니다"
 #: ../calendar/gui/memos-component.c:200 ../calendar/gui/migration.c:482
 #: ../calendar/gui/migration.c:583 ../calendar/gui/migration.c:1096
 #: ../calendar/gui/tasks-component.c:196 ../mail/em-folder-tree-model.c:200
-#: ../mail/em-folder-tree-model.c:202 ../mail/mail-component.c:305
+#: ../mail/em-folder-tree-model.c:202 ../mail/mail-component.c:307
 #: ../mail/mail-vfolder.c:216
 msgid "On This Computer"
 msgstr "이 컴퓨터"
@@ -728,7 +729,7 @@ msgstr "오프라인 작업을 위해 주소록 내용 로컬에 복사(_B)"
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2343
+#: ../plugins/itip-formatter/itip-formatter.c:2353
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "일반"
@@ -854,8 +855,8 @@ msgstr "vCard로 저장..."
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
 #: ../calendar/gui/calendar-component.c:609
-#: ../calendar/gui/e-calendar-table.c:1385
-#: ../calendar/gui/e-calendar-view.c:1699 ../calendar/gui/e-memo-table.c:939
+#: ../calendar/gui/e-calendar-table.c:1387
+#: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
 #: ../mail/em-folder-tree.c:2107 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
@@ -2931,8 +2932,8 @@ msgstr "vCard로 저장..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/dialogs/comp-editor.c:1128
-#: ../calendar/gui/e-calendar-table.c:1363
-#: ../calendar/gui/e-calendar-view.c:1677 ../calendar/gui/e-memo-table.c:922
+#: ../calendar/gui/e-calendar-table.c:1365
+#: ../calendar/gui/e-calendar-view.c:1683 ../calendar/gui/e-memo-table.c:924
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "열기(_O)"
@@ -2988,8 +2989,8 @@ msgstr "잘라내기(_T)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:955
 #: ../calendar/gui/dialogs/comp-editor.c:457
-#: ../calendar/gui/e-calendar-table.c:1371
-#: ../calendar/gui/e-calendar-view.c:1684 ../calendar/gui/e-memo-table.c:930
+#: ../calendar/gui/e-calendar-table.c:1373
+#: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
 #: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:1013
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
@@ -3410,12 +3411,12 @@ msgid "Web Log"
 msgstr "웹로그"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:656
-#: ../calendar/gui/e-calendar-view.c:2327
+#: ../calendar/gui/e-calendar-view.c:2335
 msgid "Birthday"
 msgstr "생일"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:657
-#: ../calendar/gui/e-calendar-view.c:2328
+#: ../calendar/gui/e-calendar-view.c:2336
 msgid "Anniversary"
 msgstr "기념일"
 
@@ -4490,7 +4491,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "파일롯의 ToDo 프로그램 블록에 쓸 수 없습니다"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2334
+#: ../plugins/itip-formatter/itip-formatter.c:2344
 msgid "Calendar and Tasks"
 msgstr "달력 및 작업"
 
@@ -4536,7 +4537,7 @@ msgid "Memo_s"
 msgstr "메모(_S)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1151
+#: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1152
 #: ../calendar/gui/gnome-cal.c:1701 ../calendar/gui/memos-component.c:548
 #: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:356
 #: ../calendar/gui/memos-control.c:372
@@ -4544,7 +4545,7 @@ msgid "Memos"
 msgstr "메모"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:495 ../calendar/gui/e-tasks.c:1441
+#: ../calendar/gui/e-calendar-table.c:495 ../calendar/gui/e-tasks.c:1442
 #: ../calendar/gui/gnome-cal.c:1573 ../calendar/gui/print.c:1966
 #: ../calendar/gui/tasks-component.c:539
 #: ../calendar/gui/tasks-component.c:1090 ../calendar/gui/tasks-control.c:495
@@ -4655,7 +4656,7 @@ msgstr "%d개 알림이 있습니다"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1695
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1723
-#: ../mail/mail-component.c:1521
+#: ../mail/mail-component.c:1523
 msgid "Warning"
 msgstr "경고"
 
@@ -6237,7 +6238,7 @@ msgstr "사용자 지정"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:205
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:2011
+#: ../plugins/itip-formatter/itip-formatter.c:2021
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1531
 #: ../widgets/misc/e-dateedit.c:1745
 #: ../widgets/misc/e-signature-combo-box.c:50
@@ -6932,8 +6933,8 @@ msgstr "아니오"
 #: ../calendar/gui/e-meeting-store.c:114 ../calendar/gui/e-meeting-store.c:149
 #: ../calendar/gui/e-meeting-store.c:212 ../calendar/gui/print.c:969
 #: ../calendar/gui/print.c:986 ../mail/em-utils.c:1294
-#: ../plugins/itip-formatter/itip-formatter.c:405
-#: ../plugins/itip-formatter/itip-formatter.c:2036
+#: ../plugins/itip-formatter/itip-formatter.c:410
+#: ../plugins/itip-formatter/itip-formatter.c:2046
 #: ../plugins/plugin-manager/plugin-manager.c:84
 #: ../widgets/misc/e-attachment-bar.c:721
 #: ../widgets/misc/e-charset-picker.c:64
@@ -6961,8 +6962,8 @@ msgstr "선택한 첨부를 저장할 폴더 선택..."
 msgid "untitled_image.%s"
 msgstr "이름없는_그림.%s"
 
-#: ../calendar/gui/e-cal-popup.c:279 ../calendar/gui/e-calendar-table.c:1365
-#: ../calendar/gui/e-calendar-view.c:1678 ../calendar/gui/e-memo-table.c:924
+#: ../calendar/gui/e-cal-popup.c:279 ../calendar/gui/e-calendar-table.c:1367
+#: ../calendar/gui/e-calendar-view.c:1684 ../calendar/gui/e-memo-table.c:926
 #: ../mail/em-folder-view.c:1342 ../mail/em-popup.c:571 ../mail/em-popup.c:582
 msgid "_Save As..."
 msgstr "다른 이름으로 저장(_S)..."
@@ -7030,77 +7031,77 @@ msgstr "100%"
 msgid "Deleting selected objects"
 msgstr "선택한 오브젝트를 지우는 중입니다"
 
-#: ../calendar/gui/e-calendar-table.c:952
-#: ../calendar/gui/e-calendar-view.c:805 ../calendar/gui/e-memo-table.c:643
+#: ../calendar/gui/e-calendar-table.c:954
+#: ../calendar/gui/e-calendar-view.c:807 ../calendar/gui/e-memo-table.c:645
 msgid "Updating objects"
 msgstr "오브젝트를 업데이트하는 중입니다"
 
-#: ../calendar/gui/e-calendar-table.c:1137
-#: ../calendar/gui/e-calendar-view.c:1227 ../calendar/gui/e-memo-table.c:819
+#: ../calendar/gui/e-calendar-table.c:1139
+#: ../calendar/gui/e-calendar-view.c:1233 ../calendar/gui/e-memo-table.c:821
 #: ../composer/e-msg-composer.c:1472
 msgid "Save as..."
 msgstr "다른 이름으로 저장..."
 
-#: ../calendar/gui/e-calendar-table.c:1360
-#: ../calendar/gui/e-calendar-view.c:1660
+#: ../calendar/gui/e-calendar-table.c:1362
+#: ../calendar/gui/e-calendar-view.c:1666
 msgid "New _Task"
 msgstr "새 작업(_T)"
 
-#: ../calendar/gui/e-calendar-table.c:1364 ../calendar/gui/e-memo-table.c:923
+#: ../calendar/gui/e-calendar-table.c:1366 ../calendar/gui/e-memo-table.c:925
 msgid "Open _Web Page"
 msgstr "웹 페이지 열기(_W)"
 
-#: ../calendar/gui/e-calendar-table.c:1366
-#: ../calendar/gui/e-calendar-view.c:1663 ../calendar/gui/e-memo-table.c:925
+#: ../calendar/gui/e-calendar-table.c:1368
+#: ../calendar/gui/e-calendar-view.c:1669 ../calendar/gui/e-memo-table.c:927
 msgid "P_rint..."
 msgstr "인쇄(_R)..."
 
-#: ../calendar/gui/e-calendar-table.c:1370
-#: ../calendar/gui/e-calendar-view.c:1683 ../calendar/gui/e-memo-table.c:929
+#: ../calendar/gui/e-calendar-table.c:1372
+#: ../calendar/gui/e-calendar-view.c:1689 ../calendar/gui/e-memo-table.c:931
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "잘라내기(_U)"
 
-#: ../calendar/gui/e-calendar-table.c:1372
-#: ../calendar/gui/e-calendar-view.c:1666
-#: ../calendar/gui/e-calendar-view.c:1685 ../calendar/gui/e-memo-table.c:931
+#: ../calendar/gui/e-calendar-table.c:1374
+#: ../calendar/gui/e-calendar-view.c:1672
+#: ../calendar/gui/e-calendar-view.c:1691 ../calendar/gui/e-memo-table.c:933
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
 #: ../ui/evolution-composer-entries.xml.h:15 ../ui/evolution-editor.xml.h:22
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "붙여 넣기(_P)"
 
-#: ../calendar/gui/e-calendar-table.c:1376 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1378 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "작업 할당(_A)"
 
-#: ../calendar/gui/e-calendar-table.c:1377 ../calendar/gui/e-memo-table.c:935
+#: ../calendar/gui/e-calendar-table.c:1379 ../calendar/gui/e-memo-table.c:937
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "iCalendar로 전달(_F)"
 
-#: ../calendar/gui/e-calendar-table.c:1378
+#: ../calendar/gui/e-calendar-table.c:1380
 msgid "_Mark as Complete"
 msgstr "작업 완료 표시(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1379
+#: ../calendar/gui/e-calendar-table.c:1381
 msgid "_Mark Selected Tasks as Complete"
 msgstr "선택한 작업을 마친 작업으로 표시(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1380
+#: ../calendar/gui/e-calendar-table.c:1382
 msgid "_Mark as Incomplete"
 msgstr "작업 미완료 표시(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1381
+#: ../calendar/gui/e-calendar-table.c:1383
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "선택한 작업을 마치지 못한 작업으로 표시(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1386
+#: ../calendar/gui/e-calendar-table.c:1388
 msgid "_Delete Selected Tasks"
 msgstr "선택한 작업 지우기(_D)"
 
-#: ../calendar/gui/e-calendar-table.c:1623
+#: ../calendar/gui/e-calendar-table.c:1625
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "작업을 추가하려면 누르십시오"
@@ -7138,106 +7139,106 @@ msgstr "시작 날짜"
 msgid "Status"
 msgstr "상태"
 
-#: ../calendar/gui/e-calendar-view.c:1346
+#: ../calendar/gui/e-calendar-view.c:1352
 msgid "Moving items"
 msgstr "항목을 옮기는 중입니다"
 
-#: ../calendar/gui/e-calendar-view.c:1348
+#: ../calendar/gui/e-calendar-view.c:1354
 msgid "Copying items"
 msgstr "항목을 복사하는 중입니다"
 
-#: ../calendar/gui/e-calendar-view.c:1657
+#: ../calendar/gui/e-calendar-view.c:1663
 msgid "New _Appointment..."
 msgstr "새 약속(_A)..."
 
 # event -> 행사, Microsoft Office XP 참고
-#: ../calendar/gui/e-calendar-view.c:1658
+#: ../calendar/gui/e-calendar-view.c:1664
 msgid "New All Day _Event"
 msgstr "새 하루 종일 행사(_E)"
 
-#: ../calendar/gui/e-calendar-view.c:1659
+#: ../calendar/gui/e-calendar-view.c:1665
 msgid "New _Meeting"
 msgstr "새 모임(_M)"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1670
+#: ../calendar/gui/e-calendar-view.c:1676
 msgid "_Current View"
 msgstr "현재 뷰(_C)"
 
-#: ../calendar/gui/e-calendar-view.c:1672
+#: ../calendar/gui/e-calendar-view.c:1678
 msgid "Select T_oday"
 msgstr "오늘 선택(_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1673
+#: ../calendar/gui/e-calendar-view.c:1679
 msgid "_Select Date..."
 msgstr "날짜 선택(_S)..."
 
-#: ../calendar/gui/e-calendar-view.c:1679
+#: ../calendar/gui/e-calendar-view.c:1685
 msgid "Pri_nt..."
 msgstr "인쇄(_N)..."
 
-#: ../calendar/gui/e-calendar-view.c:1689
+#: ../calendar/gui/e-calendar-view.c:1695
 msgid "Cop_y to Calendar..."
 msgstr "달력으로 복사(_Y)..."
 
-#: ../calendar/gui/e-calendar-view.c:1690
+#: ../calendar/gui/e-calendar-view.c:1696
 msgid "Mo_ve to Calendar..."
 msgstr "달력으로 이동(_V)..."
 
-#: ../calendar/gui/e-calendar-view.c:1691
+#: ../calendar/gui/e-calendar-view.c:1697
 msgid "_Delegate Meeting..."
 msgstr "모임 대리(_D)..."
 
-#: ../calendar/gui/e-calendar-view.c:1692
+#: ../calendar/gui/e-calendar-view.c:1698
 msgid "_Schedule Meeting..."
 msgstr "모임 일정(_S)..."
 
-#: ../calendar/gui/e-calendar-view.c:1693
+#: ../calendar/gui/e-calendar-view.c:1699
 msgid "_Forward as iCalendar..."
 msgstr "iCalendar로 전달(_F)..."
 
-#: ../calendar/gui/e-calendar-view.c:1694
+#: ../calendar/gui/e-calendar-view.c:1700
 msgid "_Reply"
 msgstr "회신(_R)"
 
-#: ../calendar/gui/e-calendar-view.c:1695 ../mail/em-folder-view.c:1336
+#: ../calendar/gui/e-calendar-view.c:1701 ../mail/em-folder-view.c:1336
 #: ../mail/em-popup.c:576 ../mail/em-popup.c:587
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
 msgstr "전체에 회신(_A)"
 
-#: ../calendar/gui/e-calendar-view.c:1700
+#: ../calendar/gui/e-calendar-view.c:1706
 msgid "Make this Occurrence _Movable"
 msgstr "이 경우 옮길 수 있게 만들기(_M)"
 
-#: ../calendar/gui/e-calendar-view.c:1701 ../ui/evolution-calendar.xml.h:9
+#: ../calendar/gui/e-calendar-view.c:1707 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
 msgstr "이 경우 지우기(_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1702
+#: ../calendar/gui/e-calendar-view.c:1708
 msgid "Delete _All Occurrences"
 msgstr "모든 경우 지우기(_A)"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:2202
+#: ../calendar/gui/e-calendar-view.c:2208
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "주최자: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:2206
+#: ../calendar/gui/e-calendar-view.c:2212
 #, c-format
 msgid "Organizer: %s"
 msgstr "주최자: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2222 ../calendar/gui/print.c:2477
+#: ../calendar/gui/e-calendar-view.c:2228 ../calendar/gui/print.c:2477
 #, c-format
 msgid "Location: %s"
 msgstr "위치: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2256
+#: ../calendar/gui/e-calendar-view.c:2262
 #, c-format
 msgid "Time: %s %s"
 msgstr "시간: %s %s"
@@ -7277,21 +7278,21 @@ msgstr "%02i분 단위"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:1359
-#: ../calendar/gui/e-day-view.c:2141
+#: ../calendar/gui/e-day-view.c:2145
 #: ../calendar/gui/e-week-view-main-item.c:310
 #: ../calendar/gui/e-week-view-main-item.c:524 ../calendar/gui/print.c:1656
 msgid "%A %d %B"
 msgstr "%B %e일 %A"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:766 ../calendar/gui/e-day-view.c:1119
-#: ../calendar/gui/e-week-view.c:507 ../calendar/gui/print.c:813
+#: ../calendar/gui/e-day-view.c:770 ../calendar/gui/e-day-view.c:1123
+#: ../calendar/gui/e-week-view.c:511 ../calendar/gui/print.c:813
 msgid "am"
 msgstr "오전"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:769 ../calendar/gui/e-day-view.c:1122
-#: ../calendar/gui/e-week-view.c:510 ../calendar/gui/print.c:815
+#: ../calendar/gui/e-day-view.c:773 ../calendar/gui/e-day-view.c:1126
+#: ../calendar/gui/e-week-view.c:514 ../calendar/gui/print.c:815
 msgid "pm"
 msgstr "오후"
 
@@ -7437,12 +7438,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:199
 #: ../calendar/gui/itip-utils.c:728
-#: ../plugins/itip-formatter/itip-formatter.c:2024
+#: ../plugins/itip-formatter/itip-formatter.c:2034
 msgid "Accepted"
 msgstr "수락"
 
 #: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:731
-#: ../plugins/itip-formatter/itip-formatter.c:2027
+#: ../plugins/itip-formatter/itip-formatter.c:2037
 msgid "Tentatively Accepted"
 msgstr "잠정적으로 수락"
 
@@ -7450,7 +7451,7 @@ msgstr "잠정적으로 수락"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:178 ../calendar/gui/e-meeting-store.c:201
 #: ../calendar/gui/itip-utils.c:734 ../calendar/gui/itip-utils.c:763
-#: ../plugins/itip-formatter/itip-formatter.c:2030
+#: ../plugins/itip-formatter/itip-formatter.c:2040
 msgid "Declined"
 msgstr "거부"
 
@@ -7653,75 +7654,75 @@ msgstr "첨부에 올바른 달력 메세지가 없습니다"
 msgid "The attachment has no viewable calendar items"
 msgstr "이 첨부를 볼 수 있는 달력 아이템이 없습니다"
 
-#: ../calendar/gui/e-itip-control.c:1954
+#: ../calendar/gui/e-itip-control.c:1957
 msgid "Update complete\n"
 msgstr "업데이트 마침\n"
 
-#: ../calendar/gui/e-itip-control.c:1988
+#: ../calendar/gui/e-itip-control.c:1991
 msgid "Object is invalid and cannot be updated\n"
 msgstr "오브젝트가 잘못되었고 업데이트할 수 없습니다\n"
 
-#: ../calendar/gui/e-itip-control.c:2005
+#: ../calendar/gui/e-itip-control.c:2008
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "현재 참석자가 아닌 사람이 이 회신을 했습니다. 참석자로 더하시겠습니까?"
 
-#: ../calendar/gui/e-itip-control.c:2023
+#: ../calendar/gui/e-itip-control.c:2026
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "잘못된 상태때문에 참석자 상태를 업데이트할 수 없습니다!\n"
 
-#: ../calendar/gui/e-itip-control.c:2047
+#: ../calendar/gui/e-itip-control.c:2050
 msgid "Attendee status updated\n"
 msgstr "참석자의 상태 업데이트되었습니다\n"
 
-#: ../calendar/gui/e-itip-control.c:2054
-#: ../plugins/itip-formatter/itip-formatter.c:1242
+#: ../calendar/gui/e-itip-control.c:2057
+#: ../plugins/itip-formatter/itip-formatter.c:1251
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "이 항목이 더 이상 없기 때문에 참석자 상태를 업데이트할 수 없습니다"
 
-#: ../calendar/gui/e-itip-control.c:2085 ../calendar/gui/e-itip-control.c:2142
+#: ../calendar/gui/e-itip-control.c:2088 ../calendar/gui/e-itip-control.c:2145
 msgid "Item sent!\n"
 msgstr "항목을 보냈습니다!\n"
 
-#: ../calendar/gui/e-itip-control.c:2091 ../calendar/gui/e-itip-control.c:2150
+#: ../calendar/gui/e-itip-control.c:2094 ../calendar/gui/e-itip-control.c:2153
 msgid "The item could not be sent!\n"
 msgstr "항목을 보낼 수 없습니다!\n"
 
-#: ../calendar/gui/e-itip-control.c:2230
+#: ../calendar/gui/e-itip-control.c:2233
 msgid "Choose an action:"
 msgstr "동작을 고르십시오:"
 
-#: ../calendar/gui/e-itip-control.c:2301
+#: ../calendar/gui/e-itip-control.c:2304
 msgid "Update"
 msgstr "업데이트"
 
-#: ../calendar/gui/e-itip-control.c:2329
+#: ../calendar/gui/e-itip-control.c:2332
 #: ../plugins/groupwise-features/process-meeting.c:48
 msgid "Accept"
 msgstr "수락"
 
-#: ../calendar/gui/e-itip-control.c:2330
+#: ../calendar/gui/e-itip-control.c:2333
 msgid "Tentatively accept"
 msgstr "잠정적으로 수락"
 
-#: ../calendar/gui/e-itip-control.c:2331
+#: ../calendar/gui/e-itip-control.c:2334
 #: ../plugins/groupwise-features/process-meeting.c:50
 msgid "Decline"
 msgstr "거부"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: ../calendar/gui/e-itip-control.c:2360
+#: ../calendar/gui/e-itip-control.c:2363
 msgid "Send Free/Busy Information"
 msgstr "약속 있음/없음 정보 보내기"
 
-#: ../calendar/gui/e-itip-control.c:2388
+#: ../calendar/gui/e-itip-control.c:2391
 msgid "Update respondent status"
 msgstr "업데이트 응답 상태"
 
-#: ../calendar/gui/e-itip-control.c:2416
+#: ../calendar/gui/e-itip-control.c:2419
 msgid "Send Latest Information"
 msgstr "가장 최근 정보 보내기"
 
-#: ../calendar/gui/e-itip-control.c:2444 ../calendar/gui/itip-utils.c:751
+#: ../calendar/gui/e-itip-control.c:2447 ../calendar/gui/itip-utils.c:751
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "취소"
@@ -7835,7 +7836,7 @@ msgstr "잠정적"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
 #: ../calendar/gui/itip-utils.c:737
-#: ../plugins/itip-formatter/itip-formatter.c:2033
+#: ../plugins/itip-formatter/itip-formatter.c:2043
 msgid "Delegated"
 msgstr "대리"
 
@@ -7970,15 +7971,15 @@ msgstr "언어"
 msgid "Member"
 msgstr "구성원"
 
-#: ../calendar/gui/e-memo-table.c:940
+#: ../calendar/gui/e-memo-table.c:942
 msgid "_Delete Selected Memos"
 msgstr "선택한 메모 지우기(_D)"
 
-#: ../calendar/gui/e-memo-table.c:1091 ../calendar/gui/e-memo-table.etspec.h:2
+#: ../calendar/gui/e-memo-table.c:1093 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
 msgstr "메모를 추가하려면 누르십시오"
 
-#: ../calendar/gui/e-memos.c:790 ../calendar/gui/e-tasks.c:922
+#: ../calendar/gui/e-memos.c:791 ../calendar/gui/e-tasks.c:923
 #: ../calendar/gui/gnome-cal.c:2871
 #, c-format
 msgid ""
@@ -7988,33 +7989,33 @@ msgstr ""
 "%s에서 오류 발생:\n"
 " %s"
 
-#: ../calendar/gui/e-memos.c:839
+#: ../calendar/gui/e-memos.c:840
 msgid "Loading memos"
 msgstr "메모를 읽어들이는 중입니다"
 
-#: ../calendar/gui/e-memos.c:920
+#: ../calendar/gui/e-memos.c:921
 #, c-format
 msgid "Opening memos at %s"
 msgstr "%s에 있는 메모를 여는 중입니다"
 
-#: ../calendar/gui/e-memos.c:1093 ../calendar/gui/e-tasks.c:1333
+#: ../calendar/gui/e-memos.c:1094 ../calendar/gui/e-tasks.c:1334
 msgid "Deleting selected objects..."
 msgstr "선택한 오브젝트를 지웁니다..."
 
-#: ../calendar/gui/e-tasks.c:975
+#: ../calendar/gui/e-tasks.c:976
 msgid "Loading tasks"
 msgstr "작업을 읽어들이는 중입니다"
 
-#: ../calendar/gui/e-tasks.c:1065
+#: ../calendar/gui/e-tasks.c:1066
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "%s에 있는 작업을 여는 중입니다"
 
-#: ../calendar/gui/e-tasks.c:1310
+#: ../calendar/gui/e-tasks.c:1311
 msgid "Completing tasks..."
 msgstr "작업을 완료하는 중입니다..."
 
-#: ../calendar/gui/e-tasks.c:1360
+#: ../calendar/gui/e-tasks.c:1361
 msgid "Expunging"
 msgstr "지운 메세지 비우는 중"
 
@@ -8180,7 +8181,7 @@ msgid "iCalendar information"
 msgstr "iCalendar 정보"
 
 # event -> 행사, Microsoft Office XP 참고
-#: ../calendar/gui/itip-utils.c:1008
+#: ../calendar/gui/itip-utils.c:1009
 msgid "You must be an attendee of the event."
 msgstr "이 행사의 참석자여야 합니다."
 
@@ -8595,7 +8596,7 @@ msgstr "약속 및 모임"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
-#: ../plugins/itip-formatter/itip-formatter.c:1570
+#: ../plugins/itip-formatter/itip-formatter.c:1580
 msgid "Opening calendar"
 msgstr "달력을 여는 중입니다"
 
@@ -10904,8 +10905,8 @@ msgstr "에볼루션 메일 기본 설정 컨트롤"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:611
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/pine-importer.c:382
-#: ../mail/mail-component.c:573 ../mail/mail-component.c:574
-#: ../mail/mail-component.c:738
+#: ../mail/mail-component.c:575 ../mail/mail-component.c:576
+#: ../mail/mail-component.c:740
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "메일"
@@ -11564,7 +11565,7 @@ msgstr "폴더로 복사(_C)"
 msgid "_Move to Folder"
 msgstr "폴더로 이동(_M)"
 
-#: ../mail/em-folder-tree.c:1721 ../mail/mail-ops.c:1055
+#: ../mail/em-folder-tree.c:1721 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\"의 폴더를 찾는 중"
@@ -13230,127 +13231,127 @@ msgstr "%s 메일링 리스트"
 msgid "Add Filter Rule"
 msgstr "필터 규칙 추가"
 
-#: ../mail/mail-component.c:534
+#: ../mail/mail-component.c:536
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d개 선택, "
 
-#: ../mail/mail-component.c:538
+#: ../mail/mail-component.c:540
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d개 지움"
 
-#: ../mail/mail-component.c:540
+#: ../mail/mail-component.c:542
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d개 정크"
 
-#: ../mail/mail-component.c:543
+#: ../mail/mail-component.c:545
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d개 임시"
 
-#: ../mail/mail-component.c:545
+#: ../mail/mail-component.c:547
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d개 보냄"
 
-#: ../mail/mail-component.c:547
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d개 안 보냄"
 
-#: ../mail/mail-component.c:553
+#: ../mail/mail-component.c:555
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d개 안 읽음, "
 
-#: ../mail/mail-component.c:554
+#: ../mail/mail-component.c:556
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "전체 %d개"
 
-#: ../mail/mail-component.c:894
+#: ../mail/mail-component.c:896
 msgid "New Mail Message"
 msgstr "새 메일 메세지"
 
-#: ../mail/mail-component.c:895
+#: ../mail/mail-component.c:897
 msgid "_Mail Message"
 msgstr "메일 만들기(_M)"
 
-#: ../mail/mail-component.c:896
+#: ../mail/mail-component.c:898
 msgid "Compose a new mail message"
 msgstr "메일 메세지를 새로 작성합니다"
 
-#: ../mail/mail-component.c:902
+#: ../mail/mail-component.c:904
 msgid "New Mail Folder"
 msgstr "새 메일 폴더"
 
-#: ../mail/mail-component.c:903
+#: ../mail/mail-component.c:905
 msgid "Mail _Folder"
 msgstr "메일 폴더(_F)"
 
-#: ../mail/mail-component.c:904
+#: ../mail/mail-component.c:906
 msgid "Create a new mail folder"
 msgstr "새 메일 폴더를 만듭니다"
 
-#: ../mail/mail-component.c:1051
+#: ../mail/mail-component.c:1053
 msgid "Failed upgrading Mail settings or folders."
 msgstr "메일 설정 혹은 폴더를 업그레이드하는 데 실패했습니다."
 
-#: ../mail/mail-component.c:1520
+#: ../mail/mail-component.c:1522
 msgid "Error"
 msgstr "오류"
 
-#: ../mail/mail-component.c:1520
+#: ../mail/mail-component.c:1522
 msgid "Errors"
 msgstr "오류"
 
-#: ../mail/mail-component.c:1521
+#: ../mail/mail-component.c:1523
 msgid "Warnings and Errors"
 msgstr "경고 및 오류"
 
-#: ../mail/mail-component.c:1522
+#: ../mail/mail-component.c:1524
 msgid "Debug"
 msgstr "디버깅"
 
-#: ../mail/mail-component.c:1522
+#: ../mail/mail-component.c:1524
 msgid "Error, Warnings and Debug messages"
 msgstr "오류, 경고 및 디버깅 메세지"
 
-#: ../mail/mail-component.c:1632
+#: ../mail/mail-component.c:1634
 msgid "Debug Logs"
 msgstr "디버깅 기록"
 
-#: ../mail/mail-component.c:1636
+#: ../mail/mail-component.c:1638
 msgid "Show _errors in the status bar for"
 msgstr "상태 표시줄에서 오류 표시 시간(_E):"
 
-#: ../mail/mail-component.c:1643
+#: ../mail/mail-component.c:1645
 msgid "seconds."
 msgstr "초."
 
-#: ../mail/mail-component.c:1653
+#: ../mail/mail-component.c:1655
 msgid "Log Messages:"
 msgstr "기록 메세지:"
 
-#: ../mail/mail-component.c:1705
+#: ../mail/mail-component.c:1707
 msgid "Log Level"
 msgstr "기록 단계"
 
-#: ../mail/mail-component.c:1712 ../widgets/misc/e-dateedit.c:410
+#: ../mail/mail-component.c:1714 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
 msgstr "시간"
 
-#: ../mail/mail-component.c:1719 ../mail/message-list.c:2406
+#: ../mail/mail-component.c:1721 ../mail/message-list.c:2406
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "메세지"
@@ -14103,15 +14104,18 @@ msgstr "표시(_F):"
 msgid "_Tick this to accept the license agreement"
 msgstr "사용권 약관에 동의하시면 여기에 체크하십시오(_T)"
 
-#: ../mail/mail-folder-cache.c:823
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-folder-cache.c:826
 #, c-format
 msgid "Pinging %s"
 msgstr "\"%s\" 연결을 확인하는 중"
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:105
 msgid "Filtering Selected Messages"
 msgstr "선택한 메세지 필터링하는 중"
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:264
 msgid "Fetching Mail"
 msgstr "메일 가져오는 중"
@@ -14136,14 +14140,16 @@ msgstr ""
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "로컬의 '보낸 편지함' 폴더에 추가하는 데 실패했습니다: %s"
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:724
 msgid "Sending message"
 msgstr "메세지 보내는 중입니다"
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:734
 #, c-format
 msgid "Sending message %d of %d"
-msgstr "%2$d개 중에서 %1$d번째 메세지를 보내는 중입니다"
+msgstr "%2$d개 중에서 %1$d번째 메세지를 보내는 중"
 
 #: ../mail/mail-ops.c:761
 #, c-format
@@ -14158,89 +14164,103 @@ msgstr "취소함."
 msgid "Complete."
 msgstr "완료."
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:869
 msgid "Saving message to folder"
 msgstr "메세지를 폴더로 저장하는 중"
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:947
 #, c-format
 msgid "Moving messages to %s"
 msgstr "메시지들을 %s(으)로 옮기는 중"
 
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
 #: ../mail/mail-ops.c:947
 #, c-format
 msgid "Copying messages to %s"
 msgstr "메시지들을 %s(으)로 복사하는 중"
 
-#: ../mail/mail-ops.c:1161
+#: ../mail/mail-ops.c:1164
 msgid "Forwarded messages"
 msgstr "전달한 메시지"
 
-#: ../mail/mail-ops.c:1202
+#: ../mail/mail-ops.c:1205
 #, c-format
 msgid "Opening folder %s"
 msgstr "%s 폴더를 열기"
 
-#: ../mail/mail-ops.c:1267
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1270
 #, c-format
 msgid "Opening store %s"
-msgstr "저장고 %s을(를) 여는 중입니다"
+msgstr "저장고 %s을(를) 여는 중"
 
-#: ../mail/mail-ops.c:1338
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1341
 #, c-format
 msgid "Removing folder %s"
-msgstr "%s 폴더를 지우는 중입니다"
+msgstr "%s 폴더를 지우는 중"
 
-#: ../mail/mail-ops.c:1427
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1430
 #, c-format
 msgid "Storing folder '%s'"
-msgstr "%s 폴더를 저장하는 중입니다"
+msgstr "%s 폴더를 저장하는 중"
 
-#: ../mail/mail-ops.c:1490
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1493
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "계정 '%s'의 지운 메세지를 비우고 내용을 저장하는 중입니다"
+msgstr "계정 '%s'의 지운 메세지를 비우고 내용을 저장하는 중"
 
-#: ../mail/mail-ops.c:1491
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1494
 #, c-format
 msgid "Storing account '%s'"
-msgstr "%s 계정을 저장하는 중입니다"
+msgstr "%s 계정을 저장하는 중"
 
-#: ../mail/mail-ops.c:1545
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1548
 msgid "Refreshing folder"
-msgstr "폴더 다시 읽는 중입니다"
+msgstr "폴더 다시 읽는 중"
 
-#: ../mail/mail-ops.c:1582 ../mail/mail-ops.c:1632
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1585 ../mail/mail-ops.c:1635
 msgid "Expunging folder"
-msgstr "지운 메세지를 비우는 중입니다"
+msgstr "지운 메세지를 비우는 중"
 
-#: ../mail/mail-ops.c:1629
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1632
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr "'%s' 안의 휴지통을 비우는 중입니다"
+msgstr "'%s' 안의 휴지통을 비우는 중"
 
-#: ../mail/mail-ops.c:1630
+#: ../mail/mail-ops.c:1633
 msgid "Local Folders"
 msgstr "로컬 폴더"
 
-#: ../mail/mail-ops.c:1711
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1714
 #, c-format
 msgid "Retrieving message %s"
-msgstr "메세지 %s을(를) 가져오기"
+msgstr "메세지 %s을(를) 가져오는 중"
 
-#: ../mail/mail-ops.c:1818
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1821
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "메세지 %d개를 가져오는 중입니다"
+msgstr[0] "메세지 %d개를 가져오는 중"
 
-#: ../mail/mail-ops.c:1903
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:1906
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] "메세지 %d개를 저장하는 중입니다"
+msgstr[0] "메세지 %d개를 저장하는 중"
 
-#: ../mail/mail-ops.c:1973
+#: ../mail/mail-ops.c:1976
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14249,11 +14269,12 @@ msgstr ""
 "%s(으)로 메시지 저장 중 오류 발생:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2045
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:2048
 msgid "Saving attachment"
 msgstr "첨부 저장"
 
-#: ../mail/mail-ops.c:2057 ../mail/mail-ops.c:2063
+#: ../mail/mail-ops.c:2060 ../mail/mail-ops.c:2066
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14262,27 +14283,31 @@ msgstr ""
 "출력 파일을 만들 수 없음: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2073
+#: ../mail/mail-ops.c:2076
 #, c-format
 msgid "Could not write data: %s"
 msgstr "데이터를 쓸 수가 없습니다: %s"
 
-#: ../mail/mail-ops.c:2219
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:2222
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%s에서 연결 끊는 중"
 
-#: ../mail/mail-ops.c:2219
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:2222
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s(으)로 다시 연결중"
 
-#: ../mail/mail-ops.c:2315
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:2318
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "'%s' 오프라인 계정을 준비 중"
 
-#: ../mail/mail-ops.c:2401
+# 주의: 다른 메세지의 일부로 쓰인다. 문장으로 번역하지 말 것.
+#: ../mail/mail-ops.c:2404
 msgid "Checking Service"
 msgstr "서비스 확인중"
 
@@ -14306,7 +14331,7 @@ msgstr "업데이트 중..."
 msgid "Waiting..."
 msgstr "기다리는 중..."
 
-#: ../mail/mail-send-recv.c:792
+#: ../mail/mail-send-recv.c:810
 #, c-format
 msgid "Checking for new mail"
 msgstr "새 메일 확인"
@@ -14653,7 +14678,7 @@ msgstr "작업을 수행하는 중에 오류가 발생했습니다."
 
 #: ../mail/mail.error.xml.h:58
 msgid "Error while {0}."
-msgstr "{0} 중에 오류가 발생했습니다."
+msgstr "{0} 도중에 오류가 발생했습니다."
 
 #: ../mail/mail.error.xml.h:59
 msgid "File exists but cannot overwrite it."
@@ -17082,129 +17107,129 @@ msgstr "아이팟과 동기화"
 msgid "iPod Synchronization"
 msgstr "아이팟 동기화"
 
-#: ../plugins/itip-formatter/itip-formatter.c:439
-#: ../plugins/itip-formatter/itip-formatter.c:564
+#: ../plugins/itip-formatter/itip-formatter.c:444
+#: ../plugins/itip-formatter/itip-formatter.c:569
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "'%s' 달력을 읽어들이는 데 실패했습니다"
 
 # event -> 행사, Microsoft Office XP 참고
-#: ../plugins/itip-formatter/itip-formatter.c:584
+#: ../plugins/itip-formatter/itip-formatter.c:589
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "'%s' 달력에 들어 있는 약속이 이 모임과 충돌합니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:610
+#: ../plugins/itip-formatter/itip-formatter.c:615
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "'%s' 달력에 약속을 발견했습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:686
+#: ../plugins/itip-formatter/itip-formatter.c:691
 msgid "Unable to find any calendars"
 msgstr "달력을 하나도 찾을 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:693
+#: ../plugins/itip-formatter/itip-formatter.c:698
 msgid "Unable to find this meeting in any calendar"
 msgstr "어느 달력에서도 이 모임을 찾을 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:697
+#: ../plugins/itip-formatter/itip-formatter.c:702
 msgid "Unable to find this task in any task list"
 msgstr "어느 작업 목록에서도 이 작업을 찾을 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:701
+#: ../plugins/itip-formatter/itip-formatter.c:706
 msgid "Unable to find this memo in any memo list"
 msgstr "어느 메모 목록에서도 이 메모를 찾을 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:772
+#: ../plugins/itip-formatter/itip-formatter.c:777
 msgid "Searching for an existing version of this appointment"
 msgstr "이 약속의 현재 버전을 찾는 중입니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:935
+#: ../plugins/itip-formatter/itip-formatter.c:943
 msgid "Unable to parse item"
 msgstr "항목을 파싱할 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:993
+#: ../plugins/itip-formatter/itip-formatter.c:1001
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "항목을 '%s' 달력에 보낼 수 없습니다.  %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1005
+#: ../plugins/itip-formatter/itip-formatter.c:1013
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "'%s' 달력에 수락이라고 보냄"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1009
+#: ../plugins/itip-formatter/itip-formatter.c:1017
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "'%s' 달력에 미정이라고 보냄"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1014
+#: ../plugins/itip-formatter/itip-formatter.c:1022
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "'%s' 달력에 거절이라고 보냄"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1019
+#: ../plugins/itip-formatter/itip-formatter.c:1027
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "'%s' 달력에 취소라고 보냄"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1113
+#: ../plugins/itip-formatter/itip-formatter.c:1121
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "주최자가 대리인 %s을(를) 지웠습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1120
+#: ../plugins/itip-formatter/itip-formatter.c:1128
 msgid "Sent a cancelation notice to the delegate"
 msgstr "대리인에게 취소 공지를 보냈습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1122
+#: ../plugins/itip-formatter/itip-formatter.c:1130
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "대리인에게 취소 공지를 보낼 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1207
+#: ../plugins/itip-formatter/itip-formatter.c:1216
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "잘못된 상태때문에 참석자 상태를 업데이트할 수 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1234
+#: ../plugins/itip-formatter/itip-formatter.c:1243
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "참석자를 업데이트할 수 없습니다. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1238
+#: ../plugins/itip-formatter/itip-formatter.c:1247
 msgid "Attendee status updated"
 msgstr "참석자 상태를 업데이트했습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1263
+#: ../plugins/itip-formatter/itip-formatter.c:1273
 msgid "Meeting information sent"
 msgstr "모임 정보를 보냈습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1266
+#: ../plugins/itip-formatter/itip-formatter.c:1276
 msgid "Task information sent"
 msgstr "작업 정보를 보냈습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1269
+#: ../plugins/itip-formatter/itip-formatter.c:1279
 msgid "Memo information sent"
 msgstr "메모 정보를 보냈습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1278
+#: ../plugins/itip-formatter/itip-formatter.c:1288
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "모임 정보를 보낼 수 없습니다. 해당 모임이 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1281
+#: ../plugins/itip-formatter/itip-formatter.c:1291
 msgid "Unable to send task information, the task does not exist"
 msgstr "작업 정보를 보낼 수 없습니다. 해당 작업이 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1284
+#: ../plugins/itip-formatter/itip-formatter.c:1294
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "메모 정보를 보낼 수 없습니다. 해당 메모가 없습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1359
-#: ../plugins/itip-formatter/itip-formatter.c:1374
+#: ../plugins/itip-formatter/itip-formatter.c:1369
+#: ../plugins/itip-formatter/itip-formatter.c:1384
 msgid "The calendar attached is not valid"
 msgstr "첨부한 달력이 잘못되었습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1360
-#: ../plugins/itip-formatter/itip-formatter.c:1375
+#: ../plugins/itip-formatter/itip-formatter.c:1370
+#: ../plugins/itip-formatter/itip-formatter.c:1385
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17212,16 +17237,16 @@ msgstr ""
 "메세지에 달력이 들어 있다고 되어 있으나, 그 달력이 올바른 iCalendar가 아닙니"
 "다."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1410
-#: ../plugins/itip-formatter/itip-formatter.c:1428
-#: ../plugins/itip-formatter/itip-formatter.c:1510
+#: ../plugins/itip-formatter/itip-formatter.c:1420
+#: ../plugins/itip-formatter/itip-formatter.c:1438
+#: ../plugins/itip-formatter/itip-formatter.c:1520
 msgid "The item in the calendar is not valid"
 msgstr "달력 안이 항목이 올바르지 않습니다"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: ../plugins/itip-formatter/itip-formatter.c:1411
-#: ../plugins/itip-formatter/itip-formatter.c:1429
-#: ../plugins/itip-formatter/itip-formatter.c:1511
+#: ../plugins/itip-formatter/itip-formatter.c:1421
+#: ../plugins/itip-formatter/itip-formatter.c:1439
+#: ../plugins/itip-formatter/itip-formatter.c:1521
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17229,41 +17254,41 @@ msgstr ""
 "메세지에 달력이 들어 있으나, 달력에 행사, 작업, 약속 있음/없음 정보가 하나도 "
 "들어 있지 않습니다."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1440
+#: ../plugins/itip-formatter/itip-formatter.c:1450
 msgid "The calendar attached contains multiple items"
 msgstr "첨부한 달력에 여러 개의 항목이 들어 있습니다"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1441
+#: ../plugins/itip-formatter/itip-formatter.c:1451
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "이 항목을 모두 처리하려면, 파일을 저장해서 그 달력을 가져와야 합니다."
 
-#: ../plugins/itip-formatter/itip-formatter.c:2138
+#: ../plugins/itip-formatter/itip-formatter.c:2148
 msgid "This meeting recurs"
 msgstr "이 약속 반복"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2141
+#: ../plugins/itip-formatter/itip-formatter.c:2151
 msgid "This task recurs"
 msgstr "이 작업 반복"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2144
+#: ../plugins/itip-formatter/itip-formatter.c:2154
 msgid "This memo recurs"
 msgstr "이 메모 반복"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2359
+#: ../plugins/itip-formatter/itip-formatter.c:2369
 msgid "_Delete message after acting"
 msgstr "적용한 다음에 메세지 지우기(_D)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2369
-#: ../plugins/itip-formatter/itip-formatter.c:2401
+#: ../plugins/itip-formatter/itip-formatter.c:2379
+#: ../plugins/itip-formatter/itip-formatter.c:2411
 msgid "Conflict Search"
 msgstr "충돌 찾기"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2384
+#: ../plugins/itip-formatter/itip-formatter.c:2394
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "충돌하는 모임을 찾을 달력을 선택하십시오"
 
@@ -21701,12 +21726,12 @@ msgstr "마감 날짜 포함(_D)"
 msgid "With _Status"
 msgstr "상태 포함(_S)"
 
-#. Put the ""UTC" entry at the top of the combo's list.
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:213
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:406
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:408
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:410
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:759
+#. Put the "UTC" entry at the top of the combo's list.
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:241
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:438
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:440
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:442
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:791
 msgid "UTC"
 msgstr "UTC"
 
