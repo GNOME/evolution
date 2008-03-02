@@ -2,14 +2,15 @@
 # Copyright (C) 2008 THE Evolution's copyright holder
 # This file is distributed under the same license as the Evolution package.
 # Alaksandar Navicki <zolak@lacinka.org>, 2008.
+# Ihar Hračyška <booxter@lacinka.org>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-02 22:53+0200\n"
-"PO-Revision-Date: 2008-03-02 22:48+0200\n"
-"Last-Translator: Alaksandar Navicki <zolak@lacinka.org>\n"
+"PO-Revision-Date: 2008-03-03 00:11+0200\n"
+"Last-Translator: Ihar Hračyška <booxter@lacinka.org>\n"
 "Language-Team: Belarusian Latin <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -343,13 +344,12 @@ msgstr "aktyvizuj"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
 msgstr ""
-"Abrany kalandar tolki dla čytańnia. Abiary kalandar, jaki pryjmaje novyja "
-"planavanyja zadańni."
+"\"{0}\" źjaŭlajecca krynicaj adrasnaj knihi tolki dla čytańnia. Uklučy vyhlad "
+"kantaktaŭ i vybiery adrasnuju knihu, u jakuju možna dadać kantaktaŭ."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -364,9 +364,8 @@ msgid "Address '{0}' already exists."
 msgstr "Adras \"{0}\" užo isnuje."
 
 #: ../addressbook/addressbook.error.xml.h:5
-#, fuzzy
 msgid "Cannot add new contact"
-msgstr "Stvary novy kantakt"
+msgstr "Niemahčyma dadać novy kantakt"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
@@ -720,10 +719,9 @@ msgid "_Type:"
 msgstr "_Typ:"
 
 #: ../addressbook/gui/component/addressbook-config.c:632
-#, fuzzy
 msgid "Copy _book content locally for offline operation"
 msgstr ""
-"Skapijuj źmieściva knihi na svoj kamputar dla aperavańnia biez spałučeńnia"
+"Skapijuj źmieściva _knihi na svoj kamputar dla aperavańnia biez spałučeńnia"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -853,9 +851,8 @@ msgid "_New Address Book"
 msgstr "_Novaja adrasnaja kniha"
 
 #: ../addressbook/gui/component/addressbook-view.c:955
-#, fuzzy
 msgid "Save As vCard..."
-msgstr "Zapišy jak VCard..."
+msgstr "Zapišy jak vCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
@@ -1337,7 +1334,6 @@ msgid "Mailing Address"
 msgstr "Paštovy adras"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
-#, fuzzy
 msgid "Nic_kname:"
 msgstr "Mi_anuška:"
 
@@ -2772,9 +2768,8 @@ msgid "_Location:"
 msgstr "_Pałažeńnie:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
-#, fuzzy
 msgid "<b>Members</b>"
-msgstr "<b>Karystalniki:</b>"
+msgstr "<b>Čalcy</b>"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
@@ -2782,9 +2777,8 @@ msgid "Contact List Editor"
 msgstr "Redaktar śpisu kantaktaŭ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#, fuzzy
 msgid "Select..."
-msgstr "Abi_ary..."
+msgstr "Abiary..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "_Hide addresses when sending mail to this list"
@@ -2942,9 +2936,8 @@ msgstr "Typ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:814
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1935
-#, fuzzy
 msgid "Save as vCard..."
-msgstr "Zapišy jak VCard..."
+msgstr "Zapišy jak vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/dialogs/comp-editor.c:1128
@@ -2963,9 +2956,8 @@ msgid "New Contact _List..."
 msgstr "Novy śpis _kantaktaŭ..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
-#, fuzzy
 msgid "_Save as vCard..."
-msgstr "Z_apišy jak VCard..."
+msgstr "Z_apišy jak vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 msgid "_Forward Contact"
@@ -3732,14 +3724,13 @@ msgid "Copy contacts to"
 msgstr "Skapijuj kantakty ŭ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:983
-#, fuzzy
 msgid "Multiple vCards"
-msgstr "Niekalki VCardaŭ"
+msgstr "Niekalki vCardaŭ"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "vCard for %s"
-msgstr "VCard dla %s"
+msgstr "vCard dla %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1027
 #: ../addressbook/gui/widgets/eab-gui-util.c:1052
@@ -3765,14 +3756,12 @@ msgstr[2] "Jość jašče %d inšych kantaktaŭ."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:279
-#, fuzzy
 msgid "Show Full vCard"
-msgstr "Pakažy poŭnuju vizytoŭku VCard"
+msgstr "Pakažy poŭnuju vizytoŭku vCard"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:232
-#, fuzzy
 msgid "Show Compact vCard"
-msgstr "Pakažy kampaktnuju vizytoŭku VCard"
+msgstr "Pakažy kampaktnuju vizytoŭku vCard"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
 msgid "Save in addressbook"
@@ -3823,14 +3812,12 @@ msgid "Evolution LDIF importer"
 msgstr "Imparter LDIF Evolution"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
-#, fuzzy
 msgid "vCard (.vcf, .gcrd)"
-msgstr "VCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
-#, fuzzy
 msgid "Evolution vCard Importer"
-msgstr "Imparter VCard Evolution"
+msgstr "Imparter vCard Evolution"
 
 #: ../addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -4107,13 +4094,12 @@ msgstr "Nieviadomaja pamyłka"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
 msgstr ""
-"Abrany kalandar tolki dla čytańnia. Abiary kalandar, jaki pryjmaje novyja "
-"planavanyja zadańni."
+"\"{0}\" źjaŭlajecca krynicaj kalendara tolki dla čytańnia. Uklučy vyhlad kalendara "
+"dy vybiery kalandar, u jaki možna dadvać planavanyja zadańni."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -6712,9 +6698,8 @@ msgstr "Detali zadačy"
 
 #: ../calendar/gui/dialogs/task-page.c:459
 #: ../calendar/gui/dialogs/task-page.glade.h:4
-#, fuzzy
 msgid "Organi_zer:"
-msgstr "Arhanizatar:"
+msgstr "_Arhanizatar:"
 
 #: ../calendar/gui/dialogs/task-page.c:866
 msgid "Due date is wrong"
@@ -7073,7 +7058,6 @@ msgstr "Adčyni _web-staronku"
 
 #: ../calendar/gui/e-calendar-table.c:1368
 #: ../calendar/gui/e-calendar-view.c:1669 ../calendar/gui/e-memo-table.c:927
-#, fuzzy
 msgid "P_rint..."
 msgstr "_Drukuj..."
 
@@ -7194,7 +7178,6 @@ msgid "_Select Date..."
 msgstr "_Abiary datu..."
 
 #: ../calendar/gui/e-calendar-view.c:1685
-#, fuzzy
 msgid "Pri_nt..."
 msgstr "_Drukuj..."
 
@@ -8491,9 +8474,8 @@ msgid "Summary: %s"
 msgstr "Karotkaje apisańnie: %s"
 
 #: ../calendar/gui/print.c:2490
-#, fuzzy
 msgid "Attendees: "
-msgstr "Udzielniki"
+msgstr "Udzielniki: "
 
 #: ../calendar/gui/print.c:2530
 #, c-format
@@ -10229,13 +10211,12 @@ msgid "_Bcc:"
 msgstr "_Bcc:"
 
 #: ../composer/e-msg-composer-hdrs.c:348
-#, fuzzy
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
 msgstr ""
-"Padaj adrasy, na jakija budzie dasłanaja kopija lista biaz bačnaha śpisu "
-"adrasataŭ."
+"Padaj adrasy, na jakija budzie dasłanaja kopija lista, pryčym adras abminie "
+"śpis adrasataŭ."
 
 #: ../composer/e-msg-composer-hdrs.c:353
 msgid "_Post To:"
@@ -10464,18 +10445,16 @@ msgid "_Save Message"
 msgstr "_Zapišy list"
 
 #: ../data/evolution.desktop.in.in.h:1
-#, fuzzy
 msgid "Evolution Mail and Calendar"
-msgstr "Kampanent pošty prahramy Evolution"
+msgstr "Pošta j kalandar Evolution"
 
 #: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:672
 msgid "Groupware Suite"
 msgstr "Pakiet dla kalektyŭnaj pracy"
 
 #: ../data/evolution.desktop.in.in.h:3
-#, fuzzy
 msgid "Manage your email, contacts and schedule"
-msgstr "Kanfihuracyja paštovych kontaŭ"
+msgstr "Pracuj z poštaj, kantaktami j pracoŭnym raskładam"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10569,27 +10548,24 @@ msgid "_Later"
 msgstr "_Na potym"
 
 #: ../e-util/e-util-labels.c:317
-#, fuzzy
 msgid "Label _Name:"
-msgstr "_Nazva:"
+msgstr "_Nazva etykietki:"
 
 #: ../e-util/e-util-labels.c:339
-#, fuzzy
 msgid "Edit Label"
-msgstr "Možna madyfikavać"
+msgstr "Redahuj etykietku"
 
 #: ../e-util/e-util-labels.c:339
-#, fuzzy
 msgid "Add Label"
-msgstr "Etykietka"
+msgstr "Dadaj etykietku"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
-msgstr ""
+msgstr "Nazva etykietki nia moža być pustoj."
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr ""
+msgstr "Etykietka dla takoha cetlika ŭžo isnuje. Źmiani nazvu etykietki."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10731,18 +10707,16 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:800
-#, fuzzy
 msgid "R_ule name:"
-msgstr "Nazva praviła"
+msgstr "Nazva _praviła:"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
 msgstr "Znajdzi abjekty, jakija b adpaviedali akeślenym kryteram"
 
 #: ../filter/filter-rule.c:862
-#, fuzzy
 msgid "A_dd Filter Criteria"
-msgstr "Dadaj praviła filtru"
+msgstr "_Dadaj kryter filtru"
 
 #: ../filter/filter-rule.c:868
 msgid "If all criteria are met"
@@ -11021,14 +10995,12 @@ msgid "Receiving Email"
 msgstr "Pryjom pošty"
 
 #: ../mail/em-account-editor.c:2053
-#, fuzzy
 msgid "Check for _new messages every"
-msgstr "Aŭtamatyčna pravier _novyja listy kožnyja"
+msgstr "Praviaraj _novyja listy kožnyja"
 
 #: ../mail/em-account-editor.c:2061
-#, fuzzy
 msgid "minu_tes"
-msgstr "chviliny"
+msgstr "_chviliny"
 
 #: ../mail/em-account-editor.c:2235 ../mail/mail-config.glade.h:131
 msgid "Sending Email"
@@ -11050,7 +11022,6 @@ msgid "Receiving Options"
 msgstr "Opcyi pryjomu"
 
 #: ../mail/em-account-editor.c:2398 ../mail/em-account-editor.c:2489
-#, fuzzy
 msgid "Checking for New Messages"
 msgstr "Pravierka najaŭnaści novych listoŭ"
 
@@ -11144,7 +11115,7 @@ msgstr "Dałučanaje"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "BCC"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -11152,12 +11123,11 @@ msgstr "Zvanočak"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr ""
+msgstr "CC"
 
 #: ../mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Completed On"
-msgstr "Zavieršana "
+msgstr "Zavieršana ŭ"
 
 #: ../mail/em-filter-i18n.h:10
 msgid "contains"
@@ -11276,14 +11246,12 @@ msgid "is not Flagged"
 msgstr "nie paznačany"
 
 #: ../mail/em-filter-i18n.h:38
-#, fuzzy
 msgid "is not set"
-msgstr "nie źjaŭlajecca"
+msgstr "nie akreślena"
 
 #: ../mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "is set"
-msgstr "nie źjaŭlajecca"
+msgstr "akreślena"
 
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:96
 #: ../ui/evolution-mail-message.xml.h:48
@@ -11377,9 +11345,8 @@ msgid "Sender"
 msgstr "Ad kaho"
 
 #: ../mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Set Label"
-msgstr "Etykietka"
+msgstr "Akreśli etykietku"
 
 #: ../mail/em-filter-i18n.h:64
 msgid "Set Status"
@@ -11428,9 +11395,8 @@ msgid "Then"
 msgstr "Potym"
 
 #: ../mail/em-filter-rule.c:517
-#, fuzzy
 msgid "Add Ac_tion"
-msgstr "Dadaj vyklučeńnie"
+msgstr "Dadaj _dziejańnie"
 
 #: ../mail/em-folder-browser.c:189
 msgid "C_reate Search Folder From Search..."
@@ -11507,9 +11473,8 @@ msgid "<click here to select a folder>"
 msgstr "<klikni, kab abrać kataloh>"
 
 #: ../mail/em-folder-selector.c:262
-#, fuzzy
 msgid "C_reate"
-msgstr "Stvary"
+msgstr "_Stvary"
 
 #: ../mail/em-folder-selector.c:266
 msgid "Folder _name:"
@@ -11761,9 +11726,8 @@ msgid "_None"
 msgstr "_Niama"
 
 #: ../mail/em-folder-view.c:1364
-#, fuzzy
 msgid "_New Label"
-msgstr "Biez etykietki"
+msgstr "_Novaja etykietka"
 
 #: ../mail/em-folder-view.c:1368
 msgid "Fla_g Completed"
@@ -11779,45 +11743,37 @@ msgstr "_Stvary praviła na padstavie lista"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1374
-#, fuzzy
 msgid "Search Folder based on _Subject"
 msgstr "Kataloh pošuku na padstavie _temy"
 
 #: ../mail/em-folder-view.c:1375
-#, fuzzy
 msgid "Search Folder based on Se_nder"
 msgstr "Kataloh pošuku _na padstavie aŭtara lista"
 
 #: ../mail/em-folder-view.c:1376
-#, fuzzy
 msgid "Search Folder based on _Recipients"
 msgstr "Kataloh pošuku na padstavie ad_rasataŭ"
 
 #: ../mail/em-folder-view.c:1377
-#, fuzzy
 msgid "Search Folder based on Mailing _List"
 msgstr "Kataloh pošuku na padstavie r_assyłki"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1382
-#, fuzzy
 msgid "Filter based on Sub_ject"
-msgstr "Filtruj na padstavie t_emy"
+msgstr "Filter na padstavie t_emy"
 
 #: ../mail/em-folder-view.c:1383
-#, fuzzy
 msgid "Filter based on Sen_der"
-msgstr "Filtruj _na padstavie aŭtara lista"
+msgstr "Filter _na padstavie aŭtara lista"
 
 #: ../mail/em-folder-view.c:1384
-#, fuzzy
 msgid "Filter based on Re_cipients"
-msgstr "Filtruj na padstavie a_drasataŭ"
+msgstr "Filter na padstavie a_drasataŭ"
 
 #: ../mail/em-folder-view.c:1385
-#, fuzzy
 msgid "Filter based on _Mailing List"
-msgstr "Filtruj na padstavie ras_syłki"
+msgstr "Filter na padstavie ras_syłki"
 
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:2267 ../mail/em-folder-view.c:2311
@@ -11869,7 +11825,6 @@ msgid "Matches: %d"
 msgstr "Znojdzienaje: %d"
 
 #: ../mail/em-format-html-display.c:659
-#, fuzzy
 msgid "Fin_d:"
 msgstr "Znaj_dzi:"
 
@@ -12257,34 +12212,28 @@ msgid "Once per month"
 msgstr "Štomiesiac"
 
 #: ../mail/em-mailer-prefs.c:341
-#, fuzzy
 msgid "Add Custom Junk Header"
-msgstr "Ułasnaja šapka"
+msgstr "Dadaj ułasnuju šapku spamu"
 
 #: ../mail/em-mailer-prefs.c:345
-#, fuzzy
 msgid "Header Name:"
-msgstr "_Nazva katalohu:"
+msgstr "Nazva šapki:"
 
 #: ../mail/em-mailer-prefs.c:346
-#, fuzzy
 msgid "Header Value Contains:"
-msgstr "Adrasat utrymlivaje"
+msgstr "Vartaść šapki ŭtrymlivaje:"
 
 #: ../mail/em-mailer-prefs.c:451
-#, fuzzy
 msgid "Contains Value"
-msgstr "Praciahvaj"
+msgstr "Utrymlivaje vartaść"
 
 #: ../mail/em-mailer-prefs.c:473
-#, fuzzy
 msgid "Color"
-msgstr "Kolery"
+msgstr "Koler"
 
 #: ../mail/em-mailer-prefs.c:476
-#, fuzzy
 msgid "Tag"
-msgstr "tamu"
+msgstr "Cetlik"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1140
@@ -12408,9 +12357,8 @@ msgid "No server has been selected"
 msgstr "Server nie abrany"
 
 #: ../mail/em-utils.c:121
-#, fuzzy
 msgid "_Do not show this message again."
-msgstr "Nie pakazvaj hetaha paviedamleńnia ŭ budučyni."
+msgstr "_Nie pakazvaj hetaha paviedamleńnia ŭ budučyni."
 
 #: ../mail/em-utils.c:317
 msgid "Message Filters"
@@ -12447,18 +12395,16 @@ msgid "Allows evolution to display text part of limited size"
 msgstr "Dazvalaje pakazvać častku tekstu abmiežavanaha pamieru"
 
 #: ../mail/evolution-mail.schemas.in.h:2
-#, fuzzy
 msgid "Always request read receipt"
-msgstr "_Patrabuj paćvierdžańnia ab pračytańni"
+msgstr "Zaŭždy patrabuj paćvierdžańnia ab pračytańni"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "Peryjad času ŭ sekundach, kali na paneli statusu pakazvajecca pamyłka."
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 msgid "Automatic emoticon recognition"
-msgstr "Aŭtamatyčnaje raspaznavańnie spasyłak"
+msgstr "Aŭtamatyčnaje raspaznavańnie smajłaŭ"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Automatic link recognition"
@@ -12486,7 +12432,7 @@ msgstr "Zmoŭčanaja šyrynia akna stvareńnia lista"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "Kataloh zahruzki/dałučeńnia akna stvareńnia lista"
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12521,19 +12467,16 @@ msgid "Default forward style"
 msgstr "Zmoŭčany styl pierasyłańnia"
 
 #: ../mail/evolution-mail.schemas.in.h:19
-#, fuzzy
 msgid "Default height of the Composer Window."
-msgstr "Zmoŭčanaja vyšynia akna stvareńnia lista"
+msgstr "Zmoŭčanaja vyšynia akna stvareńnia lista."
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Default height of the message window."
-msgstr "Zmoŭčanaja vyšynia akna lista"
+msgstr "Zmoŭčanaja vyšynia akna lista."
 
 #: ../mail/evolution-mail.schemas.in.h:21
-#, fuzzy
 msgid "Default height of the subscribe dialog."
-msgstr "Zmoŭčanaja vyšynia akna dyjalohu padpiski"
+msgstr "Zmoŭčanaja vyšynia akna dyjalohu padpiski."
 
 #: ../mail/evolution-mail.schemas.in.h:22
 msgid "Default reply style"
@@ -12544,23 +12487,20 @@ msgid "Default value for thread expand state"
 msgstr "Zmoŭčany stan razhortvańnia halinak"
 
 #: ../mail/evolution-mail.schemas.in.h:24
-#, fuzzy
 msgid "Default width of the Composer Window."
-msgstr "Zmoŭčanaja šyrynia akna stvareńnia lista"
+msgstr "Zmoŭčanaja šyrynia akna stvareńnia lista."
 
 #: ../mail/evolution-mail.schemas.in.h:25
-#, fuzzy
 msgid "Default width of the message window."
-msgstr "Zmoŭčanaja šyrynia akna lista"
+msgstr "Zmoŭčanaja šyrynia akna lista."
 
 #: ../mail/evolution-mail.schemas.in.h:26
-#, fuzzy
 msgid "Default width of the subscribe dialog."
-msgstr "Zmoŭčanaja šyrynia akna dyjalohu padpiski"
+msgstr "Zmoŭčanaja šyrynia akna dyjalohu padpiski."
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr ""
+msgstr "Akreślivaje, ci šukać adras aŭtara ŭ adrasnaj knizie"
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid ""
@@ -12572,7 +12512,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
-msgstr ""
+msgstr "Akreślivaje, ci ŭžyvać dla pošuku spamu ŭłasnyja šapki"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid ""
@@ -12588,14 +12528,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Directory for loading/attaching files to composer."
-msgstr "Kataloh dla zapisu fajłaŭ kampanentaŭ pošty"
+msgstr "Kataloh dla zahruzki/dałučeńnia fajłaŭ u aknie stvareńnia lista."
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Directory for saving mail component files."
-msgstr "Kataloh dla zapisu fajłaŭ kampanentaŭ pošty"
+msgstr "Kataloh dla zapisu fajłaŭ kampanentaŭ pošty."
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Draw spelling error indicators on words as you type."
@@ -12623,22 +12561,20 @@ msgstr ""
 "Uklučy režym karetki, dziakujučy čamu bačny kursor padčas čytańnia lista."
 
 #: ../mail/evolution-mail.schemas.in.h:40
-#, fuzzy
 msgid "Enable or disable magic space bar"
-msgstr "Uklučy/vyklučy funkcyju \"znajdzi ŭvodziačy\""
+msgstr "Uklučy/vyklučy mahičny prabieł"
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Enable or disable type ahead search feature"
 msgstr "Uklučy/vyklučy funkcyju \"znajdzi ŭvodziačy\""
 
 #: ../mail/evolution-mail.schemas.in.h:42
-#, fuzzy
 msgid "Enable search folders"
-msgstr "Katalohi pošuku"
+msgstr "Uklučy katalohi pošuku"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "Uklučy pry ŭruchamleńni katalohi pošuku."
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -12655,6 +12591,7 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Uklučy, kab prakručvać tekst listoŭ, śpis listoŭ dy katalohi klavišam \"Prabieł\"."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12705,13 +12642,12 @@ msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "Uklučaje/vyklučaje zapyt padčas masavaha paznačeńnia listoŭ."
 
 #: ../mail/evolution-mail.schemas.in.h:55
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
 msgstr ""
-"Vyklučaje funkcyi, jakija vymahajuć šmatrazovych pytańniaŭ u vypadku "
-"synchranizacyi offline."
+"Vyklučaje/ŭklučaje štorazovyja pytańni, ci treba synchranizavać poštu pierad "
+"zychodam u režym offline."
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid ""
@@ -12778,15 +12714,14 @@ msgid "Load images for HTML messages over http"
 msgstr "Zahružaj vyjavy ŭ listach HTML pry dapamozie pratakołu HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:69
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
 "Always load images off the net."
 msgstr ""
 "Zahružaj vyjavy dla listoŭ HTML pry dapamozie pratakołu HTTP(S). Mahčymyja "
-"vartaści: 0 — nie zahružaj vyjavaŭ ź sieciva, 1 — zahružaj vyjavy, kali list "
-"ad kahości najaŭnaha ŭ adrasnaj knizie, 2 — zahružaj usie."
+"vartaści: 0 — nie zahružaj vyjavaŭ ź sieciva, 1 — zahružaj vyjavy dla listoŭ "
+"ad svaich kantaktaŭ, 2 — zahružaj usie vyjavy ź sieciva."
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Log filter actions"
@@ -12873,9 +12808,8 @@ msgstr ""
 "offline"
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "Pytajsia, vysyłajučy listy biaz _temy"
+msgstr "Pytajsia paćvierdžańnia vydaleńnia listoŭ z katalohu pošuku"
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Prompt when user expunges"
@@ -12913,18 +12847,16 @@ msgid "Prompt while marking multiple messages"
 msgstr "Vymahaj paćvierdžańnia masavaha paznačeńnia listoŭ"
 
 #: ../mail/evolution-mail.schemas.in.h:98
-#, fuzzy
 msgid "Recognize emoticons in text and replace them with images."
-msgstr "Raspaznavaj uśmieški ŭ tekście i zamianiaj ich na vyjavy."
+msgstr "Raspaznavaj smajły ŭ tekście dy zamianiaj ich na vyjavy."
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Recognize links in text and replace them."
 msgstr "Raspaznavaj spasyłki ŭ tekście i zamianiaj ich."
 
 #: ../mail/evolution-mail.schemas.in.h:100
-#, fuzzy
 msgid "Run junk test on incoming mail."
-msgstr "Pravodź test spamu na atrymanaj pošcie"
+msgstr "Pravodź test spamu na atrymanaj pošcie."
 
 #: ../mail/evolution-mail.schemas.in.h:101
 msgid "Save directory"
@@ -12943,9 +12875,8 @@ msgid "Send HTML mail by default."
 msgstr "Zmoŭčana vysyłaj listy ŭ farmacie HTML."
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Sender email-address column in the message list"
-msgstr "Pakazvaj adras aŭtara lista ŭ śpisie listoŭ"
+msgstr "Kalona z adrasami aŭtaraŭ u śpisie listoŭ"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show Animations"
@@ -12968,11 +12899,10 @@ msgid "Show photo of the sender"
 msgstr "Pakazvaj zdymak aŭtara lista"
 
 #: ../mail/evolution-mail.schemas.in.h:113
-#, fuzzy
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
-msgstr "Pakazvaj adras aŭtara lista ŭ kalonie skarotu śpisu listoŭ"
+msgstr "Pakazvaj adras aŭtaraŭ u asobnaj kalonie śpisu listoŭ."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Show the photo of the sender in the message reading pane."
@@ -13021,14 +12951,12 @@ msgid "The last time empty trash was run, in days since the epoch."
 msgstr "Čas apošniaha aparažnieńnia śmietnicy, u dniach ad epochi."
 
 #: ../mail/evolution-mail.schemas.in.h:125
-#, fuzzy
 msgid "The terminal font for mail display."
-msgstr "Terminalny šryft, kab pakazvać listy"
+msgstr "Terminalny šryft, kab pakazvać listy."
 
 #: ../mail/evolution-mail.schemas.in.h:126
-#, fuzzy
 msgid "The variable width font for mail display."
-msgstr "Šryft źmiennaj šyryni, kab pakazvać listy"
+msgstr "Šryft źmiennaj šyryni, kab pakazvać listy."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
@@ -13087,7 +13015,6 @@ msgstr ""
 "astatnija buduc pakazanyja jak \"...\"."
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -13096,14 +13023,13 @@ msgstr ""
 "zhornutyja. Paśla źmieny treba restartavać Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:135
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
-"Hetaja opcyja akreślivaje, ci halinki majuć być zmoŭčana razhornutyja, ci "
-"zhornutyja. Paśla źmieny treba restartavać Evolution."
+"Hetaja opcyja akreślivaje, ci halinki majuć być uparadkavanyja pavodle śviažejšych "
+"listoŭ u ich, a nie pavodle daty lista. Paśla źmieny treba restartavać Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "Thread the message list."
@@ -13118,14 +13044,12 @@ msgid "Thread the message-list based on Subject"
 msgstr "Hrupuj listy ŭ halinki pavodle temy"
 
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "Timeout for marking message as seen"
-msgstr "Peryjad času, paśla jakoha list budzie ličycca prahledžanym"
+msgstr "Peryjad času, paśla jakoha list budzie paznačany prahledžanym"
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "Timeout for marking message as seen."
-msgstr "Peryjad času, paśla jakoha list budzie ličycca prahledžanym."
+msgstr "Peryjad času, paśla jakoha list budzie paznačany prahledžanym."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid "UID string of the default account."
@@ -13136,18 +13060,16 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "Užyvaj deman i klijent SpamAssassin"
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Užyvaj deman i klijent SpamAssassin (spamc/spamd)"
+msgstr "Užyvaj demana i klijenta SpamAssassin (spamc/spamd)."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Use custom fonts"
 msgstr "Užyvaj ułasnyja šryfty"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "Use custom fonts for displaying mail."
-msgstr "Užyvaj ułasnyja šryfty dziela pakazu listoŭ"
+msgstr "Užyvaj ułasnyja šryfty dziela pakazu listoŭ."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Use only local spam tests."
@@ -13308,7 +13230,7 @@ msgid "Add Filter Rule"
 msgstr "Dadaj praviła filtru"
 
 #: ../mail/mail-component.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d paznačany, "
@@ -13401,46 +13323,43 @@ msgstr "Nie ŭdałosia aktualizavać naładaŭ pošty albo katalohaŭ."
 
 #: ../mail/mail-component.c:1522
 msgid "Error"
-msgstr ""
+msgstr "Pamyłka"
 
 #: ../mail/mail-component.c:1522
 msgid "Errors"
-msgstr ""
+msgstr "Pamyłki"
 
 #: ../mail/mail-component.c:1523
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "Pieraściarohi j pamyłki"
 
 #: ../mail/mail-component.c:1524
 msgid "Debug"
-msgstr ""
+msgstr "Debugavańnie"
 
 #: ../mail/mail-component.c:1524
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "Pamyłki, pieraściarohi j debugavyja paviedamleńni"
 
 #: ../mail/mail-component.c:1634
-#, fuzzy
 msgid "Debug Logs"
-msgstr "Blog"
+msgstr "Debugavyja časopisy"
 
 #: ../mail/mail-component.c:1638
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "Pakazvaj _pamyłki ŭ paneli statusu ciaham"
 
 #: ../mail/mail-component.c:1645
-#, fuzzy
 msgid "seconds."
-msgstr "sekundaŭ"
+msgstr "sekundaŭ."
 
 #: ../mail/mail-component.c:1655
-#, fuzzy
 msgid "Log Messages:"
-msgstr "Listy"
+msgstr "Zapisy ŭ časopisie:"
 
 #: ../mail/mail-component.c:1707
 msgid "Log Level"
-msgstr ""
+msgstr "Padrabiaznaść časopisu"
 
 #: ../mail/mail-component.c:1714 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
@@ -13457,7 +13376,7 @@ msgstr " _Pravier, jakija typy padtrymvajucca "
 
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
-msgstr ""
+msgstr "(Uvaha: vymahaje restartavańnia aplikacyi)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13504,14 +13423,12 @@ msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Vydali list</span>"
 
 #: ../mail/mail-config.glade.h:16
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
-msgstr "<span weight=\"bold\">Bačnyja _zahałoŭki lista</span>"
+msgstr "<span weight=\"bold\">Bačnyja _šapki lista</span>"
 
 #: ../mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr "<span weight=\"bold\">Nahadvańni</span>"
+msgstr "<span weight=\"bold\">Etykietki</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13567,9 +13484,8 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Kanfihuracyja servera</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\">Typ aŭtaryzacyi</span>"
+msgstr "<span weight=\"bold\">Typ _aŭtaryzacyi</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -13588,9 +13504,8 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "P_adpisvaj usie vysyłanyja listy, pry ŭžyvańni hetaha kontu"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
-msgstr "Vysyłajučy zašyfravanyja listy, šy_fruj taksama dla siabie"
+msgstr "Vysyłajučy zašyfravanyja listy, šy_fruj ich taksama dla siabie"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
@@ -13605,23 +13520,20 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Zaŭždy daviaraj klučam _ułasnaha klučnika padčas šyfravańnia"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
-msgstr "Zaŭždy, vysyłajučy zašyfravanyja listy, šy_fruj taksama dla siabie"
+msgstr "Zaŭždy, vysyłajučy zašyfravanyja listy, šy_fruj ich taksama dla siabie"
 
 #: ../mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always request rea_d receipt"
-msgstr "_Patrabuj paćvierdžańnia ab pračytańni"
+msgstr "Zaŭždy _patrabuj paćvierdžańnia ab pračytańni"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "Dałučaj aruhinalny list"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _emoticon images"
-msgstr "Aŭtamatyčna ŭstaŭla_j vyjavy ŭśmiešak"
+msgstr "Aŭtamatyčna ŭstaŭla_j vyjavy smajłaŭ"
 
 #: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-13)"
@@ -13636,16 +13548,14 @@ msgid "C_haracter set:"
 msgstr "_Kadavańnie:"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "C_heck custom headers for junk"
-msgstr "_Praviaraj spam u atrymanych listach"
+msgstr "_Praviaraj ułasnyja spamavyja šapki"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "_Pravier typy, jakija padtrymvajucca "
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check incoming _messages for junk"
 msgstr "_Praviaraj spam u atrymanych listach"
 
@@ -13699,23 +13609,20 @@ msgid "Default character e_ncoding:"
 msgstr "Zmoŭčanaje kadavańnie z_nakaŭ:"
 
 #: ../mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Delete junk messages on e_xit"
 msgstr "_Vydalaj spam pry vyjści"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Ličbava padpi_svaj vysyłanyja listy (zmoŭčanaje)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
-msgstr ""
+msgstr "_Nie paznačaj listy jak spam, kali ich aŭtar zapisany ŭ majoj adrasnaj knizie"
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not format text contents in messages if the text si_ze exceeds"
-msgstr "Biez _farmatavańnia, kali pamiery bolšyja za"
+msgstr "Biez _farmatavańnia tekstu listoŭ, kali jaho pamiery bolšyja za"
 
 #: ../mail/mail-config.glade.h:73
 msgid "Do not quote original message"
@@ -13743,12 +13650,11 @@ msgstr "_Aparažniaj katalohi śmietnicy pry vyjści"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
-msgstr ""
+msgstr "Uklučy mahičny _prabieł"
 
 #: ../mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Enable Sea_rch Folders"
-msgstr "Katalohi pošuku"
+msgstr "Uklučy _katalohi pošuku"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Encry_ption certificate:"
@@ -13779,9 +13685,8 @@ msgid "Full Nam_e:"
 msgstr "Imia j p_roźvišča:"
 
 #: ../mail/mail-config.glade.h:90
-#, fuzzy
 msgid "HTML Messages"
-msgstr "Listy"
+msgstr "Listy HTML"
 
 #: ../mail/mail-config.glade.h:91
 msgid "Headers"
@@ -13804,9 +13709,8 @@ msgid "KB"
 msgstr "kB"
 
 #: ../mail/mail-config.glade.h:98 ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Labels"
-msgstr "Etykietka"
+msgstr "Etykietki"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Languages Table"
@@ -13832,6 +13736,7 @@ msgstr "Redaktar listoŭ"
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
+"Uvaha: Padkreśleńnie ŭ naźvie etykietki značyć adpaviedny identyfikatar u menu."
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -14048,7 +13953,6 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "_Pry adkazach źmiaščaj podpis pad aryhinalnym listom"
 
 #: ../mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Load images in messages from contacts"
 msgstr "_Pakazvaj vyjavy ŭ listach ad asobaŭ z kantaktaŭ"
 
@@ -14087,7 +13991,6 @@ msgid "_Script:"
 msgstr "_Skrypt:"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Select..."
 msgstr "Abi_ary..."
 
@@ -14097,9 +14000,8 @@ msgid "_Show image animations"
 msgstr "_Pakazvaj animavanyja vyjavy"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
-msgstr "Pakazvaj zdymak aŭtara li_sta ŭ pieradahladzie lista"
+msgstr "_Pakazvaj zdymak aŭtara ŭ pieradahladzie lista"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Shrink To / Cc / Bcc headers to "
@@ -14255,9 +14157,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Dadać u lakalny kataloh \"Vysłanaje\" nie ŭdałosia: %s"
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "_Dašli list"
+msgstr "Vysyłańnie lista"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14720,14 +14621,12 @@ msgid "Delete account?"
 msgstr "Vydalić kont?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "Niemahčyma dadać kataloh pošuku &quot;{0}&quot;."
+msgstr "Vydalić listy z katalohu pošuku &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "Kapijuj paznačanyja listy ŭ inšy kataloh"
+msgstr "Vydalić listy z katalohu pošuku?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -14891,16 +14790,14 @@ msgstr ""
 "na knopku Da: pobač z polem uvodu."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}"
 msgstr ""
-"Upeŭnisia, što pieraličanyja nižej chočuć atrymoŭvać i majuć mahčymaść čytać "
+"Upeŭnisia, što pieraličanyja nižej adrasaty chočuć atrymoŭvać i majuć mahčymaść čytać "
 "listy ŭ HTML:\n"
-"{0}\n"
-"Usio roŭna vysłać?"
+"{0}"
 
 #: ../mail/mail.error.xml.h:85
 msgid "Please provide an unique name to identify this signature."
@@ -15305,9 +15202,8 @@ msgid "Enable attachment reminder plugin"
 msgstr "Uklučaje plugin nahadvańnia ab dałučanym"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
-#, fuzzy
 msgid "Enable attachment reminder plugin."
-msgstr "Uklučaje plugin nahadvańnia ab dałučanym"
+msgstr "Uklučy plugin nahadvańnia ab dałučanym."
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:3
 msgid ""
@@ -15318,13 +15214,12 @@ msgstr ""
 "źmieście lista"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:4
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
-"Śpis klučavych słovaŭ dla plugina nahadvańnia ab dałučanym, kab šukać u "
-"źmieście lista"
+"Śpis klučavych słovaŭ dla plugina nahadvańnia ab dałučanym, kab šukać ich u "
+"źmieście listoŭ."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
 msgid "Keywords"
@@ -15563,12 +15458,10 @@ msgstr "Aŭtamatyčnyja kantakty"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-#, fuzzy
 msgid ""
 "_Automatically create entries in the addressbook when responding to messages"
 msgstr ""
-"_Aŭtamatyčna dadaje ŭ adrasnuju knihu adrasataŭ, na listy jakich ty "
-"adkazvaješ"
+"_Aŭtamatyčna stvaraj zapisy ŭ adrasnaj knizie dla kantaktaŭ, jakim adkazvaješ"
 
 #: ../plugins/bbdb/bbdb.c:571
 msgid "Select Address book for Automatic Contacts"
@@ -15609,14 +15502,12 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:303
-#, fuzzy
 msgid "Convert message text to _Unicode"
-msgstr "Kanvertuj tekst listoŭ u _Unicode"
+msgstr "Kanvertuj tekst lista ŭ _Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-#, fuzzy
 msgid "Convert mail messages to Unicode"
-msgstr "Kanvertuj tekst listoŭ u Unicode"
+msgstr "Kanvertuj listy ŭ Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:2
 msgid ""
@@ -15907,9 +15798,8 @@ msgid "A_uthenticate"
 msgstr "_Aŭtaryzuj"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:854
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "Typ aŭtaryzacyi"
+msgstr "Typ _aŭtaryzacyi"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:868
 msgid "Ch_eck for Supported Types"
@@ -16715,18 +16605,16 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
-#, fuzzy
 msgid "External Editor"
-msgstr "Redaktar kantaktaŭ"
+msgstr "Vonkavy redaktar"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-#, fuzzy
 msgid "Compose in External Editor"
-msgstr "Zmoŭčanaja šyrynia akna stvareńnia lista"
+msgstr "Napišy list u vonkavym redaktary"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "Pišy listy ŭ inšych redaktarach"
 
 #: ../plugins/face/face.c:57
 msgid "Select a (48*48) png of size < 700bytes"
@@ -16741,15 +16629,14 @@ msgid "_Face"
 msgstr "_Tvar"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Attach Face header to outgoing messages. First time the user needs to "
 "configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/"
 "faces This will be used in messages that are sent further."
 msgstr ""
-"Dałučaje šapku Tvar da ŭsich listoŭ. Spačatku treba abrać vyjavu PNG 48×48. "
-"Jana budzie zakadavanaja pry dapamozie base64 i budzie zachoŭvacca ŭ ~/."
-"evolution/faces. Možna budzie karystacca joj, dasyłajučy listy."
+"Dałučy šapku Tvaru da ŭsich vysyłanych listoŭ. Spačatku treba skanfihuravać "
+"vyjavu PNG 48×48. Jana budzie zakadavanaja pry dapamozie base64 i budzie zachoŭvacca ŭ ~/."
+"evolution/faces. Jana budzie vykarystoŭvacca dla ŭsioj vysyłanaj pošty."
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
@@ -16774,19 +16661,16 @@ msgstr "A_dpišysia"
 
 #: ../plugins/google-account-setup/google-source.c:71
 #: ../plugins/google-account-setup/google-source.c:78
-#, fuzzy
 msgid "Google"
-msgstr "pieraklučy"
+msgstr "Google"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup google calendar."
-msgstr "Plugin naładaŭ kalendaroŭ prahramy Hula."
+msgstr "Plugin dla kalendaroŭ Google."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
-#, fuzzy
 msgid "Google sources"
-msgstr "Resursy"
+msgstr "Krynicy Google"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
@@ -16902,14 +16786,12 @@ msgid "<b>Users:</b>"
 msgstr "<b>Karystalniki:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "C_ustomize notification message"
-msgstr "Das_tasuj źmiest paviedamleńniaŭ"
+msgstr "Das_tasuj tekst nahadvańnia"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "Kantakty..."
+msgstr "Kan_takty..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:517
@@ -16978,9 +16860,8 @@ msgstr "_Pišy"
 
 #. To Translators: strip the part in front of the | and the | itself
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
-#, fuzzy
 msgid "permission to read|_Read"
-msgstr "Niama pravoŭ"
+msgstr "_Čytać"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -17088,9 +16969,8 @@ msgid "Completed: "
 msgstr "Zakončana: "
 
 #: ../plugins/groupwise-features/status-track.c:225
-#, fuzzy
 msgid "Undelivered: "
-msgstr "Nie dasłana: "
+msgstr "Nie dastaŭlena: "
 
 #: ../plugins/groupwise-features/status-track.c:249
 msgid "Track Message Status..."
@@ -17226,9 +17106,8 @@ msgid "iCalendar format (.ics)"
 msgstr "Fаrmat iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
-msgstr "Synchrаnizuje paznačanyja zadaču/kalandar/adrasnuju knihu z iPodam"
+msgstr "Synchrаnizuj paznačanyja zadaču/natatku/kalandar/adrasnuju knihu z Apple iPodam"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -17872,9 +17751,8 @@ msgid "_Apply to all instances"
 msgstr "_Prymiani dla ŭsich instancyjaŭ"
 
 #: ../plugins/itip-formatter/itip-view.c:1119
-#, fuzzy
 msgid "Show time as _free"
-msgstr "Pakazvaj čas jak zania_ty"
+msgstr "Pakazvaj čas jak _volny"
 
 #: ../plugins/itip-formatter/itip-view.c:1852
 msgid "_Tasks :"
@@ -17922,27 +17800,24 @@ msgid "Disable Account"
 msgstr "Vyklučy kont"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
-#, fuzzy
 msgid "Beep or play sound file."
-msgstr "Abiary hukavy fajł"
+msgstr "Praźvini ci vykanaj hukavy fajł."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "Mirhaj ikonaju ŭ abšary nahadvańnia."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "Uklučy paviedamleńni D-Bus."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-#, fuzzy
 msgid "Enable icon in notification area."
-msgstr "Dazvol paviedamleńni ab novaj pošcie (libnotify)"
+msgstr "Uklučy ikonu ŭ abšary nahadvańniaŭ."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
-#, fuzzy
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "Hieneruje paviedamleńnie D-BUS pry atrymańni novaj pošty."
+msgstr "Hieneruje paviedamleńnie D-Bus pry atrymańni novaj pošty."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid ""
@@ -17951,75 +17826,74 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "Nahadvaj ab novaj pošcie tolki ŭ atrymanaj pošcie."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play sound when new messages arrive."
-msgstr "_Hraj hukavy fajł pry atrymańni novaha lista"
+msgstr "Hraj huk pry atrymańni novaj pošty."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "Pakazvaj paviedamleńni dy ikonu."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr ""
-"Infarmuj pra novyja paviedamleńni pry dapamozie ikony ŭ abšary nahadvańniaŭ."
+msgstr "Pakazvaj ikonu ŭ abšary nahadvańnia pry atrymańni novaj pošty."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
-msgstr ""
+msgstr "Nazva hukavoha fajłu."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "Hukavy fajł, jaki hrać pry atrymańni novaha lista."
+msgstr "Hukavy fajł, jaki hrać pry atrymańni novaha lista, kali nie ŭ režymie zvanka."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "_Hraj hukavy fajł pry atrymańni novaha lista"
+msgstr "Ci _hrać huk albo źvinieć pry atrymańni novaha lista."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-#, fuzzy
 msgid "Whether the icon should blink or not."
-msgstr "Akreślivaje, ci bačnaja bakavaja panel."
+msgstr "Akreślivaje, ci ikona pavinna mirhać."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:254
-#, fuzzy
 msgid "Generate a _D-Bus message"
-msgstr "Stvareńnie śpisu listoŭ"
+msgstr "Hieneruje paviedamleńnie _D-Bus"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:363
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have received %d new message\n"
 "in %s."
 msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
-msgstr[0] "Atrymany %d novy list u %s"
-msgstr[1] "Atrymanyja %d novyja listy ŭ %s"
-msgstr[2] "Atrymanyja %d novych listoŭ u %s"
+msgstr[0] ""
+"Ty atrymaŭ %d novy list\n"
+"u %s."
+msgstr[1] ""
+"Ty atrymaŭ %d novyja listy\n"
+"ŭ %s."
+msgstr[2] ""
+"Ty atrymaŭ %d novych listoŭ\n"
+"u %s."
 
 #: ../plugins/mail-notification/mail-notification.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "Atrymany %d novy list u %s"
-msgstr[1] "Atrymanyja %d novyja listy ŭ %s"
-msgstr[2] "Atrymanyja %d novych listoŭ u %s"
+msgstr[0] "Ty atrymaŭ %d novy list."
+msgstr[1] "Ty atrymaŭ %d novyja listy."
+msgstr[2] "Ty atrymaŭ %d novych listoŭ."
 
 #: ../plugins/mail-notification/mail-notification.c:380
 #: ../plugins/mail-notification/mail-notification.c:385
@@ -18027,33 +17901,28 @@ msgid "New email"
 msgstr "Novy list"
 
 #: ../plugins/mail-notification/mail-notification.c:440
-#, fuzzy
 msgid "Show icon in _notification area"
-msgstr "Pakazvaj nahadvańni ŭ systemnym abšary nahadvańniaŭ"
+msgstr "Pakazvaj ikonu ŭ _abšary nahadvańniaŭ"
 
 #: ../plugins/mail-notification/mail-notification.c:443
-#, fuzzy
 msgid "B_link icon in notification area"
-msgstr "Das_tasuj źmiest paviedamleńniaŭ"
+msgstr "_Mirhaj ikonaj u abšary nahadvańniaŭ"
 
 #: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
-msgstr ""
+msgstr "Pakažy _paviedamleńnie dy ikonu"
 
 #: ../plugins/mail-notification/mail-notification.c:626
-#, fuzzy
 msgid "_Play sound when new messages arrive"
-msgstr "_Hraj hukavy fajł pry atrymańni novaha lista"
+msgstr "_Hraj huk pry atrymańni novaj pošty"
 
 #: ../plugins/mail-notification/mail-notification.c:632
-#, fuzzy
 msgid "_Beep"
-msgstr "Zvanočak"
+msgstr "_Zvanočak"
 
 #: ../plugins/mail-notification/mail-notification.c:633
-#, fuzzy
 msgid "Play _sound file"
-msgstr "Abiary hukavy fajł"
+msgstr "Hraj _hukavy fajł"
 
 #: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
@@ -18064,21 +17933,20 @@ msgid "Select sound file"
 msgstr "Abiary hukavy fajł"
 
 #: ../plugins/mail-notification/mail-notification.c:646
-#, fuzzy
 msgid "Pl_ay"
-msgstr "Palau"
+msgstr "_Hraj"
 
 #: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "Infarmuj tolki pra novuju _Atrymanuju poštu"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
 msgstr ""
-"Infarmuj pra novyja paviedamleńni pry dapamozie ikony ŭ abšary nahadvańniaŭ."
+"Hieneruje paviedamleńnie D-Bus ci infarmuje karystalnika praz ikonu ŭ abšary "
+"nahadvańnia ab novaj pošcie."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -18099,9 +17967,9 @@ msgid "Mail to meeting"
 msgstr "List u sustreču"
 
 #: ../plugins/mail-to-task/mail-to-task.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open calendar. %s"
-msgstr "Niemahčyma adčynić fajł"
+msgstr "Niemahčyma adčynić kalandar. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid ""
@@ -18313,14 +18181,12 @@ msgid "Marks the selected calendar for offline viewing."
 msgstr "Paznačaje abrany kalandar dziela prahladu ŭ režymie offline"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
-#, fuzzy
 msgid "_Do not make available for offline use"
-msgstr "_Nie davaj dostupu ŭ režymie offline"
+msgstr "_Nie rabi dastupnym u režymie offline"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Make available for offline use"
-msgstr "_Paznač kalandar jak dastupny ŭ režymie offline"
+msgstr "_Zrabi dastupnym u režymie offline"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -18364,18 +18230,16 @@ msgstr ""
 "prahramy"
 
 #: ../plugins/plugin-manager/plugin-manager.c:260
-#, fuzzy
 msgid "Overview"
-msgstr "Recenzija"
+msgstr "Ahlad"
 
 #: ../plugins/plugin-manager/plugin-manager.c:261
-#, fuzzy
 msgid "Configuration"
-msgstr "Kanfihuracyja pošty"
+msgstr "Kanfihuracyja"
 
 #: ../plugins/plugin-manager/plugin-manager.c:277
 msgid "There is no configuration option for this plugin."
-msgstr ""
+msgstr "Dla hetaha pluginu nie akreślena opcyjaŭ kanfihuracyi."
 
 #: ../plugins/plugin-manager/plugin-manager.c:330
 #: ../plugins/plugin-manager/plugin-manager.c:392
@@ -18419,9 +18283,8 @@ msgid "HTML _Mode"
 msgstr "_Režym HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-#, fuzzy
 msgid "Gives an option to print from the composer."
-msgstr "Dazvalaje drukavać listy z akna redahavańnia"
+msgstr "Dazvalaje drukavać listy z akna redahavańnia."
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 msgid "Print Message"
@@ -18739,9 +18602,8 @@ msgid "Show _only this Calendar"
 msgstr "Pakažy t_olki hety kalandar"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Memo List"
-msgstr "Pakažy t_olki hety śpis zadač"
+msgstr "Pakažy t_olki hety śpis natatak"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:5
 msgid "Show _only this Task List"
@@ -18843,9 +18705,8 @@ msgid "Evolution Test component"
 msgstr "Testavy kampanent Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-#, fuzzy
 msgid "A string description of the current printer settings."
-msgstr "Tekstavaje apisańnie dziejnych naładaŭ drukarki"
+msgstr "Tekstavaje apisańnie dziejnych naładaŭ drukarki."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
@@ -18895,9 +18756,8 @@ msgid "Skip development warning dialog"
 msgstr "Minaj akno aściarohi pra niestabilnuju versiju prahramy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "Skip recovery warning dialog"
-msgstr "Minaj akno aściarohi pra niestabilnuju versiju prahramy"
+msgstr "Minaj akno aściarohi pry adnaŭleńni"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
 msgid "Start in offline mode"
@@ -18952,9 +18812,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Akreślivaje, ci ŭklučać Evolution u režymie offline zamiest online."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-#, fuzzy
 msgid "Whether crash detection should be done or not"
-msgstr "Akreślivaje, ci bačnyja knopki akna."
+msgstr "Akreślivaje, ci sačyć za avaryjnymi sytuacyjami"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18979,10 +18838,8 @@ msgstr ""
 "Akreślivaje, ci nie pakazvać akno aściarohi niestabilnaj versii Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
-#, fuzzy
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
-msgstr ""
-"Akreślivaje, ci nie pakazvać akno aściarohi niestabilnaj versii Evolution."
+msgstr "Akreślivaje, ci nie pakazvać akno aściarohi pry adnaŭleńni Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -19089,9 +18946,9 @@ msgstr "\".\" dy \"..\" źjaŭlajucca abaronienymi nazvami katalohaŭ."
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
 #: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Evolution"
-msgstr "Evolution"
+msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window-commands.c:77
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -19124,9 +18981,8 @@ msgid "Evolution Website"
 msgstr "Sajt Evolution"
 
 #: ../shell/e-shell-window-commands.c:692
-#, fuzzy
 msgid "Error opening the FAQ webpage."
-msgstr "Pamyłka padčas adčynieńnia kalendara"
+msgstr "Pamyłka padčas adčynieńnia web-staronki z častymi pytańniami dy adkazami."
 
 #: ../shell/e-shell-window-commands.c:889
 msgid "_Work Online"
@@ -19162,7 +19018,6 @@ msgid "Switch to %s"
 msgstr "Pieraklučy na %s"
 
 #: ../shell/e-shell.c:640
-#, fuzzy
 msgid "Unknown system error."
 msgstr "Nieviadomaja systemnaja pamyłka."
 
@@ -19292,14 +19147,12 @@ msgid "Do not tell me again"
 msgstr "Nie infarmuj znoŭ"
 
 #: ../shell/main.c:309
-#, fuzzy
 msgid "Evolution Crash Detection"
-msgstr "Infarmacyja Evolution"
+msgstr "Adsočka avaryjnych sytuacyjaŭ Evolution"
 
 #: ../shell/main.c:311
-#, fuzzy
 msgid "Ig_nore"
-msgstr "Ihnaruj"
+msgstr "Ih_naruj"
 
 #: ../shell/main.c:326
 #, no-c-format
@@ -19310,9 +19163,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/main.c:337
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "Nie pakazvaj hetaha paviedamleńnia ŭ budučyni."
+msgstr "_Nie pakazvaj hetaha paviedamleńnia ŭ budučyni"
 
 #: ../shell/main.c:569
 msgid "Start Evolution activating the specified component"
@@ -20610,7 +20462,7 @@ msgstr "Padpisvajsia albo aadpisvajsia na katalohi na addalenych serverach"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "Pakažy debugavuju kansol z zapisami časopisu"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
@@ -20621,14 +20473,12 @@ msgid "_Copy Folder To..."
 msgstr "S_kapijuj kataloh u..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Debug Logs"
-msgstr "_Blog:"
+msgstr "_Debugavyja časopisy"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "Zahruzi poštu dla režymu offline"
+msgstr "_Zahruzi poštu dla režymu offline"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -20716,9 +20566,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "_Paznač usie listy jak pračytanyja"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "Paznačyć usie listy ŭ padkatalohach jak pračytanyja?"
+msgstr "Paznač usie listy ŭ katalohu jak pračytanyja"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
@@ -20741,9 +20590,8 @@ msgid "Refresh the folder"
 msgstr "Aśviažy hety kataloh"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "Paznač _halinku listoŭ"
+msgstr "Paznač _padhalinku lista"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
@@ -20762,9 +20610,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "Paznač usie listy ŭ dziejnaj halincy"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "Paznač usie listy ŭ dziejnaj halincy"
+msgstr "Paznač usie adkazy na hety list"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -21658,9 +21505,8 @@ msgid "Display window buttons with text only"
 msgstr "Pakažy knopki akna z adnym tekstam"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Evolution"
+msgstr "_Pytańni dy adkazy Evolution"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21679,9 +21525,8 @@ msgid "I_mport..."
 msgstr "_Impartuj..."
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
-msgstr "Ikony j te_kst"
+msgstr "Ikony _j tekst"
 
 #: ../ui/evolution.xml.h:16
 msgid "Import data from other programs"
@@ -21697,7 +21542,7 @@ msgstr "No_vaje akno"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "Adčyni web-staronku z častymi pytańniami i adkazami"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
@@ -21757,7 +21602,6 @@ msgstr ""
 "Pieraklučy pamiž režymami pracy z padłučeńniem i biez padłučeńnia da sieciva."
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
 msgstr "Styl pa_neli pryładździa"
 
@@ -21783,15 +21627,13 @@ msgstr "_Vydali paroli"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "_Častyja pytańni i adkazy"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Hide Buttons"
 msgstr "_Schavaj knopki"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Icons Only"
 msgstr "Adny i_kony"
 
@@ -21812,7 +21654,6 @@ msgid "_Synchronization Options..."
 msgstr "Opcyi _synchranizacyi..."
 
 #: ../ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Text Only"
 msgstr "Adzin _tekst"
 
@@ -22416,15 +22257,13 @@ msgstr "Šyrynia kalony"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Search"
-msgstr "Pošu_k"
+msgstr "Šukaj"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Click here to change the search type"
-msgstr "Klikni, kab dałučyć fajł"
+msgstr "Klikni, kab źmianić typ pošuku"
 
 #: ../widgets/misc/e-search-bar.c:610
 msgid "_Search"
@@ -22735,9 +22574,8 @@ msgid "Clear All"
 msgstr "Ačyści ŭsio"
 
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear _All"
-msgstr "Ačyści ŭsio"
+msgstr "Ačyści _ŭsio"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
@@ -22757,19 +22595,16 @@ msgid "Move _Up"
 msgstr "Pierasuń _uvierch"
 
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Show _field in View"
-msgstr "Pakažy pole ŭ vyhladzie"
+msgstr "Pakažy _pole ŭ vyhladzie"
 
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Show field i_n View"
-msgstr "Pakažy pole ŭ vyhladzie"
+msgstr "Pakažy pole _ŭ vyhladzie"
 
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Show field in _View"
-msgstr "Pakažy pole ŭ vyhladzie"
+msgstr "Pakažy pole ŭ _vyhladzie"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
@@ -22792,9 +22627,8 @@ msgid "_Group By..."
 msgstr "_Hrupuj pavodle..."
 
 #: ../widgets/table/e-table-config.glade.h:22
-#, fuzzy
 msgid "_Show field in View"
-msgstr "Pakažy pole ŭ vyhladzie"
+msgstr "P_akažy pole ŭ vyhladzie"
 
 #: ../widgets/table/e-table-config.glade.h:23
 msgid "_Show these fields in order:"
@@ -22977,15 +22811,13 @@ msgid "Custo_mize Current View..."
 msgstr "Dapasuj dziej_ny vyhlad..."
 
 #: ../widgets/table/e-table-header-item.c:1542
-#, fuzzy
 msgid "_Sort By"
-msgstr "Sartuj pavodle"
+msgstr "_Sartuj pavodle"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
-#, fuzzy
 msgid "_Custom"
-msgstr "Ułasny vybar vyhladu"
+msgstr "_Ułasny"
 
 #: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
