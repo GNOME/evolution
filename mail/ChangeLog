@@ -1,3 +1,8 @@
+2008-03-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail.schemas.in: Make Bogofilter the default junk plugin
+	in Evolution.
+
 2008-02-22  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #512776

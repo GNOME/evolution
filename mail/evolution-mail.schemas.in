@@ -1073,7 +1073,7 @@
       <applyto>/apps/evolution/mail/junk/default_plugin</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
-      <default>Spamassasin</default>
+      <default>Bogofilter</default>
       <locale name="C">
          <short>The default plugin for Junk hook</short>
          <long>
