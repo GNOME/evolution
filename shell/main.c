@@ -25,6 +25,11 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
+#ifdef G_OS_WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-bconf-map.h"
 
@@ -549,7 +554,7 @@ setup_segv_redirect (void)
 }
 
 #else
-#define setup_segv_redirect() 0
+#define setup_segv_redirect() (void)0
 #endif
 
 static gint
@@ -590,6 +595,61 @@ static const GOptionEntry options[] = {
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
 	{ NULL }
 };
+
+#ifdef G_OS_WIN32
+static void
+set_paths (void)
+{
+	/* Set PATH to include the Evolution executable's folder
+	 * and the lib/evolution/$(BASE_VERSION)/components folder.
+	 */
+	wchar_t exe_filename[MAX_PATH];
+	wchar_t *p;
+	gchar *exe_folder_utf8;
+	gchar *components_folder_utf8;
+	gchar *top_folder_utf8;
+	gchar *path;
+
+	GetModuleFileNameW (NULL, exe_filename, G_N_ELEMENTS (exe_filename));
+
+	p = wcsrchr (exe_filename, L'\\');
+	g_assert (p != NULL);
+
+	*p = L'\0';
+	exe_folder_utf8 = g_utf16_to_utf8 (exe_filename, -1, NULL, NULL, NULL);
+
+	p = wcsrchr (exe_filename, L'\\');
+	g_assert (p != NULL);
+
+	*p = L'\0';
+	top_folder_utf8 = g_utf16_to_utf8 (exe_filename, -1, NULL, NULL, NULL);
+	components_folder_utf8 =
+		g_strconcat (top_folder_utf8,
+			     "/lib/evolution/" BASE_VERSION "/components",
+			     NULL);
+
+	path = g_build_path (";",
+			     exe_folder_utf8,
+			     components_folder_utf8,
+			     g_getenv ("PATH"),
+			     NULL);
+	if (!g_setenv ("PATH", path, TRUE))
+		g_warning ("Could not set PATH for Evolution and its child processes");
+
+	g_free (path);
+
+	/* Set BONOBO_ACTIVATION_PATH */
+	if (g_getenv ("BONOBO_ACTIVATION_PATH" ) == NULL) {
+		path = g_build_filename (top_folder_utf8,
+					 "lib/bonobo/servers",
+					 NULL);
+		if (!g_setenv ("BONOBO_ACTIVATION_PATH", path, TRUE))
+			g_warning ("Could not set BONOBO_ACTIVATION_PATH");
+		g_free (path);
+	}
+	g_free (top_folder_utf8);
+}
+#endif
 
 int
 main (int argc, char **argv)
@@ -643,6 +703,7 @@ main (int argc, char **argv)
 
 #ifdef G_OS_WIN32
 	gtk_rc_parse_string ("gtk-fallback-icon-theme = \"gnome\"");
+	set_paths ();
 #endif
 
 	client = gconf_client_get_default ();

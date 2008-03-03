@@ -1,3 +1,9 @@
+2008-03-03  Tor Lillqvist  <tml@novell.com>
+
+	* main.c: On Windows, set PATH to include Evolution's "bin" folder
+	and the "lib/evolution/$(BASE_VERSION)/components" folder. Set
+	BONOBO_ACTIVATION_PATH to the "lib/bonobo/servers" folder
+
 2008-03-03  Johnny Jacob  <jjohnny@novell.com>
 
 	* e-shell-window-commands.c (authors): Missed '"' :-) .
