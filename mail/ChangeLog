@@ -1,3 +1,9 @@
+2008-03-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-tree.c (emft_drop_async__done):
+	Re-fix bug #351672 since my patch for bug #362638 accidentally
+	reverted the original solution.
+
 2008-03-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for BNC bug #282466
