@@ -2,9 +2,9 @@
 
 	* main.c (main) [Win32]: Drop the call to gtk_rc_parse_string() to
 	set gtk-fallback-icon-theme = "gnome". Instead just bundle a
-	suitable gtkrc with Evolution. And actually what we want seems to
-	get Tango icons seems to be gtk-fallback-icon-theme = "Tango", and
-	no mention of the gnome icon theme at all in gtkrc. (It is still
+	suitable gtkrc with Evolution. And actually what we want to get
+	Tango icons seems to be gtk-fallback-icon-theme = "Tango", and no
+	mention of the gnome icon theme at all in gtkrc. (It is still
 	used, though.)
 
 2008-03-03  Tor Lillqvist  <tml@novell.com>
