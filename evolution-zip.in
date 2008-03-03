@@ -42,6 +42,7 @@ lib/bonobo/servers/GNOME_Evolution_Shell.server
 share/mime-info/evolution.keys
 share/mime-info/evolution.mime
 share/evolution/@BASE_VERSION@
+share/icons/hicolor
 etc/gconf/gconf.xml.defaults/schemas/apps/evolution
 etc/gconf/schemas
 EOF
