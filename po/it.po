@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.20.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 15:25+0100\n"
-"PO-Revision-Date: 2008-02-28 16:14+0100\n"
+"POT-Creation-Date: 2008-03-03 13:32+0100\n"
+"PO-Revision-Date: 2008-03-03 14:22+0100\n"
 "Last-Translator: Luca Ferretti <elle.uca@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -366,16 +366,13 @@ msgstr "Commuta barra allegati"
 msgid "activate"
 msgstr "attivato"
 
+# GNOME-2-22
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
-msgstr ""
-"È stata selezionata una sorgente di calendario in sola lettura. Passare alla "
-"vista calendario ed evidenziare un calendario che possa accettare "
-"appuntamenti."
+msgstr "«{0}» p una sorgente di rubrica in sola lettura. Passare alla vista contatti ed evidenziare una rubrica che possa accettare contatii."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -758,8 +755,7 @@ msgstr "_Tipo:"
 # GNOME-2-22
 #: ../addressbook/gui/component/addressbook-config.c:632
 msgid "Copy _book content locally for offline operation"
-msgstr ""
-"Copia il contenuto della _rubrica localmente per operazioni non in linea"
+msgstr "Copia il contenuto della _rubrica localmente per operazioni fuori rete"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -3504,10 +3500,11 @@ msgstr "Successo"
 msgid "Backend busy"
 msgstr "Backend occupato"
 
+# GNOME-2-22
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Repository offline"
-msgstr "Repertorio non in linea"
+msgstr "Repertorio fuori rete"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
@@ -3580,25 +3577,24 @@ msgstr "TLS non disponibile"
 msgid "No such source"
 msgstr "Origine inesistente"
 
+# GNOME-2-22
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:74
 msgid "Not available in offline mode"
-msgstr "Avvia in modalità fuori linea"
+msgstr "Avvia in modalità fuori rete"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:76
 msgid "Invalid server version"
 msgstr "Versione del server non valida"
 
+# GNOME-2-22
 #: ../addressbook/gui/widgets/eab-gui-util.c:99
 msgid ""
 "We were unable to open this addressbook. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
-msgstr ""
-"Impossibile aprire questa rubrica. È possibile che questa sia non impostata "
-"per l'uso non in linea, oppure che non sia stata ancora scaricata. Caricare "
-"la rubrica una volta quando in linea, in modo da scaricarne i contenuti"
+msgstr "Impossibile aprire questa rubrica. È possibile che questa sia non impostata per l'uso fuori rete, oppure che non sia stata ancora scaricata. Caricare la rubrica una volta quando connessi, in modo da scaricarne i contenuti"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:108
 #, c-format
@@ -4149,16 +4145,13 @@ msgstr "In modalità normale non è necessaria l'opzione dimensione."
 msgid "Unhandled error"
 msgstr "Errore non gestito"
 
+# GNOME-2-22
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
-msgstr ""
-"È stata selezionata una sorgente di calendario in sola lettura. Passare alla "
-"vista calendario ed evidenziare un calendario che possa accettare "
-"appuntamenti."
+msgstr "«{0}» è una sorgente di calendario in sola lettura. Passare alla vista calendario ed evidenziare un calendario che possa accettare appuntamenti."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -4421,15 +4414,15 @@ msgstr "I compiti di Evolution sono terminati in modo inatteso."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "The calendar is not marked for offline usage."
-msgstr "Il calendario non è contrassegnato per l'uso fuori linea"
+msgstr "Il calendario non è contrassegnato per l'uso fuori rete"
 
 #: ../calendar/calendar.error.xml.h:51
 msgid "The memo list is not marked for offline usage"
-msgstr "L'elenco di memo non è contrassegnato per l'uso fuori linea"
+msgstr "L'elenco di memo non è contrassegnato per l'uso fuori rete"
 
 #: ../calendar/calendar.error.xml.h:52
 msgid "The task list is not marked for offline usage."
-msgstr "L'elenco di compiti non è contrassegnato per l'uso fuori linea"
+msgstr "L'elenco di compiti non è contrassegnato per l'uso fuori rete"
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "This calendar will be removed permanently."
@@ -5912,17 +5905,15 @@ msgstr "prima di ogni appuntamento"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y calendar contents locally for offline operation"
-msgstr ""
-"Co_pia il contenuto del calendario localmente per operazioni non in linea"
+msgstr "Co_pia il contenuto del calendario localmente per operazioni fuori rete"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y task list contents locally for offline operation"
-msgstr "Co_pia il contenuto dell'elenco di compiti per operazioni fuori linea"
+msgstr "Co_pia il contenuto dell'elenco di compiti per operazioni fuori rete"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:276
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr ""
-"Co_pia localmente il contenuto dell'elenco di memo per operazioni fuori linea"
+msgstr "Co_pia localmente il contenuto dell'elenco di memo per operazioni fuori rete"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:346
 msgid "C_olor:"
@@ -7975,9 +7966,10 @@ msgstr "%a %d/%m/%Y"
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
+# GNOME-2-22
 #: ../calendar/gui/e-meeting-time-sel.c:414
 msgid "Out of Office"
-msgstr "Fuori ufficio"
+msgstr "Fuori sede"
 
 #: ../calendar/gui/e-meeting-time-sel.c:415
 msgid "No Information"
@@ -12689,10 +12681,10 @@ msgid ""
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Directory for loading/attaching files to composer."
-msgstr "Directory per il caricamento/allegamento dei file al compositore."
+msgstr "Directory per caricare/allegare file al compositore."
 
 # GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:33
@@ -12926,21 +12918,25 @@ msgstr "File di log per controllare le azioni dei filtri"
 msgid "Logfile to log filter actions."
 msgstr "File di log per controllare le azioni dei filtri."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:74
 msgid "Mark as Seen after specified timeout"
-msgstr "Segna come letto dopo un tempo specificato"
+msgstr "Contrassegna come letto dopo un tempo specificato"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:75
 msgid "Mark as Seen after specified timeout."
-msgstr "Segna come letto dopo un tempo specificato."
+msgstr "Contrassegna come letto dopo un tempo specificato."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "Mark citations in the message \"Preview\""
-msgstr "Segna le citazioni nell'anteprima del messaggio"
+msgstr "Contrassegna le citazioni nell'anteprima del messaggio"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "Mark citations in the message \"Preview\"."
-msgstr "Segna le citazioni nell'anteprima del messaggio."
+msgstr "Contrassegna le citazioni nell'anteprima del messaggio."
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid "Message Window default height"
@@ -13070,12 +13066,10 @@ msgstr "Invio posta predefinito in HTML"
 msgid "Send HTML mail by default."
 msgstr "Invio posta predefinito in HTML."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Sender email-address column in the message list"
-msgstr ""
-"Mostra l'indirizzo del mittente nella colonna messaggi nell'elenco dei "
-"messaggi"
+msgstr "Colonna indirizzo email del mittente nell'elenco dei messaggi"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show Animations"
@@ -13266,15 +13260,15 @@ msgstr "Elenca per discussioni"
 msgid "Thread the message-list based on Subject"
 msgstr "Elenca per discussioni basate sull'oggetto"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "Timeout for marking message as seen"
-msgstr "Tempo necessario per marcare un messaggio come letto"
+msgstr "Tempo disponibile per contrassegnare il messaggio come letto"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "Timeout for marking message as seen."
-msgstr "Tempo necessario per marcare un messaggio come letto."
+msgstr "Tempo disponibile per contrassegnar il messaggio come letto."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid "UID string of the default account."
@@ -14162,7 +14156,9 @@ msgstr ""
 #: ../mail/mail-config.glade.h:146
 msgid ""
 "This option will be overridden if a match for custom junk headers is found."
-msgstr "Questa opzione viene ignorata se è trovata una corrispondenza con le intestazioni personali."
+msgstr ""
+"Questa opzione viene ignorata se è trovata una corrispondenza con le "
+"intestazioni personali."
 
 # GNOME-2-22
 #: ../mail/mail-config.glade.h:147
@@ -16056,27 +16052,31 @@ msgstr ""
 "Questa opzione permette connessioni al server Exchange usando una "
 "autenticazione standard con password in testo semplice."
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
-msgstr "Fuori ufficio"
+msgstr "Fuori sede"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-account-setup.c:264
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
 "Il messaggio specificato sarà automaticamente spedito ad ogni\n"
-"persona da cui si riceve posta mentre si è fuori dall'ufficio."
+"persona da cui si riceve posta mentre si è fuori dalla sede."
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
 #: ../plugins/exchange-operations/exchange-account-setup.c:281
 msgid "I am out of the office"
-msgstr "Sono fuori ufficio"
+msgstr "Sono fuori sede"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-account-setup.c:277
 #: ../plugins/exchange-operations/exchange-account-setup.c:280
 msgid "I am in the office"
-msgstr "Sono in ufficio"
+msgstr "Sono in sede"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:328
@@ -16152,8 +16152,8 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"Evolution è in modalità fuori linea. Non è possibile al momento creare o\n"
-"modificare cartelle. Passare alla modalità in linea per tali operazioni."
+"Evolution è in modalità fuori rete. Non è possibile al momento creare o\n"
+"modificare cartelle. Passare alla modalità in rete per tali operazioni."
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -16390,24 +16390,27 @@ msgstr "Annullare veramente la sottoscrizione alla cartella «%s»?"
 msgid "Unsubscribe from \"%s\""
 msgstr "Annullamento sottoscrizione a «%s»"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:1
 msgid ""
 "<b>Currently, your status is \"Out of the Office\". </b>\n"
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>Attualmente lo stato è «Fuori ufficio».</b>\n"
+"<b>Attualmente lo stato è «Fuori sede».</b>\n"
 "\n"
-"Cambiare lo stato in \"In ufficio\"? "
+"Cambiare lo stato in «In sede»? "
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr "<b>Messaggio per fuori ufficio:</b>"
+msgstr "<b>Messaggio per fuori sede:</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
 msgstr "<b>Stato:</b>"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:6
 msgid ""
 "<small>The message specified below will be automatically sent to each person "
@@ -16415,27 +16418,31 @@ msgid ""
 "mail to you while you are out of the office.</small>"
 msgstr ""
 "<small>Il messaggio specificato sarà automaticamente spedito ad ogni\n"
-"mittente che invierà posta mentre si è fuori dall'ufficio.</small>"
+"mittente che invierà posta mentre si è fuori sede.</small>"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
 msgid "I am currently in the office"
-msgstr "Attualmente sono in ufficio"
+msgstr "Attualmente sono in sede"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:9
 msgid "I am currently out of the office"
-msgstr "Attualmente sono fuori dall'ufficio"
+msgstr "Attualmente sono fuori sede"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
 msgid "No, Don't Change Status"
 msgstr "No, non cambiare stato"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:11
 msgid "Out of Office Assistant"
-msgstr "Assistente per fuori ufficio"
+msgstr "Assistente per fuori sede"
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/exchange-oof.glade.h:12
 msgid "Yes, Change Status"
-msgstr "Cambia stato"
+msgstr "Sì, cambia stato"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
@@ -16680,21 +16687,23 @@ msgstr "Impossibile leggere i permessi della cartella"
 msgid "Could not read folder permissions."
 msgstr "Impossibile leggere i permessi della cartella."
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:18
 msgid "Could not read out-of-office state"
-msgstr "Impossibile leggere lo stato fuori-ufficio"
+msgstr "Impossibile leggere lo stato fuori-sede"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:19
 msgid "Could not update folder permissions."
 msgstr "Impossibile aggiornare i permessi della cartella."
 
+# GNOME-2-22
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:20
 msgid "Could not update out-of-office state"
-msgstr "Impossibile aggiornare lo stato fuori-ufficio"
+msgstr "Impossibile aggiornare lo stato fuori-sede"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Exchange Account is offline."
-msgstr "L'account Exchange è fuori linea."
+msgstr "L'account Exchange è fuori rete."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid ""
@@ -16737,7 +16746,7 @@ msgstr "La cartella non esiste"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:37
 msgid "Folder offline"
-msgstr "La cartella è fuori linea"
+msgstr "La cartella è fuori rete"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:38
 #: ../shell/e-shell.c:1288
@@ -17207,9 +17216,10 @@ msgstr "Co_ntatti"
 msgid "Modify _folders/options/rules/"
 msgstr "Modifica car_telle/opzioni/regole/"
 
+# GNOME-2-22
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 msgid "Read items marked _private"
-msgstr "Leggere gli oggetti segnati come _privati"
+msgstr "Leggere gli oggetti contrassegnati come _privati"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
@@ -18629,14 +18639,15 @@ msgstr "Contrassegna me_ssaggi come letti"
 msgid "Used for marking all the messages under a folder as read"
 msgstr "Usato per contrassegnare tutti i messaggi in una cartella come letti"
 
+# GNOME-2-22
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
-msgstr "Contrassegna calendario per fuori linea"
+msgstr "Contrassegna calendario per fuori rete"
 
+# GNOME-2-22
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
 msgid "Marks the selected calendar for offline viewing."
-msgstr ""
-"Contrassegna il calendario selezionato per la visualizzazione fuori linea."
+msgstr "Contrassegna il calendario selezionato per la visualizzazione fuori rete."
 
 # GNOME-2-22
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
@@ -19219,12 +19230,11 @@ msgstr "ID o alias del componente da visualizzare per default all’avvio."
 msgid "Last upgraded configuration version"
 msgstr "Ultima versione aggiornata di configurazione"
 
+# GNOME-2-22
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
-"Elenco dei percorsi delle cartelle da sincronizzare su disco per l’uso non "
-"in linea"
+msgstr "Elenco dei percorsi delle cartelle da sincronizzare su disco per l’uso fuori rete"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "Sidebar is visible"
@@ -19239,9 +19249,10 @@ msgstr "Omette dialogo avvertimento sviluppo"
 msgid "Skip recovery warning dialog"
 msgstr "Omette dialogo avvertimento recupero"
 
+# GNOME-2-22
 #: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
 msgid "Start in offline mode"
-msgstr "Avvia in modalità non in linea"
+msgstr "Avvia in modalità fuori rete"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Statusbar is visible"
@@ -19289,11 +19300,10 @@ msgstr ""
 msgid "Toolbar is visible"
 msgstr "Barra degli strumenti visibile"
 
+# GNOME-2-22
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr ""
-"Indica se Evolution è avviato in modalità non in linea invece che in "
-"modalità in linea."
+msgstr "Indica se Evolution è avviato in modalità fuori rete invece che in modalità in rete."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Whether crash detection should be done or not"
@@ -19346,11 +19356,10 @@ msgstr "<b>Connessioni attive</b>"
 msgid "Active Connections"
 msgstr "Connessioni attive"
 
+# GNOME-2-22
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr ""
-"Fare clic su «OK» per chiudere queste connessioni e passare alla modalità "
-"non in linea"
+msgstr "Fare clic su «OK» per chiudere queste connessioni e passare alla modalità fuori rete"
 
 #: ../shell/e-shell-importer.c:135
 msgid "Choose the type of importer to run:"
@@ -19481,17 +19490,20 @@ msgstr "Sito web di Evolution"
 msgid "Error opening the FAQ webpage."
 msgstr "Errore nell'aprire la pagina web delle FAQ."
 
+# GNOME-2-22
 #: ../shell/e-shell-window-commands.c:889
 msgid "_Work Online"
-msgstr "Lavora _in linea"
+msgstr "Lavora in _rete"
 
+# GNOME-2-22
 #: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
-msgstr "Lavora non _in linea"
+msgstr "Lavora fuori _rete"
 
+# GNOME-2-22
 #: ../shell/e-shell-window-commands.c:915
 msgid "Work Offline"
-msgstr "Lavora non in linea"
+msgstr "Lavora fuori rete"
 
 #: ../shell/e-shell-window.c:382
 msgid "Evolution is currently online. Click on this button to work offline."
@@ -19678,9 +19690,10 @@ msgstr "_Non mostrare questo messaggio in futuro."
 msgid "Start Evolution activating the specified component"
 msgstr "Avvia Evolution e attiva il componente specificato"
 
+# GNOME-2-22
 #: ../shell/main.c:573
 msgid "Start in online mode"
-msgstr "Avvia in modalità in linea"
+msgstr "Avvia in modalità in rete"
 
 #: ../shell/main.c:576
 msgid "Forcibly shut down all Evolution components"
@@ -21181,13 +21194,15 @@ msgstr "Raggruppa per _discussione"
 msgid "_Message"
 msgstr "Me_ssaggio"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
-msgstr "Aggiungi mittente alla _rubrica"
+msgstr "A_ggiungi mittente alla rubrica"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "A_pplica filtri"
+msgstr "Applica _filtri"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-message.xml.h:4
@@ -21230,9 +21245,10 @@ msgstr "Copia i messaggi selezionati in una nuova cartella"
 msgid "Copy selected messages to the clipboard"
 msgstr "Copia i messaggi selezionati negli appunti"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
-msgstr "Crea _regola"
+msgstr "Crea r_egola"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
@@ -22088,10 +22104,10 @@ msgstr "Nuova _finestra"
 msgid "Open the Frequently Asked Questions webpage"
 msgstr ""
 
+# GNOME-2-20
 #: ../ui/evolution.xml.h:21
-#, fuzzy
-msgid "Page Set_up"
-msgstr "_Impostazione pagina..."
+msgid "Page Set_up..."
+msgstr "_Imposta pagina..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
@@ -23551,7 +23567,3 @@ msgstr "Contesto IM"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr "Gestisci popup"
-
-# GNOME-2-20
-#~ msgid "Page Set_up..."
-#~ msgstr "_Imposta pagina..."
