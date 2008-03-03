@@ -1,3 +1,7 @@
+2008-03-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* e-shell-window-commands.c (authors): Updated contributors list.
+
 2008-03-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* main.c: (main): Committing the build fix that comes up if
