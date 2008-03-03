@@ -702,7 +702,6 @@ main (int argc, char **argv)
 	}
 
 #ifdef G_OS_WIN32
-	gtk_rc_parse_string ("gtk-fallback-icon-theme = \"gnome\"");
 	set_paths ();
 #endif
 
