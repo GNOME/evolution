@@ -1,3 +1,10 @@
+2008-03-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for BNC bug #282466
+
+	* em-icon-stream.c: (em_icon_stream_get_image),
+	(em_icon_stream_is_resized): Handle CIDs of broken cases too.
+
 2008-03-03  Changwoo Ryu  <cwryu@debian.org>
 
 	* default/Makefile.am:

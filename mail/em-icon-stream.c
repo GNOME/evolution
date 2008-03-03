@@ -262,10 +262,13 @@ em_icon_stream_new(GtkImage *image, const char *key, unsigned int maxwidth, unsi
 }
 
 GdkPixbuf *
-em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int maxheight)
+em_icon_stream_get_image(const char *tkey, unsigned int maxwidth, unsigned int maxheight)
 {
 	struct _emis_cache_node *node;
 	GdkPixbuf *pb = NULL;
+	const char *key;
+
+	key = tkey ? tkey : "";
 
 	/* forces the cache to be setup if not */
 	em_icon_stream_get_type();
@@ -316,10 +319,13 @@ em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int ma
 }
 
 int
-em_icon_stream_is_resized(const char *key, unsigned int maxwidth, unsigned int maxheight)
+em_icon_stream_is_resized(const char *tkey, unsigned int maxwidth, unsigned int maxheight)
 {
 	int res = FALSE;
 	struct _emis_cache_node *node;
+	const char *key;
+
+	key = tkey ? tkey : "";
 
 	/* forces the cache to be setup if not */
 	em_icon_stream_get_type();
