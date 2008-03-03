@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-02 22:53+0200\n"
-"PO-Revision-Date: 2008-03-03 00:11+0200\n"
+"PO-Revision-Date: 2008-03-03 09:37+0200\n"
 "Last-Translator: Ihar Hračyška <booxter@lacinka.org>\n"
 "Language-Team: Belarusian Latin <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
@@ -11256,7 +11256,7 @@ msgstr "akreślena"
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:96
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Śmiećcie"
+msgstr "Spam"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Junk Test"
@@ -18595,7 +18595,7 @@ msgstr "Abiary adnu krynicu"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 msgid "Selects a single calendar or task source for viewing."
-msgstr "Abiaraje adnu krynicu kalendara albo zadač, jaki treba pakazać."
+msgstr "Abiraje adnu krynicu kalendara albo zadač, jakuju treba pakazać."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "Show _only this Calendar"
