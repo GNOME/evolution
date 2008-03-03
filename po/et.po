@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-02-23 10:54+0200\n"
+"PO-Revision-Date: 2008-03-03 14:55+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6672,9 +6672,8 @@ msgstr "Ülesande üksikasjad"
 
 #: ../calendar/gui/dialogs/task-page.c:459
 #: ../calendar/gui/dialogs/task-page.glade.h:4
-#, fuzzy
 msgid "Organi_zer:"
-msgstr "Korraldaja:"
+msgstr "Ko_rraldaja:"
 
 #: ../calendar/gui/dialogs/task-page.c:866
 msgid "Due date is wrong"
@@ -7031,7 +7030,6 @@ msgstr "_Ava veebileht"
 
 #: ../calendar/gui/e-calendar-table.c:1365
 #: ../calendar/gui/e-calendar-view.c:1663 ../calendar/gui/e-memo-table.c:924
-#, fuzzy
 msgid "P_rint..."
 msgstr "_Prindi..."
 
@@ -7152,7 +7150,6 @@ msgid "_Select Date..."
 msgstr "_Vali kuupäev..."
 
 #: ../calendar/gui/e-calendar-view.c:1679
-#, fuzzy
 msgid "Pri_nt..."
 msgstr "_Prindi..."
 
@@ -10516,14 +10513,12 @@ msgid "Label _Name:"
 msgstr "Sildi _nimi:"
 
 #: ../e-util/e-util-labels.c:339
-#, fuzzy
 msgid "Edit Label"
-msgstr "Redigeeritav"
+msgstr ""
 
 #: ../e-util/e-util-labels.c:339
-#, fuzzy
 msgid "Add Label"
-msgstr "Silt"
+msgstr ""
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
@@ -10659,18 +10654,16 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:800
-#, fuzzy
 msgid "R_ule name:"
-msgstr "Reegli nimi"
+msgstr "_Reegli nimi:"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
 msgstr "Järgnevale kriteeriumile vastavate kirjete leidmine"
 
 #: ../filter/filter-rule.c:862
-#, fuzzy
 msgid "A_dd Filter Criteria"
-msgstr "Lisa filtreerimisreegel"
+msgstr "L_isa filtreerimisreegel"
 
 #: ../filter/filter-rule.c:868
 msgid "If all criteria are met"
@@ -11079,9 +11072,8 @@ msgid "CC"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Completed On"
-msgstr "Lõpetatud "
+msgstr "Lõpetatud"
 
 #: ../mail/em-filter-i18n.h:10
 msgid "contains"
@@ -11696,45 +11688,37 @@ msgstr "_Loo sõnumi põhjal reegel"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1373
-#, fuzzy
 msgid "Search Folder based on _Subject"
 msgstr "Otsingukaust _teema järgi"
 
 #: ../mail/em-folder-view.c:1374
-#, fuzzy
 msgid "Search Folder based on Se_nder"
 msgstr "Otsingukaust _saatja järgi"
 
 #: ../mail/em-folder-view.c:1375
-#, fuzzy
 msgid "Search Folder based on _Recipients"
 msgstr "Otsingukaust _adressaatide järgi"
 
 #: ../mail/em-folder-view.c:1376
-#, fuzzy
 msgid "Search Folder based on Mailing _List"
 msgstr "Otsingukaust _postiloendi järgi"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1381
-#, fuzzy
 msgid "Filter based on Sub_ject"
 msgstr "Filter t_eema järgi"
 
 #: ../mail/em-folder-view.c:1382
-#, fuzzy
 msgid "Filter based on Sen_der"
 msgstr "Filter saat_ja järgi"
 
 #: ../mail/em-folder-view.c:1383
-#, fuzzy
 msgid "Filter based on Re_cipients"
 msgstr "Filter a_dressaatide järgi"
 
 #: ../mail/em-folder-view.c:1384
-#, fuzzy
 msgid "Filter based on _Mailing List"
-msgstr "Filter  p_ostiloendi järgi"
+msgstr "Filter p_ostiloendi järgi"
 
 #. default charset used in mail view
 #: ../mail/em-folder-view.c:2266 ../mail/em-folder-view.c:2310
@@ -13046,18 +13030,16 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "SpamAssassin'i deemoni ja kliendi kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "SpamAssassin'i deemoni ja kliendi (spamc/spamd) kasutamine"
+msgstr "SpamAssassin'i deemoni ja kliendi (spamc/spamd) kasutamine."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Use custom fonts"
 msgstr "Kohandatud kirjatüüpide kasutamine"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "Use custom fonts for displaying mail."
-msgstr "Kohandatud kirjatüüpide kasutamine sõnumi näitamisel"
+msgstr "Kohandatud kirjatüüpide kasutamine sõnumite näitamisel."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Use only local spam tests."
@@ -13219,7 +13201,7 @@ msgid "Add Filter Rule"
 msgstr "Lisa filtreerimisreegel"
 
 #: ../mail/mail-component.c:533
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d valitud, "
@@ -13304,28 +13286,27 @@ msgstr "Tõrge e-posti seadistuste või kaustade uuendamisel"
 
 #: ../mail/mail-component.c:1516
 msgid "Error"
-msgstr ""
+msgstr "Viga"
 
 #: ../mail/mail-component.c:1516
 msgid "Errors"
-msgstr ""
+msgstr "Vead"
 
 #: ../mail/mail-component.c:1517
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "Hoiatused ja vead"
 
 #: ../mail/mail-component.c:1518
 msgid "Debug"
-msgstr ""
+msgstr "Silumine"
 
 #: ../mail/mail-component.c:1518
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "Vea-, hoiatus- ja silumisteated"
 
 #: ../mail/mail-component.c:1628
-#, fuzzy
 msgid "Debug Logs"
-msgstr "Veebilogi"
+msgstr "Silumislogid"
 
 #: ../mail/mail-component.c:1632
 msgid "Show _errors in the status bar for"
@@ -13336,9 +13317,8 @@ msgid "seconds."
 msgstr "sekundit."
 
 #: ../mail/mail-component.c:1649
-#, fuzzy
 msgid "Log Messages:"
-msgstr "HTML-Sõnumid"
+msgstr "Logiteated:"
 
 #: ../mail/mail-component.c:1701
 msgid "Log Level"
@@ -13988,7 +13968,6 @@ msgid "_Script:"
 msgstr "_Skript:"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Select..."
 msgstr "_Vali..."
 
@@ -14156,9 +14135,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Tõrge lisamisel kohalikku `Saadetud' kausta: %s"
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "_Saada sõnum"
+msgstr "Sõnumi saatmine"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14627,14 +14605,12 @@ msgid "Delete account?"
 msgstr "Kustutada konto?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "Otsingukausta &quot;{0}&quot; pole võimalik lisada."
+msgstr "Kas kustutada otsingukaustas &quot;{0}&quot; olevad sõnumid?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "Valitud sõnumi kopeerimine teise kausta"
+msgstr "Kas kustutada otsingukaustas olevad sõnumid?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -16808,14 +16784,12 @@ msgid "<b>Users:</b>"
 msgstr "<b>Kasutajad:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "C_ustomize notification message"
-msgstr "_Kohanda teavitussõnumit"
+msgstr "Ko_handa teavitussõnumit"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "Kontaktid..."
+msgstr "Kon_taktid..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:517
@@ -18210,14 +18184,12 @@ msgid "Marks the selected calendar for offline viewing."
 msgstr "Kalendri märkimine võrguvabas olekus vaatamiseks."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
-#, fuzzy
 msgid "_Do not make available for offline use"
-msgstr "_Märgi kalender võrguvabas olekus mittekasutatavaks"
+msgstr "_Märgi võrguvabas olekus mittekasutatavaks"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Make available for offline use"
-msgstr "_Märgi kalender kasutamiseks võrguvabas olekus"
+msgstr "_Märgi kasutamiseks võrguvabas olekus"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -18785,9 +18757,8 @@ msgid "Skip development warning dialog"
 msgstr "Arendushoiatuse dialoogi jäetakse vahele"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "Skip recovery warning dialog"
-msgstr "Arendushoiatuse dialoogi jäetakse vahele"
+msgstr "Taastamishoiatuse dialoogi vahelejätmine"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
 msgid "Start in offline mode"
@@ -18845,9 +18816,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Millal Evolution alustab võrgurežiimi asemel võrguvabas režiimis."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-#, fuzzy
 msgid "Whether crash detection should be done or not"
-msgstr "Millal aknanupud peaksid nähtavad olema."
+msgstr "Kas krahhituvastus tuleb läbi viia või mitte"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18873,11 +18843,8 @@ msgstr ""
 "mitte."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
-#, fuzzy
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
-msgstr ""
-"Kas Evolutioni arendusversioonis tuleb hoiatusdialoogist üle hüpata või "
-"mitte."
+msgstr "Kas Evolutioni taastamise hoiatusdialoog tuleb vahele jätta või mitte."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -19195,9 +19162,8 @@ msgid "Evolution Crash Detection"
 msgstr "Evolutioni krahhituvastus"
 
 #: ../shell/main.c:311
-#, fuzzy
 msgid "Ig_nore"
-msgstr "Eira"
+msgstr "_Eira"
 
 #: ../shell/main.c:326
 #, no-c-format
@@ -21658,9 +21624,8 @@ msgid "Toggle whether we are working offline."
 msgstr "Võrguvaba oleku sisse- või väljalülitamine"
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
-msgstr "Tööriistariba _stiil"
+msgstr "Tööriistari_ba laad"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
@@ -22312,9 +22277,8 @@ msgstr "Veeru laius"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Search"
-msgstr "_Otsing"
+msgstr "Otsing"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
