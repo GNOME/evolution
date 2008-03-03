@@ -1,5 +1,9 @@
 2008-03-03  Johnny Jacob  <jjohnny@novell.com>
 
+	* e-shell-window-commands.c (authors): Missed '"' :-) .
+	
+2008-03-03  Johnny Jacob  <jjohnny@novell.com>
+
 	* e-shell-window-commands.c (authors): Updated contributors list.
 
 2008-03-02  Srinivasa Ragavan  <sragavan@novell.com>
