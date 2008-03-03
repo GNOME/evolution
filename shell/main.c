@@ -680,6 +680,10 @@ main (int argc, char **argv)
 
 	g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
 
+#ifdef G_OS_WIN32
+	set_paths ();
+#endif
+
 	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
@@ -700,10 +704,6 @@ main (int argc, char **argv)
 		/* Not reached */
 		exit (0);
 	}
-
-#ifdef G_OS_WIN32
-	set_paths ();
-#endif
 
 	client = gconf_client_get_default ();
 
