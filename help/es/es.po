@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-02-08 09:36+0000\n"
-"PO-Revision-Date: 2008-02-12 11:25+0100\n"
+"POT-Creation-Date: 2008-03-03 18:48+0000\n"
+"PO-Revision-Date: 2008-03-04 00:52+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -620,8 +620,8 @@ msgstr "@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741d
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6522(None)
-msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
-msgstr "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
+msgid "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
+msgstr "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -734,8 +734,8 @@ msgid ""
 "This guide describes how to use and manage Evolution™ 2.22 client software. "
 "This guide is intended for users and is divided into the following sections:"
 msgstr ""
-"Esta guía describe cómo usar y gestionar el cliente de Evolution™2.22. "
-"Esta guía está dirigida a los usuarios y se divide en las siguientes secciones:"
+"Esta guía describe cómo usar y gestionar el cliente de Evolution™2.22. Esta "
+"guía está dirigida a los usuarios y se divide en las siguientes secciones:"
 
 #: C/evolution.xml:88(link) C/evolution.xml:155(title)
 msgid "Getting Started"
@@ -2903,15 +2903,18 @@ msgstr "Recuperación de cuelgues"
 msgid ""
 "Evolution displays a crash detection message when you restart it after a "
 "crash."
-msgstr "Evolution muestra un mensaje de detección de cuelgue al reiniciarlo después de un cuelgue."
+msgstr ""
+"Evolution muestra un mensaje de detección de cuelgue al reiniciarlo después "
+"de un cuelgue."
 
 #: C/evolution.xml:1025(para)
 msgid ""
 "Click Ignore to restore the preview pane displayed when Evolution was "
 "crashed. If you click Recover, Evolution opens with all preview panes hidden."
 msgstr ""
-"Pulse Ignorar para restaurar el panel de vista previa mostrado cuando Evolution se "
-"colgó. Si pulsa Recuperar, Evolution se abrirá con todos los paneles de vista previa ocultos."
+"Pulse Ignorar para restaurar el panel de vista previa mostrado cuando "
+"Evolution se colgó. Si pulsa Recuperar, Evolution se abrirá con todos los "
+"paneles de vista previa ocultos."
 
 #: C/evolution.xml:1028(title)
 msgid "Command Line Options"
@@ -3030,9 +3033,9 @@ msgid ""
 msgstr ""
 "Esta sección, así como<link linkend=\"usage-mail-organize\">Organización de "
 "su correo-e, le ofrece una guía en profundidad de </link>las posibilidades "
-"de Evolution™ como cliente de correo. Para saber más sobre cómo "
-"configurar su cuenta de correo consulte <link linkend=\"config-prefs-mail"
-"\">Opciones de correo</link>."
+"de Evolution™ como cliente de correo. Para saber más sobre cómo configurar "
+"su cuenta de correo consulte <link linkend=\"config-prefs-mail\">Opciones de "
+"correo</link>."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
@@ -3203,8 +3206,9 @@ msgid ""
 "headers\">Mail Header Preferences</link>, or ask your system administrator."
 msgstr ""
 "Si recibe un mensaje de error en lugar de correo, puede que tenga que "
-"revisar su configuración de red. Para saber cómo hacerlo consulte <link linkend=\"mail-prefs-"
-"headers\">Opciones de las cabeceras del correo</link> o pregunte al administrador del sistema."
+"revisar su configuración de red. Para saber cómo hacerlo consulte <link "
+"linkend=\"mail-prefs-headers\">Opciones de las cabeceras del correo</link> o "
+"pregunte al administrador del sistema."
 
 #: C/evolution.xml:1179(title)
 msgid "New Mail Notification"
@@ -3215,8 +3219,8 @@ msgid ""
 "Evolution notifies you of new e-mail arriving. When you receive a new mail "
 "in your inbox, a blinking icon appears on the Switcher."
 msgstr ""
-"Evolution le notifica la llegada de nuevo correo-e. Cuando reciba un nuevo correo "
-"en su buzón, aparecerá un icono parpadeante en el Selector."
+"Evolution le notifica la llegada de nuevo correo-e. Cuando reciba un nuevo "
+"correo en su buzón, aparecerá un icono parpadeante en el Selector."
 
 #: C/evolution.xml:1182(para)
 msgid ""
@@ -3226,11 +3230,11 @@ msgid ""
 "format=\"PNG\" fileref=\"figures/evo_blink.png\"/> icon to view the "
 "notification message."
 msgstr ""
-"También puede ver un icono que parpadea <inlinegraphic format=\"PNG\" fileref="
-"\"figures/evo_blink.png\"/> en el área de notificación y que desaparece cuando "
-"abre el correo nuevo. Puede mantener el ratón sobre el icono <inlinegraphic "
-"format=\"PNG\" fileref=\"figures/evo_blink.png\"/> para ver el mensaje de "
-"notificación."
+"También puede ver un icono que parpadea <inlinegraphic format=\"PNG\" "
+"fileref=\"figures/evo_blink.png\"/> en el área de notificación y que "
+"desaparece cuando abre el correo nuevo. Puede mantener el ratón sobre el "
+"icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_blink.png\"/> para "
+"ver el mensaje de notificación."
 
 #: C/evolution.xml:1186(title)
 msgid "Vertical View Vs Classical View"
@@ -4114,9 +4118,10 @@ msgid ""
 "file to your email if it appears that you have not. If it finds that you "
 "have missed to attach a file, a message is displayed as shown below:"
 msgstr ""
-"Con el complemento Recuerdo de adjuntos activado, Evolution le recuerda que adjunte un "
-"archivo a su correo-e si parece que no lo haya hecho. Se mostrará un mensaje "
-"como el de abajo si se encuentra que se le ha olvidado adjuntar un archivo:"
+"Con el complemento Recuerdo de adjuntos activado, Evolution le recuerda que "
+"adjunte un archivo a su correo-e si parece que no lo haya hecho. Se mostrará "
+"un mensaje como el de abajo si se encuentra que se le ha olvidado adjuntar "
+"un archivo:"
 
 #: C/evolution.xml:1528(para)
 msgid ""
@@ -4160,8 +4165,9 @@ msgid ""
 "To edit any of the existing keywords, select the keyword and click Edit and "
 "modify."
 msgstr ""
-"Para editar cualquiera de las palabras clave existentes, seleccione la palabra clave y pulse Editar"
-"Para editar un campo, seleccione el campo y pulse Editar para modificarla."
+"Para editar cualquiera de las palabras clave existentes, seleccione la "
+"palabra clave y pulse EditarPara editar un campo, seleccione el campo y "
+"pulse Editar para modificarla."
 
 #: C/evolution.xml:1554(para)
 msgid ""
@@ -5437,9 +5443,9 @@ msgid ""
 "in the current network; and if that particular host is down, it fails with a "
 "time-out."
 msgstr ""
-"El dominio «<emphasis>wwwkeys.pgp.net</emphasis>» está asignado en "
-"múltiples servidores en varias redes. La utilidad gpg trata de conectarse a una "
-"en la red actual y si ese servidor en particular está caído, falla al superarse el "
+"El dominio «<emphasis>wwwkeys.pgp.net</emphasis>» está asignado en múltiples "
+"servidores en varias redes. La utilidad gpg trata de conectarse a una en la "
+"red actual y si ese servidor en particular está caído, falla al superarse el "
 "tiempo de expiración."
 
 #: C/evolution.xml:2108(para)
@@ -5450,11 +5456,12 @@ msgid ""
 "in the gpg --recv-keys --keyserver wwwkeys.pgp.net keyid command with that "
 "explicit IP number as returned by the host utility."
 msgstr ""
-"Para evitar esto, escriba <command>$ host wwwkeys.pgp.net</command> en una consola "
-"del terminal y obtenga la dirección IP de los servidores. Puede hacer ping a cada uno de ellos para "
-"encontrar cuál está caído y cuál no. Ahora, reemplace wwwleys.pgp.net en la sentencia "
-"gpg --recv-keys --keyserver wwwkeys.pgp.net keyid con el número de dirección IP explícito que "
-"devolvió la utilidad del servidor."
+"Para evitar esto, escriba <command>$ host wwwkeys.pgp.net</command> en una "
+"consola del terminal y obtenga la dirección IP de los servidores. Puede "
+"hacer ping a cada uno de ellos para encontrar cuál está caído y cuál no. "
+"Ahora, reemplace wwwleys.pgp.net en la sentencia gpg --recv-keys --keyserver "
+"wwwkeys.pgp.net keyid con el número de dirección IP explícito que devolvió "
+"la utilidad del servidor."
 
 #: C/evolution.xml:2113(para)
 msgid ""
@@ -5462,9 +5469,9 @@ msgid ""
 "enter the command <command>gpg <varname>--import</varname></command> to add "
 "it to your keyring."
 msgstr ""
-"Si alguien le envía directamente su clave pública, guárdela como un archivo de texto plano e "
-"introduzca el comando <command>gpg <varname>--import</varname></command> para añadirá a su "
-"depósito de claves."
+"Si alguien le envía directamente su clave pública, guárdela como un archivo "
+"de texto plano e introduzca el comando <command>gpg <varname>--import</"
+"varname></command> para añadirá a su depósito de claves."
 
 #: C/evolution.xml:2117(title)
 msgid "Setting up GPG Encryption"
@@ -6732,7 +6739,7 @@ msgstr "Seleccione el menú Buscar"
 
 #: C/evolution.xml:2698(para)
 msgid "Click Advanced Search to open Advanced Search dialogue box"
-msgstr "Pulse Búsqueda avanzada para abrir la caja de diálogo Búsqueda avanzada."
+msgstr "Pulse Búsqueda avanzada para abrir la caja de diálogo Búsqueda avanzada"
 
 #: C/evolution.xml:2703(para)
 msgid "Enter the Search name."
@@ -6784,7 +6791,7 @@ msgstr "Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsq
 
 #: C/evolution.xml:2733(para)
 msgid "Click Edit tab to edit to open Edit Rule dialogue box"
-msgstr "Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla."
+msgstr "Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla"
 
 #: C/evolution.xml:2734(para)
 msgid ""
@@ -7671,10 +7678,9 @@ msgid ""
 "any amount of contact information, share addresses over a network, and save "
 "time with everyday tasks."
 msgstr ""
-"Esta sección le muestra cómo usar la herramienta de contactos de "
-"Evolution™ para organizar cualquier cantidad de información sobre "
-"contactos, compartir direcciones a través de una red y ahorrar tiempo con "
-"las tareas cotidianas."
+"Esta sección le muestra cómo usar la herramienta de contactos de Evolution™ "
+"para organizar cualquier cantidad de información sobre contactos, compartir "
+"direcciones a través de una red y ahorrar tiempo con las tareas cotidianas."
 
 #: C/evolution.xml:3138(link) C/evolution.xml:3155(title)
 msgid "Contacts and Cards"
@@ -8544,9 +8550,9 @@ msgid ""
 "calendar data, see <link linkend=\"importing-mail\">Importing Single Files</"
 "link>, which covers the Import tool."
 msgstr ""
-"Este capítulo explica cómo usar el calendario de Evolution™ para "
-"planificar su horario individual o en función de sus compañeros. Para saber "
-"cómo importar datos al calendario, consulte <link linkend=\"importing-mail"
+"Este capítulo explica cómo usar el calendario de Evolution™ para planificar "
+"su horario individual o en función de sus compañeros. Para saber cómo "
+"importar datos al calendario, consulte <link linkend=\"importing-mail"
 "\">Importar un solo archivo</link>, que describe la herramienta de "
 "importación."
 
@@ -8782,9 +8788,9 @@ msgid ""
 "Evolution allows you to access your Google calendar. You can view the Google "
 "calendar offline and create, modify and delete the calendar items online."
 msgstr ""
-"Evolution le permite acceder a su calendario en Google. Puede ver el calendario "
-"en Google cuando esté desconectado y crear, modificar y borrar elementos del calendario "
-"cuando no lo esté."
+"Evolution le permite acceder a su calendario en Google. Puede ver el "
+"calendario en Google cuando esté desconectado y crear, modificar y borrar "
+"elementos del calendario cuando no lo esté."
 
 #: C/evolution.xml:3693(para)
 msgid "To integrate Google calendar to Evolution:"
@@ -8792,7 +8798,9 @@ msgstr "Para integrar Google Calendar en Evolution:"
 
 #: C/evolution.xml:3696(para)
 msgid "Click New, then select Calendar to open the New Calendar dialog."
-msgstr "Pulse Nuevo, después seleccione Calendario para abrir el diálogo Calendario nuevo."
+msgstr ""
+"Pulse Nuevo, después seleccione Calendario para abrir el diálogo Calendario "
+"nuevo."
 
 #: C/evolution.xml:3699(para)
 msgid "Select Google from the Type drop-down list."
@@ -8826,29 +8834,34 @@ msgstr "Establezca el tiempo para refrescar el calendario automáticamente."
 msgid ""
 "Select Use SSL to enable SSL for communication between Evolution and Google "
 "server."
-msgstr "Seleccione Usar SSL para activar SSL para la comunicación entre Evolution y el servidor de Google."
+msgstr ""
+"Seleccione Usar SSL para activar SSL para la comunicación entre Evolution y "
+"el servidor de Google."
 
 #: C/evolution.xml:3727(para)
 msgid ""
 "If you want to set a color label for the calendar, click the Color tab and "
 "select the desired color and click OK."
 msgstr ""
-"Si quiere establecer un color para una etiqueta del calendario, pulse la solapa de color "
-"y seleccione el color que desee y pulse Aceptar."
+"Si quiere establecer un color para una etiqueta del calendario, pulse la "
+"solapa de color y seleccione el color que desee y pulse Aceptar."
 
 #: C/evolution.xml:3730(para)
 msgid ""
 "If you want to view the calendar items offline, select Copy calendar content "
 "locally for offline operation check box."
 msgstr ""
-"Si quiere ver los elementos del calendario para su uso desconectado, seleccione la casilla "
-"de verificación Copiar el contenido del calendario localmente para trabajar desconectado."
+"Si quiere ver los elementos del calendario para su uso desconectado, "
+"seleccione la casilla de verificación Copiar el contenido del calendario "
+"localmente para trabajar desconectado."
 
 #: C/evolution.xml:3731(para)
 msgid ""
 "If you have marked for offline operation, you cannot modify or create the "
 "calendar items."
-msgstr "Si ha marcado la casilla para su uso desconectado, no podrá modificar o crear elementos en el calendario."
+msgstr ""
+"Si ha marcado la casilla para su uso desconectado, no podrá modificar o "
+"crear elementos en el calendario."
 
 #: C/evolution.xml:3734(para)
 msgid "Click OK to save your modifications."
@@ -9719,7 +9732,7 @@ msgid ""
 "stock_search.png\"/> to expand the drop-down list"
 msgstr ""
 "Pulse el botón de búsqueda <inlinegraphic format=\"PNG\" fileref=\"figures/"
-"stock_search.png\"/> para expandir la dista desplegable."
+"stock_search.png\"/> para expandir la dista desplegable"
 
 #: C/evolution.xml:4126(para) C/evolution.xml:4443(para)
 #: C/evolution.xml:4678(para)
@@ -10033,13 +10046,13 @@ msgstr "Escriba un breve resumen para la tarea en el campo Resumen."
 msgid "(Optional) Specify a starting date and ending date for the task"
 msgstr ""
 "(Opcional) especifique una fecha de comienzo y una fecha de finalización "
-"para la tarea."
+"para la tarea"
 
 #: C/evolution.xml:4352(para)
 msgid "(Optional) Specify a starting time and ending time for the task"
 msgstr ""
 "(Opcional) especifique una hora de comienzo y una hora de finalización para "
-"la tarea."
+"la tarea"
 
 #: C/evolution.xml:4361(para) C/evolution.xml:4412(para)
 #: C/evolution.xml:4628(para)
@@ -11022,7 +11035,7 @@ msgstr "Seleccione la cuenta de Exchange del campo De."
 msgid "Click Insert &gt; Send Options to open the Send Option dialog box"
 msgstr ""
 "Pulse Insertar &gt; Opciones de envío para abrir el cuadro de diálogo de "
-"Opciones de envío."
+"Opciones de envío"
 
 #: C/evolution.xml:5185(para)
 msgid ""
@@ -11030,7 +11043,7 @@ msgid ""
 "(Normal, High, Low)"
 msgstr ""
 "Seleccione la prioridad para su mensaje enviado de las tres opciones "
-"proporcionadas (Normal, Alta, Baja)."
+"proporcionadas (Normal, Alta, Baja)"
 
 #: C/evolution.xml:5188(para)
 msgid ""
@@ -11497,7 +11510,7 @@ msgid ""
 msgstr ""
 "Pulse Opciones &gt; Actualizar disponibilidad para comprobar las agendas de "
 "los participantes y, si es posible, actualizar la reunión en los calendarios "
-"de cada uno de los asistentes."
+"de cada uno de los asistentes"
 
 #: C/evolution.xml:5433(para)
 msgid ""
@@ -11519,7 +11532,7 @@ msgstr ""
 
 #: C/evolution.xml:5439(para)
 msgid "Evolution™ can access accounts on Novell® GroupWise® 7 system."
-msgstr "Evolution™ puede acceder a cuentas en el sistema Novell ro®upWise 7.  ®"
+msgstr "Evolution™ puede acceder a cuentas en el sistema Novell® GroupWise 7®."
 
 #: C/evolution.xml:5442(link) C/evolution.xml:5465(title)
 msgid "GroupWise Features"
@@ -12687,8 +12700,8 @@ msgid ""
 "Evolution™ supports mail connectivity to Hula® servers through IMAP and "
 "calendaring support through CalDAV."
 msgstr ""
-"Evolution™ soporta conectividad de correo en servidores Hula a t®ravés "
-"de IMAP y soporta calendarios a través de CalDAV."
+"Evolution™ soporta conectividad de correo en servidores Hula a t®ravés de "
+"IMAP y soporta calendarios a través de CalDAV."
 
 #: C/evolution.xml:6246(para)
 msgid ""
@@ -12952,10 +12965,9 @@ msgid ""
 "encryption."
 msgstr ""
 "Seleccione de qué manera desea recibir su correo. Puede descargarlo desde un "
-"<link linkend=\"pop\"/>servidor POP</link>, leerlo y conservarlo en el mismo "
-"servidor (Microsoft Exchange, Novell® GroupWise® o <link linkend=\"imap"
-"\">IMAP</link>), o leerlo de archivos que ya están en su escritorio. Es "
-"posible que su servidor le permita utilizar conexiones cifradas (SSL, Secure "
+"<link linkend=\"pop\">servidor POP</link>, leerlo y conservarlo en el mismo "
+"servidor (Microsoft Exchange, Novell® GroupWise® o <link linkend"
+"=\"imap\">IMAP</link>), o leerlo de archivos que ya están en su escritorio. Es posible que su servidor le permita utilizar conexiones cifradas (SSL, Secure "
 "Socket Layer). Puede seleccionar una opción de las tres dadas: Sin cifrado, "
 "cifrado TLS o cifrado SSL."
 
@@ -13364,16 +13376,17 @@ msgid ""
 "text either inline or using an external application. You can also enable "
 "Magic spacebar and search folders."
 msgstr ""
-"Elija cuánto tiempo quiere esperar antes de marcar un mensaje como leído, cómo "
-"resaltar las citas de otros mensajes y la codificación predeterminada. Active «Agrupar los "
-"mensajes por asunto» para agrupar los mensajes como conversaciones. También "
-"puede ajustar el límite de direcciones mostrado en la cabecera del mensaje "
-"activando la opción «Reducir las cabeceras Para / Cc / Cco a». También puede "
-"ajustar el límite para la renderización del contenido de texto en el mensaje que recibe. De forma predeterminada, "
-"cuando recibe un mensaje cuyo contenido de texto es mayor de 4096 Kilobytes, Evolution "
-"no renderiza el texto en el panel de vista preliminar. Puede ver el texto sin formato "
-"en línea o usando una aplicación externa. También puede activar la "
-"barra espaciadora mágica y buscar por las carpetas."
+"Elija cuánto tiempo quiere esperar antes de marcar un mensaje como leído, "
+"cómo resaltar las citas de otros mensajes y la codificación predeterminada. "
+"Active «Agrupar los mensajes por asunto» para agrupar los mensajes como "
+"conversaciones. También puede ajustar el límite de direcciones mostrado en "
+"la cabecera del mensaje activando la opción «Reducir las cabeceras Para / "
+"Cc / Cco a». También puede ajustar el límite para la renderización del "
+"contenido de texto en el mensaje que recibe. De forma predeterminada, cuando "
+"recibe un mensaje cuyo contenido de texto es mayor de 4096 Kilobytes, "
+"Evolution no renderiza el texto en el panel de vista preliminar. Puede ver "
+"el texto sin formato en línea o usando una aplicación externa. También puede "
+"activar la barra espaciadora mágica y buscar por las carpetas."
 
 #: C/evolution.xml:6462(para)
 msgid ""
@@ -13482,9 +13495,9 @@ msgid ""
 "of messages. You can add, edit or remove the labels. You can also assign "
 "colors to each label you have created."
 msgstr ""
-"La opción de preferencias de las etiquetas le permite añadir etiquetas de color para diferentes tipos "
-"de mensajes. Puede añadir, editar o eliminar las etiquetas. También puede asignar "
-"colores a cada etiqueta que haya creado."
+"La opción de preferencias de las etiquetas le permite añadir etiquetas de "
+"color para diferentes tipos de mensajes. Puede añadir, editar o eliminar las "
+"etiquetas. También puede asignar colores a cada etiqueta que haya creado."
 
 #: C/evolution.xml:6496(para)
 msgid "You cannot remove the default labels."
@@ -13492,7 +13505,7 @@ msgstr "No puede borrar las etiquetas predeterminadas."
 
 #: C/evolution.xml:6500(para)
 msgid "Click Add and specify the name in the Label Name dialog."
-msgstr "Pulse Añadir y especifique el nombre en la el diálogo Nombre de la etiqueta"
+msgstr "Pulse Añadir y especifique el nombre en la el diálogo Nombre de la etiqueta."
 
 #: C/evolution.xml:6503(para)
 msgid "Click the color tab and select a color, then click OK."
@@ -14414,10 +14427,10 @@ msgid ""
 "the error message for the specified duration and then it is moved to the "
 "debug file."
 msgstr ""
-"Evolution le permite ver los registros de errores y ajustar la duración de los mensajes "
-"de error en la barra de estado. Cuando ocurre un error, la barra de estado muestra "
-"el mensaje de error durante el tiempo especificado y después el mensaje se mueve al "
-"archivo de depuración."
+"Evolution le permite ver los registros de errores y ajustar la duración de "
+"los mensajes de error en la barra de estado. Cuando ocurre un error, la "
+"barra de estado muestra el mensaje de error durante el tiempo especificado y "
+"después el mensaje se mueve al archivo de depuración."
 
 #: C/evolution.xml:6909(para)
 msgid "From Help menu, select Debug Logs."
@@ -14438,9 +14451,9 @@ msgid ""
 "<inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> icon "
 "is displayed with a &ldquo;for-your-information&rdquo; message."
 msgstr ""
-"El icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning.png\"/> "
-"indica que el mensaje de error mostrado es una advertencia. El icono"
-"<inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> "
+"El icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning."
+"png\"/> indica que el mensaje de error mostrado es una advertencia. El "
+"icono<inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> "
 "se muestra con un mensaje «para-su-información»."
 
 #: C/evolution.xml:6925(para)
@@ -15012,11 +15025,11 @@ msgid ""
 "Report Tool (known as bug-buddy at the command line) if you find bugs or "
 "want to request new features."
 msgstr ""
-"El control de calidad de Evolution™ se realiza desde el <ulink url="
-"\"http://bugzilla.gnome.org\">sistema de seguimiento de errores de GNOME</"
-"ulink>. Si encuentra errores o quiere pedir nuevas características, puede "
-"utilizarlo o bien optar por la herramienta de información de errores de "
-"GNOME (conocida como bug-buddy en la línea de comandos)."
+"El control de calidad de Evolution™ se realiza desde el <ulink url=\"http://"
+"bugzilla.gnome.org\">sistema de seguimiento de errores de GNOME</ulink>. Si "
+"encuentra errores o quiere pedir nuevas características, puede utilizarlo o "
+"bien optar por la herramienta de información de errores de GNOME (conocida "
+"como bug-buddy en la línea de comandos)."
 
 #: C/evolution.xml:7159(para)
 msgid ""
@@ -15213,9 +15226,9 @@ msgid ""
 "to data. It enables faster searches and decreases memory usage for data "
 "displays."
 msgstr ""
-"Un procedimiento de predescarga que permite a Novell; Ev®olution™ "
-"acceder rápidamente a los datos. Permite búsquedas más rápidas y reduce el "
-"uso de memoria para mostrar los datos."
+"Un procedimiento de predescarga que permite a Novell; Ev®olution™ acceder "
+"rápidamente a los datos. Permite búsquedas más rápidas y reduce el uso de "
+"memoria para mostrar los datos."
 
 #: C/evolution.xml:7244(glossterm)
 msgid "Bcc (Blind Carbon Copy)"
