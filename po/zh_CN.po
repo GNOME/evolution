@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-23 20:44+0000\n"
-"PO-Revision-Date: 2008-03-02 14:02+0800\n"
+"PO-Revision-Date: 2008-03-04 16:29+0800\n"
 "Last-Translator: YangZhang <zyangmath@gmail.com>\n"
 "Language-Team: Chinese i18n <i18n-zh@googlegroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -12135,7 +12135,7 @@ msgstr "总是请求阅读收条"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "在状态栏中显示错误的时间秒数。"
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Automatic emoticon recognition"
@@ -12167,7 +12167,7 @@ msgstr "编写窗口的默认宽度"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "撰写器加载/附件目录"
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12233,7 +12233,7 @@ msgstr "订阅对话框的默认宽度。"
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr ""
+msgstr "决定是否在地址簿中查找发件人 email"
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid ""
@@ -12242,10 +12242,13 @@ msgid ""
 "can be slow, if remote addressbooks (like ldap) are marked for "
 "autocompletion."
 msgstr ""
+"决定是否在地址簿中查找发件人 email。如果找到，则不应是垃圾邮件。这"
+"将在标记为自动补全的地址簿中查找，如果远程地址簿(如 ldap)被标记为"
+"自动补全的话，可能会比较慢。"
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
-msgstr ""
+msgstr "决定是否使用自定义信头检测垃圾邮件"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid ""
@@ -12253,12 +12256,15 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
+"决定是否使用自定义信头检测垃圾邮件。如果此选项被启用且信头被"
+"设置的话，将提高垃圾邮件检测速度。"
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
+"决定是否在垂直视图中对“信件”列的“来自”和“主题”行使用相同的字体。"
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -12324,6 +12330,7 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"启用以在消息预览、消息列表和文件夹中使用空格键。"
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12383,6 +12390,7 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
+"禁用/启用永久删除(而非简单地从结果中移除)搜索文件夹中的信件时不断弹出的提示。"
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Last time empty junk was run"
@@ -12394,7 +12402,7 @@ msgstr "上次清空回收站的时间"
 
 #: ../mail/evolution-mail.schemas.in.h:59
 msgid "Level beyond which the message should be logged."
-msgstr ""
+msgstr "大于此级别的消息会被记录。"
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "List of Labels and their associated colors"
@@ -12628,13 +12636,14 @@ msgstr "在信件阅读面板中显示发件人照片。"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Specifies the header to check for junk."
-msgstr ""
+msgstr "指定用以检查垃圾邮件的信头。"
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
 "Specifies the header to check for junk. The format is headername=value in "
 "gconf."
 msgstr ""
+"指定用以检查垃圾邮件的信头。其 gconf 格式为 信头名=值。"
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Spell check inline"
@@ -12681,6 +12690,7 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
+"此选项有三种可能值：0－错误，1－警告，2－调试信息。"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -12840,6 +12850,7 @@ msgstr "选中了查看/ReplyTo 菜单项。"
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
+"是否默认对所有信件添加阅读收条请求。"
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid ""
@@ -12849,7 +12860,7 @@ msgstr "是否在信件不包含 In-Reply-To 或 References 头时强制按主�
 
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "是否以线索中的最新信件来排序线索"
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Width of the message-list pane"
@@ -13015,23 +13026,23 @@ msgstr "升级邮件设置或文件夹失败。"
 
 #: ../mail/mail-component.c:1522
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: ../mail/mail-component.c:1522
 msgid "Errors"
-msgstr ""
+msgstr "错误"
 
 #: ../mail/mail-component.c:1523
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "警告和错误"
 
 #: ../mail/mail-component.c:1524
 msgid "Debug"
-msgstr ""
+msgstr "调试"
 
 #: ../mail/mail-component.c:1524
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "错误，警告和调试信息"
 
 #: ../mail/mail-component.c:1634
 msgid "Debug Logs"
@@ -13039,7 +13050,7 @@ msgstr "调试日志"
 
 #: ../mail/mail-component.c:1638
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "在状态栏显示错误(_E)"
 
 #: ../mail/mail-component.c:1645
 msgid "seconds."
@@ -13308,7 +13319,7 @@ msgstr "对寄出的信件进行数字签名(默认)(_U)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
-msgstr ""
+msgstr "如果信件发送者在地址簿中则标记为垃圾邮件(_N)"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Do not format text contents in messages if the text si_ze exceeds"
@@ -13340,7 +13351,7 @@ msgstr "退出时清空已删除邮件(_X)"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
-msgstr ""
+msgstr "启用魔术空格键(_P)"
 
 #: ../mail/mail-config.glade.h:80
 msgid "Enable Sea_rch Folders"
@@ -13426,6 +13437,7 @@ msgstr "信件撰写器"
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
+"注意：标签名中的下划线被用作菜单中的助记符。"
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -13585,6 +13597,7 @@ msgstr ""
 msgid ""
 "This option will be overridden if a match for custom junk headers is found."
 msgstr ""
+"如果找到匹配的自定义垃圾信头，此选项将被覆盖。"
 
 #: ../mail/mail-config.glade.h:147
 msgid ""
@@ -14620,6 +14633,9 @@ msgid ""
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"警告：从搜索文件夹中删除信件将会删除实际位于您的本地"
+"或远程文件夹中的相应信件。\n"
+"您真的想要这么做吗？"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -16206,6 +16222,7 @@ msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
 msgstr ""
+"一个使用外部编辑器作为撰写器的插件。您只能发送纯文本信件。"
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -17417,10 +17434,11 @@ msgstr "新邮件到达时生成 D-Bus 信息。"
 msgid ""
 "If true, then beep, otherwise will play sound file when new messages arrive."
 msgstr ""
+"新信件到达时，此值如果为 true，则响铃，否则播放声音文件。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "只通知收件箱中的新信件。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Play sound when new messages arrive."
@@ -17428,7 +17446,7 @@ msgstr "新邮件到达时播放声音。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "同时弹出消息和图标。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
@@ -17448,7 +17466,7 @@ msgstr "新邮件到达时是播放声音文件还是哔一下。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
+msgstr "新邮件到达时是否在图标上显示消息"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
@@ -17456,7 +17474,7 @@ msgstr "是否闪烁图标。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "是否只通知收件箱文件夹中的新信件。"
 
 #: ../plugins/mail-notification/mail-notification.c:254
 msgid "Generate a _D-Bus message"
@@ -17494,7 +17512,7 @@ msgstr "闪烁通知区图标(_L)"
 
 #: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
-msgstr ""
+msgstr "同时弹出图标和消息(_M)"
 
 #: ../plugins/mail-notification/mail-notification.c:626
 msgid "_Play sound when new messages arrive"
@@ -17522,7 +17540,7 @@ msgstr "播放(_A)"
 
 #: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "只通知收件箱中的新信件(_I)"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid ""
@@ -17558,6 +17576,7 @@ msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
 msgstr ""
+"选中的源是只读的，因此不能在此创建任务。请选择其它的源。"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
@@ -18716,6 +18735,8 @@ msgid ""
 "run.  As a precautionary measure, all preview panes will be hidden.\n"
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
+"Evolution 似乎在上次运行时异常退出。作为预防措施，所有的预览面板\n"
+"将被隐藏。您可以从查看菜单中恢复预览面板。\n"
 
 #: ../shell/main.c:337
 msgid "_Do not show this message again"
