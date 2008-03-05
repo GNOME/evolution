@@ -1,7 +1,7 @@
 # Italian translation for Evolution 	 
 # This file is distributed under the same license as evolution package 	 
 # Based on translation of gal package too. 	 
-# Copyright (C) 2000-2002 Free Software Foundation, Inc. 	 
+# Copyright (C) 2000-2008 Free Software Foundation, Inc. 	 
 # Christopher R. Gabriel <cgabriel@softwarelibero.org>, 2002 	 
 # Clara Tattoni <clara.tattoni@libero.it>, 2000-2002 	 
 # Ettore Perazzoli <ettore@ximian.com>, 2001 	 
@@ -9,7 +9,7 @@
 # Alessio Dessi <alessio.dessi@libero.it>, 2003 	 
 # Monica Badia <Monica.Badia@Sun.COM>, 2003 	 
 # Craig Jeffares <cjeffares@novell.com>, 2004. 	 
-# Luca Ferretti <elle.uca@libero.it>, 2003-2007. 	 
+# Luca Ferretti <elle.uca@libero.it>, 2003-2008. 	 
 #
 #  Convenzioni adottate: 	 
 #
@@ -25,6 +25,7 @@
 #  junk          -> indesiderato 	(MS)
 #  not junk      -> attendibile 	 
 #  offline       -> fuori rete
+#  inline	       -> incorporato (sperimentale per 2.22)
 #
 # Nota: a causa delle mie limitate capacità mentali, ho rimosso
 # molti commenti utili alla traduzione. Grazie all'svn e proverò
@@ -32,10 +33,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.20.x\n"
+"Project-Id-Version: evolution 2.22.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-03 13:32+0100\n"
-"PO-Revision-Date: 2008-03-03 14:22+0100\n"
+"PO-Revision-Date: 2008-03-05 13:31+0100\n"
 "Last-Translator: Luca Ferretti <elle.uca@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -10666,9 +10667,13 @@ msgstr "Aggiungi etichetta"
 msgid "Label name cannot be empty."
 msgstr "Il nome dell'etichetta non può essere vuoto."
 
+# GNOME-2-22
+# TAG: appare solo in due messaggi (per ora)
+# usato *codice* per evitare confusione con label
+# (in alternativa potrebbe essere *nome convezionale*)
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr ""
+msgstr "Esiste già un'etichetta con lo stesso codice. Rinominare la propria etichetta."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -12095,9 +12100,11 @@ msgstr "Scaduto:"
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "per il %d %b alle %k.%M"
 
+# GNOME-2-22
+# INLINE
 #: ../mail/em-format-html-display.c:1512
 msgid "_View Inline"
-msgstr "_Visualizza in linea"
+msgstr "_Visualizza incorporato"
 
 #: ../mail/em-format-html-display.c:1513
 msgid "_Hide"
@@ -12373,9 +12380,13 @@ msgstr "Contiene il valore"
 msgid "Color"
 msgstr "Colore"
 
+# GNOME-2-22
+# TAG: appare solo in due messaggi (per ora)
+# usato *codice* per evitare confusione con label
+# (in alternativa potrebbe essere *nome convezionale*)
 #: ../mail/em-mailer-prefs.c:476
 msgid "Tag"
-msgstr ""
+msgstr "Codice"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1140
@@ -12545,13 +12556,15 @@ msgstr ""
 msgid "Always request read receipt"
 msgstr "Richiedere sempre ricevuta di lettura"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "Tempo (in secondi) durante il quale mostrare l'errore nella barra di stato."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Automatic emoticon recognition"
-msgstr ""
+msgstr "Riconoscimento automatico emoticon"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Automatic link recognition"
@@ -12577,9 +12590,10 @@ msgstr "Altezza predefinita finestra di composizione"
 msgid "Composer Window default width"
 msgstr "Larghezza predefinita finestra di composizione"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "Directory carica/allega del compositore"
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12652,34 +12666,39 @@ msgstr "Larghezza predefinita della finestra del messaggio."
 msgid "Default width of the subscribe dialog."
 msgstr "Larghezza predefinita del dialogo di sottoscrizione"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr ""
+msgstr "Determina se cercare nella rubrica l'email del mittente"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid ""
 "Determines whether to loopup the sender email in addressbook. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
 "can be slow, if remote addressbooks (like ldap) are marked for "
 "autocompletion."
-msgstr ""
+msgstr "Determina se cercare l'email del mittente nella rubrica. Se trovato, non si dovrebbe trattare di spam. La ricerca è nelle rubriche contrassegnate per il completamento automatico. Potrebbe essere lento, se sono contrassegnate per il completamento automatico delle rubriche non locali (come ldap)."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
-msgstr ""
+msgstr "Determina se usare intestazioni personalizzate nel controllare gli indesiderati"
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
-msgstr ""
+msgstr "Determina se usare intestazioni personalizzate nel controllare i messaggi indesiderati. Se questa opzione è abilitata e le intestazioni sono menzionati, migliora la velocità di controllo degli indesiderati."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
-msgstr ""
+msgstr "Determina se usare gli stessi tipi di carattere per entrambe le righe \"Da\" e \"Oggetto\" nella colonna \"Messaggi\" della vista verticale."
 
 # GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:32
@@ -12812,17 +12831,14 @@ msgid "It disables/enables the prompt while marking multiple messages."
 msgstr ""
 "Abilita/Disabilita il prompt mentre si contrassegnano messaggi multipli."
 
-# GNOME-2-20
+# GNOME-2-22
 #
 # non mi convince affatto...
 #: ../mail/evolution-mail.schemas.in.h:55
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
-msgstr ""
-"Disabilita la funzione per cui prompt ripetuti domandano se è richiesta la "
-"sincronizzazione per il fuori rete."
+msgstr "Abilita/Disabilita la funzione per cui prompt ripetuti domandano se è richiesta la sincronizzazione prima di passare in modalità fuori rete"
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid ""
@@ -13106,19 +13122,23 @@ msgstr ""
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Mostra la foto del mittente nel riquadro di lettura del messaggio."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Specifies the header to check for junk."
-msgstr ""
+msgstr "Specifica le intestastazioni da controllare per gli indesiderati."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
 "Specifies the header to check for junk. The format is headername=value in "
 "gconf."
-msgstr ""
+msgstr "Specifica le intestastazioni da controllare per i messaggi indesiderati. Il formato è nomeintestazione=valore in gconf."
 
+# GNOME-2-22
+# INLINE
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Spell check inline"
-msgstr "Controllo ortografico in linea"
+msgstr "Controllo ortografico incorporato"
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Subscribe dialog default height"
@@ -13166,11 +13186,12 @@ msgid "The variable width font for mail display."
 msgstr ""
 "Il carattere a larghezza variabile per la visualizzazione dei messaggi."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
-msgstr ""
+msgstr "Questa chiave può avere tre valori possibili: 0 per errori, 1 per avvertimenti, 2 per messaggi di debug."
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -13227,26 +13248,20 @@ msgstr ""
 "Questa chiave imposta il numero di indirizzi da mostrare nella vista a "
 "elenco messaggi predefinita, oltre il quale è mostrato un \"...\"."
 
-# GNOME-2-20
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
-msgstr ""
-"Questa impostazione specifica se in modo predefinito le discussioni debbono "
-"essere nello stato espanso o contratto. È necessario riavviare Evolution"
+msgstr "Questa impostazione specifica se in modo predefinito le discussioni debbono essere nello stato espanso o contratto. È necessario riavviare Evolution."
 
-# GNOME-2-20
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:135
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
-msgstr ""
-"Questa impostazione specifica se in modo predefinito le discussioni debbono "
-"essere nello stato espanso o contratto. È necessario riavviare Evolution"
+msgstr "Questa impostazione specifica se le discussioni debbono essere ordinare in base all'ultimo messaggio in ciascuna discussione invece per la data del messaggio. È necessario riavviare Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "Thread the message list."
@@ -13360,9 +13375,10 @@ msgstr ""
 "Reimposta l'elenco per discussione in base all'oggetto se i messaggi non "
 "contengono le intestazioni In-Risposta-A o Riferimenti."
 
+# GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "Indica se ordinare le discussioni in base all'ultimo messaggio nella discussione"
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Width of the message-list pane"
@@ -13598,9 +13614,10 @@ msgstr "Messaggi"
 msgid " Ch_eck for Supported Types "
 msgstr " _Controlla tipi supportati"
 
+# GNOME-2-22
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
-msgstr ""
+msgstr "(nota: richiede il riavvio dell'applicazione)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13945,14 +13962,17 @@ msgstr "Intestazioni"
 msgid "Highlight _quotations with"
 msgstr "Evidenziare ci_tazioni con"
 
+# GNOME-2-22
+# INLINE
 #: ../mail/mail-config.glade.h:94
 msgid "Inline"
-msgstr "In linea"
+msgstr "Incorporato"
 
-# NEW
+# GNOME-2-22
+# INLINE
 #: ../mail/mail-config.glade.h:95
 msgid "Inline original message (Outlook style)"
-msgstr "Messaggio originale in linea (stile Outlook)"
+msgstr "Messaggio originale incorporato (stile Outlook)"
 
 #: ../mail/mail-config.glade.h:97
 msgid "KB"
@@ -13983,10 +14003,11 @@ msgstr "Posizione casella di posta"
 msgid "Message Composer"
 msgstr "Compositore messaggio"
 
+# GNOME-2-22
 #: ../mail/mail-config.glade.h:105
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr ""
+msgstr "Nota: la sottolineatura nel nome dell'etichetta è usata come identificatore mnemonico nel menù."
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -15038,10 +15059,10 @@ msgstr "Cartella mancante"
 msgid "No sources selected."
 msgstr "Nessuna origine selezionata."
 
-# GNOME-2-20
+# GNOME-2-22
 #: ../mail/mail.error.xml.h:78
 msgid "Only on _Current Folder"
-msgstr "Solo in _cartella corrente"
+msgstr "_Solo cartella corrente"
 
 #: ../mail/mail.error.xml.h:79
 msgid "Opening too many messages at once may take a long time."
@@ -15252,12 +15273,15 @@ msgstr "Usa _predefinita"
 msgid "Use default drafts folder?"
 msgstr "Usare la cartella delle bozza predefinita?"
 
+# GNOME-2-22
 #: ../mail/mail.error.xml.h:124
 msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual "
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"Avvertimento: eliminando i messaggi da una cartella di ricerca, viene eliminato il messaggio vero e proprio da una delle cartelle locali o remote.\n"
+"Eliminare veramente?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -15313,7 +15337,7 @@ msgstr "Ri_pulisci"
 msgid "_Open Messages"
 msgstr "_Apri messaggi"
 
-# GNOME-2-20
+# GNOME-2-22
 #
 # Pulsante, in dialogo contrassegna come letti
 # in cartella corrente e sottocartelle
@@ -15328,7 +15352,7 @@ msgstr "_Apri messaggi"
 #
 #: ../mail/mail.error.xml.h:143
 msgid "on Current Folder and _Subfolders"
-msgstr "_Su cartella corrente e sottocartelle"
+msgstr "_Cartella corrente e sottocartelle"
 
 #: ../mail/message-list.c:1053
 msgid "Unseen"
@@ -15559,17 +15583,19 @@ msgstr "Il messaggio non ha allegati"
 msgid "_Continue Editing"
 msgstr "_Continua scrittura"
 
+# GNOME-2-22
+# INLINE
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
-msgstr ""
-"Un plugin formatter che mostra in linea gli allegati audio e consente di "
-"riprodurli direttamente in Evolution."
+msgstr "Un plugin formatter che mostra incorporati gli allegati audio e consente di riprodurli direttamente in Evolution."
 
+# GNOME-2-22
+# INLINE
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
-msgstr "Plugin audio in linea"
+msgstr "Plugin audio incorporato"
 
 #: ../plugins/backup-restore/backup-restore.c:96
 msgid "Select name of the Evolution backup file"
@@ -16960,11 +16986,12 @@ msgstr "Sottoscrivi compiti di altro utente"
 msgid "Check folder permissions"
 msgstr "Verifica permessi della cartella"
 
+# GNOME-2-22
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
-msgstr ""
+msgstr "Un plugin per usare un editore esterno come compositore. È possibile inviare solo messaggi in testo semplice."
 
 # GNOME-2-22
 #. the path to the shared library
@@ -16972,13 +16999,15 @@ msgstr ""
 msgid "External Editor"
 msgstr "Editor esterno"
 
+# GNOME-2-22
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in External Editor"
-msgstr ""
+msgstr "Componi in editor esterno"
 
+# GNOME-2-22
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "Compone i messaggi usando un editor esterno"
 
 # GNOME-2-20
 #: ../plugins/face/face.c:57
@@ -16997,16 +17026,11 @@ msgstr "_Faccia"
 
 # GNOME-2-20
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Attach Face header to outgoing messages. First time the user needs to "
 "configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/"
 "faces This will be used in messages that are sent further."
-msgstr ""
-"Allega una intestazione Face ai messaggi in uscita. La prima volta è "
-"necessario che l'utente configuri un'immagine png 48×48. Tale immagine viene "
-"codificata in base64 e memorizzata in ~/.evolution/faces; verrà usata nei "
-"messaggi inviati in seguito."
+msgstr "Allega una intestazione Face ai messaggi in uscita. La prima volta è necessario che l'utente configuri un'immagine png 48×48. Tale immagine viene codificata in base64 e memorizzata in ~/.evolution/faces; verrà usata nei messaggi inviati in seguito."
 
 # GNOME-2-20
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
@@ -18243,71 +18267,85 @@ msgstr "Consente la disabilitazione degli account."
 msgid "Disable Account"
 msgstr "Disabilita account"
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Beep or play sound file."
-msgstr ""
+msgstr "Avviso acustico o riproduzione file audio."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "Lampeggiamento icona nell'area di notifica."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "Abilitare messaggi D-Bus."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Enable icon in notification area."
-msgstr ""
+msgstr "Abilitare icona nell'area di notifica."
 
 # GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Genera un messaggio D-Bus all'arrivo di nuovi messaggi di posta."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid ""
 "If true, then beep, otherwise will play sound file when new messages arrive."
-msgstr ""
+msgstr "Se impostata a VERO, allora emette un avviso acustico, altrimenti riproduce un file audio quando arrivano nuovi messaggi."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "Notificare nuovi messaggi solo per \"In arrivo\"."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Play sound when new messages arrive."
-msgstr ""
+msgstr "Riproduce un suono quando arrivano nuovi messaggi."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "Fa apparire un messaggio assieme all'icona."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr ""
+msgstr "Mostra l'icona nuova posta nell'area di notifica quando arrivano nuovi messaggi."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
-msgstr ""
+msgstr "Nome del file audio da riprodurre."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr ""
+msgstr "File audio da riprodurre quando arrivano nuovi messaggi, qualora non in modalità avviso acustico."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
 msgid "Whether play sound or beep when new messages arrive."
-msgstr ""
+msgstr "Indica se riprodurre un suono o emettere un avviso acustico quando arrivano nuovi messaggi."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
+msgstr "Indica se mostrare un messaggio sopra l'icona quando arrivano nuovi messaggi."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
-msgstr ""
+msgstr "Indica se l'icona debba lampaggiare oppure no."
 
+# GNOME-2-22
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "Indica se notificare la presenza di nuovi messaggi solo per la cartella \"In arrivo\"."
 
 # GNOME-2-22
 #: ../plugins/mail-notification/mail-notification.c:254
@@ -18392,11 +18430,12 @@ msgstr "Ri_produci"
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificare _solo i nuovi messaggi in «In arrivo»"
 
+# GNOME-2-22
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
-msgstr ""
+msgstr "All'arrivo di un nuovo messagio, genera un messaggio D-Bus o notifica all'utente per mezzo di un'icona nell'area di notifica e di un messaggio di notifica."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -18424,11 +18463,12 @@ msgstr "Email in riunione"
 msgid "Cannot open calendar. %s"
 msgstr "Impossibile aprire il calendario. %s"
 
+# GNOME-2-22
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
-msgstr ""
+msgstr "La sorgente selezionata è in sola lettura, non è possibile creare un compito. Selezionare un'altra sorgente."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
@@ -19202,9 +19242,10 @@ msgstr "Una stringa che descrive le impostazioni attuali della stampante"
 msgid "Configuration version"
 msgstr "Versione configurazione"
 
+# GNOME-2-22
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Decides whether the crash detection should be run or not."
-msgstr ""
+msgstr "Decide se eseguire o no il rilevamento del crash."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -20999,9 +21040,10 @@ msgstr "Mostra la finestra di anteprima messaggio"
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Effettua ed annulla la sottoscrizione a cartelle su server remoti"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "Visualizza la console di debug per messaggi di registro"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
@@ -21582,9 +21624,11 @@ msgstr "_Vai a"
 msgid "_Important"
 msgstr "_Importante"
 
+# GNOME-2-22
+# INLINE
 #: ../ui/evolution-mail-message.xml.h:113
 msgid "_Inline"
-msgstr "I_n linea"
+msgstr "I_ncorporato"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Junk"
@@ -22100,14 +22144,15 @@ msgstr "_Disposizione"
 msgid "New _Window"
 msgstr "Nuova _finestra"
 
+# GNOME-2-22
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "Apre la pagina web delle domande frequenti"
 
-# GNOME-2-20
+# GNOME-2-22
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
-msgstr "_Imposta pagina..."
+msgstr "_Impostazione pagina..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
