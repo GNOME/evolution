@@ -1,3 +1,8 @@
+2008-03-05  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: etc/gconf/gconf.xml.defaults/apps/evolution
+	was missing.
+
 2008-03-03  Tor Lillqvist  <tml@novell.com>
 
 	* evolution-zip.in: Misc simplification and cleanup. Add
