@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-27 21:51+0100\n"
-"PO-Revision-Date: 2008-03-06 11:53+0100\n"
+"PO-Revision-Date: 2008-03-06 12:07+0100\n"
 "Last-Translator: Robert-André Mauchin <zebob.m@pengzone.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -15501,7 +15501,7 @@ msgstr "Sélectionnez le nom de l'archive Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
-msgstr "_Redémarrer Evolution après l'archive"
+msgstr "_Redémarrer Evolution après l'archivage"
 
 #: ../plugins/backup-restore/backup-restore.c:139
 msgid "Select name of the Evolution backup file to restore"
