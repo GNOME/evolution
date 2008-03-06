@@ -1,3 +1,10 @@
+2008-03-06  Tobias Mueller  <muelli@auftrags-killer.org>
+
+	** Fix for bug #520745
+
+	* mail/em-format.c: Fix format-string vulnerability
+	Patch by Tor Lillqvist <tml@iki.fi>
+
 2008-03-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-tree.c (emft_drop_async__done):
