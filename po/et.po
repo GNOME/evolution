@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-03-03 14:55+0200\n"
+"PO-Revision-Date: 2008-03-06 16:09+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -348,13 +348,12 @@ msgstr "aktiveerimine"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
 msgstr ""
-"Sul on valitud kirjutuskaitsega kalendriallikas. Kalendrivaates tuleks "
-"valida kalender, mis võimaldab muudatusi sisse viia."
+"Aadressiraamatu allikas '{0}' on kirjutuskaitsega. Kontaktivaates tuleks "
+"valida aadressiraamat, mis võimaldab muudatusi sisse viia."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -4092,7 +4091,7 @@ msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
 msgstr ""
-"'{0}' on kirjutuskaitsega kalendriallikas. Kalendrivaates tuleks valida "
+"Kalendriallikas '{0}' on kirjutuskaitsega. Kalendrivaates tuleks valida "
 "kalender, mis võimaldab muudatusi sisse viia."
 
 #: ../calendar/calendar.error.xml.h:3
@@ -5611,7 +5610,7 @@ msgstr "Päev lõpe_b:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Display"
-msgstr "Kuva"
+msgstr "Kuvamine"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.c:1098
@@ -11341,9 +11340,8 @@ msgid "Then"
 msgstr "Siis"
 
 #: ../mail/em-filter-rule.c:517
-#, fuzzy
 msgid "Add Ac_tion"
-msgstr "Lisa erand"
+msgstr "Lisa _tegevus"
 
 #: ../mail/em-folder-browser.c:189
 msgid "C_reate Search Folder From Search..."
@@ -11391,7 +11389,7 @@ msgstr "Kontootsing"
 
 #: ../mail/em-folder-browser.c:1176
 msgid "All Account Search"
-msgstr "Otring kõigi kontode hulgast"
+msgstr "Otsing kõigi kontode hulgast"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:149
@@ -11770,7 +11768,6 @@ msgid "Matches: %d"
 msgstr "Sobivaid: %d"
 
 #: ../mail/em-format-html-display.c:659
-#, fuzzy
 msgid "Fin_d:"
 msgstr "_Otsing:"
 
@@ -12511,22 +12508,20 @@ msgstr ""
 "Kursorirežiimi lubamine - siis on sõnumi lugemisel kursori asukoht näha."
 
 #: ../mail/evolution-mail.schemas.in.h:40
-#, fuzzy
 msgid "Enable or disable magic space bar"
-msgstr "Ettevaatava otsinguvõimaluse lubamine"
+msgstr "Võlutühiku lubamine või keelamine"
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Enable or disable type ahead search feature"
 msgstr "Ettevaatava otsinguvõimaluse lubamine"
 
 #: ../mail/evolution-mail.schemas.in.h:42
-#, fuzzy
 msgid "Enable search folders"
-msgstr "Otsingukaustad"
+msgstr "Otsingukaustade lubamine"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "Käivitamisel otsingukaustade lubamine."
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -12545,6 +12540,8 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Selle märkimisega lubatakse sõnumi eelvaates, sõnumite nimekirjas ja "
+"kataloogides kasutada tühikuklahvi kuva edasikerimiseks."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12673,16 +12670,15 @@ msgid "Load images for HTML messages over http"
 msgstr "Laadi HTML sõnumite pildid üle http"
 
 #: ../mail/evolution-mail.schemas.in.h:69
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
 "Always load images off the net."
 msgstr ""
-"HTML sõnumite piltide laadimine üle http(s) protokolli. Võimalikud väärtused "
+"HTML-sõnumite piltide laadimine üle http(s) protokolli. Võimalikud väärtused "
 "on: 0 - Pilte ei laadita mitte kunagi võrgust alla 1 - Pildid laaditakse "
 "ainult kontaktide hulgast tulnud sõnumite puhul 2 - Pildid laaditakse alati "
-"võrgust alla"
+"võrgust alla."
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Log filter actions"
@@ -12770,9 +12766,8 @@ msgstr ""
 "aktiveerida"
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "Tühja _teemareaga sõnumi saatmisel küsitakse kinnitust"
+msgstr "Otsingukaustast sõnumi kustutamisel küsitakse kinnitust"
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Prompt when user expunges"
@@ -12793,8 +12788,8 @@ msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
-"Kinnituse küsimine, kui püütakse saata HTML sõnumit isikule, kes ei soovi "
-"HTML sisuga sõnumeid vastu võtta."
+"Kinnituse küsimine, kui püütakse saata HTML-sõnumit isikule, kes ei soovi "
+"HTML-sisuga sõnumeid vastu võtta."
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
@@ -12811,18 +12806,16 @@ msgid "Prompt while marking multiple messages"
 msgstr "Kinnituse küsimine mitme sõnumi märkimise korral"
 
 #: ../mail/evolution-mail.schemas.in.h:98
-#, fuzzy
 msgid "Recognize emoticons in text and replace them with images."
-msgstr "Tekstis olevate emotikonide äratundmine ja piltidega asendamine."
+msgstr "Tekstis olevate emotikonide äratundmine ja nende asendamine piltidega."
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Recognize links in text and replace them."
 msgstr "Tekstis olevate viitade äratundmine ja asendamine."
 
 #: ../mail/evolution-mail.schemas.in.h:100
-#, fuzzy
 msgid "Run junk test on incoming mail."
-msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele"
+msgstr "Rämpspostikontrollitestide rakendamine sissetulevatele sõnumitele."
 
 #: ../mail/evolution-mail.schemas.in.h:101
 msgid "Save directory"
@@ -12841,9 +12834,8 @@ msgid "Send HTML mail by default."
 msgstr "Sõnumite vaikimisi HTML-vormingus saatmine."
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Sender email-address column in the message list"
-msgstr "Saatja aadressi näitamine sõnumite loendi sõnumiveerus"
+msgstr "Saatja e-post aadressi näitamine sõnumite loendi sõnumiveerus"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show Animations"
@@ -12866,11 +12858,10 @@ msgid "Show photo of the sender"
 msgstr "Saatja foto näitamine"
 
 #: ../mail/evolution-mail.schemas.in.h:113
-#, fuzzy
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
-msgstr "Saatja aadressi näitamine sõnumite loendi sõnumiveerus"
+msgstr "Saatja aadressi näitamine sõnumite loendi sõnumiveerus."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Show the photo of the sender in the message reading pane."
@@ -12919,14 +12910,12 @@ msgid "The last time empty trash was run, in days since the epoch."
 msgstr "Viimane prügikasti tühjendamise aeg päevades alates epohhi algusest."
 
 #: ../mail/evolution-mail.schemas.in.h:125
-#, fuzzy
 msgid "The terminal font for mail display."
-msgstr "Terminali kirjatüüp sõnumikuvas"
+msgstr "Terminali kirjatüüp sõnumikuvas."
 
 #: ../mail/evolution-mail.schemas.in.h:126
-#, fuzzy
 msgid "The variable width font for mail display."
-msgstr "Muutuva laiusega kirjatüüp sõnumikuvas"
+msgstr "Muutuva laiusega kirjatüüp sõnumikuvas."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
@@ -12981,13 +12970,12 @@ msgstr ""
 "aadresside arv enne '...' näitamist."
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
 "Selle sättega määratakse, kas lõimed peavad vaikimisi olema avatud või "
-"ahendatud olekus. Sätte muutmise korral vajab Evolution taaskäivitamist."
+"ahendatud olekus. Sätte rakendamiseks tuleb Evolution uuesti käivitada."
 
 #: ../mail/evolution-mail.schemas.in.h:135
 #, fuzzy
@@ -13012,12 +13000,10 @@ msgid "Thread the message-list based on Subject"
 msgstr "Sõnumiloendi paigutamine lõimedesse Teema alusel"
 
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "Timeout for marking message as seen"
 msgstr "Aeg, mille jooksul sõnum nähtuks märgitakse"
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "Timeout for marking message as seen."
 msgstr "Aeg, mille jooksul sõnum nähtuks märgitakse."
 
@@ -13447,9 +13433,8 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Serveri sätted</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\">Autentimise liik</span>"
+msgstr "<span weight=\"bold\">_Autentimise liik</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -13490,16 +13475,14 @@ msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Krüptitud sõnumi saatmisel krüptitakse alati ka _enda jaoks"
 
 #: ../mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always request rea_d receipt"
-msgstr "Küsi _lugemiskinnitust"
+msgstr "_Lugemiskinnitust küsitakse alati"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "Algupärane sõnum lisatakse manusena"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _emoticon images"
 msgstr "Tuju_nägude pildid lisatakse automaatselt"
 
@@ -13516,16 +13499,14 @@ msgid "C_haracter set:"
 msgstr "_Märgistik:"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "C_heck custom headers for junk"
-msgstr "Sissetulevale postile rakendatakse _rämpsukontrolli"
+msgstr "Rämpsukontrollis vaadatakse kohandatud _päiseid"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "_Toetatavate tüüpide tuvastus"
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check incoming _messages for junk"
 msgstr "Sissetulevale postile rakendatakse _rämpsukontrolli"
 
@@ -13578,21 +13559,18 @@ msgid "Default character e_ncoding:"
 msgstr "_Vaikimisi kooditabel:"
 
 #: ../mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Delete junk messages on e_xit"
-msgstr "Lõpetamisel kustutatakse _rämpspost"
+msgstr "Lõpetamisel _kustutatakse rämpspost"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
-msgstr ""
+msgstr "Minu _aadressiraamatus olevate saatjate sõnumeid ei märgita rämpsuks"
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not format text contents in messages if the text si_ze exceeds"
 msgstr "Sõnumite tekstiosa ei vo_rmindata kui selle suurus ületab"
 
@@ -13622,12 +13600,11 @@ msgstr "Väljumisel tühjendatakse _prügikaustad"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
-msgstr ""
+msgstr "Võ_lutühik on lubatud"
 
 #: ../mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Enable Sea_rch Folders"
-msgstr "Otsingukaustad"
+msgstr "_Otsingukaustad on lubatud"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Encry_ption certificate:"
@@ -13785,7 +13762,7 @@ msgstr "Parool jäetakse _meelde"
 
 #: ../mail/mail-config.glade.h:122
 msgid "S_earch for sender photograph only in local addressbooks"
-msgstr "Saatja _fotot otsitakse ainult kohalikust aadressiraamatust"
+msgstr "Saatja f_otot otsitakse ainult kohalikust aadressiraamatust"
 
 #: ../mail/mail-config.glade.h:123
 msgid "S_elect..."
@@ -13875,7 +13852,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:146
 msgid ""
 "This option will be overridden if a match for custom junk headers is found."
-msgstr ""
+msgstr "Seda valikut eiratakse kohandatud päiste vastavuse korral."
 
 #: ../mail/mail-config.glade.h:147
 msgid ""
@@ -13929,7 +13906,6 @@ msgid "_Keep Signature above the original message on replying"
 msgstr "Vastamisel paigutatakse a_llkiri algsest sõnumist ettepoole"
 
 #: ../mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Load images in messages from contacts"
 msgstr "Pildid _laaditakse kontaktide poolt saadetud sõnumites"
 
@@ -13977,7 +13953,6 @@ msgid "_Show image animations"
 msgstr "_Pildianimatsioone näitatakse"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
 msgstr "E-sõnumi eelvaates näidatakse saatja _fotot"
 
@@ -14475,7 +14450,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Oled sa kindel, et soovid seda sõnumit saata HTML vormingus?"
+msgstr "Oled sa kindel, et soovid seda sõnumit saata HTML-vormingus?"
 
 #: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -14770,16 +14745,14 @@ msgstr ""
 "klõpsad \"Kellele:\" nupul."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}"
 msgstr ""
-"Palun veendu, et järgnevad adressaadid soovivad ja suudavad HTML sõnumeid "
+"Palun veendu, et järgnevad adressaadid soovivad ja suudavad HTML-sõnumeid "
 "vastu võtta:\n"
-"{0}\n"
-"Kas saata?"
+"{0}"
 
 #: ../mail/mail.error.xml.h:85
 msgid "Please provide an unique name to identify this signature."
@@ -15179,9 +15152,8 @@ msgid "Enable attachment reminder plugin"
 msgstr "Manuste meeldetuletaja plugina lubamine"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
-#, fuzzy
 msgid "Enable attachment reminder plugin."
-msgstr "Manuste meeldetuletaja plugina lubamine"
+msgstr "Manuste meeldetuletaja plugina lubamine."
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:3
 msgid ""
@@ -15192,13 +15164,12 @@ msgstr ""
 "kohta meeldetuletust"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:4
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
 "Fraaside kirjeldamine, mille esinemise korral näidatakse manuse puudumise "
-"kohta meeldetuletust"
+"kohta meeldetuletust."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
 msgid "Keywords"
@@ -15443,7 +15414,6 @@ msgstr "Automaatsed kontaktid"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-#, fuzzy
 msgid ""
 "_Automatically create entries in the addressbook when responding to messages"
 msgstr "Sõnumile vastamisel luuakse automaatselt aa_dressiraamatu kirje"
@@ -15787,9 +15757,8 @@ msgid "A_uthenticate"
 msgstr "A_utentimine"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:854
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "Autentimise liik"
+msgstr "_Autentimise liik"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:868
 msgid "Ch_eck for Supported Types"
@@ -17756,9 +17725,8 @@ msgid "_Apply to all instances"
 msgstr "_Rakenda kõigile instantsidele"
 
 #: ../plugins/itip-formatter/itip-view.c:1119
-#, fuzzy
 msgid "Show time as _free"
-msgstr "Näita aega kui _hõivatut"
+msgstr "Näita aega kui _vaba"
 
 #: ../plugins/itip-formatter/itip-view.c:1852
 msgid "_Tasks :"
@@ -17946,12 +17914,12 @@ msgid "Notify new messages for _Inbox only"
 msgstr "Uutest sõnumitest teatatakse ainult _Sisendkausta kohta"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
 msgstr ""
-"Uue sõnumi saabumisel kasutaja teavitamine teavitusala ja -sõnumi abil."
+"Uue sõnumi saabumisel D-Bus sõnumi genereerimine või kasutaja teavitamine "
+"teavitusala ja -sõnumi abil."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -18351,8 +18319,8 @@ msgid ""
 "Weekly\n"
 "Manual (via Actions menu)"
 msgstr ""
-"Igapäevane\n"
-"Iganädalane\n"
+"Iga päev\n"
+"Igal nädalal\n"
 "Kohandatud (toimingute menüüst)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
@@ -18399,7 +18367,7 @@ msgstr "_Fail:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_Password:"
-msgstr "_Parool:"
+msgstr "Pa_rool:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:24
 msgid "_Publish as:"
@@ -18602,9 +18570,8 @@ msgid "Show _only this Calendar"
 msgstr "_Näita ainult seda kalendrit"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Memo List"
-msgstr "_Näita ainult seda ülesandeloendit"
+msgstr "_Näita ainult seda märkmeloendit"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:5
 msgid "Show _only this Task List"
@@ -18707,9 +18674,8 @@ msgid "Evolution Test component"
 msgstr "Evolutioni testkomponent"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-#, fuzzy
 msgid "A string description of the current printer settings."
-msgstr "Käesoleva printeri sätete kirjeldus stringina"
+msgstr "Käesoleva printeri sätete kirjeldus stringina."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
@@ -19174,9 +19140,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/main.c:337
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "Seda teadet enam uuesti mitte näidata."
+msgstr "Seda _teadet enam uuesti mitte näidata."
 
 #: ../shell/main.c:569
 msgid "Start Evolution activating the specified component"
@@ -19640,11 +19605,11 @@ msgstr "Sinu sertifikaadid organisatsioonidelt, mis aitavad sind tuvastada:"
 #: ../smime/gui/smime-ui.glade.h:44
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
-msgstr "Sinu sertifikaadid, mis aitavad sul tuvastada sertifitseerimiskeskusi:"
+msgstr "Sinu sertifikaadid, mis aitavad sul sertifitseerimiskeskusi tuvastada:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr "Sinu sertifikaadid, mis sul aitavad tuvastada teisi inimesi:"
+msgstr "Sinu sertifikaadid, mis sul aitavad teisi inimesi tuvastada:"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
@@ -22989,33 +22954,6 @@ msgstr "Välksõnumikontekst"
 msgid "Handle Popup"
 msgstr ""
 
-#~ msgid "_Categories..."
-#~ msgstr "Kate_gooriad..."
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid "Add an email to the List"
-#~ msgstr "Lisa sõnum loendisse"
-
-#~ msgid "Insert email addresses from Address Book"
-#~ msgstr "Aadressiraamatust e-posti aadressi lisamine"
-
-#~ msgid "Members"
-#~ msgstr "Liikmed"
-
-#~ msgid "Remove an email address from the List"
-#~ msgstr "Eemaldab e-postiaadressi loendist"
-
-#~ msgid "_Select"
-#~ msgstr "_Vali"
-
-#~ msgid "SMTWTFS"
-#~ msgstr "PETKNRL"
-
-#~ msgid "_Search name:"
-#~ msgstr "Otsingu_põhi:"
-
 #~ msgid "New Mail Notify sound file"
 #~ msgstr "Helifail uutest sõnumitest teatamiseks"
 
@@ -23084,24 +23022,9 @@ msgstr ""
 #~ msgid "Automatic smiley recognition"
 #~ msgstr "Automaatne emotikonituvastus"
 
-#~ msgid "HTML Mail"
-#~ msgstr "HTML-sõnumid"
-
 #~ msgid "Select a (48*48) png of size < 720bytes"
 #~ msgstr ""
 #~ "Vali PNG-pilt mõõtmetega 48x48 ja suurusega mitte rohkem kui 720 baiti"
-
-#~ msgid "System error: %s"
-#~ msgstr "Süsteemi viga: %s"
-
-#~ msgid "Camel error: %s"
-#~ msgstr "Camel'i viga: %s"
-
-#~ msgid "Account cannot send e-mail"
-#~ msgstr "Konto abil pole võimalik e-posti saata"
-
-#~ msgid "No store available"
-#~ msgstr "Hoidlat pole saadaval"
 
 #~ msgid ""
 #~ "A plugin which implements a CORBA interface for accessing mail data "
@@ -23138,9 +23061,6 @@ msgstr ""
 
 #~ msgid "Check Evolution archive"
 #~ msgstr "Evolutioni arhiivi kontrollimine"
-
-#~ msgid "With GUI"
-#~ msgstr "Koos kasutajaliidesega"
 
 #~ msgid "<b>Then</b>"
 #~ msgstr "<b>siis</b>"
