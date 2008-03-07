@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-31 22:25+0000\n"
-"PO-Revision-Date: 2008-01-20 14:15+0100\n"
+"PO-Revision-Date: 2008-03-07 10:34+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -760,7 +760,7 @@ msgstr "Evolution™"
 
 #: C/evolution.xml:93(title)
 msgid "User guide"
-msgstr ""
+msgstr "Guida de l'utilizaire"
 
 #: C/evolution.xml:98(title)
 msgid "About This Guide"
@@ -1678,7 +1678,7 @@ msgstr ""
 
 #: C/evolution.xml:684(title)
 msgid "Sendmail:"
-msgstr ""
+msgstr "Sendmail :"
 
 #: C/evolution.xml:685(para)
 msgid ""
@@ -1689,7 +1689,7 @@ msgstr ""
 
 #: C/evolution.xml:688(title)
 msgid "SMTP:"
-msgstr ""
+msgstr "SMTP :"
 
 #: C/evolution.xml:689(para)
 msgid ""
@@ -1701,7 +1701,7 @@ msgstr ""
 
 #: C/evolution.xml:695(title)
 msgid "SMTP Configuration"
-msgstr ""
+msgstr "Configuracion SMTP"
 
 #: C/evolution.xml:699(para)
 msgid "Type the Server address in the Server field."
@@ -2075,7 +2075,7 @@ msgstr ""
 #: C/evolution.xml:6716(para) C/evolution.xml:6814(para)
 #: C/evolution.xml:6931(para)
 msgid "Click OK."
-msgstr ""
+msgstr "Clicatz sus Validar."
 
 #: C/evolution.xml:863(title)
 msgid "Changing Switcher Appearance:"
@@ -2090,7 +2090,7 @@ msgstr ""
 
 #: C/evolution.xml:866(title)
 msgid "Icons and Text:"
-msgstr ""
+msgstr "Icònas e tèxt :"
 
 #: C/evolution.xml:867(para)
 msgid "Displays buttons with the label and the icon corresponding to it."
@@ -2150,7 +2150,7 @@ msgstr ""
 
 #: C/evolution.xml:895(title)
 msgid "Move:"
-msgstr ""
+msgstr "Desplaçar :"
 
 #: C/evolution.xml:896(para)
 msgid "Moves the folder to another location."
@@ -2174,7 +2174,7 @@ msgstr ""
 
 #: C/evolution.xml:907(title) C/evolution.xml:2866(title)
 msgid "Delete:"
-msgstr ""
+msgstr "Suprimir :"
 
 #: C/evolution.xml:908(para)
 msgid "Deletes the folder and all its contents."
@@ -2190,7 +2190,7 @@ msgstr ""
 
 #: C/evolution.xml:915(title)
 msgid "Disable:"
-msgstr ""
+msgstr "Desactivar :"
 
 #: C/evolution.xml:916(para)
 msgid "Disables the account."
@@ -2355,7 +2355,7 @@ msgstr ""
 
 #: C/evolution.xml:980(title)
 msgid "The Contacts"
-msgstr ""
+msgstr "Los contactes"
 
 #: C/evolution.xml:981(para)
 msgid ""
@@ -2499,7 +2499,7 @@ msgstr "Descripcion"
 
 #: C/evolution.xml:1055(para)
 msgid "evolution --offline"
-msgstr ""
+msgstr "evolution --offline"
 
 #: C/evolution.xml:1058(para)
 msgid "Starts Evolution in offline mode."
@@ -2531,7 +2531,7 @@ msgstr ""
 
 #: C/evolution.xml:1080(para)
 msgid "evolution -c mail"
-msgstr ""
+msgstr "evolution -c mail"
 
 #: C/evolution.xml:1083(para)
 msgid "Starts Evolution in mail mode."
@@ -2539,7 +2539,7 @@ msgstr ""
 
 #: C/evolution.xml:1088(para)
 msgid "evolution -c calendar"
-msgstr ""
+msgstr "evolution -c calendar"
 
 #: C/evolution.xml:1091(para)
 msgid "Starts Evolution in calendar mode."
@@ -2547,7 +2547,7 @@ msgstr ""
 
 #: C/evolution.xml:1096(para)
 msgid "evolution -c contacts"
-msgstr ""
+msgstr "evolution -c contacts"
 
 #: C/evolution.xml:1099(para)
 msgid "Starts Evolution in contacts mode."
@@ -2563,7 +2563,7 @@ msgstr ""
 
 #: C/evolution.xml:1112(para)
 msgid "evolution ”%s”"
-msgstr ""
+msgstr "evolution ”%s”"
 
 #: C/evolution.xml:1115(para)
 msgid ""
@@ -2787,7 +2787,7 @@ msgstr ""
 
 #: C/evolution.xml:1227(para)
 msgid "Click Edit &gt; Preferences"
-msgstr ""
+msgstr "Clicatz sus Edicion &gt; Preferéncias"
 
 #: C/evolution.xml:1230(para)
 msgid "Select Mail Preferences"
@@ -2969,7 +2969,7 @@ msgstr ""
 #: C/evolution.xml:2171(para) C/evolution.xml:2202(para)
 #: C/evolution.xml:2231(para)
 msgid "Click Close."
-msgstr ""
+msgstr "Clicatz sur Tampar."
 
 #: C/evolution.xml:1322(para)
 msgid "To set your proxy in KDE:"
@@ -3472,7 +3472,7 @@ msgstr ""
 
 #: C/evolution.xml:1579(para)
 msgid "Click Send."
-msgstr ""
+msgstr "Clicatz sus Enviar."
 
 #: C/evolution.xml:1586(para)
 msgid ""
@@ -3564,7 +3564,7 @@ msgstr ""
 
 #: C/evolution.xml:1625(para)
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: C/evolution.xml:1630(para)
 msgid "Reply to List"
@@ -3588,7 +3588,7 @@ msgstr "Endavant"
 
 #: C/evolution.xml:1649(para)
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: C/evolution.xml:1660(para)
 msgid ""
@@ -3625,7 +3625,7 @@ msgstr ""
 
 #: C/evolution.xml:1674(title)
 msgid "Replace:"
-msgstr ""
+msgstr "Remplaçar :"
 
 #: C/evolution.xml:1675(para)
 msgid "Find a word or phrase, and replace it with something else."
@@ -3721,7 +3721,7 @@ msgstr "Boton"
 
 #: C/evolution.xml:1717(para)
 msgid "TT"
-msgstr ""
+msgstr "TT"
 
 #: C/evolution.xml:1720(para)
 msgid ""
@@ -3810,7 +3810,7 @@ msgstr ""
 
 #: C/evolution.xml:1777(title)
 msgid "Inserting a Link"
-msgstr ""
+msgstr "Inserir un ligam"
 
 #: C/evolution.xml:1778(para)
 msgid ""
@@ -3833,7 +3833,7 @@ msgstr ""
 
 #: C/evolution.xml:1796(title)
 msgid "Inserting an Image"
-msgstr ""
+msgstr "Inserir un imatge"
 
 #: C/evolution.xml:1799(para)
 msgid "Click Image."
@@ -4649,7 +4649,7 @@ msgstr ""
 
 #: C/evolution.xml:2278(title)
 msgid "vCalender:"
-msgstr ""
+msgstr "vCalender :"
 
 #: C/evolution.xml:2279(para)
 msgid ""
@@ -4659,7 +4659,7 @@ msgstr ""
 
 #: C/evolution.xml:2282(title)
 msgid "iCalendar or iCal (.ics):"
-msgstr ""
+msgstr "iCalendar o iCal (.ics):"
 
 #: C/evolution.xml:2283(para)
 msgid ""
@@ -4711,7 +4711,7 @@ msgstr ""
 #: C/evolution.xml:2304(para) C/evolution.xml:2326(para)
 #: C/evolution.xml:3430(para)
 msgid "Click File &gt; Import."
-msgstr ""
+msgstr "Clicatz sus Fichièr &gt; Importar."
 
 #: C/evolution.xml:2310(para)
 msgid "Select Import a Single File, then click Forward."
@@ -5573,7 +5573,7 @@ msgstr ""
 
 #: C/evolution.xml:2788(title)
 msgid "Expression:"
-msgstr ""
+msgstr "Expression :"
 
 #: C/evolution.xml:2789(para)
 msgid ""
@@ -5657,7 +5657,7 @@ msgstr ""
 
 #: C/evolution.xml:2820(title) C/evolution.xml:3065(title)
 msgid "Attachments:"
-msgstr ""
+msgstr "Pèças juntas :"
 
 #: C/evolution.xml:2821(para) C/evolution.xml:3066(para)
 msgid ""
@@ -6211,7 +6211,7 @@ msgstr ""
 
 #: C/evolution.xml:3161(title)
 msgid "Contacts:"
-msgstr ""
+msgstr "Contactes :"
 
 #: C/evolution.xml:3162(para)
 msgid "Contains basic contact information."
@@ -6283,7 +6283,7 @@ msgstr ""
 
 #: C/evolution.xml:3181(title)
 msgid "Where:"
-msgstr ""
+msgstr "Ont :"
 
 #: C/evolution.xml:3182(para)
 msgid ""
@@ -6428,7 +6428,7 @@ msgstr ""
 
 #: C/evolution.xml:3287(para)
 msgid "Click Search."
-msgstr ""
+msgstr "Clicatz sus Recercar."
 
 #: C/evolution.xml:3290(para)
 msgid ""
@@ -6476,7 +6476,7 @@ msgstr ""
 
 #: C/evolution.xml:3316(para) C/evolution.xml:4704(para)
 msgid "Favorites"
-msgstr ""
+msgstr "Favorits"
 
 #: C/evolution.xml:3319(para) C/evolution.xml:4161(para)
 #: C/evolution.xml:4511(para) C/evolution.xml:4707(para)
@@ -7098,7 +7098,7 @@ msgstr ""
 
 #: C/evolution.xml:3727(link) C/evolution.xml:3860(title)
 msgid "Classifications"
-msgstr ""
+msgstr "Classificacions"
 
 #: C/evolution.xml:3730(link) C/evolution.xml:3883(title)
 msgid "Recurrence"
@@ -7290,7 +7290,7 @@ msgstr ""
 
 #: C/evolution.xml:3838(title)
 msgid "Program:"
-msgstr ""
+msgstr "Programa :"
 
 #: C/evolution.xml:3839(para)
 msgid ""
@@ -7810,7 +7810,7 @@ msgstr "Rendètz-voses pel 7 jorns que venon"
 
 #: C/evolution.xml:4158(para) C/evolution.xml:4508(para)
 msgid "Favourites"
-msgstr ""
+msgstr "Favorits"
 
 #: C/evolution.xml:4167(para) C/evolution.xml:4517(para)
 #: C/evolution.xml:4713(para)
@@ -8364,7 +8364,7 @@ msgstr ""
 
 #: C/evolution.xml:4824(title)
 msgid "Palm Synchronization:"
-msgstr ""
+msgstr "Sincronizacion Palm :"
 
 #: C/evolution.xml:4825(para)
 msgid "Supported for Contacts and Calendars on Exchange."
@@ -9117,7 +9117,7 @@ msgstr ""
 
 #: C/evolution.xml:5372(para)
 msgid "Resources"
-msgstr ""
+msgstr "Ressorgas"
 
 #: C/evolution.xml:5377(para)
 msgid "Click Free/Busy tool at the top right corner."
@@ -9491,7 +9491,7 @@ msgstr ""
 
 #: C/evolution.xml:5706(para)
 msgid "Click Save."
-msgstr ""
+msgstr "Clicatz sur Enregistrar."
 
 #: C/evolution.xml:5715(para)
 msgid ""
@@ -10363,7 +10363,7 @@ msgstr ""
 
 #: C/evolution.xml:6299(title)
 msgid "Security:"
-msgstr ""
+msgstr "Seguretat _inalambrica :"
 
 #: C/evolution.xml:6300(para)
 msgid ""
@@ -10772,7 +10772,7 @@ msgstr ""
 
 #: C/evolution.xml:6485(title)
 msgid "SpamAssassin Options:"
-msgstr ""
+msgstr "Opcions de SpamAssassin :"
 
 #: C/evolution.xml:6486(para)
 msgid ""
@@ -10976,7 +10976,7 @@ msgstr ""
 
 #: C/evolution.xml:6602(title)
 msgid "Day Begins:"
-msgstr ""
+msgstr "La jornada comença :"
 
 #: C/evolution.xml:6603(para)
 msgid ""
@@ -10987,7 +10987,7 @@ msgstr ""
 
 #: C/evolution.xml:6606(title)
 msgid "Day Ends:"
-msgstr ""
+msgstr "La jornada s'acaba :"
 
 #: C/evolution.xml:6607(para)
 msgid "Sets the end of a normal workday."
@@ -11257,7 +11257,7 @@ msgstr ""
 
 #: C/evolution.xml:6759(title)
 msgid "Use SSL/TLS:"
-msgstr ""
+msgstr "Utilizar SSL/TLS :"
 
 #: C/evolution.xml:6760(para)
 msgid ""
@@ -11419,7 +11419,7 @@ msgstr ""
 
 #: C/evolution.xml:6846(title)
 msgid "Disabled:"
-msgstr ""
+msgstr "Desactivat :"
 
 #: C/evolution.xml:6847(para)
 msgid "Do nothing."
@@ -11859,27 +11859,27 @@ msgstr ""
 
 #: C/evolution.xml:7069(para)
 msgid "Radhika PC (pradhika@novell.com)"
-msgstr ""
+msgstr "Radhika PC (pradhika@novell.com)"
 
 #: C/evolution.xml:7072(para)
 msgid "Srinivasa Ragavan (sragavan@novell.com)"
-msgstr ""
+msgstr "Srinivasa Ragavan (sragavan@novell.com)"
 
 #: C/evolution.xml:7075(para)
 msgid "Andre Klapper (ak-47@gmx.net)"
-msgstr ""
+msgstr "Andre Klapper (ak-47@gmx.net)"
 
 #: C/evolution.xml:7078(para)
 msgid "Francisco Javier F. Serrador (serrador@tecknolabs.com)"
-msgstr ""
+msgstr "Francisco Javier F. Serrador (serrador@tecknolabs.com)"
 
 #: C/evolution.xml:7081(para)
 msgid "Mark Moulder (mmoulder@novell.com)"
-msgstr ""
+msgstr "Mark Moulder (mmoulder@novell.com)"
 
 #: C/evolution.xml:7084(para)
 msgid "Jessica Prabhakar (jprabhakar@novell.com)"
-msgstr ""
+msgstr "Jessica Prabhakar (jprabhakar@novell.com)"
 
 #: C/evolution.xml:7087(para)
 msgid "Aaron Weber (aaron@ximian.com)"
@@ -11887,15 +11887,15 @@ msgstr "Aaron Weber (aaron@ximian.com)"
 
 #: C/evolution.xml:7090(para)
 msgid "Kevin Breit (mrproper@ximian.com)"
-msgstr ""
+msgstr "Kevin Breit (mrproper@ximian.com)"
 
 #: C/evolution.xml:7093(para)
 msgid "Duncan Mak (duncan@ximian.com)"
-msgstr ""
+msgstr "Duncan Mak (duncan@ximian.com)"
 
 #: C/evolution.xml:7096(para)
 msgid "Ettore Perazzoli (ettore@ximian.com)"
-msgstr ""
+msgstr "Ettore Perazzoli (ettore@ximian.com)"
 
 #: C/evolution.xml:7099(para)
 msgid ""
@@ -11925,6 +11925,7 @@ msgstr ""
 msgid ""
 "Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)"
 msgstr ""
+"Hector Garcia Alvarez e Francisco Javier F. Serrador pel castelhan (.es)"
 
 #: C/evolution.xml:7112(para)
 msgid "Kjartan Maraas for Norwegian (.no)"
@@ -12093,7 +12094,7 @@ msgstr ""
 
 #: C/evolution.xml:7208(glossterm)
 msgid "iCal"
-msgstr ""
+msgstr "iCal"
 
 #: C/evolution.xml:7210(para)
 msgid "iCal is a protocol that Evolution uses to manage the calendar section."
@@ -12122,7 +12123,7 @@ msgstr ""
 
 #: C/evolution.xml:7226(glossterm)
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: C/evolution.xml:7228(para)
 msgid ""
@@ -12192,7 +12193,7 @@ msgstr ""
 
 #: C/evolution.xml:7262(glossterm)
 msgid "script"
-msgstr ""
+msgstr "escript"
 
 #: C/evolution.xml:7264(para)
 msgid ""
@@ -12255,7 +12256,7 @@ msgstr ""
 
 #: C/evolution.xml:7298(glossterm)
 msgid "signature"
-msgstr ""
+msgstr "signatura"
 
 #: C/evolution.xml:7300(para)
 msgid ""
@@ -12386,7 +12387,7 @@ msgstr ""
 
 #: C/evolution.xml:7345(member)
 msgid "Novell, Inc."
-msgstr ""
+msgstr "Novell, Inc."
 
 #: C/evolution.xml:7346(member)
 msgid "404 Wyman Street, Suite 500"
@@ -12402,7 +12403,7 @@ msgstr ""
 
 #: C/evolution.xml:7349(member)
 msgid "www.novell.com"
-msgstr ""
+msgstr "www.novell.com"
 
 #: C/evolution.xml:7352(para)
 msgid "July 2007"
