@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-04 10:39+0100\n"
-"PO-Revision-Date: 2008-03-04 17:29+0100\n"
+"POT-Creation-Date: 2008-03-08 13:00+0100\n"
+"PO-Revision-Date: 2008-03-08 13:01+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -11701,7 +11701,9 @@ msgstr "_Enregistrar la seleccion..."
 #: ../mail/em-format-html-display.c:2295
 #, c-format
 msgid "%d at_tachment"
-msgstr "%d pèça _junta"
+msgid_plural "%d at_tachments"
+msgstr[0] "%d pèça _junta"
+msgstr[1] "%d pèças _juntas"
 
 #: ../mail/em-format-html-display.c:2302 ../mail/em-format-html-display.c:2380
 msgid "S_ave"
@@ -17321,10 +17323,8 @@ msgid ""
 "You have received %d new messages\n"
 "in %s."
 msgstr ""
-"Avètz recebut %d messatge novèl\n"
-"dins %s."
-"Avètz recebut %d messatges novèls\n"
-"dins %s."
+"Avètz recebut %d messatge novèl dins %s."
+"Avètz recebut %d messatges novèls dins %s."
 
 #: ../plugins/mail-notification/mail-notification.c:368
 #, c-format
