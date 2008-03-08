@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-08 13:00+0100\n"
+"POT-Creation-Date: 2008-03-08 13:12+0100\n"
 "PO-Revision-Date: 2008-03-08 13:01+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -35,7 +35,9 @@ msgstr "Tièra de contactes novèla"
 #: ../a11y/addressbook/ea-minicard-view.c:162
 #, c-format
 msgid "current address book folder %s has %d card"
-msgstr ""
+msgid_plural "current address book folder %s has %d cards"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:13
@@ -3539,9 +3541,11 @@ msgstr "Error al moment de suprimir lo contacte"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:305
 msgid "_Don't Display"
@@ -3631,7 +3635,9 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-vcard-control.c:143
 #, c-format
 msgid "There is one other contact."
-msgstr ""
+msgid_plural "There are %d other contacts."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:279
@@ -6049,7 +6055,9 @@ msgstr[1] "%d oras abans lo rendètz-vos"
 #: ../calendar/gui/dialogs/event-page.c:3065
 #, c-format
 msgid "%d minute before appointment"
-msgstr ""
+msgid_plural "%d minutes before appointment"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../calendar/gui/dialogs/event-page.c:3078
 msgid "Customize"
@@ -11166,13 +11174,17 @@ msgstr ""
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:149
 msgid "Unread messages:"
-msgstr ""
+msgid_plural "Unread messages:"
+msgstr[0] ""
+msgstr[1] ""
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:163
 msgid "Total messages:"
-msgstr ""
+msgid_plural "Total messages:"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../mail/em-folder-properties.c:323
 #: ../plugins/groupwise-features/properties.glade.h:4
@@ -12891,7 +12903,9 @@ msgstr[1] "%d suprimits"
 #: ../mail/mail-component.c:542
 #, c-format
 msgid "%d junk"
-msgstr ""
+msgid_plural "%d junk"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../mail/mail-component.c:545
 #, c-format
@@ -13861,7 +13875,9 @@ msgstr ""
 #: ../mail/mail-ops.c:1821
 #, c-format
 msgid "Retrieving %d message"
-msgstr ""
+msgid_plural "Retrieving %d messages"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../mail/mail-ops.c:1906
 #, c-format
@@ -17320,17 +17336,21 @@ msgstr ""
 msgid ""
 "You have received %d new message\n"
 "in %s."
+msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
-msgstr ""
-"Avètz recebut %d messatge novèl dins %s."
-"Avètz recebut %d messatges novèls dins %s."
+msgstr[0] ""
+"Avètz recebut %d messatge novèl\n"
+"dins %s."
+msgstr[1] ""
+"Avètz recebuts %d messatges novèls"
+"dins %s."
 
 #: ../plugins/mail-notification/mail-notification.c:368
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "Avètz recebut %d messatges novèl."
+msgstr[0] "Avètz recebut %d messatge novèl."
 msgstr[1] "Avètz recebuts %d messatges novèls."
 
 #: ../plugins/mail-notification/mail-notification.c:380
@@ -22266,3 +22286,11 @@ msgstr ""
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid ""
+#~ "You have received %d new message\n"
+#~ "in %s.You have received %d new messages\n"
+#~ "in %s."
+#~ msgstr ""
+#~ "Avètz recebut %d messatge novèl dins %s.Avètz recebut %d messatges novèls "
+#~ "dins %s."
