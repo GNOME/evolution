@@ -5923,7 +5923,7 @@ msgstr "Вкладене повідомлення - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Вкладене повідомлення"
+msgstr[0] "%d вкладене повідомлення"
 msgstr[1] "%d вкладених повідомлення"
 msgstr[2] "%d вкладених повідомлень"
 
@@ -7291,7 +7291,7 @@ msgstr "Так. (Складна періодичність)"
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] "Кожен день"
+msgstr[0] "Кожен %d день"
 msgstr[1] "Кожні %d дні"
 msgstr[2] "Кожних %d днів"
 
@@ -7304,7 +7304,7 @@ msgstr[2] "Кожних %d днів"
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] "Кожен тиждень"
+msgstr[0] "Кожен %d тиждень"
 msgstr[1] "Кожні %d тижні"
 msgstr[2] "Кожних %d тижнів"
 
@@ -7314,7 +7314,7 @@ msgstr[2] "Кожних %d тижнів"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Кожного тижня у "
+msgstr[0] "Кожного %d тижня у "
 msgstr[1] "Кожні %d тижні у "
 msgstr[2] "Кожних %d тижнів у "
 
@@ -7346,7 +7346,7 @@ msgstr "%s %s з "
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] "кожного місяця"
+msgstr[0] "кожен %d місяць"
 msgstr[1] "кожні %d місяці"
 msgstr[2] "кожних %d місяців"
 
@@ -7359,7 +7359,7 @@ msgstr[2] "кожних %d місяців"
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] "Кожен рік"
+msgstr[0] "Кожен %d рік"
 msgstr[1] "Кожні %d роки"
 msgstr[2] "Кожних %d років"
 
@@ -8621,7 +8621,7 @@ msgstr "Африка/Аккра"
 
 #: ../calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr "Африка/Аддис-Абеба"
+msgstr "Африка/Аддис_Абеба"
 
 #: ../calendar/zones.h:10
 msgid "Africa/Algiers"
@@ -8693,7 +8693,7 @@ msgstr "Африка/Дуала"
 
 #: ../calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr "Африка/Ель-Аюн"
+msgstr "Африка/Ель_Аюн"
 
 #: ../calendar/zones.h:28
 msgid "Africa/Freetown"
@@ -8801,7 +8801,7 @@ msgstr "Африка/Порто-Ново"
 
 #: ../calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr "Африка/Сан-Томе"
+msgstr "Африка/Сан_Томе"
 
 #: ../calendar/zones.h:55
 msgid "Africa/Timbuktu"
@@ -8861,7 +8861,7 @@ msgstr "Америка/Беліз"
 
 #: ../calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr "Америка/Боа-Вішта"
+msgstr "Америка/Боа_Віста"
 
 #: ../calendar/zones.h:70
 msgid "America/Bogota"
@@ -8873,11 +8873,11 @@ msgstr "Америка/Бойсе"
 
 #: ../calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr "Америка/Буенос-Айрес"
+msgstr "Америка/Буенос_Айрес"
 
 #: ../calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr "Америка/Кембрідж-Бей"
+msgstr "Америка/Кембрідж_Бей"
 
 #: ../calendar/zones.h:74
 msgid "America/Cancun"
@@ -8913,7 +8913,7 @@ msgstr "Америка/Кордоба"
 
 #: ../calendar/zones.h:82
 msgid "America/Costa_Rica"
-msgstr "Америка/Коста-Ріка"
+msgstr "Америка/Коста_Ріка"
 
 #: ../calendar/zones.h:83
 msgid "America/Cuiaba"
@@ -8933,7 +8933,7 @@ msgstr "Америка/Досон"
 
 #: ../calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr "Америка/Досон-Крік"
+msgstr "Америка/Досон_Крік"
 
 #: ../calendar/zones.h:88
 msgid "America/Denver"
@@ -8957,7 +8957,7 @@ msgstr "Америка/Ірунепе"
 
 #: ../calendar/zones.h:93
 msgid "America/El_Salvador"
-msgstr "Америка/Сальвадор"
+msgstr "Америка/Ель_Сальвадор"
 
 #: ../calendar/zones.h:94
 msgid "America/Fortaleza"
@@ -8965,7 +8965,7 @@ msgstr "Америка/Форталеза"
 
 #: ../calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr "Америка/Ґлейс-Бей"
+msgstr "Америка/Ґлейс_Бей"
 
 #: ../calendar/zones.h:96
 msgid "America/Godthab"
@@ -8973,11 +8973,11 @@ msgstr "Америка/Ґодтаб"
 
 #: ../calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr "Америка/Ґуз-Бей"
+msgstr "Америка/Ґуз_Бей"
 
 #: ../calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr "Америка/Ґрад-Тюрк"
+msgstr "Америка/Ґрад_Тюрк"
 
 #: ../calendar/zones.h:99
 msgid "America/Grenada"
@@ -9061,7 +9061,7 @@ msgstr "Америка/Кентуккі/Монтічелло"
 
 #: ../calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr "Америка/Ла-Паз"
+msgstr "Америка/Ла_Паз"
 
 #: ../calendar/zones.h:120
 msgid "America/Lima"
@@ -9069,7 +9069,7 @@ msgstr "Америка/Ліма"
 
 #: ../calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr "Америка/Лос-Анжелес"
+msgstr "Америка/Лос_Анжелес"
 
 #: ../calendar/zones.h:122
 msgid "America/Louisville"
@@ -9109,7 +9109,7 @@ msgstr "Америка/Меріда"
 
 #: ../calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr "Америка/Мехіко"
+msgstr "Америка/Мехіко_сіті"
 
 #: ../calendar/zones.h:132
 msgid "America/Miquelon"
@@ -9138,7 +9138,7 @@ msgstr "Америка/Нассау"
 #: ../calendar/zones.h:138
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "America/New_York"
-msgstr "Америка/Нью-Йорк"
+msgstr "Америка/Нью_Йорк"
 
 #: ../calendar/zones.h:139
 msgid "America/Nipigon"
@@ -9154,7 +9154,7 @@ msgstr "Америка/Норонга"
 
 #: ../calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr "Америка/Півн. Дакота/Центр"
+msgstr "Америка/Півн._Дакота/Центр"
 
 #: ../calendar/zones.h:143
 msgid "America/Panama"
@@ -9178,23 +9178,23 @@ msgstr "Америка/Порт-о-Пренс"
 
 #: ../calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr "Америка/Порт-оф-Спейн"
+msgstr "Америка/Порт_оф_Спейн"
 
 #: ../calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr "Америка/Порто-Велго"
+msgstr "Америка/Порто_Велго"
 
 #: ../calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr "Америка/Пуерто-Ріко"
+msgstr "Америка/Пуерто_Ріко"
 
 #: ../calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr "Америка/Рейні-Рівер"
+msgstr "Америка/Рейні_Рівер"
 
 #: ../calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr "Америка/Ранклін-Інлет"
+msgstr "Америка/Rankin_Inlet"
 
 #: ../calendar/zones.h:153
 msgid "America/Recife"
@@ -9206,7 +9206,7 @@ msgstr "Америка/Ріджайна"
 
 #: ../calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr "Америка/Ріо-Бранко"
+msgstr "Америка/Ріо_Бранко"
 
 #: ../calendar/zones.h:156
 msgid "America/Rosario"
@@ -9218,11 +9218,11 @@ msgstr "Америка/Сантьяґо"
 
 #: ../calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr "Америка/Санто-Домінґо"
+msgstr "Америка/Санто_Домінґо"
 
 #: ../calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr "Америка/Сан-Паулу"
+msgstr "Америка/Сан_Паоло"
 
 #: ../calendar/zones.h:160
 msgid "America/Scoresbysund"
@@ -9234,27 +9234,27 @@ msgstr "Америка/Шіпрок"
 
 #: ../calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr "Америка/Сент-Джонс"
+msgstr "Америка/Сент_Джонс"
 
 #: ../calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr "Америка/Сент-Кіттс"
+msgstr "Америка/Сент_Кіттс"
 
 #: ../calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr "Америка/Санта-Лючія"
+msgstr "Америка/Санта_Лючія"
 
 #: ../calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr "Америка/Сент-Томас"
+msgstr "Америка/Сент_Томас"
 
 #: ../calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr "Америка/Сент-Вінсент"
+msgstr "Америка/Сент_Вінсент"
 
 #: ../calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr "Америка/Свіфт-Карент"
+msgstr "Америка/Свіфт_Карент"
 
 #: ../calendar/zones.h:168
 msgid "America/Tegucigalpa"
@@ -9266,7 +9266,7 @@ msgstr "Америка/Тулє"
 
 #: ../calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr "Америка/Тандер-Бей"
+msgstr "Америка/Тандер_Бей"
 
 #: ../calendar/zones.h:171
 msgid "America/Tijuana"
@@ -9438,7 +9438,7 @@ msgstr "Азія/Гарбін"
 
 #: ../calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr "Азія/Гонґ-Конґ"
+msgstr "Азія/Гонґ_Конґ"
 
 #: ../calendar/zones.h:214
 msgid "Asia/Hovd"
@@ -9490,7 +9490,7 @@ msgstr "Азія/Красноярськ"
 
 #: ../calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr "Азія/Куала-Лумпур"
+msgstr "Азія/Куала_Лумпур"
 
 #: ../calendar/zones.h:227
 msgid "Asia/Kuching"
@@ -9542,7 +9542,7 @@ msgstr "Азія/Орал"
 
 #: ../calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr "Азія/Пном-Пень"
+msgstr "Азія/Пном_пень"
 
 #: ../calendar/zones.h:240
 msgid "Asia/Pontianak"
@@ -9618,7 +9618,7 @@ msgstr "Азія/Токіо"
 
 #: ../calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr "Азія/Унджунґ-Панданґ"
+msgstr "Азія/Унджунґ_Панданґ"
 
 #: ../calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
@@ -9662,7 +9662,7 @@ msgstr "Атлантика/Канари"
 
 #: ../calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr "Атлантика/Кабо-Верде"
+msgstr "Атлантика/Каро_Верде"
 
 #: ../calendar/zones.h:270
 msgid "Atlantic/Faeroe"
@@ -9670,7 +9670,7 @@ msgstr "Атлантика/Фарерські острови"
 
 #: ../calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr "Атлантика/Ян-Маєн"
+msgstr "Атлантика/Ян_Маєн"
 
 #: ../calendar/zones.h:272
 msgid "Atlantic/Madeira"
@@ -9682,11 +9682,11 @@ msgstr "Атлантика/Рейк'явік"
 
 #: ../calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr "Атлантика/Південна Джорджія"
+msgstr "Атлантика/Південна_Джорджія"
 
 #: ../calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr "Атлантика/Святої Олени острів"
+msgstr "Атлантика/Св._Олени"
 
 #: ../calendar/zones.h:276
 msgid "Atlantic/Stanley"
@@ -9702,7 +9702,7 @@ msgstr "Австралія/Брісбен"
 
 #: ../calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr "Австралія/Брокен-Гілл"
+msgstr "Австралія/Брокен_Гілл"
 
 #: ../calendar/zones.h:280
 msgid "Australia/Darwin"
@@ -9718,7 +9718,7 @@ msgstr "Австралія/Ліндеман"
 
 #: ../calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr "Австралія/Лорд-Гоув"
+msgstr "Австралія/Лорд_Гоув"
 
 #: ../calendar/zones.h:284
 msgid "Australia/Melbourne"
@@ -9870,7 +9870,7 @@ msgstr "Європа/Самара"
 
 #: ../calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr "Європа/Сан-Маріно"
+msgstr "Європа/Сан_Маріно"
 
 #: ../calendar/zones.h:322
 msgid "Europe/Sarajevo"
@@ -10082,7 +10082,7 @@ msgstr "Тихий океан/Нумея"
 
 #: ../calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr "Тихий океан/Паґо-Паґо"
+msgstr "Тихий океан/Паґо_Паґо"
 
 #: ../calendar/zones.h:375
 msgid "Pacific/Palau"
@@ -10098,7 +10098,7 @@ msgstr "Тихий океан/Понапе"
 
 #: ../calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr "Тихий океан/Порт-Морсбі"
+msgstr "Тихий океан/Порт_Морсбі"
 
 #: ../calendar/zones.h:379
 msgid "Pacific/Rarotonga"
@@ -10546,7 +10546,7 @@ msgstr "Позначка з такою міткою вже існує. Пере�
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "1 секунду тому"
+msgstr[0] "%d секунду тому"
 msgstr[1] "%d секунди тому"
 msgstr[2] "%d секунд тому"
 
@@ -10562,7 +10562,7 @@ msgstr[2] "%d секунд у майбутньому"
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "1 хв тому"
+msgstr[0] "%d хв тому"
 msgstr[1] "%d хв тому"
 msgstr[2] "%d хв тому"
 
@@ -10578,7 +10578,7 @@ msgstr[2] "%d хвилин у майбутньому"
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "1 година тому"
+msgstr[0] "%d годину тому"
 msgstr[1] "%d години тому"
 msgstr[2] "%d годин тому"
 
@@ -10594,7 +10594,7 @@ msgstr[2] "%d годин у майбутньому"
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "1 день тому"
+msgstr[0] "%d день тому"
 msgstr[1] "%d дні тому"
 msgstr[2] "%d днів тому"
 
@@ -10610,7 +10610,7 @@ msgstr[2] "%d днів у майбутньому"
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "1 тиждень тому"
+msgstr[0] "%d тиждень тому"
 msgstr[1] "%d тижні тому"
 msgstr[2] "%d тижнів тому"
 
@@ -10626,7 +10626,7 @@ msgstr[2] "%d тижнів у майбутньому"
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "1 місяць тому"
+msgstr[0] "%d місяць тому"
 msgstr[1] "%d місяці тому"
 msgstr[2] "%d місяців тому"
 
@@ -10642,7 +10642,7 @@ msgstr[2] "%d місяців у майбутньому"
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "1 рік тому"
+msgstr[0] "%d рік тому"
 msgstr[1] "%d роки тому"
 msgstr[2] "%d років тому"
 
@@ -12483,7 +12483,7 @@ msgstr "Типова висота діалогу підписки."
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr "Визначає чи шукати адресну книгу для надсилання пошти"
+msgstr "Визначає чи шукати відправника у адресній книзі"
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid ""
@@ -12492,6 +12492,10 @@ msgid ""
 "can be slow, if remote addressbooks (like ldap) are marked for "
 "autocompletion."
 msgstr ""
+"Визначає чи шукати адресу відправника у адресній книзі. Якщо адресу відправника знайдено, "
+"пошта не повинна бути спамом. Пошук ведеться у адресних книгах, позначених для автодоповнення. "
+"Пошук можу бути повільний, якщо віддалена адресна книга (наприклад, ldap) позначена для "
+"автодоповнення."
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
@@ -12503,12 +12507,16 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
+"Визначає чи перевіряти на спам інші заголовки. Якщо цей параметр увімкнено, "
+"та відповідні заголовки вказані, це призведе до пришвидшення перевірки на спам."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
+"Визначає чи використовувати однакові шрифти для рядків \"Від\" та \"Тема\" "
+"у стовпчику \"Повідомлення\" у вертикальному режимі перегляду."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -12574,6 +12582,7 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Якщо параметр увімкнено, клавіша пробіл використовується для прокручування перегляду повідомлення, списків повідомлень та тек."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12639,6 +12648,9 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
+"Вмикає/вимикає вікно попередження по те, що видалення повідомлень з теки "
+"пошуку призведе до остаточного видалення повідомлення, а не просто до видалення його "
+"з результатів пошуку."
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Last time empty junk was run"
@@ -14982,6 +14994,9 @@ msgid ""
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"Попередження: Видалення повідомлення з Теки пошуку призведе до фактичного видалення "
+"повідомлення з відповідної локальної чи віддаленої теки.\n"
+"Ви справді цього хочете?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -16620,6 +16635,7 @@ msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
 msgstr ""
+"Модуль для підключення зовнішнього редактора. Ви зможете писати лише текстові повідомлення без форматування."
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -19192,6 +19208,9 @@ msgid ""
 "run.  As a precautionary measure, all preview panes will be hidden.\n"
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
+"Під час останнього запуску програма Evolution завершилась аварійно.\n"
+"Задля перестороги, всі панелі попереднього перегляду будуть приховані.\n"
+"Ви можете відновити їх у меню Вигляд.\n"
 
 #: ../shell/main.c:342
 msgid "_Do not show this message again"
