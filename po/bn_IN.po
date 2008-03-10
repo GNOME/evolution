@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bn_IN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-08 03:22+0000\n"
-"PO-Revision-Date: 2008-03-08 13:16+0530\n"
+"POT-Creation-Date: 2008-03-08 07:48+0000\n"
+"PO-Revision-Date: 2008-03-10 16:06+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@fedoraproject.org>\n"
 "Language-Team: Bengali INDIA <discuss@ankur.co.in>\n"
 "MIME-Version: 1.0\n"
@@ -368,9 +368,8 @@ msgid "Address '{0}' already exists."
 msgstr "ঠিকানা '{0}' বর্তমানে উপস্থিত রয়েছে।"
 
 #: ../addressbook/addressbook.error.xml.h:5
-#, fuzzy
 msgid "Cannot add new contact"
-msgstr "নতুন পরিচিতি নির্মাণ"
+msgstr "নতুন পরিচিতি যোগ করতে ব্যর্থ"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
@@ -726,9 +725,8 @@ msgid "_Type:"
 msgstr "ধরন: (_T)"
 
 #: ../addressbook/gui/component/addressbook-config.c:632
-#, fuzzy
 msgid "Copy _book content locally for offline operation"
-msgstr "অফলাইন কর্মের জন্য বইয়ের বিষয়বস্তু স্থানীয় ফোল্ডারে কপি করুন"
+msgstr "অফলাইন কর্মের জন্য বইয়ের বিষয়বস্তু স্থানীয় অবস্থানে কপি করুন (_b)"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -860,9 +858,8 @@ msgid "_New Address Book"
 msgstr "নতুন ঠিকানাবই (_N)"
 
 #: ../addressbook/gui/component/addressbook-view.c:955
-#, fuzzy
 msgid "Save As vCard..."
-msgstr "VCard হিসাবে সংরক্ষণ করা হবে..."
+msgstr "vCard হিসাবে সংরক্ষণ করা হবে..."
 
 #: ../addressbook/gui/component/addressbook-view.c:958
 #: ../addressbook/gui/widgets/e-addressbook-view.c:957
@@ -1344,9 +1341,8 @@ msgid "Mailing Address"
 msgstr "চিঠি লেখার ঠিকানা"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
-#, fuzzy
 msgid "Nic_kname:"
-msgstr "ডাকনাম: (_c)"
+msgstr "ডাকনাম: (_k)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
@@ -2805,9 +2801,8 @@ msgid "_Location:"
 msgstr "অবস্থান(_L):"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
-#, fuzzy
 msgid "<b>Members</b>"
-msgstr "<b>ব্যবহারকারী :</b>"
+msgstr "<b>সদস্য</b>"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
@@ -2815,9 +2810,8 @@ msgid "Contact List Editor"
 msgstr "পরিচিতি তালিকা সম্পাদক"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#, fuzzy
 msgid "Select..."
-msgstr "নির্বাচন করুন (_e)..."
+msgstr "নির্বাচন করুন ..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "_Hide addresses when sending mail to this list"
@@ -2977,9 +2971,8 @@ msgstr "ধরন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:814
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1935
-#, fuzzy
 msgid "Save as vCard..."
-msgstr "VCard হিসাবে সংরক্ষণ করা হবে..."
+msgstr "vCard হিসাবে সংরক্ষণ করা হবে..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/dialogs/comp-editor.c:1128
@@ -2998,9 +2991,8 @@ msgid "New Contact _List..."
 msgstr "নতুন পরিচিতি তালিকা...(_L)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
-#, fuzzy
 msgid "_Save as vCard..."
-msgstr "VCard হিসাবে সংরক্ষণ করুন (_V)..."
+msgstr "vCard হিসাবে সংরক্ষণ করুন...(_S)"
 
 # FIXME
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
@@ -3762,14 +3754,13 @@ msgid "Copy contacts to"
 msgstr "পরিচিতি এখানে কপি করুন"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:983
-#, fuzzy
 msgid "Multiple vCards"
-msgstr "একাধিক ভিকার্ড"
+msgstr "একাধিক vCard"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "vCard for %s"
-msgstr "%s -র জন্য ভিকার্ড"
+msgstr "%s -র জন্য vCard"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1027
 #: ../addressbook/gui/widgets/eab-gui-util.c:1052
@@ -3794,14 +3785,12 @@ msgstr[0] "%d -টি অন্য  পরিচিতি।"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:279
-#, fuzzy
 msgid "Show Full vCard"
-msgstr "সম্পূর্ণ VCard প্রদর্শন করুন"
+msgstr "সম্পূর্ণ vCard প্রদর্শন করুন"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:232
-#, fuzzy
 msgid "Show Compact vCard"
-msgstr "সংক্ষিপ্ত VCard প্রদর্শন করুন"
+msgstr "সংক্ষিপ্ত vCard প্রদর্শন করুন"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
 msgid "Save in addressbook"
@@ -3853,14 +3842,12 @@ msgid "Evolution LDIF importer"
 msgstr "Evolution এলডিআইএফ ইম্পোর্টার"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:547
-#, fuzzy
 msgid "vCard (.vcf, .gcrd)"
-msgstr "VCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
-#, fuzzy
 msgid "Evolution vCard Importer"
-msgstr "Evolution VCard Importer"
+msgstr "Evolution vCard ইম্পোর্ট ব্যবস্থা"
 
 #: ../addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -5007,11 +4994,11 @@ msgstr "সতর্কবাণীর অডিও-র জন্য ডির�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:47
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে RSVP-র ক্ষেত্র প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:48
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে ভূমিকা শীর্ষক ক্ষেত্র প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:49
 msgid "Show appointment end times in week and month views"
@@ -5019,7 +5006,7 @@ msgstr "সাপ্তাহিক ও মাস অনুসারে প্�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে বিভাগ শীর্ষক ক্ষেত্র প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
 msgid "Show display alarms in notification tray"
@@ -5027,7 +5014,7 @@ msgstr "সূচনাপ্রদানের ট্রের মধ্যে 
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:52
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে অবস্থা শীর্ষক ক্ষেত্র প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:111
@@ -5041,11 +5028,11 @@ msgstr "\"পূর্বপ্রদর্শন\" পেইন প্রদর
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে সময়ের অঞ্চলের ক্ষেত্র প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে ধরনের ক্ষেত্র প্রদর্শন করা হবে"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:57
 msgid "Show week numbers in date navigator"
@@ -5151,19 +5138,19 @@ msgstr "সাক্ষাৎ‌কারের জন্য একটি ডি
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে RSVP-র ক্ষেত্র প্রদর্শন করা হবে কি না"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে বিভাগ শীর্ষক ক্ষেত্র প্রদর্শন করা হবে কি না"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:83
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে ভূমিকা শীর্ষক ক্ষেত্র প্রদর্শন করা হবে কি না"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:84
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে অবস্থা শীর্ষক ক্ষেত্র প্রদর্শন করা হবে কি না"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "Whether to show times in twenty four hour format instead of using am/pm."
@@ -5171,7 +5158,7 @@ msgstr "সময় পূর্বাহ্ণ/অপরাহ্ণ ফরমা
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr ""
+msgstr "অনুষ্ঠান/কর্ম/সাক্ষাৎকার সম্পাদকের মধ্যে সময়ের অঞ্চ শীর্ষক ক্ষেত্র প্রদর্শন করা হবে কি না"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "Whether to show type field in the event/task/meeting editor"
@@ -6698,9 +6685,8 @@ msgstr "কর্মের বিবরণ"
 
 #: ../calendar/gui/dialogs/task-page.c:459
 #: ../calendar/gui/dialogs/task-page.glade.h:4
-#, fuzzy
 msgid "Organi_zer:"
-msgstr "সংগঠক:"
+msgstr "সংগঠক: (_z)"
 
 #: ../calendar/gui/dialogs/task-page.c:866
 msgid "Due date is wrong"
@@ -7055,9 +7041,8 @@ msgstr "ওয়েব পেজ খুলুন (_W)"
 
 #: ../calendar/gui/e-calendar-table.c:1368
 #: ../calendar/gui/e-calendar-view.c:1669 ../calendar/gui/e-memo-table.c:927
-#, fuzzy
 msgid "P_rint..."
-msgstr "প্রিন্ট করুন (_P)..."
+msgstr "প্রিন্ট করুন...(_r)"
 
 #: ../calendar/gui/e-calendar-table.c:1372
 #: ../calendar/gui/e-calendar-view.c:1689 ../calendar/gui/e-memo-table.c:931
@@ -7176,9 +7161,8 @@ msgid "_Select Date..."
 msgstr "তারিখ নির্বাচন করুন (_S)..."
 
 #: ../calendar/gui/e-calendar-view.c:1685
-#, fuzzy
 msgid "Pri_nt..."
-msgstr "প্রিন্ট করুন (_P)..."
+msgstr "প্রিন্ট করুন...(_n)"
 
 #: ../calendar/gui/e-calendar-view.c:1695
 msgid "Cop_y to Calendar..."
@@ -8457,9 +8441,8 @@ msgid "Summary: %s"
 msgstr "সারাংশ: %s"
 
 #: ../calendar/gui/print.c:2490
-#, fuzzy
 msgid "Attendees: "
-msgstr "অংশগ্রহণকারীবৃন্দ"
+msgstr "অংশগ্রহণকারী: "
 
 #: ../calendar/gui/print.c:2530
 #, c-format
@@ -10193,7 +10176,6 @@ msgid "_Bcc:"
 msgstr "অপ্রকাশিত অনুলিপি প্রাপক(_B):"
 
 #: ../composer/e-msg-composer-hdrs.c:348
-#, fuzzy
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -10422,18 +10404,16 @@ msgid "_Save Message"
 msgstr "বার্তা সংরক্ষণ করুন (_S)"
 
 #: ../data/evolution.desktop.in.in.h:1
-#, fuzzy
 msgid "Evolution Mail and Calendar"
-msgstr "Evolution মেইল কম্পোনেন্ট"
+msgstr "Evolution মেইল ও বর্ষপঞ্জি"
 
 #: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:753
 msgid "Groupware Suite"
 msgstr "Groupware Suite"
 
 #: ../data/evolution.desktop.in.in.h:3
-#, fuzzy
 msgid "Manage your email, contacts and schedule"
-msgstr "আপনার ই-মেইল অ্যাকাউন্টগুলিকে এখানে কনফিগার করুন"
+msgstr "ই-মেইল, পরিচিতি ও কর্মতালিকা এখানে কনফিগার করুন"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10528,23 +10508,20 @@ msgid "_Later"
 msgstr "পরে (_L)"
 
 #: ../e-util/e-util-labels.c:317
-#, fuzzy
 msgid "Label _Name:"
-msgstr "নাম :(_N)"
+msgstr "লেবেলের নাম :(_N)"
 
 #: ../e-util/e-util-labels.c:339
-#, fuzzy
 msgid "Edit Label"
-msgstr "সম্পাদনযোগ্য"
+msgstr "লেবেল সম্পাদনা"
 
 #: ../e-util/e-util-labels.c:339
-#, fuzzy
 msgid "Add Label"
-msgstr "লেবেল"
+msgstr "লেবেল যোগ করুন"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
-msgstr ""
+msgstr "লেবেলর নাম ফাঁকা রাখা যাবে না"
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
@@ -10662,18 +10639,16 @@ msgid "Test"
 msgstr "পরীক্ষা"
 
 #: ../filter/filter-rule.c:800
-#, fuzzy
 msgid "R_ule name:"
-msgstr "নিয়মের নাম"
+msgstr "নিয়মের নাম: (_u)"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
 msgstr "নিম্নলিখিত মান অনুসারে বস্তু অনুসন্ধান করুন"
 
 #: ../filter/filter-rule.c:862
-#, fuzzy
 msgid "A_dd Filter Criteria"
-msgstr "ফিল্টার করার নিয়ম যোগ করুন"
+msgstr "ফিল্টার করার নিয়ম যোগ করুন (_d)"
 
 #: ../filter/filter-rule.c:868
 msgid "If all criteria are met"
@@ -10951,14 +10926,12 @@ msgid "Receiving Email"
 msgstr "ই-মেইল আহরণ করা হচ্ছে"
 
 #: ../mail/em-account-editor.c:2053
-#, fuzzy
 msgid "Check for _new messages every"
-msgstr "স্বয়ংক্রিয়ভাবে নতুন মেইলের জন্য পরীক্ষা করা হবে প্রতি (_n)"
+msgstr "নতুন মেইলের জন্য পরীক্ষা করা হবে প্রতি (_n)"
 
 #: ../mail/em-account-editor.c:2061
-#, fuzzy
 msgid "minu_tes"
-msgstr "মিনিট"
+msgstr "মিনিট (_t)"
 
 #: ../mail/em-account-editor.c:2235 ../mail/mail-config.glade.h:131
 msgid "Sending Email"
@@ -10980,7 +10953,6 @@ msgid "Receiving Options"
 msgstr "আহরণের অপশন"
 
 #: ../mail/em-account-editor.c:2398 ../mail/em-account-editor.c:2489
-#, fuzzy
 msgid "Checking for New Messages"
 msgstr "নতুন মেইল আছে কিনা তা পরীক্ষা করা হচ্ছে"
 
@@ -11074,7 +11046,7 @@ msgstr "সংযুক্ত বস্তু"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "অপ্রকাশিত অনুলিপি প্রাপক"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -11082,12 +11054,11 @@ msgstr "বিপ্‌ শব্দ করা হবে"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr ""
+msgstr "অনুলিপি প্রাপক"
 
 #: ../mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Completed On"
-msgstr "সম্পন্ন"
+msgstr "সমাপ্তির তারিখ"
 
 #: ../mail/em-filter-i18n.h:10
 msgid "contains"
@@ -11206,14 +11177,12 @@ msgid "is not Flagged"
 msgstr "ফ্ল্যাগ করা নয়"
 
 #: ../mail/em-filter-i18n.h:38
-#, fuzzy
 msgid "is not set"
-msgstr "নয়"
+msgstr "নির্ধারিত নয়"
 
 #: ../mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "is set"
-msgstr "নয়"
+msgstr "নির্ধারিত"
 
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:96
 #: ../ui/evolution-mail-message.xml.h:48
@@ -11307,9 +11276,8 @@ msgid "Sender"
 msgstr "প্রেরক"
 
 #: ../mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Set Label"
-msgstr "লেবেল"
+msgstr "লেবেল নির্ধারণ"
 
 #: ../mail/em-filter-i18n.h:64
 msgid "Set Status"
@@ -11358,9 +11326,8 @@ msgid "Then"
 msgstr "এর পরে"
 
 #: ../mail/em-filter-rule.c:517
-#, fuzzy
 msgid "Add Ac_tion"
-msgstr "কর্ম প্রয়েজন"
+msgstr "কর্ম যোগ করুন (_t)"
 
 #: ../mail/em-folder-browser.c:189
 msgid "C_reate Search Folder From Search..."
@@ -11433,9 +11400,8 @@ msgid "<click here to select a folder>"
 msgstr "<ফোল্ডার নির্বাচন করতে হলে এখানে ক্লিক করুন>"
 
 #: ../mail/em-folder-selector.c:262
-#, fuzzy
 msgid "C_reate"
-msgstr "তৈরি করুন"
+msgstr "তৈরি করুন (_r)"
 
 #: ../mail/em-folder-selector.c:266
 msgid "Folder _name:"
@@ -11687,9 +11653,8 @@ msgid "_None"
 msgstr "শূণ্য (_N)"
 
 #: ../mail/em-folder-view.c:1364
-#, fuzzy
 msgid "_New Label"
-msgstr "লেবেলবিহীন"
+msgstr "নতুন লেবেল (_N)"
 
 #: ../mail/em-folder-view.c:1368
 msgid "Fla_g Completed"
@@ -11705,43 +11670,35 @@ msgstr "বার্তা থেকে নিয়ম তৈরি করুন (
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1374
-#, fuzzy
 msgid "Search Folder based on _Subject"
-msgstr "বিষয় অনুসারে অনুসন্ধান ফোল্ডার (_S)"
+msgstr "বিষয় অনুসারে ফোল্ডারে অনুসন্ধান (_S)"
 
 #: ../mail/em-folder-view.c:1375
-#, fuzzy
 msgid "Search Folder based on Se_nder"
-msgstr "প্রেরক অনুসারে অনুসন্ধানের ফোল্ডার (_n)"
+msgstr "প্রেরক অনুসারে ফোল্ডারে অনুসন্ধান (_n)"
 
 #: ../mail/em-folder-view.c:1376
-#, fuzzy
 msgid "Search Folder based on _Recipients"
-msgstr "প্রাপক অনুসারে অনুসন্ধানের ফোল্ডার (_R)"
+msgstr "প্রাপক অনুসারে ফোল্ডারে অনুসন্ধান (_R)"
 
 #: ../mail/em-folder-view.c:1377
-#, fuzzy
 msgid "Search Folder based on Mailing _List"
-msgstr "মেইলিং-লিস্ট অনুসারে অনুসন্ধানের ফোল্ডার (_L)"
+msgstr "মেইলিং-লিস্ট অনুসারে ফোল্ডারে অনুসন্ধান (_L)"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1382
-#, fuzzy
 msgid "Filter based on Sub_ject"
 msgstr "বিষয় অনুযায়ী ফিল্টার করা হবে (_j)"
 
 #: ../mail/em-folder-view.c:1383
-#, fuzzy
 msgid "Filter based on Sen_der"
 msgstr "প্রেরক অনুযায়ী ফিল্টার করা হবে (_d)"
 
 #: ../mail/em-folder-view.c:1384
-#, fuzzy
 msgid "Filter based on Re_cipients"
 msgstr "প্রাপকদের অনুযায়ী ফিল্টার করা হবে (_c)"
 
 #: ../mail/em-folder-view.c:1385
-#, fuzzy
 msgid "Filter based on _Mailing List"
 msgstr "মেইলিং লিস্ট অনুযায়ী ফিল্টার করা হবে (_M)"
 
@@ -11795,9 +11752,8 @@ msgid "Matches: %d"
 msgstr "মিল: %d"
 
 #: ../mail/em-format-html-display.c:659
-#, fuzzy
 msgid "Fin_d:"
-msgstr "অনুসন্ধান:(_n)"
+msgstr "অনুসন্ধান:(_d)"
 
 #. gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
 #: ../mail/em-format-html-display.c:683
@@ -12180,34 +12136,28 @@ msgid "Once per month"
 msgstr "প্রতি মাসে একবার"
 
 #: ../mail/em-mailer-prefs.c:341
-#, fuzzy
 msgid "Add Custom Junk Header"
-msgstr "স্বনিরধারিত হেডার"
+msgstr "অবাঞ্ছিত বার্তার জন্য স্বনির্ধারিত হেডার"
 
 #: ../mail/em-mailer-prefs.c:345
-#, fuzzy
 msgid "Header Name:"
-msgstr "ফোল্ডারের নাম (_F):"
+msgstr "হেডারের নাম:"
 
 #: ../mail/em-mailer-prefs.c:346
-#, fuzzy
 msgid "Header Value Contains:"
-msgstr "প্রেরকে অন্তর্ভুক্ত আছেন"
+msgstr "হেডার মানের মধ্যে অন্তর্ভুক্ত হয়েছে:"
 
 #: ../mail/em-mailer-prefs.c:451
-#, fuzzy
 msgid "Contains Value"
-msgstr "অগ্রসর হও"
+msgstr "অন্তর্ভুক্ত মান"
 
 #: ../mail/em-mailer-prefs.c:473
-#, fuzzy
 msgid "Color"
 msgstr "রঙ"
 
 #: ../mail/em-mailer-prefs.c:476
-#, fuzzy
 msgid "Tag"
-msgstr "পূর্বে"
+msgstr "ট্যাগ"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1140
@@ -12331,9 +12281,8 @@ msgid "No server has been selected"
 msgstr "কোনো সার্ভার নির্বাচন করা হয়নি"
 
 #: ../mail/em-utils.c:121
-#, fuzzy
 msgid "_Do not show this message again."
-msgstr "এই বার্তাটি পুনরায় প্রদর্শন করা হবে না।"
+msgstr "এই বার্তাটি পুনরায় প্রদর্শন করা হবে না (_D)"
 
 #: ../mail/em-utils.c:317
 msgid "Message Filters"
@@ -12370,18 +12319,16 @@ msgid "Allows evolution to display text part of limited size"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:2
-#, fuzzy
 msgid "Always request read receipt"
-msgstr "মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে(_e)"
+msgstr "সর্বদা মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 msgid "Automatic emoticon recognition"
-msgstr "স্বয়ংক্রিয় লিঙ্ক পরিচিতি"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Automatic link recognition"
@@ -12442,19 +12389,16 @@ msgid "Default forward style"
 msgstr "ফরওয়ার্ডের ডিফল্ট বিন্যাস"
 
 #: ../mail/evolution-mail.schemas.in.h:19
-#, fuzzy
 msgid "Default height of the Composer Window."
-msgstr "কম্পোসার উইন্ডোর ডিফল্ট উচ্চতা"
+msgstr "কম্পোসার উইন্ডোর ডিফল্ট উচ্চতা।"
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Default height of the message window."
-msgstr "কম্পোসার উইন্ডোর ডিফল্ট প্রস্থ"
+msgstr "কম্পোসার উইন্ডোর ডিফল্ট প্রস্থ।"
 
 #: ../mail/evolution-mail.schemas.in.h:21
-#, fuzzy
 msgid "Default height of the subscribe dialog."
-msgstr "সাবস্ক্রাইব ডায়লগের ডিফল্ট উচ্চতা"
+msgstr "সাবস্ক্রাইব ডায়লগের ডিফল্ট উচ্চতা।"
 
 #: ../mail/evolution-mail.schemas.in.h:22
 msgid "Default reply style"
@@ -12465,19 +12409,16 @@ msgid "Default value for thread expand state"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:24
-#, fuzzy
 msgid "Default width of the Composer Window."
-msgstr "কম্পোসার উইন্ডোর ডিফল্ট প্রস্থ"
+msgstr "কম্পোসার উইন্ডোর ডিফল্ট প্রস্থ।"
 
 #: ../mail/evolution-mail.schemas.in.h:25
-#, fuzzy
 msgid "Default width of the message window."
-msgstr "বার্তা উইন্ডোর ডিফল্ট প্রস্থ"
+msgstr "বার্তা উইন্ডোর ডিফল্ট প্রস্থ।"
 
 #: ../mail/evolution-mail.schemas.in.h:26
-#, fuzzy
 msgid "Default width of the subscribe dialog."
-msgstr "সাবস্ক্রাইব উইন্ডোর ডিফল্ট প্রস্থ"
+msgstr "সাবস্ক্রাইব ডায়লগের ডিফল্ট প্রস্থ।"
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
@@ -12509,14 +12450,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Directory for loading/attaching files to composer."
-msgstr "সতর্কবাণীর জন্য ব্যবহৃত অডিও ফাইল ধারণকারী ডিরেক্টরি"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Directory for saving mail component files."
-msgstr "সতর্কবাণীর জন্য ব্যবহৃত অডিও ফাইল ধারণকারী ডিরেক্টরি"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Draw spelling error indicators on words as you type."
@@ -12543,22 +12482,20 @@ msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "ক্যারেট মোড সক্রিয় করুন, যাতে বার্তা পড়বার সময় আপনি একটি কার্সার দেখতে পান।"
 
 #: ../mail/evolution-mail.schemas.in.h:40
-#, fuzzy
 msgid "Enable or disable magic space bar"
-msgstr "প্লাগ-ইন সক্রিয় অথবা নিষ্ক্রিয় করুন"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Enable or disable type ahead search feature"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:42
-#, fuzzy
 msgid "Enable search folders"
-msgstr "ফোল্ডার অনুসন্ধান করুন"
+msgstr "ফোল্ডার অনুসন্ধান সক্রিয় করুন"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "প্রারম্ভ ফোল্ডা অনুসন্ধান সক্রিয় করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -12693,7 +12630,6 @@ msgid "Load images for HTML messages over http"
 msgstr "HTML বার্তার জন্য http-র মাধ্যমে ছবি লোড করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:69
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
@@ -12701,7 +12637,7 @@ msgid ""
 msgstr ""
 "HTML বার্তার ক্ষেত্রে http(s)-র মাধ্যমে ছবি লোড করা হবে। সম্ভাব্য মান হল: ০ - নেট "
 "থেকে কখনো ছবি লোড করা হবে না ১ - ঠিকানাবইয়ের মধ্যে প্রেরক উপস্থিত থাকলে ছবি লোড "
-"করা হবে ২ - নেট থেকে সর্বদা ছবি লোড করা হবে"
+"করা হবে ২ - নেট থেকে সর্বদা ছবি লোড করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Log filter actions"
@@ -12786,9 +12722,8 @@ msgid "Prompt to check if the user wants to go offline immediately"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "বার্তার বিষয় আলাদা ভাবে উল্লেখ না করা থাকলে সতর্কবাণী দেবে (_P)"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Prompt when user expunges"
@@ -12827,18 +12762,16 @@ msgid "Prompt while marking multiple messages"
 msgstr "একাধিক বার্তা চিহ্নিত করতে হলে সতর্কবার্তা প্রদর্শিত হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:98
-#, fuzzy
 msgid "Recognize emoticons in text and replace them with images."
-msgstr "টেক্সটের মধ্যে স্মাইলি অনুসন্ধান করে সেগুলির পরিবর্তে ছবি স্থাপন করা হবে।"
+msgstr "টেক্সটের মধ্যে ভাব-আইকন অনুসন্ধান করে সেগুলির পরিবর্তে ছবি স্থাপন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Recognize links in text and replace them."
 msgstr "টেক্সটের মধ্যে লিঙ্ক অনুসন্ধান করে প্রতিস্থাপন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:100
-#, fuzzy
 msgid "Run junk test on incoming mail."
-msgstr "অন্তর্মূখী মেইলে জঞ্জাল পরীক্ষা করা হবে"
+msgstr "আগমনকারী মেইলে জঞ্জাল পরীক্ষা করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:101
 msgid "Save directory"
@@ -12846,7 +12779,7 @@ msgstr "সংরক্ষণের ডিরেক্টরি"
 
 #: ../mail/evolution-mail.schemas.in.h:102
 msgid "Search for the sender photo in local addressbooks"
-msgstr ""
+msgstr "স্থানীয় ঠিকানাবইয়ের মধ্যে প্রেরকের ছবি অনুসন্ধান করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:103
 msgid "Send HTML mail by default"
@@ -12857,9 +12790,8 @@ msgid "Send HTML mail by default."
 msgstr "ডিফল্টভাবে HTML মেইল প্রেরণ করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Sender email-address column in the message list"
-msgstr "লিস্ট থেকে একটি ই-মেইল ঠিকানা সরিয়ে ফেলুন"
+msgstr "বার্তা তালিকায় প্রেরকের ই-মেইল ঠিকানার কলাম"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid "Show Animations"
@@ -12882,19 +12814,18 @@ msgid "Show photo of the sender"
 msgstr "প্রেরকের ছবি প্রদর্শন করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:113
-#, fuzzy
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
-msgstr "মুছে ফেলা বার্তাগুলিকে বার্তা-তালিকায় (মাঝে রেখাঙ্কন করে) প্রদর্শন করা হবে।"
+msgstr "বার্তা তালিকার একটি পৃথক কলামের মধ্যে প্রেরকের ই-মেইল ঠিকানা প্রদর্শন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Show the photo of the sender in the message reading pane."
-msgstr ""
+msgstr "বার্তা পাঠের পেইনের মধ্যে প্রেরকের ছবি প্রদর্শন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Specifies the header to check for junk."
-msgstr ""
+msgstr "জঞ্জাল পরীক্ষা করার জন্য ব্যবহৃত হেডার নির্ধারণ করা হয়।"
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid ""
@@ -12924,7 +12855,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:122
 msgid "The default plugin for Junk hook"
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তা আটক করতে ব্যবহৃত ডিফল্ট প্লাগ-ইন"
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "The last time empty junk was run, in days since the epoch."
@@ -12935,20 +12866,18 @@ msgid "The last time empty trash was run, in days since the epoch."
 msgstr "আবর্জনার বাক্স সর্বশেষ ফাঁকা করার সময়কাল, দিন হিসাবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:125
-#, fuzzy
 msgid "The terminal font for mail display."
-msgstr "মেইল প্রদর্শনের জন্য টার্মিন্যালে যে ফন্ট ব্যবহার করা হবে"
+msgstr "মেইল প্রদর্শনের জন্য টার্মিন্যালে যে ফন্ট ব্যবহার করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:126
-#, fuzzy
 msgid "The variable width font for mail display."
-msgstr "মেইল প্রদর্শন করার জন্য HTML-এর পরিবর্তনশীল বিস্তারের ফন্ট"
+msgstr "মেইল প্রদর্শন করার জন্য পরিবর্তনশীল বিস্তারের ফন্ট।"
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
-msgstr ""
+msgstr "তিনটি সম্ভাব্য মান। ত্রুটির ক্ষেত্রে ০ (0), সতর্কবার্তার ক্ষেত্রে ১ (1) এবং ডিবাগ বার্তার ক্ষেত্রে ২ (2)।"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -13016,12 +12945,10 @@ msgid "Thread the message-list based on Subject"
 msgstr "বার্তা তালিকা বিষয় অনুসারে থ্রেড করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "Timeout for marking message as seen"
 msgstr "বার্তা পড়া-হয়েছে হিসাবে চিহ্নিত করার সময়সীমা"
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "Timeout for marking message as seen."
 msgstr "বার্তাগুলিকে পড়া-হয়েছে হিসাবে চিহ্নিত করার সময়সীমা।"
 
@@ -13034,18 +12961,16 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "Spamassassin ডেমন ও ক্লায়েন্ট ব্যবহার করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Spamassassin ডেমন ও ক্লায়েন্ট ব্যবহার করুন (spamc/spamd)"
+msgstr "Spamassassin ডেমন ও ক্লায়েন্ট ব্যবহার করুন (spamc/spamd)।"
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Use custom fonts"
 msgstr "স্বনির্বাচিত ফন্ট ব্যবহার করুন"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "Use custom fonts for displaying mail."
-msgstr "স্বনির্বাচিত ফন্ট ব্যবহার করে মেইল প্রদর্শন করা হবে"
+msgstr "স্বনির্বাচিত ফন্ট ব্যবহার করে মেইল প্রদর্শন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Use only local spam tests."
@@ -13206,10 +13131,10 @@ msgid "Add Filter Rule"
 msgstr "ফিল্টার করার নিয়ম যোগ করুন"
 
 #: ../mail/mail-component.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] ",%d-টি নির্বাচিত"
+msgstr[0] "%d-টি নির্বাচিত,"
 
 #: ../mail/mail-component.c:540
 #, c-format
@@ -13283,46 +13208,43 @@ msgstr "মেইলের বৈশিষ্ট্যাবলী অথবা 
 
 #: ../mail/mail-component.c:1522
 msgid "Error"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: ../mail/mail-component.c:1522
 msgid "Errors"
-msgstr ""
+msgstr "ত্রুটি"
 
 #: ../mail/mail-component.c:1523
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "সতর্কবার্তা ও ত্রুটি"
 
 #: ../mail/mail-component.c:1524
 msgid "Debug"
-msgstr ""
+msgstr "ডিবাগ করুন"
 
 #: ../mail/mail-component.c:1524
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "ত্রুটি, সতর্কবার্তা ও ডিবাগ বার্তা"
 
 #: ../mail/mail-component.c:1634
-#, fuzzy
 msgid "Debug Logs"
-msgstr "ওয়েব লগ"
+msgstr "ডিবাগের লগ"
 
 #: ../mail/mail-component.c:1638
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "স্ট্যাটাস বারের মধ্যে ত্রুটিগুলি চিহ্নিত সময় অবধি প্রদর্শিত হবে (_e)"
 
 #: ../mail/mail-component.c:1645
-#, fuzzy
 msgid "seconds."
-msgstr "সেকেন্ড"
+msgstr "সেকেন্ড।"
 
 #: ../mail/mail-component.c:1655
-#, fuzzy
 msgid "Log Messages:"
-msgstr "বার্তা"
+msgstr "লগ বার্তা:"
 
 #: ../mail/mail-component.c:1707
 msgid "Log Level"
-msgstr ""
+msgstr "লগের স্তর"
 
 #: ../mail/mail-component.c:1714 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
@@ -13339,7 +13261,7 @@ msgstr " সমর্থিত ধরন পরীক্ষা করা হব�
 
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
-msgstr ""
+msgstr "(উল্লেখ্য: অ্যাপ্লিকেশন আরম্ভ করা আবশ্যক)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13386,14 +13308,12 @@ msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">মেইল মুছে ফেলুন</span>"
 
 #: ../mail/mail-config.glade.h:16
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 msgstr "<span weight=\"bold\">প্রদর্শিত মেইল হেডার (_H)</span>"
 
 #: ../mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr "<span weight=\"bold\">সতর্কবার্তা</span>"
+msgstr "<span weight=\"bold\">লেবেল</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13449,9 +13369,8 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">সার্ভারের কনফিগারেশন</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\">পরিচয়-প্রমান প্রক্রিয়ার ধরন</span>"
+msgstr "<span weight=\"bold\">পরিচয়-প্রমান প্রক্রিয়ার ধরন (_A)</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -13470,7 +13389,6 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "চিহ্নিত অ্যাকাউন্ট ব্যবহার করে প্রেরিত বার্তা সর্বদা স্বাক্ষর করা হবে (_w)"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr "এনক্রিপ্ট করা মেইল প্রেরণের সময় নিজের ঠিকানাতেও বার্তা এনক্রিপ্ট করা হবে (_f)"
 
@@ -13487,23 +13405,20 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "এনক্রিপ্ট করার সময় আমার কীরিং-এর কী (key)গুলিকে সর্বদা বিশ্বাস করা হবে (_t)"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "এনক্রিপ্ট করা মেইল প্রেরণের সময় নিজের ক্ষেত্রে বার্তা সর্বদা এনক্রিপ্ট করা হবে (_m)"
 
 #: ../mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always request rea_d receipt"
-msgstr "মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে(_e)"
+msgstr "সর্বদা মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে (_d)"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "মূল বার্তা সংযুক্ত করা হবে"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _emoticon images"
-msgstr "স্বয়ংক্রিয়ভাবে স্মাইলি ছবি সন্নিবেশ করা হবে (_s)"
+msgstr "স্বয়ংক্রিয়ভাবে ভাব-আইকন ছবি সন্নিবেশ করা হবে (_e)"
 
 #: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-13)"
@@ -13518,18 +13433,16 @@ msgid "C_haracter set:"
 msgstr "অক্ষর মালা (_h):"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "C_heck custom headers for junk"
-msgstr "অন্তর্মুখী মেইলের মাঝে অনাকাঙ্ক্ষিত মেইল পরীক্ষা করুন (_c)"
+msgstr "অবাঞ্ছিত মেইল যাচাইয়ের জন্য স্বনির্ধারিত হেডার পরীক্ষা করুন (_h)"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "সমর্থিত ধরন পরীক্ষা করা হবে (_e)"
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check incoming _messages for junk"
-msgstr "অন্তর্মুখী মেইলের মাঝে অনাকাঙ্ক্ষিত মেইল পরীক্ষা করুন (_c)"
+msgstr "আগমনকারী মেইলের মাঝে অবাঞ্ছিত মেইল পরীক্ষা করুন (_m)"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -13580,14 +13493,12 @@ msgid "Default character e_ncoding:"
 msgstr "অক্ষরের ডিফল্ট এনকোডিং (_n):"
 
 #: ../mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Delete junk messages on e_xit"
-msgstr "প্রস্থানকালে আবর্জনা মেইল প্রস্থান করা হবে (_x)"
+msgstr "প্রস্থানকালে অবাঞ্ছিত বার্তা বর্জন করা হবে (_x)"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
-msgstr "বহির্গামী বার্তা ডিজিট্যালভাবে স্বাক্ষর করা হবে (ডিফল্টরূপে) (_s)"
+msgstr "বাহিরগামী বার্তা ডিজিট্যালভাবে স্বাক্ষর করা হবে (ডিফল্টরূপে) (_u)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
@@ -13626,9 +13537,8 @@ msgid "Enable Magic S_pacebar "
 msgstr ""
 
 #: ../mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Enable Sea_rch Folders"
-msgstr "ফোল্ডার অনুসন্ধান করুন"
+msgstr "ফোল্ডার অনুসন্ধান সক্রিয় করুন (_r) "
 
 #: ../mail/mail-config.glade.h:81
 msgid "Encry_ption certificate:"
@@ -13659,9 +13569,8 @@ msgid "Full Nam_e:"
 msgstr "সম্পূর্ণ নাম: (_e)"
 
 #: ../mail/mail-config.glade.h:90
-#, fuzzy
 msgid "HTML Messages"
-msgstr "বার্তা"
+msgstr "HTML বার্তা"
 
 #: ../mail/mail-config.glade.h:91
 msgid "Headers"
@@ -13684,7 +13593,6 @@ msgid "KB"
 msgstr "কিলোবাইট"
 
 #: ../mail/mail-config.glade.h:98 ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Labels"
 msgstr "লেবেল"
 
@@ -13783,7 +13691,7 @@ msgstr "পাসওয়ার্ড মনে রাখবে (_p)"
 
 #: ../mail/mail-config.glade.h:122
 msgid "S_earch for sender photograph only in local addressbooks"
-msgstr ""
+msgstr "শুধুমাত্র স্থানীয় ঠিকানাবাইয়ের মধ্যে প্রেরকের ছবি অনুসন্ধান করা হবে (_e)"
 
 #: ../mail/mail-config.glade.h:123
 msgid "S_elect..."
@@ -13910,7 +13818,7 @@ msgstr "ইন্টারনেট থেকে সর্বদা ছবি �
 
 #: ../mail/mail-config.glade.h:156
 msgid "_Default junk plugin:"
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তার ডিফল্ট প্লাগ-ইন: (_D)"
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -13922,10 +13830,9 @@ msgstr "অনুবর্তনের ধরন (_F):"
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Keep Signature above the original message on replying"
-msgstr ""
+msgstr "প্রত্যুত্তরের সময়, মূল বার্তার উপরে স্বাক্ষর স্থাপিত হবে (_K)"
 
 #: ../mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Load images in messages from contacts"
 msgstr "পরিচিত প্রেরকদের থেকে প্রাপ্ত মেইলের ছবি লোড করা হবে (_L)"
 
@@ -13964,9 +13871,8 @@ msgid "_Script:"
 msgstr "স্ক্রিপ্ট (_S):"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Select..."
-msgstr "নির্বাচন করুন (_e)..."
+msgstr "নির্বাচন করুন... (_S)"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:174
@@ -13974,9 +13880,8 @@ msgid "_Show image animations"
 msgstr "অ্যানিমেশন ছবি প্রদর্শন করা হবে (_S)"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
-msgstr "এই বার্তাটির ই-মেইল উত্স প্রদর্শন করুন"
+msgstr "বার্তার পূর্বরূপ প্রদর্শনকালে প্রেরকের ছবি প্রদর্শন করা হবে (_S)"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Shrink To / Cc / Bcc headers to "
@@ -14103,7 +14008,7 @@ msgstr "%s এ ping করা হচ্ছে"
 
 #: ../mail/mail-ops.c:105
 msgid "Filtering Selected Messages"
-msgstr ""
+msgstr "নির্বাচিত বার্তা ফিল্টার করা হচ্ছে"
 
 #: ../mail/mail-ops.c:264
 msgid "Fetching Mail"
@@ -14130,9 +14035,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr "স্থানীয় 'প্রেরিত বার্তা' -র ফোল্ডারে লেখা সম্ভব হয়নি: %s"
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "বার্তা প্রেরণ করুন (_S)"
+msgstr "বার্তা প্রেরণ"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14594,14 +14498,12 @@ msgid "Delete account?"
 msgstr "অ্যাকাউন্ট মুছে ফেলা হবে কি?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "অনুসন্ধানের ফোল্ডার &quot;{0}&quot; যোগ করা যায়নি।"
+msgstr "অনুসন্ধান ফোল্ডার &quot;{0}&quot;-র মধ্যে বার্তা মুছে ফেলা হবে কি?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "নির্বাচিত বার্তাগুলি অন্য একটি ফোল্ডারে কপি করুন"
+msgstr "অনুসন্ধানের ফোল্ডারের বার্তা মুছে ফেলা হবে কি?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Discard changes?"
@@ -14765,7 +14667,6 @@ msgstr ""
 
 # not sure
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -14773,8 +14674,7 @@ msgid ""
 msgstr ""
 "নিম্নলিখিত প্রাপকরা HTML মেইল গ্রহণ করতে ইচ্ছুক এবং সক্ষম কিনা তা অনুগ্রহ করে পরীক্ষা "
 "করুন:\n"
-"{0}\n"
-"প্রেরণ করা হবে কি?"
+"{0}"
 
 #: ../mail/mail.error.xml.h:85
 msgid "Please provide an unique name to identify this signature."
@@ -15177,9 +15077,8 @@ msgid "Enable attachment reminder plugin"
 msgstr ""
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
-#, fuzzy
 msgid "Enable attachment reminder plugin."
-msgstr "প্লাগ-ইন সক্রিয় অথবা নিষ্ক্রিয় করুন"
+msgstr ""
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:3
 msgid ""
@@ -15416,7 +15315,6 @@ msgstr "স্বয়ংক্রিয় পরিচিতি"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-#, fuzzy
 msgid "_Automatically create entries in the addressbook when responding to messages"
 msgstr ""
 "বার্তার প্রত্যুত্তর প্রেরণ করার সময় স্বয়ংক্রিয়রূপে ঠিকানাবইয়ের মধ্যে পরিচিতি তথ্য যোগ "
@@ -15462,12 +15360,10 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:303
-#, fuzzy
 msgid "Convert message text to _Unicode"
 msgstr "বার্তার বিষয়বস্তু Unicode-এ রূপান্তর করুন (_U)"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-#, fuzzy
 msgid "Convert mail messages to Unicode"
 msgstr "বার্তার বিষয়বস্তু Unicode-এ রূপান্তর করুন"
 
@@ -15483,7 +15379,7 @@ msgstr "Bogofilter সংক্রান্ত বিকল্প"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Filters junk messages using Bogofilter."
-msgstr ""
+msgstr "Bogofilter সহযোগে অবাঞ্ছিত বার্তা ফিল্টার করুন।"
 
 #: ../plugins/caldav/caldav-source.c:64 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
@@ -15501,7 +15397,7 @@ msgstr "SSL ব্যবহার করা হবে (_S)"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "CalDAV Calendar sources"
-msgstr ""
+msgstr "CalDAV Calendar-র সোর্স"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
 msgid "CalDAV sources"
@@ -15755,9 +15651,8 @@ msgid "A_uthenticate"
 msgstr "পরিচয় প্রমাণ ব্যবস্থা (_u)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:854
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "পরিচয় প্রমাণ ব্যবস্থার প্রকৃতি"
+msgstr "পরিচয় প্রমাণ ব্যবস্থার প্রকৃতি (_A)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:868
 msgid "Ch_eck for Supported Types"
@@ -15862,7 +15757,7 @@ msgstr ""
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:358
 msgid "You have been given the following permissions on my folders:"
-msgstr ""
+msgstr "আমার ফোল্ডার ব্যবহারকালে নিম্নলিখিত অনুমতিগুলি আপনার জন্য ধার্য করা হয়েছে:"
 
 #. To translators: This message is included if the delegatee has been given access
 #. to the private items.
@@ -16171,6 +16066,10 @@ msgid ""
 "Private\n"
 "Confidential"
 msgstr ""
+"স্বাভাবিক\n"
+"নিজস্ব\n"
+"ব্যক্তিগত\n"
+"গোপনীয়"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
@@ -16187,7 +16086,7 @@ msgstr "প্রতিনিধি রূপে প্রেরণ করুন
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:15
 msgid "_Sensitivity: "
-msgstr ""
+msgstr "সংবেদনশীলতা: (_S)"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:16
 msgid "_User"
@@ -16545,22 +16444,20 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
-#, fuzzy
 msgid "External Editor"
-msgstr "পরিচিতি সম্পাদক"
+msgstr "স্বত্বন্ত্র সম্পাদন ব্যবস্থা"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-#, fuzzy
 msgid "Compose in External Editor"
-msgstr "কম্পোসার উইন্ডোর ডিফল্ট প্রস্থ"
+msgstr "স্বতন্ত্র সম্পাদন ব্যবস্থার মধ্যে কম্পোজ করুন"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "স্বতন্ত্র সম্পাদন ব্যবস্থার মধ্যে বার্তা কম্পোজ করুন"
 
 #: ../plugins/face/face.c:57
 msgid "Select a (48*48) png of size < 700bytes"
-msgstr ""
+msgstr "৭০০ বাইটের কম মাপের একটি png (48*48) ছবি নির্বাচন করুন"
 
 #: ../plugins/face/face.c:67
 msgid "PNG files"
@@ -16602,18 +16499,16 @@ msgstr "আনসাবস্ক্রাইব (_U)"
 
 #: ../plugins/google-account-setup/google-source.c:71
 #: ../plugins/google-account-setup/google-source.c:78
-#, fuzzy
 msgid "Google"
-msgstr "অদলবদল"
+msgstr "Google"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "A plugin to setup google calendar."
-msgstr ""
+msgstr "google ক্যালেন্ডার প্রস্তুতির একটি প্লাগ-ইন।"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
-#, fuzzy
 msgid "Google sources"
-msgstr "রিসোর্সসমূহ"
+msgstr "Google-র সোর্স"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:432
 msgid "Checklist"
@@ -16648,7 +16543,7 @@ msgstr "শেয়ার করা ফোল্ডার ইনস্টল ক�
 
 #: ../plugins/groupwise-features/install-shared.c:226
 msgid "Shared Folder Installation"
-msgstr ""
+msgstr "শেয়ার করা ফোল্ডার ইনস্টলেশনের প্রকৃতি"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:78
 msgid "Junk Settings"
@@ -16719,14 +16614,12 @@ msgid "<b>Users:</b>"
 msgstr "<b>ব্যবহারকারী :</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
 msgid "C_ustomize notification message"
-msgstr "সূচনাবার্তা নিজস্ব প্রয়োজন অনুসারে বিন্যাস করুন (_C)"
+msgstr "সূচনাবার্তা নিজস্ব প্রয়োজন অনুসারে বিন্যাস করুন (_u)"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "পরিচিতি..."
+msgstr "পরিচিতি...(_t)"
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:517
@@ -16795,9 +16688,8 @@ msgstr "লিখুন (_W)"
 
 #. To Translators: strip the part in front of the | and the | itself
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
-#, fuzzy
 msgid "permission to read|_Read"
-msgstr "অনুমতি পাওয়া যায়নি"
+msgstr "পাঠ (_R)"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -16905,7 +16797,6 @@ msgid "Completed: "
 msgstr "সম্পন্ন: "
 
 #: ../plugins/groupwise-features/status-track.c:225
-#, fuzzy
 msgid "Undelivered: "
 msgstr "প্রেরণ ব্যর্থ: "
 
@@ -16915,7 +16806,7 @@ msgstr "বার্তার অবস্থায় পরীক্ষা কর
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr ""
+msgstr "hula ক্যালেন্ডারের সোর্স প্রস্তুত করতে ব্যবহৃত প্লাগ-ইন।"
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -16943,7 +16834,7 @@ msgstr ""
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
-msgstr ""
+msgstr "সকল হেডার প্রাপ্ত করা হবে (_l)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:5
 msgid ""
@@ -17004,7 +16895,7 @@ msgstr "বর্ষপঞ্জির মধ্যে ইম্পোর্ট 
 
 #: ../plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml.h:3
 msgid "Imports ICS attachments to calendar."
-msgstr ""
+msgstr "বর্ষপঞ্জির মধ্যে ICS-র সংযুক্ত বস্তু ইম্পোর্ট করা হয়।"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:34
 msgid "Hardware Abstraction Layer not loaded"
@@ -17033,7 +16924,7 @@ msgstr "iCalendar বিন্যাস (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
-msgstr ""
+msgstr "Apple iPod-র সাথে নির্বাচিত কর্ম/মেমো/বর্ষপঞ্জি সুসংগত করুন"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -17077,7 +16968,7 @@ msgstr "কোনো মেমো তালিকায় এই মেমো স�
 
 #: ../plugins/itip-formatter/itip-formatter.c:777
 msgid "Searching for an existing version of this appointment"
-msgstr ""
+msgstr "চিহ্নিত সাক্ষাৎকারের পূর্ববর্তী সংস্করণ অনুসন্ধান করা হচ্ছে"
 
 #: ../plugins/itip-formatter/itip-formatter.c:943
 msgid "Unable to parse item"
@@ -17374,14 +17265,14 @@ msgstr "%A, %B %e, %Y %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:528
 #, c-format
 msgid "Please respond on behalf of <b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>-র পক্ষ থেকে অনুগ্রহ করে উত্তর দিন"
 
 #: ../plugins/itip-formatter/itip-view.c:354
 #: ../plugins/itip-formatter/itip-view.c:442
 #: ../plugins/itip-formatter/itip-view.c:530
 #, c-format
 msgid "Received on behalf of <b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>-র পক্ষ থেকে প্রাপ্ত হয়েছে"
 
 #: ../plugins/itip-formatter/itip-view.c:359
 #, c-format
@@ -17678,9 +17569,8 @@ msgid "_Apply to all instances"
 msgstr "সমস্ত ইনস্ট্যান্সের ক্ষেত্রে প্রয়োগ করা হবে (_A)"
 
 #: ../plugins/itip-formatter/itip-view.c:1119
-#, fuzzy
 msgid "Show time as _free"
-msgstr "ব্যস্ত হিসাবে সময় প্রদর্শন করা হবে(_b)"
+msgstr "মুক্ত হিসাবে সময় প্রদর্শন করা হবে (_f)"
 
 #: ../plugins/itip-formatter/itip-view.c:1852
 msgid "_Tasks :"
@@ -17729,9 +17619,8 @@ msgid "Disable Account"
 msgstr "অ্যাকাউন্ট নিষ্ক্রিয় করুন"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
-#, fuzzy
 msgid "Beep or play sound file."
-msgstr "শব্দের ফাইল নির্বাচন করুন"
+msgstr "বিপ শব্দ করা হবে অথবা শব্দের ফাইল বাজানো হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
@@ -17739,15 +17628,13 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "D-Bus বার্তা সক্রিয় করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-#, fuzzy
 msgid "Enable icon in notification area."
-msgstr "নতুন বার্তার ক্ষেত্রে libnotify সূচনাব্যবস্থা সক্রিয় করা হবে"
+msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
-#, fuzzy
 msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "নতুন বার্তা প্রাপ্ত হলে D-BUS বার্তা উৎ‌পন্ন করা হয়।"
 
@@ -17757,72 +17644,67 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "শুধুমাত্র ইনবক্সের মধ্যে নতুন বার্তার ক্ষেত্রে সূচনাপ্রদান করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play sound when new messages arrive."
-msgstr "নতুন মেইল এলে শব্দ করবে (_v)"
+msgstr "নতুন মেইল এলে শব্দ করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "আইকন সহযোগে বার্তা পপ-আপ করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "আপনার বার্তা পাঠ হওয়ার পরে সূচনা প্রাপ্তি করুন"
+msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
-msgstr ""
+msgstr "বাজানোর উদ্দেশ্যে চিহ্নিত শব্দের ফাইল।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "নতুন মেইল এলে যে শব্দের ফাইল বাজানো হবে।"
+msgstr "নতুন মেইল এলে যে শব্দের ফাইল বাজানো হবে, অন্যথা বিপ মোড প্রয়োগ করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "নতুন মেইল এলে শব্দ করবে (_v)"
+msgstr "নতুন বার্তা প্রাপ্ত হলে শব্দ বাজানো হবে অথবা বিপ শব্দ করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-#, fuzzy
 msgid "Whether the icon should blink or not."
-msgstr "পার্শ্ববর্তী বার প্রদর্শিত হবে কি না।"
+msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "শুধুমাত্র ইনবক্স ফোল্ডারের মধ্যে নতুন বার্তার আগমন সম্বন্ধে সূচনাপ্রদান করা হবে কি না।"
 
 #: ../plugins/mail-notification/mail-notification.c:254
-#, fuzzy
 msgid "Generate a _D-Bus message"
-msgstr "বার্তার তালিকা প্রস্তুত করা হচ্ছে"
+msgstr "একটি D-Bus বার্তা নির্মাণ করুন (_D)"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:363
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have received %d new message\n"
 "in %s."
 msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
-msgstr[0] "%d-টি নতুন বার্তা %s-র মধ্যে প্রাপ্ত করেছেন।"
-msgstr[1] ""
+msgstr[0] ""
+"%d-টি নতুন বার্তা\n"
+"%s-র মধ্যে প্রাপ্ত করেছেন।"
 
 #: ../plugins/mail-notification/mail-notification.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "%d-টি নতুন বার্তা %s-র মধ্যে প্রাপ্ত করেছেন।"
-msgstr[1] ""
+msgstr[0] "%d-টি নতুন বার্তা প্রাপ্ত করেছেন।"
+
 
 #: ../plugins/mail-notification/mail-notification.c:380
 #: ../plugins/mail-notification/mail-notification.c:385
@@ -17830,33 +17712,28 @@ msgid "New email"
 msgstr "নতুন ই-মেইল"
 
 #: ../plugins/mail-notification/mail-notification.c:440
-#, fuzzy
 msgid "Show icon in _notification area"
-msgstr "সূচনাপ্রদানের ট্রের মধ্যে প্রদর্শনযোগ্য সতর্কবার্তা প্রদর্শিত হবে"
+msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:443
-#, fuzzy
 msgid "B_link icon in notification area"
-msgstr "সূচনাবার্তা নিজস্ব প্রয়োজন অনুসারে বিন্যাস করুন (_C)"
+msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:445
 msgid "Popup _message together with the icon"
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:626
-#, fuzzy
 msgid "_Play sound when new messages arrive"
-msgstr "নতুন মেইল এলে শব্দ করবে (_v)"
+msgstr "নতুন মেইল এলে শব্দ করা হবে (_P)"
 
 #: ../plugins/mail-notification/mail-notification.c:632
-#, fuzzy
 msgid "_Beep"
-msgstr "বিপ্‌ শব্দ করা হবে"
+msgstr "বিপ শব্দ করা হবে (_B)"
 
 #: ../plugins/mail-notification/mail-notification.c:633
-#, fuzzy
 msgid "Play _sound file"
-msgstr "শব্দের ফাইল নির্বাচন করুন"
+msgstr "শব্দের ফাইল বাজানে হবে (_s)"
 
 #: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
@@ -17867,9 +17744,8 @@ msgid "Select sound file"
 msgstr "শব্দের ফাইল নির্বাচন করুন"
 
 #: ../plugins/mail-notification/mail-notification.c:646
-#, fuzzy
 msgid "Pl_ay"
-msgstr "পালাউ"
+msgstr "বাজানো হবে (_a)"
 
 #: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
@@ -17900,9 +17776,9 @@ msgid "Mail to meeting"
 msgstr "মেইল থেকে সভায় পরিবর্তন"
 
 #: ../plugins/mail-to-task/mail-to-task.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open calendar. %s"
-msgstr "ফাইলটি খোলা যাচ্ছে না"
+msgstr "বর্ষপঞ্জি খোলা যাচ্ছে না। %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid ""
@@ -18114,14 +17990,12 @@ msgid "Marks the selected calendar for offline viewing."
 msgstr "অফলাইন অবস্থা প্রদর্শনের উদ্দেশ্যে নির্বাচিত বর্ষপঞ্জি চিহ্নিত করা হয়।"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
-#, fuzzy
 msgid "_Do not make available for offline use"
-msgstr "এটি অফলাইন অবস্থায় উপলব্ধ করা হবে না (_D)"
+msgstr "অফলাইন অবস্থায় উপলব্ধ করা হবে না (_D)"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Make available for offline use"
-msgstr "অফলাইন ব্যবহারের উদ্দেশ্যে বর্ষপঞ্জি উপলব্ধ করুন (_M)"
+msgstr "অফলাইন ব্যবহারের উদ্দেশ্যে উপলব্ধ করা হবে (_M)"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -18164,18 +18038,16 @@ msgid "Note: Some changes will not take effect until restart"
 msgstr "উল্লেখ্য: পুনরায় আরম্ভ না করা অবধি কয়েকটি পরিবর্তন কার্যকর হবে না"
 
 #: ../plugins/plugin-manager/plugin-manager.c:260
-#, fuzzy
 msgid "Overview"
-msgstr "পর্যালোচনা"
+msgstr "সংক্ষিপ্ত বর্ণনা"
 
 #: ../plugins/plugin-manager/plugin-manager.c:261
-#, fuzzy
 msgid "Configuration"
-msgstr "মেইলের কনফিগারেশন"
+msgstr "কনফিগারেশন"
 
 #: ../plugins/plugin-manager/plugin-manager.c:277
 msgid "There is no configuration option for this plugin."
-msgstr ""
+msgstr "চিহ্নিত প্লাগ-ইনের জন্য কোনো কনফিগারেশন উপস্থিত নেই।"
 
 #: ../plugins/plugin-manager/plugin-manager.c:330
 #: ../plugins/plugin-manager/plugin-manager.c:392
@@ -18221,9 +18093,8 @@ msgid "HTML _Mode"
 msgstr "HTML মোড (_M)"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-#, fuzzy
 msgid "Gives an option to print from the composer."
-msgstr "কম্পোসার থেকে বার্তা প্রিন্ট করার ব্যবস্থা উপলব্ধ করা হয়"
+msgstr "কম্পোসার থেকে বার্তা প্রিন্ট করার ব্যবস্থা উপলব্ধ করা হয়।"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:2
 msgid "Print Message"
@@ -18537,7 +18408,6 @@ msgid "Show _only this Calendar"
 msgstr "শুধুমাত্র এই বর্ষপঞ্জি প্রদর্শন করা হবে (_o)"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Memo List"
 msgstr "শুধুমাত্র চিহ্নিত কর্মের তালিকা প্রদর্শন করা হবে (_o)"
 
@@ -18641,9 +18511,8 @@ msgid "Evolution Test component"
 msgstr "Evolution Test-র অংশ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-#, fuzzy
 msgid "A string description of the current printer settings."
-msgstr "পংক্তিরূপে বর্তমান প্রিন্টারের বৈশিষ্ট্যের বিবরণ"
+msgstr "বর্তমান প্রিন্টারের বৈশিষ্ট্যের বর্ণনামূলক পংক্তি।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
@@ -18690,9 +18559,8 @@ msgid "Skip development warning dialog"
 msgstr "ডিভেলপমেন্টের সতর্কবাণীর ডায়লগটি এড়িয়ে এগিয়ে যাওয়া হবে"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "Skip recovery warning dialog"
-msgstr "ডিভেলপমেন্টের সতর্কবাণীর ডায়লগটি এড়িয়ে এগিয়ে যাওয়া হবে"
+msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:576
 msgid "Start in offline mode"
@@ -18749,9 +18617,8 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Evolution অনলাইন মোডের পরিবর্তে অফলাইন মোডে আরম্ভ করা হবে কিনা।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-#, fuzzy
 msgid "Whether crash detection should be done or not"
-msgstr "উইন্ডোর বাটন প্রদর্শন করা হবে কি না।"
+msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Whether or not the window should be maximized."
@@ -18776,11 +18643,8 @@ msgstr ""
 "কি না।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
-#, fuzzy
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
 msgstr ""
-"Evolution ডিভেলপমেন্ট সংস্করণে সতর্কবাণীর ডায়লগ বাক্সের প্রদর্শন এড়িয়ে যাওয়া হবে "
-"কি না।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -18887,9 +18751,9 @@ msgstr "'.' এবং '..' ফোল্ডারের নামগুলি স
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
 #: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Evolution"
-msgstr "Evolution"
+msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window-commands.c:77
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -18924,9 +18788,8 @@ msgid "Evolution Website"
 msgstr "Evolution ওয়েব-সাইট"
 
 #: ../shell/e-shell-window-commands.c:773
-#, fuzzy
 msgid "Error opening the FAQ webpage."
-msgstr "বর্ষপঞ্জি পড়ার সময় সমস্যা হয়েছে"
+msgstr "FAQ ওয়েব-পেজ পড়তে সমস্যা হয়েছে।"
 
 #: ../shell/e-shell-window-commands.c:970
 msgid "_Work Online"
@@ -18958,7 +18821,6 @@ msgid "Switch to %s"
 msgstr "%s-এ পরিবর্তন করুন"
 
 #: ../shell/e-shell.c:640
-#, fuzzy
 msgid "Unknown system error."
 msgstr "অজ্ঞাত সিস্টেমের সমস্যা।"
 
@@ -19089,14 +18951,12 @@ msgid "Do not tell me again"
 msgstr "পুনরায় বলা হবে না"
 
 #: ../shell/main.c:314
-#, fuzzy
 msgid "Evolution Crash Detection"
-msgstr "Evolution সংক্রান্ত তথ্য"
+msgstr ""
 
 #: ../shell/main.c:316
-#, fuzzy
 msgid "Ig_nore"
-msgstr "উপেক্ষা করা হবে"
+msgstr "উপেক্ষা করা হবে (_n)"
 
 #: ../shell/main.c:331
 #, no-c-format
@@ -19107,9 +18967,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/main.c:342
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "এই বার্তাটি পুনরায় প্রদর্শন করা হবে না।"
+msgstr "এই বার্তাটি পুনরায় প্রদর্শন করা হবে না। (_D)"
 
 #: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
@@ -20419,14 +20278,12 @@ msgid "_Copy Folder To..."
 msgstr "ফোল্ডার কপি করার স্থান (_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Debug Logs"
-msgstr "ওয়েব লগ(_W):"
+msgstr "ডিবাগ লগ: (_D)"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "অফ-লাইন ব্যবহারের জন্য বার্তা ডাউনলোড করুন"
+msgstr "অফ-লাইন ব্যবহারের জন্য বার্তা ডাউনলোড করুন (_D)"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -20513,9 +20370,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "সমস্ত বার্তাগুলিকে পড়া-হয়েছে হিসাবে চিহ্নিত করুন (_k)"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "ফোল্ডার ও সাব-ফোল্ডারের সমস্ত বার্তা পড়া-হয়েছে হিসাবে চিহ্নিত করা হবে কি?"
+msgstr "ফোল্ডারের সমস্ত বার্তা পড়া-হয়েছে হিসাবে চিহ্নিত করা হবে"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
@@ -20538,9 +20394,8 @@ msgid "Refresh the folder"
 msgstr "ফোল্ডার নতুন করে প্রদর্শন"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "বার্তার থ্রেড নির্বাচন করুন (_T)"
+msgstr "বার্তার সাব-থ্রেড নির্বাচন করুন (_u)"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
@@ -20559,9 +20414,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "নির্বাচিত বার্তার বিষয় উল্লিখিত বাকি সমস্ত মেইল নির্বাচন করুন"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "নির্বাচিত বার্তার বিষয় উল্লিখিত বাকি সমস্ত মেইল নির্বাচন করুন"
+msgstr "বর্তমানে নির্বাচিত বার্তার জন্য প্রাপ্ত সব উত্তর নির্বাচন করুন"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -21226,7 +21080,7 @@ msgstr "বার্তাটি প্রেরণ করুন"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "Set the message priority to high"
-msgstr ""
+msgstr "বার্তার গুরুত্ব 'উচ্চ' রূপে ধার্য করুন"
 
 #: ../ui/evolution-message-composer.xml.h:39
 msgid "Sign this message with your PGP key"
@@ -21457,9 +21311,8 @@ msgid "Display window buttons with text only"
 msgstr "উইন্ডো বাটনের উপর শুধুমাত্র টেক্সট প্রদর্শন করা হবে"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Evolution"
+msgstr "Evolution _FAQ"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21478,7 +21331,6 @@ msgid "I_mport..."
 msgstr "ইম্পোর্ট করুন...(_m)"
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
 msgstr "আইকন এবং টেক্সট (_a)"
 
@@ -21555,9 +21407,8 @@ msgid "Toggle whether we are working offline."
 msgstr "অফলাইন কাজ করা হচ্ছে কিনা টগল করুন।"
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
-msgstr "টুলবারের বিন্যাস(_b)"
+msgstr "টুলবারের বিন্যাস (_b)"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
@@ -21581,21 +21432,19 @@ msgstr "পাসওয়ার্ড মনে রাখা হবে না (_F)
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "প্রশ্নাবলী (_F)"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Hide Buttons"
 msgstr "বাটন আড়াল করা হবে (_H)"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Icons Only"
 msgstr "শুধুমাত্র আইকন ব্যবহৃত হবে (_I)"
 
 #: ../ui/evolution.xml.h:49
 msgid "_Quick Reference"
-msgstr ""
+msgstr "দ্রুত তথ্য প্রাপ্তি (_Q)"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Quit"
@@ -21610,9 +21459,8 @@ msgid "_Synchronization Options..."
 msgstr "সুসংগতি সংক্রান্ত অপশন (_S)..."
 
 #: ../ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Text Only"
-msgstr "শুধুমাত্র টেক্সট(_T)"
+msgstr "শুধুমাত্র টেক্সট (_T)"
 
 #: ../ui/evolution.xml.h:55
 msgid "_Window"
@@ -22217,15 +22065,13 @@ msgstr "কলামের প্রস্থ"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Search"
-msgstr "অনুসন্ধান করুন (_S)"
+msgstr "অনুসন্ধান করুন"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Click here to change the search type"
-msgstr "ফাইল সংযুক্ত করতে এইস্থানে ক্লিক করুন"
+msgstr "অনুসন্ধানের ধরন নির্বাচনের জন্য এই স্থানে ক্লিক করুন"
 
 #: ../widgets/misc/e-search-bar.c:610
 msgid "_Search"
@@ -22536,9 +22382,8 @@ msgid "Clear All"
 msgstr "সমস্ত মুছে ফেলুন"
 
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear _All"
-msgstr "সমস্ত মুছে ফেলুন"
+msgstr "সমস্ত মুছে ফেলুন (_A)"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
@@ -22558,19 +22403,16 @@ msgid "Move _Up"
 msgstr "উপরে স্থানান্তর করুন (_U)"
 
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Show _field in View"
-msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে"
+msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে (_f)"
 
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Show field i_n View"
-msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে"
+msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে (_n)"
 
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Show field in _View"
-msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে"
+msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে (_V)"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
@@ -22593,9 +22435,8 @@ msgid "_Group By..."
 msgstr "উল্লিখিত বিষয় অনুসারে দল নির্মাণ (_G)..."
 
 #: ../widgets/table/e-table-config.glade.h:22
-#, fuzzy
 msgid "_Show field in View"
-msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে"
+msgstr "প্রদর্শনক্ষেত্রের মধ্যে কলাম প্রদর্শন করা হবে (_S)"
 
 #: ../widgets/table/e-table-config.glade.h:23
 msgid "_Show these fields in order:"
@@ -22773,15 +22614,13 @@ msgid "Custo_mize Current View..."
 msgstr "বর্তমান প্রদর্শনক্ষেত্র নিজস্ব পছন্দ অনুযায়ী বিন্যাস করুন...(_m)"
 
 #: ../widgets/table/e-table-header-item.c:1542
-#, fuzzy
 msgid "_Sort By"
-msgstr "ক্রমবিন্যাস করা হবে"
+msgstr "ক্রমবিন্যাস করা হবে (_S)"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
-#, fuzzy
 msgid "_Custom"
-msgstr "স্বনির্বাচিত"
+msgstr "স্বনির্ধারিত (_C)"
 
 #: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
