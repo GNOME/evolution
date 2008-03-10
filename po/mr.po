@@ -1,19 +1,20 @@
 # translation of evolution.HEAD.mr.po to marathi
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
+#
 # Sandeep Shedmake <sandeep.shedmake@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.mr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-29 03:21+0000\n"
+"POT-Creation-Date: 2008-03-07 03:21+0000\n"
 "PO-Revision-Date: 2008-02-29 12:00+0530\n"
 "Last-Translator: Sandeep Shedmake <sandeep.shedmake@gmail.com>\n"
 "Language-Team: marathi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
@@ -342,7 +343,9 @@ msgstr "कार्यान्वित करा"
 msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
-msgstr "'{0}' फक्त-वाचण्याजोगी पत्ता वही स्त्रोत आहे. संपर्क दृश्य कडे जा व संपर्क असलेली पत्ता वही ठळक करा."
+msgstr ""
+"'{0}' फक्त-वाचण्याजोगी पत्ता वही स्त्रोत आहे. संपर्क दृश्य कडे जा व संपर्क असलेली पत्ता वही "
+"ठळक करा."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -443,7 +446,8 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "इवॉल्यूशन पत्ता वही अनपेक्षितरित्या बंद झाली."
 
 #: ../addressbook/addressbook.error.xml.h:23
-msgid "The image you have selected is large. Do you want to resize and store it?"
+msgid ""
+"The image you have selected is large. Do you want to resize and store it?"
 msgstr "तुम्ही निवडलेली प्रतिमा मोठी आहे. तुम्ही ती पुनराकारित करून संग्रहू इच्छिता?"
 
 #: ../addressbook/addressbook.error.xml.h:24
@@ -519,7 +523,8 @@ msgid ""
 msgstr "तुम्ही या संपर्कात फेरफार केले आहेत. तुम्ही हे बदल संग्रहू इच्छिता?"
 
 #: ../addressbook/addressbook.error.xml.h:37
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "इवॉल्यूशन पुन्हा सुरू होइपर्यंत तुमचे {0} साठीचे संपर्क उपलब्ध होणार नाहीत."
 
 #: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:512
@@ -844,7 +849,7 @@ msgstr "vCard म्हणून संचयीत करा..."
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2107 ../mail/em-folder-view.c:1346
+#: ../mail/em-folder-tree.c:2090 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -996,7 +1001,8 @@ msgid "Email address"
 msgstr "ईमेल पत्ता"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid "Evolution will use this email address to authenticate you with the server."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
 msgstr "इवॉल्यूशन हा ईमेल पत्ता तुम्हास सेवकाशी अधिप्रमाणित करण्यासाठी वापरेल."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
@@ -1144,7 +1150,8 @@ msgstr ""
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
-msgstr "तुमच्या एव्हॅल्युशन संचयीका यादीत ह्या सेवासंगणकाचे हे नाव येईल. हे फक्त दाखवण्या करताच असेल. "
+msgstr ""
+"तुमच्या एव्हॅल्युशन संचयीका यादीत ह्या सेवासंगणकाचे हे नाव येईल. हे फक्त दाखवण्या करताच असेल. "
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -2972,7 +2979,7 @@ msgstr "कापा(_t)"
 #: ../calendar/gui/dialogs/comp-editor.c:457
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:1013
+#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:996
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3716,7 +3723,7 @@ msgstr "पत्ता वहीस प्रश्न करतोय..."
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
 msgstr[0] "आणखी एक इतर संपर्क आहे."
-msgstr[1] "आणखी एक इतर संपर्क आहे."
+msgstr[1] "आणखी %d इतर संपर्क आहे."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:279
@@ -4032,7 +4039,8 @@ msgid "NUMBER"
 msgstr "संख्या"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:102
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr "कंमाड लाईन्स आग्युमेन्टस चूक, कृपया वापरा वापर पहाण्यासाठी मदत विकल्प वापरा."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:116
@@ -4056,7 +4064,9 @@ msgstr "न हाताळलेली चूक"
 msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
-msgstr "'{0}' फक्त-वाचणीय दिनदर्शिका स्त्रोत आहे. दिनदर्शिका दृश्यकडे जा व भेटपत्रिका स्वीकारणारी दिनदर्शिका ठळक करा."
+msgstr ""
+"'{0}' फक्त-वाचणीय दिनदर्शिका स्त्रोत आहे. दिनदर्शिका दृश्यकडे जा व भेटपत्रिका "
+"स्वीकारणारी दिनदर्शिका ठळक करा."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -4091,11 +4101,13 @@ msgid "All information on these tasks will be deleted and can not be restored."
 msgstr "हया कार्यावरील सर्व माहिती काढून टाकली जाईल व पुन्हस्थपीत केले जाऊ शकत नाही."
 
 #: ../calendar/calendar.error.xml.h:9
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr "त्या कार्यक्रमपत्रिकावरील सर्व माहिती सोडली जाईल व पुन: मिळविता येणार नाही."
 
 #: ../calendar/calendar.error.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr "ह्या सभेमधील सर्व माहिती काढूण टाकले जाईल व ती पुन्हस्थापीत केले जाऊ शकत नाही."
 
 #: ../calendar/calendar.error.xml.h:11
@@ -4205,8 +4217,10 @@ msgstr ""
 "परवानगी."
 
 #: ../calendar/calendar.error.xml.h:35
-msgid "Email invitations will be sent to all participants and allow them to reply."
-msgstr "सर्व भाग घेणाऱ्याना ई-पत्राना आमत्रणे पाठवली जातील व त्यास प्रतिउत्तर देण्यास सहमती द्या."
+msgid ""
+"Email invitations will be sent to all participants and allow them to reply."
+msgstr ""
+"सर्व भाग घेणाऱ्याना ई-पत्राना आमत्रणे पाठवली जातील व त्यास प्रतिउत्तर देण्यास सहमती द्या."
 
 #: ../calendar/calendar.error.xml.h:36
 msgid "Error loading calendar"
@@ -4264,13 +4278,15 @@ msgstr ""
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
-msgstr "काहीक जोडणी डाउनलोड केले जात आहे. भेटपत्रिका संचयीत केल्यास जोडणी प्राप्त होणार नाही."
+msgstr ""
+"काहीक जोडणी डाउनलोड केले जात आहे. भेटपत्रिका संचयीत केल्यास जोडणी प्राप्त होणार नाही."
 
 #: ../calendar/calendar.error.xml.h:45
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
-msgstr "काहीक जोडणी डाउनलोड केले जात आहे. कार्य संचयीत केल्यास जोडणी प्राप्त होणार नाही."
+msgstr ""
+"काहीक जोडणी डाउनलोड केले जात आहे. कार्य संचयीत केल्यास जोडणी प्राप्त होणार नाही."
 
 #: ../calendar/calendar.error.xml.h:46
 msgid "Some features may not work properly with your current server."
@@ -4719,7 +4735,8 @@ msgid "Calendars to run alarms for"
 msgstr "अलार्मस वापरायची कॅलेन्डर्स"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:6
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "मार्कस बेन्सलाईन टाईमवार लाईनमध्ये काढण्यासाठी रंग (मुलभूत करीता रिकार्या)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
@@ -5001,7 +5018,8 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "डिफॉल्ट आठवणीकरता यूनीटे, \"मिनीटे\", \"तास\" किंवा \"दिवस\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
-msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr "कार्य लपवताना ठरवायची यूनीट, \"मिनीटे\", \"तास\" किंवा \"दिवस\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
@@ -5037,7 +5055,8 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "घटनांची शेवटची वेळ आठवडा व महिन्याच्या दृश्यात घालायची किंवा नाही."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
-msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "दिनदर्शीका मध्ये Marcus Bains Line (सद्य वेळेच्या ओळीवरील) काढायची का."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
@@ -5065,7 +5084,8 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "घटना/चर्चासत्र संपादक मध्ये स्थिती गुणविशेष दर्शवायचे की नाही"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
-msgid "Whether to show times in twenty four hour format instead of using am/pm."
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "am/pm न वापरता वेळा 24 तासांच्या पद्धतीत दाखवण्याच्या किंवा नाहीत."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
@@ -5216,14 +5236,14 @@ msgstr "नविन दिनदर्शिका(_N)"
 
 #: ../calendar/gui/calendar-component.c:606
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2102
+#: ../mail/em-folder-tree.c:2085
 msgid "_Copy..."
 msgstr "प्रतिलिपी(_C)..."
 
 #: ../calendar/gui/calendar-component.c:612
 #: ../calendar/gui/dialogs/comp-editor.c:1130
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2116
+#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2099
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "वैशिष्ट्ये (_P)"
@@ -5490,7 +5510,8 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid ""
+"<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr "<i>इमेल पत्यावरील %u आणि %d वापरकर्ता व डोमेन बदलविले जाईल.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -5842,16 +5863,16 @@ msgstr "जोडलेला संदेश - %s"
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "जोडलेला संदेश"
-msgstr[1] "जोडलेला संदेश"
+msgstr[1] "%d जोडलेले संदेश"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3101
-#: ../mail/em-folder-tree.c:1014 ../mail/em-folder-utils.c:366
+#: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2066
 msgid "_Move"
 msgstr "हलवा (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460 ../composer/e-msg-composer.c:3103
-#: ../mail/em-folder-tree.c:1016 ../mail/message-list.c:2068
+#: ../mail/em-folder-tree.c:999 ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "खेचणे रद्द करा(_D)"
 
@@ -6139,8 +6160,8 @@ msgstr[1] "नियुक्तीआधी %d तास"
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "मिनिट आधी"
-msgstr[1] "मिनिट आधी"
+msgstr[0] "भेटण्यापूर्वी %d मिनिट"
+msgstr[1] "भेटण्यापूर्वी %d मिनिटं"
 
 #: ../calendar/gui/dialogs/event-page.c:3078
 msgid "Customize"
@@ -6289,12 +6310,14 @@ msgstr "तुम्ही एक वारंवार घडणारी घ�
 #: ../calendar/gui/dialogs/recur-comp.c:58
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr "तुम्ही एक वारंवार घडणारी घटना संपादीत करीत आहात. तुम्हला नक्की काय संपादीत करायचे?"
+msgstr ""
+"तुम्ही एक वारंवार घडणारी घटना संपादीत करीत आहात. तुम्हला नक्की काय संपादीत करायचे?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
-msgstr "तुम्ही एक वारंवार घडणारे मेमो संपादीत करीत आहात. तुम्हला नक्की काय संपादीत करायचे?"
+msgstr ""
+"तुम्ही एक वारंवार घडणारे मेमो संपादीत करीत आहात. तुम्हला नक्की काय संपादीत करायचे?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:87
 msgid "This Instance Only"
@@ -7201,7 +7224,7 @@ msgstr "होय. (क्लिष्ट उद्भव)"
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "प्रत्येक दिवस"
-msgstr[1] "प्रत्येक दिवस"
+msgstr[1] "प्रत्येक %d दिवस"
 
 #. For Translators: In this can also be translated as "With the period of %d
 #. week/weeks", where %d is a number. The entire sentence is of the form "Recurring:
@@ -7213,7 +7236,7 @@ msgstr[1] "प्रत्येक दिवस"
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "प्रत्येक आठवडा"
-msgstr[1] "प्रत्येक आठवडा"
+msgstr[1] "प्रत्येक %d आठवडा"
 
 #. For Translators : 'Every week on' is event Recurring every week on (dayname) and (dayname) and (dayname)
 #. For Translators : 'Every %d weeks on' is event Recurring: every %d weeks on (dayname) and (dayname). %d is a digit
@@ -7222,7 +7245,7 @@ msgstr[1] "प्रत्येक आठवडा"
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "दर आठवड्याला या दिवशी"
-msgstr[1] "दर आठवड्याला या दिवशी"
+msgstr[1] "दर %d आठवड्याला या दिवशी"
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:808
@@ -7253,7 +7276,7 @@ msgstr "%s %s यांचा"
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "दर महिना"
-msgstr[1] "दर महिना"
+msgstr[1] "दर %d महिन्याला"
 
 #. For Translators: In this can also be translated as "With the period of %d
 #. year/years", where %d is a number. The entire sentence is of the form "Recurring:
@@ -7264,8 +7287,8 @@ msgstr[1] "दर महिना"
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] "दरवर्षाला"
-msgstr[1] "दरवर्षाला"
+msgstr[0] "प्रत्येक वर्षाला"
+msgstr[1] "प्रत्येक %d वर्षाला"
 
 #. For Translators:'a total of %d time' is part of the sentence of the form 'event recurring every day,a total of % time.' %d is a digit
 #. For Translators:'a total of %d times' is part of the sentence of the form 'event recurring every day,a total of % times.' %d is a digit
@@ -7351,7 +7374,8 @@ msgid ""
 msgstr "चर्चासत्र रद्द करण्यात आली आहे, तरी ते तुमच्या दिनदर्शिका मध्ये आढळले जाणार नाही"
 
 #: ../calendar/gui/e-itip-control.c:1268
-msgid "The task has been canceled, however it could not be found in your task lists"
+msgid ""
+"The task has been canceled, however it could not be found in your task lists"
 msgstr "कार्य रद्द करण्यात आली आहे, तरी ते तुमच्या कार्य यादी मध्ये आढळले जाणार नाही"
 
 #: ../calendar/gui/e-itip-control.c:1346
@@ -10084,7 +10108,8 @@ msgstr "Bcc (_B):"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
-msgstr "संदेशच्या प्रेषक यादी मध्ये दर्शविण्याजोगी प्रत ज्या पत्यांवर प्राप्त होतील ते प्रविष्ट करा"
+msgstr ""
+"संदेशच्या प्रेषक यादी मध्ये दर्शविण्याजोगी प्रत ज्या पत्यांवर प्राप्त होतील ते प्रविष्ट करा"
 
 #: ../composer/e-msg-composer-hdrs.c:353
 msgid "_Post To:"
@@ -10103,7 +10128,8 @@ msgid "Insert Attachment"
 msgstr "जोडणी दाखल करा"
 
 #: ../composer/e-msg-composer.c:819
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "बाहेर जाणारा संदेश सही करू शकत नाही: ह्या खात्याकरता कुटयुक्त प्रमाणपत्र नाही"
 
 #: ../composer/e-msg-composer.c:826
@@ -10290,7 +10316,7 @@ msgstr "मेल संयोजीत करण्यापूर्वी त
 msgid "_Do not Recover"
 msgstr "सुधारू नका(_D)"
 
-#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:312
+#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:317
 msgid "_Recover"
 msgstr "सुधारा(_R)"
 
@@ -10302,7 +10328,7 @@ msgstr "संदेश संग्रहा(_S)"
 msgid "Evolution Mail and Calendar"
 msgstr "इवॉल्यूशन मेल आणि दिनदर्शिका"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:672
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:753
 msgid "Groupware Suite"
 msgstr "ग्रुपवेअर संच"
 
@@ -10349,7 +10375,8 @@ msgid "The printing system reported the following details about the error:"
 msgstr "छपाई प्रणालीने त्रुटी विषयी खालील तपशील माहिती पुरविले:"
 
 #: ../e-util/e-print.c:151
-msgid "The printing system did not report any additional details about the error."
+msgid ""
+"The printing system did not report any additional details about the error."
 msgstr "छपाई प्रणालीने त्रुटी विषयी अगाऊ तपशील माहिती पुरविली नाही."
 
 #: ../e-util/e-system.error.xml.h:2
@@ -10424,35 +10451,35 @@ msgstr "त्याच नावाचे लेबल अस्तित्व
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "1 सेकंदापूर्वी"
-msgstr[1] "1 सेकंदापूर्वी"
+msgstr[0] "1 सेकंद पूर्वी"
+msgstr[1] "%d सेकंद पूर्वी"
 
 #: ../filter/filter-datespec.c:80
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
-msgstr[0] "पुढे 1 संकेद"
-msgstr[1] "पुढे 1 संकेद"
+msgstr[0] "1 संकेद पुढे"
+msgstr[1] "%d संकेद पुढे"
 
 #: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 मिनिट पहिले"
-msgstr[1] "1 मिनिट पहिले"
+msgstr[1] "%d मिनिटं पहिले"
 
 #: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "पुढे 1 मिनीट"
-msgstr[1] "पुढे 1 मिनीट"
+msgstr[1] "पुढे %d मिनीटं"
 
 #: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "%d तास आधी"
+msgstr[0] "1 तास आधी"
 msgstr[1] "%d तास आधी"
 
 #: ../filter/filter-datespec.c:82
@@ -10460,63 +10487,63 @@ msgstr[1] "%d तास आधी"
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
 msgstr[0] "पुढे 1 तास"
-msgstr[1] "पुढे 1 तास"
+msgstr[1] "पुढे %d तास"
 
 #: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "1 दिवस आधी"
-msgstr[1] "1 दिवस आधी"
+msgstr[0] "1 दिवस पूर्वी"
+msgstr[1] "%d दिवस पूर्वी"
 
 #: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
-msgstr[0] "पुढे 1 दिवस"
-msgstr[1] "पुढे 1 दिवस"
+msgstr[0] "1 दिवस पुढे"
+msgstr[1] "%d दिवस पुढे"
 
 #: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "1 आठवडा आधी"
-msgstr[1] "1 आठवडा आधी"
+msgstr[0] "1 आठवडा पूर्वी"
+msgstr[1] "%d आठवडा पूर्वी"
 
 #: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] "पुढे 1 आठवडा"
-msgstr[1] "पुढे 1 आठवडा"
+msgstr[0] "1 आठवडा पुढे"
+msgstr[1] "%d आठवडा पुढे"
 
 #: ../filter/filter-datespec.c:85
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "1 महिना आधी"
-msgstr[1] "1 महिना आधी"
+msgstr[0] "1 महिना पूर्वी"
+msgstr[1] "%d महिना पूर्वी"
 
 #: ../filter/filter-datespec.c:85
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] "पुढे 1 महिना"
-msgstr[1] "पुढे 1 महिना"
+msgstr[0] "1 महिना पुढे"
+msgstr[1] "%d महिना पुढे"
 
 #: ../filter/filter-datespec.c:86
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "1 वर्ष आधी"
-msgstr[1] "1 वर्ष आधी"
+msgstr[0] "1 वर्ष पूर्वी"
+msgstr[1] "%d वर्ष पूर्वी"
 
 #: ../filter/filter-datespec.c:86
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] "पुढे 1 वर्ष"
-msgstr[1] "पुढे 1 वर्ष"
+msgstr[0] "1 वर्ष पुढे"
+msgstr[1] "%d वर्ष पुढे"
 
 #: ../filter/filter-datespec.c:287
 msgid "<click here to select a date>"
@@ -10733,7 +10760,8 @@ msgid "Composer Preferences"
 msgstr "प्राधान्यता"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr "येथे, मेल प्राधान्यता, सुरक्षा व संदेश दृश्य समाविष्टीत दर्शवा"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -11329,7 +11357,7 @@ msgid "Drafts"
 msgstr "मसुदे"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2552
+#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2535
 #: ../mail/mail-component.c:156
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11396,20 +11424,20 @@ msgstr "संचयीका %s मध्ये संदेश प्रति
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "उच्चस्थर संचयन मधिल संदेश वगळू शकत नाही"
 
-#: ../mail/em-folder-tree.c:1011 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:994 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "संचयीकामध्ये प्रतिकृत करा (_C)"
 
-#: ../mail/em-folder-tree.c:1012 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:995 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "संचयीका मध्ये हलवा (_M)"
 
-#: ../mail/em-folder-tree.c:1721 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1704 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" मध्ये संचयीका स्कॅन करीत आहे"
 
-#: ../mail/em-folder-tree.c:2094 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2077 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11417,32 +11445,32 @@ msgstr "\"%s\" मध्ये संचयीका स्कॅन करी�
 msgid "_View"
 msgstr "दृश्य (_V)"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2078
 msgid "Open in _New Window"
 msgstr "नविन खिडकीत उघडा (_N)"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2083
 msgid "_New Folder..."
 msgstr "नविन संचयीका(_N)..."
 
-#: ../mail/em-folder-tree.c:2103
+#: ../mail/em-folder-tree.c:2086
 msgid "_Move..."
 msgstr "हलवा(_M)..."
 
-#: ../mail/em-folder-tree.c:2110 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2093 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "नाव बदलवा (_R)..."
 
-#: ../mail/em-folder-tree.c:2111
+#: ../mail/em-folder-tree.c:2094
 msgid "Re_fresh"
 msgstr "पुन्ह दाखल करा (_f)"
 
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2095
 msgid "Fl_ush Outbox"
 msgstr "आइटबॉक्स रिकामे करा (_u)"
 
-#: ../mail/em-folder-tree.c:2118 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2101 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "कचरापेटी रिकामे करा (_E)"
 
@@ -12068,7 +12096,8 @@ msgstr "%s प्लगईन उपलब्ध आहे व बायनर�
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1094 ../mail/em-mailer-prefs.c:1149
 #, c-format
-msgid "%s plugin is not available. Please check whether the package is installed."
+msgid ""
+"%s plugin is not available. Please check whether the package is installed."
 msgstr "%s प्लगईन उपलब्ध नाही. कृपया संकुल प्रतिष्ठापीत आहे की नाही हे तपसा."
 
 #: ../mail/em-mailer-prefs.c:1115
@@ -12350,7 +12379,9 @@ msgstr ""
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
-msgstr "उभे दृश्य मध्ये \"प्रति\" व \"विषय\" ओळीकरीता \"संदेश\" स्तंभ करीता एकच प्रकारचे फॉन्ट वापरायचे का."
+msgstr ""
+"उभे दृश्य मध्ये \"प्रति\" व \"विषय\" ओळीकरीता \"संदेश\" स्तंभ करीता एकच प्रकारचे फॉन्ट "
+"वापरायचे का."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -12623,7 +12654,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "वापरकर्ता संचयीका काढूण टाकण्याचा प्रयत्न करतेवेळी वापरकर्त्यास विचारा."
 
 #: ../mail/evolution-mail.schemas.in.h:88
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr "वापरकर्ता शिर्षकहीन संदेश पाठविण्याचा प्रयत्न करतेवेळी वापरकर्त्यास विचारा."
 
 #: ../mail/evolution-mail.schemas.in.h:89
@@ -12656,7 +12688,8 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "प्रति किंवा Cc प्रेक्षक करीता संदेश पाठविण्याचा प्रयत्न करतेवेळी वापरकर्त्यास विचारा."
+msgstr ""
+"प्रति किंवा Cc प्रेक्षक करीता संदेश पाठविण्याचा प्रयत्न करतेवेळी वापरकर्त्यास विचारा."
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid "Prompt when user tries to send unwanted HTML"
@@ -12768,7 +12801,8 @@ msgstr "महत्वाची घटना घडल्या पासून
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "महत्वाची घटना घडल्या पासून, दिवसांमध्ये शेवटच्यावेळी रिकामे कचरापेटी चालविले गेले ती वेळ."
+msgstr ""
+"महत्वाची घटना घडल्या पासून, दिवसांमध्ये शेवटच्यावेळी रिकामे कचरापेटी चालविले गेले ती वेळ."
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "The terminal font for mail display."
@@ -12782,7 +12816,8 @@ msgstr "मेल दर्शविण्याकरीता गतिक र
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
-msgstr "यास तीन संभाव्य मुल्य असू शकते. त्रुटी करीता 0. सावधानता करीता 1. डीबग संदेश करीता 2."
+msgstr ""
+"यास तीन संभाव्य मुल्य असू शकते. त्रुटी करीता 0. सावधानता करीता 1. डीबग संदेश करीता 2."
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -13542,8 +13577,10 @@ msgid "Message Composer"
 msgstr "संदेश संयोजक"
 
 #: ../mail/mail-config.glade.h:105
-msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr "टीप: लेबल नावातील अंडरस्कोर चे वापर मेन्यू मधील स्मृती शब्ध ओळखकर्ता असा केला जातो."
+msgid ""
+"Note: Underscore in the label name is used as mnemonic identifier in menu."
+msgstr ""
+"टीप: लेबल नावातील अंडरस्कोर चे वापर मेन्यू मधील स्मृती शब्ध ओळखकर्ता असा केला जातो."
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -13701,7 +13738,8 @@ msgstr ""
 "दर्शविण्याकरीता वापरले जाईल. "
 
 #: ../mail/mail-config.glade.h:146
-msgid "This option will be overridden if a match for custom junk headers is found."
+msgid ""
+"This option will be overridden if a match for custom junk headers is found."
 msgstr "करीता आहे."
 
 #: ../mail/mail-config.glade.h:147
@@ -14217,11 +14255,13 @@ msgid "New Search Folder"
 msgstr "नवीन शोध संचयीका"
 
 #: ../mail/mail.error.xml.h:1
-msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
+msgid ""
+"A folder named &quot;{0}&quot; already exists. Please use a different name."
 msgstr "&quot;{0}&quot; आधिपासूनच अस्तित्वात आहे. कृपया अन्य नाव वापरा."
 
 #: ../mail/mail.error.xml.h:2
-msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid ""
+"A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr "&quot;{1}&quot; आधिपासूनच अस्तित्वात आहे. कृपया अन्य नाव वापरा."
 
 #: ../mail/mail.error.xml.h:3
@@ -14256,7 +14296,8 @@ msgstr ""
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "तुमचे मेल कशाबद्दल आहे हे ग्राहकांना कळण्यासाठी अर्थपूर्ण विषय ओळ तुमच्या संदेशात जोडले आहे."
+msgstr ""
+"तुमचे मेल कशाबद्दल आहे हे ग्राहकांना कळण्यासाठी अर्थपूर्ण विषय ओळ तुमच्या संदेशात जोडले आहे."
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -14267,7 +14308,8 @@ msgid "Are you sure you want to delete this account?"
 msgstr "हे खाते काढूण टाकण्याविषयी आपणास खात्री आहे?"
 
 #: ../mail/mail.error.xml.h:11
-msgid "Are you sure you want to disable this account and delete all its proxies?"
+msgid ""
+"Are you sure you want to disable this account and delete all its proxies?"
 msgstr "तुम्हाला नक्की हे खाते अकार्यान्वीत करायचे व त्यातील सर्व प्रॉक्सी काढूण टाकायचे?"
 
 #: ../mail/mail.error.xml.h:12
@@ -14278,7 +14320,8 @@ msgstr "तुम्हाला नक्की {0} संदेश एका�
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "सर्व काढून टाकलेले संदेश संचिकेतून कायम स्वरूपी काढून टाकायचे आहेत अशी आपणास खात्री आहे का?"
+msgstr ""
+"सर्व काढून टाकलेले संदेश संचिकेतून कायम स्वरूपी काढून टाकायचे आहेत अशी आपणास खात्री आहे का?"
 
 #: ../mail/mail.error.xml.h:14
 msgid ""
@@ -14703,14 +14746,16 @@ msgid ""
 msgstr "संदेश पाठविले गेले नाही कारण तुम्ही निवडलेले खाते कार्यान्वीत केले गेले नाही"
 
 #: ../mail/mail.error.xml.h:115
-msgid "This message cannot be sent because you have not specified any recipients"
+msgid ""
+"This message cannot be sent because you have not specified any recipients"
 msgstr "हा संदेश पाठविल्या जाऊ शकत नाही कारण एकूण श्रोता निश्चित केले गेले नाही"
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "हया प्रकारचे ऑथेटीकेशनला हा सर्व्हर सहाय्य करत नाही व कदाचित ऑथेटीकेशन सहाय्य करत नाही."
+msgstr ""
+"हया प्रकारचे ऑथेटीकेशनला हा सर्व्हर सहाय्य करत नाही व कदाचित ऑथेटीकेशन सहाय्य करत नाही."
 
 #: ../mail/mail.error.xml.h:117
 msgid "This signature has been changed, but has not been saved."
@@ -14732,7 +14777,8 @@ msgstr "GroupWise सर्वरशी जुळवणी करण्यास
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr "या खात्याकरीता मसुदा संचयीका उघडता आले नाही. त्या ऐवजी प्रणाली मसुदा संचयीका वापरा?"
+msgstr ""
+"या खात्याकरीता मसुदा संचयीका उघडता आले नाही. त्या ऐवजी प्रणाली मसुदा संचयीका वापरा?"
 
 #: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
@@ -15178,7 +15224,8 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "तुम्हाला नक्की इवॉल्यूशन बंद करायचे?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid "Are you sure you want to restore Evolution from the selected backup file?"
+msgid ""
+"Are you sure you want to restore Evolution from the selected backup file?"
 msgstr "तुम्हाला नक्की निवडलेले प्रतिकृत फाइल पासून इवॉल्यूशन पुन्ह संचयीत करायचे?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
@@ -15233,7 +15280,8 @@ msgstr "आपोआप संपर्क"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-msgid "_Automatically create entries in the addressbook when responding to messages"
+msgid ""
+"_Automatically create entries in the addressbook when responding to messages"
 msgstr "संदेश करीता प्रतिसाद देतेवेळी पत्तावहीत आपोआप नोंदणी तयार करा (_A)"
 
 #: ../plugins/bbdb/bbdb.c:571
@@ -15406,7 +15454,8 @@ msgstr "हवामान दिनदर्शिका"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr "टेस्ट प्लगइनला जो पॉपअप मेन्यू प्लगईन दाखवतो तो क्लीपबोर्डवर कॉपी पूर्नप्रती करणे देतो."
+msgstr ""
+"टेस्ट प्लगइनला जो पॉपअप मेन्यू प्लगईन दाखवतो तो क्लीपबोर्डवर कॉपी पूर्नप्रती करणे देतो."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 msgid "Copy tool"
@@ -15417,7 +15466,8 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "इवॉल्यूशन मुलभूत मेलर आहे का याची तपासणी करा"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
-msgid "Every time Evolution starts, check whether or not it is the default mailer."
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
 msgstr "प्रत्येक वेळी इव्होल्युशन सुरु होताना तो म्लिर मेलर आहे की नाही ते तपासा."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
@@ -15433,7 +15483,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Evolution ला तुमचे मुलभूत ई-मेल क्लाऐंट बनवायचे?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:626
+#: ../shell/main.c:690
 msgid "Evolution"
 msgstr "इवॉल्यूशन"
 
@@ -15478,7 +15528,8 @@ msgstr "सुरक्षित गुप्तशब्द"
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr "सुरक्षित गुप्तकळ (NTLM) ऑथेन्टिकेशन वापरून हा विकल्प एक्सचेंज सेवासंगणकाशी जोडला जाईल."
+msgstr ""
+"सुरक्षित गुप्तकळ (NTLM) ऑथेन्टिकेशन वापरून हा विकल्प एक्सचेंज सेवासंगणकाशी जोडला जाईल."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
@@ -16340,7 +16391,8 @@ msgstr "संचयीका परवानगी तपासा"
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
-msgstr "बाहेरील संपादक संयोजक म्हणून वापरण्याकरीताचे प्लगईन. तुम्ही फक्त पाठ्य संदेश पाठवू शकता."
+msgstr ""
+"बाहेरील संपादक संयोजक म्हणून वापरण्याकरीताचे प्लगईन. तुम्ही फक्त पाठ्य संदेश पाठवू शकता."
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -17237,13 +17289,15 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:385
 #, c-format
-msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> खालील चर्चासत्र करीत ताजी माहिती मिळवण्याची इच्छा दर्शवितो:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
 #, c-format
 msgid "<b>%s</b> through %s has sent back the following meeting response:"
-msgstr "<b>%s</b>ने %s च्या द्वारे चर्चासत्र करीता खालील प्रतिसाद परतफेडरीत्या पाठविला आहे:"
+msgstr ""
+"<b>%s</b>ने %s च्या द्वारे चर्चासत्र करीता खालील प्रतिसाद परतफेडरीत्या पाठविला आहे:"
 
 #: ../plugins/itip-formatter/itip-view.c:391
 #, c-format
@@ -17333,7 +17387,8 @@ msgstr "<b>%s</b> खालील दिलेल्या कार्याब
 
 #: ../plugins/itip-formatter/itip-view.c:477
 #, c-format
-msgid "<b>%s</b> through %s has sent back the following assigned task response:"
+msgid ""
+"<b>%s</b> through %s has sent back the following assigned task response:"
 msgstr "<b>%s</b>ने %s च्या द्वारे खालील कार्य करीता प्रतिउत्तर परतफेडरीत्या पाठविले आहे:"
 
 #: ../plugins/itip-formatter/itip-view.c:479
@@ -17353,7 +17408,8 @@ msgstr "<b>%s</b>ने खालील निश्चित केलेले
 
 #: ../plugins/itip-formatter/itip-view.c:489
 #, c-format
-msgid "<b>%s</b> through %s has proposed the following task assignment changes:"
+msgid ""
+"<b>%s</b> through %s has proposed the following task assignment changes:"
 msgstr "<b>%s</b> %sच्या द्वारे खालील कार्य नियुक्ती मधिल बदल सूचविले आहे:"
 
 #: ../plugins/itip-formatter/itip-view.c:491
@@ -17507,14 +17563,16 @@ msgstr "Itip स्वरूपक"
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
-msgstr "&quot;{0}&quot; ने चर्चासत्र सोपविले आहे. तुम्हाला प्रतिनिधी &quot;{1}&quot; जोडायचे?"
+msgstr ""
+"&quot;{0}&quot; ने चर्चासत्र सोपविले आहे. तुम्हाला प्रतिनिधी &quot;{1}&quot; जोडायचे?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
 msgstr "चर्चासत्रचे प्रतिनिधीत्व करण्यात आले आहे"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid "This response is not from a current attendee. Add the sender as an attendee?"
+msgid ""
+"This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "हा प्रतिसाद सद्य प्रतिनिधीत्व कडून नाही. प्रतिनिधी म्हणून प्रेक्षक जोडा?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
@@ -17550,7 +17608,8 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "नविन मेल संदेश प्राप्त होताच D-Bus संदेश निर्माण करतो."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-msgid "If true, then beep, otherwise will play sound file when new messages arrive."
+msgid ""
+"If true, then beep, otherwise will play sound file when new messages arrive."
 msgstr "खरे असल्यास, बीप द्या, किंवा नविन संदेश प्राप्त झाल्यास आवाज फाइल चालविले जाईल."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
@@ -17745,7 +17804,8 @@ msgid "Mailing _List"
 msgstr "मेलींग यादी (_L)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgid ""
+"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr "समान मेलींग यादी आदेश (subscribe, unsubscribe...) करीता कृती पूरवा."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -18462,7 +18522,8 @@ msgid "Last upgraded configuration version"
 msgstr "शेवटचे अद्ययावतीत केलेले संयोजना आवृत्ती"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "ऑफलाइन वापराकरता डीस्‍कवर कप्प्यावरील मार्गाची यारी जो सीक्रीनाइडझ करायची आहे"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
@@ -18477,7 +18538,7 @@ msgstr "प्रगती सावधानता संवाद वगळा
 msgid "Skip recovery warning dialog"
 msgstr "पुन्हप्राप्ती सावधानता संवाद वगळा"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
+#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:576
 msgid "Start in offline mode"
 msgstr "ऑफलाईन पध्दती मध्ये सुरू करा"
 
@@ -18489,7 +18550,8 @@ msgstr "स्थितीपट्टी दिसण्याजोगी आ�
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "Evolution ची संयोजना आवृत्ती, मुख्य/किमान/संयोजना स्थिती(उदाहरणार्थ \"2.6.0\")."
+msgstr ""
+"Evolution ची संयोजना आवृत्ती, मुख्य/किमान/संयोजना स्थिती(उदाहरणार्थ \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "The default height for the main window, in pixels."
@@ -18507,7 +18569,8 @@ msgstr "बाजूच्यापट्टी करीता मुलभू�
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr "Evolution ची संयोजना आवृत्ती, मुख्य/किमान/संयोजना स्थितीसह(उदाहरणार्थ \"2.6.0\")."
+msgstr ""
+"Evolution ची संयोजना आवृत्ती, मुख्य/किमान/संयोजना स्थितीसह(उदाहरणार्थ \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid ""
@@ -18547,7 +18610,8 @@ msgid "Whether the toolbar should be visible."
 msgstr "साधनपट्टी दिसली पाहिजे का."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:29
-msgid "Whether the warning dialog in development versions of Evolution is skipped."
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "Evolution च्या प्रगतीशील आवृत्ती मध्ये सावधानता संवाद वगळायचे."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
@@ -18682,27 +18746,27 @@ msgstr "Bug buddy चालवू शकत नाही."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:663
+#: ../shell/e-shell-window-commands.c:744
 msgid "translator-credits"
 msgstr "Sandeep Shedmake <sandeep.shedmake@gmail.com>, 2007"
 
-#: ../shell/e-shell-window-commands.c:674
+#: ../shell/e-shell-window-commands.c:755
 msgid "Evolution Website"
 msgstr "इवॉल्यूशन संकेतस्थळ"
 
-#: ../shell/e-shell-window-commands.c:692
+#: ../shell/e-shell-window-commands.c:773
 msgid "Error opening the FAQ webpage."
 msgstr "FAQ वेबपान उघडतेवेळी त्रुटी."
 
-#: ../shell/e-shell-window-commands.c:889
+#: ../shell/e-shell-window-commands.c:970
 msgid "_Work Online"
 msgstr "ऑफलाईन काम करा (_W)"
 
-#: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:983 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "ऑफलाईन काम करा (_W)"
 
-#: ../shell/e-shell-window-commands.c:915
+#: ../shell/e-shell-window-commands.c:996
 msgid "Work Offline"
 msgstr "ऑफलाईन कार्य करा"
 
@@ -18805,7 +18869,7 @@ msgstr ""
 "बाहेरील फाईल्स प्राप्त करण्याचा पध्दतीस तुम्हाला मार्गदर्शन करील."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:228
+#: ../shell/main.c:233
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18840,7 +18904,7 @@ msgstr ""
 "आम्ही अशी आशा करतो की तुम्हाला आमचे काम आवडेल, व\n"
 "आपल्या सहभागाच्या प्रतिक्षेत आहे!\n"
 
-#: ../shell/main.c:252
+#: ../shell/main.c:257
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18848,19 +18912,19 @@ msgstr ""
 "धन्यवाद\n"
 "इवॉल्यूशन संघ\n"
 
-#: ../shell/main.c:259
+#: ../shell/main.c:264
 msgid "Do not tell me again"
 msgstr "पुन्हा कळवू नका"
 
-#: ../shell/main.c:309
+#: ../shell/main.c:314
 msgid "Evolution Crash Detection"
 msgstr "Evolution क्रॅश पुनप्राप्ती"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:316
 msgid "Ig_nore"
 msgstr "दुर्लक्ष करा (_n)"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:331
 #, no-c-format
 msgid ""
 "Evolution appears to have exited unexpectedly the last time it was\n"
@@ -18871,43 +18935,43 @@ msgstr ""
 "असे दिसून येते.  धोका टाळण्याकरीता, सर्व पूर्वदृश्य पटल लपविले जातील.\n"
 "दृश्य मेन्यु पासून पूर्वदृश्य पटल पुन्हस्थापीत केले जाऊ शकतात.\n"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:342
 msgid "_Do not show this message again"
 msgstr "हे संदेश पुन्हा दर्शवू नका (_D)"
 
-#: ../shell/main.c:569
+#: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
 msgstr "ठराविक विभाग सक्रीय करण्याकरीता इवॉल्यूशन भाग सुरू करा"
 
-#: ../shell/main.c:573
+#: ../shell/main.c:578
 msgid "Start in online mode"
 msgstr "ऑनलाईन पध्दती सुरू करा"
 
-#: ../shell/main.c:576
+#: ../shell/main.c:581
 msgid "Forcibly shut down all Evolution components"
 msgstr "सर्व Evolution घटक जबरनरित्या बंद करा"
 
-#: ../shell/main.c:580
+#: ../shell/main.c:585
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "इवॉल्यूशन 1.4 पासून जबरनरीत्या पुनः-स्थानांतरीत करा"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:588
 msgid "Send the debugging output of all components to a file."
 msgstr "फाइलच्या सर्व घटकास डीबगींग आउटपुट पाठवा."
 
-#: ../shell/main.c:585
+#: ../shell/main.c:590
 msgid "Disable loading of any plugins."
 msgstr "कुठल्याही प्लगईन चे दाखलन अकार्यान्वीत करा."
 
-#: ../shell/main.c:587
+#: ../shell/main.c:592
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "मेल, संपर्क व कार्याचे पटल पूर्वदृश्य अकार्यान्वीत करा."
 
-#: ../shell/main.c:617
+#: ../shell/main.c:677
 msgid "- The Evolution PIM and Email Client"
 msgstr "- इवॉल्यूशन PIM आणि ईमेल क्लाऐंट"
 
-#: ../shell/main.c:630
+#: ../shell/main.c:694
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19327,7 +19391,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "या संस्थांकडून स्वतःची ओळख दर्शविणारे प्रमाणपत्र आपल्याकडे आहे:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr "तुमच्याकडील फाईलवरील प्रमाणपत्रवरून ह्या लोकांना ओळखले जाऊ शकते:"
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -20259,7 +20324,8 @@ msgid "Hide _Read Messages"
 msgstr "वाचलेले संदेश लपवा (_R)"
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "त्याच्यावर आडवी ओळ मारुन ते संदेश दाखवण्यापेक्षस ते संदेश लपवा"
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -22360,7 +22426,8 @@ msgstr "क्षेत्र निवडकर्ता"
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
-msgstr "तुमच्या टेबलमध्ये एक स्थंभ जोडताना ज्या ठिकाणी हवा असेल त्या ठिकाणापर्यत तो ओढत आणा."
+msgstr ""
+"तुमच्या टेबलमध्ये एक स्थंभ जोडताना ज्या ठिकाणी हवा असेल त्या ठिकाणापर्यत तो ओढत आणा."
 
 #: ../widgets/table/e-table-group-container.c:345
 #, c-format
@@ -22662,4 +22729,3 @@ msgstr "IM स्थिती"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr "पॉपअप हाताळा"
-
