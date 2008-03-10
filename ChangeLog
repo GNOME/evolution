@@ -1,3 +1,7 @@
+2008-03-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.22.0 release.
+
 2008-03-05  Tor Lillqvist  <tml@novell.com>
 
 	* evolution-zip.in: etc/gconf/gconf.xml.defaults/apps/evolution

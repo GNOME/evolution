@@ -1,3 +1,38 @@
+Evolution 2.21.93 2008-03-10
+----------------------------
+
+Bug Fixes:
+	#282466: (Novell Bugzilla) Handle CIDs of broken cases too (Srinivasa Ragavan)
+	#351672: Dragging imap message when another is copying locks X (Matthew Barnes)
+	#520745: Fix format-string vulnerability (Tor Lillqvist/Srinivasa Ragavan)
+
+Other Contributors:
+	Changes for Windows. Misc simplification and cleanup. (Tor Lillqvist)
+	Updated contributors list (Johnny Jacob)
+
+Updated Translations:
+	Luca Ferretti (it)
+	Ivar Smolin (et)
+	Ankit Patel (gu)
+	Stéphane Raimbault (fr)
+	Gabor Kelemen (hu)
+	Åsmund Skjæveland (nn)
+	Hendrik Richter (de)
+	Takeshi AIHANA (ja)
+	Tino Meinen (nl)
+	Sandeep Shedmake (mr)
+	Ihar Hrachyshka, AleśNavicki (be@latin)
+	Changwoo Ryu (ko)
+	Chao-Hsiung Liao (zh_HK,zh_TW)
+	Maxim Dziumanenko (uk)
+	Kenneth Nielsen (da)
+	Kostas Papadimas (el)
+	Guntupalli Karunakar (hi)
+	Runa Bhattacharjee (bn_IN)
+	Gintautas Miliauskas (lt)
+	Petr Kovar (cs)
+	Vasiliy Faronov (ru)
+
 Evolution 2.21.92 2008-02-25
 ----------------------------
 
