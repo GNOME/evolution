@@ -1,3 +1,38 @@
+2008-03-10  Petr Kovar  <pknbe@volny.cz>
+
+	* cs/cs.po: Added Czech translation by Jiri Eischmann.
+	* cs/figures/evo_maildirreceive_a.png: Added screenshot by Jiri Eischmann.
+	* cs/figures/evo_backup_prgsbar.png: Ditto.
+	* cs/figures/evo_imapreceive_a.png: Ditto.
+	* cs/figures/evo_timezone_a.png: Ditto.
+	* cs/figures/evo_newmail.png: Ditto.
+	* cs/figures/evo_account_editor_a.png: Ditto.
+	* cs/figures/attach_reminder_a.png: Ditto.. png: Ditto.
+	* cs/figures/evo_import_asst_a.png: Ditto.
+	* cs/figures/evo_mail_callout_a.png: Ditto.
+	* cs/figures/evo_backup.png: Ditto.
+	* cs/figures/evo_mhreceive_a.png: Ditto.
+	* cs/figures/evo_attachreminder_plugin.png: Ditto.
+	* cs/figures/ver_view_a.png: Ditto.
+	* cs/figures/evo_crash_recovery.png
+	* cs/figures/evo_cal_callout_a.png: Ditto.
+	* cs/figures/evo_mail_a.png: Ditto.
+	* cs/figures/evo_offline.png: Ditto.
+	* cs/figures/evo_identity_a.png: Ditto.
+	* cs/figures/account_editor_a.png: Ditto.
+	* cs/figures/evo_backup_warning.png: Ditto.
+	* cs/figures/evo_usereceive_a.png: Ditto.
+	* cs/figures/contacts_mainwindow_a.png: Ditto.
+	* cs/figures/evo_popreceive_a.png: Ditto.
+	* cs/figures/evo_receive_setup_a.png: Ditto.
+	* cs/figures/evo_mereceive_a.png: Ditto.
+	* cs/figures/evo_mboxreceive_a.png: Ditto.
+	* cs/figures/evo_send_setup_a.png: Ditto.
+	* cs/figures/evo_gwreceive_a.png: Ditto.
+	* cs/figures/evo_newmess_a.png: Ditto.
+	* cs/figures/collap_head_a.png: Ditto.
+	* Makefile.am: Added cs to DOC_LINGUAS.
+
 2008-03-09  Daniel Nylander <po@danielnylander.se>
 
 	* sv/sv.po: Updated Swedish translation.

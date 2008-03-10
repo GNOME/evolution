@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 04:45+0100\n"
-"PO-Revision-Date: 2008-02-28 04:39+0100\n"
+"POT-Creation-Date: 2008-03-10 02:24+0100\n"
+"PO-Revision-Date: 2008-03-10 01:12+0100\n"
 "Last-Translator: Petr Kovar <pknbe@volny.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -867,7 +867,7 @@ msgstr "Uložit jako Vcard..."
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2107 ../mail/em-folder-view.c:1346
+#: ../mail/em-folder-tree.c:2090 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -3011,7 +3011,7 @@ msgstr "_Vyjmout"
 #: ../calendar/gui/dialogs/comp-editor.c:457
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:1013
+#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:996
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3744,6 +3744,7 @@ msgstr "VCard pro %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1027
 #: ../addressbook/gui/widgets/eab-gui-util.c:1052
+#, c-format
 msgid "Contact information"
 msgstr "Informace o kontaktu"
 
@@ -4204,16 +4205,19 @@ msgstr "Opravdu chcete odstranit tuto událost?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:183
+#, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Opravdu chcete odstranit tuto schůzku?"
 
 #: ../calendar/calendar.error.xml.h:21
 #: ../calendar/gui/dialogs/delete-comp.c:189
+#, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Opravdu chcete odstranit tuto poznámku?"
 
 #: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:186
+#, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Opravdu chcete odstranit tento úkol?"
 
@@ -5315,14 +5319,14 @@ msgstr "_Nový kalendář"
 
 #: ../calendar/gui/calendar-component.c:606
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2102
+#: ../mail/em-folder-tree.c:2085
 msgid "_Copy..."
 msgstr "_Kopírovat..."
 
 #: ../calendar/gui/calendar-component.c:612
 #: ../calendar/gui/dialogs/comp-editor.c:1130
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2116
+#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2099
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Vlastnosti"
@@ -5947,13 +5951,13 @@ msgstr[1] "%d připojené zprávy"
 msgstr[2] "%d připojených zpráv"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3101
-#: ../mail/em-folder-tree.c:1014 ../mail/em-folder-utils.c:366
+#: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2066
 msgid "_Move"
 msgstr "_Přesunout"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460 ../composer/e-msg-composer.c:3103
-#: ../mail/em-folder-tree.c:1016 ../mail/message-list.c:2068
+#: ../mail/em-folder-tree.c:999 ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "Zrušit _tažení"
 
@@ -6385,18 +6389,22 @@ msgid "_Group:"
 msgstr "_Skupina:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
+#, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Měníte opakující se událost. Co chcete změnit?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
+#, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Delegujete opakující se událost. Co chcete delegovat?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
+#, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Měníte opakující se úkol. Co chcete změnit?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
+#, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Měníte opakující se poznámku. Co chcete změnit?"
 
@@ -8277,6 +8285,7 @@ msgstr ""
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:781 ../calendar/gui/migration.c:949
+#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Nemohu převést stará nastavení z evolution/config.xmldb"
 
@@ -9702,7 +9711,7 @@ msgstr "Atlantik/Jižní_Georgia"
 
 #: ../calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr "Atlantik/Svatá Helena"
+msgstr "Atlantik/Svatá_Helena"
 
 #: ../calendar/zones.h:276
 msgid "Atlantic/Stanley"
@@ -10423,7 +10432,7 @@ msgstr "Než budete moci psát zprávu, musíte nastavit účet."
 msgid "_Do not Recover"
 msgstr "_Neobnovovat"
 
-#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:312
+#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:317
 msgid "_Recover"
 msgstr "_Obnovit"
 
@@ -10435,7 +10444,7 @@ msgstr "_Uložit zprávu"
 msgid "Evolution Mail and Calendar"
 msgstr "Pošta a Kalendář Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:672
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:753
 msgid "Groupware Suite"
 msgstr "Sada groupware"
 
@@ -11481,7 +11490,7 @@ msgid "Drafts"
 msgstr "Koncepty"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2552
+#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2535
 #: ../mail/mail-component.c:156
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11548,20 +11557,20 @@ msgstr "Kopíruji zprávy do složky %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
 
-#: ../mail/em-folder-tree.c:1011 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:994 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Kopírovat do složky"
 
-#: ../mail/em-folder-tree.c:1012 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:995 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Přesunout do složky"
 
-#: ../mail/em-folder-tree.c:1721 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1704 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Procházím složky v \"%s\""
 
-#: ../mail/em-folder-tree.c:2094 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2077 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11569,32 +11578,32 @@ msgstr "Procházím složky v \"%s\""
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2078
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2083
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: ../mail/em-folder-tree.c:2103
+#: ../mail/em-folder-tree.c:2086
 msgid "_Move..."
 msgstr "_Přesunout..."
 
-#: ../mail/em-folder-tree.c:2110 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2093 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Přejmenovat..."
 
-#: ../mail/em-folder-tree.c:2111
+#: ../mail/em-folder-tree.c:2094
 msgid "Re_fresh"
 msgstr "_Obnovit"
 
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2095
 msgid "Fl_ush Outbox"
 msgstr "Odeslat zpráv_y ve složce \"K odeslání\""
 
-#: ../mail/em-folder-tree.c:2118 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2101 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "Vyprázdnit _koš"
 
@@ -14347,6 +14356,7 @@ msgid "Waiting..."
 msgstr "Čekám..."
 
 #: ../mail/mail-send-recv.c:810
+#, c-format
 msgid "Checking for new mail"
 msgstr "Kontroluji novou poštu"
 
@@ -15685,7 +15695,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Chcete, aby Evolution byl váš implicitní klient pošty?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:626
+#: ../shell/main.c:690
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -15830,6 +15840,7 @@ msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:982
 #: ../plugins/exchange-operations/exchange-contacts.c:214
+#, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
@@ -18696,6 +18707,7 @@ msgstr "Z %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:511
+#, c-format
 msgid "Importing data."
 msgstr "Importuji data."
 
@@ -18801,7 +18813,7 @@ msgstr "Přeskakovat dialog varování o vývoji"
 msgid "Skip recovery warning dialog"
 msgstr "Přeskakovat dialog varování o obnovení"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
+#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:576
 msgid "Start in offline mode"
 msgstr "Spustit v režimu off-line"
 
@@ -18906,7 +18918,7 @@ msgstr "Aktivní spojení"
 
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "Pro zavření těchto spojení a práci při odpojení klikněte na OK"
+msgstr "Pro zavření těchto spojení a práci při odpojení klikněte na Budiž"
 
 #: ../shell/e-shell-importer.c:135
 msgid "Choose the type of importer to run:"
@@ -18936,8 +18948,8 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Evolution hledala nastavení k importu z následujících\n"
-"aplikací: Pine, Netscape, Elm, iCalendar. Nebylo nalezena\n"
+"Evolution hledal nastavení k importu z následujících\n"
+"aplikací: Pine, Netscape, Elm, iCalendar. Nebylo nalezeno\n"
 "nastavení, které by bylo možné importovat. Pokud to chcete\n"
 "zkusit znovu, klikněte prosím na tlačítko \"Zpět\".\n"
 
@@ -19012,7 +19024,7 @@ msgstr "Nemohu spustit bug buddy."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:663
+#: ../shell/e-shell-window-commands.c:744
 msgid "translator-credits"
 msgstr ""
 "Radka Doulíková <doulikova@centrum.cz>\n"
@@ -19024,23 +19036,23 @@ msgstr ""
 "Jiří Eischmann <jiri@eischmann.cz>\n"
 "Petr Kovář <pknbe@volny.cz>"
 
-#: ../shell/e-shell-window-commands.c:674
+#: ../shell/e-shell-window-commands.c:755
 msgid "Evolution Website"
 msgstr "Webová stránka Evolution"
 
-#: ../shell/e-shell-window-commands.c:692
+#: ../shell/e-shell-window-commands.c:773
 msgid "Error opening the FAQ webpage."
 msgstr "Chyba při otevírání stránky FAQ."
 
-#: ../shell/e-shell-window-commands.c:889
+#: ../shell/e-shell-window-commands.c:970
 msgid "_Work Online"
 msgstr "Pracovat _on-line"
 
-#: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:983 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "_Pracovat při odpojení"
 
-#: ../shell/e-shell-window-commands.c:915
+#: ../shell/e-shell-window-commands.c:996
 msgid "Work Offline"
 msgstr "Pracovat při odpojení"
 
@@ -19076,7 +19088,7 @@ msgstr "%ld KB"
 
 #: ../shell/e-shell.c:1280 ../widgets/misc/e-cell-date-edit.c:255
 msgid "OK"
-msgstr "OK"
+msgstr "Budiž"
 
 #: ../shell/e-shell.c:1282
 msgid "Invalid arguments"
@@ -19147,7 +19159,7 @@ msgstr ""
 "externího souboru do Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:228
+#: ../shell/main.c:233
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19182,7 +19194,7 @@ msgstr ""
 "Doufáme, že si užijete výsledků naší tvrdé práce a nedočkavě čekáme\n"
 "na vaše přispění!\n"
 
-#: ../shell/main.c:252
+#: ../shell/main.c:257
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19190,19 +19202,19 @@ msgstr ""
 "Děkujeme\n"
 "Tým Evolution\n"
 
-#: ../shell/main.c:259
+#: ../shell/main.c:264
 msgid "Do not tell me again"
 msgstr "Příště mě neupozorňovat"
 
-#: ../shell/main.c:309
+#: ../shell/main.c:314
 msgid "Evolution Crash Detection"
 msgstr "Detekce pádu Evolution"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:316
 msgid "Ig_nore"
 msgstr "Ig_norovat"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:331
 #, no-c-format
 msgid ""
 "Evolution appears to have exited unexpectedly the last time it was\n"
@@ -19213,43 +19225,43 @@ msgstr ""
 "Jako bezpečnostní opatření budu všechny panely náhledů skryty.\n"
 "Panely náhledů můžete obnovit z nabídky Zobrazit.\n"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:342
 msgid "_Do not show this message again"
 msgstr "_Příště tuto zprávu nezobrazovat"
 
-#: ../shell/main.c:569
+#: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
 msgstr "Spustit Evolution a aktivovat určenou komponentu"
 
-#: ../shell/main.c:573
+#: ../shell/main.c:578
 msgid "Start in online mode"
 msgstr "Spustit v režimu on-line"
 
-#: ../shell/main.c:576
+#: ../shell/main.c:581
 msgid "Forcibly shut down all Evolution components"
 msgstr "Vynuceně ukončit všechny komponenty Evolution"
 
-#: ../shell/main.c:580
+#: ../shell/main.c:585
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Vynuceně znovu převést z Evolution 1.4"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:588
 msgid "Send the debugging output of all components to a file."
 msgstr "Poslat ladicí výstup ze všech komponent do souboru."
 
-#: ../shell/main.c:585
+#: ../shell/main.c:590
 msgid "Disable loading of any plugins."
 msgstr "Zakázat načítání všech zásuvných modulů."
 
-#: ../shell/main.c:587
+#: ../shell/main.c:592
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Zakázat panel náhledu pošty, kontaktů a úloh."
 
-#: ../shell/main.c:617
+#: ../shell/main.c:677
 msgid "- The Evolution PIM and Email Client"
 msgstr "- PIM a poštovní klient Evolution"
 
-#: ../shell/main.c:630
+#: ../shell/main.c:694
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -22595,7 +22607,7 @@ msgstr "(Sestupně)"
 
 #: ../widgets/table/e-table-config.c:392
 msgid "Not sorted"
-msgstr "Nesetříděný"
+msgstr "Neseřazený"
 
 #: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
@@ -22818,15 +22830,15 @@ msgstr "Přizpůsobit aktuální pohled"
 
 #: ../widgets/table/e-table-header-item.c:1472
 msgid "Sort _Ascending"
-msgstr "Třídit _vzestupně"
+msgstr "Řadit _vzestupně"
 
 #: ../widgets/table/e-table-header-item.c:1473
 msgid "Sort _Descending"
-msgstr "Třídit _sestupně"
+msgstr "Řadit _sestupně"
 
 #: ../widgets/table/e-table-header-item.c:1474
 msgid "_Unsort"
-msgstr "_Netřídit"
+msgstr "_Neřadit"
 
 #: ../widgets/table/e-table-header-item.c:1476
 msgid "Group By This _Field"
@@ -22858,7 +22870,7 @@ msgstr "Formátovat sloup_ce..."
 
 #: ../widgets/table/e-table-header-item.c:1486
 msgid "Custo_mize Current View..."
-msgstr "Při_způsobit aktuální pohled..."
+msgstr "Při_způsobit aktuální zobrazení..."
 
 #: ../widgets/table/e-table-header-item.c:1542
 msgid "_Sort By"
