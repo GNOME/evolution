@@ -49,6 +49,7 @@
 #include "e-util/e-icon-factory.h"
 
 #include "misc/e-info-label.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-logger.h"
@@ -281,7 +282,7 @@ mc_setup_local_store(MailComponent *mc)
 	camel_exception_init(&ex);
 
 	url = camel_url_new("mbox:", NULL);
-	tmp = g_strdup_printf("%s/mail/local", p->base_directory);
+	tmp = g_build_filename (p->base_directory, "local", NULL);
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
@@ -356,7 +357,7 @@ setup_search_context (MailComponent *component)
 	MailComponentPrivate *priv = component->priv;
 
 	if (priv->search_context == NULL) {
-		char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
+		char *user = g_build_filename(component->priv->base_directory, "searches.xml", NULL);
 		char *system = g_build_filename (EVOLUTION_PRIVDATADIR, "searchtypes.xml", NULL);
 
 		priv->search_context = (RuleContext *)em_search_context_new ();
@@ -1046,7 +1047,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	component = mail_component_peek ();
 
 	camel_exception_init (&ex);
-	if (em_migrate (component->priv->base_directory, major, minor, revision, &ex) == -1) {
+	if (em_migrate (e_get_user_data_dir (), major, minor, revision, &ex) == -1) {
 		GNOME_Evolution_Component_UpgradeFailed *failedex;
 
 		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
@@ -1208,24 +1209,16 @@ mail_component_init (MailComponent *component)
 	priv->lock = g_mutex_new();
 	priv->quit_state = -1;
 
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-#ifdef G_OS_WIN32
-	{
-		char *p = priv->base_directory;
-		while ((p = strchr(p, '\\')))
-			*p++ = '/';
-	}
-#endif
-	if (g_mkdir_with_parents (priv->base_directory, 0777) == -1 && errno != EEXIST)
+	if (g_mkdir_with_parents (e_get_user_data_dir (), 0777) == -1 && errno != EEXIST)
 		abort ();
 
-	priv->model = em_folder_tree_model_new (priv->base_directory);
+	priv->model = em_folder_tree_model_new (e_get_user_data_dir ());
 	priv->logger = e_logger_create ("mail");
 	priv->activity_handler = e_activity_handler_new ();
 	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
 	e_activity_handler_set_error_flush_time (priv->activity_handler, mail_config_get_error_timeout ()*1000);
 
-	mail_session_init (priv->base_directory);
+	mail_session_init (e_get_user_data_dir ());
 
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new_full (

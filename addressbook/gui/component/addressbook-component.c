@@ -76,6 +76,7 @@ ensure_sources (AddressbookComponent *component)
 	ESourceGroup *on_ldap_servers;
 	ESource *personal_source;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	on_this_computer = NULL;
 	on_ldap_servers = NULL;
@@ -86,9 +87,8 @@ ensure_sources (AddressbookComponent *component)
 		return;
 	}
 
-	base_uri = g_build_filename (addressbook_component_peek_base_directory (component),
-				     "addressbook", "local",
-				     NULL);
+	base_dir = addressbook_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -486,7 +486,7 @@ addressbook_component_init (AddressbookComponent *component)
 	/* EPFIXME: Should use a custom one instead? */
 	priv->gconf_client = gconf_client_get_default ();
 
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+	priv->base_directory = g_build_filename (e_get_user_data_dir (), "addressbook", NULL);
 
 	component->priv = priv;
 

@@ -50,6 +50,26 @@
 #include "e-util-private.h"
 
 /**
+ * e_get_user_data_dir:
+ *
+ * Returns the base directory for Evolution-specific user data.
+ * The string is owned by Evolution and must not be modified or freed.
+ *
+ * Returns: base directory for user data
+ **/
+const gchar *
+e_get_user_data_dir (void)
+{
+	static gchar* dirname = NULL;
+
+	if (G_UNLIKELY (dirname == NULL))
+		dirname = g_build_filename (
+			g_get_home_dir (), ".evolution", NULL);
+
+	return dirname;
+}
+
+/**
  * e_str_without_underscores:
  * @s: the string to strip underscores from.
  *
@@ -989,8 +1009,13 @@ void
 e_file_update_save_path (gchar *uri, gboolean free)
 {
 	GConfClient *gconf = gconf_client_get_default();
+	GError *error = NULL;
 
-	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", uri, NULL);
+	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", uri, &error);
+	if (error != NULL) {
+		g_warning("%s (%s) %s", G_STRLOC, G_STRFUNC, error->message);
+		g_clear_error(&error);
+	}
 	g_object_unref(gconf);
 	if (free)
 		g_free(uri);
@@ -1007,9 +1032,14 @@ gchar *
 e_file_get_save_path (void)
 {
 	GConfClient *gconf = gconf_client_get_default();
+	GError *error = NULL;
 	gchar *uri;
 
-	uri = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
+	uri = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", &error);
+	if (error != NULL) {
+		g_warning("%s (%s) %s", G_STRLOC, G_STRFUNC, error->message);
+		g_clear_error(&error);
+	}
 	g_object_unref(gconf);
 
 	if (uri == NULL)
@@ -1027,7 +1057,7 @@ get_lock_filename (void)
 	static gchar *filename = NULL;
 
 	if (G_UNLIKELY (filename == NULL))
-		filename = g_build_filename (g_get_home_dir (), ".evolution", LOCK_FILE, NULL);
+		filename = g_build_filename (e_get_user_data_dir (), LOCK_FILE, NULL);
 
 	return filename;
 }

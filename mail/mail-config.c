@@ -371,13 +371,17 @@ gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 void
 mail_config_init (void)
 {
+	const gchar *base_dir;
+
 	if (config)
 		return;
+
+	base_dir = mail_component_peek_base_directory (NULL);
 
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
 	config->mime_types = g_ptr_array_new ();
-	config->gtkrc = g_build_filename (g_get_home_dir (), ".evolution", "mail", "config", "gtkrc-mail-fonts", NULL);
+	config->gtkrc = g_build_filename (base_dir, "config", "gtkrc-mail-fonts", NULL);
 
 	mail_config_clear ();
 

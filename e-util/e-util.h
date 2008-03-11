@@ -44,6 +44,8 @@ typedef enum {
 	E_FOCUS_END
 } EFocus;
 
+const gchar *	e_get_user_data_dir		(void);
+
 char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);

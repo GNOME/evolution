@@ -161,6 +161,7 @@ ensure_sources (CalendarComponent *component)
 	ESource *personal_source;
 	ESource *birthdays_source;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 	gchar *create_source;
 
 	on_this_computer = NULL;
@@ -175,9 +176,8 @@ ensure_sources (CalendarComponent *component)
 		return;
 	}
 
-	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-				     "calendar", "local",
-				     NULL);
+	base_dir = calendar_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -1726,10 +1726,8 @@ calendar_component_init (CalendarComponent *component)
 
 	priv = g_new0 (CalendarComponentPrivate, 1);
 
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-	priv->config_directory = g_build_filename (g_get_home_dir (),
-						   ".evolution", "calendar", "config",
-						   NULL);
+	priv->base_directory = g_build_filename (e_get_user_data_dir (), "calendar", NULL);
+	priv->config_directory = g_build_filename (priv->base_directory, "config", NULL);
 
 	/* EPFIXME: Should use a custom one instead?  Also we should add
 	 * calendar_component_peek_gconf_client().  */

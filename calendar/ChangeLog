@@ -1,3 +1,25 @@
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* gui/cal-search-bar.c (cal_search_bar_construct):
+	* gui/migration.c (create_calendar_sources), (create_task_sources),
+	(migrate_calendars), (migrate_tasks), (create_memo_sources):
+	* gui/e-memos.c (e_memos_setup_view_menus):
+	* gui/tasks-component.c (ensure_sources):
+	* gui/gnome-cal.c (gnome_calendar_setup_view_menus):
+	* gui/calendar-component.c (ensure_sources):
+	* gui/memos-component.c (ensure_sources):
+	Adapt to new meaning of xxx_component_peek_base_directory().
+
+	* gui/tasks-component.c (tasks_component_init):
+	* gui/calendar-component.c (calendar_component_init):
+	* gui/memos-component.c (memos_component_init):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
+	* gui/migration.c (add_gw_esource):
+	Emit warnings when saving to GConf fails.
+
 2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #516498

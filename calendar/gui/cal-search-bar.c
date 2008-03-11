@@ -37,6 +37,9 @@
 #include <filter/rule-editor.h>
 
 #include "cal-search-bar.h"
+#include "calendar-component.h"
+#include "memos-component.h"
+#include "tasks-component.h"
 
 #include "e-util/e-util.h"
 #include "e-util/e-error.h"
@@ -736,6 +739,7 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 	FilterPart *part;
 	RuleContext *search_context;
 	FilterRule  *search_rule;
+	const gchar *base_dir;
 
 	g_return_val_if_fail (IS_CAL_SEARCH_BAR (cal_search), NULL);
 
@@ -760,15 +764,17 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 			rule_context_add_rule, rule_context_next_rule);
 
 	if (flags == CAL_SEARCH_MEMOS_DEFAULT) {
-		userfile = g_build_filename (g_get_home_dir (), ".evolution", "memos", "searches.xml", NULL);
+		base_dir = memos_component_peek_base_directory (memos_component_peek ());
 		xmlfile = g_build_filename (SEARCH_RULE_DIR, "memotypes.xml", NULL);
 	} else if (flags == CAL_SEARCH_TASKS_DEFAULT) {
-		userfile = g_build_filename (g_get_home_dir (), ".evolution", "tasks", "searches.xml", NULL);
+		base_dir = tasks_component_peek_base_directory (tasks_component_peek ());
 		xmlfile = g_build_filename (SEARCH_RULE_DIR, "tasktypes.xml", NULL);
 	} else {
-		userfile = g_build_filename (g_get_home_dir (), ".evolution", "calendar", "searches.xml", NULL);
+		base_dir = calendar_component_peek_base_directory (calendar_component_peek ());
 		xmlfile = g_build_filename (SEARCH_RULE_DIR, "caltypes.xml", NULL);
 	}
+
+	userfile = g_build_filename (base_dir, "searches.xml", NULL);
 
 	g_object_set_data_full (G_OBJECT (search_context), "user", userfile, g_free);
 	g_object_set_data_full (G_OBJECT (search_context), "system", xmlfile, g_free);

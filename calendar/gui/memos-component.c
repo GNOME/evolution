@@ -132,6 +132,7 @@ ensure_sources (MemosComponent *component)
 	ESourceGroup *on_the_web;
 	ESource *personal_source;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	on_this_computer = NULL;
 	on_the_web = NULL;
@@ -142,9 +143,8 @@ ensure_sources (MemosComponent *component)
 		return;
 	}
 
-	base_uri = g_build_filename (memos_component_peek_base_directory (component),
-				     "memos", "local",
-				     NULL);
+	base_dir = memos_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -1388,10 +1388,8 @@ memos_component_init (MemosComponent *component, MemosComponentClass *klass)
 
 	priv = g_new0 (MemosComponentPrivate, 1);
 
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-	priv->config_directory = g_build_filename (g_get_home_dir (),
-						   ".evolution", "memos", "config",
-						   NULL);
+	priv->base_directory = g_build_filename (e_get_user_data_dir (), "memos", NULL);
+	priv->config_directory = g_build_filename (priv->base_directory, "config", NULL);
 
 	component->priv = priv;
 	ensure_sources (component);

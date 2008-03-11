@@ -1615,9 +1615,9 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	GSList *match = NULL;
 	gint len = strlen (AUTOSAVE_SEED);
 	gint load = FALSE;
-	gchar *dirname;
+	const gchar *dirname;
 
-	dirname = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+	dirname = e_get_user_data_dir ();
 	dir = g_dir_open (dirname, 0, NULL);
 	if (!dir) {
 		return;
@@ -1646,7 +1646,6 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	}
 
 	g_dir_close (dir);
-	g_free (dirname);
 
 	if (match != NULL)
 		load = e_error_run(parent, "mail-composer:recover-autosave", NULL) == GTK_RESPONSE_YES;
@@ -1698,7 +1697,7 @@ autosave_init_file (EMsgComposer *composer)
 	EMsgComposerPrivate *p = composer->priv;
 	if (p->autosave_file == NULL) {
 		p->autosave_file = g_build_filename (
-			g_get_home_dir (), ".evolution", AUTOSAVE_SEED, NULL);
+			e_get_user_data_dir (), AUTOSAVE_SEED, NULL);
 		p->autosave_fd = g_mkstemp (p->autosave_file);
 		return TRUE;
 	}
@@ -3587,13 +3586,20 @@ e_msg_composer_unrealize (GtkWidget *widget, gpointer data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (widget);
 	GConfClient *gconf;
+	GError *error = NULL;
 	int width, height;
 
 	gtk_window_get_size (GTK_WINDOW (composer), &width, &height);
 
 	gconf = gconf_client_get_default ();
-	gconf_client_set_int (gconf, "/apps/evolution/mail/composer/width", width, NULL);
-	gconf_client_set_int (gconf, "/apps/evolution/mail/composer/height", height, NULL);
+	if (!gconf_client_set_int (gconf, "/apps/evolution/mail/composer/width", width, &error)) {
+		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+		g_clear_error(&error);
+	}
+	if (!gconf_client_set_int (gconf, "/apps/evolution/mail/composer/height", height, &error)) {
+		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+		g_error_free(error);
+	}
 	g_object_unref (gconf);
 }
 
@@ -5734,7 +5740,8 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 {
 	EMsgComposerPrivate *p = composer->priv;
 	GConfClient *gconf;
-
+	GError *error = NULL;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if ((p->view_from && view_from) ||
@@ -5746,7 +5753,11 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 				      "state", p->view_from ? "1" : "0", NULL);
 
 	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/From", view_from, NULL);
+	if (!gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/From", view_from, &error)) {
+		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+		g_error_free(error);
+	}
+	
 	g_object_unref (gconf);
 
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (p->hdrs),
@@ -5784,7 +5795,8 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 {
 	EMsgComposerPrivate *p = composer->priv;
 	GConfClient *gconf;
-
+	GError *error = NULL;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if ((p->view_replyto && view_replyto) ||
@@ -5797,7 +5809,10 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 
 	/* we do this /only/ if the fields is in the visible_mask */
 	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/ReplyTo", view_replyto, NULL);
+	if (!gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/ReplyTo", view_replyto, &error)) {
+		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+		g_error_free(error);
+	}
 	g_object_unref (gconf);
 
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (p->hdrs),
@@ -5835,7 +5850,8 @@ e_msg_composer_set_view_to (EMsgComposer *composer, gboolean view_to)
 {
 	EMsgComposerPrivate *p = composer->priv;
 	GConfClient *gconf;
-
+	GError *error = NULL;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if ((p->view_to && view_to) ||
@@ -5848,7 +5864,10 @@ e_msg_composer_set_view_to (EMsgComposer *composer, gboolean view_to)
 
 	if ((E_MSG_COMPOSER_HDRS(p->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_TO) {
 		gconf = gconf_client_get_default ();
-		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/To", view_to, NULL);
+		if (!gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/To", view_to, &error)) {
+			g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+			g_error_free(error);
+		}
 		g_object_unref (gconf);
 	}
 
@@ -5887,6 +5906,8 @@ void
 e_msg_composer_set_view_postto (EMsgComposer *composer, gboolean view_postto)
 {
 	GConfClient *gconf;
+	GError *error = NULL;
+	
 	EMsgComposerPrivate *p = composer->priv;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -5901,7 +5922,10 @@ e_msg_composer_set_view_postto (EMsgComposer *composer, gboolean view_postto)
 
 	if ((E_MSG_COMPOSER_HDRS(p->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO) {
 		gconf = gconf_client_get_default ();
-		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/PostTo", view_postto, NULL);
+		if (!gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/PostTo", view_postto, &error)) {
+			g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+			g_error_free(error);
+		}
 		g_object_unref (gconf);
 	}
 
@@ -5940,6 +5964,7 @@ void
 e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 {
 	GConfClient *gconf;
+	GError *error = NULL;
 	EMsgComposerPrivate *p = composer->priv;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -5954,7 +5979,10 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 
 	if ((E_MSG_COMPOSER_HDRS (p->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_CC) {
 		gconf = gconf_client_get_default ();
-		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Cc", view_cc, NULL);
+		if (!gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Cc", view_cc, &error)) {
+			g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+			g_error_free(error);
+		}
 		g_object_unref (gconf);
 	}
 
@@ -5994,6 +6022,7 @@ void
 e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 {
 	GConfClient *gconf;
+	GError *error = NULL;
 	EMsgComposerPrivate *p = composer->priv;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -6008,7 +6037,10 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 
 	if ((E_MSG_COMPOSER_HDRS (p->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_BCC) {
 		gconf = gconf_client_get_default ();
-		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Bcc", view_bcc, NULL);
+		if (!gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Bcc", view_bcc, &error)) {
+			g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+			g_error_free(error);
+		}
 		g_object_unref (gconf);
 	}
 

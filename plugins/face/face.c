@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <mail/em-menu.h>
 #include <e-util/e-error.h>
+#include <e-util/e-util.h>
 
 #define d(x) x
 
@@ -42,7 +43,7 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 	GError *error = NULL;
 
 	composer = (EMsgComposer *) t->target.widget;
-	filename = g_build_filename (g_get_home_dir (), ".evolution", "faces", NULL);
+	filename = g_build_filename (e_get_user_data_dir (), "faces", NULL);
 	g_file_get_contents (filename, &file_contents, NULL, &error);
 
 	if (error) {

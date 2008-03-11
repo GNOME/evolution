@@ -87,6 +87,7 @@
 #include "plstr.h"
 #include "prprf.h"
 #include "prmem.h"
+#include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-util-private.h"
 #include <gtk/gtkmessagedialog.h>
@@ -177,18 +178,11 @@ initialize_nss (void)
 	char *evolution_dir_path;
 	gboolean success;
 
-	evolution_dir_path = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-
 #ifdef G_OS_WIN32
 	/* NSS wants filenames in system codepage */
-	{
-		char *cp_path = g_win32_locale_filename_from_utf8 (evolution_dir_path);
-
-		if (cp_path) {
-			g_free (evolution_dir_path);
-			evolution_dir_path = cp_path;
-		}
-	}
+	evolution_dir_path = g_win32_locale_filename_from_utf8 (e_get_user_data_dir ());
+#else
+	evolution_dir_path = g_strdup (e_get_user_data_dir ());
 #endif
 
 	/* we initialize NSS here to make sure it only happens once */

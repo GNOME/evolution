@@ -1,3 +1,15 @@
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* gui/component/addressbook-component.c (ensure_sources):
+	* gui/component/addressbook-migrate.c (addressbook_migrate):
+	Adapt to new meaning of xxx_component_peek_base_directory().
+
+	* gui/component/addressbook-component.c (addressbook_component_init):
+	* gui/component/addressbook-migrate.c (create_groups):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
 2008-02-22  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #514836

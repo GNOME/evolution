@@ -1155,7 +1155,7 @@ e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic)
 					 "memos",
 					 NULL);
 		dir1 = g_build_filename (memos_component_peek_base_directory (memos_component_peek ()),
-					 "memos", "views", NULL);
+					 "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
 							     dir0,
 							     dir1);

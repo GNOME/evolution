@@ -1,3 +1,10 @@
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* lib/e-cert-db.c (initialize_nss):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

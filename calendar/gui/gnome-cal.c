@@ -2386,7 +2386,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 					  "calendar",
 					  NULL);
 		path1 = g_build_filename (calendar_component_peek_base_directory (calendar_component_peek ()),
-					 "calendar", "views", NULL);
+					 "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
 							     path0,
 							     path1);

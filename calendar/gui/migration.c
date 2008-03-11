@@ -424,15 +424,15 @@ create_calendar_sources (CalendarComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*contacts = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-				     "calendar", "local",
-				     NULL);
+	base_dir = calendar_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -535,13 +535,14 @@ create_task_sources (TasksComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
-				     "tasks", "local", NULL);
+	base_dir = tasks_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -851,7 +852,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
 			new_path = g_build_filename (calendar_component_peek_base_directory (component),
-						     "calendar", "local", "system", NULL);
+						     "local", "system", NULL);
 			migrate_pilot_data ("calendar", "calendar", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
@@ -993,7 +994,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Tasks", NULL);
 			new_path = g_build_filename (tasks_component_peek_base_directory (component),
-						     "tasks", "local", "system", NULL);
+						     "local", "system", NULL);
 			migrate_pilot_data ("tasks", "todo", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
@@ -1048,13 +1049,14 @@ create_memo_sources (MemosComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (memos_component_peek_base_directory (component),
-				     "memos", "local", NULL);
+	base_dir = memos_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -1146,6 +1148,7 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 	ESourceGroup *group;
 	ESource *source;
 	GSList *ids, *temp ;
+	GError *error = NULL;
 	char *relative_uri;
 	const char *soap_port;
 	const char * use_ssl;
@@ -1180,7 +1183,11 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 	e_source_set_color_spec (source, "#EEBC60");
 	e_source_group_add_source (group, source, -1);
 
-	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
+	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, &error);
+	if ( error != NULL ) {
+		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+		g_error_free(error);
+	}
 	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
 	gconf_client_set_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, ids, NULL);
 	temp  = ids;

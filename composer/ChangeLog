@@ -1,3 +1,17 @@
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* e-msg-composer.c (autosave_manager_query_load_orphans),
+	(autosave_init_file):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
+	* e-msg-composer.c (e_msg-composer_unrealize),
+	(e_msg_composer_set_view_from), (e_msg_composer_set_view_replyto),
+	(e_msg_composer_set_view_to), (e_msg_composer_set_view_postto),
+	(e_msg_composer_set_view_cc), (e_msg_composer_set_view_bcc):
+	Emit warnings if saving to GConf fails.
+
 2008-02-25  Johny Jacob  <jjohnny@novell.com>
 
 	* e-msg-composer.c (e_msg_composer_show_sig_file): Reverting

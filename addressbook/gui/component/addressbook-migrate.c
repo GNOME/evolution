@@ -449,14 +449,14 @@ create_groups (MigrationContext *context,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (addressbook_component_peek_base_directory (context->component),
-				     "addressbook", "local",
-				     NULL);
+	base_dir = addressbook_component_peek_base_directory (context->component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -1171,7 +1171,7 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Contacts", NULL);
 			new_path = g_build_filename (addressbook_component_peek_base_directory (component),
-						     "addressbook", "local", "system", NULL);
+						     "local", "system", NULL);
 			migrate_pilot_data (old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);

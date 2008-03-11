@@ -128,6 +128,7 @@ ensure_sources (TasksComponent *component)
 	ESourceGroup *on_the_web;
 	ESource *personal_source;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	on_this_computer = NULL;
 	on_the_web = NULL;
@@ -138,9 +139,8 @@ ensure_sources (TasksComponent *component)
 		return;
 	}
 
-	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
-				     "tasks", "local",
-				     NULL);
+	base_dir = tasks_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -1449,10 +1449,8 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 
 	priv = g_new0 (TasksComponentPrivate, 1);
 
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-	priv->config_directory = g_build_filename (g_get_home_dir (),
-						   ".evolution", "tasks", "config",
-						   NULL);
+	priv->base_directory = g_build_filename (e_get_user_data_dir (), "tasks", NULL);
+	priv->config_directory = g_build_filename (priv->base_directory, "config", NULL);
 
 	component->priv = priv;
 	ensure_sources (component);
