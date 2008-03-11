@@ -14,10 +14,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution HEAD\n"
+"Project-Id-Version: Evolution 2.22\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-03-06 16:09+0200\n"
+"PO-Revision-Date: 2008-03-09 12:15+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -726,9 +726,8 @@ msgid "_Type:"
 msgstr "L_iik:"
 
 #: ../addressbook/gui/component/addressbook-config.c:632
-#, fuzzy
 msgid "Copy _book content locally for offline operation"
-msgstr "Raamatu sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
+msgstr ""
 
 #: ../addressbook/gui/component/addressbook-config.c:981
 #: ../addressbook/gui/component/ldap-config.glade.h:22
@@ -11060,7 +11059,7 @@ msgstr "Manused"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "Pimekoopia"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -11068,7 +11067,7 @@ msgstr "Piiksu"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr ""
+msgstr "Koopia"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
@@ -12179,7 +12178,7 @@ msgstr "Värvus"
 
 #: ../mail/em-mailer-prefs.c:476
 msgid "Tag"
-msgstr ""
+msgstr "Silt"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1140
@@ -12378,7 +12377,7 @@ msgstr "Redaktoriakna vaikimisi laius"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "Sõnumikoostaja laadimiste/manuste kataloog"
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12597,13 +12596,13 @@ msgstr ""
 "küsimine."
 
 #: ../mail/evolution-mail.schemas.in.h:55
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
 msgstr ""
-"Selle abil keelatakse korduvad võrguvaba režiimi jaoks toimuva "
-"sünkroniseerimise kohta käiva kinnituse küsimised."
+"Selle abil lubatakse/keelatakse korduvad võrguvaba režiimi jaoks toimuva "
+"sünkroniseerimise kohta käiva kinnituse küsimised, mis esitatakse enne"
+"võrguvabasse režiimi siirdumist."
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid ""
@@ -12978,14 +12977,14 @@ msgstr ""
 "ahendatud olekus. Sätte rakendamiseks tuleb Evolution uuesti käivitada."
 
 #: ../mail/evolution-mail.schemas.in.h:135
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
-"Selle sättega määratakse, kas lõimed peavad vaikimisi olema avatud või "
-"ahendatud olekus. Sätte muutmise korral vajab Evolution taaskäivitamist."
+"Selle sättega määratakse, kas lõimed tuleb sortida vastavalt iga lõime "
+"värskeimale sõnumile või sorditakse lõimed sõnumite kuupäevade alusel. Sätte "
+"muutmise korral vajab Evolution taaskäivitamist."
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "Thread the message list."
@@ -13086,6 +13085,8 @@ msgstr "Vaade/Kellele-vastata menüükirje on märgitud."
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
+"Kas lugemiskinnituse päring pannakse vaikimisi iga saadetava sõnumi külge "
+"või mitte."
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid ""
@@ -13453,7 +13454,6 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Väljuvad sõnumid _allkirjastatakse alati selle konto abil"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr "Krüptitud sõnumi saatmisel krüptitakse see ka _endale"
 
@@ -13470,7 +13470,6 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Minu võtmerõngas olevad võtmed _usaldatakse alati"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Krüptitud sõnumi saatmisel krüptitakse alati ka _enda jaoks"
 
@@ -14923,6 +14922,9 @@ msgid ""
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"Hoiatus: otsingukaustadest kustutamine kustutab sõnumid sinu kohalikest või "
+"kaugkaustadest.\n"
+"Kas sa soovid seda teha?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -15578,7 +15580,7 @@ msgstr "Meetermõõdustik (Celsius, cm, jms.)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:660
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
+msgstr "Imperial (Fahrenheit, tollid, jms)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Provides core functionality for weather calendars."
@@ -17469,11 +17471,11 @@ msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule:"
 
 #: ../plugins/itip-formatter/itip-view.c:383
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following meeting:"
-msgstr "<b>%s</b> soovib saada värskeimat teavet järgneva koosoleku kohta:"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:385
 #, c-format
@@ -17482,9 +17484,9 @@ msgid ""
 msgstr "<b>%s</b> soovib saada värskeimat teavet järgneva koosoleku kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> saatis järgneva koosoleku tagasi:"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:391
 #, c-format
@@ -17502,9 +17504,9 @@ msgid "<b>%s</b> has canceled the following meeting."
 msgstr "<b>%s</b> tühistas järgneva koosoleku."
 
 #: ../plugins/itip-formatter/itip-view.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> esitas järgnevad koosoleku muudatused."
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:403
 #, c-format
@@ -17557,11 +17559,11 @@ msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s</b> soovib lisada olemasolevale ülesandele:"
 
 #: ../plugins/itip-formatter/itip-view.c:471
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following assigned task:"
-msgstr "<b>%s</b> soovib saada värskeimat infot järgneva ülesande kohta:"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:473
 #, c-format
@@ -17571,10 +17573,10 @@ msgid ""
 msgstr "<b>%s</b> soovib saada värskeimat infot järgneva ülesande kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:477
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> saatis järgneva määratud ülesande vastuse tagasi:"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:479
 #, c-format
@@ -17592,10 +17594,10 @@ msgid "<b>%s</b> has canceled the following assigned task:"
 msgstr "<b>%s</b> tühistas järgneva määratud ülesande:"
 
 #: ../plugins/itip-formatter/itip-view.c:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> through %s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> esitas järgnevad muudatused määratud ülesandele:"
+msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:491
 #, c-format
@@ -20458,9 +20460,8 @@ msgid "_Debug Logs"
 msgstr "Silumislo_gid"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "Sõnumite allalaadimine võrguvaba režiimi jaoks"
+msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -20573,9 +20574,8 @@ msgid "Refresh the folder"
 msgstr "Kausta värskendamine"
 
 #: ../ui/evolution-mail-list.xml.h:23
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "Vali sõnumi _lõim"
+msgstr "Vali sõnumi ala_mlõim"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
@@ -20594,9 +20594,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "Valitud sõnumiga samas lõimes olevate sõnumite valimine"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "Valitud sõnumiga samas lõimes olevate sõnumite valimine"
+msgstr "Valitud sõnumi vastuste valimine"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -22848,7 +22847,7 @@ msgstr "Retrovälimus"
 
 #: ../widgets/table/e-tree.c:3350
 msgid "Draw lines and +/- expanders."
-msgstr ""
+msgstr "Joonte ning +/- laiendajate joonistamine."
 
 #: ../widgets/text/e-text.c:2734
 msgid "Input Methods"
@@ -22953,139 +22952,3 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "New Mail Notify sound file"
-#~ msgstr "Helifail uutest sõnumitest teatamiseks"
-
-#~ msgid "New Mail Notify type"
-#~ msgstr "Uuest sõnumist teatamise tüüp"
-
-#~ msgid "Specifies the type of New Mail Notification the user wishes to use."
-#~ msgstr "Kasutaja poolt valitud teavitamise liik uutele sõnumitele."
-
-#~ msgid "Se_lect..."
-#~ msgstr "V_ali..."
-
-#~ msgid "Select Drafts Folder"
-#~ msgstr "Mustandite kausta valimine"
-
-#~ msgid "Select Sent Folder"
-#~ msgstr "Saadetud sõnumite kausta valimine"
-
-#~ msgid "Attachment Reminder Preferences"
-#~ msgstr "Manuste meeldetuletaja eelistused"
-
-#~ msgid "_Contacts..."
-#~ msgstr "_Kontaktid..."
-
-#~ msgid "Every time a new mail arrives, pop up a libnotify notification."
-#~ msgstr "Teavitusakna avamine iga uue sõnumi saabumisel."
-
-#~ msgid "Make the status icon blink"
-#~ msgstr "Olekuikooni vilgutamine"
-
-#~ msgid "When the new-mail status icon is visible, make it blink."
-#~ msgstr ""
-#~ "Uute sõnumite olekuikooni vilgutamine iga uue sõnumi saabumisel (kui "
-#~ "ikoon on nähtaval)."
-
-#~ msgid "New Mail Notification"
-#~ msgstr "Uuest sõnumist teavitamine"
-
-#~ msgid "Con_figure"
-#~ msgstr "_Seadista"
-
-#~ msgid "Download messages for offline"
-#~ msgstr "Laadi sõnumid võrguvaba režiimi jaoks alla"
-
-#~ msgid "MTWTFSS"
-#~ msgstr "ETKNRLP"
-
-#~ msgid "Or_ganiser:"
-#~ msgstr "Ko_rraldaja:"
-
-#~ msgid "Task sort"
-#~ msgstr "Ülesannete sortimine"
-
-#~ msgid "Memo sort"
-#~ msgstr "Märkmete sortimine"
-
-#~ msgid "Post To:"
-#~ msgstr "Kuhu postitada:"
-
-#~ msgid "The Evolution PIM and Email Client"
-#~ msgstr "Evolutioni e-posti ja isikliku teabehalduse klient"
-
-#~ msgid "Di_sable"
-#~ msgstr "_Keelamine"
-
-#~ msgid "Automatic smiley recognition"
-#~ msgstr "Automaatne emotikonituvastus"
-
-#~ msgid "Select a (48*48) png of size < 720bytes"
-#~ msgstr ""
-#~ "Vali PNG-pilt mõõtmetega 48x48 ja suurusega mitte rohkem kui 720 baiti"
-
-#~ msgid ""
-#~ "A plugin which implements a CORBA interface for accessing mail data "
-#~ "remotely."
-#~ msgstr "Plugin, mis teostab CORBA liidese sõnumite andmete kaugligipääsuks."
-
-#~ msgid "Mail Remote"
-#~ msgstr "Kaugpost"
-
-#~ msgid "_Phone List"
-#~ msgstr "_Telefonide loend"
-
-#~ msgid "Sh_ow these fields in order:"
-#~ msgstr "Välju _näidatakse sellest järjestuses:"
-
-#~ msgid "Emulate label resize"
-#~ msgstr "Sildi suuruse muutmise emuleerimine"
-
-#~ msgid "This ülesanne recurs"
-#~ msgstr "See sündmus kordub"
-
-#~ msgid "A Folder with this name already exists"
-#~ msgstr "Sellise nimega kaust on juba olemas"
-
-#~ msgid ""
-#~ "The changed email or name of this contact already\n"
-#~ "exists in this folder.  Would you like to add it anyway?"
-#~ msgstr ""
-#~ "Muudetud kontakti e-posti aadress või nimi juba\n"
-#~ "on antud kaustas juba olemas. Kas sa soovid seda ikka lisada?"
-
-#~ msgid "Valid signature, cannot verify sender"
-#~ msgstr "Kehtiv allkiri, saatjat pole võimalik tuvastada"
-
-#~ msgid "Check Evolution archive"
-#~ msgstr "Evolutioni arhiivi kontrollimine"
-
-#~ msgid "<b>Then</b>"
-#~ msgstr "<b>siis</b>"
-
-#~ msgid "Mark as _Read"
-#~ msgstr "_Märgi loetuks"
-
-#~ msgid "_Do not Mark as Read"
-#~ msgstr "_Ära märgi loetuks"
-
-#~ msgid "<b>Junk Mail Settings</b>"
-#~ msgstr "<b>Rämpsposti sätted</b>"
-
-#~ msgid ""
-#~ "The output directory was not found on iPod! Please ensure that iPod has "
-#~ "been correctly set up and try again."
-#~ msgstr ""
-#~ "Väljundkataloogi ei leitud iPod'ist! Palun veendu, et iPod on korralikult "
-#~ "seadistatud ja proovi uuesti."
-
-#~ msgid "Could not open the Evolution addressbook to export data."
-#~ msgstr ""
-#~ "Evolutioni aadressiraamatut pole andmete eksportimiseks võimalik avada."
-
-#~ msgid "Could not open the Evolution calendar/todo list to export data."
-#~ msgstr ""
-#~ "Evolutioni kalendrit/ülesannete loendit pole võimalik eksportimiseks "
-#~ "avada."
