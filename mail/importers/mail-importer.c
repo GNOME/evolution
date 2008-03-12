@@ -396,9 +396,9 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 					break;
 				}
 			/* FIXME: need a better way to get default store location */
-			uri = g_strdup_printf("mbox:%s/mail/local#%s", mail_component_peek_base_directory(NULL), folder);
+			uri = g_strdup_printf("mbox:%s/local#%s", mail_component_peek_base_directory(NULL), folder);
 		} else {
-			uri = g_strdup_printf("mbox:%s/mail/local#%s/%s", mail_component_peek_base_directory(NULL), folderparent, folder);
+			uri = g_strdup_printf("mbox:%s/local#%s/%s", mail_component_peek_base_directory(NULL), folderparent, folder);
 		}
 
 		printf("importing to uri %s\n", uri);

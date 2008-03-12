@@ -60,7 +60,7 @@
 const gchar *
 e_get_user_data_dir (void)
 {
-	static gchar* dirname = NULL;
+	static gchar *dirname = NULL;
 
 	if (G_UNLIKELY (dirname == NULL))
 		dirname = g_build_filename (

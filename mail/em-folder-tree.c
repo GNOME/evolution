@@ -566,7 +566,7 @@ em_folder_tree_new (void)
 	EMFolderTreeModel *model;
 	EMFolderTree *emft;
 
-	model = em_folder_tree_model_new (mail_component_peek_base_directory (mail_component_peek ()));
+	model = em_folder_tree_model_new (e_get_user_data_dir ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	g_object_unref (model);
 

@@ -614,7 +614,7 @@ emfv_setup_view_instance(EMFolderView *emfv)
 		galviewsmaildir = g_build_filename (EVOLUTION_GALVIEWSDIR,
 						    "mail",
 						    NULL);
-		dir = g_build_filename (evolution_dir, "mail", "views", NULL);
+		dir = g_build_filename (evolution_dir, "views", NULL);
 		gal_view_collection_set_storage_directories (collection, galviewsmaildir, dir);
 		g_free (dir);
 		g_free (galviewsmaildir);

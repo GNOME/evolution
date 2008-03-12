@@ -499,7 +499,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 
 	gconf = mail_config_get_gconf_client ();
 
-	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
 	rule_context_load (fc, system, user);

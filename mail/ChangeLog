@@ -1,3 +1,32 @@
+2008-03-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes breakage caused by bug #513951
+
+	* mail-autofilter.c (filter_gui_add_from_message),
+	(mail_filter_rename_uri), (mail_filter_delete_uri):
+	* mail-tools.c (mail_tool_get_local_movemail_path):
+	* mail-vfolder.c (mail_vfolder_delete_uri), (mail_vfolder_rename_uri),
+	(store_folder_deleted), (store_folder_renamed),
+	(vfolder_load_storage), (vfolder_revert),
+	(em_vfolder_editor_response), (edit_rule_response),
+	(new_rule_clicked):
+	* em-folder-browser.c (emfb_search_search_activated):
+	* em-folder-tree.c (em_folder_tree_new):
+	* mail-ops.c (uid_cachename_hack), (empty_trash_exec):
+	* em-folder-view.c (emfv_setup_view_instance):
+	* em-utils.c (em_filter_editor_response), (em_utils_edit_filters):
+	* importers/mail-importer.c (import_folders_rec):
+	* mail-folder-cache.c (rename_folders):
+	* em-format-html.c (em_format_html_get_type):
+	* mail-session.c (main_get_filter_driver):
+	* mail-config.c (gconf_mime_types_changed), (uri_to_evname),
+	(mail_config_folder_to_cachename), (get_new_signature_filename):
+	Adapt to new meaning of mail_component_peek_base_directory().
+
+	* mail-component.c (mail_component_init):
+	Add back initialization of priv->base_directory.  Accidentally
+	removed it somehow in last commit.
+
 2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #513951

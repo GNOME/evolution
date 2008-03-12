@@ -646,13 +646,13 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	e_filename_make_safe(olduri);
 	newuri = folder_to_url(si->store, fi->full_name);
 	e_filename_make_safe(newuri);
-	oldfile = g_strdup_printf("%s/mail/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
-	newfile = g_strdup_printf("%s/mail/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
+	oldfile = g_strdup_printf("%s/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
+	newfile = g_strdup_printf("%s/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
 	g_rename(oldfile, newfile);
 	g_free(oldfile);
 	g_free(newfile);
-	oldfile = g_strdup_printf("%s/mail/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
-	newfile = g_strdup_printf("%s/mail/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
+	oldfile = g_strdup_printf("%s/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
+	newfile = g_strdup_printf("%s/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
 	g_rename(oldfile, newfile);
 	g_free(oldfile);
 	g_free(newfile);

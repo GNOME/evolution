@@ -371,17 +371,13 @@ gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 void
 mail_config_init (void)
 {
-	const gchar *base_dir;
-
 	if (config)
 		return;
-
-	base_dir = mail_component_peek_base_directory (NULL);
 
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
 	config->mime_types = g_ptr_array_new ();
-	config->gtkrc = g_build_filename (base_dir, "config", "gtkrc-mail-fonts", NULL);
+	config->gtkrc = g_build_filename (e_get_user_data_dir (), "mail", "config", "gtkrc-mail-fonts", NULL);
 
 	mail_config_clear ();
 
@@ -882,9 +878,9 @@ uri_to_evname (const char *uri, const char *prefix)
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/mail/%s%s.xml", base_directory, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/%s%s.xml", base_directory, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/mail/%s%s", base_directory, prefix, safe);
+		tmp = g_strdup_printf ("%s/%s%s", base_directory, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -1002,7 +998,7 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
-	filename = g_build_filename (evolution_dir, "mail", "config", basename, NULL);
+	filename = g_build_filename (evolution_dir, "config", basename, NULL);
 	g_free (basename);
 	g_free (url);
 
@@ -1023,7 +1019,7 @@ get_new_signature_filename (void)
 	struct stat st;
 	int i;
 
-	base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	base_directory = e_get_user_data_dir ();
 	filename = g_build_filename (base_directory, "signatures", NULL);
 	if (g_lstat (filename, &st)) {
 		if (errno == ENOENT) {

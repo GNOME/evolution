@@ -255,7 +255,7 @@ em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 		char *user;
 
 		fc = g_object_get_data ((GObject *) dialog, "context");
-		user = g_strdup_printf ("%s/mail/filters.xml",
+		user = g_strdup_printf ("%s/filters.xml",
 					mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save ((RuleContext *) fc, user);
 		g_free (user);
@@ -293,7 +293,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	}
 
 	fc = em_filter_context_new ();
-	user = g_strdup_printf ("%s/mail/filters.xml", base_directory);
+	user = g_strdup_printf ("%s/filters.xml", base_directory);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *) fc, system, user);
 	g_free (user);

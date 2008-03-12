@@ -252,7 +252,7 @@ uid_cachename_hack (CamelStore *store)
 	e_filename_make_safe (encoded_url);
 
 	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-	filename = g_build_filename (evolution_dir, "mail", "pop", encoded_url, "uid-cache", NULL);
+	filename = g_build_filename (evolution_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
 
 	return filename;
@@ -1647,7 +1647,7 @@ empty_trash_exec (struct _empty_trash_msg *m)
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &m->base.ex);
 	} else {
 		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-		uri = g_strdup_printf ("mbox:%s/mail/local", evolution_dir);
+		uri = g_strdup_printf ("mbox:%s/local", evolution_dir);
 		trash = mail_tool_get_trash (uri, TRUE, &m->base.ex);
 		g_free (uri);
 	}

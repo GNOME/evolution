@@ -1209,6 +1209,18 @@ mail_component_init (MailComponent *component)
 	priv->lock = g_mutex_new();
 	priv->quit_state = -1;
 
+	/* FIXME This is used as both a filename and URI path throughout
+	 *       the mail code.  Need to clean this up; maybe provide a
+	 *       mail_component_get_base_uri() function. */
+	priv->base_directory = g_build_filename (e_get_user_data_dir (), "mail", NULL);
+#ifdef G_OS_WIN32
+	{
+		char *p = priv->base_directory;
+		while ((p = strchr(p, '\\')))
+			*p++ = '/';
+	}
+#endif
+
 	if (g_mkdir_with_parents (e_get_user_data_dir (), 0777) == -1 && errno != EEXIST)
 		abort ();
 

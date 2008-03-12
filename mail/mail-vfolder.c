@@ -588,7 +588,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 		dialog = e_error_new(NULL, "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
-		user = g_strdup_printf ("%s/mail/vfolders.xml",
+		user = g_strdup_printf ("%s/vfolders.xml",
 					mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save ((RuleContext *) context, user);
 		g_free (user);
@@ -655,7 +655,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 		char *user;
 
 		d(printf("Vfolders updated from renamed folder\n"));
-		user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
@@ -839,7 +839,7 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 		g_object_unref(rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
-		user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	} else {
@@ -882,7 +882,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 		filter_rule_set_name(rule, info->new->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
-		user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 
@@ -917,7 +917,7 @@ vfolder_load_storage(void)
 	pthread_mutex_unlock (&lock);
 
 	/* first, create the vfolder store, and set it up */
-	storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
+	storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
 	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
 		g_warning("Cannot open vfolder store - no vfolders available");
@@ -935,7 +935,7 @@ vfolder_load_storage(void)
 	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("Search Folders"));
 
 	/* load our rules */
-	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_strdup_printf ("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	context = em_vfolder_context_new ();
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
@@ -976,7 +976,7 @@ vfolder_revert(void)
 	char *user;
 
 	d(printf("vfolder_revert\n"));
-	user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	rule_context_revert((RuleContext *)context, user);
 	g_free(user);
 }
@@ -988,7 +988,7 @@ em_vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 {
 	char *user;
 
-	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_strdup_printf ("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 
 	switch(button) {
 	case GTK_RESPONSE_OK:
@@ -1032,7 +1032,7 @@ edit_rule_response(GtkWidget *w, int button, void *data)
 		FilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
 		filter_rule_copy(orig, rule);
-		user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
@@ -1105,7 +1105,7 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 
 		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);
-		user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
