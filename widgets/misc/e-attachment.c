@@ -275,6 +275,17 @@ attachment_guess_mime_type (const char *file_name)
 
 	gnome_vfs_file_info_unref (info);
 
+	if (type) {
+		/* gnome_vfs can sometimes return invalid type, so check for it */
+		CamelContentType *ctype = camel_content_type_decode (type);
+
+		if (!ctype) {
+			g_free (type);
+			type = NULL;
+		} else
+			camel_content_type_unref (ctype);
+	}
+
 	return type;
 }
 
