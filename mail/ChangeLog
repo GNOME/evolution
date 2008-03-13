@@ -1,5 +1,10 @@
 2008-03-13  Milan Crha  <mcrha@redhat.com>
 
+	* em-folder-tree.c:
+	* em-format-html.c: Fix an implicit function declaration.
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #515786
 
 	* em-migrate.c: (em_migrate), (em_update_sa_junk_setting_2_23):

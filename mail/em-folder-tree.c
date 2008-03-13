@@ -54,6 +54,7 @@
 #include "e-util/e-request.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-error.h"
+#include "e-util/e-util.h"
 
 #include "em-vfolder-rule.h"
 

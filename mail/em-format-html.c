@@ -46,6 +46,7 @@
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
