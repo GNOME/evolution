@@ -2813,6 +2813,31 @@ em_update_message_notify_settings_2_21 (void)
 	g_object_unref (client);
 }
 
+/* fixing typo in SpamAssassin name */
+static void
+em_update_sa_junk_setting_2_23 (void)
+{
+	GConfClient *client;
+	GConfValue  *key;
+
+	client = gconf_client_get_default ();
+
+	key = gconf_client_get (client, "/apps/evolution/mail/junk/default_plugin", NULL);
+	if (key) {
+		const char *str = gconf_value_get_string (key);
+
+		if (str && strcmp (str, "Spamassasin") == 0)
+			gconf_client_set_string (client, "/apps/evolution/mail/junk/default_plugin", "SpamAssassin", NULL);
+
+		gconf_value_free (key);
+		g_object_unref (client);
+
+		return;
+	}
+
+	g_object_unref (client);
+}
+
 int
 em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
 {
@@ -2901,6 +2926,9 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 
 	if (major < 2 || (major == 2 && minor < 22))
 		em_update_message_notify_settings_2_21 ();
+
+	if (major < 2 || (major == 2 && minor < 24))
+		em_update_sa_junk_setting_2_23 ();
 
 #endif	/* !G_OS_WIN32 */
 	return 0;

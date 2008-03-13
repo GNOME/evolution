@@ -1,5 +1,12 @@
 2008-03-13  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #515786
+
+	* em-migrate.c: (em_migrate), (em_update_sa_junk_setting_2_23):
+	Fix misspelled SpamAssassin word.
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #273177
 
 	* em-utils.h: (em_utils_add_vcard):

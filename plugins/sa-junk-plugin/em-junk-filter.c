@@ -845,7 +845,7 @@ GtkWidget *
 org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
    	GtkWidget *check, *vbox, *label;
-	char *text = g_strdup_printf ("    <small>%s</small>", _("This will make Spamassasin more reliable, but slower"));
+	char *text = g_strdup_printf ("    <small>%s</small>", _("This will make SpamAssassin more reliable, but slower"));
 	guint i = ((GtkTable *)data->parent)->nrows;
 
 	if (data->old)

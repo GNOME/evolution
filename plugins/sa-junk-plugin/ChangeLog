@@ -1,3 +1,11 @@
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #515786
+
+	* org-gnome-sa-junk-plugin.eplug.xml:
+	* em-junk-filter.c: (org_gnome_sa_use_remote_tests):
+	Fix misspelled SpamAssassin word.
+
 2007-11-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #499644
