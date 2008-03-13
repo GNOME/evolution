@@ -56,6 +56,7 @@
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-url.h>
+#include <camel/camel-stream-mem.h>
 
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vtrash-folder.h>
@@ -697,6 +698,40 @@ emp_standard_items_free(EPopup *ep, GSList *items, void *data)
 }
 
 static void
+emp_add_vcard (EPopup *ep, EPopupItem *item, void *data)
+{
+	EPopupTarget *target = ep->target;
+	CamelMimePart *part;
+	CamelDataWrapper *content;
+	CamelStreamMem *mem;
+	
+
+	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
+		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
+	else
+		part = ((EMPopupTargetPart *) target)->part;
+
+	if (!part)
+		return;
+
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	mem = CAMEL_STREAM_MEM (camel_stream_mem_new ());
+
+	if (camel_data_wrapper_decode_to_stream (content, CAMEL_STREAM (mem)) == -1 ||
+	    !mem->buffer->data)
+		g_warning ("Read part's content failed!");
+	else {
+		GString *vcard = g_string_new_len ((const gchar *) mem->buffer->data, mem->buffer->len);
+
+		em_utils_add_vcard (target->widget, vcard->str);
+
+		g_string_free (vcard, TRUE);
+	}
+
+	camel_object_unref (mem);
+}
+
+static void
 emp_standard_menu_factory(EPopup *emp, void *data)
 {
 	int i, len;
@@ -768,7 +803,6 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 					apps = gnome_vfs_mime_get_all_applications(name_type);
 			}
 		}
-		g_free (mime_type);
 
 		if (apps) {
 			GString *label = g_string_new("");
@@ -800,6 +834,23 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 			g_string_free(label, TRUE);
 			g_list_free(apps);
 		}
+
+		if (g_ascii_strcasecmp (mime_type, "text/x-vcard") == 0||
+		    g_ascii_strcasecmp (mime_type, "text/vcard") == 0) {
+			EPopupItem *item;
+
+			item = g_malloc0 (sizeof (*item));
+			item->type = E_POPUP_ITEM;
+			item->path = "00.00.vcf.00"; /* make it first item */
+			item->label = _("_Add to Address Book");
+			item->activate = emp_add_vcard;
+			item->user_data = NULL;
+			item->image = "contact-new";
+
+			e_popup_add_items (emp, g_slist_append (NULL, item), NULL, NULL, NULL);
+		}
+
+		g_free (mime_type);
 	}
 
 	for (i=0;i<len;i++) {

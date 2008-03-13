@@ -50,6 +50,7 @@ struct _EABPopupControl {
 
 	gchar *name;
 	gchar *email;
+	gchar *vcard;
 
 	GtkWidget *name_widget;
 	GtkWidget *email_widget;

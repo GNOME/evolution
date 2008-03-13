@@ -61,6 +61,7 @@ gboolean em_utils_save_part_to_file(struct _GtkWidget *parent, const char *filen
 void em_utils_save_messages (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 
 void em_utils_add_address(struct _GtkWidget *parent, const char *email);
+void em_utils_add_vcard(struct _GtkWidget *parent, const char *vcard);
 
 void em_utils_flag_for_followup (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_clear (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);

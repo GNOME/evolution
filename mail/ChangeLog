@@ -1,3 +1,14 @@
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #273177
+
+	* em-utils.h: (em_utils_add_vcard):
+	* em-utils.c: (emu_add_address_or_vcard),
+	(em_utils_add_address), (em_utils_add_vcard):
+	New function to add whole vCard to addressbook.
+	* em-popup.c: (emp_add_vcard), (emp_standard_menu_factory):
+	Add popup menu item to vcard attachments.
+
 2008-03-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes breakage caused by bug #513951

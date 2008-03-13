@@ -49,6 +49,7 @@ typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {
 	gchar *name;
 	gchar *email;
+	gchar *vcard;
 	EContact *contact;
 	EBook *book;
 
@@ -92,6 +93,7 @@ quick_add_unref (QuickAdd *qa)
 		if (qa->refs == 0) {
 			g_free (qa->name);
 			g_free (qa->email);
+			g_free (qa->vcard);
 			g_object_unref (qa->contact);
 			g_free (qa);
 		}
@@ -116,6 +118,16 @@ quick_add_set_email (QuickAdd *qa, const gchar *email)
 
 	g_free (qa->email);
 	qa->email = g_strdup (email);
+}
+
+static void
+quick_add_set_vcard (QuickAdd *qa, const gchar *vcard)
+{
+	if (vcard == qa->vcard)
+		return;
+
+	g_free (qa->vcard);
+	qa->vcard = g_strdup (vcard);
 }
 
 static void
@@ -232,7 +244,7 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	/* Get data out of entries. */
-	if (button == GTK_RESPONSE_OK || button == QUICK_ADD_RESPONSE_EDIT_FULL) {
+	if (!qa->vcard && (button == GTK_RESPONSE_OK || button == QUICK_ADD_RESPONSE_EDIT_FULL)) {
 		gchar *name = NULL;
 		gchar *email = NULL;
 
@@ -341,10 +353,15 @@ build_quick_add_dialog (QuickAdd *qa)
 	if (qa->name)
 		gtk_entry_set_text (GTK_ENTRY (qa->name_entry), qa->name);
 
-
 	qa->email_entry = gtk_entry_new ();
 	if (qa->email)
 		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), qa->email);
+
+	if (qa->vcard) {
+		/* when adding vCard, then do not allow change name or email */
+		gtk_widget_set_sensitive (qa->name_entry, FALSE);
+		gtk_widget_set_sensitive (qa->email_entry, FALSE);
+	}
 
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
@@ -554,4 +571,59 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 	e_contact_quick_add (name, email, cb, closure);
 	g_free (name);
 	g_free (email);
+}
+
+void
+e_contact_quick_add_vcard (const gchar *vcard, EContactQuickAddCallback cb, gpointer closure)
+{
+	QuickAdd *qa;
+	GtkWidget *dialog;
+	EContact *contact;
+
+	/* We need to have *something* to work with. */
+	if (vcard == NULL) {
+		if (cb)
+			cb (NULL, closure);
+		return;
+	}
+
+	qa = quick_add_new ();
+	qa->cb = cb;
+	qa->closure = closure;
+	quick_add_set_vcard (qa, vcard);
+
+	contact = e_contact_new_from_vcard (qa->vcard);
+
+	if (contact) {
+		GList *emails;
+		char *name;
+		EContactName *contact_name;
+
+		g_object_unref (qa->contact);
+		qa->contact = contact;
+
+		contact_name = e_contact_get (qa->contact, E_CONTACT_NAME);
+		name = e_contact_name_to_string (contact_name);
+		quick_add_set_name (qa, name);
+		g_free (name);
+		e_contact_name_free (contact_name);
+
+		emails = e_contact_get (qa->contact, E_CONTACT_EMAIL);
+		if (emails) {
+			quick_add_set_email (qa, emails->data);
+
+			g_list_foreach (emails, (GFunc)g_free, NULL);
+			g_list_free (emails);
+		}
+	} else {
+		if (cb)
+			cb (NULL, closure);
+
+		quick_add_unref (qa);
+		g_warning ("Contact's vCard parsing failed!");
+		return;
+	}
+
+	dialog = build_quick_add_dialog (qa);
+	gtk_widget_show_all (dialog);
 }

@@ -57,6 +57,7 @@
 
 static void eab_popup_control_set_name (EABPopupControl *pop, const gchar *name);
 static void eab_popup_control_set_email (EABPopupControl *pop, const gchar *email);
+static void eab_popup_control_set_vcard (EABPopupControl *pop, const gchar *vcard);
 
 static GtkObjectClass *parent_class;
 
@@ -110,6 +111,9 @@ eab_popup_control_cleanup (EABPopupControl *pop)
 
 	g_free (pop->email);
 	pop->email = NULL;
+
+	g_free (pop->vcard);
+	pop->vcard = NULL;
 }
 
 static void
@@ -253,6 +257,26 @@ eab_popup_control_set_email (EABPopupControl *pop, const gchar *email)
 	eab_popup_control_schedule_refresh (pop);
 }
 
+static void
+eab_popup_control_set_vcard (EABPopupControl *pop, const gchar *vcard)
+{
+	g_return_if_fail (pop && EAB_IS_POPUP_CONTROL (pop));
+
+	/* We only allow the vcard to be set once. */
+	if (pop->vcard)
+		return;
+
+	g_free (pop->name);
+	g_free (pop->email);
+
+	pop->name = NULL;
+	pop->email = NULL;
+
+	pop->vcard = g_strdup (vcard);
+
+	eab_popup_control_schedule_refresh (pop);
+}
+
 void
 eab_popup_control_construct (EABPopupControl *pop)
 {
@@ -332,7 +356,9 @@ emit_event (EABPopupControl *pop, const char *event)
 static void
 eab_popup_control_no_matches (EABPopupControl *pop)
 {
-	if (pop->email && *pop->email) {
+	if (pop->vcard && *pop->vcard)
+		e_contact_quick_add_vcard (pop->vcard, NULL, NULL);
+	else if (pop->email && *pop->email) {
 		if (pop->name && *pop->name)
 			e_contact_quick_add (pop->name, pop->email, NULL, NULL);
 		else
@@ -361,7 +387,8 @@ eab_popup_control_query (EABPopupControl *pop)
 enum {
 	PROPERTY_NAME,
 	PROPERTY_EMAIL,
-	PROPERTY_TRANSITORY
+	PROPERTY_TRANSITORY,
+	PROPERTY_VCARD
 };
 
 static void
@@ -377,6 +404,10 @@ set_prop (BonoboPropertyBag *bag, const BonoboArg *arg, guint arg_id, CORBA_Envi
 
 	case PROPERTY_EMAIL:
 		eab_popup_control_set_email (pop, BONOBO_ARG_GET_STRING (arg));
+		break;
+
+	case PROPERTY_VCARD:
+		eab_popup_control_set_vcard (pop, BONOBO_ARG_GET_STRING (arg));
 		break;
 
 	default:
@@ -401,6 +432,10 @@ get_prop (BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environmen
 
 	case PROPERTY_TRANSITORY:
 		BONOBO_ARG_SET_BOOLEAN (arg, pop->transitory);
+		break;
+
+	case PROPERTY_VCARD:
+		BONOBO_ARG_SET_STRING (arg, pop->vcard);
 		break;
 
 	default:
@@ -435,7 +470,11 @@ eab_popup_control_new (void)
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE);
 
-        bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (bag)), NULL);
+	bonobo_property_bag_add (bag, "vcard", PROPERTY_VCARD,
+                                 BONOBO_ARG_STRING, NULL, NULL,
+                                 BONOBO_PROPERTY_WRITEABLE | BONOBO_PROPERTY_READABLE);
+
+	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (bag)), NULL);
         bonobo_object_unref (BONOBO_OBJECT (bag));
 
 	addy->es = bonobo_event_source_new ();

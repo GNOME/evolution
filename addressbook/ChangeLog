@@ -1,3 +1,20 @@
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #273177
+
+	* gui/contact-editor/e-contact-quick-add.h:
+	(e_contact_quick_add_vcard):
+	* gui/contact-editor/e-contact-quick-add.c: (struct _QuickAdd),
+	(quick_add_unref), (quick_add_set_vcard), (clicked_cb),
+	(build_quick_add_dialog), (e_contact_quick_add_vcard):
+	Allow adding also whole vCard with this dialog.
+	* gui/widgets/eab-popup-control.h: (struct _EABPopupControl):
+	* gui/widgets/eab-popup-control.c: (eab_popup_control_set_vcard),
+	(eab_popup_control_cleanup), (eab_popup_control_set_vcard),
+	(eab_popup_control_no_matches), (set_prop), (get_prop),
+	(eab_popup_control_new):
+	New property 'vcard', if set, has higher precedence than name/email.
+
 2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #513951
