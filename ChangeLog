@@ -1,3 +1,9 @@
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512543
+
+	* configure.in: Get rid of --enable-cairo-calendar/ENABLE_CAIRO define.
+
 2008-03-10  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.22.0 release.

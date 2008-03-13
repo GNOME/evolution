@@ -1,3 +1,9 @@
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512543
+
+	* e-calendar-item.c: Get rid of ENABLE_CAIRO define.
+
 2008-02-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #515744

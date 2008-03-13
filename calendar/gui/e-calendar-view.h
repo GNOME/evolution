@@ -172,14 +172,12 @@ void           e_calendar_view_move_tip (GtkWidget *widget, int x, int y);
 
 const gchar *e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text);
 
-#ifdef ENABLE_CAIRO
 void           draw_curved_rectangle (cairo_t *cr,
                                       double x0,
                                       double y0,
                                       double rect_width,
                                       double rect_height,
                                       double radius);
-#endif
 
 G_END_DECLS
 
