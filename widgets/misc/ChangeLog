@@ -1,5 +1,13 @@
 2008-03-13  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #460204
+
+	* e-attachment.c: (attachment_guess_mime_type):
+	Check whether found mime type is valid before returning it.
+	My thanks come to Effenberg whom helped me to debug it.
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #512543
 
 	* e-calendar-item.c: Get rid of ENABLE_CAIRO define.
