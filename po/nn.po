@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-04 00:59+0100\n"
-"PO-Revision-Date: 2008-03-04 23:28+0100\n"
+"PO-Revision-Date: 2008-03-13 18:08+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@ulrik.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -20459,9 +20459,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "Vel alle meldingane i same tråd som den valde meldinga"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "Vel alle meldingane i same tråd som den valde meldinga"
+msgstr "Vel alle meldingane som er svar til den valde meldinga"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -20794,9 +20793,8 @@ msgid "Search Folder from Mailing _List..."
 msgstr "Søkjemappe frå e-postliste..."
 
 #: ../ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Search Folder from Recipien_ts..."
-msgstr "Søkjemappe frå _mottakarar..."
+msgstr "Søkjemappe frå _mottakarar ..."
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
@@ -21027,9 +21025,8 @@ msgid "HT_ML"
 msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
-#, fuzzy
 msgid "Insert Send options"
-msgstr "Sett inn avanserte sendingsval"
+msgstr "Sett inn sendingsval"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
@@ -21044,41 +21041,36 @@ msgid "PGP Sign"
 msgstr "PGP-signér"
 
 #: ../ui/evolution-message-composer.xml.h:17
-#, fuzzy
 msgid "PGP _Encrypt"
-msgstr "PGP-kryptér"
+msgstr "PGP-krypt_er"
 
 #: ../ui/evolution-message-composer.xml.h:18
-#, fuzzy
 msgid "PGP _Sign"
-msgstr "PGP-signér"
+msgstr "PGP-_signer"
 
 #: ../ui/evolution-message-composer.xml.h:19
 msgid "R_equest Read Receipt"
 msgstr "Sp_ør etter kvitteringar for lesne meldingar"
 
 #: ../ui/evolution-message-composer.xml.h:20
-#, fuzzy
 msgid "S/MIME En_crypt"
-msgstr "S/MIME-kryptér"
+msgstr "S/MIME-kr_ypter"
 
 #: ../ui/evolution-message-composer.xml.h:21
 msgid "S/MIME Encrypt"
 msgstr "S/MIME-kryptér"
 
 #: ../ui/evolution-message-composer.xml.h:22
-#, fuzzy
 msgid "S/MIME Sig_n"
-msgstr "S/MIME-signér"
+msgstr "S/MIME-sig_ner"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "S/MIME Sign"
 msgstr "S/MIME-signér"
 
 #: ../ui/evolution-message-composer.xml.h:24
-#, fuzzy
 msgid "S_end"
-msgstr "Send"
+msgstr "S_end"
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
@@ -21383,7 +21375,6 @@ msgid "I_mport..."
 msgstr "_Importér ..."
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
 msgstr "Ikon _og tekst"
 
@@ -21404,9 +21395,8 @@ msgid "Open the Frequently Asked Questions webpage"
 msgstr ""
 
 #: ../ui/evolution.xml.h:21
-#, fuzzy
 msgid "Page Set_up..."
-msgstr "Sideoppsett"
+msgstr "Side_oppsett ..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
