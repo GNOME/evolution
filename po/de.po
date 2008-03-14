@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-04 20:02+0100\n"
-"PO-Revision-Date: 2008-03-04 20:04+0100\n"
-"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
+"POT-Creation-Date: 2008-03-14 11:58+0100\n"
+"PO-Revision-Date: 2008-03-14 12:08+0100\n"
+"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1157,8 +1157,8 @@ msgid ""
 msgstr ""
 "Der Suchbereich legt fest, wie tief Sie bei der Suche im Verzeichnisbaum "
 "absteigen wollen. Der Suchbereich »sub« schließt alle Einträge unterhalb des "
-"Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die Ebene "
-"unterhalb des Ausgangspunktes der Suche ein."
+"Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die "
+"Ebene unterhalb des Ausgangspunktes der Suche ein."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
@@ -3763,7 +3763,6 @@ msgstr "VCard für %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1027
 #: ../addressbook/gui/widgets/eab-gui-util.c:1052
-#, c-format
 msgid "Contact information"
 msgstr "Kontaktinformationen"
 
@@ -4228,19 +4227,16 @@ msgstr "Sind Sie sicher, dass Sie diesen Termin löschen wollen?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:183
-#, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Sind Sie sicher, dass Sie diese Besprechung löschen wollen?"
 
 #: ../calendar/calendar.error.xml.h:21
 #: ../calendar/gui/dialogs/delete-comp.c:189
-#, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Sind Sie sicher, dass Sie diese Notiz löschen wollen?"
 
 #: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:186
-#, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Sind Sie sicher, dass Sie diese Aufgabe löschen wollen?"
 
@@ -5912,7 +5908,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.c:276
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr "Den Inhalt der Notizliste lokal zur Arbeit im Offline-Modus kopieren"
+msgstr "Den Inhalt der Notizliste lokal zur Arbeit im Offline-Modus _kopieren"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:346
 msgid "C_olor:"
@@ -6473,27 +6469,23 @@ msgid "_Group:"
 msgstr "_Gruppe:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
-#, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einem wiederkehrenden Ereignis vor. Was möchten Sie "
 "verändern?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
-#, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
 "Sie delegieren ein wiederkehrendes Ereignis. Was möchten Sie delegieren?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
-#, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einer wiederkehrenden Aufgabe vor. Was möchten Sie "
 "verändern?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
-#, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einer wiederkehrenden Notiz vor. Was möchten Sie "
@@ -8381,7 +8373,6 @@ msgstr ""
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:781 ../calendar/gui/migration.c:949
-#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr ""
 "Alte Einstellungen aus evolution/config.xmldb konnten nicht migiriert werden"
@@ -12134,7 +12125,7 @@ msgstr "Keine Anlagen"
 
 #: ../mail/em-format-html-display.c:2507 ../mail/em-format-html-display.c:2545
 msgid "View _Unformatted"
-msgstr "Unformatierte ansehen"
+msgstr "_Unformatierte ansehen"
 
 #: ../mail/em-format-html-display.c:2509
 msgid "Hide _Unformatted"
@@ -12666,8 +12657,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile in "
-"der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
+"Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile "
+"in der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -14305,7 +14296,8 @@ msgid ""
 msgstr ""
 "Dies ist eine Liste der von Ihnen als Folgenachricht markierten "
 "Nachrichten.\n"
-"Bitte wählen Sie eine Aktion für die Folgenachricht aus dem Menü »Markierung«."
+"Bitte wählen Sie eine Aktion für die Folgenachricht aus dem Menü "
+"»Markierung«."
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
@@ -14529,7 +14521,6 @@ msgid "Waiting..."
 msgstr "Warten …"
 
 #: ../mail/mail-send-recv.c:810
-#, c-format
 msgid "Checking for new mail"
 msgstr "Nach neuen E-Mails sehen"
 
@@ -14576,7 +14567,8 @@ msgstr "Spool-Verzeichnis »%s« konnte nicht angelegt werden: %s"
 #: ../mail/mail-tools.c:150
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr "Es wurde versucht, movemail auf eine nicht-mbox-Quelle »%s« auszuführen"
+msgstr ""
+"Es wurde versucht, movemail auf eine nicht-mbox-Quelle »%s« auszuführen"
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -14646,8 +14638,8 @@ msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
 msgstr ""
-"Eine Lesebestätigung wurde für »{1}« angefordert. Soll die Bestätigung an {0} "
-"geschickt werden?"
+"Eine Lesebestätigung wurde für »{1}« angefordert. Soll die Bestätigung an "
+"{0} geschickt werden?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -15534,8 +15526,8 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Evolution kann aus Ihrer Sicherungsdatei wiederhergestellt werden. Alle E-"
-"Mails, Kalender, Aufgaben, Notizen und Adressbücher sowie alle persönlichen "
+"Evolution kann aus Ihrer Sicherungsdatei wiederhergestellt werden.\nAlle E-"
+"Mails, Kalender, Aufgaben, Notizen und Adressbücher sowie alle\npersönlichen "
 "Einstellungen, Filter etc. können wiederhergestellt werden."
 
 #: ../plugins/backup-restore/backup-restore.c:244
@@ -16065,7 +16057,6 @@ msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:982
 #: ../plugins/exchange-operations/exchange-contacts.c:214
-#, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
@@ -16448,7 +16439,7 @@ msgstr "<b>Verfolgungs-Einstellungen</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
 msgid "Exchange - Send Options"
-msgstr "Exchange ‒ Versandeinstellungen"
+msgstr "Exchange ‒ Versandoptionen"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
@@ -17052,13 +17043,13 @@ msgstr "E-Mail zurückziehen"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Sendeoptionen zu GroupWise-Nachrichten hinzufügen"
+msgstr "Versandoptionen zu GroupWise-Nachrichten hinzufügen"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../ui/evolution-event-editor.xml.h:15 ../ui/evolution-task-editor.xml.h:8
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
-msgstr "Sendeoptionen"
+msgstr "Versandoptionen"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
@@ -17152,7 +17143,7 @@ msgstr "S_chreiben"
 #. To Translators: strip the part in front of the | and the | itself
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:15
 msgid "permission to read|_Read"
-msgstr "Lesen"
+msgstr "_Lesen"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
@@ -18992,7 +18983,6 @@ msgstr "Von %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:511
-#, c-format
 msgid "Importing data."
 msgstr "Daten werden importiert."
 
@@ -19144,9 +19134,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Der Stil der Fensterknöpfe. Mögliche Einstellungen sind »text«, »icons«, »both« "
-"und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der GNOME-"
-"Einstellungen festgelegt."
+"Der Stil der Fensterknöpfe. Mögliche Einstellungen sind »text«, »icons«, "
+"»both« und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der "
+"GNOME-Einstellungen festgelegt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Toolbar is visible"
@@ -19230,8 +19220,8 @@ msgstr ""
 "Wählen Sie die Datei, die Sie in Evolution importieren wollen und legen Sie "
 "anhand der Liste den Dateityp fest.\n"
 "\n"
-"Falls er Ihnen unbekannt ist, können Sie »Automatisch« wählen. Evolution wird "
-"dann versuchen, ihn selbst zu bestimmen."
+"Falls er Ihnen unbekannt ist, können Sie »Automatisch« wählen. Evolution "
+"wird dann versuchen, ihn selbst zu bestimmen."
 
 #: ../shell/e-shell-importer.c:144
 msgid "Choose the destination for this import"
@@ -19622,8 +19612,8 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"Sie sind im Begriff, den gesamten Inhalt des Ordners »evolution« dauerhaft zu "
-"löschen.\n"
+"Sie sind im Begriff, den gesamten Inhalt des Ordners »evolution« dauerhaft "
+"zu löschen.\n"
 "\n"
 "Es ist empfehlenswert, vor dem Löschen der alten Daten manuell "
 "sicherzustellen, dass alle E-Mail-, Kontakt- und Kalenderdaten vorhanden "
@@ -19645,9 +19635,9 @@ msgstr ""
 "gespeichert.\n"
 "\n"
 "Falls Sie sich dafür entscheiden, diese Daten zu entfernen, gehen die "
-"gesamten Daten im Ordner »evolution« dauerhaft verloren. Falls Sie sich dafür "
-"entscheiden, diese Daten beizubehalten, können Sie den Inhalt von »evolution« "
-"jederzeit manuell entfernen.\n"
+"gesamten Daten im Ordner »evolution« dauerhaft verloren. Falls Sie sich "
+"dafür entscheiden, diese Daten beizubehalten, können Sie den Inhalt von "
+"»evolution« jederzeit manuell entfernen.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -20667,7 +20657,7 @@ msgstr "Klicken Sie hier, um Alarme für dieses Ereignis einzustellen"
 
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 msgid "Insert advanced send options"
-msgstr "Erweiterte Sendeoptionen einfügen"
+msgstr "Erweiterte Versandoptionen einfügen"
 
 #: ../ui/evolution-event-editor.xml.h:10
 msgid "Make this a recurring event"
@@ -21736,7 +21726,7 @@ msgstr "_Sicherheit"
 #: ../ui/evolution-message-composer.xml.h:61
 #: ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
-msgstr "_Sendeoptionen"
+msgstr "_Versandoptionen"
 
 #: ../ui/evolution-message-composer.xml.h:62
 msgid "_To Field"
@@ -22156,7 +22146,7 @@ msgid ""
 "Use the right mouse button to zoom out."
 msgstr ""
 "Benutzen Sie die linke Maustaste, um einen Kartenausschnitt zu vergrößern "
-"und wählen Sie eine Zeitzone.\n"
+"und wählen \nSie eine Zeitzone."
 "Mit der rechten Maustaste können Sie die Ansicht verkleinern."
 
 #: ../widgets/menus/gal-define-views-dialog.c:78
@@ -22267,13 +22257,13 @@ msgstr "Art der Ansicht:"
 msgid "Attachment Bar"
 msgstr "Anlagenleiste"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Datei konnte nicht beigelegt werden: %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Datei %s konnte nicht beigelegt werden: keine reguläre Datei"
