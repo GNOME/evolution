@@ -1,3 +1,10 @@
+2008-03-14  Andre Klapper  <a9016009@gmx.de>
+
+	* de.po: add line breaks to some strings (bug #515826,
+	patch by Milan Crha).
+	sync translations of "Send options" (bug #507411).
+	add 3 missing accelerators to translation strings.
+
 2008-03-13  Åsmund Skjæveland  <aasmunds@ulrik.uio.no>
 
 	* nn.po: Updated Norwegian Nynorsk translation.
