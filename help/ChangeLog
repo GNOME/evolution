@@ -1,3 +1,10 @@
+2008-03-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #437539
+
+	* C/evolution.xml: Use DocBook tags instead of UTF-8 characters
+	for things like copyright and trademark symbols, quotes, etc.
+
 2008-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/figures/*.png: Updated/added screenshots.
