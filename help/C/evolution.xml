@@ -418,7 +418,7 @@
        <listitem id="bsthmhx">
         <para>Select if you want to automatically synchronize remote mail locally.</para>
         <para>Evolution, by default downloads only the header information such as From, Subject, and Date.  The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
-        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparitevely less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
+        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
        </listitem>
        <listitem id="bsthnab">
         <para>Type your Post Office Agent SOAP port in the Post Office Agent SOAP Port field.</para>

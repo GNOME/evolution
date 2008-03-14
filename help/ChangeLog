@@ -1,3 +1,9 @@
+2008-03-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #476918
+
+	* C/evolution.xml: Fix a minor typo.
+
 2008-03-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/figures/*.png: Updated/added screenshots.
