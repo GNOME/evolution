@@ -1,3 +1,11 @@
+2008-03-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #482148
+
+	* e-search-bar.c: (entry_activated_cb), (entry_changed_cb),
+	(search_now_verb_cb), (clear_verb_cb), (clear_button_clicked_cb):
+	Allow clear search when some search is active and text is empty.
+
 2008-03-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #460204

@@ -215,11 +215,11 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 		gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
-
 	} else {
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
+		gtk_widget_set_sensitive (esb->clear_button, FALSE);
 	}
 
 	g_free (text);
@@ -237,6 +237,7 @@ clear_verb_cb (BonoboUIComponent *ui_component,
 	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_set_sensitive (esb->clear_button, FALSE);
 
 	clear_search (esb);
 	gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
@@ -385,6 +386,7 @@ entry_activated_cb (GtkWidget *widget,
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
+		gtk_widget_set_sensitive (esb->clear_button, FALSE);
 	}
 
 	emit_search_activated (esb);
@@ -400,13 +402,15 @@ entry_changed_cb (GtkWidget *widget,
 	entry_style = gtk_widget_get_style (esb->entry);
 	default_style = gtk_widget_get_default_style ();
 
-	if (text && *text)
+	if (text && *text) {
 		if (gdk_color_equal (&(entry_style->text[GTK_STATE_NORMAL]), &(default_style->text[GTK_STATE_INSENSITIVE])))
 			gtk_widget_set_sensitive (esb->clear_button, FALSE);
 		else
 			gtk_widget_set_sensitive (esb->clear_button, TRUE);
-	else
-		gtk_widget_set_sensitive (esb->clear_button, FALSE);
+	} else {
+		/* selected color means some search text is active */
+		gtk_widget_set_sensitive (esb->clear_button, gdk_color_equal (&(entry_style->base[GTK_STATE_NORMAL]), &(default_style->base[GTK_STATE_SELECTED])));
+	}
 }
 
 static void
@@ -507,6 +511,7 @@ clear_button_clicked_cb (GtkWidget *widget, GdkEventButton *event,
 	gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_set_sensitive (esb->clear_button, FALSE);
 
 	clear_search (esb);
 	gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
