@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-08 14:02+0200\n"
-"PO-Revision-Date: 2008-03-08 14:02+0200\n"
+"POT-Creation-Date: 2008-03-16 13:21+0200\n"
+"PO-Revision-Date: 2008-03-16 13:20+0200\n"
 "Last-Translator: Kostas Papadimas <pkst@gnome.org>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
@@ -11340,7 +11340,7 @@ msgstr "δεν είναι"
 
 #: ../mail/em-filter-i18n.h:39
 msgid "is set"
-msgstr ""
+msgstr "είναι"
 
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:96
 #: ../ui/evolution-mail-message.xml.h:48
@@ -12634,12 +12634,17 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
+"Καθορίζει αν θα χρησιμοποιούνται προσαρμοσμένες κεφαλίδες στον έλεγχο για "
+"ανεπιθύμητα μηνύματα. Αν αυτή η επιλογή είναι ενεργή και οι κεφαλίδες "
+"αναφέρονται, θα βελτιωθεί η ταχύτητα ελέγχου ανεπιθυμητων."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
+"Καθορίζει το αν θα χρησιμοποιούνται οι ίδιες γραμματοσειρές στις γραμμές "
+"πεδίων  \"Από\" και \"Θέμα\"  στη στήλη \"Μηνύματα\" στην κάθετη προβολή."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -12712,6 +12717,8 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Ενεργοποιήστε αυτή την επιλογή για να χρησιμοποιείται το πλήκτρο για κύλιση, "
+"στην προβολή μηνυμάτων, λίστα μηνυμάτων και φακέλων."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12773,6 +12780,8 @@ msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
 msgstr ""
+"Ενεργοποιεί/ απενεργοποιεί τις επαναλαμβανόμενες ερωτήσεις για συγχρονισμό "
+"εργασίας χωρίς σύνδεση, πριν την μετάβαση σε λειτουργία χωρίς σύνδεση. "
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid ""
@@ -12780,6 +12789,8 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
+"Ενεργοποιεί/ απενεργοποιεί τις επαναλαμβανόμενες ερωτήσεις για την μόνιμη "
+"διαγραφή μηνυμάτων από τους φακέλους αναζήτησης."
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Last time empty junk was run"
@@ -22194,13 +22205,13 @@ msgstr "Τύπος προβολής:"
 msgid "Attachment Bar"
 msgstr "Μπάρα συνημμένων"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Δεν είναι δυνατή η επισύναψη του αρχείου %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Δεν είναι δυνατή η επισύναψη του αρχείου %s: δεν είναι κανονικό αρχείο"
