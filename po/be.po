@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-19 13:35+0100\n"
-"PO-Revision-Date: 2005-12-19 16:29+0200\n"
+"PO-Revision-Date: 2008-03-16 12:09+0200\n"
 "Last-Translator: Ales Nyakhaychyk <nab@mail.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
@@ -3617,7 +3617,7 @@ msgstr "Аб'яднаць адрасы э.пошты"
 #, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "Тут адзін іншы кантакт."
+msgstr[0] "Тут %d іншы кантакт."
 msgstr[1] "Тут %d іншыя кантакты."
 msgstr[2] "Тут %d іншых кантактаў."
 
@@ -5778,7 +5778,7 @@ msgstr "Укладзенае паведамленьне - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Укладзенае паведамленьне"
+msgstr[0] "%d укладзенае паведамленьне"
 msgstr[1] "%d укладзеныя паведамленьні"
 msgstr[2] "%d укладзеных паведамленьняў"
 
@@ -7165,7 +7165,7 @@ msgstr "Так. (Комплекснае паўтарэньне)"
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] "Штодзень"
+msgstr[0] "%0dШтодзень"
 msgstr[1] "Кожныя %d дні"
 msgstr[2] "Кожныя %d дзён"
 
@@ -7173,7 +7173,7 @@ msgstr[2] "Кожныя %d дзён"
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] "Штотыдзень"
+msgstr[0] "%0dШтотыдзень"
 msgstr[1] "Кожныя %d тыдні"
 msgstr[2] "Кожныя %d тыдняў"
 
@@ -7181,7 +7181,7 @@ msgstr[2] "Кожныя %d тыдняў"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Штотыдзень на "
+msgstr[0] "%0dШтотыдзень на "
 msgstr[1] "Кожныя %d тыдні на "
 msgstr[2] "Кожныя %d тыдняў на "
 
@@ -7203,7 +7203,7 @@ msgstr "%s %s"
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] "штомесяц"
+msgstr[0] "%0dштомесяц"
 msgstr[1] "кожныя %d месяцы"
 msgstr[2] "кожны %d месяцаў"
 
@@ -7211,7 +7211,7 @@ msgstr[2] "кожны %d месяцаў"
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] "Штогод"
+msgstr[0] "%0dШтогод"
 msgstr[1] "Кожныя %d гады"
 msgstr[2] "Кожныя %d год"
 
@@ -10518,7 +10518,7 @@ msgstr "Арыентацыя сподку."
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "1 сэкунда таму"
+msgstr[0] "%d сэкунда таму"
 msgstr[1] "%d сэкунды таму"
 msgstr[2] "%d сэкундаў таму"
 
@@ -10526,7 +10526,7 @@ msgstr[2] "%d сэкундаў таму"
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "1 хвіліна таму"
+msgstr[0] "%d хвіліна таму"
 msgstr[1] "%d хвіліны таму"
 msgstr[2] "%d хвілінаў таму"
 
@@ -10534,7 +10534,7 @@ msgstr[2] "%d хвілінаў таму"
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "1 гадзіна таму"
+msgstr[0] "%d гадзіна таму"
 msgstr[1] "%d гадзіны таму"
 msgstr[2] "%d гадзінаў таму"
 
@@ -10542,15 +10542,15 @@ msgstr[2] "%d гадзінаў таму"
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "1 дзень таму"
-msgstr[1] "%d дені таму"
-msgstr[2] "%d дзень таму"
+msgstr[0] "%d дзень таму"
+msgstr[1] "%d дні таму"
+msgstr[2] "%d дзён таму"
 
 #: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "1 тыдзень таму"
+msgstr[0] "%d тыдзень таму"
 msgstr[1] "%d тыдні таму"
 msgstr[2] "%d тыдняў таму"
 
@@ -10558,7 +10558,7 @@ msgstr[2] "%d тыдняў таму"
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "1 месяц таму"
+msgstr[0] "%d месяц таму"
 msgstr[1] "%d месяцы таму"
 msgstr[2] "%d месяцаў таму"
 
@@ -10566,8 +10566,8 @@ msgstr[2] "%d месяцаў таму"
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "1 год таму"
-msgstr[1] "%d годы таму"
+msgstr[0] "%d год таму"
+msgstr[1] "%d гады таму"
 msgstr[2] "%d гадоў таму"
 
 #: ../filter/filter-datespec.c:285

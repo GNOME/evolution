@@ -1,3 +1,7 @@
+2008-03-16  Ihar Hrachyshka <booxter@lacinka.org>
+
+	* be.po: Fixed obsolete gettext msgs.
+
 2008-03-14  Andre Klapper  <a9016009@gmx.de>
 
 	* de.po: add line breaks to some strings (bug #515826, 
