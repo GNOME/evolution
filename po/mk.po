@@ -4638,7 +4638,7 @@ msgstr[2] "саат"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
 msgid "Start time"
-msgstr "Почетно време"
+msgstr "Почнува"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:4
@@ -4656,7 +4656,7 @@ msgstr "Локација:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr "Време на _дремнување:"
+msgstr "Време за _дремнување:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -7495,7 +7495,7 @@ msgstr "<b>%s</b> бара присуство на %s на состанокот.
 #: ../calendar/gui/e-itip-control.c:1355
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr "<b>%s</b> бара ваше присуство на состанокот."
+msgstr "<b>%s</b> бара Ваше присуство на состанокот."
 
 #: ../calendar/gui/e-itip-control.c:1356
 msgid "Meeting Proposal"
@@ -7943,7 +7943,7 @@ msgstr "_Почетно време:"
 
 #: ../calendar/gui/e-meeting-time-sel.c:648
 msgid "_End time:"
-msgstr "_Време на завршување:"
+msgstr "_Завршува:"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
@@ -17504,12 +17504,12 @@ msgstr "<b>%s</b> го делегираше следниов состанок з
 #: ../plugins/itip-formatter/itip-view.c:369
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> преку %s бара ваше присуство на следниов состанок:"
+msgstr "<b>%s</b> преку %s бара Ваше присуство на следниов состанок:"
 
 #: ../plugins/itip-formatter/itip-view.c:371
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> бара ваше присуство на следниов состанок:"
+msgstr "<b>%s</b> бара Ваше присуство на следниов состанок:"
 
 #: ../plugins/itip-formatter/itip-view.c:377
 #, c-format
