@@ -1,3 +1,10 @@
+2008-03-17  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #519421
+
+	* Makefile.am:
+	* tnef-plugin.c: Also allow <libytnef/tnef.h> header file.
+
 2008-02-07  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #514736

@@ -1,3 +1,9 @@
+2008-03-17  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #519421
+
+	* configure.in: also use <libytnef/ytnef.h> to check for TNEF support
+
 2008-03-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #512543

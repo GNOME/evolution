@@ -1388,10 +1388,22 @@ AC_TRY_COMPILE([#include <stdio.h>
 if test "$tnef_ok" = "yes"; then
 	AC_MSG_RESULT([yes])
 	TNEF_ATTACHMENTS="tnef-attachments"
+	TNEF_CFLAGS="-DHAVE_YTNEF_H"
 else
-	AC_MSG_RESULT(no)
-	TNEF_ATTACHMENTS=""
+	AC_TRY_COMPILE([#include <stdio.h> 
+			#include <libytnef/ytnef.h>],
+		[TNEFStruct *tnef;], tnef_ok=yes, tnef_ok=no)
+	if test "$tnef_ok" = "yes"; then
+		AC_MSG_RESULT([yes])
+		TNEF_ATTACHMENTS="tnef-attachments"
+		TNEF_CFLAGS="-DHAVE_LIBYTNEF_YTNEF_H"
+	else
+		AC_MSG_RESULT(no)
+		TNEF_ATTACHMENTS=""
+		TNEF_CFLAGS=""
+	fi
 fi
+AC_SUBST(TNEF_CFLAGS)
 
 echo "TNEF is "$TNEF_ATTACHMENTS
 

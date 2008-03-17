@@ -17,7 +17,11 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <stdlib.h>
+#ifdef HAVE_YTNEF_H
 #include <ytnef.h>
+#elif defined HAVE_LIBYTNEF_YTNEF_H
+#include <libytnef/ytnef.h>
+#endif 
 
 #include <camel/camel-mime-part.h>
 #include <camel/camel-folder.h>
