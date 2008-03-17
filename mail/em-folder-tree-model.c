@@ -339,8 +339,14 @@ em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 	if (model->state)
 		xmlFreeDoc (model->state);
 
-	if ((model->state = e_xml_parse_file (filename)))
-		return;
+	if ((model->state = e_xml_parse_file (filename)) != NULL) {
+		node = xmlDocGetRootElement (model->state);
+		if (!node || strcmp ((char *)node->name, "tree-state") != 0) {
+			/* it is not expected XML file, thus free it and use the default */
+			xmlFreeDoc (model->state);
+		} else
+			return;
+	}
 
 	/* setup some defaults - expand "Local Folders" and "Search Folders" */
 	model->state = xmlNewDoc ((const unsigned char *)"1.0");
