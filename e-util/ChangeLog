@@ -1,3 +1,10 @@
+2008-03-17  Alex Rostovtsev  <tetromino@gmail.com>
+
+	** Fix for bug #522631
+
+	* e-profile-event.c: Make 'e_profile_event_emit' non-static when 
+	ENABLE_PROFILING is defined.
+
 2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #513951

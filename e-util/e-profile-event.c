@@ -125,7 +125,7 @@ e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, 
 }
 
 #ifdef ENABLE_PROFILING
-static void
+void
 e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 {
 	EProfileEvent *epe = e_profile_event_peek();
