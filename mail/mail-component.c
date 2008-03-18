@@ -517,6 +517,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 
 	if (emfv->folder) {
 		char *name, *title;
+		const char *use_name; /* will contain localized name, if necessary */
 		guint32 visible, unread, deleted, junked;
 		GPtrArray *selected;
 		GString *tmp = g_string_new("");
@@ -562,11 +563,12 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
 		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
 			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent")))
-			e_info_label_set_info(el, _(name), tmp->str);
+			use_name = _(name);
 		else
-			e_info_label_set_info(el, name, tmp->str);
+			use_name = name;
 
-		title = g_strdup_printf("%s (%s)", _(name), tmp->str);
+		e_info_label_set_info (el, use_name, tmp->str);
+		title = g_strdup_printf ("%s (%s)", use_name, tmp->str);
 		e_component_view_set_title(component_view, title);
 		g_free(title);
 

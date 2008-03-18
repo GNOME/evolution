@@ -1,5 +1,12 @@
 2008-03-18  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #519154
+
+	* mail-component.c: (view_changed):
+	Do not localize folder name used in window title.
+
+2008-03-18  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #506359
 
 	* mail-component.c: (mail_component_show_logger):
