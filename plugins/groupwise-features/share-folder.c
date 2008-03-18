@@ -723,7 +723,7 @@ share_folder_construct (ShareFolder *sf)
 			G_CALLBACK (addressbook_dialog_response), sf);
 
 	name_selector_model = e_name_selector_peek_model (sf->name_selector);
-	e_name_selector_model_add_section (name_selector_model, "Add User", "Add User", NULL);
+	e_name_selector_model_add_section (name_selector_model, "Add User", _("Add User"), NULL);
 
 	name_selector_entry = e_name_selector_peek_section_entry (sf->name_selector, "Add User");
 	g_signal_connect (name_selector_entry, "changed",

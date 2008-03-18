@@ -414,7 +414,7 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 	name_selector_dialog = e_name_selector_peek_dialog (priv->proxy_name_selector);
 
 	name_selector_model = e_name_selector_peek_model (priv->proxy_name_selector);
-	e_name_selector_model_add_section (name_selector_model, "Add User", "Add User", NULL);
+	e_name_selector_model_add_section (name_selector_model, "Add User", _("Add User"), NULL);
 
 	exchange_send_options_fill_widgets_with_data (sod);
 

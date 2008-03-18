@@ -895,7 +895,7 @@ contact_list_editor_create_name_selector (gchar *name,
 
 	e_name_selector_model_add_section (
 		e_name_selector_peek_model (name_selector),
-		"Members", "Members", NULL);
+		"Members", _("_Members"), NULL);
 
 	name_selector_entry = e_name_selector_peek_section_entry (
 		name_selector, "Members");

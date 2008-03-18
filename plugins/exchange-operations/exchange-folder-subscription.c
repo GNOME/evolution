@@ -73,7 +73,7 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 
 	name_selector_model = e_name_selector_peek_model (name_selector);
 	/* FIXME Limit to one user */
-	e_name_selector_model_add_section (name_selector_model, "User", "User", NULL);
+	e_name_selector_model_add_section (name_selector_model, "User", _("User"), NULL);
 
 	/* Listen for responses whenever the dialog is shown */
 	name_selector_dialog = e_name_selector_peek_dialog (name_selector);

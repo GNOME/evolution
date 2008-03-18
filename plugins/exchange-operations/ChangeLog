@@ -1,3 +1,11 @@
+2008-03-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #511952
+
+	* exchange-folder-subscription.c: (setup_name_selector):
+	* exchange-send-options.c: (exchange_sendoptions_dialog_run):
+	Marking text for translation.
+
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Fix for bug #339266 
