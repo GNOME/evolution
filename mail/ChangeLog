@@ -1,3 +1,10 @@
+2008-03-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #506359
+
+	* mail-component.c: (mail_component_show_logger):
+	Add Translators' comments.
+
 2008-03-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #514744

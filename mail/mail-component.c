@@ -1640,6 +1640,7 @@ mail_component_show_logger (gpointer top)
 	vbox = gtk_vbox_new (FALSE, 6);
 	hbox = gtk_hbox_new (FALSE, 6);	
 	gtk_container_add ((GtkContainer *) window, vbox);
+	/* Translators: This is the first part of the sentence "Show _errors in the status bar for" - XXX - "second(s)." */
 	label = gtk_label_new_with_mnemonic (_("Show _errors in the status bar for"));
 	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
 	spin = gtk_spin_button_new_with_range(1.0, 60.0, 1.0);
@@ -1647,7 +1648,8 @@ mail_component_show_logger (gpointer top)
 	g_signal_connect (spin, "value-changed", G_CALLBACK (spin_value_changed), NULL);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, spin);
 	gtk_box_pack_start ((GtkBox *) hbox, spin, FALSE, FALSE, 6);
-	label = gtk_label_new_with_mnemonic (_("seconds."));
+	/* Translators: This is the second part of the sentence "Show _errors in the status bar for" - XXX - "second(s)." */
+	label = gtk_label_new_with_mnemonic (_("second(s)."));
 	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *) vbox, hbox, FALSE, FALSE, 6);
 
