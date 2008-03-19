@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2008-03-14 18:27+0000\n"
-"PO-Revision-Date: 2008-03-16 13:13+0100\n"
+"PO-Revision-Date: 2008-03-19 17:54+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10781,16 +10781,15 @@ msgstr ""
 "a menos que su administrador de sistema lo haya deshabilitado."
 
 #: C/evolution.xml:4993(para)
-#, fuzzy
 msgid ""
 "The <ulink url=\"http://support.novell.com\"><trademark class=\"registered"
 "\">Novell</trademark> Web site Knowledgebase</ulink> has additional "
 "information about checking to make sure that your Exchange server accepts "
 "connections from Evolution."
 msgstr ""
-"La <ulink url=\"http://support.novell.com\">base de conocimiento de Novell®</"
-"ulink> contiene información adicional para asegurar que su servidor Exchange "
-"acepte las conexiones de Evolution."
+"La <ulink url=\"http://support.novell.com\">base de conocimiento de <trademark class=\"registered"
+"\">Novell</trademark></ulink> contiene información adicional para asegurar "
+"que su servidor Exchange acepte las conexiones de Evolution."
 
 #: C/evolution.xml:4998(para)
 msgid ""
@@ -11136,16 +11135,15 @@ msgstr ""
 "vez."
 
 #: C/evolution.xml:5207(para)
-#, fuzzy
 msgid ""
 "When the recipient opens the mail, he or she can also read a message that "
 "<guilabel>The message was sent by &lt;<emphasis>Delegator's name</"
 "emphasis>&gt; on behalf of &lt;<emphasis>Delegate's name</emphasis>&gt;</"
 "guilabel> on the preview pane header bar."
 msgstr ""
-"Cuando el destinatario abre el correo puede leer el mensaje «El mensaje lo "
+"Cuando el destinatario abre el correo puede leer el mensaje <guilabel>El mensaje lo "
 "envió &lt;<emphasis>Nombre del delegado</emphasis>&gt; en nombre de &lt;"
-"<emphasis>Nombre del delegador</emphasis>&gt;» en la barra de cabeceras del "
+"<emphasis>Nombre del delegador</emphasis>&gt;</guilabel> en la barra de cabeceras del "
 "panel de vista preliminar."
 
 #: C/evolution.xml:5212(para)
@@ -11395,7 +11393,6 @@ msgid "To view contents of a folder, click it."
 msgstr "Para ver el contenido de una carpeta, pulse sobre ella."
 
 #: C/evolution.xml:5348(para)
-#, fuzzy
 msgid ""
 "Reminders for meetings in your Exchange calendar do not work until you have "
 "run Evolution at least once after logging in. This is different from locally "
@@ -11413,7 +11410,7 @@ msgstr ""
 "independientemene de ya haya ejecutado Evolution en la sesión, de tal manera "
 "que pueda establecer una hora conveniente para una reunión. Para activar los "
 "ajustes de los recordatorios en su cuenta de Exchange, seleccione la casilla "
-"de verificación «Recordar la contraseña». Para obtener más información "
+"de verificación <guilabel>Recordar la contraseña</guilabel>. Para obtener más información "
 "acerca de los Recordatorios vea <link linkend=\"bshly4v\">Recordatorios</"
 "link>."
 
@@ -13004,7 +13001,6 @@ msgid "Receiving Email:"
 msgstr "Recibir correo electrónico:"
 
 #: C/evolution.xml:6330(para)
-#, fuzzy
 msgid ""
 "Select the way you receive e-mail. You can download e-mail from a <link "
 "linkend=\"pop\">POP server</link>, read and keep it on the server (Microsoft "
@@ -13017,7 +13013,8 @@ msgid ""
 msgstr ""
 "Seleccione de qué manera desea recibir su correo. Puede descargarlo desde un "
 "<link linkend=\"pop\">servidor POP</link>, leerlo y conservarlo en el mismo "
-"servidor (Microsoft Exchange, Novell® GroupWise® o <link linkend=\"imap"
+"servidor (Microsoft Exchange, <trademark class=\"registered\">Novell</trademark><trademark class="
+"\"registered\">GroupWise</trademark> o <link linkend=\"imap"
 "\">IMAP</link>), o leerlo de archivos que ya están en su escritorio. Es "
 "posible que su servidor le permita utilizar conexiones cifradas (SSL, Secure "
 "Socket Layer). Puede seleccionar una opción de las tres dadas: Sin cifrado, "
@@ -13416,7 +13413,6 @@ msgid "Message Display:"
 msgstr "Vista de los mensajes:"
 
 #: C/evolution.xml:6460(para)
-#, fuzzy
 msgid ""
 "Choose how long you want to wait before marking a message read, how to "
 "highlight quotations, and the default encoding. Enable <guilabel>Fall back "
@@ -13431,10 +13427,10 @@ msgid ""
 msgstr ""
 "Elija cuánto tiempo quiere esperar antes de marcar un mensaje como leído, "
 "cómo resaltar las citas de otros mensajes y la codificación predeterminada. "
-"Active «Agrupar los mensajes por asunto» para agrupar los mensajes como "
+"Active <guilabel>Agrupar los mensajes por asunto</guilabel> para agrupar los mensajes como "
 "conversaciones. También puede ajustar el límite de direcciones mostrado en "
-"la cabecera del mensaje activando la opción «Reducir las cabeceras Para / "
-"Cc / Cco a». También puede ajustar el límite para la renderización del "
+"la cabecera del mensaje activando la opción <guilabel>Reducir las cabeceras Para / "
+"Cc / Cco a</guilabel>. También puede ajustar el límite para la renderización del "
 "contenido de texto en el mensaje que recibe. De forma predeterminada, cuando "
 "recibe un mensaje cuyo contenido de texto es mayor de 4096 Kilobytes, "
 "Evolution no renderiza el texto en el panel de vista preliminar. Puede ver "
@@ -13629,7 +13625,6 @@ msgstr ""
 "característica."
 
 #: C/evolution.xml:6535(para)
-#, fuzzy
 msgid ""
 "By default it searches only in the local addressbooks enabled for "
 "autocompletion. If you deselect the option <guilabel>Search for sender "
@@ -13641,8 +13636,8 @@ msgid ""
 "photograph."
 msgstr ""
 "De forma predeterminada sólo se busca en las libretas de direcciones locales "
-"activadas para autocompletado. Si deselecciona la opción «Buscar la foto del "
-"remitente sólo en libretas de direcciones locales», se busca en todas las "
+"activadas para autocompletado. Si deselecciona la opción <guilabel>Buscar la foto del "
+"remitente sólo en libretas de direcciones locales</guilabel>, se busca en todas las "
 "libretas de direcciones activadas para autocompletado. Si hay múltiples "
 "coincidencias para el mismo contacto, siempre se toma la primera. Considere "
 "un contacto que tiene múltiples coincidencias; la primera con una fotografía "
@@ -13937,7 +13932,6 @@ msgstr ""
 "alternativa, o no utilizar ninguna, desde el propio editor de correo."
 
 #: C/evolution.xml:6648(para)
-#, fuzzy
 msgid ""
 "To choose a spell-checking language, select it here. You must install the "
 "gnome-spell package, available through <trademark class=\"registered"
@@ -13950,11 +13944,12 @@ msgid ""
 "While I Type. You can set the color for misspelled words."
 msgstr ""
 "Seleccione aquí un idioma al que aplicar la corrección ortográfica. Debe "
-"instalar el paquete gnome-spell, disponible a través de ZENworks Linu®x "
-"Management, para poder disponer de corrección ortográfica en Evolution. "
-"También existen diccionarios disponibles a través de Red Carpet y se® "
-"detectan automáticamente si los tiene instalados. También debe instalar el "
-"paquete aspell. Si éste es el caso, por favor contacte con su empaquetado. "
+"instalar el paquete gnome-spell, disponible a través de <trademark class=\"registered"
+"\">ZENworks</trademark> Linux Management, para poder disponer de corrección ortográfica "
+"en Evolution. También existen diccionarios disponibles a través de <trademark "
+"class=\"registered\">Red Carpet</trademark> y se detectan automáticamente "
+"si los tiene instalados. También debe instalar el paquete aspell. Si éste "
+"es el caso, por favor contacte con su empaquetado. "
 "Para que el editor compruebe automáticamente su ortografía, seleccione "
 "Comprobar ortografía mientras se escribe. Puede ajustar el color de las "
 "palabras mal escritas."
@@ -15281,14 +15276,14 @@ msgid "automatic indexing"
 msgstr "indexado automático"
 
 #: C/evolution.xml:7240(para)
-#, fuzzy
 msgid ""
 "A pre-downloading procedure that allows <trademark class=\"registered"
 "\">Novell</trademark><trademark>Evolution</trademark> to quickly refer to "
 "data. It enables faster searches and decreases memory usage for data "
 "displays."
 msgstr ""
-"Un procedimiento de predescarga que permite a Novell; Ev®olution™ acceder "
+"Un procedimiento de predescarga que permite a <trademark class=\"registered"
+"\">Novell</trademark><trademark>Evolution</trademark> acceder "
 "rápidamente a los datos. Permite búsquedas más rápidas y reduce el uso de "
 "memoria para mostrar los datos."
 
@@ -15785,16 +15780,14 @@ msgstr ""
 "exportación de los EE.UU. o las leyes del país en el que resida."
 
 #: C/evolution.xml:7441(year)
-#, fuzzy
 msgid "2007"
-msgstr "Julio de 2007"
+msgstr "2007"
 
 #: C/evolution.xml:7441(holder) C/evolution.xml:7447(member)
 msgid "Novell, Inc."
 msgstr "Novell, Inc."
 
 #: C/evolution.xml:7441(member)
-#, fuzzy
 msgid ""
 "<copyright><placeholder-1/><placeholder-2/></copyright> Permission is "
 "granted to copy, distribute, and/or modify this document under the terms of "
@@ -15803,7 +15796,7 @@ msgid ""
 "Front-Cover Texts, and no Back-Cover Texts. A copy of the GFDL can be found "
 "at http://www.fsf.org/licenses/fdl.html."
 msgstr ""
-"Copyright ;200©7 Novell, Inc. Todos los derechos reservados. Se concede "
+"<copyright><placeholder-1/><placeholder-2/></copyright> Se concede "
 "autorización para copiar, distribuir o modificar este documento según los "
 "términos de la GFDL (GNU Free Documentation License), Versión 1.2, o "
 "cualquier otra versión posterior publicada por Free Software Foundation sin "
