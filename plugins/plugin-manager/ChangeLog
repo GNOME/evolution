@@ -1,3 +1,12 @@
+2008-03-19  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #496839
+
+	* org-gnome-plugin-manager.eplug.xml:
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	- Do not show all plugins in plugin-manager. 
+	Hide the core system plugins.
+
 2008-01-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #502303

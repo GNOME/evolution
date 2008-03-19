@@ -288,9 +288,16 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 		GtkTreeIter iter;
 		GtkWidget *cfg_widget;
 
-		/* hide ourselves always */
-		if (!strcmp (ep->id, "org.gnome.evolution.plugin.manager"))
-			continue;
+		if (!g_getenv ("EVO_SHOW_ALL_PLUGINS")) { 
+			/* hide ourselves always */
+			if (ep->flags & E_PLUGIN_FLAGS_SYSTEM_PLUGIN)
+				continue;
+
+		} else {
+			/* Never ever show plugin-manager. User may disable it */
+			if (!strcmp (ep->id, "org.gnome.evolution.plugin.manager"))
+				continue;
+		}
 
 		cfg_widget = e_plugin_get_configure_widget (ep);
 		if (!cfg_widget) {
@@ -307,6 +314,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 				    COL_PLUGIN_DATA, ep,
 				    COL_PLUGIN_CFG_WIDGET, cfg_widget,
 				    -1);
+				    
 	}
 
 	/* setup the treeview */
