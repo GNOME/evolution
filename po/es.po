@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 11:25+0000\n"
-"PO-Revision-Date: 2008-03-16 14:48+0100\n"
+"POT-Creation-Date: 2008-03-19 12:41+0000\n"
+"PO-Revision-Date: 2008-03-19 22:06+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -866,7 +866,7 @@ msgstr "Guardar como vCard…"
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2090 ../mail/em-folder-view.c:1346
+#: ../mail/em-folder-tree.c:2091 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -2809,6 +2809,11 @@ msgstr "_Teclee una dirección de correo o arrastre un contacto a la lista infer
 msgid "Contact List Members"
 msgstr "Miembros de la lista de contactos"
 
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:898
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1237
+msgid "_Members"
+msgstr "_Miembros"
+
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1146
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
@@ -2821,10 +2826,6 @@ msgstr "Libro"
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1166
 msgid "Is New List"
 msgstr "Es una lista nueva"
-
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1237
-msgid "_Members"
-msgstr "_Miembros"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -3012,7 +3013,7 @@ msgstr "Cor_tar"
 #: ../calendar/gui/dialogs/comp-editor.c:457
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:3099 ../mail/em-folder-tree.c:996
+#: ../composer/e-msg-composer.c:3099 ../mail/em-folder-tree.c:997
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -4681,7 +4682,7 @@ msgstr "Tiene %d alertas"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1695
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1723
-#: ../mail/mail-component.c:1528
+#: ../mail/mail-component.c:1530
 msgid "Warning"
 msgstr "Advertencia"
 
@@ -5325,14 +5326,14 @@ msgstr "Calendario _nuevo"
 
 #: ../calendar/gui/calendar-component.c:606
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2085
+#: ../mail/em-folder-tree.c:2086
 msgid "_Copy..."
 msgstr "_Copiar…"
 
 #: ../calendar/gui/calendar-component.c:612
 #: ../calendar/gui/dialogs/comp-editor.c:1130
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:3637 ../mail/em-folder-tree.c:2099
+#: ../composer/e-msg-composer.c:3637 ../mail/em-folder-tree.c:2100
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Propiedades"
@@ -5962,13 +5963,13 @@ msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3100
-#: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
+#: ../mail/em-folder-tree.c:998 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2066
 msgid "_Move"
 msgstr "_Mover"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460 ../composer/e-msg-composer.c:3102
-#: ../mail/em-folder-tree.c:999 ../mail/message-list.c:2068
+#: ../mail/em-folder-tree.c:1000 ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
@@ -6369,8 +6370,8 @@ msgstr "Nota"
 msgid "Unable to open memos in '%s'."
 msgstr "No es posible abrir las notas en «%s»."
 
-#: ../calendar/gui/dialogs/memo-page.c:1136 ../mail/em-format-html.c:1548
-#: ../mail/em-format-html.c:1606 ../mail/em-format-html.c:1632
+#: ../calendar/gui/dialogs/memo-page.c:1136 ../mail/em-format-html.c:1549
+#: ../mail/em-format-html.c:1607 ../mail/em-format-html.c:1633
 #: ../mail/em-format-quote.c:209 ../mail/em-format.c:888
 #: ../mail/em-mailer-prefs.c:92 ../mail/message-list.etspec.h:19
 msgid "To"
@@ -10916,8 +10917,8 @@ msgstr "Control de preferencias de Evolution"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:611
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/pine-importer.c:382
-#: ../mail/mail-component.c:576 ../mail/mail-component.c:577
-#: ../mail/mail-component.c:741
+#: ../mail/mail-component.c:578 ../mail/mail-component.c:579
+#: ../mail/mail-component.c:743
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Correo"
@@ -11021,7 +11022,7 @@ msgid "[Default]"
 msgstr "[Predeterminada]"
 
 #: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:947
-#: ../plugins/plugin-manager/plugin-manager.c:323
+#: ../plugins/plugin-manager/plugin-manager.c:331
 #: ../plugins/publish-calendar/publish-calendar.c:510
 msgid "Enabled"
 msgstr "Activado"
@@ -11358,7 +11359,7 @@ msgstr "comienza por"
 msgid "Stop Processing"
 msgstr "Parar de procesar"
 
-#: ../mail/em-filter-i18n.h:72 ../mail/em-format-html.c:1705
+#: ../mail/em-filter-i18n.h:72 ../mail/em-format-html.c:1706
 #: ../mail/em-format-quote.c:322 ../mail/em-format.c:891
 #: ../mail/em-mailer-prefs.c:95 ../mail/message-list.etspec.h:18
 #: ../mail/message-tag-followup.c:337
@@ -11470,27 +11471,27 @@ msgstr "Carpetas de búsqueda"
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
 
-#: ../mail/em-folder-tree-model.c:494 ../mail/mail-component.c:158
+#: ../mail/em-folder-tree-model.c:500 ../mail/mail-component.c:158
 msgid "Drafts"
 msgstr "Borradores"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2535
+#: ../mail/em-folder-tree-model.c:503 ../mail/em-folder-tree.c:2536
 #: ../mail/mail-component.c:157
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
-#: ../mail/em-folder-tree-model.c:500 ../mail/mail-component.c:159
+#: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:159
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
-#: ../mail/em-folder-tree-model.c:502 ../mail/mail-component.c:160
+#: ../mail/em-folder-tree-model.c:508 ../mail/mail-component.c:160
 msgid "Sent"
 msgstr "Correo enviado"
 
-#: ../mail/em-folder-tree-model.c:524 ../mail/em-folder-tree-model.c:831
+#: ../mail/em-folder-tree-model.c:530 ../mail/em-folder-tree-model.c:837
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -11509,53 +11510,53 @@ msgstr "Cargando…"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:372
+#: ../mail/em-folder-tree.c:373
 #, c-format
 msgid "folder-display|%s (%u)"
 msgstr "%s (%u)"
 
-#: ../mail/em-folder-tree.c:732
+#: ../mail/em-folder-tree.c:733
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:891
+#: ../mail/em-folder-tree.c:892
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:893
+#: ../mail/em-folder-tree.c:894
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:900 ../mail/message-list.c:1974
+#: ../mail/em-folder-tree.c:901 ../mail/message-list.c:1974
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:902 ../mail/message-list.c:1976
+#: ../mail/em-folder-tree.c:903 ../mail/message-list.c:1976
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:917
+#: ../mail/em-folder-tree.c:918
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No es posible dejar el(los) mensaje(s) en el almacén de nivel superior"
 
-#: ../mail/em-folder-tree.c:994 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:995 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Copiar a la carpeta"
 
-#: ../mail/em-folder-tree.c:995 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:996 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Mover a la carpeta"
 
-#: ../mail/em-folder-tree.c:1704 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1705 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/em-folder-tree.c:2077 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2078 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11563,32 +11564,32 @@ msgstr "Analizando carpetas en «%s»"
 msgid "_View"
 msgstr "_Ver"
 
-#: ../mail/em-folder-tree.c:2078
+#: ../mail/em-folder-tree.c:2079
 msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2083
+#: ../mail/em-folder-tree.c:2084
 msgid "_New Folder..."
 msgstr "Carpeta _nueva…"
 
-#: ../mail/em-folder-tree.c:2086
+#: ../mail/em-folder-tree.c:2087
 msgid "_Move..."
 msgstr "_Mover…"
 
-#: ../mail/em-folder-tree.c:2093 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2094 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Renombrar…"
 
-#: ../mail/em-folder-tree.c:2094
+#: ../mail/em-folder-tree.c:2095
 msgid "Re_fresh"
 msgstr "A_ctualizar"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2096
 msgid "Fl_ush Outbox"
 msgstr "Enviar correos pe_ndientes"
 
-#: ../mail/em-folder-tree.c:2101 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2102 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "_Vaciar papelera"
 
@@ -11821,7 +11822,7 @@ msgstr "_Siguiente"
 msgid "M_atch case"
 msgstr "_Coincidir con capitalización"
 
-#: ../mail/em-format-html-display.c:992 ../mail/em-format-html.c:644
+#: ../mail/em-format-html-display.c:992 ../mail/em-format-html.c:645
 msgid "Unsigned"
 msgstr "No firmado"
 
@@ -11833,7 +11834,7 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:993 ../mail/em-format-html.c:645
+#: ../mail/em-format-html-display.c:993 ../mail/em-format-html.c:646
 msgid "Valid signature"
 msgstr "Firma válida"
 
@@ -11845,7 +11846,7 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:994 ../mail/em-format-html.c:646
+#: ../mail/em-format-html-display.c:994 ../mail/em-format-html.c:647
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
@@ -11857,7 +11858,7 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:995 ../mail/em-format-html.c:647
+#: ../mail/em-format-html-display.c:995 ../mail/em-format-html.c:648
 msgid "Valid signature, but cannot verify sender"
 msgstr "Firma válida, pero no se puede verificar el remitente"
 
@@ -11869,7 +11870,7 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
 
-#: ../mail/em-format-html-display.c:996 ../mail/em-format-html.c:648
+#: ../mail/em-format-html-display.c:996 ../mail/em-format-html.c:649
 msgid "Signature exists, but need public key"
 msgstr "La firma existe pero se necesita la clave pública"
 
@@ -11881,7 +11882,7 @@ msgstr ""
 "Este mensaje está firmado con una firma pero no existe una clave pública "
 "correspondiente."
 
-#: ../mail/em-format-html-display.c:1003 ../mail/em-format-html.c:654
+#: ../mail/em-format-html-display.c:1003 ../mail/em-format-html.c:655
 msgid "Unencrypted"
 msgstr "Descifrado"
 
@@ -11893,7 +11894,7 @@ msgstr ""
 "Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
 "de Internet."
 
-#: ../mail/em-format-html-display.c:1004 ../mail/em-format-html.c:655
+#: ../mail/em-format-html-display.c:1004 ../mail/em-format-html.c:656
 msgid "Encrypted, weak"
 msgstr "Cifrado, débil"
 
@@ -11907,7 +11908,7 @@ msgstr ""
 "ser difícil, pero no imposible para un espía ver el contenido de este "
 "mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:1005 ../mail/em-format-html.c:656
+#: ../mail/em-format-html-display.c:1005 ../mail/em-format-html.c:657
 msgid "Encrypted"
 msgstr "Cifrado"
 
@@ -11919,7 +11920,7 @@ msgstr ""
 "Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
 
-#: ../mail/em-format-html-display.c:1006 ../mail/em-format-html.c:657
+#: ../mail/em-format-html-display.c:1006 ../mail/em-format-html.c:658
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
@@ -12031,88 +12032,88 @@ msgstr ""
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: ../mail/em-format-html.c:498 ../mail/em-format-html.c:507
+#: ../mail/em-format-html.c:499 ../mail/em-format-html.c:508
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Obteniendo «%s»"
 
-#: ../mail/em-format-html.c:919
+#: ../mail/em-format-html.c:920
 msgid "Unknown external-body part."
 msgstr "Parte externa al cuerpo del mensaje desconocida."
 
-#: ../mail/em-format-html.c:927
+#: ../mail/em-format-html.c:928
 msgid "Malformed external-body part."
 msgstr "Parte externa al cuerpo del mensaje mal escrita."
 
-#: ../mail/em-format-html.c:957
+#: ../mail/em-format-html.c:958
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: ../mail/em-format-html.c:968
+#: ../mail/em-format-html.c:969
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Puntero a archivo local (%s) válido en el sitio «%s»"
 
-#: ../mail/em-format-html.c:970
+#: ../mail/em-format-html.c:971
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Puntero a archivo local (%s)"
 
-#: ../mail/em-format-html.c:991
+#: ../mail/em-format-html.c:992
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Puntero a datos remotos (%s)"
 
-#: ../mail/em-format-html.c:1002
+#: ../mail/em-format-html.c:1003
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
-#: ../mail/em-format-html.c:1230
+#: ../mail/em-format-html.c:1231
 msgid "Formatting message"
 msgstr "Formateando el mensaje"
 
-#: ../mail/em-format-html.c:1397
+#: ../mail/em-format-html.c:1398
 msgid "Formatting Message..."
 msgstr "Formateando el mensaje…"
 
-#: ../mail/em-format-html.c:1549 ../mail/em-format-html.c:1613
-#: ../mail/em-format-html.c:1635 ../mail/em-format-quote.c:209
+#: ../mail/em-format-html.c:1550 ../mail/em-format-html.c:1614
+#: ../mail/em-format-html.c:1636 ../mail/em-format-quote.c:209
 #: ../mail/em-format.c:889 ../mail/em-mailer-prefs.c:93
 msgid "Cc"
 msgstr "Cc"
 
-#: ../mail/em-format-html.c:1550 ../mail/em-format-html.c:1619
-#: ../mail/em-format-html.c:1638 ../mail/em-format-quote.c:209
+#: ../mail/em-format-html.c:1551 ../mail/em-format-html.c:1620
+#: ../mail/em-format-html.c:1639 ../mail/em-format-quote.c:209
 #: ../mail/em-format.c:890 ../mail/em-mailer-prefs.c:94
 msgid "Bcc"
 msgstr "Cco"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1709 ../mail/em-format-quote.c:331
+#: ../mail/em-format-html.c:1710 ../mail/em-format-quote.c:331
 #: ../mail/em-mailer-prefs.c:1458
 msgid "Mailer"
 msgstr "Transporte"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1736
+#: ../mail/em-format-html.c:1737
 msgid " (%a, %R %Z)"
 msgstr " (%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1741
+#: ../mail/em-format-html.c:1742
 msgid " (%R %Z)"
 msgstr " (%R %Z)"
 
-#: ../mail/em-format-html.c:1753 ../mail/em-format-quote.c:338
+#: ../mail/em-format-html.c:1754 ../mail/em-format-quote.c:338
 #: ../mail/em-format.c:892 ../mail/em-mailer-prefs.c:96
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:346
 #: ../widgets/misc/e-dateedit.c:368
 msgid "Date"
 msgstr "Fecha"
 
-#: ../mail/em-format-html.c:1776 ../mail/em-format.c:893
+#: ../mail/em-format-html.c:1777 ../mail/em-format.c:893
 #: ../mail/em-mailer-prefs.c:97
 msgid "Newsgroups"
 msgstr "Grupos de noticias"
@@ -12120,7 +12121,7 @@ msgstr "Grupos de noticias"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1869
+#: ../mail/em-format-html.c:1870
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Este mensaje lo envió <b>%s</b> en nombre de <b>%s</b>"
@@ -13247,135 +13248,137 @@ msgstr "Lista de correo %s"
 msgid "Add Filter Rule"
 msgstr "Añadir regla de filtrado"
 
-#: ../mail/mail-component.c:537
+#: ../mail/mail-component.c:538
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d seleccionado, "
 msgstr[1] "%d seleccionados, "
 
-#: ../mail/mail-component.c:541
+#: ../mail/mail-component.c:542
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d borrado"
 msgstr[1] "%d borrados"
 
-#: ../mail/mail-component.c:543
+#: ../mail/mail-component.c:544
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d SPAM"
 msgstr[1] "%d SPAM"
 
-#: ../mail/mail-component.c:546
+#: ../mail/mail-component.c:547
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d borrador"
 msgstr[1] "%d borradores"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d enviado"
 msgstr[1] "%d enviados"
 
-#: ../mail/mail-component.c:550
+#: ../mail/mail-component.c:551
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d sin enviar"
 msgstr[1] "%d sin enviar"
 
-#: ../mail/mail-component.c:556
+#: ../mail/mail-component.c:557
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d no leído, "
 msgstr[1] "%d no leídos, "
 
-#: ../mail/mail-component.c:557
+#: ../mail/mail-component.c:558
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
-#: ../mail/mail-component.c:897
+#: ../mail/mail-component.c:899
 msgid "New Mail Message"
 msgstr "Mensaje de correo nuevo"
 
-#: ../mail/mail-component.c:898
+#: ../mail/mail-component.c:900
 msgid "_Mail Message"
 msgstr "_Mensaje de correo"
 
-#: ../mail/mail-component.c:899
+#: ../mail/mail-component.c:901
 msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
-#: ../mail/mail-component.c:905
+#: ../mail/mail-component.c:907
 msgid "New Mail Folder"
 msgstr "Carpeta de correo nueva"
 
-#: ../mail/mail-component.c:906
+#: ../mail/mail-component.c:908
 msgid "Mail _Folder"
 msgstr "_Carpeta de correo"
 
-#: ../mail/mail-component.c:907
+#: ../mail/mail-component.c:909
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
-#: ../mail/mail-component.c:1054
+#: ../mail/mail-component.c:1056
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Falló al actualizar la configuración de correo o carpetas."
 
-#: ../mail/mail-component.c:1527
+#: ../mail/mail-component.c:1529
 msgid "Error"
 msgstr "Error"
 
-#: ../mail/mail-component.c:1527
+#: ../mail/mail-component.c:1529
 msgid "Errors"
 msgstr "Errores"
 
-#: ../mail/mail-component.c:1528
+#: ../mail/mail-component.c:1530
 msgid "Warnings and Errors"
 msgstr "Avisos y errores"
 
-#: ../mail/mail-component.c:1529
+#: ../mail/mail-component.c:1531
 msgid "Debug"
 msgstr "Depurar"
 
-#: ../mail/mail-component.c:1529
+#: ../mail/mail-component.c:1531
 msgid "Error, Warnings and Debug messages"
 msgstr "Mensajes de error, avisos y depuración"
 
-#: ../mail/mail-component.c:1639
+#: ../mail/mail-component.c:1641
 msgid "Debug Logs"
 msgstr "Depuración de sucesos"
 
-#: ../mail/mail-component.c:1643
+#. Translators: This is the first part of the sentence "Show _errors in the status bar for" - XXX - "second(s)."
+#: ../mail/mail-component.c:1646
 msgid "Show _errors in the status bar for"
 msgstr "Mostrar _errores en la barra de estado para"
 
-#: ../mail/mail-component.c:1650
-msgid "seconds."
-msgstr "segundos."
+#. Translators: This is the second part of the sentence "Show _errors in the status bar for" - XXX - "second(s)."
+#: ../mail/mail-component.c:1654
+msgid "second(s)."
+msgstr "segundo(s)."
 
-#: ../mail/mail-component.c:1660
+#: ../mail/mail-component.c:1664
 msgid "Log Messages:"
 msgstr "Mensajes de sucesos:"
 
-#: ../mail/mail-component.c:1712
+#: ../mail/mail-component.c:1716
 msgid "Log Level"
 msgstr "Nivel de sucesos"
 
-#: ../mail/mail-component.c:1719 ../widgets/misc/e-dateedit.c:410
+#: ../mail/mail-component.c:1723 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1726 ../mail/message-list.c:2406
+#: ../mail/mail-component.c:1730 ../mail/message-list.c:2406
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensajes"
@@ -13558,12 +13561,12 @@ msgid "C_haracter set:"
 msgstr "Conjunto de carac_teres:"
 
 #: ../mail/mail-config.glade.h:50
-msgid "C_heck custom headers for junk"
-msgstr "Compro_bar las cabeceras personalizadas contra SPAM"
-
-#: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "_Comprobar tipos soportados "
+
+#: ../mail/mail-config.glade.h:51
+msgid "Check cu_stom headers for junk"
+msgstr "Compro_bar las cabeceras personalizadas contra SPAM"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check incoming _messages for junk"
@@ -13626,16 +13629,16 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Firmar digitalmente los mensajes s_alientes (por omisión)"
 
 #: ../mail/mail-config.glade.h:71
-msgid "Do _not mark messages as junk if sender is in my addressbook"
-msgstr ""
-"_No marcar los mensajes como basura si el remitente está en mi libreta de "
-"direcciones"
-
-#: ../mail/mail-config.glade.h:72
 msgid "Do not format text contents in messages if the text si_ze exceeds"
 msgstr ""
 "No formatear contenidos de texto en los correos si el _tamaño del texto "
 "excede"
+
+#: ../mail/mail-config.glade.h:72
+msgid "Do not mar_k messages as junk if sender is in my addressbook"
+msgstr ""
+"_No marcar los mensajes como basura si el remitente está en mi libreta de "
+"direcciones"
 
 #: ../mail/mail-config.glade.h:73
 msgid "Do not quote original message"
@@ -15545,6 +15548,10 @@ msgid "Bogofilter Options"
 msgstr "Opciones de Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Complemento de filtro de SPAM Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtra mensajes SPAM usando Bogofilter."
 
@@ -16049,6 +16056,11 @@ msgstr "Nombre de la carpeta"
 msgid "Folder Size"
 msgstr "Tamaño de la carpeta"
 
+#. FIXME Limit to one user
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:76
+msgid "User"
+msgstr "_Usuario"
+
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:316
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
@@ -16144,6 +16156,8 @@ msgid "Add User:"
 msgstr "Añadir usuario:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
+#: ../plugins/groupwise-features/proxy.c:944
+#: ../plugins/groupwise-features/share-folder.c:726
 msgid "Add User"
 msgstr "Añadir usuario"
 
@@ -18298,8 +18312,8 @@ msgstr "Configuración"
 msgid "There is no configuration option for this plugin."
 msgstr "No existe una opción de configuración para este complemento."
 
-#: ../plugins/plugin-manager/plugin-manager.c:330
-#: ../plugins/plugin-manager/plugin-manager.c:392
+#: ../plugins/plugin-manager/plugin-manager.c:338
+#: ../plugins/plugin-manager/plugin-manager.c:400
 msgid "Plugin"
 msgstr "Complemento"
 
@@ -18499,7 +18513,7 @@ msgstr ""
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
-msgstr "Complemento de filtro de SPAM con SpamAssassin"
+msgstr "Complemento de filtro de SPAM SpamAssassin"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
 msgid "Spamassassin Options"
@@ -21951,13 +21965,13 @@ msgstr "Tipo de vista:"
 msgid "Attachment Bar"
 msgstr "Barra de adjuntos"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "No es posible adjuntar el archivo %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "No es posible adjuntar el archivo %s: no es un archivo normal"
@@ -22329,35 +22343,35 @@ msgstr "Modelo de reflujo"
 msgid "Column width"
 msgstr "Anchura de columna"
 
-#: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
-#: ../widgets/misc/e-search-bar.c:480
+#: ../widgets/misc/e-search-bar.c:350 ../widgets/misc/e-search-bar.c:482
+#: ../widgets/misc/e-search-bar.c:484
 msgid "Search"
 msgstr "Buscar"
 
-#: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
-#: ../widgets/misc/e-search-bar.c:480
+#: ../widgets/misc/e-search-bar.c:350 ../widgets/misc/e-search-bar.c:482
+#: ../widgets/misc/e-search-bar.c:484
 msgid "Click here to change the search type"
 msgstr "Pulse aquí para cambiar el tipo de búsqueda"
 
-#: ../widgets/misc/e-search-bar.c:610
+#: ../widgets/misc/e-search-bar.c:615
 msgid "_Search"
 msgstr "_Buscar"
 
 # En conflicto con _Buscar del menu principal
-#: ../widgets/misc/e-search-bar.c:616
+#: ../widgets/misc/e-search-bar.c:621
 msgid "_Find Now"
 msgstr "B_uscar ahora"
 
 # Conflicto con _Ver del menú principal
-#: ../widgets/misc/e-search-bar.c:617
+#: ../widgets/misc/e-search-bar.c:622
 msgid "_Clear"
 msgstr "Vacia_r"
 
-#: ../widgets/misc/e-search-bar.c:872
+#: ../widgets/misc/e-search-bar.c:877
 msgid "Item ID"
 msgstr "ID de elemento"
 
-#: ../widgets/misc/e-search-bar.c:879 ../widgets/text/e-text.c:3564
+#: ../widgets/misc/e-search-bar.c:884 ../widgets/text/e-text.c:3564
 #: ../widgets/text/e-text.c:3565
 msgid "Text"
 msgstr "Texto"
@@ -22365,19 +22379,19 @@ msgstr "Texto"
 # #En conflicto con _Mensaje
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:1013
+#: ../widgets/misc/e-search-bar.c:1018
 msgid "Sho_w: "
 msgstr "M_ostrar: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
-#: ../widgets/misc/e-search-bar.c:1030
+#: ../widgets/misc/e-search-bar.c:1035
 msgid "Sear_ch: "
 msgstr "_Buscar: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:1042
+#: ../widgets/misc/e-search-bar.c:1047
 msgid " i_n "
 msgstr " e_n "
 
