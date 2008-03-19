@@ -1,3 +1,10 @@
+2008-03-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view.h:
+	* em-message-browser.h:
+	* em-message-browser.c:
+	Code cleanup, no logic changes.
+
 2008-03-18  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #519154
