@@ -6674,7 +6674,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		    <widget class="GtkCheckButton" id="junk_header_check">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">C_heck custom headers for junk</property>
+		      <property name="label" translatable="yes">Check cu_stom headers for junk</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -6779,7 +6779,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		    <widget class="GtkCheckButton" id="lookup_book">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Do _not mark messages as junk if sender is in my addressbook</property>
+		      <property name="label" translatable="yes">Do not mar_k messages as junk if sender is in my addressbook</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>

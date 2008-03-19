@@ -1,3 +1,9 @@
+2008-03-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511978
+
+	* mail-config.glade: Resolve mnemonics clash on Junk tab.
+
 2008-03-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-view.h:
