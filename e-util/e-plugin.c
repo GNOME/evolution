@@ -363,12 +363,12 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 }
 
 static int
-ep_load(const char *filename)
+ep_load(const char *filename, int load_level)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
 	int res = -1;
-	EPlugin *ep;
+	EPlugin *ep = NULL;
 	int cache = FALSE;
 	struct _plugin_doc *pdoc;
 
@@ -389,10 +389,37 @@ ep_load(const char *filename)
 
 	for (root = root->children; root ; root = root->next) {
 		if (strcmp((char *)root->name, "e-plugin") == 0) {
-			ep = ep_load_plugin(root, pdoc);
+			char *plugin_load_level, *is_system_plugin;
+
+			plugin_load_level = NULL;
+			plugin_load_level = e_plugin_xml_prop (root, "load_level");
+			if (plugin_load_level) {
+				if ((atoi (plugin_load_level) == load_level) ) {
+					ep = ep_load_plugin(root, pdoc);
+
+					if (ep) {
+						if (load_level == 1)
+							e_plugin_invoke (ep, "load_plugin_type_register_function", NULL);
+					}
+				} 
+			} else if (load_level == 2) {
+				ep = ep_load_plugin(root, pdoc);
+			}
+
 			if (ep) {
+				pd(printf ("\nloading plugin [%s] at load_level [%d]\n", ep->name, load_level));
+
+				/* README: May be we can use load_levels to achieve the same thing.
+				   But it may be confusing for a plugin writer */
+				is_system_plugin = e_plugin_xml_prop (root, "system_plugin");
+				if (is_system_plugin && strcmp (is_system_plugin, "true"))
+					ep->flags |= E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
+				else
+					ep->flags &= ~E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
+
 				pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
 				cache |= (ep->hooks_pending != NULL);
+				ep = NULL;
 			}
 			cache |= pdoc->plugins != NULL;
 		}
@@ -499,36 +526,39 @@ int
 e_plugin_load_plugins(void)
 {
 	GSList *l;
+	int i;
 
 	if (ep_types == NULL) {
 		g_warning("no plugin types defined");
 		return 0;
 	}
 
-	for (l = ep_path;l;l = g_slist_next(l)) {
-		GDir *dir;
-		const char *d;
-		char *path = l->data;
+	for (i=0; i < 3; i++) {
+		for (l = ep_path;l;l = g_slist_next(l)) {
+			GDir *dir;
+			const char *d;
+			char *path = l->data;
 
-		pd(printf("scanning plugin dir '%s'\n", path));
+			pd(printf("scanning plugin dir '%s'\n", path));
 
-		dir = g_dir_open(path, 0, NULL);
-		if (dir == NULL) {
-			/*g_warning("Could not find plugin path: %s", path);*/
-			continue;
-		}
-
-		while ( (d = g_dir_read_name(dir)) ) {
-			if (strlen(d) > 6
-			    && !strcmp(d + strlen(d) - 6, ".eplug")) {
-				char * name = g_build_filename(path, d, NULL);
-
-				ep_load(name);
-				g_free(name);
+			dir = g_dir_open(path, 0, NULL);
+			if (dir == NULL) {
+				/*g_warning("Could not find plugin path: %s", path);*/
+				continue;
 			}
-		}
 
-		g_dir_close(dir);
+			while ( (d = g_dir_read_name(dir)) ) {
+				if (strlen(d) > 6
+						&& !strcmp(d + strlen(d) - 6, ".eplug")) {
+					char * name = g_build_filename(path, d, NULL);
+
+					ep_load(name, i);
+					g_free(name);
+				}
+			}
+
+			g_dir_close(dir);
+		}
 	}
 
 	return 0;
@@ -698,7 +728,10 @@ e_plugin_get_configure_widget (EPlugin *ep)
 {
 	EPluginClass *ptr;
 	ptr = ((EPluginClass *)G_OBJECT_GET_CLASS(ep));
-        return ptr->get_configure_widget (ep);
+        if (ptr->get_configure_widget)
+		return ptr->get_configure_widget (ep);
+
+	return NULL;
 }
 
 /**

@@ -1,3 +1,16 @@
+2008-03-19  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #496839 
+
+	* e-plugin.c: (ep_load), (e_plugin_load_plugins),
+	(e_plugin_get_configure_widget):
+	* e-plugin.h:
+	- Implement Plugin Load Levels. You can decide
+	on which load-level you want your plugin to be loaded.
+	- Load Levels are mandatory if you need other language loaders
+	like Mono-Loader or Python-Loader.
+	- Introduce FLAGS as part of EPlugin. Futuristic. 
+
 2008-03-17  Alex Rostovtsev  <tetromino@gmail.com>
 
 	** Fix for bug #522631

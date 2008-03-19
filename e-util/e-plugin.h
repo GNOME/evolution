@@ -53,6 +53,8 @@ struct _EPlugin {
 	GSList *hooks;
 	GSList *authors;	/* EPluginAuthor structures */
 
+	guint32 flags;
+
 	guint enabled:1;
 };
 
@@ -274,6 +276,16 @@ struct _EPluginTypeHookClass {
 };
 
 GType e_plugin_type_hook_get_type(void);
+
+
+/* README: Currently there is only one flag. 
+   But we may need more in the future and hence makes 
+   sense to keep as an enum */
+
+typedef enum _EPluginFlags {
+	E_PLUGIN_FLAGS_SYSTEM_PLUGIN = 1 << 0
+} EPluginFlags;
+
 
 #endif /* ! _E_PLUGIN_H */
 
