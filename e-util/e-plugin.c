@@ -412,7 +412,7 @@ ep_load(const char *filename, int load_level)
 				/* README: May be we can use load_levels to achieve the same thing.
 				   But it may be confusing for a plugin writer */
 				is_system_plugin = e_plugin_xml_prop (root, "system_plugin");
-				if (is_system_plugin && strcmp (is_system_plugin, "true"))
+				if (is_system_plugin && !strcmp (is_system_plugin, "true"))
 					ep->flags |= E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
 				else
 					ep->flags &= ~E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
