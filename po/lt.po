@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-07 22:50+0200\n"
-"PO-Revision-Date: 2008-03-02 01:11+0200\n"
+"POT-Creation-Date: 2008-03-21 00:18+0200\n"
+"PO-Revision-Date: 2008-03-21 00:18+0200\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "MIME-Version: 1.0\n"
@@ -457,8 +457,8 @@ msgstr "Evolution adresų knyga netikėtai užsidarė."
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
-"Jūsų pasirinktas paveikslėlis yra didelis. Ar norite pakeisti jo dydį ir jį "
-"išsaugoti?"
+"Pasirinktas paveikslėlis yra didelis. Ar norite pakeisti jo dydį ir jį "
+"įrašyti?"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid ""
@@ -801,7 +801,7 @@ msgstr ""
 "Evolution kontaktų aplankų vieta ir hierarchija šiuo metu yra kitokia nei 1."
 "x versijos.\n"
 "\n"
-"Palaukite kol Evolution perkels Jūsų ankstesnius aplankus..."
+"Palaukite, kol Evolution perkels Jūsų ankstesnius aplankus..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1150
 msgid ""
@@ -811,7 +811,7 @@ msgid ""
 msgstr ""
 "Pasikeitė pašto konferencijų kontaktų formatas.\n"
 "\n"
-"Palaukite kol Evolution perkels Jūsų aplankus..."
+"Palaukite, kol Evolution perkels Jūsų aplankus..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1159
 msgid ""
@@ -821,7 +821,7 @@ msgid ""
 msgstr ""
 "Pasikeitė Evolution kai kurių telefonų numerių saugojimo būdas.\n"
 "\n"
-"Palaukite kol Evolution perkels Jūsų aplankus..."
+"Palaukite, kol Evolution perkels Jūsų aplankus..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1169
 msgid ""
@@ -3293,7 +3293,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Ieškokit kontakto."
+"Ieškokite kontakto."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
@@ -5868,7 +5868,7 @@ msgstr "Šis raštelis buvo ištrintas."
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
-"%s  Jūs įvykdėte pakeitimų. Užmiršti šiuos pakeitimus ir uždaryti redaktorių?"
+"%s  Įvykdėte pakeitimų. Užmiršti šiuos pakeitimus ir uždaryti redaktorių?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -6216,7 +6216,7 @@ msgstr "Nepavyko atverti kalendoriaus „%s“."
 #: ../calendar/gui/dialogs/task-page.c:1928
 #, c-format
 msgid "You are acting on behalf of %s"
-msgstr "Jūs veikiate %s vardu"
+msgstr "Veikiate %s vardu"
 
 #: ../calendar/gui/dialogs/event-page.c:3053
 #, c-format
@@ -10686,7 +10686,7 @@ msgstr "%Y %m %d"
 
 #: ../filter/filter-datespec.c:451
 msgid "Select a time to compare against"
-msgstr "Pasirinkit laiką, su kuriuo palyginti"
+msgstr "Pasirinkite laiką, su kuriuo palyginti"
 
 #: ../filter/filter-file.c:288
 msgid "Choose a file"
@@ -10703,7 +10703,7 @@ msgstr "Tais_yklės pavadinimas:"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
-msgstr "Rasti elementus, kurie atitinka sekančias sąlygas"
+msgstr "Rasti elementus, kurie atitinka šias sąlygas"
 
 #: ../filter/filter-rule.c:862
 msgid "A_dd Filter Criteria"
@@ -13069,15 +13069,15 @@ msgstr "Laiko tarpas, skirtas pažymėti laiškus kaip perskaitytus."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid "UID string of the default account."
-msgstr "Numatytojo abonemento UID seka."
+msgstr "Numatytojo abonemento UID simbolių seka."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid "Use SpamAssassin daemon and client"
-msgstr "Naudoti SpamAssassin demoną ir klientą"
+msgstr "Naudoti SpamAssassin tarnybą ir klientą"
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Naudoti SpamAssassin demoną ir klientą (spamc/spamd)."
+msgstr "Naudoti SpamAssassin tarnybą ir klientą (spamc/spamd)."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Use custom fonts"
@@ -13369,7 +13369,7 @@ msgstr "Rodyti _klaidas būsenos juostoje"
 
 #: ../mail/mail-component.c:1645
 msgid "seconds."
-msgstr "sek."
+msgstr "sekundžių."
 
 #: ../mail/mail-component.c:1655
 msgid "Log Messages:"
@@ -13636,7 +13636,7 @@ msgstr "_Skaitmeniniu būdu pasirašyti išsiunčiamus laiškus (numatyta)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do _not mark messages as junk if sender is in my addressbook"
-msgstr "Nežymėti laiškų kaip šlamšto, jei siuntėjas yra mano adresų knygoje"
+msgstr "Nežymėti _laiškų kaip šlamšto, jei siuntėjas yra mano adresų knygoje"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Do not format text contents in messages if the text si_ze exceeds"
@@ -13762,7 +13762,7 @@ msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
-"Pastaba: jūsų bus paprašyta nurodyti slaptažodį, kai jungsitės pirmą kartą"
+"Pastaba: būsite paprašyti nurodyti slaptažodį, kai jungsitės pirmą kartą"
 
 #: ../mail/mail-config.glade.h:107
 msgid "Or_ganization:"
@@ -14481,7 +14481,7 @@ msgid ""
 "an idea of what your mail is about."
 msgstr ""
 "Pridėdami reikšmingą temos eilutę padėsite gavėjams suprasti, apie ką šis "
-"Jūsų laiškas."
+"laiškas."
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -14628,8 +14628,8 @@ msgid ""
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Patikrinkite, ar slaptažodis parašytas teisingai. Atminkite, kad daugumoje "
-"slaptažodių yra svarbus raidžių registras; gali būti įjungtas Jūsų "
-"„CapsLock“ klavišas."
+"slaptažodių yra svarbus raidžių registras; gali būti įjungtas „CapsLock“ "
+"klavišas."
 
 #: ../mail/mail.error.xml.h:42
 msgid "Could not save signature file."
@@ -14904,11 +14904,11 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"Sekantis(ys) paieškos aplankas(ai):\n"
+"Šis (šie) paieškos aplankas(ai):\n"
 "{0}\n"
-"Naudojo dabar ištrintą aplanką:\n"
+"naudojo dabar ištrintą aplanką:\n"
 "    „{1}“\n"
-"Ir buvo atnaujinti."
+"ir buvo atnaujinti."
 
 #: ../mail/mail.error.xml.h:106
 msgid ""
@@ -14918,7 +14918,7 @@ msgid ""
 "    &quot;{1}&quot;\n"
 "And have been updated."
 msgstr ""
-"Sekanti(čios) filtravimo taisyklė(s):\n"
+"Ši (šios) filtravimo taisyklė(s):\n"
 "{0}\n"
 "Naudojo dabar pašalintą aplanką:\n"
 "    „{1}“\n"
@@ -15324,7 +15324,7 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Jūs galite atstatyti Evolution iš atsarginės kopijos. Taip galite atstatyti "
+"Galite atstatyti Evolution iš atsarginės kopijos. Taip galite atstatyti "
 "visus laiškus, kalendorius, užduotis, raštelius ir kontaktus. Taip pat "
 "atstatomi visi asmeniniai parametrai, laiškų filtrai ir t.t."
 
@@ -15467,8 +15467,8 @@ msgid ""
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
-"Tai ištrins jūsų turimus Evolution duomenis ir parametrus bei atstatys juos "
-"iš atsarginės kopijos. Evolution atstatymas gali būti atliekamas tik tuomet, "
+"Tai ištrins turimus Evolution duomenis ir parametrus bei atstatys juos iš "
+"atsarginės kopijos. Evolution atstatymas gali būti atliekamas tik tuomet, "
 "kai programa neveikia. Prieš tęsdami įsitikinkite, kad išsaugojote ir "
 "uždarėte visus langus. Jei norite, kad Evolution būtų paleista baigus "
 "kopijavimą, pažymėkite žemiau esančią parinktį."
@@ -15528,7 +15528,7 @@ msgid ""
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Jums atsakinėjant į laiškus automatiškai užpildo Jūsų adresų knygą naujais "
+"Jums atsakinėjant į laiškus automatiškai užpildo adresų knygą naujais "
 "vardais bei pašto adresais. Taip pat užpildo greitų žinučių kontaktų "
 "informacija iš bičiulių sąrašų."
 
@@ -15557,6 +15557,10 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter parinktys"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter šiukšlių filtro įskiepis"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Tikrinti laiškus nuo šlamšto naudojant Bogofilter."
 
@@ -15867,8 +15871,8 @@ msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
-"Šis slaptažodis nesutampa su dabartiniu jūsų abonemento slaptažodžiu. "
-"Įveskite teisingą slaptažodį"
+"Šis slaptažodis nesutampa su dabartiniu abonemento slaptažodžiu. Įveskite "
+"teisingą slaptažodį"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:122
 msgid "The two passwords do not match. Please re-enter the passwords."
@@ -15935,7 +15939,7 @@ msgid ""
 "been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
 "Šis laiškas buvo išsiųstas automatiškai Evolution programos informuoti jus, "
-"kad jūs buvote paskirtas atstovu. Dabar jūs galite siųsti laiškus mano vardu."
+"kad buvote paskirtas atstovu. Dabar galite siųsti laiškus mano vardu."
 
 #. To translators: Another chunk of the same message.
 #.
@@ -15948,7 +15952,7 @@ msgstr "Jums buvo suteiktos šios teisės į mano aplankus:"
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:376
 msgid "You are also permitted to see my private items."
-msgstr "Jūs taip pat galite matyti mano asmeninius elementus."
+msgstr "Taip pat galite matyti mano asmeninius elementus."
 
 #. To translators: This message is included if the delegatee has not been given access
 #. to the private items.
@@ -16092,7 +16096,7 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>Šiuo metu Jūsų būsena yra „Ne Darbe“. </b>\n"
+"<b>Šiuo metu būsena yra „Ne Darbe“. </b>\n"
 "\n"
 "Ar norite ją pakeisti į „Darbe“? "
 
@@ -16139,7 +16143,7 @@ msgstr "Perspėjimas apie slaptažodžio galiojimo pabaigą..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
 msgid "Your password will expire in 7 days..."
-msgstr "Jūsų slaptažodis po 7 dienų nebegalios..."
+msgstr "Slaptažodis po 7 dienų nebegalios..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
@@ -16533,8 +16537,8 @@ msgid ""
 "Or you might have just typed your password wrong."
 msgstr ""
 "Tai tikriausiai reiškia, kad serveriui reikia\n"
-"kaip dalį jūsų naudotojo vardo nurodyti Windows\n"
-"srities pavadinimą (pvz., „SRITIS\\nnaudotojas“).\n"
+"kaip dalį naudotojo vardo nurodyti Windows\n"
+"srities pavadinimą (pvz., „SRITIS\\naudotojas“).\n"
 "\n"
 "Arba tiesiog įvedėte slaptažodį neteisingai."
 
@@ -16575,7 +16579,7 @@ msgstr ""
 msgid ""
 "You are permitted to send a message on behalf of only one delegator at a "
 "time."
-msgstr "Jūs galite siųsti laišką tik vieno atstovaujamojo vardu."
+msgstr "Galite siųsti laišką tik vieno atstovaujamojo vardu."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "You cannot make yourself your own delegate"
@@ -16613,7 +16617,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid "Your password has expired."
-msgstr "Jūsų slaptažodis nustojo galioti."
+msgstr "Slaptažodis nebegalioja."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
 msgid "{0} cannot be added to an access control list"
@@ -18103,7 +18107,7 @@ msgstr ""
 "El. laiškas bus išsiųstas adresu „{0}“. Galite pasirinkti, ar išsiųsti "
 "laišką automatiškai, ar pirma jį pažiūrėti ir redaguoti.\n"
 "\n"
-"Jūs turėtumėte greitai gauti atsakymą iš konferencijos, po to kai išsiųsite "
+"Turėtumėte greitai gauti atsakymą iš konferencijos, po to kai išsiųsite "
 "laišką."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
@@ -18482,7 +18486,7 @@ msgstr "SpamAssassin (įmontuotas)"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:848
 msgid "This will make Spamassasin more reliable, but slower"
-msgstr "Filtras taps patikimesniu, bet kartu ir lėtesniu"
+msgstr "Spamassassin filtras taps patikimesnis, bet kartu ir lėtesnis"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:854
 msgid "I_nclude remote tests"
@@ -18688,7 +18692,7 @@ msgid ""
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 "Sveiki paleidę Evolution. Keli dabar pasirodę langai leis Evolution\n"
-"sutvarkyti Jūsų elektroninio pašto abonementus ir įkelti duomenis iš\n"
+"sutvarkyti elektroninio pašto abonementus ir įkelti duomenis iš\n"
 "kitų programų.\n"
 "\n"
 "Norėdami tęsti, spauskite mygtuką „Pirmyn“. "
@@ -19376,7 +19380,7 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"Jūsų sistemos nustatymai nesutampa su Evolution nustatymais:\n"
+"Sistemos nustatymai nesutampa su Evolution nustatymais:\n"
 "\n"
 "{0}\n"
 "\n"
@@ -19688,11 +19692,11 @@ msgstr ""
 #: ../smime/gui/smime-ui.glade.h:44
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
-msgstr "Jūsų sertifikatų faile nurodyti šie sertifikatų tvirtintojai:"
+msgstr "Sertifikatų faile nurodyti šie sertifikatų tvirtintojai:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr "Jūsų sertifikatų faile saugomi šių asmenų sertifikatai:"
+msgstr "Sertifikatų faile saugomi šių asmenų sertifikatai:"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
@@ -20150,12 +20154,12 @@ msgstr "Sąrašas"
 
 #: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
-msgstr "Mėnesis"
+msgstr "Mėnuo"
 
 #: ../ui/evolution-calendar.xml.h:16 ../ui/evolution-mail-message.xml.h:58
 #: ../widgets/misc/e-calendar.c:201
 msgid "Next"
-msgstr "Sekantis"
+msgstr "Kitas"
 
 #: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
@@ -21031,7 +21035,7 @@ msgstr "Pažymėti visą tekstą laiške"
 
 #: ../ui/evolution-mail-message.xml.h:93 ../ui/evolution.xml.h:27
 msgid "Set up the page settings for your current printer"
-msgstr "Nustatyti puslapio parametrus jūsų dabartiniam spausdintuvui"
+msgstr "Nustatyti puslapio parametrus dabartiniam spausdintuvui"
 
 #: ../ui/evolution-mail-message.xml.h:94
 msgid "Show a blinking cursor in the body of displayed messages"
@@ -21936,13 +21940,13 @@ msgstr "Rodinio tipas:"
 msgid "Attachment Bar"
 msgstr "Priedų juosta"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Nepavyko prisegti failo %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Nepavyko prisegti failo %s: tai ne paprastas failas"
