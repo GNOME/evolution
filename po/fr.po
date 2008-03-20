@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-07 18:43+0100\n"
-"PO-Revision-Date: 2008-03-07 22:33+0100\n"
+"POT-Creation-Date: 2008-03-20 19:19+0100\n"
+"PO-Revision-Date: 2008-03-20 19:24+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -15762,6 +15762,10 @@ msgid "Bogofilter Options"
 msgstr "Options de Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Greffon de pourriel Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtre les pourriels en utilisant Bogofilter."
 
@@ -22275,13 +22279,13 @@ msgstr "Type de la vue :"
 msgid "Attachment Bar"
 msgstr "Barre des pièces jointes"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Impossible de joindre le fichier %s : %s."
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr ""
