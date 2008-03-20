@@ -35,8 +35,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.22.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-07 14:32+0100\n"
-"PO-Revision-Date: 2008-03-07 14:56+0100\n"
+"POT-Creation-Date: 2008-03-20 22:13+0100\n"
+"PO-Revision-Date: 2008-03-20 22:23+0100\n"
 "Last-Translator: Luca Ferretti <elle.uca@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -12799,7 +12799,9 @@ msgstr ""
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
-msgstr "Abilitare questa chiave per usare il tasto barra spaziatrice per scorrere nell'anteprima del messaggio, nell'elenco dei messaggi e nelle cartelle."
+msgstr ""
+"Abilitare questa chiave per usare il tasto barra spaziatrice per scorrere "
+"nell'anteprima del messaggio, nell'elenco dei messaggi e nelle cartelle."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12862,7 +12864,9 @@ msgstr ""
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
-msgstr "Abilita/Disabilita la funzione per cui prompt ripetuti domandano se è richiesta la sincronizzazione prima di passare in modalità fuori rete"
+msgstr ""
+"Abilita/Disabilita la funzione per cui prompt ripetuti domandano se è "
+"richiesta la sincronizzazione prima di passare in modalità fuori rete"
 
 # GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:56
@@ -12870,7 +12874,11 @@ msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
-msgstr "Abilita/Disabilita la funzione per cui prompt ripetuti avvisano che l'eliminazione di messaggi da una cartella di ricerca elimina il messaggio in modo permanente, invece di rimuoverlo semplicemente dai risultati della ricerca."
+msgstr ""
+"Abilita/Disabilita la funzione per cui prompt ripetuti avvisano che "
+"l'eliminazione di messaggi da una cartella di ricerca elimina il messaggio "
+"in modo permanente, invece di rimuoverlo semplicemente dai risultati della "
+"ricerca."
 
 # GNOME-2-20
 #: ../mail/evolution-mail.schemas.in.h:57
@@ -13238,7 +13246,10 @@ msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
-msgstr "Questo è il plugin predefinito per la posta indesiderata, anche nel caso ci fossero diversi plugin abilitati. Se il plugin elencato come predefinito è disabilitato, allora si farà ricorso agli altri plugin disponibili."
+msgstr ""
+"Questo è il plugin predefinito per la posta indesiderata, anche nel caso ci "
+"fossero diversi plugin abilitati. Se il plugin elencato come predefinito è "
+"disabilitato, allora si farà ricorso agli altri plugin disponibili."
 
 # GNOME-2-20
 #: ../mail/evolution-mail.schemas.in.h:130
@@ -13398,14 +13409,18 @@ msgstr "La voce di menu Visualizza/Rispondi-a è selezionata."
 # GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr "Indica se una richiesta di ricezione e lettura viene aggiunta a ogni messaggio in modo predefinito."
+msgstr ""
+"Indica se una richiesta di ricezione e lettura viene aggiunta a ogni "
+"messaggio in modo predefinito."
 
 # GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr "Indica se fare ricorso oppure no al raggruppamento in base agli oggetti se i messaggi non contengono le intestazioni In-Risposta-A o Riferimenti."
+msgstr ""
+"Indica se fare ricorso oppure no al raggruppamento in base agli oggetti se i "
+"messaggi non contengono le intestazioni In-Risposta-A o Riferimenti."
 
 # GNOME-2-22
 #: ../mail/evolution-mail.schemas.in.h:162
@@ -13565,9 +13580,10 @@ msgstr "Nuovo messaggio di posta"
 msgid "_Mail Message"
 msgstr "_Messaggio email"
 
+# GNOME-2-22
 #: ../mail/mail-component.c:898
 msgid "Compose a new mail message"
-msgstr "Componi un nuovo messaggio di posta"
+msgstr "Compone un nuovo messaggio di posta"
 
 #: ../mail/mail-component.c:904
 msgid "New Mail Folder"
@@ -15909,7 +15925,12 @@ msgstr ""
 msgid "Bogofilter Options"
 msgstr "Opzioni di Bogofilter"
 
+# GNOME-2-22
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Plugin spazzatura Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtra i messaggi spazzatura usando Bogofilter."
 
@@ -18605,8 +18626,8 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Verrà inviato un messaggio all'URL «{0}». È possibile inviare il messaggio "
-"in modo automatico, oppure visionarlo e modificarlo prima dell'invio.\n"
+"Verrà inviato un messaggio all'URL «{0}». È possibile inviare il messaggio in "
+"modo automatico, oppure visionarlo e modificarlo prima dell'invio.\n"
 "\n"
 "Poco dopo l'invio del messaggio si dovrebbe ricevere una risposta dalla "
 "mailing list."
@@ -19253,7 +19274,8 @@ msgstr "Attendere"
 # GNOME-2-22
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr "Indica se il raggruppamento dei messaggi debba fare ricorso all'oggetto."
+msgstr ""
+"Indica se il raggruppamento dei messaggi debba fare ricorso all'oggetto."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
@@ -19439,12 +19461,15 @@ msgstr "Indica se la barra degli strumenti deve essere visibile."
 #: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr "Indica se è omesso il dialogo di avvertimento nelle versioni di sviluppo di Evolution."
+msgstr ""
+"Indica se è omesso il dialogo di avvertimento nelle versioni di sviluppo di "
+"Evolution."
 
 # GNOME-2-22
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
-msgstr "Indica se è omesso il dialogo di avvertimento nel recupero di Evolution."
+msgstr ""
+"Indica se è omesso il dialogo di avvertimento nel recupero di Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the window buttons should be visible."
@@ -20721,11 +20746,11 @@ msgstr "Vai a"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
-msgstr "Vai indietro"
+msgstr "Va indietro"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr "Vai avanti"
+msgstr "Va avanti"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -20773,9 +20798,10 @@ msgstr "Seleziona _oggi"
 msgid "Select a specific date"
 msgstr "Seleziona una data specifica"
 
+# GNOME-2-22
 #: ../ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr "Seleziona oggi"
+msgstr "Seleziona la data odierna"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
@@ -21107,9 +21133,10 @@ msgstr "Mostra l'anteprima del messaggi accanto l'elenco dei messaggi"
 msgid "Show message preview window"
 msgstr "Mostra la finestra di anteprima messaggio"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Effettua ed annulla la sottoscrizione a cartelle su server remoti"
+msgstr "Effettua e annulla la sottoscrizione a cartelle su server remoti"
 
 # GNOME-2-22
 #: ../ui/evolution-mail-global.xml.h:19
@@ -21319,10 +21346,12 @@ msgstr "A_ggiungi mittente alla rubrica"
 msgid "A_pply Filters"
 msgstr "Applica _filtri"
 
+# GNOME-2-22
+# dovrebbe essere tooltip
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-message.xml.h:4
 msgid "Add Sender to Address Book"
-msgstr "Aggiungi mittente alla rubrica"
+msgstr "Aggiunge il mittente alla rubrica"
 
 #: ../ui/evolution-mail-message.xml.h:5
 msgid "All Message _Headers"
@@ -21340,17 +21369,20 @@ msgstr "Controlla _posta indesiderata"
 msgid "Compose _New Message"
 msgstr "Componi _nuovo messaggio"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr "Componi una risposta a tutti i destinatari del messaggio selezionato"
+msgstr "Compone una risposta a tutti i destinatari del messaggio selezionato"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "Componi una risposta alla mailing list del messaggio selezionato"
+msgstr "Compone una risposta alla mailing list del messaggio selezionato"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
-msgstr "Componi una risposta al mittente del messaggio selezionato"
+msgstr "Compone una risposta al mittente del messaggio selezionato"
 
 #: ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected messages to another folder"
@@ -21401,9 +21433,10 @@ msgstr "Crea una regola per filtrare i messaggi con questo oggetto"
 msgid "Cut selected messages to the clipboard"
 msgstr "Taglia i messaggi selezionati negli appunti"
 
+# GNOME-2-22
 #: ../ui/evolution-mail-message.xml.h:24
 msgid "Decrease the text size"
-msgstr "Ridurre la dimensione del testo"
+msgstr "Riduce la dimensione del testo"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
@@ -22245,7 +22278,7 @@ msgstr "Invia gli elementi in coda e riceve quelli nuovi"
 
 #: ../ui/evolution.xml.h:26
 msgid "Set up Pilot configuration"
-msgstr "Imposta configurazione Pilot"
+msgstr "Imposta la configurazione di Pilot"
 
 #: ../ui/evolution.xml.h:28
 msgid "Show Side _Bar"
@@ -22516,11 +22549,11 @@ msgstr "Definisci viste..."
 msgid "C_urrent View"
 msgstr "Vista c_orrente"
 
-# GNOME-2-20
+# GNOME-2-22
 #: ../widgets/menus/gal-view-menus.c:315
 #, c-format
 msgid "Select View: %s"
-msgstr "Seleziona vista: %s"
+msgstr "Seleziona la vista: %s"
 
 # NEW
 #: ../widgets/menus/gal-view-menus.c:359
@@ -22565,13 +22598,13 @@ msgstr "Tipo di vista:"
 msgid "Attachment Bar"
 msgstr "Barra allegati"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Impossibile allegare il file «%s»: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Impossibile allegare il file «%s»: non è un file regolare"
