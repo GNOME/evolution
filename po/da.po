@@ -51,8 +51,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-08 19:57+0100\n"
-"PO-Revision-Date: 2008-03-08 19:37+0100\n"
+"POT-Creation-Date: 2008-03-21 23:29+0100\n"
+"PO-Revision-Date: 2008-03-21 19:21+0100\n"
 "Last-Translator: Kenneth Nielsen <k.nielsen81@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -15601,6 +15601,10 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter-indstillinger"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter-spamindstillinger"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Sorterer spam fra ved hjælp af Bogofilter."
 
@@ -22008,13 +22012,13 @@ msgstr "Type af oversigt:"
 msgid "Attachment Bar"
 msgstr "Bilagslinje"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Kan ikke vedlægge fil %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Kan ikke vedlægge fil %s: ikke en almindelig fil"
