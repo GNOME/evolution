@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-03-09 12:15+0200\n"
+"PO-Revision-Date: 2008-03-12 20:15+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -15225,7 +15225,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:96
 msgid "Select name of the Evolution backup file"
-msgstr "Evolutioni varukoopia faili nime valimine"
+msgstr "Evolutioni varukoopiale faili nime valimine"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
