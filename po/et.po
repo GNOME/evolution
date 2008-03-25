@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.22\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-03-09 12:15+0200\n"
+"PO-Revision-Date: 2008-03-25 08:11+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10512,11 +10512,11 @@ msgstr "Sildi _nimi:"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Edit Label"
-msgstr ""
+msgstr "Sildi muutmine"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Add Label"
-msgstr ""
+msgstr "Sildi lisamine"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
@@ -11732,7 +11732,7 @@ msgstr "Sõnumi vastuvõtmine..."
 
 #: ../mail/em-folder-view.c:2806
 msgid "C_all To..."
-msgstr ""
+msgstr "_Helista..."
 
 #: ../mail/em-folder-view.c:2809
 msgid "Create _Search Folder"
@@ -11754,7 +11754,7 @@ msgstr "Klõpsa, et saata sõnumit aadressile %s"
 #: ../mail/em-folder-view.c:3320
 #, c-format
 msgid "Click to call %s"
-msgstr ""
+msgstr "Klõpsa, et helistada numbrile %s"
 
 #: ../mail/em-folder-view.c:3325
 msgid "Click to hide/unhide addresses"
@@ -13100,6 +13100,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
+"Kas lõimede sortimine toimub viimase lõimesoleva sõnumi alusel või mitte"
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Width of the message-list pane"
@@ -15225,7 +15226,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:96
 msgid "Select name of the Evolution backup file"
-msgstr "Evolutioni varukoopia faili nime valimine"
+msgstr "Evolutioni varukoopiale faili nime valimine"
 
 #: ../plugins/backup-restore/backup-restore.c:120
 msgid "_Restart Evolution after backup"
@@ -16545,7 +16546,7 @@ msgstr "Su parool on aegunud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "Kasutajat {0} pole võimalik pääsuõiguste loendisse lisada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:83
 msgid "{0} is already a delegate"
@@ -18685,7 +18686,7 @@ msgstr "Seadistuste versioon"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Decides whether the crash detection should be run or not."
-msgstr ""
+msgstr "Kas krahhituvastus peab töötama või mitte."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -19140,6 +19141,9 @@ msgid ""
 "run.  As a precautionary measure, all preview panes will be hidden.\n"
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
+"Evolution paistab olevat viimase töötamise lõpetanud ootamatult.\n"
+"Ettevaatusabinõuna on nüüd kõik eelvaatepaanid peidus. Sul on neid\n"
+"võimalik Vaate menüü abil nähtavale tuua.\n"
 
 #: ../shell/main.c:337
 msgid "_Do not show this message again"
@@ -22952,3 +22956,6 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr ""
+
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter - rämpspostiplugin"
