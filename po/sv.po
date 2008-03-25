@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-02 20:37+0100\n"
-"PO-Revision-Date: 2008-03-02 20:44+0100\n"
+"POT-Creation-Date: 2008-03-25 19:18+0100\n"
+"PO-Revision-Date: 2008-03-25 19:18+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -836,7 +836,7 @@ msgstr "Spara som vCard..."
 #: ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468
 #: ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2090
 #: ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40
@@ -2923,7 +2923,7 @@ msgstr "Klipp _ut"
 #: ../calendar/gui/e-calendar-view.c:1690
 #: ../calendar/gui/e-memo-table.c:932
 #: ../composer/e-msg-composer.c:3100
-#: ../mail/em-folder-tree.c:1013
+#: ../mail/em-folder-tree.c:996
 #: ../mail/em-folder-view.c:1331
 #: ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46
@@ -5141,7 +5141,7 @@ msgstr "_Ny kalender"
 #: ../calendar/gui/calendar-component.c:606
 #: ../calendar/gui/memos-component.c:465
 #: ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2102
+#: ../mail/em-folder-tree.c:2085
 msgid "_Copy..."
 msgstr "_Kopiera..."
 
@@ -5150,7 +5150,7 @@ msgstr "_Kopiera..."
 #: ../calendar/gui/memos-component.c:471
 #: ../calendar/gui/tasks-component.c:462
 #: ../composer/e-msg-composer.c:3631
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2099
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
@@ -5786,7 +5786,7 @@ msgstr[1] "%d bifogade meddelanden"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458
 #: ../composer/e-msg-composer.c:3101
-#: ../mail/em-folder-tree.c:1014
+#: ../mail/em-folder-tree.c:997
 #: ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192
 #: ../mail/message-list.c:2066
@@ -5795,7 +5795,7 @@ msgstr "_Flytta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460
 #: ../composer/e-msg-composer.c:3103
-#: ../mail/em-folder-tree.c:1016
+#: ../mail/em-folder-tree.c:999
 #: ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "Avbryt _dragning"
@@ -10336,7 +10336,7 @@ msgid "_Do not Recover"
 msgstr "Återställ _inte"
 
 #: ../composer/mail-composer.error.xml.h:31
-#: ../shell/main.c:312
+#: ../shell/main.c:317
 msgid "_Recover"
 msgstr "_Återställ"
 
@@ -10349,7 +10349,7 @@ msgid "Evolution Mail and Calendar"
 msgstr "Evolutions e-post och kalender"
 
 #: ../data/evolution.desktop.in.in.h:2
-#: ../shell/e-shell-window-commands.c:672
+#: ../shell/e-shell-window-commands.c:753
 msgid "Groupware Suite"
 msgstr "Grupprogramvarusvit"
 
@@ -11419,7 +11419,7 @@ msgstr "Utkast"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-tree-model.c:497
-#: ../mail/em-folder-tree.c:2552
+#: ../mail/em-folder-tree.c:2535
 #: ../mail/mail-component.c:156
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11491,23 +11491,23 @@ msgstr "Kopierar meddelanden till mappen %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan inte släppa meddelanden i ett lager på översta nivån"
 
-#: ../mail/em-folder-tree.c:1011
+#: ../mail/em-folder-tree.c:994
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Kopiera till mapp"
 
-#: ../mail/em-folder-tree.c:1012
+#: ../mail/em-folder-tree.c:995
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Flytta till mapp"
 
-#: ../mail/em-folder-tree.c:1721
+#: ../mail/em-folder-tree.c:1704
 #: ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Söker igenom mappar på \"%s\""
 
-#: ../mail/em-folder-tree.c:2094
+#: ../mail/em-folder-tree.c:2077
 #: ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24
 #: ../ui/evolution-mail-global.xml.h:34
@@ -11518,33 +11518,33 @@ msgstr "Söker igenom mappar på \"%s\""
 msgid "_View"
 msgstr "_Visa"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2078
 msgid "Open in _New Window"
 msgstr "Öppna i _nytt fönster"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2083
 msgid "_New Folder..."
 msgstr "_Ny mapp..."
 
-#: ../mail/em-folder-tree.c:2103
+#: ../mail/em-folder-tree.c:2086
 msgid "_Move..."
 msgstr "_Flytta..."
 
-#: ../mail/em-folder-tree.c:2110
+#: ../mail/em-folder-tree.c:2093
 #: ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
-#: ../mail/em-folder-tree.c:2111
+#: ../mail/em-folder-tree.c:2094
 msgid "Re_fresh"
 msgstr "Upp_datera"
 
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2095
 msgid "Fl_ush Outbox"
 msgstr "Tö_m utkorg"
 
-#: ../mail/em-folder-tree.c:2118
+#: ../mail/em-folder-tree.c:2101
 #: ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "Töm papperskor_gen"
@@ -15206,6 +15206,10 @@ msgid "Bogofilter Options"
 msgstr "Alternativ för Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Skräppostinsticksmodulen Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtrerar skräpmeddelanden med Bogofilter."
 
@@ -15344,7 +15348,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Vill du göra Evolution till din standardklient för e-post?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:626
+#: ../shell/main.c:690
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -16526,11 +16530,11 @@ msgstr "%sAnge lösenord för %s (användare %s)"
 msgid "_Proxy Login..."
 msgstr "_Proxyinloggning..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Proxyfliken kommer endast att vara tillgänglig när kontot är i anslutet läge."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Proxyfliken kommer endast att vara åtkomlig när kontot är aktiverat."
 
@@ -18323,7 +18327,7 @@ msgid "Skip recovery warning dialog"
 msgstr "Hoppa över varningsdialogen för återställning"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
-#: ../shell/main.c:571
+#: ../shell/main.c:576
 msgid "Start in offline mode"
 msgstr "Starta i frånkopplat läge"
 
@@ -18517,7 +18521,7 @@ msgstr "Bug-buddy kunde inte köras."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:663
+#: ../shell/e-shell-window-commands.c:744
 msgid "translator-credits"
 msgstr ""
 "Daniel Nylander\n"
@@ -18530,24 +18534,24 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "tp-sv@listor.tp-sv.se"
 
-#: ../shell/e-shell-window-commands.c:674
+#: ../shell/e-shell-window-commands.c:755
 msgid "Evolution Website"
 msgstr "Evolutions webbplats"
 
-#: ../shell/e-shell-window-commands.c:692
+#: ../shell/e-shell-window-commands.c:773
 msgid "Error opening the FAQ webpage."
 msgstr "Fel vid öppnande av webbplats för frågor och svar."
 
-#: ../shell/e-shell-window-commands.c:889
+#: ../shell/e-shell-window-commands.c:970
 msgid "_Work Online"
 msgstr "A_rbeta ansluten"
 
-#: ../shell/e-shell-window-commands.c:902
+#: ../shell/e-shell-window-commands.c:983
 #: ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "A_rbeta frånkopplad"
 
-#: ../shell/e-shell-window-commands.c:915
+#: ../shell/e-shell-window-commands.c:996
 msgid "Work Offline"
 msgstr "Arbeta frånkopplad"
 
@@ -18652,7 +18656,7 @@ msgstr ""
 "importera externa filer till Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:228
+#: ../shell/main.c:233
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18689,7 +18693,7 @@ msgstr ""
 "Vi hoppas att du gläds åt resultatet av vårt hårda arbete, och vi\n"
 "inväntar med spänning dina bidrag!\n"
 
-#: ../shell/main.c:252
+#: ../shell/main.c:257
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18697,19 +18701,19 @@ msgstr ""
 "Tack\n"
 "Evolution-teamet\n"
 
-#: ../shell/main.c:259
+#: ../shell/main.c:264
 msgid "Do not tell me again"
 msgstr "Tala inte om för mig igen"
 
-#: ../shell/main.c:309
+#: ../shell/main.c:314
 msgid "Evolution Crash Detection"
 msgstr "Evolutions kraschdetektering"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:316
 msgid "Ig_nore"
 msgstr "Ig_norera"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:331
 #, no-c-format
 msgid ""
 "Evolution appears to have exited unexpectedly the last time it was\n"
@@ -18720,43 +18724,43 @@ msgstr ""
 "Alla förhandsvisningspaneler kommer av säkerhetsskäl därför att döljas.\n"
 "Du kan återställa förhandsvisningspanelerna från Visa-menyn.\n"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:342
 msgid "_Do not show this message again"
 msgstr "Visa _inte detta meddelande igen"
 
-#: ../shell/main.c:569
+#: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
 msgstr "Starta Evolution och aktivera den angivna komponenten"
 
-#: ../shell/main.c:573
+#: ../shell/main.c:578
 msgid "Start in online mode"
 msgstr "Starta i anslutet läge"
 
-#: ../shell/main.c:576
+#: ../shell/main.c:581
 msgid "Forcibly shut down all Evolution components"
 msgstr "Tvinga fram nedstängning av alla Evolution-komponenter"
 
-#: ../shell/main.c:580
+#: ../shell/main.c:585
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Tvinga fram ommigrering från Evolution 1.4"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:588
 msgid "Send the debugging output of all components to a file."
 msgstr "Skicka felsökningsinformation från alla komponenter till en fil."
 
-#: ../shell/main.c:585
+#: ../shell/main.c:590
 msgid "Disable loading of any plugins."
 msgstr "Inaktivera inläsning av alla insticksmoduler."
 
-#: ../shell/main.c:587
+#: ../shell/main.c:592
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Inaktivera förhandsvisningspanelen för e-post, kontakter och uppgifter."
 
-#: ../shell/main.c:617
+#: ../shell/main.c:677
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Den personliga informationshanteraren och e-postklienten Evolution"
 
-#: ../shell/main.c:630
+#: ../shell/main.c:694
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21457,16 +21461,16 @@ msgstr "Typ av vy:"
 msgid "Attachment Bar"
 msgstr "Bilagerad"
 
-#: ../widgets/misc/e-attachment.c:306
-#: ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522
-#: ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317
+#: ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533
+#: ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Kan inte bifoga filen %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314
-#: ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325
+#: ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Kan inte bifoga filen %s: inte en vanlig fil"
