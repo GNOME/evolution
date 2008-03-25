@@ -1,3 +1,9 @@
+2008-03-25  Sankar P  <psankar@novell.com>
+
+	* proxy.c: (org_gnome_proxy):
+	We are using some g_object_set on EAccount. 
+	We should also avoid double-free later. So reffing. 
+
 2008-02-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #515744
