@@ -433,10 +433,8 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 		mail_msg_unref (m);
 	}
 
-	if (m->ismain) {
-		user_message_free (m);
+	if (m->ismain)
 		mail_msg_unref (m);
-	}
 
 	return result;
 }
