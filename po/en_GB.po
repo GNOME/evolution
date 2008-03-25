@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-21 15:04+0000\n"
+"POT-Creation-Date: 2008-03-25 23:09+0000\n"
 "PO-Revision-Date: 2008-02-17 10:08-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
@@ -4271,7 +4271,7 @@ msgid ""
 "the meeting is canceled."
 msgstr ""
 "If you do not send a cancellation notice, the other participants may not "
-"know the meeting is canceled."
+"know the meeting is cancelled."
 
 #: ../calendar/calendar.error.xml.h:40
 msgid ""
@@ -8151,8 +8151,8 @@ msgstr[1] "%d memos"
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] ". %d selected"
-msgstr[1] ". %d selected"
+msgstr[0] ", %d selected"
+msgstr[1] ", %d selected"
 
 #: ../calendar/gui/memos-component.c:593
 msgid "Failed upgrading memos."
@@ -12495,7 +12495,7 @@ msgstr "Empty Junk folders on exit"
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Empty Trash folders on exit"
-msgstr "Empty Trash folders on exit"
+msgstr "Empty Wastebasket folders on exit"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Empty all Junk folders when exiting Evolution."
@@ -12503,7 +12503,7 @@ msgstr "Empty all Junk folders when exiting Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "Empty all Trash folders when exiting Evolution."
+msgstr "Empty all Wastebasket folders when exiting Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12532,8 +12532,10 @@ msgid ""
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
 msgstr ""
-"Enable the side bar search feature to allow interactive searching of folder "
-"names."
+"Enable side bar search feature so that you can start interactive searching "
+"by typing in the text. Use is that you can easily find a folder in that side "
+"bar by just typing the folder name and the selection jumps automatically to "
+"that folder."
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid ""
@@ -12617,7 +12619,7 @@ msgstr "Last time empty junk was run"
 
 #: ../mail/evolution-mail.schemas.in.h:58
 msgid "Last time empty trash was run"
-msgstr "Last time empty trash was run"
+msgstr "Last time empty wastebasket was run"
 
 #: ../mail/evolution-mail.schemas.in.h:59
 msgid "Level beyond which the message should be logged."
@@ -12661,11 +12663,11 @@ msgstr "List of mime types to check for bonobo component viewers"
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "List of protocol names whose license has been accepted."
-msgstr "List of protocol names whose license has been accepted."
+msgstr "List of protocol names whose licence has been accepted."
 
 #: ../mail/evolution-mail.schemas.in.h:68
 msgid "Load images for HTML messages over http"
-msgstr "Load images for HTML messages over http"
+msgstr "Load images for HTML messages over HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid ""
@@ -12674,7 +12676,7 @@ msgid ""
 "Always load images off the net."
 msgstr ""
 "Load images for HTML messages over HTTP(S). Possible values are: 0 - Never "
-"load images off the net 1 - Load images in mail from contacts 2 - Always "
+"load images off the net 1 - Load images in messages from contacts 2 - Always "
 "load images off the net"
 
 #: ../mail/evolution-mail.schemas.in.h:70
@@ -12727,7 +12729,7 @@ msgstr "Minimum days between emptying the junk on exit"
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Minimum days between emptying the trash on exit"
+msgstr "Minimum number of days between emptying the wastebasket on exit"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Minimum time between emptying the junk on exit, in days."
@@ -12735,7 +12737,7 @@ msgstr "Minimum time between emptying the junk on exit, in days."
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Minimum time between emptying the trash on exit, in days."
+msgstr "Minimum time between emptying the wastebasket on exit, in days."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -12797,7 +12799,7 @@ msgstr "Prompt while marking multiple messages"
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid "Recognize emoticons in text and replace them with images."
-msgstr "Recognize emoticons in text and replace them with images."
+msgstr "Recognise emoticons in text and replace them with images."
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Recognize links in text and replace them."
@@ -12901,7 +12903,7 @@ msgstr "The last time empty junk was run, in days since the epoch."
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "The last time empty trash was run, in days since the epoch."
+msgstr "The last time empty wastebasket was run, in days since the epoch."
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "The terminal font for mail display."
@@ -13364,7 +13366,7 @@ msgstr "<span weight=\"bold\">Configuration</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr "<span weight=\"bold\">Default Behavior</span>"
+msgstr "<span weight=\"bold\">Default Behaviour</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
@@ -13593,7 +13595,7 @@ msgstr "Email _Address:"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Empty trash folders on e_xit"
-msgstr "Empty trash folders on e_xit"
+msgstr "Empty wastebasket folders on e_xit"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
@@ -14185,7 +14187,7 @@ msgstr "Expunging folder"
 #: ../mail/mail-ops.c:1632
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Emptying trash in '%s'"
+msgstr "Emptying wastebasket in '%s'"
 
 #: ../mail/mail-ops.c:1633
 msgid "Local Folders"
@@ -16393,7 +16395,7 @@ msgstr "Make sure the URL is correct and try again."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr "Make sure the server name is spellt correctly and try again."
+msgstr "Make sure the server name is spelt correctly and try again."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "Make sure the username and password are correct and try again."
@@ -16401,7 +16403,7 @@ msgstr "Make sure the username and password are correct and try again."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "No Global Catalog server configured for this account."
-msgstr "No Global Catalog server configured for this account."
+msgstr "No Global Catalogue server configured for this account."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "No mailbox for user {0} on {1}."
@@ -16865,11 +16867,11 @@ msgstr "%sEnter password for %s (user %s)"
 msgid "_Proxy Login..."
 msgstr "_Proxy Login..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "The Proxy tab will be available only when the account is online."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "The Proxy tab will be available only when the account is enabled."
 
@@ -17161,7 +17163,7 @@ msgstr "Sent to calendar '%s' as cancelled"
 #: ../plugins/itip-formatter/itip-formatter.c:1121
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "Organizer has removed the delegate %s "
+msgstr "Organiser has removed the delegate %s "
 
 #: ../plugins/itip-formatter/itip-formatter.c:1128
 msgid "Sent a cancelation notice to the delegate"
@@ -20418,7 +20420,7 @@ msgstr "Download messages of accounts/folders marked for offline"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
-msgstr "Empty _Trash"
+msgstr "Empty _Wastebasket"
 
 #: ../ui/evolution-mail-global.xml.h:9 ../ui/evolution-mail-list.xml.h:11
 #: ../ui/evolution-subscribe.xml.h:2
