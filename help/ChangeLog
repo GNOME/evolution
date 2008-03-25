@@ -1,3 +1,10 @@
+2008-03-25  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for Bug #507372 from PC Radhika <pradhika@novell.com>
+	
+	* C/evolution.xml: Done language edits on newly 
+	added sections.
+	
 2008-03-19  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation
