@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-03-12 20:15+0200\n"
+"PO-Revision-Date: 2008-03-25 08:11+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -10512,11 +10512,11 @@ msgstr "Sildi _nimi:"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Edit Label"
-msgstr ""
+msgstr "Sildi muutmine"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Add Label"
-msgstr ""
+msgstr "Sildi lisamine"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
@@ -11732,7 +11732,7 @@ msgstr "Sõnumi vastuvõtmine..."
 
 #: ../mail/em-folder-view.c:2806
 msgid "C_all To..."
-msgstr ""
+msgstr "_Helista..."
 
 #: ../mail/em-folder-view.c:2809
 msgid "Create _Search Folder"
@@ -11754,7 +11754,7 @@ msgstr "Klõpsa, et saata sõnumit aadressile %s"
 #: ../mail/em-folder-view.c:3320
 #, c-format
 msgid "Click to call %s"
-msgstr ""
+msgstr "Klõpsa, et helistada numbrile %s"
 
 #: ../mail/em-folder-view.c:3325
 msgid "Click to hide/unhide addresses"
@@ -13100,6 +13100,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
+"Kas lõimede sortimine toimub viimase lõimesoleva sõnumi alusel või mitte"
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Width of the message-list pane"
@@ -15482,6 +15483,10 @@ msgid "Bogofilter Options"
 msgstr "Bogofiltri valikud"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter - rämpspostiplugin"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Filters junk messages using Bogofilter."
 msgstr "Rämpsposti filtreerimine Bogofiltri abil."
 
@@ -16545,7 +16550,7 @@ msgstr "Su parool on aegunud."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "Kasutajat {0} pole võimalik pääsuõiguste loendisse lisada"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:83
 msgid "{0} is already a delegate"
@@ -18685,7 +18690,7 @@ msgstr "Seadistuste versioon"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Decides whether the crash detection should be run or not."
-msgstr ""
+msgstr "Kas krahhituvastus peab töötama või mitte."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
@@ -19140,6 +19145,9 @@ msgid ""
 "run.  As a precautionary measure, all preview panes will be hidden.\n"
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
+"Evolution paistab olevat viimase töötamise lõpetanud ootamatult.\n"
+"Ettevaatusabinõuna on nüüd kõik eelvaatepaanid peidus. Sul on neid\n"
+"võimalik Vaate menüü abil nähtavale tuua.\n"
 
 #: ../shell/main.c:337
 msgid "_Do not show this message again"
@@ -22952,139 +22960,3 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "New Mail Notify sound file"
-#~ msgstr "Helifail uutest sõnumitest teatamiseks"
-
-#~ msgid "New Mail Notify type"
-#~ msgstr "Uuest sõnumist teatamise tüüp"
-
-#~ msgid "Specifies the type of New Mail Notification the user wishes to use."
-#~ msgstr "Kasutaja poolt valitud teavitamise liik uutele sõnumitele."
-
-#~ msgid "Se_lect..."
-#~ msgstr "V_ali..."
-
-#~ msgid "Select Drafts Folder"
-#~ msgstr "Mustandite kausta valimine"
-
-#~ msgid "Select Sent Folder"
-#~ msgstr "Saadetud sõnumite kausta valimine"
-
-#~ msgid "Attachment Reminder Preferences"
-#~ msgstr "Manuste meeldetuletaja eelistused"
-
-#~ msgid "_Contacts..."
-#~ msgstr "_Kontaktid..."
-
-#~ msgid "Every time a new mail arrives, pop up a libnotify notification."
-#~ msgstr "Teavitusakna avamine iga uue sõnumi saabumisel."
-
-#~ msgid "Make the status icon blink"
-#~ msgstr "Olekuikooni vilgutamine"
-
-#~ msgid "When the new-mail status icon is visible, make it blink."
-#~ msgstr ""
-#~ "Uute sõnumite olekuikooni vilgutamine iga uue sõnumi saabumisel (kui "
-#~ "ikoon on nähtaval)."
-
-#~ msgid "New Mail Notification"
-#~ msgstr "Uuest sõnumist teavitamine"
-
-#~ msgid "Con_figure"
-#~ msgstr "_Seadista"
-
-#~ msgid "Download messages for offline"
-#~ msgstr "Laadi sõnumid võrguvaba režiimi jaoks alla"
-
-#~ msgid "MTWTFSS"
-#~ msgstr "ETKNRLP"
-
-#~ msgid "Or_ganiser:"
-#~ msgstr "Ko_rraldaja:"
-
-#~ msgid "Task sort"
-#~ msgstr "Ülesannete sortimine"
-
-#~ msgid "Memo sort"
-#~ msgstr "Märkmete sortimine"
-
-#~ msgid "Post To:"
-#~ msgstr "Kuhu postitada:"
-
-#~ msgid "The Evolution PIM and Email Client"
-#~ msgstr "Evolutioni e-posti ja isikliku teabehalduse klient"
-
-#~ msgid "Di_sable"
-#~ msgstr "_Keelamine"
-
-#~ msgid "Automatic smiley recognition"
-#~ msgstr "Automaatne emotikonituvastus"
-
-#~ msgid "Select a (48*48) png of size < 720bytes"
-#~ msgstr ""
-#~ "Vali PNG-pilt mõõtmetega 48x48 ja suurusega mitte rohkem kui 720 baiti"
-
-#~ msgid ""
-#~ "A plugin which implements a CORBA interface for accessing mail data "
-#~ "remotely."
-#~ msgstr "Plugin, mis teostab CORBA liidese sõnumite andmete kaugligipääsuks."
-
-#~ msgid "Mail Remote"
-#~ msgstr "Kaugpost"
-
-#~ msgid "_Phone List"
-#~ msgstr "_Telefonide loend"
-
-#~ msgid "Sh_ow these fields in order:"
-#~ msgstr "Välju _näidatakse sellest järjestuses:"
-
-#~ msgid "Emulate label resize"
-#~ msgstr "Sildi suuruse muutmise emuleerimine"
-
-#~ msgid "This ülesanne recurs"
-#~ msgstr "See sündmus kordub"
-
-#~ msgid "A Folder with this name already exists"
-#~ msgstr "Sellise nimega kaust on juba olemas"
-
-#~ msgid ""
-#~ "The changed email or name of this contact already\n"
-#~ "exists in this folder.  Would you like to add it anyway?"
-#~ msgstr ""
-#~ "Muudetud kontakti e-posti aadress või nimi juba\n"
-#~ "on antud kaustas juba olemas. Kas sa soovid seda ikka lisada?"
-
-#~ msgid "Valid signature, cannot verify sender"
-#~ msgstr "Kehtiv allkiri, saatjat pole võimalik tuvastada"
-
-#~ msgid "Check Evolution archive"
-#~ msgstr "Evolutioni arhiivi kontrollimine"
-
-#~ msgid "<b>Then</b>"
-#~ msgstr "<b>siis</b>"
-
-#~ msgid "Mark as _Read"
-#~ msgstr "_Märgi loetuks"
-
-#~ msgid "_Do not Mark as Read"
-#~ msgstr "_Ära märgi loetuks"
-
-#~ msgid "<b>Junk Mail Settings</b>"
-#~ msgstr "<b>Rämpsposti sätted</b>"
-
-#~ msgid ""
-#~ "The output directory was not found on iPod! Please ensure that iPod has "
-#~ "been correctly set up and try again."
-#~ msgstr ""
-#~ "Väljundkataloogi ei leitud iPod'ist! Palun veendu, et iPod on korralikult "
-#~ "seadistatud ja proovi uuesti."
-
-#~ msgid "Could not open the Evolution addressbook to export data."
-#~ msgstr ""
-#~ "Evolutioni aadressiraamatut pole andmete eksportimiseks võimalik avada."
-
-#~ msgid "Could not open the Evolution calendar/todo list to export data."
-#~ msgstr ""
-#~ "Evolutioni kalendrit/ülesannete loendit pole võimalik eksportimiseks "
-#~ "avada."
