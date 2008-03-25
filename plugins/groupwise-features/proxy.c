@@ -658,6 +658,8 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
+	/* We are using some g_object_set on this. We shuold also avoid double-free later. So reffing */
+	g_object_ref (account);
 
 	camel_exception_init (&ex);
 	if (!(store = (CamelOfflineStore *) camel_session_get_service (session, e_account_get_string(account, E_ACCOUNT_SOURCE_URL), CAMEL_PROVIDER_STORE, &ex))) {
