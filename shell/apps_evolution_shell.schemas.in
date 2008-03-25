@@ -241,5 +241,152 @@
         <long>A string description of the current printer settings.</long>
       </locale>
     </schema>
+
+    <!-- Network config defaults -->
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/proxy_type</key>
+      <applyto>/apps/evolution/shell/network_config/proxy_type</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <locale name="C">
+        <short>Proxy configuration mode</short>
+        <long>Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 representing "use system settings", "no proxy", "use manual proxy configuration" and "use proxy configuration provided in the autoconfig url" respectively.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/http_port</key>
+      <applyto>/apps/evolution/shell/network_config/http_port</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <locale name="C">
+        <short>HTTP proxy port</short>
+        <long>The port on the machine defined by "/apps/evolution/shell/network_config/http_host" that you proxy through.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/http_host</key>
+      <applyto>/apps/evolution/shell/network_config/http_host</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>HTTP proxy host name</short>
+        <long>The machine name to proxy HTTP through.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/secure_port</key>
+      <applyto>/apps/evolution/shell/network_config/secure_port</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <locale name="C">
+        <short>Secure HTTP proxy port</short>
+        <long>The port on the machine defined by "/apps/evolution/shell/network_config/secure_host" that you proxy through.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/secure_host</key>
+      <applyto>/apps/evolution/shell/network_config/secure_host</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Secure HTTP proxy host name</short>
+        <long>The machine name to proxy secure HTTP through.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/socks_port</key>
+      <applyto>/apps/evolution/shell/network_config/socks_port</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <locale name="C">
+        <short>SOCKS proxy port</short>
+        <long>The port on the machine defined by "/apps/evolution/shell/network_config/socks_host" that you proxy through.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/socks_host</key>
+      <applyto>/apps/evolution/shell/network_config/socks_host</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>SOCKS proxy host name</short>
+        <long>The machine name to proxy socks through.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/use_http_proxy</key>
+      <applyto>/apps/evolution/shell/network_config/use_http_proxy</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <locale name="C">
+        <short>Use HTTP proxy</short>
+        <long>Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/use_authentication</key>
+      <applyto>/apps/evolution/shell/network_config/use_authentication</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <locale name="C">
+        <short>Authenticate proxy server connections</short>
+        <long>If true, then connections to the proxy server require authentication. The username/password combo is defined by "/apps/evolution/shell/network_config/authentication_user" and locally stored password in .gnome2_private/.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/authentication_user</key>
+      <applyto>/apps/evolution/shell/network_config/authentication_user</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>HTTP proxy username</short>
+        <long>User name to pass as authentication when doing HTTP proxying.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/authentication_password</key>
+      <applyto>/apps/evolution/shell/network_config/authentication_password</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>HTTP proxy password</short>
+        <long>Password to pass as authentication when doing HTTP proxying.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/ignore_hosts</key>
+      <applyto>/apps/evolution/shell/network_config/ignore_hosts</applyto>
+      <owner>evolution</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <locale name="C">
+        <short>Non-proxy hosts</short>
+        <long>This key contains a list of hosts which are connected to directly, rather than via the proxy (if it is active). The values can be hostnames, domains (using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and IPv6) and network addresses with a netmask (something like 192.168.0.0/24).</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/network_config/autoconfig_url</key>
+      <applyto>/apps/evolution/shell/network_config/autoconfig_url</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Automatic proxy configuration URL</short>
+        <long>URL that provides proxy configuration values.</long>
+      </locale>
+    </schema>
+
   </schemalist>  
 </gconfschemafile>

@@ -30,6 +30,7 @@
 #include "em-account-prefs.h"
 #include "em-mailer-prefs.h"
 #include "em-composer-prefs.h"
+#include "em-network-prefs.h"
 
 #include "mail-config-factory.h"
 #include "mail-config.h"
@@ -70,7 +71,8 @@ factory(BonoboGenericFactory *factory, const char *component_id, void *closure)
 		return BONOBO_OBJECT (component);
 	} else if (strcmp (component_id, EM_ACCOUNT_PREFS_CONTROL_ID) == 0
 		   || strcmp (component_id, EM_MAILER_PREFS_CONTROL_ID) == 0
-		   || strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID) == 0) {
+		   || strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID) == 0
+		   || strcmp (component_id, EM_NETWORK_PREFS_CONTROL_ID) == 0) {
 		return mail_config_control_factory_cb (factory, component_id, CORBA_OBJECT_NIL);
 	} else if (strcmp(component_id, COMPOSER_ID) == 0) {
 		/* FIXME: how to remove need for callbacks, probably make the composer more tightly integrated with mail */

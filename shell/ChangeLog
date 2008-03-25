@@ -1,3 +1,9 @@
+2008-03-25  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	** Added configurable Proxy settings for Evolution.
+
+	* apps_evolution_shell.schemas.in:
+
 2008-03-03  Tor Lillqvist  <tml@novell.com>
 
 	* main.c (main) [Win32]: Drop the call to gtk_rc_parse_string() to

@@ -161,6 +161,30 @@
 
   </oaf_server>
 
+  <!-- Network Preferences -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_NetworkPrefs_ConfigControl:@VERSION@"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_Factory:@VERSION@">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/ConfigControl:@VERSION@"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="evolution2:config_item:title" type="string"
+		   _value="Network Preferences"/>
+
+    <oaf_attribute name="evolution2:config_item:description" type="string"
+		   _value="Configure your network connection settings here"/>
+
+    <oaf_attribute name="evolution2:config_item:icon_name" type="string"
+		   value="stock_proxy"/>
+    
+    <oaf_attribute name="evolution2:config_item:priority" type="string" value="-8"/>
+    
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Network configuration control"/>
+
+  </oaf_server>
 </oaf_info>
 
 

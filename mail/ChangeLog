@@ -1,3 +1,22 @@
+2008-03-25  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	** Added configurable Proxy settings for Evolution.
+
+	* GNOME_Evolution_Mail.server.in.in:
+	* Makefile.am:
+	* em-network-prefs.c: (em_network_prefs_get_type),
+	(em_network_prefs_class_init), (em_network_prefs_init),
+	(em_network_prefs_finalise), (em_network_prefs_destroy),
+	(toggle_button_toggled), (toggle_button_init), (emnp_widget_glade),
+	(emnp_set_sensitiveness), (emnp_parse_ignore_hosts),
+	(emnp_load_sys_settings), (notify_proxy_type_changed),
+	(widget_entry_changed_cb), (emnp_free), (emnp_set_markups),
+	(em_network_prefs_construct), (em_network_prefs_new):
+	* em-network-prefs.h:
+	* mail-component-factory.c: (factory):
+	* mail-config-factory.c: (mail_config_control_factory_cb):
+	* mail-config.glade:
+
 2008-03-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #511978

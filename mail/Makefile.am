@@ -164,6 +164,8 @@ libevolution_mail_la_SOURCES =			\
 	em-message-browser.c			\
 	em-migrate.c				\
 	em-migrate.h				\
+	em-network-prefs.c			\
+	em-network-prefs.h			\
 	em-popup.c				\
 	em-search-context.c			\
 	em-search-context.h			\
