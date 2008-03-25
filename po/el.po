@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-16 13:21+0200\n"
+"POT-Creation-Date: 2008-03-25 16:08+0000\n"
 "PO-Revision-Date: 2008-03-16 13:20+0200\n"
 "Last-Translator: Kostas Papadimas <pkst@gnome.org>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
@@ -15736,6 +15736,10 @@ msgid "Bogofilter Options"
 msgstr "Επιλογές Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Πρόσθετο ανεπιθύμητων Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Φιλτράρισμα ανεπιθύμητης αλληλογραφίας με τη χρήση Bogofilter."
 
@@ -17129,13 +17133,13 @@ msgstr "%sΕισάγετε κωδικό πρόσβασης για %s (χρήστ
 msgid "_Proxy Login..."
 msgstr "Σύνδεση με δια_μεσολαβητή..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "Η καρτέλα διαμεσολαβητή θα είναι διαθέσιμη μόνο όταν ενεργοποιηθεί ο "
 "λογαριασμός."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "Η καρτέλα διαμεσολαβητή θα είναι διαθέσιμη μόνο όταν ενεργοποιηθεί ο "
@@ -19274,8 +19278,15 @@ msgstr "Δεν ήταν δυνατή η εκτέλεση του Bug buddy."
 #: ../shell/e-shell-window-commands.c:744
 msgid "translator-credits"
 msgstr ""
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>"
+"Ελληνική μεταφραστική ομάδα GNOME\n"
+" Σπύρος Παπαδημητρίου <spapadim+@cs.cmu.edu>\n"
+" Σίμος Ξενιτέλλης <simos@gnome.org>\n"
+" Νίκος Νύκταρης <nikrarin@yahoo.com>\n"
+" Παναγιώτης Πάκος <aeikiniton@yahoo.com>\n"
+" Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>\n"
+" Κώστας Παπαδήμας <pkst@gnome.org>\n"
+"\n"
+"Για περισσότερα δείτε http://www.gnome.gr/"
 
 #: ../shell/e-shell-window-commands.c:755
 msgid "Evolution Website"
