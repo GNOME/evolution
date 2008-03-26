@@ -1534,13 +1534,13 @@
       <mediaobject id="b17rcni6"><imageobject><imagedata format="PNG" fileref="figures/evo_attachreminder_plugin.png"/></imageobject></mediaobject>
      </listitem>
      <listitem id="b17rcq0r">
-      <para>Select keywords such as &ldquo;Attach&rdquo; or &ldquo;Attachment&rdquo; and click Add.</para>
+      <para>Select keywords such as &quot;Attach&quot; or &quot;Attachment&quot; and click Add.</para>
       <para>Based on the keywords you have added here, it searches every mail you are sending. If it finds the keywords such as &ldquo;attach&rdquo; in your mail and there is no actual attached file, you are reminded of missing attachments.</para>
      </listitem>
      <listitem id="b1a57zh3">
       <para>To edit any of the existing keywords, select the keyword, click Edit, then modify the word as desired.</para>
      </listitem>
-     <listitem id="b1a57zh3">
+     <listitem id="b1a57zh4">
       <para>When you have finished making your selections, click Close to exit the Plugin Manager.</para>
      </listitem>
     </orderedlist>
@@ -4660,7 +4660,7 @@
 
    <section id="b17qeph9">
     <title>Searching for Memo Items</title>
-    <p>You can use a customized search, an advanced search, or a quick search to search for Memo Items.</p>
+    <para>You can use a customized search, an advanced search, or a quick search to search for Memo Items.</para>
     <formalpara id="b17qermf">
      <title>Customized Search:</title>
      <para>Evolution enables you to find the Memo items by using a Customized Search.</para>
@@ -5833,7 +5833,6 @@
       </listitem>
       <listitem id="b17qte6b">
        <para>Under Return Notification, specify the type of return receipt you want.</para>
-       </formalpara>
       </listitem>
       <listitem id="b17qtf00">
        <para>Click OK.</para>
@@ -5953,6 +5952,7 @@
     </section>
    </section>
   </section>
+  
   <section id="Aai4ois">
    <title>Giving Other People Access to Your Mailbox or Calendar</title>
    <para>Use Proxy to manage another user's Mailbox and Calendar. Proxy lets you perform various actions, such as reading, accepting, and declining items on behalf of another user, within the restrictions the other user sets.</para>

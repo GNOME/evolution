@@ -1,3 +1,9 @@
+2008-03-26  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes Bug #524434. From PC Radhika <pradhika@novell.com>
+	
+	* C/evolution.xml: Fixed build break.
+
 2008-03-25  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fix for Bug #507372 from PC Radhika <pradhika@novell.com>
