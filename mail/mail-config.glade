@@ -7146,27 +7146,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <child internal-child="menu">
 					    <widget class="GtkMenu" id="convertwidget33">
 					      <property name="visible">True</property>
-
-					      <child>
-						<widget class="GtkMenuItem" id="convertwidget34">
-						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Quote original message</property>
-						  <property name="use_underline">True</property>
-						</widget>
-					      </child>
-
-					      <child>
-						<widget class="GtkMenuItem" id="convertwidget35">
-						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Do not quote original message</property>
-						  <property name="use_underline">True</property>
-						</widget>
-					      </child>
-
 					      <child>
 						<widget class="GtkMenuItem" id="convertwidget36">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Attach original message</property>
+						  <property name="label" translatable="yes">Attachment</property>
 						  <property name="use_underline">True</property>
 						</widget>
 					      </child>
@@ -7174,10 +7157,27 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					      <child>
 						<widget class="GtkMenuItem" id="convertwidget50">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Inline original message (Outlook style)</property>
+						  <property name="label" translatable="yes">Inline (Outlook style)</property>
 						  <property name="use_underline">True</property>
 						</widget>
 					      </child>
+
+					      <child>
+						<widget class="GtkMenuItem" id="convertwidget34">
+						  <property name="visible">True</property>
+						  <property name="label" translatable="yes">Quoted</property>
+						  <property name="use_underline">True</property>
+						</widget>
+					      </child>
+
+					      <child>
+						<widget class="GtkMenuItem" id="convertwidget35">
+						  <property name="visible">True</property>
+						  <property name="label" translatable="yes">Do not quote</property>
+						  <property name="use_underline">True</property>
+						</widget>
+					      </child>
+					      
 					    </widget>
 					  </child>
 					</widget>

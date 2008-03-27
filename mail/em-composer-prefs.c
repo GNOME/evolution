@@ -720,6 +720,19 @@ spell_setup_check_options (EMComposerPrefs *prefs)
  * End of Spell checking
  */
 
+static int
+attach_style_reply_new_order (int style_id, gboolean from_enum_to_option_id)
+{
+	int values[] = {MAIL_CONFIG_REPLY_ATTACH, 0, MAIL_CONFIG_REPLY_OUTLOOK, 1, MAIL_CONFIG_REPLY_QUOTED, 2, MAIL_CONFIG_REPLY_DO_NOT_QUOTE, 3, -1, -1};
+	int i;
+
+	for (i = from_enum_to_option_id ? 0 : 1; values[i] != -1; i += 2) {
+		if (values[i] == style_id)
+			return values [from_enum_to_option_id ? i + 1 : i - 1];
+	}
+
+	return style_id;
+}
 
 static void
 attach_style_info (GtkWidget *item, gpointer user_data)
@@ -727,6 +740,16 @@ attach_style_info (GtkWidget *item, gpointer user_data)
 	int *style = user_data;
 
 	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (*style));
+
+	(*style)++;
+}
+
+static void
+attach_style_info_reply (GtkWidget *item, gpointer user_data)
+{
+	int *style = user_data;
+
+	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (attach_style_reply_new_order (*style, FALSE)));
 
 	(*style)++;
 }
@@ -975,10 +998,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
 	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL);
-	gtk_option_menu_set_history (prefs->reply_style, style);
+	gtk_option_menu_set_history (prefs->reply_style, attach_style_reply_new_order (style, TRUE));
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
-			       attach_style_info, &style);
+			       attach_style_info_reply, &style);
 	option_menu_connect (prefs, prefs->reply_style, G_CALLBACK (style_activate),
 			     "/apps/evolution/mail/format/reply_style");
 

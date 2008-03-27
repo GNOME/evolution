@@ -1,5 +1,14 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #502826 (original patch by nickspoon0)
+
+	* mail-config.glade:
+	* em-composer-prefs.c: (attach_style_reply_new_order),
+	(attach_style_info_reply), (em_composer_prefs_construct):
+	Reword and reorder Reply Style items in the Preferences.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #488175
 
 	* message-list.c: (ml_tree_value_at):
