@@ -1,3 +1,10 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488175
+
+	* message-list.c: (ml_tree_value_at):
+	Colorize follow-up messages same as with due-by flag.
+
 2008-03-25  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	** Added configurable Proxy settings for Evolution.

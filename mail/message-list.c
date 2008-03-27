@@ -1411,7 +1411,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER (!(flags & CAMEL_MESSAGE_SEEN));
 	}
 	case COL_COLOUR: {
-		const char *colour, *due_by, *completed;
+		const char *colour, *due_by, *completed, *followup;
 		char *labels_string = NULL;
 		int n;
 
@@ -1425,6 +1425,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		colour = camel_message_info_user_tag(msg_info, "colour");
 		due_by = camel_message_info_user_tag(msg_info, "due-by");
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
+		followup = camel_message_info_user_tag(msg_info, "follow-up");
 		if (colour == NULL) {
 			if ((n = get_all_labels (msg_info,  &labels_string, TRUE)) == 1) {
 
@@ -1432,12 +1433,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			} else if (camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
-			} else if ((due_by && *due_by) && !(completed && *completed)) {
+			} else if (((followup && *followup) || (due_by && *due_by)) && !(completed && *completed)) {
 				time_t now = time (NULL);
-				time_t target_date;
 
-				target_date = camel_header_decode_date (due_by, NULL);
-				if (now >= target_date)
+				if ((followup && *followup) || now >= camel_header_decode_date (due_by, NULL))
 					colour = "#A7453E";
 			}
 		}
