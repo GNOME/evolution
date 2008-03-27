@@ -3547,17 +3547,6 @@ message_list_set_threaded (MessageList *ml, gboolean threaded)
 }
 
 void
-message_list_set_expand_all (MessageList *ml, gboolean threaded)
-{
-	if (ml->threaded != threaded) {
-		ml->threaded = threaded;
-
-		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL);
-	}
-}
-
-void
 message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted)
 {
 	if (ml->hidedeleted != hidedeleted) {
@@ -4063,8 +4052,8 @@ regen_list_done (struct _regen_list_msg *m)
 		else
 			load_tree_state (m->ml);
 
-		m->ml->expand_all = FALSE;
-		m->ml->collapse_all = FALSE;
+		m->ml->expand_all = 0;
+		m->ml->collapse_all = 0;
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 

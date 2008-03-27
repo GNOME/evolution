@@ -1,3 +1,10 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #519292
+
+	* e-tree-table-adapter.c: (set_expanded_state_func),
+	(set_collapsed_state_func): Use rather recurse function.
+
 2008-02-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #209353
