@@ -241,7 +241,6 @@
 
 				  <child>
 				    <widget class="GtkButton" id="Address">
-				      <property name="width_request">96</property>
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
@@ -316,7 +315,6 @@
 
 				  <child>
 				    <widget class="GtkButton" id="Add">
-				      <property name="width_request">61</property>
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
@@ -359,7 +357,6 @@
 
 					      <child>
 						<widget class="GtkLabel" id="label561">
-						  <property name="width_request">29</property>
 						  <property name="visible">True</property>
 						  <property name="label" translatable="yes">_Add</property>
 						  <property name="use_underline">True</property>
@@ -788,7 +785,6 @@
 
 	  <child>
 	    <widget class="GtkLabel" id="label555">
-	      <property name="width_request">248</property>
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes"></property>
 	      <property name="use_underline">False</property>
