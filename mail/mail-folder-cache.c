@@ -389,6 +389,7 @@ create_folders(CamelFolderInfo *fi, struct _store_info *si)
 static void
 folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
+	static time_t last_newmail = 0;
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *)o;
 	CamelStore *store = folder->parent_store;
@@ -414,11 +415,15 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				flags = camel_message_info_flags (info);
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
-				    ((flags & CAMEL_MESSAGE_DELETED) == 0))
+				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
+				    (camel_message_info_date_received (info) > last_newmail))
 					new++;
 			}
 		}
 	}
+
+	if (new > 0 || !last_newmail)
+		time (&last_newmail);
 
 	LOCK(info_lock);
 	if (stores != NULL
