@@ -1,3 +1,9 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #507526
+
+	* e-send-options.glade: Add translators' comment.
+
 2008-03-14  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #482148
