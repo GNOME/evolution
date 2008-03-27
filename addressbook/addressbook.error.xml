@@ -115,7 +115,7 @@
 
  <error id="contact-delete-error-perm" type="warning">
   <_primary>Failed to delete contact</_primary> 
-  <_secondary>Permission Denied.</_secondary>
+  <_secondary>You do not have enough permissions to delete contact in this Address Book.</_secondary>
  </error>
 
  <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">

@@ -1,5 +1,12 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #438613
+
+	* addressbook.error.xml:
+	Improved "contact-delete-error-perm" secondary text.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #316572
 
 	* gui/component/ldap-config.glade: Do not translate unused text.

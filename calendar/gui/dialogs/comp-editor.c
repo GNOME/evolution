@@ -915,7 +915,7 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	switch (save_component_dialog (GTK_WINDOW(editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
 		if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
-			e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal", e_source_peek_name (e_cal_get_source (priv->client)), NULL);
+			e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal-editor", e_source_peek_name (e_cal_get_source (priv->client)), NULL);
 			/* don't discard changes when selected readonly calendar */
 			return FALSE;
 		}
@@ -1290,7 +1290,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	}
 
 	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
-		e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal", e_source_peek_name (e_cal_get_source (priv->client)), NULL);
+		e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal-editor", e_source_peek_name (e_cal_get_source (priv->client)), NULL);
 		return;
 	}
 

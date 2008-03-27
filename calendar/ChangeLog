@@ -1,3 +1,12 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #438613
+
+	* calendar.error.xml: New message "prompt-read-only-cal-editor".
+	* gui/dialogs/comp-editor.c: (prompt_and_save_changes),
+	(menu_file_save_cb): Use different read-only message when checking
+	from contact editor and from calendar UI.
+
 2008-03-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #512543
