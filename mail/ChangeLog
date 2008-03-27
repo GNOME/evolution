@@ -1,3 +1,11 @@
+2008-03-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #523271
+
+	* em-popup.c (emp_standard_menu_factory):
+	Lowercase the MIME type before passing it to
+	gnome_vfs_mime_get_all_applications().
+
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #522178
