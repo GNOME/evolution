@@ -790,6 +790,8 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 			fd->puri = pitip;
 			fd->uid = g_strdup (uid);
 			fd->rid = rid;
+			/* avoid free this at the end */
+			rid = NULL;
 
 			if (pitip->start_time && pitip->end_time) {
 				start = isodate_from_time_t (pitip->start_time);
@@ -815,6 +817,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 	g_slist_free (all_sources);
 	g_slist_free (sources_conflict);
 	g_free (uri);
+	g_free (rid);
 }
 
 static void
