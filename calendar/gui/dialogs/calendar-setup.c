@@ -474,10 +474,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 	target->source_type = E_CAL_SOURCE_TYPE_EVENT;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
-	if (source)
-		sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("Calendar Properties"));
-	else
-		sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("New Calendar"));
+	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, source ? _("Calendar Properties") : _("New Calendar"));
 
 	/* forces initial validation */
 	if (!sdialog->original_source)
@@ -533,7 +530,7 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 	target->source_type = E_CAL_SOURCE_TYPE_TODO;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
-	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("Task List Properties"));
+	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, source ? _("Task List Properties") : _("New Task List"));
 
 	/* forces initial validation */
 	if (!sdialog->original_source)
@@ -589,7 +586,7 @@ calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
 	target->source_type = E_CAL_SOURCE_TYPE_JOURNAL;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
-	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, _("New Memo List"));
+	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, source ? _("Memo List Properties") : _("New Memo List"));
 
 	/* forces initial validation */
 	if (!sdialog->original_source)

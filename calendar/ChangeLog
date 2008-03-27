@@ -1,5 +1,13 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #517492
+
+	* gui/dialogs/calendar-setup.c: (calendar_setup_edit_calendar),
+	(calendar_setup_edit_task_list), (calendar_setup_edit_memo_list):
+	Set proper dialog caption with New or Properties.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #438613
 
 	* calendar.error.xml: New message "prompt-read-only-cal-editor".
