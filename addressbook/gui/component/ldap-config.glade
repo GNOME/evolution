@@ -85,7 +85,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label564">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Display&lt;/b&gt;</property>
+		  <property name="label" translatable="no">Display</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -199,7 +199,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label557">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Server Information&lt;/b&gt;</property>
+		      <property name="label" translatable="no">Server Information</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1823,7 +1823,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label38">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Display&lt;/b&gt;</property>
+		      <property name="label" translatable="no">Display</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2100,7 +2100,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label39">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Server Information&lt;/b&gt;</property>
+		      <property name="label" translatable="no">Server Information</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
