@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-25 19:18+0100\n"
-"PO-Revision-Date: 2008-03-25 19:18+0100\n"
+"POT-Creation-Date: 2008-03-27 23:52+0100\n"
+"PO-Revision-Date: 2008-03-28 00:04+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -696,7 +696,7 @@ msgid "Copy _book content locally for offline operation"
 msgstr "Kopiera _bokinnehåll lokalt för frånkopplad användning"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -723,7 +723,7 @@ msgid "Authentication"
 msgstr "Autentisering"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10
 #: ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
@@ -739,7 +739,7 @@ msgid "Downloading"
 msgstr "Hämtning"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Egenskaper för adressboken"
 
@@ -942,192 +942,184 @@ msgid "<b>Authentication</b>"
 msgstr "<b>Autentisering</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>Visning</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>Hämtning</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>Sökning</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>Serverinformation</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>Typ:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "Lägg till adressbok"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Alltid"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "Anonymt"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "Grundläggande"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "Distinguished name"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "E-postadress"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid "Evolution will use this email address to authenticate you with the server."
 msgstr "Evolution kommer att använda denna e-postadress för att autentisera dig med servern."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "Sök möjliga sökbaser"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "Inlo_ggning:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Aldrig"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "Ingen kryptering"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "En"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "SSL-kryptering"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "Sökfilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "Sök_bas:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "Sök_filter:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "Sökfilter"
 
 # Intressant engelska
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid "Search filter is the type of the objects searched for, while performing the search. If this is not modified, by  default search will be performed on objectclass of the type \"person\"."
 msgstr "Sökfilter är den typ av objekt som ska sökas efter när ett sök genomförs. Om den inte ändras kommer den som standard använda objektklassen av typen \"person\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL."
 msgstr "Att välja detta alternativ innebär att Evolution endast kommer att ansluta till din LDAP-server om den stöder SSL."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports TLS."
 msgstr "Att välja detta alternativ innebär att Evolution endast kommer att ansluta till din LDAP-server om den stöder TLS."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid "Selecting this option means that your server does not support either SSL or TLS. This means that your connection will be insecure, and that you will be vulnerable to security exploits."
 msgstr "Att välja detta alternativ betyder att din server inte stöder varken SSL eller TLS. Detta betyder att din anslutning kommer att vara osäker, och att du kommer att vara sårbar för säkerhetsluckor."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "Pren"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "Sökbaser som stöds"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "TLS-kryptering"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid "The search base is the distinguished name (DN) of the entry where your searches will begin. If you leave this blank, the search will begin at the root of the directory tree."
 msgstr "Sökbasen är distinguished name (DN) för posten där dina sökningar kommer att starta. Om du lämnar detta tomt kommer sökningen att börja vid roten av katalogträdet."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid "The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base."
 msgstr "Sökomfattningen anger hur djupt du vill att sökningen ska gå ner i katalogträdet. En sökomfattning som är \"sub\" kommer att inkludera alla poster under din sökbas. En sökomfattning som är \"one\" kommer endast att inkludera de poster som är en nivå under din sökbas."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid "This is the full name of your ldap server. For example, \"ldap.mycompany.com\"."
 msgstr "Detta är det fullständiga namnet på din ldap-server. Till exempel \"ldap.mittforetag.se\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid "This is the maximum number of entries to download. Setting this number to be too large will slow down your address book."
 msgstr "Detta är det största antalet poster att hämta. Att ställa in detta tal för högt kommer att slöa ned adressboken."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid "This is the method Evolution will use to authenticate you.  Note that setting this to \"Email Address\" requires anonymous access to your ldap server."
 msgstr "Detta är den metod som Evolution kommer att använda för att autentisera dig. Observera att ställa in detta till \"E-postadress\" kräver anonym åtkomst till din ldap-server."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid "This is the name for this server that will appear in your Evolution folder list. It is for display purposes only. "
 msgstr "Det här är namnet på denna server som kommer att visas i din Evolution-mapplista. Det används endast för visning."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid "This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."
 msgstr "Det här är porten på LDAP-servern som Evolution kommer att försöka ansluta till. En lista med standardportar tillhandahålls. Fråga din systemadministratör vilken port du ska ange."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "Använder distinguished name (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "Använder e-postadress"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "Närsomhelst"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "_Lägg till adressbok"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "_Hämtningsgräns:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "_Sök möjliga sökbaser"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "_Inloggningsmetod:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1135,33 +1127,33 @@ msgstr "_Inloggningsmetod:"
 msgid "_Name:"
 msgstr "_Namn:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "_Sökomfattning:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Server:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "_Tidsgräns:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "_Använd säker anslutning:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "kort"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20
@@ -5655,15 +5647,15 @@ msgstr "före varje möte"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y calendar contents locally for offline operation"
-msgstr "Kopie_ra kalenderinnehåll lokalt för frånkopplad åtgärd"
+msgstr "Kopie_ra kalenderinnehåll lokalt för frånkopplad användning"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y task list contents locally for offline operation"
-msgstr "Kopie_ra innehåll i uppgiftslista lokalt för frånkopplad åtgärd"
+msgstr "Kopie_ra innehåll i uppgiftslista lokalt för frånkopplad användning"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:276
 msgid "Cop_y memo list contents locally for offline operation"
-msgstr "Kopie_ra innehåll i memolista lokalt för frånkopplad åtgärd"
+msgstr "Kopie_ra innehåll i memolista lokalt för frånkopplad användning"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:346
 msgid "C_olor:"
@@ -6861,7 +6853,7 @@ msgid "_Save Selected"
 msgstr "_Spara markerade"
 
 #: ../calendar/gui/e-cal-popup.c:402
-#: ../mail/em-popup.c:790
+#: ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
@@ -13929,7 +13921,7 @@ msgstr "_Flagga:"
 msgid "_Tick this to accept the license agreement"
 msgstr "_Kryssa för detta för att acceptera licensavtalet"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "Pingar %s"
@@ -14828,7 +14820,7 @@ msgstr "%d %b %H.%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
@@ -15927,11 +15919,11 @@ msgstr "Prenumerera på annan användares kalender"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid "A plugin that handles a collection of Exchange account specific operations and features."
-msgstr "En insticksmodul som hanterar en samling operationer och funktioner som är specifika för Exchange-konton."
+msgstr "En insticksmodul som hanterar en samling åtgärder och funktioner som är specifika för Exchange-konton."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
-msgstr "Exchange-operationer"
+msgstr "Exchange-åtgärder"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot change password due to configuration problems."
@@ -22616,6 +22608,10 @@ msgstr "IM-sammanhang"
 msgid "Handle Popup"
 msgstr "Handtagspopupfönster"
 
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>Visning</b>"
+#~ msgid "<b>Server Information</b>"
+#~ msgstr "<b>Serverinformation</b>"
 #~ msgid ""
 #~ "The address book {0} is read only, thus you cannot add contacts there. "
 #~ "Select other address book, please."
