@@ -524,6 +524,7 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 	char *gladefile;
 
 	sf->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_type_hint (GTK_WINDOW (sf->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "properties.glade",
@@ -543,11 +544,10 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 	gtk_window_set_title (GTK_WINDOW (sf->window), "Custom Notification");
 	gtk_window_set_position (GTK_WINDOW (sf->window) , GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_window_set_default_size (GTK_WINDOW (sf->window), 100, 200);
-	gtk_widget_reparent (GTK_WIDGET (sf->window), GTK_WIDGET (sf->vbox));
-	gtk_window_set_transient_for ((GtkWindow *)sf->window, GTK_WINDOW(sf->vbox));
+	gtk_window_set_transient_for ((GtkWindow *)sf->window, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (sf->table))));
 	gtk_window_set_modal ((GtkWindow *)sf->window, TRUE);
-	gtk_window_present ((GtkWindow *)sf->window);
 	gtk_widget_show_all (sf->window);
+	gtk_window_present ((GtkWindow *)sf->window);
 }
 
 static void
