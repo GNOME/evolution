@@ -1,5 +1,15 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #519292
+
+	* message-list.h: (message_list_set_expand_all):
+	* message-list.c: (message_list_set_expand_all):
+	Remove unused confusing function.
+	* message-list.c: (regen_list_done):
+	Use numbers instead of gboolean value.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #502826 (original patch by nickspoon0)
 
 	* mail-config.glade:

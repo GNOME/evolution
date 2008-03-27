@@ -991,7 +991,7 @@ set_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
 
 	if (node->expanded != TRUE) {
-		e_tree_table_adapter_node_set_expanded(etta, path, TRUE);
+		e_tree_table_adapter_node_set_expanded_recurse (etta, path, TRUE);
 		node->expanded = TRUE;
 	}
 }
@@ -1004,7 +1004,7 @@ set_collapsed_state_func (gpointer keyp, gpointer value, gpointer data)
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
 
 	if (node->expanded != FALSE) {
-		e_tree_table_adapter_node_set_expanded(etta, path, FALSE);
+		e_tree_table_adapter_node_set_expanded_recurse (etta, path, FALSE);
 		node->expanded = FALSE;
 	}
 }
