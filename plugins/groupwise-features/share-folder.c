@@ -541,7 +541,7 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 	g_signal_connect ((gpointer) not_ok, "clicked", G_CALLBACK (not_ok_clicked), sf);
 	not_cancel = GTK_BUTTON (glade_xml_get_widget (xmln, "nCancel"));
 	g_signal_connect ((gpointer) not_cancel, "clicked", G_CALLBACK (not_cancel_clicked), sf->window);
-	gtk_window_set_title (GTK_WINDOW (sf->window), "Custom Notification");
+	gtk_window_set_title (GTK_WINDOW (sf->window), _("Custom Notification"));
 	gtk_window_set_position (GTK_WINDOW (sf->window) , GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_window_set_default_size (GTK_WINDOW (sf->window), 100, 200);
 	gtk_window_set_transient_for ((GtkWindow *)sf->window, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (sf->table))));

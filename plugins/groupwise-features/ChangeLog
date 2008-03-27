@@ -1,5 +1,12 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #511956
+
+	* share-folder.c: (notification_clicked): Mark text for translation.
+	* properties.glade: Make dialog nicer.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #511953
 
 	* share-folder.c: (notification_clicked): Create dialog properly.
