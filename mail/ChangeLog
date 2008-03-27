@@ -1,5 +1,13 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #522178
+
+	* mail-folder-cache.c: (folder_changed): Put back hack with
+	checking time of new message in the folder based with last
+	time of new mail as it was before patch in bug #492702.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #519292
 
 	* message-list.h: (message_list_set_expand_all):
