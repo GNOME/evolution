@@ -1,5 +1,11 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #511953
+
+	* share-folder.c: (notification_clicked): Create dialog properly.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #511950
 
 	* properties.glade: Do not force button/label sizes.
