@@ -1,5 +1,15 @@
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #511957
+
+	* org-gnome-proxy-login-errors.xml:
+	* org-gnome-shared-folder.errors.xml:
+	* org-gnome-proxy-errors.xml:
+	* org-gnome-mail-retract-errors.xml:
+	Mark messages for translation.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #511956
 
 	* share-folder.c: (notification_clicked): Mark text for translation.

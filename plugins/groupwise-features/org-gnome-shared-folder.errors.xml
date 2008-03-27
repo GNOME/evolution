@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="org.gnome.evolution.mail_shared_folder">
+
 <error id="invalid-user" type="error">
-<primary>Invalid user</primary>
-<secondary>
+<_primary>Invalid user</_primary>
+<_secondary>
 You cannot share folder with specified user &quot;{0}&quot; 
-</secondary>
+</_secondary>
 </error>
 
 <error id="no-user" type="error">
-<primary>Specify User</primary>
-<secondary>
+<_primary>Specify User</_primary>
+<_secondary>
 	You have to specify a user name whom you want to add to the list 
-</secondary>
+</_secondary>
 </error>
 
 <error id="recurrence" type="question" default="GTK_RESPONSE_YES">
-<primary>This is a recurring meeting</primary>
-<secondary>What would you like to {0}?</secondary>
+<_primary>This is a recurring meeting</_primary>
+<_secondary>What would you like to {0}?</_secondary>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
- <button label="This instance" response="GTK_RESPONSE_NO"/>
- <button label="All instances" response="GTK_RESPONSE_YES"/>
+ <button _label="This instance" response="GTK_RESPONSE_NO"/>
+ <button _label="All instances" response="GTK_RESPONSE_YES"/>
 </error>
-
-
 
 </error-list>
 

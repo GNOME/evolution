@@ -1,3 +1,10 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #511957
+
+	* POTFILES.in:
+	Added plugins/groupwise-features/org-gnome-mail-retract-errors.xml.
+
 2008-03-25  Philip Withnall  <pwithnall@svn.gnome.org>
 
 	* en_GB.po: Updated British English translation.

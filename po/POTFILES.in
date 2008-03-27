@@ -331,6 +331,7 @@ plugins/groupwise-features/junk-settings.glade
 plugins/groupwise-features/mail-retract.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
+plugins/groupwise-features/org-gnome-mail-retract-errors.xml
 plugins/groupwise-features/org-gnome-proxy-errors.xml
 plugins/groupwise-features/org-gnome-proxy-login-errors.xml
 plugins/groupwise-features/org-gnome-shared-folder.errors.xml
