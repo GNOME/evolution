@@ -753,6 +753,12 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	}
 
 	if (mime_type) {
+                gchar *cp;
+
+                /* GNOME-VFS expects lowercase MIME types. */
+                for (cp = mime_type; *cp != NULL; cp++)
+                        *cp = g_ascii_tolower (*cp);
+
 		apps = gnome_vfs_mime_get_all_applications(mime_type);
 
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
