@@ -4,7 +4,7 @@
 # Manuel Borchers <webmaster@matronix.de>, 2002.
 # Kai Lahmann <kl@linuxfaqs.de>, 2000.
 # Matthias Warkus <mawa@iname.com>, 2000.
-# Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006, 2007.
+# Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006, 2007, 2008.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Christian Kintner <mail@christian-kintner.de>, 2006, 2007.
 # Andre Klapper <ak-47@gmx.net>, 2007, 2008.
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-14 11:58+0100\n"
-"PO-Revision-Date: 2008-03-14 12:08+0100\n"
-"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
+"POT-Creation-Date: 2008-03-27 18:36+0100\n"
+"PO-Revision-Date: 2008-03-27 18:38+0100\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -740,7 +740,7 @@ msgid "Copy _book content locally for offline operation"
 msgstr "Den Adressbuchinhalt lokal zum Arbeiten im Offline-Modus _kopieren"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -766,7 +766,7 @@ msgid "Authentication"
 msgstr "Legitimation"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Details"
@@ -781,7 +781,7 @@ msgid "Downloading"
 msgstr "Herunterladen"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Adressbucheigenschaften"
 
@@ -988,105 +988,97 @@ msgid "<b>Authentication</b>"
 msgstr "<b>Legitimation</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>Anzeigen</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>Herunterladen</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>Suche</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>Server-Informationen</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>Art:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "Adressbuch hinzufügen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Immer"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "Anonym"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "Grundlegend"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "Eindeutiger Name"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution verwendet diese E-Mail-Adresse, um Sie beim Server zu legitimieren."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "Unterstützte Suchbasen suchen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "Anm_eldename:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Nie"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "Keine Verschlüsselung"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "Eins"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "SSL-Verschlüsselung"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "Suchfilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "Such_basis:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "Such_filter:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "Suchfilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1096,7 +1088,7 @@ msgstr ""
 "soll. Wird der Suchfilter nicht verändert, wird nach die Suche per Vorgabe "
 "in der Objektklasse der Art »Person« durchgeführt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
@@ -1104,7 +1096,7 @@ msgstr ""
 "Wenn Sie diese Option auswählen, stellt Evolution nur dann eine Verbindung "
 "mit Ihrem LDAP-Server her, falls dieser SSL unterstützt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
@@ -1112,7 +1104,7 @@ msgstr ""
 "Wenn Sie diese Option auswählen, stellt Evolution nur dann eine Verbindung "
 "mit Ihrem LDAP-Server her, falls dieser TLS unterstützt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1122,23 +1114,23 @@ msgstr ""
 "Verbindung zu Ihrem LDAP-Server her. Das bedeutet, dass Ihre Verbindung "
 "unsicher ist und dadurch ein Sicherheitsproblem entsteht."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "Sub"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "Unterstützte Suchbasen"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "TLS-Verschlüsselung"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1148,7 +1140,7 @@ msgstr ""
 "Eintrags, bei dem die Suche beginnt. Wenn Sie dieses Feld leer lassen, "
 "beginnt die Suche an der Wurzel des Verzeichnisbaums."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1157,10 +1149,10 @@ msgid ""
 msgstr ""
 "Der Suchbereich legt fest, wie tief Sie bei der Suche im Verzeichnisbaum "
 "absteigen wollen. Der Suchbereich »sub« schließt alle Einträge unterhalb des "
-"Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die "
-"Ebene unterhalb des Ausgangspunktes der Suche ein."
+"Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die Ebene "
+"unterhalb des Ausgangspunktes der Suche ein."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
@@ -1168,7 +1160,7 @@ msgstr ""
 "Dies ist der vollständige Name des LDAP-Servers. Zum Beispiel: »ldap."
 "meinefirma.de«."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1176,7 +1168,7 @@ msgstr ""
 "Dies ist die maximale Anzahl herunterzuladender Einträge. Wenn diese Zahl zu "
 "hoch angesetzt ist, werden Vorgänge im Adressbuch verlangsamt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1186,7 +1178,7 @@ msgstr ""
 "Beachten Sie, dass ein anonymer Zugriff auf den LDAP-Server erforderlich "
 "ist, wenn Sie dies auf »E-Mail-Adresse« einstellen."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1194,7 +1186,7 @@ msgstr ""
 "Dies ist der Name für diesen Server, der in der Ordnerliste von Evolution "
 "angezeigt wird. Er dient lediglich zu Anzeigezwecken. "
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1204,35 +1196,35 @@ msgstr ""
 "soll. Es wurde bereits eine Liste der Standard-Ports bereitgestellt. Fragen "
 "Sie Ihren Systemadministrator, welchen Port Sie angeben müssen."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "Eindeutigen Namen (EN) verwenden"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "E-Mail-Adresse verwenden"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "Immer, wenn möglich"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "Adressbuch _hinzufügen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "_Download-Limit:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "Unterstützte Suchbasen _suchen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "An_meldemethode:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1240,33 +1232,33 @@ msgstr "An_meldemethode:"
 msgid "_Name:"
 msgstr "_Name:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "_Suchbereich:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Server:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "_Zeitüberschreitung:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "_Sichere Verbindung verwenden:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "Karten"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -3763,6 +3755,7 @@ msgstr "VCard für %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1027
 #: ../addressbook/gui/widgets/eab-gui-util.c:1052
+#, c-format
 msgid "Contact information"
 msgstr "Kontaktinformationen"
 
@@ -4227,16 +4220,19 @@ msgstr "Sind Sie sicher, dass Sie diesen Termin löschen wollen?"
 
 #: ../calendar/calendar.error.xml.h:20
 #: ../calendar/gui/dialogs/delete-comp.c:183
+#, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Sind Sie sicher, dass Sie diese Besprechung löschen wollen?"
 
 #: ../calendar/calendar.error.xml.h:21
 #: ../calendar/gui/dialogs/delete-comp.c:189
+#, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Sind Sie sicher, dass Sie diese Notiz löschen wollen?"
 
 #: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:186
+#, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Sind Sie sicher, dass Sie diese Aufgabe löschen wollen?"
 
@@ -6469,23 +6465,27 @@ msgid "_Group:"
 msgstr "_Gruppe:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
+#, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einem wiederkehrenden Ereignis vor. Was möchten Sie "
 "verändern?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
+#, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
 "Sie delegieren ein wiederkehrendes Ereignis. Was möchten Sie delegieren?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
+#, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einer wiederkehrenden Aufgabe vor. Was möchten Sie "
 "verändern?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
+#, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einer wiederkehrenden Notiz vor. Was möchten Sie "
@@ -7065,7 +7065,7 @@ msgstr "Zum _Hintergrund machen"
 msgid "_Save Selected"
 msgstr "Auswahl _speichern"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:790
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "In %s öffnen …"
@@ -8373,6 +8373,7 @@ msgstr ""
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:781 ../calendar/gui/migration.c:949
+#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr ""
 "Alte Einstellungen aus evolution/config.xmldb konnten nicht migiriert werden"
@@ -12657,8 +12658,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile "
-"in der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
+"Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile in "
+"der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
@@ -14296,8 +14297,7 @@ msgid ""
 msgstr ""
 "Dies ist eine Liste der von Ihnen als Folgenachricht markierten "
 "Nachrichten.\n"
-"Bitte wählen Sie eine Aktion für die Folgenachricht aus dem Menü "
-"»Markierung«."
+"Bitte wählen Sie eine Aktion für die Folgenachricht aus dem Menü »Markierung«."
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Accept License"
@@ -14315,7 +14315,7 @@ msgstr "_Markierung:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Ha_ken Sie dies ab, um die Lizenzvereinbarung zu akzeptieren"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "Ping zu %s wird ermittelt"
@@ -14521,6 +14521,7 @@ msgid "Waiting..."
 msgstr "Warten …"
 
 #: ../mail/mail-send-recv.c:810
+#, c-format
 msgid "Checking for new mail"
 msgstr "Nach neuen E-Mails sehen"
 
@@ -14567,8 +14568,7 @@ msgstr "Spool-Verzeichnis »%s« konnte nicht angelegt werden: %s"
 #: ../mail/mail-tools.c:150
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
-"Es wurde versucht, movemail auf eine nicht-mbox-Quelle »%s« auszuführen"
+msgstr "Es wurde versucht, movemail auf eine nicht-mbox-Quelle »%s« auszuführen"
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -14638,8 +14638,8 @@ msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
 msgstr ""
-"Eine Lesebestätigung wurde für »{1}« angefordert. Soll die Bestätigung an "
-"{0} geschickt werden?"
+"Eine Lesebestätigung wurde für »{1}« angefordert. Soll die Bestätigung an {0} "
+"geschickt werden?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -15325,7 +15325,7 @@ msgstr "%d. %b, %k:%M"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "Nachrichtenliste wird erzeugt"
 
@@ -15526,9 +15526,9 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"Evolution kann aus Ihrer Sicherungsdatei wiederhergestellt werden.\nAlle E-"
-"Mails, Kalender, Aufgaben, Notizen und Adressbücher sowie alle\npersönlichen "
-"Einstellungen, Filter etc. können wiederhergestellt werden."
+"Evolution kann aus Ihrer Sicherungsdatei wiederhergestellt werden.\n"
+"Alle E-Mails, Kalender, Aufgaben, Notizen und Adressbücher sowie alle\n"
+"persönlichen Einstellungen, Filter etc. können wiederhergestellt werden."
 
 #: ../plugins/backup-restore/backup-restore.c:244
 msgid "_Restore Evolution from the backup file"
@@ -15763,6 +15763,10 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter-Optionen"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter-Unerwünscht-Plugin"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtert unerwünschte Nachrichten unter Verwendung von Bogofilter."
 
@@ -16057,6 +16061,7 @@ msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:982
 #: ../plugins/exchange-operations/exchange-contacts.c:214
+#, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
@@ -17172,11 +17177,11 @@ msgstr "%sPasswort für %s (Benutzer %s) eingeben"
 msgid "_Proxy Login..."
 msgstr "_Vertretungsanmeldung …"
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Der Vertretungsreiter ist nur verfügbar, wenn das Konto online ist."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Der Vertretungsreiter ist nur verfügbar, wenn das Konto aktiviert ist."
 
@@ -18983,6 +18988,7 @@ msgstr "Von %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:511
+#, c-format
 msgid "Importing data."
 msgstr "Daten werden importiert."
 
@@ -19134,9 +19140,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Der Stil der Fensterknöpfe. Mögliche Einstellungen sind »text«, »icons«, "
-"»both« und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der "
-"GNOME-Einstellungen festgelegt."
+"Der Stil der Fensterknöpfe. Mögliche Einstellungen sind »text«, »icons«, »both« "
+"und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der GNOME-"
+"Einstellungen festgelegt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Toolbar is visible"
@@ -19220,8 +19226,8 @@ msgstr ""
 "Wählen Sie die Datei, die Sie in Evolution importieren wollen und legen Sie "
 "anhand der Liste den Dateityp fest.\n"
 "\n"
-"Falls er Ihnen unbekannt ist, können Sie »Automatisch« wählen. Evolution "
-"wird dann versuchen, ihn selbst zu bestimmen."
+"Falls er Ihnen unbekannt ist, können Sie »Automatisch« wählen. Evolution wird "
+"dann versuchen, ihn selbst zu bestimmen."
 
 #: ../shell/e-shell-importer.c:144
 msgid "Choose the destination for this import"
@@ -19612,8 +19618,8 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"Sie sind im Begriff, den gesamten Inhalt des Ordners »evolution« dauerhaft "
-"zu löschen.\n"
+"Sie sind im Begriff, den gesamten Inhalt des Ordners »evolution« dauerhaft zu "
+"löschen.\n"
 "\n"
 "Es ist empfehlenswert, vor dem Löschen der alten Daten manuell "
 "sicherzustellen, dass alle E-Mail-, Kontakt- und Kalenderdaten vorhanden "
@@ -19635,9 +19641,9 @@ msgstr ""
 "gespeichert.\n"
 "\n"
 "Falls Sie sich dafür entscheiden, diese Daten zu entfernen, gehen die "
-"gesamten Daten im Ordner »evolution« dauerhaft verloren. Falls Sie sich "
-"dafür entscheiden, diese Daten beizubehalten, können Sie den Inhalt von "
-"»evolution« jederzeit manuell entfernen.\n"
+"gesamten Daten im Ordner »evolution« dauerhaft verloren. Falls Sie sich dafür "
+"entscheiden, diese Daten beizubehalten, können Sie den Inhalt von »evolution« "
+"jederzeit manuell entfernen.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -22146,8 +22152,9 @@ msgid ""
 "Use the right mouse button to zoom out."
 msgstr ""
 "Benutzen Sie die linke Maustaste, um einen Kartenausschnitt zu vergrößern "
-"und wählen \nSie eine Zeitzone."
-"Mit der rechten Maustaste können Sie die Ansicht verkleinern."
+"und wählen \n"
+"Sie eine Zeitzone.Mit der rechten Maustaste können Sie die Ansicht "
+"verkleinern."
 
 #: ../widgets/menus/gal-define-views-dialog.c:78
 #: ../widgets/menus/gal-define-views-model.c:186
@@ -23354,6 +23361,12 @@ msgstr "EM-Kontext"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr "Handle-Popup"
+
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>Anzeigen</b>"
+
+#~ msgid "<b>Server Information</b>"
+#~ msgstr "<b>Server-Informationen</b>"
 
 #~ msgid "Adds custom header to outgoing messages."
 #~ msgstr ""
