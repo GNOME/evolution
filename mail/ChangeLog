@@ -1,3 +1,9 @@
+2008-03-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-network-prefs.c (em_network_prefs_finalise),
+	(em_network_prefs_destroy), (emnp_parse_ignore_hosts):
+	Fix some unused variable warnings.
+
 2008-03-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #523271

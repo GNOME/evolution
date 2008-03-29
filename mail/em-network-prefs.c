@@ -138,8 +138,6 @@ em_network_prefs_init (EMNetworkPrefs *prefs)
 static void
 em_network_prefs_finalise (GObject *obj)
 {
-	EMNetworkPrefs *prefs = (EMNetworkPrefs *) obj;
-
 	d(g_print ("Network preferences finalize is called\n"));
 	
 	/* do something here */
@@ -149,7 +147,6 @@ em_network_prefs_finalise (GObject *obj)
 static void
 em_network_prefs_destroy (GtkObject *obj)
 {
-	EMNetworkPrefs *prefs = (EMNetworkPrefs *) obj;
 	d(g_print ("Network preferences destroy is called\n"));
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
@@ -232,7 +229,6 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboo
 static void
 emnp_parse_ignore_hosts (gpointer data, gpointer user_data)
 {
-	char *input = (char *)data;
 	GString *str = (GString *)user_data;
 
 	if (!str)
