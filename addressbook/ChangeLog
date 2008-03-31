@@ -1,3 +1,11 @@
+2008-03-31  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #404241
+
+	* gui/widgets/e-minicard.c: (get_email_location), (add_email_field):
+	* gui/widgets/eab-contact-display.c: (get_email_location):
+	Never return NULL, rather return "Other" as default.
+
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #438613

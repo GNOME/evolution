@@ -525,7 +525,7 @@ get_email_location (EVCardAttribute *attr)
 			return _(common_location [i].pretty_name);
 	}
 
-	return NULL;
+	return _("Other");
 }
 
 static void

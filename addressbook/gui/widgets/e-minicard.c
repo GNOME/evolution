@@ -830,7 +830,7 @@ get_email_location (EVCardAttribute *attr)
 			return _(common_location [i].pretty_name);
 	}
 
-	return NULL;
+	return _("Other Email");
 }
 
 static void
@@ -854,10 +854,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		gboolean parser_check;
 
 		tmp = get_email_location ((EVCardAttribute *) l->data);
-		if (tmp)
-			name = g_strdup_printf ("%s:", tmp);
-		else
-			name = g_strdup ("");
+		name = g_strdup_printf ("%s:", tmp);
 
 		parser_check = eab_parse_qp_email ((const gchar *) le->data, &parsed_name, &email);
 		if (parser_check) {
