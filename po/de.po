@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-14 12:46+0100\n"
+"POT-Creation-Date: 2008-03-31 14:47+0200\n"
 "PO-Revision-Date: 2008-03-14 12:47+0100\n"
-"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
+"Last-Translator: Philipp Kerling <k.philipp@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -440,31 +440,27 @@ msgid "LDAP server did not respond with valid schema information."
 msgstr "Server antwortete nicht mit gültigen Schemainformationen."
 
 #: ../addressbook/addressbook.error.xml.h:19
-msgid "Permission Denied."
-msgstr "Erlaubnis verweigert."
-
-#: ../addressbook/addressbook.error.xml.h:20
 msgid "Server Version"
 msgstr "Server-Version"
 
-#: ../addressbook/addressbook.error.xml.h:21
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "Some features may not work properly with your current server"
 msgstr ""
 "Einige Funktionen werden mit Ihrem Server möglicherweise nicht einwandfrei "
 "arbeiten"
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:21
 msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Das Evolution-Adressbuch wurde unerwartet beendet."
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:22
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr ""
 "Das ausgewählte Bild ist groß. Möchten Sie die Größe des Bildes ändern und "
 "es speichern?"
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:23
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -474,20 +470,20 @@ msgstr ""
 "Funktionen nicht unterstützt, oder er ist fehlerhaft konfiguriert. Fragen "
 "Sie Ihren Systemadministrator nach unterstützten Suchbasen."
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "This address book will be removed permanently."
 msgstr "Dieses Adressbuch wird unwiderruflich gelöscht."
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:25
 msgid "This addressbook could not be opened."
 msgstr "Dieses Adressbuch konnte nicht geöffnet werden."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "This addressbook server does not have any suggested search bases."
 msgstr ""
 "Dieser Adressbuch-Server verfügt über keine der unterstützten Suchbasen."
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:27
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -495,27 +491,27 @@ msgstr ""
 "Möglicherweise ist dieser Adressbuch-Server nicht erreichbar, Sie haben den "
 "Server-Namen falsch angegeben oder Ihre Netzwerkverbindung ist inaktiv."
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "This server does not support LDAPv3 schema information."
 msgstr "Dieser Server unterstützt keine LDAPv3-Schemainformationen."
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to open addressbook"
 msgstr "Adressbuch konnte nicht geöffnet werden"
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to perform search."
 msgstr "Suche konnte nicht durchgeführt werden."
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:31
 msgid "Unable to save {0}."
 msgstr "{0} konnte nicht gespeichert werden."
 
-#: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/addressbook.error.xml.h:32
 msgid "Would you like to save your changes?"
 msgstr "Wollen Sie die vorgenommenen Änderungen speichern?"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -524,7 +520,7 @@ msgstr ""
 "dieser nicht aus der Quelle entfernt werden. Wollen Sie stattdessen eine "
 "Kopie speichern?"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:34
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results the server should be upgraded to "
@@ -534,6 +530,12 @@ msgstr ""
 "bei der Benutzung von Evolution unter Umständen Probleme feststellen. Für "
 "eine bestmögliche Zusammenarbeit sollte der Server auf eine unterstützte "
 "Version aktualisiert werden."
+
+#: ../addressbook/addressbook.error.xml.h:35
+#, fuzzy
+msgid ""
+"You do not have enough permissions to delete contact in this Address Book."
+msgstr "Sie haben keine ausreichenden Rechte um diese E-Mail zu löschen."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -737,13 +739,13 @@ msgid "Copy _book content locally for offline operation"
 msgstr "Den Adressbuchinhalt lokal zum Arbeiten im Offline-Modus _kopieren"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222 ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2353
+#: ../plugins/itip-formatter/itip-formatter.c:2356
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Allgemein"
@@ -763,7 +765,7 @@ msgid "Authentication"
 msgstr "Legitimation"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Details"
@@ -778,7 +780,7 @@ msgid "Downloading"
 msgstr "Herunterladen"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Adressbucheigenschaften"
 
@@ -985,105 +987,97 @@ msgid "<b>Authentication</b>"
 msgstr "<b>Legitimation</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>Anzeigen</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>Herunterladen</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>Suche</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>Server-Informationen</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>Art:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "Adressbuch hinzufügen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Immer"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "Anonym"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "Grundlegend"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "Eindeutiger Name"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution verwendet diese E-Mail-Adresse, um Sie beim Server zu legitimieren."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "Unterstützte Suchbasen suchen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "Anm_eldename:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Nie"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "Keine Verschlüsselung"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "Eins"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "SSL-Verschlüsselung"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "Suchfilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "Such_basis:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "Such_filter:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "Suchfilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1093,7 +1087,7 @@ msgstr ""
 "soll. Wird der Suchfilter nicht verändert, wird nach die Suche per Vorgabe "
 "in der Objektklasse der Art »Person« durchgeführt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
@@ -1101,7 +1095,7 @@ msgstr ""
 "Wenn Sie diese Option auswählen, stellt Evolution nur dann eine Verbindung "
 "mit Ihrem LDAP-Server her, falls dieser SSL unterstützt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
@@ -1109,7 +1103,7 @@ msgstr ""
 "Wenn Sie diese Option auswählen, stellt Evolution nur dann eine Verbindung "
 "mit Ihrem LDAP-Server her, falls dieser TLS unterstützt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1119,23 +1113,23 @@ msgstr ""
 "Verbindung zu Ihrem LDAP-Server her. Das bedeutet, dass Ihre Verbindung "
 "unsicher ist und dadurch ein Sicherheitsproblem entsteht."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "Sub"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "Unterstützte Suchbasen"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "TLS-Verschlüsselung"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1145,7 +1139,7 @@ msgstr ""
 "Eintrags, bei dem die Suche beginnt. Wenn Sie dieses Feld leer lassen, "
 "beginnt die Suche an der Wurzel des Verzeichnisbaums."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1157,7 +1151,7 @@ msgstr ""
 "Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die "
 "Ebene unterhalb des Ausgangspunktes der Suche ein."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
@@ -1165,7 +1159,7 @@ msgstr ""
 "Dies ist der vollständige Name des LDAP-Servers. Zum Beispiel: »ldap."
 "meinefirma.de«."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1173,7 +1167,7 @@ msgstr ""
 "Dies ist die maximale Anzahl herunterzuladender Einträge. Wenn diese Zahl zu "
 "hoch angesetzt ist, werden Vorgänge im Adressbuch verlangsamt."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1183,7 +1177,7 @@ msgstr ""
 "Beachten Sie, dass ein anonymer Zugriff auf den LDAP-Server erforderlich "
 "ist, wenn Sie dies auf »E-Mail-Adresse« einstellen."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1191,7 +1185,7 @@ msgstr ""
 "Dies ist der Name für diesen Server, der in der Ordnerliste von Evolution "
 "angezeigt wird. Er dient lediglich zu Anzeigezwecken. "
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1201,69 +1195,69 @@ msgstr ""
 "soll. Es wurde bereits eine Liste der Standard-Ports bereitgestellt. Fragen "
 "Sie Ihren Systemadministrator, welchen Port Sie angeben müssen."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "Eindeutigen Namen (EN) verwenden"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "E-Mail-Adresse verwenden"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "Immer, wenn möglich"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "Adressbuch _hinzufügen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "_Download-Limit:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "Unterstützte Suchbasen _suchen"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "An_meldemethode:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
-#: ../mail/mail-config.glade.h:164
+#: ../mail/mail-config.glade.h:173
 #: ../plugins/groupwise-features/properties.glade.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
 msgstr "_Name:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "_Suchbereich:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
-#: ../mail/mail-config.glade.h:172
+#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../mail/mail-config.glade.h:182
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Server:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "_Zeitüberschreitung:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "_Sichere Verbindung verwenden:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "Karten"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -1876,7 +1870,8 @@ msgid "Guinea"
 msgstr "Guinea"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
-msgid "Guinea-bissau"
+#, fuzzy
+msgid "Guinea-Bissau"
 msgstr "Guinea-Bissau"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
@@ -2539,6 +2534,7 @@ msgstr "Privat"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:242
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:204
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
+#: ../addressbook/gui/widgets/eab-contact-display.c:528
 msgid "Other"
 msgstr "Weitere"
 
@@ -2818,6 +2814,11 @@ msgstr ""
 msgid "Contact List Members"
 msgstr "Kontaktlistenmitglieder"
 
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:898
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1237
+msgid "_Members"
+msgstr "_Mitglieder"
+
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1146
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
@@ -2830,10 +2831,6 @@ msgstr "Buch"
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1166
 msgid "Is New List"
 msgstr "Ist neue Liste"
-
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1237
-msgid "_Members"
-msgstr "_Mitglieder"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -2885,7 +2882,7 @@ msgstr "_Zusammenführen"
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
 #: ../addressbook/gui/widgets/eab-contact-display.c:600
-#: ../addressbook/gui/widgets/eab-contact-display.c:860
+#: ../addressbook/gui/widgets/eab-contact-display.c:879
 #: ../plugins/groupwise-features/junk-settings.c:425 ../smime/lib/e-cert.c:827
 msgid "Email"
 msgstr "E-Mail"
@@ -3022,7 +3019,7 @@ msgstr "_Ausschneiden"
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
 #: ../composer/e-msg-composer.c:3099 ../mail/em-folder-tree.c:997
-#: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
+#: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2064
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
 #: ../ui/evolution-mail-message.xml.h:104 ../ui/evolution-memos.xml.h:15
@@ -3334,6 +3331,7 @@ msgid "Home Email"
 msgstr "E-Mail, privat"
 
 #: ../addressbook/gui/widgets/e-minicard.c:104
+#: ../addressbook/gui/widgets/e-minicard.c:833
 msgid "Other Email"
 msgstr "Weitere E-Mail-Adresse"
 
@@ -3376,7 +3374,7 @@ msgid "map"
 msgstr "Karte"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:487
-#: ../addressbook/gui/widgets/eab-contact-display.c:827
+#: ../addressbook/gui/widgets/eab-contact-display.c:846
 msgid "List Members"
 msgstr "Listenmitglieder"
 
@@ -3446,15 +3444,15 @@ msgstr "Geburtstag"
 msgid "Anniversary"
 msgstr "Jahrestag"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:845
+#: ../addressbook/gui/widgets/eab-contact-display.c:864
 msgid "Job Title"
 msgstr "Tätigkeit"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:881
+#: ../addressbook/gui/widgets/eab-contact-display.c:900
 msgid "Home page"
 msgstr "Homepage"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:889
+#: ../addressbook/gui/widgets/eab-contact-display.c:908
 msgid "Blog"
 msgstr "Blog"
 
@@ -3760,6 +3758,7 @@ msgstr "VCard für %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1027
 #: ../addressbook/gui/widgets/eab-gui-util.c:1052
+#, c-format
 msgid "Contact information"
 msgstr "Kontaktinformationen"
 
@@ -4118,6 +4117,16 @@ msgstr "Unbehandelter Fehler"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
+#, fuzzy
+msgid ""
+"'{0}' is a read-only calendar source. Change Calendar to one that can accept "
+"appointments."
+msgstr ""
+"»{0}« ist ein schreibgeschützter Kalender. Wechseln Sie zur Kalenderansicht "
+"und wählen Sie einen Kalender aus, der Termine akzeptieren kann."
+
+#. For Translators: {0} is the name of the calendar source
+#: ../calendar/calendar.error.xml.h:4
 msgid ""
 "'{0}' is a read-only calendar source. Switch to Calendar View and highlight "
 "a calendar that can accept appointments."
@@ -4125,7 +4134,7 @@ msgstr ""
 "»{0}« ist ein schreibgeschützter Kalender. Wechseln Sie zur Kalenderansicht "
 "und wählen Sie einen Kalender aus, der Termine akzeptieren kann."
 
-#: ../calendar/calendar.error.xml.h:3
+#: ../calendar/calendar.error.xml.h:5
 msgid ""
 "Adding a meaningful summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
@@ -4133,7 +4142,7 @@ msgstr ""
 "Das Hinzufügen einer aussagekräftigen Zusammenfassung zu Ihrem Termin "
 "verschafft den Empfängern eine Vorstellung, worum es bei diesem Termin geht."
 
-#: ../calendar/calendar.error.xml.h:4
+#: ../calendar/calendar.error.xml.h:6
 msgid ""
 "Adding a meaningful summary to your task will give your recipients an idea "
 "of what your task is about."
@@ -4142,19 +4151,19 @@ msgstr ""
 "verschafft den Empfängern eine Vorstellung, worum es sich bei dieser Aufgabe "
 "handelt."
 
-#: ../calendar/calendar.error.xml.h:5
+#: ../calendar/calendar.error.xml.h:7
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu diesen Notizen werden gelöscht und können "
 "nicht wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:6
+#: ../calendar/calendar.error.xml.h:8
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu dieser Notiz werden gelöscht und können nicht "
 "wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:7
+#: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
@@ -4162,134 +4171,142 @@ msgstr ""
 "Die gesamten Informationen zu diesen Terminen werden gelöscht und können "
 "nicht wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:10
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu diesen Aufgaben werden gelöscht und können "
 "nicht wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:9
+#: ../calendar/calendar.error.xml.h:11
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu diesem Termin werden gelöscht und können nicht "
 "wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:10
+#: ../calendar/calendar.error.xml.h:12
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu dieser Besprechung werden gelöscht und können "
 "nicht wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:11
+#: ../calendar/calendar.error.xml.h:13
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu dieser Notiz werden gelöscht und können nicht "
 "wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:12
+#: ../calendar/calendar.error.xml.h:14
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
 "Die gesamten Informationen zu dieser Aufgabe werden gelöscht und können "
 "nicht wiederhergestellt werden."
 
-#: ../calendar/calendar.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the '{0}' task?"
 msgstr "Sind Sie sicher, dass Sie die Aufgabe »{0}« löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:14
+#: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Sind Sie sicher, dass Sie den Termin »{0}« löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:15
+#: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete the memo '{0}'?"
 msgstr "Sind Sie sicher, dass Sie die Notiz »{0}« löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "Sind Sie sicher, dass Sie diese {0} Termine löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:17
+#: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Sind Sie sicher, dass Sie diese {0} Notizen löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:18
+#: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Sind Sie sicher, dass Sie diese {0} Aufgaben löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:19
+#: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to delete this appointment?"
 msgstr "Sind Sie sicher, dass Sie diesen Termin löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:20
+#: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:183
+#, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Sind Sie sicher, dass Sie diese Besprechung löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:21
+#: ../calendar/calendar.error.xml.h:23
 #: ../calendar/gui/dialogs/delete-comp.c:189
+#, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Sind Sie sicher, dass Sie diese Notiz löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:22
+#: ../calendar/calendar.error.xml.h:24
 #: ../calendar/gui/dialogs/delete-comp.c:186
+#, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Sind Sie sicher, dass Sie diese Aufgabe löschen wollen?"
 
-#: ../calendar/calendar.error.xml.h:23
+#: ../calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr ""
 "Sind Sie sicher, dass Sie die Notiz ohne eine Zusammenfassung speichern "
 "wollen?"
 
-#: ../calendar/calendar.error.xml.h:24
+#: ../calendar/calendar.error.xml.h:26
 msgid "Are you sure you want to send the appointment without a summary?"
 msgstr ""
 "Sind Sie sicher, dass Sie den Termin ohne eine Zusammenfassung verschicken "
 "wollen?"
 
-#: ../calendar/calendar.error.xml.h:25
+#: ../calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to send the task without a summary?"
 msgstr ""
 "Sind Sie sicher, dass Sie die Aufgabe ohne eine Zusammenfassung verschicken "
 "wollen?"
 
-#: ../calendar/calendar.error.xml.h:26
+#: ../calendar/calendar.error.xml.h:28
 msgid "Cannot create a new event"
 msgstr "Anlegen eines neuen Ereignisses gescheitert"
 
-#: ../calendar/calendar.error.xml.h:27
+#: ../calendar/calendar.error.xml.h:29
+#, fuzzy
+msgid "Cannot save event"
+msgstr "Anlegen eines neuen Ereignisses gescheitert"
+
+#: ../calendar/calendar.error.xml.h:30
 msgid "Delete calendar '{0}'?"
 msgstr "Kalender »{0}« löschen?"
 
-#: ../calendar/calendar.error.xml.h:28
+#: ../calendar/calendar.error.xml.h:31
 msgid "Delete memo list '{0}'?"
 msgstr "Notizliste »{0}« löschen?"
 
-#: ../calendar/calendar.error.xml.h:29
+#: ../calendar/calendar.error.xml.h:32
 msgid "Delete task list '{0}'?"
 msgstr "Aufgabenliste »{0}« löschen?"
 
-#: ../calendar/calendar.error.xml.h:30
+#: ../calendar/calendar.error.xml.h:33
 msgid "Do _not Send"
 msgstr "_Nicht verschicken"
 
-#: ../calendar/calendar.error.xml.h:31
+#: ../calendar/calendar.error.xml.h:34
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr ""
 "Das Herunterladen ist noch nicht beendet. Möchten Sie den Termin speichern?"
 
-#: ../calendar/calendar.error.xml.h:32
+#: ../calendar/calendar.error.xml.h:35
 msgid "Download in progress. Do you want to save the task?"
 msgstr ""
 "Das Herunterladen ist noch nicht beendet. Möchten Sie die Aufgabe speichern?"
 
-#: ../calendar/calendar.error.xml.h:33
+#: ../calendar/calendar.error.xml.h:36
 msgid "Editor could not be loaded."
 msgstr "Editor konnte nicht geladen werden."
 
-#: ../calendar/calendar.error.xml.h:34
+#: ../calendar/calendar.error.xml.h:37
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -4297,26 +4314,26 @@ msgstr ""
 "Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, damit diese die "
 "Aufgabe übernehmen können."
 
-#: ../calendar/calendar.error.xml.h:35
+#: ../calendar/calendar.error.xml.h:38
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, damit diese die "
 "Einladungen akzeptieren können."
 
-#: ../calendar/calendar.error.xml.h:36
+#: ../calendar/calendar.error.xml.h:39
 msgid "Error loading calendar"
 msgstr "Fehler beim Laden des Kalenders"
 
-#: ../calendar/calendar.error.xml.h:37
+#: ../calendar/calendar.error.xml.h:40
 msgid "Error loading memo list"
 msgstr "Fehler beim Laden der Notizliste"
 
-#: ../calendar/calendar.error.xml.h:38
+#: ../calendar/calendar.error.xml.h:41
 msgid "Error loading task list"
 msgstr "Fehler beim Laden der Aufgabenliste"
 
-#: ../calendar/calendar.error.xml.h:39
+#: ../calendar/calendar.error.xml.h:42
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
@@ -4324,7 +4341,7 @@ msgstr ""
 "Falls Sie keine Absagenachricht verschicken, wissen die anderen Teilnehmer "
 "möglicherweise nicht, dass die Besprechung abgesagt wurde."
 
-#: ../calendar/calendar.error.xml.h:40
+#: ../calendar/calendar.error.xml.h:43
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the memo has been deleted."
@@ -4332,7 +4349,7 @@ msgstr ""
 "Falls Sie keine Absagenachricht verschicken, wissen die anderen Teilnehmer "
 "möglicherweise nicht, dass die Notiz gelöscht wurde."
 
-#: ../calendar/calendar.error.xml.h:41
+#: ../calendar/calendar.error.xml.h:44
 msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the task has been deleted."
@@ -4340,7 +4357,7 @@ msgstr ""
 "Falls Sie keine Absagenachricht verschicken, wissen die anderen Teilnehmer "
 "möglicherweise nicht, dass die Aufgabe gelöscht wurde."
 
-#: ../calendar/calendar.error.xml.h:42
+#: ../calendar/calendar.error.xml.h:45
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -4348,7 +4365,7 @@ msgstr ""
 "Es werden aktualisierte Informationen an andere Teilnehmer verschickt, um "
 "ihnen so zu ermöglichen, ihre Kalender auf dem neuesten Stand zu halten."
 
-#: ../calendar/calendar.error.xml.h:43
+#: ../calendar/calendar.error.xml.h:46
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -4357,7 +4374,7 @@ msgstr ""
 "ihnen so zu ermöglichen, ihre Aufgabenlisten auf dem neuesten Stand zu "
 "halten."
 
-#: ../calendar/calendar.error.xml.h:44
+#: ../calendar/calendar.error.xml.h:47
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -4365,7 +4382,7 @@ msgstr ""
 "Einige Anlagen werden zurzeit noch heruntergeladen. Das Speichern dieses "
 "Termins würde den Verlust dieser Anlagen zur Folge haben."
 
-#: ../calendar/calendar.error.xml.h:45
+#: ../calendar/calendar.error.xml.h:48
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -4373,87 +4390,87 @@ msgstr ""
 "Einige Anlagen werden zurzeit noch heruntergeladen. Das Speichern dieser "
 "Aufgabe würde den Verlust dieser Anlagen zur Folge haben."
 
-#: ../calendar/calendar.error.xml.h:46
+#: ../calendar/calendar.error.xml.h:49
 msgid "Some features may not work properly with your current server."
 msgstr ""
 "Einige Funktionen werden mit Ihrem Server möglicherweise nicht einwandfrei "
 "arbeiten."
 
-#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/calendar.error.xml.h:50
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Der Evolution-Kalender wurde unerwartet beendet."
 
-#: ../calendar/calendar.error.xml.h:48
+#: ../calendar/calendar.error.xml.h:51
 msgid "The Evolution memo has quit unexpectedly."
 msgstr "Die Evolution-Notizen wurden unerwartet beendet."
 
-#: ../calendar/calendar.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:52
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Die Evolution-Aufgaben wurden unerwartet beendet."
 
-#: ../calendar/calendar.error.xml.h:50
+#: ../calendar/calendar.error.xml.h:53
 msgid "The calendar is not marked for offline usage."
 msgstr "Der Kalender ist nicht für eine Offline-Benutzung markiert."
 
-#: ../calendar/calendar.error.xml.h:51
+#: ../calendar/calendar.error.xml.h:54
 msgid "The memo list is not marked for offline usage"
 msgstr "Die Notizliste ist nicht für eine Offline-Benutzung markiert."
 
-#: ../calendar/calendar.error.xml.h:52
+#: ../calendar/calendar.error.xml.h:55
 msgid "The task list is not marked for offline usage."
 msgstr "Die Aufgabenliste ist nicht für eine Offline-Benutzung markiert."
 
-#: ../calendar/calendar.error.xml.h:53
+#: ../calendar/calendar.error.xml.h:56
 msgid "This calendar will be removed permanently."
 msgstr "Dieser Kalender wird unwiderruflich gelöscht."
 
-#: ../calendar/calendar.error.xml.h:54
+#: ../calendar/calendar.error.xml.h:57
 msgid "This memo list will be removed permanently."
 msgstr "Diese Notizliste wird unwiderruflich gelöscht."
 
-#: ../calendar/calendar.error.xml.h:55
+#: ../calendar/calendar.error.xml.h:58
 msgid "This task list will be removed permanently."
 msgstr "Diese Aufgabenliste wird unwiderruflich gelöscht."
 
-#: ../calendar/calendar.error.xml.h:56
+#: ../calendar/calendar.error.xml.h:59
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Wollen Sie die an diesem Termin vorgenommenen Änderungen speichern?"
 
-#: ../calendar/calendar.error.xml.h:57
+#: ../calendar/calendar.error.xml.h:60
 msgid "Would you like to save your changes to this memo?"
 msgstr "Wollen Sie die an dieser Notiz vorgenommenen Änderungen speichern?"
 
-#: ../calendar/calendar.error.xml.h:58
+#: ../calendar/calendar.error.xml.h:61
 msgid "Would you like to save your changes to this task?"
 msgstr "Wollen Sie die an dieser Aufgabe vorgenommenen Änderungen speichern?"
 
-#: ../calendar/calendar.error.xml.h:59
+#: ../calendar/calendar.error.xml.h:62
 msgid "Would you like to send a cancelation notice for this memo?"
 msgstr "Wollen Sie eine Absagenachricht für diese Notiz verschicken?"
 
-#: ../calendar/calendar.error.xml.h:60
+#: ../calendar/calendar.error.xml.h:63
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "Wollen Sie allen Teilnehmern eine Absagenachricht schicken?"
 
-#: ../calendar/calendar.error.xml.h:61
+#: ../calendar/calendar.error.xml.h:64
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Wollen Sie Einladungen zur Besprechung an die Teilnehmer verschicken?"
 
-#: ../calendar/calendar.error.xml.h:62
+#: ../calendar/calendar.error.xml.h:65
 msgid "Would you like to send this task to participants?"
 msgstr "Wollen Sie diese Aufgabe an die Teilnehmer verschicken?"
 
-#: ../calendar/calendar.error.xml.h:63
+#: ../calendar/calendar.error.xml.h:66
 msgid "Would you like to send updated meeting information to participants?"
 msgstr ""
 "Wollen Sie aktuelle Besprechungsinformationen an die Teilnehmer verschicken?"
 
-#: ../calendar/calendar.error.xml.h:64
+#: ../calendar/calendar.error.xml.h:67
 msgid "Would you like to send updated task information to participants?"
 msgstr ""
 "Wollen Sie aktuelle Aufgabeninformationen an die Teilnehmer verschicken?"
 
-#: ../calendar/calendar.error.xml.h:65
+#: ../calendar/calendar.error.xml.h:68
 msgid ""
 "You are connecting to an unsupported GroupWise server and may encounter "
 "problems using Evolution. For best results, the server should be upgraded to "
@@ -4464,67 +4481,67 @@ msgstr ""
 "eine bestmögliche Zusammenarbeit sollte der Server auf eine unterstützte "
 "Version aktualisiert werden."
 
-#: ../calendar/calendar.error.xml.h:66
+#: ../calendar/calendar.error.xml.h:69
 msgid "You have changed this appointment, but not yet saved it."
 msgstr ""
 "Sie haben Änderungen an diesem Termin vorgenommen, diese jedoch noch nicht "
 "gespeichert."
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:70
 msgid "You have changed this task, but not yet saved it."
 msgstr ""
 "Sie haben Änderungen an dieser Aufgabe vorgenommen, diese jedoch noch nicht "
 "gespeichert."
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:71
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr ""
 "Sie haben Änderungen an dieser Notiz vorgenommen, diese jedoch noch nicht "
 "gespeichert."
 
-#: ../calendar/calendar.error.xml.h:69
+#: ../calendar/calendar.error.xml.h:72
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
 "Ihre Kalender sind nicht verfügbar, solange Evolution nicht neu gestartet "
 "wurde."
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:73
 msgid "Your memos will not be available until Evolution is restarted."
 msgstr ""
 "Ihre Notizen sind nicht verfügbar, solange Evolution nicht neu gestartet "
 "wurde."
 
-#: ../calendar/calendar.error.xml.h:71
+#: ../calendar/calendar.error.xml.h:74
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr ""
 "Ihre Aufgaben sind nicht verfügbar, solange Evolution nicht neu gestartet "
 "wurde."
 
-#: ../calendar/calendar.error.xml.h:72
+#: ../calendar/calendar.error.xml.h:75
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
 msgstr "Änderungen _verwerfen"
 
-#: ../calendar/calendar.error.xml.h:73 ../ui/evolution-editor.xml.h:23
+#: ../calendar/calendar.error.xml.h:76 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:59
 msgid "_Save"
 msgstr "_Speichern"
 
-#: ../calendar/calendar.error.xml.h:74
+#: ../calendar/calendar.error.xml.h:77
 msgid "_Save Changes"
 msgstr "Änderungen _speichern"
 
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:78
 #: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "Ab_schicken"
 
-#: ../calendar/calendar.error.xml.h:76
+#: ../calendar/calendar.error.xml.h:79
 msgid "_Send Notice"
 msgstr "Nachricht ver_schicken"
 
-#: ../calendar/calendar.error.xml.h:77
+#: ../calendar/calendar.error.xml.h:80
 msgid "{0}."
 msgstr "{0}."
 
@@ -4571,7 +4588,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "ToDo-Anwendungsblock des Pilot konnte nicht geschrieben werden"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2344
+#: ../plugins/itip-formatter/itip-formatter.c:2347
 msgid "Calendar and Tasks"
 msgstr "Kalender und Aufgaben"
 
@@ -4697,7 +4714,7 @@ msgstr "Schlummer_zeit:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:158
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:166
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
@@ -4739,7 +4756,7 @@ msgstr "Sie haben %d Alarme"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1695
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1723
-#: ../mail/mail-component.c:1528
+#: ../mail/mail-component.c:1530
 msgid "Warning"
 msgstr "Warnung"
 
@@ -5353,7 +5370,7 @@ msgstr "Ereignisse löschen älter als"
 #: ../plugins/calendar-http/calendar-http.c:290
 #: ../plugins/calendar-weather/calendar-weather.c:563
 #: ../plugins/google-account-setup/google-source.c:397
-#: ../widgets/misc/e-send-options.glade.h:38
+#: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "Tage"
 
@@ -5747,7 +5764,7 @@ msgstr ""
 "Sonntag"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: ../mail/mail-config.glade.h:109
+#: ../mail/mail-config.glade.h:112
 msgid "Pick a color"
 msgstr "Eine Farbe auswählen"
 
@@ -5908,7 +5925,8 @@ msgid "Cop_y memo list contents locally for offline operation"
 msgstr "Den Inhalt der Notizliste lokal zur Arbeit im Offline-Modus _kopieren"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:346
-msgid "C_olor:"
+#, fuzzy
+msgid "Colo_r:"
 msgstr "_Farbe:"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:381
@@ -5919,19 +5937,29 @@ msgstr "Aufgabenliste"
 msgid "Memo List"
 msgstr "Notizliste"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:478
+#: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "Calendar Properties"
 msgstr "Kalendereigenschaften"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:480
+#: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "New Calendar"
 msgstr "Neuer Kalender"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:536
+#: ../calendar/gui/dialogs/calendar-setup.c:533
 msgid "Task List Properties"
 msgstr "Aufgabenlisteneigenschaften"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:592
+#: ../calendar/gui/dialogs/calendar-setup.c:533
+#, fuzzy
+msgid "New Task List"
+msgstr "_Neue Aufgabenliste"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:589
+#, fuzzy
+msgid "Memo List Properties"
+msgstr "Aufgabenlisteneigenschaften"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:589
 msgid "New Memo List"
 msgstr "Neue Notizliste"
 
@@ -6025,12 +6053,12 @@ msgstr[1] "%d beigelegte Nachrichten"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3100
 #: ../mail/em-folder-tree.c:998 ../mail/em-folder-utils.c:366
-#: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2066
+#: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2065
 msgid "_Move"
 msgstr "_Verschieben"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460 ../composer/e-msg-composer.c:3102
-#: ../mail/em-folder-tree.c:1000 ../mail/message-list.c:2068
+#: ../mail/em-folder-tree.c:1000 ../mail/message-list.c:2067
 msgid "Cancel _Drag"
 msgstr "_Ziehen abbrechen"
 
@@ -6346,7 +6374,7 @@ msgstr "Anpassen"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:205
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:2021
+#: ../plugins/itip-formatter/itip-formatter.c:2024
 #: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1531
 #: ../widgets/misc/e-dateedit.c:1745
 #: ../widgets/misc/e-signature-combo-box.c:50
@@ -6466,23 +6494,27 @@ msgid "_Group:"
 msgstr "_Gruppe:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
+#, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einem wiederkehrenden Ereignis vor. Was möchten Sie "
 "verändern?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
+#, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
 "Sie delegieren ein wiederkehrendes Ereignis. Was möchten Sie delegieren?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
+#, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einer wiederkehrenden Aufgabe vor. Was möchten Sie "
 "verändern?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
+#, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr ""
 "Sie nehmen Änderungen an einer wiederkehrenden Notiz vor. Was möchten Sie "
@@ -6761,7 +6793,7 @@ msgid "_Date completed:"
 msgstr "A_bgeschlossen am:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
-#: ../widgets/misc/e-send-options.glade.h:33
+#: ../widgets/misc/e-send-options.glade.h:34
 msgid "_Priority:"
 msgstr "_Priorität:"
 
@@ -7019,7 +7051,7 @@ msgstr "Nein"
 #: ../calendar/gui/e-meeting-store.c:212 ../calendar/gui/print.c:969
 #: ../calendar/gui/print.c:986 ../mail/em-utils.c:1329
 #: ../plugins/itip-formatter/itip-formatter.c:410
-#: ../plugins/itip-formatter/itip-formatter.c:2046
+#: ../plugins/itip-formatter/itip-formatter.c:2049
 #: ../plugins/plugin-manager/plugin-manager.c:84
 #: ../widgets/misc/e-attachment-bar.c:721
 #: ../widgets/misc/e-charset-picker.c:64
@@ -7062,7 +7094,7 @@ msgstr "Zum _Hintergrund machen"
 msgid "_Save Selected"
 msgstr "Auswahl _speichern"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:824
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:830
 #, c-format
 msgid "Open in %s..."
 msgstr "In %s öffnen …"
@@ -7522,12 +7554,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:199
 #: ../calendar/gui/itip-utils.c:728
-#: ../plugins/itip-formatter/itip-formatter.c:2034
+#: ../plugins/itip-formatter/itip-formatter.c:2037
 msgid "Accepted"
 msgstr "Angenommen"
 
 #: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:731
-#: ../plugins/itip-formatter/itip-formatter.c:2037
+#: ../plugins/itip-formatter/itip-formatter.c:2040
 msgid "Tentatively Accepted"
 msgstr "Vorläufig angenommen"
 
@@ -7535,7 +7567,7 @@ msgstr "Vorläufig angenommen"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:178 ../calendar/gui/e-meeting-store.c:201
 #: ../calendar/gui/itip-utils.c:734 ../calendar/gui/itip-utils.c:763
-#: ../plugins/itip-formatter/itip-formatter.c:2040
+#: ../plugins/itip-formatter/itip-formatter.c:2043
 msgid "Declined"
 msgstr "Abgelehnt"
 
@@ -7761,7 +7793,7 @@ msgid "Attendee status updated\n"
 msgstr "Teilnahmestatus aktualisiert\n"
 
 #: ../calendar/gui/e-itip-control.c:2057
-#: ../plugins/itip-formatter/itip-formatter.c:1251
+#: ../plugins/itip-formatter/itip-formatter.c:1254
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Teilnahmestatus konnte nicht aktualisiert werden, da der Eintrag nicht mehr "
@@ -7921,7 +7953,7 @@ msgstr "Vorläufig"
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
 #: ../calendar/gui/itip-utils.c:737
-#: ../plugins/itip-formatter/itip-formatter.c:2043
+#: ../plugins/itip-formatter/itip-formatter.c:2046
 msgid "Delegated"
 msgstr "Delegiert"
 
@@ -8367,6 +8399,7 @@ msgstr ""
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:782 ../calendar/gui/migration.c:950
+#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr ""
 "Alte Einstellungen aus evolution/config.xmldb konnten nicht migiriert werden"
@@ -8683,7 +8716,7 @@ msgstr "Termine und Besprechungen"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
-#: ../plugins/itip-formatter/itip-formatter.c:1580
+#: ../plugins/itip-formatter/itip-formatter.c:1583
 msgid "Opening calendar"
 msgstr "Kalender wird geöffnet"
 
@@ -10941,7 +10974,7 @@ msgstr "in der Zukunft"
 msgid "months"
 msgstr "Monate"
 
-#: ../filter/filter.glade.h:19 ../mail/mail-config.glade.h:182
+#: ../filter/filter.glade.h:19 ../mail/mail-config.glade.h:193
 msgid "seconds"
 msgstr "Sekunden"
 
@@ -10997,48 +11030,63 @@ msgid "Configure your email accounts here"
 msgstr "Hier können Sie Ihre E-Mail-Konten konfigurieren"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
+#, fuzzy
+msgid "Configure your network connection settings here"
+msgstr "Hier können Sie Ihre E-Mail-Konten konfigurieren"
+
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail"
 msgstr "Evolution-E-Mail"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
 msgstr "Bedienelement zur Konfiguration von Evolution-E-Mail-Konten"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
 msgstr "Evolution-E-Mail-Komponente"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer"
 msgstr "Evolution-E-Mail-Editor"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail composer configuration control"
 msgstr "Bedienelement zur Konfiguration des Evolution-E-Mail-Editors"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11
 msgid "Evolution Mail preferences control"
 msgstr "Evolution-E-Mail-Einstellungsbedienelement"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:611
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
+#, fuzzy
+msgid "Evolution Network configuration control"
+msgstr "Bedienelement zur Konfiguration des Evolution-Kalenders"
+
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:611
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/pine-importer.c:382
-#: ../mail/mail-component.c:576 ../mail/mail-component.c:577
-#: ../mail/mail-component.c:741
+#: ../mail/mail-component.c:578 ../mail/mail-component.c:579
+#: ../mail/mail-component.c:743
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "E-Mail"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:12
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 #: ../mail/em-account-prefs.c:502
 msgid "Mail Accounts"
 msgstr "E-Mail-Konten"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
-#: ../mail/mail-config.glade.h:102
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:15
+#: ../mail/mail-config.glade.h:103
 msgid "Mail Preferences"
 msgstr "E-Mail-Einstellungen"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:16
+#, fuzzy
+msgid "Network Preferences"
+msgstr "Editoreinstellungen"
+
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:17
 msgid "_Mail"
 msgstr "_E-Mail"
 
@@ -11075,11 +11123,11 @@ msgstr "Automatisch erzeugt"
 msgid "Ask for each message"
 msgstr "Bei jeder Nachricht nachfragen"
 
-#: ../mail/em-account-editor.c:1822 ../mail/mail-config.glade.h:93
+#: ../mail/em-account-editor.c:1822 ../mail/mail-config.glade.h:94
 msgid "Identity"
 msgstr "Identität"
 
-#: ../mail/em-account-editor.c:1871 ../mail/mail-config.glade.h:120
+#: ../mail/em-account-editor.c:1871 ../mail/mail-config.glade.h:123
 msgid "Receiving Email"
 msgstr "Abrufen von E-Mails"
 
@@ -11091,7 +11139,7 @@ msgstr "_Automatisch nach neuen E-Mails sehen alle"
 msgid "minu_tes"
 msgstr "Minu_ten"
 
-#: ../mail/em-account-editor.c:2235 ../mail/mail-config.glade.h:131
+#: ../mail/em-account-editor.c:2235 ../mail/mail-config.glade.h:135
 msgid "Sending Email"
 msgstr "Verschicken von E-Mails"
 
@@ -11100,7 +11148,7 @@ msgid "Defaults"
 msgstr "Vorgaben"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2360 ../mail/mail-config.glade.h:126
+#: ../mail/em-account-editor.c:2360 ../mail/mail-config.glade.h:130
 #: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Sicherheit"
@@ -11114,7 +11162,7 @@ msgstr "Empfangsoptionen"
 msgid "Checking for New Messages"
 msgstr "Nach neuen E-Mails sehen"
 
-#: ../mail/em-account-editor.c:2840 ../mail/mail-config.glade.h:33
+#: ../mail/em-account-editor.c:2840 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Konteneditor"
 
@@ -11127,8 +11175,8 @@ msgstr "Evolution-Kontoassistent"
 msgid "[Default]"
 msgstr "[Vorgabe]"
 
-#: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:947
-#: ../plugins/plugin-manager/plugin-manager.c:323
+#: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:970
+#: ../plugins/plugin-manager/plugin-manager.c:331
 #: ../plugins/publish-calendar/publish-calendar.c:510
 msgid "Enabled"
 msgstr "Aktiv"
@@ -11146,15 +11194,15 @@ msgstr "Protokoll"
 msgid "Unnamed"
 msgstr "Namenlose"
 
-#: ../mail/em-composer-prefs.c:953
+#: ../mail/em-composer-prefs.c:976
 msgid "Language(s)"
 msgstr "Sprache(n)"
 
-#: ../mail/em-composer-prefs.c:996
+#: ../mail/em-composer-prefs.c:1019
 msgid "Add signature script"
 msgstr "Signaturskript hinzufügen"
 
-#: ../mail/em-composer-prefs.c:1016
+#: ../mail/em-composer-prefs.c:1039
 msgid "Signature(s)"
 msgstr "Signatur(en)"
 
@@ -11342,7 +11390,7 @@ msgstr "ist nicht gesetzt"
 msgid "is set"
 msgstr "ist gesetzt"
 
-#: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:96
+#: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:97
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Unerwünscht"
@@ -11578,27 +11626,27 @@ msgstr "Suchordner"
 msgid "UNMATCHED"
 msgstr "OHNE TREFFER"
 
-#: ../mail/em-folder-tree-model.c:494 ../mail/mail-component.c:158
+#: ../mail/em-folder-tree-model.c:500 ../mail/mail-component.c:158
 msgid "Drafts"
 msgstr "Entwürfe"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2536
+#: ../mail/em-folder-tree-model.c:503 ../mail/em-folder-tree.c:2536
 #: ../mail/mail-component.c:157
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
 msgstr "Eingang"
 
-#: ../mail/em-folder-tree-model.c:500 ../mail/mail-component.c:159
+#: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:159
 msgid "Outbox"
 msgstr "Ausgang"
 
-#: ../mail/em-folder-tree-model.c:502 ../mail/mail-component.c:160
+#: ../mail/em-folder-tree-model.c:508 ../mail/mail-component.c:160
 msgid "Sent"
 msgstr "Verschickt"
 
-#: ../mail/em-folder-tree-model.c:524 ../mail/em-folder-tree-model.c:831
+#: ../mail/em-folder-tree-model.c:530 ../mail/em-folder-tree-model.c:837
 msgid "Loading..."
 msgstr "Ladevorgang …"
 
@@ -11636,12 +11684,12 @@ msgstr "Ordner %s wird verschoben"
 msgid "Copying folder %s"
 msgstr "Ordner %s wird kopiert"
 
-#: ../mail/em-folder-tree.c:901 ../mail/message-list.c:1974
+#: ../mail/em-folder-tree.c:901 ../mail/message-list.c:1973
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Nachrichten werden in den Ordner %s verschoben"
 
-#: ../mail/em-folder-tree.c:903 ../mail/message-list.c:1976
+#: ../mail/em-folder-tree.c:903 ../mail/message-list.c:1975
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Nachrichten werden in den Ordner %s kopiert"
@@ -12440,7 +12488,7 @@ msgid "Reply to _List"
 msgstr "Antwort an Lis_te"
 
 #. make it first item
-#: ../mail/em-popup.c:640 ../mail/em-popup.c:845
+#: ../mail/em-popup.c:640 ../mail/em-popup.c:851
 msgid "_Add to Address Book"
 msgstr "Zum Adressbuch _hinzufügen"
 
@@ -13405,135 +13453,138 @@ msgstr "Mailingliste %s"
 msgid "Add Filter Rule"
 msgstr "Filterregel hinzufügen"
 
-#: ../mail/mail-component.c:537
+#: ../mail/mail-component.c:538
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d gewählt, "
 msgstr[1] "%d gewählt, "
 
-#: ../mail/mail-component.c:541
+#: ../mail/mail-component.c:542
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d gelöscht"
 msgstr[1] "%d gelöscht"
 
-#: ../mail/mail-component.c:543
+#: ../mail/mail-component.c:544
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d unerwünscht"
 msgstr[1] "%d unerwünscht"
 
-#: ../mail/mail-component.c:546
+#: ../mail/mail-component.c:547
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d Entwurf"
 msgstr[1] "%d Entwürfe"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:549
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d verschickt"
 msgstr[1] "%d verschickt"
 
-#: ../mail/mail-component.c:550
+#: ../mail/mail-component.c:551
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d nicht verschickt"
 msgstr[1] "%d nicht verschickt"
 
-#: ../mail/mail-component.c:556
+#: ../mail/mail-component.c:557
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d ungelesen, "
 msgstr[1] "%d ungelesen, "
 
-#: ../mail/mail-component.c:557
+#: ../mail/mail-component.c:558
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d insgesamt"
 msgstr[1] "%d insgesamt"
 
-#: ../mail/mail-component.c:897
+#: ../mail/mail-component.c:899
 msgid "New Mail Message"
 msgstr "Neue E-Mail-Nachricht"
 
-#: ../mail/mail-component.c:898
+#: ../mail/mail-component.c:900
 msgid "_Mail Message"
 msgstr "_E-Mail-Nachricht"
 
-#: ../mail/mail-component.c:899
+#: ../mail/mail-component.c:901
 msgid "Compose a new mail message"
 msgstr "Eine neue E-Mail-Nachricht verfassen"
 
-#: ../mail/mail-component.c:905
+#: ../mail/mail-component.c:907
 msgid "New Mail Folder"
 msgstr "Neuer E-Mail-Ordner"
 
-#: ../mail/mail-component.c:906
+#: ../mail/mail-component.c:908
 msgid "Mail _Folder"
 msgstr "E-Mail-_Ordner"
 
-#: ../mail/mail-component.c:907
+#: ../mail/mail-component.c:909
 msgid "Create a new mail folder"
 msgstr "Einen neuen E-Mail-Ordner anlegen"
 
-#: ../mail/mail-component.c:1054
+#: ../mail/mail-component.c:1056
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Auffrischen der E-Mail-Einstellungen oder -Ordner gescheitert."
 
-#: ../mail/mail-component.c:1527
+#: ../mail/mail-component.c:1529
 msgid "Error"
 msgstr "Fehler"
 
-#: ../mail/mail-component.c:1527
+#: ../mail/mail-component.c:1529
 msgid "Errors"
 msgstr "Fehler"
 
-#: ../mail/mail-component.c:1528
+#: ../mail/mail-component.c:1530
 msgid "Warnings and Errors"
 msgstr "Warnungen und Fehler"
 
-#: ../mail/mail-component.c:1529
+#: ../mail/mail-component.c:1531
 msgid "Debug"
 msgstr "Fehlerdiagnose"
 
-#: ../mail/mail-component.c:1529
+#: ../mail/mail-component.c:1531
 msgid "Error, Warnings and Debug messages"
 msgstr "Fehler, Warnungen und Diagnosemeldungen"
 
-#: ../mail/mail-component.c:1639
+#: ../mail/mail-component.c:1641
 msgid "Debug Logs"
 msgstr "Fehlerdiagnose-Protokoll"
 
-#: ../mail/mail-component.c:1643
+#. Translators: This is the first part of the sentence "Show _errors in the status bar for" - XXX - "second(s)."
+#: ../mail/mail-component.c:1646
 msgid "Show _errors in the status bar for"
 msgstr "_Fehlermeldungen in der Statusleiste für"
 
-#: ../mail/mail-component.c:1650
-msgid "seconds."
+#. Translators: This is the second part of the sentence "Show _errors in the status bar for" - XXX - "second(s)."
+#: ../mail/mail-component.c:1654
+#, fuzzy
+msgid "second(s)."
 msgstr "Sekunden anzeigen."
 
-#: ../mail/mail-component.c:1660
+#: ../mail/mail-component.c:1664
 msgid "Log Messages:"
 msgstr "Protokollmeldungen:"
 
-#: ../mail/mail-component.c:1712
+#: ../mail/mail-component.c:1716
 msgid "Log Level"
 msgstr "Protokolltyp"
 
-#: ../mail/mail-component.c:1719 ../widgets/misc/e-dateedit.c:410
+#: ../mail/mail-component.c:1723 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
 msgstr "Uhrzeit"
 
-#: ../mail/mail-component.c:1726 ../mail/message-list.c:2406
+#: ../mail/mail-component.c:1730 ../mail/message-list.c:2405
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Nachrichten"
@@ -13632,74 +13683,75 @@ msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<b>Druckschriften</b>"
 
 #: ../mail/mail-config.glade.h:27
+#, fuzzy
+msgid "<span weight=\"bold\">Proxy Settings</span>"
+msgstr "<b>Status</b>"
+
+#: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<b>Erforderliche Informationen</b>"
 
-#: ../mail/mail-config.glade.h:28
+#: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<b>Sicheres MIME (S/MIME)</b>"
 
-#: ../mail/mail-config.glade.h:29
+#: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<b>Sicherheit</b>"
 
-#: ../mail/mail-config.glade.h:30
+#: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<b>Verschickte Nachrichten und Nachrichtenentwürfe</b>"
 
-#: ../mail/mail-config.glade.h:31
+#: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<b>Server-Konfiguration</b>"
 
-#: ../mail/mail-config.glade.h:32
+#: ../mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">_Authentication Type</span>"
 msgstr "<b>_Legitimationsart</b>"
 
-#: ../mail/mail-config.glade.h:34
+#: ../mail/mail-config.glade.h:35
 msgid "Account Management"
 msgstr "Kontenverwaltung"
 
-#: ../mail/mail-config.glade.h:35
+#: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
 msgstr "N_eue Signatur …"
 
-#: ../mail/mail-config.glade.h:36
+#: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
 msgstr "_Skript hinzufügen"
 
-#: ../mail/mail-config.glade.h:37
+#: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Aus diesem Konto ausgehende Nachrichten _immer signieren"
 
-#: ../mail/mail-config.glade.h:38
+#: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr ""
 "Beim Verschicken verschlüsselter E-Mails auch zu sich sel_bst verschlüsseln"
 
-#: ../mail/mail-config.glade.h:39
+#: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Immer _Kopie schicken an:"
 
-#: ../mail/mail-config.glade.h:40
+#: ../mail/mail-config.glade.h:41
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Immer _Blindkopie schicken an:"
 
-#: ../mail/mail-config.glade.h:41
+#: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Schlüssel am Schlüsselbund beim Verschlüsseln _immer vertrauen"
 
-#: ../mail/mail-config.glade.h:42
+#: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr ""
 "Beim Verschicken verschlüsselter E-Mails _immer vor mir selbst verschlüsseln"
 
-#: ../mail/mail-config.glade.h:43
+#: ../mail/mail-config.glade.h:44
 msgid "Always request rea_d receipt"
 msgstr "_Lesebestätigung immer anfordern"
-
-#: ../mail/mail-config.glade.h:44
-msgid "Attach original message"
-msgstr "Originalnachricht anhängen"
 
 #: ../mail/mail-config.glade.h:46
 msgid "Automatically insert _emoticon images"
@@ -13718,13 +13770,14 @@ msgid "C_haracter set:"
 msgstr "_Zeichensatz:"
 
 #: ../mail/mail-config.glade.h:50
-msgid "C_heck custom headers for junk"
-msgstr ""
-"_Benutzerdefinierte Kopfzeilen für Prüfung auf Unerwünschtheit benutzen"
-
-#: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "_Prüfen, welche Arten unterstützt werden "
+
+#: ../mail/mail-config.glade.h:51
+#, fuzzy
+msgid "Check cu_stom headers for junk"
+msgstr ""
+"_Benutzerdefinierte Kopfzeilen für Prüfung auf Unerwünschtheit benutzen"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check incoming _messages for junk"
@@ -13789,20 +13842,22 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Ausgehende Nachrichten (per Vorgabe) digital _signieren"
 
 #: ../mail/mail-config.glade.h:71
-msgid "Do _not mark messages as junk if sender is in my addressbook"
-msgstr ""
-"_Nachrichten nicht als Unerwünscht markieren, wenn der Absender im "
-"Adressbuch steht"
-
-#: ../mail/mail-config.glade.h:72
 msgid "Do not format text contents in messages if the text si_ze exceeds"
 msgstr ""
 "Textinhalt in E-Mails nicht formatieren wenn folgende Text_größe "
 "überschritten wird:"
 
+#: ../mail/mail-config.glade.h:72
+#, fuzzy
+msgid "Do not mar_k messages as junk if sender is in my addressbook"
+msgstr ""
+"_Nachrichten nicht als Unerwünscht markieren, wenn der Absender im "
+"Adressbuch steht"
+
 #: ../mail/mail-config.glade.h:73
-msgid "Do not quote original message"
-msgstr "Originalnachricht nicht zitieren"
+#, fuzzy
+msgid "Do not quote"
+msgstr "Nicht löschen"
 
 #: ../mail/mail-config.glade.h:74
 msgid "Done"
@@ -13865,57 +13920,67 @@ msgid "HTML Messages"
 msgstr "HTML-Nachrichten"
 
 #: ../mail/mail-config.glade.h:91
+#, fuzzy
+msgid "H_TTP Proxy:"
+msgstr "_Postfach:"
+
+#: ../mail/mail-config.glade.h:92
 msgid "Headers"
 msgstr "Kopfzeilen"
 
-#: ../mail/mail-config.glade.h:92
+#: ../mail/mail-config.glade.h:93
 msgid "Highlight _quotations with"
 msgstr "Zitate _hervorheben mit"
 
-#: ../mail/mail-config.glade.h:94
+#: ../mail/mail-config.glade.h:95
 msgid "Inline"
 msgstr "Eingebettet"
 
-#: ../mail/mail-config.glade.h:95
-msgid "Inline original message (Outlook style)"
+#: ../mail/mail-config.glade.h:96
+#, fuzzy
+msgid "Inline (Outlook style)"
 msgstr "Original-Nachricht inline weiterleiten"
 
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:98
 msgid "KB"
 msgstr "KB"
 
-#: ../mail/mail-config.glade.h:98 ../mail/message-list.etspec.h:8
+#: ../mail/mail-config.glade.h:99 ../mail/message-list.etspec.h:8
 msgid "Labels"
 msgstr "Beschriftungen"
 
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:100
 msgid "Languages Table"
 msgstr "Sprachtabelle"
 
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:101
 msgid "Mail Configuration"
 msgstr "E-Mail-Konfiguration"
 
-#: ../mail/mail-config.glade.h:101
+#: ../mail/mail-config.glade.h:102
 msgid "Mail Headers Table"
 msgstr "E-Mail-Kopf-Tabelle"
 
-#: ../mail/mail-config.glade.h:103
+#: ../mail/mail-config.glade.h:104
 msgid "Mailbox location"
 msgstr "Ort des Postfachs"
 
-#: ../mail/mail-config.glade.h:104
+#: ../mail/mail-config.glade.h:105
 msgid "Message Composer"
 msgstr "Nachrichteneditor"
 
-#: ../mail/mail-config.glade.h:105
+#: ../mail/mail-config.glade.h:106
+msgid "No _Proxy for:"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:107
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
 "Hinweis: Ein Unterstrich im Beschriftungsnamen wird als Zugriffstaste im "
 "Menü genutzt."
 
-#: ../mail/mail-config.glade.h:106
+#: ../mail/mail-config.glade.h:108
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
@@ -13923,15 +13988,20 @@ msgstr ""
 "Hinweis: Sie werden erst nach dem Passwort gefragt, wenn Sie das erste Mal "
 "eine Verbindung mit dem Server aufbauen"
 
-#: ../mail/mail-config.glade.h:107
+#: ../mail/mail-config.glade.h:109
 msgid "Or_ganization:"
 msgstr "_Organisation:"
 
-#: ../mail/mail-config.glade.h:108
+#: ../mail/mail-config.glade.h:110
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG-_Schlüsselkennung:"
 
-#: ../mail/mail-config.glade.h:110
+#: ../mail/mail-config.glade.h:111
+#, fuzzy
+msgid "Pass_word:"
+msgstr "_Passwort:"
+
+#: ../mail/mail-config.glade.h:113
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -13939,7 +14009,7 @@ msgstr ""
 "Bitte geben Sie unten einen beschreibenden Namen für dieses Konto ein.\n"
 "Dieser Name wird nur zur Anzeige verwendet."
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:115
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -13948,7 +14018,7 @@ msgstr ""
 "Mails verschicken wollen. Falls Sie sich nicht sicher sind, wenden Sie sich "
 "bitte an Ihren Systemadministrator oder Internet-Provider."
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:116
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -13959,109 +14029,114 @@ msgstr ""
 "ausgefüllt werden, es sei denn, Sie wollen diese Informationen in von Ihnen "
 "verschickten E-Mails einschließen."
 
-#: ../mail/mail-config.glade.h:114
+#: ../mail/mail-config.glade.h:117
 msgid "Please select among the following options"
 msgstr "Bitte wählen Sie aus den folgenden Optionen"
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:118
+#, fuzzy
+msgid "Port:"
+msgstr "_Port:"
+
+#: ../mail/mail-config.glade.h:119
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 "Beim Abschicken von Nachrichten mit ausschließlich _Blindkopie-Empfängern "
 "nachfragen"
 
-#: ../mail/mail-config.glade.h:116
-msgid "Quote original message"
-msgstr "Originalnachricht zitieren"
-
-#: ../mail/mail-config.glade.h:117
+#: ../mail/mail-config.glade.h:120
 msgid "Quoted"
 msgstr "Zitiert"
 
-#: ../mail/mail-config.glade.h:118
+#: ../mail/mail-config.glade.h:121
 msgid "Re_member password"
 msgstr "An Passwort _erinnern"
 
-#: ../mail/mail-config.glade.h:119
+#: ../mail/mail-config.glade.h:122
 msgid "Re_ply-To:"
 msgstr "_Antwort an:"
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:124
 msgid "Remember _password"
 msgstr "An _Passwort erinnern"
 
-#: ../mail/mail-config.glade.h:122
+#: ../mail/mail-config.glade.h:125
+msgid "S_OCKS Host:"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:126
 msgid "S_earch for sender photograph only in local addressbooks"
 msgstr "_Nach Photo des Absenders nur in den lokalen Adressbüchern suchen"
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:127
 msgid "S_elect..."
 msgstr "A_uswählen …"
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:128
 msgid "S_end message receipts:"
 msgstr "Lese_bestätigungen verschicken:"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:129
 msgid "S_tandard Font:"
 msgstr "_Standard-Schrift:"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:131
 msgid "Select HTML fixed width font"
 msgstr "Dicktengleiche HTML-Schrift wählen"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:132
 msgid "Select HTML fixed width font for printing"
 msgstr "Dicktengleiche HTML-Druckschrift wählen"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:133
 msgid "Select HTML variable width font"
 msgstr "HTML-Proportionalschrift wählen"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:134
 msgid "Select HTML variable width font for printing"
 msgstr "HTML-Proportionaldruckschrift wählen"
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:136
 msgid "Sending Mail"
 msgstr "Verschicken von E-Mails"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:137
 msgid "Sent _Messages Folder:"
 msgstr "Ordner für _verschickte Nachrichten:"
 
-#: ../mail/mail-config.glade.h:134
+#: ../mail/mail-config.glade.h:138
 msgid "Ser_ver requires authentication"
 msgstr "Server erfordert _Legitimation"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:139
 msgid "Server _Type: "
 msgstr "_Server-Art: "
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:140
 msgid "Sig_ning certificate:"
 msgstr "Signatur_zertifikat:"
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:141
 msgid "Signat_ure:"
 msgstr "_Signatur:"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:142
 msgid "Signatures"
 msgstr "Signaturen"
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:143
 msgid "Signatures Table"
 msgstr "Signaturtabelle"
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:144
 msgid "Spell Checking"
 msgstr "Rechtschreibprüfung"
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:145
 msgid "T_ype: "
 msgstr "T_yp:"
 
-#: ../mail/mail-config.glade.h:142
+#: ../mail/mail-config.glade.h:146
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -14069,7 +14144,7 @@ msgstr ""
 "Diese Sprachliste enthält ausschließlich die Sprachen, für die ein "
 "Wörterbuch installiert sind."
 
-#: ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.glade.h:147
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -14079,14 +14154,14 @@ msgstr ""
 "verwendet. Der von Ihnen angegebene Name\n"
 "wird lediglich zu Anzeigezwecken verwendet."
 
-#: ../mail/mail-config.glade.h:146
+#: ../mail/mail-config.glade.h:150
 msgid ""
 "This option will be overridden if a match for custom junk headers is found."
 msgstr ""
 "Diese Einstellung wird ignoriert wenn ein Treffer für eine "
 "benutzerdefinierte Kopfzeile vorgefunden wird."
 
-#: ../mail/mail-config.glade.h:147
+#: ../mail/mail-config.glade.h:151
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -14094,16 +14169,26 @@ msgstr ""
 "Geben Sie einen Namen an, den Sie mit diesem Konto assoziieren,\n"
 "zum Beispiel »Geschäftlich« oder »Persönlich«."
 
-#: ../mail/mail-config.glade.h:149 ../plugins/caldav/caldav-source.c:282
+#: ../mail/mail-config.glade.h:153
+#, fuzzy
+msgid "Us_ername:"
+msgstr "_Benutzername:"
+
+#: ../mail/mail-config.glade.h:154
+#, fuzzy
+msgid "Use Authe_ntication"
+msgstr "Legitimation"
+
+#: ../mail/mail-config.glade.h:155 ../plugins/caldav/caldav-source.c:282
 #: ../plugins/google-account-setup/google-source.c:358
 msgid "User_name:"
 msgstr "_Benutzername:"
 
-#: ../mail/mail-config.glade.h:150
+#: ../mail/mail-config.glade.h:156
 msgid "V_ariable-width:"
 msgstr "_Proportional:"
 
-#: ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.glade.h:157
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -14113,102 +14198,125 @@ msgstr ""
 "\n"
 "Klicken Sie auf »Vor«, um zu beginnen."
 
-#: ../mail/mail-config.glade.h:154
+#: ../mail/mail-config.glade.h:160
 msgid "_Add Signature"
 msgstr "Signatur _hinzufügen"
 
-#: ../mail/mail-config.glade.h:155
+#: ../mail/mail-config.glade.h:161
 msgid "_Always load images from the Internet"
 msgstr "Bilder _immer aus dem Internet laden"
 
-#: ../mail/mail-config.glade.h:156
+#: ../mail/mail-config.glade.h:162
+#, fuzzy
+msgid "_Automatic proxy configuration URL:"
+msgstr "Automatische Link-Erkennung"
+
+#: ../mail/mail-config.glade.h:163
 msgid "_Default junk plugin:"
 msgstr "_Vorgabe-Unerwünscht-Plugin:"
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:164
+msgid "_Direct connection to the Internet"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:165
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "_Besprechungsanfragen nicht signieren (zur Kompatibilität mit Outlook)"
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:167
 msgid "_Forward style:"
 msgstr "_Weiterleitungsstil:"
 
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:168
 msgid "_Keep Signature above the original message on replying"
 msgstr "Signat_ur beim Antworten über der Original-Nachricht behalten"
 
-#: ../mail/mail-config.glade.h:161
+#: ../mail/mail-config.glade.h:169
 msgid "_Load images in messages from contacts"
 msgstr "Bilder in Nachrichten von Kontakten _laden"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:170
 msgid "_Make this my default account"
 msgstr "Dieses zum Vo_rgabekonto machen"
 
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:171
+#, fuzzy
+msgid "_Manual proxy configuration:"
+msgstr "E-Mail-Konfiguration"
+
+#: ../mail/mail-config.glade.h:172
 msgid "_Mark messages as read after"
 msgstr "_Nachrichten als gelesen markieren nach"
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:174
 msgid "_Never load images from the Internet"
 msgstr "Bilder _nie aus dem Internet laden"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:175
 msgid "_Path:"
 msgstr "_Pfad:"
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:176
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgstr ""
 "_Nachfrage beim Abschicken von HTML-Nachrichten an Kontakte, die dies nicht "
 "wünschen"
 
-#: ../mail/mail-config.glade.h:168
+#: ../mail/mail-config.glade.h:177
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Nachfrage beim Abschicken von Nachrichten mit _leerem Betreff"
 
-#: ../mail/mail-config.glade.h:169
+#: ../mail/mail-config.glade.h:178
 msgid "_Reply style:"
 msgstr "_Antwortstil:"
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:179
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:180
+msgid "_Secure HTTP Proxy:"
+msgstr ""
+
+#: ../mail/mail-config.glade.h:181
 msgid "_Select..."
 msgstr "A_uswählen …"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:184
 msgid "_Show image animations"
 msgstr "Bildanimationen an_zeigen"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:185
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Photo des Absenders in der Nachrichtenvorschau anzeigen"
 
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:186
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "Empfängerkopfzeilen (An/Kopie/Blindkopie) _verkleinern zu "
 
-#: ../mail/mail-config.glade.h:177
+#: ../mail/mail-config.glade.h:187
 msgid "_Use Secure Connection:"
 msgstr "_Sichere Verbindung verwenden:"
 
-#: ../mail/mail-config.glade.h:178
+#: ../mail/mail-config.glade.h:188
+#, fuzzy
+msgid "_Use system defaults"
+msgstr "_Vorgabe benutzen"
+
+#: ../mail/mail-config.glade.h:189
 msgid "_Use the same fonts as other applications"
 msgstr "Dieselben Schriften wie andere Anwendungen _verwenden"
 
-#: ../mail/mail-config.glade.h:179
+#: ../mail/mail-config.glade.h:190
 msgid "addresses"
 msgstr "Adressen"
 
-#: ../mail/mail-config.glade.h:180
+#: ../mail/mail-config.glade.h:191
 msgid "color"
 msgstr "Farbe"
 
-#: ../mail/mail-config.glade.h:181
+#: ../mail/mail-config.glade.h:192
 msgid "description"
 msgstr "Beschreibung"
 
@@ -14310,7 +14418,7 @@ msgstr "_Markierung:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Ha_ken Sie dies ab, um die Lizenzvereinbarung zu akzeptieren"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "Ping zu %s wird ermittelt"
@@ -14516,6 +14624,7 @@ msgid "Waiting..."
 msgstr "Warten …"
 
 #: ../mail/mail-send-recv.c:810
+#, c-format
 msgid "Checking for new mail"
 msgstr "Nach neuen E-Mails sehen"
 
@@ -15293,34 +15402,34 @@ msgstr "Höher"
 msgid "Highest"
 msgstr "Am höchsten"
 
-#: ../mail/message-list.c:1614 ../widgets/table/e-cell-date.c:55
+#: ../mail/message-list.c:1613 ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1621 ../plugins/itip-formatter/itip-view.c:206
+#: ../mail/message-list.c:1620 ../plugins/itip-formatter/itip-view.c:206
 #: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Heute %I:%M %p"
 
-#: ../mail/message-list.c:1630 ../widgets/table/e-cell-date.c:80
+#: ../mail/message-list.c:1629 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Gestern %l:%M %p"
 
-#: ../mail/message-list.c:1642 ../widgets/table/e-cell-date.c:92
+#: ../mail/message-list.c:1641 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a %I:%M %p"
 
-#: ../mail/message-list.c:1650 ../widgets/table/e-cell-date.c:100
+#: ../mail/message-list.c:1649 ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%d. %b, %k:%M"
 
-#: ../mail/message-list.c:1652 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1651 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3837
 msgid "Generating message list"
 msgstr "Nachrichtenliste wird erzeugt"
 
@@ -15758,6 +15867,11 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter-Optionen"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+#, fuzzy
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter-Optionen"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtert unerwünschte Nachrichten unter Verwendung von Bogofilter."
 
@@ -15794,8 +15908,9 @@ msgstr "Stellt Kernfunktionalität für lokale Kalender zur Verfügung."
 #: ../plugins/calendar-http/calendar-http.c:273
 #: ../plugins/calendar-weather/calendar-weather.c:546
 #: ../plugins/google-account-setup/google-source.c:375
-msgid "_Refresh:"
-msgstr "A_ktualisieren:"
+#, fuzzy
+msgid "Re_fresh:"
+msgstr "Auf_frischen"
 
 #: ../plugins/calendar-http/calendar-http.c:341
 msgid "_Secure connection"
@@ -16052,6 +16167,7 @@ msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:982
 #: ../plugins/exchange-operations/exchange-contacts.c:214
+#, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
@@ -16269,6 +16385,12 @@ msgstr "Ordnername"
 msgid "Folder Size"
 msgstr "Ordnergröße"
 
+#. FIXME Limit to one user
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:76
+#, fuzzy
+msgid "User"
+msgstr "_Benutzer"
+
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:316
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
@@ -16365,6 +16487,8 @@ msgid "Add User:"
 msgstr "Benutzer hinzufügen:"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:413
+#: ../plugins/groupwise-features/proxy.c:946
+#: ../plugins/groupwise-features/share-folder.c:726
 msgid "Add User"
 msgstr "Benutzer hinzufügen"
 
@@ -17054,6 +17178,94 @@ msgstr "Ein Plugin für die Funktionen von GroupWise-Konten."
 msgid "Groupwise Features"
 msgstr "GroupWise-Funktionen"
 
+#: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:1
+#, fuzzy
+msgid "Message retract failed"
+msgstr ""
+"Aktivieren der Seitenleisten-Suchfunktion, damit Sie interaktiv suchen "
+"können, indem Sie lediglich zu tippen beginnen. Benutzen Sie dies, damit Sie "
+"Ordner finden, indem Sie nur dessen Name tippen, die Auswahl springt dann "
+"sofort zu diesem Ordner."
+
+#: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:2
+#, fuzzy
+msgid "The server did not allow the selected message to be retracted."
+msgstr "Die gewählte Nachricht in eine neue Aufgabe umwandeln"
+
+#: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:1
+#: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:3
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:2
+#, fuzzy
+msgid "Invalid user"
+msgstr "Ungültige Signatur"
+
+#: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:2
+#, fuzzy
+msgid "Proxy access cannot be given to user &quot;{0}&quot;"
+msgstr "Speichern in die Datei »{0}« gescheitert."
+
+#: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:3
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
+#, fuzzy
+msgid "Specify User"
+msgstr "Benutzer auswählen"
+
+#: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:4
+#, fuzzy
+msgid "You have already given proxy permissions to this user."
+msgstr "Sie haben nun folgende Zugriffserlaubnis auf meine Ordner:"
+
+#: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
+msgid "You have to specify a valid user name to give proxy rights."
+msgstr ""
+
+#: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
+#, fuzzy
+msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
+msgstr ""
+"Es existiert bereits ein Ordner namens »{0}«. Bitte verwenden Sie einen "
+"anderen Namen."
+
+#: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
+#, fuzzy
+msgid "Account Already Exists"
+msgstr "Signatur existiert bereits"
+
+#: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
+msgid ""
+"Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and "
+"try again."
+msgstr ""
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:1
+#, fuzzy
+msgid "All instances"
+msgstr "Alle Instanzen"
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:4
+#, fuzzy
+msgid "This instance"
+msgstr "Nur diese Instanz"
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
+#, fuzzy
+msgid "This is a recurring meeting"
+msgstr "Dies zu einem wiederkehrenden Ereignis machen"
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:6
+#, fuzzy
+msgid "What would you like to {0}?"
+msgstr "Wollen Sie die vorgenommenen Änderungen speichern?"
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:7
+#, fuzzy
+msgid "You cannot share folder with specified user &quot;{0}&quot;"
+msgstr "Automatisches Speichern in Datei »{0}« gescheitert."
+
+#: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
+msgid "You have to specify a user name whom you want to add to the list"
+msgstr ""
+
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
 msgstr "Vorläufig annehmen"
@@ -17167,11 +17379,11 @@ msgstr "%sPasswort für %s (Benutzer %s) eingeben"
 msgid "_Proxy Login..."
 msgstr "_Vertretungsanmeldung …"
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Der Vertretungsreiter ist nur verfügbar, wenn das Konto online ist."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Der Vertretungsreiter ist nur verfügbar, wenn das Konto aktiviert ist."
 
@@ -17191,6 +17403,11 @@ msgstr "Neue Ordner_freigabe …"
 #: ../plugins/groupwise-features/share-folder-common.c:447
 msgid "Sharing"
 msgstr "Freigeben"
+
+#: ../plugins/groupwise-features/share-folder.c:544
+#, fuzzy
+msgid "Custom Notification"
+msgstr "Ausrichtung"
 
 #: ../plugins/groupwise-features/share-folder.c:766
 msgid "Add   "
@@ -17433,99 +17650,99 @@ msgstr "Diese Notiz wurde in keiner Notizliste gefunden"
 msgid "Searching for an existing version of this appointment"
 msgstr "Eine bestehende Version dieses Termins wird gesucht"
 
-#: ../plugins/itip-formatter/itip-formatter.c:943
+#: ../plugins/itip-formatter/itip-formatter.c:946
 msgid "Unable to parse item"
 msgstr "Element kann nicht analysiert werden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1001
+#: ../plugins/itip-formatter/itip-formatter.c:1004
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Element kann nicht zu Kalender »%s« gesendet werden. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1013
+#: ../plugins/itip-formatter/itip-formatter.c:1016
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "In Kalender »%s« als »Angenommen« eingetragen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1017
+#: ../plugins/itip-formatter/itip-formatter.c:1020
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "In Kalender »%s« als »Vorläufig angenommen« eingetragen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1022
+#: ../plugins/itip-formatter/itip-formatter.c:1025
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "In Kalender »%s« als »Abgelehnt« eingetragen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1027
+#: ../plugins/itip-formatter/itip-formatter.c:1030
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "In Kalender »%s« als »Abgesagt« eingetragen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1121
+#: ../plugins/itip-formatter/itip-formatter.c:1124
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Der Organisator hat den Delegaten %s entfernt "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1128
+#: ../plugins/itip-formatter/itip-formatter.c:1131
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Dem Delegaten wurde eine Absagenachricht zugestellt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1130
+#: ../plugins/itip-formatter/itip-formatter.c:1133
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Die Absagenachricht konnte dem Delegaten nicht zugestellt werden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1216
+#: ../plugins/itip-formatter/itip-formatter.c:1219
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Teilnehmerstatus konnte auf Grund eines ungültigen Zustands nicht "
 "aktualisiert werden"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1243
+#: ../plugins/itip-formatter/itip-formatter.c:1246
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Teilnehmer konnte nicht aktualisiert werden. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1247
+#: ../plugins/itip-formatter/itip-formatter.c:1250
 msgid "Attendee status updated"
 msgstr "Teilnehmerstatus aktualisiert"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1273
+#: ../plugins/itip-formatter/itip-formatter.c:1276
 msgid "Meeting information sent"
 msgstr "Besprechungsinformationen wurden verschickt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1276
+#: ../plugins/itip-formatter/itip-formatter.c:1279
 msgid "Task information sent"
 msgstr "Aufgabeninformationen wurden verschickt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1279
+#: ../plugins/itip-formatter/itip-formatter.c:1282
 msgid "Memo information sent"
 msgstr "Notizinformationen wurden verschickt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1288
+#: ../plugins/itip-formatter/itip-formatter.c:1291
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 "Verschicken der Besprechungsinformationen nicht möglich, die Besprechung "
 "existiert nicht"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1291
+#: ../plugins/itip-formatter/itip-formatter.c:1294
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 "Verschicken der Aufgabeninformationen nicht möglich, die Aufgabe existiert "
 "nicht"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1294
+#: ../plugins/itip-formatter/itip-formatter.c:1297
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 "Verschicken der Notizinformationen nicht möglich, die Notiz existiert nicht"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1369
-#: ../plugins/itip-formatter/itip-formatter.c:1384
+#: ../plugins/itip-formatter/itip-formatter.c:1372
+#: ../plugins/itip-formatter/itip-formatter.c:1387
 msgid "The calendar attached is not valid"
 msgstr "Der beigelegte Kalender ist ungültig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1370
-#: ../plugins/itip-formatter/itip-formatter.c:1385
+#: ../plugins/itip-formatter/itip-formatter.c:1373
+#: ../plugins/itip-formatter/itip-formatter.c:1388
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17533,15 +17750,15 @@ msgstr ""
 "Die Nachricht gibt an, einen Kalender zu enthalten. Dieser Kalender ist "
 "jedoch kein gültiger iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1420
-#: ../plugins/itip-formatter/itip-formatter.c:1438
-#: ../plugins/itip-formatter/itip-formatter.c:1520
+#: ../plugins/itip-formatter/itip-formatter.c:1423
+#: ../plugins/itip-formatter/itip-formatter.c:1441
+#: ../plugins/itip-formatter/itip-formatter.c:1523
 msgid "The item in the calendar is not valid"
 msgstr "Das Element im Kalender ist ungültig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1421
-#: ../plugins/itip-formatter/itip-formatter.c:1439
-#: ../plugins/itip-formatter/itip-formatter.c:1521
+#: ../plugins/itip-formatter/itip-formatter.c:1424
+#: ../plugins/itip-formatter/itip-formatter.c:1442
+#: ../plugins/itip-formatter/itip-formatter.c:1524
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17549,11 +17766,11 @@ msgstr ""
 "Die Nachricht enthält einen Kalender. Dieser beinhaltet allerdings keine "
 "Ereignisse, Aufgaben oder Verfügbarkeitsinformationen."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1450
+#: ../plugins/itip-formatter/itip-formatter.c:1453
 msgid "The calendar attached contains multiple items"
 msgstr "Der beigelegte Kalender enthält mehrere Elemente."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1451
+#: ../plugins/itip-formatter/itip-formatter.c:1454
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17561,31 +17778,31 @@ msgstr ""
 "Um alle diese Elemente weiterzuverarbeiten, sollte die Datei gespeichert und "
 "der Kalender importiert werden."
 
-#: ../plugins/itip-formatter/itip-formatter.c:2148
+#: ../plugins/itip-formatter/itip-formatter.c:2151
 msgid "This meeting recurs"
 msgstr "Diese Besprechung wird wiederholt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2151
+#: ../plugins/itip-formatter/itip-formatter.c:2154
 msgid "This task recurs"
 msgstr "Diese Aufgabe wird wiederholt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2154
+#: ../plugins/itip-formatter/itip-formatter.c:2157
 msgid "This memo recurs"
 msgstr "Diese Notiz wird wiederholt"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2369
+#: ../plugins/itip-formatter/itip-formatter.c:2372
 msgid "_Delete message after acting"
 msgstr "_Löschen der Nachricht nach Abarbeitung"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2379
-#: ../plugins/itip-formatter/itip-formatter.c:2411
+#: ../plugins/itip-formatter/itip-formatter.c:2382
+#: ../plugins/itip-formatter/itip-formatter.c:2414
 msgid "Conflict Search"
 msgstr "Konfliktsuche"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2394
+#: ../plugins/itip-formatter/itip-formatter.c:2397
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Kalender zur Suche nach Besprechungskonflikten auswählen"
 
@@ -18558,8 +18775,8 @@ msgstr "Konfiguration"
 msgid "There is no configuration option for this plugin."
 msgstr "Für dieses Plugin bestehen keine Konfigurationsoptionen."
 
-#: ../plugins/plugin-manager/plugin-manager.c:330
-#: ../plugins/plugin-manager/plugin-manager.c:392
+#: ../plugins/plugin-manager/plugin-manager.c:338
+#: ../plugins/plugin-manager/plugin-manager.c:400
 msgid "Plugin"
 msgstr "Plugin"
 
@@ -18978,6 +19195,7 @@ msgstr "Von %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:511
+#, c-format
 msgid "Importing data."
 msgstr "Daten werden importiert."
 
@@ -19034,68 +19252,143 @@ msgid "A string description of the current printer settings."
 msgstr "Eine Textbeschreibung der derzeitigen Druckereinstellungen."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
+msgid "Authenticate proxy server connections"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:3
+#, fuzzy
+msgid "Automatic proxy configuration URL"
+msgstr "Automatische Link-Erkennung"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Configuration version"
 msgstr "Konfigurationsversion"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:3
+#: ../shell/apps_evolution_shell.schemas.in.h:5
 msgid "Decides whether the crash detection should be run or not."
 msgstr ""
 "Legt fest, ob die Wiederabsturzverhinderung gestartet werden soll oder nicht."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:4
+#: ../shell/apps_evolution_shell.schemas.in.h:6
 msgid "Default sidebar width"
 msgstr "Voreingestellte Seitenleistenbreite"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:5
+#: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window height"
 msgstr "Voreingestellte Fensterhöhe"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Default window state"
 msgstr "Voreingestllter Fensterzustand"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "Default window width"
 msgstr "Voreingestellte Fensterbreite"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.h:10
+msgid ""
+"Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:11
+msgid "HTTP proxy host name"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:12
+#, fuzzy
+msgid "HTTP proxy password"
+msgstr "Passwort eingeben"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:13
+msgid "HTTP proxy port"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:14
+msgid "HTTP proxy username"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
 "Kennung oder Alias der Komponente, die per Vorgabe beim Start angezeigt "
 "werden soll."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.h:16
+msgid ""
+"If true, then connections to the proxy server require authentication. The "
+"username/password combo is defined by \"/apps/evolution/shell/network_config/"
+"authentication_user\" and locally stored password in .gnome2_private/."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Last upgraded configuration version"
 msgstr "Zuletzt aktualisierte Konfigurationsversion"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Liste der Pfade für Ordner, die für eine Offline-Benutzung auf der Platte "
 "synchronisiert werden sollen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.h:19
+msgid "Non-proxy hosts"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:20
+msgid "Password to pass as authentication when doing HTTP proxying."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:21
+#, fuzzy
+msgid "Proxy configuration mode"
+msgstr "Konfiguration"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:22
+msgid "SOCKS proxy host name"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:23
+msgid "SOCKS proxy port"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:24
+msgid "Secure HTTP proxy host name"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:25
+msgid "Secure HTTP proxy port"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:26
+msgid ""
+"Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 "
+"representing \"use system settings\", \"no proxy\", \"use manual proxy "
+"configuration\" and \"use proxy configuration provided in the autoconfig url"
+"\" respectively."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Sidebar is visible"
 msgstr "Seitenleiste anzeigen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "Skip development warning dialog"
 msgstr "Entwicklungs-Warndialog nicht anzeigen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "Skip recovery warning dialog"
 msgstr "Absturzverhinderung-Warndialog nicht anzeigen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:576
+#: ../shell/apps_evolution_shell.schemas.in.h:30 ../shell/main.c:576
 msgid "Start in offline mode"
 msgstr "Im Offline-Modus starten"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Statusbar is visible"
 msgstr "Statusleiste ist sichtbar"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
@@ -19103,19 +19396,19 @@ msgstr ""
 "Die Konfigurationsversion von Evolution mit Haupt-, Unter- und "
 "Konfigurations-Stufe (z.B. »2.6.0«)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "The default height for the main window, in pixels."
 msgstr "Die Vorgabehöhe des Hauptfensters in Pixel."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The default width for the main window, in pixels."
 msgstr "Die Vorgabebreite des Hauptfensters in Pixel."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid "The default width for the sidebar, in pixels."
 msgstr "Die Vorgabebreite der Seitenleiste in Pixel."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -19123,7 +19416,37 @@ msgstr ""
 "Die zuletzt aktualisierte Konfigurationsversion von Evolution mit Haupt-, "
 "Unter- und Konfigurations-Stufe (z.B. »2.6.0«)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.h:37
+msgid "The machine name to proxy HTTP through."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:38
+msgid "The machine name to proxy secure HTTP through."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:39
+msgid "The machine name to proxy socks through."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:40
+msgid ""
+"The port on the machine defined by \"/apps/evolution/shell/network_config/"
+"http_host\" that you proxy through."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:41
+msgid ""
+"The port on the machine defined by \"/apps/evolution/shell/network_config/"
+"secure_host\" that you proxy through."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:42
+msgid ""
+"The port on the machine defined by \"/apps/evolution/shell/network_config/"
+"socks_host\" that you proxy through."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -19133,57 +19456,78 @@ msgstr ""
 "»both« und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der "
 "GNOME-Einstellungen festgelegt."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.h:44
+msgid ""
+"This key contains a list of hosts which are connected to directly, rather "
+"than via the proxy (if it is active). The values can be hostnames, domains "
+"(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
+"IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "Toolbar is visible"
 msgstr "Werkzeugleiste anzeigen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.h:46
+#, fuzzy
+msgid "URL that provides proxy configuration values."
+msgstr "Zuletzt aktualisierte Konfigurationsversion"
+
+#: ../shell/apps_evolution_shell.schemas.in.h:47
+msgid "Use HTTP proxy"
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:48
+msgid "User name to pass as authentication when doing HTTP proxying."
+msgstr ""
+
+#: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Soll Evolution im Offline- statt im Online-Modus gestartet werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid "Whether crash detection should be done or not"
 msgstr ""
 "Legt fest, ob die Wiederabsturzverhinderung durchgeführt werden soll oder "
 "nicht"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "Whether or not the window should be maximized."
 msgstr "Soll das Fenster maximiert werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Whether the sidebar should be visible."
 msgstr "Soll die Seitenleiste angezeigt werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:27
+#: ../shell/apps_evolution_shell.schemas.in.h:53
 msgid "Whether the status bar should be visible."
 msgstr "Soll die Werkzeugleiste angezeigt werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:28
+#: ../shell/apps_evolution_shell.schemas.in.h:54
 msgid "Whether the toolbar should be visible."
 msgstr "Soll die Werkzeugleiste angezeigt werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:29
+#: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 "Soll der Warndialog in Evolution-Entwicklerversionen nicht angezeigt werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:30
+#: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
 msgstr ""
 "Legt fest, ob der Warndialog der Wiederabsturzverhinderung angezeigt werden "
 "soll."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:31
+#: ../shell/apps_evolution_shell.schemas.in.h:57
 msgid "Whether the window buttons should be visible."
 msgstr "Sollen die Fensterknöpfe angezeigt werden?"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:32
+#: ../shell/apps_evolution_shell.schemas.in.h:58
 msgid "Window button style"
 msgstr "Fensterknopfstil"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33
+#: ../shell/apps_evolution_shell.schemas.in.h:59
 msgid "Window buttons are visible"
 msgstr "Fensterknöpfe sind sichtbar"
 
@@ -21446,7 +21790,7 @@ msgstr "_Zitiert"
 #. Translators: "Read" as in "has been read" (evolution-mail-message.xml)
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Read"
-msgstr "_Lesen"
+msgstr "_Gelesen"
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Save Message..."
@@ -22633,52 +22977,52 @@ msgstr "Rückfluss-Modell"
 msgid "Column width"
 msgstr "Spaltenbreite"
 
-#: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
-#: ../widgets/misc/e-search-bar.c:480
+#: ../widgets/misc/e-search-bar.c:350 ../widgets/misc/e-search-bar.c:482
+#: ../widgets/misc/e-search-bar.c:484
 msgid "Search"
 msgstr "Suchen"
 
-#: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
-#: ../widgets/misc/e-search-bar.c:480
+#: ../widgets/misc/e-search-bar.c:350 ../widgets/misc/e-search-bar.c:482
+#: ../widgets/misc/e-search-bar.c:484
 msgid "Click here to change the search type"
 msgstr "Klicken Sie hier, um den Suchtypen zu ändern"
 
-#: ../widgets/misc/e-search-bar.c:610
+#: ../widgets/misc/e-search-bar.c:615
 msgid "_Search"
 msgstr "_Suchen"
 
-#: ../widgets/misc/e-search-bar.c:616
+#: ../widgets/misc/e-search-bar.c:621
 msgid "_Find Now"
 msgstr "_Jetzt suchen"
 
-#: ../widgets/misc/e-search-bar.c:617
+#: ../widgets/misc/e-search-bar.c:622
 msgid "_Clear"
 msgstr "_Verwerfen"
 
-#: ../widgets/misc/e-search-bar.c:872
+#: ../widgets/misc/e-search-bar.c:877
 msgid "Item ID"
 msgstr "Objektkennung"
 
-#: ../widgets/misc/e-search-bar.c:879 ../widgets/text/e-text.c:3564
+#: ../widgets/misc/e-search-bar.c:884 ../widgets/text/e-text.c:3564
 #: ../widgets/text/e-text.c:3565
 msgid "Text"
 msgstr "Text"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:1013
+#: ../widgets/misc/e-search-bar.c:1018
 msgid "Sho_w: "
 msgstr "An_zeigen: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
-#: ../widgets/misc/e-search-bar.c:1030
+#: ../widgets/misc/e-search-bar.c:1035
 msgid "Sear_ch: "
 msgstr "S_uchen: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:1042
+#: ../widgets/misc/e-search-bar.c:1047
 msgid " i_n "
 msgstr " _in "
 
@@ -22812,27 +23156,28 @@ msgstr "D_anach:"
 msgid "_All information"
 msgstr "_Alle Informationen"
 
-#: ../widgets/misc/e-send-options.glade.h:31
+#. To translators: This means Delay the message delivery for some time
+#: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Delay message delivery"
 msgstr "Ver_zögerungsnachricht zustellen"
 
-#: ../widgets/misc/e-send-options.glade.h:32
+#: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Delivered"
 msgstr "Zuge_stellt"
 
-#: ../widgets/misc/e-send-options.glade.h:34
+#: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration date"
 msgstr "_Verfallsdatum angeben"
 
-#: ../widgets/misc/e-send-options.glade.h:35
+#: ../widgets/misc/e-send-options.glade.h:36
 msgid "_Until:"
 msgstr "_Bis:"
 
-#: ../widgets/misc/e-send-options.glade.h:36
+#: ../widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
 msgstr "_Wenn passend"
 
-#: ../widgets/misc/e-send-options.glade.h:37
+#: ../widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:"
 msgstr "_Wenn geöffnet:"
 
@@ -23348,6 +23693,27 @@ msgstr "EM-Kontext"
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr "Handle-Popup"
+
+#~ msgid "Permission Denied."
+#~ msgstr "Erlaubnis verweigert."
+
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>Anzeigen</b>"
+
+#~ msgid "<b>Server Information</b>"
+#~ msgstr "<b>Server-Informationen</b>"
+
+#~ msgid "Attach original message"
+#~ msgstr "Originalnachricht anhängen"
+
+#~ msgid "Do not quote original message"
+#~ msgstr "Originalnachricht nicht zitieren"
+
+#~ msgid "Quote original message"
+#~ msgstr "Originalnachricht zitieren"
+
+#~ msgid "_Refresh:"
+#~ msgstr "A_ktualisieren:"
 
 #~ msgid "_Versandoptionen"
 #~ msgstr "_Sendeoptionen"
