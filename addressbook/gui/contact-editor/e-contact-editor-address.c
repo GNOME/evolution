@@ -225,7 +225,7 @@ static char * countries [] = {
 	N_("Guatemala"),
 	N_("Guernsey"),
 	N_("Guinea"),
-	N_("Guinea-bissau"),
+	N_("Guinea-Bissau"),
 	N_("Guyana"),
 	N_("Haiti"),
 	N_("Heard And McDonald Islands"),

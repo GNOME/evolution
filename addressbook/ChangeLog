@@ -1,5 +1,12 @@
 2008-03-31  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #521562
+
+	* gui/contact-editor/e-contact-editor-address.c: (countries []):
+	Small typo fix.
+
+2008-03-31  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #506347
 
 	* gui/widgets/eab-contact-display.c:
