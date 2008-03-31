@@ -1,5 +1,13 @@
 2008-03-31  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #506347
+
+	* gui/widgets/eab-contact-display.c:
+	(eab_contact_display_render_compact):
+	Inherit background colors from actual theme, do not use hardcoded one.
+
+2008-03-31  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #404241
 
 	* gui/widgets/e-minicard.c: (get_email_location), (add_email_field):

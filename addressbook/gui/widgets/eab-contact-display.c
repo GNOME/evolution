@@ -751,14 +751,33 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 		const char *str;
 		char *html;
 		EContactPhoto *photo;
+		guint bg_frame = 0x000000, bg_body = 0xEEEEEE;
+		GtkStyle *style;
+
+		style = gtk_widget_get_style (GTK_WIDGET (display));
+		if (style) {
+			gushort r, g, b;
+
+			r = style->black.red >> 8;
+			g = style->black.green >> 8;
+			b = style->black.blue >> 8;
+			bg_frame = ((r << 16) | (g << 8) | b) & 0xffffff;
+
+			#define DARKER(a) (((a) >= 0x22) ? ((a) - 0x22) : 0)
+			r = DARKER (style->bg[GTK_STATE_NORMAL].red >> 8);
+			g = DARKER (style->bg[GTK_STATE_NORMAL].green >> 8);
+			b = DARKER (style->bg[GTK_STATE_NORMAL].blue >> 8);
+			bg_body = ((r << 16) | (g << 8) | b) & 0xffffff;
+			#undef DARKER
+		}
 
 		gtk_html_stream_printf (html_stream,
-					"<table width=\"100%%\" cellpadding=1 cellspacing=0 bgcolor=\"#000000\">"
+					"<table width=\"100%%\" cellpadding=1 cellspacing=0 bgcolor=\"#%06X\">"
 					"<tr><td valign=\"top\">"
-					"<table width=\"100%%\" cellpadding=0 cellspacing=0 bgcolor=\"#eeeeee\">"
+					"<table width=\"100%%\" cellpadding=0 cellspacing=0 bgcolor=\"#%06X\">"
 					"<tr><td valign=\"top\">"
 					"<table>"
-					"<tr><td valign=\"top\">");
+					"<tr><td valign=\"top\">", bg_frame, bg_body);
 
 		photo = e_contact_get (contact, E_CONTACT_PHOTO);
 		if (!photo)
