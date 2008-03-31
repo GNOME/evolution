@@ -1,3 +1,10 @@
+2008-03-31  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #346555
+
+	* google-source.c: (plugin_google): 
+	Fixed a mnemonic conflict. 
+
 2008-01-25  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (liborg_gnome_evolution_google_la_LIBADD): Fix typo:

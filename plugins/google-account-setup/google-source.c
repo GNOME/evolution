@@ -372,7 +372,7 @@ plugin_google  (EPlugin                    *epl,
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (luser), user);
 
-	GtkWidget *label = gtk_label_new_with_mnemonic (_("_Refresh:"));
+	GtkWidget *label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC(label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (parent),

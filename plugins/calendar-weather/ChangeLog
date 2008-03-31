@@ -1,3 +1,10 @@
+2008-03-31  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #346555
+
+	* calendar-weather.c: (e_calendar_weather_refresh):
+	Fixed a mnemonic conflict. 
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* calendar-weather.c: (load_locations), (treeview_clicked):

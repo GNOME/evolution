@@ -343,7 +343,7 @@ eccp_get_source_color (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent
 		g_warning ("Unknown color \"%s\" in calendar \"%s\"",
 			color_spec, e_source_peek_name (sdialog->source));
 
-	label = gtk_label_new_with_mnemonic (_("C_olor:"));
+	label = gtk_label_new_with_mnemonic (_("Colo_r:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (
 		GTK_TABLE (parent), label,

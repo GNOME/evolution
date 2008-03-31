@@ -543,7 +543,7 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	row = ((GtkTable*)parent)->nrows;
 
-	label = gtk_label_new_with_mnemonic (_("_Refresh:"));
+	label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
