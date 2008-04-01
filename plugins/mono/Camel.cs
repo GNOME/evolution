@@ -392,18 +392,18 @@ namespace Camel {
 		}
 
 		public enum Tag {
-			NAME = 0x1400 + Arg.Tag.STR,
-			FULL_NAME = 0x1401 + Arg.Tag.STR,
-			STORE = 0x1402 + Arg.Tag.OBJ,
-			PERMANENTFLAGS = 0x1403 + Arg.Tag.INT,
-			TOTAL = 0x1404 + Arg.Tag.INT,
-			UNREAD = 0x1405 + Arg.Tag.INT,
-			DELETED = 0x1406 + Arg.Tag.INT,
-			JUNKED = 0x1407 + Arg.Tag.INT,
-			VISIBLE = 0x1408 + Arg.Tag.INT,
-			UID_ARRAY = 0x1409 + Arg.Tag.PTR,
-			INFO_ARRAY = 0x140a + Arg.Tag.PTR, // GPtrArray
-			PROPERTIES = 0x140b + Arg.Tag.PTR, // GSList of properties
+			NAME = (int) (0x1400 + Arg.Tag.STR),
+			FULL_NAME = (int) (0x1401 + Arg.Tag.STR),
+			STORE = (int) (0x1402 + Arg.Tag.OBJ),
+			PERMANENTFLAGS = (int) (0x1403 + Arg.Tag.INT),
+			TOTAL = (int) (0x1404 + Arg.Tag.INT),
+			UNREAD = (int) (0x1405 + Arg.Tag.INT),
+			DELETED = (int) (0x1406 + Arg.Tag.INT),
+			JUNKED = (int) (0x1407 + Arg.Tag.INT),
+			VISIBLE = (int) (0x1408 + Arg.Tag.INT),
+			UID_ARRAY = (int) (0x1409 + Arg.Tag.PTR),
+			INFO_ARRAY = (int) (0x140a + Arg.Tag.PTR), // GPtrArray
+			PROPERTIES = (int) (0x140b + Arg.Tag.PTR), // GSList of properties
 		}
 
 		[DllImport("camel-provider-1.2")] static extern IntPtr camel_folder_get_message(IntPtr o, string uid, ref CamelException ex);
