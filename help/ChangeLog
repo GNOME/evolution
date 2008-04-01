@@ -1,3 +1,8 @@
+2008-04-01  Tor Lillqvist  <tml@novell.com>
+
+	* es/figures/evo_label_a.PNG: Remove this, it's a duplicate of
+	es/figures/evo_label_a.png.
+
 2008-03-26  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fixes Bug #524434. From PC Radhika <pradhika@novell.com>
