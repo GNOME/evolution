@@ -1,3 +1,10 @@
+2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #525510, patch from Thomas M.
+
+	* message-list.c (ml_tree_value_at):
+	Mark "On This Computer" for translation.
+
 2008-03-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-network-prefs.c (em_network_prefs_finalise),

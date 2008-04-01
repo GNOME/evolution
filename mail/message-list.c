@@ -1472,7 +1472,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
  			euri = em_uri_from_camel(url);
  			curl = camel_url_new (euri, &ex);
  			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local"))
- 				location = g_strconcat ("On This Computer", ":",curl->path, NULL);
+ 				location = g_strconcat (_("On This Computer"), ":",curl->path, NULL);
  		}
 
  		camel_exception_clear (&ex);
