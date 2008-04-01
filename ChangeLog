@@ -1,3 +1,7 @@
+2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in: Version bump for 2.23.1.
+
 2008-03-25  Dan Williams  <dcbw@redhat.com>
 
 	** Fix for bug #524310
