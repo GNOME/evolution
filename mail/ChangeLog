@@ -1,5 +1,12 @@
 2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #525508, spotted by Thomas M.
+
+	* message-list.c (ml_tree_value_at):
+	Fix a leaking CamelURL in the COL_LOCATION case.
+
+2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #525510, patch from Thomas M.
 
 	* message-list.c (ml_tree_value_at):

@@ -1476,6 +1476,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
  		}
 
  		camel_exception_clear (&ex);
+		camel_url_free (curl);
  		g_free (url);
  		g_free (euri);
 
