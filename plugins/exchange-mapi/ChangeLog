@@ -1,5 +1,9 @@
-2008-02-15  Johnny Jacob  <jjohnny@novell.com>
+2008-04-01  Johnny Jacob  <jjohnny@novell.com>
 
+	* Makefile.am: Removed reference to libexchange-storage.
+
+2008-02-15  Johnny Jacob  <jjohnny@novell.com>
+	
 	* Makefile.am (INCLUDES): LIBAMPI_LDIF_DIR. Added.
 
 	* exchange-mapi-account-setup.c (exchange_mapi_create_profile): Remove
