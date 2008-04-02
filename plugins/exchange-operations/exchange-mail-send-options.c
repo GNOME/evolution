@@ -30,7 +30,6 @@
 #include "mail/em-event.h"
 
 #include "composer/e-msg-composer.h"
-#include "composer/e-msg-composer-hdrs.h"
 #include "libedataserver/e-account.h"
 
 #include "exchange-send-options.h"
@@ -43,7 +42,6 @@ static void
 append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 {
 	EMsgComposer *composer;
-	EMsgComposerHdrs *hdrs;
 	CamelAddress *sender_address;
 	const char *sender_id, *recipient_id;
 	struct _camel_header_address *addr;
@@ -86,8 +84,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		else
 			e_msg_composer_remove_header (composer, "Sensitivity");
 
-		hdrs = e_msg_composer_get_hdrs (composer);
-		sender_address = (CamelAddress *) e_msg_composer_hdrs_get_from (hdrs);
+		sender_address = (CamelAddress *) e_msg_composer_get_from (composer);
 		sender_id = (const char*) camel_address_encode (sender_address);
 
 		addr = camel_header_address_decode (dialog->options->delegate_address, NULL);
@@ -122,11 +119,12 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		}
 
 		if (dialog->options->delivery_enabled) {
-			EMsgComposerHdrs *hdrs = e_msg_composer_get_hdrs(composer);
+			EComposerHeaderTable *table;
 			EAccount *account;
 			char *mdn_address;
 
-			account = e_msg_composer_hdrs_get_from_account (hdrs);
+			table = e_msg_composer_get_header_table (composer);
+			account = e_composer_header_table_get_account (table);
 			mdn_address = account->id->reply_to;
 			if (!mdn_address || !*mdn_address)
 				mdn_address = account->id->address;
@@ -136,11 +134,12 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 			e_msg_composer_remove_header (composer, "Return-Receipt-To");
 
 		if (dialog->options->read_enabled) {
-			EMsgComposerHdrs *hdrs = e_msg_composer_get_hdrs(composer);
+			EComposerHeaderTable *table;
 			EAccount *account;
 			char *mdn_address;
 
-			account = e_msg_composer_hdrs_get_from_account (hdrs);
+			table = e_msg_composer_get_header_table (composer);
+			account = e_composer_header_table_get_account (table);
 			mdn_address = account->id->reply_to;
 			if (!mdn_address || !*mdn_address)
 				mdn_address = account->id->address;
@@ -169,10 +168,12 @@ void
 org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 {
 	EMsgComposer *composer = target->composer;
+	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 	char *temp = NULL;
 
-	account = e_msg_composer_get_preferred_account (composer);
+	table = e_msg_composer_get_header_table (composer);
+	account = e_composer_header_table_get_account (table);
 	if (!account)
 		return;
 

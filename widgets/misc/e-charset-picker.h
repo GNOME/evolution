@@ -18,31 +18,33 @@
  *
  */
 
-#ifndef _E_CHARSETPICKER_H_
-#define _E_CHARSETPICKER_H_
+#ifndef E_CHARSETPICKER_H
+#define E_CHARSETPICKER_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-ui-component.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-GtkWidget *e_charset_picker_new (const char *default_charset);
-char      *e_charset_picker_get_charset (GtkWidget *picker);
+GtkWidget *	e_charset_picker_new		(const char *default_charset);
+char *		e_charset_picker_get_charset	(GtkWidget *picker);
+char *		e_charset_picker_dialog		(const char *title,
+						 const char *prompt,
+						 const char *default_charset,
+						 GtkWindow *parent);
 
-char      *e_charset_picker_dialog (const char *title, const char *prompt,
-				    const char *default_charset,
-				    GtkWindow *parent);
+void		e_charset_add_radio_actions	(GtkActionGroup *action_group,
+						 const gchar *default_charset,
+						 GCallback callback,
+						 gpointer user_data);
 
-/* bonobo equivalents */
-void       e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
-						const char *default_charset,
-						BonoboUIListenerFn cb, gpointer user_data);
+void		e_charset_picker_bonobo_ui_populate
+						(BonoboUIComponent *uic,
+						 const char *path,
+						 const char *default_charset,
+						 BonoboUIListenerFn cb,
+						 gpointer user_data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* _E_CHARSETPICKER_H_ */
+#endif /* E_CHARSETPICKER_H */

@@ -16,23 +16,6 @@ INCLUDES =										\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-CORBA_COMPOSER_SOURCE_H	=			\
-	Evolution-Composer.h
-CORBA_COMPOSER_SOURCE_C =			\
-	Evolution-Composer-common.c		\
-	Evolution-Composer-skels.c		\
-	Evolution-Composer-stubs.c
-CORBA_COMPOSER_IDL = $(srcdir)/../../../composer/Evolution-Composer.idl
-
-$(CORBA_COMPOSER_SOURCE_H): $(CORBA_COMPOSER_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(CORBA_COMPOSER_IDL)
-
-$(CORBA_COMPOSER_SOURCE_C): $(CORBA_COMPOSER_SOURCE_H)
-
-CORBA_SOURCE_H = $(CORBA_COMPOSER_SOURCE_H)
-CORBA_SOURCE_C = $(CORBA_COMPOSER_SOURCE_C)
-CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
-
 noinst_LTLIBRARIES =				\
 	libeabwidgets.la
 
@@ -44,7 +27,6 @@ eabinclude_HEADERS = 			\
 	eab-popup.h
 
 libeabwidgets_la_SOURCES =			\
-	$(CORBA_SOURCE)				\
 	$(MARSHAL_GENERATED)			\
 	eab-config.c				\
 	eab-contact-display.c			\
@@ -82,7 +64,7 @@ libeabwidgets_la_SOURCES =			\
 MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
 @EVO_MARSHAL_RULE@
 
-BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

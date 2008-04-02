@@ -1,3 +1,12 @@
+2008-04-02  Matthew Barnes <mbarnes@redhat.com>
+
+	* gui/widgets/Makefile.am:
+	Remove CORBA rules for the old composer.
+
+	* gui/widgets/eab-gui-util.c (eab_send_to_contact_and_email_num_list),
+	(eab_send_contact_list_as_attachment):
+	Adapt to new Bonobo-less composer widget.
+
 2008-03-31  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #521562

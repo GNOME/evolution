@@ -1,3 +1,29 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-composer-prefs (sig_edit_cb), (em_composer_prefs_new_signature):
+	Adapt to new Bonobo-less signature editor.
+
+	* mail-signature-editor.c:
+	* mail-signature-editor.h:
+	Rewrite the signature editor as a subclass of GtkhtmlEditor.
+	Eliminates Bonobo from the equation.
+
+	* em-composer-utils.c (composer_get_message),
+	(em_utils_composer_send_cb), (save_draft_done),
+	(em_utils_composer_save_draft_cb), (create_new_composer),
+	(em_utils_compose_new_message),
+	(em_utils_compose_new_message_with_mailto), (em_utils_post_to_folder),
+	(em_utils_post_to_url), (edit_message), (forward_attached),
+	(forward_non_attached), (reply_get_composer), (composer_set_body),
+	(em_utils_reply_to_message), (post_reply_to_message):
+	Adapt to new Bonobo-less composer.
+
+	* mail-component-factory.c:
+	Composer is no longer needs a Bonobo factory.
+
+	* mail-config.c:
+	Fix style pattern for EMsgComposer widgets.
+
 2008-04-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #271863

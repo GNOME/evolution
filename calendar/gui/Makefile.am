@@ -5,7 +5,6 @@ endif
 ## CORBA stuff
 
 IDLS =								\
-	$(top_srcdir)/composer/Evolution-Composer.idl		\
 	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 CALENDAR_IDL_GENERATED_H =		\
@@ -21,22 +20,7 @@ $(CALENDAR_IDL_GENERATED_H): $(IDLS)
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
 $(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
 
-# Message composer IDL files
-
-COMPOSER_IDL_GENERATED_H = \
-        Evolution-Composer.h
-COMPOSER_IDL_GENERATED_C =             			\
-        Evolution-Composer-common.c       		\
-        Evolution-Composer-skels.c        		\
-        Evolution-Composer-stubs.c
-COMPOSER_IDL_GENERATED = $(COMPOSER_IDL_GENERATED_C) $(COMPOSER_IDL_GENERATED_H)
-
-$(COMPOSER_IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
-                $(srcdir)/../../composer/Evolution-Composer.idl
-$(COMPOSER_IDL_GENERATED_C): $(COMPOSER_IDL_GENERATED_H)
-
-IDL_GENERATED = $(CALENDAR_IDL_GENERATED) $(COMPOSER_IDL_GENERATED)
+IDL_GENERATED = $(CALENDAR_IDL_GENERATED)
 
 # The marshallers
 MARSHAL_GENERATED = e-calendar-marshal.c e-calendar-marshal.h

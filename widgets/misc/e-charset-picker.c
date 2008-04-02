@@ -28,15 +28,6 @@
 #include <string.h>
 #include <iconv.h>
 
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtksignal.h>
-
 #include <glib/gi18n.h>
 
 #include <bonobo/bonobo-ui-node.h>
@@ -443,6 +434,127 @@ e_charset_picker_dialog (const char *title, const char *prompt,
 	g_object_unref (dialog);
 
 	return charset;
+}
+
+/**
+ * e_charset_add_radio_actions:
+ * @action_group: a #GtkActionGroup
+ * @default_charset: the default character set, or %NULL to use the
+ *                   locale character set
+ * @callback: a callback function for actions in the group, or %NULL
+ * @user_data: user data to be passed to @callback, or %NULL
+ * 
+ * Adds a set of #GtkRadioActions for available character sets to
+ * @action_group.  The @default_charset (or locale character set if
+ * @default_charset is %NULL) will be added first, and selected by
+ * default (except that iso-8859-1 will always be used instead of
+ * US-ASCII).  Any other character sets of the same language class as
+ * the default will be added next, followed by the remaining character
+ * sets.
+ **/
+void
+e_charset_add_radio_actions (GtkActionGroup *action_group,
+                             const gchar *default_charset,
+                             GCallback callback,
+                             gpointer user_data)
+{
+	GtkRadioAction *action = NULL;
+	GSList *group = NULL;
+	const gchar *locale_charset;
+	gint def, ii;
+
+	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
+
+	/* XXX I could try to factor out code common to this
+	 *     function and e_charset_picker_bonobo_ui_populate()
+	 *     instead of duplicating it, but I expect the latter
+	 *     function to be obsolete in the foreseeable future. */
+
+	g_get_charset (&locale_charset);
+	if (!g_ascii_strcasecmp (locale_charset, "US-ASCII"))
+		locale_charset = "iso-8859-1";
+
+	if (default_charset == NULL)
+		default_charset = locale_charset;
+	for (def = 0; def < G_N_ELEMENTS (charsets); def++)
+		if (!g_ascii_strcasecmp (charsets[def].name, default_charset))
+			break;
+
+	for (ii = 0; ii < G_N_ELEMENTS (charsets); ii++) {
+		gchar *escaped_name;
+		gchar *charset_label;
+		gchar **str_array;
+
+		/* Escape underlines in the character set name so
+		 * they're not treated as GtkLabel mnemonics. */
+		str_array = g_strsplit (charsets[ii].name, "_", -1);
+		escaped_name = g_strjoinv ("__", str_array);
+		g_strfreev (str_array);
+
+		if (charsets[ii].subclass != NULL)
+			charset_label = g_strdup_printf (
+				"%s, %s (%s)",
+				gettext (classnames[charsets[ii].class]),
+				gettext (charsets[ii].subclass),
+				escaped_name);
+		else if (charsets[ii].class != E_CHARSET_UNKNOWN)
+			charset_label = g_strdup_printf (
+				"%s (%s)",
+				gettext (classnames[charsets[ii].class]),
+				escaped_name);
+		else
+			charset_label = g_strdup (escaped_name);
+
+		action = gtk_radio_action_new (
+			charsets[ii].name, charset_label, NULL, NULL, ii);
+
+		gtk_radio_action_set_group (action, group);
+		group = gtk_radio_action_get_group (action);
+
+		if (callback != NULL)
+			g_signal_connect (
+				action, "changed", callback, user_data);
+
+		gtk_action_group_add_action (
+			action_group, GTK_ACTION (action));
+
+		g_object_unref (action);
+
+		g_free (escaped_name);
+		g_free (charset_label);
+	}
+
+	if (def == G_N_ELEMENTS (charsets)) {
+		gchar *charset_label;
+		gchar **str_array;
+
+		/* Escape underlines in the character set name so
+		 * they're not treated as GtkLabel mnemonics. */
+		str_array = g_strsplit (default_charset, "_", -1);
+		charset_label = g_strjoinv ("__", str_array);
+		g_strfreev (str_array);
+
+		action = gtk_radio_action_new (
+			default_charset, charset_label, NULL, NULL, def);
+
+		gtk_radio_action_set_group (action, group);
+		group = gtk_radio_action_get_group (action);
+
+		if (callback != NULL)
+			g_signal_connect (
+				action, "changed", callback, user_data);
+
+		gtk_action_group_add_action (
+			action_group, GTK_ACTION (action));
+
+		g_object_unref (action);
+
+		g_free (charset_label);
+	}
+
+	/* Any of the actions in the action group will do. */
+	if (action != NULL)
+		gtk_radio_action_set_current_value (action, def);
 }
 
 /**

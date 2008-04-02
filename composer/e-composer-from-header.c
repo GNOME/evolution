@@ -1,10 +1,35 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Copyright (C) 2008 Novell, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
 #include "e-composer-from-header.h"
 
 /* Convenience macro */
 #define E_COMPOSER_FROM_HEADER_GET_COMBO_BOX(header) \
 	(E_ACCOUNT_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget))
 
+enum {
+	REFRESHED,
+	LAST_SIGNAL
+};
+
 static gpointer parent_class;
+static guint signal_ids[LAST_SIGNAL];
 
 static void
 composer_from_header_changed_cb (EAccountComboBox *combo_box,
@@ -14,9 +39,24 @@ composer_from_header_changed_cb (EAccountComboBox *combo_box,
 }
 
 static void
+composer_from_header_refreshed_cb (EAccountComboBox *combo_box,
+                                   EComposerFromHeader *header)
+{
+	g_signal_emit (header, signal_ids[REFRESHED], 0);
+}
+
+static void
 composer_from_header_class_init (EComposerFromHeaderClass *class)
 {
 	parent_class = g_type_class_peek_parent (class);
+
+	signal_ids[REFRESHED] = g_signal_new (
+		"refreshed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -28,8 +68,10 @@ composer_from_header_init (EComposerFromHeader *header)
 	g_signal_connect (
 		widget, "changed",
 		G_CALLBACK (composer_from_header_changed_cb), header);
+	g_signal_connect (
+		widget, "refreshed",
+		G_CALLBACK (composer_from_header_refreshed_cb), header);
 	E_COMPOSER_HEADER (header)->input_widget = widget;
-	gtk_widget_show (widget);
 }
 
 GType
@@ -65,6 +107,17 @@ e_composer_from_header_new (const gchar *label)
 	return g_object_new (
 		E_TYPE_COMPOSER_FROM_HEADER, "label", label,
 		"button", FALSE, NULL);
+}
+
+EAccountList *
+e_composer_from_header_get_account_list (EComposerFromHeader *header)
+{
+	EAccountComboBox *combo_box;
+
+	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
+
+	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
+	return e_account_combo_box_get_account_list (combo_box);
 }
 
 void
@@ -123,23 +176,4 @@ e_composer_from_header_set_active_name (EComposerFromHeader *header,
 
 	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
 	return e_account_combo_box_set_active_name (combo_box, account_name);
-}
-
-CamelInternetAddress *
-e_composer_from_header_get_active_address (EComposerFromHeader *header)
-{
-	CamelInternetAddress *address;
-	EAccount *account;
-
-	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
-
-	account = e_composer_from_header_get_active (header);
-	if (account == NULL)
-		return NULL;
-
-	address = camel_internet_address_new ();
-	camel_internet_address_add (
-		address, account->id->name, account->id->address);
-
-	return address;
 }

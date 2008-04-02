@@ -1,3 +1,49 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Adapt to GtkHTML's new editor widget.
+
+	* Makefile.am:
+	Remove CORBA rules for the old composer.
+
+	* e-msg-composer.c:
+	* e-msg-composer.h:
+	EMsgComposer is now a subclass of GtkhtmlEditor.
+	Extensive refactoring and cleanup, too much to list in detail.
+
+	* e-composer-header.c:
+	* e-composer-header.h:
+	Add "sensitive" property along with get/set functions.
+
+	* e-composer-from-header.c:
+	* e-composer-from-header.h:
+	Propagate "refreshed" signal from EAccountComboBox.
+	Add function e_composer_from_header_get_account_list().
+
+	* e-composer-private.c:
+	* e-composer-private.h:
+	New files manage composer's private data.
+	Allows other composer files to manipulate private data.
+
+	* e-msg-composer-hdrs.c:
+	* e-msg-composer-hdrs.h:
+	Remove these files; replaced by EComposerHeaderTable widget.
+
+	* evolution-composer.c:
+	* evolution-composer.h:
+	Remove these files; composer is now a subclass of GtkhtmlEditor.
+
+	* e-msg-composer-select-file.c:
+	* e-msg-composer-select-file.h:
+	Remove these files; logic moved to e-msg-composer.c.
+
+	* listener.c:
+	* listener.h:
+	Remove these files; event handlers moved to e-msg-composer.c.
+
+	* Composer.idl:
+	* Evolution-Composer.idl:
+	Remove these files; composer is no longer a Bonobo object.
+
 2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #513951

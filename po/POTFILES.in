@@ -174,12 +174,14 @@ calendar/gui/tasktypes.xml
 calendar/gui/weekday-picker.c
 calendar/importers/icalendar-importer.c
 calendar/zones.h
+composer/e-composer-autosave.c
+composer/e-composer-actions.c
+composer/e-composer-header-table.c
 composer/e-composer-name-header.c
 composer/e-composer-post-header.c
-composer/e-msg-composer-hdrs.c
-composer/e-msg-composer-select-file.c
+composer/e-composer-private.c
 composer/e-msg-composer.c
-composer/evolution-composer.c
+composer/gconf-bridge.c
 composer/mail-composer.error.xml
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
@@ -304,6 +306,7 @@ plugins/exchange-operations/exchange-oof.glade
 plugins/exchange-operations/exchange-passwd-expiry.glade
 plugins/exchange-operations/exchange-permissions-dialog.c
 plugins/exchange-operations/exchange-permissions-dialog.glade
+plugins/exchange-operations/exchange-send-options.c
 plugins/exchange-operations/exchange-send-options.glade
 plugins/exchange-operations/exchange-user-dialog.c
 plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml
@@ -380,9 +383,6 @@ plugins/plugin-manager/org-gnome-plugin-manager.xml
 plugins/plugin-manager/plugin-manager.c
 plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml
 plugins/prefer-plain/prefer-plain.c
-plugins/print-message/org-gnome-print-message.eplug.xml
-plugins/print-message/org-gnome-print-message.xml
-plugins/print-message/print-message.c
 plugins/profiler/org-gnome-evolution-profiler.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.xml
@@ -437,7 +437,6 @@ smime/lib/e-pkcs12.c
 tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
-ui/evolution-composer-entries.xml
 ui/evolution-editor.xml
 ui/evolution-event-editor.xml
 ui/evolution-mail-global.xml
@@ -446,7 +445,6 @@ ui/evolution-mail-message.xml
 ui/evolution-mail-messagedisplay.xml
 ui/evolution-memo-editor.xml
 ui/evolution-memos.xml
-ui/evolution-message-composer.xml
 ui/evolution-signature-editor.xml
 ui/evolution-subscribe.xml
 ui/evolution-task-editor.xml

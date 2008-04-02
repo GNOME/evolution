@@ -1,3 +1,21 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Merge the mbarnes-composer branch
+
+	* configure.in:
+	Bump libgtkhtml requirement to 3.19.1.
+	Add gtkhtml-editor dependency for addressbook, calendar and mail.
+	Remove print-message plugin; new composer implements this natively.
+
+	* tools/Makefile.am:
+	Remove CORBA rules for the old composer.
+
+	... separate issue ...
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.1 for
+	CAMEL_FOLDER_JUNKED_NOT_DELETED symbol.
+
 2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in: Version bump for 2.23.1.

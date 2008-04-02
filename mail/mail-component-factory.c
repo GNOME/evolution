@@ -24,8 +24,6 @@
 #include <config.h>
 #endif
 
-#include "em-composer-utils.h"
-#include "evolution-composer.h"
 #include "mail-component.h"
 #include "em-account-prefs.h"
 #include "em-mailer-prefs.h"
@@ -56,7 +54,6 @@
 
 #define FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_Factory:" BASE_VERSION
 #define COMPONENT_ID	"OAFIID:GNOME_Evolution_Mail_Component:" BASE_VERSION
-#define COMPOSER_ID	"OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
 #define FOLDER_INFO_ID	"OAFIID:GNOME_Evolution_FolderInfo:" BASE_VERSION
 
 static BonoboObject *
@@ -74,9 +71,6 @@ factory(BonoboGenericFactory *factory, const char *component_id, void *closure)
 		   || strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID) == 0
 		   || strcmp (component_id, EM_NETWORK_PREFS_CONTROL_ID) == 0) {
 		return mail_config_control_factory_cb (factory, component_id, CORBA_OBJECT_NIL);
-	} else if (strcmp(component_id, COMPOSER_ID) == 0) {
-		/* FIXME: how to remove need for callbacks, probably make the composer more tightly integrated with mail */
-		return (BonoboObject *) evolution_composer_new (em_utils_composer_send_cb, em_utils_composer_save_draft_cb);
 	}
 
 	o = mail_importer_factory_cb(factory, component_id, NULL);

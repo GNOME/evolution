@@ -142,10 +142,12 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 {
 
 	EMsgComposer *comp = (struct _EMsgComposer *)t->composer ;
+	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 	char *temp = NULL;
 
-	account = e_msg_composer_get_preferred_account (comp) ;
+	table = e_msg_composer_get_header_table (comp);
+	account = e_composer_header_table_get_account (table);
 	if (!account)
 		return;
 

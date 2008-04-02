@@ -138,6 +138,7 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la			\
 	$(EVOLUTION_MAIL_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(EVOLUTON_MAIL_LIBS)						\
 	$(ICONV_LIBS)
 
 libefilterbar_la_SOURCES =	\

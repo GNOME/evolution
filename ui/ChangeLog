@@ -1,3 +1,8 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-composer-entries.xml:
+	Remove this file; obsoleted by new composer.
+
 2008-01-28  Andre Klapper  <a9016009@gmx.de>
 
 	* evolution-mail-message.xml: Added translator comments.

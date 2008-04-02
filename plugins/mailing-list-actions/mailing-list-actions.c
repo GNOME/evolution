@@ -150,7 +150,9 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 				/* directly send message */
 				composer = e_msg_composer_new_from_url (url);
 				if ((account = mail_config_get_account_by_source_url (action_data->uri)))
-					e_msg_composer_hdrs_set_from_account (e_msg_composer_get_hdrs(composer), account->name);
+					e_composer_header_table_set_account (
+						e_msg_composer_get_header_table (composer),
+						account);
 				em_utils_composer_send_cb (composer, NULL);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */

@@ -1,3 +1,22 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Copyright (C) 2008 Novell, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
 #ifndef E_COMPOSER_FROM_HEADER_H
 #define E_COMPOSER_FROM_HEADER_H
 
@@ -5,7 +24,6 @@
 
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
-#include <camel/camel-internet-address.h>
 
 #include "e-account-combo-box.h"
 #include "e-composer-header.h"
@@ -44,6 +62,8 @@ struct _EComposerFromHeaderClass {
 
 GType		e_composer_from_header_get_type	(void);
 EComposerHeader * e_composer_from_header_new	(const gchar *label);
+EAccountList *	e_composer_from_header_get_account_list
+						(EComposerFromHeader *header);
 void		e_composer_from_header_set_account_list
 						(EComposerFromHeader *header,
 						 EAccountList *account_list);
@@ -57,8 +77,6 @@ const gchar *	e_composer_from_header_get_active_name
 gboolean	e_composer_from_header_set_active_name
 						(EComposerFromHeader *header,
 						 const gchar *account_name);
-CamelInternetAddress * e_composer_from_header_get_active_address
-						(EComposerFromHeader *header);
 
 G_END_DECLS
 

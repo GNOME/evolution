@@ -1,3 +1,22 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Add EVOLUTION_MAIL_LIBS.
+
+	* e-account-combo-box.c:
+	* e-account-combo-box.h:
+	New function e_account_combo_box_get_account_list().
+	Emit a "refreshed" signal when the EAccountList changes.
+	Add an internal reverse-lookup index.
+
+	* e-charset-picker.c (e_charser_add_radio_actions):
+	New function adds radio actions to an action group.
+	Will eventually replace e_charset_picker_bonobo_ui_populate().
+
+	* e-signature-combo-box.c:
+	* e-signature-combo-box.h:
+	New function e_signature_combo_box_get_signature_list().
+
 2008-03-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #507526

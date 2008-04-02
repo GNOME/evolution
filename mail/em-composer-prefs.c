@@ -298,16 +298,24 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	gtk_tree_model_get (model, &iter, 1, &sig, -1);
 
 	if (!sig->script) {
+		GtkWidget *editor;
+
 		/* normal signature */
 		if (!sig->filename || *sig->filename == '\0') {
 			g_free (sig->filename);
 			sig->filename = g_strdup (_("Unnamed"));
 		}
 
-		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
-		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+		editor = e_signature_editor_new ();
+		e_signature_editor_set_signature (
+			E_SIGNATURE_EDITOR (editor), sig);
 
-		mail_signature_editor (sig, (GtkWindow *) parent, FALSE);
+		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+		if (GTK_WIDGET_TOPLEVEL (parent))
+			gtk_window_set_transient_for (
+				GTK_WINDOW (editor), GTK_WINDOW (parent));
+
+		gtk_widget_show (editor);
 	} else {
 		/* signature script */
 		GtkWidget *entry;
@@ -327,10 +335,11 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 void
 em_composer_prefs_new_signature (GtkWindow *parent, gboolean html)
 {
-	ESignature *sig;
+	GtkWidget *editor;
 
-	sig = mail_config_signature_new (NULL, FALSE, html);
-	mail_signature_editor (sig, parent, TRUE);
+	editor = e_signature_editor_new ();
+	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
+	gtk_widget_show (editor);
 }
 
 static void

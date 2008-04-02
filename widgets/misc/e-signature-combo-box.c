@@ -1,3 +1,22 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Copyright (C) 2008 Novell, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
 #include "e-signature-combo-box.h"
 
 #include <glib/gi18n.h>
@@ -231,6 +250,14 @@ GtkWidget *
 e_signature_combo_box_new (void)
 {
 	return g_object_new (E_TYPE_SIGNATURE_COMBO_BOX, NULL);
+}
+
+ESignatureList *
+e_signature_combo_box_get_signature_list (ESignatureComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_SIGNATURE_COMBO_BOX (combo_box), NULL);
+
+	return combo_box->priv->signature_list;
 }
 
 void

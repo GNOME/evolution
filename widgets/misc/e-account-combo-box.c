@@ -1,3 +1,22 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Copyright (C) 2008 Novell, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
 #include "e-account-combo-box.h"
 
 #include <string.h>
@@ -12,12 +31,19 @@ enum {
 	COLUMN_ACCOUNT
 };
 
+enum {
+	REFRESHED,
+	LAST_SIGNAL
+};
+
 struct _EAccountComboBoxPrivate {
 	EAccountList *account_list;
+	GHashTable *index;
 };
 
 static gpointer parent_class;
 static CamelSession *camel_session;
+static guint signal_ids[LAST_SIGNAL];
 
 static gboolean
 account_combo_box_has_dupes (GList *list,
@@ -86,15 +112,9 @@ account_combo_box_refresh_cb (EAccountList *account_list,
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, E_TYPE_ACCOUNT);
 	model = GTK_TREE_MODEL (store);
+	index = combo_box->priv->index;
 
-	/* Embed a reverse-lookup index into the list store. */
-	index = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) g_object_unref,
-		(GDestroyNotify) gtk_tree_row_reference_free);
-	g_object_set_data_full (
-		G_OBJECT (combo_box), "index", index,
-		(GDestroyNotify) g_hash_table_destroy);
+	g_hash_table_remove_all (index);
 
 	if (account_list == NULL)
 		goto skip;
@@ -161,6 +181,8 @@ skip:
 	e_account_combo_box_set_active (combo_box, account);
 	if (account != NULL)
 		g_object_unref (account);
+
+	g_signal_emit (combo_box, signal_ids[REFRESHED], 0);
 }
 
 static GObject *
@@ -200,8 +222,23 @@ account_combo_box_dispose (GObject *object)
 		priv->account_list = NULL;
 	}
 
+	g_hash_table_remove_all (priv->index);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+account_combo_box_finalize (GObject *object)
+{
+	EAccountComboBoxPrivate *priv;
+
+	priv = E_ACCOUNT_COMBO_BOX_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->index);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
@@ -215,12 +252,30 @@ account_combo_box_class_init (EAccountComboBoxClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = account_combo_box_constructor;
 	object_class->dispose = account_combo_box_dispose;
+	object_class->finalize = account_combo_box_finalize;
+
+	signal_ids[REFRESHED] = g_signal_new (
+		"refreshed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
 account_combo_box_init (EAccountComboBox *combo_box)
 {
+	GHashTable *index;
+
+	/* Reverse-lookup index */
+	index = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) g_object_unref,
+		(GDestroyNotify) gtk_tree_row_reference_free);
+
 	combo_box->priv = E_ACCOUNT_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv->index = index;
 }
 
 GType
@@ -271,6 +326,14 @@ e_account_combo_box_set_session (CamelSession *session)
 	 */
 
 	camel_session = session;
+}
+
+EAccountList *
+e_account_combo_box_get_account_list (EAccountComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_ACCOUNT_COMBO_BOX (combo_box), NULL);
+
+	return combo_box->priv->account_list;
 }
 
 void
@@ -337,7 +400,6 @@ gboolean
 e_account_combo_box_set_active (EAccountComboBox *combo_box,
                                 EAccount *account)
 {
-	GHashTable *index;
 	EAccountList *account_list;
 	GtkTreeRowReference *reference;
 	GtkTreeModel *model;
@@ -353,10 +415,6 @@ e_account_combo_box_set_active (EAccountComboBox *combo_box,
 	account_list = combo_box->priv->account_list;
 	g_return_val_if_fail (account_list != NULL, FALSE);
 
-	/* Failure here indicates a programming error. */
-	index = g_object_get_data (G_OBJECT (combo_box), "index");
-	g_assert (index != NULL);
-
 	/* NULL means select the default account. */
 	/* XXX EAccountList misuses const. */
 	if (account == NULL)
@@ -364,7 +422,7 @@ e_account_combo_box_set_active (EAccountComboBox *combo_box,
 			e_account_list_get_default (account_list);
 
 	/* Lookup the tree row reference for the account. */
-	reference = g_hash_table_lookup (index, account);
+	reference = g_hash_table_lookup (combo_box->priv->index, account);
 	if (reference == NULL)
 		return FALSE;
 

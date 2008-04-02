@@ -5,6 +5,7 @@ INCLUDES = -I .						\
 	-I$(top_builddir)/composer			\
 	-I$(top_builddir)/mail				\
 	$(CAMEL_EXCHANGE_CFLAGS)                        \
+	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
 
@@ -54,7 +55,8 @@ liborg_gnome_exchange_operations_la_LIBADD = 			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la 	\
 	$(top_builddir)/mail/libevolution-mail.la 		\
 	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la \
-	$(CAMEL_EXCHANGE_LIBS)
+	$(CAMEL_EXCHANGE_LIBS)					\
+	$(EVOLUTION_MAIL_LIBS)
 
 liborg_gnome_exchange_operations_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

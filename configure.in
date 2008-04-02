@@ -13,7 +13,7 @@ GTKHTML_PACKAGE=3.14
 # Required Packages
 m4_define([glib_minimum_version], [2.15.3])
 m4_define([gtk_minimum_version], [2.12.0])
-m4_define([eds_minimum_version], [2.21.92])
+m4_define([eds_minimum_version], [2.23.1])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_vfs_minimum_version], [2.4.0])
 m4_define([libbonobo_minimum_version], [2.20.3])
@@ -1495,7 +1495,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE"
+EVOLUTION_ADDRESSBOOK_DEPS="libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1524,7 +1524,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1536,7 +1536,7 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1685,7 +1685,7 @@ AC_ARG_ENABLE([plugins],
 	      [enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable publish-calendar caldav imap-features google-account-setup"
+plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup hula-account-setup mail-account-disable publish-calendar caldav imap-features google-account-setup"
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
@@ -1979,7 +1979,6 @@ plugins/default-source/Makefile
 plugins/default-mailer/Makefile
 plugins/addressbook-file/Makefile
 plugins/startup-wizard/Makefile
-plugins/print-message/Makefile
 plugins/groupwise-account-setup/Makefile
 plugins/hula-account-setup/Makefile
 plugins/groupwise-features/Makefile

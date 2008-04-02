@@ -1,3 +1,22 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Copyright (C) 2008 Novell, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
 #include "e-composer-header.h"
 
 #define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
@@ -8,6 +27,7 @@ enum {
 	PROP_0,
 	PROP_BUTTON,
 	PROP_LABEL,
+	PROP_SENSITIVE,
 	PROP_VISIBLE
 };
 
@@ -57,12 +77,8 @@ composer_header_constructor (GType type,
 			header);
 	} else {
 		widget = gtk_label_new_with_mnemonic (header->priv->label);
-
-		/* The subclass may not have initialized 'input_widget' yet,
-		 * in which case the subclass will have to do this. */
-		if (header->input_widget != NULL)
-			gtk_label_set_mnemonic_widget (
-				GTK_LABEL (widget), header->input_widget);
+		gtk_label_set_mnemonic_widget (
+			GTK_LABEL (widget), header->input_widget);
 	}
 	header->title_widget = g_object_ref_sink (widget);
 
@@ -89,6 +105,12 @@ composer_header_set_property (GObject *object,
 
 		case PROP_LABEL:	/* construct only */
 			priv->label = g_value_dup_string (value);
+			return;
+
+		case PROP_SENSITIVE:
+			e_composer_header_set_sensitive (
+				E_COMPOSER_HEADER (object),
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_VISIBLE:
@@ -119,6 +141,12 @@ composer_header_get_property (GObject *object,
 		case PROP_LABEL:	/* construct only */
 			g_value_take_string (
 				value, e_composer_header_get_label (
+				E_COMPOSER_HEADER (object)));
+			return;
+
+		case PROP_SENSITIVE:
+			g_value_set_boolean (
+				value, e_composer_header_get_sensitive (
 				E_COMPOSER_HEADER (object)));
 			return;
 
@@ -186,6 +214,16 @@ composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SENSITIVE,
+		g_param_spec_boolean (
+			"sensitive",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -258,6 +296,32 @@ e_composer_header_get_label (EComposerHeader *header)
 	g_object_get (header->title_widget, "label", &label, NULL);
 
 	return label;
+}
+
+gboolean
+e_composer_header_get_sensitive (EComposerHeader *header)
+{
+	gboolean sensitive;
+
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), FALSE);
+
+	sensitive = GTK_WIDGET_SENSITIVE (header->title_widget);
+	if (GTK_WIDGET_SENSITIVE (header->input_widget) != sensitive)
+		g_warning ("%s: Sensitivity is out of sync", G_STRFUNC);
+
+	return sensitive;
+}
+
+void
+e_composer_header_set_sensitive (EComposerHeader *header,
+                                 gboolean sensitive)
+{
+	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
+
+	gtk_widget_set_sensitive (header->title_widget, sensitive);
+	gtk_widget_set_sensitive (header->input_widget, sensitive);
+
+	g_object_notify (G_OBJECT (header), "sensitive");
 }
 
 gboolean
