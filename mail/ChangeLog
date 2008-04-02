@@ -1,3 +1,11 @@
+2008-04-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #271863
+
+	* mail-component.c: (view_changed):
+	Do not count deleted junked messages to total number of messages
+	with unchecked "Hide Deleted Messages" option.
+
 2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #525508, spotted by Thomas M.

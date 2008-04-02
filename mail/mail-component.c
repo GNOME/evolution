@@ -518,7 +518,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 	if (emfv->folder) {
 		char *name, *title;
 		const char *use_name; /* will contain localized name, if necessary */
-		guint32 visible, unread, deleted, junked;
+		guint32 visible, unread, deleted, junked, junked_not_deleted;
 		GPtrArray *selected;
 		GString *tmp = g_string_new("");
 
@@ -527,6 +527,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 				 CAMEL_FOLDER_DELETED, &deleted,
 				 CAMEL_FOLDER_VISIBLE, &visible,
 				 CAMEL_FOLDER_JUNKED, &junked,
+				 CAMEL_FOLDER_JUNKED_NOT_DELETED, &junked_not_deleted,
 				 CAMEL_FOLDER_UNREAD, &unread, NULL);
 
 		selected = message_list_get_selected(emfv->list);
@@ -552,7 +553,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 			/* HACK: hardcoded inbox or maildir '.' folder */
 		} else {
 			if (!emfv->hide_deleted)
-				visible += deleted;
+				visible += deleted - junked + junked_not_deleted;
 			if (unread && selected->len <= 1)
 				g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
 			g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
