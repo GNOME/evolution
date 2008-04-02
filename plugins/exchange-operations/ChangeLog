@@ -1,3 +1,11 @@
+2008-04-02  Ross Burton  <ross@openedhand.com>
+
+	** Fix for bug #522764
+
+	* exchange-account-setup.c:
+	* exchange-folder-subscription.c:
+	* exchange-folder-permission.c: Remove unused include.
+
 2008-03-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #511952

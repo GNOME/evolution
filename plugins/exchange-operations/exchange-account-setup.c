@@ -37,7 +37,6 @@
 #include <camel/camel-url.h>
 #include <camel/camel-service.h>
 #include <camel/camel-folder.h>
-#include <libedataserver/e-xml-hash-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e2k-validate.h>
 #include <exchange-oof.h>

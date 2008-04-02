@@ -33,7 +33,6 @@
 #include <e2k-types.h>
 #include <exchange-types.h>
 #include <e2k-propnames.h>
-#include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserverui/e-name-selector.h>
 #include "exchange-config-listener.h"
 #include "exchange-folder-subscription.h"

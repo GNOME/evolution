@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include <gtk/gtkdialog.h>
 #include <gconf/gconf-client.h>
-#include <libedataserver/e-xml-hash-utils.h>
 #include <exchange-account.h>
 #include <e-util/e-dialog-utils.h>
 #include <calendar/gui/e-cal-popup.h>
