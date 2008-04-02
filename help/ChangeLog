@@ -1,3 +1,8 @@
+2008-04-02  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (DOC_FIGURES): s/evo_label_a.PNG/evo_label_a.png
+	here, too.
+
 2008-04-01  Tor Lillqvist  <tml@novell.com>
 
 	* es/figures/evo_label_a.PNG: Remove this, it's a duplicate of

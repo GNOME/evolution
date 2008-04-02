@@ -55,7 +55,7 @@ DOC_FIGURES =  \
 	figures/evo_imapheader_a.png 		\
 	figures/evo_imapreceive_a.png 		\
 	figures/evo_import_asst_a.png 		\
-	figures/evo_label_a.PNG			\
+	figures/evo_label_a.png			\
 	figures/evo_labels_a.png		\
 	figures/evo_mail_a.png 			\
 	figures/evo_mail_callout_a.png 		\
