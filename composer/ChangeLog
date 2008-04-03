@@ -1,3 +1,11 @@
+2008-04-03  Michel Danzer  <daenzer@debian.org>
+
+	** Fix for bug #525522
+
+	* e-msg-composer-hdrs.c: (hdrs_changed), (from_changed),
+	(subject_changed), (msg_composer_hdrs_init):
+	Hook signals to notice changes in headers and subject line.
+
 2008-02-25  Johny Jacob  <jjohnny@novell.com>
 
 	* e-msg-composer.c (e_msg_composer_show_sig_file): Reverting

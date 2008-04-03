@@ -87,6 +87,12 @@ static gpointer parent_class;
 static guint signal_ids[LAST_SIGNAL];
 
 static void
+hdrs_changed (EMsgComposerHdrs *hdrs)
+{
+	g_signal_emit (hdrs, signal_ids[HDRS_CHANGED], 0);
+}
+
+static void
 from_changed (EComposerFromHeader *from_header, EMsgComposerHdrs *hdrs)
 {
 	EComposerHeader *header;
@@ -105,12 +111,21 @@ from_changed (EComposerFromHeader *from_header, EMsgComposerHdrs *hdrs)
 		E_COMPOSER_TEXT_HEADER (header), account->id->reply_to);
 
 	g_signal_emit (hdrs, signal_ids[FROM_CHANGED], 0);
+	hdrs_changed (hdrs);
 }
 
 static void
 signature_changed (EMsgComposerHdrs *hdrs)
 {
 	g_signal_emit (hdrs, signal_ids[SIGNATURE_CHANGED], 0);
+}
+
+static void
+subject_changed (EMsgComposerHdrs *hdrs)
+{
+	g_signal_emit (hdrs, signal_ids[SUBJECT_CHANGED], 0,
+		       e_msg_composer_hdrs_get_subject (hdrs));
+	hdrs_changed (hdrs);
 }
 
 static void
@@ -330,17 +345,26 @@ msg_composer_hdrs_init (EMsgComposerHdrs *hdrs)
 	hdrs->priv->headers[HEADER_FROM] = header;
 
 	header = e_composer_text_header_new_label (_("_Reply-To:"));
+	g_signal_connect_swapped (
+		header, "changed",
+		G_CALLBACK (hdrs_changed), hdrs);
 	hdrs->priv->headers[HEADER_REPLY_TO] = header;
 
 	header = e_composer_name_header_new (_("_To:"), name_selector);
 	e_composer_header_set_input_tooltip (
 		header, _("Enter the recipients of the message"));
+	g_signal_connect_swapped (
+		header, "changed",
+		G_CALLBACK (hdrs_changed), hdrs);
 	hdrs->priv->headers[HEADER_TO] = header;
 
 	header = e_composer_name_header_new (_("_Cc:"), name_selector);
 	e_composer_header_set_input_tooltip (
 		header, _("Enter the addresses that will receive a "
 		"carbon copy of the message"));
+	g_signal_connect_swapped (
+		header, "changed",
+		G_CALLBACK (hdrs_changed), hdrs);
 	hdrs->priv->headers[HEADER_CC] = header;
 
 	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
@@ -348,12 +372,21 @@ msg_composer_hdrs_init (EMsgComposerHdrs *hdrs)
 		header, _("Enter the addresses that will receive a "
 		"carbon copy of the message without appearing in the "
 		"recipient list of the message"));
+	g_signal_connect_swapped (
+		header, "changed",
+		G_CALLBACK (hdrs_changed), hdrs);
 	hdrs->priv->headers[HEADER_BCC] = header;
 
 	header = e_composer_post_header_new (_("_Post To:"));
+	g_signal_connect_swapped (
+		header, "changed",
+		G_CALLBACK (hdrs_changed), hdrs);
 	hdrs->priv->headers[HEADER_POST_TO] = header;
 
 	header = e_composer_text_header_new_label (_("S_ubject:"));
+	g_signal_connect_swapped (
+		header, "changed",
+		G_CALLBACK (subject_changed), hdrs);
 	hdrs->priv->headers[HEADER_SUBJECT] = header;
 
 	/* Do this after all the headers are initialized. */
