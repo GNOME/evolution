@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-27 18:36+0100\n"
-"PO-Revision-Date: 2008-03-27 18:38+0100\n"
-"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
+"PO-Revision-Date: 2008-04-03 16:39+0200\n"
+"Last-Translator: Philipp Kerling <k.philipp@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21457,7 +21457,7 @@ msgstr "_Zitiert"
 #. Translators: "Read" as in "has been read" (evolution-mail-message.xml)
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Read"
-msgstr "_Lesen"
+msgstr "Ge_lesen"
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Save Message..."
