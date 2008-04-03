@@ -1,3 +1,10 @@
+2008-04-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #264456
+
+	* mail-component.c: (view_changed):
+	Do not count deleted junk messages when doesn't show deleted messages.
+
 2008-04-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #350308

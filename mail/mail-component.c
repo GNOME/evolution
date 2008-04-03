@@ -542,7 +542,12 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH) {
 				g_string_append_printf(tmp, ngettext ("%d deleted", "%d deleted", deleted), deleted);
 			} else {
-				g_string_append_printf(tmp, ngettext ("%d junk", "%d junk", junked), junked);
+				guint32 num = junked_not_deleted;
+
+				if (!emfv->hide_deleted)
+					num = junked;
+
+				g_string_append_printf (tmp, ngettext ("%d junk", "%d junk", num), num);
 			}
 		} else if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)) {
 			g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
