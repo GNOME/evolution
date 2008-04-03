@@ -1,3 +1,10 @@
+2008-04-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #350308
+
+	* em-format-html-display.c: (efhd_gtkhtml_realise): Make colors only
+	darker, not lighter. Use black in case someone has too dark theme.
+
 2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-composer-prefs (sig_edit_cb), (em_composer_prefs_new_signature):

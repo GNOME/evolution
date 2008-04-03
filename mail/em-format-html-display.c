@@ -243,41 +243,27 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 	if (style) {
 		int state = GTK_WIDGET_STATE(html);
 		gushort r, g, b;
-#define SCALE (238)
+#define DARKER(a,v) a = ((a) > (v)) ? ((a) - (v)) : 0
 
 		/* choose a suitably darker or lighter colour */
 		r = style->base[state].red >> 8;
 		g = style->base[state].green >> 8;
 		b = style->base[state].blue >> 8;
 
-		if (r+b+g > 128*3) {
-			r = (r*SCALE) >> 8;
-			g = (g*SCALE) >> 8;
-			b = (b*SCALE) >> 8;
-		} else {
-			r = 128 - ((SCALE * r) >> 9);
-			g = 128 - ((SCALE * g) >> 9);
-			b = 128 - ((SCALE * b) >> 9);
-		}
+		DARKER (r, 18);
+		DARKER (g, 18);
+		DARKER (b, 18);
 
 		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 
-#undef SCALE
-#define SCALE (174)
 		/* choose a suitably darker or lighter colour */
 		r = style->base[state].red >> 8;
 		g = style->base[state].green >> 8;
 		b = style->base[state].blue >> 8;
 
-		if (r+b+g > 128*3) {
-			r = (r*SCALE) >> 8;
-			g = (g*SCALE) >> 8;
-			b = (b*SCALE) >> 8;
-		} else {
-			r = 128 - ((SCALE * r) >> 9);
-			g = 128 - ((SCALE * g) >> 9);
-			b = 128 - ((SCALE * b) >> 9);
-		}
+		DARKER (r, 82);
+		DARKER (g, 82);
+		DARKER (b, 82);
 
 		efhd->formathtml.frame_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 
@@ -292,8 +278,8 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 		b = style->text[state].blue >> 8;
 
 		efhd->formathtml.text_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+#undef DARKER
 	}
-#undef SCALE
 }
 
 static void
