@@ -1480,20 +1480,20 @@ static void efh_format_error(EMFormat *emf, CamelStream *stream, const char *txt
 static void
 efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *label, const char *value, guint32 flags)
 {
-	char *mhtml = NULL;
 	const char *fmt, *html;
-
+	char *mhtml = NULL;
+	
 	if (value == NULL)
 		return;
 
 	while (*value == ' ')
 		value++;
-
-	if (flags & EM_FORMAT_HTML_HEADER_HTML)
-		html = value;
-	else
+	
+	if (!(flags & EM_FORMAT_HTML_HEADER_HTML))
 		html = mhtml = camel_text_to_html (value, emfh->text_html_flags, 0);
-
+	else 
+		html = value;
+	
 	gboolean is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 	if (emfh->simple_headers) {
 		fmt = "<b>%s</b>: %s<br>";
@@ -1530,9 +1530,9 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 }
 
 static char *addrspec_hdrs[] = {
-	"sender", "from", "reply-to", "to", "cc", "bcc",
-	"resent-sender", "resent-from", "resent-reply-to",
-	"resent-to", "resent-cc", "resent-bcc", NULL
+	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",
+	"Resent-Sender", "Resent-From", "Resent-Reply-To",
+	"Resent-To", "Resent-Cc", "Resent-Bcc", NULL
 };
 
 static gchar *
@@ -1646,71 +1646,92 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 }
 
 static void
+canon_header_name (char *name)
+{
+	char *inptr = name;
+	
+	/* canonicalise the header name... first letter is
+	 * capitalised and any letter following a '-' also gets
+	 * capitalised */
+	
+	if (*inptr >= 'a' && *inptr <= 'z')
+		*inptr -= 0x20;
+	
+	inptr++;
+	
+	while (*inptr) {
+		if (inptr[-1] == '-' && *inptr >= 'a' && *inptr <= 'z')
+			*inptr -= 0x20;
+		else if (*inptr >= 'A' && *inptr <= 'Z')
+			*inptr += 0x20;
+		
+		inptr++;
+	}
+}
+
+static void
 efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct _camel_header_raw *header, guint32 flags, const char *charset)
 {
 	EMFormatHTML *efh = (EMFormatHTML *)emf;
-	char *name, *value = NULL, *p;
+	char *name, *buf, *value = NULL, *p;
 	const char *label, *txt;
-	int addrspec = 0, i;
+	gboolean addrspec = FALSE;
 	char *str_field = NULL;
+	int i;
 
 	name = alloca(strlen(header->name)+1);
 	strcpy(name, header->name);
-	camel_strdown(name);
+	canon_header_name (name);
 
 	for (i = 0; addrspec_hdrs[i]; i++) {
 		if (!strcmp(name, addrspec_hdrs[i])) {
-			addrspec = 1;
+			addrspec = TRUE;
 			break;
 		}
 	}
-
+	
+	label = _(name);
+	
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
 		char *img;
-
-		if (!(addrs = camel_header_address_decode(header->value, emf->charset ? emf->charset : emf->default_charset)))
+		
+		buf = camel_header_unfold (header->value);
+		if (!(addrs = camel_header_address_decode (buf, emf->charset ? emf->charset : emf->default_charset))) {
+			g_free (buf);
 			return;
-
-		/* canonicalise the header name... first letter is
-		 * capitalised and any letter following a '-' also gets
-		 * capitalised */
-		p = name;
-		*p -= 0x20;
-		do {
-			p++;
-			if (p[-1] == '-' && *p >= 'a' && *p <= 'z')
-				*p -= 0x20;
-		} while (*p);
-
-		label = _(name);
-
+		}
+		
+		g_free (buf);
+		
 		html = g_string_new("");
 		img = efh_format_address(efh, html, addrs, (char *)label);
 
 		if (img) {
-//			str_field = g_strdup_printf ("<table><tr><td valign=top>%s</td><td valign=top><b>%s:</b></td></tr></table>", img, label);
 			str_field = g_strdup_printf ("%s%s:", img, label);
 			label = str_field;
 			flags |= EM_FORMAT_HTML_HEADER_NODEC;
 			g_free (img);
 		}
+		
 		camel_header_address_unref(addrs);
 		txt = value = html->str;
 		g_string_free(html, FALSE);
 
 		flags |= EM_FORMAT_HEADER_BOLD | EM_FORMAT_HTML_HEADER_HTML;
-	} else if (!strcmp(name, "subject")) {
-		txt = value = camel_header_decode_string (header->value, charset);
-		label = _("Subject");
+	} else if (!strcmp (name, "Subject")) {
+		buf = camel_header_unfold (header->value);
+		txt = value = camel_header_decode_string (buf, charset);
+		g_free (buf);
+		
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "x-evolution-mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
 		txt = value = camel_header_format_ctext (header->value, charset);
 		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp(name, "date") || !strcmp(name, "resent-date")) {
+	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
 		int msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
@@ -1730,40 +1751,40 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 
 		if (msg_offset) {
 			char buf[256], *html;
-
+			
 			msg_offset += (local.tm_hour * 60) + local.tm_min;
 			if (msg_offset >= (24 * 60) || msg_offset < 0) {
 				/* translators: strftime format for local time equivalent in Date header display, with day */
-				gchar *msg = g_strdup_printf("<I>%s</I>", _(" (%a, %R %Z)"));
+				char *msg = g_strdup_printf("<I>%s</I>", _(" (%a, %R %Z)"));
 				e_utf8_strftime(buf, sizeof(buf), msg, &local);
 				g_free(msg);
 			} else {
 				/* translators: strftime format for local time equivalent in Date header display, without day */
-				gchar *msg = g_strdup_printf("<I>%s</I>", _(" (%R %Z)"));
+				char *msg = g_strdup_printf("<I>%s</I>", _(" (%R %Z)"));
 				e_utf8_strftime(buf, sizeof(buf), msg, &local);
 				g_free(msg);
 			}
-
+			
 			html = camel_text_to_html(txt, efh->text_html_flags, 0);
 			txt = value = g_strdup_printf("%s %s", html, buf);
 			g_free(html);
 			flags |= EM_FORMAT_HTML_HEADER_HTML;
 		}
-
-		if (!strcmp(name, "date"))
-			label = _("Date");
-		else
-			label = "Resent-Date";
-
+		
 		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp(name, "newsgroups")) {
-		GString *html;
+	} else if (!strcmp(name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
-
-		ng = camel_header_newsgroups_decode(header->value);
-		if (ng == NULL)
+		GString *html;
+		
+		buf = camel_header_unfold (header->value);
+		
+		if (!(ng = camel_header_newsgroups_decode (buf))) {
+			g_free (buf);
 			return;
-
+		}
+		
+		g_free (buf);
+		
 		html = g_string_new("");
 		scan = ng;
 		while (scan) {
@@ -1772,20 +1793,25 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 			if (scan)
 				g_string_append_printf(html, ", ");
 		}
+		
 		camel_header_newsgroups_free(ng);
-
-		label = _("Newsgroups");
+		
 		txt = html->str;
 		g_string_free(html, FALSE);
 		flags |= EM_FORMAT_HEADER_BOLD|EM_FORMAT_HTML_HEADER_HTML;
-	} else {
+	} else if (!strcmp (name, "Received") || !strncmp (name, "X-", 2)) {
+		/* don't unfold Received nor extension headers */
 		txt = value = camel_header_decode_string(header->value, charset);
-		label = header->name;
+	} else {
+		/* don't unfold Received nor extension headers */
+		buf = camel_header_unfold (header->value);
+		txt = value = camel_header_decode_string (buf, charset);
+		g_free (buf);
 	}
-
+	
 	efh_format_text_header(efh, stream, label, txt, flags);
-
-	g_free(value);
+	
+	g_free (value);
 	g_free (str_field);
 }
 
@@ -1805,7 +1831,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	gsize face_header_len = 0;
 	char *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
-
+	const char *hdr_charset;
+	
 	if (!part)
 		return;
 
@@ -1818,47 +1845,44 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 				    "<font color=\"#%06x\">\n"
 				    "<table cellpadding=\"0\" width=\"100%%\">",
 				    efh->text_colour & 0xffffff);
-
+	
+	hdr_charset = emf->charset ? emf->charset : emf->default_charset;
+	
 	header = ((CamelMimePart *)part)->headers;
 	while (header) {
-		if(!g_ascii_strcasecmp (header->name, "Sender")) {
+		if (!g_ascii_strcasecmp (header->name, "Sender")) {
 			struct _camel_header_address *addrs;
 			GString *html;
 
-			if (!(addrs = camel_header_address_decode(header->value, emf->charset ? emf->charset : emf->default_charset)))
+			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
 				return;
 
 			html = g_string_new("");
 			name = efh_format_address(efh, html, addrs, header->name);
 
-			header_sender= html->str;
+			header_sender = html->str;
 			camel_header_address_unref(addrs);
 
 			g_string_free(html, FALSE);
 			g_free (name);
-		}
-
-		if(!g_ascii_strcasecmp (header->name, "From")) {
+		} else if (!g_ascii_strcasecmp (header->name, "From")) {
 			struct _camel_header_address *addrs;
 			GString *html;
 
-			if (!(addrs = camel_header_address_decode(header->value, emf->charset ? emf->charset : emf->default_charset)))
+			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
 				return;
 
 			html = g_string_new("");
 			name = efh_format_address(efh, html, addrs, header->name);
 
-			header_from= html->str;
+			header_from = html->str;
 			camel_header_address_unref(addrs);
 
 			g_string_free(html, FALSE);
 			g_free(name);
-		}
-
-		if (!g_ascii_strcasecmp (header->name, "X-Evolution-Mail-From-Delegate"))
+		} else if (!g_ascii_strcasecmp (header->name, "X-Evolution-Mail-From-Delegate")) {
 			mail_from_delegate = TRUE;
-
-		if (header_sender && header_from && mail_from_delegate) {
+		} else if (header_sender && header_from && mail_from_delegate) {
 			camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
 			if(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 				camel_stream_printf (stream, "<td align=\"right\" width=\"100%%\">");
@@ -1900,13 +1924,12 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
 
 			while (header) {
-
 				if (emf->show_photo && !photo_name && !g_ascii_strcasecmp (header->name, "From"))
 					photo_name = header->value;
 
 				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
-					       !g_ascii_strcasecmp (header->name, "User-Agent") ||
-					       !g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
+								!g_ascii_strcasecmp (header->name, "User-Agent") ||
+								!g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
 					struct _camel_header_raw xmailer;
 
 					xmailer.name = "X-Evolution-Mailer";
@@ -1917,15 +1940,16 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					if (strstr(header->value, "Evolution"))
 						have_icon = TRUE;
 				} else if (!g_ascii_strcasecmp (header->name, "Face") && !face_decoded) {
-					gchar *cp;
-
+					char *cp = header->value;
+					
 					/* Skip over spaces */
-					for (cp = header->value; *cp == ' '; cp++);
+					while (*cp == ' ')
+						cp++;
+					
 					face_header_value = g_base64_decode (cp, &face_header_len);
 					face_header_value = g_realloc (face_header_value, face_header_len + 1);
 					face_header_value[face_header_len] = 0;
 					face_decoded = TRUE;
-
 				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);
 				}
