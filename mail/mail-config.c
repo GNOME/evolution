@@ -88,36 +88,20 @@ typedef struct {
 	ESignatureList *signatures;
 
 	GSList *labels;
-	guint label_notify_id;
 
-	guint font_notify_id;
-	guint spell_notify_id;
-	guint mark_citations__notify_id;
-	guint citation_colour_notify_id;
-	guint address_count_notify_id;
-	guint address_compress_notify_id;
 	gboolean address_compress;
 	gint address_count;
-	guint mlimit_size_notify_id;
-	guint mlimit_notify_id;
 	gboolean mlimit;
 	gint mlimit_size;
-	guint magic_spacebar_notify_id;
 	gboolean magic_spacebar;
 	guint error_time;
-	guint error_notify_id;
 	guint error_level;
-	guint error_level_id;
 
 	GPtrArray *mime_types;
-	guint mime_types_notify_id;
 
 	GSList *jh_header;
 	gboolean jh_check;
-	guint jh_header_id;
-	guint jh_check_id;
 	gboolean book_lookup;
-	guint book_lookup_id;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -163,20 +147,16 @@ config_cache_mime_types (void)
 	g_ptr_array_add (config->mime_types, NULL);
 }
 
-#define CONFIG_GET_SPELL_VALUE(t,x,prop,f,c) G_STMT_START { \
-        val = gconf_client_get_without_default (config->gconf, "/GNOME/Spell" x, NULL); \
-        if (val) { f; prop = c (gconf_value_get_ ## t (val)); \
-        gconf_value_free (val); } } G_STMT_END
-
 static void
 config_write_style (void)
 {
-	int red = 0xffff, green = 0, blue = 0;
-	GConfValue *val;
+	GConfClient *client;
 	gboolean custom;
-	char *fix_font;
-	char *var_font;
-	char *citation_color;
+	gchar *fix_font;
+	gchar *var_font;
+	gchar *citation_color;
+	gchar *spell_color;
+	const gchar *key;
 	FILE *rc;
 
 	if (!(rc = g_fopen (config->gtkrc, "wt"))) {
@@ -184,17 +164,26 @@ config_write_style (void)
 		return;
 	}
 
-	custom = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
-	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
-	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
-	citation_color = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
- 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_red",   red, (void)0, (int));
- 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_green", green, (void)0, (int));
- 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_blue",  blue, (void)0, (int));
+	client = config->gconf;
+
+	key = "/apps/evolution/mail/display/fonts/use_custom";
+	custom = gconf_client_get_bool (client, key, NULL);
+
+	key = "/apps/evolution/mail/display/fonts/variable";
+	var_font = gconf_client_get_string (client, key, NULL);
+
+	key = "/apps/evolution/mail/display/fonts/monospace";
+	fix_font = gconf_client_get_string (client, key, NULL);
+
+	key = "/apps/evolution/mail/display/citation_colour";
+	citation_color = gconf_client_get_string (client, key, NULL);
+
+	key = "/apps/evolution/mail/composer/spell_color";
+	spell_color = gconf_client_get_string (client, key, NULL);
 
 	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
-	fprintf (rc, "        GtkHTML::spell_error_color = \"#%02x%02x%02x\"\n",
-		 0xff & (red >> 8), 0xff & (green >> 8), 0xff & (blue >> 8));
+	fprintf (rc, "        GtkHTML::spell_error_color = \"%s\"\n", spell_color);
+	g_free (spell_color);
 
 	if (gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/mark_citations", NULL))
 		fprintf (rc, "        GtkHTML::cite_color = \"%s\"\n",
@@ -284,15 +273,8 @@ gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_lookup_book_changed (GConfClient *client, guint cnxn_id,
-			  GConfEntry *entry, gpointer data)
-{
-	config->book_lookup = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/lookup_addressbook", NULL);
-}
-
-static void
 gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
-		     GConfEntry *entry, gpointer user_data)
+                          GConfEntry *entry, gpointer user_data)
 {
 	config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
 	GSList *node = config->jh_header;
@@ -309,59 +291,39 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 	mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
 }
 
-
 static void
-gconf_address_count_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
+gconf_bool_value_changed (GConfClient *client,
+                          guint cnxn_id,
+                          GConfEntry *entry,
+                          gboolean *save_location)
 {
-	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
+	GError *error = NULL;
+
+	*save_location = gconf_client_get_bool (client, entry->key, &error);
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
-gconf_error_time_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
+gconf_int_value_changed (GConfClient *client,
+                         guint cnxn_id,
+                         GConfEntry *entry,
+                         gint *save_location)
 {
-	config->error_time = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_timeout", NULL);
-}
+	GError *error = NULL;
 
-static void
-gconf_error_level_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
-{
-	config->error_level = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_level", NULL);
-}
-
-static void
-gconf_address_compress_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
-{
-	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
-}
-
-static void
-gconf_mlimit_size_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
-{
-	config->mlimit_size = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
-}
-
-static void
-gconf_mlimit_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
-{
-	config->mlimit = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/force_message_limit", NULL);
-}
-
-static void
-gconf_magic_spacebar_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
-{
-	config->magic_spacebar = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/magic_spacebar", NULL);
+	*save_location = gconf_client_get_int (client, entry->key, &error);
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
 gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
-			  GConfEntry *entry, gpointer user_data)
+                          GConfEntry *entry, gpointer user_data)
 {
 	config_clear_mime_types ();
 	config_cache_mime_types ();
@@ -371,89 +333,173 @@ gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 void
 mail_config_init (void)
 {
+	GConfClientNotifyFunc func;
+	const gchar *key;
+
 	if (config)
 		return;
 
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
 	config->mime_types = g_ptr_array_new ();
-	config->gtkrc = g_build_filename (e_get_user_data_dir (), "mail", "config", "gtkrc-mail-fonts", NULL);
+	config->gtkrc = g_build_filename (
+		e_get_user_data_dir (), "mail",
+		"config", "gtkrc-mail-fonts", NULL);
 
 	mail_config_clear ();
 
-	gtk_rc_parse (config->gtkrc);
-
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/GNOME/Spell",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/junk",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
-							  gconf_style_changed, NULL, NULL, NULL);
-	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_compress",
-							  gconf_address_compress_changed, NULL, NULL, NULL);
-	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_count",
-							  gconf_address_count_changed, NULL, NULL, NULL);
-	config->error_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/error_timeout",
-							  gconf_error_time_changed, NULL, NULL, NULL);
-	config->error_level_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/error_level",
-							  gconf_error_level_changed, NULL, NULL, NULL);
-
-	config->mlimit_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/force_message_limit",
-							  gconf_mlimit_changed, NULL, NULL, NULL);
-	config->mlimit_size_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/message_text_part_limit",
-							  gconf_mlimit_size_changed, NULL, NULL, NULL);
-	config->magic_spacebar_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/magic_spacebar",
-							  gconf_magic_spacebar_changed, NULL, NULL, NULL);		
-	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
-							   gconf_style_changed, NULL, NULL, NULL);
-	config->mark_citations__notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/mark_citations",
-								     gconf_style_changed, NULL, NULL, NULL);
-	config->citation_colour_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/citation_colour",
-								     gconf_style_changed, NULL, NULL, NULL);
-
-	gconf_client_add_dir (config->gconf, E_UTIL_LABELS_GCONF_KEY,
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	config->label_notify_id =
-		gconf_client_notify_add (config->gconf, E_UTIL_LABELS_GCONF_KEY,
-					 gconf_labels_changed, NULL, NULL, NULL);
-
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/mime_types",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	config->mime_types_notify_id =
-		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/mime_types",
-					 gconf_mime_types_changed, NULL, NULL, NULL);
-
-	config_cache_labels (config->gconf);
-	config_cache_mime_types ();
-	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
-	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
-	config->error_time = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_timeout", NULL);	
-	config->error_level= gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/error_level", NULL);	
-
-	config->mlimit = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/force_message_limit", NULL);
-	config->mlimit_size = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
-	config->magic_spacebar = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/magic_spacebar", NULL);
 	config->accounts = e_account_list_new (config->gconf);
 	config->signatures = e_signature_list_new (config->gconf);
 
-	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
-	config->jh_check_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/junk/check_custom_header",
-								     gconf_jh_check_changed, NULL, NULL, NULL);
-	config->jh_header_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/junk/custom_header",
-								     gconf_jh_headers_changed, NULL, NULL, NULL);
-	config->book_lookup = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/lookup_addressbook", NULL);
-	config->book_lookup_id  = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/junk/lookup_addressbook",
-								     gconf_lookup_book_changed, NULL, NULL, NULL);
+	gtk_rc_parse (config->gtkrc);
+
+	/* Composer Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/composer",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/composer/spell_color";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Display Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/display",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/display/address_compress";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->address_compress, NULL, NULL);
+	config->address_compress =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/address_count";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->address_count, NULL, NULL);
+	config->address_count =
+		gconf_client_get_int (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/citation_colour";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/display/error_timeout";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->error_time, NULL, NULL);
+	config->error_time =
+		gconf_client_get_int (config->gconf, key, NULL);	
+
+	key = "/apps/evolution/mail/display/error_level";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->error_level, NULL, NULL);
+	config->error_level =
+		gconf_client_get_int (config->gconf, key, NULL);	
+
+	key = "/apps/evolution/mail/display/force_message_limit";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->mlimit, NULL, NULL);
+	config->mlimit =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/message_text_part_limit";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->mlimit_size, NULL, NULL);
+	config->mlimit_size =
+		gconf_client_get_int (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/magic_spacebar";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->magic_spacebar, NULL, NULL);
+	config->magic_spacebar =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/mark_citations";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Font Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/display/fonts",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/display/fonts";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Label Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, E_UTIL_LABELS_GCONF_KEY,
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	gconf_client_notify_add (
+		config->gconf, E_UTIL_LABELS_GCONF_KEY,
+		gconf_labels_changed, NULL, NULL, NULL);
+
+	config_cache_labels (config->gconf);
+
+	/* MIME Type Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/mime_types",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/mime_types";
+	func = (GConfClientNotifyFunc) gconf_mime_types_changed,
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	config_cache_mime_types ();
+
+	/* Junk Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/junk",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/junk/check_custom_header";
+	func = (GConfClientNotifyFunc) gconf_jh_check_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+	config->jh_check =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/junk/custom_header";
+	func = (GConfClientNotifyFunc) gconf_jh_headers_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/junk/lookup_addressbook";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->book_lookup, NULL, NULL);
+	config->book_lookup =
+		gconf_client_get_bool (config->gconf, key, NULL);
 
 	gconf_jh_check_changed (config->gconf, 0, NULL, config);
-
 }
-
 
 void
 mail_config_clear (void)

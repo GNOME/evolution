@@ -2044,8 +2044,10 @@ msg_composer_constructor (GType type,
 	GObject *object;
 	EMsgComposer *composer;
 	GtkToggleAction *action;
+	GList *spell_languages = NULL;
 	GConfClient *client;
 	GArray *array;
+	GSList *list;
 	gboolean active;
 	guint binding_id;
 
@@ -2111,6 +2113,25 @@ msg_composer_constructor (GType type,
 	active = gconf_client_get_bool (
 		client, COMPOSER_GCONF_REQUEST_RECEIPT_KEY, NULL);
 	gtk_toggle_action_set_active (action, active);
+
+	list = gconf_client_get_list (
+		client, COMPOSER_GCONF_SPELL_LANGUAGES_KEY,
+		GCONF_VALUE_STRING, NULL);
+	while (list != NULL) {
+		gchar *language_code = list->data;
+		const GtkhtmlSpellLanguage *language;
+
+		language = gtkhtml_spell_language_lookup (language_code);
+		if (language != NULL)
+			spell_languages = g_list_prepend (
+				spell_languages, (gpointer) language);
+
+		list = g_slist_delete_link (list, list);
+		g_free (language_code);
+	}
+	gtkhtml_editor_set_spell_languages (
+		GTKHTML_EDITOR (composer), spell_languages);
+	g_list_free (spell_languages);
 
 	gconf_client_add_dir (
 		client, COMPOSER_GCONF_PREFIX,

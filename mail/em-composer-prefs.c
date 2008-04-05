@@ -35,176 +35,163 @@
 
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
+#include "composer/gconf-bridge.h"
 
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <libedataserver/e-iconv.h>
 #include <misc/e-gui-utils.h>
 
+#include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <gtk/gtkentry.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkcolorbutton.h>
-#include <gtk/gtkfilechooserbutton.h>
-
 #include <gtkhtml/gtkhtml.h>
-
-#include <glib/gstdio.h>
+#include <editor/gtkhtml-spell-language.h>
 
 #include "misc/e-charset-picker.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-icon-factory.h"
 
 #include "mail-config.h"
 #include "mail-signature-editor.h"
 #include "em-config.h"
 
-#define d(x)
+static gpointer parent_class;
 
-static void em_composer_prefs_class_init (EMComposerPrefsClass *class);
-static void em_composer_prefs_init       (EMComposerPrefs *dialog);
-static void em_composer_prefs_destroy    (GtkObject *obj);
-static void em_composer_prefs_finalise   (GObject *obj);
-
-
-static GtkVBoxClass *parent_class = NULL;
-
-
-GType
-em_composer_prefs_get_type (void)
+static void
+composer_prefs_dispose (GObject *object)
 {
-	static GType type = 0;
+	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
+	ESignatureList *signature_list;
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMComposerPrefsClass),
-			NULL, NULL,
-			(GClassInitFunc) em_composer_prefs_class_init,
-			NULL, NULL,
-			sizeof (EMComposerPrefs),
-			0,
-			(GInstanceInitFunc) em_composer_prefs_init,
-		};
+	signature_list = mail_config_get_signatures ();
 
-		type = g_type_register_static (gtk_vbox_get_type (), "EMComposerPrefs", &info, 0);
+	if (prefs->sig_added_id != 0) {
+		g_signal_handler_disconnect (
+			signature_list, prefs->sig_added_id);
+		prefs->sig_added_id = 0;
 	}
 
-	return type;
+	if (prefs->sig_removed_id != 0) {
+		g_signal_handler_disconnect (
+			signature_list, prefs->sig_removed_id);
+		prefs->sig_removed_id = 0;
+	}
+
+	if (prefs->sig_changed_id != 0) {
+		g_signal_handler_disconnect (
+			signature_list, prefs->sig_changed_id);
+		prefs->sig_changed_id = 0;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-em_composer_prefs_class_init (EMComposerPrefsClass *klass)
+composer_prefs_finalize (GObject *object)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 
-	parent_class = g_type_class_ref (gtk_vbox_get_type ());
+	g_object_unref (prefs->gui);
 
-	object_class->destroy = em_composer_prefs_destroy;
-	gobject_class->finalize = em_composer_prefs_finalise;
+	g_hash_table_destroy (prefs->sig_hash);
+
+	/* Chain up to parent's finalize() method. */
+        G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-em_composer_prefs_init (EMComposerPrefs *prefs)
+composer_prefs_class_init (EMComposerPrefsClass *class)
 {
-	prefs->enabled_pixbuf = e_icon_factory_get_icon ("stock_mark", E_ICON_SIZE_MENU);
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = composer_prefs_dispose;
+	object_class->finalize = composer_prefs_finalize;
+}
+
+static void
+composer_prefs_init (EMComposerPrefs *prefs)
+{
 	prefs->sig_hash = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 }
 
-static void
-em_composer_prefs_finalise (GObject *obj)
+GType
+em_composer_prefs_get_type (void)
 {
-	EMComposerPrefs *prefs = (EMComposerPrefs *) obj;
+	static GType type = 0;
 
-	g_object_unref (prefs->gui);
-	g_object_unref (prefs->enabled_pixbuf);
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMComposerPrefsClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) composer_prefs_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMComposerPrefs),
+			0,     /* n_allocs */
+			(GInstanceInitFunc) composer_prefs_init,
+			NULL   /* value_table */
+		};
 
-	g_hash_table_destroy (prefs->sig_hash);
+		type = g_type_register_static (
+			GTK_TYPE_VBOX, "EMComposerPrefs", &type_info, 0);
+	}
 
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
+	return type;
 }
 
 static void
-em_composer_prefs_destroy (GtkObject *obj)
+sig_load_preview (EMComposerPrefs *prefs,
+                  ESignature *signature)
 {
-	EMComposerPrefs *prefs = (EMComposerPrefs *) obj;
-	ESignatureList *signatures;
+	GtkHTML *html;
+	gchar *str;
 
-	signatures = mail_config_get_signatures ();
+	html = prefs->sig_preview;
 
-	if (prefs->sig_added_id != 0) {
-		g_signal_handler_disconnect (signatures, prefs->sig_added_id);
-		prefs->sig_added_id = 0;
-	}
-
-	if (prefs->sig_removed_id != 0) {
-		g_signal_handler_disconnect (signatures, prefs->sig_removed_id);
-		prefs->sig_removed_id = 0;
-	}
-
-	if (prefs->sig_changed_id != 0) {
-		g_signal_handler_disconnect (signatures, prefs->sig_changed_id);
-		prefs->sig_changed_id = 0;
-	}
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
-}
-
-
-static void
-sig_load_preview (EMComposerPrefs *prefs, ESignature *sig)
-{
-	char *str;
-
-	if (!sig) {
-		gtk_html_load_from_string (GTK_HTML (prefs->sig_preview), " ", 1);
+	if (signature == NULL) {
+		gtk_html_load_from_string (html, " ", 1);
 		return;
 	}
 
-	if (sig->script)
-		str = mail_config_signature_run_script (sig->filename);
+	if (signature->script)
+		str = mail_config_signature_run_script (signature->filename);
 	else
-		str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
+		str = e_msg_composer_get_sig_file_content (
+			signature->filename, signature->html);
 	if (!str)
 		str = g_strdup ("");
 
-	/* printf ("HTML: %s\n", str); */
-	if (sig->html) {
-		gtk_html_load_from_string (GTK_HTML (prefs->sig_preview), str, strlen (str));
+	if (signature->html) {
+		gtk_html_load_from_string (html, str, strlen (str));
 	} else {
 		GtkHTMLStream *stream;
 		int len;
 
 		len = strlen (str);
-		stream = gtk_html_begin_content (GTK_HTML (prefs->sig_preview), "text/html; charset=utf-8");
-		gtk_html_write (GTK_HTML (prefs->sig_preview), stream, "<PRE>", 5);
+		stream = gtk_html_begin_content (html, "text/html; charset=utf-8");
+		gtk_html_write (html, stream, "<PRE>", 5);
 		if (len)
-			gtk_html_write (GTK_HTML (prefs->sig_preview), stream, str, len);
-		gtk_html_write (GTK_HTML (prefs->sig_preview), stream, "</PRE>", 6);
-		gtk_html_end (GTK_HTML (prefs->sig_preview), stream, GTK_HTML_STREAM_OK);
+			gtk_html_write (html, stream, str, len);
+		gtk_html_write (html, stream, "</PRE>", 6);
+		gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
 	}
 
 	g_free (str);
 }
 
 static void
-signature_added (ESignatureList *signatures, ESignature *sig, EMComposerPrefs *prefs)
+signature_added (ESignatureList *signature_list,
+                 ESignature *signature,
+                 EMComposerPrefs *prefs)
 {
 	GtkTreeRowReference *row;
 	GtkTreeModel *model;
@@ -212,34 +199,38 @@ signature_added (ESignatureList *signatures, ESignature *sig, EMComposerPrefs *p
 	GtkTreeIter iter;
 
 	/* autogen signature is special */
-	if (sig->autogen)
+	if (signature->autogen)
 		return;
 
 	model = gtk_tree_view_get_model (prefs->sig_list);
-	gtk_list_store_append ((GtkListStore *) model, &iter);
-	gtk_list_store_set ((GtkListStore *) model, &iter, 0, sig->name, 1, sig, -1);
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		0, signature->name, 1, signature, -1);
 
 	path = gtk_tree_model_get_path (model, &iter);
 	row = gtk_tree_row_reference_new (model, path);
 	gtk_tree_path_free (path);
 
-	g_hash_table_insert (prefs->sig_hash, sig, row);
+	g_hash_table_insert (prefs->sig_hash, signature, row);
 }
 
 static void
-signature_removed (ESignatureList *signatures, ESignature *sig, EMComposerPrefs *prefs)
+signature_removed (ESignatureList *signature_list,
+                   ESignature *signature,
+                   EMComposerPrefs *prefs)
 {
 	GtkTreeRowReference *row;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	if (!(row = g_hash_table_lookup (prefs->sig_hash, sig)))
+	if (!(row = g_hash_table_lookup (prefs->sig_hash, signature)))
 		return;
 
 	model = gtk_tree_view_get_model (prefs->sig_list);
 	path = gtk_tree_row_reference_get_path (row);
-	g_hash_table_remove (prefs->sig_hash, sig);
+	g_hash_table_remove (prefs->sig_hash, signature);
 
 	if (!gtk_tree_model_get_iter (model, &iter, path)) {
 		gtk_tree_path_free (path);
@@ -250,7 +241,9 @@ signature_removed (ESignatureList *signatures, ESignature *sig, EMComposerPrefs 
 }
 
 static void
-signature_changed (ESignatureList *signatures, ESignature *sig, EMComposerPrefs *prefs)
+signature_changed (ESignatureList *signature_list,
+                   ESignature *signature,
+                   EMComposerPrefs *prefs)
 {
 	GtkTreeSelection *selection;
 	GtkTreeRowReference *row;
@@ -259,7 +252,7 @@ signature_changed (ESignatureList *signatures, ESignature *sig, EMComposerPrefs 
 	GtkTreeIter iter;
 	ESignature *cur;
 
-	if (!(row = g_hash_table_lookup (prefs->sig_hash, sig)))
+	if (!(row = g_hash_table_lookup (prefs->sig_hash, signature)))
 		return;
 
 	model = gtk_tree_view_get_model (prefs->sig_list);
@@ -272,13 +265,13 @@ signature_changed (ESignatureList *signatures, ESignature *sig, EMComposerPrefs 
 
 	gtk_tree_path_free (path);
 
-	gtk_list_store_set ((GtkListStore *) model, &iter, 0, sig->name, -1);
+	gtk_list_store_set ((GtkListStore *) model, &iter, 0, signature->name, -1);
 
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 1, &cur, -1);
-		if (cur == sig)
-			sig_load_preview (prefs, sig);
+		if (cur == signature)
+			sig_load_preview (prefs, signature);
 	}
 }
 
@@ -289,26 +282,26 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	GtkTreeModel *model;
 	GtkWidget *parent;
 	GtkTreeIter iter;
-	ESignature *sig;
+	ESignature *signature;
 
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	gtk_tree_model_get (model, &iter, 1, &sig, -1);
+	gtk_tree_model_get (model, &iter, 1, &signature, -1);
 
-	if (!sig->script) {
+	if (!signature->script) {
 		GtkWidget *editor;
 
 		/* normal signature */
-		if (!sig->filename || *sig->filename == '\0') {
-			g_free (sig->filename);
-			sig->filename = g_strdup (_("Unnamed"));
+		if (!signature->filename || *signature->filename == '\0') {
+			g_free (signature->filename);
+			signature->filename = g_strdup (_("Unnamed"));
 		}
 
 		editor = e_signature_editor_new ();
 		e_signature_editor_set_signature (
-			E_SIGNATURE_EDITOR (editor), sig);
+			E_SIGNATURE_EDITOR (editor), signature);
 
 		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
 		if (GTK_WIDGET_TOPLEVEL (parent))
@@ -321,23 +314,25 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 		GtkWidget *entry;
 
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "filechooserbutton_add_script");
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (entry), sig->filename);
+		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (entry), signature->filename);
 
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
-		gtk_entry_set_text (GTK_ENTRY (entry), sig->name);
+		gtk_entry_set_text (GTK_ENTRY (entry), signature->name);
 
-		g_object_set_data ((GObject *) entry, "sig", sig);
+		g_object_set_data ((GObject *) entry, "sig", signature);
 
 		gtk_window_present ((GtkWindow *) prefs->sig_script_dialog);
 	}
 }
 
 void
-em_composer_prefs_new_signature (GtkWindow *parent, gboolean html)
+em_composer_prefs_new_signature (GtkWindow *parent,
+                                 gboolean html_mode)
 {
 	GtkWidget *editor;
 
 	editor = e_signature_editor_new ();
+	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (editor), html_mode);
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 	gtk_widget_show (editor);
 }
@@ -348,13 +343,13 @@ sig_delete_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	ESignature *sig;
+	ESignature *signature;
 
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 1, &sig, -1);
-		mail_config_remove_signature (sig);
+		gtk_tree_model_get (model, &iter, 1, &signature, -1);
+		mail_config_remove_signature (signature);
 	}
 	gtk_widget_grab_focus ((GtkWidget *)prefs->sig_list);
 }
@@ -362,26 +357,26 @@ sig_delete_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 static void
 sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 {
-	GConfClient *gconf;
 	gboolean send_html;
 	GtkWidget *parent;
 
-	gconf = mail_config_get_gconf_client ();
-	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	send_html = gconf_client_get_bool (
+		mail_config_get_gconf_client (),
+		"/apps/evolution/mail/composer/send_html", NULL);
 
-	parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (prefs));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
-	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html);
-	gtk_widget_grab_focus ((GtkWidget *)prefs->sig_list);
+	em_composer_prefs_new_signature (GTK_WINDOW (parent), send_html);
+	gtk_widget_grab_focus (GTK_WIDGET (prefs->sig_list));
 }
 
 static void
 sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 {
-	char *script, **argv = NULL;
+	gchar *script, **argv = NULL;
 	GtkWidget *entry;
-	const char *name;
+	const gchar *name;
 	int argc;
 
 	if (button == GTK_RESPONSE_ACCEPT) {
@@ -394,21 +389,21 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 			struct stat st;
 
 			if (g_stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && g_access (argv[0], X_OK) == 0) {
-				ESignature *sig;
+				ESignature *signature;
 
-				if ((sig = g_object_get_data ((GObject *) entry, "sig"))) {
+				if ((signature = g_object_get_data ((GObject *) entry, "sig"))) {
 					/* we're just editing an existing signature script */
-					g_free (sig->name);
-					sig->name = g_strdup (name);
-					g_free(sig->filename);
-					sig->filename = g_strdup(script);
-					e_signature_list_change (mail_config_get_signatures (), sig);
+					g_free (signature->name);
+					signature->name = g_strdup (name);
+					g_free(signature->filename);
+					signature->filename = g_strdup(script);
+					e_signature_list_change (mail_config_get_signatures (), signature);
 				} else {
-					sig = mail_config_signature_new (script, TRUE, TRUE);
-					sig->name = g_strdup (name);
+					signature = mail_config_signature_new (script, TRUE, TRUE);
+					signature->name = g_strdup (name);
 
-					e_signature_list_add (mail_config_get_signatures (), sig);
-					g_object_unref (sig);
+					e_signature_list_add (mail_config_get_signatures (), signature);
+					g_object_unref (signature);
 				}
 
 				mail_config_save_signatures();
@@ -444,66 +439,78 @@ sig_add_script_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 }
 
 static void
-sig_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
+sig_selection_changed (GtkTreeSelection *selection,
+                       EMComposerPrefs *prefs)
 {
+	ESignature *signature;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	ESignature *sig;
-	int state;
+	gboolean valid;
 
-	state = gtk_tree_selection_get_selected (selection, &model, &iter);
-	if (state) {
-		gtk_tree_model_get (model, &iter, 1, &sig, -1);
-		sig_load_preview (prefs, sig);
+	valid = gtk_tree_selection_get_selected (selection, &model, &iter);
+
+	if (valid) {
+		gtk_tree_model_get (model, &iter, 1, &signature, -1);
+		sig_load_preview (prefs, signature);
 	} else
 		sig_load_preview (prefs, NULL);
 
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, state);
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, state);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_delete), valid);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_edit), valid);
 }
 
 static void
 sig_fill_list (EMComposerPrefs *prefs)
 {
-	ESignatureList *signatures;
-	GtkListStore *model;
-	EIterator *it;
+	ESignatureList *signature_list;
+	GtkTreeModel *model;
+	EIterator *iterator;
 
-	model = (GtkListStore *) gtk_tree_view_get_model (prefs->sig_list);
-	gtk_list_store_clear (model);
+	model = gtk_tree_view_get_model (prefs->sig_list);
+	gtk_list_store_clear (GTK_LIST_STORE (model));
 
-	signatures = mail_config_get_signatures ();
-	it = e_list_get_iterator ((EList *) signatures);
+	signature_list = mail_config_get_signatures ();
+	iterator = e_list_get_iterator ((EList *) signature_list);
 
-	while (e_iterator_is_valid (it)) {
-		ESignature *sig;
+	while (e_iterator_is_valid (iterator)) {
+		ESignature *signature;
 
-		sig = (ESignature *) e_iterator_get (it);
-		signature_added (signatures, sig, prefs);
+		signature = (ESignature *) e_iterator_get (iterator);
+		signature_added (signature_list, signature, prefs);
 
-		e_iterator_next (it);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (it);
+	g_object_unref (iterator);
 
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_edit), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_delete), FALSE);
 
-	prefs->sig_added_id = g_signal_connect (signatures, "signature-added", G_CALLBACK (signature_added), prefs);
-	prefs->sig_removed_id = g_signal_connect (signatures, "signature-removed", G_CALLBACK (signature_removed), prefs);
-	prefs->sig_changed_id = g_signal_connect (signatures, "signature-changed", G_CALLBACK (signature_changed), prefs);
+	prefs->sig_added_id = g_signal_connect (
+		signature_list, "signature-added",
+		G_CALLBACK (signature_added), prefs);
+
+	prefs->sig_removed_id = g_signal_connect (
+		signature_list, "signature-removed",
+		G_CALLBACK (signature_removed), prefs);
+
+	prefs->sig_changed_id = g_signal_connect (
+		signature_list, "signature-changed",
+		G_CALLBACK (signature_changed), prefs);
 }
 
 static void
-url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
+url_requested (GtkHTML *html,
+               const gchar *url,
+               GtkHTMLStream *handle)
 {
 	GtkHTMLStreamStatus status;
-	char buf[128];
-	ssize_t size;
-	int fd;
-	char *filename;
+	gchar buf[128];
+	gssize size;
+	gint fd;
+	gchar *filename;
 
-	if (!strncmp (url, "file:", 5))
+	if (strncmp (url, "file:", 5) == 0)
 		filename = g_filename_from_uri (url, NULL, NULL);
 	else
 		filename = g_strdup (url);
@@ -527,318 +534,264 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 		close (fd);
 }
 
-
-/*
- *
- * Spell checking cut'n'pasted from gnome-spell/capplet/main.c
- *
- */
-
-#include "Spell.h"
-
-#define GNOME_SPELL_GCONF_DIR "/GNOME/Spell"
-#define SPELL_API_VERSION "0.3"
-
 static void
-spell_set_ui (EMComposerPrefs *prefs)
+spell_color_set (GtkColorButton *color_button,
+                 EMComposerPrefs *prefs)
 {
-	GHashTable *present;
-	GtkListStore *model;
-	GtkTreeIter iter;
-	GError *err = NULL;
-	char **strv = NULL;
+	GConfClient *client;
+	const gchar *key;
 	GdkColor color;
-	gboolean go;
-	char *lang;
-	int i;
+	gchar *string;
 
-	prefs->spell_active = FALSE;
+	gtk_color_button_get_color (color_button, &color);
+	string = gdk_color_to_string (&color);
 
-	/* setup the language list */
-	if (!(lang = gconf_client_get_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", &err)) || err) {
-		g_free (lang);
-		g_clear_error (&err);
-		lang = g_strdup (e_iconv_locale_language ());
-	}
+	client = mail_config_get_gconf_client ();
+	key = "/apps/evolution/mail/composer/spell_color";
+	gconf_client_set_string (client, key, string, NULL);
 
-	present = g_hash_table_new (g_str_hash, g_str_equal);
-	if (lang && (strv = g_strsplit (lang, " ", 0))) {
-		for (i = 0; strv[i]; i++)
-			g_hash_table_insert (present, strv[i], strv[i]);
-	}
-
-	g_free (lang);
-
-	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
-	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter); go;
-	     go = gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter)) {
-		char *abbr;
-
-		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 2, &abbr, -1);
-		gtk_list_store_set (model, &iter, 0, g_hash_table_lookup (present, abbr) != NULL, -1);
-	}
-
-	g_hash_table_destroy (present);
-	if (strv != NULL)
-		g_strfreev (strv);
-
-	color.red = gconf_client_get_int (prefs->gconf,
-		GNOME_SPELL_GCONF_DIR "/spell_error_color_red", NULL);
-	color.green = gconf_client_get_int (prefs->gconf,
-		GNOME_SPELL_GCONF_DIR "/spell_error_color_green", NULL);
-	color.blue = gconf_client_get_int (prefs->gconf,
-		GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", NULL);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (prefs->color), &color);
-
-	prefs->spell_active = TRUE;
+	g_free (string);
 }
 
 static void
-spell_color_set (GtkColorButton *color_button, EMComposerPrefs *prefs)
+spell_language_toggled_cb (GtkCellRendererToggle *renderer,
+                           const gchar *path_string,
+                           EMComposerPrefs *prefs)
 {
-	GdkColor color;
-
-	gtk_color_button_get_color (GTK_COLOR_BUTTON (color_button), &color);
-
-	gconf_client_set_int (prefs->gconf,
-		GNOME_SPELL_GCONF_DIR "/spell_error_color_red",
-		color.red, NULL);
-	gconf_client_set_int (prefs->gconf,
-		GNOME_SPELL_GCONF_DIR "/spell_error_color_green",
-		color.green, NULL);
-	gconf_client_set_int (prefs->gconf,
-		GNOME_SPELL_GCONF_DIR "/spell_error_color_blue",
-		color.blue, NULL);
-}
-
-static char *
-spell_get_language_str (EMComposerPrefs *prefs)
-{
-	GtkListStore *model;
-	GtkTreeIter iter;
-	GString *str;
-	char *rv;
-
-	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
-	if (!gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter))
-		return NULL;
-
-	str = g_string_new ("");
-
-	do {
-		gboolean state;
-		char *abbr;
-
-		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, 2, &abbr, -1);
-
-		if (state) {
-			if (str->len)
-				g_string_append_c (str, ' ');
-			g_string_append (str, abbr);
-		}
-
-		if (!gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter))
-			break;
-	} while (1);
-
-	rv = str->str;
-	g_string_free (str, FALSE);
-
-	return rv;
-}
-
-static void
-spell_language_toggled (GtkCellRendererToggle *renderer, const char *path_string, EMComposerPrefs *prefs)
-{
-	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+	GSList *list = NULL;
+	GConfClient *client;
 	GtkTreeModel *model;
+	GtkTreePath *path;
 	GtkTreeIter iter;
-	gboolean enabled;
-	char *str;
+	const gchar *key;
+	gboolean active;
+	gboolean valid;
 
-	model = gtk_tree_view_get_model (prefs->language);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, 0, &enabled, -1);
-	gtk_list_store_set ((GtkListStore *) model, &iter, 0, !enabled, -1);
+	model = prefs->language_model;
 
-	str = spell_get_language_str (prefs);
-	gconf_client_set_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", str ? str : "", NULL);
-	g_free (str);
-
+	/* Convert the path string to a tree iterator. */
+	path = gtk_tree_path_new_from_string (path_string);
+	valid = gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_path_free (path);
+	g_return_if_fail (valid);
+
+	/* Toggle the active state. */
+	gtk_tree_model_get (model, &iter, 0, &active, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, !active, -1);
+
+	/* Build a list of active languages. */
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+	while (valid) {
+		const GtkhtmlSpellLanguage *language;
+		const gchar *code;
+		gboolean active;
+
+		gtk_tree_model_get (
+			model, &iter, 0, &active, 2, &language, -1);
+		code = gtkhtml_spell_language_get_code (language);
+
+		if (active)
+			list = g_slist_prepend (list, (gpointer) code);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+	list = g_slist_reverse (list);
+
+	/* Update the GConf value. */
+	client = mail_config_get_gconf_client ();
+	key = "/apps/evolution/mail/composer/spell_languages";
+	gconf_client_set_list (client, key, GCONF_VALUE_STRING, list, NULL);
+
+	g_slist_free (list);
 }
 
 static void
 spell_setup (EMComposerPrefs *prefs)
 {
-	GtkListStore *model;
-	GtkTreeIter iter;
-	GtkWidget *widget;
-	int i;
+	const GList *available_languages;
+	GSList *active_languages, *iter;
+	GConfClient *client;
+	GtkListStore *store;
+	GdkColor color;
+	const gchar *key;
+	gchar *string;
 
-	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
+	client = mail_config_get_gconf_client ();
+	store = GTK_LIST_STORE (prefs->language_model);
+	available_languages = gtkhtml_spell_language_get_available ();
 
-	if (prefs->language_seq) {
-		for (i = 0; i < prefs->language_seq->_length; i++) {
-			gtk_list_store_append (model, &iter);
-			gtk_list_store_set (model, &iter,
-					    1, _(prefs->language_seq->_buffer[i].name),
-					    2, prefs->language_seq->_buffer[i].abbreviation,
-					    -1);
-		}
+	/* Retrieve a list of language codes from GConf. */
+	key = "/apps/evolution/mail/composer/spell_languages";
+	active_languages = gconf_client_get_list (
+		client, key, GCONF_VALUE_STRING, NULL);
+
+	/* Convert the list to GtkhtmlSpellLanguages. */
+	for (iter = active_languages; iter != NULL; iter = iter->next) {
+		gchar *code = iter->data;
+
+		iter->data = (gpointer) gtkhtml_spell_language_lookup (code);
+		g_free (code);
 	}
 
-	spell_set_ui (prefs);
+	/* Make sure we have _something_ active. */
+	if (active_languages == NULL) {
+		const GtkhtmlSpellLanguage *default_language;
 
-	widget = glade_xml_get_widget (prefs->gui, "colorButtonSpellCheckColor");
-	g_signal_connect (widget, "color_set", G_CALLBACK (spell_color_set), prefs);
-}
-
-static gboolean
-spell_setup_check_options (EMComposerPrefs *prefs)
-{
-	GNOME_Spell_Dictionary dict;
-	CORBA_Environment ev;
-	char *dictionary_id;
-
-	dictionary_id = "OAFIID:GNOME_Spell_Dictionary:" SPELL_API_VERSION;
-	dict = bonobo_activation_activate_from_id (dictionary_id, 0, NULL, NULL);
-	if (dict == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot activate %s", dictionary_id);
-
-		return FALSE;
+		default_language = gtkhtml_spell_language_lookup (NULL);
+		active_languages = g_slist_prepend (
+			active_languages, (gpointer) default_language);
 	}
 
-	CORBA_exception_init (&ev);
-	prefs->language_seq = GNOME_Spell_Dictionary_getLanguages (dict, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		prefs->language_seq = NULL;
-	CORBA_exception_free (&ev);
+	/* Populate the GtkListStore. */
+	while (available_languages != NULL) {
+		const GtkhtmlSpellLanguage *language;
+		GtkTreeIter tree_iter;
+		const gchar *name;
+		gboolean active;
 
-	if (prefs->language_seq == NULL)
-		return FALSE;
+		language = available_languages->data;
+		name = gtkhtml_spell_language_get_name (language);
+		active = (g_slist_find (active_languages, language) != NULL);
 
-	gconf_client_add_dir (prefs->gconf, GNOME_SPELL_GCONF_DIR, GCONF_CLIENT_PRELOAD_NONE, NULL);
+		gtk_list_store_append (store, &tree_iter);
 
-        spell_setup (prefs);
+		gtk_list_store_set (
+			store, &tree_iter,
+			0, active, 1, name, 2, language, -1);
 
-	return TRUE;
+		available_languages = available_languages->next;
+	}
+
+	g_slist_free (active_languages);
+
+	key = "/apps/evolution/mail/composer/spell_color";
+	string = gconf_client_get_string (client, key, NULL);
+	if (string == NULL || !gdk_color_parse (string, &color))
+		gdk_color_parse ("Red", &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (prefs->color), &color);
+
+	g_signal_connect (
+		prefs->color, "color_set",
+		G_CALLBACK (spell_color_set), prefs);
 }
 
-/*
- * End of Spell checking
- */
-
-static int
-attach_style_reply_new_order (int style_id, gboolean from_enum_to_option_id)
+static gint
+attach_style_reply_new_order (gint style_id,
+                              gboolean from_enum_to_option_id)
 {
-	int values[] = {MAIL_CONFIG_REPLY_ATTACH, 0, MAIL_CONFIG_REPLY_OUTLOOK, 1, MAIL_CONFIG_REPLY_QUOTED, 2, MAIL_CONFIG_REPLY_DO_NOT_QUOTE, 3, -1, -1};
-	int i;
+	gint values[] = {
+		MAIL_CONFIG_REPLY_ATTACH, 0,
+		MAIL_CONFIG_REPLY_OUTLOOK, 1,
+		MAIL_CONFIG_REPLY_QUOTED, 2,
+		MAIL_CONFIG_REPLY_DO_NOT_QUOTE, 3,
+		-1, -1};
+	gint ii;
 
-	for (i = from_enum_to_option_id ? 0 : 1; values[i] != -1; i += 2) {
-		if (values[i] == style_id)
-			return values [from_enum_to_option_id ? i + 1 : i - 1];
+	for (ii = from_enum_to_option_id ? 0 : 1; values[ii] != -1; ii += 2) {
+		if (values[ii] == style_id)
+			return values [from_enum_to_option_id ? ii + 1 : ii - 1];
 	}
 
 	return style_id;
 }
 
 static void
-attach_style_info (GtkWidget *item, gpointer user_data)
+attach_style_info (GtkWidget *item,
+                   gpointer user_data)
 {
-	int *style = user_data;
+	gint *style = user_data;
 
-	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (*style));
+	g_object_set_data (
+		G_OBJECT (item), "style", GINT_TO_POINTER (*style));
 
 	(*style)++;
 }
 
 static void
-attach_style_info_reply (GtkWidget *item, gpointer user_data)
+attach_style_info_reply (GtkWidget *item,
+                         gpointer user_data)
 {
-	int *style = user_data;
+	gint *style = user_data;
 
-	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (attach_style_reply_new_order (*style, FALSE)));
+	g_object_set_data (
+		G_OBJECT (item), "style", GINT_TO_POINTER (
+		attach_style_reply_new_order (*style, FALSE)));
 
 	(*style)++;
 }
 
 static void
-toggle_button_toggled (GtkToggleButton *toggle, EMComposerPrefs *prefs)
+style_activate (GtkWidget *item,
+                EMComposerPrefs *prefs)
 {
-	const char *key;
+	GConfClient *client;
+	const gchar *key;
+	gint style;
 
-	key = g_object_get_data ((GObject *) toggle, "key");
-	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
+	client = mail_config_get_gconf_client ();
+	key = g_object_get_data (G_OBJECT (item), "key");
+	style = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "style"));
+	gconf_client_set_int (client, key, style, NULL);
 }
 
 static void
-style_activate (GtkWidget *item, EMComposerPrefs *prefs)
+charset_activate (GtkWidget *item,
+                  EMComposerPrefs *prefs)
 {
-	const char *key;
-	int style;
-
-	key = g_object_get_data ((GObject *) item, "key");
-	style = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "style"));
-
-	gconf_client_set_int (prefs->gconf, key, style, NULL);
-}
-
-static void
-charset_activate (GtkWidget *item, EMComposerPrefs *prefs)
-{
+	GConfClient *client;
 	GtkWidget *menu;
-	char *string;
+	gchar *string;
 
+	client = mail_config_get_gconf_client ();
 	menu = gtk_option_menu_get_menu (prefs->charset);
-	if (!(string = e_charset_picker_get_charset (menu)))
+	string = e_charset_picker_get_charset (menu);
+
+	if (string == NULL)
 		string = g_strdup (e_iconv_locale_charset ());
 
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/composer/charset", string, NULL);
+	gconf_client_set_string (
+		client, "/apps/evolution/mail/composer/charset",
+		string, NULL);
+
 	g_free (string);
 }
 
 static void
-option_menu_connect (EMComposerPrefs *prefs, GtkOptionMenu *omenu, GCallback callback, const char *key)
+option_menu_connect (EMComposerPrefs *prefs,
+                     GtkOptionMenu *omenu,
+                     GCallback callback,
+                     const gchar *key)
 {
-	GtkWidget *menu, *item;
-	GList *items;
+	GConfClient *client;
+	GtkWidget *menu;
+	GList *list;
 
+	client = mail_config_get_gconf_client ();
 	menu = gtk_option_menu_get_menu (omenu);
+	list = GTK_MENU_SHELL (menu)->children;
 
-	items = GTK_MENU_SHELL (menu)->children;
-	while (items) {
-		item = items->data;
-		g_object_set_data ((GObject *) item, "key", (void *) key);
-		g_signal_connect (item, "activate", callback, prefs);
-		items = items->next;
+	while (list != NULL) {
+		GtkWidget *widget = list->data;
+
+		g_object_set_data (G_OBJECT (widget), "key", (gpointer) key);
+		g_signal_connect (widget, "activate", callback, prefs);
+		list = list->next;
 	}
 
-	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) omenu, FALSE);
-}
-
-static void
-toggle_button_init (EMComposerPrefs *prefs, GtkToggleButton *toggle, int not, const char *key)
-{
-	gboolean bool;
-
-	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
-	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
-
-	g_object_set_data ((GObject *) toggle, "key", (void *) key);
-	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
-
-	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (GTK_WIDGET (omenu), FALSE);
 }
 
 static GtkWidget *
-emcp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+emcp_widget_glade (EConfig *ec,
+                   EConfigItem *item,
+                   GtkWidget *parent,
+                   GtkWidget *old,
+                   gpointer data)
 {
 	EMComposerPrefs *prefs = data;
 
-	return glade_xml_get_widget(prefs->gui, item->label);
+	return glade_xml_get_widget (prefs->gui, item->label);
 }
 
 /* plugin meta-data */
@@ -856,38 +809,37 @@ static EMConfigItem emcp_items[] = {
 };
 
 static void
-emcp_free(EConfig *ec, GSList *items, void *data)
+emcp_free (EConfig *ec, GSList *items, gpointer data)
 {
 	/* the prefs data is freed automagically */
-
-	g_slist_free(items);
+	g_slist_free (items);
 }
 
 static gboolean
-signature_key_press (GtkTreeView *tree_view, GdkEventKey *event, EMComposerPrefs *prefs)
+signature_key_press_cb (GtkTreeView *tree_view,
+                        GdkEventKey *event,
+                        EMComposerPrefs *prefs)
 {
-	gboolean ret = FALSE;
-
 	/* No need to care about anything other than DEL key */
 	if (event->keyval == GDK_Delete) {
-		sig_delete_cb ((GtkWidget *)tree_view, prefs);
-		ret = TRUE;
+		sig_delete_cb (GTK_WIDGET (tree_view), prefs);
+		return TRUE;
 	}
 
-	return ret;
+	return FALSE;
 }
 
 static gboolean
-sig_tree_event_cb (GtkTreeView *tree_view, GdkEvent *event, EMComposerPrefs *prefs)
+sig_tree_event_cb (GtkTreeView *tree_view,
+                   GdkEvent *event,
+                   EMComposerPrefs *prefs)
 {
-	gboolean ret = FALSE;
-
 	if (event->type == GDK_2BUTTON_PRESS) {
-		sig_edit_cb ((GtkWidget *)tree_view, prefs);
-		ret = TRUE;
+		sig_edit_cb (GTK_WIDGET (tree_view), prefs);
+		return TRUE;
 	}
 
-	return ret;
+	return FALSE;
 }
 
 static void
@@ -896,18 +848,23 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
 	GtkDialog *dialog;
 	GladeXML *gui;
-	GtkListStore *model;
+	GtkTreeView *view;
+	GtkListStore *store;
 	GtkTreeSelection *selection;
-	GtkCellRenderer *cell_renderer;
+	GtkCellRenderer *renderer;
+	GConfBridge *bridge;
+	GConfClient *client;
+	const gchar *key;
 	int style;
-	char *buf;
+	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
 	int i;
-	char *gladefile;
+	gchar *gladefile;
 
-	prefs->gconf = mail_config_get_gconf_client ();
+	bridge = gconf_bridge_get ();
+	client = mail_config_get_gconf_client ();
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
@@ -927,77 +884,98 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	 */
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.composerPrefs");
 	l = NULL;
-	for (i=0;i<sizeof(emcp_items)/sizeof(emcp_items[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (emcp_items); i++)
 		l = g_slist_prepend(l, &emcp_items[i]);
 	e_config_add_items((EConfig *)ec, l, NULL, NULL, emcp_free, prefs);
 
 	/* General tab */
 
 	/* Default Behavior */
-	prefs->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
-	toggle_button_init (prefs, prefs->send_html, FALSE,
-			    "/apps/evolution/mail/composer/send_html");
+	key = "/apps/evolution/mail/composer/send_html";
+	widget = glade_xml_get_widget (gui, "chkSendHTML");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
-	toggle_button_init (prefs, prefs->prompt_empty_subject, FALSE,
-			    "/apps/evolution/mail/prompts/empty_subject");
+	key = "/apps/evolution/mail/prompts/empty_subject";
+	widget = glade_xml_get_widget (gui, "chkPromptEmptySubject");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
-	toggle_button_init (prefs, prefs->prompt_bcc_only, FALSE,
-			    "/apps/evolution/mail/prompts/only_bcc");
+	key = "/apps/evolution/mail/prompts/only_bcc";
+	widget = glade_xml_get_widget (gui, "chkPromptBccOnly");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
-	toggle_button_init (prefs, prefs->auto_smileys, FALSE,
-			    "/apps/evolution/mail/composer/magic_smileys");
+	key = "/apps/evolution/mail/composer/magic_smileys";
+	widget = glade_xml_get_widget (gui, "chkAutoSmileys");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->auto_request_receipt = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkRequestReceipt"));
-	toggle_button_init (prefs, prefs->auto_request_receipt, FALSE,
-			    "/apps/evolution/mail/composer/request_receipt");
+	key = "/apps/evolution/mail/composer/request_receipt";
+	widget = glade_xml_get_widget (gui, "chkRequestReceipt");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->top_signature = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkTopSignature"));
-	toggle_button_init (prefs, prefs->top_signature, FALSE,
-			    "/apps/evolution/mail/composer/top_signature");
+	key = "/apps/evolution/mail/composer/top_signature";
+	widget = glade_xml_get_widget (gui, "chkTopSignature");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
-	toggle_button_init (prefs, prefs->spell_check, FALSE,
-			    "/apps/evolution/mail/composer/inline_spelling");
+	key = "/apps/evolution/mail/composer/inline_spelling";
+	widget = glade_xml_get_widget (gui, "chkEnableSpellChecking");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
-	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
-	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL);
-	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
+	prefs->charset = GTK_OPTION_MENU (
+		glade_xml_get_widget (gui, "omenuCharset"));
+	buf = gconf_client_get_string (
+		client, "/apps/evolution/mail/composer/charset", NULL);
+	menu = e_charset_picker_new (
+		buf && *buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
-	option_menu_connect (prefs, prefs->charset, G_CALLBACK (charset_activate),
-			     "/apps/evolution/mail/composer/charset");
+	option_menu_connect (
+		prefs, prefs->charset,
+		G_CALLBACK (charset_activate),
+		"/apps/evolution/mail/composer/charset");
 	g_free (buf);
 
 	/* Spell Checking: GNOME Spell part */
-	prefs->color = GTK_COLOR_BUTTON (glade_xml_get_widget (gui, "colorButtonSpellCheckColor"));
-	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSpellCheckLanguage"));
-	model = gtk_list_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model (prefs->language, (GtkTreeModel *) model);
-	cell_renderer = gtk_cell_renderer_toggle_new ();
-	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Enabled"),
-						     cell_renderer,
-						     "active", 0,
-						     NULL);
-	g_signal_connect (cell_renderer, "toggled", G_CALLBACK (spell_language_toggled), prefs);
+	widget = glade_xml_get_widget (gui, "colorButtonSpellCheckColor");
+	prefs->color = GTK_COLOR_BUTTON (widget);
+	widget = glade_xml_get_widget (gui, "listSpellCheckLanguage");
+	view = GTK_TREE_VIEW (widget);
+	store = gtk_list_store_new (
+		3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
+	prefs->language_model = GTK_TREE_MODEL (store);
+	gtk_tree_view_set_model (view, prefs->language_model);
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (
+		renderer, "toggled",
+		G_CALLBACK (spell_language_toggled_cb), prefs);
+	gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("Enabled"),
+		renderer, "active", 0, NULL);
 
-	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Language(s)"),
-						     gtk_cell_renderer_text_new (),
-						     "text", 1,
-						     NULL);
-	selection = gtk_tree_view_get_selection (prefs->language);
+	gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("Language(s)"),
+     		gtk_cell_renderer_text_new (),
+		"text", 1, NULL);
+	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_NONE);
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
-	gtk_image_set_from_stock (GTK_IMAGE (info_pixmap), GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
-	if (!spell_setup_check_options (prefs)) {
-		gtk_widget_hide (GTK_WIDGET (prefs->color));
-		gtk_widget_hide (GTK_WIDGET (prefs->language));
-	}
+	gtk_image_set_from_stock (
+		GTK_IMAGE (info_pixmap),
+		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
+	spell_setup (prefs);
 
 	/* Forwards and Replies */
 	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
-	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/forward_style", NULL);
+	style = gconf_client_get_int (client, "/apps/evolution/mail/format/forward_style", NULL);
 	gtk_option_menu_set_history (prefs->forward_style, style);
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
@@ -1006,7 +984,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 			     "/apps/evolution/mail/format/forward_style");
 
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
-	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL);
+	style = gconf_client_get_int (client, "/apps/evolution/mail/format/reply_style", NULL);
 	gtk_option_menu_set_history (prefs->reply_style, attach_style_reply_new_order (style, TRUE));
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
@@ -1043,42 +1021,52 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete_cb), prefs);
 
 	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSignatures"));
-	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model (prefs->sig_list, (GtkTreeModel *)model);
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	gtk_tree_view_set_model (prefs->sig_list, GTK_TREE_MODEL (store));
 	gtk_tree_view_insert_column_with_attributes (prefs->sig_list, -1, _("Signature(s)"),
 						     gtk_cell_renderer_text_new (),
 						     "text", 0,
 						     NULL);
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (selection, "changed", G_CALLBACK (sig_selection_changed), prefs);
-	g_signal_connect (prefs->sig_list, "event", G_CALLBACK (sig_tree_event_cb), prefs);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (sig_selection_changed), prefs);
+	g_signal_connect (
+		prefs->sig_list, "event",
+		G_CALLBACK (sig_tree_event_cb), prefs);
 
 	sig_fill_list (prefs);
 
 	/* preview GtkHTML widget */
 	widget = glade_xml_get_widget (gui, "scrolled-sig");
 	prefs->sig_preview = (GtkHTML *) gtk_html_new ();
-	g_signal_connect (prefs->sig_preview, "url_requested", G_CALLBACK (url_requested), NULL);
+	g_signal_connect (
+		prefs->sig_preview, "url_requested",
+		G_CALLBACK (url_requested), NULL);
 	gtk_widget_show (GTK_WIDGET (prefs->sig_preview));
-	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (prefs->sig_preview));
+	gtk_container_add (
+		GTK_CONTAINER (widget),
+		GTK_WIDGET (prefs->sig_preview));
 
 	/* get our toplevel widget */
-	target = em_config_target_new_prefs(ec, prefs->gconf);
-	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
-	toplevel = e_config_create_widget((EConfig *)ec);
+	target = em_config_target_new_prefs (ec, client);
+	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
+	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
-	g_signal_connect (prefs->sig_list, "key-press-event", G_CALLBACK(signature_key_press), prefs);
+	g_signal_connect (
+		prefs->sig_list, "key-press-event",
+		G_CALLBACK (signature_key_press_cb), prefs);
 }
 
 GtkWidget *
 em_composer_prefs_new (void)
 {
-	EMComposerPrefs *new;
+	EMComposerPrefs *prefs;
 
-	new = (EMComposerPrefs *) g_object_new (em_composer_prefs_get_type (), NULL);
-	em_composer_prefs_construct (new);
+	prefs = g_object_new (EM_TYPE_COMPOSER_PREFS, NULL);
+	em_composer_prefs_construct (prefs);
 
-	return (GtkWidget *) new;
+	return GTK_WIDGET (prefs);
 }

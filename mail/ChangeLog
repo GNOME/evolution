@@ -1,3 +1,32 @@
+2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #526152, plus some tangential code cleanup.
+
+	* Makefile.am:
+	Remove all the IDL crud for GnomeSpell.
+
+	* em-composer-prefs.c:
+	* evolution-mail.schemas.in:
+	* mail-config.c:
+	Define our own GConf keys for active spell checking languages
+	and the underline color for misspelled words, instead of relying
+	on GnomeSpell's GConf keys.  The new keys are:
+	/apps/evolution/mail/composer/spell_color	(string)
+	/apps/evolution/mail/composer/spell_languages	(list of strings)
+
+	* em-composer-prefs.c:
+	* em-composer-prefs.h:
+	Cleanup the logic a bit to improve readability.
+
+	* mail-config.c:
+	Cleanup the GConf notification logic:
+	- We don't need the notification IDs for GConf keys we're watching.
+	- Minimize the repetition of GConf keys to reduce the risk of typos.
+	- Reduce the number of notification callback functions.
+
+	* Spell.idl:
+	Remove this file; we don't use GnomeSpell anymore.
+
 2008-04-04  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-format-quote.c (emfq_format_header): Same as below.

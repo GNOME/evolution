@@ -20,83 +20,69 @@
  *
  */
 
-
 #ifndef __EM_COMPOSER_PREFS_H__
 #define __EM_COMPOSER_PREFS_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <gtk/gtk.h>
 
-#include <glib.h>
-#include <gtk/gtkvbox.h>
-#include "Spell.h"
+/* Standard GObject macros */
+#define EM_TYPE_COMPOSER_PREFS \
+	(em_composer_prefs_get_type ())
+#define EM_COMPOSER_PREFS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_COMPOSER_PREFS, EMComposerPrefs))
+#define EM_COMPOSER_PREFS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_COMPOSER_PREFS, EMComposerPrefsClass))
+#define EM_IS_COMPOSER_PREFS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_COMPOSER_PREFS))
+#define EM_IS_COMPOSER_PREFS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_COMPOSER_PREFS))
+#define EM_COMPOSER_PREFS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_COMPOSER_PREFS, EMComposerPrefsClass))
 
-#define EM_COMPOSER_PREFS_TYPE        (em_composer_prefs_get_type ())
-#define EM_COMPOSER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_COMPOSER_PREFS_TYPE, EMComposerPrefs))
-#define EM_COMPOSER_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_COMPOSER_PREFS_TYPE, EMComposerPrefsClass))
-#define EM_IS_COMPOSER_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_COMPOSER_PREFS_TYPE))
-#define EM_IS_COMPOSER_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_COMPOSER_PREFS_TYPE))
+G_BEGIN_DECLS
 
 typedef struct _EMComposerPrefs EMComposerPrefs;
 typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 
 struct _ESignature;
-struct _GtkToggleButton;
-struct _GtkOptionMenu;
-struct _GdkPixbuf;
-struct _GtkWidget;
 struct _GladeXML;
-struct _GConfClient;
-struct _GtkButton;
-struct _GtkTreeView;
-struct _GtkWindow;
 
 struct _EMComposerPrefs {
-	GtkVBox parent_object;
-
-	struct _GConfClient *gconf;
+	GtkVBox parent;
 
 	struct _GladeXML *gui;
 
 	/* General tab */
 
 	/* Default Behavior */
-	struct _GtkToggleButton *send_html;
-	struct _GtkToggleButton *auto_smileys;
-	struct _GtkToggleButton *auto_request_receipt;
-	struct _GtkToggleButton *prompt_empty_subject;
-	struct _GtkToggleButton *prompt_bcc_only;
-	struct _GtkOptionMenu *charset;
+	GtkOptionMenu *charset;
 
-	struct _GtkToggleButton *spell_check;
-	struct _GtkColorButton *color;
-	struct _GtkTreeView *language;
-	CORBA_sequence_GNOME_Spell_Language *language_seq;
-	gboolean spell_active;
-
-	struct _GdkPixbuf *enabled_pixbuf;
+	GtkColorButton *color;
+	GtkTreeModel *language_model;
 
 	/* Forwards and Replies */
-	struct _GtkOptionMenu *forward_style;
-	struct _GtkOptionMenu *reply_style;
-	struct _GtkToggleButton *top_signature;
+	GtkOptionMenu *forward_style;
+	GtkOptionMenu *reply_style;
 
 	/* Keyboard Shortcuts */
-	struct _GtkOptionMenu *shortcuts_type;
+	GtkOptionMenu *shortcuts_type;
 
 	/* Signatures */
-	struct _GtkTreeView *sig_list;
+	GtkTreeView *sig_list;
 	GHashTable *sig_hash;
-	struct _GtkButton *sig_add;
-	struct _GtkButton *sig_add_script;
-	struct _GtkButton *sig_edit;
-	struct _GtkButton *sig_delete;
+	GtkButton *sig_add;
+	GtkButton *sig_add_script;
+	GtkButton *sig_edit;
+	GtkButton *sig_delete;
 	struct _GtkHTML *sig_preview;
 
 	struct _GladeXML *sig_script_gui;
-	struct _GtkWidget *sig_script_dialog;
+	GtkWidget *sig_script_dialog;
 
 	guint sig_added_id;
 	guint sig_removed_id;
@@ -105,22 +91,17 @@ struct _EMComposerPrefs {
 
 struct _EMComposerPrefsClass {
 	GtkVBoxClass parent_class;
-
-	/* signals */
-
 };
 
-GType em_composer_prefs_get_type (void);
-
-struct _GtkWidget *em_composer_prefs_new (void);
-
-void em_composer_prefs_new_signature (struct _GtkWindow *parent, gboolean html);
+GType		em_composer_prefs_get_type	(void);
+GtkWidget *	em_composer_prefs_new		(void);
+void		em_composer_prefs_new_signature (GtkWindow *parent,
+						 gboolean html_mode);
 
 /* needed by global config */
-#define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION
+#define EM_COMPOSER_PREFS_CONTROL_ID \
+	"OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_COMPOSER_PREFS_H__ */

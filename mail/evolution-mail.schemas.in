@@ -18,15 +18,15 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/send_html</key>
-      <applyto>/apps/evolution/mail/composer/send_html</applyto>
+      <key>/schemas/apps/evolution/mail/composer/inline_spelling</key>
+      <applyto>/apps/evolution/mail/composer/inline_spelling</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>false</default>
+      <default>true</default>
       <locale name="C">
-         <short>Send HTML mail by default</short>
+         <short>Spell check inline</short>
          <long>
-          Send HTML mail by default.
+	 Draw spelling error indicators on words as you type.
          </long>
       </locale>
     </schema>
@@ -74,16 +74,44 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/inline_spelling</key>
-      <applyto>/apps/evolution/mail/composer/inline_spelling</applyto>
+      <key>/schemas/apps/evolution/mail/composer/send_html</key>
+      <applyto>/apps/evolution/mail/composer/send_html</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>true</default>
+      <default>false</default>
       <locale name="C">
-         <short>Spell check inline</short>
+         <short>Send HTML mail by default</short>
          <long>
-	 Draw spelling error indicators on words as you type.
+          Send HTML mail by default.
          </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/spell_color</key>
+      <applyto>/apps/evolution/mail/composer/spell_color</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default>#FFFF00000000</default>
+      <locale name="C">
+        <short>Spell checking color</short>
+        <long>
+          Underline color for misspelled words when using inline spelling.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schema/apps/evolution/mail/composer/spell_languages</key>
+      <applyto>/apps/evolution/mail/composer/spell_languages</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <locale name="C">
+        <short>Spell checking languages</short>
+        <long>
+          List of dictionary language codes used for spell checking.
+        </long>
       </locale>
     </schema>
 

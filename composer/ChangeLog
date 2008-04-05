@@ -1,3 +1,12 @@
+2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #526152
+
+	* e-msg-composer.c:
+	* e-composer-private.h:
+	Initialize a new composer's spell checking language menu via
+	our new "spell_languages" GConf key.
+
 2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Adapt to GtkHTML's new editor widget.
