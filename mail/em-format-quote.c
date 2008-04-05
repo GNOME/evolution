@@ -197,9 +197,9 @@ emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const char *l
 }
 
 static char *addrspec_hdrs[] = {
-	"sender", "from", "reply-to", "to", "cc", "bcc",
-	"resent-sender", "resent-from", "resent-reply-to",
-	"resent-to", "resent-cc", "resent-bcc", NULL
+	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",
+	"Resent-Sender", "Resent-from", "Resent-Reply-To",
+	"Resent-To", "Resent-cc", "Resent-Bcc", NULL
 };
 
 #if 0
@@ -267,49 +267,68 @@ emfq_format_address (GString *out, struct _camel_header_address *a)
 }
 
 static void
+canon_header_name (char *name)
+{
+	char *inptr = name;
+	
+	/* canonicalise the header name... first letter is
+	 * capitalised and any letter following a '-' also gets
+	 * capitalised */
+	
+	if (*inptr >= 'a' && *inptr <= 'z')
+		*inptr -= 0x20;
+	
+	inptr++;
+	
+	while (*inptr) {
+		if (inptr[-1] == '-' && *inptr >= 'a' && *inptr <= 'z')
+			*inptr -= 0x20;
+		else if (*inptr >= 'A' && *inptr <= 'Z')
+			*inptr += 0x20;
+		
+		inptr++;
+	}
+}
+
+static void
 emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const char *namein, guint32 flags, const char *charset)
 {
 	CamelMimeMessage *msg = (CamelMimeMessage *) part;
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	char *name, *value = NULL, *p;
+	char *name, *buf, *value = NULL, *p;
 	const char *txt, *label;
-	int addrspec = 0, i;
+	gboolean addrspec = FALSE;
 	int is_html = FALSE;
+	int i;
 
 	name = g_alloca (strlen (namein) + 1);
 	strcpy (name, namein);
-	camel_strdown (name);
+	canon_header_name (name);
 
 	for (i = 0; addrspec_hdrs[i]; i++) {
 		if (!strcmp (name, addrspec_hdrs[i])) {
-			addrspec = 1;
+			addrspec = TRUE;
 			break;
 		}
 	}
-
+	
+	label = _(name);
+	
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
 
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
-
-		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset)))
+		
+		buf = camel_header_unfold (txt);
+		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset))) {
+			g_free (buf);
 			return;
-
-		/* canonicalise the header name... first letter is
-		 * capitalised and any letter following a '-' also gets
-		 * capitalised */
-		p = name;
-		*p -= 0x20;
-		do {
-			p++;
-			if (p[-1] == '-' && *p >= 'a' && *p <= 'z')
-				*p -= 0x20;
-		} while (*p);
-
-		label = _(name);
-
+		}
+		
+		g_free (buf);
+		
 		html = g_string_new ("");
 		emfq_format_address (html, addrs);
 		camel_header_address_unref (addrs);
@@ -317,34 +336,29 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 		g_string_free (html, FALSE);
 		flags |= EM_FORMAT_HEADER_BOLD;
 		is_html = TRUE;
-	} else if (!strcmp (name, "subject")) {
+	} else if (!strcmp (name, "Subject")) {
 		txt = camel_mime_message_get_subject (msg);
 		label = _("Subject");
 		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp (name, "x-evolution-mailer")) { /* pseudo-header */
+	} else if (!strcmp (name, "X-Evolution-Mailer")) { /* pseudo-header */
 		if (!(txt = camel_medium_get_header (part, "x-mailer")))
 			if (!(txt = camel_medium_get_header (part, "user-agent")))
 				return;
-
+		
 		txt = value = camel_header_format_ctext (txt, charset);
-
+		
 		label = _("Mailer");
 		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp (name, "date") || !strcmp (name, "resent-date")) {
+	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
-
-		if (!strcmp (name, "date"))
-			label = _("Date");
-		else
-			label = "Resent-Date";
-
+		
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else {
 		txt = camel_medium_get_header (part, name);
-		value = camel_header_decode_string (txt, charset);
-		txt = value;
-		label = namein;
+		buf = camel_header_unfold (txt);
+		txt = value = camel_header_decode_string (txt, charset);
+		g_free (buf);
 	}
 
 	emfq_format_text_header (emfq, stream, label, txt, flags, is_html);

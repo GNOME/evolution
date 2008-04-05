@@ -1,5 +1,7 @@
 2008-04-04  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-format-quote.c (emfq_format_header): Same as below.
+
 	* em-format-html.c (efh_format_header): Need to unfold some
 	headers. Also simplified figuring out the label.
 	(efh_format_headers): Cleaned up some code.

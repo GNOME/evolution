@@ -1726,7 +1726,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		g_free (buf);
 		
 		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp(name, "x-evolution-mailer")) {
+	} else if (!strcmp(name, "X-Evolution-Mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
 		txt = value = camel_header_format_ctext (header->value, charset);
