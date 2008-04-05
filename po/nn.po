@@ -10,15 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-04 00:59+0100\n"
-"PO-Revision-Date: 2008-03-04 23:28+0100\n"
+"POT-Creation-Date: 2008-04-05 13:27+0200\n"
+"PO-Revision-Date: 2008-04-01 20:19+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@ulrik.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -62,7 +61,7 @@ msgstr "evolution minikort"
 
 #: ../a11y/calendar/ea-cal-view-event.c:266
 msgid "It has alarms."
-msgstr "Har alarmar."
+msgstr "Har varslingar."
 
 #: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It has recurrences."
@@ -449,8 +448,10 @@ msgid "The Evolution addressbook has quit unexpectedly."
 msgstr "Evolution-adresseboka har avslutta uventa."
 
 #: ../addressbook/addressbook.error.xml.h:23
-msgid "The image you have selected is large. Do you want to resize and store it?"
-msgstr "Biletet du har valt er stort. Vil du endra biletets storleik og lagra det?"
+msgid ""
+"The image you have selected is large. Do you want to resize and store it?"
+msgstr ""
+"Biletet du har valt er stort. Vil du endra biletets storleik og lagra det?"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid ""
@@ -529,7 +530,8 @@ msgid ""
 msgstr "Du har endra denne kontakten. Vil du lagra endringane?"
 
 #: ../addressbook/addressbook.error.xml.h:37
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontaktane dine for {0} vil ikkje vera tilgjengelege før Evolution vert "
 "starta på nytt."
@@ -555,7 +557,7 @@ msgstr "End_ra storleik"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
-msgstr ""
+msgstr "Br_uk som det er"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
 #: ../addressbook/addressbook.error.xml.h:44
@@ -705,7 +707,8 @@ msgstr "Lag ei ny adressebok"
 
 #: ../addressbook/gui/component/addressbook-component.c:409
 msgid "Failed upgrading Address Book settings or folders."
-msgstr "Klarte ikkje å oppgradera innstillingane eller mappene til adresseboka."
+msgstr ""
+"Klarte ikkje å oppgradera innstillingane eller mappene til adresseboka."
 
 #: ../addressbook/gui/component/addressbook-config.c:329
 msgid "Base"
@@ -721,7 +724,7 @@ msgid "Copy _book content locally for offline operation"
 msgstr "Kopier _bokinnhald lokalt for å arbeida fråkopla"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -747,7 +750,7 @@ msgid "Authentication"
 msgstr "Autentisering"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Detaljar"
@@ -762,7 +765,7 @@ msgid "Downloading"
 msgstr "Lastar ned"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Addressebokeigenskapar"
 
@@ -857,7 +860,7 @@ msgstr "Lagra som VCard ..."
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2107 ../mail/em-folder-view.c:1346
+#: ../mail/em-folder-tree.c:2090 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -969,105 +972,98 @@ msgid "<b>Authentication</b>"
 msgstr "<b>Autentisering</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>Vis</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>Lastar ned</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>Søkjer</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>Tenarinformasjon</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>Type:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "Legg til adressebok"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Alltid"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "Anonymt"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "Enkel"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "Eintydig namn (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "E-postadresse"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid "Evolution will use this email address to authenticate you with the server."
+#: ../addressbook/gui/component/ldap-config.glade.h:18
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution kjem til å bruka denne e-postaddressa til å autentisera deg mot "
 "tenaren."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "Finn moglege søkjebasar"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "Namn å lo_gga på med:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Aldri"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "Inga kryptering"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "Eitt"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "SSL-kryptering"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "Søkjefilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "Søkje_base:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "Søkje_filter:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "Søkjefilter"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1076,7 +1072,7 @@ msgstr ""
 "Søkjefilter er typen objekt du vil søkja etter. Dersom denne ikkje vert "
 "endra, vil søket verta gjort på objekt av typen «person»."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
@@ -1084,7 +1080,7 @@ msgstr ""
 "Dette valet gjer at Evolution berre vil kopla til LDAP-tenaren dersom denne "
 "støttar SSL."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
@@ -1092,7 +1088,7 @@ msgstr ""
 "Dette valet gjer at Evolution berre vil kopla til LDAP-tenaren dersom denne "
 "støttar TLS."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1102,23 +1098,23 @@ msgstr ""
 "tyder at tilkoplinga di ikkje er trygg, og du vil vera sårbar for eventuelle "
 "trygglekshol. "
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "Under"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "Støtta søkjebasar"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "TLS-kryptering"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1128,7 +1124,7 @@ msgstr ""
 "starta. Dersom du let denne stå blank, vil søka byrja ved rota på "
 "katalogtreet."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1140,13 +1136,13 @@ msgstr ""
 "Dersom du vel «eitt», vil berre oppføringane eitt nivå under søkjebasen din "
 "brukast."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr "Dette er det fulle namnet på LDAP-tenaren. T.d. «ldap.mittfirma.no»."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1154,7 +1150,7 @@ msgstr ""
 "Dette er øvre grense for kor mange oppføringar som skal lastast ned. Å setja "
 "dette talet for høgt vil få adresseboka di til å gå sakte."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1164,7 +1160,7 @@ msgstr ""
 "at å setja dette til «e-post-adresse» krev at anonym tilgang til LDAP-"
 "tenaren."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1172,7 +1168,7 @@ msgstr ""
 "Dette er det namnet på tenaren som vert vist i Evolution si mappeliste.Det "
 "vert berre brukt til å visast på skjermen. "
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1182,35 +1178,35 @@ msgstr ""
 "liste over standardportar er gitt. Spør systemadministratoren din kva for "
 "ein port du skal bruka."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "Oppgje eintydig namn (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "Oppgje e-post adresse"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "Når det er mogleg"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "_Legg til adressebok"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "Ne_dlastingsgrense:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "_Finn moglege søkjebasar"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "På_loggingsmetode:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1218,33 +1214,33 @@ msgstr "På_loggingsmetode:"
 msgid "_Name:"
 msgstr "_Namn:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "Sø_keområde:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "Te_nar:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "_Tidsavbrot:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "Br_uk trygg tilkopling:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "kort"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -3010,7 +3006,7 @@ msgstr "Klipp u_t"
 #: ../calendar/gui/dialogs/comp-editor.c:457
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:1013
+#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:996
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3654,7 +3650,7 @@ msgid "Error removing contact"
 msgstr "Feil ved fjerning av kontakt"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:297
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -3663,9 +3659,13 @@ msgid_plural ""
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
 "Å opna %d kontakt vil óg opna %d nytt vindauge på skjermen.\n"
-"Vil du verkeleg visa denne kontakten?"
+"Vil du verkeleg visa denne kontakten?Å opna %d kontaktar vil óg opna %d nye "
+"vindauge på skjermen.\n"
+"Vil du verkeleg visa alle desse kontaktane?"
 msgstr[1] ""
-"Å opna %d kontaktar vil óg opna %d nye vindauge på skjermen.\n"
+"Å opna %d kontakt vil óg opna %d nytt vindauge på skjermen.\n"
+"Vil du verkeleg visa denne kontakten?Å opna %d kontaktar vil óg opna %d nye "
+"vindauge på skjermen.\n"
 "Vil du verkeleg visa alle desse kontaktane?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:305
@@ -4078,7 +4078,8 @@ msgid "NUMBER"
 msgstr "TAL"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:102
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr "Feil i kommandolinjeargumenta. Bruk --help for å sjå ein hjelpetekst."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:116
@@ -4118,7 +4119,8 @@ msgstr ""
 msgid ""
 "Adding a meaningful summary to your task will give your recipients an idea "
 "of what your task is about."
-msgstr "Eit meiningsfullt samandrag vil fortelja mottakarane kva oppgåva handlar om."
+msgstr ""
+"Eit meiningsfullt samandrag vil fortelja mottakarane kva oppgåva handlar om."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid "All information in these memos will be deleted and can not be restored."
@@ -4147,13 +4149,15 @@ msgstr ""
 "gjenopprettast."
 
 #: ../calendar/calendar.error.xml.h:9
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "All informasjonen om denne avtalen vil verta sletta og kan ikkje "
 "gjenopprettast."
 
 #: ../calendar/calendar.error.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "All informasjonen om dette møtet vil verta sletta, og kan ikkje "
 "gjenopprettast."
@@ -4269,7 +4273,8 @@ msgstr ""
 "høve til å godta denne oppgåva."
 
 #: ../calendar/calendar.error.xml.h:35
-msgid "Email invitations will be sent to all participants and allow them to reply."
+msgid ""
+"Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "E-post-invitasjonar vil verta sendt til alle deltakarane, som óg vil verta "
 "bedne om å svara."
@@ -4448,7 +4453,8 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:70
 msgid "Your memos will not be available until Evolution is restarted."
-msgstr "Notata dine vil ikkje vera tilgjengelege før Evolution vert starta på nytt."
+msgstr ""
+"Notata dine vil ikkje vera tilgjengelege før Evolution vert starta på nytt."
 
 #: ../calendar/calendar.error.xml.h:71
 msgid "Your tasks will not be available until Evolution is restarted."
@@ -4608,7 +4614,7 @@ msgstr "_Oppgåver"
 # TRN: Påminning om ein alarm? Rare greier.
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr "Evolution kalender alarmpåminningsteneste"
+msgstr "Evolution kalender varslingsteneste"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:112
 msgid "minute"
@@ -4648,7 +4654,7 @@ msgstr "Stad:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr "Tid alarmen skal utsetjast:"
+msgstr "U_tsett varselet:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -4690,7 +4696,7 @@ msgstr "Ingen informasjon om stad tilgjengeleg"
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1533
 #, c-format
 msgid "You have %d alarms"
-msgstr "Du har %d alarmar"
+msgstr "Du har %d varsel"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1695
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1723
@@ -4739,7 +4745,7 @@ msgstr "Klarte ikkje å starta Bonobo"
 msgid ""
 "Could not create the alarm notify service factory, maybe it's already "
 "running..."
-msgstr "Kan ikkje laga factory for alarmvarslingstenesta, kanskje han alt køyrer."
+msgstr "Kan ikkje laga factory for varselstenesta, kanskje han alt køyrer."
 
 #: ../calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -4776,7 +4782,7 @@ msgstr[1] "%d sekund"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:1
 msgid "Alarm programs"
-msgstr "Alarm-program"
+msgstr "Varslingsprogram"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:2
 msgid "Ask for confirmation when deleting items"
@@ -4784,7 +4790,8 @@ msgstr "Be om stadfesting når oppføringar vert sletta"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Bakgrunnsfarge på oppgåver som skal vera ferdige i dag, i «#rrggbb»-format."
+msgstr ""
+"Bakgrunnsfarge på oppgåver som skal vera ferdige i dag, i «#rrggbb»-format."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
@@ -4792,10 +4799,11 @@ msgstr "Bakgrunnsfarge på oppgåver som er over tida, i «#rrggbb»-format."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:5
 msgid "Calendars to run alarms for"
-msgstr "Kalender å køyra alarmar for"
+msgstr "Kalender å varsla for"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:6
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "Farge å teikna Marcus Bains-linja i tidslinja (tom for standard)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
@@ -4828,11 +4836,11 @@ msgstr "Einingar på standard påminning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Directory for saving alarm audio files"
-msgstr ""
+msgstr "Katalog å lagra varslingslydfiler i"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 msgid "Event Gradient"
-msgstr "Grafient på hendingar"
+msgstr "Gradient på hendingar"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Event Transparency"
@@ -4880,7 +4888,7 @@ msgstr "Kor store tidsrom som vert viste i dag- og arbeidsvekeframsyningane."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:27
 msgid "Last alarm time"
-msgstr "Førre alarmtid"
+msgstr "Førre varslingstid"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:28
 msgid "List of server URLs for free/busy publishing."
@@ -4977,11 +4985,11 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:45
 msgid "Programs that are allowed to be run by alarms."
-msgstr "Program som kan køyrast av alarmar."
+msgstr "Program som kan køyrast av varsel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:46
 msgid "Save directory for alarm audio"
-msgstr ""
+msgstr "Katalog å lagra varslingslydfiler i"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:47
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -5001,7 +5009,7 @@ msgstr "Vis kategorifeltet i hending/oppgåve/møte-redigeringa."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
 msgid "Show display alarms in notification tray"
-msgstr "Vis varslingar i varslingstrau"
+msgstr "Vis varsel i varslingstrau"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:52
 msgid "Show status field in the event/task/meeting editor"
@@ -5060,7 +5068,7 @@ msgstr "Oppdeling av tid"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:64
 msgid "Time the last alarm ran, in time_t."
-msgstr "Tida alarmen vart køyrt sist"
+msgstr "Tida varslinga vart køyrt sist, i time_t."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:65
 #: ../plugins/startup-wizard/startup-wizard.c:108
@@ -5084,7 +5092,8 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "Einingar for standard påminnar, «minutt», «timar» eller «dagar»."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
-msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Einingar for å avgjera når oppgåver skal gøymast, «minutt», «timar» eller "
 "«dagar»"
@@ -5099,7 +5108,7 @@ msgstr "Vekedag veka byrjar på, frå sundag (0) til laurdag (6)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
 msgid "Whether or not to use the notification tray for display alarms."
-msgstr "Om varslingstrauet skal brukast til alarmar."
+msgstr "Om varslingstrauet skal brukast til å visa tidsvarslingar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
 msgid "Whether to ask for confirmation when deleting an appointment or task."
@@ -5126,8 +5135,10 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "Om sluttidspunkt for avtalar i veke- og månadsframsyning skal visast."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
-msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr "Om Marcus Bains-linja (linje som markerer «no») skal teiknast i kalenderen."
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgstr ""
+"Om Marcus Bains-linja (linje som markerer «no») skal teiknast i kalenderen."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
 msgid "Whether to hide completed tasks in the tasks view."
@@ -5139,7 +5150,8 @@ msgstr "Om avtalar skal ha ei standardpåminning."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "Om svar etterlyst-feltet skal visast i hending/oppgåve/møte-redigeringa"
+msgstr ""
+"Om svar etterlyst-feltet skal visast i hending/oppgåve/møte-redigeringa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
 msgid "Whether to show categories field in the event/meeting editor"
@@ -5154,7 +5166,8 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "Om statusfeltet skal visast i hending/oppgåve/møte-redigeringa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
-msgid "Whether to show times in twenty four hour format instead of using am/pm."
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "Om tider skal visast i 24-timarsformat i staden for 12-timarsformat."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
@@ -5224,7 +5237,7 @@ msgstr "Ikkje truffe"
 
 #: ../calendar/gui/cal-search-bar.c:631
 msgid "Next 7 Days' Tasks"
-msgstr ""
+msgstr "Oppgåver dei neste sju dagane"
 
 #: ../calendar/gui/cal-search-bar.c:635
 msgid "Active Tasks"
@@ -5306,14 +5319,14 @@ msgstr "_Ny kalender"
 
 #: ../calendar/gui/calendar-component.c:606
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2102
+#: ../mail/em-folder-tree.c:2085
 msgid "_Copy..."
 msgstr "_Kopier ..."
 
 #: ../calendar/gui/calendar-component.c:612
 #: ../calendar/gui/dialogs/comp-editor.c:1130
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2116
+#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2099
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Eigenskapar"
@@ -5427,7 +5440,7 @@ msgstr "Ukjend feil"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:616
 msgid "Edit Alarm"
-msgstr "Rediger alarm"
+msgstr "Rediger varsel"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:1
 msgid "<b>Alarm</b>"
@@ -5443,7 +5456,7 @@ msgstr "<b>Gjentaking</b>"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "Add Alarm"
-msgstr "Legg til alarm"
+msgstr "Legg til varsling"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
@@ -5451,7 +5464,7 @@ msgstr "Sjølvvalt _melding"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
-msgstr "Sjølvvalt alarmlyd"
+msgstr "Sjølvvalt varsellyd"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Mes_sage:"
@@ -5550,7 +5563,7 @@ msgstr "Le_gg til"
 #: ../calendar/gui/dialogs/event-page.glade.h:4
 #: ../ui/evolution-event-editor.xml.h:1
 msgid "Alarms"
-msgstr "Alarmar"
+msgstr "Varsel"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:92
 #: ../composer/e-msg-composer-select-file.c:93
@@ -5563,7 +5576,7 @@ msgstr "Legg ved filer"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:485
 msgid "Selected Calendars for Alarms"
-msgstr "Valde kalendrar for alarmar"
+msgstr "Valde kalendrar for varsel"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid ""
@@ -5581,7 +5594,8 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid ""
+"<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr "<i>%u og %d vil bytast ut med brukar og domene frå e-post-adressa.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
@@ -5681,7 +5695,7 @@ msgstr "Laurdag"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Select the calendars for alarm notification"
-msgstr "Vel kalendrar for alarmvarsling"
+msgstr "Vel kalendrar for varsel"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Sh_ow a reminder"
@@ -5890,7 +5904,8 @@ msgstr "Dette notatet er endra."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
+msgstr ""
+"%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5938,13 +5953,13 @@ msgstr[0] "Vedlagt melding"
 msgstr[1] "%d vedlagte meldingar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3101
-#: ../mail/em-folder-tree.c:1014 ../mail/em-folder-utils.c:366
+#: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2066
 msgid "_Move"
 msgstr "_Flytt"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460 ../composer/e-msg-composer.c:3103
-#: ../mail/em-folder-tree.c:1016 ../mail/message-list.c:2068
+#: ../mail/em-folder-tree.c:999 ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "Avbryt _dra"
 
@@ -6064,7 +6079,8 @@ msgstr "Målet er skrivebeskytta"
 
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr "_Sletta dette elementet frå alle dei andre mottakarane sine postkassar?"
+msgstr ""
+"_Sletta dette elementet frå alle dei andre mottakarane sine postkassar?"
 
 #: ../calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -6139,7 +6155,7 @@ msgstr "Repetering"
 #: ../calendar/gui/dialogs/event-page.c:826
 #: ../calendar/gui/dialogs/event-page.c:2835
 msgid "This event has alarms"
-msgstr "Denne hendinga har alarmar"
+msgstr "Denne hendinga har varslingar"
 
 #: ../calendar/gui/dialogs/event-page.c:906
 #: ../calendar/gui/dialogs/event-page.glade.h:11
@@ -6214,7 +6230,7 @@ msgstr "Kan ikkje opna kalenderen «%s»."
 #: ../calendar/gui/dialogs/task-page.c:1928
 #, c-format
 msgid "You are acting on behalf of %s"
-msgstr ""
+msgstr "Du handlar på vegne av %s"
 
 #: ../calendar/gui/dialogs/event-page.c:3053
 #, c-format
@@ -6277,7 +6293,7 @@ msgstr "_Deltakarar ..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:8
 msgid "Custom Alarm:"
-msgstr "Sjølvvald alarm:"
+msgstr "Sjølvvald varsel:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "D_escription:"
@@ -6295,7 +6311,7 @@ msgstr "Sa_mandrag:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
-msgstr "_Alarm"
+msgstr "_Varsel"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
@@ -6409,7 +6425,8 @@ msgstr "Alle instansane"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:505
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
+msgstr ""
+"Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:826
 msgid "Recurrence date is invalid"
@@ -6516,15 +6533,15 @@ msgstr "Legg til unnatak"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2210
 msgid "Could not get a selection to modify."
-msgstr ""
+msgstr "Klarte ikkje å finna eit utval å endra."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2216
 msgid "Modify exception"
-msgstr ""
+msgstr "Endra unntak"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2262
 msgid "Could not get a selection to delete."
-msgstr ""
+msgstr "Klarte ikkje å finna eit utval å sletta."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2393
 msgid "Date/Time"
@@ -6964,7 +6981,7 @@ msgstr "Bruk til _bakgrunn"
 msgid "_Save Selected"
 msgstr "_Lagra valde"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:790
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "Opna i %s ..."
@@ -7451,7 +7468,8 @@ msgid ""
 msgstr "Møtet er avlyst, men det var ikkje ført opp i kalenderane dine"
 
 #: ../calendar/gui/e-itip-control.c:1268
-msgid "The task has been canceled, however it could not be found in your task lists"
+msgid ""
+"The task has been canceled, however it could not be found in your task lists"
 msgstr "Oppgåva er avlyst, men ho var ikkje ført opp i oppgåvelistene dine"
 
 #: ../calendar/gui/e-itip-control.c:1346
@@ -7609,7 +7627,8 @@ msgstr "Ledig/oppteken-førespurnad"
 #: ../calendar/gui/e-itip-control.c:1506
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
+msgstr ""
+"<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
 
 #: ../calendar/gui/e-itip-control.c:1507
 msgid "Free/Busy Reply"
@@ -7651,7 +7670,8 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2026
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
+msgstr ""
+"Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
 
 #: ../calendar/gui/e-itip-control.c:2050
 msgid "Attendee status updated\n"
@@ -7660,7 +7680,8 @@ msgstr "Deltakarstatus oppdatert\n"
 #: ../calendar/gui/e-itip-control.c:2057
 #: ../plugins/itip-formatter/itip-formatter.c:1251
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
+msgstr ""
+"Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
 
 #: ../calendar/gui/e-itip-control.c:2088 ../calendar/gui/e-itip-control.c:2145
 msgid "Item sent!\n"
@@ -10209,7 +10230,8 @@ msgid "Insert Attachment"
 msgstr "Sett inn vedlegg"
 
 #: ../composer/e-msg-composer.c:819
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Kan ikkje signera utgåande melding. Ingen signeringssertifikat til denne "
 "kontoen"
@@ -10353,10 +10375,12 @@ msgid ""
 "Send options available only for Novell Groupwise and Microsoft Exchange "
 "accounts."
 msgstr ""
+"Alternativ for sending er berre tilgjengeleg for Novell Groupwise- og "
+"Microsoft Exchange-kontoar."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Send options not available."
-msgstr ""
+msgstr "Alternativ for sending er ikkje tilgjengelege."
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
@@ -10405,7 +10429,7 @@ msgstr "Du må setja opp ein konto før du kan skriva e-post."
 msgid "_Do not Recover"
 msgstr "_Ikkje gjenopprett"
 
-#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:312
+#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:317
 msgid "_Recover"
 msgstr "_Gjenopprett"
 
@@ -10417,13 +10441,13 @@ msgstr "_Lagra melding"
 msgid "Evolution Mail and Calendar"
 msgstr "Evolution e-post og kalender"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:672
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:753
 msgid "Groupware Suite"
 msgstr "Gruppevarepakke"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "Manage your email, contacts and schedule"
-msgstr ""
+msgstr "Handsama e-post, kontaktar og kalender"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -10461,11 +10485,12 @@ msgstr "Ein feil oppstod under utskrift"
 
 #: ../e-util/e-print.c:145
 msgid "The printing system reported the following details about the error:"
-msgstr ""
+msgstr "Utskriftssystemet gav denne meldinga om feilen:"
 
 #: ../e-util/e-print.c:151
-msgid "The printing system did not report any additional details about the error."
-msgstr ""
+msgid ""
+"The printing system did not report any additional details about the error."
+msgstr "Utskriftssystemet gav ikkje fleire meldingar om feilen."
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
@@ -10533,7 +10558,7 @@ msgstr "Merkelappnamnet kan ikkje vera tomt."
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label with same tag already exists. Rename your label please."
-msgstr ""
+msgstr "Merkelapp med det namnet finst frå før. Vel eit anna namn."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10546,8 +10571,8 @@ msgstr[1] "%d sekund sidan"
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Eitt sekund fram i tid"
+msgstr[1] "%d sekund fram i tid"
 
 #: ../filter/filter-datespec.c:81
 #, c-format
@@ -10560,8 +10585,8 @@ msgstr[1] "%d minutt sidan"
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Eitt minutt fram i tid"
+msgstr[1] "%d minutt fram i tid"
 
 #: ../filter/filter-datespec.c:82
 #, c-format
@@ -10602,8 +10627,8 @@ msgstr[1] "%d veker sidan"
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ei veke fram i tid"
+msgstr[1] "%d veker fram i tid"
 
 #: ../filter/filter-datespec.c:85
 #, c-format
@@ -10803,7 +10828,7 @@ msgstr "sidan"
 
 #: ../filter/filter.glade.h:16
 msgid "in the future"
-msgstr ""
+msgstr "fram i tid"
 
 #: ../filter/filter.glade.h:18
 msgid "months"
@@ -10848,7 +10873,8 @@ msgid "Composer Preferences"
 msgstr "Redigeringsinstillingar"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsframsyning"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -11067,7 +11093,7 @@ msgstr "Vedlegg"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "Bcc"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -11075,7 +11101,7 @@ msgstr "Pip"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr ""
+msgstr "Cc"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
@@ -11446,7 +11472,7 @@ msgid "Drafts"
 msgstr "Kladd"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2552
+#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2535
 #: ../mail/mail-component.c:156
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11513,20 +11539,20 @@ msgstr "Kopierer meldingar til mappa %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan ikkje sleppa meldingar i topplageret"
 
-#: ../mail/em-folder-tree.c:1011 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:994 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Kopiér til mappe"
 
-#: ../mail/em-folder-tree.c:1012 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:995 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Flytt til mappe"
 
-#: ../mail/em-folder-tree.c:1721 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1704 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Leitar gjennom mapper i «%s»"
 
-#: ../mail/em-folder-tree.c:2094 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2077 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11534,32 +11560,32 @@ msgstr "Leitar gjennom mapper i «%s»"
 msgid "_View"
 msgstr "_Vis"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2078
 msgid "Open in _New Window"
 msgstr "Opna i _nytt vindauge"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2083
 msgid "_New Folder..."
 msgstr "_Ny mappe ..."
 
-#: ../mail/em-folder-tree.c:2103
+#: ../mail/em-folder-tree.c:2086
 msgid "_Move..."
 msgstr "_Flytt ..."
 
-#: ../mail/em-folder-tree.c:2110 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2093 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Gje nytt namn ..."
 
-#: ../mail/em-folder-tree.c:2111
+#: ../mail/em-folder-tree.c:2094
 msgid "Re_fresh"
 msgstr "O_ppdater"
 
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2095
 msgid "Fl_ush Outbox"
 msgstr "Tøm _utboks"
 
-#: ../mail/em-folder-tree.c:2118 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2101 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "_Tøm papirkorga"
 
@@ -11598,11 +11624,11 @@ msgstr "Oppgje kor mappa skal lagast:"
 
 #: ../mail/em-folder-view.c:1096 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
-msgstr ""
+msgstr "Klarte ikkje sletta e-post"
 
 #: ../mail/em-folder-view.c:1097 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
-msgstr ""
+msgstr "Du har ikkje løyve til å sletta denne e-posten."
 
 #: ../mail/em-folder-view.c:1335 ../ui/evolution-mail-message.xml.h:128
 msgid "_Reply to Sender"
@@ -11741,7 +11767,7 @@ msgstr "Hentar melding ..."
 
 #: ../mail/em-folder-view.c:2807
 msgid "C_all To..."
-msgstr ""
+msgstr "R_ing til ..."
 
 #: ../mail/em-folder-view.c:2810
 msgid "Create _Search Folder"
@@ -11842,7 +11868,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:996 ../mail/em-format-html.c:645
 msgid "Signature exists, but need public key"
-msgstr ""
+msgstr "Har signatur, men treng offentleg nøkkel"
 
 #: ../mail/em-format-html-display.c:996
 msgid ""
@@ -11979,11 +12005,11 @@ msgstr "Inga vedlegg"
 
 #: ../mail/em-format-html-display.c:2507 ../mail/em-format-html-display.c:2545
 msgid "View _Unformatted"
-msgstr ""
+msgstr "Vis _uformatert"
 
 #: ../mail/em-format-html-display.c:2509
 msgid "Hide _Unformatted"
-msgstr ""
+msgstr "Gøym _uformatert"
 
 #: ../mail/em-format-html-display.c:2564
 msgid "O_pen With"
@@ -11994,6 +12020,8 @@ msgid ""
 "Evolution cannot render this email as it is too large to handle. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
+"Denne e-posten er for stor til at Evolution klarar å visa han. Du kan sjå "
+"han uformatert eller opna han i eit eksternt tekstredigeringsprogram."
 
 #: ../mail/em-format-html-print.c:156
 #, c-format
@@ -12092,7 +12120,7 @@ msgstr "Diskusjonsgrupper"
 #: ../mail/em-format-html.c:1866
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
-msgstr ""
+msgstr "Denne meldinga vart sendt av <b>%s</b> på vegne av <b>%s</b>"
 
 #: ../mail/em-format-quote.c:209 ../mail/em-format.c:886
 #: ../mail/em-mailer-prefs.c:90 ../mail/message-list.etspec.h:7
@@ -12168,19 +12196,19 @@ msgstr "Ein gong i månaden"
 
 #: ../mail/em-mailer-prefs.c:341
 msgid "Add Custom Junk Header"
-msgstr ""
+msgstr "Legg til eigendefinert skrot-meldingshovud"
 
 #: ../mail/em-mailer-prefs.c:345
 msgid "Header Name:"
-msgstr ""
+msgstr "Namn på hovud:"
 
 #: ../mail/em-mailer-prefs.c:346
 msgid "Header Value Contains:"
-msgstr ""
+msgstr "Hovudverdien inneheld:"
 
 #: ../mail/em-mailer-prefs.c:451
 msgid "Contains Value"
-msgstr ""
+msgstr "Inneheld verdien"
 
 #: ../mail/em-mailer-prefs.c:473
 msgid "Color"
@@ -12194,17 +12222,19 @@ msgstr "Merke"
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1140
 #, c-format
 msgid "%s plugin is available and the binary is installed."
-msgstr ""
+msgstr "Tillegget %s er tilgjengeleg og installert."
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1094 ../mail/em-mailer-prefs.c:1149
 #, c-format
-msgid "%s plugin is not available. Please check whether the package is installed."
+msgid ""
+"%s plugin is not available. Please check whether the package is installed."
 msgstr ""
+"Tillegget %s er ikkje tilgjengeleg. Kontroller om pakken er installert."
 
 #: ../mail/em-mailer-prefs.c:1115
 msgid "No Junk plugin available"
-msgstr ""
+msgstr "Ingen skrot-tillegg tilgjengelege"
 
 #. green
 #: ../mail/em-migrate.c:1057
@@ -12348,7 +12378,7 @@ msgstr "Søkjemappekjelde"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 msgid "Allows evolution to display text part of limited size"
-msgstr ""
+msgstr "Lar Evolution visa ein tekstdel med avgrensa storleik"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 msgid "Always request read receipt"
@@ -12356,7 +12386,7 @@ msgstr "Alltid be om lesekvittering"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "Kor lang tid, i sekund, feilmeldinga skal visast på statuslinja."
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Automatic emoticon recognition"
@@ -12388,7 +12418,7 @@ msgstr "Standardbreidde på redigeringssvindauget"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "Mappe redigeringsprogrammet lastar opp eller ned vedlegg  i"
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -12438,7 +12468,7 @@ msgstr "Standard svarstil"
 
 #: ../mail/evolution-mail.schemas.in.h:23
 msgid "Default value for thread expand state"
-msgstr ""
+msgstr "Standardverdi for om trådar er utvida"
 
 #: ../mail/evolution-mail.schemas.in.h:24
 msgid "Default width of the Composer Window."
@@ -12454,7 +12484,7 @@ msgstr "Standardbreidde på abonneringsdialogen."
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr ""
+msgstr "Styrer om avsendaradressa vert slått opp i adresseboka"
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid ""
@@ -12463,10 +12493,15 @@ msgid ""
 "can be slow, if remote addressbooks (like ldap) are marked for "
 "autocompletion."
 msgstr ""
+"Styrer om avsendaren vert slått opp i adresseboka. Om han vert funnen, vert "
+"ikkje meldinga rekna som skrot. Funksjonen ser etter i adressebøker som vert "
+"brukt til automatisk fullføring av adresser. Det kan gå tregt dersom "
+"eksterne adressebøker (t.d. ldap) vert brukt til autofullføring."
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
+"Styrer om eigendefinerte meldingshovud skal brukast til å sjå etter skrot"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid ""
@@ -12474,20 +12509,25 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
+"Styrer om eigendefinerte meldingshovud skal brukast til å sjå etter skrot. "
+"Dersom dette valet er vald og meldingshovuda er nemnde, vil skrotkontrollen "
+"gå raskare."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
+"Styrer om den same skrifttpyen skal brukast i «Frå»- og «Emne»-linjene i "
+"«Meldingar»-kolonna i den loddrette framsyninga."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Directory for loading/attaching files to composer."
-msgstr ""
+msgstr "Mappe å mellomlagra vedlegg i under redigering."
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Directory for saving mail component files."
-msgstr ""
+msgstr "Mappe å lagra meldingsdelar i."
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Draw spelling error indicators on words as you type."
@@ -12527,7 +12567,7 @@ msgstr "Bruk søkemapper"
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "Slå på søkjemapper ved oppstart."
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -12545,10 +12585,12 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
+"Slå på dette valet for å bruka mellomromstasten til å rulla i "
+"meldingsførehandsvisinga, meldingslista og mappene."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
-msgstr ""
+msgstr "Slå på for å visa ein del av meldingsteksten."
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "Enable/disable caret mode"
@@ -12564,7 +12606,7 @@ msgstr "Høgda på meldingslisteramma."
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Hides the per-folder preview and removes the selection"
-msgstr ""
+msgstr "Gøymer per-mappe-førehandsframsyninga og fjernar merkinga"
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid ""
@@ -12578,7 +12620,8 @@ msgstr ""
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
-msgstr "Dersom «førehandsvis»-feltet er på, vis side-ved-side i staden for loddrett."
+msgstr ""
+"Dersom «førehandsvis»-feltet er på, vis side-ved-side i staden for loddrett."
 
 #: ../mail/evolution-mail.schemas.in.h:53
 msgid ""
@@ -12600,6 +12643,8 @@ msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
 msgstr ""
+"Det slår av/på gjentatte spørsmål om synkronisering er naudsynt før skifte "
+"til fråkopla modus."
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid ""
@@ -12654,7 +12699,8 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid "List of mime types to check for bonobo component viewers"
-msgstr "Liste over MIME-typar som skal bruka bonobo-komponent-framsynarar om mogleg"
+msgstr ""
+"Liste over MIME-typar som skal bruka bonobo-komponent-framsynarar om mogleg"
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "List of protocol names whose license has been accepted."
@@ -12720,11 +12766,13 @@ msgstr "Korleis meldingar vert viste («normal», «full headers», «source»)"
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid "Minimum days between emptying the junk on exit"
-msgstr "Minste tal på dagar mellom kvar gong skrotposten vert sletta når du avsluttar"
+msgstr ""
+"Minste tal på dagar mellom kvar gong skrotposten vert sletta når du avsluttar"
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Minste tal på dagar mellom kvar gong papirkorga vert tømt når du avsluttar"
+msgstr ""
+"Minste tal på dagar mellom kvar gong papirkorga vert tømt når du avsluttar"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Minimum time between emptying the junk on exit, in days."
@@ -12734,7 +12782,8 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Minste tid mellom kvar gong papirkorga vert tømt når du avsluttar, i dagar."
+msgstr ""
+"Minste tid mellom kvar gong papirkorga vert tømt når du avsluttar, i dagar."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -12749,7 +12798,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Sei ifrå når brukaren tømmer ei av mappe."
 
 #: ../mail/evolution-mail.schemas.in.h:88
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Spør brukaren når han prøver å senda ei melding utan emne."
 
 #: ../mail/evolution-mail.schemas.in.h:89
@@ -12776,7 +12826,8 @@ msgstr "Spør når brukaren prøver å opne ti eller fleire meldingar på ein go
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr "Spør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slikt."
+msgstr ""
+"Spør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slikt."
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
@@ -13431,7 +13482,6 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "_Signer alle utgåande meldingar frå denne kontoen"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr "_Krypter óg til meg sjølv når eg sender kryptert e-post"
 
@@ -13448,7 +13498,6 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "S_tol alltid på nøklar i nøkkelringen min ved kryptering"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Alltid krypter til _meg sjølv når eg sender e-post"
 
@@ -13477,9 +13526,8 @@ msgid "C_haracter set:"
 msgstr "T_eiknsett:"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "C_heck custom headers for junk"
-msgstr "Sjå etter skrot i _inngåande post"
+msgstr "Sjå etter skrot i _sjølvvalde meldingshovud"
 
 #: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
@@ -13662,7 +13710,8 @@ msgid "Message Composer"
 msgstr "Meldingsredigering"
 
 #: ../mail/mail-config.glade.h:105
-msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
+msgid ""
+"Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
 
 #: ../mail/mail-config.glade.h:106
@@ -13810,7 +13859,8 @@ msgstr "T_ype:"
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr "Denne lista av språk inneheld berre språk du har installert ordliste til."
+msgstr ""
+"Denne lista av språk inneheld berre språk du har installert ordliste til."
 
 #: ../mail/mail-config.glade.h:143
 msgid ""
@@ -13823,7 +13873,8 @@ msgstr ""
 "verta brukt til å kjenna att skriptet i Evolution. "
 
 #: ../mail/mail-config.glade.h:146
-msgid "This option will be overridden if a match for custom junk headers is found."
+msgid ""
+"This option will be overridden if a match for custom junk headers is found."
 msgstr ""
 
 #: ../mail/mail-config.glade.h:147
@@ -13867,7 +13918,8 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr "Ikkje signer førespurnader om _møter (for å vera kompatibel med Outlook)"
+msgstr ""
+"Ikkje signer førespurnader om _møter (for å vera kompatibel med Outlook)"
 
 #: ../mail/mail-config.glade.h:159
 msgid "_Forward style:"
@@ -13899,7 +13951,8 @@ msgstr "_Sti:"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr "S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
+msgstr ""
+"S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending messages with an empty subject line"
@@ -14046,7 +14099,7 @@ msgstr "_Flagg:"
 msgid "_Tick this to accept the license agreement"
 msgstr "_Kryss av her for å godta lisensavtalen"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "Pingar %s"
@@ -14341,11 +14394,13 @@ msgid "New Search Folder"
 msgstr "Ny søkjemappe"
 
 #: ../mail/mail.error.xml.h:1
-msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
+msgid ""
+"A folder named &quot;{0}&quot; already exists. Please use a different name."
 msgstr "Ei mappe som heiter «{0}» finst frå før. Bruk eit anna namn."
 
 #: ../mail/mail.error.xml.h:2
-msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
+msgid ""
+"A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr "Ei mappe som har namnet «{1}» finst frå før. Bruk eit anna namn."
 
 #: ../mail/mail.error.xml.h:3
@@ -14364,7 +14419,8 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;. Send the "
 "receipt notification to {0}?"
-msgstr "«{1}» har bede om kvittering på mottak/lesing. Senda kvittering til {0}?"
+msgstr ""
+"«{1}» har bede om kvittering på mottak/lesing. Senda kvittering til {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -14376,7 +14432,8 @@ msgstr "Ein signatur som heiter «{0}» finst frå før. Bruk eit anna namn."
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "Eit meiningsfullt emne vil fortelja mottakarane kva e-posten din er om."
+msgstr ""
+"Eit meiningsfullt emne vil fortelja mottakarane kva e-posten din er om."
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -14387,7 +14444,8 @@ msgid "Are you sure you want to delete this account?"
 msgstr "Er du sikker på at du vil sletta denne kontoen?"
 
 #: ../mail/mail.error.xml.h:11
-msgid "Are you sure you want to disable this account and delete all its proxies?"
+msgid ""
+"Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
 "Er du sikker på at du vil kopla ut denne kontoen og sletta alle dei "
 "tilhøyrande mellomtenarane?"
@@ -14418,7 +14476,8 @@ msgstr "Er du sikker på at du vil senda ei melding i HTML-format?"
 
 #: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Er du sikker på at du vil senda ein e-post med berre blindkopi-mottakarar?"
+msgstr ""
+"Er du sikker på at du vil senda ein e-post med berre blindkopi-mottakarar?"
 
 #: ../mail/mail.error.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
@@ -14832,17 +14891,21 @@ msgstr ""
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
-msgstr "Denne meldinga kan ikkje sendast fordi kontoen du sender frå er slått av"
+msgstr ""
+"Denne meldinga kan ikkje sendast fordi kontoen du sender frå er slått av"
 
 #: ../mail/mail.error.xml.h:115
-msgid "This message cannot be sent because you have not specified any recipients"
-msgstr "Denne meldinga kan du ikkje senda. Du har ikkje oppgjeve nokon mottakarar"
+msgid ""
+"This message cannot be sent because you have not specified any recipients"
+msgstr ""
+"Denne meldinga kan du ikkje senda. Du har ikkje oppgjeve nokon mottakarar"
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr ""
+"SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #: ../mail/mail.error.xml.h:117
 msgid "This signature has been changed, but has not been saved."
@@ -15008,7 +15071,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d. %b %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "Opprettar meldingsliste"
 
@@ -15310,7 +15373,8 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "Er du sikker på at du vil avslutta Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid "Are you sure you want to restore Evolution from the selected backup file?"
+msgid ""
+"Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
 "Er du sikker på at du vil gjenoppretta Evolution frå den valde "
 "tryggleikskopien?"
@@ -15363,8 +15427,10 @@ msgstr "Automatiske kontaktar"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
-msgid "_Automatically create entries in the addressbook when responding to messages"
-msgstr "Legg _automatisk oppføringar til i adresseboka når du svarar på meldingar"
+msgid ""
+"_Automatically create entries in the addressbook when responding to messages"
+msgstr ""
+"Legg _automatisk oppføringar til i adresseboka når du svarar på meldingar"
 
 #: ../plugins/bbdb/bbdb.c:571
 msgid "Select Address book for Automatic Contacts"
@@ -15379,7 +15445,8 @@ msgstr "Lynmelding-kontaktar"
 msgid ""
 "Periodically synchronize contact information and images from Pidgin buddy "
 "list"
-msgstr "Synkroniser kontaktinformasjon og bilete frå kameratlista i Pidgin jamnleg"
+msgstr ""
+"Synkroniser kontaktinformasjon og bilete frå kameratlista i Pidgin jamnleg"
 
 #: ../plugins/bbdb/bbdb.c:607
 msgid "Select Address book for Pidgin buddy list"
@@ -15423,6 +15490,10 @@ msgid "Bogofilter Options"
 msgstr ""
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr ""
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr ""
 
@@ -15549,7 +15620,8 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "Kontroller om Evolution er standard e-post-program"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
-msgid "Every time Evolution starts, check whether or not it is the default mailer."
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 "Kvar gong Evolution startar kontrollerer han om han er standard e-post-"
 "program."
@@ -15567,7 +15639,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Vil du gjera Evolution til standard e-postlesar?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:626
+#: ../shell/main.c:690
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -16093,9 +16165,8 @@ msgid "Exchange - Send Options"
 msgstr "Exchange - Sendingsalternativ"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
-#, fuzzy
 msgid "I_mportance: "
-msgstr "_Viktig"
+msgstr "_Prioritet: "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
 msgid ""
@@ -16314,7 +16385,8 @@ msgstr "Kan ikkje nå global katalogtenar"
 msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
-msgstr "Dersom OWA køyrer langs ein annan sti må du oppgje det i oppsettdialogen."
+msgstr ""
+"Dersom OWA køyrer langs ein annan sti må du oppgje det i oppsettdialogen."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid "Mailbox for {0} is not on this server."
@@ -16464,7 +16536,8 @@ msgstr ""
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr "Noverande bruk er: {0} kiB. Du kan ikkje senda eller motta meir e-post no."
+msgstr ""
+"Noverande bruk er: {0} kiB. Du kan ikkje senda eller motta meir e-post no."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid ""
@@ -16736,7 +16809,7 @@ msgstr "Påminningsnotat"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
-msgstr "_Abonnér på mine _alarmar"
+msgstr "Tinga v_arslingane mine"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
@@ -16778,11 +16851,11 @@ msgstr "%sSkriv passordet til %s (brukar %s)"
 msgid "_Proxy Login..."
 msgstr "_Mellomtenarinnlogging"
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Mellomtenar-fana vil berre vera tilgjengeleg når kontoen er tilkopla."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Mellomtenar-fana vil berre vera tilgjengeleg når kontoen er slått på."
 
@@ -16984,7 +17057,8 @@ msgstr "iCalendar-format (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
-msgstr "Synkroniser den valde oppgåva/notatet/kalenderen/adresseboka med Apple iPod"
+msgstr ""
+"Synkroniser den valde oppgåva/notatet/kalenderen/adresseboka med Apple iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -17147,7 +17221,8 @@ msgstr "Kalenderen som er lagt ved inneheld fleire oppføringar"
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "For å handsama alle desse elementa bør fila lagrast og kalenderen importerast"
+msgstr ""
+"For å handsama alle desse elementa bør fila lagrast og kalenderen importerast"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2148
 msgid "This meeting recurs"
@@ -17378,7 +17453,8 @@ msgstr "<b>%s</b> gjennom %s ber om å få den nyaste møteinformasjonen om:"
 
 #: ../plugins/itip-formatter/itip-view.c:385
 #, c-format
-msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> ber om å få den nyaste møteinformasjonen om:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
@@ -17474,8 +17550,10 @@ msgstr "<b>%s</b> ber om å få den nyaste oppgåveinformasjonen om:"
 
 #: ../plugins/itip-formatter/itip-view.c:477
 #, c-format
-msgid "<b>%s</b> through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> gjennom %s har sendt tilbake eit svar til ei tildelt oppgåve:"
+msgid ""
+"<b>%s</b> through %s has sent back the following assigned task response:"
+msgstr ""
+"<b>%s</b> gjennom %s har sendt tilbake eit svar til ei tildelt oppgåve:"
 
 #: ../plugins/itip-formatter/itip-view.c:479
 #, c-format
@@ -17494,8 +17572,10 @@ msgstr "<b>%s</b> har avlyst ei tildelt oppgåve:"
 
 #: ../plugins/itip-formatter/itip-view.c:489
 #, c-format
-msgid "<b>%s</b> through %s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> gjennom %s har føreslått desse endringane i oppgåvetildelinga:"
+msgid ""
+"<b>%s</b> through %s has proposed the following task assignment changes:"
+msgstr ""
+"<b>%s</b> gjennom %s har føreslått desse endringane i oppgåvetildelinga:"
 
 #: ../plugins/itip-formatter/itip-view.c:491
 #, c-format
@@ -17655,7 +17735,8 @@ msgid "This meeting has been delegated"
 msgstr "Dette møtet har verte delegert"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid "This response is not from a current attendee. Add the sender as an attendee?"
+msgid ""
+"This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 "Dette svaret er ikkje frå ein aktiv deltakar. Skal vedkommande leggjast til "
 "som deltakar?"
@@ -17693,7 +17774,8 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Lagar ei D-Bus-melding når nye meldingar kjem."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-msgid "If true, then beep, otherwise will play sound file when new messages arrive."
+msgid ""
+"If true, then beep, otherwise will play sound file when new messages arrive."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
@@ -17843,7 +17925,8 @@ msgstr ""
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr "Eit tillegg som tillet oppretting av oppgåver frå innhaldet i ein e-post."
+msgstr ""
+"Eit tillegg som tillet oppretting av oppgåver frå innhaldet i ein e-post."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
@@ -17880,7 +17963,8 @@ msgid "Mailing _List"
 msgstr "E-post_liste"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgid ""
+"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
 msgstr "Vanlege kommandoar for e-postlister (tinga, sei opp tinging, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -17962,7 +18046,8 @@ msgstr ""
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "Denne meldinga inneheld ikkje hovudinformasjonen som denne handlinga krev."
+msgstr ""
+"Denne meldinga inneheld ikkje hovudinformasjonen som denne handlinga krev."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -18058,7 +18143,8 @@ msgstr "Mono"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr "Eit tillegg for å handsama kva for nokre tillegg som er slått av og på."
+msgstr ""
+"Eit tillegg for å handsama kva for nokre tillegg som er slått av og på."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
@@ -18284,7 +18370,7 @@ msgstr "SpamAssassin (innebygd)"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:848
 msgid "This will make Spamassasin more reliable, but slower"
-msgstr "Dette vil gjera SpamAssassin meir påliteleg, men tregare"
+msgstr "Dette vil gjera Spamassassin meir påliteleg, men tregare"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:854
 msgid "I_nclude remote tests"
@@ -18591,14 +18677,16 @@ msgstr "Standard breidde på vindauget"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "ID eller alias til komponenten som vert vist som standard ved oppstart."
+msgstr ""
+"ID eller alias til komponenten som vert vist som standard ved oppstart."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "Last upgraded configuration version"
 msgstr "Sist oppgraderte versjon av oppsettet"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Liste over stiar til mapper som skal synkroniserast til disk for fråkopla "
 "bruk"
@@ -18615,7 +18703,7 @@ msgstr "Om utviklarversjonsvindauget skal hoppast over"
 msgid "Skip recovery warning dialog"
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
+#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:576
 msgid "Start in offline mode"
 msgstr "Start i fråkopla modus"
 
@@ -18627,7 +18715,8 @@ msgstr "Statuslinja er synleg"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "Oppsettsversjonen av Evolution, med stor/liten/oppsettnivå (t.d. «2.6.0»)."
+msgstr ""
+"Oppsettsversjonen av Evolution, med stor/liten/oppsettnivå (t.d. «2.6.0»)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "The default height for the main window, in pixels."
@@ -18664,7 +18753,8 @@ msgstr "Verktøylinja er synleg"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Om Evolution vil starte opp i fråkopla modus i staden for tilkopla modus."
+msgstr ""
+"Om Evolution vil starte opp i fråkopla modus i staden for tilkopla modus."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Whether crash detection should be done or not"
@@ -18687,7 +18777,8 @@ msgid "Whether the toolbar should be visible."
 msgstr "Om verktøylinja skal vera synleg."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:29
-msgid "Whether the warning dialog in development versions of Evolution is skipped."
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "Om åtvaringsvindauget utviklarversjonane av Evolution skal droppast."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
@@ -18805,7 +18896,8 @@ msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window-commands.c:77
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
+msgstr ""
+"GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
 
 #: ../shell/e-shell-window-commands.c:85
 #, c-format
@@ -18823,7 +18915,7 @@ msgstr "Bug Buddy kan ikkje køyrast."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:663
+#: ../shell/e-shell-window-commands.c:744
 msgid "translator-credits"
 msgstr ""
 "Åsmund Skjæveland <aasmunds@fys.uio.no> 2003-2006\n"
@@ -18832,23 +18924,23 @@ msgstr ""
 "\n"
 "Send feilmeldingar og kommentarar til <i18n-nn@lister.ping.uio.no>"
 
-#: ../shell/e-shell-window-commands.c:674
+#: ../shell/e-shell-window-commands.c:755
 msgid "Evolution Website"
 msgstr "Evolution-nettstad"
 
-#: ../shell/e-shell-window-commands.c:692
+#: ../shell/e-shell-window-commands.c:773
 msgid "Error opening the FAQ webpage."
 msgstr ""
 
-#: ../shell/e-shell-window-commands.c:889
+#: ../shell/e-shell-window-commands.c:970
 msgid "_Work Online"
 msgstr "Arbeid _tilkopla"
 
-#: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:983 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "Arbeid _fråkopla"
 
-#: ../shell/e-shell-window-commands.c:915
+#: ../shell/e-shell-window-commands.c:996
 msgid "Work Offline"
 msgstr "Arbeid fråkopla"
 
@@ -18951,7 +19043,7 @@ msgstr ""
 "med å importera filer frå andre program til Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:228
+#: ../shell/main.c:233
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18988,7 +19080,7 @@ msgstr ""
 "Me vonar at du nyt resultata av det harde arbeidet vårt, og me ventar\n"
 "i spenning på dine bidrag.\n"
 
-#: ../shell/main.c:252
+#: ../shell/main.c:257
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18996,19 +19088,19 @@ msgstr ""
 "Takk frå\n"
 "Evolution-laget\n"
 
-#: ../shell/main.c:259
+#: ../shell/main.c:264
 msgid "Do not tell me again"
 msgstr "Ikkje sei ifrå igjen"
 
-#: ../shell/main.c:309
+#: ../shell/main.c:314
 msgid "Evolution Crash Detection"
 msgstr ""
 
-#: ../shell/main.c:311
+#: ../shell/main.c:316
 msgid "Ig_nore"
 msgstr "Ig_norer"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:331
 #, no-c-format
 msgid ""
 "Evolution appears to have exited unexpectedly the last time it was\n"
@@ -19016,43 +19108,43 @@ msgid ""
 "You can restore the preview panes from the View menu.\n"
 msgstr ""
 
-#: ../shell/main.c:337
+#: ../shell/main.c:342
 msgid "_Do not show this message again"
 msgstr "Ikkje vis _denne meldinga att"
 
-#: ../shell/main.c:569
+#: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
 msgstr "Start Evolution, og start opp den oppgjevne delen"
 
-#: ../shell/main.c:573
+#: ../shell/main.c:578
 msgid "Start in online mode"
 msgstr "Startar i fråkopla modus"
 
-#: ../shell/main.c:576
+#: ../shell/main.c:581
 msgid "Forcibly shut down all Evolution components"
 msgstr "Tving alle komponentane i Evolution til å avslutta"
 
-#: ../shell/main.c:580
+#: ../shell/main.c:585
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Tving ny migrering frå Evolution 1.4"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:588
 msgid "Send the debugging output of all components to a file."
 msgstr "Send feilsøkingsutskrift frå alle komponentane til ei fil."
 
-#: ../shell/main.c:585
+#: ../shell/main.c:590
 msgid "Disable loading of any plugins."
 msgstr "Kopla frå lasting av tillegg."
 
-#: ../shell/main.c:587
+#: ../shell/main.c:592
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 
-#: ../shell/main.c:617
+#: ../shell/main.c:677
 msgid "- The Evolution PIM and Email Client"
 msgstr "Evolution personleg informasjonshandsamar og e-postkomponent"
 
-#: ../shell/main.c:630
+#: ../shell/main.c:694
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19456,11 +19548,13 @@ msgstr "Stol på at sertifikatet er autentisk"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "Stol på denne sertifiseringsinstansen ved identifisering av e-postbrukarar."
+msgstr ""
+"Stol på denne sertifiseringsinstansen ved identifisering av e-postbrukarar."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr "Stol på denne sertifiserinsinstansen ved identifisering av programutviklarar."
+msgstr ""
+"Stol på denne sertifiserinsinstansen ved identifisering av programutviklarar."
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
@@ -19475,7 +19569,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Du har sertifikat som identifiserer deg frå desse organisasjonane:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr "Du har sertifikat som identifiserer desse sertifiseringsinstansane:"
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -20132,7 +20227,7 @@ msgstr "Klassifiser som offentleg"
 
 #: ../ui/evolution-event-editor.xml.h:7
 msgid "Click here to set or unset alarms for this event"
-msgstr "Klikk her for å setja eller fjerna alarmar på denne hendinga"
+msgstr "Klikk her for å setja eller fjerna varsel på denne hendinga"
 
 #: ../ui/evolution-event-editor.xml.h:9 ../ui/evolution-task-editor.xml.h:5
 msgid "Insert advanced send options"
@@ -20202,7 +20297,7 @@ msgstr "Avgjer om tida skal visast som oppteken"
 
 #: ../ui/evolution-event-editor.xml.h:27
 msgid "_Alarms"
-msgstr "_Alarmar"
+msgstr "V_arsel"
 
 #: ../ui/evolution-event-editor.xml.h:28 ../ui/evolution-memo-editor.xml.h:6
 #: ../ui/evolution-task-editor.xml.h:18
@@ -20407,7 +20502,8 @@ msgid "Hide _Read Messages"
 msgstr "Gøym _lesne meldingar"
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Gøym dei sletta meldingane i staden for å visa dei gjennomstreka"
 
 #: ../ui/evolution-mail-list.xml.h:16
@@ -20459,9 +20555,8 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "Vel alle meldingane i same tråd som den valde meldinga"
 
 #: ../ui/evolution-mail-list.xml.h:28
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "Vel alle meldingane i same tråd som den valde meldinga"
+msgstr "Vel alle meldingane som er svar til den valde meldinga"
 
 #: ../ui/evolution-mail-list.xml.h:29
 msgid "Select all visible messages"
@@ -20794,9 +20889,8 @@ msgid "Search Folder from Mailing _List..."
 msgstr "Søkjemappe frå e-postliste..."
 
 #: ../ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Search Folder from Recipien_ts..."
-msgstr "Søkjemappe frå _mottakarar..."
+msgstr "Søkjemappe frå _mottakarar ..."
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
@@ -21027,9 +21121,8 @@ msgid "HT_ML"
 msgstr "HT_ML"
 
 #: ../ui/evolution-message-composer.xml.h:12
-#, fuzzy
 msgid "Insert Send options"
-msgstr "Sett inn avanserte sendingsval"
+msgstr "Sett inn sendingsval"
 
 #: ../ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
@@ -21044,41 +21137,36 @@ msgid "PGP Sign"
 msgstr "PGP-signér"
 
 #: ../ui/evolution-message-composer.xml.h:17
-#, fuzzy
 msgid "PGP _Encrypt"
-msgstr "PGP-kryptér"
+msgstr "PGP-krypt_er"
 
 #: ../ui/evolution-message-composer.xml.h:18
-#, fuzzy
 msgid "PGP _Sign"
-msgstr "PGP-signér"
+msgstr "PGP-_signer"
 
 #: ../ui/evolution-message-composer.xml.h:19
 msgid "R_equest Read Receipt"
 msgstr "Sp_ør etter kvitteringar for lesne meldingar"
 
 #: ../ui/evolution-message-composer.xml.h:20
-#, fuzzy
 msgid "S/MIME En_crypt"
-msgstr "S/MIME-kryptér"
+msgstr "S/MIME-kr_ypter"
 
 #: ../ui/evolution-message-composer.xml.h:21
 msgid "S/MIME Encrypt"
 msgstr "S/MIME-kryptér"
 
 #: ../ui/evolution-message-composer.xml.h:22
-#, fuzzy
 msgid "S/MIME Sig_n"
-msgstr "S/MIME-signér"
+msgstr "S/MIME-sig_ner"
 
 #: ../ui/evolution-message-composer.xml.h:23
 msgid "S/MIME Sign"
 msgstr "S/MIME-signér"
 
 #: ../ui/evolution-message-composer.xml.h:24
-#, fuzzy
 msgid "S_end"
-msgstr "Send"
+msgstr "S_end"
 
 #: ../ui/evolution-message-composer.xml.h:26
 msgid "Save As"
@@ -21347,7 +21435,8 @@ msgstr "Lag eit nytt vindauge som viser denne mappa"
 
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "Vis vindaugeknappane i tråd med skrivebordet si verktøylinjeinnstilling"
+msgstr ""
+"Vis vindaugeknappane i tråd med skrivebordet si verktøylinjeinnstilling"
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
@@ -21362,9 +21451,8 @@ msgid "Display window buttons with text only"
 msgstr "Vis vindaugeknappane berre med tekst"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Evolution"
+msgstr "Evolution _OSS"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -21383,7 +21471,6 @@ msgid "I_mport..."
 msgstr "_Importér ..."
 
 #: ../ui/evolution.xml.h:15
-#, fuzzy
 msgid "Icons _and Text"
 msgstr "Ikon _og tekst"
 
@@ -21401,12 +21488,11 @@ msgstr "_Nytt vindauge"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "Opna nettsida med ofte stilte spørsmål"
 
 #: ../ui/evolution.xml.h:21
-#, fuzzy
 msgid "Page Set_up..."
-msgstr "Sideoppsett"
+msgstr "Side_oppsett ..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
@@ -21461,9 +21547,8 @@ msgid "Toggle whether we are working offline."
 msgstr "Vel om me arbeider fråkopla."
 
 #: ../ui/evolution.xml.h:36
-#, fuzzy
 msgid "Tool_bar Style"
-msgstr "Verktøylinjestil"
+msgstr "Ver_ktøylinjestil"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
@@ -21487,15 +21572,13 @@ msgstr "_Gløym passord"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "_Ofte stilte spørsmål"
 
 #: ../ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Hide Buttons"
-msgstr "_Høym knappar"
+msgstr "_Gøym knappar"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Icons Only"
 msgstr "Berre _ikon"
 
@@ -21516,9 +21599,8 @@ msgid "_Synchronization Options..."
 msgstr "_Synkroniseringsinnstillingar..."
 
 #: ../ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Text Only"
-msgstr "_Rein tekst"
+msgstr "_Berre tekst"
 
 #: ../ui/evolution.xml.h:55
 msgid "_Window"
@@ -21695,27 +21777,25 @@ msgid "C_urrent View"
 msgstr "_Noverande framsyning"
 
 #: ../widgets/menus/gal-view-menus.c:315
-#, fuzzy, c-format
+#, c-format
 msgid "Select View: %s"
-msgstr "Vekesframsyning: %s. %s"
+msgstr "Vel framsyning: %s"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Current view is a customized view"
-msgstr ""
+msgstr "Denne framsyninga er ei sjølvvald framsyning"
 
 #: ../widgets/menus/gal-view-menus.c:364
 msgid "Save Custom View..."
 msgstr "Lagra tilpassa framsyning ..."
 
 #: ../widgets/menus/gal-view-menus.c:369
-#, fuzzy
 msgid "Save current custom view"
-msgstr "Lagra aktiv framsyning"
+msgstr "Lagra aktiv sjølvvald framsyning"
 
 #: ../widgets/menus/gal-view-menus.c:383
-#, fuzzy
 msgid "Create or edit views"
-msgstr "_Lag ei ny framsyning"
+msgstr "Lag eller endra framsyningar"
 
 #: ../widgets/menus/gal-view-new-dialog.c:72
 msgid "Factory"
@@ -21741,13 +21821,13 @@ msgstr "Type framsyning:"
 msgid "Attachment Bar"
 msgstr "Vedleggslinje"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Kan ikkje leggja ved fila «%s»: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Kan ikkje leggja ved fila «%s»: Ikkje ei vanleg fil"
@@ -21852,7 +21932,6 @@ msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Prosentverdien må vera mellom 0 og 100, inklusive"
 
 #: ../widgets/misc/e-charset-picker.c:65
-#, fuzzy
 msgid "Arabic"
 msgstr "Arabisk"
 
@@ -21974,14 +22053,12 @@ msgid "_Today"
 msgstr "_I dag"
 
 #: ../widgets/misc/e-dateedit.c:1655
-#, fuzzy
 msgid "Invalid Date Value"
-msgstr "Ugyldig signatur"
+msgstr "Ugyldig datoverdi"
 
 #: ../widgets/misc/e-dateedit.c:1684
-#, fuzzy
 msgid "Invalid Time Value"
-msgstr "Ugyldig signatur"
+msgstr "Ugyldig tidsverdi"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
@@ -22124,15 +22201,13 @@ msgstr "Kolonnebreidd"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Search"
-msgstr "_Søk"
+msgstr "Søk"
 
 #: ../widgets/misc/e-search-bar.c:349 ../widgets/misc/e-search-bar.c:478
 #: ../widgets/misc/e-search-bar.c:480
-#, fuzzy
 msgid "Click here to change the search type"
-msgstr "Klikk her for å leggja ved ei fil"
+msgstr "Klikk her for å endra søkjetype"
 
 #: ../widgets/misc/e-search-bar.c:610
 msgid "_Search"
@@ -22443,9 +22518,8 @@ msgid "Clear All"
 msgstr "Fjern alt"
 
 #: ../widgets/table/e-table-config.glade.h:4
-#, fuzzy
 msgid "Clear _All"
-msgstr "Fjern alt"
+msgstr "Fjern _alt"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1582
@@ -22465,19 +22539,16 @@ msgid "Move _Up"
 msgstr "Flytt _opp"
 
 #: ../widgets/table/e-table-config.glade.h:12
-#, fuzzy
 msgid "Show _field in View"
-msgstr "Vis felt i framsyning"
+msgstr "Vis _felt i framsyning"
 
 #: ../widgets/table/e-table-config.glade.h:13
-#, fuzzy
 msgid "Show field i_n View"
-msgstr "Vis felt i framsyning"
+msgstr "Vis felt i framsy_ning"
 
 #: ../widgets/table/e-table-config.glade.h:14
-#, fuzzy
 msgid "Show field in _View"
-msgstr "Vis felt i framsyning"
+msgstr "_Vis felt i framsyning"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
@@ -22500,9 +22571,8 @@ msgid "_Group By..."
 msgstr "_Grupper etter..."
 
 #: ../widgets/table/e-table-config.glade.h:22
-#, fuzzy
 msgid "_Show field in View"
-msgstr "Vis felt i framsyning"
+msgstr "Vi_s felt i framsyning"
 
 #: ../widgets/table/e-table-config.glade.h:23
 msgid "_Show these fields in order:"
@@ -22639,75 +22709,61 @@ msgid "Customize Current View"
 msgstr "Tilpass aktiv visning"
 
 #: ../widgets/table/e-table-header-item.c:1472
-#, fuzzy
 msgid "Sort _Ascending"
-msgstr "Sorter stigande"
+msgstr "Sorter _aukande"
 
 #: ../widgets/table/e-table-header-item.c:1473
-#, fuzzy
 msgid "Sort _Descending"
-msgstr "Sorter synkande"
+msgstr "Sorter _minkande"
 
 #: ../widgets/table/e-table-header-item.c:1474
-#, fuzzy
 msgid "_Unsort"
-msgstr "Fjern sortering"
+msgstr "_Fjern sortering"
 
 #: ../widgets/table/e-table-header-item.c:1476
-#, fuzzy
 msgid "Group By This _Field"
-msgstr "Grupper etter dette feltet"
+msgstr "Grupper etter dette _feltet"
 
 #: ../widgets/table/e-table-header-item.c:1477
-#, fuzzy
 msgid "Group By _Box"
-msgstr "Grupper etter boks"
+msgstr "Grupper etter _boks"
 
 #: ../widgets/table/e-table-header-item.c:1479
-#, fuzzy
 msgid "Remove This _Column"
-msgstr "Fjern denne kolonna"
+msgstr "Fjern denne _kolonna"
 
 #: ../widgets/table/e-table-header-item.c:1480
-#, fuzzy
 msgid "Add a C_olumn..."
-msgstr "Legg til kolonne ..."
+msgstr "Legg til k_olonne ..."
 
 #: ../widgets/table/e-table-header-item.c:1482
-#, fuzzy
 msgid "A_lignment"
-msgstr "Justering"
+msgstr "_Justering"
 
 #: ../widgets/table/e-table-header-item.c:1483
-#, fuzzy
 msgid "B_est Fit"
-msgstr "Beste tilpassing"
+msgstr "B_este tilpassing"
 
 #: ../widgets/table/e-table-header-item.c:1484
-#, fuzzy
 msgid "Format Column_s..."
-msgstr "Formater kolonner ..."
+msgstr "Formater _kolonner ..."
 
 #: ../widgets/table/e-table-header-item.c:1486
-#, fuzzy
 msgid "Custo_mize Current View..."
-msgstr "Tilpass gjeldande visning ..."
+msgstr "Til_pass gjeldande framsyning ..."
 
 #: ../widgets/table/e-table-header-item.c:1542
-#, fuzzy
 msgid "_Sort By"
-msgstr "Sorter etter"
+msgstr "_Sorter etter"
 
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
-#, fuzzy
 msgid "_Custom"
-msgstr "Tilpassa"
+msgstr "_Sjølvvald"
 
 #: ../widgets/table/e-table-header-item.c:1893
-#, fuzzy
 msgid "Font Description"
-msgstr "Hendingsskildring"
+msgstr "Skrifttypeskildring"
 
 #: ../widgets/table/e-table-header-item.c:1914
 #: ../widgets/table/e-table-sorter.c:173
@@ -22857,3 +22913,8 @@ msgstr "Inndatametode-kontekst"
 msgid "Handle Popup"
 msgstr "Oppsprett med handtak"
 
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>Vis</b>"
+
+#~ msgid "<b>Server Information</b>"
+#~ msgstr "<b>Tenarinformasjon</b>"
