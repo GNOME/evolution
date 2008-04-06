@@ -1,3 +1,11 @@
+2008-04-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #335891
+
+	* em-composer-prefs.c (em_composer_prefs_construct):
+	Desensitize the signature editing interface if the "signatures"
+	GConf key is not writable.
+
 2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-composer-prefs.c:

@@ -875,6 +875,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	GSList *l;
 	int i;
 	gchar *gladefile;
+	gboolean sensitive;
 
 	bridge = gconf_bridge_get ();
 	client = mail_config_get_gconf_client ();
@@ -1024,25 +1025,45 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	widget = glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature");
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
 
-	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
-	g_signal_connect (prefs->sig_add, "clicked", G_CALLBACK (sig_add_cb), prefs);
+	key = "/apps/evolution/mail/signatures";
+	sensitive = gconf_client_key_is_writable (client, key, NULL);
 
-	prefs->sig_add_script = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAddScript"));
-	g_signal_connect (prefs->sig_add_script, "clicked", G_CALLBACK (sig_add_script_cb), prefs);
+	widget = glade_xml_get_widget (gui, "cmdSignatureAdd");
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (sig_add_cb), prefs);
+	prefs->sig_add = GTK_BUTTON (widget);
 
-	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
-	g_signal_connect (prefs->sig_edit, "clicked", G_CALLBACK (sig_edit_cb), prefs);
+	widget = glade_xml_get_widget (gui, "cmdSignatureAddScript");
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (sig_add_script_cb), prefs);
+	prefs->sig_add_script = GTK_BUTTON (widget);
 
-	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
-	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete_cb), prefs);
+	widget = glade_xml_get_widget (gui, "cmdSignatureEdit");
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (sig_edit_cb), prefs);
+	prefs->sig_edit = GTK_BUTTON (widget);
 
-	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSignatures"));
+	widget = glade_xml_get_widget (gui, "cmdSignatureDelete");
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (sig_delete_cb), prefs);
+	prefs->sig_delete = GTK_BUTTON (widget);
+
+	widget = glade_xml_get_widget (gui, "listSignatures");
+	gtk_widget_set_sensitive (widget, sensitive);
+	prefs->sig_list = GTK_TREE_VIEW (widget);
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	gtk_tree_view_set_model (prefs->sig_list, GTK_TREE_MODEL (store));
-	gtk_tree_view_insert_column_with_attributes (prefs->sig_list, -1, _("Signature(s)"),
-						     gtk_cell_renderer_text_new (),
-						     "text", 0,
-						     NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		prefs->sig_list, -1, _("Signature(s)"),
+		gtk_cell_renderer_text_new (), "text", 0, NULL);
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (
