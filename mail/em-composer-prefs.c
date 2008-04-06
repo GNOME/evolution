@@ -558,12 +558,9 @@ spell_language_toggled_cb (GtkCellRendererToggle *renderer,
                            const gchar *path_string,
                            EMComposerPrefs *prefs)
 {
-	GSList *list = NULL;
-	GConfClient *client;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	const gchar *key;
 	gboolean active;
 	gboolean valid;
 
@@ -578,6 +575,19 @@ spell_language_toggled_cb (GtkCellRendererToggle *renderer,
 	/* Toggle the active state. */
 	gtk_tree_model_get (model, &iter, 0, &active, -1);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, !active, -1);
+}
+
+static void
+spell_language_save (EMComposerPrefs *prefs)
+{
+	GSList *list = NULL;
+	GConfClient *client;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	const gchar *key;
+	gboolean valid;
+
+	model = prefs->language_model;
 
 	/* Build a list of active languages. */
 	valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -661,6 +671,9 @@ spell_setup (EMComposerPrefs *prefs)
 
 		available_languages = available_languages->next;
 	}
+
+	/* Update the GConf list in case we used a default language. */
+	spell_language_save (prefs);
 
 	g_slist_free (active_languages);
 
@@ -944,13 +957,16 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 		"/apps/evolution/mail/composer/charset");
 	g_free (buf);
 
-	/* Spell Checking: GNOME Spell part */
+	/* Spell Checking */
 	widget = glade_xml_get_widget (gui, "colorButtonSpellCheckColor");
 	prefs->color = GTK_COLOR_BUTTON (widget);
 	widget = glade_xml_get_widget (gui, "listSpellCheckLanguage");
 	view = GTK_TREE_VIEW (widget);
 	store = gtk_list_store_new (
 		3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
+	g_signal_connect_swapped (
+		store, "row-changed",
+		G_CALLBACK (spell_language_save), prefs);
 	prefs->language_model = GTK_TREE_MODEL (store);
 	gtk_tree_view_set_model (view, prefs->language_model);
 	renderer = gtk_cell_renderer_toggle_new ();

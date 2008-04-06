@@ -295,7 +295,7 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 {
 	CamelMimeMessage *msg = (CamelMimeMessage *) part;
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	char *name, *buf, *value = NULL, *p;
+	char *name, *buf, *value = NULL;
 	const char *txt, *label;
 	gboolean addrspec = FALSE;
 	int is_html = FALSE;

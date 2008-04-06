@@ -1,5 +1,10 @@
 2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
+	* em-composer-prefs.c:
+	Fix a corner case that I missed in my last commit.
+
+2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #526152, plus some tangential code cleanup.
 
 	* Makefile.am:

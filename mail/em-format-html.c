@@ -1673,7 +1673,7 @@ static void
 efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct _camel_header_raw *header, guint32 flags, const char *charset)
 {
 	EMFormatHTML *efh = (EMFormatHTML *)emf;
-	char *name, *buf, *value = NULL, *p;
+	char *name, *buf, *value = NULL;
 	const char *label, *txt;
 	gboolean addrspec = FALSE;
 	char *str_field = NULL;
