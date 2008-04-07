@@ -1,3 +1,11 @@
+2008-04-07  Ondrej Jirman  <megous@megous.com>
+
+	** Fix for bug #525234
+
+	* gui/Makefile.am:
+	* gui/dialogs/Makefile.am: Install more include files that are useful
+	to the out of tree evolution plugins.
+
 2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/Makefile.am:
