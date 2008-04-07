@@ -875,7 +875,7 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 
 	e_msg_composer_attach (composer, part);
 
-	editor = GTKHTML_EDITOR (editor);
+	editor = GTKHTML_EDITOR (composer);
 	gtkhtml_editor_set_changed (editor, FALSE);
 	gtkhtml_editor_drop_undo (editor);
 
