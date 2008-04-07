@@ -36,6 +36,7 @@
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
 #include "es-menu.h"
+#include "es-event.h"
 
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkhbox.h>
@@ -355,6 +356,15 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 				 NULL);
 
 	g_object_unref (gconf_client);
+
+	/** @Event: Shell component activated or switched to.
+	 * @Id: component.activated
+	 * @Target: ESEventTargetComponent
+	 * 
+	 * This event is emitted whenever the shell successfully activates component
+	 * view.
+	 */
+	e_event_emit ((EEvent *) es_event_peek (), "component.activated", (EEventTarget *) es_event_target_new_component (es_event_peek (), component_view->component_id));
 
 	g_signal_emit (window, signals[COMPONENT_CHANGED], 0);
 }

@@ -41,7 +41,8 @@ typedef struct _ESEventClass ESEventClass;
 enum _es_event_target_t {
 	ES_EVENT_TARGET_STATE,
 	ES_EVENT_TARGET_UPGRADE,
-	ES_EVENT_TARGET_SHELL
+	ES_EVENT_TARGET_SHELL,
+	ES_EVENT_TARGET_COMPONENT
 };
 
 /* Flags that qualify TARGET_STATE */
@@ -53,6 +54,7 @@ enum {
 typedef struct _ESEventTargetState ESEventTargetState;
 typedef struct _ESEventTargetUpgrade ESEventTargetUpgrade;
 typedef struct _ESEventTargetShell ESEventTargetShell;
+typedef struct _ESEventTargetComponent ESEventTargetComponent;
 
 struct _ESEventTargetShell {
 	EEventTarget target;
@@ -72,6 +74,12 @@ struct _ESEventTargetUpgrade {
 	int major;
 	int minor;
 	int revision;
+};
+
+struct _ESEventTargetComponent {
+	EEventTarget target;
+
+	const char *id;
 };
 
 typedef struct _EEventItem ESEventItem;
@@ -94,6 +102,7 @@ ESEvent *es_event_peek(void);
 ESEventTargetState *es_event_target_new_state(ESEvent *emp, int state);
 ESEventTargetShell *es_event_target_new_shell(ESEvent *eme, struct _EShell *shell);
 ESEventTargetUpgrade *es_event_target_new_upgrade(ESEvent *emp, int major, int minor, int revision);
+ESEventTargetComponent *es_event_target_new_component(ESEvent *eme, const char *id);
 
 /* ********************************************************************** */
 

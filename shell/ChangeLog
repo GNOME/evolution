@@ -1,3 +1,14 @@
+2008-04-07  Ondrej Jirman  <megous@megous.com>
+
+	** Fix for bug #525238
+
+	* e-shell-window.c: (switch_view):
+	* es-event.c:
+	* es-event.h:
+	Add new "component.activated" event. Event is emitted whenever
+	component is activated. ESEventTargetComponent contains an id
+	of the component being activated.
+
 2008-03-25  Veerapuram Varadhan  <vvaradhan@novell.com>
 
 	** Added configurable Proxy settings for Evolution.
