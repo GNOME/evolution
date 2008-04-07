@@ -1,3 +1,12 @@
+2008-04-07  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	reviewed by: Milan Crha
+
+	** Fix for bug #408579
+
+	* e-util/e-system.error.xml:
+	  Changed '&quot;' to '\"' to work with intltool.
+
 2008-03-20  Sankar P  <psankar@novell.com>
 
 	* e-plugin.c: (ep_load):
