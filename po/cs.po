@@ -1,5 +1,5 @@
 # Czech translation of evolution.
-# Copyright (C) 2002, 2003, 2006, 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2006, 2007, 2008 the authors of evolution.
 # Copyright (C) 2004, 2005, 2006 Miloslav Trmac <mitr@volny.cz>.
 # Copyright (C) 2006 Lukas Novotny <lukasnov@cvs.gnome.org>.
 # This file is distributed under the same license as the evolution package.
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-10 02:24+0100\n"
-"PO-Revision-Date: 2008-03-10 01:12+0100\n"
+"POT-Creation-Date: 2008-04-07 23:06+0200\n"
+"PO-Revision-Date: 2008-04-07 23:02+0100\n"
 "Last-Translator: Petr Kovar <pknbe@volny.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -731,7 +731,7 @@ msgid "Copy _book content locally for offline operation"
 msgstr "_Zkopírovat obsah adresáře lokálně pro práci při odpojení"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -757,7 +757,7 @@ msgid "Authentication"
 msgstr "Autentizace"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Podrobnosti"
@@ -772,7 +772,7 @@ msgid "Downloading"
 msgstr "Stahování"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Vlastnosti adresáře"
 
@@ -978,105 +978,97 @@ msgid "<b>Authentication</b>"
 msgstr "<b>Autentizace</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>Zobrazení</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>Stahování</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>Hledání</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>Informace o serveru</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>Typ:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "Přidat adresář"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Vždy"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "Anonymně"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "Základní"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "Distinguished name"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "E-mailová adresa"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution bude používat tuto e-mailovou adresu k vaší autentizaci u serveru."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "Hledat možné základy vyhledávání"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "_Přihlášení:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Nikdy"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "Bez šifrování"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "Jeden"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "SSL šifrování"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "Filtr hledání"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "Základ _vyhledávání:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "_Filtr hledání:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "Filtr hledání"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1086,7 +1078,7 @@ msgstr ""
 "upravovány, vyhledávání bude prováděno s pomocí výchozí typu objectclass "
 "\"person\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
@@ -1094,7 +1086,7 @@ msgstr ""
 "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, pokud "
 "LDAP server podporuje SSL."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
@@ -1102,7 +1094,7 @@ msgstr ""
 "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, pokud "
 "LDAP server podporuje TLS."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1112,23 +1104,23 @@ msgstr ""
 "že vaše spojení nebude zabezpečené a můžete se stát terčem bezpečnostního "
 "útoku."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "Sub"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "Podporované základy vyhledávání"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "TLS šifrování"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1138,7 +1130,7 @@ msgstr ""
 "hledání. Pokud je ponecháte prázdné, prohledávání začne v kořeni "
 "adresářového stromu."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1150,14 +1142,14 @@ msgstr ""
 "Rozsah vyhledávání \"jeden\" zahrnuje záznamy jednu úroveň pod základem "
 "vyhledávání."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 "Toto je plný název vašeho LDAP serveru. Například  \"ldap.mycompany.com\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1165,7 +1157,7 @@ msgstr ""
 "Toto je maximální počet stahovaných položek. Pokud nastavíte toto číslo "
 "příliš vysoké, zpomalí se váš adresář."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1175,7 +1167,7 @@ msgstr ""
 "že použití volby \"E-mailová adresa\" vyžaduje anonymní přístup k vašemu "
 "serveru ldap."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1183,7 +1175,7 @@ msgstr ""
 "Toto je jméno pro tento server, které se objeví ve vašem seznamu složek "
 "Evolution. Je pouze pro zobrazování. "
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1193,35 +1185,35 @@ msgstr ""
 "standardních portů je předvyplněn. Váš správce systému vám sdělí, které "
 "číslo portu máte zadat."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "Použít distinguished name (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "Použít e-mailovou adresu"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "Kdykoliv je možné"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "_Přidat adresář"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "_Omezení stahování:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "_Hledat možné základy vyhledávání"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "_Metoda přihlašování:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1229,33 +1221,33 @@ msgstr "_Metoda přihlašování:"
 msgid "_Name:"
 msgstr "_Název:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "_Rozsah vyhledávání:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "S_erver:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "Č_asový limit:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "Používat za_bezpečené připojení:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "karty"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -6984,7 +6976,7 @@ msgstr "Nastavit jako _pozadí"
 msgid "_Save Selected"
 msgstr "_Uložit vybrané"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:790
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "Otevřít v %s..."
@@ -10178,39 +10170,39 @@ msgid "Click here to select folders to post to"
 msgstr "Kliknutím sem vyberte složky, kam uložit"
 
 #. Now add the signature stuff.
-#: ../composer/e-msg-composer-hdrs.c:221
+#: ../composer/e-msg-composer-hdrs.c:236
 msgid "Si_gnature:"
 msgstr "_Podpis:"
 
-#: ../composer/e-msg-composer-hdrs.c:326
+#: ../composer/e-msg-composer-hdrs.c:341
 msgid "Fr_om:"
 msgstr "_Od:"
 
-#: ../composer/e-msg-composer-hdrs.c:332
+#: ../composer/e-msg-composer-hdrs.c:347
 msgid "_Reply-To:"
 msgstr "O_dpovědět-komu:"
 
-#: ../composer/e-msg-composer-hdrs.c:335
+#: ../composer/e-msg-composer-hdrs.c:353
 msgid "_To:"
 msgstr "_Komu:"
 
-#: ../composer/e-msg-composer-hdrs.c:337
+#: ../composer/e-msg-composer-hdrs.c:355
 msgid "Enter the recipients of the message"
 msgstr "Vyplnit příjemce zprávy"
 
-#: ../composer/e-msg-composer-hdrs.c:340
+#: ../composer/e-msg-composer-hdrs.c:361
 msgid "_Cc:"
 msgstr "Ko_pie:"
 
-#: ../composer/e-msg-composer-hdrs.c:342
+#: ../composer/e-msg-composer-hdrs.c:363
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Vyplňte adresy, které obdrží kopii této zprávy"
 
-#: ../composer/e-msg-composer-hdrs.c:346
+#: ../composer/e-msg-composer-hdrs.c:370
 msgid "_Bcc:"
 msgstr "_Skrytá kopie:"
 
-#: ../composer/e-msg-composer-hdrs.c:348
+#: ../composer/e-msg-composer-hdrs.c:372
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -10218,11 +10210,11 @@ msgstr ""
 "Vyplňte adresy, které obdrží kopii, aniž by se objevily v seznamu příjemců "
 "zprávy"
 
-#: ../composer/e-msg-composer-hdrs.c:353
+#: ../composer/e-msg-composer-hdrs.c:380
 msgid "_Post To:"
 msgstr "_Uložit do:"
 
-#: ../composer/e-msg-composer-hdrs.c:356
+#: ../composer/e-msg-composer-hdrs.c:386
 msgid "S_ubject:"
 msgstr "_Předmět:"
 
@@ -11387,7 +11379,7 @@ msgstr "Odnastavit stav"
 #. and now for the action area
 #: ../mail/em-filter-rule.c:489
 msgid "Then"
-msgstr "Dále"
+msgstr "Potom"
 
 #: ../mail/em-filter-rule.c:517
 msgid "Add Ac_tion"
@@ -11419,7 +11411,7 @@ msgstr "Nedávné zprávy"
 
 #: ../mail/em-folder-browser.c:226
 msgid "Last 5 Days' Messages"
-msgstr "Zpráva za posledních 5 dní"
+msgstr "Zprávy za posledních 5 dní"
 
 #: ../mail/em-folder-browser.c:227
 msgid "Messages with Attachments"
@@ -11431,7 +11423,7 @@ msgstr "Důležité zprávy"
 
 #: ../mail/em-folder-browser.c:229
 msgid "Messages Not Junk"
-msgstr "Zprávy nejsou nevyžádané"
+msgstr "Zprávy nepatřící mezi nevyžádané"
 
 #: ../mail/em-folder-browser.c:1123
 msgid "Account Search"
@@ -12549,7 +12541,7 @@ msgstr "Kreslit indikaci překlepů ve slovech, když píšete."
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid "Empty Junk folders on exit"
-msgstr "Vyprázdňovat složky Koš při ukončení"
+msgstr "Vyprazdňovat složky typu Koš při ukončení"
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Empty Trash folders on exit"
@@ -12783,19 +12775,19 @@ msgstr "Styl zobrazování zprávy (\"normal\", \"full headers\", \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid "Minimum days between emptying the junk on exit"
-msgstr "Minimum dní mezi vyprázdňováním koše při ukončení"
+msgstr "Minimum dní mezi vyprazdňováním koše při ukončení"
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Minimum dní mezi vyprázdňováním koše při ukončení"
+msgstr "Minimum dní mezi vyprazdňováním koše při ukončení"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "Minimum dní mezi vyprázdňováním koše při ukončení ve dnech."
+msgstr "Minimum dní mezi vyprazdňováním koše při ukončení ve dnech."
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Minimum dní mezi vyprázdňováním koše při ukončení ve dnech."
+msgstr "Minimum dní mezi vyprazdňováním koše při ukončení ve dnech."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -12959,12 +12951,12 @@ msgstr "Výchozí zásuvný modul pro Junk hook"
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "The last time empty junk was run, in days since the epoch."
 msgstr ""
-"Datum, kdy bylo naposledy spuštěno vyprázdňování koše ve dnech od epoch."
+"Datum, kdy bylo naposledy spuštěno vyprazdňování koše ve dnech od epoch."
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr ""
-"Datum, kdy bylo naposledy spuštěno vyprázdňování koše ve dnech od epoch."
+"Datum, kdy bylo naposledy spuštěno vyprazdňování koše ve dnech od epoch."
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "The terminal font for mail display."
@@ -14148,7 +14140,7 @@ msgstr "_Značka:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Zaškrtnutím _tohoto přijmete licenční smlouvu"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "Kontaktuji %s"
@@ -15125,7 +15117,7 @@ msgstr "%d %b %k:%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "Generuji seznam zpráv"
 
@@ -15551,6 +15543,10 @@ msgid "Bogofilter Options"
 msgstr "Možnosti Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Zásuvný modul Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtry nevyžádané pošty používají Bogofilter."
 
@@ -16926,11 +16922,11 @@ msgstr "%sZadejte heslo pro %s (uživatel %s)"
 msgid "_Proxy Login..."
 msgstr "_Přihlásit se k proxy..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr "Záložka Proxy bude dostupná, jen když je účet online."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Záložka Proxy bude dostupná, jen když je účet povolen."
 
@@ -20093,7 +20089,7 @@ msgstr "_Přesunout složku kontaktů do"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:48
 msgid "_New"
-msgstr "_Nový"
+msgstr "_Nová"
 
 #: ../ui/evolution-addressbook.xml.h:60
 msgid "_Rename"
@@ -21939,13 +21935,13 @@ msgstr "Typ zobrazení:"
 msgid "Attachment Bar"
 msgstr "Lišta příloh"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Nemohu přiložit soubor %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Nemohu přiložit soubor %s: není to normální soubor"
