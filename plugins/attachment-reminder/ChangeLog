@@ -1,3 +1,10 @@
+2008-04-07  Ambuj Chitranshi  <ambuj_1075@yahoo.co.in>
+
+	** Fix for bug #484793
+
+	* org-gnome-attachment-reminder.error.xml:
+	String change: "Continue Editing" -> "Edit Message"
+
 2008-02-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* attachment-reminder.c (org_gnome_evolution_attachment_reminder):
