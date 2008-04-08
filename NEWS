@@ -1,4 +1,51 @@
-Evolution 2.21.93 2008-03-10
+Evolution 2.22.1 2008-04-07
+---------------------------
+
+Bug Fixes:
+	#316572: Do not translate unused text (Milan Crha)
+	#460204: Check whether found mime type is valid before returning it (Milan Crha)
+	#501885: Specify locale directory correctly (Frederic Crozat)
+	#507411: sync translations of "Send options" (Andre Klapper)
+	#511950: Do not force button/label sizes (Milan Crha)
+	#511953: Create dialog properly (Milan Crha)
+	#515826: Add line breaks to some strings (Milan Crha)
+	#519292: Remove unused confusing function (Milan Crha)
+	#519304: Mark plugin name for translation (Sankar P)
+	#522178: Check time of new message in the folder based on last time of new mail (Milan Crha)
+	#522631: Make 'e_profile_event_emit' non-static when ENABLE_PROFILING is defined (Alex Rostovtsev)
+	#523271: MIME types should not be case sensitive (Matthew Barnes)
+	#524310: Don't double-free server messages (Dan Williams)
+	#525522: Hook signals to notice changes in headers and subject line (Michel Danzer)
+
+Other Contributors:
+	Updated/added screenshots (Jorge Gonzalez)
+
+Updated Translations:
+	Sergey Mironov (ru)
+	Åsmund Skjæveland (nn)
+	Philipp Kerling (de)
+	Jovan Naumovski (mk)
+	Daniel Nylander (sv)
+	Hendrik Richter (de)
+	Yair Hershkovitz (he)
+	Philip Withnall (en_GB)
+	Simos Xenitellis (el)
+	Ivar Smolin (et)
+	Gil Forcada (ca)
+	Kenneth Nielsen (da)
+	Duarte Loreto (pt)
+	Gintautas Miliauskas (lt)
+	Luca Ferretti (it)
+	Claude Paroz (fr)
+	Vincent van Adrighem (nl)
+	Jorge Gonzalez (es)
+	Kostas Papadimas (el)
+	Ihar Hrachyshka (be)
+	Krishna Babu K (te)
+	Yavor Doganov (bg)
+	Runa Bhattacharjee (bn_IN)
+
+Evolution 2.22.0 2008-03-10
 ----------------------------
 
 Bug Fixes:
