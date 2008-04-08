@@ -523,7 +523,7 @@ static GtkActionEntry entries[] = {
 
 	{ "charset-menu",
 	  NULL,
-	  N_("Ch_aracter Encoding"),
+	  N_("Character _Encoding"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -564,7 +564,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 
 	{ "request-read-receipt",
 	  NULL,
-	  N_("R_equest Read Receipt"),
+	  N_("Re_quest Read Receipt"),
 	  NULL,
 	  N_("Get delivery notification when your message is read"),
 	  NULL,  /* no callback */
