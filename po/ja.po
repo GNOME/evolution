@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-05 00:45+0900\n"
-"PO-Revision-Date: 2008-03-05 00:44+0900\n"
+"POT-Creation-Date: 2008-04-09 07:09+0900\n"
+"PO-Revision-Date: 2008-04-08 21:04+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -719,7 +719,7 @@ msgid "Copy _book content locally for offline operation"
 msgstr "オフライン時に連絡先の内容をローカルへコピーする(_B)"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -745,7 +745,7 @@ msgid "Authentication"
 msgstr "認証"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "詳細"
@@ -760,7 +760,7 @@ msgid "Downloading"
 msgstr "ダウンロード"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "アドレス帳のプロパティ"
 
@@ -964,106 +964,98 @@ msgid "<b>Authentication</b>"
 msgstr "<b>認証</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>表示</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>ダウンロード</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>検索</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>サーバの情報</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>種類:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "アドレス帳の追加"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "常に"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "匿名"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "基本"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "識別名"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "E-メール・アドレス"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution はこの E-メール・アドレスを使ってサーバを利用した認証を行います。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "利用可能な検索ベースを検索します"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "ログイン(_G):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "しない"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "暗号化しない"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "トップ"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "SSL で暗号化する"
 
 # "検索フォルダ"は適訳ではない
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "仮想フォルダ"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "検索ベース(_B):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "検索フィルタ(_F):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "検索フィルタ"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1072,7 +1064,7 @@ msgstr ""
 "検索フィルタとは検索するオブジェクトの種類で検索の対象となるものです (これを"
 "変更しなかった場合、デフォルトの検索フィルタである \"人物\" で検索します)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
@@ -1080,7 +1072,7 @@ msgstr ""
 "このオプションを有効にすると、お使いの LDAP サーバが SSL をサポートしている場"
 "合にのみ、Evolution は LDAP サーバに接続のみ行います。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
@@ -1088,7 +1080,7 @@ msgstr ""
 "このオプションを有効にすると、お使いの LDAP サーバが TLS をサポートしている場"
 "合にのみ、Evolution は LDAP サーバに接続のみ行います。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1098,23 +1090,23 @@ msgstr ""
 "いないということを意味しています。従って、その接続はセキュアには行われず、セ"
 "キュリティ上の穴をついて攻撃される可能性があります。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "サブ"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "サポートする検索ベース"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "TLS で暗号化する"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1123,7 +1115,7 @@ msgstr ""
 "検索ベースとは検索を開始するエントリの識別名 (DN) です。空白のままにすると、"
 "ディレクトリ・ツリーのルートから検索を開始します。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1135,14 +1127,14 @@ msgstr ""
 "まれます。検索範囲 \"レベル１\" には検索ベースの第一レベルのエントリのみ含ま"
 "れます。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 "これはお使いの LDAP サーバのフルパス名です。(例: \"ldap.mycompany.com\")"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1150,7 +1142,7 @@ msgstr ""
 "これはダウンロードするエントリの最大数です。この数を大きくすると、アドレス帳"
 "を開く速度が遅くなります。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1159,7 +1151,7 @@ msgstr ""
 "これは Evolution があなたを認証する際に使用する方法です。\"E-メール・アドレス"
 "\" に対するこの設定には、LDAP サーバへの匿名アクセスが必要となります。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1167,7 +1159,7 @@ msgstr ""
 "これはこのサーバの名前で、Evolution フォルダ一覧の中に表示されます。表示目的"
 "にのみ使用されます。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1177,35 +1169,35 @@ msgstr ""
 "覧が提供されています。特別に指定する必要がある場合は、システム管理者にお尋ね"
 "下さい。"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "使用する識別名 (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "使用する E-メール・アドレス"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "可能ならば"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "アドレス帳の追加(_A)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "ダウンロード制限(_D):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "利用可能な検索ベースを捜す(_F)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "ログイン方式(_L):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1213,33 +1205,33 @@ msgstr "ログイン方式(_L):"
 msgid "_Name:"
 msgstr "名前(_N):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "ポート番号(_P):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "検索範囲(_S):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "サーバ(_S):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "タイムアウト(_T):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "セキュアな接続を利用する(_U):"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "カード"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -6932,7 +6924,7 @@ msgstr "壁紙にセットする(_B)"
 msgid "_Save Selected"
 msgstr "選択したものの保存(_S)"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:790
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "\"%s\" で開く..."
@@ -10119,39 +10111,39 @@ msgid "Click here to select folders to post to"
 msgstr "<ここをクリックして投稿するフォルダを選択して下さい>"
 
 #. Now add the signature stuff.
-#: ../composer/e-msg-composer-hdrs.c:221
+#: ../composer/e-msg-composer-hdrs.c:236
 msgid "Si_gnature:"
 msgstr "署名(_G):"
 
-#: ../composer/e-msg-composer-hdrs.c:326
+#: ../composer/e-msg-composer-hdrs.c:341
 msgid "Fr_om:"
 msgstr "差出人(_O):"
 
-#: ../composer/e-msg-composer-hdrs.c:332
+#: ../composer/e-msg-composer-hdrs.c:347
 msgid "_Reply-To:"
 msgstr "返信先(_R):"
 
-#: ../composer/e-msg-composer-hdrs.c:335
+#: ../composer/e-msg-composer-hdrs.c:353
 msgid "_To:"
 msgstr "宛先(_T):"
 
-#: ../composer/e-msg-composer-hdrs.c:337
+#: ../composer/e-msg-composer-hdrs.c:355
 msgid "Enter the recipients of the message"
 msgstr "メッセージの宛先を入力します"
 
-#: ../composer/e-msg-composer-hdrs.c:340
+#: ../composer/e-msg-composer-hdrs.c:361
 msgid "_Cc:"
 msgstr "Cc(_C):"
 
-#: ../composer/e-msg-composer-hdrs.c:342
+#: ../composer/e-msg-composer-hdrs.c:363
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "メッセージのカーボン・コピー (Cc) を受けとる人のアドレスを入力します"
 
-#: ../composer/e-msg-composer-hdrs.c:346
+#: ../composer/e-msg-composer-hdrs.c:370
 msgid "_Bcc:"
 msgstr "Bcc(_B):"
 
-#: ../composer/e-msg-composer-hdrs.c:348
+#: ../composer/e-msg-composer-hdrs.c:372
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -10159,11 +10151,11 @@ msgstr ""
 "メッセージの宛先には入れずにカーボン・コピー (Bcc) としてメッセージを受け取る"
 "人のアドレスを入力します"
 
-#: ../composer/e-msg-composer-hdrs.c:353
+#: ../composer/e-msg-composer-hdrs.c:380
 msgid "_Post To:"
 msgstr "送信先(_P):"
 
-#: ../composer/e-msg-composer-hdrs.c:356
+#: ../composer/e-msg-composer-hdrs.c:386
 msgid "S_ubject:"
 msgstr "件名(_U):"
 
@@ -14065,7 +14057,7 @@ msgstr "フラグ付き(_F):"
 msgid "_Tick this to accept the license agreement"
 msgstr "ライセンス同意書を受諾する場合はここをチェックする(_T)"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "%s へ ping 中に"
@@ -15045,7 +15037,7 @@ msgstr "%B%e日 %p%l:%M"
 msgid "%b %d %Y"
 msgstr "%Y年%B%e日"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "メッセージ一覧の作成中"
 
@@ -15477,6 +15469,10 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter のオプション"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Bogofilter ジャンク・メールのプラグイン"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Bogofilter を使ってジャンク・メールをフィルタリングします。"
 
@@ -16860,12 +16856,12 @@ msgstr "%s%s (ユーザ %s) のパスワードを入力して下さい"
 msgid "_Proxy Login..."
 msgstr "プロキシへのログイン(_P)..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "この \"プロキシ\" タブはアカウントがオンラインになった時にのみ利用できます。"
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "この \"プロキシ\" タブはアカウントを有効にした時にのみ利用できます。"
 
@@ -21875,13 +21871,13 @@ msgstr "ビューの種類:"
 msgid "Attachment Bar"
 msgstr "添付ファイル・バー"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "ファイル %s を添付できません: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "ファイル %s を添付できません: 通常のファイルではありません"
