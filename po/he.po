@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-19 11:28+0000\n"
+"POT-Creation-Date: 2008-03-27 11:30+0000\n"
 "PO-Revision-Date: 2004-07-25 21:05+0300\n"
 "Last-Translator: Gil Osher <dolfin@rpg.org.il>\n"
 "Language-Team: Hebrew <he@li.org>\n"
@@ -713,7 +713,7 @@ msgid "Copy _book content locally for offline operation"
 msgstr ""
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -739,7 +739,7 @@ msgid "Authentication"
 msgstr "הזדהות"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "פרטים"
@@ -754,7 +754,7 @@ msgid "Downloading"
 msgstr "מוריד"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "מאפייני ספר הכתובות"
 
@@ -948,157 +948,149 @@ msgid "<b>Authentication</b>"
 msgstr "<b>הזדהות</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>תצוגה</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>מוריד</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>מחפש</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>מידע על השרת</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>סוג:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "ספר כתובות חדש"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "תמיד"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "אנונימי"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "בסיסי"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
-msgstr ""
+msgstr "שם מבדיל"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "כתובת דוא\"ל"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr "אבולוציה תשתמש בכתובת דוא\"ל זו להזדהות עם השרת."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "ה_תחבר:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "אף פעם"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "ללא הצפנה"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "אחד"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "הצפנת SSL"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 #, fuzzy
 msgid "Search Filter"
 msgstr "בחר תיקייה"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 #, fuzzy
 msgid "Search _filter:"
 msgstr "בחר תיקייה"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 #, fuzzy
 msgid "Search filter"
 msgstr "בחר תיקייה"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 #, fuzzy
 msgid "Sub"
 msgstr "נושא"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr ""
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "הצפנת TLS"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1106,67 +1098,67 @@ msgid ""
 "one level beneath your base."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "משתמש בכתובת דוא\"ל"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "כאשר אפשר"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "_הוסף ספר כתובות"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "הגבלת הור_דה:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "שיטת ה_תחברות:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1174,33 +1166,33 @@ msgstr "שיטת ה_תחברות:"
 msgid "_Name:"
 msgstr "_שם:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_שער:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_שרת:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr ""
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "השתמש ב_תקשורת מאובטחת:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "כרטיסים"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -1509,7 +1501,7 @@ msgstr "אוסטריה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Azerbaijan"
-msgstr ""
+msgstr "אזרבייג'אן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Bahamas"
@@ -1729,7 +1721,7 @@ msgstr "איי פוקלנד"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
-msgstr ""
+msgstr "איי פארו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
@@ -1789,7 +1781,7 @@ msgstr "גרינלנד"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Grenada"
-msgstr ""
+msgstr "גרנדה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guadeloupe"
@@ -1797,7 +1789,7 @@ msgstr "גוואדלופ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guam"
-msgstr ""
+msgstr "גואם"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Guatemala"
@@ -1817,7 +1809,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Guyana"
-msgstr ""
+msgstr "גויאנה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Haiti"
@@ -1961,7 +1953,7 @@ msgstr "לוקסמבורג"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macao"
-msgstr ""
+msgstr "מקאו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Macedonia"
@@ -1985,7 +1977,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Mali"
-msgstr ""
+msgstr "מאלי"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Malta"
@@ -2045,7 +2037,7 @@ msgstr "מוזמביק"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Myanmar"
-msgstr ""
+msgstr "מיאנמר"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Namibia"
@@ -2125,7 +2117,7 @@ msgstr "פנמה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "פפאו גיניאה החדשה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Paraguay"
@@ -2325,7 +2317,7 @@ msgstr "טונגה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "טרינידד וטובאגו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Tunisia"
@@ -2703,7 +2695,7 @@ msgstr "_סופית:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:1
 msgid "Add IM Account"
-msgstr ""
+msgstr "הוסף חשבון מסרים מידיים"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:2
 msgid "_Account name:"
@@ -2789,7 +2781,7 @@ msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr ""
+msgstr "איש קשר חדש:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
@@ -3390,7 +3382,7 @@ msgstr ""
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Repository offline"
-msgstr ""
+msgstr "המאגר לא מקוון"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
@@ -3472,7 +3464,7 @@ msgstr "התחל במצב לא מקוון"
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:76
 msgid "Invalid server version"
-msgstr ""
+msgstr "גירסץ שרת לא תקינה"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:99
 msgid ""
@@ -3537,29 +3529,29 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:192
 msgid "Error adding list"
-msgstr ""
+msgstr "שגיאה בהוספת רשימה"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:192
 #: ../addressbook/gui/widgets/eab-gui-util.c:670
 msgid "Error adding contact"
-msgstr ""
+msgstr "שגיאה בהוספת איש קשר"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error modifying list"
-msgstr ""
+msgstr "שגיאה בשינוי רשימה"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:203
 msgid "Error modifying contact"
-msgstr ""
+msgstr "שגיאה בשינוי איש קשר"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:215
 msgid "Error removing list"
-msgstr ""
+msgstr "שגיאה בהסרת רשימה"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:215
 #: ../addressbook/gui/widgets/eab-gui-util.c:620
 msgid "Error removing contact"
-msgstr ""
+msgstr "שגיאה בהסרת איש קשר"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:297
 #, c-format
@@ -4399,7 +4391,7 @@ msgstr ""
 
 #: ../calendar/conduits/todo/todo-conduit.c:238
 msgid "Default Priority:"
-msgstr ""
+msgstr "עדיפות ברירת מחדל:"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1100
 #: ../calendar/conduits/todo/todo-conduit.c:1103
@@ -4423,35 +4415,35 @@ msgstr "יומנים"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
+msgstr "Configure your timezone, Calendar and Task List here "
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
-msgstr ""
+msgstr "Evolution Calendar and Tasks"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
-msgstr ""
+msgstr "Evolution Calendar configuration control"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
-msgstr ""
+msgstr "Evolution Calendar scheduling message viewer"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar/Task editor"
-msgstr ""
+msgstr "Evolution Calendar/Task editor"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution's Calendar component"
-msgstr ""
+msgstr "Evolution's Calendar component"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Memos component"
-msgstr ""
+msgstr "Evolution's Memos component"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Tasks component"
-msgstr ""
+msgstr "Evolution's Tasks component"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
@@ -4492,7 +4484,7 @@ msgstr "_משימות"
 
 #: ../calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr ""
+msgstr "Evolution Calendar alarm notification service"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:112
 msgid "minute"
@@ -5433,7 +5425,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:158
 msgid "Attach file(s)"
-msgstr ""
+msgstr "צרף קבצים"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:485
 msgid "Selected Calendars for Alarms"
@@ -5447,6 +5439,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
+"60 דקות\n"
+"30 דקות\n"
+"15 דקות\n"
+"10 דקות\n"
+"05 דקות"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
@@ -5796,7 +5793,7 @@ msgstr "עד "
 #: ../calendar/gui/dialogs/comp-editor.c:209 ../composer/e-msg-composer.c:2850
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "הודעה מצורפת - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:214
@@ -5874,9 +5871,10 @@ msgstr ""
 msgid "Edit Appointment"
 msgstr ""
 
+# c-format
 #: ../calendar/gui/dialogs/comp-editor.c:2195
 #: ../calendar/gui/dialogs/comp-editor.c:2238
-# c-format
+#, c-format
 msgid "Meeting - %s"
 msgstr "ישיבה - %s"
 
@@ -5921,15 +5919,15 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
-msgstr ""
+msgstr "לא ניתן לפתוח את המקור"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:69
 msgid "Could not open destination"
-msgstr ""
+msgstr "לא ניתן לפתוח את היעד"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr ""
+msgstr "היעד הוא לקריאה בלבד"
 
 #: ../calendar/gui/dialogs/delete-comp.c:206
 msgid "_Delete this item from all other recipient's mailboxes?"
@@ -6079,7 +6077,7 @@ msgstr "הוסף_ "
 #: ../calendar/gui/dialogs/event-page.c:2711
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr ""
+msgstr "לא ניתן לפתוח את היומן '%s'."
 
 #: ../calendar/gui/dialogs/event-page.c:2755
 #: ../calendar/gui/dialogs/memo-page.c:990
@@ -6243,7 +6241,7 @@ msgstr "_תיאור:"
 #: ../calendar/gui/dialogs/task-page.c:451
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
-msgstr ""
+msgstr "_קבוצה:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 #, c-format
@@ -6279,7 +6277,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:102
 msgid "All Instances"
-msgstr ""
+msgstr "כל המופעים"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:505
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -6382,7 +6380,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1426
 msgid "occurrences"
-msgstr ""
+msgstr "מופעים"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2167
 #, fuzzy
@@ -6408,7 +6406,7 @@ msgstr "תאריך/שעה"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
-msgstr ""
+msgstr "<b>חריגות</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:3
@@ -6423,7 +6421,7 @@ msgstr "<b>מופעים חוזרים</b>"
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Every"
-msgstr ""
+msgstr "כל"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
@@ -6435,23 +6433,26 @@ msgstr ""
 #. 'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "forever"
-msgstr ""
+msgstr "לנצח"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
-msgstr "חודש(ים)"
+msgstr ""
+"חודש(ים)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
-msgstr "שבוע(ות)"
+msgstr ""
+"שבוע(ות)"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
-msgstr "שנה(ים)"
+msgstr ""
+"שנה(ים)"
 
 #: ../calendar/gui/dialogs/task-details-page.c:410
 #: ../calendar/gui/dialogs/task-details-page.c:430
@@ -6672,7 +6673,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3328
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "לחץ כדי לפתוח את %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:160
 #: ../calendar/gui/e-cal-component-preview.c:160 ../filter/filter-rule.c:805
@@ -6981,7 +6982,7 @@ msgstr "הסתיים"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
-msgstr ""
+msgstr "תאריך סיום"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
@@ -7042,11 +7043,11 @@ msgstr "ה_דפס..."
 
 #: ../calendar/gui/e-calendar-view.c:1695
 msgid "Cop_y to Calendar..."
-msgstr ""
+msgstr "הע_תק ליומן..."
 
 #: ../calendar/gui/e-calendar-view.c:1696
 msgid "Mo_ve to Calendar..."
-msgstr ""
+msgstr "ה_עבר ליומן..."
 
 #: ../calendar/gui/e-calendar-view.c:1697
 #, fuzzy
@@ -7081,7 +7082,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1708
 msgid "Delete _All Occurrences"
-msgstr ""
+msgstr "מחק את _כל המופעים"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-view.c:2208
@@ -7534,7 +7535,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2088 ../calendar/gui/e-itip-control.c:2145
 msgid "Item sent!\n"
-msgstr ""
+msgstr "הפריט נשלח!\n"
 
 #: ../calendar/gui/e-itip-control.c:2094 ../calendar/gui/e-itip-control.c:2153
 msgid "The item could not be sent!\n"
@@ -7542,7 +7543,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2233
 msgid "Choose an action:"
-msgstr ""
+msgstr "בחר פעולה:"
 
 #: ../calendar/gui/e-itip-control.c:2304
 msgid "Update"
@@ -7634,19 +7635,19 @@ msgstr ""
 #: ../calendar/gui/e-meeting-store.c:91 ../calendar/gui/e-meeting-store.c:108
 #: ../calendar/gui/print.c:966 ../widgets/table/e-table-config.glade.h:7
 msgid "Group"
-msgstr ""
+msgstr "קבוצה"
 
 #: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:93 ../calendar/gui/e-meeting-store.c:110
 #: ../calendar/gui/print.c:967
 msgid "Resource"
-msgstr ""
+msgstr "משאב"
 
 #: ../calendar/gui/e-meeting-list-view.c:168
 #: ../calendar/gui/e-meeting-store.c:95 ../calendar/gui/e-meeting-store.c:112
 #: ../calendar/gui/print.c:968
 msgid "Room"
-msgstr ""
+msgstr "חדר"
 
 #: ../calendar/gui/e-meeting-list-view.c:179
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:141
@@ -7974,7 +7975,7 @@ msgstr "ספטמבר"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr ""
+msgstr "בחר את _היום"
 
 #: ../calendar/gui/itip-utils.c:449 ../calendar/gui/itip-utils.c:498
 #: ../calendar/gui/itip-utils.c:604
@@ -8012,11 +8013,11 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:755
 msgid "Refresh"
-msgstr ""
+msgstr "רענן"
 
 #: ../calendar/gui/itip-utils.c:759
 msgid "Counter-proposal"
-msgstr ""
+msgstr "הצעה נגדית"
 
 #: ../calendar/gui/itip-utils.c:831
 #, c-format
@@ -8424,7 +8425,7 @@ msgstr ""
 
 #: ../calendar/gui/tasks-control.c:458 ../mail/em-folder-view.c:1132
 msgid "Do not ask me again."
-msgstr ""
+msgstr "אל תשאל אותי שוב."
 
 #: ../calendar/gui/tasks-control.c:495 ../calendar/gui/tasks-control.c:511
 msgid "Print Tasks"
@@ -8711,7 +8712,7 @@ msgstr ""
 
 #: ../calendar/zones.h:66
 msgid "America/Barbados"
-msgstr ""
+msgstr "אמריקה/ברבדוס"
 
 #: ../calendar/zones.h:67
 msgid "America/Belem"
@@ -8791,11 +8792,11 @@ msgstr ""
 
 #: ../calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "אמריקה/דוסון"
 
 #: ../calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "אמריקה/דוסון_קריק"
 
 #: ../calendar/zones.h:88
 msgid "America/Denver"
@@ -9268,7 +9269,7 @@ msgstr ""
 
 #: ../calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "אסיה/קולומבו"
 
 #: ../calendar/zones.h:206
 msgid "Asia/Damascus"
@@ -10507,7 +10508,7 @@ msgstr "בחר קובץ"
 #: ../filter/filter-part.c:533
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: ../filter/filter-rule.c:800
 msgid "R_ule name:"
@@ -10690,44 +10691,45 @@ msgstr "שם החוק"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "העדפות מחבר הדואר"
+msgstr "Composer Preferences"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
+"Configure mail preferences, including security and message display, here"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Configure spell-checking, signatures, and the message composer here"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr ""
+msgstr "Configure your email accounts here"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
-msgstr "דואר Evolution"
+msgstr "Evolution Mail"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
-msgstr ""
+msgstr "Evolution Mail accounts configuration control"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
-msgstr "רכיב דואר Evolution"
+msgstr "Evolution Mail component"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail composer"
-msgstr ""
+msgstr "Evolution Mail composer"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer configuration control"
-msgstr ""
+msgstr "Evolution Mail composer configuration control"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail preferences control"
-msgstr ""
+msgstr "Evolution Mail preferences control"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:611
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/pine-importer.c:382
@@ -10907,7 +10909,7 @@ msgstr "תצריפים"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr "BCC"
+msgstr "‏BCC"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -10915,7 +10917,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr "CC"
+msgstr "‏CC"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
@@ -11479,7 +11481,7 @@ msgstr "_בטל מחיקה"
 
 #: ../mail/em-folder-view.c:1348
 msgid "_Move to Folder..."
-msgstr ""
+msgstr "הע_בר לתיקייה..."
 
 #: ../mail/em-folder-view.c:1349
 msgid "_Copy to Folder..."
@@ -11760,7 +11762,7 @@ msgstr "עד %B %d, %Y, %l:%M %p"
 
 #: ../mail/em-format-html-display.c:1512
 msgid "_View Inline"
-msgstr ""
+msgstr "_תצוגה פנימית"
 
 #: ../mail/em-format-html-display.c:1513
 msgid "_Hide"
@@ -12982,7 +12984,7 @@ msgstr "יבא _קובץ יחיד"
 
 #: ../mail/importers/evolution-mbox-importer.c:83
 msgid "Destination folder:"
-msgstr ""
+msgstr "תיקיית יעד:"
 
 #: ../mail/importers/evolution-mbox-importer.c:86
 msgid "Select folder to import into"
@@ -12998,17 +13000,17 @@ msgstr ""
 
 #: ../mail/importers/mail-importer.c:148
 msgid "Importing mailbox"
-msgstr ""
+msgstr "מייבא תיבת דואר"
 
 #: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:518
 #, c-format
 msgid "Importing `%s'"
-msgstr ""
+msgstr "מייבא `%s'"
 
 #: ../mail/importers/mail-importer.c:372
 #, c-format
 msgid "Scanning %s"
-msgstr ""
+msgstr "סורק %s"
 
 #: ../mail/importers/pine-importer.c:229
 msgid "Importing Pine data"
@@ -13233,7 +13235,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">מחק דואר</span>"
 
 #: ../mail/mail-config.glade.h:16
 #, fuzzy
@@ -13247,7 +13249,7 @@ msgstr "<span weight=\"bold\">התרעות</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">טוען תמונות</span>"
 
 #: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Display</span>"
@@ -13425,7 +13427,7 @@ msgstr "_ברירת מחדל"
 
 #: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
-msgstr ""
+msgstr "קידוד _תווים ברירת המחדל:"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
@@ -13520,7 +13522,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:94
 msgid "Inline"
-msgstr ""
+msgstr "פנימי"
 
 #: ../mail/mail-config.glade.h:95
 msgid "Inline original message (Outlook style)"
@@ -13528,7 +13530,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:97
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: ../mail/mail-config.glade.h:98 ../mail/message-list.etspec.h:8
 msgid "Labels"
@@ -13663,7 +13665,7 @@ msgstr "שליחת דואר"
 
 #: ../mail/mail-config.glade.h:133
 msgid "Sent _Messages Folder:"
-msgstr ""
+msgstr "תיקיית הודעת ש_נשלחו:"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
@@ -13762,7 +13764,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:159
 msgid "_Forward style:"
-msgstr ""
+msgstr "_סגנון העברה:"
 
 #: ../mail/mail-config.glade.h:160
 msgid "_Keep Signature above the original message on replying"
@@ -13803,7 +13805,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:170
 msgid "_Script:"
-msgstr ""
+msgstr "_תסריט:"
 
 #: ../mail/mail-config.glade.h:171
 msgid "_Select..."
@@ -13868,7 +13870,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:7
 msgid "All local folders"
-msgstr ""
+msgstr "כל התיקיות המקומיות"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
@@ -14055,7 +14057,7 @@ msgstr ""
 
 #: ../mail/mail-ops.c:1633
 msgid "Local Folders"
-msgstr ""
+msgstr "תיקיות מקומיות"
 
 #: ../mail/mail-ops.c:1714
 #, c-format
@@ -14413,7 +14415,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:44
 msgid "Delete account?"
-msgstr ""
+msgstr "למחוק את החשבון?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
@@ -14547,7 +14549,7 @@ msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
 
 #: ../mail/mail.error.xml.h:75
 msgid "Missing folder."
-msgstr ""
+msgstr "תיקייה חסרה."
 
 #: ../mail/mail.error.xml.h:77
 msgid "No sources selected."
@@ -14627,7 +14629,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:95
 msgid "Synchronize"
-msgstr ""
+msgstr "סנכרן"
 
 #: ../mail/mail.error.xml.h:96
 msgid "Synchronize folders locally for offline usage?"
@@ -14771,7 +14773,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:136
 msgid "_Discard changes"
-msgstr ""
+msgstr "ה_תעלם משינויים"
 
 #: ../mail/mail.error.xml.h:137
 #, fuzzy
@@ -14982,7 +14984,7 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
 msgid "Keywords"
-msgstr ""
+msgstr "מילות מפתח"
 
 #: ../plugins/attachment-reminder/attachment-reminder.glade.h:1
 #, fuzzy
@@ -15086,7 +15088,7 @@ msgstr "אזהרת Evolution"
 
 #: ../plugins/backup-restore/backup.c:46
 msgid "Restart Evolution"
-msgstr ""
+msgstr "הפעל מחדש את Evolution"
 
 #: ../plugins/backup-restore/backup.c:48
 msgid "With Graphical User Interface"
@@ -15095,7 +15097,7 @@ msgstr ""
 #: ../plugins/backup-restore/backup.c:69
 #: ../plugins/backup-restore/backup.c:110
 msgid "Shutting down Evolution"
-msgstr ""
+msgstr "מכבה את Evolution"
 
 #: ../plugins/backup-restore/backup.c:74
 msgid "Backing Evolution accounts and settings"
@@ -15315,7 +15317,7 @@ msgstr "לוחות שנה"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
 msgid "CalDAV sources"
-msgstr ""
+msgstr "מקורות CalDAV"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 #, fuzzy
@@ -15431,11 +15433,11 @@ msgstr ""
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
-msgstr ""
+msgstr "לקוח דואר ברירת המחדל "
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr ""
+msgstr "הם ברצונך להפוך את Evolution ללקוח דואר ברירת המחדל?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:690
@@ -15512,12 +15514,12 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-account-setup.c:276
 #: ../plugins/exchange-operations/exchange-account-setup.c:281
 msgid "I am out of the office"
-msgstr ""
+msgstr "אני מחוץ למשרד"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:277
 #: ../plugins/exchange-operations/exchange-account-setup.c:280
 msgid "I am in the office"
-msgstr ""
+msgstr "אני במשרד"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:328
@@ -15844,7 +15846,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>מצב::</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:6
 msgid ""
@@ -16014,7 +16016,7 @@ msgstr "מחק"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:15
 msgid "_Sensitivity: "
-msgstr ""
+msgstr "_רגישות:"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:16
 #, fuzzy
@@ -16632,7 +16634,7 @@ msgstr "אין הרשאות"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
-msgstr ""
+msgstr "מתווך"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
@@ -16658,11 +16660,11 @@ msgstr "%s הכנס סיסמה ל%s (משתמש %s("
 msgid "_Proxy Login..."
 msgstr "ה_דפס..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 
@@ -17718,7 +17720,7 @@ msgstr "בחר קובץ"
 
 #: ../plugins/mail-notification/mail-notification.c:646
 msgid "Pl_ay"
-msgstr ""
+msgstr "נ_גן"
 
 #: ../plugins/mail-notification/mail-notification.c:785
 msgid "Notify new messages for _Inbox only"
@@ -17819,11 +17821,11 @@ msgstr "מעביר את ההודעות ל%s"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
 msgid "_Subscribe to list"
-msgstr ""
+msgstr "ה_רשם לרשימה"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
 msgid "_Un-subscribe to list"
-msgstr ""
+msgstr "_בטל רישום לרשימה"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 #, fuzzy
@@ -18952,35 +18954,35 @@ msgstr "אל תציג הודעה זאת שוב."
 
 #: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "Start Evolution activating the specified component"
 
 #: ../shell/main.c:578
 msgid "Start in online mode"
-msgstr "התחל במצב מקוון"
+msgstr "Start in online mode"
 
 #: ../shell/main.c:581
 msgid "Forcibly shut down all Evolution components"
-msgstr ""
+msgstr "Forcibly shut down all Evolution components"
 
 #: ../shell/main.c:585
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "Forcibly re-migrate from Evolution 1.4"
 
 #: ../shell/main.c:588
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "Send the debugging output of all components to a file."
 
 #: ../shell/main.c:590
 msgid "Disable loading of any plugins."
-msgstr ""
+msgstr "Disable loading of any plugins."
 
 #: ../shell/main.c:592
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
+msgstr "Disable preview pane of Mail, Contacts and Tasks."
 
 #: ../shell/main.c:677
 msgid "- The Evolution PIM and Email Client"
-msgstr ""
+msgstr "- The Evolution PIM and Email Client"
 
 #: ../shell/main.c:694
 #, c-format
@@ -18988,6 +18990,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online and --offline cannot be used together.\n"
+"  Use %s --help for more information.\n"
 
 #: ../shell/shell.error.xml.h:1
 #, fuzzy
@@ -22817,6 +22821,12 @@ msgstr ""
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>תצוגה</b>"
+
+#~ msgid "<b>Server Information</b>"
+#~ msgstr "<b>מידע על השרת</b>"
 
 #, fuzzy
 #~ msgid "Select Drafts Folder"
