@@ -120,10 +120,9 @@ struct _EMsgComposerPrivate {
 	guint32 attachment_bar_visible : 1;
 	guint32 is_alternative         : 1;
 	guint32 autosaved              : 1;
-
 	guint32 mode_post              : 1;
-
 	guint32 in_signature_insert    : 1;
+	guint32 application_exiting    : 1;
 
 	CamelMimeMessage *redirect;
 

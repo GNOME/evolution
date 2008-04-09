@@ -459,7 +459,6 @@ struct _save_draft_info {
 	struct emcs_t *emcs;
 	EMsgComposer *composer;
 	CamelMessageInfo *info;
-	int quit;
 };
 
 static void
@@ -511,7 +510,10 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		emcs->drafts_uid = g_strdup (appended_uid);
 	}
 
-	if (sdi->quit)
+	/* This is kind of a hack, but the composer's CLOSE action
+	 * hides the window before emitting the "save-draft" signal.
+	 * We use that to determine whether to destroy the composer. */
+	if (!GTK_WIDGET_VISIBLE (sdi->composer))
 		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
 
  done:
@@ -534,7 +536,7 @@ save_draft_folder (char *uri, CamelFolder *folder, gpointer data)
 }
 
 void
-em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
+em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 {
 	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
 	CamelFolder *drafts_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
@@ -559,7 +561,6 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 	sdi->emcs = user_data;
 	if (sdi->emcs)
 		emcs_ref(sdi->emcs);
-	sdi->quit = quit;
 
 	if (account && account->drafts_folder_uri &&
 	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {

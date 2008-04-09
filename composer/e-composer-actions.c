@@ -119,19 +119,21 @@ action_close_cb (GtkAction *action,
 {
 	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
+	GtkWidget *widget;
 	const gchar *subject;
 	gint response;
 
 	editor = GTKHTML_EDITOR (composer);
+	widget = GTK_WIDGET (composer);
 
 	if (!gtkhtml_editor_get_changed (editor) &&
 		e_composer_autosave_get_saved (composer)) {
 
-		gtk_widget_destroy (GTK_WIDGET (composer));
+		gtk_widget_destroy (widget);
 		return;
 	}
 
-	gdk_window_raise (GTK_WIDGET (composer)->window);
+	gdk_window_raise (widget->window);
 
 	table = e_msg_composer_get_header_table (composer);
 	subject = e_composer_header_table_get_subject (table);
@@ -146,11 +148,12 @@ action_close_cb (GtkAction *action,
 
 	switch (response) {
 		case GTK_RESPONSE_YES:
+			gtk_widget_hide (widget);
 			gtk_action_activate (ACTION (SAVE_DRAFT));
 			break;
 
 		case GTK_RESPONSE_NO:
-			gtk_widget_destroy (GTK_WIDGET (composer));
+			gtk_widget_destroy (widget);
 			break;
 
 		case GTK_RESPONSE_CANCEL:

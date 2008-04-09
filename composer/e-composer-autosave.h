@@ -28,7 +28,8 @@ G_BEGIN_DECLS
 GList *		e_composer_autosave_find_orphans (GError **error);
 
 void		e_composer_autosave_register	 (EMsgComposer *composer);
-void		e_composer_autosave_unregister	 (EMsgComposer *composer);
+void		e_composer_autosave_unregister	 (EMsgComposer *composer,
+						  gboolean delete_file);
 gboolean	e_composer_autosave_snapshot	 (EMsgComposer *composer);
 gint		e_composer_autosave_get_fd	 (EMsgComposer *composer);
 const gchar *	e_composer_autosave_get_filename (EMsgComposer *composer);

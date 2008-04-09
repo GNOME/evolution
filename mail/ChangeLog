@@ -1,3 +1,15 @@
+2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #523413
+
+	* em-composer-utils.c (save_draft_done):
+	Check the composer window's visibility to determine whether to
+	destroy the window.  See the corresponding composer/ChangeLog
+	entry to get the full story.
+
+	* em-composer-utils.c (em_utils_composer_save_draft_cb):
+	Remove the 'quit' parameter.
+
 2008-04-07  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	reviewed by: Milan Crha

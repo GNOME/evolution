@@ -230,9 +230,12 @@ e_composer_autosave_register (EMsgComposer *composer)
 }
 
 void
-e_composer_autosave_unregister (EMsgComposer *composer)
+e_composer_autosave_unregister (EMsgComposer *composer,
+                                gboolean delete_file)
 {
 	AutosaveState *state;
+	GtkWindow *parent;
+	gboolean delete_autosave_file = FALSE;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -240,11 +243,10 @@ e_composer_autosave_unregister (EMsgComposer *composer)
 	if (state == NULL || state->filename == NULL)
 		return;
 
-	if (e_composer_autosave_snapshot (composer)) {
-		close (state->fd);
+	close (state->fd);
+
+	if (delete_file)
 		g_unlink (state->filename);
-	} else
-		close (state->fd);
 
 	g_object_set_data (G_OBJECT (composer), "autosave", NULL);
 }

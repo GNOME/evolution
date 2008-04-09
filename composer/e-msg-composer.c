@@ -2150,8 +2150,15 @@ static void
 msg_composer_dispose (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
+	gboolean delete_file;
 
-	e_composer_autosave_unregister (composer);
+	/* If the application is exiting, keep the autosave file so we can
+	 * restore it later.  Otherwise we're just closing this composer
+	 * window, and the CLOSE action has already handled any unsaved
+	 * changes, so we can safely delete the autosave file. */
+	delete_file = !composer->priv->application_exiting;
+	e_composer_autosave_unregister (composer, delete_file);
+
 	e_composer_private_dispose (composer);
 
 	/* Chain up to parent's dispose() method. */
@@ -2709,9 +2716,8 @@ msg_composer_class_init (EMsgComposerClass *class)
 		E_TYPE_MSG_COMPOSER,
 		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
-		g_cclosure_marshal_VOID__BOOLEAN,
-		G_TYPE_NONE, 1,
-		G_TYPE_BOOLEAN);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -3744,7 +3750,7 @@ e_msg_composer_save_draft (EMsgComposer *composer)
 
 	editor = GTKHTML_EDITOR (composer);
 
-	g_signal_emit (composer, signals[SAVE_DRAFT], 0, FALSE);
+	g_signal_emit (composer, signals[SAVE_DRAFT], 0);
 
 	/* XXX This should be elsewhere. */
 	gtkhtml_editor_set_changed (editor, FALSE);
@@ -4601,7 +4607,21 @@ e_msg_composer_request_close_all (void)
 
 	for (iter = all_composers; iter != NULL; iter = next) {
 		EMsgComposer *composer = iter->data;
+
+		/* The CLOSE action will delete this list node,
+		 * so grab the next one while we still can. */
 		next = iter->next;
+
+		/* Try to autosave before closing.  If it fails for
+		 * some reason, the CLOSE action will still detect
+		 * unsaved changes and prompt the user. 
+		 *
+		 * FIXME If it /does/ prompt the user, the Cancel
+		 *       button will act the same as Discard Changes,
+		 *       which is misleading.
+		 */
+		composer->priv->application_exiting = TRUE;
+		e_composer_autosave_snapshot (composer);
 		gtk_action_activate (ACTION (CLOSE));
 	}
 

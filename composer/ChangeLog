@@ -1,5 +1,36 @@
 2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #523413
+
+	* e-msg-composer.c (msg_composer_dispose):
+	Use the 'application_exiting' private flag to determine whether
+	to tell e_composer_autosave_unregister() to delete the autosave
+	file.
+
+	* e-msg-composer.c (msg_composer_class_init),
+	(e_msg_composer_save_draft):
+	Remove the 'quit' parameter from the 'save-draft' signal.
+
+	* e-msg-composer.c (e_msg_composer_request_close_all):
+	Take an autosave snapshot before activating the CLOSE action,
+	and set the private 'application_exiting' flag.  This should
+	avoid prompting the user before shutting down.
+
+	* e-composer-actions.c (action_close_cb):
+	When electing to save a message before closing, hide the window
+	immediately.  The callback function can then check the window's
+	visibility after the save is complete to know whether to destroy
+	the window.
+
+	* e-composer-autosave.c (e_composer_autosave_unregister):
+	Add a 'delete_file' boolean parameter to determine whether to
+	delete the autosave file.
+
+	* e-composer-private.h:
+	Add an 'application_exiting' flag.
+
+2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #525966
 
 	* e-composer-actions.c (action_close_cb):
