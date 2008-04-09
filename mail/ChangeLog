@@ -1,3 +1,10 @@
+2008-04-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-config.glade:
+	Loaded this file into Glade 3.5 and saved it.  Doing so appears
+	to have fixed whatever corruption was causing previous Glade 3
+	releases to choke on it.
+
 2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #523413
