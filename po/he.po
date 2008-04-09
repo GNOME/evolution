@@ -3115,7 +3115,7 @@ msgstr "בן זוג"
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
@@ -3439,7 +3439,8 @@ msgstr "הזדהות נדרשת"
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid "TLS not Available"
-msgstr "TLS לא זמין"
+msgstr ""
+"‏TLS לא זמין"
 
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
@@ -3556,9 +3557,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:305
-#, fuzzy
 msgid "_Don't Display"
-msgstr "תצוגה"
+msgstr "_אל תציג"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:306
 msgid "Display _All Contacts"
@@ -3927,27 +3927,27 @@ msgstr "לא ניתן לפתוח קובץ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 msgid "Couldn't get list of addressbooks"
-msgstr ""
+msgstr "לא ניתן לקבל את רשימת ספרי הכתובות"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:72
 msgid "failed to open book"
-msgstr ""
+msgstr "נכשל בפתיחת ספר"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:49
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "Specify the output file instead of standard output"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:50
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "OUTPUTFILE"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
 msgid "List local addressbook folders"
-msgstr ""
+msgstr "List local addressbook folders"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Show cards as vcard or csv file"
-msgstr ""
+msgstr "Show cards as vcard or csv file"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:57
 msgid "[vcard|csv]"
@@ -3955,17 +3955,19 @@ msgstr "[vcard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "Export in asynchronous mode"
-msgstr ""
+msgstr "Export in asynchronous mode"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
+"The number of cards in one output file in asynchronous mode, default size "
+"100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:65
 msgid "NUMBER"
-msgstr "מספר"
+msgstr "NUMBER"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:102
 msgid ""
@@ -3975,19 +3977,19 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:116
 msgid "Only support csv or vcard format."
-msgstr ""
+msgstr "Only support csv or vcard format."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:125
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "In async mode, output must be file."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:133
 msgid "In normal mode, there is no need for the size option."
-msgstr ""
+msgstr "In normal mode, there is no need for the size option."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:164
 msgid "Unhandled error"
-msgstr "שגיאה שלא טופלה"
+msgstr "Unhandled error"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
@@ -5306,7 +5308,7 @@ msgstr "הוסף התרעה"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
-msgstr ""
+msgstr "הודעה _מותאמת אישית"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
@@ -5549,7 +5551,7 @@ msgstr "ה_צג תזכורת"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "הצג את _מספרי השבועות בנווט התאריך"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1100
@@ -5720,9 +5722,8 @@ msgid "This task has been deleted."
 msgstr ""
 
 #: ../calendar/gui/dialogs/changed-comp.c:68
-#, fuzzy
 msgid "This memo has been deleted."
-msgstr "לא נבחר שרת"
+msgstr "תזכורת זו נימחקה."
 
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
@@ -5793,8 +5794,8 @@ msgstr "הודעה מצורפת - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "הודעה מצורפת"
+msgstr[1] "%d הודעות מצורפות"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3101
 #: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
@@ -6688,7 +6689,7 @@ msgstr "תיאור:"
 #: ../calendar/gui/e-cal-component-memo-preview.c:261
 #: ../calendar/gui/e-cal-component-preview.c:307
 msgid "Web Page:"
-msgstr ""
+msgstr "אתר אינטרנט:"
 
 #: ../calendar/gui/e-cal-component-preview.c:193
 #: ../calendar/gui/e-itip-control.c:1145
@@ -6813,7 +6814,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-popup.c:225 ../mail/em-popup.c:454
 #, c-format
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "תמונה_ללא_שם.%s"
 
 #: ../calendar/gui/e-cal-popup.c:279 ../calendar/gui/e-calendar-table.c:1367
 #: ../calendar/gui/e-calendar-view.c:1684 ../calendar/gui/e-memo-table.c:926
@@ -6903,7 +6904,7 @@ msgstr "משימה _חדשה"
 
 #: ../calendar/gui/e-calendar-table.c:1366 ../calendar/gui/e-memo-table.c:925
 msgid "Open _Web Page"
-msgstr ""
+msgstr "פתח אתר _אינטרנט"
 
 #: ../calendar/gui/e-calendar-table.c:1368
 #: ../calendar/gui/e-calendar-view.c:1669 ../calendar/gui/e-memo-table.c:927
@@ -7260,12 +7261,12 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:986 ../calendar/gui/e-itip-control.c:1043
 msgid "iCalendar Information"
-msgstr ""
+msgstr "מידע iCalendar"
 
 #. Title
 #: ../calendar/gui/e-itip-control.c:1003
 msgid "iCalendar Error"
-msgstr ""
+msgstr "שגיאת iCalendar"
 
 #: ../calendar/gui/e-itip-control.c:1075 ../calendar/gui/e-itip-control.c:1091
 #: ../calendar/gui/e-itip-control.c:1102 ../calendar/gui/e-itip-control.c:1119
@@ -7738,7 +7739,7 @@ msgstr "_אפשרויות"
 
 #: ../calendar/gui/e-meeting-time-sel.c:468
 msgid "Show _only working hours"
-msgstr ""
+msgstr "הצג _שעות עבודה בלבד"
 
 #: ../calendar/gui/e-meeting-time-sel.c:478
 msgid "Show _zoomed out"
@@ -11356,7 +11357,7 @@ msgstr "הע_בר אל תיקייה"
 #: ../mail/em-folder-tree.c:1704 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "סורק תיקיות ב-\"%s\""
+msgstr ""
 
 #: ../mail/em-folder-tree.c:2077 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
@@ -15174,8 +15175,9 @@ msgid "Backup and restore Evolution data and settings"
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
+#, fuzzy
 msgid "R_estore Settings..."
-msgstr "הגדרות _שיחזור..."
+msgstr "הגדרות מחשב כף יד..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
@@ -16221,7 +16223,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:65
 msgid "Try again with a different password."
-msgstr "נסה שוב עם סיסמה שונה."
+msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:66
 msgid "Unable to add user to access control list:"
@@ -16341,8 +16343,9 @@ msgid "PNG files"
 msgstr "קבצי PNG"
 
 #: ../plugins/face/org-gnome-face-ui.xml.h:1
+#, fuzzy
 msgid "_Face"
-msgstr "_פנים"
+msgstr "צרפת"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid ""
@@ -16703,16 +16706,18 @@ msgid "Hula Account Setup"
 msgstr ""
 
 #: ../plugins/imap-features/imap-headers.c:322
+#, fuzzy
 msgid "Custom Headers"
-msgstr "כותרות מותאמות"
+msgstr "כותרות"
 
 #: ../plugins/imap-features/imap-headers.c:335
 msgid "IMAP Headers"
 msgstr "כותרות IMAP"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
+#, fuzzy
 msgid "<b>Custom Headers</b>"
-msgstr "<b>כותרות מותאמות</b>"
+msgstr "<b>מוזמנים</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
 msgid "<b>IMAP Headers</b>"
@@ -17438,13 +17443,15 @@ msgstr "_עדכן"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:1012
+#, fuzzy
 msgid "Start time:"
-msgstr "שעת התחלה:"
+msgstr "מתחיל:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:1021
+#, fuzzy
 msgid "End time:"
-msgstr "שעת סיום:"
+msgstr "כל פעם"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:1037
@@ -17635,16 +17642,18 @@ msgid "_Beep"
 msgstr "עזר_ה"
 
 #: ../plugins/mail-notification/mail-notification.c:633
+#, fuzzy
 msgid "Play _sound file"
-msgstr "נגן קובץ _שמע"
+msgstr "בחר קובץ"
 
 #: ../plugins/mail-notification/mail-notification.c:644
 msgid "Specify _filename:"
 msgstr "ציין _שם קובץ:"
 
 #: ../plugins/mail-notification/mail-notification.c:645
+#, fuzzy
 msgid "Select sound file"
-msgstr "בחר קובץ שמע"
+msgstr "בחר קובץ"
 
 #: ../plugins/mail-notification/mail-notification.c:646
 msgid "Pl_ay"
@@ -18096,12 +18105,12 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
-"‏SSH\n"
-"‏FTP ציבורי\n"
-"‏FTP (עם כניסה)\n"
+"SSH\n"
+"FTP ציבורי\n"
+"FTP (עם כניסה)\n"
 "שיתוף Windows\n"
-"‏WebDAV (HTTP)\n"
-"‏WebDAV מאובטח (HTTP)\n"
+"WebDAV (HTTP)\n"
+"WebDAV מאובטח (HTTP)\n"
 "מיקום מותאם"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
@@ -18419,19 +18428,19 @@ msgstr "ללא תצריף"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr "Evolution Shell"
+msgstr ""
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 msgid "Evolution Shell Config factory"
-msgstr "Evolution Shell Config factory"
+msgstr ""
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
-msgstr "Evolution Test"
+msgstr ""
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr "Evolution Test component"
+msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "A string description of the current printer settings."
@@ -18849,8 +18858,9 @@ msgid "Do not tell me again"
 msgstr "אל תודיע לי שוב"
 
 #: ../shell/main.c:314
+#, fuzzy
 msgid "Evolution Crash Detection"
-msgstr "גילוי קריסת Evolution"
+msgstr "תקלת Evolution"
 
 #: ../shell/main.c:316
 msgid "Ig_nore"
@@ -19071,7 +19081,7 @@ msgstr "מספר סידורי"
 
 #: ../smime/gui/certificate-manager.c:297
 msgid "Expires"
-msgstr "תוקף"
+msgstr ""
 
 #: ../smime/gui/certificate-manager.c:389
 msgid "All email certificate files"
@@ -19107,8 +19117,6 @@ msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
-"הונפק עבור:\n"
-"  נושא: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:122
 #, c-format
@@ -19116,12 +19124,10 @@ msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
-"הונפק על ידי:\n"
-"  נושא: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:174
 msgid "Select certificate"
-msgstr "בחר תעודה"
+msgstr "cjr ,gusv"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
@@ -19129,7 +19135,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
-msgstr "<b>שדות תעודה</b>"
+msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
@@ -19137,15 +19143,15 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
-msgstr "<b>ערך שדה</b>"
+msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:5
 msgid "<b>Fingerprints</b>"
-msgstr "<b>טביעות אצבע</b>"
+msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:6
 msgid "<b>Issued By</b>"
-msgstr "<b>הונפק על ידי</b>"
+msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
@@ -19314,11 +19320,11 @@ msgstr "%d/%m/%Y"
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:425
 msgid "Sign"
-msgstr "חתום"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:426
 msgid "Encrypt"
-msgstr "הצפן"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:531
 msgid "Version"
@@ -19339,22 +19345,18 @@ msgstr "גירסה 3"
 #: ../smime/lib/e-cert.c:634
 msgid "PKCS #1 MD2 With RSA Encryption"
 msgstr ""
-"‏PKCS #1 MD2 עם הצפנת  RSA"
 
 #: ../smime/lib/e-cert.c:637
 msgid "PKCS #1 MD5 With RSA Encryption"
 msgstr ""
-"‏PKCS #1 MD5 עם הצפנת  RSA"
 
 #: ../smime/lib/e-cert.c:640
 msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr ""
-"‏PKCS #1 SHA-1 עם הצפנת  RSA"
 
 #: ../smime/lib/e-cert.c:667
 msgid "PKCS #1 RSA Encryption"
 msgstr ""
-"‏PKCS #1 עם הצפנת  RSA"
 
 #: ../smime/lib/e-cert.c:670
 msgid "Certificate Key Usage"
@@ -19411,7 +19413,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:867
 msgid "Signing"
-msgstr "חותם"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:871
 msgid "Non-repudiation"
@@ -19439,15 +19441,15 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:939
 msgid "Critical"
-msgstr "קריטי"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:941 ../smime/lib/e-cert.c:944
 msgid "Not Critical"
-msgstr "לא קריטי"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:965
 msgid "Extensions"
-msgstr "הרחבות"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
@@ -19460,7 +19462,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:1101
 msgid "Issuer"
-msgstr "מנפיק"
+msgstr ""
 
 #: ../smime/lib/e-cert.c:1155
 msgid "Issuer Unique ID"
@@ -19508,8 +19510,9 @@ msgid "Change the properties of the selected folder"
 msgstr "שנה את המאפיינים של התיקייה הנבחרת"
 
 #: ../ui/evolution-addressbook.xml.h:4
+#, fuzzy
 msgid "Co_py All Contacts To..."
-msgstr "העתק את כל אנשיה קשר ל..."
+msgstr "העתק אנשי קשר ל"
 
 #: ../ui/evolution-addressbook.xml.h:5
 #, fuzzy
@@ -19534,7 +19537,7 @@ msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "העתק את הבחירה"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
@@ -19553,7 +19556,7 @@ msgstr "גזור"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "גזור את הבחירה"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
@@ -19650,12 +19653,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
-msgstr "שלח הודעה לאיש קשר"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person."
 msgstr ""
-
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
@@ -20483,19 +20485,19 @@ msgstr "העבר"
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "מסנן לפי _רשימת התפוצה..."
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "מסנן לפי ה_שולח..."
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "מסנן לפי ה_מקבלים..."
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "מסנן לפע ה_נושא..."
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
@@ -20715,7 +20717,7 @@ msgstr "ל_א חשוב"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "Zoom _Out"
-msgstr "הת_רחק"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Attached"
@@ -21125,11 +21127,11 @@ msgstr ""
 
 #: ../ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr "הירשם"
+msgstr ""
 
 #: ../ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr "בטל רישום"
+msgstr ""
 
 #: ../ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -21271,7 +21273,7 @@ msgstr "יבא נתונים מתוכניות אחרות"
 
 #: ../ui/evolution.xml.h:17
 msgid "Lay_out"
-msgstr "_פריסה"
+msgstr ""
 
 #: ../ui/evolution.xml.h:19
 msgid "New _Window"
@@ -21311,7 +21313,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:29
 msgid "Show _Status Bar"
-msgstr "הצג _שורת מצב"
+msgstr ""
 
 #: ../ui/evolution.xml.h:30
 msgid "Show _Toolbar"
@@ -21319,7 +21321,7 @@ msgstr "הצג _סרגל כלים"
 
 #: ../ui/evolution.xml.h:31
 msgid "Show information about Evolution"
-msgstr "הצג מידע אודות Evolution"
+msgstr ""
 
 #: ../ui/evolution.xml.h:32
 msgid "Submit Bug Report"
@@ -21348,7 +21350,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:38
 msgid "View/Hide the Status Bar"
-msgstr "הצג/הסתר את שורת המצב"
+msgstr ""
 
 #: ../ui/evolution.xml.h:39
 msgid "_About"
@@ -21400,7 +21402,7 @@ msgstr "_חלון"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr "לפי _חברה"
+msgstr ""
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
@@ -21408,7 +21410,7 @@ msgstr ""
 
 #: ../views/addressbook/galview.xml.h:3 ../views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr "תצוגת _רשימה"
+msgstr ""
 
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
@@ -21556,25 +21558,25 @@ msgstr ""
 #: ../widgets/menus/gal-view-instance.c:582
 #: ../widgets/menus/gal-view-menus.c:354
 msgid "Custom View"
-msgstr "תצוגה מותאמת"
+msgstr ""
 
 #: ../widgets/menus/gal-view-instance.c:583
 msgid "Save Custom View"
-msgstr "שמור תצוגה מותאמת"
+msgstr ""
 
 #: ../widgets/menus/gal-view-instance.c:587
 #: ../widgets/menus/gal-view-menus.c:378
 msgid "Define Views..."
-msgstr "הגדר תצוגות..."
+msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "C_urrent View"
 msgstr "תצוגה _נוכחית"
 
 #: ../widgets/menus/gal-view-menus.c:315
-#, c-format
+#, fuzzy, c-format
 msgid "Select View: %s"
-msgstr "בחר תצוגה: %s"
+msgstr "תצוגת שבוע"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Current view is a customized view"
@@ -21582,15 +21584,17 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:364
 msgid "Save Custom View..."
-msgstr "שמור תצוגה מותאמת..."
+msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:369
+#, fuzzy
 msgid "Save current custom view"
-msgstr "שמור את התצוגה המותאמת הנוכחית"
+msgstr "שמור תצוגה נוכחית"
 
 #: ../widgets/menus/gal-view-menus.c:383
+#, fuzzy
 msgid "Create or edit views"
-msgstr "צור או ערוך תצוגות"
+msgstr "צור פריט מבחן חדש"
 
 #: ../widgets/menus/gal-view-new-dialog.c:72
 msgid "Factory"
@@ -21598,15 +21602,16 @@ msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.c:107
 msgid "Define New View"
-msgstr "הגדר תצוגה חדשה"
+msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:1
 msgid "Name of new view:"
-msgstr "שם התצוגה החדשה:"
+msgstr ""
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:2
+#, fuzzy
 msgid "Type of View"
-msgstr "סוג תצוגה"
+msgstr "תצוגת יום"
 
 #: ../widgets/menus/gal-view-new-dialog.glade.h:3
 msgid "Type of view:"
@@ -21650,8 +21655,9 @@ msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:226
+#, fuzzy
 msgid "Month Calendar"
-msgstr "יומן חודשי"
+msgstr "לוח שנה"
 
 #: ../widgets/misc/e-canvas-background.c:453
 #: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-text.c:3642
@@ -21746,7 +21752,7 @@ msgstr "סינית"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Cyrillic"
-msgstr "קירילית"
+msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:70
 msgid "Greek"
@@ -21815,7 +21821,7 @@ msgstr "קידוד תווים"
 
 #: ../widgets/misc/e-charset-picker.c:238
 msgid "Enter the character set to use"
-msgstr "הכנס את קידוד התווים לשימוש"
+msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:345
 msgid "Other..."
@@ -21860,7 +21866,7 @@ msgstr "חתימה בלתי חוקית"
 
 #: ../widgets/misc/e-expander.c:182
 msgid "Expanded"
-msgstr "מורחב"
+msgstr ""
 
 #: ../widgets/misc/e-expander.c:183
 msgid "Whether or not the expander is expanded"
@@ -22332,7 +22338,7 @@ msgstr "יורד"
 
 #: ../widgets/table/e-table-config.glade.h:8
 msgid "Group Items By"
-msgstr "קבץ פריטים לפי"
+msgstr ""
 
 #: ../widgets/table/e-table-config.glade.h:9
 msgid "Move _Down"
@@ -22343,24 +22349,28 @@ msgid "Move _Up"
 msgstr "הזז ל_מעלה"
 
 #: ../widgets/table/e-table-config.glade.h:12
+#, fuzzy
 msgid "Show _field in View"
-msgstr "הצג _שדה בתצוגה"
+msgstr "הגודל המקורי"
 
 #: ../widgets/table/e-table-config.glade.h:13
+#, fuzzy
 msgid "Show field i_n View"
-msgstr "הצג _שדה בתצוגה"
+msgstr "שדה"
 
 #: ../widgets/table/e-table-config.glade.h:14
+#, fuzzy
 msgid "Show field in _View"
-msgstr "הצג _שדה בתצוגה"
+msgstr "שדה"
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
 msgstr "מיין"
 
 #: ../widgets/table/e-table-config.glade.h:16
+#, fuzzy
 msgid "Sort Items By"
-msgstr "מיין פריטים לפי"
+msgstr "הדפס פריט"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "Then By"
@@ -22540,11 +22550,11 @@ msgstr "ה_עתק..."
 
 #: ../widgets/table/e-table-header-item.c:1479
 msgid "Remove This _Column"
-msgstr "הסר ע_מודה זו"
+msgstr "הסר עמו_דה זאת"
 
 #: ../widgets/table/e-table-header-item.c:1480
 msgid "Add a C_olumn..."
-msgstr "הוסף _עמודה..."
+msgstr "הוסף עמודה..."
 
 #: ../widgets/table/e-table-header-item.c:1482
 #, fuzzy
@@ -22553,12 +22563,11 @@ msgstr "פגישה"
 
 #: ../widgets/table/e-table-header-item.c:1483
 msgid "B_est Fit"
-msgstr "ההתאמה הטובה _ביותר"
+msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1484
-#, fuzzy
 msgid "Format Column_s..."
-msgstr "הוסף _עמודה..."
+msgstr "_תצורת עמודות..."
 
 #: ../widgets/table/e-table-header-item.c:1486
 #, fuzzy
@@ -22673,11 +22682,11 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
 msgid "X Offset"
-msgstr ""
+msgstr "הסט X"
 
 #: ../widgets/text/e-text.c:3635 ../widgets/text/e-text.c:3636
 msgid "Y Offset"
-msgstr ""
+msgstr "הסט Y"
 
 #: ../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
 msgid "Text width"
