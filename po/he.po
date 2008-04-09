@@ -361,12 +361,11 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Address '{0}' already exists."
-msgstr ""
+msgstr "הכתובת '{0}' כבר קיימת."
 
 #: ../addressbook/addressbook.error.xml.h:5
-#, fuzzy
 msgid "Cannot add new contact"
-msgstr "צור איש קשר חדש"
+msgstr "לא ניתן להוסיף איש קשר"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
@@ -399,9 +398,9 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:12
-#, fuzzy
 msgid "Delete address book '{0}'?"
-msgstr "ספר הכתובות של אבולוציה"
+msgstr ""
+"למחוק את ספר הכתובות '{0}'?"
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "Error loading addressbook."
@@ -596,39 +595,35 @@ msgstr "אנשי קשר"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 msgid "Evolution Address Book"
-msgstr "ספר הכתובות של Evolution"
+msgstr "Evolution Address Book"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Address Book address pop-up"
-msgstr "ספר הכתובות של אבולוציה"
+msgstr "Evolution Address Book address pop-up"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Address Book address viewer"
-msgstr "ספר הכתובות של אבולוציה"
+msgstr "Evolution Address Book address viewer"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Address Book card viewer"
-msgstr "ספר הכתובות של אבולוציה"
+msgstr "Evolution Address Book card viewer"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
-#, fuzzy
 msgid "Evolution Address Book component"
-msgstr "ספר הכתובות של אבולוציה"
+msgstr "Evolution Address Book component"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr ""
+msgstr "Evolution S/Mime Certificate Management Control"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr ""
+msgstr "Evolution folder settings configuration control"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr ""
+msgstr "Manage your S/MIME certificates here"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
@@ -2739,9 +2734,8 @@ msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
-#, fuzzy
 msgid "Contact List Members"
-msgstr "רשימת חברים"
+msgstr "חברי רשימת קשר"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1146
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
@@ -2794,14 +2788,12 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:190
-#, fuzzy
 msgid "Merge Contact"
-msgstr "איש קשר חדש"
+msgstr "מזג איש קשר"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:205
-#, fuzzy
 msgid "_Merge"
-msgstr "הו_דעה:"
+msgstr "_מזג"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:258
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -3457,9 +3449,8 @@ msgstr "אין מקור כזה"
 
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:74
-#, fuzzy
 msgid "Not available in offline mode"
-msgstr "התחל במצב לא מקוון"
+msgstr "לא זמין במצב לא מקוון"
 
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:76
@@ -3570,9 +3561,8 @@ msgid "_Don't Display"
 msgstr "תצוגה"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:306
-#, fuzzy
 msgid "Display _All Contacts"
-msgstr "העתק אנשי קשר ל"
+msgstr "הצג את _כל אנשי הקשר"
 
 #. For Translators only: "it" refers to the filename %s.
 #: ../addressbook/gui/widgets/eab-gui-util.c:332
@@ -3581,6 +3571,8 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"‏%s כבר קיים\n"
+"האם להחליפו?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:336
 msgid "Overwrite"
@@ -3685,6 +3677,7 @@ msgstr "מייבא..."
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr ""
+"‏CSV או Tab של Outlook ‏(‎.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
@@ -3693,6 +3686,7 @@ msgstr ""
 #: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr ""
+"‏CSV או Tab של Mozilla ‏(‎.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
@@ -3701,6 +3695,7 @@ msgstr ""
 #: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr ""
+"‏CSV או Tab של Evolution ‏(‎.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 #, fuzzy
@@ -4058,9 +4053,9 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:15
-#, fuzzy
 msgid "Are you sure you want to delete the memo '{0}'?"
-msgstr "אתה בטוח שברצונך למחוק פגישה זו?"
+msgstr ""
+"למחוק את מזכר '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} appointments?"
@@ -4089,9 +4084,9 @@ msgstr "אתה בטוח שברצונך למחוק פגישה זו?"
 
 #: ../calendar/calendar.error.xml.h:21
 #: ../calendar/gui/dialogs/delete-comp.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete this memo?"
-msgstr "אתה בטוח שברצונך למחוק פגישה זו?"
+msgstr "למחוק את מזכר זה?"
 
 #: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:186
@@ -4146,9 +4141,8 @@ msgid "Download in progress. Do you want to save the task?"
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:33
-#, fuzzy
 msgid "Editor could not be loaded."
-msgstr "ספר הכתובות לא יכל להיפתח."
+msgstr "לא ניתן לפתוח את העורך."
 
 #: ../calendar/calendar.error.xml.h:34
 msgid ""
@@ -4162,14 +4156,12 @@ msgid ""
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:36
-#, fuzzy
 msgid "Error loading calendar"
-msgstr "שגיאה בטעינת %s"
+msgstr "שגיאה בטעינת היומן"
 
 #: ../calendar/calendar.error.xml.h:37
-#, fuzzy
 msgid "Error loading memo list"
-msgstr "שגיאה בטעינת %s"
+msgstr "שגיאה בטעינת רשימת התיזכורות"
 
 #: ../calendar/calendar.error.xml.h:38
 #, fuzzy
@@ -5700,9 +5692,8 @@ msgid "Task List"
 msgstr "רשימת משימות"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:392
-#, fuzzy
 msgid "Memo List"
-msgstr "הודעה זו היא דואר זבל"
+msgstr "רשימת תזכורות"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:478
 msgid "Calendar Properties"
@@ -6383,9 +6374,8 @@ msgid "occurrences"
 msgstr "מופעים"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2167
-#, fuzzy
 msgid "Add exception"
-msgstr "תיאור"
+msgstr "הוסף חריגה"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2210
 msgid "Could not get a selection to modify."
@@ -10204,9 +10194,8 @@ msgid ""
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:18
-#, fuzzy
 msgid "Send options not available."
-msgstr "TLS לא זמין"
+msgstr "אפשרויות שליחה לא זמינות."
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
@@ -10247,14 +10236,12 @@ msgid "You need to configure an account before you can compose mail."
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:30
-#, fuzzy
 msgid "_Do not Recover"
-msgstr "אל תסיר"
+msgstr "_אל תשחזר"
 
 #: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:317
-#, fuzzy
 msgid "_Recover"
-msgstr "ה_סר"
+msgstr "_שחזר"
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "_Save Message"
@@ -10532,9 +10519,8 @@ msgid "If any criteria are met"
 msgstr ""
 
 #: ../filter/filter-rule.c:870
-#, fuzzy
 msgid "_Find items:"
-msgstr "יחידה"
+msgstr "_חפש פריטים:"
 
 #: ../filter/filter-rule.c:892
 msgid "All related"
@@ -10579,15 +10565,15 @@ msgstr ""
 
 #: ../filter/filter.error.xml.h:4
 msgid "Missing date."
-msgstr ""
+msgstr "תאריך חסר."
 
 #: ../filter/filter.error.xml.h:5
 msgid "Missing file name."
-msgstr ""
+msgstr "שם קובץ חסר."
 
 #: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:76
 msgid "Missing name."
-msgstr ""
+msgstr "שם חסר."
 
 #: ../filter/filter.error.xml.h:7
 msgid "Name &quot;{0}&quot; already used."
@@ -10611,7 +10597,7 @@ msgstr ""
 
 #: ../filter/filter.glade.h:1
 msgid "<b>_Filter Rules</b>"
-msgstr ""
+msgstr "<b>_חוקי מסנן</b>"
 
 #: ../filter/filter.glade.h:2
 msgid "Compare against"
@@ -11142,9 +11128,8 @@ msgid "Sender"
 msgstr "שולח"
 
 #: ../mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Set Label"
-msgstr "תוית"
+msgstr "קבע תווית"
 
 #: ../mail/em-filter-i18n.h:64
 msgid "Set Status"
@@ -11193,9 +11178,8 @@ msgid "Then"
 msgstr ""
 
 #: ../mail/em-filter-rule.c:517
-#, fuzzy
 msgid "Add Ac_tion"
-msgstr "תיאור"
+msgstr "הוסף _פעולה"
 
 #: ../mail/em-folder-browser.c:189
 #, fuzzy
@@ -11526,9 +11510,8 @@ msgid "_None"
 msgstr "לל_א"
 
 #: ../mail/em-folder-view.c:1364
-#, fuzzy
 msgid "_New Label"
-msgstr "ללא תוית"
+msgstr "תווית _חדשה"
 
 #: ../mail/em-folder-view.c:1368
 msgid "Fla_g Completed"
@@ -11798,11 +11781,11 @@ msgstr "בחר..."
 
 #. Cant i put in the number of attachments here ?
 #: ../mail/em-format-html-display.c:2295
-#, fuzzy, c-format
+#, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
-msgstr[0] "תצריף אחד"
-msgstr[1] "%d תצריפים"
+msgstr[0] "_תצריף אחד"
+msgstr[1] "_%d תצריפים"
 
 #: ../mail/em-format-html-display.c:2302 ../mail/em-format-html-display.c:2380
 msgid "S_ave"
@@ -11827,9 +11810,8 @@ msgid "Hide _Unformatted"
 msgstr "מבנה זמן:"
 
 #: ../mail/em-format-html-display.c:2564
-#, fuzzy
 msgid "O_pen With"
-msgstr "פתח קובץ"
+msgstr "_פתח בעזרת"
 
 #: ../mail/em-format-html-display.c:2635
 msgid ""
@@ -12027,9 +12009,8 @@ msgid "Header Value Contains:"
 msgstr "השולח מכיל"
 
 #: ../mail/em-mailer-prefs.c:451
-#, fuzzy
 msgid "Contains Value"
-msgstr "המשך"
+msgstr "מכיל ערך"
 
 #: ../mail/em-mailer-prefs.c:473
 msgid "Color"
@@ -12156,9 +12137,8 @@ msgid "No server has been selected"
 msgstr "לא נבחר שרת"
 
 #: ../mail/em-utils.c:121
-#, fuzzy
 msgid "_Do not show this message again."
-msgstr "אל תציג הודעה זאת שוב."
+msgstr "אל תציג הודעה זאת _שוב."
 
 #: ../mail/em-utils.c:317
 msgid "Message Filters"
@@ -13175,9 +13155,8 @@ msgid "Log Level"
 msgstr ""
 
 #: ../mail/mail-component.c:1714 ../widgets/misc/e-dateedit.c:410
-#, fuzzy
 msgid "Time"
-msgstr "כותרת"
+msgstr "שעה"
 
 #: ../mail/mail-component.c:1721 ../mail/message-list.c:2406
 #: ../mail/message-list.etspec.h:10
@@ -13243,9 +13222,8 @@ msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 msgstr "<span weight=\"bold\">אבטחה</span>"
 
 #: ../mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr "<span weight=\"bold\">התרעות</span>"
+msgstr "<span weight=\"bold\">תוויות</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -13302,9 +13280,8 @@ msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">הגדרת השרת</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\">סוג ההזדהות</span>"
+msgstr "<span weight=\"bold\">סוג _הזדהות</span>"
 
 #: ../mail/mail-config.glade.h:34
 msgid "Account Management"
@@ -13491,7 +13468,6 @@ msgid "Fi_xed-width:"
 msgstr "רו_חב-קבוע:"
 
 #: ../mail/mail-config.glade.h:85
-#, fuzzy
 msgid "Fix_ed width Font:"
 msgstr "גופן _רוחב קבוע:"
 
@@ -13508,9 +13484,8 @@ msgid "Full Nam_e:"
 msgstr "_שם מלא:"
 
 #: ../mail/mail-config.glade.h:90
-#, fuzzy
 msgid "HTML Messages"
-msgstr "הודעות"
+msgstr "הודעות HTML"
 
 #: ../mail/mail-config.glade.h:91
 msgid "Headers"
@@ -13924,9 +13899,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:23
-#, fuzzy
 msgid "_Accept License"
-msgstr "_פעולות"
+msgstr "_הסכם לרישיון"
 
 #: ../mail/mail-dialogs.glade.h:24
 msgid "_Due By:"
@@ -13972,9 +13946,8 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr ""
 
 #: ../mail/mail-ops.c:724
-#, fuzzy
 msgid "Sending message"
-msgstr "_שלח את ההודעה"
+msgstr "שולח הודעה"
 
 #: ../mail/mail-ops.c:734
 #, c-format
@@ -14431,19 +14404,16 @@ msgid "Discard changes?"
 msgstr "להתעלם משינויים?"
 
 #: ../mail/mail.error.xml.h:48
-#, fuzzy
 msgid "Do not d_elete"
-msgstr "לא ניתן לפתוח קובץ"
+msgstr "אל _תמחק"
 
 #: ../mail/mail.error.xml.h:49
-#, fuzzy
 msgid "Do not delete"
-msgstr "לא ניתן לפתוח קובץ"
+msgstr "אל תמחק"
 
 #: ../mail/mail.error.xml.h:50
-#, fuzzy
 msgid "Do not disable"
-msgstr "כבה"
+msgstr "אל _תכבה"
 
 #: ../mail/mail.error.xml.h:51
 msgid "Do you want the operation to be performed also in the subfolders?"
@@ -14556,9 +14526,8 @@ msgid "No sources selected."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:78
-#, fuzzy
 msgid "Only on _Current Folder"
-msgstr "תיקייה נוכחית"
+msgstr "בתיקייה ה_נוכחית בלבד"
 
 #: ../mail/mail.error.xml.h:79
 msgid "Opening too many messages at once may take a long time."
@@ -14881,9 +14850,8 @@ msgid "Received"
 msgstr "התקבל"
 
 #: ../mail/message-list.etspec.h:15
-#, fuzzy
 msgid "Sent Messages"
-msgstr "_פתח הודעה"
+msgstr "הודעות שנשלחו"
 
 #: ../mail/message-list.etspec.h:16
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -15010,14 +14978,13 @@ msgid ""
 msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
-#, fuzzy
 msgid "Message has no attachments"
-msgstr "הודעות עם תצריף"
+msgstr "להודעה אין תצריפים"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
-#, fuzzy
 msgid "_Continue Editing"
-msgstr "המשך"
+msgstr ""
+"המשך ב_עריכה"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -15108,9 +15075,8 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 
 #: ../plugins/backup-restore/backup.c:88
-#, fuzzy
 msgid "Backup complete"
-msgstr "% השלמה"
+msgstr "הגיבוי הסתיים"
 
 #: ../plugins/backup-restore/backup.c:93
 #: ../plugins/backup-restore/backup.c:136
@@ -15218,9 +15184,8 @@ msgstr "_הגדרות גיבוי..."
 
 #: ../plugins/bbdb/bbdb.c:541 ../plugins/bbdb/bbdb.c:550
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
-#, fuzzy
 msgid "Automatic Contacts"
-msgstr "הוסף לאנשי הקשר"
+msgstr "אנשי קשר אוטומטיים"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:565
@@ -15335,18 +15300,16 @@ msgid "_Refresh:"
 msgstr "_רענן:"
 
 #: ../plugins/calendar-http/calendar-http.c:341
-#, fuzzy
 msgid "_Secure connection"
-msgstr "השתמש ב_תקשורת מאובטחת:"
+msgstr "חיבור _מאובטח"
 
 #: ../plugins/calendar-http/calendar-http.c:406
 msgid "Userna_me:"
 msgstr "שם משתמש:"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
-#, fuzzy
 msgid "HTTP Calendars"
-msgstr "לוחות שנה"
+msgstr "יומני HTTP"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
@@ -15453,7 +15416,7 @@ msgstr "_סמן כנקרא"
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 #, fuzzy
 msgid "Default Sources"
-msgstr "ברירת מחדל"
+msgstr "מקורות ברירת המחדל"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid ""
@@ -15479,9 +15442,8 @@ msgstr "_משתמש:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
-#, fuzzy
 msgid "Secure Password"
-msgstr "הכנס סיסמה"
+msgstr "סיסמה מאובטחת"
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-operations/exchange-account-setup.c:66
@@ -15566,7 +15528,7 @@ msgstr "הגדרות Evolution"
 #: ../plugins/exchange-operations/exchange-account-setup.c:625
 #, fuzzy
 msgid "_OWA URL:"
-msgstr "_כתובת:"
+msgstr "_כתובת OWA:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:651
 #, fuzzy
@@ -15639,9 +15601,8 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:164
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:580
-#, fuzzy
 msgid "Custom"
-msgstr "גזור"
+msgstr "ברירת מחדל"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:194
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
@@ -15905,24 +15866,20 @@ msgid "<b>Permissions</b>"
 msgstr "<b>הרשאות</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
-#, fuzzy
 msgid "Cannot Delete"
-msgstr "לא ניתן לפתוח קובץ"
+msgstr "לא ניתן למחוק"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
-#, fuzzy
 msgid "Cannot Edit"
-msgstr "עורך אנשי הקשר"
+msgstr "לא ניתן לערוך"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
-#, fuzzy
 msgid "Create items"
-msgstr "צור"
+msgstr "צור פריטים"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
-#, fuzzy
 msgid "Create subfolders"
-msgstr "צור תיקייה"
+msgstr "צור תת-תיקיות"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Delete Any Items"
@@ -15964,9 +15921,8 @@ msgid "Role: "
 msgstr "תפקיד: "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Message Settings</b>"
-msgstr "<b>הודעות מידיות</b>"
+msgstr "<b>הגדרות הודעה</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
 #, fuzzy
@@ -16019,7 +15975,6 @@ msgid "_Sensitivity: "
 msgstr "_רגישות:"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:16
-#, fuzzy
 msgid "_User"
 msgstr "_משתמש:"
 
@@ -16059,14 +16014,12 @@ msgid "Cannot change password due to configuration problems."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
-#, fuzzy
 msgid "Cannot display folders."
-msgstr "מעתיק את התיקייה %s"
+msgstr "לא ניתן להציג תיקיות."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
-#, fuzzy
 msgid "Cannot perform the operation."
-msgstr "המשתמש ביטל את הפעולה."
+msgstr "לא ניתן לבצע  את הפעולה."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:4
 msgid ""
@@ -16080,9 +16033,8 @@ msgid "Could not authenticate to server."
 msgstr "ניסיון ההזדהות נכשל.\n"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
-#, fuzzy
 msgid "Could not change password."
-msgstr "לא ניתן לבטל"
+msgstr "לא ניתן לשנות את הסיסמה."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid ""
@@ -16234,9 +16186,8 @@ msgid "Please restart Evolution for changes to take effect"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
-#, fuzzy
 msgid "Please select a user."
-msgstr "אנא בחר תמונה בעבור איש קשר זה"
+msgstr "נא לבחור משתמש."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid "Server rejected password because it is too weak."
@@ -16294,9 +16245,8 @@ msgid "Unknown type"
 msgstr "סוג לא ידוע"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#, fuzzy
 msgid "Unsupported operation"
-msgstr "המשתמש ביטל את הפעולה."
+msgstr "פעולה לא ניתמכת."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "You are nearing your quota available for storing mail on this server."
@@ -16388,9 +16338,8 @@ msgid "Select a (48*48) png of size < 700bytes"
 msgstr ""
 
 #: ../plugins/face/face.c:67
-#, fuzzy
 msgid "PNG files"
-msgstr "כל הקבצים"
+msgstr "קבצי PNG"
 
 #: ../plugins/face/org-gnome-face-ui.xml.h:1
 #, fuzzy
@@ -16405,9 +16354,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
-#, fuzzy
 msgid "Face"
-msgstr "צרפת"
+msgstr "פנים"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:56
 #, c-format
@@ -16428,13 +16376,12 @@ msgstr ""
 
 #: ../plugins/google-account-setup/google-source.c:71
 #: ../plugins/google-account-setup/google-source.c:78
-#, fuzzy
 msgid "Google"
-msgstr "תפקיד"
+msgstr "Google"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "A plugin to setup google calendar."
-msgstr ""
+msgstr "תוסף להגדרת יומן google."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 #, fuzzy
@@ -16551,9 +16498,8 @@ msgid "C_ustomize notification message"
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:3
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "אנשי קשר..."
+msgstr "אנשי _קשר..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:517
@@ -16709,9 +16655,8 @@ msgid "From:"
 msgstr "מאת:"
 
 #: ../plugins/groupwise-features/status-track.c:148
-#, fuzzy
 msgid "Creation date:"
-msgstr "<b>תאריך יצירה</b> :"
+msgstr "תאריך יצירה :"
 
 #: ../plugins/groupwise-features/status-track.c:187
 msgid "Recipient: "
@@ -16723,32 +16668,28 @@ msgid "Delivered: "
 msgstr "_מחק"
 
 #: ../plugins/groupwise-features/status-track.c:200
-#, fuzzy
 msgid "Opened: "
-msgstr "פתח"
+msgstr "נפתח: "
 
 #: ../plugins/groupwise-features/status-track.c:205
-#, fuzzy
 msgid "Accepted: "
-msgstr "קבל"
+msgstr "התקבל: "
 
 #: ../plugins/groupwise-features/status-track.c:210
 msgid "Deleted: "
 msgstr "נמחק: "
 
 #: ../plugins/groupwise-features/status-track.c:215
-#, fuzzy
 msgid "Declined: "
-msgstr "סרב"
+msgstr "סורב: "
 
 #: ../plugins/groupwise-features/status-track.c:220
 msgid "Completed: "
 msgstr "הסתיים: "
 
 #: ../plugins/groupwise-features/status-track.c:225
-#, fuzzy
 msgid "Undelivered: "
-msgstr "_מחק"
+msgstr "לא נימסר: "
 
 #: ../plugins/groupwise-features/status-track.c:249
 #, fuzzy
@@ -16769,9 +16710,8 @@ msgid "Custom Headers"
 msgstr "כותרות"
 
 #: ../plugins/imap-features/imap-headers.c:335
-#, fuzzy
 msgid "IMAP Headers"
-msgstr "כותרות"
+msgstr "כותרות IMAP"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 #, fuzzy
@@ -16779,9 +16719,8 @@ msgid "<b>Custom Headers</b>"
 msgstr "<b>מוזמנים</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
-#, fuzzy
 msgid "<b>IMAP Headers</b>"
-msgstr "<b>התרעות</b>"
+msgstr "<b>כותרות IMAP</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
@@ -17489,9 +17428,8 @@ msgstr "קבל"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:844
-#, fuzzy
 msgid "_Send Information"
-msgstr "<b>מידע על השרת</b>"
+msgstr "_שלח מידע"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:848
@@ -17499,9 +17437,8 @@ msgid "_Update Attendee Status"
 msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:851
-#, fuzzy
 msgid "_Update"
-msgstr "ה_דבק"
+msgstr "_עדכן"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:1012
@@ -17677,9 +17614,8 @@ msgstr[1] ""
 
 #: ../plugins/mail-notification/mail-notification.c:380
 #: ../plugins/mail-notification/mail-notification.c:385
-#, fuzzy
 msgid "New email"
-msgstr "תזכורת חדשה"
+msgstr "דוא\"ל חדש"
 
 #: ../plugins/mail-notification/mail-notification.c:440
 #, fuzzy
@@ -17733,9 +17669,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
-#, fuzzy
 msgid "Mail Notification"
-msgstr "הגדרות דואר"
+msgstr "התרעות דואר"
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
 msgid ""
@@ -17805,9 +17740,8 @@ msgstr "רשימת תפוצה"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#, fuzzy
 msgid "Mailing _List"
-msgstr "רשימת תפוצה"
+msgstr "רשימת _תפוצה"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
@@ -18008,9 +17942,8 @@ msgid "_Plugins"
 msgstr "_תוספים"
 
 #: ../plugins/plugin-manager/plugin-manager.c:57
-#, fuzzy
 msgid "Author(s)"
-msgstr "שעה (שעות)"
+msgstr "יוצר(ים)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:58
 #: ../widgets/table/e-table-config.glade.h:6
@@ -18027,9 +17960,8 @@ msgid "Overview"
 msgstr "החלף"
 
 #: ../plugins/plugin-manager/plugin-manager.c:261
-#, fuzzy
 msgid "Configuration"
-msgstr "הגדרות דואר"
+msgstr "הגדרות"
 
 #: ../plugins/plugin-manager/plugin-manager.c:277
 msgid "There is no configuration option for this plugin."
@@ -18071,9 +18003,8 @@ msgid "Only ever show PLAIN"
 msgstr ""
 
 #: ../plugins/prefer-plain/prefer-plain.c:184
-#, fuzzy
 msgid "HTML _Mode"
-msgstr "דואר HTML"
+msgstr "מצב _HTML"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print from the composer."
@@ -18289,9 +18220,8 @@ msgid "Description List"
 msgstr "תיאור:"
 
 #: ../plugins/save-calendar/csv-format.c:384
-#, fuzzy
 msgid "Categories List"
-msgstr "קטגוריות"
+msgstr "רשימת קטגוריות"
 
 #: ../plugins/save-calendar/csv-format.c:385
 #, fuzzy
@@ -18299,14 +18229,12 @@ msgid "Comment List"
 msgstr "_רשימת תפוצה"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Created"
-msgstr "צור"
+msgstr "נוצר"
 
 #: ../plugins/save-calendar/csv-format.c:388
-#, fuzzy
 msgid "Contact List"
-msgstr "_רשימת תפוצה"
+msgstr "רשימת תפוצה"
 
 #: ../plugins/save-calendar/csv-format.c:389
 #, fuzzy
@@ -18388,9 +18316,8 @@ msgid "RDF format (.rdf)"
 msgstr "תצורת RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:164
-#, fuzzy
 msgid "Select destination file"
-msgstr "בחר קובץ"
+msgstr "בחר קובץ יעד"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 #, fuzzy
@@ -18819,7 +18746,6 @@ msgid "Switch to %s"
 msgstr "החלף ל-%s"
 
 #: ../shell/e-shell.c:640
-#, fuzzy
 msgid "Unknown system error."
 msgstr "שגיאת מערכת לא ידועה."
 
@@ -18948,9 +18874,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/main.c:342
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "אל תציג הודעה זאת שוב."
+msgstr "אל _תציג הודעה זאת שוב"
 
 #: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
@@ -22328,9 +22253,8 @@ msgid "%l:%M %p"
 msgstr "%l:%M %p"
 
 #: ../widgets/table/e-cell-pixbuf.c:360
-#, fuzzy
 msgid "Selected Column"
-msgstr "נבחר"
+msgstr "עמודה ניבחרת"
 
 #: ../widgets/table/e-cell-pixbuf.c:367
 msgid "Focused Column"
