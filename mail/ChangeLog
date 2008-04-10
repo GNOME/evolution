@@ -1,3 +1,13 @@
+2008-04-10  Sankar P  <psankar@novell.com>
+
+	* em-composer-prefs.c: (em_composer_prefs_construct):
+	Change the name of the variable we look for in 
+	the glade file.
+
+	Also add some if conditions to avoid certain crash.
+
+	** See bug #527327
+
 2008-04-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-config.glade:

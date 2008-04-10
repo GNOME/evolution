@@ -946,7 +946,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
 	prefs->charset = GTK_OPTION_MENU (
-		glade_xml_get_widget (gui, "omenuCharset"));
+		glade_xml_get_widget (gui, "omenuCharset1"));
 	buf = gconf_client_get_string (
 		client, "/apps/evolution/mail/composer/charset", NULL);
 	menu = e_charset_picker_new (
@@ -991,14 +991,18 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
-	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
+	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle")); 
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/forward_style", NULL);
 	gtk_option_menu_set_history (prefs->forward_style, style);
 	style = 0;
+
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
-			       attach_style_info, &style);
-	option_menu_connect (prefs, prefs->forward_style, G_CALLBACK (style_activate),
-			     "/apps/evolution/mail/format/forward_style");
+				attach_style_info, &style);
+
+	if (gtk_option_menu_get_menu (prefs->forward_style)) {
+		option_menu_connect (prefs, prefs->forward_style, G_CALLBACK (style_activate),
+				"/apps/evolution/mail/format/forward_style");
+	}
 
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/reply_style", NULL);
@@ -1006,8 +1010,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
 			       attach_style_info_reply, &style);
-	option_menu_connect (prefs, prefs->reply_style, G_CALLBACK (style_activate),
-			     "/apps/evolution/mail/format/reply_style");
+	
+	
+	if (gtk_option_menu_get_menu (prefs->reply_style)) {
+		option_menu_connect (prefs, prefs->reply_style, G_CALLBACK (style_activate),
+				"/apps/evolution/mail/format/reply_style");
+	}
 
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();
