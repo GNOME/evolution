@@ -1432,35 +1432,70 @@ menu_edit_cut_cb (BonoboUIComponent *uic,
 }
 
 static void
+add_to_bar (CompEditor *editor, GPtrArray *file_list, int is_inline)
+{
+	CompEditorPrivate *priv = editor->priv;
+	int i;
+
+	for (i = 0; i < file_list->len; i++) {
+		CamelURL *url;
+
+		if (!(url = camel_url_new (file_list->pdata[i], NULL)))
+			continue;
+
+		if (!g_ascii_strcasecmp (url->protocol, "file")) {
+			e_attachment_bar_attach((EAttachmentBar *)priv->attachment_bar, url->path, is_inline ? "inline" : "attachment");
+		} else {
+			e_attachment_bar_attach_remote_file ((EAttachmentBar *)priv->attachment_bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
+		}
+
+		camel_url_free (url);
+	}
+}
+
+static void
 menu_insert_attachment_cb (BonoboUIComponent *uic,
 		   	   void *data,
 		   	   const char *path)
 {
 	CompEditor *editor = (CompEditor *) data;
-	EAttachmentBar *bar = (EAttachmentBar *)editor->priv->attachment_bar;
 	GPtrArray *file_list;
 	gboolean is_inline = FALSE;
 	int i;
 
 	file_list = comp_editor_select_file_attachments (editor, &is_inline);
-	/*TODO add a good implementation here */
-	if (!file_list)
-		return;
-	for (i = 0; i < file_list->len; i++) {
-		CamelURL *url;
 
-		url = camel_url_new (file_list->pdata[i], NULL);
-		if (url == NULL)
-			continue;
+	if (file_list) {
+		add_to_bar (editor, file_list, is_inline);
 
-		if (!g_ascii_strcasecmp (url->protocol, "file"))
-			 e_attachment_bar_attach (bar, url->path, is_inline ? "inline" : "attachment");
-		else
-			 e_attachment_bar_attach_remote_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
-		g_free (file_list->pdata[i]);
-		camel_url_free (url);
+		for (i = 0; i < file_list->len; i++)
+			g_free (file_list->pdata[i]);
+
+		g_ptr_array_free (file_list, TRUE);
+	}
+}
+
+static void
+menu_insert_attach_recent_docs_cb (BonoboUIComponent *uic,
+				   gpointer user_data,
+				   const char *cname)
+{
+	CompEditor *editor = (CompEditor *) user_data;
+	gchar *command = NULL, *uri = NULL;
+	GPtrArray *file_list = g_ptr_array_new ();
+	int i;
+
+	command = g_strdup_printf ("/commands/%s", cname);
+	uri = bonobo_ui_component_get_prop (editor->uic, command, "uri", NULL);
+	g_free (command);
+
+	if (uri && *uri) {
+		g_ptr_array_add (file_list, uri);
+		add_to_bar (editor, file_list, FALSE);
 	}
 
+	for (i = 0; i < file_list->len; i++)
+		g_free (file_list->pdata[i]);
 	g_ptr_array_free (file_list, TRUE);
 }
 
@@ -1635,6 +1670,11 @@ comp_editor_init (CompEditor *editor)
 	bonobo_ui_component_thaw (editor->uic, NULL);
 
 	bonobo_ui_component_set_prop (editor->uic, "/commands/FileSave", "sensitive", "0", NULL);
+
+	/* FIXME: this should have been setup_widgets, but editor->uic is uninitialized then */
+	e_attachment_bar_bonobo_ui_populate_with_recent (editor->uic, "/menu/Insert/RecentDocsPlaceholder", 
+							 E_ATTACHMENT_BAR (priv->attachment_bar), 
+							 menu_insert_attach_recent_docs_cb, editor);
 
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);

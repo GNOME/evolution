@@ -1,3 +1,15 @@
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #517134
+
+	* e-attachment-bar.c: (destroy), (init): Related changes. 
+	(e_attachment_bar_bonobo_ui_populate_with_recent): New API to populate
+	a bonoboUI menu with "Recent Documents". 
+	(action_recent_cb), (e_attachment_bar_recent_action_new): New API to
+	obtain a new, pre-configured GtkRecentAction (which can be used as a
+	"Recent Documents" menu)
+	* e-attachment-bar.h: APIs' signatures
+
 2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am:

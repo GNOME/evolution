@@ -27,6 +27,9 @@
 
 #include <libgnomeui/gnome-icon-list.h>
 
+#include <bonobo/bonobo-ui-node.h>
+#include <bonobo/bonobo-ui-util.h>
+
 #include <camel/camel-multipart.h>
 #include "e-attachment.h"
 
@@ -83,6 +86,14 @@ GSList *e_attachment_bar_get_selected (EAttachmentBar *bar);
 void e_attachment_bar_set_width(EAttachmentBar *bar, int bar_width);
 GSList * e_attachment_bar_get_all_attachments (EAttachmentBar *bar);
 void e_attachment_bar_create_attachment_cache (EAttachment *attachment);
+void 
+e_attachment_bar_bonobo_ui_populate_with_recent (BonoboUIComponent *uic, const char *path,
+						 EAttachmentBar *bar, 
+						 BonoboUIVerbFn verb_cb, gpointer user_data);
+GtkAction *
+e_attachment_bar_recent_action_new (EAttachmentBar *bar, 
+				const gchar *action_name,
+				const gchar *action_label);
 
 #ifdef __cplusplus
 }

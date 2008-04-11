@@ -1,3 +1,7 @@
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	* configure.in: Bump glib package requirement: glib-2.0 >= 2.16.0
+
 2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #526152
@@ -85,7 +89,7 @@
 
 2008-02-18  Akhil Laddha  <lakhil@novell.com>
 
-        ** Fix for bug #517129
+	** Fix for bug #517129
 
 	* configure.in: Fix build break of pl translation.
 

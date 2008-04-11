@@ -1,3 +1,13 @@
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #517134
+
+	* gui/dialogs/comp-editor.c: (add_to_bar),
+	(menu_insert_attachment_cb), (menu_insert_attach_recent_docs_cb),
+	(comp_editor_init): Code re-factoring. Extend the 'Insert' menu to
+	show a "Recent Documents" submenu (to quickly add them as
+	attachments). New callback to handle these actions. 
+
 2008-04-07  Ondrej Jirman  <megous@megous.com>
 
 	** Fix for bug #525234

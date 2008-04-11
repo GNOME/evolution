@@ -34,6 +34,7 @@
     <menu action='insert-menu'>
       <placeholder name='insert-menu-top'>
         <menuitem action='attach'/>
+        <placeholder name='recent-placeholder'/>
         <separator/>
         <menuitem action='send-options'/>
         <separator/>

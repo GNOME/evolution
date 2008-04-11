@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <glade/glade.h>
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
@@ -70,6 +71,9 @@ static GnomeIconListClass *parent_class = NULL;
 
 struct _EAttachmentBarPrivate {
 	GtkWidget *attach;	/* attachment file dialogue, if active */
+
+	/* Recent documents. Use this widget directly when bonoboui is obsoleted */
+	GtkWidget *recent;
 
 	gboolean batch_unref;
 	GPtrArray *attachments;
@@ -551,7 +555,6 @@ e_attachment_bar_get_selector(EAttachmentBar *bar)
 	return &bar->priv->attach;
 }
 
-
 /**
  * e_attachment_bar_get_selected:
  * @bar: an #EAttachmentBar object
@@ -693,6 +696,9 @@ destroy (GtkObject *object)
 
 		if (priv->attach)
 			gtk_widget_destroy (priv->attach);
+
+		if (priv->recent)
+			gtk_widget_destroy (priv->recent);
 
 		if (priv->path)
 			g_free (priv->path);
@@ -969,6 +975,15 @@ init (EAttachmentBar *bar)
 	priv->attach = NULL;
 	priv->batch_unref = FALSE;
 	priv->attachments = g_ptr_array_new ();
+
+	priv->recent = gtk_recent_chooser_menu_new ();
+	gtk_recent_chooser_menu_set_show_numbers (GTK_RECENT_CHOOSER_MENU (priv->recent), TRUE);
+	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (priv->recent), GTK_RECENT_SORT_MRU);
+	gtk_recent_chooser_set_show_not_found (GTK_RECENT_CHOOSER (priv->recent), FALSE);
+	gtk_recent_chooser_set_show_private (GTK_RECENT_CHOOSER (priv->recent), FALSE);
+	gtk_recent_chooser_set_show_icons (GTK_RECENT_CHOOSER (priv->recent), TRUE);
+	gtk_recent_chooser_set_show_tips (GTK_RECENT_CHOOSER (priv->recent), TRUE);
+
 	priv->path = NULL;
 
 	bar->priv = priv;
@@ -1228,3 +1243,145 @@ e_attachment_bar_attach_mime_part (EAttachmentBar *bar, CamelMimePart *part)
 
 	add_from_mime_part (bar, part);
 }
+
+/* FIXME: Remove this API if nobody uses it */
+void 
+e_attachment_bar_bonobo_ui_populate_with_recent (BonoboUIComponent *uic, const char *path,
+						 EAttachmentBar *bar, 
+						 BonoboUIVerbFn verb_cb, gpointer user_data)
+{
+	struct _EAttachmentBarPrivate *priv;
+	GList *items, *l;
+	gint limit, i;
+	GString *menuitems;
+	char *encoded_label, *label;
+
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
+
+	priv = bar->priv;
+	limit = gtk_recent_chooser_get_limit (GTK_RECENT_CHOOSER (priv->recent));
+	items = gtk_recent_chooser_get_items (GTK_RECENT_CHOOSER (priv->recent));
+
+	menuitems = g_string_new ("<submenu");
+	g_string_append (menuitems, " name=\"RecentDocsSubmenu\"");
+	g_string_append_printf (menuitems, " sensitive=\"%s\"", items ? "1" : "0");
+	g_string_append_printf (menuitems, " label=\"%s\"", _("Recent Docu_ments"));
+	g_string_append (menuitems, ">\n");
+
+	for (l = g_list_first (items), i = 1; l && i <= limit; l = l->next, ++i) {
+		GtkRecentInfo *info = ((GtkRecentInfo *)(l->data));
+		const gchar *info_dn = gtk_recent_info_get_display_name (info);
+		char *display_name, *u;
+
+		/* escape _'s in the display name so that it doesn't become an underline in a GtkLabel */
+		if ((u = strchr (info_dn, '_'))) {
+			int extra = 1;
+			char *d;
+			const char *s;
+
+			while ((u = strchr (u + 1, '_')))
+				extra++;
+
+			d = display_name = g_alloca (strlen (info_dn) + extra + 1);
+			s = info_dn;
+			while (*s != '\0') {
+				if (*s == '_')
+					*d++ = '_';
+				*d++ = *s++;
+			}
+			*d = '\0';
+		} else
+			display_name = info_dn;
+
+		/* Add menu item */
+		label = g_strdup (display_name);
+		encoded_label = bonobo_ui_util_encode_str (label);
+		g_string_append_printf (menuitems, 
+					"  <menuitem name=\"Recent-%d\" verb=\"\" label=\"%s\"/>\n",
+					i, encoded_label);
+		g_free (encoded_label);
+		g_free (label);
+	}
+
+	g_string_append (menuitems, "</submenu>\n");
+
+	bonobo_ui_component_set (uic, path, menuitems->str, NULL);
+
+	g_string_free (menuitems, TRUE);
+
+	/* Add uri prop */
+	for (l = g_list_first (items), i = 1; l && i <= limit; l = l->next, ++i) {
+		GtkRecentInfo *info = ((GtkRecentInfo *)(l->data));
+		const gchar *info_uri = gtk_recent_info_get_uri (info);
+		label = g_strdup_printf ("/commands/Recent-%d", i);
+		bonobo_ui_component_set_prop (uic, label, "uri", info_uri, NULL);
+		g_free (label);
+	}
+
+	/* Add verb */
+	for (l = g_list_first (items), i = 1; l && i <= limit; l = l->next, ++i) {
+		label = g_strdup_printf ("Recent-%d", i);
+		bonobo_ui_component_add_verb (uic, label, verb_cb, user_data);
+		g_free (label);
+	}
+
+	for (l = g_list_first (items); l; l = l->next)
+		gtk_recent_info_unref ((GtkRecentInfo *)(l->data));
+	g_list_free (items);
+}
+
+static void
+action_recent_cb (GtkAction *action, 
+		  EAttachmentBar *attachment_bar)
+{
+	GtkRecentChooser *chooser;
+	GFile *file;
+	gchar *uri;
+
+	chooser = GTK_RECENT_CHOOSER (action);
+
+	/* Wish: gtk_recent_chooser_get_current_file() */
+	uri = gtk_recent_chooser_get_current_uri (chooser);
+	file = g_file_new_for_uri (uri);
+	g_free (uri);
+
+	if (g_file_is_native (file))
+		e_attachment_bar_attach (
+			E_ATTACHMENT_BAR (attachment_bar),
+			g_file_get_path (file), "attachment");
+	else
+		e_attachment_bar_attach_remote_file (
+			E_ATTACHMENT_BAR (attachment_bar),
+			g_file_get_uri (file), "attachment");
+
+	g_object_unref (file);
+}
+
+GtkAction *
+e_attachment_bar_recent_action_new (EAttachmentBar *bar, 
+				const gchar *action_name,
+				const gchar *action_label)
+{
+	GtkAction *action;
+	GtkRecentChooser *chooser;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
+
+	action = gtk_recent_action_new (
+		action_name, action_label, NULL, NULL);
+	gtk_recent_action_set_show_numbers (GTK_RECENT_ACTION (action), TRUE);
+
+	chooser = GTK_RECENT_CHOOSER (action);
+	gtk_recent_chooser_set_show_icons (chooser, TRUE);
+	gtk_recent_chooser_set_show_not_found (chooser, FALSE);
+	gtk_recent_chooser_set_show_private (chooser, FALSE);
+	gtk_recent_chooser_set_show_tips (chooser, TRUE);
+	gtk_recent_chooser_set_sort_type (chooser, GTK_RECENT_SORT_MRU);
+
+	g_signal_connect (
+		action, "item-activated",
+		G_CALLBACK (action_recent_cb), bar);
+
+	return action;
+}
+

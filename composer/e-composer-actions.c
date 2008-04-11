@@ -36,6 +36,7 @@ action_attach_cb (GtkAction *action,
 	GtkWidget *dialog;
 	GtkWidget *option;
 	GSList *uris, *iter;
+	const gchar *disposition;
 	gboolean active;
 	gint response;
 
@@ -72,16 +73,15 @@ action_attach_cb (GtkAction *action,
 
 	uris = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (dialog));
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (option));
+	disposition = active ? "inline" : "attachment";
 
 	for (iter = uris; iter != NULL; iter = iter->next) {
-		const gchar *disposition;
 		CamelURL *url;
 
 		url = camel_url_new (iter->data, NULL);
 		if (url == NULL)
 			continue;
 
-		disposition = active ? "inline" : "attachment";
 		if (!g_ascii_strcasecmp (url->protocol, "file"))
 			e_attachment_bar_attach (bar, url->path, disposition);
 		else

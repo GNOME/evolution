@@ -1,3 +1,15 @@
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #517134
+
+	* e-composer-actions.c: (action_attach_cb): Save some CPU cycles. 
+	* e-composer-private.c: (composer_setup_charset_menu),
+	(composer_setup_recent_menu), (e_composer_private_init): Extend the
+	'Insert' menu to show a "Recent Documents" submenu (to quickly add
+	them as attachments). 
+	* evolution-composer.ui: Added a placeholder to dock the "Recent
+	Documents" menu. 
+
 2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #523413

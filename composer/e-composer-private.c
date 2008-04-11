@@ -43,6 +43,38 @@ composer_setup_charset_menu (EMsgComposer *composer)
 
 		list = g_list_delete_link (list, list);
 	}
+
+	gtk_ui_manager_ensure_update (manager);
+}
+
+static void
+composer_setup_recent_menu (EMsgComposer *composer)
+{
+	GtkUIManager *manager;
+	GtkAction *action = NULL;
+	const gchar *path, *action_name;
+	guint merge_id;
+
+	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	action_name = "recent-menu";
+	path = "/main-menu/insert-menu/insert-menu-top/recent-placeholder";
+	merge_id = gtk_ui_manager_new_merge_id (manager);
+
+	action = e_attachment_bar_recent_action_new (
+			e_msg_composer_get_attachment_bar (composer), 
+			action_name, _("Recent _Documents"));
+
+	if (action != NULL) {
+		gtk_action_group_add_action (composer->priv->composer_actions, action);
+
+		gtk_ui_manager_add_ui ( 
+			manager, merge_id, path,
+			action_name, 
+			action_name, 
+			GTK_UI_MANAGER_AUTO, FALSE);
+	}
+
+	gtk_ui_manager_ensure_update (manager);
 }
 
 void
@@ -86,9 +118,9 @@ e_composer_private_init (EMsgComposer *composer)
 
 	filename = e_composer_find_data_file ("evolution-composer.ui");
 	gtk_ui_manager_add_ui_from_file (manager, filename, &error);
-	composer_setup_charset_menu (composer);
-	gtk_ui_manager_ensure_update (manager);
 	g_free (filename);
+
+	composer_setup_charset_menu (composer);
 
 	if (error != NULL) {
 		/* Henceforth, bad things start happening. */
@@ -158,6 +190,8 @@ e_composer_private_init (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 6);
 	priv->attachment_expander_num = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	composer_setup_recent_menu (composer);
 }
 
 void
