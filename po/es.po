@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-06 03:23+0100\n"
-"PO-Revision-Date: 2008-04-07 20:18+0200\n"
+"POT-Creation-Date: 2008-04-12 03:23+0100\n"
+"PO-Revision-Date: 2008-04-12 21:45+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -526,9 +526,8 @@ msgstr ""
 "actualizarse a una versión soportada"
 
 #: ../addressbook/addressbook.error.xml.h:35
-#, fuzzy
 msgid "You do not have enough permissions to delete contact in this Address Book."
-msgstr "No tiene suficientes permisos para borrar este correo."
+msgstr "No tiene suficientes permisos para borrar este contacto en esta Libreta de direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -4457,7 +4456,7 @@ msgstr "Sus tareas no estarán disponibles hasta que reinicie Evolution."
 msgid "_Discard Changes"
 msgstr "_Descartar cambios"
 
-#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:489
+#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:492
 #: ../ui/evolution-editor.xml.h:23
 msgid "_Save"
 msgstr "_Guardar"
@@ -5577,7 +5576,7 @@ msgid "Alarms"
 msgstr "Alertas"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:92
-#: ../composer/e-composer-actions.c:62
+#: ../composer/e-composer-actions.c:63
 msgid "_Suggest automatic display of attachment"
 msgstr "_Sugerir mostrar automáticamente el adjunto"
 
@@ -5882,9 +5881,8 @@ msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:589
-#, fuzzy
 msgid "Memo List Properties"
-msgstr "Propiedades de lista de tareas"
+msgstr "Propiedades de lista de notas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:589
 msgid "New Memo List"
@@ -5988,9 +5986,9 @@ msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
 #: ../calendar/gui/dialogs/comp-editor.c:663
-#: ../calendar/gui/dialogs/comp-editor.c:2821 ../mail/em-utils.c:372
+#: ../calendar/gui/dialogs/comp-editor.c:2861 ../mail/em-utils.c:372
 #: ../plugins/prefer-plain/prefer-plain.c:79
-#: ../widgets/misc/e-attachment-bar.c:359
+#: ../widgets/misc/e-attachment-bar.c:363
 msgid "attachment"
 msgstr "adjunto"
 
@@ -6010,7 +6008,7 @@ msgid "Hide Attachment _Bar"
 msgstr "Ocultar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1010
-#: ../calendar/gui/dialogs/comp-editor.c:1558
+#: ../calendar/gui/dialogs/comp-editor.c:1593
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
@@ -6028,64 +6026,64 @@ msgstr "_Quitar"
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1582
+#: ../calendar/gui/dialogs/comp-editor.c:1617
 #: ../mail/em-format-html-display.c:2360
 msgid "Show Attachments"
 msgstr "Mostrar adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1583
+#: ../calendar/gui/dialogs/comp-editor.c:1618
 msgid "Press space key to toggle attachment bar"
 msgstr "Pulse la barra espaciadora para cambiar la barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2189
-#: ../calendar/gui/dialogs/comp-editor.c:2232
+#: ../calendar/gui/dialogs/comp-editor.c:2229
+#: ../calendar/gui/dialogs/comp-editor.c:2272
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2195
-#: ../calendar/gui/dialogs/comp-editor.c:2238
+#: ../calendar/gui/dialogs/comp-editor.c:2235
+#: ../calendar/gui/dialogs/comp-editor.c:2278
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2197
-#: ../calendar/gui/dialogs/comp-editor.c:2240
+#: ../calendar/gui/dialogs/comp-editor.c:2237
+#: ../calendar/gui/dialogs/comp-editor.c:2280
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2201
-#: ../calendar/gui/dialogs/comp-editor.c:2244
+#: ../calendar/gui/dialogs/comp-editor.c:2241
+#: ../calendar/gui/dialogs/comp-editor.c:2284
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2203
-#: ../calendar/gui/dialogs/comp-editor.c:2246
+#: ../calendar/gui/dialogs/comp-editor.c:2243
+#: ../calendar/gui/dialogs/comp-editor.c:2286
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2206
-#: ../calendar/gui/dialogs/comp-editor.c:2249
+#: ../calendar/gui/dialogs/comp-editor.c:2246
+#: ../calendar/gui/dialogs/comp-editor.c:2289
 #, c-format
 msgid "Memo - %s"
 msgstr "Nota - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2217
-#: ../calendar/gui/dialogs/comp-editor.c:2259
+#: ../calendar/gui/dialogs/comp-editor.c:2257
+#: ../calendar/gui/dialogs/comp-editor.c:2299
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2910
-#: ../calendar/gui/dialogs/comp-editor.c:2964
-#: ../calendar/gui/dialogs/comp-editor.c:2988
+#: ../calendar/gui/dialogs/comp-editor.c:2950
+#: ../calendar/gui/dialogs/comp-editor.c:3004
+#: ../calendar/gui/dialogs/comp-editor.c:3028
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3017
+#: ../calendar/gui/dialogs/comp-editor.c:3057
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -6962,7 +6960,7 @@ msgstr "No"
 #: ../plugins/itip-formatter/itip-formatter.c:410
 #: ../plugins/itip-formatter/itip-formatter.c:2049
 #: ../plugins/plugin-manager/plugin-manager.c:84
-#: ../widgets/misc/e-attachment-bar.c:721
+#: ../widgets/misc/e-attachment-bar.c:727
 #: ../widgets/misc/e-charset-picker.c:55
 msgid "Unknown"
 msgstr "Desconocido"
@@ -7064,7 +7062,7 @@ msgstr "Actualizando objetos"
 
 #: ../calendar/gui/e-calendar-table.c:1139
 #: ../calendar/gui/e-calendar-view.c:1233 ../calendar/gui/e-memo-table.c:821
-#: ../composer/e-composer-actions.c:274
+#: ../composer/e-composer-actions.c:277
 msgid "Save as..."
 msgstr "Guardar como…"
 
@@ -10176,36 +10174,35 @@ msgstr "Pacífico/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
-#: ../composer/e-composer-autosave.c:275
-#, fuzzy
+#: ../composer/e-composer-autosave.c:277
 msgid "Could not open autosave file"
-msgstr "No es posible abrir el archivo"
+msgstr "No se pudo abrir el archivo de autoguardado"
 
-#: ../composer/e-composer-autosave.c:282
+#: ../composer/e-composer-autosave.c:284
 msgid "Unable to retrieve message from editor"
 msgstr "No se pudo obtener el mensaje del editor"
 
-#: ../composer/e-composer-actions.c:45
+#: ../composer/e-composer-actions.c:46
 msgid "Insert Attachment"
 msgstr "Inserta un adjunto"
 
-#: ../composer/e-composer-actions.c:49
+#: ../composer/e-composer-actions.c:50
 msgid "A_ttach"
 msgstr "_Adjuntar"
 
-#: ../composer/e-composer-actions.c:140
+#: ../composer/e-composer-actions.c:142
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
-#: ../composer/e-composer-actions.c:461 ../ui/evolution-editor.xml.h:15
+#: ../composer/e-composer-actions.c:464 ../ui/evolution-editor.xml.h:15
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../composer/e-composer-actions.c:463
+#: ../composer/e-composer-actions.c:466
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../composer/e-composer-actions.c:468 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:471 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 #: ../ui/evolution-subscribe.xml.h:9
 msgid "_Close"
@@ -10216,175 +10213,174 @@ msgstr "_Cerrar"
 #. _tip="Save the current file" pixtype="stock" pixname="Save"
 #. accel="*Ctrl*s"/>
 #.
-#: ../composer/e-composer-actions.c:470
+#: ../composer/e-composer-actions.c:473
 #: ../ui/evolution-signature-editor.xml.h:13
 msgid "Close the current file"
 msgstr "Cierra el archivo actual"
 
-#: ../composer/e-composer-actions.c:475 ../mail/em-folder-view.c:1343
+#: ../composer/e-composer-actions.c:478 ../mail/em-folder-view.c:1343
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "_Imprimir…"
 
-#: ../composer/e-composer-actions.c:482 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:485 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Vi_sta previa de impresión"
 
-#: ../composer/e-composer-actions.c:491
+#: ../composer/e-composer-actions.c:494
 msgid "Save the current file"
 msgstr "Guardar archivo actual"
 
-#: ../composer/e-composer-actions.c:496
+#: ../composer/e-composer-actions.c:499
 msgid "Save _As..."
 msgstr "Guardar _como…"
 
-#: ../composer/e-composer-actions.c:498
+#: ../composer/e-composer-actions.c:501
 msgid "Save the current file with a different name"
 msgstr "Guardar el archivo actual con un nombre diferente"
 
-#: ../composer/e-composer-actions.c:503
+#: ../composer/e-composer-actions.c:506
 msgid "Save _Draft"
 msgstr "Guardar _borrador"
 
-#: ../composer/e-composer-actions.c:505
+#: ../composer/e-composer-actions.c:508
 msgid "Save as draft"
 msgstr "Guardar como borrador"
 
-#: ../composer/e-composer-actions.c:510
+#: ../composer/e-composer-actions.c:513
 msgid "S_end"
 msgstr "_Enviar"
 
-#: ../composer/e-composer-actions.c:512
+#: ../composer/e-composer-actions.c:515
 msgid "Send this message"
 msgstr "Enviar este mensaje"
 
-#: ../composer/e-composer-actions.c:517 ../ui/evolution-task-editor.xml.h:23
+#: ../composer/e-composer-actions.c:520 ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "Opciones de _envío"
 
-#: ../composer/e-composer-actions.c:519
+#: ../composer/e-composer-actions.c:522
 msgid "Insert Send options"
 msgstr "Insertar opciones de envío"
 
-#: ../composer/e-composer-actions.c:526 ../widgets/misc/e-charset-picker.c:598
-msgid "Ch_aracter Encoding"
-msgstr "C_odificación de caracteres"
+#: ../composer/e-composer-actions.c:529
+msgid "Character _Encoding"
+msgstr "_Codificación de caracteres"
 
-#: ../composer/e-composer-actions.c:533
+#: ../composer/e-composer-actions.c:536
 msgid "_Security"
 msgstr "_Seguridad"
 
-#: ../composer/e-composer-actions.c:543
+#: ../composer/e-composer-actions.c:546
 msgid "PGP _Encrypt"
 msgstr "Cif_rar con PGP"
 
-#: ../composer/e-composer-actions.c:545
+#: ../composer/e-composer-actions.c:548
 msgid "Encrypt this message with PGP"
 msgstr "Cifrar este mensaje con PGP"
 
-#: ../composer/e-composer-actions.c:551
+#: ../composer/e-composer-actions.c:554
 msgid "PGP _Sign"
 msgstr "_Firmar con PGP"
 
-#: ../composer/e-composer-actions.c:553
+#: ../composer/e-composer-actions.c:556
 msgid "Sign this message with your PGP key"
 msgstr "Firmar este mensaje con su clave GPG"
 
-#: ../composer/e-composer-actions.c:559
+#: ../composer/e-composer-actions.c:562
 msgid "_Prioritize Message"
 msgstr "_Priorizar mensaje"
 
-#: ../composer/e-composer-actions.c:561
+#: ../composer/e-composer-actions.c:564
 msgid "Set the message priority to high"
 msgstr "Establecer la prioridad del mensaje a alta"
 
-#: ../composer/e-composer-actions.c:567
-msgid "R_equest Read Receipt"
+#: ../composer/e-composer-actions.c:570
+msgid "Re_quest Read Receipt"
 msgstr "_Solicitar confirmación de lectura"
 
-#: ../composer/e-composer-actions.c:569
+#: ../composer/e-composer-actions.c:572
 msgid "Get delivery notification when your message is read"
 msgstr "Obtener notificación de entrega cuando su mensaje sea leído"
 
-#: ../composer/e-composer-actions.c:575
+#: ../composer/e-composer-actions.c:578
 msgid "S/MIME En_crypt"
 msgstr "C_ifrar con S/MIME"
 
-#: ../composer/e-composer-actions.c:577
+#: ../composer/e-composer-actions.c:580
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Cifrar este mensaje con su certificado de cifrado S/MIME"
 
-#: ../composer/e-composer-actions.c:583
+#: ../composer/e-composer-actions.c:586
 msgid "S/MIME Sig_n"
 msgstr "Fi_rmar con S/MIME"
 
-#: ../composer/e-composer-actions.c:585
+#: ../composer/e-composer-actions.c:588
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Firmar este mensaje con su certificado de firma S/MIME"
 
-#: ../composer/e-composer-actions.c:591
+#: ../composer/e-composer-actions.c:594
 msgid "_Bcc Field"
 msgstr "Campo «Cc_o»"
 
-#: ../composer/e-composer-actions.c:593
+#: ../composer/e-composer-actions.c:596
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cco»"
 
-#: ../composer/e-composer-actions.c:599
+#: ../composer/e-composer-actions.c:602
 msgid "_Cc Field"
 msgstr "Campo «_Cc»"
 
-#: ../composer/e-composer-actions.c:601
+#: ../composer/e-composer-actions.c:604
 msgid "Toggles whether the CC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cc»"
 
-#: ../composer/e-composer-actions.c:607
+#: ../composer/e-composer-actions.c:610
 msgid "_From Field"
 msgstr "Campo «_De»"
 
-#: ../composer/e-composer-actions.c:609
+#: ../composer/e-composer-actions.c:612
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Conmutador que indica si se muestra el selector «De»"
 
-#: ../composer/e-composer-actions.c:615
+#: ../composer/e-composer-actions.c:618
 msgid "_Post-To Field"
 msgstr "Campo «_Publicar-en»"
 
-#: ../composer/e-composer-actions.c:617
+#: ../composer/e-composer-actions.c:620
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Publicar-en»"
 
-#: ../composer/e-composer-actions.c:623
+#: ../composer/e-composer-actions.c:626
 msgid "_Reply-To Field"
 msgstr "Campo «_Responder-a»"
 
-#: ../composer/e-composer-actions.c:625
+#: ../composer/e-composer-actions.c:628
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Responder-a»"
 
-#: ../composer/e-composer-actions.c:631
-#, fuzzy
+#: ../composer/e-composer-actions.c:634
 msgid "_Subject Field"
-msgstr "Campo «_Cc»"
+msgstr "Campo A_sunto"
 
-#: ../composer/e-composer-actions.c:633
+#: ../composer/e-composer-actions.c:636
 #, fuzzy
 msgid "Toggles whether the Subject field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Estado»"
 
-#: ../composer/e-composer-actions.c:639
+#: ../composer/e-composer-actions.c:642
 msgid "_To Field"
 msgstr "Campo «_Para»"
 
-#: ../composer/e-composer-actions.c:641
+#: ../composer/e-composer-actions.c:644
 msgid "Toggles whether the To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Para»"
 
-#: ../composer/e-composer-actions.c:682 ../ui/evolution-editor.xml.h:1
+#: ../composer/e-composer-actions.c:685 ../ui/evolution-editor.xml.h:1
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -10452,7 +10448,11 @@ msgstr "Elija las carpetas en las que publicar el mensaje."
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
-#: ../composer/e-composer-private.c:141 ../composer/e-msg-composer.c:1558
+#: ../composer/e-composer-private.c:65
+msgid "Recent _Documents"
+msgstr "_Documentos recientes"
+
+#: ../composer/e-composer-private.c:173 ../composer/e-msg-composer.c:1558
 msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
@@ -10482,11 +10482,11 @@ msgstr[1] "Adjuntos"
 msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
-#: ../composer/e-msg-composer.c:1573 ../composer/e-msg-composer.c:2734
+#: ../composer/e-msg-composer.c:1573 ../composer/e-msg-composer.c:2740
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4024
+#: ../composer/e-msg-composer.c:4030
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10525,8 +10525,7 @@ msgstr "¿Seguro que quiere descartar el mensaje titulado «{0}» que está reda
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr "Debido a «{0}», quizá necesite seleccionar diferentes opciones de correo."
 
-#: ../composer/mail-composer.error.xml.h:5 ../e-util/e-system.error.xml.h:1
-#: ../mail/mail.error.xml.h:19
+#: ../composer/mail-composer.error.xml.h:5
 msgid "Because &quot;{1}&quot;."
 msgstr "Porque «{1}»."
 
@@ -10707,20 +10706,24 @@ msgstr ""
 "El sistema de impresión no proporcionó ningún detalle adicional acerca del "
 "error."
 
+#: ../e-util/e-system.error.xml.h:1 ../mail/mail.error.xml.h:19
+msgid "Because \"{1}\"."
+msgstr "Porque «{1}»."
+
 #: ../e-util/e-system.error.xml.h:2
-msgid "Cannot open file &quot;{0}&quot;."
-msgstr "No es posible abrir el archivo «{0}»."
+msgid "Cannot open file \"{0}\"."
+msgstr "No se puede abrir el archivo «{0}»."
 
 #: ../e-util/e-system.error.xml.h:3
-msgid "Cannot save file &quot;{0}&quot;."
-msgstr "No es posible guardar el archivo «{0}»."
+msgid "Cannot save file \"{0}\"."
+msgstr "No se puede guardar el archivo «{0}»."
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
 msgstr "¿Quiere sobreescribirlo?"
 
 #: ../e-util/e-system.error.xml.h:5
-msgid "File exists &quot;{0}&quot;."
+msgid "File exists \"{0}\"."
 msgstr "El archivo existe «{0}»."
 
 #: ../e-util/e-system.error.xml.h:6
@@ -11244,7 +11247,7 @@ msgstr "Asistente de cuentas de Evolution"
 msgid "[Default]"
 msgstr "[Predeterminada]"
 
-#: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:977
+#: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:978
 #: ../plugins/plugin-manager/plugin-manager.c:331
 #: ../plugins/publish-calendar/publish-calendar.c:510
 msgid "Enabled"
@@ -11263,30 +11266,30 @@ msgstr "Protocolo"
 msgid "Unnamed"
 msgstr "Sin nombre"
 
-#: ../mail/em-composer-prefs.c:981
+#: ../mail/em-composer-prefs.c:982
 msgid "Language(s)"
 msgstr "Idioma(s)"
 
-#: ../mail/em-composer-prefs.c:1022
+#: ../mail/em-composer-prefs.c:1031
 msgid "Add signature script"
 msgstr "Añadir un script de firma"
 
-#: ../mail/em-composer-prefs.c:1042
+#: ../mail/em-composer-prefs.c:1073
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:937 ../mail/em-format-quote.c:413
+#: ../mail/em-composer-utils.c:938 ../mail/em-format-quote.c:413
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1753
+#: ../mail/em-composer-utils.c:1754
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1800
+#: ../mail/em-composer-utils.c:1801
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11294,7 +11297,7 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:1941
+#: ../mail/em-composer-utils.c:1942
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
@@ -14722,16 +14725,19 @@ msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
 #: ../mail/mail.error.xml.h:1
-msgid "A folder named &quot;{0}&quot; already exists. Please use a different name."
+#, fuzzy
+msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgstr "Ya existe una carpeta llamada «{0}». Use un nombre diferente."
 
 #: ../mail/mail.error.xml.h:2
-msgid "A folder named &quot;{1}&quot; already exists. Please use a different name."
+#, fuzzy
+msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr "Ya existe una carpeta llamada «{1}». Por favor, use un nombre diferente."
 
 #: ../mail/mail.error.xml.h:3
+#, fuzzy
 msgid ""
-"A non-empty folder at &quot;{1}&quot; already exists.\n"
+"A non-empty folder at \"{1}\" already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
@@ -14742,17 +14748,19 @@ msgstr ""
 "salir."
 
 #: ../mail/mail.error.xml.h:6
+#, fuzzy
 msgid ""
-"A read receipt notification has been requested for &quot;{1}&quot;. Send the "
-"receipt notification to {0}?"
+"A read receipt notification has been requested for \"{1}\". Send the receipt "
+"notification to {0}?"
 msgstr ""
 "Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar "
 "una notificación de recepción a {0}?"
 
 #: ../mail/mail.error.xml.h:7
+#, fuzzy
 msgid ""
-"A signature already exists with the name &quot;{0}&quot;. Please specify a "
-"different name."
+"A signature already exists with the name \"{0}\". Please specify a different "
+"name."
 msgstr "Ya existe una firma con el nombre «{0}». Por favor, use un nombre diferente."
 
 #: ../mail/mail.error.xml.h:8
@@ -14788,12 +14796,13 @@ msgstr ""
 "carpetas?"
 
 #: ../mail/mail.error.xml.h:14
+#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
-"folder &quot;{0}&quot;?"
+"folder \"{0}\"?"
 msgstr ""
-"¿Seguro que quiere eliminar permanentemente todos los mensajes borrados en "
-"la carpeta «{0}»?"
+"¿Seguro que quiere eliminar todos los mensajes borrados en todas las "
+"carpetas?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
@@ -14808,11 +14817,13 @@ msgid "Are you sure you want to send a message without a subject?"
 msgstr "¿Seguro que quiere enviar un mensaje sin un asunto?"
 
 #: ../mail/mail.error.xml.h:18
-msgid "Because &quot;{0}&quot;."
+#, fuzzy
+msgid "Because \"{0}\"."
 msgstr "Porque «{0}»."
 
 #: ../mail/mail.error.xml.h:20
-msgid "Because &quot;{2}&quot;."
+#, fuzzy
+msgid "Because \"{2}\"."
 msgstr "Porque «{2}»."
 
 #: ../mail/mail.error.xml.h:21
@@ -14820,15 +14831,18 @@ msgid "Blank Signature"
 msgstr "Firma en blanco"
 
 #: ../mail/mail.error.xml.h:22
-msgid "Cannot add Search Folder &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot add Search Folder \"{0}\"."
 msgstr "No es posible añadir la carpeta de búsqueda «{0}»."
 
 #: ../mail/mail.error.xml.h:23
-msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
+#, fuzzy
+msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "No es posible copiar la carpeta: «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:24
-msgid "Cannot create folder &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot create folder \"{0}\"."
 msgstr "No es posible crear la carpeta: «{0}»."
 
 #: ../mail/mail.error.xml.h:25
@@ -14836,53 +14850,63 @@ msgid "Cannot create temporary save directory."
 msgstr "No es posible crear el directorio de guardado temporal."
 
 #: ../mail/mail.error.xml.h:26
-msgid "Cannot create the save directory, because &quot;{1}&quot;"
+#, fuzzy
+msgid "Cannot create the save directory, because \"{1}\""
 msgstr "No es posible crear el directorio de guardado, debido a «{1}»"
 
 #: ../mail/mail.error.xml.h:27
-msgid "Cannot delete folder &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot delete folder \"{0}\"."
 msgstr "No es posible borrar la carpeta «{0}»."
 
 #: ../mail/mail.error.xml.h:28
-msgid "Cannot delete system folder &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot delete system folder \"{0}\"."
 msgstr "No es posible borrar la carpeta de sistema «{0}»."
 
 #: ../mail/mail.error.xml.h:29
-msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
+#, fuzzy
+msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgstr "No es posible editar la carpeta de búsqueda «{0}» porque no existe."
 
 #: ../mail/mail.error.xml.h:30
-msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
+#, fuzzy
+msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "No es posible mover la carpeta «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:31
-msgid "Cannot open source &quot;{1}&quot;"
+#, fuzzy
+msgid "Cannot open source \"{1}\""
 msgstr "No es posible abrir el origen «{1}»"
 
 #: ../mail/mail.error.xml.h:32
-msgid "Cannot open source &quot;{2}&quot;."
+#, fuzzy
+msgid "Cannot open source \"{2}\"."
 msgstr "No es posible abrir el origen «{2}»."
 
 #: ../mail/mail.error.xml.h:33
-msgid "Cannot open target &quot;{2}&quot;."
+#, fuzzy
+msgid "Cannot open target \"{2}\"."
 msgstr "No es posible abrir el destino «{2}»."
 
 #: ../mail/mail.error.xml.h:34
+#, fuzzy
 msgid ""
-"Cannot read the license file &quot;{0}&quot;, due to an installation "
-"problem. You will not be able to use this provider until you can accept its "
-"license."
+"Cannot read the license file \"{0}\", due to an installation problem. You "
+"will not be able to use this provider until you can accept its license."
 msgstr ""
 "No es posible leer el archivo de licencia «{0}», debido a un problema de "
 "instalación. No será posible usar este proveedor hasta que pueda aceptar "
 "esta licencia."
 
 #: ../mail/mail.error.xml.h:35
-msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
+#, fuzzy
+msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "No es posible renombrar «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:36
-msgid "Cannot rename or move system folder &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot rename or move system folder \"{0}\"."
 msgstr "No es posible renombrar o mover la carpeta de sistema «{0}»."
 
 #: ../mail/mail.error.xml.h:37
@@ -14890,15 +14914,18 @@ msgid "Cannot save changes to account."
 msgstr "No es posible guardar los cambios en la cuenta."
 
 #: ../mail/mail.error.xml.h:38
-msgid "Cannot save to directory &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot save to directory \"{0}\"."
 msgstr "No es posible guardar al directorio «{0}»."
 
 #: ../mail/mail.error.xml.h:39
-msgid "Cannot save to file &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot save to file \"{0}\"."
 msgstr "No es posible guardar al archivo «{0}»."
 
 #: ../mail/mail.error.xml.h:40
-msgid "Cannot set signature script &quot;{0}&quot;."
+#, fuzzy
+msgid "Cannot set signature script \"{0}\"."
 msgstr "No es posible establecer el script de firma «{0}»."
 
 #: ../mail/mail.error.xml.h:41
@@ -14915,16 +14942,18 @@ msgid "Could not save signature file."
 msgstr "No es posible guardar el archivo de firma."
 
 #: ../mail/mail.error.xml.h:43
-msgid "Delete &quot;{0}&quot;?"
-msgstr "¿Desea borrar «{0}»?"
+#, fuzzy
+msgid "Delete \"{0}\"?"
+msgstr "Borrado: "
 
 #: ../mail/mail.error.xml.h:44
 msgid "Delete account?"
 msgstr "¿Desea borrar la cuenta?"
 
 #: ../mail/mail.error.xml.h:45
-msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "¿Borrar los mensajes en la carpeta de búsqueda «{0}»?"
+#, fuzzy
+msgid "Delete messages in Search Folder \"{0}\"?"
+msgstr "¿Borrar los mensajes en la carpeta de búsqueda?"
 
 #: ../mail/mail.error.xml.h:46
 msgid "Delete messages in Search Folder?"
@@ -15108,7 +15137,8 @@ msgid "Please wait."
 msgstr "Por favor espere."
 
 #: ../mail/mail.error.xml.h:87
-msgid "Problem migrating old mail folder &quot;{0}&quot;."
+#, fuzzy
+msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problema al migrar la carpeta antigua de correo «{0}»."
 
 #: ../mail/mail.error.xml.h:88
@@ -15126,7 +15156,8 @@ msgid "Read receipt requested."
 msgstr "Se solicitó una notificación de lectura."
 
 #: ../mail/mail.error.xml.h:91
-msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
+#, fuzzy
+msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "¿Seguro que quiere borrar la carpeta «{0}» y todas sus subcarpetas?"
 
 #: ../mail/mail.error.xml.h:92
@@ -15174,11 +15205,12 @@ msgstr ""
 "destinatario a Para: o Cc: "
 
 #: ../mail/mail.error.xml.h:101
+#, fuzzy
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
 "Used the now removed folder:\n"
-"    &quot;{1}&quot;\n"
+"    \"{1}\"\n"
 "And have been updated."
 msgstr ""
 "La(s) siguiente(s) carpeta(s) de búsqueda:\n"
@@ -15188,11 +15220,12 @@ msgstr ""
 "y se han actualizado."
 
 #: ../mail/mail.error.xml.h:106
+#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
 "Used the now removed folder:\n"
-"    &quot;{1}&quot;\n"
+"    \"{1}\"\n"
 "And have been updated."
 msgstr ""
 "La(s) siguiente(s) reglas de filtrado:\n"
@@ -15311,7 +15344,8 @@ msgstr ""
 "las carpetas locales, todas las carpetas remotas, o ambas."
 
 #: ../mail/mail.error.xml.h:134
-msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
+#, fuzzy
+msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Su inicio de sesión en su servidor «{0}» como «{0}» falló."
 
 #: ../mail/mail.error.xml.h:135
@@ -15560,8 +15594,9 @@ msgid "Message has no attachments"
 msgstr "El mensaje no tiene adjuntos"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
-msgid "_Continue Editing"
-msgstr "_Continuar editando"
+#, fuzzy
+msgid "_Edit Message"
+msgstr "_Editar mensaje"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
@@ -19507,7 +19542,7 @@ msgstr "'.' y '..' son nombres reservados de carpetas."
 
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
-#: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:342
+#: ../shell/e-shell-view.c:50 ../shell/e-shell-window.c:343
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -19563,19 +19598,19 @@ msgstr "_Trabajar desconectado"
 msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
-#: ../shell/e-shell-window.c:382
+#: ../shell/e-shell-window.c:392
 msgid "Evolution is currently online. Click on this button to work offline."
 msgstr "Evolution está conectado. Pulse este botón para trabajar desconectado."
 
-#: ../shell/e-shell-window.c:389
+#: ../shell/e-shell-window.c:399
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution está en proceso de desconectarse."
 
-#: ../shell/e-shell-window.c:396
+#: ../shell/e-shell-window.c:406
 msgid "Evolution is currently offline. Click on this button to work online."
 msgstr "Evolution está desconectado. Pulse este botón para trabajar conectado."
 
-#: ../shell/e-shell-window.c:805
+#: ../shell/e-shell-window.c:815
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
@@ -22197,9 +22232,14 @@ msgstr "Tipo de vista"
 msgid "Type of view:"
 msgstr "Tipo de vista:"
 
-#: ../widgets/misc/e-attachment-bar.c:1028
+#: ../widgets/misc/e-attachment-bar.c:1043
 msgid "Attachment Bar"
 msgstr "Barra de adjuntos"
+
+#: ../widgets/misc/e-attachment-bar.c:1268
+#, fuzzy
+msgid "Recent Docu_ments"
+msgstr "porcentaje terminado"
 
 #: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
 #: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
@@ -22400,6 +22440,10 @@ msgstr "Introduzca el conjunto de caracteres a usar"
 #: ../widgets/misc/e-charset-picker.c:336
 msgid "Other..."
 msgstr "Otro…"
+
+#: ../widgets/misc/e-charset-picker.c:598
+msgid "Ch_aracter Encoding"
+msgstr "C_odificación de caracteres"
 
 #: ../widgets/misc/e-dateedit.c:324
 msgid "Date and Time"
