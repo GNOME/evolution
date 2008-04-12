@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-27 11:30+0000\n"
-"PO-Revision-Date: 2004-07-25 21:05+0300\n"
-"Last-Translator: Gil Osher <dolfin@rpg.org.il>\n"
+"POT-Creation-Date: 2008-04-09 08:37+0100\n"
+"PO-Revision-Date: 2008-04-12 17:02+0200\n"
+"Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.3.1\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
@@ -399,8 +399,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
-msgstr ""
-"למחוק את ספר הכתובות '{0}'?"
+msgstr "למחוק את ספר הכתובות '{0}'?"
 
 #: ../addressbook/addressbook.error.xml.h:13
 msgid "Error loading addressbook."
@@ -1464,7 +1463,7 @@ msgstr "אנגולה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Anguilla"
-msgstr ""
+msgstr "אנגווילה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antarctica"
@@ -1524,7 +1523,7 @@ msgstr "בלגיה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Belize"
-msgstr ""
+msgstr "בליז"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Benin"
@@ -1536,7 +1535,7 @@ msgstr "ברמודה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Bhutan"
-msgstr ""
+msgstr "בהוטן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Bolivia"
@@ -1548,11 +1547,11 @@ msgstr "בוסניה-הרצגובינה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Botswana"
-msgstr ""
+msgstr "בוטסואנה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Bouvet Island"
-msgstr ""
+msgstr "אי בובט"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Brazil"
@@ -1564,7 +1563,7 @@ msgstr "הטריטוריה הבריטית באוקיינוס ההודי"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "סולטנות ברוניי"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Bulgaria"
@@ -1572,11 +1571,11 @@ msgstr "בולגריה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Burkina Faso"
-msgstr ""
+msgstr "בורקינה פאסו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Burundi"
-msgstr ""
+msgstr "בורונדי"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Cambodia"
@@ -1592,11 +1591,11 @@ msgstr "קנדה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cape Verde"
-msgstr ""
+msgstr "קייפ ורדה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Cayman Islands"
-msgstr ""
+msgstr "איי קיימאן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Central African Republic"
@@ -1628,7 +1627,7 @@ msgstr "קולומביה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Comoros"
-msgstr ""
+msgstr "קומורו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo"
@@ -1672,7 +1671,7 @@ msgstr "דנמרק"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Djibouti"
-msgstr ""
+msgstr "ג'יבוטי"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Dominica"
@@ -1696,7 +1695,7 @@ msgstr "אל סלואדור"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "גינאה המשוונית"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Eritrea"
@@ -1760,7 +1759,7 @@ msgstr "גרמניה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Ghana"
-msgstr ""
+msgstr "גאנה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Gibraltar"
@@ -1800,7 +1799,7 @@ msgstr "גואינה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "גינאה-ביסאו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Guyana"
@@ -1856,7 +1855,7 @@ msgstr "אירלנד"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Isle of Man"
-msgstr ""
+msgstr "האי מאן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Israel"
@@ -1892,7 +1891,7 @@ msgstr "קניה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Kiribati"
-msgstr ""
+msgstr "קיריבאטי"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Democratic People's Republic Of"
@@ -1924,7 +1923,7 @@ msgstr "לבנון"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Lesotho"
-msgstr ""
+msgstr "לסוטו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Liberia"
@@ -1932,7 +1931,7 @@ msgstr "ליבריה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Libya"
-msgstr ""
+msgstr "לוב"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Liechtenstein"
@@ -1940,7 +1939,7 @@ msgstr "ליכטנשטיין"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Lithuania"
-msgstr ""
+msgstr "ליטא"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Luxembourg"
@@ -1968,7 +1967,7 @@ msgstr "מלזיה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Maldives"
-msgstr ""
+msgstr "האיים המלדיביים"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Mali"
@@ -1984,7 +1983,7 @@ msgstr "איי מרשל"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Martinique"
-msgstr ""
+msgstr "מרטיניק"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritania"
@@ -1992,11 +1991,11 @@ msgstr "מאוריטניה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mauritius"
-msgstr ""
+msgstr "מאוריציוס"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mayotte"
-msgstr ""
+msgstr "מאיוט"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Mexico"
@@ -2020,7 +2019,7 @@ msgstr "מונגוליה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Montserrat"
-msgstr ""
+msgstr "מונסראט"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Morocco"
@@ -2040,7 +2039,7 @@ msgstr "נמביה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nauru"
-msgstr ""
+msgstr "נאורו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Nepal"
@@ -2052,7 +2051,7 @@ msgstr "הולנד"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "האנטילים ההולנדיים"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Caledonia"
@@ -2062,7 +2061,7 @@ msgstr "קלדוניה החדשה"
 msgid "New Zealand"
 msgstr "ניו-זילנד"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
+#: .י./addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Nicaragua"
 msgstr "ניקראגואה"
 
@@ -2076,15 +2075,15 @@ msgstr "ניגריה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Niue"
-msgstr ""
+msgstr "ניווה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Norfolk Island"
-msgstr ""
+msgstr "האי נורפוק"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "איי מריאנה הצפוניים"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Norway"
@@ -2100,7 +2099,7 @@ msgstr "פקיסטן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palau"
-msgstr ""
+msgstr "פלאו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
@@ -2128,7 +2127,7 @@ msgstr "פיליפינים"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Pitcairn"
-msgstr ""
+msgstr "פיטקרן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Poland"
@@ -2164,15 +2163,15 @@ msgstr "רואנדה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "סנט קיטס ונוויס"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Lucia"
-msgstr ""
+msgstr "סנט לוסיה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Saint Vincent And The Grenadines"
-msgstr ""
+msgstr "סנט וינסנט והגרנדינים"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Samoa"
@@ -2180,11 +2179,11 @@ msgstr "סמואה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "San Marino"
-msgstr ""
+msgstr "סאן מארינו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "סאו תומה ופרינסיפה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Saudi Arabia"
@@ -2232,7 +2231,7 @@ msgstr "דרום אפריקה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "איי ג'ורג'יה הדרומית ואיי סנדוויץ' הדרומיים"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Spain"
@@ -2244,7 +2243,7 @@ msgstr "סרי לנקה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "St. Helena"
-msgstr ""
+msgstr "סנט הלנה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "St. Pierre And Miquelon"
@@ -2264,7 +2263,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Swaziland"
-msgstr ""
+msgstr "סווזילנד"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Sweden"
@@ -2304,7 +2303,7 @@ msgstr "טוגו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tokelau"
-msgstr ""
+msgstr "טוקלאו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Tonga"
@@ -2328,11 +2327,11 @@ msgstr "טורקמניסטן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "איי טורקס וקאיקוס"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Tuvalu"
-msgstr ""
+msgstr "טובאלו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Uganda"
@@ -2364,7 +2363,7 @@ msgstr "אוזבקיסטן"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Vanuatu"
-msgstr ""
+msgstr "ונואטו"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Venezuela"
@@ -2384,7 +2383,7 @@ msgstr "איי וירג'יניה, ארה\"ב"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "איי ואליס ופוטונה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Western Sahara"
@@ -3676,8 +3675,7 @@ msgstr "מייבא..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr ""
-"‏CSV או Tab של Outlook ‏(‎.csv, .tab)"
+msgstr "‏CSV או Tab של Outlook ‏(‎.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
 msgid "Outlook CSV and Tab Importer"
@@ -3685,8 +3683,7 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
-msgstr ""
-"‏CSV או Tab של Mozilla ‏(‎.csv, .tab)"
+msgstr "‏CSV או Tab של Mozilla ‏(‎.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
 msgid "Mozilla CSV and Tab Importer"
@@ -3694,8 +3691,7 @@ msgstr ""
 
 #: ../addressbook/importers/evolution-csv-importer.c:844
 msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr ""
-"‏CSV או Tab של Evolution ‏(‎.csv, .tab)"
+msgstr "‏CSV או Tab של Evolution ‏(‎.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:845
 #, fuzzy
@@ -4054,8 +4050,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the memo '{0}'?"
-msgstr ""
-"למחוק את מזכר '{0}'?"
+msgstr "למחוק את מזכר '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete these {0} appointments?"
@@ -6429,20 +6424,17 @@ msgstr "לנצח"
 #. 'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:22
 msgid "month(s)"
-msgstr ""
-"חודש(ים)"
+msgstr "חודש(ים)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:28
 msgid "week(s)"
-msgstr ""
-"שבוע(ות)"
+msgstr "שבוע(ות)"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:29
 msgid "year(s)"
-msgstr ""
-"שנה(ים)"
+msgstr "שנה(ים)"
 
 #: ../calendar/gui/dialogs/task-details-page.c:410
 #: ../calendar/gui/dialogs/task-details-page.c:430
@@ -6831,7 +6823,7 @@ msgstr "קבע כ_רקע"
 msgid "_Save Selected"
 msgstr "נבחר"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:790
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "פתח ב-%s..."
@@ -8466,11 +8458,11 @@ msgstr ""
 #.
 #: ../calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "אפריקה/אבידג'אן"
 
 #: ../calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "אפריקה/אקרה"
 
 #: ../calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
@@ -8478,27 +8470,27 @@ msgstr "אפריקה/אדיס_אבבה"
 
 #: ../calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "אפריקה/אלג'יר"
 
 #: ../calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "אפריקה/אסמרה"
 
 #: ../calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "אפריקה/במקו"
 
 #: ../calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "אפריקה/בנגואי"
 
 #: ../calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "אפריקה/בנז'ול"
 
 #: ../calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "אפריקה/ביסאו"
 
 #: ../calendar/zones.h:16
 msgid "Africa/Blantyre"
@@ -8506,11 +8498,11 @@ msgstr ""
 
 #: ../calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "אפריקה/ברזוויל"
 
 #: ../calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "אפריקה/בוג'ומבורה"
 
 #: ../calendar/zones.h:19
 msgid "Africa/Cairo"
@@ -8522,11 +8514,11 @@ msgstr "אפריקה/קזבלנקה"
 
 #: ../calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "אפריקה/סאוטה"
 
 #: ../calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "אפריקה/קונאקרי"
 
 #: ../calendar/zones.h:23
 msgid "Africa/Dakar"
@@ -8538,7 +8530,7 @@ msgstr ""
 
 #: ../calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "אפריקה/ג'יבוטי"
 
 #: ../calendar/zones.h:26
 msgid "Africa/Douala"
@@ -8550,15 +8542,15 @@ msgstr ""
 
 #: ../calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "אפריקה/פריטאון"
 
 #: ../calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "אפריקה/גאבורון"
 
 #: ../calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "אפריקה/הארארה"
 
 #: ../calendar/zones.h:31
 msgid "Africa/Johannesburg"
@@ -8566,35 +8558,35 @@ msgstr "אפריקה/ג'והנסבורג"
 
 #: ../calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "אפריקה/קמפלה"
 
 #: ../calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "אפריקה/חרטום"
 
 #: ../calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "אפריקה/קיגאלי"
 
 #: ../calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "אפריקה/קינשאסה"
 
 #: ../calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "אפריקה/לאגוס"
 
 #: ../calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "אפריקה/ליברוויל"
 
 #: ../calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "אפריקה/לום"
 
 #: ../calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "אפריקה/לואנדה"
 
 #: ../calendar/zones.h:40
 msgid "Africa/Lubumbashi"
@@ -8602,23 +8594,23 @@ msgstr ""
 
 #: ../calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "אפריקה/לוסאקה"
 
 #: ../calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "אפריקה/מלאבו"
 
 #: ../calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "אפריקה/מאפוטו"
 
 #: ../calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "אפריקה/מסרו"
 
 #: ../calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "אפריקה/מבבנה"
 
 #: ../calendar/zones.h:46
 msgid "Africa/Mogadishu"
@@ -8626,7 +8618,7 @@ msgstr ""
 
 #: ../calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "אפריקה/מונרוביה"
 
 #: ../calendar/zones.h:48
 msgid "Africa/Nairobi"
@@ -8634,23 +8626,23 @@ msgstr "אפריקה/ניירובי"
 
 #: ../calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "אפריקה/נג'מנה"
 
 #: ../calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "אפריקה/ניאמי"
 
 #: ../calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "אפריקה/נואקצ'וט"
 
 #: ../calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "אפריקה/וואגאדוגו"
 
 #: ../calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "אפריקה/פורטו נובו"
 
 #: ../calendar/zones.h:54
 msgid "Africa/Sao_Tome"
@@ -8658,7 +8650,7 @@ msgstr ""
 
 #: ../calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "אפריקה/טימבקטו"
 
 #: ../calendar/zones.h:56
 msgid "Africa/Tripoli"
@@ -8670,7 +8662,7 @@ msgstr "אפריקה/טוניס"
 
 #: ../calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "אפריקה/וינדהוק"
 
 #: ../calendar/zones.h:59
 msgid "America/Adak"
@@ -8682,11 +8674,11 @@ msgstr ""
 
 #: ../calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "אמריקה/אנגווילה"
 
 #: ../calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "אמריקה/אנטיגואה"
 
 #: ../calendar/zones.h:63
 msgid "America/Araguaina"
@@ -8694,11 +8686,11 @@ msgstr ""
 
 #: ../calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "אמריקה/ארובה"
 
 #: ../calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "אמריקה/אסונסיון"
 
 #: ../calendar/zones.h:66
 msgid "America/Barbados"
@@ -8722,7 +8714,7 @@ msgstr "אמריקה/בוגוטה"
 
 #: ../calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "אמריקה/בויסי"
 
 #: ../calendar/zones.h:72
 msgid "America/Buenos_Aires"
@@ -9191,11 +9183,11 @@ msgstr ""
 
 #: ../calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "אסיה/עדן"
 
 #: ../calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "אסיה/אלמאטי"
 
 #: ../calendar/zones.h:190
 msgid "Asia/Amman"
@@ -9215,7 +9207,7 @@ msgstr ""
 
 #: ../calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "אסיה/אשגאבט"
 
 #: ../calendar/zones.h:195
 msgid "Asia/Baghdad"
@@ -9227,7 +9219,7 @@ msgstr "אסיה/בחריין"
 
 #: ../calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "אסיה/באקו"
 
 #: ../calendar/zones.h:198
 msgid "Asia/Bangkok"
@@ -9239,11 +9231,11 @@ msgstr "אסיה/ביירות"
 
 #: ../calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "אסיה/בישקק"
 
 #: ../calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "אסיה/ברוניי"
 
 #: ../calendar/zones.h:202
 msgid "Asia/Calcutta"
@@ -9255,7 +9247,7 @@ msgstr ""
 
 #: ../calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "אסיה/צ'ונגצ'ינג"
 
 #: ../calendar/zones.h:205
 msgid "Asia/Colombo"
@@ -9267,11 +9259,11 @@ msgstr "אסיה/דמשק"
 
 #: ../calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "אסיה/דאקה"
 
 #: ../calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "אסיה/דילי"
 
 #: ../calendar/zones.h:209
 msgid "Asia/Dubai"
@@ -9279,7 +9271,7 @@ msgstr "אסיה/דובאי"
 
 #: ../calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "אסיה/דושאנבה"
 
 #: ../calendar/zones.h:211
 msgid "Asia/Gaza"
@@ -9299,7 +9291,7 @@ msgstr ""
 
 #: ../calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "אסיה/אירקוטסק"
 
 #: ../calendar/zones.h:216
 msgid "Asia/Istanbul"
@@ -9323,11 +9315,11 @@ msgstr "אסיה/קאבול"
 
 #: ../calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "אסיה/קמצ'טקה"
 
 #: ../calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "אסיה/קראצ'י"
 
 #: ../calendar/zones.h:223
 msgid "Asia/Kashgar"
@@ -9335,7 +9327,7 @@ msgstr ""
 
 #: ../calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "אסיה/קטמנדו"
 
 #: ../calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
@@ -9343,7 +9335,7 @@ msgstr ""
 
 #: ../calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "אסיה/קואלה_לומפור"
 
 #: ../calendar/zones.h:227
 msgid "Asia/Kuching"
@@ -9375,7 +9367,7 @@ msgstr "אסיה/מנילה"
 
 #: ../calendar/zones.h:234
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "אסיה/מסקט"
 
 #: ../calendar/zones.h:235
 msgid "Asia/Nicosia"
@@ -9383,11 +9375,11 @@ msgstr "אסיה/ניקוסיה"
 
 #: ../calendar/zones.h:236
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "אסיה/נובוסיבירסק"
 
 #: ../calendar/zones.h:237
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "אסיה/אומסק"
 
 #: ../calendar/zones.h:238
 msgid "Asia/Oral"
@@ -9395,7 +9387,7 @@ msgstr ""
 
 #: ../calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "אסיה/פנום_פן"
 
 #: ../calendar/zones.h:240
 msgid "Asia/Pontianak"
@@ -9403,7 +9395,7 @@ msgstr ""
 
 #: ../calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "אסיה/פיונגיאנג"
 
 #: ../calendar/zones.h:242
 msgid "Asia/Qatar"
@@ -9415,11 +9407,11 @@ msgstr ""
 
 #: ../calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "אסיה/רנגון"
 
 #: ../calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "אסיה/ריאד"
 
 #: ../calendar/zones.h:246
 msgid "Asia/Saigon"
@@ -9427,11 +9419,11 @@ msgstr "אסיה/סייגון"
 
 #: ../calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "אסיה/סחלין"
 
 #: ../calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "אסיה/סמרקנד"
 
 #: ../calendar/zones.h:249
 msgid "Asia/Seoul"
@@ -9451,11 +9443,11 @@ msgstr "אסיה/טאיפיי"
 
 #: ../calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "אסיה/טשקנט"
 
 #: ../calendar/zones.h:254
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "אסיה/טביליסי"
 
 #: ../calendar/zones.h:255
 msgid "Asia/Tehran"
@@ -9463,7 +9455,7 @@ msgstr "אסיה/טהרן"
 
 #: ../calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "אסיה/ת'ימפו"
 
 #: ../calendar/zones.h:257
 msgid "Asia/Tokyo"
@@ -9475,19 +9467,19 @@ msgstr ""
 
 #: ../calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "אסיה/אולן בטור"
 
 #: ../calendar/zones.h:260
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "אסיה/אורומקי"
 
 #: ../calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "אסיה/ווינטיאן"
 
 #: ../calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "אסיה/ולדיווסטוק"
 
 #: ../calendar/zones.h:263
 msgid "Asia/Yakutsk"
@@ -9499,7 +9491,7 @@ msgstr ""
 
 #: ../calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "אסיה/ירוואן"
 
 #: ../calendar/zones.h:266
 msgid "Atlantic/Azores"
@@ -9547,11 +9539,11 @@ msgstr ""
 
 #: ../calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "אוסטרליה/אדלייד"
 
 #: ../calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "אוסטרליה/בריסביין"
 
 #: ../calendar/zones.h:279
 msgid "Australia/Broken_Hill"
@@ -9563,7 +9555,7 @@ msgstr ""
 
 #: ../calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "אוסטרליה/הובארט"
 
 #: ../calendar/zones.h:282
 msgid "Australia/Lindeman"
@@ -9599,7 +9591,7 @@ msgstr "אירופה/אתונה"
 
 #: ../calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "אירופה/בלפאסט"
 
 #: ../calendar/zones.h:291
 msgid "Europe/Belgrade"
@@ -9611,7 +9603,7 @@ msgstr "אירופה/ברלין"
 
 #: ../calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "אירופה/ברטיסלאבה"
 
 #: ../calendar/zones.h:294
 msgid "Europe/Brussels"
@@ -9627,7 +9619,7 @@ msgstr "אירופה/בודפשט"
 
 #: ../calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "אירופה/קישינב"
 
 #: ../calendar/zones.h:298
 msgid "Europe/Copenhagen"
@@ -9651,7 +9643,7 @@ msgstr "אירופה/איסטנבול"
 
 #: ../calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "אירופה/קאלינינגרד"
 
 #: ../calendar/zones.h:304
 msgid "Europe/Kiev"
@@ -9663,7 +9655,7 @@ msgstr "אירופה/ליסבון"
 
 #: ../calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "אירופה/לובליאנה"
 
 #: ../calendar/zones.h:307
 msgid "Europe/London"
@@ -9723,7 +9715,7 @@ msgstr "אירופה/סמארה"
 
 #: ../calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "אירופה/סאן_מארינו"
 
 #: ../calendar/zones.h:322
 msgid "Europe/Sarajevo"
@@ -9735,7 +9727,7 @@ msgstr ""
 
 #: ../calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "אירופה/סקופיה"
 
 #: ../calendar/zones.h:325
 msgid "Europe/Sofia"
@@ -9751,7 +9743,7 @@ msgstr "אירופה/טאלין"
 
 #: ../calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "אירופה/טירנה"
 
 #: ../calendar/zones.h:329
 msgid "Europe/Uzhgorod"
@@ -9759,7 +9751,7 @@ msgstr ""
 
 #: ../calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "אירופה/ואדוז"
 
 #: ../calendar/zones.h:331
 msgid "Europe/Vatican"
@@ -9771,7 +9763,7 @@ msgstr "אירופה/וינה"
 
 #: ../calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "אירופה/וילנה"
 
 #: ../calendar/zones.h:334
 msgid "Europe/Warsaw"
@@ -10006,50 +9998,50 @@ msgid "Click here to select folders to post to"
 msgstr ""
 
 #. Now add the signature stuff.
-#: ../composer/e-msg-composer-hdrs.c:221
+#: ../composer/e-msg-composer-hdrs.c:236
 msgid "Si_gnature:"
 msgstr "ח_תימה:"
 
-#: ../composer/e-msg-composer-hdrs.c:326
+#: ../composer/e-msg-composer-hdrs.c:341
 msgid "Fr_om:"
 msgstr "_מאת:"
 
-#: ../composer/e-msg-composer-hdrs.c:332
+#: ../composer/e-msg-composer-hdrs.c:347
 msgid "_Reply-To:"
 msgstr "השב _אל:"
 
-#: ../composer/e-msg-composer-hdrs.c:335
+#: ../composer/e-msg-composer-hdrs.c:353
 msgid "_To:"
 msgstr "א_ל:"
 
-#: ../composer/e-msg-composer-hdrs.c:337
+#: ../composer/e-msg-composer-hdrs.c:355
 msgid "Enter the recipients of the message"
 msgstr "הכנס את הנמענים של ההודעה"
 
-#: ../composer/e-msg-composer-hdrs.c:340
+#: ../composer/e-msg-composer-hdrs.c:361
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-msg-composer-hdrs.c:342
+#: ../composer/e-msg-composer-hdrs.c:363
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr ""
 
-#: ../composer/e-msg-composer-hdrs.c:346
+#: ../composer/e-msg-composer-hdrs.c:370
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
-#: ../composer/e-msg-composer-hdrs.c:348
+#: ../composer/e-msg-composer-hdrs.c:372
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
 msgstr ""
 
-#: ../composer/e-msg-composer-hdrs.c:353
+#: ../composer/e-msg-composer-hdrs.c:380
 #, fuzzy
 msgid "_Post To:"
 msgstr "_לך אל"
 
-#: ../composer/e-msg-composer-hdrs.c:356
+#: ../composer/e-msg-composer-hdrs.c:386
 msgid "S_ubject:"
 msgstr "נו_שא:"
 
@@ -13914,7 +13906,7 @@ msgstr ""
 msgid "_Tick this to accept the license agreement"
 msgstr ""
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr ""
@@ -14825,7 +14817,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "יוצר רשימת הודעות"
 
@@ -14983,8 +14975,7 @@ msgstr "להודעה אין תצריפים"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Continue Editing"
-msgstr ""
-"המשך ב_עריכה"
+msgstr "המשך ב_עריכה"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid ""
