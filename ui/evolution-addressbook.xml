@@ -34,8 +34,8 @@
 	 accel="*Control*v" pixtype="pixbuf"/>
 
     <cmd name="ContactsSelectAll" _label="Select All"
-	 _tip="Select all contacts"
-	 accel="*Control*a"/>
+	 _tip="Select all contacts" accel="*Control*a"
+	 pixtype="stock" pixname="gtk-select-all"/>
 
     <cmd name="ContactsSaveAsVCard" _label="Save as VCard..."
 	 _tip="Save selected contacts as a VCard."

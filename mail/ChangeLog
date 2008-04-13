@@ -1,3 +1,8 @@
+2008-04-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-browser.c:
+	Add an icon for Folder->New.
+
 2008-04-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-config.glade:

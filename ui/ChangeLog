@@ -1,3 +1,11 @@
+2008-04-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-addressbook.xml:
+	Add an icon for Edit->Select All.
+
+	* evolution-mail-list.xml:
+	Add icons for Folder->Delete and Folder->Refresh.
+
 2008-04-11  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #517134

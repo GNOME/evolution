@@ -105,7 +105,7 @@
     <placeholder name="FolderPlaceholder">
       <submenu name="Folder" _label="F_older">
 
-        <menuitem name="FolderCreate" verb="" _label="_New..." pixtype="pixbuf"/>
+        <menuitem name="FolderCreate" verb="" _label="_New..."/>
 <!--
         <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 -->

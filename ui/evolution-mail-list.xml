@@ -43,13 +43,15 @@
      accel="*Control*e"/>
 
     <cmd name="FolderDelete"
-     _tip="Permanently remove this folder"/>
+     _tip="Permanently remove this folder"
+     pixtype="stock" pixname="gtk-delete"/>
 
     <cmd name="FolderRename"
      _tip="Change the name of this folder" accel="F2"/>
      
      <cmd name="FolderRefresh"
-     _tip="Refresh the folder" accel="F5"/>
+     _tip="Refresh the folder" accel="F5"
+     pixtype="stock" pixname="gtk-refresh"/>
 
 
     <cmd name="HideDeleted" _tip="Hide deleted messages rather than displaying them with a line through them"
@@ -128,8 +130,8 @@
 
  	<placeholder name="FolderOps">
 	  <menuitem name="FolderRename" verb="" _label="_Rename..."/>
-          <menuitem name="FolderRefresh" verb="" _label="Re_fresh..." pixtype="pixbuf"/>
-	  <menuitem name="FolderDelete" verb="" _label="_Delete" pixtype="pixbuf"/>
+          <menuitem name="FolderRefresh" verb="" _label="Re_fresh..."/>
+	  <menuitem name="FolderDelete" verb="" _label="_Delete"/>
 
  	  <separator f="" name="FolderOps1"/>
           <menuitem name="ChangeFolderProperties" verb="" _label="_Properties"/>
