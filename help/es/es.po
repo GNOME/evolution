@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-03-26 07:11+0000\n"
-"PO-Revision-Date: 2008-04-12 21:43+0200\n"
+"POT-Creation-Date: 2008-04-12 20:57+0100\n"
+"PO-Revision-Date: 2008-04-13 17:55+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -734,8 +734,8 @@ msgid ""
 "This guide describes how to use and manage Evolution™ 2.22 client software. "
 "This guide is intended for users and is divided into the following sections:"
 msgstr ""
-"Esta guía describe cómo usar y gestionar el cliente de Evolution™ 2.22. Esta guía "
-"está dirigida a los usuarios y se divide en las siguientes secciones:"
+"Esta guía describe cómo usar y gestionar el cliente de Evolution™ 2.22. Esta "
+"guía está dirigida a los usuarios y se divide en las siguientes secciones:"
 
 #: C/evolution.xml:88(link) C/evolution.xml:152(title)
 msgid "Getting Started"
@@ -844,11 +844,11 @@ msgid ""
 "retrieving your personal information easy, so you can work and communicate "
 "more effectively with others."
 msgstr ""
-"Evolution es una aplicación de <link linkend=\"groupware\">trabajo en grupo</link> "
-"que le ayuda a trabajar en grupo gestionando correo-e, direcciones, notas, tareas y "
-"uno o más calendarios. Esto hace sencillo el almacenamiento, organización y obtención "
-"de su información personal, de tal forma que puede trabajar y comunicarse de una forma "
-"más efectiva con los demás."
+"Evolution es una aplicación de <link linkend=\"groupware\">trabajo en grupo</"
+"link> que le ayuda a trabajar en grupo gestionando correo-e, direcciones, "
+"notas, tareas y uno o más calendarios. Esto hace sencillo el almacenamiento, "
+"organización y obtención de su información personal, de tal forma que puede "
+"trabajar y comunicarse de una forma más efectiva con los demás."
 
 #: C/evolution.xml:156(link) C/evolution.xml:164(title)
 msgid "Starting Evolution for the First Time"
@@ -1057,7 +1057,6 @@ msgid "Novell GroupWise:"
 msgstr "Novell GroupWise:"
 
 #: C/evolution.xml:271(para)
-#, fuzzy
 msgid ""
 "Select this option if you connect to Novell GroupWise®. Novell GroupWise "
 "keeps e-mail, calendar, and contact information on the server. For "
@@ -1066,7 +1065,7 @@ msgid ""
 msgstr ""
 "Seleccione esta opción si se conecta a Novell GroupWise®. Novell GroupWise "
 "conserva la información de correo-e, calendario, y contactos en el servidor. "
-"Para las instrucciones de configuración, vea <link linkend=\"bstfw13"
+"Para las instrucciones de configuración, consulte <link linkend=\"bstfw13"
 "\">Opciones de configuración remotas</link>."
 
 #: C/evolution.xml:274(title)
@@ -1121,7 +1120,6 @@ msgid "Hula:"
 msgstr "Hula:"
 
 #: C/evolution.xml:287(para)
-#, fuzzy
 msgid ""
 "Select this option if you want Hula account. Evolution provide you "
 "connectivity to Hula® servers through IMAP and calendaring support through "
@@ -1130,7 +1128,7 @@ msgid ""
 msgstr ""
 "Seleccione esta opción si quiere una cuenta Hula. Evolution le proporciona "
 "conectividad con servidores Hula® a través de IMAP y a través de soporte "
-"CalDAV. Para obtener más información vea <link linkend=\"b1012tkg\">Concetar "
+"CalDAV. Para obtener más información consulte <link linkend=\"b1012tkg\">Concetar "
 "con Hula</link>."
 
 #: C/evolution.xml:290(title)
@@ -1469,13 +1467,12 @@ msgid "Select if you want to check new messages for junk content."
 msgstr "Seleccione si quiere comprobar si los mensajes nuevos son basura."
 
 #: C/evolution.xml:408(para)
-#, fuzzy
 msgid ""
 "For additional information on junk content, see <link linkend=\"usage-mail-"
 "organize-spam\">Stopping Junk Mail (Spam)</link> and <link linkend=\"mail-"
 "prefs-junk\">Junk </link>."
 msgstr ""
-"Para información adicional acerca del correo basura, vea <link linkend="
+"Para obtener información adicional acerca del correo basura, consulte <link linkend="
 "\"usage-mail-organize-spam\">Parar el correo basura (SPAM)</link> y <link "
 "linkend=\"mail-prefs-junk\">Preferencias de spam</link>."
 
@@ -3078,8 +3075,8 @@ msgid ""
 "Click Edit &gt; Preferences &gt; Mail Preferences and select the Enable "
 "Magic Spacebar check box."
 msgstr ""
-"Pulse Editar &gt; Preferencias &gt; Opciones de correo y seleccione la casilla de selección "
-"Activar la barra espaciadora mágica."
+"Pulse Editar &gt; Preferencias &gt; Opciones de correo y seleccione la "
+"casilla de selección Activar la barra espaciadora mágica."
 
 #: C/evolution.xml:1147(para)
 #, fuzzy
@@ -4102,9 +4099,8 @@ msgstr ""
 "que falta o pulse Enviar para enviar el mensaje sin ningún adjunto."
 
 #: C/evolution.xml:1527(para)
-#, fuzzy
 msgid "To enable the Attachment Reminder:"
-msgstr "Para activar el Recuerdo de adjuntos,"
+msgstr "Para activar el Recuerdo de adjuntos:"
 
 #: C/evolution.xml:1530(para)
 msgid "Select Edit &gt; Plugins &gt; Attachment Reminder."
@@ -4114,11 +4110,11 @@ msgstr "Seleccione Editar &gt; Complementos &gt; Recuerdo de adjuntos."
 msgid ""
 "Click Configuration, then make sure that Remind Missing Attachments is "
 "selected."
-msgstr ""
+msgstr "Pulse Configuración, después asegúrese de que Recordar los adjuntos faltantes está seleccionado."
 
 #: C/evolution.xml:1537(para)
 msgid "Select keywords such as \"Attach\" or \"Attachment\" and click Add."
-msgstr ""
+msgstr "Seleccione las palabras clave tales como «Adjuntar» o «Adjunto» y pulse Añadir."
 
 #: C/evolution.xml:1538(para)
 #, fuzzy
@@ -4134,20 +4130,20 @@ msgstr ""
 "adjuntos."
 
 #: C/evolution.xml:1541(para)
-#, fuzzy
 msgid ""
 "To edit any of the existing keywords, select the keyword, click Edit, then "
 "modify the word as desired."
 msgstr ""
-"Para editar cualquiera de las palabras clave existentes, seleccione la "
-"palabra clave y pulse EditarPara editar un campo, seleccione el campo y "
-"pulse Editar para modificarla."
+"Para editar cualquiera de las palabras clave existentes, seleccione la palabra clave y pulse Editar, después "
+"modifique la palabra como desee."
 
 #: C/evolution.xml:1544(para)
 msgid ""
 "When you have finished making your selections, click Close to exit the "
 "Plugin Manager."
 msgstr ""
+"Cuando haya terminado de marcar su selección, pulse Cerrar para salir "
+"del Gestor de complementos."
 
 #: C/evolution.xml:1550(para)
 msgid ""
@@ -9725,6 +9721,8 @@ msgid ""
 "You can use a customized search, an advanced search, or a quick search to "
 "search for Calendar items."
 msgstr ""
+"Puede usar una búsqueda personalizada, una búsqueda avanzada o una búsqueda rápida para "
+"buscar elementos del Calendario."
 
 #: C/evolution.xml:4116(para)
 #, fuzzy
@@ -10239,7 +10237,7 @@ msgstr "Tareas de los próximos 7 días:"
 
 #: C/evolution.xml:4488(para)
 msgid "Displays all the active tasks that are due within the next seven days."
-msgstr ""
+msgstr "Muestra todas las tareas activas que vencerán en los próximos siete días."
 
 #: C/evolution.xml:4491(title)
 msgid "Active Tasks:"
@@ -10416,6 +10414,8 @@ msgid ""
 "You can use a customized search, an advanced search, or a quick search to "
 "search for Memo Items."
 msgstr ""
+"Puede usar una búsqueda personalizada, una búsqueda avanzada o una búsqueda rápida para "
+"buscar elementos de las notas."
 
 #: C/evolution.xml:4666(para)
 #, fuzzy
@@ -11201,6 +11201,8 @@ msgid ""
 "When the recipient receives the calendar item, a message indicates that the "
 "item was created by someone on behalf of the Delegator."
 msgstr ""
+"Cuando el destinatario recibe el elemento del calendario, un mensaje indicará que el "
+"elemento se creó por alguien en nombre del Delegador."
 
 #: C/evolution.xml:5239(para)
 msgid ""
@@ -11554,7 +11556,7 @@ msgstr ""
 
 #: C/evolution.xml:5430(para)
 msgid "Evolution™ can access accounts on Novell® GroupWise® 7 system."
-msgstr ""
+msgstr "Evolution™ puede acceder a cuentas en sustemas Novell® GroupWise® 7."
 
 #: C/evolution.xml:5433(link) C/evolution.xml:5456(title)
 msgid "GroupWise Features"
@@ -12268,6 +12270,8 @@ msgid ""
 "Use the Date and Time options to specify how long the message should remain "
 "in the Outbox before it is sent to the recipient."
 msgstr ""
+"Use las opciones de Fecha y hora para especificar cuánto tiempo debe permanecer el mensaje "
+"en la Bandeja de salida antes de que se envíe a su destinatario."
 
 #: C/evolution.xml:5908(para)
 msgid "Click the Sent Items folder in the Folder List."
@@ -13508,14 +13512,12 @@ msgstr ""
 "etiquetas. También puede asignar colores a cada etiqueta que haya creado."
 
 #: C/evolution.xml:6470(para)
-#, fuzzy
 msgid "To create a label:"
-msgstr "Para crear una carpeta nueva:"
+msgstr "Para crear una etiqueta:"
 
 #: C/evolution.xml:6473(para)
-#, fuzzy
 msgid "Click Add and specify the name in the Label Name dialog box."
-msgstr "Pulse Añadir y especifique el nombre en la el diálogo Nombre de la etiqueta."
+msgstr "Pulse Añadir y especifique el nombre en la caja de diálogo Nombre de la etiqueta."
 
 #: C/evolution.xml:6476(para)
 msgid "Click the color tab and select a color, then click OK."
@@ -13535,9 +13537,8 @@ msgstr "Edite el nombre y color, después pulse Aceptar."
 
 # index.docbook:41, index.docbook:293
 #: C/evolution.xml:6488(para)
-#, fuzzy
 msgid "To assign a label to a specific e-mail message:"
-msgstr "Para asignar una etiqueta para el correo:"
+msgstr "Para asignar una etiqueta a un mensaje de correo-e específico:"
 
 #: C/evolution.xml:6491(para)
 msgid "Right-click the message from the message preview."
@@ -13627,9 +13628,8 @@ msgstr ""
 "de SPAM."
 
 #: C/evolution.xml:6515(para)
-#, fuzzy
 msgid "To enable Junk plugins:"
-msgstr "Complemento spam predeterminado:"
+msgstr "Activar complementos anti SPAM:"
 
 #: C/evolution.xml:6518(para)
 msgid "Select Edit &gt; Plugins"
@@ -13640,6 +13640,8 @@ msgid ""
 "Select the junk plugins you want. You can select either Bogofilter or "
 "SpamAssassin, or you can select both."
 msgstr ""
+"Seleccione los complementos de filtro de SPAM que quiera. Puede seleccionar tanto Bogofilter como "
+"SpamAssasin, o puede seleccionar los dos."
 
 #: C/evolution.xml:6525(title)
 msgid "General:"
@@ -14457,7 +14459,6 @@ msgstr ""
 "después el mensaje se mueve al archivo de depuración."
 
 #: C/evolution.xml:6882(para)
-#, fuzzy
 msgid "From the Help menu, select Debug Logs."
 msgstr "Desde el menú Ayuda seleccione la Depuración de sucesos."
 
@@ -14470,7 +14471,6 @@ msgid "The messages remain in the statusbar for this specified time."
 msgstr "El mensaje permanece en la barra de estado durante el tiempo especificado."
 
 #: C/evolution.xml:6891(para)
-#, fuzzy
 msgid ""
 "The <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning.png\"/"
 "> icon indicates that the error message is a warning. The <inlinegraphic "
@@ -14479,11 +14479,10 @@ msgid ""
 msgstr ""
 "El icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning."
 "png\"/> indica que el mensaje de error mostrado es una advertencia. El "
-"icono<inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> "
+"icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> "
 "se muestra con un mensaje «para-su-información»."
 
 #: C/evolution.xml:6898(para)
-#, fuzzy
 msgid ""
 "Synchronization presents you with three issues you need to address. First, "
 "you need to enable synchronization. Second, your computer needs to recognize "
@@ -14493,9 +14492,9 @@ msgid ""
 msgstr ""
 "La sincronización se le presenta con tres temas que debe tratar. Primero, "
 "debe activar la sincronización. Segundo, su equipo debe reconocer y acceder "
-"a su dispositivo portátil. En este momento, <trademark>Evolution</trademark> "
-"sólo soporta dispositivos Palm OS como PalmPilot* y Handspring Visor. "
-"Tercero, debe decidir que tipo de sincronización quiere."
+"a su dispositivo portátil. En este momento, Evolution™ sólo soporta dispositivos Palm OS "
+"como PalmPilot* y Handspring Visor. Tercero, debe decidir "
+"que tipo de sincronización quiere."
 
 #: C/evolution.xml:6901(link) C/evolution.xml:6912(title)
 msgid "Enabling Synchronization"
@@ -14649,13 +14648,12 @@ msgstr ""
 "dispositivo Palm OS se podrán sincronizar con Evolution."
 
 #: C/evolution.xml:6955(para)
-#, fuzzy
 msgid ""
 "If you are using Microsoft Outlook, but not Microsoft Exchange, this section "
 "helps you switch to Evolution™."
 msgstr ""
 "Si está usando Microsoft Outlook pero no Microsoft Exchange, esta sección le "
-"ayuda a cambiarse a <trademark>Evolution</trademark>."
+"ayuda a cambiarse a Evolution™."
 
 #: C/evolution.xml:6958(title)
 msgid "Migrating Local Outlook Mail Folders"
@@ -14802,16 +14800,14 @@ msgid "Repeat the import steps until you have imported all your mail."
 msgstr "Repita los pasos de importación hasta que haya importado todo su correo."
 
 #: C/evolution.xml:7017(para)
-#, fuzzy
 msgid ""
 "You can print this section to use it as a quick reference for most of the "
 "things you want to do with Evolution™. You can also find this information by "
 "selecting Help &gt; Quick Reference in the Menubar."
 msgstr ""
 "Puede imprimir esta sección para usarla como una referencia rápida para la "
-"mayoría de operaciones que quiera hacer con <trademark>Evolution</"
-"trademark>. También puede encontrar esta información seleccionando Ayuda "
-"&gt; Referencia rápida en la barra de menú."
+"mayoría de operaciones que quiera hacer con Evolution™. También puede encontrar "
+"esta información seleccionando Ayuda &gt; Referencia rápida en la barra de menú."
 
 #: C/evolution.xml:7020(link) C/evolution.xml:7034(title)
 msgid "Opening or Creating Items"
@@ -15048,19 +15044,16 @@ msgstr ""
 "También puede pulsar Archivo &gt; Nuevo &gt; Contacto o pulsar Mayús+Ctrl+C."
 
 #: C/evolution.xml:7131(para)
-#, fuzzy
 msgid ""
 "Evolution™ bug tracking is done at the <ulink url=\"http://bugzilla.gnome.org"
 "\">GNOME bug tracking System</ulink>. You can use that, or the GNOME Bug "
 "Report Tool (known as bug-buddy at the command line) if you find bugs or "
 "want to request new features."
 msgstr ""
-"El control de calidad de <trademark>Evolution</trademark> se realiza desde "
-"el <ulink url=\"http://bugzilla.gnome.org\">sistema de seguimiento de "
-"errores de GNOME</ulink>. Si encuentra errores o quiere pedir nuevas "
-"características, puede utilizarlo o bien optar por la herramienta de "
-"información de errores de GNOME (conocida como bug-buddy en la línea de "
-"comandos)."
+"El control de calidad de Evolution™ se realiza desde el <ulink url=\"http://bugzilla.gnome.org "
+"\">sistema de seguimiento de errores de GNOME</ulink>. Si encuentra errores o quiere pedir nuevas "
+"características, puede utilizarlo o bien optar por la herramienta de información de "
+"errores de GNOME (conocida como bug-buddy en la línea de comandos)."
 
 #: C/evolution.xml:7132(para)
 msgid ""
@@ -15076,15 +15069,14 @@ msgstr ""
 "desarrolladores de Evolution</ulink>."
 
 #: C/evolution.xml:7137(para)
-#, fuzzy
 msgid ""
 "Evolution was written by the Evolution™ team and numerous other dedicated "
 "GNOME programmers. You can see their names by clicking Help &gt; About from "
 "any Evolution window."
 msgstr ""
-"Evolution ha sido creado por el equipo de <trademark>Evolution</trademark> y "
-"otros muchos programadores dedicados a GNOME. Para ver sus nombres, "
-"seleccione Ayuda &gt; Acerca de en cualquiera de las ventanas de Evolution."
+"El equipo de Evolution™ junto conuna numerosa cantidad de programadores de GNOME "
+"escribieron Evolution. Para ver sus nombres, seleccione Ayuda &gt; Acerca de en "
+"cualquiera de las ventanas de Evolution."
 
 #: C/evolution.xml:7138(para)
 msgid ""
@@ -15208,13 +15200,12 @@ msgid "Sergey V. Mironov for Russian (.ru)"
 msgstr "Sergey V. Mironov al ruso (.ru)"
 
 #: C/evolution.xml:7196(para)
-#, fuzzy
 msgid ""
 "This glossary contains terms that are frequently used in this guide as well "
 "as in Evolution™."
 msgstr ""
 "Este glosario contiene términos que se usan frecuentemente en esta guía así "
-"como en <trademark>Evolution</trademark>."
+"como en Evolution™."
 
 #: C/evolution.xml:7198(glossterm)
 msgid "Assistant"
@@ -15246,13 +15237,11 @@ msgid "automatic indexing"
 msgstr "indexado automático"
 
 #: C/evolution.xml:7212(para)
-#, fuzzy
 msgid ""
 "A pre-downloading procedure that allows Evolution to quickly refer to data. "
 "It enables faster searches and decreases memory usage for data displays."
 msgstr ""
-"Un procedimiento de predescarga que permite a <trademark class=\"registered"
-"\">Novell</trademark><trademark>Evolution</trademark> acceder rápidamente a "
+"Un procedimiento de predescarga que permite que Evolution acceda rápidamente a "
 "los datos. Permite búsquedas más rápidas y reduce el uso de memoria para "
 "mostrar los datos."
 
@@ -15536,7 +15525,6 @@ msgid "regular expression"
 msgstr "expresión regular"
 
 #: C/evolution.xml:7332(para)
-#, fuzzy
 msgid ""
 "A regular expression (regex) is a way of describing a string of text using "
 "metacharacters or wildcard symbols. For example, the statement fly.*so[au]p "
@@ -15546,7 +15534,7 @@ msgid ""
 "command line."
 msgstr ""
 "Una expresión regular (regex) es una manera de describir una cadena de texto "
-"mediante meta-caracteres o símbolos comodín. Por ejemplo la sentencia fly.*so"
+"mediante metacaracteres o símbolos comodín. Por ejemplo la sentencia fly.*so"
 "[au]p encuentra cualquier frase que empiece por «fly» y acabe en «soup» o en "
 "«soap». Si hace una búsqueda con esa expresión podría encontrar tanto «fly "
 "in my soup» como «fly in soap». Para obtener más información introduzca "
@@ -15748,7 +15736,6 @@ msgstr ""
 "exportación de los EE.UU. o las leyes del país en el que resida."
 
 #: C/evolution.xml:7413(member)
-#, fuzzy
 msgid ""
 "Copyright © 2007 Novell, Inc. All rights reserved. Permission is granted to "
 "copy, distribute, and/or modify this document under the terms of the GNU "
@@ -15757,7 +15744,7 @@ msgid ""
 "Front-Cover Texts, and no Back-Cover Texts. A copy of the GFDL can be found "
 "at http://www.fsf.org/licenses/fdl.html."
 msgstr ""
-"<copyright><placeholder-1/><placeholder-2/></copyright> Se concede "
+"Copyright © 2007 Novell, Inc. Todos los derechos reservados. Se concede "
 "autorización para copiar, distribuir o modificar este documento según los "
 "términos de la GFDL (GNU Free Documentation License), Versión 1.2, o "
 "cualquier otra versión posterior publicada por Free Software Foundation sin "
