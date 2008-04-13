@@ -359,7 +359,7 @@ e_util_labels_add_with_dlg (GtkWindow *parent, const char *tag)
 				e_util_labels_set_data (tag, name, &color);
 				break;
 			} else if (!(new_tag = e_util_labels_add (name, &color)))
-				error = _("Label with same tag already exists. Rename your label please.");
+				error = _("A label having the same tag already exists on the server. Please rename your label.");
 			else
 				break;
 		} else

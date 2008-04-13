@@ -1,3 +1,8 @@
+2008-04-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-util-labels.c (e_util_labels_add_with_dlg):
+	Clarify an error message.  (#509672)
+
 2008-04-07  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	reviewed by: Milan Crha
