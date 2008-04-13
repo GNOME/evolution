@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-12 03:23+0100\n"
-"PO-Revision-Date: 2008-04-12 21:45+0200\n"
+"POT-Creation-Date: 2008-04-13 04:52+0100\n"
+"PO-Revision-Date: 2008-04-13 17:59+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -527,7 +527,9 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have enough permissions to delete contact in this Address Book."
-msgstr "No tiene suficientes permisos para borrar este contacto en esta Libreta de direcciones."
+msgstr ""
+"No tiene suficientes permisos para borrar este contacto en esta Libreta de "
+"direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -4094,13 +4096,12 @@ msgstr "Error no tratado"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only calendar source. Change Calendar to one that can accept "
 "appointments."
 msgstr ""
-"«{0}» es una fuente de calendario de sólo lectura. Cambie a la vista de "
-"calendario y resalte un calendario que pueda aceptar citas."
+"«{0}» es una fuente de calendario de sólo lectura. Cambie el Calendario a uno que pueda "
+"aceptar citas."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -10368,9 +10369,8 @@ msgid "_Subject Field"
 msgstr "Campo A_sunto"
 
 #: ../composer/e-composer-actions.c:636
-#, fuzzy
 msgid "Toggles whether the Subject field is displayed"
-msgstr "Conmuta cuando se muestra el campo «Estado»"
+msgstr "Conmuta cuando se muestra el campo «Asunto»"
 
 #: ../composer/e-composer-actions.c:642
 msgid "_To Field"
@@ -10775,8 +10775,10 @@ msgid "Label name cannot be empty."
 msgstr "El nombre de la etiqueta no puede estar vacío."
 
 #: ../e-util/e-util-labels.c:362
-msgid "Label with same tag already exists. Rename your label please."
-msgstr "Ya existe una etiqueta con el mismo nombre. Renombre la etiqueta."
+msgid ""
+"A label having the same tag already exists on the server. Please rename your "
+"label."
+msgstr "Ya existe una etiqueta con el mismo nombre en el servidor. Renombre la etiqueta."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -13149,9 +13151,8 @@ msgid "Spell checking color"
 msgstr "Color de la corrección ortográfica"
 
 #: ../mail/evolution-mail.schemas.in.h:120
-#, fuzzy
 msgid "Spell checking languages"
-msgstr "Comprobación ortográfica en línea"
+msgstr "Comprobación ortográfica de idiomas"
 
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid "Subscribe dialog default height"
@@ -13703,9 +13704,8 @@ msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">Tipografía para impresión</span>"
 
 #: ../mail/mail-config.glade.h:27
-#, fuzzy
 msgid "<span weight=\"bold\">Proxy Settings</span>"
-msgstr "<span weight=\"bold\">Estado</span>"
+msgstr "<span weight=\"bold\">Ajustes del proxy</span>"
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
@@ -13868,9 +13868,8 @@ msgstr ""
 "direcciones"
 
 #: ../mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Do not quote"
-msgstr "No borrar"
+msgstr "No entrecomillar"
 
 #: ../mail/mail-config.glade.h:74
 msgid "Done"
@@ -13933,9 +13932,8 @@ msgid "HTML Messages"
 msgstr "Correos HTML"
 
 #: ../mail/mail-config.glade.h:91
-#, fuzzy
 msgid "H_TTP Proxy:"
-msgstr "_Apdo. de correos:"
+msgstr "Proxy H_TTP:"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Headers"
@@ -13951,9 +13949,8 @@ msgid "Inline"
 msgstr "Incluido en línea"
 
 #: ../mail/mail-config.glade.h:96
-#, fuzzy
 msgid "Inline (Outlook style)"
-msgstr "Mensaje original en línea (estilo Outlook)"
+msgstr "En línea (estilo Outlook)"
 
 #: ../mail/mail-config.glade.h:98
 msgid "KB"
@@ -13985,7 +13982,7 @@ msgstr "Editor de mensajes"
 
 #: ../mail/mail-config.glade.h:106
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "Sin _proxy para:"
 
 #: ../mail/mail-config.glade.h:107
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
@@ -14008,7 +14005,6 @@ msgid "PGP/GPG _Key ID:"
 msgstr "ID de c_lave GPG/PGP:"
 
 #: ../mail/mail-config.glade.h:111
-#, fuzzy
 msgid "Pass_word:"
 msgstr "_Contraseña:"
 
@@ -14044,9 +14040,8 @@ msgid "Please select among the following options"
 msgstr "Por favor seleccione entre las siguientes opciones"
 
 #: ../mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Port:"
-msgstr "_Puerto:"
+msgstr "Puerto:"
 
 #: ../mail/mail-config.glade.h:119
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -14070,7 +14065,7 @@ msgstr "Recordar _contraseña"
 
 #: ../mail/mail-config.glade.h:125
 msgid "S_OCKS Host:"
-msgstr ""
+msgstr "Equipo S_OCKS:"
 
 #: ../mail/mail-config.glade.h:126
 msgid "S_earch for sender photograph only in local addressbooks"
@@ -14177,14 +14172,12 @@ msgstr ""
 " Por ejemplo: «Trabajo» o «Personal»"
 
 #: ../mail/mail-config.glade.h:153
-#, fuzzy
 msgid "Us_ername:"
 msgstr "_Usuario:"
 
 #: ../mail/mail-config.glade.h:154
-#, fuzzy
 msgid "Use Authe_ntication"
-msgstr "Autenticación"
+msgstr "Usar aute_nticación"
 
 #: ../mail/mail-config.glade.h:155 ../plugins/caldav/caldav-source.c:282
 #: ../plugins/google-account-setup/google-source.c:358
@@ -14224,7 +14217,7 @@ msgstr "Complemento SPAM pre_determinado:"
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Direct connection to the Internet"
-msgstr ""
+msgstr "Conexión _directa a Internet"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -14247,9 +14240,8 @@ msgid "_Make this my default account"
 msgstr "_Hacer que ésta sea mi cuenta predeterminada"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Manual proxy configuration:"
-msgstr "Configuración del correo"
+msgstr "Configuración _manual del proxy:"
 
 #: ../mail/mail-config.glade.h:172
 msgid "_Mark messages as read after"
@@ -14281,7 +14273,7 @@ msgstr "_Script:"
 
 #: ../mail/mail-config.glade.h:180
 msgid "_Secure HTTP Proxy:"
-msgstr ""
+msgstr "Proxy STTP _seguro:"
 
 #: ../mail/mail-config.glade.h:181
 msgid "_Select..."
@@ -14656,9 +14648,8 @@ msgid "User canceled operation."
 msgstr "El usuario canceló la operación."
 
 #: ../mail/mail-signature-editor.c:201
-#, fuzzy
 msgid "_Save and Close"
-msgstr "Guardar y cerrar"
+msgstr "_Guardar y cerrar"
 
 #: ../mail/mail-signature-editor.c:208 ../ui/evolution-editor.xml.h:19
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
@@ -14668,14 +14659,12 @@ msgid "_File"
 msgstr "_Archivo"
 
 #: ../mail/mail-signature-editor.c:355
-#, fuzzy
 msgid "Edit Signature"
 msgstr "Editar firma"
 
 #: ../mail/mail-signature-editor.c:370
-#, fuzzy
 msgid "_Signature Name:"
-msgstr "Tabla de firmas"
+msgstr "Nombre de la _firma"
 
 #: ../mail/mail-tools.c:120
 #, c-format
@@ -14757,11 +14746,10 @@ msgstr ""
 "una notificación de recepción a {0}?"
 
 #: ../mail/mail.error.xml.h:7
-#, fuzzy
 msgid ""
 "A signature already exists with the name \"{0}\". Please specify a different "
 "name."
-msgstr "Ya existe una firma con el nombre «{0}». Por favor, use un nombre diferente."
+msgstr "Ya existe una firma con el nombre «{0}». Especifique un nombre diferente."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -14796,13 +14784,12 @@ msgstr ""
 "carpetas?"
 
 #: ../mail/mail.error.xml.h:14
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
 msgstr ""
-"¿Seguro que quiere eliminar todos los mensajes borrados en todas las "
-"carpetas?"
+"¿Seguro que quiere eliminar permanentemente todos los mensajes en la "
+"carpeta «{0}»?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
@@ -14817,12 +14804,10 @@ msgid "Are you sure you want to send a message without a subject?"
 msgstr "¿Seguro que quiere enviar un mensaje sin un asunto?"
 
 #: ../mail/mail.error.xml.h:18
-#, fuzzy
 msgid "Because \"{0}\"."
 msgstr "Porque «{0}»."
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Because \"{2}\"."
 msgstr "Porque «{2}»."
 
@@ -15911,9 +15896,8 @@ msgstr "Proporciona funcionalidad básica para calendarios locales."
 #: ../plugins/calendar-http/calendar-http.c:273
 #: ../plugins/calendar-weather/calendar-weather.c:546
 #: ../plugins/google-account-setup/google-source.c:375
-#, fuzzy
 msgid "Re_fresh:"
-msgstr "A_ctualizar"
+msgstr "A_ctualizar:"
 
 #: ../plugins/calendar-http/calendar-http.c:341
 msgid "_Secure connection"
@@ -17184,7 +17168,7 @@ msgstr "Se le han otorgado los siguientes permisos sobre mis carpetas:"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr ""
+msgstr "Tiene que especificar un nombre de usuario válido para concederle permisos en el proxy."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 #, fuzzy
