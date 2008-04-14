@@ -1291,7 +1291,7 @@ e_attachment_bar_bonobo_ui_populate_with_recent (BonoboUIComponent *uic, const c
 			}
 			*d = '\0';
 		} else
-			display_name = info_dn;
+			display_name = (char *) info_dn;
 
 		/* Add menu item */
 		label = g_strdup (display_name);

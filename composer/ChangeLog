@@ -1,3 +1,8 @@
+2008-04-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-composer-autosave.c (e_composer_autosave_unregister):
+	Remove some unused variables.
+
 2008-04-11  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #517134

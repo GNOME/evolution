@@ -234,8 +234,6 @@ e_composer_autosave_unregister (EMsgComposer *composer,
                                 gboolean delete_file)
 {
 	AutosaveState *state;
-	GtkWindow *parent;
-	gboolean delete_autosave_file = FALSE;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
