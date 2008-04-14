@@ -1253,6 +1253,75 @@ mail_get_folder (const char *uri, guint32 flags,
 	return id;
 }
 
+/* ** GET FOLDER'S QUOTA ********************************************************* */
+
+struct _get_quota_msg {
+	MailMsg base;
+
+	CamelFolder *folder;
+	CamelFolderQuotaInfo *quota;
+	void (*done) (CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data);
+	void *data;
+};
+
+static gchar *
+get_quota_desc (struct _get_quota_msg *m)
+{
+	return g_strdup_printf(_("Retrieving quota information for folder %s"), camel_folder_get_name (m->folder));
+}
+
+static void
+get_quota_exec (struct _get_quota_msg *m)
+{
+	m->quota = camel_folder_get_quota_info (m->folder);
+}
+
+static void
+get_quota_done (struct _get_quota_msg *m)
+{
+	if (m->done)
+		m->done (m->folder, m->quota, m->data);
+}
+
+static void
+get_quota_free (struct _get_quota_msg *m)
+{
+	if (m->folder)
+		camel_object_unref (m->folder);
+	if (m->quota)
+		camel_folder_quota_info_free (m->quota);
+}
+
+static MailMsgInfo get_quota_info = {
+	sizeof (struct _get_quota_msg),
+	(MailMsgDescFunc) get_quota_desc,
+	(MailMsgExecFunc) get_quota_exec,
+	(MailMsgDoneFunc) get_quota_done,
+	(MailMsgFreeFunc) get_quota_free
+};
+
+int
+mail_get_folder_quota (CamelFolder *folder,
+		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data),
+		 void *data, MailMsgDispatchFunc dispatch)
+{
+	struct _get_quota_msg *m;
+	int id;
+
+	g_return_val_if_fail (folder != NULL, -1);
+
+	m = mail_msg_new (&get_quota_info);
+	m->folder = folder;
+	m->data = data;
+	m->done = done;
+
+	camel_object_ref (m->folder);
+
+	id = m->base.seq;
+	dispatch (m);
+	return id;
+}
+
 /* ** GET STORE ******************************************************* */
 
 struct _get_store_msg {

@@ -65,6 +65,7 @@ struct _prop_data {
 	int total;
 	int unread;
 	EMConfig *config;
+	CamelFolderQuotaInfo *quota;
 };
 
 static void
@@ -124,13 +125,41 @@ emfp_free(EConfig *ec, GSList *items, void *data)
 	camel_object_unref (prop_data->object);
 	g_free (prop_data->argv);
 
+	camel_folder_quota_info_free (prop_data->quota);
+
 	g_free (prop_data);
+}
+
+static int
+add_numbered_row (GtkTable *table, int row, const char *description, const char *format, int num)
+{
+	char *str;
+	GtkWidget *label;
+
+	g_return_val_if_fail (table != NULL, row);
+	g_return_val_if_fail (description != NULL, row);
+	g_return_val_if_fail (format != NULL, row);
+
+	label = gtk_label_new (description);
+	gtk_widget_show (label);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_table_attach (table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+
+	str = g_strdup_printf (format, num);
+
+	label = gtk_label_new (str);
+	gtk_widget_show (label);
+	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_table_attach (table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+
+	g_free (str);
+
+	return row + 1;
 }
 
 static GtkWidget *
 emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
-	char countstr[16];
 	GtkWidget *w, *table, *label;
 	struct _prop_data *prop_data = data;
 	int row = 0, i;
@@ -146,31 +175,37 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 	gtk_box_pack_start ((GtkBox *) parent, table, TRUE, TRUE, 0);
 
 	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
-	label = gtk_label_new (ngettext ("Unread messages:", "Unread messages:", prop_data->unread));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-
-	sprintf(countstr, "%d", prop_data->unread);
-	label = gtk_label_new (countstr);
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	row++;
+	row = add_numbered_row (GTK_TABLE (table), row, ngettext ("Unread messages:", "Unread messages:", prop_data->unread), "%d", prop_data->unread);
 
 	/* TODO: can this be done in a loop? */
 	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
-	label = gtk_label_new (ngettext ("Total messages:", "Total messages:", prop_data->total));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	row = add_numbered_row (GTK_TABLE (table), row, ngettext ("Total messages:", "Total messages:", prop_data->total), "%d", prop_data->total);
 
-	sprintf(countstr, "%d", prop_data->total);
-	label = gtk_label_new (countstr);
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	row++;
+	if (prop_data->quota) {
+		CamelFolderQuotaInfo *info;
+		CamelFolderQuotaInfo *quota = prop_data->quota;
+
+		for (info = quota; info; info = info->next) {
+			char *descr;
+			int procs;
+
+			/* should not happen, but anyway... */
+			if (!info->total)
+				continue;
+
+			/* show quota name only when available and have more than one quota info */
+			if (info->name && quota->next)
+				descr = g_strdup_printf ("%s (%s):", _("Quota usage"), _(info->name));
+			else
+				descr = g_strdup_printf ("%s:", _("Quota usage"));
+
+			procs = (int) ((((double) info->used) / ((double) info->total)) * 100.0 + 0.5);
+
+			row = add_numbered_row (GTK_TABLE (table), row, descr, "%d%%", procs);
+
+			g_free (descr);
+		}
+	}
 
 	/* setup the ui with the values retrieved */
 	l = prop_data->properties;
@@ -226,7 +261,7 @@ static EMConfigItem emfp_items[] = {
 static gboolean emfp_items_translated = FALSE;
 
 static void
-emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
+emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data)
 {
 	GtkWidget *dialog, *w;
 	struct _prop_data *prop_data;
@@ -239,15 +274,19 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	gboolean hide_deleted;
 	GConfClient *gconf;
 	CamelStore *store;
+	char *uri = (char *)data;
 
-	if (folder == NULL)
+	if (folder == NULL) {
+		g_free (uri);
 		return;
+	}
 
 	store = folder->parent_store;
 
 	prop_data = g_malloc0 (sizeof (*prop_data));
 	prop_data->object = folder;
 	camel_object_ref (folder);
+	prop_data->quota = camel_folder_quota_info_clone (quota);
 
 	/*
 	  Get number of VISIBLE and DELETED messages, instead of TOTAL messages.  VISIBLE+DELETED
@@ -354,6 +393,15 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 
 	g_signal_connect (dialog, "response", G_CALLBACK (emfp_dialog_response), prop_data);
 	gtk_widget_show (dialog);
+
+	g_free (uri);
+}
+
+static void
+emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
+{
+	/* this should be called in a thread too */
+	mail_get_folder_quota (folder, emfp_dialog_got_folder_quota, g_strdup (uri), mail_msg_unordered_push);
 }
 
 /**

@@ -1,3 +1,17 @@
+2008-04-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #270406
+
+	* em-folder-properties.c: (struct _prop_data), (emfp_free),
+	(add_numbered_row), (emfp_get_folder_item),
+	(emfp_dialog_got_folder_quota), (emfp_dialog_got_folder):
+	Retrieve quota information for a folder and show it in a dialog.
+	* mail-ops.h: (mail_get_folder_quota):
+	* mail-ops.c: (struct _get_quota_msg), (get_quota_desc),
+	(get_quota_exec), (get_quota_done), (get_quota_free),
+	(MailMsgInfo get_quota_info), (mail_get_folder_quota):
+	New operation to get folder's quota information.
+
 2008-04-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-browser.c:
