@@ -369,6 +369,7 @@ org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData 
 		return NULL;
 	
 	if (!g_ascii_strcasecmp (url->protocol, "mapi")) {
+		d(printf("%s(%d):%s:Creating Widgets for MAPI Setup \n", __FILE__, __LINE__, __PRETTY_FUNCTION__);)
 		row = ((GtkTable *)data->parent)->nrows;		
 
 		/* Domain name & Authenticate Button*/
@@ -394,6 +395,8 @@ org_gnome_exchange_mapi_account_setup (EPlugin *epl, EConfigHookItemFactoryData 
 		if (domain)
 			gtk_entry_set_text (domain_name, domain);
 	}
+
+	d(printf("%s(%d):%s:Called for URL->Protocol : %s \n", __FILE__, __LINE__, __PRETTY_FUNCTION__, url->protocol);)
 
 	camel_url_free (url);
 	return GTK_WIDGET (hbox);

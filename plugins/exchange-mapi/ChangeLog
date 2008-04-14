@@ -1,3 +1,8 @@
+2008-04-14  Johnny Jacob  <jjohnny@novell.com>
+
+	* exchange-mapi-account-setup.c (org_gnome_exchange_mapi_account_setup): Added 
+	extra log messages in account setup.
+
 2008-04-01  Johnny Jacob  <jjohnny@novell.com>
 
 	* Makefile.am: Removed reference to libexchange-storage.
