@@ -2,18 +2,19 @@
 # Copyright (C) 2000-2007 Free Software Foundation, Inc.
 # Gustavo Maciel Dias Vieira <gustavo@sagui.org>, 2000-2004.
 # Afonso Celso Medina <afmedina@uol.com.br>, 2004, 2005.
-# Washington Lins <washington-lins@uol.com.br>, 2007.
+# Washington Lins <washington-lins@uol.com.br>, 2007, 2008.
 # Guilherme de S. Pastore <gpastore@gnome.org>, 2007.
 # Raul Pereira <contato@raulpereira.com>, 2007.
 # Rodrigo Flores <rodrigomarquesflores@gmail.com>, 2007.
+# Leonardo Ferreira Fontenelle <leo.fontenelle@gmail.com>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-27 08:39-0300\n"
-"PO-Revision-Date: 2008-02-26 21:56-0400\n"
-"Last-Translator: Washington Lins <washington-lins@uol.com.br>\n"
+"POT-Creation-Date: 2008-04-14 20:56-0300\n"
+"PO-Revision-Date: 2008-04-14 21:34-0300\n"
+"Last-Translator: Leonardo Ferreira Fontenelle <leo.fontenelle@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -349,7 +350,7 @@ msgid ""
 "'{0}' is a read-only address book source. Switch to Contacts View and "
 "highlight an address book that can accept contacts."
 msgstr ""
-"\"{0}\" é um catálogo de endereços somente de leitura. Alterne para para a "
+"\"{0}\" é um catálogo de endereços somente de leitura. Alterne para a "
 "Visão de Contatos e selecione um livro de endereços que aceite contatos."
 
 #: ../addressbook/addressbook.error.xml.h:3
@@ -732,7 +733,7 @@ msgstr ""
 "Copiar o conteúdo do _catálogo localmente para funcionamento desconectado"
 
 #: ../addressbook/gui/component/addressbook-config.c:981
-#: ../addressbook/gui/component/ldap-config.glade.h:22
+#: ../addressbook/gui/component/ldap-config.glade.h:20
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/dialogs/calendar-setup.c:380
@@ -758,7 +759,7 @@ msgid "Authentication"
 msgstr "Autenticação"
 
 #: ../addressbook/gui/component/addressbook-config.c:991
-#: ../addressbook/gui/component/ldap-config.glade.h:17
+#: ../addressbook/gui/component/ldap-config.glade.h:15
 #: ../mail/mail-dialogs.glade.h:10 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Detalhes"
@@ -773,7 +774,7 @@ msgid "Downloading"
 msgstr "Baixando"
 
 #: ../addressbook/gui/component/addressbook-config.c:1204
-#: ../addressbook/gui/component/ldap-config.glade.h:13
+#: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Propriedades do Catálogo de Endereços"
 
@@ -870,7 +871,7 @@ msgstr "Salvar como Vcard..."
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1705 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2107 ../mail/em-folder-view.c:1346
+#: ../mail/em-folder-tree.c:2090 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -981,105 +982,97 @@ msgid "<b>Authentication</b>"
 msgstr "<b>Autenticação</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
-msgid "<b>Display</b>"
-msgstr "<b>Exibição</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Downloading</b>"
 msgstr "<b>Baixando</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:9
+#: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
 msgstr "<b>Pesquisando</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:10
-msgid "<b>Server Information</b>"
-msgstr "<b>Informação do Servidor</b>"
-
-#: ../addressbook/gui/component/ldap-config.glade.h:11
+#: ../addressbook/gui/component/ldap-config.glade.h:9
 msgid "<b>Type:</b>"
 msgstr "<b>Tipo:</b>"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:12
+#: ../addressbook/gui/component/ldap-config.glade.h:10
 msgid "Add Address Book"
 msgstr "Adicionar Catálogo de Endereços"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:14
+#: ../addressbook/gui/component/ldap-config.glade.h:12
 #: ../mail/em-account-editor.c:777
 msgid "Always"
 msgstr "Sempre"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:15
+#: ../addressbook/gui/component/ldap-config.glade.h:13
 msgid "Anonymously"
 msgstr "Anonimamente"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:16
+#: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Basic"
 msgstr "Básico"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:18
+#: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Distinguished name"
 msgstr "Distinguished name (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:19
+#: ../addressbook/gui/component/ldap-config.glade.h:17
 msgid "Email address"
 msgstr "Endereço de e-mail"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:20
+#: ../addressbook/gui/component/ldap-config.glade.h:18
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "O Evolution usará este endereço de e-mail para autenticá-lo com o servidor."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:21
+#: ../addressbook/gui/component/ldap-config.glade.h:19
 msgid "Find Possible Search Bases"
 msgstr "Localizar Bases de Pesquisa Possíveis"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:23
+#: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid "Lo_gin:"
 msgstr "Lo_gin:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:24
+#: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../mail/em-account-editor.c:776
 msgid "Never"
 msgstr "Nunca"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../addressbook/gui/component/ldap-config.glade.h:25
+#: ../addressbook/gui/component/ldap-config.glade.h:23
 #: ../mail/em-account-editor.c:304
 msgid "No encryption"
 msgstr "Sem criptografia"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:26
+#: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "One"
 msgstr "Um"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:27
+#: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:312
 msgid "SSL encryption"
 msgstr "Criptografia SSL"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:28
+#: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search Filter"
 msgstr "Filtro de Pesquisa"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:29
+#: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
 msgstr "_Base de pesquisa:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:30
+#: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search _filter:"
 msgstr "_Filtro de pesquisa:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:31
+#: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid "Search filter"
 msgstr "Filtro de pesquisa"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:32
+#: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
@@ -1089,7 +1082,7 @@ msgstr ""
 "pesquisa é feita. Se não for modificado, o padrão é procurar no objectclass "
 "do tipo \"pessoa\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:33
+#: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
@@ -1097,7 +1090,7 @@ msgstr ""
 "A seleção desta opção significa que o Evolution apenas se conectará ao seu "
 "servidor LDAP se este suportar SSL."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:34
+#: ../addressbook/gui/component/ldap-config.glade.h:32
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
@@ -1105,7 +1098,7 @@ msgstr ""
 "A seleção desta opção significa que o Evolution apenas se conectará ao seu "
 "servidor LDAP se este suportar TLS."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:35
+#: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
@@ -1115,23 +1108,23 @@ msgstr ""
 "TLS. Isto significa que a sua conexão será insegura e que você estará "
 "vulnerável a falhas de segurança."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:36
+#: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid "Sub"
 msgstr "Sub"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:37
+#: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
 msgstr "Bases de Pesquisa com Suporte"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../addressbook/gui/component/ldap-config.glade.h:38
+#: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../mail/em-account-editor.c:308
 msgid "TLS encryption"
 msgstr "Encriptação TLS"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:39
+#: ../addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
@@ -1141,7 +1134,7 @@ msgstr ""
 "suas pesquisas começarão. Se você deixar este campo vazio as pesquisas "
 "começarão na raiz da árvore do diretório."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:40
+#: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -1154,7 +1147,7 @@ msgstr ""
 "pesquisa de \"um\" incluirá apenas as entradas que estão um nível abaixo da "
 "sua base."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:41
+#: ../addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
@@ -1162,7 +1155,7 @@ msgstr ""
 "Este é o nome completo do seu servidor LDAP. Por exemplo, \"ldap."
 "minhaempresa.com.br\"."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:42
+#: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -1170,7 +1163,7 @@ msgstr ""
 "Este é o número máximo de entradas a serem baixadas. Atribuir um valor muito "
 "grande a este número diminuirá a velocidade de seu catálogo de endereços."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:43
+#: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1179,7 +1172,7 @@ msgstr ""
 "Este é o método que o Evolution usará para autenticá-lo. Note que a opção "
 "\"Endereço de E-mail\" requer acesso anônimo ao seu servidor LDAP."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:44
+#: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
@@ -1187,7 +1180,7 @@ msgstr ""
 "Este é o nome deste servidor que aparecerá na lista de pastas do Evolution. "
 "Ele é usado apenas para exibição. "
 
-#: ../addressbook/gui/component/ldap-config.glade.h:45
+#: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
@@ -1197,35 +1190,35 @@ msgstr ""
 "lista de portas padrão foi fornecida. Pergunte ao seu administrador de "
 "sistemas qual porta você deve escolher."
 
-#: ../addressbook/gui/component/ldap-config.glade.h:46
+#: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
 msgstr "Usando distinguished name (DN)"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:47
+#: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "Using email address"
 msgstr "Usando endereço de e-mail"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:48
+#: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Whenever Possible"
 msgstr "Quando Possível"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:49
+#: ../addressbook/gui/component/ldap-config.glade.h:47
 msgid "_Add Address Book"
 msgstr "_Adicionar Catálogo de Endereços"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:50
+#: ../addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "_Limite de transferência:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:51
+#: ../addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Find Possible Search Bases"
 msgstr "Localizar Bases de Pesquisa _Possíveis"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:52
+#: ../addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Login method:"
 msgstr "Método de _login:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:53
+#: ../addressbook/gui/component/ldap-config.glade.h:51
 #: ../calendar/gui/dialogs/calendar-setup.c:229
 #: ../mail/mail-config.glade.h:164
 #: ../plugins/groupwise-features/properties.glade.h:11
@@ -1233,33 +1226,33 @@ msgstr "Método de _login:"
 msgid "_Name:"
 msgstr "_Nome:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:54
+#: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Port:"
 msgstr "_Porta:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:55
+#: ../addressbook/gui/component/ldap-config.glade.h:53
 msgid "_Search scope:"
 msgstr "_Escopo da pesquisa:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:56
+#: ../addressbook/gui/component/ldap-config.glade.h:54
 #: ../mail/mail-config.glade.h:172
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:57
+#: ../addressbook/gui/component/ldap-config.glade.h:55
 msgid "_Timeout:"
 msgstr "_Tempo limite:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:58
+#: ../addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Use secure connection:"
 msgstr "_Usar conexão segura:"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:59
+#: ../addressbook/gui/component/ldap-config.glade.h:57
 msgid "cards"
 msgstr "cartões"
 
-#: ../addressbook/gui/component/ldap-config.glade.h:60
+#: ../addressbook/gui/component/ldap-config.glade.h:58
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
@@ -3015,7 +3008,7 @@ msgstr "Recor_tar"
 #: ../calendar/gui/dialogs/comp-editor.c:457
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1690 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:1013
+#: ../composer/e-msg-composer.c:3100 ../mail/em-folder-tree.c:996
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:13 ../ui/evolution-editor.xml.h:17
@@ -3601,12 +3594,12 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"A esta consulta corresponderam mais cartões do que a configuração do\n"
-"servidor permite enviar ou do que a configuração do Evolution permite "
-"exibir.\n"
-"Por favor, torne a sua pesquisa mais específica ou aumente o limite de\n"
-"resultados nas preferências do servidor de diretório para este\n"
-"catálogo de endereços."
+"A esta consulta corresponderam mais cartões do que a configuração\n"
+"do servidor permite enviar ou do que a configuração do Evolution\n"
+"permite exibir.\n"
+"Por favor, torne a sua pesquisa mais específica ou aumente o \n"
+"limite de resultados nas preferências do servidor de diretório para\n"
+"este catálogo de endereços."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:158
 msgid ""
@@ -5330,14 +5323,14 @@ msgstr "_Nova Agenda"
 
 #: ../calendar/gui/calendar-component.c:606
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2102
+#: ../mail/em-folder-tree.c:2085
 msgid "_Copy..."
 msgstr "_Copiar..."
 
 #: ../calendar/gui/calendar-component.c:612
 #: ../calendar/gui/dialogs/comp-editor.c:1130
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2116
+#: ../composer/e-msg-composer.c:3631 ../mail/em-folder-tree.c:2099
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Propriedades"
@@ -5965,13 +5958,13 @@ msgstr[0] "Mensagem anexa"
 msgstr[1] "%d mensagens anexas"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:3101
-#: ../mail/em-folder-tree.c:1014 ../mail/em-folder-utils.c:366
+#: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2066
 msgid "_Move"
 msgstr "_Mover"
 
 #: ../calendar/gui/dialogs/comp-editor.c:460 ../composer/e-msg-composer.c:3103
-#: ../mail/em-folder-tree.c:1016 ../mail/message-list.c:2068
+#: ../mail/em-folder-tree.c:999 ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "Cancelar _Arraste"
 
@@ -6164,6 +6157,7 @@ msgstr "Compro_misso"
 msgid "Recurrence"
 msgstr "Recorrência"
 
+# Consistência com outras traduções "This even has..."
 #: ../calendar/gui/dialogs/event-page.c:826
 #: ../calendar/gui/dialogs/event-page.c:2835
 msgid "This event has alarms"
@@ -6995,7 +6989,7 @@ msgstr "Usar como Imagem de _Fundo"
 msgid "_Save Selected"
 msgstr "_Salvar Selecionado"
 
-#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:790
+#: ../calendar/gui/e-cal-popup.c:402 ../mail/em-popup.c:796
 #, c-format
 msgid "Open in %s..."
 msgstr "Abrir com %s..."
@@ -7258,7 +7252,7 @@ msgstr "Local: %s"
 #: ../calendar/gui/e-calendar-view.c:2262
 #, c-format
 msgid "Time: %s %s"
-msgstr "Data: %s %s de "
+msgstr "Data: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:116
@@ -8488,7 +8482,7 @@ msgstr "Resumo: %s"
 
 #: ../calendar/gui/print.c:2490
 msgid "Attendees: "
-msgstr "Participantes:"
+msgstr "Participantes: "
 
 #: ../calendar/gui/print.c:2530
 #, c-format
@@ -10191,39 +10185,39 @@ msgid "Click here to select folders to post to"
 msgstr "Clique aqui para selecionar as pastas onde publicar"
 
 #. Now add the signature stuff.
-#: ../composer/e-msg-composer-hdrs.c:221
+#: ../composer/e-msg-composer-hdrs.c:236
 msgid "Si_gnature:"
 msgstr "Assi_natura:"
 
-#: ../composer/e-msg-composer-hdrs.c:326
+#: ../composer/e-msg-composer-hdrs.c:341
 msgid "Fr_om:"
 msgstr "_De:"
 
-#: ../composer/e-msg-composer-hdrs.c:332
+#: ../composer/e-msg-composer-hdrs.c:347
 msgid "_Reply-To:"
 msgstr "_Responder a:"
 
-#: ../composer/e-msg-composer-hdrs.c:335
+#: ../composer/e-msg-composer-hdrs.c:353
 msgid "_To:"
 msgstr "_Para:"
 
-#: ../composer/e-msg-composer-hdrs.c:337
+#: ../composer/e-msg-composer-hdrs.c:355
 msgid "Enter the recipients of the message"
 msgstr "Digite os destinatários da mensagem"
 
-#: ../composer/e-msg-composer-hdrs.c:340
+#: ../composer/e-msg-composer-hdrs.c:361
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-msg-composer-hdrs.c:342
+#: ../composer/e-msg-composer-hdrs.c:363
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Digite os endereços que receberão uma cópia da mensagem"
 
-#: ../composer/e-msg-composer-hdrs.c:346
+#: ../composer/e-msg-composer-hdrs.c:370
 msgid "_Bcc:"
 msgstr "CC_O:"
 
-#: ../composer/e-msg-composer-hdrs.c:348
+#: ../composer/e-msg-composer-hdrs.c:372
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -10231,11 +10225,11 @@ msgstr ""
 "Digite os endereços que receberão uma cópia da mensagem sem aparecer na "
 "lista de destinatários da mensagem."
 
-#: ../composer/e-msg-composer-hdrs.c:353
+#: ../composer/e-msg-composer-hdrs.c:380
 msgid "_Post To:"
 msgstr "_Publicar Em:"
 
-#: ../composer/e-msg-composer-hdrs.c:356
+#: ../composer/e-msg-composer-hdrs.c:386
 msgid "S_ubject:"
 msgstr "Ass_unto:"
 
@@ -10453,7 +10447,7 @@ msgstr "Você deve configurar uma conta antes de poder redigir uma mensagem."
 msgid "_Do not Recover"
 msgstr "Não _Recuperar"
 
-#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:312
+#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:317
 msgid "_Recover"
 msgstr "_Recuperar"
 
@@ -10465,7 +10459,7 @@ msgstr "_Salvar Mensagem"
 msgid "Evolution Mail and Calendar"
 msgstr "Correio  e Agenda do Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:672
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:753
 msgid "Groupware Suite"
 msgstr "Suíte de Groupware"
 
@@ -10575,7 +10569,7 @@ msgstr "Editar Rótulo"
 
 #: ../e-util/e-util-labels.c:339
 msgid "Add Label"
-msgstr "adcionar Rótulo"
+msgstr "Adicionar Rótulo"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
@@ -11492,14 +11486,14 @@ msgstr "Pastas de Pesquisa"
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:210 ../mail/em-folder-tree-model.c:212
 msgid "UNMATCHED"
-msgstr "NÃO CASADO"
+msgstr "SEM OCORRÊNCIA"
 
 #: ../mail/em-folder-tree-model.c:494 ../mail/mail-component.c:157
 msgid "Drafts"
 msgstr "Rascunhos"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2552
+#: ../mail/em-folder-tree-model.c:497 ../mail/em-folder-tree.c:2535
 #: ../mail/mail-component.c:156
 #: ../plugins/exchange-operations/exchange-delegates-user.c:88
 #: ../plugins/exchange-operations/exchange-folder.c:593
@@ -11566,20 +11560,20 @@ msgstr "Copiando mensagens para pasta %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Não foi possível depositar mensagem(ns) no repositório topo"
 
-#: ../mail/em-folder-tree.c:1011 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-folder-tree.c:994 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
 msgstr "_Copiar para Pasta"
 
-#: ../mail/em-folder-tree.c:1012 ../ui/evolution-mail-message.xml.h:118
+#: ../mail/em-folder-tree.c:995 ../ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Mover para Pasta"
 
-#: ../mail/em-folder-tree.c:1721 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1704 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Varrendo pastas em \"%s\""
 
-#: ../mail/em-folder-tree.c:2094 ../ui/evolution-addressbook.xml.h:64
+#: ../mail/em-folder-tree.c:2077 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:63 ../ui/evolution-tasks.xml.h:30
@@ -11587,32 +11581,32 @@ msgstr "Varrendo pastas em \"%s\""
 msgid "_View"
 msgstr "_Ver"
 
-#: ../mail/em-folder-tree.c:2095
+#: ../mail/em-folder-tree.c:2078
 msgid "Open in _New Window"
 msgstr "Abrir em uma _Nova Janela"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2083
 msgid "_New Folder..."
 msgstr "_Nova Pasta..."
 
-#: ../mail/em-folder-tree.c:2103
+#: ../mail/em-folder-tree.c:2086
 msgid "_Move..."
 msgstr "_Mover..."
 
-#: ../mail/em-folder-tree.c:2110 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2093 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Renomear..."
 
-#: ../mail/em-folder-tree.c:2111
+#: ../mail/em-folder-tree.c:2094
 msgid "Re_fresh"
 msgstr "Atuali_zar"
 
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2095
 msgid "Fl_ush Outbox"
 msgstr "Limpar Cai_xa de saída"
 
-#: ../mail/em-folder-tree.c:2118 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2101 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "Es_vaziar Lixeira"
 
@@ -11903,7 +11897,7 @@ msgid ""
 "public key."
 msgstr ""
 "Esta mensagem está assinada com uma assinatura, mas não há chave pública "
-"correspondente"
+"correspondente."
 
 #: ../mail/em-format-html-display.c:1003 ../mail/em-format-html.c:651
 msgid "Unencrypted"
@@ -12123,12 +12117,12 @@ msgstr "Programa de correio"
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1733
 msgid " (%a, %R %Z)"
-msgstr "(%a, %R %Z)"
+msgstr " (%a, %R %Z)"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: ../mail/em-format-html.c:1738
 msgid " (%R %Z)"
-msgstr "(%R %Z)"
+msgstr " (%R %Z)"
 
 #: ../mail/em-format-html.c:1750 ../mail/em-format-quote.c:338
 #: ../mail/em-format.c:892 ../mail/em-mailer-prefs.c:96
@@ -12618,8 +12612,8 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
-"Habilitar isto para usar a tecla Barra de Espaçospara rolar na visualização "
-"de mensagem, lista de mensagens e pastas"
+"Habilite isto para usar a tecla Barra de Espaços para rolar na visualização "
+"de mensagem, lista de mensagens e pastas."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Enable to render message text part of limited size."
@@ -12756,8 +12750,8 @@ msgid ""
 "Always load images off the net."
 msgstr ""
 "Carregar imagens em mensagens HTML usando http(s). Os valores possíveis são: "
-"0 - Nunca carrega imagens da rede 1 - Carregar imagens se o remetente está "
-"no catálogo de endereços 2 - Sempre carregar imagens da rede"
+"\"0\" (nunca carrega imagens da rede); \"1\" (carrega imagens se o remetente "
+"estiver no catálogo de endereços); e \"2\" (sempre carrega imagens da rede)."
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Log filter actions"
@@ -12941,13 +12935,13 @@ msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
-"Mostrar o e-mail do remetente em uma coluna separada na na lista de "
+"Mostra o e-mail do remetente em uma coluna separada na lista de "
 "mensagens."
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Show the photo of the sender in the message reading pane."
 msgstr ""
-"Mostrar o e-mail do remetente na coluna de composição de mensagens na lista "
+"Mostra o e-mail do remetente na coluna de composição de mensagens na lista "
 "de mensagens"
 
 #: ../mail/evolution-mail.schemas.in.h:115
@@ -12964,7 +12958,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Spell check inline"
-msgstr "Verificação ortográfica durante a digitação"
+msgstr "Verificar ortografia durante a digitação"
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Subscribe dialog default height"
@@ -13000,15 +12994,15 @@ msgstr "A fonte de terminal para exibição de correio."
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "The variable width font for mail display."
-msgstr "A fonte de largura variável para exibição de correio"
+msgstr "A fonte de largura variável para exibição de correio."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Isso admite três valores possíveis. 0 para erros, 1 para aviso e 2 para "
-"mensagens de depuração"
+"Isso admite três valores possíveis: \"0\" para erros, \"1\" para aviso e "
+"\"2\" para mensagens de depuração."
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -13109,7 +13103,7 @@ msgstr "Usar o daemon e cliente do SpamAssassin"
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Usar o daemon e cliente do SpamAssassin (spamc/spamd)"
+msgstr "Usa o daemon e cliente do SpamAssassin (spamc/spamd)."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Use custom fonts"
@@ -13117,7 +13111,7 @@ msgstr "Usar fontes personalizadas"
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid "Use custom fonts for displaying mail."
-msgstr "Usar fontes personalizadas para exibir as mensagens"
+msgstr "Usa fontes personalizadas para exibir as mensagens."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Use only local spam tests."
@@ -13125,7 +13119,7 @@ msgstr "Usar apenas testes de SPAM locais."
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid "Use only the local spam tests (no DNS)."
-msgstr "Usar apenas os testes de SPAM locais (sem DNS)."
+msgstr "Usa apenas os testes de SPAM locais (sem DNS)."
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "Use side-by-side or wide layout"
@@ -13281,8 +13275,8 @@ msgstr "Adicionar Regra de Filtro"
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] "%d selecionada,"
-msgstr[1] "%d selecionadas,"
+msgstr[0] "%d selecionada, "
+msgstr[1] "%d selecionadas, "
 
 #: ../mail/mail-component.c:540
 #, c-format
@@ -13323,8 +13317,8 @@ msgstr[1] "%d não enviadas"
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] "%d não lida,"
-msgstr[1] "%d não lidas,"
+msgstr[0] "%d não lida, "
+msgstr[1] "%d não lidas, "
 
 #: ../mail/mail-component.c:556
 #, c-format
@@ -13343,7 +13337,7 @@ msgstr "_Mensagem de Correio"
 
 #: ../mail/mail-component.c:898
 msgid "Compose a new mail message"
-msgstr "Redigir uma nova mensagem de correio"
+msgstr "Redige uma nova mensagem de correio"
 
 #: ../mail/mail-component.c:904
 msgid "New Mail Folder"
@@ -13355,7 +13349,7 @@ msgstr "_Pasta de Correio"
 
 #: ../mail/mail-component.c:906
 msgid "Create a new mail folder"
-msgstr "Criar uma nova pasta de correio"
+msgstr "Cria uma nova pasta de correio"
 
 #: ../mail/mail-component.c:1053
 msgid "Failed upgrading Mail settings or folders."
@@ -13691,7 +13685,7 @@ msgstr "_Esvaziar lixeiras ao sair"
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
-msgstr "Habilitar Barra de E_spaço Magica"
+msgstr "Habilitar Barra de E_spaço Mágica"
 
 #: ../mail/mail-config.glade.h:80
 msgid "Enable Sea_rch Folders"
@@ -14169,7 +14163,7 @@ msgstr "_Marca:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Marque aqui para acei_tar o acordo de licença"
 
-#: ../mail/mail-folder-cache.c:826
+#: ../mail/mail-folder-cache.c:831
 #, c-format
 msgid "Pinging %s"
 msgstr "Chamando %s"
@@ -14679,7 +14673,7 @@ msgstr "Excluir conta?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-msgstr "Apagar mensagens na pasta de pesquisa &quot;{0}&quot;??"
+msgstr "Apagar mensagens na pasta de pesquisa &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:46
 msgid "Delete messages in Search Folder?"
@@ -15165,7 +15159,7 @@ msgstr "%d %b %k:%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:3849
+#: ../mail/message-list.c:3838
 msgid "Generating message list"
 msgstr "Gerando lista de mensagens"
 
@@ -15183,7 +15177,7 @@ msgstr "Marcada"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Marca·de·Lembrete"
+msgstr "Marca de Lembrete"
 
 #: ../mail/message-list.etspec.h:11
 msgid "Received"
@@ -15191,7 +15185,7 @@ msgstr "Recebida"
 
 #: ../mail/message-list.etspec.h:15
 msgid "Sent Messages"
-msgstr " Mensagens Enviadas"
+msgstr "Mensagens Enviadas"
 
 #: ../mail/message-list.etspec.h:16
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
@@ -15413,7 +15407,7 @@ msgstr "Fazendo backup das contas e configurações do Evolution"
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Fazendo backup dos dados do Evolution (Mensagens, Contatos, Agenda, Tarefas, "
-"Memorandos) "
+"Memorandos)"
 
 #: ../plugins/backup-restore/backup.c:88
 msgid "Backup complete"
@@ -15498,7 +15492,7 @@ msgstr "Arquivo de Backup do Evolution Inválido"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Please select a valid backup file to restore."
-msgstr "Por favor selecione um arquivo de backup válido para restaurar"
+msgstr "Por favor, selecione um arquivo de backup válido para ser restaurado."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -15598,9 +15592,13 @@ msgstr ""
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
 msgid "Bogofilter Options"
-msgstr "Opções do Bogofilter "
+msgstr "Opções do Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
+msgid "Bogofilter junk plugin"
+msgstr "Plug-in de spam Bogofilter"
+
+#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
 msgstr "Filtra mensagens SPAM usando Bogofilter."
 
@@ -15746,7 +15744,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Você deseja tornar o Evolution seu cliente padrão de e-mail?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:626
+#: ../shell/main.c:690
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -16192,7 +16190,7 @@ msgstr "Aviso de Vencimento de Senha..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
 msgid "Your password will expire in 7 days..."
-msgstr "Sua senha vencerá em 7 dias...."
+msgstr "Sua senha vencerá em 7 dias..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
@@ -16998,12 +16996,12 @@ msgstr "%sDigite a senha para %s (usuário %s)"
 msgid "_Proxy Login..."
 msgstr "Login do _Proxy..."
 
-#: ../plugins/groupwise-features/proxy.c:701
+#: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
 "A aba do Proxy estará disponível somente quando a conta estiver conectada."
 
-#: ../plugins/groupwise-features/proxy.c:706
+#: ../plugins/groupwise-features/proxy.c:708
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 "A aba do Proxy estará disponível somente quando a conta estiver habilitada."
@@ -17080,7 +17078,7 @@ msgstr "Completada: "
 
 #: ../plugins/groupwise-features/status-track.c:225
 msgid "Undelivered: "
-msgstr "Não Entregue:"
+msgstr "Não Entregue: "
 
 #: ../plugins/groupwise-features/status-track.c:249
 msgid "Track Message Status..."
@@ -18901,7 +18899,7 @@ msgstr "Pular diálogo de alerta de desenvolvimento"
 msgid "Skip recovery warning dialog"
 msgstr "Pular diálogo de aviso de recuperação"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:571
+#: ../shell/apps_evolution_shell.schemas.in.h:14 ../shell/main.c:576
 msgid "Start in offline mode"
 msgstr "Iniciar no modo desconectado"
 
@@ -19116,32 +19114,34 @@ msgstr "Não foi possível executar a Ferramenta de Relatório de Erros."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:663
+#: ../shell/e-shell-window-commands.c:744
 msgid "translator-credits"
 msgstr ""
 "Gustavo Maciel Dias Vieira <gustavo@sagui.org>\n"
 "Afonso Celso Medina <afmedina@uol.com.br>\n"
 "Washington Lins <washington-lins@uol.com.br>\n"
 "Guilherme de S. Pastore <gpastore@gnome.org>\n"
-"Raul Pereira <contato@raulpereira.com>"
+"Raul Pereira <contato@raulpereira.com>\n"
+"Leonardo Ferreira Fontenelle <leo.fontenelle@gmail.com>"
 
-#: ../shell/e-shell-window-commands.c:674
+
+#: ../shell/e-shell-window-commands.c:755
 msgid "Evolution Website"
 msgstr "WebSite do Evolution"
 
-#: ../shell/e-shell-window-commands.c:692
+#: ../shell/e-shell-window-commands.c:773
 msgid "Error opening the FAQ webpage."
-msgstr "Erro ao abrir a página de FAQ"
+msgstr "Erro ao abrir a página de FAQ."
 
-#: ../shell/e-shell-window-commands.c:889
+#: ../shell/e-shell-window-commands.c:970
 msgid "_Work Online"
 msgstr "_Trabalhar Conectado"
 
-#: ../shell/e-shell-window-commands.c:902 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:983 ../ui/evolution.xml.h:56
 msgid "_Work Offline"
 msgstr "_Trabalhar Desconectado"
 
-#: ../shell/e-shell-window-commands.c:915
+#: ../shell/e-shell-window-commands.c:996
 msgid "Work Offline"
 msgstr "Trabalhar Desconectado"
 
@@ -19249,7 +19249,7 @@ msgstr ""
 "de arquivos externos para o Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:228
+#: ../shell/main.c:233
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19286,7 +19286,7 @@ msgstr ""
 "Nós esperamos que você aprecie os resultados do nosso trabalho\n"
 "duro, e estamos esperando ansiosamente suas contribuições!\n"
 
-#: ../shell/main.c:252
+#: ../shell/main.c:257
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19294,19 +19294,19 @@ msgstr ""
 "Obrigado\n"
 "A Equipe do Evolution\n"
 
-#: ../shell/main.c:259
+#: ../shell/main.c:264
 msgid "Do not tell me again"
 msgstr "Não me diga novamente"
 
-#: ../shell/main.c:309
+#: ../shell/main.c:314
 msgid "Evolution Crash Detection"
 msgstr "Restaurador do Evolution"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:316
 msgid "Ig_nore"
 msgstr "Ig_norar"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:331
 #, no-c-format
 msgid ""
 "Evolution appears to have exited unexpectedly the last time it was\n"
@@ -19319,43 +19319,43 @@ msgstr ""
 "escondidos.\n"
 " Você pode restauras o painel de visualização a partir do menu Visualizar.\n"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:342
 msgid "_Do not show this message again"
-msgstr "_Não mostrar esta mensagem novamente."
+msgstr "_Não mostrar esta mensagem novamente"
 
-#: ../shell/main.c:569
+#: ../shell/main.c:574
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar o Evolution ativando o componente especificado"
 
-#: ../shell/main.c:573
+#: ../shell/main.c:578
 msgid "Start in online mode"
 msgstr "Iniciar no modo conectado"
 
-#: ../shell/main.c:576
+#: ../shell/main.c:581
 msgid "Forcibly shut down all Evolution components"
 msgstr "Desligar a força todos os componentes do Evolution"
 
-#: ../shell/main.c:580
+#: ../shell/main.c:585
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Executar novamente a migração do Evolution 1.4"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:588
 msgid "Send the debugging output of all components to a file."
 msgstr "Enviar a saída de depuração de todos os componentes para um arquivo."
 
-#: ../shell/main.c:585
+#: ../shell/main.c:590
 msgid "Disable loading of any plugins."
 msgstr "Desabilitar o carregamento de qualquer plug-ins."
 
-#: ../shell/main.c:587
+#: ../shell/main.c:592
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desabilitar o painel de visualização do Correio, Contatos e Tarefas."
 
-#: ../shell/main.c:617
+#: ../shell/main.c:677
 msgid "- The Evolution PIM and Email Client"
 msgstr "- O PIM e Cliente de E-mail Evolution"
 
-#: ../shell/main.c:630
+#: ../shell/main.c:694
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -20109,11 +20109,11 @@ msgstr "Salvar como VCard..."
 
 #: ../ui/evolution-addressbook.xml.h:32
 msgid "Save selected contacts as a VCard."
-msgstr "Salvar contatos selecionados como um VCard."
+msgstr "Salva os contatos selecionados como um VCard."
 
 #: ../ui/evolution-addressbook.xml.h:33
 msgid "Save the contacts of the selected folder as VCard"
-msgstr "Salvar contatos da pasta selecionada como VCard."
+msgstr "Salvar os contatos da pasta selecionada como VCard"
 
 #: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2722
 msgid "Select All"
@@ -21715,7 +21715,7 @@ msgstr "Abrir página do Perguntas Feitas com Freqüência (FAQ)"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
-msgstr "Config_uração de Página:"
+msgstr "Configurar _Página..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
@@ -22044,13 +22044,13 @@ msgstr "Tipo de visão:"
 msgid "Attachment Bar"
 msgstr "Barra de Anexos"
 
-#: ../widgets/misc/e-attachment.c:306 ../widgets/misc/e-attachment.c:321
-#: ../widgets/misc/e-attachment.c:522 ../widgets/misc/e-attachment.c:539
+#: ../widgets/misc/e-attachment.c:317 ../widgets/misc/e-attachment.c:332
+#: ../widgets/misc/e-attachment.c:533 ../widgets/misc/e-attachment.c:550
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "Não é possível anexar o arquivo %s: %s"
 
-#: ../widgets/misc/e-attachment.c:314 ../widgets/misc/e-attachment.c:531
+#: ../widgets/misc/e-attachment.c:325 ../widgets/misc/e-attachment.c:542
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Não é possível anexar o arquivo %s: não é um arquivo comum"
@@ -23129,10 +23129,17 @@ msgstr "Desenhar base"
 msgid "Cursor position"
 msgstr "Posição do cursor"
 
+# IM = Input Method
 #: ../widgets/text/e-text.c:3778 ../widgets/text/e-text.c:3779
 msgid "IM Context"
-msgstr "Contexto do MI"
+msgstr "Contexto do ME"
 
 #: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
 msgid "Handle Popup"
 msgstr "Alça do Popup"
+
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>Exibição</b>"
+
+#~ msgid "<b>Server Information</b>"
+#~ msgstr "<b>Informação do Servidor</b>"
