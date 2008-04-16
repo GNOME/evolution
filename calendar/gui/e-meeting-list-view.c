@@ -317,7 +317,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
 	int row = gtk_tree_path_get_indices (treepath)[0];
 	EMeetingAttendee *existing_attendee;
-	gboolean removed = FALSE;
+	gboolean removed = FALSE, address_changed = FALSE;
 
 	existing_attendee = e_meeting_store_find_attendee_at_row (model, row);
 
@@ -342,7 +342,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				e_meeting_attendee_set_cutype (attendee, e_meeting_attendee_get_cutype (existing_attendee));
 				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
 				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
-				e_meeting_attendee_set_status (attendee, e_meeting_attendee_get_status (existing_attendee));
+				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
 				e_meeting_attendee_set_delfrom (attendee, (gchar *)e_meeting_attendee_get_delfrom (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
@@ -369,9 +369,16 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		} else {
 			EMeetingAttendee *attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
-			if (existing_attendee)
-				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
-						existing_attendee);
+			if (existing_attendee) {
+				const gchar *addr = e_meeting_attendee_get_address (existing_attendee);
+
+				if (addr && g_ascii_strncasecmp (addr, "MAILTO:", 7) == 0)
+					addr += 7;
+
+				address_changed = addr && g_ascii_strcasecmp (addr, email) != 0;
+
+				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
+			}
 
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
 			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
@@ -386,20 +393,22 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		if (existing_attendee) {
 			const char *address = e_meeting_attendee_get_address (existing_attendee);
 
-			if (address && *address)
-				return;
-
-			 removed = TRUE;
-			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
-						existing_attendee);
-			e_meeting_store_remove_attendee (model, existing_attendee);
+			if (!(address && *address)) {
+				removed = TRUE;
+				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view), existing_attendee);
+				e_meeting_store_remove_attendee (model, existing_attendee);
+			}
 		}
 	}
 
 	gtk_tree_path_free (treepath);
 
-	if (!removed)
+	if (!removed) {
+		if (address_changed)
+			e_meeting_attendee_set_status (existing_attendee, ICAL_PARTSTAT_NEEDSACTION);
+
 		g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) existing_attendee);
+	}
 }
 
 static void

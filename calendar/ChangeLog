@@ -1,3 +1,10 @@
+2008-04-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #232594
+
+	* gui/e-meeting-list-view.c: (attendee_edited_cb):
+	Set status to Needs Action when attendee's address have been changed.
+
 2008-04-11  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #517134
