@@ -20574,11 +20574,11 @@ msgstr "Změnit vlastnosti této složky"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
-msgstr "S_eskupovat podle vláken"
+msgstr "S_balit všechna vlákna"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
-msgstr "Sbalit všechny vlákna zpráv"
+msgstr "Sbalit všechna vlákna zpráv"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
