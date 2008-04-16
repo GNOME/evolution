@@ -48,7 +48,7 @@ typedef struct _EContactEditorFullnameClass  EContactEditorFullnameClass;
 struct _EContactEditorFullname
 {
 	GtkDialog parent;
-	
+
 	/* item specific fields */
 	EContactName *name;
 	GladeXML *gui;

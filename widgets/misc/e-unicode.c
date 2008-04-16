@@ -321,7 +321,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	ibl = bytes;
 	new = ob = g_new (char, ibl * 4 + 4);
 	obl = ibl * 4;
-	
+
 	while (ibl > 0) {
 		e_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
@@ -337,16 +337,16 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 			ib += len;
 			ibl = bytes - (ib - string);
 			if (ibl > bytes) ibl = 0;
-			
+
 			/* FIXME: this is wrong... what if the destination charset is 16 or 32 bit? */
 			*ob++ = '_';
 			obl--;
 		}
 	}
-	
+
 	/* Make sure to terminate with plenty of padding */
 	memset (ob, 0, 4);
-	
+
 	return new;
 }
 
@@ -501,7 +501,7 @@ e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text)
 	else
 		gtk_entry_set_text (entry, text);
 }
-	
+
 /*
  * Translate \U+XXXX\ sequences to utf8 chars
  */
@@ -591,9 +591,9 @@ e_utf8_xml1_encode (const gchar *text)
  * @outbuf: output buffer, must have at least 6 bytes of space.
  *          If %NULL, the length will be computed and returned
  *          and nothing will be written to @out.
- * 
+ *
  * Convert a single character to utf8
- * 
+ *
  * Return value: number of bytes written
  **/
 
@@ -2029,8 +2029,8 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlC
 	gchar *ret_val = NULL;
 	gchar *combined_name;
 
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (prop_name != NULL, NULL);
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {

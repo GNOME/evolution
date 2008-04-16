@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-model.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -108,12 +108,12 @@ e_text_model_class_init (ETextModelClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	
+
 	/* No default signal handlers. */
 	klass->changed          = NULL;
 	klass->reposition       = NULL;
 	klass->object_activated = NULL;
-	
+
 	klass->validate_pos  = e_text_model_real_validate_position;
 
 	klass->get_text      = e_text_model_real_get_text;
@@ -127,7 +127,7 @@ e_text_model_class_init (ETextModelClass *klass)
 	klass->objectify        = NULL;
 	klass->obj_count        = NULL;
 	klass->get_nth_obj      = NULL;
-	
+
 	object_class->dispose = e_text_model_dispose;
 }
 
@@ -201,7 +201,7 @@ e_text_model_real_set_text (ETextModel *model, const gchar *text)
 		g_string_set_size (model->priv->text, 0);
 
 	} else if (*model->priv->text->str == '\0' || strcmp (model->priv->text->str, text)) {
-		
+
 		g_string_assign (model->priv->text, text);
 
 		changed = TRUE;
@@ -305,7 +305,7 @@ void
 e_text_model_cancel_completion (ETextModel *model)
 {
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
-	
+
 	g_signal_emit (model, e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION], 0);
 }
 
@@ -383,7 +383,7 @@ e_text_model_set_text (ETextModel *model, const gchar *text)
 
 void
 e_text_model_insert (ETextModel *model, gint position, const gchar *text)
-{ 
+{
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
@@ -535,7 +535,7 @@ e_text_model_get_object_at_offset (ETextModel *model, gint offset)
 
 		return E_TEXT_MODEL_GET_CLASS (model)->obj_at_offset (model, offset);
 
-	} else { 
+	} else {
 		/* If not, we fake it.*/
 
 		gint i, N, pos0, pos1;
@@ -547,7 +547,7 @@ e_text_model_get_object_at_offset (ETextModel *model, gint offset)
 			if (pos0 <= offset && offset < pos1)
 				return i;
 		}
-			
+
 	}
 
 	return -1;

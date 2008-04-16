@@ -6,7 +6,7 @@
  * Copyright (C) 2003 Ximian Inc.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public 
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -49,10 +49,10 @@ struct _ESelectNamesRendererClass
 {
 	GtkCellRendererTextClass parent_class;
 
-	void (* cell_edited) (ESelectNamesRenderer *renderer, 
-			      const gchar *path, 
-			      GList *addresses, 
-			      GList *names);	
+	void (* cell_edited) (ESelectNamesRenderer *renderer,
+			      const gchar *path,
+			      GList *addresses,
+			      GList *names);
 };
 
 GType            e_select_names_renderer_get_type (void);

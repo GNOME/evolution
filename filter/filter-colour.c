@@ -52,7 +52,7 @@ GType
 filter_colour_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterColourClass),
@@ -65,10 +65,10 @@ filter_colour_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_colour_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterColour", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -77,11 +77,11 @@ filter_colour_class_init (FilterColourClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = filter_colour_finalise;
-	
+
 	/* override methods */
 	fe_class->eq = colour_eq;
 	fe_class->xml_create = xml_create;
@@ -108,7 +108,7 @@ filter_colour_finalise (GObject *obj)
  * filter_colour_new:
  *
  * Create a new FilterColour object.
- * 
+ *
  * Return value: A new #FilterColour object.
  **/
 FilterColour *
@@ -199,7 +199,7 @@ get_widget (FilterElement *fe)
 	g_signal_connect (
 		G_OBJECT (color_button), "color_set",
 		G_CALLBACK (set_color), fe);
-	
+
 	return color_button;
 }
 

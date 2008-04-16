@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+/* -*- Mf (id ode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  *  Sushma Rai <rsushma@novell.com>
  *  Copyright (C) 2004 Novell, Inc.
@@ -37,7 +37,6 @@
 #include <camel/camel-url.h>
 #include <camel/camel-service.h>
 #include <camel/camel-folder.h>
-#include <libedataserver/e-xml-hash-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e2k-validate.h>
 #include <exchange-oof.h>
@@ -56,7 +55,7 @@ GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget *org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data);
 void org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
-GtkWidget* org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactoryData *data); 
+GtkWidget* org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 CamelServiceAuthType camel_exchange_ntlm_authtype = {
         /* i18n: "Secure Password Authentication" is an Outlookism */
@@ -87,7 +86,7 @@ typedef struct {
 	GtkWidget *text_view;
 }OOFData;
 
-OOFData *oof_data;
+static OOFData *oof_data;
 
 static void
 update_state (GtkTextBuffer *buffer, gpointer data)
@@ -103,13 +102,13 @@ update_state (GtkTextBuffer *buffer, gpointer data)
 	}
 }
 
-static void 
+static void
 toggled_state (GtkToggleButton *button, gpointer data)
 {
 	gboolean current_oof_state = gtk_toggle_button_get_active (button);
 
 	if (current_oof_state == oof_data->state)
-		return; 
+		return;
 	oof_data->state = current_oof_state;
 	gtk_widget_set_sensitive (oof_data->text_view, current_oof_state);
 }
@@ -123,7 +122,7 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
  	ExchangeAccountResult result;
 
 	account = exchange_operations_get_exchange_account ();
-					
+
 	old_password = exchange_account_get_password (account);
 	if (!old_password) {
 		g_print ("Could not fetch old password\n");
@@ -138,9 +137,9 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
  	result = exchange_account_set_password (account, old_password, new_password);
 	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
 		exchange_operations_report_error (account, result);
-	
+
 	g_free (old_password);
-	g_free (new_password);	
+	g_free (new_password);
 }
 #endif
 
@@ -198,7 +197,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 #endif
 	GtkLabel *lbl_dass;
 	GtkButton *btn_dass;
-	
+
 	/* Miscelleneous setting */
 	GtkFrame *frm_misc;
 	GtkVBox *vbox_misc;
@@ -235,14 +234,14 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	oof_data->text_view = NULL;
 
 	/* See if oof info found already */
-	
+
 	if (account && !exchange_oof_get (account, &oof_state, &message)) {
 
 		e_error_run (NULL, ERROR_DOMAIN ":state-read-error", NULL);
 
                 return NULL;
         }
-	
+
 	if (message && *message)
 		oof_data->message = g_strdup (message);
 	else
@@ -256,22 +255,22 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	frm_oof = (GtkFrame*) gtk_object_new (GTK_TYPE_FRAME, "label", _("Out Of Office"), NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_settings), GTK_WIDGET (frm_oof), FALSE, FALSE, 0);
-	
+
 	vbox_oof = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, NULL, "homogeneous", FALSE, "spacing", 12, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_oof), 6);
 	gtk_container_add (GTK_CONTAINER (frm_oof), GTK_WIDGET (vbox_oof));
-	
-	lbl_oof_desc = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("The message specified below will be automatically sent to \neach person who sends mail to you while you are out of the office."), "justify", GTK_JUSTIFY_LEFT, NULL); 
+
+	lbl_oof_desc = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("The message specified below will be automatically sent to \neach person who sends mail to you while you are out of the office."), "justify", GTK_JUSTIFY_LEFT, NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_oof_desc), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (lbl_oof_desc), FALSE, FALSE, 0);
-	
+
 	tbl_oof_status = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
 	txt = g_strdup_printf ("<b>%s</b>", _("Status:"));
 	lbl_status = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", txt, "use-markup", TRUE, NULL);
 	g_free (txt);
 	gtk_misc_set_alignment (GTK_MISC (lbl_status), 0, 0.5);
 	gtk_misc_set_padding (GTK_MISC (lbl_status), 0, 0);
-			
+
 	if (oof_data->state) {
 		radio_oof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), NULL);
 		radio_iof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), "group", radio_oof, NULL);
@@ -280,16 +279,16 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		radio_iof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), NULL);
 		radio_oof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), "group", radio_iof, NULL);
 	}
-	gtk_signal_connect (GTK_OBJECT (radio_oof), "toggled", G_CALLBACK (toggled_state), NULL);
-	
+	g_signal_connect (radio_oof, "toggled", G_CALLBACK (toggled_state), NULL);
+
 
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (lbl_status), 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (radio_iof), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (radio_oof), 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (tbl_oof_status), FALSE, FALSE, 0);
-	
-	
+
+
 	scrwnd_oof = (GtkScrolledWindow*) gtk_object_new (GTK_TYPE_SCROLLED_WINDOW, "hscrollbar-policy", GTK_POLICY_AUTOMATIC, "vscrollbar-policy", GTK_POLICY_AUTOMATIC, "shadow-type", GTK_SHADOW_IN, NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (scrwnd_oof), FALSE, FALSE, 0);
 	txtview_oof = (GtkTextView*) gtk_object_new (GTK_TYPE_TEXT_VIEW, "justification", GTK_JUSTIFY_LEFT, "wrap-mode", GTK_WRAP_WORD, "editable", TRUE, NULL);
@@ -304,7 +303,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		/* previuosly set message */
 		gtk_text_buffer_set_text (buffer, oof_data->message, -1);
 		gtk_text_view_set_buffer (txtview_oof, buffer);
-		
+
 	}
 	gtk_text_buffer_set_modified (buffer, FALSE);
 	if (!oof_data->state)
@@ -316,7 +315,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* Security settings */
 	frm_auth = (GtkFrame*) gtk_object_new (GTK_TYPE_FRAME, "label", _("Security"), NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_settings), GTK_WIDGET (frm_auth), FALSE, FALSE, 0);
-	
+
 	vbox_auth = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_auth), 6);
 	gtk_container_add (GTK_CONTAINER (frm_auth), GTK_WIDGET (vbox_auth));
@@ -335,7 +334,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assistant"), NULL);
-	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
+	g_signal_connect (btn_dass, "clicked", G_CALLBACK (btn_dass_clicked), NULL);
 	/* Add items to the table */
 #ifdef HAVE_KRB5
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
@@ -348,7 +347,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* Miscelleneous settings */
 	frm_misc = (GtkFrame*) gtk_object_new (GTK_TYPE_FRAME, "label", _("Miscelleneous"), NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_settings), GTK_WIDGET (frm_misc), FALSE, FALSE, 0);
-	
+
 	vbox_misc = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_misc), 6);
 	gtk_container_add (GTK_CONTAINER (frm_misc), GTK_WIDGET (vbox_misc));
@@ -359,7 +358,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_fsize = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("View the size of all Exchange folders"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_fsize), 0, 0.5);
 	btn_fsize = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Folders Size"), NULL);
-	gtk_signal_connect (GTK_OBJECT (btn_fsize), "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
+	g_signal_connect (btn_fsize, "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
 	gtk_table_attach_defaults (tbl_misc, GTK_WIDGET (lbl_fsize), 0, 1, 0, 1);
 	gtk_table_attach (tbl_misc, GTK_WIDGET (btn_fsize), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_box_pack_start (GTK_BOX (vbox_misc), GTK_WIDGET (tbl_misc), FALSE, FALSE, 0);
@@ -399,7 +398,7 @@ print_error (const char *owa_url, E2kAutoconfigResult result)
 			break;
 
 		case E2K_AUTOCONFIG_CANT_BPROPFIND:
-			e_error_run (NULL, ERROR_DOMAIN ":connect-exchange-error", 
+			e_error_run (NULL, ERROR_DOMAIN ":connect-exchange-error",
 				     "http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html",
 				     NULL);
 			break;
@@ -422,7 +421,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	E2kAutoconfigResult result;
 	CamelURL *url=NULL;
 	gboolean remember_password;
-	char *url_string, *key; 
+	char *url_string, *key;
 	const char *source_url, *id_name, *owa_url;
 	char *at, *user;
 	gboolean valid = FALSE;
@@ -437,14 +436,15 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 
 	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL);
 
-	url = camel_url_new(source_url, NULL);
-	if (url->user == NULL) {
+	if (source_url && source_url[0] != '\0')
+		url = camel_url_new(source_url, NULL);
+	if (url && url->user == NULL) {
 		id_name = e_account_get_string (target_account->account, E_ACCOUNT_ID_ADDRESS);
 		if (id_name) {
 			at = strchr(id_name, '@');
 			user = g_alloca(at-id_name+1);
 			memcpy(user, id_name, at-id_name);
-			user[at-id_name] = 0; 
+			user[at-id_name] = 0;
 			camel_url_set_user (url, user);
 		}
 	}
@@ -466,21 +466,21 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	key = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	/* Supress the trailing slash */
 	key [strlen(key) -1] = 0;
-	
-	valid =  e2k_validate_user (owa_url, key, &url->user, exchange_params, 
+
+	valid =  e2k_validate_user (owa_url, key, &url->user, exchange_params,
 						&remember_password, &result,
 						GTK_WINDOW (gtk_widget_get_toplevel (button)));
 	g_free (key);
-	
+
 	if (!valid && result != E2K_AUTOCONFIG_CANCELLED)
 		print_error (owa_url, result);
 
 	camel_url_set_host (url, valid ? exchange_params->host : "");
-	
+
 
 	if (valid)
 		camel_url_set_param (url, "save-passwd", remember_password? "true" : "false");
-	
+
 	camel_url_set_param (url, "ad_server", valid ? exchange_params->ad_server: NULL);
 	camel_url_set_param (url, "mailbox", valid ? exchange_params->mailbox : NULL);
 	camel_url_set_param (url, "owa_path", valid ? exchange_params->owa_path : NULL);
@@ -491,7 +491,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	g_free (exchange_params->ad_server);
 	g_free (exchange_params);
 
-	if (valid) {	
+	if (valid) {
 		url_string = camel_url_to_string (url, 0);
 		e_account_set_string (target_account->account, E_ACCOUNT_SOURCE_URL, url_string);
 		e_account_set_string (target_account->account, E_ACCOUNT_TRANSPORT_URL, url_string);
@@ -513,7 +513,10 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 
 	/* NB: we set the button active only if we have a parsable uri entered */
 
-	url = camel_url_new(e_account_get_string(target->account, E_ACCOUNT_SOURCE_URL), NULL);
+	const char * target_url = e_account_get_string(target->account, E_ACCOUNT_SOURCE_URL);
+	if (target_url && target_url[0] != '\0')
+		url = camel_url_new(target_url, NULL);
+	else url = NULL;
 	uri = gtk_entry_get_text((GtkEntry *)entry);
 	if (uri && uri[0]) {
 		camel_url_set_param(url, "owa_url", uri);
@@ -540,7 +543,7 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 }
 
 static char *
-construct_owa_url (CamelURL *url) 
+construct_owa_url (CamelURL *url)
 {
 	const char *owa_path, *use_ssl = NULL;
 	const char *protocol = "http", *mailbox_name;
@@ -558,9 +561,9 @@ construct_owa_url (CamelURL *url)
 	mailbox_name = camel_url_get_param (url, "mailbox");
 
 	if (mailbox_name)
-		owa_url = g_strdup_printf("%s://%s%s/%s", protocol, url->host, owa_path, mailbox_name); 
+		owa_url = g_strdup_printf("%s://%s%s/%s", protocol, url->host, owa_path, mailbox_name);
 	else
-		owa_url = g_strdup_printf("%s://%s%s", protocol, url->host, owa_path ); 
+		owa_url = g_strdup_printf("%s://%s%s", protocol, url->host, owa_path );
 
 	return owa_url;
 }
@@ -579,7 +582,10 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
-	url = camel_url_new(source_url, NULL);
+	if (source_url && source_url[0] != '\0')
+		url = camel_url_new(source_url, NULL);
+	else
+		url = NULL;
 	if (url == NULL
 	    || strcmp(url->protocol, "exchange") != 0) {
 		if (url)
@@ -624,7 +630,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 		if (url->host[0] != 0) {
 			char *uri;
 
-			/* url has hostname but not owa_url. 
+			/* url has hostname but not owa_url.
 			 * Account has been created using x-c-s or evo is upgraded to 2.2
 		 	 * When invoked from druid, hostname will get set after validation,
 		 	 * so this condition will never be true during account creation.
@@ -636,9 +642,9 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 			g_free(uri);
 		}
 	}
-	camel_url_free (url);	
+	camel_url_free (url);
 	if (owa_url)
-		gtk_entry_set_text(GTK_ENTRY (owa_entry), owa_url); 
+		gtk_entry_set_text(GTK_ENTRY (owa_entry), owa_url);
 	gtk_label_set_mnemonic_widget((GtkLabel *)label, owa_entry);
 
 	button = gtk_button_new_with_mnemonic (_("A_uthenticate"));
@@ -648,8 +654,8 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show_all(hbox);
 
-	gtk_table_attach (GTK_TABLE (data->parent), label, 0, 1, row, row+1, 0, 0, 0, 0); 
-	gtk_table_attach (GTK_TABLE (data->parent), hbox, 1, 2, row, row+1, GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0); 
+	gtk_table_attach (GTK_TABLE (data->parent), label, 0, 1, row, row+1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (data->parent), hbox, 1, 2, row, row+1, GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0);
 
 	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_editor_entry_changed), data->config);
 	g_object_set_data((GObject *)owa_entry, "authenticate-button", button);
@@ -657,6 +663,9 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	/* Track the authenticate label, so we can destroy it if e-config is to destroy the hbox */
 	g_object_set_data((GObject *)hbox, "authenticate-label", label);
+
+	/* check for correctness of the input in the owa_entry */
+	owa_editor_entry_changed (owa_entry, data->config);
 
 	g_free (owa_url);
 	return hbox;
@@ -679,7 +688,11 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 	    strcmp (data->pageid, "20.receive_options") == 0) {
 		CamelURL *url;
 
-		url = camel_url_new(e_account_get_string(target->account,  E_ACCOUNT_SOURCE_URL), NULL);
+		const char * target_url = e_account_get_string(target->account,  E_ACCOUNT_SOURCE_URL);
+		if (target_url && target_url[0] != '\0')
+			url = camel_url_new(target_url, NULL);
+		else
+			url = NULL;
 		/* Note: we only care about exchange url's, we WILL get called on all other url's too. */
 		if (url != NULL
 		    && strcmp(url->protocol, "exchange") == 0
@@ -693,8 +706,8 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 	return status;
 }
 
-static void 
-set_oof_info ()
+static void
+set_oof_info (void)
 {
 	ExchangeAccount *account;
 
@@ -707,11 +720,11 @@ set_oof_info ()
 }
 
 static void
-destroy_oof_data ()
+destroy_oof_data (void)
 {
 	if (oof_data->message)
 		g_free (oof_data->message);
-	g_free (oof_data);	
+	g_free (oof_data);
 }
 
 void
@@ -720,10 +733,13 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 	EMConfigTargetAccount *target_account;
 	const char *source_url;
 	CamelURL *url;
-	
+
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
-	url = camel_url_new (source_url, NULL);
+	if (source_url && source_url[0] != '\0')
+		url = camel_url_new (source_url, NULL);
+	else
+		url = NULL;
 	if (url == NULL
 	    || strcmp (url->protocol, "exchange") != 0) {
 		if (url)
@@ -749,7 +765,7 @@ exchange_check_authtype (GtkWidget *w, EConfig *config)
 	return;
 }
 
-static void 
+static void
 exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
 {
 	EMConfigTargetAccount *target = (EMConfigTargetAccount *)config->target;
@@ -771,7 +787,7 @@ exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
 	transport_url = e_account_get_string (target->account,
 					      E_ACCOUNT_TRANSPORT_URL);
 	url_transport = camel_url_new (transport_url, NULL);
-	
+
 	model = gtk_combo_box_get_model(dropdown);
 	if (gtk_tree_model_iter_nth_child(model, &iter, NULL, id)) {
 		gtk_tree_model_get(model, &iter, 1, &authtype, -1);
@@ -783,7 +799,7 @@ exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
 			camel_url_set_authmech(url_source, NULL);
 			camel_url_set_authmech(url_transport, NULL);
 		}
-	
+
 		source_url_string = camel_url_to_string(url_source, 0);
 		transport_url_string = camel_url_to_string(url_transport, 0);
 		e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, source_url_string);
@@ -800,7 +816,7 @@ GtkWidget *
 org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	const char *source_url; 
+	const char *source_url;
 	char *label_text, *exchange_account_authtype = NULL;
 	CamelURL *url;
 	GtkWidget *hbox, *button, *auth_label, *vbox, *label_hide;
@@ -812,7 +828,7 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ExchangeAccount *account;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	source_url = e_account_get_string (target_account->account, 
+	source_url = e_account_get_string (target_account->account,
 					   E_ACCOUNT_SOURCE_URL);
 	url = camel_url_new (source_url, NULL);
 	if (url == NULL
@@ -834,19 +850,19 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	label_text = g_strdup_printf("<b>%s</b>", _("Authentication Type"));
-	auth_label = gtk_label_new (label_text);
+	label_text = g_strdup_printf("<b>%s</b>", _("_Authentication Type"));
+	auth_label = gtk_label_new_with_mnemonic (label_text);
 	g_free (label_text);
 	gtk_label_set_justify (GTK_LABEL (auth_label), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (auth_label), 0, 0.5);
-	gtk_misc_set_padding (GTK_MISC (auth_label), 0, 0); 
+	gtk_misc_set_padding (GTK_MISC (auth_label), 0, 0);
 	gtk_label_set_use_markup (GTK_LABEL (auth_label), TRUE);
 
 	label_hide = gtk_label_new("\n");
 
 	hbox = gtk_hbox_new (FALSE, 6);
-
 	dropdown = (GtkComboBox * )gtk_combo_box_new ();
+	gtk_label_set_mnemonic_widget (GTK_LABEL (auth_label), GTK_WIDGET (dropdown));
 
 	button = gtk_button_new_with_mnemonic (_("Ch_eck for Supported Types"));
 
@@ -860,23 +876,23 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 		if (authtypes) {
 			for (ll = authtypes; ll; ll = g_list_next(ll))
-				if (!strcmp(authtype->authproto, 
+				if (!strcmp(authtype->authproto,
 					((CamelServiceAuthType *)ll->data)->authproto))
 					break;
 			avail = ll != NULL;
 		}
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, authtype->name, 1, 
+		gtk_list_store_set (store, &iter, 0, authtype->name, 1,
 				    authtype, 2, !avail, -1);
 
 		if (url && url->authmech && !strcmp(url->authmech, authtype->authproto)) {
 			active = i;
 		}
-		else if (url && exchange_account_authtype && 
+		else if (url && exchange_account_authtype &&
 			 !strcmp (exchange_account_authtype, authtype->authproto)) {
-			/* if the url doesn't contain authmech, read the value from 
-			 * exchange account and set the tab selection and 
-			 * also set the authmech back to url 
+			/* if the url doesn't contain authmech, read the value from
+			 * exchange account and set the tab selection and
+			 * also set the authmech back to url
 			 */
 			camel_url_set_authmech (url, exchange_account_authtype);
 			active = i;
@@ -890,16 +906,16 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 		GtkCellRenderer *cell = gtk_cell_renderer_text_new();
 
 		gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
-		gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, 
+		gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell,
 						"text", 0, "strikethrough", 2, NULL);
 
-		auth_changed_id = g_signal_connect (dropdown, 
-						    "changed", 
-						    G_CALLBACK (exchange_authtype_changed), 
+		auth_changed_id = g_signal_connect (dropdown,
+						    "changed",
+						    G_CALLBACK (exchange_authtype_changed),
 						    data->config);
-		g_signal_connect (button, 
-				  "clicked", 
-				  G_CALLBACK(exchange_check_authtype), 
+		g_signal_connect (button,
+				  "clicked",
+				  G_CALLBACK(exchange_check_authtype),
 				  data->config);
 	}
 
@@ -913,7 +929,7 @@ org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start (GTK_BOX (vbox), label_hide, TRUE, TRUE, 0);
 	gtk_widget_show_all (vbox);
 
-	gtk_box_pack_start (GTK_BOX (data->parent), vbox, TRUE, TRUE, 0);	
+	gtk_box_pack_start (GTK_BOX (data->parent), vbox, TRUE, TRUE, 0);
 
 	if (url)
 		camel_url_free(url);
@@ -936,6 +952,7 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	GtkVBox *vbx;
 	GtkHBox *hbx_size;
 	char *folder_name, *folder_size;
+	int mode;
 
 	service = CAMEL_SERVICE (camel_folder_get_parent_store (cml_folder));
 	if (!service)
@@ -947,11 +964,16 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 
 	if (g_ascii_strcasecmp (provider->protocol, "exchange"))
 		return NULL;
+
+	account = exchange_operations_get_exchange_account ();  
+	exchange_account_is_offline (account, &mode);  
+	if (mode == OFFLINE_MODE)  
+		return NULL;  
 	
 	folder_name = (char*) camel_folder_get_name (cml_folder);
 	if (!folder_name)
 		folder_name = g_strdup ("name");
-	account = exchange_operations_get_exchange_account ();
+
 	model = exchange_account_folder_size_get_model (account);
 	if (model)
 		folder_size = g_strdup_printf (_("%s KB"), exchange_folder_size_get_val (model, folder_name));

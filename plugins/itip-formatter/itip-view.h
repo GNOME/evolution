@@ -77,7 +77,7 @@ typedef enum {
 
 struct _ItipView {
 	GtkHBox parent_instance;
-	
+
 	ItipViewPrivate *priv;
 
 	GtkWidget *action_vbox;
@@ -138,12 +138,12 @@ const struct tm *itip_view_get_start (ItipView *view);
 void itip_view_set_end (ItipView *view, struct tm *end);
 const struct tm *itip_view_get_end (ItipView *view);
 
-guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const char *message); 
+guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const char *message);
 guint itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType, const char *format, ...) G_GNUC_PRINTF (3, 4);
 void itip_view_remove_upper_info_item (ItipView *view, guint id);
 void itip_view_clear_upper_info_items (ItipView *view);
 
-guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const char *message); 
+guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const char *message);
 guint itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...) G_GNUC_PRINTF (3, 4);
 void itip_view_remove_lower_info_item (ItipView *view, guint id);
 void itip_view_clear_lower_info_items (ItipView *view);
@@ -176,6 +176,9 @@ void itip_view_set_show_recur_check (ItipView *view, gboolean show);
 gboolean itip_view_get_recur_check_state (ItipView *view);
 
 void itip_view_set_needs_decline (ItipView *view, gboolean needs_decline);
+
+void itip_view_set_show_free_time_check (ItipView *view, gboolean show);
+gboolean itip_view_get_free_time_check_state (ItipView *view);
 
 G_END_DECLS
 

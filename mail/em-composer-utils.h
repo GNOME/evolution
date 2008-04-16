@@ -42,7 +42,7 @@ void em_composer_utils_setup_callbacks (struct _EMsgComposer *composer, struct _
 #define em_composer_utils_setup_default_callbacks(composer) em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, NULL, NULL)
 
 void em_utils_composer_send_cb(struct _EMsgComposer *composer, gpointer user_data);
-void em_utils_composer_save_draft_cb(struct _EMsgComposer *composer, int quit, gpointer user_data);
+void em_utils_composer_save_draft_cb(struct _EMsgComposer *composer, gpointer user_data);
 
 void em_utils_compose_new_message (const char *fromuri);
 

@@ -1,3 +1,407 @@
+2008-04-02  Matthew Barnes <mbarnes@redhat.com>
+
+	* gui/widgets/Makefile.am:
+	Remove CORBA rules for the old composer.
+
+	* gui/widgets/eab-gui-util.c (eab_send_to_contact_and_email_num_list),
+	(eab_send_contact_list_as_attachment):
+	Adapt to new Bonobo-less composer widget.
+
+2008-03-31  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #521562
+
+	* gui/contact-editor/e-contact-editor-address.c: (countries []):
+	Small typo fix.
+
+2008-03-31  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #506347
+
+	* gui/widgets/eab-contact-display.c:
+	(eab_contact_display_render_compact):
+	Inherit background colors from actual theme, do not use hardcoded one.
+
+2008-03-31  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #404241
+
+	* gui/widgets/e-minicard.c: (get_email_location), (add_email_field):
+	* gui/widgets/eab-contact-display.c: (get_email_location):
+	Never return NULL, rather return "Other" as default.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #438613
+
+	* addressbook.error.xml:
+	Improved "contact-delete-error-perm" secondary text.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #316572
+
+	* gui/component/ldap-config.glade: Do not translate unused text.
+
+2008-03-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #511952
+
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(contact_list_editor_create_name_selector):
+	Marking text for translation.
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #273177
+
+	* gui/contact-editor/e-contact-quick-add.h:
+	(e_contact_quick_add_vcard):
+	* gui/contact-editor/e-contact-quick-add.c: (struct _QuickAdd),
+	(quick_add_unref), (quick_add_set_vcard), (clicked_cb),
+	(build_quick_add_dialog), (e_contact_quick_add_vcard):
+	Allow adding also whole vCard with this dialog.
+	* gui/widgets/eab-popup-control.h: (struct _EABPopupControl):
+	* gui/widgets/eab-popup-control.c: (eab_popup_control_set_vcard),
+	(eab_popup_control_cleanup), (eab_popup_control_set_vcard),
+	(eab_popup_control_no_matches), (set_prop), (get_prop),
+	(eab_popup_control_new):
+	New property 'vcard', if set, has higher precedence than name/email.
+
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* gui/component/addressbook-component.c (ensure_sources):
+	* gui/component/addressbook-migrate.c (addressbook_migrate):
+	Adapt to new meaning of xxx_component_peek_base_directory().
+
+	* gui/component/addressbook-component.c (addressbook_component_init):
+	* gui/component/addressbook-migrate.c (create_groups):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
+2008-02-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #514836
+
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(contact_list_editor_add_destination):
+	Obsoleting EVC_X_DEST_EMAIL and EVC_X_DEST_NAME.
+
+2008-02-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #517458
+
+	* gui/widgets/e-addressbook-reflow-adapter.c:
+	(addressbook_compare): Handle broken UIDs.
+
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* gui/component/addressbook-migrate.c: (get_source_name):
+	Memory leak fix.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/merging/eab-contact-merging.c: (mergeit): Upstream patch from
+	OpenSUSE.
+
+2008-02-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/component/addressbook.c (addressbook_authenticate):
+	Don't allow newlines in the password dialog title.  Use a fixed
+	string instead.  (#516279)
+
+2008-02-10  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #510642
+
+	* addressbook.error.xml: Improved string for read-only-addressbook
+	error-message. 
+
+2008-01-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/widgets/e-minicard.c:
+	* gui/widgets/gal-view-minicard.c:
+	Replace G_GNUC_FUNCTION (deprecated) with G_STRFUNC.
+
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512020
+
+	* gui/widgets/e-addressbook-view.c: (get_master_list):
+	Use only searchable categories, like in calendar.
+
+2008-01-23  Djihed Afifi  <djihed@gmail.com>
+
+	** Fix for bug #391408
+
+	* gui/widgets/e-minicard-label.c:
+	(e_minicard_label_resize_children):
+	* gui/widgets/e-minicard.c: (add_field), (add_email_field):
+	Fix contact minicards for RTL languages.
+
+2008-01-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #503551
+
+	* gui/widgets/e-minicard-view-widget.c: (selection_row_change):
+	Emit selection changed signal even when unselecting, because
+	we enable/disable menu items on selection change.
+
+2008-01-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #324604 inspired by patch of makuchaku (Mayank)
+
+	* gui/widgets/eab-gui-util.h:
+	* gui/widgets/eab-gui-util.c: (eab_parse_qp_email),
+	(eab_parse_qp_email_to_html): New helper functions for decoding
+	email addresses from RFC822 or RFC2047 form to UTF-8.
+	* gui/widgets/e-minicard.c: (add_email_field):
+	* gui/widgets/eab-contact-display.c: (render_contact_list),
+	(render_contact), (eab_contact_display_render_compact):
+	* gui/widgets/e-addressbook-table-adapter.c:
+	(struct _EAddressbookTableAdapterPrivate), (addressbook_dispose),
+	(addressbook_value_at), (addressbook_set_value_at), (remove_contacts),
+	(modify_contact), (model_changed), (eab_table_adapter_construct):
+	* gui/widgets/eab-gui-util.c: (get_email),
+	(eab_send_contact_list_as_attachment):
+	Ensure the print of the email is transformed from RFC822 or RFC2047.
+
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/widgets/e-addressbook-view.etspec: Revert my last patch.
+
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* gui/widgets/e-addressbook-view.etspec: Take off the cursor/focus.
+	Now we have a nice cairo rendered message list row.
+
+2008-01-15  Djihed Afifi  <djihed@gmail.com>
+
+	** Fix for bug #507564
+
+	* gui/widgets/eab-contact-display.c: Fix contact view for RTL
+	languages.
+
+2008-01-14  David Turner  <cillian64@googlemail.com>
+
+	** Partial fix for bug #498095
+
+	* gui/contact-editor/contact-editor.glade: Changed mnemonics on
+	"Categories" and "Nickname" to fix a clash. 
+
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488213
+
+	* gui/contact-editor/e-contact-editor.c: (extract_simple_field):
+	Use global function e_icon_factory_pixbuf_scale for scaling pixbufs.
+
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #448441
+
+	* addressbook.error.xml: New message "error-read-only" added.
+	* gui/contact-editor/e-contact-quick-add.c: (struct _QuickAdd),
+	(merge_cb), (sanitize_widgets), (source_changed),
+	(build_quick_add_dialog):
+	Disable "OK" and "Edit Full" buttons if no source is selected.
+	Also set always book from combo, do not use the new created.
+
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #339813
+
+	* gui/contact-editor/e-contact-editor.c: (e_contact_editor_create_date):
+	Setting new option 'e_date_edit_set_twodigit_year_can_future' to FALSE.
+
+2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
+
+	** Fix for bug #492188
+
+	* gui/component/addressbook-view.c:
+
+	Use the new Tangoized icons instead of deprecated icons from 
+	gnome-icon-theme.
+
+2008-01-06  Christian Krause  <chkr@plauener.de>
+
+	** Fix for bug #506772
+
+	* tools/evolution-addressbook-export.c: (main): Not-NULL check for a 
+	string array before finding its length. 
+
+2007-12-11  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #501969
+
+	* gui/component/addressbook.c: (load_source_auth_cb):
+	Passwords should not be forgotten on all errors
+
+2007-12-06  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #468277
+
+	* gui/component/addressbook-config.c: (eabc_general_offline):
+	Added a mnemonic to "Copy book content locally for offline operation"
+
+2007-12-05  Lucky Wankhede  <wlakke@novell.com>
+
+	** Fix for bug #409121
+
+	* gui/component/addressbook-view.c:
+	* gui/widgets/e-addressbook-view.c: (save_as), (eab_view_save_as):
+	* gui/widgets/eab-gui-util.c:
+	(eab_send_contact_list_as_attachment):
+	* gui/widgets/eab-vcard-control.c: (toggle_full_vcard),
+	(eab_vcard_control_new):
+	* importers/evolution-vcard-importer.c:
+	(evolution_vcard_importer_peek): Corrected misspelled instances
+	of vCard
+
+2007-11-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #489652
+
+	Migrate the contact list editor from ETable to GtkTreeView and
+	fix some HIG issues.
+
+	* gui/contact-list-editor/Makefile.am:
+	Remove e-contact-list-editor.etspec
+	Remove e-contact-list-editor-marshal.list
+
+	* gui/contact-list-editor/contact-list-editor.glade:
+	Fix some HIG issues and give all the widgets proper names.
+
+	* gui/contact-list-editor/e-contact-list-model.c:
+	* gui/contact-list-editor/e-contact-list-model.h:
+	EContactListModel is now a subclass of GtkListStore.
+
+	* gui/contact-list-editor/e-contact-list.c:
+	* gui/contact-list-editor/e-contact-list.h:
+	Use a GtkTreeView instead of an ETable for displaying members.
+	Refactor everything; see bug #489652 for more details.
+
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #495711
+
+	* gui/contact-editor/e-contact-editor.h: (struct _EContactEditor):
+	* gui/contact-editor/e-contact-editor.c: (full_name_response),
+	(full_name_clicked), (e_contact_editor_init):
+	Keep track of previously created Full Name dialog and reuse it.
+
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* gui/component/addressbook-view.c:
+	right click menu reordering
+
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* printing/e-contact-print-envelope.c	(Apr 2007)
+	* printing/e-contact-print-envelope.h	(Apr 2007)
+	* tools/evolution-addressbook-abuse.c	(May 2004)
+	* tools/evolution-addressbook-import.c	(no history)
+
+2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #484064
+
+	* gui/component/addressbook-view.c:
+	* gui/widgets/e-addressbook-view.c:
+	Use mail-message-new instead of mail-send for composing
+	mail to contact, contacts or group.
+
+2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/contact-editor/e-contact-editor.c:
+	Remove unneeded include.
+
+2007-10-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* conduit/address-conduit.c (local_record_to_pilot_record):
+	Zero out the GnomePilotRecord struct to silence a compiler warning.
+
+2007-10-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #489661
+
+	* gui/widgets/gal-view-treeview.c:
+	* gui/widgets/gal-view-treeview.h:
+	* gui/widgets/gal-view-factory-treeview.c:
+	* gui/widgets/gal-view-factory-treeview.h:
+	* gui/widgets/e-addressbook-treeview-adapter.c:
+	* gui/widgets/e-addressbook-treeview-adapter.h:
+	Remove these dead files from SCM.
+
+	* gui/widgets/e-addressbook-view.h:
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/Makefile.am:
+	Remove dead WITH_ADDRESSBOOK_VIEW_TREEVIEW code.
+
+2007-10-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/contact-editor/e-contact-editor-address.c:
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/contact-editor/e-contact-editor.c: (save_contact),
+	(app_delete_event_cb), (e_contact_editor_set_property),
+	(e_contact_editor_create_date):
+	* gui/contact-list-editor/e-contact-list-model.c:
+	(e_contact_list_model_new):
+	* gui/merging/eab-contact-merging.c: (mergeit), (response):
+	* gui/widgets/e-minicard.c: (e_minicard_event), (add_field),
+	(get_email_location), (add_email_field), (remodel),
+	(e_minicard_reflow), (e_minicard_compare):
+	* gui/widgets/eab-config.c: (eab_config_new):
+	* gui/widgets/eab-gui-util.c: (eab_load_error_dialog),
+	(file_exists), (save_it), (contact_added_cb),
+	(eab_send_to_contact_and_email_num_list):
+	* gui/widgets/eab-menu.c: (eab_menu_new):
+	* gui/widgets/eab-popup.c: (eab_popup_new):
+	* importers/evolution-csv-importer.c: (parseLine),
+	(getNextCSVEntry):
+	* printing/e-contact-print-style-editor.c:
+	* printing/test-contact-print-style-editor.c:
+	* printing/test-print.c:
+	* util/eab-book-util.c: (eab_get_config_database):
+
+	Warning fixes:
+	- mixing code and declarations
+	- NULL vs 0 vs FALSE/TRUE
+	- mark code static
+	- some coding style fixes
+	- if vs ifdef
+	- Remove some unused bits
+	- ANSIfication of declarations
+
+2007-10-23  Tobias Mueller  <tobiasmue@svn.gnome.org>
+	Patch by Michael Monreal <michael.monreal@gmx.net>
+	
+	** Fixes bug #486406
+
+	* gui/component/addressbook-component.c:
+	Use addressbook-new icon instead of stock_addressbook
+
+2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #417999
+
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-quick-add.c:
+	* gui/contact-list-editor/contact-list-editor.c:
+	* gui/contact-list-editor/contact-list-editor.glade:
+	Use ESourceComboBox instead of ESourceOptionMenu (deprecated).
+
 2007-10-18  Tobias Mueller  <tobiasmue@svn.gnome.org>
 	Patch by Michael Monreal <michael.monreal@gmx.net>
 	

@@ -1,0 +1,119 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t a4 -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=a4 quickref.ps
+
+% french version (fr)
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Carte de référence rapide d'Evolution}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Général}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Compausants}}		&					\\
+		Corrièl					& \textbf{Ctrl+1}			\\
+		Contactes				& \textbf{Ctrl+2}			\\
+		Calendièrs				& \textbf{Ctrl+3}			\\
+		Prètzfaches					& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Memòs					& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Comandas}}		&					\\
+		Nouvel élément du mode en cours		& \textbf{Ctrl+N}			\\
+		Basculer entre les panneaux		& \textbf{F6}				\\
+		Effacer la barre de recherche			& \textbf{Ctrl+Maj+Q}			\\
+		Fermer la fenêtre				& \textbf{Ctrl+W}			\\
+		Ouvrir une nouvelle fenêtre				& \textbf{Ctrl+Maj+W}			\\
+		\vspace{1.5mm}
+		Quitter Evolution				& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Sélection}}		&					\\
+		Imprimer la sélection				& \textbf{Ctrl+P}			\\
+		Enregistrer la sélection				& \textbf{Ctrl+S}			\\
+		Supprimer la sélection			& \textbf{Suppr} ou \textbf{Ret. arrière}	\\
+		Déplacer message/contact dans un dossier		& \textbf{Ctrl+Maj+V}			\\
+		Copier message/contact dans un dossier		& \textbf{Ctrl+Maj+Y}			\\
+	\end{tabular*}
+	\section*{Composants Contacts et Mémos}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Commandes générales}}	&					\\
+		Nouveau contact				& \textbf{Ctrl+Maj+C}			\\
+		Nouvelle liste de contacts			& \textbf{Ctrl+Maj+L}			\\
+		Nouveau mémo				& \textbf{Ctrl+Maj+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{Composant Courriel}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Commandes générales}}	&					\\
+		Nouveau message				& \textbf{Ctrl+Maj+M}			\\
+		\vspace{1.5mm}
+		Envoyer/Recevoir les messages		& \textbf{F9}				\\
+		\textit{\textbf{Sélection}}		&					\\
+		Appliquer les filtres			& \textbf{Ctrl+Y}			\\
+		Ouvrir dans une nouvelle fenêtre 	& \textbf{Entrée} ou \textbf{Ctrl+O}	\\
+		\vspace{1.5mm}
+		Faire suivre la sélection		& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Panneau Liste des messages}}	&					\\
+		Prochain message non lu			& \textbf{.} ou \textbf{]}		\\
+		\vspace{1.5mm}
+		Message non lu précédent		& \textbf{,} ou \textbf{[}		\\
+		\textit{\textbf{Panneau d'aperçu}}	&					\\
+		Répondre à l'expéditeur			& \textbf{Ctrl+R}			\\
+		Répondre à la liste			& \textbf{Ctrl+L}			\\
+		Répondre à tous les destinataires 	& \textbf{Ctrl+Maj+R}			\\
+		Défilement vers le haut			& \textbf{Ret. arrière}			\\
+		Défilement vers le bas			& \textbf{Barre espace}			\\
+	\end{tabular*}
+	\section*{Composants Calendriers et Tâches}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Commandes générales}}	&					\\
+		Nouveau rendez-vous				& \textbf{Ctrl+Maj+A}			\\
+		Nouvelle réunion				& \textbf{Ctrl+Maj+E}			\\
+		\vspace{1.5mm}
+		Nouvelle tâche				& \textbf{Ctrl+Maj+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Navigation}}		&					\\
+		Aller à aujourd'hui			& \textbf{Ctrl+T}			\\
+		Aller à une date				& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}

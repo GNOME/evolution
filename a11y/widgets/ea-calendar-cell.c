@@ -180,7 +180,7 @@ ea_calendar_cell_init (EaCalendarCell *a11y)
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
 }
 
-AtkObject* 
+AtkObject*
 ea_calendar_cell_new (GObject *obj)
 {
 	gpointer object;
@@ -298,12 +298,12 @@ ea_calendar_cell_ref_state_set (AtkObject *accessible)
 	g_object_ref(atk_cell->state_set);
 
 	return atk_cell->state_set;
-	
+
 }
 
 /* Atk Component Interface */
 
-static void 
+static void
 atk_component_interface_init (AtkComponentIface *iface)
 {
 	g_return_if_fail (iface != NULL);
@@ -312,7 +312,7 @@ atk_component_interface_init (AtkComponentIface *iface)
 	iface->grab_focus  = component_interface_grab_focus;
 }
 
-static void 
+static void
 component_interface_get_extents (AtkComponent *component,
 				 gint *x, gint *y, gint *width, gint *height,
 				 AtkCoordType coord_type)
@@ -375,10 +375,10 @@ component_interface_grab_focus (AtkComponent *component)
 	calitem = E_CALENDAR_ITEM (g_obj);
 
 	index = atk_object_get_index_in_parent (ATK_OBJECT (a11y));
-	
+
 	atk_selection_clear_selection (ATK_SELECTION (ea_calitem));
 	atk_selection_add_selection (ATK_SELECTION (ea_calitem), index);
-	
+
 	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas));
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas));
 	if (toplevel && GTK_WIDGET_TOPLEVEL (toplevel))

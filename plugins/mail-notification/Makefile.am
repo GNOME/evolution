@@ -1,10 +1,13 @@
 INCLUDES =					\
 	-I$(top_srcdir)				\
-	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
-	-DDBUS_VERSION=$(DBUS_VERSION)          \
 	$(EVOLUTION_MAIL_CFLAGS)		\
-	$(LIBNOTIFY_CFLAGS)			\
-	$(NMN_CFLAGS)
+	$(LIBNOTIFY_CFLAGS)			
+
+if ENABLE_DBUS
+INCLUDES += 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
+		-DDBUS_VERSION=$(DBUS_VERSION)          \
+		$(NMN_CFLAGS)
+endif
 
 @EVO_PLUGIN_RULE@
 
@@ -14,8 +17,11 @@ plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
 liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = 	\
 	-module -avoid-version			\
-	$(LIBNOTIFY_LIBS)			\
-	$(NMN_LIBS)
+	$(LIBNOTIFY_LIBS)			
+
+if ENABLE_DBUS
+liborg_gnome_mail_notification_la_LDFLAGS += $(NMN_LIBS)
+endif 
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-mail-notification.schemas.in

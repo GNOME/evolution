@@ -49,9 +49,12 @@ SUBDIRS = 			\
 	ui			\
 	views			\
 	tools			\
-	help			\
 	po			\
 	sounds
+
+if WITH_HELP
+SUBDIRS += help
+endif
 
 DISTCLEANFILES = 		\
 	intltool-extract	\

@@ -92,16 +92,16 @@ e_profile_event_get_type(void)
 
 /**
  * e_profile_event_peek:
- * @void: 
- * 
+ * @void:
+ *
  * Get the singular instance of the profile event handler.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EProfileEvent *e_profile_event_peek(void)
 {
 	if (e_profile_event == NULL) {
-		e_profile_event = g_object_new(e_profile_event_get_type(), 0);
+		e_profile_event = g_object_new(e_profile_event_get_type(), NULL);
 		e_event_construct(&e_profile_event->popup, "org.gnome.evolution.profile.events");
 	}
 
@@ -125,7 +125,7 @@ e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, 
 }
 
 #ifdef ENABLE_PROFILING
-static void
+void
 e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 {
 	EProfileEvent *epe = e_profile_event_peek();
@@ -151,12 +151,12 @@ static const EEventHookTargetMask emeh_profile_masks[] = {
 	{ "start", E_PROFILE_EVENT_START },
 	{ "end", E_PROFILE_EVENT_END },
 	{ "cancel", E_PROFILE_EVENT_CANCEL },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "event", E_PROFILE_EVENT_TARGET, emeh_profile_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void
@@ -185,7 +185,7 @@ GType
 e_profile_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EProfileEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
@@ -195,6 +195,6 @@ e_profile_event_hook_get_type(void)
 		emeh_parent_class = g_type_class_ref(e_event_hook_get_type());
 		type = g_type_register_static(e_event_hook_get_type(), "EProfileEventHook", &info, 0);
 	}
-	
+
 	return type;
 }

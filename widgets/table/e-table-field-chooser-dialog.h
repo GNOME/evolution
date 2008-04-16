@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-field-chooser-dialog.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -54,7 +54,7 @@ typedef struct _ETableFieldChooserDialogClass  ETableFieldChooserDialogClass;
 struct _ETableFieldChooserDialog
 {
 	GtkDialog parent;
-	
+
 	/* item specific fields */
 	ETableFieldChooser *etfc;
 	gchar              *dnd_code;

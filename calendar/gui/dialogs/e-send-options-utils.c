@@ -23,8 +23,8 @@
 #include <glib.h>
 #include <string.h>
 
-void 
-e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, char * type) 
+void
+e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, char * type)
 {
 	ESendOptionsGeneral *gopts = NULL;
 	ESendOptionsStatusTracking *sopts;
@@ -32,20 +32,20 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 	ESourceList *source_list;
 	const char *uid;
 	const char *value;
-	
+
 	gopts = sod->data->gopts;
 	sopts = sod->data->sopts;
-	
+
 	if (!strcmp (type, "calendar"))
 		source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
-	else 
+	else
 		source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/tasks/sources");
-	
+
 	uid = e_source_peek_uid (source);
 	source = e_source_list_peek_source_by_uid (source_list, uid);
 
 		/* priority */
-	value = e_source_get_property (source, "priority");	
+	value = e_source_get_property (source, "priority");
 	if (value) {
 		if (!strcmp (value, "high"))
 			gopts->priority = E_PRIORITY_HIGH;
@@ -57,20 +57,20 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 			gopts->priority = E_PRIORITY_UNDEFINED;
 	}
 		/* Reply requested */
-	value = e_source_get_property (source, "reply-requested");	
+	value = e_source_get_property (source, "reply-requested");
 	if (value) {
 		if (!strcmp (value, "none"))
 			gopts->reply_enabled = FALSE;
 		else if (!strcmp (value, "convinient")) {
 			gopts->reply_enabled = TRUE;
-			gopts->reply_convenient = TRUE; 
+			gopts->reply_convenient = TRUE;
 		} else {
 			gint i = atoi (value);
 			gopts->reply_within = i;
 		}
 	}
 		/* Delay delivery */
-	value = e_source_get_property (source, "delay-delivery");	
+	value = e_source_get_property (source, "delay-delivery");
 	if (value) {
 		if (!strcmp (value, "none"))
 			gopts->delay_enabled = FALSE;
@@ -78,9 +78,9 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 			gopts->delay_enabled = TRUE;
 			gopts->delay_until = icaltime_as_timet (icaltime_from_string (value));
 		}
-	}	
+	}
 		/* Expiration Date */
-	value = e_source_get_property (source, "expiration");	
+	value = e_source_get_property (source, "expiration");
 	if (value) {
 		if (!strcmp (value, "none"))
 			gopts->expiration_enabled = FALSE;
@@ -94,7 +94,7 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 		}
 	}
 		/* status tracking */
-	value = e_source_get_property (source, "status-tracking");	
+	value = e_source_get_property (source, "status-tracking");
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->tracking_enabled = FALSE;
@@ -110,44 +110,44 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 	}
 
 		/* Return Notifications */
-	
-	value = e_source_get_property (source, "return-open");	
+
+	value = e_source_get_property (source, "return-open");
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->opened = E_RETURN_NOTIFY_NONE;
-		else 
+		else
 			sopts->opened = E_RETURN_NOTIFY_MAIL;
 	}
-	
-	value = e_source_get_property (source, "return-accept");	
+
+	value = e_source_get_property (source, "return-accept");
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->accepted = E_RETURN_NOTIFY_NONE;
-		else 
+		else
 			sopts->accepted = E_RETURN_NOTIFY_MAIL;
 	}
 
- 	value = e_source_get_property (source, "return-decline");	
+ 	value = e_source_get_property (source, "return-decline");
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->declined = E_RETURN_NOTIFY_NONE;
-		else 
+		else
 			sopts->declined = E_RETURN_NOTIFY_MAIL;
 	}
-	
-	value = e_source_get_property (source, "return-complete");	
+
+	value = e_source_get_property (source, "return-complete");
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->completed = E_RETURN_NOTIFY_NONE;
-		else 
+		else
 			sopts->completed = E_RETURN_NOTIFY_MAIL;
 	}
 
 	g_object_unref (gconf);
 }
 
-void 
-e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp) 
+void
+e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp)
 {
 	int i = 1;
 	icalproperty *prop;
@@ -164,55 +164,60 @@ e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp
 	if (e_sendoptions_get_need_general_options (sod)) {
 		prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", gopts->priority));
 		icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-PRIORITY");
-		icalcomponent_add_property (icalcomp, prop);	
+		icalcomponent_add_property (icalcomp, prop);
 
 		if (gopts->reply_enabled) {
-			if (gopts->reply_convenient) 
-				prop = icalproperty_new_x ("convenient");	
-			else 
+			if (gopts->reply_convenient)
+				prop = icalproperty_new_x ("convenient");
+			else
 				prop = icalproperty_new_x ((const char *) g_strdup_printf ( "%d", gopts->reply_within));
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-REPLY");
 			icalcomponent_add_property (icalcomp, prop);
 		}
 
 		if (gopts->expiration_enabled && gopts->expire_after) {
-			prop = icalproperty_new_x ((const char *) g_strdup_printf ( "%d", gopts->expire_after));	
+			prop = icalproperty_new_x ((const char *) g_strdup_printf ( "%d", gopts->expire_after));
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-EXPIRE");
 			icalcomponent_add_property (icalcomp, prop);
 		}
 
 		if (gopts->delay_enabled) {
 			struct icaltimetype temp;
+			char *str;
+
 			icaltimezone *zone = calendar_config_get_icaltimezone ();
-			temp = icaltime_from_timet_with_zone (gopts->delay_until, FALSE, zone);	
-			prop = icalproperty_new_x (icaltime_as_ical_string (temp));
+			temp = icaltime_from_timet_with_zone (gopts->delay_until, FALSE, zone);
+
+			str = icaltime_as_ical_string (temp);
+			prop = icalproperty_new_x (str);
+			g_free (str);
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-DELAY");
 			icalcomponent_add_property (icalcomp, prop);
 		}
 	}
-	
-	if (sopts->tracking_enabled) 
-		prop = icalproperty_new_x ((const char *) g_strdup_printf ( "%d", sopts->track_when));	
+
+	if (sopts->tracking_enabled)
+		prop = icalproperty_new_x ((const char *) g_strdup_printf ( "%d", sopts->track_when));
 	else
 		prop = icalproperty_new_x ("0");
 
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-TRACKINFO");
 	icalcomponent_add_property (icalcomp, prop);
-		
-	
-	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->opened));	
+
+
+	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->opened));
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-OPENED");
 	icalcomponent_add_property (icalcomp, prop);
-	
-	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->accepted));	
+
+	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->accepted));
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-ACCEPTED");
 	icalcomponent_add_property (icalcomp, prop);
 
-	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->declined));	
+	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->declined));
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-DECLINED");
 	icalcomponent_add_property (icalcomp, prop);
 
-	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->completed));	
+	prop = icalproperty_new_x ((const char *) g_strdup_printf ("%d", sopts->completed));
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-COMPLETED");
 	icalcomponent_add_property (icalcomp, prop);
 }

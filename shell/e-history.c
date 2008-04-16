@@ -63,7 +63,7 @@ static void
 e_history_class_init (EHistoryClass *klass)
 {
 	GObjectClass *object_class;
-	
+
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
 }

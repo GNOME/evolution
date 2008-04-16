@@ -34,6 +34,7 @@ glade_DATA = e-send-options.glade \
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
+	e-account-combo-box.h			\
 	e-activity-handler.h			\
 	e-attachment.h				\
 	e-attachment-bar.h			\
@@ -75,12 +76,14 @@ widgetsinclude_HEADERS =			\
 	e-selection-model-array.h		\
 	e-selection-model-simple.h		\
 	e-selection-model.h			\
+	e-signature-combo-box.h			\
 	e-unicode.h				\
 	e-colors.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
 	$(pilot_sources)			\
+	e-account-combo-box.c			\
 	e-activity-handler.c			\
 	e-calendar.c				\
 	e-attachment.c				\
@@ -120,6 +123,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-selection-model-array.c		\
 	e-selection-model-simple.c		\
 	e-selection-model.c			\
+	e-signature-combo-box.c			\
 	e-unicode.c				\
 	e-colors.c
 
@@ -132,8 +136,9 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
 	$(top_builddir)/a11y/libevolution-a11y.la			\
-	$(CAMEL_LIBS)							\
+	$(EVOLUTION_MAIL_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(EVOLUTON_MAIL_LIBS)						\
 	$(ICONV_LIBS)
 
 libefilterbar_la_SOURCES =	\

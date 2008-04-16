@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors :
- *  
+ *
  *  Harish Krishnaswamy <kharish@novell.com>
  *
  * Copyright 2005, Novell, Inc.
@@ -28,7 +28,7 @@
 #include<libedataserver/e-source.h>
 #include<libedataserver/e-source-list.h>
 #include <camel/camel-url.h>
-                         
+
 G_BEGIN_DECLS
 
 #define CAMEL_TYPE_HULA_LISTENER            (camel_hula_listener_get_type ())
@@ -42,12 +42,12 @@ typedef struct _CamelHulaListenerClass CamelHulaListenerClass;
 typedef struct _CamelHulaListenerPrivate CamelHulaListenerPrivate;
 struct _CamelHulaListener {
        GObject parent;
-                                                                                                                        
+
        CamelHulaListenerPrivate *priv;
 };
 
 struct _CamelHulaListenerClass {
-       GObjectClass parent_class;     
+       GObjectClass parent_class;
 };
 
 GType              camel_hula_listener_get_type (void);

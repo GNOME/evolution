@@ -60,14 +60,15 @@ enum {
 	COL_RECIPIENTS,
 	COL_MIXED_SENDER,
 	COL_MIXED_RECIPIENTS,
-	
+	COL_LABELS,
+
 	/* normalised strings */
 	COL_FROM_NORM,
 	COL_SUBJECT_NORM,
 	COL_TO_NORM,
-	
+
 	COL_LAST,
-	
+
 	/* Invisible columns */
 	COL_DELETED,
 	COL_UNREAD,
@@ -100,39 +101,38 @@ struct _MessageList {
 	char *folder_uri;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
-	
+
 	GHashTable *normalised_hash;
-	
+
 	/* UID's to hide.  Keys in the mempool */
 	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
 	GHashTable	 *hidden;
 	struct _EMemPool *hidden_pool;
 	int hide_unhidden;           /* total length, before hiding */
 	int hide_before, hide_after; /* hide ranges of messages */
-	
+
 	/* Current search string, or %NULL */
 	char *search;
-	
+
 	/* are we regenerating the message_list because set_folder was just called? */
 	guint just_set_folder : 1;
-	
+
 	/* Are we displaying threaded view? */
 	guint threaded : 1;
 
 	guint expand_all :1;
 	guint collapse_all :1;
-	
+
 	/* do we automatically hide deleted messages? */
 	guint hidedeleted : 1;
 
 	/* do we automatically hide junk messages? */
 	guint hidejunk : 1;
-	
+
 	/* frozen count */
 	guint frozen:16;
 
 	/* Where the ETree cursor is. */
-	int cursor_row;
 	char *cursor_uid;
 
 	/* Row-selection and seen-marking timers */
@@ -199,6 +199,7 @@ void           message_list_select_next_thread (MessageList *ml);
 /* selection manipulation */
 void           message_list_select_all (MessageList *ml);
 void           message_list_select_thread (MessageList *ml);
+void           message_list_select_subthread (MessageList *ml);
 void           message_list_invert_selection (MessageList *ml);
 
 /* clipboard stuff */
@@ -218,7 +219,6 @@ void	       message_list_set_threaded (MessageList *ml, gboolean threaded);
 void           message_list_set_threaded_expand_all (MessageList *ml);
 void           message_list_set_threaded_collapse_all (MessageList *ml);
 
-void           message_list_set_expand_all (MessageList *ml, gboolean threaded);
 void	       message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted);
 void	       message_list_set_search (MessageList *ml, const char *search);
 

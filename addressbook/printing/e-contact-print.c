@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-contact-print.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -225,10 +225,10 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 
 	cr = gtk_print_context_get_cairo_context (ctxt->context);
 	cairo_save(cr);
-	ctxt->y += get_font_height (ctxt->style->headings_font) * .2; 
+	ctxt->y += get_font_height (ctxt->style->headings_font) * .2;
 
 	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
-                                                             
+
 	if (ctxt->style->print_using_grey) {
 		cairo_save (cr);
 		cairo_set_source_rgb (cr, .85, .85, .85);
@@ -249,7 +249,7 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 
 	ctxt->y += get_font_height (ctxt->style->headings_font) * .2;
 
-	for (field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++) 
+	for (field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++)
 	{
 		const gchar *value;
 		gchar *text;
@@ -262,7 +262,7 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 			e_contact_pretty_name (field), value);
 
 		e_contact_output (
-			ctxt->context, ctxt->style->body_font, 
+			ctxt->context, ctxt->style->body_font,
 			ctxt->x, ctxt->y, -1, text);
 
 		ctxt->y += e_contact_text_height (
@@ -328,7 +328,7 @@ contacts_added (EBookView *book_view, const GList *contact_list,
 	}
 }
 
-static void 
+static void
 sequence_complete (EBookView *book_view, const GList *contact_list,
                    EFlag *book_view_started)
 {
@@ -627,9 +627,9 @@ contact_draw (EContact *contact, EContactPrintContext *ctxt)
 		if (ctxt->style->letter_headings)
 			e_contact_print_letter_heading (ctxt, ctxt->section);
 		ctxt->first_section = FALSE;
-	} 
+	}
 
-	else if (!ctxt->first_contact && (ctxt->y > page_height)) { 
+	else if (!ctxt->first_contact && (ctxt->y > page_height)) {
 		e_contact_start_new_column (ctxt);
 		if (ctxt->style->letter_headings)
 			e_contact_print_letter_heading (ctxt, ctxt->section);
@@ -648,7 +648,7 @@ contact_draw_page (GtkPrintOperation *operation,
 {
 	g_list_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
 }
- 
+
 static void
 contact_end_print (GtkPrintOperation *operation,
                    GtkPrintContext *context,

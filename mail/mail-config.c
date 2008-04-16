@@ -58,6 +58,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
+#include "e-util/e-util-labels.h"
 
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-signature-list.h>
@@ -76,44 +77,31 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 
-/* Note, the first element of each MailConfigLabel must NOT be translated */
-MailConfigLabel label_defaults[5] = {
-	{ "important", N_("I_mportant"), "#ff0000" },  /* red */
-	{ "work",      N_("_Work"),      "#ff8c00" },  /* orange */
-	{ "personal",  N_("_Personal"),  "#008b00" },  /* forest green */
-	{ "todo",      N_("_To Do"),     "#0000ff" },  /* blue */
-	{ "later",     N_("_Later"),     "#8b008b" }   /* magenta */
-};
-
 typedef struct {
 	GConfClient *gconf;
-	
+
 	gboolean corrupt;
-	
+
 	char *gtkrc;
-	
+
 	EAccountList *accounts;
 	ESignatureList *signatures;
-	
+
 	GSList *labels;
-	guint label_notify_id;
-	
-	guint font_notify_id;
-	guint spell_notify_id;
-	guint mark_citations__notify_id;
-	guint citation_colour_notify_id;
-	guint address_count_notify_id;
-	guint address_compress_notify_id;	
-	gboolean address_compress;	
+
+	gboolean address_compress;
 	gint address_count;
-	guint mlimit_size_notify_id;
-	guint mlimit_notify_id;	
-	gboolean mlimit;	
+	gboolean mlimit;
 	gint mlimit_size;
-	
-	
+	gboolean magic_spacebar;
+	guint error_time;
+	guint error_level;
+
 	GPtrArray *mime_types;
-	guint mime_types_notify_id;
+
+	GSList *jh_header;
+	gboolean jh_check;
+	gboolean book_lookup;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -132,111 +120,14 @@ mail_config_save_signatures (void)
 	e_signature_list_save (config->signatures);
 }
 
-
-static void
-config_clear_labels (void)
-{
-	MailConfigLabel *label;
-	GSList *list, *n;
-	
-	list = config->labels;
-	while (list != NULL) {
-		label = list->data;
-		g_free(label->tag);
-		g_free (label->name);
-		g_free (label->colour);
-		g_free (label);
-		
-		n = list->next;
-		g_slist_free_1 (list);
-		list = n;
-	}
-	
-	config->labels = NULL;
-}
-
-static void
-config_cache_labels (void)
-{
-	GSList *labels, *list, *tail, *n;
-	MailConfigLabel *label;
-	char *buf, *colour;
-	int num = 0;
-	
-	tail = labels = NULL;
-	
-	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
-	
-	while (list != NULL) {
-		buf = list->data;
-		
-		if (num < 5 && (colour = strrchr (buf, ':'))) {
-			label = g_new (MailConfigLabel, 1);
-			
-			*colour++ = '\0';
-			label->tag = g_strdup(label_defaults[num].tag);
-
-			/* Don't translate an empty string */			
-			if (buf == NULL || buf[0] == '\0')
-			        label->name = g_strdup (_("Unnamed"));
-			else
-			        label->name = g_strdup (_(buf));
-
-			label->colour = g_strdup (colour);
-			
-			n = g_slist_alloc ();
-			n->next = NULL;
-			n->data = label;
-			
-			if (tail == NULL)
-				labels = n;
-			else
-				tail->next = n;
-			
-			tail = n;
-			
-			num++;
-		}
-		
-		g_free (buf);
-		
-		n = list->next;
-		g_slist_free_1 (list);
-		list = n;
-	}
-	
-	while (num < 5) {
-		/* complete the list with defaults */
-		label = g_new (MailConfigLabel, 1);
-		label->tag = g_strdup (label_defaults[num].tag);
-		label->name = g_strdup (_(label_defaults[num].name));
-		label->colour = g_strdup (label_defaults[num].colour);
-		
-		n = g_slist_alloc ();
-		n->next = NULL;
-		n->data = label;
-		
-		if (tail == NULL)
-			labels = n;
-		else
-			tail->next = n;
-		
-		tail = n;
-		
-		num++;
-	}
-	
-	config->labels = labels;
-}
-
 static void
 config_clear_mime_types (void)
 {
 	int i;
-	
+
 	for (i = 0; i < config->mime_types->len; i++)
 		g_free (config->mime_types->pdata[i]);
-	
+
 	g_ptr_array_set_size (config->mime_types, 0);
 }
 
@@ -244,7 +135,7 @@ static void
 config_cache_mime_types (void)
 {
 	GSList *n, *nn;
-	
+
 	n = gconf_client_get_list (config->gconf, "/apps/evolution/mail/display/mime_types", GCONF_VALUE_STRING, NULL);
 	while (n != NULL) {
 		nn = n->next;
@@ -252,42 +143,47 @@ config_cache_mime_types (void)
 		g_slist_free_1 (n);
 		n = nn;
 	}
-	
+
 	g_ptr_array_add (config->mime_types, NULL);
 }
-
-#define CONFIG_GET_SPELL_VALUE(t,x,prop,f,c) G_STMT_START { \
-        val = gconf_client_get_without_default (config->gconf, "/GNOME/Spell" x, NULL); \
-        if (val) { f; prop = c (gconf_value_get_ ## t (val)); \
-        gconf_value_free (val); } } G_STMT_END
 
 static void
 config_write_style (void)
 {
-	int red = 0xffff, green = 0, blue = 0;
-	GConfValue *val;
+	GConfClient *client;
 	gboolean custom;
-	char *fix_font;
-	char *var_font;
-	char *citation_color;
+	gchar *fix_font;
+	gchar *var_font;
+	gchar *citation_color;
+	gchar *spell_color;
+	const gchar *key;
 	FILE *rc;
-	
+
 	if (!(rc = g_fopen (config->gtkrc, "wt"))) {
 		g_warning ("unable to open %s", config->gtkrc);
 		return;
 	}
-	
-	custom = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
-	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
-	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
-	citation_color = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
- 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_red",   red, (void)0, (int));
- 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_green", green, (void)0, (int));
- 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_blue",  blue, (void)0, (int));
+
+	client = config->gconf;
+
+	key = "/apps/evolution/mail/display/fonts/use_custom";
+	custom = gconf_client_get_bool (client, key, NULL);
+
+	key = "/apps/evolution/mail/display/fonts/variable";
+	var_font = gconf_client_get_string (client, key, NULL);
+
+	key = "/apps/evolution/mail/display/fonts/monospace";
+	fix_font = gconf_client_get_string (client, key, NULL);
+
+	key = "/apps/evolution/mail/display/citation_colour";
+	citation_color = gconf_client_get_string (client, key, NULL);
+
+	key = "/apps/evolution/mail/composer/spell_color";
+	spell_color = gconf_client_get_string (client, key, NULL);
 
 	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
-	fprintf (rc, "        GtkHTML::spell_error_color = \"#%02x%02x%02x\"\n",
-		 0xff & (red >> 8), 0xff & (green >> 8), 0xff & (blue >> 8));
+	fprintf (rc, "        GtkHTML::spell_error_color = \"%s\"\n", spell_color);
+	g_free (spell_color);
 
 	if (gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/mark_citations", NULL))
 		fprintf (rc, "        GtkHTML::cite_color = \"%s\"\n",
@@ -298,22 +194,41 @@ config_write_style (void)
 		fprintf (rc,
 			 "        GtkHTML::fixed_font_name = \"%s\"\n"
 			 "        font_name = \"%s\"\n",
-			 fix_font, var_font); 
+			 fix_font, var_font);
 	}
 	g_free (fix_font);
 	g_free (var_font);
 
 	fprintf (rc, "}\n\n");
-	
+
 	fprintf (rc, "widget \"*.EMFolderView.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EMFolderBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EMMessageBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	fprintf (rc, "widget \"*.BonoboPlug.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
+	fprintf (rc, "widget \"EMsgComposer.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EvolutionMailPrintHTMLWidget\" style \"evolution-mail-custom-fonts\"\n");
 	fflush (rc);
 	fclose (rc);
-	
+
 	gtk_rc_reparse_all ();
+}
+
+static void
+config_clear_labels (void)
+{
+	if (!config)
+		return;
+
+	e_util_labels_free (config->labels);
+	config->labels = NULL;
+}
+
+static void
+config_cache_labels (GConfClient *client)
+{
+	if (!config)
+		return;
+
+	config->labels = e_util_labels_parse (client);
 }
 
 static void
@@ -321,7 +236,7 @@ gconf_labels_changed (GConfClient *client, guint cnxn_id,
 		      GConfEntry *entry, gpointer user_data)
 {
 	config_clear_labels ();
-	config_cache_labels ();
+	config_cache_labels (client);
 }
 
 static void
@@ -332,36 +247,83 @@ gconf_style_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_address_count_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
+gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
+		     GConfEntry *entry, gpointer user_data)
 {
-	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
+	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
+	if (!config->jh_check) {
+		mail_session_set_junk_headers (NULL, NULL, 0);
+	} else {
+		config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		GSList *node = config->jh_header;
+		GPtrArray *name, *value;
+		name = g_ptr_array_new ();
+		value = g_ptr_array_new ();
+		while (node && node->data) {
+			char **tok = g_strsplit (node->data, "=", 2);
+			g_ptr_array_add (name, g_strdup(tok[0]));
+			g_ptr_array_add (value, g_strdup(tok[1]));
+			node = node->next;
+			g_strfreev (tok);
+		}
+		mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+		g_ptr_array_free (name, TRUE);
+		g_ptr_array_free (value, TRUE);
+	}
 }
 
 static void
-gconf_address_compress_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
+gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
+                          GConfEntry *entry, gpointer user_data)
 {
-	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
+	config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+	GSList *node = config->jh_header;
+	GPtrArray *name, *value;
+	name = g_ptr_array_new ();
+	value = g_ptr_array_new ();
+	while (node && node->data) {
+		char **tok = g_strsplit (node->data, "=", 2);
+		g_ptr_array_add (name, g_strdup(tok[0]));
+		g_ptr_array_add (value, g_strdup(tok[1]));
+		node = node->next;
+		g_strfreev (tok);
+	}
+	mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
 }
 
 static void
-gconf_mlimit_size_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
+gconf_bool_value_changed (GConfClient *client,
+                          guint cnxn_id,
+                          GConfEntry *entry,
+                          gboolean *save_location)
 {
-	config->mlimit_size = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
+	GError *error = NULL;
+
+	*save_location = gconf_client_get_bool (client, entry->key, &error);
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
-gconf_mlimit_changed (GConfClient *client, guint cnxn_id,
-			     GConfEntry *entry, gpointer user_data)
+gconf_int_value_changed (GConfClient *client,
+                         guint cnxn_id,
+                         GConfEntry *entry,
+                         gint *save_location)
 {
-	config->mlimit = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/force_message_limit", NULL);
+	GError *error = NULL;
+
+	*save_location = gconf_client_get_int (client, entry->key, &error);
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
 gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
-			  GConfEntry *entry, gpointer user_data)
+                          GConfEntry *entry, gpointer user_data)
 {
 	config_clear_mime_types ();
 	config_cache_mime_types ();
@@ -371,80 +333,190 @@ gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 void
 mail_config_init (void)
 {
+	GConfClientNotifyFunc func;
+	const gchar *key;
+
 	if (config)
 		return;
-	
+
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
 	config->mime_types = g_ptr_array_new ();
-	config->gtkrc = g_build_filename (g_get_home_dir (), ".evolution", "mail", "config", "gtkrc-mail-fonts", NULL);
-	
+	config->gtkrc = g_build_filename (
+		e_get_user_data_dir (), "mail",
+		"config", "gtkrc-mail-fonts", NULL);
+
 	mail_config_clear ();
-	
-	gtk_rc_parse (config->gtkrc);
-	
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/GNOME/Spell",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
-							  gconf_style_changed, NULL, NULL, NULL);
-	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_compress",
-							  gconf_address_compress_changed, NULL, NULL, NULL);		
-	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/address_count",
-							  gconf_address_count_changed, NULL, NULL, NULL);
-	config->mlimit_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/force_message_limit",
-							  gconf_mlimit_changed, NULL, NULL, NULL);		
-	config->mlimit_size_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/message_text_part_limit",
-							  gconf_mlimit_size_changed, NULL, NULL, NULL);	
-	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
-							   gconf_style_changed, NULL, NULL, NULL);
-	config->mark_citations__notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/mark_citations",
-								     gconf_style_changed, NULL, NULL, NULL);
-	config->citation_colour_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/citation_colour",
-								     gconf_style_changed, NULL, NULL, NULL);
-	
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	config->label_notify_id =
-		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/labels",
-					 gconf_labels_changed, NULL, NULL, NULL);
-	
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/mime_types",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	config->mime_types_notify_id =
-		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/mime_types",
-					 gconf_mime_types_changed, NULL, NULL, NULL);
-	
-	config_cache_labels ();
-	config_cache_mime_types ();
-	config->address_compress = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/address_compress", NULL);
-	config->address_count = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/address_count", NULL);
-	config->mlimit = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/force_message_limit", NULL);
-	config->mlimit_size = gconf_client_get_int (config->gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
+
 	config->accounts = e_account_list_new (config->gconf);
 	config->signatures = e_signature_list_new (config->gconf);
-}
 
+	gtk_rc_parse (config->gtkrc);
+
+	/* Composer Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/composer",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/composer/spell_color";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Display Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/display",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/display/address_compress";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->address_compress, NULL, NULL);
+	config->address_compress =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/address_count";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->address_count, NULL, NULL);
+	config->address_count =
+		gconf_client_get_int (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/citation_colour";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/display/error_timeout";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->error_time, NULL, NULL);
+	config->error_time =
+		gconf_client_get_int (config->gconf, key, NULL);	
+
+	key = "/apps/evolution/mail/display/error_level";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->error_level, NULL, NULL);
+	config->error_level =
+		gconf_client_get_int (config->gconf, key, NULL);	
+
+	key = "/apps/evolution/mail/display/force_message_limit";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->mlimit, NULL, NULL);
+	config->mlimit =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/message_text_part_limit";
+	func = (GConfClientNotifyFunc) gconf_int_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->mlimit_size, NULL, NULL);
+	config->mlimit_size =
+		gconf_client_get_int (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/magic_spacebar";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->magic_spacebar, NULL, NULL);
+	config->magic_spacebar =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/display/mark_citations";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Font Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/display/fonts",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/display/fonts";
+	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	/* Label Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, E_UTIL_LABELS_GCONF_KEY,
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	gconf_client_notify_add (
+		config->gconf, E_UTIL_LABELS_GCONF_KEY,
+		gconf_labels_changed, NULL, NULL, NULL);
+
+	config_cache_labels (config->gconf);
+
+	/* MIME Type Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/mime_types",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/mime_types";
+	func = (GConfClientNotifyFunc) gconf_mime_types_changed,
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	config_cache_mime_types ();
+
+	/* Junk Configuration */
+
+	gconf_client_add_dir (
+		config->gconf, "/apps/evolution/mail/junk",
+		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	key = "/apps/evolution/mail/junk/check_custom_header";
+	func = (GConfClientNotifyFunc) gconf_jh_check_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+	config->jh_check =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/junk/custom_header";
+	func = (GConfClientNotifyFunc) gconf_jh_headers_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/junk/lookup_addressbook";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->book_lookup, NULL, NULL);
+	config->book_lookup =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	gconf_jh_check_changed (config->gconf, 0, NULL, config);
+}
 
 void
 mail_config_clear (void)
 {
 	if (!config)
 		return;
-	
+
 	if (config->accounts) {
 		g_object_unref (config->accounts);
 		config->accounts = NULL;
 	}
-	
+
 	if (config->signatures) {
 		g_object_unref (config->signatures);
 		config->signatures = NULL;
 	}
-	
+
 	config_clear_labels ();
 	config_clear_mime_types ();
 }
@@ -455,10 +527,10 @@ mail_config_write (void)
 {
 	if (!config)
 		return;
-	
+
 	e_account_list_save (config->accounts);
 	e_signature_list_save (config->signatures);
-	
+
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
@@ -467,67 +539,67 @@ mail_config_write_on_exit (void)
 {
 	EAccount *account;
 	EIterator *iter;
-	
+
 	if (config_write_timeout) {
 		g_source_remove (config_write_timeout);
 		config_write_timeout = 0;
 		mail_config_write ();
 	}
-	
+
 	/* Passwords */
-	
+
 	/* then we make sure the ones we want to remember are in the
            session cache */
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		char *passwd;
-		
+
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->source->save_passwd && account->source->url && account->source->url[0]) {
 			passwd = mail_session_get_password (account->source->url);
 			mail_session_forget_password (account->source->url);
 			mail_session_add_password (account->source->url, passwd);
 			g_free (passwd);
 		}
-		
+
 		if (account->transport->save_passwd && account->transport->url && account->transport->url[0]) {
 			passwd = mail_session_get_password (account->transport->url);
 			mail_session_forget_password (account->transport->url);
 			mail_session_add_password (account->transport->url, passwd);
 			g_free (passwd);
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	/* then we clear out our component passwords */
 	e_passwords_clear_passwords ("Mail");
-	
+
 	/* then we remember them */
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->source->save_passwd && account->source->url && account->source->url[0])
 			mail_session_remember_password (account->source->url);
-		
+
 		if (account->transport->save_passwd && account->transport->url && account->transport->url[0])
 			mail_session_remember_password (account->transport->url);
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	/* now do cleanup */
 	mail_config_clear ();
-	
+
 	g_object_unref (config->gconf);
 	g_ptr_array_free (config->mime_types, TRUE);
-	
+
 	g_free (config->gtkrc);
-	
+
 	g_free (config);
 }
 
@@ -550,19 +622,31 @@ mail_config_is_corrupt (void)
 	return config->corrupt;
 }
 
-GSList *
-mail_config_get_labels (void)
-{
-	return config->labels;
-}
-
 int
 mail_config_get_address_count (void)
-{	
+{
 	if (!config->address_compress)
 		return -1;
 
 	return config->address_count;
+}
+
+guint
+mail_config_get_error_timeout  (void)
+{	
+	if (!config)
+		mail_config_init ();
+
+	return config->error_time;
+}
+
+guint
+mail_config_get_error_level  (void)
+{	
+	if (!config)
+		mail_config_init ();
+
+	return config->error_level;
 }
 
 int
@@ -571,37 +655,25 @@ mail_config_get_message_limit (void)
 	if (!config->mlimit)
 		return -1;
 
-	return config->mlimit_size;	
+	return config->mlimit_size;
 }
 
-const char *
-mail_config_get_label_color_by_name (const char *name)
+gboolean
+mail_config_get_enable_magic_spacebar ()
 {
-	MailConfigLabel *label;
-	GSList *node;
-	
-	node = config->labels;
-	while (node != NULL) {
-		label = node->data;
-		if (!strcmp (label->tag, name))
-			return label->colour;
-		node = node->next;
-	}
-	
-	return NULL;
+	return config->magic_spacebar;
 }
 
-const char *
-mail_config_get_label_color_by_index (int index)
+/**
+ * mail_config_get_labels
+ *
+ * @return list of known labels, each member data is EUtilLabel structure.
+ *         Returned list should not be freed, neither data inside it.
+ **/
+GSList *
+mail_config_get_labels (void)
 {
-	MailConfigLabel *label;
-	
-	label = g_slist_nth_data (config->labels, index);
-	
-	if (label)
-		return label->colour;
-	
-	return NULL;
+	return config->labels;
 }
 
 const char **
@@ -615,7 +687,7 @@ mail_config_find_account (EAccount *account)
 {
 	EAccount *acnt;
 	EIterator *iter;
-	
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		acnt = (EAccount *) e_iterator_get (iter);
@@ -623,12 +695,12 @@ mail_config_find_account (EAccount *account)
 			g_object_unref (iter);
 			return TRUE;
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	return FALSE;
 }
 
@@ -637,7 +709,7 @@ mail_config_get_default_account (void)
 {
 	if (config == NULL)
 		mail_config_init ();
-	
+
 	if (!config->accounts)
 		return NULL;
 
@@ -664,44 +736,44 @@ mail_config_get_account_by_source_url (const char *source_url)
 	EAccount *account;
 	CamelURL *source;
 	EIterator *iter;
-	
+
 	g_return_val_if_fail (source_url != NULL, NULL);
-	
+
 	provider = camel_provider_get(source_url, NULL);
 	if (!provider)
 		return NULL;
-	
+
 	source = camel_url_new (source_url, NULL);
 	if (!source)
 		return NULL;
-	
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->source && account->source->url && account->source->url[0]) {
 			CamelURL *url;
-			
+
 			url = camel_url_new (account->source->url, NULL);
 			if (url && provider->url_equal (url, source)) {
 				camel_url_free (url);
 				camel_url_free (source);
 				g_object_unref (iter);
-				
+
 				return account;
 			}
-			
+
 			if (url)
 				camel_url_free (url);
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	camel_url_free (source);
-	
+
 	return NULL;
 }
 
@@ -712,44 +784,44 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	CamelURL *transport;
 	EAccount *account;
 	EIterator *iter;
-	
+
 	g_return_val_if_fail (transport_url != NULL, NULL);
-	
+
 	provider = camel_provider_get(transport_url, NULL);
 	if (!provider)
 		return NULL;
-	
+
 	transport = camel_url_new (transport_url, NULL);
 	if (!transport)
 		return NULL;
-	
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->transport && account->transport->url && account->transport->url[0]) {
 			CamelURL *url;
-			
+
 			url = camel_url_new (account->transport->url, NULL);
 			if (url && provider->url_equal (url, transport)) {
 				camel_url_free (url);
 				camel_url_free (transport);
 				g_object_unref (iter);
-				
+
 				return account;
 			}
-			
+
 			if (url)
 				camel_url_free (url);
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	camel_url_free (transport);
-	
+
 	return NULL;
 }
 
@@ -775,8 +847,8 @@ EAccountList *
 mail_config_get_accounts (void)
 {
 	if (config == NULL)
-		mail_config_init ();	
-	
+		mail_config_init ();
+
 	return config->accounts;
 }
 
@@ -804,7 +876,7 @@ EAccountIdentity *
 mail_config_get_default_identity (void)
 {
 	EAccount *account;
-	
+
 	account = mail_config_get_default_account ();
 	if (account)
 		return account->id;
@@ -817,27 +889,27 @@ mail_config_get_default_transport (void)
 {
 	EAccount *account;
 	EIterator *iter;
-	
+
 	account = mail_config_get_default_account ();
 	if (account && account->enabled && account->transport && account->transport->url && account->transport->url[0])
 		return account->transport;
-	
+
 	/* return the first account with a transport? */
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->enabled && account->transport && account->transport->url && account->transport->url[0]) {
 			g_object_unref (iter);
-			
+
 			return account->transport;
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	return NULL;
 }
 
@@ -847,14 +919,14 @@ uri_to_evname (const char *uri, const char *prefix)
 	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	char *safe;
 	char *tmp;
-	
+
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/mail/%s%s.xml", base_directory, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/%s%s.xml", base_directory, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/mail/%s%s", base_directory, prefix, safe);
+		tmp = g_strdup_printf ("%s/%s%s", base_directory, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -866,37 +938,37 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	EIterator *iter;
 	int i, work = 0;
 	char *oldname, *newname;
-	char *cachenames[] = { "config/hidestate-", 
-			       "config/et-expanded-", 
-			       "config/et-header-", 
+	char *cachenames[] = { "config/hidestate-",
+			       "config/et-expanded-",
+			       "config/et-header-",
 			       "*views/current_view-",
 			       "*views/custom_view-",
 			       NULL };
-	
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, old)) {
 			g_free (account->sent_folder_uri);
 			account->sent_folder_uri = g_strdup (new);
 			work = 1;
 		}
-		
+
 		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, old)) {
 			g_free (account->drafts_folder_uri);
 			account->drafts_folder_uri = g_strdup (new);
 			work = 1;
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	/* ignore return values or if the files exist or
 	 * not, doesn't matter */
-	
+
 	for (i = 0; cachenames[i]; i++) {
 		oldname = uri_to_evname (old, cachenames[i]);
 		newname = uri_to_evname (new, cachenames[i]);
@@ -905,7 +977,7 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 		g_free (oldname);
 		g_free (newname);
 	}
-	
+
 	/* nasty ... */
 	if (work)
 		mail_config_write ();
@@ -920,32 +992,32 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 	/* assumes these can't be removed ... */
 	const char *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
 	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
-	
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri)) {
 			g_free (account->sent_folder_uri);
 			account->sent_folder_uri = g_strdup (default_sent_folder_uri);
 			work = 1;
 		}
-		
+
 		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri)) {
 			g_free (account->drafts_folder_uri);
 			account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 			work = 1;
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	/* nasty again */
 	if (work)
 		mail_config_write ();
 }
 
-void 
+void
 mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd)
 {
 	service->save_passwd = save_passwd;
@@ -955,10 +1027,10 @@ char *
 mail_config_folder_to_safe_url (CamelFolder *folder)
 {
 	char *url;
-	
+
 	url = mail_tools_folder_to_url (folder);
 	e_filename_make_safe (url);
-	
+
 	return url;
 }
 
@@ -967,15 +1039,15 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
 	char *url, *basename, *filename;
 	const char *evolution_dir;
-	
+
 	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-	
+
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
-	filename = g_build_filename (evolution_dir, "mail", "config", basename, NULL);
+	filename = g_build_filename (evolution_dir, "config", basename, NULL);
 	g_free (basename);
 	g_free (url);
-	
+
 	return filename;
 }
 
@@ -993,7 +1065,7 @@ get_new_signature_filename (void)
 	struct stat st;
 	int i;
 
-	base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	base_directory = e_get_user_data_dir ();
 	filename = g_build_filename (base_directory, "signatures", NULL);
 	if (g_lstat (filename, &st)) {
 		if (errno == ENOENT) {
@@ -1003,16 +1075,16 @@ get_new_signature_filename (void)
 			g_warning ("Fatal problem with %s directory.", filename);
 	}
 	g_free (filename);
-	
+
 	filename = g_malloc (strlen (base_directory) + sizeof ("/signatures/signature-") + 12);
 	id = g_stpcpy (filename, base_directory);
 	id = g_stpcpy (id, "/signatures/signature-");
-	
+
 	for (i = 0; i < (INT_MAX - 1); i++) {
 		sprintf (id, "%d", i);
 		if (g_lstat (filename, &st) == -1 && errno == ENOENT) {
 			int fd;
-			
+
 			fd = g_creat (filename, 0600);
 			if (fd >= 0) {
 				close (fd);
@@ -1020,9 +1092,9 @@ get_new_signature_filename (void)
 			}
 		}
 	}
-	
+
 	g_free (filename);
-	
+
 	return NULL;
 }
 
@@ -1031,17 +1103,17 @@ ESignature *
 mail_config_signature_new (const char *filename, gboolean script, gboolean html)
 {
 	ESignature *sig;
-	
+
 	sig = e_signature_new ();
 	sig->name = g_strdup (_("Unnamed"));
 	sig->script = script;
 	sig->html = html;
-	
+
 	if (filename == NULL)
 		sig->filename = get_new_signature_filename ();
 	else
 		sig->filename = g_strdup (filename);
-	
+
 	return sig;
 }
 
@@ -1069,9 +1141,31 @@ mail_config_remove_signature (ESignature *signature)
 {
 	if (signature->filename && !signature->script)
 		g_unlink (signature->filename);
-	
+
 	e_signature_list_remove (config->signatures, signature);
 	mail_config_save_signatures ();
+}
+
+void
+mail_config_reload_junk_headers ()
+{
+	/* It automatically sets in the session */
+	if (config == NULL)
+		mail_config_init ();
+	else 
+		gconf_jh_check_changed (config->gconf, 0, NULL, config);
+
+}
+
+gboolean
+mail_config_get_lookup_book()
+{
+	/* It automatically sets in the session */
+	if (config == NULL)
+		mail_config_init ();
+
+	return config->book_lookup;
+
 }
 
 char *
@@ -1086,24 +1180,24 @@ mail_config_signature_run_script (const char *script)
 		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
 		return NULL;
 	}
-	
+
 	if (!(pid = fork ())) {
 		/* child process */
 		int maxfd, i;
-		
+
 		close (in_fds [0]);
 		if (dup2 (in_fds[1], STDOUT_FILENO) < 0)
 			_exit (255);
 		close (in_fds [1]);
-		
+
 		setsid ();
-		
+
 		maxfd = sysconf (_SC_OPEN_MAX);
 		for (i = 3; i < maxfd; i++) {
 			if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
 				fcntl (i, F_SETFD, FD_CLOEXEC);
 		}
-		
+
 		execlp("/bin/sh", "/bin/sh", "-c", script, NULL);
 		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
 		_exit (255);
@@ -1120,19 +1214,19 @@ mail_config_signature_run_script (const char *script)
 		GByteArray *buffer;
 		char *charset;
 		char *content;
-		
+
 		/* parent process */
 		close (in_fds[1]);
-		
+
 		stream = camel_stream_fs_new_with_fd (in_fds[0]);
-		
+
 		memstream = (CamelStreamMem *) camel_stream_mem_new ();
 		buffer = g_byte_array_new ();
 		camel_stream_mem_set_byte_array (memstream, buffer);
-		
+
 		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
 		camel_object_unref (stream);
-		
+
 		/* signature scripts are supposed to generate UTF-8 content, but because users
 		   are known to not ever read the manual... we try to do our best if the
                    content isn't valid UTF-8 by assuming that the content is in the user's
@@ -1141,10 +1235,10 @@ mail_config_signature_run_script (const char *script)
 			stream = (CamelStream *) memstream;
 			memstream = (CamelStreamMem *) camel_stream_mem_new ();
 			camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
-			
+
 			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			camel_object_unref (stream);
-			
+
 			charset = gconf_client_get_string (config->gconf, "/apps/evolution/mail/composer/charset", NULL);
 			if (charset && *charset) {
 				if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
@@ -1153,23 +1247,23 @@ mail_config_signature_run_script (const char *script)
 				}
 			}
 			g_free (charset);
-			
+
 			camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
 			camel_object_unref (filtered_stream);
 			g_byte_array_free (buffer, TRUE);
-			
+
 			buffer = memstream->buffer;
 		}
-		
+
 		camel_object_unref (memstream);
-		
+
 		g_byte_array_append (buffer, (const unsigned char *)"", 1);
 		content = (char *)buffer->data;
 		g_byte_array_free (buffer, FALSE);
-		
+
 		/* wait for the script process to terminate */
 		result = waitpid (pid, &status, 0);
-		
+
 		if (result == -1 && errno == EINTR) {
 			/* child process is hanging... */
 			kill (pid, SIGTERM);
@@ -1182,7 +1276,7 @@ mail_config_signature_run_script (const char *script)
 				result = waitpid (pid, &status, WNOHANG);
 			}
 		}
-		
+
 		return content;
 	}
 #else

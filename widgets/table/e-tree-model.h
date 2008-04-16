@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-model.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -88,7 +88,7 @@ struct ETreeModelClass {
 	void      *(*value_at)              (ETreeModel *etm, ETreePath node, int col);
 	void       (*set_value_at)          (ETreeModel *etm, ETreePath node, int col, const void *val);
 	gboolean   (*is_editable)           (ETreeModel *etm, ETreePath node, int col);
-					    
+
 	void      *(*duplicate_value)       (ETreeModel *etm, int col, const void *value);
 	void       (*free_value)            (ETreeModel *etm, int col, void *value);
 	void	  *(*initialize_value)      (ETreeModel *etm, int col);

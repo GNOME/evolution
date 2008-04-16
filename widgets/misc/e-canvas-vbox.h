@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas-vbox.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -75,7 +75,7 @@ struct _ECanvasVboxClass
 	void (* add_item_start) (ECanvasVbox *CanvasVbox, GnomeCanvasItem *item);
 };
 
-/* 
+/*
  * To be added to a CanvasVbox, an item must have the argument "width" as
  * a Read/Write argument and "height" as a Read Only argument.  It
  * should also do an ECanvas parent CanvasVbox request if its size

@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
- * Authors: 
+/*
+ * Authors:
  *  Dan Winship <danw@ximian.com>
  *  Peter Williams <peterw@ximian.com>
  *  Jeffrey Stedfast <fejj@ximian.com>
  *
  * Copyright 2000 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -66,14 +66,14 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *folder;
-	
+
 	store = camel_session_get_store (session, url, ex);
 	if (!store)
 		return NULL;
-	
+
 	folder = camel_store_get_inbox (store, ex);
 	camel_object_unref (store);
-	
+
 	return folder;
 }
 
@@ -82,22 +82,22 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *trash;
-	
+
 	if (connect)
 		store = camel_session_get_store (session, url, ex);
 	else
 		store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, ex);
-	
+
 	if (!store)
 		return NULL;
-	
+
 	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED)
 		trash = camel_store_get_trash (store, ex);
 	else
 		trash = NULL;
-	
+
 	camel_object_unref (store);
-	
+
 	return trash;
 }
 
@@ -115,7 +115,7 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
 			*c = '_';
 
-	path = g_strdup_printf("%s/mail/spool", mail_component_peek_base_directory(NULL));
+	path = g_strdup_printf("%s/spool", mail_component_peek_base_directory(NULL));
 	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0777) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory `%s': %s"),
 				     path, g_strerror(errno));
@@ -126,7 +126,7 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 	full = g_strdup_printf("%s/movemail.%s", path, safe_uri);
 	g_free(path);
 	g_free(safe_uri);
-	
+
 	return full;
 }
 
@@ -152,7 +152,7 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 		camel_url_free(uri);
 		return NULL;
 	}
-	
+
 	/* Set up our destination. */
 	dest_path = mail_tool_get_local_movemail_path ((unsigned char *)source_url, ex);
 	if (dest_path == NULL)
@@ -167,12 +167,12 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 		g_free (dest_path);
 		return NULL;
 	}
-	
+
 	if (camel_exception_is_set (ex)) {
 		g_free (dest_path);
 		return NULL;
 	}
-	
+
 	return dest_path;
 #else
 	/* Unclear yet whether camel-movemail etc makes any sense on
@@ -189,9 +189,9 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	const char *subject;
 	char *fwd_subj;
 	const int max_subject_length = 1024;
-	
+
 	subject = camel_mime_message_get_subject(msg);
-	
+
 	if (subject && *subject) {
 		/* Truncate insanely long subjects */
 		if (strlen (subject) < max_subject_length) {
@@ -208,7 +208,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	} else {
 		const CamelInternetAddress *from;
 		char *fromstr;
-		
+
 		from = camel_mime_message_get_from (msg);
 		if (from) {
 			fromstr = camel_address_format (CAMEL_ADDRESS (from));
@@ -217,7 +217,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 		} else
 			fwd_subj = g_strdup ("[Fwd: No Subject]");
 	}
-	
+
 	return fwd_subj;
 }
 
@@ -250,20 +250,20 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	const char *subject;
 	struct _camel_header_raw *xev;
 	char *desc;
-	
+
 	subject = camel_mime_message_get_subject (message);
 	if (subject)
 		desc = g_strdup_printf (_("Forwarded message - %s"), subject);
 	else
 		desc = g_strdup (_("Forwarded message"));
-	
+
 	/* rip off the X-Evolution headers */
 	xev = mail_tool_remove_xevolution_headers (message);
 	camel_header_raw_clear(&xev);
-	
+
 	/* remove Bcc headers */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
-	
+
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_description (part, desc);
@@ -271,7 +271,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 					 CAMEL_DATA_WRAPPER (message));
 	camel_mime_part_set_content_type (part, "message/rfc822");
 	g_free (desc);
-	
+
 	return part;
 }
 
@@ -300,7 +300,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 		}
 		uri = curi;
 	}
-	
+
 	url = camel_url_new (uri + offset, ex);
 	if (!url) {
 		g_free(curi);
@@ -321,7 +321,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 			else
 				name = "";
 		}
-		
+
 		if (offset) {
 			if (offset == 7)
 				folder = camel_store_get_trash (store, ex);
@@ -331,13 +331,13 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 			folder = camel_store_get_folder (store, name, flags, ex);
 		camel_object_unref (store);
 	}
-	
+
 	if (folder)
 		mail_note_folder (folder);
-	
+
 	camel_url_free (url);
 	g_free(curi);
-	
+
 	return folder;
 }
 
@@ -356,29 +356,29 @@ mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
 	char *inptr, *inend;
 	CamelFolder *folder;
-	
+
 	if (in == NULL)
 		return NULL;
-	
+
 	folder = mail_tool_uri_to_folder (in, 0, NULL);
-	
+
 	if (!folder)
 		return NULL;
-	
+
 	/* split the uids */
 	inend = in + inlen;
 	inptr = in + strlen (in) + 1;
 	*uids = g_ptr_array_new ();
 	while (inptr < inend) {
 		char *start = inptr;
-		
+
 		while (inptr < inend && *inptr)
 			inptr++;
-		
+
 		g_ptr_array_add (*uids, g_strndup (start, inptr - start));
 		inptr++;
 	}
-	
+
 	return folder;
 }
 

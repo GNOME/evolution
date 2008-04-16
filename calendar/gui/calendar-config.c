@@ -77,7 +77,7 @@ void
 calendar_config_remove_notification (guint id)
 {
 	calendar_config_init ();
-	
+
 	gconf_client_notify_remove (config, id);
 }
 
@@ -141,9 +141,9 @@ calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func,
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SELECTED_CALENDARS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -171,9 +171,9 @@ calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, g
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -192,7 +192,7 @@ calendar_config_get_timezone (void)
 static void
 set_standard_offsets (icalcomponent *zone_comp, int offset)
 {
-	icalcomponent *dl_comp, *s_comp; 
+	icalcomponent *dl_comp, *s_comp;
 	icalproperty *offset_from, *offset_to;
 
 	/* Set the offset of the standard component to all the daylight components also */
@@ -217,19 +217,19 @@ calendar_config_get_icaltimezone (void)
 	icaltimezone *zone = NULL;
 
 	calendar_config_init ();
-	
+
 	location = calendar_config_get_timezone ();
 	if (location) {
 		icalcomponent *icalcomp, *dl_comp;
-		
+
 		zone = icaltimezone_get_builtin_timezone (location);
 		icalcomp = icaltimezone_get_component (zone);
 
-		
+
 		if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) {
 			g_free (location);
 			return zone;
-		}	
+		}
 
 		if (!calendar_config_get_daylight_saving () && zone) {
 			icalcomponent *zone_comp, *s_comp;
@@ -237,7 +237,7 @@ calendar_config_get_icaltimezone (void)
 			icaltimezone *st_zone = NULL;
 			int offset;
 			char *n_tzid, *tzid;
-			
+
 			tzid = icaltimezone_get_tzid (zone);
 			n_tzid = g_strconcat (tzid, "-(Standard)", NULL);
 
@@ -255,10 +255,10 @@ calendar_config_get_icaltimezone (void)
 			if (!s_comp) {
 				g_free (n_tzid);
 				icalcomponent_free (zone_comp);
-				g_free (location);	
+				g_free (location);
 				return zone;
 			}
-			
+
 			offset_to = icalcomponent_get_first_property (s_comp, ICAL_TZOFFSETTO_PROPERTY);
 			offset = icalproperty_get_tzoffsetto (offset_to);
 
@@ -274,10 +274,10 @@ calendar_config_get_icaltimezone (void)
 
 			st_zone = icaltimezone_new ();
 			icaltimezone_set_component (st_zone, zone_comp);
-			
+
 			zone = st_zone;
 			g_hash_table_insert (custom_zones, n_tzid, zone);
-		} 
+		}
 
 		g_free (location);
 	}
@@ -304,9 +304,9 @@ calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer 
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIMEZONE, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -314,16 +314,16 @@ gboolean
 calendar_config_get_daylight_saving (void)
 {
 	calendar_config_init ();
-		
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_DAYLIGHT_SAVING, NULL);
-	
+
 }
 
 void
 calendar_config_set_daylight_saving (gboolean daylight_saving)
 {
 	calendar_config_init ();
-	
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_DAYLIGHT_SAVING, daylight_saving, NULL);
 }
 
@@ -333,9 +333,9 @@ calendar_config_add_notification_daylight_saving (GConfClientNotifyFunc func, gp
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAYLIGHT_SAVING, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -370,9 +370,9 @@ calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpo
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_24HOUR, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -445,7 +445,7 @@ calendar_config_set_show_status	(gboolean state)
 }
 
 /* Show timezone */
-gboolean  
+gboolean
 calendar_config_get_show_timezone (void)
 {
 	calendar_config_init ();
@@ -453,22 +453,22 @@ calendar_config_get_show_timezone (void)
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, NULL);
 }
 
-void	  
+void
 calendar_config_set_show_timezone (gboolean	status)
 {
 	calendar_config_init ();
 
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, status, NULL);	
+	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, status, NULL);
 }
 
-gboolean  
+gboolean
 calendar_config_get_show_categories (void)
 {
 	calendar_config_init ();
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, NULL);
 }
-void	  
+void
 calendar_config_set_show_categories (gboolean	status)
 {
 	calendar_config_init ();
@@ -495,16 +495,16 @@ calendar_config_set_week_start_day	(gint	      week_start_day)
 	gconf_client_set_int (config, CALENDAR_CONFIG_WEEK_START, week_start_day, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_week_start_day (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_WEEK_START, func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 /* The start and end times of the work-day. */
@@ -525,16 +525,16 @@ calendar_config_set_day_start_hour	(gint	      day_start_hour)
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_HOUR, day_start_hour, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_day_start_hour (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_START_HOUR, func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 gint
@@ -554,16 +554,16 @@ calendar_config_set_day_start_minute	(gint	      day_start_min)
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, day_start_min, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_day_start_minute (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_START_MINUTE, func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 gint
@@ -583,16 +583,16 @@ calendar_config_set_day_end_hour	(gint	      day_end_hour)
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_HOUR, day_end_hour, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_day_end_hour (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_END_HOUR, func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 gint
@@ -612,16 +612,16 @@ calendar_config_set_day_end_minute	(gint	      day_end_min)
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, day_end_min, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_day_end_minute (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_END_MINUTE, func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 /* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
@@ -648,9 +648,9 @@ calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpo
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIME_DIVISIONS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -704,15 +704,15 @@ calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, show_week_no, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
 
 	calendar_config_init ();
-	
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -854,11 +854,11 @@ guint
 calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -884,11 +884,11 @@ guint
 calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_TASKS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -932,11 +932,11 @@ guint
 calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -962,11 +962,11 @@ guint
 calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_MEMOS, func, data, NULL, NULL);
-	
+
 	return id;
 }
 /***************************************/
@@ -993,11 +993,11 @@ guint
 calendar_config_add_notification_compress_weekend (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -1023,11 +1023,11 @@ guint
 calendar_config_add_notification_show_event_end (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SHOW_EVENT_END, func, data, NULL, NULL);
-	
+
 	return id;
 }
 
@@ -1049,16 +1049,16 @@ calendar_config_set_working_days	(CalWeekdays  days)
 	gconf_client_set_int (config, CALENDAR_CONFIG_WORKING_DAYS, days, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_working_days (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_WORKING_DAYS , func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 /* Settings to hide completed tasks. */
@@ -1079,16 +1079,16 @@ calendar_config_set_hide_completed_tasks	(gboolean	hide)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, hide, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_hide_completed_tasks (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED , func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 CalUnits
@@ -1137,16 +1137,16 @@ calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 	g_free (units);
 }
 
-guint 
+guint
 calendar_config_add_notification_hide_completed_tasks_units (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS , func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 gint
@@ -1166,16 +1166,16 @@ calendar_config_set_hide_completed_tasks_value	(gint		value)
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, value, NULL);
 }
 
-guint 
+guint
 calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE , func, data, NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 /**
@@ -1241,7 +1241,7 @@ calendar_config_set_confirm_purge (gboolean confirm)
 }
 
 void
-calendar_config_check_timezone_set ()
+calendar_config_check_timezone_set (void)
 {
 	ETimezoneDialog *timezone_dialog;
 	GtkWidget *dialog;
@@ -1514,7 +1514,7 @@ calendar_config_set_default_reminder_units (CalUnits units)
 /**
  * calendar_config_get_hide_completed_tasks_sexp:
  *
- * @get_completed: Whether to form subexpression that 
+ * @get_completed: Whether to form subexpression that
  * gets completed or not completed tasks.
  * Returns the subexpression to use to filter out completed tasks according
  * to the config settings. The returned sexp should be freed.
@@ -1572,6 +1572,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 				sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
 			else
 				sexp = g_strdup_printf ("(completed-before? (make-time \"%s\"))", isodate);
+			g_free (isodate);
 		}
 	}
 
@@ -1594,18 +1595,18 @@ calendar_config_set_free_busy_template (const gchar *template)
 	gconf_client_set_string (config, CALENDAR_CONFIG_TEMPLATE, template, NULL);
 }
 
-guint 
-calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func, 
+guint
+calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
 						     gpointer data)
 {
 	guint id;
-	
+
 	calendar_config_init ();
 
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TEMPLATE, func, data, 
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TEMPLATE, func, data,
 				      NULL, NULL);
-	
-	return id;	
+
+	return id;
 }
 
 void

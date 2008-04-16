@@ -395,7 +395,7 @@ load_single_dir (GalViewCollection *collection,
 	xmlNode *child;
 	char *filename = g_build_filename(dir, "galview.xml", NULL);
 	char *default_view;
-	
+
 	if (g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
 #ifdef G_OS_WIN32
 		gchar *locale_filename = g_win32_locale_filename_from_utf8 (filename);
@@ -406,7 +406,7 @@ load_single_dir (GalViewCollection *collection,
 		doc = xmlParseFile (filename);
 #endif
 	}
-	
+
 	if (!doc) {
 		g_free (filename);
 		return;
@@ -753,7 +753,7 @@ gal_view_collection_append_with_title (GalViewCollection *collection, const char
 
 	gal_view_set_title (view, title);
 
-	d(g_print("%s: %p\n", G_GNUC_FUNCTION, view));
+	d(g_print("%s: %p\n", G_STRFUNC, view));
 
 	item = g_new(GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
@@ -791,7 +791,7 @@ gal_view_collection_set_nth_view (GalViewCollection *collection, int i, GalView 
 	g_return_val_if_fail (i >= 0, NULL);
 	g_return_val_if_fail (i < collection->view_count, NULL);
 
-	d(g_print("%s: %p\n", G_GNUC_FUNCTION, view));
+	d(g_print("%s: %p\n", G_STRFUNC, view));
 
 	item = collection->view_data[i];
 

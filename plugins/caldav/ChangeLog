@@ -1,3 +1,8 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* caldav-source.c: (ensure_caldav_source_group):
+	ANSIfication of function declaration.
+
 2007-05-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #337616

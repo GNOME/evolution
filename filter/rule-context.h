@@ -50,14 +50,14 @@ enum {
 struct _RuleContext {
 	GObject parent_object;
 	struct _RuleContextPrivate *priv;
-	
+
 	char *error;              /* string version of error */
 
 	guint32 flags;		/* capability flags */
 
 	GList *parts;
 	GList *rules;
-	
+
 	GHashTable *part_set_map; /* map set types to part types */
 	GList *part_set_list;
 	GHashTable *rule_set_map; /* map set types to rule types */
@@ -73,12 +73,12 @@ struct _RuleContextClass {
 	int (*load) (RuleContext *rc, const char *system, const char *user);
 	int (*save) (RuleContext *rc, const char *user);
 	int (*revert) (RuleContext *rc, const char *user);
-	
+
 	GList *(*delete_uri) (RuleContext *rc, const char *uri, GCompareFunc cmp);
 	GList *(*rename_uri) (RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
 
 	FilterElement *(*new_element)(RuleContext *rc, const char *name);
-	
+
 	/* signals */
 	void (*rule_added) (RuleContext *rc, FilterRule *rule);
 	void (*rule_removed) (RuleContext *rc, FilterRule *rule);

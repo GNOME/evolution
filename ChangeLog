@@ -1,7 +1,346 @@
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	* configure.in: Bump glib package requirement: glib-2.0 >= 2.16.0
+
+2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #526152
+
+	* tools/killev.c (main):
+	No need to continue killing the GnomeSpell Bonobo server.
+
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Merge the mbarnes-composer branch
+
+	* configure.in:
+	Bump libgtkhtml requirement to 3.19.1.
+	Add gtkhtml-editor dependency for addressbook, calendar and mail.
+	Remove print-message plugin; new composer implements this natively.
+
+	* tools/Makefile.am:
+	Remove CORBA rules for the old composer.
+
+	... separate issue ...
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.1 for
+	CAMEL_FOLDER_JUNKED_NOT_DELETED symbol.
+
+2008-04-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in: Version bump for 2.23.1.
+
+2008-03-25  Dan Williams  <dcbw@redhat.com>
+
+	** Fix for bug #524310
+
+	* mail/mail-session.c: don't double-free server messages
+
+2008-03-17  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #519421
+
+	* configure.in: also use <libytnef/ytnef.h> to check for TNEF support
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512543
+
+	* configure.in: Get rid of --enable-cairo-calendar/ENABLE_CAIRO define.
+
+2008-03-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.22.0 release.
+
+2008-03-05  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: etc/gconf/gconf.xml.defaults/apps/evolution
+	was missing.
+
+2008-03-03  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: Misc simplification and cleanup. Add
+	share/icons/hicolor.
+
+2008-03-03  Changwoo Ryu  <cwryu@debian.org>
+
+	* configure.in: Add mail/default/ko/Makefile to AC_OUTPUT.
+
+2008-02-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.21.92 release.
+
+2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* configure.in: set HANDLE_LIBICAL_MEMORY to 1.
+
+2008-02-20  Jeff Cai<jeff.cai@sun.com>
+
+	** Fix for bug #516648
+
+	* configure.in:
+	Use "pkill -x" to kill processes on Solaris.
+
+2008-02-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.92 for camel_application_is_exiting.
+
+2008-02-18  Akhil Laddha  <lakhil@novell.com>
+
+	** Fix for bug #517129
+
+	* configure.in: Fix build break of pl translation.
+
 2008-02-15  Johnny Jacob  <jjohnny@novell.com>
 
 	* configure.in (libmapi_ldif_dir): Added. Points to 
 	libmapi's ldif directory. used in plugin for profile creation.
+
+2008-02-13  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* configure.in: Evolution 2.21.92 version bump.
+
+2008-02-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.21.91 release.
+
+2008-02-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.91 for CAMEL_MESSAGE_NOTJUNK.
+
+2008-02-06  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: Correct file names that have had the
+	@BASE_VERSION@ dropped. Look for message locales first from
+	share/locale, as that is where they get stuffed when building
+	against a properly built GNU gettext.
+
+2008-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* configure.in: Evolution 2.21.91 version bump.
+
+2008-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.21.90 release.
+
+2008-01-25  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libevolution-mail.def: Add two more entries for
+	bootstrapping. The mail/importers/libevolution-mail-importers
+	library depends on the libevolution-mail library which hasn't been
+	built yet when libevolution-mail-importers is built.
+
+2008-01-24  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Include camel in E_UTIL compile flags and libs, as
+	libeutil uses camel_utf8_utf7().
+
+2008-01-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.90 for new Camel functions.
+
+2008-01-21  Sankar P  <psankar@novell.com>
+
+	* configure.in:
+	Add missing directory in configure.in
+	Fixes build break
+
+2008-01-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump some additional package requirements for libsoup-2.4:
+		libbonobo-2.0 >= 2.20.3
+		glib-2.0 >= 2.15.3
+
+2008-01-15  Dan Winship  <danw@gnome.org>
+
+	* configure.in: Require libsoup-2.4. (Remove old "either 2.2 or
+	2.4" support, which only ever worked because there was an old CVS
+	version of libsoup that claimed to be 2.4 but still had the 2.2
+	API.)
+
+2008-01-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* configure.in: Version bump to 2.21.90
+
+2008-01-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.21.5 release
+
+2008-01-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #492702
+
+	* configure.in: Just disable the dbus message part of mail
+	notification if dbus isn't there. Also remove new-mail-notify plugin.
+
+2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
+
+	** Fix for bug #492188
+
+	* data/icons/Makefile.am:
+
+	Use the new Tangoized icons instead of deprecated icons from 
+	gnome-icon-theme.
+
+2008-01-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* data/evolution.desktop.in.in:
+	Submit bugs to the "BugBuddyBugs" Bugzilla component (#507311).
+
+2008-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump GtkHTML requirement to 3.17.5 for bug #317823.
+
+2008-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Add --with[out]-help option to make it possible to skip
+	building and installing user documentation.  (#504541)
+
+2007-12-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* configure.in: Version bump to 2.21.5
+
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: evolution 2.21.4 release.
+
+2007-12-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.21.4 for new Camel functions.
+
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	* plugins/mail-remote:
+	Just remove the mail-remote plugin altogether so we stop going
+	back and forth over whether the tranlatable files should be added
+	to POTFILES.in.  We can always add it back once we get it working
+	again.
+
+2007-12-13  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Fixes bug 474651
+	* calendar/gui/memos-component.c:
+	* addressbook/gui/component/addressbook.c:
+	* calendar/gui/tasks-control.c:
+	* calendar/gui/tasks-component.c:
+	* widgets/misc/e-dateedit.c:
+	* calendar/gui/e-cal-model-tasks.c:
+	* widgets/misc/e-cell-percent.c:
+	* calendar/gui/e-itip-control.c:
+	* calendar/gui/comp-editor-factory.c:
+	Use format strings in gtk_message_dialog_new
+
+2007-12-10  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Fixes bug 474651
+
+	* addressbook/gui/contact-editor/eab-editor.c:
+	* plugins/save-calendar/ical-format.c:
+	* plugins/save-calendar/csv-format.c:
+	* plugins/save-calendar/rdf-format.c:
+	* plugins/ipod-sync/ical-format.c:
+	* plugins/ipod-sync/ipod-sync.c:
+	* plugins/ipod-sync/evolution-ipod-sync.c:
+	* calendar/gui/dialogs/changed-comp.c:
+	* calendar/gui/dialogs/copy-source-dialog.c:
+	* calendar/gui/dialogs/delete-error.c:
+	Use format strings in gtk_message_dialog_new
+
+2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump libgtkhtml requirement to 3.17.3 due to bug #271551.
+
+2007-12-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: evolution 2.21.3 release.
+
+2007-11-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: evolution 2.21.2 release.
+
+2007-11-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove trailing whitespace from source code.
+
+2007-11-10  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #209425
+
+	* data/icons/Makefile.am:
+	* data/icons/hicolor_actions_16x16_go-today.svg:
+	* data/icons/hicolor_actions_22x22_go-today.svg:
+	Don't use gtk-home for the go-today action. Add new
+	icons to the build.
+
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* tools/evolution-launch-composer.c	(Jun 2003)
+
+	* configure.in:
+	Remove plugins/mail-remote/Makefile from AC_OUTPUT.
+	Fixes a distcheck error.
+
+2007-10-31  Priit Laes  <plaes@svn.gnome.org>
+	
+	* addressbook/gui/widgets/eab-vcard-control.c: Remove debugging output.
+
+2007-10-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.21.1 release.
+
+2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #486351
+
+	* data/icons/Makefile.am:
+	* data/icons/hicolor_actions_32x32_view-calendar-day.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-list.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-month.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-week.svg:
+	* data/icons/hicolor_actions_32x32_view-calendar-workweek.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-day.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-list.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-month.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-week.svg:
+	* data/icons/hicolor_actions_scalable_view-calendar-workweek.svg:
+	Add view-calendar-* icons in higher resolutions for use with 
+	a11y themes like LargePrint.
+
+2007-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Disable the mail-remote plugin until it can be made to work
+	or at least compile again (#491386).
+
+2007-10-25  Sankar P  <psankar@novell.com>
+
+	* configure.in:
+	* plugins/external-editor:
+	Added new plugins external-editor, which will
+	make it possible to use an external editor as 
+	the mail composer.
+
+2007-10-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* configure.in
+	* plugins/google-account-setup: Initial commit for the 
+	Google Calendar Feature.
+
+	Committing on behalf of Ebby Wiselyn <ebbywiselyn@gmail.com>
 
 2007-10-22  Srinivasa Ragavan  <sragavan@novell.com>
 

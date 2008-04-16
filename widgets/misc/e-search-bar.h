@@ -60,7 +60,7 @@ typedef struct {
 typedef struct _ESearchBar       ESearchBar;
 typedef struct _ESearchBarClass  ESearchBarClass;
 
-typedef void (*ESearchBarMenuFunc)(ESearchBar *esb, ESearchBarItem *menu_items );
+typedef void (*ESearchBarMenuFunc)(ESearchBar *esb, ESearchBarItem *menu_items);
 
 struct _ESearchBar
 {
@@ -69,12 +69,12 @@ struct _ESearchBar
 	BonoboUIComponent *ui_component;
 
 	GSList *menu_items;
-	
+
 	/* item specific fields */
 	GtkWidget *option;
 	GtkWidget *entry;
 	GtkWidget *suboption; /* an option menu for the choices associated with some options */
-	
+
 	/* PRIVATE */
 	GtkWidget *dropdown_holder;	/* holds the dropdown */
 	GtkWidget *option_menu;
@@ -143,8 +143,8 @@ void  e_search_bar_add_menu  (ESearchBar     *search_bar,
 void  e_search_bar_set_option     (ESearchBar        *search_bar,
 				   ESearchBarItem    *option_items);
 void  e_search_bar_paint (ESearchBar *search_bar);
-void e_search_bar_set_viewoption (ESearchBar *search_bar, 
-				    int option_id, 
+void e_search_bar_set_viewoption (ESearchBar *search_bar,
+				    int option_id,
 				    ESearchBarItem *subitems);
 
 void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,

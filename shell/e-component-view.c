@@ -96,7 +96,7 @@ e_component_view_init (EComponentView *shell)
 EComponentView *e_component_view_new(GNOME_Evolution_ShellView parent, const char *id, struct _GtkWidget *side, struct _GtkWidget *view, struct _GtkWidget *statusbar)
 {
 	EComponentView *new = g_object_new (e_component_view_get_type (), NULL);
-	CORBA_Environment ev = { 0 };
+	CORBA_Environment ev = { NULL };
 
 	new->id = g_strdup(id);
 	new->shell_view = CORBA_Object_duplicate(parent, &ev);
@@ -113,7 +113,7 @@ EComponentView *e_component_view_new(GNOME_Evolution_ShellView parent, const cha
 EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, const char *id, BonoboControl *side, BonoboControl *view, BonoboControl *statusbar)
 {
 	EComponentView *new = g_object_new (e_component_view_get_type (), NULL);
-	CORBA_Environment ev = { 0 };
+	CORBA_Environment ev = { NULL };
 
 	new->id = g_strdup(id);
 	new->shell_view = CORBA_Object_duplicate(parent, &ev);
@@ -130,7 +130,7 @@ EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, 
 void
 e_component_view_set_title(EComponentView *ecv, const char *title)
 {
-	CORBA_Environment ev = { 0 };
+	CORBA_Environment ev = { NULL };
 
 	/* save roundtrips, check title is the same */
 	GNOME_Evolution_ShellView_setTitle(ecv->shell_view, ecv->id, title, &ev);
@@ -140,7 +140,7 @@ e_component_view_set_title(EComponentView *ecv, const char *title)
 void
 e_component_view_set_button_icon (EComponentView *ecv, const char *iconName)
 {
-	CORBA_Environment ev = { 0 };
+	CORBA_Environment ev = { NULL };
 
 	/* save roundtrips, check title is the same */
 	GNOME_Evolution_ShellView_setButtonIcon(ecv->shell_view, ecv->id, iconName, &ev);

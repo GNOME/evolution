@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-config.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -49,7 +49,7 @@ typedef struct {
 	GtkWidget    *view_check; /* Only for group dialog */
 	guint         changed_id, toggled_id;
 	void *e_table_config;
-} ETableConfigSortWidgets; 
+} ETableConfigSortWidgets;
 
 
 typedef struct {

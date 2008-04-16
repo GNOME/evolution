@@ -1,16 +1,12 @@
 <?xml version="1.0"?>
 <e-plugin-list>
-  <e-plugin
-    type="shlib"
-    id="org.gnome.evolution.plugin.mono"
-    location="@PLUGINDIR@/liborg-gnome-evolution-mono@SOEXT@"
-    _name="Mono Loader">
-    <_description>A plugin which implements mono plugins.</_description>
-    <author name="Michael Zucchi" email="notzed@ximian.com"/>
+	<e-plugin type="shlib" id="org.gnome.evolution.plugin.mono" 
+	location="@PLUGINDIR@/liborg-gnome-evolution-mono@SOEXT@" _name="Mono Loader" load_level="1">
 
-    <hook class="org.gnome.evolution.plugin.type:1.0">
-      <plugin-type get-type="org_gnome_evolution_mono_get_type"/>
-    </hook>
+		<_description>A plugin which implements mono plugins.</_description>
 
-  </e-plugin>
+		<author name="Michael Zucchi" email="notzed@ximian.com"/>
+		<author name="Sankar P" email="psankar@novell.com"/>
+
+	</e-plugin>
 </e-plugin-list>

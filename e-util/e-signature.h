@@ -42,11 +42,11 @@ typedef struct _ESignatureClass ESignatureClass;
 
 struct _ESignature {
 	GObject parent_object;
-	
+
 	gboolean autogen;
 	gboolean script;
 	gboolean html;
-	
+
 	char *filename;
 	char *name;
 	char *uid;
@@ -54,7 +54,7 @@ struct _ESignature {
 
 struct _ESignatureClass {
 	GObjectClass parent_class;
-	
+
 };
 
 

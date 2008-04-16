@@ -100,7 +100,7 @@ ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass)
 	class->ref_child = ea_gnome_calendar_ref_child;
 }
 
-AtkObject* 
+AtkObject*
 ea_gnome_calendar_new (GtkWidget *widget)
 {
 	GObject *object;

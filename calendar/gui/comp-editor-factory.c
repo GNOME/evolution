@@ -71,7 +71,7 @@ typedef struct {
 
 	/* Client of the calendar */
 	ECal *client;
- 
+
 	/* Count editors using this client */
 	int editor_count;
 
@@ -245,16 +245,16 @@ edit_existing (OpenClient *oc, const char *uid)
 
 		return;
 	}
-	
+
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 		return;
 	}
-	
+
 	/* Create the appropriate type of editor */
-	
+
 	vtype = e_cal_component_get_vtype (comp);
 	if (itip_organizer_is_user (comp, oc->client))
 		flags |= COMP_EDITOR_USER_ORG;
@@ -264,7 +264,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	case E_CAL_COMPONENT_EVENT:
 		if (e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_MEETING;
-	
+
 		editor = COMP_EDITOR (event_editor_new (oc->client, flags));
 		break;
 
@@ -281,6 +281,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	/* Set the object on the editor */
 	comp_editor_edit_comp (editor, comp);
 	comp_editor_focus (editor);
+	g_object_unref (comp);
 
 	oc->editor_count++;
 	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);
@@ -292,7 +293,7 @@ static ECalComponent *
 get_default_task (ECal *client)
 {
 	ECalComponent *comp;
-	
+
 	comp = cal_comp_task_new_with_defaults (client);
 
 	return comp;
@@ -304,7 +305,7 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 {
 	ECalComponent *comp;
 	CompEditor *editor;
-	
+
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
 		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
@@ -401,31 +402,31 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Error while opening the calendar"));
+						 "%s", _("Error while opening the calendar"));
 		break;
 
 	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Method not supported when opening the calendar"));
+						 "%s", _("Method not supported when opening the calendar"));
 		break;
 
 	case E_CALENDAR_STATUS_PERMISSION_DENIED :
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Permission denied to open the calendar"));
+						 "%s", _("Permission denied to open the calendar"));
 		break;
 
 	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED :
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Authentication Failed"));
+						 "%s", _("Authentication Failed"));
 		break;
 
 	default:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Unknown error"));
+						 "%s", _("Unknown error"));
 		return;
 	}
 
@@ -540,7 +541,7 @@ impl_editExisting (PortableServer_Servant servant,
 	OpenClient *oc;
 	CompEditor *editor;
 	ECalSourceType source_type;
-	
+
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
 
 	switch (corba_type) {
@@ -550,7 +551,7 @@ impl_editExisting (PortableServer_Servant servant,
 	default:
 		source_type = E_CAL_SOURCE_TYPE_EVENT;
 	}
-	
+
 	oc = lookup_open_client (factory, source_type, str_uri, ev);
 	if (!oc)
 		return;
@@ -594,7 +595,7 @@ impl_editNew (PortableServer_Servant servant,
 	CompEditorFactory *factory;
 	OpenClient *oc;
 	ECalSourceType source_type;
-	
+
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
 
 	switch (corba_type) {
@@ -619,9 +620,9 @@ impl_editNew (PortableServer_Servant servant,
 
 /**
  * comp_editor_factory_new:
- * 
+ *
  * Creates a new calendar component editor factory.
- * 
+ *
  * Return value: A newly-created component editor factory.
  **/
 CompEditorFactory *

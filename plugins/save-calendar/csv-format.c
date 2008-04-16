@@ -65,7 +65,7 @@ display_error_message (GtkWidget *parent, GError *error)
 	GtkWidget *dialog;
 
 	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-					 error->message);
+					 "%s", error->message);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
@@ -84,7 +84,7 @@ static GString *
 add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 {
 
-	/* 
+	/*
 	 * This one will write 'ECalComponentText' and 'const char' GSLists. It will
 	 * put quotes around the complete written value if there's was only one value
 	 * but it required having quotes and if there was more than one value (in which
@@ -122,7 +122,7 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 			if (list)
 				tmp = g_string_append (tmp, config->delimiter);
 		}
-	
+
 		if (needquotes)
 			line = g_string_append (line, config->quote);
 		line = g_string_append_len (line, tmp->str, tmp->len);
@@ -139,7 +139,7 @@ static GString *
 add_nummeric_to_csv (GString *line, gint *nummeric, CsvConfig *config)
 {
 
-	/* 
+	/*
 	 * This one will write {-1}..{00}..{01}..{99}
 	 * it prepends a 0 if it's < 10 and > -1
 	 */
@@ -159,25 +159,25 @@ add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 		gboolean needquotes = FALSE;
 		struct tm mytm =  icaltimetype_to_tm (time);
 		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
-		
-		/* 
+
+		/*
 		 * Translator: the %F %T is the thirth argument for a strftime function.
 		 * It lets you define the formatting of the date in the csv-file.
 		 * */
 		e_utf8_strftime (str, 200, _("%F %T"), &mytm);
-		
+
 		needquotes = string_needsquotes (str, config);
-		
-		if (needquotes)
-			line = g_string_append (line, config->quote);	
-		
-		line = g_string_append (line, str);
-		
+
 		if (needquotes)
 			line = g_string_append (line, config->quote);
-	
+
+		line = g_string_append (line, str);
+
+		if (needquotes)
+			line = g_string_append (line, config->quote);
+
 		g_free (str);
-		
+
 	}
 
 	line = g_string_append (line, config->delimiter);
@@ -191,8 +191,8 @@ string_needsquotes (const char *value, CsvConfig *config)
 
 	/* This is the actual need for quotes-checker */
 
-	/* 
-	 * These are the simple substring-checks 
+	/*
+	 * These are the simple substring-checks
 	 *
 	 * Example: {Mom, can you please do that for me?}
 	 * Will be written as {"Mom, can you please do that for me?"}
@@ -202,15 +202,15 @@ string_needsquotes (const char *value, CsvConfig *config)
 
 	if (!needquotes) {
 		needquotes = strstr (value, config->newline) ? TRUE:FALSE;
-		if (!needquotes) 
+		if (!needquotes)
 			needquotes = strstr (value, config->quote) ? TRUE:FALSE;
 	}
 
 
-	/* 
+	/*
 	 * If the special-char is char+onespace (so like {, } {" }, {\n }) and it occurs
 	 * the value that is going to be written
-	 * 
+	 *
 	 * In this case we don't trust the user . . . and are going to quote the string
 	 * just to play save -- Quoting is always allowed in the CSV format. If you can
 	 * avoid it, it's better to do so since a lot applications don't support CSV
@@ -220,7 +220,7 @@ string_needsquotes (const char *value, CsvConfig *config)
 	 * This example will be written as {"Mom,can you please do that for me?"} because
 	 * there's a {,} behind {Mom} and the delimiter is {, } (so we searched only the
 	 * first character of {, } and didn't trust the user).
-	 */	
+	 */
 
 
 	if (!needquotes) {
@@ -234,7 +234,7 @@ string_needsquotes (const char *value, CsvConfig *config)
 					if (!needquotes) {
 						len = strlen (config->quote);
 						if ((len == 2) && (config->quote[1] == ' ')) {
-							needquotes = strchr 
+							needquotes = strchr
 								(value, config->quote[0])?TRUE:FALSE;
 						}
 					}
@@ -283,13 +283,13 @@ userstring_to_systemstring (const gchar *userstring)
 			case '\\':
 				str = g_string_append_c (str, '\\');
 				i++;
-				break; 
+				break;
 			case 'r':
 				str = g_string_append_c (str, '\r');
-				i++;		
+				i++;
 				break;
 			case 't':
-                                str = g_string_append_c (str, '\t'); 
+                                str = g_string_append_c (str, '\t');
                                 i++;
                                 break;
 			}
@@ -303,17 +303,17 @@ userstring_to_systemstring (const gchar *userstring)
 	retval = str->str;
 	g_string_free (str, FALSE);
 
-	return retval; 
+	return retval;
 }
 
 static void
 do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri)
 {
 
-	/* 
-	 * According to some documentation about CSV, newlines 'are' allowed 
+	/*
+	 * According to some documentation about CSV, newlines 'are' allowed
 	 * in CSV-files. But you 'do' have to put the value between quotes.
-	 * The helper 'string_needsquotes' will check for that 
+	 * The helper 'string_needsquotes' will check for that
 	 *
 	 * http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm
 	 * http://www.creativyst.com/cgi-bin/Prod/15/eg/csv2xml.pl
@@ -347,7 +347,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	}
 
 	config = g_new (CsvConfig, 1);
-	
+
 	tmp = gtk_entry_get_text (GTK_ENTRY(d->delimiter_entry));
 	config->delimiter = userstring_to_systemstring (tmp?tmp:", ");
 	tmp = gtk_entry_get_text (GTK_ENTRY(d->newline_entry));
@@ -368,15 +368,15 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 		if (result != GNOME_VFS_OK) {
 			gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE, TRUE, GNOME_VFS_PERM_USER_ALL);
 			result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-		} 
+		}
 	}
 
 	if (result == GNOME_VFS_OK && doit && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 
 		if (config->header) {
-			
+
 			gint i=0;
-			
+
 			static gchar *labels[] = {
 				 N_("UID"),
 				 N_("Summary"),
@@ -403,14 +403,14 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 					line = g_string_append(line, config->delimiter);
 				line = g_string_append(line, _(labels[i]));
 			}
-			
+
 			line = g_string_append (line, config->newline);
 
 			gnome_vfs_write (handle, line->str, line->len, NULL);
 			g_string_free (line, TRUE);
 		}
 
-	
+
 		while (objects != NULL) {
 			ECalComponent *comp = objects->data;
 			gchar *delimiter_temp = NULL;
@@ -419,7 +419,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			ECalComponentDateTime temp_dt;
 			struct icaltimetype *temp_time;
 			int *temp_int;
-			ECalComponentText temp_comptext; 
+			ECalComponentText temp_comptext;
 
 			line = g_string_new ("");
 
@@ -462,18 +462,15 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 			e_cal_component_get_dtstart (comp, &temp_dt);
 			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_dtend (comp, &temp_dt);
 			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_due (comp, &temp_dt);
 			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
-			if (temp_dt.value)
-				e_cal_component_free_datetime (&temp_dt);
+			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_percent (comp, &temp_int);
 			line = add_nummeric_to_csv (line, temp_int, config);
@@ -501,7 +498,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			/* Append a newline (record delimiter) */
 			delimiter_temp = config->delimiter;
 			config->delimiter = config->newline;
- 
+
 			line = add_time_to_csv (line, temp_time, config);
 
 			/* And restore for the next record */
@@ -548,7 +545,7 @@ create_options_widget (FormatHandler *handler)
 		  *csv_options = gtk_expander_new (_("Advanced options for the CSV format")),
 		  *vbox = gtk_vbox_new (FALSE, 0);
 	CsvPluginData *d = handler->data;
-	
+
 	d->delimiter_entry = gtk_entry_new ();
 	d->newline_entry = gtk_entry_new ();
 	d->quote_entry = gtk_entry_new ();
@@ -563,20 +560,20 @@ create_options_widget (FormatHandler *handler)
 	gtk_table_set_col_spacings (GTK_TABLE (table), 5);
 	label = gtk_label_new (_("Value delimiter:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1, 
-			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0); 
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_table_attach (GTK_TABLE (table), d->delimiter_entry, 1, 2, 0, 1,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	label = gtk_label_new (_("Record delimiter:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2, 
-			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0); 
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_table_attach (GTK_TABLE (table), d->newline_entry, 1, 2, 1, 2,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	label = gtk_label_new (_("Encapsulate values with:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3, 
-			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0); 
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_table_attach (GTK_TABLE (table), d->quote_entry, 1, 2, 2, 3,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 

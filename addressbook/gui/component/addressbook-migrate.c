@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * Copyright (C) 2004, Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -73,28 +73,28 @@ setup_progress_dialog (MigrationContext *context)
 	gtk_window_set_title (GTK_WINDOW (context->window), _("Migrating..."));
 	gtk_window_set_modal (GTK_WINDOW (context->window), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (context->window), 6);
-	
+
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
 	gtk_container_add (GTK_CONTAINER (context->window), vbox);
-	
+
 	context->label = gtk_label_new ("");
 	gtk_label_set_line_wrap (GTK_LABEL (context->label), TRUE);
 	gtk_widget_show (context->label);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), context->label);
-	
+
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), hbox);
-	
+
 	context->folder_label = gtk_label_new ("");
 	gtk_widget_show (context->folder_label);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), context->folder_label);
-	
+
 	context->progress = gtk_progress_bar_new ();
 	gtk_widget_show (context->progress);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), context->progress);
-	
+
 	gtk_widget_show (context->window);
 }
 
@@ -121,13 +121,13 @@ static void
 dialog_set_folder_name (MigrationContext *context, const char *folder_name)
 {
 	char *text;
-	
+
 	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
 	gtk_label_set_text (GTK_LABEL (context->folder_label), text);
 	g_free (text);
-	
+
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (context->progress), 0.0);
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 
@@ -140,12 +140,12 @@ static void
 dialog_set_progress (MigrationContext *context, double percent)
 {
 	char text[5];
-	
+
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
-	
+
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (context->progress), percent);
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (context->progress), text);
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 
@@ -216,6 +216,8 @@ get_source_name (ESourceGroup *group, const char *path)
 
 	} while (conflict);
 
+	g_strfreev (p);
+
 	return g_string_free (s, FALSE);
 }
 
@@ -229,7 +231,7 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 
 	/* both books are loaded, start the actual migration */
 	e_book_get_contacts (old_book, query, &contacts, NULL);
-	e_book_query_unref (query);	
+	e_book_query_unref (query);
 
 	num_contacts = g_list_length (contacts);
 	for (l = contacts; l; l = l->next) {
@@ -334,7 +336,7 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 				params = e_vcard_attribute_get_params (a);
 				if (!params)
 					e_vcard_attribute_add_param_with_value (a,
-							e_vcard_attribute_param_new (EVC_TYPE),	
+							e_vcard_attribute_param_new (EVC_TYPE),
 							"OTHER");
 
 				if (v && v->data) {
@@ -447,14 +449,14 @@ create_groups (MigrationContext *context,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (addressbook_component_peek_base_directory (context->component),
-				     "addressbook", "local",
-				     NULL);
+	base_dir = addressbook_component_peek_base_directory (context->component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -973,7 +975,7 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 				}
 
 				attr = next_attr;
-				
+
 				if (converted)
 					break;
 			}
@@ -1004,10 +1006,10 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 	const char *ext;
 	char *filename;
 	GDir *dir;
-	
+
 	if (!(dir = g_dir_open (old_path, 0, NULL)))
 		return;
-	
+
 	while ((dent = g_dir_read_name (dir))) {
 		if ((!strncmp (dent, "pilot-map-", 10) &&
 		     ((ext = strrchr (dent, '.')) && !strcmp (ext, ".xml"))) ||
@@ -1018,13 +1020,13 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 			size_t nread, nwritten;
 			int fd0, fd1;
 			ssize_t n;
-			
+
 			filename = g_build_filename (old_path, dent, NULL);
 			if ((fd0 = g_open (filename, O_RDONLY | O_BINARY, 0)) == -1) {
 				g_free (filename);
 				continue;
 			}
-			
+
 			g_free (filename);
 			filename = g_build_filename (new_path, dent, NULL);
 			if ((fd1 = g_open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666)) == -1) {
@@ -1032,30 +1034,30 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 				close (fd0);
 				continue;
 			}
-			
+
 			do {
 				do {
 					n = read (fd0, inbuf, sizeof (inbuf));
 				} while (n == -1 && errno == EINTR);
-				
+
 				if (n < 1)
 					break;
-				
+
 				nread = n;
 				nwritten = 0;
 				do {
 					do {
 						n = write (fd1, inbuf + nwritten, nread - nwritten);
 					} while (n == -1 && errno == EINTR);
-					
+
 					if (n > 0)
 						nwritten += n;
 				} while (nwritten < nread && n != -1);
-				
+
 				if (n == -1)
 					break;
 			} while (1);
-			
+
 			if (n != -1)
 				n = fsync (fd1);
 
@@ -1063,13 +1065,13 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 				g_warning ("Failed to migrate %s: %s", dent, strerror (errno));
 				g_unlink (filename);
 			}
-			
+
 			close (fd0);
 			close (fd1);
 			g_free (filename);
 		}
 	}
-	
+
 	g_dir_close (dir);
 }
 
@@ -1077,7 +1079,7 @@ static MigrationContext*
 migration_context_new (AddressbookComponent *component)
 {
 	MigrationContext *context = g_new (MigrationContext, 1);
-	
+
 	/* set up the mapping from old uris to new uids */
 	context->folder_uid_map = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_free);
 
@@ -1122,12 +1124,12 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 	       further decomposition will happen below. */
 	    && (minor < 5 || (minor == 5 && revision <= 10)))
 		need_dialog = TRUE;
-	
+
 	if (need_dialog)
 		setup_progress_dialog (context);
 
 	if (major == 1) {
-		
+
 		if (minor < 5 || (minor == 5 && revision <= 2)) {
 			/* initialize our dialog */
 			dialog_set_label (context,
@@ -1160,16 +1162,16 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 
 			migrate_company_phone_for_local_folders (context, on_this_computer);
 		}
-		
+
 		if (minor < 5 || (minor == 5 && revision <= 10)) {
 			char *old_path, *new_path;
-			
+
 			dialog_set_label (context, _("Evolution's Palm Sync changelog and map files have changed.\n\n"
 						     "Please be patient while Evolution migrates your Pilot Sync data..."));
-			
+
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Contacts", NULL);
 			new_path = g_build_filename (addressbook_component_peek_base_directory (component),
-						     "addressbook", "local", "system", NULL);
+						     "local", "system", NULL);
 			migrate_pilot_data (old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
@@ -1204,7 +1206,7 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 		g_object_unref (on_ldap_servers);
 	if (personal_source)
 		g_object_unref (personal_source);
-		
+
 
 	migration_context_free (context);
 

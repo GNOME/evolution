@@ -50,14 +50,14 @@ static e_gconf_map_t importer_elm_map[] = {
 	/* /Importer/Elm */
 	{ "mail", "importer/elm/mail", E_GCONF_MAP_BOOL },
 	{ "mail-imported", "importer/elm/mail-imported", E_GCONF_MAP_BOOL },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t importer_pine_map[] = {
 	/* /Importer/Pine */
 	{ "mail", "importer/elm/mail", E_GCONF_MAP_BOOL },
 	{ "address", "importer/elm/address", E_GCONF_MAP_BOOL },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t importer_netscape_map[] = {
@@ -65,7 +65,7 @@ static e_gconf_map_t importer_netscape_map[] = {
 	{ "mail", "importer/netscape/mail", E_GCONF_MAP_BOOL },
 	{ "settings", "importer/netscape/settings", E_GCONF_MAP_BOOL },
 	{ "filters", "importer/netscape/filters", E_GCONF_MAP_BOOL },
-	{ 0 },
+	{ NULL },
 };
 
 /* ********************************************************************** */
@@ -76,19 +76,19 @@ static e_gconf_map_t shell_views_map[] = {
 	{ "Width", "shell/view_defaults/width", E_GCONF_MAP_INT },
 	{ "Height", "shell/view_defaults/height", E_GCONF_MAP_INT },
 	{ "ViewPanedPosition", "shell/view_defaults/folder_bar/width", E_GCONF_MAP_INT },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t offlinefolders_map[] = {
 	/* /OfflineFolders */
 	{ "paths", "shell/offline/folder_paths", E_GCONF_MAP_ANYLIST },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t shell_map[] = {
 	/* /Shell */
 	{ "StartOffline", "shell/start_offline", E_GCONF_MAP_BOOL },
-	{ 0 },
+	{ NULL },
 };
 
 /* ********************************************************************** */
@@ -96,13 +96,13 @@ static e_gconf_map_t shell_map[] = {
 static e_gconf_map_t addressbook_map[] = {
 	/* /Addressbook */
 	{ "select_names_uri", "addressbook/select_names/last_used_uri", E_GCONF_MAP_STRING },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t addressbook_completion_map[] = {
 	/* /Addressbook/Completion */
 	{ "uris", "addressbook/completion/uris", E_GCONF_MAP_STRING },
-	{ 0 },
+	{ NULL },
 };
 
 /* ********************************************************************** */
@@ -114,7 +114,7 @@ static e_gconf_map_t general_map[] = {
 
 /* ********************************************************************** */
 
-e_gconf_map_list_t remap_list[] = {
+static e_gconf_map_list_t remap_list[] = {
 	{ "/Importer/Elm", importer_elm_map },
 	{ "/Importer/Pine", importer_pine_map },
 	{ "/Importer/Netscape", importer_netscape_map },
@@ -128,7 +128,7 @@ e_gconf_map_list_t remap_list[] = {
 
 	{ "/General", general_map },
 
-	{ 0 },
+	{ NULL },
 };
 
 int
@@ -141,9 +141,9 @@ e_config_upgrade(int major, int minor, int revision)
 	conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
 	config_doc = e_xml_parse_file (conf_file);
 	g_free (conf_file);
-	
+
 	if (config_doc && major <=1 && minor < 3) {
-		GConfClient *gconf;	
+		GConfClient *gconf;
 
 		/* move bonobo config to gconf */
 		gconf = gconf_client_get_default ();

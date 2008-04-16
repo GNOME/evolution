@@ -206,7 +206,7 @@ static ETableCol *
 current_search_col (ETable *et)
 {
 	if (!et->search_col_set) {
-		et->current_search_col = 
+		et->current_search_col =
 			e_table_util_calculate_current_search_col (et->header,
 								   et->full_header,
 								   et->sort_info,
@@ -319,7 +319,7 @@ et_dispose (GObject *object)
 				             et->group_info_change_id);
 		et->group_info_change_id = 0;
 	}
-	
+
 	if (et->sort_info_change_id) {
 		g_signal_handler_disconnect (G_OBJECT (et->sort_info),
 				             et->sort_info_change_id);
@@ -480,10 +480,10 @@ init_search (ETable *e_table)
 
 	e_table->search           = e_table_search_new();
 
-	e_table->search_search_id = 
+	e_table->search_search_id =
 		g_signal_connect (G_OBJECT (e_table->search), "search",
 				  G_CALLBACK (et_search_search), e_table);
-	e_table->search_accept_id = 
+	e_table->search_accept_id =
 		g_signal_connect (G_OBJECT (e_table->search), "accept",
 				  G_CALLBACK (et_search_accept), e_table);
 }
@@ -835,7 +835,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		/* Fall through */
 	default:
 		init_search (et);
-		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK)) == 0
+		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK | GDK_MOD4_MASK | GDK_MOD5_MASK)) == 0
 		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
 			(key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
 			(key->keyval >= GDK_0 && key->keyval <= GDK_9)))
@@ -925,7 +925,7 @@ et_build_groups (ETable *et)
 				       et->model,
 				       et->sort_info,
 				       0);
-	
+
 	if (et->use_click_to_add_end)
 		e_canvas_vbox_add_item_start(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
 	else
@@ -1092,7 +1092,7 @@ static gint
 table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	GnomeCanvas *canvas;
-	ECanvas *ecanvas; 
+	ECanvas *ecanvas;
 	ETable *etable;
 
 	gtk_widget_queue_draw (widget);
@@ -1108,8 +1108,8 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 
 	etable = E_TABLE (data);
 
-	if (e_table_model_row_count(etable->model) < 1 
-	    && (etable->click_to_add) 
+	if (e_table_model_row_count(etable->model) < 1
+	    && (etable->click_to_add)
 	    && !(E_TABLE_CLICK_TO_ADD(etable->click_to_add)->row)) {
 		gnome_canvas_item_grab_focus (etable->canvas_vbox);
 		gnome_canvas_item_grab_focus (etable->click_to_add);
@@ -1160,7 +1160,7 @@ click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
 	if (key->type != GDK_KEY_PRESS  &&
 		key->type != GDK_KEY_RELEASE) {
 		return FALSE;
-	}	
+	}
 	switch (key->keyval) {
 		case GDK_Tab:
 		case GDK_KP_Tab:
@@ -1305,7 +1305,7 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 
 	connect_header (e_table, state);
 
-	g_value_set_double (val, (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width)); 
+	g_value_set_double (val, (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width));
 	g_object_set_property (G_OBJECT (e_table->header), "width", val);
 	g_free (val);
 
@@ -1344,7 +1344,7 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 		g_object_set(e_table->click_to_add,
 			     "header", e_table->header,
 			     NULL);
-	
+
 	e_table->need_rebuild = TRUE;
 	if (!e_table->rebuild_idle_id)
 		e_table->rebuild_idle_id = g_idle_add_full (20, changed_idle, e_table, NULL);
@@ -1452,11 +1452,11 @@ e_table_get_state_object (ETable *e_table)
 /**
  * e_table_get_state:
  * @e_table: The #ETable to act on.
- * 
+ *
  * Builds a state object based on the current state and returns the
  * string corresponding to that state.
- * 
- * Return value: 
+ *
+ * Return value:
  * A string describing the current state of the #ETable.
  **/
 gchar          *e_table_get_state                 (ETable               *e_table)
@@ -1623,11 +1623,11 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_str: The spec.
  * @state_str: An optional state.  (%NULL is valid.)
- * 
+ *
  * This is the internal implementation of e_table_new() for use by
  * subclasses or language bindings.  See e_table_new() for details.
- * 
- * Return value: 
+ *
+ * Return value:
  * The passed in value @e_table or %NULL if there's an error.
  **/
 ETable *
@@ -1686,8 +1686,8 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
  * This is the internal implementation of e_table_new_from_spec_file()
  * for use by subclasses or language bindings.  See
  * e_table_new_from_spec_file() for details.
- * 
- * Return value: 
+ *
+ * Return value:
  * The passed in value @e_table or %NULL if there's an error.
  **/
 ETable *
@@ -1752,8 +1752,8 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
  * default sorting state and such.  @state is an optional string
  * specifying the current sorting state and such.  If @state is NULL,
  * then the default state from the spec will be used.
- * 
- * Return value: 
+ *
+ * Return value:
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
@@ -1779,7 +1779,7 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *
  * @ete: An optional #ETableExtras.  (%NULL is valid.)
  * @spec_fn: The filename of the spec.
  * @state_fn: An optional state file.  (%NULL is valid.)
- * 
+ *
  * This is very similar to e_table_new(), except instead of passing in
  * strings you pass in the file names of the spec and state to load.
  *
@@ -1789,8 +1789,8 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *
  * @state_fn is the filename of the initial state to load.  If this is
  * %NULL or if the specified file doesn't exist, the default state
  * from the spec file is used.
- * 
- * Return value: 
+ *
+ * Return value:
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
@@ -1920,13 +1920,13 @@ void
 e_table_save_specification (ETable *e_table, const char *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
-	
+
 	g_return_if_fail(e_table != NULL);
 	g_return_if_fail(E_IS_TABLE(e_table));
 	g_return_if_fail(filename != NULL);
-	
+
 	e_xml_save_file (filename, doc);
-	
+
 	xmlFreeDoc (doc);
 }
 
@@ -1961,7 +1961,7 @@ e_table_load_specification (ETable *e_table, gchar *filename)
  * e_table_set_cursor_row:
  * @e_table: The #ETable to set the cursor row of
  * @row: The row number
- * 
+ *
  * Sets the cursor row and the selection to the given row number.
  **/
 void
@@ -1979,10 +1979,10 @@ e_table_set_cursor_row (ETable *e_table, int row)
 /**
  * e_table_get_cursor_row:
  * @e_table: The #ETable to query
- * 
+ *
  * Calculates the cursor row.  -1 means that we don't have a cursor.
- * 
- * Return value: 
+ *
+ * Return value:
  * Cursor row
  **/
 int
@@ -2003,7 +2003,7 @@ e_table_get_cursor_row (ETable *e_table)
  * @e_table: The #ETable to act on
  * @callback: The callback function to call
  * @closure: The value passed to the callback's closure argument
- * 
+ *
  * Calls the given @callback function once for every selected row.
  *
  * If you change the selection or delete or add rows to the table
@@ -2027,10 +2027,10 @@ e_table_selected_row_foreach     (ETable *e_table,
 /**
  * e_table_selected_count:
  * @e_table: The #ETable to query
- * 
+ *
  * Counts the number of selected rows.
- * 
- * Return value: 
+ *
+ * Return value:
  * The number of rows selected.
  **/
 gint
@@ -2045,7 +2045,7 @@ e_table_selected_count     (ETable *e_table)
 /**
  * e_table_select_all:
  * @table: The #ETable to modify
- * 
+ *
  * Selects all the rows in @table.
  **/
 void
@@ -2060,7 +2060,7 @@ e_table_select_all (ETable *table)
 /**
  * e_table_invert_selection:
  * @table: The #ETable to modify
- * 
+ *
  * Inverts the selection in @table.
  **/
 void
@@ -2076,10 +2076,10 @@ e_table_invert_selection (ETable *table)
 /**
  * e_table_get_printable:
  * @e_table: #ETable to query
- * 
+ *
  * Used for printing your #ETable.
- * 
- * Return value: 
+ *
+ * Return value:
  * The #EPrintable to print.
  **/
 EPrintable *
@@ -2094,7 +2094,7 @@ e_table_get_printable (ETable *e_table)
 /**
  * e_table_right_click_up:
  * @table: The #ETable to modify.
- * 
+ *
  * Call this function when you're done handling the right click if you
  * return TRUE from the "right_click" signal.
  **/
@@ -2107,7 +2107,7 @@ e_table_right_click_up (ETable *table)
 /**
  * e_table_commit_click_to_add:
  * @table: The #ETable to modify
- * 
+ *
  * Commits the current values in the click to add to the table.
  **/
 void
@@ -2244,11 +2244,11 @@ set_scroll_adjustments   (ETable *table,
  * e_table_get_next_row:
  * @e_table: The #ETable to query
  * @model_row: The model row to go from
- * 
+ *
  * This function is used when your table is sorted, but you're using
  * model row numbers.  It returns the next row in sorted order as a model row.
- * 
- * Return value: 
+ *
+ * Return value:
  * The model row number.
  **/
 gint
@@ -2277,12 +2277,12 @@ e_table_get_next_row      (ETable *e_table,
  * e_table_get_prev_row:
  * @e_table: The #ETable to query
  * @model_row: The model row to go from
- * 
+ *
  * This function is used when your table is sorted, but you're using
  * model row numbers.  It returns the previous row in sorted order as
  * a model row.
- * 
- * Return value: 
+ *
+ * Return value:
  * The model row number.
  **/
 gint
@@ -2308,10 +2308,10 @@ e_table_get_prev_row      (ETable *e_table,
  * e_table_model_to_view_row:
  * @e_table: The #ETable to query
  * @model_row: The model row number
- * 
+ *
  * Turns a model row into a view row.
- * 
- * Return value: 
+ *
+ * Return value:
  * The view row number.
  **/
 gint
@@ -2331,10 +2331,10 @@ e_table_model_to_view_row        (ETable *e_table,
  * e_table_view_to_model_row:
  * @e_table: The #ETable to query
  * @view_row: The view row number
- * 
+ *
  * Turns a view row into a model row.
- * 
- * Return value: 
+ *
+ * Return value:
  * The model row number.
  **/
 gint
@@ -2357,7 +2357,7 @@ e_table_view_to_model_row        (ETable *e_table,
  * @y: Y coordinate for the pixel
  * @row_return: Pointer to return the row value
  * @col_return: Pointer to return the column value
- * 
+ *
  * Return the row and column for the cell in which the pixel at (@x, @y) is
  * contained.
  **/
@@ -2388,7 +2388,7 @@ e_table_get_cell_at (ETable *table,
  * @y_return: Returns the y coordinate of the upper left hand corner of the cell with respect to the widget.
  * @width_return: Returns the width of the cell.
  * @height_return: Returns the height of the cell.
- * 
+ *
  * Returns the x, y, width, and height of the given cell.  These can
  * all be #NULL and they just won't be set.
  **/
@@ -2416,11 +2416,11 @@ e_table_get_cell_geometry (ETable *table,
 /**
  * e_table_get_selection_model:
  * @table: The #ETable to query
- * 
+ *
  * Returns the table's #ESelectionModel in case you want to access it
  * directly.
- * 
- * Return value: 
+ *
+ * Return value:
  * The #ESelectionModel.
  **/
 ESelectionModel *
@@ -2504,14 +2504,14 @@ struct _GtkDragSourceInfo
 
 /**
  * e_table_drag_get_data:
- * @table: 
- * @row: 
- * @col: 
- * @context: 
- * @target: 
- * @time: 
- * 
- * 
+ * @table:
+ * @row:
+ * @col:
+ * @context:
+ * @target:
+ * @time:
+ *
+ *
  **/
 void
 e_table_drag_get_data (ETable         *table,
@@ -2586,7 +2586,7 @@ e_table_drag_highlight (ETable *table,
 /**
  * e_table_drag_unhighlight:
  * @table: The #ETable to unhighlight
- * 
+ *
  * Removes the highlight from an #ETable.
  **/
 void
@@ -2688,7 +2688,7 @@ et_real_start_drag (ETable *table, int row, int col, GdkEvent *event)
  * @targets: Table of targets for this source
  * @n_targets: Number of targets in @targets
  * @actions: Actions allowed for this source
- * 
+ *
  * Registers this table as a drag site, and possibly adds default behaviors.
  **/
 void
@@ -2735,7 +2735,7 @@ e_table_drag_source_set  (ETable               *table,
 /**
  * e_table_drag_source_unset:
  * @table: The #ETable to un set up as a drag site
- * 
+ *
  * Unregisters this #ETable as a drag site.
  **/
 void
@@ -2770,10 +2770,10 @@ e_table_drag_source_unset (ETable *table)
  * @actions: The available actions supported by the drag
  * @button: The button held down for the drag
  * @event: The event that initiated the drag
- * 
+ *
  * Start a drag from this cell.
- * 
- * Return value: 
+ *
+ * Return value:
  * The drag context.
  **/
 GdkDragContext *
@@ -2896,7 +2896,7 @@ scroll_timeout (gpointer data)
 			       et->last_drop_x,
 			       et->last_drop_y,
 			       et->last_drop_time);
-			       
+
 
 	return TRUE;
 }

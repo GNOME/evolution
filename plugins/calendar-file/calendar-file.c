@@ -47,14 +47,14 @@ e_calendar_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
         uri_text = e_source_get_uri (source);
 	if (strncmp (uri_text, "file", 4)) {
 		g_free (uri_text);
-		
+
 		return NULL;
 	}
 
 	relative_uri = e_source_peek_relative_uri (source);
 	g_free (uri_text);
 
-	if (relative_uri && *relative_uri) {  		
+	if (relative_uri && *relative_uri) {
 		return NULL;
 	}
 

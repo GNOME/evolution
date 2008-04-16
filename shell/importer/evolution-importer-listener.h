@@ -49,7 +49,7 @@ typedef void (* EvolutionImporterListenerCallback) (EvolutionImporterListener *l
 						    void *closure);
 struct _EvolutionImporterListener {
 	BonoboObject parent;
-	
+
 	EvolutionImporterListenerPrivate *priv;
 };
 

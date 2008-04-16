@@ -55,13 +55,13 @@ typedef enum _em_format_mode_t {
 
 /**
  * struct _EMFormatHandler - MIME type handler.
- * 
+ *
  * @mime_type: Type this handler handles.
  * @handler: The handler callback.
  * @flags: Handling flags, see enum _em_format_handler_t.
  * @old: The last handler set on this type.  Allows overrides to
  * fallback to previous implementation.
- * 
+ *
  **/
 struct _EMFormatHandler {
 	char *mime_type;
@@ -73,12 +73,12 @@ struct _EMFormatHandler {
 
 /**
  * enum _em_format_handler_t - Format handler flags.
- * 
+ *
  * @EM_FORMAT_HANDLER_INLINE: This type should be shown expanded
  * inline by default.
  * @EM_FORMAT_HANDLER_INLINE_DISPOSITION: This type should always be
  * shown inline, despite what the Content-Disposition suggests.
- * 
+ *
  **/
 enum _em_format_handler_t {
 	EM_FORMAT_HANDLER_INLINE = 1<<0,
@@ -91,11 +91,11 @@ typedef void (*EMFormatPURIFunc)(EMFormat *md, struct _CamelStream *stream, EMFo
 
 /**
  * struct _EMFormatPURI - Pending URI object.
- * 
+ *
  * @next: Double-linked list header.
  * @prev: Double-linked list header.
  * @free: May be set by allocator and will be called when no longer needed.
- * @format: 
+ * @format:
  * @uri: Calculated URI of the part, if the part has one in its
  * Content-Location field.
  * @cid: The RFC2046 Content-Id of the part.  If none is present, a unique value
@@ -103,9 +103,9 @@ typedef void (*EMFormatPURIFunc)(EMFormat *md, struct _CamelStream *stream, EMFo
  * @part_id: A unique identifier for each part.
  * @func: Callback for when the URI is requested.  The callback writes
  * its data to the supplied stream.
- * @part: 
- * @use_count: 
- * 
+ * @part:
+ * @use_count:
+ *
  * This is used for multipart/related, and other formatters which may
  * need to include a reference to out-of-band data in the content
  * stream.
@@ -131,7 +131,7 @@ struct _EMFormatPURI {
 
 /**
  * struct _EMFormatPURITree - Pending URI visibility tree.
- * 
+ *
  * @next: Double-linked list header.
  * @prev: Double-linked list header.
  * @parent: Parent in tree.
@@ -163,27 +163,27 @@ struct _EMFormatHeader {
 
 /**
  * struct _EMFormat - Mail formatter object.
- * 
- * @parent: 
- * @priv: 
- * @message: 
- * @folder: 
- * @uid: 
- * @part_id: 
- * @header_list: 
- * @session: 
- * @base url: 
- * @snoop_mime_type: 
- * @valid: 
- * @valid_parent: 
- * @inline_table: 
- * @pending_uri_table: 
- * @pending_uri_tree: 
- * @pending_uri_level: 
- * @mode: 
- * @charset: 
- * @default_charset: 
- * 
+ *
+ * @parent:
+ * @priv:
+ * @message:
+ * @folder:
+ * @uid:
+ * @part_id:
+ * @header_list:
+ * @session:
+ * @base url:
+ * @snoop_mime_type:
+ * @valid:
+ * @valid_parent:
+ * @inline_table:
+ * @pending_uri_table:
+ * @pending_uri_tree:
+ * @pending_uri_level:
+ * @mode:
+ * @charset:
+ * @default_charset:
+ *
  * Most fields are private or read-only.
  *
  * This is the base MIME formatter class.  It provides no formatting
@@ -191,9 +191,9 @@ struct _EMFormatHeader {
  **/
 struct _EMFormat {
 	GObject parent;
-	
+
 	struct _EMFormatPrivate *priv;
-	
+
 	struct _CamelMimeMessage *message; /* the current message */
 
 	struct _CamelFolder *folder;
@@ -262,7 +262,7 @@ struct _EMFormatClass {
 
 	/* Shows optional way to open messages  */
 	void (*format_optional)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, struct _CamelStream* );
-	
+
 	/* signals */
 	/* complete, alternative to polling busy, for asynchronous work */
 	void (*complete)(EMFormat *);

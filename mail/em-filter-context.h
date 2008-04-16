@@ -37,7 +37,7 @@ typedef struct _EMFilterContextClass EMFilterContextClass;
 
 struct _EMFilterContext {
 	RuleContext parent_object;
-	
+
 	GList *actions;
 };
 

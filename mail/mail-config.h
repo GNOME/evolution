@@ -81,26 +81,11 @@ typedef enum {
 } MailConfigDisplayStyle;
 
 typedef enum {
-	MAIL_CONFIG_NOTIFY_NOT,
-	MAIL_CONFIG_NOTIFY_BEEP,
-	MAIL_CONFIG_NOTIFY_PLAY_SOUND,
-} MailConfigNewMailNotify;
-
-typedef enum {
 	MAIL_CONFIG_XMAILER_NONE            = 0,
 	MAIL_CONFIG_XMAILER_EVO             = 1,
 	MAIL_CONFIG_XMAILER_OTHER           = 2,
 	MAIL_CONFIG_XMAILER_RUPERT_APPROVED = 4
 } MailConfigXMailerDisplayStyle;
-
-typedef struct {
-	char *tag;
-	char *name;
-	char *colour;
-} MailConfigLabel;
-
-#define LABEL_DEFAULTS_NUM 5
-extern MailConfigLabel label_defaults[5];
 
 /* Configuration */
 void mail_config_init (void);
@@ -115,8 +100,6 @@ gboolean mail_config_is_configured            (void);
 gboolean mail_config_is_corrupt               (void);
 
 GSList *mail_config_get_labels (void);
-const char *mail_config_get_label_color_by_name (const char *name);
-const char *mail_config_get_label_color_by_index (int index);
 
 const char **mail_config_get_allowable_mime_types (void);
 
@@ -136,6 +119,7 @@ void mail_config_remove_account (struct _EAccount *account);
 void mail_config_set_default_account (struct _EAccount *account);
 int mail_config_get_address_count (void);
 int mail_config_get_message_limit (void);
+gboolean mail_config_get_enable_magic_spacebar (void);
 
 void mail_config_remove_account_proxies (struct _EAccount *account);
 void mail_config_prune_proxies (void);
@@ -167,6 +151,11 @@ void mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri);
 /* static utility functions */
 char *mail_config_folder_to_cachename (struct _CamelFolder *folder, const char *prefix);
 char *mail_config_folder_to_safe_url (struct _CamelFolder *folder);
+guint mail_config_get_error_timeout  (void);
+guint mail_config_get_error_level  (void);
+
+void mail_config_reload_junk_headers (void);
+gboolean mail_config_get_lookup_book(void);
 
 GType evolution_mail_config_get_type (void);
 

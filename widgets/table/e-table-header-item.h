@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-header-item.h
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -55,7 +55,7 @@ typedef struct {
 	int              resize_col;
 	int              resize_start_pos;
 	int              resize_min_width;
-	
+
 	GtkObject       *resize_guide;
 
 	int              group_indent_width;
@@ -83,7 +83,7 @@ typedef struct {
 	 * For column sorting info
 	 */
 	ETableSortInfo  *sort_info;
-	
+
 	guint scroll_direction : 4;
 	int last_drop_x;
 	int last_drop_y;
@@ -98,9 +98,9 @@ typedef struct {
 	void            *config;
 
 	union {
-		GtkWidget *etfcd;
-		gpointer etfcd_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} etfcd;
 
 	/* For keyboard navigation*/
 	int selected_col;

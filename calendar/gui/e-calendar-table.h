@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 2000, Ximian, Inc.
  * Copyright 2000, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -64,6 +64,10 @@ struct _ECalendarTable {
 	/* Activity ID for the EActivityHandler (i.e. the status bar).  */
 	EActivityHandler *activity_handler;
 	guint activity_id;
+
+	/* We should know which calendar has been used to create object, so store it here
+	   before emitting "user_created" signal and make it NULL just after the emit. */
+	ECal *user_created_cal;
 };
 
 struct _ECalendarTableClass {
@@ -104,7 +108,7 @@ void       e_calendar_table_set_activity_handler (ECalendarTable *cal_table,
 void       e_calendar_table_set_status_message (ECalendarTable *cal_table,
 						const gchar *message,
 						int percent);
-void 	   e_calendar_table_open_task (ECalendarTable *cal_table, 
+void 	   e_calendar_table_open_task (ECalendarTable *cal_table,
 				       ECal *client,
 				       icalcomponent *icalcomp,
 				       gboolean assign);

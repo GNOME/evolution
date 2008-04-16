@@ -1,3 +1,8 @@
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* camel-gw-listener.c: (camel_gw_listener_new):
+	ANSIfication of function declaration.
+
 2007-08-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #308636

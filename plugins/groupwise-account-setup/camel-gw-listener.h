@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors :
- *  
+ *
  *  Sivaiah Nallagatla <snallagatla@novell.com>
  *
  * Copyright 2003, Novell, Inc.
@@ -28,7 +28,7 @@
 #include<libedataserver/e-source.h>
 #include<libedataserver/e-source-list.h>
 #include <camel/camel-url.h>
-                         
+
 G_BEGIN_DECLS
 
 #define CAMEL_TYPE_GW_LISTENER            (camel_gw_listener_get_type ())
@@ -42,12 +42,12 @@ typedef struct _CamelGwListenerClass CamelGwListenerClass;
 typedef struct _CamelGwListenerPrivate CamelGwListenerPrivate;
 struct _CamelGwListener {
        GObject parent;
-                                                                                                                        
+
        CamelGwListenerPrivate *priv;
 };
 
 struct _CamelGwListenerClass {
-       GObjectClass parent_class;     
+       GObjectClass parent_class;
 };
 
 GType                   camel_gw_listener_get_type (void);

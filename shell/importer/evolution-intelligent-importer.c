@@ -54,10 +54,10 @@ impl_GNOME_Evolution_IntelligentImporter__get_importername (PortableServer_Serva
 							    CORBA_Environment *ev)
 {
 	EvolutionIntelligentImporter *ii;
-	
+
 	ii = evolution_intelligent_importer_from_servant (servant);
 
-	return CORBA_string_dup (ii->priv->importername ? 
+	return CORBA_string_dup (ii->priv->importername ?
 				 ii->priv->importername : "");
 }
 
@@ -82,8 +82,8 @@ impl_GNOME_Evolution_IntelligentImporter_canImport (PortableServer_Servant serva
 
 	ii = evolution_intelligent_importer_from_servant (servant);
 	priv = ii->priv;
-	
-	if (priv->can_import_fn != NULL) 
+
+	if (priv->can_import_fn != NULL)
 		return (priv->can_import_fn) (ii, priv->closure);
 	else
 		return FALSE;
@@ -108,9 +108,9 @@ static void
 finalise (GObject *object)
 {
 	EvolutionIntelligentImporter *ii;
-	
+
 	ii = EVOLUTION_INTELLIGENT_IMPORTER (object);
-	
+
 	if (ii->priv == NULL)
 		return;
 
@@ -129,7 +129,7 @@ evolution_intelligent_importer_class_init (EvolutionIntelligentImporterClass *kl
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = finalise;
-	
+
 	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->_get_importername = impl_GNOME_Evolution_IntelligentImporter__get_importername;
 	epv->_get_message = impl_GNOME_Evolution_IntelligentImporter__get_message;
@@ -165,7 +165,7 @@ evolution_intelligent_importer_construct (EvolutionIntelligentImporter *ii,
  * evolution_intelligent_importer_new:
  * can_import_fn: The function that will be called to see if this importer can do
  * anything.
- * import_data_fn: The function that will be called when the importer should 
+ * import_data_fn: The function that will be called when the importer should
  * import the data.
  * importername: The name of this importer.
  * message: The message that will be displayed when the importer can import.

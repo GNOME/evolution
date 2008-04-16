@@ -207,9 +207,9 @@ calendar_view_clone (GalView *view)
  * @cal_view: A calendar view.
  * @view_type: The type of calendar view that this object will represent.
  * @title: Title for the view.
- * 
+ *
  * Constructs a calendar view by setting its view type and title.
- * 
+ *
  * Return value: The same value as @cal_view.
  **/
 CalendarView *
@@ -235,9 +235,9 @@ calendar_view_construct (CalendarView *cal_view,
  * calendar_view_new:
  * @view_type: The type of calendar view that this object will represent.
  * @title: Title for the view.
- * 
+ *
  * Creates a new calendar view object.
- * 
+ *
  * Return value: A newly-created calendar view.
  **/
 CalendarView *
@@ -252,9 +252,9 @@ calendar_view_new (GnomeCalendarViewType view_type, const char *title)
 /**
  * calendar_view_get_view_type:
  * @cal_view: A calendar view.
- * 
+ *
  * Queries the calendar view type of a calendar view.
- * 
+ *
  * Return value: Type of calendar view.
  **/
 GnomeCalendarViewType

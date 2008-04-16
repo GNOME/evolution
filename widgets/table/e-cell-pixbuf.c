@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-pixbuf.c - An ECell that displays a GdkPixbuf
  * Copyright 2001, Ximian, Inc.
  *
@@ -115,31 +115,11 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
     GdkPixbuf *cell_pixbuf;
     int real_x, real_y, real_w, real_h;
     int pix_w, pix_h;
-    ECellPixbuf *ecp;
+    cairo_t *cr;
+	
+    cell_pixbuf = e_table_model_value_at (ecell_view->e_table_model,
+							  1, row);
 
-    cell_pixbuf = NULL;
-
-    ecp = E_CELL_PIXBUF (ecell_view->ecell);
-
-    if (flags & E_CELL_SELECTED) {
-	    if (GTK_WIDGET_HAS_FOCUS (GNOME_CANVAS_ITEM (ecell_view->e_table_item_view)->canvas)) {
-		    if (ecp->focused_column != -1)
-			    cell_pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model,
-										ecp->focused_column, row);
-	    } else {
-		    if (ecp->selected_column != -1)
-			    cell_pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model,
-										ecp->selected_column, row);
-	    }
-    } else {
-	    if (ecp->unselected_column != -1)
-		    cell_pixbuf = e_table_model_value_at (ecell_view->e_table_model,
-							  ecp->unselected_column, row);
-    }
-
-    if (cell_pixbuf == NULL)
-	    cell_pixbuf = e_table_model_value_at (ecell_view->e_table_model,
-						  model_col, row);
     /* we can't make sure we really got a pixbuf since, well, it's a Gdk thing */
 
     if (x2 - x1 == 0)
@@ -170,15 +150,12 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
         real_h = y2 - y1;
     }
 
-
-    gdk_draw_pixbuf (drawable,
-		     NULL,
-		     cell_pixbuf,
-		     0, 0,
-		     real_x, real_y,
-		     real_w, real_h,
-		     GDK_RGB_DITHER_NORMAL,
-		     0, 0);
+    cr = gdk_cairo_create (drawable);
+    cairo_save (cr);
+    gdk_cairo_set_source_pixbuf (cr, cell_pixbuf, real_x, real_y);
+    cairo_paint_with_alpha (cr, 1);
+    cairo_restore (cr);
+    cairo_destroy (cr);	
 }
 
 static gint
@@ -203,7 +180,7 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
       }
     }
 
-    pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+    pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, 1, row);
     if (!pixbuf)
         return 0;
 
@@ -215,15 +192,15 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::print method
  */
 static void
-pixbuf_print (ECellView *ecell_view, GtkPrintContext *context, 
+pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
 	GdkPixbuf *pixbuf;
 	int scale;
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
-	
-	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+
+	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, 1, row);
 	if (pixbuf == NULL)
 		return;
 
@@ -231,12 +208,12 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 	cairo_save (cr);
 	cairo_translate (cr, 0, (double)(height - scale) / (double)2);
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, (double)scale, (double)scale);
-	cairo_paint (cr);	
+	cairo_paint (cr);
 	cairo_restore (cr);
 }
 
 static gdouble
-pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context, 
+pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		     int model_col, int view_col, int row,
 		     double width)
 {
@@ -249,11 +226,11 @@ pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 			return 6;
 		}
 	}
-	
-	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+
+	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, 1, row);
 	if (!pixbuf)
 		return 0;
-	
+
 	/* We give ourselves 3 pixels of padding on either side */
 	return gdk_pixbuf_get_height (pixbuf);
 }
@@ -271,10 +248,10 @@ pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
         for (i = 0; i <= num_rows; i++) {
             GdkPixbuf *pixbuf = (GdkPixbuf *) e_table_model_value_at
                 (ecell_view->e_table_model,
-                 model_col,
+                 1,
                  i);
-	    if (!pixbuf)
-		continue;
+           if (!pixbuf)
+               continue;
             pw = gdk_pixbuf_get_width (pixbuf);
             if (max_width < pw)
                 max_width = pw;
@@ -331,7 +308,7 @@ pixbuf_get_property (GObject *object,
 	ECellPixbuf *pixbuf;
 
 	pixbuf = E_CELL_PIXBUF (object);
-	
+
 	switch (prop_id) {
 	case PROP_SELECTED_COLUMN:
 		g_value_set_int (value, pixbuf->selected_column);

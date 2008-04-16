@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-sorted-variable.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -43,7 +43,7 @@ typedef struct {
 	ETreeModel base;
 
 	ETableSortInfo *sort_info;
-	
+
 	ETableHeader *full_header;
 
 	int              table_model_changed_id;

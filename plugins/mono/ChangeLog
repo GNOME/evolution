@@ -1,3 +1,16 @@
+2008-04-01  Johnny Jacob  <jjohnny@novell.com>
+
+	* Camel.cs: Type cast. Fixes compile error.
+
+2008-03-19  Sankar P  <psankar@novell.com>
+
+	* mono-plugin.c: (epm_invoke),
+	(load_plugin_type_register_function):
+	* org-gnome-evolution-mono.eplug.xml:
+	- Use Plugin load levels. Mono loader should load
+	and register the type "mono", before a plugin
+	of type "mono" is loaded.
+
 2007-10-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #469657

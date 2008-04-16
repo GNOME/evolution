@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-vbox.c - Vbox cell object.
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -55,13 +55,13 @@ ecv_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ECellVbox *ecv = E_CELL_VBOX (ecell);
 	ECellVboxView *vbox_view = g_new0 (ECellVboxView, 1);
 	int i;
-	
+
 	vbox_view->cell_view.ecell = ecell;
 	vbox_view->cell_view.e_table_model = table_model;
 	vbox_view->cell_view.e_table_item_view = e_table_item_view;
         vbox_view->cell_view.kill_view_cb = NULL;
         vbox_view->cell_view.kill_view_cb_data = NULL;
-	
+
 	/* create our subcell view */
 	vbox_view->subcell_view_count = ecv->subcell_count;
 	vbox_view->subcell_views = g_new (ECellView *, vbox_view->subcell_view_count);
@@ -198,7 +198,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
  * ECell::height method
  */
 static int
-ecv_height (ECellView *ecell_view, int model_col, int view_col, int row) 
+ecv_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
 	int height = 0;
@@ -235,7 +235,7 @@ ecv_max_width (ECellView *ecell_view, int model_col, int view_col)
 static void
 ecv_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 		  int col_width, ETableTooltip *tooltip)
-{		
+{
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	EVboxModel *vbox_model = e_cell_vbox_get_vbox_model (ecell_view->e_table_model, row);
 	EVboxPath node = e_cell_vbox_get_node (ecell_view->e_table_model, row);
@@ -255,12 +255,12 @@ ecv_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
  */
 static char *
 ecv_get_bg_color (ECellView *ecell_view, int row)
-{		
+{
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 
 	return e_cell_get_bg_color (vbox_view->subcell_views[0], row);
 }
-		
+
 /*
  * ECellView::enter_edit method
  */
@@ -286,7 +286,7 @@ ecv_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 }
 
 static void
-ecv_print (ECellView *ecell_view, GnomePrintContext *context, 
+ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
@@ -351,7 +351,7 @@ ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 		/* now draw our icon if we're expandable */
 		if (expandable) {
 			double image_matrix [6] = {16, 0, 0, 16, 0, 0};
-			GdkPixbuf *image = (expanded 
+			GdkPixbuf *image = (expanded
 					    ? E_CELL_VBOX(vbox_view->cell_view.ecell)->open_pixbuf
 					    : E_CELL_VBOX(vbox_view->cell_view.ecell)->closed_pixbuf);
 			int image_width, image_height, image_rowstride;
@@ -384,7 +384,7 @@ ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 }
 
 static gdouble
-ecv_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+ecv_print_height (ECellView *ecell_view, GnomePrintContext *context,
 		  int model_col, int view_col, int row,
 		  double width)
 {
@@ -463,10 +463,10 @@ e_cell_vbox_init (ECellVbox *ecv)
 
 /**
  * e_cell_vbox_new:
- * 
+ *
  * Creates a new ECell renderer that can be used to render multiple
  * child cells.
- * 
+ *
  * Return value: an ECell object that can be used to render multiple
  * child cells.
  **/

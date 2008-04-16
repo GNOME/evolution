@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-contact-editor-address.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -92,14 +92,14 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 	object_class->get_property = e_contact_editor_address_get_property;
 	object_class->dispose = e_contact_editor_address_dispose;
 
-	g_object_class_install_property (object_class, PROP_ADDRESS, 
+	g_object_class_install_property (object_class, PROP_ADDRESS,
 					 g_param_spec_boxed ("address",
 							     _("Address"),
 							     /*_( */"XXX blurb" /*)*/,
 							     e_contact_address_get_type (),
 							     G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE, 
+	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
@@ -225,7 +225,7 @@ static char * countries [] = {
 	N_("Guatemala"),
 	N_("Guernsey"),
 	N_("Guinea"),
-	N_("Guinea-bissau"),
+	N_("Guinea-Bissau"),
 	N_("Guyana"),
 	N_("Haiti"),
 	N_("Heard And McDonald Islands"),
@@ -463,7 +463,7 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 	}
 }
 
-void
+static void
 e_contact_editor_address_dispose (GObject *object)
 {
 	EContactEditorAddress *e_contact_editor_address = E_CONTACT_EDITOR_ADDRESS(object);
@@ -501,7 +501,7 @@ e_contact_editor_address_set_property (GObject *object, guint prop_id,
 	EContactEditorAddress *e_contact_editor_address;
 
 	e_contact_editor_address = E_CONTACT_EDITOR_ADDRESS (object);
-	
+
 	switch (prop_id){
 	case PROP_ADDRESS:
 		if (e_contact_editor_address->address)

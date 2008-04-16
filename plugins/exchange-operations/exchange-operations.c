@@ -66,38 +66,38 @@ e_plugin_lib_enable (EPluginLib *eplib, int enable)
 
 ExchangeConfigListenerStatus
 exchange_is_offline (gint *mode)
-{	
+{
 	return exchange_config_listener_get_offline_status (exchange_global_config_listener, mode);
-}	
+}
 
 /* FIXME: See if a GLib variant of this function available */
 gboolean
-exchange_operations_tokenize_string (char **string, char *token, char delimit)
+exchange_operations_tokenize_string (char **string, char *token, char delimit, unsigned int maxsize)
 {
-	int i=0;
+	unsigned int i=0;
 	char *str=*string;
-	while (*str!=delimit && *str!='\0') {
+	while (*str!=delimit && *str!='\0' && i<maxsize-1) {
 		token[i++]=*str++;
 	}
 	while (*str==delimit)
 		str++;
 	token[i]='\0';
 	*string = str;
-	if (i==0) 
+	if (i==0)
 		return FALSE;
 	return TRUE;
 }
 
 gboolean
-exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *ruri) 
+exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *ruri)
 {
 	GtkTreeIter iter;
 	char *luri=(char *)ruri;
 	char nodename[80];
 	gchar *uri;
 	gboolean status, found;
-	
-	exchange_operations_tokenize_string (&luri, nodename, '/');
+
+	exchange_operations_tokenize_string (&luri, nodename, '/', sizeof(nodename));
 
        	if (!nodename[0]) {
 		return TRUE;
@@ -133,9 +133,9 @@ exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *pare
 	}
 
 	if (!found) {
-	  gtk_tree_store_append (store, &iter, parent);		
-	  gtk_tree_store_set (store, &iter, 0, nodename, 1, uri, -1);		
-	  exchange_operations_cta_add_node_to_tree (store, &iter, luri);				
+	  gtk_tree_store_append (store, &iter, parent);
+	  gtk_tree_store_set (store, &iter, 0, nodename, 1, uri, -1);
+	  exchange_operations_cta_add_node_to_tree (store, &iter, luri);
 	}
 
 	g_free (uri);
@@ -143,7 +143,7 @@ exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *pare
 }
 
 void
-exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri, GtkTreeSelection *selection) 
+exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri, GtkTreeSelection *selection)
 {
 	char *luri=(char *)nuri;
 	char nodename[80];
@@ -153,7 +153,7 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 	if (!luri)
 		return;
 
-	exchange_operations_tokenize_string (&luri, nodename, '/');
+	exchange_operations_tokenize_string (&luri, nodename, '/', sizeof(nodename));
        	if (!nodename[0]) {
 		return;
 	}
@@ -185,7 +185,7 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 }
 
 ExchangeAccount *
-exchange_operations_get_exchange_account (void) 
+exchange_operations_get_exchange_account (void)
 {
 	ExchangeAccount *account = NULL;
 	ExchangeAccountResult result;
@@ -195,8 +195,8 @@ exchange_operations_get_exchange_account (void)
 	acclist = exchange_config_listener_get_accounts (exchange_global_config_listener);
 	/* FIXME: Need to be changed for handling multiple accounts */
 	if (acclist) {
-		account = acclist->data; 
-	
+		account = acclist->data;
+
 		exchange_config_listener_get_offline_status (exchange_global_config_listener,
 							     &mode);
 
@@ -216,7 +216,7 @@ exchange_operations_get_exchange_account (void)
 				return account;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -231,15 +231,15 @@ exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResul
 
 	if (result == EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
 		return;
-	
+
 	error_string = g_strconcat ("org-gnome-exchange-operations:", error_ids[result], NULL);
-	
+
 	switch (result) {
 		case EXCHANGE_ACCOUNT_MAILBOX_NA:
 			widget = e_error_new (NULL, error_string, exchange_account_get_username (account), NULL);
 			break;
 		case EXCHANGE_ACCOUNT_NO_MAILBOX:
-			widget = e_error_new (NULL, error_string, exchange_account_get_username (account), 
+			widget = e_error_new (NULL, error_string, exchange_account_get_username (account),
 					      account->exchange_server, NULL);
 			break;
 		case EXCHANGE_ACCOUNT_RESOLVE_ERROR:
@@ -279,7 +279,7 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 			truri = g_strjoinv (new_path, tmpv);
 			e_source_set_relative_uri (tsource->data, truri);
 			g_strfreev (tmpv);
-			g_free (truri);	
+			g_free (truri);
 		}
 	}
 }

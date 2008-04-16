@@ -45,7 +45,7 @@
 #include "e-util-private.h"
 #include "e-error.h"
 
-#define d(x) 
+#define d(x)
 
 struct _e_error_button {
 	struct _e_error_button *next;
@@ -110,7 +110,7 @@ static int
 map_response(const char *name)
 {
 	int i;
-	
+
 	for (i=0;i<sizeof(response_map)/sizeof(response_map[0]);i++)
 		if (!strcmp(name, response_map[i].name))
 			return response_map[i].id;
@@ -169,7 +169,7 @@ ee_load(const char *path)
 	char *tmp;
 
 	d(printf("loading error file %s\n", path));
-	
+
 	doc = e_xml_parse_file (path);
 	if (doc == NULL) {
 		g_warning("Error file '%s' not found", path);
@@ -239,7 +239,7 @@ ee_load(const char *path)
 				e->default_response = map_response(tmp);
 				xmlFree(tmp);
 			}
-			
+
 			tmp = (char *)xmlGetProp(error, (const unsigned char *)"scroll");
 			if (tmp) {
 				if (!strcmp(tmp, "yes"))
@@ -419,10 +419,10 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	struct _e_error_button *b;
 	GtkWidget *hbox, *w, *scroll=NULL;
 	char *tmp, *domain, *id;
-	GString *out;
+	GString *out, *oerr;
 	GPtrArray *args;
 	GtkDialog *dialog;
-	gchar *str;
+	gchar *str, *perr=NULL, *serr=NULL;
 
 	if (error_table == NULL)
 		ee_load_tables();
@@ -529,11 +529,20 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
 		ee_build_label(out, dgettext(table->translation_domain, e->primary), args);
 		g_string_append(out, "</span>\n\n");
-	}
-
-	if (e->secondary)
+		oerr = g_string_new("");
+		ee_build_label(oerr, dgettext(table->translation_domain, e->primary), args);
+		perr = g_strdup (oerr->str);
+		g_string_free (oerr, TRUE);
+	} else
+		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
+	
+	if (e->secondary) {
 		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args);
-
+		oerr = g_string_new("");
+		ee_build_label(oerr, dgettext(table->translation_domain, e->secondary), args);
+		serr = g_strdup (oerr->str);
+		g_string_free (oerr, TRUE);
+	}
 	g_ptr_array_free(args, TRUE);
 
 	if (e->scroll) {
@@ -550,28 +559,30 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
 		gtk_box_pack_start((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
 		gtk_window_set_default_size ((GtkWindow *)dialog, 360, 180);
-	} else 
+	} else
 		gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 0);
-		
+
 	gtk_widget_show_all(hbox);
 
 	gtk_box_pack_start((GtkBox *)dialog->vbox, hbox, TRUE, TRUE, 0);
-
+	g_object_set_data_full ((GObject *) dialog, "primary", perr, g_free);
+	g_object_set_data_full ((GObject *) dialog, "secondary", serr, g_free);
+	
 	return (GtkWidget *)dialog;
 }
 
 /**
  * e_error_new:
- * @parent: 
+ * @parent:
  * @tag: error identifier
  * @arg0: The first argument for the error formatter.  The list must
  * be NULL terminated.
- * 
+ *
  * Creates a new error widget.  The @tag argument is used to determine
  * which error to use, it is in the format domain:error-id.  The NULL
  * terminated list of arguments, starting with @arg0 is used to fill
  * out the error definition.
- * 
+ *
  * Return value: A GtkDialog which can be used for showing an error
  * dialog asynchronously.
  **/
@@ -604,13 +615,13 @@ e_error_runv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 /**
  * e_error_run:
- * @parent: 
- * @tag: 
- * @arg0: 
- * 
+ * @parent:
+ * @tag:
+ * @arg0:
+ *
  * Sets up, displays, runs and destroys a standard evolution error
  * dialog based on @tag, which is in the format domain:error-id.
- * 
+ *
  * Return value: The response id of the button pressed.
  **/
 int
@@ -630,6 +641,36 @@ e_error_run(GtkWindow *parent, const char *tag, const char *arg0, ...)
 	return res;
 }
 
+/**
+ * e_error_count_buttons:
+ * @dialog: a #GtkDialog
+ *
+ * Counts the number of buttons in @dialog's action area.
+ *
+ * Returns: number of action area buttons
+ **/
+guint
+e_error_count_buttons (GtkDialog *dialog)
+{
+	GtkContainer *action_area;
+	GList *children, *iter;
+	guint n_buttons = 0;
+
+	g_return_val_if_fail (GTK_DIALOG (dialog), 0);
+
+	action_area = GTK_CONTAINER (dialog->action_area);
+	children = gtk_container_get_children (action_area);
+
+	/* Iterate over the children looking for buttons. */
+	for (iter = children; iter != NULL; iter = iter->next)
+		if (GTK_IS_BUTTON (iter->data))
+			n_buttons++;
+
+	g_list_free (children);
+
+	return n_buttons;
+}
+
 static void
 remove_parent(GtkWidget *w, GtkWidget *parent)
 {
@@ -638,8 +679,8 @@ remove_parent(GtkWidget *w, GtkWidget *parent)
 
 /**
  * e_error_default_parent:
- * @parent: 
- * 
+ * @parent:
+ *
  * Bit of a hack, set a default parent that will be used to parent any
  * error boxes if none is supplied.
  *

@@ -100,13 +100,14 @@ ECal         *comp_editor_get_e_cal        (CompEditor             *editor);
 void          comp_editor_edit_comp        (CompEditor             *ee,
 					    ECalComponent           *comp);
 ECalComponent *comp_editor_get_comp        (CompEditor             *editor);
-ECalComponent *comp_editor_get_current_comp (CompEditor             *editor);
+ECalComponent *comp_editor_get_current_comp (CompEditor            *editor,
+					     gboolean              *correct);
 gboolean      comp_editor_save_comp        (CompEditor             *editor,
 					    gboolean                send);
 void          comp_editor_delete_comp      (CompEditor             *editor);
 gboolean      comp_editor_send_comp        (CompEditor             *editor,
 					    ECalComponentItipMethod  method);
-GSList        *comp_editor_get_mime_attach_list (CompEditor        *editor); 
+GSList        *comp_editor_get_mime_attach_list (CompEditor        *editor);
 gboolean      comp_editor_close            (CompEditor             *editor);
 void          comp_editor_focus            (CompEditor             *editor);
 

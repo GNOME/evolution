@@ -41,8 +41,8 @@
 
 struct _MemoEditorPrivate {
 	MemoPage *memo_page;
-	
-	gboolean updating;	
+
+	gboolean updating;
 };
 
 static void memo_editor_set_e_cal (CompEditor *editor, ECal *client);
@@ -99,11 +99,11 @@ menu_show_categories_cb (BonoboUIComponent         	*component,
 		         gpointer                     	user_data)
 {
 	MemoEditor *me = (MemoEditor *) user_data;
-	
+
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 
-	memo_page_set_show_categories (me->priv->memo_page, atoi(state));	
+	memo_page_set_show_categories (me->priv->memo_page, atoi(state));
 	calendar_config_set_show_categories (atoi(state));
 }
 
@@ -133,7 +133,7 @@ menu_class_private_cb (BonoboUIComponent          	*ui_component,
 	MemoEditor *me = (MemoEditor *) user_data;
 	if (state[0] == '0')
 		return;
-	
+
 	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (me->priv->memo_page));
 	memo_page_set_classification (me->priv->memo_page, E_CAL_COMPONENT_CLASS_PRIVATE);
 }
@@ -161,11 +161,11 @@ memo_editor_init (MemoEditor *me)
 	CompEditor *editor = COMP_EDITOR(me);
 	gboolean status;
 	char *xmlfile;
-	
+
 	priv = g_new0 (MemoEditorPrivate, 1);
 	me->priv = priv;
 
-	priv->updating = FALSE;	
+	priv->updating = FALSE;
 
 	bonobo_ui_component_freeze (editor->uic, NULL);
 
@@ -174,7 +174,7 @@ memo_editor_init (MemoEditor *me)
 			       xmlfile,
 			       "evolution-memo-editor", NULL);
 	g_free (xmlfile);
-	
+
 	status = calendar_config_get_show_categories ();
 	bonobo_ui_component_set_prop (
 		editor->uic, "/commands/ViewCategories",
@@ -196,7 +196,7 @@ memo_editor_init (MemoEditor *me)
 		editor->uic, "ActionClassConfidential",
 		menu_class_confidential_cb, editor);
 
-	bonobo_ui_component_thaw (editor->uic, NULL);	
+	bonobo_ui_component_thaw (editor->uic, NULL);
 
 	/* TODO add help stuff */
 /*	comp_editor_set_help_section (COMP_EDITOR (me), "usage-calendar-memo"); */
@@ -209,12 +209,12 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 	CompEditor *editor = COMP_EDITOR (me);
 	gboolean read_only = FALSE;
 	guint32 flags = comp_editor_get_flags (editor);
-	
+
 	priv = me->priv;
 
 	priv->memo_page = memo_page_new (editor->uic, flags);
 	g_object_ref_sink (priv->memo_page);
-	comp_editor_append_page (COMP_EDITOR (me), 
+	comp_editor_append_page (COMP_EDITOR (me),
 				 COMP_EDITOR_PAGE (priv->memo_page),
 				 _("Memo"), TRUE);
 	g_signal_connect (G_OBJECT (priv->memo_page), "client_changed",
@@ -222,11 +222,11 @@ memo_editor_construct (MemoEditor *me, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
-	
+
 	bonobo_ui_component_set_prop (editor->uic, "/Toolbar/ecal3", "hidden", "1", NULL);
 	comp_editor_set_e_cal (COMP_EDITOR (me), client);
-	
-		
+
+
 
 	init_widgets (me);
 
@@ -273,7 +273,7 @@ memo_editor_finalize (GObject *object)
 		g_object_unref (priv->memo_page);
 		priv->memo_page = NULL;
 	}
-	
+
 	g_free (priv);
 
 	if (G_OBJECT_CLASS (memo_editor_parent_class)->finalize)

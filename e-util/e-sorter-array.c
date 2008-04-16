@@ -242,7 +242,7 @@ e_sorter_array_class_init (ESorterArrayClass *klass)
 	sorter_class->model_to_sorted           = esa_model_to_sorted           ;
 	sorter_class->sorted_to_model           = esa_sorted_to_model           ;
 	sorter_class->get_model_to_sorted_array = esa_get_model_to_sorted_array ;
-	sorter_class->get_sorted_to_model_array = esa_get_sorted_to_model_array ;		
+	sorter_class->get_sorted_to_model_array = esa_get_sorted_to_model_array ;
 	sorter_class->needs_sorting             = esa_needs_sorting             ;
 }
 

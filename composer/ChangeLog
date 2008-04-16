@@ -1,3 +1,297 @@
+2008-04-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-composer-autosave.c (e_composer_autosave_unregister):
+	Remove some unused variables.
+
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #517134
+
+	* e-composer-actions.c: (action_attach_cb): Save some CPU cycles. 
+	* e-composer-private.c: (composer_setup_charset_menu),
+	(composer_setup_recent_menu), (e_composer_private_init): Extend the
+	'Insert' menu to show a "Recent Documents" submenu (to quickly add
+	them as attachments). 
+	* evolution-composer.ui: Added a placeholder to dock the "Recent
+	Documents" menu. 
+
+2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #523413
+
+	* e-msg-composer.c (msg_composer_dispose):
+	Use the 'application_exiting' private flag to determine whether
+	to tell e_composer_autosave_unregister() to delete the autosave
+	file.
+
+	* e-msg-composer.c (msg_composer_class_init),
+	(e_msg_composer_save_draft):
+	Remove the 'quit' parameter from the 'save-draft' signal.
+
+	* e-msg-composer.c (e_msg_composer_request_close_all):
+	Take an autosave snapshot before activating the CLOSE action,
+	and set the private 'application_exiting' flag.  This should
+	avoid prompting the user before shutting down.
+
+	* e-composer-actions.c (action_close_cb):
+	When electing to save a message before closing, hide the window
+	immediately.  The callback function can then check the window's
+	visibility after the save is complete to know whether to destroy
+	the window.
+
+	* e-composer-autosave.c (e_composer_autosave_unregister):
+	Add a 'delete_file' boolean parameter to determine whether to
+	delete the autosave file.
+
+	* e-composer-private.h:
+	Add an 'application_exiting' flag.
+
+2008-04-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #525966
+
+	* e-composer-actions.c (action_close_cb):
+	Fix a boolean error in detecting unsaved changes.
+
+2008-04-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #328146
+
+	* e-composer-actions.c:
+	Fix missing and conflicting mnemonics.
+
+2008-04-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #526152
+
+	* e-msg-composer.c:
+	* e-composer-private.h:
+	Initialize a new composer's spell checking language menu via
+	our new "spell_languages" GConf key.
+
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Adapt to GtkHTML's new editor widget.
+
+	* Makefile.am:
+	Remove CORBA rules for the old composer.
+
+	* e-msg-composer.c:
+	* e-msg-composer.h:
+	EMsgComposer is now a subclass of GtkhtmlEditor.
+	Extensive refactoring and cleanup, too much to list in detail.
+
+	* e-composer-header.c:
+	* e-composer-header.h:
+	Add "sensitive" property along with get/set functions.
+
+	* e-composer-from-header.c:
+	* e-composer-from-header.h:
+	Propagate "refreshed" signal from EAccountComboBox.
+	Add function e_composer_from_header_get_account_list().
+
+	* e-composer-private.c:
+	* e-composer-private.h:
+	New files manage composer's private data.
+	Allows other composer files to manipulate private data.
+
+	* e-msg-composer-hdrs.c:
+	* e-msg-composer-hdrs.h:
+	Remove these files; replaced by EComposerHeaderTable widget.
+
+	* evolution-composer.c:
+	* evolution-composer.h:
+	Remove these files; composer is now a subclass of GtkhtmlEditor.
+
+	* e-msg-composer-select-file.c:
+	* e-msg-composer-select-file.h:
+	Remove these files; logic moved to e-msg-composer.c.
+
+	* listener.c:
+	* listener.h:
+	Remove these files; event handlers moved to e-msg-composer.c.
+
+	* Composer.idl:
+	* Evolution-Composer.idl:
+	Remove these files; composer is no longer a Bonobo object.
+
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* e-msg-composer.c (autosave_manager_query_load_orphans),
+	(autosave_init_file):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
+	* e-msg-composer.c (e_msg-composer_unrealize),
+	(e_msg_composer_set_view_from), (e_msg_composer_set_view_replyto),
+	(e_msg_composer_set_view_to), (e_msg_composer_set_view_postto),
+	(e_msg_composer_set_view_cc), (e_msg_composer_set_view_bcc):
+	Emit warnings if saving to GConf fails.
+
+2008-02-25  Johny Jacob  <jjohnny@novell.com>
+
+	* e-msg-composer.c (e_msg_composer_show_sig_file): Reverting
+	commit for #371011.
+	
+2008-02-20  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* e-msg-composer.c: (drop_action):
+	Fixing previous fix - do not double free.
+
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* e-msg-composer.c: (drop_action): Memory leak fix.
+
+2008-01-25  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for bug #371011
+	
+	* e-msg-composer.c (e_msg_composer_show_sig_file): Insert a new 
+	paragraph for signature.
+
+2008-01-25  Johnny Jacob  <jjohnny@novell.com>
+ 
+	** Fixes bug #503327 & #503678
+	
+ 	* e-msg-composer.c (e_msg_composer_get_raw_message_text): Return
+ 	GByteArray instead of gchar*
+ 
+2008-01-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #509124
+
+	* e-msg-composer.c (e_msg_composer_get_message_print),
+	(e_msg_composer_get_message_draft):
+	Check result of build_message() for NULL before proceeding.
+
+2008-01-14  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #502783
+	** Patch from <nickspoon0@gmail.com>
+
+	* e-msg-composer.c: (e_msg_composer_new_with_message): Restore states 
+	of 'Request Read Receipt' and 'Prioritize Message' when opening a
+	draft message. 
+
+2008-01-06  Michael Monreal  <michael.monreal@gmx.net>
+
+	** Fix for bug #492188
+
+	* e-msg-composer.c:
+
+	Use the new Tangoized icons instead of deprecated icons from 
+	gnome-icon-theme.
+
+2008-01-02  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #364642
+
+	* e-msg-composer.c: (create_composer): Preset "Request Read Receipt"
+	based on gconf key "/apps/evolution/mail/composer/request_receipt".
+
+2007-12-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* e-msg-composer.c:
+	* e-msg-composer-hdrs.h:
+	* e-msg-composer-hdrs.c:
+	Move signature handling to e-msg-composer-hdrs.c.
+	Use an ESignatureComboBox.
+
+	* e-composer-from-header.h:
+	* e-composer-from-header.c:
+	Clean up the GtkHBox hack.  The signature combo is now packed
+	directly into the GtkTable.
+
+	* e-composer-name-header.c:
+	* e-composer-text-header.c:
+	Code cleanup.
+
+2007-11-29  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #271551
+
+	* e-msg-composer.h: (e_msg_composer_set_attach_path),
+	(e_msg_composer_get_attach_path):
+	* e-msg-composer.c: (e_msg_composer_set_attach_path),
+	(e_msg_composer_get_attach_path):
+	Functions to set/get attach path to both composer and editor.
+	* e-msg-composer.c: (prepare_engine):
+	Set last used path right after creation of the engine.
+	* e-msg-composer-select-file.c: (get_selector), (select_file_response),
+	(select_attach_response): Using new functions.
+	* listener.c: (impl_event): Store new file path when received event
+	about its change.
+
+	* e-msg-composer.c: (set_signature_gui): Leak fix.
+
+2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* Makefile.am:
+	Add a bunch of files for managing composer headers.
+
+	* e-msg-composer.c (build_message), (from_changed_cb),
+	(set_editor_signature), (e_msg_composer_set_body),
+	(e_msg_composer_get_preferred_account):
+	Use e_msg_composer_hdrs_get_from_account() to obtain the EAccount.
+
+	* e-msg-composer-hdrs.c:
+	* e-msg-composer-hdrs.h:
+	Massive refactoring to use new EComposerHeader classes.
+
+	* e-composer-header.c:
+	* e-composer-header.h:
+	* e-composer-from-header.c:
+	* e-composer-from-header.h:
+	* e-composer-name-header.c:
+	* e-composer-name-header.h:
+	* e-composer-post-header.c:
+	* e-composer-post-header.h:
+	* e-composer-text-header.c:
+	* e-composer-text-header.h:
+	New GObject classes manage different types of composer headers.
+	See bug #495123 for a more detailed description of each class.
+
+2007-11-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #318592
+
+	* e-msg-composer.h: (e_msg_composer_link_clicked):
+	* e-msg-composer.c: (e_msg_composer_link_clicked):
+	Helper function to response on editor's "link_clicked" event.
+	* listener.c: (impl_event): Call helper function on that event.
+
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-msg-composer.c (e_msg_composer_set_body_text):
+	Don't compare a character pointer to a string literal.
+
+2007-10-31  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer.c: Remove one more unused header.
+
+2007-10-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer-hdrs.c: Remove unneeded include
+
+2007-10-25  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer.c:
+	* e-msg-composer.h:
+	* listener.c: 
+	Warning fixes.
+	- NULL vs. 0
+	- ANSIfication of declarations
+	- mixing code and declarations
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #412360

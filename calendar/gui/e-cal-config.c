@@ -138,7 +138,7 @@ e_cal_config_get_type (void)
 ECalConfig *
 e_cal_config_new (int type, const char *menuid)
 {
-	ECalConfig *ecp = g_object_new (e_cal_config_get_type(), 0);
+	ECalConfig *ecp = g_object_new (e_cal_config_get_type(), NULL);
 	e_config_construct (&ecp->config, type, menuid);
 	return ecp;
 }
@@ -167,13 +167,13 @@ e_cal_config_target_new_prefs (ECalConfig *ecp, struct _GConfClient *gconf)
 }
 
 static const EConfigHookTargetMask ecph_no_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EConfigHookTargetMap ecph_targets[] = {
 	{ "source", EC_CONFIG_TARGET_SOURCE, ecph_no_masks },
 	{ "prefs", EC_CONFIG_TARGET_PREFS, ecph_no_masks },
-	{ 0 },
+	{ NULL },
 };
 
 static void

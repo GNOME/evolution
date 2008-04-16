@@ -33,7 +33,7 @@ void
 e_auto_kill_popup_menu_on_selection_done (GtkMenu *menu)
 {
 	g_return_if_fail (GTK_IS_MENU (menu));
-	
+
 	g_signal_connect (menu, "selection_done", G_CALLBACK (gtk_widget_destroy), menu);
 }
 
@@ -46,18 +46,18 @@ e_popup_menu (GtkMenu *menu, GdkEvent *event)
 
 	if (event) {
 		if (event->type == GDK_KEY_PRESS)
-			gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0,
+			gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0,
 					event->key.time);
 		else if ((event->type == GDK_BUTTON_PRESS) ||
 			 (event->type == GDK_BUTTON_RELEASE) ||
 			 (event->type == GDK_2BUTTON_PRESS) ||
 			 (event->type == GDK_3BUTTON_PRESS)){
-			gtk_menu_popup (menu, NULL, NULL, 0, NULL,
+			gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
 					event->button.button,
 					event->button.time);
 		}
 	} else
-		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0,
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0,
 				GDK_CURRENT_TIME);
 }
 

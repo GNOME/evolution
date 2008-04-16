@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-test.c - E-Text item test program
  * Copyright 2000: Iain Holmes <ih@csd.abdn.ac.uk>
  *
@@ -121,7 +121,7 @@ main (int argc,
   gtk_entry_set_text(GTK_ENTRY(text), "Hello World! This is a really long string to test out the ellipsis stuff.");
   gtk_container_add (GTK_CONTAINER (frame), text);
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
-  
+
   frame = gtk_frame_new ("Font");
   font = gtk_entry_new ();
   gtk_entry_set_text(GTK_ENTRY(font), "fixed");

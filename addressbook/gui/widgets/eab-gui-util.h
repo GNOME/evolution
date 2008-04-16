@@ -77,6 +77,10 @@ GtkWidget *eab_create_image_chooser_widget (gchar *name, gchar *string1, gchar *
 ESource            *eab_select_source             (const gchar *title, const gchar *message,
 						   const gchar *select_uid, GtkWindow *parent);
 
+/* To parse quoted printable address & return email & name fields */						
+gboolean eab_parse_qp_email (const gchar *string, gchar **name, gchar **email);
+char *eab_parse_qp_email_to_html (const gchar *string);
+
 G_END_DECLS
 
 #endif /* __E_ADDRESSBOOK_UTIL_H__ */

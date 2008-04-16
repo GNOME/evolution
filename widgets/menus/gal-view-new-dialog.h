@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-view-new-dialog.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -54,7 +54,7 @@ typedef struct _GalViewNewDialogClass  GalViewNewDialogClass;
 struct _GalViewNewDialog
 {
 	GtkDialog parent;
-	
+
 	/* item specific fields */
 	GladeXML *gui;
 

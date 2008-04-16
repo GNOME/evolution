@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-util.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -50,6 +50,26 @@
 #include "e-util-private.h"
 
 /**
+ * e_get_user_data_dir:
+ *
+ * Returns the base directory for Evolution-specific user data.
+ * The string is owned by Evolution and must not be modified or freed.
+ *
+ * Returns: base directory for user data
+ **/
+const gchar *
+e_get_user_data_dir (void)
+{
+	static gchar *dirname = NULL;
+
+	if (G_UNLIKELY (dirname == NULL))
+		dirname = g_build_filename (
+			g_get_home_dir (), ".evolution", NULL);
+
+	return dirname;
+}
+
+/**
  * e_str_without_underscores:
  * @s: the string to strip underscores from.
  *
@@ -62,9 +82,9 @@ e_str_without_underscores (const char *s)
 	char *new_string;
 	const char *sp;
 	char *dp;
-	
+
 	new_string = g_malloc (strlen (s) + 1);
-	
+
 	dp = new_string;
 	for (sp = s; *sp != '\0'; sp ++) {
 		if (*sp != '_') {
@@ -78,7 +98,7 @@ e_str_without_underscores (const char *s)
 		}
 	}
 	*dp = 0;
-	
+
 	return new_string;
 }
 
@@ -91,21 +111,32 @@ e_str_compare (gconstpointer x, gconstpointer y)
 		else
 			return x ? -1 : 1;
 	}
-	
+
 	return strcmp (x, y);
 }
 
 gint
 e_str_case_compare (gconstpointer x, gconstpointer y)
 {
+	gchar *cx, *cy;
+	gint res;
+
 	if (x == NULL || y == NULL) {
 		if (x == y)
 			return 0;
 		else
 			return x ? -1 : 1;
 	}
-	
-	return g_utf8_collate (g_utf8_casefold (x, -1), g_utf8_casefold (y, -1));
+
+	cx = g_utf8_casefold (x, -1);
+	cy = g_utf8_casefold (y, -1);
+
+	res = g_utf8_collate (cx, cy);
+
+	g_free (cx);
+	g_free (cy);
+
+	return res;
 }
 
 gint
@@ -117,7 +148,7 @@ e_collate_compare (gconstpointer x, gconstpointer y)
 		else
 			return x ? -1 : 1;
 	}
-	
+
 	return g_utf8_collate (x, y);
 }
 
@@ -143,7 +174,7 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 		g_warning ("Couldn't save item");
 		return 1;
 	}
-	
+
 	while (length > 0) {
 		gnome_vfs_write(handle, data, length, &bytes);
 		if (bytes > 0) {
@@ -337,7 +368,7 @@ e_format_number_float (gfloat number)
 	gchar          *value;
 
 	locality = localeconv();
-	
+
 	int_part = floor (number);
 	str_intpart = do_format_number_as_float ((gdouble) int_part);
 
@@ -407,7 +438,7 @@ e_bsearch (gconstpointer key,
 						l = idx + 1;
 				}
 				*start = l;
-				
+
 				l = lsave;
 				u = usave;
 			}
@@ -497,7 +528,7 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 	return(ret);
 }
 
-gsize 
+gsize
 e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
                            const struct tm *tm)
 {
@@ -536,11 +567,105 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 }
 
 /**
+ * e_get_month_name:
+ * @month: month index
+ * @abbreviated: if %TRUE, abbreviate the month name
+ *
+ * Returns the localized name for @month.  If @abbreviated is %TRUE,
+ * returns the locale's abbreviated month name.
+ *
+ * Returns: localized month name
+ **/
+const gchar *
+e_get_month_name (GDateMonth month,
+                  gboolean abbreviated)
+{
+	/* Make the indices correspond to the enum values. */
+	static const gchar *abbr_names[G_DATE_DECEMBER + 1];
+	static const gchar *full_names[G_DATE_DECEMBER + 1];
+	static gboolean first_time = TRUE;
+
+	g_return_val_if_fail (month >= G_DATE_JANUARY, NULL);
+	g_return_val_if_fail (month <= G_DATE_DECEMBER, NULL);
+
+	if (G_UNLIKELY (first_time)) {
+		gchar buffer[256];
+		GDateMonth ii;
+		GDate date;
+
+		memset (abbr_names, 0, sizeof (abbr_names));
+		memset (full_names, 0, sizeof (full_names));
+
+		/* First Julian day was in January. */
+		g_date_set_julian (&date, 1);
+
+		for (ii = G_DATE_JANUARY; ii <= G_DATE_DECEMBER; ii++) {
+			g_date_strftime (buffer, sizeof (buffer), "%b", &date);
+			abbr_names[ii] = g_intern_string (buffer);
+			g_date_strftime (buffer, sizeof (buffer), "%B", &date);
+			full_names[ii] = g_intern_string (buffer);
+			g_date_add_months (&date, 1);
+		}
+
+		first_time = FALSE;
+	}
+
+	return abbreviated ? abbr_names[month] : full_names[month];
+}
+
+/**
+ * e_get_weekday_name:
+ * @weekday: weekday index
+ * @abbreviated: if %TRUE, abbreviate the weekday name
+ *
+ * Returns the localized name for @weekday.  If @abbreviated is %TRUE,
+ * returns the locale's abbreviated weekday name.
+ *
+ * Returns: localized weekday name
+ **/
+const gchar *
+e_get_weekday_name (GDateWeekday weekday,
+                    gboolean abbreviated)
+{
+	/* Make the indices correspond to the enum values. */
+	static const gchar *abbr_names[G_DATE_SUNDAY + 1];
+	static const gchar *full_names[G_DATE_SUNDAY + 1];
+	static gboolean first_time = TRUE;
+
+	g_return_val_if_fail (weekday >= G_DATE_MONDAY, NULL);
+	g_return_val_if_fail (weekday <= G_DATE_SUNDAY, NULL);
+
+	if (G_UNLIKELY (first_time)) {
+		gchar buffer[256];
+		GDateWeekday ii;
+		GDate date;
+
+		memset (abbr_names, 0, sizeof (abbr_names));
+		memset (full_names, 0, sizeof (full_names));
+
+		/* First Julian day was a Monday. */
+		g_date_set_julian (&date, 1);
+
+		for (ii = G_DATE_MONDAY; ii <= G_DATE_SUNDAY; ii++) {
+			g_date_strftime (buffer, sizeof (buffer), "%a", &date);
+			abbr_names[ii] = g_intern_string (buffer);
+			g_date_strftime (buffer, sizeof (buffer), "%A", &date);
+			full_names[ii] = g_intern_string (buffer);
+			g_date_add_days (&date, 1);
+		}
+
+		first_time = FALSE;
+	}
+
+	return abbreviated ? abbr_names[weekday] : full_names[weekday];
+}
+
+/**
  * e_flexible_strtod:
  * @nptr:    the string to convert to a numeric value.
  * @endptr:  if non-NULL, it returns the character after
  *           the last character used in the conversion.
- * 
+ *
  * Converts a string to a gdouble value.  This function detects
  * strings either in the standard C locale or in the current locale.
  *
@@ -551,7 +676,7 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
  *
  * To convert from a double to a string in a locale-insensitive way, use
  * @g_ascii_dtostr.
- * 
+ *
  * Return value: the gdouble value.
  **/
 gdouble
@@ -600,10 +725,10 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 
 		if (*p == '.') {
 			decimal_point_pos = p++;
-             
+
 			while (isxdigit ((guchar)*p))
 				p++;
-             
+
 			if (*p == 'p' || *p == 'P')
 				p++;
 			if (*p == '+' || *p == '-')
@@ -636,7 +761,7 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 		}
 	}
 	/* For the other cases, we need not convert the decimal point */
-  
+
 	if (!decimal_point_pos)
 		return strtod (nptr, endptr);
 
@@ -674,14 +799,14 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
  * @buffer: A buffer to place the resulting string in
  * @buf_len: The length of the buffer.
  * @format: The printf-style format to use for the
- *          code to use for converting. 
+ *          code to use for converting.
  * @d: The double to convert
  *
  * Converts a double to a string, using the '.' as
  * decimal_point. To format the number you pass in
  * a printf-style formating string. Allowed conversion
- * specifiers are eEfFgG. 
- * 
+ * specifiers are eEfFgG.
+ *
  * If you want to generates enough precision that converting
  * the string back using @g_strtod gives the same machine-number
  * (on machines with IEEE compatible 64bit doubles) use the format
@@ -704,9 +829,9 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 	g_return_val_if_fail (buffer != NULL, NULL);
 	g_return_val_if_fail (format[0] == '%', NULL);
 	g_return_val_if_fail (strpbrk (format + 1, "'l%") == NULL, NULL);
- 
+
 	format_char = format[strlen (format) - 1];
-  
+
 	g_return_val_if_fail (format_char == 'e' || format_char == 'E' ||
 			      format_char == 'f' || format_char == 'F' ||
 			      format_char == 'g' || format_char == 'G',
@@ -810,7 +935,7 @@ e_strdup_append_strings (gchar *first_string, ...)
 }
 
 cairo_font_options_t *
-get_font_options ()
+get_font_options (void)
 {
 	gchar *antialiasing, *hinting, *subpixel_order;
 	GConfClient *gconf = gconf_client_get_default ();
@@ -819,7 +944,7 @@ get_font_options ()
 	/* Antialiasing */
 	antialiasing = gconf_client_get_string (gconf,
 			"/desktop/gnome/font_rendering/antialiasing", NULL);
-	if (antialiasing == NULL) 
+	if (antialiasing == NULL)
 		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
 	else {
 		if (strcmp (antialiasing, "grayscale") == 0)
@@ -884,8 +1009,13 @@ void
 e_file_update_save_path (gchar *uri, gboolean free)
 {
 	GConfClient *gconf = gconf_client_get_default();
+	GError *error = NULL;
 
-	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", uri, NULL);
+	gconf_client_set_string(gconf, "/apps/evolution/mail/save_dir", uri, &error);
+	if (error != NULL) {
+		g_warning("%s (%s) %s", G_STRLOC, G_STRFUNC, error->message);
+		g_clear_error(&error);
+	}
 	g_object_unref(gconf);
 	if (free)
 		g_free(uri);
@@ -902,9 +1032,14 @@ gchar *
 e_file_get_save_path (void)
 {
 	GConfClient *gconf = gconf_client_get_default();
+	GError *error = NULL;
 	gchar *uri;
 
-	uri = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
+	uri = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", &error);
+	if (error != NULL) {
+		g_warning("%s (%s) %s", G_STRLOC, G_STRFUNC, error->message);
+		g_clear_error(&error);
+	}
 	g_object_unref(gconf);
 
 	if (uri == NULL)
@@ -912,3 +1047,52 @@ e_file_get_save_path (void)
 	return (uri);
 }
 
+/* Evolution Locks for crash recovery */
+
+#define LOCK_FILE ".running"
+
+static const gchar *
+get_lock_filename (void)
+{
+	static gchar *filename = NULL;
+
+	if (G_UNLIKELY (filename == NULL))
+		filename = g_build_filename (e_get_user_data_dir (), LOCK_FILE, NULL);
+
+	return filename;
+}
+
+gboolean
+e_file_lock_create ()
+{
+	const char *fname = get_lock_filename ();
+	gboolean status = FALSE;
+
+	int fd = g_creat (fname, S_IRUSR|S_IWUSR);
+	if (fd == -1){
+		g_warning ("Lock file '%s' creation failed, error %d\n", fname, errno);
+	} else {
+		status = TRUE;
+		close (fd);
+	}
+
+	return status;
+}
+
+void
+e_file_lock_destroy ()
+{
+	const char *fname = get_lock_filename ();
+
+	if (g_unlink (fname) == -1){
+		g_warning ("Lock destroy: failed to unlink file '%s'!",fname);
+	}
+}
+
+gboolean 
+e_file_lock_exists ()
+{
+	const char *fname = get_lock_filename ();
+
+	return g_file_test (fname, G_FILE_TEST_EXISTS);
+}

@@ -12,9 +12,13 @@
       <group id="EMFormatHTML">
 	<item flags="inline_disposition" mime_type="application/vnd.ms-tnef"
 	  format="org_gnome_format_tnef"/>
+	<item flags="inline_disposition" mime_type="application/ms-tnef"
+	  format="org_gnome_format_tnef"/>
       </group>
       <group id="EMFormatHTMLDisplay">
 	<item flags="inline_disposition" mime_type="application/vnd.ms-tnef"
+	  format="org_gnome_format_tnef"/>
+	<item flags="inline_disposition" mime_type="application/ms-tnef"
 	  format="org_gnome_format_tnef"/>
       </group>
     </hook>

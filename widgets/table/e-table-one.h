@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-one.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -37,7 +37,7 @@ G_BEGIN_DECLS
 
 typedef struct {
 	ETableModel   parent;
-		    
+
 	ETableModel  *source;
 	void        **data;
 } ETableOne;

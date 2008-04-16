@@ -3,16 +3,16 @@
  *  Authors: Parthasarathi Susarla <sparthasarathi@novell.com>
  *
  * Copyright 2004 Novell, Inc. (www.novell.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
@@ -44,7 +44,7 @@ static ESendOptionsDialog * dialog = NULL ;
 
 void org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t);
 
-static time_t 
+static time_t
 add_day_to_time (time_t time, int days)
 {
 	struct tm *tm;
@@ -65,7 +65,7 @@ feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 
 	comp = (EMsgComposer *) data;
 	/* we are bothered only for ok response: other cases are handled generally*/
-	if (state == GTK_RESPONSE_OK) {	
+	if (state == GTK_RESPONSE_OK) {
 		if (dialog->data->gopts->reply_enabled) {
 			if (dialog->data->gopts->reply_convenient)
 				e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
@@ -116,13 +116,13 @@ feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 			e_msg_composer_add_header (comp, X_SEND_OPT_PRIORITY, temp);
 			g_free (temp);
 		}
-		
+
 		if (dialog->data->gopts->security) {
 			temp = g_strdup_printf ("%d",dialog->data->gopts->security);
 			e_msg_composer_add_header (comp, X_SEND_OPT_SECURITY, temp);
 			g_free (temp);
 		}
-	} 
+	}
 }
 
 static void
@@ -130,22 +130,24 @@ send_options_commit (EMsgComposer *comp, gpointer user_data)
 {
 	if (!user_data && !E_IS_SENDOPTIONS_DIALOG (user_data))
 		return;
-		
+
 	if (dialog) {
 		g_object_unref (dialog);
-		dialog = NULL;	
+		dialog = NULL;
 	}
 }
 
-void 
+void
 org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 {
 
 	EMsgComposer *comp = (struct _EMsgComposer *)t->composer ;
-	EAccount *account = NULL; 
+	EComposerHeaderTable *table;
+	EAccount *account = NULL;
 	char *temp = NULL;
-	
-	account = e_msg_composer_get_preferred_account (comp) ;
+
+	table = e_msg_composer_get_header_table (comp);
+	account = e_composer_header_table_get_account (table);
 	if (!account)
 		return;
 
@@ -153,14 +155,14 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 	if (!temp) {
 		return;
 	}
-	e_msg_composer_set_send_options (comp, TRUE); 
+	e_msg_composer_set_send_options (comp, TRUE);
 	/* display the send options dialog */
 	if (!dialog) {
 		g_print ("New dialog\n\n") ;
 		dialog = e_sendoptions_dialog_new () ;
 	}
 	e_sendoptions_dialog_run (dialog, GTK_WIDGET (comp), E_ITEM_MAIL) ;
-	
+
 	g_signal_connect (dialog, "sod_response",
 				  G_CALLBACK (feed_input_data), comp);
 

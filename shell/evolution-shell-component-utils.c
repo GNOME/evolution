@@ -89,9 +89,9 @@ free_pixmaps (void)
 /**
  * e_get_activation_failure_msg:
  * @ev: An exception returned by an oaf_activate call.
- * 
+ *
  * Get a descriptive error message from @ev.
- * 
+ *
  * Return value: A newly allocated string with the printable error message.
  **/
 char *
@@ -103,7 +103,7 @@ e_get_activation_failure_msg (CORBA_Environment *ev)
 		return NULL;
 
 	if (strcmp (CORBA_exception_id (ev), ex_Bonobo_GeneralError) != 0) {
-		return bonobo_exception_get_text (ev); 
+		return bonobo_exception_get_text (ev);
 	} else {
 		const Bonobo_GeneralError *oaf_general_error;
 

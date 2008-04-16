@@ -118,7 +118,7 @@ ea_cal_view_class_init (EaCalViewClass *klass)
 	class->initialize = ea_cal_view_real_initialize;
 }
 
-AtkObject* 
+AtkObject*
 ea_cal_view_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -169,7 +169,7 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 				  accessible);
 }
 
-static AtkObject* 
+static AtkObject*
 ea_cal_view_get_parent (AtkObject *accessible)
 {
 	ECalendarView *cal_view;
@@ -396,7 +396,7 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 		return NULL;
 
 	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
-		return FALSE;
+		return NULL;
 
 	 switch (index) {
 	 case 0:

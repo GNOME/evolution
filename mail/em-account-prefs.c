@@ -66,7 +66,7 @@ GType
 em_account_prefs_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		GTypeInfo type_info = {
 			sizeof (EMAccountPrefsClass),
@@ -77,10 +77,10 @@ em_account_prefs_get_type (void)
 			0,
 			(GInstanceInitFunc) em_account_prefs_init,
 		};
-		
+
 		type = g_type_register_static (gtk_vbox_get_type (), "EMAccountPrefs", &type_info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -89,11 +89,11 @@ em_account_prefs_class_init (EMAccountPrefsClass *klass)
 {
 	GtkObjectClass *gtk_object_class = (GtkObjectClass *) klass;
 	GObjectClass *object_class = (GObjectClass *) klass;
-	
+
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
-	
+
 	gtk_object_class->destroy = em_account_prefs_destroy;
-	
+
 	object_class->finalize = em_account_prefs_finalise;
 }
 
@@ -108,9 +108,9 @@ static void
 em_account_prefs_destroy (GtkObject *obj)
 {
 	EMAccountPrefs *prefs = (EMAccountPrefs *) obj;
-	
+
 	prefs->destroyed = TRUE;
-	
+
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -118,9 +118,9 @@ static void
 em_account_prefs_finalise (GObject *obj)
 {
 	EMAccountPrefs *prefs = (EMAccountPrefs *) obj;
-	
+
 	g_object_unref (prefs->gui);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -129,10 +129,10 @@ account_add_finished (EMAccountPrefs *prefs, GObject *deadbeef)
 {
 	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
 	prefs->druid = NULL;
-	
+
 	if (!prefs->destroyed)
 		mail_accounts_load (prefs);
-	
+
 	g_object_unref (prefs);
 }
 
@@ -142,7 +142,7 @@ static void
 account_add_clicked (GtkButton *button, gpointer user_data)
 {
 	EMAccountPrefs *prefs = (EMAccountPrefs *) user_data;
-	
+
 	if (prefs->druid == NULL) {
 		EMAccountEditor *emae;
 
@@ -171,10 +171,10 @@ static void
 account_edit_finished (EMAccountPrefs *prefs, GObject *deadbeef)
 {
 	prefs->editor = NULL;
-	
+
 	if (!prefs->destroyed)
 		mail_accounts_load (prefs);
-	
+
 	g_object_unref (prefs);
 }
 
@@ -182,17 +182,17 @@ static void
 account_edit_clicked (GtkButton *button, gpointer user_data)
 {
 	EMAccountPrefs *prefs = (EMAccountPrefs *) user_data;
-	
+
 	if (prefs->editor == NULL) {
 		GtkTreeSelection *selection;
 		EAccount *account = NULL;
 		GtkTreeModel *model;
 		GtkTreeIter iter;
-		
+
 		selection = gtk_tree_view_get_selection (prefs->table);
 		if (gtk_tree_selection_get_selected (selection, &model, &iter))
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
-		
+
 		if (account && !account->parent_uid && !mail_config_has_proxies (account)) {
 			EMAccountEditor *emae;
 
@@ -229,37 +229,37 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	GtkTreeIter iter;
 	int ans;
 	gboolean has_proxies = FALSE;
-	
+
 	selection = gtk_tree_view_get_selection (prefs->table);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
-	
+
 	/* make sure we have a valid account selected and that we aren't editing anything... */
 	if (account == NULL || prefs->editor != NULL)
 		return;
 
 	has_proxies = mail_config_has_proxies (account);
 	ans = e_error_run(PREFS_WINDOW(prefs), has_proxies?"mail:ask-delete-account-with-proxies":"mail:ask-delete-account",NULL);
-		
+
 	if (ans == GTK_RESPONSE_YES) {
 		int len;
-		
+
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
 			mail_component_remove_store_by_uri (mail_component_peek (), account->source->url);
-		
+
 		/* remove all the proxies account has created*/
 		if (has_proxies)
 			mail_config_remove_account_proxies (account);
-		
+
 		/* remove it from the config file */
 		mail_config_remove_account (account);
 		accounts = mail_config_get_accounts ();
-		
+
 		mail_config_write ();
-		
+
 		gtk_list_store_remove ((GtkListStore *) model, &iter);
-		
+
 		len = e_list_length ((EList *) accounts);
 		if (len > 0) {
 			if ( !gtk_list_store_iter_is_valid ((GtkListStore *) model, &iter))
@@ -270,7 +270,6 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), FALSE);
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), FALSE);
 		}
 	}
 }
@@ -283,16 +282,16 @@ account_default_clicked (GtkButton *button, gpointer user_data)
 	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	
+
 	selection = gtk_tree_view_get_selection (prefs->table);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
-	
+
 	if (account) {
 		mail_config_set_default_account (account);
-		
+
 		mail_config_write ();
-		
+
 		mail_accounts_load (prefs);
 	}
 }
@@ -309,34 +308,11 @@ account_able_changed(EAccount *account)
 			mail_component_load_store_by_uri (component,
 							  account->source->url,
 							  account->name);
-		else     
+		else
 			mail_component_remove_store_by_uri (component, account->source->url);
 	}
 
 	mail_config_write ();
-}
-
-static void
-account_able_clicked (GtkButton *button, gpointer user_data)
-{
-	EMAccountPrefs *prefs = user_data;
-	GtkTreeSelection *selection;
-	EAccount *account;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	
-	selection = gtk_tree_view_get_selection (prefs->table);
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 3, &account, -1);
-		account->enabled = !account->enabled;
-		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
-		
-		gtk_button_set_label (prefs->mail_able, account->enabled ? _("Di_sable") : _("E_nable"));
-
-		/* let the rest of the application know it changed */
-		e_account_list_change (mail_config_get_accounts(), account);
-		account_able_changed (account);
-	}
 }
 
 static void
@@ -348,35 +324,32 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	
+
 	path = gtk_tree_path_new_from_string (arg1);
 	model = gtk_tree_view_get_model (prefs->table);
 	selection = gtk_tree_view_get_selection (prefs->table);
-	
+
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
 
 		if (mail_config_has_proxies (account)) {
-			int ans;	
+			int ans;
 
 			ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-delete-proxy-accounts",NULL);
 
-			if (ans == GTK_RESPONSE_NO) {	
+			if (ans == GTK_RESPONSE_NO) {
 				gtk_tree_path_free (path);
 				return;
-			}			
+			}
 
 			mail_config_remove_account_proxies (account);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), 1);		
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), 1);
 		}
 
 		account->enabled = !account->enabled;
 		e_account_list_change(mail_config_get_accounts(), account);
 		account_able_changed (account);
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
-
-		if (gtk_tree_selection_iter_is_selected (selection, &iter))
-			gtk_button_set_label (prefs->mail_able, account->enabled ? _("Di_sable") : _("E_nable"));
 
 		/* let the rest of the application know it changed */
 	}
@@ -408,10 +381,6 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		if (state) {
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 			url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-			if (account->source && account->enabled)
-				gtk_button_set_label (prefs->mail_able, _("Di_sable"));
-			else
-				gtk_button_set_label (prefs->mail_able, _("E_nable"));
 		} else {
 			gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
 		}
@@ -419,8 +388,8 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs), FALSE);
 	}
-	
-	if( url != NULL ) 
+
+	if( url != NULL )
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), !mail_config_has_proxies(account));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), state);
@@ -429,8 +398,6 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), state);
 }
 
 static void
@@ -444,25 +411,25 @@ mail_accounts_load (EMAccountPrefs *prefs)
 	EIterator *node;
 	int row = 0;
 	GtkTreeSelection *selection;
-	
+
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->table);
 	gtk_list_store_clear (model);
-	
+
 	default_account = mail_config_get_default_account ();
-	
+
 	accounts = mail_config_get_accounts ();
 	node = e_list_get_iterator ((EList *) accounts);
 	selection = gtk_tree_view_get_selection(prefs->table);
-	
+
 	while (e_iterator_is_valid (node)) {
 		EAccount *account;
 		CamelURL *url;
-		
+
 		account = (EAccount *) e_iterator_get (node);
 
 		if (!account->parent_uid) {
 			url = account->source && account->source->url ? camel_url_new (account->source->url, NULL) : NULL;
-	
+
 			gtk_list_store_append (model, &iter);
 			if (account == default_account) {
 				/* translators: default account indicator */
@@ -479,19 +446,19 @@ mail_accounts_load (EMAccountPrefs *prefs)
 					    3, account,
 					    -1);
 			g_free (name);
-			
+
 			if (url)
 				camel_url_free (url);
-		
+
 			/* select the first row by default */
 			if (row == 0 && !prefs->changed)
-				gtk_tree_selection_select_iter (selection, &iter);					                       
+				gtk_tree_selection_select_iter (selection, &iter);
 			row++;
 		}
-		
+
 		e_iterator_next (node);
 	}
-	
+
 	g_object_unref (node);
 }
 
@@ -507,23 +474,23 @@ em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2, 
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkListStore *model;
-	
+
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
-	
+
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_object_set ((GObject *) renderer, "activatable", TRUE, NULL);
-	
+
 	model = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
 	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 	g_object_unref (model);
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Enabled"),
 						     renderer, "active", 0, NULL);
-	
+
 	g_object_set_data ((GObject *) scrolled, "renderer", renderer);
-	
+
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Account name"),
 						     renderer, "text", 1, NULL);
@@ -534,18 +501,18 @@ em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2, 
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, TRUE);
 	atk_object_set_name (gtk_widget_get_accessible (table), _("Mail Accounts"));
 
-	
+
 	/* FIXME: column auto-resize? */
 	/* Is this needed?
 	   gtk_tree_view_column_set_alignment (gtk_tree_view_get_column (prefs->table, 0), 1.0);*/
-	
+
 	gtk_container_add (GTK_CONTAINER (scrolled), table);
-	
+
 	g_object_set_data ((GObject *) scrolled, "table", table);
-	
+
 	gtk_widget_show (scrolled);
 	gtk_widget_show (table);
-	
+
 	return scrolled;
 }
 
@@ -556,7 +523,7 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	GtkCellRenderer *renderer;
 	GladeXML *gui;
 	char *gladefile;
-	
+
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
@@ -564,20 +531,20 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	g_free (gladefile);
 
 	prefs->gui = gui;
-	
+
 	/* get our toplevel widget */
 	toplevel = glade_xml_get_widget (gui, "toplevel");
-	
+
 	/* reparent */
 	g_object_ref (toplevel);
 	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 	g_object_unref (toplevel);
-	
+
 	widget = glade_xml_get_widget (gui, "etableMailAccounts");
-	
+
 	prefs->table = (GtkTreeView *) g_object_get_data ((GObject *) widget, "table");
-	
+
 	renderer = g_object_get_data ((GObject *) widget, "renderer");
 	g_signal_connect (renderer, "toggled", G_CALLBACK (account_able_toggled), prefs);
 
@@ -587,18 +554,15 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 
 	prefs->mail_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAdd"));
 	g_signal_connect (prefs->mail_add, "clicked", G_CALLBACK (account_add_clicked), prefs);
-	
+
 	prefs->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountEdit"));
 	g_signal_connect (prefs->mail_edit, "clicked", G_CALLBACK (account_edit_clicked), prefs);
-	
+
 	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDelete"));
 	g_signal_connect (prefs->mail_delete, "clicked", G_CALLBACK (account_delete_clicked), prefs);
-	
+
 	prefs->mail_default = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDefault"));
 	g_signal_connect (prefs->mail_default, "clicked", G_CALLBACK (account_default_clicked), prefs);
-	
-	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
-	g_signal_connect (prefs->mail_able, "clicked", G_CALLBACK (account_able_clicked), prefs);
 
 	g_signal_connect (gtk_tree_view_get_selection (prefs->table),
 			  "changed", G_CALLBACK (account_cursor_change), prefs);
@@ -611,10 +575,10 @@ GtkWidget *
 em_account_prefs_new (GNOME_Evolution_Shell shell)
 {
 	EMAccountPrefs *new;
-	
+
 	new = (EMAccountPrefs *) g_object_new (em_account_prefs_get_type (), NULL);
 	em_account_prefs_construct (new);
 	new->shell = shell;
-	
+
 	return (GtkWidget *) new;
 }

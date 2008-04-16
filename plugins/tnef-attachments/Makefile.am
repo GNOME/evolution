@@ -1,8 +1,9 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
-	-DLOCALEDIR="\"$(LOCALEDIR)\""			\
-	$(EVOLUTION_MAIL_CFLAGS)
+	-DLOCALEDIR="\"$(localedir)\""			\
+	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(TNEF_CFLAGS)
 
 @EVO_PLUGIN_RULE@
 

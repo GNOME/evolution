@@ -48,6 +48,7 @@
 
 void org_gnome_sync_calendar (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target);
+void org_gnome_sync_memos (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target);
 
 
@@ -56,7 +57,7 @@ display_error_message (GtkWidget *parent, const char *message)
 {
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message);
+	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", message);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
@@ -75,13 +76,13 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	char *mount = ipod_get_mount();
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
-	
+
 	/* use g_file api here to build path*/
 	dest_uri = g_strdup_printf("%s/%s/Evolution-Addressbook-%s.vcf", mount, "Contacts", e_source_peek_name (primary_source));
 	g_free (mount);
-	
+
 	uri = e_source_get_uri (primary_source);
-	
+
 	book = e_book_new_from_uri (uri, NULL);
 
 	if (!book
@@ -112,9 +113,12 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 				EContact *contact = tmp->data;
 				gchar *temp = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 				gchar *vcard;
-				
+				gchar *converted_vcard;
+				gsize vcard_latin1_length;
+
 				vcard = g_strconcat(temp, "\r\n", NULL);
-				if ((result = gnome_vfs_write (handle, (gconstpointer) vcard, strlen (vcard), &bytes_written))
+				converted_vcard = g_convert(vcard, -1, "ISO-8859-1", "UTF-8", NULL, &vcard_latin1_length, NULL);
+				if ((result = gnome_vfs_write (handle, (gconstpointer) converted_vcard, vcard_latin1_length, &bytes_written))
 				    != GNOME_VFS_OK) {
 					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
 							       gnome_vfs_result_to_string (result));
@@ -123,6 +127,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 				g_object_unref (contact);
 				g_free (temp);
 				g_free (vcard);
+				g_free (converted_vcard);
 		}
 	}
 
@@ -137,7 +142,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	g_free (uri);
 }
 
-static void 
+static void
 destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type)
 {
 	FormatHandler *handler = NULL;
@@ -148,14 +153,28 @@ destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType
 	/* The available formathandlers */
 	handler= ical_format_handler_new ();
 
-	path = g_strdup_printf((type==E_CAL_SOURCE_TYPE_EVENT)? "Evolution-Calendar-%s" : "Evolution-Tasks-%s", e_source_peek_name (primary_source));
+	switch (type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		path = g_strdup_printf ("Evolution-Calendar-%s", e_source_peek_name (primary_source));
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		path = g_strdup_printf ("Evolution-Tasks-%s", e_source_peek_name (primary_source));
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		path = g_strdup_printf ("Evolution-Memos-%s", e_source_peek_name (primary_source));
+		break;
+	default:
+		path = NULL;
+		g_assert_not_reached ();
+	}
+
 	dest_uri = g_strdup_printf("%s/%s/%s.ics", mount, "Calendars", path);
 	g_free (path);
 
 	handler->save (handler, ep, target, type, dest_uri);
 
 	sync();
-	
+
 	g_free (dest_uri);
 	g_free (mount);
 	g_free (handler);
@@ -175,10 +194,18 @@ org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	if (!ipod_check_status(FALSE))
 		return;
-	
+
 	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_TODO);
 }
 
+void
+org_gnome_sync_memos (EPlugin *ep, ECalPopupTargetSource *target)
+{
+	if (!ipod_check_status(FALSE))
+		return;
+	
+	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_JOURNAL);
+}
 
 void
 org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target)

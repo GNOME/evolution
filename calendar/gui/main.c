@@ -130,14 +130,14 @@ initialize (void)
 	EImportClass *klass;
 
 	comp_editor_registry = E_COMP_EDITOR_REGISTRY (e_comp_editor_registry_new ());
-	
+
 #if 0
 	itip_control_factory_init ();
 	component_editor_factory_init ();
 #endif
 
 	launch_alarm_daemon ();
-	
+
 
 	/* Initialize plugin system */
 	e_plugin_hook_register_type (e_cal_popup_hook_get_type());

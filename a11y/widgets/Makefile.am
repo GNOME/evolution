@@ -32,4 +32,5 @@ libevolution_widgets_a11y_la_LDFLAGS = $(NO_UNDEFINED)
 libevolution_widgets_a11y_la_LIBADD =			\
 	$(WIN32_BOOTSTRAP_LIBS)				\
         $(top_builddir)/a11y/libevolution-a11y.la	\
+	$(top_builddir)/e-util/libeutil.la		\
 	$(E_WIDGETS_LIBS)

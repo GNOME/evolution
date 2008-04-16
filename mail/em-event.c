@@ -66,7 +66,7 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 	switch (t->type) {
 	case EM_EVENT_TARGET_FOLDER: {
 		EMEventTargetFolder *s = (EMEventTargetFolder *)t;
-
+		g_free (s->name);
 		g_free(s->uri);
 		break; }
 	case EM_EVENT_TARGET_MESSAGE: {
@@ -80,7 +80,7 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 		break; }
 	case EM_EVENT_TARGET_COMPOSER : {
 		EMEventTargetComposer *s = (EMEventTargetComposer *)t;
-		
+
 		if (s->composer)
 			g_object_unref (s->composer);
 		break; }
@@ -119,16 +119,16 @@ em_event_get_type(void)
 
 /**
  * em_event_peek:
- * @void: 
- * 
+ * @void:
+ *
  * Get the singular instance of the mail event handler.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EMEvent *em_event_peek(void)
 {
 	if (em_event == NULL) {
-		em_event = g_object_new(em_event_get_type(), 0);
+		em_event = g_object_new(em_event_get_type(), NULL);
 		e_event_construct(&em_event->popup, "org.gnome.evolution.mail.events");
 	}
 
@@ -196,23 +196,23 @@ static void *emeh_parent_class;
 
 static const EEventHookTargetMask emeh_folder_masks[] = {
 	{ "newmail", EM_EVENT_FOLDER_NEWMAIL },
-	{ 0 }
+	{ NULL }
 };
 
 
 static const EEventHookTargetMask emeh_composer_masks[] = {
 	{ "sendoption", EM_EVENT_COMPOSER_SEND_OPTION },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMask emeh_message_masks[] = {
 	{ "replyall", EM_EVENT_MESSAGE_REPLY_ALL },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMask emeh_send_receive_masks[] = {
 	{ "sendreceive", EM_EVENT_SEND_RECEIVE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMap emeh_targets[] = {
@@ -220,7 +220,7 @@ static const EEventHookTargetMap emeh_targets[] = {
 	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
 	{ "composer", EM_EVENT_TARGET_COMPOSER, emeh_composer_masks},
 	{ "sendreceive", EM_EVENT_TARGET_SEND_RECEIVE, emeh_send_receive_masks},
-	{ 0 }
+	{ NULL }
 };
 
 static void
@@ -249,7 +249,7 @@ GType
 em_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
@@ -259,6 +259,6 @@ em_event_hook_get_type(void)
 		emeh_parent_class = g_type_class_ref(e_event_hook_get_type());
 		type = g_type_register_static(e_event_hook_get_type(), "EMEventHook", &info, 0);
 	}
-	
+
 	return type;
 }

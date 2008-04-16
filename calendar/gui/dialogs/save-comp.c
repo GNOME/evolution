@@ -30,11 +30,11 @@
 /**
  * save_component_dialog:
  * @parent: Window to use as the transient dialog's parent.
- * @comp: Pointer to the EcalComponent 
+ * @comp: Pointer to the EcalComponent
  *
  * Pops up a dialog box asking the user whether he wants to save changes for
  * a calendar component.
- * 
+ *
  * Return value: the response_id of the button selected.
  **/
 

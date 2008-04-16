@@ -38,15 +38,15 @@ typedef struct _FilterColourClass FilterColourClass;
 
 struct _FilterColour {
 	FilterElement parent_object;
-	
+
 	GdkColor color;
 };
 
 struct _FilterColourClass {
 	FilterElementClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

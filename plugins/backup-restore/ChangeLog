@@ -1,3 +1,22 @@
+2008-02-25  Jeff Cai<jeff.cai@sun.com>
+
+	* backup.c: (backup), (restore):
+	Because Solaris tar doesn't respect '-z' option, use gzip&tar to
+	finish the silimar function.
+
+2008-02-20  Jeff Cai<jeff.cai@sun.com>
+
+	** Fix for bug #516648
+
+	* backup.c: (backup), (restore):
+	Use $HOME instead of "~"
+
+2008-01-06  Christian Krause  <chkr@plauener.de>
+
+	* backup.c: (backup), (restore), (check), (main): Initialize static 
+	variables before use, not-NULL checks for filename before
+	backup/restore/check operations. 
+
 2007-08-07  Johnny Jacob  <jjohnny@novell.com>
 	
 	* Committed on behalf of Anand V M   <avmuttagi@gmail.com>

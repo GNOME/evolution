@@ -1,25 +1,94 @@
 <gconfschemafile>
   <schemalist>
     <schema>
-      <key>/schemas/apps/evolution/mail/notification/notification</key>
-      <applyto>/apps/evolution/mail/notification/notification</applyto>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/notify-only-inbox</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/notify-only-inbox</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Enable libnotify notifications of new mail</short>
-        <long>Every time a new mail arrives, pop up a libnotify notification.</long>
+        <short>Notify new messages for Inbox only.</short>
+        <long>Whether to notify new messages in Inbox folder only.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/dbus-enabled</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/dbus-enabled</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable D-Bus messages.</short>
+        <long>Generates a D-Bus message when new mail messages arrive.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/status-enabled</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/status-enabled</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Enable icon in notification area.</short>
+        <long>Show new mail icon in notification area when new messages arrive.</long>
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/evolution/mail/notification/blink-status-icon</key>
-      <applyto>/apps/evolution/mail/notification/blink-status-icon</applyto>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/status-blink-icon</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/status-blink-icon</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-        <short>Make the status icon blink</short>
-        <long>When the new-mail status icon is visible, make it blink.</long>
+        <short>Blink icon in notification area.</short>
+        <long>Whether the icon should blink or not.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/status-notification</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/status-notification</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Popup message together with the icon.</short>
+        <long>Whether show message over the icon when new messages arrive.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/sound-enabled</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/sound-enabled</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Play sound when new messages arrive.</short>
+        <long>Whether play sound or beep when new messages arrive.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/sound-beep</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/sound-beep</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Beep or play sound file.</short>
+        <long>If true, then beep, otherwise will play sound file when new messages arrive.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/sound-file</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/sound-file</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+        <short>Sound file name to be played.</short>
+        <long>Sound file to be played when new messages arrive, if not in beep mode.</long>
       </locale>
     </schema>
   </schemalist>

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * ea-minicard.c
  * Copyright (C) 2000  Ximian, Inc.
  *
@@ -79,7 +79,7 @@ ea_minicard_get_type (void)
 
 		/*
 		 * Figure out the size of the class and instance
-		 * we are run-time deriving from (GailWidget, in this case) 
+		 * we are run-time deriving from (GailWidget, in this case)
 		 */
 
 		factory = atk_registry_get_factory (atk_get_default_registry (),
@@ -93,7 +93,7 @@ ea_minicard_get_type (void)
 		type = g_type_register_static ( derived_atk_type,
 						"EaMinicard", &tinfo, 0);
 		g_type_add_interface_static (type, ATK_TYPE_ACTION,
-					     &atk_action_info);	
+					     &atk_action_info);
 	}
 
 	return type;
@@ -114,14 +114,14 @@ ea_minicard_class_init (EaMinicardClass *klass)
 }
 
 /*
- *  we access the main content of current minicard, including 
+ *  we access the main content of current minicard, including
  *  header text, label(field, field name)
  */
 static G_CONST_RETURN gchar*
 ea_minicard_get_name (AtkObject *accessible)
 {
 #define BUFFERSIZE 500
-	
+
 	static gchar name[BUFFERSIZE];
 	GString *new_str = g_string_new (NULL);
 	gchar *string;
@@ -130,7 +130,7 @@ ea_minicard_get_name (AtkObject *accessible)
 	g_return_val_if_fail (EA_IS_MINICARD(accessible), NULL);
 	memset (name, '\0', BUFFERSIZE);
 
-	card = E_MINICARD(atk_gobject_accessible_get_object 
+	card = E_MINICARD(atk_gobject_accessible_get_object
 			 (ATK_GOBJECT_ACCESSIBLE(accessible)));
 	if (!card)
 		return NULL;
@@ -140,7 +140,7 @@ ea_minicard_get_name (AtkObject *accessible)
 	if (e_contact_get (card->contact, E_CONTACT_IS_LIST))
 		g_string_append (new_str, _("Contact List: "));
 	else    g_string_append (new_str, _("Contact: "));
-	
+
 	/* get header of current card */
 	g_string_append (new_str, string);
 	g_free (string);
@@ -168,7 +168,7 @@ ea_minicard_get_description (AtkObject *accessible)
 	return _("evolution minicard");
 }
 
-AtkObject* 
+AtkObject*
 ea_minicard_new (GObject *obj)
 {
 	GObject *object;
@@ -267,7 +267,7 @@ atk_action_interface_get_name (AtkAction *iface, gint i)
 {
 	if( i >= G_N_ELEMENTS (action_name) || i < 0)
 		return NULL;
-	
+
 	return action_name[i];
 }
-		
+

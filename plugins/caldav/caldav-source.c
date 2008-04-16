@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * Author: Christian Kellner <gicmo@gnome.org> 
+ * Author: Christian Kellner <gicmo@gnome.org>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -43,19 +43,19 @@
 int              e_plugin_lib_enable      (EPluginLib                 *ep,
 					   int                         enable);
 
-GtkWidget *      oge_caldav               (EPlugin                    *epl, 
+GtkWidget *      oge_caldav               (EPlugin                    *epl,
 					   EConfigHookItemFactoryData *data);
 
 /*****************************************************************************/
 /* plugin intialization */
 
 static void
-ensure_caldav_source_group ()
+ensure_caldav_source_group (void)
 {
 	ESourceList  *slist;
 	ESourceGroup *group;
 
-	
+
 	if (!e_cal_get_sources (&slist, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
 		g_warning ("Could not get calendar source list from GConf!");
 		return;
@@ -67,13 +67,13 @@ ensure_caldav_source_group ()
 		gboolean res;
 		group = e_source_group_new (_("CalDAV"), "caldav://");
 		res = e_source_list_add_group (slist, group, -1);
-		
+
 		if (res == FALSE) {
-			g_warning ("Could not add CalDAV source group!");	
+			g_warning ("Could not add CalDAV source group!");
 		} else {
 			e_source_list_sync (slist, NULL);
 		}
-		
+
 		g_object_unref (group);
 		g_object_unref (slist);
 	}
@@ -139,7 +139,7 @@ location_changed (GtkEntry *editable, ESource *source)
 	const char *uri;
 
 	uri = gtk_entry_get_text (GTK_ENTRY (editable));
-	
+
 	euri = e_uri_new (uri);
 	ruri = print_uri_noproto (euri);
 	e_source_set_relative_uri (source, ruri);
@@ -150,8 +150,8 @@ location_changed (GtkEntry *editable, ESource *source)
 static void
 ssl_changed (GtkToggleButton *button, ESource *source)
 {
-	e_source_set_property(source, "ssl", 
-			      gtk_toggle_button_get_active(button) ? "1" : "0");	
+	e_source_set_property(source, "ssl",
+			      gtk_toggle_button_get_active(button) ? "1" : "0");
 }
 
 static void
@@ -162,14 +162,14 @@ user_changed (GtkEntry *editable, ESource *source)
 	char       *ruri;
 	const char *user;
 
-	uri = e_source_get_uri (source); 
+	uri = e_source_get_uri (source);
 	user = gtk_entry_get_text (GTK_ENTRY (editable));
-	
+
 	if (uri == NULL) {
 		g_free (uri);
 		return;
 	}
-	
+
 	euri = e_uri_new (uri);
 	g_free (euri->user);
 
@@ -180,7 +180,7 @@ user_changed (GtkEntry *editable, ESource *source)
 		e_source_set_property (source, "auth", NULL);
 	}
 
-	e_source_set_property (source, "username", euri->user);	
+	e_source_set_property (source, "username", euri->user);
 	ruri = print_uri_noproto (euri);
 	e_source_set_relative_uri (source, ruri);
 	g_free (ruri);
@@ -188,7 +188,7 @@ user_changed (GtkEntry *editable, ESource *source)
 }
 
 GtkWidget *
-oge_caldav  (EPlugin                    *epl, 
+oge_caldav  (EPlugin                    *epl,
 	     EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
@@ -207,17 +207,17 @@ oge_caldav  (EPlugin                    *epl,
 	const char   *ssl_prop;
 	gboolean      ssl_enabled;
 	int           row;
-	
+
 	source = t->source;
 	group = e_source_peek_group (source);
-	
+
 	widget = NULL;
-	
-	if (!g_str_has_prefix (e_source_group_peek_base_uri (group), 
+
+	if (!g_str_has_prefix (e_source_group_peek_base_uri (group),
 			       "caldav")) {
 		return NULL;
 	}
-	
+
 	/* Extract the username from the uri so we can prefill the
 	 * dialog right, remove the username from the url then */
 	uri = e_source_get_uri (source);
@@ -227,12 +227,12 @@ oge_caldav  (EPlugin                    *epl,
 	if (euri == NULL) {
 		return NULL;
 	}
-	
+
 	username = euri->user;
 	euri->user = NULL;
 	uri = e_uri_to_string (euri, FALSE);
 
-	ssl_prop = e_source_get_property (source, "ssl");	
+	ssl_prop = e_source_get_property (source, "ssl");
 	if (ssl_prop && ssl_prop[0] == '1') {
 		ssl_enabled = TRUE;
 	} else {
@@ -241,15 +241,15 @@ oge_caldav  (EPlugin                    *epl,
 
 	/* Build up the UI */
 	parent = data->parent;
-	
+
 	row = GTK_TABLE (parent)->nrows;
 
 	lurl = gtk_label_new_with_mnemonic (_("_URL:"));
 	gtk_widget_show (lurl);
 	gtk_misc_set_alignment (GTK_MISC (lurl), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), 
-			  lurl, 0, 1, 
-			  row, row+1, 
+	gtk_table_attach (GTK_TABLE (parent),
+			  lurl, 0, 1,
+			  row, row+1,
 			  GTK_FILL, 0, 0, 0);
 
 	location = gtk_entry_new ();
@@ -260,31 +260,31 @@ oge_caldav  (EPlugin                    *epl,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (lurl), location);
-	
-	g_signal_connect (G_OBJECT (location), 
-			  "changed", 
+
+	g_signal_connect (G_OBJECT (location),
+			  "changed",
 			  G_CALLBACK (location_changed),
 			  source);
 
 	cssl = gtk_check_button_new_with_mnemonic (_("Use _SSL"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cssl), ssl_enabled);
 	gtk_widget_show (cssl);
-	gtk_table_attach (GTK_TABLE (parent), 
-			  cssl, 1, 2, 
-			  row + 1, row + 2, 
+	gtk_table_attach (GTK_TABLE (parent),
+			  cssl, 1, 2,
+			  row + 1, row + 2,
 			  GTK_FILL, 0, 0, 0);
 
-	g_signal_connect (G_OBJECT (cssl), 
-			  "toggled", 
+	g_signal_connect (G_OBJECT (cssl),
+			  "toggled",
 			  G_CALLBACK (ssl_changed),
 			  source);
 
 	luser = gtk_label_new_with_mnemonic (_("User_name:"));
 	gtk_widget_show (luser);
 	gtk_misc_set_alignment (GTK_MISC (luser), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), 
-			  luser, 0, 1, 
-			  row + 2, row + 3, 
+	gtk_table_attach (GTK_TABLE (parent),
+			  luser, 0, 1,
+			  row + 2, row + 3,
 			  GTK_FILL, 0, 0, 0);
 
 	user = gtk_entry_new ();
@@ -295,17 +295,17 @@ oge_caldav  (EPlugin                    *epl,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (luser), user);
-	
-	g_signal_connect (G_OBJECT (user), 
-			  "changed", 
+
+	g_signal_connect (G_OBJECT (user),
+			  "changed",
 			  G_CALLBACK (user_changed),
 			  source);
-	
-	
+
+
         g_free (uri);
 	g_free (username);
-	
-	return widget;	
+
+	return widget;
 }
 
 

@@ -6,7 +6,7 @@
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="pixbuf"/>
 
     <cmd name="CalendarPrev" _tip="Go back" pixtype="pixbuf"/>
-    <cmd name="CalendarToday" _tip="Select today" pixtype="stock" pixname="Home"/>
+    <cmd name="CalendarToday" _tip="Select today" pixtype="pixbuf"/>
     <cmd name="CalendarNext" _tip="Go forward" pixtype="pixbuf"/>
     <cmd name="CalendarGoto" _tip="Select a specific date" pixtype="pixbuf"/>
 
@@ -81,7 +81,7 @@
     <separator f="" name="ecal2"/>
 
     <toolitem name="Prev" verb="CalendarPrev" _label="Previous" pixtype="pixbuf"/> 
-    <toolitem name="Today" verb="CalendarToday" _label="Today"/>
+    <toolitem name="Today" verb="CalendarToday" _label="Today" pixtype="pixbuf"/>
     <toolitem name="Next" verb="CalendarNext" _label="Next" pixtype="pixbuf"/>
 
     <separator f="" name="ecal3"/>

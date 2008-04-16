@@ -46,7 +46,7 @@ typedef enum _em_vfolder_rule_with_t em_vfolder_rule_with_t;
 
 struct _EMVFolderRule {
 	FilterRule rule;
-	
+
 	em_vfolder_rule_with_t with;
 	GList *sources;		/* uri's of the source folders */
 };

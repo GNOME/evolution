@@ -101,7 +101,7 @@ typedef struct {
 	ESendOptionsStatusTracking *mopts;
 	ESendOptionsStatusTracking *copts;
 	ESendOptionsStatusTracking *topts;
-	
+
 } ESendOptionsData;
 
 struct _ESendOptionsDialog {
@@ -123,4 +123,4 @@ void e_sendoptions_set_need_general_options (ESendOptionsDialog *sod, gboolean n
 gboolean e_sendoptions_get_need_general_options (ESendOptionsDialog *sod);
 gboolean e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type);
 gboolean e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set);
-#endif 
+#endif

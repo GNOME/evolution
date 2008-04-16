@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-simple.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -71,7 +71,7 @@ typedef struct {
 	ETableSimpleFreeValueFn       free_value;
 	ETableSimpleInitializeValueFn initialize_value;
 	ETableSimpleValueIsEmptyFn    value_is_empty;
-	ETableSimpleValueToStringFn   value_to_string; 
+	ETableSimpleValueToStringFn   value_to_string;
 	void *data;
 } ETableSimple;
 

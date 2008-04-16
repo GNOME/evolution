@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -101,8 +101,8 @@ typedef struct {
 						 ETreePath           path,
 						 int                 col,
 						 GdkDragContext     *context);
-	
-	/* Target side drag signals */	   
+
+	/* Target side drag signals */
 	void (* tree_drag_leave)	           (ETree	       *tree,
 						    int                 row,
 						    ETreePath           path,

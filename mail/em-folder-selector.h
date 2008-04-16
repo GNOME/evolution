@@ -31,10 +31,10 @@ extern "C" {
 #endif /* cplusplus */
 
 #define EM_TYPE_FOLDER_SELECTOR			(em_folder_selector_get_type ())
-#define EM_FOLDER_SELECTOR(obj)			(GTK_CHECK_CAST ((obj), E_TYPEM_FOLDER_SELECTOR, EMFolderSelector))
-#define EM_FOLDER_SELECTOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPEM_FOLDER_SELECTOR, EMFolderSelectorClass))
-#define EM_IS_FOLDER_SELECTOR(obj)		(GTK_CHECK_TYPE ((obj), E_TYPEM_FOLDER_SELECTOR))
-#define EM_IS_FOLDER_SELECTOR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPEM_FOLDER_SELECTOR))
+#define EM_FOLDER_SELECTOR(obj)			(GTK_CHECK_CAST ((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelector))
+#define EM_FOLDER_SELECTOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorClass))
+#define EM_IS_FOLDER_SELECTOR(obj)		(GTK_CHECK_TYPE ((obj), EM_TYPE_FOLDER_SELECTOR))
+#define EM_IS_FOLDER_SELECTOR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), EM_TYPE_FOLDER_SELECTOR))
 
 typedef struct _EMFolderSelector        EMFolderSelector;
 typedef struct _EMFolderSelectorPrivate EMFolderSelectorPrivate;
@@ -42,21 +42,21 @@ typedef struct _EMFolderSelectorClass   EMFolderSelectorClass;
 
 struct _EMFolderSelector {
 	GtkDialog parent;
-	
+
 	guint32 flags;
 	struct _EMFolderTree *emft;
-	
+
 	struct _GtkEntry *name_entry;
 	char *selected_path;
 	char *selected_uri;
-	
+
 	char *created_uri;
 	guint created_id;
 };
 
 struct _EMFolderSelectorClass {
 	GtkDialogClass parent_class;
-	
+
 };
 
 enum {

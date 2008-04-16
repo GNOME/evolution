@@ -28,23 +28,23 @@
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
  * the License at http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS
  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
- * 
+ *
  * The Original Code is the Netscape security libraries.
- * 
+ *
  * The Initial Developer of the Original Code is Netscape
- * Communications Corporation.  Portions created by Netscape are 
+ * Communications Corporation.  Portions created by Netscape are
  * Copyright (C) 2000 Netscape Communications Corporation.  All
  * Rights Reserved.
- * 
+ *
  * Alternatively, the contents of this file may be used under the
  * terms of the GNU General Public License Version 2 or later (the
- * "GPL"), in which case the provisions of the GPL are applicable 
- * instead of those above.  If you wish to allow use of your 
+ * "GPL"), in which case the provisions of the GPL are applicable
+ * instead of those above.  If you wish to allow use of your
  * version of this file only under the terms of the GPL and not to
  * allow others to use your version of this file under the MPL,
  * indicate your decision by deleting the provisions above and
@@ -159,7 +159,7 @@ e_cert_dispose (GObject *object)
 
 	g_free (ec->priv);
 	ec->priv = NULL;
-	
+
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -253,7 +253,7 @@ e_cert_populate (ECert *cert)
 	cert->priv->serial_number = CERT_Hexify (&cert->priv->cert->serialNumber, TRUE);
 
 	memset(fingerprint, 0, sizeof fingerprint);
-	PK11_HashBuf(SEC_OID_SHA1, fingerprint, 
+	PK11_HashBuf(SEC_OID_SHA1, fingerprint,
 		     cert->priv->cert->derCert.data,
 		     cert->priv->cert->derCert.len);
 	fpItem.data = fingerprint;
@@ -261,7 +261,7 @@ e_cert_populate (ECert *cert)
 	cert->priv->sha1_fingerprint = CERT_Hexify (&fpItem, TRUE);
 
 	memset(fingerprint, 0, sizeof fingerprint);
-	PK11_HashBuf(SEC_OID_MD5, fingerprint, 
+	PK11_HashBuf(SEC_OID_MD5, fingerprint,
 		     cert->priv->cert->derCert.data,
 		     cert->priv->cert->derCert.len);
 	fpItem.data = fingerprint;
@@ -509,7 +509,7 @@ e_cert_get_ca_cert(ECert *ecert)
 }
 
 static gboolean
-get_int_value (SECItem *versionItem, 
+get_int_value (SECItem *versionItem,
 	       unsigned long *version)
 {
 	SECStatus srv;
@@ -561,7 +561,7 @@ process_version (SECItem     *versionItem,
 }
 
 static gboolean
-process_serial_number_der (SECItem      *serialItem, 
+process_serial_number_der (SECItem      *serialItem,
 			   EASN1Object **retItem)
 {
 	char *serialNumber;
@@ -585,7 +585,7 @@ get_default_oid_format (SECItem *oid,
 	char buf[300];
 	unsigned int len;
 	int written;
-    
+
 	unsigned long val  = oid->data[0];
 	unsigned int  i    = val % 40;
 	val /= 40;
@@ -596,11 +596,11 @@ get_default_oid_format (SECItem *oid,
 
 	val = 0;
 	for (i = 1; i < oid->len; ++i) {
-		/* In this loop, we have to parse a DER formatted 
-		   If the first bit is a 1, then the integer is 
-		   represented by more than one byte.  If the 
+		/* In this loop, we have to parse a DER formatted
+		   If the first bit is a 1, then the integer is
+		   represented by more than one byte.  If the
 		   first bit is set then we continue on and add
-		   the values of the later bytes until we get 
+		   the values of the later bytes until we get
 		   a byte without the first bit set.
 		*/
 		unsigned long j;
@@ -616,7 +616,7 @@ get_default_oid_format (SECItem *oid,
 		len += written;
 		if (len >= sizeof (buf))
 			g_warning ("OID data to big to display in 300 chars.");
-		val = 0;      
+		val = 0;
   }
 
   *text = g_strdup (buf);
@@ -625,7 +625,7 @@ get_default_oid_format (SECItem *oid,
 
 static gboolean
 get_oid_text (SECItem *oid, char **text)
-{ 
+{
 	SECOidTag oidTag = SECOID_FindOIDTag(oid);
 	char *temp;
 
@@ -690,7 +690,7 @@ get_oid_text (SECItem *oid, char **text)
 
 		break;
 	}
-	return TRUE;  
+	return TRUE;
 }
 
 
@@ -699,7 +699,7 @@ process_raw_bytes (SECItem *data, char **text)
 {
 	/* This function is used to display some DER bytes
 	   that we have not added support for decoding.
-	   It prints the value of the byte out into a 
+	   It prints the value of the byte out into a
 	   string that can later be displayed as a byte
 	   string.  We place a new line after 24 bytes
 	   to break up extermaly long sequence of bytes.
@@ -716,7 +716,7 @@ process_raw_bytes (SECItem *data, char **text)
 	}
 	*text = g_string_free (str, FALSE);
 	return TRUE;
-}    
+}
 
 static gboolean
 process_sec_algorithm_id (SECAlgorithmID  *algID,
@@ -776,7 +776,7 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 	e_asn1_object_append_child (spkiSequence, sequenceItem);
 
 	/* The subjectPublicKey field is encoded as a bit string.
-	   ProcessRawBytes expects the lenght to be in bytes, so 
+	   ProcessRawBytes expects the lenght to be in bytes, so
 	   let's convert the lenght into a temporary SECItem.
 	*/
 	data.data = spki->subjectPublicKey.data;
@@ -797,7 +797,7 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 }
 
 static gboolean
-process_ns_cert_type_extensions (SECItem  *extData, 
+process_ns_cert_type_extensions (SECItem  *extData,
 				 GString *text)
 {
 	SECItem decoded;
@@ -805,7 +805,7 @@ process_ns_cert_type_extensions (SECItem  *extData,
 
 	decoded.data = NULL;
 	decoded.len  = 0;
-	if (SECSuccess != SEC_ASN1DecodeItem(NULL, &decoded, 
+	if (SECSuccess != SEC_ASN1DecodeItem(NULL, &decoded,
 					     SEC_ASN1_GET(SEC_BitStringTemplate), extData)) {
 		g_string_append (text, _("Error: Unable to process extension"));
 		return TRUE;
@@ -854,7 +854,7 @@ process_key_usage_extensions (SECItem *extData, GString *text)
 
 	decoded.data = NULL;
 	decoded.len  = 0;
-	if (SECSuccess != SEC_ASN1DecodeItem(NULL, &decoded, 
+	if (SECSuccess != SEC_ASN1DecodeItem(NULL, &decoded,
 					     SEC_ASN1_GET(SEC_BitStringTemplate), extData)) {
 		g_string_append (text, _("Error: Unable to process extension"));
 		return TRUE;
@@ -891,12 +891,12 @@ process_key_usage_extensions (SECItem *extData, GString *text)
 		g_string_append (text, _("CRL Signer"));
 		g_string_append (text, "\n");
 	}
-	
+
 	return TRUE;
 }
 
 static gboolean
-process_extension_data (SECOidTag oidTag, SECItem *extData, 
+process_extension_data (SECOidTag oidTag, SECItem *extData,
 			GString *str)
 {
 	gboolean rv;
@@ -912,7 +912,7 @@ process_extension_data (SECOidTag oidTag, SECItem *extData,
 		rv = process_raw_bytes (extData, &text);
 		g_string_append (str, text);
 		g_free (text);
-		break; 
+		break;
 	}
 	}
 	return rv;
@@ -956,7 +956,7 @@ process_single_extension (CERTCertExtension *extension,
 }
 
 static gboolean
-process_extensions (CERTCertExtension **extensions, 
+process_extensions (CERTCertExtension **extensions,
 		    EASN1Object        *parentSequence)
 {
 	EASN1Object *extensionSequence = e_asn1_object_new ();
@@ -1002,19 +1002,19 @@ process_name (CERTName *name, char **value)
 
 	/* The above whille loop will put us at the last member
 	 * of the array which is a NULL pointer.  So let's back
-	 * up one spot so that we have the last non-NULL entry in 
-	 * the array in preparation for traversing the 
+	 * up one spot so that we have the last non-NULL entry in
+	 * the array in preparation for traversing the
 	 * RDN's (Relative Distinguished Name) in reverse order.
 	 */
 	lastRdn--;
-   
+
 	/*
 	 * Loop over name contents in _reverse_ RDN order appending to string
-	 * When building the Ascii string, NSS loops over these entries in 
+	 * When building the Ascii string, NSS loops over these entries in
 	 * reverse order, so I will as well.  The difference is that NSS
 	 * will always place them in a one line string separated by commas,
 	 * where I want each entry on a single line.  I can't just use a comma
-	 * as my delimitter because it is a valid character to have in the 
+	 * as my delimitter because it is a valid character to have in the
 	 * value portion of the AVA and could cause trouble when parsing.
 	 */
 	for (rdn = lastRdn; rdn >= rdns; rdn--) {
@@ -1072,15 +1072,15 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	EASN1Object *sequence = e_asn1_object_new ();
 	char *text;
 	EASN1Object *subitem;
-	SECItem data; 
+	SECItem data;
 
 	e_asn1_object_set_display_name (sequence, _("Certificate"));
-  
+
 	if (!process_version (&cert->priv->cert->version, &subitem))
 		return FALSE;
 	e_asn1_object_append_child (sequence, subitem);
 	g_object_unref (subitem);
-  
+
 	if (!process_serial_number_der (&cert->priv->cert->serialNumber, &subitem))
 		return FALSE;
 	e_asn1_object_append_child (sequence, subitem);
@@ -1113,7 +1113,7 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	nsCOMPtr<nsIX509CertValidity> validityData;
 	GetValidity(getter_AddRefs(validityData));
 	PRTime notBefore, notAfter;
-	
+
 	validityData->GetNotBefore(&notBefore);
 	validityData->GetNotAfter(&notAfter);
 	validityData = 0;
@@ -1127,7 +1127,7 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	if (NS_FAILED(rv))
 		return rv;
 #endif
-	
+
 	subitem = e_asn1_object_new ();
 	e_asn1_object_set_display_name (subitem, _("Subject"));
 

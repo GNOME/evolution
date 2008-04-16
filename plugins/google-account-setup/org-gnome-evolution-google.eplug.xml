@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin id="org.gnome.evolution.google" type="shlib" _name="Google sources"
+    location="@PLUGINDIR@/liborg-gnome-evolution-google@SOEXT@" load-on-startup="false" localedir = "@LOCALEDIR@">
+    <author name="Ebby Wiselyn" email="ebbywiselyn@gmail.com"/>
+    <_description>A plugin to setup google calendar.</_description>
+    
+    <hook class="org.gnome.evolution.calendar.config:1.0">
+      <group target="source" id="org.gnome.evolution.calendar.calendarProperties">
+	<item type="item_table" path="00.general/00.source/15.google" factory="plugin_google"/>
+      </group>
+    </hook>
+  </e-plugin>
+</e-plugin-list>

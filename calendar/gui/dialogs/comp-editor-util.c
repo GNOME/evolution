@@ -43,7 +43,7 @@
  * comp_editor_dates:
  * @dates: A structure to be filled out with dates of a component
  * @comp: The component to extract the dates from
- * 
+ *
  * Extracts the dates from the calendar component into the
  * CompEditorPageDates structure. Call comp_editor_free_dates() to free the
  * results.
@@ -57,7 +57,7 @@ comp_editor_dates (CompEditorPageDates *dates, ECalComponent *comp)
 	dates->end = NULL;
 	dates->due = NULL;
 	dates->complete = NULL;
-	
+
 	/* Note that the ECalComponentDateTime's returned contain allocated
 	   icaltimetype and tzid values, so we just take over ownership of
 	   those. */
@@ -119,7 +119,7 @@ write_label_piece (struct icaltimetype *tt, char *buffer, int size,
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt_copy = *tt;
 	int len;
-	
+
 	/* FIXME: May want to convert the time to an appropriate zone. */
 
 	if (stext != NULL)
@@ -145,7 +145,7 @@ write_label_piece (struct icaltimetype *tt, char *buffer, int size,
 
 	len = strlen (buffer);
 	e_time_format_date_and_time (&tmp_tm,
-				     calendar_config_get_24_hour_format (), 
+				     calendar_config_get_24_hour_format (),
 				     !tt_copy.is_date, FALSE,
 				     &buffer[len], size - len);
 	if (etext != NULL)
@@ -156,7 +156,7 @@ write_label_piece (struct icaltimetype *tt, char *buffer, int size,
  * comp_editor_date_label:
  * @dates: The dates to use in constructing a label
  * @label: The label whose text is to be set
- * 
+ *
  * Set the text of a label based on the dates available and the user's
  * formatting preferences
  **/
@@ -192,7 +192,7 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 		else
 			write_label_piece (dates->complete, buffer, 1024, _("Completed "), NULL, NULL);
 	}
-	
+
 	if (due_set && dates->complete == NULL) {
 		if (start_set)
 			write_label_piece (dates->due->value, buffer, 1024, _(" (Due "), ")", NULL);
@@ -207,7 +207,7 @@ static void
 date_edit_destroy_cb (EDateEdit *date_edit, gpointer data)
 {
 	EDateEditConfig *config = data;
-	
+
 	g_object_unref (config);
 }
 
@@ -218,9 +218,9 @@ date_edit_destroy_cb (EDateEdit *date_edit, gpointer data)
  * @make_time_insensitive: Whether the time field is made insensitive rather
  * than hiding it. This is useful if you want to preserve the layout of the
  * widgets.
- * 
+ *
  * Creates a new #EDateEdit widget, configured using the calendar's preferences.
- * 
+ *
  * Return value: A newly-created #EDateEdit widget.
  **/
 GtkWidget *
@@ -229,7 +229,7 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 {
 	EDateEdit *dedit;
 	EDateEditConfig *config;
-	
+
 	dedit = E_DATE_EDIT (e_date_edit_new ());
 
 	e_date_edit_set_show_date (dedit, show_date);
@@ -239,10 +239,10 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 #else
 	e_date_edit_set_make_time_insensitive (dedit, FALSE);
 #endif
-	
+
 	config = e_date_edit_config_new (dedit);
 	g_signal_connect (G_OBJECT (dedit), "destroy", G_CALLBACK (date_edit_destroy_cb), config);
-	
+
 	return GTK_WIDGET (dedit);
 }
 
@@ -280,10 +280,10 @@ comp_editor_get_current_time (GtkObject *object, gpointer data)
 /**
  * comp_editor_strip_categories:
  * @categories: A string of category names entered by the user.
- * 
+ *
  * Takes a string of the form "categ, categ, categ, ..." and removes the
  * whitespace between categories to result in "categ,categ,categ,..."
- * 
+ *
  * Return value: The category names stripped of surrounding whitespace
  * and separated with commas.
  **/
@@ -329,7 +329,7 @@ comp_editor_strip_categories (const char *categories)
 				start = p;
 				end = p;
 			} else
-				end = g_utf8_next_char(p) - 1;	
+				end = g_utf8_next_char(p) - 1;
 		}
 	}
 

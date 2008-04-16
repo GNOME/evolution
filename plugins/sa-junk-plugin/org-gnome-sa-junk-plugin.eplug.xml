@@ -7,7 +7,7 @@
 		<author name="Vivek Jain" email="jvivek@novell.com"/>
 		<hook class="org.gnome.evolution.mail.junk:1.0">
 			<group id="EMJunk" >
-				<item   name="Spamassasin" 
+				<item   name="SpamAssassin" 
 				        check_junk="em_junk_sa_check_junk" 
 				        report_junk="em_junk_sa_report_junk" 
 					report_non_junk="em_junk_sa_report_non_junk" 

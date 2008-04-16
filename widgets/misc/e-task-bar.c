@@ -26,6 +26,7 @@
 
 #include "e-task-bar.h"
 
+#include <gtk/gtkiconfactory.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmisc.h>
 
@@ -40,6 +41,7 @@ struct _ETaskBarPrivate
 
 G_DEFINE_TYPE (ETaskBar, e_task_bar, GTK_TYPE_HBOX)
 
+#if 0	
 static void
 reduce_displayed_activities_per_component (ETaskBar *task_bar)
 {
@@ -82,7 +84,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 	g_hash_table_destroy (component_ids_hash);
 }
-
+#endif 
 
 static void
 e_task_bar_class_init (ETaskBarClass *klass)
@@ -93,7 +95,8 @@ static void
 e_task_bar_init (ETaskBar *task_bar)
 {
 	GtkWidget *label, *hbox;
-	
+	gint height;
+
 	task_bar->priv = g_new (ETaskBarPrivate, 1);
 
 	gtk_box_set_spacing (GTK_BOX (task_bar), 10);
@@ -101,12 +104,18 @@ e_task_bar_init (ETaskBar *task_bar)
 	label = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start (GTK_BOX (task_bar), label, TRUE, TRUE, 0);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	task_bar->priv->message_label = label;
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (task_bar), hbox);
 	task_bar->priv->hbox = GTK_HBOX (hbox);
+
+	/* Make the task bar large enough to accomodate a small icon.
+	 * XXX The "* 2" is a fudge factor to allow for some padding.
+	 *     The true value is probably buried in a style property. */
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
+	gtk_widget_set_size_request (GTK_WIDGET (task_bar), -1, height * 2);
 }
 
 
@@ -185,9 +194,34 @@ e_task_bar_prepend_task (ETaskBar *task_bar,
 		gtk_widget_queue_resize (GTK_WIDGET (task_widget));
 	}
 
-	reduce_displayed_activities_per_component (task_bar);
+	/* We don't restrict */
+	/* reduce_displayed_activities_per_component (task_bar);*/
 
 	gtk_widget_show (GTK_WIDGET (task_bar->priv->hbox));
+}
+
+void
+e_task_bar_remove_task_from_id (ETaskBar *task_bar,
+			guint id)
+{
+	ETaskWidget *task_widget;
+
+	g_return_if_fail (task_bar != NULL);
+	g_return_if_fail (E_IS_TASK_BAR (task_bar));
+
+	task_widget = e_task_bar_get_task_widget_from_id (task_bar, id);
+	if (!task_widget) {
+		printf("Failed...\n");
+		return;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (task_widget));
+
+	/* We don't restrict here on */
+	/* reduce_displayed_activities_per_component (task_bar); */
+
+	if (g_list_length (GTK_BOX (task_bar->priv->hbox)->children) == 0)
+		gtk_widget_hide (GTK_WIDGET (task_bar->priv->hbox));
 }
 
 void
@@ -203,13 +237,40 @@ e_task_bar_remove_task (ETaskBar *task_bar,
 	task_widget = e_task_bar_get_task_widget (task_bar, n);
 	gtk_widget_destroy (GTK_WIDGET (task_widget));
 
-	reduce_displayed_activities_per_component (task_bar);
+	/* We don't restrict here on */
+	/* reduce_displayed_activities_per_component (task_bar); */
 
 	if (g_list_length (GTK_BOX (task_bar->priv->hbox)->children) == 0)
 		gtk_widget_hide (GTK_WIDGET (task_bar->priv->hbox));
 }
-	
+
 ETaskWidget *
+e_task_bar_get_task_widget_from_id (ETaskBar *task_bar,
+			    guint id)
+{
+	GtkBoxChild *child_info;
+	ETaskWidget *w = NULL;
+	GList *list;
+
+	g_return_val_if_fail (task_bar != NULL, NULL);
+	g_return_val_if_fail (E_IS_TASK_BAR (task_bar), NULL);
+
+	list = GTK_BOX (task_bar->priv->hbox)->children;
+	while (list) {
+		child_info = list->data;
+		w = (ETaskWidget *) child_info->widget;
+		if (w && w->id == id)
+			break;
+
+		w = NULL;
+		list = list->next;
+	}
+	
+	return w;
+}
+
+ETaskWidget *
+
 e_task_bar_get_task_widget (ETaskBar *task_bar,
 			    int n)
 {

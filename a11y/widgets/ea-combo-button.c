@@ -16,7 +16,7 @@ static GType parent_type;
 /*Action IDs */
 enum {
 	ACTIVATE_DEFAULT,
-	POPUP_MENU,	
+	POPUP_MENU,
 	LAST_ACTION
 };
 
@@ -89,7 +89,7 @@ ea_combo_button_get_n_actions (AtkAction *action)
 static void
 atk_action_interface_init (AtkActionIface *iface)
 {
-	g_return_if_fail (iface != NULL);	
+	g_return_if_fail (iface != NULL);
 
 	iface->do_action = ea_combo_button_do_action;
 	iface->get_n_actions = ea_combo_button_get_n_actions;

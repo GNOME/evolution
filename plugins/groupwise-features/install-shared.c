@@ -93,20 +93,21 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 				parent_name = names[parts -2];
 			else
 				parent_name = NULL;
-		}	
+		}
 		camel_exception_init (&ex);
 		if (!(store = (CamelStore *) camel_session_get_service (mail_component_peek_session(NULL), uri, CAMEL_PROVIDER_STORE, &ex))) {
 			camel_exception_clear (&ex);
+			g_strfreev (names);
 			return;
 		}
 
-		cnc = get_cnc (store);	
+		cnc = get_cnc (store);
 		if(E_IS_GW_CONNECTION (cnc)) {
-			container_id = get_container_id (cnc, parent_name);	
+			container_id = get_container_id (cnc, parent_name);
 
 			if(e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (char *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
 
-				
+
 				folder = camel_store_get_folder (store, "Mailbox", 0, NULL);
 				/*changes = camel_folder_change_info_new ();
 				camel_folder_change_info_remove_uid (changes, (char *) item_id);
@@ -114,7 +115,7 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 				//camel_folder_delete_message (folder, item_id);
 				camel_folder_set_message_flags (folder, item_id, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 				camel_folder_summary_touch (folder->summary);
-				//camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);	
+				//camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
 				uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
 				account = mail_config_get_account_by_source_url (uri);
 				uri = account->source->url;
@@ -122,16 +123,19 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 				camel_exception_init (&ex);
 				if (!(provider = camel_provider_get(uri, &ex))) {
 					camel_exception_clear (&ex);
+					g_strfreev (names);
 					return;
 				}
 
 				/* make sure the new store belongs in the tree */
-				if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+				if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
+					g_strfreev (names);
 					return;
+				}
 
 				em_folder_tree_model_add_store (model, store, account->name);
 				camel_object_unref (store);
-			}  
+			}
 		}
 
 		g_strfreev(names);
@@ -149,13 +153,13 @@ accept_free(void *data)
 	g_free(accept_data);
 }
 
-static void 
+static void
 accept_clicked(GnomeDruidPage *page, GtkWidget *druid, CamelMimeMessage *msg)
 {
 	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
-	struct AcceptData *accept_data; 
+	struct AcceptData *accept_data;
 	char *uri;
 
 	accept_data = g_new0(struct AcceptData, 1);
@@ -221,12 +225,12 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 			g_free(start_message);
 			wizard = GNOME_DRUID (gnome_druid_new_with_window (_("Shared Folder Installation"), NULL, TRUE, (GtkWidget**)(&window)));
 			gtk_window_set_position (GTK_WINDOW (window) , GTK_WIN_POS_CENTER_ALWAYS);
-			gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(title_page));	
+			gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(title_page));
 			gtk_widget_show_all (GTK_WIDGET (title_page));
 			camel_object_ref(msg);
 			g_object_set_data_full((GObject *)title_page, "msg", msg, camel_object_unref);
 			g_signal_connect (title_page, "next", G_CALLBACK(accept_clicked), msg);
-		} else 
+		} else
 			g_warning ("Could not get the sender name");
 
 		camel_object_unref(content);

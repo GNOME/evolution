@@ -49,7 +49,7 @@ void send_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 void send_options_changed (EPlugin *epl, EConfigHookItemFactoryData *data);
 void send_options_abort (EPlugin *epl, EConfigHookItemFactoryData *data);
 
-static EGwConnection * 
+static EGwConnection *
 get_cnc (GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
@@ -59,27 +59,27 @@ get_cnc (GtkWindow *parent_window)
 	gboolean remember;
 
 	url = camel_url_new (account->source->url, NULL);
-	if (url == NULL) 
+	if (url == NULL)
 		return NULL;
-	poa_address = url->host; 
+	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return NULL;
-	
+
         soap_port = camel_url_get_param (url, "soap_port");
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
-	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
-	
+	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address);
+
 	if (use_ssl && !g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
-	else 
+	else
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
-	
+
 	failed_auth = "";
 	cnc = NULL;
-	
+
 	prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
 			failed_auth, poa_address, url->user);
 
@@ -101,7 +101,7 @@ get_cnc (GtkWindow *parent_window)
 }
 
 
-static void 
+static void
 e_send_options_load_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGeneral *ggopts)
 {
 	time_t temp;
@@ -113,12 +113,12 @@ e_send_options_load_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 	gopts->reply_enabled = ggopts->reply_enabled;
 	gopts->reply_convenient = ggopts->reply_convenient;
 	gopts->reply_within = ggopts->reply_within;
-	
+
 	gopts->expiration_enabled = ggopts->expiration_enabled;
 	gopts->expire_after = ggopts->expire_after;
 
 	gopts->delay_enabled = ggopts->delay_enabled;
-	
+
 	/* TODO convert int to timet comparing the current day */
 	if (ggopts->delay_until) {
 		gopts->delay_until = time_add_day_with_zone (temp, ggopts->delay_until, NULL);
@@ -141,12 +141,12 @@ e_send_options_load_status_options (ESendOptionsStatusTracking *sopts, EGwSendOp
 }
 
 static void
-e_send_options_load_default_data (EGwSendOptions *opts, ESendOptionsDialog *sod) 
+e_send_options_load_default_data (EGwSendOptions *opts, ESendOptionsDialog *sod)
 {
 	EGwSendOptionsGeneral *ggopts;
-	EGwSendOptionsStatusTracking *gmopts;	
-	EGwSendOptionsStatusTracking *gcopts;	
-	EGwSendOptionsStatusTracking *gtopts;	
+	EGwSendOptionsStatusTracking *gmopts;
+	EGwSendOptionsStatusTracking *gcopts;
+	EGwSendOptionsStatusTracking *gtopts;
 
 	ggopts = e_gw_sendoptions_get_general_options (opts);
 	gmopts = e_gw_sendoptions_get_status_tracking_options (opts, "mail");
@@ -165,16 +165,16 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 	EGwConnectionStatus status;
 	account = (EAccount *) data;
 	if (!sod) {
-		sod = e_sendoptions_dialog_new ();	
+		sod = e_sendoptions_dialog_new ();
 		e_sendoptions_set_global (sod, TRUE);
-		if (!n_cnc) 
+		if (!n_cnc)
 			n_cnc = get_cnc (GTK_WINDOW (gtk_widget_get_toplevel (button)));
 
 		if (!n_cnc) {
 			g_warning ("Send Options: Could not get the connection to the server \n");
 			return;
 		}
-			
+
 		status = e_gw_connection_get_settings (n_cnc, &opts);
 		if (status == E_GW_CONNECTION_STATUS_INVALID_CONNECTION)
 			status = e_gw_connection_get_settings (n_cnc, &opts);
@@ -184,7 +184,7 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 		}
 		e_send_options_load_default_data (opts, sod);
 	}
-	
+
 	if (n_cnc)
 		e_sendoptions_dialog_run (sod, parent ? parent : NULL, E_ITEM_NONE);
 	else
@@ -196,21 +196,21 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	GtkWidget *frame, *button, *label, *vbox;
-	
+
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
 	if(!g_strrstr (account->source->url, "groupwise://"))
 		return NULL;
-	
+
 	vbox = gtk_vbox_new (FALSE, 0);
 	frame = gtk_frame_new ("");
 	label = gtk_frame_get_label_widget (GTK_FRAME (frame));
-	gtk_label_set_markup (GTK_LABEL (label), "<b>Send Options</b>"); 
+	gtk_label_set_markup (GTK_LABEL (label), "<b>Send Options</b>");
 	button = gtk_button_new_with_label ("Advanced send options");
 	gtk_widget_show (button);
 
-	g_signal_connect(button, "clicked", 
+	g_signal_connect(button, "clicked",
 			    G_CALLBACK (e_sendoptions_clicked_cb), account);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (data->parent));
@@ -221,7 +221,7 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start (GTK_BOX (vbox), frame, 0, 0, 0);
 	gtk_container_add (GTK_CONTAINER (frame), button);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-	gtk_widget_show (frame);	
+	gtk_widget_show (frame);
 	gtk_box_set_spacing (GTK_BOX (data->parent), 12);
 	gtk_box_pack_start (GTK_BOX (data->parent), vbox, FALSE, FALSE, 0);
 
@@ -229,13 +229,13 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
-send_options_finalize ()
+send_options_finalize (void)
 {
 	if (n_cnc) {
 		g_object_unref (n_cnc);
 		n_cnc = NULL;
 	}
-	
+
 	if (sod) {
 		g_object_unref (sod);
 		sod = NULL;
@@ -247,7 +247,7 @@ send_options_finalize ()
 	}
 }
 
-static void 
+static void
 e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGeneral *ggopts)
 {
 	ggopts->priority = gopts->priority;
@@ -255,7 +255,7 @@ e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 	ggopts->reply_enabled = gopts->reply_enabled;
 	ggopts->reply_convenient = gopts->reply_convenient;
 	ggopts->reply_within = gopts->reply_within;
-	
+
 	ggopts->expire_after = gopts->expire_after;
 
 	if (gopts->expire_after == 0) {
@@ -265,11 +265,11 @@ e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 		ggopts->expiration_enabled = gopts->expiration_enabled;
 
 	ggopts->delay_enabled = gopts->delay_enabled;
-	
+
 	if (gopts->delay_until) {
 		int diff;
 		icaltimetype temp, current;
-		
+
 		temp = icaltime_from_timet (gopts->delay_until, 0);
 		current = icaltime_today ();
 		diff = temp.day - current.day;
@@ -302,7 +302,7 @@ check_status_options_changed (EGwSendOptionsStatusTracking *n_sopts, EGwSendOpti
 		&& n_sopts->declined == o_sopts->declined
 		&& n_sopts->accepted == o_sopts->accepted
 		&& n_sopts->completed == o_sopts->completed));
-		
+
 }
 
 static gboolean
@@ -319,12 +319,12 @@ check_general_changed (EGwSendOptionsGeneral *n_gopts, EGwSendOptionsGeneral *o_
 }
 
 static void
-send_options_copy_check_changed (EGwSendOptions *n_opts) 
+send_options_copy_check_changed (EGwSendOptions *n_opts)
 {
 	EGwSendOptionsGeneral *ggopts, *o_gopts;
-	EGwSendOptionsStatusTracking *gmopts, *o_gmopts ;	
-	EGwSendOptionsStatusTracking *gcopts, *o_gcopts;	
-	EGwSendOptionsStatusTracking *gtopts, *o_gtopts;	
+	EGwSendOptionsStatusTracking *gmopts, *o_gmopts ;
+	EGwSendOptionsStatusTracking *gcopts, *o_gcopts;
+	EGwSendOptionsStatusTracking *gtopts, *o_gtopts;
 
 	ggopts = e_gw_sendoptions_get_general_options (n_opts);
 	gmopts = e_gw_sendoptions_get_status_tracking_options (n_opts, "mail");
@@ -340,7 +340,7 @@ send_options_copy_check_changed (EGwSendOptions *n_opts)
 	e_send_options_copy_status_options (sod->data->mopts, gmopts);
 	e_send_options_copy_status_options (sod->data->copts, gcopts);
 	e_send_options_copy_status_options (sod->data->topts, gtopts);
-	
+
         if (check_general_changed (ggopts, o_gopts))
 		changed = TRUE;
 	if (check_status_options_changed (gmopts, o_gmopts))
@@ -357,23 +357,24 @@ get_source (ESourceList *list)
 	GSList *p, *l;
 	char **temp = g_strsplit (account->source->url, ";", -1);
 	char *uri = temp [0];
-	
-	
+
+
 	l = e_source_list_peek_groups (list);
 
 	for (p = l; p != NULL; p = p->next) {
 		char *so_uri;
-		GSList *r, *s;	
+		GSList *r, *s;
 		ESourceGroup *group = E_SOURCE_GROUP (p->data);
 
 		s = e_source_group_peek_sources (group);
 		for (r = s; r != NULL; r = r->next) {
 			ESource *so = E_SOURCE (r->data);
-			so_uri = e_source_get_uri (so); 
-			
-			if (so_uri) {	
+			so_uri = e_source_get_uri (so);
+
+			if (so_uri) {
 				if (!strcmp (so_uri, uri)) {
 					g_free (so_uri), so_uri = NULL;
+					g_strfreev (temp);
 					return E_SOURCE (r->data);
 				}
 				g_free (so_uri), so_uri = NULL;
@@ -386,31 +387,31 @@ get_source (ESourceList *list)
 	return NULL;
 }
 
-static void 
+static void
 add_return_value (EGwSendOptionsReturnNotify track, ESource *source, char *notify)
 {
 	char *value;
-	
+
 	switch (track) {
 		case E_GW_RETURN_NOTIFY_MAIL:
 			value =  g_strdup ("mail");
 			break;
 		default:
-			value = g_strdup ("none");		
+			value = g_strdup ("none");
 	}
-	
+
 	e_source_set_property (source, notify, value);
 	g_free (value), value = NULL;
 }
 
-static void 
+static void
 put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOptionsStatusTracking *sopts)
 {
 	char *value;
 	const char *val;
 	icaltimetype tt;
 	CamelURL  *url;
-      
+
        url = camel_url_new (account->source->url, NULL);
 
 	if (gopts) {
@@ -437,13 +438,13 @@ put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOpt
 		if (gopts->reply_enabled) {
 			if (gopts->reply_convenient)
 				value = g_strdup ("convinient");
-			else 
+			else
 				value = g_strdup_printf ("%d",gopts->reply_within);
 		 } else
 			value = g_strdup ("none");
 		e_source_set_property (source, "reply-requested", value);
 		g_free (value), value = NULL;
-		
+
 			/* Delay delivery */
 		if (gopts->delay_enabled) {
 				tt = icaltime_today ();
@@ -452,7 +453,7 @@ put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOpt
 		} else
 			val = "none";
 		e_source_set_property (source, "delay-delivery", val);
-		
+
 			/* Expiration date */
 		if (gopts->expiration_enabled)
 			value =  g_strdup_printf ("%d", gopts->expire_after);
@@ -461,7 +462,7 @@ put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOpt
 		e_source_set_property (source, "expiration", value);
 		g_free (value), value = NULL;
 	}
-		
+
 	if (sopts) {
 			/* status tracking */
 		if (sopts->tracking_enabled) {
@@ -480,14 +481,14 @@ put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOpt
 		e_source_set_property (source, "status-tracking", value);
 		g_free (value), value = NULL;
 
-		add_return_value (sopts->opened, source, "return-open"); 
-		add_return_value (sopts->accepted, source, "return-accept"); 
-		add_return_value (sopts->declined, source, "return-decline"); 
-		add_return_value (sopts->completed, source, "return-complete"); 
+		add_return_value (sopts->opened, source, "return-open");
+		add_return_value (sopts->accepted, source, "return-accept");
+		add_return_value (sopts->declined, source, "return-decline");
+		add_return_value (sopts->completed, source, "return-complete");
 	}
 }
-	
-static void 
+
+static void
 add_send_options_to_source (EGwSendOptions *n_opts)
 {
 	GConfClient *gconf = gconf_client_get_default ();
@@ -501,14 +502,14 @@ add_send_options_to_source (EGwSendOptions *n_opts)
 
 	list = e_source_list_new_for_gconf (gconf, "/apps/evolution/tasks/sources");
 	tsource = get_source (list);
-	
+
 	gopts = e_gw_sendoptions_get_general_options (n_opts);
 	copts = e_gw_sendoptions_get_status_tracking_options (n_opts, "calendar");
 	topts = e_gw_sendoptions_get_status_tracking_options (n_opts, "task");
 
 	if (csource)
 		put_options_in_source (csource, gopts, copts);
-	
+
 	if (tsource)
 		put_options_in_source (tsource, gopts, topts);
 
@@ -518,16 +519,16 @@ add_send_options_to_source (EGwSendOptions *n_opts)
 void
 send_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	EGwSendOptions *n_opts;	
+	EGwSendOptions *n_opts;
 	EGwConnectionStatus status = E_GW_CONNECTION_STATUS_OK;
-	
+
 	if (sod) {
 		n_opts = e_gw_sendoptions_new ();
 		send_options_copy_check_changed (n_opts);
-	
-		if (changed) 
+
+		if (changed)
 			status = e_gw_connection_modify_settings (n_cnc, n_opts);
-	
+
 		if (!changed || status != E_GW_CONNECTION_STATUS_OK) {
 			g_warning (G_STRLOC "Cannot modify Send Options:  %s", e_gw_connection_get_error_message (status));
 			g_object_unref (n_opts);

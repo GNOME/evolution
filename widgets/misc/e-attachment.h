@@ -58,7 +58,7 @@ struct _EAttachment {
 	gulong size;
 
 	GdkPixbuf *pixbuf_cache;
-	
+
 	GnomeVFSAsyncHandle *handle;
 	gboolean is_available_local;
 	int percentage;

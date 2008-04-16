@@ -33,7 +33,7 @@ typedef struct {
 	GHashTable *zones;
 	ECal *ecal;
 } CompTzData;
- 
+
  static void
 insert_tz_comps (icalparameter *param, void *cb_data)
 {
@@ -44,16 +44,16 @@ insert_tz_comps (icalparameter *param, void *cb_data)
 	GError *error = NULL;
 
 	tzid = icalparameter_get_tzid (param);
-	
+
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
-	
+
 	if (!e_cal_get_timezone (tdata->ecal, tzid, &zone, &error)) {
 		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
 		g_error_free (error);
 		return;
 	}
-	
+
 	tzcomp = icalcomponent_new_clone (icaltimezone_get_component (zone));
 	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
 }
@@ -96,7 +96,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		GnomeVFSFileSize bytes_written = 0;
 		GnomeVFSResult result;
 		CompTzData tdata;
- 
+
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
 		tdata.ecal = client;
 

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Danishka Navin <snavin@redhat.com>, 2007.
+# Danishka Navin <danishka@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: si\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-03 07:47+0100\n"
-"PO-Revision-Date: 2007-09-12 17:35+0530\n"
-"Last-Translator: Danishka Navin <snavin@redhat.com>\n"
+"PO-Revision-Date: 2008-01-29 15:56+0530\n"
+"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "නව සම්බන්ධතා ලැයිස්තුව"
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
 msgstr[0] "දැනට ඇති ලිපින පොතේ %s බහලුම තුළ කාඩ් %d ඇත"
-msgstr[1] ""
+msgstr[1] "දැනට ඇති ලිපින පොතේ %s බහලුම තුළ කාඩ් %d ඇත"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../ui/evolution-message-composer.xml.h:13
@@ -354,7 +355,7 @@ msgstr "සම්බන්ධතා ගෙනයා නොහැක"
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Category editor not available."
-msgstr ""
+msgstr "ප්‍රභේද සැකසුම භාවිතයට නැත."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid ""
@@ -369,7 +370,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Could not remove addressbook."
-msgstr ""
+msgstr "ලිපින පොත ඉවත් කළ නොහැක."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -575,19 +576,19 @@ msgstr "ඉවෝලුශන් ලිපින පොත"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
 msgid "Evolution Address Book address pop-up"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොතේ ලිපින උපත්තනය"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book address viewer"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොතේ ලිපින දසුන"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Address Book card viewer"
-msgstr ""
+msgstr "ඉවෝලුශන් ලිපින පොතේ කාඩ්පත් දසුන"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Address Book component"
-msgstr ""
+msgstr "ඉවොලුශන් ලිපින පොත් සංරචකය"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
@@ -1534,7 +1535,7 @@ msgstr "බ්‍රසීලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "බ්‍රිතාන්‍යයේ ඉන්දියානු සාගර ටෙරටරිය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Brunei Darussalam"
@@ -1622,7 +1623,7 @@ msgstr "කොස්ට රිකා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "කොට් ඩි'ඉවොයර්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Croatia"
@@ -1670,7 +1671,7 @@ msgstr "එල් සැල්වදෝරය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "එක්වටෝරියල් ගිනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Eritrea"
@@ -1690,7 +1691,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Faroe Islands"
-msgstr ""
+msgstr "ෆැරෝයි දූපත්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Fiji"
@@ -1706,7 +1707,7 @@ msgstr "ප්‍රංශය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Guiana"
-msgstr ""
+msgstr "ෆ්‍රෙන්ච් ගයනාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Polynesia"
@@ -1754,7 +1755,7 @@ msgstr "ග්‍රෙනාඩා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guadeloupe"
-msgstr ""
+msgstr "‍ගෝඩිලෝප්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guam"
@@ -1766,11 +1767,11 @@ msgstr "ග්වාතමාලාව"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guernsey"
-msgstr ""
+msgstr "ගුවර්න්සි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guinea"
-msgstr ""
+msgstr "ගිනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guinea-bissau"
@@ -1830,7 +1831,7 @@ msgstr "අයර්ලන්තය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Isle of Man"
-msgstr ""
+msgstr "අයිල් ඔෆ් මෑන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Israel"
@@ -1882,7 +1883,7 @@ msgstr "කුවේටය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "කිර්ජිස්ථාන්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Laos"
@@ -1962,7 +1963,7 @@ msgstr "මාටිනික්"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritania"
-msgstr ""
+msgstr "මවුරිටේනියා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mauritius"
@@ -2074,7 +2075,7 @@ msgstr "පාකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palau"
-msgstr ""
+msgstr "පලාවු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Palestinian Territory"
@@ -2114,7 +2115,7 @@ msgstr "පෘතුගාලය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Puerto Rico"
-msgstr ""
+msgstr "පෝටො රිකෝ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Qatar"
@@ -2134,7 +2135,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Rwanda"
-msgstr ""
+msgstr "ර්වන්ඩා"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Kitts And Nevis"
@@ -2230,7 +2231,7 @@ msgstr "සූඩානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Suriname"
-msgstr ""
+msgstr "සුරිනාමි"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Svalbard And Jan Mayen Islands"
@@ -2338,7 +2339,7 @@ msgstr "උස්බකිස්තානය"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Vanuatu"
-msgstr ""
+msgstr "වැනුආටු"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Venezuela"
@@ -2683,7 +2684,7 @@ msgstr ""
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:938
 msgid "Contact List Editor"
-msgstr ""
+msgstr "සම්බන්ධතා ලැයිස්තු සැකසුම"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Insert email addresses from Address Book"
@@ -2732,11 +2733,11 @@ msgstr "සාමාජිකයන් (_M)"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Members"
-msgstr ""
+msgstr "සම්බන්ධතා ලැයිස්තු සාමාජිකයන්"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr ""
+msgstr "සම්බන්ධතා වෙනස්වීම්:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
@@ -2794,12 +2795,12 @@ msgstr ""
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
 msgid "Email begins with"
-msgstr "විද්‍යුත් තැපැල ආරම්ඹ වනුයේ"
+msgstr "විද්‍යුත් තැපැල ආරම්භ වනුයේ"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.c:171
 msgid "Name begins with"
-msgstr "නම ආරම්ඹ වනුයේ"
+msgstr "නම ආරම්භ වනුයේ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:150
 msgid "No contacts"
@@ -3029,7 +3030,7 @@ msgstr "ISDN දුරකථනය"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Journal"
-msgstr ""
+msgstr "දෛනික සටහන්"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
@@ -3177,6 +3178,11 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"සම්බන්ධතා සඳහා සොයන්න\n"
+"\n"
+"හෝ නව සම්ගන්ධතාවක් නිර්මාණයට දෙවරක් ක්ලික් කරන්න."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:177
 msgid ""
@@ -3193,6 +3199,9 @@ msgid ""
 "\n"
 "Search for the Contact."
 msgstr ""
+"\n"
+"\n"
+"සම්බන්ධතා සඳහා සොයන්න."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
@@ -3832,7 +3841,7 @@ msgstr "ප්‍රමාණය:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
-msgstr "නව පිටුවක ආරම්ඹකරන්න"
+msgstr "නව පිටුවක ආරම්භ කරන්න"
 
 #: ../addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
@@ -4055,19 +4064,19 @@ msgstr "නව සිදුවීම් නිර්මාණය කරන්න
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Delete calendar '{0}'?"
-msgstr ""
+msgstr "'{0}' දිනදර්ශනය මකන්නද'?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Delete memo list '{0}'?"
-msgstr ""
+msgstr "'{0}' සිහිපත් ලැයිස්තුව මකන්නද?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Delete task list '{0}'?"
-msgstr ""
+msgstr "'{0}' කාර්‍යය ලැයිස්තුව මකන්නද?"
 
 #: ../calendar/calendar.error.xml.h:28
 msgid "Do _not Send"
-msgstr ""
+msgstr "නොයවන්න (_n)"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Download in progress. Do you want to save the appointment?"
@@ -4261,7 +4270,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:71
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Discard Changes"
-msgstr ""
+msgstr "වෙනස්කම් ඉවත දමන්න (_D)"
 
 #: ../calendar/calendar.error.xml.h:72 ../ui/evolution-editor.xml.h:23
 #: ../ui/evolution-message-composer.xml.h:59
@@ -4279,7 +4288,7 @@ msgstr "යවන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "_Send Notice"
-msgstr ""
+msgstr "නිවේදනය යනවන්න (_S)"
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "{0}."
@@ -4363,19 +4372,19 @@ msgstr ""
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution's Calendar component"
-msgstr ""
+msgstr "ඉවොලුශන් දිනදර්ශන සංරචකය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution's Memos component"
-msgstr ""
+msgstr "ඉවොලුශන් සිහිපත් සංරචකය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Tasks component"
-msgstr ""
+msgstr "ඉවොලුශන් කාර්‍යය සංරචකය"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
-msgstr ""
+msgstr "සිහිපත් (_s)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:335 ../calendar/gui/e-memos.c:1093
@@ -4383,7 +4392,7 @@ msgstr ""
 #: ../calendar/gui/memos-component.c:1021 ../calendar/gui/memos-control.c:336
 #: ../calendar/gui/memos-control.c:352
 msgid "Memos"
-msgstr ""
+msgstr "සිහිපත්"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:538 ../calendar/gui/e-tasks.c:1357
@@ -4451,7 +4460,7 @@ msgstr "පිහිටීම:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze _time:"
-msgstr ""
+msgstr "කෙටි විරාම කාළය (_t):"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
@@ -4470,7 +4479,7 @@ msgstr "සැකසුම් (_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Snooze"
-msgstr ""
+msgstr "කෙටි විරාමය (_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "location of appointment"
@@ -4479,16 +4488,16 @@ msgstr "හමුවීමේ ස්තානය"
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1474
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1597
 msgid "No summary available."
-msgstr ""
+msgstr "සාරාංශයක් භාවිතයට නැත."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1483
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1485
 msgid "No description available."
-msgstr ""
+msgstr "විස්තරයක් භාවිතයට නැත."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1493
 msgid "No location information available."
-msgstr ""
+msgstr "පිහිටුම් තොරතුරු භාවිතයට නැත."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1537
 #, c-format
@@ -4840,7 +4849,7 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:65
 #: ../plugins/startup-wizard/startup-wizard.c:108
 msgid "Timezone"
-msgstr ""
+msgstr "වේලා කළාපය"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 msgid ""
@@ -5581,7 +5590,7 @@ msgstr "කාර්‍යය ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:388
 msgid "Memo List"
-msgstr ""
+msgstr "සිහිපත් ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:477
 msgid "Calendar Properties"
@@ -5593,11 +5602,11 @@ msgstr "නව දිනදර්ශනය"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:564
 msgid "Task List Properties"
-msgstr ""
+msgstr "කාර්‍යය ලැයිස්තු වත්කම්"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:630
 msgid "New Memo List"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුව"
 
 #: ../calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
@@ -5654,7 +5663,7 @@ msgstr "වෙත"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:191 ../calendar/gui/print.c:2183
 msgid " (Completed "
-msgstr ""
+msgstr " (නිම කළා "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2185
 msgid "Completed "
@@ -5752,19 +5761,19 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2222
 #, c-format
 msgid "Meeting - %s"
-msgstr ""
+msgstr "රැස්වීම - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2181
 #: ../calendar/gui/dialogs/comp-editor.c:2224
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "සම්මුතීන් - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2185
 #: ../calendar/gui/dialogs/comp-editor.c:2228
 #, c-format
 msgid "Assigned Task - %s"
-msgstr ""
+msgstr "නියම කළ කාර්‍යය - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2187
 #: ../calendar/gui/dialogs/comp-editor.c:2230
@@ -5776,7 +5785,7 @@ msgstr "කාර්‍යය - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:2233
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "දෛනික ඇතුලත් කිරීම් - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2201
 #: ../calendar/gui/dialogs/comp-editor.c:2243
@@ -5877,7 +5886,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:601
 msgid "Appoint_ment"
-msgstr ""
+msgstr "සම්මුතීන් (_m)"
 
 #: ../calendar/gui/dialogs/event-editor.c:605
 #: ../ui/evolution-event-editor.xml.h:14
@@ -6072,7 +6081,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
-msgstr ""
+msgstr "සම්බන්ධතා... (_n)"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
@@ -6085,12 +6094,12 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/memo-editor.c:219 ../calendar/gui/print.c:2287
 msgid "Memo"
-msgstr ""
+msgstr "සිහිපත"
 
 #: ../calendar/gui/dialogs/memo-page.c:866
 #, c-format
 msgid "Unable to open memos in '%s'."
-msgstr ""
+msgstr "'%s' තුළ ඇති සිහිපත් විවෘත කිරීමට නොහැකි විය."
 
 #: ../calendar/gui/dialogs/memo-page.c:1017 ../mail/em-format-html.c:1508
 #: ../mail/em-format-html.c:1522 ../mail/em-format-html.c:1580
@@ -6384,7 +6393,7 @@ msgstr "සාමාන්‍ය"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:472 ../calendar/gui/print.c:2342
 msgid "Not Started"
-msgstr "ආරම්ඹව නැත"
+msgstr "ආරම්භව නැත"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
@@ -6534,7 +6543,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3002
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "%s විවෘත කිතීමට ක්ලික් කරන්න"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:157
 #: ../calendar/gui/e-cal-component-preview.c:157 ../filter/filter-rule.c:805
@@ -6666,11 +6675,11 @@ msgstr "නොදන්නා"
 
 #: ../calendar/gui/e-cal-model.c:926
 msgid "Recurring"
-msgstr ""
+msgstr "පුනරාවර්තනය වීම"
 
 #: ../calendar/gui/e-cal-model.c:928
 msgid "Assigned"
-msgstr ""
+msgstr "නියම කළ "
 
 #: ../calendar/gui/e-cal-popup.c:177 ../mail/em-popup.c:422
 msgid "Save As..."
@@ -6678,7 +6687,7 @@ msgstr "සුරකින අයුර..."
 
 #: ../calendar/gui/e-cal-popup.c:193 ../mail/em-format-html-display.c:2163
 msgid "Select folder to save selected attachments..."
-msgstr ""
+msgstr "තෝරාගත් ඇමුණුම් සුරකීමට බහලුමක් තෝරන්න..."
 
 #: ../calendar/gui/e-cal-popup.c:222 ../mail/em-popup.c:447
 #, c-format
@@ -6752,12 +6761,12 @@ msgstr "100%"
 #: ../calendar/gui/e-calendar-table.c:716
 #: ../calendar/gui/e-calendar-view.c:675 ../calendar/gui/e-memo-table.c:494
 msgid "Deleting selected objects"
-msgstr ""
+msgstr "තෝරාගත් වස්තු මකමින්"
 
 #: ../calendar/gui/e-calendar-table.c:995
 #: ../calendar/gui/e-calendar-view.c:803 ../calendar/gui/e-memo-table.c:697
 msgid "Updating objects"
-msgstr ""
+msgstr "වස්තු යාවත්කාලීන කරමින්"
 
 #: ../calendar/gui/e-calendar-table.c:1179
 #: ../calendar/gui/e-calendar-view.c:1229 ../calendar/gui/e-memo-table.c:872
@@ -6803,7 +6812,7 @@ msgstr "අලවන්න (_P)"
 
 #: ../calendar/gui/e-calendar-table.c:1366 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
-msgstr ""
+msgstr "නියම කළ  කාර්‍යය (_A)"
 
 #: ../calendar/gui/e-calendar-table.c:1367 ../calendar/gui/e-memo-table.c:988
 #: ../ui/evolution-tasks.xml.h:26
@@ -6812,23 +6821,23 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:1368
 msgid "_Mark as Complete"
-msgstr ""
+msgstr "නිම කළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1369
 msgid "_Mark Selected Tasks as Complete"
-msgstr ""
+msgstr "තෝරාගත් කාර්‍යය නිනිම කළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1370
 msgid "_Mark as Incomplete"
-msgstr ""
+msgstr "නිම නොකළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1371
 msgid "_Mark Selected Tasks as Incomplete"
-msgstr ""
+msgstr "තෝරාගත් කාර්‍යය නිම නොකළ ලෙස සළකුණු කරන්න (_M)"
 
 #: ../calendar/gui/e-calendar-table.c:1376
 msgid "_Delete Selected Tasks"
-msgstr ""
+msgstr "තෝරාගත් කාර්‍යය මකන්න (_D)"
 
 #: ../calendar/gui/e-calendar-table.c:1610
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -6846,11 +6855,11 @@ msgstr "නිමාව"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
-msgstr ""
+msgstr "නිම කළ දිනය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
-msgstr ""
+msgstr "නිම කළ යුතු දිනය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:8
 #: ../plugins/save-calendar/csv-format.c:397
@@ -6859,7 +6868,7 @@ msgstr "ප්‍රමුකත්වය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
-msgstr ""
+msgstr "ආරම්භක දිනය"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:10
 #: ../calendar/gui/e-meeting-list-view.c:534
@@ -6874,15 +6883,15 @@ msgstr "කාර්‍යය අනුපිළිවෙළට සකසන්�
 
 #: ../calendar/gui/e-calendar-view.c:1348
 msgid "Moving items"
-msgstr ""
+msgstr "අයිතම ගෙනයමින්"
 
 #: ../calendar/gui/e-calendar-view.c:1350
 msgid "Copying items"
-msgstr ""
+msgstr "අයිතම පිටපත් කරමින්"
 
 #: ../calendar/gui/e-calendar-view.c:1659
 msgid "New _Appointment..."
-msgstr ""
+msgstr "නව සම්මුතීන්... (_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1660
 msgid "New All Day _Event"
@@ -6895,23 +6904,23 @@ msgstr "නව රැස්වීම (_M)"
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1672
 msgid "_Current View"
-msgstr ""
+msgstr "දැනට ඇති දසුන (_C)"
 
 #: ../calendar/gui/e-calendar-view.c:1674
 msgid "Select T_oday"
-msgstr ""
+msgstr "අද දිනය තෝරන්න (_o)"
 
 #: ../calendar/gui/e-calendar-view.c:1675
 msgid "_Select Date..."
-msgstr ""
+msgstr "දිනය තෝරන්න... (_S)"
 
 #: ../calendar/gui/e-calendar-view.c:1691
 msgid "Cop_y to Calendar..."
-msgstr ""
+msgstr "දිනදර්ශනයට පිටපත් කරන්න... (_y)"
 
 #: ../calendar/gui/e-calendar-view.c:1692
 msgid "Mo_ve to Calendar..."
-msgstr ""
+msgstr "දිනදර්ශනයට ගෙනයන්න... (_v)"
 
 #: ../calendar/gui/e-calendar-view.c:1693
 msgid "_Delegate Meeting..."
@@ -7119,7 +7128,7 @@ msgstr ""
 #. For Translators : 'starts' is starts:date implying a task starts on what date
 #: ../calendar/gui/e-itip-control.c:888
 msgid "Starts"
-msgstr "ආරම්ඹය"
+msgstr "ආරම්භය"
 
 #. For Translators : 'ends' is ends:date implying a task ends on what date
 #: ../calendar/gui/e-itip-control.c:902
@@ -7644,7 +7653,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:619
 msgid "_Start time:"
-msgstr "ආරම්ඹක වේලාව (_S):"
+msgstr "ආරම්භක වේලාව (_S):"
 
 #: ../calendar/gui/e-meeting-time-sel.c:646
 msgid "_End time:"
@@ -7680,15 +7689,15 @@ msgstr "සාමාජිකයා"
 
 #: ../calendar/gui/e-memo-table.c:993
 msgid "_Delete Selected Memos"
-msgstr ""
+msgstr "තෝරාගත් සිහිපත් මකන්න (_D)"
 
 #: ../calendar/gui/e-memo-table.c:1144 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
-msgstr ""
+msgstr "සිහිපතක් එක් කිරීමට ක්ලික් කරන්න"
 
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Memo sort"
-msgstr ""
+msgstr "සිහිපත් පිළිවෙලට සැකසීම"
 
 #: ../calendar/gui/e-memos.c:732 ../calendar/gui/e-tasks.c:844
 #: ../calendar/gui/gnome-cal.c:2828
@@ -7697,32 +7706,34 @@ msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
+"%s මත දෝෂයකි:\n"
+" %s"
 
 #: ../calendar/gui/e-memos.c:781
 msgid "Loading memos"
-msgstr ""
+msgstr "සිහිපත් පූරණය වෙමින්"
 
 #: ../calendar/gui/e-memos.c:862
 #, c-format
 msgid "Opening memos at %s"
-msgstr ""
+msgstr "%s හි සිහිපත් විවෘත වෙමින්"
 
 #: ../calendar/gui/e-memos.c:1035 ../calendar/gui/e-tasks.c:1249
 msgid "Deleting selected objects..."
-msgstr ""
+msgstr "තෝරාගත් වස්තුන් මකමින්..."
 
 #: ../calendar/gui/e-tasks.c:894
 msgid "Loading tasks"
-msgstr ""
+msgstr "කාර්‍යය පූරණය වෙමින්"
 
 #: ../calendar/gui/e-tasks.c:981
 #, c-format
 msgid "Opening tasks at %s"
-msgstr ""
+msgstr "%s හි කාර්‍යය විවෘත වෙමින්"
 
 #: ../calendar/gui/e-tasks.c:1226
 msgid "Completing tasks..."
-msgstr ""
+msgstr "කාර්‍යය නිමකරමින්..."
 
 #: ../calendar/gui/e-tasks.c:1276
 msgid "Expunging"
@@ -7730,7 +7741,7 @@ msgstr ""
 
 #: ../calendar/gui/e-timezone-entry.c:135
 msgid "Select Timezone"
-msgstr ""
+msgstr "වේලාකළාපය තෝරන්න"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -7746,7 +7757,7 @@ msgstr ""
 
 #: ../calendar/gui/gnome-cal.c:2479
 msgid "_Custom View"
-msgstr ""
+msgstr "රිසිකළ දසුන (_C)"
 
 #: ../calendar/gui/gnome-cal.c:2480
 msgid "_Save Custom View"
@@ -7754,22 +7765,22 @@ msgstr "රිසි කළ දසුන සුරකින්න (_S)"
 
 #: ../calendar/gui/gnome-cal.c:2485
 msgid "_Define Views..."
-msgstr ""
+msgstr "දසුන නිර්වචනය කරන්න... (_D)"
 
 #: ../calendar/gui/gnome-cal.c:2651
 #, c-format
 msgid "Loading appointments at %s"
-msgstr ""
+msgstr "%s හි සම්මුතියන් පූරණය වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:2670
 #, c-format
 msgid "Loading tasks at %s"
-msgstr ""
+msgstr "%s හි කාර්‍යය පූරණය වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:2679
 #, c-format
 msgid "Loading memos at %s"
-msgstr ""
+msgstr "%s හි සිහිපත් පූරණය වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:2787
 #, c-format
@@ -7778,7 +7789,7 @@ msgstr "%s විවෘත වෙමින්"
 
 #: ../calendar/gui/gnome-cal.c:3726
 msgid "Purging"
-msgstr ""
+msgstr "නෙරපීමින්"
 
 #: ../calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -7826,7 +7837,7 @@ msgstr "ඔක්තෝම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr ""
+msgstr "දිනය තෝරන්න"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
@@ -7834,7 +7845,7 @@ msgstr "සැප්තැම්බර්"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr ""
+msgstr "අද දිනය තෝරන්න (_S)"
 
 #: ../calendar/gui/itip-utils.c:523 ../calendar/gui/itip-utils.c:572
 #: ../calendar/gui/itip-utils.c:678
@@ -7847,27 +7858,27 @@ msgstr ""
 
 #: ../calendar/gui/itip-utils.c:764 ../calendar/gui/itip-utils.c:887
 msgid "Event information"
-msgstr ""
+msgstr "සිදුවීම් තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:766 ../calendar/gui/itip-utils.c:889
 msgid "Task information"
-msgstr ""
+msgstr "කාර්‍යය තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:768 ../calendar/gui/itip-utils.c:891
 msgid "Journal information"
-msgstr ""
+msgstr "දෛනික සටහන් තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:770 ../calendar/gui/itip-utils.c:909
 msgid "Free/Busy information"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුල තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:772
 msgid "Calendar information"
-msgstr ""
+msgstr "දිනදර්ශන තොරතුරු"
 
 #: ../calendar/gui/itip-utils.c:821
 msgid "Updated"
-msgstr ""
+msgstr "යාවත්කාලීන කළ"
 
 #: ../calendar/gui/itip-utils.c:829
 msgid "Refresh"
@@ -7880,7 +7891,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:905
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr ""
+msgstr "නිදහස්/කාර්‍යය බහුල තොරතුරු (%s, %s වෙතට)"
 
 #: ../calendar/gui/itip-utils.c:915
 msgid "iCalendar information"
@@ -7892,21 +7903,21 @@ msgstr ""
 
 #: ../calendar/gui/memos-component.c:464
 msgid "_New Memo List"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුව (_N)"
 
 #: ../calendar/gui/memos-component.c:540
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "සිහිපත් %d ක්"
+msgstr[1] "සිහිපත් %d ක්"
 
 #: ../calendar/gui/memos-component.c:542 ../calendar/gui/tasks-component.c:533
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d තෝරාගන් ලඳි"
+msgstr[1] ", %d තෝරාගන් ලඳි"
 
 #: ../calendar/gui/memos-component.c:589
 msgid "Failed upgrading memos."
@@ -7923,47 +7934,47 @@ msgstr ""
 
 #: ../calendar/gui/memos-component.c:996
 msgid "Memo Source Selector"
-msgstr ""
+msgstr "සිහිපත් මූල තෝරණය"
 
 #: ../calendar/gui/memos-component.c:1179
 msgid "New memo"
-msgstr ""
+msgstr "නව සිහිපත"
 
 #: ../calendar/gui/memos-component.c:1180
 msgid "Mem_o"
-msgstr ""
+msgstr "සිහිපත (_o)"
 
 #: ../calendar/gui/memos-component.c:1181
 msgid "Create a new memo"
-msgstr ""
+msgstr "නව සිහිපතක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/memos-component.c:1187
 msgid "New shared memo"
-msgstr ""
+msgstr "නව හවුල් සිහිපත"
 
 #: ../calendar/gui/memos-component.c:1188
 msgid "_Shared memo"
-msgstr ""
+msgstr "හවුල් සිහිපත (_S)"
 
 #: ../calendar/gui/memos-component.c:1189
 msgid "Create a shared new memo"
-msgstr ""
+msgstr "නව හවුල් සිහිපතක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/memos-component.c:1195
 msgid "New memo list"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුව"
 
 #: ../calendar/gui/memos-component.c:1196
 msgid "Memo li_st"
-msgstr ""
+msgstr "සිහිපත් ලැයිස්තුව (_s)"
 
 #: ../calendar/gui/memos-component.c:1197
 msgid "Create a new memo list"
-msgstr ""
+msgstr "නව සිහිපත් ලැයිස්තුවක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/memos-control.c:336 ../calendar/gui/memos-control.c:352
 msgid "Print Memos"
-msgstr ""
+msgstr "සිහිපත් මුද්‍රණය කරන්න"
 
 #: ../calendar/gui/migration.c:164
 msgid ""
@@ -8160,7 +8171,7 @@ msgstr "ශනි"
 
 #: ../calendar/gui/print.c:2283
 msgid "Appointment"
-msgstr ""
+msgstr "සම්මුතිය"
 
 #: ../calendar/gui/print.c:2285
 msgid "Task"
@@ -8198,16 +8209,16 @@ msgstr "ප්‍රභේද: %s"
 
 #: ../calendar/gui/print.c:2423
 msgid "Contacts: "
-msgstr ""
+msgstr "සම්බන්ධතා:"
 
 #. TODO Allow the user to customize the title.
 #: ../calendar/gui/print.c:2524
 msgid "Upcoming Appointments"
-msgstr ""
+msgstr "ඉදිරියට ඇති සම්මුති"
 
 #: ../calendar/gui/tasks-component.c:455
 msgid "_New Task List"
-msgstr ""
+msgstr "නව කාර්‍යය ලැයිස්තුව (_N)"
 
 #: ../calendar/gui/tasks-component.c:531
 #, c-format
@@ -8218,7 +8229,7 @@ msgstr[1] "කාර්‍යය %d ක්"
 
 #: ../calendar/gui/tasks-component.c:580
 msgid "Failed upgrading tasks."
-msgstr ""
+msgstr "කාර්‍යයන් යාවත්කාලීන කරන්න."
 
 #: ../calendar/gui/tasks-component.c:891
 #, c-format
@@ -8231,7 +8242,7 @@ msgstr ""
 
 #: ../calendar/gui/tasks-component.c:1001
 msgid "Task Source Selector"
-msgstr ""
+msgstr "කාර්‍යය මූල තෝරණය"
 
 #: ../calendar/gui/tasks-component.c:1257
 msgid "New task"
@@ -8239,31 +8250,31 @@ msgstr "නව කාර්‍යය"
 
 #: ../calendar/gui/tasks-component.c:1259
 msgid "Create a new task"
-msgstr ""
+msgstr "නව කාර්‍යයක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/tasks-component.c:1265
 msgid "New assigned task"
-msgstr ""
+msgstr "නව නියම කළ කාර්‍යය"
 
 #: ../calendar/gui/tasks-component.c:1266
 msgid "Assigne_d Task"
-msgstr ""
+msgstr "නියම කළ කාර්‍යය (_d) Tas"
 
 #: ../calendar/gui/tasks-component.c:1267
 msgid "Create a new assigned task"
-msgstr ""
+msgstr "නව නියම කළ කාර්‍යයක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/tasks-component.c:1273
 msgid "New task list"
-msgstr ""
+msgstr "නව කාර්‍යය ලැයිස්තුව"
 
 #: ../calendar/gui/tasks-component.c:1274
 msgid "Tas_k list"
-msgstr ""
+msgstr "කාර්‍යය ලැයිස්තුව (_k)"
 
 #: ../calendar/gui/tasks-component.c:1275
 msgid "Create a new task list"
-msgstr ""
+msgstr "නව කාර්‍යය ලැයිස්තුවක් නිර්මාණය කරන්න"
 
 #: ../calendar/gui/tasks-control.c:438
 msgid ""
@@ -8275,11 +8286,11 @@ msgstr ""
 
 #: ../calendar/gui/tasks-control.c:441
 msgid "Do not ask me again."
-msgstr ""
+msgstr "නැවත මාගෙන් අහන්න ඒපා."
 
 #: ../calendar/gui/tasks-control.c:478 ../calendar/gui/tasks-control.c:494
 msgid "Print Tasks"
-msgstr ""
+msgstr "කාර්‍යයන් මුද්‍රණය කරන්න"
 
 #. The first letter of each day of the week starting with Sunday
 #: ../calendar/gui/weekday-picker.c:319
@@ -8288,12 +8299,12 @@ msgstr "SMTWTFS"
 
 #: ../calendar/importers/icalendar-importer.c:79
 msgid "Appointments and Meetings"
-msgstr ""
+msgstr "සම්මුතීන් සහ රැස්වීම්"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
 msgid "Opening calendar"
-msgstr ""
+msgstr "දිනදර්ශනය විවෘත වෙමින්"
 
 #: ../calendar/importers/icalendar-importer.c:444
 msgid "iCalendar files (.ics)"
@@ -8305,7 +8316,7 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:521
 msgid "Reminder!"
-msgstr ""
+msgstr "සිහිකැදවීම!"
 
 #: ../calendar/importers/icalendar-importer.c:573
 msgid "vCalendar files (.vcf)"
@@ -8317,7 +8328,7 @@ msgstr ""
 
 #: ../calendar/importers/icalendar-importer.c:736
 msgid "Calendar Events"
-msgstr ""
+msgstr "දිනදර්ශන සිදුවීම්"
 
 #: ../calendar/importers/icalendar-importer.c:773
 msgid "Evolution Calendar intelligent importer"
@@ -10553,7 +10564,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
-msgstr ""
+msgstr "ඉවොලුශන් තැපැල් සංරචකය"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail composer"
@@ -10736,7 +10747,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "නියම කළ වර්‍ණය"
 
 #: ../mail/em-filter-i18n.h:4
 msgid "Assign Score"
@@ -10780,15 +10791,15 @@ msgstr "මැකන ලඳි"
 
 #: ../mail/em-filter-i18n.h:13
 msgid "does not contain"
-msgstr ""
+msgstr "අඩංගු නැත"
 
 #: ../mail/em-filter-i18n.h:14
 msgid "does not end with"
-msgstr ""
+msgstr "සමඟ අඩංගු නොවේ"
 
 #: ../mail/em-filter-i18n.h:15
 msgid "does not exist"
-msgstr ""
+msgstr "ඇතුළත් නැත"
 
 #: ../mail/em-filter-i18n.h:16
 msgid "does not return"
@@ -13076,10 +13087,13 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
+"කරුණාකර ඔබගේ නම සහ විද්‍යුත් තැපැල් ලිපිනය පහත ඇතුළත් කරන්න. පහත දැක්වෙන \"විකල්ප\" ක්‍ෂේත්‍ර "
+"පිරවීම අනිවාර්ය නොවන අතර, ඔබ යවන විද්‍යුත් තැපැල් සමඟ එම තොරතුරු යැවීමට අවශ්‍යනම් "
+"පමණක් එම තොරතුරු සම්පූර්‍ණ කරන්න."
 
 #: ../mail/mail-config.glade.h:113
 msgid "Please select among the following options"
-msgstr ""
+msgstr "කරුණාකර පහත විකල්ප අතරින් එකක් තෝරන්න"
 
 #: ../mail/mail-config.glade.h:114
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13222,6 +13236,9 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
+"ඉවොලුෂන් තැපැල් මානකරණ සහකරු වෙතට සාදරයෙන් පිළිගනිමු.\n"
+"\n"
+"ඇරඹීමට \"ඉදිරියට\" ක්ලික් කරන්න. "
 
 #: ../mail/mail-config.glade.h:157
 msgid "_Add Signature"
@@ -17353,7 +17370,7 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:393
 msgid "Start"
-msgstr "ආරම්ඹන්න"
+msgstr "ආරම්භන්න"
 
 #: ../plugins/save-calendar/csv-format.c:394
 msgid "End"
@@ -17451,11 +17468,11 @@ msgstr ""
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Startup wizard"
-msgstr ""
+msgstr "ඇරඹුම් විශාරද"
 
 #: ../plugins/startup-wizard/startup-wizard.c:84
 msgid "Evolution Setup Assistant"
-msgstr ""
+msgstr "ඉවොලුෂන් සැකසීමේ සහකරු"
 
 #: ../plugins/startup-wizard/startup-wizard.c:87
 msgid "Welcome"
@@ -17468,10 +17485,13 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"ඉවොලුෂන් වෙතට සාඳරයෙන් පිළිගන්නෙමු. මීළඟට ලැබෙන මුහුණත් මඟින් ඉවොලුෂන් ඔබගේ විද්‍යුත් තැපැල් ගිණුම් වෙතට සම්බන්ධ වීමට සහ වෙනත් යෙදුම් වෙතින් ගොනු ආයාත කිරීමට අවස්ථාව සලසාදෙනු ඇත. \n"
+"\n"
+"කරුණාකර ඉදිරියට කරගෙන යාම සඳහා \"ඉදිරියට\" බොත්තම ක්ලික් කරන්න. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:134
 msgid "Importing files"
-msgstr ""
+msgstr "ගොනු ආයාත කරමින්"
 
 #: ../plugins/startup-wizard/startup-wizard.c:136
 #: ../shell/e-shell-importer.c:147
@@ -17487,7 +17507,7 @@ msgstr "%s වෙතින්:"
 #: ../plugins/startup-wizard/startup-wizard.c:231
 #: ../shell/e-shell-importer.c:508
 msgid "Importing data."
-msgstr ""
+msgstr "ගොනු ආයාත කරමින්."
 
 #: ../plugins/startup-wizard/startup-wizard.c:233
 #: ../shell/e-shell-importer.c:522
@@ -17533,7 +17553,7 @@ msgstr ""
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr ""
+msgstr "ඉවොලුශන් පරික්‍ෂණ සංරචකය"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "A string description of the current printer settings"
@@ -17541,7 +17561,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Configuration version"
-msgstr ""
+msgstr "මානකරණ වෙළුම"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Default sidebar width"
@@ -17761,7 +17781,7 @@ msgstr ""
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:584
 msgid "translator-credits"
-msgstr "පරිවර්තන ස්තුතිය"
+msgstr "ඩනිෂ්ක නවින් <danishka@gmail.com>"
 
 #: ../shell/e-shell-window-commands.c:595
 msgid "Evolution Website"
@@ -18841,7 +18861,7 @@ msgstr "වැඩ කරන සතිය දර්ශනය කරන්න"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
-msgstr ""
+msgstr "දැනට ඇති සම්මූතින් පෙන්වන්න"
 
 #: ../ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -18853,7 +18873,7 @@ msgstr "වැඩ කරන සතිය"
 
 #: ../ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
-msgstr ""
+msgstr "සම්මුතින් විවෘත කරන්න (_O)"
 
 #: ../ui/evolution-composer-entries.xml.h:2 ../ui/evolution-editor.xml.h:7
 msgid "Copy selected text to the clipboard"
@@ -18881,7 +18901,7 @@ msgstr ""
 
 #: ../ui/evolution-composer-entries.xml.h:12 ../ui/evolution-editor.xml.h:14
 msgid "Select all text"
-msgstr ""
+msgstr "සියළු පෙළ තෝරන්න"
 
 #: ../ui/evolution-editor.xml.h:1 ../ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -20433,7 +20453,7 @@ msgstr "එකතුව"
 #: ../widgets/menus/gal-define-views.glade.h:4
 #, no-c-format
 msgid "Define Views for %s"
-msgstr ""
+msgstr "%s සඳහා දසුන් නිර්වචනය"
 
 #: ../widgets/menus/gal-define-views-dialog.c:368
 #: ../widgets/menus/gal-define-views-dialog.c:370
@@ -20443,7 +20463,7 @@ msgstr "දසුන් නිර්වචනය"
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
 msgid "Define Views for \"%s\""
-msgstr ""
+msgstr "\"%s\" සඳහා දසුන් නිර්වචනය"
 
 #: ../widgets/menus/gal-view-factory-etable.c:37
 #: ../widgets/table/e-table-header-item.c:1910
@@ -20494,7 +20514,7 @@ msgstr "දසුන තෝරන්න: %s"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Current view is a customized view"
-msgstr ""
+msgstr "දැනට ඇති දසුන රිසිකළ දසුනකි"
 
 #: ../widgets/menus/gal-view-menus.c:364
 msgid "Save Custom View..."
@@ -20557,7 +20577,7 @@ msgstr "MIME වර්‍ගය:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "ඇමුණුමේ ස්වයංක්‍රීය දර්ශනය යෝජනා කරන්න"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -20591,7 +20611,7 @@ msgstr "වර්‍ණය පුරවන්න"
 #: ../widgets/text/e-text.c:3570 ../widgets/text/e-text.c:3577
 #: ../widgets/text/e-text.c:3578
 msgid "GDK fill color"
-msgstr ""
+msgstr "GDK පිරවුම් වර්‍ණය"
 
 #: ../widgets/misc/e-canvas-background.c:474
 #: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-entry.c:1251
@@ -20646,7 +20666,7 @@ msgstr "දැන්"
 #: ../widgets/misc/e-cell-date-edit.c:795
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "වේලාව තිබිය යුතුම ආකාරය වනුයේ: %s"
 
 #: ../widgets/misc/e-cell-percent.c:79
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -20739,7 +20759,7 @@ msgstr "අක්‍ෂර කේතාංඛනය"
 
 #: ../widgets/misc/e-charset-picker.c:238
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "භාවිතා කළයුතු අක්‍ෂර කේතාංඛනය ඇතුළත් කරන්න"
 
 #: ../widgets/misc/e-charset-picker.c:345
 msgid "Other..."
@@ -20759,7 +20779,7 @@ msgstr ""
 
 #: ../widgets/misc/e-dateedit.c:362
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "දිනදර්ශනය දර්ශනයට මෙම බොත්තම ක්ලික් කරන්න"
 
 #: ../widgets/misc/e-dateedit.c:384
 msgid "Combo box to select time"
@@ -20829,7 +20849,7 @@ msgstr ""
 
 #: ../widgets/misc/e-expander.c:232
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "දර්ශකයේ පරතරය"
 
 #: ../widgets/misc/e-expander.c:233
 msgid "Spacing around expander arrow"
@@ -21121,11 +21141,11 @@ msgstr "%s (%d%% නිමවිය)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "Click here to go to URL"
-msgstr ""
+msgstr "URL වෙතට යාම සඳහා මෙතන ක්ලික් කරන්න"
 
 #: ../widgets/misc/gal-categories.glade.h:1
 msgid "Edit Master Category List..."
-msgstr ""
+msgstr "ප්‍රධාන ප්‍රභේද ලැස්තුව සකසන්න..."
 
 #: ../widgets/misc/gal-categories.glade.h:2
 msgid "Item(s) belong to these _categories:"
@@ -21153,31 +21173,31 @@ msgstr "තෝරාගත් තීරුව"
 
 #: ../widgets/table/e-cell-pixbuf.c:390
 msgid "Focused Column"
-msgstr ""
+msgstr "නාභිගත තීරුව"
 
 #: ../widgets/table/e-cell-pixbuf.c:397
 msgid "Unselected Column"
-msgstr ""
+msgstr "නොතේරු තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1798
 msgid "Strikeout Column"
-msgstr ""
+msgstr "හරස්ඉර තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1805
 msgid "Underline Column"
-msgstr ""
+msgstr "යටිඉර තීරුව "
 
 #: ../widgets/table/e-cell-text.c:1812
 msgid "Bold Column"
-msgstr ""
+msgstr "තද තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1819
 msgid "Color Column"
-msgstr ""
+msgstr "වර්‍ණ තීරුව"
 
 #: ../widgets/table/e-cell-text.c:1833
 msgid "BG Color Column"
-msgstr ""
+msgstr "BG වර්‍ණ තීරුව"
 
 #: ../widgets/table/e-table-config-no-group.glade.h:1
 msgid "<- _Remove"
@@ -21282,7 +21302,7 @@ msgstr "අනුපිළිවෙළට සකසා නැත"
 
 #: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
-msgstr ""
+msgstr "සමූහගතව නොවේ"
 
 #: ../widgets/table/e-table-config.c:662
 msgid "Available Fields"
@@ -21290,7 +21310,7 @@ msgstr "භාවිතයට ඇති ක්‍ෂේත්‍ර"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "_Group By..."
-msgstr ""
+msgstr "සමූහගත කළයුත්තේ... _G"
 
 #: ../widgets/table/e-table-config.glade.h:19
 msgid "_Show these fields in order:"
@@ -21301,7 +21321,7 @@ msgstr ""
 #: ../widgets/table/e-table-field-chooser.c:67
 #: ../widgets/table/e-table-header-item.c:1875
 msgid "DnD code"
-msgstr ""
+msgstr "DnD කේතය"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:74
 #: ../widgets/table/e-table-field-chooser-item.c:643
@@ -21316,7 +21336,7 @@ msgstr "තීරුවත් එක්කරන්න"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
-msgstr ""
+msgstr "ක්‍ෂේත්‍ර තෝරනය"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:2
 msgid ""
@@ -21328,15 +21348,15 @@ msgstr ""
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
-msgstr[0] "%s : %s (අයිතම %d)"
-msgstr[1] ""
+msgstr[0] "%s : %s (අයිතම %d ක්)"
+msgstr[1] "%s : %s (අයිතම %d ක්)"
 
 #: ../widgets/table/e-table-group-container.c:351
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
-msgstr[0] "%s (අයිතම %d)"
-msgstr[1] ""
+msgstr[0] "%s (අයිතම %d ක්)"
+msgstr[1] "%s (අයිතම %d ක්)"
 
 #: ../widgets/table/e-table-group-container.c:896
 #: ../widgets/table/e-table-group-container.c:897
@@ -21387,7 +21407,7 @@ msgstr ""
 #: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
 msgid "Selection model"
-msgstr ""
+msgstr "තේරිමේ ආකෘතිය"
 
 #: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-container.c:939
@@ -21458,7 +21478,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1488
 msgid "Format Column_s..."
-msgstr ""
+msgstr "තීරු සංයුතිය සකසන්න... (_s)"
 
 #: ../widgets/table/e-table-header-item.c:1490
 msgid "Custo_mize Current View..."
@@ -21470,7 +21490,7 @@ msgstr "අනුපිළිවෙළට සැකසන අයුර"
 
 #: ../widgets/table/e-table-header-item.c:1882
 msgid "Font Description"
-msgstr ""
+msgstr "අක්‍ෂර විස්තරය"
 
 #: ../widgets/table/e-table-header-item.c:1903
 #: ../widgets/table/e-table-sorter.c:173
@@ -21489,7 +21509,7 @@ msgstr "වගු ශීර්ෂකය"
 
 #: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
 msgid "Table model"
-msgstr ""
+msgstr "වගු ආකෘතිය"
 
 #: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 msgid "Cursor row"
@@ -21498,11 +21518,11 @@ msgstr ""
 #: ../widgets/table/e-table.c:3321 ../widgets/table/e-tree.c:3340
 #: ../widgets/table/e-tree.c:3341
 msgid "Always search"
-msgstr ""
+msgstr "සැමවිටම සොයන්න"
 
 #: ../widgets/table/e-table.c:3328
 msgid "Use click to add"
-msgstr ""
+msgstr "එක් කිරීමට ක්ලික් කරන්න"
 
 #: ../widgets/table/e-tree.c:3326 ../widgets/table/e-tree.c:3327
 msgid "ETree table adapter"
@@ -21554,17 +21574,17 @@ msgstr "උපරිම පෙළ"
 #: ../widgets/text/e-entry.c:1300 ../widgets/text/e-entry.c:1301
 #: ../widgets/text/e-text.c:3670 ../widgets/text/e-text.c:3671
 msgid "Allow newlines"
-msgstr ""
+msgstr "අළුත් පේළි අනුමත කරන්න"
 
 #: ../widgets/text/e-entry.c:1307 ../widgets/text/e-entry.c:1308
 #: ../widgets/text/e-text.c:3663 ../widgets/text/e-text.c:3664
 msgid "Draw borders"
-msgstr ""
+msgstr "චිත්‍රණ රාමූ"
 
 #: ../widgets/text/e-entry.c:1314 ../widgets/text/e-entry.c:1315
 #: ../widgets/text/e-text.c:3677 ../widgets/text/e-text.c:3678
 msgid "Draw background"
-msgstr ""
+msgstr "චිත්‍රණ පසුබිම"
 
 #: ../widgets/text/e-entry.c:1321 ../widgets/text/e-entry.c:1322
 #: ../widgets/text/e-text.c:3684 ../widgets/text/e-text.c:3685
@@ -21630,7 +21650,7 @@ msgstr "පෙළ උස"
 
 #: ../widgets/text/e-text.c:3698 ../widgets/text/e-text.c:3699
 msgid "IM Context"
-msgstr ""
+msgstr "IM සංධර්භය"
 
 #: ../widgets/text/e-text.c:3705 ../widgets/text/e-text.c:3706
 msgid "Handle Popup"

@@ -140,7 +140,7 @@ e_cell_combo_init			(ECellCombo	*ecc)
 
 	gtk_window_set_policy (GTK_WINDOW (ecc->popup_window),
 			       TRUE, TRUE, FALSE);
-  
+
 	frame = gtk_frame_new (NULL);
 	gtk_container_add (GTK_CONTAINER (ecc->popup_window), frame);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -226,7 +226,7 @@ e_cell_combo_dispose			(GObject *object)
 
 
 void
-e_cell_combo_set_popdown_strings	(ECellCombo	*ecc, 
+e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 					 GList		*strings)
 {
 	GList *elem;
@@ -278,7 +278,7 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 
 	error_code = gdk_pointer_grab (ecc->popup_list->window, TRUE,
 				       GDK_ENTER_NOTIFY_MASK |
-				       GDK_BUTTON_PRESS_MASK | 
+				       GDK_BUTTON_PRESS_MASK |
 				       GDK_BUTTON_RELEASE_MASK |
 				       GDK_POINTER_MOTION_HINT_MASK |
 				       GDK_BUTTON1_MOTION_MASK,
@@ -388,11 +388,11 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	gint column_width, row_height, scrollbar_width;
 	double x1, y1;
 	double wx, wy;
-  
+
 	/* This code is practically copied from GtkCombo. */
 	popup  = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
 	popwin = GTK_BIN (ecc->popup_window);
-  
+
 	gdk_window_get_origin (canvas->window, x, y);
 
 	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
@@ -427,13 +427,13 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	   the vertical scrollbar in case we need to show that. */
 	screen_width = gdk_screen_width ();
 	avail_width = screen_width - scrollbar_width;
-  
+
 	gtk_widget_size_request (ecc->popup_list, &list_requisition);
-	min_height = MIN (list_requisition.height, 
+	min_height = MIN (list_requisition.height,
 			  popup->vscrollbar->requisition.height);
 	if (!GTK_LIST (ecc->popup_list)->children)
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;
-  
+
 	/* Calculate the desired width. */
 	*width = list_requisition.width
 		+ 2 * popwin->child->style->xthickness
@@ -587,7 +587,7 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 	GtkWidget *event_widget;
 
 	event_widget = gtk_get_event_widget ((GdkEvent*) event);
-  
+
 	/* See if the button was released in the list (or its children). */
 	while (event_widget && event_widget != ecc->popup_list)
 		event_widget = event_widget->parent;
@@ -626,6 +626,9 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	    && event->keyval != GDK_KP_Enter
 	    && event->keyval != GDK_ISO_Enter
 	    && event->keyval != GDK_3270_Enter)
+		return FALSE;
+
+	if (event->keyval == GDK_Escape && (!ecc->popup_window||!GTK_WIDGET_VISIBLE (ecc->popup_window)))
 		return FALSE;
 
 	gtk_grab_remove (ecc->popup_window);

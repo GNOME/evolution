@@ -90,7 +90,7 @@ typedef struct _ImportDialogImporterPage {
 typedef struct _ImportData {
 	EShell *shell;
 	EShellWindow *window;
-	
+
 	GladeXML *wizard;
 	GtkWidget *dialog;
 	GtkWidget *druid;
@@ -120,8 +120,8 @@ typedef struct _ImportData {
 /*#define IMPORTER_DEBUG*/
 
 #ifdef IMPORTER_DEBUG
-#define IN g_print ("=====> %s (%d)\n", G_GNUC_FUNCTION, __LINE__)
-#define OUT g_print ("<==== %s (%d)\n", G_GNUC_FUNCTION, __LINE__)
+#define IN g_print ("=====> %s (%d)\n", G_STRFUNC, __LINE__)
+#define OUT g_print ("<==== %s (%d)\n", G_STRFUNC, __LINE__)
 #else
 #define IN
 #define OUT
@@ -166,9 +166,9 @@ create_help (const char *name)
 			break;
 	}
 
-	if (i >= num_info) 
+	if (i >= num_info)
 		g_warning ("i > num_info\n");
-	
+
 
 	label = gtk_label_new(i < num_info ? _(info[i].text): NULL);
 	gtk_widget_show (label);
@@ -286,14 +286,14 @@ importer_file_page_new (ImportData *data)
 	gtk_box_pack_start (GTK_BOX (page->vbox), table, TRUE, TRUE, 0);
 
 	label = gtk_label_new_with_mnemonic (_("F_ilename:"));
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1, 
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	page->filename = gtk_file_chooser_button_new (_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (page->filename), "selection-changed", G_CALLBACK (filename_changed), data);
 
-	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2, 
+	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2,
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filename);
 
@@ -305,7 +305,7 @@ importer_file_page_new (ImportData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	page->filetype = gtk_option_menu_new ();
-	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2, 
+	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2,
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
 
@@ -334,7 +334,7 @@ importer_type_page_new (ImportData *data)
 	page = g_new0 (ImportDialogTypePage, 1);
 
 	page->vbox = gtk_vbox_new (FALSE, 5);
-	page->intelligent = gtk_radio_button_new_with_mnemonic (NULL, 
+	page->intelligent = gtk_radio_button_new_with_mnemonic (NULL,
 							     _("Import data and settings from _older programs"));
 	gtk_box_pack_start (GTK_BOX (page->vbox), page->intelligent, FALSE, FALSE, 0);
 	page->file = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (page->intelligent),
@@ -402,7 +402,7 @@ prepare_intelligent_page (GnomeDruidPage *dpage,
 		gtk_widget_show(label);
 		g_free(str);
 
-		gtk_misc_set_alignment((GtkMisc *)label, 0, .5); 
+		gtk_misc_set_alignment((GtkMisc *)label, 0, .5);
 
 		gtk_table_attach((GtkTable *)table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 		if (w)
@@ -424,8 +424,8 @@ import_druid_cancel (GnomeDruid *druid,
 }
 
 static gboolean
-import_druid_esc (GnomeDruid *druid, 
-		  GdkEventKey *event, 
+import_druid_esc (GnomeDruid *druid,
+		  GdkEventKey *event,
 		  ImportData *data)
 {
 	if (event->keyval == GDK_Escape) {
@@ -450,7 +450,7 @@ import_druid_weak_notify (void *blah,
 	g_slist_free(data->filepage->items);
 
 	g_object_unref(data->import);
-		
+
 	g_object_unref(data->wizard);
 	g_free(data);
 }
@@ -493,7 +493,7 @@ import_intelligent_done(EImport *ei, void *d)
 	} else
 		import_done(ei, d);
 }
-				
+
 static void
 import_druid_finish (GnomeDruidPage *page,
 		     GnomeDruid *druid,
@@ -678,7 +678,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	data->import = e_import_new("org.gnome.evolution.shell.importer");
 
 	icon = e_icon_factory_get_icon ("stock_mail-import", E_ICON_SIZE_DIALOG);
-	
+
 	dialog_open = TRUE;
 	data->window = shell_window;
 	data->shell = e_shell_window_peek_shell (data->window);
@@ -692,7 +692,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 				"Evolution:shell");
 	e_dialog_set_transient_for (GTK_WINDOW (data->dialog), GTK_WIDGET (shell_window));
 	g_object_weak_ref ((GObject *)data->dialog, dialog_weak_notify, &dialog_open);
-	
+
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
 	g_signal_connect (data->druid, "cancel",
 			  G_CALLBACK (import_druid_cancel), data);
@@ -730,9 +730,9 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	html = create_help ("intelligent_html");
 	gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->importerpage->vbox), html, 0);
-	
+
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->intelligent)->vbox), data->importerpage->vbox, TRUE, TRUE, 0);
-	
+
 
 	/* File selection and file type page */
 	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");

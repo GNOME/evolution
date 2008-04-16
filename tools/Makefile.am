@@ -20,20 +20,6 @@ INCLUDES =						\
 
 EXTRA_DIST = verify-evolution-install.sh
 
-CORBA_SOURCE =                          \
-        Evolution-Composer.h            \
-        Evolution-Composer-common.c     \
-        Evolution-Composer-skels.c      \
-        Evolution-Composer-stubs.c
-
-BUILT_SOURCES = $(CORBA_SOURCE)
-
-idls =                                                          \
-        $(top_srcdir)/composer/Evolution-Composer.idl
-
-$(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(idls)
-
 killev_SOURCES =						\
 	killev.c
 

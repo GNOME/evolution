@@ -104,7 +104,7 @@ emp_target_free(EConfig *ep, EConfigTarget *t)
 			break; }
 		case EM_CONFIG_TARGET_ACCOUNT: {
 			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
-			
+
 			if (((EMConfig *)ep)->priv->account_changed_id) {
 				g_signal_handler_disconnect(s->account, ((EMConfig *)ep)->priv->account_changed_id);
 				((EMConfig *)ep)->priv->account_changed_id = 0;
@@ -157,7 +157,7 @@ emp_set_target(EConfig *ep, EConfigTarget *t)
 			break; }
 		case EM_CONFIG_TARGET_ACCOUNT: {
 			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
-			
+
 			((EMConfig *)ep)->priv->account_changed_id = g_signal_connect(s->account, "changed", G_CALLBACK(emp_account_changed), ep);
 			break; }
 		}
@@ -195,7 +195,7 @@ em_config_get_type(void)
 
 EMConfig *em_config_new(int type, const char *menuid)
 {
-	EMConfig *emp = g_object_new(em_config_get_type(), 0);
+	EMConfig *emp = g_object_new(em_config_get_type(), NULL);
 
 	e_config_construct(&emp->config, type, menuid);
 
@@ -270,14 +270,14 @@ static void *emph_parent_class;
 #define emph ((EMConfigHook *)eph)
 
 static const EConfigHookTargetMask emph_no_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EConfigHookTargetMap emph_targets[] = {
 	{ "folder", EM_CONFIG_TARGET_FOLDER, emph_no_masks },
 	{ "prefs", EM_CONFIG_TARGET_PREFS, emph_no_masks },
 	{ "account", EM_CONFIG_TARGET_ACCOUNT, emph_no_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static void
@@ -306,7 +306,7 @@ GType
 em_config_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMConfigHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -316,6 +316,6 @@ em_config_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_config_hook_get_type());
 		type = g_type_register_static(e_config_hook_get_type(), "EMConfigHook", &info, 0);
 	}
-	
+
 	return type;
 }

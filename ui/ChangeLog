@@ -1,3 +1,92 @@
+2008-04-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-addressbook.xml:
+	Add an icon for Edit->Select All.
+
+	* evolution-mail-list.xml:
+	Add icons for Folder->Delete and Folder->Refresh.
+
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #517134
+
+	* evolution-editor.xml: Added a placeholder to dock the "Recent
+	Documents" menu. 
+
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution-composer-entries.xml:
+	Remove this file; obsoleted by new composer.
+
+2008-01-28  Andre Klapper  <a9016009@gmx.de>
+
+	* evolution-mail-message.xml: Added translator comments.
+
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* evolution-mail-global.xml: Add Debug Log menu item for mailer.
+	* evolution.xml: Add place holder for Debug menu item.
+
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution.xml:
+	Fix capitalization of "Download Messages..." (HIG 8.3.2).
+
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* evolution.xml:
+	Fix capitalization of "Switcher Appearance" menu (HIG 8.3.2).
+
+2007-12-09  Andre Klapper  <a9016009@gmx.de>
+
+	* evolution.xml:
+	change "Evolution FAQ" menu item name to "Frequently Asked questions".
+	if i think of it, our users should not need a geek dictionary.
+
+2007-12-07  Denis Washington <denisw@svn.gnome.org>
+
+	** Fix for bug #500561
+
+	* evolution-mail-list.xml: Added icon for mark all messages as read menu 
+	item.
+
+2007-12-04  Alex Kloss  <alexkloss@att.net>
+
+	** Fixes bug #444227
+
+	* evolution-mail-global.xml:
+	Make string for PrepareForOffline more descriptive
+	Add mnemonic to PrepareForOffline menu item
+
+2007-11-26  Andre Klapper  <a9016009@gmx.de>
+
+	** Fixes bug #497810
+
+	* evolution.xml:
+	add "Evolution FAQ" help menu item 
+
+2007-11-26 Nicholas Miell <nmiell@gmail.com>
+
+	** Part of fix for bug #216485
+
+	* evolution-mail-list.xml
+	Add Select Message Subthread
+
+2007-11-10  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #209425
+
+	* evolution-calendar.xml:
+	Don't use gtk-home for the go-today action.
+
+2007-11-01  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #492106
+
+	* evolution.xml:
+	Use the about icon from the freedesktop spec, not
+	the deprecated gnomeui icon.
+
 2007-10-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution.xml:

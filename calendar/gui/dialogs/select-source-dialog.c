@@ -64,13 +64,13 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 		icon_list = e_icon_factory_get_icon_list ("stock_todo");
         else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
                 icon_list = e_icon_factory_get_icon_list ("stock_journal");
-	
+
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (dialog), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		selected_source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
 		if (selected_source) {

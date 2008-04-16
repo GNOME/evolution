@@ -22,7 +22,7 @@
 
 static GalViewClass *gal_view_minicard_parent_class;
 
-static void  
+static void
 gal_view_minicard_load (GalView *view,
 			const char *filename)
 {
@@ -192,7 +192,7 @@ column_width_changed (EMinicardViewWidget *w, double width, EABView *address_vie
 	GtkAdjustment *adj;
 	GtkAdjustment *adj_new;
 
-	d(g_print("%s: Old width = %f, New width = %f\n", G_GNUC_FUNCTION, view->column_width, width));
+	d(g_print("%s: Old width = %f, New width = %f\n", G_STRFUNC, view->column_width, width));
 	if (view->column_width != width) {
 		view->column_width = width;
 		gal_view_changed(GAL_VIEW(view));

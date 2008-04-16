@@ -1,3 +1,130 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Add EVOLUTION_MAIL_CFLAGS and EVOLUTION_MAIL_LIBS.
+
+	* exchange-mail-send-options.c (append_to_header),
+	(org_gnome_exchange_send_options):
+	Adapt to streamlined EMsgComposer API.
+
+2008-04-02  Ross Burton  <ross@openedhand.com>
+
+	** Fix for bug #522764
+
+	* exchange-account-setup.c:
+	* exchange-folder-subscription.c:
+	* exchange-folder-permission.c: Remove unused include.
+
+2008-03-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #511952
+
+	* exchange-folder-subscription.c: (setup_name_selector):
+	* exchange-send-options.c: (exchange_sendoptions_dialog_run):
+	Marking text for translation.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Fix for bug #339266 
+
+	* exchange-account-setup.c:
+	(org_gnome_exchange_show_folder_size_factory): Upstreamed OpenSUSE
+	patch.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #294999
+
+	* exchange-folder-subscription.c: (subscribe_to_folder): Upstreamed
+	OpenSUSE patch.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Patch from OpenSUSE.
+
+	* exchange-delegates-user.c: Warnings.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-folder-subscription.c: (subscribe_to_folder),
+	(create_folder_subscription_dialog): Pushing  a downstream patch from
+	OpenSUSE.
+
+2008-02-02  Jeff Cai <jeff.cai@sun.com>
+
+	** Fixes bug #513395
+
+	* exchange-account-setup.c: (owa_authenticate_user),
+	(owa_editor_entry_changed), (org_gnome_exchange_owa_url),
+	(org_gnome_exchange_check_options), (org_gnome_exchange_commit):
+	Check parameters before calling camel_url_new
+
+2008-01-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* exchange-calendar.c: (e_exchange_calendar_commit): Fixes a double
+	free.
+
+2007-12-31  Sushma Rai  <rsushma@novell.com>
+
+	** Fixes bug #327965
+
+	* exchange-calendar.c (e_exchange_calendar_commit): 
+	* exchange-contacts.c (e_exchange_contacts_commit): Setting the 
+	e-source property username with domain if the domain is specified.
+
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* exchange_folder.c:
+	Use the new MailMsg API for messages.
+
+2007-12-13  Tobias Mueller  <tobiasmue@svn.gnome.org>
+	Patch by evilninjasquirrel@hotbrev.com
+	
+	** Fixes bug 474043
+	* plugins/exchange-operations/exchange-operations.c:
+	* plugins/exchange-operations/exchange-operations.h
+	Prevent buffer overflows, by introducing a fourth parameter to
+	exchange_operations_tokenize_string - a max size to copy
+
+2007-12-04  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #466241
+
+	* exchange-account-setup.c: (org_gnome_exchange_auth_section):
+	Added a mnemonic to the Authentication Type label/dropdown
+
+2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* exchange-mail-send-options.c (append_to_header):
+	Use e_msg_composer_hdrs_get_from_account() to obtain the EAccount.
+
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #479081
+
+	* exchange-account-setup.c: (org_gnome_exchange_owa_url):
+	Check for input validity immediately after creating setup widgets.
+
+2007-11-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* exchange-folder.c (ex_create_folder_info):
+	Call camel_folder_info_new() instead of g_new0().
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* exchange-account-setup.c: (org_gnome_exchange_settings),
+	(print_error), (set_oof_info), (destroy_oof_data):
+	* exchange-delegates-user.c: (exchange_delegates_user_edit):
+	* exchange-mail-send-options.c: (append_to_header):
+	Warning fixes:
+	- mark some code static
+	- use non-deprecated GSignal apis
+	- rename shadowing variable
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

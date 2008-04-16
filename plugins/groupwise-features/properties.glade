@@ -139,8 +139,8 @@
 				      <child>
 					<widget class="GtkLabel" id="label557">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Name:</property>
-					  <property name="use_underline">False</property>
+					  <property name="label" translatable="yes">_Name:</property>
+					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>
 					  <property name="wrap">False</property>
@@ -241,7 +241,6 @@
 
 				  <child>
 				    <widget class="GtkButton" id="Address">
-				      <property name="width_request">96</property>
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
@@ -285,7 +284,7 @@
 					      <child>
 						<widget class="GtkLabel" id="label563">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">_Contacts...</property>
+						  <property name="label" translatable="yes">Con_tacts...</property>
 						  <property name="use_underline">True</property>
 						  <property name="use_markup">False</property>
 						  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -316,7 +315,6 @@
 
 				  <child>
 				    <widget class="GtkButton" id="Add">
-				      <property name="width_request">61</property>
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
@@ -359,7 +357,6 @@
 
 					      <child>
 						<widget class="GtkLabel" id="label561">
-						  <property name="width_request">29</property>
 						  <property name="visible">True</property>
 						  <property name="label" translatable="yes">_Add</property>
 						  <property name="use_underline">True</property>
@@ -527,7 +524,7 @@
 				      <child>
 					<widget class="GtkLabel" id="label564">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">_Customize notification message</property>
+					  <property name="label" translatable="yes">C_ustomize notification message</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -732,11 +729,12 @@
 
 	      <child>
 		<widget class="GtkScrolledWindow" id="scrolledwindow3">
+		  <property name="border_width">0</property>
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="hscrollbar_policy">GTK_POLICY_ALWAYS</property>
-		  <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
-		  <property name="shadow_type">GTK_SHADOW_NONE</property>
+		  <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+		  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+		  <property name="shadow_type">GTK_SHADOW_IN</property>
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		  <child>
@@ -788,7 +786,6 @@
 
 	  <child>
 	    <widget class="GtkLabel" id="label555">
-	      <property name="width_request">248</property>
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes"></property>
 	      <property name="use_underline">False</property>
@@ -848,8 +845,8 @@
 	  </child>
 	</widget>
 	<packing>
-	  <property name="padding">42</property>
-	  <property name="expand">True</property>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
 	  <property name="fill">True</property>
 	</packing>
       </child>

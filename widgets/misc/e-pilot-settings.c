@@ -27,10 +27,10 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include "e-pilot-settings.h"
 
-struct _EPilotSettingsPrivate 
+struct _EPilotSettingsPrivate
 {
 	GtkWidget *source;
 	GtkWidget *secret;
@@ -81,7 +81,7 @@ static void
 init (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	priv = g_new0 (EPilotSettingsPrivate, 1);
 
 	ps->priv = priv;
@@ -93,7 +93,7 @@ build_ui (EPilotSettings *ps, ESourceList *source_list)
 {
 	EPilotSettingsPrivate *priv;
 	GtkWidget *lbl;
-	
+
 	priv = ps->priv;
 
 	gtk_table_resize (GTK_TABLE (ps), 2, 2);
@@ -102,7 +102,7 @@ build_ui (EPilotSettings *ps, ESourceList *source_list)
 
 	lbl = gtk_label_new (_("Sync with:"));
 	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
-	priv->source = e_source_option_menu_new (source_list);
+	priv->source = e_source_combo_box_new (source_list);
 	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, 0, 1);
 	gtk_table_attach_defaults (GTK_TABLE (ps), priv->source, 1, 2, 0, 1);
 	gtk_widget_show (lbl);
@@ -134,12 +134,12 @@ e_pilot_settings_new (ESourceList *source_list)
 {
 	EPilotSettings *ps;
 	EPilotSettingsPrivate *priv;
-	
+
 	ps = g_object_new (E_TYPE_PILOT_SETTINGS, NULL);
 	priv = ps->priv;
 
 	build_ui (ps, source_list);
-	
+
 	return GTK_WIDGET (ps);
 }
 
@@ -147,38 +147,40 @@ ESource *
 e_pilot_settings_get_source (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
-	
-	g_return_val_if_fail (ps != NULL, FALSE);
-	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), FALSE);
+
+	g_return_val_if_fail (ps != NULL, NULL);
+	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
 
 	priv = ps->priv;
-	
-	return e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (priv->source));
+
+	return e_source_combo_box_get_active (
+		E_SOURCE_COMBO_BOX (priv->source));
 }
 
 void
 e_pilot_settings_set_source (EPilotSettings *ps, ESource *source)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_if_fail (ps != NULL);
 	g_return_if_fail (E_IS_PILOT_SETTINGS (ps));
 
 	priv = ps->priv;
 
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->source), source);
 }
 
 gboolean
 e_pilot_settings_get_secret (EPilotSettings *ps)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_val_if_fail (ps != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), FALSE);
 
 	priv = ps->priv;
-	
+
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->secret));
 }
 
@@ -186,7 +188,7 @@ void
 e_pilot_settings_set_secret (EPilotSettings *ps, gboolean secret)
 {
 	EPilotSettingsPrivate *priv;
-	
+
 	g_return_if_fail (ps != NULL);
 	g_return_if_fail (E_IS_PILOT_SETTINGS (ps));
 

@@ -32,6 +32,9 @@
 
 #include <gtk/gtkicontheme.h>
 #include <gtk/gtkimage.h>
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+#include <libgnomeui/gnome-thumbnail.h>
+#endif
 
 #include "e-icon-factory.h"
 #include "e-util-private.h"
@@ -110,22 +113,22 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 			int width;
 			GDir *dir;
 			char *x;
-			
+
 			if (!(dir = g_dir_open (EVOLUTION_ICONSDIR, 0, NULL))) {
 				goto done;
 			}
-			
+
 			/* scan icon directories looking for an icon with a size >= the size we need. */
 			while ((dent = g_dir_read_name (dir))) {
 				if (!(dent[0] >= '1' && dent[0] <= '9'))
 					continue;
-				
+
 				if (((width = strtol (dent, &x, 10)) < size) || *x != 'x')
 					continue;
-				
+
 				if (((strtol (x + 1, &x, 10)) != width) || *x != '\0')
 					continue;
-				
+
 				/* if the icon exists in this directory, we can [use/scale] it */
 				g_free (filename);
 				basename = g_strconcat (icon_name, ".png", NULL);
@@ -137,7 +140,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 				if ((unscaled = gdk_pixbuf_new_from_file (filename, NULL)))
 					break;
 			}
-			
+
 			g_dir_close (dir);
 		} else {
 			gchar *size_x_size;
@@ -161,7 +164,7 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 	if (unscaled != NULL) {
 		if(gdk_pixbuf_get_width(unscaled) != size || gdk_pixbuf_get_height(unscaled) != size)
 		{
-			pixbuf = gdk_pixbuf_scale_simple (unscaled, size, size, GDK_INTERP_BILINEAR);
+			pixbuf = e_icon_factory_pixbuf_scale (unscaled, size, size);
 			g_object_unref (unscaled);
 		} else
 			pixbuf = unscaled;
@@ -203,6 +206,8 @@ icon_theme_changed_cb (GtkIconTheme *icon_theme, gpointer user_data)
 void
 e_icon_factory_init (void)
 {
+	gchar *path;
+
 	if (name_to_icon != NULL)
 		return;
 
@@ -212,10 +217,13 @@ e_icon_factory_init (void)
 		(GDestroyNotify) icon_free);
 
 	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_append_search_path (icon_theme,
-                                   EVOLUTION_DATADIR G_DIR_SEPARATOR_S 
-                                   "evolution" G_DIR_SEPARATOR_S 
-                                   BASE_VERSION G_DIR_SEPARATOR_S "icons");
+	path = g_build_filename (EVOLUTION_DATADIR,
+				 "evolution",
+				 BASE_VERSION,
+				 "icons",
+				 NULL);
+	gtk_icon_theme_append_search_path (icon_theme, path);
+	g_free (path);
 	g_signal_connect (
 		icon_theme, "changed",
 		G_CALLBACK (icon_theme_changed_cb), NULL);
@@ -386,12 +394,12 @@ e_icon_factory_get_icon_list (const char *icon_name)
 	for (i = 0; i < G_N_ELEMENTS (icon_list_sizes); i++) {
 		size = icon_list_sizes[i];
 		sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
-		
+
 		if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
 			if ((icon = load_icon (icon_key, icon_name, size, FALSE)))
 				g_hash_table_insert (name_to_icon, icon->name, icon);
 		}
-		
+
 		if (icon && icon->pixbuf) {
 			list = g_list_prepend (list, icon->pixbuf);
 			g_object_ref (icon->pixbuf);
@@ -401,4 +409,31 @@ e_icon_factory_get_icon_list (const char *icon_name)
 	g_static_mutex_unlock (&mutex);
 
 	return list;
+}
+
+/**
+ * e_icon_factory_pixbuf_scale
+ * Scales pixbuf to desired size.
+ * @param pixbuf Pixbuf to be scaled.
+ * @param width Desired width, if less or equal to 0, then changed to 1.
+ * @param height Desired height, if less or equal to 0, then changed to 1.
+ * @return Scaled pixbuf.
+ **/
+GdkPixbuf *
+e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, int width, int height)
+{
+	g_return_val_if_fail (pixbuf != NULL, NULL);
+
+	if (width <= 0)
+		width = 1;
+
+	if (height <= 0)
+		height = 1;
+
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+	/* because this can only scale down, not up */
+	if (gdk_pixbuf_get_width (pixbuf) > width && gdk_pixbuf_get_height (pixbuf) > height)
+		return gnome_thumbnail_scale_down_pixbuf (pixbuf, width, height);
+#endif
+	return gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 }

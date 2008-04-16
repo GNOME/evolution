@@ -105,12 +105,12 @@ static GString *
 get_dir (gboolean make)
 {
 	GString *path;
-	time_t now = time(0);
+	time_t now = time(NULL);
 	static time_t last = 0;
-	
+
 #ifdef TEMP_HOME
 	char *tmpdir = NULL;
-	tmpdir = g_build_filename(g_get_home_dir(), ".evolution", 
+	tmpdir = g_build_filename(e_get_user_data_dir (),
 		"cache", "tmp", NULL);
 	path = g_string_new(tmpdir);
 	if (make && g_mkdir_with_parents(tmpdir, 0777) == -1) {
@@ -123,20 +123,20 @@ get_dir (gboolean make)
 	g_string_append_printf (path, "%d", (int) getuid ());
 	if (make) {
 		int ret;
-		
+
 		/* shoot now, ask questions later */
 		ret = g_mkdir (path->str, S_IRWXU);
 		if (ret == -1) {
 			if (errno == EEXIST) {
 				struct stat st;
-				
+
 				if (g_stat (path->str, &st) == -1) {
 					/* reset errno */
 					errno = EEXIST;
 					g_string_free (path, TRUE);
 					return NULL;
 				}
-				
+
 				/* make sure this is a directory and belongs to us... */
 				if (!S_ISDIR (st.st_mode) || st.st_uid != getuid ()) {
 					/* eek! this is bad... */
@@ -150,7 +150,7 @@ get_dir (gboolean make)
 			}
 		}
 	}
-#endif	
+#endif
 
 	d(printf("temp dir '%s'\n", path ? path->str : "(null)"));
 
@@ -168,20 +168,20 @@ e_mktemp (const char *template)
 {
 	GString *path;
 	char *ret;
-	
+
 	path = get_dir (TRUE);
 	if (!path)
 		return NULL;
-	
+
 	g_string_append_c (path, '/');
 	if (template)
 		g_string_append (path, template);
 	else
 		g_string_append (path, "unknown-XXXXXX");
-	
+
 	ret = mktemp (path->str);
 	g_string_free(path, ret == NULL);
-	
+
 	return ret;
 }
 
@@ -191,20 +191,20 @@ e_mkstemp (const char *template)
 {
 	GString *path;
 	int fd;
-	
+
 	path = get_dir (TRUE);
 	if (!path)
 		return -1;
-	
+
 	g_string_append_c (path, '/');
 	if (template)
 		g_string_append (path, template);
 	else
 		g_string_append (path, "unknown-XXXXXX");
-	
+
 	fd = g_mkstemp (path->str);
 	g_string_free(path, TRUE);
-	
+
 	return fd;
 }
 
@@ -214,17 +214,17 @@ e_mkdtemp (const char *template)
 {
 	GString *path;
 	char *tmpdir;
-	
+
 	path = get_dir (TRUE);
 	if (!path)
 		return NULL;
-	
+
 	g_string_append_c (path, '/');
 	if (template)
 		g_string_append (path, template);
 	else
 		g_string_append (path, "unknown-XXXXXX");
-	
+
 #ifdef HAVE_MKDTEMP
 	tmpdir = mkdtemp (path->str);
 #else
@@ -235,6 +235,6 @@ e_mkdtemp (const char *template)
 	}
 #endif
 	g_string_free(path, tmpdir == NULL);
-	
+
 	return tmpdir;
 }

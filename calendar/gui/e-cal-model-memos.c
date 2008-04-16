@@ -157,7 +157,7 @@ ecmm_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	/* TODO ask about mod type */
 	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
 		g_warning (G_STRLOC ": Could not modify the object!");
-		
+
 		/* TODO Show error dialog */
 	}
 }

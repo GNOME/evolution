@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-group-leaf.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -40,7 +40,7 @@ G_BEGIN_DECLS
 typedef struct {
 	ETableGroup group;
 
-	/* 
+	/*
 	 * Item.
 	 */
 	ETableItem *item;

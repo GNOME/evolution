@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-model.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -69,7 +69,7 @@ typedef struct {
 	/* Return an allocated string. */
 	char       *(*value_to_string)    (ETableModel *etm, int col, const void *value);
 
-	
+
 	/*
 	 * Signals
 	 */

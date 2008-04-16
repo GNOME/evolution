@@ -728,7 +728,7 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 #ifdef G_OS_WIN32
 		/* On Unix the parent exits already in
 		 * fork_to_background(), but without fork() exit only
-		 * after doing the job. XXX Is this correct? 
+		 * after doing the job. XXX Is this correct?
 		 */
 		if (IsFirstOne == FALSE)
 			_exit (-1);

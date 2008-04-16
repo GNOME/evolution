@@ -41,6 +41,7 @@
       <placeholder name="Attachments">
 	      <menuitem name="InsertAttachments" verb="" _label="_Attachment..."/>
       </placeholder>
+      <placeholder f="" name="RecentDocsPlaceholder"/>
      </submenu>
 
     <submenu name="Options" _label="_Options">

@@ -30,6 +30,7 @@
 #include <glib.h>
 
 #include "es-event.h"
+#include "e-shell.h"
 
 static GObjectClass *eme_parent;
 static ESEvent *es_event;
@@ -90,16 +91,16 @@ es_event_get_type(void)
 
 /**
  * es_event_peek:
- * @void: 
- * 
+ * @void:
+ *
  * Get the singular instance of the shell event handler.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 ESEvent *es_event_peek(void)
 {
 	if (es_event == NULL) {
-		es_event = g_object_new(es_event_get_type(), 0);
+		es_event = g_object_new(es_event_get_type(), NULL);
 		/** @HookPoint: Shell Events Hookpoint
 		 * Id: org.gnome.evolution.shell.events
 		 *
@@ -148,7 +149,17 @@ es_event_target_new_upgrade(ESEvent *eme, int major, int minor, int revision)
 	t->minor = minor;
 	t->revision = revision;
 
-	return t;	
+	return t;
+}
+
+ESEventTargetComponent *
+es_event_target_new_component (ESEvent *eme, const char *id)
+{
+	ESEventTargetComponent *t = e_event_target_new (&eme->event, ES_EVENT_TARGET_COMPONENT, sizeof (*t));
+
+	t->id = id;
+
+	return t;
 }
 
 /* ********************************************************************** */
@@ -159,14 +170,15 @@ static void *emeh_parent_class;
 static const EEventHookTargetMask emeh_state_masks[] = {
 	{ "online", ES_EVENT_STATE_ONLINE },
 	{ "offline", ES_EVENT_STATE_OFFLINE },
-	{ 0 }
+	{ NULL }
 };
 
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "state", ES_EVENT_TARGET_STATE, emeh_state_masks },
 	{ "upgrade", ES_EVENT_TARGET_UPGRADE, NULL },
 	{ "shell", ES_EVENT_TARGET_SHELL, NULL },
-	{ 0 }
+	{ "component", ES_EVENT_TARGET_COMPONENT, NULL },
+	{ NULL }
 };
 
 static void
@@ -185,7 +197,7 @@ emeh_class_init(EPluginHookClass *klass)
 	/** @HookClass: Shell Main Menu
 	 * @Id: org.gnome.evolution.shell.events:1.0
 	 * @Target: ESEventTargetState
-	 * 
+	 *
 	 * A hook for events coming from the shell.
 	 **/
 
@@ -202,7 +214,7 @@ GType
 es_event_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(ESEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
@@ -212,6 +224,6 @@ es_event_hook_get_type(void)
 		emeh_parent_class = g_type_class_ref(e_event_hook_get_type());
 		type = g_type_register_static(e_event_hook_get_type(), "ESEventHook", &info, 0);
 	}
-	
+
 	return type;
 }

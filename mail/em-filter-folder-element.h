@@ -36,7 +36,7 @@ typedef struct _EMFilterFolderElementClass EMFilterFolderElementClass;
 
 struct _EMFilterFolderElement {
 	FilterElement parent_object;
-	
+
 	char *uri;
 };
 

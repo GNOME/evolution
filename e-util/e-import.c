@@ -47,7 +47,7 @@
 
 #include <glib/gi18n.h>
 
-#define d(x) 
+#define d(x)
 
 #define _PRIVATE(o) (g_type_instance_get_private ((GTypeInstance *)o, e_import_get_type()))
 
@@ -124,10 +124,10 @@ ep_base_init(GObjectClass *klass)
 
 /**
  * e_import_get_type:
- * 
+ *
  * Standard GObject method.  Used to subclass for the concrete
  * implementations.
- * 
+ *
  * Return value: EImport type.
  **/
 GType
@@ -154,9 +154,9 @@ e_import_get_type(void)
  * e_import_construct:
  * @ep: The instance to initialise.
  * @id: The name of the instance.
- * 
+ *
  * Used by implementing classes to initialise base parameters.
- * 
+ *
  * Return value: @ep is returned.
  **/
 EImport *e_import_construct(EImport *ep, const char *id)
@@ -175,13 +175,13 @@ EImport *e_import_new(const char *id)
 
 /**
  * e_import_import:
- * @ei: 
+ * @ei:
  * @t: Target to import.
  * @im: Importer to use.
  * @status: Status callback, called with progress information.
  * @done: Complete callback, will always be called once complete.
  * @data:
- * 
+ *
  * Run the import function of the selected importer.  Once the
  * importer has finished, it MUST call the e_import_complete()
  * function.  This allows importers to run in synchronous or
@@ -213,11 +213,11 @@ void e_import_cancel(EImport *ei, EImportTarget *t, EImportImporter *im)
  * @ei:
  * @target: Target of interest
  * @im: Importer to get widget of
- * 
+ *
  * Gets a widget that the importer uses to configure its
  * destination.  This widget should be packed into a container
  * widget.  It should not be shown_all.
- * 
+ *
  * Return value: NULL if the importer doesn't support/require
  * a destination.
  **/
@@ -232,9 +232,9 @@ e_import_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 /**
  * e_import_complete:
- * @ei: 
+ * @ei:
  * @target: Target just completed (unused currently)
- * 
+ *
  * Signify that an import is complete.  This must be called by
  * importer implementations when they are done.
  **/
@@ -252,14 +252,14 @@ void e_import_status(EImport *ei, EImportTarget *target, const char *what, int p
 
 /**
  * e_import_get_importers:
- * @emp: 
- * @target: 
- * 
+ * @emp:
+ * @target:
+ *
  * Get a list of importers.  If @target is supplied, then only
  * importers which support the type and location specified by the
  * target are listed.  If @target is NULL, then all importers are
  * listed.
- * 
+ *
  * Return value: A list of importers.  The list should be freed when
  * no longer needed.
  **/
@@ -292,7 +292,7 @@ e_import_get_importers(EImport *emp, EImportTarget *target)
  * @freefunc: If supplied, called to free the importer node
  * when it is no longer needed.
  * @data: Data for the callback.
- * 
+ *
  **/
 void
 e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, void *data)
@@ -343,7 +343,7 @@ void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f)
  * @ep: Parent EImport object.
  * @type: type, up to implementor
  * @size: Size of object to allocate.
- * 
+ *
  * Allocate a new import target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
@@ -369,7 +369,7 @@ void *e_import_target_new(EImport *ep, int type, size_t size)
  * e_import_target_free:
  * @ep: Parent EImport object.
  * @o: The target to fre.
- * 
+ *
  * Free a target.  The implementing class can override this method to
  * free custom targets.
  **/
@@ -431,13 +431,13 @@ static void *emph_parent_class;
 #define emph ((EImportHook *)eph)
 
 static const EImportHookTargetMask eih_no_masks[] = {
-	{ 0 }
+	{ NULL }
 };
 
 static const EImportHookTargetMap eih_targets[] = {
 	{ "uri", E_IMPORT_TARGET_URI, eih_no_masks },
 	{ "home", E_IMPORT_TARGET_HOME, eih_no_masks },
-	{ 0 }
+	{ NULL }
 };
 
 static gboolean eih_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
@@ -583,7 +583,7 @@ emph_class_init(EPluginHookClass *klass)
 	/** @HookClass: Evolution Importers
 	 * @Id: org.gnome.evolution.import:1.0
 	 * @Target: EImportTarget
-	 * 
+	 *
 	 * A hook for data importers.
 	 **/
 
@@ -600,16 +600,16 @@ emph_class_init(EPluginHookClass *klass)
 
 /**
  * e_import_hook_get_type:
- * 
+ *
  * Standard GObject function to get the object type.
- * 
+ *
  * Return value: The EImportHook class type.
  **/
 GType
 e_import_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EImportHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
@@ -619,7 +619,7 @@ e_import_hook_get_type(void)
 		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EImportHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -629,7 +629,7 @@ e_import_hook_get_type(void)
  * @klass: The dervied EimportHook class.
  * @map: A map used to describe a single EImportTarget type for this
  * class.
- * 
+ *
  * Add a targe tmap to a concrete derived class of EImport.  The
  * target map enumates the target types available for the implenting
  * class.

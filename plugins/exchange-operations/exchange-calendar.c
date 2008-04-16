@@ -55,7 +55,7 @@ void e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target);
 
 /* FIXME: Reconsider the prototype of this function */
 static GPtrArray *
-e_exchange_calendar_get_calendars (ECalSourceType ftype) 
+e_exchange_calendar_get_calendars (ECalSourceType ftype)
 {
 	ExchangeAccount *account;
 	GPtrArray *folder_array;
@@ -74,7 +74,7 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 	else if (ftype == E_CAL_SOURCE_TYPE_TODO) { /* Tasks */
 		tstring = g_strdup ("tasks");
 	}
-	else { 
+	else {
 		/* FIXME: Would this ever happen? If so, handle it wisely */
 		tstring = NULL;
 	}
@@ -93,7 +93,7 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 	for (i=0; i<folder_array->len; ++i) {
 		folder = g_ptr_array_index (folder_array, i);
 		type = (gchar *)e_folder_get_type_string (folder);
-		
+
 		if (!strcmp (type, tstring)) {
 			tmp = (gchar *)e_folder_get_physical_uri (folder);
 			if (g_str_has_prefix (tmp, uri_prefix)) {
@@ -129,7 +129,7 @@ e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source)
 	e_source_set_relative_uri (source, es_ruri);
 	g_free (ruri);
 	g_free (es_ruri);
-} 
+}
 
 GtkWidget *
 e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
@@ -167,7 +167,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_widget_destroy (scrw_pcalendar);
 		gtk_widget_destroy (tv_pcalendar);
 	}
-		
+
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 
@@ -182,12 +182,12 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	parent = data->parent;
 	row = ((GtkTable*)parent)->nrows;
 
-	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
 								    &offline_status);
 	if (offline_status == OFFLINE_MODE) {
 		/* Evolution is in offline mode; we will not be able to create
 		   new folders or modify existing folders. */
-		offline_msg = g_markup_printf_escaped ("<b>%s</b>", 
+		offline_msg = g_markup_printf_escaped ("<b>%s</b>",
 						       _("Evolution is in offline mode. You cannot create or modify folders now.\nPlease switch to online mode for such operations."));
 		lbl_offline_msg = gtk_label_new ("");
 		gtk_label_set_markup (GTK_LABEL (lbl_offline_msg), offline_msg);
@@ -195,7 +195,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_widget_show (lbl_offline_msg);
 		gtk_table_attach (GTK_TABLE (parent), lbl_offline_msg, 0, 2, row, row+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
 		g_free (uri_text);
-		return lbl_offline_msg;		
+		return lbl_offline_msg;
 	}
 
 	rel_uri = e_source_peek_relative_uri (t->source);
@@ -207,7 +207,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	else {
 		calendar_src_exists = FALSE;
 	}
-	
+
 	/* REVIEW: Should this handle be freed? - Attn: surf */
 	account = exchange_operations_get_exchange_account ();
 	if (!account) {
@@ -243,14 +243,14 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show (lbl_pcalendar);
 	gtk_misc_set_alignment (GTK_MISC (lbl_pcalendar), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (parent), lbl_pcalendar, 0, 2, row+1, row+2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
-  
+
 	ts_pcalendar = gtk_tree_store_new (NUM_COLS, G_TYPE_STRING, G_TYPE_STRING);
 
 	callist = e_exchange_calendar_get_calendars (t->source_type);
 
 	for (i=0; i<callist->len; ++i) {
 		ruri = g_ptr_array_index (callist, i);
-		exchange_operations_cta_add_node_to_tree (ts_pcalendar, NULL, ruri);		
+		exchange_operations_cta_add_node_to_tree (ts_pcalendar, NULL, ruri);
 	}
 
 	cr_calendar = gtk_cell_renderer_text_new ();
@@ -259,7 +259,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tv_pcalendar), tvc_calendar);
 	g_object_set (tv_pcalendar, "expander-column", tvc_calendar, "headers-visible", TRUE, NULL);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (tv_pcalendar));
-	
+
 	scrw_pcalendar = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrw_pcalendar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrw_pcalendar), GTK_SHADOW_IN);
@@ -270,7 +270,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	gtk_table_attach (GTK_TABLE (parent), scrw_pcalendar, 0, 2, row+2, row+3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (scrw_pcalendar);
-  
+
 	if (calendar_src_exists) {
 		gchar *uri_prefix, *sruri, *tmpruri;
 		int prefix_len;
@@ -278,7 +278,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 		uri_prefix = g_strconcat (account->account_filename, "/;", NULL);
 		prefix_len = strlen (uri_prefix);
-		
+
 		tmpruri = (gchar*) rel_uri;
 
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
@@ -287,14 +287,14 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		else {
 			sruri = NULL;
 		}
-		
+
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv_pcalendar));
 		exchange_operations_cta_select_node_from_tree (ts_pcalendar, NULL, sruri, sruri, selection);
-		gtk_widget_set_sensitive (tv_pcalendar, FALSE);		
+		gtk_widget_set_sensitive (tv_pcalendar, FALSE);
 		g_free (uri_prefix);
 		g_free (sruri);
 	}
-	
+
 	g_ptr_array_free (callist, TRUE);
 	g_object_unref (ts_pcalendar);
 	return tv_pcalendar;
@@ -318,7 +318,7 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	rel_uri = e_source_peek_relative_uri (t->source);
 	group = e_source_peek_group (t->source);
 	base_uri = e_source_group_peek_base_uri (group);
-	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
 						     &offline_status);
 	if (base_uri && !strncmp (base_uri, "exchange", 8)) {
 		if (offline_status == OFFLINE_MODE)
@@ -364,13 +364,13 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	return TRUE;
 }
 
-void 
+void
 e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) target;
 	ESource *source = t->source;
 	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix, *oldpath=NULL;
-	gchar *username, *authtype;
+	gchar *username, *windows_domain, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
@@ -382,7 +382,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		g_free (uri_text);
 		return ;
-	}	
+	}
 
 	status = exchange_is_offline (&offline_status);
 	if (offline_status == OFFLINE_MODE || status != CONFIG_LISTENER_STATUS_OK) {
@@ -394,7 +394,13 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	if (!is_exchange_personal_folder (account, uri_text))
 		return;
 
-	username = exchange_account_get_username (account);
+	windows_domain = exchange_account_get_windows_domain (account);
+	if (windows_domain)
+		username = g_strdup_printf ("%s\\%s", windows_domain,
+					    exchange_account_get_username (account));
+	else
+		username = g_strdup (exchange_account_get_username (account));
+
 	authtype = exchange_account_get_authtype (account);
 
 	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
@@ -412,10 +418,10 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		/* FIXME: This one would ever occur? */
 		ftype = g_strdup ("mail");
 	}
-	
+
 	gname = (gchar*) e_source_peek_name (source);
 	gruri = (gchar*) e_source_peek_relative_uri (source);
-	
+
 	if (calendar_src_exists) {
 		gchar *tmpruri, *uri_string, *temp_path, *prefix;
 		EUri *euri;
@@ -431,7 +437,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		/* sample gruri: user;auth=NTLM@host/;personal/Calendar */
 		/* sample ruri: user;auth=NTLM@host/personal/Calendar */
 		/* sample path: /personal/Calendar */
-		
+
 		uri_len = strlen (uri_string) + 1;
 		tmpruri = g_strdup (uri_string + strlen ("exchange://"));
 		temp_path = g_build_filename ("/", uri_text + uri_len, NULL);
@@ -449,7 +455,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		ruri = g_strconcat (gruri, "/", gname, NULL);
 		path = g_build_filename ("/", ruri+prefix_len, NULL);
 	}
-	
+
 	if (!calendar_src_exists) {
 		/* Create the new folder */
 		result = exchange_account_create_folder (account, path, ftype);
@@ -474,11 +480,12 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 			if (authtype) {
 				e_source_set_property (source, "auth-type", authtype);
 				g_free (authtype);
+				authtype=NULL;
 			}
 			e_source_set_property (source, "auth", "1");
 			if (rename) {
-				exchange_operations_update_child_esources (source, 
-							   calendar_old_source_uri, 
+				exchange_operations_update_child_esources (source,
+							   calendar_old_source_uri,
 							   ruri);
 			}
 		}
@@ -501,15 +508,18 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
 		break;
-	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
+	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
 		break;
 	default:
 		break;
 	}
 
-done:	
+done:
 	g_free (uri_text);
+	g_free (username);
+	if (authtype)
+		g_free (authtype);
 	g_free (ruri);
 	g_free (path);
 	g_free (ftype);

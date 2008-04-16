@@ -1,0 +1,118 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t letter -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=letter quickref.ps
+\documentclass[12pt]{article}
+\usepackage[OT4]{fontenc}
+\usepackage[utf-8]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[polish]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Evolution -- ściągawka}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Ogólne}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Komponenty}}		&					\\
+		Poczta					& \textbf{Ctrl+1}			\\
+		Kontakty				& \textbf{Ctrl+2}			\\
+		Kalendarz				& \textbf{Ctrl+3}			\\
+		Zadania					& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Notatki					& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Operacje}}		&					\\
+		Nowy element w bieżącym trybie		& \textbf{Ctrl+N}			\\
+		Przełączanie pomiędzy widokami		& \textbf{F6}				\\
+		Czyszczenie pola wyszukiwania		& \textbf{Shift+Ctrl+Q}			\\
+		Zamknięcie okna				& \textbf{Ctrl+W}			\\
+		Nowe okno				& \textbf{Shift+Ctrl+W}			\\
+		\vspace{1.5mm}
+		Koniec pracy Evolution			& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Zaznaczenie}}		&					\\
+		Wydruk zaznaczenia			& \textbf{Ctrl+P}			\\
+		Zapis zaznaczenia			& \textbf{Ctrl+S}			\\
+		Usunięcie zaznaczenia			& \textbf{Del} lub \textbf{Backspace}	\\
+		Przenoszenie wiadomości/kontaktów	& \textbf{Shift+Ctrl+V}			\\
+		Kopiowanie wiadomości/kontaktów		& \textbf{Shift+Ctrl+Y}			\\
+	\end{tabular*}
+	\section*{Kontakty/Notatki}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Polecenia ogólne}}	&					\\
+		Nowy kontakt				& \textbf{Shift+Ctrl+C}			\\
+		Nowa lista kontaktów			& \textbf{Shift+Ctrl+L}			\\
+		Nowa notatka				& \textbf{Shift+Ctrl+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{Poczta}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Polecenia ogólne}}	&					\\
+		Nowa wiadomość				& \textbf{Shift+Ctrl+M}			\\
+		\vspace{1.5mm}
+		Wysłanie/Odbiór wiadomości		& \textbf{F9}				\\
+		\textit{\textbf{Zaznaczenie}}		&					\\
+		Zastosowanie filtrów			& \textbf{Ctrl+Y}			\\
+		Otwarcie w nowym oknie 			& \textbf{Enter} lub \textbf{Ctrl+O}	\\
+		\vspace{1.5mm}
+		Przekazanie zaznaczenia dalej		& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Lista wiadomości}}	&					\\
+		Następna nieprzeczytana wiadomość	& \textbf{.} lub \textbf{]}		\\
+		\vspace{1.5mm}
+		Poprzednia nieprzeczytana wiadomość	& \textbf{,} lub \textbf{[}		\\
+		\textit{\textbf{Podgląd wiadomości}}	&					\\
+		Odpowiedź do nadawcy			& \textbf{Ctrl+R}			\\
+		Odpowiedź na listę			& \textbf{Ctrl+L}			\\
+		Odpowiedź do wszystkich adresatów	& \textbf{Shift+Ctrl+R}			\\
+		Przewijanie w górę			& \textbf{Backspace}			\\
+		Przewijanie w dół			& \textbf{Spacja}			\\
+	\end{tabular*}
+	\section*{Kalendarz/Zadania}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Polecenia ogólne}}	&					\\
+		Nowe spotkanie				& \textbf{Shift+Ctrl+A}			\\
+		Nowe zebranie				& \textbf{Shift+Ctrl+E}			\\
+		\vspace{1.5mm}
+		Nowe zadanie				& \textbf{Shift+Ctrl+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Nawigacja}}		&					\\
+		Dzień dzisiejszy			& \textbf{Ctrl+T}			\\
+		Dowolna data				& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}
+

@@ -41,7 +41,9 @@
     <cmd name="ViewAfter" _label="_Vertical View" 
      type="radio" group="preview_display" _tip="Show message preview side-by-side with the message list"/>
 
-    <cmd name="PrepareForOffline" _label="Download messages for Offline" _tip="Download messages of accounts/folders marked for offline"/>
+    <cmd name="PrepareForOffline" _label="_Download Messages for Offline Usage" _tip="Download messages of accounts/folders marked for offline"/>
+    <cmd name="HelpDebug" _tip="View the debug console for log messages"/>
+
   </commands>
 
   <keybindings>
@@ -53,7 +55,7 @@
     <submenu name="File">
       <placeholder name="EmptyTrashPlaceholder">
       <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
-      <menuitem name="PrepareForOffline" verb="" _label="Download messages for offline"/>
+      <menuitem name="PrepareForOffline" verb="" _label="_Download Messages for Offline Usage"/>
      </placeholder>
     </submenu>
 
@@ -103,7 +105,7 @@
     <placeholder name="FolderPlaceholder">
       <submenu name="Folder" _label="F_older">
 
-        <menuitem name="FolderCreate" verb="" _label="_New..." pixtype="pixbuf"/>
+        <menuitem name="FolderCreate" verb="" _label="_New..."/>
 <!--
         <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 -->
@@ -124,7 +126,11 @@
 
       </submenu>
     </placeholder>
-
+    <submenu name="Help" _label="_Help">
+	    <placeholder name="PlaceHolderDebug">
+		    <menuitem name="HelpDebug" verb="" _label="_Debug Logs"/>
+	    </placeholder>
+   </submenu>
   </menu>
 
   <dockitem name="Toolbar">

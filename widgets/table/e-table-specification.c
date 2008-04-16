@@ -106,7 +106,7 @@ etsp_init (ETableSpecification *etsp)
  *
  * Creates a new %ETableSpecification object.   This object is used to hold the
  * information about the rendering information for ETable.
- * 
+ *
  * Returns: a newly created %ETableSpecification object.
  */
 ETableSpecification *
@@ -123,7 +123,7 @@ e_table_specification_new (void)
  * @filename: a filename that contains an ETableSpecification
  *
  * This routine modifies @specification to reflect the state described
- * by the file @filename.  
+ * by the file @filename.
  *
  * Returns: TRUE on success, FALSE on failure.
  */
@@ -279,7 +279,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
  * @specification: An %ETableSpecification that you want to save
  * @filename: a file name to store the specification.
  *
- * This routine stores the @specification into @filename.  
+ * This routine stores the @specification into @filename.
  *
  * Returns: 0 on success or -1 on error.
  */
@@ -289,20 +289,20 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 {
 	xmlDoc *doc;
 	int ret;
-	
+
 	g_return_val_if_fail (specification != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
-	
+
 	if ((doc = xmlNewDoc ((const unsigned char *)"1.0")) == NULL)
 		return -1;
-	
+
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
-	
+
 	ret = e_xml_save_file (filename, doc);
-	
+
 	xmlFreeDoc (doc);
-	
+
 	return ret;
 }
 
@@ -312,7 +312,7 @@ e_table_specification_save_to_file (ETableSpecification *specification,
  *
  * Saves the state of @specification to a string.
  *
- * Returns: an g_alloc() allocated string containing the stringified 
+ * Returns: an g_alloc() allocated string containing the stringified
  * representation of @specification.  This stringified representation
  * uses XML as a convenience.
  */
@@ -326,7 +326,7 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 
 	g_return_val_if_fail (specification != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
-	
+
 	doc = xmlNewDoc ((const unsigned char *)"1.0");
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	xmlDocDumpMemory (doc, &string, &length);
@@ -342,7 +342,7 @@ e_table_specification_save_to_string (ETableSpecification *specification)
  * @doc: Node where the specification is saved
  *
  * This routine saves the %ETableSpecification state in the object @specification
- * into the xmlDoc represented by @doc.  
+ * into the xmlDoc represented by @doc.
  *
  * Returns: The node that has been attached to @doc with the contents
  * of the ETableSpecification.
@@ -393,7 +393,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 
 	if (specification->columns){
 		int i;
-		
+
 		for (i = 0; specification->columns [i]; i++)
 			e_table_column_specification_save_to_node (
 				specification->columns [i],
@@ -422,7 +422,7 @@ e_table_specification_duplicate (ETableSpecification *spec)
 
 	g_return_val_if_fail (spec != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
-	
+
 	new_spec = e_table_specification_new ();
 	spec_str = e_table_specification_save_to_string (spec);
 	if (!e_table_specification_load_from_string (new_spec, spec_str)) {
@@ -431,6 +431,6 @@ e_table_specification_duplicate (ETableSpecification *spec)
 		new_spec = NULL;
 	}
 	g_free (spec_str);
-	
+
 	return new_spec;
 }

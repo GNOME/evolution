@@ -185,12 +185,12 @@ mergeit (EContactMergingLookup *lookup)
 	int num_of_email;
 	GList *email_attr_list;
 	int row = -1;
-	int value = 0;
+	int value = 0, result;
 
 	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_container_border_width (GTK_CONTAINER(dialog), 5);
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);	
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
@@ -218,7 +218,7 @@ mergeit (EContactMergingLookup *lookup)
 		if (string && *string) {
 			/*Four email id's present, should be compared with all email id's in duplicate contact */
 			/*Merge only if number of email id's in existing contact is less than 4 */
-			if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 
+			if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
 				row++;
 				str = (char *)e_contact_get_const (lookup->contact, field);
@@ -237,7 +237,7 @@ mergeit (EContactMergingLookup *lookup)
 						continue;
 				case 2:
 					/*New contact has email and it is equal to neither of the 2 emails in the duplicate contact*/
-					if((str && *str) &&  
+					if((str && *str) &&
 							(g_ascii_strcasecmp(str,e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1))) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str))) {
 						field = E_CONTACT_EMAIL_3;
@@ -247,9 +247,9 @@ mergeit (EContactMergingLookup *lookup)
 						continue;
 				case 3:
 					/*New contact has email and it is equal to none of the 3 emails in the duplicate contact*/
-					if((str && *str) && 
-							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str)) && 
-							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str)) && 
+					if((str && *str) &&
+							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str)) &&
+							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str)) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_3),str)))
 						field = E_CONTACT_EMAIL_4;
 					else
@@ -260,11 +260,11 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_box_pack_start (GTK_BOX(hbox), (GtkWidget*)label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
 
-				dropdown = gtk_combo_box_new_text();	
+				dropdown = gtk_combo_box_new_text();
 				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string);
 
 				data = g_new0 (dropdown_data, 1);
-				
+
 				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
 
 				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
@@ -291,26 +291,26 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_box_pack_start (GTK_BOX(hbox), (GtkWidget*)label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget*)hbox, 1, 2, row, row + 1);
 				continue;
-			}  
+			}
 
 			/*for all string fields except name and email*/
 			if(!(string1 && *string1) || (g_ascii_strcasecmp(string, string1))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name(field));
-				hbox = gtk_hbox_new (FALSE, 0); 
+				hbox = gtk_hbox_new (FALSE, 0);
 				gtk_box_pack_start (GTK_BOX(hbox), (GtkWidget*)label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1); 
+				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
 				data = g_new0 (dropdown_data, 1);
-				dropdown = gtk_combo_box_new_text();	
+				dropdown = gtk_combo_box_new_text();
 				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string);
 				e_contact_set (lookup->match, field, string);
 
 				if (string1 && *string1)
 					gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string1);
-				else 
+				else
 					gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
 
-				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0); 
+				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
 				data->field = field;
 				data->match = lookup->match;
 
@@ -322,20 +322,20 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_box_pack_start (GTK_BOX(hbox), (GtkWidget*)dropdown, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 1, 2, row, row + 1);
 				gtk_widget_show_all ((GtkWidget *)dropdown);
-			} 
+			}
 		}
 	}
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 420, 300);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), GTK_WIDGET (scrolled_window), TRUE, TRUE, 0); 
-	gtk_widget_show (scrolled_window);	
-	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);	
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), GTK_WIDGET (scrolled_window), TRUE, TRUE, 0);
+	gtk_widget_show (scrolled_window);
+	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);
 	gtk_widget_show_all ((GtkWidget *)table);
-	gint result = gtk_dialog_run (dialog);
+	result = gtk_dialog_run (dialog);
 
 	switch (result)
-	{	     
+	{
 	case GTK_RESPONSE_OK:
 	             lookup->contact = lookup->match;
 		     e_book_async_remove_contact (lookup->book, lookup->match, NULL, lookup);
@@ -343,8 +343,9 @@ mergeit (EContactMergingLookup *lookup)
 		     value = 1;
 		     break;
 	case GTK_RESPONSE_CANCEL:
+	default:
 	             value = 0;
-		     break;  
+		     break;
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	g_list_free (email_attr_list);
@@ -353,17 +354,17 @@ mergeit (EContactMergingLookup *lookup)
 
 static gboolean
 check_if_same (EContact *contact, EContact *match)
-{	
+{
 	EContactField field;
 	GList *email_attr_list;
 	int num_of_email;
-	char *str = NULL, *string = NULL, *string1 = NULL;	
+	char *str = NULL, *string = NULL, *string1 = NULL;
 
 	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) ; field++) {
 		email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
 		num_of_email = g_list_length (email_attr_list);
 
-		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 
+		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email<4)) {
 			str = (char *)e_contact_get_const (contact, field);
 			switch(num_of_email)
@@ -374,17 +375,17 @@ check_if_same (EContact *contact, EContact *match)
 				if((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)))
 					return FALSE;
 			case 2:
-				if((str && *str) && (g_ascii_strcasecmp(str,e_contact_get_const (match, E_CONTACT_EMAIL_1))) && 
+				if((str && *str) && (g_ascii_strcasecmp(str,e_contact_get_const (match, E_CONTACT_EMAIL_1))) &&
 						(g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_2),str)))
 					return FALSE;
 			case 3:
-				if((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)) && 
+				if((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)) &&
 						(g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_2),str)) &&
 						(g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_3),str)))
 					return FALSE;
 			}
 		}
-		else {			
+		else {
 			string = (char *)e_contact_get_const (contact, field);
 			string1 = (char *)e_contact_get_const (match, field);
 			if ((string && *string) && (string1 && *string1) && (g_ascii_strcasecmp(string1,string)))

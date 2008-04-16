@@ -30,15 +30,13 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-#include <libgnomeui/gnome-thumbnail.h>
-#endif
 #include <gtk/gtkimage.h>
 #include "em-icon-stream.h"
+#include "e-util/e-icon-factory.h"
 
 #include "libedataserver/e-msgport.h"
 
-#define d(x) 
+#define d(x)
 
 /* fixed-point scale factor for scaled images in cache */
 #define EMIS_SCALE (1024)
@@ -72,7 +70,7 @@ CamelType
 em_icon_stream_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		parent_class = (EMSyncStreamClass *)em_sync_stream_get_type();
 		type = camel_type_register (em_sync_stream_get_type(),
@@ -86,7 +84,7 @@ em_icon_stream_get_type (void)
 
 		emis_cache = em_cache_new(60, sizeof(struct _emis_cache_node), emis_cache_free);
 	}
-	
+
 	return type;
 }
 
@@ -187,11 +185,7 @@ emis_fit(GdkPixbuf *pixbuf, int maxwidth, int maxheight, int *scale)
 		if (height <= 0)
 			height = 1;
 
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-		mini = gnome_thumbnail_scale_down_pixbuf(pixbuf, width, height);
-#else
-		mini = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
-#endif
+		mini = e_icon_factory_pixbuf_scale (pixbuf, width, height);
 	}
 
 	return mini;
@@ -268,13 +262,16 @@ em_icon_stream_new(GtkImage *image, const char *key, unsigned int maxwidth, unsi
 }
 
 GdkPixbuf *
-em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int maxheight)
+em_icon_stream_get_image(const char *tkey, unsigned int maxwidth, unsigned int maxheight)
 {
 	struct _emis_cache_node *node;
 	GdkPixbuf *pb = NULL;
+	const char *key;
+
+	key = tkey ? tkey : "";
 
 	/* forces the cache to be setup if not */
-	em_icon_stream_get_type();	
+	em_icon_stream_get_type();
 
 	node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, key);
 	if (node) {
@@ -322,11 +319,14 @@ em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int ma
 }
 
 int
-em_icon_stream_is_resized(const char *key, unsigned int maxwidth, unsigned int maxheight)
+em_icon_stream_is_resized(const char *tkey, unsigned int maxwidth, unsigned int maxheight)
 {
 	int res = FALSE;
 	struct _emis_cache_node *node;
-	
+	const char *key;
+
+	key = tkey ? tkey : "";
+
 	/* forces the cache to be setup if not */
 	em_icon_stream_get_type();
 

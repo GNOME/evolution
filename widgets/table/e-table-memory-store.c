@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-memory-store.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -145,7 +145,7 @@ static void *
 etms_initialize_value (ETableModel *etm, int col)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
-	
+
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
 		return g_strdup ("");
@@ -159,14 +159,14 @@ etms_initialize_value (ETableModel *etm, int col)
 	default:
 		break;
 	}
-	return 0;
+	return NULL;
 }
 
 static gboolean
 etms_value_is_empty (ETableModel *etm, int col, const void *value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
-	
+
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
 		return !(value && *(char *) value);
@@ -180,14 +180,14 @@ etms_value_is_empty (ETableModel *etm, int col, const void *value)
 	default:
 		break;
 	}
-	return value == 0;
+	return value == NULL;
 }
 
 static char *
 etms_value_to_string (ETableModel *etm, int col, const void *value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
-	
+
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
 		return g_strdup (value);
@@ -239,7 +239,7 @@ etms_finalize (GObject *obj)
 	if (G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize)
 		G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize (obj);
 }
-	
+
 static void
 e_table_memory_store_init (ETableMemoryStore *etms)
 {
@@ -291,7 +291,7 @@ e_table_memory_store_class_init (ETableMemoryStoreClass *klass)
  * Instead, ETableMemoryStoreModel uses a setup based in callback functions, every
  * callback function signature mimics the signature of each ETableModel method
  * and passes the extra @data pointer to each one of the method to provide them
- * with any context they might want to use. 
+ * with any context they might want to use.
  *
  * Returns: An ETableMemoryStoreModel object (which is also an ETableModel
  * object).
@@ -323,7 +323,7 @@ e_table_memory_store_construct (ETableMemoryStore *etms, ETableMemoryStoreColumn
 
 	return E_TABLE_MODEL (etms);
 }
-				
+
 
 void
 e_table_memory_store_adopt_value_at (ETableMemoryStore *etms, int col, int row, void *value)

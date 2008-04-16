@@ -12,19 +12,19 @@
     <cmd name="FileExit" _label="_Quit" _tip="Exit the program"
       accel="*Control*q"/>
 
-    <cmd name="ViewButtonsIconText" _label="Icons _and text" 
+    <cmd name="ViewButtonsIconText" _label="Icons _and Text" 
       type="radio" group="button_display" _tip="Display window buttons with icons and text"/>
 
-    <cmd name="ViewButtonsIcon" _label="_Icons only" 
+    <cmd name="ViewButtonsIcon" _label="_Icons Only" 
       type="radio" group="button_display" _tip="Display window buttons with icons only"/>
 
-    <cmd name="ViewButtonsText" _label="_Text only" 
+    <cmd name="ViewButtonsText" _label="_Text Only" 
       type="radio" group="button_display" _tip="Display window buttons with text only"/>
 
-    <cmd name="ViewButtonsToolbar" _label="Tool_bar style" 
+    <cmd name="ViewButtonsToolbar" _label="Tool_bar Style" 
       type="radio" group="button_display" _tip="Display window buttons using the desktop toolbar setting"/>
 
-    <cmd name="ViewButtonsHide" _label="_Hide buttons" 
+    <cmd name="ViewButtonsHide" _label="_Hide Buttons" 
       type="toggle" _tip="Hide window buttons"/>
 
     <cmd name="ViewToolbar" _label="Show _Toolbar" type="toggle"
@@ -38,6 +38,9 @@
 
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
+
+    <cmd name="HelpOpenFAQ" _label="_Frequently Asked Questions" 
+      _tip="Open the Frequently Asked Questions webpage"/>
 
     <cmd name="SendReceive"
      _tip="Send queued items and retrieve new items"
@@ -54,7 +57,7 @@
 
     <cmd name="HelpAbout" _label="About Evolution..."
       _tip="Show information about Evolution"
-      pixtype="stock" pixname="About"/>
+      pixtype="stock" pixname="gtk-about"/>
   </commands>
 
   <menu>
@@ -158,11 +161,10 @@
         _label="_Quick Reference"/>
 
       <separator f="" name="eshell2"/>
+      <placeholder name="PlaceHolderDebug"/>
 
-      <!-- <menuitem name="HelpFAQ" verb=""
+      <menuitem name="HelpOpenFAQ" verb=""
 	_label="Evolution _FAQ"/> 
-
-      <separator/> -->
 
       <menuitem name="HelpSubmitBug" verb=""
 	_label="Submit _Bug Report"/>

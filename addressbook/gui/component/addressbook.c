@@ -89,14 +89,14 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 				GtkWidget *dialog;
 
 				/* XXX "LDAP" has to be removed from the folowing message
-				   so that it wil valid for other servers which provide 
+				   so that it wil valid for other servers which provide
 				   anonymous access*/
 
 				dialog = gtk_message_dialog_new (NULL,
 						0,
 						GTK_MESSAGE_WARNING,
 						GTK_BUTTONS_OK,
-						_("Accessing LDAP Server anonymously"));
+						"%s", _("Accessing LDAP Server anonymously"));
 				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
 				if (data->cb)
@@ -120,7 +120,10 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 			component_name = auth_domain ? auth_domain : "Addressbook";
 
-			e_passwords_forget_password (component_name, stripped_uri);
+			if (status == E_BOOK_ERROR_AUTHENTICATION_FAILED) {
+				e_passwords_forget_password (component_name, stripped_uri);
+			}
+
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
 
 			g_free (stripped_uri);
@@ -164,7 +167,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	gchar *uri = remove_parameters_from_uri(e_book_get_uri (book));
 	const gchar *auth_domain = e_source_get_property (source, "auth-domain");
 	const gchar *component_name;
-			
+
 	component_name = auth_domain ? auth_domain : "Addressbook";
 
 	password = e_passwords_get_password (component_name, uri);
@@ -208,9 +211,9 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 		g_free (password_prompt);
 
 		remember = get_remember_password (source);
-		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt,
-						     flags, &remember,
-						     NULL);
+		pass_dup = e_passwords_ask_password (
+			_("Enter password"), component_name,
+			uri, prompt, flags, &remember, NULL);
 		if (remember != get_remember_password (source))
 			set_remember_password (source, remember);
 
@@ -237,14 +240,14 @@ static void
 auth_required_cb (EBook *book, gpointer data)
 {
 	LoadSourceData *load_source_data = g_new0(LoadSourceData, 1);
-	
+
 	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
 	load_source_data->cancelled = FALSE;
 	addressbook_authenticate (book, FALSE, load_source_data->source,
 				  load_source_auth_cb, load_source_data);
-	
-	
-	
+
+
+
 }
 static void
 load_source_cb (EBook *book, EBookStatus status, gpointer closure)
@@ -262,7 +265,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 		auth = e_source_get_property (load_source_data->source, "auth");
 		if (auth && strcmp (auth, "none")) {
 			g_signal_connect (book, "auth_required", G_CALLBACK(auth_required_cb), NULL);
-			
+
 			if (e_book_is_online (book)) {
 				addressbook_authenticate (book, FALSE, load_source_data->source,
 							  load_source_auth_cb, closure);

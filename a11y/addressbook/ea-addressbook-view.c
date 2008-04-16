@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * ea-addressbook-view.c
  * Copyright (C) 2000  Ximian, Inc.
  *
@@ -103,7 +103,7 @@ ea_ab_view_get_description (AtkObject *accessible)
 	return _("evolution addressbook");
 }
 
-AtkObject* 
+AtkObject*
 ea_ab_view_new (GObject *obj)
 {
 	GObject *object;

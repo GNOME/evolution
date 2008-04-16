@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-field-chooser.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -95,7 +95,7 @@ ensure_nonzero_step_increments (ETableFieldChooser *etfc)
 	/*
 	  it looks pretty complicated to get height of column header
 	  so use 16 pixels which should be OK
-	*/ 
+	*/
 	if (va)
 		va->step_increment = 16.0;
 	if (ha)
@@ -134,7 +134,7 @@ static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
 	gnome_canvas_item_set( etfc->rect,
 			       "x2", (double) etfc->last_alloc.width,
 			       "y2", (double) height,
-			       NULL );	
+			       NULL );
 	ensure_nonzero_step_increments (etfc);
 }
 
@@ -206,7 +206,7 @@ e_table_field_chooser_dispose (GObject *object)
 	if (etfc->full_header)
 		g_object_unref (etfc->full_header);
 	etfc->full_header = NULL;
-	
+
 	if (etfc->header)
 		g_object_unref (etfc->header);
 	etfc->header = NULL;

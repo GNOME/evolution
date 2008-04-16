@@ -59,11 +59,11 @@ struct _GtkVBox;
 
 struct _JunkSettings {
 	GtkVBox parent_object;
-	
+
 	struct _GladeXML *xml;
-	
+
 	/* General tab */
-	
+
 	/* Default Behavior */
 	struct _GtkTreeView *entry_list;
 	struct _GtkButton *add_button;
@@ -78,7 +78,7 @@ struct _JunkSettings {
 	struct _GtkVBox  *vbox;
 	struct _GtkVBox  *table;
 	struct _GtkWidget *window;
-	
+
 	GList *junk_list;
 	gint users;
 	gint flag_for_ok;
@@ -89,7 +89,7 @@ struct _JunkSettings {
 
 struct _JunkSettingsClass {
 	GtkVBoxClass parent_class;
-	
+
 };
 
 GType junk_settings_get_type (void);

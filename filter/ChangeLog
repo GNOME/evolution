@@ -1,3 +1,46 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211353
+
+	* filter-option.h:
+	* filter-option.c: (filter_option_get_current),
+	(filter_option_remove_all): New functions to be able to refill options
+	even after initialization of the filter element.
+	* filter-label.c: Added support to notify changes on labels in runtime
+	and use actual labels.
+
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* filter-label.c: (filter_label_count), (filter_label_label),
+	(filter_label_index), (xml_create): Removing cyclic dependency caused 
+	by mail_config_get_labels.
+
+2007-12-14  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211353
+
+	* filter-label.c: Use global label's setup, not its own copy.
+
+2007-12-07  Bob Mauchin  <zebob.m@pengzone.org>
+
+	** Fix for bug #438769
+
+	* filter-rule.c: (get_widget): Changed label from 'Search name' to 
+	'Rule name' in the add-new-message-filter dialog - i.e. 
+	edit -> message filters -> add
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-datespec.c: (set_values):
+	* filter-rule.c: (filter_rule_get_type), (filter_rule_new),
+	(rule_copy):
+	* rule-editor.c: (editor_response), (rule_delete), (rule_move):
+
+	Warning fixes:
+	- NULL vs 0
+	- ANSIfication of declarations
+	- mixing code and declarations
+
 2007-10-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #323977

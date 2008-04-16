@@ -24,26 +24,22 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-moniker-util.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
 #include <libical/ical.h>
-#include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
-#include <libsoup/soup-session-async.h>
-#include <libsoup/soup-message.h>
-#include <libsoup/soup-uri.h>
+#include <libsoup/soup.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include <time.h>
 
-#define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
+#include <composer/e-msg-composer.h>
+#include <mail/em-composer-utils.h>
+#include <camel/camel-mime-filter-tohtml.h>
 
 static gchar *itip_methods[] = {
 	"PUBLISH",
@@ -93,7 +89,7 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
 	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_org = FALSE;
-	
+
 	if (!e_cal_component_has_organizer (comp) || e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
 		return FALSE;
 
@@ -101,20 +97,20 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
 	if (organizer.value != NULL) {
 
   		strip = itip_strip_mailto (organizer.value);
-  
- 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
+
+ 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
  			char *email = NULL;
- 			
+
   			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
 				g_free (email);
-				
+
  				return TRUE;
 			}
-			
+
 			g_free (email);
  			return FALSE;
  		}
- 	
+
 		user_org = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
@@ -127,7 +123,7 @@ itip_sentby_is_user (ECalComponent *comp)
 	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_sentby = FALSE;
-	
+
 	if (!e_cal_component_has_organizer (comp))
 		return FALSE;
 
@@ -141,7 +137,7 @@ itip_sentby_is_user (ECalComponent *comp)
 }
 
 static ECalComponentAttendee *
-get_attendee (GSList *attendees, char *address) 
+get_attendee (GSList *attendees, char *address)
 {
 	GSList *l;
 
@@ -152,15 +148,15 @@ get_attendee (GSList *attendees, char *address)
 		ECalComponentAttendee *attendee = l->data;
 
 		if (!g_ascii_strcasecmp (itip_strip_mailto (attendee->value), address)) {
-			return attendee;		
-		}	
+			return attendee;
+		}
 	}
 
 	return NULL;
 }
 
 static ECalComponentAttendee *
-get_attendee_if_attendee_sentby_is_user (GSList *attendees, char *address) 
+get_attendee_if_attendee_sentby_is_user (GSList *attendees, char *address)
 {
 	GSList *l;
 
@@ -168,8 +164,8 @@ get_attendee_if_attendee_sentby_is_user (GSList *attendees, char *address)
 		ECalComponentAttendee *attendee = l->data;
 
 		if (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address)) {
-			return attendee;		
-		}	
+			return attendee;
+		}
 	}
 
 	return NULL;
@@ -200,8 +196,8 @@ html_new_lines_for (char *string)
 			html_string[index++] = *temp;
 			temp++;
 		}
-		temp++; 
-		
+		temp++;
+
 		html_string[index++] = '<';
 		html_string[index++] = 'b';
 		html_string[index++] = 'r';
@@ -216,9 +212,9 @@ html_new_lines_for (char *string)
 		html_string[index++] = *temp;
 		temp++;
 	}
-		
+
 	html_string[index] = '\0';
-		
+
 	return html_string;
 }
 
@@ -232,14 +228,14 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	ECalComponentAttendee *attendee = NULL;
 	char *address = NULL;
 
-	e_cal_component_get_attendee_list (comp, &attendees);	
+	e_cal_component_get_attendee_list (comp, &attendees);
 	al = itip_addresses_get ();
-	
+
 	if (client)
 		e_cal_get_cal_address (client, &address, NULL);
 
 	if (address && *address) {
-		attendee = get_attendee (attendees, address);	
+		attendee = get_attendee (attendees, address);
 
 		if (attendee) {
 			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
@@ -268,15 +264,15 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 			e_iterator_next(it)) {
 		a = (EAccount *) e_iterator_get(it);
 
-		if (!a->enabled) 
+		if (!a->enabled)
 			continue;
 
 		attendee = get_attendee (attendees, a->id->address);
 		if (attendee) {
 			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
-			
+
 			e_cal_component_free_attendee_list (attendees);
-			return user_email;		
+			return user_email;
 		}
 
 		/* If the account was not found in the attendees list, then let's
@@ -284,9 +280,9 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, a->id->address);
 		if (attendee) {
 			char *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
-			
+
 			e_cal_component_free_attendee_list (attendees);
-			return user_email;		
+			return user_email;
 		}
 	}
 
@@ -295,17 +291,17 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	/* FIXME do we have a better way ? */
 	a = itip_addresses_get_default ();
 	address = g_strdup ((a != NULL) ? a->id->address : "");
-	
+
 	e_cal_component_free_attendee_list (attendees);
 	return address;
 }
 
 const gchar *
-itip_strip_mailto (const gchar *address) 
+itip_strip_mailto (const gchar *address)
 {
 	if (address == NULL)
 		return NULL;
-	
+
 	if (!g_ascii_strncasecmp (address, "mailto:", 7))
 		address += 7;
 
@@ -329,7 +325,7 @@ get_label (struct icaltimetype *tt)
 
 typedef struct {
 	GHashTable *tzids;
-	icalcomponent *icomp;	
+	icalcomponent *icomp;
 	ECal *client;
 	icalcomponent *zones;
 } ItipUtilTZData;
@@ -338,7 +334,7 @@ typedef struct {
 static void
 foreach_tzid_callback (icalparameter *param, gpointer data)
 {
-	ItipUtilTZData *tz_data = data;	
+	ItipUtilTZData *tz_data = data;
 	const char *tzid;
 	icaltimezone *zone = NULL;
 	icalcomponent *vtimezone_comp;
@@ -353,7 +349,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 		zone = icalcomponent_get_timezone (tz_data->zones, tzid);
 	if (zone == NULL)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (zone == NULL && tz_data->client != NULL)		
+	if (zone == NULL && tz_data->client != NULL)
 		e_cal_get_timezone (tz_data->client, tzid, &zone, NULL);
 	if (zone == NULL)
 		return;
@@ -364,7 +360,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 		return;
 
 	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
-	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);	
+	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);
 }
 
 static icalcomponent *
@@ -384,7 +380,7 @@ comp_toplevel_with_zones (ECalComponentItipMethod method, ECalComponent *comp, E
 
 	icomp = e_cal_component_get_icalcomponent (comp);
 	icomp = icalcomponent_new_clone (icomp);
-	
+
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
 	tz_data.icomp = top_level;
 	tz_data.client = client;
@@ -410,72 +406,72 @@ users_has_attendee (GList *users, const char *address)
 	return FALSE;
 }
 
-static CORBA_char *
+static gchar *
 comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 {
 	ECalComponentOrganizer organizer;
 	ECalComponentAttendee *attendee;
 	GSList *attendees;
-	CORBA_char *str;
+	gchar *from;
 	char *sender = NULL;
-	
+
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
-		return CORBA_string_dup ("");
-		
+		return NULL;
+
 	case E_CAL_COMPONENT_METHOD_REQUEST:
+		return itip_get_comp_attendee (comp, NULL);
+
+	case E_CAL_COMPONENT_METHOD_REPLY:
 		sender = itip_get_comp_attendee (comp, NULL);
-		if (sender) {
-			str = CORBA_string_dup (sender);
-			g_free (sender);
-			return str;
-		}	
-	
-	case E_CAL_COMPONENT_METHOD_REPLY:	
-		sender = itip_get_comp_attendee (comp, NULL);
-		if (sender) {
-			str = CORBA_string_dup (sender);
-			g_free (sender);
-			return str;
-		}	
+		if (sender != NULL)
+			return sender;
 		if (!e_cal_component_has_attendees (comp))
-			return CORBA_string_dup ("");
+			return NULL;
 
 	case E_CAL_COMPONENT_METHOD_CANCEL:
 
-	case E_CAL_COMPONENT_METHOD_ADD:	
-		
+	case E_CAL_COMPONENT_METHOD_ADD:
+
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
-		return CORBA_string_dup (itip_strip_mailto (organizer.value));
+		return g_strdup (itip_strip_mailto (organizer.value));
 
-		
+
 	default:
 		if (!e_cal_component_has_attendees (comp))
-			return CORBA_string_dup ("");
+			return NULL;
 
 		e_cal_component_get_attendee_list (comp, &attendees);
 		attendee = attendees->data;
-		str = CORBA_string_dup (attendee->value ? itip_strip_mailto (attendee->value) : "");
+		if (attendee->value != NULL)
+			from = g_strdup (itip_strip_mailto (attendee->value));
+		else
+			from = NULL;
 		e_cal_component_free_attendee_list (attendees);
 
-		return str;
+		return from;
 	}
 }
 
-static GNOME_Evolution_Composer_RecipientList *
+static EDestination **
 comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users, gboolean reply_all)
 {
-	GNOME_Evolution_Composer_RecipientList *to_list;
-	GNOME_Evolution_Composer_Recipient *recipient;
 	ECalComponentOrganizer organizer;
 	GSList *attendees, *l;
+	GPtrArray *array = NULL;
+	EDestination *destination;
 	gint len;
  	char *sender = NULL;
+
+	union {
+		gpointer *pdata;
+		EDestination **destinations;
+	} convert;
 
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_REQUEST:
@@ -488,11 +484,6 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			e_cal_component_free_attendee_list (attendees);
 			return NULL;
 		}
-		
-		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = len;
-		to_list->_length = 0;
-		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
 
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
@@ -500,6 +491,8 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 				  _("An organizer must be set."));
 			return NULL;
 		}
+
+		array = g_ptr_array_new ();
 
 		sender = itip_get_comp_attendee (comp, NULL);
 
@@ -520,14 +513,12 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
 				continue;
 
-			recipient = &(to_list->_buffer[to_list->_length]);
-			if (att->cn)
-				recipient->name = CORBA_string_dup (att->cn);
-			else
-				recipient->name = CORBA_string_dup ("");
-			recipient->address = CORBA_string_dup (itip_strip_mailto (att->value));
-			
-			to_list->_length++;
+			destination = e_destination_new ();
+			if (att->cn != NULL)
+				e_destination_set_name (destination, att->cn);
+			e_destination_set_email (
+				destination, itip_strip_mailto (att->value));
+			g_ptr_array_add (array, destination);
 		}
 		g_free (sender);
 		e_cal_component_free_attendee_list (attendees);
@@ -539,19 +530,10 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			e_cal_component_get_attendee_list (comp, &attendees);
 			len = g_slist_length (attendees);
 
-			if (len <= 0) {
-				to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-				to_list->_maximum = len;
-				to_list->_length = 0;
-				to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
-				e_cal_component_free_attendee_list (attendees);
-				return to_list;
-			}
-		
-			to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-			to_list->_maximum = len;
-			to_list->_length = 0;
-			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
+			if (len <= 0)
+				return NULL;
+
+			array = g_ptr_array_new ();
 
 			e_cal_component_get_organizer (comp, &organizer);
 			sender = itip_get_comp_attendee (comp, NULL);
@@ -559,43 +541,30 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *att = l->data;
 
-			
-				recipient = &(to_list->_buffer[to_list->_length]);
-				if (att->cn)
-					recipient->name = CORBA_string_dup (att->cn);
-				else
-					recipient->name = CORBA_string_dup ("");
-				recipient->address = CORBA_string_dup (itip_strip_mailto (att->value));
-				
-				to_list->_length++;
+				destination = e_destination_new ();
+				if (att->cn != NULL)
+					e_destination_set_name (destination, att->cn);
+				e_destination_set_email (
+					destination, itip_strip_mailto (att->value));
+				g_ptr_array_add (array, destination);
 			}
 
 			g_free (sender);
 			e_cal_component_free_attendee_list (attendees);
 
 		} else {
+			array = g_ptr_array_new ();
 
-			to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-			to_list->_maximum = 1;
-			to_list->_length = 0;
-			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (1);
-
-			recipient = &(to_list->_buffer[to_list->_length]);
-			
+			destination = e_destination_new ();
 			e_cal_component_get_organizer (comp, &organizer);
-			if (organizer.value) {
-				recipient->name = CORBA_string_dup ("");
-				recipient->address = CORBA_string_dup (itip_strip_mailto (organizer.value));
-				to_list->_length++;
-				return to_list;
-			} else {
-				recipient->address = CORBA_string_dup ("");
-				recipient->name = CORBA_string_dup ("");
-			}	
+			if (organizer.value)
+				e_destination_set_email (
+					destination, itip_strip_mailto (organizer.value));
+			g_ptr_array_add (array, destination);
 		}
 		break;
-		
-		
+
+
 	case E_CAL_COMPONENT_METHOD_ADD:
 	case E_CAL_COMPONENT_METHOD_REFRESH:
 	case E_CAL_COMPONENT_METHOD_COUNTER:
@@ -606,23 +575,17 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 				  _("An organizer must be set."));
 			return NULL;
 		}
-		
-		len = 2;
 
-		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = len;
-		to_list->_length = 0;
-		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
-		recipient = &(to_list->_buffer[0]);
-		to_list->_length++;
+		array = g_ptr_array_new ();
 
+		destination = e_destination_new ();
 		if (organizer.cn != NULL)
-			recipient->name = CORBA_string_dup (organizer.cn);
-		else
-			recipient->name = CORBA_string_dup ("");
-		recipient->address = CORBA_string_dup (itip_strip_mailto (organizer.value));
-		
-		/* send the status to delegatee to the delegate also*/	
+			e_destination_set_name (destination, organizer.cn);
+		e_destination_set_email (
+			destination, itip_strip_mailto (organizer.value));
+		g_ptr_array_add (array, destination);
+
+		/* send the status to delegatee to the delegate also*/
 		e_cal_component_get_attendee_list (comp, &attendees);
 		sender = itip_get_comp_attendee (comp, NULL);
 
@@ -634,57 +597,56 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 				if (!(att->delfrom && *att->delfrom))
 					break;
 
-				recipient = &(to_list->_buffer[to_list->_length]);
-				recipient->name = CORBA_string_dup ("");
-				recipient->address = CORBA_string_dup (itip_strip_mailto (att->delfrom));
-				to_list->_length++;
+				destination = e_destination_new ();
+				e_destination_set_email (
+					destination, itip_strip_mailto (att->delfrom));
+				g_ptr_array_add (array, destination);
 			}
 
 		}
 		e_cal_component_free_attendee_list (attendees);
-		
+
 		break;
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
 		if(users) {
 			GList *list;
 
-			len = g_list_length (users);
-			to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-			to_list->_maximum = len;
-			to_list->_length = 0;
-			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
-			
+			array = g_ptr_array_new ();
+
 			for (list = users; list != NULL; list = list->next) {
-				recipient = &(to_list->_buffer[to_list->_length]);
-				recipient->name = CORBA_string_dup ("");
-				recipient->address = CORBA_string_dup (list->data);
-				to_list->_length++;
+				destination = e_destination_new ();
+				e_destination_set_email (destination, list->data);
+				g_ptr_array_add (array, destination);
 			}
 
 			break;
 		}
 	default:
-		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = to_list->_length = 0;
 		break;
 	}
-	CORBA_sequence_set_release (to_list, TRUE);
 
-	return to_list;	
+	if (array == NULL)
+		return NULL;
+
+	convert.pdata = array->pdata;
+	g_ptr_array_add (array, NULL);
+	g_ptr_array_free (array, FALSE);
+
+	return convert.destinations;
 }
-	
-static CORBA_char *
+
+static gchar *
 comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 {
 	ECalComponentText caltext;
 	const char *description, *prefix = NULL;
 	GSList *alist, *l;
-	CORBA_char *subject;
+	gchar *subject;
 	char *sender;
 	ECalComponentAttendee *a = NULL;
 
 	e_cal_component_get_summary (comp, &caltext);
-	if (caltext.value != NULL)	
+	if (caltext.value != NULL)
 		description = caltext.value;
 	else {
 		switch (e_cal_component_get_vtype (comp)) {
@@ -717,7 +679,7 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 
 			for (l = alist; l != NULL ; l = l->next) {
 				a = l->data;
-				if ((sender && *sender) && (g_ascii_strcasecmp (itip_strip_mailto (a->value), sender) || (a->sentby && g_ascii_strcasecmp (itip_strip_mailto (a->sentby), sender)))) 
+				if ((sender && *sender) && (g_ascii_strcasecmp (itip_strip_mailto (a->value), sender) || (a->sentby && g_ascii_strcasecmp (itip_strip_mailto (a->sentby), sender))))
 					break;
 			}
 			g_free (sender);
@@ -769,54 +731,49 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 		break;
 	}
 
-	if (prefix) {
-		subject = CORBA_string_alloc (strlen (description) +
-					      strlen (prefix) + 3);
-		sprintf (subject, "%s: %s", prefix, description);
-	} else
-		subject = CORBA_string_dup (description);
+	if (prefix != NULL)
+		subject = g_strdup_printf ("%s: %s", prefix, description);
+	else
+		subject = g_strdup (description);
 
 	return subject;
 }
 
-static CORBA_char *
+static gchar *
 comp_content_type (ECalComponent *comp, ECalComponentItipMethod method)
 {
-	char tmp[256];	
-	
-	sprintf (tmp, "text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
-		 e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY ?
-		 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
-
-	return CORBA_string_dup (tmp);
-
+	return g_strdup_printf (
+		"text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
+		e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY ?
+		"freebusy.ifb" : "calendar.ics", itip_methods[method]);
 }
 
-static CORBA_char *
+static const gchar *
 comp_filename (ECalComponent *comp)
 {
-        switch (e_cal_component_get_vtype (comp)) {
-        case E_CAL_COMPONENT_FREEBUSY:
-                return CORBA_string_dup ("freebusy.ifb");
-        default:
-                return CORBA_string_dup ("calendar.ics");
-        }
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY)
+		return "freebusy.ifb";
+	else
+		return "calendar.ics";
 }
 
-static CORBA_char *
+static gchar *
 comp_description (ECalComponent *comp)
 {
-        CORBA_char *description;
+	gchar *description;
         ECalComponentDateTime dt;
         char *start = NULL, *end = NULL;
 
         switch (e_cal_component_get_vtype (comp)) {
         case E_CAL_COMPONENT_EVENT:
-                return CORBA_string_dup (_("Event information"));
+                description = g_strdup (_("Event information"));
+		break;
         case E_CAL_COMPONENT_TODO:
-                return CORBA_string_dup (_("Task information"));
+                description = g_strdup (_("Task information"));
+		break;
         case E_CAL_COMPONENT_JOURNAL:
-                return CORBA_string_dup (_("Memo information"));
+                description = g_strdup (_("Memo information"));
+		break;
         case E_CAL_COMPONENT_FREEBUSY:
                 e_cal_component_get_dtstart (comp, &dt);
                 if (dt.value)
@@ -828,37 +785,38 @@ comp_description (ECalComponent *comp)
 			end = get_label (dt.value);
 		e_cal_component_free_datetime (&dt);
 
-                if (start != NULL && end != NULL) {
-                        char *tmp;
-                        tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
-                        description = CORBA_string_dup (tmp);
-                        g_free (tmp);
-                } else {
-                        description = CORBA_string_dup (_("Free/Busy information"));
-                }
+                if (start != NULL && end != NULL)
+			description = g_strdup_printf (
+				_("Free/Busy information (%s to %s)"),
+				start, end);
+                else
+			description = g_strdup (_("Free/Busy information"));
                 g_free (start);
                 g_free (end);
-                return description;
+		break;
         default:
-                return CORBA_string_dup (_("iCalendar information"));
+                description = g_strdup (_("iCalendar information"));
+		break;
         }
+
+	return description;
 }
 
 static gboolean
-comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, 
+comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *client,
 		  icalcomponent *zones, GList **users)
 {
 	icalcomponent *top_level, *returned_icalcomp = NULL;
 	gboolean retval = TRUE;
 	GError *error = NULL;
-	
+
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	if (!e_cal_send_objects (client, top_level, users, &returned_icalcomp, &error)) {
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			/* FIXME Better error message */
 			e_notice (NULL, GTK_MESSAGE_ERROR, "Unable to book");
-			
+
 			retval = FALSE;
 		}
 	}
@@ -873,7 +831,7 @@ comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *cli
 }
 
 static gboolean
-comp_limit_attendees (ECalComponent *comp) 
+comp_limit_attendees (ECalComponent *comp)
 {
 	icalcomponent *icomp;
 	icalproperty *prop;
@@ -886,7 +844,7 @@ comp_limit_attendees (ECalComponent *comp)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_ATTENDEE_PROPERTY))
 	{
-		const char *attendee;
+		char *attendee;
 		char *attendee_text;
 		icalparameter *param;
 		const char *attendee_sentby;
@@ -897,12 +855,13 @@ comp_limit_attendees (ECalComponent *comp)
 			list = g_slist_prepend (list, prop);
 			continue;
 		}
-		
+
 		attendee = icalproperty_get_value_as_string (prop);
 		if (!attendee)
 			continue;
 
 		attendee_text = g_strdup (itip_strip_mailto (attendee));
+		g_free (attendee);
 		attendee_text = g_strstrip (attendee_text);
 		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, attendee_text) != NULL;
 
@@ -918,7 +877,7 @@ comp_limit_attendees (ECalComponent *comp)
 
 		g_free(attendee_text);
 		g_free (attendee_sentby_text);
-		
+
 		if (!match)
 			list = g_slist_prepend (list, prop);
 		match = FALSE;
@@ -941,7 +900,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 	ECalComponentOrganizer organizer;
 	GSList * attendees, *l;
 	char *user = NULL;
-	
+
 	e_cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
 		EAccount *a = itip_addresses_get_default ();
@@ -950,10 +909,10 @@ comp_sentby (ECalComponent *comp, ECal *client)
 		organizer.sentby = NULL;
 		organizer.cn = a->id->name;
 		organizer.language = NULL;
-		
+
 		e_cal_component_set_organizer (comp, &organizer);
 		g_free ((char *) organizer.value);
-		
+
 		return;
 	}
 
@@ -967,15 +926,15 @@ comp_sentby (ECalComponent *comp, ECal *client)
 			return;
 		}
 	}
-	
+
 	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp)) {
 		EAccount *a = itip_addresses_get_default ();
-		
+
 		organizer.value = g_strdup (organizer.value);
 		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->id->address);
 		organizer.cn = g_strdup (organizer.cn);
 		organizer.language = g_strdup (organizer.language);
-		
+
 		e_cal_component_set_organizer (comp, &organizer);
 
 		g_free ((char *)organizer.value);
@@ -995,13 +954,13 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 	GSList *comments;
 	struct icaltimetype itt;
 	ECalComponentRange recur_id;
-	
+
 	clone = e_cal_component_new ();
 	e_cal_component_set_new_vtype (clone, e_cal_component_get_vtype (comp));
 
 	if (attendee) {
 		GSList *attendees;
-		
+
 		e_cal_component_get_attendee_list (comp, &attendees);
 		e_cal_component_set_attendee_list (clone, attendees);
 
@@ -1011,7 +970,7 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 			goto error;
 		}
 	}
-	
+
 	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 					     icaltimezone_get_utc_timezone ());
 	e_cal_component_set_dtstamp (clone, &itt);
@@ -1029,17 +988,17 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 		e_cal_component_set_comment_list (clone, comments);
 	} else {
 		GSList *l = comments;
-		
+
 		comments = g_slist_remove_link (comments, l);
 		e_cal_component_set_comment_list (clone, l);
 		e_cal_component_free_text_list (l);
 	}
 	e_cal_component_free_text_list (comments);
-	
+
 	e_cal_component_get_recurid (comp, &recur_id);
 	if (recur_id.datetime.value != NULL)
 		e_cal_component_set_recurid (clone, &recur_id);
-	
+
 	icomp = e_cal_component_get_icalcomponent (comp);
 	icomp_clone = e_cal_component_get_icalcomponent (clone);
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
@@ -1047,13 +1006,13 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 	     prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY))
 	{
 		icalproperty *p;
-		
+
 		p = icalproperty_new_clone (prop);
 		icalcomponent_add_property (icomp_clone, p);
 	}
 
 	e_cal_component_rescan (clone);
-	
+
 	return clone;
 
  error:
@@ -1066,7 +1025,7 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 {
 	ECalComponent *clone, *temp_clone;
 	struct icaltimetype itt;
-	
+
 	clone = e_cal_component_clone (comp);
 	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 					     icaltimezone_get_utc_timezone ());
@@ -1077,14 +1036,14 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 	    && e_cal_component_has_simple_recurrence (clone)) {
 		GSList *rrule_list;
 		struct icalrecurrencetype *r;
-		
+
 		e_cal_component_get_rrule_list (clone, &rrule_list);
 		r = rrule_list->data;
 
 		if (!icaltime_is_null_time (r->until) && r->until.is_date) {
 			ECalComponentDateTime dt;
 			icaltimezone *from_zone = NULL, *to_zone;
-			
+
 			e_cal_component_get_dtstart (clone, &dt);
 
 			if (dt.value->is_date) {
@@ -1100,30 +1059,31 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 					/* FIXME Error checking */
 					e_cal_get_timezone (client, dt.tzid, &from_zone, NULL);
 			}
-			
+
 			to_zone = icaltimezone_get_utc_timezone ();
 
 			r->until.hour = dt.value->hour;
 			r->until.minute = dt.value->minute;
 			r->until.second = dt.value->second;
 			r->until.is_date = FALSE;
-			
+
 			icaltimezone_convert_time (&r->until, from_zone, to_zone);
 			r->until.is_utc = TRUE;
 
+			e_cal_component_free_datetime (&dt);
 			e_cal_component_set_rrule_list (clone, rrule_list);
 			e_cal_component_abort_sequence (clone);
 		}
 
 		e_cal_component_free_recur_list (rrule_list);
 	}
-	
+
 	/* We delete incoming alarms anyhow, and this helps with outlook */
 	e_cal_component_remove_all_alarms (clone);
 
 	/* Strip X-LIC-ERROR stuff */
 	e_cal_component_strip_errors (clone);
-	
+
 	/* Comply with itip spec */
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
@@ -1135,7 +1095,7 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 		break;
 	case E_CAL_COMPONENT_METHOD_CANCEL:
 		comp_sentby (clone, client);
-		break;	
+		break;
 	case E_CAL_COMPONENT_METHOD_REPLY:
 		break;
 	case E_CAL_COMPONENT_METHOD_ADD:
@@ -1161,90 +1121,70 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 	return clone;
 }
 
-static gboolean
-append_cal_attachments (GNOME_Evolution_Composer composer_server, ECalComponent
-		*comp, GSList *attach_list)
+static void
+append_cal_attachments (EMsgComposer *composer,
+                        ECalComponent *comp,
+                        GSList *attach_list)
 {
-	CORBA_char *content_type = NULL, *filename = NULL, *description = NULL;
-	CORBA_Environment ev;
-	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
 	struct CalMimeAttach *mime_attach;
 	GSList *l;
-	gboolean retval = TRUE;
-
-	CORBA_exception_init (&ev);
 
 	for (l = attach_list; l ; l = l->next) {
+		CamelMimePart *attachment;
+
 		mime_attach = (struct CalMimeAttach *) l->data;
-		
-		filename = CORBA_string_dup (mime_attach->filename ? mime_attach->filename : "");
-		content_type = CORBA_string_dup	(mime_attach->content_type);
-		description = CORBA_string_dup (mime_attach->description);
-		
-		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
-		attach_data->_length = mime_attach->length;
-		attach_data->_maximum = attach_data->_length;	
-		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-		memcpy (attach_data->_buffer, mime_attach->encoded_data, attach_data->_length);
 
-		GNOME_Evolution_Composer_attachData (composer_server,
-						     content_type, filename, description,
-						     mime_attach->disposition, attach_data,
-						     &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Unable to add attachments in composer");
-			retval = FALSE;
-		}
+		attachment = camel_mime_part_new ();
+		camel_mime_part_set_content (
+			attachment, mime_attach->encoded_data,
+			mime_attach->length, mime_attach->content_type);
+		if (mime_attach->filename != NULL)
+			camel_mime_part_set_filename (
+				attachment, mime_attach->filename);
+		if (mime_attach->description != NULL)
+			camel_mime_part_set_description (
+				attachment, mime_attach->description);
+		if (mime_attach->disposition)
+			camel_mime_part_set_disposition (
+				attachment, "inline");
+		else
+			camel_mime_part_set_disposition (
+				attachment, "attachment");
+		e_msg_composer_attach (composer, attachment);
+		camel_object_unref (attachment);
 
-		CORBA_exception_free (&ev);
-		if (content_type != NULL)
-			CORBA_free (content_type);
-		if (filename != NULL)
-			CORBA_free (filename);
-		if (description != NULL)
-			CORBA_free (description);
-		if (attach_data != NULL) {
-			CORBA_free (attach_data->_buffer);
-			CORBA_free (attach_data);
-		}
 		g_free (mime_attach->filename);
 		g_free (mime_attach->content_type);
 		g_free (mime_attach->description);
 		g_free (mime_attach->encoded_data);
 	}
-	
-	return retval;
 }
 
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users)
 {
-	GNOME_Evolution_Composer composer_server;
+	EMsgComposer *composer;
+	EComposerHeaderTable *table;
+	EDestination **destinations;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
-	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
-	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
-	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
-	CORBA_char *subject = NULL, *body = NULL, *content_type = NULL;
-	CORBA_char *from = NULL, *filename = NULL, *description = NULL;
-	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
-	char *ical_string;
-	CORBA_Environment ev;
+	char *ical_string = NULL;
+	gchar *from;
+	gchar *content_type;
+	gchar *subject;
 	gboolean retval = FALSE;
 
 	/* check whether backend could handle sending requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_save_schedules (client))
 		return TRUE;
-	
-	CORBA_exception_init (&ev);
 
 	/* Give the server a chance to manipulate the comp */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
 	}
-	
+
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp, client, zones);
 
@@ -1252,46 +1192,30 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		goto cleanup;
 
 	/* Recipients */
-	to_list = comp_to_list (method, comp, users, FALSE);
+	destinations = comp_to_list (method, comp, users, FALSE);
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
-		if (to_list == NULL || to_list->_length == 0) {
+		if (destinations == NULL) {
 			/* We sent them all via the server */
 			retval = TRUE;
-			goto cleanup;
-		} else if (to_list == NULL || to_list->_length == 0) {
-			/* if we don't have recipients, return */
-			retval = FALSE;
 			goto cleanup;
 		}
 	}
 
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_list->_length = 0;
-	
 	/* Subject information */
 	subject = comp_subject (method, comp);
-	
+
 	/* From address */
 	from = comp_from (method, comp);
 
-	/* Obtain an object reference for the Composer. */
-	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Could not activate composer: %s", bonobo_exception_get_text (&ev));
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	composer = e_msg_composer_new ();
+	table = e_msg_composer_get_header_table (composer);
+	em_composer_utils_setup_default_callbacks (composer);
 
-	/* Set recipients, subject */
-	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to set composer headers while sending iTip message: %s",
-			   bonobo_exception_get_text (&ev));
-		goto cleanup;
-	}
+	e_composer_header_table_set_subject (table, subject);
+	e_composer_header_table_set_account_name (table, from);
+	e_composer_header_table_set_destinations_to (table, destinations);
 
+	e_destination_freev (destinations);
 
 	/* Content type */
 	content_type = comp_content_type (comp, method);
@@ -1300,62 +1224,46 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	ical_string = icalcomponent_as_ical_string (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
-		GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);
+		e_msg_composer_set_body (composer, ical_string, content_type);
 	} else {
-		GNOME_Evolution_Composer_setMultipartType (composer_server, GNOME_Evolution_Composer_MIXED, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Unable to set multipart type while sending iTip message");
-			goto cleanup;
-		}
+		CamelMimePart *attachment;
+		const gchar *filename;
+		gchar *description;
+		gchar *body;
 
 		filename = comp_filename (comp);
 		description = comp_description (comp);
 
-		GNOME_Evolution_Composer_setBody (composer_server, description, "text/plain", &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Unable to set body text while sending iTip message");
-			goto cleanup;
-		}
+		body = camel_text_to_html (
+			body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+		e_msg_composer_set_body_text (composer, body, -1);
+		g_free (body);
 
-		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
-		attach_data->_length = strlen (ical_string);
-		attach_data->_maximum = attach_data->_length;	
-		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-		memcpy (attach_data->_buffer, ical_string, attach_data->_length);
+		attachment = camel_mime_part_new ();
+		camel_mime_part_set_content (
+			attachment, ical_string,
+			strlen (ical_string), content_type);
+		if (filename != NULL && *filename != '\0')
+			camel_mime_part_set_filename (attachment, filename);
+		if (description != NULL && *description != '\0')
+			camel_mime_part_set_description (attachment, description);
+		camel_mime_part_set_disposition (attachment, "inline");
+		e_msg_composer_attach (composer, attachment);
+		camel_object_unref (attachment);
 
-		GNOME_Evolution_Composer_attachData (composer_server,
-						     content_type, filename, description,
-						     TRUE, attach_data,
-						     &ev);
-	}
-		
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to place iTip message in composer");
-		goto cleanup;
+		g_free (description);
 	}
 
-	if (attachments_list) {
-		if (append_cal_attachments (composer_server, comp, attachments_list))
-			retval = TRUE;
-	}
+	append_cal_attachments (composer, comp, attachments_list);
 
-	if ((method == E_CAL_COMPONENT_METHOD_PUBLISH) && !users) {
-		GNOME_Evolution_Composer_show (composer_server, &ev);
-		if (BONOBO_EX (&ev))
-			g_warning ("Unable to show the composer while sending iTip message");
-		else
-			retval = TRUE;
-	} else {		
-		GNOME_Evolution_Composer_send (composer_server, &ev);
-		if (BONOBO_EX (&ev))
-			g_warning ("Unable to send iTip message");
-		else
-			retval = TRUE;
-	}
-	
+	if ((method == E_CAL_COMPONENT_METHOD_PUBLISH) && !users)
+		gtk_widget_show (GTK_WIDGET (composer));
+	else
+		e_msg_composer_send (composer);
+
+	retval = TRUE;
+
  cleanup:
-	CORBA_exception_free (&ev);
-
 	if (comp != NULL)
 		g_object_unref (comp);
 	if (top_level != NULL)
@@ -1365,53 +1273,33 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		g_list_foreach (users, (GFunc) g_free, NULL);
 		g_list_free (users);
 	}
-	
-	if (to_list != NULL)
-		CORBA_free (to_list);
-	if (cc_list != NULL)
-		CORBA_free (cc_list);
-	if (bcc_list != NULL)
-		CORBA_free (bcc_list);
 
-	if (from != NULL)
-		CORBA_free (from);
-	if (subject != NULL)
-		CORBA_free (subject);
-	if (body != NULL)
-		CORBA_free (body);
-	if (content_type != NULL)
-		CORBA_free (content_type);
-	if (filename != NULL)
-		CORBA_free (filename);
-	if (description != NULL)
-		CORBA_free (description);
-	if (attach_data != NULL) {
-		CORBA_free (attach_data->_buffer);
-		CORBA_free (attach_data);
-	}
+	g_free (from);
+	g_free (content_type);
+	g_free (subject);
+	g_free (ical_string);
 
 	return retval;
 }
 
 gboolean
-reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-		ECal *client, gboolean reply_all, icalcomponent *zones, GSList *attachments_list)
+reply_to_calendar_comp (ECalComponentItipMethod method,
+                        ECalComponent *send_comp,
+                        ECal *client,
+                        gboolean reply_all,
+                        icalcomponent *zones,
+                        GSList *attachments_list)
 {
-	GNOME_Evolution_Composer composer_server;
+	EMsgComposer *composer;
+	EComposerHeaderTable *table;
+	EDestination **destinations;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users = NULL;
-	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
-	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
-	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
-	CORBA_char *subject = NULL, *content_type = NULL;
-	char tmp [256];
-	CORBA_char *from = NULL;
-	char *ical_string;
-	CORBA_Environment ev;
+	gchar *from;
+	gchar *subject;
+	char *ical_string = NULL;
 	gboolean retval = FALSE;
-
-	CORBA_exception_init (&ev);
 
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp, client, zones);
@@ -1419,45 +1307,29 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 		goto cleanup;
 
 	/* Recipients */
-	to_list = comp_to_list (method, comp, users, reply_all);
+	destinations = comp_to_list (method, comp, users, reply_all);
 
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_list->_length = 0;
-	
 	/* Subject information */
 	subject = comp_subject (method, comp);
-	
+
 	/* From address */
 	from = comp_from (method, comp);
 
-	/* Obtain an object reference for the Composer. */
-	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Could not activate composer: %s", bonobo_exception_get_text (&ev));
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	composer = e_msg_composer_new ();
+	table = e_msg_composer_get_header_table (composer);
+	em_composer_utils_setup_default_callbacks (composer);
 
-	/* Set recipients, subject */
-	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to set composer headers while sending iTip message: %s",
-			   bonobo_exception_get_text (&ev));
-		goto cleanup;
-	}
+	e_composer_header_table_set_subject (table, subject);
+	e_composer_header_table_set_account_name (table, from);
+	e_composer_header_table_set_destinations_to (table, destinations);
 
-
-	/* Content type */
-	sprintf (tmp, "text/plain");
-	content_type = CORBA_string_dup (tmp);
+	e_destination_freev (destinations);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT){
-		
+
 		GString *body;
 		char *orig_from = NULL;
 		char *description = NULL;
@@ -1480,7 +1352,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 	                        description = (char *)text.value;
         	        else
                 	        description = "";
-	        } else { 
+	        } else {
         	        description = "";
         	}
 
@@ -1496,12 +1368,12 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 		if (organizer.value)
 			orig_from = g_strdup (itip_strip_mailto (organizer.value));
 
-		
+
 		e_cal_component_get_location (comp, &location);
 		if (!location)
 			location = "Unspecified";
 
-	
+
 		e_cal_component_get_dtstart (comp, &dtstart);
 		if (dtstart.value) {
 			start_zone = icaltimezone_get_builtin_timezone_from_tzid (dtstart.tzid);
@@ -1516,8 +1388,8 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 			start = icaltime_as_timet_with_zone (*dtstart.value, start_zone);
 			time = g_strdup (ctime (&start));
 		}
-		
-	
+
+
 		body = g_string_new ("<br><br><hr><br><b>______ Original Appointment ______ </b><br><br><table>");
 
 		if (orig_from && *orig_from)
@@ -1548,25 +1420,15 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 		g_string_append (body, html_description);
 		g_free (html_description);
 
-		GNOME_Evolution_Composer_setBody (composer_server, body->str, "text/html", &ev);
+		e_msg_composer_set_body_text (composer, body->str, -1);
 		g_string_free (body, TRUE);
-
-                if (BONOBO_EX (&ev)) {
-                        g_warning ("Unable to set body text while sending iTip message");
-                        goto cleanup;
-                }
-
 	}
 
-		
-	GNOME_Evolution_Composer_show (composer_server, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Unable to show the composer while sending iTip message");
-	else
-		retval = TRUE;
-	
+	gtk_widget_show (GTK_WIDGET (composer));
+
+	retval = TRUE;
+
  cleanup:
-	CORBA_exception_free (&ev);
 
 	if (comp != NULL)
 		g_object_unref (comp);
@@ -1577,52 +1439,41 @@ reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp
 		g_list_foreach (users, (GFunc) g_free, NULL);
 		g_list_free (users);
 	}
-	
-	if (to_list != NULL)
-		CORBA_free (to_list);
-	if (cc_list != NULL)
-		CORBA_free (cc_list);
-	if (bcc_list != NULL)
-		CORBA_free (bcc_list);
 
-	if (from != NULL)
-		CORBA_free (from);
-	if (subject != NULL)
-		CORBA_free (subject);
-	if (content_type != NULL)
-		CORBA_free (content_type);
-
+	g_free (from);
+	g_free (subject);
+	g_free (ical_string);
 	return retval;
 }
 
 gboolean
-itip_publish_begin (ECalComponent *pub_comp, ECal *client, 
+itip_publish_begin (ECalComponent *pub_comp, ECal *client,
 		    gboolean cloned, ECalComponent **clone)
 {
 	icalcomponent *icomp =NULL, *icomp_clone = NULL;
 	icalproperty *prop;
-		
+
 	if (e_cal_component_get_vtype (pub_comp) == E_CAL_COMPONENT_FREEBUSY) {
-				
+
 		if (!cloned) {
 			*clone = e_cal_component_clone (pub_comp);
 			cloned = TRUE;
 		} else {
-			
+
 			icomp = e_cal_component_get_icalcomponent (pub_comp);
 			icomp_clone = e_cal_component_get_icalcomponent (*clone);
 			for (prop = icalcomponent_get_first_property (icomp,
 						      ICAL_FREEBUSY_PROPERTY);
 	     			prop != NULL;
-	     			prop = icalcomponent_get_next_property (icomp, 
+	     			prop = icalcomponent_get_next_property (icomp,
 						       ICAL_FREEBUSY_PROPERTY))
 			{
 				icalproperty *p;
-		
+
 				p = icalproperty_new_clone (prop);
 				icalcomponent_add_property (icomp_clone, p);
 			}
-		}		
+		}
 	}
 
 	return TRUE;
@@ -1632,19 +1483,19 @@ static void
 fb_sort (struct icalperiodtype *ipt, int fb_count)
 {
 	int i,j;
-	
+
 	if (ipt == NULL || fb_count == 0)
 		return;
-	
+
 	for (i = 0; i < fb_count-1; i++) {
 		for (j = i+1; j < fb_count; j++) {
 			struct icalperiodtype temp;
-				
+
 			if (icaltime_compare (ipt[i].start, ipt[j].start) < 0)
 				continue;
-			
+
 			if (icaltime_compare (ipt[i].start, ipt[j].start) == 0){
-				if (icaltime_compare (ipt[i].end, 
+				if (icaltime_compare (ipt[i].end,
 						     ipt[j].start) < 0)
 					continue;
 			}
@@ -1664,48 +1515,48 @@ comp_fb_normalize (icalcomponent *icomp)
 	struct icaltimetype itt;
 	int fb_count, i = 0, j;
 	struct icalperiodtype *ipt;
-	
+
 	iclone = icalcomponent_new (ICAL_VFREEBUSY_COMPONENT);
-	
-	prop = icalcomponent_get_first_property (icomp, 
+
+	prop = icalcomponent_get_first_property (icomp,
 						 ICAL_ORGANIZER_PROPERTY);
 	if (prop) {
 		p = icalproperty_new_clone (prop);
 		icalcomponent_add_property (iclone, p);
 	}
-	
+
 	itt = icalcomponent_get_dtstart (icomp);
 	icalcomponent_set_dtstart (iclone, itt);
-	
+
 	itt = icalcomponent_get_dtend (icomp);
 	icalcomponent_set_dtend (iclone, itt);
-	
-	fb_count =  icalcomponent_count_properties (icomp, 
+
+	fb_count =  icalcomponent_count_properties (icomp,
 						    ICAL_FREEBUSY_PROPERTY);
 	ipt = g_new0 (struct icalperiodtype, fb_count+1);
-	
-	for (prop = icalcomponent_get_first_property (icomp, 
+
+	for (prop = icalcomponent_get_first_property (icomp,
 						      ICAL_FREEBUSY_PROPERTY);
 		prop != NULL;
-		prop = icalcomponent_get_next_property (icomp, 
+		prop = icalcomponent_get_next_property (icomp,
 							ICAL_FREEBUSY_PROPERTY))
 	{
 		ipt[i] = icalproperty_get_freebusy (prop);
 		i++;
 	}
-	
+
 	fb_sort (ipt, fb_count);
-	
+
 	for (j = 0; j <= fb_count-1; j++) {
 		icalparameter *param;
-		
+
 		prop = icalproperty_new_freebusy (ipt[j]);
 		param = icalparameter_new_fbtype (ICAL_FBTYPE_BUSY);
 		icalproperty_add_parameter (prop, param);
 		icalcomponent_add_property (iclone, prop);
 	}
 	g_free (ipt);
-	
+
 	/* Should I strip this RFC 2446 says there must not be a UID
 		if the METHOD is PUBLISH?? */
 	uid = icalcomponent_get_uid (icomp);
@@ -1714,14 +1565,14 @@ comp_fb_normalize (icalcomponent *icomp)
 
 	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 					     icaltimezone_get_utc_timezone ());
-	icalcomponent_set_dtstamp (iclone, itt);	
-	
+	icalcomponent_set_dtstamp (iclone, itt);
+
 	prop = icalcomponent_get_first_property (icomp, ICAL_URL_PROPERTY);
 	if (prop) {
 		p = icalproperty_new_clone (prop);
 		icalcomponent_add_property (iclone, p);
 	}
-	
+
 	comment =  icalcomponent_get_comment (icomp);
 	if (comment)
 		icalcomponent_set_comment (iclone, comment);
@@ -1729,11 +1580,11 @@ comp_fb_normalize (icalcomponent *icomp)
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY))
-	{		
+	{
 		p = icalproperty_new_clone (prop);
 		icalcomponent_add_property (iclone, p);
 	}
-	
+
 	return iclone;
 	/* this will never be reached */
 	g_object_unref (iclone);
@@ -1741,27 +1592,26 @@ comp_fb_normalize (icalcomponent *icomp)
 }
 
 gboolean
-itip_publish_comp (ECal *client, gchar *uri, gchar *username, 
+itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 		   gchar *password, ECalComponent **pub_comp)
 {
 	icalcomponent *toplevel = NULL, *icalcomp = NULL;
 	icalcomponent *icomp = NULL;
 	SoupSession *session;
 	SoupMessage *msg;
-	SoupUri *real_uri;
-	char *ical_string;
-	
+	SoupURI *real_uri;
+	char *ical_string = NULL;
+
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);
-	
+
 	e_cal_component_set_url (*pub_comp, uri);
-	
+
 	icalcomp = e_cal_component_get_icalcomponent (*pub_comp);
-	
-	icomp = comp_fb_normalize (icalcomp);	
+
+	icomp = comp_fb_normalize (icalcomp);
 
 	icalcomponent_add_component (toplevel, icomp);
-	ical_string = icalcomponent_as_ical_string (toplevel);
 
 	/* Publish the component */
 	session = soup_session_async_new ();
@@ -1772,34 +1622,40 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 		g_object_unref (session);
 		return FALSE;
 	}
-	
-	real_uri->user = g_strdup (username);
-	real_uri->passwd = g_strdup (password);
-		
-	/* build the SOAP message */
+
+	soup_uri_set_user (real_uri, username);
+	soup_uri_set_password (real_uri, password);
+
+	/* build the message */
 	msg = soup_message_new_from_uri (SOUP_METHOD_PUT, real_uri);
+	soup_uri_free (real_uri);
 	if (!msg) {
 		g_warning (G_STRLOC ": Could not build SOAP message");
 		g_object_unref (session);
 		return FALSE;
 	}
-	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);	
-	soup_message_set_request (msg, "text/calendar", SOUP_BUFFER_USER_OWNED,
+
+	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
+	ical_string = icalcomponent_as_ical_string (toplevel);
+	soup_message_set_request (msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
 				  ical_string, strlen (ical_string));
-	
+
 	/* send message to server */
 	soup_session_send_message (session, msg);
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-		g_warning(G_STRLOC ": Could not publish Free/Busy: %d: %s", 
-			  msg->status_code, 
-			  soup_status_get_phrase (msg->status_code));
+		g_warning(G_STRLOC ": Could not publish Free/Busy: %d: %s",
+			  msg->status_code,
+			  msg->reason_phrase);
+		g_object_unref (msg);
 		g_object_unref (session);
+		g_free (ical_string);
 		return FALSE;
 	}
-	
-	soup_uri_free (real_uri);
+
+	g_object_unref (msg);
 	g_object_unref (session);
-	
+	g_free (ical_string);
+
 	return TRUE;
 }
 

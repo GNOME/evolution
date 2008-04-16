@@ -1,3 +1,23 @@
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* ical-format.c: (do_save_calendar_ical): Patch from OpenSUSE
+
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #475781
+
+	* csv-format.c: (do_save_calendar_csv):
+	* rdf-format.c: (do_save_calendar_rdf):
+	Fix memory leaks around ECalComponentDateTime.
+
+2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495872
+
+	* org-gnome-save-calendar.eplug.xml:
+	* save-calendar.c: (org_gnome_save_memos):
+	add memo support
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045

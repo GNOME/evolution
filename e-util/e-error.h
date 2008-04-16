@@ -23,6 +23,7 @@
 #define _E_ERROR_H
 
 #include <stdarg.h>
+#include <gtk/gtk.h>
 
 struct _GtkWindow;
 
@@ -53,6 +54,8 @@ struct _GtkWidget *e_error_newv(struct _GtkWindow *parent, const char *tag, cons
 
 int e_error_run(struct _GtkWindow *parent, const char *tag, const char *arg0, ...);
 int e_error_runv(struct _GtkWindow *parent, const char *tag, const char *arg0, va_list ap);
+
+guint e_error_count_buttons (GtkDialog *dialog);
 
 void e_error_default_parent(struct _GtkWindow *parent);
 

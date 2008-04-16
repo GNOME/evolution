@@ -71,7 +71,7 @@ struct _ExchangePermissionsDialogPrivate {
 
 	/* Custom label is added or not */
 	gboolean custom_added;
-	
+
 	GtkWidget *separator, *custom;
 	E2kPermissionsRole selected_role;
 
@@ -220,7 +220,7 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 	folder_uri = e_folder_exchange_get_internal_uri (folder);
 	folder_path = e2k_uri_relative (dialog->priv->base_uri, folder_uri);
 	dialog->priv->folder_path = g_strdup (folder_path);
-		
+
 	/* And fetch the security descriptor */
 	status = e2k_context_propfind (ctx, NULL, folder_uri,
 				       sd_props, n_sd_props,
@@ -405,7 +405,7 @@ add_clicked (GtkButton *button, gpointer user_data)
 	gc = exchange_account_get_global_catalog (dialog->priv->account);
 
 	if (!gc) {
-		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":acl-no-gcs-error", 
+		e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":acl-no-gcs-error",
 			     NULL);
 		return;
 	}
@@ -451,7 +451,7 @@ add_clicked (GtkButton *button, gpointer user_data)
 					    -1);
 			bsid2 = e2k_sid_get_binary_sid (sid2);
 			if (e2k_sid_binary_sid_equal (bsid, bsid2)) {
-				e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-existing-error", 
+				e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":perm-existing-error",
 					     entry->display_name, NULL);
 				e2k_global_catalog_entry_free (gc, entry);
 				gtk_tree_selection_select_iter (dialog->priv->list_selection, &iter);
@@ -588,7 +588,7 @@ display_role (ExchangePermissionsDialog *dialog)
 			dialog->priv->custom_added = FALSE;
 		}
 	}
-		
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->role_optionmenu), role);
 }
 
@@ -802,7 +802,7 @@ exchange_permissions_role_optionmenu_new (char *widget_name, char *string1, char
 		roles[role] = e2k_permissions_role_get_name (role);
 		gtk_combo_box_append_text (GTK_COMBO_BOX (menu), roles[role]);
 	}
-		
+
 	roles[role] = NULL;
 
 	g_free (roles);

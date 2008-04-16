@@ -34,7 +34,7 @@ gal_a11y_e_table_item_factory_create_accessible (GObject *obj)
 
 	g_return_val_if_fail (E_IS_TABLE_ITEM(obj), NULL);
 	accessible = gal_a11y_e_table_item_new (E_TABLE_ITEM (obj));
-                                                                                
+
 	return accessible;
 }
 
@@ -56,11 +56,11 @@ gal_a11y_e_table_item_factory_init (GalA11yETableItemFactory *factory)
 
 /**
  * gal_a11y_e_table_factory_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETableFactory class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETableFactory class.
  **/
 GType

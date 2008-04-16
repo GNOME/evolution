@@ -104,7 +104,7 @@ struct _EMSubscribe {
 	/* pending LISTs, EMSubscribeNode's */
 	int pending_id;
 	EDList pending;
-	
+
 	/* queue of pending UN/SUBSCRIBEs, EMsg's */
 	int subscribe_id;
 	EDList subscribe;
@@ -173,7 +173,7 @@ sub_unref(EMSubscribe *sub)
 /* ** Subscribe folder operation **************************************** */
 
 struct _zsubscribe_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	EMSubscribe *sub;
 	EMSubscribeNode *node;
@@ -181,21 +181,19 @@ struct _zsubscribe_msg {
 	char *path;
 };
 
-static void 
-sub_folder_subscribe (struct _mail_msg *mm)
+static void
+sub_folder_exec (struct _zsubscribe_msg *m)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
-
 	if (m->subscribe)
-		camel_store_subscribe_folder (m->sub->store, m->node->info->full_name, &mm->ex);
+		camel_store_subscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
 	else
-		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &mm->ex);
+		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
 }
 
 static void
-sub_folder_subscribed (struct _mail_msg *mm)
+sub_folder_done (struct _zsubscribe_msg *m)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *)mm, *next;
+	struct _zsubscribe_msg *next;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	EMSubscribeNode *node;
@@ -205,7 +203,7 @@ sub_folder_subscribed (struct _mail_msg *mm)
 	if (m->sub->cancel)
 		return;
 
-	if (!camel_exception_is_set(&mm->ex)) {
+	if (!camel_exception_is_set(&m->base.ex)) {
 		if (m->subscribe)
 			m->node->info->flags |= CAMEL_FOLDER_SUBSCRIBED;
 		else
@@ -226,28 +224,27 @@ sub_folder_subscribed (struct _mail_msg *mm)
 	/* queue any further ones, or if out, update the ui */
 	next = (struct _zsubscribe_msg *)e_dlist_remhead(&m->sub->subscribe);
 	if (next) {
-		next->sub->subscribe_id = next->msg.seq;
-		e_thread_put(mail_thread_new, (EMsg *)next);
+		next->sub->subscribe_id = next->base.seq;
+		mail_msg_unordered_push (next);
 	} else {
 		/* should it go off the model instead? */
 		sub_selection_changed(gtk_tree_view_get_selection(m->sub->tree), m->sub);
 	}
 }
 
-static void 
-sub_folder_free (struct _mail_msg *mm)
+static void
+sub_folder_free (struct _zsubscribe_msg *m)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
-
 	g_free(m->path);
 	sub_unref(m->sub);
 }
 
-static struct _mail_msg_op sub_subscribe_folder_op = {
-	NULL, /*subscribe_folder_desc,*/
-	sub_folder_subscribe,
-	sub_folder_subscribed,
-	sub_folder_free,
+static MailMsgInfo sub_subscribe_folder_info = {
+	sizeof (struct _zsubscribe_msg),
+	(MailMsgDescFunc) NULL,
+	(MailMsgExecFunc) sub_folder_exec,
+	(MailMsgDoneFunc) sub_folder_done,
+	(MailMsgFreeFunc) sub_folder_free
 };
 
 /* spath is tree path in string form */
@@ -257,18 +254,18 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const 
 	struct _zsubscribe_msg *m;
 	int id;
 
-	m = mail_msg_new (&sub_subscribe_folder_op, NULL, sizeof(*m));
+	m = mail_msg_new (&sub_subscribe_folder_info);
 	m->sub = sub;
 	sub_ref(sub);
 	m->node = node;
 	m->subscribe = state;
 	m->path = g_strdup(spath);
 
-	id = m->msg.seq;
+	id = m->base.seq;
 	if (sub->subscribe_id == -1) {
 		sub->subscribe_id = id;
 		d(printf("running subscribe folder '%s'\n", spath));
-		e_thread_put (mail_thread_new, (EMsg *)m);
+		mail_msg_unordered_push (m);
 	} else {
 		d(printf("queueing subscribe folder '%s'\n", spath));
 		e_dlist_addtail(&sub->subscribe, (EDListNode *)m);
@@ -306,7 +303,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			gtk_tree_model_get_iter(gtk_tree_view_get_model(sub->tree), &iter, node->path);
 		}
 
-		d(printf("flags & CAMEL_FOLDER_NOCHILDREN=%d, f & CAMEL_FOLDER_NOINFERIORS=%d\t fi->full_name=[%s], node->path=%p\n", 
+		d(printf("flags & CAMEL_FOLDER_NOCHILDREN=%d, f & CAMEL_FOLDER_NOINFERIORS=%d\t fi->full_name=[%s], node->path=%p\n",
 			 fi->flags & CAMEL_FOLDER_NOCHILDREN, fi->flags & CAMEL_FOLDER_NOINFERIORS, fi->full_name,
 			 node->path));
 
@@ -317,11 +314,11 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 				d(printf("scanning child '%s'\n", fi->child->full_name));
 				sub_fill_level(sub, fi->child, &iter, FALSE);
 			} else if (!(fi->flags & CAMEL_FOLDER_NOCHILDREN)) {
-				GtkTreeIter new_iter; 
+				GtkTreeIter new_iter;
 				d(printf("flags: CAMEL_FOLDER_NOCHILDREN is not set '%s'\n", fi->full_name));
 				gtk_tree_store_append(treestore, &new_iter, &iter);
 				gtk_tree_store_set(treestore, &new_iter, 0, 0, 1, "Loading...", 2, NULL, -1);
-			} 	
+			}
 			else {
 				if (pending)
 					e_dlist_addtail(&sub->pending, (EDListNode *)node);
@@ -339,7 +336,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 /* async query of folderinfo */
 
 struct _emse_folderinfo_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	int seq;
 
@@ -349,31 +346,29 @@ struct _emse_folderinfo_msg {
 };
 
 static void
-sub_folderinfo_get (struct _mail_msg *mm)
+sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 {
-	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
 	char *pub_full_name=NULL;
 
 	if (m->seq == m->sub->seq) {
-		camel_operation_register(mm->cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
-		camel_operation_unregister(mm->cancel);
+		camel_operation_register(m->base.cancel);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &m->base.ex);
+		camel_operation_unregister(m->base.cancel);
 	}
 }
 
 static void
-sub_folderinfo_got(struct _mail_msg *mm)
+sub_folderinfo_done (struct _emse_folderinfo_msg *m)
 {
-	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
 	EMSubscribeNode *node;
 
 	m->sub->pending_id = -1;
 	if (m->sub->cancel || m->seq != m->sub->seq)
 		return;
 
-	if (camel_exception_is_set (&mm->ex)) {
+	if (camel_exception_is_set (&m->base.ex)) {
 		g_warning ("Error getting folder info from store: %s",
-			   camel_exception_get_description (&mm->ex));
+			   camel_exception_get_description (&m->base.ex));
 	}
 
 	if (m->info) {
@@ -394,18 +389,16 @@ sub_folderinfo_got(struct _mail_msg *mm)
 }
 
 static void
-sub_folderinfo_free(struct _mail_msg *mm)
+sub_folderinfo_free (struct _emse_folderinfo_msg *m)
 {
-	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
-
 	if (m->info)
 		m->sub->info_list = g_slist_prepend(m->sub->info_list, m->info);
 
 	if (!m->sub->cancel)
 		sub_editor_busy(m->sub->editor, -1);
 
-	/* Now we just load the children on demand, so set the 
-	   expand state to true if m->node is not NULL 
+	/* Now we just load the children on demand, so set the
+	   expand state to true if m->node is not NULL
 	*/
 	if (m->node)
 		gtk_tree_view_expand_row(m->sub->tree, m->node->path, FALSE);
@@ -413,11 +406,12 @@ sub_folderinfo_free(struct _mail_msg *mm)
 	sub_unref(m->sub);
 }
 
-static struct _mail_msg_op sub_folderinfo_op = {
-	NULL, /*sub_folderinfo_desc,  we do our own progress reporting/cancellation */
-	sub_folderinfo_get,
-	sub_folderinfo_got,
-	sub_folderinfo_free,
+static MailMsgInfo sub_folderinfo_info = {
+	sizeof (struct _emse_folderinfo_msg),
+	(MailMsgDescFunc) NULL,
+	(MailMsgExecFunc) sub_folderinfo_exec,
+	(MailMsgDoneFunc) sub_folderinfo_done,
+	(MailMsgFreeFunc) sub_folderinfo_free
 };
 
 static int
@@ -429,19 +423,19 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 	d(printf("%s:%d:%s: Starting get folderinfo of '%s'\n", __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__,
 		 node?node->info->full_name:"<root>"));
 
-	m = mail_msg_new (&sub_folderinfo_op, NULL, sizeof(*m));
+	m = mail_msg_new (&sub_folderinfo_info);
 	sub_ref(sub);
 	m->sub = sub;
 	m->node = node;
 	m->seq = sub->seq;
 
-	sub->pending_id = m->msg.seq;
+	sub->pending_id = m->base.seq;
 
 	sub_editor_busy(sub->editor, 1);
 
-	id = m->msg.seq;
+	id = m->base.seq;
 
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	mail_msg_unordered_push (m);
 	return id;
 }
 
@@ -501,7 +495,7 @@ sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 }
 
 /* double-clicking causes a node item to be evaluated directly */
-static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub) 
+static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub)
 {
 	if (!gtk_tree_view_row_expanded(tree, path))
 		gtk_tree_view_expand_row(tree, path, FALSE);
@@ -548,7 +542,7 @@ sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubs
 			return;
 		}
 	}
-	
+
 	e_dlist_addhead(&sub->pending, (EDListNode *)node);
 
 	if (sub->pending_id == -1
@@ -571,7 +565,7 @@ sub_destroy(GtkWidget *w, EMSubscribe *sub)
 		mail_msg_cancel(sub->subscribe_id);
 
 	while ( (m = (struct _zsubscribe_msg *)e_dlist_remhead(&sub->subscribe)) )
-		mail_msg_free(m);
+		mail_msg_unref(m);
 
 	sub_unref(sub);
 }
@@ -617,12 +611,12 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
 			(GDestroyNotify) sub_node_free);
-		
+
 		model = gtk_tree_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 		sub->tree = (GtkTreeView *) gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 		g_object_unref (model);
 		gtk_widget_show ((GtkWidget *)sub->tree);
-		
+
 		sub->widget = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sub->widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sub->widget), GTK_SHADOW_IN);
@@ -633,11 +627,11 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		g_object_set(renderer, "activatable", TRUE, NULL);
 		gtk_tree_view_insert_column_with_attributes (sub->tree, -1, _("Subscribed"), renderer, "active", 0, NULL);
 		g_signal_connect(renderer, "toggled", G_CALLBACK(sub_subscribe_toggled), sub);
-	
+
 		renderer = gtk_cell_renderer_text_new ();
 		gtk_tree_view_insert_column_with_attributes (sub->tree, -1, _("Folder"), renderer, "text", 1, NULL);
 		gtk_tree_view_set_expander_column(sub->tree, gtk_tree_view_get_column(sub->tree, 1));
-		
+
 		selection = gtk_tree_view_get_selection (sub->tree);
 		gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 		gtk_tree_view_set_headers_visible (sub->tree, FALSE);
@@ -794,10 +788,10 @@ static void
 window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	GConfClient *gconf;
-	
+
 	/* save to in-memory variable for current session access */
 	window_size = *allocation;
-	
+
 	/* save the setting across sessions */
 	gconf = gconf_client_get_default ();
 	gconf_client_set_int (gconf, "/apps/evolution/mail/subscribe_window/width", window_size.width, NULL);
@@ -829,7 +823,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	}
 	se->dialog = (GtkDialog *)glade_xml_get_widget (xml, "subscribe_dialog");
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
-	
+
 	gtk_widget_ensure_style ((GtkWidget *)se->dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
@@ -867,7 +861,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
-		
+
 		/* setup url table, and store table? */
 		if (account->enabled && account->source->url) {
 			d(printf("adding account '%s'\n", account->name));
@@ -883,31 +877,31 @@ GtkDialog *em_subscribe_editor_new(void)
 
 	gtk_option_menu_set_menu((GtkOptionMenu *)se->optionmenu, menu);
 	g_signal_connect(se->optionmenu, "changed", G_CALLBACK(sub_editor_menu_changed), se);
-	
+
 	if (window_size.width == 0) {
 		/* initialize @window_size with the previous session's size */
 		GConfClient *gconf;
 		GError *err = NULL;
-		
+
 		gconf = gconf_client_get_default ();
-		
+
 		window_size.width = gconf_client_get_int (gconf, "/apps/evolution/mail/subscribe_window/width", &err);
 		if (err != NULL) {
 			window_size.width = DEFAULT_WIDTH;
 			g_clear_error (&err);
 		}
-		
+
 		window_size.height = gconf_client_get_int (gconf, "/apps/evolution/mail/subscribe_window/height", &err);
 		if (err != NULL) {
 			window_size.height = DEFAULT_HEIGHT;
 			g_clear_error (&err);
 		}
-		
+
 		g_object_unref (gconf);
 	}
-	
+
 	gtk_window_set_default_size ((GtkWindow *) se->dialog, window_size.width, window_size.height);
 	g_signal_connect (se->dialog, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
-	
+
 	return se->dialog;
 }

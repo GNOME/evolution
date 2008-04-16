@@ -1,3 +1,55 @@
+2008-04-07  Ambuj Chitranshi  <ambuj_1075@yahoo.co.in>
+
+	** Fix for bug #484793
+
+	* org-gnome-attachment-reminder.error.xml:
+	String change: "Continue Editing" -> "Edit Message"
+
+2008-02-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* attachment-reminder.c (org_gnome_evolution_attachment_reminder):
+	Fix a compiler warning.
+
+2008-01-24  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes bug #503327 & #503678
+	
+	* attachment-reminder.c (strip_text_msg): Memory leak Fix.
+	(org_gnome_evolution_attachment_reminder): Free	GByteArray.
+	NULL terminate string.
+	
+2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* apps-evolution-attachment-reminder.schemas.in: Add
+	missing punctuation.
+
+2007-12-15  Johnny Jacob  <jjohnny@novell.com>
+
+	** Cleanup of attachment reminder over Milan Crha's work.
+	
+	* attachment-reminder.c (check_for_attachment_clues): Unref gconf_client.
+	(commit_changes): reuse ui->gconf.
+	(e_plugin_lib_get_configure_widget): Remove unnecessary 
+	gconf_client_get_default ()
+
+2007-12-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #502312
+
+	* attachment-reminder.c: A little cleanup of configuration part of
+	the plugin to not use global variables and free memory properly.
+
+2007-12-05  Sankar P  <psankar@novell.com>
+
+	* attachment-reminder.c: (e_plugin_lib_get_configure_widget):
+	Move preferences to the configure tab.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* attachment-reminder.c: (check_for_attachment_clues),
+	(clue_check_isempty): Don't mix code and declarations. Also
+	remove a c++ comment.
+
 2007-09-06  B S Srinidhi  <srinidhi.bs@gmail.com>
 
 	** Fix for bug #468366

@@ -174,7 +174,7 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 
 	gtk_window_set_policy (GTK_WINDOW (ecde->popup_window),
 			       TRUE, TRUE, FALSE);
-  
+
 	frame = gtk_frame_new (NULL);
 	gtk_container_add (GTK_CONTAINER (ecde->popup_window), frame);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -349,7 +349,7 @@ e_cell_date_edit_set_arg		(GtkObject	*o,
 	gboolean bvalue;
 
 	ecde = E_CELL_DATE_EDIT (o);
-	
+
 	switch (arg_id){
 	case ARG_SHOW_TIME:
 		bvalue = GTK_VALUE_BOOL (*arg);
@@ -572,7 +572,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	GtkRequisition popup_requisition;
 	gint avail_height, screen_width, column_width, row_height;
 	double x1, y1, wx, wy;
-  
+
 	gdk_window_get_origin (canvas->window, x, y);
 
 	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
@@ -591,7 +591,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 
 	x1 = wx;
 	y1 = wy;
-	
+
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
@@ -604,9 +604,9 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	/* We'll use the entire screen width if needed, but we save space for
 	   the vertical scrollbar in case we need to show that. */
 	screen_width = gdk_screen_width ();
-  
+
 	gtk_widget_size_request (ecde->popup_window, &popup_requisition);
-  
+
 	/* Calculate the desired width. */
 	*width = popup_requisition.width;
 

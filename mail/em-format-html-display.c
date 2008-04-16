@@ -121,7 +121,7 @@
 #define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
 
-#define d(x) 
+#define d(x)
 
 #define EFHD_TABLE_OPEN "<table>"
 
@@ -135,6 +135,7 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *search_case_check;
 	char *search_text;
 	int search_wrap;	/* are we doing a wrap search */
+	gboolean search_active; /* if the search is active */
 
 	/* for Attachment bar */
 	GtkWidget *attachment_bar;
@@ -174,10 +175,10 @@ struct _attach_puri {
 
 	/* Embedded Frame */
 	GtkHTMLEmbedded *html;
-	
+
 	/* Attachment */
 	EAttachment *attachment;
-	
+
 	/* image stuff */
 	int fit_width;
 	int fit_height;
@@ -186,7 +187,7 @@ struct _attach_puri {
 
 	/* Optional Text Mem Stream */
 	CamelStreamMem *mstream;
-	
+
 	/* Signed / Encrypted */
         camel_cipher_validity_sign_t sign;
         camel_cipher_validity_encrypt_t encrypt;
@@ -242,41 +243,27 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 	if (style) {
 		int state = GTK_WIDGET_STATE(html);
 		gushort r, g, b;
-#define SCALE (238)
+#define DARKER(a,v) a = ((a) > (v)) ? ((a) - (v)) : 0
 
 		/* choose a suitably darker or lighter colour */
 		r = style->base[state].red >> 8;
 		g = style->base[state].green >> 8;
 		b = style->base[state].blue >> 8;
 
-		if (r+b+g > 128*3) {
-			r = (r*SCALE) >> 8;
-			g = (g*SCALE) >> 8;
-			b = (b*SCALE) >> 8;
-		} else {
-			r = 128 - ((SCALE * r) >> 9);
-			g = 128 - ((SCALE * g) >> 9);
-			b = 128 - ((SCALE * b) >> 9);
-		}
+		DARKER (r, 18);
+		DARKER (g, 18);
+		DARKER (b, 18);
 
 		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
-		
-#undef SCALE
-#define SCALE (174)
+
 		/* choose a suitably darker or lighter colour */
 		r = style->base[state].red >> 8;
 		g = style->base[state].green >> 8;
 		b = style->base[state].blue >> 8;
 
-		if (r+b+g > 128*3) {
-			r = (r*SCALE) >> 8;
-			g = (g*SCALE) >> 8;
-			b = (b*SCALE) >> 8;
-		} else {
-			r = 128 - ((SCALE * r) >> 9);
-			g = 128 - ((SCALE * g) >> 9);
-			b = 128 - ((SCALE * b) >> 9);
-		}
+		DARKER (r, 82);
+		DARKER (g, 82);
+		DARKER (b, 82);
 
 		efhd->formathtml.frame_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 
@@ -291,8 +278,8 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 		b = style->text[state].blue >> 8;
 
 		efhd->formathtml.text_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+#undef DARKER
 	}
-#undef SCALE
 }
 
 static void
@@ -359,13 +346,13 @@ efhd_class_init(GObjectClass *klass)
 	((EMFormatClass *)klass)->format_error = efhd_format_error;
 	((EMFormatClass *)klass)->format_source = efhd_format_source;
 	((EMFormatClass *)klass)->format_attachment = efhd_format_attachment;
-	((EMFormatClass *)klass)->format_optional = efhd_format_optional;	
+	((EMFormatClass *)klass)->format_optional = efhd_format_optional;
 	((EMFormatClass *)klass)->format_secure = efhd_format_secure;
 	((EMFormatClass *)klass)->complete = efhd_complete;
 
 	klass->finalize = efhd_finalise;
 
-	efhd_signals[EFHD_LINK_CLICKED] = 
+	efhd_signals[EFHD_LINK_CLICKED] =
 		g_signal_new("link_clicked",
 			     G_TYPE_FROM_CLASS(klass),
 			     G_SIGNAL_RUN_LAST,
@@ -374,7 +361,7 @@ efhd_class_init(GObjectClass *klass)
 			     g_cclosure_marshal_VOID__POINTER,
 			     G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	efhd_signals[EFHD_POPUP_EVENT] = 
+	efhd_signals[EFHD_POPUP_EVENT] =
 		g_signal_new("popup_event",
 			     G_TYPE_FROM_CLASS(klass),
 			     G_SIGNAL_RUN_LAST,
@@ -385,7 +372,7 @@ efhd_class_init(GObjectClass *klass)
 			     GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE,
 			     G_TYPE_POINTER, G_TYPE_POINTER);
 
-	efhd_signals[EFHD_ON_URL] = 
+	efhd_signals[EFHD_ON_URL] =
 		g_signal_new("on_url",
 			     G_TYPE_FROM_CLASS(klass),
 			     G_SIGNAL_RUN_LAST,
@@ -433,7 +420,7 @@ efhd_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd
 		}
 		else if(event->direction == GDK_SCROLL_DOWN)
 		{
-			gtk_html_zoom_out (efhd->formathtml.html);	
+			gtk_html_zoom_out (efhd->formathtml.html);
 		}
 		return TRUE;
 	}
@@ -519,7 +506,7 @@ efhd_update_matches(EMFormatHTMLDisplay *efhd)
 		gtk_label_set_text((GtkLabel *)p->search_matches_label, str);
 	}
 	gtk_widget_show((GtkWidget *)p->search_matches_label);
-	
+
 }
 
 static void
@@ -601,6 +588,7 @@ efhd_search_destroy(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 	p->search_text = NULL;
 	gtk_widget_hide((GtkWidget *)p->search_dialog);
 	em_format_html_display_set_search(efhd, EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY, NULL);
+	p->search_active = FALSE;
 }
 
 static void
@@ -613,7 +601,7 @@ efhd_search_case_toggled(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 	efhd_search_response(w, efhd);
 }
 
-static gboolean 
+static gboolean
 efhd_key_pressed (GtkWidget *w, GdkEventKey *event, EMFormatHTMLDisplay *efhd)
 {
 	if (event->keyval == GDK_Escape){
@@ -654,7 +642,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 
 	p->search_entry_box = gtk_hbox_new (FALSE, 0);
 
-	label1 = gtk_label_new_with_mnemonic (_("Fi_nd:"));
+	label1 = gtk_label_new_with_mnemonic (_("Fin_d:"));
 	gtk_widget_show (label1);
 	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), label1, FALSE, FALSE, 5);
 
@@ -696,7 +684,7 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	gtk_widget_show (p->search_matches_label);
 	gtk_box_pack_start (GTK_BOX (hbox2), p->search_matches_label, TRUE, TRUE, 0);
 	p->search_dialog = GTK_HBOX (hbox2);
-	
+
 	p->search_wrap = FALSE;
 
 	g_signal_connect (p->search_entry, "activate", G_CALLBACK(efhd_search_response), efhd);
@@ -704,6 +692,8 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	g_signal_connect (p->search_case_check, "toggled", G_CALLBACK(efhd_search_case_toggled), efhd);
 	g_signal_connect (button2, "clicked", G_CALLBACK(efhd_search_response), efhd);
 	g_signal_connect (button3, "clicked", G_CALLBACK(efhd_search_response_back), efhd);
+
+	p->search_active = FALSE;
 
 	efhd_update_matches(efhd);
 
@@ -716,19 +706,19 @@ set_focus_cb (GtkWidget *window, GtkWidget *widget, EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 	GtkWidget *sbar = GTK_WIDGET (p->search_dialog);
-	
+
 	while (widget != NULL && widget != sbar) {
 		widget = widget->parent;
     	}
 
-	if (widget != sbar) 
+	if (widget != sbar)
 		efhd_search_destroy(widget, efhd);
 }
 
 /**
  * em_format_html_display_search:
- * @efhd: 
- * 
+ * @efhd:
+ *
  * Run an interactive search dialogue.
  **/
 void
@@ -737,22 +727,25 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
 	if (p->search_dialog){
-               GtkWidget *toplevel;
-               gtk_widget_show ( (GtkWidget *)(p->search_dialog));
-               gtk_widget_grab_focus ( (GtkWidget *)(p->search_entry));
-	       gtk_widget_show ( (GtkWidget *) p->search_entry_box);
+		GtkWidget *toplevel;
 
-               toplevel = gtk_widget_get_toplevel ((GtkWidget *)(p->search_dialog));
+		gtk_widget_show (GTK_WIDGET (p->search_dialog));
+		gtk_widget_grab_focus (p->search_entry);
+		gtk_widget_show (p->search_entry_box);
 
-               g_signal_connect (toplevel, "set-focus",
+		p->search_active = TRUE;
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (p->search_dialog));
+
+		g_signal_connect (toplevel, "set-focus",
                                  G_CALLBACK (set_focus_cb), efhd);
 	}
 
 }
 /**
  * em_format_html_display_search_with:
- * @efhd: 
- * 
+ * @efhd:
+ *
  * Run an interactive search dialogue.
  **/
 void
@@ -761,14 +754,15 @@ em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
 	if (p->search_dialog){
-               gtk_widget_show ( (GtkWidget *)(p->search_dialog));
-	       
-	       /* Set the query */
-	       gtk_entry_set_text (GTK_ENTRY (p->search_entry), word);
-	       gtk_widget_hide ( (GtkWidget *) p->search_entry_box);
+		gtk_widget_show (GTK_WIDGET (p->search_dialog));
+		p->search_active = TRUE;
 
-	       /* Trigger the search */
-	       gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
+		/* Set the query */
+		gtk_entry_set_text (GTK_ENTRY (p->search_entry), word);
+		gtk_widget_hide (p->search_entry_box);
+
+		/* Trigger the search */
+		gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
 	}
 }
 
@@ -777,7 +771,7 @@ em_format_html_display_search_close (EMFormatHTMLDisplay *efhd)
 {
 	struct _EMFormatHTMLDisplayPrivate *p = efhd->priv;
 
-	if (p->search_dialog)
+	if (p->search_dialog && p->search_active)
 		efhd_search_destroy(GTK_WIDGET (p->search_dialog), efhd);
 }
 
@@ -829,53 +823,99 @@ efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh)
 	return;
 }
 
+static void
+efhd_get_uri_puri (GtkWidget *html, GdkEventButton *event, EMFormatHTMLDisplay *efhd, char **uri, EMFormatPURI **puri)
+{
+	char *url, *img_url;
+
+	g_return_if_fail (html != NULL);
+	g_return_if_fail (GTK_IS_HTML (html));
+	g_return_if_fail (efhd != NULL);
+
+	if (event) {
+		url = gtk_html_get_url_at (GTK_HTML (html), event->x, event->y);
+		img_url = gtk_html_get_image_src_at (GTK_HTML (html), event->x, event->y);
+	} else {
+		url = gtk_html_get_cursor_url (GTK_HTML (html));
+		img_url = gtk_html_get_cursor_image_src (GTK_HTML (html));
+	}
+
+	if (img_url) {
+		if (!(strstr (img_url, "://") || g_ascii_strncasecmp (img_url, "cid:", 4) == 0)) {
+			char *u = g_strconcat ("file://", img_url, NULL);
+			g_free (img_url);
+			img_url = u;
+		}
+	}
+
+	if (puri) {
+		if (url)
+			*puri = em_format_find_puri ((EMFormat *)efhd, url);
+
+		if (!*puri && img_url)
+			*puri = em_format_find_puri ((EMFormat *)efhd, img_url);
+	}
+
+	if (uri) {
+		*uri = NULL;
+		if (img_url && g_ascii_strncasecmp (img_url, "cid:", 4) != 0) {
+			if (url)
+				*uri = g_strdup_printf ("%s\n%s", url, img_url);
+			else {
+				*uri = img_url;
+				img_url = NULL;
+			}
+		} else {
+			*uri = url;
+			url = NULL;
+		}
+	}
+
+	g_free (url);
+	g_free (img_url);
+}
+
 static int
 efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efhd)
 {
-	char *uri;
-	gboolean res = FALSE;
+	char *uri = NULL;
 	EMFormatPURI *puri = NULL;
+	gboolean res = FALSE;
 
 	if (event->button != 3)
 		return FALSE;
 
-	uri = gtk_html_get_url_at (GTK_HTML (widget), event->x, event->y);
-
 	d(printf("popup button pressed\n"));
 
-	if (uri && !strncmp (uri, "##", 2))
-	    return TRUE;
-	    
-	if (uri) {
-		puri = em_format_find_puri((EMFormat *)efhd, uri);
-		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
+	efhd_get_uri_puri (widget, event, efhd, &uri, &puri);
+
+	if (uri && !strncmp (uri, "##", 2)) {
+		g_free (uri);
+		return TRUE;
 	}
 
 	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
 
-	g_free(uri);
+	g_free (uri);
 
 	return res;
 }
 
-gboolean 
+gboolean
 em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd)
 {
 	GtkHTML *html;
-	char *url;
-	gboolean res = FALSE;
+	char *uri = NULL;
 	EMFormatPURI *puri = NULL;
+	gboolean res = FALSE;
 
 	html = efhd->formathtml.html;
 
-	url = gtk_html_get_cursor_url (html);
+	efhd_get_uri_puri (GTK_WIDGET (html), NULL, efhd, &uri, &puri);
 
-	if (url)
-		puri = em_format_find_puri((EMFormat *)efhd, url);
+	g_signal_emit ((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, uri, puri?puri->part:NULL, &res);
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, url, puri?puri->part:NULL, &res);
-
-	g_free(url);
+	g_free (uri);
 
 	return res;
 }
@@ -919,7 +959,7 @@ efhd_complete(EMFormat *emf)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)emf;
 
-	if (efhd->priv->search_dialog)
+	if (efhd->priv->search_dialog && efhd->priv->search_active)
 		efhd_update_matches(efhd);
 
 	if (efhd->priv->files) {
@@ -1038,7 +1078,7 @@ efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_
 			if (info->email)
 				l = info->email;
 		}
-		
+
 		if (l) {
 			GtkWidget *w;
 #if defined(HAVE_NSS)
@@ -1070,10 +1110,10 @@ efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_
 #endif
 			n++;
 		}
-		
+
 		info = info->next;
 	}
-	
+
 	gtk_box_pack_start((GtkBox *)vbox, (GtkWidget *)table, TRUE, TRUE, 6);
 }
 
@@ -1204,10 +1244,10 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
 		char *classid;
 		struct _smime_pobject *pobj;
-		
+
 		camel_stream_printf (stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0%s><tr>",
 				     smime_sign_colour[valid->sign.status]);
-		
+
 		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
 		pobj->valid = camel_cipher_validity_clone(valid);
@@ -1231,7 +1271,7 @@ efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormat
 {
 	char *classid;
 	struct _attach_puri *info;
-	
+
 	classid = g_strdup_printf("image%s", ((EMFormat *)efh)->part_id->str);
 	info = (struct _attach_puri *)em_format_add_puri((EMFormat *)efh, sizeof(*info), classid, part, efhd_attachment_frame);
 	em_format_html_add_pobject(efh, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_image);
@@ -1393,7 +1433,7 @@ static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePar
 		now = time(NULL);
 		if (now > date)
 			camel_stream_printf(stream, "<b>%s</b>&nbsp;", _("Overdue:"));
-		
+
 		localtime_r(&date, &due_tm);
 		e_utf8_strftime_fix_am_pm(due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %p"), &due_tm);
 		camel_stream_printf(stream, "%s %s", flag, due_date);
@@ -1471,7 +1511,7 @@ static void
 efhd_popup_place_widget(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
 {
 	GtkWidget *w = user_data;
-	
+
 	gdk_window_get_origin(gtk_widget_get_parent_window(w), x, y);
 	*x += w->allocation.x + w->allocation.width;
 	*y += w->allocation.y;
@@ -1519,7 +1559,7 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	}
 
 	e_popup_add_items((EPopup *)emp, menus, NULL, efhd_menu_items_free, info);
-	
+
 	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
 	if (event)
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
@@ -1600,7 +1640,7 @@ static void
 efhd_drag_data_delete(GtkWidget *w, GdkDragContext *drag, EMFormatHTMLPObject *pobject)
 {
 	char *uri;
-	
+
 	uri = g_object_get_data((GObject *)w, "e-drag-uri");
 	if (uri) {
 		/* NB: this doesn't kill the dnd directory */
@@ -1665,9 +1705,9 @@ efhd_change_cursor(GtkWidget *w, GdkEventCrossing *event, struct _attach_puri *i
 
 static void
 efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_puri *info)
-{	
+{
 	int width;
-	
+
 	width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
 
 	if (info->shown && info->image) {
@@ -1679,11 +1719,11 @@ efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_pu
 				} else {
 					info->fit_width = 0;
 					e_cursor_set(widget->window, E_CURSOR_ZOOM_OUT);
-				}			
+				}
 			}
 		} else {
 			info->fit_width = width;
-			e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);			
+			e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);
 		}
 	}
 
@@ -1709,7 +1749,7 @@ efhd_image_unallocate (struct _EMFormatPURI * puri)
 static gboolean
 efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
-	GtkWidget *box;	
+	GtkWidget *box;
 	EMFormatHTMLJob *job;
 	struct _attach_puri *info;
 	GdkPixbuf *pixbuf;
@@ -1724,13 +1764,13 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	info->image = (GtkImage *)gtk_image_new();
 	info->html = eb;
 	info->puri.free = efhd_image_unallocate;
-	
+
 	pixbuf = em_icon_stream_get_image(pobject->classid, info->fit_width, info->fit_height);
 	if (pixbuf) {
 		gtk_image_set_from_pixbuf(info->image, pixbuf);
 		g_object_unref(pixbuf);
 	} else {
-		job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);	
+		job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);
 		job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)info->image, pobject->classid, info->fit_width, info->fit_height, TRUE);
 		em_format_html_job_queue(efh, job);
 	}
@@ -1742,10 +1782,10 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	gtk_container_add((GtkContainer *)eb, box);
 
 	g_signal_connect(eb, "size_allocate", G_CALLBACK(efhd_image_resized), info);
-	
+
 	simple_type = camel_content_type_simple(((CamelDataWrapper *)pobject->part)->mime_type);
 	camel_strdown(simple_type);
-	
+
 	drag_types[0].target = simple_type;
 	gtk_drag_source_set(box, GDK_BUTTON1_MASK, drag_types, sizeof(drag_types)/sizeof(drag_types[0]), GDK_ACTION_COPY);
 	g_free(simple_type);
@@ -1756,7 +1796,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	g_signal_connect(box, "button_press_event", G_CALLBACK(efhd_image_popup), info);
 	g_signal_connect(box, "enter-notify-event", G_CALLBACK(efhd_change_cursor), info);
 	g_signal_connect(box, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
-	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);	
+	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);
 
 	return TRUE;
 }
@@ -1802,7 +1842,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 			guint count = GPOINTER_TO_UINT(tmp);
 			char *ext;
 			char *tmp_file = g_strdup (file);
-		
+
 			if ((ext = strrchr(tmp_file, '.'))) {
 				ext[0] = 0;
 				new_file = g_strdup_printf("%s(%d).%s", tmp_file, count++, ext+1);
@@ -1818,17 +1858,17 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
 		}
 
-		/* Store the status of encryption / signature on the attachment for emblem display 
+		/* Store the status of encryption / signature on the attachment for emblem display
 		 * FIXME: May not work well always
 		 */
 		new->sign = info->sign;
 		new->encrypt = info->encrypt;
-	
+
 		/* Add the attachment to the bar.*/
 		e_attachment_bar_add_attachment(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
 		efhd_attachment_bar_refresh(efhd);
 	}
-	
+
 	mainbox = gtk_hbox_new(FALSE, 0);
 
 	button = gtk_button_new();
@@ -1881,9 +1921,9 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		}
 	} else {
 		GdkPixbuf *pixbuf, *mini;
-		
+
 		if ((pixbuf = e_icon_for_mime_type (simple_type, 24))) {
-			if ((mini = gdk_pixbuf_scale_simple (pixbuf, 24, 24, GDK_INTERP_BILINEAR))) {
+			if ((mini = e_icon_factory_pixbuf_scale (pixbuf, 24, 24))) {
 				gtk_image_set_from_pixbuf ((GtkImage *) w, mini);
 				g_object_unref (mini);
 			}
@@ -1946,7 +1986,7 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	CamelDataWrapper *wrapper;
 	Bonobo_ServerInfo *component;
 	GtkWidget *embedded;
-	Bonobo_PersistStream persist;	
+	Bonobo_PersistStream persist;
 	CORBA_Environment ev;
 	CamelStreamMem *cstream;
 	BonoboStream *bstream;
@@ -1961,7 +2001,7 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	CORBA_free(component);
 	if (embedded == NULL)
 		return FALSE;
-	
+
 	CORBA_exception_init(&ev);
 
 	control_frame = bonobo_widget_get_control_frame((BonoboWidget *)embedded);
@@ -1976,23 +2016,23 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 		 */
 		const CamelInternetAddress *from;
 		char *from_address;
-		
+
 		from = camel_mime_message_get_from((CamelMimeMessage *)((EMFormat *)efh)->message);
 		from_address = camel_address_encode((CamelAddress *)from);
 		bonobo_property_bag_client_set_value_string(prop_bag, "from_address", from_address, &ev);
 		g_free(from_address);
-		
+
 		Bonobo_Unknown_unref(prop_bag, &ev);
 	}
-	
+
 	persist = (Bonobo_PersistStream)Bonobo_Unknown_queryInterface(bonobo_widget_get_objref((BonoboWidget *)embedded),
 								      "IDL:Bonobo/PersistStream:1.0", &ev);
 	if (persist == CORBA_OBJECT_NIL) {
 		g_object_ref_sink(embedded);
-		CORBA_exception_free(&ev);				
+		CORBA_exception_free(&ev);
 		return FALSE;
 	}
-	
+
 	/* Write the data to a CamelStreamMem... */
 	cstream = (CamelStreamMem *)camel_stream_mem_new();
 	wrapper = camel_medium_get_content_object((CamelMedium *)pobject->part);
@@ -2003,11 +2043,11 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	} else {
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) cstream);
 	}
-	
+
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create((char *)cstream->buffer->data, cstream->buffer->len, TRUE, FALSE);
 	camel_object_unref(cstream);
-	
+
 	/* ...and hydrate the PersistStream from the BonoboStream. */
 	Bonobo_PersistStream_load(persist,
 				  bonobo_object_corba_objref(BONOBO_OBJECT (bstream)),
@@ -2015,17 +2055,17 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	bonobo_object_unref(BONOBO_OBJECT (bstream));
 	Bonobo_Unknown_unref(persist, &ev);
 	CORBA_Object_release(persist, &ev);
-	
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_object_ref_sink(embedded);
-		CORBA_exception_free(&ev);				
+		CORBA_exception_free(&ev);
 		return FALSE;
 	}
 	CORBA_exception_free(&ev);
-	
+
 	gtk_widget_show(embedded);
 	gtk_container_add(GTK_CONTAINER (eb), embedded);
-	
+
 	return TRUE;
 }
 
@@ -2099,7 +2139,7 @@ attachment_bar_arrow_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 	} else {
 		gtk_widget_hide(efhd->priv->attachment_box);
 		gtk_widget_show(efhd->priv->forward);
-		gtk_widget_hide(efhd->priv->down);		
+		gtk_widget_hide(efhd->priv->down);
 	}
 }
 
@@ -2133,17 +2173,17 @@ efhd_bar_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpoint
 	GnomeIconList *icon_list = user_data;
 	GList *selection;
 	GnomeCanvasPixbuf *image;
-	
+
 	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
-	
+
 	selection = gnome_icon_list_get_selection (icon_list);
 	if (selection == NULL)
 		return;
-	
+
 	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
 	if (image == NULL)
 		return;
-	
+
 	/* Put menu to the center of icon. */
 	*x += (int)(image->item.x1 + image->item.x2) / 2;
 	*y += (int)(image->item.y1 + image->item.y2) / 2;
@@ -2157,7 +2197,7 @@ efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 	GSList *parts = NULL;
 
 	attachment_parts = e_attachment_bar_get_selected(E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
-	
+
 	for (tmp = attachment_parts; tmp; tmp=tmp->next)
 		parts = g_slist_prepend(parts, ((EAttachment *)tmp->data)->body);
 
@@ -2187,7 +2227,7 @@ efhd_bar_button_press_event(EAttachmentBar *bar, GdkEventButton *event, EMFormat
 	if (event && event->button != 3)
 		return FALSE;
 
-	/** @HookPoint-EMPopup: Attachment Bar  Context Menu
+	/** @HookPoint-EMPopup: Attachment Bar Context Menu
 	 * @Id: org.gnome.evolution.mail.attachments.popup
 	 * @Class: org.gnome.evolution.mail.popup:1.0
 	 * @Target: EMPopupTargetPart
@@ -2199,11 +2239,11 @@ efhd_bar_button_press_event(EAttachmentBar *bar, GdkEventButton *event, EMFormat
 
 	/* Add something like save-selected, foward selected attachments in a mail etc....*/
 	list = e_attachment_bar_get_selected(bar);
-	
+
 	/* Lets not propagate any more the r-click which is intended to us*/
 	if ( g_slist_length (list) == 0)
 		return TRUE;
-	
+
 	target = (EPopupTarget *)em_popup_target_new_attachments(emp, list);
 	for (i=0; i<2; i++)
 		menus = g_slist_prepend(menus, &efhd_bar_menu_items[i]);
@@ -2220,7 +2260,7 @@ efhd_bar_button_press_event(EAttachmentBar *bar, GdkEventButton *event, EMFormat
 }
 
 static gboolean
-efhd_bar_popup_menu_event (EAttachmentBar *bar, EMFormat *emf) 
+efhd_bar_popup_menu_event (EAttachmentBar *bar, EMFormat *emf)
 {
 	return efhd_bar_button_press_event(bar, NULL, emf);
 }
@@ -2241,12 +2281,12 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 		txt = g_strdup_printf(ngettext("%d at_tachment", "%d at_tachments", nattachments), nattachments);
 		gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->label, txt);
 		g_free (txt);
-	
+
 		/* Show the bar even when the first attachment is added */
 		if (nattachments == 1) {
 			gtk_widget_show_all (efhd->priv->attachment_area);
 			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave"));
-			
+
 			if (efhd->priv->show_bar) {
 				gtk_widget_show(efhd->priv->down);
 				gtk_widget_hide(efhd->priv->forward);
@@ -2256,7 +2296,7 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 				gtk_widget_hide(efhd->priv->attachment_box);
 			}
 		} else if (nattachments > 1) {
-			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave All"));			
+			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave All"));
 		}
 	}
 }
@@ -2270,7 +2310,7 @@ efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 
 	gtk_widget_size_request (efhd->priv->attachment_bar, &req);
 	width = ((GtkWidget *) efh->html)->allocation.width - 16;
-	
+
 	/* Update the width of the bar when the width is greater than 1*/
 	if (width > 0)
 		e_attachment_bar_set_width(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), width);
@@ -2289,7 +2329,7 @@ efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *
 	return TRUE;
 }
 
-gboolean 
+gboolean
 efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd)
 {
 	attachment_bar_arrow_clicked (NULL, (EMFormatHTMLDisplay *)efhd);
@@ -2309,7 +2349,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	((EAttachmentBar *)priv->attachment_bar)->expand = TRUE;
-	
+
 	priv->forward = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
 	priv->down = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	hbox3 = gtk_hbox_new (FALSE, 0);
@@ -2345,10 +2385,10 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	/* FIXME: What if the text is more?. Should we reduce the text with appending ...?
 	 * or resize the bar? How to figure out that, it needs more space? */
 	bar_width = ((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */16;
-	gtk_widget_set_size_request (priv->attachment_bar, 
+	gtk_widget_set_size_request (priv->attachment_bar,
 				     bar_width > 0 ? bar_width : 0,
 				     84 /* FIXME: Default show only one row, Dont hardcode size*/);
-	
+
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)vbox, hbox2, FALSE, FALSE, 2);
 	gtk_box_pack_start ((GtkBox *)vbox, priv->attachment_box, TRUE, TRUE, 2);
@@ -2359,7 +2399,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	/* Lets hide it by default and show only when there are attachments */
 	priv->attachment_area = vbox;
 	gtk_widget_hide_all (priv->attachment_area);
-	
+
 	g_signal_connect (priv->arrow, "clicked", G_CALLBACK(attachment_bar_arrow_clicked), efh);
 	g_signal_connect (priv->attachment_bar, "button_press_event", G_CALLBACK(efhd_bar_button_press_event), efhd);
 	g_signal_connect (priv->attachment_bar, "popup-menu", G_CALLBACK(efhd_bar_popup_menu_event), efhd);
@@ -2443,16 +2483,16 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	g_free(classid);
 }
 
-static void 
+static void
 efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
 {
 	GtkWidget *label = g_object_get_data (G_OBJECT (widget), "text-label");
-	
+
 	if (GTK_WIDGET_VISIBLE (w)) {
 		gtk_widget_hide (w);
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("View _Unformatted"));
 	} else {
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("Hide _Unformatted"));		
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("Hide _Unformatted"));
 		gtk_widget_show (w);
 	}
 }
@@ -2470,7 +2510,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	struct _attach_puri *info;
 	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
 	AtkObject *a11y;
-	GtkTextView *view;
+	GtkWidget *view;
 	GtkTextBuffer *buffer;
 
 	/* FIXME: handle default shown case */
@@ -2480,9 +2520,9 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
 		return TRUE;
-	}	
+	}
 
-	scroll = gtk_scrolled_window_new (NULL, NULL);	
+	scroll = gtk_scrolled_window_new (NULL, NULL);
 	mainbox = gtk_hbox_new(FALSE, 0);
 
 	button = gtk_button_new();
@@ -2490,46 +2530,46 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	img = e_icon_factory_get_image ("stock_show-all", E_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("View _Unformatted"));
 	g_object_set_data (G_OBJECT (button), "text-label", (gpointer)label);
-	gtk_box_pack_start ((GtkBox *)hbox, img, TRUE, TRUE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox, label, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
 	gtk_widget_show_all (hbox);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
 	if (info->handle)
-		g_signal_connect(button, "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
+		g_signal_connect(G_OBJECT (button), "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
 	else {
 		gtk_widget_set_sensitive(button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
 	}
-	
+
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start((GtkBox *)mainbox, button, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
 	button = gtk_button_new();
 	hbox = gtk_hbox_new (FALSE, 0);
 	img = e_icon_factory_get_image ("stock_open", E_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("O_pen With"));
-	gtk_box_pack_start ((GtkBox *)hbox, img, TRUE, TRUE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox, label, TRUE, TRUE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
 	gtk_widget_show_all (hbox);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
-	
+
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Attachment"));
 
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
-	gtk_box_pack_start((GtkBox *)mainbox, button, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(mainbox);
 
-	gtk_box_pack_start((GtkBox *)vbox, mainbox, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX (vbox), mainbox, FALSE, FALSE, 6);
 
-	view = (GtkTextView *)gtk_text_view_new ();
-	gtk_text_view_set_editable (view, FALSE);
-	gtk_text_view_set_cursor_visible (view, FALSE);
-	buffer = gtk_text_view_get_buffer(view);
+	view = gtk_text_view_new ();
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
+	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
 	gtk_text_buffer_set_text (buffer, (char *)info->mstream->buffer->data, info->mstream->buffer->len);
 	camel_object_unref(info->mstream);
 	info->mstream = NULL;
@@ -2537,18 +2577,18 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
-	gtk_box_pack_start((GtkBox *)vbox, scroll, TRUE, TRUE, 6);
+	gtk_box_pack_start(GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
 	gtk_widget_show (GTK_WIDGET(view));
 
-	gtk_widget_set_size_request (scroll, ((GtkWidget *)efh->html)->allocation.width-48, 250);
+	gtk_widget_set_size_request (scroll, (GTK_WIDGET (efh->html))->allocation.width - 48, 250);
 	g_signal_connect (scroll, "size_allocate", G_CALLBACK(efhd_resize), efh);
 	gtk_widget_show (scroll);
 
 	if (!info->shown)
 		gtk_widget_hide (scroll);
-	
+
 	gtk_widget_show (vbox);
-	gtk_container_add((GtkContainer *)eb, vbox);
+	gtk_container_add(GTK_CONTAINER (eb), vbox);
 	info->handle = NULL;
 
 	return TRUE;
@@ -2560,13 +2600,13 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 	char *classid, *html;
 	struct _attach_puri *info;
 	CamelStream *stream = ((CamelStreamFilter *) fstream)->source;
-	
+
 	classid = g_strdup_printf("optional%s", emf->part_id->str);
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_optional);
-	info->handle = em_format_find_handler(emf, "text/plain");;
+	info->handle = em_format_find_handler(emf, "text/plain");
 	info->shown = FALSE;
-	info->snoop_mime_type = g_strdup("text/plain");
+	info->snoop_mime_type = "text/plain";
 	info->attachment = e_attachment_new_from_mime_part (info->puri.part);
 	info->mstream = (CamelStreamMem *)mstream;
 	if (emf->valid) {
@@ -2584,7 +2624,7 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 				  "</font></h3></td></tr></table>\n");
 	camel_stream_write_string(stream,
 				  "<table cellspacing=0 cellpadding=0>"
-				  "<tr>");	
+				  "<tr>");
 	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td></tr></table>", classid);
 
 	g_free(html);

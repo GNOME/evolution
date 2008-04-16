@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-field-chooser.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -51,7 +51,7 @@ typedef struct _ETableFieldChooserClass  ETableFieldChooserClass;
 struct _ETableFieldChooser
 {
 	GtkVBox parent;
-	
+
 	/* item specific fields */
 	GladeXML *gui;
 	GnomeCanvas *canvas;

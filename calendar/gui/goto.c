@@ -24,10 +24,10 @@
 #include "tag-calendar.h"
 #include "goto.h"
 
-typedef struct 
+typedef struct
 {
 	GladeXML *xml;
-	GtkWidget *dialog;	
+	GtkWidget *dialog;
 
 	GtkWidget *month;
 	GtkWidget *year;
@@ -38,10 +38,10 @@ typedef struct
 	gint year_val;
 	gint month_val;
 	gint day_val;
-	
+
 } GoToDialog;
 
-GoToDialog *dlg = NULL;
+static GoToDialog *dlg = NULL;
 
 /* Callback used when the year adjustment is changed */
 static void
@@ -59,7 +59,7 @@ month_changed (GtkToggleButton *toggle, gpointer data)
 {
 	GoToDialog *dlg = data;
 	GtkWidget *menu, *active;
-	
+
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
 	active = gtk_menu_get_active (GTK_MENU (menu));
 	dlg->month_val = g_list_index (GTK_MENU_SHELL (menu)->children, active);
@@ -72,7 +72,7 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
 	ECal *client;
-	
+
 	client = gnome_calendar_get_default_client (dlg->gcal);
 	if (client)
 		tag_calendar_by_client (dlg->ecal, client);
@@ -88,7 +88,7 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 	GDate start_date, end_date;
 	struct icaltimetype tt = icaltime_null_time ();
 	time_t et;
-	
+
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 
 	tt.year = g_date_get_year (&start_date);
@@ -133,10 +133,10 @@ static void
 create_ecal (GoToDialog *dlg)
 {
 	ECalendarItem *calitem;
-	
+
 	dlg->ecal = E_CALENDAR (e_calendar_new ());
 	calitem = dlg->ecal->calitem;
-	
+
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (calitem),
 			"move_selection_when_moving", FALSE,
 			NULL);
@@ -148,7 +148,7 @@ create_ecal (GoToDialog *dlg)
 	e_calendar_item_set_get_time_callback (calitem,
 					       get_current_time,
 					       dlg, NULL);
-	
+
 	ecal_date_range_changed (calitem, dlg);
 }
 
@@ -179,12 +179,12 @@ get_widgets (GoToDialog *dlg)
 }
 
 static void
-goto_dialog_init_widgets (GoToDialog *dlg) 
+goto_dialog_init_widgets (GoToDialog *dlg)
 {
 	GtkWidget *menu;
 	GtkAdjustment *adj;
 	GList *l;
-	
+
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
 	for (l = GTK_MENU_SHELL (menu)->children; l != NULL; l = l->next)
 		g_signal_connect (menu, "selection_done", G_CALLBACK (month_changed), dlg);
@@ -208,9 +208,9 @@ goto_dialog (GnomeCalendar *gcal)
 	if (dlg) {
 		return;
 	}
-		
+
 	dlg = g_new0 (GoToDialog, 1);
-	
+
 	/* Load the content widgets */
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "goto-dialog.glade",
@@ -238,7 +238,7 @@ goto_dialog (GnomeCalendar *gcal)
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (dlg->month), dlg->month_val);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->year), dlg->year_val);
-	
+
 	create_ecal (dlg);
 
 	goto_dialog_init_widgets (dlg);

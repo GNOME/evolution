@@ -36,7 +36,7 @@
  * ea_calendar_helpers_get_accessible_for
  * @canvas_item: the canvas item for a event or a jump button
  * @returns: the atk object for the canvas_item
- * 
+ *
  **/
 AtkObject *
 ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
@@ -71,7 +71,7 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
  * @returns: the cal view widget if exists
  *
  * Get the cal view widget contains the canvas_item.
- * 
+ *
  **/
 ECalendarView *
 ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)

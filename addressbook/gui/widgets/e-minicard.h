@@ -60,10 +60,10 @@ enum _EMinicardFocusType {
 struct _EMinicard
 {
 	GnomeCanvasGroup parent;
-	
+
 	/* item specific fields */
 	EContact *contact;
-	
+
 	GnomeCanvasItem *rect;
 	GnomeCanvasItem *header_rect;
 	GnomeCanvasItem *header_text;
@@ -107,7 +107,7 @@ struct _EMinicardClass
 };
 
 typedef struct _EMinicardField EMinicardField;
-                                                                               
+
 struct _EMinicardField {
 	EContactField field;
 	GnomeCanvasItem *label;

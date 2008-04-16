@@ -76,7 +76,7 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 	} else {
 		c->zone = calendar_config_get_icaltimezone ();
 	}
-	
+
 	c->start_time = icaltime_as_timet_with_zone (start_tt, c->zone);
 	c->end_time = icaltime_as_timet_with_zone (end_tt, c->zone);
 
@@ -118,7 +118,7 @@ tag_calendar_cb (ECalComponent *comp,
  * tag_calendar_by_client:
  * @ecal: Calendar widget to tag.
  * @client: A calendar client object.
- * 
+ *
  * Tags an #ECalendar widget with the events that occur in its current time
  * range.  The occurrences are extracted from the specified calendar @client.
  **/
@@ -162,7 +162,7 @@ resolve_tzid_cb (const char *tzid, gpointer data)
 
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL (data), NULL);
-	
+
 	client = E_CAL (data);
 
 	/* Try to find the builtin timezone first. */
@@ -181,7 +181,7 @@ resolve_tzid_cb (const char *tzid, gpointer data)
  * @ecal: Calendar widget to tag.
  * @comp: A calendar component object.
  * @clear_first: Whether the #ECalendar should be cleared of any marks first.
- * 
+ *
  * Tags an #ECalendar widget with any occurrences of a specific calendar
  * component that occur within the calendar's current time range.
  * Note that TRANSPARENT events are also tagged here.
@@ -191,7 +191,7 @@ resolve_tzid_cb (const char *tzid, gpointer data)
  * have been added to the calendar on the server yet.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icaltimezone *display_zone, 
+tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icaltimezone *display_zone,
 		      gboolean clear_first, gboolean comp_is_on_server)
 {
 	struct calendar_tag_closure c;

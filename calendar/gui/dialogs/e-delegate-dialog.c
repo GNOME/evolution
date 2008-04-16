@@ -49,7 +49,7 @@ struct _EDelegateDialogPrivate {
 	GtkWidget *addressbook;
 
 	ENameSelector *name_selector;
-	GtkWidget *entry;	
+	GtkWidget *entry;
 };
 
 static const char *section_name = "Delegate To";
@@ -167,7 +167,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
 	e_destination_store_append_destination (destination_store, dest);
 	g_object_unref (dest);
-		
+
 	g_signal_connect((priv->addressbook), "clicked",
 			    G_CALLBACK (addressbook_clicked_cb), edd);
 
@@ -193,7 +193,7 @@ get_widgets (EDelegateDialog *edd)
 
 	priv->app		= GW ("delegate-dialog");
 	priv->hbox              = GW ("delegate-hbox");
-	priv->addressbook	= GW ("addressbook");	
+	priv->addressbook	= GW ("addressbook");
 
 	return (priv->app
 		&& priv->hbox
@@ -206,7 +206,7 @@ addressbook_clicked_cb (GtkWidget *widget, gpointer data)
 	EDelegateDialog *edd = data;
 	EDelegateDialogPrivate *priv;
 	ENameSelectorDialog *name_selector_dialog;
-	
+
 	priv = edd->priv;
 
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
@@ -251,7 +251,7 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
-	
+
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
@@ -269,7 +269,7 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 		g_free (priv->address);
 		priv->address = g_strdup (e_destination_get_email (destination));
 	}
-	
+
 	g_list_free (destinations);
 	return g_strdup (priv->address);
 }
@@ -283,7 +283,7 @@ e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
-	
+
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
@@ -301,7 +301,7 @@ e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 		g_free (priv->name);
 		priv->name = g_strdup (e_destination_get_name (destination));
 	}
-	
+
 	g_list_free (destinations);
 	return g_strdup (priv->name);
 }

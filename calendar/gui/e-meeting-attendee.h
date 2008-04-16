@@ -137,7 +137,7 @@ void e_meeting_attendee_set_fburi (EMeetingAttendee *ia, gchar *fburi);
 
 const GArray *e_meeting_attendee_get_busy_periods (EMeetingAttendee *ia);
 gint e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date);
-gboolean e_meeting_attendee_add_busy_period (EMeetingAttendee *ia, 
+gboolean e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 					gint start_year,
 					gint start_month,
 					gint start_day,

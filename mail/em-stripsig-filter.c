@@ -48,7 +48,7 @@ CamelType
 em_stripsig_filter_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		type = camel_type_register (camel_mime_filter_get_type (),
 					    "EMStripSigFilter",
@@ -59,7 +59,7 @@ em_stripsig_filter_get_type (void)
 					    (CamelObjectInitFunc) em_stripsig_filter_init,
 					    NULL);
 	}
-	
+
 	return type;
 }
 
@@ -68,9 +68,9 @@ static void
 em_stripsig_filter_class_init (EMStripSigFilterClass *klass)
 {
 	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
-	
+
 	parent_class = CAMEL_MIME_FILTER_CLASS (camel_type_get_global_classfuncs (camel_mime_filter_get_type ()));
-	
+
 	filter_class->reset = filter_reset;
 	filter_class->filter = filter_filter;
 	filter_class->complete = filter_complete;
@@ -90,17 +90,17 @@ strip_signature (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
 	register const char *inptr = in;
 	const char *inend = in + len;
 	const char *start = NULL;
-	
+
 	if (stripsig->midline) {
 		while (inptr < inend && *inptr != '\n')
 			inptr++;
-		
+
 		if (inptr < inend) {
 			stripsig->midline = FALSE;
 			inptr++;
 		}
 	}
-	
+
 	while (inptr < inend) {
 		if ((inend - inptr) >= 4 && !strncmp (inptr, "-- \n", 4)) {
 			start = inptr;
@@ -108,24 +108,24 @@ strip_signature (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
 		} else {
 			while (inptr < inend && *inptr != '\n')
 				inptr++;
-			
+
 			if (inptr == inend) {
 				stripsig->midline = TRUE;
 				break;
 			}
-			
+
 			inptr++;
 		}
 	}
-	
+
 	if (start != NULL)
 		inptr = start;
-	
+
 	if (!flush && inend > inptr)
 		camel_mime_filter_backup (filter, inptr, inend - inptr);
 	else if (!start)
 		inptr = inend;
-	
+
 	*out = in;
 	*outlen = inptr - in;
 	*outprespace = prespace;
@@ -150,7 +150,7 @@ static void
 filter_reset (CamelMimeFilter *filter)
 {
 	EMStripSigFilter *stripsig = (EMStripSigFilter *) filter;
-	
+
 	stripsig->midline = FALSE;
 }
 

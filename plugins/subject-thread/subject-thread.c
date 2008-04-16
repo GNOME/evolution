@@ -39,7 +39,7 @@ static void
 toggled_cb (GtkWidget *widget, EConfig *config)
 {
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) config->target;
-	
+
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (target->gconf, GCONF_KEY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)), NULL);
 }
@@ -49,7 +49,7 @@ org_gnome_subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_
 {
 	GtkWidget *check;
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
-	
+
 	/* Create the checkbox we will display, complete with mnemonic that is unique in the dialog */
 	check = gtk_check_button_new_with_mnemonic (_("F_all back to threading messages by subject"));
 
@@ -58,10 +58,10 @@ org_gnome_subject_thread_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_
 
 	/* Listen for the item being toggled on and off */
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (toggled_cb), hook_data->config);
-	
+
 	/* Pack the checkbox in the parent widget and show it */
 	gtk_box_pack_start (GTK_BOX (hook_data->parent), check, FALSE, FALSE, 0);
 	gtk_widget_show (check);
-	
+
 	return check;
 }

@@ -134,7 +134,7 @@ ea_expander_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-		
+
 		factory = atk_registry_get_factory (atk_get_default_registry (), GTK_TYPE_BIN);
 		parent_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (parent_type, &query);

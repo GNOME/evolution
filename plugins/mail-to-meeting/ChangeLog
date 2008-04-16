@@ -1,3 +1,10 @@
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #353779
+
+	* org-gnome-mail-to-meeting.eplug.xml:
+	Allow convert more than one mail to meeting with one click.
+
 2007-06-07  Gilles Dartiguelongue  <dartigug@esiee.fr>
 
 	* mail-to-meeting.c: (add_attendee_cb): more compilation

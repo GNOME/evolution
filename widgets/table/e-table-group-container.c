@@ -128,7 +128,7 @@ etgc_dispose (GObject *object)
 	G_OBJECT_CLASS (etgc_parent_class)->dispose (object);
 }
 
-/** 
+/**
  * e_table_group_container_construct
  * @parent: The %GnomeCanvasGroup to create a child of.
  * @etgc: The %ETableGroupContainer.
@@ -168,7 +168,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->open = TRUE;
 }
 
-/** 
+/**
  * e_table_group_container_new
  * @parent: The %GnomeCanvasGroup to create a child of.
  * @full_header: The full header of the %ETable.
@@ -191,7 +191,7 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 	ETableGroupContainer *etgc;
 
 	g_return_val_if_fail (parent != NULL, NULL);
-	
+
 	etgc = g_object_new (E_TABLE_GROUP_CONTAINER_TYPE, NULL);
 
 	e_table_group_container_construct (parent, etgc, full_header, header,
@@ -213,8 +213,8 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type) {
 	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_Tab || 
-		    event->key.keyval == GDK_KP_Tab || 
+		if (event->key.keyval == GDK_Tab ||
+		    event->key.keyval == GDK_KP_Tab ||
 		    event->key.keyval == GDK_ISO_Left_Tab) {
 			change_focus = TRUE;
 			use_col      = TRUE;
@@ -248,7 +248,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 			use_col      = FALSE;
 			direction    = E_FOCUS_START;
 		}
-		if (change_focus){		
+		if (change_focus){
 			GList *list;
 			for (list = etgc->children; list; list = list->next) {
 				ETableGroupContainerChildNode *child_node;
@@ -263,12 +263,12 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 						old_col = 0;
 					if (start_col == -1)
 						start_col = e_table_header_count (e_table_group_get_header (child)) - 1;
-					
+
 					if (direction == E_FOCUS_END)
 						list = list->prev;
 					else
 						list = list->next;
-					
+
 					if (list) {
 						child_node = (ETableGroupContainerChildNode *)list->data;
 						child = child_node->child;
@@ -311,7 +311,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 			return GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->event (item, event);
 	}
 	return return_val;
-	
+
 }
 
 /* Realize handler for the text item */
@@ -354,7 +354,7 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 					child_node->string,
 					(gint) child_node->count);
 	}
-	gnome_canvas_item_set (child_node->text, 
+	gnome_canvas_item_set (child_node->text,
 			       "text", text,
 			       NULL);
 	g_free (text);
@@ -510,7 +510,7 @@ etgc_add_array (ETableGroup *etg, const int *array, int count)
 {
 	int i;
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	void *lastval = 0;
+	void *lastval = NULL;
 	int laststart = 0;
 	GCompareFunc comp = etgc->ecol->compare;
 	ETableGroupContainerChildNode *child_node;
@@ -848,7 +848,7 @@ etgc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 	case PROP_HEIGHT:
 		g_value_set_double (value, etgc->height);
 		break;
-	case PROP_WIDTH:	
+	case PROP_WIDTH:
 		g_value_set_double (value, etgc->width);
 		break;
 	case PROP_MINIMUM_WIDTH:
@@ -894,7 +894,7 @@ etgc_class_init (ETableGroupContainerClass *klass)
 	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
 					 g_param_spec_boolean ("alternating_row_colors",
 							       _( "Alternating Row Colors" ),
-							       _( "Alternating Row Colors" ), 
+							       _( "Alternating Row Colors" ),
 							       FALSE,
 							       G_PARAM_WRITABLE));
 
@@ -988,14 +988,14 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 
 	if (frozen)
 		return;
-	
+
 
 	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED){
 		gdouble running_height = 0;
 		gdouble running_width = 0;
 		gdouble old_height;
 		gdouble old_width;
-		
+
 		old_height = etgc->height;
 		old_width = etgc->width;
 		if (etgc->children == NULL){
@@ -1004,7 +1004,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 			gdouble extra_height = 0;
 			gdouble item_height = 0;
 			gdouble item_width = 0;
-			
+
 			if (etgc->font_desc) {
 				PangoContext *context;
 				PangoFontMetrics *metrics;
@@ -1017,15 +1017,15 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 					BUTTON_PADDING * 2;
 				pango_font_metrics_unref (metrics);
 			}
-			
+
 			extra_height = MAX(extra_height, BUTTON_HEIGHT + BUTTON_PADDING * 2);
-				
+
 			running_height = extra_height;
-			
+
 			for ( list = etgc->children; list; list = g_list_next (list)){
 				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 				ETableGroup *child = child_node->child;
-				
+
 				g_object_get (child,
 					      "width", &item_width,
 					      NULL);
@@ -1039,22 +1039,22 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				g_object_get (child,
 					      "height", &item_height,
 					      NULL);
-				
+
 				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM(child_node->text),
 							    GROUP_INDENT,
 							    running_height - BUTTON_PADDING);
-				
+
 				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM(child),
 							    GROUP_INDENT,
 							    running_height);
-				
+
 				gnome_canvas_item_set (GNOME_CANVAS_ITEM(child_node->rect),
 						      "x1", (double) 0,
 						      "x2", (double) running_width + GROUP_INDENT,
 						      "y1", (double) running_height - extra_height,
 						      "y2", (double) running_height + item_height,
 						      NULL);
-				
+
 				running_height += item_height + extra_height;
 			}
 			running_height -= extra_height;
@@ -1070,7 +1070,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 static void
 etgc_init (ETableGroupContainer *container)
 {
-	container->children = FALSE;
+	container->children = NULL;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(container), etgc_reflow);
 
@@ -1142,7 +1142,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 				     gdouble height,
 				     gboolean quantize,
 				     ETGCPrintContext *groupcontext)
-{	
+{
 	cairo_t *cr;
 	gdouble yd = height;
 	gdouble child_height;
@@ -1156,7 +1156,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
 	yd = 6.5 * 72;
-	height = 5 * 72; 
+	height = 5 * 72;
 
 	if (child_printable) {
 		if (child)
@@ -1185,7 +1185,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 	pango_font_description_free (desc);
 
 	while (1) {
-		child_height = e_printable_height(child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);		    
+		child_height = e_printable_height(child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_save (cr);
 		cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
@@ -1198,7 +1198,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 		cairo_rectangle (cr, 0, 0, width, TEXT_AREA_HEIGHT);
 		cairo_clip (cr);
 		cairo_restore (cr);
-								   
+
 		cairo_move_to(cr, 0, 0);
 		if (groupcontext->etgc->ecol->text)
 			string = g_strdup_printf ("%s : %s (%d item%s)",
@@ -1214,13 +1214,13 @@ e_table_group_container_print_page  (EPrintable *ep,
 		pango_layout_set_text (layout, string, -1);
 		pango_cairo_show_layout (cr, layout);
 		g_free(string);
- 
+
 		cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT) ;
 		cairo_move_to(cr, 0, 0);
 		cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
 		cairo_clip(cr);
-		    		
-		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, 0, quantize); 
+
+		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, 0, quantize);
 		yd += child_height + TEXT_AREA_HEIGHT;
 
 		if (e_printable_data_left(child_printable))
@@ -1301,7 +1301,7 @@ e_table_group_container_height      (EPrintable *ep,
 
 	if (yd != -1 && yd < TEXT_AREA_HEIGHT)
 		return 0;
-	
+
 	while (1) {
 		child_height = e_printable_height(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
 
@@ -1319,7 +1319,7 @@ e_table_group_container_height      (EPrintable *ep,
 		if (!child) {
 			break;
 		}
-		
+
 		child_node = child->data;
 		if (child_printable)
 			g_object_unref (child_printable);
@@ -1366,27 +1366,27 @@ e_table_group_container_will_fit      (EPrintable *ep,
 			e_printable_reset(child_printable);
 		}
 	}
-	
+
 	if (yd != -1 && yd < TEXT_AREA_HEIGHT)
 		will_fit = FALSE;
 	else {
 		while (1) {
 			child_height = e_printable_height(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
-			
+
 			if (yd != -1) {
 				if (!e_printable_will_fit(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize)) {
 					will_fit = FALSE;
 					break;
 				}
-				
+
 				yd += child_height + TEXT_AREA_HEIGHT;
 			}
-			
+
 			child = child->next;
 			if (!child) {
 				break;
 			}
-			
+
 			child_node = child->data;
 			if (child_printable)
 				g_object_unref (child_printable);
@@ -1407,7 +1407,7 @@ e_table_group_container_will_fit      (EPrintable *ep,
 static void
 e_table_group_container_printable_destroy (gpointer data,
 					   GObject *where_object_was)
-					   
+
 {
 	ETGCPrintContext *groupcontext = data;
 

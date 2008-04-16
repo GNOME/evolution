@@ -1,3 +1,231 @@
+2008-04-07  Ondrej Jirman  <megous@megous.com>
+
+	** Fix for bug #525238
+
+	* e-shell-window.c: (switch_view):
+	* es-event.c:
+	* es-event.h:
+	Add new "component.activated" event. Event is emitted whenever
+	component is activated. ESEventTargetComponent contains an id
+	of the component being activated.
+
+2008-03-25  Veerapuram Varadhan  <vvaradhan@novell.com>
+
+	** Added configurable Proxy settings for Evolution.
+
+	* apps_evolution_shell.schemas.in:
+
+2008-03-03  Tor Lillqvist  <tml@novell.com>
+
+	* main.c (main) [Win32]: Drop the call to gtk_rc_parse_string() to
+	set gtk-fallback-icon-theme = "gnome". Instead just bundle a
+	suitable gtkrc with Evolution. And actually what we want to get
+	Tango icons seems to be gtk-fallback-icon-theme = "Tango", and no
+	mention of the gnome icon theme at all in gtkrc. (It is still
+	used, though.)
+
+2008-03-03  Tor Lillqvist  <tml@novell.com>
+
+	* main.c: On Windows, set PATH to include Evolution's "bin" folder
+	and the "lib/evolution/$(BASE_VERSION)/components" folder. Set
+	BONOBO_ACTIVATION_PATH to the "lib/bonobo/servers" folder
+
+2008-03-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* e-shell-window-commands.c (authors): Missed '"' :-) .
+	
+2008-03-03  Johnny Jacob  <jjohnny@novell.com>
+
+	* e-shell-window-commands.c (authors): Updated contributors list.
+
+2008-03-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* main.c: (main): Committing the build fix that comes up if
+	DEVELOPMENT is enabled.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #173186
+
+	* e-shell-nm.c: (e_shell_network_monitor): Upstreamed Fejj's OpenSUSE
+	patch. Crash while quitting.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	reviewed by: <delete if not using a buddy>
+
+	* e-shell-nm.c: (e_shell_network_monitor):
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #159736. Patch from OpenSUSE.
+
+	* e-shell-nm.c: (e_shell_network_monitor):
+
+2008-02-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* main.c (kill_dataserver):
+	Add commands to kill recent versions of evolution-data-server.
+
+2008-01-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* apps_evolution_shell.schemas.in: Change Crash Recovery to Crash
+	detection.
+	* main.c: (show_recovery_warning):
+
+2008-01-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-component-registry.c:
+	Replace G_GNUC_FUNCTION (deprecated) with G_STRFUNC.
+
+2008-01-22  Jan Tichavsky  <Jan.Tichavsky@gmail.com>
+
+	** Fix for bug #511232
+	
+	* e-shell.c: Fixed typo Uknown -> Unknown
+	(patch committed by Andre Klapper)
+
+2008-01-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window.c (setup_status_bar):
+	Make the status bar height as large as the task bar to eliminate
+	"bouncing" when navigating the main menu.  Patch by Jean-Christophe
+	Begue (#509509).
+
+2008-01-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-shell.c: (set_line_status): Fix a regression due to my previous
+	commit.
+
+2008-01-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #329712
+
+	* e-shell-window-commands.c: (update_offline_menu_item):
+	* e-shell-window.c: (update_offline_toggle_status),
+	(update_send_receive_sensitivity),
+	(offline_toggle_clicked_callback):
+	* e-shell.c: (e_shell_construct), (e_shell_save_settings),
+	(set_line_status):
+	* e-shell.h: Add a new state to maintian forced offline.
+
+2008-01-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* apps_evolution_shell.schemas.in: Add missing punctuation.
+
+2008-01-11  Bharath Acharya <abharath@novell.com>
+
+	** Fix for bug #508678
+
+	* e-shell-view.c: Included missing header glib/gi18n.h
+
+2008-01-11  Changwoo Ryu  <cwryu@debian.org>
+
+	** Fix for bug #508282
+
+	* e-shell-window.c (switch_view): 
+	* e-shell-view.c (impl_ShellView_setTitle): Mark the window title
+	for translation.
+
+2008-01-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window-commands.c:
+	Update copyright notice in About dialog.
+
+2008-01-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #219197
+
+	* e-shell.h:
+	* e-shell.c: (e_shell_can_quit), (e_shell_do_quit), (e_shell_quit):
+	Call of e_shell_quit divided into two functions, one to check if quit
+	is acceptable by all components and second to do quit.
+	* main.c: (gnome_master_client_save_yourself_cb),
+	(gnome_master_client_die_cb), (main):
+	Quit application when session dies.
+
+2007-12-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #502501
+
+	* main.c: (show_recovery_warning): Re use the existing string.
+
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add basic support for crash recovery
+
+	* apps_evolution_shell.schemas.in: Keys to recover and recovery dialog.
+	* e-shell.c: (e_shell_quit): Delete the lock while quitting.
+	* main.c: (show_recovery_warning), (idle_cb): Create lock and also show 
+	the warning dialog.
+
+2007-11-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #499920
+
+	* es-event.h:
+	Avoid including private header "e-shell.h".
+	Use a forward declaration of EShell instead.
+
+	* es-event.c:
+	Safe to include "e-shell.h" here.
+
+2007-11-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #400213
+
+	* e-shell-window.c: (load_icons): Function removed.
+	* e-shell-window.c: (update_offline_toggle_status):
+	Do not use pixmaps and masks, load images from file, instead.
+
+2007-11-26  Andre Klapper  <a9016009@gmx.de>
+
+	** Fixes bug #497810
+
+	* e-shell-window-commands.c:
+	add "Evolution FAQ" help menu item
+
+2007-11-02  Damien Carbery  <damien.carbery@sun.com>
+
+	** Fixes bug #492058
+
+	* e-shell-window.c:
+	* e-shell.c: Name the anonymous unions to build with the Sun
+	Studio compiler.
+
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window-commands.c:
+	Update the copyright notice in the About dialog.
+
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-user-creatable-items-handler.c (ensure_menu_items):
+	Don't compare a character pointer to a string literal.
+
+2007-10-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* GNOME_Evolution_Shell.server.in.in: Remove the version.
+	* main.c: (show_development_warning): Update the stable version.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-component-registry.c: (query_components):
+	* e-component-view.c: (e_component_view_new),
+	(e_component_view_new_controls), (e_component_view_set_title),
+	(e_component_view_set_button_icon):
+	* e-config-upgrade.c:
+	* e-shell-settings-dialog.c: (e_shell_settings_dialog_new):
+	* e-shell-window.c: (component_view_free):
+	* es-event.c: (es_event_peek):
+	* es-menu.c: (es_menu_new):
+	* importer/evolution-importer-client.c:
+	(evolution_importer_client_create_control):
+	Warning fixes:
+	- NULL vs 0 vs FALSE
+	- ANSIfication of declarations
+	- guint for 1-bit bitfields
+
 2007-10-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-window-commands.c:

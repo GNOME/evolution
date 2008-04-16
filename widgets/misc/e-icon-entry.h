@@ -30,7 +30,7 @@
  *  Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  *  file in the gtk+ distribution for a list of people on the GTK+ Team.
  *  See the ChangeLog in the gtk+ distribution files for a list of changes.
- *  These files are distributed with GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ *  These files are distributed with GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  *
  */
 

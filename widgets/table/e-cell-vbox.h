@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-vbox.h - Vbox cell object.
  * Copyright 1999 - 2002, Ximian, Inc.
  *

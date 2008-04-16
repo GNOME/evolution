@@ -13,12 +13,12 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -34,7 +34,7 @@
 #include <e-util/e-config-listener.h>
 
 EConfigListener *
-eab_get_config_database ()
+eab_get_config_database (void)
 {
 	static EConfigListener *config_db;
 
@@ -100,8 +100,8 @@ eab_name_and_email_query (EBook *book,
 	 * We only query against the username part of the address, to avoid not matching
 	 * fred@foo.com and fred@mail.foo.com.  While their may be namespace collisions
 	 * in the usernames of everyone out there, it shouldn't be that bad.  (Famous last words.)
-	 * But if name is missing we query against complete email id to avoid matching emails like 
-	 * users@foo.org with users@bar.org 
+	 * But if name is missing we query against complete email id to avoid matching emails like
+	 * users@foo.org with users@bar.org
 	 */
 	if (escaped_email) {
 		const gchar *t = escaped_email;
@@ -116,7 +116,7 @@ eab_name_and_email_query (EBook *book,
 	}
 
 	/* Build our name query.*/
-	
+
 	if (escaped_name)
 		name_query = g_strdup_printf ("(or (beginswith \"file_as\" \"%s\") (beginswith \"full_name\" \"%s\"))", escaped_name, escaped_name);
 
@@ -185,21 +185,21 @@ eab_strstrcase (const char *haystack, const char *needle)
 	/* find the needle in the haystack neglecting case */
 	const char *ptr;
 	guint len;
-	
+
 	g_return_val_if_fail (haystack != NULL, NULL);
 	g_return_val_if_fail (needle != NULL, NULL);
-	
+
 	len = strlen (needle);
 	if (len > strlen (haystack))
 		return NULL;
-	
+
 	if (len == 0)
 		return (char *) haystack;
-	
+
 	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
 		if (!g_ascii_strncasecmp (ptr, needle, len))
 			return (char *) ptr;
-	
+
 	return NULL;
 }
 
@@ -227,7 +227,7 @@ eab_contact_list_from_string (const char *str)
 
 	while (*p) {
 		if (*p != '\r') g_string_append_c (gstr, *p);
-		
+
 		p++;
 	}
 
@@ -235,7 +235,7 @@ eab_contact_list_from_string (const char *str)
 
 	/* Note: The VCard standard says
 	 *
-	 * vcard = "BEGIN" [ws] ":" [ws] "VCARD" [ws] 1*CRLF 
+	 * vcard = "BEGIN" [ws] ":" [ws] "VCARD" [ws] 1*CRLF
 	 *         items *CRLF "END" [ws] ":" [ws] "VCARD"
 	 *
 	 * which means we can have whitespace (e.g. "BEGIN : VCARD"). So we're not being
@@ -243,7 +243,7 @@ eab_contact_list_from_string (const char *str)
 	 * would be to have a vcard parsing function that returned the end of the vcard
 	 * parsed. Arguably, contact list parsing should all be in libebook's e-vcard.c,
 	 * where we can do proper parsing and validation without code duplication. */
-	
+
 	for (p = eab_strstrcase (p, "BEGIN:VCARD"); p; p = eab_strstrcase (q, "\nBEGIN:VCARD")) {
 		gchar *card_str;
 
@@ -361,8 +361,8 @@ static void
 have_address_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *contacts, gpointer closure)
 {
 	HaveAddressInfo *info = (HaveAddressInfo *) closure;
-	
-	info->cb (book, 
+
+	info->cb (book,
 		  info->email,
 		  contacts && (status == E_BOOK_ERROR_OK) ? E_CONTACT (contacts->data) : NULL,
 		  info->closure);

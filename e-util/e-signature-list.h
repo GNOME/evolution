@@ -46,13 +46,13 @@ typedef enum {
 
 struct _ESignatureList {
 	EList parent_object;
-	
+
 	struct _ESignatureListPrivate *priv;
 };
 
 struct _ESignatureListClass {
 	EListClass parent_class;
-	
+
 	/* signals */
 	void (* signature_added)   (ESignatureList *, ESignature *);
 	void (* signature_changed) (ESignatureList *, ESignature *);

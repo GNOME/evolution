@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-contact-print-style-editor.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -70,7 +70,7 @@ e_contact_print_style_editor_class_init (EContactPrintStyleEditorClass *klass)
   object_class = (GtkObjectClass*) klass;
 
   parent_class = gtk_type_class (gtk_vbox_get_type ());
-  
+
   object_class->set_arg = e_contact_print_style_editor_set_arg;
   object_class->get_arg = e_contact_print_style_editor_get_arg;
   object_class->destroy = e_contact_print_style_editor_destroy;
@@ -112,7 +112,7 @@ e_contact_print_style_editor_init (EContactPrintStyleEditor *e_contact_print_sty
 			    GTK_WIDGET(e_contact_print_style_editor));
 }
 
-void
+static void
 e_contact_print_style_editor_destroy (GtkObject *object)
 {
 	EContactPrintStyleEditor *e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR(object);

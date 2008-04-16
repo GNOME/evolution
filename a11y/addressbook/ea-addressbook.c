@@ -61,7 +61,7 @@ void eab_view_a11y_init (void)
 	EA_SET_FACTORY (eab_view_get_type (), ea_ab_view);
 }
 
-gboolean
+static gboolean
 ea_addressbook_focus_watcher (GSignalInvocationHint *ihint,
 			   guint n_param_values,
 			   const GValue *param_values,

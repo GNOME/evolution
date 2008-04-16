@@ -1,3 +1,53 @@
+2008-01-28  Johnny Jacob  <jjohnny@novell.com>
+
+	* mail-notification.c (new_notify_status): Adding proper 
+	comments for strings.
+
+2008-01-28  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes Bug #511226.
+	
+	* apps-evolution-mail-notification.schemas.in: String fixes.
+
+2008-01-21  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes 504567.
+	
+	* mail-notification.c (new_notify_status): Add ngettext support for 
+	strings.
+
+2008-01-09  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #492702
+
+	* Makefile.am:
+	* mail-notification.c: (org_gnome_mail_new_notify),
+	(org_gnome_mail_read_notify), (e_plugin_lib_enable),
+	(e_plugin_lib_get_configure_widget): Make the dbus portion of the
+	plugin conditional if it is there.
+
+2008-01-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-notification.c: (new_notify_status): Show the actual displayed
+	folder name rather than the decoded/handled one from uri.
+
+2007-12-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #504030
+
+	* mail-notification.c: (new_notify_sound):
+	Do not play sound on every new mail arrival in a row.
+
+2007-12-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #492702
+
+	* apps-evolution-mail-notification.schemas.in:
+	* mail-notification.c:
+	* org-gnome-mail-notification.eplug.xml:
+	New-mail-notification plugin and sound notification has been merged
+	to this plugin, with couple of options in plugins Configuration tab.
+
 2007-10-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-notification.c:

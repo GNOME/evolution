@@ -80,7 +80,7 @@ impl_GNOME_Evolution_Importer_supportFormat (PortableServer_Servant servant,
 	priv = importer->priv;
 
 	if (priv->support_format_fn != NULL)
-		return (priv->support_format_fn) (importer, filename, 
+		return (priv->support_format_fn) (importer, filename,
 						  priv->closure);
 	else
 		return FALSE;
@@ -222,7 +222,7 @@ evolution_importer_construct (EvolutionImporter *importer,
  * @get_error_fn: The function to be called by the getError method.
  * @closure: The data to be passed to all of the above functions.
  *
- * Creates a new EvolutionImporter object. Of the parameters only 
+ * Creates a new EvolutionImporter object. Of the parameters only
  * @get_error_function and @closure may be #NULL.
  *
  * Returns: A newly created EvolutionImporter object.

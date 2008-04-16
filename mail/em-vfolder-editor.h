@@ -37,7 +37,7 @@ typedef struct _EMVFolderEditorClass EMVFolderEditorClass;
 
 struct _EMVFolderEditor {
 	RuleEditor parent_object;
-	
+
 };
 
 struct _EMVFolderEditorClass {

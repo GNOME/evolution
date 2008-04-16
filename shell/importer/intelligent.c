@@ -1,20 +1,20 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* intelligent.c
- * 
- * Authors: 
+ *
+ * Authors:
  *    Iain Holmes  <iain@ximian.com>
  *
  * Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -101,7 +101,7 @@ free_importer_dialog (IntelligentImporterDialog *d)
 		data = l->data;
 
 		CORBA_exception_init (&ev);
-		if (data->object != CORBA_OBJECT_NIL) 
+		if (data->object != CORBA_OBJECT_NIL)
 			bonobo_object_release_unref (data->object, &ev);
 
 		g_free (data->iid);
@@ -147,7 +147,7 @@ get_intelligent_importers (void)
 
 	for (i = 0; i < info_list->_length; i++) {
 		const Bonobo_ServerInfo *info;
-		
+
 		info = info_list->_buffer + i;
 		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
 	}
@@ -207,7 +207,7 @@ create_gui (GList *importers)
 
 	d->clist = clist = gtk_clist_new (1);
 	gtk_clist_set_selection_mode (GTK_CLIST (d->clist), GTK_SELECTION_MULTIPLE);
-	
+
 	label = gtk_label_new (_("Evolution can import data from the following files:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
@@ -220,14 +220,14 @@ create_gui (GList *importers)
 			    TRUE, TRUE, 0);
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(sw), 
-					GTK_POLICY_AUTOMATIC, 
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(sw),
+					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (sw, 300, 150);
 	gtk_container_add (GTK_CONTAINER (sw), clist);
 	gtk_box_pack_start (GTK_BOX (hbox), sw, TRUE, TRUE, 0);
-	
+
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 2);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
@@ -246,10 +246,10 @@ create_gui (GList *importers)
 		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir ());
 		gnome_config_push_prefix (prefix);
 		g_free (prefix);
-		
+
 		dontaskagain = gnome_config_get_bool (l->data);
 		gnome_config_pop_prefix ();
-		
+
 		if (dontaskagain)
 			continue;
 
@@ -257,7 +257,7 @@ create_gui (GList *importers)
 		data->iid = g_strdup (l->data);
 
 		CORBA_exception_init (&ev);
-		data->object = bonobo_activation_activate_from_id ((char *) data->iid, 0, 
+		data->object = bonobo_activation_activate_from_id ((char *) data->iid, 0,
 						     NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Could not start %s: %s", data->iid,
@@ -282,7 +282,7 @@ create_gui (GList *importers)
 		can_run = GNOME_Evolution_IntelligentImporter_canImport (data->object,
 									 &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Could not get canImport(%s): %s", 
+			g_warning ("Could not get canImport(%s): %s",
 				   data->iid, CORBA_exception_id (&ev));
 			bonobo_object_release_unref (data->object, &ev);
 			CORBA_exception_free (&ev);
@@ -291,7 +291,7 @@ create_gui (GList *importers)
 			continue;
 		}
 		CORBA_exception_free (&ev);
-		
+
 		if (can_run == FALSE) {
 			CORBA_exception_init (&ev);
 			bonobo_object_release_unref (data->object, &ev);
@@ -305,7 +305,7 @@ create_gui (GList *importers)
 
 		data->name = g_strdup (GNOME_Evolution_IntelligentImporter__get_importername (data->object, &ev));
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Could not get name(%s): %s", 
+			g_warning ("Could not get name(%s): %s",
 				   data->iid, CORBA_exception_id (&ev));
 			bonobo_object_release_unref (data->object, &ev);
 			CORBA_exception_free (&ev);
@@ -316,7 +316,7 @@ create_gui (GList *importers)
 
 		data->blurb = g_strdup (GNOME_Evolution_IntelligentImporter__get_message (data->object, &ev));
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Could not get message(%s): %s", 
+			g_warning ("Could not get message(%s): %s",
 				   data->iid, CORBA_exception_id (&ev));
 			bonobo_object_release_unref (data->object, &ev);
 			CORBA_exception_free (&ev);
@@ -356,7 +356,7 @@ create_gui (GList *importers)
 		text[0] = data->name;
 		gtk_clist_prepend (GTK_CLIST (clist), text);
 	}
-	
+
 	d->running = running;
 	dummy = gtk_drawing_area_new ();
 	gtk_widget_show (dummy);
@@ -365,7 +365,7 @@ create_gui (GList *importers)
 	/* Set the start to the blank page */
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (d->placeholder), running);
 
-	g_signal_connect((clist), "select-row", 
+	g_signal_connect((clist), "select-row",
 			    G_CALLBACK (select_row_cb), d);
 	g_signal_connect((clist), "unselect-row",
 			    G_CALLBACK (unselect_row_cb), d);
@@ -386,10 +386,10 @@ intelligent_importer_init (void)
 	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir());
 	gnome_config_push_prefix (prefix);
 	g_free (prefix);
-	
+
 	dontaskagain = gnome_config_get_bool ("Dontaskagain=False");
 	gnome_config_pop_prefix ();
-	
+
 	if (dontaskagain) {
 		return;
 	}
@@ -423,7 +423,7 @@ intelligent_importer_init (void)
 			new_data = g_new (SelectedImporterData, 1);
 			new_data->iid = iid;
 
-			/* Reference the remote object, and duplicate the 
+			/* Reference the remote object, and duplicate the
 			   local one. */
 			CORBA_exception_init (&ev);
 			new_data->importer = bonobo_object_dup_ref (data->object, &ev);
@@ -440,14 +440,14 @@ intelligent_importer_init (void)
 			selected = g_list_prepend (selected, new_data);
 		}
 
-		/* Now destroy all the importers, as we've kept references to 
+		/* Now destroy all the importers, as we've kept references to
 		   the ones we need */
 		free_importer_dialog (d);
 
 		if (selected != NULL) {
 			/* Restart the selected ones */
 			start_importers (selected);
-			
+
 			/* Free the selected list */
 			for (l = selected; l; l = l->next) {
 				CORBA_Environment ev;
@@ -464,12 +464,12 @@ intelligent_importer_init (void)
 		}
 
 		break;
-		
+
 	case GTK_RESPONSE_CANCEL: /* Dont ask again */
 		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir());
 		gnome_config_push_prefix (prefix);
 		g_free (prefix);
-		
+
 		gnome_config_set_bool ("Dontaskagain", TRUE);
 		gnome_config_pop_prefix ();
 

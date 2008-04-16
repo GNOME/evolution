@@ -1,3 +1,103 @@
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-send-options.c (org_gnome_composer_send_options):
+	Adapt to streamlined EMsgComposer API.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511957
+
+	* org-gnome-proxy-login-errors.xml:
+	* org-gnome-shared-folder.errors.xml:
+	* org-gnome-proxy-errors.xml:
+	* org-gnome-mail-retract-errors.xml:
+	Mark messages for translation.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511956
+
+	* share-folder.c: (notification_clicked): Mark text for translation.
+	* properties.glade: Make dialog nicer.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511953
+
+	* share-folder.c: (notification_clicked): Create dialog properly.
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511950
+
+	* properties.glade: Do not force button/label sizes.
+
+2008-03-25  Sankar P  <psankar@novell.com>
+
+	* proxy.c: (org_gnome_proxy):
+	We are using some g_object_set on EAccount. 
+	We should also avoid double-free later. So reffing. 
+
+2008-03-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511952
+
+	* share-folder.c: (share_folder_construct):
+	* proxy.c: (proxy_add_account): Marking text for translation.
+
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* send-options.c: (get_source):
+	* share-folder-common.c: (get_container_id):
+	* install-shared.c: (install_folder_response):
+	Memory leak fix.
+
+2008-01-28  Andre Klapper  <a9016009@gmx.de>
+
+	* proxy-add-dialog.glade: string "Read" needs gettext context, 
+	translator comments.  
+
+2008-01-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of bug #511488
+
+	* share-folder-common.c: (users_dialog_response): The logic to check
+	if vfolder is running has been changed, so reflect it here too.
+
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #300336
+
+	* share-folder-common.c: (users_dialog_response):
+	Ensure vfolder is running.
+
+2007-12-06  Alex Kloss  <alexkloss@att.net>
+
+	** Fix for bug #347328
+
+	* properties.glade:
+	Fix mnemonic clash over 'c', add mnemonic for 'Name' entry
+	* share-folder.c: (share_folder_construct):
+	Connect name_selector_entry and its label
+
+2007-11-12  indu  <indu_ait@yahoo.co.in>
+
+	** Fix for bug #458515
+	*  status-track.c: (recipient->undelivered_date): 
+	string corrected
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* junk-mail-settings.c: (junk_mail_settings),
+	(org_gnome_junk_settings):
+	* send-options.c: (send_options_finalize), (get_source):
+	* status-track.c: (track_status), (org_gnome_track_status):
+	Warning fixes:
+	- mixing code and declarations
+	- ANSIfication of function declaration
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #477045
@@ -6,10 +106,10 @@
 	Use standard icon names where applicable.
 
 2007-08-17  Johnny Jacob  <jjohnny@novell.com>
- 
- 	** Fix for bug #458715.
+
+	** Fix for bug #458715.
 	
-        * proxy.c : (proxy_page_changed_cb) : Do not include "<All User
+	* proxy.c : (proxy_page_changed_cb) : Do not include "<All User
 	Access>" in the list. And use g_malloc0.
 	
 2007-08-16  Milan Crha  <mcrha@redhat.com>
@@ -78,7 +178,7 @@
 
 2007-02-05  Sankar P  <psankar@novell.com>
 
-        * junk-settings.c:
+	* junk-settings.c:
 	Include missing header file
 
 2007-01-27  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
@@ -102,7 +202,7 @@
 2007-01-18  Raghavendran <raghavguru7@gmail.com>
 	
 	* org-gnome-groupwise-features.xml: 
-  	* mail-send-options.c :
+	* mail-send-options.c :
 	Added code for implementing Send options via
 	a data hook .
 2006-11-17  Harish Krishnaswamy  <kharish@novell.com>

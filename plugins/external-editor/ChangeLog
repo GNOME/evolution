@@ -1,0 +1,33 @@
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* external-editor.c: (convert_to_camel_internet_address),
+	(org_gnome_external_editor): Memory leak fix.
+
+2007-12-04  Sankar P  <psankar@novell.com>
+
+	* Committed on behalf of Denis Washington <denisw@svn.gnome.org>
+
+	** Fix for bug #496298
+	* org-gnome-external-editor.eplug.xml:
+	* org-gnome-external-editor.xml:
+	Change mails to messages.
+
+2007-10-25  Sankar P  <psankar@novell.com>
+
+	* Makefile.am:
+	* org-gnome-external-editor.eplug.xml:
+	* org-gnome-external-editor.xml:
+	* org-gnome-external-editor.error.xml:
+	* external-editor.c:
+
+	- Initial files for the plugin. 
+
+	- This plugin allows you to use an external editor 
+	as the composer.
+
+	- I've tested this gvim and it works fine. 
+
+	- Needs a lot of more work before this 
+	moves out of experimental state.

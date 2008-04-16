@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-example-1.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -42,16 +42,16 @@
  * the ETableSimple class.  Instead of creating your own ETableModel
  * class, you simply create a new object of the ETableSimple class.  You
  * give it a bunch of functions that act as callbacks.
- * 
+ *
  * You also get to pass a void * to ETableSimple and it gets passed to
  * your callbacks.  This would be for having multiple models of the same
  * type.  This is just an example though, so we statically define all the
  * data and ignore the void *data parameter.
- * 
+ *
  * In our example we will be creating a table model with 6 columns and 10
  * rows.  This corresponds to having 6 different types of information and
  * 10 different sets of data in our database.
- * 
+ *
  * The headers will be hard coded, as will be the example data.
  *
  */
@@ -219,7 +219,7 @@ create_table (void)
 	e_table_model = e_table_simple_new (
 					    my_col_count, my_row_count, my_value_at,
 					    my_set_value_at, my_is_cell_editable,
-					    my_duplicate_value, my_free_value, 
+					    my_duplicate_value, my_free_value,
 					    my_initialize_value, my_value_is_empty,
 					    my_value_to_string,
 					    NULL);
@@ -234,7 +234,7 @@ create_table (void)
 	 * First we create the header.
 	 */
 	e_table_header = e_table_header_new ();
-	
+
 	/*
 	 * Next we have to build renderers for all of the columns.
 	 * Since all our columns are text columns, we can simply use
@@ -243,7 +243,7 @@ create_table (void)
 	 * each column.
 	 */
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
-		
+
 	/*
 	 * Next we create a column object for each view column and add
 	 * them to the header.  We don't create a column object for
@@ -299,7 +299,7 @@ main (int argc, char *argv [])
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	create_table ();
-	
+
 	gtk_main ();
 
 	e_cursors_shutdown ();

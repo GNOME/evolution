@@ -1,3 +1,128 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #519292
+
+	* e-tree-table-adapter.c: (set_expanded_state_func),
+	(set_collapsed_state_func): Use rather recurse function.
+
+2008-02-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #209353
+
+	* e-table-item.c: (eti_event):
+	Pass Home/End keys to cell when editing.
+
+2008-02-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512623
+
+	* e-tree.c: (item_key_press):
+	Check only if Ctrl/Alt/Shift is pressed when required Shift only.
+	* e-table.c: (group_key_press): Ignore/consider GDK_MODEx_MASK states.
+
+2008-01-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-table-item.c: (eti_draw): Fix some gradient issues.
+
+2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-cell-pixbuf.c: (pixbuf_draw), (pixbuf_height), (pixbuf_print),
+	(pixbuf_print_height), (pixbuf_max_width): Cairfy pixbuf renderer for
+	settings window.
+
+2008-01-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511105
+
+	* e-tree-table-adapter.c: (e_tree_table_adapter_load_expanded_state):
+	* e-table-item.c: (eti_draw):
+	* e-table-column-specification.c: (free_strings): 
+	Free allocated memory properly.
+
+2008-01-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511094
+
+	* e-cell-text.c: (ect_draw): Set proper foreground color based
+	on focused/non-focused canvas.
+
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-table-item.c: (eti_draw): Draw the cursor only for multiselection.
+
+2008-01-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-cell-toggle.c: (etog_new_view), (etog_kill_view), (etog_draw),
+	(etog_print), (e_cell_toggle_class_init),
+	(e_cell_toggle_construct): Removed the pixmap cache. It wasn't giving
+	alpha for the cairo rendered message list row.
+	* e-table-item.c: (eti_draw): Render the rows with Cairo. It looks
+	same as GtkTreeView and seems nice.
+
+2007-12-05  David Turner  <cillian64@googlemail.com>
+
+	** Fix for bug #408170
+
+	* e-table-header-item.c: (ethi_header_context_menu): Added
+	mnemonics to the "Custom" and "Sort By" menu options
+
+2007-12-04  David Turner <cillian64@googlemail.com>
+
+	** Fix for bug #458824
+
+	* e-table-config.glade: Added mnemonics to the "Group" dialog
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #255051
+
+	* e-cell-combo.c: (e_cell_combo_key_press):
+	* e-cell-text.c: (ect_event):
+	Pass Escape event to parent, if there is no action to do with it.
+	* e-table-click-to-add.c: (etcta_event): Drop changes when pressed
+	Escape and go back to default line with text "Click to add...".
+
+2007-11-02  Damien Carbery  <damien.carbery@sun.com>
+
+	** Fixes bug #492058
+
+	* e-table-header-item.h:
+	* e-table-header-item.c: Name the anonymous unions to build
+	with the Sun Studio compiler.
+
+2007-11-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #463946
+
+	* e-table-header-item.c: (ethi_popup_field_chooser):
+	Fix of critical warning and misused variable.
+
+2007-11-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-table-click-to-add.c (etcta_add_message):
+	Fix a const warning.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-cell-text.c: (ect_event), (_blink_scroll_timeout):
+	* e-table-config.c: (do_sort_and_group_config_dialog),
+	(do_fields_config_dialog):
+	* e-table-group-container.c: (etgc_add_array),
+	(etgc_get_focus_column), (etgc_get_cell_geometry),
+	(etgc_set_property), (etgc_get_property), (etgc_class_init),
+	(etgc_reflow), (etgc_init), (e_table_group_container_print_page),
+	(e_table_group_container_height):
+	* e-table-group.c: (e_table_group_get_focus_column):
+	* e-table-header.c: (e_table_header_get_columns), (eth_set_size):
+	* e-table-item.c: (eti_tree_unfreeze), (eti_draw), (find_cell),
+	(_do_tooltip), (eti_event), (e_table_item_height):
+	* e-table-memory-store.c: (etms_initialize_value),
+	(etms_value_is_empty):
+	* e-tree-model.c: (e_tree_model_new), (e_tree_model_node_find):
+	Warning fixes:
+	- NULL vs. 0 vs. FALSE
+	- Mark som code static
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

@@ -42,7 +42,7 @@ GType
 message_tag_editor_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (MessageTagEditorClass),
@@ -55,10 +55,10 @@ message_tag_editor_get_type (void)
 			0,
 			(GInstanceInitFunc) message_tag_editor_init,
 		};
-		
+
 		type = g_type_register_static (gtk_dialog_get_type (), "MessageTagEditor", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -66,11 +66,11 @@ static void
 message_tag_editor_class_init (MessageTagEditorClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (gtk_dialog_get_type ());
-	
+
 	object_class->finalize = message_tag_editor_finalise;
-	
+
 	klass->get_tag_list = get_tag_list;
 	klass->set_tag_list = set_tag_list;
 }
@@ -83,7 +83,7 @@ message_tag_editor_init (MessageTagEditor *editor)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
-	
+
 	gtk_dialog_set_default_response (GTK_DIALOG (editor), GTK_RESPONSE_OK);
 }
 
@@ -92,7 +92,7 @@ static void
 message_tag_editor_finalise (GObject *obj)
 {
 	/*MessageTagEditor *editor = (MessageTagEditor *) obj;*/
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -106,7 +106,7 @@ CamelTag *
 message_tag_editor_get_tag_list (MessageTagEditor *editor)
 {
 	g_return_val_if_fail (IS_MESSAGE_TAG_EDITOR (editor), NULL);
-	
+
 	return MESSAGE_TAG_EDITOR_GET_CLASS (editor)->get_tag_list (editor);
 }
 
@@ -123,6 +123,6 @@ message_tag_editor_set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 {
 	g_return_if_fail (IS_MESSAGE_TAG_EDITOR (editor));
 	g_return_if_fail (tags != NULL);
-	
+
 	MESSAGE_TAG_EDITOR_GET_CLASS (editor)->set_tag_list (editor, tags);
 }

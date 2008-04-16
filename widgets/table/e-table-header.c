@@ -115,7 +115,7 @@ enqueue (ETableHeader *eth, int column, int width)
 	store = g_new(struct two_ints, 1);
 	store->column = column;
 	store->width = width;
-	
+
 	eth->change_tail = g_slist_last(g_slist_append(eth->change_tail, store));
 	if (!eth->change_queue)
 		eth->change_queue = eth->change_tail;
@@ -139,7 +139,7 @@ eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
 {
 	if (do_unref)
 		g_object_unref (eth->columns [idx]);
-	
+
 	memmove (&eth->columns [idx], &eth->columns [idx+1],
 		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
 	eth->col_count--;
@@ -151,7 +151,7 @@ eth_finalize (GObject *object)
 	ETableHeader *eth = E_TABLE_HEADER (object);
 	const int cols = eth->col_count;
 	int i;
-	
+
 	if (eth->sort_info) {
 		if (eth->sort_info_group_change_id)
 			g_signal_handler_disconnect(G_OBJECT(eth->sort_info),
@@ -169,7 +169,7 @@ eth_finalize (GObject *object)
 		g_slist_free(eth->change_queue);
 		eth->change_queue = NULL;
 	}
-	
+
 	/*
 	 * Destroy columns
 	 */
@@ -214,7 +214,7 @@ eth_set_property (GObject *object, guint prop_id, const GValue *val, GParamSpec 
 		eth->sort_info = E_TABLE_SORT_INFO(g_value_get_object (val));
 		if (eth->sort_info) {
 			g_object_ref(eth->sort_info);
-			eth->sort_info_group_change_id 
+			eth->sort_info_group_change_id
 				= g_signal_connect(G_OBJECT(eth->sort_info), "group_info_changed",
 						   G_CALLBACK(eth_group_info_changed), eth);
 		}
@@ -259,21 +259,21 @@ e_table_header_class_init (ETableHeaderClass *klass)
 
 	g_object_class_install_property (
 		object_class, PROP_WIDTH,
-		g_param_spec_double ("width", "Width", "Width", 
-				     0.0, G_MAXDOUBLE, 0.0, 
-				     G_PARAM_READWRITE)); 
+		g_param_spec_double ("width", "Width", "Width",
+				     0.0, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class, PROP_WIDTH_EXTRAS,
-		g_param_spec_double ("width_extras", "Width of Extras", "Width of Extras", 
-				     0.0, G_MAXDOUBLE, 0.0, 
-				     G_PARAM_READWRITE)); 
+		g_param_spec_double ("width_extras", "Width of Extras", "Width of Extras",
+				     0.0, G_MAXDOUBLE, 0.0,
+				     G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class, PROP_SORT_INFO,
-		g_param_spec_object ("sort_info", "Sort Info", "Sort Info", 
+		g_param_spec_object ("sort_info", "Sort Info", "Sort Info",
 				     E_TABLE_SORT_INFO_TYPE,
-				     G_PARAM_READWRITE)); 
+				     G_PARAM_READWRITE));
 
 	eth_signals [STRUCTURE_CHANGE] =
 		g_signal_new ("structure_change",
@@ -283,23 +283,23 @@ e_table_header_class_init (ETableHeaderClass *klass)
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	eth_signals [DIMENSION_CHANGE] = 
-		g_signal_new ("dimension_change", 
+	eth_signals [DIMENSION_CHANGE] =
+		g_signal_new ("dimension_change",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, dimension_change),
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
-	eth_signals [EXPANSION_CHANGE] = 
-		g_signal_new ("expansion_change", 
+	eth_signals [EXPANSION_CHANGE] =
+		g_signal_new ("expansion_change",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, expansion_change),
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	eth_signals [REQUEST_WIDTH] = 
+	eth_signals [REQUEST_WIDTH] =
 		g_signal_new ("request_width",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -324,7 +324,7 @@ e_table_header_init (ETableHeader *eth)
 	eth->sort_info_group_change_id = 0;
 
 	eth->columns                   = NULL;
-	
+
 	eth->change_queue              = NULL;
 	eth->change_tail               = NULL;
 
@@ -348,7 +348,7 @@ eth_update_offsets (ETableHeader *eth)
 {
 	int i;
 	int x = 0;
-	
+
 	for (i = 0; i < eth->col_count; i++){
 		ETableCol *etc = eth->columns [i];
 
@@ -378,7 +378,7 @@ eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
  * unref it after you add it.
  *
  * This function will emit the "structure_change" signal on the @eth object.
- * The ETableCol is assumed 
+ * The ETableCol is assumed
  */
 void
 e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
@@ -397,7 +397,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	 * We are the primary owners of the column
 	 */
 	g_object_ref (tc);
-	
+
 	eth_do_insert (eth, pos, tc);
 
 	enqueue(eth, -1, eth->nominal_width);
@@ -464,7 +464,7 @@ e_table_header_count (ETableHeader *eth)
 	return eth->col_count;
 }
 
-/** 
+/**
  * e_table_header_index:
  * @eth: the ETableHeader to query
  * @col: the column to fetch.
@@ -501,7 +501,7 @@ int
 e_table_header_get_index_at (ETableHeader *eth, int x_offset)
 {
 	int i, total;
-	
+
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
@@ -531,9 +531,9 @@ e_table_header_get_columns (ETableHeader *eth)
 {
 	ETableCol **ret;
 	int i;
-	
-	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
+
+	g_return_val_if_fail (eth != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
 
 	ret = g_new (ETableCol *, eth->col_count + 1);
 	memcpy (ret, eth->columns, sizeof (ETableCol *) * eth->col_count);
@@ -557,7 +557,7 @@ e_table_header_get_selected (ETableHeader *eth)
 {
 	int i;
 	int selected = 0;
-	
+
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
@@ -580,7 +580,7 @@ int
 e_table_header_total_width (ETableHeader *eth)
 {
 	int total, i;
-	
+
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
@@ -601,7 +601,7 @@ int
 e_table_header_min_width (ETableHeader *eth)
 {
 	int total, i;
-	
+
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
@@ -626,7 +626,7 @@ void
 e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 {
 	ETableCol *old;
-	
+
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (source_index >= 0);
@@ -641,7 +641,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	eth_do_remove (eth, source_index, FALSE);
 	eth_do_insert (eth, target_index, old);
 	eth_update_offsets (eth);
-	
+
 	g_signal_emit (G_OBJECT (eth), eth_signals [DIMENSION_CHANGE], 0, eth->width);
 	g_signal_emit (G_OBJECT (eth), eth_signals [STRUCTURE_CHANGE], 0);
 }
@@ -692,7 +692,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (idx >= 0);
 	g_return_if_fail (idx < eth->col_count);
-	
+
 	/* If this column is not resizable, don't do anything. */
 	if (!eth->columns[idx]->resizable)
 		return;
@@ -713,7 +713,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		usable_width -= e_table_sort_info_grouping_get_count(eth->sort_info) * GROUP_INDENT;
 
 	/* Calculate minimum_width of stuff on the right as well as
-	 * total usable expansion on the right. 
+	 * total usable expansion on the right.
 	 */
 	for (; i < eth->col_count; i++) {
 		min_width += eth->columns[i]->min_width + eth->width_extras;
@@ -765,7 +765,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 		return;
 	}
-	
+
 	/* The old_expansion used by columns to the right. */
 	old_expansion = expansion;
 	old_expansion -= eth->columns[idx]->expansion;
@@ -829,7 +829,7 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 
 	total = 0;
 	for (col = start_col; col < end_col; col++){
-		
+
 		total += eth->columns [col]->width;
 	}
 
@@ -895,7 +895,7 @@ e_table_header_update_horizontal (ETableHeader *eth)
 
 	for (i = 0; i < cols; i++) {
 		int width = 0;
-		
+
 		g_signal_emit_by_name (G_OBJECT (eth),
 					 "request_width",
 					 i, &width);

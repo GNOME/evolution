@@ -1,3 +1,214 @@
+2008-04-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-util-labels.c (e_util_labels_add_with_dlg):
+	Clarify an error message.  (#509672)
+
+2008-04-07  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	reviewed by: Milan Crha
+
+	** Fix for bug #408579
+
+	* e-util/e-system.error.xml:
+	  Changed '&quot;' to '\"' to work with intltool.
+
+2008-03-20  Sankar P  <psankar@novell.com>
+
+	* e-plugin.c: (ep_load):
+	Changed a stupid conditional statement, 
+	in the previous commit.
+
+2008-03-19  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #496839 
+
+	* e-plugin.c: (ep_load), (e_plugin_load_plugins),
+	(e_plugin_get_configure_widget):
+	* e-plugin.h:
+	- Implement Plugin Load Levels. You can decide
+	on which load-level you want your plugin to be loaded.
+	- Load Levels are mandatory if you need other language loaders
+	like Mono-Loader or Python-Loader.
+	- Introduce FLAGS as part of EPlugin. Futuristic. 
+
+2008-03-17  Alex Rostovtsev  <tetromino@gmail.com>
+
+	** Fix for bug #522631
+
+	* e-profile-event.c: Make 'e_profile_event_emit' non-static when 
+	ENABLE_PROFILING is defined.
+
+2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #513951
+
+	* e-mktemp.c (get_dir):
+	* e-util.c (get_lock_filename):
+	Use e_get_user_data_dir() instead of constructing the full path.
+
+	* e-util.c (e_get_user_data_dir):
+	New function returns the base directory for Evolution user data.
+	This should be the /only/ place in the application where this
+	directory is hard-coded.
+
+	* e-util.c (e_file_update_save_path), (e_file_get_save_path):
+	Emit warnings when saving to GConf fails.
+
+2008-02-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #209353
+
+	* e-text-event-processor-emacs-like.c:
+	(e_text_event_processor_emacs_like_event):
+	Allow paste text on mouse middle button click.
+
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* e-config.c: (ep_finalise): Use proper member to free.
+
+2008-02-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #509741
+
+	* e-error.c (e_error_newv):
+	If the error dialog has no primary text, fallback to the window
+	title for the "primary" data key.  This is what gets displayed
+	in the status bar.
+
+	* e-error.c (e_error_count_buttons):
+	New function counts buttons in a dialog's action area.
+
+2008-01-24  Tor Lillqvist  <tml@novell.com>
+
+	* e-icon-factory.c (e_icon_factory_init): Construct pathname under
+	EVOLUTION_DATADIR at run-time because EVOLUTION_DATADIR is a
+	function call on Windows.
+
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488213
+
+	* e-icon-factory.h: (e_icon_factory_pixbuf_scale):
+	* e-icon-factory.c: (e_icon_factory_pixbuf_scale):
+	New global function for pixbuf scaling which speeds up scaling when
+	HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H.
+	* e-icon-factory.c: (load_icon):
+	Use global function e_icon_factory_pixbuf_scale for scaling pixbufs.
+
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211353
+
+	* Makefile.am:
+	* e-util-labels.h:
+	* e-util-labels.c: New files to work with labels.
+
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #507363
+
+	* e-cursor.c: (e_cursor_set):
+	Also check if toplevel widget has non-NULL window property.
+
+2007-12-14  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211353
+
+	* e-popup.h:
+	* e-popup.c: (ep_build_tree):
+	Toggles can be in inconsistent state now, and can also contain
+	an image, which is a pointer to GtkImage widget.
+
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Makefile.am: Add e-logger.[ch] to compilation
+	* e-error.c: (e_error_newv): Add primary/secondary text to the error 
+	dialog to the gobject as data.
+	* e-logger.[ch]: A new logger provision Evolution. 
+
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-util.h: Fix a compiler warning
+
+2007-12-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-util.c: (get_lock_filename), (e_file_lock_create),
+	(e_file_lock_destroy), (e_file_lock_exists): Add utility functions for 
+	startup-running lock create, check and delete.
+	* e-util.h:
+
+2007-12-04  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #500210
+
+	* e-plugin.h:
+	* e-plugin.c: (e_plugin_configure), (e_plugin_is_configurable),
+	(epl_configure), (e_plugin_get_configure_widget),
+	(epl_get_configure_widget): Removed old configure functions,
+	replaced by get_configure_widget functions, to be able show
+	plugin configuration in a tab of plugin manager.
+
+2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747
+
+	* e-utils.c (e_get_month_name), (e_get_weekday_name):
+	New functions cache localized month and weekday names (respectively)
+	for easier retrieval than resorting to strftime().
+
+2007-11-13  Ondrej Jirman  <megous@megous.com>
+
+	** Fix for bug #494320
+
+	* e-popup.c: (e_popup_create_menu): Add support for redefining
+	existing menu items.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #492692
+
+	* e-util.c: (e_str_case_compare): Leak fix.
+
+2007-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove dead files from source control.  The dates below
+	   indicate when the file was removed from Makefile.am.
+	   Fixes part of bug #478704.
+
+	* e-categories-master-list-wombat.c	(Jun 2005)
+	* e-categories-master-list-wombat.h	(Jun 2005)
+
+2007-10-26  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #461272
+
+	* e-plugin.c: (ep_load), (e_plugin_load_plugins),
+	(e_plugin_is_configurable), (epl_configure):
+	* e-plugin.h:
+	Configure button should not be enabled for all.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-config.c:
+	* e-event.c:
+	* e-gui-utils.c:
+	* e-import.c:
+	* e-menu.c:
+	* e-mktemp.c: (get_dir):
+	* e-popup.c:
+	* e-profile-event.c: (e_profile_event_peek):
+	* e-util.c: (get_font_options):
+	* e-xml-utils.c: (e_xml_get_string_prop_by_name),
+	(e_xml_get_string_prop_by_name_with_default),
+	(e_xml_get_translated_string_prop_by_name):
+
+	Warning fixes.
+	- NULL vs 0
+	- ANSIfication of declarations
+	- missing include
+
 2007-10-12  Michael Monreal <michael.monreal@gmail.com>
 
 	** Migration of theme icons to data/icons/ (bug #479257)

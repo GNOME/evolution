@@ -43,7 +43,6 @@ addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/contact-editor/im.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
-addressbook/gui/contact-list-editor/e-contact-list-editor.etspec
 addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade
 addressbook/gui/merging/eab-contact-duplicate-detected.glade
 addressbook/gui/merging/eab-contact-merging.c
@@ -175,10 +174,14 @@ calendar/gui/tasktypes.xml
 calendar/gui/weekday-picker.c
 calendar/importers/icalendar-importer.c
 calendar/zones.h
-composer/e-msg-composer-hdrs.c
-composer/e-msg-composer-select-file.c
+composer/e-composer-autosave.c
+composer/e-composer-actions.c
+composer/e-composer-header-table.c
+composer/e-composer-name-header.c
+composer/e-composer-post-header.c
+composer/e-composer-private.c
 composer/e-msg-composer.c
-composer/evolution-composer.c
+composer/gconf-bridge.c
 composer/mail-composer.error.xml
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
@@ -187,6 +190,7 @@ e-util/e-dialog-utils.c
 e-util/e-error.c
 e-util/e-print.c
 e-util/e-system.error.xml
+e-util/e-util-labels.c
 filter/filter-datespec.c
 filter/filter-file.c
 filter/filter-input.c
@@ -302,6 +306,7 @@ plugins/exchange-operations/exchange-oof.glade
 plugins/exchange-operations/exchange-passwd-expiry.glade
 plugins/exchange-operations/exchange-permissions-dialog.c
 plugins/exchange-operations/exchange-permissions-dialog.glade
+plugins/exchange-operations/exchange-send-options.c
 plugins/exchange-operations/exchange-send-options.glade
 plugins/exchange-operations/exchange-user-dialog.c
 plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml
@@ -311,11 +316,15 @@ plugins/exchange-operations/org-gnome-exchange-operations.error.xml
 plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml
 plugins/exchange-operations/org-gnome-folder-permissions.xml
 plugins/exchange-operations/org-gnome-folder-subscription.xml
+plugins/external-editor/org-gnome-external-editor.eplug.xml
+plugins/external-editor/org-gnome-external-editor.xml
 plugins/face/face.c
 plugins/face/org-gnome-face-ui.xml
 plugins/face/org-gnome-face.eplug.xml
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml
+plugins/google-account-setup/google-source.c
+plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
 plugins/groupwise-account-setup/camel-gw-listener.c
 plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml
 plugins/groupwise-features/install-shared.c
@@ -325,6 +334,7 @@ plugins/groupwise-features/junk-settings.glade
 plugins/groupwise-features/mail-retract.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
+plugins/groupwise-features/org-gnome-mail-retract-errors.xml
 plugins/groupwise-features/org-gnome-proxy-errors.xml
 plugins/groupwise-features/org-gnome-proxy-login-errors.xml
 plugins/groupwise-features/org-gnome-shared-folder.errors.xml
@@ -358,11 +368,8 @@ plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 plugins/mail-notification/apps-evolution-mail-notification.schemas.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
-plugins/mail-remote/client.c
-plugins/mail-remote/e-corba-utils.c
-plugins/mail-remote/evolution-mail-store.c
-plugins/mail-remote/org-gnome-evolution-mail-remote.eplug.xml
 plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml
+plugins/mail-to-task/mail-to-task.c
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
@@ -371,16 +378,11 @@ plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
 plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml
 plugins/mono/org-gnome-evolution-mono.eplug.xml
-plugins/new-mail-notify/new-mail-notify.c
-plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.xml
 plugins/plugin-manager/plugin-manager.c
 plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml
 plugins/prefer-plain/prefer-plain.c
-plugins/print-message/org-gnome-print-message.eplug.xml
-plugins/print-message/org-gnome-print-message.xml
-plugins/print-message/print-message.c
 plugins/profiler/org-gnome-evolution-profiler.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.xml
@@ -412,6 +414,7 @@ shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
 shell/e-shell-settings-dialog.c
 shell/e-shell-utils.c
+shell/e-shell-view.c
 shell/e-shell-window-commands.c
 shell/e-shell-window.c
 shell/e-shell.c
@@ -434,7 +437,6 @@ smime/lib/e-pkcs12.c
 tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
-ui/evolution-composer-entries.xml
 ui/evolution-editor.xml
 ui/evolution-event-editor.xml
 ui/evolution-mail-global.xml
@@ -443,7 +445,6 @@ ui/evolution-mail-message.xml
 ui/evolution-mail-messagedisplay.xml
 ui/evolution-memo-editor.xml
 ui/evolution-memos.xml
-ui/evolution-message-composer.xml
 ui/evolution-signature-editor.xml
 ui/evolution-subscribe.xml
 ui/evolution-task-editor.xml
@@ -489,6 +490,7 @@ widgets/misc/e-selection-model-array.c
 widgets/misc/e-selection-model.c
 widgets/misc/e-send-options.c
 widgets/misc/e-send-options.glade
+widgets/misc/e-signature-combo-box.c
 widgets/misc/e-task-widget.c
 widgets/misc/e-url-entry.c
 widgets/misc/gal-categories.glade
@@ -516,5 +518,4 @@ widgets/table/e-table.c
 widgets/table/e-tree-scrolled.c
 widgets/table/e-tree-selection-model.c
 widgets/table/e-tree.c
-widgets/text/e-entry.c
 widgets/text/e-text.c

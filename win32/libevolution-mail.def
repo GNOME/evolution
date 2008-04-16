@@ -8,7 +8,9 @@ EXPORTS
 	mail_component_get_folder
 	mail_component_get_folder_uri
 	mail_component_peek_base_directory
+	mail_msg_fast_ordered_push
 	mail_msg_free
 	mail_msg_new
+	mail_msg_unref
 	mail_tool_uri_to_folder
 	mail_win32_get_mail_thread_queued

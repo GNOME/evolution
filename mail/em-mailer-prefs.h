@@ -62,14 +62,14 @@ struct _EMMailerPrefsHeader {
 
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
-	
+
 	GNOME_Evolution_Shell shell;
-	
+
 	struct _GladeXML *gui;
 	struct _GConfClient *gconf;
-	
+
 	/* General tab */
-	
+
 	/* Message Display */
 	struct _GtkToggleButton *timeout_toggle;
 	struct _GtkSpinButton *timeout;
@@ -80,38 +80,35 @@ struct _EMMailerPrefs {
 	struct _GtkOptionMenu *charset;
 	struct _GtkToggleButton *citation_highlight;
 	struct _GtkColorButton *citation_color;
-	
+	struct _GtkToggleButton *enable_search_folders;
+	struct _GtkToggleButton *magic_spacebar;
+
 	/* Deleting Mail */
 	struct _GtkToggleButton *empty_trash;
 	struct _GtkOptionMenu *empty_trash_days;
 	struct _GtkToggleButton *confirm_expunge;
-	
-	/* New Mail Notification */
-	struct _GtkToggleButton *notify_not;
-	struct _GtkToggleButton *notify_beep;
-	struct _GtkToggleButton *notify_play_sound;
-	struct _GtkFileChooserButton *notify_sound_file;
-	
+
 	/* HTML Mail tab */
 	struct _GtkFontButton *font_variable;
 	struct _GtkFontButton *font_fixed;
 	struct _GtkToggleButton *font_share;
-	
+
 	/* Loading Images */
 	struct _GtkToggleButton *images_always;
 	struct _GtkToggleButton *images_sometimes;
 	struct _GtkToggleButton *images_never;
-	
+
 	struct _GtkToggleButton *show_animated;
 	struct _GtkToggleButton *autodetect_links;
 	struct _GtkToggleButton *prompt_unwanted_html;
 
 	/* Labels and Colours tab */
-	struct {
-		struct _GtkEntry *name;
-		struct _GtkColorButton *color;
-	} labels[5];
-	struct _GtkButton *restore_labels;
+	struct _GtkWidget *label_add;
+	struct _GtkWidget *label_edit;
+	struct _GtkWidget *label_remove;
+	struct _GtkWidget *label_tree;
+	struct _GtkListStore *label_list_store;
+	guint labels_change_notify_id; /* mail_config's notify id */
 
 	/* Headers tab */
 	struct _GtkButton *add_header;
@@ -132,13 +129,21 @@ struct _EMMailerPrefs {
 	struct _GtkComboBox *default_junk_plugin;
 	struct _GtkLabel *plugin_status;
 	struct _GtkImage *plugin_image;
+
+	struct _GtkToggleButton *junk_header_check;
+	struct _GtkTreeView *junk_header_tree;
+	struct _GtkListStore *junk_header_list_store;	
+	struct _GtkButton *junk_header_add;
+	struct _GtkButton *junk_header_remove;
+	struct _GtkToggleButton *junk_book_lookup;
+
 };
 
 struct _EMMailerPrefsClass {
 	GtkVBoxClass parent_class;
-	
+
 	/* signals */
-	
+
 };
 
 GtkType em_mailer_prefs_get_type (void);

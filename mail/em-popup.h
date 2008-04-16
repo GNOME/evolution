@@ -37,7 +37,7 @@ typedef struct _EMPopupClass EMPopupClass;
 
 /**
  * enum _em_popup_target_t - A list of mail popup target types.
- * 
+ *
  * @EM_POPUP_TARGET_SELECT: A selection of messages.
  * @EM_POPUP_TARGET_URI: A URI.
  * @EM_POPUP_TARGET_PART: A CamelMimePart message part.
@@ -56,7 +56,7 @@ enum _em_popup_target_t {
 
 /**
  * enum _em_popup_target_select_t - EMPopupTargetSelect qualifiers.
- * 
+ *
  * @EM_POPUP_SELECT_ONE: Only one item is selected.
  * @EM_POPUP_SELECT_MANY: One ore more items are selected.
  * @EM_POPUP_SELECT_MARK_READ: Message(s) are unseen and can be
@@ -85,7 +85,7 @@ enum _em_popup_target_t {
  * @EM_POPUP_SELECT_FOLDER: A folder is set on the selection.
  * @EM_POPUP_SELECT_LAST: The last bit used, can be used to add
  * additional types from derived application code.
- * 
+ *
  **/
 enum _em_popup_target_select_t {
 	EM_POPUP_SELECT_ONE                = 1<<1,
@@ -105,17 +105,17 @@ enum _em_popup_target_select_t {
 	EM_POPUP_SELECT_FOLDER             = 1<<15,     /* do we have any folder at all? */
 	EM_POPUP_SELECT_JUNK               = 1<<16,
 	EM_POPUP_SELECT_NOT_JUNK           = 1<<17,
-	EM_POPUP_SELECT_LAST               = 1<<18,	
+	EM_POPUP_SELECT_LAST               = 1<<18,
 };
 
 /**
  * enum _em_popup_target_uri_t - EMPopupTargetURI qualifiers.
- * 
+ *
  * @EM_POPUP_URI_HTTP: This is a HTTP or HTTPS url.
  * @EM_POPUP_URI_MAILTO: This is a MAILTO url.
  * @EM_POPUP_URI_NOT_MAILTO: This is not a MAILTO url.
  * @EM_POPUP_URI_CALLTO: This is a CALLTO url.
- * 
+ *
  **/
 enum _em_popup_target_uri_t {
 	EM_POPUP_URI_HTTP = 1<<0,
@@ -126,10 +126,10 @@ enum _em_popup_target_uri_t {
 
 /**
  * enum _em_popup_target_part_t - EMPopupTargetPart qualifiers.
- * 
+ *
  * @EM_POPUP_PART_MESSAGE: This is a message type.
  * @EM_POPUP_PART_IMAGE: This is an image type.
- * 
+ *
  **/
 enum _em_popup_target_part_t {
 	EM_POPUP_PART_MESSAGE = 1<<0,
@@ -138,14 +138,14 @@ enum _em_popup_target_part_t {
 
 /**
  * enum _em_popup_target_folder_t - EMPopupTargetFolder qualifiers.
- * 
+ *
  * @EM_POPUP_FOLDER_FOLDER: This is a normal folder.
  * @EM_POPUP_FOLDER_STORE: This is a store.
  * @EM_POPUP_FOLDER_INFERIORS: This folder may have child folders.
  * @EM_POPUP_FOLDER_DELETE: This folder can be deleted or renamed.
  * @EM_POPUP_FOLDER_SELECT: This folder exists and can be selected or
  * opened.
- * 
+ *
  **/
 enum _em_popup_target_folder_t {
 	EM_POPUP_FOLDER_FOLDER = 1<<0, /* normal folder */
@@ -159,10 +159,10 @@ enum _em_popup_target_folder_t {
 
 /**
  * enum _em_popup_target_attachments_t - EMPopupTargetAttachments qualifiers.
- * 
+ *
  * @EM_POPUP_ATTACHMENTS_ONE: There is one and only one attachment selected.
  * @EM_POPUP_ATTACHMENTS_MANY: There is one or more attachments selected.
- * 
+ *
  **/
 enum _em_popup_target_attachments_t {
 	EM_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
@@ -180,10 +180,10 @@ typedef struct _EMPopupTargetAttachments EMPopupTargetAttachments;
 
 /**
  * struct _EMPopupTargetURI - An inline URI.
- * 
+ *
  * @target: Superclass.
  * @uri: The encoded URI to which this target applies.
- * 
+ *
  * Used to represent popup-menu context on any URI object.
  **/
 struct _EMPopupTargetURI {
@@ -193,7 +193,7 @@ struct _EMPopupTargetURI {
 
 /**
  * struct _EMPopupTargetSelect - A list of messages.
- * 
+ *
  * @target: Superclass.
  * @folder: The CamelFolder of the selected messages.
  * @uri: The encoded URI represending this folder.
@@ -212,12 +212,12 @@ struct _EMPopupTargetSelect {
 
 /**
  * struct _EMPopupTargetPart - A Camel object.
- * 
+ *
  * @target: Superclass.
  * @mime_type: MIME type of the part.  This may be a calculated type
  * not matching the @part's MIME type.
  * @part: A CamelMimePart representing a message or attachment.
- * 
+ *
  * Used to represent a message part as context for a popup menu.  This
  * is used for both attachments and inline-images.
  **/
@@ -229,7 +229,7 @@ struct _EMPopupTargetPart {
 
 /**
  * struct _EMPopupTargetFolder - A folder uri.
- * 
+ *
  * @target: Superclass.
  * @uri: A folder URI.
  *
@@ -242,7 +242,7 @@ struct _EMPopupTargetFolder {
 
 /**
  * struct _EMPopupTargetAttachments - A list of composer attachments.
- * 
+ *
  * @target: Superclass.
  * @attachments: A GSList list of EMsgComposer attachments.
  *

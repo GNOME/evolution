@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-search.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -56,9 +56,9 @@ e_table_search_search (ETableSearch *e_table_search, char *string, ETableSearchF
 	gboolean ret_val;
 	g_return_val_if_fail (e_table_search != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (e_table_search), FALSE);
-	
+
 	g_signal_emit (G_OBJECT (e_table_search),
-		       e_table_search_signals [SEARCH_SEARCH], 
+		       e_table_search_signals [SEARCH_SEARCH],
 		       0, string, flags, &ret_val);
 
 	return ret_val;
@@ -69,7 +69,7 @@ e_table_search_accept (ETableSearch *e_table_search)
 {
 	g_return_if_fail (e_table_search != NULL);
 	g_return_if_fail (E_IS_TABLE_SEARCH (e_table_search));
-	
+
 	g_signal_emit (G_OBJECT (e_table_search),
 		       e_table_search_signals [SEARCH_ACCEPT], 0);
 }
@@ -108,11 +108,11 @@ static void
 e_table_search_finalize (GObject *object)
 {
 	ETableSearch *ets = (ETableSearch *) object;
-	
+
 	drop_timeout (ets);
 	g_free (ets->priv->search_string);
 	g_free (ets->priv);
-	
+
 	if (G_OBJECT_CLASS (e_table_search_parent_class)->finalize)
 		(*G_OBJECT_CLASS (e_table_search_parent_class)->finalize)(object);
 }

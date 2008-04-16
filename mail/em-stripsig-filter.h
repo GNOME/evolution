@@ -43,13 +43,13 @@ typedef struct _EMStripSigFilterClass EMStripSigFilterClass;
 
 struct _EMStripSigFilter {
 	CamelMimeFilter parent_object;
-	
+
 	guint32 midline:1;
 };
 
 struct _EMStripSigFilterClass {
 	CamelMimeFilterClass parent_class;
-	
+
 };
 
 

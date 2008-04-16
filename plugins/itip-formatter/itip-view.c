@@ -35,7 +35,7 @@
 #include <camel/camel-mime-message.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
-#include <libedataserverui/e-source-option-menu.h>
+#include <libedataserverui/e-source-combo-box.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml-embedded.h>
@@ -61,7 +61,7 @@ typedef struct  {
 struct _ItipViewPrivate {
 	ItipViewMode mode;
 	ECalSourceType type;
-	
+
 	GtkWidget *sender_label;
 	char *organizer;
 	char *organizer_sentby;
@@ -72,7 +72,7 @@ struct _ItipViewPrivate {
 
 	GtkWidget *summary_label;
 	char *summary;
-	
+
 	GtkWidget *location_header;
 	GtkWidget *location_label;
 	char *location;
@@ -88,7 +88,7 @@ struct _ItipViewPrivate {
 	GtkWidget *start_header;
 	GtkWidget *start_label;
 	struct tm *start_tm;
-	
+
 	GtkWidget *end_header;
 	GtkWidget *end_label;
 	struct tm *end_tm;
@@ -105,10 +105,10 @@ struct _ItipViewPrivate {
 	char *description;
 
 	GtkWidget *selector_box;
-	GtkWidget *esom;
-	GtkWidget *esom_header;
+	GtkWidget *escb;
+	GtkWidget *escb_header;
 	ESourceList *source_list;
-	
+
 	GtkWidget *rsvp_box;
 	GtkWidget *rsvp_check;
 	GtkWidget *rsvp_comment_header;
@@ -121,7 +121,10 @@ struct _ItipViewPrivate {
 	GtkWidget *update_box;
 	GtkWidget *update_check;
 	gboolean update_show;
-	
+
+	GtkWidget *options_box;
+	GtkWidget *free_time_check;
+
 	GtkWidget *button_box;
 	gboolean buttons_sensitive;
 
@@ -148,7 +151,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 {
 	char *format;
 	struct tm tomorrow_tm, week_tm;
-	
+
 	/* Calculate a normalized "tomorrow" */
 	tomorrow_tm = *current_tm;
 	/* Don't need this if date is in the past. Also, year assumption won't fail. */
@@ -160,7 +163,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 		} else {
 			tomorrow_tm.tm_mon++;
 		}
-	} else {		
+	} else {
 		tomorrow_tm.tm_mday++;
 	}
 
@@ -175,7 +178,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 		} else {
 			week_tm.tm_mon++;
 		}
-	} else {		
+	} else {
 		week_tm.tm_mday += 6;
 	}
 
@@ -189,11 +192,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			format = _("Today");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a time, 
+				/* strftime format of a time,
 				   in 24-hour format, without seconds. */
 				format = _("Today %H:%M");
 			else
-				/* strftime format of a time, 
+				/* strftime format of a time,
 				   in 24-hour format. */
 				format = _("Today %H:%M:%S");
 		} else {
@@ -202,12 +205,12 @@ format_date_and_time_x		(struct tm	*date_tm,
 				   in 12-hour format, without seconds. */
 				format = _("Today %l:%M %p");
 			else
-				/* strftime format of a time, 
+				/* strftime format of a time,
 				   in 12-hour format. */
 				format = _("Today %l:%M:%S %p");
 		}
 
-	/* Tomorrow */		
+	/* Tomorrow */
 	} else if (date_tm->tm_mday == tomorrow_tm.tm_mday &&
 		   date_tm->tm_mon == tomorrow_tm.tm_mon &&
 		   date_tm->tm_year == tomorrow_tm.tm_year) {
@@ -217,11 +220,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			format = _("Tomorrow");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a time, 
+				/* strftime format of a time,
 				   in 24-hour format, without seconds. */
 				format = _("Tomorrow %H:%M");
 			else
-				/* strftime format of a time, 
+				/* strftime format of a time,
 				   in 24-hour format. */
 				format = _("Tomorrow %H:%M:%S");
 		} else {
@@ -230,12 +233,12 @@ format_date_and_time_x		(struct tm	*date_tm,
 				   in 12-hour format, without seconds. */
 				format = _("Tomorrow %l:%M %p");
 			else
-				/* strftime format of a time, 
+				/* strftime format of a time,
 				   in 12-hour format. */
 				format = _("Tomorrow %l:%M:%S %p");
 		}
 
-	/* Within 6 days */		
+	/* Within 6 days */
 	} else if ((date_tm->tm_year >= current_tm->tm_year &&
 		    date_tm->tm_mon >= current_tm->tm_mon &&
 		    date_tm->tm_mday >= current_tm->tm_mday) &&
@@ -272,7 +275,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 				format = _("%A %l:%M:%S %p");
 		}
 
-	/* This Year */		
+	/* This Year */
 	} else if (date_tm->tm_year == current_tm->tm_year) {
 		if (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0) {
@@ -281,8 +284,8 @@ format_date_and_time_x		(struct tm	*date_tm,
 			format = _("%A, %B %e");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date 
-				   without a year and a time, 
+				/* strftime format of a weekday, a date
+				   without a year and a time,
 				   in 24-hour format, without seconds. */
 				format = _("%A, %B %e %H:%M");
 			else
@@ -291,7 +294,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 				format = _("%A, %B %e %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
-				/* strftime format of a weekday, a date without a year 
+				/* strftime format of a weekday, a date without a year
 				   and a time, in 12-hour format, without seconds. */
 				format = _("%A, %B %e %l:%M %p");
 			else
@@ -324,7 +327,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 				format = _("%A, %B %e, %Y %l:%M:%S %p");
 		}
 	}
-	
+
 	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
 	   undefined, so we set it to the empty string in that case. */
 	if (e_utf8_strftime_fix_am_pm (buffer, buffer_size, format, date_tm) == 0)
@@ -346,64 +349,64 @@ set_calendar_sender_text (ItipView *view)
 
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)
-		on_behalf_of = g_strdup_printf (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = g_markup_printf_escaped (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
 	else if (priv->attendee && priv->proxy)
-		on_behalf_of = g_strdup_printf (_("Received on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = g_markup_printf_escaped (_("Received on behalf of <b>%s</b>"), priv->proxy);
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has published the following meeting information:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has published the following meeting information:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
 		if (priv->delegator) {
-			sender = g_strdup_printf (_("<b>%s</b> has delegated the following meeting to you:"), priv->delegator);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has delegated the following meeting to you:"), priv->delegator);
 		} else {
 			if (priv->organizer_sentby)
-				sender = g_strdup_printf (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->organizer_sentby);
+				sender = g_markup_printf_escaped (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->organizer_sentby);
 			else
-				sender = g_strdup_printf (_("<b>%s</b> requests your presence at the following meeting:"), organizer);
+				sender = g_markup_printf_escaped (_("<b>%s</b> requests your presence at the following meeting:"), organizer);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing meeting:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to add to an existing meeting:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing meeting:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to add to an existing meeting:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to receive the latest information for the following meeting:"), attendee, priv->attendee_sentby);
-		else		
-			sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to receive the latest information for the following meeting:"), attendee, priv->attendee_sentby);
+		else
+			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has sent back the following meeting response:"), attendee, priv->attendee_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has sent back the following meeting response:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has sent back the following meeting response:"), attendee);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has sent back the following meeting response:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has canceled the following meeting."), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has canceled the following meeting."), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has proposed the following meeting changes."), attendee, priv->attendee_sentby);
-		else 
-			sender = g_strdup_printf (_("<b>%s</b> has proposed the following meeting changes."), attendee);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has proposed the following meeting changes."), attendee, priv->attendee_sentby);
+		else
+			sender = g_markup_printf_escaped (_("<b>%s</b> has proposed the following meeting changes."), attendee);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following meeting changes:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has declined the following meeting changes:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has declined the following meeting changes."), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has declined the following meeting changes."), organizer);
 		break;
 	default:
 		break;
@@ -431,67 +434,67 @@ set_tasklist_sender_text (ItipView *view)
 
 	organizer = priv->organizer ? priv->organizer : _("An unknown person");
 	attendee = priv->attendee ? priv->attendee : _("An unknown person");
-	
+
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)
-		on_behalf_of = g_strdup_printf (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = g_markup_printf_escaped (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
 	else if (priv->attendee && priv->proxy)
-		on_behalf_of = g_strdup_printf (_("Received on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = g_markup_printf_escaped (_("Received on behalf of <b>%s</b>"), priv->proxy);
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following task:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has published the following task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has published the following task:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has published the following task:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
 		if (priv->delegator) {
-			sender = g_strdup_printf (_("<b>%s</b> requests the assignment of %s to the following task:"), organizer, priv->delegator);
+			sender = g_markup_printf_escaped (_("<b>%s</b> requests the assignment of %s to the following task:"), organizer, priv->delegator);
 		} else {
 			if (priv->organizer_sentby)
-				sender = g_strdup_printf (_("<b>%s</b> through %s has assigned you a task:"), organizer, priv->organizer_sentby);
+				sender = g_markup_printf_escaped (_("<b>%s</b> through %s has assigned you a task:"), organizer, priv->organizer_sentby);
 			else
-				sender = g_strdup_printf (_("<b>%s</b> has assigned you a task:"), organizer);
+				sender = g_markup_printf_escaped (_("<b>%s</b> has assigned you a task:"), organizer);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing task:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to add to an existing task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing task:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to add to an existing task:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to receive the latest information for the following assigned task:"), attendee, priv->attendee_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to receive the latest information for the following assigned task:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following assigned task:"), attendee);
+			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to receive the latest information for the following assigned task:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has sent back the following assigned task response:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has sent back the following assigned task response:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following assigned task:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has canceled the following assigned task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has canceled the following assigned task:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has canceled the following assigned task:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has proposed the following task assignment changes:"), attendee, priv->attendee_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has proposed the following task assignment changes:"), attendee, priv->attendee_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has proposed the following task assignment changes:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following assigned task:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has declined the following assigned task:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has declined the following assigned task:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has declined the following assigned task:"), organizer);
 		break;
 	default:
 		break;
@@ -519,32 +522,32 @@ set_journal_sender_text (ItipView *view)
 
 	organizer = priv->organizer ? priv->organizer : _("An unknown person");
 	attendee = priv->attendee ? priv->attendee : _("An unknown person");
-	
+
 	/* The current account ID (i.e. the delegatee) is receiving a copy of the request/response. Here we ask the delegatee to respond/accept on behalf of the delegator. */
 	if (priv->organizer && priv->proxy)
-		on_behalf_of = g_strdup_printf (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = g_markup_printf_escaped (_("Please respond on behalf of <b>%s</b>"), priv->proxy);
 	else if (priv->attendee && priv->proxy)
-		on_behalf_of = g_strdup_printf (_("Received on behalf of <b>%s</b>"), priv->proxy);
+		on_behalf_of = g_markup_printf_escaped (_("Received on behalf of <b>%s</b>"), priv->proxy);
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following memo:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has published the following memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has published the following memo:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has published the following memo:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing memo:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s wishes to add to an existing memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing memo:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> wishes to add to an existing memo:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->organizer_sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has canceled the following shared memo:"), organizer, priv->organizer_sentby);
+			sender = g_markup_printf_escaped (_("<b>%s</b> through %s has canceled the following shared memo:"), organizer, priv->organizer_sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has canceled the following shared memo:"), organizer);
+			sender = g_markup_printf_escaped (_("<b>%s</b> has canceled the following shared memo:"), organizer);
 		break;
 	default:
 		break;
@@ -567,7 +570,7 @@ set_sender_text (ItipView *view)
 	ItipViewPrivate *priv;
 
 	priv = view->priv;
-	
+
 	switch (priv->type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		set_calendar_sender_text (view);
@@ -591,7 +594,7 @@ set_summary_text (ItipView *view)
 
 	priv = view->priv;
 
-	summary = g_strdup_printf ("<b>%s</b>", priv->summary);
+	summary = g_markup_printf_escaped ("<b>%s</b>", priv->summary);
 
 	gtk_label_set_text (GTK_LABEL (priv->summary_label), summary);
 	gtk_label_set_use_markup (GTK_LABEL (priv->summary_label), TRUE);
@@ -657,12 +660,12 @@ set_start_text (ItipView *view)
 	char buffer[256];
 	time_t now;
 	struct tm *now_tm;
-	
+
 	priv = view->priv;
 
 	now = time (NULL);
 	now_tm = localtime (&now);
-	
+
 	if (priv->start_tm) {
 		format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, buffer, 256);
 		gtk_label_set_text (GTK_LABEL (priv->start_label), buffer);
@@ -681,7 +684,7 @@ set_end_text (ItipView *view)
 	char buffer[256];
 	time_t now;
 	struct tm *now_tm;
-	
+
 	priv = view->priv;
 
 	now = time (NULL);
@@ -699,25 +702,25 @@ set_end_text (ItipView *view)
 }
 
 static void
-set_info_items (GtkWidget *info_box, GSList *info_items) 
+set_info_items (GtkWidget *info_box, GSList *info_items)
 {
 	GSList *l;
-	
+
 	gtk_container_foreach (GTK_CONTAINER (info_box), (GtkCallback) gtk_widget_destroy, NULL);
-	
+
 	for (l = info_items; l; l = l->next) {
-		ItipViewInfoItem *item = l->data;	
+		ItipViewInfoItem *item = l->data;
 		GtkWidget *hbox, *image, *label;
-		
+
 		hbox = gtk_hbox_new (FALSE, 0);
 
 		switch (item->type) {
 		case ITIP_VIEW_INFO_ITEM_TYPE_INFO:
 			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_SMALL_TOOLBAR);
 			break;
-		case ITIP_VIEW_INFO_ITEM_TYPE_WARNING:			
+		case ITIP_VIEW_INFO_ITEM_TYPE_WARNING:
 			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR);
-			break;			
+			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_ERROR:
 			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_SMALL_TOOLBAR);
 			break;
@@ -728,26 +731,26 @@ set_info_items (GtkWidget *info_box, GSList *info_items)
 		default:
 			image = NULL;
 		}
-		
+
 		if (image) {
 			gtk_widget_show (image);
 			gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 6);
 		}
-		
+
 		label = gtk_label_new (item->message);
 		gtk_widget_show (label);
 		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
 		gtk_widget_show (hbox);
 		gtk_box_pack_start (GTK_BOX (info_box), hbox, FALSE, FALSE, 6);
-	}	
+	}
 }
 
 static void
 set_upper_info_items (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	
+
 	priv = view->priv;
 
 	set_info_items (priv->upper_info_box, priv->upper_info_items);
@@ -757,7 +760,7 @@ static void
 set_lower_info_items (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	
+
 	priv = view->priv;
 
 	set_info_items (priv->lower_info_box, priv->lower_info_items);
@@ -766,10 +769,10 @@ set_lower_info_items (ItipView *view)
 #define DATA_RESPONSE_KEY "ItipView::button_response"
 
 static void
-button_clicked_cb (GtkWidget *widget, gpointer data) 
+button_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	ItipViewResponse response;
-	
+
 	response = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), DATA_RESPONSE_KEY));
 
 	g_message ("Response %d", response);
@@ -777,13 +780,13 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse response) 
+set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse response)
 {
 	ItipViewPrivate *priv;
 	GtkWidget *button;
 	GtkWidget *image;
 	gpointer data;
-	
+
 	priv = view->priv;
 
 	button = gtk_button_new_with_mnemonic (label);
@@ -801,7 +804,7 @@ set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse re
 }
 
 static void
-set_buttons (ItipView *view) 
+set_buttons (ItipView *view)
 {
 	ItipViewPrivate *priv;
 	gboolean is_recur_set = FALSE;
@@ -816,7 +819,7 @@ set_buttons (ItipView *view)
 
 	/* Everything gets the open button */
 	set_one_button (view, _("_Open Calendar"), GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
-	
+
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		/* FIXME Is this really the right button? */
@@ -863,12 +866,12 @@ set_buttons (ItipView *view)
 }
 
 static void
-itip_view_destroy (GtkObject *object) 
+itip_view_destroy (GtkObject *object)
 {
 	ItipView *view = ITIP_VIEW (object);
 	ItipViewPrivate *priv = view->priv;
-	
-	if (priv) {		
+
+	if (priv) {
 		g_free (priv->organizer);
 		g_free (priv->organizer_sentby);
 		g_free (priv->delegator);
@@ -885,7 +888,7 @@ itip_view_destroy (GtkObject *object)
 
 		itip_view_clear_upper_info_items (view);
 		itip_view_clear_lower_info_items (view);
-		
+
 		g_free (priv);
 		view->priv = NULL;
 	}
@@ -897,9 +900,9 @@ static void
 itip_view_class_init (ItipViewClass *klass)
 {
 	GtkObjectClass *gtkobject_class;
-	
+
 	gtkobject_class = GTK_OBJECT_CLASS (klass);
-	
+
 	gtkobject_class->destroy = itip_view_destroy;
 
 	signals[SOURCE_SELECTED] =
@@ -922,14 +925,14 @@ itip_view_class_init (ItipViewClass *klass)
 }
 
 static void
-rsvp_toggled_cb (GtkWidget *widget, gpointer data) 
+rsvp_toggled_cb (GtkWidget *widget, gpointer data)
 {
 	ItipView *view = data;
 	ItipViewPrivate *priv;
 	gboolean rsvp;
-	
+
 	priv = view->priv;
-	
+
 	rsvp = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
 
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
@@ -937,13 +940,13 @@ rsvp_toggled_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-recur_toggled_cb (GtkWidget *widget, gpointer data) 
+recur_toggled_cb (GtkWidget *widget, gpointer data)
 {
 	ItipView *view = data;
 	ItipViewPrivate *priv;
-	
+
 	priv = view->priv;
-	
+
 	itip_view_set_mode (view, priv->mode);
 }
 
@@ -954,11 +957,11 @@ itip_view_init (ItipView *view)
 	ItipViewPrivate *priv;
 	GtkWidget *icon, *vbox, *hbox, *separator, *table, *label;
 
-	priv = g_new0 (ItipViewPrivate, 1);	
+	priv = g_new0 (ItipViewPrivate, 1);
 	view->priv = priv;
 
 	priv->mode = ITIP_VIEW_MODE_NONE;
-	
+
 	gtk_box_set_spacing (GTK_BOX (view), 12);
 
 	/* The meeting icon */
@@ -1004,7 +1007,7 @@ itip_view_init (ItipView *view)
 	gtk_misc_set_alignment (GTK_MISC (priv->location_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->location_header, 0, 1, 1, 2, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), priv->location_label, 1, 2, 1, 2, GTK_FILL, 0, 0, 0);
-	
+
 	/* Start time */
 	priv->start_header = gtk_label_new (_("Start time:"));
 	priv->start_label = gtk_label_new (NULL);
@@ -1062,7 +1065,7 @@ itip_view_init (ItipView *view)
 	priv->selector_box = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (priv->selector_box);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->selector_box, FALSE, FALSE, 0);
-	
+
 	/* RSVP area */
 	priv->rsvp_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->rsvp_box, FALSE, FALSE, 0);
@@ -1085,7 +1088,7 @@ itip_view_init (ItipView *view)
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
 	gtk_widget_show (priv->rsvp_comment_header);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 0);
-	
+
 	priv->rsvp_comment_entry = gtk_entry_new ();
 	gtk_widget_set_sensitive (priv->rsvp_comment_entry, FALSE);
 	gtk_widget_show (priv->rsvp_comment_entry);
@@ -1109,6 +1112,13 @@ itip_view_init (ItipView *view)
 
 	g_signal_connect (priv->recur_check, "toggled", G_CALLBACK (recur_toggled_cb), view);
 
+	priv->options_box = gtk_vbox_new (FALSE, 2);
+	gtk_widget_show (priv->options_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->options_box, FALSE, FALSE, 0);
+
+	priv->free_time_check = gtk_check_button_new_with_mnemonic (_("Show time as _free"));
+	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->free_time_check, FALSE, FALSE, 0);
+
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_END);
@@ -1123,7 +1133,7 @@ GtkWidget *
 itip_view_new (void)
 {
 	 ItipView *itip_view = g_object_new (ITIP_TYPE_VIEW, "homogeneous", FALSE, "spacing", 6, NULL);
-	
+
 	 return GTK_WIDGET (itip_view);
 }
 
@@ -1131,12 +1141,12 @@ void
 itip_view_set_mode (ItipView *view, ItipViewMode mode)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	priv->mode = mode;
 
 	set_sender_text (view);
@@ -1150,9 +1160,9 @@ itip_view_get_mode (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, ITIP_VIEW_MODE_NONE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), ITIP_VIEW_MODE_NONE);
-	
+
 	priv = view->priv;
-	
+
 	return priv->mode;
 }
 
@@ -1160,12 +1170,12 @@ void
 itip_view_set_item_type (ItipView *view, ECalSourceType type)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	priv->type = type;
 
 	set_sender_text (view);
@@ -1178,9 +1188,9 @@ itip_view_get_item_type (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, ITIP_VIEW_MODE_NONE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), ITIP_VIEW_MODE_NONE);
-	
+
 	priv = view->priv;
-	
+
 	return priv->type;
 }
 
@@ -1189,12 +1199,12 @@ void
 itip_view_set_organizer (ItipView *view, const char *organizer)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->organizer)
 		g_free (priv->organizer);
 
@@ -1205,14 +1215,14 @@ itip_view_set_organizer (ItipView *view, const char *organizer)
 
 const char *
 itip_view_get_organizer (ItipView *view)
-{	
+{
 	ItipViewPrivate *priv;
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->organizer;
 }
 
@@ -1220,12 +1230,12 @@ void
 itip_view_set_organizer_sentby (ItipView *view, const char *sentby)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->organizer_sentby)
 		g_free (priv->organizer_sentby);
 
@@ -1241,9 +1251,9 @@ itip_view_get_organizer_sentby (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->organizer_sentby;
 }
 
@@ -1251,18 +1261,18 @@ void
 itip_view_set_attendee (ItipView *view, const char *attendee)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->attendee)
 		g_free (priv->attendee);
 
 	priv->attendee = g_strdup (attendee);
 
-	set_sender_text (view);	
+	set_sender_text (view);
 }
 
 const char *
@@ -1272,9 +1282,9 @@ itip_view_get_attendee (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->attendee;
 }
 
@@ -1282,12 +1292,12 @@ void
 itip_view_set_attendee_sentby (ItipView *view, const char *sentby)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->attendee_sentby)
 		g_free (priv->attendee_sentby);
 
@@ -1303,9 +1313,9 @@ itip_view_get_attendee_sentby (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->attendee_sentby;
 }
 
@@ -1313,12 +1323,12 @@ void
 itip_view_set_proxy (ItipView *view, const char *proxy)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->proxy)
 		g_free (priv->proxy);
 
@@ -1334,9 +1344,9 @@ itip_view_get_proxy (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->proxy;
 }
 
@@ -1344,18 +1354,18 @@ void
 itip_view_set_delegator (ItipView *view, const char *delegator)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->delegator)
 		g_free (priv->delegator);
 
 	priv->delegator = g_strdup (delegator);
 
-	set_sender_text (view);	
+	set_sender_text (view);
 }
 
 const char *
@@ -1365,9 +1375,9 @@ itip_view_get_delegator (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->delegator;
 }
 
@@ -1375,12 +1385,12 @@ void
 itip_view_set_summary (ItipView *view, const char *summary)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->summary)
 		g_free (priv->summary);
 
@@ -1396,9 +1406,9 @@ itip_view_get_summary (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->summary;
 }
 
@@ -1406,12 +1416,12 @@ void
 itip_view_set_location (ItipView *view, const char *location)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->location)
 		g_free (priv->location);
 
@@ -1427,9 +1437,9 @@ itip_view_get_location (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->location;
 }
 
@@ -1437,12 +1447,12 @@ void
 itip_view_set_status (ItipView *view, const char *status)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->status)
 		g_free (priv->status);
 
@@ -1458,9 +1468,9 @@ itip_view_get_status (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->status;
 }
 
@@ -1468,12 +1478,12 @@ void
 itip_view_set_comment (ItipView *view, const char *comment)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->comment)
 		g_free (priv->comment);
 
@@ -1489,9 +1499,9 @@ itip_view_get_comment (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->comment;
 }
 
@@ -1500,12 +1510,12 @@ void
 itip_view_set_description (ItipView *view, const char *description)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->description)
 		g_free (priv->description);
 
@@ -1521,9 +1531,9 @@ itip_view_get_description (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->description;
 }
 
@@ -1532,22 +1542,22 @@ void
 itip_view_set_start (ItipView *view, struct tm *start)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->start_tm && !start) {
 		g_free (priv->start_tm);
 		priv->start_tm = NULL;
 	} else if (start) {
 		if (!priv->start_tm)
 			priv->start_tm = g_new0 (struct tm, 1);
-	
+
 		*priv->start_tm = *start;
-	} 
-	
+	}
+
 	set_start_text (view);
 }
 
@@ -1558,9 +1568,9 @@ itip_view_get_start (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->start_tm;
 }
 
@@ -1568,22 +1578,22 @@ void
 itip_view_set_end (ItipView *view, struct tm *end)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	if (priv->end_tm && !end) {
 		g_free (priv->end_tm);
 		priv->end_tm = NULL;
 	} else if (end) {
 		if (!priv->end_tm)
 			priv->end_tm = g_new0 (struct tm, 1);
-	
+
 		*priv->end_tm = *end;
-	} 
-	
+	}
+
 	set_end_text (view);
 }
 
@@ -1594,9 +1604,9 @@ itip_view_get_end (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-	
+
 	priv = view->priv;
-	
+
 	return priv->end_tm;
 }
 
@@ -1608,7 +1618,7 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 
 	g_return_val_if_fail (view != NULL, 0);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);
-	
+
 	priv = view->priv;
 
 	item = g_new0 (ItipViewInfoItem, 1);
@@ -1616,7 +1626,7 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	item->type = type;
 	item->message = g_strdup (message);
 	item->id = priv->next_info_item_id++;
-	
+
 	priv->upper_info_items = g_slist_append (priv->upper_info_items, item);
 
 	set_upper_info_items (view);
@@ -1630,17 +1640,17 @@ itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type,
 	va_list args;
 	char *message;
 	guint id;
-	
+
 	g_return_val_if_fail (view != NULL, 0);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
-	
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);
+
 	va_start (args, format);
 	message = g_strdup_vprintf (format, args);
 	va_end (args);
 
 	id = itip_view_add_upper_info_item (view, type, message);
 	g_free (message);
-	
+
 	return id;
 }
 
@@ -1649,10 +1659,10 @@ itip_view_remove_upper_info_item (ItipView *view, guint id)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
 
 	for (l = priv->upper_info_items; l; l = l->next) {
@@ -1676,10 +1686,10 @@ itip_view_clear_upper_info_items (ItipView *view)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
 
 	gtk_container_foreach (GTK_CONTAINER (priv->upper_info_box), (GtkCallback) gtk_widget_destroy, NULL);
@@ -1702,8 +1712,8 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	ItipViewInfoItem *item;
 
 	g_return_val_if_fail (view != NULL, 0);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
-	
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);
+
 	priv = view->priv;
 
 	item = g_new0 (ItipViewInfoItem, 1);
@@ -1711,7 +1721,7 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	item->type = type;
 	item->message = g_strdup (message);
 	item->id = priv->next_info_item_id++;
-	
+
 	priv->lower_info_items = g_slist_append (priv->lower_info_items, item);
 
 	set_lower_info_items (view);
@@ -1725,17 +1735,17 @@ itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type,
 	va_list args;
 	char *message;
 	guint id;
-	
+
 	g_return_val_if_fail (view != NULL, 0);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
-	
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);
+
 	va_start (args, format);
 	message = g_strdup_vprintf (format, args);
 	va_end (args);
 
 	id = itip_view_add_lower_info_item (view, type, message);
 	g_free (message);
-	
+
 	return id;
 }
 
@@ -1744,10 +1754,10 @@ itip_view_remove_lower_info_item (ItipView *view, guint id)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
 
 	for (l = priv->lower_info_items; l; l = l->next) {
@@ -1771,10 +1781,10 @@ itip_view_clear_lower_info_items (ItipView *view)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
 
 	gtk_container_foreach (GTK_CONTAINER (priv->lower_info_box), (GtkCallback) gtk_widget_destroy, NULL);
@@ -1791,10 +1801,12 @@ itip_view_clear_lower_info_items (ItipView *view)
 }
 
 static void
-source_selected_cb (ESourceOptionMenu *esom, ESource *source, gpointer data)
+source_changed_cb (ESourceComboBox *escb, ItipView *view)
 {
-	ItipView *view = data;
-	
+	ESource *source;
+
+	source = e_source_combo_box_get_active (escb);
+
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 }
 
@@ -1802,49 +1814,51 @@ void
 itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
 
 	if (priv->source_list)
 		g_object_unref (priv->source_list);
 
-	if (priv->esom)
-		gtk_widget_destroy (priv->esom);
-		
+	if (priv->escb)
+		gtk_widget_destroy (priv->escb);
+
 	if (!source_list) {
-		if (priv->esom_header)
-			gtk_widget_destroy (priv->esom_header);
+		if (priv->escb_header)
+			gtk_widget_destroy (priv->escb_header);
 
 		priv->source_list = NULL;
-		priv->esom = NULL;
-		priv->esom_header = NULL;
-		
+		priv->escb = NULL;
+		priv->escb_header = NULL;
+
 		return;
 	}
 
 	priv->source_list = g_object_ref (source_list);
-	
-	priv->esom = e_source_option_menu_new (source_list);
-	gtk_widget_show (priv->esom);
-	g_signal_connect (priv->esom, "source_selected", G_CALLBACK (source_selected_cb), view);
 
-	if (!priv->esom_header) {
+	priv->escb = e_source_combo_box_new (source_list);
+	gtk_widget_show (priv->escb);
+	g_signal_connect (
+		priv->escb, "changed",
+		G_CALLBACK (source_changed_cb), view);
+
+	if (!priv->escb_header) {
 		if (priv->type == E_CAL_SOURCE_TYPE_EVENT)
-			priv->esom_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
 		else if (priv->type == E_CAL_SOURCE_TYPE_TODO)
-			priv->esom_header = gtk_label_new_with_mnemonic (_("_Tasks :"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("_Tasks :"));
 		else if (priv->type == E_CAL_SOURCE_TYPE_JOURNAL)
-			priv->esom_header = gtk_label_new_with_mnemonic (_("Memos :"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("Memos :"));
 
-		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->esom_header), priv->esom);
-		gtk_widget_show (priv->esom_header);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->escb_header), priv->escb);
+		gtk_widget_show (priv->escb_header);
 	}
-	
-	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->esom_header, FALSE, TRUE, 6);
-	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->esom, FALSE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->escb_header, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->selector_box), priv->escb, FALSE, TRUE, 0);
 }
 
 ESourceList *
@@ -1852,11 +1866,11 @@ itip_view_get_source_list (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
-	g_return_val_if_fail (view != NULL, FALSE);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
 	priv = view->priv;
-	
+
 	return priv->source_list;
 }
 
@@ -1864,16 +1878,17 @@ void
 itip_view_set_source (ItipView *view, ESource *source)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
 
-	if (!priv->esom)
+	if (!priv->escb)
 		return;
 
-	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->esom), source);
+	e_source_combo_box_set_active (
+		E_SOURCE_COMBO_BOX (priv->escb), source);
 }
 
 ESource *
@@ -1881,27 +1896,28 @@ itip_view_get_source (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
-	g_return_val_if_fail (view != NULL, FALSE);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
 	priv = view->priv;
-	
-	if (!priv->esom)
+
+	if (!priv->escb)
 		return NULL;
 
-	return e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (priv->esom));
+	return e_source_combo_box_get_active (
+		E_SOURCE_COMBO_BOX (priv->escb));
 }
 
 void
 itip_view_set_rsvp (ItipView *view, gboolean rsvp)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rsvp_check), rsvp);
 
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
@@ -1915,9 +1931,9 @@ itip_view_get_rsvp (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, FALSE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+
 	priv = view->priv;
-	
+
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
 }
 
@@ -1925,12 +1941,12 @@ void
 itip_view_set_show_rsvp (ItipView *view, gboolean rsvp)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	priv->rsvp_show = rsvp;
 
 	priv->rsvp_show ? gtk_widget_show (priv->rsvp_box) : gtk_widget_hide (priv->rsvp_box);
@@ -1943,9 +1959,9 @@ itip_view_get_show_rsvp (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, FALSE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+
 	priv = view->priv;
-	
+
 	return priv->rsvp_show;
 }
 
@@ -1953,12 +1969,12 @@ void
 itip_view_set_update (ItipView *view, gboolean update)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->update_check), update);
 }
 
@@ -1969,9 +1985,9 @@ itip_view_get_update (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, FALSE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+
 	priv = view->priv;
-	
+
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->update_check));
 }
 
@@ -1979,12 +1995,12 @@ void
 itip_view_set_show_update (ItipView *view, gboolean update)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	priv->update_show = update;
 
 	priv->update_show ? gtk_widget_show (priv->update_box) : gtk_widget_hide (priv->update_box);
@@ -1997,9 +2013,9 @@ itip_view_get_show_update (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, FALSE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+
 	priv = view->priv;
-	
+
 	return priv->update_show;
 }
 
@@ -2007,12 +2023,12 @@ void
 itip_view_set_rsvp_comment (ItipView *view, const char *comment)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	gtk_entry_set_text (GTK_ENTRY (priv->rsvp_comment_entry), comment);
 }
 
@@ -2021,11 +2037,11 @@ itip_view_get_rsvp_comment (ItipView *view)
 {
 	ItipViewPrivate *priv;
 
-	g_return_val_if_fail (view != NULL, FALSE);
-	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
 	priv = view->priv;
-	
+
 	return gtk_entry_get_text (GTK_ENTRY (priv->rsvp_comment_entry));
 }
 
@@ -2033,12 +2049,12 @@ void
 itip_view_set_needs_decline (ItipView *view, gboolean needs_decline)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	priv->needs_decline = needs_decline;
 }
 
@@ -2046,12 +2062,12 @@ void
 itip_view_set_buttons_sensitive (ItipView *view, gboolean sensitive)
 {
 	ItipViewPrivate *priv;
-	
+
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	priv = view->priv;
-	
+
 	priv->buttons_sensitive = sensitive;
 
 	gtk_widget_set_sensitive (priv->button_box, priv->buttons_sensitive);
@@ -2064,13 +2080,13 @@ itip_view_get_buttons_sensitive (ItipView *view)
 
 	g_return_val_if_fail (view != NULL, FALSE);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
-	
+
 	priv = view->priv;
-	
+
 	return priv->buttons_sensitive;
 }
 
-gboolean	
+gboolean
 itip_view_get_recur_check_state (ItipView *view)
 {
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->recur_check));
@@ -2080,12 +2096,34 @@ void
 itip_view_set_show_recur_check (ItipView *view, gboolean show)
 {
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	if (show)
 		gtk_widget_show (view->priv->recur_check);
 	else  {
 		gtk_widget_hide (view->priv->recur_check);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->recur_check), FALSE);
 	}
+}
+
+void
+itip_view_set_show_free_time_check (ItipView *view, gboolean show)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	if (show)
+		gtk_widget_show (view->priv->free_time_check);
+	else  {
+		gtk_widget_hide (view->priv->free_time_check);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->free_time_check), FALSE);
+	}
+}
+
+gboolean
+itip_view_get_free_time_check_state (ItipView *view)
+{
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->free_time_check));
 }

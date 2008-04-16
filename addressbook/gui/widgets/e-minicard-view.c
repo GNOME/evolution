@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-minicard-view.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -88,7 +88,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 	switch (info) {
 	case DND_TARGET_TYPE_VCARD_LIST: {
 		char *value;
-		
+
 		value = eab_contact_list_to_string (view->drag_list);
 
 		gtk_selection_data_set (selection_data,
@@ -101,7 +101,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 	case DND_TARGET_TYPE_SOURCE_VCARD_LIST: {
 		EBook *book;
 		char *value;
-		
+
 		g_object_get (view->adapter, "book", &book, NULL);
 		value = eab_book_and_contact_list_to_string (book, view->drag_list);
 
@@ -131,7 +131,7 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 	GdkDragAction actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
 
 	clear_drag_data (view);
-	
+
 	view->drag_list = e_minicard_view_get_card_list (view);
 
 	g_print ("dragging %d card(s)\n", g_list_length (view->drag_list));
@@ -213,7 +213,7 @@ e_minicard_view_set_property (GObject *object,
 	EMinicardView *view;
 
 	view = E_MINICARD_VIEW (object);
-	
+
 	switch (prop_id){
 	case PROP_ADAPTER:
 		if (view->adapter) {
@@ -246,7 +246,7 @@ e_minicard_view_set_property (GObject *object,
 					g_signal_connect (model, "writable_status",
 							  G_CALLBACK (writable_status_change), view);
 			}
-							    
+
 		}
 		break;
 	case PROP_BOOK:
@@ -350,7 +350,7 @@ static gboolean
 e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	EMinicardView *view;
- 
+
 	view = E_MINICARD_VIEW (item);
 
 	switch( event->type ) {
@@ -359,11 +359,11 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 			gboolean editable;
 
 			g_object_get(view->adapter, "editable", &editable, NULL);
-  
+
 			if (editable) {
 				EBook *book;
 				g_object_get(view, "book", &book, NULL);
- 
+
 				if (book && E_IS_BOOK (book))
 					eab_show_contact_editor (book, e_contact_new(), TRUE, editable);
 			}
@@ -485,39 +485,39 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 	EReflowClass *reflow_class;
-	
+
 	object_class = G_OBJECT_CLASS (klass);
 	item_class = (GnomeCanvasItemClass *) klass;
 	reflow_class = (EReflowClass *) klass;
-	
+
 	parent_class = g_type_class_peek_parent (klass);
-	
+
 	object_class->set_property    = e_minicard_view_set_property;
 	object_class->get_property    = e_minicard_view_get_property;
 	object_class->dispose         = e_minicard_view_dispose;
 
-	g_object_class_install_property (object_class, PROP_ADAPTER, 
+	g_object_class_install_property (object_class, PROP_ADAPTER,
 					 g_param_spec_object ("adapter",
 							      _("Adapter"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_BOOK, 
+	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_QUERY, 
+	g_object_class_install_property (object_class, PROP_QUERY,
 					 g_param_spec_string ("query",
 							      _("Query"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE, 
+	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,

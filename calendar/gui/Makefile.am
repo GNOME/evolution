@@ -5,7 +5,6 @@ endif
 ## CORBA stuff
 
 IDLS =								\
-	$(top_srcdir)/composer/Evolution-Composer.idl		\
 	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 CALENDAR_IDL_GENERATED_H =		\
@@ -21,22 +20,7 @@ $(CALENDAR_IDL_GENERATED_H): $(IDLS)
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
 $(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
 
-# Message composer IDL files
-
-COMPOSER_IDL_GENERATED_H = \
-        Evolution-Composer.h
-COMPOSER_IDL_GENERATED_C =             			\
-        Evolution-Composer-common.c       		\
-        Evolution-Composer-skels.c        		\
-        Evolution-Composer-stubs.c
-COMPOSER_IDL_GENERATED = $(COMPOSER_IDL_GENERATED_C) $(COMPOSER_IDL_GENERATED_H)
-
-$(COMPOSER_IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
-                $(srcdir)/../../composer/Evolution-Composer.idl
-$(COMPOSER_IDL_GENERATED_C): $(COMPOSER_IDL_GENERATED_H)
-
-IDL_GENERATED = $(CALENDAR_IDL_GENERATED) $(COMPOSER_IDL_GENERATED)
+IDL_GENERATED = $(CALENDAR_IDL_GENERATED)
 
 # The marshallers
 MARSHAL_GENERATED = e-calendar-marshal.c e-calendar-marshal.h
@@ -49,7 +33,9 @@ component_LTLIBRARIES = libevolution-calendar.la
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
 ecalendarinclude_HEADERS =	\
-	e-cal-config.h
+	e-cal-config.h		\
+	e-cal-popup.h		\
+	itip-utils.h
 
 search_files = tasktypes.xml memotypes.xml caltypes.xml
 
@@ -240,6 +226,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
+	$(top_builddir)/widgets/misc/libefilterbar.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\

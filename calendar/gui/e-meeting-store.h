@@ -1,4 +1,4 @@
-/* 
+/*
  * e-meeting-store.h
  *
  * Copyright (C) 2003  Ximian, Inc.

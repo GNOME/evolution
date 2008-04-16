@@ -43,7 +43,7 @@ static void         e_alarm_list_init            (EAlarmList         *file_list)
 static void         e_alarm_list_class_init      (EAlarmListClass    *class);
 static void         e_alarm_list_tree_model_init (GtkTreeModelIface  *iface);
 static void         e_alarm_list_finalize        (GObject            *object);
-static guint        e_alarm_list_get_flags       (GtkTreeModel       *tree_model);
+static GtkTreeModelFlags e_alarm_list_get_flags       (GtkTreeModel       *tree_model);
 static gint         e_alarm_list_get_n_columns   (GtkTreeModel       *tree_model);
 static GType        e_alarm_list_get_column_type (GtkTreeModel       *tree_model,
 						  gint                index);
@@ -229,7 +229,7 @@ e_alarm_list_finalize (GObject *object)
 }
 
 /* Fulfill the GtkTreeModel requirements */
-static guint
+static GtkTreeModelFlags
 e_alarm_list_get_flags (GtkTreeModel *tree_model)
 {
 	g_return_val_if_fail (E_IS_ALARM_LIST (tree_model), 0);
@@ -473,20 +473,20 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		if (dur) {
 			if (trigger.u.rel_duration.is_neg)
-				/*Translator: The first %s refers to the base, which would be actions like 
+				/*Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				 str = g_strdup_printf (_("%s %s before the start of the appointment"),
 						       base, dur);
 			else
-				/*Translator: The first %s refers to the base, which would be actions like 
+				/*Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				str = g_strdup_printf (_("%s %s after the start of the appointment"),
 						       base, dur);
 
 			g_free (dur);
 		} else
-			/*Translator: The %s refers to the base, which would be actions like 
-			 * "Play a sound" */ 
+			/*Translator: The %s refers to the base, which would be actions like
+			 * "Play a sound" */
 			str = g_strdup_printf (_("%s at the start of the appointment"), base);
 
 		break;
@@ -496,20 +496,20 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		if (dur) {
 			if (trigger.u.rel_duration.is_neg)
-				/* Translator: The first %s refers to the base, which would be actions like 
+				/* Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (_("%s %s before the end of the appointment"),
 						       base, dur);
 			else
-				/* Translator: The first %s refers to the base, which would be actions like 
+				/* Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (_("%s %s after the end of the appointment"),
 						       base, dur);
 
 			g_free (dur);
 		} else
-			/* Translator: The %s refers to the base, which would be actions like 
-			 * "Play a sound" */ 
+			/* Translator: The %s refers to the base, which would be actions like
+			 * "Play a sound" */
 			str = g_strdup_printf (_("%s at the end of the appointment"), base);
 
 		break;
@@ -532,7 +532,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
 					     FALSE, FALSE, buf, sizeof (buf));
 
-		/* Translator: The first %s refers to the base, which would be actions like 
+		/* Translator: The first %s refers to the base, which would be actions like
 		 * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM" */
 		str = g_strdup_printf (_("%s at %s"), base, buf);
 
@@ -540,7 +540,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 	case E_CAL_COMPONENT_ALARM_TRIGGER_NONE:
 	default:
-		/* Translator: The %s refers to the base, which would be actions like 
+		/* Translator: The %s refers to the base, which would be actions like
 		 * "Play a sound". "Trigger types" are absolute or relative dates */
 		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
 		break;

@@ -1,3 +1,230 @@
+2008-04-13   Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-04-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>  
+
+	* es/es.po: Updated Spanish translation 
+
+2008-04-05  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* ru/ru.po: Updated Russian translation by Sergey Mironov <sergo@bk.ru>
+
+2008-04-05  Petr Kovar  <pknbe@volny.cz>
+
+	* cs/cs.po: Updated Czech translation by Jiri Eischmann.
+
+2008-04-02  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (DOC_FIGURES): s/evo_label_a.PNG/evo_label_a.png
+	here, too.
+
+2008-04-01  Tor Lillqvist  <tml@novell.com>
+
+	* es/figures/evo_label_a.PNG: Remove this, it's a duplicate of
+	es/figures/evo_label_a.png.
+
+2008-03-26  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes Bug #524434. From PC Radhika <pradhika@novell.com>
+	
+	* C/evolution.xml: Fixed build break.
+
+2008-03-25  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fix for Bug #507372 from PC Radhika <pradhika@novell.com>
+	
+	* C/evolution.xml: Done language edits on newly 
+	added sections.
+	
+2008-03-19  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-03-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+	* es/figures/*.png: Added screenshots
+
+2008-03-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #476918
+
+	* C/evolution.xml: Fix a minor typo.
+
+2008-03-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/figures/*.png: Updated/added screenshots.
+
+2008-03-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #437539
+
+	* C/evolution.xml: Use DocBook tags instead of UTF-8 characters
+	for things like copyright and trademark symbols, quotes, etc.
+
+2008-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/figures/*.png: Updated/added screenshots.
+
+2008-03-10  Petr Kovar  <pknbe@volny.cz>
+
+	* cs/cs.po: Added Czech translation by Jiri Eischmann.
+	* cs/figures/evo_maildirreceive_a.png: Added screenshot by Jiri Eischmann.
+	* cs/figures/evo_backup_prgsbar.png: Ditto.
+	* cs/figures/evo_imapreceive_a.png: Ditto.
+	* cs/figures/evo_timezone_a.png: Ditto.
+	* cs/figures/evo_newmail.png: Ditto.
+	* cs/figures/evo_account_editor_a.png: Ditto.
+	* cs/figures/attach_reminder_a.png: Ditto.. png: Ditto.
+	* cs/figures/evo_import_asst_a.png: Ditto.
+	* cs/figures/evo_mail_callout_a.png: Ditto.
+	* cs/figures/evo_backup.png: Ditto.
+	* cs/figures/evo_mhreceive_a.png: Ditto.
+	* cs/figures/evo_attachreminder_plugin.png: Ditto.
+	* cs/figures/ver_view_a.png: Ditto.
+	* cs/figures/evo_crash_recovery.png
+	* cs/figures/evo_cal_callout_a.png: Ditto.
+	* cs/figures/evo_mail_a.png: Ditto.
+	* cs/figures/evo_offline.png: Ditto.
+	* cs/figures/evo_identity_a.png: Ditto.
+	* cs/figures/account_editor_a.png: Ditto.
+	* cs/figures/evo_backup_warning.png: Ditto.
+	* cs/figures/evo_usereceive_a.png: Ditto.
+	* cs/figures/contacts_mainwindow_a.png: Ditto.
+	* cs/figures/evo_popreceive_a.png: Ditto.
+	* cs/figures/evo_receive_setup_a.png: Ditto.
+	* cs/figures/evo_mereceive_a.png: Ditto.
+	* cs/figures/evo_mboxreceive_a.png: Ditto.
+	* cs/figures/evo_send_setup_a.png: Ditto.
+	* cs/figures/evo_gwreceive_a.png: Ditto.
+	* cs/figures/evo_newmess_a.png: Ditto.
+	* cs/figures/collap_head_a.png: Ditto.
+	* Makefile.am: Added cs to DOC_LINGUAS.
+
+2008-03-09  Daniel Nylander <po@danielnylander.se>
+
+	* sv/sv.po: Updated Swedish translation.
+
+2008-03-04  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+	* es/figures/*.png: Added Spanish screenshots
+
+2008-03-03  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-03-03  Andre Klapper  <a9016009@gmx.de>
+
+	* evolution/help/C/figures/evo_label_a.PNG:
+	svn move evolution/help/C/figures/evo_label_a.PNG 
+	evolution/help/C/figures/evo_label_a.png.
+
+2008-02-29  Claude Paroz  <claude@2xlibre.net>
+
+	* fr/fr.po: Updated French translation.
+	* fr/figures/*: Updated and added screenshots.
+
+2008-02-12  Wadim Dziedzic <wadimd@svn.gnome.org>
+
+	* help/quickref/pl/quickref.pdf:
+	* help/quickref/pl/quickref.tex:
+	* help/quickref/pl/Makefile.am:
+	* help/quickref/Makefile.am: Polish translation of quickref added.
+
+2008-02-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation.
+
+2008-02-08  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-02-08  Johnny Jacob  <jjohnny@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	** Fixes #511600, #511602
+	
+	* C/figures, Makefile.am : Added new figures.
+	
+	* C/evolution.xml : New features until Jan 2008 - 
+	google calender, crash detection, non intrusive error message, 
+	advanced conf option for Junk mails, magic space bar.
+	
+2008-02-04  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-02-04  Wouter Bolsterlee <wbolster@gnome.org>    
+
+	** Fix for bug #513285
+
+	* C/evolution.xml: Do not use entities.
+
+2008-02-01  Arangenl Angov <arangel@linux.net.mk>
+
+	* mk.po: Added partly translated mk.po.
+
+2008-01-23  Andre Klapper  <a9016009@gmx.de>
+
+	* de/figures/evo_gwreceive_a.png:
+	* de/figures/evo_identity_a.png:
+	* de/figures/evo_imapreceive_a.png:
+	* de/figures/evo_maildirreceive_a.png:
+	* de/figures/evo_mboxreceive_a.png:
+	* de/figures/evo_mhreceive_a.png:
+	* de/figures/evo_popreceive_a.png:
+	* de/figures/evo_receive_setup_a.png:
+	* de/figures/evo_send_setup_a.png:
+	* de/figures/evo_timezone_a.png:
+	* de/figures/evo_usereceive_a.png:
+	Added localized screenshots.
+
+2008-01-20  Yannig Marchegay <yannig@marchegay.org>
+
+	* oc.po: Updated Occitan translation.
+
+2008-01-06  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2008-01-05  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2007-12-25  Claude Paroz  <claude@2xlibre.net>
+
+	* fr/figures/*
+	* fr/fr.po: Merging modifications from gnome-2-20 branch.
+
+2007-12-16  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+        * es/es.po: Updated Spanish translation
+
+2007-12-15  Matthew Barnes  <mbarnes@redhat.com>
+
+	* C/evolution.xml:
+	Fix capitalization of "Switcher Appearance" menu (HIG 8.3.2).
+
+2007-12-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+        * es/es.po: Updated Spanish translation   
+
+2007-12-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* help/C/evolution.xml:
+	Fix all "entity not defined" warnings (#437579).
+
+2007-11-21  Yannig Marchegay <yannig@marchegay.org> 
+
+	* oc.po: Updated Occitan translation
+
+2007-10-28  Daniel Nylander <po@danielnylander.se>
+
+	* sv/sv.po: Updated Swedish translation.
+
 2007-09-16  Yannig Marchegay <yannig@marchegay.org>
 
         * oc/oc.po: Updated Occitan translation

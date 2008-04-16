@@ -1,9 +1,36 @@
+2008-01-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #496402
+
+	* gaimbuddies.c: (parse_buddy_group), (get_all_blocked),
+	(bbdb_get_gaim_buddy_list), (free_gaim_body), (free_buddy_list),
+	(parse_buddy_group): Do not synchronize blocked bodies from pidgin.
+
+2008-01-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #502914
+
+	* bbdb.c: (enable_toggled_cb): Do not write NULL into gconf.
+
 2007-12-03  Srinivasa Ragavan  <sragavan@novell.com>
 
-	** Fix for bug #491062
+	** Fix for bug #391062
 
-	* bbdb.c: (bbdb_open_addressbook): Check if it enable before adding
-	contacts.
+	* bbdb.c: (bbdb_open_addressbook): Dont add contacts, if it is enabled
+	to do so.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* bbdb.c: (bbdb_check_gaim_enabled), (source_changed_cb):
+	ANSIfication of function declaration.
+
+2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #417999
+
+	* bbdb.c:
+	* gaimbuddies.c:
+	Use ESourceComboBox instead of ESourceOptionMenu (deprecated).
 
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 

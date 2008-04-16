@@ -41,16 +41,16 @@ recur_component_dialog (ECal *client,
 	GtkWidget *placeholder, *vbox;
 	ECalComponentVType vtype;
 	gboolean ret;
-	
+
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 
 	vtype = e_cal_component_get_vtype (comp);
-	
+
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (!delegated)
 			str = g_strdup_printf (_("You are modifying a recurring event. What would you like to modify?"));
-		else 
+		else
 			str = g_strdup_printf (_("You are delegating a recurring event. What would you like to delegate?"));
 		break;
 

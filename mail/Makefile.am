@@ -33,24 +33,6 @@ INCLUDES =						\
 
 component_LTLIBRARIES = libevolution-mail.la
 
-# Code generation for Spell.idl
-
-SPELL_IDL = Spell.idl
-
-SPELL_IDL_GENERATED_H = \
-	Spell.h
-SPELL_IDL_GENERATED_C = \
-	Spell-common.c		\
-	Spell-skels.c		\
-	Spell-stubs.c
-SPELL_IDL_GENERATED = $(SPELL_IDL_GENERATED_C) $(SPELL_IDL_GENERATED_H)
-
-$(SPELL_IDL_GENERATED_H): $(SPELL_IDL)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Spell.idl
-$(SPELL_IDL_GENERATED_C): $(SPELL_IDL_GENERATED_H)
-
-Spell-impl.o: Spell.h
-
 # Mail.idl
 MAIL_IDL = Evolution-Mail.idl
 MAIL_IDL_GENERATED_H = \
@@ -110,7 +92,6 @@ mailinclude_HEADERS =				\
 # libevolution-mail
 
 libevolution_mail_la_SOURCES =			\
-	$(SPELL_IDL_GENERATED)			\
 	$(MAIL_IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
 	$(mailinclude_HEADERS)			\
@@ -164,6 +145,8 @@ libevolution_mail_la_SOURCES =			\
 	em-message-browser.c			\
 	em-migrate.c				\
 	em-migrate.h				\
+	em-network-prefs.c			\
+	em-network-prefs.h			\
 	em-popup.c				\
 	em-search-context.c			\
 	em-search-context.h			\
@@ -269,7 +252,6 @@ EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	README.async			\
 	em-marshal.list			\
-	$(SPELL_IDL)			\
 	$(MAIL_IDL)			\
 	mail.error.xml			\
 	$(glade_DATA)			\
@@ -326,7 +308,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MAIL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
+BUILT_SOURCES = $(MAIL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 

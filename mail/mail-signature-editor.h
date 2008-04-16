@@ -24,18 +24,49 @@
 #ifndef MAIL_SIGNATURE_EDITOR_H
 #define MAIL_SIGNATURE_EDITOR_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <gtkhtml-editor.h>
+#include <e-util/e-signature.h>
 
-struct _ESignature;
-struct _GtkWindow;
+/* Standard GObject macros */
+#define E_TYPE_SIGNATURE_EDITOR \
+	(e_signature_editor_get_type ())
+#define E_SIGNATURE_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SIGNATURE_EDITOR, ESignatureEditor))
+#define E_SIGNATURE_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SIGNATURE_EDITOR, ESignatureEditorClass))
+#define E_IS_SIGNATURE_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SIGNATURE_EDITOR))
+#define E_IS_SIGNATURE_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SIGNATURE_EDITOR))
+#define E_SIGNATURE_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SIGNATURE_EDITOR, ESignatureEditorClass))
 
-void mail_signature_editor (struct _ESignature *sig, struct _GtkWindow *parent, int is_new);
+G_BEGIN_DECLS
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+typedef struct _ESignatureEditor ESignatureEditor;
+typedef struct _ESignatureEditorClass ESignatureEditorClass;
+typedef struct _ESignatureEditorPrivate ESignatureEditorPrivate;
 
-#endif
+struct _ESignatureEditor {
+	GtkhtmlEditor parent;
+	ESignatureEditorPrivate *priv;
+};
+
+struct _ESignatureEditorClass {
+	GtkhtmlEditorClass parent_class;
+};
+
+GType		e_signature_editor_get_type	 (void);
+GtkWidget *	e_signature_editor_new		 (void);
+ESignature *	e_signature_editor_get_signature (ESignatureEditor *editor);
+void		e_signature_editor_set_signature (ESignatureEditor *editor,
+						  ESignature *signature);
+
+G_END_DECLS
+
+#endif /* MAIL_SIGNATURE_EDITOR_H */

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -141,7 +141,7 @@ e_canvas_dispose (GObject *object)
 }
 
 GtkWidget *
-e_canvas_new ()
+e_canvas_new (void)
 {
 	return GTK_WIDGET (g_object_new (E_CANVAS_TYPE, NULL));
 }
@@ -276,7 +276,7 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	canvas = GNOME_CANVAS (widget);
-	
+
 	full_event.key = *event;
 
 	return emit_event (canvas, &full_event);

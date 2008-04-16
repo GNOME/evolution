@@ -56,10 +56,10 @@
 
 /**
  * mail_importer_make_local_folder:
- * @folderpath: 
- * 
+ * @folderpath:
+ *
  * Check a local folder exists at path @folderpath, and if not, create it.
- * 
+ *
  * Return value: The physical uri of the folder, or NULL if the folder did
  * not exist and could not be created.
  **/
@@ -86,12 +86,12 @@ mail_importer_add_line (MailImporter *importer,
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
 	CamelException *ex;
-	
+
 	if (importer->mstream == NULL)
 		importer->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
 
 	camel_stream_write (CAMEL_STREAM (importer->mstream), str,  strlen (str));
-	
+
 	if (finished == FALSE)
 		return;
 
@@ -102,7 +102,7 @@ mail_importer_add_line (MailImporter *importer,
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  CAMEL_STREAM (importer->mstream));
-	
+
 	camel_object_unref (importer->mstream);
 	importer->mstream = NULL;
 
@@ -132,8 +132,8 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 }
 
 struct _import_mbox_msg {
-	struct _mail_msg msg;
-	
+	MailMsg base;
+
 	char *path;
 	char *uri;
 	CamelOperation *cancel;
@@ -142,8 +142,8 @@ struct _import_mbox_msg {
 	void *done_data;
 };
 
-static char *
-import_mbox_describe(struct _mail_msg *mm, int complete)
+static gchar *
+import_mbox_desc (struct _import_mbox_msg *m)
 {
 	return g_strdup (_("Importing mailbox"));
 }
@@ -190,9 +190,8 @@ decode_mozilla_status(const char *tmp)
 }
 
 static void
-import_mbox_import(struct _mail_msg *mm)
+import_mbox_exec (struct _import_mbox_msg *m)
 {
-	struct _import_mbox_msg *m = (struct _import_mbox_msg *) mm;
 	CamelFolder *folder;
 	CamelMimeParser *mp = NULL;
 	struct stat st;
@@ -207,7 +206,7 @@ import_mbox_import(struct _mail_msg *mm)
 	if (m->uri == NULL || m->uri[0] == 0)
 		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
 	else
-		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &mm->ex);
+		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
 
 	if (folder == NULL)
 		return;
@@ -232,7 +231,7 @@ import_mbox_import(struct _mail_msg *mm)
 
 		camel_operation_start(NULL, _("Importing `%s'"), folder->full_name);
 		camel_folder_freeze(folder);
-		while (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+		while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 			CamelMimeMessage *msg;
 			const char *tmp;
 			int pc = 0;
@@ -262,14 +261,14 @@ import_mbox_import(struct _mail_msg *mm)
 				flags |= decode_status(tmp);
 
 			camel_message_info_set_flags(info, flags, ~0);
-			camel_folder_append_message(folder, msg, info, NULL, &mm->ex);
+			camel_folder_append_message(folder, msg, info, NULL, &m->base.ex);
 			camel_message_info_free(info);
 			camel_object_unref(msg);
 
-			if (camel_exception_is_set(&mm->ex))
+			if (camel_exception_is_set(&m->base.ex))
 				break;
 
-			camel_mime_parser_step(mp, 0, 0);
+			camel_mime_parser_step(mp, NULL, NULL);
 		}
 		camel_folder_sync(folder, FALSE, NULL);
 		camel_folder_thaw(folder);
@@ -286,30 +285,27 @@ fail1:
 }
 
 static void
-import_mbox_done(struct _mail_msg *mm)
+import_mbox_done (struct _import_mbox_msg *m)
 {
-	struct _import_mbox_msg *m = (struct _import_mbox_msg *)mm;
-
 	if (m->done)
-		m->done(m->done_data, &mm->ex);
+		m->done(m->done_data, &m->base.ex);
 }
 
 static void
-import_mbox_free (struct _mail_msg *mm)
+import_mbox_free (struct _import_mbox_msg *m)
 {
-	struct _import_mbox_msg *m = (struct _import_mbox_msg *)mm;
-	
 	if (m->cancel)
 		camel_operation_unref(m->cancel);
 	g_free(m->uri);
 	g_free(m->path);
 }
 
-static struct _mail_msg_op import_mbox_op = {
-	import_mbox_describe,
-	import_mbox_import,
-	import_mbox_done,
-	import_mbox_free,
+static MailMsgInfo import_mbox_info = {
+	sizeof (struct _import_mbox_msg),
+	(MailMsgDescFunc) import_mbox_desc,
+	(MailMsgExecFunc) import_mbox_exec,
+	(MailMsgDoneFunc) import_mbox_done,
+	(MailMsgFreeFunc) import_mbox_free
 };
 
 int
@@ -318,7 +314,7 @@ mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperatio
 	struct _import_mbox_msg *m;
 	int id;
 
-	m = mail_msg_new(&import_mbox_op, NULL, sizeof (*m));
+	m = mail_msg_new(&import_mbox_info);
 	m->path = g_strdup(path);
 	m->uri = g_strdup(folderuri);
 	m->done = done;
@@ -328,8 +324,8 @@ mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperatio
 		camel_operation_ref(cancel);
 	}
 
-	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	id = m->base.seq;
+	mail_msg_fast_ordered_push (m);
 
 	return id;
 }
@@ -339,7 +335,7 @@ mail_importer_import_mbox_sync(const char *path, const char *folderuri, CamelOpe
 {
 	struct _import_mbox_msg *m;
 
-	m = mail_msg_new(&import_mbox_op, NULL, sizeof (*m));
+	m = mail_msg_new(&import_mbox_info);
 	m->path = g_strdup(path);
 	m->uri = g_strdup(folderuri);
 	if (cancel) {
@@ -347,9 +343,9 @@ mail_importer_import_mbox_sync(const char *path, const char *folderuri, CamelOpe
 		camel_operation_ref(cancel);
 	}
 
-	import_mbox_import(&m->msg);
-	import_mbox_done(&m->msg);
-	mail_msg_free(&m->msg);
+	import_mbox_exec(m);
+	import_mbox_done(m);
+	mail_msg_unref(m);
 }
 
 struct _import_folders_data {
@@ -400,9 +396,9 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 					break;
 				}
 			/* FIXME: need a better way to get default store location */
-			uri = g_strdup_printf("mbox:%s/mail/local#%s", mail_component_peek_base_directory(NULL), folder);
+			uri = g_strdup_printf("mbox:%s/local#%s", mail_component_peek_base_directory(NULL), folder);
 		} else {
-			uri = g_strdup_printf("mbox:%s/mail/local#%s/%s", mail_component_peek_base_directory(NULL), folderparent, folder);
+			uri = g_strdup_printf("mbox:%s/local#%s/%s", mail_component_peek_base_directory(NULL), folderparent, folder);
 		}
 
 		printf("importing to uri %s\n", uri);
@@ -436,11 +432,11 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 
 /**
  * mail_importer_import_folders_sync:
- * @filepath: 
- * @: 
- * @flags: 
- * @cancel: 
- * 
+ * @filepath:
+ * @:
+ * @flags:
+ * @cancel:
+ *
  * import from a base path @filepath into the root local folder tree,
  * scanning all sub-folders.
  *

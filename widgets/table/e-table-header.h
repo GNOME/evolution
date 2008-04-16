@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-header.h
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -58,7 +58,7 @@ struct _ETableHeader {
 	int sort_info_group_change_id;
 
 	ETableCol **columns;
-	
+
 	GSList *change_queue, *change_tail;
 	gint idle;
 };

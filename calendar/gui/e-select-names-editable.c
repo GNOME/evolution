@@ -6,7 +6,7 @@
  * Copyright (C) 2003 Ximian Inc.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public 
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -60,7 +60,7 @@ static void
 esne_class_init (GObjectClass *klass)
 {
 	klass->finalize = esne_finalize;
-	
+
 	parent_class = E_NAME_SELECTOR_ENTRY_CLASS (g_type_class_peek_parent (klass));
 }
 
@@ -68,7 +68,7 @@ GType
 e_select_names_editable_get_type (void)
 {
 	static GType esne_type = 0;
-	
+
 	if (!esne_type) {
 		static const GTypeInfo esne_info = {
 			sizeof (ESelectNamesEditableClass),
@@ -84,20 +84,20 @@ e_select_names_editable_get_type (void)
 
 		static const GInterfaceInfo cell_editable_info = {
 			(GInterfaceInitFunc) esne_cell_editable_init,
-			NULL, 
-			NULL 
+			NULL,
+			NULL
 		};
-      
+
 		esne_type = g_type_register_static (E_TYPE_NAME_SELECTOR_ENTRY, "ESelectNamesEditable", &esne_info, 0);
-		
+
 		g_type_add_interface_static (esne_type, GTK_TYPE_CELL_EDITABLE, &cell_editable_info);
 	}
-	
+
 	return esne_type;
 }
 
 ESelectNamesEditable *
-e_select_names_editable_new ()
+e_select_names_editable_new (void)
 {
 	ESelectNamesEditable *esne = g_object_new (E_TYPE_SELECT_NAMES_EDITABLE, NULL);
 
@@ -141,7 +141,7 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 		return NULL;
 
 	destination = destinations->data;
-	if (e_destination_is_evolution_list (destination)) {	
+	if (e_destination_is_evolution_list (destination)) {
 		const GList *list_dests, *l;
 
 		list_dests = e_destination_list_get_dests (destination);
@@ -151,7 +151,7 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 	} else {
 		/* check if the contact is contact list, it does not contain all the email ids  */
 		/* we dont expand it currently, TODO do we need to expand it by getting it from addressbook*/
-		if (e_destination_get_contact (destination) && 
+		if (e_destination_get_contact (destination) &&
 		    e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
 			/* If its a contact_list which is not expanded, it wont have a email id,
 			   so we can use the name as the email id */
@@ -202,10 +202,10 @@ e_select_names_editable_get_names (ESelectNamesEditable *esne)
 	if (!destinations)
 		return NULL;
 
-	destination = destinations->data;	
+	destination = destinations->data;
 	if (e_destination_is_evolution_list (destination)) {
 		const GList *list_dests, *l;
-		
+
 		list_dests = e_destination_list_get_dests (destination);
 		for (l = list_dests; l != NULL; l = g_list_next (l)) {
 			result = g_list_append (result, g_strdup (e_destination_get_name (l->data)));
@@ -238,7 +238,7 @@ e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *na
 
 	e_destination_set_name (destination, name);
 	e_destination_set_email (destination, email);
-	
+
 	if (!destinations)
 		e_destination_store_append_destination (destination_store, destination);
 	g_object_unref (destination);

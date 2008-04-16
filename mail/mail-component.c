@@ -46,10 +46,13 @@
 #include "em-folder-selection.h"
 #include "em-folder-utils.h"
 #include "em-migrate.h"
+#include "e-util/e-icon-factory.h"
 
 #include "misc/e-info-label.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-logger.h"
 
 #include "em-search-context.h"
 #include "mail-config.h"
@@ -88,7 +91,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
-#define d(x) 
+#define d(x)
 
 static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
 static void view_changed_timeout_remove (EComponentView *component_view);
@@ -101,7 +104,7 @@ static BonoboObjectClass *parent_class = NULL;
 #define OFFLINE 0
 #define ONLINE 1
 
-struct _store_info {	
+struct _store_info {
 	CamelStore *store;
 	char *name;
 
@@ -126,19 +129,20 @@ struct _MailComponentPrivate {
 	int quit_expunge;	/* expunge on quit this time around? */
 
 	char *base_directory;
-	
+
 	EMFolderTreeModel *model;
 
 	EActivityHandler *activity_handler;
-	
+
 	MailAsyncEvent *async_event;
 	GHashTable *store_hash; /* stores store_info objects by store */
-	
+
 	RuleContext *search_context;
-	
+
 	char *context_path;	/* current path for right-click menu */
-	
+
 	CamelStore *local_store;
+	ELogger *logger;
 
 	EComponentView *component_view;
 };
@@ -203,7 +207,7 @@ store_info_unref(struct _store_info *si)
 	g_free(si);
 }
 
-static void
+static gboolean
 mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	struct _store_info *si = data;
@@ -220,6 +224,8 @@ mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 	}
 
 	store_info_unref(si);
+
+	return TRUE;
 }
 
 /* Utility functions.  */
@@ -227,7 +233,7 @@ static void
 mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
 {
 	struct _store_info *si;
-	
+
 	MAIL_COMPONENT_DEFAULT(component);
 
 	si = store_info_new(store, name);
@@ -276,7 +282,7 @@ mc_setup_local_store(MailComponent *mc)
 	camel_exception_init(&ex);
 
 	url = camel_url_new("mbox:", NULL);
-	tmp = g_strdup_printf("%s/mail/local", p->base_directory);
+	tmp = g_build_filename (p->base_directory, "local", NULL);
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
@@ -320,13 +326,13 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-	
+
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		EAccountService *service;
 		EAccount *account;
 		const char *name;
-		
+
 		account = (EAccount *) e_iterator_get (iter);
 		service = account->source;
 		name = account->name;
@@ -338,10 +344,10 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 		    && service->url[0]
 		    && strncmp(service->url, "mbox:", 5) != 0)
 			mail_component_load_store_by_uri (component, service->url, name);
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
 }
 
@@ -351,9 +357,9 @@ setup_search_context (MailComponent *component)
 	MailComponentPrivate *priv = component->priv;
 
 	if (priv->search_context == NULL) {
-		char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
+		char *user = g_build_filename(component->priv->base_directory, "searches.xml", NULL);
 		char *system = g_build_filename (EVOLUTION_PRIVDATADIR, "searchtypes.xml", NULL);
-		
+
 		priv->search_context = (RuleContext *)em_search_context_new ();
 		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
 		g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
@@ -365,6 +371,7 @@ static void
 mc_startup(MailComponent *mc)
 {
 	static int started = 0;
+	GConfClient *gconf;
 
 	if (started)
 		return;
@@ -372,21 +379,25 @@ mc_startup(MailComponent *mc)
 
 	mc_setup_local_store(mc);
 	load_accounts(mc, mail_config_get_accounts());
-	vfolder_load_storage();
+
+	gconf = mail_config_get_gconf_client();
+
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", NULL))
+		vfolder_load_storage();
 }
 
 static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
 {
 	EMFolderTreeModel *model;
-	
+
 	if ((flags & CAMEL_FOLDER_NOSELECT) || !path) {
 		em_folder_view_set_folder (view, NULL, NULL);
 	} else {
 		model = em_folder_tree_get_model (emft);
 		em_folder_tree_model_set_selected (model, uri);
 		em_folder_tree_model_save_state (model);
-		
+
 		em_folder_view_set_folder_uri (view, uri);
 	}
 }
@@ -407,17 +418,17 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 
 	uic = bonobo_control_get_ui_component (control);
 	g_return_if_fail (uic != NULL);
-	
+
 	if (activate) {
 		Bonobo_UIContainer container;
-		
+
 		container = bonobo_control_get_remote_ui_container (control, NULL);
 		bonobo_ui_component_set_container (uic, container, NULL);
 		bonobo_object_release_unref (container, NULL);
-		
+
 		g_return_if_fail (container == bonobo_ui_component_get_container(uic));
 		g_return_if_fail (container != CORBA_OBJECT_NIL);
-		
+
 		em_folder_view_activate (view, uic, activate);
 		e_user_creatable_items_handler_activate(g_object_get_data((GObject *)view, "e-creatable-items-handler"), uic);
 	} else {
@@ -452,7 +463,7 @@ impl_dispose (GObject *object)
 		g_object_unref (priv->search_context);
 		priv->search_context = NULL;
 	}
-	
+
 	if (priv->local_store != NULL) {
 		camel_object_unref (priv->local_store);
 		priv->local_store = NULL;
@@ -469,20 +480,22 @@ impl_finalize (GObject *object)
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
 
 	g_free (priv->base_directory);
-	
+
 	mail_async_event_destroy (priv->async_event);
-	
+
 	g_hash_table_destroy (priv->store_hash);
-	
+
 	if (mail_async_event_destroy (priv->async_event) == -1) {
 		g_warning("Cannot destroy async event: would deadlock");
 		g_warning(" system may be unstable at exit");
 	}
-	
+
 	g_free (priv->context_path);
 	g_mutex_free(priv->lock);
+	g_object_unref (priv->model);
+	g_object_unref (priv->logger);
 	g_free (priv);
-	
+
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
@@ -490,7 +503,7 @@ static void
 view_on_url (GObject *emitter, const char *url, const char *nice_url, MailComponent *mail_component)
 {
 	MailComponentPrivate *priv = mail_component->priv;
-	
+
 	e_activity_handler_set_message (priv->activity_handler, nice_url);
 }
 
@@ -504,7 +517,8 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 
 	if (emfv->folder) {
 		char *name, *title;
-		guint32 visible, unread, deleted, junked;
+		const char *use_name; /* will contain localized name, if necessary */
+		guint32 visible, unread, deleted, junked, junked_not_deleted;
 		GPtrArray *selected;
 		GString *tmp = g_string_new("");
 
@@ -513,6 +527,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 				 CAMEL_FOLDER_DELETED, &deleted,
 				 CAMEL_FOLDER_VISIBLE, &visible,
 				 CAMEL_FOLDER_JUNKED, &junked,
+				 CAMEL_FOLDER_JUNKED_NOT_DELETED, &junked_not_deleted,
 				 CAMEL_FOLDER_UNREAD, &unread, NULL);
 
 		selected = message_list_get_selected(emfv->list);
@@ -520,12 +535,19 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 		/* This is so that if any of these are
 		 * shared/reused, we fallback to the standard
 		 * display behaviour */
+		if (selected->len > 1)
+			g_string_append_printf(tmp, ngettext ("%d selected, ", "%d selected, ", selected->len), selected->len);
 
 		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
 			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH) {
 				g_string_append_printf(tmp, ngettext ("%d deleted", "%d deleted", deleted), deleted);
 			} else {
-				g_string_append_printf(tmp, ngettext ("%d junk", "%d junk", junked), junked);
+				guint32 num = junked_not_deleted;
+
+				if (!emfv->hide_deleted)
+					num = junked;
+
+				g_string_append_printf (tmp, ngettext ("%d junk", "%d junk", num), num);
 			}
 		} else if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)) {
 			g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
@@ -536,25 +558,23 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 			/* HACK: hardcoded inbox or maildir '.' folder */
 		} else {
 			if (!emfv->hide_deleted)
-				visible += deleted;
+				visible += deleted - junked + junked_not_deleted;
 			if (unread && selected->len <= 1)
 				g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
 			g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
 		}
-
-		if (selected->len > 1)
-			g_string_append_printf(tmp, ngettext (" %d selected, ", " %d selected, ", selected->len), selected->len);
 
 		message_list_free_uids(emfv->list, selected);
 
 		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
 		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
 			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent")))
-			e_info_label_set_info(el, _(name), tmp->str);
+			use_name = _(name);
 		else
-			e_info_label_set_info(el, name, tmp->str);
+			use_name = name;
 
-		title = g_strdup_printf("%s (%s)", _(name), tmp->str);
+		e_info_label_set_info (el, use_name, tmp->str);
+		title = g_strdup_printf ("%s (%s)", use_name, tmp->str);
 		e_component_view_set_title(component_view, title);
 		g_free(title);
 
@@ -577,7 +597,7 @@ view_changed_timeout_remove (EComponentView *component_view)
 	if (v) {
 		g_source_remove(GPOINTER_TO_INT(v));
 		g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
-		
+
 		el = g_object_get_data((GObject *)component_view, "info-label");
 		emfv = g_object_get_data((GObject *)el, "folderview");
 		g_object_unref(el);
@@ -588,7 +608,7 @@ view_changed_timeout_remove (EComponentView *component_view)
 static int
 view_changed_timeout(void *d)
 {
-	EComponentView *component_view = d;	
+	EComponentView *component_view = d;
 	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 	EMFolderView *emfv = g_object_get_data((GObject *)el, "folderview");
 
@@ -610,17 +630,17 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
 
 	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
-	
+
 	if (mc->priv->quit_state != -1) {
 		if (v) {
-			g_source_remove(GPOINTER_TO_INT(v));			
+			g_source_remove(GPOINTER_TO_INT(v));
 			g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
 			g_object_unref (emfv);
 			g_object_unref (el);
 		}
 
 		return;
-			
+
 	}
 	/* This can get called 3 times every cursor move, so
 	   we don't need to/want to run it immediately */
@@ -636,13 +656,13 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 	g_object_set_data((GObject *)component_view, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
 }
 
-static void 
+static void
 disable_folder_tree (gpointer *emfb, GtkWidget *widget)
 {
 	gtk_widget_set_sensitive (widget, FALSE);
 }
 
-static void 
+static void
 enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
@@ -689,27 +709,34 @@ impl_createView (PortableServer_Servant servant,
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
 	char *uri;
-	
+
 	mail_session_set_interactive(TRUE);
 	mc_startup(mail_component);
 
 	view_widget = em_folder_browser_new ();
-	
+
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
-	
+
 	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
+		gboolean expanded;
+
+		expanded = em_folder_tree_model_get_expanded_uri (priv->model, uri);
 		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri, FALSE);
 		em_folder_view_set_folder_uri ((EMFolderView *) view_widget, uri);
+
+		if (!expanded)
+			em_folder_tree_model_set_expanded_uri (priv->model, uri, expanded);
+
 		g_free (uri);
 	}
-	
+
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
-	
+
 	g_signal_connect (view_widget, "on-url", G_CALLBACK (view_on_url), mail_component);
 	em_folder_view_set_statusbar ((EMFolderView*)view_widget, FALSE);
-	
+
 	statusbar_widget = e_task_bar_new ();
 	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
 
@@ -742,7 +769,7 @@ impl_createView (PortableServer_Servant servant,
 	g_signal_connect(((EMFolderBrowser *)view_widget), "account_search_activated", G_CALLBACK (disable_folder_tree), tree_widget);
 	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), component_view);
 	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), component_view);
-	
+
 	g_object_set_data((GObject*)info, "folderview", view_widget);
 	g_object_set_data((GObject*)view_widget, "foldertree", tree_widget);
 
@@ -760,7 +787,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	if (!e_msg_composer_request_close_all())
 		return FALSE;
-	
+
 	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
 	if (folder != NULL
 	    && camel_session_is_online(session)
@@ -796,7 +823,7 @@ mc_quit_delete (CamelStore *store, struct _store_info *si, MailComponent *mc)
 		GPtrArray *uids;
 		int i;
 
-		uids =  camel_folder_get_uids (folder); 
+		uids =  camel_folder_get_uids (folder);
 		camel_folder_freeze(folder);
 		for (i=0;i<uids->len;i++)
 			camel_folder_set_message_flags(folder, uids->pdata[i], CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
@@ -812,14 +839,17 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	if (mc->priv->quit_state == -1)
 		mc->priv->quit_state = MC_QUIT_START;
-	
+
 	mail_config_prune_proxies ();
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
+		extern int camel_application_is_exiting;
 		int now = time(NULL)/60/60/24, days;
 		gboolean empty_junk;
-		
+
 		GConfClient *gconf = mail_config_get_gconf_client();
+
+		camel_application_is_exiting = TRUE;
 
 		mail_vfolder_shutdown();
 
@@ -835,7 +865,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 			g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_delete, mc);
 			gconf_client_set_int(gconf, "/apps/evolution/mail/junk/empty_date", now, NULL);
 		}
-		
+
 		g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_sync, mc);
 
 		if (mc->priv->quit_expunge)
@@ -896,7 +926,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointe
 	if (strcmp(type, "message") == 0) {
 		if (!em_utils_check_user_can_send_mail(NULL))
 			return 0;
-	
+
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
 		em_folder_utils_create_folder(NULL, tree);
@@ -911,7 +941,7 @@ create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_
 {
 	EMFolderTree *tree = data;
 	char *uri = em_folder_tree_get_selected_uri(tree);
-	
+
 	create_item(item_type_name, em_folder_tree_get_model(tree), uri, (gpointer) tree);
 	g_free(uri);
 }
@@ -955,13 +985,13 @@ handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
 			const char* uid;
 
 			uid = camel_url_get_param(url, "uid");
-			if (uid == NULL) 
+			if (uid == NULL)
 				g_warning("Could not forward the message. UID is NULL.");
 			else {
 				uids = g_ptr_array_new();
 				g_ptr_array_add(uids, g_strdup(uid));
 
-				if (!strcmp(forward, "attached")) 
+				if (!strcmp(forward, "attached"))
 					em_utils_forward_attached(folder, uids, uri);
 				else if (!strcmp(forward, "inline"))
 					em_utils_forward_inline(folder, uids, uri);
@@ -1000,7 +1030,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 		if (camel_url_get_param(url, "uid") != NULL) {
 			char *curi = em_uri_to_camel(uri);
 
-			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_thread_new);
+			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_msg_unordered_push);
 			g_free(curi);
 		} else {
 			g_warning("email uri's must include a uid parameter");
@@ -1023,9 +1053,9 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	CamelException ex;
 
 	component = mail_component_peek ();
-	
+
 	camel_exception_init (&ex);
-	if (em_migrate (component->priv->base_directory, major, minor, revision, &ex) == -1) {
+	if (em_migrate (e_get_user_data_dir (), major, minor, revision, &ex) == -1) {
 		GNOME_Evolution_Component_UpgradeFailed *failedex;
 
 		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
@@ -1052,7 +1082,7 @@ setline_done(CamelStore *store, void *data)
 
 	sd->pending--;
 	if (sd->pending == 0) {
-		CORBA_Environment ev = { 0 };
+		CORBA_Environment ev = { NULL };
 
 		GNOME_Evolution_Listener_complete(sd->listener, &ev);
 		CORBA_exception_free(&ev);
@@ -1077,7 +1107,7 @@ setline_check(void *key, void *value, void *data)
 	}
 }
 
-int 
+int
 status_check (GNOME_Evolution_ShellState shell_state)
 {
 	int status = 0;
@@ -1088,7 +1118,7 @@ status_check (GNOME_Evolution_ShellState shell_state)
 		    status = OFFLINE;
 		    if (em_utils_prompt_user (NULL, "/apps/evolution/mail/prompts/quick_offline", "mail:ask-quick-offline", NULL))
 		    	break;
-	    case GNOME_Evolution_FORCED_OFFLINE: 
+	    case GNOME_Evolution_FORCED_OFFLINE:
 		    /*Network is down so change network state on the camel session*/
 		    status = OFFLINE;
 		    /* Cancel all operations as they wont happen anyway cos Network is down*/
@@ -1098,7 +1128,7 @@ status_check (GNOME_Evolution_ShellState shell_state)
 	    case GNOME_Evolution_USER_ONLINE:
 		    camel_session_set_network_state (session, TRUE);
 		    status = ONLINE;
-	}	  
+	}
 
 	return status;
 }
@@ -1150,12 +1180,12 @@ mail_component_class_init (MailComponentClass *class)
 	POA_GNOME_Evolution_Component__epv *epv = &((EvolutionComponentClass *)class)->epv;
 	POA_GNOME_Evolution_MailComponent__epv *mepv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-	
+
 	parent_class = g_type_class_peek_parent (class);
-	
+
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
-	
+
 	epv->createView          = impl_createView;
 	epv->requestQuit = impl_requestQuit;
 	epv->quit = impl_quit;
@@ -1180,14 +1210,17 @@ static void
 mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
-	
+
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
-	
+
 	priv->lock = g_mutex_new();
 	priv->quit_state = -1;
 
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+	/* FIXME This is used as both a filename and URI path throughout
+	 *       the mail code.  Need to clean this up; maybe provide a
+	 *       mail_component_get_base_uri() function. */
+	priv->base_directory = g_build_filename (e_get_user_data_dir (), "mail", NULL);
 #ifdef G_OS_WIN32
 	{
 		char *p = priv->base_directory;
@@ -1195,21 +1228,24 @@ mail_component_init (MailComponent *component)
 			*p++ = '/';
 	}
 #endif
-	if (g_mkdir_with_parents (priv->base_directory, 0777) == -1 && errno != EEXIST)
+
+	if (g_mkdir_with_parents (e_get_user_data_dir (), 0777) == -1 && errno != EEXIST)
 		abort ();
-	
-	priv->model = em_folder_tree_model_new (priv->base_directory);
-	
+
+	priv->model = em_folder_tree_model_new (e_get_user_data_dir ());
+	priv->logger = e_logger_create ("mail");
 	priv->activity_handler = e_activity_handler_new ();
-	
-	mail_session_init (priv->base_directory);
-	
+	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
+	e_activity_handler_set_error_flush_time (priv->activity_handler, mail_config_get_error_timeout ()*1000);
+
+	mail_session_init (e_get_user_data_dir ());
+
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new_full (
 		NULL, NULL,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_hash_free);
-	
+
 	mail_autoreceive_init();
 }
 
@@ -1269,7 +1305,7 @@ mail_component_add_store (MailComponent *component, CamelStore *store, const cha
  * @component: mail component
  * @uri: uri of store
  * @name: name of store (used for display purposes)
- * 
+ *
  * Return value: Pointer to the newly added CamelStore.  The caller is supposed
  * to ref the object if it wants to store it.
  **/
@@ -1281,14 +1317,14 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	CamelProvider *prov;
 
 	MAIL_COMPONENT_DEFAULT(component);
-	
+
 	camel_exception_init (&ex);
-	
+
 	/* Load the service (don't connect!). Check its provider and
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-	
+
 	prov = camel_provider_get(uri, &ex);
 	if (prov == NULL) {
 		/* EPFIXME: real error dialog */
@@ -1297,10 +1333,10 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 		camel_exception_clear (&ex);
 		return NULL;
 	}
-	
+
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return NULL;
-	
+
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* EPFIXME: real error dialog */
@@ -1312,7 +1348,7 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 
 	mail_component_add_store(component, store, name);
 	camel_object_unref (store);
-	
+
 	return store;
 }
 
@@ -1337,19 +1373,19 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	 * any call to camel_session_get_{service,store} with the same
 	 * URL will always return the same object. So this works.
 	 */
-	
+
 	if (g_hash_table_lookup (priv->store_hash, store) == NULL)
 		return;
-	
+
 	camel_object_ref (store);
 	g_hash_table_remove (priv->store_hash, store);
-	
+
 	/* so i guess potentially we could have a race, add a store while one
 	   being removed.  ?? */
 	mail_note_store_remove (store);
-	
+
 	em_folder_tree_model_remove_store (priv->model, store);
-	
+
 	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
 }
 
@@ -1360,13 +1396,13 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	CamelStore *store;
 
 	MAIL_COMPONENT_DEFAULT(component);
-	
+
 	if (!(prov = camel_provider_get(uri, NULL)))
 		return;
-	
+
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
-	
+
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
 	if (store != NULL) {
 		mail_component_remove_store (component, store);
@@ -1425,18 +1461,18 @@ mail_component_peek_local_store (MailComponent *mc)
 {
 	MAIL_COMPONENT_DEFAULT (mc);
 	mc_setup_local_store (mc);
-	
+
 	return mc->priv->local_store;
 }
 
 /**
  * mail_component_get_folder:
- * @mc: 
- * @id: 
- * 
+ * @mc:
+ * @id:
+ *
  * Get a standard/default folder by id.  This call is thread-safe.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 struct _CamelFolder *
 mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
@@ -1451,12 +1487,12 @@ mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
 
 /**
  * mail_component_get_folder_uri:
- * @mc: 
- * @id: 
- * 
+ * @mc:
+ * @id:
+ *
  * Get a standard/default folder's uri.  This call is thread-safe.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 const char *
 mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id)
@@ -1487,6 +1523,229 @@ mail_indicate_new_mail (gboolean have_new_mail)
 
 	if (mc->priv->component_view)
 		e_component_view_set_button_icon (mc->priv->component_view, icon);
+}
+
+struct _log_data {
+	int level;
+	char *key;
+	char *text;
+	char *icon;
+	GdkPixbuf *pbuf;
+} ldata [] = {
+	{ E_LOG_ERROR, N_("Error"), N_("Errors"), "stock_dialog-error" },
+	{ E_LOG_WARNINGS, N_("Warning"), N_("Warnings and Errors"), "stock_dialog-warning" },
+	{ E_LOG_DEBUG, N_("Debug"), N_("Error, Warnings and Debug messages"), "stock_dialog-info" }
+};
+
+enum
+{
+	COL_LEVEL = 0,
+	COL_TIME,
+	COL_DATA
+};
+
+static void
+render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
+	       GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
+{
+	static gboolean initialised = FALSE;
+	gint level;
+	int i;
+
+	if (!initialised) {
+		for (i=E_LOG_ERROR; i<=E_LOG_DEBUG; i++) {
+			ldata[i].pbuf = e_icon_factory_get_icon (ldata[i].icon, E_ICON_SIZE_MENU);
+		}
+		initialised = TRUE;
+	}
+	
+	gtk_tree_model_get (model, iter, COL_LEVEL, &level, -1);
+	g_object_set (renderer, "pixbuf", ldata[level].pbuf, "visible", TRUE, NULL);
+}
+
+static void
+render_level (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
+	      GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
+{
+	gint level;
+
+	gtk_tree_model_get (model, iter, COL_LEVEL, &level, -1);
+	g_object_set (renderer, "text", ldata[level].key, NULL);
+}
+
+static void
+render_date (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
+	      GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
+{
+	time_t t;
+	char sdt[100]; /* Should be sufficient? */
+	
+	gtk_tree_model_get (model, iter, COL_TIME, &t, -1);
+	strftime (sdt, 100, "%x %X", localtime (&t));
+	g_object_set (renderer, "text", sdt, NULL);
+}
+
+
+
+static void
+append_logs (const char *txt, GtkListStore *store)
+{
+	char **str;
+	
+	str = g_strsplit (txt, 	":", 3);
+	if (str[0] && str[1] && str[2]) {
+		int level;
+		time_t time;
+		char *data;
+		GtkTreeIter iter;
+
+		level = atoi (str[0]);
+		time = atol (str[1]);
+		data = strrchr (str[2], '\n');
+		*data = 0;
+		data = str[2];
+		
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, level,
+				   COL_TIME, time,
+				   COL_DATA, data,
+				   -1);
+	} else 
+		printf("Unable to decode error log: %s\n", txt);
+	
+	g_strfreev (str);
+		
+
+}
+
+static void
+spin_value_changed (GtkSpinButton *b, gpointer data)
+{
+	int value = gtk_spin_button_get_value_as_int (b);
+	GConfClient *client = mail_config_get_gconf_client ();
+
+	gconf_client_set_int (client, "/apps/evolution/mail/display/error_timeout", value, NULL);
+}
+
+void
+mail_component_show_logger (gpointer top)
+{
+	MailComponent *mc = mail_component_peek ();
+	GtkWidget *window, *hbox, *vbox, *spin, *label, *combo, *scrolled;
+	ELogger *logger = mc->priv->logger;
+	int i;
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
+	GtkTreeView *treeview;
+	GtkTreeViewColumn *column;
+
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for ((GtkWindow *) window, (GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) top));
+	gtk_container_set_border_width ((GtkContainer *) window, 6);
+	gtk_window_set_default_size ((GtkWindow *)window, 500, 400);
+	gtk_window_set_title ((GtkWindow *) window, _("Debug Logs"));
+	vbox = gtk_vbox_new (FALSE, 6);
+	hbox = gtk_hbox_new (FALSE, 6);	
+	gtk_container_add ((GtkContainer *) window, vbox);
+	/* Translators: This is the first part of the sentence "Show _errors in the status bar for" - XXX - "second(s)." */
+	label = gtk_label_new_with_mnemonic (_("Show _errors in the status bar for"));
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	spin = gtk_spin_button_new_with_range(1.0, 60.0, 1.0);
+	gtk_spin_button_set_value ((GtkSpinButton *) spin, (double) mail_config_get_error_timeout ());
+	g_signal_connect (spin, "value-changed", G_CALLBACK (spin_value_changed), NULL);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, spin);
+	gtk_box_pack_start ((GtkBox *) hbox, spin, FALSE, FALSE, 6);
+	/* Translators: This is the second part of the sentence "Show _errors in the status bar for" - XXX - "second(s)." */
+	label = gtk_label_new_with_mnemonic (_("second(s)."));
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) vbox, hbox, FALSE, FALSE, 6);
+
+	combo = gtk_combo_box_new_text ();
+	for (i = E_LOG_ERROR; i <=E_LOG_DEBUG; i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), ldata[i].text);
+	gtk_combo_box_set_active ((GtkComboBox *) combo, mail_config_get_error_level ());
+
+	hbox = gtk_hbox_new (FALSE, 6);	
+	label = gtk_label_new_with_mnemonic (_("Log Messages:"));
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, combo);	
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) hbox, combo, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) vbox, hbox, FALSE, FALSE, 6);
+	
+	store = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_LONG, G_TYPE_STRING);
+	e_logger_get_logs (logger, (ELogFunction) append_logs, store); 
+	if (0)
+	{
+		GtkTreeIter iter;
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, 0,
+				   COL_TIME, "21/12/07 10:55 PM",
+				   COL_DATA, "Error Refreshing Folder",
+				   -1);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, 1,
+				   COL_TIME, "21/12/07 10:55 PM",
+				   COL_DATA, "Error refreshing folder",
+				   -1);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COL_LEVEL, 2,
+				   COL_TIME, "21/12/07 10:55 PM",
+				   COL_DATA, "Error refreshing folder",
+				   -1);
+	}
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE (store),
+					     COL_TIME, GTK_SORT_DESCENDING);
+
+
+	treeview = (GtkTreeView *)gtk_tree_view_new();
+	gtk_tree_view_set_rules_hint ((GtkTreeView *) treeview, TRUE);	
+	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview), FALSE);
+	gtk_tree_view_set_model(treeview, GTK_TREE_MODEL (store));
+	gtk_tree_view_set_search_column(treeview, COL_DATA);
+	gtk_tree_view_set_headers_visible(treeview, TRUE);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column ((GtkTreeView *) treeview, column);
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func (column, renderer, render_pixbuf, NULL, NULL);
+
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column ((GtkTreeView *) treeview, column);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_title (column, _("Log Level"));
+	gtk_tree_view_column_set_cell_data_func (column, renderer, render_level, NULL, NULL);
+
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column ((GtkTreeView *) treeview, column);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_set_title (column, _("Time"));	
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func (column, renderer, render_date, NULL, NULL);
+
+	
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes(treeview,
+						    -1, _("Messages"),
+						    renderer, "text", COL_DATA,
+						    NULL);
+	
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
+
+	gtk_container_add (GTK_CONTAINER (scrolled), (GtkWidget *) treeview);
+
+	gtk_box_pack_start ((GtkBox *) vbox, (GtkWidget *) scrolled, TRUE, TRUE, 6);
+	gtk_widget_show_all (window);
 }
 
 BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_MailComponent, PARENT_TYPE, mail_component)

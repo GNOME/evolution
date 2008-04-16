@@ -53,7 +53,7 @@
 #include "filter-rule.h"
 #include "rule-context.h"
 
-#define d(x) 
+#define d(x)
 
 static int load(RuleContext *rc, const char *system, const char *user);
 static int save(RuleContext *rc, const char *user);
@@ -88,7 +88,7 @@ GType
 rule_context_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(RuleContextClass),
@@ -101,10 +101,10 @@ rule_context_get_type(void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) rule_context_init,
 		};
-		
+
 		type = g_type_register_static(G_TYPE_OBJECT, "RuleContext", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -112,11 +112,11 @@ static void
 rule_context_class_init(RuleContextClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	
+
 	parent_class = g_type_class_ref(G_TYPE_OBJECT);
-	
+
 	object_class->finalize = rule_context_finalise;
-	
+
 	/* override methods */
 	klass->load = load;
 	klass->save = save;
@@ -135,7 +135,7 @@ rule_context_class_init(RuleContextClass *klass)
 			      NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-	
+
 	signals[RULE_REMOVED] =
 		g_signal_new("rule_removed",
 			      RULE_TYPE_CONTEXT,
@@ -145,7 +145,7 @@ rule_context_class_init(RuleContextClass *klass)
 			      NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-	
+
 	signals[CHANGED] =
 		g_signal_new("changed",
 			      RULE_TYPE_CONTEXT,
@@ -161,7 +161,7 @@ static void
 rule_context_init(RuleContext *rc)
 {
 	rc->priv = g_malloc0(sizeof(*rc->priv));
-	
+
 	rc->part_set_map = g_hash_table_new(g_str_hash, g_str_equal);
 	rc->rule_set_map = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -186,24 +186,24 @@ static void
 rule_context_finalise(GObject *obj)
 {
 	RuleContext *rc =(RuleContext *) obj;
-	
+
 	g_list_foreach(rc->rule_set_list, (GFunc)free_rule_set, NULL);
 	g_list_free(rc->rule_set_list);
 	g_hash_table_destroy(rc->rule_set_map);
-	
+
 	g_list_foreach(rc->part_set_list, (GFunc)free_part_set, NULL);
 	g_list_free(rc->part_set_list);
 	g_hash_table_destroy(rc->part_set_map);
-	
+
 	g_free(rc->error);
-	
+
 	g_list_foreach(rc->parts, (GFunc)g_object_unref, NULL);
 	g_list_free(rc->parts);
 	g_list_foreach(rc->rules, (GFunc)g_object_unref, NULL);
 	g_list_free(rc->rules);
 
 	g_free(rc->priv);
-	
+
 	G_OBJECT_CLASS(parent_class)->finalize(obj);
 }
 
@@ -211,7 +211,7 @@ rule_context_finalise(GObject *obj)
  * rule_context_new:
  *
  * Create a new RuleContext object.
- * 
+ *
  * Return value: A new #RuleContext object.
  **/
 RuleContext *
@@ -224,9 +224,9 @@ void
 rule_context_add_part_set(RuleContext *rc, const char *setname, GType part_type, RCPartFunc append, RCNextPartFunc next)
 {
 	struct _part_set_map *map;
-	
+
 	g_return_if_fail (g_hash_table_lookup(rc->part_set_map, setname) == NULL);
-	
+
 	map = g_malloc0(sizeof(*map));
 	map->type = part_type;
 	map->append = append;
@@ -241,9 +241,9 @@ void
 rule_context_add_rule_set(RuleContext *rc, const char *setname, GType rule_type, RCRuleFunc append, RCNextRuleFunc next)
 {
 	struct _rule_set_map *map;
-	
+
 	g_return_if_fail (g_hash_table_lookup(rc->rule_set_map, setname) == NULL);
-	
+
 	map = g_malloc0(sizeof(*map));
 	map->type = rule_type;
 	map->append = append;
@@ -256,43 +256,43 @@ rule_context_add_rule_set(RuleContext *rc, const char *setname, GType rule_type,
 
 /**
  * rule_context_set_error:
- * @f: 
- * @error: 
- * 
+ * @f:
+ * @error:
+ *
  * Set the text error for the context, or NULL to clear it.
  **/
 static void
 rule_context_set_error(RuleContext *rc, char *error)
 {
 	g_return_if_fail (rc);
-	
+
 	g_free(rc->error);
 	rc->error = error;
 }
 
 /**
  * rule_context_load:
- * @f: 
- * @system: 
- * @user: 
+ * @f:
+ * @system:
+ * @user:
  *
  * Load a rule context from a system and user description file.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 int
 rule_context_load(RuleContext *rc, const char *system, const char *user)
 {
 	int res;
-	
+
 	g_return_val_if_fail (rc, -1);
-	
+
 	d(printf("rule_context: loading %s %s\n", system, user));
-	
+
 	rc->priv->frozen++;
 	res = RULE_CONTEXT_GET_CLASS(rc)->load(rc, system, user);
 	rc->priv->frozen--;
-	
+
 	return res;
 }
 
@@ -305,9 +305,9 @@ load(RuleContext *rc, const char *system, const char *user)
 	struct _rule_set_map *rule_map;
 
 	rule_context_set_error(rc, NULL);
-	
+
 	d(printf("loading rules %s %s\n", system, user));
-	
+
 	systemdoc = e_xml_parse_file (system);
 	if (systemdoc == NULL) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': %s",
@@ -338,7 +338,7 @@ load(RuleContext *rc, const char *system, const char *user)
 			while (rule) {
 				if (!strcmp((char *)rule->name, "part")) {
 					FilterPart *part = FILTER_PART(g_object_new(part_map->type, NULL, NULL));
-					
+
 					if (filter_part_xml_create(part, rule, rc) == 0) {
 						part_map->append(rc, part);
 					} else {
@@ -355,7 +355,7 @@ load(RuleContext *rc, const char *system, const char *user)
 				d(printf("checking node: %s\n", rule->name));
 				if (!strcmp((char *)rule->name, "rule")) {
 					FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
-					
+
 					if (filter_rule_xml_decode(part, rule, rc) == 0) {
 						part->system = TRUE;
 						rule_map->append(rc, part);
@@ -369,7 +369,7 @@ load(RuleContext *rc, const char *system, const char *user)
 		}
 		set = set->next;
 	}
-	
+
 	/* now load actual rules */
 	if (userdoc) {
 		root = xmlDocGetRootElement(userdoc);
@@ -384,7 +384,7 @@ load(RuleContext *rc, const char *system, const char *user)
 					d(printf("checking node: %s\n", rule->name));
 					if (!strcmp((char *)rule->name, "rule")) {
 						FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
-						
+
 						if (filter_rule_xml_decode(part, rule, rc) == 0) {
 							rule_map->append(rc, part);
 						} else {
@@ -401,25 +401,25 @@ load(RuleContext *rc, const char *system, const char *user)
 
 	xmlFreeDoc(userdoc);
 	xmlFreeDoc(systemdoc);
-	
+
 	return 0;
 }
 
 /**
  * rule_context_save:
- * @f: 
- * @user: 
- * 
+ * @f:
+ * @user:
+ *
  * Save a rule context to disk.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 int
 rule_context_save(RuleContext *rc, const char *user)
 {
 	g_return_val_if_fail (rc, -1);
 	g_return_val_if_fail (user, -1);
-	
+
 	return RULE_CONTEXT_GET_CLASS(rc)->save(rc, user);
 }
 
@@ -432,7 +432,7 @@ save(RuleContext *rc, const char *user)
 	FilterRule *rule;
 	struct _rule_set_map *map;
 	int ret;
-	
+
 	doc = xmlNewDoc((const unsigned char *)"1.0");
 	/* FIXME: set character encoding to UTF-8? */
 	root = xmlNewDocNode(doc, NULL, (const unsigned char *)"filteroptions", NULL);
@@ -452,31 +452,31 @@ save(RuleContext *rc, const char *user)
 		}
 		l = g_list_next(l);
 	}
-	
+
 	ret = e_xml_save_file(user, doc);
-	
+
 	xmlFreeDoc(doc);
-	
+
 	return ret;
 }
 
 /**
  * rule_context_revert:
- * @f: 
- * @user: 
+ * @f:
+ * @user:
  *
  * Reverts a rule context from a user description file.  Assumes the
  * system description file is unchanged from when it was loaded.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 int
 rule_context_revert(RuleContext *rc, const char *user)
 {
 	g_return_val_if_fail (rc, 0);
-	
+
 	d(printf("rule_context: restoring %s\n", user));
-	
+
 	return RULE_CONTEXT_GET_CLASS(rc)->revert(rc, user);
 }
 
@@ -525,18 +525,18 @@ revert(RuleContext *rc, const char *user)
 	GHashTable *source_hash;
 	xmlDocPtr userdoc;
 	FilterRule *frule;
-	
+
 	rule_context_set_error(rc, NULL);
-	
+
 	d(printf("restoring rules %s\n", user));
-	
+
 	userdoc = e_xml_parse_file (user);
 	if (userdoc == NULL)
 		/* clear out anythign we have? */
 		return 0;
-	
+
 	source_hash = g_hash_table_new((GHashFunc)source_hashf, (GCompareFunc)source_eqf);
-	
+
 	/* setup stuff we have now */
 	/* Note that we assume there is only 1 set of rules in a given rule context,
 	   although other parts of the code dont assume this */
@@ -550,7 +550,7 @@ revert(RuleContext *rc, const char *user)
 		}
 		g_hash_table_insert(rest_data->rules, frule->name, frule);
 	}
-	
+
 	/* make what we have, match what we load */
 	set = xmlDocGetRootElement(userdoc);
 	set = set?set->children:NULL;
@@ -564,7 +564,7 @@ revert(RuleContext *rc, const char *user)
 				d(printf("checking node: %s\n", rule->name));
 				if (!strcmp((char *)rule->name, "rule")) {
 					FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
-					
+
 					if (filter_rule_xml_decode(part, rule, rc) == 0) {
 						/* use the revert data to keep track of the right rank of this rule part */
 						rest_data = g_hash_table_lookup(source_hash, part->source);
@@ -577,7 +577,7 @@ revert(RuleContext *rc, const char *user)
 						if (frule) {
 							if (rc->priv->frozen == 0 && !filter_rule_eq(frule, part))
 								filter_rule_copy(frule, part);
-							
+
 							g_object_unref(part);
 							rule_context_rank_rule(rc, frule, frule->source, rest_data->rank);
 							g_hash_table_remove(rest_data->rules, frule->name);
@@ -596,13 +596,13 @@ revert(RuleContext *rc, const char *user)
 		}
 		set = set->next;
 	}
-	
+
 	xmlFreeDoc(userdoc);
-	
+
 	/* remove any we still have that weren't in the file */
 	g_hash_table_foreach(source_hash, (GHFunc)revert_source_remove, rc);
 	g_hash_table_destroy(source_hash);
-	
+
 	return 0;
 }
 
@@ -611,7 +611,7 @@ rule_context_find_part(RuleContext *rc, const char *name)
 {
 	g_return_val_if_fail (rc, NULL);
 	g_return_val_if_fail (name, NULL);
-	
+
 	d(printf("find part : "));
 	return filter_part_find_list(rc->parts, name);
 }
@@ -620,13 +620,13 @@ FilterPart *
 rule_context_create_part(RuleContext *rc, const char *name)
 {
 	FilterPart *part;
-	
+
 	g_return_val_if_fail (rc, NULL);
 	g_return_val_if_fail (name, NULL);
-	
+
 	if ((part = rule_context_find_part(rc, name)))
 		return filter_part_clone(part);
-	
+
 	return NULL;
 }
 
@@ -634,7 +634,7 @@ FilterPart *
 rule_context_next_part(RuleContext *rc, FilterPart *last)
 {
 	g_return_val_if_fail (rc, NULL);
-	
+
 	return filter_part_next_list(rc->parts, last);
 }
 
@@ -642,7 +642,7 @@ FilterRule *
 rule_context_next_rule(RuleContext *rc, FilterRule *last, const char *source)
 {
 	g_return_val_if_fail (rc, NULL);
-	
+
 	return filter_rule_next_list(rc->rules, last, source);
 }
 
@@ -651,7 +651,7 @@ rule_context_find_rule(RuleContext *rc, const char *name, const char *source)
 {
 	g_return_val_if_fail (name, NULL);
 	g_return_val_if_fail (rc, NULL);
-	
+
 	return filter_rule_find_list(rc->rules, name, source);
 }
 
@@ -660,7 +660,7 @@ rule_context_add_part(RuleContext *rc, FilterPart *part)
 {
 	g_return_if_fail (rc);
 	g_return_if_fail (part);
-	
+
 	rc->parts = g_list_append(rc->parts, part);
 }
 
@@ -669,11 +669,11 @@ rule_context_add_rule(RuleContext *rc, FilterRule *new)
 {
 	g_return_if_fail (rc);
 	g_return_if_fail (new);
-	
+
 	d(printf("add rule '%s'\n", new->name));
-	
+
 	rc->rules = g_list_append(rc->rules, new);
-	
+
 	if (rc->priv->frozen == 0) {
 		g_signal_emit(rc, signals[RULE_ADDED], 0, new);
 		g_signal_emit(rc, signals[CHANGED], 0);
@@ -686,7 +686,7 @@ new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 	if (button == GTK_RESPONSE_OK) {
 		FilterRule *rule = g_object_get_data((GObject *) dialog, "rule");
 		char *user = g_object_get_data((GObject *) dialog, "path");
-		
+
 		if (!filter_rule_validate(rule)) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
@@ -697,13 +697,13 @@ new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 
 			return;
 		}
-		
+
 		g_object_ref(rule);
 		rule_context_add_rule(context, rule);
 		if (user)
 			rule_context_save(context, user);
 	}
-	
+
 	gtk_widget_destroy(dialog);
 }
 
@@ -713,38 +713,38 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const char *title, 
 {
 	GtkDialog *dialog;
 	GtkWidget *widget;
-	
+
 	d(printf("add rule gui '%s'\n", rule->name));
-	
+
 	g_return_if_fail (rc);
 	g_return_if_fail (rule);
-	
+
 	widget = filter_rule_get_widget(rule, rc);
 	gtk_widget_show(widget);
-	
+
 	dialog =(GtkDialog *) gtk_dialog_new();
 	gtk_dialog_add_buttons(dialog,
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			       GTK_STOCK_OK, GTK_RESPONSE_OK,
 			       NULL);
 	gtk_dialog_set_has_separator (dialog, FALSE);
-	
+
 	gtk_window_set_title((GtkWindow *) dialog, title);
 	gtk_window_set_default_size((GtkWindow *) dialog, 600, 400);
 	gtk_window_set_resizable((GtkWindow *) dialog, TRUE);
-	
+
 	gtk_box_pack_start((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
-	
+
 	g_object_set_data_full((GObject *) dialog, "rule", rule, g_object_unref);
 	if (path)
 		g_object_set_data_full((GObject *) dialog, "path", g_strdup(path), g_free);
-	
+
 	g_signal_connect(dialog, "response", G_CALLBACK(new_rule_response), rc);
-	
+
 	g_object_ref(rc);
-	
+
 	g_object_set_data_full((GObject *) dialog, "context", rc, g_object_unref);
-	
+
 	gtk_widget_show((GtkWidget *) dialog);
 }
 
@@ -753,11 +753,11 @@ rule_context_remove_rule(RuleContext *rc, FilterRule *rule)
 {
 	g_return_if_fail (rc);
 	g_return_if_fail (rule);
-	
+
 	d(printf("remove rule '%s'\n", rule->name));
-	
+
 	rc->rules = g_list_remove(rc->rules, rule);
-	
+
 	if (rc->priv->frozen == 0) {
 		g_signal_emit(rc, signals[RULE_REMOVED], 0, rule);
 		g_signal_emit(rc, signals[CHANGED], 0);
@@ -769,33 +769,33 @@ rule_context_rank_rule(RuleContext *rc, FilterRule *rule, const char *source, in
 {
 	GList *node;
 	int i = 0, index = 0;
-	
+
 	g_return_if_fail (rc);
 	g_return_if_fail (rule);
-	
+
 	if (rule_context_get_rank_rule (rc, rule, source) == rank)
 		return;
-	
+
 	rc->rules = g_list_remove(rc->rules, rule);
 	node = rc->rules;
 	while (node) {
 		FilterRule *r = node->data;
-		
+
 		if (i == rank) {
 			rc->rules = g_list_insert(rc->rules, rule, index);
 			if (rc->priv->frozen == 0)
 				g_signal_emit(rc, signals[CHANGED], 0);
-			
+
 			return;
 		}
-		
-		index++;		
+
+		index++;
 		if (source == NULL || (r->source && strcmp(r->source, source) == 0))
 			i++;
-		
+
 		node = node->next;
 	}
-	
+
 	rc->rules = g_list_append(rc->rules, rule);
 	if (rc->priv->frozen == 0)
 		g_signal_emit(rc, signals[CHANGED], 0);
@@ -806,27 +806,27 @@ rule_context_get_rank_rule(RuleContext *rc, FilterRule *rule, const char *source
 {
 	GList *node;
 	int i = 0;
-	
+
 	g_return_val_if_fail (rc, -1);
 	g_return_val_if_fail (rule, -1);
-	
+
 	d(printf("getting rank of rule '%s'\n", rule->name));
-	
+
 	node = rc->rules;
 	while (node) {
 		FilterRule *r = node->data;
-		
+
 		d(printf(" checking against rule '%s' rank '%d'\n", r->name, i));
-		
+
 		if (r == rule)
 			return i;
-		
+
 		if (source == NULL || (r->source && strcmp(r->source, source) == 0))
 			i++;
-		
+
 		node = node->next;
 	}
-	
+
 	return -1;
 }
 
@@ -835,26 +835,26 @@ rule_context_find_rank_rule(RuleContext *rc, int rank, const char *source)
 {
 	GList *node;
 	int i = 0;
-	
+
 	g_return_val_if_fail (rc, NULL);
-	
+
 	d(printf("getting rule at rank %d source '%s'\n", rank, source?source:"<any>"));
-	
+
 	node = rc->rules;
 	while (node) {
 		FilterRule *r = node->data;
-		
+
 		d(printf(" checking against rule '%s' rank '%d'\n", r->name, i));
-		
+
 		if (source == NULL || (r->source && strcmp(r->source, source) == 0)) {
 			if (rank == i)
 				return r;
 			i++;
 		}
-		
+
 		node = node->next;
 	}
-	
+
 	return NULL;
 }
 
@@ -886,9 +886,9 @@ void
 rule_context_free_uri_list(RuleContext *rc, GList *uris)
 {
 	GList *l = uris, *n;
-	
+
 	/* TODO: should be virtual */
-	
+
 	while (l) {
 		n = l->next;
 		g_free(l->data);
@@ -934,12 +934,12 @@ new_element(RuleContext *rc, const char *type)
 
 /**
  * rule_context_new_element:
- * @rc: 
- * @name: 
- * 
+ * @rc:
+ * @name:
+ *
  * create a new filter element based on name.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 FilterElement *
 rule_context_new_element(RuleContext *rc, const char *name)

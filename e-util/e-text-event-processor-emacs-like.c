@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-event-processor-emacs-like.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -131,18 +131,18 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 	 */
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		if (event->button.button == 1) {
+		if (event->button.button == 1 || event->button.button == 2) {
 			command.action = E_TEP_GRAB;
 			command.time = event->button.time;
 			g_signal_emit_by_name (tep, "command", &command);
-			if (event->button.state & GDK_SHIFT_MASK)
+			if (event->button.button == 1 && event->button.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
 			else
 				command.action = E_TEP_MOVE;
 			command.position = E_TEP_VALUE;
 			command.value = event->button.position;
 			command.time = event->button.time;
-			tep_el->mouse_down = TRUE;
+			tep_el->mouse_down = event->button.button == 1;
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
@@ -185,7 +185,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 			command.value = event->motion.position;
 		}
 		break;
-	case GDK_KEY_PRESS: 
+	case GDK_KEY_PRESS:
 		{
 			ETextEventProcessorEventKey key = event->key;
 			command.time = event->key.time;
@@ -236,7 +236,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				else
 					command.position = E_TEP_FORWARD_CHARACTER;
 				break;
-	  
+
 			case GDK_BackSpace:
 				command.action = E_TEP_DELETE;
 				if (key.state & GDK_CONTROL_MASK)
@@ -272,7 +272,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				command.action = E_TEP_COPY;
 				command.position = E_TEP_SELECTION;
 				g_signal_emit_by_name (tep, "command", &command);
-				
+
 				command.action = E_TEP_DELETE;
 				command.position = E_TEP_SELECTION;
 				break;
@@ -285,7 +285,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					command.action = E_TEP_COPY;
 					command.position = E_TEP_SELECTION;
 					g_signal_emit_by_name (tep, "command", &command);
-				
+
 					command.action = E_TEP_DELETE;
 					command.position = E_TEP_SELECTION;
 				} else {
@@ -436,7 +436,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				if ((key.state & GDK_CONTROL_MASK) && !(key.state & GDK_MOD1_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
-					
+
 					if ((key.keyval >= 'a') && (key.keyval <= 'z')) {
 						command.position = control_keys[(int) (key.keyval - 'a')].position;
 						if (control_keys[(int) (key.keyval - 'a')].action != E_TEP_MOVE)
@@ -453,16 +453,16 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.action = E_TEP_COPY;
 						command.position = E_TEP_SELECTION;
 						g_signal_emit_by_name (tep, "command", &command);
-						
+
 						command.action = E_TEP_DELETE;
 						command.position = E_TEP_SELECTION;
 					}
-					
+
 					break;
 				} else if ((key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
-					
+
 					if ((key.keyval >= 'a') && (key.keyval <= 'z')) {
 						command.position = alt_keys[(int) (key.keyval - 'a')].position;
 						if (alt_keys[(int) (key.keyval - 'a')].action != E_TEP_MOVE)
@@ -479,7 +479,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					command.position = E_TEP_SELECTION;
 					command.value = strlen(key.string);
 					command.string = key.string;
-					
+
 				} else {
 					command.action = E_TEP_NOP;
 				}

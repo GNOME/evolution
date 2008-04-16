@@ -73,7 +73,7 @@ static void
 el_class_init(GObjectClass *klass)
 {
 	klass->finalize = el_finalise;
-	
+
 	((GtkObjectClass *)klass)->destroy = el_destroy;
 	((GtkWidgetClass *)klass)->expose_event = el_expose_event;
 }
@@ -101,20 +101,20 @@ e_info_label_get_type(void)
 
 /**
  * e_info_label_new:
- * @icon: 
- * 
+ * @icon:
+ *
  * Create a new info label widget.  @icon is the name of the icon
  * (from the icon theme) to use for the icon image.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 GtkWidget *
 e_info_label_new(const char *icon)
 {
-	EInfoLabel *el = g_object_new(e_info_label_get_type(), 0);
+	EInfoLabel *el = g_object_new(e_info_label_get_type(), NULL);
 	GtkWidget *image;
 	char *name = e_icon_factory_get_icon_filename (icon, E_ICON_SIZE_MENU);
-	
+
 	image = gtk_image_new_from_file(name);
 	g_free(name);
 	gtk_misc_set_padding((GtkMisc *)image, 6, 6);
@@ -128,10 +128,10 @@ e_info_label_new(const char *icon)
 
 /**
  * e_info_label_set_info:
- * @el: 
- * @location: 
- * @info: 
- * 
+ * @el:
+ * @location:
+ * @info:
+ *
  * Set the information to show on the label.  @location is some
  * context about the current view.  e.g. the folder name.  If the
  * label is too wide, this will be truncated.

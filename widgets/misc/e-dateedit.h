@@ -38,13 +38,13 @@
  */
 
 #ifndef __E_DATE_EDIT_H_
-#define __E_DATE_EDIT_H_ 
+#define __E_DATE_EDIT_H_
 
 #include <time.h>
 #include <glib.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkwidget.h>
- 
+
 #define E_TYPE_DATE_EDIT            (e_date_edit_get_type ())
 #define E_DATE_EDIT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DATE_EDIT, EDateEdit))
 #define E_DATE_EDIT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_DATE_EDIT, EDateEditClass))
@@ -85,6 +85,9 @@ void       e_date_edit_set_editable             (EDateEdit      *dedit, gboolean
    selects a date or time from the popup. */
 gboolean   e_date_edit_date_is_valid		(EDateEdit	*dedit);
 gboolean   e_date_edit_time_is_valid		(EDateEdit	*dedit);
+
+/* Returns TRUE if time was set, FALSE otherwise. */
+gboolean   e_date_edit_have_time		(EDateEdit	*dedit);
 
 /* Returns the last valid date & time set, or -1 if the date & time was set to
    'None' and this is permitted via e_date_edit_set_allow_no_date_set. */
@@ -166,6 +169,10 @@ gboolean   e_date_edit_get_make_time_insensitive(EDateEdit	*dedit);
 void	   e_date_edit_set_make_time_insensitive(EDateEdit	*dedit,
 						 gboolean	 make_insensitive);
 
+/* Whether two-digit years in date could be modified as in future; default is TRUE */
+gboolean   e_date_edit_get_twodigit_year_can_future (EDateEdit  *dedit);
+void       e_date_edit_set_twodigit_year_can_future (EDateEdit  *dedit,
+						     gboolean    value);
 
 /* Sets a callback to use to get the current time. This is useful if the
    application needs to use its own timezone data rather than rely on the

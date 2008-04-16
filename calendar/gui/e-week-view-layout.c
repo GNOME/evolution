@@ -29,7 +29,7 @@
 #include <config.h>
 
 #include "e-week-view-layout.h"
-
+#include "calendar-config.h"
 
 static void e_week_view_layout_event	(EWeekViewEvent	*event,
 					 guint8		*grid,
@@ -295,7 +295,7 @@ e_week_view_layout_get_day_position	(gint		 day,
 					 gint		*day_y,
 					 gint		*rows)
 {
-	gint week, day_of_week, row, col, weekend_col, box, weekend_box;
+	gint week, day_of_week, col, weekend_col;
 
 	*day_x = *day_y = *rows = 0;
 	g_return_if_fail (day >= 0);
@@ -336,36 +336,75 @@ e_week_view_layout_get_day_position	(gint		 day,
 			*day_x = col;
 		}
 	} else {
+		#define wk(x) ( ( working_days & (days [ ((x) + display_start_day) % 7 ]) ) ? 1 : 0)
+		CalWeekdays days [] = {CAL_MONDAY, CAL_TUESDAY, CAL_WEDNESDAY, CAL_THURSDAY, CAL_FRIDAY, CAL_SATURDAY, CAL_SUNDAY};
+		CalWeekdays working_days;
+		int arr[4] = {1, 1, 1, 1};
+		int edge, i, wd, m, M;
+		gboolean any = TRUE;
+
 		g_return_if_fail (day < 7);
 
-		/* Calculate which box to place the day in, from 0-5.
-		   Note that in the week view the weekends are always
-		   compressed and share a box. */
-		box = day;
-		day_of_week = (display_start_day + day) % 7;
-		weekend_box = (5 + 7 - display_start_day) % 7;
-		if (box > weekend_box)
-			box--;
+		working_days = calendar_config_get_working_days ();
+		edge = 3;
 
-		if (box < 3)
+		if (wk (0) + wk (1) + wk (2) < wk (3) + wk (4) + wk (5) + wk (6))
+			edge ++;
+
+		if (day < edge) {
 			*day_x = 0;
-		else
-			*day_x = 1;
-
-		row = (box % 3) * 2;
-		if (day_of_week < 5) {
-			*day_y = row;
-			*rows = 2;
-		} else if (day_of_week == 5) {
-			/* Saturday. */
-			*day_y = row;
-			*rows = 1;
-
+			m = 0;
+			M = edge;
 		} else {
-			/* Sunday. */
-			*day_y = row + 1;
-			*rows = 1;
+			*day_x = 1;
+			m = edge;
+			M = 7;
 		}
+
+		wd = 0; /* number of used rows in column */
+		for (i = m; i < M; i++) {
+			arr [i - m] += wk (i);
+			wd += arr [i - m];
+		}
+
+		while (wd != 6 && any) {
+			any = FALSE;
+
+			for (i = M - 1; i >= m; i--) {
+				if (arr [i - m] > 1) {
+					any = TRUE;
+
+					if (wd > 6) { /* too many rows, make last shorter */
+						arr [i - m] --;
+						wd --;
+					} else if (wd < 6) { /* free rows left, enlarge those bigger */
+						arr [i - m] ++;
+						wd ++;
+					}
+
+					if (wd == 6)
+						break;
+				}
+			}
+
+			if (!any && wd != 6) {
+				any = TRUE;
+
+				for (i = m; i < M; i++) {
+					arr [i - m] += 3;
+					wd += 3;
+				}
+			}
+		}
+
+		*rows = arr [day - m];
+
+		*day_y = 0;
+		for (i = m; i < day; i++) {
+			*day_y += arr [i - m];
+		}
+
+		#undef wk
 	}
 }
 
@@ -388,7 +427,7 @@ e_week_view_layout_get_span_position	(EWeekViewEvent *event,
 {
 	gint end_day_of_week;
 
-	if (span->row >= rows_per_cell)
+	if (multi_week_view && span->row >= rows_per_cell)
 		return FALSE;
 
 	end_day_of_week = (display_start_day + span->start_day
@@ -413,9 +452,11 @@ e_week_view_layout_get_span_position	(EWeekViewEvent *event,
 				}
 			}
 		} else {
-			/* All spans are 1 day long in the week view, so we
-			   just skip it. */
-			if (end_day_of_week > 4)
+			gint day_x, day_y, rows = 0;
+			e_week_view_layout_get_day_position (end_day_of_week, multi_week_view, 1, display_start_day, compress_weekend,
+								&day_x, &day_y, &rows);
+
+			if (((rows / 2) * rows_per_cell) + ((rows % 2) * rows_per_compressed_cell) <= span->row)
 				return FALSE;
 		}
 	}

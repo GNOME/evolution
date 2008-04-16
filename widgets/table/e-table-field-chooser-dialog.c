@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-field-chooser-dialog.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -101,13 +101,13 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 
 	widget = e_table_field_chooser_new();
 	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER(widget);
-	
+
 	g_object_set(widget,
 		     "dnd_code", e_table_field_chooser_dialog->dnd_code,
 		     "full_header", e_table_field_chooser_dialog->full_header,
 		     "header", e_table_field_chooser_dialog->header,
 		     NULL);
-	
+
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(e_table_field_chooser_dialog)->vbox),
 			   widget, TRUE, TRUE, 0);
 

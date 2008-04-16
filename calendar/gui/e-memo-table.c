@@ -118,7 +118,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static const char* icon_names[E_MEMO_MODEL_NUM_ICONS] = {
 	"stock_notes", "stock_insert-note"
 };
-static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { 0 };
+static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -178,7 +178,7 @@ date_compare_cb (gconstpointer a, gconstpointer b)
 }
 
 static void
-row_appended_cb (ECalModel *model, EMemoTable *memo_table) 
+row_appended_cb (ECalModel *model, EMemoTable *memo_table)
 {
 	g_signal_emit (memo_table, signals[USER_CREATED], 0);
 }
@@ -198,6 +198,8 @@ e_memo_table_init (EMemoTable *memo_table)
 
 	memo_table->model = (ECalModel *) e_cal_model_memos_new ();
 	g_signal_connect (memo_table->model, "row_appended", G_CALLBACK (row_appended_cb), memo_table);
+
+	memo_table->user_created_cal = NULL;
 
 	/* Create the header columns */
 
@@ -234,7 +236,7 @@ e_memo_table_init (EMemoTable *memo_table)
 	/* Sorting */
 	e_table_extras_add_compare (extras, "date-compare",
 				    date_compare_cb);
-	
+
 	/* Create pixmaps */
 
 	if (!icon_pixbufs[0])
@@ -272,7 +274,7 @@ e_memo_table_init (EMemoTable *memo_table)
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_memo_table_on_right_click), memo_table);
 	g_signal_connect (e_table, "key_press", G_CALLBACK (e_memo_table_on_key_press), memo_table);
 	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_memo_table_on_popup_menu), memo_table);
-	
+
 	a11y = gtk_widget_get_accessible (GTK_WIDGET(e_table));
 	if (a11y)
 		atk_object_set_name (a11y, _("Memos"));
@@ -299,9 +301,9 @@ e_memo_table_new (void)
 /**
  * e_memo_table_get_model:
  * @memo_table: A calendar table.
- * 
+ *
  * Queries the calendar data model that a calendar table is using.
- * 
+ *
  * Return value: A memo model.
  **/
 ECalModel *
@@ -332,9 +334,9 @@ e_memo_table_destroy (GtkObject *object)
 /**
  * e_memo_table_get_table:
  * @memo_table: A calendar table.
- * 
+ *
  * Queries the #ETable widget that the calendar table is using.
- * 
+ *
  * Return value: The #ETable widget that the calendar table uses to display its
  * data.
  **/
@@ -369,7 +371,7 @@ get_selected_row_cb (int model_row, gpointer data)
 	*row = model_row;
 }
 
-/* 
+/*
  * Returns the component that is selected in the table; only works if there is
  * one and only one selected row.
  */
@@ -439,8 +441,8 @@ delete_selected_components (EMemoTable *memo_table)
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
 		GError *error = NULL;
-		
-		e_cal_remove_object (comp_data->client, 
+
+		e_cal_remove_object (comp_data->client,
 				     icalcomponent_get_uid (comp_data->icalcomp), &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_JOURNAL);
 		g_clear_error (&error);
@@ -453,10 +455,10 @@ delete_selected_components (EMemoTable *memo_table)
 
 /**
  * e_memo_table_get_selected:
- * @memo_table: 
- * 
+ * @memo_table:
+ *
  * Get the currently selected ECalModelComponent's on the table.
- * 
+ *
  * Return value: A GSList of the components, which should be
  * g_slist_free'd when finished with.
  **/
@@ -469,7 +471,7 @@ e_memo_table_get_selected (EMemoTable *memo_table)
 /**
  * e_memo_table_delete_selected:
  * @memo_table: A memo table.
- * 
+ *
  * Deletes the selected components in the table; asks the user first.
  **/
 void
@@ -500,7 +502,7 @@ e_memo_table_delete_selected (EMemoTable *memo_table)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 	}
-	
+
 	if (delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_JOURNAL,
 				     GTK_WIDGET (memo_table)))
 		delete_selected_components (memo_table);
@@ -553,6 +555,7 @@ copy_row_cb (int model_row, gpointer data)
 					     icalcomponent_new_clone (child));
 		icalcomponent_free (child);
 	}
+	g_free (comp_str);
 }
 
 static void
@@ -587,7 +590,7 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 	ETable *etable;
 	GtkClipboard *clipboard;
 	char *comp_str;
-	
+
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
 	/* create temporary VCALENDAR object */
@@ -600,13 +603,15 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
 					 clipboard_get_calendar_cb,
 					 NULL, comp_str)) {
-		g_free (comp_str);
+		/* do not free this pointer, it owns libical */
+		/* g_free (comp_str); */
 	} else {
 		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
 	}
-	
+
 	/* free memory */
 	icalcomponent_free (memo_table->tmp_vcal);
+	g_free (comp_str);
 	memo_table->tmp_vcal = NULL;
 }
 
@@ -636,7 +641,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 	}
 
 	client = e_cal_model_get_default_client (memo_table->model);
-	
+
 	e_memo_table_set_status_message (memo_table, _("Updating objects"));
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -688,7 +693,7 @@ clipboard_paste_received_cb (GtkClipboard *clipboard,
 			     GtkSelectionData *selection_data,
 			     gpointer data)
 {
-	EMemoTable *memo_table = E_MEMO_TABLE (data); 
+	EMemoTable *memo_table = E_MEMO_TABLE (data);
 	ETable *e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
 	GnomeCanvas *canvas = e_table->table_canvas;
 	GnomeCanvasItem *item = GNOME_CANVAS (canvas)->focused_item;
@@ -741,7 +746,7 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 {
 	CompEditor *medit;
 	const char *uid;
-	
+
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 
 	medit = e_comp_editor_registry_find (comp_editor_registry, uid);
@@ -761,10 +766,11 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 		medit = COMP_EDITOR (memo_editor_new (comp_data->client, flags));
 
 		comp_editor_edit_comp (medit, comp);
-		
+		g_object_unref (comp);
+
 		e_comp_editor_registry_add (comp_editor_registry, medit, FALSE);
 	}
-	
+
 	comp_editor_focus (medit);
 }
 
@@ -780,7 +786,7 @@ open_memo_by_row (EMemoTable *memo_table, int row)
 
 static void
 e_memo_table_on_double_click (ETable *table,
-			      gint row, 
+			      gint row,
 			      gint col,
 			      GdkEvent *event,
 			      EMemoTable *memo_table)
@@ -807,22 +813,22 @@ e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalModelComponent *comp_data;
 	char *filename;
 	char *ical_string;
-	
+
 	comp_data = get_selected_comp (memo_table);
 	if (comp_data == NULL)
 		return;
-	
+
 	filename = e_file_dialog_save (_("Save as..."), NULL);
 	if (filename == NULL)
 		return;
-	
+
 	ical_string = e_cal_get_component_as_string (comp_data->client, comp_data->icalcomp);
 	if (ical_string == NULL) {
 		g_warning ("Couldn't convert item to a string");
 		return;
 	}
 
-	e_write_file_uri (filename, ical_string);	
+	e_write_file_uri (filename, ical_string);
 	g_free (ical_string);
 }
 
@@ -836,7 +842,7 @@ e_memo_table_on_print_memo (EPopup *ep, EPopupItem *pitem, void *data)
 	comp_data = get_selected_comp (memo_table);
 	if (comp_data == NULL)
 		return;
-	
+
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 	print_comp (comp, comp_data->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
@@ -864,7 +870,7 @@ static void
 e_memo_table_on_paste (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	
+
 	e_memo_table_paste_clipboard (memo_table);
 }
 
@@ -918,10 +924,10 @@ static EPopupItem memos_popup_items [] = {
 	{ E_POPUP_ITEM, "00.open", N_("_Open"), e_memo_table_on_open_memo, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
 	{ E_POPUP_ITEM, "05.openweb", N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
 	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), e_memo_table_on_save_as, NULL, GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.print", N_("_Print..."), e_memo_table_on_print_memo, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "20.print", N_("P_rint..."), e_memo_table_on_print_memo, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
 
 	{ E_POPUP_BAR, "30.bar" },
-	
+
 	{ E_POPUP_ITEM, "40.cut", N_("C_ut"), e_memo_table_on_cut, NULL, GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
 	{ E_POPUP_ITEM, "50.copy", N_("_Copy"), e_memo_table_on_copy, NULL, GTK_STOCK_COPY, 0, 0 },
 	{ E_POPUP_ITEM, "60.paste", N_("_Paste"), e_memo_table_on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
@@ -1020,7 +1026,7 @@ e_memo_table_on_key_press (ETable *table,
 	} else if ((event->keyval == GDK_o)
 		   &&(event->state & GDK_CONTROL_MASK)) {
 		open_memo_by_row (memo_table, row);
-		return TRUE;	
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1108,7 +1114,7 @@ e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
 
 	if (!memo_table->activity_handler)
 		return;
-	
+
         if (!message || !*message) {
 		if (memo_table->activity_id != 0) {
 			e_activity_handler_operation_finished (memo_table->activity_handler, memo_table->activity_id);
@@ -1116,7 +1122,7 @@ e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
 		}
         } else if (memo_table->activity_id == 0) {
                 char *client_id = g_strdup_printf ("%p", memo_table);
-		
+
                 if (progress_icon == NULL)
                         progress_icon = e_icon_factory_get_icon (EVOLUTION_MEMOS_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
 

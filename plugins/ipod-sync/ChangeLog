@@ -1,3 +1,24 @@
+2008-01-07  João Vale  <jpvale@gmail.com>
+
+	** Fix for bug #375580
+
+	* ipod-sync.c: (destination_save_addressbook): Use ISO-8859-1 encoding
+	to store contacts in iPod. 
+
+2007-11-11  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495872
+
+	* ipod-sync.c: (org_gnome_sync_memos):
+	* org-gnome-ipod-sync-evolution.eplug.xml:
+	* sync.c: (export_memos), (export_to_ipod):
+	add memo support
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* evolution-ipod-sync.c: (ipod_check_status): Don't mix code
+	and declarations.
+
 2007-09-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #476231
@@ -59,7 +80,7 @@
 2005-10-18  Srinivasa Ragavan <sragavan@novell.com>
 
 	* Created the iPod sync plugin. It based on Justin Wakes bounty
-	work and rodrigo's save callendar plugin.
+	work and rodrigo's save calendar plugin.
 
 
 

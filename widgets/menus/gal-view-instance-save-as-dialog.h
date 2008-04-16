@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-define-views-dialog.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -26,7 +26,8 @@
 
 #include <gtk/gtkdialog.h>
 #include <glade/glade.h>
-#include <table/e-table-model.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreemodel.h>
 #include <widgets/menus/gal-view-collection.h>
 #include <widgets/menus/gal-view-instance.h>
 
@@ -63,7 +64,11 @@ struct _GalViewInstanceSaveAsDialog
 
 	/* item specific fields */
 	GladeXML *gui;
-	ETableModel *model;
+	GtkTreeView *treeview;
+	GtkTreeModel *model;
+
+	GtkWidget *scrolledwindow, *radiobutton_replace;
+	GtkWidget *entry_create, *radiobutton_create;
 
 	GalViewInstance *instance;
 	GalViewCollection *collection;

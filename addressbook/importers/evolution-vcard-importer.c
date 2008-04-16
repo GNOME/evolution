@@ -54,7 +54,7 @@ typedef struct {
 	int count;
 
 	ESource *primary;
-	
+
 	GList *contactlist;
 	GList *iterator;
 	EBook *book;
@@ -258,7 +258,7 @@ vcard_import_contacts(void *data)
 static gboolean
 has_bom (const gunichar2 *utf16)
 {
-	
+
 	if ((utf16 == NULL) || (*utf16 == '\0')) {
 		return FALSE;
 	}
@@ -273,7 +273,7 @@ fix_utf16_endianness (gunichar2 *utf16)
 
 
 	if ((utf16 == NULL) || (*utf16 == '\0')) {
-		return;		
+		return;
 	}
 
 	if (*utf16 != ANTIBOM) {
@@ -285,14 +285,14 @@ fix_utf16_endianness (gunichar2 *utf16)
 	}
 }
 
-/* Converts an UTF-16 string to an UTF-8 string removing the BOM character 
+/* Converts an UTF-16 string to an UTF-8 string removing the BOM character
  * WARNING: this may modify the utf16 argument if the function detects the
  * string isn't using the local endianness
  */
 static gchar *
 utf16_to_utf8 (gunichar2 *utf16)
 {
-	
+
 	if (utf16 == NULL) {
 		return NULL;
 	}
@@ -329,7 +329,7 @@ guess_vcard_encoding (const char *filename)
 		g_print ("\n");
 		return VCARD_ENCODING_NONE;
 	}
-		
+
 	fgets (line, 4096, handle);
 	if (line == NULL) {
 		fclose (handle);
@@ -337,7 +337,7 @@ guess_vcard_encoding (const char *filename)
 		return VCARD_ENCODING_NONE;
 	}
 	fclose (handle);
-	
+
 	if (has_bom ((gunichar2*)line)) {
 		gunichar2 *utf16 = (gunichar2*)line;
 		/* Check for a BOM to try to detect UTF-16 encoded vcards
@@ -380,7 +380,7 @@ vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
-	ESourceList *source_list;	
+	ESourceList *source_list;
 
 	/* FIXME Better error handling */
 	if (!e_book_get_addressbooks (&source_list, NULL))
@@ -391,7 +391,7 @@ vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
-	
+
 	primary = g_datalist_get_data(&target->data, "vcard-source");
 	if (primary == NULL) {
 		primary = e_source_list_peek_source_any (source_list);
@@ -480,7 +480,7 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		e_import_complete(ei, target);
 		return;
 	}
-	
+
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
 		g_free (filename);
@@ -522,7 +522,7 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	else
 		vcard_import_done(gci);
 }
-					   
+
 static void
 vcard_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
@@ -544,8 +544,8 @@ static EImportImporter vcard_importer = {
 EImportImporter *
 evolution_vcard_importer_peek(void)
 {
-	vcard_importer.name = _("VCard (.vcf, .gcrd)");
-	vcard_importer.description = _("Evolution VCard Importer");
+	vcard_importer.name = _("vCard (.vcf, .gcrd)");
+	vcard_importer.description = _("Evolution vCard Importer");
 
 	return &vcard_importer;
 }

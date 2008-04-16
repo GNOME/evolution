@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text-event-processor-emacs-like.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -48,7 +48,7 @@ typedef struct _ETextEventProcessorEmacsLikeClass  ETextEventProcessorEmacsLikeC
 struct _ETextEventProcessorEmacsLike
 {
 	ETextEventProcessor parent;
-	
+
 	/* object specific fields */
 	guint mouse_down : 1;
 };

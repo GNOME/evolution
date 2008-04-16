@@ -1,3 +1,11 @@
+2007-12-14  Tobias Mueller  <tobiasmue@svn.gnome.org>
+	Patch by <nickspoon0@gmail.com>
+	
+	** Fixes bug 502188
+	
+	* publish-calendar.c: initialize "remember" variable to
+	FALSE.
+
 2007-09-27  Pedro Villavicencio Garrido  <pvillavi@gnome.org>
 
 	* url-editor-dialog.c: (url_editor_dialog_construct):

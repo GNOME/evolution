@@ -78,7 +78,7 @@ value_at (ETableModel *etc, int col, int row, void *data)
 		return GINT_TO_POINTER (my_table [row].value);
 	else
 		return my_table [row].string;
-	
+
 }
 
 static void
@@ -165,11 +165,11 @@ check_test (void)
 	GnomeCanvasItem *item;
 
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-	
+
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, 
-		duplicate_value, free_value, 
+		set_value_at, is_cell_editable,
+		duplicate_value, free_value,
 		initialize_value, value_is_empty,
 		value_to_string,
 		NULL);
@@ -186,7 +186,7 @@ check_test (void)
 	col_0 = e_table_col_new_with_pixbuf (0, pixbuf, 0.0, 18, cell_image_check, e_int_compare, TRUE);
 	gdk_pixbuf_unref (pixbuf);
 	e_table_header_add_column (e_table_header, col_0, 0);
-	
+
 	col_1 = e_table_col_new (1, "Item Name", 1.0, 20, cell_left_just, e_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 1);
 	e_table_col_set_arrow (col_1, E_TABLE_COL_ARROW_DOWN);
@@ -199,7 +199,7 @@ check_test (void)
 
 	g_signal_connect (canvas, "size_allocate",
 			  G_CALLBACK (set_canvas_size), NULL);
-	
+
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);
 	gnome_canvas_item_new (

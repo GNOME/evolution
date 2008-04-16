@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-09-09 12:54+0200\n"
-"PO-Revision-Date: 2005-10-12 17:53+0100\n"
+"PO-Revision-Date: 2008-01-04 17:51+0100\n"
 "Last-Translator: Erdal Ronahî <erdal.ronahi@gmail.com>\n"
 "Language-Team: Kurdish <gnu-ku-wergerandin@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural= n != 1\n"
-"X-Poedit-Language: ku\n"
+"Plural-Forms: nplurals=2; plural= n != 1"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -42,7 +41,7 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-queue.c:953
 #: ../ui/evolution-message-composer.xml.h:11
 msgid "Open"
-msgstr "Veke"
+msgstr "Vekirin"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
@@ -50,7 +49,7 @@ msgstr ""
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
-msgstr "Tekilî: "
+msgstr "Têkilî: "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
@@ -243,7 +242,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:612
 msgid "edit"
-msgstr "biguherhîne"
+msgstr "sererastkirin"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:613
 msgid "begin editing this cell"
@@ -290,7 +289,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
 msgid "sort"
-msgstr "rêz bike"
+msgstr "rêzkirin"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -583,7 +582,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-component.c:234
 msgid "Contact _List"
-msgstr ""
+msgstr "_Lîsteya Tekiliyan"
 
 #: ../addressbook/gui/component/addressbook-component.c:235
 msgid "Create a new contact list"
@@ -661,7 +660,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-config.c:915
 msgid "Downloading"
-msgstr ""
+msgstr "Tê daxistin"
 
 #: ../addressbook/gui/component/addressbook-config.c:1116
 #: ../addressbook/gui/component/ldap-config.glade.h:14
@@ -2712,7 +2711,7 @@ msgstr "_Cih:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
@@ -2766,7 +2765,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:707
 msgid "_Members"
-msgstr ""
+msgstr "_Endam"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:710
 msgid "Contact List Members"
@@ -2793,7 +2792,7 @@ msgstr ""
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr ""
+msgstr "Têkiliya Nû:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
@@ -2900,7 +2899,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-view.c:1528
 #: ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
-msgstr "_Veke"
+msgstr "_Vekirin"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:932
 msgid "New Contact..."
@@ -2953,7 +2952,7 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:6
 #: ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
-msgstr "Jê Bike"
+msgstr "Jêkirin"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:950
 #: ../calendar/gui/calendar-component.c:536
@@ -3770,7 +3769,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
-msgstr ""
+msgstr "Çep:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
@@ -3808,7 +3807,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
-msgstr ""
+msgstr "Kaxiz"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
@@ -3816,7 +3815,7 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr ""
+msgstr "Protre"
 
 #: ../addressbook/printing/e-contact-print.glade.h:30
 #, fuzzy
@@ -3833,11 +3832,11 @@ msgstr ""
 
 #: ../addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
-msgstr ""
+msgstr "Rast:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "Beş:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
@@ -4228,7 +4227,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:64
 #: ../ui/evolution-message-composer.xml.h:51
 msgid "_Save"
-msgstr "_Tomar bike"
+msgstr "_Tomarkirin"
 
 #: ../calendar/calendar.error.xml.h:65
 #: ../composer/mail-composer.error.xml.h:31
@@ -4827,7 +4826,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:535
 #: ../calendar/gui/dialogs/calendar-setup.c:449
 msgid "New Calendar"
-msgstr ""
+msgstr "Salnameya Nû"
 
 #: ../calendar/gui/calendar-component.c:858
 msgid "Failed upgrading calendars."
@@ -4852,7 +4851,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1476
 msgid "_Appointment"
-msgstr ""
+msgstr "_Randevû"
 
 #: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new appointment"
@@ -4884,7 +4883,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1499
 msgid "New calendar"
-msgstr ""
+msgstr "Salnameya nû"
 
 #: ../calendar/gui/calendar-component.c:1500
 msgid "Cale_ndar"
@@ -4892,7 +4891,7 @@ msgstr ""
 
 #: ../calendar/gui/calendar-component.c:1501
 msgid "Create a new calendar"
-msgstr ""
+msgstr "Salnamekê nû biafirîne"
 
 #: ../calendar/gui/calendar-view-factory.c:109
 msgid "Day View"
@@ -5008,7 +5007,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:19
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "day(s)"
-msgstr ""
+msgstr "roj"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21
 msgid "end of appointment"
@@ -5020,7 +5019,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "hour(s)"
-msgstr ""
+msgstr "demjimêr"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:24
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:13
@@ -5028,11 +5027,11 @@ msgstr ""
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "hours"
-msgstr ""
+msgstr "demjimêr"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
-msgstr ""
+msgstr "xulek"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 msgid "start of appointment"
@@ -5229,23 +5228,23 @@ msgstr "Aktîf"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "05 minutes"
-msgstr ""
+msgstr "05 xulek"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "10 minutes"
-msgstr ""
+msgstr "10 xulek"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "15 minutes"
-msgstr ""
+msgstr "15 xulek"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "30 minutes"
-msgstr ""
+msgstr "30 xulek"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "60 minutes"
-msgstr ""
+msgstr "60 xulek"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>Alerts</b>"
@@ -5320,11 +5319,11 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Friday"
-msgstr ""
+msgstr "În"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Hours"
-msgstr ""
+msgstr "Demjimêr"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 #, fuzzy
@@ -5335,7 +5334,7 @@ msgstr "Xulke"
 #: ../calendar/gui/dialogs/recurrence-page.c:1044
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Monday"
-msgstr ""
+msgstr "Duşem"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "Publishing Table"
@@ -5349,7 +5348,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Saturday"
-msgstr ""
+msgstr "Şemî"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Sh_ow a reminder"
@@ -5363,7 +5362,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1050
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Sunday"
-msgstr ""
+msgstr "Yekşem"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "T_asks due today:"
@@ -5381,7 +5380,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Thursday"
-msgstr ""
+msgstr "Pêncşem"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Time _zone:"
@@ -5395,7 +5394,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1045
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Tuesday"
-msgstr ""
+msgstr "Sêşem"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "W_eek starts:"
@@ -5405,7 +5404,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/recurrence-page.c:1046
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Wednesday"
-msgstr ""
+msgstr "Çarşem"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "Work days:"
@@ -5925,11 +5924,11 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "Ka_tegorî..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 msgid "Cale_ndar:"
-msgstr ""
+msgstr "_Salname:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:7
@@ -5988,7 +5987,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 msgid "_Description:"
-msgstr ""
+msgstr "_Rave:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:24
 #: ../calendar/gui/e-meeting-time-sel.c:642
@@ -6088,7 +6087,7 @@ msgstr "Ziman"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:7
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
-msgstr ""
+msgstr "Endam"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
 #: ../calendar/gui/e-meeting-list-view.c:386
@@ -6271,7 +6270,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
-msgstr ""
+msgstr "Her"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "This appointment rec_urs"
@@ -6463,7 +6462,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
-msgstr ""
+msgstr "_Rojane"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:8
 msgid "_Manual"
@@ -6485,32 +6484,32 @@ msgstr "_Navê bikarhêner:"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "_Weekly"
-msgstr ""
+msgstr "_Heftane"
 
 #: ../calendar/gui/e-alarm-list.c:395
 #, c-format
 msgid "%d day"
-msgstr ""
+msgstr "%d roj"
 
 #: ../calendar/gui/e-alarm-list.c:400
 #, c-format
 msgid "%d week"
-msgstr ""
+msgstr "%d hefte"
 
 #: ../calendar/gui/e-alarm-list.c:405
 #, c-format
 msgid "%d hour"
-msgstr ""
+msgstr "%d demjimêr"
 
 #: ../calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d minute"
-msgstr ""
+msgstr "%d xulek"
 
 #: ../calendar/gui/e-alarm-list.c:415
 #, c-format
 msgid "%d second"
-msgstr ""
+msgstr "%d çirke"
 
 #: ../calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"

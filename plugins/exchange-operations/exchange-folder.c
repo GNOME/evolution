@@ -94,7 +94,7 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *da
 	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
 	/* User will be able to unsubscribe by doing a right click on
 	   any one of this two-<other user's>Inbox or the
-	   <other user's folder> tree. 
+	   <other user's folder> tree.
 	  */
 	stored_path = strrchr (path + 1, '/');
 
@@ -125,13 +125,13 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *da
 			return;
 		case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
-			return;	
+			return;
 		case EXCHANGE_ACCOUNT_FOLDER_GC_NOTREACHABLE:
 			e_error_run (NULL, ERROR_DOMAIN ":folder-no-gc-error", NULL);
-			return;	
+			return;
 		case EXCHANGE_ACCOUNT_FOLDER_NO_SUCH_USER:
 			e_error_run (NULL, ERROR_DOMAIN ":no-user-error", NULL);
-			return;	
+			return;
 	}
 
 	/* We need to get the physical uri for the Inbox */
@@ -140,7 +140,7 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, void *da
 	inbox_physical_uri = e_folder_get_physical_uri (inbox);
 
 	/* To get the CamelStore/Folder */
-        mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_thread_new);
+	mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_msg_unordered_push);
 
 
 }
@@ -159,7 +159,7 @@ ex_create_folder_info (CamelStore *store, char *name, char *uri,
         if (!path)
                 return NULL;
 
-        info = g_new0 (CamelFolderInfo, 1);
+        info = camel_folder_info_new ();
         info->name = name;
         info->uri = uri;
         info->full_name = g_strdup (path + 1);
@@ -252,7 +252,7 @@ popup_ab_free (EPopup *ep, GSList *items, void *data)
 }
 
 void
-org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target)  
+org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target)
 {
 	GSList *menus = NULL;
 	int i = 0;
@@ -362,7 +362,7 @@ unsubscribe_dialog_ab_response (GtkDialog *dialog, int response, gpointer data)
 		e_source_group_remove_source_by_uid (source_group, source_uid);
 		g_free (path);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-	} 
+	}
 	if (response == GTK_RESPONSE_CANCEL)
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 	if (response == GTK_RESPONSE_DELETE_EVENT)
@@ -397,19 +397,19 @@ unsubscribe_dialog_response (GtkDialog *dialog, int response, gpointer data)
 
 		path = g_strdup (ruri + strlen (account->account_filename));
 		exchange_account_remove_shared_folder (account, path);
-		ids = gconf_client_get_list (client, 
-					     CONF_KEY_SELECTED_CAL_SOURCES, 
+		ids = gconf_client_get_list (client,
+					     CONF_KEY_SELECTED_CAL_SOURCES,
 					     GCONF_VALUE_STRING, NULL);
 		if (ids) {
 			node_to_be_deleted = g_slist_find_custom (
-						ids, 
-						source_uid, 
+						ids,
+						source_uid,
 						(GCompareFunc) strcmp);
 			if (node_to_be_deleted) {
 				g_free (node_to_be_deleted->data);
-				ids = g_slist_delete_link (ids, 
+				ids = g_slist_delete_link (ids,
 						node_to_be_deleted);
-				gconf_client_set_list (client, 
+				gconf_client_set_list (client,
 					CONF_KEY_SELECTED_CAL_SOURCES,
 					GCONF_VALUE_STRING, ids, NULL);
 			}
@@ -421,7 +421,7 @@ unsubscribe_dialog_response (GtkDialog *dialog, int response, gpointer data)
 		e_source_group_remove_source_by_uid (source_group, source_uid);
 		g_free (path);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
-	} 
+	}
 	if (response == GTK_RESPONSE_CANCEL)
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 	if (response == GTK_RESPONSE_DELETE_EVENT)
@@ -454,7 +454,7 @@ org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	} else if (mode == OFFLINE_MODE) {
 		e_error_run (NULL, ERROR_DOMAIN ":account-offline-generic", NULL);
 		return;
-	}	
+	}
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	displayed_folder_name = (gchar *) e_source_peek_name (source);
@@ -509,7 +509,7 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 	} else if (mode == OFFLINE_MODE) {
 		e_error_run (NULL, ERROR_DOMAIN ":account-offline-generic", NULL);
 		return;
-	}	
+	}
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	displayed_folder_name =  e_source_peek_name (source);
@@ -556,15 +556,15 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target,
 	if (status != CONFIG_LISTENER_STATUS_OK) {
 		g_warning ("Config listener not found");
 		return;
-	}	
+	}
 	else if (mode == OFFLINE_MODE) {
-		/* Translators: this error code can be used for any operation 
-		 * (like subscribing to other user's folders, unsubscribing 
-		 * etc,) which can not be performed in offline mode 
+		/* Translators: this error code can be used for any operation
+		 * (like subscribing to other user's folders, unsubscribing
+		 * etc,) which can not be performed in offline mode
 		 */
 		e_error_run (NULL, ERROR_DOMAIN ":account-offline-generic", NULL);
 		return;
-	}	
+	}
 
 	create_folder_subscription_dialog (account, fname);
 }

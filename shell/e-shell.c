@@ -99,9 +99,9 @@ struct _EShellPrivate {
 
 	/* Settings Dialog */
 	union {
-		GtkWidget *settings_dialog;
-		gpointer settings_dialog_pointer;
-	};
+		GtkWidget *widget;
+		gpointer pointer;
+	} settings_dialog;
 
 	/* If we're quitting and things are still busy, a timeout handler */
 	guint quit_timeout;
@@ -165,11 +165,11 @@ set_interactive (EShell *shell,
 	GtkWidget *view;
 
 	g_return_if_fail (E_IS_SHELL (shell));
-	
+
 	shell->priv->is_interactive = interactive;
 
 	num_windows = g_list_length (shell->priv->windows);
-	
+
 	/* We want to send the "interactive" message only when the first
 	window is created */
 	if (num_windows != 1)
@@ -196,7 +196,7 @@ set_interactive (EShell *shell,
 
 		/* Ignore errors, the components can decide to not implement
 		   this interface. */
-		
+
 		CORBA_exception_free (&ev);
 	}
 }
@@ -249,7 +249,7 @@ impl_Shell_createNewWindow (PortableServer_Servant servant,
 
 	/* refs?? */
 	shell_view = e_shell_view_new(shell_window);
-	
+
 	return BONOBO_OBJREF(shell_view);
 
 }
@@ -283,14 +283,14 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 
 	if (show) {
 		GtkWidget *shell_window;
-		
+
 		shell_window = (GtkWidget *)e_shell_create_window (shell, component_info->id, NULL);
 		if (shell_window == NULL) {
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
 			return;
 		}
 	}
-	
+
 	GNOME_Evolution_Component_handleURI (component_info->iface, uri, ev);
 	/* not an error not to implement it */
 	if (ev->_id != NULL && strcmp(ev->_id, ex_CORBA_NO_IMPLEMENT) == 0)
@@ -454,9 +454,9 @@ impl_dispose (GObject *object)
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
 
-	if (priv->settings_dialog != NULL) {
-		gtk_widget_destroy (priv->settings_dialog);
-		priv->settings_dialog = NULL;
+	if (priv->settings_dialog.widget != NULL) {
+		gtk_widget_destroy (priv->settings_dialog.widget);
+		priv->settings_dialog.widget = NULL;
 	}
 
 	if (priv->line_status_listener) {
@@ -556,10 +556,10 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 {
 	char *val, *evolution_dir;
 	struct stat st;
-	
+
 	evolution_dir = g_build_filename (g_get_home_dir (), "evolution", NULL);
-	
-	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);	
+
+	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);
 	if (val) {
 		/* Since 1.4.0 We've been keeping the version key in gconf */
 		sscanf(val, "%d.%d.%d", major, minor, revision);
@@ -593,7 +593,7 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 		}
 		g_free (tmp);
 		if (config_doc)
-			xmlFreeDoc (config_doc);		
+			xmlFreeDoc (config_doc);
 	}
 
 	g_free (evolution_dir);
@@ -615,9 +615,9 @@ attempt_upgrade (EShell *shell, int major, int minor, int revision)
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		
+
 		GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
-		
+
 		if (BONOBO_EX (&ev)) {
 			char *exception_text;
 			CORBA_char *id = CORBA_exception_id(&ev);
@@ -637,7 +637,7 @@ attempt_upgrade (EShell *shell, int major, int minor, int revision)
 				printf("Upgrade of component failed, unsupported prior version\n");
 			} else {
 				exception_text = bonobo_exception_get_text (&ev);
-				res = e_error_run(NULL, "shell:upgrade-failed", exception_text, _("Uknown system error."), NULL);
+				res = e_error_run(NULL, "shell:upgrade-failed", exception_text, _("Unknown system error."), NULL);
 				g_free (exception_text);
 				if (res == GTK_RESPONSE_CANCEL)
 					success = FALSE;
@@ -654,7 +654,7 @@ attempt_upgrade (EShell *shell, int major, int minor, int revision)
  * @shell: An EShell object to construct
  * @iid: OAFIID for registering the shell into the name server
  * @startup_line_mode: How to set up the line mode (online or offline) initally.
- * 
+ *
  * Construct @shell so that it uses the specified @corba_object.
  *
  * Return value: The result of the operation.
@@ -668,31 +668,31 @@ e_shell_construct (EShell *shell,
 	CORBA_Object corba_object;
 	gboolean start_online;
 	GSList *component;
-	
+
 	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (startup_line_mode == E_SHELL_STARTUP_LINE_MODE_CONFIG
 			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_ONLINE
 			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_OFFLINE,
 			      E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
-	
+
 	priv = shell->priv;
 	priv->iid = g_strdup (iid);
 
 	/* Now we can register into OAF.  Notice that we shouldn't be
 	   registering into OAF until we are sure we can complete.  */
-	
+
 	/* FIXME: Multi-display stuff.  */
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 	if (bonobo_activation_active_server_register (iid, corba_object) != Bonobo_ACTIVATION_REG_SUCCESS)
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 
 	while (gtk_events_pending ())
-		gtk_main_iteration ();	
-	
+		gtk_main_iteration ();
+
 	/* activate all the components (peek list does this implictly) */
 	/* Do we really need to assign the result of this to the list? */
 	component = e_component_registry_peek_list (shell->priv->component_registry);
-	
+
 	e_shell_attempt_upgrade(shell);
 
 	priv->is_initialized = TRUE;
@@ -716,6 +716,8 @@ e_shell_construct (EShell *shell,
 
 	if (start_online)
 		e_shell_go_online (shell, NULL, GNOME_Evolution_USER_ONLINE);
+	else
+		e_shell_go_online (shell, NULL, GNOME_Evolution_FORCED_OFFLINE);
 
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
@@ -725,10 +727,10 @@ e_shell_construct (EShell *shell,
  * @start_online: Whether to start in on-line mode or not.
  * @construct_result_return: A pointer to an EShellConstructResult variable into
  * which the result of the operation will be stored.
- * 
+ *
  * Create a new EShell.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EShell *
 e_shell_new (EShellStartupLineMode startup_line_mode,
@@ -793,10 +795,10 @@ fail:
 
 /**
  * e_shell_attempt_upgrade:
- * @shell: 
- * 
+ * @shell:
+ *
  * Upgrade config and components from the currently installed version.
- * 
+ *
  * Return value: %TRUE If it works.  If it fails the application will exit.
  **/
 gboolean
@@ -904,13 +906,13 @@ check_old:
 	/** @Event: Shell attempted upgrade
 	 * @Id: upgrade.done
 	 * @Target: ESMenuTargetState
-	 * 
+	 *
 	 * This event is emitted whenever the shell successfully attempts an upgrade.
 	 *
 	 */
 	ese = es_event_peek();
 	e_event_emit((EEvent *)ese, "upgrade.done", (EEventTarget *)es_event_target_new_upgrade(ese, cmajor, cminor, crevision));
-	
+
 	return TRUE;
 }
 
@@ -919,9 +921,9 @@ check_old:
  * @shell: The shell for which to create a new window.
  * @component_id: Id or alias of the component to display in the new window.
  * @template_window: Window from which to copy the window settings (can be %NULL).
- * 
+ *
  * Create a new window for @uri.
- * 
+ *
  * Return value: The new window.
  **/
 EShellWindow *
@@ -952,7 +954,7 @@ e_shell_create_window (EShell *shell,
 
 	if (!session_started) {
 		ESEvent *ese;
-		
+
 		session_started = TRUE;
 		ese = es_event_peek();
 		e_event_emit((EEvent *)ese, "started.done", (EEventTarget *)es_event_target_new_shell(ese, shell));
@@ -981,9 +983,9 @@ e_shell_request_close_window (EShell *shell,
 /**
  * e_shell_peek_uri_schema_registry:
  * @shell: An EShell object.
- * 
+ *
  * Get the schema registry associated to @shell.
- * 
+ *
  * Return value: A pointer to the EUriSchemaRegistry associated to @shell.
  **/
 EUriSchemaRegistry  *
@@ -998,11 +1000,11 @@ e_shell_peek_uri_schema_registry (EShell *shell)
 
 /**
  * e_shell_peek_component_registry:
- * @shell: 
- * 
+ * @shell:
+ *
  * Get the component registry associated to @shell.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 EComponentRegistry *
 e_shell_peek_component_registry (EShell *shell)
@@ -1015,10 +1017,10 @@ e_shell_peek_component_registry (EShell *shell)
 
 /**
  * e_shell_save_settings:
- * @shell: 
- * 
+ * @shell:
+ *
  * Save the settings for this shell.
- * 
+ *
  * Return value: %TRUE if it worked, %FALSE otherwise.  Even if %FALSE is
  * returned, it is possible that at least part of the settings for the windows
  * have been saved.
@@ -1029,7 +1031,7 @@ e_shell_save_settings (EShell *shell)
 	GConfClient *client;
 	gboolean is_offline;
 
-	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE );
+	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE || e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_FORCED_OFFLINE);
 
 	client = gconf_client_get_default ();
 	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", is_offline, NULL);
@@ -1040,8 +1042,8 @@ e_shell_save_settings (EShell *shell)
 
 /**
  * e_shell_close_all_windows:
- * @shell: 
- * 
+ * @shell:
+ *
  * Destroy all the windows in @shell.
  **/
 void
@@ -1054,7 +1056,7 @@ e_shell_close_all_windows (EShell *shell)
 	g_return_if_fail (E_IS_SHELL (shell));
 
 	if (shell->priv->windows)
-		e_shell_save_settings (shell); 
+		e_shell_save_settings (shell);
 
 	priv = shell->priv;
 	for (p = priv->windows; p != NULL; p = pnext) {
@@ -1069,9 +1071,9 @@ e_shell_close_all_windows (EShell *shell)
 /**
  * e_shell_get_line_status:
  * @shell: A pointer to an EShell object.
- * 
+ *
  * Get the line status for @shell.
- * 
+ *
  * Return value: The current line status for @shell.
  **/
 EShellLineStatus
@@ -1100,7 +1102,7 @@ set_line_status_finished(EShell *shell)
 	/** @Event: Shell online state changed
 	 * @Id: state.changed
 	 * @Target: ESMenuTargetState
-	 * 
+	 *
 	 * This event is emitted whenever the shell online state changes.
 	 *
 	 * Only the online and offline states are emitted.
@@ -1131,16 +1133,19 @@ set_line_status(EShell *shell, GNOME_Evolution_ShellState shell_state)
 	CORBA_Environment ev;
 	GConfClient *client;
 	gboolean status;
+	gboolean forced = FALSE;
 
 	priv = shell->priv;
-	
-	if (shell_state == GNOME_Evolution_FORCED_OFFLINE || shell_state == GNOME_Evolution_USER_OFFLINE)
+
+	if (shell_state == GNOME_Evolution_FORCED_OFFLINE || shell_state == GNOME_Evolution_USER_OFFLINE) {
 		status = FALSE;
-	else 
+		if (shell_state == GNOME_Evolution_FORCED_OFFLINE)
+			forced = TRUE;
+	} else
 		status = TRUE;
 
 	if ((status && priv->line_status == E_SHELL_LINE_STATUS_ONLINE)
-	    || (!status && priv->line_status != E_SHELL_LINE_STATUS_ONLINE))
+	    || (!status && priv->line_status == E_SHELL_LINE_STATUS_OFFLINE && !forced))
 		return;
 
 	/* we use 'going offline' to mean 'changing status' now */
@@ -1151,7 +1156,7 @@ set_line_status(EShell *shell, GNOME_Evolution_ShellState shell_state)
 	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", !status, NULL);
 	g_object_unref (client);
 
-	priv->line_status_working = status?E_SHELL_LINE_STATUS_ONLINE:E_SHELL_LINE_STATUS_OFFLINE;
+	priv->line_status_working = status?E_SHELL_LINE_STATUS_ONLINE: forced?E_SHELL_LINE_STATUS_FORCED_OFFLINE:E_SHELL_LINE_STATUS_OFFLINE;
 	/* we start at 2: setLineStatus could recursively call back, we therefore
 	   `need to not complete till we're really complete */
 	priv->line_status_pending += 2;
@@ -1165,7 +1170,7 @@ set_line_status(EShell *shell, GNOME_Evolution_ShellState shell_state)
 		GNOME_Evolution_Component_setLineStatus(info->iface, shell_state, bonobo_object_corba_objref((BonoboObject *)priv->line_status_listener), &ev);
 		if (ev._major == CORBA_NO_EXCEPTION)
 			priv->line_status_pending++;
-		
+
 		CORBA_exception_free (&ev);
 	}
 
@@ -1176,9 +1181,9 @@ set_line_status(EShell *shell, GNOME_Evolution_ShellState shell_state)
 
 /**
  * e_shell_go_offline:
- * @shell: 
+ * @shell:
  * @action_window: Obsolete/unused.
- * 
+ *
  * Make the shell go into off-line mode.
  **/
 void
@@ -1195,9 +1200,9 @@ e_shell_go_offline (EShell *shell,
 
 /**
  * e_shell_go_online:
- * @shell: 
+ * @shell:
  * @action_window: Obsolete/unused.
- * 
+ *
  * Make the shell go into on-line mode.
  **/
 void
@@ -1243,27 +1248,27 @@ e_shell_show_settings (EShell *shell,
 		       EShellWindow *shell_window)
 {
 	EShellPrivate *priv;
-	
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 
 	priv = shell->priv;
-	
-	if (priv->settings_dialog != NULL) {
-		gdk_window_show (priv->settings_dialog->window);
-		gtk_widget_grab_focus (priv->settings_dialog);
+
+	if (priv->settings_dialog.widget != NULL) {
+		gdk_window_show (priv->settings_dialog.widget->window);
+		gtk_widget_grab_focus (priv->settings_dialog.widget);
 		return;
 	}
-	
-	priv->settings_dialog = e_shell_settings_dialog_new ();
+
+	priv->settings_dialog.widget = e_shell_settings_dialog_new ();
 
 	if (type != NULL)
-		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
+		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog.widget), type);
 
-	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog), &priv->settings_dialog_pointer);
+	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog.widget), &priv->settings_dialog.pointer);
 
-	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog), GTK_WINDOW (shell_window));
-	gtk_widget_show (priv->settings_dialog);
+	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog.widget), GTK_WINDOW (shell_window));
+	gtk_widget_show (priv->settings_dialog.widget);
 }
 
 
@@ -1334,7 +1339,7 @@ es_run_quit(EShell *shell)
 }
 
 gboolean
-e_shell_quit(EShell *shell)
+e_shell_can_quit (EShell *shell)
 {
 	EShellPrivate *priv;
 	GSList *component_infos;
@@ -1368,18 +1373,42 @@ e_shell_quit(EShell *shell)
 			break;
 	}
 
-	if (can_quit) {
-		GList *p = shell->priv->windows;
+	return can_quit;
+}
 
-		for (; p != NULL; p = p->next) {
-			gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
-			if (p == shell->priv->windows)
-				e_shell_window_save_defaults (p->data);
-		}
-		can_quit = !es_run_quit(shell);
+gboolean
+e_shell_do_quit (EShell *shell)
+{
+	EShellPrivate *priv;
+	GList *p;
+	gboolean can_quit;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	priv = shell->priv;
+
+	if (priv->preparing_to_quit)
+		return FALSE;
+
+	for (p = shell->priv->windows; p != NULL; p = p->next) {
+		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+
+		if (p == shell->priv->windows)
+			e_shell_window_save_defaults (p->data);
 	}
 
+	can_quit = !es_run_quit (shell);
+
+	/* Mark a safe quit by destroying the lock. */
+	e_file_lock_destroy ();
+
 	return can_quit;
+}
+
+gboolean
+e_shell_quit (EShell *shell)
+{
+	return e_shell_can_quit (shell) && e_shell_do_quit (shell);
 }
 
 /**

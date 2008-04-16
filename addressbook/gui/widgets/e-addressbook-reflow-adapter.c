@@ -181,6 +181,7 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 
 		if (contact1 && contact2) {
 			const char *file_as1, *file_as2;
+			const char *uid1, *uid2;
 			file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
 			file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
 			if (file_as1 && file_as2)
@@ -189,8 +190,14 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 				return -1;
 			if (file_as2)
 				return 1;
-			return strcmp(e_contact_get_const (contact1, E_CONTACT_UID),
-				      e_contact_get_const (contact2, E_CONTACT_UID));
+			uid1 = e_contact_get_const (contact1, E_CONTACT_UID);
+			uid2 = e_contact_get_const (contact2, E_CONTACT_UID);
+			if (uid1 && uid2)
+				return strcmp(uid1, uid2);
+			if (uid1)
+				return -1;
+			if (uid2)
+				return 1;
 		}
 		if (contact1)
 			return -1;
@@ -232,7 +239,7 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 
 	g_signal_connect (item, "drag_begin",
 			  G_CALLBACK(adapter_drag_begin), adapter);
-	
+
 	return item;
 }
 
@@ -264,12 +271,12 @@ remove_contacts (EABModel *model,
 {
 	GArray *indices = (GArray *) data;
 	int count = indices->len;
-	
+
 	if (count == 1)
 		e_reflow_model_item_removed (E_REFLOW_MODEL (adapter), g_array_index (indices, gint, 0));
-	else 
+	else
 		e_reflow_model_changed (E_REFLOW_MODEL (adapter));
-	
+
 }
 
 static void
@@ -378,7 +385,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 	object_class->get_property = addressbook_get_property;
 	object_class->dispose = addressbook_dispose;
 
-	g_object_class_install_property (object_class, PROP_BOOK, 
+	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,

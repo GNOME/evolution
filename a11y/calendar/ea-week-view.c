@@ -101,7 +101,7 @@ ea_week_view_class_init (EaWeekViewClass *klass)
 	class->ref_child = ea_week_view_ref_child;
 }
 
-AtkObject* 
+AtkObject*
 ea_week_view_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -273,7 +273,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 		/* index == 0 is the main item */
 		atk_object = atk_gobject_accessible_for_object (G_OBJECT (week_view->main_canvas_item));
 		g_object_ref (atk_object);
- 	} else 
+ 	} else
 	for (event_index = 0; event_index < max_count; ++event_index) {
 		EWeekViewEvent *event;
 		EWeekViewEventSpan *span;

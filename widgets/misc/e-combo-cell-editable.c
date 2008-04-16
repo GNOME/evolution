@@ -6,7 +6,7 @@
  * Copyright (C) 2003 Ximian Inc.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public 
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -58,7 +58,7 @@ kill_popup (EComboCellEditable *ecce)
 	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (ecce));
 	gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (ecce));
 }
-	 
+
 static gboolean
 popup_key_press_cb (GtkWidget *widget, GdkEventKey *event, EComboCellEditable *ecce)
 {
@@ -90,19 +90,19 @@ popup_button_press_cb (GtkWidget *widget, GdkEventButton *event, EComboCellEdita
 
 	if (event->button != 1)
 		return FALSE;
-	
+
 	gdk_window_get_root_origin (widget->window, &win_x, &win_y);
 	alloc = ecce->priv->popup->allocation;
 
 	rel_x = event->x_root - win_x - alloc.x;
 	rel_y = event->y_root - win_y - alloc.y;
-	
+
 	if (rel_x > 0 && rel_x < alloc.width && rel_y > 0 && rel_y < alloc.height)
 		return FALSE;
-	
+
 	ecce->priv->cancelled = TRUE;
 	kill_popup (ecce);
-	
+
 	return FALSE;
 }
 
@@ -112,8 +112,8 @@ tree_button_release_cb (GtkWidget *widget, GdkEventButton *event, EComboCellEdit
 	kill_popup (ecce);
 	return TRUE;
 }
-	
-static void 
+
+static void
 selection_changed_cb (GtkTreeSelection *selection, EComboCellEditable *ecce)
 {
 	GtkTreeModel *model;
@@ -122,7 +122,7 @@ selection_changed_cb (GtkTreeSelection *selection, EComboCellEditable *ecce)
 
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
-	
+
 	gtk_tree_model_get (model, &iter, 0, &text, -1);
 	e_combo_cell_editable_set_text (ecce, text);
 	g_free (text);
@@ -138,7 +138,7 @@ build_popup (EComboCellEditable *ecce)
 	GList *l;
 
 	ecce->priv->popup = gtk_window_new (GTK_WINDOW_POPUP);
-	
+
 	g_signal_connect (ecce->priv->popup, "button-press-event", G_CALLBACK (popup_button_press_cb), ecce);
 	g_signal_connect (ecce->priv->popup, "key-press-event", G_CALLBACK (popup_key_press_cb), ecce);
 
@@ -154,11 +154,11 @@ build_popup (EComboCellEditable *ecce)
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, l->data, -1);
 	}
-	
+
 	gtk_tree_view_set_model (ecce->priv->tree_view, model);
 	g_object_unref (model);
 	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (ecce->priv->tree_view));
-	
+
 	gtk_tree_view_set_headers_visible (ecce->priv->tree_view, FALSE);
 
 	gtk_tree_view_insert_column_with_attributes (ecce->priv->tree_view, 0, NULL,
@@ -171,7 +171,7 @@ build_popup (EComboCellEditable *ecce)
 	selection = gtk_tree_view_get_selection (ecce->priv->tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	g_signal_connect (selection, "changed", G_CALLBACK (selection_changed_cb), ecce);
-	
+
 	gtk_widget_show (GTK_WIDGET (ecce->priv->tree_view));
 }
 
@@ -188,14 +188,14 @@ lookup_row (GList *list, const gchar *text)
 	return result;
 }
 
-static void 
+static void
 set_cursor (GtkTreeView *tree_view, gint index)
 {
 	GtkTreePath *path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, index);
 
 	gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
-	
+
 	gtk_tree_path_free (path);
 }
 
@@ -207,13 +207,13 @@ grab_popup (GdkWindow *popup)
 }
 
 static void
-position_popup (EComboCellEditable *ecce, gint x, gint y, gint offset) 
+position_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
 {
 	GtkRequisition req;
 
 	gtk_widget_realize (ecce->priv->popup);
 	gtk_widget_size_request (ecce->priv->popup, &req);
-	
+
 	if (req.height > gdk_screen_height () - y) {
 		y -= (offset + req.height);
 		if (y < 0)
@@ -321,7 +321,7 @@ ecce_init (EComboCellEditable *ecce)
 	box = gtk_hbox_new (FALSE, 0);
 	gtk_widget_show (box);
 	gtk_container_add (GTK_CONTAINER (ecce), box);
-	
+
 	ecce->priv = g_new0 (EComboCellEditablePriv, 1);
 
 	entry = gtk_entry_new ();
@@ -354,9 +354,9 @@ ecce_class_init (GObjectClass *klass)
 	GtkWidgetClass *widget_class = (GtkWidgetClass *)klass;
 
 	klass->finalize = ecce_finalize;
-	
+
 	widget_class->grab_focus = ecce_grab_focus;
-	
+
 	parent_class = GTK_EVENT_BOX_CLASS (g_type_class_peek_parent (klass));
 }
 
@@ -364,7 +364,7 @@ GType
 e_combo_cell_editable_get_type (void)
 {
 	static GType ecce_type = 0;
-	
+
 	if (!ecce_type) {
 		static const GTypeInfo ecce_info = {
 			sizeof (EComboCellEditableClass),
@@ -380,20 +380,20 @@ e_combo_cell_editable_get_type (void)
 
 		static const GInterfaceInfo cell_editable_info = {
 			(GInterfaceInitFunc) ecce_cell_editable_init,
-			NULL, 
-			NULL 
+			NULL,
+			NULL
 		};
-      
+
 		ecce_type = g_type_register_static (GTK_TYPE_EVENT_BOX, "EComboCellEditable", &ecce_info, 0);
-		
+
 		g_type_add_interface_static (ecce_type, GTK_TYPE_CELL_EDITABLE, &cell_editable_info);
 	}
-	
+
 	return ecce_type;
 }
 
 GtkCellEditable *
-e_combo_cell_editable_new ()
+e_combo_cell_editable_new (void)
 {
 	return GTK_CELL_EDITABLE (g_object_new (E_TYPE_COMBO_CELL_EDITABLE, NULL));
 }

@@ -115,7 +115,14 @@
 
  <error id="contact-delete-error-perm" type="warning">
   <_primary>Failed to delete contact</_primary> 
-  <_secondary>Permission Denied.</_secondary>
+  <_secondary>You do not have enough permissions to delete contact in this Address Book.</_secondary>
+ </error>
+
+ <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
+  <_primary>Cannot add new contact</_primary>
+  <!-- For Translators: {0} is the name of the address book source -->
+  <_secondary>'{0}' is a read-only address book source. Switch to Contacts View and highlight an address book that can accept contacts.</_secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 
 </error-list>

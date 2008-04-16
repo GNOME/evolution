@@ -129,13 +129,13 @@ ecs_cert_changed(GtkWidget *w, ECertSelector *ecs)
 
 /**
  * e_cert_selector_new:
- * @type: 
- * @currentid: 
- * 
+ * @type:
+ * @currentid:
+ *
  * Create a new ECertSelector dialog.  @type specifies which type of cert to
  * be selected, E_CERT_SELECTOR_SIGNER for signing certs, and
  * E_CERT_SELECTOR_RECIPIENT for encrypting certs.
- * 
+ *
  * @currentid is the nickname of the cert currently selected for this user.
  *
  * You only need to connect to a single signal "selected" which will
@@ -199,7 +199,7 @@ e_cert_selector_new(int type, const char *currentid)
 				    && ((node->cert->nickname != NULL && strcmp(node->cert->nickname, currentid) == 0)
 					|| (node->cert->emailAddr != NULL && strcmp(node->cert->emailAddr, currentid) == 0)))
 					active = n;
-				
+
 				n++;
 			}
 
@@ -236,7 +236,7 @@ e_cert_selector_finalise(GObject *o)
 
 	if (ecs->priv->certlist)
 		CERT_DestroyCertList(ecs->priv->certlist);
-		
+
 	g_free(ecs->priv);
 
 	((GObjectClass *)e_cert_selector_parent_class)->finalize(o);

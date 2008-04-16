@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@gtk.org>
  *
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -118,11 +118,11 @@ struct _EMeetingTimeSelector
 	   with PACK_START if necessary. */
 	GtkWidget *attendees_vbox;
 	GtkWidget *attendees_vbox_spacer;
-	
+
 	/* The etable and model */
 	EMeetingStore *model;
 	EMeetingListView *list_view;
-	
+
 	/* The canvas displaying the dates, times, and the summary
 	   'All Attendees' free/busy display. */
 	GtkWidget *display_top;
@@ -190,7 +190,7 @@ struct _EMeetingTimeSelector
 
 	/* True if we are selecting all day events */
 	gboolean all_day;
-	
+
 	/* If this is TRUE we only show hours between day_start_hour and
 	   day_end_hour, defaults to TRUE (9am-6pm). */
 	gboolean working_hours_only;
@@ -262,6 +262,8 @@ struct _EMeetingTimeSelector
 	gboolean fb_refresh_not;
 
 	GdkCursorType last_cursor_set;
+
+	guint style_change_idle_id;
 };
 
 

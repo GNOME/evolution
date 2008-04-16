@@ -34,6 +34,7 @@
 
 #include "e-image-chooser.h"
 #include "e-util/e-util-marshal.h"
+#include "e-util/e-icon-factory.h"
 
 struct _EImageChooserPrivate {
 
@@ -234,11 +235,11 @@ set_image_from_data (EImageChooser *chooser,
 
 	gdk_pixbuf_loader_write (loader, (unsigned char *)data, length, NULL);
 	gdk_pixbuf_loader_close (loader, NULL);
-	
+
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 	if (pixbuf)
 		g_object_ref (pixbuf);
-	
+
 	g_object_unref (loader);
 
 	if (pixbuf) {
@@ -292,9 +293,7 @@ set_image_from_data (EImageChooser *chooser,
 
 			printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
 
-			scaled = gdk_pixbuf_scale_simple (pixbuf,
-							  new_width, new_height,
-							  GDK_INTERP_BILINEAR);
+			scaled = e_icon_factory_pixbuf_scale (pixbuf, new_width, new_height);
 
 			composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
 						    chooser->priv->image_width, chooser->priv->image_height);
@@ -416,7 +415,7 @@ image_drag_data_received_cb (GtkWidget *widget,
 		char *nl = strstr ((char *)selection_data->data, "\r\n");
 		char *buf = NULL;
 		/* Why can't we change the info parameter to a GnomeVFSFileInfo and use that? */
-		GnomeVFSFileInfo info;
+		GnomeVFSFileInfo file_info;
 
 		if (nl)
 			uri = g_strndup ((char *)selection_data->data, nl - (char*)selection_data->data);
@@ -425,13 +424,13 @@ image_drag_data_received_cb (GtkWidget *widget,
 
 		result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 		if (result == GNOME_VFS_OK) {
-			result = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
+			result = gnome_vfs_get_file_info_from_handle (handle, &file_info, GNOME_VFS_FILE_INFO_DEFAULT);
 			if (result == GNOME_VFS_OK) {
 				GnomeVFSFileSize num_read;
 
-				buf = g_malloc (info.size);
+				buf = g_malloc (file_info.size);
 
-				if ((result = gnome_vfs_read (handle, buf, info.size, &num_read)) == GNOME_VFS_OK) {
+				if ((result = gnome_vfs_read (handle, buf, file_info.size, &num_read)) == GNOME_VFS_OK) {
 					if (set_image_from_data (chooser, buf, num_read)) {
 						handled = TRUE;
 					} else {

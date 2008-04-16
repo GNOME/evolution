@@ -17,7 +17,11 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <stdlib.h>
+#ifdef HAVE_YTNEF_H
 #include <ytnef.h>
+#elif defined HAVE_LIBYTNEF_YTNEF_H
+#include <libytnef/ytnef.h>
+#endif 
 
 #include <camel/camel-mime-part.h>
 #include <camel/camel-folder.h>
@@ -44,7 +48,7 @@ void saveVTask(TNEFStruct *tnef);
 void org_gnome_format_tnef(void *ep, EMFormatHookTarget *t);
 
 /* Other Prototypes */
-void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]); 
+void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]);
 void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]);
 void quotedfprint(FILE *fptr, variableLength *vl);
 void cstylefprint(FILE *fptr, variableLength *vl);
@@ -69,11 +73,11 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 	int len;
 	TNEFStruct *tnef;
 	tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
-	
+
 	tmpdir = e_mkdtemp("tnef-attachment-XXXXXX");
 	if (tmpdir == NULL)
 		return;
-	
+
 	filepath = tmpdir;
 
 	name = g_build_filename(tmpdir, ".evo-attachment.tnef", NULL);
@@ -96,8 +100,8 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 	tnef->Debug = verbose;
         if (TNEFParseFile(name, tnef) == -1) {
             printf("ERROR processing file\n");
-        } 
-	processTnef(tnef); 
+        }
+	processTnef(tnef);
 
         TNEFFree(tnef);
 	/* Extraction done */
@@ -121,13 +125,13 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 		char *path;
 		const char *type;
 
-		if (!strcmp(d->d_name, ".") 
-		    || !strcmp(d->d_name, "..") 
+		if (!strcmp(d->d_name, ".")
+		    || !strcmp(d->d_name, "..")
 		    || !strcmp(d->d_name, ".evo-attachment.tnef"))
 		    continue;
-		
+
 		path = g_build_filename(tmpdir, d->d_name, NULL);
-		
+
 		stream = camel_stream_fs_new_with_name(path, O_RDONLY, 0);
 		content = camel_data_wrapper_new();
 		camel_data_wrapper_construct_from_stream(content, stream);
@@ -138,20 +142,20 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 
 		camel_medium_set_content_object((CamelMedium *)part, content);
 		camel_object_unref(content);
-		
+
 		type = em_utils_snoop_type(part);
 		if (type)
 		    camel_data_wrapper_set_mime_type((CamelDataWrapper *)part, type);
-		
+
 		camel_mime_part_set_filename(part, d->d_name);
-		
+
 		g_free(path);
-		
+
 		camel_multipart_add_part(mp, part);
 	}
-	
+
 	closedir(dir);
-	
+
 	len = t->format->part_id->len;
 	g_string_append_printf(t->format->part_id, ".tnef");
 
@@ -161,7 +165,7 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 	    t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old);
 
 	g_string_truncate(t->format->part_id, len);
-	
+
 	camel_object_unref(mainpart);
 
 	goto ok;
@@ -186,12 +190,12 @@ e_plugin_lib_enable(EPluginLib *ep, int enable)
     if (enable) {
 	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
 	    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-    } 
+    }
 
     return 0;
 }
 
-void processTnef(TNEFStruct *tnef) { 
+void processTnef(TNEFStruct *tnef) {
     variableLength *filename;
     variableLength *filedata;
     Attachment *p;
@@ -203,7 +207,7 @@ void processTnef(TNEFStruct *tnef) {
 
     FILE *fptr;
     ifilename = (char *) g_malloc(sizeof(char) * 256);
-    
+
     /* First see if this requires special processing. */
     /* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
     if (tnef->messageClass[0] != 0)  {
@@ -218,8 +222,8 @@ void processTnef(TNEFStruct *tnef) {
             foundCal = 1;
         }
     }
-    
-    if ((filename = MAPIFindUserProp(&(tnef->MapiProperties), 
+
+    if ((filename = MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_STRING8,0x24))) != MAPI_UNDEFINED) {
         if (strcmp(filename->data, "IPM.Appointment") == 0) {
              /* If it's "indicated" twice, we don't want to save 2 calendar entries. */
@@ -245,16 +249,16 @@ void processTnef(TNEFStruct *tnef) {
                     } else {
                         sprintf(ifilename, "%s/%s.rtf", filepath, tnef->subject.data);
                     }
-                    for(i=0; i<strlen(ifilename); i++) 
-                        if (ifilename[i] == ' ') 
+                    for(i=0; i<strlen(ifilename); i++)
+                        if (ifilename[i] == ' ')
                             ifilename[i] = '_';
 
                     if ((fptr = fopen(ifilename, "wb"))==NULL) {
                         printf("ERROR: Error writing file to disk!");
                     } else {
                         fwrite(buf->data,
-                                sizeof(BYTE), 
-                                buf->size, 
+                                sizeof(BYTE),
+                                buf->size,
                                 fptr);
                         fclose(fptr);
                     }
@@ -262,7 +266,7 @@ void processTnef(TNEFStruct *tnef) {
 		    buf->data="";
 		    buf->size=0;
                 }
-            } 
+            }
 	}
     }
 
@@ -273,15 +277,15 @@ void processTnef(TNEFStruct *tnef) {
         count++;
         /* Make sure it has a size. */
         if (p->FileData.size > 0) {
-            object = 1;           
-            
+            object = 1;
+
             /* See if the contents are stored as "attached data" */
 	    /* Inside the MAPI blocks. */
-            if((filedata = MAPIFindProperty(&(p->MAPI), 
-                                    PROP_TAG(PT_OBJECT, PR_ATTACH_DATA_OBJ))) 
+            if((filedata = MAPIFindProperty(&(p->MAPI),
+                                    PROP_TAG(PT_OBJECT, PR_ATTACH_DATA_OBJ)))
                     == MAPI_UNDEFINED) {
-                if((filedata = MAPIFindProperty(&(p->MAPI), 
-                                    PROP_TAG(PT_BINARY, PR_ATTACH_DATA_OBJ))) 
+                if((filedata = MAPIFindProperty(&(p->MAPI),
+                                    PROP_TAG(PT_BINARY, PR_ATTACH_DATA_OBJ)))
 		   == MAPI_UNDEFINED) {
                     /* Nope, standard TNEF stuff. */
                     filedata = &(p->FileData);
@@ -301,7 +305,7 @@ void processTnef(TNEFStruct *tnef) {
                     /* Has a TNEF signature, so process it. */
                     TNEFInitialize(emb_tnef);
                     emb_tnef->Debug = tnef->Debug;
-                    if (TNEFParseMemory(filedata->data+16, 
+                    if (TNEFParseMemory(filedata->data+16,
                              filedata->size-16, emb_tnef) != -1) {
                         processTnef(emb_tnef);
                         RealAttachment = 0;
@@ -317,7 +321,7 @@ void processTnef(TNEFStruct *tnef) {
                     /* Has a TNEF signature, so process it. */
                     TNEFInitialize(emb_tnef);
                     emb_tnef->Debug = tnef->Debug;
-                    if (TNEFParseMemory(filedata->data, 
+                    if (TNEFParseMemory(filedata->data,
                             filedata->size, emb_tnef) != -1) {
                         processTnef(emb_tnef);
                         RealAttachment = 0;
@@ -328,11 +332,11 @@ void processTnef(TNEFStruct *tnef) {
             if ((RealAttachment == 1) || (saveintermediate == 1)) {
                 /* Ok, it's not an embedded stream, so now we */
 		/* process it. */
-                if ((filename = MAPIFindProperty(&(p->MAPI), 
-                                        PROP_TAG(30,0x3707))) 
+                if ((filename = MAPIFindProperty(&(p->MAPI),
+                                        PROP_TAG(30,0x3707)))
                         == MAPI_UNDEFINED) {
-                    if ((filename = MAPIFindProperty(&(p->MAPI), 
-                                        PROP_TAG(30,0x3001))) 
+                    if ((filename = MAPIFindProperty(&(p->MAPI),
+                                        PROP_TAG(30,0x3001)))
                             == MAPI_UNDEFINED) {
                         filename = &(p->Title);
                     }
@@ -348,27 +352,27 @@ void processTnef(TNEFStruct *tnef) {
                 } else {
                     sprintf(ifilename, "%s/%s", filepath, filename->data);
                 }
-                for(i=0; i<strlen(ifilename); i++) 
-                    if (ifilename[i] == ' ') 
+                for(i=0; i<strlen(ifilename); i++)
+                    if (ifilename[i] == ' ')
                         ifilename[i] = '_';
 
 		if ((fptr = fopen(ifilename, "wb"))==NULL) {
 		    printf("ERROR: Error writing file to disk!");
 		} else {
 		    if (object == 1) {
-			fwrite(filedata->data + 16, 
-			       sizeof(BYTE), 
-			       filedata->size - 16, 
+			fwrite(filedata->data + 16,
+			       sizeof(BYTE),
+			       filedata->size - 16,
 			       fptr);
 		    } else {
-			fwrite(filedata->data, 
-			       sizeof(BYTE), 
-			       filedata->size, 
+			fwrite(filedata->data,
+			       sizeof(BYTE),
+			       filedata->size,
 			       fptr);
 		    }
 		    fclose(fptr);
-		} 
-            } 
+		}
+            }
         } /* if size>0 */
         p=p->next;
     } /* while p!= null */
@@ -413,8 +417,8 @@ void saveVCard(TNEFStruct *tnef) {
             sprintf(ifilename, "%s/%s.vcard", filepath, vl->data);
         }
     }
-    for(i=0; i<strlen(ifilename); i++) 
-        if (ifilename[i] == ' ') 
+    for(i=0; i<strlen(ifilename); i++)
+        if (ifilename[i] == ' ')
             ifilename[i] = '_';
     printf("%s\n", ifilename);
 
@@ -429,7 +433,7 @@ void saveVCard(TNEFStruct *tnef) {
         fprintProperty(tnef, fptr, PT_STRING8, PR_NICKNAME, "NICKNAME:%s\n");
         fprintUserProp(tnef, fptr, PT_STRING8, 0x8554, "MAILER:Microsoft Outlook %s\n");
         fprintProperty(tnef, fptr, PT_STRING8, PR_SPOUSE_NAME, "X-EVOLUTION-SPOUSE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_MANAGER_NAME, "X-EVOLUTION-MANAGER:%s\n");       
+        fprintProperty(tnef, fptr, PT_STRING8, PR_MANAGER_NAME, "X-EVOLUTION-MANAGER:%s\n");
         fprintProperty(tnef, fptr, PT_STRING8, PR_ASSISTANT, "X-EVOLUTION-ASSISTANT:%s\n");
 
         /* Organizational */
@@ -638,21 +642,21 @@ void saveVCard(TNEFStruct *tnef) {
             vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x8084));
         }
         if (vl != MAPI_UNDEFINED) {
-            if (vl->size > 0) 
+            if (vl->size > 0)
                 fprintf(fptr, "EMAIL:%s\n", vl->data);
         }
         if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x8093))) == MAPI_UNDEFINED) {
             vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x8094));
         }
         if (vl != MAPI_UNDEFINED) {
-            if (vl->size > 0) 
+            if (vl->size > 0)
                 fprintf(fptr, "EMAIL:%s\n", vl->data);
         }
         if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x80a3))) == MAPI_UNDEFINED) {
             vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x80a4));
         }
         if (vl != MAPI_UNDEFINED) {
-            if (vl->size > 0) 
+            if (vl->size > 0)
                 fprintf(fptr, "EMAIL:%s\n", vl->data);
         }
 
@@ -786,7 +790,7 @@ char * getRruleDayname(unsigned char a) {
     return(daystring);
 }
 
-void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef) 
+void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef)
 {
     variableLength *filename;
 
@@ -806,21 +810,21 @@ void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef)
                 fprintf(fptr, ";INTERVAL=%d", *(filename->data));
             }
             if (recur_data[0x16] == 0x22 || recur_data[0x16] == 0x21) {
-                fprintf(fptr, ";COUNT=%d", 
+                fprintf(fptr, ";COUNT=%d",
                     getRruleCount(recur_data[0x1B], recur_data[0x1A]));
             }
         } else if (recur_data[0x16] == 0x3E) {
             fprintf(fptr, ";BYDAY=MO,TU,WE,TH,FR");
             if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
-                fprintf(fptr, ";COUNT=%d", 
+                fprintf(fptr, ";COUNT=%d",
                     getRruleCount(recur_data[0x1F], recur_data[0x1E]));
             }
         }
     } else if (recur_data[0x04] == 0x0B) {
-        fprintf(fptr, "WEEKLY;INTERVAL=%d;BYDAY=%s", 
+        fprintf(fptr, "WEEKLY;INTERVAL=%d;BYDAY=%s",
             recur_data[0x0E], getRruleDayname(recur_data[0x16]));
         if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
-            fprintf(fptr, ";COUNT=%d", 
+            fprintf(fptr, ";COUNT=%d",
                 getRruleCount(recur_data[0x1F], recur_data[0x1E]));
         }
     } else if (recur_data[0x04] == 0x0C) {
@@ -829,11 +833,11 @@ void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef)
             fprintf(fptr, ";INTERVAL=%d;BYMONTHDAY=%d", recur_data[0x0E],
                 recur_data[0x16]);
             if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
-                fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x1F], 
+                fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x1F],
                     recur_data[0x1E]));
             }
         } else if (recur_data[0x06] == 0x03) {
-            fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d;INTERVAL=%d", 
+            fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d;INTERVAL=%d",
                 getRruleDayname(recur_data[0x16]),
                 recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A],
                 recur_data[0x0E]);
@@ -901,17 +905,17 @@ void saveVCalendar(TNEFStruct *tnef) {
         fprintf(fptr, "VERSION:2.0\n");
         fprintf(fptr, "BEGIN:VEVENT\n");
 
-	/* UID 
-	   After alot of comparisons, I'm reasonably sure this is totally 
+	/* UID
+	   After alot of comparisons, I'm reasonably sure this is totally
 	   wrong.  But it's not really necessary. */
-	
-	/* I think it only exists to connect future modification entries to 
-	   this entry. so as long as it's incorrectly interpreted the same way 
+
+	/* I think it only exists to connect future modification entries to
+	   this entry. so as long as it's incorrectly interpreted the same way
 	   every time, it should be ok :) */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_BINARY, 0x3))) == MAPI_UNDEFINED) {
-            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                             PROP_TAG(PT_BINARY, 0x23))) == MAPI_UNDEFINED) {
                 filename = NULL;
             }
@@ -926,28 +930,28 @@ void saveVCalendar(TNEFStruct *tnef) {
 
         /* Sequence */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_LONG, 0x8201))) != MAPI_UNDEFINED) {
             ddword_ptr = (DDWORD*)filename->data;
             fprintf(fptr, "SEQUENCE:%i\n", (int) *ddword_ptr);
         }
-        if ((filename=MAPIFindProperty(&(tnef->MapiProperties), 
-                        PROP_TAG(PT_BINARY, PR_SENDER_SEARCH_KEY))) 
+        if ((filename=MAPIFindProperty(&(tnef->MapiProperties),
+                        PROP_TAG(PT_BINARY, PR_SENDER_SEARCH_KEY)))
                 != MAPI_UNDEFINED) {
             charptr = filename->data;
             charptr2 = strstr(charptr, ":");
-            if (charptr2 == NULL) 
+            if (charptr2 == NULL)
                 charptr2 = charptr;
             else
                 charptr2++;
-            fprintf(fptr, "ORGANIZER;CN=\"%s\":MAILTO:%s\n", 
+            fprintf(fptr, "ORGANIZER;CN=\"%s\":MAILTO:%s\n",
                     charptr2, charptr2);
         }
 
         /* Required Attendees */
-        if ((filename = MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename = MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_STRING8, 0x823b))) != MAPI_UNDEFINED) {
-	    /* We have a list of required participants, so 
+	    /* We have a list of required participants, so
 	       write them out. */
             if (filename->size > 1) {
                 charptr = filename->data-1;
@@ -958,7 +962,7 @@ void saveVCalendar(TNEFStruct *tnef) {
                     if (charptr2 != NULL) {
                         *charptr2 = 0;
                     }
-                    while (*charptr == ' ') 
+                    while (*charptr == ' ')
                         charptr++;
                     fprintf(fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
                     fprintf(fptr, "ROLE=REQ-PARTICIPANT;RSVP=TRUE;");
@@ -968,7 +972,7 @@ void saveVCalendar(TNEFStruct *tnef) {
                 }
             }
             /* Optional attendees */
-            if ((filename = MAPIFindUserProp(&(tnef->MapiProperties), 
+            if ((filename = MAPIFindUserProp(&(tnef->MapiProperties),
                             PROP_TAG(PT_STRING8, 0x823c))) != MAPI_UNDEFINED) {
                     /* The list of optional participants */
                 if (filename->size > 1) {
@@ -980,7 +984,7 @@ void saveVCalendar(TNEFStruct *tnef) {
                         if (charptr2 != NULL) {
                             *charptr2 = 0;
                         }
-                        while (*charptr == ' ') 
+                        while (*charptr == ' ')
                             charptr++;
                         fprintf(fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
                         fprintf(fptr, "ROLE=OPT-PARTICIPANT;RSVP=TRUE;");
@@ -990,7 +994,7 @@ void saveVCalendar(TNEFStruct *tnef) {
                     }
                 }
             }
-        } else if ((filename = MAPIFindUserProp(&(tnef->MapiProperties), 
+        } else if ((filename = MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_STRING8, 0x8238))) != MAPI_UNDEFINED) {
             if (filename->size > 1) {
                 charptr = filename->data-1;
@@ -1001,7 +1005,7 @@ void saveVCalendar(TNEFStruct *tnef) {
                     if (charptr2 != NULL) {
                         *charptr2 = 0;
                     }
-                    while (*charptr == ' ') 
+                    while (*charptr == ' ')
                         charptr++;
                     fprintf(fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
                     fprintf(fptr, "ROLE=REQ-PARTICIPANT;RSVP=TRUE;");
@@ -1014,8 +1018,8 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         /* Summary */
         filename = NULL;
-        if((filename=MAPIFindProperty(&(tnef->MapiProperties), 
-                        PROP_TAG(PT_STRING8, PR_CONVERSATION_TOPIC))) 
+        if((filename=MAPIFindProperty(&(tnef->MapiProperties),
+                        PROP_TAG(PT_STRING8, PR_CONVERSATION_TOPIC)))
                 != MAPI_UNDEFINED) {
             fprintf(fptr, "SUMMARY:");
             cstylefprint(fptr, filename);
@@ -1030,17 +1034,17 @@ void saveVCalendar(TNEFStruct *tnef) {
 	    buf = (variableLength *)g_malloc (sizeof(variableLength));
             if ((buf->data = DecompressRTF(filename, &(buf->size))) != NULL) {
                 fprintf(fptr, "DESCRIPTION:");
-                printRtf(fptr, &buf);
+                printRtf(fptr, buf);
                 free(buf->data);
             }
-            
-        } 
+
+        }
 
         /* Location */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_STRING8, 0x0002))) == MAPI_UNDEFINED) {
-            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                             PROP_TAG(PT_STRING8, 0x8208))) == MAPI_UNDEFINED) {
                 filename = NULL;
             }
@@ -1050,9 +1054,9 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         /* Date Start */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_SYSTIME, 0x820d))) == MAPI_UNDEFINED) {
-            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                             PROP_TAG(PT_SYSTIME, 0x8516))) == MAPI_UNDEFINED) {
                 filename=NULL;
             }
@@ -1060,15 +1064,15 @@ void saveVCalendar(TNEFStruct *tnef) {
         if (filename != NULL) {
             fprintf(fptr, "DTSTART:");
             MAPISysTimetoDTR(filename->data, &thedate);
-            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n", 
+            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
         }
         /* Date End */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_SYSTIME, 0x820e))) == MAPI_UNDEFINED) {
-            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+            if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                             PROP_TAG(PT_SYSTIME, 0x8517))) == MAPI_UNDEFINED) {
                 filename=NULL;
             }
@@ -1076,23 +1080,23 @@ void saveVCalendar(TNEFStruct *tnef) {
         if (filename != NULL) {
             fprintf(fptr, "DTEND:");
             MAPISysTimetoDTR(filename->data, &thedate);
-            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n", 
+            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
         }
         /* Date Stamp */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_SYSTIME, 0x8202))) != MAPI_UNDEFINED) {
             fprintf(fptr, "CREATED:");
             MAPISysTimetoDTR(filename->data, &thedate);
-            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n", 
+            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
         }
         /* Class */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_BOOLEAN, 0x8506))) != MAPI_UNDEFINED) {
             ddword_ptr = (DDWORD*)filename->data;
             ddword_val = SwapDDWord((BYTE*)ddword_ptr);
@@ -1105,7 +1109,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         /* Recurrence */
         filename = NULL;
-        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties), 
+        if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_BINARY, 0x8216))) != MAPI_UNDEFINED) {
             printRrule(fptr, filename->data, filename->size, tnef);
         }
@@ -1127,7 +1131,7 @@ void saveVTask(TNEFStruct *tnef) {
     FILE *fptr;
     DDWORD *ddword_ptr;
     DDWORD ddword_val;
-    
+
     vl = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_CONVERSATION_TOPIC));
 
     if (vl == MAPI_UNDEFINED) {
@@ -1135,7 +1139,7 @@ void saveVTask(TNEFStruct *tnef) {
     }
 
     index = strlen(vl->data);
-    while (vl->data[index] == ' ') 
+    while (vl->data[index] == ' ')
             vl->data[index--] = 0;
 
     if (filepath == NULL) {
@@ -1143,8 +1147,8 @@ void saveVTask(TNEFStruct *tnef) {
     } else {
         sprintf(ifilename, "%s/%s.vcf", filepath, vl->data);
     }
-    for(i=0; i<strlen(ifilename); i++) 
-        if (ifilename[i] == ' ') 
+    for(i=0; i<strlen(ifilename); i++)
+        if (ifilename[i] == ' ')
             ifilename[i] = '_';
     printf("%s\n", ifilename);
 
@@ -1165,7 +1169,7 @@ void saveVTask(TNEFStruct *tnef) {
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "ORGANIZER:%s\n", filename->data);
         }
-                 
+
 
         if ((filename = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_DISPLAY_TO))) != MAPI_UNDEFINED) {
             filename = MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x811f));
@@ -1179,7 +1183,7 @@ void saveVTask(TNEFStruct *tnef) {
                 if (charptr2 != NULL) {
                     *charptr2 = 0;
                 }
-                while (*charptr == ' ') 
+                while (*charptr == ' ')
                     charptr++;
                 fprintf(fptr, "ATTENDEE;CN=%s;ROLE=REQ-PARTICIPANT:%s\n", charptr, charptr);
                 charptr = charptr2;
@@ -1203,7 +1207,7 @@ void saveVTask(TNEFStruct *tnef) {
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "DTSTAMP:");
             MAPISysTimetoDTR(filename->data, &thedate);
-            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n", 
+            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
         }
@@ -1213,7 +1217,7 @@ void saveVTask(TNEFStruct *tnef) {
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "DUE:");
             MAPISysTimetoDTR(filename->data, &thedate);
-            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n", 
+            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
         }
@@ -1222,7 +1226,7 @@ void saveVTask(TNEFStruct *tnef) {
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "LAST-MODIFIED:");
             MAPISysTimetoDTR(filename->data, &thedate);
-            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n", 
+            fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
         }
@@ -1248,24 +1252,24 @@ void saveVTask(TNEFStruct *tnef) {
 
 void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]) {
     variableLength *vl;
-    if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) { 
+    if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
             if ((vl->size == 1) && (vl->data[0] == 0)) {
-            } else { 
-                fprintf(fptr, text, vl->data); 
-            } 
+            } else {
+                fprintf(fptr, text, vl->data);
+            }
 	}
     }
 }
 
 void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]) {
     variableLength *vl;
-    if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) { 
+    if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
             if ((vl->size == 1) && (vl->data[0] == 0)) {
-            } else { 
-                fprintf(fptr, text, vl->data); 
-            } 
+            } else {
+                fprintf(fptr, text, vl->data);
+            }
 	}
     }
 }
@@ -1273,23 +1277,23 @@ void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, 
 void quotedfprint(FILE *fptr, variableLength *vl) {
     int index;
 
-    for (index=0;index<vl->size-1; index++) { 
-        if (vl->data[index] == '\n') { 
-            fprintf(fptr, "=0A"); 
-        } else if (vl->data[index] == '\r') { 
-        } else { 
-            fprintf(fptr, "%c", vl->data[index]); 
-        } 
+    for (index=0;index<vl->size-1; index++) {
+        if (vl->data[index] == '\n') {
+            fprintf(fptr, "=0A");
+        } else if (vl->data[index] == '\r') {
+        } else {
+            fprintf(fptr, "%c", vl->data[index]);
+        }
     }
 }
 
 void cstylefprint(FILE *fptr, variableLength *vl) {
     int index;
 
-    for (index=0;index<vl->size-1; index++) { 
-        if (vl->data[index] == '\n') { 
-            fprintf(fptr, "\\n"); 
-        } else if (vl->data[index] == '\r') { 
+    for (index=0;index<vl->size-1; index++) {
+        if (vl->data[index] == '\n') {
+            fprintf(fptr, "\\n");
+        } else if (vl->data[index] == '\r') {
             /* Print nothing. */
         } else if (vl->data[index] == ';') {
             fprintf(fptr, "\\;");
@@ -1297,9 +1301,9 @@ void cstylefprint(FILE *fptr, variableLength *vl) {
             fprintf(fptr, "\\,");
         } else if (vl->data[index] == '\\') {
             fprintf(fptr, "\\");
-        } else { 
-            fprintf(fptr, "%c", vl->data[index]); 
-        } 
+        } else {
+            fprintf(fptr, "%c", vl->data[index]);
+        }
     }
 }
 
@@ -1329,9 +1333,9 @@ void printRtf(FILE *fptr, variableLength *vl) {
             key = 0;
         }
         if ((brace_ct == 1) && (key == 0)) {
-            if (*byte == '\n') { 
-                fprintf(fptr, "\\n"); 
-            } else if (*byte == '\r') { 
+            if (*byte == '\n') {
+                fprintf(fptr, "\\n");
+            } else if (*byte == '\r') {
 		/* Print nothing. */
             } else if (*byte == ';') {
                 fprintf(fptr, "\\;");
@@ -1339,9 +1343,9 @@ void printRtf(FILE *fptr, variableLength *vl) {
                 fprintf(fptr, "\\,");
             } else if (*byte == '\\') {
                 fprintf(fptr, "\\");
-            } else { 
+            } else {
                 fprintf(fptr, "%c", *byte);
-            } 
+            }
         }
     }
     fprintf(fptr, "\n");

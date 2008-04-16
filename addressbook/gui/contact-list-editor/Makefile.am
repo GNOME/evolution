@@ -10,7 +10,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
@@ -35,15 +34,9 @@ libecontactlisteditor_la_LIBADD =						\
 	$(top_builddir)/e-util/libeutil.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marshal.h
-@EVO_MARSHAL_RULE@
-
 glade_DATA  = contact-list-editor.glade
-etspec_DATA = e-contact-list-editor.etspec
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST = $(glade_DATA)	\
-	     $(etspec_DATA)	\
-	     e-contact-list-editor-marshal.list
+EXTRA_DIST = $(glade_DATA)

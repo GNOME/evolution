@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-xml-utils.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -128,7 +128,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 		xmlFree (lang);
 		if (*best_lang_score == 0) {
 			return best_node;
-		} 
+		}
 	}
 
 	return best_node;
@@ -373,8 +373,8 @@ e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble
 gchar *
 e_xml_get_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 {
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (prop_name != NULL, NULL);
 
 	return e_xml_get_string_prop_by_name_with_default (parent, prop_name, NULL);
 }
@@ -385,8 +385,8 @@ e_xml_get_string_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 	xmlChar *prop;
 	gchar *ret_val;
 
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (prop_name != NULL, NULL);
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
@@ -416,8 +416,8 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *
 	gchar *ret_val = NULL;
 	gchar *combined_name;
 
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (prop_name != NULL, NULL);
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {

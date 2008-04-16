@@ -1,3 +1,107 @@
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #523541
+
+	* itip-formatter.c: (find_server):
+	Do not leak memory returned by e_cal_component_get_recurid_as_string.
+
+2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* itip-formatter.c: (find_server), (update_attendee_status): Free
+	the memory returned by e_cal_component_get_recurid_as_string.								     
+
+2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes#516408
+	* itip-formatter.c (find_attendee), (find_to_address),
+	(find_from_address), (update_item): Free the memory returned 
+	by libical.
+
+2008-02-20  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Follow up on bug #517072
+
+	* itip-view.c: (set_calendar_sender_text), (set_tasklist_sender_text),
+	(set_journal_sender_text): Properly escape text here too.
+
+2008-02-19  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #517072
+
+	* itip-view.c: (set_summary_text):
+	Properly escape summary text.
+
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* itip-formatter.c: (idle_open_cb): Memory Leak fix.
+
+2008-02-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Rewrite of itip-formatter bits. It was written around carrying
+	EMFormatHTMLPobject. But that would be freed just after the formatter
+	thread ends. So all the time, it was working on dead pointer. Now I
+	have made EMFormatPURI and carried it around well. It might need a
+	good review though.
+
+	** Fix for bug #468427
+	Fixes a lot of crashes around itip-formatter.
+
+	* itip-formatter.c: (find_to_address), (find_from_address),
+	(get_real_item), (adjust_item), (set_buttons_sensitive),
+	(cal_opened_cb), (start_calendar_server),
+	(start_calendar_server_by_uid), (source_selected_cb),
+	(find_cal_opened_cb), (find_server), (update_item),
+	(remove_delegate), (update_attendee_status), (send_item),
+	(set_itip_error), (extract_itip_data), (idle_open_cb),
+	(view_response_cb), (format_itip_object), (puri_free),
+	(format_itip), (itip_attachment_frame):
+
+2008-01-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #475781
+
+	* itip-formatter.c: (format_itip_object):
+	Fix memory leaks around ECalComponentDateTime.
+
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* itip-formatter.c:
+	Use the new MailMsg API for messages.
+
+2007-12-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #220846
+
+	* itip-view.h:
+	* itip-view.c: (itip_view_set_show_free_time_check),
+	(itip_view_get_free_time_check_state), (struct _ItipViewPrivate),
+	(itip_view_init):
+	* itip-formatter.c: (view_response_cb), (format_itip_object):
+	New option to accept meeting request as free time.
+
+2007-11-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #458237
+
+	* itip-formatter.c: (start_calendar_server), (source_selected_cb):
+	Check for non-NULL source before using it to prevent a crash.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* itip-view.c: (itip_view_get_source_list), (itip_view_get_source),
+	(itip_view_get_rsvp_comment): Fix NULL vs FALSE warnings.
+
+2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #417999
+
+	* itip-view.c:
+	Use ESourceComboBox instead of ESourceOptionMenu (deprecated).
+
 2007-10-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #331578

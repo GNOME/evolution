@@ -22,9 +22,17 @@
      _tip="Select all visible messages"
      accel="*Control*a"/>
 
+    <cmd name="EditSelectSubthread"
+     _tip="Select all replies to the currently selected message"
+     accel="*Control**Shift*h"/>
+
     <cmd name="EditSelectThread"
      _tip="Select all messages in the same thread as the selected message"
      accel="*Control*h"/>
+
+    <cmd name="MessageMarkAllAsRead"
+     _tip="Mark all messages in the folder as read"
+     pixtype="pixbuf"/>
 
     <cmd name="ChangeFolderProperties"
      _tip="Change the properties of this folder"
@@ -35,13 +43,15 @@
      accel="*Control*e"/>
 
     <cmd name="FolderDelete"
-     _tip="Permanently remove this folder"/>
+     _tip="Permanently remove this folder"
+     pixtype="stock" pixname="gtk-delete"/>
 
     <cmd name="FolderRename"
      _tip="Change the name of this folder" accel="F2"/>
      
      <cmd name="FolderRefresh"
-     _tip="Refresh the folder" accel="F5"/>
+     _tip="Refresh the folder" accel="F5"
+     pixtype="stock" pixname="gtk-refresh"/>
 
 
     <cmd name="HideDeleted" _tip="Hide deleted messages rather than displaying them with a line through them"
@@ -113,14 +123,15 @@
         <placeholder name="MessagesInFolder">
           <menuitem name="EditSelectAll" verb="" _label="Select _All Messages"/>
           <menuitem name="EditSelectThread" verb="" _label="Select Message _Thread"/>
+          <menuitem name="EditSelectSubthread" verb="" _label="Select Message S_ubthread"/>
           <menuitem name="MessageMarkAllAsRead" verb="" _label="Mar_k All Messages as Read"/>
           <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
         </placeholder>
 
  	<placeholder name="FolderOps">
 	  <menuitem name="FolderRename" verb="" _label="_Rename..."/>
-          <menuitem name="FolderRefresh" verb="" _label="Re_fresh..." pixtype="pixbuf"/>
-	  <menuitem name="FolderDelete" verb="" _label="_Delete" pixtype="pixbuf"/>
+          <menuitem name="FolderRefresh" verb="" _label="Re_fresh..."/>
+	  <menuitem name="FolderDelete" verb="" _label="_Delete"/>
 
  	  <separator f="" name="FolderOps1"/>
           <menuitem name="ChangeFolderProperties" verb="" _label="_Properties"/>

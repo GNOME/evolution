@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-hbox.c - Hbox cell object.
  * Copyright 2006 Novell, Inc.
  *
@@ -55,13 +55,13 @@ ecv_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ECellHbox *ecv = E_CELL_HBOX (ecell);
 	ECellHboxView *hbox_view = g_new0 (ECellHboxView, 1);
 	int i;
-	
+
 	hbox_view->cell_view.ecell = ecell;
 	hbox_view->cell_view.e_table_model = table_model;
 	hbox_view->cell_view.e_table_item_view = e_table_item_view;
         hbox_view->cell_view.kill_view_cb = NULL;
         hbox_view->cell_view.kill_view_cb_data = NULL;
-	
+
 	/* create our subcell view */
 	hbox_view->subcell_view_count = ecv->subcell_count;
 	hbox_view->subcell_views = g_new (ECellView *, hbox_view->subcell_view_count);
@@ -149,7 +149,7 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	int subcell_offset = 0;
 	int i;
 	int allotted_width = x2-x1;
-	
+
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
 		   shifted by subcell_offset pixels */
@@ -207,7 +207,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
  * ECell::height method
  */
 static int
-ecv_height (ECellView *ecell_view, int model_col, int view_col, int row) 
+ecv_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
 	int height = 0, max_height = 0;
@@ -232,9 +232,9 @@ ecv_max_width (ECellView *ecell_view, int model_col, int view_col)
 
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
 		int cell_width = e_cell_max_width (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col);
-		
+
 		if (cell_width < hbox_view->def_size_cols[i])
-			cell_width = hbox_view->def_size_cols[i];	
+			cell_width = hbox_view->def_size_cols[i];
 		width += cell_width;
 	}
 
@@ -291,10 +291,10 @@ e_cell_hbox_init (ECellHbox *ecv)
 
 /**
  * e_cell_hbox_new:
- * 
+ *
  * Creates a new ECell renderer that can be used to render multiple
  * child cells.
- * 
+ *
  * Return value: an ECell object that can be used to render multiple
  * child cells.
  **/
@@ -314,7 +314,7 @@ e_cell_hbox_append (ECellHbox *hbox, ECell *subcell, int model_col, int size)
 	hbox->subcells   = g_renew (ECell *, hbox->subcells,   hbox->subcell_count);
 	hbox->model_cols = g_renew (int,     hbox->model_cols, hbox->subcell_count);
 	hbox->def_size_cols = g_renew (int,     hbox->def_size_cols, hbox->subcell_count);
-	
+
 	hbox->subcells[hbox->subcell_count - 1]   = subcell;
 	hbox->model_cols[hbox->subcell_count - 1] = model_col;
 	hbox->def_size_cols[hbox->subcell_count - 1] = size;

@@ -342,7 +342,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	
+
 	eab_model_signals [SEARCH_RESULT] =
 		g_signal_new ("search_result",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -351,7 +351,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
-	
+
 	eab_model_signals [FOLDER_BAR_MESSAGE] =
 		g_signal_new ("folder_bar_message",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -554,7 +554,7 @@ eab_model_set_property (GObject *object, guint prop_id, const GValue *value, GPa
 	gboolean need_get_book_view = FALSE;
 
 	model = EAB_MODEL (object);
-	
+
 	switch (prop_id){
 	case PROP_BOOK:
 		if (model->book) {
@@ -673,7 +673,7 @@ eab_model_new (void)
 	EABModel *et;
 
 	et = g_object_new (EAB_TYPE_MODEL, NULL);
-	
+
 	return et;
 }
 

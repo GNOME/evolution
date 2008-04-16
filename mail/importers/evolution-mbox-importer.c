@@ -77,7 +77,7 @@ static GtkWidget *
 mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
-	
+
 	hbox = gtk_hbox_new(FALSE, 0);
 
 	w = gtk_label_new(_("Destination folder:"));
@@ -124,7 +124,7 @@ mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 		close(fd);
 	}
 
-	return ret; 
+	return ret;
 }
 
 static void

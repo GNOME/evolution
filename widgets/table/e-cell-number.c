@@ -1,4 +1,4 @@
-/* 
+/*
  * e-cell-number.c - Number item for e-table.
  * Copyright 2001, Ximian, Inc.
  *
@@ -68,7 +68,7 @@ e_cell_number_init (ECellNumber *cell_number)
  * interpreted as being an int.
  *
  * See ECellText for other features.
- * 
+ *
  * Returns: an ECell object that can be used to render numbers.
  */
 ECell *
@@ -77,7 +77,7 @@ e_cell_number_new (const char *fontname, GtkJustification justify)
 	ECellNumber *ecn = g_object_new (E_CELL_NUMBER_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecn), fontname, justify);
-      
+
 	return (ECell *) ecn;
 }
 

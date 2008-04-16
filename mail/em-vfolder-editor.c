@@ -50,11 +50,11 @@ em_vfolder_editor_class_init (EMVFolderEditorClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
-	
+
 	parent_class = g_type_class_ref (rule_editor_get_type ());
-	
+
 	gobject_class->finalize = em_vfolder_editor_finalise;
-	
+
 	/* override methods */
 	re_class->create_rule = create_rule;
 }
@@ -69,7 +69,7 @@ GtkType
 em_vfolder_editor_get_type (void)
 {
 	static GtkType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (EMVFolderEditorClass),
@@ -82,10 +82,10 @@ em_vfolder_editor_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) em_vfolder_editor_init,
 		};
-		
+
 		type = g_type_register_static (RULE_TYPE_EDITOR, "EMVFolderEditor", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -93,7 +93,7 @@ em_vfolder_editor_get_type (void)
  * em_vfolder_editor_new:
  *
  * Create a new EMVFolderEditor object.
- * 
+ *
  * Return value: A new #EMVFolderEditor object.
  **/
 EMVFolderEditor *
@@ -102,7 +102,7 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 	EMVFolderEditor *ve = (EMVFolderEditor *) g_object_new (em_vfolder_editor_get_type(), NULL);
 	GladeXML *gui;
 	char *gladefile;
-	
+
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "filter.glade",
 				      NULL);
@@ -112,7 +112,7 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, "incoming", _("Search _Folders"));
         gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
 	g_object_unref (gui);
-	
+
 	return ve;
 }
 
@@ -121,11 +121,11 @@ create_rule (RuleEditor *re)
 {
 	FilterRule *rule = filter_rule_new ();
 	FilterPart *part;
-	
+
 	/* create a rule with 1 part in it */
 	rule = (FilterRule *) em_vfolder_rule_new ();
 	part = rule_context_next_part (re->context, NULL);
 	filter_rule_add_part (rule, filter_part_clone (part));
-	
+
 	return rule;
 }

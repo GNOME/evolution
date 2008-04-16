@@ -65,9 +65,9 @@ struct _EMFormatHookGroup {
 
 /**
  * struct _EMFormatHook - Mail formatter hook.
- * 
- * @hook: 
- * @groups: 
+ *
+ * @hook:
+ * @groups:
  *
  * The Mail formatter hook links all of the plugin formatter hooks
  * into the relevent formatter classes.

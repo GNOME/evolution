@@ -16,8 +16,8 @@
 	  path="71.mail_to_task"
 	  icon="stock_todo"
 	  _label="Con_vert to Task"
-	  enable="one"
-	  visible="one"
+	  enable="many"
+	  visible="many"
 	  activate="org_gnome_mail_to_task"/>
       </menu>
     </hook>
@@ -29,7 +29,7 @@
 	  type="item"
 	  verb="ConvertTask"
 	  path="/commands/ConvertTask"
-	  enable="one"
+	  enable="many"
 	  activate="org_gnome_mail_to_task_menu"/>
       </menu>
     </hook>

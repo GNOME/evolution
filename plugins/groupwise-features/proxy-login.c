@@ -1,7 +1,7 @@
 
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Authors: 
+ *  Authors:
  *  Shreyas Srinivasan <sshreyas@novell.com>
  *  Sankar P <psankar@novell.com>
  *
@@ -104,7 +104,7 @@ proxy_login_finalize (GObject *object)
 		g_free (prd->priv);
 		prd->priv = NULL;
 	}
-	
+
 	if (parent_class->finalize)
 		(* parent_class->finalize) (object);
 }
@@ -144,7 +144,7 @@ proxy_login_init (GObject *object)
 	prd = PROXY_LOGIN (object);
 	priv = g_new0 (proxyLoginPrivate, 1);
 	prd->priv = priv;
-	
+
 	prd->proxy_list = NULL;
 	priv->xml = NULL;
 	priv->main = NULL;
@@ -152,7 +152,7 @@ proxy_login_init (GObject *object)
 	priv->tree = NULL;
 }
 
-GType 
+GType
 proxy_login_get_type (void)
 {
   static GType type = 0;
@@ -178,13 +178,13 @@ proxy_login_get_type (void)
   return type;
 }
 
-proxyLogin * 
+proxyLogin *
 proxy_login_new (void)
 {
 	proxyLogin *prd;
 
 	prd = g_object_new (TYPE_PROXY_LOGIN, NULL);
-	
+
 	return prd;
 }
 
@@ -196,27 +196,27 @@ proxy_get_password (EAccount *account, char **user_name, char **password)
 	const char *poa_address, *use_ssl = NULL, *soap_port;
 
 	url = camel_url_new (account->source->url, NULL);
-	if (url == NULL) 
+	if (url == NULL)
 		return 0;
 	*user_name = g_strdup (url->user);
-	poa_address = url->host; 
+	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return 0;
-	
+
         soap_port = camel_url_get_param (url, "soap_port");
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
-	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
-	
+	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address);
+
 	if (use_ssl && !g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
-	else 
+	else
 		uri = g_strdup_printf ("http://%s:%s/soap", poa_address, soap_port);
-	
+
 	failed_auth = "";
-	
+
 	prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
 			failed_auth, poa_address, url->user);
 
@@ -224,13 +224,13 @@ proxy_get_password (EAccount *account, char **user_name, char **password)
 
 	g_free (key);
 	g_free (prompt);
-	g_free (uri); 
+	g_free (uri);
 	camel_url_free (url);
 
 	return 1;
 }
 
-static EGwConnection * 
+static EGwConnection *
 proxy_login_get_cnc (EAccount *account)
 {
 	EGwConnection *cnc;
@@ -238,27 +238,27 @@ proxy_login_get_cnc (EAccount *account)
 	char *uri = NULL, *failed_auth = NULL, *key = NULL, *prompt = NULL, *password = NULL;
 	const char *use_ssl = NULL, *soap_port;
 	gboolean remember;
-	
+
 	url = camel_url_new (account->source->url, NULL);
-	if (url == NULL) 
+	if (url == NULL)
 		return NULL;
 	if (!url->host || strlen (url->host) ==0)
 		return NULL;
-	
+
         soap_port = camel_url_get_param (url, "soap_port");
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
-	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, url->host); 
+	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, url->host);
 	if (use_ssl && !g_str_equal (use_ssl, "never"))
 		uri = g_strdup_printf ("https://%s:%s/soap", url->host, soap_port);
-	else 
+	else
 		uri = g_strdup_printf ("http://%s:%s/soap", url->host, soap_port);
-	
+
 	failed_auth = "";
 	cnc = NULL;
-	
+
 	prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
 			failed_auth, url->host, url->user);
 
@@ -267,7 +267,7 @@ proxy_login_get_cnc (EAccount *account)
 	if (!password)
 		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
 				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, NULL);
-	
+
 	g_free (prompt);
 	cnc = e_gw_connection_new (uri, url->user, password);
 	if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
@@ -275,17 +275,17 @@ proxy_login_get_cnc (EAccount *account)
 		cnc = e_gw_connection_new (http_uri, url->user, password);
 		g_free (http_uri);
 	}
-	
+
 	g_free (key);
 	g_free (password);
-	g_free (uri); 
+	g_free (uri);
 	camel_url_free (url);
 
 	return cnc;
 }
-	
 
-static void 
+
+static void
 proxy_login_cb (GtkDialog *dialog, gint state)
 {
 	GtkWidget *account_name_tbox;
@@ -300,7 +300,7 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 	    case GTK_RESPONSE_OK:
 		    gtk_widget_destroy (priv->main);
 		    proxy_soap_login (proxy_name);
-		    g_object_unref (pld);    
+		    g_object_unref (pld);
 		    break;
 	    case GTK_RESPONSE_CANCEL:
     		    gtk_widget_destroy (priv->main);
@@ -313,7 +313,7 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 	g_free (proxy_name);
 }
 
-static void 
+static void
 proxy_soap_login (char *email)
 {
 	EAccountList *accounts = mail_config_get_accounts();
@@ -326,30 +326,30 @@ proxy_soap_login (char *email)
 	char *name;
 	int i;
 	int permissions = 0;
-	
+
 	for (i=0; email[i]!='\0' && email[i]!='@' ; i++);
 	if (email[i]=='@')
 		name = g_strndup(email, i);
 	else {
 		e_error_run (NULL, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
 		return;
-	}	
+	}
 
 	/* README: There should not be the weird scenario of the proxy itself configured as an account.
 	   If so, it is violating the (li)unix philosophy of User creation. So dont care about that scenario*/
 
-	if (e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, email) != NULL) { 
+	if (e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, email) != NULL) {
 		e_error_run (NULL, "org.gnome.evolution.proxy-login:already-loggedin", email, NULL);
 		g_free (name);
 		return;
 	}
-	
+
 	srcAccount = pld->account;
 	cnc = proxy_login_get_cnc(srcAccount);
 	proxy_get_password (srcAccount, &user_name, &password);
-	
+
 	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &permissions);
-	
+
 	if (proxy_cnc) {
 		parent = camel_url_new (e_account_get_string(srcAccount, E_ACCOUNT_SOURCE_URL), NULL);
 		parent_source_url = camel_url_to_string (parent, CAMEL_URL_HIDE_PASSWORD);
@@ -375,8 +375,8 @@ proxy_soap_login (char *email)
 		camel_url_free (parent);
 	} else {
 		e_error_run (NULL, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
-		return;  
-	}	
+		return;
+	}
 
 	g_object_unref (cnc);
 	g_free (name);
@@ -384,8 +384,8 @@ proxy_soap_login (char *email)
 	g_free (password);
 }
 
- 
-static void 
+
+static void
 proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data)
 {
 	MailComponent *component = mail_component_peek ();
@@ -402,7 +402,7 @@ proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data)
 	mail_component_add_store (component, store, account->name);
 }
 
-static void 
+static void
 proxy_login_tree_view_changed_cb(GtkDialog *dialog)
 {
 	proxyLoginPrivate *priv = pld->priv;
@@ -420,14 +420,14 @@ proxy_login_tree_view_changed_cb(GtkDialog *dialog)
 	gtk_entry_set_text((GtkEntry*) account_name_tbox,account_mailid);
 }
 
-static void 
+static void
 proxy_login_setup_tree_view (void)
 {
 	proxyLoginPrivate *priv;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-	
+
 	priv = pld->priv;
 	renderer = g_object_new (GTK_TYPE_CELL_RENDERER_PIXBUF,
 				 "xpad", 4,
@@ -444,7 +444,7 @@ proxy_login_setup_tree_view (void)
 	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK(proxy_login_tree_view_changed_cb), NULL);
 }
 
-static void 
+static void
 proxy_login_update_tree (void)
 {
     	GtkTreeIter iter;
@@ -457,7 +457,7 @@ proxy_login_update_tree (void)
 	proxyLoginPrivate *priv = pld->priv;
 	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", 48);
 	broken_image = gdk_pixbuf_new_from_file (file_name, NULL);
-	
+
 	cnc = proxy_login_get_cnc(pld->account);
 	e_gw_connection_get_proxy_list (cnc, &proxy_list);
 
@@ -511,17 +511,17 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
 	proxy_login_setup_tree_view ();
 	proxy_login_update_tree ();
 	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(proxy_login_cb), NULL);
-	gtk_widget_show (GTK_WIDGET (priv->main));		
+	gtk_widget_show (GTK_WIDGET (priv->main));
  }
 
 static EPopupItem popup_items[] = {
-/* To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise 
- * feature by which one person can send/read mails/appointments using another person's identity 
+/* To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
+ * feature by which one person can send/read mails/appointments using another person's identity
  * without knowing his password, for example if that other person is on vacation */
 { E_POPUP_ITEM, "20.emc.04", N_("_Proxy Login..."), org_gnome_proxy_account_login, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
 };
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 	g_slist_free (items);

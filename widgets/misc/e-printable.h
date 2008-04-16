@@ -64,7 +64,7 @@ typedef struct {
 GtkType     e_printable_get_type (void);
 
 EPrintable *e_printable_new                 (void);
-	
+
 /*
  * Routines for emitting signals on the e_table */
 void        e_printable_print_page          (EPrintable        *e_printable,

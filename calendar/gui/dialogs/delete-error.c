@@ -33,9 +33,9 @@
 
 /**
  * delete_error_dialog:
- * 
+ *
  * Shows any applicable error messages as the result of deleting and object
- * 
+ *
  **/
 void
 delete_error_dialog (GError *error, ECalComponentVType vtype)
@@ -43,10 +43,10 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 	GList *icon_list = NULL;
 	GtkWidget *dialog;
 	const char *str;
-	
+
 	if (!error)
 		return;
-	
+
 	switch (error->code) {
 	case E_CALENDAR_STATUS_CORBA_EXCEPTION:
 		switch (vtype) {
@@ -98,25 +98,25 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 		break;
 	case E_CALENDAR_STATUS_OK:
 	case E_CALENDAR_STATUS_OBJECT_NOT_FOUND:
-	default:		
+	default:
 		/* If not found, we don't care - its gone anyhow */
 		return;
 	}
-	
+
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_ERROR,
-					 GTK_BUTTONS_OK, str);
+					 GTK_BUTTONS_OK, "%s", str);
 	if (vtype == E_CAL_COMPONENT_EVENT)
 		icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	else if (vtype == E_CAL_COMPONENT_TODO)
 		icon_list = e_icon_factory_get_icon_list ("stock_todo");
-	
+
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (dialog), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

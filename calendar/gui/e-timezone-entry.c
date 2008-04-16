@@ -86,7 +86,7 @@ e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) class;
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class) ;
- 
+
 	object_class = (GtkObjectClass*) class;
 
 	widget_class->mnemonic_activate = e_timezone_entry_mnemonic_activate;
@@ -125,7 +125,7 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	gtk_box_pack_start (GTK_BOX (tentry), priv->entry, TRUE, TRUE, 0);
 	gtk_widget_show (priv->entry);
 	g_signal_connect (priv->entry, "changed", G_CALLBACK (on_entry_changed), tentry);
-	
+
 	priv->button = gtk_button_new ();
 	g_signal_connect (priv->button, "clicked", G_CALLBACK (on_button_clicked), tentry);
 	gtk_box_pack_start (GTK_BOX (tentry), priv->button, FALSE, FALSE, 6);
@@ -146,7 +146,7 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
  *
  * Description: Creates a new #ETimezoneEntry widget which can be used
  * to provide an easy to use way for entering dates and times.
- * 
+ *
  * Returns: a new #ETimezoneEntry widget.
  */
 GtkWidget *
@@ -330,8 +330,8 @@ e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 	gtk_entry_set_text (GTK_ENTRY (priv->entry), name_buffer);
 
 	/* do we need to hide the timezone entry at all? i know this overrules the previous case of hiding the timezone
-	 * entry field when we select the default timezone 
-         */  
+	 * entry field when we select the default timezone
+         */
 	gtk_widget_show (priv->entry);
 
 	g_free (name_buffer);
@@ -343,13 +343,13 @@ e_timezone_entry_mnemonic_activate (GtkWidget *widget,
                                     gboolean   group_cycling)
 {
         GtkButton *button = NULL;
-                                                                                                
+
         if (GTK_WIDGET_CAN_FOCUS (widget)) {
                 button = GTK_BUTTON (((ETimezoneEntryPrivate *) ((ETimezoneEntry *) widget)->priv)->button);
                 if (button != NULL)
                         gtk_widget_grab_focus (GTK_WIDGET (button));
         }
-                                                                                                
+
         return TRUE;
 }
 

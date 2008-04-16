@@ -190,7 +190,7 @@ main (int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv, 
+	gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv,
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,
 			    NULL);
 
@@ -212,7 +212,6 @@ main (int argc, char **argv)
 	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/BookFactory:" DATASERVER_API_VERSION);
 	add_matching_repo_id ("IDL:GNOME/Evolution/Importer:" BASE_VERSION);
 	add_matching_repo_id ("IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Spell/Dictionary:0.3");
 
 	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION);
 	add_matching_iid ("OAFIID:GNOME_GtkHTML_Editor_Factory:3.1");

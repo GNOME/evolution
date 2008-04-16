@@ -153,7 +153,7 @@ eba_dispose (GObject *object)
 		(* G_OBJECT_CLASS (e_bit_array_parent_class)->dispose) (object);
 }
 
-/** 
+/**
  * e_selection_model_is_row_selected
  * @selection: #EBitArray to check
  * @n: The row to check
@@ -172,7 +172,7 @@ e_bit_array_value_at (EBitArray *eba,
 		return (eba->data[BOX(n)] >> OFFSET(n)) & 0x1;
 }
 
-/** 
+/**
  * e_selection_model_foreach
  * @selection: #EBitArray to traverse
  * @callback: The callback function to call back.
@@ -181,7 +181,7 @@ e_bit_array_value_at (EBitArray *eba,
  * This routine calls the given callback function once for each
  * selected row, passing closure as the closure.
  */
-void 
+void
 e_bit_array_foreach (EBitArray *eba,
 		     EForeachFunc     callback,
 		     gpointer         closure)
@@ -202,7 +202,7 @@ e_bit_array_foreach (EBitArray *eba,
 	}
 }
 
-/** 
+/**
  * e_selection_model_clear
  * @selection: #EBitArray to clear
  *
@@ -219,7 +219,7 @@ e_bit_array_clear(EBitArray *eba)
 #define PART(x,n) (((x) & (0x01010101 << n)) >> n)
 #define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
 
-/** 
+/**
  * e_selection_model_selected_count
  * @selection: #EBitArray to count
  *
@@ -253,7 +253,7 @@ e_bit_array_selected_count (EBitArray *eba)
 	return count;
 }
 
-/** 
+/**
  * e_selection_model_select_all
  * @selection: #EBitArray to select all
  *
@@ -264,10 +264,10 @@ void
 e_bit_array_select_all (EBitArray *eba)
 {
 	int i;
-	
+
 	if (!eba->data)
 		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
-	
+
 	for (i = 0; i < (eba->bit_count + 31) / 32; i ++) {
 		eba->data[i] = ONES;
 	}
@@ -285,7 +285,7 @@ e_bit_array_select_all (EBitArray *eba)
 	}
 }
 
-/** 
+/**
  * e_selection_model_invert_selection
  * @selection: #EBitArray to invert
  *
@@ -299,7 +299,7 @@ e_bit_array_invert_selection (EBitArray *eba)
 
 	if (!eba->data)
 		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
-	
+
 	for (i = 0; i < (eba->bit_count + 31) / 32; i ++) {
 		eba->data[i] = ~eba->data[i];
 	}

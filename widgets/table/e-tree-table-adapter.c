@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-table-adapter.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -168,8 +168,8 @@ resort_node(ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 
 	sort_needed = etta->priv->sort_info && e_table_sort_info_sorting_get_count (etta->priv->sort_info) > 0;
 
-	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path; 
-	     path = e_tree_model_node_get_next(etta->priv->source, path), i++); 
+	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path;
+	     path = e_tree_model_node_get_next(etta->priv->source, path), i++);
 
 	count = i;
 	if (count <= 1)
@@ -177,7 +177,7 @@ resort_node(ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 
 	paths = g_new0(ETreePath, count);
 
-	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path; 
+	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path;
 	     path = e_tree_model_node_get_next(etta->priv->source, path), i++)
 		paths[i] = path;
 
@@ -805,7 +805,7 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 		generate_tree(etta, child);
 	else
 		insert_node(etta, parent, child);
-	
+
 	e_table_model_changed(E_TABLE_MODEL(etta));
 }
 
@@ -918,7 +918,7 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 	TreeAndRoot tar;
 	xmlDocPtr doc;
 	xmlNode *root;
-	
+
 	g_return_if_fail(etta != NULL);
 
 	doc = xmlNewDoc ((const unsigned char *)"1.0");
@@ -928,7 +928,7 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 	tar.model = etta->priv->source;
 	tar.root = root;
 	tar.expanded_default = e_tree_model_get_expanded_default(etta->priv->source);
-	
+
 	e_xml_set_integer_prop_by_name (root, (const unsigned char *)"vers", 2);
 	e_xml_set_bool_prop_by_name (root, (const unsigned char *)"default", tar.expanded_default);
 
@@ -991,7 +991,7 @@ set_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
 
 	if (node->expanded != TRUE) {
-		e_tree_table_adapter_node_set_expanded(etta, path, TRUE);
+		e_tree_table_adapter_node_set_expanded_recurse (etta, path, TRUE);
 		node->expanded = TRUE;
 	}
 }
@@ -1004,7 +1004,7 @@ set_collapsed_state_func (gpointer keyp, gpointer value, gpointer data)
 	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
 
 	if (node->expanded != FALSE) {
-		e_tree_table_adapter_node_set_expanded(etta, path, FALSE);
+		e_tree_table_adapter_node_set_expanded_recurse (etta, path, FALSE);
 		node->expanded = FALSE;
 	}
 }
@@ -1012,7 +1012,7 @@ set_collapsed_state_func (gpointer keyp, gpointer value, gpointer data)
 void
 e_tree_table_adapter_load_all_expanded_state (ETreeTableAdapter *etta, gboolean state)
 {
-	
+
 	g_return_if_fail(etta != NULL);
 
 	if (state)
@@ -1038,7 +1038,7 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	root = xmlDocGetRootElement (doc);
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
-	
+
 	model_default = e_tree_model_get_expanded_default(etta->priv->source);
 
 	if (!strcmp ((char *)root->name, "expanded_state")) {
@@ -1048,10 +1048,12 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 
 		if (state[0] == 't')
 			file_default = TRUE;
-		else 
+		else
 			file_default = FALSE; /* Even unspecified we'll consider as false */
+
+		g_free (state);
 	}
-	
+
 	/* Incase the default is changed, lets forget the changes and stick to default */
 
 	if (file_default != model_default) {
@@ -1136,7 +1138,7 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 		return;
 
 	node->expanded = expanded;
-		
+
 	row = get_row(etta, path);
 	if (row == -1)
 		return;
@@ -1178,8 +1180,8 @@ e_tree_table_adapter_node_set_expanded_recurse (ETreeTableAdapter *etta, ETreePa
 
 	e_tree_table_adapter_node_set_expanded(etta, path, expanded);
 
-	for (children = e_tree_model_node_get_first_child(etta->priv->source, path); 
-	     children; 
+	for (children = e_tree_model_node_get_first_child(etta->priv->source, path);
+	     children;
 	     children = e_tree_model_node_get_next(etta->priv->source, children)) {
 		e_tree_table_adapter_node_set_expanded_recurse(etta, children, expanded);
 	}
@@ -1197,13 +1199,13 @@ e_tree_table_adapter_row_of_node (ETreeTableAdapter *etta, ETreePath path)
 	return get_row(etta, path);
 }
 
-gboolean     
+gboolean
 e_tree_table_adapter_root_node_is_visible(ETreeTableAdapter *etta)
 {
 	return etta->priv->root_visible;
 }
 
-void         
+void
 e_tree_table_adapter_show_node (ETreeTableAdapter *etta, ETreePath path)
 {
 	ETreePath parent;
@@ -1216,7 +1218,7 @@ e_tree_table_adapter_show_node (ETreeTableAdapter *etta, ETreePath path)
 	}
 }
 
-gboolean     
+gboolean
 e_tree_table_adapter_node_is_expanded (ETreeTableAdapter *etta, ETreePath path)
 {
 	node_t *node = get_node(etta, path);

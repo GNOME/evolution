@@ -96,7 +96,7 @@ static void *
 etmc_initialize_value (ETableModel *etm, int col)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->initialize_value)
 		return etmc->initialize_value (etm, col, etmc->data);
 	else
@@ -107,7 +107,7 @@ static gboolean
 etmc_value_is_empty (ETableModel *etm, int col, const void *value)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->value_is_empty)
 		return etmc->value_is_empty (etm, col, value, etmc->data);
 	else
@@ -118,7 +118,7 @@ static char *
 etmc_value_to_string (ETableModel *etm, int col, const void *value)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->value_to_string)
 		return etmc->value_to_string (etm, col, value, etmc->data);
 	else
@@ -129,7 +129,7 @@ static void
 etmc_append_row (ETableModel *etm, ETableModel *source, int row)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
-	
+
 	if (etmc->append_row)
 		etmc->append_row (etm, source, row, etmc->data);
 }
@@ -179,7 +179,7 @@ e_table_memory_callbacks_init (ETableMemoryCalbacks *etmc)
  * Instead, ETableMemoryCalbacksModel uses a setup based in callback functions, every
  * callback function signature mimics the signature of each ETableModel method
  * and passes the extra @data pointer to each one of the method to provide them
- * with any context they might want to use. 
+ * with any context they might want to use.
  *
  * Returns: An ETableMemoryCalbacksModel object (which is also an ETableModel
  * object).
@@ -210,6 +210,6 @@ e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col_count,
 	et->value_is_empty   = value_is_empty;
 	et->value_to_string  = value_to_string;
 	et->data             = data;
-	
+
 	return (ETableModel *) et;
  }

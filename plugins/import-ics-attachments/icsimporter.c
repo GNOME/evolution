@@ -64,7 +64,6 @@ static void prepare_tasks (icalcomponent *icalcomp, GList *vtodos);
 static void import_items(ICalImporterData *icidata);
 static gboolean update_objects (ECal *client, icalcomponent *icalcomp);
 static void dialog_response_cb (GtkDialog *dialog, gint response_id, ICalImporterData *icidata);
-static void dialog_close_cb (GtkDialog *dialog, ICalImporterData *icidata);
 static void ical_import_done(ICalImporterData *icidata);
 static void init_widgets (char *path);
 static icalcomponent_kind get_menu_type (void *data);
@@ -72,7 +71,7 @@ static icalcomponent_kind get_menu_type (void *data);
 void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttachments *t);
 void org_gnome_evolution_import_ics_part (EPlugin *ep, EMPopupTargetPart *t);
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 	g_slist_free (items);
@@ -89,7 +88,7 @@ static EPopupItem popup_tasks_items[] = {
 };
 
 
-void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttachments *t) 
+void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttachments *t)
 {
 	GSList *menus = NULL;
 	icalcomponent_kind kind;
@@ -98,7 +97,7 @@ void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttac
 	CamelContentType *type;
 
 	len = g_slist_length(t->attachments);
-	
+
 	if (len != 1)
 		return;
 
@@ -119,7 +118,7 @@ void org_gnome_evolution_import_ics_attachments (EPlugin *ep, EMPopupTargetAttac
 	}
 }
 
-void org_gnome_evolution_import_ics_part (EPlugin*ep, EMPopupTargetPart *t) 
+void org_gnome_evolution_import_ics_part (EPlugin*ep, EMPopupTargetPart *t)
 {
 	GSList *menus = NULL;
 	icalcomponent_kind kind;
@@ -148,7 +147,7 @@ get_menu_type (void *data)
 	char *path;
 	icalcomponent *icalcomp, *subcomp;
 	icalcomponent_kind kind;
-	EPopupTarget *target = (EPopupTarget *) data;	
+	EPopupTarget *target = (EPopupTarget *) data;
 
 	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
@@ -175,7 +174,7 @@ import_ics (EPlugin *ep, EPopupTarget *t, void *data)
 {
 	CamelMimePart *part;
 	char *path;
-	EPopupTarget *target = (EPopupTarget *) data;	
+	EPopupTarget *target = (EPopupTarget *) data;
 
 	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
 		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
@@ -189,7 +188,7 @@ import_ics (EPlugin *ep, EPopupTarget *t, void *data)
 static void
 init_widgets(char *path)
 {
-	
+
 	GtkWidget *vbox, *hbox, *dialog;
 	icalcomponent_kind kind;
 	icalcomponent *subcomp;
@@ -203,18 +202,14 @@ init_widgets(char *path)
 	char *markup;
 
 	g_return_if_fail ( path != NULL);
-	dialog = gtk_dialog_new_with_buttons (_("Import ICS"), 
-						NULL, GTK_DIALOG_DESTROY_WITH_PARENT, 
+	dialog = gtk_dialog_new_with_buttons (_("Import ICS"),
+						NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						NULL);
 	icidata->window = dialog;
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (dialog_response_cb),
-			  icidata);
-	g_signal_connect (dialog,
-			  "close",
-			  G_CALLBACK (dialog_close_cb),
 			  icidata);
 
 	vbox = GTK_DIALOG(dialog)->vbox;
@@ -240,6 +235,7 @@ init_widgets(char *path)
 
 	markup = g_markup_printf_escaped ("<b>%s</b>", label_str);
 	gtk_label_set_markup (GTK_LABEL (label), markup);
+	g_free (markup);
 	hbox = gtk_hbox_new (FALSE, FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 6);
@@ -254,7 +250,7 @@ init_widgets(char *path)
 	gtk_box_pack_start (GTK_BOX (hbox), scrolled, TRUE, TRUE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 6);
 	icidata->selector = selector;
-	
+
 
 	/* FIXME What if no sources? */
 	primary = e_source_list_peek_source_any (source_list);
@@ -270,11 +266,12 @@ init_widgets(char *path)
 	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), hbox);
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
-	gtk_widget_grab_focus (button); 
+	gtk_widget_grab_focus (button);
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 210,340);
 	gtk_widget_show_all (dialog);
 	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -287,15 +284,8 @@ dialog_response_cb (GtkDialog *dialog, gint response_id, ICalImporterData *icida
 
 		case GTK_RESPONSE_CANCEL :
 		case GTK_RESPONSE_DELETE_EVENT :
-			gtk_signal_emit_by_name ((GtkObject *)dialog, "close");	
 		break;
 	}
-}
-
-static void 
-dialog_close_cb (GtkDialog *dialog, ICalImporterData *icidata)
-{
-	gtk_widget_destroy ((GtkWidget *)dialog);
 }
 
 /* This removes all components except VEVENTs and VTIMEZONEs from the toplevel */
@@ -307,7 +297,7 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 
 	if (vtodos)
 		*vtodos = NULL;
-	
+
 	iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
 	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
@@ -356,7 +346,7 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
-static void 
+static void
 import_items(ICalImporterData *icidata)
 {
 	ESource *source;
@@ -421,7 +411,6 @@ ical_import_done(ICalImporterData *icidata)
 {
 	g_object_unref (icidata->client);
 	icalcomponent_free (icidata->icalcomp);
-	gtk_signal_emit_by_name (GTK_OBJECT (icidata->window), "close");
 	g_free (icidata);
 }
 

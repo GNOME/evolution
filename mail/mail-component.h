@@ -52,13 +52,13 @@ enum _mail_component_folder_t {
 
 struct _MailComponent {
 	EvolutionComponent parent;
-	
+
 	MailComponentPrivate *priv;
 };
 
 struct _MailComponentClass {
 	EvolutionComponentClass parent_class;
-	
+
 	POA_GNOME_Evolution_MailComponent__epv epv;
 };
 
@@ -101,5 +101,6 @@ const char *mail_component_get_folder_uri(MailComponent *mc, enum _mail_componen
 int status_check (GNOME_Evolution_ShellState shell_state);
 
 void mail_indicate_new_mail (gboolean have_new_mail);
+void mail_component_show_logger (gpointer);
 
 #endif /* _MAIL_COMPONENT_H_ */

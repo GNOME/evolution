@@ -114,7 +114,7 @@ ea_cal_view_event_get_type (void)
                 g_type_add_interface_static (type, ATK_TYPE_ACTION,
                                              &atk_action_info);
 
-                
+
 	}
 
 	return type;
@@ -164,7 +164,7 @@ static void ea_cal_view_finalize (GObject *object)
 }
 #endif
 
-AtkObject* 
+AtkObject*
 ea_cal_view_event_new (GObject *obj)
 {
 	AtkObject *atk_obj = NULL;
@@ -262,21 +262,21 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 
 	alarm_string = recur_string = meeting_string = "";
 	if (event && event->comp_data) {
-		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp)) 
+		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp))
 			alarm_string = _("It has alarms.");
 
-		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) 
+		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 			recur_string = _("It has recurrences.");
 
-		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) 
+		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp))
 			meeting_string = _("It is a meeting.");
-			
+
 	}
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	if (summary) 
+	if (summary)
 		summary_string = g_strdup_printf (_("Calendar Event: Summary is %s."), summary);
-	else 
+	else
 		summary_string = g_strdup (_("Calendar Event: It has no summary."));
 
 	name_string = g_strdup_printf ("%s %s %s %s", summary_string, alarm_string, recur_string, meeting_string);
@@ -410,7 +410,7 @@ ea_cal_view_event_ref_state_set (AtkObject *accessible)
 
 /* Atk Component Interface */
 
-static void 
+static void
 atk_component_interface_init (AtkComponentIface *iface)
 {
   g_return_if_fail (iface != NULL);
@@ -418,7 +418,7 @@ atk_component_interface_init (AtkComponentIface *iface)
   iface->get_extents = ea_cal_view_get_extents;
 }
 
-static void 
+static void
 ea_cal_view_get_extents (AtkComponent   *component,
                          gint           *x,
                          gint           *y,

@@ -15,6 +15,8 @@ struct _EAddressbookTableAdapterPrivate {
 	EABModel *model;
 
 	int create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
+
+	GHashTable *emails;
 };
 
 #define PARENT_TYPE e_table_model_get_type()
@@ -54,6 +56,9 @@ addressbook_dispose(GObject *object)
 	if (adapter->priv) {
 		unlink_model(adapter);
 
+		g_hash_table_remove_all (adapter->priv->emails);
+		g_hash_table_destroy (adapter->priv->emails);
+
 		g_free (adapter->priv);
 		adapter->priv = NULL;
 	}
@@ -92,6 +97,28 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 
 	value = e_contact_get_const((EContact*)eab_model_contact_at (priv->model, row), col);
 
+	if (value && *value && (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3)) {
+		char *val = g_hash_table_lookup (priv->emails, value);
+
+		if (val) {
+			/* we have this already cached, so use value from the cache */
+			value = val;
+		} else {
+			char *name = NULL, *mail = NULL;
+
+			if (eab_parse_qp_email (value, &name, &mail))
+				val = g_strdup_printf ("%s <%s>", name, mail);
+			else
+				val = g_strdup (value);
+
+			g_free (name);
+			g_free (mail);
+
+			g_hash_table_insert (priv->emails, g_strdup (value), val);
+			value = val;
+		}
+	}
+
 	return (void *)(value ? value : "");
 }
 
@@ -122,9 +149,17 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 
 		e_table_model_pre_change(etc);
 
+		if (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3) {
+			const char *old_value = e_contact_get_const (contact, col);
+
+			/* remove old value from cache and use new one */
+			if (old_value && *old_value)
+				g_hash_table_remove (priv->emails, old_value);
+		}
+
 		e_contact_set(contact, col, (void *) val);
 		eab_merging_book_commit_contact (eab_model_get_ebook (priv->model),
-						 contact, contact_modified_cb, NULL);
+						 contact, contact_modified_cb, etc);
 
 		g_object_unref (contact);
 
@@ -152,7 +187,7 @@ addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 	else if (contact && e_contact_get ((EContact *) contact, E_CONTACT_IS_LIST))
 		/* we only allow editing of the name and file as for
                    lists */
-		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS; 
+		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS;
 	else
 		return col < E_CONTACT_LAST_SIMPLE_STRING;
 #endif
@@ -265,10 +300,12 @@ remove_contacts (EABModel *model,
 {
 	GArray *indices = (GArray *) data;
 	int count = indices->len;
-	
-	
+
+	/* clear whole cache */
+	g_hash_table_remove_all (adapter->priv->emails);
+
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
-	if (count == 1) 
+	if (count == 1)
 		e_table_model_rows_deleted (E_TABLE_MODEL (adapter), g_array_index (indices, gint, 0), 1);
 	else
 		e_table_model_changed (E_TABLE_MODEL (adapter));
@@ -279,6 +316,9 @@ modify_contact (EABModel *model,
 		gint index,
 		EAddressbookTableAdapter *adapter)
 {
+	/* clear whole cache */
+	g_hash_table_remove_all (adapter->priv->emails);
+
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 	e_table_model_row_changed (E_TABLE_MODEL (adapter), index);
 }
@@ -287,6 +327,9 @@ static void
 model_changed (EABModel *model,
 	       EAddressbookTableAdapter *adapter)
 {
+	/* clear whole cache */
+	g_hash_table_remove_all (adapter->priv->emails);
+
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 	e_table_model_changed (E_TABLE_MODEL (adapter));
 }
@@ -340,6 +383,8 @@ eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
 						  "model_changed",
 						  G_CALLBACK(model_changed),
 						  adapter);
+
+	priv->emails = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) g_free);
 }
 
 ETableModel *

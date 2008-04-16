@@ -20,7 +20,7 @@
  */
 
 /* This is prototype code only, this may, or may not, use undocumented
- * unstable or private internal function calls. 
+ * unstable or private internal function calls.
  * This code has been derived from the source of the sample eplugin
  * select_one_source.
  */
@@ -38,7 +38,7 @@ void
 org_gnome_mark_calendar_no_offline (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	ESource *source;
-	
+
 	source = e_source_selector_peek_primary_selection (target->selector);
 	e_source_set_property (source, "offline", "0");
 }
@@ -47,7 +47,7 @@ void
 org_gnome_mark_calendar_offline (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	ESource *source;
-	
+
 	source = e_source_selector_peek_primary_selection (target->selector);
 	e_source_set_property (source, "offline", "1");
 }

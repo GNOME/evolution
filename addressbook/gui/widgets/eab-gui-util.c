@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-field-chooser.c
  * Copyright (C) 2001  Ximian, Inc.
  * Author: Chris Toshok <toshok@ximian.com>
@@ -34,10 +34,15 @@
 #include "util/eab-book-util.h"
 #include <libebook/e-destination.h>
 #include "e-util/e-error.h"
+#include "e-util/e-html-utils.h"
 #include "misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>
 #include "eab-contact-merging.h"
 #include <gnome.h>
+#include <composer/e-msg-composer.h>
+
+/* we link to camel for decoding quoted printable email addresses */
+#include <camel/camel-mime-utils.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
@@ -76,7 +81,7 @@ void
 eab_error_dialog (const char *msg, EBookStatus status)
 {
 	const char *status_str = status_to_string [status];
-	
+
 	if (status_str)
 		e_error_run (NULL, "addressbook:generic-error", msg, _(status_str), NULL);
 }
@@ -86,7 +91,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 {
 	char *label_string, *label = NULL, *uri;
 	GtkWidget *dialog;
-	
+
 	g_return_if_fail (source != NULL);
 
 	uri = e_source_get_uri (source);
@@ -97,7 +102,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
                                  "for offline usage. Please load the addressbook once in online mode "
                                  "to download its contents");
 	}
-		
+
 	else if (!strncmp (uri, "file:", 5)) {
 		char *path = g_filename_from_uri (uri, NULL, NULL);
 		label = g_strdup_printf (
@@ -108,8 +113,8 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	}
 	else if (!strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
-#if HAVE_LDAP
-		label_string = 
+#ifdef HAVE_LDAP
+		label_string =
 			_("We were unable to open this addressbook.  This either "
 			  "means you have entered an incorrect URI, or the LDAP server "
 			  "is unreachable.");
@@ -126,12 +131,12 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 			  "means you have entered an incorrect URI, or the server "
 			  "is unreachable.");
 	}
-	
+
 	dialog  = e_error_new ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
-	
+
 	gtk_widget_show (dialog);
-	g_free (label);	
+	g_free (label);
 	g_free (uri);
 }
 
@@ -168,7 +173,7 @@ eab_search_result_dialog      (GtkWidget *parent,
 	default:
 		g_return_if_reached ();
 	}
-	
+
 	e_error_run ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
 }
 
@@ -340,7 +345,7 @@ file_exists(GtkWindow *window, const char *filename)
 typedef struct {
 	GtkWidget *filesel;
 	char *vcard;
-	gboolean has_multiple_contacts; 
+	gboolean has_multiple_contacts;
 } SaveAsInfo;
 
 static void
@@ -350,11 +355,11 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	char *uri;
 	gint error = 0;
 	gint response = 0;
-	
+
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));	
-	
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));
+
 	if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		response = file_exists(GTK_WINDOW (info->filesel), filename);
 		switch (response) {
@@ -365,12 +370,12 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		}
 	}
 
-	error = e_write_file_uri (uri, info->vcard);	    
+	error = e_write_file_uri (uri, info->vcard);
 	if (error != 0) {
 		char *err_str_ext;
 		if (info->has_multiple_contacts) {
 			/* more than one, finding the total number of contacts might
-			 * hit performance while saving large number of contacts 
+			 * hit performance while saving large number of contacts
 			 */
 			err_str_ext = ngettext ("contact", "contacts", 2);
 		}
@@ -378,16 +383,16 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 			err_str_ext = ngettext ("contact", "contacts", 1);
 		}
 
-		/* translators: Arguments, err_str_ext (item to be saved: "contact"/"contacts"), 
-		 * destination file name, and error code will fill the placeholders 
-		 * {0}, {1} and {2}, respectively in the error message formed 
+		/* translators: Arguments, err_str_ext (item to be saved: "contact"/"contacts"),
+		 * destination file name, and error code will fill the placeholders
+		 * {0}, {1} and {2}, respectively in the error message formed
 		 */
-		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error", 
+		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error",
 					 err_str_ext, filename, g_strerror (errno));
 		gtk_widget_destroy(GTK_WIDGET(info->filesel));
 		return;
 	}
-	    
+
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
 }
 
@@ -430,7 +435,7 @@ make_safe_filename (char *name)
 		safe = g_strdup (name);
 
 	e_filename_make_safe (safe);
-	
+
 	return safe;
 }
 
@@ -523,7 +528,7 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
-	
+
 	info->filesel = filesel;
 	info->vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
@@ -624,7 +629,7 @@ do_delete (gpointer data, gpointer user_data)
 	EBook *book = user_data;
 	EContact *contact = data;
 	const char *id;
-	
+
 	id = e_contact_get_const (contact, E_CONTACT_UID);
 	e_book_remove_contact(book, id, NULL);
 }
@@ -664,7 +669,7 @@ contact_added_cb (EBook* book, EBookStatus status, const char *id, gpointer user
 	if (status != E_BOOK_ERROR_OK && status != E_BOOK_ERROR_CANCELLED) {
 		process->book_status = FALSE;
 		eab_error_dialog (_("Error adding contact"), status);
-	} 
+	}
 	else if (status == E_BOOK_ERROR_CANCELLED) {
 		process->book_status = FALSE;
 	}
@@ -762,286 +767,175 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 	addressbook_load (dest, got_book_cb, process);
 }
 
-#include <Evolution-Composer.h>
-
-#define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
-
 typedef struct {
 	EContact *contact;
 	int email_num; /* if the contact is a person (not a list), the email address to use */
 } ContactAndEmailNum;
 
 static void
-eab_send_to_contact_and_email_num_list (GList *c)
+eab_send_to_contact_and_email_num_list (GList *contact_list)
 {
-	GNOME_Evolution_Composer composer_server;
-	CORBA_Environment ev;
-	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-	CORBA_char *subject;
-	int to_i, bcc_i;
-	GList *iter;
-	gint to_length = 0, bcc_length = 0;
+	EMsgComposer *composer;
+	EComposerHeaderTable *table;
+	GPtrArray *to_array;
+	GPtrArray *bcc_array;
 
-	if (c == NULL)
+	union {
+		gpointer *pdata;
+		EDestination **destinations;
+	} convert;
+
+	if (contact_list == NULL)
 		return;
 
-	CORBA_exception_init (&ev);
-	
-	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
+	composer = e_msg_composer_new ();
+	table = e_msg_composer_get_header_table (composer);
 
-	/* Figure out how many addresses of each kind we have. */
-	for (iter = c; iter != NULL; iter = g_list_next (iter)) {
-		ContactAndEmailNum *ce = iter->data;
+	to_array = g_ptr_array_new ();
+	bcc_array = g_ptr_array_new ();
+
+	/* Sort contacts into "To" and "Bcc" destinations. */
+	while (contact_list != NULL) {
+		ContactAndEmailNum *ce = contact_list->data;
 		EContact *contact = ce->contact;
-		GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
-		if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-			gint len = g_list_length (emails);
-			if (e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES))
-				to_length += len;
+		EDestination *destination;
+
+		destination = e_destination_new ();
+		e_destination_set_contact (destination, contact, 0);
+
+		if (e_destination_is_evolution_list (destination)) {
+			if (e_destination_list_show_addresses (destination))
+				g_ptr_array_add (to_array, destination);
 			else
-				bcc_length += len;
-		} else {
-			if (emails != NULL)
-				++to_length;
-		}
-		g_list_foreach (emails, (GFunc)g_free, NULL);
-		g_list_free (emails);
+				g_ptr_array_add (bcc_array, destination);
+		} else
+			g_ptr_array_add (to_array, destination);
+
+		contact_list = g_list_next (contact_list);
 	}
 
-	/* Now I have to make a CORBA sequences that represents a recipient list with
-	   the right number of entries, for the contacts. */
-	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	to_list->_maximum = to_length;
-	to_list->_length = to_length;
-	if (to_length > 0) {
-		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
+	/* Add sentinels to each array. */
+	g_ptr_array_add (to_array, NULL);
+	g_ptr_array_add (bcc_array, NULL);
+
+	/* XXX Acrobatics like this make me question whether NULL-terminated
+	 *     arrays are really the best argument type for passing a list of
+	 *     destinations to the header table. */
+
+	/* Add "To" destinations. */
+	convert.pdata = to_array->pdata;
+	e_composer_header_table_set_destinations_to (
+		table, convert.destinations);
+	g_ptr_array_free (to_array, FALSE);
+	e_destination_freev (convert.destinations);
+
+	/* Add "Bcc" destinations. */
+	convert.pdata = bcc_array->pdata;
+	e_composer_header_table_set_destinations_bcc (
+		table, convert.destinations);
+	g_ptr_array_free (bcc_array, FALSE);
+	e_destination_freev (convert.destinations);
+
+	gtk_widget_show (GTK_WIDGET (composer));
+}
+
+static const char *
+get_email (EContact *contact, EContactField field_id, gchar **to_free)
+{
+	char *name = NULL, *mail = NULL;
+	const char *value = e_contact_get_const (contact, field_id);
+
+	*to_free = NULL;
+
+	if (eab_parse_qp_email (value, &name, &mail)) {
+		*to_free = g_strdup_printf ("%s <%s>", name, mail);
+		value = *to_free;
 	}
 
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
-		
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_length;
-	bcc_list->_length = bcc_length;
-	if (bcc_length > 0) {
-		bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
-	}
+	g_free (name);
+	g_free (mail);
 
-	to_i = 0;
-	bcc_i = 0;
-	while (c != NULL) {
-		ContactAndEmailNum *ce = c->data;
-		EContact *contact = ce->contact;
-		int nth = ce->email_num;
-		char *name, *addr;
-		gboolean is_list, is_hidden;
-		GNOME_Evolution_Composer_Recipient *recipient;
-		GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
-		GList *iterator;
-
-		if (emails != NULL) {
-			is_list = e_contact_get (contact, E_CONTACT_IS_LIST) != NULL;
-			is_hidden = is_list && !e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES);
-
-			if (is_list) {
-				for (iterator = emails; iterator; iterator = iterator->next) {
-					
-					if (is_hidden) {
-						recipient = &(bcc_list->_buffer[bcc_i]);
-						++bcc_i;
-					} else {
-						recipient = &(to_list->_buffer[to_i]);
-						++to_i;
-					}
-					
-					name = NULL;
-					addr = NULL;
-					if (iterator && iterator->data) {
-						/* XXX we should probably try to get the name from the attribute parameter here.. */
-						addr = g_strdup ((char*)iterator->data);
-					}
-
-					recipient->name    = CORBA_string_dup (name ? name : "");
-					recipient->address = CORBA_string_dup (addr ? addr : "");
-					
-					g_free (name);
-					g_free (addr);
-				}
-			}
-			else {
-				EContactName *contact_name = e_contact_get (contact, E_CONTACT_NAME);
-				int length = g_list_length (emails);
-
-				if (is_hidden) {
-					recipient = &(bcc_list->_buffer[bcc_i]);
-					++bcc_i;
-				} else {
-					recipient = &(to_list->_buffer[to_i]);
-					++to_i;
-				}
-
-				if (nth >= length)
-					nth = 0;
-					
-				if (contact_name) {
-					name = e_contact_name_to_string (contact_name);
-					e_contact_name_free (contact_name);
-				}
-				else
-					name = NULL;
-
-				addr = g_strdup (g_list_nth_data (emails, nth));
-					
-
-				recipient->name    = CORBA_string_dup (name ? name : "");
-				recipient->address = CORBA_string_dup (addr ? addr : "");
-
-				g_free (name);
-				g_free (addr);
-			}
-
-			g_list_foreach (emails, (GFunc)g_free, NULL);
-			g_list_free (emails);
-		}
-
-		c = c->next;
-	}
-
-	subject = CORBA_string_dup ("");
-
-	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_free (to_list);
-	CORBA_free (cc_list);
-	CORBA_free (bcc_list);
-	CORBA_free (subject);
-
-	GNOME_Evolution_Composer_show (composer_server, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
+	return value;
 }
 
 static void
 eab_send_contact_list_as_attachment (GList *contacts)
 {
-	GNOME_Evolution_Composer composer_server;
-	CORBA_Environment ev;
-	CORBA_char *content_type, *filename, *description;
-	GNOME_Evolution_Composer_AttachmentData *attach_data;
-	CORBA_boolean show_inline;
-	char *tempstr;
-	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-	CORBA_char *subject;
+	EMsgComposer *composer;
+	EComposerHeaderTable *table;
+	CamelMimePart *attachment;
+	gchar *data;
 
 	if (contacts == NULL)
 		return;
 
-	CORBA_exception_init (&ev);
-	
-	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
+	composer = e_msg_composer_new ();
+	table = e_msg_composer_get_header_table (composer);
 
+	attachment = camel_mime_part_new ();
+	data = eab_contact_list_to_string (contacts);
 
-		
-	content_type = CORBA_string_dup ("text/x-vcard");
-	filename = CORBA_string_dup ("");
+	camel_mime_part_set_content (
+		attachment, data, strlen (data), "text/x-vcard");
 
-	if (contacts->next) {
-		description = CORBA_string_dup (_("Multiple VCards"));
-	} else {
-		char *file_as = e_contact_get (E_CONTACT (contacts->data), E_CONTACT_FILE_AS);
-		tempstr = g_strdup_printf (_("VCard for %s"), file_as);
-		description = CORBA_string_dup (tempstr);
-		g_free (tempstr);
-		g_free (file_as);
-	}
-
-	show_inline = FALSE;
-
-	tempstr = eab_contact_list_to_string (contacts);
-	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
-	attach_data->_maximum = attach_data->_length = strlen (tempstr);
-	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-	memcpy (attach_data->_buffer, tempstr, attach_data->_length);
-	g_free (tempstr);
-
-	GNOME_Evolution_Composer_attachData (composer_server, 
-					     content_type, filename, description,
-					     show_inline, attach_data,
-					     &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-	
-	CORBA_free (content_type);
-	CORBA_free (filename);
-	CORBA_free (description);
-	CORBA_free (attach_data);
-
-	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	to_list->_maximum = to_list->_length = 0;
-		
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
-
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_list->_length = 0;
-
-	if (!contacts || contacts->next) {
-		subject = CORBA_string_dup (_("Contact information"));
-	} else {
+	if (contacts->next != NULL)
+		camel_mime_part_set_description (
+			attachment, _("Multiple vCards"));
+	else {
 		EContact *contact = contacts->data;
+		const gchar *file_as;
+		gchar *description;
+
+		file_as = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+		description = g_strdup_printf (_("vCard for %s"), file_as);
+		camel_mime_part_set_description (attachment, description);
+		g_free (description);
+	}
+
+	camel_mime_part_set_disposition (attachment, "attachment");
+
+	e_msg_composer_attach (composer, attachment);
+	camel_object_unref (attachment);
+
+	if (contacts->next != NULL)
+		e_composer_header_table_set_subject (
+			table, _("Contact information"));
+	else {
+		EContact *contact = contacts->data;
+		gchar *tempstr;
 		const gchar *tempstr2;
+		gchar *tempfree = NULL;
 
 		tempstr2 = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (!tempstr2 || !*tempstr2)
 			tempstr2 = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
 		if (!tempstr2 || !*tempstr2)
 			tempstr2 = e_contact_get_const (contact, E_CONTACT_ORG);
-		if (!tempstr2 || !*tempstr2)
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
-		if (!tempstr2 || !*tempstr2)
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
-		if (!tempstr2 || !*tempstr2)
-			tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
+		if (!tempstr2 || !*tempstr2) {
+			g_free (tempfree);
+			tempstr2 = get_email (contact, E_CONTACT_EMAIL_1, &tempfree);
+		}
+		if (!tempstr2 || !*tempstr2) {
+			g_free (tempfree);
+			tempstr2 = get_email (contact, E_CONTACT_EMAIL_2, &tempfree);
+		}
+		if (!tempstr2 || !*tempstr2) {
+			g_free (tempfree);
+			tempstr2 = get_email (contact, E_CONTACT_EMAIL_3, &tempfree);
+		}
 
 		if (!tempstr2 || !*tempstr2)
 			tempstr = g_strdup_printf (_("Contact information"));
 		else
 			tempstr = g_strdup_printf (_("Contact information for %s"), tempstr2);
-		subject = CORBA_string_dup (tempstr);
+
+		e_composer_header_table_set_subject (table, tempstr);
+
 		g_free (tempstr);
-	}
-		
-	GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
-
-	CORBA_free (to_list);
-	CORBA_free (cc_list);
-	CORBA_free (bcc_list);
-	CORBA_free (subject);
-
-	GNOME_Evolution_Composer_show (composer_server, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
+		g_free (tempfree);
 	}
 
-	CORBA_exception_free (&ev);
+	gtk_widget_show (GTK_WIDGET (composer));
 }
 
 void
@@ -1117,4 +1011,58 @@ eab_create_image_chooser_widget(gchar *name,
 	}
 
 	return w;
+}
+
+/* To parse something like...
+=?UTF-8?Q?=E0=A4=95=E0=A4=95=E0=A4=AC=E0=A5=82=E0=A5=8B=E0=A5=87?=\t\n=?UTF-8?Q?=E0=A4=B0?=\t\n<aa@aa.ccom>
+and return the decoded representation of name & email parts.
+*/
+gboolean
+eab_parse_qp_email (const gchar *string, gchar **name, gchar **email)
+{
+	struct _camel_header_address *address;
+	gboolean res = FALSE;
+
+	address = camel_header_address_decode (string, "UTF-8");
+
+	if (!address)
+		return FALSE;
+
+	/* report success only when we have filled both name and email address */
+	if (address->type == CAMEL_HEADER_ADDRESS_NAME  && address->name && *address->name && address->v.addr && *address->v.addr) {
+		*name = g_strdup (address->name);
+		*email = g_strdup (address->v.addr);
+		res = TRUE;
+	}
+
+	camel_header_address_unref (address);
+
+	return res;
+}
+
+/* This is only wrapper to parse_qp_mail, it decodes string and if returned TRUE,
+   then makes one string and returns it, otherwise returns NULL.
+   Returned string is usable to place directly into GtkHtml stream.
+   Returned value should be freed with g_free. */
+char *
+eab_parse_qp_email_to_html (const gchar *string)
+{
+	char *name = NULL, *mail = NULL;
+	char *html_name, *html_mail;
+	char *value;
+
+	if (!eab_parse_qp_email (string, &name, &mail))
+		return NULL;
+
+	html_name = e_text_to_html (name, 0);
+	html_mail = e_text_to_html (mail, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+
+	value = g_strdup_printf ("%s &lt;%s&gt;", html_name, html_mail);
+
+	g_free (html_name);
+	g_free (html_mail);
+	g_free (name);
+	g_free (mail);
+
+	return value;
 }

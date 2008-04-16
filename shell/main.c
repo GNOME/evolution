@@ -25,12 +25,18 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
+#ifdef G_OS_WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-bconf-map.h"
 
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
 #include "e-util/e-profile-event.h"
+#include "e-util/e-util.h"
 
 #include "e-shell.h"
 #include "es-menu.h"
@@ -60,6 +66,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-client.h>
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-moniker-util.h>
@@ -91,6 +98,11 @@
 
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
+#define SKIP_RECOVERY_DIALOG_KEY \
+	"/apps/evolution/shell/skip_recovery_dialog"
+#define RECOVERY_KEY \
+	"/apps/evolution/shell/recovery"
+
 
 static EShell *shell = NULL;
 
@@ -138,6 +150,8 @@ kill_dataserver (void)
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.4 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.6 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.8 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.10 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.12 2> /dev/null");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
@@ -231,7 +245,7 @@ show_development_warning(void)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"2.10.1");
+		"2.12.1");
 	label = gtk_label_new (text);
 	g_free(text);
 
@@ -283,6 +297,70 @@ destroy_config (GConfClient *client)
 }
 
 #endif /* DEVELOPMENT */
+
+static int
+show_recovery_warning(void)
+{
+	GtkWidget *vbox;
+	GtkWidget *label;
+	GtkWidget *warning_dialog;
+	GtkWidget *checkbox;
+	GtkWidget *alignment;
+	gboolean skip;
+	char *text;
+	int flags = 0, response;
+
+	warning_dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Evolution Crash Detection"));
+	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
+	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), _("Ig_nore"), GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), _("_Recover"), GTK_RESPONSE_OK);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (warning_dialog), FALSE);
+
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (warning_dialog)->action_area), 12);
+
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), vbox,
+			    TRUE, TRUE, 0);
+
+	text = g_strdup(
+		/* xgettext:no-c-format */
+		_("Evolution appears to have exited unexpectedly the last time it was\n"
+		  "run.  As a precautionary measure, all preview panes will be hidden.\n"
+		  "You can restore the preview panes from the View menu.\n"));
+	label = gtk_label_new (text);
+	g_free(text);
+
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+
+	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
+
+	checkbox = gtk_check_button_new_with_mnemonic (_("_Do not show this message again"));
+
+	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
+
+	gtk_container_add (GTK_CONTAINER (alignment), checkbox);
+	gtk_box_pack_start (GTK_BOX (vbox), alignment, TRUE, TRUE, 0);
+
+	gtk_widget_show_all (warning_dialog);
+
+	response = gtk_dialog_run (GTK_DIALOG (warning_dialog));
+	
+	if (response != GTK_RESPONSE_CANCEL)
+		flags = flags|(1<<1);
+
+	skip = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+	if (skip)
+		flags = flags|(1<<2);
+
+	gtk_widget_destroy (warning_dialog);
+
+	return flags;
+}
 
 static void
 open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
@@ -363,8 +441,36 @@ idle_cb (gchar **uris)
 	if (shell != NULL) {
 		if (uris != NULL)
 			open_uris (corba_shell, uris);
-		else
+		else {
+			GConfClient *client = gconf_client_get_default ();
+			
+			if (gconf_client_get_bool (client, RECOVERY_KEY, NULL) && e_file_lock_exists ()) {
+				/* It should have crashed last time or a force-shutdown */
+				gboolean skip = gconf_client_get_bool (client, SKIP_RECOVERY_DIALOG_KEY, NULL);
+				gboolean recover = TRUE;
+				if (!skip){
+					int flags = show_recovery_warning ();
+
+					gconf_client_set_bool (client, SKIP_RECOVERY_DIALOG_KEY, (flags & (1<<2)) ? TRUE : FALSE, NULL);
+					recover = (flags & (1<<1)) ? TRUE: FALSE;
+				}
+
+				if (recover) {
+					/* Disable the previews */
+					gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
+					gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
+					gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
+					gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
+				}
+				/* Let us not delete and recreate a lock, instead reuse it. We don't use timestamps anyways */
+			} else {
+				/* What great can we do, if lock creation fails ?*/
+				e_file_lock_create ();
+			}
+			g_object_unref (client);
+
 			e_shell_create_window (shell, default_component_id, NULL);
+		}
 	} else {
 		CORBA_Environment ev;
 
@@ -383,7 +489,7 @@ idle_cb (gchar **uris)
 	CORBA_Object_release (corba_shell, &ev);
 
 	CORBA_exception_free (&ev);
-	
+
 	if (shell == NULL) {
 		/*there is another instance but because we don't open any windows
 		we must notify the startup was complete manually*/
@@ -397,7 +503,7 @@ idle_cb (gchar **uris)
 #ifndef G_OS_WIN32
 
 /* SIGSEGV handling.
-   
+
    The GNOME SEGV handler will lose if it's not run from the main Gtk
    thread. So if we have to redirect the signal if the crash happens in another
    thread.  */
@@ -440,7 +546,7 @@ setup_segv_redirect (void)
 	sigaction (SIGSEGV, &sa, NULL);
 	sigaction (SIGBUS, &sa, NULL);
 	sigaction (SIGFPE, &sa, NULL);
-		
+
 	sa.sa_handler = SIG_IGN;
 	sigaction (SIGXFSZ, &sa, NULL);
 	gnome_segv_handler = osa.sa_handler;
@@ -448,8 +554,20 @@ setup_segv_redirect (void)
 }
 
 #else
-#define setup_segv_redirect() 0
+#define setup_segv_redirect() (void)0
 #endif
+
+static gint
+gnome_master_client_save_yourself_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown, GnomeInteractStyle interact_style, gint fast, gpointer user_data)
+{
+	return !shell || e_shell_can_quit (shell);
+}
+
+static void
+gnome_master_client_die_cb (GnomeClient *client)
+{
+	e_shell_do_quit (shell);
+}
 
 static const GOptionEntry options[] = {
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &default_component_id,
@@ -459,24 +577,79 @@ static const GOptionEntry options[] = {
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
 	  N_("Start in online mode"), NULL },
 #ifdef KILL_PROCESS_CMD
-	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev, 
+	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev,
 	  N_("Forcibly shut down all Evolution components"), NULL },
 #endif
 #if DEVELOPMENT
-	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate, 
+	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate,
 	  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
 #endif
-	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log, 
+	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log,
 	  N_("Send the debugging output of all components to a file."), NULL },
-	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin, 
+	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
 	  N_("Disable loading of any plugins."), NULL },
-	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview, 
-	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },	
+	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
+	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },
 	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
 	  &setup_only, NULL, NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
 	{ NULL }
 };
+
+#ifdef G_OS_WIN32
+static void
+set_paths (void)
+{
+	/* Set PATH to include the Evolution executable's folder
+	 * and the lib/evolution/$(BASE_VERSION)/components folder.
+	 */
+	wchar_t exe_filename[MAX_PATH];
+	wchar_t *p;
+	gchar *exe_folder_utf8;
+	gchar *components_folder_utf8;
+	gchar *top_folder_utf8;
+	gchar *path;
+
+	GetModuleFileNameW (NULL, exe_filename, G_N_ELEMENTS (exe_filename));
+
+	p = wcsrchr (exe_filename, L'\\');
+	g_assert (p != NULL);
+
+	*p = L'\0';
+	exe_folder_utf8 = g_utf16_to_utf8 (exe_filename, -1, NULL, NULL, NULL);
+
+	p = wcsrchr (exe_filename, L'\\');
+	g_assert (p != NULL);
+
+	*p = L'\0';
+	top_folder_utf8 = g_utf16_to_utf8 (exe_filename, -1, NULL, NULL, NULL);
+	components_folder_utf8 =
+		g_strconcat (top_folder_utf8,
+			     "/lib/evolution/" BASE_VERSION "/components",
+			     NULL);
+
+	path = g_build_path (";",
+			     exe_folder_utf8,
+			     components_folder_utf8,
+			     g_getenv ("PATH"),
+			     NULL);
+	if (!g_setenv ("PATH", path, TRUE))
+		g_warning ("Could not set PATH for Evolution and its child processes");
+
+	g_free (path);
+
+	/* Set BONOBO_ACTIVATION_PATH */
+	if (g_getenv ("BONOBO_ACTIVATION_PATH" ) == NULL) {
+		path = g_build_filename (top_folder_utf8,
+					 "lib/bonobo/servers",
+					 NULL);
+		if (!g_setenv ("BONOBO_ACTIVATION_PATH", path, TRUE))
+			g_warning ("Could not set BONOBO_ACTIVATION_PATH");
+		g_free (path);
+	}
+	g_free (top_folder_utf8);
+}
+#endif
 
 int
 main (int argc, char **argv)
@@ -485,11 +658,12 @@ main (int argc, char **argv)
 	extern void link_shutdown (void);
 #endif
 
-#if DEVELOPMENT
 	GConfClient *client;
+#if DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
 	GnomeProgram *program;
+	GnomeClient *master_client;
 	GOptionContext *context;
 	char *filename;
 
@@ -506,7 +680,11 @@ main (int argc, char **argv)
 
 	g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
 
-	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
+#ifdef G_OS_WIN32
+	set_paths ();
+#endif
+
+	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
 				      GNOME_PARAM_GOPTION_CONTEXT, context,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
@@ -527,13 +705,10 @@ main (int argc, char **argv)
 		exit (0);
 	}
 
-#ifdef G_OS_WIN32
-	gtk_rc_parse_string ("gtk-fallback-icon-theme = \"gnome\"");
-#endif
-
-#if DEVELOPMENT
 	client = gconf_client_get_default ();
 
+#if DEVELOPMENT
+	
 	if (force_migrate) {
 		destroy_config (client);
 	}
@@ -546,7 +721,7 @@ main (int argc, char **argv)
 	}
 
 	setup_segv_redirect ();
-	
+
 	if (evolution_debug_log) {
 		int fd;
 
@@ -558,6 +733,11 @@ main (int argc, char **argv)
 		} else
 			g_warning ("Could not set up debugging output file.");
 	}
+
+	master_client = gnome_master_client ();
+
+	g_signal_connect (G_OBJECT (master_client), "save_yourself", G_CALLBACK (gnome_master_client_save_yourself_cb), NULL);
+	g_signal_connect (G_OBJECT (master_client), "die", G_CALLBACK (gnome_master_client_die_cb), NULL);
 
 	glade_init ();
 	e_cursors_init ();
@@ -594,13 +774,13 @@ main (int argc, char **argv)
 	else
 		g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 
-	g_object_unref (client);
 #else
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);	
+	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 #endif
-	
+	g_object_unref (client);
+
 	bonobo_main ();
-	
+
 	e_icon_factory_shutdown ();
 	g_object_unref (program);
 	gnome_sound_shutdown ();

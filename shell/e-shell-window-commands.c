@@ -54,7 +54,7 @@
 #include "e-shell-importer.h"
 
 #define EVOLUTION_COPYRIGHT \
-	"Copyright \xC2\xA9 1999 - 2006 Novell, Inc. and Others"
+	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
 
 #define EVOLUTION_WEBSITE \
 	"http://www.gnome.org/projects/evolution/"
@@ -162,8 +162,10 @@ static const char *authors[] = {
 	"Adam Weinberger",
 	"Adi Attar",
 	"Ahmad Riza H Nst",
+	"Aidan Delaney",
 	"Aishwarya K",
 	"Akagic Amila",
+	"Akhil Laddha",
 	"Akira Tagoh",
 	"Alastair McKinstry",
 	"Alastair Tse",
@@ -171,6 +173,8 @@ static const char *authors[] = {
 	"Alessandro Decina",
 	"Alex Graveley",
 	"Alex Jiang",
+	"Alex Jones",
+	"Alex Kloss",
 	"Alexander Shopov",
 	"Alfred Peng",
 	"Ali Abdin",
@@ -181,9 +185,11 @@ static const char *authors[] = {
 	"Anders Carlsson",
 	"Andre Klapper",
 	"Andrea Campi",
+	"Andreas Henriksson",
 	"Andreas Hyden",
 	"Andreas J. Guelzow",
 	"Andreas K\xC3\xB6hler",
+	"Andreas Köhler",
 	"Andrew Ruthven",
 	"Andrew T. Veliath",
 	"Andrew Wu",
@@ -195,10 +201,14 @@ static const char *authors[] = {
 	"Archit Baweja",
 	"Ariel Rios",
 	"Arik Devens",
+	"Armin Bauer",
 	"Arturo Espinosa Aldama",
 	"Arulanandan P",
-	"Arunprakash",
+	"Arun Prakash",
 	"Arvind Sundararajan",
+	"Arvind",
+	"Ashish",
+	"B S Srinidhi",
 	"Bastien Nocera",
 	"Behnam Esfahbod",
 	"Ben Gamari",
@@ -210,10 +220,13 @@ static const char *authors[] = {
 	"Bharath Acharya",
 	"Bill Zhu",
 	"Bj\xC3\xB6rn Torkelsson",
+	"BjÃ¶rn Lindqvist",
 	"Bob Doan",
+	"Bob Mauchin",
 	"Boby Wang",
 	"Bolian Yin",
 	"Brian Mury",
+	"Brian Pepple",
 	"Bruce Tao",
 	"Calvin Liu",
 	"Cantona Su",
@@ -235,6 +248,8 @@ static const char *authors[] = {
 	"Chris Toshok",
 	"Christian Hammond",
 	"Christian Kellner",
+	"Christian Kirbach",
+	"Christian Krause",
 	"Christian Kreibich",
 	"Christian Neumair",
 	"Christophe Fergeau",
@@ -246,36 +261,50 @@ static const char *authors[] = {
 	"Claudio Saavedra",
 	"Clifford R. Conover",
 	"Cody Russell",
+	"Colin Leroy",
 	"Craig Small",
 	"Dafydd Harries",
 	"Damian Ivereigh",
+	"Damien Carbery",
 	"Damon Chaplin",
 	"Dan Berger",
+	"Dan Damian",
+	"Dan Nguyen",
 	"Dan Winship",
 	"Daniel Gryniewicz",
 	"Daniel Nylander",
+	"Daniel van Eeden",
 	"Daniel Veillard",
 	"Daniel Yacob",
 	"Danilo \xC5\xA0" "egan",
+	"Danilo Segan",
 	"Darin Adler",
+	"Dave Benson",
 	"Dave Camp",
 	"Dave Fallon",
+	"Dave Malcolm",
 	"Dave West",
 	"David Farning",
+	"David Kaelbling",
 	"David Malcolm",
 	"David Moore",
 	"David Mosberger",
 	"David Richards",
 	"David Trowbridge",
+	"David Turner",
 	"David Woodhouse",
+	"Denis Washington",
 	"Devashish Sharma",
 	"Diego Escalante Urrelo",
 	"Diego Gonzalez",
 	"Diego Sevilla Ruiz",
 	"Dietmar Maurer",
 	"Dinesh Layek",
+	"Djihed Afifi",
 	"Dmitry Mastrukov",
+	"Dodji Seketeli",
 	"Duarte Loreto",
+	"Dulmandakh Sukhbaatar",
 	"Duncan Mak",
 	"Ebby Wiselyn",
 	"Ed Catmur",
@@ -305,6 +334,8 @@ static const char *authors[] = {
 	"Frederic Crozat",
 	"Frederic Peters",
 	"Funda Wang",
+	"Gabor Kelemen",
+	"Ganesh",
 	"Gareth Owen",
 	"Gary Coady",
 	"Gary Ekker",
@@ -312,6 +343,8 @@ static const char *authors[] = {
 	"Gediminas Paulauskas",
 	"George Lebl",
 	"Gerardo Marin",
+	"Gert Kulyk",
+	"Giancarlo Capella",
 	"Gil Osher",
 	"Gilbert Fang",
 	"Gilles Dartiguelongue",
@@ -322,15 +355,18 @@ static const char *authors[] = {
 	"Grzegorz Goawski",
 	"Gustavo Gir\xC3\x8E" "ldez",
 	"Gustavo Maciel Dias Vieira",
+	"H P Nadig",
 	"H\xC3\xA9" "ctor Garc\xC3\xAD" "a \xC3\x81" "lvarez",
 	"Hans Petter Jansson",
 	"Hao Sheng",
 	"Hari Prasad Nadig",
+	"Harish K",
 	"Harish Krishnaswamy",
 	"Harry Lu",
 	"Hasbullah Bin Pit",
 	"Havoc Pennington",
 	"Heath Harrelson",
+	"Hein-Pieter van Braam",
 	"Herbert V. Riedel",
 	"Hiroyuki Ikezoe",
 	"Iain Buchanan",
@@ -341,27 +377,35 @@ static const char *authors[] = {
 	"Ismael Olea",
 	"Israel Escalante",
 	"Iv\xC3\xA1" "n Frade",
+	"IvÃ¡n Frade",
 	"J.H.M. Dassen (Ray)",
 	"JP Rosevear",
 	"J\xC3\xBC" "rg Billeter",
+	"JÃÂ¼rg Billeter",
 	"Jack Jia",
+	"Jacob Ulysses Berkman",
 	"Jacob Berkman",
 	"Jaka Mocnik",
 	"Jakub Steiner",
+	"James Doc Livingston",
 	"James Bowes",
 	"James Henstridge",
 	"James Willcox",
 	"Jan Arne Petersen",
+	"Jan Tichavsky",
 	"Jan Van Buggenhout",
+	"Jared Moore",
 	"Jarkko Ranta",
 	"Jason Leach",
 	"Jason Tackaberry",
 	"Jayaradha",
 	"Jean-Noel Guiheneuf",
 	"Jedy Wang",
+	"Jeff Bailey",
 	"Jeff Cai",
 	"Jeff Garzik",
 	"Jeffrey Stedfast",
+	"Jens Granseuer",
 	"Jens Seidel",
 	"Jeremy Katz",
 	"Jeremy Wise",
@@ -376,6 +420,7 @@ static const char *authors[] = {
 	"Joe Shaw",
 	"John Gotts",
 	"Johnny Jacob",
+	"Johnny",
 	"Jon Ander Hernandez",
 	"Jon K Hellan",
 	"Jon Oberheide",
@@ -384,10 +429,13 @@ static const char *authors[] = {
 	"Jonathan Blandford",
 	"Jonathan Dieter",
 	"Jos Dehaes",
+	"Josselin Mouette",
+	"JP Rosvear",
 	"Jukka Zitting",
 	"Jules Colding",
 	"Julian Missig",
 	"Julio M. Merino Vidal",
+	"Jürg Billeter",
 	"Karl Eichwalder",
 	"Karl Relton",
 	"Karsten Br\xC3\xA4" "ckelmann",
@@ -396,6 +444,7 @@ static const char *authors[] = {
 	"Kenny Graunke",
 	"Keshav Upadhyaya",
 	"Kevin Breit",
+	"Kevin Piche",
 	"Kevin Vandersloot",
 	"Khasim Shaheed",
 	"Kidd Wang",
@@ -409,6 +458,8 @@ static const char *authors[] = {
 	"Lauris Kaplinski",
 	"Leon Zhang",
 	"Li Yuan",
+	"LoÃ¯c Minier",
+	"Loïc Minier",
 	"Lorenzo Gil Sanchez",
 	"Luca Ferretti",
 	"Lucky Wankhede",
@@ -426,9 +477,11 @@ static const char *authors[] = {
 	"Mark Gordon",
 	"Mark McLoughlin",
 	"Mark Moulder",
+	"Mark Tearle",
 	"Martha Burke",
 	"Martin Baulig",
 	"Martin Hicks",
+	"Martin Meyer",
 	"Martin Norb\xC3\xA4" "ck",
 	"Martyn Russell",
 	"Masahiro Sakai",
@@ -436,25 +489,32 @@ static const char *authors[] = {
 	"Matias Mutchinick",
 	"Matt Bissiri",
 	"Matt Brown",
+	"Matt Loper",
 	"Matt Martin",
 	"Matt Wilson",
 	"Matthew Barnes",
+	"Matthew Daniel",
 	"Matthew Hall",
 	"Matthew Loper",
 	"Matthew Wilson",
+	"Matthias Clasen",
 	"Max Horn",
 	"Maxx Cao",
+	"Mayank Jain",
 	"Meilof Veeningen",
 	"Mengjie Yu",
+	"Michael Granger",
 	"Michael M. Morrison",
 	"Michael MacDonald",
 	"Michael Meeks",
+	"Michael Monreal",
 	"Michael Terry",
 	"Michael Zucchi",
 	"Michel Daenzer",
 	"Miguel Angel Lopez Hernandez",
 	"Miguel de Icaza",
 	"Mikael Hallendal",
+	"Mikael Nilsson",
 	"Mike Castle",
 	"Mike Kestner",
 	"Mike McEwan",
@@ -472,12 +532,18 @@ static const char *authors[] = {
 	"Nathan Owens",
 	"Nicel KM",
 	"Nicholas J Kreucher",
+	"Nicholas Miell",
 	"Nick Sukharev",
 	"Nickolay V. Shmyrev",
 	"Nike Gerdts",
+	"Noel",
 	"Nuno Ferreira",
+	"Nyall Dawson",
+	"Ondrej Jirman",
 	"Oswald Rodrigues",
 	"Owen Taylor",
+	"Oystein Gisnas",
+	"P Chenthill",
 	"P S Chakravarthi",
 	"Pablo Gonzalo del Campo",
 	"Pablo Saratxaga",
@@ -485,7 +551,10 @@ static const char *authors[] = {
 	"Paolo Molaro",
 	"Parag Goel",
 	"Parthasarathi Susarla",
+	"Pascal Terjan",
 	"Patrick Ohly",
+	"Paul Bolle",
+	"Paul Lindner",
 	"Pavel Cisler",
 	"Pavel Roskin",
 	"Pavithran",
@@ -514,6 +583,7 @@ static const char *authors[] = {
 	"Ranjan Somani",
 	"Ray Strode",
 	"Rhys Jones",
+	"Ricardo Markiewicz",
 	"Richard Boulton",
 	"Richard Hult",
 	"Richard Li",
@@ -524,6 +594,8 @@ static const char *authors[] = {
 	"Rodney Dawes",
 	"Rodrigo Moya",
 	"Rohini S",
+	"Rohini",
+	"Roland Illig",
 	"Ronald Kuetemeier",
 	"Roozbeh Pournader",
 	"Ross Burton",
@@ -536,6 +608,7 @@ static const char *authors[] = {
 	"S N Tejasvi",
 	"S. \xC3\x87" "a\xC4\x9F" "lar Onur",
 	"S.Antony Vincent Pandian",
+	"S. Caglar Onur",
 	"Sam Creasey",
 	"Sam Yang",
 	"Sam\xC3\xBA" "el J\xC3\xB3" "n Gunnarsson",
@@ -563,6 +636,7 @@ static const char *authors[] = {
 	"Srinivasa Ragavan",
 	"Stanislav Brabec",
 	"Stanislav Visnovsky",
+	"Stéphane Raimbault",
 	"Stephen Cook",
 	"Steve Murphy",
 	"Steven Zhang",
@@ -575,12 +649,15 @@ static const char *authors[] = {
 	"Sven Herzberg",
 	"Szabolcs Ban",
 	"T\xC3\xB5" "ivo Leedj\xC3\xA4" "rv",
+	"Takao Fujiwara",
 	"Takayuki Kusano",
 	"Takeshi Aihana",
 	"Tambet Ingo",
 	"Taylor Hayward",
+	"Ted Percival",
 	"Theppitak Karoonboonyanan",
 	"Thomas Cataldo",
+	"Thomas Klausner",
 	"Thomas Mirlacher",
 	"Thouis R. Jones",
 	"Tim Wo",
@@ -591,6 +668,7 @@ static const char *authors[] = {
 	"Timur Bakeyev",
 	"Tino Meinen",
 	"Tobias Mueller",
+	"Tõivo Leedjärv",
 	"Tom Tromey",
 	"Tomas Ogren",
 	"Tomasz K\xC5\x82" "oczko",
@@ -625,8 +703,11 @@ static const char *authors[] = {
 	"William Jon McCann",
 	"Wouter Bolsterlee",
 	"Xan Lopez",
+	"Xiurong Simon Zheng",
 	"Yanko Kaneti",
+	"Yi Jin",
 	"Yong Sun",
+	"Yu Mengjie",
 	"Yuedong Du",
 	"Yukihiro Nakai",
 	"Yuri Pankov",
@@ -639,7 +720,7 @@ static const char *authors[] = {
 	NULL
 };
 
-static const char *documentors[] = { 
+static const char *documentors[] = {
 	"Aaron Weber",
 	"Binika Preet",
 	"Dan Winship",
@@ -679,18 +760,20 @@ command_about (BonoboUIComponent *uih,
 		NULL);
 }
 
-#if 0
-/* Unused */
 static void
-command_help_faq (BonoboUIComponent *uih,
+command_open_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
-		  const char *path)
+ 		  const char *path)
 {
-	/* FIXME Show when we have a faq */
-	/* FIXME use the error */
-	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);	
-}
-#endif
+ 	GError *error = NULL;
+
+	gnome_url_show ("http://www.go-evolution.org/FAQ", &error);
+	if (error != NULL) {
+		e_notice (NULL, GTK_MESSAGE_ERROR,
+				_("Error opening the FAQ webpage."));
+ 		g_error_free (error);
+ 	}
+ }
 
 static void
 command_quick_reference (BonoboUIComponent *uih,
@@ -780,7 +863,7 @@ command_forget_passwords (BonoboUIComponent *ui_component,
 			  void *data,
 			  const char *path)
 {
-	if (e_error_run (NULL, "shell:forget-passwords", NULL) == GTK_RESPONSE_OK) 
+	if (e_error_run (NULL, "shell:forget-passwords", NULL) == GTK_RESPONSE_OK)
 		e_passwords_forget_passwords();
 }
 
@@ -837,6 +920,7 @@ static BonoboUIVerb tools_verbs[] = {
 
 static BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB ("QuickReference", (BonoboUIVerbFn) command_quick_reference),
+	BONOBO_UI_VERB ("HelpOpenFAQ", (BonoboUIVerbFn) command_open_faq),
 	BONOBO_UI_VERB ("HelpSubmitBug", (BonoboUIVerbFn) command_submit_bug),
 	BONOBO_UI_VERB ("HelpAbout", (BonoboUIVerbFn) command_about),
 
@@ -853,7 +937,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/FileClose", "window-close", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileExit", "application-exit", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/Edit/Settings", "preferences-desktop", E_ICON_SIZE_MENU),
-	
+
 	E_PIXMAP_END
 };
 
@@ -880,6 +964,7 @@ update_offline_menu_item (EShellWindow *shell_window,
 
 	switch (line_status) {
 	case E_SHELL_LINE_STATUS_OFFLINE:
+	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
 					      "label", _("_Work Online"), NULL);
@@ -994,7 +1079,7 @@ view_buttons_hide_item_toggled_handler (BonoboUIComponent           *ui_componen
 	gboolean is_visible;
 
 	sidebar = e_shell_window_peek_sidebar (shell_window);
-	
+
 	is_visible = state[0] == '0';
 
 	e_sidebar_set_show_buttons (sidebar, is_visible);
@@ -1026,7 +1111,7 @@ view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	gboolean is_visible;
 	GConfClient *gconf_client;
 
-	is_visible = state[0] == '1';	
+	is_visible = state[0] == '1';
 	if(is_visible)
 		gtk_widget_show (status_bar);
 	else
@@ -1047,7 +1132,7 @@ view_sidebar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	gboolean is_visible;
 	GConfClient *gconf_client;
 
-	is_visible = state[0] == '1';	
+	is_visible = state[0] == '1';
 	if(is_visible)
 		gtk_widget_show (side_bar);
 	else

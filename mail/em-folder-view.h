@@ -20,25 +20,38 @@
  *
  */
 
-
-#ifndef _EM_FOLDER_VIEW_H
-#define _EM_FOLDER_VIEW_H
+#ifndef EM_FOLDER_VIEW_H
+#define EM_FOLDER_VIEW_H
 
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkprintoperation.h>
 #include "mail/em-popup.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+/* Standard GObject macros */
+#define EM_TYPE_FOLDER_VIEW \
+	(em_folder_view_get_type ())
+#define EM_FOLDER_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FOLDER_VIEW, EMFolderView))
+#define EM_FOLDER_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FOLDER_VIEW, EMFolderViewClass))
+#define EM_IS_FOLDER_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FOLDER_VIEW))
+#define EM_IS_FOLDER_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FOLDER_VIEW))
+#define EM_FOLDER_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FOLDER_VIEW, EMFolderViewClass))
+
+G_BEGIN_DECLS
 
 struct _MessageList;
 struct _EMFormatHTMLDisplay;
 struct _CamelFolder;
 struct _CamelMedium;
-
-#define EM_FOLDER_VIEW_GET_CLASS(emfv)  ((EMFolderViewClass *) G_OBJECT_GET_CLASS (emfv))
 
 typedef struct _EMFolderView EMFolderView;
 typedef struct _EMFolderViewClass EMFolderViewClass;
@@ -90,7 +103,7 @@ struct _EMFolderView {
 	struct _BonoboUIComponent *uic;	/* if we're active, this will be set */
 	GSList *enable_map;	/* bonobo menu enable map, entries are 0-terminated EMFolderViewEnable arryas
 				   TODO: should this be on class? */
-	
+
 	int mark_seen_timeout;	/* local copy of gconf stuff */
 	guint mark_seen:1;
 	guint preview_active:1;	/* is preview being used */
@@ -101,10 +114,10 @@ struct _EMFolderView {
 
 struct _EMFolderViewClass {
 	GtkVBoxClass parent_class;
-	
+
 	/* behaviour definition */
 	guint update_message_style:1;
-	
+
 	/* if used as a control, used to activate/deactivate custom menu's */
 	void (*activate)(EMFolderView *, struct _BonoboUIComponent *uic, int state);
 
@@ -142,8 +155,6 @@ void em_folder_view_set_statusbar(EMFolderView *emfv, gboolean statusbar);
 void em_folder_view_set_hide_deleted(EMFolderView *emfv, gboolean status);
 void em_folder_view_setup_view_instance (EMFolderView *emfv);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* ! _EM_FOLDER_VIEW_H */
+#endif /* EM_FOLDER_VIEW_H */

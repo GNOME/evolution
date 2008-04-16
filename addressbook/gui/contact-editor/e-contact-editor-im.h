@@ -50,7 +50,7 @@ typedef struct _EContactEditorImClass  EContactEditorImClass;
 struct _EContactEditorIm
 {
 	GtkDialog parent;
-	
+
 	/* item specific fields */
 	EContactField service;
 	char *location;

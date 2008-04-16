@@ -1,3 +1,97 @@
+2008-02-23  Andre Klapper  <a9016009@gmx.de>
+
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Fix the string freeze break of the former commit.
+
+2008-02-23  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #471779
+
+	* e-timezone-dialog/e-timezone-dialog.c:
+	(e_timezone_dialog_add_timezones), (e_timezone_dialog_construct),
+	(on_map_leave), (on_map_button_pressed),
+	(e_timezone_dialog_set_timezone), (on_combo_changed),
+	(timezone_combo_get_active_text), (timezone_combo_set_active_text):
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Timezone entries in the combo-box are now sorted alphabetically. 
+	Migrated deprecated widget to GtkComboBox. 
+
+2008-02-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #383438
+
+	* text/e-text.c: (e_text_point):
+	Report "mouse over" even with no text entered.
+
+2008-02-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	* text/e-text.c (update_im_cursor_position):
+	* text/e-text.c (e_text_get_cursor_locations):
+	Remove these unused functions to silence compiler warnings.
+
+2008-01-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	* menus/gal-view-collection.c:
+	* menus/gal-view-menus.c:
+	* menus/gal-view-instance.c:
+	Replace G_GNUC_FUNCTION (deprecated) with G_STRFUNC.
+
+2008-01-14  Mayank Jain  <mayank.gnu@gmail.com>
+
+	** Fix for bug #348638
+
+	* text/e-text.c: (insert_preedit_text), (reset_layout_attrs),
+	(e_text_draw): Cleanly remove pre-edit buffer on pressing backspace in 
+	day-view, for non-ascii characters as well. 
+
+2007-11-26  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fixes bug #495951
+
+	* menus/gal-view-instance-save-as-dialog.c:
+	(gal_view_instance_save_as_dialog_set_instance),
+	(gvisad_setup_validate_button), (gvisad_setup_radio_buttons),
+	(gvisad_entry_changed),
+	(gal_view_instance_save_as_dialog_set_property),
+	(gal_view_instance_save_as_dialog_dispose),
+	(gal_view_instance_save_as_dialog_init),
+	(gal_view_instance_save_as_dialog_new),
+	(gal_view_instance_save_as_dialog_save):
+	* menus/gal-view-instance-save-as-dialog.glade:
+	* menus/gal-view-instance-save-as-dialog.h:
+	Use GtkTreeView in place of ETable
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #341085
+
+	* text/e-text.c: (get_bounds), (e_text_draw): Use 'x_offset' and
+	'y_offset' only for text drawing, not for changing bounds of EText.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-timezone-dialog/e-timezone-dialog.c: (get_local_offset),
+	(get_local_timezone), (on_map_visibility_changed),
+	(on_map_button_pressed), (get_zone_from_point),
+	(e_timezone_dialog_set_timezone), (on_combo_changed):
+	* menus/gal-view-factory.c: (gal_view_factory_get_title):
+	* text/Makefile.am:
+	* text/e-text.c: (e_text_event), (popup_targets_received),
+	(next_word), (find_offset_into_line), (_get_position),
+	(e_text_class_init):
+	* text/e.entry.[ch]
+	* text/e-completion.[ch]
+	* text/e-text-model-uri.[ch]
+	* text/e-completion-view.[ch]
+	* text/e-completion-callbacks.[ch]
+	* text/e-completion-match.[ch]
+	* text/e-table-text-model.[ch]: Remove all of these. They
+	are now unused.
+
+	Warning fixes:
+	- NULL vs 0 vs FALSE
+	- ANSIfication of function declarations
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

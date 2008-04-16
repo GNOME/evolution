@@ -43,7 +43,7 @@ typedef FilterElement *(*FilterElementFunc)(void *data);
 
 struct _FilterElement {
 	GObject parent_object;
-	
+
 	char *name;
 	gpointer data;
 };
@@ -52,22 +52,22 @@ struct _FilterPart;
 
 struct _FilterElementClass {
 	GObjectClass parent_class;
-	
+
 	/* virtual methods */
 	gboolean (*validate) (FilterElement *fe);
 	int (*eq) (FilterElement *fe, FilterElement *cm);
-	
+
 	void (*xml_create) (FilterElement *, xmlNodePtr);
 	xmlNodePtr (*xml_encode) (FilterElement *);
 	int (*xml_decode) (FilterElement *, xmlNodePtr);
-	
+
 	FilterElement *(*clone) (FilterElement *fe);
 	void (*copy_value)(FilterElement *fe, FilterElement *se);
 
 	GtkWidget *(*get_widget) (FilterElement *);
 	void (*build_code) (FilterElement *, GString *, struct _FilterPart *ff);
 	void (*format_sexp) (FilterElement *, GString *);
-	
+
 	/* signals */
 };
 

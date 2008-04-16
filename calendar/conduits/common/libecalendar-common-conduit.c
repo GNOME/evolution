@@ -33,23 +33,23 @@
 #define LOG(x)
 #ifdef DEBUG_CALCONDUIT
 #define LOG(x) x
-#endif 
+#endif
 #ifdef DEBUG_MEMOCONDUIT
 #define LOG(x) x
 #endif
 #ifdef DEBUG_TODOCONDUIT
 #define LOG(x) x
-#endif 
+#endif
 #ifdef DEBUG_CONDUIT
 #define LOG(x) x
-#endif 
+#endif
 
 /*
  * Adds a category to the category app info structure (name and ID),
  * sets category->renamed[i] to true if possible to rename.
- * 
+ *
  * This will be packed and written to the app info block during post_sync.
- * 
+ *
  * NOTE: cat_to_add MUST be in PCHAR format. Evolution stores categories
  *       in UTF-8 format. A conversion must take place before calling
  *       this function (see e_pilot_utf8_to_pchar() in e-pilot-util.c)
@@ -60,14 +60,14 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 	int i, j;
 	int retval = 0; /* 0 is the Unfiled category */
 	LOG(g_message("e_pilot_add_category_if_possible\n"));
-	
+
 	for(i=0; i<PILOT_MAX_CATEGORIES; i++){
 		/* if strlen is 0, then the category is empty
 		   the PalmOS doesn't let 0-length strings for
 		   categories */
 		if(strlen(category->name[i]) == 0){
 			int cat_to_add_len;
-			
+
 			cat_to_add_len = strlen(cat_to_add);
 			retval = i;
 
@@ -75,7 +75,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 				/* Have to truncate the category name */
 				cat_to_add_len = 15;
 			}
-			
+
 			/* only 15 characters for category, 16th is
 			 * '\0' can't do direct mem transfer due to
 			 * declaration type
@@ -87,7 +87,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 			for(j=cat_to_add_len; j<16; j++) {
 				category->name[i][j] = '\0';
 			}
-			
+
 			//find a desktop id that is not in use between 128 and 255
 			int desktopUniqueID;
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
@@ -105,17 +105,17 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 				}
 			}
 			category->ID[i] = desktopUniqueID;
-			
+
 			category->renamed[i] = TRUE;
-			
+
 			break;
 		}
 	}
-	
+
 	if(retval == 0){
 		LOG (g_warning ("*** not adding category - category list already full ***"));
 	}
-	
+
 	return retval;
 }
 
@@ -179,8 +179,8 @@ void e_pilot_remote_category_to_local(int pilotCategory, ECalComponent *comp, st
 	/* store the data on in evolution */
 	if (category_string == NULL) {
 		/* note: this space is needed to make sure evolution clears the category */
-		e_cal_component_set_categories (comp, " "); 
-	} 
+		e_cal_component_set_categories (comp, " ");
+	}
 	else {
 
 		/* Since only the first category is synced with the PDA, add the PDA's
@@ -189,7 +189,7 @@ void e_pilot_remote_category_to_local(int pilotCategory, ECalComponent *comp, st
 		GSList *newcat_in_list;
 		e_cal_component_get_categories_list (comp, &c_list);
 
-		/* remove old item from list so we don't have duplicate entries */		
+		/* remove old item from list so we don't have duplicate entries */
 		newcat_in_list = g_slist_find_custom(c_list, category_string, (GCompareFunc)strcmp);
 		if(newcat_in_list != NULL)
 		{

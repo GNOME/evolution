@@ -38,7 +38,7 @@ typedef struct _FilterIntClass FilterIntClass;
 
 struct _FilterInt {
 	FilterElement parent_object;
-	
+
 	char *type;
 	int val;
 	int min;
@@ -47,9 +47,9 @@ struct _FilterInt {
 
 struct _FilterIntClass {
 	FilterElementClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

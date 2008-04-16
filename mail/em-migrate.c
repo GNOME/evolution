@@ -66,6 +66,7 @@
 #include "e-util/e-signature-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-plugin.h"
 
 #include "mail-config.h"
 #include "em-utils.h"
@@ -86,15 +87,15 @@ emm_load_xml (const char *dirname, const char *filename)
 	xmlDocPtr doc;
 	struct stat st;
 	char *path;
-	
+
 	path = g_strdup_printf ("%s/%s", dirname, filename);
 	if (stat (path, &st) == -1 || !(doc = xmlParseFile (path))) {
 		g_free (path);
 		return NULL;
 	}
-	
+
 	g_free (path);
-	
+
 	return doc;
 }
 
@@ -103,11 +104,11 @@ emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
 {
 	char *path;
 	int retval;
-	
+
 	path = g_strdup_printf ("%s/%s", dirname, filename);
 	retval = e_xml_save_file (path, doc);
 	g_free (path);
-	
+
 	return retval;
 }
 
@@ -115,15 +116,15 @@ static xmlNodePtr
 xml_find_node (xmlNodePtr parent, const char *name)
 {
 	xmlNodePtr node;
-	
+
 	node = parent->children;
 	while (node != NULL) {
 		if (node->name && !strcmp ((char *)node->name, name))
 			return node;
-		
+
 		node = node->next;
 	}
-	
+
 	return NULL;
 }
 
@@ -132,25 +133,25 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 {
 	xmlNodePtr root, node;
 	char *uri, *new;
-	
+
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return;
-	
+
 	if (!root->name || strcmp ((char *)root->name, "filteroptions") != 0) {
 		/* root node is not <filteroptions>, nothing to upgrade */
 		return;
 	}
-	
+
 	if (!(node = xml_find_node (root, "ruleset"))) {
 		/* no ruleset node, nothing to upgrade */
 		return;
 	}
-	
+
 	node = node->children;
 	while (node != NULL) {
 		if (node->name && !strcmp ((char *)node->name, "rule")) {
 			xmlNodePtr actionset, part, val, n;
-			
+
 			if ((actionset = xml_find_node (node, "actionset"))) {
 				/* filters.xml */
 				part = actionset->children;
@@ -160,26 +161,26 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 						while (val != NULL) {
 							if (val->name && !strcmp ((char *)val->name, "value")) {
 								char *type;
-								
+
 								type = (char *)xmlGetProp (val, (const unsigned char *)"type");
 								if (type && !strcmp ((char *)type, "folder")) {
 									if ((n = xml_find_node (val, "folder"))) {
 										uri = (char *)xmlGetProp (n, (const unsigned char *)"uri");
 										new = upgrade_uri (uri);
 										xmlFree (uri);
-										
+
 										xmlSetProp (n, (const unsigned char *)"uri", (unsigned char *)new);
 										g_free (new);
 									}
 								}
-								
+
 								xmlFree (type);
 							}
-							
+
 							val = val->next;
 						}
 					}
-					
+
 					part = part->next;
 				}
 			} else if ((actionset = xml_find_node (node, "sources"))) {
@@ -190,16 +191,16 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 						uri = (char *)xmlGetProp (n, (const unsigned char *)"uri");
 						new = upgrade_uri (uri);
 						xmlFree (uri);
-						
+
 						xmlSetProp (n, (const unsigned char *)"uri", (unsigned char *)new);
 						g_free (new);
 					}
-					
+
 					n = n->next;
 				}
 			}
 		}
-		
+
 		node = node->next;
 	}
 }
@@ -255,7 +256,7 @@ static char *
 get_base_uri(const char *val)
 {
 	const char *tmp;
-	
+
 	tmp = strchr(val, ':');
 	if (tmp) {
 		tmp++;
@@ -263,7 +264,7 @@ get_base_uri(const char *val)
 			tmp += 2;
 		tmp = strchr(tmp, '/');
 	}
-	
+
 	if (tmp)
 		return g_strndup(val, tmp-val);
 	else
@@ -274,21 +275,21 @@ static char *
 upgrade_xml_uris_1_0 (const char *uri)
 {
 	char *out = NULL;
-	
+
 	/* upgrades camel uri's */
 	if (strncmp (uri, "imap:", 5) == 0) {
 		char *base_uri, dir_sep, *folder, *p;
 		struct _account_info_1_0 *ai;
-		
+
 		/* add namespace, canonicalise dir_sep to / */
 		base_uri = get_base_uri (uri);
 		ai = g_hash_table_lookup (accounts_1_0, base_uri);
-		
+
 		if (ai == NULL) {
 			g_free (base_uri);
 			return NULL;
 		}
-		
+
 		dir_sep = ai->u.imap.dir_sep;
 		if (dir_sep == 0) {
 			/* no dir_sep listed, try get it from the namespace, if set */
@@ -304,34 +305,34 @@ upgrade_xml_uris_1_0 (const char *uri)
 					p++;
 				}
 			}
-			
+
 			/* give up ... */
 			if (dir_sep == 0) {
 				g_free (base_uri);
 				return NULL;
 			}
 		}
-		
+
 		folder = g_strdup (uri + strlen (base_uri) + 1);
-		
+
 		/* Add the namespace before the mailbox name, unless the mailbox is INBOX */
 		if (ai->u.imap.namespace && strcmp ((char *)folder, "INBOX") != 0)
 			out = g_strdup_printf ("%s/%s/%s", base_uri, ai->u.imap.namespace, folder);
 		else
 			out = g_strdup_printf ("%s/%s", base_uri, folder);
-		
+
 		p = out;
 		while (*p) {
 			if (*p == dir_sep)
 				*p = '/';
 			p++;
 		}
-		
+
 		g_free (folder);
 		g_free (base_uri);
 	} else if (strncmp (uri, "exchange:", 9) == 0) {
 		char *base_uri, *folder, *p;
-		
+
 		/*  exchange://user@host/exchange/ * -> exchange://user@host/personal/ * */
 		/*  Any url encoding (%xx) in the folder name is also removed */
 		base_uri = get_base_uri (uri);
@@ -346,7 +347,7 @@ upgrade_xml_uris_1_0 (const char *uri)
 		/* these should be converted in the accounts table when it is loaded */
 		g_warning ("exchanget: uri not converted: '%s'", uri);
 	}
-	
+
 	return out;
 }
 
@@ -357,7 +358,7 @@ parse_lsub (const char *lsub, char *dir_sep)
 	static regex_t pat;
 	regmatch_t match[3];
 	char *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
-	
+
 	if (!comp) {
 		if (regcomp (&pat, m, REG_EXTENDED|REG_ICASE) == -1) {
 			g_warning ("reg comp '%s' failed: %s", m, g_strerror (errno));
@@ -365,7 +366,7 @@ parse_lsub (const char *lsub, char *dir_sep)
 		}
 		comp = 1;
 	}
-	
+
 	if (regexec (&pat, lsub, 3, match, 0) == 0) {
 		if (match[1].rm_so != -1 && match[2].rm_so != -1) {
 			if (dir_sep)
@@ -373,7 +374,7 @@ parse_lsub (const char *lsub, char *dir_sep)
 			return g_strndup (lsub + match[2].rm_so, match[2].rm_eo - match[2].rm_so);
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -384,19 +385,19 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 	guint32 tmp;
 	char *buf, *folder, dir_sep, *path, *name, *p;
 	struct _imap_folder_info_1_0 *fi;
-	
+
 	si->u.imap.folders = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) imap_folder_info_1_0_free);
-	
+
 	/* get details from uri first */
 	name = strstr (si->uri, ";override_namespace");
 	if (name) {
 		name = strstr (si->uri, ";namespace=");
 		if (name) {
 			char *end;
-			
+
 			name += strlen (";namespace=");
 			if (*name == '\"') {
 				name++;
@@ -404,11 +405,11 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 			} else {
 				end = strchr (name, ';');
 			}
-			
+
 			if (end) {
 				/* try get the dir_sep from the namespace */
 				si->u.imap.namespace = g_strndup (name, end-name);
-				
+
 				p = si->u.imap.namespace;
 				while ((dir_sep = *p++)) {
 					if (dir_sep < '0'
@@ -423,7 +424,7 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 			}
 		}
 	}
-	
+
 	/* now load storeinfo if it exists */
 	path = g_build_filename (g_get_home_dir (), "evolution", "mail", "imap", si->base_uri + 7, "storeinfo", NULL);
 	storeinfo = fopen (path, "r");
@@ -432,7 +433,7 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 		g_warning ("could not find imap store info '%s'", path);
 		return -1;
 	}
-	
+
 	/* ignore version */
 	camel_file_util_decode_uint32 (storeinfo, &tmp);
 	camel_file_util_decode_uint32 (storeinfo, &si->u.imap.capabilities);
@@ -446,9 +447,9 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 		|| si->u.imap.namespace[strlen (si->u.imap.namespace) - 1] == '/')) {
 		si->u.imap.namespace[strlen (si->u.imap.namespace) - 1] = 0;
 	}
-	
+
 	d(printf ("namespace '%s' dir_sep '%c'\n", si->u.imap.namespace, si->u.imap.dir_sep ? si->u.imap.dir_sep : '?'));
-	
+
 	while (camel_file_util_decode_string (storeinfo, &buf) == 0) {
 		folder = parse_lsub (buf, &dir_sep);
 		if (folder) {
@@ -467,9 +468,9 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 			g_warning ("Could not parse LIST result '%s'\n", buf);
 		}
 	}
-	
+
 	fclose (storeinfo);
-	
+
 	return 0;
 }
 
@@ -480,37 +481,37 @@ load_accounts_1_0 (xmlDocPtr doc)
 	char *val, *tmp;
 	int count = 0, i;
 	char key[32];
-	
+
 	if (!(source = e_bconf_get_path (doc, "/Mail/Accounts")))
 		return 0;
-	
+
 	if ((val = e_bconf_get_value (source, "num"))) {
 		count = atoi (val);
 		xmlFree (val);
 	}
-	
+
 	/* load account upgrade info for each account */
 	for (i = 0; i < count; i++) {
 		struct _account_info_1_0 *ai;
 		char *rawuri;
-		
+
 		sprintf (key, "source_url_%d", i);
 		if (!(rawuri = e_bconf_get_value (source, key)))
 			continue;
-		
+
 		ai = g_malloc0 (sizeof (struct _account_info_1_0));
 		ai->uri = e_bconf_hex_decode (rawuri);
 		ai->base_uri = get_base_uri (ai->uri);
 		sprintf (key, "account_name_%d", i);
 		ai->name = e_bconf_get_string (source, key);
-		
+
 		d(printf("load account '%s'\n", ai->uri));
-		
+
 		if (!strncmp (ai->uri, "imap:", 5)) {
 			read_imap_storeinfo (ai);
 		} else if (!strncmp (ai->uri, "exchange:", 9)) {
 			xmlNodePtr node;
-			
+
 			d(printf (" upgrade exchange account\n"));
 			/* small hack, poke the source_url into the transport_url for exchanget: transports
 			   - this will be picked up later in the conversion */
@@ -527,12 +528,12 @@ load_accounts_1_0 (xmlDocPtr doc)
 			}
 		}
 		xmlFree (rawuri);
-		
+
 		g_hash_table_insert (accounts_1_0, ai->base_uri, ai);
 		if (ai->name)
 			g_hash_table_insert (accounts_name_1_0, ai->name, ai);
 	}
-	
+
 	return 0;
 }
 
@@ -543,15 +544,15 @@ em_migrate_1_0 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr fil
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) account_info_1_0_free);
-	accounts_name_1_0 = g_hash_table_new (g_str_hash, g_str_equal);	
+	accounts_name_1_0 = g_hash_table_new (g_str_hash, g_str_equal);
 	load_accounts_1_0 (config_xmldb);
 
 	upgrade_xml_uris(filters, upgrade_xml_uris_1_0);
 	upgrade_xml_uris(vfolders, upgrade_xml_uris_1_0);
-	
+
 	g_hash_table_destroy (accounts_1_0);
 	g_hash_table_destroy (accounts_name_1_0);
-	
+
 	return 0;
 }
 
@@ -562,7 +563,7 @@ is_xml1encoded (const char *txt)
 	const unsigned char *p;
 	int isxml1 = FALSE;
 	int is8bit = FALSE;
-	
+
 	p = (const unsigned char *)txt;
 	while (*p) {
 		if (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
@@ -574,11 +575,11 @@ is_xml1encoded (const char *txt)
 			is8bit = TRUE;
 		p++;
 	}
-	
+
 	/* check for invalid utf8 that needs cleaning */
 	if (is8bit && !isxml1)
 		isxml1 = !g_utf8_validate (txt, -1, NULL);
-	
+
 	return isxml1;
 }
 
@@ -588,11 +589,11 @@ decode_xml1 (const char *txt)
 	GString *out = g_string_new ("");
 	const unsigned char *p;
 	char *res;
-	
+
 	/* convert:
 	   \U+XXXX\ -> utf8
 	   8 bit characters -> utf8 (iso-8859-1) */
-	
+
 	p = (const unsigned char *) txt;
 	while (*p) {
 		if (p[0] > 0x80
@@ -601,7 +602,7 @@ decode_xml1 (const char *txt)
 			&& p[7] == '\\')) {
 			char utf8[8];
 			gunichar u;
-			
+
 			if (p[0] == '\\') {
 				memcpy (utf8, p + 3, 4);
 				utf8[4] = 0;
@@ -616,10 +617,10 @@ decode_xml1 (const char *txt)
 		}
 		p++;
 	}
-	
+
 	res = out->str;
 	g_string_free (out, FALSE);
-	
+
 	return res;
 }
 
@@ -629,17 +630,17 @@ utf8_reencode (const char *txt)
 	GString *out = g_string_new ("");
 	gchar *p;
 	char *res;
-	
+
 	/* convert:
         libxml1  8 bit utf8 converted to xml entities byte-by-byte chars -> utf8 */
-	
+
 	p =  (gchar *)txt;
-	
+
 	while (*p) {
 		g_string_append_c (out, (gchar)g_utf8_get_char ((const gchar *)p));
 		p = (gchar *)g_utf8_next_char (p);
 	}
-	
+
 	res = out->str;
 	if (g_utf8_validate (res, -1, NULL)) {
 		g_string_free (out, FALSE);
@@ -669,9 +670,9 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 	xmlNodePtr work;
 	int i,j;
 	char *txt, *tmp;
-	
+
 	/* upgrades the content of a node, if the node has a specific parent/node name */
-	
+
 	for (i = 0; tags[i].name; i++) {
 		if (!strcmp ((char *)node->name, tags[i].name)) {
 			if (tags[i].tags != NULL) {
@@ -694,7 +695,7 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 				}
 				break;
 			}
-			
+
 			if (tags[i].props != NULL) {
 				for (j = 0; tags[i].props[j]; j++) {
 					txt = (char *)xmlGetProp (node, (unsigned char *)tags[i].props[j]);
@@ -708,13 +709,13 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 			}
 		}
 	}
-	
+
 	node = node->children;
 	while (node) {
 		upgrade_xml_1_2_rec (node);
 		node = node->next;
 	}
-	
+
 	return 0;
 }
 
@@ -722,10 +723,10 @@ static int
 em_upgrade_xml_1_2 (xmlDocPtr doc)
 {
 	xmlNodePtr root;
-	
+
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return 0;
-	
+
 	return upgrade_xml_1_2_rec (root);
 }
 
@@ -771,7 +772,7 @@ upgrade_passwords_1_2(void)
 					if (!strcmp((char *)entry->name, "entry")) {
 						char *namep = (char *)xmlGetProp(entry, (const unsigned char *)"name"),
 						     *valuep = (char *)xmlGetProp(entry, (const unsigned char *)"value");
-						
+
 						if (namep && valuep) {
 							char *value = e_bconf_hex_decode(valuep);
 							guchar *decoded;
@@ -1038,11 +1039,11 @@ static e_gconf_map_list_t gconf_remap_list[] = {
 	{ "/Mail/Notify", mail_notify_map },
 	{ "/Mail/Filesel", mail_filesel_map },
 	{ "/Mail/Composer", mail_composer_map },
-	
+
 	{ "/Importer/Elm", importer_elm_map },
 	{ "/Importer/Pine", importer_pine_map },
 	{ "/Importer/Netscape", importer_netscape_map },
-	
+
 	{ 0 },
 };
 
@@ -1050,11 +1051,11 @@ static struct {
 	char *label;
 	char *colour;
 } label_default[5] = {
-	{ N_("Important"), "#ff0000" },  /* red */
-	{ N_("Work"),      "#ff8c00" },  /* orange */
-	{ N_("Personal"),  "#008b00" },  /* forest green */
-	{ N_("To Do"),     "#0000ff" },  /* blue */
-	{ N_("Later"),     "#8b008b" }   /* magenta */
+	{ N_("Important"), "#EF2929" },  /* red */
+	{ N_("Work"),      "#F57900" },  /* orange */
+	{ N_("Personal"),  "#4E9A06" },  /* green */
+	{ N_("To Do"),     "#3465A4" },  /* blue */
+	{ N_("Later"),     "#75507B" }   /* purple */
 };
 
 /* remaps mail config from bconf to gconf */
@@ -1066,9 +1067,9 @@ bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 	char *val, *lab, *col;
 	GSList *list, *l;
 	int i;
-	
+
 	e_bconf_import(gconf, config_xmldb, gconf_remap_list);
-	
+
 	/* Labels:
 	   label string + label colour as integer
 	   -> label string:# colour as hex */
@@ -1084,12 +1085,12 @@ bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 				g_free(col);
 			} else
 				strcpy(colx, label_default[i].colour);
-			
+
 			val = g_strdup_printf("%s:%s", lab ? lab : label_default[i].label, colx);
 			list = g_slist_append(list, val);
 			g_free(lab);
 		}
-		
+
 		gconf_client_set_list(gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, list, NULL);
 		while (list) {
 			l = list->next;
@@ -1100,15 +1101,15 @@ bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 	} else {
 		g_warning("could not find /Mail/Labels in old config database, skipping");
 	}
-	
+
 	/* Accounts: The flat bonobo-config structure is remapped to a list of xml blobs.  Upgrades as necessary */
 	e_bconf_import_xml_blob(gconf, config_xmldb, account_map, "/Mail/Accounts",
 				"/apps/evolution/mail/accounts", "account", "uid");
-	
+
 	/* Same for signatures */
 	e_bconf_import_xml_blob(gconf, config_xmldb, signature_map, "/Mail/Signatures",
 				"/apps/evolution/mail/signatures", "signature", NULL);
-	
+
 	return 0;
 }
 
@@ -1116,11 +1117,11 @@ static int
 em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	GConfClient *gconf;
-	
+
 	gconf = gconf_client_get_default();
 	bconf_import(gconf, config_xmldb);
 	g_object_unref(gconf);
-	
+
 	em_upgrade_xml_1_2(filters);
 	em_upgrade_xml_1_2(vfolders);
 	upgrade_passwords_1_2();
@@ -1137,14 +1138,14 @@ em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filt
 
 typedef struct _EMMigrateSession {
 	CamelSession parent_object;
-	
+
 	CamelStore *store;   /* new folder tree store */
 	char *srcdir;        /* old folder tree path */
 } EMMigrateSession;
 
 typedef struct _EMMigrateSessionClass {
 	CamelSessionClass parent_class;
-	
+
 } EMMigrateSessionClass;
 
 static CamelType em_migrate_session_get_type (void);
@@ -1160,7 +1161,7 @@ static CamelType
 em_migrate_session_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		type = camel_type_register (
 			camel_session_get_type (),
@@ -1172,7 +1173,7 @@ em_migrate_session_get_type (void)
 			NULL,
 			NULL);
 	}
-	
+
 	return type;
 }
 
@@ -1180,11 +1181,11 @@ static CamelSession *
 em_migrate_session_new (const char *path)
 {
 	CamelSession *session;
-	
+
 	session = CAMEL_SESSION (camel_object_new (EM_MIGRATE_SESSION_TYPE));
-	
+
 	camel_session_construct (session, path);
-	
+
 	return session;
 }
 
@@ -1197,35 +1198,35 @@ static void
 em_migrate_setup_progress_dialog (void)
 {
 	GtkWidget *vbox, *hbox, *w;
-	
+
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title ((GtkWindow *) window, _("Migrating..."));
 	gtk_window_set_modal ((GtkWindow *) window, TRUE);
 	gtk_container_set_border_width ((GtkContainer *) window, 6);
-	
+
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
 	gtk_container_add ((GtkContainer *) window, vbox);
-	
+
 	w = gtk_label_new (_("The location and hierarchy of the Evolution mailbox "
 			     "folders has changed since Evolution 1.x.\n\nPlease be "
 			     "patient while Evolution migrates your folders..."));
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_widget_show (w);
 	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
-	
+
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start_defaults ((GtkBox *) vbox, hbox);
-	
+
 	label = (GtkLabel *) gtk_label_new ("");
 	gtk_widget_show ((GtkWidget *) label);
 	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) label);
-	
+
 	progress = (GtkProgressBar *) gtk_progress_bar_new ();
 	gtk_widget_show ((GtkWidget *) progress);
 	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
-	
+
 	gtk_widget_show (window);
 }
 
@@ -1239,13 +1240,13 @@ static void
 em_migrate_set_folder_name (const char *folder_name)
 {
 	char *text;
-	
+
 	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
 	gtk_label_set_text (label, text);
 	g_free (text);
-	
+
 	gtk_progress_bar_set_fraction (progress, 0.0);
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
@@ -1254,12 +1255,12 @@ static void
 em_migrate_set_progress (double percent)
 {
 	char text[5];
-	
+
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
-	
+
 	gtk_progress_bar_set_fraction (progress, percent);
 	gtk_progress_bar_set_text (progress, text);
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
@@ -1270,24 +1271,24 @@ is_mail_folder (const char *metadata)
 	xmlNodePtr node;
 	xmlDocPtr doc;
 	char *type;
-	
+
 	if (!(doc = xmlParseFile (metadata))) {
 		g_warning ("Cannot parse `%s'", metadata);
 		return FALSE;
 	}
-	
+
 	if (!(node = xmlDocGetRootElement (doc))) {
 		g_warning ("`%s' corrupt: document contains no root node", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
-	
+
 	if (!node->name || strcmp ((char *)node->name, "efolder") != 0) {
 		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
-	
+
 	node = node->children;
 	while (node != NULL) {
 		if (node->name && !strcmp ((char *)node->name, "type")) {
@@ -1295,20 +1296,20 @@ is_mail_folder (const char *metadata)
 			if (!strcmp ((char *)type, "mail")) {
 				xmlFreeDoc (doc);
 				xmlFree (type);
-				
+
 				return TRUE;
 			}
-			
+
 			xmlFree (type);
-			
+
 			break;
 		}
-		
+
 		node = node->next;
 	}
-	
+
 	xmlFreeDoc (doc);
-	
+
 	return FALSE;
 }
 
@@ -1320,38 +1321,38 @@ get_local_et_expanded (const char *dirname)
 	struct stat st;
 	char *buf, *p;
 	int thread_list;
-	
+
 	buf = g_strdup_printf ("%s/evolution/config/file:%s", g_get_home_dir (), dirname);
 	p = buf + strlen (g_get_home_dir ()) + strlen ("/evolution/config/file:");
 	e_filename_make_safe (p);
-	
+
 	if (stat (buf, &st) == -1) {
 		g_free (buf);
 		return -1;
 	}
-	
+
 	if (!(doc = xmlParseFile (buf))) {
 		g_free (buf);
 		return -1;
 	}
-	
+
 	g_free (buf);
-	
+
 	if (!(node = xmlDocGetRootElement (doc)) || strcmp ((char *)node->name, "expanded_state") != 0) {
 		xmlFreeDoc (doc);
 		return -1;
 	}
-	
+
 	if (!(buf = (char *)xmlGetProp (node, (const unsigned char *)"default"))) {
 		xmlFreeDoc (doc);
 		return -1;
 	}
-	
+
 	thread_list = strcmp (buf, "0") == 0 ? 0 : 1;
 	xmlFree (buf);
-	
+
 	xmlFreeDoc (doc);
-	
+
 	return thread_list;
 }
 
@@ -1383,7 +1384,7 @@ get_local_store_uri (const char *dirname, char **namep, int *indexp)
 	node = doc->children;
 	if (strcmp((char *)node->name, "folderinfo"))
 		goto dodefault;
-	
+
 	for (node = node->children; node; node = node->next) {
 		if (node->name && !strcmp ((char *)node->name, "folder")) {
 			tmp = (char *)xmlGetProp (node, (const unsigned char *)"type");
@@ -1446,7 +1447,7 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 		errno = EEXIST;
 		return -1;
 	}
-	
+
 	if (g_stat (src, &st) == -1
 	    || (readfd = g_open (src, O_RDONLY | O_BINARY, 0)) == -1)
 		return -1;
@@ -1457,58 +1458,58 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 		errno = errnosav;
 		return -1;
 	}
-	
+
 	do {
 		do {
 			nread = read (readfd, readbuf, sizeof (readbuf));
 		} while (nread == -1 && errno == EINTR);
-		
+
 		if (nread == 0)
 			break;
 		else if (nread < 0)
 			goto exception;
-		
+
 		do {
 			nwritten = write (writefd, readbuf, nread);
 		} while (nwritten == -1 && errno == EINTR);
-		
+
 		if (nwritten < nread)
 			goto exception;
-		
+
 		total += nwritten;
-#ifndef G_OS_WIN32		
+#ifndef G_OS_WIN32
 		if (show_progress)
 			em_migrate_set_progress (((double) total) / ((double) st.st_size));
 #endif
 	} while (total < st.st_size);
-	
+
 	if (fsync (writefd) == -1)
 		goto exception;
-	
+
 	close (readfd);
 	if (close (writefd) == -1)
 		goto failclose;
-	
+
 	ut.actime = st.st_atime;
 	ut.modtime = st.st_mtime;
 	utime (dest, &ut);
 	chmod (dest, st.st_mode);
-	
+
 	return 0;
-	
+
  exception:
-	
+
 	errnosav = errno;
 	close (readfd);
 	close (writefd);
 	errno = errnosav;
-	
+
  failclose:
-	
+
 	errnosav = errno;
 	unlink (dest);
 	errno = errnosav;
-	
+
 	return -1;
 }
 
@@ -1522,46 +1523,46 @@ cp_r (const char *src, const char *dest, const char *pattern, int mode)
 	size_t slen, dlen;
 	struct stat st;
 	DIR *dir;
-	
+
 	if (g_mkdir_with_parents (dest, 0777) == -1)
 		return -1;
-	
+
 	if (!(dir = opendir (src)))
 		return -1;
-	
+
 	srcpath = g_string_new (src);
 	g_string_append_c (srcpath, '/');
 	slen = srcpath->len;
-	
+
 	destpath = g_string_new (dest);
 	g_string_append_c (destpath, '/');
 	dlen = destpath->len;
-	
+
 	while ((dent = readdir (dir))) {
 		if (!strcmp (dent->d_name, ".") || !strcmp (dent->d_name, ".."))
 			continue;
-		
+
 		g_string_truncate (srcpath, slen);
 		g_string_truncate (destpath, dlen);
-		
+
 		g_string_append (srcpath, dent->d_name);
 		g_string_append (destpath, dent->d_name);
-		
+
 		if (stat (srcpath->str, &st) == -1)
 			continue;
-		
+
 		if (S_ISDIR (st.st_mode)) {
 			cp_r (srcpath->str, destpath->str, pattern, mode);
 		} else if (!pattern || !strcmp (dent->d_name, pattern)) {
 			cp (srcpath->str, destpath->str, FALSE, mode);
 		}
 	}
-	
+
 	closedir (dir);
-	
+
 	g_string_free (destpath, TRUE);
 	g_string_free (srcpath, TRUE);
-	
+
 	return 0;
 }
 
@@ -1570,7 +1571,7 @@ mbox_build_filename (GString *path, const char *toplevel_dir, const char *full_n
 {
 	const char *start, *inptr = full_name;
 	int subdirs = 0;
-	
+
 	while (*inptr != '\0') {
 		if (*inptr == '/')
 			subdirs++;
@@ -1579,19 +1580,19 @@ mbox_build_filename (GString *path, const char *toplevel_dir, const char *full_n
 
 	g_string_assign(path, toplevel_dir);
 	g_string_append_c (path, '/');
-	
+
 	inptr = full_name;
 	while (*inptr != '\0') {
 		start = inptr;
 		while (*inptr != '/' && *inptr != '\0')
 			inptr++;
-		
+
 		g_string_append_len (path, start, inptr - start);
-		
+
 		if (*inptr == '/') {
 			g_string_append (path, ".sbd/");
 			inptr++;
-			
+
 			/* strip extranaeous '/'s */
 			while (*inptr == '/')
 				inptr++;
@@ -1622,7 +1623,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		g_string_free(src, TRUE);
 		return 0;
 	}
-	
+
 	dest = g_string_new("");
 	uri = get_local_store_uri(dirname, &name, &index);
 	em_migrate_set_folder_name (full_name);
@@ -1635,22 +1636,22 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		FILE *fp;
 		char *p;
 		int mode;
-		
+
 		g_string_printf (src, "%s/%s", uri + 5, name);
 		mbox_build_filename (dest, ((CamelService *)session->store)->url->path, full_name);
 		p = strrchr (dest->str, '/');
 		*p = '\0';
-		
+
 		slen = src->len;
 		dlen = dest->len;
-		
+
 		if (g_mkdir_with_parents (dest->str, 0777) == -1 && errno != EEXIST) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Unable to create new folder `%s': %s"),
 					     dest->str, g_strerror(errno));
 			goto fatal;
 		}
-		
+
 		*p = '/';
 		mode = CP_UNIQUE;
 	retry_copy:
@@ -1677,47 +1678,47 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 			goto fatal;
 		}
 	ignore:
-		
+
 		/* create a .cmeta file specifying to index and/or thread the folder */
 		g_string_truncate (dest, dlen);
 		g_string_append (dest, ".cmeta");
 		if ((fp = fopen (dest->str, "w")) != NULL) {
 			int fd = fileno (fp);
-			
+
 			/* write the magic string */
 			if (fwrite ("CLMD", 4, 1, fp) != 1)
 				goto cmeta_err;
-			
+
 			/* write the version (1) */
 			if (camel_file_util_encode_uint32 (fp, 1) == -1)
 				goto cmeta_err;
-			
+
 			/* write the meta count */
 			if (camel_file_util_encode_uint32 (fp, thread_list != -1 ? 1 : 0) == -1)
 				goto cmeta_err;
-			
+
 			if (thread_list != -1) {
 				if (camel_file_util_encode_string (fp, "evolution:thread_list") == -1)
 					goto cmeta_err;
-				
+
 				if (camel_file_util_encode_string (fp, thread_list ? "1" : "0") == -1)
 					goto cmeta_err;
 			}
-			
+
 			/* write the prop count (only prop is the index prop) */
 			if (camel_file_util_encode_uint32 (fp, 1) == -1)
 				goto cmeta_err;
-			
+
 			/* write the index prop tag (== CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) */
 			if (camel_file_util_encode_uint32 (fp, CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) == -1)
 				goto cmeta_err;
-			
+
 			/* write the index prop value */
 			if (camel_file_util_encode_uint32 (fp, 1) == -1)
 				goto cmeta_err;
-			
+
 			fflush (fp);
-			
+
 			if (fsync (fd) == -1) {
 			cmeta_err:
 				fclose (fp);
@@ -1726,12 +1727,12 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 				fclose (fp);
 			}
 		}
-		
+
 		/* copy over the metadata files */
 		for (i = 0; i < sizeof(meta_ext)/sizeof(meta_ext[0]); i++) {
 			g_string_truncate (src, slen);
 			g_string_truncate (dest, dlen);
-			
+
 			g_string_append (src, meta_ext[i]);
 			g_string_append (dest, meta_ext[i]);
 			cp (src->str, dest->str, FALSE, CP_OVERWRITE);
@@ -1742,42 +1743,42 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		if (!(local_store = camel_session_get_store ((CamelSession *) session, uri, ex))
 		    || !(old_folder = camel_store_get_folder (local_store, name, 0, ex)))
 			goto fatal;
-		
+
 		flags |= (index ? CAMEL_STORE_FOLDER_BODY_INDEX : 0);
 		if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, ex)))
 			goto fatal;
-		
+
 		if (thread_list != -1) {
 			camel_object_meta_set (new_folder, "evolution:thread_list", thread_list ? "1" : "0");
 			camel_object_state_write (new_folder);
 		}
-		
+
 		uids = camel_folder_get_uids (old_folder);
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
 			CamelMessageInfo *info;
-			
+
 			if (!(info = camel_folder_get_message_info (old_folder, uids->pdata[i])))
 				continue;
-			
+
 			if (!(message = camel_folder_get_message (old_folder, uids->pdata[i], ex))) {
 				camel_folder_free_message_info (old_folder, info);
 				camel_folder_free_uids (old_folder, uids);
 				goto fatal;
 			}
-			
+
 			camel_folder_append_message (new_folder, message, info, NULL, ex);
 			camel_folder_free_message_info (old_folder, info);
 			camel_object_unref (message);
-			
+
 			if (camel_exception_is_set (ex))
 				break;
-			
+
 			em_migrate_set_progress (((double) i + 1) / ((double) uids->len));
 		}
-		
+
 		camel_folder_free_uids (old_folder, uids);
-		
+
 		if (camel_exception_is_set (ex))
 			goto fatal;
 	}
@@ -1815,33 +1816,33 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		g_free (path);
 		return 0;
 	}
-	
+
 	if (!(dir = opendir (path))) {
 		g_free (path);
 		return 0;
 	}
-	
+
 	while (res == 0 && (dent = readdir (dir))) {
 		char *full_path;
 		char *name;
 
 		if (dent->d_name[0] == '.')
 			continue;
-		
+
 		full_path = g_strdup_printf ("%s/%s", path, dent->d_name);
 		if (stat (full_path, &st) == -1 || !S_ISDIR (st.st_mode)) {
 			g_free (full_path);
 			continue;
 		}
-		
+
 		name = g_strdup_printf ("%s/%s", full_name, dent->d_name);
 		res = em_migrate_dir (session, full_path, name, ex);
 		g_free (full_path);
 		g_free (name);
 	}
-	
+
 	closedir (dir);
-	
+
 	g_free (path);
 
 	return res;
@@ -1861,27 +1862,27 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
 				     session->srcdir, g_strerror(errno));
 		return -1;
 	}
-	
+
 	em_migrate_setup_progress_dialog ();
-	
+
 	while (res == 0 && (dent = readdir (dir))) {
 		char *full_path;
-		
+
 		if (dent->d_name[0] == '.')
 			continue;
-		
+
 		full_path = g_strdup_printf ("%s/%s", session->srcdir, dent->d_name);
 		if (stat (full_path, &st) == -1 || !S_ISDIR (st.st_mode)) {
 			g_free (full_path);
 			continue;
 		}
-		
+
 		res = em_migrate_dir (session, full_path, dent->d_name, ex);
 		g_free (full_path);
 	}
-	
+
 	closedir (dir);
-	
+
 	em_migrate_close_progress_dialog ();
 
 	return res;
@@ -1892,39 +1893,39 @@ upgrade_xml_uris_1_4 (const char *uri)
 {
 	char *path, *prefix, *p;
 	CamelURL *url;
-	
+
 	if (!strncmp (uri, "file:", 5)) {
 		url = camel_url_new (uri, NULL);
 		camel_url_set_protocol (url, "email");
 		camel_url_set_user (url, "local");
 		camel_url_set_host (url, "local");
-		
+
 		prefix = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 		if (strncmp (url->path, prefix, strlen (prefix)) != 0) {
 			/* uri is busticated - user probably copied from another user's home directory */
 			camel_url_free (url);
 			g_free (prefix);
-			
+
 			return g_strdup (uri);
 		}
 		path = g_strdup (url->path + strlen (prefix));
 		g_free (prefix);
-		
+
 		/* modify the path in-place */
 		p = path + strlen (path) - 12;
 		while (p > path) {
 			if (!strncmp (p, "/subfolders/", 12))
 				memmove (p, p + 11, strlen (p + 11) + 1);
-			
+
 			p--;
 		}
-		
+
 		camel_url_set_path (url, path);
 		g_free (path);
-		
+
 		path = camel_url_to_string (url, 0);
 		camel_url_free (url);
-		
+
 		return path;
 	} else {
 		return em_uri_from_camel (uri);
@@ -1935,38 +1936,38 @@ static void
 upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 {
 	xmlNodePtr root, node;
-	
+
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return;
-	
+
 	if (!root->name || strcmp ((char *)root->name, "filteroptions") != 0) {
 		/* root node is not <filteroptions>, nothing to upgrade */
 		return;
 	}
-	
+
 	if (!(node = xml_find_node (root, "ruleset"))) {
 		/* no ruleset node, nothing to upgrade */
 		return;
 	}
-	
+
 	node = node->children;
 	while (node != NULL) {
 		if (node->name && !strcmp ((char *)node->name, "rule")) {
 			xmlNodePtr sources;
 			char *src;
-			
+
 			if (!(src = (char *)xmlGetProp (node, (const unsigned char *)"source")))
 				src = (char *)xmlStrdup ((const unsigned char *)"local");  /* default to all local folders? */
-			
+
 			xmlSetProp (node, (const unsigned char *)"source", (const unsigned char *)"incoming");
-			
+
 			if (!(sources = xml_find_node (node, "sources")))
 				sources = xmlNewChild (node, NULL, (const unsigned char *)"sources", NULL);
-			
+
 			xmlSetProp (sources, (const unsigned char *)"with", (unsigned char *)src);
 			xmlFree (src);
 		}
-		
+
 		node = node->next;
 	}
 }
@@ -1979,22 +1980,22 @@ get_nth_sig (int id)
 	EIterator *iter;
 	char *uid = NULL;
 	int i = 0;
-	
+
 	list = mail_config_get_signatures ();
 	iter = e_list_get_iterator ((EList *) list);
-	
+
 	while (e_iterator_is_valid (iter) && i < id) {
 		e_iterator_next (iter);
 		i++;
 	}
-	
+
 	if (i == id && e_iterator_is_valid (iter)) {
 		sig = (ESignature *) e_iterator_get (iter);
 		uid = g_strdup (sig->uid);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	return uid;
 }
 
@@ -2003,40 +2004,40 @@ em_upgrade_accounts_1_4 (void)
 {
 	EAccountList *accounts;
 	EIterator *iter;
-	
+
 	if (!(accounts = mail_config_get_accounts ()))
 		return;
-	
+
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		char *url;
-		
+
 		if (account->drafts_folder_uri) {
 			url = upgrade_xml_uris_1_4 (account->drafts_folder_uri);
 			g_free (account->drafts_folder_uri);
 			account->drafts_folder_uri = url;
 		}
-		
+
 		if (account->sent_folder_uri) {
 			url = upgrade_xml_uris_1_4 (account->sent_folder_uri);
 			g_free (account->sent_folder_uri);
 			account->sent_folder_uri = url;
 		}
-		
+
 		if (account->id->sig_uid && !strncmp (account->id->sig_uid, "::", 2)) {
 			int sig_id;
-			
+
 			sig_id = strtol (account->id->sig_uid + 2, NULL, 10);
 			g_free (account->id->sig_uid);
 			account->id->sig_uid = get_nth_sig (sig_id);
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	mail_config_save_accounts ();
 }
 
@@ -2059,19 +2060,19 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 			g_free(cache_dir);
 			return 0;
 		}
-		
+
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Unable to open old POP keep-on-server data `%s': %s"),
 				      cache_dir, g_strerror (errno));
 		g_free (cache_dir);
 		return -1;
 	}
-	
+
 	oldpath = g_string_new (cache_dir);
 	g_string_append_c (oldpath, '/');
 	olen = oldpath->len;
 	g_free (cache_dir);
-	
+
 	cache_dir = g_build_filename (evolution_dir, "mail", "pop", NULL);
 	if (g_mkdir_with_parents (cache_dir, 0777) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -2082,25 +2083,25 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 		closedir (dir);
 		return -1;
 	}
-	
+
 	newpath = g_string_new (cache_dir);
 	g_string_append_c (newpath, '/');
 	nlen = newpath->len;
 	g_free (cache_dir);
-	
+
 	while (res == 0 && (dent = readdir (dir))) {
 		if (strncmp (dent->d_name, "cache-pop:__", 12) != 0)
 			continue;
-		
+
 		g_string_truncate (oldpath, olen);
 		g_string_truncate (newpath, nlen);
-		
+
 		g_string_append (oldpath, dent->d_name);
 		g_string_append (newpath, dent->d_name + 12);
-		
+
 		/* strip the trailing '_' */
 		g_string_truncate (newpath, newpath->len - 1);
-		
+
 		if (g_mkdir_with_parents (newpath->str, 0777) == -1
 		    || cp(oldpath->str, (g_string_append(newpath, "/uid-cache"))->str, FALSE, CP_UNIQUE)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -2110,12 +2111,12 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 		}
 
 	}
-	
+
 	g_string_free (oldpath, TRUE);
 	g_string_free (newpath, TRUE);
-	
+
 	closedir (dir);
-	
+
 	return res;
 }
 
@@ -2124,21 +2125,21 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 {
 	char *src, *dest;
 	struct stat st;
-	
+
 	src = g_build_filename (g_get_home_dir (), "evolution", "mail", "imap", NULL);
 	if (stat (src, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_free (src);
 		return 0;
 	}
-	
+
 	dest = g_build_filename (evolution_dir, "mail", "imap", NULL);
-	
+
 	/* we don't care if this fails, it's only a cache... */
 	cp_r (src, dest, "summary", CP_OVERWRITE);
-	
+
 	g_free (dest);
 	g_free (src);
-	
+
 	return 0;
 }
 
@@ -2151,14 +2152,14 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 	struct dirent *dent;
 	struct stat st;
 	DIR *dir;
-	
+
 	srcpath = g_string_new (g_get_home_dir ());
 	g_string_append (srcpath, "/evolution/config");
 	if (stat (srcpath->str, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_string_free (srcpath, TRUE);
 		return 0;
 	}
-	
+
 	destpath = g_string_new (evolution_dir);
 	g_string_append (destpath, "/mail/config");
 	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
@@ -2166,49 +2167,49 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 		g_string_free (srcpath, TRUE);
 		return 0;
 	}
-	
+
 	g_string_append (srcpath, "/et-expanded-");
 	slen = srcpath->len;
 	g_string_append (destpath, "/et-expanded-");
 	dlen = destpath->len;
-	
+
 	evo14_mbox_root = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 	e_filename_make_safe (evo14_mbox_root);
 	rlen = strlen (evo14_mbox_root);
 	evo14_mbox_root = g_realloc (evo14_mbox_root, rlen + 2);
 	evo14_mbox_root[rlen++] = '_';
 	evo14_mbox_root[rlen] = '\0';
-	
+
 	while ((dent = readdir (dir))) {
 		char *full_name, *inptr, *buf = NULL;
 		const char *filename;
 		GString *new;
-		
+
 		if (strncmp (dent->d_name, "et-expanded-", 12) != 0)
 			continue;
-		
+
 		if (!strncmp (dent->d_name + 12, "file:", 5)) {
 			/* need to munge the filename */
 			inptr = dent->d_name + 17;
-			
+
 			if (!strncmp (inptr, evo14_mbox_root, rlen)) {
 				/* this should always be the case afaik... */
 				inptr += rlen;
 				new = g_string_new ("mbox:");
 				g_string_append_printf (new, "%s/mail/local#", evolution_dir);
-				
+
 				full_name = g_strdup (inptr);
 				inptr = full_name + strlen (full_name) - 12;
 				while (inptr > full_name) {
 					if (!strncmp (inptr, "_subfolders_", 12))
 						memmove (inptr, inptr + 11, strlen (inptr + 11) + 1);
-					
+
 					inptr--;
 				}
-				
+
 				g_string_append (new, full_name);
 				g_free (full_name);
-				
+
 				filename = buf = new->str;
 				g_string_free (new, FALSE);
 				e_filename_make_safe (buf);
@@ -2220,23 +2221,23 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 			/* no munging needed */
 			filename = dent->d_name + 12;
 		}
-		
+
 		g_string_append (srcpath, dent->d_name + 12);
 		g_string_append (destpath, filename);
 		g_free (buf);
-		
+
 		cp (srcpath->str, destpath->str, FALSE, CP_UNIQUE);
-		
+
 		g_string_truncate (srcpath, slen);
 		g_string_truncate (destpath, dlen);
 	}
-	
+
 	closedir (dir);
-	
+
 	g_free (evo14_mbox_root);
 	g_string_free (destpath, TRUE);
 	g_string_free (srcpath, TRUE);
-	
+
 	return 0;
 }
 
@@ -2249,14 +2250,14 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 	struct dirent *dent;
 	struct stat st;
 	DIR *dir;
-	
+
 	srcpath = g_string_new (g_get_home_dir ());
 	g_string_append (srcpath, "/evolution/views/mail");
 	if (stat (srcpath->str, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_string_free (srcpath, TRUE);
 		return 0;
 	}
-	
+
 	destpath = g_string_new (evolution_dir);
 	g_string_append (destpath, "/mail/views");
 	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
@@ -2264,31 +2265,31 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 		g_string_free (srcpath, TRUE);
 		return 0;
 	}
-	
+
 	g_string_append_c (srcpath, '/');
 	slen = srcpath->len;
 	g_string_append_c (destpath, '/');
 	dlen = destpath->len;
-	
+
 	evo14_mbox_root = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 	e_filename_make_safe (evo14_mbox_root);
 	rlen = strlen (evo14_mbox_root);
 	evo14_mbox_root = g_realloc (evo14_mbox_root, rlen + 2);
 	evo14_mbox_root[rlen++] = '_';
 	evo14_mbox_root[rlen] = '\0';
-	
+
 	while ((dent = readdir (dir))) {
 		char *full_name, *inptr, *buf = NULL;
 		const char *filename, *ext;
 		size_t prelen = 0;
 		GString *new;
-		
+
 		if (dent->d_name[0] == '.')
 			continue;
-		
+
 		if (!(ext = strrchr (dent->d_name, '.')))
 			continue;
-		
+
 		if (!strcmp (ext, ".galview") || !strcmp ((char *)dent->d_name, "galview.xml")) {
 			/* just copy the file */
 			filename = dent->d_name;
@@ -2296,7 +2297,7 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 		} else if (strcmp (ext, ".xml") != 0) {
 			continue;
 		}
-		
+
 		if (!strncmp ((const char *)dent->d_name, "current_view-", 13)) {
 			prelen = 13;
 		} else if (!strncmp ((const char *)dent->d_name, "custom_view-", 12)) {
@@ -2305,29 +2306,29 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 			/* huh? wtf is this file? */
 			continue;
 		}
-		
+
 		if (!strncmp (dent->d_name + prelen, "file:", 5)) {
 			/* need to munge the filename */
 			inptr = dent->d_name + prelen + 5;
-			
+
 			if (!strncmp (inptr, evo14_mbox_root, rlen)) {
 				/* this should always be the case afaik... */
 				inptr += rlen;
 				new = g_string_new ("mbox:");
 				g_string_append_printf (new, "%s/mail/local#", evolution_dir);
-				
+
 				full_name = g_strdup (inptr);
 				inptr = full_name + strlen (full_name) - 12;
 				while (inptr > full_name) {
 					if (!strncmp (inptr, "_subfolders_", 12))
 						memmove (inptr, inptr + 11, strlen (inptr + 11) + 1);
-					
+
 					inptr--;
 				}
-				
+
 				g_string_append (new, full_name);
 				g_free (full_name);
-				
+
 				filename = buf = new->str;
 				g_string_free (new, FALSE);
 				e_filename_make_safe (buf);
@@ -2339,26 +2340,26 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 			/* no munging needed */
 			filename = dent->d_name + prelen;
 		}
-		
+
 	copy:
 		g_string_append (srcpath, dent->d_name);
 		if (prelen > 0)
 			g_string_append_len (destpath, dent->d_name, prelen);
 		g_string_append (destpath, filename);
 		g_free (buf);
-		
+
 		cp (srcpath->str, destpath->str, FALSE, CP_UNIQUE);
-		
+
 		g_string_truncate (srcpath, slen);
 		g_string_truncate (destpath, dlen);
 	}
-	
+
 	closedir (dir);
-	
+
 	g_free (evo14_mbox_root);
 	g_string_free (destpath, TRUE);
 	g_string_free (srcpath, TRUE);
-	
+
 	return 0;
 }
 
@@ -2533,7 +2534,7 @@ remove_system_searches(xmlDocPtr searches)
 
 	if (!(node = xml_find_node(node, "ruleset")))
 		return;
-	
+
 	node = node->children;
 	while (node != NULL) {
 		xmlNodePtr nnode = node->next;
@@ -2548,9 +2549,9 @@ remove_system_searches(xmlDocPtr searches)
 			}
 			xmlFree (src);
 		}
-		
+
 		node = nnode;
-	}	
+	}
 }
 
 static int
@@ -2568,9 +2569,9 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	camel_provider_init();
 	session = (EMMigrateSession *) em_migrate_session_new (path);
 	g_free (path);
-	
-	session->srcdir = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);	
-	
+
+	session->srcdir = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
+
 	path = g_strdup_printf ("mbox:%s/.evolution/mail/local", g_get_home_dir ());
 	if (stat (path + 5, &st) == -1) {
 		if (errno != ENOENT || g_mkdir_with_parents (path + 5, 0777) == -1) {
@@ -2583,7 +2584,7 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 			return -1;
 		}
 	}
-	
+
 	camel_exception_init (&lex);
 	if (!(session->store = camel_session_get_store ((CamelSession *) session, path, &lex))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -2596,17 +2597,17 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 		return -1;
 	}
 	g_free (path);
-	
+
 	if (em_migrate_local_folders_1_4 (session, ex) == -1)
 		return -1;
-	
+
 	camel_object_unref (session->store);
 	g_free (session->srcdir);
-	
+
 	camel_object_unref (session);
-	
+
 	em_upgrade_accounts_1_4();
-	
+
 	upgrade_xml_uris(filters, upgrade_xml_uris_1_4);
 	upgrade_vfolder_sources_1_4(vfolders);
 	upgrade_xml_uris(vfolders, upgrade_xml_uris_1_4);
@@ -2621,10 +2622,10 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 		g_free(path);
 		xmlFreeDoc(searches);
 	}
-	
+
 	if (em_migrate_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
-	
+
 	/* these are non-fatal */
 	em_migrate_imap_caches_1_4 (evolution_dir, ex);
 	camel_exception_clear(ex);
@@ -2685,7 +2686,7 @@ emm_setup_initial(const char *evolution_dir)
 	/* FIXME: create default folders and stuff... */
 
 	d(printf("Setting up initial mail tree\n"));
-	
+
 	base = g_build_filename(evolution_dir, "mail", "local", NULL);
 	if (g_mkdir_with_parents(base, 0777) == -1 && errno != EEXIST) {
 		g_free(base);
@@ -2728,33 +2729,142 @@ emm_setup_initial(const char *evolution_dir)
 	return 0;
 }
 
+static gboolean
+is_in_plugs_list (GSList *list, const gchar *value)
+{
+	GSList *l;
+
+	for (l = list; l; l = l->next) {
+		if (l->data && !strcmp (l->data, value))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/*
+ * em_update_message_notify_settings_2_21
+ * DBus plugin and sound email notification was merged to mail-notification plugin,
+ * so move these options to new locations.
+ */
+static void
+em_update_message_notify_settings_2_21 (void)
+{
+	GConfClient *client;
+	GConfValue  *is_key;
+	gboolean dbus, status;
+	GSList *list;
+	gchar *str;
+	gint val;
+
+	client = gconf_client_get_default ();
+
+	is_key = gconf_client_get (client, "/apps/evolution/eplugin/mail-notification/dbus-enabled", NULL);
+	if (is_key) {
+		/* already migrated, so do not migrate again */
+		gconf_value_free (is_key);
+		g_object_unref (client);
+
+		return;
+	}
+
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-blink-icon",
+				gconf_client_get_bool (client, "/apps/evolution/mail/notification/blink-status-icon", NULL), NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-notification",
+				gconf_client_get_bool (client, "/apps/evolution/mail/notification/notification", NULL), NULL);
+
+	list = gconf_client_get_list (client, "/apps/evolution/eplugin/disabled", GCONF_VALUE_STRING, NULL);
+	dbus = !is_in_plugs_list (list, "org.gnome.evolution.new_mail_notify");
+	status = !is_in_plugs_list (list, "org.gnome.evolution.mail_notification");
+
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/dbus-enabled", dbus, NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-enabled", status, NULL);
+
+	if (!status) {
+		/* enable this plugin, because it holds all those other things */
+		GSList *plugins, *l;
+
+		plugins = e_plugin_list_plugins ();
+
+		for (l = plugins; l; l = l->next) {
+			EPlugin *p = l->data;
+
+			if (p && p->id && !strcmp (p->id, "org.gnome.evolution.mail_notification")) {
+				e_plugin_enable (p, 1);
+				break;
+			}
+		}
+
+		g_slist_foreach (plugins, (GFunc)g_object_unref, NULL);
+		g_slist_free (plugins);
+	}
+
+	g_slist_foreach (list, (GFunc) g_free, NULL);
+	g_slist_free (list);
+
+	val = gconf_client_get_int (client, "/apps/evolution/mail/notify/type", NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/sound-enabled", val == 1 || val == 2, NULL);
+	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/sound-beep", val == 0 || val == 1, NULL);
+
+	str = gconf_client_get_string (client, "/apps/evolution/mail/notify/sound", NULL);
+	gconf_client_set_string (client, "/apps/evolution/eplugin/mail-notification/sound-file", str ? str : "", NULL);
+	g_free (str);
+
+	g_object_unref (client);
+}
+
+/* fixing typo in SpamAssassin name */
+static void
+em_update_sa_junk_setting_2_23 (void)
+{
+	GConfClient *client;
+	GConfValue  *key;
+
+	client = gconf_client_get_default ();
+
+	key = gconf_client_get (client, "/apps/evolution/mail/junk/default_plugin", NULL);
+	if (key) {
+		const char *str = gconf_value_get_string (key);
+
+		if (str && strcmp (str, "Spamassasin") == 0)
+			gconf_client_set_string (client, "/apps/evolution/mail/junk/default_plugin", "SpamAssassin", NULL);
+
+		gconf_value_free (key);
+		g_object_unref (client);
+
+		return;
+	}
+
+	g_object_unref (client);
+}
+
 int
 em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
 {
 	struct stat st;
 	char *path;
-	
+
 	/* make sure ~/.evolution/mail exists */
 	path = g_build_filename (evolution_dir, "mail", NULL);
 	if (g_stat (path, &st) == -1) {
 		if (errno != ENOENT || g_mkdir_with_parents (path, 0777) == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, 
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Unable to create local mail folders at `%s': %s"),
 					      path, g_strerror (errno));
 			g_free (path);
 			return -1;
 		}
 	}
-	
+
 	g_free (path);
-	
+
 	if (major == 0)
 		return emm_setup_initial(evolution_dir);
 
 #ifndef G_OS_WIN32
 	if (major == 1 && minor < 5) {
 		xmlDocPtr config_xmldb = NULL, filters, vfolders;
-		
+
 		path = g_build_filename (g_get_home_dir (), "evolution", NULL);
 		if (minor <= 2 && !(config_xmldb = emm_load_xml (path, "config.xmldb"))) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -2766,7 +2876,7 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		filters = emm_load_xml (path, "filters.xml");
 		vfolders = emm_load_xml (path, "vfolders.xml");
 		g_free (path);
-		
+
 		if (minor == 0) {
 			if (em_migrate_1_0 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
 				xmlFreeDoc (config_xmldb);
@@ -2775,7 +2885,7 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 				return -1;
 			}
 		}
-		
+
 		if (minor <= 2) {
 			if (em_migrate_1_2 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
 				xmlFreeDoc (config_xmldb);
@@ -2783,10 +2893,10 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 				xmlFreeDoc (vfolders);
 				return -1;
 			}
-			
+
 			xmlFreeDoc (config_xmldb);
 		}
-		
+
 		if (minor <= 4) {
 			if (em_migrate_1_4 (evolution_dir, filters, vfolders, ex) == -1) {
 				xmlFreeDoc (filters);
@@ -2794,25 +2904,32 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 				return -1;
 			}
 		}
-		
+
 		path = g_build_filename (evolution_dir, "mail", NULL);
-		
+
 		if (filters) {
 			emm_save_xml (filters, path, "filters.xml");
 			xmlFreeDoc (filters);
 		}
-		
+
 		if (vfolders) {
 			emm_save_xml (vfolders, path, "vfolders.xml");
 			xmlFreeDoc (vfolders);
 		}
-		
+
 		g_free (path);
 	}
 
 	if (major < 2 || (major == 2 && minor < 12)) {
 		em_update_accounts_2_11 ();
 	}
+
+	if (major < 2 || (major == 2 && minor < 22))
+		em_update_message_notify_settings_2_21 ();
+
+	if (major < 2 || (major == 2 && minor < 24))
+		em_update_sa_junk_setting_2_23 ();
+
 #endif	/* !G_OS_WIN32 */
 	return 0;
 }

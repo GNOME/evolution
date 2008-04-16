@@ -48,7 +48,7 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
 
 G_DEFINE_TYPE (ESelectionModelSimple, e_selection_model_simple, e_selection_model_array_get_type())
 
-/** 
+/**
  * e_selection_model_simple_new
  *
  * This routine creates a new #ESelectionModelSimple.

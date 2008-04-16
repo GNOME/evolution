@@ -26,6 +26,7 @@
 #include <gtk/gtkbutton.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkicontheme.h>
 
 #include <libgnome/gnome-program.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
@@ -68,7 +69,7 @@ GtkWidget *e_create_image_widget(gchar *name,
 {
 	GtkWidget *alignment = NULL;
 	GtkWidget *w;
-	
+
 	if (string1) {
 		w = e_icon_factory_get_image (string1, E_ICON_SIZE_DIALOG);
 

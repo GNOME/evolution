@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
  * Copyright (C) 2002 Ximian, Inc.
@@ -67,7 +67,7 @@ eti_get_accessible (ETableItem *eti, AtkObject *parent)
 	return a11y;
 }
 
-static gboolean 
+static gboolean
 init_child_item (GalA11yETable *a11y)
 {
 	ETable *table;
@@ -123,7 +123,7 @@ et_get_n_children (AtkObject *accessible)
 			n = g_list_length (etgc->children);
 		}
 	}
-	
+
 	if (et && et->use_click_to_add && et->click_to_add) {
 		n++;
 	}
@@ -212,11 +212,11 @@ et_init (GalA11yETable *a11y)
 
 /**
  * gal_a11y_e_table_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yETable class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yETable class.
  **/
 GType
@@ -282,7 +282,7 @@ gal_a11y_e_table_new (GObject *widget)
 	return ATK_OBJECT (a11y);
 }
 
-void 
+void
 gal_a11y_e_table_init (void)
 {
 	if (atk_get_root ())

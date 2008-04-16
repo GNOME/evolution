@@ -104,7 +104,7 @@ static void *
 one_initialize_value (ETableModel *etm, int col)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
-	
+
 	if (one->source)
 		return e_table_model_initialize_value (one->source, col);
 	else
@@ -115,7 +115,7 @@ static gboolean
 one_value_is_empty (ETableModel *etm, int col, const void *value)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
-	
+
 	if (one->source)
 		return e_table_model_value_is_empty (one->source, col, value);
 	else
@@ -126,7 +126,7 @@ static char *
 one_value_to_string (ETableModel *etm, int col, const void *value)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
-	
+
 	if (one->source)
 		return e_table_model_value_to_string (one->source, col, value);
 	else
@@ -155,7 +155,7 @@ one_dispose (GObject *object)
 			for (i = 0; i < col_count; i++)
 				e_table_model_free_value(one->source, i, one->data[i]);
 		}
-		
+
 		g_free (one->data);
 	}
 	one->data = NULL;
@@ -204,16 +204,16 @@ e_table_one_new (ETableModel *source)
 
 	eto = g_object_new (E_TABLE_ONE_TYPE, NULL);
 	eto->source = source;
-	
+
 	col_count = e_table_model_column_count(source);
 	eto->data = g_new(void *, col_count);
 	for (i = 0; i < col_count; i++) {
 		eto->data[i] = e_table_model_initialize_value(source, i);
 	}
-	
+
 	if (source)
 		g_object_ref(source);
-	
+
 	return (ETableModel *) eto;
 }
 

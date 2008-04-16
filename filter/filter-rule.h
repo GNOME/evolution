@@ -63,10 +63,10 @@ enum _filter_threading_t {
 struct _FilterRule {
 	GObject parent_object;
 	struct _FilterRulePrivate *priv;
-	
+
 	char *name;
 	char *source;
-	
+
 	enum _filter_grouping_t grouping;
 	enum _filter_threading_t threading;
 
@@ -76,20 +76,20 @@ struct _FilterRule {
 
 struct _FilterRuleClass {
 	GObjectClass parent_class;
-	
+
 	/* virtual methods */
 	int (*validate) (FilterRule *);
 	int (*eq) (FilterRule *fr, FilterRule *cm);
-	
+
 	xmlNodePtr (*xml_encode) (FilterRule *);
 	int (*xml_decode) (FilterRule *, xmlNodePtr, struct _RuleContext *);
-	
+
 	void (*build_code) (FilterRule *, GString *out);
-	
+
 	void (*copy) (FilterRule *dest, FilterRule *src);
-	
+
 	GtkWidget *(*get_widget) (FilterRule *fr, struct _RuleContext *f);
-	
+
 	/* signals */
 	void (*changed) (FilterRule *fr);
 };

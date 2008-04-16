@@ -1,20 +1,20 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* elm-importer.c
- * 
+ *
  * Authors: Iain Holmes  <iain@ximian.com>
  *	    Michael Zucchi <notzed@ximian.com>
  *
  * Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -51,7 +51,7 @@
 #define d(x) x
 
 struct _elm_import_msg {
-	struct _mail_msg msg;
+	MailMsg base;
 
 	EImport *import;
 	EImportTargetHome *target;
@@ -178,21 +178,20 @@ elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	return mailexists;
 }
 
-static char *
-elm_import_describe (struct _mail_msg *mm, int complete)
+static gchar *
+elm_import_desc (struct _elm_import_msg *m)
 {
 	return g_strdup (_("Importing Elm data"));
 }
 
 static MailImporterSpecial elm_special_folders[] = {
 	{ "received", "Inbox" },
-	{ 0 },
+	{ NULL },
 };
 
 static void
-elm_import_import(struct _mail_msg *mm)
+elm_import_exec (struct _elm_import_msg *m)
 {
-	struct _elm_import_msg *m = (struct _elm_import_msg *) mm;
 	const char *maildir;
 	char *elmdir;
 
@@ -210,13 +209,11 @@ elm_import_import(struct _mail_msg *mm)
 }
 
 static void
-elm_import_imported(struct _mail_msg *mm)
+elm_import_done(struct _elm_import_msg *m)
 {
-	struct _elm_import_msg *m = (struct _elm_import_msg *)mm;
-
 	printf("importing complete\n");
 
-	if (!camel_exception_is_set(&mm->ex)) {
+	if (!camel_exception_is_set(&m->base.ex)) {
 		GConfClient *gconf;
 
 		gconf = gconf_client_get_default();
@@ -228,10 +225,8 @@ elm_import_imported(struct _mail_msg *mm)
 }
 
 static void
-elm_import_free(struct _mail_msg *mm)
+elm_import_free(struct _elm_import_msg *m)
 {
-	struct _elm_import_msg *m = (struct _elm_import_msg *)mm;
-
 	camel_operation_unref(m->status);
 
 	g_free(m->status_what);
@@ -280,11 +275,12 @@ elm_status_timeout(void *data)
 	return TRUE;
 }
 
-static struct _mail_msg_op elm_import_op = {
-	elm_import_describe,
-	elm_import_import,
-	elm_import_imported,
-	elm_import_free,
+static MailMsgInfo elm_import_info = {
+	sizeof (struct _elm_import_msg),
+	(MailMsgDescFunc) elm_import_desc,
+	(MailMsgExecFunc) elm_import_exec,
+	(MailMsgDoneFunc) elm_import_done,
+	(MailMsgFreeFunc) elm_import_free
 };
 
 static int
@@ -293,7 +289,7 @@ mail_importer_elm_import(EImport *ei, EImportTarget *target)
 	struct _elm_import_msg *m;
 	int id;
 
-	m = mail_msg_new(&elm_import_op, NULL, sizeof (*m));
+	m = mail_msg_new(&elm_import_info);
 	g_datalist_set_data(&target->data, "elm-msg", m);
 	m->import = ei;
 	g_object_ref(m->import);
@@ -302,9 +298,9 @@ mail_importer_elm_import(EImport *ei, EImportTarget *target)
 	m->status_lock = g_mutex_new();
 	m->status = camel_operation_new(elm_status, m);
 
-	id = m->msg.seq;
-	
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	id = m->base.seq;
+
+	mail_msg_fast_ordered_push (m);
 
 	return id;
 }

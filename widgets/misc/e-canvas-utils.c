@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas-utils.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -69,7 +69,7 @@ e_canvas_show_area (GnomeCanvas *canvas, double x1, double y1, double x2, double
 {
 	GtkAdjustment *h, *v;
 	int dx = 0, dy = 0;
-	
+
 	g_return_if_fail (canvas != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
@@ -89,7 +89,7 @@ e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2,
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-	
+
 	gnome_canvas_item_i2w(item, &x1, &y1);
 	gnome_canvas_item_i2w(item, &x2, &y2);
 
@@ -102,7 +102,7 @@ e_canvas_area_shown (GnomeCanvas *canvas, double x1, double y1, double x2, doubl
 {
 	GtkAdjustment *h, *v;
 	int dx = 0, dy = 0;
-	
+
 	g_return_val_if_fail (canvas != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
 
@@ -123,7 +123,7 @@ e_canvas_item_area_shown (GnomeCanvasItem *item, double x1, double y1, double x2
 {
 	g_return_val_if_fail (item != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), FALSE);
-	
+
 	gnome_canvas_item_i2w(item, &x1, &y1);
 	gnome_canvas_item_i2w(item, &x2, &y2);
 
@@ -153,10 +153,10 @@ void
 e_canvas_item_show_area_delayed (GnomeCanvasItem *item, double x1, double y1, double x2, double y2, gint delay)
 {
 	DoubsAndCanvas *dac;
-	
+
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-	
+
 	gnome_canvas_item_i2w(item, &x1, &y1);
 	gnome_canvas_item_i2w(item, &x2, &y2);
 

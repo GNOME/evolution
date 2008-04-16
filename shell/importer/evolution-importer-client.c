@@ -66,7 +66,7 @@ evolution_importer_client_init (EvolutionImporterClient *client)
  * @objref: The CORBA_Object to make a client for.
  *
  * Makes a client for @objref. @objref should be an Evolution_Importer.
- * 
+ *
  * Returns: A newly created EvolutionImporterClient.
  */
 EvolutionImporterClient *
@@ -87,7 +87,7 @@ evolution_importer_client_new (const CORBA_Object objref)
  * @id: The oafiid of the component to make a client for.
  *
  * Makes a client for the object returned by activating @id.
- * 
+ *
  * Returns: A newly created EvolutionImporterClient.
  */
 EvolutionImporterClient *
@@ -123,9 +123,9 @@ evolution_importer_client_create_control (EvolutionImporterClient *client)
 	GtkWidget *widget = NULL;
 	Bonobo_Control control;
 	CORBA_Environment ev;
-	
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client), FALSE);
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (EVOLUTION_IS_IMPORTER_CLIENT (client), NULL);
 
 	CORBA_exception_init (&ev);
 	corba_importer = client->objref;
@@ -135,11 +135,11 @@ evolution_importer_client_create_control (EvolutionImporterClient *client)
 		/* FIXME Pass in container? */
 		widget = bonobo_widget_new_control_from_objref (control, NULL);
 		gtk_widget_show (widget);
-	}	
-	
+	}
+
 	CORBA_exception_free (&ev);
 
-	return widget;	
+	return widget;
 }
 
 /**
@@ -165,7 +165,7 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
 
 	CORBA_exception_init (&ev);
 	corba_importer = client->objref;
-	result = GNOME_Evolution_Importer_supportFormat (corba_importer, 
+	result = GNOME_Evolution_Importer_supportFormat (corba_importer,
 							 filename, &ev);
 	CORBA_exception_free (&ev);
 
@@ -242,9 +242,9 @@ evolution_importer_client_process_item (EvolutionImporterClient *client,
  * evolution_importer_client_get_error:
  * @client: The EvolutionImporterClient.
  *
- * Gets the error as a string. 
+ * Gets the error as a string.
  *
- * Returns: The error as a string. If there is no error NULL is returned. 
+ * Returns: The error as a string. If there is no error NULL is returned.
  * Importers need not support this method and if so, NULL is also returned.
  */
 const char *
@@ -261,6 +261,6 @@ evolution_importer_client_get_error (EvolutionImporterClient *client)
 
 	CORBA_exception_init (&ev);
 	str = GNOME_Evolution_Importer_getError (corba_importer, &ev);
-	
+
 	return str;
 }

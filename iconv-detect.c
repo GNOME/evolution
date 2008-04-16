@@ -26,7 +26,7 @@
 
 enum {
 	ISO_UNSUPPORTED          = 0,
-	
+
 	/* iso-8859-1 */
 	ISO_DASH_D_DASH_D_LOWER  = (1 << 0),
 	ISO_DASH_D_DASH_D        = (1 << 1),
@@ -34,7 +34,7 @@ enum {
 	ISO_D_D                  = (1 << 3),
 	ISO_UNDER_D_DASH_D       = (1 << 4),
 	NO_ISO_D_DASH_D          = (1 << 5),
-	
+
 	/* iso-10646-1 */
 	/*ISO_DASH_D_DASH_D_LOWER  = (1 << 0),*/
 	/*ISO_DASH_D_DASH_D        = (1 << 1),*/
@@ -43,7 +43,7 @@ enum {
 	ISO_DASH_D                 = (1 << 4),
 	ISO_D                      = (1 << 5),
 	UCS4                       = (1 << 6),
-	
+
 	/* iso-2022-jp */
 	ISO_DASH_D_DASH_S_LOWER  = (1 << 0),
 	ISO_DASH_D_DASH_S        = (1 << 1),
@@ -97,13 +97,13 @@ int main (int argc, char **argv)
 	iconv_t cd;
 	FILE *fp;
 	int i;
-	
+
 	fp = fopen ("iconv-detect.h", "w");
 	if (fp == NULL)
 		exit (255);
-	
+
 	fprintf (fp, "/* This is an auto-generated header, DO NOT EDIT! */\n\n");
-	
+
 	iso8859 = ISO_UNSUPPORTED;
 	info = iso8859_tests;
 	/*printf ("#define DEFAULT_ISO_FORMAT(iso,codepage)\t");*/
@@ -117,7 +117,7 @@ int main (int argc, char **argv)
 			break;
 		}
 	}
-	
+
 	if (iso8859 == ISO_UNSUPPORTED) {
 		fprintf (stderr, "System doesn't support any ISO-8859-1 formats\n");
 		fprintf (fp, "#define ICONV_ISO_D_FORMAT \"%s\"\n", info[0].format);
@@ -127,7 +127,7 @@ int main (int argc, char **argv)
 	} else {
 		fprintf (fp, "#define ICONV_ISO_D_FORMAT \"%s\"\n", info[i].format);
 	}
-	
+
 	iso2022 = ISO_UNSUPPORTED;
 	info = iso2022_tests;
 	/*printf ("#define ISO_2022_FORMAT(iso,codepage)\t");*/
@@ -141,7 +141,7 @@ int main (int argc, char **argv)
 			break;
 		}
 	}
-	
+
 	if (iso2022 == ISO_UNSUPPORTED) {
 		fprintf (stderr, "System doesn't support any ISO-2022 formats\n");
 		fprintf (fp, "#define ICONV_ISO_S_FORMAT \"%s\"\n", info[0].format);
@@ -151,7 +151,7 @@ int main (int argc, char **argv)
 	} else {
 		fprintf (fp, "#define ICONV_ISO_S_FORMAT \"%s\"\n", info[i].format);
 	}
-	
+
 	iso10646 = ISO_UNSUPPORTED;
 	info = iso10646_tests;
 	/*printf ("#define ISO_10646_FORMAT(iso,codepage)\t");*/
@@ -168,7 +168,7 @@ int main (int argc, char **argv)
 			break;
 		}
 	}
-	
+
 	/* we don't need a printf format for iso-10646 because there is only 1 */
 	if (iso10646 == ISO_UNSUPPORTED) {
 		fprintf (stderr, "System doesn't support any ISO-10646-1 formats\n");
@@ -179,8 +179,8 @@ int main (int argc, char **argv)
 	} else {
 		fprintf (fp, "#define ICONV_10646 \"%s\"\n", info[i].charset);
 	}
-	
+
 	fclose (fp);
-	
+
 	exit (0);
 }

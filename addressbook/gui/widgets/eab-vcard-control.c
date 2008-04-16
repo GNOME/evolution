@@ -112,8 +112,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char *vcard;
 	EABVCardControl *vcard_control = data;
 
-	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&	    
-	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&
+	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;
@@ -140,8 +140,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	if (list && list->next) {
 		char *message;
 		int length = g_list_length (list) - 1;
-		message = g_strdup_printf (ngettext("There is one other contact.", 
-						    "There are %d other contacts.", length), 
+		message = g_strdup_printf (ngettext("There is one other contact.",
+						    "There are %d other contacts.", length),
 					   length);
 		gtk_label_set_text (GTK_LABEL (vcard_control->label), message);
 		g_free (message);
@@ -163,8 +163,8 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	char             *vcard;
 	int               length;
 
-	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&	    
-	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {	    
+	if (type && g_ascii_strcasecmp (type, "text/vCard") != 0 &&
+	    g_ascii_strcasecmp (type, "text/x-vCard") != 0) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 		return;
@@ -225,11 +225,11 @@ toggle_full_vcard(GtkWidget *button, gpointer data)
 
 	if (vcard_control->render_mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
 		vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
-		label = _("Show Full VCard");
+		label = _("Show Full vCard");
 	}
 	else {
 		vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-		label = _("Show Compact VCard");
+		label = _("Show Compact vCard");
 	}
 
 	gtk_button_set_label (GTK_BUTTON (button), label);
@@ -261,8 +261,6 @@ eab_vcard_control_new (void)
 
 	EABVCardControl    *vcard_control = g_new (EABVCardControl, 1);
 
-	printf ("inside eab_vcard_control_new\n");
-
 	vcard_control->card_list = NULL;
 	vcard_control->display = NULL;
 	vcard_control->label = NULL;
@@ -278,7 +276,7 @@ eab_vcard_control_new (void)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (bbox), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (bbox), 12);
 
-	button1 = gtk_button_new_with_label(_("Show Full VCard"));
+	button1 = gtk_button_new_with_label(_("Show Full vCard"));
 	g_signal_connect (button1, "clicked",
 			  G_CALLBACK (toggle_full_vcard), vcard_control);
 	gtk_box_pack_start (GTK_BOX (bbox), button1, FALSE, FALSE, 0);

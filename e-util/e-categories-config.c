@@ -78,22 +78,22 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	GtkDialog *dialog;
 	const char *text;
 	int result;
-	
+
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
-	
+
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GTK_DIALOG (e_categories_dialog_new (text));
 
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (entry))));
-		
+
 	/* run the dialog */
 	result = gtk_dialog_run (dialog);
-	
+
 	if (result == GTK_RESPONSE_OK) {
 		text = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
 		gtk_entry_set_text (GTK_ENTRY (entry), text);
 	}
-	
+
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }

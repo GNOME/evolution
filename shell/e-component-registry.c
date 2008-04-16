@@ -39,7 +39,7 @@
 struct _EComponentRegistryPrivate {
 	GSList *infos;
 
-	int init:1;
+	guint init:1;
 };
 
 G_DEFINE_TYPE (EComponentRegistry, e_component_registry, G_TYPE_OBJECT)
@@ -201,7 +201,7 @@ query_components (EComponentRegistry *registry)
 		}
 
 		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", languages);
-		
+
 		tooltips = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_tooltips", languages);
 
 		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", languages);
@@ -343,7 +343,7 @@ e_component_registry_activate (EComponentRegistry *registry,
 
 	info = e_component_registry_peek_info (registry, ECR_FIELD_ID, id);
 	if (info == NULL) {
-		g_warning (G_GNUC_FUNCTION " - Unknown id \"%s\"", id);
+		g_warning ("%s - Unknown id \"%s\"", G_STRFUNC, id);
 		return CORBA_OBJECT_NIL;
 	}
 

@@ -30,11 +30,11 @@
  */
 
 #ifndef __E_TIMEZONE_ENTRY_H_
-#define __E_TIMEZONE_ENTRY_H_ 
+#define __E_TIMEZONE_ENTRY_H_
 
 #include <gtk/gtkhbox.h>
 #include <libecal/e-cal.h>
- 
+
 G_BEGIN_DECLS
 
 

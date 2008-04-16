@@ -42,9 +42,9 @@ struct _FilterCode {
 
 struct _FilterCodeClass {
 	FilterInputClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

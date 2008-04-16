@@ -62,11 +62,11 @@ typedef struct _GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *
 
 /**
  * enum _e_config_target_changed_t - Target changed mode.
- * 
+ *
  * @E_CONFIG_TARGET_CHANGED_STATE: A state of the target has changed.
  * @E_CONFIG_TARGET_CHANGED_REBUILD: A state of the target has
  * changed, and the UI must be reconfigured as a result.
- * 
+ *
  * How the target has changed.  If @E_CONFIG_TARGET_CHANGED_REBUILD then a
  * widget reconfigure is necessary, otherwise it is used to check if
  * the widget is complete yet.
@@ -79,7 +79,7 @@ enum _e_config_target_change_t {
 
 /**
  * enum _e_config_t - configuration item type.
- * 
+ *
  * @E_CONFIG_BOOK: A notebook item.  Only one of this or
  * @E_CONFIG_DRUID may be included in the item list for the entire
  * configuration description.
@@ -105,7 +105,7 @@ enum _e_config_target_change_t {
  * section defined in the configuration system.
  * @E_CONFIG_ITEM_TABLE: A configuration item with a parent
  * @E_CONFIG_SECTION_TABLE.
- * 
+ *
  * A configuration item type for each configuration item added to the
  * EConfig object.  These are merged from all contributors to the
  * configuration window, and then processed to form the combined
@@ -127,7 +127,7 @@ enum _e_config_t {
 
 /**
  * struct _EConfigItem - A configuration item.
- * 
+ *
  * @type: The configuration item type.
  * @path: An absolute path positioning this item in the configuration
  * window.  This will be used as a sort key for an ASCII sort to
@@ -151,11 +151,11 @@ struct _EConfigItem {
 
 /**
  * struct _EConfigTarget - configuration context.
- * 
+ *
  * @config: The parent object.
  * @widget: A target-specific parent widget.
  * @type: The type of target, defined by implementing classes.
- * 
+ *
  * The base target object is used as the parent and placeholder for
  * configuration context for a given configuration window.  It is
  * subclassed by implementing classes to provide domain-specific
@@ -172,7 +172,7 @@ struct _EConfigTarget {
 
 /**
  * struct _EConfig - A configuration management object.
- * 
+ *
  * @object: Superclass.
  * @priv: Private data.
  * @type: Either @E_CONFIG_BOOK or @E_CONFIG_DRIUD, describing the
@@ -186,7 +186,7 @@ struct _EConfigTarget {
  * @window: If :create_window() is called, then the containing
  * toplevel GtkDialog or GtkWindow appropriate for the @type of
  * configuration window created.
- * 
+ *
  **/
 struct _EConfig {
 	GObject object;
@@ -205,7 +205,7 @@ struct _EConfig {
 
 /**
  * struct _EConfigClass - Configuration management abstract class.
- * 
+ *
  * @object_class: Superclass.
  * @factories: A list of factories registered on this type of
  * configuration manager.
@@ -214,7 +214,7 @@ struct _EConfig {
  * into changes on the target to propery drive the manager.
  * @target_free: A virtual method used to free the target in an
  * implementation-defined way.
- * 
+ *
  **/
 struct _EConfigClass {
 	GObjectClass object_class;
@@ -279,7 +279,7 @@ typedef void (*EConfigHookItemFactoryFunc)(struct _EPlugin *plugin, EConfigHookI
 
 /**
  * struct _EConfigHookItemFactoryData - Factory marshalling structure.
- * 
+ *
  * @config: The parent EConfig.  This is also available in
  * @target->config but is here as a convenience. (TODO: do we need this).
  * @item: The corresponding configuration item.
@@ -303,12 +303,12 @@ struct _EConfigHookItemFactoryData {
 
 /**
  * struct _EConfigHookPageCheckData - Check callback data.
- * 
- * @config: 
+ *
+ * @config:
  * @target: The current configuration target.  This is also available
  * on @config->target.
  * @pageid: Name of page to validate, or "" means check all configuration.
- * 
+ *
  **/
 struct _EConfigHookPageCheckData {
 	EConfig *config;
@@ -318,7 +318,7 @@ struct _EConfigHookPageCheckData {
 
 /**
  * struct _EConfigHookGroup - A group of configuration items.
- * 
+ *
  * @hook: Parent object.
  * @id: The configuration window to which these items apply.
  * @target_type: The target type expected by the items.  This is
@@ -345,11 +345,11 @@ struct _EConfigHookGroup {
 
 /**
  * struct _EConfigHook - Plugin hook for configuration windows.
- * 
+ *
  * @hook: Superclass.
  * @groups: A list of EConfigHookGroup's of all configuration windows
  * this plugin hooks into.
- * 
+ *
  **/
 struct _EConfigHook {
 	EPluginHook hook;
@@ -360,7 +360,7 @@ struct _EConfigHook {
 /**
  * struct _EConfigHookClass - Abstract class for configuration window
  * plugin hooks.
- * 
+ *
  * @hook_class: Superclass.
  * @target_map: A table of EConfigHookTargetMap structures describing
  * the possible target types supported by this class.
@@ -369,7 +369,7 @@ struct _EConfigHook {
  *
  * This is an abstract class defining the plugin hook point for
  * configuration windows.
- * 
+ *
  **/
 struct _EConfigHookClass {
 	EPluginHookClass hook_class;

@@ -58,7 +58,7 @@ format_date (const char * value)
 	return str;
 }
 
-static void 
+static void
 track_status (EPopup *ep, EPopupItem *item, void *data)
 {
 	EMPopupTargetSelect *t = (EMPopupTargetSelect *)data;
@@ -97,7 +97,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 		/* No need to make any call if this header is not available.
 		This is the server side identifier for sent-items */
 		return ;
-	} 
+	}
 
 	/*Create the dialog*/
 	d = (GtkDialog *) gtk_dialog_new ();
@@ -177,6 +177,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 		{
 			EGwItemRecipient *recipient;
 			GString *label = NULL;
+			GtkLabel *detail;
 
 			label = g_string_new("");
 			recipient = recipient_list->data;
@@ -221,12 +222,11 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->undelivered_date) {
-				label = g_string_append (label, _("Un-delivered: "));
+				label = g_string_append (label, _("Undelivered: "));
 				label = g_string_append (label, format_date(recipient->undelivered_date));
 				label = g_string_append_c (label, '\n');
 			}
 
-			GtkLabel *detail;
 			detail = GTK_LABEL(gtk_label_new (label->str));
 			g_string_free (label, TRUE);
 			gtk_label_set_selectable (detail, TRUE);
@@ -249,7 +249,7 @@ static EPopupItem popup_items[] = {
 { E_POPUP_ITEM, "20.emfv.02", N_("Track Message Status..."), track_status, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 	g_slist_free (items);
@@ -258,24 +258,24 @@ popup_free (EPopup *ep, GSList *items, void *data)
 void org_gnome_track_status (void *ep, EMPopupTargetSelect *t)
 {
 	GSList *menus = NULL;
-	
+
 	int i = 0;
 	static int first = 0;
 
 	if (! g_strrstr (t->uri, "groupwise://") || g_ascii_strncasecmp ((t->folder)->full_name, "Sent Items", 10))
 		return;
-	
+
 	/* for translation*/
 	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
-	
+
 	}
-	
+
 	first++;
-	
+
 	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &popup_items[i]);
-	
+
 	e_popup_add_items (t->target.popup, menus, NULL, popup_free, t);
-       	
+
 }

@@ -57,7 +57,7 @@ typedef struct _EContactEditorClass  EContactEditorClass;
 struct _EContactEditor
 {
 	EABEditor object;
-	
+
 	/* item specific fields */
 	EBook *source_book;
 	EBook *target_book;
@@ -65,7 +65,7 @@ struct _EContactEditor
 
 	/* UI handler */
 	BonoboUIComponent *uic;
-	
+
 	GladeXML *gui;
 	GtkWidget *app;
 
@@ -92,7 +92,7 @@ struct _EContactEditor
 	guint image_changed : 1;
 
 	EList *writable_fields;
-	
+
 	EList *required_fields;
 
 	/* ID for async load_source call */
@@ -102,6 +102,7 @@ struct _EContactEditor
 	/* signal ids for "writable_status" */
 	int target_editable_id;
 
+	GtkWidget *fullname_dialog;
 	GtkWidget *categories_dialog;
 };
 

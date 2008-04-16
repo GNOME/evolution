@@ -62,23 +62,23 @@ em_select_folder (GtkWindow *parent_window, const char *title, const char *oklab
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 	EMFolderTree *emft;
-	
+
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	if (exclude)
 		em_folder_tree_set_excluded_func(emft, exclude, user_data);
 	else
 		em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
-	
+
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL, oklabel);
-	
+
 	d = g_malloc0(sizeof(*d));
 	d->data = user_data;
 	d->done = done;
 	g_signal_connect(dialog, "response", G_CALLBACK (emfs_selector_response), d);
 	g_object_set_data_full((GObject *)dialog, "e-select-data", d, (GDestroyNotify)g_free);
 	gtk_widget_show(dialog);
-	
+
 	if (default_uri)
 		em_folder_selector_set_selected((EMFolderSelector *)dialog, default_uri);
 }

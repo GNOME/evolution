@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-view-instance.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -243,7 +243,7 @@ load_current_view (GalViewInstance *instance)
 	xmlDoc *doc = NULL;
 	xmlNode *root;
 	GalView *view = NULL;
-	
+
 	if (g_file_test (instance->current_view_filename, G_FILE_TEST_IS_REGULAR)) {
 #ifdef G_OS_WIN32
 		gchar *locale_filename = g_win32_locale_filename_from_utf8 (instance->current_view_filename);
@@ -254,7 +254,7 @@ load_current_view (GalViewInstance *instance)
 		doc = xmlParseFile(instance->current_view_filename);
 #endif
 	}
-	
+
 	if (doc == NULL) {
 		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
 
@@ -303,9 +303,9 @@ load_current_view (GalViewInstance *instance)
  * gal_view_instance_new:
  * @collection: This %GalViewCollection should be loaded before being passed to this function.
  * @instance_id: Which instance of this type of object is this (for most of evo, this is the folder id.)
- * 
+ *
  * Create a new %GalViewInstance.
- * 
+ *
  * Return value: The new %GalViewInstance.
  **/
 GalViewInstance *
@@ -375,7 +375,7 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance, const char *vi
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	d(g_print("%s: view_id set to %s\n", G_GNUC_FUNCTION, view_id));
+	d(g_print("%s: view_id set to %s\n", G_STRFUNC, view_id));
 
 	if (instance->current_id && !strcmp (instance->current_id, view_id))
 		return;
@@ -466,7 +466,7 @@ gal_view_instance_exists (GalViewInstance *instance)
 		return TRUE;
 	else
 		return FALSE;
-	
+
 }
 
 typedef struct {
@@ -492,7 +492,7 @@ add_popup_radio_item (EPopupMenu *menu_item,
 		      gpointer closure,
 		      gboolean value)
 {
-	EPopupMenu menu_item_struct = 
+	EPopupMenu menu_item_struct =
 		E_POPUP_RADIO_ITEM_CC (title,
 				       fn,
 				       closure,
@@ -509,7 +509,7 @@ add_popup_menu_item (EPopupMenu *menu_item,
 		     GCallback fn,
 		     gpointer closure)
 {
-	EPopupMenu menu_item_struct = 
+	EPopupMenu menu_item_struct =
 		E_POPUP_ITEM_CC (title,
 				 fn,
 				 closure,
@@ -598,7 +598,7 @@ gal_view_instance_free_popup_menu (GalViewInstance *instance, EPopupMenu *menu)
 {
 	int i;
 	/* This depends on the first non-custom closure to be a separator or a terminator. */
-	for (i = 0; menu[i].name && *(menu[i].name); i++) { 
+	for (i = 0; menu[i].name && *(menu[i].name); i++) {
 		g_object_unref (((ListenerClosure *)(menu[i].closure))->instance);
 		g_free (menu[i].closure);
 	}

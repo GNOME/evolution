@@ -98,7 +98,7 @@ exchange_get_new_password (const char *existing_password, gboolean voluntary)
 	if (voluntary)
 		gtk_widget_hide (GTK_WIDGET (top_label));
 
-run_dialog_again:	
+run_dialog_again:
 	response = gtk_dialog_run (GTK_DIALOG (top_widget));
 	if (response == GTK_RESPONSE_OK) {
 		const char *cur_pass, *new_pass1, *new_pass2;

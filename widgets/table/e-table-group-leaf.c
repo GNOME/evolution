@@ -570,7 +570,7 @@ etgl_class_init (ETableGroupLeafClass *klass)
 	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
 					 g_param_spec_boolean ("alternating_row_colors",
 							       _( "Alternating Row Colors" ),
-							       _( "Alternating Row Colors" ), 
+							       _( "Alternating Row Colors" ),
 							       FALSE,
 							       G_PARAM_WRITABLE));
 

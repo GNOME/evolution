@@ -56,6 +56,7 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
+	e-logger.h				\
 	e-menu.h				\
 	e-mktemp.h				\
 	e-print.h				\
@@ -72,6 +73,7 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
 	e-util.h				\
+	e-util-labels.h				\
 	e-util-marshal.h			\
 	e-xml-utils.h
 
@@ -94,6 +96,7 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
+	e-logger.c				\
 	e-menu.c				\
 	e-mktemp.c				\
 	e-plugin.c				\
@@ -109,6 +112,7 @@ libeutil_la_SOURCES =				\
 	e-text-event-processor-emacs-like.c     \
 	e-text-event-processor.c                \
 	e-util.c				\
+	e-util-labels.c				\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	$(PLATFORM_SOURCES)

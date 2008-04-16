@@ -28,23 +28,23 @@
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
  * the License at http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS
  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
- * 
+ *
  * The Original Code is the Netscape security libraries.
- * 
+ *
  * The Initial Developer of the Original Code is Netscape
- * Communications Corporation.  Portions created by Netscape are 
+ * Communications Corporation.  Portions created by Netscape are
  * Copyright (C) 2000 Netscape Communications Corporation.  All
  * Rights Reserved.
- * 
+ *
  * Alternatively, the contents of this file may be used under the
  * terms of the GNU General Public License Version 2 or later (the
- * "GPL"), in which case the provisions of the GPL are applicable 
- * instead of those above.  If you wish to allow use of your 
+ * "GPL"), in which case the provisions of the GPL are applicable
+ * instead of those above.  If you wish to allow use of your
  * version of this file only under the terms of the GPL and not to
  * allow others to use your version of this file under the MPL,
  * indicate your decision by deleting the provisions above and
@@ -148,7 +148,7 @@ e_asn1_object_get_type (void)
 
 /* This function is used to interpret an integer that
    was encoded in a DER buffer. This function is used
-   when converting a DER buffer into a nsIASN1Object 
+   when converting a DER buffer into a nsIASN1Object
    structure.  This interprets the buffer in data
    as defined by the DER (Distinguised Encoding Rules) of
    ASN1.
@@ -182,7 +182,7 @@ get_integer_256 (unsigned char *data, unsigned int nb)
    item.  It looks to see if this a multibyte length and then
    interprets the buffer accordingly to get the actual length value.
    This funciton is used mostly while parsing the DER headers.
-   
+
    A DER encoded item has the following structure:
 
    <tag><length<data consisting of lenght bytes>
@@ -193,7 +193,7 @@ get_der_item_length (unsigned char *data, unsigned char *end,
 {
 	unsigned char lbyte = *data++;
 	PRInt32 length = -1;
-  
+
 	*indefinite = FALSE;
 	if (lbyte >= 0x80) {
 		/* Multibyte length */
@@ -202,7 +202,7 @@ get_der_item_length (unsigned char *data, unsigned char *end,
 			return -1;
 		}
 		if (nb > 0) {
-			
+
 			if ((data+nb) > end) {
 				return -1;
 			}
@@ -216,7 +216,7 @@ get_der_item_length (unsigned char *data, unsigned char *end,
 		*bytesUsed = nb+1;
 	} else {
 		length = lbyte;
-		*bytesUsed = 1; 
+		*bytesUsed = 1;
 	}
 	return length;
 }
@@ -282,7 +282,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 				asn1object = e_asn1_object_new ();
 				asn1object->priv->tag = tagnum;
 				asn1object->priv->type = type;
-				
+
 				if (!build_from_der (asn1object, data, (len == 0) ? end : data + len)) {
 					g_object_unref (asn1object);
 					return FALSE;

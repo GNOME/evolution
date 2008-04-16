@@ -112,7 +112,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 	struct icaltimetype itt;
 	icaltimezone *zone;
         struct tm tm;
-        char buf[256];                                                                                              
+        char buf[256];
 
 	if (dt->tzid) {
 		/* If we can't find the zone, we'll guess its "local" */
@@ -123,13 +123,13 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 	} else {
 		zone = NULL;
 	}
-	
-	
+
+
 	itt = *dt->value;
 	if (zone)
 		icaltimezone_convert_time (&itt, zone, default_zone);
         tm = icaltimetype_to_tm (&itt);
-                                                                                              
+
         e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
                                      FALSE, FALSE, buf, sizeof (buf));
 
@@ -164,8 +164,8 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	if (l) {
 		GSList *node;
 		GString *string = g_string_new (NULL);
-		
-		
+
+
 		gtk_html_stream_printf(stream, "<H3>%s: ", _("Categories"));
 
 		for (node = l; node != NULL; node = node->next) {
@@ -189,12 +189,12 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 				}
 			}
 		}
-		
+
 		if (string->len > 0)
 			gtk_html_stream_printf(stream, "%s", string->str);
 
 		g_string_free (string, TRUE);
-	
+
 		gtk_html_stream_printf(stream, "</H3>");
 
 		e_cal_component_free_categories_list (l);
@@ -202,7 +202,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 	/* Start table */
 	gtk_html_stream_printf (stream, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
-				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"></TD></TR>");	
+				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"></TD></TR>");
 
 	/* write start date */
 	e_cal_component_get_dtstart (comp, &dt);
@@ -211,9 +211,9 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
 					_("Start Date:"), str);
 
-		e_cal_component_free_datetime (&dt);
 		g_free (str);
 	}
+	e_cal_component_free_datetime (&dt);
 
 	/* write description and URL */
 	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
@@ -224,7 +224,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
 
-		gtk_html_stream_printf (stream, "<TD>");
+		gtk_html_stream_printf (stream, "<TD><PRE>");
 
 		for (node = l; node != NULL; node = node->next) {
 			gint i, j, len;
@@ -250,7 +250,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 			g_string_free (string, TRUE);
 		}
 
-		gtk_html_stream_printf (stream, "</TD></TR>");
+		gtk_html_stream_printf (stream, "</PRE></TD></TR>");
 
 		e_cal_component_free_text_list (l);
 	}
@@ -261,7 +261,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
 		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);
 	}
-	
+
 	gtk_html_stream_printf (stream, "</TABLE>");
 
 	/* close document */
@@ -273,7 +273,7 @@ e_cal_component_memo_preview_init (ECalComponentMemoPreview *preview)
 {
 	ECalComponentMemoPreviewPrivate *priv;
 	GtkWidget *scroll;
-	
+
 	priv = g_new0 (ECalComponentMemoPreviewPrivate, 1);
 	preview->priv = priv;
 
@@ -297,7 +297,7 @@ e_cal_component_memo_preview_init (ECalComponentMemoPreview *preview)
 	gtk_container_add (GTK_CONTAINER (scroll), priv->html);
 	gtk_container_add (GTK_CONTAINER (preview), scroll);
 	gtk_widget_show_all (scroll);
-	
+
 	priv->zone = icaltimezone_get_utc_timezone ();
 }
 
@@ -327,9 +327,9 @@ static void
 e_cal_component_memo_preview_class_init (ECalComponentMemoPreviewClass *klass)
 {
 	GtkObjectClass *object_class;
-	
+
 	object_class = (GtkObjectClass *) klass;
-	
+
 	object_class->destroy = e_cal_component_memo_preview_destroy;
 }
 
@@ -347,7 +347,7 @@ icaltimezone *
 e_cal_component_memo_preview_get_default_timezone (ECalComponentMemoPreview *preview)
 {
 	ECalComponentMemoPreviewPrivate *priv;
-	
+
 	g_return_val_if_fail (preview != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview), NULL);
 
@@ -360,13 +360,13 @@ void
 e_cal_component_memo_preview_set_default_timezone (ECalComponentMemoPreview *preview, icaltimezone *zone)
 {
 	ECalComponentMemoPreviewPrivate *priv;
-	
+
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview));
 	g_return_if_fail (zone != NULL);
 
 	priv = preview->priv;
-	
+
 	priv->zone = zone;
 }
 
@@ -382,7 +382,7 @@ e_cal_component_memo_preview_display (ECalComponentMemoPreview *preview, ECal *e
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	priv = preview->priv;
-	
+
 	stream = gtk_html_begin (GTK_HTML (priv->html));
 	write_html (stream, ecal, comp, priv->zone);
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
@@ -395,9 +395,9 @@ e_cal_component_memo_preview_clear (ECalComponentMemoPreview *preview)
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview));
-	
+
 	priv = preview->priv;
-	
+
 	gtk_html_load_empty (GTK_HTML (priv->html));
 }
 

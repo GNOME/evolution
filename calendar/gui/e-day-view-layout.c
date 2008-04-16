@@ -89,7 +89,7 @@ static void
 e_day_view_layout_long_event (EDayViewEvent *event,
 			      guint8	   *grid,
 			      gint	    days_shown,
-			      time_t	   *day_starts,		
+			      time_t	   *day_starts,
 			      gint	   *rows_in_top_display)
 {
 	gint start_day, end_day, free_row, day, row;
@@ -318,7 +318,7 @@ e_day_view_expand_day_event (EDayViewEvent *event,
 gboolean
 e_day_view_find_long_event_days (EDayViewEvent	*event,
 				 gint		 days_shown,
-				 time_t		*day_starts,		
+				 time_t		*day_starts,
 				 gint		*start_day_return,
 				 gint		*end_day_return)
 {

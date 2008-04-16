@@ -296,10 +296,10 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 {
    	GtkWidget *check;
 	guint i = ((GtkTable *)data->parent)->nrows;
-    
+
 	if (data->old)
                 return data->old;
-		
+
 	check = gtk_check_button_new_with_mnemonic (_("Convert message text to _Unicode"));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_bf_unicode);

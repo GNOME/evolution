@@ -22,6 +22,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-vee-folder.h>
+#include <camel/camel-operation.h>
 
 #include "e-search-bar.h"
 
@@ -58,24 +59,24 @@ struct _EFilterBar {
 	ESearchBar parent;
 	int menu_base, option_base;
 	GPtrArray *menu_rules, *option_rules;
-	
+
 	ESearchBarItem *default_items;
-	
+
 	GtkWidget *save_dialog;    /* current save dialogue (so we dont pop up multiple ones) */
 
 	FilterRule *current_query; /* as it says */
 	int setquery;		   /* true when we're setting a query directly to advanced, so dont popup the dialog */
-	
+
 	RuleContext *context;
 	char *systemrules;
 	char *userrules;
-	
+
 	EFilterBarConfigRule config;
 	void *config_data;
 
 	CamelVeeFolder *all_account_search_vf;
 	CamelVeeFolder *account_search_vf;
-
+	CamelOperation *account_search_cancel;
 };
 
 struct _EFilterBarClass
@@ -122,7 +123,7 @@ EFilterBar *e_filter_bar_new      (RuleContext *context,
 				   const char *userrules,
 				   EFilterBarConfigRule config,
 				   void *data);
-void 
+void
 e_filter_bar_new_construct 	  (RuleContext *context,
 				   const char *systemrules,
 				   const char *userrules,

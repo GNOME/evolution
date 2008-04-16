@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas-background.h - background color for canvas.
  * Copyright 2001, Ximian, Inc.
  *

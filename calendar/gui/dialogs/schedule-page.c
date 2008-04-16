@@ -46,7 +46,7 @@
 
 
 /* Private part of the SchedulePage structure */
-struct _SchedulePagePrivate {	
+struct _SchedulePagePrivate {
 	/* Glade XML data */
 	GladeXML *xml;
 
@@ -55,10 +55,10 @@ struct _SchedulePagePrivate {
 
 	/* Model */
 	EMeetingStore *model;
-	
+
 	/* Selector */
 	EMeetingTimeSelector *sel;
-	
+
 	/* The timezone we use. Note that we use the same timezone for the
 	   start and end date. We convert the end date if it is passed in in
 	   another timezone. */
@@ -125,7 +125,7 @@ schedule_page_finalize (GObject *object)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
-	
+
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_SCHEDULE_PAGE (object));
 
@@ -199,7 +199,7 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 
 /* Set date/time */
 static void
-update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date) 
+update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date)
 {
 	SchedulePagePrivate *priv;
 	struct icaltimetype start_tt, end_tt;
@@ -228,7 +228,7 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   end_date->tzid ? end_date->tzid : "");
-		}		
+		}
 	}
 
 	start_tt = *start_date->value;
@@ -237,15 +237,15 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 		icaltime_adjust (&end_tt, 1, 0, 0, 0);
 	} else {
 		end_tt = *end_date->value;
-	}	
-	
+	}
+
 	/* If the end zone is not the same as the start zone, we convert it. */
 	priv->zone = start_zone;
 	if (start_zone != end_zone) {
 		icaltimezone_convert_time (&end_tt, end_zone, start_zone);
 	}
 	e_meeting_store_set_zone (priv->model, priv->zone);
-	
+
 	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
 
 	/* For All Day Events, if DTEND is after DTSTART, we subtract 1 day
@@ -268,7 +268,7 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 
 }
 
-		
+
 /* Fills the widgets with default values */
 static void
 clear_widgets (SchedulePage *spage)
@@ -301,10 +301,10 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		validated = FALSE;
 	else
 		update_time (spage, &start_date, &end_date);
-	
+
 	e_cal_component_free_datetime (&start_date);
 	e_cal_component_free_datetime (&end_date);
-	
+
 	priv->updating = FALSE;
 
 	sensitize_widgets (spage);
@@ -324,12 +324,12 @@ schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
-	
+
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
 
 	priv->updating = TRUE;
-	
+
 	update_time (spage, dates->start, dates->end);
 
 	priv->updating = FALSE;
@@ -370,7 +370,7 @@ get_widgets (SchedulePage *spage)
 }
 
 static gboolean
-init_widgets (SchedulePage *spage) 
+init_widgets (SchedulePage *spage)
 {
 	SchedulePagePrivate *priv;
 
@@ -398,20 +398,20 @@ schedule_page_set_meeting_time (SchedulePage *spage, icaltimetype *start_tt, ica
 		}
 	}
 
-	e_meeting_time_selector_set_meeting_time (priv->sel, start_tt->year, start_tt->month, start_tt->day, 
+	e_meeting_time_selector_set_meeting_time (priv->sel, start_tt->year, start_tt->month, start_tt->day,
 			start_tt->hour, start_tt->minute, end_tt->year, end_tt->month, end_tt->day, end_tt->hour,
 			end_tt->minute);
 	e_meeting_time_selector_set_all_day (priv->sel, all_day);
-	
+
 }
 
 /**
  * schedule_page_construct:
  * @spage: An schedule page.
- * 
+ *
  * Constructs an schedule page by loading its Glade data.
- * 
- * Return value: The same object as @spage, or NULL if the widgets could not 
+ *
+ * Return value: The same object as @spage, or NULL if the widgets could not
  * be created.
  **/
 SchedulePage *
@@ -419,7 +419,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 {
 	SchedulePagePrivate *priv;
 	char *gladefile;
-	
+
 	priv = spage->priv;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
@@ -443,7 +443,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 	/* Model */
 	g_object_ref (ems);
 	priv->model = ems;
-	
+
 	/* Selector */
 	priv->sel = E_MEETING_TIME_SELECTOR (e_meeting_time_selector_new (ems));
 	gtk_widget_set_size_request ((GtkWidget *) priv->sel, -1, 400);
@@ -456,7 +456,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 6);
 
 	if (!init_widgets (spage)) {
-		g_message ("schedule_page_construct(): " 
+		g_message ("schedule_page_construct(): "
 			   "Could not initialize the widgets!");
 		return NULL;
 	}
@@ -468,9 +468,9 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 
 /**
  * schedule_page_new:
- * 
+ *
  * Creates a new schedule page.
- * 
+ *
  * Return value: A newly-created schedule page, or NULL if the page could
  * not be created.
  **/
@@ -492,12 +492,12 @@ void
 schedule_page_update_free_busy (SchedulePage *spage)
 {
 	SchedulePagePrivate *priv;
-	
+
 	g_return_if_fail (spage != NULL);
 	g_return_if_fail (IS_SCHEDULE_PAGE (spage));
-	
+
 	priv = spage->priv;
-	
+
 	e_meeting_time_selector_refresh_free_busy (priv->sel, 0, TRUE);
 }
 
@@ -508,7 +508,7 @@ schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_select
 
 	g_return_if_fail (spage != NULL);
 	g_return_if_fail (IS_SCHEDULE_PAGE (spage));
-	
+
 	priv = spage->priv;
 
 	e_meeting_list_view_set_name_selector (priv->sel->list_view, name_selector);
@@ -523,12 +523,12 @@ times_changed_cb (GtkWidget *widget, gpointer data)
 	ECalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype end_tt = icaltime_null_time ();
-	
+
 	priv = spage->priv;
 
 	if (priv->updating)
 		return;
-	
+
 	e_date_edit_get_date (E_DATE_EDIT (priv->sel->start_date_edit),
 			      &start_tt.year,
 			      &start_tt.month,
@@ -562,7 +562,7 @@ times_changed_cb (GtkWidget *widget, gpointer data)
 	}
 
 	dates.start = &start_dt;
-	dates.end = &end_dt;	
+	dates.end = &end_dt;
 	dates.due = NULL;
 	dates.complete = NULL;
 

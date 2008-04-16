@@ -59,17 +59,17 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	GSList *accounts;
 	EMAccountEditor *emae;
 	GnomeDruidPageEdge *start_page;
-	
+
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
 	g_object_unref (client);
-	
+
 	if (accounts != NULL) {
 		g_slist_foreach (accounts, (GFunc) g_free, NULL);
 		g_slist_free (accounts);
 
 		return;
-	}	
+	}
 
 	/** @HookPoint-EMConfig: New Mail Account Wizard
 	 * @Id: org.gnome.evolution.mail.config.accountWizard
@@ -91,7 +91,7 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 					"\n"
 					"Please click the \"Forward\" button to continue. "));
 	g_signal_connect (emae->editor, "delete-event", G_CALLBACK (startup_wizard_delete), NULL);
-	
+
 	gtk_widget_show (emae->editor);
 	gtk_main ();
 }
@@ -101,15 +101,15 @@ startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 {
 	ETimezoneDialog *etd;
 	GtkWidget *page;
-	
+
 	etd = e_timezone_dialog_new ();
 	g_object_set_data (G_OBJECT (hook_data->config), IMPORT_TIMEZONE_DIALOG, etd);
-	
+
 	page = gnome_druid_page_standard_new_with_vals (_("Timezone"), NULL, NULL);
 	e_timezone_dialog_reparent (etd, GNOME_DRUID_PAGE_STANDARD (page)->vbox);
 
 	e_timezone_dialog_set_timezone (etd, NULL);
-	
+
 	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
 
 	return GTK_WIDGET (page);
@@ -138,7 +138,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 
 	sep = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox), sep, FALSE, FALSE, 3);
-	
+
 	table = gtk_table_new(g_slist_length(import_importers), 2, FALSE);
 	for (l = import_importers; l; l = l->next) {
 		EImportImporter *eii = l->data;
@@ -153,7 +153,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 		gtk_widget_show(label);
 		g_free(str);
 
-		gtk_misc_set_alignment((GtkMisc *)label, 0, .5); 
+		gtk_misc_set_alignment((GtkMisc *)label, 0, .5);
 
 		gtk_table_attach((GtkTable *)table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 		if (w)
@@ -162,7 +162,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	}
 	gtk_widget_show(table);
 	gtk_box_pack_start((GtkBox *)((GnomeDruidPageStandard *)page)->vbox, table, FALSE, FALSE, 3);
-	
+
 	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
 
 	return page;

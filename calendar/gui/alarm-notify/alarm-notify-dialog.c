@@ -34,7 +34,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#if 0 
+#if 0
 #  include <libgnomeui/gnome-winhints.h>
 #endif
 #include <glade/glade.h>
@@ -46,7 +46,7 @@
 #include <e-util/e-icon-factory.h>
 
 
-	
+
 enum {
 	ALARM_DISPLAY_COLUMN,
 	ALARM_SUMMARY_COLUMN,
@@ -55,7 +55,7 @@ enum {
 
 	ALARM_START_COLUMN,
 	ALARM_END_COLUMN,
-	
+
 	ALARM_FUNCINFO_COLUMN,
 
 	N_ALARM_COLUMNS
@@ -74,16 +74,16 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *snooze_time_min;
 	GtkWidget *snooze_time_hrs;
-	GtkWidget *snooze_btn; 
+	GtkWidget *snooze_btn;
 	GtkWidget *minutes_label;
 	GtkWidget *hrs_label;
 	GtkWidget *description;
 	GtkWidget *location;
 	GtkWidget *treeview;
 	GtkWidget *scrolledwindow;
-	
+
 	AlarmFuncInfo *cur_funcinfo;
-	
+
 } AlarmNotify;
 
 
@@ -91,17 +91,13 @@ static void
 tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data);
 
 static void
-fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description, 
+fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,
 			const gchar *location, time_t occur_start, time_t occur_end);
-static void 
+static void
 edit_pressed_cb (GtkButton *button, gpointer user_data);
 
 static void
 snooze_pressed_cb (GtkButton *button, gpointer user_data);
-
-AlarmNotify *an = NULL;
-gboolean have_one = FALSE;
-
 
 static void
 an_update_minutes_label (GtkSpinButton *sb, gpointer data)
@@ -141,15 +137,15 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 	GtkTreeModel *model = NULL;
 	AlarmFuncInfo *funcinfo = NULL;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
-	
+
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 	}
 
 	if (!funcinfo) {
-		GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
-		gtk_tree_model_get_iter_first (model, &iter);
-		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+		GtkTreeModel *treemodel = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
+		gtk_tree_model_get_iter_first (treemodel, &iter);
+		gtk_tree_model_get (treemodel, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 	}
 	g_return_if_fail (funcinfo);
 	switch (response_id) {
@@ -162,7 +158,7 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 	return;
 }
 
-static void 
+static void
 edit_pressed_cb (GtkButton *button, gpointer user_data)
 {
 	AlarmNotify *an = user_data;
@@ -172,14 +168,16 @@ edit_pressed_cb (GtkButton *button, gpointer user_data)
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 
 	g_return_if_fail (funcinfo);
-	
+
 	(* funcinfo->func) (ALARM_NOTIFY_EDIT, -1, funcinfo->func_data);
 }
 
-static void 
+#define DEFAULT_SNOOZE_MINS 5
+
+static void
 snooze_pressed_cb (GtkButton *button, gpointer user_data)
 {
 	int snooze_timeout;
@@ -192,12 +190,14 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 	gtk_widget_grab_focus ((GtkWidget *) button);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);	
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 
 	g_return_if_fail (funcinfo);
 
 	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_min));
 	snooze_timeout += 60 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_hrs)));
+	if (!snooze_timeout)
+		snooze_timeout = DEFAULT_SNOOZE_MINS;
 	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
 
 }
@@ -230,25 +230,25 @@ notified_alarms_dialog_new (void)
 	GtkTreeViewColumn *column = NULL;
 	GtkTreeSelection *selection = NULL;
 	GtkTreeModel *model = GTK_TREE_MODEL (gtk_list_store_new (
-			N_ALARM_COLUMNS, 
-		
+			N_ALARM_COLUMNS,
+
 			G_TYPE_STRING, /* Display */
 			G_TYPE_STRING, /* Summary */
 			G_TYPE_STRING, /* Description */
 			G_TYPE_STRING, /* Location */
-		
+
 			G_TYPE_POINTER, /* Start */
 			G_TYPE_POINTER, /* End */
-		
+
 			G_TYPE_POINTER /* FuncInfo*/));
-	 
+
 	an->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-notify.glade", NULL, NULL);
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
 		return NULL;
 	}
-	
+
 	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
 	an->snooze_time_min = glade_xml_get_widget (an->xml, "snooze-time-min");
 	an->minutes_label = glade_xml_get_widget (an->xml, "minutes-label");
@@ -262,7 +262,7 @@ notified_alarms_dialog_new (void)
 	an->snooze_btn = snooze_btn;
 	edit_btn = glade_xml_get_widget (an->xml, "edit-button");
 
-	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs 
+	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs
 	      && an->description && an->location && edit_btn && snooze_btn)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
@@ -279,14 +279,14 @@ notified_alarms_dialog_new (void)
 
 	gtk_tree_view_column_set_attributes (column, renderer,
                                        "markup", ALARM_DISPLAY_COLUMN, NULL);
-	
+
 	gtk_tree_view_append_column (GTK_TREE_VIEW (an->treeview), column);
-		
+
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (G_OBJECT (selection), "changed",
 		G_CALLBACK (tree_selection_changed_cb), an);
-	
+
 	gtk_widget_realize (an->dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->action_area), 12);
@@ -299,7 +299,7 @@ notified_alarms_dialog_new (void)
 	g_signal_connect (snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
-	
+
 	if (!GTK_WIDGET_REALIZED (an->dialog))
 	gtk_widget_realize (an->dialog);
 		icon_list = e_icon_factory_get_icon_list ("stock_alarm");
@@ -308,25 +308,25 @@ notified_alarms_dialog_new (void)
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
-	
+
 	/* Set callback for updating the snooze "minutes" label */
 	g_signal_connect (G_OBJECT (an->snooze_time_min), "value_changed",
 	 		G_CALLBACK (an_update_minutes_label), an);
-	
+
 	/* Set callback for updating the snooze "hours" label */
 	g_signal_connect (G_OBJECT (an->snooze_time_hrs), "value_changed",
 	 		G_CALLBACK (an_update_hrs_label), an);
-	
-	
+
+
 	na = g_new0 (AlarmNotificationsDialog, 1);
 
 	na->treeview = an->treeview;
 	na->dialog = an->dialog;
-	
+
 	return na;
 }
- 
- 
+
+
 /**
  * add_alarm_to_notified_alarms_dialog:
  * @na: Pointer to the dialog-info
@@ -345,9 +345,9 @@ notified_alarms_dialog_new (void)
  *
  * Return value: the iter in the treeview of the dialog
  **/
- 
-GtkTreeIter 
-add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger, 
+
+GtkTreeIter
+add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger,
 				time_t occur_start, time_t occur_end,
 				ECalComponentVType vtype, const char *summary,
 				const char *description, const char *location,
@@ -372,29 +372,29 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 	funcinfo = g_new0 (AlarmFuncInfo, 1);
 	funcinfo->func = func;
 	funcinfo->func_data = func_data;
-	
+
 	gtk_list_store_append (GTK_LIST_STORE(model), &iter);
 
 	current_zone = config_data_get_timezone ();
 	start = timet_to_str_with_zone (occur_start, current_zone);
 	end = timet_to_str_with_zone (occur_end, current_zone);
 	str_time = calculate_time (occur_start, occur_end);
-	to_display = g_strdup_printf ("<big><b>%s</b></big>\n%s %s", 
+	to_display = g_strdup_printf ("<big><b>%s</b></big>\n%s %s",
 		summary, start, str_time);
 	g_free (start);
 	g_free (end);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, 
+	gtk_list_store_set (GTK_LIST_STORE(model), &iter,
 		ALARM_DISPLAY_COLUMN, to_display, -1);
 	g_free (to_display);
 	g_free (str_time);
-	
+
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_SUMMARY_COLUMN, summary, -1);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_DESCRIPTION_COLUMN, description, -1);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_LOCATION_COLUMN, location, -1);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_START_COLUMN, occur_start, -1);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_END_COLUMN, occur_end, -1);
 	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_FUNCINFO_COLUMN, funcinfo, -1);
-	
+
 	return iter;
 }
 
@@ -404,7 +404,7 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	AlarmNotify *an = user_data;
-	
+
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
 	{
 		gchar *summary, *description, *location;
@@ -417,17 +417,17 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
 		gtk_tree_model_get (model, &iter, ALARM_START_COLUMN, &occur_start, -1);
 		gtk_tree_model_get (model, &iter, ALARM_END_COLUMN, &occur_end, -1);\
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &an->cur_funcinfo, -1);
-		
+
 		fill_in_labels (an, summary, description, location, occur_start, occur_end);
 	} else {
-		gtk_widget_set_sensitive (an->snooze_btn, FALSE);		 
+		gtk_widget_set_sensitive (an->snooze_btn, FALSE);
 	}
 }
 
 
 
-static void 
-fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description, 
+static void
+fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,
 		const gchar *location, time_t occur_start, time_t occur_end)
 {
 	GtkTextTagTable *table = gtk_text_tag_table_new ();

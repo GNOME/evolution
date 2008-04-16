@@ -1,14 +1,14 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* mail-folder-cache.h: Stores information about open folders */
 
-/* 
+/*
  * Authors: Peter Williams <peterw@ximian.com>
  *	    Michael Zucchi <notzed@ximian.com>
  *
  * Copyright 2000,2001 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -25,17 +25,15 @@
 #ifndef _MAIL_FOLDER_CACHE_H
 #define _MAIL_FOLDER_CACHE_H
 
-/* min no. seconds between newmail notifications */
-#define NOTIFY_THROTTLE 30
-
 #include <camel/camel-store.h>
 
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
-   runtime via the folder_created event */
+   runtime via the folder_created event.
+   The 'done' function returns if we can free folder info. */
 void
 mail_note_store (CamelStore *store, CamelOperation *op,
-		 void (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
+		 gboolean (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
 		 void *data);
 
 /* de-note a store */

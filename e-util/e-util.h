@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-util.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -44,6 +44,8 @@ typedef enum {
 	E_FOCUS_END
 } EFocus;
 
+const gchar *	e_get_user_data_dir		(void);
+
 char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);
@@ -82,6 +84,10 @@ gsize		e_utf8_strftime_fix_am_pm	(gchar *str,
 						 gsize max,
 						 const gchar *fmt,
 						 const struct tm *tm);
+const gchar *	e_get_month_name		(GDateMonth month,
+						 gboolean abbreviated);
+const gchar *	e_get_weekday_name		(GDateWeekday weekday,
+						 gboolean abbreviated);
 
 /* String to/from double conversion functions */
 gdouble		e_flexible_strtod		(const gchar *nptr,
@@ -106,6 +112,10 @@ cairo_font_options_t * get_font_options		(void);
 void		e_file_update_save_path		(gchar *uri,
 						 gboolean free);
 gchar *		e_file_get_save_path		(void);
+
+gboolean	e_file_lock_create (void);
+void		e_file_lock_destroy (void);
+gboolean 	e_file_lock_exists (void);
 
 #ifdef __cplusplus
 }

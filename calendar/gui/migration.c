@@ -81,7 +81,7 @@ static e_gconf_map_t calendar_display_map[] = {
 	{ "CompressWeekend", "calendar/display/compress_weekend", E_GCONF_MAP_BOOL },
 	{ "ShowEventEndTime", "calendar/display/show_event_end", E_GCONF_MAP_BOOL },
 	{ "WorkingDays", "calendar/display/working_days", E_GCONF_MAP_INT },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_tasks_map[] = {
@@ -89,7 +89,7 @@ static e_gconf_map_t calendar_tasks_map[] = {
 	{ "HideCompletedTasks", "calendar/tasks/hide_completed", E_GCONF_MAP_BOOL },
 	{ "HideCompletedTasksUnits", "calendar/tasks/hide_completed_units", E_GCONF_MAP_STRING },
 	{ "HideCompletedTasksValue", "calendar/tasks/hide_completed_value", E_GCONF_MAP_INT },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_tasks_colours_map[] = {
@@ -97,7 +97,7 @@ static e_gconf_map_t calendar_tasks_colours_map[] = {
 	{ "TasksDueToday", "calendar/tasks/colors/due_today", E_GCONF_MAP_STRING },
 	{ "TasksOverDue", "calendar/tasks/colors/overdue", E_GCONF_MAP_STRING },
 	{ "TasksDueToday", "calendar/tasks/colors/due_today", E_GCONF_MAP_STRING },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_other_map[] = {
@@ -107,13 +107,13 @@ static e_gconf_map_t calendar_other_map[] = {
 	{ "UseDefaultReminder", "calendar/other/use_default_reminder", E_GCONF_MAP_BOOL },
 	{ "DefaultReminderInterval", "calendar/other/default_reminder_interval", E_GCONF_MAP_INT },
 	{ "DefaultReminderUnits", "calendar/other/default_reminder_units", E_GCONF_MAP_STRING },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_datenavigator_map[] = {
 	/* /Calendar/DateNavigator */
 	{ "ShowWeekNumbers", "calendar/date_navigator/show_week_numbers", E_GCONF_MAP_BOOL },
-	{ 0 },
+	{ NULL },
 };
 
 static e_gconf_map_t calendar_alarmnotify_map[] = {
@@ -121,25 +121,25 @@ static e_gconf_map_t calendar_alarmnotify_map[] = {
 	{ "LastNotificationTime", "calendar/notify/last_notification_time", E_GCONF_MAP_INT },
 	{ "CalendarToLoad%i", "calendar/notify/calendars", E_GCONF_MAP_STRING|E_GCONF_MAP_LIST },
 	{ "BlessedProgram%i", "calendar/notify/programs", E_GCONF_MAP_STRING|E_GCONF_MAP_LIST },
-	{ 0 },
+	{ NULL },
 };
 
-e_gconf_map_list_t calendar_remap_list[] = {
+static e_gconf_map_list_t calendar_remap_list[] = {
 
 	{ "/Calendar/Display", calendar_display_map },
 	{ "/Calendar/Other/Map", calendar_other_map },
 	{ "/Calendar/DateNavigator", calendar_datenavigator_map },
 	{ "/Calendar/AlarmNotify", calendar_alarmnotify_map },
 
-	{ 0 },
+	{ NULL },
 };
 
-e_gconf_map_list_t task_remap_list[] = {
+static e_gconf_map_list_t task_remap_list[] = {
 
 	{ "/Calendar/Tasks", calendar_tasks_map },
 	{ "/Calendar/Tasks/Colors", calendar_tasks_colours_map },
 
-	{ 0 },
+	{ NULL },
 };
 
 static GtkWidget *window;
@@ -150,16 +150,16 @@ static void
 setup_progress_dialog (gboolean tasks)
 {
 	GtkWidget *vbox, *hbox, *w;
-	
+
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title ((GtkWindow *) window, _("Migrating..."));
 	gtk_window_set_modal ((GtkWindow *) window, TRUE);
 	gtk_container_set_border_width ((GtkContainer *) window, 6);
-	
+
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
 	gtk_container_add ((GtkContainer *) window, vbox);
-	
+
 	if (tasks)
 		w = gtk_label_new (_("The location and hierarchy of the Evolution task "
 				     "folders has changed since Evolution 1.x.\n\nPlease be "
@@ -172,19 +172,19 @@ setup_progress_dialog (gboolean tasks)
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_widget_show (w);
 	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
-	
+
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start_defaults ((GtkBox *) vbox, hbox);
-	
+
 	label = (GtkLabel *) gtk_label_new ("");
 	gtk_widget_show ((GtkWidget *) label);
 	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) label);
-	
+
 	progress = (GtkProgressBar *) gtk_progress_bar_new ();
 	gtk_widget_show ((GtkWidget *) progress);
 	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
-	
+
 	gtk_widget_show (window);
 }
 
@@ -198,13 +198,13 @@ static void
 dialog_set_folder_name (const char *folder_name)
 {
 	char *text;
-	
+
 	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
 	gtk_label_set_text (label, text);
 	g_free (text);
-	
+
 	gtk_progress_bar_set_fraction (progress, 0.0);
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
@@ -213,12 +213,12 @@ static void
 dialog_set_progress (double percent)
 {
 	char text[5];
-	
+
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
-	
+
 	gtk_progress_bar_set_fraction (progress, percent);
 	gtk_progress_bar_set_text (progress, text);
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
@@ -279,6 +279,7 @@ get_source_name (ESourceGroup *group, const char *path)
 			break;
 
 	} while (conflict);
+	g_strfreev (p);
 
 	return g_string_free (s, FALSE);
 }
@@ -290,7 +291,7 @@ migrate_ical (ECal *old_ecal, ECal *new_ecal)
 	int num_added = 0;
 	int num_objects;
 	gboolean retval = TRUE;
-	
+
 	/* both ecals are loaded, start the actual migration */
 	if (!e_cal_get_object_list (old_ecal, "#t", &objects, NULL))
 		return FALSE;
@@ -304,7 +305,7 @@ migrate_ical (ECal *old_ecal, ECal *new_ecal)
 			g_warning ("Migration of object failed: %s", error->message);
 			retval = FALSE;
 		}
-		
+
 		g_clear_error (&error);
 
 		num_added ++;
@@ -326,7 +327,7 @@ migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceTy
 	char *old_uri = g_strdup_printf ("file://%s", old_path);
 	GError *error = NULL;
 	gboolean retval = FALSE;
-	
+
 	group = e_source_group_new ("", old_uri);
 	old_source = e_source_new ("", "");
 	e_source_group_add_source (group, old_source, -1);
@@ -364,7 +365,7 @@ finish:
 		g_object_unref (new_ecal);
 	g_free (old_uri);
 
-	return retval;	
+	return retval;
 }
 
 static gboolean
@@ -372,7 +373,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 {
 	ESource *new_source;
 	gboolean retval;
-	
+
 	new_source = e_source_new (source_name, source_name);
 	e_source_set_relative_uri (new_source, e_source_peek_uid (new_source));
 	e_source_group_add_source (dest_group, new_source, -1);
@@ -397,7 +398,7 @@ create_calendar_contact_source (ESourceList *source_list)
 {
 	ESourceGroup *group;
 	ESource *source;
-	
+
 	/* Create the contacts group */
 	group = e_source_group_new (_("Contacts"), CONTACTS_BASE_URI);
 	e_source_list_add_group (source_list, group, -1);
@@ -423,15 +424,15 @@ create_calendar_sources (CalendarComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*contacts = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-				     "calendar", "local",
-				     NULL);
+	base_dir = calendar_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -490,7 +491,7 @@ create_calendar_sources (CalendarComponent *component,
 		/* Create the default Person calendar */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
-		
+
 		if (!primary_calendar && !calendar_config_get_calendars_selected ()) {
 			GSList selected;
 
@@ -501,7 +502,7 @@ create_calendar_sources (CalendarComponent *component,
 			calendar_config_set_calendars_selected (&selected);
 		}
 
-		g_free (primary_calendar);		
+		g_free (primary_calendar);
 		e_source_set_color_spec (source, "#BECEDD");
 		*personal_source = source;
 	}
@@ -519,7 +520,7 @@ create_calendar_sources (CalendarComponent *component,
 
 		*contacts = group;
 	}
-	
+
 	g_free (base_uri_proto);
 	g_free (base_uri);
 }
@@ -534,13 +535,14 @@ create_task_sources (TasksComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*personal_source = NULL;
-	
-	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
-				     "tasks", "local", NULL);
+
+	base_dir = tasks_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -622,7 +624,7 @@ static void
 migrate_pilot_db_key (const char *key, gpointer user_data)
 {
 	EXmlHash *xmlhash = user_data;
-	
+
 	e_xmlhash_add (xmlhash, key, "");
 }
 
@@ -634,16 +636,16 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 	const char *ext;
 	char *filename;
 	GDir *dir;
-	
+
 	if (!(dir = g_dir_open (old_path, 0, NULL)))
 		return;
-	
+
 	map = g_alloca (12 + strlen (conduit));
 	sprintf (map, "pilot-map-%s-", conduit);
-	
+
 	changelog = g_alloca (24 + strlen (conduit));
 	sprintf (changelog, "pilot-sync-evolution-%s-", conduit);
-	
+
 	while ((dent = g_dir_read_name (dir))) {
 		if (!strncmp (dent, map, strlen (map)) &&
 		    ((ext = strrchr (dent, '.')) && !strcmp (ext, ".xml"))) {
@@ -652,13 +654,13 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 			size_t nread, nwritten;
 			int fd0, fd1;
 			ssize_t n;
-			
+
 			filename = g_build_filename (old_path, dent, NULL);
 			if ((fd0 = g_open (filename, O_RDONLY|O_BINARY, 0)) == -1) {
 				g_free (filename);
 				continue;
 			}
-			
+
 			g_free (filename);
 			filename = g_build_filename (new_path, dent, NULL);
 			if ((fd1 = g_open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666)) == -1) {
@@ -666,38 +668,38 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 				close (fd0);
 				continue;
 			}
-			
+
 			do {
 				do {
 					n = read (fd0, inbuf, sizeof (inbuf));
 				} while (n == -1 && errno == EINTR);
-				
+
 				if (n < 1)
 					break;
-				
+
 				nread = n;
 				nwritten = 0;
 				do {
 					do {
 						n = write (fd1, inbuf + nwritten, nread - nwritten);
 					} while (n == -1 && errno == EINTR);
-					
+
 					if (n > 0)
 						nwritten += n;
 				} while (nwritten < nread && n != -1);
-				
+
 				if (n == -1)
 					break;
 			} while (1);
-			
+
 			if (n != -1)
 				n = fsync (fd1);
-			
+
 			if (n == -1) {
 				g_warning ("Failed to migrate %s: %s", dent, strerror (errno));
 				g_unlink (filename);
 			}
-			
+
 			close (fd0);
 			close (fd1);
 			g_free (filename);
@@ -707,31 +709,31 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 			EXmlHash *xmlhash;
 			EDbHash *dbhash;
 			struct stat st;
-			
+
 			filename = g_build_filename (old_path, dent, NULL);
 			if (g_stat (filename, &st) == -1) {
 				g_free (filename);
 				continue;
 			}
-			
+
 			dbhash = e_dbhash_new (filename);
 			g_free (filename);
-			
+
 			filename = g_strdup_printf ("%s/%s.ics-%s", new_path, component, dent);
 			if (g_stat (filename, &st) != -1)
 				g_unlink (filename);
 			xmlhash = e_xmlhash_new (filename);
 			g_free (filename);
-			
+
 			e_dbhash_foreach_key (dbhash, migrate_pilot_db_key, xmlhash);
-			
+
 			e_dbhash_destroy (dbhash);
-			
+
 			e_xmlhash_write (xmlhash);
 			e_xmlhash_destroy (xmlhash);
 		}
 	}
-	
+
 	g_dir_close (dir);
 }
 
@@ -758,21 +760,21 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 		struct stat st;
 
 		conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
-		if (lstat (conf_file, &st) == 0 && S_ISREG (st.st_mode)) 
+		if (lstat (conf_file, &st) == 0 && S_ISREG (st.st_mode))
 			config_doc = xmlParseFile (conf_file);
 		g_free (conf_file);
-		
+
 		if (config_doc && minor <= 2) {
-			GConfClient *gconf;	
+			GConfClient *gconf;
 			int res = 0;
-			
+
 			/* move bonobo config to gconf */
 			gconf = gconf_client_get_default ();
-			
+
 			res = e_bconf_import (gconf, config_doc, calendar_remap_list);
-			
+
 			g_object_unref (gconf);
-			
+
 			xmlFreeDoc(config_doc);
 
 			if (res != 0) {
@@ -798,7 +800,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 
 			for (l = migration_dirs; l; l = l->next) {
 				char *source_name;
-			
+
 				if (personal_source && !strcmp ((char*)l->data, local_cal_folder))
 					continue;
 
@@ -810,17 +812,17 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 					g_free(source_name);
 					goto fail;
 				}
-				
+
 				g_free (source_name);
 			}
-			
+
 			g_free (local_cal_folder);
 
 			dialog_close ();
 		}
 
 		if (minor <= 4 || (minor == 5 && revision < 5)) {
-			GConfClient *gconf;	
+			GConfClient *gconf;
 			GConfValue *gconf_val;
 			int i;
 			const char *keys[] = {
@@ -830,9 +832,9 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 				CALENDAR_CONFIG_MONTH_VPANE_POS,
 				NULL
 			};
-			
+
 			gconf = gconf_client_get_default ();
-			
+
 			for (i = 0; keys[i]; i++) {
 				gconf_val = gconf_client_get (gconf, keys[i], NULL);
 				if (gconf_val) {
@@ -841,16 +843,16 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 					gconf_value_free (gconf_val);
 				}
 			}
-			
+
 			g_object_unref (gconf);
 		}
-		
+
 		if (minor < 5 || (minor == 5 && revision <= 10)) {
 			char *old_path, *new_path;
-			
+
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
 			new_path = g_build_filename (calendar_component_peek_base_directory (component),
-						     "calendar", "local", "system", NULL);
+						     "local", "system", NULL);
 			migrate_pilot_data ("calendar", "calendar", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
@@ -883,7 +885,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 	/** @Event: component.migration
 	 * @Title: Migration step in component initialization
 	 * @Target: ECalEventTargetComponent
-	 * 
+	 *
 	 * component.migration is emitted during the calendar component
 	 * initialization process. This allows new calendar backend types
 	 * to be distributed as an e-d-s backend and a plugin without
@@ -920,7 +922,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 	   creates the groups/sources or it finds the necessary
 	   groups/sources. */
 	create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer, &on_the_web, &personal_source);
-	
+
 #ifndef G_OS_WIN32
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
@@ -930,18 +932,18 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 		if (g_file_test (conf_file, G_FILE_TEST_IS_REGULAR))
 			config_doc = e_xml_parse_file (conf_file);
 		g_free (conf_file);
-		
+
 		if (config_doc && minor <= 2) {
-			GConfClient *gconf;	
+			GConfClient *gconf;
 			int res = 0;
-			
+
 			/* move bonobo config to gconf */
 			gconf = gconf_client_get_default ();
-			
+
 			res = e_bconf_import (gconf, config_doc, task_remap_list);
-			
+
 			g_object_unref (gconf);
-			
+
 			xmlFreeDoc(config_doc);
 
 			if (res != 0) {
@@ -953,9 +955,9 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 		if (minor <= 4) {
 			GSList *migration_dirs, *l;
 			char *path, *local_task_folder;
-			
+
 			setup_progress_dialog (TRUE);
-			
+
 			path = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 			migration_dirs = e_folder_map_local_folders (path, "tasks");
 			local_task_folder = g_build_filename (path, "Tasks", NULL);
@@ -966,7 +968,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 
 			for (l = migration_dirs; l; l = l->next) {
 				char *source_name;
-			
+
 				if (personal_source && !strcmp ((char*)l->data, local_task_folder))
 					continue;
 
@@ -978,21 +980,21 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 					g_free(source_name);
 					goto fail;
 				}
-				
+
 				g_free (source_name);
 			}
-			
+
 			g_free (local_task_folder);
 
 			dialog_close ();
 		}
-		
+
 		if (minor < 5 || (minor == 5 && revision <= 10)) {
 			char *old_path, *new_path;
-			
+
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Tasks", NULL);
 			new_path = g_build_filename (tasks_component_peek_base_directory (component),
-						     "tasks", "local", "system", NULL);
+						     "local", "system", NULL);
 			migrate_pilot_data ("tasks", "todo", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
@@ -1027,14 +1029,14 @@ fail:
 		g_object_unref (on_the_web);
 	if (personal_source)
 		g_object_unref (personal_source);
-	
+
         return retval;
 }
 
 /********************************************************************************************************
  *
  * 		MEMOS
- * 
+ *
  ********************************************************************************************************/
 
 static void
@@ -1047,13 +1049,14 @@ create_memo_sources (MemosComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
+	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*personal_source = NULL;
-	
-	base_uri = g_build_filename (memos_component_peek_base_directory (component),
-				     "memos", "local", NULL);
+
+	base_dir = memos_component_peek_base_directory (component);
+	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -1145,13 +1148,14 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 	ESourceGroup *group;
 	ESource *source;
 	GSList *ids, *temp ;
+	GError *error = NULL;
 	char *relative_uri;
 	const char *soap_port;
 	const char * use_ssl;
 	const char *poa_address;
 	const char *offline_sync;
-	
-	
+
+
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return;
@@ -1167,7 +1171,7 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 	if (!e_source_list_add_group (source_list, group, -1))
 		return;
 	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-	
+
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
 	e_source_set_property (source, "username", url->user);
@@ -1179,13 +1183,17 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 	e_source_set_color_spec (source, "#EEBC60");
 	e_source_group_add_source (group, source, -1);
 
-	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
+	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, &error);
+	if ( error != NULL ) {
+		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
+		g_error_free(error);
+	}
 	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
 	gconf_client_set_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, ids, NULL);
 	temp  = ids;
 	for (; temp != NULL; temp = g_slist_next (temp))
 		g_free (temp->data);
-	
+
 	g_slist_free (ids);
 	g_object_unref (source);
 	g_object_unref (group);
@@ -1212,7 +1220,7 @@ migrate_memos (MemosComponent *component, int major, int minor, int revision, st
 	if (major == 2 && minor < 8) {
 		EAccountList *al;
 		EAccount *a;
-		CamelURL *url;	
+		CamelURL *url;
 		EIterator *it;
 		GConfClient *gconf_client = gconf_client_get_default ();
 		al = e_account_list_new (gconf_client);
@@ -1220,7 +1228,7 @@ migrate_memos (MemosComponent *component, int major, int minor, int revision, st
 				e_iterator_is_valid(it);
 				e_iterator_next(it)) {
 			a = (EAccount *) e_iterator_get(it);
-			if (!a->enabled || !is_groupwise_account (a)) 
+			if (!a->enabled || !is_groupwise_account (a))
 				continue;
 			url = camel_url_new (a->source->url, NULL);
 			add_gw_esource (source_list, a->name, _("Notes"), url, gconf_client);
@@ -1239,6 +1247,6 @@ migrate_memos (MemosComponent *component, int major, int minor, int revision, st
 		g_object_unref (on_the_web);
 	if (personal_source)
 		g_object_unref (personal_source);
-	
+
         return retval;
 }

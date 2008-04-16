@@ -26,7 +26,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libart_lgpl/art_filterlevel.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
@@ -102,7 +101,7 @@ static gint e_map_expose (GtkWidget *widget, GdkEventExpose *event);
 static gint e_map_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustment *vadj);
 
-static void update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays);
+static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
 static void set_scroll_area (EMap *view);
 static void request_paint_area (EMap *view, GdkRectangle *area);
 static void center_at (EMap *map, int x, int y, gboolean scroll);
@@ -125,11 +124,11 @@ static GtkWidgetClass *parent_class;
 
 /**
  * e_map_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the #EMap class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the #EMap class.
  **/
 
@@ -585,17 +584,17 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 
 		scroll_to (view, x, y);
 
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->vadj), view);
+		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 
 		priv->hadj->value = x;
 		priv->vadj->value = y;
 
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->hadj), "value_changed");
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->vadj), "value_changed");
+		g_signal_emit_by_name (priv->hadj, "value_changed");
+		g_signal_emit_by_name (priv->vadj, "value_changed");
 
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->vadj), view);
+		g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 
 	return TRUE;
@@ -609,15 +608,15 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 
 /**
  * e_map_new:
- * @void: 
- * 
+ * @void:
+ *
  * Creates a new empty map widget.
- * 
+ *
  * Return value: A newly-created map widget.
  **/
 
 EMap *
-e_map_new ()
+e_map_new (void)
 {
 	GtkWidget *widget;
 	AtkObject *a11y;
@@ -636,7 +635,7 @@ e_map_new ()
 
 /* These functions translate coordinates between longitude/latitude and
  * the image x/y offsets, using the equidistant cylindrical projection.
- * 
+ *
  * Longitude E <-180, 180]
  * Latitude  E <-90, 90]   */
 
@@ -693,7 +692,7 @@ double
 e_map_get_magnification (EMap *map)
 {
 	EMapPrivate *priv;
-	
+
 	priv = map->priv;
 	if (priv->zoom_state == E_MAP_ZOOMED_IN) return 2.0;
 	else return 1.0;
@@ -813,7 +812,7 @@ e_map_remove_point (EMap *map, EMapPoint *point)
 		update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
 		repaint_point (map, point);
 	}
-	
+
 	g_free (point);
 }
 
@@ -879,11 +878,11 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 	if (!priv->map_render_pixbuf) return FALSE;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &x, &y);
-	
+
 	if (x >= 0 && x < GTK_WIDGET (map)->allocation.width &&
 	    y >= 0 && y < GTK_WIDGET (map)->allocation.height)
 	        return TRUE;
-	
+
 	return FALSE;
 }
 
@@ -933,7 +932,7 @@ repaint_visible (EMap *map)
 	area.y = 0;
 	area.width = GTK_WIDGET (map)->allocation.width;
 	area.height = GTK_WIDGET (map)->allocation.height;
-	
+
 	request_paint_area (map, &area);
 }
 
@@ -967,7 +966,7 @@ load_map_background (EMap *view, gchar *name)
 
 
 static void
-update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays)
+update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
 {
 	EMapPrivate *priv;
 	EMapPoint *point;
@@ -1015,7 +1014,7 @@ update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays
 				  zoom, zoom,	                                    /* Scale (x, y) */
 				  interp);
 	}
-	
+
 	if (render_overlays)
 	{
 		/* Add points */
@@ -1057,7 +1056,7 @@ request_paint_area (EMap *view, GdkRectangle *area)
 
 	if (priv->yofs + height > gdk_pixbuf_get_height (priv->map_render_pixbuf))
 		height = gdk_pixbuf_get_height (priv->map_render_pixbuf) - priv->yofs;
-  
+
 	/* We rely on the fast case always being the case, since we load and
    * preprocess the source pixbuf ourselves */
 
@@ -1149,7 +1148,7 @@ repaint_point (EMap *map, EMapPoint *point)
 	GdkRectangle area;
 	double px, py;
 
-	if (!e_map_point_is_in_view (map, point)) return; 
+	if (!e_map_point_is_in_view (map, point)) return;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 
@@ -1213,7 +1212,7 @@ smooth_center_at (EMap *map, int x, int y)
 
 		dx = (x < priv->xofs) ? -1 : (x > priv->xofs) ? 1 : 0;
 		dy = (y < priv->yofs) ? -1 : (y > priv->yofs) ? 1 : 0;
-    
+
 		scroll_to (map, priv->xofs + dx, priv->yofs + dy);
 	}
 }
@@ -1565,32 +1564,32 @@ zoom_in_smooth (EMap *map)
 	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
 	/* Center the target point as much as possible */
-  
+
 	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
 	smooth_center_at (map, x + priv->xofs, y + priv->yofs);
 
 	/* Render and paint a temporary map without overlays, so they don't get in
 	 * the way (look ugly) while zooming */
-  
+
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, FALSE);
 	request_paint_area (map, &area);
-  
+
 	/* Find out where in the area we're going to zoom to */
 
 	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
-  
+
 	/* Pre-render the zoomed-in map, so we can put it there quickly when the
 	 * blowup sequence ends */
-  
+
 	priv->zoom_state = E_MAP_ZOOMED_IN;
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
-  
+
 	/* Do the blowup */
-  
+
 	blowup_window_area (window, priv->xofs, priv->yofs, x, y, width, height, 1.68);
 
 	/* Set new scroll offsets and paint the zoomed map */
-  
+
 	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
 	priv->xofs = CLAMP (priv->xofs + x - area.width / 2.0, 0, E_MAP_GET_WIDTH (map) - area.width);
 	priv->yofs = CLAMP (priv->yofs + y - area.height / 2.0, 0, E_MAP_GET_HEIGHT (map) - area.height);
@@ -1661,9 +1660,8 @@ zoom_do (EMap *map)
 	EMapPrivate *priv;
 
 	priv = map->priv;
-
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->hadj), map);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->vadj), map);
+	g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+	g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
 	if (priv->zoom_state == E_MAP_ZOOMING_IN)
 	{
@@ -1675,9 +1673,9 @@ zoom_do (EMap *map)
 /*    if (e_map_get_smooth_zoom(map)) zoom_out_smooth(map); */
 		zoom_out (map);
 	}
-  
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->hadj), map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->vadj), map);
+
+	g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+	g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
 	set_scroll_area(map);
 }
@@ -1728,8 +1726,8 @@ set_scroll_area (EMap *view)
 	if (priv->map_render_pixbuf)
 		priv->vadj->upper = gdk_pixbuf_get_height (priv->map_render_pixbuf);
 
-	gtk_signal_emit_by_name (GTK_OBJECT (priv->hadj), "changed");
-	gtk_signal_emit_by_name (GTK_OBJECT (priv->vadj), "changed");
+	g_signal_emit_by_name (priv->hadj, "changed");
+	g_signal_emit_by_name (priv->vadj, "changed");
 
 	priv->xofs = CLAMP (priv->xofs, 0, priv->hadj->upper - priv->hadj->page_size);
 	priv->yofs = CLAMP (priv->yofs, 0, priv->vadj->upper - priv->vadj->page_size);
@@ -1738,17 +1736,17 @@ set_scroll_area (EMap *view)
 	{
 		priv->hadj->value = priv->xofs;
 
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->hadj), "value_changed");
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->hadj), view);
+		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_emit_by_name (priv->hadj, "value_changed");
+		g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 
 	if (priv->vadj->value != priv->yofs)
 	{
 		priv->vadj->value = priv->yofs;
 
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->vadj), view);
-		gtk_signal_emit_by_name (GTK_OBJECT (priv->vadj), "value_changed");
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->vadj), view);
+		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
+		g_signal_emit_by_name (priv->vadj, "value_changed");
+		g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 }

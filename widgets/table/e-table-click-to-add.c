@@ -81,7 +81,7 @@ etcta_style_set (ETableClickToAdd *etcta, GtkStyle *previous_style)
 
 	if (etcta->rect) {
 		gnome_canvas_item_set (etcta->rect,
-					"outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL], 
+					"outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL],
 					"fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
 					NULL );
 
@@ -162,7 +162,7 @@ etcta_drop_model (ETableClickToAdd *etcta)
 }
 
 static void
-etcta_add_message (ETableClickToAdd *etcta, char *message)
+etcta_add_message (ETableClickToAdd *etcta, const gchar *message)
 {
 	etcta->message = g_strdup(message);
 }
@@ -211,7 +211,7 @@ etcta_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 		break;
 	case PROP_MESSAGE:
 		etcta_drop_message (etcta);
-		etcta_add_message (etcta, (char*)g_value_get_string (value));
+		etcta_add_message (etcta, g_value_get_string (value));
 		break;
 	case PROP_WIDTH:
 		etcta->width = g_value_get_double (value);
@@ -248,7 +248,7 @@ create_rect_and_text (ETableClickToAdd *etcta)
 					    "y1", (double) 0,
 					    "x2", (double) etcta->width - 1,
 					    "y2", (double) etcta->height - 1,
-					    "outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL], 
+					    "outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL],
 					    "fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
 					    NULL);
 
@@ -332,8 +332,8 @@ item_key_press (ETableItem *item, int row, int col, GdkEvent *event, ETableClick
 static void
 set_initial_selection (ETableClickToAdd *etcta)
 {
-	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection), 
-					0, e_table_header_prioritized_column (etcta->eth), 
+	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection),
+					0, e_table_header_prioritized_column (etcta->eth),
 					0);
 }
 
@@ -401,7 +401,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			one = e_table_one_new(etcta->model);
 			etcta_add_one (etcta, one);
 			g_object_unref (one);
-			
+
 			e_selection_model_clear(E_SELECTION_MODEL(etcta->selection));
 
 			etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
@@ -433,9 +433,19 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		default:
 			return FALSE;
+		case GDK_Escape:
+			if (etcta->row) {
+				e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
+				etcta_drop_one (etcta);
+				gtk_object_destroy(GTK_OBJECT (etcta->row));
+				etcta->row = NULL;
+				create_rect_and_text (etcta);
+				e_canvas_item_move_absolute (etcta->text, 3, 3);
+			}
+			break;
 		}
 		break;
-			
+
 	default:
 		return FALSE;
 	}
@@ -446,7 +456,7 @@ static void
 etcta_reflow (GnomeCanvasItem *item, int flags)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
-	
+
 	double old_height = etcta->height;
 
 	if (etcta->text) {
@@ -488,35 +498,35 @@ etcta_class_init (ETableClickToAddClass *klass)
 	item_class->unrealize   = etcta_unrealize;
 	item_class->event       = etcta_event;
 
-	g_object_class_install_property (object_class, PROP_HEADER, 
+	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
 							      _("Header"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MODEL, 
+	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
 							      _("Model"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MESSAGE, 
+	g_object_class_install_property (object_class, PROP_MESSAGE,
 					 g_param_spec_string ("message",
 							      _("Message"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH, 
+	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
 							      _("Width"),
 							      /*_( */"XXX blurb" /*)*/,
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
 
-	g_object_class_install_property (object_class, PROP_HEIGHT, 
+	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
 							      _("Height"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -576,7 +586,7 @@ etcta_init (ETableClickToAdd *etcta)
 /**
  * e_table_click_to_add_commit:
  * @etcta: The %ETableClickToAdd to commit.
- * 
+ *
  * This routine commits the current thing being edited and returns to
  * just displaying the click to add message.
  **/

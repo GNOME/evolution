@@ -59,7 +59,7 @@ typedef struct {
 
 	/* The list store */
 	EAlarmList *list_store;
-	
+
 	/* Toplevel */
 	GtkWidget *toplevel;
 
@@ -68,7 +68,7 @@ typedef struct {
 	GtkWidget *edit;
 	GtkWidget *delete;
 	GtkWidget *box;
-	
+
 } Dialog;
 
 /* Gets the widgets from the XML file and returns TRUE if they are all available. */
@@ -83,7 +83,7 @@ get_widgets (Dialog *dialog)
 
 	dialog->box = GW ("vbox53");
 	dialog->list = GW ("list");
-	dialog->add = GW ("add"); 
+	dialog->add = GW ("add");
 	dialog->edit = GW ("edit");
 	dialog->delete = GW ("delete");
 
@@ -130,7 +130,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	GtkTreeIter iter;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
-	
+
 	view = GTK_TREE_VIEW (dialog->list);
 
 	alarm = e_cal_component_alarm_new ();
@@ -139,7 +139,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	icalprop = icalproperty_new_x ("1");
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
         icalcomponent_add_property (icalcomp, icalprop);
-	
+
 	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {
 		e_alarm_list_append (dialog->list_store, &iter, alarm);
 		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
@@ -271,9 +271,9 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 	int response_id;
 	GList *icon_list;
 	char *gladefile;
-	
+
 	dialog.ecal = ecal;
-	dialog.list_store = list_store;	
+	dialog.list_store = list_store;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "alarm-list-dialog.glade",
@@ -294,7 +294,7 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 	init_widgets (&dialog);
 
 	sensitize_buttons (&dialog);
-	
+
 	gtk_widget_ensure_style (dialog.toplevel);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->action_area), 12);
@@ -323,10 +323,10 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 {
 	Dialog *dialog;
 	char *gladefile;
-	
+
 	dialog = (Dialog *)g_new (Dialog, 1);
 	dialog->ecal = ecal;
-	dialog->list_store = list_store;	
+	dialog->list_store = list_store;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "alarm-list-dialog.glade",
@@ -336,18 +336,18 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 
 	if (!dialog->xml) {
 		g_message (G_STRLOC ": Could not load the Glade XML file!");
-		return FALSE;
+		return NULL;
 	}
 
 	if (!get_widgets (dialog)) {
 		g_object_unref(dialog->xml);
-		return FALSE;
+		return NULL;
 	}
 
 	init_widgets (dialog);
 
 	sensitize_buttons (dialog);
-	
+
 	g_object_unref (dialog->xml);
 
 	/* Free the other stuff when the parent really gets destroyed. */

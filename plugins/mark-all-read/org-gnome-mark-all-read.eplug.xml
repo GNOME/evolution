@@ -11,7 +11,7 @@
 
 		<hook class="org.gnome.evolution.mail.popup:1.0">
 			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
-				<item type="item" path="10.emc.01" icon="stock_mail-open-multiple" _label="Mark Me_ssages as Read" activate="org_gnome_mark_all_read" enable="folder" visible="folder"/>
+				<item type="item" path="30.emc.01" icon="mail-mark-read" _label="Mark Me_ssages as Read" activate="org_gnome_mark_all_read" enable="folder" visible="folder"/>
 			</menu>
 		</hook>
 	</e-plugin>

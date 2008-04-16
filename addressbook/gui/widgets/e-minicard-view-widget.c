@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-minicard-view-widget.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
@@ -102,28 +102,28 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 	object_class->get_property       = e_minicard_view_widget_get_property;
 	object_class->dispose            = e_minicard_view_widget_dispose;
 
-	g_object_class_install_property (object_class, PROP_BOOK, 
+	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_QUERY, 
+	g_object_class_install_property (object_class, PROP_QUERY,
 					 g_param_spec_string ("query",
 							      _("Query"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE, 
+	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH, 
+	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH,
 					 g_param_spec_double ("column_width",
 							      _("Column Width"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -307,12 +307,6 @@ selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 static void
 selection_row_change (ESelectionModel *esm, int row, EMinicardViewWidget *widget)
 {
-	gboolean selected = e_selection_model_is_row_selected (esm, row);
-
-	/* we only handle the selected case here */
-	if (!selected)
-		return;
-
 	selection_change (esm, widget);
 }
 
@@ -390,7 +384,7 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 {
 	if (GTK_WIDGET_CLASS(parent_class)->size_allocate)
 		GTK_WIDGET_CLASS(parent_class)->size_allocate (widget, allocation);
-	
+
 	if (GTK_WIDGET_REALIZED(widget)) {
 		double width;
 		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
@@ -443,7 +437,7 @@ e_minicard_view_widget_get_view             (EMinicardViewWidget       *view)
 		return NULL;
 }
 
-static gboolean 
+static gboolean
 e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;

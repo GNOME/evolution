@@ -50,7 +50,7 @@ struct _ETableWithoutPrivate {
 	void *closure;
 };
 
-static gboolean 
+static gboolean
 check (ETableWithout *etw, int model_row)
 {
 	gboolean ret_val;
@@ -67,7 +67,7 @@ check (ETableWithout *etw, int model_row)
 	return ret_val;
 }
 
-static gboolean 
+static gboolean
 check_with_key (ETableWithout *etw, void *key, int model_row)
 {
 	gboolean ret_val;

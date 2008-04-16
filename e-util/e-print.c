@@ -58,7 +58,7 @@ load_settings (void)
 	GtkPrintSettings *settings;
 	GSList *list;
 	GError *error = NULL;
-	
+
 	client = gconf_client_get_default ();
 	settings = gtk_print_settings_new ();
 
@@ -83,9 +83,9 @@ save_settings (GtkPrintSettings *settings)
 	GConfClient *client;
 	GSList *list = NULL;
 	GError *error = NULL;
-	
+
 	client = gconf_client_get_default ();
-	
+
 	gtk_print_settings_foreach (
 		settings, (GtkPrintSettingsFunc) pack_settings, &list);
 	gconf_client_set_list (
@@ -96,7 +96,7 @@ save_settings (GtkPrintSettings *settings)
 	}
 	g_slist_foreach (list, (GFunc) g_free, NULL);
 	g_slist_free (list);
-	
+
 	g_object_unref (client);
 }
 
@@ -113,7 +113,7 @@ load_page_setup (GtkPrintSettings *settings)
 	if (paper_size != NULL)
 		gtk_page_setup_set_paper_size_and_default_margins (
 			page_setup, paper_size);
-	
+
 	return page_setup;
 }
 

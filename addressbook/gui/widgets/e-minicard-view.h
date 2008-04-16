@@ -63,7 +63,7 @@ struct _EMinicardView
 	EReflow parent;
 
 	EAddressbookReflowAdapter *adapter;
-	
+
 	/* item specific fields */
 
 	GList *drag_list;

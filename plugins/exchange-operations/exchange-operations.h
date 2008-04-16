@@ -42,7 +42,7 @@ int e_plugin_lib_enable (EPluginLib *eplib, int enable);
 ExchangeAccount *exchange_operations_get_exchange_account (void);
 ExchangeConfigListenerStatus exchange_is_offline (gint *mode);
 
-gboolean exchange_operations_tokenize_string (char **string, char *token, char delimit);
+gboolean exchange_operations_tokenize_string (char **string, char *token, char delimit, unsigned int maxsize);
 
 gboolean exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri);
 void exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri, GtkTreeSelection *selection) ;

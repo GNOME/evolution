@@ -49,7 +49,7 @@ struct _ExchangeSendOptionsDialogPrivate {
 
 	/*name selector dialog*/
 	ENameSelector *proxy_name_selector;
-	
+
 	/*Importance*/
 	GtkWidget *importance;
 
@@ -96,17 +96,17 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptions *options;
 	const char *address, *email, *name;
-	
+
 	guint count=0;
 	ENameSelectorEntry *name_selector_entry;
 	EDestinationStore *destination_store;
-	GList *destinations, *tmp;	
+	GList *destinations, *tmp;
 
 	priv = sod->priv;
 	options = sod->options;
-	
-	/* This block helps us fetch the address of the delegator(s). If no delegator is selected or more 
-	   than one delegatee has been selected then an info dialog is popped up to help the user.	
+
+	/* This block helps us fetch the address of the delegator(s). If no delegator is selected or more
+	   than one delegatee has been selected then an info dialog is popped up to help the user.
 	*/
 	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
 
@@ -115,12 +115,12 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 		destinations = e_destination_store_list_destinations (destination_store);
 		tmp = destinations;
 
-		email = NULL;		
+		email = NULL;
 
-		/* The temporary variables address, email, and name are needed to fetch the list items. 
-		   Only the valid one is then copied into the storage variables. The "count" variable 
+		/* The temporary variables address, email, and name are needed to fetch the list items.
+		   Only the valid one is then copied into the storage variables. The "count" variable
 		   helps us keep a count of the exact number of items in the list. The g_list_length(GList *)
-		   produced ambiguous results. Hence count is used :) 
+		   produced ambiguous results. Hence count is used :)
 		*/
 		for (; tmp != NULL; tmp = g_list_next (tmp)) {
 			address = g_strdup ((char *) e_destination_get_address (tmp->data));
@@ -129,24 +129,24 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 			if (g_str_equal (email, ""))
 				continue;
 			count++;
-				
+
 			options->delegate_address = address;
 			options->delegate_name = name;
 			options->delegate_email = email;
 		}
-	
+
 		if(count == 0) {
-			e_error_run ((GtkWindow *) priv->main, 
-				"org-gnome-exchange-operations:no-delegate-selected", NULL, NULL); 
+			e_error_run ((GtkWindow *) priv->main,
+				"org-gnome-exchange-operations:no-delegate-selected", NULL, NULL);
 			gtk_widget_grab_focus ((GtkWidget *) name_selector_entry);
 			options->delegate_address = NULL;
 			options->delegate_name = NULL;
 			options->delegate_email = NULL;
 			return -1;
 		}
-		
+
 		if(count > 1) {
-			e_error_run ((GtkWindow *)priv->main, 
+			e_error_run ((GtkWindow *)priv->main,
 				"org-gnome-exchange-operations:more-delegates-selected", NULL, NULL);
 			gtk_widget_grab_focus ((GtkWidget *) name_selector_entry);
 			options->delegate_address = NULL;
@@ -172,7 +172,7 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 }
 
 static gboolean
-get_widgets (ExchangeSendOptionsDialog *sod) 
+get_widgets (ExchangeSendOptionsDialog *sod)
 {
 	ExchangeSendOptionsDialogPrivate *priv;
 
@@ -183,7 +183,7 @@ get_widgets (ExchangeSendOptionsDialog *sod)
 	priv->main = EXCHANGE ("send_options");
 	if (!priv->main)
 		return FALSE;
-	
+
 	priv->importance = EXCHANGE ("imp_combo_box");
 	priv->sensitivity = EXCHANGE ("sensitivity_combo_box");
 	priv->button_user = EXCHANGE ("button-user");
@@ -198,20 +198,20 @@ get_widgets (ExchangeSendOptionsDialog *sod)
 	return (priv->importance
 		&&priv->sensitivity
 		&&priv->button_user
-		&&priv->delegate_enabled		
+		&&priv->delegate_enabled
 		&&priv->read_receipt
 		&&priv->delivery_receipt
 		&&priv->importance_label
 		&&priv->sensitivity_label);
 }
-	
+
 static void
 exchange_send_options_fill_widgets_with_data (ExchangeSendOptionsDialog *sod)
 {
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptions *options;
 	ENameSelectorEntry *name_selector_entry;
-	
+
 	priv = sod->priv;
 	options = sod->options;
 
@@ -236,8 +236,8 @@ exchange_send_options_fill_widgets_with_data (ExchangeSendOptionsDialog *sod)
 		gtk_widget_set_sensitive ((GtkWidget *)name_selector_entry, FALSE);
 		gtk_widget_set_sensitive ((GtkWidget *)priv->button_user, FALSE);
 	}
-	
-	if (options->read_enabled) 
+
+	if (options->read_enabled)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->read_receipt), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->read_receipt), FALSE);
@@ -253,7 +253,7 @@ exchange_sendoptions_dialog_new (void) {
 	ExchangeSendOptionsDialog *sod;
 
 	sod = g_object_new (EXCHANGE_TYPE_SENDOPTIONS_DIALOG, NULL);
-	
+
 	return sod;
 }
 
@@ -284,20 +284,20 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 {
    	ExchangeSendOptionsDialogPrivate *priv;
    	ExchangeSendOptionsDialog *sod;
-        GError *error = NULL;     
-		
+        GError *error = NULL;
+
 	sod = func_data;
         priv = sod->priv;
-	
-	switch (state) {			
+
+	switch (state) {
 		case GTK_RESPONSE_OK:
-		     if(exchange_send_options_get_widgets_data (sod) < 0) 
+		     if(exchange_send_options_get_widgets_data (sod) < 0)
 			return;
 		case GTK_RESPONSE_CANCEL:
 		    	gtk_widget_hide (priv->main);
 	    	    	gtk_widget_destroy (priv->main);
 	           	g_object_unref (priv->xml);
-	             	break;	     
+	             	break;
 		case GTK_RESPONSE_HELP:
 		     	gnome_help_display (
 				"evolution.xml", priv->help_section, &error);
@@ -311,7 +311,7 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 
 }
 
-/* This function acts as a listener for the toggling of "send_as_a_delegate" button. This is needed to 
+/* This function acts as a listener for the toggling of "send_as_a_delegate" button. This is needed to
    sensitize the name_selector_entry and the User Button
 */
 static void
@@ -320,19 +320,19 @@ delegate_option_toggled (GtkCheckButton *button, gpointer func_data)
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptionsDialog *sod;
 	ENameSelectorEntry *name_selector_entry;
-	ExchangeSendOptions *options;	
-	
+	ExchangeSendOptions *options;
+
 	sod=func_data;
 	priv=sod->priv;
 	options=sod->options;
-	
+
 	name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, "Add User");
 
 	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
 		gtk_widget_set_sensitive ((GtkWidget *) name_selector_entry, TRUE);
 		gtk_widget_set_sensitive ((GtkWidget *) priv->button_user, TRUE);
 	}
-	
+
 	else {
 		gtk_widget_set_sensitive ((GtkWidget *) name_selector_entry, FALSE);
 		gtk_widget_set_sensitive ((GtkWidget *) priv->button_user, FALSE);
@@ -355,8 +355,8 @@ addressbook_entry_changed (GtkWidget *entry, gpointer user_data)
 */
 static void
 address_button_clicked (GtkButton *button, gpointer func_data)
-{	
-	
+{
+
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptionsDialog *sod;
 	ENameSelectorDialog *name_selector_dialog;
@@ -365,12 +365,12 @@ address_button_clicked (GtkButton *button, gpointer func_data)
 	priv=sod->priv;
 
 	name_selector_dialog = e_name_selector_peek_dialog (priv->proxy_name_selector);
-	gtk_widget_show (GTK_WIDGET (name_selector_dialog));		
+	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
-	
-gboolean 
+
+gboolean
 exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *parent)
-{	
+{
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptions *options;
 
@@ -384,7 +384,7 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 	GtkWidget *name_box;
 
 	g_return_val_if_fail (sod != NULL || EXCHANGE_IS_SENDOPTIONS_DIALOG (sod), FALSE);
-	
+
 	priv = sod->priv;
 	options = sod->options;
 
@@ -414,7 +414,7 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 	name_selector_dialog = e_name_selector_peek_dialog (priv->proxy_name_selector);
 
 	name_selector_model = e_name_selector_peek_model (priv->proxy_name_selector);
-	e_name_selector_model_add_section (name_selector_model, "Add User", "Add User", NULL);
+	e_name_selector_model_add_section (name_selector_model, "Add User", _("Add User"), NULL);
 
 	exchange_send_options_fill_widgets_with_data (sod);
 
@@ -427,19 +427,19 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 		g_object_unref (des);
 	}
 
-	g_signal_connect ((GtkButton *) priv->button_user, "clicked", 
+	g_signal_connect ((GtkButton *) priv->button_user, "clicked",
 				G_CALLBACK (address_button_clicked), sod);
-	g_signal_connect (name_selector_dialog, "response", 
+	g_signal_connect (name_selector_dialog, "response",
 				G_CALLBACK (addressbook_dialog_response), sod);
-	g_signal_connect (GTK_DIALOG (priv->main), "response", 
+	g_signal_connect (GTK_DIALOG (priv->main), "response",
 				G_CALLBACK(exchange_send_options_cb), sod);
-	g_signal_connect ((GtkCheckButton *) priv->delegate_enabled, "toggled", 
+	g_signal_connect ((GtkCheckButton *) priv->delegate_enabled, "toggled",
 				G_CALLBACK(delegate_option_toggled), sod);
 
-	name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, 
+	name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector,
 									"Add User");
 	g_signal_connect (name_selector_entry, "changed", G_CALLBACK (addressbook_entry_changed), sod);
-	
+
 	/* The name box is just a container. The name_selector_entry is added to it. This Widget
 	   is created dynamically*/
 	name_box = glade_xml_get_widget (priv->xml, "del_name_box");
@@ -449,7 +449,7 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 
 	gtk_window_set_modal ((GtkWindow *) priv->main, TRUE);
 	gtk_widget_show (priv->main);
-       
+
 	return TRUE;
 }
 
@@ -479,16 +479,16 @@ exchange_sendoptions_dialog_class_init (GObjectClass *object)
 static void
 exchange_sendoptions_dialog_init (GObject *object)
 {
-	
+
 	ExchangeSendOptionsDialog *sod;
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptions *new;
 
 	sod = EXCHANGE_SENDOPTIONS_DIALOG (object);
 	new = g_new0 (ExchangeSendOptions, 1);
-	
+
 	priv = g_new0 (ExchangeSendOptionsDialogPrivate, 1);
-	
+
 	sod->priv = priv;
 	sod->options = new;
 	sod->options->send_as_del_enabled = FALSE;
@@ -515,10 +515,10 @@ exchange_sendoptions_dialog_finalize (GObject *object)
 {
 	ExchangeSendOptionsDialog *sod = (ExchangeSendOptionsDialog *)object;
 	ExchangeSendOptionsDialogPrivate *priv;
-	
+
 	g_return_if_fail (EXCHANGE_IS_SENDOPTIONS_DIALOG (sod));
 	priv = sod->priv;
-	
+
 	g_free (priv->help_section);
 
 	if (sod->options) {
@@ -531,9 +531,9 @@ exchange_sendoptions_dialog_finalize (GObject *object)
 		sod->priv = NULL;
 	}
 
-	if (parent_class->finalize) 
+	if (parent_class->finalize)
 		(* parent_class->finalize) (object);
-	
+
 }
 
 static void
@@ -546,5 +546,5 @@ exchange_sendoptions_dialog_dispose (GObject *object)
 	if (parent_class->dispose)
 		(* parent_class->dispose) (object);
 
-}	
+}
 

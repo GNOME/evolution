@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -31,6 +31,7 @@
 #endif
 
 #include <string.h>
+#include <e-util/e-util.h>
 #include "e-week-view-titles-item.h"
 
 static void e_week_view_titles_item_set_arg	(GtkObject	 *o,
@@ -96,7 +97,7 @@ e_week_view_titles_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EWeekViewTitlesItem *wvtitem;
 
 	wvtitem = E_WEEK_VIEW_TITLES_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_WEEK_VIEW:
 		wvtitem->week_view = GTK_VALUE_POINTER (*arg);
@@ -139,10 +140,9 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	GtkStyle *style;
 	GdkGC *fg_gc, *light_gc, *dark_gc;
 	gint canvas_width, canvas_height, col_width, col, date_width, date_x;
-	gchar buffer[128], *date_format;
-	GDate date;
+	gchar buffer[128];
 	GdkRectangle clip_rect;
-	gboolean long_format;
+	gboolean abbreviated;
 	gint weekday;
 	PangoLayout *layout;
 
@@ -177,13 +177,7 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 
 	/* Determine the format to use. */
 	col_width = canvas_width / week_view->columns;
-	if (col_width > week_view->max_day_width + 2) {
-	  date_format = "%A";
-	  long_format = TRUE;
-	} else {
-	  date_format = "%a";
-	  long_format = FALSE;
-	}
+	abbreviated = (week_view->max_day_width + 2 >= col_width);
 
 	/* Shift right one pixel to account for the shadow around the main
 	   canvas. */
@@ -191,20 +185,17 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
-	g_date_clear (&date, 1);
-	/* Note that 20th March 2000 is a Monday. We only care about the
-	   weekday. */
 	weekday = week_view->display_start_day;
-	g_date_set_dmy (&date, 20 + weekday, 3, 2000);
 	for (col = 0; col < week_view->columns; col++) {
-		if (weekday == 5 && week_view->compress_weekend) {
-			g_date_strftime (buffer, 128, "%a/", &date);
-			g_date_add_days (&date, 1);
-			g_date_strftime (buffer + strlen (buffer), 100,
-					 "%a", &date);
-		} else {
-			g_date_strftime (buffer, 128, date_format, &date);
-		}
+		if (weekday == 5 && week_view->compress_weekend)
+			g_snprintf (
+				buffer, sizeof (buffer), "%s/%s",
+				e_get_weekday_name (G_DATE_SATURDAY, TRUE),
+				e_get_weekday_name (G_DATE_SUNDAY, TRUE));
+		else
+			g_snprintf (
+				buffer, sizeof (buffer), "%s",
+				e_get_weekday_name (weekday + 1, abbreviated));
 
 		clip_rect.x = week_view->col_offsets[col] - x;
 		clip_rect.y = 2 - y;
@@ -216,10 +207,10 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 			date_width = week_view->abbr_day_widths[5]
 				+ week_view->slash_width
 				+ week_view->abbr_day_widths[6];
-		else if (long_format)
-			date_width = week_view->day_widths[weekday];
-		else
+		else if (abbreviated)
 			date_width = week_view->abbr_day_widths[weekday];
+		else
+			date_width = week_view->day_widths[weekday];
 
 		date_x = week_view->col_offsets[col]
 			+ (week_view->col_widths[col] - date_width) / 2;
@@ -263,8 +254,6 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 			weekday++;
 
 		weekday = weekday % 7;
-
-		g_date_add_days (&date, 1);
 	}
 
 	g_object_unref (layout);

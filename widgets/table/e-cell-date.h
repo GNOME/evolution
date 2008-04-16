@@ -1,4 +1,4 @@
-/* 
+/*
  * e-cell-date.h - Date item for e-table.
  * Copyright 2001, Ximian, Inc.
  *

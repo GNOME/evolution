@@ -1,12 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
- * Author : 
+/*
+ * Author :
  *  JP Rosevear <jpr@ximian.com>
  *
  * Copyright 2003, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ struct _ECellDateEditConfigPrivate {
 	ECellDateEdit *cell;
 
 	EMiniCalendarConfig *mini_config;
-	
+
 	GList *notifications;
 };
 
@@ -46,7 +46,7 @@ e_cell_date_edit_config_set_property (GObject *object, guint property_id, const 
 	ECellDateEditConfig *view_config;
 
 	view_config = E_CELL_DATE_EDIT_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_CELL:
 		e_cell_date_edit_config_set_cell (view_config, g_value_get_object (value));
@@ -63,7 +63,7 @@ e_cell_date_edit_config_get_property (GObject *object, guint property_id, GValue
 	ECellDateEditConfig *view_config;
 
 	view_config = E_CELL_DATE_EDIT_CONFIG (object);
-	
+
 	switch (property_id) {
 	case PROP_CELL:
 		g_value_set_object (value, e_cell_date_edit_config_get_cell (view_config));
@@ -78,9 +78,9 @@ static void
 e_cell_date_edit_config_dispose (GObject *object)
 {
 	ECellDateEditConfig *view_config = E_CELL_DATE_EDIT_CONFIG (object);
-	
+
 	e_cell_date_edit_config_set_cell (view_config, NULL);
-	
+
 	if (G_OBJECT_CLASS (e_cell_date_edit_config_parent_class)->dispose)
 		G_OBJECT_CLASS (e_cell_date_edit_config_parent_class)->dispose (object);
 }
@@ -90,11 +90,11 @@ e_cell_date_edit_config_finalize (GObject *object)
 {
 	ECellDateEditConfig *view_config = E_CELL_DATE_EDIT_CONFIG (object);
 	ECellDateEditConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
 
 	g_free (priv);
-	
+
 	if (G_OBJECT_CLASS (e_cell_date_edit_config_parent_class)->finalize)
 		G_OBJECT_CLASS (e_cell_date_edit_config_parent_class)->finalize (object);
 }
@@ -104,7 +104,7 @@ e_cell_date_edit_config_class_init (ECellDateEditConfigClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GParamSpec *spec;
-	
+
 	/* Method override */
 	gobject_class->set_property = e_cell_date_edit_config_set_property;
 	gobject_class->get_property = e_cell_date_edit_config_get_property;
@@ -127,14 +127,14 @@ ECellDateEditConfig *
 e_cell_date_edit_config_new (ECellDateEdit *cell)
 {
 	ECellDateEditConfig *view_config;
-	
+
 	view_config = g_object_new (e_cell_date_edit_config_get_type (), "cell", cell, NULL);
 
 	return view_config;
 }
 
 ECellDateEdit *
-e_cell_date_edit_config_get_cell (ECellDateEditConfig *view_config) 
+e_cell_date_edit_config_get_cell (ECellDateEditConfig *view_config)
 {
 	ECellDateEditConfigPrivate *priv;
 
@@ -142,17 +142,17 @@ e_cell_date_edit_config_get_cell (ECellDateEditConfig *view_config)
 	g_return_val_if_fail (E_IS_CELL_DATE_EDIT_CONFIG (view_config), NULL);
 
 	priv = view_config->priv;
-	
+
 	return priv->cell;
 }
 
 static void
-set_timezone (ECellDateEdit *cell) 
+set_timezone (ECellDateEdit *cell)
 {
 	ECellDateEditText *cell_text;
 	ECellPopup *cell_popup;
 	icaltimezone *zone;
-	
+
 	zone = calendar_config_get_icaltimezone ();
 
 	cell_popup = E_CELL_POPUP (cell);
@@ -165,14 +165,14 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 {
 	ECellDateEditConfig *view_config = data;
 	ECellDateEditConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_timezone (priv->cell);
 }
 
 static void
-set_twentyfour_hour (ECellDateEdit *cell) 
+set_twentyfour_hour (ECellDateEdit *cell)
 {
 	ECellDateEditText *cell_text;
 	ECellPopup *cell_popup;
@@ -196,14 +196,14 @@ twentyfour_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gp
 {
 	ECellDateEditConfig *view_config = data;
 	ECellDateEditConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_twentyfour_hour (priv->cell);
 }
 
 static void
-set_range (ECellDateEdit *cell) 
+set_range (ECellDateEdit *cell)
 {
 	int start_hour, end_hour;
 
@@ -219,7 +219,7 @@ set_range (ECellDateEdit *cell)
 		start_hour = end_hour;
 
       /* We use the default 0 - 24 now. */
-#if 0	
+#if 0
 	g_object_set (G_OBJECT (cell),
 		      "lower_hour", start_hour,
 		      "upper_hour", end_hour,
@@ -232,9 +232,9 @@ day_start_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 {
 	ECellDateEditConfig *view_config = data;
 	ECellDateEditConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_range (priv->cell);
 }
 
@@ -243,9 +243,9 @@ day_end_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 {
 	ECellDateEditConfig *view_config = data;
 	ECellDateEditConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_range (priv->cell);
 }
 
@@ -254,24 +254,24 @@ day_end_minute_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 {
 	ECellDateEditConfig *view_config = data;
 	ECellDateEditConfigPrivate *priv;
-	
+
 	priv = view_config->priv;
-	
+
 	set_range (priv->cell);
 }
 
 void
-e_cell_date_edit_config_set_cell (ECellDateEditConfig *view_config, ECellDateEdit *cell) 
+e_cell_date_edit_config_set_cell (ECellDateEditConfig *view_config, ECellDateEdit *cell)
 {
 	ECellDateEditConfigPrivate *priv;
 	guint not;
 	GList *l;
-	
+
 	g_return_if_fail (view_config != NULL);
 	g_return_if_fail (E_IS_CELL_DATE_EDIT_CONFIG (view_config));
 
 	priv = view_config->priv;
-	
+
 	if (priv->cell) {
 		g_object_unref (priv->cell);
 		priv->cell = NULL;
@@ -281,7 +281,7 @@ e_cell_date_edit_config_set_cell (ECellDateEditConfig *view_config, ECellDateEdi
 		g_object_unref (priv->mini_config);
 		priv->mini_config = NULL;
 	}
-	
+
 	for (l = priv->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 
@@ -291,17 +291,17 @@ e_cell_date_edit_config_set_cell (ECellDateEditConfig *view_config, ECellDateEdi
 	/* If the new view is NULL, return right now */
 	if (!cell)
 		return;
-	
+
 	priv->cell = g_object_ref (cell);
 
 	/* Time zone */
 	set_timezone (cell);
-	
+
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* 24 Hour format */
-	set_twentyfour_hour (cell);	
+	set_twentyfour_hour (cell);
 
 	not = calendar_config_add_notification_24_hour_format (twentyfour_hour_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
@@ -317,5 +317,5 @@ e_cell_date_edit_config_set_cell (ECellDateEditConfig *view_config, ECellDateEdi
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* The mini calendar */
-	priv->mini_config = e_mini_calendar_config_new (E_CALENDAR (cell->calendar));	
+	priv->mini_config = e_mini_calendar_config_new (E_CALENDAR (cell->calendar));
 }

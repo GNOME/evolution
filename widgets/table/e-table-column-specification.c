@@ -50,6 +50,8 @@ free_strings (ETableColumnSpecification *etcs)
 	etcs->compare = NULL;
 	g_free(etcs->search);
 	etcs->search = NULL;
+	g_free (etcs->sortable);
+	etcs->sortable = NULL;
 }
 
 static void
@@ -77,12 +79,12 @@ etcs_init (ETableColumnSpecification *specification)
 	specification->compare_col   = 0;
 	specification->title         = g_strdup("");
 	specification->pixbuf        = NULL;
-	
+
 	specification->expansion     = 0;
 	specification->minimum_width = 0;
 	specification->resizable     = FALSE;
 	specification->disabled      = FALSE;
-	
+
 	specification->cell          = NULL;
 	specification->compare       = NULL;
 	specification->search        = NULL;

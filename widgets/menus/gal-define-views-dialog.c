@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-define-views-dialog.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -73,7 +73,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 	object_class->get_property = gal_define_views_dialog_get_property;
 	object_class->dispose = gal_define_views_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_COLLECTION, 
+	g_object_class_install_property (object_class, PROP_COLLECTION,
 					 g_param_spec_object ("collection",
 							      _("Collection"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -109,7 +109,7 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, int id, GalDefineViewsDialog
 				gtk_list_store_append (GTK_LIST_STORE (dialog->model), &iter);
 				gtk_list_store_set (GTK_LIST_STORE (dialog->model), &iter,
 						    COL_GALVIEW_NAME, name,
-						    COL_GALVIEW_DATA, item, 
+						    COL_GALVIEW_DATA, item,
 						    -1);
 
 				gal_view_edit (view, GTK_WINDOW (dialog));
@@ -168,7 +168,7 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 				gal_view_collection_delete_view (dialog->collection, row);
 				path = gtk_tree_model_get_path (dialog->model, &iter);
 				gtk_list_store_remove (GTK_LIST_STORE (dialog->model), &iter);
-				
+
 				if (gtk_tree_path_prev (path)) {
 					gtk_tree_model_get_iter (dialog->model, &iter, path);
 			 	} else {
@@ -201,7 +201,7 @@ gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 
 }
 #endif
- 
+
 static void
 gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
@@ -237,7 +237,7 @@ static void
 dialog_response (GalDefineViewsDialog *dialog, int response_id, gpointer data)
 {
 	gal_view_collection_save (dialog->collection);
-}	
+}
 
 static void
 gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
@@ -321,7 +321,7 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 		/* hide built in views */
 		/*if (item->built_in == 1)
 			continue;*/
-	
+
 		char *title = NULL;
 		title = e_str_without_underscores (item->title);
 
@@ -348,7 +348,7 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 						    COL_GALVIEW_NAME, _("Name"),
 						    renderer, "text", COL_GALVIEW_NAME,
 						    NULL);
-	
+
 	/* set sort column */
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (dialog->model),
 					      COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
@@ -394,7 +394,7 @@ gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GVal
 	GalDefineViewsDialog *dialog;
 
 	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
-	
+
 	switch (prop_id){
 	case PROP_COLLECTION:
 		if (g_value_get_object (value))

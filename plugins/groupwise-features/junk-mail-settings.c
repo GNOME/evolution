@@ -40,7 +40,7 @@
 #include "share-folder.h"
 #include "junk-settings.h"
 
-void 
+void
 org_gnome_junk_settings(EPlugin *ep, EMPopupTargetSelect *t);
 
 static void
@@ -63,17 +63,17 @@ junk_dialog_response (GtkWidget *dialog, int response, JunkSettings *js)
 
 }
 
-static void 
+static void
 junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 {
 	GtkWidget *dialog ,*w, *notebook, *box;
 	JunkSettings *junk_tab;
 	int page_count =0;
 	EGwConnection *cnc;
-	CamelFolder *folder = (CamelFolder *)data;
-	CamelStore *store = folder->parent_store;	
-	cnc = get_cnc (store);	
 	gchar *msg;
+	CamelFolder *folder = (CamelFolder *)data;
+	CamelStore *store = folder->parent_store;
+	cnc = get_cnc (store);
 
 	dialog =  gtk_dialog_new_with_buttons (_("Junk Settings"),
 			NULL,
@@ -87,7 +87,7 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	gtk_widget_ensure_style (dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
 	box = gtk_vbox_new (FALSE, 6);
-	w = gtk_label_new ("");	
+	w = gtk_label_new ("");
 	msg = g_strdup_printf("<b>%s</b>", _("Junk Mail Settings"));
 	gtk_label_set_markup (GTK_LABEL (w), msg);
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
@@ -96,14 +96,14 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	junk_tab = junk_settings_new (cnc);
 	w = (GtkWidget *)junk_tab->vbox;
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
-	
+
 	/*We might have to add more options for settings i.e. more pages*/
 	while (page_count > 0 ){
 		notebook = gtk_notebook_new ();
 		gtk_notebook_append_page ((GtkNotebook *)notebook, box, NULL);
 		gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, notebook, TRUE, TRUE, 0);
 	}
-	
+
 	if (page_count == 0)
 		gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, box, TRUE, TRUE, 0);
 
@@ -115,35 +115,35 @@ static EPopupItem popup_items[] = {
 { E_POPUP_ITEM, "50.emfv.05", N_("Junk Mail Settings..."), junk_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *items, void *data)
 {
 g_slist_free (items);
 }
 
-void 
+void
 org_gnome_junk_settings(EPlugin *ep, EMPopupTargetSelect *t)
 {
 	GSList *menus = NULL;
-	
+
 	int i = 0;
 	static int first = 0;
-	
+
 	if (! g_strrstr (t->uri, "groupwise://"))
 		return ;
-	
+
 	/* for translation*/
 	if (!first) {
 		popup_items[0].label =  _(popup_items[0].label);
-	
+
 	}
-	
+
 	first++;
-	
+
 	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
 		menus = g_slist_prepend (menus, &popup_items[i]);
-	
+
 	e_popup_add_items (t->target.popup, menus, NULL, popup_free, t->folder);
-       	
+
 }
 

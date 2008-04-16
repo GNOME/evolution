@@ -133,7 +133,7 @@ task_details_page_init (TaskDetailsPage *tdpage)
 	priv->status = NULL;
 	priv->priority = NULL;
 	priv->percent_complete = NULL;
-	
+
 	priv->date_completed_label = NULL;
 	priv->completed_date = NULL;
 
@@ -264,12 +264,12 @@ sensitize_widgets (TaskDetailsPage *tdpage)
 {
 	gboolean read_only;
 	TaskDetailsPagePrivate *priv;
-	
+
 	priv = tdpage->priv;
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (tdpage)->client, &read_only, NULL))
 		read_only = TRUE;
-	
+
 	gtk_widget_set_sensitive (priv->status, !read_only);
 	gtk_widget_set_sensitive (priv->priority, !read_only);
 	gtk_widget_set_sensitive (priv->percent_complete, !read_only);
@@ -294,10 +294,10 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	priv = tdpage->priv;
 
 	priv->updating = TRUE;
-	
+
 	/* Clean the screen */
 	clear_widgets (tdpage);
-	
+
 	/* Percent Complete. */
 	e_cal_component_get_percent (comp, &percent);
 	if (percent) {
@@ -361,7 +361,7 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* URL */
 	e_cal_component_get_url (comp, &url);
 	e_dialog_editable_set (priv->url, url);
-	
+
 	priv->updating = FALSE;
 
 	sensitize_widgets (tdpage);
@@ -382,7 +382,7 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	char *url;
 	gboolean date_set;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	
+
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
@@ -426,7 +426,7 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		icaltimezone_convert_time (&icaltoday, zone,
 				icaltimezone_get_utc_timezone());
 
-		if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) { 
+		if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) {
 			comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
 			return FALSE;
 		}
@@ -513,7 +513,7 @@ get_widgets (TaskDetailsPage *tdpage)
 	gtk_widget_show (priv->url_entry);
 	priv->url = e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry));
 	atk_object_set_name (gtk_widget_get_accessible (priv->url), _("Web Page"));
-	
+
 #undef GW
 
 	return (priv->status
@@ -540,10 +540,10 @@ complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
 
 	dates.start = NULL;
 	dates.end = NULL;
-	dates.due = NULL;	
+	dates.due = NULL;
 	if (complete)
 		dates.complete = &completed_tt;
-	
+
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tdpage),
 					       &dates);
@@ -593,7 +593,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 		}
 		e_dialog_spin_set (priv->percent_complete, 100);
 	}
-	
+
 	priv->updating = FALSE;
 
 	/* Notify upstream */
@@ -607,7 +607,7 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 	TaskDetailsPagePrivate *priv;
 	icalproperty_status status;
 	time_t ctime = -1;
-	
+
 	priv = tdpage->priv;
 
 	if (priv->updating)
@@ -647,12 +647,12 @@ percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
 	icalproperty_status status;
 	gboolean complete;
 	time_t ctime = -1;
-	
+
 	priv = tdpage->priv;
 
 	if (priv->updating)
 		return;
-	
+
 	priv->updating = TRUE;
 
 	percent = e_dialog_spin_get_int (priv->percent_complete);
@@ -684,7 +684,7 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
-	
+
 	tdpage = TASK_DETAILS_PAGE (data);
 	priv = tdpage->priv;
 
@@ -748,10 +748,10 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 /**
  * task_details_page_construct:
  * @tdpage: An task details page.
- * 
+ *
  * Constructs an task page by loading its Glade data.
- * 
- * Return value: The same object as @tdpage, or NULL if the widgets could not 
+ *
+ * Return value: The same object as @tdpage, or NULL if the widgets could not
  * be created.
  **/
 TaskDetailsPage *
@@ -790,9 +790,9 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 
 /**
  * task_details_page_new:
- * 
+ *
  * Creates a new task details page.
- * 
+ *
  * Return value: A newly-created task details page, or NULL if the page could
  * not be created.
  **/

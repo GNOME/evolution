@@ -24,7 +24,7 @@
 #define _E_ACTIVITY_HANDLER_H_
 
 #include "e-task-bar.h"
-
+#include "e-util/e-logger.h"
 #include <glib-object.h>
 
 #ifdef __cplusplus
@@ -42,6 +42,9 @@ extern "C" {
 typedef struct _EActivityHandler        EActivityHandler;
 typedef struct _EActivityHandlerPrivate EActivityHandlerPrivate;
 typedef struct _EActivityHandlerClass   EActivityHandlerClass;
+
+#define EAH_ICON_INFO  "stock_dialog-info"
+#define EAH_ICON_ERROR "stock_dialog-warning"
 
 struct _EActivityHandler {
 	GObject parent;
@@ -71,6 +74,13 @@ guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler
 					      GdkPixbuf        *icon_pixbuf,
 					      const char       *information,
 					      gboolean          cancellable);
+guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
+						      const char       *component_id,
+						      GdkPixbuf        *icon_pixbuf,
+					      	      const char       *information,
+					      	      gboolean          cancellable,
+						      void (*cancel_func)(gpointer),
+						      gpointer user_data);
 
 void  e_activity_handler_operation_progressing  (EActivityHandler *activity_handler,
 						 guint             activity_id,
@@ -80,6 +90,18 @@ void  e_activity_handler_operation_progressing  (EActivityHandler *activity_hand
 void  e_activity_handler_operation_finished  (EActivityHandler *activity_handler,
 					      guint             activity_id);
 
+void e_activity_handler_set_logger (EActivityHandler *handler, ELogger *logger);
+guint e_activity_handler_make_error (EActivityHandler *activity_handler,
+				      const char *component_id,
+				      int error_type,
+				      GtkWidget  *error);
+void
+e_activity_handler_operation_set_error (EActivityHandler *activity_handler,
+                                          guint activity_id,
+                                          GtkWidget *error);
+
+void
+e_activity_handler_set_error_flush_time (EActivityHandler *handler, int time);
 
 #ifdef __cplusplus
 }

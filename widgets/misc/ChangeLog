@@ -1,3 +1,321 @@
+2008-04-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-attachment-bar.c
+	(e_attachment_bar_bonobo_ui_populate_with_recent):
+	Fix a compiler warning.
+
+2008-04-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #517134
+
+	* e-attachment-bar.c: (destroy), (init): Related changes. 
+	(e_attachment_bar_bonobo_ui_populate_with_recent): New API to populate
+	a bonoboUI menu with "Recent Documents". 
+	(action_recent_cb), (e_attachment_bar_recent_action_new): New API to
+	obtain a new, pre-configured GtkRecentAction (which can be used as a
+	"Recent Documents" menu)
+	* e-attachment-bar.h: APIs' signatures
+
+2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Add EVOLUTION_MAIL_LIBS.
+
+	* e-account-combo-box.c:
+	* e-account-combo-box.h:
+	New function e_account_combo_box_get_account_list().
+	Emit a "refreshed" signal when the EAccountList changes.
+	Add an internal reverse-lookup index.
+
+	* e-charset-picker.c (e_charser_add_radio_actions):
+	New function adds radio actions to an action group.
+	Will eventually replace e_charset_picker_bonobo_ui_populate().
+
+	* e-signature-combo-box.c:
+	* e-signature-combo-box.h:
+	New function e_signature_combo_box_get_signature_list().
+
+2008-03-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #507526
+
+	* e-send-options.glade: Add translators' comment.
+
+2008-03-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #482148
+
+	* e-search-bar.c: (entry_activated_cb), (entry_changed_cb),
+	(search_now_verb_cb), (clear_verb_cb), (clear_button_clicked_cb):
+	Allow clear search when some search is active and text is empty.
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #460204
+
+	* e-attachment.c: (attachment_guess_mime_type):
+	Check whether found mime type is valid before returning it.
+	My thanks come to Effenberg whom helped me to debug it.
+
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #512543
+
+	* e-calendar-item.c: Get rid of ENABLE_CAIRO define.
+
+2008-02-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #515744
+
+	* e-cursors.c: (e_cursors_init):
+	* e-calendar-item.c: (e_calendar_item_draw_month):
+	Memory leak fix.
+
+2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #178778
+
+	* e-calendar-item.c: (e_calendar_item_destroy):
+
+2008-02-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #249501
+
+	* e-attachment.c: (attachment_guess_mime_type):
+	gnome_vfs_get_file_info expects URI,
+	thus if file_name contains '%' it failed.
+
+2007-01-25  Johnny Jacob  <jjohnny@novell.com>
+  
+  	* e-filter-bar.h : Added a cameloperation cancel field for vfolder
+  	based search.
+	
+2008-01-24  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (libemiscwidgets_la_LIBADD): Fix typo:
+	s/EVOLUTON_MAIL_LIBS/EVOLUTION_MAIL_LIBS/. No need to use
+	CAMEL_LIBS as EVOLUTION_MAIL_LIBS already covers that.
+
+2008-01-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #402487
+
+	* e-search-bar.c: (search_now_verb_cb), (scopeoption_changed_cb):
+	Memory leak fix.
+
+2008-01-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* e-multi-config-dialog.c: (canvas_realize),
+	(e_multi_config_dialog_add_page): Enable for Cairofication of the
+	settings dialogs's etable.
+
+2008-01-11  Jeffrey Stedfast  <fejj@novell.com>
+
+	Patch by Jean-Christophe BEGUE to fix bug #329692.
+
+	* e-attachment.c (e_attachment_new_from_mime_part): Get the
+	content size of the MIME part by calling the new
+	camel_mime_part_get_content_size() function.
+
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #488213
+
+	* e-spinner.c: (scale_to_size):
+	* e-image-chooser.c: (set_image_from_data):
+	* e-attachment-bar.c: (e_attachment_bar_create_attachment_cache),
+	(update):
+	Use global function e_icon_factory_pixbuf_scale for scaling pixbufs.
+
+2008-01-10  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Add better support to show info/errors
+
+	* e-activity-handler.c: (setup_task_bar), (cancel_wrapper),
+	(handle_error), (error_cleanup), (e_activity_handler_make_error),
+	(e_activity_handler_operation_set_error):
+	* e-activity-handler.h:
+	* e-task-widget.c: (e_task_widget_update_image):
+
+2008-01-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #339813
+
+	* e-dateedit.h: (e_date_edit_get_twodigit_year_can_future),
+	(e_date_edit_set_twodigit_year_can_future):
+	Added new option for component.
+	* e-dateedit.c: (e_date_edit_get_twodigit_year_can_future),
+	(e_date_edit_set_twodigit_year_can_future),
+	(struct _EDateEditPrivate::twodigit_year_can_future),
+	(e_date_edit_init), (e_date_edit_parse_date):
+	Implementing new option for component.
+	* e-dateedit.c: (on_date_entry_focus_out):
+	Always repaint value on focus out.
+	* e-dateedit.c: (e_date_edit_update_date_entry):
+	Forced to always show 4-digit year.
+
+2008-01-04  Milan Crha  <mcrha@redhat.com>
+
+	* Part of bug #504480
+	* e-task-widget.c: (e_task_widget_construct):
+	Possible leak fix.
+	* e-task-widget.c: (e_task_widget_update_image):
+	Function prototype changed and using parameter stock now.
+
+2008-01-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #504480
+
+	* e-task-bar.c: (e_task_bar_init): Increases the height
+	of the ETaskBar to eliminate the constant resizing.
+
+2007-12-14  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211353
+
+	* e-search-bar.c: (e_search_bar_get_viewitem_id):
+	Return -1 if no viewmenu is setup yet.
+
+2007-12-17  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Revamped Activity handler and task bar/widget for non-intrusive 
+	error reporting
+
+	* e-activity-handler.c: (activity_info_new), (activity_info_free),
+	(task_widget_new_from_activity_info), (setup_task_bar),
+	(e_activity_handler_init),
+	(e_activity_handler_set_error_flush_time),
+	(e_activity_handler_set_logger), (cancel_wrapper),
+	(e_activity_handler_cancelable_operation_started),
+	(e_activity_handler_operation_started), (handle_error),
+	(error_cleanup), (e_activity_handler_make_error),
+	(e_activity_handler_operation_set_error),
+	(e_activity_handler_operation_progressing),
+	(e_activity_handler_operation_finished):
+	* e-activity-handler.h:
+	* e-task-bar.c: (e_task_bar_prepend_task),
+	(e_task_bar_remove_task_from_id), (e_task_bar_remove_task),
+	(e_task_bar_get_task_widget_from_id):
+	* e-task-bar.h:
+	* e-task-widget.c: (e_task_widget_init), (button_press_event_cb),
+	(prepare_popup), (e_task_widget_construct),
+	(e_task_widget_new_with_cancel), (e_task_widget_new),
+	(e_task_widget_update_image):
+	* e-task-widget.h:
+
+2007-12-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747 (extra cleanup work)
+
+	* e-calendar-item.c (e_calendar_item_show_popup_menu):
+	Call e_get_month_name() instead of e_utf8_strftime().
+
+2007-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #392747
+
+	* e-calendar-item.h (struct _ECalendarItem):
+	* e-calendar-item.c (e_calendar_item_init), (e_calendar_item_draw):
+	Lose the local weekday name cache and just call e_get_weekday_name().
+
+2007-12-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* Makefile.am:
+	Add e-signature-combo-box.[ch].
+
+	* e-account-combo-box.c (account_combo_box_refresh_cb):
+	Make sure the EAccount isn't lost while swapping models.
+
+	* e-signature-combo-box.c:
+	* e-signature-combo-box.h:
+	New widget renders an ESignatureList as a combo box.  Also listens
+	for changes to the ESignatureList and updates itself accordingly.
+
+2007-11-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #495123
+
+	* Makefile.am:
+	Add e-account-combo-box.[ch].
+
+	* e-account-combo-box.c:
+	* e-account-combo-box.h:
+	New widget renders an EAccountList as a combo box.  Also listens
+	for changes to the EAccountList and updates itself accordingly.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #231166
+
+	* e-dateedit.c: (create_children), (e_date_edit_check_time_changed),
+	(rebuild_time_popup), (on_date_edit_time_selected),
+	(on_time_entry_key_press), (e_date_edit_update_time_entry),
+	(e_date_edit_grab_focus), (e_date_edit_update_time_combo_state):
+	Migrate from gtk_combo to gtk_com_box_entry for time_combo.
+
+2007-11-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #351932
+
+	* e-dateedit.h: (e_date_edit_have_time):
+	* e-dateedit.c: (e_date_edit_have_time): Extend API to be able
+	to check if time is set independently of date part.
+
+2007-10-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-activity-handler.c: (e_activity_handler_new):
+	* e-canvas.c: (e_canvas_new), (emit_event), (pick_current_item),
+	(e_canvas_button):
+	* e-combo-button.c: (menu_detacher), (impl_destroy),
+	(impl_button_press_event):
+	* e-combo-cell-editable.c: (e_combo_cell_editable_new):
+	* e-expander.c: (e_expander_init), (e_expander_size_request),
+	(e_expander_size_allocate), (e_expander_button_press),
+	(e_expander_focus):
+	* e-gui-utils.c: (e_popup_menu),
+	(e_container_change_tab_order_callback):
+	* e-image-chooser.c: (image_drag_data_received_cb):
+	* e-info-label.c: (e_info_label_new):
+	* e-map.c: (e_map_key_press), (e_map_new), (update_render_pixbuf),
+	(blowup_window_area), (zoom_do), (set_scroll_area):
+	* e-pilot-settings.c: (e_pilot_settings_get_source):
+	* e-printable.c: (e_printable_will_fit):
+	* e-reflow.c: (items_inserted), (model_changed), (set_empty),
+	(e_reflow_event), (e_reflow_draw):
+	* e-search-bar.c: (set_option):
+	* e-search-bar.h:
+	* e-unicode.c: (e_xml_get_translated_utf8_string_prop_by_name):
+	
+	Warning fixes:
+	- NULL vs 0 vs FALSE
+	- ANSIfication of function declarations.
+	- Use non-deprecated GSignal functions
+	- Don't mix different enum types
+
+2007-10-31  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #483785
+
+	* e-url-entry.c: (init):
+	Use go-jump icon instead of stock_connect-to-url
+	to get rid of deprecated icons from gnome-icon-theme.
+
+2007-10-26  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	** Workaround for bug #395272
+
+	* e-search-bar.c:
+	Minor code cleanups and value checking
+
+2007-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #417999
+
+	* e-pilot-settings.c:
+	Use ESourceComboBox instead of ESourceOptionMenu (deprecated).
+
 2007-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #437579

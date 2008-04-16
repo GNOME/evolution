@@ -42,7 +42,7 @@ GType
 filter_code_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterCodeClass),
@@ -55,10 +55,10 @@ filter_code_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_code_init,
 		};
-		
+
 		type = g_type_register_static (FILTER_TYPE_INPUT, "FilterCode", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -67,11 +67,11 @@ filter_code_class_init (FilterCodeClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (FILTER_TYPE_INPUT);
-	
+
 	object_class->finalize = filter_code_finalise;
-	
+
 	/* override methods */
 	fe_class->build_code = build_code;
 	fe_class->format_sexp = format_sexp;
@@ -94,7 +94,7 @@ filter_code_finalise (GObject *obj)
  * filter_code_new:
  *
  * Create a new FilterCode object.
- * 
+ *
  * Return value: A new #FilterCode object.
  **/
 FilterCode *

@@ -92,7 +92,7 @@ main (int argc, char **argv)
 		GNOME_PARAM_NONE);
 
 	/* Parsing Parameter */
-	if (g_strv_length (opt_remaining) > 0)
+	if (opt_remaining && g_strv_length (opt_remaining) > 0)
 		opt_addressbook_folder_uri = g_strdup (opt_remaining[0]);
 
 	if (opt_list_folders_mode != FALSE) {

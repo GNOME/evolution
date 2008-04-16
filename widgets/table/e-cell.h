@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell.h
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -76,7 +76,7 @@ typedef struct _ECellView {
 	ECell *ecell;
 	ETableModel *e_table_model;
 	void        *e_table_item_view;
-	
+
 	gint   focus_x1, focus_y1, focus_x2, focus_y2;
 	gint   focus_col, focus_row;
 
@@ -88,7 +88,7 @@ typedef struct _ECellView {
 
 typedef struct {
 	GtkObjectClass parent_class;
-	
+
 	ECellView *(*new_view)         (ECell *ecell, ETableModel *table_model, void *e_table_item_view);
 	void       (*kill_view)        (ECellView *ecell_view);
 

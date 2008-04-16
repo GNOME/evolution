@@ -42,10 +42,10 @@ char *itip_get_comp_attendee (ECalComponent *comp, ECal *client);
 gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
 			 ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users);
 
-gboolean itip_publish_comp (ECal *client, gchar* uri, gchar* username, 
+gboolean itip_publish_comp (ECal *client, gchar* uri, gchar* username,
 			    gchar* password, ECalComponent **pub_comp);
 
-gboolean itip_publish_begin (ECalComponent *pub_comp, ECal *client, 
+gboolean itip_publish_begin (ECalComponent *pub_comp, ECal *client,
 			     gboolean cloned, ECalComponent **clone);
 
 gboolean reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp,

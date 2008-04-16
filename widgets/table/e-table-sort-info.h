@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-sort-info.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -45,12 +45,12 @@ struct _ETableSortColumn {
 
 typedef struct {
 	GObject   base;
-	
+
 	gint group_count;
 	ETableSortColumn *groupings;
 	gint sort_count;
 	ETableSortColumn *sortings;
-	
+
 	guint frozen : 1;
 	guint sort_info_changed : 1;
 	guint group_info_changed : 1;

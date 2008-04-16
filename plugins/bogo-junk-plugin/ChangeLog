@@ -1,3 +1,10 @@
+2008-03-19  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #519304
+
+	* org-gnome-bogo-junk-plugin.eplug.xml:
+	Mark plugin name for translation.
+
 2007-09-27  Matthew Barnes  <mbarnes@redhat.com>
 
 	* bf-junk-filter.c:

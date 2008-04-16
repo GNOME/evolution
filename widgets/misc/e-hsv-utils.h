@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-hsv-utils.h - utilites for manipulating colours in HSV space
  * Copyright (C) 1995-2001 Seth Nickell, Peter Mattis, Spencer Kimball and Josh MacDonald
  *

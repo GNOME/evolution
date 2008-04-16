@@ -44,7 +44,7 @@ enum _eab_menu_target_t {
 
 /**
  * enum _eab_menu_target_select_t - EABMenuTargetSelect qualifiers.
- * 
+ *
  * @EAB_MENU_SELECT_ONE: Only one item is selected.
  * @EAB_MENU_SELECT_MANY: More than one item selected.
  * @EAB_MENU_SELECT_ANY: One or more items selected.

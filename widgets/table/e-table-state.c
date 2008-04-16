@@ -52,7 +52,7 @@ etst_dispose (GObject *object)
 
 	G_OBJECT_CLASS (e_table_state_parent_class)->dispose (object);
 }
-	
+
 static void
 etst_finalize (GObject *object)
 {
@@ -67,7 +67,7 @@ etst_finalize (GObject *object)
 		g_free (etst->expansions);
 		etst->expansions = NULL;
 	}
-	
+
 	G_OBJECT_CLASS (e_table_state_parent_class)->finalize (object);
 }
 
@@ -130,7 +130,7 @@ e_table_state_load_from_file    (ETableState *state,
 	return FALSE;
 }
 
-void 
+void
 e_table_state_load_from_string  (ETableState *state,
 				 const char          *xml)
 {
@@ -192,7 +192,7 @@ e_table_state_load_from_node (ETableState *state,
 
 	for (iterator = list, i = 0; iterator; i++) {
 		int_and_double *column_info = iterator->data;
-		
+
 		state->columns [i] = column_info->column;
 		state->expansions [i] = column_info->expansion;
 		g_free (column_info);
@@ -206,14 +206,14 @@ e_table_state_save_to_file      (ETableState *state,
 				 const char          *filename)
 {
 	xmlDoc *doc;
-	
+
 	if ((doc = xmlNewDoc ((const unsigned char *)"1.0")) == NULL)
 		return;
-	
+
 	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
-	
+
 	e_xml_save_file (filename, doc);
-	
+
 	xmlFreeDoc (doc);
 }
 
@@ -279,7 +279,7 @@ e_table_state_duplicate (ETableState *state)
 {
 	ETableState *new_state;
 	char *copy;
-	
+
 	g_return_val_if_fail (state != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 

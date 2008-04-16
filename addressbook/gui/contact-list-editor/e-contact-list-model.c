@@ -2,283 +2,198 @@
 
 #include <config.h>
 #include <string.h>
+
 #include "e-contact-list-model.h"
 #include "e-util/e-error.h"
 
-#include <gtk/gtkmessagedialog.h>
-#define PARENT_TYPE e_table_model_get_type()
-static ETableModelClass *parent_class;
-
-#define COLS 1
-
-/* This function returns the number of columns in our ETableModel. */
-static int
-contact_list_col_count (ETableModel *etc)
-{
-	return COLS;
-}
-
-/* This function returns the number of rows in our ETableModel. */
-static int
-contact_list_row_count (ETableModel *etc)
-{
-	EContactListModel *model = E_CONTACT_LIST_MODEL (etc);
-	return model->data_count;
-}
-
-/* This function returns the value at a particular point in our ETableModel. */
-static void *
-contact_list_value_at (ETableModel *etc, int col, int row)
-{
-	EContactListModel *model = E_CONTACT_LIST_MODEL (etc);
-
-	return (void *) e_destination_get_textrep (model->data[row], TRUE);
-}
-
-/* This function sets the value at a particular point in our ETableModel. */
-static void
-contact_list_set_value_at (ETableModel *etc, int col, int row, const void *val)
-{
-	/* nothing */
-}
-
-/* This function returns whether a particular cell is editable. */
-static gboolean
-contact_list_is_cell_editable (ETableModel *etc, int col, int row)
-{
-	return FALSE;
-}
-
-/* This function duplicates the value passed to it. */
-static void *
-contact_list_duplicate_value (ETableModel *etc, int col, const void *value)
-{
-	return g_strdup(value);
-}
-
-/* This function frees the value passed to it. */
-static void
-contact_list_free_value (ETableModel *etc, int col, void *value)
-{
-	g_free(value);
-}
-
-static void *
-contact_list_initialize_value (ETableModel *etc, int col)
-{
-	return g_strdup("");
-}
+static gpointer parent_class;
 
 static gboolean
-contact_list_value_is_empty (ETableModel *etc, int col, const void *value)
+contact_list_get_iter (EContactListModel *model,
+                       GtkTreeIter *iter,
+                       gint row)
 {
-	return !(value && *(char *)value);
+	GtkTreePath *path;
+	gboolean iter_valid;
+
+	path = gtk_tree_path_new_from_indices (row, -1);
+	iter_valid = gtk_tree_model_get_iter (
+		GTK_TREE_MODEL (model), iter, path);
+	gtk_tree_path_free (path);
+
+	return iter_valid;
 }
 
-static char *
-contact_list_value_to_string (ETableModel *etc, int col, const void *value)
+static GObject *
+contact_list_model_constructor (GType type,
+                                guint n_construct_properties,
+                                GObjectConstructParam *construct_properties)
 {
-	return g_strdup(value);
-}
+	GObject *object;
+	GType types[1];
 
-static void
-contact_list_model_dispose (GObject *o)
-{
-	EContactListModel *model = E_CONTACT_LIST_MODEL (o);
-	int i;
+	types[0] = E_TYPE_DESTINATION;
 
-	if (model->data != NULL) {
-		for (i = 0; i < model->data_count; i ++) {
-			g_object_unref (model->data[i]);
-		}
-		g_free (model->data);
-		model->data = NULL;
-	}
+	/* Chain up to parent's constructor() method. */
+	object = G_OBJECT_CLASS (parent_class)->constructor (
+		type, n_construct_properties, construct_properties);
 
-	model->data_count = 0;
-	model->data_alloc = 0;
+	gtk_list_store_set_column_types (
+		GTK_LIST_STORE (object), G_N_ELEMENTS (types), types);
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (o);
-}
-
-static void
-e_contact_list_model_class_init (GObjectClass *object_class)
-{
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	object_class->dispose = contact_list_model_dispose;
-
-	model_class->column_count = contact_list_col_count;
-	model_class->row_count = contact_list_row_count;
-	model_class->value_at = contact_list_value_at;
-	model_class->set_value_at = contact_list_set_value_at;
-	model_class->is_cell_editable = contact_list_is_cell_editable;
-	model_class->duplicate_value = contact_list_duplicate_value;
-	model_class->free_value = contact_list_free_value;
-	model_class->initialize_value = contact_list_initialize_value;
-	model_class->value_is_empty = contact_list_value_is_empty;
-	model_class->value_to_string = contact_list_value_to_string;
+	return object;
 }
 
 static void
-e_contact_list_model_init (GObject *object)
+contact_list_model_class_init (EContactListModelClass *class)
 {
-	EContactListModel *model = E_CONTACT_LIST_MODEL(object);
+	GObjectClass *object_class;
 
-	model->data_alloc = 10;
-	model->data_count = 0;
-	model->data = g_new (EDestination*, model->data_alloc);
+	parent_class = g_type_class_peek_parent (class);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructor = contact_list_model_constructor;
 }
 
 GType
 e_contact_list_model_get_type (void)
 {
-	static GType cle_type = 0;
+	static GType type = 0;
 
-	if (!cle_type) {
-		static const GTypeInfo cle_info =  {
+	if (G_UNLIKELY (type == 0))
+		type = g_type_register_static_simple (
+			GTK_TYPE_LIST_STORE,
+			"EContactListModel",
 			sizeof (EContactListModelClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_contact_list_model_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
+			(GClassInitFunc) contact_list_model_class_init,
 			sizeof (EContactListModel),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_contact_list_model_init,
-		};
+			(GInstanceInitFunc) NULL, 0);
 
-		cle_type = g_type_register_static (E_TABLE_MODEL_TYPE, "EContactListModel", &cle_info, 0);
+	return type;
+}
+
+GtkTreeModel *
+e_contact_list_model_new (void)
+{
+	return g_object_new (E_TYPE_CONTACT_LIST_MODEL, NULL);
+}
+
+gboolean
+e_contact_list_model_has_email (EContactListModel *model,
+                                const gchar *email)
+{
+	GtkTreeIter iter;
+	gboolean iter_valid;
+	gboolean has_email = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), FALSE);
+	g_return_val_if_fail (email != NULL, FALSE);
+
+	iter_valid = gtk_tree_model_get_iter_first (
+		GTK_TREE_MODEL (model), &iter);
+
+	while (!has_email && iter_valid) {
+		EDestination *destination;
+		const gchar *textrep;
+
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (model), &iter, 0, &destination, -1);
+		textrep = e_destination_get_textrep (destination, TRUE);
+		has_email = (strcmp (email, textrep) == 0);
+		g_object_unref (destination);
+
+		iter_valid = gtk_tree_model_iter_next (
+			GTK_TREE_MODEL (model), &iter);
 	}
 
-	return cle_type;
+	return has_email;
 }
 
 void
-e_contact_list_model_construct (EContactListModel *model)
+e_contact_list_model_add_destination (EContactListModel *model,
+                                      EDestination *destination)
 {
-}
+	GtkTreeIter iter;
 
-ETableModel *
-e_contact_list_model_new ()
-{
-	EContactListModel *model;
-
-	model = g_object_new (E_TYPE_CONTACT_LIST_MODEL, NULL);
-
-	e_contact_list_model_construct (model);
-
-	return E_TABLE_MODEL(model);
-}
-
-void
-e_contact_list_model_add_destination (EContactListModel *model, EDestination *dest)
-{
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
-	g_return_if_fail (E_IS_DESTINATION (dest));
+	g_return_if_fail (E_IS_DESTINATION (destination));
 
-	e_table_model_pre_change (E_TABLE_MODEL (model));
-
-	if (model->data_count + 1 >= model->data_alloc) {
-		model->data_alloc *= 2;
-		model->data = g_renew (EDestination*, model->data, model->data_alloc);
-	}
-
-	model->data[model->data_count ++] = dest;
-	g_object_ref (dest);
-
-	e_table_model_row_inserted (E_TABLE_MODEL (model), model->data_count - 1);
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, destination, -1);
 }
 
 void
 e_contact_list_model_add_email (EContactListModel *model,
-				const char *email)
+                                const gchar *email)
 {
-	EDestination *new_dest;
-	char *list_email;
-	int row;
-	int row_count;
+	const gchar *tag = "addressbook:ask-list-add-exists";
+	EDestination *destination;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (email != NULL);
 
-	row_count = e_table_model_row_count (E_TABLE_MODEL (model));
+	if (e_contact_list_model_has_email (model, email))
+		if (e_error_run (NULL, tag, email) != GTK_RESPONSE_YES)
+			return;
 
-	for (row = 0; row < row_count; row++) {
-		list_email = (char *) e_table_model_value_at (E_TABLE_MODEL (model), 1, row);
-		
-		if (strcmp (list_email, email) == 0) {
-			if (e_error_run (NULL, "addressbook:ask-list-add-exists", 
-					 email) != GTK_RESPONSE_YES)
-				return;
-			break;
-		}
-	}
-
-	new_dest = e_destination_new ();
-	e_destination_set_email (new_dest, email);
-
-	e_contact_list_model_add_destination (model, new_dest);
+	destination = e_destination_new ();
+	e_destination_set_email (destination, email);
+	e_contact_list_model_add_destination (model, destination);
 }
 
 void
 e_contact_list_model_add_contact (EContactListModel *model,
-				  EContact *contact,
-				  int email_num)
+                                  EContact *contact,
+                                  gint email_num)
 {
-	EDestination *new_dest;
+	EDestination *destination;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	new_dest = e_destination_new ();
-	e_destination_set_contact (new_dest, contact, email_num);
-
-	e_contact_list_model_add_destination (model, new_dest);
+	destination = e_destination_new ();
+	e_destination_set_contact (destination, contact, email_num);
+	e_contact_list_model_add_destination (model, destination);
 }
 
 void
-e_contact_list_model_remove_row (EContactListModel *model, int row)
+e_contact_list_model_remove_row (EContactListModel *model,
+                                 gint row)
 {
+	GtkTreeIter iter;
+	gboolean iter_valid;
+
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
-	g_return_if_fail (0 <= row && row < model->data_count);
 
-	e_table_model_pre_change (E_TABLE_MODEL (model));
+	iter_valid = contact_list_get_iter (model, &iter, row);
+	g_return_if_fail (iter_valid);
 
-	g_object_unref (model->data[row]);
-	memmove (model->data + row, model->data + row + 1, sizeof (EDestination*) * (model->data_count - row - 1));
-	model->data_count --;
-
-	e_table_model_row_deleted (E_TABLE_MODEL (model), row);
+	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 }
 
 void
 e_contact_list_model_remove_all (EContactListModel *model)
 {
-	int i;
-
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 
-	e_table_model_pre_change (E_TABLE_MODEL (model));
-
-	for (i = 0; i < model->data_count; i ++) {
-		g_object_unref (model->data[i]);
-		model->data[i] = NULL;
-	}
-
-	model->data_count = 0;
-
-	e_table_model_changed (E_TABLE_MODEL (model));
+	gtk_list_store_clear (GTK_LIST_STORE (model));
 }
 
-
-const EDestination *
-e_contact_list_model_get_destination (EContactListModel *model, int row)
+EDestination *
+e_contact_list_model_get_destination (EContactListModel *model,
+                                      gint row)
 {
-	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), NULL);
-	g_return_val_if_fail (0 <= row && row < model->data_count, NULL);
+	EDestination *destination;
+	GtkTreeIter iter;
+	gboolean iter_valid;
 
-	return model->data[row];
+	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), NULL);
+
+	iter_valid = contact_list_get_iter (model, &iter, row);
+	g_return_val_if_fail (iter_valid, NULL);
+
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (model), &iter, 0, &destination, -1);
+
+	return destination;
 }

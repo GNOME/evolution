@@ -25,6 +25,8 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <glib.h>
 #include <e-util/e-profile-event.h>

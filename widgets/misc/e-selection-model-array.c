@@ -70,7 +70,7 @@ e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int cou
 		} else if (esma->cursor_row < 0) {
 			esma->cursor_row = -1;
 		}
-		if (esma->cursor_row >= 0) 
+		if (esma->cursor_row >= 0)
 			e_bit_array_change_one_row(esma->eba, esma->cursor_row, TRUE);
 
 		esma->selected_row = -1;
@@ -177,7 +177,7 @@ esma_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	}
 }
 
-/** 
+/**
  * e_selection_model_is_row_selected
  * @selection: #ESelectionModel to check
  * @n: The row to check
@@ -197,7 +197,7 @@ esma_is_row_selected (ESelectionModel *selection,
 		return FALSE;
 }
 
-/** 
+/**
  * e_selection_model_foreach
  * @selection: #ESelectionModel to traverse
  * @callback: The callback function to call back.
@@ -206,7 +206,7 @@ esma_is_row_selected (ESelectionModel *selection,
  * This routine calls the given callback function once for each
  * selected row, passing closure as the closure.
  */
-static void 
+static void
 esma_foreach (ESelectionModel *selection,
 	      EForeachFunc     callback,
 	      gpointer         closure)
@@ -216,7 +216,7 @@ esma_foreach (ESelectionModel *selection,
 		e_bit_array_foreach(esma->eba, callback, closure);
 }
 
-/** 
+/**
  * e_selection_model_clear
  * @selection: #ESelectionModel to clear
  *
@@ -241,7 +241,7 @@ esma_clear(ESelectionModel *selection)
 #define PART(x,n) (((x) & (0x01010101 << n)) >> n)
 #define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
 
-/** 
+/**
  * e_selection_model_selected_count
  * @selection: #ESelectionModel to count
  *
@@ -259,7 +259,7 @@ esma_selected_count (ESelectionModel *selection)
 		return 0;
 }
 
-/** 
+/**
  * e_selection_model_select_all
  * @selection: #ESelectionModel to select all
  *
@@ -284,7 +284,7 @@ esma_select_all (ESelectionModel *selection)
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(esma), 0, 0);
 }
 
-/** 
+/**
  * e_selection_model_invert_selection
  * @selection: #ESelectionModel to invert
  *
@@ -299,7 +299,7 @@ esma_invert_selection (ESelectionModel *selection)
 	e_selection_model_array_confirm_row_count(esma);
 
 	e_bit_array_invert_selection(esma->eba);
-	
+
 	esma->cursor_col = -1;
 	esma->cursor_row = -1;
 	esma->selection_start_row = 0;
@@ -376,7 +376,7 @@ esma_real_select_single_row (ESelectionModel *selection, int row)
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(selection);
 
 	e_selection_model_array_confirm_row_count(esma);
-	
+
 	e_bit_array_select_single_row(esma->eba, row);
 
 	esma->selection_start_row = row;
@@ -538,14 +538,14 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 
 	klass->get_row_count          = NULL                    ;
 
-	g_object_class_install_property (object_class, PROP_CURSOR_ROW, 
+	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",
 							   _("Cursor Row"),
 							   /*_( */"XXX blurb" /*)*/,
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_COL, 
+	g_object_class_install_property (object_class, PROP_CURSOR_COL,
 					 g_param_spec_int ("cursor_col",
 							   _("Cursor Column"),
 							   /*_( */"XXX blurb" /*)*/,

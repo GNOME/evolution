@@ -7,17 +7,16 @@
   </error>
 
   <error id="camel-service-auth-failed" type="warning">
-    <_primary>Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed.</_primary>
+    <_primary>Your login to your server "{0}" as "{0}" failed.</_primary>
     <_secondary xml:space="preserve">Check to make sure your password is spelled correctly. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
   </error>
 
   <error id="ask-send-html" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to send a message in HTML format?</_primary>
     <_secondary xml:space="preserve">Please make sure the following recipients are willing and able to receive HTML email:
-{0}
-Send anyway?</_secondary>
-    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+{0}</_secondary>
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   </error>
 
   <error id="ask-send-no-subject" type="question" default="GTK_RESPONSE_YES">
@@ -56,7 +55,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   </error>
 
   <error id="ask-expunge" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Are you sure you want to permanently remove all the deleted messages in folder &quot;{0}&quot;?</_primary>
+    <_primary>Are you sure you want to permanently remove all the deleted messages in folder "{0}"?</_primary>
     <_secondary xml:space="preserve">If you continue, you will not be able to recover these messages.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Expunge" response="GTK_RESPONSE_YES"/>
@@ -136,93 +135,102 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   </error>
 
   <error id="no-save-path" type="error">
-    <_primary>Cannot save to directory &quot;{0}&quot;.</_primary>
+    <_primary>Cannot save to directory "{0}".</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="no-create-path" type="error">
-    <_primary>Cannot save to file &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">Cannot create the save directory, because &quot;{1}&quot;</_secondary>
+    <_primary>Cannot save to file "{0}".</_primary>
+    <_secondary xml:space="preserve">Cannot create the save directory, because "{1}"</_secondary>
   </error>
 
   <error id="no-create-tmp-path" type="error">
     <_primary>Cannot create temporary save directory.</_primary>
-    <_secondary xml:space="preserve">Because &quot;{1}&quot;.</_secondary>
+    <_secondary xml:space="preserve">Because "{1}".</_secondary>
   </error>
 
   <error id="no-write-path-exists" type="error">
-    <_primary>Cannot save to file &quot;{0}&quot;.</_primary>
+    <_primary>Cannot save to file "{0}".</_primary>
     <_secondary xml:space="preserve">File exists but cannot overwrite it.</_secondary>
   </error>
 
   <error id="no-write-path-notfile" type="error">
-    <_primary>Cannot save to file &quot;{0}&quot;.</_primary>
+    <_primary>Cannot save to file "{0}".</_primary>
     <_secondary xml:space="preserve">File exists but is not a regular file.</_secondary>
   </error>
 
   <error id="no-delete-folder" type="error">
-    <_primary>Cannot delete folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">Because &quot;{1}&quot;.</_secondary>
+    <_primary>Cannot delete folder "{0}".</_primary>
+    <_secondary xml:space="preserve">Because "{1}".</_secondary>
   </error>
 
   <error id="no-delete-special-folder" type="error">
-    <_primary>Cannot delete system folder &quot;{0}&quot;.</_primary>
+    <_primary>Cannot delete system folder "{0}".</_primary>
     <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
   <error id="no-rename-special-folder" type="error">
-    <_primary>Cannot rename or move system folder &quot;{0}&quot;.</_primary>
+    <_primary>Cannot rename or move system folder "{0}".</_primary>
     <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
   <error id="ask-delete-folder" type="question" default="GTK_RESPONSE_CANCEL">
-    <_title>Delete &quot;{0}&quot;?</_title>
-    <_primary>Really delete folder &quot;{0}&quot; and all of its subfolders?</_primary>
+    <_title>Delete "{0}"?</_title>
+    <_primary>Really delete folder "{0}" and all of its subfolders?</_primary>
     <_secondary xml:space="preserve">If you delete the folder, all of its contents and its subfolders contents will be deleted permanently.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="ask-delete-vfolder" type="question" default="GTK_RESPONSE_CANCEL">
-    <_title>Delete &quot;{0}&quot;?</_title>
-    <_primary>Really delete folder &quot;{0}&quot; and all of its subfolders?</_primary>
+    <_title>Delete "{0}"?</_title>
+    <_primary>Really delete folder "{0}" and all of its subfolders?</_primary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+  </error>
+
+  <error id="ask-delete-vfolder-msg" type="question" default="GTK_RESPONSE_CANCEL">
+    <_title>Delete messages in Search Folder?</_title>
+    <_primary>Delete messages in Search Folder "{0}"?</_primary>
+    <_secondary xml:space="preserve">Warning: Deleting messages from a Search Folder will delete the actual message from one of your local or remote folders.
+Do you really want to do this?</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="no-rename-folder-exists" type="error">
-    <_primary>Cannot rename &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
-    <_secondary xml:space="preserve">A folder named &quot;{1}&quot; already exists. Please use a different name.</_secondary>
+    <_primary>Cannot rename "{0}" to "{1}".</_primary>
+    <_secondary xml:space="preserve">A folder named "{1}" already exists. Please use a different name.</_secondary>
   </error>
 
   <error id="no-rename-folder" type="error">
-    <_primary>Cannot rename &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
-    <_secondary xml:space="preserve">Because &quot;{2}&quot;.</_secondary>
+    <_primary>Cannot rename "{0}" to "{1}".</_primary>
+    <_secondary xml:space="preserve">Because "{2}".</_secondary>
   </error>
 
   <error id="no-move-folder-nostore" type="error">
-    <_primary>Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
-    <_secondary xml:space="preserve">Cannot open source &quot;{2}&quot;.</_secondary>
+    <_primary>Cannot move folder "{0}" to "{1}".</_primary>
+    <_secondary xml:space="preserve">Cannot open source "{2}".</_secondary>
   </error>
 
   <error id="no-move-folder-to-nostore" type="error">
-    <_primary>Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
-    <_secondary xml:space="preserve">Cannot open target &quot;{2}&quot;.</_secondary>
+    <_primary>Cannot move folder "{0}" to "{1}".</_primary>
+    <_secondary xml:space="preserve">Cannot open target "{2}".</_secondary>
   </error>
 
   <error id="no-copy-folder-nostore" type="error">
-    <_primary>Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
-    <_secondary xml:space="preserve">Cannot open source &quot;{2}&quot;.</_secondary>
+    <_primary>Cannot copy folder "{0}" to "{1}".</_primary>
+    <_secondary xml:space="preserve">Cannot open source "{2}".</_secondary>
   </error>
 
   <error id="no-copy-folder-to-nostore" type="error">
-    <_primary>Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;.</_primary>
-    <_secondary xml:space="preserve">Cannot open target &quot;{2}&quot;.</_secondary>
+    <_primary>Cannot copy folder "{0}" to "{1}".</_primary>
+    <_secondary xml:space="preserve">Cannot open target "{2}".</_secondary>
   </error>
 
   <error id="no-create-folder-nostore" type="error">
-    <_primary>Cannot create folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">Cannot open source &quot;{1}&quot;</_secondary>
+    <_primary>Cannot create folder "{0}".</_primary>
+    <_secondary xml:space="preserve">Cannot open source "{1}"</_secondary>
   </error>
 
   <error id="account-incomplete" type="error">
@@ -262,11 +270,11 @@ all proxy information will be deleted permanently.</_secondary>
 
   <error id="no-save-signature" type="error">
     <_primary>Could not save signature file.</_primary>
-    <_secondary xml:space="preserve">Because &quot;{0}&quot;.</_secondary>
+    <_secondary xml:space="preserve">Because "{0}".</_secondary>
   </error>
 
   <error id="signature-notscript" type="error">
-    <_primary>Cannot set signature script &quot;{0}&quot;.</_primary>
+    <_primary>Cannot set signature script "{0}".</_primary>
     <_secondary xml:space="preserve">The script file must exist and be executable.</_secondary>
   </error>
 
@@ -280,14 +288,14 @@ all proxy information will be deleted permanently.</_secondary>
   </error>
 
   <error id="vfolder-notexist" type="error">
-    <_primary>Cannot edit Search Folder &quot;{0}&quot; as it does not exist.</_primary>
+    <_primary>Cannot edit Search Folder "{0}" as it does not exist.</_primary>
     <_secondary xml:space="preserve">This folder may have been added implicitly,
 go to the Search Folder editor to add it explicitly, if required.</_secondary>
   </error>
 
   <error id="vfolder-notunique" type="error">
-    <_primary>Cannot add Search Folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">A folder named &quot;{0}&quot; already exists. Please use a different name.</_secondary>
+    <_primary>Cannot add Search Folder "{0}".</_primary>
+    <_secondary xml:space="preserve">A folder named "{0}" already exists. Please use a different name.</_secondary>
   </error>
 
   <error id="vfolder-updated" type="info">
@@ -295,7 +303,7 @@ go to the Search Folder editor to add it explicitly, if required.</_secondary>
     <_secondary xml:space="preserve">The following Search Folder(s):
 {0}
 Used the now removed folder:
-    &quot;{1}&quot;
+    "{1}"
 And have been updated.</_secondary>
   </error>
 
@@ -304,7 +312,7 @@ And have been updated.</_secondary>
     <_secondary xml:space="preserve">The following filter rule(s):
 {0}
 Used the now removed folder:
-    &quot;{1}&quot;
+    "{1}"
 And have been updated.</_secondary>
   </error>
 
@@ -325,8 +333,8 @@ Either by selecting the folders individually, and/or by selecting all local fold
   </error>
 
   <error id="ask-migrate-existing" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Problem migrating old mail folder &quot;{0}&quot;.</_primary>
-    <_secondary xml:space="preserve">A non-empty folder at &quot;{1}&quot; already exists.
+    <_primary>Problem migrating old mail folder "{0}".</_primary>
+    <_secondary xml:space="preserve">A non-empty folder at "{1}" already exists.
 
 You can choose to ignore this folder, overwrite or append its contents, or quit.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
@@ -337,7 +345,7 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
 
   <error id="no-load-license" type="error">
     <_primary>Unable to read license file.</_primary>
-    <_secondary xml:space="preserve">Cannot read the license file &quot;{0}&quot;, due to an installation problem. You will not be able to use this provider until you can accept its license.</_secondary>
+    <_secondary xml:space="preserve">Cannot read the license file "{0}", due to an installation problem. You will not be able to use this provider until you can accept its license.</_secondary>
   </error>
 
   <error id="checking-service" type="info">
@@ -355,7 +363,7 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   <error id="ask-receipt" type="question" default="GTK_RESPONSE_NO">
     <_title>Read receipt requested.</_title>
     <_primary>Read receipt requested.</_primary>
-    <_secondary xml:space="preserve">A read receipt notification has been requested for &quot;{1}&quot;. Send the receipt notification to {0}?</_secondary>
+    <_secondary xml:space="preserve">A read receipt notification has been requested for "{1}". Send the receipt notification to {0}?</_secondary>
     <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-yes" _label="Send Receipt" response="GTK_RESPONSE_YES"/>
   </error>
@@ -385,7 +393,7 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
 
   <error id="signature-already-exists" type="error" modal="true">
     <_primary>Signature Already Exists</_primary>
-    <_secondary>A signature already exists with the name &quot;{0}&quot;. Please specify a different name. </_secondary>
+    <_secondary>A signature already exists with the name "{0}". Please specify a different name. </_secondary>
   </error>
   
   <error id="blank-signature" type="error" modal="true">

@@ -51,9 +51,9 @@ make_item (GtkMenu *menu, GtkMenuItem *item, const char *name, GtkWidget *pixmap
 	label = gtk_label_new_with_mnemonic (name);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
-	
+
 	gtk_container_add (GTK_CONTAINER (item), label);
-	
+
 	if (pixmap && GTK_IS_IMAGE_MENU_ITEM (item)){
 		gtk_widget_show (pixmap);
 		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), pixmap);
@@ -151,12 +151,12 @@ void
 e_popup_menu_run (EPopupMenu *menu_list, GdkEvent *event, guint32 disable_mask, guint32 hide_mask, void *default_closure)
 {
 	GtkMenu *menu;
-	
+
 	g_return_if_fail (menu_list != NULL);
 	g_return_if_fail (event != NULL);
-	
+
 	menu = e_popup_menu_create (menu_list, disable_mask, hide_mask, default_closure);
-	
+
 	e_popup_menu (menu, event);
 }
 

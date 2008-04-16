@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-toggle.h - Multi-state image toggle cell object.
  * Copyright 1999, 2000, Ximian, Inc.
  *

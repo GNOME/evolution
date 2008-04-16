@@ -28,23 +28,23 @@
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
  * the License at http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS
  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
- * 
+ *
  * The Original Code is the Netscape security libraries.
- * 
+ *
  * The Initial Developer of the Original Code is Netscape
- * Communications Corporation.  Portions created by Netscape are 
+ * Communications Corporation.  Portions created by Netscape are
  * Copyright (C) 2000 Netscape Communications Corporation.  All
  * Rights Reserved.
- * 
+ *
  * Alternatively, the contents of this file may be used under the
  * terms of the GNU General Public License Version 2 or later (the
- * "GPL"), in which case the provisions of the GPL are applicable 
- * instead of those above.  If you wish to allow use of your 
+ * "GPL"), in which case the provisions of the GPL are applicable
+ * instead of those above.  If you wish to allow use of your
  * version of this file only under the terms of the GPL and not to
  * allow others to use your version of this file under the MPL,
  * indicate your decision by deleting the provisions above and
@@ -87,6 +87,7 @@
 #include "plstr.h"
 #include "prprf.h"
 #include "prmem.h"
+#include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-util-private.h"
 #include <gtk/gtkmessagedialog.h>
@@ -177,18 +178,11 @@ initialize_nss (void)
 	char *evolution_dir_path;
 	gboolean success;
 
-	evolution_dir_path = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-
 #ifdef G_OS_WIN32
 	/* NSS wants filenames in system codepage */
-	{
-		char *cp_path = g_win32_locale_filename_from_utf8 (evolution_dir_path);
-
-		if (cp_path) {
-			g_free (evolution_dir_path);
-			evolution_dir_path = cp_path;
-		}
-	}
+	evolution_dir_path = g_win32_locale_filename_from_utf8 (e_get_user_data_dir ());
+#else
+	evolution_dir_path = g_strdup (e_get_user_data_dir ());
 #endif
 
 	/* we initialize NSS here to make sure it only happens once */
@@ -234,11 +228,11 @@ install_loadable_roots (void)
 	SECMODListLock *lock = SECMOD_GetDefaultModuleListLock ();
 	SECMODModule *RootsModule = NULL;
 	int i;
-	
+
 	SECMOD_GetReadLock (lock);
 	while (!RootsModule && list) {
 		SECMODModule *module = list->module;
-		
+
 		for (i = 0; i < module->slotCount; i++) {
 			PK11SlotInfo *slot = module->slots[i];
 			if (PK11_IsPresent (slot)) {
@@ -248,11 +242,11 @@ install_loadable_roots (void)
 				}
 			}
 		}
-		
+
 		list = list->next;
 	}
 	SECMOD_ReleaseReadLock (lock);
-	
+
 	if (RootsModule) {
 		/* Check version, and unload module if it is too old */
 		CK_INFO info;
@@ -265,24 +259,24 @@ install_loadable_roots (void)
 			 * define the version we expect to have.
 			 * Later version are fine.
 			 * Older versions are not ok, and we will replace with our own version.
-			 */ 
+			 */
 			if ((info.libraryVersion.major < NSS_BUILTINS_LIBRARY_VERSION_MAJOR)
 			    || (info.libraryVersion.major == NSS_BUILTINS_LIBRARY_VERSION_MAJOR
 				&& info.libraryVersion.minor < NSS_BUILTINS_LIBRARY_VERSION_MINOR)) {
 				PRInt32 modType;
-				
+
 				SECMOD_DeleteModule (RootsModule->commonName, &modType);
-				
+
 				RootsModule = NULL;
 			}
 		}
 	}
-	
+
 	if (!RootsModule) {
 #ifndef G_OS_WIN32
 		/* grovel in various places for mozilla's built-in
 		   cert module.
-		   
+
 		   XXX yes this is gross.  *sigh*
 		*/
 		char *paths_to_check[] = {
@@ -294,10 +288,10 @@ install_loadable_roots (void)
 			"/opt/mozilla/lib",
 			"/opt/mozilla/lib/mozilla"
 		};
-		
+
 		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i ++) {
 			char *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
-			
+
 			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
 				PRInt32 modType;
 
@@ -308,7 +302,7 @@ install_loadable_roots (void)
 				g_free (dll_path);
 				break;
 			}
-			
+
 			g_free (dll_path);
 		}
 #else
@@ -464,7 +458,7 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 	}
 
 	dummy = NSSBase64_DecodeBuffer(NULL, &keyItem, db_key,
-				       (PRUint32)PL_strlen(db_key)); 
+				       (PRUint32)PL_strlen(db_key));
 
 	/* someday maybe we can speed up the search using the moduleID and slotID*/
 	moduleID = NS_NSS_GET_LONG(keyItem.data);
@@ -543,7 +537,7 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 		/* XXX free certlist? */
 		return NULL;
 	}
-  
+
 	if (CERT_LIST_END(CERT_LIST_HEAD(certlist), certlist)) {
 		/* XXX gerror */
 		CERT_DestroyCertificate(any_cert);
@@ -617,7 +611,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		const char* cert0IssuerName;
 		const char* cert1SubjectName;
 		const char* cert1IssuerName;
-		
+
 		cert0 = E_CERT (certs->data);
 		cert1 = E_CERT (certs->next->data);
 
@@ -629,16 +623,16 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 
 		if (!strcmp(cert1IssuerName, cert0SubjectName)) {
 			/* In this case, the first cert in the list signed the second,
-			   so the first cert is the root.  Let's display the last cert 
+			   so the first cert is the root.  Let's display the last cert
 			   in the list. */
 			certToShow = E_CERT (g_list_last (certs)->data);
 		}
 		else if (!strcmp(cert0IssuerName, cert1SubjectName)) {
-			/* In this case the second cert has signed the first cert.  The 
+			/* In this case the second cert has signed the first cert.  The
 			   first cert is the leaf, so let's display it. */
 			certToShow = cert0;
 		} else {
-			/* It's not a chain, so let's just show the first one in the 
+			/* It's not a chain, so let's just show the first one in the
 			   downloaded list. */
 			certToShow = cert0;
 		}
@@ -692,7 +686,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		}
 
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("trust is %d\n", trustBits));*/
-		
+
 		nickname = CERT_MakeCANickname(tmpCert);
 
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Created nick \"%s\"\n", nickname.get()));*/
@@ -706,7 +700,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 
 		srv = CERT_AddTempCertToPerm(tmpCert,
 					     nickname,
-					     &trust); 
+					     &trust);
 
 		if (srv != SECSuccess) {
 			/* XXX gerror */
@@ -727,7 +721,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 			certToShow = do_QueryElementAt(x509Certs, i);
 			certToShow->GetRawDER(&der.len, (PRUint8 **)&der.data);
 
-			CERTCertificate *tmpCert2 = 
+			CERTCertificate *tmpCert2 =
 				CERT_NewTempCertificate(certdb, &der, nsnull, PR_FALSE, PR_TRUE);
 
 			if (!tmpCert2) {
@@ -735,7 +729,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 				continue;  /* Let's try to import the rest of 'em */
 			}
 			nickname.Adopt(CERT_MakeCANickname(tmpCert2));
-			CERT_AddTempCertToPerm(tmpCert2, NS_CONST_CAST(char*,nickname.get()), 
+			CERT_AddTempCertToPerm(tmpCert2, NS_CONST_CAST(char*,nickname.get()),
 					       defaultTrust.GetTrust());
 			CERT_DestroyCertificate(tmpCert2);
 		}
@@ -762,15 +756,15 @@ e_cert_db_delete_cert (ECertDB *certdb,
 	if (cert->slot && e_cert_get_cert_type (ecert) != E_CERT_USER) {
 		/* To delete a cert of a slot (builtin, most likely), mark it as
 		   completely untrusted.  This way we keep a copy cached in the
-		   local database, and next time we try to load it off of the 
-		   external token/slot, we'll know not to trust it.  We don't 
+		   local database, and next time we try to load it off of the
+		   external token/slot, we'll know not to trust it.  We don't
 		   want to do that with user certs, because a user may  re-store
-		   the cert onto the card again at which point we *will* want to 
+		   the cert onto the card again at which point we *will* want to
 		   trust that cert if it chains up properly. */
 		CERTCertTrust trust;
 
 		e_cert_trust_init_with_values (&trust, 0, 0, 0);
-		srv = CERT_ChangeCertTrust(CERT_GetDefaultCertDB(), 
+		srv = CERT_ChangeCertTrust(CERT_GetDefaultCertDB(),
 					   cert, &trust);
 	}
 
@@ -802,7 +796,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 	for (i=0; i<certCollection->numcerts; i++) {
 		SECItem *currItem = &certCollection->rawCerts[i];
 		ECert *cert;
-		
+
 		cert = e_cert_new_from_der ((char*)currItem->data, currItem->len);
 		if (!cert) {
 			/* XXX gerror */
@@ -822,7 +816,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 		/* XXX gerror */
 		PORT_FreeArena(arena, PR_FALSE);
 		rv = FALSE;
-	}  
+	}
 
 	g_list_foreach (certs, (GFunc)g_object_unref, NULL);
 	g_list_free (certs);
@@ -870,7 +864,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	for ( i = 0; i < numcerts; i++ ) {
 		rawCerts[i] = &certCollection->rawCerts[i];
 	}
- 
+
 	srv = CERT_ImportCerts(CERT_GetDefaultCertDB(), certUsageEmailSigner,
 			       numcerts, rawCerts, NULL, PR_TRUE, PR_FALSE,
 			       NULL);
@@ -884,14 +878,14 @@ e_cert_db_import_email_cert (ECertDB *certdb,
  loser:
 	if (cert)
 		CERT_DestroyCertificate(cert);
-	if (arena) 
+	if (arena)
 		PORT_FreeArena(arena, PR_TRUE);
 	return rv;
 }
 
 static char *
 default_nickname (CERTCertificate *cert)
-{   
+{
 	/*  nsNSSShutDownPreventionLock locker; */
 	char *username = NULL;
 	char *caname = NULL;
@@ -906,19 +900,19 @@ default_nickname (CERTCertificate *cert)
 	CERTCertDBHandle *defaultcertdb = CERT_GetDefaultCertDB();
 
 	username = CERT_GetCommonName(&cert->subject);
-	if ( username == NULL ) 
+	if ( username == NULL )
 		username = PL_strdup("");
 
-	if ( username == NULL ) 
+	if ( username == NULL )
 		goto loser;
-    
+
 	caname = CERT_GetOrgName(&cert->issuer);
-	if ( caname == NULL ) 
+	if ( caname == NULL )
 		caname = PL_strdup("");
-  
-	if ( caname == NULL ) 
+
+	if ( caname == NULL )
 		goto loser;
-  
+
 	count = 1;
 
 	nickFmt = "%1$s's %2$s ID";
@@ -940,28 +934,28 @@ default_nickname (CERTCertificate *cert)
 		tmp = NULL;
 	}
 	tmp = nickname;
-	while ( 1 ) {	
+	while ( 1 ) {
 		if ( count > 1 ) {
 			nickname = PR_smprintf("%s #%d", tmp, count);
 		}
-  
-		if ( nickname == NULL ) 
+
+		if ( nickname == NULL )
 			goto loser;
- 
+
 		if (PK11_IsInternal(slot)) {
 			/* look up the nickname to make sure it isn't in use already */
 			dummycert = CERT_FindCertByNickname(defaultcertdb, nickname);
-      
+
 		} else {
 			/*
-			 * Check the cert against others that already live on the smart 
+			 * Check the cert against others that already live on the smart
 			 * card.
 			 */
 			dummycert = PK11_FindCertFromNickname(nickname, NULL);
 			if (dummycert != NULL) {
 				/*
 				 * Make sure the subject names are different.
-				 */ 
+				 */
 				if (CERT_CompareName(&cert->subject, &dummycert->subject) == SECEqual) {
 					/*
 					 * There is another certificate with the same nickname and
@@ -973,9 +967,9 @@ default_nickname (CERTCertificate *cert)
 				}
 			}
 		}
-		if ( dummycert == NULL ) 
+		if ( dummycert == NULL )
 			goto done;
-    
+
 		/* found a cert, destroy it and loop */
 		CERT_DestroyCertificate(dummycert);
 		if (tmp != nickname) PR_Free(nickname);
@@ -1081,7 +1075,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 			rv = TRUE;
 		}
 	}
-  
+
  loser:
 	if (arena) {
 		PORT_FreeArena(arena, PR_FALSE);
@@ -1120,7 +1114,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 	case E_CERT_SITE:
 		/* good */
 		break;
-    
+
 	default:
 		/* not supported (yet) */
 		/* XXX gerror */
@@ -1138,7 +1132,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 		close (fd);
 		return FALSE;
 	}
-  
+
 	buf = g_malloc (sb.st_size);
 	if (!buf) {
 		/* XXX gerror */
@@ -1149,7 +1143,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 	bytes_read = read (fd, buf, sb.st_size);
 
 	close (fd);
-  
+
 	if (bytes_read != sb.st_size) {
 		/* XXX gerror */
 		rv = FALSE;
@@ -1169,7 +1163,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 		case E_CERT_CONTACT:
 			rv = e_cert_db_import_email_cert (cert_db, buf, bytes_read, error);
 			break;
-      
+
 		default:
 			rv = FALSE;
 			break;
@@ -1177,7 +1171,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 	}
 
 	g_free (buf);
-	return rv;  
+	return rv;
 }
 
 gboolean
@@ -1277,7 +1271,7 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 				  guint32 length)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
-	CERTDERCerts *collectArgs = 
+	CERTDERCerts *collectArgs =
 		(CERTDERCerts *)PORT_ArenaZAlloc(arena, sizeof(CERTDERCerts));
 	SECStatus sec_rv;
 
@@ -1286,7 +1280,7 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 
 	collectArgs->arena = arena;
 	sec_rv = CERT_DecodeCertPackage(data,
-					length, collect_certs, 
+					length, collect_certs,
 					(void *)collectArgs);
 
 	if (sec_rv != SECSuccess)

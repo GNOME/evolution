@@ -182,7 +182,7 @@ ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, int row)
 {
 	if (!E_TABLE_SORTED(subset)->sort_idle_id)
 		E_TABLE_SORTED(subset)->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, subset, NULL);
-	
+
 	if (E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_row_changed)
 		(E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_row_changed) (subset, source, row);
 }

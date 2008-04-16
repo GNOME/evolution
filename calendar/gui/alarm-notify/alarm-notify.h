@@ -39,19 +39,6 @@ typedef struct _AlarmNotifyClass AlarmNotifyClass;
 
 typedef struct _AlarmNotifyPrivate AlarmNotifyPrivate;
 
-typedef struct _AlarmMsg AlarmMsg;
-typedef struct _AlarmMsgPrivate AlarmMsgPrivate;
-
-struct _AlarmMsg {
-	 EMsg msg;
-
- 	 void (*receive_msg)(EThread *e, struct _AlarmMsg *msg, void *data);	/* message received */
-	 void *data;
-	 
-	 /* Private Usage */
-	 struct _AlarmMsgPrivate *priv;
-};
-
 struct _AlarmNotify {
 	BonoboObject object;
 

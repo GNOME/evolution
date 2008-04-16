@@ -2,7 +2,7 @@
 
 <error-list domain="org.gnome.evolution.message.retract">
 	<error id="retract-failure" type="error">
-		<primary>Message retract failed</primary>
-		<secondary>The server did not allow the selected message to be retracted.</secondary>
+		<_primary>Message retract failed</_primary>
+		<_secondary>The server did not allow the selected message to be retracted.</_secondary>
 	</error>
 </error-list> 

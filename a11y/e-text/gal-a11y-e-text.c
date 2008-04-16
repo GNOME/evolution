@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors: 
+ * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
  * Copyright (C) 2002 Ximian, Inc.
@@ -71,7 +71,7 @@ et_get_extents (AtkComponent *component,
 
 	if (width)
 		*width = real_width;
-	if (height) 
+	if (height)
 		*height = real_height;
 }
 
@@ -195,7 +195,7 @@ find_sentence_start (const char *text,
 	char *at_offset;
 	gunichar ch;
 	int i;
-	
+
 	offset = find_word_start (text, begin_offset, step);
 	len = g_utf8_strlen (text, -1);
 
@@ -645,7 +645,7 @@ et_get_offset_at_point (AtkText *text,
 }
 
 
-static gint 
+static gint
 et_get_n_selections (AtkText *text)
 {
 	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
@@ -742,7 +742,7 @@ et_remove_selection (AtkText *text,
 	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
 	etext = E_TEXT (obj);
 
-	if (selection_num == 0 
+	if (selection_num == 0
 	    && etext->selection_start != etext->selection_end) {
 		etext->selection_end = etext->selection_start;
 		g_signal_emit_by_name (ATK_OBJECT(text), "text_selection_changed");
@@ -786,7 +786,7 @@ et_set_caret_offset (AtkText *text,
 
 	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
 	etext = E_TEXT (obj);
-                                                                                
+
 	if (offset < -1)
 		return FALSE;
 	else {
@@ -1021,7 +1021,7 @@ et_real_initialize (AtkObject *obj,
 	if (etext->tep)
 		g_signal_connect_after (etext->tep, "command",
 			(GCallback) _et_command_cb, obj);
-                                                                              
+
 	obj->role = ATK_ROLE_TEXT;
 }
 
@@ -1050,11 +1050,11 @@ et_init (GalA11yEText *a11y)
 
 /**
  * gal_a11y_e_text_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the &GalA11yEText class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the &GalA11yEText class.
  **/
 GType

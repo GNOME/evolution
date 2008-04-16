@@ -35,7 +35,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock-icons.h> 
+#include <libgnomeui/gnome-stock-icons.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
@@ -219,7 +219,7 @@ e_cell_date_edit_text_new (const char *fontname,
 	ECellDateEditText *ecd = g_object_new (e_cell_date_edit_text_get_type (), NULL);
 
 	e_cell_text_construct (E_CELL_TEXT (ecd), fontname, justify);
-      
+
 	return (ECell *) ecd;
 }
 

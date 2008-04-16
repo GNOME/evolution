@@ -5,6 +5,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <libxml/tree.h>
+#include <gtk/gtkwidget.h>
 
 /* ********************************************************************** */
 
@@ -22,7 +23,7 @@ struct _EPluginAuthor {
 
 /**
  * struct _EPlugin - An EPlugin instance.
- * 
+ *
  * @object: Superclass.
  * @id: Unique identifier for plugin instance.
  * @path: Filename where the xml definition resides.
@@ -34,7 +35,7 @@ struct _EPluginAuthor {
  * @hooks: A list of the EPluginHooks this plugin requires.
  * @enabled: Whether the plugin is enabled or not.  This is not fully
  * implemented.
- * 
+ *
  * The base EPlugin object is used to represent each plugin directly.
  * All of the plugin's hooks are loaded and managed through this
  * object.
@@ -52,12 +53,14 @@ struct _EPlugin {
 	GSList *hooks;
 	GSList *authors;	/* EPluginAuthor structures */
 
+	guint32 flags;
+
 	guint enabled:1;
 };
 
 /**
- * struct _EPluginClass - 
- * 
+ * struct _EPluginClass -
+ *
  * @class: Superclass.
  * @type: The plugin type.  This is used by the plugin loader to
  * determine which plugin object to instantiate to handle the plugin.
@@ -85,7 +88,7 @@ struct _EPluginClass {
 	int (*construct)(EPlugin *, xmlNodePtr root);
 	void *(*invoke)(EPlugin *, const char *name, void *data);
 	void (*enable)(EPlugin *, int state);
-	void (*configure)(EPlugin *);
+	GtkWidget *(*get_configure_widget)(EPlugin *);
 };
 
 GType e_plugin_get_type(void);
@@ -99,7 +102,8 @@ void e_plugin_register_type(GType type);
 
 void *e_plugin_invoke(EPlugin *ep, const char *name, void *data);
 void e_plugin_enable(EPlugin *eph, int state);
-void e_plugin_configure (EPlugin *eph);
+
+GtkWidget *e_plugin_get_configure_widget (EPlugin *ep);
 
 /* static helpers */
 /* maps prop or content to 'g memory' */
@@ -121,21 +125,21 @@ typedef void *(*EPluginLibFunc)(EPluginLib *ep, void *data);
  * initialised.  In the future it may also be called when the plugin
  * is disabled. */
 typedef int (*EPluginLibEnableFunc)(EPluginLib *ep, int enable);
-typedef int (*EPluginLibConfigureFunc)(EPluginLib *ep);
+typedef void *(*EPluginLibGetConfigureWidgetFunc)(EPluginLib *ep);
 
 /**
- * struct _EPluginLib - 
- * 
+ * struct _EPluginLib -
+ *
  * @plugin: Superclass.
  * @location: The filename of the shared object.
  * @module: The GModule once it is loaded.
- * 
+ *
  * This is a concrete EPlugin class.  It loads and invokes dynamically
  * loaded libraries using GModule.  The shared object isn't loaded
  * until the first callback is invoked.
  *
  * When the plugin is loaded, and if it exists, "e_plugin_lib_enable"
- * will be invoked to initialise the 
+ * will be invoked to initialise the
  **/
 struct _EPluginLib {
 	EPlugin plugin;
@@ -145,10 +149,10 @@ struct _EPluginLib {
 };
 
 /**
- * struct _EPluginLibClass - 
- * 
+ * struct _EPluginLibClass -
+ *
  * @plugin_class: Superclass.
- * 
+ *
  * The plugin library needs no additional class data.
  **/
 struct _EPluginLibClass {
@@ -167,11 +171,11 @@ typedef struct _EPluginHookTargetMap EPluginHookTargetMap;
 typedef struct _EPluginHookTargetKey EPluginHookTargetKey;
 
 /**
- * struct _EPluginHookTargetKey - 
- * 
+ * struct _EPluginHookTargetKey -
+ *
  * @key: Enumeration value as a string.
  * @value: Enumeration value as an integer.
- * 
+ *
  * A multi-purpose string to id mapping structure used with various
  * helper functions to simplify plugin hook subclassing.
  **/
@@ -181,8 +185,8 @@ struct _EPluginHookTargetKey {
 };
 
 /**
- * struct _EPluginHookTargetMap - 
- * 
+ * struct _EPluginHookTargetMap -
+ *
  * @type: The string id of the target.
  * @id: The integer id of the target.  Maps directly to the type field
  * of the various plugin type target id's.
@@ -200,10 +204,10 @@ struct _EPluginHookTargetMap {
 
 /**
  * struct _EPluginHook - A plugin hook.
- * 
+ *
  * @object: Superclass.
  * @plugin: The parent object.
- * 
+ *
  * An EPluginHook is used as a container for each hook a given plugin
  * is listening to.
  **/
@@ -214,8 +218,8 @@ struct _EPluginHook {
 };
 
 /**
- * struct _EPluginHookClass - 
- * 
+ * struct _EPluginHookClass -
+ *
  * @class: Superclass.
  * @id: The plugin hook type. This must be overriden by each subclass
  * and is used as a key when loading hook definitions.  This string
@@ -225,7 +229,7 @@ struct _EPluginHook {
  * @construct: Virtual method used to initialise the object when
  * loaded.
  * @enable: Virtual method used to enable or disable the hook.
- * 
+ *
  * The EPluginHookClass represents each hook type.  The type of the
  * class is registered in a global table and is used to instantiate a
  * container for each hook.
@@ -273,4 +277,15 @@ struct _EPluginTypeHookClass {
 
 GType e_plugin_type_hook_get_type(void);
 
+
+/* README: Currently there is only one flag. 
+   But we may need more in the future and hence makes 
+   sense to keep as an enum */
+
+typedef enum _EPluginFlags {
+	E_PLUGIN_FLAGS_SYSTEM_PLUGIN = 1 << 0
+} EPluginFlags;
+
+
 #endif /* ! _E_PLUGIN_H */
+

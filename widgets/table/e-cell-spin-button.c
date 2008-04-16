@@ -7,9 +7,9 @@
  * Authors:
  *   Mikael Hallendal <micke@codefactory.se>
  *
- * Celltype for drawing a spinbutton in a cell. 
+ * Celltype for drawing a spinbutton in a cell.
  *
- * Used ECellPopup by Damon Chaplin <damon@ximian.com> as base for 
+ * Used ECellPopup by Damon Chaplin <damon@ximian.com> as base for
  * buttondrawings.
  *
  * This library is free software; you can redistribute it and/or
@@ -54,24 +54,24 @@ static ECellView *  ecsb_new_view     (ECell                 *ecell,
 static void         ecsb_realize      (ECellView             *ecv);
 static void         ecsb_kill_view    (ECellView             *ecv);
 static void         ecsb_unrealize    (ECellView             *ecv);
-static void         ecsb_draw         (ECellView             *ecv, 
-				       GdkDrawable           *drawable, 
-				       int                    model_col, 
-				       int                    view_col, 
-				       int                    row, 
-				       ECellFlags             flags, 
-				       int                    x1, 
-				       int                    y1, 
-				       int                    x2, 
-				       int                    y2); 
-
-static gint         ecsb_event        (ECellView             *ecv, 
-				       GdkEvent              *event, 
-				       int                    model_col, 
-				       int                    view_col, 
+static void         ecsb_draw         (ECellView             *ecv,
+				       GdkDrawable           *drawable,
+				       int                    model_col,
+				       int                    view_col,
 				       int                    row,
-				       ECellFlags             flags, 
-				       ECellActions          *actions); 
+				       ECellFlags             flags,
+				       int                    x1,
+				       int                    y1,
+				       int                    x2,
+				       int                    y2);
+
+static gint         ecsb_event        (ECellView             *ecv,
+				       GdkEvent              *event,
+				       int                    model_col,
+				       int                    view_col,
+				       int                    row,
+				       ECellFlags             flags,
+				       ECellActions          *actions);
 
 static gint         ecsb_height       (ECellView             *ecv,
 				       int                    model_col,
@@ -79,14 +79,14 @@ static gint         ecsb_height       (ECellView             *ecv,
 				       int                    row);
 
 static void *       ecsb_enter_edit   (ECellView             *ecv,
-				       int                    model_col, 
-				       int                    view_col, 
+				       int                    model_col,
+				       int                    view_col,
 				       int                    row);
 
 static void         ecsb_leave_edit   (ECellView             *ecv,
-				       int                    model_col, 
-				       int                    view_col, 
-				       int                    row, 
+				       int                    model_col,
+				       int                    view_col,
+				       int                    row,
 				       void                  *context);
 static void         ecsb_focus        (ECellView             *ecell_view,
 				       int                    model_col,
@@ -99,15 +99,15 @@ static void         ecsb_focus        (ECellView             *ecell_view,
 static void         ecsb_unfocus      (ECellView             *ecell_view);
 
 static void         ecsb_show_tooltip (ECellView             *ecv,
-				       int                    model_col, 
-				       int                    view_col, 
-				       int                    row, 
-				       int                    col_width, 
+				       int                    model_col,
+				       int                    view_col,
+				       int                    row,
+				       int                    col_width,
 				       ETableTooltip          *tooltip);
 
 typedef struct {
 	ECellView    cell_view;
-	
+
 	ECellView   *child_view;
 } ECellSpinButtonView;
 
@@ -118,12 +118,12 @@ enum {
 
 static guint    signals[LAST_SIGNAL] = { 0 };
 
-static void 
+static void
 e_cell_spin_button_class_init     (ECellSpinButtonClass   *klass)
 {
         ECellClass *ecc = E_CELL_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-        
+
         object_class->dispose = ecsb_dispose;
 
 	ecc->realize       = ecsb_realize;
@@ -151,20 +151,20 @@ e_cell_spin_button_class_init     (ECellSpinButtonClass   *klass)
 			      NULL, NULL,
 			      e_util_marshal_NONE__POINTER_INT_INT_INT,
 			      G_TYPE_NONE,
-			      4, G_TYPE_POINTER, G_TYPE_INT, 
+			      4, G_TYPE_POINTER, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);
 }
 
-static void 
+static void
 e_cell_spin_button_init           (ECellSpinButton *ecsb)
 {
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (ecsb));
-	
+
 	ecsb->up_pressed    = FALSE;
 	ecsb->down_pressed  = FALSE;
 }
 
-static ECellView *  
+static ECellView *
 ecsb_new_view     (ECell            *ecell,
 		   ETableModel      *etm,
 		   void             *eti_view)
@@ -187,23 +187,23 @@ ecsb_new_view     (ECell            *ecell,
 	return (ECellView *) ecsb_view;
 }
 
-static void         
+static void
 ecsb_realize      (ECellView        *ecv)
-{ 
+{
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_if_fail (ecv != NULL);
 
 	ecsb_view = (ECellSpinButtonView *) ecv;
 
 	e_cell_realize (ecsb_view->child_view);
-} 
+}
 
-static void         
+static void
 ecsb_kill_view    (ECellView        *ecv)
 {
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_if_fail (ecv != NULL);
 
 	ecsb_view = (ECellSpinButtonView *) ecv;
@@ -211,15 +211,15 @@ ecsb_kill_view    (ECellView        *ecv)
 	if (ecsb_view->child_view) {
 		e_cell_kill_view (ecsb_view->child_view);
 	}
-	
+
 	g_free (ecsb_view);
 }
 
-static void         
+static void
 ecsb_unrealize    (ECellView        *ecv)
-{ 
+{
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_if_fail (ecv != NULL);
 
 	ecsb_view = (ECellSpinButtonView *) ecv;
@@ -227,16 +227,16 @@ ecsb_unrealize    (ECellView        *ecv)
 	e_cell_unrealize (ecsb_view->child_view);
 }
 
-static void         
-ecsb_draw         (ECellView        *ecv, 
-		   GdkDrawable      *drawable, 
-		   int               model_col, 
-		   int               view_col, 
-		   int               row, 
-		   ECellFlags        flags, 
-		   int               x1, 
-		   int               y1, 
-		   int               x2, 
+static void
+ecsb_draw         (ECellView        *ecv,
+		   GdkDrawable      *drawable,
+		   int               model_col,
+		   int               view_col,
+		   int               row,
+		   ECellFlags        flags,
+		   int               x1,
+		   int               y1,
+		   int               x2,
 		   int               y2)
 {
 	ECellSpinButton        *ecsb;
@@ -245,38 +245,38 @@ ecsb_draw         (ECellView        *ecv,
 	GtkWidget              *canvas;
 	GtkShadowType           shadow = GTK_SHADOW_OUT;
 	GdkRectangle            rect;
-	
+
 	g_return_if_fail (ecv != NULL);
-	
+
 	ecsb_view   = (ECellSpinButtonView *) ecv;
 	ecsb        = E_CELL_SPIN_BUTTON (ecsb_view->cell_view.ecell);
-	
+
 	eti         = E_TABLE_ITEM (ecsb_view->cell_view.e_table_item_view);
 	canvas      = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
-	
-	if (eti->editing_col == view_col && 
+
+	if (eti->editing_col == view_col &&
 	    eti->editing_row == row) {
 
 		/* Draw child (Whats shown under the buttons) */
-		e_cell_draw (ecsb_view->child_view, 
+		e_cell_draw (ecsb_view->child_view,
 			     drawable, model_col, view_col,
-			     row, flags, 
-			     x1, y1, 
-			     x2 - E_CELL_SPIN_BUTTON_ARROW_WIDTH, y2); 
+			     row, flags,
+			     x1, y1,
+			     x2 - E_CELL_SPIN_BUTTON_ARROW_WIDTH, y2);
 
 		/* Draw down-arrow */
 		rect.x       = x2 - E_CELL_SPIN_BUTTON_ARROW_WIDTH;
 		rect.y       = y1 + (y2 - y1) / 2;
 		rect.width   = E_CELL_SPIN_BUTTON_ARROW_WIDTH;
 		rect.height  = (y2 - y1) / 2;
-		
+
 		if (ecsb->down_pressed) {
 			shadow = GTK_SHADOW_IN;
 		} else {
 			shadow = GTK_SHADOW_OUT;
 		}
-		
-		gtk_paint_box (canvas->style, drawable, 
+
+		gtk_paint_box (canvas->style, drawable,
 			       GTK_STATE_NORMAL, shadow,
 			       &rect, canvas, "ecellspinbutton_down",
 			       rect.x, rect.y, rect.width, rect.height);
@@ -292,14 +292,14 @@ ecsb_draw         (ECellView        *ecv,
 
 		/* Draw up-arrow */
 		rect.y       = y1;
-		
+
 		if (ecsb->up_pressed) {
 			shadow = GTK_SHADOW_IN;
 		} else {
 			shadow = GTK_SHADOW_OUT;
 		}
 
-		gtk_paint_box (canvas->style, drawable, 
+		gtk_paint_box (canvas->style, drawable,
 			       GTK_STATE_NORMAL, shadow,
 			       &rect, canvas, "ecellspinbutton_up",
 			       rect.x, rect.y, rect.width, rect.height);
@@ -314,34 +314,34 @@ ecsb_draw         (ECellView        *ecv,
 				 rect.height);
 	} else {
 		/* Draw child */
-		e_cell_draw (ecsb_view->child_view, 
+		e_cell_draw (ecsb_view->child_view,
 			     drawable, model_col, view_col,
-			     row, flags, 
-			     x1, y1, 
-			     x2, y2); 
+			     row, flags,
+			     x1, y1,
+			     x2, y2);
 	}
 }
 
-static gint         
-ecsb_event        (ECellView        *ecv, 
-		   GdkEvent         *event, 
-		   int               model_col, 
-		   int               view_col, 
+static gint
+ecsb_event        (ECellView        *ecv,
+		   GdkEvent         *event,
+		   int               model_col,
+		   int               view_col,
 		   int               row,
-		   ECellFlags        flags, 
+		   ECellFlags        flags,
 		   ECellActions     *actions)
 {
 	ECellSpinButton       *ecsb;
 	ECellSpinButtonView   *ecsb_view;
 	ETableItem            *eti;
 	gint                   height, width;
-	
+
 	g_return_val_if_fail (ecv != NULL, FALSE);
-		
+
 	ecsb_view   = (ECellSpinButtonView *) ecv;
 	ecsb        = E_CELL_SPIN_BUTTON (ecsb_view->cell_view.ecell);
 	eti         = E_TABLE_ITEM (ecsb_view->cell_view.e_table_item_view);
-	
+
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 		if (eti->editing_col == view_col &&
@@ -377,10 +377,10 @@ ecsb_event        (ECellView        *ecv,
 							   row,
 							   view_col,
 							   row);
-				
+
 			}
-		} 
-		
+		}
+
 		break;
 	case GDK_BUTTON_RELEASE:
 		ecsb->up_pressed = FALSE;
@@ -401,29 +401,29 @@ ecsb_event        (ECellView        *ecv,
 			     view_col, row, flags, actions);
 }
 
-static gint         
+static gint
 ecsb_height       (ECellView        *ecv,
 		   int               model_col,
 		   int               view_col,
 		   int               row)
 {
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_val_if_fail (ecv != NULL, -1);
-	
+
 	ecsb_view = (ECellSpinButtonView *) ecv;
 
 	return e_cell_height (ecsb_view->child_view, model_col, view_col, row);
 }
 
-static void *       
+static void *
 ecsb_enter_edit   (ECellView        *ecv,
-		   int               model_col, 
-		   int               view_col, 
+		   int               model_col,
+		   int               view_col,
 		   int               row)
 {
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_val_if_fail (ecv != NULL, NULL);
 
 	ecsb_view = (ECellSpinButtonView *) ecv;
@@ -433,20 +433,20 @@ ecsb_enter_edit   (ECellView        *ecv,
 }
 
 
-static void         
+static void
 ecsb_leave_edit   (ECellView        *ecv,
-		   int               model_col, 
-		   int               view_col, 
-		   int               row, 
+		   int               model_col,
+		   int               view_col,
+		   int               row,
 		   void             *context)
 {
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_if_fail (ecv != NULL);
-	
+
 	ecsb_view = (ECellSpinButtonView *) ecv;
 
-	e_cell_leave_edit (ecsb_view->child_view, model_col, view_col, 
+	e_cell_leave_edit (ecsb_view->child_view, model_col, view_col,
 			   row, context);
 }
 
@@ -461,11 +461,11 @@ ecsb_focus        (ECellView        *ecell_view,
 		   int		     y2)
 {
 	ECellClass  *klass;
-	
+
 	klass = E_CELL_GET_CLASS (ecell_view->ecell);
 
 	if (klass->focus)
-		klass->focus (ecell_view, model_col, view_col, row, 
+		klass->focus (ecell_view, model_col, view_col, row,
 			      x1, y1, x2, y2);
 }
 
@@ -473,37 +473,37 @@ static void
 ecsb_unfocus      (ECellView        *ecell_view)
 {
 	ECellClass  *klass;
-	
+
 	klass = E_CELL_GET_CLASS (ecell_view->ecell);
 
 	if (klass->unfocus)
 		klass->unfocus (ecell_view);
 }
 
-static void         
+static void
 ecsb_show_tooltip (ECellView        *ecv,
-		   int               model_col, 
-		   int               view_col, 
-		   int               row, 
-		   int               col_width, 
+		   int               model_col,
+		   int               view_col,
+		   int               row,
+		   int               col_width,
 		   ETableTooltip    *tooltip)
 {
 	ECellSpinButtonView   *ecsb_view;
-	
+
 	g_return_if_fail (ecv != NULL);
 
 	ecsb_view = (ECellSpinButtonView *) ecv;
-	
-	e_cell_show_tooltip (ecsb_view->child_view, model_col, view_col, 
+
+	e_cell_show_tooltip (ecsb_view->child_view, model_col, view_col,
 			     row, col_width, tooltip);
 }
 
-static void 
+static void
 ecsb_dispose (GObject	*object)
 {
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (object));
-	
+
 	G_OBJECT_CLASS (e_cell_spin_button_parent_class)->dispose (object);
 }
 
@@ -514,18 +514,18 @@ e_cell_spin_button_new (gint     min,
 			ECell   *child_cell)
 {
 	ECellSpinButton   *ecsb;
-	
+
 	ecsb = g_object_new (E_CELL_SPIN_BUTTON_TYPE, NULL);
 
 	if (!child_cell) {
-		child_cell = e_cell_number_new (NULL, 
+		child_cell = e_cell_number_new (NULL,
 						GTK_JUSTIFY_LEFT);
-		
+
 		g_signal_connect (ecsb, "step",
 				  G_CALLBACK (e_cell_spin_button_step),
 				  NULL);
 	}
-	
+
 	ecsb->child   = child_cell;
 	ecsb->min.i   = min;
 	ecsb->max.i   = max;
@@ -541,7 +541,7 @@ e_cell_spin_button_new_float (gfloat    min,
 			      ECell    *child_cell)
 {
 	ECellSpinButton   *ecsb;
-	
+
 	ecsb = g_object_new (E_CELL_SPIN_BUTTON_TYPE, NULL);
 
 	if (!child_cell) {
@@ -550,7 +550,7 @@ e_cell_spin_button_new_float (gfloat    min,
 				  G_CALLBACK (e_cell_spin_button_step_float),
 				  NULL);
 	}
-	
+
 	ecsb->child   = child_cell;
 	ecsb->min.f   = min;
 	ecsb->max.f   = max;
@@ -566,30 +566,30 @@ e_cell_spin_button_step   (ECellSpinButton       *ecsb,
 			   gint                   col,
 			   gint                   row)
 {
- 	ECellSpinButtonView   *ecsb_view; 
-	
+ 	ECellSpinButtonView   *ecsb_view;
+
 	ETableModel           *etm;
 	gint                   value;
 	gint                   new_value;
 	gchar                 *str_value;
-	
+
 	g_return_if_fail (ecsb != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (ecsb));
 	g_return_if_fail (ecv != NULL);
-	
- 	ecsb_view  = (ECellSpinButtonView *) ecv; 
+
+ 	ecsb_view  = (ECellSpinButtonView *) ecv;
 	etm        = ecsb_view->cell_view.e_table_model;
-	
+
 	value  = GPOINTER_TO_INT (e_table_model_value_at (etm, col, row));
 	new_value = value;
-	
+
 	switch (direction) {
 	case STEP_UP:
-		new_value = CLAMP (value + ecsb->step.i, 
+		new_value = CLAMP (value + ecsb->step.i,
 				   ecsb->min.i, ecsb->max.i);
 		break;
 	case STEP_DOWN:
-		new_value = CLAMP (value - ecsb->step.i, 
+		new_value = CLAMP (value - ecsb->step.i,
 				   ecsb->min.i, ecsb->max.i);
 		break;
 	default:
@@ -610,40 +610,40 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 				gint                   col,
 				gint                   row)
 {
- 	ECellSpinButtonView   *ecsb_view; 
-	
+ 	ECellSpinButtonView   *ecsb_view;
+
 	ETableModel           *etm;
 	gfloat                 value;
 	gfloat                 new_value;
 	gchar                 *str_value;
-	
+
 	g_return_if_fail (ecsb != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (ecsb));
 	g_return_if_fail (ecv != NULL);
-	
- 	ecsb_view  = (ECellSpinButtonView *) ecv; 
+
+ 	ecsb_view  = (ECellSpinButtonView *) ecv;
 	etm        = ecsb_view->cell_view.e_table_model;
-	
+
 	value  = *(gfloat *) e_table_model_value_at (etm, col, row);
 
 	switch (direction) {
 	case STEP_UP:
-		new_value = CLAMP (value + ecsb->step.f, 
+		new_value = CLAMP (value + ecsb->step.f,
 				   ecsb->min.f, ecsb->max.f);
 		break;
 	case STEP_DOWN:
-		new_value = CLAMP (value - ecsb->step.f, 
+		new_value = CLAMP (value - ecsb->step.f,
 				   ecsb->min.f, ecsb->max.f);
 		break;
 	default:
 		new_value = value;
 		break;
 	};
-	
+
 	str_value = g_strdup_printf ("%f", new_value);
 
 	e_table_model_set_value_at (etm, col, row, str_value);
-	
+
 	g_free (str_value);
 }
 

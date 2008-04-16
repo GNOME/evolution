@@ -105,7 +105,7 @@ static void
 esm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
-	
+
 	switch (prop_id){
 	case PROP_SORTER:
 		drop_sorter(esm);
@@ -205,14 +205,14 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	klass->move_selection_end    = NULL;
 	klass->set_selection_end     = NULL;
 
-	g_object_class_install_property (object_class, PROP_SORTER, 
+	g_object_class_install_property (object_class, PROP_SORTER,
 					 g_param_spec_object ("sorter",
 							      _("Sorter"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_SORTER_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_SELECTION_MODE, 
+	g_object_class_install_property (object_class, PROP_SELECTION_MODE,
 					 g_param_spec_int ("selection_mode",
 							   _("Selection Mode"),
 							   /*_( */"XXX blurb" /*)*/,
@@ -220,7 +220,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 							   GTK_SELECTION_SINGLE,
 							   G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_MODE, 
+	g_object_class_install_property (object_class, PROP_CURSOR_MODE,
 					 g_param_spec_int ("cursor_mode",
 							   _("Cursor Mode"),
 							   /*_( */"XXX blurb" /*)*/,
@@ -229,7 +229,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 							   G_PARAM_READWRITE));
 }
 
-/** 
+/**
  * e_selection_model_is_row_selected
  * @selection: #ESelectionModel to check
  * @n: The row to check
@@ -248,7 +248,7 @@ e_selection_model_is_row_selected (ESelectionModel *selection,
 		return FALSE;
 }
 
-/** 
+/**
  * e_selection_model_foreach
  * @selection: #ESelectionModel to traverse
  * @callback: The callback function to call back.
@@ -257,7 +257,7 @@ e_selection_model_is_row_selected (ESelectionModel *selection,
  * This routine calls the given callback function once for each
  * selected row, passing closure as the closure.
  */
-void 
+void
 e_selection_model_foreach     (ESelectionModel *selection,
 			       EForeachFunc callback,
 			       gpointer closure)
@@ -266,7 +266,7 @@ e_selection_model_foreach     (ESelectionModel *selection,
 		E_SELECTION_MODEL_GET_CLASS(selection)->foreach (selection, callback, closure);
 }
 
-/** 
+/**
  * e_selection_model_clear
  * @selection: #ESelectionModel to clear
  *
@@ -279,7 +279,7 @@ e_selection_model_clear(ESelectionModel *selection)
 		E_SELECTION_MODEL_GET_CLASS(selection)->clear (selection);
 }
 
-/** 
+/**
  * e_selection_model_selected_count
  * @selection: #ESelectionModel to count
  *
@@ -296,7 +296,7 @@ e_selection_model_selected_count (ESelectionModel *selection)
 		return 0;
 }
 
-/** 
+/**
  * e_selection_model_select_all
  * @selection: #ESelectionModel to select all
  *
@@ -310,7 +310,7 @@ e_selection_model_select_all (ESelectionModel *selection)
 		E_SELECTION_MODEL_GET_CLASS(selection)->select_all (selection);
 }
 
-/** 
+/**
  * e_selection_model_invert_selection
  * @selection: #ESelectionModel to invert
  *
@@ -393,7 +393,7 @@ e_selection_model_set_selection_end (ESelectionModel *selection, int row)
 		E_SELECTION_MODEL_GET_CLASS(selection)->set_selection_end (selection, row);
 }
 
-/** 
+/**
  * e_selection_model_do_something
  * @selection: #ESelectionModel to do something to.
  * @row: The row to do something in.
@@ -452,7 +452,7 @@ e_selection_model_do_something (ESelectionModel *selection,
 	}
 }
 
-/** 
+/**
  * e_selection_model_maybe_do_something
  * @selection: #ESelectionModel to do something to.
  * @row: The row to do something in.
@@ -577,7 +577,7 @@ move_selection (ESelectionModel *selection,
 	return TRUE;
 }
 
-/** 
+/**
  * e_selection_model_key_press
  * @selection: #ESelectionModel to affect.
  * @key: The event.

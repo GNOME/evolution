@@ -53,9 +53,6 @@ typedef enum {
 	EAB_VIEW_NONE, /* initialized to this */
 	EAB_VIEW_MINICARD,
 	EAB_VIEW_TABLE,
-#ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-	,EAB_VIEW_TREEVIEW
-#endif
 } EABViewType;
 
 
@@ -65,7 +62,7 @@ typedef struct _EABViewClass  EABViewClass;
 struct _EABView
 {
 	GtkVBox parent;
-	
+
 	/* item specific fields */
 	EABViewType view_type;
 

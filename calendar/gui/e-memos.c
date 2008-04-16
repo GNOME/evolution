@@ -68,13 +68,13 @@ struct _EMemosPrivate {
 	ECal *default_client;
 
 	ECalView *query;
-	
+
 	EConfigListener *config_listener;
-	
+
 	/* The EMemoTable showing the memos. */
 	GtkWidget   *memos_view;
 	EMemoTableConfig *memos_view_config;
-	
+
 	/* Calendar search bar for memos */
 	GtkWidget *search_bar;
 
@@ -83,11 +83,10 @@ struct _EMemosPrivate {
 
 	/* The preview */
 	GtkWidget *preview;
-	
+
 	gchar *current_uid;
 	char *sexp;
-	guint update_timeout;
-	
+
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
@@ -141,27 +140,27 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 	priv = memos->priv;
 
 	n_selected = e_table_selected_count (etable);
-	
+
 	/* update the HTML widget */
 	if (n_selected != 1) {
 		e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview));
 
 		return;
 	}
-	
+
 	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-	
+
 	comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 
 	e_cal_component_memo_preview_display (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview), comp_data->client, comp);
-	
+
 	e_cal_component_get_uid (comp, &uid);
 	if (priv->current_uid)
 		g_free (priv->current_uid);
 	priv->current_uid = g_strdup (uid);
-	
+
 	g_object_unref (comp);
 }
 
@@ -177,19 +176,30 @@ table_selection_change_cb (ETable *etable, gpointer data)
 	n_selected = e_table_selected_count (etable);
 	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SELECTION_CHANGED],
 			 n_selected);
+
+	if (n_selected != 1)
+		e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (memos->priv->preview));
+
 }
 
 static void
 user_created_cb (GtkWidget *view, EMemos *memos)
 {
-	EMemosPrivate *priv;	
+	EMemosPrivate *priv;
+	EMemoTable *memo_table;
 	ECal *ecal;
-	ECalModel *model;
-	
-	priv = memos->priv;
 
-	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-	ecal = e_cal_model_get_default_client (model);
+	priv = memos->priv;
+	memo_table = E_MEMO_TABLE (priv->memos_view);
+
+	if (memo_table->user_created_cal)
+		ecal = memo_table->user_created_cal;
+	else {
+		ECalModel *model;
+
+		model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
+		ecal = e_cal_model_get_default_client (model);
+	}
 
 	e_memos_add_memo_source (memos, e_cal_get_source (ecal));
 }
@@ -206,9 +216,9 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 
 	if (priv->sexp)
 		g_free (priv->sexp);
-	
+
 	priv->sexp = g_strdup (sexp);
-	
+
 	update_view (memos);
 }
 
@@ -236,14 +246,14 @@ vpaned_resized_cb (GtkWidget *widget, GdkEventButton *event, EMemos *memos)
 }
 
 static void
-set_timezone (EMemos *memos) 
+set_timezone (EMemos *memos)
 {
 	EMemosPrivate *priv;
 	icaltimezone *zone;
 	GList *l;
-	
+
 	priv = memos->priv;
-	
+
 	zone = calendar_config_get_icaltimezone ();
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
@@ -265,7 +275,7 @@ static void
 timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	EMemos *memos = data;
-	
+
 	set_timezone (memos);
 }
 
@@ -274,22 +284,14 @@ update_view (EMemos *memos)
 {
 	EMemosPrivate *priv;
 	ECalModel *model;
-	
+
 	priv = memos->priv;
 
 	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-		
+
 	e_cal_model_set_search_query (model, priv->sexp);
-	
+
 	e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview));
-}
-
-static gboolean
-update_view_cb (EMemos *memos)
-{	
-	update_view (memos);
-
-	return TRUE;
 }
 
 static void
@@ -326,12 +328,103 @@ setup_config (EMemos *memos)
 	guint not;
 
 	priv = memos->priv;
-	
+
 	/* Timezone */
 	set_timezone (memos);
-	
+
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, memos);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+}
+
+struct AffectedComponents {
+	EMemoTable *memo_table;
+	GSList *components; /* contains pointers to ECalModelComponent */
+};
+
+/**
+ * get_selected_components_cb
+ * Helper function to fill list of selected components in EMemoTable.
+ * This function is called from e_table_selected_row_foreach.
+ **/
+static void
+get_selected_components_cb (int model_row, gpointer data)
+{
+	struct AffectedComponents *ac = (struct AffectedComponents *) data;
+
+	if (!ac || !ac->memo_table)
+		return;
+
+	ac->components = g_slist_prepend (ac->components, e_cal_model_get_component_at (E_CAL_MODEL (e_memo_table_get_model (ac->memo_table)), model_row));
+}
+
+/**
+ * do_for_selected_components
+ * Calls function func for all selected components in memo_table.
+ *
+ * @param memo_table Table with selected components of our interest.
+ * @param func Function to be called on each selected component from cal_table.
+ *        The first parameter of this function is a pointer to ECalModelComponent and
+ *        the second parameter of this function is pointer to cal_table
+ * @param user_data User data, will be passed to func.
+ **/
+static void
+do_for_selected_components (EMemoTable *memo_table, GFunc func, gpointer user_data)
+{
+	ETable *etable;
+	struct AffectedComponents ac;
+
+	g_return_if_fail (memo_table != NULL);
+
+	ac.memo_table = memo_table;
+	ac.components = NULL;
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
+	e_table_selected_row_foreach (etable, get_selected_components_cb, &ac);
+
+	g_slist_foreach (ac.components, func, user_data);
+	g_slist_free (ac.components);
+}
+
+/**
+ * obtain_list_of_components
+ * As a callback function to convert each ECalModelComponent to string
+ * of format "source_uid\ncomponent_str" and add this newly allocated
+ * string to the list of components. Strings should be freed with g_free.
+ *
+ * @param data ECalModelComponent object.
+ * @param user_data Pointer to GSList list, where to put new strings.
+ **/
+static void
+obtain_list_of_components (gpointer data, gpointer user_data)
+{
+	GSList **list;
+	ECalModelComponent *comp_data;
+
+	list = (GSList **) user_data;
+	comp_data = (ECalModelComponent *) data;
+
+	if (list && comp_data) {
+		char *comp_str;
+		icalcomponent *vcal;
+
+		vcal = e_cal_util_new_top_level ();
+		e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
+		icalcomponent_add_component (vcal, icalcomponent_new_clone (comp_data->icalcomp));
+
+		comp_str = icalcomponent_as_ical_string (vcal);
+		if (comp_str) {
+			ESource *source = e_cal_get_source (comp_data->client);
+			const char *source_uid = e_source_peek_uid (source);
+
+			*list = g_slist_prepend (*list, g_strdup_printf ("%s\n%s", source_uid, comp_str));
+
+			/* do not free this pointer, it owns libical */
+			/* g_free (comp_str); */
+		}
+
+		icalcomponent_free (vcal);
+		g_free (comp_str);
+	}
 }
 
 static void
@@ -345,62 +438,36 @@ table_drag_data_get (ETable             *table,
 		     EMemos             *memos)
 {
 	EMemosPrivate *priv;
-	ECalModelComponent *comp_data;
 
 	priv = memos->priv;
 
-	if (priv->current_uid) {
-		ECalModel *model;
+	if (info == TARGET_VCALENDAR) {
+		/* we will pass an icalcalendar component for both types */
+		GSList *components = NULL;
 
-		model = e_memo_table_get_model (
-			E_MEMO_TABLE (priv->memos_view));
+		do_for_selected_components (E_MEMO_TABLE (priv->memos_view), obtain_list_of_components, &components);
 
-		comp_data = e_cal_model_get_component_at (model, row);
+		if (components) {
+			cal_comp_selection_set_string_list (selection_data, components);
 
-		if (info == TARGET_VCALENDAR) {
-			/* we will pass an icalcalendar component for both types */
-			char *comp_str;
-			icalcomponent *vcal;
-		
-			vcal = e_cal_util_new_top_level ();
-			e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
-			icalcomponent_add_component (
-			        vcal,
-				icalcomponent_new_clone (comp_data->icalcomp));
-
-			comp_str = icalcomponent_as_ical_string (vcal);
-			if (comp_str) {
-				gtk_selection_data_set (selection_data, selection_data->target,
-							8, (unsigned char *)comp_str, strlen (comp_str));
-			}
-			icalcomponent_free (vcal);
+			g_slist_foreach (components, (GFunc)g_free, NULL);
+			g_slist_free (components);
 		}
 	}
 }
 
-static void 
+static void
 table_drag_data_delete (ETable         *table,
 			int             row,
 			int             col,
 			GdkDragContext *context,
 			EMemos         *memos)
 {
-	EMemosPrivate *priv;
-	ECalModelComponent *comp_data;
-	ECalModel *model;
-	gboolean read_only = TRUE;
-	
-	priv = memos->priv;
-	
-	model = e_memo_table_get_model (
-		E_MEMO_TABLE (priv->memos_view));
-	comp_data = e_cal_model_get_component_at (model, row);
-
-	e_cal_is_read_only (comp_data->client, &read_only, NULL);
-	if (read_only)
-		return;
-
-	e_cal_remove_object (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL);
+	/* Moved components are deleted from source immediately when moved,
+	   because some of them can be part of destination source, and we
+	   don't want to delete not-moved tasks. There is no such information
+	   which event has been moved and which not, so skip this method.
+	*/
 }
 
 #define E_MEMOS_TABLE_DEFAULT_STATE					\
@@ -432,7 +499,7 @@ setup_widgets (EMemos *memos)
 			  G_CALLBACK (search_bar_sexp_changed_cb), memos);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), memos);
-	
+
 	/* TODO Why doesn't this work?? */
 	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general/category_master_list", memos);
 
@@ -453,13 +520,13 @@ setup_widgets (EMemos *memos)
 	/* create the memo list */
 	priv->memos_view = e_memo_table_new ();
 	priv->memos_view_config = e_memo_table_config_new (E_MEMO_TABLE (priv->memos_view));
-	
+
 	g_signal_connect (priv->memos_view, "user_created", G_CALLBACK (user_created_cb), memos);
 
 	etable = e_table_scrolled_get_table (
 		E_TABLE_SCROLLED (E_MEMO_TABLE (priv->memos_view)->etable));
 	e_table_set_state (etable, E_MEMOS_TABLE_DEFAULT_STATE);
-	
+
 	gtk_paned_add1 (GTK_PANED (priv->paned), priv->memos_view);
 	gtk_widget_show (priv->memos_view);
 
@@ -467,7 +534,7 @@ setup_widgets (EMemos *memos)
 	e_table_drag_source_set (etable, GDK_BUTTON1_MASK,
 				 list_drag_types, num_list_drag_types,
 				 GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
-	
+
 	g_signal_connect (etable, "table_drag_data_get",
 			  G_CALLBACK(table_drag_data_get), memos);
 	g_signal_connect (etable, "table_drag_data_delete",
@@ -475,9 +542,6 @@ setup_widgets (EMemos *memos)
 
 	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), memos);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), memos);
-
-	/* Timeout check to hide completed items */
-	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_view_cb, memos, NULL);
 
 	/* create the memo detail */
 	priv->preview = e_cal_component_memo_preview_new ();
@@ -501,7 +565,7 @@ e_memos_class_init (EMemosClass *klass)
 	e_memos_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (object_class), 
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (EMemosClass, selection_changed),
 				g_cclosure_marshal_VOID__INT,
 				GTK_TYPE_NONE, 1,
@@ -565,17 +629,17 @@ static void
 e_memos_init (EMemos *memos)
 {
 	EMemosPrivate *priv;
-	
+
 	priv = g_new0 (EMemosPrivate, 1);
 	memos->priv = priv;
 
 	setup_config (memos);
 	setup_widgets (memos);
-	
+
 	priv->config_listener = e_config_listener_new ();
 	g_signal_connect (priv->config_listener, "key_changed", G_CALLBACK (config_categories_changed_cb), memos);
 
-	priv->clients = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);	
+	priv->clients = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	priv->query = NULL;
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
@@ -647,7 +711,7 @@ e_memos_destroy (GtkObject *object)
 			g_object_unref (priv->config_listener);
 			priv->config_listener = NULL;
 		}
-		
+
 		/* disconnect from signals on all the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {
 			g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
@@ -665,22 +729,17 @@ e_memos_destroy (GtkObject *object)
 			g_free (priv->current_uid);
 			priv->current_uid = NULL;
 		}
-	
+
 		if (priv->sexp) {
 			g_free (priv->sexp);
 			priv->sexp = NULL;
 		}
 
-		if (priv->update_timeout) {
-			g_source_remove (priv->update_timeout);
-			priv->update_timeout = 0;
-		}
-	
 		if (priv->memos_view_config) {
 			g_object_unref (priv->memos_view_config);
 			priv->memos_view_config = NULL;
 		}
-		
+
 		for (l = priv->notifications; l; l = l->next)
 			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 		priv->notifications = NULL;
@@ -708,7 +767,7 @@ set_status_message (EMemos *memos, const char *message, ...)
 	}
 
 	priv = memos->priv;
-	
+
 	e_memo_table_set_status_message (E_MEMO_TABLE (priv->memos_view), msg_string);
 }
 
@@ -743,7 +802,7 @@ backend_died_cb (ECal *client, gpointer data)
 	EMemos *memos;
 	EMemosPrivate *priv;
 	ESource *source;
-	
+
 	memos = E_MEMOS (data);
 	priv = memos->priv;
 
@@ -755,10 +814,10 @@ backend_died_cb (ECal *client, gpointer data)
 	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_REMOVED], source);
 
 	e_memo_table_set_status_message (E_MEMO_TABLE (e_memos_get_calendar_table (memos)), NULL);
-	
+
 	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (memos))),
 		     "calendar:memos-crashed", NULL);
-	
+
 	g_object_unref (source);
 }
 
@@ -825,7 +884,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 	case E_CALENDAR_STATUS_OK :
 		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
 		model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-		
+
 		set_timezone (memos);
 		e_cal_model_set_default_client (model, ecal);
 		set_status_message (memos, NULL);
@@ -871,7 +930,7 @@ void
 e_memos_open_memo			(EMemos		*memos)
 {
 	EMemoTable *cal_table;
-                                                                                
+
 	cal_table = e_memos_get_calendar_table (memos);
 	e_memo_table_open_selected (cal_table);
 }
@@ -903,10 +962,10 @@ e_memos_add_memo_source (EMemos *memos, ESource *source)
 		return TRUE;
 	} else {
 		ESource *default_source;
-		
+
 		if (priv->default_client) {
 			default_source = e_cal_get_source (priv->default_client);
-		
+
 			/* We don't have it but the default client is it */
 			if (!strcmp (e_source_peek_uid (default_source), uid))
 				client = g_object_ref (priv->default_client);
@@ -924,7 +983,7 @@ e_memos_add_memo_source (EMemos *memos, ESource *source)
 /*	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), memos); */
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), memos);
 
-	/* add the client to internal structure */	
+	/* add the client to internal structure */
 	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 
@@ -951,19 +1010,19 @@ e_memos_remove_memo_source (EMemos *memos, ESource *source)
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (priv->clients, uid);
-	if (!client) 
+	if (!client)
 		return TRUE;
-	
+
 
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, memos);	
+					      0, 0, NULL, NULL, memos);
 
 	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
 	e_cal_model_remove_client (model, client);
 
 	g_hash_table_remove (priv->clients, uid);
-       
+
 
 	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_REMOVED], source);
 
@@ -975,7 +1034,7 @@ e_memos_set_default_source (EMemos *memos, ESource *source)
 {
 	EMemosPrivate *priv;
 	ECal *ecal;
-	
+
 	g_return_val_if_fail (memos != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEMOS (memos), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
@@ -1004,20 +1063,20 @@ ECal *
 e_memos_get_default_client (EMemos *memos)
 {
 	EMemosPrivate *priv;
-	
+
 	g_return_val_if_fail (memos != NULL, NULL);
 	g_return_val_if_fail (E_IS_MEMOS (memos), NULL);
 
 	priv = memos->priv;
 
-	return e_cal_model_get_default_client (e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view)));	
+	return e_cal_model_get_default_client (e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view)));
 }
 
 
 /**
  * e_memos_delete_selected:
  * @memos: A memos control widget.
- * 
+ *
  * Deletes the selected memos in the memo list.
  **/
 void
@@ -1059,7 +1118,7 @@ display_view_cb (GalViewInstance *instance, GalView *view, gpointer data)
  * e_memos_setup_view_menus:
  * @memos: A memos widget.
  * @uic: UI controller to use for the menus.
- * 
+ *
  * Sets up the #GalView menus for a memos control.  This function should be
  * called from the Bonobo control activation callback for this memos control.
  * Also, the menus should be discarded using e_memos_discard_view_menus().
@@ -1095,8 +1154,8 @@ e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic)
 		dir0 = g_build_filename (EVOLUTION_GALVIEWSDIR,
 					 "memos",
 					 NULL);
-		dir1 = g_build_filename (memos_component_peek_base_directory (memos_component_peek ()), 
-					 "memos", "views", NULL);
+		dir1 = g_build_filename (memos_component_peek_base_directory (memos_component_peek ()),
+					 "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
 							     dir0,
 							     dir1);
@@ -1135,7 +1194,7 @@ e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic)
 /**
  * e_memos_discard_view_menus:
  * @memos: A memos widget.
- * 
+ *
  * Discards the #GalView menus used by a memos control.  This function should be
  * called from the Bonobo control deactivation callback for this memos control.
  * The menus should have been set up with e_memos_setup_view_menus().
@@ -1165,9 +1224,9 @@ e_memos_discard_view_menus (EMemos *memos)
 /**
  * e_memos_get_calendar_table:
  * @memos: A memos widget.
- * 
+ *
  * Queries the #EMemoTable contained in a memos widget.
- * 
+ *
  * Return value: The #EMemoTable that the memos widget uses to display its
  * information.
  **/

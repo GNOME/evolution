@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@gtk.org>
  *
  * Copyright 1999, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -132,7 +132,7 @@ static void
 e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (mts_item);
-	
+
 	mts_item->mts = NULL;
 
 	mts_item->main_gc = NULL;
@@ -182,7 +182,7 @@ e_meeting_time_selector_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	EMeetingTimeSelectorItem *mts_item;
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (o);
-	
+
 	switch (arg_id){
 	case ARG_MEETING_TIME_SELECTOR:
 		mts_item->mts = GTK_VALUE_POINTER (*arg);
@@ -281,7 +281,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdk_cairo_set_source_color (cr, &mts->all_attendees_bg_color);
 		cairo_rectangle (cr, 0, mts->row_height * 2 - y,
 				    width, mts->row_height);
-		cairo_fill (cr); 	
+		cairo_fill (cr);
 	} else {
 		gdk_cairo_set_source_color (cr, &mts->bg_color);
 		cairo_rectangle (cr,  0, 0, width, height);
@@ -300,11 +300,11 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdk_cairo_set_source_color (cr, &mts->meeting_time_bg_color);
 		if (is_display_top){
 			cairo_rectangle (cr, meeting_start_x + 1 - x, mts->row_height * 2 - y,
-					    meeting_end_x - meeting_start_x - 2, mts->row_height); 			
+					    meeting_end_x - meeting_start_x - 2, mts->row_height);
 			cairo_fill (cr);
 		} else {
 			cairo_rectangle (cr, meeting_start_x + 1 - x, 0,
-					    meeting_end_x - meeting_start_x - 2, height); 
+					    meeting_end_x - meeting_start_x - 2, height);
 			cairo_fill (cr);
 		}
 		cairo_restore (cr);
@@ -671,7 +671,7 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 				gdk_gc_set_foreground (gc, &mts->busy_colors[busy_type]);
 				red = mts->busy_colors[busy_type].red;
 				green = mts->busy_colors[busy_type].green;
-				blue = mts->busy_colors[busy_type].blue; 
+				blue = mts->busy_colors[busy_type].blue;
 				cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.8);
 				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_period, busy_type, cr);
 			}
@@ -920,7 +920,7 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 		end_time = start_time;
 		g_date_add_days (&end_time.date, 1);
 	}
-	
+
 	/* Fix any overflows. */
 	e_meeting_time_selector_fix_time_overflows (&end_time);
 
@@ -1047,11 +1047,11 @@ e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
 	EMeetingAttendee *ia;
 	EMeetingTime busy_periods_start;
 	EMeetingTime busy_periods_end;
-	
+
 	ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 	busy_periods_start = e_meeting_attendee_get_start_busy_range (ia);
 	busy_periods_end = e_meeting_attendee_get_end_busy_range (ia);
-	
+
 	*start_x = -1;
 	*end_x = -1;
 
@@ -1066,7 +1066,7 @@ e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
 	return TRUE;
 }
 
-void 
+void
 e_meeting_time_selector_item_set_normal_cursor (EMeetingTimeSelectorItem *mts_item)
 {
 	g_return_if_fail (IS_E_MEETING_TIME_SELECTOR_ITEM (mts_item));

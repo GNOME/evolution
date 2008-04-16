@@ -58,7 +58,7 @@ GType
 em_filter_folder_element_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EMFilterFolderElementClass),
@@ -71,10 +71,10 @@ em_filter_folder_element_get_type(void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc)em_filter_folder_element_init,
 		};
-		
+
 		type = g_type_register_static(FILTER_TYPE_ELEMENT, "EMFilterFolderElement", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -83,11 +83,11 @@ em_filter_folder_element_class_init(EMFilterFolderElementClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS(klass);
-	
+
 	parent_class = g_type_class_ref(FILTER_TYPE_ELEMENT);
-	
+
 	object_class->finalize = em_filter_folder_element_finalise;
-	
+
 	/* override methods */
 	fe_class->validate = validate;
 	fe_class->eq = folder_eq;
@@ -110,9 +110,9 @@ static void
 em_filter_folder_element_finalise(GObject *obj)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)obj;
-	
+
 	g_free(ff->uri);
-	
+
         G_OBJECT_CLASS(parent_class)->finalize(obj);
 }
 
@@ -120,7 +120,7 @@ em_filter_folder_element_finalise(GObject *obj)
  * em_filter_folder_element_new:
  *
  * Create a new EMFilterFolderElement object.
- * 
+ *
  * Return value: A new #EMFilterFolderElement object.
  **/
 EMFilterFolderElement *
@@ -140,7 +140,7 @@ static gboolean
 validate(FilterElement *fe)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
-	
+
 	if (ff->uri && *ff->uri) {
 		return TRUE;
 	} else {
@@ -173,16 +173,16 @@ xml_encode(FilterElement *fe)
 {
 	xmlNodePtr value, work;
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
-	
+
 	d(printf("Encoding folder as xml\n"));
-	
+
 	value = xmlNewNode(NULL, (unsigned const char *)"value");
 	xmlSetProp(value, (unsigned const char *)"name", (unsigned char *)fe->name);
 	xmlSetProp(value, (unsigned const char *)"type", (unsigned const char *)"folder");
-	
+
 	work = xmlNewChild(value, NULL, (unsigned const char *)"folder", NULL);
 	xmlSetProp(work, (unsigned const char *)"uri", (unsigned const char *)ff->uri);
-	
+
 	return value;
 }
 
@@ -191,17 +191,17 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 	xmlNodePtr n;
-	
+
 	d(printf("Decoding folder from xml %p\n", fe));
-	
+
 	xmlFree(fe->name);
 	fe->name = (char *)xmlGetProp(node, (unsigned const char *)"name");
-	
+
 	n = node->children;
 	while(n) {
 		if (!strcmp((char *)n->name, "folder")) {
 			char *uri;
-			
+
 			uri = (char *)xmlGetProp(n, (unsigned const char *)"uri");
 			g_free(ff->uri);
 			ff->uri = g_strdup(uri);
@@ -210,7 +210,7 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 		}
 		n = n->next;
 	}
-	
+
 	return 0;
 }
 
@@ -222,7 +222,7 @@ folder_selected(EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 	uri = em_folder_selection_button_get_selection(button);
 	g_free(ff->uri);
 	ff->uri = uri!=NULL?em_uri_from_camel(uri):NULL;
-	
+
 	gdk_window_raise(GTK_WIDGET(gtk_widget_get_ancestor(GTK_WIDGET(button), GTK_TYPE_WINDOW))->window);
 }
 
@@ -237,10 +237,10 @@ get_widget(FilterElement *fe)
 	button = em_folder_selection_button_new(_("Select Folder"), NULL);
 	em_folder_selection_button_set_selection(EM_FOLDER_SELECTION_BUTTON(button), uri);
 	g_free(uri);
-	
+
 	gtk_widget_show(button);
 	g_signal_connect(button, "selected", G_CALLBACK(folder_selected), ff);
-	
+
 	return button;
 }
 
@@ -254,7 +254,7 @@ static void
 format_sexp(FilterElement *fe, GString *out)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
-	
+
 	e_sexp_encode_string(out, ff->uri);
 }
 

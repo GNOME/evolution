@@ -75,6 +75,7 @@ struct _EMEventTargetFolder {
 	char *uri;
 	guint  new;
 	gboolean is_inbox;
+	char *name;
 };
 
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
@@ -98,7 +99,7 @@ typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 
 struct _EMEventTargetSendReceive {
 	EEventTarget target;
-	
+
 	struct _GtkWidget *table;
 	gpointer data;
 	int row;

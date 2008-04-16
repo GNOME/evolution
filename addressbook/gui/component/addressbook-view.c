@@ -155,11 +155,11 @@ save_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
-	
+
 	if (v)
 		eab_view_save_as (v, TRUE);
 }
-	
+
 static void
 save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -274,7 +274,7 @@ copy_all_contacts_to_cb (BonoboUIComponent *uih, void *user_data, const char *pa
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
 
-       	if (v) 
+       	if (v)
 		eab_view_copy_to_folder (v, TRUE);
 }
 
@@ -292,7 +292,7 @@ move_all_contacts_to_cb (BonoboUIComponent *uih, void *user_data, const char *pa
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
-	if (v) 
+	if (v)
 		eab_view_move_to_folder (v, TRUE);
 }
 
@@ -335,11 +335,11 @@ delete_addressbook_folder (AddressbookView *view)
 	GtkWindow *toplevel;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
-	if (!selected_source) 
+	if (!selected_source)
 		return;
 	toplevel = (GtkWindow *) gtk_widget_get_toplevel (priv->notebook);
 
-	if (e_error_run (toplevel, "addressbook:ask-delete-addressbook", 
+	if (e_error_run (toplevel, "addressbook:ask-delete-addressbook",
 			e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
 	return;
 
@@ -351,9 +351,9 @@ delete_addressbook_folder (AddressbookView *view)
 								  selected_source))
 				e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->selector),
 								   selected_source);
-		
+
 			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-			
+
 			e_source_list_sync (priv->source_list, NULL);
 		}
 		else {
@@ -408,7 +408,7 @@ edit_addressbook_folder (AddressbookView *view)
 	}
 
 	gtk_window_present (GTK_WINDOW (closure->editor));
-	
+
 }
 
 static void
@@ -425,10 +425,10 @@ rename_addressbook_folder (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source;
-	const char *old_name; 
+	const char *old_name;
 	char *prompt, *new_name;
 	gboolean done = FALSE;
-	
+
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	old_name = e_source_peek_name(source);
      	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);
@@ -449,7 +449,7 @@ rename_addressbook_folder (AddressbookView *view)
 		}
 	}
 	g_free (new_name);
-	
+
 }
 
 static void
@@ -466,7 +466,7 @@ folder_can_delete (AddressbookView *view)
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source ;
 	const char *source_uri;
-	
+
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	if(source) {
 		source_uri = e_source_peek_relative_uri (source);
@@ -622,11 +622,11 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/commands/ContactsPrint", "document-print", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactsPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/ContactsSaveAsVCard", "document-save-as", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsSendContactToOther", "mail-forward", E_ICON_SIZE_MENU),	
-	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-send", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSendContactToOther", "mail-forward", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-message-new", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderCopy", "edit-copy", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderDelete", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderMove", "folder-move", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/FolderSave", "document-save-as", E_ICON_SIZE_MENU),
 
 	E_PIXMAP ("/Toolbar/ContactsPrint", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
@@ -651,7 +651,7 @@ control_activate (BonoboControl     *control,
 
 	bonobo_ui_component_add_verb_list_with_data (
 		uic, verbs, view);
-	
+
 	bonobo_ui_component_freeze (uic, NULL);
 
 	xmlfile = g_build_filename (EVOLUTION_UIDIR,
@@ -676,8 +676,8 @@ control_activate (BonoboControl     *control,
 }
 
 static void
-control_activate_cb (BonoboControl *control, 
-		     gboolean activate, 
+control_activate_cb (BonoboControl *control,
+		     gboolean activate,
 		     AddressbookView *view)
 {
 	BonoboUIComponent *uic;
@@ -770,7 +770,7 @@ load_uri_for_selection (ESourceSelector *selector,
 	ESource *selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
 	ESource *primary = get_primary_source (view);
 
-	if (selected_source != NULL && 
+	if (selected_source != NULL &&
 	    ((primary && (!g_str_equal (e_source_peek_uid (primary),e_source_peek_uid (selected_source) )))||force))
 		activate_source (view, selected_source);
 }
@@ -779,17 +779,17 @@ static ESource *
 find_first_source (ESourceList *source_list)
 {
 	GSList *groups, *sources, *l, *m;
-			
+
 	groups = e_source_list_peek_groups (source_list);
 	for (l = groups; l; l = l->next) {
 		ESourceGroup *group = l->data;
-				
+
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
 			ESource *source = m->data;
 
 			return source;
-		}				
+		}
 	}
 
 	return NULL;
@@ -869,7 +869,7 @@ book_removed (EBook *book, EBookStatus status, gpointer data)
 							  source))
 			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->selector),
 							   source);
-		
+
 		e_source_group_remove_source (e_source_peek_group (source), source);
 
 		e_source_list_sync (priv->source_list, NULL);
@@ -928,7 +928,7 @@ save_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	AddressbookView *view = data;
 	EABView *v = get_current_view (view);
-       	if (v) 
+       	if (v)
 		eab_view_save_as (v, TRUE);
 }
 
@@ -952,11 +952,13 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 
 static EPopupItem abv_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "contact-new", 0, 0 },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
- 	{ E_POPUP_BAR,  "40.bar"},
- 	{ E_POPUP_ITEM, "40.saveasvcard", N_("Save As Vcard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_BAR,  "30.bar"},
-	{ E_POPUP_ITEM, "30.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
+ 	{ E_POPUP_ITEM, "20.saveasvcard", N_("Save As vCard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
+
+	{ E_POPUP_BAR,  "30.bar" },
+	{ E_POPUP_ITEM, "30.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
+
+	{ E_POPUP_BAR,  "99.bar" },
+	{ E_POPUP_ITEM, "99.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -998,11 +1000,11 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 }
 
 static gboolean
-selector_tree_drag_drop (GtkWidget *widget, 
-			 GdkDragContext *context, 
-			 int x, 
-			 int y, 
-			 guint time, 
+selector_tree_drag_drop (GtkWidget *widget,
+			 GdkDragContext *context,
+			 int x,
+			 int y,
+			 guint time,
 			 AddressbookView *view)
 {
 	GtkTreeViewColumn *column;
@@ -1012,10 +1014,10 @@ selector_tree_drag_drop (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gpointer data;
-	
+
 	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
-	
+
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 
 	if (!gtk_tree_model_get_iter (model, &iter, path)) {
@@ -1024,17 +1026,17 @@ selector_tree_drag_drop (GtkWidget *widget,
 	}
 
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	
+
 	if (E_IS_SOURCE_GROUP (data)) {
 		g_object_unref (data);
 		gtk_tree_path_free (path);
 		return FALSE;
 	}
-	
+
 	gtk_tree_path_free (path);
 	return TRUE;
 }
-	
+
 static gboolean
 selector_tree_drag_motion (GtkWidget *widget,
 			   GdkDragContext *context,
@@ -1047,21 +1049,21 @@ selector_tree_drag_motion (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GdkDragAction action = { 0, };
-	
+
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
 		goto finish;
-	
+
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	
+
 	if (!gtk_tree_model_get_iter (model, &iter, path))
 		goto finish;
-	
+
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
 
 	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
 		goto finish;
-	
+
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
 	/* Make default action move, not copy */
 	if (context->actions & GDK_ACTION_MOVE)
@@ -1074,7 +1076,7 @@ selector_tree_drag_motion (GtkWidget *widget,
 		gtk_tree_path_free (path);
 	if (data)
 		g_object_unref (data);
-      
+
 	gdk_drag_status (context, action, GDK_CURRENT_TIME);
 	return TRUE;
 }
@@ -1152,11 +1154,11 @@ merged_contact_cb (EBook *book, EBookStatus status, const char *id, gpointer clo
 	}
 }
 
-static gboolean 
-selector_tree_drag_data_received (GtkWidget *widget, 
-				  GdkDragContext *context, 
-				  gint x, 
-				  gint y, 
+static gboolean
+selector_tree_drag_data_received (GtkWidget *widget,
+				  GdkDragContext *context,
+				  gint x,
+				  gint y,
 				  GtkSelectionData *data,
 				  guint info,
 				  guint time,
@@ -1177,17 +1179,17 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
 						x, y, &path, &pos))
 		goto finish;
-	
+
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	
+
 	if (!gtk_tree_model_get_iter (model, &iter, path))
 		goto finish;
-	
+
 	gtk_tree_model_get (model, &iter, 0, &target, -1);
 
 	if (E_IS_SOURCE_GROUP (target) || e_source_get_readonly (target))
 		goto finish;
-	
+
 	target_book = e_book_new (target, NULL);
 	if (!target_book) {
 		g_message (G_STRLOC ":Couldn't create EBook.");
@@ -1223,11 +1225,11 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		gtk_tree_path_free (path);
 	if (target)
 		g_object_unref (target);
-		       
+
 	gtk_drag_finish (context, success, merge_context->remove_from_source, time);
 
 	return TRUE;
-}	
+}
 
 static void
 selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
@@ -1277,12 +1279,12 @@ addressbook_view_class_init (AddressbookViewClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 }
 
-static gboolean 
+static gboolean
 source_selector_key_press_event_callback (GtkWidget *widget, GdkEventKey *event, AddressbookView *view)
 {
 	if (event->keyval == GDK_Delete) {
 		delete_addressbook_folder (view);
-		return TRUE;		
+		return TRUE;
 	}
 	return FALSE;
 }
@@ -1294,7 +1296,7 @@ addressbook_view_init (AddressbookView *view)
 	GtkWidget *selector_scrolled_window;
 	AtkObject *a11y;
 
-	view->priv = 
+	view->priv =
 		priv = g_new0 (AddressbookViewPrivate, 1);
 
 	priv->gconf_client = addressbook_component_peek_gconf_client (addressbook_component_peek ());
@@ -1365,7 +1367,7 @@ addressbook_view_init (AddressbookView *view)
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view), 0);
 	g_signal_connect_after (priv->selector, "key_press_event",
-		       		G_CALLBACK (source_selector_key_press_event_callback), 
+		       		G_CALLBACK (source_selector_key_press_event_callback),
 				G_OBJECT (view));
 	g_signal_connect_object (priv->selector, "popup_event",
 				 G_CALLBACK (popup_event_callback),
@@ -1397,7 +1399,7 @@ addressbook_view_dispose (GObject *object)
 	if (view->priv) {
 		if (priv->book)
 			g_object_unref (priv->book);
-	
+
 		g_free(priv->passwd);
 
 		if (priv->source_list)
@@ -1522,7 +1524,7 @@ activate_source (AddressbookView *view,
 
 		gtk_widget_show (uid_view);
 		gtk_widget_show (label);
-		
+
 		g_object_set (uid_view, "type", EAB_VIEW_TABLE, NULL);
 
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
@@ -1619,8 +1621,8 @@ addressbook_view_peek_folder_view (AddressbookView *view)
 }
 
 void
-addressbook_view_edit_contact (AddressbookView* view, 
-			       const char* source_uid, 
+addressbook_view_edit_contact (AddressbookView* view,
+			       const char* source_uid,
 			       const char* contact_uid)
 {
 	AddressbookViewPrivate *priv = view->priv;
@@ -1628,7 +1630,7 @@ addressbook_view_edit_contact (AddressbookView* view,
 	ESource* source = NULL;
 	EContact* contact = NULL;
 	EBook* book = NULL;
- 
+
 	if (!source_uid || !contact_uid)
 		return;
 
@@ -1637,7 +1639,7 @@ addressbook_view_edit_contact (AddressbookView* view,
 		return;
 
 	/* FIXME: Can I unref this book? */
-	book = e_book_new (source, NULL);		
+	book = e_book_new (source, NULL);
 	if (!book)
 		return;
 
@@ -1647,7 +1649,7 @@ addressbook_view_edit_contact (AddressbookView* view,
 	}
 
 	e_book_get_contact (book, contact_uid, &contact, NULL);
-	
+
 	if (!contact) {
 		g_object_unref (book);
 		return;

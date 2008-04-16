@@ -44,10 +44,10 @@ CamelCipherContext *
 mail_crypto_get_pgp_cipher_context (EAccount *account)
 {
 	CamelCipherContext *cipher;
-	
+
 	cipher = camel_gpg_context_new (session);
 	if (account)
 		camel_gpg_context_set_always_trust ((CamelGpgContext *) cipher, account->pgp_always_trust);
-	
+
 	return cipher;
 }

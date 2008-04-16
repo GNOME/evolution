@@ -13,6 +13,12 @@ INCLUDES = 								\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
+ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
+
+ecalendarinclude_HEADERS =	\
+	comp-editor-page.h	\
+	comp-editor.h
+
 noinst_LTLIBRARIES = libcal-dialogs.la
 
 libcal_dialogs_la_LIBADD =					\

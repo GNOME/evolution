@@ -49,7 +49,7 @@ typedef struct _EMHTMLStream {
 
 typedef struct {
 	EMSyncStreamClass parent_class;
-	
+
 } EMHTMLStreamClass;
 
 

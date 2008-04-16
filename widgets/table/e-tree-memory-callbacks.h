@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-memory-callbacks.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -71,7 +71,7 @@ typedef struct {
 	ETreeMemoryCallbacksHasGetNodeByIdFn  has_get_node_by_id;
 	ETreeMemoryCallbacksGetNodeByIdFn     get_node_by_id;
 
-	ETreeMemoryCallbacksValueAtFn	      sort_value_at;	
+	ETreeMemoryCallbacksValueAtFn	      sort_value_at;
 	ETreeMemoryCallbacksValueAtFn         value_at;
 	ETreeMemoryCallbacksSetValueAtFn      set_value_at;
 	ETreeMemoryCallbacksIsEditableFn      is_editable;

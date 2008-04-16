@@ -60,7 +60,7 @@ impl_dispose (GObject *object)
 		bonobo_object_release_unref (priv->config_control_interface, &ev);
 		priv->config_control_interface = CORBA_OBJECT_NIL;
 	}
-	
+
 	CORBA_exception_free (&ev);
 
 	(* G_OBJECT_CLASS (e_corba_config_page_parent_class)->dispose) (object);
@@ -99,7 +99,7 @@ e_corba_config_page_init (ECorbaConfigPage *corba_config_page)
 
 	priv = g_new (ECorbaConfigPagePrivate, 1);
 	priv->config_control_interface = CORBA_OBJECT_NIL;
-	
+
 	corba_config_page->priv = priv;
 }
 
@@ -127,7 +127,7 @@ e_corba_config_page_construct (ECorbaConfigPage *corba_config_page,
 	control_widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
 	gtk_widget_show (control_widget);
 	gtk_container_add (GTK_CONTAINER (corba_config_page), control_widget);
-	
+
 	/* Notice we *don't* unref the corba_object here as
 	   bonobo_widget_new_control_from_objref() effectively takes ownership
 	   for the object that we get from ::__get_control.  */

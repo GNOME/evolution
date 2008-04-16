@@ -52,6 +52,7 @@
 #include <misc/e-unicode.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-util.h>
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
@@ -251,10 +252,10 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	/* Calculate the weekday of the given date, 0 = Mon. */
 	weekday = g_date_get_weekday (&date) - 1;
-	
+
 	/* Convert it to an offset from the start of the display. */
 	week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
-	
+
 	/* Set the day_offset to the result, so we move back to the
 	   start of the week. */
 	day_offset = week_start_offset;
@@ -270,7 +271,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 		week_view->base_date = base_date;
 		update_adjustment_value = TRUE;
 	}
-	
+
 	/* See if we need to update the first day shown. */
 	if (!g_date_valid (&week_view->first_day_shown)
 	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
@@ -285,13 +286,13 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	/* Reset the adjustment value to 0 if the base address has changed.
 	   Note that we do this after updating first_day_shown so that our
 	   signal handler will not try to reload the events. */
-	if (update_adjustment_value)	
+	if (update_adjustment_value)
 		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	/* FIXME Preserve selection if possible */
-	if (week_view->selection_start_day == -1 || 
+	if (week_view->selection_start_day == -1 ||
 	    (week_view->multi_week_view ? week_view->weeks_shown * 7 : 7) <= week_view->selection_start_day)
 		e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
 }
@@ -302,7 +303,8 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	ECalComponent *comp = NULL;
 	AddEventData add_event_data;
 	/* rid is never used in this function? */
-	const char *uid, *rid;
+	const char *uid;
+	char *rid = NULL;
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
@@ -328,6 +330,7 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	e_week_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, FALSE, &add_event_data);
 
 	g_object_unref (comp);
+	g_free (rid);
 }
 
 static void
@@ -390,12 +393,13 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
 	int i;
-	
+
 	/* FIXME Stop editing? */
-	
+
 	for (i = row + count; i > row; i--) {
 		gint event_num;
-		const char *uid, *rid = NULL;
+		const char *uid;
+		char *rid = NULL;
 		ECalModelComponent *comp_data;
 
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
@@ -413,6 +417,7 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
+		g_free (rid);
 	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -426,7 +431,7 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 	struct icaltimetype tt = icaltime_null_time ();
 	time_t lower;
 	EWeekView *week_view = (EWeekView *) cal_view;
-	
+
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
 	/* If we don't have a valid date set yet, just return. */
@@ -589,7 +594,7 @@ e_week_view_init (EWeekView *week_view)
 
 	/* Get the model */
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	
+
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",
 			  G_CALLBACK (time_range_changed_cb), week_view);
@@ -618,10 +623,10 @@ GtkWidget *
 e_week_view_new (void)
 {
 	GtkWidget *week_view;
-	
+
 	week_view = GTK_WIDGET (g_object_new (e_week_view_get_type (), NULL));
 	e_cal_model_set_flags (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
-	
+
 	return week_view;
 }
 
@@ -686,7 +691,7 @@ e_week_view_realize (GtkWidget *widget)
 
 	/* Allocate the colors. */
 	e_week_view_set_colors(week_view, widget);
-	
+
 	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
@@ -780,9 +785,9 @@ static GdkColor
 e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidget *widget)
 {
 	GdkColor color, bg_color;
-	guint16 red, green, blue; 
+	guint16 red, green, blue;
 	gdouble	cc = 65535.0;
-	
+
 	red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red;
        	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
        	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
@@ -815,8 +820,7 @@ e_week_view_style_set (GtkWidget *widget,
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
 	gint span_num;
-	GDate date;
-	gchar buffer[128];
+	const gchar *name;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -873,37 +877,31 @@ e_week_view_style_set (GtkWidget *widget,
 
 	/* Save the sizes of various strings in the font, so we can quickly
 	   decide which date formats to use. */
-	g_date_clear (&date, 1);
-	g_date_set_dmy (&date, 27, 3, 2000);	/* Must be a Monday. */
 
 	max_day_width = 0;
 	max_abbr_day_width = 0;
 	for (day = 0; day < 7; day++) {
-		g_date_strftime (buffer, 128, "%A", &date);
-		day_width = get_string_width (layout, buffer);
+		name = e_get_weekday_name (day + 1, FALSE);
+		day_width = get_string_width (layout, name);
 		week_view->day_widths[day] = day_width;
 		max_day_width = MAX (max_day_width, day_width);
 
-		g_date_strftime (buffer, 128, "%a", &date);
-		day_width = get_string_width (layout, buffer);
+		name = e_get_weekday_name (day + 1, TRUE);
+		day_width = get_string_width (layout, name);
 		week_view->abbr_day_widths[day] = day_width;
 		max_abbr_day_width = MAX (max_abbr_day_width, day_width);
-
-		g_date_add_days (&date, 1);
 	}
 
 	max_month_width = 0;
 	max_abbr_month_width = 0;
 	for (month = 0; month < 12; month++) {
-		g_date_set_month (&date, month + 1);
-
-		g_date_strftime (buffer, 128, "%B", &date);
-		month_width = get_string_width (layout, buffer);
+		name = e_get_month_name (month + 1, FALSE);
+		month_width = get_string_width (layout, name);
 		week_view->month_widths[month] = month_width;
 		max_month_width = MAX (max_month_width, month_width);
 
-		g_date_strftime (buffer, 128, "%b", &date);
-		month_width = get_string_width (layout, buffer);
+		name = e_get_month_name (month + 1, TRUE);
+		month_width = get_string_width (layout, name);
 		week_view->abbr_month_widths[month] = month_width;
 		max_abbr_month_width = MAX (max_abbr_month_width, month_width);
 	}
@@ -1418,7 +1416,7 @@ e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	
+
 	/* Set the selection to the given days. */
 	week_view->selection_start_day = g_date_get_julian (&date)
 		- g_date_get_julian (&week_view->first_day_shown);
@@ -1848,23 +1846,23 @@ e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 static void
 set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 {
-	ECalComponent *comp;	
+	ECalComponent *comp;
 	char *address;
 	GSList *attendees, *l;
 	ECalComponentAttendee *at = NULL;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	address = itip_get_comp_attendee (comp, event->comp_data->client); 
+	address = itip_get_comp_attendee (comp, event->comp_data->client);
 	e_cal_component_get_attendee_list (comp, &attendees);
 
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
 		if (g_str_equal (itip_strip_mailto (attendee->value), address)) {
-			at = attendee;	
+			at = attendee;
 			break;
-		}	
+		}
 	}
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
@@ -1932,19 +1930,33 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	e_cal_model_free_component_data (event->comp_data);
 	event->comp_data = NULL;
 
-	/* We leave the span elements in the array, but set the canvas item
-	   pointers to NULL. */
-	for (span_num = 0; span_num < event->num_spans; span_num++) {
-		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-				       event->spans_index + span_num);
+	if (week_view->spans) {
+		/* We leave the span elements in the array, but set the canvas item
+		   pointers to NULL. */
+		for (span_num = 0; span_num < event->num_spans; span_num++) {
+			span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+					       event->spans_index + span_num);
 
-		if (span->text_item) {
-			gtk_object_destroy (GTK_OBJECT (span->text_item));
-			span->text_item = NULL;
+			if (span->text_item) {
+				gtk_object_destroy (GTK_OBJECT (span->text_item));
+				span->text_item = NULL;
+			}
+			if (span->background_item) {
+				gtk_object_destroy (GTK_OBJECT (span->background_item));
+				span->background_item = NULL;
+			}
 		}
-		if (span->background_item) {
-			gtk_object_destroy (GTK_OBJECT (span->background_item));
-			span->background_item = NULL;
+
+		/* Update event_num numbers for already created spans with event_num higher than our event_num */
+		for (span_num = 0; span_num < week_view->spans->len; span_num++) {
+			span = &g_array_index (week_view->spans, EWeekViewEventSpan, span_num);
+
+			if (span && span->background_item && E_IS_WEEK_VIEW_EVENT_ITEM (span->background_item)) {
+				EWeekViewEventItem *wveitem = E_WEEK_VIEW_EVENT_ITEM (span->background_item);
+
+				if (wveitem->event_num > event_num)
+					wveitem->event_num--;
+			}
 		}
 	}
 
@@ -1978,8 +1990,12 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 
 	*day_w = week_view->col_widths[cell_x];
 	*day_h = week_view->row_heights[cell_y];
-	if (cell_h == 2)
+
+	while (cell_h > 1) {
 		*day_h += week_view->row_heights[cell_y + 1];
+		cell_h --;
+		cell_y ++;
+	}
 }
 
 
@@ -2091,7 +2107,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
-				      FALSE, NULL, event->time) == 0) {
+				      NULL, NULL, event->time) == 0) {
 			if (event->time - week_view->bc_event_time > 250)
 				e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &week_view->before_click_dtstart, &week_view->before_click_dtend);
 			week_view->bc_event_time = event->time;
@@ -2115,7 +2131,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 			/* FIXME: Optimise? */
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
-		
+
 		e_week_view_show_popup_menu (week_view, event, -1);
 	}
 
@@ -2149,18 +2165,18 @@ e_week_view_on_scroll (GtkWidget *widget,
 	gfloat new_value;
 	GtkWidget *tool_window = g_object_get_data (G_OBJECT (week_view), "tooltip-window");
 	guint timeout;
-	
+
 	timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (week_view), "tooltip-timeout"));
 	if (timeout) {
 		g_source_remove (timeout);
 		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
 	}
-	
+
 	if (tool_window) {
 		gtk_widget_destroy (tool_window);
 		g_object_set_data (G_OBJECT (week_view), "tooltip-window", NULL);
 	}
-	
+
 	switch (scroll->direction){
 	case GDK_SCROLL_UP:
 		new_value = adj->value - adj->page_increment;
@@ -2171,10 +2187,10 @@ e_week_view_on_scroll (GtkWidget *widget,
 	default:
 		return FALSE;
 	}
-	
+
 	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
 	gtk_adjustment_set_value (adj, new_value);
-	
+
 	return TRUE;
 }
 
@@ -2214,7 +2230,7 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 				     gint y)
 {
 	gint col, row, grid_x = -1, grid_y = -1, week, day;
-	gint weekend_col, box, weekend_box;
+	gint weekend_col;
 
 	/* First we convert it to a grid position. */
 	for (col = 0; col <= week_view->columns; col++) {
@@ -2249,12 +2265,17 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 	} else {
 		week = 0;
 
-		box = grid_x * 3 + grid_y / 2;
-		weekend_box = (5 + 7 - week_view->display_start_day) % 7;
-		day = box;
-		if (box > weekend_box
-		    ||( box == weekend_box && grid_y % 2 == 1))
-			day++;
+		for (day = 0; day < 7; day ++) {
+			gint day_x = 0, day_y = 0, rows = 0;
+			e_week_view_layout_get_day_position (day, FALSE, 1, week_view->display_start_day, week_view->compress_weekend,
+								&day_x, &day_y, &rows);
+
+			if (grid_x == day_x && grid_y >= day_y && grid_y < day_y + rows)
+				break;
+		}
+
+		if (day == 7)
+			return -1;
 	}
 
 	return week * 7 + day;
@@ -2508,15 +2529,17 @@ e_week_view_reshape_events (EWeekView *week_view)
 
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
-			current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
 			if (week_view->last_edited_comp_string == NULL)
 				continue;
+			current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
 			if (strncmp (current_comp_string, week_view->last_edited_comp_string,50) == 0) {
 				EWeekViewEventSpan *span;
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
 				e_canvas_item_grab_focus (span->text_item, TRUE);
+				g_free (week_view->last_edited_comp_string);
 				week_view->last_edited_comp_string = NULL;
 			}
+			g_free (current_comp_string);
 		}
 	}
 
@@ -2560,7 +2583,7 @@ tooltip_get_view_event (EWeekView *week_view, int day, int event_num)
 	EWeekViewEvent *pevent;
 
 	pevent = &g_array_index (week_view->events, EWeekViewEvent, event_num);
-	
+
 	return pevent;
 }
 
@@ -2570,20 +2593,20 @@ tooltip_destroy (EWeekView *week_view, GnomeCanvasItem *item)
 	int event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
 	guint timeout;
-	
+
 	timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (week_view), "tooltip-timeout"));
 	if (timeout) {
 		g_source_remove (timeout);
 		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
 	}
-				    
+
 	pevent = tooltip_get_view_event (week_view, -1, event_num);
 	if (pevent) {
 		if (pevent->tooltip && g_object_get_data (G_OBJECT (week_view), "tooltip-window")) {
 			gtk_widget_destroy (pevent->tooltip);
 			pevent->tooltip = NULL;
 		}
-			
+
 		g_object_set_data (G_OBJECT (week_view), "tooltip-window", NULL);
 	}
 }
@@ -2595,36 +2618,36 @@ tooltip_event_cb (GnomeCanvasItem *item,
 {
 	int event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
-	
+
 	pevent = tooltip_get_view_event (view, -1, event_num);
-	
+
 	switch (event->type) {
 		case GDK_ENTER_NOTIFY:
 		{
 			ECalendarViewEventData *data;
-			
+
 			data = g_malloc (sizeof (ECalendarViewEventData));
-			
+
 			pevent->x = ((GdkEventCrossing *)event)->x_root;
 			pevent->y = ((GdkEventCrossing *)event)->y_root;
-			pevent->tooltip = NULL;			
+			pevent->tooltip = NULL;
 
 			data->cal_view = (ECalendarView *)view;
 			data->day = -1;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, int)) tooltip_get_view_event;
 			pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
-			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));			
-			
+			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
+
 		return TRUE;
 		}
 		case GDK_MOTION_NOTIFY:
 			pevent->x = ((GdkEventMotion *)event)->x_root;
 			pevent->y = ((GdkEventMotion *)event)->y_root;
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (view), "tooltip-window");
-			
+
 			if (pevent->tooltip) {
-				e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);				
+				e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);
 			}
 
 			return TRUE;
@@ -2704,6 +2727,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
 			num_icons++;
+		if (e_cal_component_has_organizer (comp))
+			num_icons++;
 		if (event->different_timezone)
 			num_icons++;
 		num_icons += cal_comp_util_get_n_icons (comp);
@@ -2716,12 +2741,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       e_week_view_event_item_get_type (),
 					       NULL);
 	}
-	
+
 	g_object_set_data ((GObject *)span->background_item, "event-num", GINT_TO_POINTER (event_num));
 	g_signal_connect (span->background_item, "event",
 			  G_CALLBACK (tooltip_event_cb),
 			  week_view);
-	
+
 	gnome_canvas_item_set (span->background_item,
 			       "event_num", event_num,
 			       "span_num", span_num,
@@ -2751,16 +2776,16 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "fill_color_gdk", &color,
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
-		
+
 		if (free_text)
 			g_free ((gchar*)summary);
-		
-/*		Uncomment once the pango fix is in 
-		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING) 
+
+/*		Uncomment once the pango fix is in
+		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
 			set_text_as_bold (event, span);
 		} */
-		g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));		
+		g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
 				  week_view);
@@ -2921,7 +2946,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	ETextEventProcessorCommand command;
 	ECalModelComponent *comp_data;
 	gboolean read_only;
-	
+
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
 	    && span_num == week_view->editing_span_num)
@@ -2938,6 +2963,14 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	if (!span->text_item)
 		return FALSE;
 
+	if (week_view->editing_event_num >= 0) {
+		EWeekViewEvent *editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+
+		/* do not change to other part of same component - the event is spread into more days */
+		if (editing && event && editing->comp_data == event->comp_data)
+			return FALSE;
+	}
+
 	if (initial_text) {
 		gnome_canvas_item_set (span->text_item,
 				       "text", initial_text,
@@ -2946,15 +2979,18 @@ e_week_view_start_editing_event (EWeekView *week_view,
 
 	/* Save the comp_data value because we use that as our invariant */
 	comp_data = event->comp_data;
-	
+
 	e_canvas_item_grab_focus (span->text_item, TRUE);
-	
+
 	/* If the above focus caused things to redraw, then find the
 	 * the event and the span again */
 	if (event_num < week_view->events->len)
 		event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
-	
+
 	if (event_num >= week_view->events->len || event->comp_data != comp_data) {
+		/* When got in because of other comp_data, then be sure we go through all events */
+		event_num = week_view->events->len;
+
 		/* Unfocussing can cause a removal but not a new
 		 * addition so just run backwards through the
 		 * events */
@@ -2963,8 +2999,8 @@ e_week_view_start_editing_event (EWeekView *week_view,
 			if (event->comp_data == comp_data)
 				break;
 		}
-		g_return_val_if_fail (event_num >= 0, FALSE);		
-	}	
+		g_return_val_if_fail (event_num >= 0, FALSE);
+	}
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,  event->spans_index + span_num);
 
 	/* Try to move the cursor to the end of the text. */
@@ -3021,7 +3057,7 @@ cancel_editing (EWeekView *week_view)
 
 	if (free_text)
 		g_free ((gchar*)summary);
-	
+
 	/* Stop editing */
 	e_week_view_stop_editing_event (week_view);
 }
@@ -3035,17 +3071,17 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	gint event_num, span_num;
 	int nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
-	
+
 	pevent = tooltip_get_view_event (week_view, -1, nevent);
 
 #if 0
 	g_print ("In e_week_view_on_text_item_event\n");
 #endif
-	
+
 	switch (gdkevent->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (week_view, item);
-		if (gdkevent && gdkevent->key.keyval == GDK_Return) {
+		if (!E_TEXT (item)->preedit_len && gdkevent && gdkevent->key.keyval == GDK_Return) {
 			/* We set the keyboard focus to the EDayView, so the
 			   EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -3168,13 +3204,13 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						       &nspan))
 			return FALSE;
 
-		
-		g_object_set_data ((GObject *)item, "event-num", GINT_TO_POINTER (nevent));		
-		
+
+		g_object_set_data ((GObject *)item, "event-num", GINT_TO_POINTER (nevent));
+
 		pevent = tooltip_get_view_event (week_view, -1, nevent);
 
 		data = g_malloc (sizeof (ECalendarViewEventData));
-			
+
 		pevent->x = ((GdkEventCrossing *)gdkevent)->x_root;
 		pevent->y = ((GdkEventCrossing *)gdkevent)->y_root;
 		pevent->tooltip = NULL;
@@ -3183,24 +3219,24 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		data->day = -1;
 		data->event_num = nevent;
 		data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, int)) tooltip_get_view_event;
-		pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);		
+		pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
 		g_object_set_data ((GObject *)week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
-		
+
 		return TRUE;
-	}	
+	}
 	case GDK_LEAVE_NOTIFY:
 		tooltip_destroy (week_view, item);
-		
+
 		return FALSE;
 	case GDK_MOTION_NOTIFY:
 		pevent->x = ((GdkEventMotion *)gdkevent)->x_root;
 		pevent->y = ((GdkEventMotion *)gdkevent)->y_root;
 		pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (week_view), "tooltip-window");
-		
+
 		if (pevent->tooltip) {
-			e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);			
+			e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);
 		}
-		return TRUE;		
+		return TRUE;
 	case GDK_FOCUS_CHANGE:
 		if (gdkevent->focus_change.in) {
 			e_week_view_on_editing_started (week_view, item);
@@ -3242,7 +3278,7 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 	if (start_time.is_date && end_time.is_date)
 		is_all_day = TRUE;
 
-	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt); 
+	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt);
 
 	switch (direction) {
 	case E_CAL_VIEW_MOVE_UP:
@@ -3256,11 +3292,11 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 		break;
 	case E_CAL_VIEW_MOVE_RIGHT:
 		adjust_days = e_week_view_get_adjust_days_for_move_right (week_view,current_end_day);
-		break;	
+		break;
 	default:
 		break;
 	}
-	
+
 	icaltime_adjust	(&start_time ,adjust_days,0,0,0);
 	icaltime_adjust	(&end_time ,adjust_days,0,0,0);
 	start_dt = icaltime_as_timet_with_zone (start_time,
@@ -3285,7 +3321,7 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 			return TRUE;
 		}
 	}
-	
+
 	e_week_view_change_event_time (week_view, start_dt, end_dt, is_all_day);
 	return TRUE;
 }
@@ -3294,7 +3330,7 @@ static gint
 e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time)
 {
 	time_t first_day = week_view->day_starts[0];
-	
+
 	if (event_time - first_day < 0)
 		return -1;
 	else
@@ -3306,7 +3342,7 @@ e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction
 {
 	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
 	gfloat new_value;
-	
+
 	switch (direction){
 	case E_CAL_VIEW_MOVE_UP:
 		new_value = adj->value - adj->step_increment;
@@ -3357,7 +3393,7 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	/* FIXME: Should probably keep the timezone of the original start
 	   and end times. */
 	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	
+
 	*date.value = icaltime_from_timet_with_zone (start_dt, is_all_day,
 						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	e_cal_component_set_dtstart (comp, &date);
@@ -3366,12 +3402,12 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	e_cal_component_set_dtend (comp, &date);
 
 	e_cal_component_commit_sequence (comp);
-	
+
 	if (week_view->last_edited_comp_string != NULL) {
 		g_free (week_view->last_edited_comp_string);
 		week_view->last_edited_comp_string = NULL;
 	}
-	
+
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 
@@ -3388,13 +3424,13 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 			e_cal_component_set_exrule_list (comp, NULL);
 		}
 	}
-	
+
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
 
 	e_cal_component_commit_sequence (comp);
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 
-out:	
+out:
 	g_object_unref (comp);
 }
 
@@ -3439,7 +3475,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	ECal *client;
 	const char *uid;
 	gboolean on_server;
-	
+
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this
 	   event twice for some reason. */
@@ -3470,10 +3506,10 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	client = event->comp_data->client;
 	on_server = cal_comp_is_on_server (comp, client);
-	
+
 	if (string_is_empty (text) && !on_server) {
 		e_cal_component_get_uid (comp, &uid);
-		g_signal_handlers_disconnect_by_func(item, e_week_view_on_text_item_event, week_view);		
+		g_signal_handlers_disconnect_by_func(item, e_week_view_on_text_item_event, week_view);
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb, NULL);
 		week_view->event_destroyed = TRUE;
@@ -3490,24 +3526,24 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 							span_num);
 	} else if (summary.value || !string_is_empty (text)) {
 		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
-		
+
 		summary.value = text;
 		summary.altrep = NULL;
 		e_cal_component_set_summary (comp, &summary);
 		e_cal_component_commit_sequence (comp);
-		
+
 		if (!on_server) {
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
 			else
-				g_signal_emit_by_name (week_view, "user_created");
+				gnome_calendar_emit_user_created_signal (week_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)), client);
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
-			
+
 			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 					goto out;
@@ -3515,20 +3551,27 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime dt;
+					struct icaltimetype tt;
+					char *tzid;
 
 					e_cal_component_get_dtstart (comp, &dt);
 					if (dt.value->zone) {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
 							dt.value->is_date,
 							dt.value->zone);
 					} else {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_start,
 							dt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 					}
+					tzid = g_strdup (dt.tzid);
+					e_cal_component_free_datetime (&dt);
+					dt.value = &tt;
+					dt.tzid = tzid;
 					e_cal_component_set_dtstart (comp, &dt);
+					g_free (tzid);
 
 					e_cal_component_get_dtend (comp, &dt);
 					if (dt.value->zone) {
@@ -3542,7 +3585,12 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 							dt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 					}
+					tzid = g_strdup (dt.tzid);
+					e_cal_component_free_datetime (&dt);
+					dt.value = &tt;
+					dt.tzid = tzid;
 					e_cal_component_set_dtend (comp, &dt);
+					g_free (tzid);
 
 					e_cal_component_set_rdate_list (comp, NULL);
 					e_cal_component_set_rrule_list (comp, NULL);
@@ -3552,7 +3600,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 					e_cal_component_commit_sequence (comp);
 				}
 			}
-			
+
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
 			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
@@ -3620,7 +3668,8 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 
 	num_events = week_view->events->len;
 	for (event_num = 0; event_num < num_events; event_num++) {
-		const char *u, *r;
+		const char *u;
+		char *r = NULL;
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
@@ -3634,8 +3683,11 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 				r = icaltime_as_ical_string (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
 				if (!r || !*r)
 					continue;
-				if (strcmp (rid, r) != 0)
+				if (strcmp (rid, r) != 0) {
+					g_free (r);
 					continue;
+				}
+				g_free (r);
 			}
 
 			*event_num_return = event_num;
@@ -3681,7 +3733,7 @@ e_week_view_do_cursor_key_up (EWeekView *week_view)
 {
 	if (week_view->selection_start_day <= 0)
 		return;
-	
+
 	week_view->selection_start_day--;
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3694,7 +3746,7 @@ e_week_view_do_cursor_key_down (EWeekView *week_view)
 	if (week_view->selection_start_day == -1 ||
 		week_view->selection_start_day >= 6)
 		return;
-	
+
 	week_view->selection_start_day++;
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3706,7 +3758,7 @@ e_week_view_do_cursor_key_left (EWeekView *week_view)
 {
 	if (week_view->selection_start_day == -1)
 		return;
-	
+
 	week_view->selection_start_day = map_left[week_view->selection_start_day];
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3718,7 +3770,7 @@ e_week_view_do_cursor_key_right (EWeekView *week_view)
 {
 	if (week_view->selection_start_day == -1)
 		return;
-	
+
 	week_view->selection_start_day = map_right[week_view->selection_start_day];
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3730,7 +3782,7 @@ e_month_view_do_cursor_key_up (EWeekView *week_view)
 {
 	if (week_view->selection_start_day < 7)
 		return;
-	
+
 	week_view->selection_start_day -= 7;
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3745,7 +3797,7 @@ e_month_view_do_cursor_key_down (EWeekView *week_view)
 	if (week_view->selection_start_day == -1 ||
 		week_view->selection_start_day >= (weeks_shown - 1) * 7)
 		return;
-	
+
 	week_view->selection_start_day += 7;
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3757,7 +3809,7 @@ e_month_view_do_cursor_key_left (EWeekView *week_view)
 {
 	if (week_view->selection_start_day <= 0)
 		return;
-	
+
 	week_view->selection_start_day--;
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3772,7 +3824,7 @@ e_month_view_do_cursor_key_right (EWeekView *week_view)
 	if (week_view->selection_start_day == -1 ||
 		week_view->selection_start_day >= weeks_shown * 7 - 1)
 		return;
-	
+
 	week_view->selection_start_day++;
 	week_view->selection_end_day = week_view->selection_start_day;
 	g_signal_emit_by_name (week_view, "selected_time_changed");
@@ -3858,7 +3910,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	gboolean read_only = TRUE;
 	gboolean stop_emission;
 	GnomeCalendarViewType view_type;
-	
+
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -3886,15 +3938,15 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		case GDK_Page_Up:
 			if (!week_view->multi_week_view)
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_UP);
-			else 
+			else
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_UP);
 			break;
 		case GDK_Page_Down:
 			if (!week_view->multi_week_view)
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_DOWN);
-			else 
+			else
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
-			break;	
+			break;
 		case GDK_Up:
 			e_week_view_cursor_key_up (week_view, view_type);
 			break;
@@ -3914,7 +3966,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 	if (stop_emission)
 		return TRUE;
-	
+
 	/*Navigation through days with arrow keys*/
 	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
 		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
@@ -3928,7 +3980,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		else if (keyval == GDK_Right || keyval == GDK_KP_Right)
 			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_RIGHT);
 	}
-	
+
 	if (week_view->selection_start_day == -1)
 		return FALSE;
 
@@ -3998,7 +4050,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 					  event_num);
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 				       wvevent->spans_index + 0);
-		
+
 		/* If the event can't be fit on the screen, don't try to edit it. */
 		if (!span->text_item) {
 			e_week_view_foreach_event_with_uid (week_view, uid,
@@ -4007,7 +4059,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 			e_week_view_start_editing_event (week_view, event_num, 0,
 							 initial_text);
 		}
-		
+
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
@@ -4076,7 +4128,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 			     gint	      event_num)
 {
 	GtkMenu *popup;
-	
+
 	week_view->popup_event_num = event_num;
 
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (week_view));

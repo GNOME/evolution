@@ -39,15 +39,15 @@ G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_CELL_TOGGLE_TYPE)
 static GdkPixbuf *checks [2];
 
 static void
-ecc_print (ECellView *ecell_view, GtkPrintContext *context, 
+ecc_print (ECellView *ecell_view, GtkPrintContext *context,
 	    int model_col, int view_col, int row,
-	    double width, double height) 
+	    double width, double height)
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 	const int value = GPOINTER_TO_INT (
 			  e_table_model_value_at (ecell_view->e_table_model, model_col, row));
-	cairo_save (cr); 
-	
+	cairo_save (cr);
+
 	if ( value == 1) {
 
 		cairo_set_line_width (cr, 2);
@@ -55,8 +55,8 @@ ecc_print (ECellView *ecell_view, GtkPrintContext *context,
 		cairo_line_to (cr, 7, 14);
 		cairo_line_to (cr, 11, 5);
 		cairo_stroke (cr);
-	}	
-	cairo_restore (cr);	
+	}
+	cairo_restore (cr);
 }
 
 static void
@@ -80,7 +80,7 @@ e_cell_checkbox_init (ECellCheckbox *eccb)
  * Creates a new ECell renderer that can be used to render check
  * boxes.  the data provided from the model is cast to an integer.
  * zero is used for the off display, and non-zero for checked status.
- * 
+ *
  * Returns: an ECell object that can be used to render checkboxes.
  */
 ECell *
@@ -89,6 +89,6 @@ e_cell_checkbox_new (void)
 	ECellCheckbox *eccb = g_object_new (E_CELL_CHECKBOX_TYPE, NULL);
 
 	e_cell_toggle_construct (E_CELL_TOGGLE (eccb), 2, 2, checks);
-      
+
 	return (ECell *) eccb;
 }

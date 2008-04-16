@@ -13,12 +13,12 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
@@ -91,7 +91,7 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 	if (!(a && b && *a && *b))
 		return FALSE;
 
-	if(!e_utf8_casefold_collate (a, b))	
+	if(!e_utf8_casefold_collate (a, b))
 		return TRUE;
 
 	/* Check for nicknames.  Yes, the linear search blows. */
@@ -100,7 +100,7 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 		if (!e_utf8_casefold_collate (name_synonyms[i][0], a)
 		    && !e_utf8_casefold_collate (name_synonyms[i][1], b))
 			return TRUE;
-		
+
 		if (!e_utf8_casefold_collate (name_synonyms[i][0], b)
 		    && !e_utf8_casefold_collate (name_synonyms[i][1], a))
 			return TRUE;
@@ -165,7 +165,7 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 		++fragment_count;
 	for (i = 0; familyv && familyv[i]; ++i)
 		++fragment_count;
-	
+
 	for (i = 0; namev[i] && this_part_match != EAB_CONTACT_MATCH_PART_NONE; ++i) {
 
 		if (*namev[i]) {
@@ -194,7 +194,7 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 			if (addv && this_part_match == EAB_CONTACT_MATCH_PART_NONE) {
 				for (j = 0; addv[j]; ++j) {
 					if (name_fragment_match_with_synonyms (addv[j], namev[i], allow_partial_matches)) {
-						
+
 						this_part_match = EAB_CONTACT_MATCH_PART_ADDITIONAL_NAME;
 
 						g_free (addv[j]);
@@ -234,7 +234,7 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 
 		if (match_count > 0)
 			match_type = EAB_CONTACT_MATCH_VAGUE;
-		
+
 		if (fragment_count == match_count) {
 
 			match_type = EAB_CONTACT_MATCH_EXACT;
@@ -434,8 +434,8 @@ match_email_hostname (const gchar *addr1, const gchar *addr2)
 		--addr2;
 	}
 	if((*addr1 == '@' && *addr2 != '@' ) || (*addr2 == '@' && *addr1 != '@'))
-	       return FALSE;	
-	
+	       return FALSE;
+
 	return TRUE;
 }
 
@@ -446,7 +446,7 @@ compare_email_addresses (const gchar *addr1, const gchar *addr2)
 	    addr2 == NULL || *addr2 == 0)
 		return EAB_CONTACT_MATCH_NOT_APPLICABLE;
 
-	if (match_email_username (addr1, addr2)) 
+	if (match_email_username (addr1, addr2))
 		return match_email_hostname (addr1, addr2) ? EAB_CONTACT_MATCH_EXACT : EAB_CONTACT_MATCH_VAGUE;
 
 	return EAB_CONTACT_MATCH_NONE;
@@ -487,7 +487,7 @@ eab_contact_compare_email (EContact *contact1, EContact *contact2)
 			char *addr2 = (char *) i2->data;
 
 			match = combine_comparisons (match, compare_email_addresses (addr1, addr2));
-			
+
 			i2 = i2->next;
 		}
 
@@ -666,13 +666,13 @@ use_common_book_cb (EBook *book, gpointer closure)
 
 			if (contact_name->additional && *contact_name->additional)
 				query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->additional);
-	
+
 			if (contact_name->family && *contact_name->family)
 				query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", contact_name->family);
 
 			e_contact_name_free (contact_name);
 		}
-	
+
 		contact_email = e_contact_get (contact, E_CONTACT_EMAIL);
 		if (contact_email) {
 			GList *iter;
@@ -695,8 +695,8 @@ use_common_book_cb (EBook *book, gpointer closure)
 		g_list_foreach (contact_email, (GFunc)g_free, NULL);
 		g_list_free (contact_email);
 	}
-	
-	
+
+
 	/* Build up our full query from the parts. */
 	query_parts[p] = NULL;
 	qj = g_strjoinv (" ", query_parts);
@@ -751,7 +751,7 @@ eab_contact_locate_match (EContact *contact, EABContactMatchQueryCallback cb, gp
  * @avoid: A list of contacts to not match.  These will not show up in the search.
  * @cb: The function to call.
  * @closure: The closure to add to the call.
- * 
+ *
  * Look for the best match and return it using the EABContactMatchQueryCallback.
  **/
 void

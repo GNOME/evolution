@@ -332,7 +332,7 @@ e_table_group_get_focus (ETableGroup *etg)
 gint
 e_table_group_get_focus_column (ETableGroup *etg)
 {
-	g_return_val_if_fail (etg != NULL, FALSE);
+	g_return_val_if_fail (etg != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
 
 	g_return_val_if_fail (ETG_CLASS (etg)->get_focus_column != NULL, -1);

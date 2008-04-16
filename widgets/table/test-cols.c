@@ -78,7 +78,7 @@ value_at (ETableModel *etc, int col, int row, void *data)
 		return GINT_TO_POINTER (my_table [row].value);
 	else
 		return my_table [row].string;
-	
+
 }
 
 static void
@@ -164,7 +164,7 @@ multi_cols_test (void)
 	GnomeCanvasItem *item;
 
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-	
+
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
 		set_value_at, is_cell_editable,
@@ -183,7 +183,7 @@ multi_cols_test (void)
 	{
 		GdkPixbuf **images = g_new (GdkPixbuf *, 3);
 		int i;
-		
+
 		images [0] = gdk_pixbuf_new_from_file ("image1.png");
 		images [1] = gdk_pixbuf_new_from_file ("image2.png");
 		images [2] = gdk_pixbuf_new_from_file ("image3.png");
@@ -192,10 +192,10 @@ multi_cols_test (void)
 
 		for (i = 0; i < 3; i++)
 			gdk_pixbuf_unref (images [i]);
-		
+
 		g_free (images);
-	} 
-					       
+	}
+
 	col_1 = e_table_col_new (1, "Item Name", 1.0, 20, cell_left_just, e_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 0);
 
@@ -209,7 +209,7 @@ multi_cols_test (void)
 	e_table_header_add_column (e_table_header_multiple, col_0, 0);
 	e_table_header_add_column (e_table_header_multiple, col_1, 1);
 	e_table_header_add_column (e_table_header_multiple, col_1, 2);
-	
+
 	/*
 	 * GUI
 	 */
@@ -218,7 +218,7 @@ multi_cols_test (void)
 
 	g_signal_connect (canvas, "size_allocate",
 			  G_CALLBACK (set_canvas_size), NULL);
-	
+
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);
 
@@ -242,7 +242,7 @@ multi_cols_test (void)
 		NULL);
 
 	e_canvas_item_move_absolute (item, 0, 30);
-	
+
 	gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_header_item_get_type (),

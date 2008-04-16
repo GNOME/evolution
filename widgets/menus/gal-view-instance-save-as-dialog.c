@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-define-views-dialog.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -25,8 +25,8 @@
 
 #include <gtk/gtk.h>
 
-#include "table/e-table-scrolled.h"
 #include <glib/gi18n.h>
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
 #include "gal-define-views-model.h"
@@ -41,56 +41,109 @@ enum {
 	PROP_INSTANCE,
 };
 
-typedef struct {
-	char         *title;
-	ETableModel  *model;
-	GalViewInstanceSaveAsDialog *names;
-} GalViewInstanceSaveAsDialogChild;
-
+enum {
+	COL_GALVIEW_NAME,
+	COL_GALVIEW_DATA
+};
 
 /* Static functions */
 static void
-gal_view_instance_save_as_dialog_set_instance(GalViewInstanceSaveAsDialog *dialog,
-					      GalViewInstance *instance)
+gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dialog,
+					       GalViewInstance *instance)
 {
+	int i;
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
 	dialog->instance = instance;
-	if (dialog->model) {
-		GtkWidget *table;
-		g_object_set(dialog->model,
-			     "collection", instance ? instance->collection : NULL,
-			     NULL);
-		table = glade_xml_get_widget(dialog->gui, "custom-replace");
-		if (table) {
-			ETable *etable;
-			etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
-			e_selection_model_select_single_row (e_table_get_selection_model (etable), 0);
-			e_selection_model_change_cursor (e_table_get_selection_model (etable), 0, 0);
-		}
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+
+	for (i=0; i<instance->collection->view_count; i++) {
+		GalViewCollectionItem *item = instance->collection->view_data[i];
+		GtkTreeIter iter;
+		char *title = NULL;
+
+		/* hide built in views */
+		/*if (item->built_in == 1)
+			continue;*/
+
+		title = e_str_without_underscores (item->title);
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+				COL_GALVIEW_NAME, title,
+				COL_GALVIEW_DATA, item,
+				-1);
+
+		g_free (title);
+	}
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store),
+			COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
+
+	/* attaching treeview to model */
+	gtk_tree_view_set_model (dialog->treeview, GTK_TREE_MODEL (store));
+	gtk_tree_view_set_search_column (dialog->treeview, COL_GALVIEW_NAME);
+
+	dialog->model = GTK_TREE_MODEL (store);
+
+	renderer = gtk_cell_renderer_text_new ();
+
+	gtk_tree_view_insert_column_with_attributes (dialog->treeview,
+			COL_GALVIEW_NAME, _("Name"),
+			renderer, "text", COL_GALVIEW_NAME,
+			NULL);
+
+	/* set sort column */
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (dialog->model),
+			COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
+}
+
+static void
+gvisad_setup_validate_button (GalViewInstanceSaveAsDialog *dialog)
+{
+	if ((dialog->toggle == GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_CREATE
+	      && g_utf8_strlen (gtk_entry_get_text (GTK_ENTRY (dialog->entry_create)), -1) > 0)
+	    || dialog->toggle == GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE) {
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
+	} else {
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 	}
 }
+
 
 static void
 gvisad_setup_radio_buttons (GalViewInstanceSaveAsDialog *dialog)
 {
-	GtkWidget   *radio_replace = glade_xml_get_widget (dialog->gui, "radiobutton-replace");
-	GtkWidget   *radio_create  = glade_xml_get_widget (dialog->gui, "radiobutton-create" );
-	GtkWidget   *widget;
+	GtkWidget        *widget;
 
-	widget = glade_xml_get_widget (dialog->gui, "custom-replace");
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_replace))) {
+	widget = dialog->scrolledwindow;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->radiobutton_replace))) {
+		GtkTreeIter       iter;
+		GtkTreeSelection *selection;
+
+		selection = gtk_tree_view_get_selection (dialog->treeview);
+		if (!gtk_tree_selection_get_selected (selection, &dialog->model, &iter)) {
+			if (gtk_tree_model_get_iter_first (dialog->model, &iter)) {
+				gtk_tree_selection_select_iter (selection, &iter);
+			}
+		}
+
 		gtk_widget_set_sensitive (widget, TRUE);
 		dialog->toggle = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE;
 	} else {
 		gtk_widget_set_sensitive (widget, FALSE);
 	}
 
-	widget = glade_xml_get_widget (dialog->gui, "entry-create");
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_create))) {
+	widget = dialog->entry_create;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->radiobutton_create))) {
 		gtk_widget_set_sensitive (widget, TRUE);
 		dialog->toggle = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_CREATE;
 	} else {
 		gtk_widget_set_sensitive (widget, FALSE);
 	}
+
+	gvisad_setup_validate_button (dialog);
 }
 
 static void
@@ -100,15 +153,11 @@ gvisad_radio_toggled (GtkWidget *widget, GalViewInstanceSaveAsDialog *dialog)
 }
 
 static void
-gvisad_connect_signal(GalViewInstanceSaveAsDialog *dialog, char *widget_name, char *signal, GCallback handler)
+gvisad_entry_changed (GtkWidget *widget, GalViewInstanceSaveAsDialog *dialog)
 {
-	GtkWidget *widget;
-
-	widget = glade_xml_get_widget(dialog->gui, widget_name);
-
-	if (widget)
-		g_signal_connect (G_OBJECT (widget), signal, handler, dialog);
+	gvisad_setup_validate_button (dialog);
 }
+
 
 /* Method override implementations */
 static void
@@ -117,13 +166,13 @@ gal_view_instance_save_as_dialog_set_property (GObject *object, guint prop_id, c
 	GalViewInstanceSaveAsDialog *dialog;
 
 	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
-	
-	switch (prop_id){
+
+	switch (prop_id) {
 	case PROP_INSTANCE:
 		if (g_value_get_object (value))
-			gal_view_instance_save_as_dialog_set_instance(dialog, GAL_VIEW_INSTANCE(g_value_get_object (value)));
+			gal_view_instance_save_as_dialog_set_instance (dialog, GAL_VIEW_INSTANCE (g_value_get_object (value)));
 		else
-			gal_view_instance_save_as_dialog_set_instance(dialog, NULL);
+			gal_view_instance_save_as_dialog_set_instance (dialog, NULL);
 		break;
 
 	default:
@@ -152,10 +201,10 @@ gal_view_instance_save_as_dialog_get_property (GObject *object, guint prop_id, G
 static void
 gal_view_instance_save_as_dialog_dispose (GObject *object)
 {
-	GalViewInstanceSaveAsDialog *gal_view_instance_save_as_dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG(object);
+	GalViewInstanceSaveAsDialog *gal_view_instance_save_as_dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 
 	if (gal_view_instance_save_as_dialog->gui)
-		g_object_unref(gal_view_instance_save_as_dialog->gui);
+		g_object_unref (gal_view_instance_save_as_dialog->gui);
 	gal_view_instance_save_as_dialog->gui = NULL;
 
 	if (G_OBJECT_CLASS (gal_view_instance_save_as_dialog_parent_class)->dispose)
@@ -174,7 +223,7 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *k
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
 	object_class->dispose      = gal_view_instance_save_as_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_INSTANCE, 
+	g_object_class_install_property (object_class, PROP_INSTANCE,
 					 g_param_spec_object ("instance",
 							      _("Instance"),
 							      /*_( */"XXX blurb" /*)*/,
@@ -187,68 +236,55 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	GtkWidget *table;
+
 	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
 					    "gal-view-instance-save-as-dialog.glade",
 					    NULL);
 
 	dialog->instance = NULL;
+	dialog->model = NULL;
+	dialog->collection = NULL;
 
 	gui = glade_xml_new_with_domain (filename , NULL, GETTEXT_PACKAGE);
 	g_free (filename);
 	dialog->gui = gui;
 
-	widget = glade_xml_get_widget(gui, "vbox-top");
+	widget = glade_xml_get_widget (gui, "vbox-top");
 	if (!widget) {
 		return;
 	}
-	g_object_ref(widget);
+
+	g_object_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
-	g_object_unref(widget);
+
+	/* TODO: add position/size saving/restoring */
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 360);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
+	g_object_unref (widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
-	gvisad_connect_signal(dialog, "radiobutton-replace", "toggled", G_CALLBACK(gvisad_radio_toggled));
-	gvisad_connect_signal(dialog, "radiobutton-create",  "toggled", G_CALLBACK(gvisad_radio_toggled));
+	dialog->scrolledwindow = glade_xml_get_widget (dialog->gui, "scrolledwindow2");
+	dialog->treeview = GTK_TREE_VIEW (glade_xml_get_widget (dialog->gui, "custom-replace"));
+	dialog->entry_create = glade_xml_get_widget (dialog->gui, "entry-create");
+	dialog->radiobutton_replace = glade_xml_get_widget (dialog->gui, "radiobutton-replace");
+	dialog->radiobutton_create = glade_xml_get_widget (dialog->gui, "radiobutton-create");
 
-	dialog->model = NULL;
-	table = glade_xml_get_widget(dialog->gui, "custom-replace");
-	if (table) {
-		dialog->model = g_object_get_data(G_OBJECT (table), "GalViewInstanceSaveAsDialog::model");
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
+	gtk_tree_view_set_headers_visible (dialog->treeview, FALSE);
 
-		gal_view_instance_save_as_dialog_set_instance (dialog, dialog->instance);
-		gtk_widget_show_all (table);
-	}
-	
+	g_signal_connect (dialog->radiobutton_replace, "toggled", G_CALLBACK (gvisad_radio_toggled), dialog);
+	g_signal_connect (dialog->radiobutton_create,  "toggled", G_CALLBACK (gvisad_radio_toggled), dialog);
+	g_signal_connect (dialog->entry_create,        "changed", G_CALLBACK (gvisad_entry_changed), dialog);
+
 	gvisad_setup_radio_buttons (dialog);
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	gvisad_setup_validate_button (dialog);
+
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Current View"));
-}
-
-
-/* For use from libglade. */
-/* ETable creation */
-#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\" gettext-domain=\"" GETTEXT_PACKAGE "\">" \
-	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
-             "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
-	     "</ETableSpecification>"
-
-GtkWidget *gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *string2, int int1, int int2);
-
-GtkWidget *
-gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *string2, int int1, int int2)
-{
-	GtkWidget *table;
-	ETableModel *model;
-	model = gal_define_views_model_new ();
-	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
-	g_object_set_data(G_OBJECT (table), "GalViewInstanceSaveAsDialog::model", model);
-
-	return table;
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 /* External methods */
@@ -259,11 +295,11 @@ gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *
  *
  * Returns: The GalViewInstanceSaveAsDialog.
  */
-GtkWidget*
+GtkWidget *
 gal_view_instance_save_as_dialog_new (GalViewInstance *instance)
 {
 	GtkWidget *widget = g_object_new (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, NULL);
-	gal_view_instance_save_as_dialog_set_instance(GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (widget), instance);
+	gal_view_instance_save_as_dialog_set_instance (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (widget), instance);
 	return widget;
 }
 
@@ -271,25 +307,36 @@ void
 gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 {
 	GalView *view = gal_view_instance_get_current_view (dialog->instance);
-	GtkWidget *widget;
 	const char *title;
 	int n;
 	const char *id = NULL;
+	GalViewCollectionItem *item;
 
 	view = gal_view_clone (view);
 	switch (dialog->toggle) {
 	case GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE:
-		widget = glade_xml_get_widget(dialog->gui, "custom-replace");
-		if (widget && E_IS_TABLE_SCROLLED (widget)) {
-			n = e_table_get_cursor_row (e_table_scrolled_get_table (E_TABLE_SCROLLED (widget)));
-			id = gal_view_collection_set_nth_view (dialog->instance->collection, n, view);
-			gal_view_collection_save (dialog->instance->collection);
+		if (dialog->treeview) {
+			GtkTreeIter iter;
+			GtkTreeSelection *selection;
+
+			selection = gtk_tree_view_get_selection (dialog->treeview);
+			if (gtk_tree_selection_get_selected (selection, &dialog->model, &iter)) {
+				gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
+
+				for (n=0; n<dialog->instance->collection->view_count; n++) {
+					if (item == dialog->instance->collection->view_data[n]) {
+						id = gal_view_collection_set_nth_view (dialog->instance->collection, n, view);
+						gal_view_collection_save (dialog->instance->collection);
+					}
+				}
+			}
+
 		}
 		break;
+
 	case GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_CREATE:
-		widget = glade_xml_get_widget(dialog->gui, "entry-create");
-		if (widget && GTK_IS_ENTRY (widget)) {
-			title = gtk_entry_get_text (GTK_ENTRY (widget));
+		if (dialog->entry_create && GTK_IS_ENTRY (dialog->entry_create)) {
+			title = gtk_entry_get_text (GTK_ENTRY (dialog->entry_create));
 			id = gal_view_collection_append_with_title (dialog->instance->collection, title, view);
 			gal_view_collection_save (dialog->instance->collection);
 		}

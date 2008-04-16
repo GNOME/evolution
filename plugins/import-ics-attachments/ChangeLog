@@ -1,3 +1,17 @@
+2007-02-20  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #517082
+
+	* icsimporter.c: (init_widgets): Fix small leak.
+
+2008-02-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #514622
+
+	* icsimporter.c: (dialog_close_cb): Drop this function.
+	* icsimporter.c: (init_widgets), (dialog_response_cb),
+	(ical_import_done): Do not call "close" on already closed dialog.
+
 2007-10-01  Milan Crha  <mcrha@redhat.com>
 
 	* icsimporter.c: (prepare_events), (prepare_tasks):
@@ -5,7 +19,7 @@
 
 2007-06-03  Srinivasa Ragavan  <sragavan@novell.com>
 
-        ** Fix for version removal from Installed files from Gilles Dartiguelongue 
+	** Fix for version removal from Installed files from Gilles Dartiguelongue 
 
 	* Makefile.am:
 

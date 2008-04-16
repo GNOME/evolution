@@ -1,0 +1,62 @@
+<ui>
+  <menubar name='main-menu'>
+    <placeholder name='pre-edit-menu'>
+      <menu action='file-menu'>
+        <menuitem action='send'/>
+        <separator/>
+        <menuitem action='save'/>
+        <menuitem action='save-as'/>
+        <menuitem action='save-draft'/>
+        <separator/>
+        <menuitem action='print-preview'/>
+        <menuitem action='print'/>
+        <separator/>
+        <menuitem action='close'/>
+      </menu>
+    </placeholder>
+    <menu action='edit-menu'>
+      <placeholder name='pre-spell-check'>
+        <menu action='charset-menu'/>
+        <separator/>
+      </placeholder>
+    </menu>
+    <placeholder name='pre-insert-menu'>
+      <menu action='view-menu'>
+        <menuitem action='view-from'/>
+        <menuitem action='view-to'/>
+        <menuitem action='view-post-to'/>
+        <menuitem action='view-reply-to'/>
+        <menuitem action='view-cc'/>
+        <menuitem action='view-bcc'/>
+        <menuitem action='view-subject'/>
+      </menu>
+    </placeholder>
+    <menu action='insert-menu'>
+      <placeholder name='insert-menu-top'>
+        <menuitem action='attach'/>
+        <placeholder name='recent-placeholder'/>
+        <separator/>
+        <menuitem action='send-options'/>
+        <separator/>
+      </placeholder>
+      <separator/>
+      <menuitem action='request-read-receipt'/>
+      <menuitem action='prioritize-message'/>
+    </menu>
+    <menu action='security-menu'>
+      <menuitem action='pgp-sign'/>
+      <menuitem action='pgp-encrypt'/>
+      <menuitem action='smime-sign'/>
+      <menuitem action='smime-encrypt'/>
+    </menu>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <placeholder name='pre-main-toolbar'>
+      <toolitem action='send'/>
+      <separator/>
+      <toolitem action='save-draft'/>
+      <toolitem action='attach'/>
+      <separator/>
+    </placeholder>
+  </toolbar>
+</ui>

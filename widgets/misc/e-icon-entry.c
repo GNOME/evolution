@@ -28,7 +28,7 @@
  *  Modified by the GTK+ Team and others 1997-2005.  See the AUTHORS
  *  file in the gtk+ distribution for a list of people on the GTK+ Team.
  *  See the ChangeLog in the gtk+ distribution files for a list of changes.
- *  These files are distributed with GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ *  These files are distributed with GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  *
  */
 
@@ -113,9 +113,9 @@ e_icon_entry_paint (GtkWidget *widget,
 		height -= 2 * focus_width;
 	}
 
-	gtk_paint_flat_box (entry_widget->style, widget->window, 
+	gtk_paint_flat_box (entry_widget->style, widget->window,
 			    GTK_WIDGET_STATE (entry_widget), GTK_SHADOW_NONE,
-			    NULL, entry_widget, "entry_bg", 
+			    NULL, entry_widget, "entry_bg",
 			    /* FIXME: was 0, 0 in gtk_entry_expose, but I think this is correct: */
 			    x, y, width, height);
 
@@ -254,7 +254,7 @@ e_icon_entry_size_allocate (GtkWidget *widget,
 					child_allocation.width,
 					child_allocation.height);
 	}
-  
+
 	child_allocation.x = container->border_width + xborder;
 	child_allocation.y = container->border_width + yborder;
 	child_allocation.width = MAX (allocation->width - (container->border_width + xborder) * 2, 0);
@@ -350,7 +350,7 @@ e_icon_entry_pack_widget (EIconEntry *entry,
 	}
 }
 
-static void 
+static void
 set_cursor (GtkWidget *widget, GdkEventCrossing *event, gpointer dummy)
 {
 

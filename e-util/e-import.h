@@ -60,8 +60,8 @@ enum _e_import_target_t {
 };
 
 /**
- * struct _EImportImporter - 
- * 
+ * struct _EImportImporter -
+ *
  * @type: target type
  * @priority: Priority of importer.  Higher values will be processed first.
  * @supported: Callback to see if this target is supported by the importer.
@@ -90,13 +90,13 @@ struct _EImportImporter {
 
 /**
  * struct _EImportTarget - importation context.
- * 
+ *
  * @import: The parent object.
  * @type: The type of target, defined by implementing classes.
  * @data: This can be used to store run-time information
  * about this target.  Any allocated data must be set so
  * as to free it when the target is freed.
- * 
+ *
  * The base target object is used as the parent and placeholder for
  * import context for a given importer.
  **/
@@ -128,7 +128,7 @@ struct _EImportTargetHome {
 
 /**
  * struct _EImport - An importer management object.
- * 
+ *
  * @object: Superclass.
  * @id: ID of importer.
  * @status: Status callback of current running import.
@@ -148,7 +148,7 @@ struct _EImport {
 
 /**
  * struct _EImportClass - Importer manager abstract class.
- * 
+ *
  * @object_class: Superclass.
  * @factories: A list of factories registered on this type of
  * importuration manager.
@@ -157,7 +157,7 @@ struct _EImport {
  * into changes on the target to propery drive the manager.
  * @target_free: A virtual method used to free the target in an
  * implementation-defined way.
- * 
+ *
  **/
 struct _EImportClass {
 	GObjectClass object_class;
@@ -223,11 +223,11 @@ struct _EImportHookImporter {
 
 /**
  * struct _EImportHook - Plugin hook for importuration windows.
- * 
+ *
  * @hook: Superclass.
  * @groups: A list of EImportHookGroup's of all importuration windows
  * this plugin hooks into.
- * 
+ *
  **/
 struct _EImportHook {
 	EPluginHook hook;
@@ -238,7 +238,7 @@ struct _EImportHook {
 /**
  * struct _EImportHookClass - Abstract class for importuration window
  * plugin hooks.
- * 
+ *
  * @hook_class: Superclass.
  * @target_map: A table of EImportHookTargetMap structures describing
  * the possible target types supported by this class.
@@ -247,7 +247,7 @@ struct _EImportHook {
  *
  * This is an abstract class defining the plugin hook point for
  * importuration windows.
- * 
+ *
  **/
 struct _EImportHookClass {
 	EPluginHookClass hook_class;

@@ -110,12 +110,12 @@ impl_GNOME_Evolution_ImporterListener_notifyResult (PortableServer_Servant serva
 
 	out_result = corba_result_to_evolution (result);
 	if (priv->callback) {
-		(priv->callback) (listener, out_result, more_items, 
+		(priv->callback) (listener, out_result, more_items,
 				  priv->closure);
 	}
 
 	return;
-}	
+}
 
 
 /* GObject methods */
@@ -152,7 +152,7 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_GNOME_Evolution_ImporterListener__epv, 1);
 	epv->notifyResult = impl_GNOME_Evolution_ImporterListener_notifyResult;
-	
+
 	vepv = &Listener_vepv;
 	vepv->_base_epv = base_epv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
@@ -165,7 +165,7 @@ evolution_importer_listener_class_init (EvolutionImporterListenerClass *klass)
 {
 	GObjectClass *object_class;
 	POA_GNOME_Evolution_ImporterListener__epv *epv = &klass->epv;
-	
+
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = finalise;
 

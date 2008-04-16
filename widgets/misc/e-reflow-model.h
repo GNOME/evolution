@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-reflow-model.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -55,7 +55,7 @@ typedef struct {
 	GnomeCanvasItem *(*incarnate)      (EReflowModel *etm, int n, GnomeCanvasGroup *parent);
 	int              (*compare)        (EReflowModel *etm, int n1, int n2);
 	void             (*reincarnate)    (EReflowModel *etm, int n, GnomeCanvasItem *item);
-	
+
 	/*
 	 * Signals
 	 */

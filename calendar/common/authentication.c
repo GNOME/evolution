@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Authors : 
+/*
+ * Authors :
  *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 2003, Novell, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,6 +30,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 #include "authentication.h"
+#include <libedataserver/e-url.h>
 
 static GHashTable *source_lists_hash = NULL;
 
@@ -55,11 +56,49 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 	return password;
 }
 
+static char *
+build_pass_key (ECal *ecal)
+{
+	char *euri_str;
+	const char *uri;
+	EUri *euri;
+
+	uri = e_cal_get_uri (ecal);
+
+	euri = e_uri_new (uri);
+	euri_str = e_uri_to_string (euri, FALSE);
+
+	e_uri_free (euri);
+	return euri_str;
+}
+
+void 
+auth_cal_forget_password (ECal *ecal)
+{
+	ESource *source = NULL;
+	const char *auth_domain = NULL, *component_name = NULL,  *auth_type = NULL;
+	char *key = NULL;
+
+	source = e_cal_get_source (ecal);
+	auth_domain = e_source_get_property (source, "auth-domain");
+	component_name = auth_domain ? auth_domain : "Calendar";
+
+	auth_type = e_source_get_property (source, "auth-type");
+	if (auth_type)
+		key = build_pass_key (ecal);
+	else
+		key = e_source_get_uri (source);
+
+	e_passwords_forget_password (component_name, key);
+
+	g_free (key);
+}
+
 ECal *
 auth_new_cal_from_default (ECalSourceType type)
 {
 	ECal *ecal = NULL;
-	
+
 	if (!e_cal_open_default (&ecal, type, auth_func_cb, NULL, NULL))
 		return NULL;
 

@@ -1,3 +1,17 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* folder-unsubscribe.c:
+	Use the new MailMsg API for messages.
+
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* org-gnome-mail-folder-unsubscribe.eplug.xml:
+	right click menu reordering
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

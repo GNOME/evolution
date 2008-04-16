@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-without.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -54,7 +54,7 @@ typedef struct {
 
 typedef struct {
 	ETableSubsetClass parent_class;
-	
+
 } ETableWithoutClass;
 
 GType        e_table_without_get_type   (void);

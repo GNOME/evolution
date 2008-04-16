@@ -1,4 +1,4 @@
-/* 
+/*
  * e-meeting-list-view.h
  *
  * Author: Mike Kestner <mkestner@ximian.com>
@@ -57,7 +57,7 @@ GType      e_meeting_list_view_get_type (void);
 
 EMeetingListView *e_meeting_list_view_new (EMeetingStore *store);
 
-void       e_meeting_list_view_column_set_visible (EMeetingListView *emlv, const gchar *col_name, gboolean visible);
+void       e_meeting_list_view_column_set_visible (EMeetingListView *emlv, EMeetingStoreColumns column, gboolean visible);
 
 void       e_meeting_list_view_edit (EMeetingListView *emlv, EMeetingAttendee *attendee);
 

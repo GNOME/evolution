@@ -53,7 +53,7 @@ GType
 filter_element_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (FilterElementClass),
@@ -68,7 +68,7 @@ filter_element_get_type (void)
 		};
 		type = g_type_register_static (G_TYPE_OBJECT, "FilterElement", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -76,9 +76,9 @@ static void
 filter_element_class_init (FilterElementClass *klass)
 {
 	parent_class = g_type_class_ref (G_TYPE_OBJECT);
-	
+
 	((GObjectClass *)klass)->finalize = filter_element_finalise;
-	
+
 	/* override methods */
 	klass->validate = validate;
 	klass->eq = element_eq;
@@ -97,9 +97,9 @@ static void
 filter_element_finalise (GObject *obj)
 {
 	FilterElement *o = (FilterElement *)obj;
-	
+
 	xmlFree (o->name);
-	
+
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -107,7 +107,7 @@ filter_element_finalise (GObject *obj)
  * filter_element_new:
  *
  * Create a new FilterElement object.
- * 
+ *
  * Return value: A new #FilterElement object.
  **/
 FilterElement *
@@ -126,7 +126,7 @@ int
 filter_element_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterElementClass *klass;
-	
+
 	klass = FILTER_ELEMENT_GET_CLASS (fe);
 	return (klass == FILTER_ELEMENT_GET_CLASS (cm)) && klass->eq (fe, cm);
 }
@@ -135,7 +135,7 @@ filter_element_eq (FilterElement *fe, FilterElement *cm)
  * filter_element_xml_create:
  * @fe: filter element
  * @node: xml node
- * 
+ *
  * Create a new filter element based on an xml definition of
  * that element.
  **/
@@ -148,10 +148,10 @@ filter_element_xml_create (FilterElement *fe, xmlNodePtr node)
 /**
  * filter_element_xml_encode:
  * @fe: filter element
- * 
+ *
  * Encode the values of a filter element into xml format.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 xmlNodePtr
 filter_element_xml_encode (FilterElement *fe)
@@ -163,10 +163,10 @@ filter_element_xml_encode (FilterElement *fe)
  * filter_element_xml_decode:
  * @fe: filter element
  * @node: xml node
- * 
+ *
  * Decode the values of a fitler element from xml format.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 int
 filter_element_xml_decode (FilterElement *fe, xmlNodePtr node)
@@ -177,10 +177,10 @@ filter_element_xml_decode (FilterElement *fe, xmlNodePtr node)
 /**
  * filter_element_clone:
  * @fe: filter element
- * 
+ *
  * Clones the FilterElement @fe.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 FilterElement *
 filter_element_clone (FilterElement *fe)
@@ -192,10 +192,10 @@ filter_element_clone (FilterElement *fe)
  * filter_element_get_widget:
  * @fe: filter element
  * @node: xml node
- * 
+ *
  * Create a widget to represent this element.
- * 
- * Return value: 
+ *
+ * Return value:
  **/
 GtkWidget *
 filter_element_get_widget (FilterElement *fe)
@@ -207,8 +207,8 @@ filter_element_get_widget (FilterElement *fe)
  * filter_element_build_code:
  * @fe: filter element
  * @out: output buffer
- * @ff: 
- * 
+ * @ff:
+ *
  * Add the code representing this element to the output string @out.
  **/
 void
@@ -221,7 +221,7 @@ filter_element_build_code (FilterElement *fe, GString *out, struct _FilterPart *
  * filter_element_format_sexp:
  * @fe: filter element
  * @out: output buffer
- * 
+ *
  * Format the value(s) of this element in a method suitable for the context of
  * sexp where it is used.  Usually as space separated, double-quoted strings.
  **/
@@ -262,12 +262,12 @@ clone (FilterElement *fe)
 {
 	xmlNodePtr node;
 	FilterElement *new;
-	
+
 	new = (FilterElement *) g_object_new (G_OBJECT_TYPE (fe), NULL, NULL);
 	node = filter_element_xml_encode (fe);
 	filter_element_xml_decode (new, node);
 	xmlFreeNodeList (node);
-	
+
 	return new;
 }
 

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-contact-editor-im.c
  * Copyright (C) 2003  Ximian, Inc.
  * Author: Christian Hammond <chipx86@gnupdate.org>
@@ -116,7 +116,7 @@ e_contact_editor_im_class_init (EContactEditorImClass *klass)
 	object_class->get_property = e_contact_editor_im_get_property;
 	object_class->dispose = e_contact_editor_im_dispose;
 
-	g_object_class_install_property (object_class, PROP_SERVICE, 
+	g_object_class_install_property (object_class, PROP_SERVICE,
 					 g_param_spec_int ("service",
 							   _("Service"),
 							   /*_( */"XXX blurb" /*)*/,
@@ -125,21 +125,21 @@ e_contact_editor_im_class_init (EContactEditorImClass *klass)
 							   FIRST_IM_TYPE,
 							   G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_LOCATION, 
+	g_object_class_install_property (object_class, PROP_LOCATION,
 					 g_param_spec_string ("location",
 							      _("Location"),
 							      /*_( */"XXX blurb" /*)*/,
 							      "HOME",
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_USERNAME, 
+	g_object_class_install_property (object_class, PROP_USERNAME,
 					 g_param_spec_string ("username",
 							      _("Username"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE, 
+	g_object_class_install_property (object_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
@@ -297,7 +297,7 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 	}
 }
 
-void
+static void
 e_contact_editor_im_dispose (GObject *object)
 {
 	EContactEditorIm *e_contact_editor_im = E_CONTACT_EDITOR_IM(object);

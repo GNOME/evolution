@@ -29,41 +29,45 @@ requests are always handled in the main gui thread in the correct order.
 #ifndef EM_SYNC_STREAM_H
 #define EM_SYNC_STREAM_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
-#define EM_SYNC_STREAM_TYPE     (em_sync_stream_get_type ())
-#define EM_SYNC_STREAM(obj)     (CAMEL_CHECK_CAST((obj), EM_SYNC_STREAM_TYPE, EMSyncStream))
-#define EM_SYNC_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_SYNC_STREAM_TYPE, EMSyncStreamClass))
-#define EM_IS_SYNC_STREAM(o)    (CAMEL_CHECK_TYPE((o), EM_SYNC_STREAM_TYPE))
-
 #include <glib.h>
 #include <camel/camel-stream.h>
 
-typedef struct _EMSyncStream {
-	CamelStream parent_stream;
+#define EM_SYNC_STREAM_TYPE \
+	(em_sync_stream_get_type ())
+#define EM_SYNC_STREAM(obj) \
+	(CAMEL_CHECK_CAST \
+	((obj), EM_SYNC_STREAM_TYPE, EMSyncStream))
+#define EM_SYNC_STREAM_CLASS(cls) \
+	(CAMEL_CHECK_CLASS_CAST \
+	((cls), EM_SYNC_STREAM_TYPE, EMSyncStreamClass))
+#define EM_IS_SYNC_STREAM(obj) \
+	(CAMEL_CHECK_TYPE ((obj), EM_SYNC_STREAM_TYPE))
 
-	struct _EMSyncStreamPrivate *priv;
+G_BEGIN_DECLS
 
-	int cancel;
-} EMSyncStream;
+typedef struct _EMSyncStream EMSyncStream;
+typedef struct _EMSyncStreamClass EMSyncStreamClass;
 
-typedef struct {
+struct _EMSyncStream {
+	CamelStream parent;
+	GString *buffer;
+	gboolean cancel;
+};
+
+struct _EMSyncStreamClass {
 	CamelStreamClass parent_class;
 
-	ssize_t   (*sync_write)      (CamelStream *stream, const char *buffer, size_t n);
-	int       (*sync_close)      (CamelStream *stream);
-	int       (*sync_flush)      (CamelStream *stream);
-	
-} EMSyncStreamClass;
+	gssize		(*sync_write)		(CamelStream *stream,
+						 const gchar *string,
+						 gsize len);
+	int		(*sync_close)		(CamelStream *stream);
+	int		(*sync_flush)		(CamelStream *stream);
+};
 
-CamelType    em_sync_stream_get_type (void);
-void em_sync_stream_set_buffer_size(EMSyncStream *, size_t size);
+CamelType	em_sync_stream_get_type		(void);
+void		em_sync_stream_set_buffer_size	(EMSyncStream *stream,
+						 gsize size);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_SYNC_STREAM_H */

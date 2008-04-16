@@ -1,39 +1,8 @@
-## CORBA stuff
-
-IDLS =				\
-	Evolution-Composer.idl	\
-	Composer.idl
-
-IDL_GENERATED =			\
-	Composer.h		\
-	Composer-common.c	\
-	Composer-skels.c	\
-	Composer-stubs.c
-
-HTML_EDITOR_GENERATED =		\
-	Editor.h		\
-	Editor-common.c	\
-	Editor-skels.c	\
-	Editor-stubs.c
-
-$(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
-		$(srcdir)/Composer.idl
-
-Editor-commmon.c: $(GTKHTML_DATADIR)/Editor.idl
-
-$(HTML_EDITOR_GENERATED): $(GTKHTML_DATADIR)/Editor.idl
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) -I $(GTKHTML_DATADIR)/gtkhtml $(GTKHTML_DATADIR)/Editor.idl
-
-##
-
 error_DATA = mail-composer.error
 errordir = $(privdatadir)/errors
 
 # provides error rule
 @EVO_PLUGIN_RULE@
-
-idl_DATA = $(IDLS)
 
 noinst_LTLIBRARIES = libcomposer.la
 
@@ -58,20 +27,36 @@ INCLUDES =								\
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
-	e-msg-composer-hdrs.c			\
-	e-msg-composer-hdrs.h			\
-	e-msg-composer-select-file.c		\
-	e-msg-composer-select-file.h		\
+	e-composer-actions.c			\
+	e-composer-actions.h			\
+	e-composer-autosave.c			\
+	e-composer-autosave.h			\
+	e-composer-common.h			\
+	e-composer-header.c			\
+	e-composer-header.h			\
+	e-composer-header-table.c		\
+	e-composer-header-table.h		\
+	e-composer-from-header.c		\
+	e-composer-from-header.h		\
+	e-composer-name-header.c		\
+	e-composer-name-header.h		\
+	e-composer-post-header.c		\
+	e-composer-post-header.h		\
+	e-composer-private.c			\
+	e-composer-private.h			\
+	e-composer-text-header.c		\
+	e-composer-text-header.h		\
 	e-msg-composer.c			\
 	e-msg-composer.h			\
-	evolution-composer.c			\
-	evolution-composer.h			\
-	listener.c				\
-	listener.h
+	gconf-bridge.c				\
+	gconf-bridge.h
+
+uidir = $(evolutionuidir)
+ui_DATA = evolution-composer.ui
 
 EXTRA_DIST =					\
+	$(ui_DATA)				\
 	mail-composer.error.xml			\
-	$(IDLS)					\
 	ChangeLog.pre-1-4
 
 BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED) $(error_DATA)

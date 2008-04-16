@@ -34,17 +34,17 @@
 #include "e-util/e-error.h"
 
 void org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *target);
-static void mar_got_folder (char *uri, CamelFolder *folder, void *data); 
+static void mar_got_folder (char *uri, CamelFolder *folder, void *data);
 static void mar_all_sub_folders (CamelStore *store, CamelFolderInfo *fi, CamelException *ex);
 
-void 
+void
 org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *t)
 {
 	if (t->uri == NULL) {
 		return;
 	}
-	
-	mail_get_folder(t->uri, 0, mar_got_folder, NULL, mail_thread_new);
+
+	mail_get_folder(t->uri, 0, mar_got_folder, NULL, mail_msg_unordered_push);
 }
 
 static void
@@ -52,17 +52,17 @@ mark_all_as_read (CamelFolder *folder)
 {
 	GPtrArray *uids;
 	int i;
-	
-	uids =  camel_folder_get_uids (folder); 
+
+	uids =  camel_folder_get_uids (folder);
 	camel_folder_freeze(folder);
 	for (i=0;i<uids->len;i++)
 		camel_folder_set_message_flags(folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	camel_folder_thaw(folder);
-	camel_folder_free_uids (folder, uids); 
+	camel_folder_free_uids (folder, uids);
 }
 
-static void 
-mar_got_folder (char *uri, CamelFolder *folder, void *data) 
+static void
+mar_got_folder (char *uri, CamelFolder *folder, void *data)
 {
 	CamelFolderInfo *info;
 	CamelStore *store;
@@ -77,26 +77,26 @@ mar_got_folder (char *uri, CamelFolder *folder, void *data)
 		return;
 
 	store = folder->parent_store;
-	info = camel_store_get_folder_info (store, folder->full_name, flags, &ex); 
+	info = camel_store_get_folder_info (store, folder->full_name, flags, &ex);
 
-	if (camel_exception_is_set (&ex)) { 
+	if (camel_exception_is_set (&ex)) {
 		camel_exception_clear (&ex);
 		return;
 	}
-	
+
 	if (info && (info->child || info->next)) {
 		response = e_error_run (NULL, "mail:ask-mark-read", NULL);
 	} else {
 		mark_all_as_read (folder);
 		return;
 	}
-				
+
 	if (response == GTK_RESPONSE_NO) {
 		mark_all_as_read (folder);
 	} else if (response == GTK_RESPONSE_YES){
-		mar_all_sub_folders (store, info, &ex); 
+		mar_all_sub_folders (store, info, &ex);
 	}
-	 
+
 }
 
 static void
@@ -104,20 +104,20 @@ mar_all_sub_folders (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
 {
 	while (fi) {
 		CamelFolder *folder;
-		
+
 		if (fi->child) {
 			mar_all_sub_folders (store, fi->child, ex);
 			if (camel_exception_is_set (ex))
 				return;
 		}
-		
+
 		if (!(folder = camel_store_get_folder (store, fi->full_name, 0, ex)))
 			return;
-		
+
 		if (!CAMEL_IS_VEE_FOLDER (folder)) {
-			mark_all_as_read (folder);	
+			mark_all_as_read (folder);
 		}
-		
+
 		fi = fi->next;
 	}
 }

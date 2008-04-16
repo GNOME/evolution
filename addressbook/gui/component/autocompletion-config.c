@@ -132,7 +132,7 @@ autocompletion_config_control_new (void)
 					     GTK_SHADOW_IN);
 
 	ac->control_widget = e_source_selector_new (ac->source_list);
-	
+
 	gtk_container_add (GTK_CONTAINER (scrolledwin), ac->control_widget);
 
 	initialize_selection (ac);
@@ -144,7 +144,7 @@ autocompletion_config_control_new (void)
 
 	g_signal_connect (ac->control_widget, "selection_changed",
 			  G_CALLBACK (source_selection_changed), ac);
-	
+
 	g_object_weak_ref (G_OBJECT (ac->config_control), config_control_destroy_notify, ac);
 
 	CORBA_exception_free (&ev);

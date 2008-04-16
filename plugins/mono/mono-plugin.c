@@ -10,7 +10,7 @@
 #include <mono/metadata/assembly.h>
 #include <mono/jit/jit.h>
 
-#define d(x)
+#define d(x) (x)
 
 static MonoDomain *domain;
 
@@ -25,6 +25,8 @@ typedef struct _EPluginMonoPrivate {
 } EPluginMonoPrivate;
 
 #define epm ((EPluginMono *)ep)
+
+void * load_plugin_type_register_function (void *a, void *b);
 
 static char *
 get_xml_prop(xmlNodePtr node, const char *id)
@@ -57,6 +59,8 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 	MonoObject *x = NULL, *res;
 	void **params;
 
+	g_print ("\n\a epm_invoke in mono-plugin.c in mono plugin loader is called \n\a");
+
 	/* we need to do this every time since we may be called from any thread for some uses */
 	mono_thread_attach(domain);
 
@@ -82,13 +86,24 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 		if (p->klass) {
 			d(printf("looking up method '%s' in class\n", name));
 			/* class method */
+			
 			d = mono_method_desc_new(name, FALSE);
-			if (d == NULL) {
+			/*if (d == NULL) {
 				g_warning("Can't create method descriptor for '%s'", name);
 				return NULL;
-			}
+			}*/
+			
+			gpointer iter = NULL;
+			MonoMethod* mono_method;
 
-			m = mono_method_desc_search_in_class(d, p->klass);
+			d(printf ("\n\a About to get methods in klass\n\a"));
+			       
+			while ((mono_method = mono_class_get_methods (p->klass, &iter))) {
+				g_print ("\n\a Method name is : <%s>\n\a", mono_method_get_name(mono_method));
+			}
+			d(printf ("\n\a Got methods in klass \n\a"));
+//mono_class_get_method_from_name
+			m = mono_class_get_method_from_name (p->klass, name, -1);
 			if (m == NULL) {
 				g_warning("Can't find method callback '%s'", name);
 				return NULL;
@@ -181,10 +196,10 @@ epm_init(GObject *o)
 }
 
 void *
-org_gnome_evolution_mono_get_type(void *a, void *b)
+load_plugin_type_register_function (void *a, void *b)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EPluginMonoClass), NULL, NULL, (GClassInitFunc) epm_class_init, NULL, NULL,
@@ -193,9 +208,11 @@ org_gnome_evolution_mono_get_type(void *a, void *b)
 
 		epm_parent_class = g_type_class_ref(e_plugin_get_type());
 		type = g_type_register_static(e_plugin_get_type(), "EPluginMono", &info, 0);
+		e_plugin_register_type (type);
+		d(printf("\nType EPluginMono registered from the mono-plugin-loader\n"));
 		domain = mono_jit_init("Evolution");
 		mono_thread_attach(domain);
 	}
-	
+
 	return GUINT_TO_POINTER(type);
 }

@@ -6,7 +6,7 @@
  * Copyright (C) 2003 Ximian Inc.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public 
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -61,13 +61,13 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
 
 	if (GTK_ENTRY (editable)->editing_canceled) {
-		gtk_cell_renderer_stop_editing (GTK_CELL_RENDERER (cell), TRUE);		
+		gtk_cell_renderer_stop_editing (GTK_CELL_RENDERER (cell), TRUE);
 		goto cleanup;
 	}
-	
+
 	addresses = e_select_names_editable_get_emails (E_SELECT_NAMES_EDITABLE (editable));
 	names = e_select_names_editable_get_names (E_SELECT_NAMES_EDITABLE (editable));
- 
+
 	g_signal_emit (cell, signals [CELL_EDITED], 0, cell->priv->path, addresses, names);
 
 	g_list_foreach (addresses, (GFunc)g_free, NULL);
@@ -97,14 +97,14 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
 	ESelectNamesEditable *editable;
-	
+
 	if (!text_cell->editable)
 		return NULL;
 
 	editable = E_SELECT_NAMES_EDITABLE (e_select_names_editable_new ());
 	gtk_entry_set_has_frame (GTK_ENTRY (editable), FALSE);
 	gtk_entry_set_alignment (GTK_ENTRY (editable), cell->xalign);
-	if (sn_cell->priv->email && *sn_cell->priv->email) 
+	if (sn_cell->priv->email && *sn_cell->priv->email)
 		e_select_names_editable_set_address (editable, sn_cell->priv->name, sn_cell->priv->email);
 	gtk_widget_show (GTK_WIDGET (editable));
 
@@ -182,7 +182,7 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
 	GObjectClass *obj_class = G_OBJECT_CLASS (class);
-	
+
 	obj_class->finalize = e_select_names_renderer_finalize;
 	obj_class->get_property = e_select_names_renderer_get_property;
 	obj_class->set_property = e_select_names_renderer_set_property;

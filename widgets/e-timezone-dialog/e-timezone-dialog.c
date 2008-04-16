@@ -27,8 +27,10 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkentry.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcelllayout.h>
 #include <gtk/gtklabel.h>
 #include <gnome.h>
 #include <glade/glade.h>
@@ -110,9 +112,15 @@ static icaltimezone* get_zone_from_point	(ETimezoneDialog *etd,
 						 EMapPoint	*point);
 static void	set_map_timezone		(ETimezoneDialog *etd,
 						 icaltimezone    *zone);
-static void	on_combo_changed		(GtkEditable	*entry,
+static void	on_combo_changed		(GtkComboBox	*combo,
 						 ETimezoneDialog *etd);
-static void	map_destroy_cb			(gpointer data, 
+
+static void timezone_combo_get_active_text 	(GtkComboBox *combo, 
+						 const char **zone_name);
+static gboolean timezone_combo_set_active_text 	(GtkComboBox *combo, 
+						 const char *zone_name);
+
+static void	map_destroy_cb			(gpointer data,
 						 GObject *where_object_was);
 
 G_DEFINE_TYPE (ETimezoneDialog, e_timezone_dialog, G_TYPE_OBJECT)
@@ -198,28 +206,22 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	icalarray *zones;
-	GtkWidget *listitem;
-	GtkCombo *combo;
+	GtkComboBox *combo;
+	GList *l, *list_items = NULL;
+	GtkListStore *list_store;
+	GtkTreeIter iter;
+	GtkCellRenderer *cell;
+	GHashTable *index;
 	int i;
 
 	priv = etd->priv;
-
-	combo = GTK_COMBO (priv->timezone_combo);
-
-	/* Clear any existing items in the combo. */
-	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
-
-	/* Put the ""UTC" entry at the top of the combo's list. */
-	listitem = gtk_list_item_new_with_label (_("UTC"));
-	gtk_widget_show (listitem);
-	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
 
 	/* Get the array of builtin timezones. */
 	zones = icaltimezone_get_builtin_timezones ();
 
 	for (i = 0; i < zones->num_elements; i++) {
 		icaltimezone *zone;
-		char *location;
+		gchar *location;
 
 		zone = icalarray_element_at (zones, i);
 
@@ -230,10 +232,42 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 				 icaltimezone_get_latitude (zone),
 				 E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
-		listitem = gtk_list_item_new_with_label (location);
-		gtk_widget_show (listitem);
-		gtk_container_add (GTK_CONTAINER (combo->list), listitem);
+		list_items = g_list_prepend (list_items, location);
 	}
+
+	list_items = g_list_sort (list_items, (GCompareFunc) g_utf8_collate);
+
+	/* Put the "UTC" entry at the top of the combo's list. */
+	list_items = g_list_prepend (list_items, _("UTC"));
+
+	combo = GTK_COMBO_BOX (priv->timezone_combo);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start ((GtkCellLayout *) combo, cell, TRUE);
+	gtk_cell_layout_set_attributes ((GtkCellLayout *) combo, cell, "text", 0, NULL);
+
+	list_store = gtk_list_store_new (1, G_TYPE_STRING);
+	index = g_hash_table_new (g_str_hash, g_str_equal);
+	for (l = list_items, i = 0; l != NULL; l = l->next, ++i) {
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, 0, (gchar *)(l->data), -1);
+		g_hash_table_insert (index, (gchar *)(l->data), GINT_TO_POINTER (i));
+	}
+
+	g_object_set_data_full (G_OBJECT (list_store), "index", index, (GDestroyNotify) g_hash_table_destroy);
+
+	gtk_combo_box_set_model (combo, (GtkTreeModel *) list_store);
+
+	gtk_rc_parse_string (
+		"style \"e-timezone-combo-style\" {\n"
+		"  GtkComboBox::appears-as-list = 1\n"
+		"}\n"
+		"\n"
+		"widget \"*.e-timezone-dialog-combo\" style \"e-timezone-combo-style\"");
+
+	gtk_widget_set_name (priv->timezone_combo, "e-timezone-dialog-combo");
+
+	g_list_free (list_items);
 }
 
 
@@ -279,8 +313,6 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 			       | GDK_LEAVE_NOTIFY_MASK
 			       | GDK_VISIBILITY_NOTIFY_MASK);
 
-	gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->timezone_combo)->entry), FALSE);
-
 	e_timezone_dialog_add_timezones (etd);
 
 	gtk_container_add (GTK_CONTAINER (priv->map_window), map);
@@ -294,7 +326,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
         g_signal_connect (map, "visibility-notify-event", G_CALLBACK (on_map_visibility_changed), etd);
 	g_signal_connect (map, "button-press-event", G_CALLBACK (on_map_button_pressed), etd);
 
-	g_signal_connect (GTK_COMBO (priv->timezone_combo)->entry, "changed", G_CALLBACK (on_combo_changed), etd);
+	g_signal_connect (GTK_COMBO_BOX (priv->timezone_combo), "changed", G_CALLBACK (on_combo_changed), etd);
 
 	return etd;
 
@@ -306,12 +338,12 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 #if 0
 static int
-get_local_offset ()
+get_local_offset (void)
 {
 	time_t now = time(NULL), t_gmt, t_local;
 	struct tm gmt, local;
 	int diff;
-		
+
 	gmtime_r (&now, &gmt);
 	localtime_r (&now, &local);
 	t_gmt = mktime (&gmt);
@@ -322,11 +354,11 @@ get_local_offset ()
 }
 #endif
 
-static const icaltimezone*
-get_local_timezone()
+static icaltimezone*
+get_local_timezone(void)
 {
 	icaltimezone *zone;
-	
+
 	tzset();
 	zone =  icaltimezone_get_builtin_timezone_from_offset (-timezone, tzname[0]);
 
@@ -420,13 +452,13 @@ zone_display_name_with_offset (icaltimezone *zone)
 	int offset;
 	char buffer [100];
 	time_t now = time(NULL);
-	
+
 	gmtime_r ((const time_t *) &now, &local);
 	tt = tm_to_icaltimetype (&local, TRUE);
 	offset = icaltimezone_get_utc_offset(zone, &tt, NULL);
 
 	format_utc_offset (offset, buffer);
-	
+
 	display_name = icaltimezone_get_display_name (zone);
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
@@ -438,7 +470,7 @@ static const char *
 zone_display_name (icaltimezone *zone)
 {
 	const char *display_name;
-	
+
 	display_name = icaltimezone_get_display_name (zone);
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
@@ -479,7 +511,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	double longitude, latitude;
 	icaltimezone *new_zone;
 	char *display=NULL;
-	
+
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
@@ -503,7 +535,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	gtk_label_set_text (GTK_LABEL (priv->preview_label), display);
 
 	g_free (display);
-	
+
 	return TRUE;
 }
 
@@ -527,8 +559,8 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-			    zone_display_name (priv->zone));
+	timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
+					zone_display_name (priv->zone));
 	gtk_label_set_text (GTK_LABEL (priv->preview_label), "");
 
 	priv->point_hover = NULL;
@@ -543,7 +575,7 @@ on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
-	
+
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
@@ -570,31 +602,31 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
-	
+
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
 	e_map_window_to_world (priv->map, (double) event->x, (double) event->y,
 			       &longitude, &latitude);
-	
+
 	if (event->button != 1) {
 	        e_map_zoom_out (priv->map);
 	} else {
 		if (e_map_get_magnification (priv->map) <= 1.0)
 		        e_map_zoom_to_location (priv->map, longitude,
 						latitude);
-	
+
 		if (priv->point_selected)
 		        e_map_point_set_color_rgba (priv->map,
 						    priv->point_selected,
 						    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		priv->point_selected = priv->point_hover;
-		
+
 		priv->zone = get_zone_from_point (etd, priv->point_selected);
-		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-				    zone_display_name (priv->zone));
+		timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
+						zone_display_name (priv->zone));
 	}
-	
+
 	return TRUE;
 }
 
@@ -672,8 +704,8 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 				icaltimezone    *zone)
 {
 	ETimezoneDialogPrivate *priv;
-	char *display=NULL;
-	
+	char *display = NULL;
+
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
  	if (!zone) {
@@ -683,16 +715,16 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	}
 
 	if (zone)
-		display=zone_display_name_with_offset(zone);
-	
+		display = zone_display_name_with_offset(zone);
+
 	priv = etd->priv;
 
 	priv->zone = zone;
 
 	gtk_label_set_text (GTK_LABEL (priv->preview_label),
 			    zone ? display : "");
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-			    zone ? zone_display_name(zone) : "");
+	timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
+					zone ? zone_display_name(zone) : "");
 
 	set_map_timezone (etd, zone);
 	g_free (display);
@@ -741,7 +773,7 @@ set_map_timezone (ETimezoneDialog *etd, icaltimezone *zone)
 
 
 static void
-on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
+on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	const char *new_zone_name;
@@ -752,11 +784,11 @@ on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
 
 	priv = etd->priv;
 
-	new_zone_name = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
+	timezone_combo_get_active_text (GTK_COMBO_BOX (priv->timezone_combo), &new_zone_name);
 
 	if (!*new_zone_name)
 		priv->zone = NULL;
-	else if (!strcmp (new_zone_name, _("UTC")))
+	else if (!g_utf8_collate (new_zone_name, _("UTC")))
 		priv->zone = icaltimezone_get_utc_timezone ();
 	else {
 		priv->zone = NULL;
@@ -765,7 +797,7 @@ on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
 		for (i = 0; i < zones->num_elements; i++) {
 			map_zone = icalarray_element_at (zones, i);
 			location = _(icaltimezone_get_location (map_zone));
-			if (!strcmp (new_zone_name, location)) {
+			if (!g_utf8_collate (new_zone_name, location)) {
 				priv->zone = map_zone;
 				break;
 			}
@@ -773,6 +805,39 @@ on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
 	}
 
 	set_map_timezone (etd, map_zone);
+}
+
+static void 
+timezone_combo_get_active_text (GtkComboBox *combo, const char **zone_name)
+{
+	GtkTreeModel *list_store;
+	GtkTreeIter iter;
+
+	list_store = gtk_combo_box_get_model (combo);
+
+	/* Get the active iter in the list */
+	if (gtk_combo_box_get_active_iter (combo, &iter)) 
+		gtk_tree_model_get (list_store, &iter, 0, zone_name, -1);
+	else 
+		*zone_name = "";
+}
+
+static gboolean 
+timezone_combo_set_active_text (GtkComboBox *combo, const char *zone_name)
+{
+	GtkTreeModel *list_store;
+	GHashTable *index;
+	gpointer id = NULL;
+
+	list_store = gtk_combo_box_get_model (combo);
+	index = (GHashTable *) g_object_get_data (G_OBJECT (list_store), "index");
+
+	if (zone_name && *zone_name) 
+		id = g_hash_table_lookup (index, zone_name);
+
+	gtk_combo_box_set_active (combo, GPOINTER_TO_INT (id));
+
+	return (id != NULL);
 }
 
 /**
@@ -796,7 +861,7 @@ e_timezone_dialog_reparent (ETimezoneDialog *etd,
 static void
 map_destroy_cb(gpointer data, GObject *where_object_was)
 {
-	
+
 	ETimezoneDialogPrivate *priv = data;
 	if (priv->timeout_id) {
 		g_source_remove(priv->timeout_id);

@@ -18,15 +18,15 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/send_html</key>
-      <applyto>/apps/evolution/mail/composer/send_html</applyto>
+      <key>/schemas/apps/evolution/mail/composer/inline_spelling</key>
+      <applyto>/apps/evolution/mail/composer/inline_spelling</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>false</default>
+      <default>true</default>
       <locale name="C">
-         <short>Send HTML mail by default</short>
+         <short>Spell check inline</short>
          <long>
-          Send HTML mail by default.
+	 Draw spelling error indicators on words as you type.
          </long>
       </locale>
     </schema>
@@ -52,24 +52,66 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Automatic smiley recognition</short>
+         <short>Automatic emoticon recognition</short>
          <long>
-	 Recognize smileys in text and replace them with images.
+	 Recognize emoticons in text and replace them with images.
          </long>
       </locale>
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/inline_spelling</key>
-      <applyto>/apps/evolution/mail/composer/inline_spelling</applyto>
+      <key>/schemas/apps/evolution/mail/composer/request_receipt</key>
+      <applyto>/apps/evolution/mail/composer/request_receipt</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>true</default>
+      <default>false</default>
       <locale name="C">
-         <short>Spell check inline</short>
+         <short>Always request read receipt</short>
          <long>
-	 Draw spelling error indicators on words as you type.
+	 Whether a read receipt request gets added to every message by default.
          </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/send_html</key>
+      <applyto>/apps/evolution/mail/composer/send_html</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Send HTML mail by default</short>
+         <long>
+          Send HTML mail by default.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/spell_color</key>
+      <applyto>/apps/evolution/mail/composer/spell_color</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default>#FFFF00000000</default>
+      <locale name="C">
+        <short>Spell checking color</short>
+        <long>
+          Underline color for misspelled words when using inline spelling.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schema/apps/evolution/mail/composer/spell_languages</key>
+      <applyto>/apps/evolution/mail/composer/spell_languages</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <locale name="C">
+        <short>Spell checking languages</short>
+        <long>
+          List of dictionary language codes used for spell checking.
+        </long>
       </locale>
     </schema>
 
@@ -151,7 +193,7 @@
       <default>600</default>
       <locale name="C">
          <short>Composer Window default width</short>
-         <long>Default width of the Composer Window</long>
+         <long>Default width of the Composer Window.</long>
       </locale>
     </schema>
 
@@ -163,7 +205,7 @@
       <default>500</default>
       <locale name="C">
          <short>Composer Window default height</short>
-         <long>Default height of the Composer Window</long>
+         <long>Default height of the Composer Window.</long>
       </locale>
     </schema>
 
@@ -179,6 +221,19 @@
          <short>Enable or disable type ahead search feature</short>
          <long>
            Enable side bar search feature so that you can start interactive searching by typing in the text. Use is that you can easily find a folder in that side bar by just typing the folder name and the selection jumps automatically to that folder.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/magic_spacebar</key>
+      <applyto>/apps/evolution/mail/display/magic_spacebar</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Enable or disable magic space bar</short>
+         <long> Enable this to use Space bar key to scroll in message preview, message list and folders.
          </long>
       </locale>
     </schema>
@@ -249,9 +304,9 @@
          <short>Load images for HTML messages over http</short>
          <long>
           Load images for HTML messages over http(s). Possible values are:
-          0 - Never load images off the net
-          1 - Load images in messages from contacts
-          2 - Always load images off the net
+          0 - Never load images off the net.
+          1 - Load images in messages from contacts.
+          2 - Always load images off the net.
          </long>
       </locale>
     </schema>
@@ -351,9 +406,23 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Show the sender email in the messages column in the message list</short>
+         <short>Sender email-address column in the message list</short>
          <long>
-          Show the email of the sender in the messages composite column in the message list
+          Show the email-address of the sender in a separate column in the message list.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/vertical_view_fonts</key>
+      <applyto>/apps/evolution/mail/display/vertical_view_fonts</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</short>
+         <long> 
+	 Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.
          </long>
       </locale>
     </schema>
@@ -365,9 +434,9 @@
       <type>int</type>
       <default>1500</default>
       <locale name="C">
-         <short>Timeout for marking message as Seen</short>
+         <short>Timeout for marking message as seen</short>
          <long>
-          Timeout for marking message as Seen.
+          Timeout for marking message as seen.
          </long>
       </locale>
     </schema>
@@ -396,6 +465,20 @@
          <short>Show the "Preview" pane</short>
          <long>
           Show the "Preview" pane.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/enable_vfolders</key>
+      <applyto>/apps/evolution/mail/display/enable_vfolders</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Enable search folders</short>
+         <long>
+          Enable search folders on startup.
          </long>
       </locale>
     </schema>
@@ -466,7 +549,7 @@
       <locale name="C">
          <short>Variable width font</short>
          <long>
-	 The variable width font for mail display 
+	 The variable width font for mail display.
          </long>
       </locale>
     </schema>
@@ -480,7 +563,7 @@
       <locale name="C">
          <short>Terminal font</short>
          <long>
-	 The terminal font for mail display 
+	 The terminal font for mail display.
          </long>
       </locale>
     </schema>
@@ -494,7 +577,7 @@
       <locale name="C">
          <short>Use custom fonts</short>
          <long>
-	 Use custom fonts for displaying mail
+	 Use custom fonts for displaying mail.
          </long>
       </locale>
     </schema>
@@ -508,7 +591,7 @@
       <locale name="C">
          <short>Thread the message-list</short>
          <long>
-          Thread the message list.
+         Thread the message list.
          </long>
       </locale>
     </schema>
@@ -537,7 +620,7 @@
       <locale name="C">
          <short>Allows evolution to display text part of limited size</short>
          <long>
-		 Enable to render message text part of limited size.
+	 Enable to render message text part of limited size.
          </long>
       </locale>
     </schema>
@@ -551,9 +634,9 @@
       <locale name="C">
          <short>Text message part limit</short>
          <long>
-		 This decides the max size of the text part that can be formatted under
-		 evolution. The default is 4MB / 4096 KB and is specified interms of KB.
-		 </long>
+	 This decides the max size of the text part that can be formatted under
+	 evolution. The default is 4MB / 4096 KB and is specified interms of KB.
+	 </long>
       </locale>
     </schema>
 
@@ -597,7 +680,23 @@
          <short>Default value for thread expand state</short>
          <long>
 	  This setting specifies whether the threads should be in expanded
-	  or collapsed state by default. Evolution requires a restart
+	  or collapsed state by default. Evolution requires a restart.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/thread_latest</key>
+      <applyto>/apps/evolution/mail/display/thread_latest</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Whether sort threads based on latest message in that thread</short>
+         <long>
+	  This setting specifies whether the threads should be sorted based
+	  on latest message in each thread, rather than by message's date.
+	  Evolution requires a restart.
          </long>
       </locale>
     </schema>
@@ -612,7 +711,7 @@
       <default>600</default>
       <locale name="C">
          <short>Message Window default width</short>
-         <long>Default width of the Message Window</long>
+         <long>Default width of the message window.</long>
       </locale>
     </schema>
 
@@ -624,7 +723,7 @@
       <default>400</default>
       <locale name="C">
          <short>Message Window default height</short>
-         <long>Default height of the Message Window</long>
+         <long>Default height of the message window.</long>
       </locale>
     </schema>
 
@@ -638,7 +737,7 @@
       <default>600</default>
       <locale name="C">
          <short>Subscribe dialog default width</short>
-         <long>Default width of the Subscribe dialog</long>
+         <long>Default width of the subscribe dialog.</long>
       </locale>
     </schema>
 
@@ -650,7 +749,7 @@
       <default>400</default>
       <locale name="C">
          <short>Subscribe dialog default height</short>
-         <long>Default height of the Subscribe dialog</long>
+         <long>Default height of the subscribe dialog.</long>
       </locale>
     </schema>
 
@@ -724,36 +823,6 @@
          <short>Message-display style ("normal", "full headers", "source")</short>
          <long>
           
-         </long>
-      </locale>
-    </schema>
-
-    <!-- New Mail Notification settings -->
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/notify/type</key>
-      <applyto>/apps/evolution/mail/notify/type</applyto>
-      <owner>evolution-mail</owner>
-      <type>int</type>
-      <default>0</default>
-      <locale name="C">
-         <short>New Mail Notify type</short>
-         <long>
-          Specifies the type of New Mail Notification the user wishes to use.
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/notify/sound</key>
-      <applyto>/apps/evolution/mail/notify/sound</applyto>
-      <owner>evolution-mail</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-         <short>New Mail Notify sound file</short>
-         <long>
-          Sound file to play when new mail arrives.
          </long>
       </locale>
     </schema>
@@ -856,10 +925,28 @@
       <locale name="C">
          <short>Prompt to check if the user wants to go offline immediately </short>
          <long>
-	 It disables the feature where repeated prompts to ask if offline sync is required.
+	 It disables/enables the repeated prompts to ask if offline 
+	 sync is required before going into offline mode.
          </long>
       </locale>
     </schema>
+
+     <schema>
+      <key>/schemas/apps/evolution/mail/prompts/delete_in_vfolder</key>
+      <applyto>/apps/evolution/mail/prompts/delete_in_vfolder</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Prompt when deleting messages in search folder</short>
+         <long>
+	 It disables/enables the repeated prompts to warn that deleting
+	 messages from a search folder permanently deletes the message, not
+	 simply removing it from the search results.
+         </long>
+      </locale>
+    </schema>
+
        <!-- Trash settings -->
 
     <schema>
@@ -904,6 +991,34 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/error_timeout</key>
+      <applyto>/apps/evolution/mail/display/error_timeout</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>60</default>
+      <locale name="C">
+         <short>Amount of time in seconds the error should be shown on the status bar.</short>
+         <long>
+	Amount of time in seconds the error should be shown on the status bar.
+         </long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/error_level</key>
+      <applyto>/apps/evolution/mail/display/error_level</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+         <short>Level beyond which the message should be logged.</short>
+         <long> This can have three possible values. 0 for errors. 1 for warnings. 
+	 	2 for debug messages.
+         </long>
+      </locale>
+    </schema>
+
+
     <!-- Labels and Colours -->
 
     <schema>
@@ -912,7 +1027,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
-      <default>[I_mportant:#ff0000,_Work:#ff8c00,_Personal:#008b00,_To Do:#0000ff,_Later:#8b008b]</default>
+      <default>[I_mportant:#EF2929,_Work:#F57900,_Personal:#4E9A06,_To Do:#3465A4,_Later:#75507B]</default>
       <locale name="C">
          <short>List of Labels and their associated colors</short>
          <long>
@@ -934,7 +1049,7 @@
       <locale name="C">
          <short>Check incoming mail being junk</short>
          <long>
-          Run junk test on incoming mail
+          Run junk test on incoming mail.
          </long>
       </locale>
     </schema>
@@ -986,7 +1101,7 @@
       <applyto>/apps/evolution/mail/junk/default_plugin</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
-      <default>Spamassasin</default>
+      <default>Bogofilter</default>
       <locale name="C">
          <short>The default plugin for Junk hook</short>
          <long>
@@ -1020,11 +1135,52 @@
       <locale name="C">
          <short>Use SpamAssassin daemon and client</short>
          <long>
-          Use SpamAssassin daemon and client (spamc/spamd)
+          Use SpamAssassin daemon and client (spamc/spamd).
          </long>
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/lookup_addressbook</key>
+      <applyto>/apps/evolution/mail/junk/lookup_addressbook</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Determines whether to lookup in addressbook for sender email</short>
+         <long>
+	 Determines whether to loopup the sender email in addressbook. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote addressbooks (like ldap) are marked for autocompletion.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/check_custom_header</key>
+      <applyto>/apps/evolution/mail/junk/check_custom_header</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Determines whether to use custom headers to check for junk</short>
+         <long>
+          Determines whether to use custom headers to check for junk. If this option is enabled and the headers are mentioned, it will be improve the junk checking speed.
+         </long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/custom_header</key>
+      <applyto>/apps/evolution/mail/junk/custom_header</applyto>
+      <owner>evolution-mail</owner>
+       <type>list</type>
+      <list_type>string</list_type>
+      <default>[X-Spam-Flag=YES,X-Spam-Level=*****]</default>
+      <locale name="C">
+         <short>Specifies the header to check for junk.</short>
+         <long>
+	 Specifies the header to check for junk. The format is headername=value in gconf.
+         </long>
+      </locale>
+    </schema>
     <!-- Account settings -->
 
     <schema>
@@ -1080,7 +1236,20 @@
       <locale name="C">
          <short>Save directory</short>
          <long>
-           Directory for saving mail component files
+           Directory for saving mail component files.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/current_folder</key>
+      <applyto>/apps/evolution/mail/composer/current_folder</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <locale name="C">
+         <short>Composer load/attach directory</short>
+         <long>
+           Directory for loading/attaching files to composer.
          </long>
       </locale>
     </schema>

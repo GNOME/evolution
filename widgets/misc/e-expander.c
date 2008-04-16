@@ -112,7 +112,7 @@ GType
 e_expander_get_type (void)
 {
   static GType expander_type = 0;
-  
+
   if (!expander_type)
     {
       static const GTypeInfo expander_info =
@@ -127,12 +127,12 @@ e_expander_get_type (void)
 	0,		/* n_preallocs */
 	(GInstanceInitFunc) e_expander_init,
       };
-      
+
       expander_type = g_type_register_static (GTK_TYPE_BIN,
 					      "EExpander",
 					      &expander_info, 0);
     }
-  
+
   return expander_type;
 }
 
@@ -256,13 +256,13 @@ e_expander_init (EExpander *expander)
   /* ESTUFF */
   priv = g_new0 (EExpanderPrivate, 1);
   g_object_set_data_full (G_OBJECT (expander), "e-expander-priv", priv, g_free);
-  
+
   /* ESTUFF  priv = E_EXPANDER_GET_PRIVATE (expander); */
 
   GTK_WIDGET_SET_FLAGS (expander, GTK_CAN_FOCUS);
   GTK_WIDGET_UNSET_FLAGS (expander, GTK_NO_WINDOW);
 
-  priv->label_widget = 0;
+  priv->label_widget = NULL;
   priv->spacing = 0;
 
   priv->expander_style = GTK_EXPANDER_COLLAPSED;
@@ -281,7 +281,7 @@ e_expander_set_property (GObject      *object,
 			   GParamSpec   *pspec)
 {
   EExpander *expander = E_EXPANDER (object);
-                                                                                                             
+
   switch (prop_id)
     {
     case PROP_EXPANDED:
@@ -315,7 +315,7 @@ e_expander_get_property (GObject    *object,
   EExpanderPrivate *priv;
 
   priv = E_EXPANDER_GET_PRIVATE (expander);
-                                                                                                             
+
   switch (prop_id)
     {
     case PROP_EXPANDED:
@@ -366,7 +366,7 @@ e_expander_realize (GtkWidget *widget)
   GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
 
   border_width = GTK_CONTAINER (widget)->border_width;
-                                                                                                             
+
   attributes.x = widget->allocation.x + border_width;
   attributes.y = widget->allocation.y + border_width;
   attributes.width = widget->allocation.width - 2 * border_width;
@@ -393,7 +393,7 @@ e_expander_realize (GtkWidget *widget)
   widget->style = gtk_style_attach (widget->style, widget->window);
   gtk_style_set_background (widget->style, widget->window, GTK_STATE_NORMAL);
 }
-                                                                                                             
+
 static void
 e_expander_size_request (GtkWidget      *widget,
 			   GtkRequisition *requisition)
@@ -827,7 +827,7 @@ e_expander_button_release (GtkWidget      *widget,
   if (event->button == 1 && priv->button_down)
     {
       g_signal_emit_by_name (expander, "activate");
-      
+
       priv->button_down = FALSE;
       return TRUE;
     }

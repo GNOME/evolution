@@ -1,3 +1,68 @@
+2008-03-20  Sankar P  <psankar@novell.com>
+
+	* org-gnome-plugin-manager.eplug.xml:
+	Use "true" instead of "yes"
+
+2008-03-19  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #496839
+
+	* org-gnome-plugin-manager.eplug.xml:
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	- Do not show all plugins in plugin-manager. 
+	Hide the core system plugins.
+
+2008-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #502303
+
+	* plugin-manager.c: (eppm_response):
+	Always destroy dialog and unset global variable.
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	Use G_TYPE_POINTER instead of GTK_TYPE_WIDGET in a list store
+	to get rid of reference counting troubles on configuration
+	widgets of plugins. Remember created dialog for future use.
+
+2008-02-01  Andre Klapper  <a9016009@gmx.de>
+
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	fix spelling.
+
+2007-12-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #500210
+
+	* plugin-manager.c: Changed coding-style to be more accurate to other
+	sources, but the main change was to show configuration options of the
+	plugin into extra tab, instead of new popup under 'Configure' button.
+
+2007-11-19  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #498173
+
+	* plugin-manager.c: (eppm_response):
+	e_plugin_configure should be called only
+	when user clicks on Configure button.
+
+2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* plugin-manager.c: (org_gnome_plugin_manager_manage):
+	Don't mix code and declarations.
+
+2007-10-26  Sankar P  <psankar@novell.com>
+
+	* plugin-manager.c: (eppm_selection_changed):
+	Ssssshhhhhhhh the compiler warning.
+
+2007-10-26  Sankar P  <psankar@novell.com>
+
+	** Fix for bug #461272
+
+	* plugin-manager.c: (eppm_selection_changed),
+	(org_gnome_plugin_manager_manage):
+	Configure button should not be enabled for all.
+	configure button needs a hot-key.
+
 2007-07-26  Sankar P  <psankar@novell.com>
 
 	* plugin-manager.c: (eppm_response),

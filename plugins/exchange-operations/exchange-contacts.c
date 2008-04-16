@@ -58,7 +58,7 @@ void e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target);
 
 /* FIXME: Reconsider the prototype of this function */
 static GPtrArray *
-e_exchange_contacts_get_contacts (void) 
+e_exchange_contacts_get_contacts (void)
 {
 	ExchangeAccount *account;
 	GPtrArray *folder_array;
@@ -156,14 +156,14 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		}
 	}
 
-	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
 								    &offline_status);
 	if (offline_status == OFFLINE_MODE) {
 		/* Evolution is in offline mode; we will not be able to create
 		   new folders or modify existing folders. */
-		offline_msg = g_markup_printf_escaped ("<b>%s</b>", 
+		offline_msg = g_markup_printf_escaped ("<b>%s</b>",
 						       _("Evolution is in offline mode. You cannot create or modify folders now.\nPlease switch to online mode for such operations."));
-		vb_offline_msg = gtk_vbox_new (FALSE, 6);		
+		vb_offline_msg = gtk_vbox_new (FALSE, 6);
 		gtk_container_add (GTK_CONTAINER (data->parent), vb_offline_msg);
 		lbl_offline_msg = gtk_label_new ("");
 		gtk_label_set_markup (GTK_LABEL (lbl_offline_msg), offline_msg);
@@ -171,7 +171,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_box_pack_start (GTK_BOX (vb_offline_msg), lbl_offline_msg, FALSE, FALSE, 0);
 		gtk_widget_show_all (vb_offline_msg);
 		g_free (uri_text);
-		return vb_offline_msg;		
+		return vb_offline_msg;
 	}
 
 	if (gal_folder) {
@@ -235,14 +235,14 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show (lbl_pcontacts);
 	gtk_misc_set_alignment (GTK_MISC (lbl_pcontacts), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (vb_pcontacts), lbl_pcontacts, FALSE, FALSE, 0);
-  
+
 	ts_pcontacts = gtk_tree_store_new (NUM_COLS, G_TYPE_STRING, G_TYPE_STRING);
 
 	conlist = e_exchange_contacts_get_contacts ();
 
 	for (i=0; i<conlist->len; ++i) {
 		ruri = g_ptr_array_index (conlist, i);
-		exchange_operations_cta_add_node_to_tree (ts_pcontacts, NULL, ruri);		
+		exchange_operations_cta_add_node_to_tree (ts_pcontacts, NULL, ruri);
 	}
 
 	cr_contacts = gtk_cell_renderer_text_new ();
@@ -251,7 +251,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tv_pcontacts), tvc_contacts);
 	g_object_set (tv_pcontacts,"expander-column", tvc_contacts, "headers-visible", TRUE, NULL);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (tv_pcontacts));
-	
+
 	scrw_pcontacts = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrw_pcontacts), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrw_pcontacts), GTK_SHADOW_IN);
@@ -272,7 +272,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		tmpruri = (gchar*) rel_uri;
 		uri_prefix = g_strconcat (account->account_filename, "/;", NULL);
 		prefix_len = strlen (uri_prefix);
-		
+
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
 			sruri = g_strdup (tmpruri+prefix_len);
 		}
@@ -281,24 +281,24 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		}
 
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tv_pcontacts));
-		exchange_operations_cta_select_node_from_tree (ts_pcontacts, 
-							       NULL, 
-							       sruri, 
-							       sruri, 
+		exchange_operations_cta_select_node_from_tree (ts_pcontacts,
+							       NULL,
+							       sruri,
+							       sruri,
 							       selection);
-		gtk_widget_set_sensitive (tv_pcontacts, FALSE);		
-		
+		gtk_widget_set_sensitive (tv_pcontacts, FALSE);
+
 		g_free (uri_prefix);
 		g_free (sruri);
 	}
 
-	g_ptr_array_free (conlist, TRUE);  
+	g_ptr_array_free (conlist, TRUE);
 	g_object_unref (ts_pcontacts);
 	return vb_pcontacts;
 }
 
-gboolean 
-e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data) 
+gboolean
+e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 {
 	/* FIXME - check pageid */
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
@@ -311,7 +311,7 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	rel_uri = e_source_peek_relative_uri (t->source);
 	group = e_source_peek_group (t->source);
 	base_uri = e_source_group_peek_base_uri (group);
-	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
 								    &offline_status);
 	if (base_uri && !g_ascii_strncasecmp (base_uri, "exchange", 8)) {
 		if (offline_status == OFFLINE_MODE)
@@ -335,7 +335,7 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		ESourceGroup *source_group = NULL;
 		GSList *groups;
 		ESource *source;
-		
+
 		/* GAL folder */
 		client = gconf_client_get_default ();
 		source_list = e_source_list_new_for_gconf ( client, CONF_KEY_CONTACTS);
@@ -345,7 +345,7 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		if ((source_group = e_source_list_peek_group_by_name (source_list,
                                         account->account_name))) {
 			source =  e_source_group_peek_source_by_name (source_group, e_source_peek_name (t->source));
-			if (e_source_group_peek_source_by_name (source_group, 
+			if (e_source_group_peek_source_by_name (source_group,
 							e_source_peek_name (t->source))) {
 				/* not a rename of GAL */
 				g_object_unref (source_list);
@@ -353,7 +353,7 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 			}
 			else {
 				g_object_unref (source_list);
-				return FALSE; 
+				return FALSE;
 			}
 		}
 		else {
@@ -381,9 +381,9 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		folder_name = g_strdup (g_strrstr (path, "/") +1);
 		g_free (path);
 
-		if (strcmp (folder_name, e_source_peek_name (t->source))) { 
+		if (strcmp (folder_name, e_source_peek_name (t->source))) {
 			/* rename */
-			if (exchange_account_get_standard_uri (account, folder_name) || 
+			if (exchange_account_get_standard_uri (account, folder_name) ||
 			    !is_personal) {
 				/* rename of standard/non-personal folder */
 				g_free (folder_name);
@@ -395,27 +395,27 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	return TRUE;
 }
 
-void 
+void
 e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
 	gchar *uri_text, *gname, *gruri, *ruri = NULL, *path = NULL, *path_prefix, *oldpath=NULL;
-	gchar *username, *authtype;
+	gchar *username, *windows_domain, *authtype;
 	int prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
 	gint offline_status;
 	gboolean rename = FALSE;
-		
+
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		/* here no need of checking for gal */
 		g_free (uri_text);
 		return;
-	}	
+	}
 
-	exchange_config_listener_get_offline_status (exchange_global_config_listener, 
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
 								    &offline_status);
 	if (offline_status == OFFLINE_MODE) {
 		g_free (uri_text);
@@ -426,7 +426,13 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	if (!is_exchange_personal_folder (account, uri_text))
 		return;
 
-	username = exchange_account_get_username (account);
+	windows_domain = exchange_account_get_windows_domain (account);
+	if (windows_domain)
+		username = g_strdup_printf ("%s\\%s", windows_domain,
+					    exchange_account_get_username (account));
+	else
+		username = g_strdup (exchange_account_get_username (account));
+
 	authtype = exchange_account_get_authtype (account);
 
 	path_prefix = g_strconcat (account->account_filename, "/;", NULL);
@@ -444,11 +450,11 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		euri = e_uri_new (uri_text);
 		uri_string = e_uri_to_string (euri, FALSE);
 		e_uri_free (euri);
-	
-		uri_len = strlen (uri_string) + 1;	
+
+		uri_len = strlen (uri_string) + 1;
 		tmpruri = g_strdup (uri_string + strlen ("exchange://"));
 		temp_path = g_build_filename ("/", uri_text + uri_len, NULL);
-		prefix	= g_strndup (temp_path, strlen (temp_path) - strlen (g_strrstr (temp_path, "/"))); 
+		prefix	= g_strndup (temp_path, strlen (temp_path) - strlen (g_strrstr (temp_path, "/")));
 		g_free (temp_path);
 		path = g_build_filename (prefix, "/", gname, NULL);
 		ruri = g_strconcat (tmpruri, ";", path+1, NULL);
@@ -511,7 +517,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	case EXCHANGE_ACCOUNT_FOLDER_UNSUPPORTED_OPERATION:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-unsupported-error", NULL);
 		break;
-	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:		
+	case EXCHANGE_ACCOUNT_FOLDER_GENERIC_ERROR:
 		e_error_run (NULL, ERROR_DOMAIN ":folder-generic-error", NULL);
 		break;
 	default:
@@ -519,6 +525,9 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	}
 done:
 	g_free (ruri);
+	g_free (username);
+	if (authtype)
+		g_free (authtype);
 	g_free (path);
 	g_free (oldpath);
 	g_free (contacts_old_src_uri);

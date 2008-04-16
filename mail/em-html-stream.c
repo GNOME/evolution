@@ -31,7 +31,7 @@
 #include <gtk/gtkmain.h>
 #include "em-html-stream.h"
 
-#define d(x) 
+#define d(x)
 
 static void em_html_stream_class_init (EMHTMLStreamClass *klass);
 static void em_html_stream_init (CamelObject *object);
@@ -47,7 +47,7 @@ CamelType
 em_html_stream_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
-	
+
 	if (type == CAMEL_INVALID_TYPE) {
 		parent_class = (EMSyncStreamClass *)em_sync_stream_get_type();
 		type = camel_type_register (em_sync_stream_get_type(),
@@ -59,7 +59,7 @@ em_html_stream_get_type (void)
 					    (CamelObjectInitFunc) em_html_stream_init,
 					    (CamelObjectFinalizeFunc) em_html_stream_finalize);
 	}
-	
+
 	return type;
 }
 
@@ -156,7 +156,7 @@ CamelStream *
 em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream)
 {
 	EMHTMLStream *new;
-	
+
 	new = EM_HTML_STREAM (camel_object_new (EM_HTML_STREAM_TYPE));
 	new->html_stream = html_stream;
 	new->html = html;

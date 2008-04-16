@@ -58,10 +58,10 @@ static guint comp_editor_page_signals[LAST_SIGNAL];
 
 /**
  * comp_editor_page_get_type:
- * 
+ *
  * Registers the #CompEditorPage class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the #CompEditorPage class.
  **/
 GtkType
@@ -143,23 +143,23 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
-	comp_editor_page_signals[FOCUS_IN] = 
+	comp_editor_page_signals[FOCUS_IN] =
 		g_signal_new ("focus_in",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (CompEditorPageClass, focus_in),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);   
-	comp_editor_page_signals[FOCUS_OUT] = 
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	comp_editor_page_signals[FOCUS_OUT] =
 		g_signal_new ("focus_out",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (CompEditorPageClass, focus_out),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);  
-					
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+
 	class->changed = NULL;
 	class->summary_changed = NULL;
 	class->dates_changed = NULL;
@@ -213,9 +213,9 @@ comp_editor_page_destroy (GtkObject *object)
 /**
  * comp_editor_page_get_widget:
  * @page: An editor page.
- * 
+ *
  * Queries the main widget of an editor page.
- * 
+ *
  * Return value: The widget that is the page's upper container.  It should
  * normally be inserted in a notebook widget.
  **/
@@ -232,7 +232,7 @@ comp_editor_page_get_widget (CompEditorPage *page)
 /**
  * comp_editor_page_focus_main_widget:
  * @page: An editor page.
- * 
+ *
  * Makes an editor page focus its main widget.  This is used by the component
  * editor when it first pops up so that it can focus the main widget in the
  * first page.
@@ -251,7 +251,7 @@ comp_editor_page_focus_main_widget (CompEditorPage *page)
  * comp_editor_page_fill_widgets:
  * @page: An editor page.
  * @comp: A calendar component.
- * 
+ *
  * Fills the widgets of an editor page with the data from a calendar component.
  **/
 gboolean
@@ -268,7 +268,7 @@ comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
  * comp_editor_page_fill_component:
  * @page: An editor page.
  * @comp: A calendar component.
- * 
+ *
  * Takes the data from the widgets of an editor page and sets it on a calendar
  * component, replacing the contents of the properties that the editor page
  * knows how to manipulate.
@@ -338,7 +338,7 @@ comp_editor_page_set_e_cal (CompEditorPage *page, ECal *client)
  * comp_editor_page_set_summary:
  * @page: An editor page
  * @summary: The text of the new summary value
- * 
+ *
  * Sets the summary value for this group of widgets
  **/
 void
@@ -373,7 +373,7 @@ comp_editor_page_unset_focused_widget (CompEditorPage *page, GtkWidget *widget)
  * @page: An editor page
  * @widget: The widget that has the current focus
 **/
-void 
+void
 comp_editor_page_set_focused_widget (CompEditorPage *page, GtkWidget *widget)
 {
 	g_return_if_fail (page!= NULL);
@@ -388,7 +388,7 @@ comp_editor_page_set_focused_widget (CompEditorPage *page, GtkWidget *widget)
  * comp_editor_page_set_dates:
  * @page: An editor page
  * @dates: A collection of various dates in time_t format
- * 
+ *
  * Sets the date values for this group of widgets
  **/
 void
@@ -404,7 +404,7 @@ comp_editor_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 /**
  * comp_editor_page_notify_changed:
  * @page: An editor page.
- * 
+ *
  * Makes an editor page emit the "changed" signal.  This is meant to be
  * used only by page implementations.
  **/
@@ -419,9 +419,9 @@ comp_editor_page_notify_changed (CompEditorPage *page)
 
 /**
  * comp_editor_page_notify_needs_send:
- * @page: 
- * 
- * 
+ * @page:
+ *
+ *
  **/
 void
 comp_editor_page_notify_needs_send (CompEditorPage *page)
@@ -429,13 +429,13 @@ comp_editor_page_notify_needs_send (CompEditorPage *page)
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[NEEDS_SEND]);	
+	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[NEEDS_SEND]);
 }
 
 /**
  * comp_editor_page_notify_summary_changed:
  * @page: An editor page.
- * 
+ *
  * Makes an editor page emit the "summary_changed" signal.  This is meant to be
  * used only by page implementations.
  **/
@@ -446,7 +446,7 @@ comp_editor_page_notify_summary_changed (CompEditorPage *page,
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	
+
 	gtk_signal_emit (GTK_OBJECT (page),
 			 comp_editor_page_signals[SUMMARY_CHANGED],
 			 summary);
@@ -455,7 +455,7 @@ comp_editor_page_notify_summary_changed (CompEditorPage *page,
 /**
  * comp_editor_page_notify_dates_changed:
  * @page: An editor page.
- * 
+ *
  * Makes an editor page emit the "dates_changed" signal.  This is meant to be
  * used only by page implementations.
  **/
@@ -474,7 +474,7 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
 /**
  * comp_editor_page_notify_client_changed:
  * @page: An editor page.
- * 
+ *
  * Makes an editor page emit the "client_changed" signal.  This is meant to be
  * used only by page implementations.
  **/

@@ -1,15 +1,15 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@ximian.com>
  *  Nathan Owens <pianocomp81@yahoo.com>
  *
  * Copyright 2000, Ximian, Inc.
  * Copyright 2000, Ximian, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -65,6 +65,10 @@ struct _EMemoTable {
 	/* Activity ID for the EActivityHandler (i.e. the status bar).  */
 	EActivityHandler *activity_handler;
 	guint activity_id;
+
+	/* We should know which calendar has been used to create object, so store it here
+	   before emitting "user_created" signal and make it NULL just after the emit. */
+	ECal *user_created_cal;
 };
 
 struct _EMemoTableClass {

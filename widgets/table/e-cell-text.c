@@ -120,7 +120,7 @@ typedef struct {
 	int max_width;
 	int ref_count;
 } ECellTextLineBreaks;
-	
+
 
 typedef struct _CellEdit CellEdit;
 
@@ -129,7 +129,7 @@ typedef struct {
 	GdkGC       *gc;
 	GdkCursor *i_cursor;
 	GdkBitmap *stipple;		/* Stipple for text */
-	
+
 	GnomeCanvas *canvas;
 
 	/*
@@ -288,7 +288,7 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 	row = edit->row;
 	view_col = edit->view_col;
 	model_col = edit->model_col;
-	
+
 	old_text = edit->old_text;
 	text = edit->text;
 	if (edit->tep)
@@ -306,7 +306,7 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 		g_timer_destroy (edit->timer);
 		edit->timer = NULL;
 	}
-	
+
 	g_signal_handlers_disconnect_matched (
 		edit->im_context,
 		G_SIGNAL_MATCH_DATA, 0, 0,
@@ -354,20 +354,20 @@ ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
 	ECellTextView *text_view = g_new0 (ECellTextView, 1);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (e_table_item_view)->canvas;
-	
+
 	text_view->cell_view.ecell = ecell;
 	text_view->cell_view.e_table_model = table_model;
 	text_view->cell_view.e_table_item_view = e_table_item_view;
 	text_view->cell_view.kill_view_cb = NULL;
         text_view->cell_view.kill_view_cb_data = NULL;
-	
+
 
 	text_view->canvas = canvas;
 
 	text_view->xofs = 0.0;
 	text_view->yofs = 0.0;
 
-       
+
 	return (ECellView *)text_view;
 }
 
@@ -395,11 +395,11 @@ static void
 ect_realize (ECellView *ecell_view)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	
+
 	text_view->gc = gdk_gc_new (GTK_WIDGET (text_view->canvas)->window);
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
-	
+
 	if (E_CELL_CLASS (e_cell_text_parent_class)->realize)
 		(* E_CELL_CLASS (e_cell_text_parent_class)->realize) (ecell_view);
 }
@@ -456,7 +456,7 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 
 
 static PangoAttrList*
-build_attr_list (ECellTextView *text_view, int row, int text_length) 
+build_attr_list (ECellTextView *text_view, int row, int text_length)
 {
 
 	ECellView *ecell_view = (ECellView *) text_view;
@@ -512,7 +512,7 @@ layout_with_preedit (ECellTextView *text_view, int row, const char *text, gint w
 	gint preedit_length = 0;
 	gint text_length = strlen (text);
 	gint mlen = MIN(edit->selection_start,text_length);
-	
+
 
 	gtk_im_context_get_preedit_string (edit->im_context,
 					&preedit_string,&preedit_attrs,
@@ -521,10 +521,10 @@ layout_with_preedit (ECellTextView *text_view, int row, const char *text, gint w
 
 	layout = edit->layout;
 
-	g_string_prepend_len (tmp_string, text,text_length); 
+	g_string_prepend_len (tmp_string, text,text_length);
 
 	if (preedit_length) {
-		
+
 		/* mlen is the text_length in bytes, not chars
 		 * check whether we are not inserting into
 		 * the middle of a utf8 character
@@ -541,7 +541,7 @@ layout_with_preedit (ECellTextView *text_view, int row, const char *text, gint w
 		}
 
 		g_string_insert (tmp_string, mlen, preedit_string);
-	} 
+	}
 
 	pango_layout_set_text (layout, tmp_string->str, tmp_string->len);
 
@@ -594,13 +594,13 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 		PangoFontDescription *desc = NULL, *fixed_desc = NULL;
 		char *fixed_family = NULL;
 		gint fixed_size = 0;
-		
+
 		fixed_desc = pango_font_description_from_string (ect->font_name);
 		if (fixed_desc) {
 			fixed_family = (char *)pango_font_description_get_family (fixed_desc);
 			fixed_size = pango_font_description_get_size (fixed_desc);
-		} 
-		
+		}
+
 		desc = pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas))->font_desc);
 		pango_font_description_set_family (desc, fixed_family);
 		pango_font_description_set_size (desc, fixed_size);
@@ -609,7 +609,7 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 		pango_font_description_free (desc);
 		pango_font_description_free (fixed_desc);
 	}
-	
+
 	pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 
@@ -741,7 +741,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	selected = flags & E_CELL_SELECTED;
 
 	if (selected) {
+		if (GTK_WIDGET_HAS_FOCUS (canvas))
 			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
+		else
+			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
 	} else {
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 
@@ -780,7 +783,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		layout = layout_with_preedit  (text_view, row, edit->text ? edit->text : "?",  x2 - x1);
-	} 
+	}
 
 	gdk_draw_layout (drawable, text_view->gc,
 			 x_origin, y_origin,
@@ -836,7 +839,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			gdk_region_destroy (rect_region);
 
 			gdk_gc_set_clip_region (text_gc, clip_region);
-			gdk_draw_layout (drawable, text_gc, 
+			gdk_draw_layout (drawable, text_gc,
 					 x_origin, y_origin,
 					 layout);
 			gdk_gc_set_clip_region (text_gc, NULL);
@@ -848,7 +851,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			if (edit->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
 				pango_layout_get_cursor_pos (layout, edit->selection_start + edit->preedit_length, &strong_pos, &weak_pos);
-				
+
 				draw_pango_rectangle (drawable, text_view->gc, x_origin, y_origin, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
@@ -889,7 +892,7 @@ static void
 ect_edit_select_all (ECellTextView *text_view)
 {
 	g_return_if_fail (text_view->edit);
-	
+
 	text_view->edit->selection_start = 0;
 	text_view->edit->selection_end = strlen (text_view->edit->text);
 }
@@ -920,9 +923,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 	if (!(flags & E_CELL_EDITING))
 		return 0;
-	
+
 	if ( edit && !edit->preedit_length && flags & E_CELL_PREEDIT)
-		return TRUE;
+		return 1;
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		edit_display = TRUE;
@@ -934,31 +937,31 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		break;
 	case GDK_KEY_PRESS: /* Fall Through */
 		if (edit_display) {
-			if (edit->im_context && 
+			if (edit->im_context &&
 				!edit->im_context_signals_registered) {
 
-				g_signal_connect (edit->im_context, 
+				g_signal_connect (edit->im_context,
 						"preedit_changed",
 						G_CALLBACK (\
 						e_cell_text_preedit_changed_cb),
 						text_view);
 
-				g_signal_connect (edit->im_context, 
+				g_signal_connect (edit->im_context,
 						"commit",
 						G_CALLBACK (\
-						e_cell_text_commit_cb), 
+						e_cell_text_commit_cb),
 						text_view);
 
-				g_signal_connect (edit->im_context, 
+				g_signal_connect (edit->im_context,
 						"retrieve_surrounding",
 						G_CALLBACK (\
-						e_cell_text_retrieve_surrounding_cb), 
+						e_cell_text_retrieve_surrounding_cb),
 						text_view);
 
-				g_signal_connect (edit->im_context, 
+				g_signal_connect (edit->im_context,
 						"delete_surrounding",
 						G_CALLBACK (\
-						e_cell_text_delete_surrounding_cb), 
+						e_cell_text_delete_surrounding_cb),
 						text_view);
 
 				edit->im_context_signals_registered = TRUE;
@@ -969,8 +972,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		} else {
 			if (edit && edit->im_context) {
 				g_signal_handlers_disconnect_matched (
-						edit->im_context, 
-						G_SIGNAL_MATCH_DATA, 0, 0, 
+						edit->im_context,
+						G_SIGNAL_MATCH_DATA, 0, 0,
 						NULL, NULL, edit);
 				edit->im_context_signals_registered = FALSE;
 			}
@@ -988,14 +991,15 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 			edit->need_im_reset = TRUE;
 			if (preedit_len && flags & E_CELL_PREEDIT)
-				return FALSE;
+				return 0;
 			else
-		 		return TRUE;
+		 		return 1;
 		}
-				
+
 		if (event->key.keyval == GDK_Escape){
+			/* if not changed, then pass this even to parent */
+			return_val = text_view->edit != NULL && text_view->edit->text && text_view->edit->old_text && 0 != strcmp (text_view->edit->text, text_view->edit->old_text);
 			ect_cancel_edit (text_view);
-			return_val = TRUE;
 			break;
 		}
 
@@ -1006,7 +1010,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			  ect_edit_select_all (text_view);
 			  edit = text_view->edit;
 			  edit_display = TRUE;
-		}		
+		}
 		if (edit_display) {
 			GdkEventKey key = event->key;
 			if (key.type == GDK_KEY_PRESS &&
@@ -1032,7 +1036,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 #endif
 				_get_tep (edit);
 				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
-				if (e_tep_event.key.string) 
+				if (e_tep_event.key.string)
 					g_free (e_tep_event.key.string);
 				break;
 			}
@@ -1045,7 +1049,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		d(g_print ("%s: %s\n", __FUNCTION__, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
 		event->button.x -= 4;
 		event->button.y -= 1;
-		if ((!edit_display) 
+		if ((!edit_display)
 		    && e_table_model_is_cell_editable (ecell_view->e_table_model, model_col, row)
 		    && event->type == GDK_BUTTON_RELEASE
 		    && event->button.button == 1) {
@@ -1054,7 +1058,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
 			edit = text_view->edit;
 			edit_display = TRUE;
-			
+
 			e_tep_event.button.type = GDK_BUTTON_PRESS;
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
@@ -1150,7 +1154,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
  * ECell::height method
  */
 static int
-ect_height (ECellView *ecell_view, int model_col, int view_col, int row) 
+ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	gint height;
@@ -1192,10 +1196,10 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 		view_col)->width - 8;
 
 	edit->layout = generate_layout (text_view, model_col, view_col, row, edit->cell_width);
-	
+
 	edit->xofs_edit = 0.0;
 	edit->yofs_edit = 0.0;
-	
+
 	edit->selection_start = 0;
 	edit->selection_end = 0;
 	edit->select_by_word = FALSE;
@@ -1212,14 +1216,14 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->scroll_start = 0;
 	edit->show_cursor = TRUE;
 	edit->button_down = FALSE;
-	
+
 	edit->tep = NULL;
 
 	edit->has_selection = FALSE;
-	
+
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
-	
+
 	temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	edit->old_text = g_strdup (temp);
 	e_cell_text_free_text(ect, temp);
@@ -1234,7 +1238,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	}
 #endif
 	ect_queue_redraw (text_view, view_col, row);
-	
+
 	return NULL;
 }
 
@@ -1331,7 +1335,7 @@ get_font_size (PangoLayout *layout, PangoFontDescription *font, const char *text
 }
 
 static void
-ect_print (ECellView *ecell_view, GtkPrintContext *context, 
+ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
@@ -1341,7 +1345,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	PangoFontMetrics *font_metrics;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	ECellTextView *ectView = (ECellTextView *)ecell_view;
-	GtkWidget *canvas = GTK_WIDGET(ectView->canvas); 
+	GtkWidget *canvas = GTK_WIDGET(ectView->canvas);
 	PangoDirection dir;
 	gboolean strikeout, underline;
 	cairo_t *cr;
@@ -1356,19 +1360,19 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	layout = gtk_print_context_create_pango_layout (context);
 	font_des = pango_font_description_from_string ("sans 12"); /* fix me font hardcoded */
 	pango_layout_set_font_description (layout, font_des);
-	
+
 	pango_layout_set_text (layout, string, -1);
 	get_font_size (layout, font_des, string, &text_width, &text_height);
-	
+
 	cairo_move_to(cr, 2, 2);
 	cairo_rectangle (cr, 2, 2, width + 2, height + 2);
-	cairo_clip(cr);   
+	cairo_clip(cr);
 
 	pango_context = gtk_widget_get_pango_context (canvas);
 	font_metrics = pango_context_get_metrics (pango_context,
 	               canvas->style->font_desc, pango_context_get_language(pango_context));
-	ty =  (double)(text_height 
-		       - pango_font_metrics_get_ascent (font_metrics) 
+	ty =  (double)(text_height
+		       - pango_font_metrics_get_ascent (font_metrics)
 		       - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(double)PANGO_SCALE;
 
 	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
@@ -1377,7 +1381,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
 
 	dir = pango_find_base_dir (string, strlen(string));
-	
+
 	if (underline) {
 		ly = ty + (double)pango_font_metrics_get_underline_position (font_metrics)/(double)PANGO_SCALE;
 		cairo_new_path (cr);
@@ -1407,10 +1411,10 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			cairo_set_line_width (cr,(double)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(double)PANGO_SCALE);
 
 		        cairo_stroke (cr);
-	}   
+	}
 
 	cairo_move_to(cr, 2, text_height- 5);
-	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE); 
+	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE);
 	pango_cairo_show_layout(cr, layout);
 	cairo_restore (cr);
 
@@ -1420,15 +1424,15 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-ect_print_height (ECellView *ecell_view, GtkPrintContext *context, 
+ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 		  int model_col, int view_col, int row,
 		  double width)
 {
-	/* 
-	 * Font size is 16 by default. To leave some margin for cell 
-	 * text area, 2 for footer, 2 for header, actual print height 
+	/*
+	 * Font size is 16 by default. To leave some margin for cell
+	 * text area, 2 for footer, 2 for header, actual print height
 	 * should be 16 + 4.
-	 * Height of some special font is much higher than others, 
+	 * Height of some special font is much higher than others,
 	 * such	as Arabic. So leave some more margin for cell.
 `	 */
 	return 16 + 8;
@@ -1456,7 +1460,7 @@ ect_max_width (ECellView *ecell_view,
 		max_width = MAX (max_width, width);
 		g_object_unref (layout);
 	}
-	
+
 	return max_width + 8;
 }
 
@@ -1477,7 +1481,7 @@ ect_max_width_by_row (ECellView *ecell_view,
 	layout = generate_layout (text_view, model_col, view_col, row, 0);
 	pango_layout_get_pixel_size (layout, &width, NULL);
 	g_object_unref (layout);
-	
+
 	return width + 8;
 }
 
@@ -1487,7 +1491,7 @@ tooltip_event (GtkWidget *window,
 	       ETableTooltip *tooltip)
 {
 	gint ret_val = FALSE;
-	
+
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(tooltip->eti)->canvas));
@@ -1522,7 +1526,7 @@ tooltip_event (GtkWidget *window,
 }
 
 static void
-ect_show_tooltip (ECellView *ecell_view, 
+ect_show_tooltip (ECellView *ecell_view,
 		  int model_col,
 		  int view_col,
 		  int row,
@@ -1774,7 +1778,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 	object_class->get_property = ect_get_property;
 	object_class->set_property = ect_set_property;
 
-	signals [TEXT_INSERTED] = 
+	signals [TEXT_INSERTED] =
 		g_signal_new ("text_inserted",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -1785,7 +1789,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);
 
-	signals [TEXT_DELETED] = 
+	signals [TEXT_DELETED] =
 		g_signal_new ("text_deleted",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -1851,7 +1855,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 			use_ellipsis_default = FALSE;
 		}
 	}
-	
+
 	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TEXT_TYPE, gal_a11y_e_cell_text_new);
 }
 
@@ -1882,12 +1886,12 @@ e_cell_text_get_cursor_locations (ECellTextView *tv,
 					&x, &y, NULL, &area.height);
 
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (parent_item), &x1, &y1, NULL, NULL);
-	
+
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (GNOME_CANVAS_ITEM (parent_item)->canvas), &cx, &cy);
 
 	index = edit->selection_end + edit->preedit_pos;
 
-	pango_layout_get_cursor_pos (edit->layout, 
+	pango_layout_get_cursor_pos (edit->layout,
 				     index,
 				     strong_pos ? &pango_strong_pos : NULL,
 				     weak_pos ? &pango_weak_pos : NULL);
@@ -1912,7 +1916,7 @@ update_im_cursor_location (ECellTextView *tv)
 {
 	CellEdit *edit=tv->edit;
 	GdkRectangle area;
-	
+
 	e_cell_text_get_cursor_locations (tv, &area, NULL);
 
 	gtk_im_context_set_cursor_location (edit->im_context, &area);
@@ -1925,7 +1929,7 @@ e_cell_text_preedit_changed_cb (GtkIMContext *context,
 	gchar *preedit_string;
 	gint cursor_pos;
 	CellEdit *edit=tv->edit;
-	gtk_im_context_get_preedit_string (edit->im_context, &preedit_string, 
+	gtk_im_context_get_preedit_string (edit->im_context, &preedit_string,
 					NULL, &cursor_pos);
 
 	edit->preedit_length = strlen (preedit_string);
@@ -1943,7 +1947,7 @@ e_cell_text_commit_cb (GtkIMContext *context,
 {
 	CellEdit *edit = tv->edit;
 	ETextEventProcessorCommand command;
-	                                                  
+
 	if (g_utf8_validate (str, strlen (str), NULL)) {
 		command.action = E_TEP_INSERT;
 		command.position = E_TEP_SELECTION;
@@ -1965,7 +1969,7 @@ e_cell_text_retrieve_surrounding_cb (GtkIMContext *context,
 					strlen (edit->text),
 					MIN (edit->selection_start, edit->selection_end)
 					);
-	
+
 	return TRUE;
 }
 
@@ -2055,7 +2059,7 @@ e_cell_text_construct (ECellText *cell, const char *fontname, GtkJustification j
  * rendered with strikeout, or bolded.  In the case of the
  * "color_column" argument, the column in the model is expected to
  * have a string that can be parsed by gdk_color_parse().
- * 
+ *
  * Returns: an ECell object that can be used to render strings.
  */
 ECell *
@@ -2106,7 +2110,7 @@ _blink_scroll_timeout (gpointer data)
 	gboolean scroll = FALSE;
 	gboolean redraw = FALSE;
 	int width, height;
-	
+
 	g_timer_elapsed (edit->timer, &current_time);
 
 	if (edit->scroll_start + SCROLL_WAIT_TIME > 1000000) {
@@ -2197,9 +2201,9 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 	int unival;
 	int index;
 	int trailing;
-	
+
 	switch (command->position) {
-		
+
 	case E_TEP_VALUE:
 		return command->value;
 
@@ -2320,7 +2324,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return index;
 	case E_TEP_FORWARD_PARAGRAPH:
 	case E_TEP_BACKWARD_PARAGRAPH:
-		
+
 	case E_TEP_FORWARD_PAGE:
 	case E_TEP_BACKWARD_PAGE:
 		return edit->selection_end;
@@ -2450,7 +2454,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	gboolean redraw = FALSE;
 
 	int sel_start, sel_end;
-	
+
 	/* If the EText isn't editable, then ignore any commands that would
 	   modify the text. */
 	if (!ect->editable && (command->action == E_TEP_DELETE
@@ -2588,9 +2592,9 @@ e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection
 {
 #if DO_SELECTION
 	GtkClipboard *clipboard;
-	
+
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (edit->text_view->canvas), selection);
-	
+
 	if (selection == GDK_SELECTION_PRIMARY) {
 		edit->has_selection = TRUE;
 	}
@@ -2699,7 +2703,7 @@ e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
  * If success, the [start, end) part of the text will be selected.
  *
  * This API is most likely to be used by a11y implementations.
- * 
+ *
  * Returns: whether the action is successful.
  */
 gboolean
@@ -2747,7 +2751,7 @@ e_cell_text_set_selection (ECellView *cell_view,
  * will return FALSE;
  *
  * This API is most likely to be used by a11y implementations.
- * 
+ *
  * Returns: whether the action is successful.
  */
 gboolean
@@ -2870,7 +2874,7 @@ e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row)
  * @cell_view: the given cell view
  * @col: column of the given cell in the model
  * @row: row of the given cell in the model
- * 
+ *
  * Get the cell's text directly from CellEdit,
  * during editting this cell, the cell's text value maybe inconsistant
  * with the text got from table_model.
@@ -2887,11 +2891,11 @@ e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row)
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;
-	
+
 	if (edit && ectv->edit->row == row && ectv->edit->model_col == col) { /* being editted now */
 		ret = g_strdup (edit->text);
 	} else{
-		model_text = e_cell_text_get_text (E_CELL_TEXT (cell_view->ecell), 
+		model_text = e_cell_text_get_text (E_CELL_TEXT (cell_view->ecell),
 					     cell_view->e_table_model, col, row);
 		ret = g_strdup (model_text);
 		e_cell_text_free_text (E_CELL_TEXT (cell_view->ecell), model_text);

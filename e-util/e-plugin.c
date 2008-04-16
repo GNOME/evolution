@@ -270,17 +270,17 @@ ep_class_init(EPluginClass *klass)
 
 /**
  * e_plugin_get_type:
- * 
+ *
  * Standard GObject type function.  This is only an abstract class, so
  * you can only use this to subclass EPlugin.
- * 
+ *
  * Return value: The type.
  **/
 GType
 e_plugin_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		char *path, *col, *p;
 
@@ -300,7 +300,7 @@ e_plugin_get_type(void)
 
 			path = g_build_filename(g_get_home_dir(), ".eplugins", NULL);
 		}
-		
+
 		p = path;
 		while ((col = strchr(p, G_SEARCHPATH_SEPARATOR))) {
 			*col++ = 0;
@@ -310,7 +310,7 @@ e_plugin_get_type(void)
 		e_plugin_add_load_path(p);
 		g_free(path);
 	}
-	
+
 	return type;
 }
 
@@ -363,12 +363,12 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 }
 
 static int
-ep_load(const char *filename)
+ep_load(const char *filename, int load_level)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
 	int res = -1;
-	EPlugin *ep;
+	EPlugin *ep = NULL;
 	int cache = FALSE;
 	struct _plugin_doc *pdoc;
 
@@ -389,10 +389,37 @@ ep_load(const char *filename)
 
 	for (root = root->children; root ; root = root->next) {
 		if (strcmp((char *)root->name, "e-plugin") == 0) {
-			ep = ep_load_plugin(root, pdoc);
+			char *plugin_load_level, *is_system_plugin;
+
+			plugin_load_level = NULL;
+			plugin_load_level = e_plugin_xml_prop (root, "load_level");
+			if (plugin_load_level) {
+				if ((atoi (plugin_load_level) == load_level) ) {
+					ep = ep_load_plugin(root, pdoc);
+
+					if (ep) {
+						if (load_level == 1)
+							e_plugin_invoke (ep, "load_plugin_type_register_function", NULL);
+					}
+				} 
+			} else if (load_level == 2) {
+				ep = ep_load_plugin(root, pdoc);
+			}
+
 			if (ep) {
+				pd(printf ("\nloading plugin [%s] at load_level [%d]\n", ep->name, load_level));
+
+				/* README: May be we can use load_levels to achieve the same thing.
+				   But it may be confusing for a plugin writer */
+				is_system_plugin = e_plugin_xml_prop (root, "system_plugin");
+				if (is_system_plugin && !strcmp (is_system_plugin, "true"))
+					ep->flags |= E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
+				else
+					ep->flags &= ~E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
+
 				pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
 				cache |= (ep->hooks_pending != NULL);
+				ep = NULL;
 			}
 			cache |= pdoc->plugins != NULL;
 		}
@@ -437,7 +464,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 		if (class) {
 			if (strcmp(class, type->id) == 0) {
 				hook = g_object_new(G_OBJECT_CLASS_TYPE(type), NULL);
-				
+
 				/* Don't bother loading hooks for plugins that are not anyway enabled */
 				if (ep->enabled) {
 					res = type->construct(hook, ep, node);
@@ -470,7 +497,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 /**
  * e_plugin_add_load_path:
  * @path: The path to add to search for plugins.
- * 
+ *
  * Add a path to be searched when e_plugin_load_plugins() is called.
  * By default the system plugin directory and ~/.eplugins is used as
  * the search path unless overriden by the environmental variable
@@ -489,46 +516,49 @@ e_plugin_add_load_path(const char *path)
 
 /**
  * e_plugin_load_plugins:
- * 
+ *
  * Scan the search path, looking for plugin definitions, and load them
  * into memory.
- * 
+ *
  * Return value: Returns -1 if an error occurred.
  **/
 int
 e_plugin_load_plugins(void)
 {
 	GSList *l;
+	int i;
 
 	if (ep_types == NULL) {
 		g_warning("no plugin types defined");
 		return 0;
 	}
 
-	for (l = ep_path;l;l = g_slist_next(l)) {
-		GDir *dir;
-		const char *d;
-		char *path = l->data;
+	for (i=0; i < 3; i++) {
+		for (l = ep_path;l;l = g_slist_next(l)) {
+			GDir *dir;
+			const char *d;
+			char *path = l->data;
 
-		pd(printf("scanning plugin dir '%s'\n", path));
+			pd(printf("scanning plugin dir '%s'\n", path));
 
-		dir = g_dir_open(path, 0, NULL);
-		if (dir == NULL) {
-			/*g_warning("Could not find plugin path: %s", path);*/
-			continue;
-		}
-
-		while ( (d = g_dir_read_name(dir)) ) {
-			if (strlen(d) > 6
-			    && !strcmp(d + strlen(d) - 6, ".eplug")) {
-				char * name = g_build_filename(path, d, NULL);
-
-				ep_load(name);
-				g_free(name);
+			dir = g_dir_open(path, 0, NULL);
+			if (dir == NULL) {
+				/*g_warning("Could not find plugin path: %s", path);*/
+				continue;
 			}
-		}
 
-		g_dir_close(dir);
+			while ( (d = g_dir_read_name(dir)) ) {
+				if (strlen(d) > 6
+						&& !strcmp(d + strlen(d) - 6, ".eplug")) {
+					char * name = g_build_filename(path, d, NULL);
+
+					ep_load(name, i);
+					g_free(name);
+				}
+			}
+
+			g_dir_close(dir);
+		}
 	}
 
 	return 0;
@@ -537,7 +567,7 @@ e_plugin_load_plugins(void)
 /**
  * e_plugin_register_type:
  * @type: The GObject type of the plugin loader.
- * 
+ *
  * Register a new plugin type with the plugin system.  Each type must
  * subclass EPlugin and must override the type member of the
  * EPluginClass with a unique name.
@@ -608,10 +638,10 @@ ep_list_plugin(void *key, void *val, void *dat)
 
 /**
  * e_plugin_list_plugins: List all plugins.
- * 
+ *
  * Static class method to retrieve a list of all current plugins.  They
  * are listed in no particular order.
- * 
+ *
  * Return value: A GSList of all plugins, they must be
  * g_object_unref'd and the list freed.
  **/
@@ -631,9 +661,9 @@ e_plugin_list_plugins(void)
  * @ep: An EPlugin derived object.
  * @root: The XML root node of the sub-tree containing the plugin
  * definition.
- * 
+ *
  * Helper to invoke the construct virtual method.
- * 
+ *
  * Return value: The return from the construct virtual method.
  **/
 int
@@ -644,15 +674,15 @@ e_plugin_construct(EPlugin *ep, xmlNodePtr root)
 
 /**
  * e_plugin_invoke:
- * @ep: 
+ * @ep:
  * @name: The name of the function to invoke. The format of this name
  * will depend on the EPlugin type and its language conventions.
  * @data: The argument to the function. Its actual type depends on
  * the hook on which the function resides. It is up to the called
  * function to get this right.
- * 
+ *
  * Helper to invoke the invoke virtual method.
- * 
+ *
  * Return value: The return of the plugin invocation.
  **/
 void *
@@ -668,9 +698,9 @@ e_plugin_invoke(EPlugin *ep, const char *name, void *data)
 
 /**
  * e_plugin_enable:
- * @ep: 
- * @state: 
- * 
+ * @ep:
+ * @state:
+ *
  * Set the enable state of a plugin.
  *
  * THIS IS NOT FULLY IMPLEMENTED YET
@@ -685,29 +715,34 @@ e_plugin_enable(EPlugin *ep, int state)
 }
 
 /**
-* e_plugin_configure:
-* @ep: 
-* 
-*
-**/
-
-void
-e_plugin_configure (EPlugin *ep)
+ * e_plugin_get_configure_widget
+ *
+ * @param ep EPlugin of our interest.
+ * @return Configure widget or NULL if there is no configure option for the plugin.
+ *
+ * Plugin itself should have implemented "e_plugin_lib_get_configure_widget" function
+ * of prototype EPluginLibGetConfigureWidgetFunc.
+ **/
+GtkWidget *
+e_plugin_get_configure_widget (EPlugin *ep)
 {
 	EPluginClass *ptr;
 	ptr = ((EPluginClass *)G_OBJECT_GET_CLASS(ep));
-        ptr->configure (ep);
+        if (ptr->get_configure_widget)
+		return ptr->get_configure_widget (ep);
+
+	return NULL;
 }
 
 /**
  * e_plugin_xml_prop:
  * @node: An XML node.
  * @id: The name of the property to retrieve.
- * 
+ *
  * A static helper function to look up a property on an XML node, and
  * ensure it is allocated in GLib system memory.  If GLib isn't using
  * the system malloc then it must copy the property value.
- * 
+ *
  * Return value: The property, allocated in GLib memory, or NULL if no
  * such property exists.
  **/
@@ -732,10 +767,10 @@ e_plugin_xml_prop(xmlNodePtr node, const char *id)
  * @node: An XML node.
  * @id: The name of the property to retrieve.
  * @domain: The translation domain for this string.
- * 
+ *
  * A static helper function to look up a property on an XML node, and
  * translate it based on @domain.
- * 
+ *
  * Return value: The property, allocated in GLib memory, or NULL if no
  * such property exists.
  **/
@@ -760,11 +795,11 @@ e_plugin_xml_prop_domain(xmlNodePtr node, const char *id, const char *domain)
  * @id: The name of the property to retrieve.
  * @def: A default value if the property doesn't exist.  Can be used
  * to determine if the property isn't set.
- * 
+ *
  * A static helper function to look up a property on an XML node as an
  * integer.  If the property doesn't exist, then @def is returned as a
  * default value instead.
- * 
+ *
  * Return value: The value if set, or @def if not.
  **/
 int
@@ -780,12 +815,12 @@ e_plugin_xml_int(xmlNodePtr node, const char *id, int def)
 
 /**
  * e_plugin_xml_content:
- * @node: 
- * 
+ * @node:
+ *
  * A static helper function to retrieve the entire textual content of
  * an XML node, and ensure it is allocated in GLib system memory.  If
  * GLib isn't using the system malloc them it must copy the content.
- * 
+ *
  * Return value: The node content, allocated in GLib memory.
  **/
 char *
@@ -806,13 +841,13 @@ e_plugin_xml_content(xmlNodePtr node)
 
 /**
  * e_plugin_xml_content_domain:
- * @node: 
+ * @node:
  * @domain:
- * 
+ *
  * A static helper function to retrieve the entire textual content of
  * an XML node, and ensure it is allocated in GLib system memory.  If
  * GLib isn't using the system malloc them it must copy the content.
- * 
+ *
  * Return value: The node content, allocated in GLib memory.
  **/
 char *
@@ -852,7 +887,7 @@ epl_loadmodule(EPlugin *ep)
 {
 	if (epl->module == NULL) {
 		EPluginLibEnableFunc enable;
-		
+
 		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
 			g_warning("can't load plugin '%s'", g_module_error());
 			return -1;
@@ -929,22 +964,23 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	return 0;
 }
 
-static void
-epl_configure (EPlugin *ep)
+static GtkWidget *
+epl_get_configure_widget (EPlugin *ep)
 {
-	EPluginLibConfigureFunc configure;
+	EPluginLibGetConfigureWidgetFunc get_configure_widget;
 
-	pd(printf ("\n epl_configure \n"));
+	pd (printf ("\n epl_get_configure_widget \n"));
 
-	if (epl_loadmodule(ep) != 0) {
-		pd(printf ("\n epl_loadmodule  \n"));
-		return;
+	if (epl_loadmodule (ep) != 0) {
+		pd (printf ("\n epl_loadmodule  \n"));
+		return NULL;
 	}
 
-	if (g_module_symbol(epl->module, "e_plugin_lib_configure", (void *)&configure)) {
-		pd(printf ("\n g_module_symbol is loaded\n"));
-		configure (epl);
+	if (g_module_symbol (epl->module, "e_plugin_lib_get_configure_widget", (void *)&get_configure_widget)) {
+		pd (printf ("\n g_module_symbol is loaded\n"));
+		return (GtkWidget*) get_configure_widget (epl);
 	}
+	return NULL;
 }
 
 static void
@@ -994,24 +1030,24 @@ epl_class_init(EPluginClass *klass)
 	klass->construct = epl_construct;
 	klass->invoke = epl_invoke;
 	klass->enable = epl_enable;
-	klass->configure = epl_configure;
+	klass->get_configure_widget = epl_get_configure_widget;
 	klass->type = "shlib";
 }
 
 /**
  * e_plugin_lib_get_type:
- * 
+ *
  * Standard GObject function to retrieve the EPluginLib type.  Use to
  * register the type with the plugin system if you want to use shared
  * library plugins.
- * 
+ *
  * Return value: The EPluginLib type.
  **/
 GType
 e_plugin_lib_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EPluginLibClass), NULL, NULL, (GClassInitFunc) epl_class_init, NULL, NULL,
@@ -1021,7 +1057,7 @@ e_plugin_lib_get_type(void)
 		epl_parent_class = g_type_class_ref(e_plugin_get_type());
 		type = g_type_register_static(e_plugin_get_type(), "EPluginLib", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -1057,17 +1093,17 @@ eph_class_init(EPluginHookClass *klass)
 
 /**
  * e_plugin_hook_get_type:
- * 
+ *
  * Standard GObject function to retrieve the EPluginHook type.  Since
  * EPluginHook is an abstract class, this is only used to subclass it.
- * 
+ *
  * Return value: The EPluginHook type.
  **/
 GType
 e_plugin_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EPluginHookClass), NULL, NULL, (GClassInitFunc) eph_class_init, NULL, NULL,
@@ -1077,15 +1113,15 @@ e_plugin_hook_get_type(void)
 		eph_parent_class = g_type_class_ref(G_TYPE_OBJECT);
 		type = g_type_register_static(G_TYPE_OBJECT, "EPluginHook", &info, 0);
 	}
-	
+
 	return type;
 }
 
 /**
  * e_plugin_hook_enable: Set hook enabled state.
- * @eph: 
- * @state: 
- * 
+ * @eph:
+ * @state:
+ *
  * Set the enabled state of the plugin hook.  This is called by the
  * plugin code.
  *
@@ -1099,8 +1135,8 @@ e_plugin_hook_enable(EPluginHook *eph, int state)
 
 /**
  * e_plugin_hook_register_type:
- * @type: 
- * 
+ * @type:
+ *
  * Register a new plugin hook type with the plugin system.  Each type
  * must subclass EPluginHook and must override the id member of the
  * EPluginHookClass with a unique identification string.
@@ -1180,7 +1216,7 @@ e_plugin_hook_register_type(GType type)
  * @map: A zero-fill terminated array of EPluginHookTargeKeys used to
  * map a string with a bit value.
  * @prop: The property name.
- * 
+ *
  * This is a static helper function which looks up a property @prop on
  * the XML node @root, and then uses the @map table to convert it into
  * a bitmask.  The property value is a comma separated list of
@@ -1226,17 +1262,17 @@ e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, con
 
 /**
  * e_plugin_hook_id:
- * @root: 
- * @map: 
- * @prop: 
- * 
+ * @root:
+ * @map:
+ * @prop:
+ *
  * This is a static helper function which looks up a property @prop on
  * the XML node @root, and then uses the @map table to convert it into
  * an integer.
  *
  * This is used as a helper wherever you need to represent an
  * enumerated value in the XML.
- * 
+ *
  * Return value: If the @prop value is in @map, then the corresponding
  * integer value, if not, then ~0.
  **/
@@ -1337,7 +1373,7 @@ epth_class_init(EPluginHookClass *klass)
 
 /**
  * e_plugin_type_hook_get_type:
- * 
+ *
  * Get the type for the plugin plugin hook.
  *
  * Return value: The type of the plugin type hook.
@@ -1346,7 +1382,7 @@ GType
 e_plugin_type_hook_get_type(void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof(EPluginTypeHookClass), NULL, NULL, (GClassInitFunc) epth_class_init, NULL, NULL,
@@ -1356,6 +1392,6 @@ e_plugin_type_hook_get_type(void)
 		epth_parent_class = g_type_class_ref(e_plugin_hook_get_type());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EPluginTypeHook", &info, 0);
 	}
-	
+
 	return type;
 }

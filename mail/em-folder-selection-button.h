@@ -42,15 +42,15 @@ typedef struct _EMFolderSelectionButtonClass   EMFolderSelectionButtonClass;
 
 struct _EMFolderSelectionButton {
 	GtkButton parent;
-	
+
 	struct _EMFolderSelectionButtonPrivate *priv;
 };
 
 struct _EMFolderSelectionButtonClass {
 	GtkButtonClass parent_class;
-	
+
 	/* Signals.  */
-	
+
 	void  (* selected)  (EMFolderSelectionButton *button);
 };
 

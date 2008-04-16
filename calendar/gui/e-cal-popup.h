@@ -39,7 +39,7 @@ struct _ECalendarView;
 
 /**
  * enum _e_cal_popup_target_t - A list of mail popup target types.
- * 
+ *
  * @E_CAL_POPUP_TARGET_SELECT: A selection of cards
  * @E_CAL_POPUP_TARGET_SOURCE: A source selection.
  *
@@ -53,7 +53,7 @@ enum _e_cal_popup_target_t {
 
 /**
  * enum _e_cal_popup_target_select_t - ECalPopupTargetSelect qualifiers.
- * 
+ *
  * @E_CAL_POPUP_SELECT_ONE: Only one item is selected.
  * @E_CAL_POPUP_SELECT_MANY: More than one item selected.
  * @E_CAL_POPUP_SELECT_ANY: One ore more items are selected.
@@ -92,10 +92,10 @@ enum _e_cal_popup_target_select_t {
 
 /**
  * enum _e_cal_popup_target_source_t - ECalPopupTargetSource qualifiers.
- * 
+ *
  * @E_CAL_POPUP_SOURCE_PRIMARY: Has a primary selection.
  * @E_CAL_POPUP_SOURCE_SYSTEM: Is a 'system' folder.
- * 
+ *
  **/
 enum _e_cal_popup_target_source_t {
 	E_CAL_POPUP_SOURCE_PRIMARY = 1<<0,
@@ -109,10 +109,10 @@ enum _e_cal_popup_target_source_t {
 
 /**
  * enum _e_cal_popup_target_attachments_t - ECalPopupTargetAttachments qualifiers.
- * 
+ *
  * @E_CAL_POPUP_ATTACHMENTS_ONE: There is one and only one attachment selected.
  * @E_CAL_POPUP_ATTACHMENTS_MANY: There is one or more attachments selected.
- * 
+ *
  **/
 enum _e_cal_popup_target_attachments_t {
 	E_CAL_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
@@ -128,7 +128,7 @@ typedef struct _ECalPopupTargetAttachments ECalPopupTargetAttachments;
 
 /**
  * struct _ECalPopupTargetSelect - A list of address cards.
- * 
+ *
  * @target: Superclass.  target.widget is an ECalendarView.
  * @model: The ECalModel.
  * @events: The selected events.  These are ECalModelComponent's.
@@ -148,7 +148,7 @@ struct _ECalPopupTargetSelect {
 
 /**
  * struct _ECalPopupTargetSource - A source target.
- * 
+ *
  * @target: Superclass.
  * @selector: Selector holding the source selection.
  *
@@ -162,7 +162,7 @@ struct _ECalPopupTargetSource {
 
 /**
  * struct _ECalPopupTargetAttachments - A list of calendar attachments.
- * 
+ *
  * @target: Superclass.
  * @attachments: A GSList list of CalAttachments.
  *
@@ -193,7 +193,7 @@ ECalPopup *e_cal_popup_new(const char *menuid);
 
 ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
-ECalPopupTargetAttachments * e_cal_popup_target_new_attachments (ECalPopup *ecp, 
+ECalPopupTargetAttachments * e_cal_popup_target_new_attachments (ECalPopup *ecp,
 								CompEditor *editor, GSList *attachments);
 
 /* ********************************************************************** */

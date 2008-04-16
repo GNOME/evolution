@@ -43,7 +43,7 @@ typedef struct _FilterPartClass FilterPartClass;
 struct _FilterPart {
 	GObject parent_object;
 	struct _FilterPartPrivate *priv;
-	
+
 	char *name;
 	char *title;
 	char *code;
@@ -52,9 +52,9 @@ struct _FilterPart {
 
 struct _FilterPartClass {
 	GObjectClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

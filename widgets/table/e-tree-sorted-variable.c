@@ -84,7 +84,7 @@ etsv_dispose (GObject *object)
 	if (etsv->sort_idle_id)
 		g_source_remove(etsv->sort_idle_id);
 	etsv->sort_idle_id = 0;
-	
+
 	if (etsv->insert_idle_id)
 		g_source_remove(etsv->insert_idle_id);
 	etsv->insert_idle_id = 0;
@@ -359,7 +359,7 @@ etsv_sort_tree(ETreeSortedVariable *etsv, GNode *root)
 	GNode *childr;
 
 	etsv_sort_node(etsv, node);
-	
+
 	for (child = node->child; child; child = child->next) {
 		etsv_sort_tree(etsv, child);
 	}

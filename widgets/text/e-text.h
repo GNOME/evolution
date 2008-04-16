@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-text.h - Text item for evolution.
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -102,7 +102,7 @@ typedef struct _ETextClass ETextClass;
 
 struct _EText {
 	GnomeCanvasItem item;
-	
+
 	ETextModel *model;
 	gint model_changed_signal_id;
 	gint model_repos_signal_id;

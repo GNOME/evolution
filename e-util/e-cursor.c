@@ -32,13 +32,13 @@
  * e_cursor_set:
  * @widget: Any widget in a window, to which busy cursor has to be set
  * cursor: The type of cursor to be set defined in e-cursor.h
- * 
+ *
  * Sets the cursor specified, to the top level window of the given widget.
- * It is not window aware, so if you popup a window, it will not have 
+ * It is not window aware, so if you popup a window, it will not have
  * busy cursor set. That has to be handled seperately with a new call to this
  * function.
  *
- * Return value: 
+ * Return value:
  **/
 void e_cursor_set (GtkWidget *widget, ECursorType cursor)
 {
@@ -46,7 +46,7 @@ void e_cursor_set (GtkWidget *widget, ECursorType cursor)
 	GdkCursor *window_cursor;
 
 	toplevel = gtk_widget_get_toplevel (widget);
-	if (GTK_WIDGET_TOPLEVEL (toplevel)) {
+	if (GTK_WIDGET_TOPLEVEL (toplevel) && toplevel->window) {
 
 		switch (cursor) {
 			case E_CURSOR_NORMAL :

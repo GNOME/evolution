@@ -61,6 +61,7 @@ gboolean em_utils_save_part_to_file(struct _GtkWidget *parent, const char *filen
 void em_utils_save_messages (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 
 void em_utils_add_address(struct _GtkWidget *parent, const char *email);
+void em_utils_add_vcard(struct _GtkWidget *parent, const char *vcard);
 
 void em_utils_flag_for_followup (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_clear (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
@@ -101,6 +102,10 @@ char *em_utils_folder_name_from_uri (const char *uri);
 /* internal/camel uri translation */
 char *em_uri_from_camel (const char *curi);
 char *em_uri_to_camel (const char *euri);
+
+/* Run errors silently on the status bar */
+void em_utils_show_error_silent (struct _GtkWidget *widget);
+void em_utils_show_info_silent (struct _GtkWidget *widget);
 
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook(struct _CamelInternetAddress *addr);

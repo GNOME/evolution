@@ -33,7 +33,6 @@
 #include <e2k-types.h>
 #include <exchange-types.h>
 #include <e2k-propnames.h>
-#include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserverui/e-name-selector.h>
 #include "exchange-config-listener.h"
 #include "exchange-folder-subscription.h"
@@ -73,7 +72,7 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 
 	name_selector_model = e_name_selector_peek_model (name_selector);
 	/* FIXME Limit to one user */
-	e_name_selector_model_add_section (name_selector_model, "User", "User", NULL);
+	e_name_selector_model_add_section (name_selector_model, "User", _("User"), NULL);
 
 	/* Listen for responses whenever the dialog is shown */
 	name_selector_dialog = e_name_selector_peek_dialog (name_selector);
@@ -171,7 +170,7 @@ typedef struct {
 	ExchangeAccount *account;
 	ENameSelector *name_selector;
 	GtkWidget *name_selector_widget;
-	GtkWidget *folder_name_entry;	
+	GtkWidget *folder_name_entry;
 }SubscriptionInfo;
 
 static void
@@ -184,8 +183,8 @@ destroy_subscription_info (SubscriptionInfo *subscription_info)
 	g_free (subscription_info);
 }
 
-static void 
-subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data) 
+static void
+subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 {
 	SubscriptionInfo *subscription_info = data;
 	gchar *user_email_address = NULL, *folder_name = NULL, *path = NULL;
@@ -195,7 +194,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 	GList *destinations;
 	EDestination *destination;
 	ExchangeAccountFolderResult result;
-	
+
 	if (response == GTK_RESPONSE_CANCEL) {
 		gtk_widget_destroy (dialog);
 		destroy_subscription_info (subscription_info);
@@ -226,7 +225,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 				}
 			}
 
-			/* It would be nice to insensitivize the OK button appropriately 
+			/* It would be nice to insensitivize the OK button appropriately
 		   	instead of doing this, but unfortunately we can't do this for the
 		   	Bonobo control.  */
 			e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
@@ -234,12 +233,13 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 
 		folder_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (subscription_info->folder_name_entry)));
 		if (user_email_address && folder_name) {
-			result = exchange_account_discover_shared_folder (subscription_info->account, 
-									  user_email_address, 
+			result = exchange_account_discover_shared_folder (subscription_info->account,
+									  user_email_address,
 									  folder_name, &folder);
 			g_free (folder_name);
 			switch (result) {
 				case EXCHANGE_ACCOUNT_FOLDER_OK:
+					exchange_account_rescan_tree (subscription_info->account);
 					break;
 				case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);
@@ -281,7 +281,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 
 		g_object_unref (folder);
 		path = g_strdup_printf ("/%s", user_email_address);
-		exchange_account_open_folder (subscription_info->account, g_strdup_printf ("/%s", path));
+		exchange_account_open_folder (subscription_info->account, path);
 		g_free (path);
 		g_free (user_email_address);
 		gtk_widget_destroy (dialog);
@@ -296,6 +296,11 @@ create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
 	GladeXML *glade_xml;
 	GtkWidget *dialog, *ok_button;
 	SubscriptionInfo *subscription_info;
+	int mode;
+
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return FALSE;
 
 	subscription_info = g_new0 (SubscriptionInfo, 1);
 	subscription_info->account = account;

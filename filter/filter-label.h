@@ -43,14 +43,14 @@ typedef struct _FilterLabelClass FilterLabelClass;
 
 struct _FilterLabel {
 	FilterOption parent_object;
-	
+
 };
 
 struct _FilterLabelClass {
 	FilterOptionClass parent_class;
-	
+
 	/* virtual methods */
-	
+
 	/* signals */
 };
 

@@ -44,56 +44,53 @@ void org_gnome_mail_folder_unsubscribe (EPlugin *plug, EMPopupTargetFolder *targ
 
 
 struct _folder_unsub_t {
-	struct _mail_msg msg;
-	
+	MailMsg base;
+
 	char *uri;
 };
 
-static char *
-folder_unsubscribe__desc (struct _mail_msg *mm, int done)
+static gchar *
+folder_unsubscribe_desc (struct _folder_unsub_t *msg)
 {
-	struct _folder_unsub_t *unsub = (struct _folder_unsub_t *) mm;
-	
-	return g_strdup_printf (_("Unsubscribing from folder \"%s\""), unsub->uri);
+	return g_strdup_printf (
+		_("Unsubscribing from folder \"%s\""), msg->uri);
 }
 
 static void
-folder_unsubscribe__unsub (struct _mail_msg *mm)
+folder_unsubscribe_exec (struct _folder_unsub_t *msg)
 {
-	struct _folder_unsub_t *unsub = (struct _folder_unsub_t *) mm;
 	extern CamelSession *session;
 	const char *path = NULL;
 	CamelStore *store;
 	CamelURL *url;
-	
-	if (!(store = camel_session_get_store (session, unsub->uri, &mm->ex)))
+
+	if (!(store = camel_session_get_store (session, msg->uri, &msg->base.ex)))
 		return;
-	
-	url = camel_url_new (unsub->uri, NULL);
+
+	url = camel_url_new (msg->uri, NULL);
 	if (((CamelService *) store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 		path = url->fragment;
 	else if (url->path && url->path[0])
 		path = url->path + 1;
-	
+
 	if (path != NULL)
-		camel_store_unsubscribe_folder (store, path, &mm->ex);
-	
+		camel_store_unsubscribe_folder (store, path, &msg->base.ex);
+
 	camel_url_free (url);
 }
 
 static void
-folder_unsubscribe__free (struct _mail_msg *mm)
+folder_unsubscribe_free (struct _folder_unsub_t *msg)
 {
-	struct _folder_unsub_t *unsub = (struct _folder_unsub_t *) mm;
-	
-	g_free (unsub->uri);
+	g_free (msg->uri);
 }
 
-static struct _mail_msg_op unsubscribe_op = {
-	folder_unsubscribe__desc,
-	folder_unsubscribe__unsub,
-	NULL,
-	folder_unsubscribe__free,
+static MailMsgInfo unsubscribe_info = {
+	sizeof (struct _folder_unsub_t),
+	(MailMsgDescFunc) folder_unsubscribe_desc,
+	(MailMsgExecFunc) folder_unsubscribe_exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) folder_unsubscribe_free
 };
 
 
@@ -101,12 +98,12 @@ void
 org_gnome_mail_folder_unsubscribe (EPlugin *plug, EMPopupTargetFolder *target)
 {
 	struct _folder_unsub_t *unsub;
-	
+
 	if (target->uri == NULL)
 		return;
-	
-	unsub = mail_msg_new (&unsubscribe_op, NULL, sizeof (struct _folder_unsub_t));
+
+	unsub = mail_msg_new (&unsubscribe_info);
 	unsub->uri = g_strdup (target->uri);
-	
-	e_thread_put (mail_thread_new, (EMsg *) unsub);
+
+	mail_msg_unordered_push (unsub);
 }

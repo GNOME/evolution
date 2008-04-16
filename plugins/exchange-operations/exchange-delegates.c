@@ -220,7 +220,7 @@ get_folder_security (ExchangeDelegates *delegates)
 		return delegates->loaded_folders;
 
 	if (!exchange_account_get_global_catalog (delegates->account)) {
-		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegates-no-gcs-error", 
+		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegates-no-gcs-error",
 			     NULL);
 		return FALSE;
 	}
@@ -259,7 +259,7 @@ get_folder_security (ExchangeDelegates *delegates)
 	status = e2k_result_iter_free (iter);
 
 	if (!E2K_HTTP_STATUS_IS_SUCCESSFUL (status)) {
-		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegates-perm-read-error", 
+		e_error_run (GTK_WINDOW (delegates->table), ERROR_DOMAIN ":delegates-perm-read-error",
 			     NULL);
 		return FALSE;
 	}
@@ -359,7 +359,7 @@ get_user_list (ExchangeDelegates *delegates)
  * to end up in state 1. That's what this is for.
  */
 static void
-add_remove_user (ExchangeDelegatesUser *user, 
+add_remove_user (ExchangeDelegatesUser *user,
 		 GPtrArray *to_array, GPtrArray *from_array)
 {
 	ExchangeDelegatesUser *match;
@@ -450,7 +450,7 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 		match = delegates->users->pdata[u];
 		if (e2k_sid_binary_sid_equal (e2k_sid_get_binary_sid (user->sid),
 					      e2k_sid_get_binary_sid (match->sid))) {
-			e_error_run (GTK_WINDOW (parent_window), ERROR_DOMAIN ":delegate-existing", 
+			e_error_run (GTK_WINDOW (parent_window), ERROR_DOMAIN ":delegate-existing",
 				     user->display_name, NULL);
 			g_object_unref (user);
 			exchange_delegates_user_edit (delegates->account, match, parent_window);
@@ -524,9 +524,9 @@ email_look_up (const char *delegate_legacy, ExchangeAccount *account)
 	E2kGlobalCatalogStatus status;
 
 	const char *email_id;
-	
+
 	gc = exchange_account_get_global_catalog (account);
-	
+
 	if (!gc)
 		return NULL;
 
@@ -585,7 +585,7 @@ remove_button_clicked_cb (GtkWidget *widget, gpointer data)
 					 GTK_BUTTONS_YES_NO,
 					 _("Remove the delegate %s?"),
 					 user->display_name);
-	e_dialog_set_transient_for (GTK_WINDOW (dialog), widget); 
+	e_dialog_set_transient_for (GTK_WINDOW (dialog), widget);
 
 	btn = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
@@ -757,7 +757,7 @@ delegates_apply (ExchangeDelegates *delegates)
 
 		for (i = 0; i < delegates->users->len; i++) {
 			user = delegates->users->pdata[i];
-			g_ptr_array_add (display_names, g_strdup (user->display_name)); 
+			g_ptr_array_add (display_names, g_strdup (user->display_name));
 			entryid_dup = g_byte_array_new ();
 			g_byte_array_append (entryid_dup, user->entryid->data,
 					     user->entryid->len);
@@ -765,7 +765,7 @@ delegates_apply (ExchangeDelegates *delegates)
 			g_ptr_array_add (privflags, g_strdup_printf ("%d", user->see_private));
 		}
 
-		props = e2k_properties_new (); 
+		props = e2k_properties_new ();
 		e2k_properties_set_string_array (
 			props, PR_DELEGATES_DISPLAY_NAMES, display_names);
 		e2k_properties_set_binary_array (
@@ -773,7 +773,7 @@ delegates_apply (ExchangeDelegates *delegates)
 		e2k_properties_set_int_array (
 			props, PR_DELEGATES_SEE_PRIVATE, privflags);
 	} else if (delegates->removed_users) {
-		props = e2k_properties_new (); 
+		props = e2k_properties_new ();
 		e2k_properties_remove (props, PR_DELEGATES_DISPLAY_NAMES);
 		e2k_properties_remove (props, PR_DELEGATES_ENTRYIDS);
 		e2k_properties_remove (props, PR_DELEGATES_SEE_PRIVATE);
@@ -920,7 +920,7 @@ exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
 	int i;
-	
+
 	g_return_if_fail (GTK_IS_WIDGET (parent));
 	g_return_if_fail (EXCHANGE_IS_ACCOUNT (account));
 

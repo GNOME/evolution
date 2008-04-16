@@ -1,3 +1,20 @@
+2008-03-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #515786
+
+	* org-gnome-sa-junk-plugin.eplug.xml:
+	* em-junk-filter.c: (org_gnome_sa_use_remote_tests):
+	Fix misspelled SpamAssassin word.
+
+2007-11-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #499644
+
+	* em-junk-filter.c (user_remote_tests_cb),
+	(org_gnome_sa_use_remote_tests):
+	The behavior of the "Include remote tests" check button was swapped
+	with respect to its state.  Probably why SpamAssassin seemed slow.
+
 2007-09-07  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #473903

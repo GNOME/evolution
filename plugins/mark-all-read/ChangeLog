@@ -1,3 +1,23 @@
+2007-12-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #362638
+
+	* mark-all-read.c:
+	Use the new MailMsg API for messages.
+
+2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix bug #495875
+
+	* org-gnome-mark-all-read.eplug.xml:
+	right click menu reordering
+
+2007-11-05  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #492102
+
+	* org-gnome-mark-all-read.eplug.xml: Use mail-mark-read icon.
+
 2007-05-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #325965 from Ilkka Tuohela
