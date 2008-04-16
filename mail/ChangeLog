@@ -1,3 +1,10 @@
+2008-04-16  Shuai Liu  <shuai.liu@sun.com>
+
+	** Fix for bug #528358
+
+	* em-utils.c: (em_utils_save_messages): Use message subject as default
+	filename when attempting to 'save message'. 
+
 2008-04-14  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #270406

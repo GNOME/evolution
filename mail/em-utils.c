@@ -638,11 +638,23 @@ em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	struct _save_messages_data *data;
 	GtkWidget *filesel;
+	char *filename = NULL;
+	CamelMessageInfo *info = NULL;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	filesel = e_file_get_save_filesel(parent, _("Save Message..."), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
+	info = camel_folder_get_message_info (folder, uids->pdata[0]);
+	if (info) {
+		filename = g_strdup (camel_message_info_subject (info));
+		e_filename_make_safe (filename);		
+		camel_message_info_free (info);
+	}
+
+	filesel = e_file_get_save_filesel (parent, _("Save Message..."), filename, GTK_FILE_CHOOSER_ACTION_SAVE);
+	if (filename) 
+		g_free (filename);
+
 	camel_object_ref(folder);
 
 	data = g_malloc(sizeof(struct _save_messages_data));
