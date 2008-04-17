@@ -1,0 +1,16 @@
+<gconfschemafile>
+ <schemalist>
+   <schema>
+      <key>/schemas/apps/evolution/eplugin/external-editor/editor-command</key>
+      <applyto>/apps/evolution/eplugin/external-editor/editor-command</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default>gedit</default>
+      <locale name="C">
+        <short>Default External Editor</short>
+        <long>The default command that must be used as the editor.</long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>
+

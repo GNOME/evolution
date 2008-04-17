@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.evolution.plugins.external-editor">
+	
+	<error id="editor-not-launchable" type="error">
+		<_primary>Editor not launchable</_primary>
+		<_secondary>The external editor set in your plugin preferences cannot be launched. Try setting a different editor.</_secondary>
+	</error>
+
+	<error id="no-temp-file" type="error">
+		<_primary>Cannot create Temporary File</_primary>
+		<_secondary>Evolution is unable to create a temporary file to save your mail. Retry later.</_secondary>
+	</error>
+
+</error-list>

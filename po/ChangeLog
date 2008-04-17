@@ -1,3 +1,10 @@
+2008-04-17  Sankar P  <psankar@novell.com>
+
+	* POTFILES.in:
+	Updated file-list for external-editor plugin.
+
+	** See bug #517168
+
 2008-04-16  Stanislav Brabec  <sbrabec@hammer.suse.cz>
 
 	* cs.po: Typo fix.

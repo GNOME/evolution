@@ -1,3 +1,25 @@
+2008-04-17  Sankar P  <psankar@novell.com>
+
+	* Makefile.am:
+	Added new files deleted files not needed.
+
+	* external-editor.c: (convert_to_camel_internet_address),
+	(ee_editor_command_changed), (e_plugin_lib_get_configure_widget),
+	(async_external_editor), (show_composer_dialog),
+	(org_gnome_external_editor):
+	Leak fixes, Temporary files, Bug fixes and so on.
+
+	* org-gnome-external-editor-errors.xml:
+	Modified error file for staying aligned with other plugins
+
+	* apps-evolution-external-editor.schemas.in:
+	Added new file for default schema
+
+	* org-gnome-external-editor.error.xml:
+	Removed in favor of the other errors file.
+
+	** Fix for bug #517168
+
 2008-02-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #515744

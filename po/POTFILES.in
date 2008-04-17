@@ -317,7 +317,9 @@ plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml
 plugins/exchange-operations/org-gnome-folder-permissions.xml
 plugins/exchange-operations/org-gnome-folder-subscription.xml
 plugins/external-editor/org-gnome-external-editor.eplug.xml
+plugins/external-editor/org-gnome-external-editor-errors.xml
 plugins/external-editor/org-gnome-external-editor.xml
+plugins/external-editor/external-editor.c
 plugins/face/face.c
 plugins/face/org-gnome-face-ui.xml
 plugins/face/org-gnome-face.eplug.xml
