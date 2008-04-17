@@ -1,3 +1,10 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #523402
+
+	* gui/e-calendar-view.c: (e_calendar_view_add_event):
+	Do not free value returned by icaltimezone_get_tzid.
+
 2008-02-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #516498
