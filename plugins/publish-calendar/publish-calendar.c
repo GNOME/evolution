@@ -24,7 +24,8 @@
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs.h>
+#include <gio/gio.h>
+#include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <calendar/gui/e-cal-config.h>
@@ -63,15 +64,228 @@ publish_uri_async (EPublishUri *uri)
 }
 
 static void
+publish_online (EPublishUri *uri, GFile *file, GError **perror)
+{
+	GOutputStream *stream;
+	GError *error = NULL;
+
+	stream = G_OUTPUT_STREAM (g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
+
+	if (!stream || error) {
+		if (stream)
+			g_object_unref (stream);
+
+		if (perror) {
+			*perror = error;
+		} else if (error) {
+			g_warning ("Couldn't open %s: %s", uri->location, error->message);
+			g_error_free (error);
+		} else {
+			g_warning ("Couldn't open %s: Unknown error", uri->location);
+		}
+		return;
+	}
+
+	switch (uri->publish_format) {
+	case URI_PUBLISH_AS_ICAL:
+		publish_calendar_as_ical (stream, uri);
+		break;
+	case URI_PUBLISH_AS_FB:
+		publish_calendar_as_fb (stream, uri);
+		break;
+	/*
+	case URI_PUBLISH_AS_HTML:
+		publish_calendar_as_html (handle, uri);
+		break;
+	*/
+	}
+
+	update_timestamp (uri);
+
+	g_output_stream_close (stream, NULL, NULL);
+	g_object_unref (stream);
+}
+
+static void
+unmount_done_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+	GError *error = NULL;
+
+	g_mount_unmount_finish (G_MOUNT (source_object), res, &error);
+
+	if (error) {
+		g_warning ("Unmount failed: %s", error->message);
+		g_error_free (error);
+	}
+
+	g_object_unref (source_object);
+}
+
+struct mnt_struct {
+	EPublishUri *uri;
+	GFile *file;
+	GMountOperation *mount_op;
+};
+
+static void
+mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+	struct mnt_struct *ms = (struct mnt_struct *) user_data;
+	GError *error = NULL;
+	GMount *mount;
+
+	g_file_mount_enclosing_volume_finish (G_FILE (source_object), res, &error);
+
+	if (error) {
+		if (error->code != G_IO_ERROR_CANCELLED)
+			g_warning ("Mount of %s failed: %s", ms->uri->location, error->message);
+
+		g_error_free (error);
+		if (ms)
+			g_object_unref (ms->mount_op);
+		g_free (ms);
+
+		g_object_unref (source_object);
+
+		return;
+	}
+
+	g_return_if_fail (ms != NULL);
+
+	publish_online (ms->uri, ms->file, NULL);
+
+	g_object_unref (ms->mount_op);
+	g_free (ms);
+
+	mount = g_file_find_enclosing_mount (G_FILE (source_object), NULL, NULL);
+	if (mount)
+		g_mount_unmount (mount, G_MOUNT_UNMOUNT_NONE, NULL, unmount_done_cb, NULL);
+
+	g_object_unref (source_object);
+}
+
+static void
+ask_password (GMountOperation *op, const gchar *message, const gchar *default_user, const gchar *default_domain, GAskPasswordFlags flags, gpointer user_data)
+{
+	struct mnt_struct *ms = (struct mnt_struct *) user_data;
+	gchar *username, *password;
+	gboolean req_pass = FALSE;
+	EUri *euri;
+
+	g_return_if_fail (ms != NULL);
+
+	/* we can ask only for a password */
+	if ((flags & G_ASK_PASSWORD_NEED_PASSWORD) == 0)
+		return;
+
+	euri = e_uri_new (ms->uri->location);
+	username = euri->user;
+	password = e_passwords_get_password ("Calendar", ms->uri->location);
+	req_pass = ((username && *username) && !(ms->uri->service_type == TYPE_ANON_FTP &&
+			!strcmp (username, "anonymous"))) ? TRUE:FALSE;
+
+	if (!password && req_pass) {
+		gboolean remember = FALSE;
+
+		password = e_passwords_ask_password (_("Enter password"), "", ms->uri->location, message,
+					     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
+					     &remember,
+					     NULL);
+
+		if (!password) {
+			/* user canceled password dialog */
+			g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
+			e_uri_free (euri);
+
+			return;
+		}
+	}
+
+	if (!req_pass)
+		g_mount_operation_set_anonymous (op, TRUE);
+	else {
+		g_mount_operation_set_anonymous (op, FALSE);
+		g_mount_operation_set_username  (op, username);
+		g_mount_operation_set_password  (op, password);
+	}
+
+	g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
+
+	e_uri_free (euri);
+}
+
+static void
+ask_question (GMountOperation *op, const char *message, const char *choices[])
+{
+	/* this has been stolen from file-chooser */
+	GtkWidget *dialog;
+	int cnt, len;
+	char *primary;
+	const char *secondary = NULL;
+	int res;
+
+	primary = strstr (message, "\n");
+	if (primary) {
+		secondary = primary + 1;
+		primary = g_strndup (message, strlen (message) - strlen (primary));
+	}
+
+	gdk_threads_enter ();
+	dialog = gtk_message_dialog_new (NULL,
+					 0, GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_NONE, "%s", primary);
+	g_free (primary);
+
+	if (secondary) {
+		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+							  "%s", secondary);
+	}
+	
+	if (choices) {
+		/* First count the items in the list then 
+		 * add the buttons in reverse order */
+		for (len = 0; choices[len] != NULL; len++) {
+			;
+		}
+		
+		for (cnt = len - 1; cnt >= 0; cnt--) {
+			gtk_dialog_add_button (GTK_DIALOG (dialog), choices[cnt], cnt);
+		}
+	}
+
+	res = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (res >= 0) {
+		g_mount_operation_set_choice (op, res);
+		g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
+	} else {
+		g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	gdk_threads_leave ();
+}
+
+static void
+mount_first (EPublishUri *uri, GFile *file)
+{
+	struct mnt_struct *ms = g_malloc (sizeof (struct mnt_struct));
+
+	ms->uri = uri;
+	ms->file = g_object_ref (file);
+	ms->mount_op = g_mount_operation_new ();
+
+	g_signal_connect (ms->mount_op, "ask-password", G_CALLBACK (ask_password), ms);
+	g_signal_connect (ms->mount_op, "ask-question", G_CALLBACK (ask_question), ms);	
+
+	g_file_mount_enclosing_volume (file, G_MOUNT_MOUNT_NONE, ms->mount_op, NULL, mount_ready_cb, ms);
+}
+
+static void
 publish (EPublishUri *uri)
 {
 	if (online) {
-		GnomeVFSURI *vfs_uri = NULL;
-		GnomeVFSResult result;
-		GnomeVFSHandle *handle;
-		gchar *password;
-		const char *username;
-		gboolean req_pass = FALSE;
+		GError *error = NULL;
+		GFile *file;
 
 		if (g_slist_find (queued_publishes, uri))
 			queued_publishes = g_slist_remove (queued_publishes, uri);
@@ -79,60 +293,25 @@ publish (EPublishUri *uri)
 		if (!uri->enabled)
 			return;
 
-		vfs_uri = gnome_vfs_uri_new (uri->location);
+		file = g_file_new_for_uri (uri->location);
 
-		password = e_passwords_get_password ("Calendar", uri->location);
-		username = gnome_vfs_uri_get_user_name (vfs_uri);
-		req_pass = ((username && *username) && !(uri->service_type == TYPE_ANON_FTP &&
-					!strcmp (username, "anonymous"))) ? TRUE:FALSE;
+		g_return_if_fail (file != NULL);
 
-		if (!password && req_pass) {
-			gboolean remember = FALSE;
-			char *prompt = g_strdup_printf (_("Enter the password for `%s'"), uri->location);
+		publish_online (uri, file, &error);
 
-			password = e_passwords_ask_password (_("Enter password"), "", uri->location, prompt,
-						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
-						     &remember,
-						     NULL);
-			g_free (prompt);
+		if (error && error->domain == G_IO_ERROR && error->code == G_IO_ERROR_NOT_MOUNTED) {
+			g_error_free (error);
+			error = NULL;
+
+			mount_first (uri, file);
 		}
 
-		gnome_vfs_uri_set_password (vfs_uri, password);
-
-		if (vfs_uri == NULL) {
-			fprintf (stderr, "Couldn't create uri %s\n", uri->location);
-			/* FIXME: EError */
-			g_free (password);
-			return;
+		if (error) {
+			g_warning ("Couldn't open %s: %s", uri->location, error->message);
+			g_error_free (error);
 		}
 
-		result = gnome_vfs_create_uri (&handle, vfs_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0666);
-		if (result != GNOME_VFS_OK) {
-			/* FIXME: EError */
-			fprintf (stderr, "Couldn't open %s: %s\n", uri->location, gnome_vfs_result_to_string (result));
-			g_free (password);
-			return;
-		}
-
-		switch (uri->publish_format) {
-		case URI_PUBLISH_AS_ICAL:
-			publish_calendar_as_ical (handle, uri);
-			break;
-		case URI_PUBLISH_AS_FB:
-			publish_calendar_as_fb (handle, uri);
-			break;
-/*
-		case URI_PUBLISH_AS_HTML:
-			publish_calendar_as_html (handle, uri);
-			break;
-*/
-		}
-
-		update_timestamp (uri);
-
-		result = gnome_vfs_close (handle);
-		gnome_vfs_uri_unref (vfs_uri);
-		g_free (password);
+		g_object_unref (file);
 	} else {
 		if (g_slist_find (queued_publishes, uri) == NULL)
 			queued_publishes = g_slist_prepend (queued_publishes, uri);

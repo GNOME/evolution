@@ -29,7 +29,7 @@
 #include <glib.h>
 
 #ifdef G_OS_WIN32
-/* Include <windows.h> early (as the gnome-vfs stuff below will
+/* Include <windows.h> early (as the gio stuff below will
  * include it anyway, sigh) to workaround the DATADIR problem.
  * <windows.h> (and the headers it includes) stomps all over the
  * namespace like a baboon on crack, and especially the DATADIR enum
@@ -50,12 +50,13 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkdialog.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <libebook/e-vcard.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-util-private.h"
@@ -97,8 +98,11 @@ finalise (GObject *object)
 		if (attachment->pixbuf_cache != NULL)
 			g_object_unref (attachment->pixbuf_cache);
 	} else {
-		if (attachment->handle)
-			gnome_vfs_async_cancel(attachment->handle);
+		if (attachment->cancellable) {
+			/* the operation is still running, so cancel it */
+			g_cancellable_cancel (attachment->cancellable);
+			attachment->cancellable = NULL;
+		}
 		g_free (attachment->description);
 	}
 
@@ -170,6 +174,7 @@ init (EAttachment *attachment)
 	attachment->sign = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
 	attachment->encrypt = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
 	attachment->store_uri = NULL;
+	attachment->cancellable = NULL;
 }
 
 GType
@@ -226,57 +231,31 @@ file_ext_is (const char *file_name, const char *ext)
 static char *
 attachment_guess_mime_type (const char *file_name)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	char *type = NULL;
+	char *type;
+	gchar *content = NULL;
 
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (file_name, info,
-					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-					  GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
-					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	type = e_util_guess_mime_type (file_name);
 
-	if (result != GNOME_VFS_OK) {
-		CamelURL *url;
-		char *uri;
 
-		url = camel_url_new ("file://", NULL);
-		camel_url_set_path (url, file_name);
-		uri = camel_url_to_string (url, 0);
-		camel_url_free (url);
+	if (type && strcmp (type, "text/directory") == 0 &&
+	    file_ext_is (file_name, ".vcf") &&
+	    g_file_get_contents (file_name, &content, NULL, NULL) &&
+	    content) {
+		EVCard *vc = e_vcard_new_from_string (content);
 
-		result = gnome_vfs_get_file_info (uri, info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE | GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+		if (vc) {
+			g_free (type);
+			g_object_unref (G_OBJECT (vc));
 
-		g_free (uri);
-	}
-
-	if (result == GNOME_VFS_OK) {
-		gchar *content = NULL;
-
-		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
-
-		if (type && strcmp (type, "text/directory") == 0 &&
-		    file_ext_is (file_name, ".vcf") &&
-		    g_file_get_contents (file_name, &content, NULL, NULL) &&
-		    content) {
-			EVCard *vc = e_vcard_new_from_string (content);
-
-			if (vc) {
-				g_free (type);
-				g_object_unref (G_OBJECT (vc));
-
-				type = g_strdup ("text/x-vcard");
-			}
-
+			type = g_strdup ("text/x-vcard");
 		}
 
-		g_free (content);
 	}
 
-	gnome_vfs_file_info_unref (info);
+	g_free (content);
 
 	if (type) {
-		/* gnome_vfs can sometimes return invalid type, so check for it */
+		/* Check if returned mime_type is valid */
 		CamelContentType *ctype = camel_content_type_decode (type);
 
 		if (!ctype) {
@@ -376,7 +355,7 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 	new->body = part;
 	new->size = statbuf.st_size;
 	new->guessed_type = TRUE;
-	new->handle = NULL;
+	new->cancellable = NULL;
 	new->is_available_local = TRUE;
 	new->file_name = filename;
 
@@ -389,93 +368,173 @@ e_attachment_new (const char *file_name, const char *disposition, CamelException
 }
 
 
-typedef struct DownloadInfo {
+typedef struct {
 	EAttachment *attachment;
 	char *file_name;
 	char *uri;
 	GtkWindow *parent; /* for error dialog */
+
+	guint64 file_size; /* zero indicates unknown size */
+	GInputStream *istream; /* read from here ... */
+	GOutputStream *ostream; /* ...and write into this. */
+	gboolean was_error;
+	GCancellable *cancellable;
+
+	void *buffer; /* read into this, not more than buffer_size bytes */
+	gsize buffer_size;
 } DownloadInfo;
 
-static int
-async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
-			  GnomeVFSXferProgressInfo *info,
-			  DownloadInfo *download_info)
+static void
+download_info_free (DownloadInfo *download_info)
 {
-	switch (info->status) {
-	case GNOME_VFS_XFER_PROGRESS_STATUS_OK:
-		if (info->file_size) {
-			download_info->attachment->percentage = info->bytes_copied*100/info->file_size;
-			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
-		} else {
-			download_info->attachment->percentage = 0;
-			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
-		}
-
-		if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-			CamelException ex;
-
-			if (!info->file_size) {
-				if (info->vfs_status == GNOME_VFS_OK)
-					info->vfs_status = GNOME_VFS_ERROR_EOF;
-				goto error_msg;
-			}
-
-			download_info->attachment->handle = NULL;
-			camel_exception_init (&ex);
-			e_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
-			if (camel_exception_is_set (&ex)) {
-				e_error_run (download_info->parent, "mail-composer:no-attach",
-						download_info->uri, camel_exception_get_description (&ex), NULL);
-				camel_exception_clear (&ex);
-				goto error;
-			}
-			download_info->attachment->percentage = -1;
-			download_info->attachment->is_available_local = TRUE;
-			g_signal_emit (download_info->attachment, signals[UPDATE], 0);
-			g_free (download_info->file_name);
-			g_free (download_info->uri);
-			g_free (download_info);
-		}
-		return TRUE;
-	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
-	error_msg:
-		e_error_run (download_info->parent, "mail-composer:no-attach",
-				download_info->uri, gnome_vfs_result_to_string (info->vfs_status), NULL);
-	error:
+	/* if there was an error, then free attachment too */
+	if (download_info->was_error)
 		g_object_unref (download_info->attachment);
-		g_free (download_info->file_name);
-		g_free (download_info->uri);
-		g_free (download_info);
-		return FALSE;
-	default:
-		break;
-	}
 
-	return TRUE;
+	if (download_info->ostream)
+		g_object_unref (download_info->ostream);
+
+	if (download_info->istream)
+		g_object_unref (download_info->istream);
+
+	if (download_info->cancellable)
+		g_object_unref (download_info->cancellable);
+
+	g_free (download_info->file_name);
+	g_free (download_info->uri);
+	g_free (download_info->buffer);
+	g_free (download_info);
 }
 
 static void
-download_to_local_path (GnomeVFSURI *source_uri, GnomeVFSURI *target_uri, DownloadInfo *download_info)
-
+data_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-	GList *source_uri_list;
-	GList *target_uri_list;
+	DownloadInfo *download_info = (DownloadInfo *)user_data;
+	GError *error = NULL;
+	gssize read;
 
-	source_uri_list = g_list_append (NULL, source_uri);
-	target_uri_list = g_list_append (NULL, target_uri);
+	g_return_if_fail (download_info != NULL);
 
-	/* Callback info */
-	gnome_vfs_async_xfer (&download_info->attachment->handle,    /* handle_return   */
-			      source_uri_list,                       /* source_uri_list */
-			      target_uri_list,                       /* target_uri_list */
-			      GNOME_VFS_XFER_DEFAULT,                /* xfer_options    */
-			      GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */
-			      GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */
-			      GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
-			      (GnomeVFSAsyncXferProgressCallback) async_progress_update_cb,
-			      download_info,                         /* update_callback_data   */
-			      NULL,                                  /* progress_sync_callback */
-			      NULL);                                 /* sync_callback_data     */
+	if (g_cancellable_is_cancelled (download_info->cancellable)) {
+		/* finish the operation and close both streams */
+		g_input_stream_read_finish (G_INPUT_STREAM (source_object), res, NULL);
+
+		g_output_stream_close (download_info->ostream, NULL, NULL);
+		g_input_stream_close  (download_info->istream, NULL, NULL);
+
+		/* The only way how to get this canceled is in EAttachment's finalize method,
+		   and because the download_info_free free's the attachment on error,
+		   then do not consider cancellation as an error. */
+		download_info_free (download_info);
+		return;
+	}
+
+	read = g_input_stream_read_finish (G_INPUT_STREAM (source_object), res, &error);
+
+	if (!error)
+		g_output_stream_write_all (download_info->ostream, download_info->buffer, read, NULL, download_info->cancellable, &error);
+
+	if (error) {
+		download_info->was_error = error->domain != G_IO_ERROR || error->code != G_IO_ERROR_CANCELLED;
+		if (download_info->was_error)
+			e_error_run (download_info->parent, "mail-composer:no-attach", download_info->uri, error->message, NULL);
+
+		g_error_free (error);
+
+		download_info->attachment->cancellable = NULL;
+		download_info_free (download_info);
+		return;
+	}
+
+	if (read == 0) {
+		CamelException ex;
+
+		/* done with reading */
+		g_output_stream_close (download_info->ostream, NULL, NULL);
+		g_input_stream_close  (download_info->istream, NULL, NULL);
+
+		download_info->attachment->cancellable = NULL;
+
+		camel_exception_init (&ex);
+		e_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
+
+		if (camel_exception_is_set (&ex)) {
+			download_info->was_error = TRUE;
+			e_error_run (download_info->parent, "mail-composer:no-attach", download_info->uri, camel_exception_get_description (&ex), NULL);
+			camel_exception_clear (&ex);
+		}
+
+		download_info->attachment->percentage = -1;
+		download_info->attachment->is_available_local = TRUE;
+		g_signal_emit (download_info->attachment, signals[UPDATE], 0);
+
+		download_info_free (download_info);
+		return;
+	} else 	if (download_info->file_size) {
+		download_info->attachment->percentage = read * 100 / download_info->file_size;
+		download_info->file_size -= MIN (download_info->file_size, read);
+		g_signal_emit (download_info->attachment, signals[UPDATE], 0);
+	} else {
+		download_info->attachment->percentage = 0;
+		g_signal_emit (download_info->attachment, signals[UPDATE], 0);
+	}
+
+	/* read next chunk */
+	g_input_stream_read_async (download_info->istream, download_info->buffer, download_info->buffer_size, G_PRIORITY_DEFAULT, download_info->cancellable, data_ready_cb, download_info);
+}
+
+static gboolean
+download_to_local_path (DownloadInfo *download_info, CamelException *ex)
+{
+	GError *error = NULL;
+	GFile *src = g_file_new_for_uri (download_info->uri);
+	GFile *des = g_file_new_for_path (download_info->file_name);
+	gboolean res = FALSE;
+
+	g_return_val_if_fail (src != NULL && des != NULL, FALSE);
+
+	download_info->ostream = G_OUTPUT_STREAM (g_file_replace (des, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
+
+	if (download_info->ostream && !error) {
+		GFileInfo *fi;
+
+		fi = g_file_query_info (src, G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+
+		if (fi) {
+			download_info->file_size = g_file_info_get_attribute_uint64 (fi, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+			g_object_unref (fi);
+		} else {
+			download_info->file_size = 0;
+		}
+
+		download_info->istream = G_INPUT_STREAM (g_file_read (src, NULL, &error));
+
+		if (download_info->istream && !error) {
+			download_info->cancellable = g_cancellable_new ();
+			download_info->attachment->cancellable = download_info->cancellable;
+			download_info->buffer_size = 10240; /* max 10KB chunk */
+			download_info->buffer = g_malloc (sizeof (char) * download_info->buffer_size);
+
+			g_input_stream_read_async (download_info->istream, download_info->buffer, download_info->buffer_size, G_PRIORITY_DEFAULT, download_info->cancellable, data_ready_cb, download_info);
+
+			res = TRUE;
+		}
+	}
+
+	if (error) {
+		/* propagate error */
+		if (ex)
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, error->message);
+
+		g_error_free (error);
+		download_info->was_error = TRUE;
+		download_info_free (download_info);
+	}
+
+	g_object_unref (src);
+	g_object_unref (des);
+
+	return res;
 }
 
 EAttachment *
@@ -497,19 +556,23 @@ e_attachment_new_remote_file (GtkWindow *error_dlg_parent, const char *uri, cons
 	new->body = NULL;
 	new->size = 0;
 	new->guessed_type = FALSE;
-	new->handle = NULL;
+	new->cancellable = NULL;
 	new->is_available_local = FALSE;
 	new->percentage = 0;
 	new->file_name = g_build_filename (path, base, NULL);
 
 	g_free (base);
 
-	download_info = g_new (DownloadInfo, 1);
+	download_info = g_new0 (DownloadInfo, 1);
 	download_info->attachment = new;
 	download_info->file_name = g_strdup (new->file_name);
 	download_info->uri = g_strdup (uri);
 	download_info->parent = error_dlg_parent;
-	download_to_local_path (gnome_vfs_uri_new (uri), gnome_vfs_uri_new (new->file_name), download_info);
+	download_info->was_error = FALSE;
+
+	/* it frees all on the error, so do not free it twice */
+	if (!download_to_local_path (download_info, ex))
+		return NULL;
 
 	return new;
 }

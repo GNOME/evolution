@@ -29,7 +29,6 @@
 #include <gtk/gtkicontheme.h>
 
 #include <libgnome/gnome-program.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomeui/gnome-icon-lookup.h>
 
 /**

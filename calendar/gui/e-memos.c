@@ -30,7 +30,6 @@
 #include <string.h>
 #include <gnome.h>
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <libedataserver/e-time-utils.h>
 #include <table/e-table-scrolled.h>
 #include <widgets/menus/gal-view-instance.h>

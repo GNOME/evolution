@@ -29,12 +29,12 @@
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkdnd.h>
 
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <glib/gi18n.h>
 
 #include "e-image-chooser.h"
 #include "e-util/e-util-marshal.h"
 #include "e-util/e-icon-factory.h"
+#include "e-util/e-util.h"
 
 struct _EImageChooserPrivate {
 
@@ -409,46 +409,30 @@ image_drag_data_received_cb (GtkWidget *widget,
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, URI_LIST_TYPE)) {
-		GnomeVFSResult result;
-		GnomeVFSHandle *handle;
+		GError *error = NULL;
 		char *uri;
 		char *nl = strstr ((char *)selection_data->data, "\r\n");
 		char *buf = NULL;
-		/* Why can't we change the info parameter to a GnomeVFSFileInfo and use that? */
-		GnomeVFSFileInfo file_info;
+		gsize read = 0;
 
 		if (nl)
 			uri = g_strndup ((char *)selection_data->data, nl - (char*)selection_data->data);
 		else
 			uri = g_strdup ((char *)selection_data->data);
 
-		result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-		if (result == GNOME_VFS_OK) {
-			result = gnome_vfs_get_file_info_from_handle (handle, &file_info, GNOME_VFS_FILE_INFO_DEFAULT);
-			if (result == GNOME_VFS_OK) {
-				GnomeVFSFileSize num_read;
-
-				buf = g_malloc (file_info.size);
-
-				if ((result = gnome_vfs_read (handle, buf, file_info.size, &num_read)) == GNOME_VFS_OK) {
-					if (set_image_from_data (chooser, buf, num_read)) {
-						handled = TRUE;
-					} else {
-						/* XXX we should pop up a warning dialog here */
-						g_free (buf);
-					}
-				} else {
-					g_free (buf);
-				}
+		if (e_util_read_file (uri, TRUE, &buf, &read, &error) && read > 0 && buf) {
+			if (set_image_from_data (chooser, buf, read)) {
+				handled = TRUE;
 			}
-
-			gnome_vfs_close (handle);
-		}
-		else {
-			printf ("gnome_vfs_open failed (%s)\n", gnome_vfs_result_to_string (result));
 		}
 
+		g_free (buf);
 		g_free (uri);
+
+		if (error) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
 	}
 
 	gtk_drag_finish (context, handled, FALSE, time);

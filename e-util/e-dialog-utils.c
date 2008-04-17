@@ -49,8 +49,6 @@
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 
-#include <libgnomevfs/gnome-vfs-utils.h>
-
 #include "e-util/e-util.h"
 #include "e-util/e-error.h"
 
@@ -408,7 +406,7 @@ e_file_can_save(GtkWindow *parent, const char *uri)
 	if (!e_file_check_local(uri))
 		return TRUE;
 
-	path = gnome_vfs_get_local_path_from_uri(uri);
+	path = e_util_uri_to_filename (uri);
 	if (!path)
 		return FALSE;
 
@@ -438,7 +436,7 @@ e_file_check_local (const char *name)
 {
 	char *uri;
 
-	uri = gnome_vfs_get_local_path_from_uri(name);
+	uri = e_util_uri_to_filename (name);
 	if (uri) {
 		g_free(uri);
 		return TRUE;

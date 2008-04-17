@@ -1,3 +1,17 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* e-attachment.h: (struct _EAttachment):
+	* e-attachment.c: (finalise), (init), (attachment_guess_mime_type),
+	(e_attachment_new), (struct DownloadInfo), (download_info_free),
+	(data_ready_cb), (download_to_local_path),
+	(e_attachment_new_remote_file):
+	Use gio instead of gnome-vfs to download remote files.
+	* e-image-chooser.c: (image_drag_data_received_cb):
+	Use new util function to read file.
+	* e-attachment-bar.c: (size_to_string): Stolen from gnome-vfs.
+
 2008-04-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-attachment-bar.c

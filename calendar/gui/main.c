@@ -27,7 +27,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-init.h>
-#include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
 
 #include <bonobo/bonobo-main.h>

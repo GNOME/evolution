@@ -39,10 +39,6 @@
 #include <camel/camel-vee-folder.h>
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-mime-utils.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include <libical/icalvcal.h>

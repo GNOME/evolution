@@ -28,10 +28,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-mime-utils.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <glib/gi18n.h>
+#include <gio/gio.h>
 
 #include <libedataserver/e-msgport.h>
 #include <camel/camel-url.h>
@@ -1150,11 +1148,13 @@ em_format_describe_part(CamelMimePart *part, const char *mime_type)
 {
 	GString *stext;
 	const char *text;
-	char *out;
+	char *out, *desc;
 
 	stext = g_string_new("");
-	text = gnome_vfs_mime_get_description(mime_type);
-	g_string_append_printf(stext, _("%s attachment"), text?text:mime_type);
+	/* TODO: mime_type isn't content_type on some systems (Win32), thus this will not work there. */
+	desc = g_content_type_get_description (mime_type);
+	g_string_append_printf (stext, _("%s attachment"), desc ? desc : mime_type);
+	g_free (desc);
 	if ((text = camel_mime_part_get_filename (part)))
 		g_string_append_printf(stext, " (%s)", text);
 	if ((text = camel_mime_part_get_description(part)))

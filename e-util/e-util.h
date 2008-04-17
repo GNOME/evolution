@@ -117,6 +117,12 @@ gboolean	e_file_lock_create (void);
 void		e_file_lock_destroy (void);
 gboolean 	e_file_lock_exists (void);
 
+char *e_util_guess_mime_type (const char *filename);
+char *e_util_filename_to_uri (const char *filename);
+char *e_util_uri_to_filename (const char *uri);
+
+gboolean e_util_read_file  (const char *filename, gboolean filename_is_uri, char **buffer, gsize *read,  GError **error);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

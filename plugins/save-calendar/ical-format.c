@@ -27,7 +27,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtkfilechooser.h>
 #include <gtk/gtkfilechooserdialog.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtk.h>
@@ -37,7 +36,6 @@
 #include <libecal/e-cal-util.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <calendar/common/authentication.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
 
 #include "format-handler.h"
@@ -96,8 +94,6 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 	GError *error = NULL;
 	GList *objects;
 	icalcomponent *top_level = NULL;
-	GnomeVFSURI *uri;
-	gboolean doit = TRUE;
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
@@ -118,9 +114,8 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 
 	error = NULL;
 	if (e_cal_get_object_list (source_client, "#t", &objects, &error)) {
-		GnomeVFSResult result;
-		GnomeVFSHandle *handle;
 		CompTzData tdata;
+		GOutputStream *stream;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
 		tdata.ecal = source_client;
@@ -141,38 +136,20 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 		tdata.zones = NULL;
 
 		/* save the file */
-		uri = gnome_vfs_uri_new (dest_uri);
+		stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
 
-		result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
-		if (result == GNOME_VFS_OK)
-			doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
-				 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
+		if (stream) {
+			char *ical_str = icalcomponent_as_ical_string (top_level);
 
-		if (doit) {
-			result = gnome_vfs_open (&handle, dest_uri, GNOME_VFS_OPEN_WRITE);
-			if (result != GNOME_VFS_OK) {
-				if ((result = gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE,
-								TRUE, GNOME_VFS_PERM_USER_ALL)) != GNOME_VFS_OK) {
-					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
-						       gnome_vfs_result_to_string (result));
-					}
-			}
+			g_output_stream_write_all (stream, ical_str, strlen (ical_str), NULL, NULL, &error);
+			g_output_stream_close (stream, NULL, NULL);
 
-			if (result == GNOME_VFS_OK) {
-				char *ical_str;
-				GnomeVFSFileSize bytes_written;
-
-				ical_str = icalcomponent_as_ical_string (top_level);
-				if ((result = gnome_vfs_write (handle, (gconstpointer) ical_str, strlen (ical_str), &bytes_written))
-				    != GNOME_VFS_OK) {
-					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
-								       gnome_vfs_result_to_string (result));
-				}
-
-				gnome_vfs_close (handle);
-			}
+			g_object_unref (stream);
+			g_free (ical_str);
 		}
-	} else {
+	}
+
+	if (error) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
 		g_error_free (error);
 	}

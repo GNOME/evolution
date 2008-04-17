@@ -78,7 +78,6 @@ mailinclude_HEADERS =				\
 	em-stripsig-filter.h			\
 	em-sync-stream.h			\
 	em-utils.h				\
-	em-vfs-stream.h				\
 	mail-autofilter.h			\
 	mail-component.h			\
 	mail-config.h				\
@@ -161,7 +160,6 @@ libevolution_mail_la_SOURCES =			\
 	em-vfolder-editor.h			\
 	em-vfolder-rule.c			\
 	em-vfolder-rule.h			\
-	em-vfs-stream.c				\
 	mail-autofilter.c			\
 	mail-component-factory.c		\
 	mail-component.c			\

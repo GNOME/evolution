@@ -33,8 +33,6 @@
 #include <glib/gstdio.h>
 
 #include <bonobo/bonobo-i18n.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
-#include <libgnomevfs/gnome-vfs-xfer.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkmain.h>

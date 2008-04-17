@@ -35,8 +35,6 @@
 #include <bonobo/bonobo-widget.h>
 #include <libgnome/libgnome.h>
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -2366,26 +2364,6 @@ set_icon_from_comp (CompEditor *editor)
 	}
 }
 
-static char *
-attachment_guess_mime_type (const char *file_name)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	char *type = NULL;
-
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (file_name, info,
-					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-					  GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
-					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (result == GNOME_VFS_OK)
-		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
-
-	gnome_vfs_file_info_unref (info);
-
-	return type;
-}
-
 static void
 set_attachment_list (CompEditor *editor, GSList *attach_list)
 {
@@ -2441,7 +2419,7 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 			return;
 		}
 
-		mime_type = attachment_guess_mime_type (file_name);
+		mime_type = e_util_guess_mime_type (file_name);
 		if (mime_type) {
 			if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
 				wrapper = (CamelDataWrapper *) camel_mime_message_new ();

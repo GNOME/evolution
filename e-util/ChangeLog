@@ -1,3 +1,15 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* e-gui-utils.c: Do not include gnome-vfs.
+	* e-util.c: (e_write_file_uri), (e_file_get_save_path):
+	* e-dialog-utils.c: (e_file_can_save), (e_file_check_local):
+	Use gio instead of gnome-vfs.
+	* e-util.h:
+	* e-util.c: (e_util_guess_mime_type), (e_util_filename_to_uri),
+	(e_util_uri_to_filename), (e_util_read_file): New helper functions.
+
 2008-04-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-util-labels.c (e_util_labels_add_with_dlg):

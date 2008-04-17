@@ -28,6 +28,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <gio/gio.h>
 #include <gtk/gtkfilechooser.h>
 #include <gtk/gtkfilechooserdialog.h>
 #include <gtk/gtkmessagedialog.h>
@@ -37,7 +38,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include <calendar/gui/e-cal-popup.h>
-#include <libgnomevfs/gnome-vfs.h>
+#include <e-util/e-error.h>
 #include <string.h>
 
 #include "format-handler.h"
@@ -206,6 +207,54 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	gtk_widget_destroy (dialog);
 	g_free (dest_uri);
 
+}
+
+/* Returns output stream for the uri, or NULL on any error.
+   When done with the stream, just g_output_stream_close and g_object_unref it.
+   It will ask for overwrite if file already exists.
+*/
+GOutputStream *
+open_for_writing (GtkWindow *parent, const char *uri, GError **error)
+{
+	GFile *file;
+	GFileOutputStream *fostream;
+	GError *err = NULL;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	file = g_file_new_for_uri (uri);
+
+	g_return_val_if_fail (file != NULL, NULL);
+
+	fostream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
+
+	if (err && err->code == G_IO_ERROR_EXISTS) {
+		g_clear_error (&err);
+
+		if (e_error_run (parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, uri, NULL) == GTK_RESPONSE_OK) {
+			fostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &err);
+
+			if (err && fostream) {
+				g_object_unref (fostream);
+				fostream = NULL;
+			}
+		} else if (fostream) {
+			g_object_unref (fostream);
+			fostream = NULL;
+		}
+	}
+
+	g_object_unref (file);
+
+	if (error && err)
+		*error = err;
+	else if (err)
+		g_error_free (err);
+
+	if (fostream)
+		return G_OUTPUT_STREAM (fostream);
+
+	return NULL;
 }
 
 void

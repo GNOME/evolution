@@ -24,7 +24,7 @@
 #include "publish-location.h"
 #include <libxml/tree.h>
 #include <gconf/gconf-client.h>
-#include <libgnomevfs/gnome-vfs.h>
+#include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 #include <string.h>
 
@@ -36,8 +36,8 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	xmlChar *location, *enabled, *frequency, *username;
 	xmlNodePtr root, p;
 	EPublishUri *uri;
-	GnomeVFSURI *vfs_uri;
 	gchar *password, *temp;
+	EUri *euri;
 
 	client = gconf_client_get_default ();
 	uris = gconf_client_get_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, NULL);
@@ -59,18 +59,22 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	frequency = xmlGetProp (root, (const unsigned char *)"frequency");
 	username = xmlGetProp (root, (const unsigned char *)"username");
 
-	vfs_uri = gnome_vfs_uri_new ((char *)location);
+	euri = e_uri_new ((const char *)location);
 
-	if (!vfs_uri) {
+	if (!euri) {
 		g_warning ("Could not form the uri for %s \n", location);
 		goto cleanup;
 	}
 
-	gnome_vfs_uri_set_user_name ((GnomeVFSURI *)vfs_uri, (char *)username);
-	temp = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD | GNOME_VFS_URI_HIDE_PASSWORD);
-	uri->location = g_strdup_printf ("dav://%s", temp);
+	if (euri->user)
+		g_free (euri->user);
+
+	euri->user = g_strdup ((const char *)username);
+
+	temp = e_uri_to_string (euri, FALSE);
+	uri->location = g_strdup_printf ("dav://%s", strstr (temp, "//") + 2);
 	g_free (temp);
-	gnome_vfs_uri_unref (vfs_uri);
+	e_uri_free (euri);
 
 	if (enabled != NULL)
 		uri->enabled = atoi ((char *)enabled);

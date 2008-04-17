@@ -2016,13 +2016,21 @@ save_messages_exec (struct _save_messages_msg *m)
 	CamelMimeFilterFrom *from_filter;
 	CamelStream *stream;
 	int i;
-	char *from;
+	char *from, *path;
 
-	stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	if (strstr (m->path, "://"))
+		path = m->path;
+	else
+		path = g_strjoin (NULL, "file://", m->path, NULL);
+
+	stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE);
 	from_filter = camel_mime_filter_from_new();
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
 	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)from_filter);
 	camel_object_unref(from_filter);
+
+	if (path != m->path)
+		g_free (path);
 
 	for (i=0; i<m->uids->len; i++) {
 		CamelMimeMessage *message;
@@ -2122,20 +2130,33 @@ save_part_exec (struct _save_part_msg *m)
 {
 	CamelDataWrapper *content;
 	CamelStream *stream;
+	char *path;
+
+	if (strstr (m->path, "://"))
+		path = m->path;
+	else
+		path = g_strjoin (NULL, "file://", m->path, NULL);
 
 	if(!m->readonly){
-		if (!(stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0644))) {
+		if (!(stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE))) {
 			camel_exception_setv (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot create output file: %s:\n %s"),
-					      m->path, g_strerror (errno));
+					      path, g_strerror (errno));
+			if (path != m->path)
+				g_free (path);
 			return;
 		}
-	} else if (!(stream = camel_stream_vfs_new_with_uri (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0444))) {
+	} else if (!(stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE))) {
 		camel_exception_setv (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create output file: %s:\n %s"),
-				      m->path, g_strerror (errno));
+				      path, g_strerror (errno));
+		if (path != m->path)
+			g_free (path);
 		return;
 	}
+
+	if (path != m->path)
+		g_free (path);
 
 	content = camel_medium_get_content_object (CAMEL_MEDIUM (m->part));
 

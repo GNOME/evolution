@@ -19,12 +19,12 @@
  *
  */
 
-#include <libgnomevfs/gnome-vfs.h>
+#include <gio/gio.h>
 #include "publish-location.h"
 
 #ifndef PUBLISH_FORMAT_ICAL_H
 #define PUBLISH_FORMAT_ICAL_H
 
-void publish_calendar_as_ical (GnomeVFSHandle *handle, EPublishUri *uri);
+void publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri);
 
 #endif

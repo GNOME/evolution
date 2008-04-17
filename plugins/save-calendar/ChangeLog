@@ -1,3 +1,14 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* ical-format.c: (do_save_calendar_ical):
+	* csv-format.c: (do_save_calendar_csv):
+	* rdf-format.c: (do_save_calendar_rdf):
+	Use gio GOutpuStream instead of gnome-vfs handle.
+	* format-handler.h: (open_for_writing):
+	* save-calendar.c: (open_for_writing): New helper function.
+
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* ical-format.c: (do_save_calendar_ical): Patch from OpenSUSE

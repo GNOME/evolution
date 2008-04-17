@@ -62,7 +62,6 @@
 #include <gconf/gconf-client.h>
 
 #include <libgnome/gnome-url.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #include <glade/glade.h>
 
@@ -3948,7 +3947,7 @@ handle_uri (EMsgComposer *composer,
 			return;
 
 		if (!g_ascii_strcasecmp (url->protocol, "file")) {
-			type = e_msg_composer_guess_mime_type (uri);
+			type = e_util_guess_mime_type (uri + strlen ("file://"));
 			if (!type)
 				return;
 
@@ -4180,7 +4179,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 
-	mime_type = e_msg_composer_guess_mime_type (dec_file_name);
+	mime_type = e_util_guess_mime_type (dec_file_name);
 	if (mime_type == NULL)
 		mime_type = g_strdup ("application/octet-stream");
 	camel_data_wrapper_set_mime_type (wrapper, mime_type);
@@ -4530,35 +4529,6 @@ e_msg_composer_get_reply_to (EMsgComposer *composer)
 	}
 
 	return address;
-}
-
-/**
- * e_msg_composer_guess_mime_type:
- * @filename: filename
- *
- * Returns the guessed mime type of the file given by @filename.
- **/
-gchar *
-e_msg_composer_guess_mime_type (const gchar *filename)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	gchar *type = NULL;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (
-		filename, info,
-		GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-		GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
-		GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (result == GNOME_VFS_OK)
-		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
-
-	gnome_vfs_file_info_unref (info);
-
-	return type;
 }
 
 /**

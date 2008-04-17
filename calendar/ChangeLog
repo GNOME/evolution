@@ -1,5 +1,36 @@
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #526739
+
+	* gui/e-meeting-store.c: (start_async_read), (freebusy_async),
+	(async_read): Read data with gio, not with gnome-vfs.
+	* gui/e-meeting-store.c: (async_close): Function removed.
+	* gui/migration.c:
+	* gui/e-memos.c:
+	* gui/alarm-notify/notify-main.c:
+	* gui/e-tasks.c:
+	* gui/main.c:
+	* gui/e-meeting-list-view.c:
+	Do not include gnome-vfs.
+	* gui/dialogs/comp-editor.c: (set_attachment_list):
+	* gui/dialogs/comp-editor.c: (attachment_guess_mime_type):
+	Function removed, use e-util function instead.
+	* gui/e-cal-popup.c: (temp_save_part):
+	Reflect changes in CamelStreamVFS.
+	* gui/e-cal-popup.c: (ecalp_apps_open_in), (ecalp_apps_popup_free),
+	(ecalp_standard_menu_factory): Use gio to fill popup and launch app.
+	* gui/e-cal-component-preview.h: (e_cal_comp_preview_url_requested_cb):
+	* gui/e-cal-component-preview.c: (e_cal_comp_preview_url_requested_cb):
+	New helper function to manage file:// urls for GtkHTML component.
+	* gui/e-cal-component-preview.c: (e_cal_component_preview_init):
+	* gui/e-cal-component-memo-preview.c:
+	(e_cal_comp_preview_url_requested_cb):
+	Use above helper function.
+	* gui/e-cal-component-memo-preview.c: (url_requested_cb):
+	* gui/e-cal-component-preview.c: (url_requested_cb): Function removed.
+
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #523402
 
 	* gui/e-calendar-view.c: (e_calendar_view_add_event):

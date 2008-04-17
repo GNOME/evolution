@@ -26,6 +26,8 @@
 
 #include <gtk/gtktable.h>
 #include <libecal/e-cal.h>
+#include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
 
 #define E_TYPE_CAL_COMPONENT_PREVIEW            (e_cal_component_preview_get_type ())
 #define E_CAL_COMPONENT_PREVIEW(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreview))
@@ -61,5 +63,9 @@ void e_cal_component_preview_set_default_timezone (ECalComponentPreview *preview
 
 void e_cal_component_preview_display             (ECalComponentPreview *preview, ECal *ecal, ECalComponent *comp);
 void e_cal_component_preview_clear             (ECalComponentPreview *preview);
+
+/* Callback used when GtkHTML widget requests URL */
+void e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *html_stream, gpointer data);
+
 
 #endif /* _E_CAL_COMPONENT_PREVIEW_H_ */

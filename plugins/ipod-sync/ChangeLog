@@ -1,3 +1,13 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* ical-format.c: (do_save_calendar_ical):
+	* ipod-sync.c: (destination_save_addressbook):
+	Write to gio GOutputStream instead of gnome-vfs handle.
+	* format-handler.h: (open_for_writing):
+	* ipod-sync.c: (open_for_writing): New helper function.
+
 2008-01-07  João Vale  <jpvale@gmail.com>
 
 	** Fix for bug #375580

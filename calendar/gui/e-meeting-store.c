@@ -28,7 +28,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomevfs/gnome-vfs.h>
+#include <gio/gio.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
@@ -80,8 +80,6 @@ struct _EMeetingStoreQueueData {
 
 
 static GObjectClass *parent_class = NULL;
-
-static void start_async_read (GnomeVFSAsyncHandle *handle, GnomeVFSResult result, gpointer data);
 
 static icalparameter_cutype
 text_to_type (const char *type)
@@ -1114,6 +1112,8 @@ replace_string (gchar *string, gchar *from_value, gchar *to_value)
 	return replaced;
 }
 
+static void start_async_read (const char *uri, gpointer data);
+
 typedef struct {
 	ECal *client;
 	time_t startt;
@@ -1139,7 +1139,6 @@ freebusy_async (gpointer data)
        	char *fburi = NULL;
 	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 	EMeetingStorePrivate *priv = fbd->store->priv;
-	GnomeVFSAsyncHandle *handle;
 
 	if (fbd->client) {
 		/* FIXME this a work around for getting all th free busy information for the users
@@ -1177,9 +1176,7 @@ freebusy_async (gpointer data)
 
 	if (fburi) {
 		priv->num_queries++;
-		gnome_vfs_async_open (&handle, fburi, GNOME_VFS_OPEN_READ,
-				      GNOME_VFS_PRIORITY_DEFAULT, start_async_read,
-				      fbd->qdata);
+		start_async_read (fburi, fbd->qdata);
 		g_free (fburi);
 	} else if (default_fb_uri != NULL && !g_str_equal (default_fb_uri, "")) {
 		gchar *tmp_fb_uri;
@@ -1192,10 +1189,7 @@ freebusy_async (gpointer data)
 		default_fb_uri = replace_string (tmp_fb_uri, DOMAIN_SUB, split_email[1]);
 
 		priv->num_queries++;
-		gnome_vfs_async_open (&handle, default_fb_uri, GNOME_VFS_OPEN_READ,
-				      GNOME_VFS_PRIORITY_DEFAULT, start_async_read,
-				      fbd->qdata);
-
+		start_async_read (default_fb_uri, fbd->qdata);
 		g_free (tmp_fb_uri);
 		g_strfreev (split_email);
 		g_free (default_fb_uri);
@@ -1375,59 +1369,72 @@ refresh_queue_add (EMeetingStore *store, int row,
 }
 
 static void
-async_close (GnomeVFSAsyncHandle *handle,
-	     GnomeVFSResult result,
-	     gpointer data)
+async_read (GObject *source_object, GAsyncResult *res, gpointer data)
 {
 	EMeetingStoreQueueData *qdata = data;
+	GError *error = NULL;
+	GInputStream *istream;
+	gssize read;
 
-	process_free_busy (qdata, qdata->string->str);
-}
+	g_return_if_fail (source_object != NULL);
+	g_return_if_fail (G_IS_INPUT_STREAM (source_object));
 
-static void
-async_read (GnomeVFSAsyncHandle *handle,
-	    GnomeVFSResult result,
-	    gpointer buffer,
-	    GnomeVFSFileSize requested,
-	    GnomeVFSFileSize read,
-	    gpointer data)
-{
-	EMeetingStoreQueueData *qdata = data;
-	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
+	istream = G_INPUT_STREAM (source_object);
 
-	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-		gnome_vfs_async_close (handle, async_close, qdata);
+	read = g_input_stream_read_finish (istream, res, &error);
+
+	if (error || read < 0) {
+		g_warning ("Read finish failed: %s", error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+
+		g_input_stream_close (istream, NULL, NULL);
+		g_object_unref (istream);
+		process_free_busy (qdata, qdata->string->str);
 		return;
 	}
 
-	((char *)buffer)[read] = '\0';
-	qdata->string = g_string_append (qdata->string, buffer);
+	if (read == 0) {
+		g_input_stream_close (istream, NULL, NULL);
+		g_object_unref (istream);
+		process_free_busy (qdata, qdata->string->str);
+	} else {
+		qdata->buffer[read] = '\0';
+		qdata->string = g_string_append (qdata->string, qdata->buffer);
 
-	if (result == GNOME_VFS_ERROR_EOF) {
-		gnome_vfs_async_close (handle, async_close, qdata);
-		return;
+		g_input_stream_read_async (istream, qdata->buffer, BUF_SIZE - 1, G_PRIORITY_DEFAULT, NULL, async_read, qdata);
 	}
-
-	gnome_vfs_async_read (handle, qdata->buffer, buf_size, async_read, qdata);
 }
 
 static void
-start_async_read (GnomeVFSAsyncHandle *handle,
-		  GnomeVFSResult result,
-		  gpointer data)
+start_async_read (const char *uri, gpointer data)
 {
 	EMeetingStoreQueueData *qdata = data;
-	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
+	GError *error = NULL;
+	GFile *file;
+	GInputStream *istream;
+
+	g_return_if_fail (uri != NULL);
+	g_return_if_fail (data != NULL);
 
 	qdata->store->priv->num_queries--;
-	if (result != GNOME_VFS_OK) {
-		g_warning ("Unable to access free/busy url: %s",
-			   gnome_vfs_result_to_string (result));
+	file = g_file_new_for_uri (uri);
+
+	g_return_if_fail (file != NULL);
+
+	istream = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+
+	if (error) {
+		g_warning ("Unable to access free/busy url: %s", error->message);
+		g_error_free (error);
 		process_callbacks (qdata);
 		return;
 	}
 
-	gnome_vfs_async_read (handle, qdata->buffer, buf_size, async_read, qdata);
+	if (!istream)
+		process_callbacks (qdata);
+	else
+		g_input_stream_read_async (istream, qdata->buffer, BUF_SIZE - 1, G_PRIORITY_DEFAULT, NULL, async_read, qdata);
 }
 
 void

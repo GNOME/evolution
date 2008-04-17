@@ -22,7 +22,6 @@
 #include <string.h>
 #include <time.h>
 #include <gconf/gconf-client.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libecal/e-cal.h>
@@ -32,7 +31,7 @@
 #include "publish-format-fb.h"
 
 static gboolean
-write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
+write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
 {
 	ESource *source;
 	ECal *client = NULL;
@@ -43,6 +42,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 	icalcomponent *top_level;
 	char *email = NULL;
 	GList *users = NULL;
+	gboolean res = FALSE;
 
 	utc = icaltimezone_get_utc_timezone ();
 	start = time_day_begin_with_zone (start, utc);
@@ -57,9 +57,11 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 	}
 
 	if (!e_cal_open (client, TRUE, &error)) {
-		/* FIXME: EError */
+		if (error) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
 		g_object_unref (client);
-		g_error_free (error);
 		return FALSE;
 	}
 
@@ -73,8 +75,6 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 
 	if (e_cal_get_free_busy (client, users, start, end, &objects, &error)) {
 		char *ical_string;
-		GnomeVFSFileSize bytes_written;
-		GnomeVFSResult result;
 
 		while (objects) {
 			ECalComponent *comp = objects->data;
@@ -84,33 +84,27 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		}
 
 		ical_string = icalcomponent_as_ical_string (top_level);
-		if ((result = gnome_vfs_write (handle, (gconstpointer) ical_string, strlen (ical_string), &bytes_written)) != GNOME_VFS_OK) {
-			/* FIXME: EError */
-			gnome_vfs_close (handle);
-			return FALSE;
-		}
-	} else {
-		/* FIXME: EError */
-		g_object_unref (client);
-		g_error_free (error);
-		if (users)
-			g_list_free (users);
-		g_free (email);
+		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, &error);
 
-		return FALSE;
+		g_free (ical_string);
 	}
 
 	if (users)
 		g_list_free (users);
 
 	g_free (email);
-
 	g_object_unref (client);
-	return TRUE;
+
+	if (error) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	return res;
 }
 
 void
-publish_calendar_as_fb (GnomeVFSHandle *handle, EPublishUri *uri)
+publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri)
 {
 	GSList *l;
 	ESourceList *source_list;
@@ -123,7 +117,8 @@ publish_calendar_as_fb (GnomeVFSHandle *handle, EPublishUri *uri)
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
-		write_calendar (uid, source_list, handle);
+		if (!write_calendar (uid, source_list, stream))
+			break;
 		l = g_slist_next (l);
 	}
 	g_object_unref (source_list);

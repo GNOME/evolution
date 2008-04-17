@@ -1,3 +1,10 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* e-shell-window-commands.c: (command_quick_reference):
+	Use gio instead of gnome-vfs.
+
 2008-04-07  Ondrej Jirman  <megous@megous.com>
 
 	** Fix for bug #525238

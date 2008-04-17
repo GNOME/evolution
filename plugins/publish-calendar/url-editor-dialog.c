@@ -23,7 +23,7 @@
 #include "url-editor-dialog.h"
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-url.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <glib.h>
 #include <string.h>
 #include <e-util/e-util-private.h>
 
@@ -46,7 +46,7 @@ create_uri (UrlEditorDialog *dialog)
 		server   = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 		file     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->file_entry)));
 		port     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->port_entry)));
-		username = gnome_vfs_escape_string (gtk_entry_get_text (GTK_ENTRY (dialog->username_entry)));
+		username = g_uri_escape_string (gtk_entry_get_text (GTK_ENTRY (dialog->username_entry)), "", FALSE);
 		password = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->password_entry)));
 
 		switch (uri->service_type) {

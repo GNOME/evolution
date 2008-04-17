@@ -125,7 +125,6 @@ CamelInternetAddress *
 
 void		e_msg_composer_clear_inlined_table
 						(EMsgComposer *composer);
-gchar *		e_msg_composer_guess_mime_type	(const gchar *filename);
 void		e_msg_composer_set_enable_autosave
 						(EMsgComposer *composer,
 						 gboolean enabled);

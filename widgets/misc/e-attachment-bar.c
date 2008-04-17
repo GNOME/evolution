@@ -33,7 +33,6 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <glib/gi18n.h>
 #include <libgnome/libgnome.h>
 
@@ -95,15 +94,31 @@ static void update (EAttachmentBar *bar);
 static char *
 size_to_string (gulong size)
 {
-	char *size_string;
+	/* code copied from gnome-vfs */
+	#define KILOBYTE_FACTOR  1024.0
+	#define MEGABYTE_FACTOR (1024.0 * 1024.0)
+	#define GIGABYTE_FACTOR (1024.0 * 1024.0 * 1024.0)
 
-	/* FIXME: The following should probably go into a separate module, as
-           we might have to do the same thing in other places as well.  Also,
-	   I am not sure this will be OK for all the languages.  */
+	if (size < (gulong) KILOBYTE_FACTOR) {
+		return g_strdup_printf (ngettext ("%u byte", "%u bytes",(guint) size), (guint) size);
+	} else {
+		gdouble displayed_size;
 
-	size_string = gnome_vfs_format_file_size_for_display (size);
+		if (size < (gulong) MEGABYTE_FACTOR) {
+			displayed_size = (gdouble) size / KILOBYTE_FACTOR;
+			return g_strdup_printf (_("%.1f KB"), displayed_size);
+		} else if (size < (gulong) GIGABYTE_FACTOR) {
+			displayed_size = (gdouble) size / MEGABYTE_FACTOR;
+			return g_strdup_printf (_("%.1f MB"), displayed_size);
+		} else {
+			displayed_size = (gdouble) size / GIGABYTE_FACTOR;
+			return g_strdup_printf (_("%.1f GB"), displayed_size);
+		}
+	}
 
-	return size_string;
+	#undef KILOBYTE_FACTOR
+	#undef MEGABYTE_FACTOR
+	#undef GIGABYTE_FACTOR
 }
 
 /* Attachment handling functions.  */

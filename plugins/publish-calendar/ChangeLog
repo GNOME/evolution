@@ -1,3 +1,19 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* publish-format-fb.h: (publish_calendar_as_fb):
+	* publish-format-fb.c: (write_calendar), (publish_calendar_as_fb):
+	* publish-format-ical.h: (publish_calendar_as_ical):
+	* publish-format-ical.c: (write_calendar), (publish_calendar_as_ical):
+	Use gio GOutputStream instead of gnome-vfs handle.
+	* url-editor-dialog.c: (create_uri): Use glib function to escape URI.
+	* publish-location.c: (migrateURI): Use EUri to parse URI.
+	* publish-calendar.c: (publish_online), (unmount_done_cb),
+	(struct mnt_struct), (mount_ready_cb), (ask_password), (ask_question),
+	(mount_first), (publish):
+	Use gio instead of gnome-vfs for opening (remote) files.
+
 2007-12-14  Tobias Mueller  <tobiasmue@svn.gnome.org>
 	Patch by <nickspoon0@gmail.com>
 	

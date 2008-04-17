@@ -33,7 +33,6 @@
 #include <bonobo/bonobo-exception.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <libebook/e-book.h>
 #include <libebook/e-vcard.h>
 #include <libecal/e-cal-component.h>

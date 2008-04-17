@@ -21,7 +21,6 @@
 
 #include <string.h>
 #include <gconf/gconf-client.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libecal/e-cal.h>
@@ -65,13 +64,14 @@ append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
 }
 
 static gboolean
-write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
+write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
 {
 	ESource *source;
 	ECal *client = NULL;
 	GError *error = NULL;
 	GList *objects;
 	icalcomponent *top_level;
+	gboolean res = FALSE;
 
 	source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source)
@@ -82,9 +82,11 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 	}
 
 	if (!e_cal_open (client, TRUE, &error)) {
-		/* FIXME: EError */
+		if (error) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
 		g_object_unref (client);
-		g_error_free (error);
 		return FALSE;
 	}
 
@@ -93,8 +95,6 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 
 	if (e_cal_get_object_list (client, "#t", &objects, &error)) {
 		char *ical_string;
-		GnomeVFSFileSize bytes_written = 0;
-		GnomeVFSResult result;
 		CompTzData tdata;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
@@ -113,24 +113,22 @@ write_calendar (gchar *uid, ESourceList *source_list, GnomeVFSHandle *handle)
 		tdata.zones = NULL;
 
 		ical_string = icalcomponent_as_ical_string (top_level);
-		if ((result = gnome_vfs_write (handle, (gconstpointer) ical_string, strlen (ical_string), &bytes_written)) != GNOME_VFS_OK) {
-			/* FIXME: EError */
-			gnome_vfs_close (handle);
-			return FALSE;
-		}
-	} else {
-		/* FIXME: EError */
-		g_object_unref (client);
-		g_error_free (error);
-		return FALSE;
+		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, &error);
+		g_free (ical_string);
 	}
 
 	g_object_unref (client);
-	return TRUE;
+
+	if (error) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	return res;
 }
 
 void
-publish_calendar_as_ical (GnomeVFSHandle *handle, EPublishUri *uri)
+publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri)
 {
 	GSList *l;
 	ESourceList *source_list;
@@ -143,7 +141,8 @@ publish_calendar_as_ical (GnomeVFSHandle *handle, EPublishUri *uri)
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
-		write_calendar (uid, source_list, handle);
+		if (!write_calendar (uid, source_list, stream))
+			break;
 		l = g_slist_next (l);
 	}
 	g_object_unref (source_list);

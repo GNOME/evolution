@@ -39,7 +39,6 @@
 #include <gtk/gtkimage.h>
 
 #include <libgnome/gnome-url.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "em-config.h"
 #include "libedataserver/e-msgport.h"

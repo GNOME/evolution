@@ -31,9 +31,7 @@
 #include <glib/gi18n.h>
 #include <libgnome/gnome-url.h>
 
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnomevfs/gnome-vfs-mime-utils.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <gio/gio.h>
 
 #include <bonobo/bonobo-ui-component.h>
 
@@ -781,7 +779,6 @@ command_quick_reference (BonoboUIComponent *uih,
 			 const char *path)
 {
 	char *quickref;
-	GnomeVFSMimeApplication *app;
 	const gchar * const *language_names;
 
 	language_names = g_get_language_names ();
@@ -796,20 +793,21 @@ command_quick_reference (BonoboUIComponent *uih,
 
 		quickref = g_build_filename (EVOLUTION_HELPDIR, "quickref", lang, "quickref.pdf", NULL);
 		if (g_file_test (quickref, G_FILE_TEST_EXISTS)) {
-			app = gnome_vfs_mime_get_default_application ("application/pdf");
+			GFile *file = g_file_new_for_path (quickref);
 
-			if (app) {
-				GList *uris = NULL;
-				char *uri;
+			if (file) {
+				GError *error = NULL;
+				char *uri = g_file_get_uri (file);
 
-				uri = gnome_vfs_get_uri_from_local_path (quickref);
-				uris = g_list_append (uris, uri);
+				g_app_info_launch_default_for_uri (uri, NULL, &error);
 
-				gnome_vfs_mime_application_launch (app, uris);
+				if (error) {
+					g_warning ("%s", error->message);
+					g_error_free (error);
+				}
 
+				g_object_unref (file);
 				g_free (uri);
-				g_list_free (uris);
-				gnome_vfs_mime_application_free (app);
 			}
 
 			g_free (quickref);

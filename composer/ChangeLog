@@ -1,3 +1,12 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* e-msg-composer.h: (e_msg_composer_guess_mime_type):
+	* e-msg-composer.c: (e_msg_composer_guess_mime_type), (handle_uri),
+	(e_msg_composer_add_inline_image_from_file):
+	Use shared e_util_guess_mime_type instead of its own.
+
 2008-04-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-composer-autosave.c (e_composer_autosave_unregister):

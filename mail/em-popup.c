@@ -28,6 +28,9 @@
 #include <stdlib.h>
 
 #include <glib.h>
+#include <glib/gi18n.h>
+
+#include <gio/gio.h>
 
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
@@ -39,9 +42,6 @@
 #include <gtk/gtkimage.h>
 
 #include <libgnome/gnome-url.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <glib/gi18n.h>
 
 #include "em-popup.h"
 #include "libedataserver/e-msgport.h"
@@ -644,8 +644,6 @@ static EPopupItem emp_standard_uri_popups[] = {
 
 #define LEN(x) (sizeof(x)/sizeof(x[0]))
 
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-
 static void
 emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -660,18 +658,33 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 
 	path = em_utils_temp_save_part(target->widget, part, TRUE);
 	if (path) {
-		GnomeVFSMimeApplication *app = item->user_data;
-		char *uri;
+		GAppInfo *app = item->user_data;
 		GList *uris = NULL;
+		GError *error = NULL;
 
-		uri = gnome_vfs_get_uri_from_local_path(path);
-		uris = g_list_append(uris, uri);
+		if (g_app_info_supports_files (app)) {
+			GFile *file = g_file_new_for_path (path);
 
-		gnome_vfs_mime_application_launch(app, uris);
+			uris = g_list_append (uris, file);
+			g_app_info_launch (app, uris, NULL, &error);
+			g_object_unref (file);
+		} else {
+			char *uri;
 
-		g_free(uri);
-		g_list_free(uris);
-		g_free(path);
+			uri = e_util_filename_to_uri (path);
+			uris = g_list_append (uris, uri);
+
+			g_app_info_launch_uris (app, uris, NULL, &error);
+			g_free (uri);
+		}
+
+		if (error) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
+
+		g_list_free (uris);
+		g_free (path);
 	}
 }
 
@@ -681,6 +694,9 @@ emp_apps_popup_free(EPopup *ep, GSList *free_list, void *data)
 	while (free_list) {
 		GSList *n = free_list->next;
 		EPopupItem *item = free_list->data;
+
+		if (item->user_data && item->activate == emp_apps_open_in)
+			g_object_unref (item->user_data);
 
 		g_free(item->path);
 		g_free(item->label);
@@ -790,23 +806,27 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	if (mime_type) {
                 gchar *cp;
 
-                /* GNOME-VFS expects lowercase MIME types. */
+                /* does gvfs expect lowercase MIME types? */
                 for (cp = mime_type; *cp != '\0'; cp++)
                         *cp = g_ascii_tolower (*cp);
 
-		apps = gnome_vfs_mime_get_all_applications(mime_type);
+		/* TODO: g_app_info_get_all_for_type expects content_type, not a mime_type, thus it will work fine
+		    on Linux/Unix systems, but not on Win32. They will add hopefully some function to convert between
+		    these two soon. */
+		apps = g_app_info_get_all_for_type (mime_type);
 
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
-			const char *name_type;
-
 			if (filename) {
-				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
+				/* will gvfs misidentify TNEF attachments as MPEG? */
 				if (!strcmp (filename, "winmail.dat"))
-					name_type = "application/vnd.ms-tnef";
-				else
-					name_type = gnome_vfs_mime_type_from_name(filename);
-				if (name_type)
-					apps = gnome_vfs_mime_get_all_applications(name_type);
+					apps = g_app_info_get_all_for_type ("application/vnd.ms-tnef");
+				else {
+					char *name_type = e_util_guess_mime_type (filename);
+
+					apps = g_app_info_get_all_for_type (name_type);
+
+					g_free (name_type);
+				}
 			}
 		}
 
@@ -818,16 +838,19 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 			menus = g_slist_prepend(menus, (void *)&emp_standard_part_apps_bar);
 
 			for (l = apps, i = 0; l; l = l->next, i++) {
-				GnomeVFSMimeApplication *app = l->data;
+				GAppInfo *app = l->data;
 				EPopupItem *item;
 
-				if (app->requires_terminal)
+				if (!g_app_info_should_show (app)) {
+					g_object_unref (app);
+					l->data = NULL;
 					continue;
+				}
 
 				item = g_malloc0(sizeof(*item));
 				item->type = E_POPUP_ITEM;
 				item->path = g_strdup_printf("99.object.%02d", i);
-				item->label = g_strdup_printf(_("Open in %s..."), app->name);
+				item->label = g_strdup_printf(_("Open in %s..."), g_app_info_get_name (app));
 				item->activate = emp_apps_open_in;
 				item->user_data = app;
 

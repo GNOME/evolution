@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
@@ -47,3 +48,5 @@ struct _FormatHandler
 FormatHandler *csv_format_handler_new (void);
 FormatHandler *ical_format_handler_new (void);
 FormatHandler *rdf_format_handler_new (void);
+
+GOutputStream *open_for_writing (GtkWindow *parent, const char *uri, GError **error);

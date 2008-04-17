@@ -38,8 +38,8 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -164,29 +164,59 @@ e_int_compare (gconstpointer x, gconstpointer y)
 gint
 e_write_file_uri (const gchar *filename, const gchar *data)
 {
-	guint64 length = strlen(data);
-	guint64 bytes;
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle = NULL;
+	gsize length = strlen (data);
+	gssize bytes;
+	GFile *file;
+	GOutputStream *stream;
+	GError *error = NULL;
 
-	result = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, FALSE, 0644);
-	if (result != GNOME_VFS_OK) {
+	file = g_file_new_for_path (filename);
+	if (!file) {
 		g_warning ("Couldn't save item");
 		return 1;
 	}
 
+	stream = G_OUTPUT_STREAM (g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
+	g_object_unref (file);
+
+	if (!stream || error) {
+		g_warning ("Couldn't save item%s%s", error ? ": " : "", error ? error->message : "");
+
+		if (stream)
+			g_object_unref (stream);
+
+		if (error)
+			g_error_free (error);
+
+		return 1;
+	}
+
 	while (length > 0) {
-		gnome_vfs_write(handle, data, length, &bytes);
-		if (bytes > 0) {
+		bytes = g_output_stream_write_all (stream, data, length, NULL, NULL, &error);
+		if (bytes > 0 && !error) {
 			length -= bytes;
 			data += bytes;
 		} else {
-			gnome_vfs_close(handle);
+			g_warning ("Couldn't save item%s%s", error ? ": " : "", error ? error->message : "");
+
+			if (error)
+				g_error_free (error);
+
+			g_output_stream_close (stream, NULL, NULL);
+			g_object_unref (stream);
+
 			return 1;
 		}
 	}
 
-	gnome_vfs_close (handle);
+	g_output_stream_close (stream, NULL, &error);
+	g_object_unref (stream);
+
+	if (error) {
+		g_warning ("Couldn't close output stream: %s", error->message);
+		g_error_free (error);
+	}
+
 	return 0;
 }
 
@@ -1042,8 +1072,16 @@ e_file_get_save_path (void)
 	}
 	g_object_unref(gconf);
 
-	if (uri == NULL)
-		uri = gnome_vfs_get_uri_from_local_path(g_get_home_dir());
+	if (uri == NULL) {
+		GFile *file;
+
+		file = g_file_new_for_path (g_get_home_dir ());
+		if (file) {
+			uri = g_file_get_uri (file);
+			g_object_unref (file);
+		}
+	}
+
 	return (uri);
 }
 
@@ -1096,3 +1134,172 @@ e_file_lock_exists ()
 
 	return g_file_test (fname, G_FILE_TEST_EXISTS);
 }
+
+/**
+ * e_util_guess_mime_type:
+ * @filename: it's a local file name, or URI.
+ * Returns: NULL or newly allocated string with a mime_type of the given file. Free with g_free.
+ *
+ * Guesses mime_type for the given file_name.
+ **/
+char *
+e_util_guess_mime_type (const char *filename)
+{
+	GFile *file;
+	GFileInfo *fi;
+	char *mime_type;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	if (strstr (filename, "://"))
+		file = g_file_new_for_uri (filename);
+	else
+		file = g_file_new_for_path (filename);
+
+	if (!file)
+		return NULL;
+
+	fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+	if (!fi) {
+		g_object_unref (file);
+		return NULL;
+	}
+
+	mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
+
+	g_object_unref (fi);
+	g_object_unref (file);
+
+	return mime_type;
+}
+
+/**
+ * e_util_filename_to_uri:
+ * @filename: local file name.
+ * Returns: either newly allocated string or NULL. Free with g_free.
+ *
+ * Converts local file name to URI.
+ **/
+char *
+e_util_filename_to_uri (const char *filename)
+{
+	GFile *file;
+	char *uri = NULL;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	file = g_file_new_for_path (filename);
+
+	if (file) {
+		uri = g_file_get_uri (file);
+		g_object_unref (file);
+	}
+
+	return uri;
+}
+
+/**
+ * e_util_uri_to_filename:
+ * @uri: uri.
+ * Returns: either newly allocated string or NULL. Free with g_free.
+ *
+ * Converts URI to local file name. NULL indicates no such local file name exists.
+ **/
+char *
+e_util_uri_to_filename (const char *uri)
+{
+	GFile *file;
+	char *filename = NULL;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	file = g_file_new_for_uri (uri);
+
+	if (file) {
+		filename = g_file_get_path (file);
+		g_object_unref (file);
+	}
+
+	return filename;
+}
+
+/**
+ * e_util_read_file:
+ * @filename: File name to read.
+ * @filename_is_uri: Whether the file name is URI, if not, then it's a local path.
+ * @buffer: Read content or the file. Should not be NULL. Returned value should be freed with g_free.
+ * @read: Number of actually read bytes. Should not be NULL.
+ * @error: Here will be returned an error from reading operations. Can be NULL. Not every time is set when returned FALSE.
+ * Returns: Whether was reading successful or not.
+ *
+ * Reads synchronously content of the file, to which is pointed either by path or by URI.
+ * Mount point should be already mounted when calling this function.
+ **/
+gboolean
+e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer, gsize *read, GError **error)
+{
+	GFile *file;
+	GFileInfo *info;
+	GError *err = NULL;
+	gboolean res = FALSE;
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (buffer != NULL, FALSE);
+	g_return_val_if_fail (read != NULL, FALSE);
+
+	*buffer = NULL;
+	*read = 0;
+
+	if (filename_is_uri)
+		file = g_file_new_for_uri (filename);
+	else
+		file = g_file_new_for_path (filename);
+
+	g_return_val_if_fail (file != NULL, FALSE);
+
+	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, NULL, &err);
+
+	if (!err && info) {
+		guint64 sz;
+		char *buff;
+
+		sz = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+		buff = g_malloc (sizeof (char) * sz);
+
+		if (buff) {
+			GInputStream *stream;
+
+			stream = G_INPUT_STREAM (g_file_read (file, NULL, &err));
+
+			if (!err && stream) {
+				res = g_input_stream_read_all (stream, buff, sz, read, NULL, &err);
+
+				if (err)
+					res = FALSE;
+				
+				if (res)
+					*buffer = buff;
+				else
+					g_free (buff);
+			}
+
+			if (stream)
+				g_object_unref (stream);
+		}
+	}
+
+	if (info)
+		g_object_unref (info);
+
+	g_object_unref (file);
+
+	if (err) {
+		if (error)
+			*error = err;
+		else
+			g_error_free (err);
+	}
+
+	return res;
+}
+

@@ -40,7 +40,6 @@
 #include <libecal/e-cal.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <addressbook/gui/widgets/eab-popup.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
 
 #include "format-handler.h"
@@ -62,6 +61,56 @@ display_error_message (GtkWidget *parent, const char *message)
 	gtk_widget_destroy (dialog);
 }
 
+/* Returns output stream for the uri, or NULL on any error.
+   When done with the stream, just g_output_stream_close and g_object_unref it.
+   It will ask for overwrite if file already exists.
+*/
+GOutputStream *
+open_for_writing (GtkWindow *parent, const char *uri, GError **error)
+{
+	GFile *file;
+	GFileOutputStream *fostream;
+	GError *err = NULL;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	file = g_file_new_for_uri (uri);
+
+	g_return_val_if_fail (file != NULL, NULL);
+
+	fostream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
+
+	if (err && err->code == G_IO_ERROR_EXISTS) {
+		g_error_clear (&err);
+
+		if (e_error_run (parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, uri, NULL) == GTK_RESPONSE_OK) {
+			fostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &err);
+
+			if (err && fostream) {
+				g_object_unref (fostream);
+				fostream = NULL;
+			}
+		} else if (fostream) {
+			g_object_unref (fostream);
+			fostream = NULL;
+		}
+	}
+
+	g_object_unref (file);
+
+	if (error && err)
+		*error = err;
+	else if (err)
+		g_error_free (err);
+
+	if (fostream)
+		return G_OUTPUT_STREAM (fostream);
+
+	return NULL;
+}
+
+
+
 static void
 destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 {
@@ -70,9 +119,9 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	GList *contacts, *tmp;
 	ESource *primary_source;
 	gchar *uri;
+	GOutputSream *stream;
+	GError *error = NULL;
 	char *dest_uri = NULL;
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle;
 	char *mount = ipod_get_mount();
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
@@ -96,50 +145,50 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	e_book_get_contacts (book, query, &contacts, NULL);
 	e_book_query_unref (query);
 
-	result = gnome_vfs_open (&handle, dest_uri, GNOME_VFS_OPEN_WRITE);
+	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
 
-	if (result != GNOME_VFS_OK) {
-		if ((result = gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE,
-						TRUE, GNOME_VFS_PERM_USER_ALL)) != GNOME_VFS_OK) {
-			display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
-				       gnome_vfs_result_to_string (result));
-		}
-	}
-
-	if (result == GNOME_VFS_OK) {
-		GnomeVFSFileSize bytes_written;
-
+	if (stream && !error) {
 		for (tmp = contacts; tmp; tmp=tmp->next) {
-				EContact *contact = tmp->data;
-				gchar *temp = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
-				gchar *vcard;
-				gchar *converted_vcard;
-				gsize vcard_latin1_length;
+			EContact *contact = tmp->data;
+			gchar *temp = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+			gchar *vcard;
+			gchar *converted_vcard;
+			gsize vcard_latin1_length;
 
-				vcard = g_strconcat(temp, "\r\n", NULL);
-				converted_vcard = g_convert(vcard, -1, "ISO-8859-1", "UTF-8", NULL, &vcard_latin1_length, NULL);
-				if ((result = gnome_vfs_write (handle, (gconstpointer) converted_vcard, vcard_latin1_length, &bytes_written))
-				    != GNOME_VFS_OK) {
-					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
-							       gnome_vfs_result_to_string (result));
-				}
+			vcard = g_strconcat (temp, "\r\n", NULL);
+			converted_vcard = g_convert (vcard, -1, "ISO-8859-1", "UTF-8", NULL, &vcard_latin1_length, NULL);
+			g_output_stream_write_all (stream, converted_vcard, vcard_latin1_length, NULL, NULL, &error);
 
-				g_object_unref (contact);
-				g_free (temp);
-				g_free (vcard);
-				g_free (converted_vcard);
+			if (error) {
+				display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
+				g_error_clear (&error);
+			}
+
+			g_object_unref (contact);
+			g_free (temp);
+			g_free (vcard);
+			g_free (converted_vcard);
 		}
+
+		g_output_stream_close (stream);
 	}
+
+	if (stream)
+		g_object_unref (stream);
 
 	sync();
 
 	if (contacts != NULL)
 		g_list_free (contacts);
 
-	gnome_vfs_close (handle);
 	g_object_unref (book);
 	g_free (dest_uri);
 	g_free (uri);
+
+	if (error) {
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
+		g_error_free (error);
+	}
 }
 
 static void

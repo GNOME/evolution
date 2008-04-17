@@ -1,3 +1,22 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* Makefile.am:
+	* em-vfs-stream.h:
+	* em-vfs-stream.c: Removed from project, not used anywhere.
+	* em-menu.c:
+	* em-config.c: Do not include gnome-vfs.
+	* mail-ops.c: (save_messages_exec), (save_part_exec):
+	Changes related to Data Server change of CamelStreamVFS.
+	* em-format.c: (em_format_describe_part):
+	* em-format-html-display.c: (efhd_bonobo_object), (efhd_find_handler),
+	(efhd_use_component), (efhd_bonobo_unknown), (efhd_check_server_prop),
+	(efhd_format_attachment): Drop use of deprecated gnome-vfs functions.
+	* em-utils.c: (em_utils_snoop_type): Use gio to guess the mime_type.
+	* em-popup.c: (emp_apps_open_in), (emp_apps_popup_free),
+	(emp_standard_menu_factory): Use gio to fill popup and launch app.
+
 2008-04-16  Shuai Liu  <shuai.liu@sun.com>
 
 	** Fix for bug #528358

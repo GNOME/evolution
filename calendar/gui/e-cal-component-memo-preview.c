@@ -31,7 +31,6 @@
 #include <gnome.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
 #include <gtkhtml/gtkhtml.h>
@@ -40,6 +39,7 @@
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
 #include "e-cal-component-memo-preview.h"
+#include "e-cal-component-preview.h"
 
 struct _ECalComponentMemoPreviewPrivate {
 	GtkWidget *html;
@@ -77,32 +77,6 @@ on_url_cb (GtkHTML *html, const char *url, gpointer data)
 	} else
 		e_calendar_table_set_status_message (e_tasks_get_calendar_table (tasks), NULL);
 #endif
-}
-
-/* Callback used when the user selects a URL in the HTML widget */
-static void
-url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointer data)
-{
-	if (!strncmp ("file:///", url, strlen ("file:///"))) {
-		GnomeVFSHandle *handle;
-		GnomeVFSResult result;
-		char buffer[4096];
-
-		if (gnome_vfs_open (&handle, url, GNOME_VFS_OPEN_READ) == GNOME_VFS_OK) {
-			do {
-				GnomeVFSFileSize bread;
-
-				result = gnome_vfs_read (handle, buffer, sizeof (buffer), &bread);
-				if (result == GNOME_VFS_OK)
-					gtk_html_stream_write (stream, buffer, bread);
-			} while (result == GNOME_VFS_OK);
-
-			gnome_vfs_close (handle);
-
-			if (result == GNOME_VFS_ERROR_EOF)
-				gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
-		}
-	}
 }
 
 /* Converts a time_t to a string, relative to the specified timezone */
@@ -282,7 +256,7 @@ e_cal_component_memo_preview_init (ECalComponentMemoPreview *preview)
 	gtk_html_load_empty (GTK_HTML (priv->html));
 
 	g_signal_connect (G_OBJECT (priv->html), "url_requested",
-			  G_CALLBACK (url_requested_cb), NULL);
+			  G_CALLBACK (e_cal_comp_preview_url_requested_cb), NULL);
 	g_signal_connect (G_OBJECT (priv->html), "link_clicked",
 			  G_CALLBACK (on_link_clicked), preview);
 	g_signal_connect (G_OBJECT (priv->html), "on_url",

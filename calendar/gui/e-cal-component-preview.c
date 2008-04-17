@@ -30,7 +30,6 @@
 #include <gnome.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <libedataserver/e-categories.h>
 #include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml.h>
@@ -78,27 +77,43 @@ on_url_cb (GtkHTML *html, const char *url, gpointer data)
 }
 
 /* Callback used when the user selects a URL in the HTML widget */
-static void
-url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointer data)
+void
+e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *html_stream, gpointer data)
 {
-	if (!strncmp ("file:///", url, strlen ("file:///"))) {
-		GnomeVFSHandle *handle;
-		GnomeVFSResult result;
-		char buffer[4096];
+	int len = strlen ("file:///");
 
-		if (gnome_vfs_open (&handle, url, GNOME_VFS_OPEN_READ) == GNOME_VFS_OK) {
-			do {
-				GnomeVFSFileSize bread;
+	if (!strncmp ("file:///", url, len)) {
+		GFile *file;
+		const char *path = url + len - 1;
 
-				result = gnome_vfs_read (handle, buffer, sizeof (buffer), &bread);
-				if (result == GNOME_VFS_OK)
-					gtk_html_stream_write (stream, buffer, bread);
-			} while (result == GNOME_VFS_OK);
+		g_return_if_fail (html_stream != NULL);
+		g_return_if_fail (path != NULL);
 
-			gnome_vfs_close (handle);
+		file = g_file_new_for_path (path);
+		if (file) {
+			char buffer[4096];
+			GInputStream *stream;
 
-			if (result == GNOME_VFS_ERROR_EOF)
-				gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+			/* ignore errors here */
+			stream = G_INPUT_STREAM (g_file_read (file, NULL, NULL));
+
+			if (stream) {
+				gssize bread;
+
+				do {
+					/* ignore errors here as well */
+					bread = g_input_stream_read (stream, buffer, sizeof (buffer), NULL, NULL);
+					if (bread > 0)
+						gtk_html_stream_write (html_stream, buffer, bread);
+				} while (bread > 0);
+
+				g_input_stream_close (stream, NULL, NULL);
+				g_object_unref (stream);
+
+				gtk_html_stream_close (html_stream, GTK_HTML_STREAM_OK);
+			}
+
+			g_object_unref (file);
 		}
 	}
 }
@@ -328,7 +343,7 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 	gtk_html_load_empty (GTK_HTML (priv->html));
 
 	g_signal_connect (G_OBJECT (priv->html), "url_requested",
-			  G_CALLBACK (url_requested_cb), NULL);
+			  G_CALLBACK (e_cal_comp_preview_url_requested_cb), NULL);
 	g_signal_connect (G_OBJECT (priv->html), "link_clicked",
 			  G_CALLBACK (on_link_clicked), preview);
 	g_signal_connect (G_OBJECT (priv->html), "on_url",

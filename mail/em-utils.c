@@ -52,10 +52,9 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-event-source.h>
 
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-mime-utils.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <glib/gi18n.h>
+
+#include <gio/gio.h>
 
 #include "mail-component.h"
 #include "mail-mt.h"
@@ -2199,30 +2198,40 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 const char *
 em_utils_snoop_type(CamelMimePart *part)
 {
-	const char *filename, *name_type = NULL, *magic_type = NULL;
+	/* cache is here only to be able still return const char * */
+	static GHashTable *types_cache = NULL;
+
+	const char *filename;
+	char *name_type = NULL, *magic_type = NULL, *res, *tmp;
 	CamelDataWrapper *dw;
 
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
-		/* GNOME-VFS will misidentify TNEF attachments as MPEG */
+		/* will GVFS misidentify TNEF attachments as MPEG? */
 		if (!strcmp (filename, "winmail.dat"))
 			return "application/vnd.ms-tnef";
 
-		name_type = gnome_vfs_mime_type_from_name(filename);
+		name_type = e_util_guess_mime_type (filename);
 	}
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 	if (!camel_data_wrapper_is_offline(dw)) {
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
 
-		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0)
-			magic_type = gnome_vfs_get_mime_type_for_data(mem->buffer->data, mem->buffer->len);
+		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0) {
+			char *ct = g_content_type_guess (filename, mem->buffer->data, mem->buffer->len, NULL);
+
+			if (ct)
+				magic_type = g_content_type_get_mime_type (ct);
+
+			g_free (ct);
+		}
 		camel_object_unref(mem);
 	}
 
 	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));
 
-	/* If GNOME-VFS doesn't recognize the data by magic, but it
+	/* If gvfs doesn't recognize the data by magic, but it
 	 * contains English words, it will call it text/plain. If the
 	 * filename-based check came up with something different, use
 	 * that instead and if it returns "application/octet-stream"
@@ -2233,11 +2242,31 @@ em_utils_snoop_type(CamelMimePart *part)
 		if (name_type
 		    && (!strcmp(magic_type, "text/plain")
 			|| !strcmp(magic_type, "application/octet-stream")))
-			return name_type;
+			res = name_type;
 		else
-			return magic_type;
+			res = magic_type;
 	} else
-		return name_type;
+		res = name_type;
+
+
+	if (res != name_type)
+		g_free (name_type);
+
+	if (res != magic_type)
+		g_free (magic_type);
+
+	if (!types_cache)
+		types_cache = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) NULL);
+
+	tmp = g_hash_table_lookup (types_cache, res);
+	if (tmp) {
+		g_free (res);
+		res = tmp;
+	} else {
+		g_hash_table_insert (types_cache, res, res);
+	}
+
+	return res;
 
 	/* We used to load parts to check their type, we dont anymore,
 	   see bug #11778 for some discussion */

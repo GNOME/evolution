@@ -62,7 +62,6 @@
 #include "e-util/e-util-private.h"
 
 #include "eab-contact-merging.h"
-#include <libgnomevfs/gnome-vfs-ops.h>
 
 #include "e-contact-editor-address.h"
 #include "e-contact-editor-im.h"

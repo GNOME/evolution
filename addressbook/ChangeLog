@@ -1,3 +1,9 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #526739
+
+	* gui/contact-editor/e-contact-editor.c: Do not include gnome-vfs.
+
 2008-04-02  Matthew Barnes <mbarnes@redhat.com>
 
 	* gui/widgets/Makefile.am:

@@ -36,7 +36,6 @@
 #include <libecal/e-cal.h>
 #include "calendar/common/authentication.h"
 #include <calendar/gui/e-cal-popup.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
 
 #include "e-util/e-error.h"
@@ -323,14 +322,11 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	ECal *source_client;
 	GError *error = NULL;
 	GList *objects=NULL;
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle;
-	GnomeVFSURI *uri;
+	GOutputStream *stream;
 	GString *line = NULL;
 	CsvConfig *config = NULL;
 	CsvPluginData *d = handler->data;
 	const gchar *tmp = NULL;
-	gboolean doit = TRUE;
 
 	if (!dest_uri)
 		return;
@@ -356,22 +352,9 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	config->quote = userstring_to_systemstring (tmp?tmp:"\"");
 	config->header = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (d->header_check));
 
-	uri = gnome_vfs_uri_new (dest_uri);
+	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
 
-	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result == GNOME_VFS_OK)
-		doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
-			 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
-
-	if (doit) {
-		result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-		if (result != GNOME_VFS_OK) {
-			gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE, TRUE, GNOME_VFS_PERM_USER_ALL);
-			result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-		}
-	}
-
-	if (result == GNOME_VFS_OK && doit && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
+	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 
 		if (config->header) {
 
@@ -406,10 +389,9 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 			line = g_string_append (line, config->newline);
 
-			gnome_vfs_write (handle, line->str, line->len, NULL);
+			g_output_stream_write_all (stream, line->str, line->len, NULL, NULL, NULL);
 			g_string_free (line, TRUE);
 		}
-
 
 		while (objects != NULL) {
 			ECalComponent *comp = objects->data;
@@ -513,7 +495,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			 * http://www.gnome.org/projects/evolution/developer-doc/libecal/ECalComponent.html
 			 *	#e-cal-component-get-last-modified
 			 */
-			gnome_vfs_write (handle, line->str, line->len, NULL);
+			g_output_stream_write_all (stream, line->str, line->len, NULL, NULL, &error);
 
 			/* It's written, so we can free it */
 			g_string_free (line, TRUE);
@@ -521,8 +503,11 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			objects = g_list_next (objects);
 		}
 
-		gnome_vfs_close (handle);
+		g_output_stream_close (stream, NULL, NULL);
 	}
+
+	if (stream)
+		g_object_unref (stream);
 
 	g_object_unref (source_client);
 
@@ -530,6 +515,11 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	g_free (config->quote);
 	g_free (config->newline);
 	g_free (config);
+
+	if (error) {
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		g_error_free (error);
+	}
 
 	return;
 }

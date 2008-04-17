@@ -31,7 +31,7 @@
 #include <camel/camel-mime-part.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-cipher-context.h>
-#include <libgnomevfs/gnome-vfs.h>
+#include <gio/gio.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -59,7 +59,8 @@ struct _EAttachment {
 
 	GdkPixbuf *pixbuf_cache;
 
-	GnomeVFSAsyncHandle *handle;
+	GCancellable *cancellable;
+
 	gboolean is_available_local;
 	int percentage;
 	char *file_name;

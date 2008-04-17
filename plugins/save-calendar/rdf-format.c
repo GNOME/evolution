@@ -33,7 +33,6 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include <calendar/gui/e-cal-popup.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libxml/xmlmemory.h>
@@ -196,11 +195,8 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	ECal *source_client;
 	GError *error = NULL;
 	GList *objects=NULL;
-	GnomeVFSResult result;
-	GnomeVFSHandle *handle;
-	GnomeVFSURI *uri;
 	gchar *temp = NULL;
-	gboolean doit = TRUE;
+	GOutputStream *stream;
 
 	if (!dest_uri)
 		return;
@@ -216,23 +212,9 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 		return;
 	}
 
-	uri = gnome_vfs_uri_new (dest_uri);
+	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
 
-	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result == GNOME_VFS_OK)
-		doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
-			 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
-
-	if (doit) {
-		result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-		if (result != GNOME_VFS_OK) {
-			gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE, TRUE, GNOME_VFS_PERM_USER_ALL);
-			result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
-		}
-	}
-
-
-	if (result == GNOME_VFS_OK && doit && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
+	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 		xmlBufferPtr buffer=xmlBufferCreate();
 		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
 		xmlNodePtr fnode = doc->children;
@@ -367,17 +349,25 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			objects = g_list_next (objects);
 		}
 
-		/* I used a buffer rather than xmlDocDump: I want gnome-vfs support */
+		/* I used a buffer rather than xmlDocDump: I want gio support */
 		xmlNodeDump (buffer, doc, doc->children, 2, 1);
 
-		gnome_vfs_write (handle, xmlBufferContent (buffer), xmlBufferLength (buffer), NULL);
+		g_output_stream_write_all (stream, xmlBufferContent (buffer), xmlBufferLength (buffer), NULL, NULL, &error);
+		g_output_stream_close (stream, NULL, NULL);
 
 		xmlBufferFree (buffer);
 		xmlFreeDoc (doc);
-		gnome_vfs_close (handle);
 	}
 
+	if (stream)
+		g_object_unref (stream);
+
 	g_object_unref (source_client);
+
+	if (error) {
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		g_error_free (error);
+	}
 
 	return;
 }

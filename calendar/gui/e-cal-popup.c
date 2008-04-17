@@ -28,9 +28,7 @@
 #include <stdlib.h>
 
 #include <glib.h>
-
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
+#include <gio/gio.h>
 
 #include "e-cal-popup.h"
 #include <libedataserver/e-data-server-util.h>
@@ -91,7 +89,7 @@ static char *
 temp_save_part(CamelMimePart *part, char *path, gboolean file)
 {
 	const char *filename;
-	char *tmpdir, *utf8_mfilename = NULL, *mfilename = NULL;
+	char *tmpdir, *utf8_mfilename = NULL, *mfilename = NULL, *usepath;
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
 
@@ -134,8 +132,16 @@ temp_save_part(CamelMimePart *part, char *path, gboolean file)
 		g_free(mfilename);
 	}
 
+	if (strstr (path, "://"))
+		usepath = path;
+	else
+		usepath = g_strjoin (NULL, "file://", path, NULL);
+
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	stream = camel_stream_vfs_new_with_uri (path, O_WRONLY|O_CREAT|O_TRUNC, 0600);
+	stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE);
+
+	if (usepath != path)
+		g_free (usepath);
 
 	if (!stream) {
 		/* TODO handle error conditions */
@@ -293,18 +299,33 @@ ecalp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 
 	path = temp_save_part(part, NULL, FALSE);
 	if (path) {
-		GnomeVFSMimeApplication *app = item->user_data;
-		char *uri;
+		GAppInfo *app = item->user_data;
 		GList *uris = NULL;
+		GError *error = NULL;
 
-		uri = gnome_vfs_get_uri_from_local_path(path);
-		uris = g_list_append(uris, uri);
+		if (g_app_info_supports_files (app)) {
+			GFile *file = g_file_new_for_path (path);
 
-		gnome_vfs_mime_application_launch(app, uris);
+			uris = g_list_append (uris, file);
+			g_app_info_launch (app, uris, NULL, &error);
+			g_object_unref (file);
+		} else {
+			char *uri;
 
-		g_free(uri);
-		g_list_free(uris);
-		g_free(path);
+			uri = e_util_filename_to_uri (path);
+			uris = g_list_append (uris, uri);
+
+			g_app_info_launch_uris (app, uris, NULL, &error);
+			g_free (uri);
+		}
+
+		if (error) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
+
+		g_list_free (uris);
+		g_free (path);
 	}
 }
 
@@ -314,6 +335,9 @@ ecalp_apps_popup_free(EPopup *ep, GSList *free_list, void *data)
 	while (free_list) {
 		GSList *n = free_list->next;
 		EPopupItem *item = free_list->data;
+
+		if (item->user_data && item->activate == ecalp_apps_open_in)
+			g_object_unref (item->user_data);
 
 		g_free(item->path);
 		g_free(item->label);
@@ -366,19 +390,29 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 	}
 
 	if (mime_type) {
-		apps = gnome_vfs_mime_get_all_applications(mime_type);
+                gchar *cp;
+
+                /* does gvfs expect lowercase MIME types? */
+                for (cp = mime_type; *cp != '\0'; cp++)
+                        *cp = g_ascii_tolower (*cp);
+
+		/* TODO: g_app_info_get_all_for_type expects content_type, not a mime_type, thus it will work fine
+		    on Linux/Unix systems, but not on Win32. They will add hopefully some function to convert between
+		    these two soon. */
+		apps = g_app_info_get_all_for_type (mime_type);
 
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
-			const char *name_type;
-
 			if (filename) {
-				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
+				/* will gvfs misidentify TNEF attachments as MPEG? */
 				if (!strcmp (filename, "winmail.dat"))
-					name_type = "application/vnd.ms-tnef";
-				else
-					name_type = gnome_vfs_mime_type_from_name(filename);
-				if (name_type)
-					apps = gnome_vfs_mime_get_all_applications(name_type);
+					apps = g_app_info_get_all_for_type ("application/vnd.ms-tnef");
+				else {
+					char *name_type = e_util_guess_mime_type (filename);
+
+					apps = g_app_info_get_all_for_type (name_type);
+
+					g_free (name_type);
+				}
 			}
 		}
 		g_free (mime_type);
@@ -390,16 +424,19 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 			menus = g_slist_prepend(menus, (void *)&ecalp_standard_part_apps_bar);
 
 			for (l = apps, i = 0; l; l = l->next, i++) {
-				GnomeVFSMimeApplication *app = l->data;
+				GAppInfo *app = l->data;
 				EPopupItem *item;
 
-				if (app->requires_terminal)
+				if (!g_app_info_should_show (app)) {
+					g_object_unref (app);
+					l->data = NULL;
 					continue;
+				}
 
 				item = g_malloc0(sizeof(*item));
 				item->type = E_POPUP_ITEM;
 				item->path = g_strdup_printf("99.object.%02d", i);
-				item->label = g_strdup_printf(_("Open in %s..."), app->name);
+				item->label = g_strdup_printf(_("Open in %s..."), g_app_info_get_name (app));
 				item->activate = ecalp_apps_open_in;
 				item->user_data = app;
 
@@ -409,7 +446,7 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 			if (open_menus)
 				e_popup_add_items(ecalp, open_menus, NULL, ecalp_apps_popup_free, NULL);
 
-			g_list_free(apps);
+			g_list_free (apps);
 		}
 	}
 
