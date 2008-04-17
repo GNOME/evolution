@@ -99,7 +99,26 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 	int i, nparts, partidlen, displayid = 0;
 
 	if (epp_mode == EPP_NORMAL) {
-		t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old);
+		/* Try to find text/html part even when not as last and force to show it.
+		   Old handler will show the last part of multipart/alternate, but if we
+		   can offer HTML, then offer it, regardless of position in multipart. */
+		nparts = camel_multipart_get_number (mp);
+		for (i = 0; i < nparts; i++) {
+			part = camel_multipart_get_part (mp, i);
+			if (part && camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
+				displayid = i;
+				display_part = part;
+				break;
+			}
+		}
+
+		if (display_part) {
+			g_string_append_printf (t->format->part_id, ".alternative.%d", displayid);
+			em_format_part_as (t->format, t->stream, display_part, "text/html");
+			g_string_truncate (t->format->part_id, partidlen);
+		} else {
+			t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old);
+		}
 		return;
 	} else if (!CAMEL_IS_MULTIPART(mp)) {
 		em_format_format_source(t->format, t->stream, t->part);

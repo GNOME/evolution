@@ -1,3 +1,10 @@
+2008-04-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #451976
+
+	* prefer-plain.c: (org_gnome_prefer_plain_multipart_alternative): Try
+	to find text/html part in multipart/alternative when in normal mode.
+
 2007-10-26  Kjartan Maraas <kmaraas@gnome.org>
 
 	* prefer-plain.c: (e_plugin_lib_enable):
