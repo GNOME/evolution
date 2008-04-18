@@ -1,3 +1,11 @@
+2008-04-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #528817
+
+	* e-plugin.c (e_plugin_register_type):
+	Fix a typo in the logic.  This might explain why I occasionally
+	find Exchange Operations disabled on startup.
+
 2008-03-17  Alex Rostovtsev  <tetromino@gmail.com>
 
 	** Fix for bug #522631
