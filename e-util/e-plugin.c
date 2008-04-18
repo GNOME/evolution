@@ -604,7 +604,7 @@ e_plugin_register_type(GType type)
 				char *prop_type;
 
 				prop_type = (char *)xmlGetProp(root, (const unsigned char *)"type");
-				if (!strcmp((char *)type, klass->type))
+				if (!strcmp(prop_type, klass->type))
 					add = g_slist_append(add, l->data);
 				xmlFree(prop_type);
 			}
