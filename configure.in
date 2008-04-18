@@ -27,7 +27,6 @@ m4_define([libxml_minimum_version], [2.0.0])            # XXX Just a Guess
 # Optional Packages
 #
 # FIXME  Minimum versions for dbus-glib-1 and libnm_glib ?
-# FIXME  Move audio-inline plugin from gstreamer-0.8 to 0.10 ?
 #
 m4_define([dbus_minimum_version], [1.0.0])
 m4_define([hal_minimum_version], [0.5.4])

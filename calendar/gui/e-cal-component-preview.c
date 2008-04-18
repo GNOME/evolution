@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <gnome.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-categories.h>
