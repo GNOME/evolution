@@ -2609,7 +2609,7 @@ static gboolean
 real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
-	ECalComponent *send_comp;
+	ECalComponent *send_comp = NULL;
 	char *address = NULL;
 	GList *users = NULL;
 
@@ -2618,7 +2618,24 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 	priv = editor->priv;
 
-	send_comp = e_cal_component_clone (priv->comp);
+	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {
+		/* Ensure we send the master object, not the instance only */
+		icalcomponent *icalcomp = NULL;
+		const char *uid = NULL;
+
+		e_cal_component_get_uid (priv->comp, &uid);
+		if (e_cal_get_object (priv->client, uid, NULL, &icalcomp, NULL) && icalcomp) {
+			send_comp = e_cal_component_new ();
+			if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
+				icalcomponent_free (icalcomp);
+				g_object_unref (send_comp);
+				send_comp = NULL;
+			}
+		}
+	}
+
+	if (!send_comp)
+		send_comp = e_cal_component_clone (priv->comp);
 
 	if (e_cal_component_get_vtype (send_comp) == E_CAL_COMPONENT_JOURNAL)
 		get_users_from_memo_comp (send_comp, &users);

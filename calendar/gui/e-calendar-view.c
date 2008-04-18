@@ -2052,8 +2052,30 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 {
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
-		    send_component_dialog (toplevel, client, comp, new))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL, NULL, NULL);
+		    send_component_dialog (toplevel, client, comp, new)) {
+			ECalComponent *send_comp = NULL;
+
+			if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
+				/* Ensure we send the master object, not the instance only */
+				icalcomponent *icalcomp = NULL;
+				const char *uid = NULL;
+
+				e_cal_component_get_uid (comp, &uid);
+				if (e_cal_get_object (client, uid, NULL, &icalcomp, NULL) && icalcomp) {
+					send_comp = e_cal_component_new ();
+					if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
+						icalcomponent_free (icalcomp);
+						g_object_unref (send_comp);
+						send_comp = NULL;
+					}
+				}
+			}
+
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp, client, NULL, NULL, NULL);
+
+			if (send_comp)
+				g_object_unref (send_comp);
+		}
 	} else {
 		g_message (G_STRLOC ": Could not update the object!");
 	}
