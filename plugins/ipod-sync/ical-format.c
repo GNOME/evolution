@@ -96,7 +96,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 			char *ical_str = icalcomponent_as_ical_string (top_level);
 
 			g_output_stream_write_all (stream, ical_str, strlen (ical_str), NULL, NULL, &error);
-			g_output_stream_close (stream);
+			g_output_stream_close (stream, NULL, NULL);
 
 			g_free (ical_str);
 		}

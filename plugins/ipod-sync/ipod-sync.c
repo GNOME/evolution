@@ -30,6 +30,7 @@
 #endif
 
 #include <glib.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 
 #include <libebook/e-book.h>
@@ -42,6 +43,7 @@
 #include <addressbook/gui/widgets/eab-popup.h>
 #include <string.h>
 
+#include "e-util/e-error.h"
 #include "format-handler.h"
 #include "evolution-ipod-sync.h"
 
@@ -81,7 +83,7 @@ open_for_writing (GtkWindow *parent, const char *uri, GError **error)
 	fostream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
 
 	if (err && err->code == G_IO_ERROR_EXISTS) {
-		g_error_clear (&err);
+		g_clear_error (&err);
 
 		if (e_error_run (parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, uri, NULL) == GTK_RESPONSE_OK) {
 			fostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &err);
@@ -119,7 +121,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	GList *contacts, *tmp;
 	ESource *primary_source;
 	gchar *uri;
-	GOutputSream *stream;
+	GOutputStream *stream;
 	GError *error = NULL;
 	char *dest_uri = NULL;
 	char *mount = ipod_get_mount();
@@ -161,7 +163,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 
 			if (error) {
 				display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
-				g_error_clear (&error);
+				g_clear_error (&error);
 			}
 
 			g_object_unref (contact);
@@ -170,7 +172,7 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 			g_free (converted_vcard);
 		}
 
-		g_output_stream_close (stream);
+		g_output_stream_close (stream, NULL, NULL);
 	}
 
 	if (stream)
