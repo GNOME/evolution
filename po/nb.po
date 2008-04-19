@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.23.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-19 10:46+0200\n"
-"PO-Revision-Date: 2008-04-19 11:07+0200\n"
+"POT-Creation-Date: 2008-04-19 11:34+0200\n"
+"PO-Revision-Date: 2008-04-19 11:34+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -4075,7 +4075,9 @@ msgstr "Uhåndtert feil"
 msgid ""
 "'{0}' is a read-only calendar source. Change Calendar to one that can accept "
 "appointments."
-msgstr "«{0}» er en skrivebeskyttet kalenderkilde. Bytt til en kalender som kan motta avtaler."
+msgstr ""
+"«{0}» er en skrivebeskyttet kalenderkilde. Bytt til en kalender som kan motta "
+"avtaler."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -10723,7 +10725,9 @@ msgstr "Etikettnavnet kan ikke være tomt."
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
-msgstr "Det eksisterer allerede en etikett med samme tagg på tjeneren. Gi etiketten et nytt navn"
+msgstr ""
+"Det eksisterer allerede en etikett med samme tagg på tjeneren. Gi etiketten "
+"et nytt navn"
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -14658,11 +14662,13 @@ msgstr "Ny søkemappe"
 
 #: ../mail/mail.error.xml.h:1
 msgid "A folder named \"{0}\" already exists. Please use a different name."
-msgstr "En mappe med navn «{0}» eksisterer allerede. Vennligst bruk et annet navn."
+msgstr ""
+"En mappe med navn «{0}» eksisterer allerede. Vennligst bruk et annet navn."
 
 #: ../mail/mail.error.xml.h:2
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "En mappe med navn «{1}» eksisterer allerede. Vennligst bruk et annet navn."
+msgstr ""
+"En mappe med navn «{1}» eksisterer allerede. Vennligst bruk et annet navn."
 
 #: ../mail/mail.error.xml.h:3
 msgid ""
@@ -14673,19 +14679,23 @@ msgid ""
 msgstr ""
 "En mappe med innhold eksisterer allerede i «{1}».\n"
 "\n"
-"Du kan velge å ignorere denne mappen, overskrive eller legge til innhold der, eller avslutte."
+"Du kan velge å ignorere denne mappen, overskrive eller legge til innhold "
+"der, eller avslutte."
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
-msgstr "En lesekvittering er forespurt for «{1}». Vil du sende leveringskvittering til {0}?"
+msgstr ""
+"En lesekvittering er forespurt for «{1}». Vil du sende leveringskvittering "
+"til {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
 "A signature already exists with the name \"{0}\". Please specify a different "
 "name."
-msgstr "En signatur med navn «{0}» eksisterer allerede. Vennligst bruk et annet navn."
+msgstr ""
+"En signatur med navn «{0}» eksisterer allerede. Vennligst bruk et annet navn."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -14726,7 +14736,9 @@ msgstr ""
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
-msgstr "Er du sikker på at du vil fjerne alle slettede meldinger fra mappe «{0}» permanent?"
+msgstr ""
+"Er du sikker på at du vil fjerne alle slettede meldinger fra mappe «{0}» "
+"permanent?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
@@ -14804,7 +14816,9 @@ msgstr "Kan ikke åpne mål «{2}»."
 msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
-msgstr "Kan ikke lese lisensfil «{0}» pga et installasjonsproblem. Du vil ikke kunne bruke denne tilbyderen før du har mulighet til å godta lisensen."
+msgstr ""
+"Kan ikke lese lisensfil «{0}» pga et installasjonsproblem. Du vil ikke kunne "
+"bruke denne tilbyderen før du har mulighet til å godta lisensen."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -16848,6 +16862,14 @@ msgstr "Abonner på annen brukers oppgaver"
 msgid "Check folder permissions"
 msgstr "Sjekk rettighetene for mappen"
 
+#: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
+msgid "Default External Editor"
+msgstr "Forvalgt eksternt redigeringsprogram"
+
+#: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
+msgid "The default command that must be used as the editor."
+msgstr ""
+
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
@@ -16873,13 +16895,17 @@ msgstr "Redigering kunne ikke starte"
 msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
-msgstr "Evolution kan ikke opprette en midlertidig fil for å lagre meldingen. Prøv igjen senere."
+msgstr ""
+"Evolution kan ikke opprette en midlertidig fil for å lagre meldingen. Prøv "
+"igjen senere."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr "Eksternt redigeringsprogram som er satt i dine brukervalg for tillegg kan ikke startes. Prøv å bruke et annet redigeringsprogram."
+msgstr ""
+"Eksternt redigeringsprogram som er satt i dine brukervalg for tillegg kan "
+"ikke startes. Prøv å bruke et annet redigeringsprogram."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in External Editor"
@@ -17097,7 +17123,8 @@ msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "Konto &quot;{0}&quot; eksisterer allerede. Vennligst sjekk ditt mappetre."
+msgstr ""
+"Konto &quot;{0}&quot; eksisterer allerede. Vennligst sjekk ditt mappetre."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
 msgid "Account Already Exists"
@@ -17107,7 +17134,9 @@ msgstr "Kontoen eksisterer allerede"
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and "
 "try again."
-msgstr "Proxy-pålogging som &quot;{0}&quot; lykkes ikke. Vennligst sjekk e-post-ID og prøv igjen."
+msgstr ""
+"Proxy-pålogging som &quot;{0}&quot; lykkes ikke. Vennligst sjekk e-post-ID "
+"og prøv igjen."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:1
 msgid "All instances"
@@ -19095,7 +19124,9 @@ msgstr "Forvalgt vindubredde"
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr "Aktiverer innstillinger for proxy ved aksess via HTTP/sikker HTTP over internett."
+msgstr ""
+"Aktiverer innstillinger for proxy ved aksess via HTTP/sikker HTTP over "
+"internett."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy host name"

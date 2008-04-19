@@ -1,5 +1,9 @@
 2008-04-19  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* POTFILES.in: Add missing file.
+
+2008-04-19  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* nb.po: Updated Norwegian bokmål translation.
 
 2008-04-17  Sankar P  <psankar@novell.com>

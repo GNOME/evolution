@@ -316,6 +316,7 @@ plugins/exchange-operations/org-gnome-exchange-operations.error.xml
 plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml
 plugins/exchange-operations/org-gnome-folder-permissions.xml
 plugins/exchange-operations/org-gnome-folder-subscription.xml
+plugins/external-editor/apps-evolution-external-editor.schemas.in
 plugins/external-editor/org-gnome-external-editor.eplug.xml
 plugins/external-editor/org-gnome-external-editor-errors.xml
 plugins/external-editor/org-gnome-external-editor.xml
