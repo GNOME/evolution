@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-04-12 20:57+0100\n"
-"PO-Revision-Date: 2008-04-13 17:55+0200\n"
+"POT-Creation-Date: 2008-04-13 17:12+0100\n"
+"PO-Revision-Date: 2008-04-19 13:43+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1128,8 +1128,8 @@ msgid ""
 msgstr ""
 "Seleccione esta opción si quiere una cuenta Hula. Evolution le proporciona "
 "conectividad con servidores Hula® a través de IMAP y a través de soporte "
-"CalDAV. Para obtener más información consulte <link linkend=\"b1012tkg\">Concetar "
-"con Hula</link>."
+"CalDAV. Para obtener más información consulte <link linkend=\"b1012tkg"
+"\">Concetar con Hula</link>."
 
 #: C/evolution.xml:290(title)
 msgid "USENET News:"
@@ -1472,9 +1472,9 @@ msgid ""
 "organize-spam\">Stopping Junk Mail (Spam)</link> and <link linkend=\"mail-"
 "prefs-junk\">Junk </link>."
 msgstr ""
-"Para obtener información adicional acerca del correo basura, consulte <link linkend="
-"\"usage-mail-organize-spam\">Parar el correo basura (SPAM)</link> y <link "
-"linkend=\"mail-prefs-junk\">Preferencias de spam</link>."
+"Para obtener información adicional acerca del correo basura, consulte <link "
+"linkend=\"usage-mail-organize-spam\">Parar el correo basura (SPAM)</link> y "
+"<link linkend=\"mail-prefs-junk\">Preferencias de spam</link>."
 
 #: C/evolution.xml:411(para) C/evolution.xml:5688(para)
 msgid "Select if you want to only check for junk messages in the Inbox folder."
@@ -4110,11 +4110,15 @@ msgstr "Seleccione Editar &gt; Complementos &gt; Recuerdo de adjuntos."
 msgid ""
 "Click Configuration, then make sure that Remind Missing Attachments is "
 "selected."
-msgstr "Pulse Configuración, después asegúrese de que Recordar los adjuntos faltantes está seleccionado."
+msgstr ""
+"Pulse Configuración, después asegúrese de que Recordar los adjuntos "
+"faltantes está seleccionado."
 
 #: C/evolution.xml:1537(para)
 msgid "Select keywords such as \"Attach\" or \"Attachment\" and click Add."
-msgstr "Seleccione las palabras clave tales como «Adjuntar» o «Adjunto» y pulse Añadir."
+msgstr ""
+"Seleccione las palabras clave tales como «Adjuntar» o «Adjunto» y pulse "
+"Añadir."
 
 #: C/evolution.xml:1538(para)
 #, fuzzy
@@ -4134,16 +4138,16 @@ msgid ""
 "To edit any of the existing keywords, select the keyword, click Edit, then "
 "modify the word as desired."
 msgstr ""
-"Para editar cualquiera de las palabras clave existentes, seleccione la palabra clave y pulse Editar, después "
-"modifique la palabra como desee."
+"Para editar cualquiera de las palabras clave existentes, seleccione la "
+"palabra clave y pulse Editar, después modifique la palabra como desee."
 
 #: C/evolution.xml:1544(para)
 msgid ""
 "When you have finished making your selections, click Close to exit the "
 "Plugin Manager."
 msgstr ""
-"Cuando haya terminado de marcar su selección, pulse Cerrar para salir "
-"del Gestor de complementos."
+"Cuando haya terminado de marcar su selección, pulse Cerrar para salir del "
+"Gestor de complementos."
 
 #: C/evolution.xml:1550(para)
 msgid ""
@@ -9721,8 +9725,8 @@ msgid ""
 "You can use a customized search, an advanced search, or a quick search to "
 "search for Calendar items."
 msgstr ""
-"Puede usar una búsqueda personalizada, una búsqueda avanzada o una búsqueda rápida para "
-"buscar elementos del Calendario."
+"Puede usar una búsqueda personalizada, una búsqueda avanzada o una búsqueda "
+"rápida para buscar elementos del Calendario."
 
 #: C/evolution.xml:4116(para)
 #, fuzzy
@@ -10414,8 +10418,8 @@ msgid ""
 "You can use a customized search, an advanced search, or a quick search to "
 "search for Memo Items."
 msgstr ""
-"Puede usar una búsqueda personalizada, una búsqueda avanzada o una búsqueda rápida para "
-"buscar elementos de las notas."
+"Puede usar una búsqueda personalizada, una búsqueda avanzada o una búsqueda "
+"rápida para buscar elementos de las notas."
 
 #: C/evolution.xml:4666(para)
 #, fuzzy
@@ -11201,8 +11205,8 @@ msgid ""
 "When the recipient receives the calendar item, a message indicates that the "
 "item was created by someone on behalf of the Delegator."
 msgstr ""
-"Cuando el destinatario recibe el elemento del calendario, un mensaje indicará que el "
-"elemento se creó por alguien en nombre del Delegador."
+"Cuando el destinatario recibe el elemento del calendario, un mensaje "
+"indicará que el elemento se creó por alguien en nombre del Delegador."
 
 #: C/evolution.xml:5239(para)
 msgid ""
@@ -12253,13 +12257,12 @@ msgid "Setting Message Delivery Options"
 msgstr "Establecer opciones de entrega de los mensajes"
 
 #: C/evolution.xml:5891(para)
-#, fuzzy
 msgid ""
 "You can delay the delivery of an individual message by having it held in the "
 "Outbox for a specified time."
 msgstr ""
-"Puede posponer la entrega de un mensaje individual dejándolos en la Bandeja "
-"de salida por un periodo de tiempo especificado después de pulsar Enviar."
+"Puede posponer la entrega de un mensaje individual dejándolo en la Bandeja "
+"de salida por un periodo de tiempo especificado."
 
 #: C/evolution.xml:5894(para)
 msgid "Click Delay message delivery."
@@ -12270,8 +12273,9 @@ msgid ""
 "Use the Date and Time options to specify how long the message should remain "
 "in the Outbox before it is sent to the recipient."
 msgstr ""
-"Use las opciones de Fecha y hora para especificar cuánto tiempo debe permanecer el mensaje "
-"en la Bandeja de salida antes de que se envíe a su destinatario."
+"Use las opciones de Fecha y hora para especificar cuánto tiempo debe "
+"permanecer el mensaje en la Bandeja de salida antes de que se envíe a su "
+"destinatario."
 
 #: C/evolution.xml:5908(para)
 msgid "Click the Sent Items folder in the Folder List."
@@ -12700,13 +12704,11 @@ msgid "Select the e-mail address to remove, then click Remove."
 msgstr "Seleccione la dirección de correo-e a quitar, después pulse Quitar."
 
 #: C/evolution.xml:6220(para)
-#, fuzzy
 msgid ""
 "Evolution™ supports mail connectivity to Hula® servers through IMAP and "
 "calendaring support through CalDAV."
 msgstr ""
-"<trademark>Evolution</trademark> soporta conectividad de correo en "
-"servidores <trademark class=\"registered\">Hula</trademark> a través de IMAP "
+"Evolution™ soporta conectividad de correo en servidores Hula® a través de IMAP "
 "y soporta calendarios a través de CalDAV."
 
 #: C/evolution.xml:6221(para)
@@ -12734,7 +12736,6 @@ msgstr ""
 "\">Inicio de Evolution por primera vez</link>."
 
 #: C/evolution.xml:6237(para)
-#, fuzzy
 msgid ""
 "Perhaps your mail server has changed names. Or you have grown tired of a "
 "certain layout for your appointments. Whatever the reason, you can change "
@@ -12742,8 +12743,7 @@ msgid ""
 msgstr ""
 "Quizá su servidor de correo haya cambiado de nombre. Quizá se cansó de "
 "utilizar siempre la misma disposición para sus citas. Sea cual sea la razón "
-"puede que quiera cambiar su configuración de <trademark>Evolution</"
-"trademark>."
+"puede que quiera cambiar su configuración de Evolution™."
 
 #: C/evolution.xml:6240(link) C/evolution.xml:6294(title)
 msgid "Working with Mail Accounts"
@@ -13501,7 +13501,6 @@ msgstr ""
 "cada mensaje con Ver &gt; Cargar imágenes o pulsando Ctrl+I."
 
 #: C/evolution.xml:6468(para)
-#, fuzzy
 msgid ""
 "The Label preferences option lets you add color labels for different kinds "
 "of messages. You can add, edit, or remove the labels. You can also assign "
@@ -13517,7 +13516,9 @@ msgstr "Para crear una etiqueta:"
 
 #: C/evolution.xml:6473(para)
 msgid "Click Add and specify the name in the Label Name dialog box."
-msgstr "Pulse Añadir y especifique el nombre en la caja de diálogo Nombre de la etiqueta."
+msgstr ""
+"Pulse Añadir y especifique el nombre en la caja de diálogo Nombre de la "
+"etiqueta."
 
 #: C/evolution.xml:6476(para)
 msgid "Click the color tab and select a color, then click OK."
@@ -13616,16 +13617,14 @@ msgstr ""
 "retraso al obtener los correos."
 
 #: C/evolution.xml:6514(para)
-#, fuzzy
 msgid ""
 "You can check your incoming messages for junk content by using Bogofilter "
 "and SpamAssassin* tools, which have trainable Bayesian filters. You need to "
 "enable the Junk plugins to start filtering junk mail."
 msgstr ""
-"Puede comprobar si el correo entrante es basura usando la herramienta "
-"Bogofilter y/o SpamAssasin con filtros bayesianos entrenables. Note que "
-"necesita activar los respectivos complementos de SPAM para activar el filtro "
-"de SPAM."
+"Puede comprobar si el correo entrante es basura usando las herramientas "
+"Bogofilter y SpamAssasin, que tienen filtros bayesianos entrenables. Debe"
+"activar los respectivos complementos de SPAM para activar el filtro de SPAM."
 
 #: C/evolution.xml:6515(para)
 msgid "To enable Junk plugins:"
@@ -13640,8 +13639,8 @@ msgid ""
 "Select the junk plugins you want. You can select either Bogofilter or "
 "SpamAssassin, or you can select both."
 msgstr ""
-"Seleccione los complementos de filtro de SPAM que quiera. Puede seleccionar tanto Bogofilter como "
-"SpamAssasin, o puede seleccionar los dos."
+"Seleccione los complementos de filtro de SPAM que quiera. Puede seleccionar "
+"tanto Bogofilter como SpamAssasin, o puede seleccionar los dos."
 
 #: C/evolution.xml:6525(title)
 msgid "General:"
@@ -13687,15 +13686,14 @@ msgid "Default junk plugin:"
 msgstr "Complemento spam predeterminado:"
 
 #: C/evolution.xml:6538(para)
-#, fuzzy
 msgid ""
 "Select either SpamAssassin or Bogofilter, or both, as your junk filter. You "
 "can view them only if you have enabled the respective plugins. When you "
 "select any option, it also reports if the underlying binary is available or "
 "not."
 msgstr ""
-"Seleccione SpamAssasin y/o Bogofilter como su filtro de correo basura. Sólo "
-"podrá verlos si tiene activados los complementos respectivos. Cuando "
+"Seleccione SpamAssasin o Bogofilter o ambos, como su filtro de correo basura. "
+"Sólo podrá verlos si tiene activados los complementos respectivos. Cuando "
 "seleccione cualquier opción, también le informa si el binario "
 "correspondiente está disponible o no."
 
@@ -13704,17 +13702,15 @@ msgid "SpamAssassin Options:"
 msgstr "Opciones de SpamAssasin:"
 
 #: C/evolution.xml:6543(para)
-#, fuzzy
 msgid ""
 "Remote Test performs junk mail filtering on remote servers. It also includes "
 "online tests, like checking for blacklisted message senders and ISPs."
 msgstr ""
 "Los filtros remotos realizan filtros de correo basura en servidores remotos. "
-"También incluyen test en línea como comprobación de remitentes e ISP en "
+"También incluyen pruebas en línea como comprobación de remitentes e ISP en "
 "listas negras."
 
 #: C/evolution.xml:6545(para)
-#, fuzzy
 msgid ""
 "This option uses tests that require a network connection, such as checking "
 "to see if a message is in a list of known junk messages, or if the sender or "
@@ -13723,10 +13719,10 @@ msgid ""
 "check for junk mail, but they increase accuracy. When you select this "
 "option, you do not need to do any additional setup."
 msgstr ""
-"Esta opción usa tests que requieren conexión a la red, tales como "
+"Esta opción usa pruebas que requieren conexión a la red, tales como "
 "comprobación por si el mensaje está en una lista de correos basura "
 "conocidos, o si el remitente o la puerta de enlace están en alguna lista "
-"negra de organizaciones antispam. Los test remotos añaden tiempo al que "
+"negra de organizaciones antispam. Las pruebas remotas añaden tiempo al que "
 "conlleva detectar si el correo entrante es basura, pero aumentan la "
 "eficacia. Cuando seleccione esta opción, no necesitará ninguna configuración "
 "adicional para que funcione."
@@ -13736,14 +13732,13 @@ msgid "Bogofilter Options:"
 msgstr "Opciones de Bogofilter:"
 
 #: C/evolution.xml:6548(para)
-#, fuzzy
 msgid ""
 "Select Convert mail text to Unicode to enable Unicode* filtering. For more "
 "information on Bogofilter, see the <ulink url=\"http://bogofilter."
 "sourceforge.net/\">Bogofilter site</ulink>."
 msgstr ""
 "Seleccione Convertir el texto del correo a Unicode para activar el filtro "
-"basado en unicode. Para obtener más información acerca de Bogofilter, "
+"basado en Unicode*. Para obtener más información acerca de Bogofilter, "
 "consulte el <ulink url=\"http://bogofilter.sourceforge.net/\">sitio de "
 "Bogofilter</ulink>."
 
@@ -14446,7 +14441,6 @@ msgstr ""
 "la libreta de direcciones sea su carpeta predeterminada."
 
 #: C/evolution.xml:6879(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to view the error logs and set the display duration for "
 "the error messages that appear in the statusbar. When an error occurs, "
@@ -14478,9 +14472,9 @@ msgid ""
 "informational message."
 msgstr ""
 "El icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning."
-"png\"/> indica que el mensaje de error mostrado es una advertencia. El "
-"icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> "
-"se muestra con un mensaje «para-su-información»."
+"png\"/> indica que el mensaje de error mostrado es una advertencia. El icono "
+"<inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> se "
+"muestra con un mensaje «para-su-información»."
 
 #: C/evolution.xml:6898(para)
 msgid ""
@@ -14492,9 +14486,9 @@ msgid ""
 msgstr ""
 "La sincronización se le presenta con tres temas que debe tratar. Primero, "
 "debe activar la sincronización. Segundo, su equipo debe reconocer y acceder "
-"a su dispositivo portátil. En este momento, Evolution™ sólo soporta dispositivos Palm OS "
-"como PalmPilot* y Handspring Visor. Tercero, debe decidir "
-"que tipo de sincronización quiere."
+"a su dispositivo portátil. En este momento, Evolution™ sólo soporta "
+"dispositivos Palm OS como PalmPilot* y Handspring Visor. Tercero, debe "
+"decidir que tipo de sincronización quiere."
 
 #: C/evolution.xml:6901(link) C/evolution.xml:6912(title)
 msgid "Enabling Synchronization"
@@ -14806,8 +14800,9 @@ msgid ""
 "selecting Help &gt; Quick Reference in the Menubar."
 msgstr ""
 "Puede imprimir esta sección para usarla como una referencia rápida para la "
-"mayoría de operaciones que quiera hacer con Evolution™. También puede encontrar "
-"esta información seleccionando Ayuda &gt; Referencia rápida en la barra de menú."
+"mayoría de operaciones que quiera hacer con Evolution™. También puede "
+"encontrar esta información seleccionando Ayuda &gt; Referencia rápida en la "
+"barra de menú."
 
 #: C/evolution.xml:7020(link) C/evolution.xml:7034(title)
 msgid "Opening or Creating Items"
@@ -15050,10 +15045,11 @@ msgid ""
 "Report Tool (known as bug-buddy at the command line) if you find bugs or "
 "want to request new features."
 msgstr ""
-"El control de calidad de Evolution™ se realiza desde el <ulink url=\"http://bugzilla.gnome.org "
-"\">sistema de seguimiento de errores de GNOME</ulink>. Si encuentra errores o quiere pedir nuevas "
-"características, puede utilizarlo o bien optar por la herramienta de información de "
-"errores de GNOME (conocida como bug-buddy en la línea de comandos)."
+"El control de calidad de Evolution™ se realiza desde el <ulink url=\"http://"
+"bugzilla.gnome.org \">sistema de seguimiento de errores de GNOME</ulink>. Si "
+"encuentra errores o quiere pedir nuevas características, puede utilizarlo o "
+"bien optar por la herramienta de información de errores de GNOME (conocida "
+"como bug-buddy en la línea de comandos)."
 
 #: C/evolution.xml:7132(para)
 msgid ""
@@ -15074,9 +15070,9 @@ msgid ""
 "GNOME programmers. You can see their names by clicking Help &gt; About from "
 "any Evolution window."
 msgstr ""
-"El equipo de Evolution™ junto conuna numerosa cantidad de programadores de GNOME "
-"escribieron Evolution. Para ver sus nombres, seleccione Ayuda &gt; Acerca de en "
-"cualquiera de las ventanas de Evolution."
+"El equipo de Evolution™ junto conuna numerosa cantidad de programadores de "
+"GNOME escribieron Evolution. Para ver sus nombres, seleccione Ayuda &gt; "
+"Acerca de en cualquiera de las ventanas de Evolution."
 
 #: C/evolution.xml:7138(para)
 msgid ""
@@ -15241,8 +15237,8 @@ msgid ""
 "A pre-downloading procedure that allows Evolution to quickly refer to data. "
 "It enables faster searches and decreases memory usage for data displays."
 msgstr ""
-"Un procedimiento de predescarga que permite que Evolution acceda rápidamente a "
-"los datos. Permite búsquedas más rápidas y reduce el uso de memoria para "
+"Un procedimiento de predescarga que permite que Evolution acceda rápidamente "
+"a los datos. Permite búsquedas más rápidas y reduce el uso de memoria para "
 "mostrar los datos."
 
 #: C/evolution.xml:7216(glossterm)
