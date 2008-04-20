@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-19 09:36+0000\n"
-"PO-Revision-Date: 2008-04-19 13:36+0200\n"
+"POT-Creation-Date: 2008-04-19 11:36+0000\n"
+"PO-Revision-Date: 2008-04-20 17:58+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -13301,7 +13301,9 @@ msgstr "Cadena UID para la cuenta predeterminada."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr "Color de subrayado para las palabras mal escritas cuando se use corrección en línea."
+msgstr ""
+"Color de subrayado para las palabras mal escritas cuando se use corrección "
+"en línea."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Use SpamAssassin daemon and client"
@@ -14303,7 +14305,7 @@ msgstr "_Usar conexión segura:"
 
 #: ../mail/mail-config.glade.h:188
 msgid "_Use system defaults"
-msgstr ""
+msgstr "_Usar los valores predeterminados del sistema"
 
 #: ../mail/mail-config.glade.h:189
 msgid "_Use the same fonts as other applications"
@@ -15175,7 +15177,6 @@ msgstr ""
 "destinatario a Para: o Cc: "
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -15185,12 +15186,11 @@ msgid ""
 msgstr ""
 "La(s) siguiente(s) carpeta(s) de búsqueda:\n"
 "{0}\n"
-" Usaban la carpeta eliminada:\n"
-"   «{1}» \n"
-"y se han actualizado."
+"Usaban la carpeta ahora eliminada:\n"
+"    «{1}» \n"
+"Y se han actualizado."
 
 #: ../mail/mail.error.xml.h:106
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -15200,8 +15200,8 @@ msgid ""
 msgstr ""
 "La(s) siguiente(s) reglas de filtrado:\n"
 "«{0}»\n"
-"usaban la carpeta eliminada:\n"
-"      «{1}»\n"
+"usaban la ahora carpeta eliminada:\n"
+"    «{1}»\n"
 "Y se han actualizado."
 
 #: ../mail/mail.error.xml.h:111
@@ -15314,7 +15314,6 @@ msgstr ""
 "las carpetas locales, todas las carpetas remotas, o ambas."
 
 #: ../mail/mail.error.xml.h:134
-#, fuzzy
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Su inicio de sesión en su servidor «{0}» como «{0}» falló."
 
@@ -16964,16 +16963,16 @@ msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
-"Evolution no puede crear un archivo temporal para guardar su correo. Inténtelo "
-"más tarde."
+"Evolution no puede crear un archivo temporal para guardar su correo. "
+"Inténtelo más tarde."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
 msgstr ""
-"No se puede lanzar el editor externo ajustado en las preferencias del complemento. Inténtelo "
-"estableciendo un editor diferente."
+"No se puede lanzar el editor externo ajustado en las preferencias del "
+"complemento. Inténtelo estableciendo un editor diferente."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in External Editor"
@@ -16985,13 +16984,15 @@ msgstr "Redactar mensajes usando un editor externo"
 
 #: ../plugins/external-editor/external-editor.c:91
 msgid "Command to be executed to launch the editor: "
-msgstr ""
+msgstr "Comando que ejecutar para lanzar el editor: "
 
 #: ../plugins/external-editor/external-editor.c:92
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim\""
 msgstr ""
+"Para Emacs use \"xemacs\"\n"
+"Para VI use \"gvim\""
 
 #: ../plugins/face/face.c:58
 msgid "Select a (48*48) png of size < 700bytes"
@@ -17185,9 +17186,8 @@ msgid "Specify User"
 msgstr "Especificar usuario"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:4
-#, fuzzy
 msgid "You have already given proxy permissions to this user."
-msgstr "Se le han otorgado los siguientes permisos sobre mis carpetas:"
+msgstr "Ya ha otorgado permisos proxy a este usuario."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
 msgid "You have to specify a valid user name to give proxy rights."
@@ -17196,9 +17196,8 @@ msgstr ""
 "en el proxy."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
-#, fuzzy
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "Ya existe una carpeta llamada «{0}». Use un nombre diferente."
+msgstr "La cuenta &quot;{0}&quot; ya existe. Compruebe su árbol de carpetas."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
 msgid "Account Already Exists"
@@ -17209,35 +17208,32 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and "
 "try again."
 msgstr ""
+"El inicio de sesion como &quot;{0}&quot; en el proxy ha fallado. Compruebe el ID del correo-e y "
+"compruebe de nuevo."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:1
-#, fuzzy
 msgid "All instances"
 msgstr "Todas las instancias"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:4
-#, fuzzy
 msgid "This instance"
-msgstr "Esta instancia únicamente"
+msgstr "Este instancia"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
-#, fuzzy
 msgid "This is a recurring meeting"
-msgstr "Convertir en acontecimiento repetitivo"
+msgstr "Esta es una cita repetitiva"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:6
-#, fuzzy
 msgid "What would you like to {0}?"
-msgstr "¿Desea guardar los cambios?"
+msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:7
-#, fuzzy
 msgid "You cannot share folder with specified user &quot;{0}&quot;"
-msgstr "No es posible autoguardar el archivo «{0}»."
+msgstr "No puede compartir la carpeta con el usuario especificado &quot;{0}&quot;"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
 msgid "You have to specify a user name whom you want to add to the list"
-msgstr ""
+msgstr "Tiene que especificar el nombre de usuario que quiere añadir a la lista"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
@@ -17378,9 +17374,8 @@ msgid "Sharing"
 msgstr "Compartir"
 
 #: ../plugins/groupwise-features/share-folder.c:544
-#, fuzzy
 msgid "Custom Notification"
-msgstr "Justificación"
+msgstr "Notificación personalizada"
 
 #: ../plugins/groupwise-features/share-folder.c:766
 msgid "Add   "
@@ -19180,12 +19175,11 @@ msgstr "Una descripción de la configuración de la impresora actual."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Authenticate proxy server connections"
-msgstr ""
+msgstr "Autenticar las conexiones del servidor proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
-#, fuzzy
 msgid "Automatic proxy configuration URL"
-msgstr "Reconocimiento automático de enlaces"
+msgstr "URL para la configuración automática del proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Configuration version"
@@ -19213,24 +19207,23 @@ msgstr "Anchura predeterminada de la ventana"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr ""
+msgstr "Activa los ajustes del proxy al acceder a HTTP/Secure HTTP en Internet."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy host name"
-msgstr ""
+msgstr "Nombre del equipo proxy HTtP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
-#, fuzzy
 msgid "HTTP proxy password"
-msgstr "Introduzca contraseña"
+msgstr "Contraseña del proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy port"
-msgstr ""
+msgstr "Puerto del proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "HTTP proxy username"
-msgstr ""
+msgstr "Usuario del proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -19259,12 +19252,11 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "Contraseña para pasar como autenticación al hacer HTTP proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
-#, fuzzy
 msgid "Proxy configuration mode"
-msgstr "Configuración"
+msgstr "Modo de configuración del proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "SOCKS proxy host name"
@@ -19391,9 +19383,8 @@ msgid "Toolbar is visible"
 msgstr "La barra de herramientas es visible"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
-#, fuzzy
 msgid "URL that provides proxy configuration values."
-msgstr "Última versión de la configuración actualizada"
+msgstr "URL que proporciona las variables de configuración del proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid "Use HTTP proxy"
