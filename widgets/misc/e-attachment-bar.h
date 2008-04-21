@@ -83,6 +83,8 @@ GSList *e_attachment_bar_get_selected (EAttachmentBar *bar);
 void e_attachment_bar_set_width(EAttachmentBar *bar, int bar_width);
 GSList * e_attachment_bar_get_all_attachments (EAttachmentBar *bar);
 void e_attachment_bar_create_attachment_cache (EAttachment *attachment);
+void e_attachment_bar_add_attachment_silent (EAttachmentBar *bar, EAttachment *attachment);
+void e_attachment_bar_refresh (EAttachmentBar *bar);
 
 #ifdef __cplusplus
 }

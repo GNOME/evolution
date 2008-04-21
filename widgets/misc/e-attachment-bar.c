@@ -1177,6 +1177,27 @@ e_attachment_bar_add_attachment (EAttachmentBar *bar, EAttachment *attachment)
 	add_common (bar, attachment);
 }
 
+void
+e_attachment_bar_add_attachment_silent (EAttachmentBar *bar, EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
+	g_return_if_fail (attachment != NULL);
+
+	g_ptr_array_add (bar->priv->attachments, attachment);
+	g_object_weak_ref ((GObject *) attachment, (GWeakNotify) attachment_destroy, bar);
+	g_signal_connect (attachment, "changed", G_CALLBACK (attachment_changed_cb), bar);
+
+
+	g_signal_emit (bar, signals[CHANGED], 0);
+}
+
+void
+e_attachment_bar_refresh (EAttachmentBar *bar)
+{
+	update (bar);
+
+}
+
 int
 e_attachment_bar_get_download_count (EAttachmentBar *bar)
 {
