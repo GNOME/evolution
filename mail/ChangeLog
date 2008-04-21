@@ -1,3 +1,11 @@
+2008-04-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #323402
+
+	* em-folder-tree.c: (folder_tree_new):
+	* evolution-mail.schemas.in: Be able to disable ellipsizing of folder
+	names with hidden option /apps/evolution/mail/display/no_folder_dots.
+
 2008-04-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #334444

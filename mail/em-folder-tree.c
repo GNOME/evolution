@@ -515,7 +515,8 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_tree_view_column_set_cell_data_func (column, renderer, render_pixbuf, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/display/no_folder_dots", NULL))
+		g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (column, renderer, render_display_name, NULL, NULL);
 

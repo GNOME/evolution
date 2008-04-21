@@ -226,6 +226,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/no_folder_dots</key>
+      <applyto>/apps/evolution/mail/display/no_folder_dots</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Disable or enable ellipsizing of folder names in folder tree</short>
+         <long>
+           Whether disable ellipsizing feature of folder names in folder tree.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/magic_spacebar</key>
       <applyto>/apps/evolution/mail/display/magic_spacebar</applyto>
       <owner>evolution-mail</owner>
