@@ -1,3 +1,12 @@
+2008-04-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #334444
+
+	* em-format-html-display.c: (efhd_attachment_button),
+	(efhd_update_bar), (efhd_message_update_bar),
+	(efhd_message_add_bar):
+	* em-format-html.c: (efh_format_exec):
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #526739

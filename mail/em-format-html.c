@@ -1262,6 +1262,10 @@ efh_format_exec (struct _format_msg *m)
 		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/rfc822");
 		if (handle)
 			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/post-header-closure");
+		if (handle)
+			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+
 	}
 
 	camel_stream_flush((CamelStream *)m->estream);

@@ -147,6 +147,7 @@ struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *attachment_area;
 	gboolean  show_bar;
 	GHashTable *files;
+	gboolean updated;
 };
 
 static int efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efh);
@@ -156,6 +157,7 @@ static void efhd_html_on_url (GtkHTML *html, const char *url, EMFormatHTMLDispla
 static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 static gboolean efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static void efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
+static void efhd_message_update_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 static void efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd);
 
 struct _attach_puri {
@@ -1309,6 +1311,8 @@ static EMFormatHandler type_builtin_table[] = {
 
 	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 	{ "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar },
+	{ "x-evolution/message/post-header-closure", (EMFormatFunc)efhd_message_update_bar },
+
 };
 
 static void
@@ -1833,7 +1837,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		new->encrypt = info->encrypt;
 
 		/* Add the attachment to the bar.*/
-		e_attachment_bar_add_attachment(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
+		e_attachment_bar_add_attachment_silent (E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
 		efhd_attachment_bar_refresh(efhd);
 	}
 
@@ -2160,6 +2164,16 @@ efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd)
 }
 
 static gboolean
+efhd_update_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+{
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
+	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
+
+	e_attachment_bar_refresh (priv->attachment_bar);
+
+	return TRUE;
+}
+static gboolean
 efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
@@ -2231,6 +2245,21 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 
 	return TRUE;
 }
+static void
+efhd_message_update_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
+	const char *classid = "attachment-bar-refresh";
+
+	if (efhd->nobar || efhd->priv->updated )
+		return;
+
+	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	efhd->priv->updated = TRUE;
+	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_update_bar);
+	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
+
+}
 
 static void
 efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
@@ -2242,6 +2271,7 @@ efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 		return;
 
 	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	efhd->priv->updated = FALSE;
 
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_add_bar);
 	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);

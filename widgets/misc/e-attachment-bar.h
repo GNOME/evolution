@@ -94,6 +94,10 @@ GtkAction *
 e_attachment_bar_recent_action_new (EAttachmentBar *bar, 
 				const gchar *action_name,
 				const gchar *action_label);
+void 
+e_attachment_bar_add_attachment_silent (EAttachmentBar *bar, EAttachment *attachment);
+void 
+e_attachment_bar_refresh (EAttachmentBar *bar);
 
 #ifdef __cplusplus
 }

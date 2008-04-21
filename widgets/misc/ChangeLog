@@ -1,3 +1,11 @@
+2008-04-20  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #334444
+
+	* e-attachment-bar.c: (e_attachment_bar_add_attachment_silent),
+	(e_attachment_bar_refresh):
+	* e-attachment-bar.h:
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #526739
