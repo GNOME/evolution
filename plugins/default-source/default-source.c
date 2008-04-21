@@ -78,7 +78,7 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	if (data->old)
 		return data->old;
-	widget = gtk_check_button_new_with_mnemonic (_("Mark as _default folder"));
+	widget = gtk_check_button_new_with_mnemonic (_("Mark as _default address book"));
 	book_target = (EABConfigTargetSource *) data->target;
 	source = book_target->source;
 
@@ -93,6 +93,21 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 	return widget;
 }
 
+static const char *
+get_calendar_option_caption (ECalSourceType source_type)
+{
+	const char *res = "???";
+
+	switch (source_type) {
+		case E_CAL_SOURCE_TYPE_EVENT:   res = _("Mark as _default calendar"); break;
+		case E_CAL_SOURCE_TYPE_TODO:    res = _("Mark as _default task list"); break;
+		case E_CAL_SOURCE_TYPE_JOURNAL: res = _("Mark as _default memo list"); break;
+		default: break;
+	}
+
+	return res;
+}
+
 GtkWidget *org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 GtkWidget *
@@ -105,9 +120,9 @@ org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	if (data->old)
 		return data->old;
-	widget = gtk_check_button_new_with_mnemonic (_("Mark as _default folder"));
 	cal_target = (ECalConfigTargetSource *) data->target;
 	source = cal_target->source;
+	widget = gtk_check_button_new_with_mnemonic (get_calendar_option_caption (cal_target->source_type));
 
 	if (e_source_get_property (source, "default"))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);

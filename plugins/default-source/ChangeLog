@@ -1,3 +1,11 @@
+2008-04-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #448863
+
+	* default-source.c: (org_gnome_default_book),
+	(get_calendar_option_caption), (org_gnome_default_cal):
+	Use better description of the option based on source type.
+
 2007-09-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #330223
