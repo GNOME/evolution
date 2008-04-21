@@ -170,6 +170,10 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 		return;
 
 	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+
+	if (!path || !*path)
+		return;
+
 	fixed_path = camel_url_decode_path (path);
 	d(g_print ("exchange-folder-permission.c: path=[%s], fixed_path=[%s]\n", path, fixed_path));
 

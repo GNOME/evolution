@@ -1,3 +1,11 @@
+2008-04-21  Bharath Acharya  <abharath@novell.com>
+
+	* Fixes bnc #378203
+
+	* exchange-folder-permission.c:
+	(org_gnome_exchange_folder_permissions): Return sanely if the path 
+	value is corrupted.
+
 2008-02-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Fix for bug #339266 
