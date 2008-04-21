@@ -20628,7 +20628,7 @@ msgstr "Download messages of accounts/folders marked for offline"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
-msgstr "Empty _Wastebasket"
+msgstr "Empty Wastebaske_t"
 
 #: ../ui/evolution-mail-global.xml.h:9 ../ui/evolution-mail-list.xml.h:11
 #: ../ui/evolution-subscribe.xml.h:2
