@@ -32,10 +32,10 @@
 
 #include "e-util/e-signature.h"
 #include "e-util/e-signature-list.h"
+#include "e-util/gconf-bridge.h"
 
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
-#include "composer/gconf-bridge.h"
 
 #include <bonobo/bonobo-generic-factory.h>
 

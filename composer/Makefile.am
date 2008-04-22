@@ -47,9 +47,7 @@ libcomposer_la_SOURCES = 			\
 	e-composer-text-header.c		\
 	e-composer-text-header.h		\
 	e-msg-composer.c			\
-	e-msg-composer.h			\
-	gconf-bridge.c				\
-	gconf-bridge.h
+	e-msg-composer.h
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui

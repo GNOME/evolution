@@ -1,3 +1,13 @@
+2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gconf-bridge.c:
+	* gconf-bridge.h:
+	Move these files to e-util.
+
+	* Makefile.am:
+	* e-composer-private.h:
+	Adapt.
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #526739

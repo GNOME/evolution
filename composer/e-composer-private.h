@@ -24,7 +24,6 @@
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include "gconf-bridge.h"
 
 #include <libedataserver/e-iconv.h>
 
@@ -32,6 +31,7 @@
 #include "e-composer-actions.h"
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
+#include "e-util/gconf-bridge.h"
 
 #define E_MSG_COMPOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

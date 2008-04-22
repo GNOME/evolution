@@ -115,6 +115,8 @@ libeutil_la_SOURCES =				\
 	e-util-labels.c				\
 	e-util-private.h			\
 	e-xml-utils.c				\
+	gconf-bridge.c				\
+	gconf-bridge.h				\
 	$(PLATFORM_SOURCES)
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
