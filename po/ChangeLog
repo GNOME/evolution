@@ -1,3 +1,8 @@
+2008-04-22  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Cater for some files that were moved.
+	* nb.po: Updated translation.
+
 2008-04-21  Bastien Nocera  <hadess@hadess.net>
 
 	* en_GB.po: _Trash -> Wastebaske_t
