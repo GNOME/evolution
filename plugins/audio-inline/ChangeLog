@@ -1,3 +1,10 @@
+2008-04-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes #528793, solution by Reece Hart
+	
+	* org-gnome-audio-inline.eplug.xml:
+	Add inline disposition for "audio/microsoft-wav" MIME types.
+
 2007-09-05  Frederic Crozat  <fcrozat@mandriva.com>
 
 	* audio-inline.c:
