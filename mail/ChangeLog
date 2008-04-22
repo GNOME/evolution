@@ -1,5 +1,20 @@
 2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #494171
+
+	* mail-send-recv.c (build_dialog):
+	Make the "Send & Receive Mail" window dimensions persistent.
+
+	* evolution-mail.schemas.in:
+	Add keys for storing "Send & Receive Mail" window dimensions:
+		/apps/evolution/mail/send_recv_height
+		/apps/evolution/mail/send_recv_maximized
+		/apps/evolution/mail/send_recv_width
+	Note the "maximized" key is required by GConfBridge but is not
+	actually used since the window cannot be maximized.
+
+2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
+
 	* em-composer-prefs.c:
 	gconf-bridge.h moved to e-util.
 

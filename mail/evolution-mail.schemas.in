@@ -1268,5 +1268,54 @@
       </locale>
     </schema>
 
+    <!-- Widget States -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/send_recv_height</key>
+      <applyto>/apps/evolution/mail/send_recv_height</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>200</default>
+      <locale name="C">
+        <short>"Send and Receive Mail" window height</short>
+        <long>
+          Initial height of the "Send and Receive Mail" window.
+          The value updates as the user resizes the window vertically.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/send_recv_maximized</key>
+      <applyto>/apps/evolution/mail/send_recv_maximized</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <locale name="C">
+        <short>"Send and Receive Mail" window maximize state</short>
+        <long>
+          Initial maximize state of the "Send and Receive Mail" window.
+          The value updates when the user maximizes or unmaximizes the
+          window.  Note, this particular value is not used by Evolution
+          since the "Send and Receive Mail" window cannot be maximized.
+          This key exists only as an implementation detail.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/send_recv_width</key>
+      <applyto>/apps/evolution/mail/send_recv_width</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>600</default>
+      <locale name="C">
+        <short>"Send and Receive Mail" window width</short>
+        <long>
+          Initial width of the "Send and Receive Mail" window.
+          The value updates as the user resizes the window horizontally.
+        </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

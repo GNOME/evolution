@@ -59,6 +59,7 @@
 #include "mail-folder-cache.h"
 #include "em-event.h"
 #include <e-util/e-icon-factory.h>
+#include <e-util/gconf-bridge.h>
 
 #define d(x)
 
@@ -67,6 +68,9 @@
 
 /* pseudo-uri to key the send task on */
 #define SEND_URI_KEY "send-task:"
+
+/* Prefix for window size GConf keys */
+#define GCONF_KEY_PREFIX "/apps/evolution/mail/send_recv"
 
 /* send/receive email */
 
@@ -393,6 +397,10 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
 
+	gconf_bridge_bind_window_size (
+		gconf_bridge_get (), GCONF_KEY_PREFIX,
+		GTK_WINDOW (send_recv_dialog));
+
 	gtk_widget_ensure_style ((GtkWidget *)gd);
 	gtk_container_set_border_width ((GtkContainer *)gd->vbox, 0);
 	gtk_container_set_border_width ((GtkContainer *)gd->action_area, 6);
@@ -442,7 +450,6 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		GTK_SCROLLED_WINDOW (scrolled_window), table);
 	gtk_box_pack_start (
 		GTK_BOX (gd->vbox), scrolled_window, TRUE, TRUE, 0);
-	gtk_widget_set_size_request (gd->vbox, 600, 200);
 	gtk_widget_show (scrolled_window);
 
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
