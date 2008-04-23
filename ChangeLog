@@ -1,3 +1,7 @@
+2008-04-21  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.23.1 release and version bump.
+
 2008-04-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* MAINTAINERS: Update the Mail guards.
