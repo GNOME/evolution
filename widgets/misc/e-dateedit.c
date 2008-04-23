@@ -406,7 +406,7 @@ create_children			(EDateEdit	*dedit)
 	gtk_widget_set_name (priv->time_combo, "e-dateedit-timecombo");
 	rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
-	atk_object_set_description (a11y, _("Combo box to select time"));
+	atk_object_set_description (a11y, _("Drop-down combination box to select time"));
 	atk_object_set_name (a11y, _("Time"));
 
 	g_signal_connect (GTK_BIN (priv->time_combo)->child,

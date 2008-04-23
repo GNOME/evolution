@@ -289,7 +289,7 @@ Use the right mouse button to zoom out.</property>
 		  <property name="add_tearoffs">False</property>
 		  <property name="focus_on_click">True</property>
 		  <accessibility>
-		    <atkproperty name="AtkObject::accessible_name" translatable="yes">TimeZone Combobox</atkproperty>
+		    <atkproperty name="AtkObject::accessible_name" translatable="yes">Timezone drop-down combination box</atkproperty>
 		  </accessibility>
 		</widget>
 		<packing>

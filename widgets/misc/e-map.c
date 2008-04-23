@@ -625,7 +625,7 @@ e_map_new (void)
 	a11y = gtk_widget_get_accessible (widget);
 	atk_object_set_name (a11y, _("World Map"));
 	atk_object_set_role (a11y, ATK_ROLE_IMAGE);
-	atk_object_set_description (a11y, _("Mouse-based interactive map widget for selecting timezone. Keyboard users should select the timezone from the below combo box instead."));
+	atk_object_set_description (a11y, _("Mouse-based interactive map widget for selecting timezone. Keyboard users should instead select the timezone from the drop-down combination box below."));
 	return (E_MAP (widget));
 }
 

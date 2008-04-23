@@ -1,3 +1,11 @@
+2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #529641
+
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Prefer the term "drop-down combination box" to "combo box" per the
+	GNOME Documentation Style Guide.
+
 2008-02-23  Andre Klapper  <a9016009@gmx.de>
 
 	* e-timezone-dialog/e-timezone-dialog.glade:
