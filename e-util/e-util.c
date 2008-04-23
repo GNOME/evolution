@@ -161,19 +161,29 @@ e_int_compare (gconstpointer x, gconstpointer y)
 	return (nx == ny) ? 0 : (nx < ny) ? -1 : 1;
 }
 
-gint
+gboolean
 e_write_file_uri (const gchar *filename, const gchar *data)
 {
-	gsize length = strlen (data);
-	gssize bytes;
+	gboolean res;
+	gsize length;
 	GFile *file;
 	GOutputStream *stream;
 	GError *error = NULL;
 
-	file = g_file_new_for_path (filename);
+	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	length = strlen (data);
+
+	/* if it is uri, then create file for uri, otherwise for path */
+	if (strstr (filename, "://"))
+		file = g_file_new_for_uri (filename);
+	else
+		file = g_file_new_for_path (filename);
+
 	if (!file) {
 		g_warning ("Couldn't save item");
-		return 1;
+		return FALSE;
 	}
 
 	stream = G_OUTPUT_STREAM (g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
@@ -188,25 +198,14 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 		if (error)
 			g_error_free (error);
 
-		return 1;
+		return FALSE;
 	}
 
-	while (length > 0) {
-		bytes = g_output_stream_write_all (stream, data, length, NULL, NULL, &error);
-		if (bytes > 0 && !error) {
-			length -= bytes;
-			data += bytes;
-		} else {
-			g_warning ("Couldn't save item%s%s", error ? ": " : "", error ? error->message : "");
+	res = g_output_stream_write_all (stream, data, length, NULL, NULL, &error);
 
-			if (error)
-				g_error_free (error);
-
-			g_output_stream_close (stream, NULL, NULL);
-			g_object_unref (stream);
-
-			return 1;
-		}
+	if (error) {
+		g_warning ("Couldn't save item: %s", error->message);
+		g_clear_error (&error);
 	}
 
 	g_output_stream_close (stream, NULL, &error);
@@ -217,7 +216,7 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 		g_error_free (error);
 	}
 
-	return 0;
+	return res;
 }
 
 /* Include build marshalers */

@@ -353,7 +353,6 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 {
 	const char *filename;
 	char *uri;
-	gint error = 0;
 	gint response = 0;
 
 
@@ -370,8 +369,7 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		}
 	}
 
-	error = e_write_file_uri (uri, info->vcard);
-	if (error != 0) {
+	if (!e_write_file_uri (uri, info->vcard)) {
 		char *err_str_ext;
 		if (info->has_multiple_contacts) {
 			/* more than one, finding the total number of contacts might

@@ -1,3 +1,10 @@
+2008-04-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #529254
+
+	* gui/widgets/eab-gui-util.c: (save_it):
+	Prototype and return value of e_write_file_uri has been changed.
+
 2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #529465

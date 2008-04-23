@@ -55,7 +55,7 @@ gint		e_collate_compare		(gconstpointer x,
 						 gconstpointer y);
 gint		e_int_compare                   (gconstpointer x,
 						 gconstpointer y);
-gint		e_write_file_uri		(const gchar *filename,
+gboolean	e_write_file_uri		(const gchar *filename,
 						 const gchar *data);
 
 /* This only makes a filename safe for usage as a filename.
