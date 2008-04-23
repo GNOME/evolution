@@ -130,6 +130,7 @@ struct _EMFolderBrowserPrivate {
 	EMMenu *menu;		/* toplevel menu manager */
 
 	guint labels_change_notify_id; /* mail_config's notify id */
+	guint labels_change_idle_id; /* rebuild menu on idle, when all know about a change */
 };
 
 typedef struct EMFBSearchBarItem {
@@ -436,13 +437,27 @@ html_scroll (GtkHTML *html,
 	}
 }
 
+static gboolean
+labels_changed_idle_cb (gpointer user_data)
+{
+	EMFolderBrowser *emfb = (EMFolderBrowser*) user_data;
+
+	emfb_realize (GTK_WIDGET (emfb));
+
+	emfb->priv->labels_change_idle_id = 0;
+
+	return FALSE;
+}
+
 static void
 gconf_labels_changed (GConfClient *client, guint cnxn_id,
 		      GConfEntry *entry, gpointer user_data)
 {
+	EMFolderBrowser *emfb = (EMFolderBrowser*) user_data;
+
 	/* regenerate menu option whenever something changed in labels */
-	if (user_data)
-		emfb_realize (user_data);
+	if (emfb && !emfb->priv->labels_change_idle_id)
+		emfb->priv->labels_change_idle_id = g_idle_add (labels_changed_idle_cb, emfb);
 }
 
 static void
@@ -578,6 +593,12 @@ emfb_destroy(GtkObject *o)
 			gconf_client_notify_remove (gconf, emfb->priv->labels_change_notify_id);
 
 		emfb->priv->labels_change_notify_id = 0;
+	}
+
+	if (emfb->priv->labels_change_idle_id) {
+		g_source_remove (emfb->priv->labels_change_idle_id);
+
+		emfb->priv->labels_change_idle_id = 0;
 	}
 
 	((GtkObjectClass *)emfb_parent)->destroy(o);

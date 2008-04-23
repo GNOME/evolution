@@ -1,3 +1,12 @@
+2008-04-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #529179
+
+	* em-folder-browser.c: (struct _EMFolderBrowserPrivate),
+	(labels_changed_idle_cb), (gconf_labels_changed), (emfb_destroy):
+	Rebuild search menu rather on idle, then immediately after the change
+	in gconf, because other parts may not have this change propagated yet.
+
 2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #458505
