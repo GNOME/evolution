@@ -1,5 +1,10 @@
 2008-04-23  Milan Crha  <mcrha@redhat.com>
 
+	* em-format-html-display.c: (efhd_update_bar):
+	Compiler warning fix.
+
+2008-04-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #529375
 
 	* evolution-mail.schemas.in:
