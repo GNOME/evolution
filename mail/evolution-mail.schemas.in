@@ -1189,9 +1189,10 @@
       <list_type>string</list_type>
       <default>[X-Spam-Flag=YES,X-Spam-Level=*****]</default>
       <locale name="C">
-         <short>Specifies the header to check for junk.</short>
+         <short>Custom headers to use while checking for junk.</short>
          <long>
-	 Specifies the header to check for junk. The format is headername=value in gconf.
+	 Custom headers to use while checking for junk. The list elements
+         are string in the format "headername=value".
          </long>
       </locale>
     </schema>

@@ -1,5 +1,12 @@
 2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #529462
+
+	* evolution-mail.schemas.in:
+	Fix wording of "custom_header" GConf key description.
+
+2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #494171
 
 	* mail-send-recv.c (build_dialog):
