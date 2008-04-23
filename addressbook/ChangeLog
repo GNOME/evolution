@@ -1,3 +1,10 @@
+2008-04-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #529465
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	Prefer "popup" to "pop-up" per the GNOME Documentation Style Guide.
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #526739

@@ -78,7 +78,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Address Book address pop-up"/>
+		       _value="Evolution Address Book address popup"/>
 
 </oaf_server>
 
