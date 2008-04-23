@@ -480,7 +480,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		if (!(job->format->load_http_now
 		      || job->format->load_http == MAIL_CONFIG_HTTP_ALWAYS
 		      || (job->format->load_http == MAIL_CONFIG_HTTP_SOMETIMES
-			  && em_utils_in_addressbook((CamelInternetAddress *)camel_mime_message_get_from(job->format->format.message))))) {
+			  && em_utils_in_addressbook((CamelInternetAddress *)camel_mime_message_get_from(job->format->format.message), FALSE)))) {
 			/* TODO: Ideally we would put the http requests into another queue and only send them out
 			   if the user selects 'load images', when they do.  The problem is how to maintain this
 			   state with multiple renderings, and how to adjust the thread dispatch/setup routine to handle it */

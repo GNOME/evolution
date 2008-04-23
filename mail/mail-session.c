@@ -390,13 +390,15 @@ lookup_addressbook(CamelSession *session, const char *name)
 {
 	CamelInternetAddress *addr;
 	gboolean ret;
+	GConfClient *gconf;
 
 	if (!mail_config_get_lookup_book ())
 		return FALSE;
 
+	gconf = mail_config_get_gconf_client ();
 	addr = camel_internet_address_new ();
 	camel_address_decode ((CamelAddress *)addr, name);
-	ret = em_utils_in_addressbook(addr);
+	ret = em_utils_in_addressbook (addr, gconf_client_get_bool (gconf, "/apps/evolution/mail/display/photo_local", NULL));
 	camel_object_unref (addr);
 
 	return ret;

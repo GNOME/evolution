@@ -2361,10 +2361,11 @@ efhd_update_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pob
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
 
-	e_attachment_bar_refresh (priv->attachment_bar);
+	e_attachment_bar_refresh (E_ATTACHMENT_BAR (priv->attachment_bar));
 
 	return TRUE;
 }
+
 static gboolean
 efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {

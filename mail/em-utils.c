@@ -1930,7 +1930,7 @@ emu_addr_cancel_book(void *data)
 }
 
 gboolean
-em_utils_in_addressbook(CamelInternetAddress *iaddr)
+em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 {
 	GError *err = NULL;
 	GSList *s, *g, *addr_sources = NULL;
@@ -1981,6 +1981,9 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 	/* FIXME: this aint threadsafe by any measure, but what can you do eh??? */
 
 	for (g = e_source_list_peek_groups(emu_addr_list);g;g=g_slist_next(g)) {
+		if (local_only &&  e_source_group_peek_base_uri ((ESourceGroup *)g->data) && !g_str_has_prefix (e_source_group_peek_base_uri ((ESourceGroup *)g->data), "file://"))
+			continue;
+
 		for (s = e_source_group_peek_sources((ESourceGroup *)g->data);s;s=g_slist_next(s)) {
 			ESource *src = s->data;
 			const char *completion = e_source_get_property (src, "completion");

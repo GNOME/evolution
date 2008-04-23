@@ -1,3 +1,17 @@
+2008-04-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #529375
+
+	* em-utils.h: (em_utils_in_addressbook):
+	* em-utils.c: (em_utils_in_addressbook):
+	* em-format-html.c: (emfh_gethttp):
+	* mail-session.c: (lookup_addressbook): Look up in local address book
+	for addresses to exclude mail sent by known contacts from junk
+	filtering if said so in /apps/evolution/mail/display/photo_local.
+
+	* em-format-html-display.c: (efhd_update_bar):
+	* em-popup.c: (emp_standard_menu_factory): Compiler warnings fix.
+
 2008-04-20  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #334444
