@@ -108,7 +108,7 @@ void em_utils_show_error_silent (struct _GtkWidget *widget);
 void em_utils_show_info_silent (struct _GtkWidget *widget);
 
 /* is this address in the addressbook?  caches results */
-gboolean em_utils_in_addressbook(struct _CamelInternetAddress *addr);
+gboolean em_utils_in_addressbook (struct _CamelInternetAddress *addr, gboolean local_only);
 struct _CamelMimePart *em_utils_contact_photo (struct _CamelInternetAddress *addr, gboolean local);
 
 const char *em_utils_snoop_type(struct _CamelMimePart *part);

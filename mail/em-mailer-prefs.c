@@ -825,6 +825,13 @@ photo_toggle_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 }
 
 static void
+junk_book_lookup_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+{
+	toggle_button_toggled (toggle, prefs);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->junk_lookup_local_only), gtk_toggle_button_get_active (toggle));
+}
+
+static void
 custom_junk_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 {
 	toggle_button_toggled (toggle, prefs);
@@ -1493,9 +1500,16 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->junk_header_add = (GtkButton *)glade_xml_get_widget (gui, "junk_header_add");
 	prefs->junk_header_remove = (GtkButton *)glade_xml_get_widget (gui, "junk_header_remove");
 	prefs->junk_book_lookup = (GtkToggleButton *)glade_xml_get_widget (gui, "lookup_book");
+	prefs->junk_lookup_local_only = (GtkToggleButton *)glade_xml_get_widget (gui, "junk_lookup_local_only");
 	toggle_button_init (prefs, prefs->junk_book_lookup, FALSE,
 			    "/apps/evolution/mail/junk/lookup_addressbook",
+			    G_CALLBACK (junk_book_lookup_button_toggled));
+
+	toggle_button_init (prefs, prefs->junk_lookup_local_only, FALSE,
+			    "/apps/evolution/mail/junk/lookup_addressbook_local_only",
 			    G_CALLBACK (toggle_button_toggled));
+
+	junk_book_lookup_button_toggled (prefs->junk_book_lookup, prefs);
 
 	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *)prefs->junk_header_tree, prefs);
 	toggle_button_init (prefs, prefs->junk_header_check, FALSE,

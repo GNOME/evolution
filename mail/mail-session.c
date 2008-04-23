@@ -396,7 +396,7 @@ lookup_addressbook(CamelSession *session, const char *name)
 
 	addr = camel_internet_address_new ();
 	camel_address_decode ((CamelAddress *)addr, name);
-	ret = em_utils_in_addressbook(addr);
+	ret = em_utils_in_addressbook (addr, mail_config_get_lookup_book_local_only ());
 	camel_object_unref (addr);
 
 	return ret;

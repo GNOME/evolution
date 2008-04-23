@@ -102,6 +102,7 @@ typedef struct {
 	GSList *jh_header;
 	gboolean jh_check;
 	gboolean book_lookup;
+	gboolean book_lookup_local_only;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -496,6 +497,14 @@ mail_config_init (void)
 		config->gconf, key, func,
 		&config->book_lookup, NULL, NULL);
 	config->book_lookup =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
+	key = "/apps/evolution/mail/junk/lookup_addressbook_local_only";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->book_lookup_local_only, NULL, NULL);
+	config->book_lookup_local_only =
 		gconf_client_get_bool (config->gconf, key, NULL);
 
 	gconf_jh_check_changed (config->gconf, 0, NULL, config);
@@ -1147,7 +1156,7 @@ mail_config_remove_signature (ESignature *signature)
 }
 
 void
-mail_config_reload_junk_headers ()
+mail_config_reload_junk_headers (void)
 {
 	/* It automatically sets in the session */
 	if (config == NULL)
@@ -1158,14 +1167,23 @@ mail_config_reload_junk_headers ()
 }
 
 gboolean
-mail_config_get_lookup_book()
+mail_config_get_lookup_book (void)
 {
 	/* It automatically sets in the session */
 	if (config == NULL)
 		mail_config_init ();
 
 	return config->book_lookup;
+}
 
+gboolean
+mail_config_get_lookup_book_local_only (void)
+{
+	/* It automatically sets in the session */
+	if (config == NULL)
+		mail_config_init ();
+
+	return config->book_lookup_local_only;
 }
 
 char *

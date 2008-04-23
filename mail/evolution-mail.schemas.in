@@ -1169,6 +1169,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/junk/lookup_addressbook_local_only</key>
+      <applyto>/apps/evolution/mail/junk/lookup_addressbook_local_only</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Determines whether to look up addresses for junk filtering in local addressbook only</short>
+         <long>
+	 This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local addressbook only to exclude mail sent by known contacts from junk filtering.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/junk/check_custom_header</key>
       <applyto>/apps/evolution/mail/junk/check_custom_header</applyto>
       <owner>evolution-mail</owner>

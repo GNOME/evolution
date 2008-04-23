@@ -155,7 +155,8 @@ guint mail_config_get_error_timeout  (void);
 guint mail_config_get_error_level  (void);
 
 void mail_config_reload_junk_headers (void);
-gboolean mail_config_get_lookup_book(void);
+gboolean mail_config_get_lookup_book (void);
+gboolean mail_config_get_lookup_book_local_only (void);
 
 GType evolution_mail_config_get_type (void);
 

@@ -1,5 +1,24 @@
 2008-04-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #529375
+
+	* evolution-mail.schemas.in:
+	* mail-config.glade:
+	* em-utils.h: (em_utils_in_addressbook):
+	* em-utils.c: (em_utils_in_addressbook):
+	* em-format-html.c: (emfh_gethttp):
+	* mail-session.c: (lookup_addressbook):
+	* mail-config.h: (mail_config_get_lookup_book_local_only):
+	* mail-config.c: (struct MailConfig), (mail_config_init),
+	(mail_config_get_lookup_book_local_only):
+	* em-mailer-prefs.h: (struct _EMMailerPrefs):
+	* em-mailer-prefs.c: (junk_book_lookup_button_toggled),
+	(em_mailer_prefs_construct): Add new option
+	/apps/evolution/mail/junk/lookup_addressbook_local_only
+	to determine whether check for address in a local address book only.
+
+2008-04-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #529179
 
 	* em-folder-browser.c: (struct _EMFolderBrowserPrivate),

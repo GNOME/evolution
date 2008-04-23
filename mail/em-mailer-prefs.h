@@ -136,7 +136,7 @@ struct _EMMailerPrefs {
 	struct _GtkButton *junk_header_add;
 	struct _GtkButton *junk_header_remove;
 	struct _GtkToggleButton *junk_book_lookup;
-
+	struct _GtkToggleButton *junk_lookup_local_only;
 };
 
 struct _EMMailerPrefsClass {
