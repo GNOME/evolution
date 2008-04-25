@@ -19,8 +19,8 @@ You cannot share folder with specified user &quot;{0}&quot;
 <_primary>This is a recurring meeting</_primary>
 <_secondary>What would you like to {0}?</_secondary>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
- <button _label="This instance" response="GTK_RESPONSE_NO"/>
- <button _label="All instances" response="GTK_RESPONSE_YES"/>
+ <button label="This instance" response="GTK_RESPONSE_NO"/>
+ <button label="All instances" response="GTK_RESPONSE_YES"/>
 </error>
 
 </error-list>
