@@ -43,8 +43,13 @@ typedef struct _EMJunkHookTarget EMJunkHookTarget;
 
 typedef void (*EMJunkHookFunc)(struct _EPlugin *plugin, EMJunkHookTarget *data);
 
+GQuark em_junk_error_quark (void);
+
+#define EM_JUNK_ERROR em_junk_error_quark ()
+
 struct _EMJunkHookTarget {
 	struct _CamelMimeMessage *m;
+	GError *error;
 };
 
 struct _EMJunkHookItem {

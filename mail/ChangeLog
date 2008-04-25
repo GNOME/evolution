@@ -1,3 +1,14 @@
+2008-04-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #273041
+
+	* mail.error.xml: (junk-check-error), (junk-report-error),
+	(junk-not-report-error): New error messages added.
+	* em-junk-hook.h: (struct _EMJunkHookTarget), (em_junk_error_quark):
+	* em-junk-hook.c: (manage_error), (em_junk_check_junk),
+	(em_junk_report_junk), (em_junk_report_non_junk):
+	Allow propagation of the error from the plugin in the hook target.
+
 2008-04-23  Milan Crha  <mcrha@redhat.com>
 
 	* em-format-html-display.c: (efhd_update_bar):

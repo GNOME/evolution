@@ -73,9 +73,8 @@ int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
 static gboolean em_junk_bf_unicode = TRUE;
 
-
 static gint
-pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv)
+pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
 {
 	GPid child_pid;
 	gint bf_in;
@@ -83,6 +82,7 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv)
 	GError *err = NULL;
 	gint status;
 	gint waitres;
+	gint res;
 
 	if (camel_debug_start ("junk")) {
 		int i;
@@ -110,6 +110,9 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv)
 		g_warning ("error occurred while spawning %s: %s",
 		           argv[0],
 		           err->message);
+		/* For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself. */
+		g_set_error (error, EM_JUNK_ERROR, err->code, _("Error occurred while spawning %s: %s."), argv[0], err->message);
+
 		return BOGOFILTER_ERROR;
 	}
 
@@ -132,16 +135,23 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv)
 			kill (child_pid, SIGKILL);
 			sleep (1);
 			waitres = waitpid (child_pid, &status, WNOHANG);
-		}
+			g_set_error (error, EM_JUNK_ERROR, -2, _("Bogofilter child process does not respond, killing..."));
+		} else 
+			g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Bogofilter child process interrupted, terminating..."));
 	}
 
 	g_spawn_close_pid (child_pid);
 
 	if (waitres >= 0 && WIFEXITED (status)) {
-		return WEXITSTATUS (status);
+		res = WEXITSTATUS (status);
 	} else {
-		return BOGOFILTER_ERROR;
+		res = BOGOFILTER_ERROR;
 	}
+
+	if (res != 0)
+		g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to Bogofilter failed, error code: %d."), res);
+
+	return res;
 }
 
 static void
@@ -190,7 +200,7 @@ em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target)
 		argv[1] = "--unicode=yes";
 	}
 
-	rv = pipe_to_bogofilter (msg, argv);
+	rv = pipe_to_bogofilter (msg, argv, &target->error);
 
 	d(fprintf (stderr, "em_junk_bf_check_junk rv = %d\n", rv));
 
@@ -215,7 +225,7 @@ em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 		argv[2] = "--unicode=yes";
 	}
 
-	pipe_to_bogofilter (msg, argv);
+	pipe_to_bogofilter (msg, argv, &target->error);
 }
 
 void
@@ -236,7 +246,7 @@ em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 		argv[2] = "--unicode=yes";
 	}
 
-	pipe_to_bogofilter (msg, argv);
+	pipe_to_bogofilter (msg, argv, &target->error);
 }
 
 void

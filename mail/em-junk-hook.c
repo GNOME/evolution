@@ -30,6 +30,8 @@
 #include "em-junk-hook.h"
 #include "mail-session.h"
 #include <e-util/e-icon-factory.h>
+#include "e-util/e-error.h"
+#include "em-utils.h"
 #include <camel/camel-junk-plugin.h>
 #include <glib/gi18n.h>
 
@@ -61,6 +63,15 @@ static const EPluginHookTargetKey emjh_flag_map[] = {
   </hook>
 
 */
+
+static void manage_error (const char *msg, GError *error);
+
+GQuark
+em_junk_error_quark (void)
+{
+	return g_quark_from_static_string ("em-junk-error-quark");
+}
+
 static const char *
 em_junk_get_name (CamelJunkPlugin *csp);
 
@@ -90,11 +101,17 @@ em_junk_check_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
 
 	if (item->hook && item->hook->hook.plugin->enabled) {
+		gboolean res;
 		EMJunkHookTarget target = {
-			  m
+			m,
+			NULL
 		};
 
-		return e_plugin_invoke(item->hook->hook.plugin, item->check_junk, &target) != NULL;
+		res = e_plugin_invoke(item->hook->hook.plugin, item->check_junk, &target) != NULL;
+
+		manage_error ("mail:junk-check-error", target.error);
+
+		return res;
 	}
 
 	return FALSE;
@@ -107,10 +124,13 @@ em_junk_report_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 
 	if (item->hook && item->hook->hook.plugin->enabled) {
 		EMJunkHookTarget target = {
-			  m
+			m,
+			NULL
 		};
 
 		e_plugin_invoke(item->hook->hook.plugin, item->report_junk, &target);
+
+		manage_error ("mail:junk-report-error", target.error);
 	}
 }
 
@@ -121,9 +141,11 @@ em_junk_report_non_junk(CamelJunkPlugin *csp, CamelMimeMessage *m)
 
 	if (item->hook && item->hook->hook.plugin->enabled) {
 		EMJunkHookTarget target = {
-			 m
+			m,
+			NULL
 		};
 		e_plugin_invoke(item->hook->hook.plugin, item->report_non_junk, &target);
+		manage_error ("mail:junk-not-report-error", target.error);
 	}
 }
 
@@ -277,6 +299,20 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	eph->plugin = ep;
 
 	return 0;
+}
+
+static void
+manage_error (const char *msg, GError *error)
+{
+	GtkWidget *w;
+
+	if (!error)
+		return;
+
+	w = e_error_new (NULL, msg, error->message, NULL);
+	em_utils_show_error_silent (w);
+
+	g_error_free (error);
 }
 
 /*XXX: don't think we need here*/

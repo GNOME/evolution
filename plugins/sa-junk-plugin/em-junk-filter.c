@@ -64,8 +64,8 @@ int e_plugin_lib_enable (EPluginLib *ep, int enable);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
-void *em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+void em_junk_sa_commit_reports (EPlugin *ep);
+void *em_junk_sa_validate_binary (EPlugin *ep);
 GtkWidget *org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 static void em_junk_sa_init (void);
@@ -110,7 +110,7 @@ em_junk_sa_get_name (void)
 #endif
 
 static int
-pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer)
+pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer, GError **error)
 {
 	int result, status, errnosav, fds[2], out_fds[2];
 	CamelStream *stream;
@@ -131,6 +131,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	program = g_find_program_in_path (argv [0]);
 	if (program == NULL) {
 		d(printf ("program not found, returning %d\n", rv_err));
+		g_set_error (error, EM_JUNK_ERROR, rv_err, _("SpamAssassin not found, code: %d"), rv_err);
 		return rv_err;
 	}
 	g_free (program);
@@ -138,6 +139,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	if (pipe (fds) == -1) {
 		errnosav = errno;
 		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
 		errno = errnosav;
 		return rv_err;
 	}
@@ -145,6 +147,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	if (output_buffer && pipe (out_fds) == -1) {
 		errnosav = errno;
 		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
 		close (fds [0]);
 		close (fds [1]);
 		errno = errnosav;
@@ -182,6 +185,8 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 			close (out_fds [0]);
 			close (out_fds [1]);
 		}
+		if (errnosav != 0 && errnosav != -1)
+			g_set_error (error, EM_JUNK_ERROR, errnosav, _("Error after fork: %s"), strerror (errnosav));
 		errno = errnosav;
 		return rv_err;
 	}
@@ -219,6 +224,8 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	}
 
 	if (wait_for_termination) {
+		int res;
+
 		d(printf ("wait for child %d termination\n", pid));
 		result = waitpid (pid, &status, 0);
 
@@ -234,21 +241,28 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 				kill (pid, SIGKILL);
 				sleep (1);
 				result = waitpid (pid, &status, WNOHANG);
-			}
+					g_set_error (error, EM_JUNK_ERROR, -2, _("SpamAssassin child process does not respond, killing..."));
+			} else
+				g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Spamassassin child process interrupted, terminating..."));
 		}
 
 		if (result != -1 && WIFEXITED (status))
-			return WEXITSTATUS (status);
+			res = WEXITSTATUS (status);
 		else
-			return rv_err;
+			res = rv_err;
+
+		if (res != 0)
+			g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to SpamAssassin failed, error code: %d"), res);
+
+		return res;
 	} else
 		return 0;
 }
 
 static int
-pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
+pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv, GError **error)
 {
-	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL);
+	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL, error);
 }
 
 static char *
@@ -281,7 +295,7 @@ em_junk_sa_test_spamd_running (char *binary, gboolean system)
 
 	argv[i] = NULL;
 
-	rv = pipe_to_sa (NULL, "From test@127.0.0.1", argv) == 0;
+	rv = pipe_to_sa (NULL, "From test@127.0.0.1", argv, NULL) == 0;
 
 	d(fprintf (stderr, "result: %d (%s)\n", rv, rv ? "success" : "failed"));
 
@@ -299,7 +313,7 @@ em_junk_sa_test_spamassassin (void)
 		NULL,
 	};
 
-	if (pipe_to_sa (NULL, NULL, argv) != 0)
+	if (pipe_to_sa (NULL, NULL, argv, NULL) != 0)
 		em_junk_sa_available = FALSE;
 	else
 		em_junk_sa_available = TRUE;
@@ -337,7 +351,7 @@ em_junk_sa_run_spamd (char *binary)
 
 	d(fprintf (stderr, "trying to run %s with socket path %s\n", binary, em_junk_sa_get_socket_path ()));
 
-	if (!pipe_to_sa_full (NULL, NULL, argv, -1, 0, NULL)) {
+	if (!pipe_to_sa_full (NULL, NULL, argv, -1, 0, NULL, NULL)) {
 		struct timespec time_req;
 		struct stat stat_buf;
 
@@ -427,7 +441,7 @@ em_junk_sa_test_spamd (void)
 		   argv [i++] = "ps ax|grep -v grep|grep -E 'spamd.*(\\-L|\\-\\-local)'|grep -E -v '\\ \\-p\\ |\\ \\-\\-port\\ '";
 		   argv[i] = NULL;
 
-		   if (pipe_to_sa (NULL, NULL, argv) != 0) {
+		   if (pipe_to_sa (NULL, NULL, argv, NULL) != 0) {
 			   try_system_spamd = FALSE;
 			   d(fprintf (stderr, "there's no system spamd with -L/--local parameter running\n"));
 		   }
@@ -470,7 +484,7 @@ em_junk_sa_test_spamd (void)
 }
 
 static gboolean
-em_junk_sa_is_available (void)
+em_junk_sa_is_available (GError **error)
 {
 	pthread_mutex_lock (&em_junk_sa_init_lock);
 
@@ -479,6 +493,9 @@ em_junk_sa_is_available (void)
 
 	if (em_junk_sa_available && !em_junk_sa_spamd_tested && em_junk_sa_use_daemon)
 		em_junk_sa_test_spamd ();
+
+	if (!em_junk_sa_available)
+		g_set_error (error, EM_JUNK_ERROR, 1, _("SpamAssassin is not available."));
 
 	pthread_mutex_unlock (&em_junk_sa_init_lock);
 
@@ -549,7 +566,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
 
-	if (!em_junk_sa_is_available ())
+	if (!em_junk_sa_is_available (&target->error))
 		return FALSE;
 
 	if (em_junk_sa_use_spamc && em_junk_sa_use_daemon) {
@@ -575,7 +592,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 
 	argv[i] = NULL;
 
-	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out) != 0;
+	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
 
 	if (!rv && out && !strcmp ((const char *)out->data, "0/0\n")) {
 		/* an error occurred */
@@ -587,7 +604,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 			argv [socket_i] = to_free = g_strdup (em_junk_sa_get_socket_path ());
 			pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
 
-			rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out) != 0;
+			rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
 		} else if (!em_junk_sa_use_spamc)
 			/* in case respawning were too fast we fallback to spamassassin */
 			rv = em_junk_sa_check_junk (ep, target);
@@ -618,7 +635,7 @@ get_spamassassin_version ()
 	if (!em_junk_sa_checked_spamassassin_version){
 		out = g_byte_array_new ();
 
-		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out) != 0){
+		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out, NULL) != 0){
 			if(out)
 				g_byte_array_free (out, TRUE);
 			return em_junk_sa_spamassassin_version;
@@ -662,12 +679,12 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
 
-	if (em_junk_sa_is_available ()) {
+	if (em_junk_sa_is_available (&target->error)) {
 		if (em_junk_sa_local_only)
 			argv[4] = "--local";
 
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, argv);
+		pipe_to_sa (msg, NULL, argv, &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
 }
@@ -688,18 +705,18 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
 
-	if (em_junk_sa_is_available ()) {
+	if (em_junk_sa_is_available (&target->error)) {
 		if (em_junk_sa_local_only)
 			argv[4] = "--local";
 
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, argv);
+		pipe_to_sa (msg, NULL, argv, &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
 }
 
 void
-em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_sa_commit_reports (EPlugin *ep)
 {
 	char *sync_op = ((get_spamassassin_version () >= 3) ? "--sync": "--rebuild");
 	char *argv[4] = {
@@ -711,20 +728,20 @@ em_junk_sa_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n"));
 
-	if (em_junk_sa_is_available ()) {
+	if (em_junk_sa_is_available (NULL)) {
 		if (em_junk_sa_local_only)
 			argv[2] = "--local";
 
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (NULL, NULL, argv);
+		pipe_to_sa (NULL, NULL, argv, NULL);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
 }
 
 void *
-em_junk_sa_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_sa_validate_binary (EPlugin *ep)
 {
-	return em_junk_sa_is_available () ? "1" : NULL;
+	return em_junk_sa_is_available (NULL) ? "1" : NULL;
 }
 
 static void

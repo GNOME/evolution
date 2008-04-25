@@ -411,6 +411,19 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
     <_secondary xml:space="preserve">You do not have sufficient permissions to delete this mail.</_secondary>
   </error>
 
+  <error id="junk-check-error" type="error">
+    <_primary>Check Junk Failed</_primary>
+    <_secondary xml:space="preserve">{0}</_secondary>
+  </error>
 
+  <error id="junk-report-error" type="error">
+    <_primary>Report Junk Failed</_primary>
+    <_secondary xml:space="preserve">{0}</_secondary>
+  </error>
+
+  <error id="junk-not-report-error" type="error">
+    <_primary>Report Not Junk Failed</_primary>
+    <_secondary xml:space="preserve">{0}</_secondary>
+  </error>
 </error-list>
 
