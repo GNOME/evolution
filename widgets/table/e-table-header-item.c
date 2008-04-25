@@ -470,6 +470,7 @@ make_shaped_window_from_xpm (const char **xpm)
 
 	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 	win = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_type_hint (GTK_WINDOW (win), GDK_WINDOW_TYPE_HINT_NOTIFICATION);
 
 	pix = gtk_image_new_from_pixmap (pixmap, bitmap);
 	gtk_widget_realize (win);
