@@ -1,3 +1,10 @@
+2008-04-25  Danny Baumann  <dannybaumann@web.de>
+
+	** Fix for bug #529893
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):
+	Properly set type hint on tooltip window.
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #523402

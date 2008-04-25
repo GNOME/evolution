@@ -146,7 +146,7 @@ build_popup (EComboCellEditable *ecce)
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_widget_show (frame);
 	gtk_container_add (GTK_CONTAINER (ecce->priv->popup), frame);
-
+	gtk_window_set_type_hint (GTK_WINDOW (ecce->priv->popup), GDK_WINDOW_TYPE_HINT_COMBO);
 	ecce->priv->tree_view = GTK_TREE_VIEW (gtk_tree_view_new ());
 	model = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
 

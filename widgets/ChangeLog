@@ -1,3 +1,10 @@
+2008-04-25  Danny Baumann  <dannybaumann@web.de>
+
+	** Fix for bug #529893
+
+	* text/e-text.c: (_do_tooltip):
+	Properly set type hint on tooltip window.
+
 2008-02-23  Andre Klapper  <a9016009@gmx.de>
 
 	* e-timezone-dialog/e-timezone-dialog.glade:

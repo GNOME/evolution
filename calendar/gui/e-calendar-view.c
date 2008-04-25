@@ -2276,6 +2276,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type ((GtkFrame *)frame, GTK_SHADOW_IN);
 
+	gtk_window_set_type_hint (GTK_WINDOW (pevent->tooltip), GDK_WINDOW_TYPE_HINT_TOOLTIP);
 	gtk_window_move ((GtkWindow *)pevent->tooltip, pevent->x +16, pevent->y+16);
 	gtk_container_add ((GtkContainer *)frame, box);
 	gtk_container_add ((GtkContainer *)pevent->tooltip, frame);

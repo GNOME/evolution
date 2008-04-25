@@ -437,6 +437,8 @@ create_children			(EDateEdit	*dedit)
 		gtk_widget_show (priv->space);
 
 	priv->cal_popup = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_type_hint (GTK_WINDOW (priv->cal_popup),
+				  GDK_WINDOW_TYPE_HINT_COMBO);
 	gtk_widget_set_events (priv->cal_popup,
 			       gtk_widget_get_events (priv->cal_popup)
 			       | GDK_KEY_PRESS_MASK);

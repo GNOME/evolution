@@ -1,3 +1,12 @@
+2008-04-25  Danny Baumann  <dannybaumann@web.de>
+
+	** Fix for bug #529893
+
+	* e-dateedit.c (create_children):
+	* e-combo-cell-editable.c (build_popup):
+	* e-cell-date-edit.c (e_cell_date_edit_init):
+	Properly set type hint on popup windows.
+
 2008-04-20  Srinivasa Ragavan  <sragavan@novell.com>
 	
 	** Fix for bug #334444
