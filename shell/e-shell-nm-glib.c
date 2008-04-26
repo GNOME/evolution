@@ -49,7 +49,7 @@ static void e_shell_glib_network_monitor (libnm_glib_ctx *ctx, gpointer user_dat
 	if (line_status == E_SHELL_LINE_STATUS_ONLINE && state == LIBNM_NO_NETWORK_CONNECTION) {
 	   	 shell_state = GNOME_Evolution_FORCED_OFFLINE;
 		 e_shell_go_offline (shell, window, shell_state);
-	} else if (line_status == E_SHELL_LINE_STATUS_OFFLINE && state == LIBNM_ACTIVE_NETWORK_CONNECTION) {
+	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && state == LIBNM_ACTIVE_NETWORK_CONNECTION) {
 	       	 shell_state = GNOME_Evolution_USER_ONLINE;
 		 e_shell_go_online (shell, window, shell_state);
 	}

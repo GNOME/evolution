@@ -104,7 +104,7 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	if (line_status == E_SHELL_LINE_STATUS_ONLINE && status == E_SHELL_LINE_DOWN) {
 		  shell_state = GNOME_Evolution_FORCED_OFFLINE;
 		  e_shell_go_offline (shell, window, shell_state);
-	} else if (line_status == E_SHELL_LINE_STATUS_OFFLINE && status == E_SHELL_LINE_UP) {
+	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && status == E_SHELL_LINE_UP) {
 		  shell_state = GNOME_Evolution_USER_ONLINE;
 		  e_shell_go_online (shell, window, shell_state);
 	}

@@ -717,7 +717,7 @@ e_shell_construct (EShell *shell,
 	if (start_online)
 		e_shell_go_online (shell, NULL, GNOME_Evolution_USER_ONLINE);
 	else
-		e_shell_go_online (shell, NULL, GNOME_Evolution_FORCED_OFFLINE);
+		e_shell_go_online (shell, NULL, GNOME_Evolution_USER_OFFLINE);
 
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
