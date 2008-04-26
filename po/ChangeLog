@@ -1,3 +1,7 @@
+2008-04-26  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
 2008-04-22  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* POTFILES.in: Cater for some files that were moved.
@@ -7,7 +11,7 @@
 
 	* en_GB.po: _Trash -> Wastebaske_t
 
-2008-03-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>     
+2008-04-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>     
 
 	* es.po: Updated Spanish translation
 
