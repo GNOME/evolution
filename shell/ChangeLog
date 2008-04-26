@@ -1,3 +1,13 @@
+2008-04-26  James Westby  <jw+debian@jameswestby.net>
+
+	** Fix for bug #518103
+
+	* e-shell-nm-glib.c: (e_shell_glib_network_monitor):
+	* e-shell-nm.c: (e_shell_network_monitor):
+	* e-shell.c: (e_shell_construct):
+	Check online status from NetworkManager at startup instead of using the
+	last-used-state.
+
 2008-03-03  Tor Lillqvist  <tml@novell.com>
 
 	* main.c (main) [Win32]: Drop the call to gtk_rc_parse_string() to
