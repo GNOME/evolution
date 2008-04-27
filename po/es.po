@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-25 13:12+0000\n"
-"PO-Revision-Date: 2008-04-26 13:47+0200\n"
+"POT-Creation-Date: 2008-04-26 11:56+0000\n"
+"PO-Revision-Date: 2008-04-27 21:03+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1492,8 +1492,8 @@ msgstr "Dirección"
 #: ../addressbook/gui/widgets/e-minicard-view.c:522
 #: ../addressbook/gui/widgets/e-minicard.c:187
 #: ../widgets/menus/gal-define-views-model.c:179
-#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-text.c:3686
-#: ../widgets/text/e-text.c:3687
+#: ../widgets/table/e-cell-text.c:1836 ../widgets/text/e-text.c:3687
+#: ../widgets/text/e-text.c:3688
 msgid "Editable"
 msgstr "Editable"
 
@@ -2920,8 +2920,8 @@ msgstr "Error al obtener la vista de libro"
 #: ../widgets/table/e-table-click-to-add.c:510
 #: ../widgets/table/e-table-selection-model.c:303
 #: ../widgets/table/e-table.c:3335
-#: ../widgets/table/e-tree-selection-model.c:821 ../widgets/text/e-text.c:3550
-#: ../widgets/text/e-text.c:3551
+#: ../widgets/table/e-tree-selection-model.c:821 ../widgets/text/e-text.c:3551
+#: ../widgets/text/e-text.c:3552
 msgid "Model"
 msgstr "Modelo"
 
@@ -3213,7 +3213,7 @@ msgstr "Sitio web"
 #: ../widgets/table/e-table-group-leaf.c:628
 #: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-item.c:3078 ../widgets/table/e-table-item.c:3079
-#: ../widgets/text/e-text.c:3728 ../widgets/text/e-text.c:3729
+#: ../widgets/text/e-text.c:3729 ../widgets/text/e-text.c:3730
 msgid "Width"
 msgstr "Anchura"
 
@@ -3228,7 +3228,7 @@ msgstr "Anchura"
 #: ../widgets/table/e-table-group-leaf.c:621
 #: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:3084 ../widgets/table/e-table-item.c:3085
-#: ../widgets/text/e-text.c:3736 ../widgets/text/e-text.c:3737
+#: ../widgets/text/e-text.c:3737 ../widgets/text/e-text.c:3738
 msgid "Height"
 msgstr "Altura"
 
@@ -3422,12 +3422,12 @@ msgid "Web Log"
 msgstr "Diario web"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:656
-#: ../calendar/gui/e-calendar-view.c:2359
+#: ../calendar/gui/e-calendar-view.c:2360
 msgid "Birthday"
 msgstr "Cumpleaños"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:657
-#: ../calendar/gui/e-calendar-view.c:2360
+#: ../calendar/gui/e-calendar-view.c:2361
 msgid "Anniversary"
 msgstr "Aniversario"
 
@@ -3867,7 +3867,7 @@ msgstr "Formato"
 #: ../widgets/table/e-table-field-chooser-dialog.c:81
 #: ../widgets/table/e-table-field-chooser-item.c:648
 #: ../widgets/table/e-table-field-chooser.c:81
-#: ../widgets/table/e-table-header-item.c:1907
+#: ../widgets/table/e-table-header-item.c:1908
 #: ../widgets/table/e-table-selection-model.c:310
 msgid "Header"
 msgstr "Cabecera"
@@ -6291,8 +6291,8 @@ msgstr "Personalizar"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:205
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:2024
-#: ../widgets/misc/e-cell-date-edit.c:247 ../widgets/misc/e-dateedit.c:1531
-#: ../widgets/misc/e-dateedit.c:1745
+#: ../widgets/misc/e-cell-date-edit.c:249 ../widgets/misc/e-dateedit.c:1533
+#: ../widgets/misc/e-dateedit.c:1747
 #: ../widgets/misc/e-signature-combo-box.c:69
 msgid "None"
 msgstr "Ninguno"
@@ -11926,7 +11926,7 @@ msgstr "_Etiqueta"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1361 ../widgets/misc/e-dateedit.c:498
+#: ../mail/em-folder-view.c:1361 ../widgets/misc/e-dateedit.c:500
 msgid "_None"
 msgstr "_Ninguna"
 
@@ -12671,8 +12671,8 @@ msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
 msgstr ""
-"Cabeceras personalizadas que usar para comprobar si es SPAM. La lista de elementos son "
-"cadenas con el formato \"headername=valor\"."
+"Cabeceras personalizadas que usar para comprobar si es SPAM. La lista de "
+"elementos son cadenas con el formato \"headername=valor\"."
 
 #: ../mail/evolution-mail.schemas.in.h:19
 msgid "Default charset in which to compose messages"
@@ -12784,7 +12784,9 @@ msgstr "Directorio para guardar archivos enviados por correo."
 
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid "Disable or enable ellipsizing of folder names in folder tree"
-msgstr "Desactivar o activar la elipsis de los nombres de las carpetas en el árbol de carpetas"
+msgstr ""
+"Desactivar o activar la elipsis de los nombres de las carpetas en el árbol "
+"de carpetas"
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Draw spelling error indicators on words as you type."
@@ -12900,6 +12902,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:62
 msgid ""
@@ -12915,6 +12919,8 @@ msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
+"Anchura inicial de la ventana «Enviar y recibir correo». El valor se actualiza según el usuario "
+"redimensiona horizontalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -13438,8 +13444,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Whether disable ellipsizing feature of folder names in folder tree."
 msgstr ""
-"Indica si se debe desactivar la característica de elipsis de los nombres de las carpetas en "
-"el árbol de carpetas."
+"Indica si se debe desactivar la característica de elipsis de los nombres de "
+"las carpetas en el árbol de carpetas."
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid ""
@@ -14937,8 +14943,9 @@ msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
 msgstr ""
-"No se puede leer el archivo de licencia «{0}», debido a un problema de instalación. No "
-"podrá usar este proveedor hasta que pueda aceptar esta licencia."
+"No se puede leer el archivo de licencia «{0}», debido a un problema de "
+"instalación. No podrá usar este proveedor hasta que pueda aceptar esta "
+"licencia."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -14966,7 +14973,7 @@ msgstr "No se puede establecer el script de firma «{0}»."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Check Junk Failed"
-msgstr ""
+msgstr "Falló la comprobación de SPAM"
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -15198,11 +15205,11 @@ msgstr "¿Seguro que quiere borrar la carpeta «{0}» y todas sus subcarpetas?"
 
 #: ../mail/mail.error.xml.h:93
 msgid "Report Junk Failed"
-msgstr ""
+msgstr "Falló al informe de que es SPAM"
 
 #: ../mail/mail.error.xml.h:94
 msgid "Report Not Junk Failed"
-msgstr ""
+msgstr "Falló al informar de que no es SPAM"
 
 #: ../mail/mail.error.xml.h:95
 msgid "Search Folders automatically updated."
@@ -15894,17 +15901,17 @@ msgstr "BBDB"
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:114
 #, c-format
 msgid "Error occurred while spawning %s: %s."
-msgstr ""
+msgstr "Ocurrió un error al crear %s: %s."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:138
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
-msgstr ""
+msgstr "El proceso hijo de Bogofilter no está respondiendo, matándolo..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:140
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr ""
+msgstr "Espere a que el proceso hijo de Bogofilter se interrumpa, terminando..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:152
 #, c-format
@@ -17863,7 +17870,7 @@ msgstr "Seleccione los calendario en los que buscar conflictos entre reuniones"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:192 ../ui/evolution-calendar.xml.h:34
-#: ../widgets/misc/e-cell-date-edit.c:239
+#: ../widgets/misc/e-cell-date-edit.c:241
 msgid "Today"
 msgstr "Hoy"
 
@@ -18998,12 +19005,12 @@ msgstr "Error después de bifurcar: %s"
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:244
 #, c-format
 msgid "SpamAssassin child process does not respond, killing..."
-msgstr ""
+msgstr "El proceso hijo de SpamAssasin no está respondiendo, matándolo..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:246
 #, c-format
 msgid "Wait for Spamassassin child process interrupted, terminating..."
-msgstr ""
+msgstr "Espere a que el proceso hijo de SpamAssasin se interrumpa, terminando..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:255
 #, c-format
@@ -19365,9 +19372,10 @@ msgid ""
 "username/password combo is defined by \"/apps/evolution/shell/network_config/"
 "authentication_user\" and locally stored password in .gnome2_private/."
 msgstr ""
-"Si es «true» entonces las conexiones con el proxy requerirán autenticación. El "
-"combo usuario/contraseña está definido en \"/apps/evolution/shell/network_config/"
-"authentication_user\" y la contraseña se almacena ocalmente en .gnome2_private/."
+"Si es «true» entonces las conexiones con el proxy requerirán autenticación. "
+"El combo usuario/contraseña está definido en \"/apps/evolution/shell/"
+"network_config/authentication_user\" y la contraseña se almacena ocalmente "
+"en .gnome2_private/."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Last upgraded configuration version"
@@ -19414,6 +19422,9 @@ msgid ""
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
 msgstr ""
+"Seleccione el modo de configuración del proxy. Los valores soportados son 0, 1, 2 y 3 "
+"y representan \"usar los ajustes del sistema\", \"sin proxy\", \"usar configuración manual del proxy\" "
+"y \"usar la configuración proporcionada en la URL de autoconfiguración del proxy\" respectivamente."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Sidebar is visible"
@@ -19465,33 +19476,39 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "El nombre de la máquina por la que se hace proxy HTTP."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid "The machine name to proxy secure HTTP through."
-msgstr ""
+msgstr "El nombre de la máquina por la que se hace proxy HTTP seguro."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid "The machine name to proxy socks through."
-msgstr ""
+msgstr "El nombre de la máquina por la que se hace proxy socks."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
 msgstr ""
+"El puerto de la máquina definida por \"/apps/evolution/shell/network_config/"
+"http_host\" que hace de proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
 msgstr ""
+"El puerto de la máquina definida por \"/apps/evolution/shell/network_config/"
+"secure_host\" que hace de proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
 msgstr ""
+"El puerto de la máquina definida por \"/apps/evolution/shell/network_config/"
+"socks_host\" que hace de proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
@@ -19510,6 +19527,11 @@ msgid ""
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
 msgstr ""
+"Esta clave contiene una lista de anfitriones con los que está conectado "
+"directamente, en vez de por medio del proxy (si está activo). Los valores "
+"pueden ser nombres de equipo, dominios (usando un comodín auxiliar como *."
+"foo.com), direcciones IP de anfitriones (tanto IPv4 como IPv6) y direcciones "
+"de red con una máscara (algo como 192.168.0.0/24)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "Toolbar is visible"
@@ -19750,7 +19772,7 @@ msgstr "Error del sistema desconocido."
 msgid "%ld KB"
 msgstr "%ld KiB"
 
-#: ../shell/e-shell.c:1280 ../widgets/misc/e-cell-date-edit.c:255
+#: ../shell/e-shell.c:1280 ../widgets/misc/e-cell-date-edit.c:257
 msgid "OK"
 msgstr "Aceptar"
 
@@ -20686,7 +20708,7 @@ msgstr "Guarda los contactos seleccionados en una VCard."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "Guarda los contactos de la carpeta seleccionada como VCard"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2722
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2723
 msgid "Select All"
 msgstr "Seleccionar todo"
 
@@ -22281,7 +22303,7 @@ msgid "Define Views for \"%s\""
 msgstr "Definir vistas para «%s»"
 
 #: ../widgets/menus/gal-view-factory-etable.c:37
-#: ../widgets/table/e-table-header-item.c:1921
+#: ../widgets/table/e-table-header-item.c:1922
 #: ../widgets/table/e-table-scrolled.c:216
 #: ../widgets/table/e-table-scrolled.c:217
 msgid "Table"
@@ -22430,23 +22452,23 @@ msgid "Month Calendar"
 msgstr "Calendario mensual"
 
 #: ../widgets/misc/e-canvas-background.c:453
-#: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-text.c:3642
-#: ../widgets/text/e-text.c:3643
+#: ../widgets/misc/e-canvas-background.c:454 ../widgets/text/e-text.c:3643
+#: ../widgets/text/e-text.c:3644
 msgid "Fill color"
 msgstr "Color de relleno"
 
 #: ../widgets/misc/e-canvas-background.c:460
 #: ../widgets/misc/e-canvas-background.c:461
 #: ../widgets/misc/e-canvas-background.c:467
-#: ../widgets/misc/e-canvas-background.c:468 ../widgets/text/e-text.c:3649
-#: ../widgets/text/e-text.c:3650 ../widgets/text/e-text.c:3657
-#: ../widgets/text/e-text.c:3658
+#: ../widgets/misc/e-canvas-background.c:468 ../widgets/text/e-text.c:3650
+#: ../widgets/text/e-text.c:3651 ../widgets/text/e-text.c:3658
+#: ../widgets/text/e-text.c:3659
 msgid "GDK fill color"
 msgstr "Color de relleno GDK"
 
 #: ../widgets/misc/e-canvas-background.c:474
-#: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-text.c:3664
-#: ../widgets/text/e-text.c:3665
+#: ../widgets/misc/e-canvas-background.c:475 ../widgets/text/e-text.c:3665
+#: ../widgets/text/e-text.c:3666
 msgid "Fill stipple"
 msgstr "Punteo de relleno"
 
@@ -22489,11 +22511,11 @@ msgstr "Ancho mínimo"
 msgid "Spacing"
 msgstr "Espaciado"
 
-#: ../widgets/misc/e-cell-date-edit.c:231
+#: ../widgets/misc/e-cell-date-edit.c:233
 msgid "Now"
 msgstr "Ahora"
 
-#: ../widgets/misc/e-cell-date-edit.c:795
+#: ../widgets/misc/e-cell-date-edit.c:797
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "La fecha debe estar en el formato: %s"
@@ -22613,19 +22635,19 @@ msgstr "Pulse este botón para mostrar un calendario"
 msgid "Drop-down combination box to select time"
 msgstr "Caja combo desplegable para seleccionar la hora"
 
-#: ../widgets/misc/e-dateedit.c:484
+#: ../widgets/misc/e-dateedit.c:486
 msgid "No_w"
 msgstr "_Ahora"
 
-#: ../widgets/misc/e-dateedit.c:490
+#: ../widgets/misc/e-dateedit.c:492
 msgid "_Today"
 msgstr "_Hoy"
 
-#: ../widgets/misc/e-dateedit.c:1655
+#: ../widgets/misc/e-dateedit.c:1657
 msgid "Invalid Date Value"
 msgstr "Valor de fecha inválido"
 
-#: ../widgets/misc/e-dateedit.c:1684
+#: ../widgets/misc/e-dateedit.c:1686
 msgid "Invalid Time Value"
 msgstr "Valor de hora inválido"
 
@@ -22741,9 +22763,9 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
-"Widget con mapa interactivo basado en ratón para seleccionar la zona horaria. Los usuarios "
-"que sólo dispongan de teclado pueden, en su lugar, seleccionar la zona horaria desde la caja "
-"combinada desplegable inferior."
+"Widget con mapa interactivo basado en ratón para seleccionar la zona "
+"horaria. Los usuarios que sólo dispongan de teclado pueden, en su lugar, "
+"seleccionar la zona horaria desde la caja combinada desplegable inferior."
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -22797,8 +22819,8 @@ msgstr "Vacia_r"
 msgid "Item ID"
 msgstr "ID de elemento"
 
-#: ../widgets/misc/e-search-bar.c:884 ../widgets/text/e-text.c:3564
-#: ../widgets/text/e-text.c:3565
+#: ../widgets/misc/e-search-bar.c:884 ../widgets/text/e-text.c:3565
+#: ../widgets/text/e-text.c:3566
 msgid "Text"
 msgstr "Texto"
 
@@ -23009,7 +23031,7 @@ msgstr "_Categorías disponibles:"
 msgid "categories"
 msgstr "categorías"
 
-#: ../widgets/table/e-cell-combo.c:169
+#: ../widgets/table/e-cell-combo.c:170
 msgid "popup list"
 msgstr "lista emergente"
 
@@ -23029,23 +23051,23 @@ msgstr "Columna enfocada"
 msgid "Unselected Column"
 msgstr "Columna deseleccionada"
 
-#: ../widgets/table/e-cell-text.c:1807
+#: ../widgets/table/e-cell-text.c:1808
 msgid "Strikeout Column"
 msgstr "Tachar columna"
 
-#: ../widgets/table/e-cell-text.c:1814
+#: ../widgets/table/e-cell-text.c:1815
 msgid "Underline Column"
 msgstr "Subrayar columna"
 
-#: ../widgets/table/e-cell-text.c:1821
+#: ../widgets/table/e-cell-text.c:1822
 msgid "Bold Column"
 msgstr "Columna en negrita"
 
-#: ../widgets/table/e-cell-text.c:1828
+#: ../widgets/table/e-cell-text.c:1829
 msgid "Color Column"
 msgstr "Color de la columna"
 
-#: ../widgets/table/e-cell-text.c:1842
+#: ../widgets/table/e-cell-text.c:1843
 msgid "BG Color Column"
 msgstr "Color de fondo de la columna"
 
@@ -23083,7 +23105,7 @@ msgid "A_vailable Fields:"
 msgstr "Campos _disponibles:"
 
 #: ../widgets/table/e-table-config.glade.h:2
-#: ../widgets/table/e-table-header-item.c:1582
+#: ../widgets/table/e-table-header-item.c:1583
 msgid "Ascending"
 msgstr "Ascendente"
 
@@ -23096,7 +23118,7 @@ msgid "Clear _All"
 msgstr "Quitar _todo"
 
 #: ../widgets/table/e-table-config.glade.h:5
-#: ../widgets/table/e-table-header-item.c:1582
+#: ../widgets/table/e-table-header-item.c:1583
 msgid "Descending"
 msgstr "Descendente"
 
@@ -23159,14 +23181,14 @@ msgstr "_Ordenar…"
 #: ../widgets/table/e-table-field-chooser-dialog.c:67
 #: ../widgets/table/e-table-field-chooser-item.c:634
 #: ../widgets/table/e-table-field-chooser.c:67
-#: ../widgets/table/e-table-header-item.c:1886
+#: ../widgets/table/e-table-header-item.c:1887
 msgid "DnD code"
 msgstr "Código DnD"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:74
 #: ../widgets/table/e-table-field-chooser-item.c:641
 #: ../widgets/table/e-table-field-chooser.c:74
-#: ../widgets/table/e-table-header-item.c:1900
+#: ../widgets/table/e-table-header-item.c:1901
 msgid "Full Header"
 msgstr "Cabecera completa"
 
@@ -23278,73 +23300,73 @@ msgstr "Altura uniforme de la fila"
 msgid "Frozen"
 msgstr "Congelado"
 
-#: ../widgets/table/e-table-header-item.c:1452
+#: ../widgets/table/e-table-header-item.c:1453
 msgid "Customize Current View"
 msgstr "Personalizar vista actual"
 
-#: ../widgets/table/e-table-header-item.c:1472
+#: ../widgets/table/e-table-header-item.c:1473
 msgid "Sort _Ascending"
 msgstr "Ordenar _ascendentemente"
 
-#: ../widgets/table/e-table-header-item.c:1473
+#: ../widgets/table/e-table-header-item.c:1474
 msgid "Sort _Descending"
 msgstr "Ordenar _descendentemente"
 
-#: ../widgets/table/e-table-header-item.c:1474
+#: ../widgets/table/e-table-header-item.c:1475
 msgid "_Unsort"
 msgstr "_Desordenar"
 
-#: ../widgets/table/e-table-header-item.c:1476
+#: ../widgets/table/e-table-header-item.c:1477
 msgid "Group By This _Field"
 msgstr "Agrupar por _este campo"
 
-#: ../widgets/table/e-table-header-item.c:1477
+#: ../widgets/table/e-table-header-item.c:1478
 msgid "Group By _Box"
 msgstr "Agrupar por _caja"
 
-#: ../widgets/table/e-table-header-item.c:1479
+#: ../widgets/table/e-table-header-item.c:1480
 msgid "Remove This _Column"
 msgstr "Quitar esta c_olumna"
 
-#: ../widgets/table/e-table-header-item.c:1480
+#: ../widgets/table/e-table-header-item.c:1481
 msgid "Add a C_olumn..."
 msgstr "Añadir una c_olumna…"
 
-#: ../widgets/table/e-table-header-item.c:1482
+#: ../widgets/table/e-table-header-item.c:1483
 msgid "A_lignment"
 msgstr "A_lineación"
 
-#: ../widgets/table/e-table-header-item.c:1483
+#: ../widgets/table/e-table-header-item.c:1484
 msgid "B_est Fit"
 msgstr "Ajust_e automático"
 
-#: ../widgets/table/e-table-header-item.c:1484
+#: ../widgets/table/e-table-header-item.c:1485
 msgid "Format Column_s..."
 msgstr "Formatear columna_s…"
 
-#: ../widgets/table/e-table-header-item.c:1486
+#: ../widgets/table/e-table-header-item.c:1487
 msgid "Custo_mize Current View..."
 msgstr "Perso_nalizar vista actual…"
 
-#: ../widgets/table/e-table-header-item.c:1542
+#: ../widgets/table/e-table-header-item.c:1543
 msgid "_Sort By"
 msgstr "_Ordenar por"
 
 #. Custom
-#: ../widgets/table/e-table-header-item.c:1560
+#: ../widgets/table/e-table-header-item.c:1561
 msgid "_Custom"
 msgstr "_Personalizado"
 
-#: ../widgets/table/e-table-header-item.c:1893
+#: ../widgets/table/e-table-header-item.c:1894
 msgid "Font Description"
 msgstr "Descripción de la tipografía"
 
-#: ../widgets/table/e-table-header-item.c:1914
+#: ../widgets/table/e-table-header-item.c:1915
 #: ../widgets/table/e-table-sorter.c:173
 msgid "Sort Info"
 msgstr "Ordenar información"
 
-#: ../widgets/table/e-table-header-item.c:1928
+#: ../widgets/table/e-table-header-item.c:1929
 #: ../widgets/table/e-tree-scrolled.c:225
 #: ../widgets/table/e-tree-scrolled.c:226
 msgid "Tree"
@@ -23383,107 +23405,107 @@ msgstr "Apariencia retro"
 msgid "Draw lines and +/- expanders."
 msgstr "Dibujar líneas y expansores +/−."
 
-#: ../widgets/text/e-text.c:2734
+#: ../widgets/text/e-text.c:2735
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
-#: ../widgets/text/e-text.c:3557 ../widgets/text/e-text.c:3558
+#: ../widgets/text/e-text.c:3558 ../widgets/text/e-text.c:3559
 msgid "Event Processor"
 msgstr "Procesador de acontecimientos"
 
-#: ../widgets/text/e-text.c:3571 ../widgets/text/e-text.c:3572
+#: ../widgets/text/e-text.c:3572 ../widgets/text/e-text.c:3573
 msgid "Bold"
 msgstr "Negrita"
 
-#: ../widgets/text/e-text.c:3578 ../widgets/text/e-text.c:3579
+#: ../widgets/text/e-text.c:3579 ../widgets/text/e-text.c:3580
 msgid "Strikeout"
 msgstr "Tachar"
 
-#: ../widgets/text/e-text.c:3585 ../widgets/text/e-text.c:3586
+#: ../widgets/text/e-text.c:3586 ../widgets/text/e-text.c:3587
 msgid "Anchor"
 msgstr "Ancla"
 
-#: ../widgets/text/e-text.c:3593 ../widgets/text/e-text.c:3594
+#: ../widgets/text/e-text.c:3594 ../widgets/text/e-text.c:3595
 msgid "Justification"
 msgstr "Justificación"
 
-#: ../widgets/text/e-text.c:3600 ../widgets/text/e-text.c:3601
+#: ../widgets/text/e-text.c:3601 ../widgets/text/e-text.c:3602
 msgid "Clip Width"
 msgstr "Anchura del clip"
 
-#: ../widgets/text/e-text.c:3607 ../widgets/text/e-text.c:3608
+#: ../widgets/text/e-text.c:3608 ../widgets/text/e-text.c:3609
 msgid "Clip Height"
 msgstr "Altura del clip"
 
-#: ../widgets/text/e-text.c:3614 ../widgets/text/e-text.c:3615
+#: ../widgets/text/e-text.c:3615 ../widgets/text/e-text.c:3616
 msgid "Clip"
 msgstr "Clip"
 
-#: ../widgets/text/e-text.c:3621 ../widgets/text/e-text.c:3622
+#: ../widgets/text/e-text.c:3622 ../widgets/text/e-text.c:3623
 msgid "Fill clip rectangle"
 msgstr "Rellenar el rectángulo del clip"
 
-#: ../widgets/text/e-text.c:3628 ../widgets/text/e-text.c:3629
+#: ../widgets/text/e-text.c:3629 ../widgets/text/e-text.c:3630
 msgid "X Offset"
 msgstr "Desplazamiento en X"
 
-#: ../widgets/text/e-text.c:3635 ../widgets/text/e-text.c:3636
+#: ../widgets/text/e-text.c:3636 ../widgets/text/e-text.c:3637
 msgid "Y Offset"
 msgstr "Desplazamiento en Y"
 
-#: ../widgets/text/e-text.c:3671 ../widgets/text/e-text.c:3672
+#: ../widgets/text/e-text.c:3672 ../widgets/text/e-text.c:3673
 msgid "Text width"
 msgstr "Anchura del texto"
 
-#: ../widgets/text/e-text.c:3678 ../widgets/text/e-text.c:3679
+#: ../widgets/text/e-text.c:3679 ../widgets/text/e-text.c:3680
 msgid "Text height"
 msgstr "Altura del texto"
 
-#: ../widgets/text/e-text.c:3693 ../widgets/text/e-text.c:3694
+#: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
 msgid "Use ellipsis"
 msgstr "Usar elipsis"
 
-#: ../widgets/text/e-text.c:3700 ../widgets/text/e-text.c:3701
+#: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
 msgid "Ellipsis"
 msgstr "Elipsis"
 
-#: ../widgets/text/e-text.c:3707 ../widgets/text/e-text.c:3708
+#: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
 msgid "Line wrap"
 msgstr "Ajuste de línea"
 
-#: ../widgets/text/e-text.c:3714 ../widgets/text/e-text.c:3715
+#: ../widgets/text/e-text.c:3715 ../widgets/text/e-text.c:3716
 msgid "Break characters"
 msgstr "Caracteres de ruptura"
 
-#: ../widgets/text/e-text.c:3721 ../widgets/text/e-text.c:3722
+#: ../widgets/text/e-text.c:3722 ../widgets/text/e-text.c:3723
 msgid "Max lines"
 msgstr "Líneas máximas"
 
-#: ../widgets/text/e-text.c:3743 ../widgets/text/e-text.c:3744
+#: ../widgets/text/e-text.c:3744 ../widgets/text/e-text.c:3745
 msgid "Draw borders"
 msgstr "Dibujar bordes"
 
-#: ../widgets/text/e-text.c:3750 ../widgets/text/e-text.c:3751
+#: ../widgets/text/e-text.c:3751 ../widgets/text/e-text.c:3752
 msgid "Allow newlines"
 msgstr "Permitir nuevas líneas"
 
-#: ../widgets/text/e-text.c:3757 ../widgets/text/e-text.c:3758
+#: ../widgets/text/e-text.c:3758 ../widgets/text/e-text.c:3759
 msgid "Draw background"
 msgstr "Dibujar fondo"
 
-#: ../widgets/text/e-text.c:3764 ../widgets/text/e-text.c:3765
+#: ../widgets/text/e-text.c:3765 ../widgets/text/e-text.c:3766
 msgid "Draw button"
 msgstr "Dibujar botón"
 
-#: ../widgets/text/e-text.c:3771 ../widgets/text/e-text.c:3772
+#: ../widgets/text/e-text.c:3772 ../widgets/text/e-text.c:3773
 msgid "Cursor position"
 msgstr "Posición del cursor"
 
-#: ../widgets/text/e-text.c:3778 ../widgets/text/e-text.c:3779
+#: ../widgets/text/e-text.c:3779 ../widgets/text/e-text.c:3780
 msgid "IM Context"
 msgstr "Contexto IM"
 
-#: ../widgets/text/e-text.c:3785 ../widgets/text/e-text.c:3786
+#: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Tirador emergente"
 
