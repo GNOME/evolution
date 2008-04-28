@@ -42,11 +42,11 @@ LIMBAPI_CFLAGS or something is going wrong */
 #include <mapi/exchange-mapi-connection.h>
 #include <mapi/exchange-mapi-utils.h>
 
-/*stores some info about all currently existing mapi accounts 
-  list of ExchangeAccountInfo structures */
-
+/* This definition should be in-sync with those in exchange-mapi-account-setup.c and camel-mapi-store.c */
 #define E_PASSWORD_COMPONENT "ExchangeMAPI"
+
 #define d(x) x
+
 static 	GList *mapi_accounts = NULL;
 static	GSList *folders_list = NULL;
 struct _ExchangeAccountListenerPrivate {
@@ -55,6 +55,8 @@ struct _ExchangeAccountListenerPrivate {
 	EAccountList *account_list;                  
 };
 
+/*stores some info about all currently existing mapi accounts 
+  list of ExchangeAccountInfo structures */
 struct _ExchangeAccountInfo {
 	char *uid;
 	char *name;
@@ -234,37 +236,38 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 
 	client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (client, conf_key);
-	base_uri = g_strdup_printf ("mapi://%s@%s/", url->user, url->host);
+	base_uri = g_strdup_printf ("%s%s@%s/", MAPI_URI_PREFIX, url->user, url->host);
 	group = e_source_group_new (account->name, base_uri);
 	g_free (base_uri);
 	e_source_group_set_property (group, "create_source", "yes");
-	e_source_group_set_property (group, "profile", camel_url_get_param (url, "profile"));
 	e_source_group_set_property (group, "username", url->user);
 	e_source_group_set_property (group, "host", url->host);
+	e_source_group_set_property (group, "profile", camel_url_get_param (url, "profile"));
 	e_source_group_set_property (group, "domain", camel_url_get_param (url, "domain"));
-	e_source_group_set_property (group, "use_ssl", camel_url_get_param (url, "use_ssl"));
 
 	for (temp_list = folders; temp_list != NULL; temp_list = g_slist_next (temp_list)) {
  		ExchangeMAPIFolder *folder = temp_list->data;
 		ESource *source = NULL;
-		gchar *relative_uri = NULL;
+		gchar *relative_uri = NULL, *fid = NULL;
 
 		if (folder->container_class != folder_type)
 			continue;
 
-		relative_uri = exchange_mapi_util_mapi_id_to_string (folder->folder_id);
+		fid = exchange_mapi_util_mapi_id_to_string (folder->folder_id);
+		relative_uri = g_strconcat (";", fid, NULL);
 		source = e_source_new (folder->folder_name, relative_uri);
 		e_source_set_property (source, "auth", "1");
-		e_source_set_property (source, "auth-domain", "MAPI");
-		e_source_set_property (source, "use_ssl", camel_url_get_param (url, "use_ssl"));
+		e_source_set_property (source, "auth-domain", E_PASSWORD_COMPONENT);
+		e_source_set_property (source, "auth-type", "plain/password");
 		e_source_set_property (source, "username", url->user);
 		e_source_set_property (source, "host", url->host);
+		e_source_set_property (source, "profile", camel_url_get_param (url, "profile"));
+		e_source_set_property (source, "domain", camel_url_get_param (url, "domain"));
+		e_source_set_property (source, "folder-id", fid);
+		e_source_set_property (source, "use_ssl", camel_url_get_param (url, "use_ssl"));
 		e_source_set_property (source, "offline_sync", 
 					       camel_url_get_param (url, "offline_sync") ? "1" : "0");
 
-		e_source_set_property (source, "profile", camel_url_get_param (url, "profile"));
-		e_source_set_property (source, "domain", camel_url_get_param (url, "domain"));
-		e_source_set_property (source, "folder-id", relative_uri);
 		/* FIXME: The primary folders cannot be deleted */
 #if 0
 		if (strcmp (folder->folder_name, primary_source_name) == 0) 
@@ -291,6 +294,7 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 
 		g_object_unref (source);
 		g_free (relative_uri);
+		g_free (fid);
 	}
 
 	if (!e_source_list_add_group (source_list, group, -1))
@@ -506,7 +510,7 @@ add_addressbook_sources (EAccount *account, GSList *folders)
 
 		source = e_source_new (folder->folder_name, g_strconcat (";",folder->folder_name, NULL));
 		e_source_set_property (source, "auth", "plain/password");
-		e_source_set_property (source, "auth-domain", "MAPI");
+		e_source_set_property (source, "auth-domain", E_PASSWORD_COMPONENT);
 		e_source_set_property(source, "user", url->user);
 		e_source_set_property(source, "host", url->host);
 		e_source_set_property(source, "profile", camel_url_get_param (url, "profile"));

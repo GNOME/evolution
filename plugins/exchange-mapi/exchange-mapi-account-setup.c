@@ -66,6 +66,8 @@ void exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target);
 
 
 #define DEFAULT_PROF_PATH ".evolution/mapi-profiles.ldb"
+
+/* This definition should be in-sync with those in exchange-account-listener.c and camel-mapi-store.c */
 #define E_PASSWORD_COMPONENT "ExchangeMAPI"
 
 static void  validate_credentials (GtkWidget *widget, EConfig *config);
@@ -630,7 +632,7 @@ exchange_mapi_book_commit (EPlugin *epl, EConfigTarget *target)
 	printf("Created %016llX\n", fid);
 	grp = e_source_peek_group (source);
 	e_source_set_property (source, "auth", "plain/password");
-	e_source_set_property (source, "auth-domain", "MAPI");
+	e_source_set_property (source, "auth-domain", E_PASSWORD_COMPONENT);
 	e_source_set_property(source, "user", e_source_group_get_property (grp, "user"));
 	e_source_set_property(source, "host", e_source_group_get_property (grp, "host"));
 	e_source_set_property(source, "profile", e_source_group_get_property (grp, "profile"));
@@ -722,7 +724,7 @@ exchange_mapi_cal_commit (EPlugin *epl, EConfigTarget *target)
 	grp = e_source_peek_group (source);
 
 	e_source_set_property (source, "auth", "1");
-	e_source_set_property (source, "auth-domain", "MAPI");
+	e_source_set_property (source, "auth-domain", E_PASSWORD_COMPONENT);
 
 	tmp = e_source_group_get_property (grp, "use_ssl");
 	e_source_set_property (source, "use_ssl", tmp);

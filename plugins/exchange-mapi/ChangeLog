@@ -1,3 +1,11 @@
+2008-04-28  Suman Manjunath  <msuman@novell.com>
+
+	* exchange-account-listener.c: (add_cal_esource),
+	(add_addressbook_sources):
+	* exchange-mapi-account-setup.c: (exchange_mapi_book_commit),
+	(exchange_mapi_cal_commit):
+	Use a common password component across e-d-s, Camel and Evolution.
+
 2008-04-14  Johnny Jacob  <jjohnny@novell.com>
 
 	* exchange-mapi-account-setup.c (org_gnome_exchange_mapi_account_setup): Added 
