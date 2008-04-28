@@ -2240,6 +2240,7 @@ em_utils_snoop_type(CamelMimePart *part)
 	 * that instead and if it returns "application/octet-stream"
 	 * try to do better with the filename check.
 	 */
+	CamelStream *mem;
 
 	if (magic_type) {
 		if (name_type
@@ -2261,12 +2262,14 @@ em_utils_snoop_type(CamelMimePart *part)
 	if (!types_cache)
 		types_cache = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) NULL);
 
-	tmp = g_hash_table_lookup (types_cache, res);
-	if (tmp) {
-		g_free (res);
-		res = tmp;
-	} else {
-		g_hash_table_insert (types_cache, res, res);
+	if (res) {
+		tmp = g_hash_table_lookup (types_cache, res);
+		if (tmp) {
+			g_free (res);
+			res = tmp;
+		} else {
+			g_hash_table_insert (types_cache, res, res);
+		}
 	}
 
 	return res;

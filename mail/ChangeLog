@@ -1,5 +1,9 @@
 2008-04-28  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* mail/em-utils.c: Avoid crash while detecting mime types.
+
+2008-04-28  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* mail/em-format-html.c: Fix the Mailer header display
 
 2008-04-25  Milan Crha  <mcrha@redhat.com>
