@@ -153,6 +153,7 @@ struct _EMFormatHTMLPObject {
  * @headers:
  * @text_html_flags:
  * @body_colour:
+ * @header_colour:
  * @text_colour:
  * @frame_colour:
  * @content_colour:
@@ -183,6 +184,7 @@ struct _EMFormatHTML {
 
 	guint32 text_html_flags; /* default flags for text to html conversion */
 	guint32 body_colour;	/* header box colour */
+	guint32 header_colour;
 	guint32 text_colour;
 	guint32 frame_colour;
 	guint32 content_colour;

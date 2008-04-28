@@ -241,27 +241,22 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 	if (style) {
 		int state = GTK_WIDGET_STATE(html);
 		gushort r, g, b;
-#define DARKER(a,v) a = ((a) > (v)) ? ((a) - (v)) : 0
 
-		/* choose a suitably darker or lighter colour */
-		r = style->base[state].red >> 8;
-		g = style->base[state].green >> 8;
-		b = style->base[state].blue >> 8;
+		r = style->fg[state].red >> 8;
+		g = style->fg[state].green >> 8;
+		b = style->fg[state].blue >> 8;		
 
-		DARKER (r, 18);
-		DARKER (g, 18);
-		DARKER (b, 18);
+		efhd->formathtml.header_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+
+		r = style->bg[state].red >> 8;
+		g = style->bg[state].green >> 8;
+		b = style->bg[state].blue >> 8;		
 
 		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 
-		/* choose a suitably darker or lighter colour */
-		r = style->base[state].red >> 8;
-		g = style->base[state].green >> 8;
-		b = style->base[state].blue >> 8;
-
-		DARKER (r, 82);
-		DARKER (g, 82);
-		DARKER (b, 82);
+		r = style->dark[state].red >> 8;
+		g = style->dark[state].green >> 8;
+		b = style->dark[state].blue >> 8;
 
 		efhd->formathtml.frame_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 

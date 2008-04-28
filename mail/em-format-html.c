@@ -163,6 +163,7 @@ efh_init(GObject *o)
 	g_signal_connect(efh->html, "object_requested", G_CALLBACK(efh_object_requested), efh);
 
 	efh->body_colour = 0xeeeeee;
+	efh->header_colour = 0xeeeeee;
 	efh->text_colour = 0;
 	efh->frame_colour = 0x3f3f3f;
 	efh->content_colour = 0xffffff;
@@ -795,8 +796,8 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		type = camel_mime_part_get_content_type(newpart);
 		if (camel_content_type_is (type, "text", "*") && !camel_content_type_is(type, "text", "calendar")) {
 			camel_stream_printf (stream,
-   					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
-   					efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+   					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+					     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
 			camel_stream_write_string(stream, "<tt>\n");
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)newpart);
 			camel_stream_flush((CamelStream *)filtered_stream);
@@ -835,8 +836,8 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	camel_object_unref(enriched);
 
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
 
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 
@@ -872,9 +873,9 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	char *cid = NULL;
 
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x;\">\n"
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; color: #%06x;\">\n"
 			     "<!-- text/html -->\n",
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
 
 	/* TODO: perhaps we don't need to calculate this anymore now base is handled better */
 	/* calculate our own location string so add_puri doesn't do it
@@ -1012,8 +1013,8 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 
 	/* Yuck, this is copied from efh_text_plain */
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
 
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
 	html_filter = camel_mime_filter_tohtml_new(efh->text_html_flags, rgb);
@@ -1247,7 +1248,7 @@ efh_format_exec (struct _format_msg *m)
 			    "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
 			    "<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
 			    m->format->body_colour & 0xffffff,
-			    m->format->text_colour & 0xffffff);
+			    m->format->header_colour & 0xffffff);
 
 	/* <insert top-header stuff here> */
 
@@ -1848,7 +1849,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		camel_stream_printf(stream,
 				    "<font color=\"#%06x\">\n"
 				    "<table cellpadding=\"0\" width=\"100%%\">",
-				    efh->text_colour & 0xffffff);
+				    efh->header_colour & 0xffffff);
 	
 	hdr_charset = emf->charset ? emf->charset : emf->default_charset;
 	

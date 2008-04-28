@@ -1,3 +1,20 @@
+2008-04-28  Johan Euphrosine  <proppy@aminche.com>
+
+	** Fix for bug #529247
+
+	* em-format-html.h (struct _EMFormatHTML): Add header_colour.
+
+	* em-format-html-display.c (efhd_gtkhtml_realise): Use bg style
+	properties for body_colour, fg for header_colour, darken for
+	frame_colour, bg for content_colour.
+
+	* em-format-html.c (efh_init), (efh_format_exec), (efh_init),
+	(efh_text_plain), (efh_text_enriched), (efh_text_html),
+	(efh_message_deliverystatus): Use header_colour for text color of
+	the message header, body_colour for background color of the
+	message header, text_colour for text color of the message content,
+	base_colour for background color of the message content.
+
 2008-04-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail/em-utils.c: Avoid crash while detecting mime types.
