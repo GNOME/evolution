@@ -1,3 +1,10 @@
+2008-04-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #529768
+
+	* gui/widgets/eab-gui-util.c (eab_send_to_contact_and_email_num_list):
+	Setup default callbacks for the newly created EMsgComposer widget.
+
 2008-04-23  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #529254

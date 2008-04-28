@@ -40,6 +40,7 @@
 #include "eab-contact-merging.h"
 #include <gnome.h>
 #include <composer/e-msg-composer.h>
+#include <mail/em-composer-utils.h>
 
 /* we link to camel for decoding quoted printable email addresses */
 #include <camel/camel-mime-utils.h>
@@ -788,6 +789,7 @@ eab_send_to_contact_and_email_num_list (GList *contact_list)
 
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
+	em_composer_utils_setup_default_callbacks (composer);
 
 	to_array = g_ptr_array_new ();
 	bcc_array = g_ptr_array_new ();
