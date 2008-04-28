@@ -1,3 +1,10 @@
+2008-04-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #524121
+
+	* gui/e-calendar-table.c: (copy_row_cb):
+	Fixing typo from patch for bug #516408.
+
 2008-04-25  Danny Baumann  <dannybaumann@web.de>
 
 	** Fix for bug #529893

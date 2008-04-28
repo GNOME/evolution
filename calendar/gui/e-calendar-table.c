@@ -881,7 +881,7 @@ copy_row_cb (int model_row, gpointer data)
 					     icalcomponent_new_clone (child));
 		icalcomponent_free (child);
 	}
-	g_free (child);
+	g_free (comp_str);
 }
 
 /**
