@@ -1351,8 +1351,6 @@ set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const char *p
 static gboolean
 extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
 {
-	CamelDataWrapper *content;
-	CamelStream *mem;
 	icalproperty *prop;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 	icalcomponent *tz_comp;
@@ -1362,22 +1360,14 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
 	ECalComponent *comp;
 	char *my_address;
 
-	content = camel_medium_get_content_object ((CamelMedium *) pitip->part);
-	mem = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream (content, mem);
 
-	if (((CamelStreamMem *) mem)->buffer->len == 0) {
-		camel_object_unref (mem);
+	if (!pitip->vcalendar) {
 		set_itip_error (pitip, container,
 				_("The calendar attached is not valid"),
 				_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."));
 
 		return FALSE;
 	}
-
-	pitip->vcalendar = g_strndup ((char *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
-
-	camel_object_unref (mem);
 
 	pitip->top_level = e_cal_util_new_top_level ();
 
@@ -2241,6 +2231,8 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	GConfClient *gconf;
 	char *classid;
 	struct _itip_puri *puri;
+	CamelDataWrapper *content;
+	CamelStream *mem;
 
 	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
 
@@ -2256,6 +2248,18 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	puri->part = target->part;
 	puri->puri.free = puri_free;
 	g_object_unref (gconf);
+
+	/* This is non-gui thread. Download the part for using in the main thread */
+	content = camel_medium_get_content_object ((CamelMedium *) target->part);
+	mem = camel_stream_mem_new ();
+	camel_data_wrapper_decode_to_stream (content, mem);
+
+	if (((CamelStreamMem *) mem)->buffer->len == 0)
+		puri->vcalendar = NULL;
+	else 
+		puri->vcalendar = g_strndup ((char *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+	camel_object_unref (mem);
+	
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);
