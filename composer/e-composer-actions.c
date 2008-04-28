@@ -336,7 +336,7 @@ action_send_options_cb (GtkAction *action,
 	if (!composer->priv->send_invoked)
 		e_error_run (
 			GTK_WINDOW (composer),
-			"mail-component:send-options-support", NULL);
+			"mail-composer:send-options-support", NULL);
 }
 
 static void
