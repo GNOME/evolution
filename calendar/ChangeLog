@@ -1,3 +1,11 @@
+2008-04-29  Ashish Shrivastava <shashish@novell.com>
+
+	** Fix for bnc #368277
+	Can't C & P Email Addresses from an Appt. to a Mail Message
+
+	* gui/e-select-names-renderer.c:
+	(e_select_names_renderer_start_editing):
+
 2008-04-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #524121
