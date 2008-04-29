@@ -1,3 +1,10 @@
+2008-04-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	** Fixes #338330 (bnc)
+	Internet Based Calendar Events Are Declined By Evolution/GroupWise
+
+	* itip-formatter.c: (view_response_cb):
+
 2008-04-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for BNC bug #382687

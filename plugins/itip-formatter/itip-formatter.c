@@ -1619,7 +1619,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	gboolean status = FALSE, delete_invitation_from_cache = FALSE;
 	icalproperty *prop;
 	ECalComponentTransparency trans;
-	gboolean flag;
+	gboolean flag, save_schedules;
 
 	if (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) {
 		if (itip_view_get_free_time_check_state (ITIP_VIEW (pitip->view)))
@@ -1644,6 +1644,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		icalcomponent_add_property (pitip->ical_comp, prop);
 	}
 
+	save_schedules = e_cal_get_save_schedules (pitip->current_ecal);
+
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
 			if (pitip->type != E_CAL_SOURCE_TYPE_JOURNAL)
@@ -1654,7 +1656,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
 				flag = update_item (pitip, response);
-				if (e_cal_get_save_schedules (pitip->current_ecal) && flag)
+				if (save_schedules && flag)
 					delete_invitation_from_cache = TRUE;
 			}
 			break;
@@ -1664,7 +1666,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
 				flag = update_item (pitip, response);
-				if (e_cal_get_save_schedules (pitip->current_ecal) && flag)
+				if (save_schedules && flag)
 					delete_invitation_from_cache = TRUE;
 
 			}
@@ -1683,7 +1685,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
 				flag = update_item (pitip, response);
-				if (e_cal_get_save_schedules (pitip->current_ecal) && flag)
+				if (save_schedules && flag)
 					delete_invitation_from_cache = TRUE;
 			}
 			break;
@@ -1743,7 +1745,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 	}
 
-	if (!delete_invitation_from_cache && pitip->delete_message) {
+	if (!save_schedules && pitip->delete_message) {
 		g_message ("Deleting!");
 		camel_folder_delete_message (pitip->folder, pitip->uid);
 	}
