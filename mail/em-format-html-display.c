@@ -1424,6 +1424,21 @@ static void efhd_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart
 
 /* ********************************************************************** */
 
+/* Checks on the widget whether it can be processed, based on the state of EMFormatHTML.
+   The widget should have set "efh" data as the EMFormatHTML instance. */
+static gboolean
+efhd_can_process_attachment (GtkWidget *button)
+{
+	EMFormatHTML *efh;
+
+	if (!button)
+		return FALSE;
+
+	efh = g_object_get_data (G_OBJECT (button), "efh");
+
+	return efh && efh->state != EM_FORMAT_HTML_STATE_RENDERING;
+}
+
 /* if it hasn't been processed yet, format the attachment */
 static void
 efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
@@ -1439,6 +1454,9 @@ efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
 static void
 efhd_attachment_button_show(GtkWidget *w, void *data)
 {
+	if (!efhd_can_process_attachment (w))
+		return;
+
 	efhd_attachment_show(NULL, NULL, data);
 }
 
@@ -1498,6 +1516,9 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 		/* ?? gtk_propagate_event(GTK_WIDGET (user_data), (GdkEvent *)event);*/
 		return FALSE;
 	}
+
+	if (!efhd_can_process_attachment (w))
+		return FALSE;
 
 	/** @HookPoint-EMPopup: Attachment Button Context Menu
 	 * @Id: org.gnome.evolution.mail.formathtmldisplay.popup
@@ -1765,6 +1786,8 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	g_signal_connect(box, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);
 
+	g_object_set_data (G_OBJECT (box), "efh", efh);
+
 	return TRUE;
 }
 
@@ -1840,9 +1863,10 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	button = gtk_button_new();
 
-	if (info->handle)
+	if (info->handle) {
 		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_button_show), info);
-	else {
+		g_object_set_data (G_OBJECT (button), "efh", efh);
+	} else {
 		gtk_widget_set_sensitive(button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
 	}
@@ -1915,6 +1939,8 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
 	gtk_box_pack_start((GtkBox *)mainbox, button, TRUE, TRUE, 0);
+
+	g_object_set_data (G_OBJECT (button), "efh", efh);
 
 	gtk_widget_show_all(mainbox);
 

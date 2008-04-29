@@ -1,3 +1,17 @@
+2008-04-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511337
+
+	* em-format-html.h: (EMFormatHTMLState), (struct _EMFormatHTML):
+	* em-format-html.c: (efh_init), (efh_format_done),
+	(efh_format_timeout): Track state of the object to recognize
+	whether rendering new content or doing nothing.
+	* em-format-html-display.c: (efhd_can_process_attachment),
+	(efhd_attachment_show), (efhd_attachment_popup),
+	(efhd_attachment_image), (efhd_attachment_button):
+	Do nothing when EMFormatHTML object's state is RENDERING,
+	the puri object instance is not valid anyway.
+
 2008-04-28  Johan Euphrosine  <proppy@aminche.com>
 
 	** Fix for bug #529247

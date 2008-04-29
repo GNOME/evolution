@@ -170,6 +170,7 @@ efh_init(GObject *o)
 	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 	efh->show_icon = TRUE;
+	efh->state = EM_FORMAT_HTML_STATE_NONE;
 }
 
 static void
@@ -1330,6 +1331,7 @@ efh_format_done (struct _format_msg *m)
 
 	m->format->load_http_now = FALSE;
 	m->format->priv->format_id = -1;
+	m->format->state = EM_FORMAT_HTML_STATE_NONE;
 	g_signal_emit_by_name(m->format, "complete");
 }
 
@@ -1398,6 +1400,8 @@ efh_format_timeout(struct _format_msg *m)
 		mail_msg_unref(m);
 		p->last_part = NULL;
 	} else {
+		efh->state = EM_FORMAT_HTML_STATE_RENDERING;
+
 		if (p->last_part != m->message) {
 			hstream = gtk_html_begin (efh->html);
 			gtk_html_stream_printf (hstream, "<h5>%s</h5>", _("Formatting Message..."));

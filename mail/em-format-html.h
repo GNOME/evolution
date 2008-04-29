@@ -49,6 +49,11 @@ enum _em_format_html_header_flags {
 	EM_FORMAT_HTML_HEADER_BCC = 1<<2,
 };
 
+typedef enum {
+	EM_FORMAT_HTML_STATE_NONE = 0,
+	EM_FORMAT_HTML_STATE_RENDERING
+} EMFormatHTMLState;
+
 /* A HTMLJob will be executed in another thread, in sequence,
    It's job is to write to its stream, close it if successful,
    then exit */
@@ -196,6 +201,8 @@ struct _EMFormatHTML {
 	unsigned int hide_headers:1; /* no headers at all */
 	unsigned int show_icon:1; /* show an icon when the sender used Evo */
 	guint32 header_wrap_flags;
+
+	EMFormatHTMLState state; /* actual state of the object */
 };
 
 struct _EMFormatHTMLClass {
