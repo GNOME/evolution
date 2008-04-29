@@ -1,3 +1,11 @@
+2008-04-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fixes bug #502913
+
+	* em-composer-utils.c: (create_new_composer), (reply_get_composer),
+	(post_reply_to_message): The headers would be set by 
+	e-msg-composer.c:from_changed_cb. So let this function not mess it up.
+
 2008-04-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #529375

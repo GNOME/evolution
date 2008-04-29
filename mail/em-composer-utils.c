@@ -621,10 +621,13 @@ create_new_composer (const char *subject, const char *fromuri)
 {
 	EMsgComposer *composer;
 	EAccount *account = NULL;
+	EMsgComposerHdrs* hdrs;
 
 	composer = e_msg_composer_new ();
 	if (composer == NULL)
 		return NULL;
+
+	hdrs = e_msg_composer_get_hdrs (composer);
 
 	if (fromuri)
 		account = mail_config_get_account_by_source_url(fromuri);
@@ -636,7 +639,8 @@ create_new_composer (const char *subject, const char *fromuri)
 	if (!account)
 		account = e_msg_composer_get_preferred_account (composer);
 
-	e_msg_composer_set_headers (composer, account?account->name:NULL, NULL, NULL, NULL, subject);
+	e_msg_composer_hdrs_set_from_account (hdrs, account?account->name:NULL);
+	e_msg_composer_hdrs_set_subject (hdrs, subject);
 
 	em_composer_utils_setup_default_callbacks (composer);
 
@@ -1403,6 +1407,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	const char *message_id, *references;
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
+	EMsgComposerHdrs* hdrs;
 	char *subject;
 
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
@@ -1431,7 +1436,12 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 		subject = g_strdup ("");
 	}
 
-	e_msg_composer_set_headers (composer, account ? account->name : NULL, tov, ccv, NULL, subject);
+	hdrs = e_msg_composer_get_hdrs (composer);
+
+	e_msg_composer_hdrs_set_from_account (hdrs, account?account->name:NULL);
+	e_msg_composer_hdrs_set_to (hdrs, tov);
+	e_msg_composer_hdrs_set_cc (hdrs, ccv);
+	e_msg_composer_hdrs_set_subject (hdrs, subject);
 
 	g_free (subject);
 
@@ -2033,6 +2043,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	EDestination **tov = NULL;
 	CamelFolder *real_folder;
 	EMsgComposer *composer;
+	EMsgComposerHdrs* hdrs;
 	char *subject, *url;
 	EAccount *account;
 	char *real_uid;
@@ -2073,8 +2084,12 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	} else {
 		subject = g_strdup ("");
 	}
+	
+	hdrs = e_msg_composer_get_hdrs (composer);
 
-	e_msg_composer_set_headers (composer, account ? account->name : NULL, tov, NULL, NULL, subject);
+	e_msg_composer_hdrs_set_from_account (hdrs, account?account->name:NULL);
+	e_msg_composer_hdrs_set_to (hdrs, tov);
+	e_msg_composer_hdrs_set_subject (hdrs, subject);
 
 	g_free (subject);
 
