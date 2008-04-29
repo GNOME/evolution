@@ -1,3 +1,9 @@
+2008-04-29  Akhil Laddha  <lakhil@novell.com>
+
+	** Fix for bug #529660
+
+	* main.c (show_development_warning): Change stable version to 2.22.1
+
 2008-04-26  James Westby  <jw+debian@jameswestby.net>
 
 	** Fix for bug #518103

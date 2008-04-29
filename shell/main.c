@@ -245,7 +245,7 @@ show_development_warning(void)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"2.12.1");
+		"2.22.1");
 	label = gtk_label_new (text);
 	g_free(text);
 
