@@ -2240,7 +2240,6 @@ em_utils_snoop_type(CamelMimePart *part)
 	 * that instead and if it returns "application/octet-stream"
 	 * try to do better with the filename check.
 	 */
-	CamelStream *mem;
 
 	if (magic_type) {
 		if (name_type

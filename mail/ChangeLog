@@ -1,5 +1,10 @@
 2008-04-29  Milan Crha  <mcrha@redhat.com>
 
+	* em-utils.c: (em_utils_snoop_type):
+	Fixes compiler warning (unused variable).
+
+2008-04-29  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #511337
 
 	* em-format-html.h: (EMFormatHTMLState), (struct _EMFormatHTML):
