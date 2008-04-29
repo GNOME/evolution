@@ -499,7 +499,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (users_has_attendee (users, att->value))
+			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+				continue;
+			else if (users_has_attendee (users, att->value))
 				continue;
 			else if (att->sentby && users_has_attendee (users, att->sentby))
 				continue;
@@ -541,6 +543,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *att = l->data;
 
+				if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+					continue;
+
 				destination = e_destination_new ();
 				if (att->cn != NULL)
 					e_destination_set_name (destination, att->cn);
@@ -563,7 +568,6 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			g_ptr_array_add (array, destination);
 		}
 		break;
-
 
 	case E_CAL_COMPONENT_METHOD_ADD:
 	case E_CAL_COMPONENT_METHOD_REFRESH:
@@ -591,6 +595,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
+
+			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+				continue;
 
 			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender) || (att->sentby && !g_ascii_strcasecmp (itip_strip_mailto (att->sentby), sender))){
 

@@ -1,3 +1,10 @@
+2008-04-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #240823
+
+	* gui/itip-utils.c: (comp_to_list):
+	Send notification only to individuals and groups.
+
 2008-04-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #524121
