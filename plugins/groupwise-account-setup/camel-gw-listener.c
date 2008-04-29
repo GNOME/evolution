@@ -49,6 +49,8 @@ struct _GwAccountInfo {
 	char *uid;
 	char *name;
 	char *source_url;
+	gboolean auto_check;
+	guint auto_check_time;
 };
 
 typedef struct _GwAccountInfo GwAccountInfo;
@@ -168,7 +170,7 @@ lookup_account_info (const char *key)
 #define SELECTED_NOTES   "/apps/evolution/calendar/memos/selected_memos"
 
 static void
-add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url, const char* parent_id_name, gboolean can_create)
+add_esource (const char *conf_key, GwAccountInfo *info,  const char *source_name, CamelURL *url, const char* parent_id_name, gboolean can_create)
 {
 	ESourceList *source_list;
 	ESourceGroup *group;
@@ -181,10 +183,13 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	const char * use_ssl;
 	const char *poa_address;
 	const char *offline_sync;
+	const char *group_name;
 
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return;
+
+	group_name = info->name;
 
 	soap_port = camel_url_get_param (url, "soap_port");
 
@@ -206,6 +211,7 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	if (!can_create)
 		e_source_group_set_property (group, "create_source", "no");
 
+
 	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
@@ -213,6 +219,15 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
+
+	if (info->auto_check) {
+		char *str = g_strdup_printf ("%d", info->auto_check_time);
+
+		e_source_set_property (source, "refresh", str);
+		g_free (str);
+	} else 
+		e_source_set_property (source, "refresh", NULL);
+
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
 	e_source_set_property (source, "delete", "no");
 	if (parent_id_name) {
@@ -324,7 +339,7 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 /* looks up for e-source with having same info as old_account_info and changes its values passed in new values */
 
 static void
-modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const char* new_group_name, CamelURL *new_url)
+modify_esource (const char* conf_key, GwAccountInfo *old_account_info, EAccount *a, CamelURL *new_url)
 {
 	ESourceList *list;
         GSList *groups;
@@ -334,7 +349,8 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
       	GConfClient* client;
 	const char *poa_address;
 	const char *new_poa_address;
-
+	const char* new_group_name = a->name;
+	
 	url = camel_url_new (old_account_info->source_url, NULL);
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
@@ -372,6 +388,15 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 					e_source_set_property (source, "port", camel_url_get_param (new_url,"soap_port"));
 					e_source_set_property (source, "use_ssl",  camel_url_get_param (url, "use_ssl"));
 					e_source_set_property (source, "offline_sync",  camel_url_get_param (url, "offline_sync") ? "1" : "0");
+				
+					if (a->source->auto_check) {
+						char *str = g_strdup_printf ("%d", a->source->auto_check_time);
+					
+						e_source_set_property (source, "refresh", str);
+						g_free (str);
+					} else 
+						e_source_set_property (source, "refresh", NULL);
+
 					e_source_list_sync (list, NULL);
 					found_group = TRUE;
 					g_free (new_relative_uri);
@@ -397,10 +422,10 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	CamelURL *url;
 
 	url = camel_url_new (info->source_url, NULL);
-	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, NULL, FALSE);
-	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, NULL, FALSE);
-	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, NULL, TRUE);
-
+	add_esource ("/apps/evolution/calendar/sources", info, _("Calendar"), url, NULL, FALSE);
+	add_esource ("/apps/evolution/tasks/sources", info, _("Tasks"), url, NULL, FALSE);
+	add_esource ("/apps/evolution/memos/sources", info, _("Notes"), url, NULL, TRUE);
+ 
 	camel_url_free (url);
 
 
@@ -541,9 +566,9 @@ add_proxy_sources (GwAccountInfo *info, const char *parent_name)
 
 	camel_url_set_param (url, "color", color);
 
-	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url, parent_name, FALSE);
-	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url, parent_name, FALSE);
-	add_esource ("/apps/evolution/memos/sources", info->name, _("Notes"), url, parent_name, TRUE);
+	add_esource ("/apps/evolution/calendar/sources", info, _("Calendar"), url, parent_name, FALSE);
+	add_esource ("/apps/evolution/tasks/sources", info, _("Tasks"), url, parent_name, FALSE);
+	add_esource ("/apps/evolution/memos/sources", info, _("Notes"), url, parent_name, TRUE);
 
 	g_free (color);
 	camel_url_free (url);
@@ -793,6 +818,8 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->uid = g_strdup (account->uid);
 	info->name = g_strdup (account->name);
 	info->source_url = g_strdup (account->source->url);
+	info->auto_check = account->source->auto_check;
+	info->auto_check_time = account->source->auto_check_time;
 	if (account->parent_uid) {
 		parent = (EAccount *)e_account_list_find (account_listener, E_ACCOUNT_FIND_UID, account->parent_uid);
 
@@ -900,9 +927,9 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			account_added (account_listener, account);
 		} else if (strcmp (existing_account_info->name, account->name)) {
 
-			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, new_url);
-			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name,  new_url);
-			modify_esource ("/apps/evolution/memos/sources", existing_account_info, account->name,  new_url);
+			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account, new_url);
+			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account,  new_url);
+			modify_esource ("/apps/evolution/memos/sources", existing_account_info, account,  new_url);
 			modify_addressbook_sources (account, existing_account_info);
 
 		}
