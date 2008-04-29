@@ -148,7 +148,7 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
 		res = BOGOFILTER_ERROR;
 	}
 
-	if (res != 0)
+	if (res < 0 || res > 2)
 		g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to Bogofilter failed, error code: %d."), res);
 
 	return res;

@@ -1,3 +1,8 @@
+2008-04-29  Milan Crha  <mcrha@redhat.com>
+
+	* bf-junk-filter.c: (pipe_to_bogofilter):
+	Report errors properly. Thanks to Reid Thompson whom found it.
+
 2008-04-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #273041
