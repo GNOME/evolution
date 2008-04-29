@@ -1,3 +1,10 @@
+2008-04-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bnc #363908
+	Evolution crashed during exit
+
+	* gui/tasks-component.c: (destroy_component_view):
+
 2008-04-29  Ashish Shrivastava <shashish@novell.com>
 
 	** Fix for bnc #368277
