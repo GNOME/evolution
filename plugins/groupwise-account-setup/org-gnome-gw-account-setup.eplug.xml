@@ -20,7 +20,15 @@
       <group target="account" id="org.gnome.evolution.mail.config.accountWizard">
 	<item type="item_table" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_groupwise_account_setup"/>
       </group>
-    </hook>	
-    
+    </hook>
+
+    <hook class="org.gnome.evolution.shell.events:1.0">
+     <event
+	id="upgrade.done"
+	handle="ensure_mandatory_esource_properties"
+	target="upgrade"
+      />
+    </hook>    
+
   </e-plugin>
 </e-plugin-list>
