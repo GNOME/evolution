@@ -985,8 +985,8 @@ static const struct {
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
-static const char *smime_sign_colour[4] = {
-	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\""
+static const char *smime_sign_colour[5] = {
+	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\"",""
 };
 
 struct _smime_pobject {

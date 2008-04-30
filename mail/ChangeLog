@@ -1,3 +1,11 @@
+2008-04-30  Shuai Liu  <shuai.liu@sun.com>
+
+	** Fix for bug #530672
+	Evolution crashes when viewing pgp-signed message
+
+	* em-format-html-display.c: Modify the array of smime_sign_colour 
+	from 4 to 5 to ensure the input by data-server is right
+
 2008-04-29  Milan Crha  <mcrha@redhat.com>
 
 	* em-utils.c: (em_utils_snoop_type):
