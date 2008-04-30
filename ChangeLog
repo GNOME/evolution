@@ -1,3 +1,8 @@
+2008-04-30  Rob Bradford  <rob@openedhand.com>
+
+	* configure.in:
+	Link with libebackend (see #530576.)
+
 2008-04-21  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in: Evolution 2.23.1 release and version bump.

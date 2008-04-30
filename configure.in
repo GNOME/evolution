@@ -180,7 +180,8 @@ PKG_CHECK_MODULES(EVOLUTION_DATA_SERVER,
          libecal-$EDS_PACKAGE >= eds_minimum_version
          libedataserver-$EDS_PACKAGE >= eds_minimum_version
          libedataserverui-$EDS_PACKAGE >= eds_minimum_version
-         libegroupwise-$EDS_PACKAGE >= eds_minimum_version])
+         libegroupwise-$EDS_PACKAGE >= eds_minimum_version
+         libebackend-$EDS_PACKAGE >= eds_minimum_version])
 
 
 dnl ******************
