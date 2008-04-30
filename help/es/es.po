@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-04-13 17:12+0100\n"
-"PO-Revision-Date: 2008-04-19 13:43+0200\n"
+"POT-Creation-Date: 2008-04-19 11:46+0000\n"
+"PO-Revision-Date: 2008-04-30 17:23+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -593,7 +593,7 @@ msgstr "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6105(None)
 msgid "@@image: 'figures/proxy-cal.png'; md5=8e1f3438047198a963e7642d5ff9cac6"
-msgstr " @@image: 'figures/evo_rule_a.png'; md5=8ae53424d65dce07dfdf738a81d81ffc"
+msgstr "@@image: 'figures/proxy-cal.png'; md5=8e1f3438047198a963e7642d5ff9cac6"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -824,14 +824,13 @@ msgid "Documentation Conventions:"
 msgstr "Convenciones del documento:"
 
 #: C/evolution.xml:147(para)
-#, fuzzy
 msgid ""
 "In Novell documentation, a greater-than symbol (&gt;) is used to separate "
 "actions within a step and items in a cross-reference path. A trademark "
 "symbol (®, TM, etc.) denotes a Novell trademark. An asterisk (*) denotes a "
 "third-party trademark."
 msgstr ""
-"En la documentación de Novell, se usa un símbolo «mayor que» (&gt;) para "
+"En la documentación de Novell se usa un símbolo «mayor que» (&gt;) para "
 "separar acciones dentro de un paso y elementos en una referencia cruzada. Un "
 "símbolo de marca registrada (®, TM, etc.) denota una marca registrada de "
 "Novell. Un asterisco (*) denota una marca registrada de terceras partes."
@@ -2755,7 +2754,6 @@ msgid "Backing Up And Restoring Evolution"
 msgstr "Respaldar y restaurar Evolution"
 
 #: C/evolution.xml:974(para)
-#, fuzzy
 msgid ""
 "With the Backup and Restore plug-in enabled, you can successfully back up "
 "Evolution to your machine and restore it whenever it is required. The backup "
@@ -2764,7 +2762,7 @@ msgid ""
 msgstr ""
 "Con el complemento para respaldar y restaurar activado puede respaldar "
 "Evolution en su equipo y restaurarlo siempre que sea necesario. El respaldo "
-"guarda sus ajustes de Evolution en gconf, correos, contactos, tareas, notas "
+"guarda sus ajustes de Evolution de gconf, correos, contactos, tareas, notas "
 "y calendarios y crea un archivador."
 
 #: C/evolution.xml:977(para)
@@ -2825,16 +2823,14 @@ msgid "Select the evolution.tar.gz and click Save."
 msgstr "Seleccione el archivo evolution.tar.gz y pulse Guardar."
 
 #: C/evolution.xml:1003(para)
-#, fuzzy
 msgid ""
 "Before the process starts, a pop-up window appears and asks you to close "
 "Evolution. Close all the windows and then click Restore in the pop-up window."
 msgstr ""
-"Antes de que comience el proceso, se le preguntará para que cierre "
-"Evolution. Cierre las ventanas y pulse Restaurar para restaurar Evolution."
+"Antes de que comience el proceso, aparecerá una ventana emergente preguntándole "
+"para que cierre Evolution. Cierre las ventanas y pulse Restaurar en la ventana emergente."
 
 #: C/evolution.xml:1005(para)
-#, fuzzy
 msgid ""
 "If you are creating your first account via the Startup Wizard, you can use "
 "the option to restore from the archive if it is available locally."
@@ -2855,14 +2851,12 @@ msgstr ""
 "de un cuelgue."
 
 #: C/evolution.xml:1018(para)
-#, fuzzy
 msgid ""
 "Click Ignore to restore the preview pane displayed when Evolution crashed. "
 "If you click Recover, Evolution opens with all preview panes hidden."
 msgstr ""
-"Pulse Ignorar para restaurar el panel de vista previa mostrado cuando "
-"Evolution se colgó. Si pulsa Recuperar, Evolution se abrirá con todos los "
-"paneles de vista previa ocultos."
+"Pulse Ignorar para restaurar el panel de vista previa mostrado cuando Evolution se colgó. "
+"Si pulsa Recuperar, Evolution se abrirá con todos los paneles de vista previa ocultos."
 
 #: C/evolution.xml:1021(title)
 msgid "Command Line Options"
@@ -2972,7 +2966,6 @@ msgstr ""
 "navegador web y en el centro de control de GNOME."
 
 #: C/evolution.xml:1111(para)
-#, fuzzy
 msgid ""
 "This section, and <link linkend=\"usage-mail-organize\">Organizing Your E-"
 "Mail</link>, provide you with an in-depth guide to the capabilities of "
@@ -2981,9 +2974,9 @@ msgid ""
 "link>."
 msgstr ""
 "Esta sección, así como<link linkend=\"usage-mail-organize\">Organización de "
-"su correo-e, le ofrece una guía en profundidad de </link>las posibilidades "
-"de Evolution™ como cliente de correo. Para saber más sobre cómo configurar "
-"su cuenta de correo consulte <link linkend=\"config-prefs-mail\">Opciones de "
+"su correo-e</link>, le ofrece una guía en profundidad de las posibilidades de "
+"Evolution™ como cliente de correo. Para saber más sobre cómo configurar su "
+"cuenta de correo consulte <link linkend=\"config-prefs-mail\">Opciones de "
 "correo</link>."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
@@ -3056,14 +3049,13 @@ msgid "Magic Spacebar For Reading Mail"
 msgstr "Barra espaciadora mágica para leer correos"
 
 #: C/evolution.xml:1140(para)
-#, fuzzy
 msgid ""
 "With Magic Spacebar, you can easily read the unread messages in all the mail "
 "folders. You can read mail, scroll through mail and switch folders by using "
 "the Spacebar on your keyboard."
 msgstr ""
-"Con la barra espaciador mágica puede leer fácilmente los correos no leídos "
-"en todas las carpetas. Puede leer correos, deslizar los correos y cambiar "
+"Con la barra espaciador mágica puede leer fácilmente los correos no leídos en "
+"todas las carpetas de correo. Puede leer correo, deslizar el correo y cambiar "
 "entre las carpetas usando la barra espaciadora de su teclado."
 
 #: C/evolution.xml:1141(para)
@@ -3079,14 +3071,12 @@ msgstr ""
 "casilla de selección Activar la barra espaciadora mágica."
 
 #: C/evolution.xml:1147(para)
-#, fuzzy
 msgid "When you are in the Mail view, the Spacebar has the following behavior:"
 msgstr ""
 "Cuando esté en la vista de correo, la barra espaciadora se comportará de la "
 "siguiente manera:"
 
 #: C/evolution.xml:1150(para)
-#, fuzzy
 msgid ""
 "When you press the Spacebar for the first time, it takes you to the next "
 "unread message."
@@ -3095,7 +3085,6 @@ msgstr ""
 "correo no leído."
 
 #: C/evolution.xml:1153(para)
-#, fuzzy
 msgid ""
 "If the message is more than one screen long, the apacebar works as Page Down "
 "key."
@@ -3120,16 +3109,14 @@ msgstr ""
 "le lleva al siguiente mensaje sin leer en la siguiente carpeta."
 
 #: C/evolution.xml:1162(para)
-#, fuzzy
 msgid ""
 "If new messages arrive in a number of folders, the Spacebar toggles between "
 "those folders. This feature allows you to switch to the next unread message "
 "in a different folder without clicking the folder."
 msgstr ""
-"Si tiene correo nuevo en varias carpetas diferentes, la barra espaciadora "
-"conmuta entre esas carpetas. Esta característica le permite cambiar al "
-"siguiente mensaje no leído en una carpeta diferente sin tener que pulsar "
-"sobre la carpeta."
+"Si tiene correo nuevo en varias carpetas diferentes, la barra espaciadora conmuta "
+"entre esas carpetas. Esta característica le permite cambiar al siguiente mensaje no "
+"leído en una carpeta diferente sin tener que pulsar sobre la carpeta."
 
 #: C/evolution.xml:1168(title)
 msgid "Checking for New Mail"
@@ -3183,7 +3170,6 @@ msgstr ""
 "correo en su buzón, aparecerá un icono parpadeante en el Selector."
 
 #: C/evolution.xml:1178(para)
-#, fuzzy
 msgid ""
 "You can also view a blinking icon <inlinegraphic format=\"PNG\" fileref="
 "\"figures/evo_blink.png\"/> in the notification area that disappears when "
@@ -3191,13 +3177,11 @@ msgid ""
 "fileref=\"figures/evo_blink.png\"/> icon to view the notification message."
 msgstr ""
 "También puede ver un icono que parpadea <inlinegraphic format=\"PNG\" "
-"fileref=\"figures/evo_blink.png\"/> en el área de notificación y que "
-"desaparece cuando abre el correo nuevo. Puede mantener el ratón sobre el "
-"icono <inlinegraphic format=\"PNG\" fileref=\"figures/evo_blink.png\"/> para "
-"ver el mensaje de notificación."
+"fileref=\"figures/evo_blink.png\"/> en el área de notificación y que desaparece cuando "
+"abre el correo nuevo. Mantener el ratón sobre el icono <inlinegraphic format=\"PNG\" "
+"fileref=\"figures/evo_blink.png\"/> mostrará el mensaje de notificación."
 
 #: C/evolution.xml:1182(title)
-#, fuzzy
 msgid "Vertical View Versus Classical View"
 msgstr "Vista vertical y vista clásica"
 
@@ -3282,7 +3266,6 @@ msgid "Select Mail Preferences"
 msgstr "Seleccione Opciones de correo"
 
 #: C/evolution.xml:1219(para)
-#, fuzzy
 msgid "Check ‘Shrink To/CC/Bcc headers to column’ to limit the address"
 msgstr ""
 "Marque la columna «Reducir las cabeceras Para / Cc / Cco a» para limitar las "
@@ -3293,16 +3276,15 @@ msgid "Enter the limit in the field."
 msgstr "Introduzca el límite en el campo."
 
 #: C/evolution.xml:1225(para)
-#, fuzzy
 msgid ""
 "You can expand the message headers by click the <inlinegraphic format=\"PNG"
 "\" fileref=\"figures/plus.png\"/> icon or the ‘…’ in the message preview "
 "pane. To collapse click <inlinegraphic format=\"PNG\" fileref=\"figures/"
 "minus.png\"/> icon in the preview pane."
 msgstr ""
-"Puede expandir las cabeceras del mensaje pulsando el icono <inlinegraphic "
-"format=\"PNG\" fileref=\"figures/plus.png\"/> o el «...» en el panel de "
-"vista previa. Para contraerlas pulse el icono <inlinegraphic format=\"PNG\" "
+"Puede expandir las cabeceras del mensaje pulsando el icono <inlinegraphic format=\"PNG\" "
+"fileref=\"figures/plus.png\"/> o el «...» en el panel de vista previa. "
+"Para contraerlas pulse el icono <inlinegraphic format=\"PNG\" "
 "fileref=\"figures/minus.png\"/> en el panel de vista previa."
 
 #: C/evolution.xml:1229(title)
@@ -4078,24 +4060,21 @@ msgid "Attachment Reminder:"
 msgstr "Recuerdo de adjuntos:"
 
 #: C/evolution.xml:1520(para)
-#, fuzzy
 msgid ""
 "Evolution has an Attachment Reminder plugin you can use to remind yourself "
 "to attach a file to an e-mail. If it determines that you have not attached "
 "the file, it displays the following message:"
 msgstr ""
-"Con el complemento Recuerdo de adjuntos activado, Evolution le recuerda que "
-"adjunte un archivo a su correo-e si parece que no lo haya hecho. Se mostrará "
-"un mensaje como el de abajo si se encuentra que se le ha olvidado adjuntar "
-"un archivo:"
+"Evolution tiene un complemento de Recuerdo de adjuntos que puede usar para recordarle "
+"que adjunte un archivo en un correo-e. Si determina que el archivo no está adjuntado, "
+"muestra el siguiente mensaje:"
 
 #: C/evolution.xml:1524(para)
-#, fuzzy
 msgid ""
 "Click Continue Editing to attach the missing file, or click Send to send the "
 "message without any attachment."
 msgstr ""
-"Pulse continuar editando para adjuntar el archivo que se le está recordando "
+"Pulse Continuar editando para adjuntar el archivo que se le está recordando "
 "que falta o pulse Enviar para enviar el mensaje sin ningún adjunto."
 
 #: C/evolution.xml:1527(para)
@@ -4121,7 +4100,6 @@ msgstr ""
 "Añadir."
 
 #: C/evolution.xml:1538(para)
-#, fuzzy
 msgid ""
 "Based on the keywords you have added here, it searches every mail you are "
 "sending. If it finds the keywords such as &ldquo;attach&rdquo; in your mail "
@@ -4130,8 +4108,8 @@ msgid ""
 msgstr ""
 "Busca cada correo electrónico que esté enviando basándose en las palabras "
 "clave que haya añadido aquí. Si en su correo-e encuentra palabras clave "
-"tales como «adjuntar» y no hay un archivo adjunto, se le recuerda que faltan "
-"adjuntos."
+"tales como &ldquo;adjuntar&rdquo; y no hay un archivo adjunto, se le recuerda que "
+"faltan adjuntos."
 
 #: C/evolution.xml:1541(para)
 msgid ""
@@ -4401,14 +4379,13 @@ msgid "Find Regex:"
 msgstr "Buscar expresión regular:"
 
 #: C/evolution.xml:1656(para)
-#, fuzzy
 msgid ""
 "You can search for a complex pattern of characters, called a <link linkend="
 "\"regular-expression\">regular expression</link> or “regex” in your composer "
 "window. If you're not sure what a regular expression is, you should ignore "
 "this feature."
 msgstr ""
-"Puede buscar un complejo patrón de caracteres llamado <link linkend="
+"Puede buscar un patrón complejo de caracteres llamado <link linkend="
 "\"regular-expression\">expresión regular</link> o «regex» en la ventana de "
 "su editor. Si no está seguro de lo que es una expresión regular, debería "
 "ignorar esta característica."
@@ -4966,13 +4943,12 @@ msgstr ""
 "descuidados."
 
 #: C/evolution.xml:1948(para)
-#, fuzzy
 msgid ""
 "Always begin and close with a salutation. Say “please” and “thank you,” just "
 "like you do in real life. You can keep your pleasantries short, but be "
 "polite."
 msgstr ""
-"Siempre empiece y acabe con un saludo. Diga «por favor» y «gracias» de la "
+"Empiece  y acabe siempre con un saludo. Diga «por favor» y «gracias» de la "
 "misma manera que haría en la vida real. Puede ser breve en sus cumplidos "
 "pero sea educado."
 
@@ -5225,7 +5201,6 @@ msgstr ""
 "remitente."
 
 #: C/evolution.xml:2040(para)
-#, fuzzy
 msgid ""
 "For example, suppose that Kevin wants to send an encrypted message to his "
 "friend Rachel. He looks up her public key on a general key server, and then "
@@ -5420,15 +5395,14 @@ msgstr ""
 "su identificador se añadirá automáticamente a su llavero."
 
 #: C/evolution.xml:2101(para)
-#, fuzzy
 msgid ""
 "The domain &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; is assigned to "
 "multiple hosts in various networks. The gpg utility tries to connect to one "
 "in the current network; and if that particular host is down, it fails with a "
 "time-out."
 msgstr ""
-"El dominio «<emphasis>wwwkeys.pgp.net</emphasis>» está asignado en múltiples "
-"servidores en varias redes. La utilidad gpg trata de conectarse a una en la "
+"El dominio &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; está asignado en "
+"múltiples servidores en varias redes. La utilidad gpg trata de conectarse a una en la "
 "red actual y si ese servidor en particular está caído, falla al superarse el "
 "tiempo de expiración."
 
@@ -5686,15 +5660,14 @@ msgid "Select the appropriate options."
 msgstr "Seleccione las opciones apropiadas."
 
 #: C/evolution.xml:2239(para)
-#, fuzzy
 msgid ""
 "Whether you only get a few e-mail messages a day, or you receive hundreds, "
 "you probably want to sort and organize them. Evolution has the tools to help "
 "you do it."
 msgstr ""
 "Independientemente de que reciba unos pocos correos-e al día, o unos "
-"cientos, probablemente querrá organizarlos. Evolution™ tiene las "
-"herramientas para ayudarle."
+"cientos, probablemente querrá organizarlos. Evolution™ tiene las herramientas "
+"para ayudarle a hacerlo."
 
 #: C/evolution.xml:2242(link) C/evolution.xml:2265(title)
 msgid "Importing Your Old E-Mail"
@@ -6874,7 +6847,6 @@ msgid "Any header including custom ones."
 msgstr "Cualquier cabecera, incluyendo las personalizadas."
 
 #: C/evolution.xml:2780(para)
-#, fuzzy
 msgid ""
 "If a message uses a header more than once, Evolution pays attention only to "
 "the first instance, even if the message defines the header differently the "
@@ -7565,7 +7537,6 @@ msgstr ""
 "la parte inferior de la ventana Carpeta de búsqueda nueva."
 
 #: C/evolution.xml:3117(para)
-#, fuzzy
 msgid ""
 "Evolution can check for junk mail for you. Evolution uses SpamAssassin and/ "
 "or Bogofilter with trainable Bayesian filters to perform the spam check. "
@@ -7573,9 +7544,9 @@ msgid ""
 "and hide it from your view. Messages that are flagged as junk mail are "
 "displayed only in the Junk folder."
 msgstr ""
-"Evolution comprueba el correo basura. Evolution usa SpamAssasin* y/o "
-"Bogofilter* con filtros Bayesianos entrenables para realizar la comprobación "
-"de spam. Cuando el software detecta correo que parece ser correo basura, lo "
+"Evolution comprueba el correo basura. Evolution usa SpamAssasin y/o "
+"Bogofilter con filtros Bayesianos entrenables para realizar la comprobación "
+"de SPAM. Cuando el software detecta correo que parece ser correo basura, lo "
 "marcará y ocultará a su vista. Los mensajes marcados como correo basura sólo "
 "se muestran en la carpeta SPAM."
 
@@ -7634,21 +7605,19 @@ msgstr ""
 "mail-options\">Opciones de recepción de correo</link>."
 
 #: C/evolution.xml:3123(para)
-#, fuzzy
 msgid ""
 "SpamAssassin is an application that scan through the mail box to find junk "
 "mails. Evolution uses SpamAssassin as the default spam-filtering "
 "application. For more information, see<ulink url=\"http://spamassassin."
 "apache.org/\"> The Apache SpamAssassin Project</ulink>."
 msgstr ""
-"SpamAssasin* es una aplicación que busca a través del buzón para encontrar "
+"SpamAssasin es una aplicación que busca a través del buzón para encontrar "
 "correo basura. Evolution usa SpamAssasin como la aplicación predeterminada "
 "para filtrar el SPAM. Para obtener más información, consulte <ulink url="
 "\"http://spamassassin.apache.org/\">El proyecto SpamAssasin de Apache</"
 "ulink>."
 
 #: C/evolution.xml:3124(para)
-#, fuzzy
 msgid ""
 "Bogofilter is a mail filter that classifies mail as spam or ham (non-spam) "
 "by a statistical analysis of the message's header and content (body). It is "
@@ -7656,15 +7625,14 @@ msgid ""
 "information on Bogofilter, see <ulink url=\"http://bogofilter.sourceforge."
 "net/\">The Bogofilter site</ulink>."
 msgstr ""
-"Bogofilter* es un filtro de correo que clasifica los correos como SPAM o no "
+"Bogofilter es un filtro de correo que clasifica los correos como SPAM o no "
 "SPAM a través de un análisis estadístico de las cabeceras del mensaje y de "
 "su contenido (el cuerpo). Es capaz de aprender de las clasificaciones y "
 "correcciones del usuario. Para obtener más información acerca de Bogofilter, "
-"consulte el <ulink url=\"http://bogofilter.sourceforge.net/\">sitio de "
+"consulte <ulink url=\"http://bogofilter.sourceforge.net/\">el sitio de "
 "Bogofilter</ulink>."
 
 #: C/evolution.xml:3131(para)
-#, fuzzy
 msgid ""
 "This section shows you how to use the Evolution contacts tool to organize "
 "any amount of contact information, share addresses over a network, and save "
@@ -8268,18 +8236,16 @@ msgstr ""
 "gestionada por una aplicación para listas de correo en un servidor."
 
 #: C/evolution.xml:3439(para)
-#, fuzzy
 msgid ""
 "For example, you could create one card for each family member, then add "
 "those cards to a contact list called “Family.” Then, instead of entering "
 "each person's e-mail address individually, you can send e-mail to “Family” "
 "and the message would go to all of them."
 msgstr ""
-"Por ejemplo, puede crear una tarjeta para cada miembro de su familia, "
-"después añadir esas tarjetas a una lista de contactos llamada «Familia». "
-"Después, en lugar de introducir cada dirección de correo electrónico de cada "
-"persona individualmente, puede enviar un correo electrónico a «Familia» y el "
-"mensaje se enviará a todos ellos."
+"Por ejemplo, puede crear una tarjeta para cada miembro de su familia, después añadir "
+"esas tarjetas a una lista de contactos llamada «Familia». Después, en lugar de introducir "
+"cada dirección de correo electrónico de cada persona individualmente, puede enviar un correo "
+"electrónico a «Familia» y el mensaje se enviará a todos ellos."
 
 #: C/evolution.xml:3440(para)
 msgid "To create a list of contacts:"
@@ -8316,7 +8282,6 @@ msgstr ""
 "mensaje a la lista."
 
 #: C/evolution.xml:3457(para)
-#, fuzzy
 msgid ""
 "Unless it is a very small list, it is recommended that you leave the "
 "addresses hidden. This is the same thing as using the “Bcc:” feature "
@@ -12708,8 +12673,8 @@ msgid ""
 "Evolution™ supports mail connectivity to Hula® servers through IMAP and "
 "calendaring support through CalDAV."
 msgstr ""
-"Evolution™ soporta conectividad de correo en servidores Hula® a través de IMAP "
-"y soporta calendarios a través de CalDAV."
+"Evolution™ soporta conectividad de correo en servidores Hula® a través de "
+"IMAP y soporta calendarios a través de CalDAV."
 
 #: C/evolution.xml:6221(para)
 msgid ""
@@ -13623,8 +13588,9 @@ msgid ""
 "enable the Junk plugins to start filtering junk mail."
 msgstr ""
 "Puede comprobar si el correo entrante es basura usando las herramientas "
-"Bogofilter y SpamAssasin, que tienen filtros bayesianos entrenables. Debe"
-"activar los respectivos complementos de SPAM para activar el filtro de SPAM."
+"Bogofilter y SpamAssasin, que tienen filtros bayesianos entrenables. "
+"Debeactivar los respectivos complementos de SPAM para activar el filtro de "
+"SPAM."
 
 #: C/evolution.xml:6515(para)
 msgid "To enable Junk plugins:"
@@ -13692,9 +13658,9 @@ msgid ""
 "select any option, it also reports if the underlying binary is available or "
 "not."
 msgstr ""
-"Seleccione SpamAssasin o Bogofilter o ambos, como su filtro de correo basura. "
-"Sólo podrá verlos si tiene activados los complementos respectivos. Cuando "
-"seleccione cualquier opción, también le informa si el binario "
+"Seleccione SpamAssasin o Bogofilter o ambos, como su filtro de correo "
+"basura. Sólo podrá verlos si tiene activados los complementos respectivos. "
+"Cuando seleccione cualquier opción, también le informa si el binario "
 "correspondiente está disponible o no."
 
 #: C/evolution.xml:6542(title)
