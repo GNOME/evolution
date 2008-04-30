@@ -1,5 +1,11 @@
 2008-04-30  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #530245
+
+	* searchtypes.xml: Let searches work with labels again.
+
+2008-04-30  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #467892
 
 	* em-folder-view.c: (em_folder_view_open_selected):
