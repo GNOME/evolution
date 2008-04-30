@@ -1,3 +1,13 @@
+2008-04-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #528288
+
+	* e-tree.h: (e_tree_set_info_message):
+	* e-tree.c: (struct ETreePriv), (et_dispose), (e_tree_init),
+	(tree_size_allocate), (e_tree_set_info_message):
+	Allow setting info message into the tree. It doesn't check
+	whether the tree is empty or not, so take care of that.
+
 2008-04-25  Danny Baumann  <dannybaumann@web.de>
 
 	** Fix for bug #529893

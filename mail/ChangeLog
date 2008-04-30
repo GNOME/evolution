@@ -1,5 +1,16 @@
 2008-04-30  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #528288
+
+	* em-folder-browser.c: (emfb_init), (em_folder_browser_show_wide):
+	Ensure minimum size for preview and message list.
+	* em-folder-browser.c: (get_view_query):
+	Distinguish between no filter and custom filter.
+	* message-list.c: (regen_list_done):
+	Set info message to tree when no message shown in a list.
+
+2008-04-30  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #530245
 
 	* searchtypes.xml: Let searches work with labels again.

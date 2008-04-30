@@ -592,8 +592,11 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 	ESearchBar *esb = E_SEARCH_BAR (object);
 
 	switch (property_id) {
-	case PROP_QUERY:
-		if (efb->current_query) {
+	case PROP_QUERY: {
+		char *text = e_search_bar_get_text (E_SEARCH_BAR (efb));
+
+		/* empty search text means searching turned off */
+		if (efb->current_query && text && *text) {
 			GString *out = g_string_new ("");
 
 			filter_rule_build_code (efb->current_query, out);
@@ -602,7 +605,9 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 		} else {
 			g_value_set_string (value, NULL);
 		}
-		break;
+
+		g_free (text);
+		break; }
 	case PROP_STATE: {
 		/* FIXME: we should have ESearchBar save its own state to the xmlDocPtr */
 		xmlChar *xmlbuf;

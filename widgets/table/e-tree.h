@@ -309,6 +309,8 @@ ETableItem *	e_tree_get_item(ETree * et);
 
 GnomeCanvasItem * e_tree_get_header_item(ETree * et);
 
+void e_tree_set_info_message (ETree *tree, const char *info_message);
+
 G_END_DECLS
 
 #endif /* _E_TREE_H_ */

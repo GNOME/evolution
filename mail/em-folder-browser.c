@@ -530,7 +530,7 @@ emfb_init(GObject *o)
 
 	gtk_box_pack_start_defaults((GtkBox *)emfb, emfb->vpane);
 
-	gtk_paned_add1((GtkPaned *)emfb->vpane, (GtkWidget *)emfb->view.list);
+	gtk_paned_pack1 (GTK_PANED (emfb->vpane), GTK_WIDGET (emfb->view.list), FALSE, FALSE);
 	gtk_widget_show((GtkWidget *)emfb->view.list);
 
 	/* currently: just use a scrolledwindow for preview widget */
@@ -544,7 +544,7 @@ emfb_init(GObject *o)
 	gtk_widget_show((GtkWidget *)emfb->view.preview->formathtml.html);
 	gtk_box_pack_start ((GtkBox *)p->preview, p->scroll, TRUE, TRUE, 0);
 	gtk_box_pack_start ((GtkBox *)p->preview, em_format_html_get_search_dialog (emfb->view.preview), FALSE, FALSE, 0);
-	gtk_paned_add2((GtkPaned *)emfb->vpane, p->preview);
+	gtk_paned_pack2 (GTK_PANED (emfb->vpane), p->preview, TRUE, FALSE);
 	gtk_widget_show(p->preview);
 
 	g_signal_connect (((EMFolderView *) emfb)->list->tree, "key_press", G_CALLBACK(emfb_list_key_press), emfb);
@@ -754,6 +754,8 @@ void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 	gtk_widget_reparent((GtkWidget *)emfb->view.list, w);
 	gtk_widget_reparent((GtkWidget *)emfb->priv->preview, w);
 	gtk_widget_destroy(emfb->vpane);
+	gtk_container_child_set (GTK_CONTAINER (w), GTK_WIDGET (emfb->view.list),     "resize", FALSE, "shrink", FALSE, NULL);
+	gtk_container_child_set (GTK_CONTAINER (w), GTK_WIDGET (emfb->priv->preview), "resize", TRUE,  "shrink", FALSE, NULL);
 	gtk_container_resize_children ((GtkContainer *)w);
 	emfb->vpane = w;
 	gtk_widget_show(w);
@@ -868,6 +870,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 
 	switch (id & VIEW_ITEMS_MASK) {
 	case VIEW_ALL_MESSAGES:
+		/* one space indicates no filtering */
 		view_sexp = " ";
 		break;
 
@@ -929,7 +932,8 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		break;
 
 	case VIEW_CUSTOMIZE:
-		view_sexp = " ";
+		/* one space indicates no filtering, so here use two */
+		view_sexp = "  ";
 		break;
 	}
 

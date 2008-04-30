@@ -4095,6 +4095,15 @@ regen_list_done (struct _regen_list_msg *m)
 		}
 	}
 
+	if (message_list_length (m->ml) <= 0) {
+		/* space is used to indicate no search too */
+		if (m->ml->search && strcmp (m->ml->search, " ") != 0)
+			e_tree_set_info_message (m->ml->tree, _("No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."));
+		else
+			e_tree_set_info_message (m->ml->tree, _("There is currently no message in this folder."));
+	} else
+		e_tree_set_info_message (m->ml->tree, NULL);
+
 	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 }
 
@@ -4181,6 +4190,10 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 {
 	struct _regen_list_msg *m;
 	GConfClient *gconf;
+
+	/* report empty search as NULL, not as one/two-space string */
+	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
+		search = NULL;
 
 	if (ml->folder == NULL) {
 		if (ml->search != search) {

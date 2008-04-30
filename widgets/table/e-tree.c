@@ -36,7 +36,9 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-marshal.h"
 #include "misc/e-canvas.h"
+#include "misc/e-canvas-utils.h"
 #include "misc/e-canvas-background.h"
+#include "text/e-text.h"
 
 #include "e-table-column-specification.h"
 #include "e-table-header-item.h"
@@ -138,6 +140,9 @@ struct ETreePriv {
 	int table_row_change_id;
 	int table_cell_change_id;
 	int table_rows_delete_id;
+
+	GnomeCanvasItem *info_text;
+	guint info_text_resize_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 
@@ -421,6 +426,11 @@ et_dispose (GObject *object)
 			g_object_weak_unref (G_OBJECT(et->priv->last_drop_context), context_destroyed, et);
 		et->priv->last_drop_context = NULL;
 
+		if (et->priv->info_text)
+			gtk_object_destroy (GTK_OBJECT (et->priv->info_text));
+		et->priv->info_text = NULL;
+		et->priv->info_text_resize_id = 0;
+
 		gtk_widget_destroy (GTK_WIDGET (et->priv->table_canvas));
 
 		g_free(et->priv);
@@ -596,6 +606,9 @@ e_tree_init (ETree *e_tree)
 	e_tree->priv->selection              = E_SELECTION_MODEL(e_table_selection_model_new());
 #endif
 	e_tree->priv->spec                   = NULL;
+
+	e_tree->priv->info_text              = NULL;
+	e_tree->priv->info_text_resize_id    = 0;
 
 	e_tree->priv->header_canvas          = NULL;
 	e_tree->priv->table_canvas           = NULL;
@@ -3363,3 +3376,61 @@ e_tree_class_init (ETreeClass *class)
 	gal_a11y_e_tree_init ();
 }
 
+static void
+tree_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *tree)
+{
+	double width;
+
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (tree->priv != NULL);
+	g_return_if_fail (tree->priv->info_text != NULL);
+
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (tree->priv->table_canvas), NULL, NULL, &width, NULL);
+
+	width -= 60.0;
+
+	g_object_set (tree->priv->info_text, "width", width, "clip_width", width, NULL);
+}
+
+/**
+ * e_tree_set_info_message:
+ * @tree: #ETree instance
+ * @info_message: Message to set. Can be NULL. 
+ *
+ * Creates an info message in table area, or removes old.
+ **/
+void
+e_tree_set_info_message (ETree *tree, const char *info_message)
+{
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (tree->priv != NULL);
+
+	if (!tree->priv->info_text && (!info_message || !*info_message))
+		return;
+
+	if (!info_message || !*info_message) {
+		g_signal_handler_disconnect (tree, tree->priv->info_text_resize_id);
+		gtk_object_destroy (GTK_OBJECT (tree->priv->info_text));
+		tree->priv->info_text = NULL;
+		return;
+	}
+
+	if (!tree->priv->info_text) {
+		tree->priv->info_text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
+						e_text_get_type (),
+						"anchor", GTK_ANCHOR_NW,
+						"line_wrap", TRUE,
+						"clip", TRUE,
+						"justification", GTK_JUSTIFY_LEFT,
+						"text", info_message,
+						"draw_background", FALSE,
+						"width", (double) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
+						"clip_width", (double) GTK_WIDGET (tree->priv->table_canvas)->allocation.width - 60.0,
+						NULL);
+
+		e_canvas_item_move_absolute (tree->priv->info_text, 30, 30);
+
+		tree->priv->info_text_resize_id = g_signal_connect (tree, "size_allocate", G_CALLBACK (tree_size_allocate), tree);
+	} else
+		gnome_canvas_item_set (tree->priv->info_text, "text", info_message, NULL);
+}
