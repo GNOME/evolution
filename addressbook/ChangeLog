@@ -1,3 +1,12 @@
+2008-04-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #316390
+
+	* gui/widgets/e-addressbook-view.c: (categories_changed_cb),
+	(get_master_list), (eab_view_dispose), (eab_view_new),
+	(search_activated), (make_suboptions):
+	Listen for changes in categories setup and propagate them to UI.
+
 2008-04-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #529768

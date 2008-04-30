@@ -36,7 +36,6 @@
 
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
-#include "e-util/e-config-listener.h"
 #include "e-util/e-util-private.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libedataserver/e-url.h>
@@ -69,8 +68,6 @@ struct _ETasksPrivate {
 
 	ECalView *query;
 
-	EConfigListener *config_listener;
-
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
 	ECalendarTableConfig *tasks_view_config;
@@ -102,7 +99,7 @@ static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 static void update_view (ETasks *tasks);
 
-static void config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data);
+static void categories_changed_cb (gpointer object, gpointer user_data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
 /* Signal IDs */
@@ -620,7 +617,7 @@ setup_widgets (ETasks *tasks)
 			  G_CALLBACK (search_bar_sexp_changed_cb), tasks);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), tasks);
-	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general/category_master_list", tasks);
+	categories_changed_cb (NULL, tasks);
 
 	gtk_table_attach (GTK_TABLE (tasks), priv->search_bar, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0, 0);
@@ -744,7 +741,7 @@ e_tasks_class_init (ETasksClass *class)
 
 
 static void
-config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data)
+categories_changed_cb (gpointer object, gpointer user_data)
 {
 	GList *cat_list;
 	GPtrArray *cat_array;
@@ -775,8 +772,7 @@ e_tasks_init (ETasks *tasks)
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
-	priv->config_listener = e_config_listener_new ();
-	g_signal_connect (priv->config_listener, "key_changed", G_CALLBACK (config_categories_changed_cb), tasks);
+	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), tasks);
 
 	setup_config (tasks);
 	setup_widgets (tasks);
@@ -829,14 +825,7 @@ e_tasks_destroy (GtkObject *object)
 	if (priv) {
 		GList *l;
 
-		/* unset the config listener */
-		if (priv->config_listener) {
-			g_signal_handlers_disconnect_matched (priv->config_listener,
-							      G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, tasks);
-			g_object_unref (priv->config_listener);
-			priv->config_listener = NULL;
-		}
+		e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), tasks);
 
 		/* disconnect from signals on all the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {

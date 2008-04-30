@@ -45,7 +45,6 @@
 #include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-config-listener.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <widgets/menus/gal-view-factory-etable.h>
@@ -102,8 +101,6 @@ struct _GnomeCalendarPrivate {
 	GHashTable *clients[E_CAL_SOURCE_TYPE_LAST];
 	GList *clients_list[E_CAL_SOURCE_TYPE_LAST];
 	ECal *default_client[E_CAL_SOURCE_TYPE_LAST];
-
-	EConfigListener *config_listener;
 
 	/*
 	 * Fields for the calendar view
@@ -1440,7 +1437,7 @@ month_view_adjustment_changed_cb (GtkAdjustment *adjustment, GnomeCalendar *gcal
 }
 
 static void
-config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data)
+categories_changed_cb (gpointer object, gpointer user_data)
 {
 	GList *cat_list;
 	GPtrArray *cat_array;
@@ -1515,7 +1512,7 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (search_bar_sexp_changed_cb), gcal);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), gcal);
-	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general/category_master_list", gcal);
+	categories_changed_cb (NULL, gcal);
 
 	gtk_widget_show (priv->search_bar);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 6);
@@ -1751,8 +1748,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		priv->clients[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
-	priv->config_listener = e_config_listener_new ();
-	g_signal_connect (priv->config_listener, "key_changed", G_CALLBACK (config_categories_changed_cb), gcal);
+	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), gcal);
 
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
@@ -1796,14 +1792,7 @@ gnome_calendar_destroy (GtkObject *object)
 		GList *l;
 		int i;
 
-		/* unset the config listener */
-		if (priv->config_listener) {
-			g_signal_handlers_disconnect_matched (priv->config_listener,
-							      G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, gcal);
-			g_object_unref (priv->config_listener);
-			priv->config_listener = NULL;
-		}
+		e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), gcal);
 
 		/* Clean up the clients */
 		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {

@@ -1,3 +1,16 @@
+2008-04-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #316390
+
+	* calendar/gui/e-memos.c: (struct _EMemosPrivate), (categories_changed_cb),
+	(setup_widgets), (e_memos_init), (e_memos_destroy):
+	* calendar/gui/gnome-cal.c: (struct _GnomeCalendarPrivate), (setup_widgets),
+	(categories_changed_cb), (gnome_calendar_init),
+	(gnome_calendar_destroy):
+	* calendar/gui/e-tasks.c: (struct _ETasksPrivate), (categories_changed_cb),
+	(setup_widgets), (e_tasks_init), (e_tasks_destroy):
+	Listen for changes in categories setup and propagate them to UI.
+
 2008-04-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bnc #363908

@@ -102,11 +102,12 @@ static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_dat
 			   guint info, guint time_stamp, EABView *view);
 static void invisible_destroyed (gpointer data, GObject *where_object_was);
 
+static void categories_changed_cb (gpointer object, gpointer user_data);
 static void make_suboptions             (EABView *view);
 static void query_changed               (ESearchBar *esb, EABView *view);
 static void search_activated            (ESearchBar *esb, EABView *view);
 static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
-static GList *get_master_list (void);
+static GList *get_master_list (gboolean force_rebuild);
 
 #define PARENT_TYPE GTK_TYPE_VBOX
 static GtkVBoxClass *parent_class = NULL;
@@ -315,6 +316,8 @@ eab_view_dispose (GObject *object)
 {
 	EABView *eav = EAB_VIEW(object);
 
+	e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), eav);
+
 	if (eav->model) {
 		g_signal_handlers_disconnect_matched (eav->model,
 						      G_SIGNAL_MATCH_DATA,
@@ -475,6 +478,8 @@ eab_view_new (void)
 	e_search_bar_set_menu ( (ESearchBar *) eav->search, addressbook_search_items);
 	gtk_widget_show (GTK_WIDGET (eav->search));
 	make_suboptions (eav);
+
+	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), eav);
 
 	g_signal_connect (eav->search, "query_changed",
 			  G_CALLBACK (query_changed), eav);
@@ -1403,7 +1408,7 @@ search_activated (ESearchBar *esb, EABView *v)
 		subid = e_search_bar_get_viewitem_id (esb);
 
 		if (subid) {
-			master_list = get_master_list ();
+			master_list = get_master_list (FALSE);
 			category_name = g_list_nth_data (master_list, subid-1);
 			view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
 			search_query = g_strconcat ("(and ", view_sexp, search_query, ")", NULL);
@@ -1496,6 +1501,13 @@ generate_viewoption_menu (EABSearchBarItem *subitems)
 }
 
 static void
+categories_changed_cb (gpointer object, gpointer user_data)
+{
+	get_master_list (TRUE);
+	make_suboptions (user_data);
+}
+
+static void
 make_suboptions (EABView *view)
 {
 	EABSearchBarItem *subitems, *s;
@@ -1503,7 +1515,7 @@ make_suboptions (EABView *view)
 	gint i, N;
 	GtkWidget *menu;
 
-	master_list = get_master_list ();
+	master_list = get_master_list (FALSE);
 	N = g_list_length (master_list);
 	subitems = g_new (EABSearchBarItem, N+2);
 
@@ -1534,9 +1546,14 @@ make_suboptions (EABView *view)
 }
 
 static GList *
-get_master_list (void)
+get_master_list (gboolean force_rebuild)
 {
 	static GList *category_list = NULL;
+
+	if (force_rebuild) {
+		g_list_free (category_list);
+		category_list = NULL;
+	}
 
 	if (category_list == NULL) {
 		GList *l, *p = e_categories_get_list ();
