@@ -3845,6 +3845,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	CamelMessageInfo *info;
 	ETreePath cursor;
 	int i;
+	char *expr = NULL;
 
 	if (m->folder != m->ml->folder)
 		return;
@@ -3858,10 +3859,8 @@ regen_list_exec (struct _regen_list_msg *m)
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability(m->folder)) {
 		/* if we have no search capability, dont let search or hide deleted work */
-		uids = camel_folder_get_uids(m->folder);
+		expr = NULL;
 	} else if (m->hidedel) {
-		char *expr;
-
 		if (m->hidejunk) {
 			if (m->search) {
 				expr = alloca(strlen(m->search) + 92);
@@ -3875,23 +3874,34 @@ regen_list_exec (struct _regen_list_msg *m)
 			} else
 				expr = "(match-all (not (system-flag \"deleted\")))";
 		}
-		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
 	} else {
-		char *expr;
-
 		if (m->hidejunk) {
 			if (m->search) {
 				expr = alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
 			} else
 				expr = "(match-all (not (system-flag \"junk\")))";
-			searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
 		} else {
-			if (m->search)
-				searchuids = uids = camel_folder_search_by_expression (m->folder, m->search, &m->base.ex);
-			else
-				uids = camel_folder_get_uids (m->folder);
+			expr = m->search;
 		}
+	}
+
+	if (expr == NULL) {
+		uids = camel_folder_get_uids (m->folder);
+	} else {
+		char *tmp_expr = NULL;
+
+		/* If m->changes is not NULL, then it means we are called from folder_changed event,
+		   thus we will keep the selected message to be sure it doesn't disappear because
+		   it no longer belong to our search filter. */
+		if (m->changes && m->ml->search && m->ml->cursor_uid) {
+			tmp_expr = g_strdup_printf ("(or %s (match-all (uid \"%s\")))", expr, m->ml->cursor_uid);
+			expr = tmp_expr;
+		}
+
+		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
+
+		g_free (tmp_expr);
 	}
 
 	if (camel_exception_is_set (&m->base.ex))
