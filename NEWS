@@ -1,3 +1,35 @@
+Evolution 2.22.1.1 2008-05-02
+-----------------------------
+
+Bug Fixes:
+	#334444: Add the attachments and draw the bar (Srinivasa Ragavan)
+	#338330: (Novell Bugzilla) Internet Based Calendar Events Are Declined By Evolution/GroupWise (Chenthill Palanisamy)
+	#358644: (Novell Bugzilla) Retracted groupwise appointments should disappear as soon as they are retracted. (Chenthill Palanisamy)
+	#363908: Fix a crash at exit (Srinivasa Ragavan)
+	#368277: Allow copy & paste of email addresses from an appointment to a mail message (Ashish Shrivastava)
+	#378203: Return sanely if the path value is corrupted (Bharath Acharya)
+	#382687: (Novell Bugzilla) Fixed a deadlock when downloading data on a rather loaded system (Srinivasa Ragavan)
+	#451976: Try to find text/html part in multipart/alternative when in normal mode (Milan Crha)
+	#467892: Do not inherit search filters when opening messages in new window (Milan Crha)
+	#502913: Make Always carbon-copy (cc) option work again (Bharath Acharya)
+	#511337: Fixed a crash when simultaneously pressing the "show" preview/arrow button on several very large image attachments in an e-mail. (Milan Crha)
+	#518103: Check online status from NetworkManager at startup instead of using the last-used-state. (James Westby)
+	#523402: Fixed a crash on paste event in calendar (Milan Crha)
+	#524121: Fixed a typo (Milan Crha)
+	#528817: Fix a typo in the logic that caused Exchange Operations disabled on startup (Matthew Barnes)
+	#529375: Look up in local address book for addresses to exclude mail sent by known contacts from junk filtering if said so (Milan Crha)
+	#529893: Properly set type hint on tooltip window. (Danny Baumann)
+	#530245: Let searches work with labels again. (Milan Crha)
+	#530672: Fix Evolution crash when viewing pgp-signed message (Shuai Liu)
+
+Updated Translations:
+	Ilkka Tuohela (fi)
+	Yair Hershkovitz (he)
+	Stanislav Brabec (cs)
+	Leonardo Ferreira Fontenelle (pt_BR)
+	Mark Krapivner (he)
+	Takeshi AIHANA (ja)
+
 Evolution 2.22.1 2008-04-07
 ---------------------------
 
