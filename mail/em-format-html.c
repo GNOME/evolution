@@ -1974,7 +1974,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			part = camel_mime_part_new ();
 			camel_mime_part_set_content ((CamelMimePart *) part, (const char *) face_header_value, face_header_len, "image/png");
 			classid = g_strdup_printf("icon:///em-format-html/face/photo/header");
-			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=64 src=\"%s\"></td>", classid);
+			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=48 src=\"%s\"></td>", classid);
 			em_format_add_puri(emf, sizeof(EMFormatPURI), classid, part, efh_write_image);
 			camel_object_unref(part);
 		}
