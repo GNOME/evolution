@@ -40,7 +40,7 @@
 #include <gtk/gtkprogressbar.h>
 #include <libecal/e-cal.h>
 
-#include <libedataserver/e-dbhash.h>
+#include <libebackend/e-dbhash.h>
 #include <libedataserver/e-xml-hash-utils.h>
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-account-list.h>
