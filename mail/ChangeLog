@@ -1,3 +1,11 @@
+2008-05-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #531426
+
+	* em-format-html.c (efh_format_headers):
+	Display face header images at 48x48 instead of 64x64.
+	Patch from Roland Clobus.
+
 2008-05-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-component.c (mail_component_show_logger):
