@@ -1,3 +1,15 @@
+2008-05-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-component.c (mail_component_show_logger):
+	Fix up the Debug Logs window a bit:
+	- Add a Close button.
+	- Fix some spacing issues (HIG compliance).
+	- Just show the log level icon.  Add a tooltip for the icon showing
+	  a description of the log level (Error/Warning/Debug).  Also, avoid
+	  using e-icon-factory.  Set the GtkCellRendererPixbuf's "stock-id"
+	  and "stock-size" properties instead.
+	- Use GConfBridge to track the user's log level preference.
+
 2008-04-30  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #528288
