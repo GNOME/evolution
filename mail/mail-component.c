@@ -1615,29 +1615,19 @@ append_logs (const char *txt, GtkListStore *store)
 	
 	str = g_strsplit (txt, 	":", 3);
 	if (str[0] && str[1] && str[2]) {
-		int level;
-		time_t time;
-		char *data;
 		GtkTreeIter iter;
 
-		level = atoi (str[0]);
-		time = atol (str[1]);
-		data = strrchr (str[2], '\n');
-		*data = 0;
-		data = str[2];
-		
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter,
-				   COL_LEVEL, level,
-				   COL_TIME, time,
-				   COL_DATA, data,
-				   -1);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			COL_LEVEL, atoi (str[0]),
+			COL_TIME, atol (str[1]),
+			COL_DATA, g_strstrip (str[2]),
+			-1);
 	} else 
-		printf("Unable to decode error log: %s\n", txt);
+		g_printerr ("Unable to decode error log: %s\n", txt);
 	
 	g_strfreev (str);
-		
-
 }
 
 static void
@@ -1768,7 +1758,7 @@ mail_component_show_logger (gpointer top)
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes(
 		GTK_TREE_VIEW (widget), -1, _("Messages"),
-		renderer, "text", COL_DATA, NULL);
+		renderer, "markup", COL_DATA, NULL);
 
 	container = gtk_hbutton_box_new ();
 	gtk_button_box_set_layout (

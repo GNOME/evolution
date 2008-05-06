@@ -1,3 +1,8 @@
+2008-05-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-component.c (mail_component_show_logger):
+	Use the GtkCellRendererText's "markup" property for error messages.
+
 2008-05-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #531426
