@@ -76,6 +76,7 @@
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
+#include <camel/camel-iconv.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-stream-mem.h>
@@ -255,7 +256,7 @@ best_encoding (GByteArray *buf, const gchar *charset)
 	if (!charset)
 		return -1;
 
-	cd = e_iconv_open (charset, "utf-8");
+	cd = camel_iconv_open (charset, "utf-8");
 	if (cd == (iconv_t) -1)
 		return -1;
 
@@ -264,13 +265,13 @@ best_encoding (GByteArray *buf, const gchar *charset)
 	do {
 		out = outbuf;
 		outlen = sizeof (outbuf);
-		status = e_iconv (cd, (const gchar **) &in, &inlen, &out, &outlen);
+		status = camel_iconv (cd, (const gchar **) &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
 			if ((guchar) *ch > 127)
 				count++;
 		}
 	} while (status == (gsize) -1 && errno == E2BIG);
-	e_iconv_close (cd);
+	camel_iconv_close (cd);
 
 	if (status == (gsize) -1 || status > 0)
 		return -1;
@@ -619,7 +620,7 @@ build_message (EMsgComposer *composer,
 		type = camel_content_type_new ("text", "plain");
 		if ((charset = best_charset (data, p->charset, &plain_encoding))) {
 			camel_content_type_set_param (type, "charset", charset);
-			iconv_charset = e_iconv_charset_name (charset);
+			iconv_charset = camel_iconv_charset_name (charset);
 			g_free (charset);
 		}
 	}

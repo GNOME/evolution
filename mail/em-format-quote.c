@@ -26,6 +26,7 @@
 
 #include <string.h>
 
+#include <camel/camel-iconv.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-tohtml.h>
@@ -34,7 +35,6 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-url.h>
 
-#include <libedataserver/e-iconv.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 
@@ -379,7 +379,7 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 
 	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
 	charset = camel_content_type_param (ct, "charset");
-	charset = e_iconv_charset_name (charset);
+	charset = camel_iconv_charset_name (charset);
 
 	/* dump selected headers */
 	h = (EMFormatHeader *) emf->header_list.head;

@@ -40,7 +40,7 @@
 #include <gtk/gtk.h>
 #include <libxml/xmlmemory.h>
 
-#include <libedataserver/e-iconv.h>
+#include <camel/camel-iconv.h>
 
 #include <glib/gi18n.h>
 #include "e-unicode.h"
@@ -260,7 +260,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	obl = ibl * 6;
 
 	while (ibl > 0) {
-		e_iconv (ic, &ib, &ibl, &ob, &obl);
+		camel_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -323,7 +323,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	obl = ibl * 4;
 
 	while (ibl > 0) {
-		e_iconv (ic, &ib, &ibl, &ob, &obl);
+		camel_iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -365,9 +365,9 @@ e_utf8_from_charset_string_sized (const gchar *charset, const gchar *string, gin
 
 	if (!string) return NULL;
 
-	ic = e_iconv_open("utf-8", charset);
+	ic = camel_iconv_open("utf-8", charset);
 	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
-	e_iconv_close(ic);
+	camel_iconv_close(ic);
 
 	return ret;
 }
@@ -387,9 +387,9 @@ e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint 
 
 	if (!string) return NULL;
 
-	ic = e_iconv_open(charset, "utf-8");
+	ic = camel_iconv_open(charset, "utf-8");
 	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
-	e_iconv_close(ic);
+	camel_iconv_close(ic);
 
 	return ret;
 }
@@ -409,9 +409,9 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 
 	if (!string) return NULL;
 
-	ic = e_iconv_open("utf-8", e_iconv_locale_charset());
+	ic = camel_iconv_open("utf-8", camel_iconv_locale_charset());
 	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
-	e_iconv_close(ic);
+	camel_iconv_close(ic);
 
 	return ret;
 }
@@ -431,9 +431,9 @@ e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 
 	if (!string) return NULL;
 
-	ic = e_iconv_open(e_iconv_locale_charset(), "utf-8");
+	ic = camel_iconv_open(camel_iconv_locale_charset(), "utf-8");
 	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
-	e_iconv_close(ic);
+	camel_iconv_close(ic);
 
 	return ret;
 }

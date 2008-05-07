@@ -58,7 +58,6 @@
 
 #include <e-util/e-util.h>
 #include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-iconv.h>
 #include <e-util/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"

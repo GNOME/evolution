@@ -47,6 +47,7 @@
 #include <camel/camel-disco-store.h>
 
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-msgport.h>
 #include "e-util/e-util.h"
 
 #include "mail-mt.h"

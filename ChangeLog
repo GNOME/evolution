@@ -1,3 +1,8 @@
+2008-05-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.2 for camel-iconv.h.
+
 2008-04-30  Rob Bradford  <rob@openedhand.com>
 
 	* configure.in:

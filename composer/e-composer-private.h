@@ -25,7 +25,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libedataserver/e-iconv.h>
+#include <camel/camel-iconv.h>
 
 #include "e-attachment-bar.h"
 #include "e-composer-actions.h"

@@ -1,5 +1,15 @@
 2008-05-06  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #424744
+
+	* em-composer-prefs.c:
+	* em-format-html.c:
+	* em-format-quote.c:
+	* em-mailer-prefs.c:
+	Use camel-iconv.c instead of e-iconv.h (now deprecated).
+
+2008-05-06  Matthew Barnes  <mbarnes@redhat.com>
+
 	* mail-component.c (mail_component_show_logger):
 	Use the GtkCellRendererText's "markup" property for error messages.
 

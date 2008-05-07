@@ -41,7 +41,6 @@
 #undef interface
 #endif
 
-#include <libedataserver/e-iconv.h>
 #include <libedataserver/e-data-server-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-icon-factory.h"
@@ -54,6 +53,7 @@
 
 #include <glib/gi18n.h>
 
+#include <camel/camel-iconv.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-filter.h>
@@ -1847,7 +1847,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
-	charset = e_iconv_charset_name(charset);
+	charset = camel_iconv_charset_name(charset);
 
 	if (!efh->simple_headers)
 		camel_stream_printf(stream,

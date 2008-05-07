@@ -39,10 +39,10 @@
 #include "e-attachment.h"
 #include "e-attachment-bar.h"
 
-#include <libedataserver/e-iconv.h>
 #include <libedataserver/e-data-server-util.h>
 
 #include <camel/camel-data-wrapper.h>
+#include <camel/camel-iconv.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-null.h>
@@ -1086,7 +1086,7 @@ get_default_charset (void)
 
 	g_object_unref (gconf);
 
-	if (!charset && (locale = e_iconv_locale_charset ()))
+	if (!charset && (locale = camel_iconv_locale_charset ()))
 		charset = g_strdup (locale);
 
 	return charset ? charset : g_strdup ("us-ascii");

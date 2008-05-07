@@ -1,3 +1,11 @@
+2008-05-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #424744
+
+	* e-attachment-bar.c:
+	* e-unicode.c:
+	Use camel-iconv.c instead of e-iconv.h (now deprecated).
+
 2008-04-30  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #528288

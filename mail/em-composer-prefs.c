@@ -39,7 +39,8 @@
 
 #include <bonobo/bonobo-generic-factory.h>
 
-#include <libedataserver/e-iconv.h>
+#include <camel/camel-iconv.h>
+
 #include <misc/e-gui-utils.h>
 
 #include <glib/gstdio.h>
@@ -760,7 +761,7 @@ charset_activate (GtkWidget *item,
 	string = e_charset_picker_get_charset (menu);
 
 	if (string == NULL)
-		string = g_strdup (e_iconv_locale_charset ());
+		string = g_strdup (camel_iconv_locale_charset ());
 
 	gconf_client_set_string (
 		client, "/apps/evolution/mail/composer/charset",
@@ -950,7 +951,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	buf = gconf_client_get_string (
 		client, "/apps/evolution/mail/composer/charset", NULL);
 	menu = e_charset_picker_new (
-		buf && *buf ? buf : e_iconv_locale_charset ());
+		buf && *buf ? buf : camel_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (
 		prefs, prefs->charset,

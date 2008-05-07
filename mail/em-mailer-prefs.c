@@ -29,7 +29,7 @@
 #include "em-mailer-prefs.h"
 #include "em-format.h"
 
-#include <libedataserver/e-iconv.h>
+#include <camel/camel-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 #include "misc/e-charset-picker.h"
@@ -909,7 +909,7 @@ charset_activate (GtkWidget *item, EMMailerPrefs *prefs)
 
 	menu = gtk_option_menu_get_menu (prefs->charset);
 	if (!(string = e_charset_picker_get_charset (menu)))
-		string = g_strdup (e_iconv_locale_charset ());
+		string = g_strdup (camel_iconv_locale_charset ());
 
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/charset", string, NULL);
 	g_free (string);
@@ -923,7 +923,7 @@ charset_menu_init (EMMailerPrefs *prefs)
 	char *buf;
 
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/charset", NULL);
-	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
+	menu = e_charset_picker_new (buf && *buf ? buf : camel_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	g_free (buf);
 
