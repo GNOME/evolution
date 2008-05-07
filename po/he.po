@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-30 11:24+0000\n"
+"POT-Creation-Date: 2008-05-05 19:43+0000\n"
 "PO-Revision-Date: 2008-04-12 17:02+0200\n"
 "Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
@@ -73,11 +73,11 @@ msgstr ""
 #: ../a11y/calendar/ea-cal-view-event.c:278
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr ""
+msgstr "אירוע יומן: הסיכום הוא %s."
 
 #: ../a11y/calendar/ea-cal-view-event.c:280
 msgid "Calendar Event: It has no summary."
-msgstr ""
+msgstr "אירוע יומן: אין סיכום."
 
 #: ../a11y/calendar/ea-cal-view-event.c:300
 msgid "calendar view event"
@@ -205,7 +205,7 @@ msgstr "%d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:255
 #: ../calendar/importers/icalendar-importer.c:772
 msgid "Gnome Calendar"
-msgstr ""
+msgstr "יומן Gnome"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
@@ -313,7 +313,7 @@ msgstr "%d %B %Y"
 #: ../a11y/widgets/ea-calendar-item.c:306
 #, c-format
 msgid "Calendar: from %s to %s"
-msgstr ""
+msgstr "יומן: מ-%s ועד %s"
 
 #: ../a11y/widgets/ea-calendar-item.c:341
 #, fuzzy
@@ -368,7 +368,7 @@ msgstr "לא ניתן להזיז איש קשר."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Category editor not available."
-msgstr ""
+msgstr "עורך הקטגוריות לא זמין."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid ""
@@ -383,7 +383,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove addressbook."
-msgstr ""
+msgstr "לא ניתן להסיר ספר כתובות."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid ""
@@ -403,6 +403,7 @@ msgstr "שגיאה בזמן טעינת ספר הכתובות."
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
 msgstr ""
+"שגיאה בשמירת {0} ל-{1}: ‏{2}"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
@@ -502,6 +503,7 @@ msgstr ""
 msgid ""
 "You do not have enough permissions to delete contact in this Address Book."
 msgstr ""
+"אין לך הרשאות מספיקות על מנת למחוק איש קשר מספר כתובות זה."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -555,7 +557,7 @@ msgstr ""
 #: ../addressbook/conduit/address-conduit.c:1319
 #: ../addressbook/conduit/address-conduit.c:1320
 msgid "Could not load addressbook"
-msgstr ""
+msgstr "לא ניתן לטעון ספר כתובות"
 
 #: ../addressbook/conduit/address-conduit.c:1397
 #: ../addressbook/conduit/address-conduit.c:1400
@@ -688,9 +690,8 @@ msgid "Failed upgrading Address Book settings or folders."
 msgstr ""
 
 #: ../addressbook/gui/component/addressbook-config.c:329
-#, fuzzy
 msgid "Base"
-msgstr "הדבק"
+msgstr "בסיס"
 
 #: ../addressbook/gui/component/addressbook-config.c:530
 #: ../calendar/gui/dialogs/calendar-setup.c:172
@@ -854,8 +855,7 @@ msgstr "ניסיון ההזדהות נכשל.\n"
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:516
 #, c-format
 msgid "Enter password for %s (user %s)"
-msgstr ""
-"הכנס סיסמה ל-%s (משתמש %s)"
+msgstr "הכנס סיסמה ל-%s (משתמש %s)"
 
 #: ../addressbook/gui/component/addressbook.c:215
 #: ../calendar/common/authentication.c:51
@@ -1012,23 +1012,20 @@ msgid "SSL encryption"
 msgstr "הצפנת SSL"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
-#, fuzzy
 msgid "Search Filter"
-msgstr "בחר תיקייה"
+msgstr "מסנן חיפוש"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
-msgstr ""
+msgstr "_בסיס חיפוש:""מסנן חיפוש"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "Search _filter:"
-msgstr "בחר תיקייה"
+msgstr "_מסנן חיפוש:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Search filter"
-msgstr "בחר תיקייה"
+msgstr "מסנן חיפוש"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
@@ -1093,6 +1090,7 @@ msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
+"זהו השם המלא של שרת ה-ldap שלך. לדוגמא: \"ldap.mycompany.com\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -2495,7 +2493,7 @@ msgstr "האם איש קשר חדש"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:286
 msgid "Writable Fields"
-msgstr ""
+msgstr "שדות ניתנים לכתיבה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:293
 msgid "Required Fields"
@@ -2711,7 +2709,7 @@ msgstr "<b>חברים</b>"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
 msgid "Contact List Editor"
-msgstr ""
+msgstr "עורף אנשי קשר"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Select..."
@@ -3111,7 +3109,7 @@ msgstr "בן זוג"
 #. different and established translation for this in your language.
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
@@ -3366,7 +3364,7 @@ msgstr "הצלחה"
 #. E_BOOK_ERROR_BUSY
 #: ../addressbook/gui/widgets/eab-gui-util.c:59
 msgid "Backend busy"
-msgstr ""
+msgstr "מנוע עסוק"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: ../addressbook/gui/widgets/eab-gui-util.c:60
@@ -3898,7 +3896,7 @@ msgstr ""
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
 #: ../addressbook/printing/test-print.c:44
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "כל הזכויות שמורות (C) 2000, Ximian, Inc."
+msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
@@ -3988,6 +3986,7 @@ msgid ""
 "'{0}' is a read-only calendar source. Change Calendar to one that can accept "
 "appointments."
 msgstr ""
+"'{0}' הוא מקור יומן לקריאה בלבד. החלף ליומן שיכול לקבל פגישות."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -4011,87 +4010,98 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
+"כל המידע בתזכורות אלה יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
+"כל המידע בתזכורת זאת יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
+"כל המידע בפגישות אלה יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
+"כל המידע במשימות אלה יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"כל המידע בפגישה זאת יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
+"כל המידע בישיבה זאת יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr ""
+"כל המידע בתזכורת זאת יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
+"כל המידע במשימה זאת יימחק ולא יהיה ניתן לשחזור."
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the '{0}' task?"
 msgstr ""
+"למחוק את המשימה '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr ""
+"למחוק את הפגישה '{0}'?" 
 
 #: ../calendar/calendar.error.xml.h:17
 msgid "Are you sure you want to delete the memo '{0}'?"
-msgstr "למחוק את מזכר '{0}'?"
+msgstr ""
+"למחוק את התזכורת '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr ""
+"למחוק את {0} פגישות אלה?"
 
 #: ../calendar/calendar.error.xml.h:19
-#, fuzzy
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr ""
-"אתה בטוח שברצונך\n"
-"למחוק אנשי קשר אלו?"
+"למחוק את {0} תזכורות אלה?"
 
 #: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr ""
+"למחוק את {0} משימות אלה?"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to delete this appointment?"
-msgstr ""
+msgstr "למחוק את פגישה זאת?"
 
 #: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:183
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
-msgstr "אתה בטוח שברצונך למחוק פגישה זו?"
+msgstr "למחוק את ישיבה זאת?"
 
 #: ../calendar/calendar.error.xml.h:23
 #: ../calendar/gui/dialogs/delete-comp.c:189
 #, c-format
 msgid "Are you sure you want to delete this memo?"
-msgstr "למחוק את מזכר זה?"
+msgstr "למחוק את תזכורת זאת?"
 
 #: ../calendar/calendar.error.xml.h:24
 #: ../calendar/gui/dialogs/delete-comp.c:186
 #, c-format
 msgid "Are you sure you want to delete this task?"
-msgstr ""
+msgstr "למחוק את משימה זאת?"
 
 #: ../calendar/calendar.error.xml.h:25
 #, fuzzy
@@ -4114,23 +4124,23 @@ msgid "Cannot create a new event"
 msgstr "צור איש קשר חדש"
 
 #: ../calendar/calendar.error.xml.h:29
-#, fuzzy
 msgid "Cannot save event"
-msgstr "צור איש קשר חדש"
+msgstr "לא ניתן לשמור אירוע"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Delete calendar '{0}'?"
 msgstr ""
+"למחוק את היומן '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:31
-#, fuzzy
 msgid "Delete memo list '{0}'?"
-msgstr "רשימת תפוצה חדשה"
+msgstr ""
+"למחוק את רשימת התזכורות '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:32
-#, fuzzy
 msgid "Delete task list '{0}'?"
-msgstr "רשימת תפוצה חדשה"
+msgstr ""
+"למחוק את רשימת המשימות '{0}'?"
 
 #: ../calendar/calendar.error.xml.h:33
 msgid "Do _not Send"
@@ -4168,9 +4178,8 @@ msgid "Error loading memo list"
 msgstr "שגיאה בטעינת רשימת התיזכורות"
 
 #: ../calendar/calendar.error.xml.h:41
-#, fuzzy
 msgid "Error loading task list"
-msgstr "שגיאה בטעינת %s"
+msgstr "שגיאה בטעינת רשימת המשימות"
 
 #: ../calendar/calendar.error.xml.h:42
 msgid ""
@@ -4368,7 +4377,7 @@ msgstr ""
 #: ../calendar/conduits/todo/todo-conduit.c:1016
 #: ../calendar/conduits/todo/todo-conduit.c:1017
 msgid "Could not start evolution-data-server"
-msgstr ""
+msgstr "לא ניתן להתחיל את evolution-data-server"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1625
 #: ../calendar/conduits/calendar/calendar-conduit.c:1628
@@ -4594,7 +4603,7 @@ msgstr ""
 
 #: ../calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
-msgstr ""
+msgstr "לא ניתן לאתחל את Bonobo"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:152
 msgid ""
@@ -5181,7 +5190,7 @@ msgstr "_מאפיינים"
 
 #: ../calendar/gui/calendar-component.c:939
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "נכשל בשדרוג יומנים."
 
 #: ../calendar/gui/calendar-component.c:1238
 #, c-format
@@ -5272,7 +5281,7 @@ msgstr "הסיכום מכיל"
 
 #: ../calendar/gui/comp-editor-factory.c:405
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "שגיאה בפתיחת היומן"
 
 #: ../calendar/gui/comp-editor-factory.c:411
 msgid "Method not supported when opening the calendar"
@@ -5308,7 +5317,7 @@ msgstr "הוסף התרעה"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Custom _message"
-msgstr ""
+msgstr "הו_דעה מותאמת אישית"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom alarm sound"
@@ -5551,7 +5560,7 @@ msgstr "ה_צג תזכורת"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "הצג _מספרי שבועות בנווט התאריכים"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 #: ../calendar/gui/dialogs/recurrence-page.c:1100
@@ -5653,7 +5662,7 @@ msgstr "_ש"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
 msgid "_Show appointment end times in week and month view"
-msgstr ""
+msgstr "הצג _שעת סיום פגישות בתצוכת חודשים"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
 msgid "_Time divisions:"
@@ -5746,14 +5755,15 @@ msgstr ""
 #: ../calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
 msgstr ""
+"אירוע זה השתנה."
 
 #: ../calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr ""
+msgstr "משימה זאת השתנתה."
 
 #: ../calendar/gui/dialogs/changed-comp.c:92
 msgid "This memo has been changed."
-msgstr ""
+msgstr "תזכורת זאת השתנתה."
 
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
@@ -5802,8 +5812,8 @@ msgstr "הודעה מצורפת - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "הודעה מצורפת"
+msgstr[1] "%d הודעות מצורפות"
 
 #: ../calendar/gui/dialogs/comp-editor.c:456 ../composer/e-msg-composer.c:2010
 #: ../mail/em-folder-tree.c:999 ../mail/em-folder-utils.c:366
@@ -5825,13 +5835,13 @@ msgstr "תצריף"
 
 #: ../calendar/gui/dialogs/comp-editor.c:823
 msgid "Could not update object"
-msgstr ""
+msgstr "לא ניתן לעדכן אובייקט"
 
 #: ../calendar/gui/dialogs/comp-editor.c:973
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
-msgstr[0] "תצריף <b>%d</b>"
+msgstr[0] "תצריף <b>אחד</b>"
 msgstr[1] "<b>%d</b> תצריפים"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1005
@@ -5869,7 +5879,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2227
 #: ../calendar/gui/dialogs/comp-editor.c:2270
 msgid "Edit Appointment"
-msgstr ""
+msgstr "ערוך פגישה"
 
 # c-format
 #: ../calendar/gui/dialogs/comp-editor.c:2233
@@ -5915,7 +5925,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:3052
 msgid "Unable to use current version!"
-msgstr ""
+msgstr "לא ניתן להשתמש בגירסה הנוכחית"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
@@ -5967,19 +5977,19 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr ""
+msgstr "לא ניתן למחוק את האירוע עקב שגיאה"
 
 #: ../calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr ""
+msgstr "לא ניתן למחוק את המשימה עקב שגיאה"
 
 #: ../calendar/gui/dialogs/delete-error.c:92
 msgid "The memo could not be deleted due to an error"
-msgstr ""
+msgstr "לא ניתן למחוק את התזכורת עקב שגיאה"
 
 #: ../calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr ""
+msgstr "לא ניתן למחוק את הפריט עקב שגיאה"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
@@ -6028,11 +6038,11 @@ msgstr "<b>מוזמנים</b>"
 
 #: ../calendar/gui/dialogs/event-page.c:1128
 msgid "Event with no start date"
-msgstr ""
+msgstr "אירוע ללא תאריך התחלה"
 
 #: ../calendar/gui/dialogs/event-page.c:1131
 msgid "Event with no end date"
-msgstr ""
+msgstr "אירוע ללא תאריך סיום"
 
 #: ../calendar/gui/dialogs/event-page.c:1303
 #: ../calendar/gui/dialogs/memo-page.c:734
@@ -6084,28 +6094,28 @@ msgstr "לא ניתן לפתוח את היומן '%s'."
 #: ../calendar/gui/dialogs/task-page.c:1928
 #, c-format
 msgid "You are acting on behalf of %s"
-msgstr ""
+msgstr "אתה פועל בשם %s"
 
 #: ../calendar/gui/dialogs/event-page.c:3053
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "יום אחד לפני הפגישה"
+msgstr[1] "%d ימים לפני הפגישה"
 
 #: ../calendar/gui/dialogs/event-page.c:3059
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "שעה אחת לפני הפגישה"
+msgstr[1] "%d שעות לפני הפגישה"
 
 #: ../calendar/gui/dialogs/event-page.c:3065
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "סוף הפגישה"
-msgstr[1] "סוף הפגישה"
+msgstr[0] "דקה אחת לפני הפגישה"
+msgstr[1] "%d שעות לפני הפגישה"
 
 #: ../calendar/gui/dialogs/event-page.c:3078
 msgid "Customize"
@@ -6184,7 +6194,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.glade.h:21
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:25
 msgid "until"
-msgstr ""
+msgstr "עד"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
@@ -6215,7 +6225,7 @@ msgstr "תזכורת"
 #: ../calendar/gui/dialogs/memo-page.c:952
 #, c-format
 msgid "Unable to open memos in '%s'."
-msgstr ""
+msgstr "לא ניתן לפתוח תזכורות ב-'%s'."
 
 #: ../calendar/gui/dialogs/memo-page.c:1136 ../mail/em-format-html.c:1558
 #: ../mail/em-format-html.c:1616 ../mail/em-format-html.c:1642
@@ -6456,9 +6466,8 @@ msgid "Completed date is wrong"
 msgstr "תאריך הסיום שגוי"
 
 #: ../calendar/gui/dialogs/task-details-page.c:515
-#, fuzzy
 msgid "Web Page"
-msgstr "עמוד"
+msgstr "דף מארג"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous</span>"
@@ -6543,7 +6552,7 @@ msgstr "_עדיפות:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
-msgstr ""
+msgstr "_דף מארג:"
 
 #: ../calendar/gui/dialogs/task-editor.c:426
 #: ../calendar/gui/tasks-component.c:1327
@@ -6562,12 +6571,12 @@ msgstr "_ארגון:"
 
 #: ../calendar/gui/dialogs/task-page.c:866
 msgid "Due date is wrong"
-msgstr ""
+msgstr "תאריך היעד שגוי"
 
 #: ../calendar/gui/dialogs/task-page.c:1885
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr ""
+msgstr "לא ניתן לפתוח משימות ב-'%s'."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:1
 msgid "Atte_ndees..."
@@ -6694,7 +6703,7 @@ msgstr "תיאור:"
 #: ../calendar/gui/e-cal-component-memo-preview.c:235
 #: ../calendar/gui/e-cal-component-preview.c:323
 msgid "Web Page:"
-msgstr ""
+msgstr "דף מארג:"
 
 #: ../calendar/gui/e-cal-component-preview.c:209
 #: ../calendar/gui/e-itip-control.c:1145
@@ -6814,12 +6823,12 @@ msgstr "שמור בשם..."
 
 #: ../calendar/gui/e-cal-popup.c:199 ../mail/em-format-html-display.c:2052
 msgid "Select folder to save selected attachments..."
-msgstr ""
+msgstr "בחר תיקייה למירת התצריפים..."
 
 #: ../calendar/gui/e-cal-popup.c:231 ../mail/em-popup.c:455
 #, c-format
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "תמונה_ללא_שם.%s"
 
 #: ../calendar/gui/e-cal-popup.c:285 ../calendar/gui/e-calendar-table.c:1367
 #: ../calendar/gui/e-calendar-view.c:1686 ../calendar/gui/e-memo-table.c:926
@@ -6894,7 +6903,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.c:954
 #: ../calendar/gui/e-calendar-view.c:809 ../calendar/gui/e-memo-table.c:645
 msgid "Updating objects"
-msgstr ""
+msgstr "מעדכן אובייקטים"
 
 #: ../calendar/gui/e-calendar-table.c:1139
 #: ../calendar/gui/e-calendar-view.c:1235 ../calendar/gui/e-memo-table.c:821
@@ -6909,7 +6918,7 @@ msgstr "משימה _חדשה"
 
 #: ../calendar/gui/e-calendar-table.c:1366 ../calendar/gui/e-memo-table.c:925
 msgid "Open _Web Page"
-msgstr ""
+msgstr "פתח _דף מארג"
 
 #: ../calendar/gui/e-calendar-table.c:1368
 #: ../calendar/gui/e-calendar-view.c:1671 ../calendar/gui/e-memo-table.c:927
@@ -7014,7 +7023,7 @@ msgstr "_פגישה חדשה..."
 
 #: ../calendar/gui/e-calendar-view.c:1666
 msgid "New All Day _Event"
-msgstr ""
+msgstr "_אירוע של כל היום חדש"
 
 #: ../calendar/gui/e-calendar-view.c:1667
 msgid "New _Meeting"
@@ -7052,7 +7061,7 @@ msgstr "_מחק..."
 
 #: ../calendar/gui/e-calendar-view.c:1700
 msgid "_Schedule Meeting..."
-msgstr ""
+msgstr "_קבע ישיבה..."
 
 #: ../calendar/gui/e-calendar-view.c:1701
 msgid "_Forward as iCalendar..."
@@ -7074,7 +7083,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1709 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
-msgstr ""
+msgstr "מחק _מופע זה"
 
 #: ../calendar/gui/e-calendar-view.c:1710
 msgid "Delete _All Occurrences"
@@ -7328,36 +7337,36 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1347
 msgid "Meeting Information"
-msgstr ""
+msgstr "מידע ישיבה"
 
 #: ../calendar/gui/e-itip-control.c:1353
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr ""
+msgstr "‏<b>%s</b> מבקש את הנוכחות של %s בישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1355
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
+msgstr "‏<b>%s</b> מבקש את הנוכחות שלך בישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1356
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "הצעת ישיבה"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1362
 #, c-format
 msgid "<b>%s</b> wishes to be added to an existing meeting."
-msgstr ""
+msgstr "‏<b>%s</b> מבקש להצתרף לישיבה קיימת."
 
 #: ../calendar/gui/e-itip-control.c:1363
 msgid "Meeting Update"
-msgstr ""
+msgstr "עדכון לגבי ישיבה"
 
 #: ../calendar/gui/e-itip-control.c:1367
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
+msgstr "‏<b>%s</b> מבקש לקבל את המידע העדכני ביותר לגבי הישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1368
 msgid "Meeting Update Request"
@@ -7375,7 +7384,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1383
 #, c-format
 msgid "<b>%s</b> has canceled a meeting."
-msgstr ""
+msgstr "‏<b>%s</b> ביטל ישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1384
 msgid "Meeting Cancelation"
@@ -7847,12 +7856,12 @@ msgstr "מוחק את האובייקטים שנבחרו..."
 
 #: ../calendar/gui/e-tasks.c:964
 msgid "Loading tasks"
-msgstr ""
+msgstr "טוען משימות"
 
 #: ../calendar/gui/e-tasks.c:1054
 #, c-format
 msgid "Opening tasks at %s"
-msgstr ""
+msgstr "פותח משימות ב-%s"
 
 #: ../calendar/gui/e-tasks.c:1299
 msgid "Completing tasks..."
@@ -7893,7 +7902,7 @@ msgstr "תצוגת שבוע"
 #: ../calendar/gui/gnome-cal.c:2684
 #, c-format
 msgid "Loading appointments at %s"
-msgstr ""
+msgstr "טוען פגישות ב-%s"
 
 #: ../calendar/gui/gnome-cal.c:2703
 #, c-format
@@ -7901,9 +7910,9 @@ msgid "Loading tasks at %s"
 msgstr "טוען משימות ב-%s"
 
 #: ../calendar/gui/gnome-cal.c:2712
-#, fuzzy, c-format
+#, c-format
 msgid "Loading memos at %s"
-msgstr "מעביר את ההודעות ל%s"
+msgstr "טוען תזכורות ב-%s"
 
 #: ../calendar/gui/gnome-cal.c:2819
 #, c-format
@@ -8436,6 +8445,7 @@ msgstr "פותח יומן"
 #: ../calendar/importers/icalendar-importer.c:444
 msgid "iCalendar files (.ics)"
 msgstr ""
+"קבצי iCalendar ‏(ics.)"
 
 #: ../calendar/importers/icalendar-importer.c:445
 msgid "Evolution iCalendar importer"
@@ -8448,6 +8458,7 @@ msgstr "תזכורת!"
 #: ../calendar/importers/icalendar-importer.c:573
 msgid "vCalendar files (.vcf)"
 msgstr ""
+"קבצי vCalendar ‏(vcf.)"
 
 #: ../calendar/importers/icalendar-importer.c:574
 msgid "Evolution vCalendar importer"
@@ -9009,7 +9020,7 @@ msgstr ""
 
 #: ../calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "אמריקה/צפון_דקוטה/מרכז"
 
 #: ../calendar/zones.h:143
 msgid "America/Panama"
@@ -9073,7 +9084,7 @@ msgstr "אמריקה/סנטיאגו"
 
 #: ../calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "אמריקה/סנטו_דומינגו"
 
 #: ../calendar/zones.h:159
 msgid "America/Sao_Paulo"
@@ -10010,7 +10021,7 @@ msgstr "צ_רף"
 
 #: ../composer/e-composer-actions.c:142
 msgid "Untitled Message"
-msgstr ""
+msgstr "הודעה ללא שם"
 
 #: ../composer/e-composer-actions.c:464 ../ui/evolution-editor.xml.h:15
 msgid "_Attachment..."
@@ -10108,7 +10119,7 @@ msgstr "_חתימת PGP"
 
 #: ../composer/e-composer-actions.c:556
 msgid "Sign this message with your PGP key"
-msgstr ""
+msgstr "חתום על הודעה זאת עם מפתח ה-PGP שלך"
 
 #: ../composer/e-composer-actions.c:562
 #, fuzzy
@@ -10271,7 +10282,7 @@ msgstr ""
 
 #: ../composer/e-composer-private.c:65
 msgid "Recent _Documents"
-msgstr ""
+msgstr "מסמכים _אחרונים"
 
 #: ../composer/e-composer-private.c:173 ../composer/e-msg-composer.c:1557
 msgid "Show _Attachment Bar"
@@ -10487,34 +10498,34 @@ msgstr ""
 
 #: ../e-util/e-print.c:138
 msgid "An error occurred while printing"
-msgstr ""
+msgstr "אירעה שגיאה בזמן ההדפסה"
 
 #: ../e-util/e-print.c:145
 msgid "The printing system reported the following details about the error:"
-msgstr ""
+msgstr "מערכת ההדפסה דיווחה את הפרטים הבאים לגבי השגיאה:"
 
 #: ../e-util/e-print.c:151
 msgid ""
 "The printing system did not report any additional details about the error."
-msgstr ""
+msgstr "מערכת ההדפסה לא דיווחה פרטים נוספים לגבי השגיאה."
 
 #: ../e-util/e-system.error.xml.h:1 ../mail/mail.error.xml.h:19
 msgid "Because \"{1}\"."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:2
-#, fuzzy
 msgid "Cannot open file \"{0}\"."
-msgstr "לא ניתן לפתוח קובץ"
+msgstr ""
+"לא ניתן לפתוח את הקובץ \"{0}\"."
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 msgid "Cannot save file \"{0}\"."
-msgstr "לא ניתן לפתוח קובץ"
+msgstr ""
+"לא ניתן לשמור את הקובץ \"{0}\"."
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
-msgstr ""
+msgstr "להחליף אותו?"
 
 #: ../e-util/e-system.error.xml.h:5
 #, fuzzy
@@ -10568,7 +10579,7 @@ msgstr "הוסף תוית"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
-msgstr ""
+msgstr "שם תווית לא יכול להיות ריק."
 
 #: ../e-util/e-util-labels.c:362
 msgid ""
@@ -10583,7 +10594,7 @@ msgstr "שגיאת GConf: %s"
 
 #: ../e-util/gconf-bridge.c:1228
 msgid "All further errors shown only on terminal."
-msgstr ""
+msgstr "כל השגיאות הנוספות מוצגות במסוף בלבד."
 
 #: ../filter/filter-datespec.c:80
 #, c-format
@@ -10716,7 +10727,7 @@ msgstr "שם החוק_:"
 
 #: ../filter/filter-rule.c:828
 msgid "Find items that meet the following criteria"
-msgstr ""
+msgstr "חפש פריטים שמתאימים לקריטריון הבא"
 
 #: ../filter/filter-rule.c:862
 #, fuzzy
@@ -11070,7 +11081,7 @@ msgstr "שפה/ות"
 
 #: ../mail/em-composer-prefs.c:1031
 msgid "Add signature script"
-msgstr ""
+msgstr "הוסף תסריט חתימה"
 
 #: ../mail/em-composer-prefs.c:1073
 msgid "Signature(s)"
@@ -11078,7 +11089,7 @@ msgstr "חתימה/ות"
 
 #: ../mail/em-composer-utils.c:938 ../mail/em-format-quote.c:413
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "-------- הודעה מועברת --------"
 
 #: ../mail/em-composer-utils.c:1754
 msgid "an unknown sender"
@@ -11099,7 +11110,7 @@ msgstr "-----הודעה מקורית-----"
 
 #: ../mail/em-filter-editor.c:155
 msgid "_Filter Rules"
-msgstr ""
+msgstr "חוקי _מסנן"
 
 #. Automatically generated. Do not edit.
 #: ../mail/em-filter-i18n.h:2
@@ -11452,7 +11463,7 @@ msgstr "חיפוש חשבון"
 
 #: ../mail/em-folder-browser.c:1201
 msgid "All Account Search"
-msgstr ""
+msgstr "חיפוש בכל החשבונות"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:178
@@ -11585,7 +11596,7 @@ msgstr "הע_בר אל תיקייה"
 #: ../mail/em-folder-tree.c:1706 ../mail/mail-ops.c:1056
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr ""
+msgstr "סורק תיקיות ב-\"%s\""
 
 #: ../mail/em-folder-tree.c:2079 ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-editor.xml.h:24 ../ui/evolution-mail-global.xml.h:34
@@ -11659,7 +11670,7 @@ msgstr "ציין היכן ליצור את התיקייה:"
 
 #: ../mail/em-folder-view.c:1097 ../mail/mail.error.xml.h:71
 msgid "Mail Deletion Failed"
-msgstr ""
+msgstr "מחיקת הדואר נכשלה"
 
 #: ../mail/em-folder-view.c:1098 ../mail/mail.error.xml.h:129
 msgid "You do not have sufficient permissions to delete this mail."
@@ -11743,7 +11754,7 @@ msgstr ""
 
 #: ../mail/em-folder-view.c:1373
 msgid "Crea_te Rule From Message"
-msgstr ""
+msgstr "_צור חוק מהודעה"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
 #: ../mail/em-folder-view.c:1375
@@ -11815,7 +11826,7 @@ msgstr "אל כ_תובת זו"
 #: ../mail/em-folder-view.c:3310
 #, c-format
 msgid "Click to mail %s"
-msgstr ""
+msgstr "לחץ כדי לשלוח דואר ל-%s"
 
 #: ../mail/em-folder-view.c:3322
 #, fuzzy, c-format
@@ -11948,7 +11959,7 @@ msgstr "_הצג תעודה"
 
 #: ../mail/em-format-html-display.c:1101
 msgid "This certificate is not viewable"
-msgstr ""
+msgstr "תעודה זאת אינה ניתנת לצפייה"
 
 #: ../mail/em-format-html-display.c:1394
 msgid "Completed on %B %d, %Y, %l:%M %p"
@@ -12168,7 +12179,7 @@ msgstr ""
 
 #: ../mail/em-format.c:1508
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "תצורת חתימה לא נתמכת"
 
 #: ../mail/em-format.c:1516 ../mail/em-format.c:1587
 msgid "Error verifying signature"
@@ -12184,7 +12195,7 @@ msgstr "לא ניתן לפענח הודעת PGP"
 
 #: ../mail/em-format.c:1659
 msgid "Could not parse PGP message: Unknown error"
-msgstr """לא ניתן לפענח הודעת PGP: שגיאה לא ידועה"
+msgstr "לא ניתן לפענח הודעת PGP: שגיאה לא ידועה"
 
 #: ../mail/em-mailer-prefs.c:108
 msgid "Every time"
@@ -13425,40 +13436,45 @@ msgstr "ניפוי"
 msgid "Error, Warnings and Debug messages"
 msgstr "הודעות אזהרה, שגיאה וניפוי"
 
-#: ../mail/mail-component.c:1647
+#: ../mail/mail-component.c:1674
 msgid "Debug Logs"
 msgstr "יומני ניפוי"
 
-#. Translators: This is the first part of the sentence "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1652
+#: ../mail/mail-component.c:1688
 msgid "Show _errors in the status bar for"
 msgstr ""
 
-#. Translators: This is the second part of the sentence "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1660
+#. Translators: This is the second part of the sentence
+#. * "Show _errors in the status bar for" - XXX - "second(s)."
+#: ../mail/mail-component.c:1704
 msgid "second(s)."
 msgstr "שניות."
 
-#: ../mail/mail-component.c:1670
+#: ../mail/mail-component.c:1710
 msgid "Log Messages:"
 msgstr "הודעות יומן:"
 
-#: ../mail/mail-component.c:1722
+#: ../mail/mail-component.c:1751
 msgid "Log Level"
 msgstr "רמת יומן"
 
-#: ../mail/mail-component.c:1729 ../widgets/misc/e-dateedit.c:410
+#: ../mail/mail-component.c:1760 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
 msgstr "שעה"
 
-#: ../mail/mail-component.c:1736 ../mail/message-list.c:2406
+#: ../mail/mail-component.c:1770 ../mail/message-list.c:2406
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "הודעות"
 
+#: ../mail/mail-component.c:1779 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../ui/evolution.xml.h:4
+msgid "Close this window"
+msgstr "סגור חלון זה"
+
 #: ../mail/mail-config.glade.h:1
 msgid " Ch_eck for Supported Types "
-msgstr ""
+msgstr " _בדוק עבור סוגים נתמכים "
 
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
@@ -13549,7 +13565,7 @@ msgstr "<span weight=\"bold\">פרטיות טובה מאוד (PGP/GPG)</span>"
 
 #: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">גופנים מודפסים</span>"
 
 #: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Proxy Settings</span>"
@@ -13669,7 +13685,7 @@ msgstr "_נקה"
 
 #: ../mail/mail-config.glade.h:57
 msgid "Color for _misspelled words:"
-msgstr ""
+msgstr "צבע עבור _שגיאות כתיב:"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
@@ -13700,7 +13716,7 @@ msgstr "קידוד _תווים ברירת המחדל:"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
-msgstr ""
+msgstr "מחק הודעות זבל בי_ציאה"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -13753,6 +13769,7 @@ msgstr "תעודת ה_צפנה:"
 #: ../mail/mail-config.glade.h:82
 msgid "Encrypt out_going messages (by default)"
 msgstr ""
+"הצפן הודעות יוצ_אות (כברירת מחדל)"
 
 #: ../mail/mail-config.glade.h:84
 msgid "Fi_xed-width:"
@@ -13828,7 +13845,7 @@ msgstr "עורך הודעה"
 
 #: ../mail/mail-config.glade.h:106
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "אין _מתווך עבור:"
 
 #: ../mail/mail-config.glade.h:107
 msgid ""
@@ -13847,8 +13864,7 @@ msgstr "_ארגון:"
 
 #: ../mail/mail-config.glade.h:110
 msgid "PGP/GPG _Key ID:"
-msgstr ""
-"מזהה מפתח _PGP/GPG:"
+msgstr "מזהה מפתח _PGP/GPG:"
 
 #: ../mail/mail-config.glade.h:111
 msgid "Pass_word:"
@@ -13928,19 +13944,19 @@ msgstr "גופן _רגיל:"
 
 #: ../mail/mail-config.glade.h:131
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "בחר גופן רוחב קבוע עבור HTML"
 
 #: ../mail/mail-config.glade.h:132
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "בחר גופן רוחב קבוע עבור הדפסת HTML"
 
 #: ../mail/mail-config.glade.h:133
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "בחר גופן רוחב משתנה עבור HTML"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "בחר גופן רוחב משתנה עבור הדפסת HTML"
 
 #: ../mail/mail-config.glade.h:136
 msgid "Sending Mail"
@@ -13959,9 +13975,8 @@ msgid "Server _Type: "
 msgstr "_סוג השרת: "
 
 #: ../mail/mail-config.glade.h:140
-#, fuzzy
 msgid "Sig_ning certificate:"
-msgstr "תעודות"
+msgstr "תעודת _חתימה:"
 
 #: ../mail/mail-config.glade.h:141
 msgid "Signat_ure:"
@@ -14043,7 +14058,7 @@ msgstr "הו_סף חתימה"
 
 #: ../mail/mail-config.glade.h:161
 msgid "_Always load images from the Internet"
-msgstr ""
+msgstr "תמיד _טען תמונות מהאינטרנט"
 
 #: ../mail/mail-config.glade.h:162
 #, fuzzy
@@ -14102,11 +14117,11 @@ msgstr "_נתיב:"
 
 #: ../mail/mail-config.glade.h:177
 msgid "_Prompt when sending HTML messages to contacts that do not want them"
-msgstr ""
+msgstr "_התרע כאשר הודעות HTML נשלחות לאנשי קשר של רוצים אותן"
 
 #: ../mail/mail-config.glade.h:178
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "ה_תרע כאשר הודעות עם נושא ריק נשלחות"
 
 #: ../mail/mail-config.glade.h:179
 msgid "_Reply style:"
@@ -14118,7 +14133,7 @@ msgstr "_תסריט:"
 
 #: ../mail/mail-config.glade.h:181
 msgid "_Secure HTTP Proxy:"
-msgstr ""
+msgstr "_מתווך HTTP מאובטח"
 
 #: ../mail/mail-config.glade.h:182
 msgid "_Select..."
@@ -14183,7 +14198,7 @@ msgstr "כל התיקיות המרוחקות הפעילות"
 
 #: ../mail/mail-dialogs.glade.h:6
 msgid "All local and active remote folders"
-msgstr ""
+msgstr "כל התיקיות המקומיות והתיקיות המרוחקות הפעילות"
 
 #: ../mail/mail-dialogs.glade.h:7
 msgid "All local folders"
@@ -14656,8 +14671,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:24
 msgid "Cannot create folder \"{0}\"."
-msgstr ""
-"לא ניתן ליצור תיקייה \"{0}\"."
+msgstr "לא ניתן ליצור תיקייה \"{0}\"."
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create temporary save directory."
@@ -14669,8 +14683,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:27
 msgid "Cannot delete folder \"{0}\"."
-msgstr ""
-"לא ניתן למחוק תיקייה \"{0}\"."
+msgstr "לא ניתן למחוק תיקייה \"{0}\"."
 
 #: ../mail/mail.error.xml.h:28
 #, fuzzy
@@ -14748,8 +14761,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:44
 msgid "Delete \"{0}\"?"
-msgstr ""
-"למחוק את \"{0}\"?"
+msgstr "למחוק את \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete account?"
@@ -15442,7 +15454,7 @@ msgstr "הפעל מחדש את Evolution"
 
 #: ../plugins/backup-restore/backup.c:48
 msgid "With Graphical User Interface"
-msgstr ""
+msgstr "עם מנשק משתמש גרפי"
 
 #: ../plugins/backup-restore/backup.c:69
 #: ../plugins/backup-restore/backup.c:110
@@ -15451,7 +15463,7 @@ msgstr "מכבה את Evolution"
 
 #: ../plugins/backup-restore/backup.c:74
 msgid "Backing Evolution accounts and settings"
-msgstr ""
+msgstr "גיבוי חשבונות והגדרות Evolution"
 
 #: ../plugins/backup-restore/backup.c:78
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
@@ -15481,7 +15493,7 @@ msgstr "טוען הגדרות Evolution"
 
 #: ../plugins/backup-restore/backup.c:129
 msgid "Removing temporary backup files"
-msgstr ""
+msgstr "מסיר קבצי גיבוי זמניים"
 
 #: ../plugins/backup-restore/backup.c:249
 #, fuzzy, c-format
@@ -15495,9 +15507,8 @@ msgstr "מתנתק מ %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:270
-#, fuzzy
 msgid "Evolution Backup"
-msgstr "אזהרת Evolution"
+msgstr "גיבוי Evolution"
 
 #: ../plugins/backup-restore/backup.c:270
 msgid "Evolution Restore"
@@ -15607,7 +15618,7 @@ msgstr ""
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
-msgstr ""
+msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:114
@@ -15676,18 +15687,16 @@ msgid "Use _SSL"
 msgstr "השתמש ב-_SSL"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
-#, fuzzy
 msgid "CalDAV Calendar sources"
-msgstr "לוחות שנה"
+msgstr "מקורות יומני CalDAV"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
 msgid "CalDAV sources"
 msgstr "מקורות CalDAV"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Calendars"
-msgstr "לוחות שנה"
+msgstr "יומנים מקומיים"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Provides core functionality for local calendars."
@@ -15776,9 +15785,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy tool"
-msgstr "העתק לתיקייה"
+msgstr "כלי העתקה"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -15840,7 +15848,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
-msgstr ""
+msgstr "פתח תיקייה של משתמש אחר"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
@@ -16185,7 +16193,7 @@ msgstr "משתמש"
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:315
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
-msgstr ""
+msgstr "הרשם לתיקייה של משתמש אחר"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
 msgid "Exchange Folder Tree"
@@ -16219,7 +16227,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr ""
+msgstr "<b>הודעת מחוץ למשרד:</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
@@ -16344,14 +16352,12 @@ msgid "<b>Message Settings</b>"
 msgstr "<b>הגדרות הודעה</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Tracking Options</b>"
-msgstr "<b>אפשרויות</b>"
+msgstr "<b>אפשרויות מעקב</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
 msgid "Exchange - Send Options"
-msgstr ""
-"‏Exchange - אפשרויות שליחה"
+msgstr "‏Exchange - אפשרויות שליחה"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
@@ -17104,7 +17110,7 @@ msgstr "<b>שם חשבון</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr ""
+msgstr "כניסת מתווך"
 
 #: ../plugins/groupwise-features/proxy-login.c:220
 #: ../plugins/groupwise-features/proxy-login.c:262
@@ -17118,9 +17124,8 @@ msgstr "%s הכנס סיסמה ל%s (משתמש %s("
 #. * feature by which one person can send/read mails/appointments using another person's identity
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:521
-#, fuzzy
 msgid "_Proxy Login..."
-msgstr "ה_דפס..."
+msgstr "כניסת _מתווך..."
 
 #: ../plugins/groupwise-features/proxy.c:703
 msgid "The Proxy tab will be available only when the account is online."
@@ -21442,10 +21447,6 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:133
 msgid "_Zoom In"
 msgstr ""
-
-#: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
-msgid "Close this window"
-msgstr "סגור חלון זה"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:18
 msgid "Main toolbar"
