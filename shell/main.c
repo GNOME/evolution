@@ -690,6 +690,17 @@ main (int argc, char **argv)
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
 				      NULL);
 
+#ifdef G_OS_WIN32
+	if (strcmp (_(""), "") == 0) {
+		/* No message catalog installed for the current locale language,
+		 * so don't bother with the localisations provided by other things then
+		 * either. Reset thread locale to "en-US" and C library locale to "C".
+		 */
+		SetThreadLocale (MAKELCID (MAKELANGID (LANG_ENGLISH, SUBLANG_ENGLISH_US),
+					   SORT_DEFAULT));
+		setlocale (LC_ALL, "C");
+	}
+#endif
 	if (start_online && start_offline) {
 		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
 			 argv[0], argv[0]);

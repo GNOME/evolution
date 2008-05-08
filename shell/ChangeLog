@@ -1,3 +1,13 @@
+2008-05-08  Tor Lillqvist  <tml@novell.com>
+
+	* main.c (main) [Win32]: If no message catalog is installed for
+	the current locale language, don't bother with the localisations
+	provided by other things then either. Reset thread locale to
+	"en-US" and C library locale to "C" to ensure that. This fixes the
+	problem where those items in the UI that don't originate from
+	message catalogs still appear translated even though message
+	catalogs were not installed.
+
 2008-04-26  James Westby  <jw+debian@jameswestby.net>
 
 	** Fix for bug #518103
