@@ -1,3 +1,10 @@
+2008-05-08  Tor Lillqvist  <tml@novell.com>
+
+	* main.c (main) [Win32]: If no message catalog is installed for
+	the current locale language, don't bother with the localisations
+	provided by other things then either. Reset thread locale to
+	"en-US" and C library locale to "C" to ensure that.
+
 2008-04-29  Akhil Laddha  <lakhil@novell.com>
 
 	** Fix for bug #529660
