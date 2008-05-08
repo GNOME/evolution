@@ -1,3 +1,11 @@
+2008-05-08  Tor Lillqvist  <tml@novell.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c: Include e-util-private.h
+	for the mapping of EVOLUTION_GLADEDIR to a function call on
+	Windows. Construct the glade file pathname at run-time so that it
+	is found also on Windows where we don't use compile-time pathnames
+	at run-time.
+
 2008-05-05  Johan Euphrosine  <proppy@aminche.com>
 
 	* gui/migration.c: Fix include path for e-dbhash.h, now in libebackend.
