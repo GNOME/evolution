@@ -13,8 +13,7 @@ INCLUDES = -I. 						\
 @EVO_PLUGIN_RULE@
 
 plugin_DATA =	\
-	org-gnome-face.eplug	\
-	org-gnome-face-ui.xml  
+	org-gnome-face.eplug
 
 plugin_LTLIBRARIES = liborg-gnome-face.la
 
@@ -36,7 +35,6 @@ errordir = $(privdatadir)/errors
 
 EXTRA_DIST = 						\
 	org-gnome-face.eplug.xml			\
-	org-gnome-face-ui.xml				\
 	$(error_DATA)
 
 BUILT_SOURCES = 				\

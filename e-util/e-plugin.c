@@ -697,6 +697,27 @@ e_plugin_invoke(EPlugin *ep, const char *name, void *data)
 }
 
 /**
+ * e_plugin_get_symbol:
+ * @ep: an #EPlugin
+ * @name: The name of the symbol to fetch. The format of this name
+ * will depend on the EPlugin type and its language conventions.
+ *
+ * Helper to fetch a symbol name from a plugin.
+ *
+ * Return value: the symbol value, or %NULL if not found
+ **/
+void *
+e_plugin_get_symbol(EPlugin *ep, const char *name)
+{
+	EPluginClass *class;
+
+	class = (EPluginClass *) G_OBJECT_GET_CLASS (ep);
+	g_return_val_if_fail (class->get_symbol != NULL, NULL);
+
+	return class->get_symbol (ep, name);
+}
+
+/**
  * e_plugin_enable:
  * @ep:
  * @state:
@@ -927,6 +948,20 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 	return cb(epl, data);
 }
 
+static void *
+epl_get_symbol(EPlugin *ep, const gchar *name)
+{
+	gpointer symbol;
+
+	if (epl_loadmodule(ep) != 0)
+		return NULL;
+
+	if (!g_module_symbol (epl->module, name, &symbol))
+		return NULL;
+
+	return symbol;
+}
+
 static int
 epl_construct(EPlugin *ep, xmlNodePtr root)
 {
@@ -1029,6 +1064,7 @@ epl_class_init(EPluginClass *klass)
 	((GObjectClass *)klass)->finalize = epl_finalise;
 	klass->construct = epl_construct;
 	klass->invoke = epl_invoke;
+	klass->get_symbol = epl_get_symbol;
 	klass->enable = epl_enable;
 	klass->get_configure_widget = epl_get_configure_widget;
 	klass->type = "shlib";

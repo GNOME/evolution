@@ -61,6 +61,7 @@ eutilinclude_HEADERS = 				\
 	e-mktemp.h				\
 	e-print.h				\
 	e-plugin.h				\
+	e-plugin-ui.h				\
 	e-popup.h				\
 	e-profile-event.h			\
 	e-request.h				\
@@ -100,6 +101,7 @@ libeutil_la_SOURCES =				\
 	e-menu.c				\
 	e-mktemp.c				\
 	e-plugin.c				\
+	e-plugin-ui.c				\
 	e-popup.c				\
 	e-print.c				\
 	e-profile-event.c			\

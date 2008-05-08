@@ -33,16 +33,16 @@
 
 #define d(x) x
 
-void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * target);
-int e_plugin_lib_configure (EPlugin * ep);
+gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+						 EMsgComposer *composer);
 
-void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
+static void
+action_face_cb (GtkAction *action,
+                EMsgComposer *composer)
 {
-	EMsgComposer *composer;
 	gchar *filename, *file_contents;
 	GError *error = NULL;
 
-	composer = (EMsgComposer *) t->target.widget;
 	filename = g_build_filename (e_get_user_data_dir (), "faces", NULL);
 	g_file_get_contents (filename, &file_contents, NULL, &error);
 
@@ -116,4 +116,30 @@ void org_gnome_composer_face (EPlugin * ep, EMMenuTargetWidget * t)
 		gtk_widget_destroy (filesel);
 	}
 	e_msg_composer_modify_header (composer, "Face", file_contents);
+}
+
+static GtkActionEntry entries[] = {
+
+	{ "face",
+	  NULL,
+	  N_("_Face"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_face_cb) }
+};
+
+gboolean
+e_plugin_ui_init (GtkUIManager *manager,
+                  EMsgComposer *composer)
+{
+	GtkhtmlEditor *editor;
+
+	editor = GTKHTML_EDITOR (composer);
+
+	/* Add actions to the "composer" action group. */
+	gtk_action_group_add_actions (
+		gtkhtml_editor_get_action_group (editor, "composer"),
+		entries, G_N_ELEMENTS (entries), composer);
+
+	return TRUE;
 }

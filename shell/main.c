@@ -95,6 +95,7 @@
 #include <pthread.h>
 
 #include "e-util/e-plugin.h"
+#include "e-util/e-plugin-ui.h"
 
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
@@ -771,6 +772,7 @@ main (int argc, char **argv)
 #endif
 		e_plugin_hook_register_type(e_plugin_type_hook_get_type());
 		e_plugin_hook_register_type(e_import_hook_get_type());
+		e_plugin_hook_register_type(E_TYPE_PLUGIN_UI_HOOK);
 		e_plugin_load_plugins();
 	}
 

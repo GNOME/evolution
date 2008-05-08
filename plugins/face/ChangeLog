@@ -1,3 +1,19 @@
+2008-05-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #525241 (EPluginUI)
+
+	* Makefile.am:
+	* org-gnome-face-ui.xml:
+	Remove org-gnome-face-ui.xml (obsolete).
+
+	* face.c (e_plugin_ui_init):
+	Initialization callback for EPluginUI.  Adds a "face" action to
+	the EMsgComposer instance's "composer" action group.
+
+	* org-gnome-face.eplug.xml:
+	Replace the "bonobomenu" hook definition with a new one for
+	EPluginUI.  Include the UI definition inline.
+
 2008-03-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #513951

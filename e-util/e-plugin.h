@@ -86,6 +86,7 @@ struct _EPluginClass {
 	const char *type;
 
 	int (*construct)(EPlugin *, xmlNodePtr root);
+	void *(*get_symbol)(EPlugin *, const char *name);
 	void *(*invoke)(EPlugin *, const char *name, void *data);
 	void (*enable)(EPlugin *, int state);
 	GtkWidget *(*get_configure_widget)(EPlugin *);
@@ -100,6 +101,7 @@ GSList * e_plugin_list_plugins(void);
 
 void e_plugin_register_type(GType type);
 
+void *e_plugin_get_symbol(EPlugin *ep, const char *name);
 void *e_plugin_invoke(EPlugin *ep, const char *name, void *data);
 void e_plugin_enable(EPlugin *eph, int state);
 

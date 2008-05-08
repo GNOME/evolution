@@ -1,3 +1,13 @@
+2008-05-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #525241 (EPluginUI)
+
+	* e-msg-composer.c (msg_composer_destroy), (msg_composer_init):
+	Rip out the EMenu logic.
+
+	* e-msg-composer.c (msg_composer_init):
+	Register the GtkUIManager with EPluginUI.
+
 2008-05-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #424744

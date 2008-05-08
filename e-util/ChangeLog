@@ -1,3 +1,26 @@
+2008-05-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #525241 (EPluginUI)
+
+	* Makefile.am:
+	Add e-plugin-ui.[ch].
+
+	* e-plugin.h (EPluginClass):
+	Add a "get_symbol" method for extracting arbitrary symbols
+	from an EPlugin.  Implementation of the method is optional.
+
+	* e-plugin.c (e_plugin_get_symbol):
+	New function invokes the new "get_symbol" EPlugin method.
+
+	* e-plugin.c (epl_get_symbol):
+	New function implements the new "get_symbol" EPlugin method.
+	It extracts the given symbol name from the GModule.
+
+	* e-plugin-ui.[ch]:
+	New EPluginHook subclass that allows plugins to extend menus,
+	toolbars, and popups that are managed by GtkUIManager instead
+	of BonoboUI.  Should eventually replace EMenu/EPopup.
+
 2008-04-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #529254

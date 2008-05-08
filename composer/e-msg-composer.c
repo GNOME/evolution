@@ -69,6 +69,7 @@
 #include "misc/e-charset-picker.h"
 #include "misc/e-expander.h"
 #include "e-util/e-error.h"
+#include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 #include <mail/em-event.h>
@@ -2183,14 +2184,6 @@ msg_composer_destroy (GtkObject *object)
 
 	all_composers = g_slist_remove (all_composers, object);
 
-#if 0 /* GTKHTML-EDITOR */
-	if (composer->priv->menu) {
-		e_menu_update_target ((EMenu *)composer->priv->menu, NULL);
-		g_object_unref (composer->priv->menu);
-		composer->priv->menu = NULL;
-	}
-#endif
-
 	if (composer->priv->address_dialog != NULL) {
 		gtk_widget_destroy (composer->priv->address_dialog);
 		composer->priv->address_dialog = NULL;
@@ -2724,17 +2717,18 @@ static void
 msg_composer_init (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
-#if 0 /* GTKHTML-EDITOR */
-	EMMenuTargetWidget *target;
-#endif
+	GtkUIManager *manager;
+	GtkhtmlEditor *editor;
 	GtkHTML *html;
 
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
 	e_composer_private_init (composer);
 
+	editor = GTKHTML_EDITOR (composer);
+	html = gtkhtml_editor_get_html (editor);
+	manager = gtkhtml_editor_get_ui_manager (editor);
 	all_composers = g_slist_prepend (all_composers, composer);
-	html = gtkhtml_editor_get_html (GTKHTML_EDITOR (composer));
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
@@ -2750,24 +2744,6 @@ msg_composer_init (EMsgComposer *composer)
 	g_signal_connect (
 		html, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received), NULL);
-
-	/* Plugin Support */
-
-#if 0 /* GTKHTML-EDITOR */
-	/** @HookPoint-EMMenu: Main Mail Menu
-	 * @Id: org.gnome.evolution.mail.composer
-	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
-	 * @Target: EMMenuTargetWidget
-	 *
-	 * The main menu of the composer window.  The widget of the
-	 * target will point to the EMsgComposer object.
-	 */
-	composer->priv->menu = em_menu_new ("org.gnome.evolution.mail.composer");
-	target = em_menu_target_new_widget (p->menu, (GtkWidget *)composer);
-	e_menu_update_target ((EMenu *)p->menu, target);
-	e_menu_activate ((EMenu *)p->menu, p->uic, TRUE);
-
-#endif
 
 	/* Configure Headers */
 
@@ -2824,7 +2800,10 @@ msg_composer_init (EMsgComposer *composer)
 	e_composer_autosave_register (composer);
 
 	/* Initialization may have tripped the "changed" state. */
-	gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), FALSE);
+	gtkhtml_editor_set_changed (editor, FALSE);
+
+	e_plugin_ui_register_manager (
+		"org.gnome.evolution.composer", manager, composer);
 }
 
 GType
