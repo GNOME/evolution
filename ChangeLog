@@ -1,3 +1,11 @@
+2008-05-08  Tor Lillqvist  <tml@novell.com>
+
+	* evolution-zip.in: Include the whole etc/gconf/gconf.xml.defaults
+	tree. The intent is to do "make install" to a temporary empty
+	folder anyway, so there won't be any extra stuff in there. It is
+	essential to get all the empty %gconf.xml files, also from the
+	gconf.xml.defaults/apps folder.
+
 2008-05-02  Johnny Jacob  <jjohnny@novell.com>
 
 	* NEWS, configure.in: Evolution 2.22.1.1 release
