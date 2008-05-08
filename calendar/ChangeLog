@@ -1,3 +1,11 @@
+2008-05-08  Tor Lillqvist  <tml@novell.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c: Include e-util-private.h
+	for the mapping of EVOLUTION_GLADEDIR to a function call on
+	Windows. Construct the glade file pathname at run-time so that it
+	is found also on Windows where we don't use compile-time pathnames
+	at run-time.
+
 2008-04-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bnc #363908
