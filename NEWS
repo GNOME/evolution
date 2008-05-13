@@ -1,3 +1,47 @@
+Evolution 2.23.2 2008-05-12
+---------------------------
+
+Bug Fixes:
+	#240823: Send notification only to individuals and groups (Milan Crha)
+	#273041: Allow propagation of the error from the plugin in the hook target (Milan Crha)
+	#316390: Listen for changes in categories setup and propagate them to UI (Milan Crha)
+	#338330: Internet based calendar events are declined by Evolution/GroupWise (Chenthill Palanisamy)
+	#358644: (Novell Bugzilla) Retracted groupwise appointments should disappear as soon as they are retracted. (Chenthill Palanisamy)
+	#363908: Evolution crashed during exit (Srinivasa Ragavan)
+	#368277: (Novell Bugzilla) Cannot copy and paste email addresses from an appointment to a mail message (Ashish Shrivastava)
+	#382687: Don't download contents in main thread, which causes deadlock (Srinivasa Ragavan)
+	#424744: Remove Camel's dependency on libedataserver (Matthew Barnes)
+	#467892: "Unread Messages" causes mail that you read to disappear (Milan Crha)
+	#511337: Fix a crash when simultaneously pressing the "show" preview/arrow button on several very large image attachments in an e-mail (Milan Crha)
+	#518103: Check online status from NetworkManager at startup instead of using the last-used-state. (James Westby)
+	#524121: Fixing typo from patch for bug #516408 (Milan Crha)
+	#525241: Extend EPlugin to support GtkUIManager (Matthew Barnes)
+	#528288: Display warning when starting in search view & no messages displayed (Milan Crha)
+	#529179: Rebuild search menu rather on idle, then immediately after the change in gconf, because other parts may not have this change propagated yet (Milan Crha)
+	#529247: Fix theming issue with HTML mail display (Johan Euphrosine)
+	#529254: Handle either URI or filename. Return success or failure, not gint (Milan Crha)
+	#529375: Add new option to determine whether check for address in a local address book only (Milan Crha)
+	#529660: Change stable version to 2.22.1 (Akhil Laddha)
+	#529768: Setup default callbacks for the newly created EMsgComposer widget (Matthew Barnes)
+	#529855: Use proper label element name, these are localized by default (Milan Crha)
+	#529893: Properly set type hint on tooltip window (Danny Baumann)
+	#530245: Let searches work with labels again (Milan Crha)
+	#530576: Link with libebackend (Rob Bradford)
+	#530672: Evolution crashes when viewing pgp-signed message (Shuai Liu)
+	#531426: Display face header images at 48x48 instead of 64x64 (Roland Clobus)
+	#531519: Evolution crashes on print-preview (Srinivasa Ragavan)
+
+Other Contributors:
+	Fix up the Debug Logs window a bit (Matthew Barnes)
+	Fix include path for e-dbhash.h, now in libebackend (Johan Euphrosine)
+
+Updated Translations:
+	Tino Meinen (nl)
+	Yair Hershkovitz (he)
+	Kjartan Maraas (nb)
+	Jorge Gonzalez (es)
+	Yannig Marchegay (oc)
+
 Evolution 2.23.1 2008-04-21
 ---------------------------
 
