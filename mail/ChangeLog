@@ -1,3 +1,10 @@
+2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #463040, Patch by Milan Crha
+
+	* em-folder-browser.c (emfb_list_message_selectedi), (emfb_set_folder):
+	Forget former selected uid as soon as we know we moved to other.
+
 2008-05-09  Sankar P  <psankar@novell.com>
 
 	** Fix for bug #531519

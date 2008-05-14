@@ -1356,6 +1356,8 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 
 	camel_object_meta_set (emfv->folder, "evolution:selected_uid", uid);
 	camel_object_state_write (emfv->folder);
+	g_free (emfb->priv->select_uid);
+	emfb->priv->select_uid = NULL;
 }
 
 /* ********************************************************************** */
@@ -2017,6 +2019,8 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			if (camel_object_meta_set(emfv->folder, "evolution:show_preview", "0") &&
 			    camel_object_meta_set(emfv->folder, "evolution:selected_uid", NULL)) {
 				camel_object_state_write(emfv->folder);
+				g_free (emfb->priv->select_uid);
+				emfb->priv->select_uid = NULL;
 			}
 			gconf_client_set_bool (gconf, "/apps/evolution/mail/display/safe_list", FALSE, NULL);
 		}
@@ -2085,6 +2089,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		/* set the query manually, so we dont pop up advanced or saved search stuff */
 
 		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid"))) {
+			g_free (emfb->priv->select_uid);
 			emfb->priv->select_uid = sstate;
 		} else {
 			g_free(p->select_uid);
