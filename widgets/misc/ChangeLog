@@ -1,3 +1,12 @@
+2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #311042, Patch by Milan Crha
+
+	* e-info-label.c: (el_size_allocate), (el_class_init),
+	(e_info_label_set_info), (get_text_full_width): Allocate size for
+	location and info labels differently, than GtkHBox does, to be able
+	to minimize it as much as possible and do not waste empty space.
+
 2008-04-25  Danny Baumann  <dannybaumann@web.de>
 
 	** Fix for bug #529893
