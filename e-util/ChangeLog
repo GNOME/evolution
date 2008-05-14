@@ -1,3 +1,14 @@
+2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #531592
+
+	* e-error.c (ee_build_label):
+	Add an 'escape_args' parameter for strings that should /not/ be
+	escaped, such as window titles and status bar messages.
+
+	* e-error.c (e_error_newv):
+	Pass an appropriate 'escape_args' value to ee_build_label().
+
 2008-04-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #528817
