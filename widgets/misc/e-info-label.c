@@ -69,6 +69,78 @@ el_expose_event(GtkWidget *w, GdkEventExpose *event)
 	return ((GtkWidgetClass *)el_parent)->expose_event(w, event);
 }
 
+static int
+get_text_full_width (GtkWidget *label)
+{
+	PangoLayout *layout;
+	PangoRectangle rect;
+	int width;
+
+	g_return_val_if_fail (GTK_IS_LABEL (label), 0);
+
+	layout = gtk_label_get_layout (GTK_LABEL (label));
+
+	if (!layout)
+		return 0;
+
+	width = pango_layout_get_width (layout);
+	pango_layout_set_width (layout, -1);
+	pango_layout_get_extents (layout, NULL, &rect);
+	pango_layout_set_width (layout, width);
+
+	return PANGO_PIXELS (rect.width);
+}
+
+static void
+el_size_allocate (GtkWidget *widget, GtkAllocation *pallocation)
+{
+	EInfoLabel *el;
+	GtkAllocation allocation;
+	int full_loc, full_nfo;
+	gint diff;
+
+	/* let calculate parent class first, and then just make it not divide evenly */
+	((GtkWidgetClass *)el_parent)->size_allocate (widget, pallocation);
+
+	g_return_if_fail (widget!= NULL);
+
+	el = (EInfoLabel*) widget;
+
+	if (!el->location)
+		return;
+
+	full_loc = get_text_full_width (el->location) + 1;
+	full_nfo = get_text_full_width (el->info) + 1;
+
+	/* do not know the width of text, thus return */
+	if (full_loc == 1 && full_nfo == 1)
+		return;
+
+	if (el->location->allocation.width + el->info->allocation.width >= full_loc + full_nfo) {
+		/* allocate for location only as many pixels as it requires to not ellipsize
+		   and keep rest for the info part */
+		diff = el->location->allocation.width - full_loc;
+	} else {
+		/* make both shorter, but based on the ratio of its full widths */
+		gint total_have = el->location->allocation.width + el->info->allocation.width;
+		gint total_full = full_loc + full_nfo;
+
+		diff = el->location->allocation.width - full_loc * total_have / total_full;
+	}
+
+	if (!diff)
+		return;
+
+	allocation = el->location->allocation;
+	allocation.width -= diff;
+	gtk_widget_size_allocate (el->location, &allocation);
+
+	allocation = el->info->allocation;
+	allocation.x -= diff;
+	allocation.width += diff;
+	gtk_widget_size_allocate (el->info, &allocation);
+}
+
 static void
 el_class_init(GObjectClass *klass)
 {
@@ -76,6 +148,7 @@ el_class_init(GObjectClass *klass)
 
 	((GtkObjectClass *)klass)->destroy = el_destroy;
 	((GtkWidgetClass *)klass)->expose_event = el_expose_event;
+	((GtkWidgetClass *)klass)->size_allocate = el_size_allocate;
 }
 
 GType
@@ -147,11 +220,12 @@ e_info_label_set_info(EInfoLabel *el, const char *location, const char *info)
 		el->location = gtk_label_new (NULL);
 		el->info = gtk_label_new (NULL);
 
-		gtk_label_set_ellipsize (
-			GTK_LABEL (el->location), PANGO_ELLIPSIZE_END);
+		gtk_label_set_ellipsize (GTK_LABEL (el->location), PANGO_ELLIPSIZE_END);
 		gtk_misc_set_alignment (GTK_MISC (el->location), 0.0, 0.0);
 		gtk_misc_set_padding (GTK_MISC (el->location), 0, 6);
-		gtk_misc_set_alignment (GTK_MISC (el->info), 0.0, 1.0);
+
+		gtk_label_set_ellipsize (GTK_LABEL (el->info), PANGO_ELLIPSIZE_MIDDLE);
+		gtk_misc_set_alignment (GTK_MISC (el->info), 1.0, 1.0);
 		gtk_misc_set_padding (GTK_MISC (el->info), 0, 6);
 
 		gtk_widget_show (el->location);
@@ -162,7 +236,7 @@ e_info_label_set_info(EInfoLabel *el, const char *location, const char *info)
 			TRUE, TRUE, 0);
 		gtk_box_pack_end (
 			GTK_BOX (el), GTK_WIDGET (el->info),
-			FALSE, TRUE, 6);
+			TRUE, TRUE, 6);
 		gtk_widget_set_state (GTK_WIDGET (el), GTK_STATE_ACTIVE);
 	}
 
