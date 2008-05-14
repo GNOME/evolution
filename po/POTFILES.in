@@ -322,7 +322,6 @@ plugins/external-editor/org-gnome-external-editor-errors.xml
 plugins/external-editor/org-gnome-external-editor.xml
 plugins/external-editor/external-editor.c
 plugins/face/face.c
-plugins/face/org-gnome-face-ui.xml
 plugins/face/org-gnome-face.eplug.xml
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml

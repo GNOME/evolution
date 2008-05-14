@@ -4,11 +4,12 @@
 # Terance Edward Sola <terance@lyse.net>, 2005.
 #
 #
+#: ../shell/main.c:695
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.23.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-06 18:25+0200\n"
+"POT-Creation-Date: 2008-05-14 14:59+0200\n"
 "PO-Revision-Date: 2008-05-06 18:30+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
@@ -660,7 +661,7 @@ msgstr "På denne datamaskinen"
 #: ../calendar/gui/calendar-component.c:248
 #: ../calendar/gui/memos-component.c:209 ../calendar/gui/migration.c:490
 #: ../calendar/gui/migration.c:590 ../calendar/gui/migration.c:1104
-#: ../calendar/gui/tasks-component.c:205 ../mail/em-migrate.c:1056
+#: ../calendar/gui/tasks-component.c:205 ../mail/em-migrate.c:1055
 msgid "Personal"
 msgstr "Personlig"
 
@@ -763,12 +764,12 @@ msgid "Address Book Properties"
 msgstr "Egenskaper for adressebok"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
-#: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1203
+#: ../calendar/gui/migration.c:153 ../mail/em-migrate.c:1202
 msgid "Migrating..."
 msgstr "Migrerer..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
-#: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1244
+#: ../calendar/gui/migration.c:200 ../mail/em-migrate.c:1243
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Migrerer «%s»:"
@@ -1341,7 +1342,7 @@ msgstr "Telefon"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:201
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:643
-#: ../mail/em-migrate.c:1055
+#: ../mail/em-migrate.c:1054
 msgid "Work"
 msgstr "Arbeid"
 
@@ -2986,7 +2987,7 @@ msgstr "Klipp u_t"
 #: ../calendar/gui/dialogs/comp-editor.c:455
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1692 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:2009 ../mail/em-folder-tree.c:998
+#: ../composer/e-msg-composer.c:2011 ../mail/em-folder-tree.c:998
 #: ../mail/em-folder-view.c:1332 ../mail/message-list.c:2065
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-editor.xml.h:17 ../ui/evolution-mail-message.xml.h:104
@@ -4590,13 +4591,13 @@ msgstr "_Oppgaver"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Tjeneste for alarm-meldinger i Evolution kalender"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:112
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:113
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minutt"
 msgstr[1] "minutter"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:127
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:128
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
@@ -4608,7 +4609,7 @@ msgid_plural "hours"
 msgstr[0] "timer"
 msgstr[1] "timer"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:277
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:284
 msgid "Start time"
 msgstr "Starttid:"
 
@@ -5294,7 +5295,7 @@ msgstr "_Kopier..."
 #: ../calendar/gui/calendar-component.c:612
 #: ../calendar/gui/dialogs/comp-editor.c:1128
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:1045 ../mail/em-folder-tree.c:2101
+#: ../composer/e-msg-composer.c:1047 ../mail/em-folder-tree.c:2101
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "Egenska_per..."
@@ -5919,21 +5920,21 @@ msgstr "Vedlagt melding - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:212
-#: ../calendar/gui/dialogs/comp-editor.c:385 ../composer/e-msg-composer.c:1723
-#: ../composer/e-msg-composer.c:1942
+#: ../calendar/gui/dialogs/comp-editor.c:385 ../composer/e-msg-composer.c:1725
+#: ../composer/e-msg-composer.c:1944
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Vedlagt melding"
 msgstr[1] "%d vedlagte meldinger"
 
-#: ../calendar/gui/dialogs/comp-editor.c:456 ../composer/e-msg-composer.c:2010
+#: ../calendar/gui/dialogs/comp-editor.c:456 ../composer/e-msg-composer.c:2012
 #: ../mail/em-folder-tree.c:999 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1193 ../mail/message-list.c:2066
 msgid "_Move"
 msgstr "_Flytt"
 
-#: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:2012
+#: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:2014
 #: ../mail/em-folder-tree.c:1001 ../mail/message-list.c:2068
 msgid "Cancel _Drag"
 msgstr "Avbryt _draoperasjon"
@@ -5967,7 +5968,7 @@ msgstr "Vis ve_dleggsfelt"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1127
 #: ../calendar/gui/dialogs/event-page.c:1967
-#: ../calendar/gui/dialogs/task-page.c:1266 ../composer/e-msg-composer.c:1044
+#: ../calendar/gui/dialogs/task-page.c:1266 ../composer/e-msg-composer.c:1046
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:21
@@ -5975,7 +5976,7 @@ msgid "_Remove"
 msgstr "Fje_rn"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1130
-#: ../composer/e-msg-composer.c:1047
+#: ../composer/e-msg-composer.c:1049
 msgid "_Add attachment..."
 msgstr "_Legg til vedlegg..."
 
@@ -10397,18 +10398,18 @@ msgstr "Klikk her for å velge mapper å poste til"
 msgid "Recent _Documents"
 msgstr "Siste _dokumenter"
 
-#: ../composer/e-composer-private.c:173 ../composer/e-msg-composer.c:1557
+#: ../composer/e-composer-private.c:173 ../composer/e-msg-composer.c:1559
 msgid "Show _Attachment Bar"
 msgstr "Vis ve_dleggsfelt"
 
-#: ../composer/e-msg-composer.c:871
+#: ../composer/e-msg-composer.c:873
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Kan ikke signere utgående melding: Ingen sertifikat for signering satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:878
+#: ../composer/e-msg-composer.c:880
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -10416,7 +10417,7 @@ msgstr ""
 "Kan ikke kryptere utgående melding: Sertifikat for kryptering ikke satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:1499 ../mail/em-format-html-display.c:1936
+#: ../composer/e-msg-composer.c:1501 ../mail/em-format-html-display.c:1936
 #: ../mail/em-format-html-display.c:2426 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -10424,15 +10425,15 @@ msgid_plural "Attachments"
 msgstr[0] "Vedlegg"
 msgstr[1] "Vedlegg"
 
-#: ../composer/e-msg-composer.c:1555
+#: ../composer/e-msg-composer.c:1557
 msgid "Hide _Attachment Bar"
 msgstr "Skjul ve_dleggsfelt"
 
-#: ../composer/e-msg-composer.c:1572 ../composer/e-msg-composer.c:2739
+#: ../composer/e-msg-composer.c:1574 ../composer/e-msg-composer.c:2734
 msgid "Compose Message"
 msgstr "Skriv melding"
 
-#: ../composer/e-msg-composer.c:4029
+#: ../composer/e-msg-composer.c:4009
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10581,7 +10582,7 @@ msgstr "Du må konfigurere en konto før du kan skrive meldinger."
 msgid "_Do not Recover"
 msgstr "Ikke _gjenopprett"
 
-#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:317
+#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:318
 msgid "_Recover"
 msgstr "Gjenopp_rett"
 
@@ -11197,7 +11198,7 @@ msgstr "Evolution kontoassistent"
 msgid "[Default]"
 msgstr "[Forvalg]"
 
-#: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:978
+#: ../mail/em-account-prefs.c:489 ../mail/em-composer-prefs.c:979
 #: ../plugins/plugin-manager/plugin-manager.c:331
 #: ../plugins/publish-calendar/publish-calendar.c:689
 msgid "Enabled"
@@ -11211,20 +11212,20 @@ msgstr "Kontonavn"
 msgid "Protocol"
 msgstr "Protokoll"
 
-#: ../mail/em-composer-prefs.c:299 ../mail/em-composer-prefs.c:434
+#: ../mail/em-composer-prefs.c:300 ../mail/em-composer-prefs.c:435
 #: ../mail/mail-config.c:1117 ../mail/mail-signature-editor.c:478
 msgid "Unnamed"
 msgstr "Uten navn"
 
-#: ../mail/em-composer-prefs.c:982
+#: ../mail/em-composer-prefs.c:983
 msgid "Language(s)"
 msgstr "Språk"
 
-#: ../mail/em-composer-prefs.c:1031
+#: ../mail/em-composer-prefs.c:1032
 msgid "Add signature script"
 msgstr "Legg til signaturskript"
 
-#: ../mail/em-composer-prefs.c:1073
+#: ../mail/em-composer-prefs.c:1074
 msgid "Signature(s)"
 msgstr "Signatur(er)"
 
@@ -11368,7 +11369,7 @@ msgstr "Uttrykk"
 msgid "Follow Up"
 msgstr "Følg opp"
 
-#: ../mail/em-filter-i18n.h:29 ../mail/em-migrate.c:1054
+#: ../mail/em-filter-i18n.h:29 ../mail/em-migrate.c:1053
 msgid "Important"
 msgstr "Viktig"
 
@@ -12403,16 +12404,16 @@ msgid "No Junk plugin available"
 msgstr "Ingen tillegg for uønsket e-post tilgjengelig"
 
 #. green
-#: ../mail/em-migrate.c:1057
+#: ../mail/em-migrate.c:1056
 msgid "To Do"
 msgstr "Oppgaver"
 
 #. blue
-#: ../mail/em-migrate.c:1058
+#: ../mail/em-migrate.c:1057
 msgid "Later"
 msgstr "Senere"
 
-#: ../mail/em-migrate.c:1211
+#: ../mail/em-migrate.c:1210
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
@@ -12424,50 +12425,50 @@ msgstr ""
 "\n"
 "Vennligst vent mens Evolution migrere dine mapper..."
 
-#: ../mail/em-migrate.c:1650
+#: ../mail/em-migrate.c:1649
 #, c-format
 msgid "Unable to create new folder `%s': %s"
 msgstr "Kan ikke opprette ny mappe «%s»: %s"
 
-#: ../mail/em-migrate.c:1676
+#: ../mail/em-migrate.c:1675
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
 msgstr "Kan ikke kopiere mappe «%s» til «%s»: %s"
 
-#: ../mail/em-migrate.c:1861
+#: ../mail/em-migrate.c:1860
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr "Kan ikke søke etter eksisterende postbokser på «%s»: %s"
 
-#: ../mail/em-migrate.c:2065
+#: ../mail/em-migrate.c:2064
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
 msgstr ""
 "Kunne ikke åpne gamle data om meldinger som er beholdt på tjeneren for POP-"
 "tjener «%s»: %s"
 
-#: ../mail/em-migrate.c:2079
+#: ../mail/em-migrate.c:2078
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
 msgstr ""
 "Klarte ikke å opprette katalog for bevaring av data på POP3-tjener «%s»: %s"
 
-#: ../mail/em-migrate.c:2108
+#: ../mail/em-migrate.c:2107
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr "Kan ikke kopiere data for bevaring på POP3-tjener: «%s»: %s"
 
-#: ../mail/em-migrate.c:2579 ../mail/em-migrate.c:2591
+#: ../mail/em-migrate.c:2578 ../mail/em-migrate.c:2590
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Klarte ikke å opprette lokalt e-postlager «%s»: %s"
 
-#: ../mail/em-migrate.c:2852
+#: ../mail/em-migrate.c:2851
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Kunne ikke opprette lokale e-postmapper i «%s»: %s"
 
-#: ../mail/em-migrate.c:2871
+#: ../mail/em-migrate.c:2870
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -12489,25 +12490,25 @@ msgstr "Svar til _listen"
 msgid "_Add to Address Book"
 msgstr "Legg til i _adressebok"
 
-#: ../mail/em-subscribe-editor.c:595
+#: ../mail/em-subscribe-editor.c:596
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr ""
 "Dette lageret støtter ikke abonnering, eller så er dette ikke aktivert."
 
-#: ../mail/em-subscribe-editor.c:628
+#: ../mail/em-subscribe-editor.c:629
 msgid "Subscribed"
 msgstr "Abonnert"
 
-#: ../mail/em-subscribe-editor.c:632
+#: ../mail/em-subscribe-editor.c:633
 msgid "Folder"
 msgstr "Mappe"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:834
+#: ../mail/em-subscribe-editor.c:835
 msgid "Please select a server."
 msgstr "Vennligst velg en tjener."
 
-#: ../mail/em-subscribe-editor.c:855
+#: ../mail/em-subscribe-editor.c:856
 msgid "No server has been selected"
 msgstr "Ingen tjener er valgt"
 
@@ -12621,7 +12622,9 @@ msgstr "Egendefinert meldingshode som skal sjekkes for uønsket e-post."
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
-msgstr "Egendefinerte meldingshoder som brukes ved sjekk etter uønsket e-post. Formatet for listeelementene er «headername=value»."
+msgstr ""
+"Egendefinerte meldingshoder som brukes ved sjekk etter uønsket e-post. "
+"Formatet for listeelementene er «headername=value»."
 
 #: ../mail/evolution-mail.schemas.in.h:19
 msgid "Default charset in which to compose messages"
@@ -12679,7 +12682,9 @@ msgstr "Forvalgt bredde for abonneringsdialogen."
 msgid ""
 "Determines whether to look up addresses for junk filtering in local "
 "addressbook only"
-msgstr "Bestemmer om oppslag for filtrering av uønsket e-post kun skal slås opp i lokale adressebøker"
+msgstr ""
+"Bestemmer om oppslag for filtrering av uønsket e-post kun skal slås opp i "
+"lokale adressebøker"
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Determines whether to lookup in addressbook for sender email"
@@ -13580,38 +13585,38 @@ msgstr "Feilsøk"
 msgid "Error, Warnings and Debug messages"
 msgstr "Feil, advarsler og feilsøkingsmeldinger"
 
-#: ../mail/mail-component.c:1674
+#: ../mail/mail-component.c:1664
 msgid "Debug Logs"
 msgstr "Feilsøkingslogger"
 
-#: ../mail/mail-component.c:1688
+#: ../mail/mail-component.c:1678
 msgid "Show _errors in the status bar for"
 msgstr "Vis f_eil i statuslinjen i"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1704
+#: ../mail/mail-component.c:1694
 msgid "second(s)."
 msgstr "sekund(er)."
 
-#: ../mail/mail-component.c:1710
+#: ../mail/mail-component.c:1700
 msgid "Log Messages:"
 msgstr "Loggmeldinger:"
 
-#: ../mail/mail-component.c:1751
+#: ../mail/mail-component.c:1741
 msgid "Log Level"
 msgstr "Loggnivå"
 
-#: ../mail/mail-component.c:1760 ../widgets/misc/e-dateedit.c:410
+#: ../mail/mail-component.c:1750 ../widgets/misc/e-dateedit.c:410
 msgid "Time"
 msgstr "Tid"
 
-#: ../mail/mail-component.c:1770 ../mail/message-list.c:2406
+#: ../mail/mail-component.c:1760 ../mail/message-list.c:2406
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Meldinger"
 
-#: ../mail/mail-component.c:1779 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../mail/mail-component.c:1769 ../ui/evolution-mail-messagedisplay.xml.h:2
 #: ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "Lukk dette vinduet"
@@ -14417,7 +14422,7 @@ msgstr "_Flagg:"
 msgid "_Tick this to accept the license agreement"
 msgstr "_Kryss av her for å godta lisensen"
 
-#: ../mail/mail-folder-cache.c:831
+#: ../mail/mail-folder-cache.c:832
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinger %s"
@@ -15418,7 +15423,9 @@ msgstr "Genererer meldingsliste"
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
-msgstr "Ingen meldinger passer dine søkekriterier. Du kan enten tømme søket med menyoppføringen Søk->Tøm eller endre det."
+msgstr ""
+"Ingen meldinger passer dine søkekriterier. Du kan enten tømme søket med "
+"menyoppføringen Søk->Tøm eller endre det."
 
 #: ../mail/message-list.c:4103
 msgid "There is currently no message in this folder."
@@ -16020,7 +16027,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Vil du bruke Evolution som forvalgt e-postprogram?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:690
+#: ../shell/main.c:691
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -17050,7 +17057,7 @@ msgstr "Velg et (48*48) png med størrelse < 700 byte"
 msgid "PNG files"
 msgstr "PNG-filer"
 
-#: ../plugins/face/org-gnome-face-ui.xml.h:1
+#: ../plugins/face/face.c:125
 msgid "_Face"
 msgstr "A_nsikt"
 
@@ -19357,7 +19364,7 @@ msgstr "Hopp over varseldialogen om utviklingsversjonen"
 msgid "Skip recovery warning dialog"
 msgstr "Hopp over varseldialog"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:30 ../shell/main.c:576
+#: ../shell/apps_evolution_shell.schemas.in.h:30 ../shell/main.c:577
 msgid "Start in offline mode"
 msgstr "Start i frakoblet modus"
 
@@ -19747,7 +19754,7 @@ msgstr ""
 "eksterne filer til Evolution."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:233
+#: ../shell/main.c:234
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19782,7 +19789,7 @@ msgstr ""
 "Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
 "spenning på at du tilbyr din hjelp!\n"
 
-#: ../shell/main.c:257
+#: ../shell/main.c:258
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19790,19 +19797,19 @@ msgstr ""
 "Takk\n"
 "Evolution utviklerene\n"
 
-#: ../shell/main.c:264
+#: ../shell/main.c:265
 msgid "Do not tell me again"
 msgstr "Ikke gi beskjed igjen"
 
-#: ../shell/main.c:314
+#: ../shell/main.c:315
 msgid "Evolution Crash Detection"
 msgstr "Gjenoppretting ved krasj"
 
-#: ../shell/main.c:316
+#: ../shell/main.c:317
 msgid "Ig_nore"
 msgstr "Ig_norer"
 
-#: ../shell/main.c:331
+#: ../shell/main.c:332
 #, no-c-format
 msgid ""
 "Evolution appears to have exited unexpectedly the last time it was\n"
@@ -19813,43 +19820,43 @@ msgstr ""
 "kjørte. For å være sikker vil alle forhåndsvisningsområder skjules.\n"
 "Du kan gjenopprette forhåndsvisning fra menyen Vis.\n"
 
-#: ../shell/main.c:342
+#: ../shell/main.c:343
 msgid "_Do not show this message again"
 msgstr "Ikke vis _denne meldingen igjen"
 
-#: ../shell/main.c:574
+#: ../shell/main.c:575
 msgid "Start Evolution activating the specified component"
 msgstr "Aktiver oppgitt komponent ved oppstart av Evolution"
 
-#: ../shell/main.c:578
+#: ../shell/main.c:579
 msgid "Start in online mode"
 msgstr "Start i tilkoblet modus"
 
-#: ../shell/main.c:581
+#: ../shell/main.c:582
 msgid "Forcibly shut down all Evolution components"
 msgstr "Steng ned alle komponenter i Evolution"
 
-#: ../shell/main.c:585
+#: ../shell/main.c:586
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Tvungen ommigrering fra Evolution 1.4"
 
-#: ../shell/main.c:588
+#: ../shell/main.c:589
 msgid "Send the debugging output of all components to a file."
 msgstr "Send feilsøkingsutskrift for alle komponentene til en fil."
 
-#: ../shell/main.c:590
+#: ../shell/main.c:591
 msgid "Disable loading of any plugins."
 msgstr "Slå av lasting av tillegg."
 
-#: ../shell/main.c:592
+#: ../shell/main.c:593
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Deaktiver forhåndsvisningsområdet for e-post, kontakter og oppgaver."
 
-#: ../shell/main.c:677
+#: ../shell/main.c:678
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution personlig informasjonshåndterer og e-postklient"
 
-#: ../shell/main.c:694
+#: ../shell/main.c:706
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"

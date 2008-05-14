@@ -1,3 +1,8 @@
+2008-05-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Remove obsolete file.
+	* nb.po: Updated Norwegian bokmål translation.
+
 2008-05-13  Gil Forcada  <gforcada@gnome.org>
 
 	* ca.po: Fixed a minor typo.
