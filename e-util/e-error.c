@@ -376,7 +376,8 @@ ee_append_text(GString *out, const char *text)
 }
 
 static void
-ee_build_label(GString *out, const char *fmt, GPtrArray *args)
+ee_build_label(GString *out, const char *fmt, GPtrArray *args,
+               gboolean escape_args)
 {
 	const char *end, *newstart;
 	int id;
@@ -386,9 +387,12 @@ ee_build_label(GString *out, const char *fmt, GPtrArray *args)
 	       && (end = strchr(newstart+1, '}'))) {
 		g_string_append_len(out, fmt, newstart-fmt);
 		id = atoi(newstart+1);
-		if (id < args->len)
-			ee_append_text(out, args->pdata[id]);
-		else
+		if (id < args->len) {
+			if (escape_args)
+				ee_append_text(out, args->pdata[id]);
+			else
+				g_string_append(out, args->pdata[id]);
+		} else
 			g_warning("Error references argument %d not supplied by caller", id);
 		fmt = end+1;
 	}
@@ -518,7 +522,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	out = g_string_new("");
 
 	if (e->title) {
-		ee_build_label(out, dgettext(table->translation_domain, e->title), args);
+		ee_build_label(out, dgettext(table->translation_domain, e->title), args, FALSE);
 		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
@@ -527,19 +531,19 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
-		ee_build_label(out, dgettext(table->translation_domain, e->primary), args);
+		ee_build_label(out, dgettext(table->translation_domain, e->primary), args, TRUE);
 		g_string_append(out, "</span>\n\n");
 		oerr = g_string_new("");
-		ee_build_label(oerr, dgettext(table->translation_domain, e->primary), args);
+		ee_build_label(oerr, dgettext(table->translation_domain, e->primary), args, FALSE);
 		perr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	} else
 		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
 	
 	if (e->secondary) {
-		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args);
+		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args, TRUE);
 		oerr = g_string_new("");
-		ee_build_label(oerr, dgettext(table->translation_domain, e->secondary), args);
+		ee_build_label(oerr, dgettext(table->translation_domain, e->secondary), args, TRUE);
 		serr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	}
