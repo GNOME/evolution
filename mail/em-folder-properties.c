@@ -97,6 +97,12 @@ emfp_commit(EConfig *ec, GSList *items, void *data)
 			g_free (arg->ca_str);
 			arg->ca_str = (char *) gtk_entry_get_text ((GtkEntry *) prop_data->widgets[i]);
 			break;
+		case CAMEL_ARG_INT:
+			arg->ca_int = gtk_spin_button_get_value_as_int ((GtkSpinButton *) prop_data->widgets[i]);
+			break;
+		case CAMEL_ARG_DBL:
+			arg->ca_double = gtk_spin_button_get_value ((GtkSpinButton *) prop_data->widgets[i]);
+			break;
 		default:
 			g_warning ("This shouldn't be reached\n");
 			break;
@@ -234,6 +240,34 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 				camel_object_free (prop_data->object, prop_data->argv->argv[i].tag, prop_data->argv->argv[i].ca_str);
 				prop_data->argv->argv[i].ca_str = NULL;
 			}
+			gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			prop_data->widgets[i] = w;
+			break;
+		case CAMEL_ARG_INT:
+			label = gtk_label_new (prop->description);
+			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+			gtk_widget_show (label);
+			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+			
+			w = gtk_spin_button_new_with_range (G_MININT, G_MAXINT, 1.0);
+			gtk_spin_button_set_value ((GtkSpinButton *) w, (double) prop_data->argv->argv[i].ca_int);
+			gtk_spin_button_set_numeric ((GtkSpinButton *) w, TRUE);
+			gtk_spin_button_set_digits ((GtkSpinButton *) w, 0);
+			gtk_widget_show (w);
+			gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			prop_data->widgets[i] = w;
+			break;
+		case CAMEL_ARG_DBL:
+			label = gtk_label_new (prop->description);
+			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+			gtk_widget_show (label);
+			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+			
+			w = gtk_spin_button_new_with_range (G_MININT, G_MAXINT, 1.0);
+			gtk_spin_button_set_value ((GtkSpinButton *) w, prop_data->argv->argv[i].ca_double);
+			gtk_spin_button_set_numeric ((GtkSpinButton *) w, TRUE);
+			gtk_spin_button_set_digits ((GtkSpinButton *) w, 2);
+			gtk_widget_show (w);
 			gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			prop_data->widgets[i] = w;
 			break;

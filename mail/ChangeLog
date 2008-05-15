@@ -1,3 +1,12 @@
+2008-05-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	Needed so that IMAP4 can allow users to configure cache
+	expiration per-folder.
+
+	* em-folder-properties.c (emfp_get_folder_item): Add support for
+	CAMEL_ARG_INT and CAMEL_ARG_DBL.
+	(emfp_commit): Same.
+
 2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #463040, Patch by Milan Crha
