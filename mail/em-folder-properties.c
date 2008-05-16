@@ -36,6 +36,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtkspinbutton.h>
 #include <gtk/gtkvbox.h>
 
 #include <gconf/gconf-client.h>
