@@ -1,3 +1,9 @@
+2008-05-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #514383
+
+	* e-error.c (e_error_newv): Widget packing adjustments.
+
 2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #531592

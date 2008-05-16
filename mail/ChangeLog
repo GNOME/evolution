@@ -1,3 +1,9 @@
+2008-05-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #514383
+
+	* mail.error.xml: Remove the "ask-mark-read" error.
+
 2008-05-14  Jeffrey Stedfast  <fejj@novell.com>
 
 	Needed so that IMAP4 can allow users to configure cache
