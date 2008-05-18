@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution-2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-13 10:48+0700\n"
-"PO-Revision-Date: 2008-02-13 16:58+0700\n"
+"PO-Revision-Date: 2008-05-18 12:29+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -12504,7 +12504,7 @@ msgstr "เวลาเทขยะครั้งสุดท้าย"
 
 #: ../mail/evolution-mail.schemas.in.h:59
 msgid "Level beyond which the message should be logged."
-msgstr "ระดับของข้อความที่จะบันทึกในบันทึกปฏิบัติการ"
+msgstr "ระดับของข้อความที่จะบันทึกในปูม"
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "List of Labels and their associated colors"
@@ -12562,19 +12562,19 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Log filter actions"
-msgstr "บันทึกปฏิบัติการการกรองข้อความ"
+msgstr "บันทึกปูมการกรองข้อความ"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Log filter actions to the specified log file."
-msgstr "บันทึกปฏิบัติการการกรองข้อความลงในแฟ้มบันทึกปฏิบัติการ"
+msgstr "บันทึกปูมการกรองข้อความลงในแฟ้มปูม"
 
 #: ../mail/evolution-mail.schemas.in.h:72
 msgid "Logfile to log filter actions"
-msgstr "แฟ้มบันทึกปฏิบัติการที่จะบันทึกปฏิบัติการการกรองข้อความ"
+msgstr "แฟ้มปูมที่จะบันทึกการกรองข้อความ"
 
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid "Logfile to log filter actions."
-msgstr "แฟ้มบันทึกปฏิบัติการที่จะบันทึกปฏิบัติการการกรองข้อความ"
+msgstr "แฟ้มปูมที่จะบันทึกการกรองข้อความ"
 
 #: ../mail/evolution-mail.schemas.in.h:74
 msgid "Mark as Seen after specified timeout"
