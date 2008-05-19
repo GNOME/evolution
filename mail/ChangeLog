@@ -1,3 +1,10 @@
+2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #533465, patch from Ritesh Khadgaray
+
+	* em-account-editor.c (emae_url_set_hostport):
+	Strip whitespace from user-entered hostname.
+
 2008-05-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* em-folder-view.c: Make non junk learning work again.

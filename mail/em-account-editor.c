@@ -1025,15 +1025,18 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 	/* FIXME: what if this was a raw IPv6 address? */
 	if (txt && (port = strchr(txt, ':'))) {
 		camel_url_set_port(url, atoi(port+1));
-		host = g_alloca(port-txt+1);
-		memcpy(host, txt, port-txt);
+		host = g_strdup(txt);
 		host[port-txt] = 0;
 	} else {
 		/* "" is converted to NULL, but if we set NULL on the url,
 		   camel_url_to_string strips lots of details */
-		host = (char *)(txt?txt:"");
+		host = g_strdup((txt?txt:""));
 	}
+
+	g_strstrip(host);
 	camel_url_set_host(url, host);
+
+	g_free(host);
 }
 
 /* This is used to map a funciton which will set on the url a string value.
