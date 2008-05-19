@@ -326,6 +326,7 @@ e_util_labels_add_with_dlg (GtkWindow *parent, const char *tag)
 	if (name)
 		gtk_entry_set_text (GTK_ENTRY (e), name);
 
+	gtk_entry_set_activates_default (GTK_ENTRY (e), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (l), e);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.0);
 	gtk_color_button_set_color (GTK_COLOR_BUTTON (c), &color);
@@ -344,6 +345,7 @@ e_util_labels_add_with_dlg (GtkWindow *parent, const char *tag)
 					      NULL);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);
 
 	while (!new_tag) {
