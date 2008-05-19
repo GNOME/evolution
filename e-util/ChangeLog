@@ -1,3 +1,10 @@
+2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #530392
+
+	* e-util-labels.c (e_util_labels_add_with_dlg):
+	Pressing Enter in the entry activates the default response.
+
 2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #531592
