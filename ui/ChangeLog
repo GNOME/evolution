@@ -1,3 +1,9 @@
+2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	* evolution-subscribe.xml:
+	This file is no longer used.  Remove it from source control.
+
 2008-04-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	* evolution-addressbook.xml:
