@@ -185,7 +185,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageMarkAsImportant",   EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
 	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_JUNK },
-	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_NOT_JUNK },
+	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY},
 	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_FOLLOWUP },
 	{ "MessageFollowUpComplete",  EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_COMPLETED },
 	{ "MessageFollowUpClear",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_CLEAR },
