@@ -1,0 +1,10 @@
+2008-05-19  Ashish Shrivastava  <shashish@novell.com>
+
+	* org-gnome-email-custom-header.eplug.xml:
+	* org-gnome-email-custom-header.glade:
+	* apps_evolution_email_custom_header.schemas.in:
+	* Makefile.am:
+	* email-custom-header.c:
+	* email-custom-header.h:
+	** Initial set of files. Implements Custom header support.
+	** Added custom header plugin.

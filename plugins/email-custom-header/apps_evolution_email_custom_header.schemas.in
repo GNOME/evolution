@@ -1,0 +1,17 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/email_custom_header/customHeader</key>
+      <applyto>/apps/evolution/eplugin/email_custom_header/customHeader</applyto>
+      <owner>evolution-eplugin</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[Security=Personal;Unclassified;Protected;InConfidence;Secret;Topsecret]</default>
+      <locale name="C">
+         <short>List of Custom Header</short>
+         <long>The key specifies the list of custom headers that you can add  to an outgoing message. The format for specifying a Header and Header value is: Name of the custom header followed by "=" and the values separated by ";"</long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>
+

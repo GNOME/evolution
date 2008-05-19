@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.email-custom-header" type="shlib" _name="Custom Header" 
+		location="@PLUGINDIR@/liborg-gnome-email-custom-header@SOEXT@">
+
+		<author name="Ashish Shrivastava" email="shashish@novell.com"/>
+                <!-- For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added -->
+		<_description>Adds custom header to outgoing messages.</_description>
+
+		<hook class="org.gnome.evolution.ui:1.0">
+			<ui-manager id="org.gnome.evolution.composer">
+				<menubar name='main-menu'>
+					<menu action='insert-menu'>
+						<placeholder name="insert-menu-top">
+							<menuitem action="Custom Header"/>
+						</placeholder>
+					</menu>
+				</menubar>
+			</ui-manager>
+		</hook>
+	</e-plugin>
+</e-plugin-list>
