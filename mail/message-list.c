@@ -4100,7 +4100,7 @@ regen_list_done (struct _regen_list_msg *m)
 		if (m->ml->search && strcmp (m->ml->search, " ") != 0)
 			e_tree_set_info_message (m->ml->tree, _("No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."));
 		else
-			e_tree_set_info_message (m->ml->tree, _("There is currently no message in this folder."));
+			e_tree_set_info_message (m->ml->tree, _("There are no messages in this folder."));
 	} else
 		e_tree_set_info_message (m->ml->tree, NULL);
 

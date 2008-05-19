@@ -1,5 +1,11 @@
 2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
 
+	* message-list.c (regen_list_done):
+	Use a bit more direct English when informing the user of no messages
+	in the currently selected folder.
+
+2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #533465, patch from Ritesh Khadgaray
 
 	* em-account-editor.c (emae_url_set_hostport):
