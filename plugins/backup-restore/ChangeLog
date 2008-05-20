@@ -1,3 +1,12 @@
+2008-05-20  Sankar P  <psankar@novell.com>
+
+	* backup-restore.c: (epbr_perform_pre_backup_checks),
+	(org_gnome_backup_restore_backup):
+	* org-gnome-backup-restore.error.xml:
+	Indicate error if backup folder chosen lacks permissions.
+
+	** Fixes bug #534012
+
 2008-02-25  Jeff Cai<jeff.cai@sun.com>
 
 	* backup.c: (backup), (restore):

@@ -3,6 +3,7 @@
 #include <sys/wait.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <libgnomeui/libgnomeui.h>
 #include "shell/es-menu.h"
 #include "mail/em-config.h"
@@ -86,6 +87,16 @@ dialog_prompt_user(GtkWindow *parent, const char *string, const char *tag, const
 	return mask;
 }
 
+static gboolean
+epbr_perform_pre_backup_checks (char* dir)
+{
+#ifdef G_OS_WIN32
+	return TRUE;
+#else
+	return (g_access (dir, W_OK) == 0); 
+#endif
+}
+
 void
 org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 {
@@ -110,18 +121,27 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 		char *filename;
 		guint32 mask;
 		char *uri = NULL;
+		char *dir;
 
 		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
 		e_file_update_save_path(uri, TRUE);
 
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
+		dir = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (dlg));
 		gtk_widget_destroy (dlg);
 
-		mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after backup"), "org.gnome.backup-restore:backup-confirm", NULL);
-		if (mask & BR_OK)
-			backup (filename, (mask & BR_START) ? TRUE: FALSE);
+
+		if (epbr_perform_pre_backup_checks (dir)) {
+
+			mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after backup"), "org.gnome.backup-restore:backup-confirm", NULL);
+			if (mask & BR_OK)
+				backup (filename, (mask & BR_START) ? TRUE: FALSE);
+		} else {
+			e_error_run (NULL, "org.gnome.backup-restore:insufficient-permissions", NULL);
+		}
 
 		g_free (filename);
+		g_free (dir);
 
 		return;
 	}
