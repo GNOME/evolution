@@ -1,6 +1,6 @@
 # translation of evolution.gnome-2-14.po to Dutch
 # Evolution - Dutch translation
-# Copyright (C) 2000-2006 Free Software Foundation, Inc.
+# Copyright (C) 2000-2008 Free Software Foundation, Inc.
 # -------------------------------------------------------
 # Woordenlijst: (naar believen aanvullen a.u.b)
 #
@@ -58,8 +58,8 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-20\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-08 15:11+0000\n"
-"PO-Revision-Date: 2008-05-12 17:13+0200\n"
-"Last-Translator: Reinout van Schouwen <reinouts@gnome.org>\n"
+"PO-Revision-Date: 2008-05-19 02:14+0200\n"
+"Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -258,9 +258,10 @@ msgstr "%d %b"
 msgid "Gnome Calendar"
 msgstr "Gnome agenda"
 
+# hoofdletter?
 #: ../a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
-msgstr "Zoekbalk"
+msgstr "zoekbalk"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:291
 msgid "evolution calendar search bar"
@@ -285,11 +286,12 @@ msgstr "Maandweergave: %s. %s"
 msgid "Week View: %s. %s"
 msgstr "Weekweergave: %s. %s"
 
-# agendainformatie
+# agendainformatie/maandagenda
 #: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for a month"
 msgstr "agendaweergave voor een maand"
 
+# weekagenda
 #: ../a11y/calendar/ea-week-view.c:194
 msgid "calendar view for one or more weeks"
 msgstr "agendaweergave voor één of meer weken"
@@ -313,12 +315,13 @@ msgstr "deze cel bewerken"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
 msgid "toggle"
-msgstr "schakelen"
+msgstr "omschakelen"
 
+# omwisselen/omschakelen/schakelen
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
 msgid "toggle the cell"
-msgstr "de cel schakelen"
+msgstr "de cel omschakelen"
 
 # expand/collapse
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:194
@@ -4190,8 +4193,8 @@ msgid ""
 "'{0}' is a read-only calendar source. Change Calendar to one that can accept "
 "appointments."
 msgstr ""
-"‘{0}’ is een alleen-lezen agendabron. Ga naar agendaweergave en "
-"selecteer een agenda die afspraken kan accepteren."
+"‘{0}’ is een alleen-lezen agendabron. Ga naar agendaweergave en selecteer "
+"een agenda die afspraken kan accepteren."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -11025,7 +11028,8 @@ msgstr "Labelnaam mag niet leeg zijn."
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
-msgstr "Er is al een label met die naam op de server. Geef het label een andere naam."
+msgstr ""
+"Er is al een label met die naam op de server. Geef het label een andere naam."
 
 #: ../e-util/gconf-bridge.c:1218
 #, c-format
@@ -13038,8 +13042,8 @@ msgid ""
 "Determines whether to look up addresses for junk filtering in local "
 "addressbook only"
 msgstr ""
-"Bepaalt of adressen voor het filteren van spam alleen opgezocht worden "
-"in het lokale adresboek"
+"Bepaalt of adressen voor het filteren van spam alleen opgezocht worden in "
+"het lokale adresboek"
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid "Determines whether to lookup in addressbook for sender email"
@@ -13089,9 +13093,10 @@ msgstr "Map waar bijlagen/bestanden vandaan worden gehaald. "
 msgid "Directory for saving mail component files."
 msgstr "Map waar e-mailcomponenten worden opgeslagen."
 
+# afkappen/verkorten/met ellipsis weergeven
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid "Disable or enable ellipsizing of folder names in folder tree"
-msgstr ""
+msgstr "Het met puntjes afkorten van mapnamen in de mappenboom aan/uitzetten"
 
 # fout/foutief/spellingsfouten
 # markeren/aanduiden tijdens het typen
@@ -13212,7 +13217,7 @@ msgstr ""
 msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
-msgstr ""
+msgstr "Aanvankelijke hoogte van het venster ‘E-mail versturen & ontvangen’. De waarde wordt bijgewerkt als de gebruiker het venster verticaal herschaalt."
 
 #: ../mail/evolution-mail.schemas.in.h:62
 msgid ""
@@ -13221,7 +13226,7 @@ msgid ""
 "particular value is not used by Evolution since the \"Send and Receive Mail"
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
-msgstr ""
+msgstr "Aanvankelijke maximaliseringstoestand van het venster ‘E-mail versturen & ontvangen’. De waarde wordt bijgewerkt als de gebruiker het venster maximaliseert of hersteld. Merk op dat deze specifieke waarde niet gebruikt wordt door Evolution omdat het venster ‘E-mail versturen & ontvangen’ niet gemaximaliseerd kan worden. Deze sleutel bestaat enkel en alleen als implementatiedetail."
 
 #: ../mail/evolution-mail.schemas.in.h:63
 msgid ""
@@ -13626,7 +13631,7 @@ msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local addressbook only to exclude "
 "mail sent by known contacts from junk filtering."
-msgstr ""
+msgstr "Deze optie is gerelateerd aan de sleutel lookup_addressbook en wordt gebruikt om te bepalen of adressen alleen opgezocht worden in het lokale adresboek, om mail van bekende contacten uit te sluiten van spamfiltering."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "This option would help in improving the speed of fetching."
@@ -13763,9 +13768,10 @@ msgstr "Beeld/AntwoordAan-menu is aangevinkt."
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr "Of standaard aan elk bericht een leesbevestiging toegevoegd wordt."
 
+# BUG: whether disable ellipsizing feature
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Whether disable ellipsizing feature of folder names in folder tree."
-msgstr ""
+msgstr "Of het afkorten met puntjes van mapnamen in de mappenboom uitgezet wordt."
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid ""
@@ -14360,7 +14366,7 @@ msgstr "Ingebonden"
 # Oorspronkelijke bericht citeren in Outlook-stijl
 #: ../mail/mail-config.glade.h:96
 msgid "Inline (Outlook style)"
-msgstr ""
+msgstr "Ingebonden (Oulook-stijl)"
 
 #: ../mail/mail-config.glade.h:98
 msgid "KB"
@@ -14482,7 +14488,7 @@ msgstr "Onthoud _wachtwoord"
 
 #: ../mail/mail-config.glade.h:125
 msgid "S_OCKS Host:"
-msgstr ""
+msgstr "S_OCKS Host:"
 
 #: ../mail/mail-config.glade.h:126
 msgid "S_earch for sender photograph only in local addressbooks"
@@ -15183,35 +15189,27 @@ msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr "Een map genaamd ‘{1}’ bestaat al. Gebruik een andere naam."
 
 #: ../mail/mail.error.xml.h:3
-#, fuzzy
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
 msgstr ""
-"Er bestaat al een niet-lege map op &quot;{1}&quot;.\n"
+"Er bestaat al een niet-lege map op ‘{1}’.\n"
 "\n"
-"U kunt er voor kiezen deze map te negeren, te overschrijven of de inhoud toe "
-"te voegen, of om af te sluiten."
+"U kunt er voor kiezen deze map te negeren, te overschrijven of de inhoud toe te voegen, of om af te sluiten."
 
 #: ../mail/mail.error.xml.h:6
-#, fuzzy
 msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
-msgstr ""
-"Er wordt een leesbevestiging gevraagd voor &quot;{1}&quot;. De "
-"leesbevestiging sturen naar {0}?"
+msgstr "Er wordt een leesbevestiging gevraagd voor ‘{1}’. De leesbevestiging sturen naar {0}?"
 
 #: ../mail/mail.error.xml.h:7
-#, fuzzy
 msgid ""
 "A signature already exists with the name \"{0}\". Please specify a different "
 "name."
-msgstr ""
-"Een handtekening met de naam &quot;{0}&quot; bestaat al. Gebruik een andere "
-"naam."
+msgstr "Een handtekening met de naam ‘{0}’ bestaat al. Gebruik een andere naam."
 
 #: ../mail/mail.error.xml.h:8
 msgid ""
@@ -15249,13 +15247,10 @@ msgstr ""
 
 # remove hier 'weggooien' omdat er anders twee keer verwijderen staat
 #: ../mail/mail.error.xml.h:14
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
-msgstr ""
-"Weet u zeker dat u alle verwijderde berichten van alle mappen definitief "
-"wilt weggooien?"
+msgstr "Weet u zeker dat u alle verwijderde berichten uit map ‘{0}’ definitief wilt weggooien?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
@@ -15270,12 +15265,12 @@ msgstr ""
 msgid "Are you sure you want to send a message without a subject?"
 msgstr "Weet u zeker dat u een bericht zonder onderwerp wilt versturen?"
 
-# vanwege
+# doordat/vanwege
 #: ../mail/mail.error.xml.h:18
 msgid "Because \"{0}\"."
 msgstr "Doordat ‘{0}’."
 
-# vanwege
+# doordat/vanwege
 #: ../mail/mail.error.xml.h:20
 msgid "Because \"{2}\"."
 msgstr "Doordat ‘{2}’."
@@ -15293,63 +15288,51 @@ msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "Kan map \"{0}\" niet naar \"{1}\" kopiëren."
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Kan de map &quot;{0}&quot; niet aanmaken."
+msgstr "Kan de map ‘{0}’ niet aanmaken."
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create temporary save directory."
 msgstr "Kon tijdelijke opslagmap niet aanmaken."
 
+# doordat/vanwege
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Kan de opslagmap niet aanmaken, vanwege &quot;{1}&quot;"
+msgstr "Kan de opslagmap niet aanmaken, vanwege ‘{1}’"
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr "Kan map &quot;{0}&quot; niet verwijderen."
+msgstr "Kan de map ‘{0}’ niet verwijderen."
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Kan systeemmap &quot;{0}&quot; niet verwijderen."
+msgstr "Kan de systeemmap ‘{0}’ niet verwijderen."
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
-msgstr "Kan zoekmap &quot;{0}&quot; niet bewerken omdat deze niet bestaat."
+msgstr "Kan de zoekmap ‘{0}’ niet bewerken omdat deze niet bestaat."
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Kan map &quot;{0}&quot; niet verplaatsen naar &quot;{1}&quot;."
+msgstr "Kan de map ‘{0}’ niet verplaatsen naar ‘{1}’."
 
 #: ../mail/mail.error.xml.h:31
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Kan bron &quot;{1}&quot; niet openen"
+msgstr "Kan de bron ‘{1}’ niet openen"
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Kan bron &quot;{2}&quot; niet openen."
+msgstr "Kan de bron ‘{2}’ niet openen."
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Kan doel &quot;{2}&quot; niet openen."
+msgstr "Kan het doel ‘{2}’ niet openen."
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
-msgstr ""
-"Kan het licentiebestand &quot;{0}&quot; niet lezen, vanwege een "
-"installatieprobleem.  U kunt deze provider niet gebruiken totdat u haar "
-"licentie kunt accepteren."
+msgstr "Kan het licentiebestand ‘{0}’ niet lezen, vanwege een installatieprobleem. U kunt deze provider niet gebruiken totdat u haar licentie kunt accepteren."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -15823,8 +15806,7 @@ msgstr ""
 # BUG? twee keer "{0}" in bericht?
 #: ../mail/mail.error.xml.h:137
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
-"Uw aanmelding bij uw server ‘{0}’ als ‘{0}’ is mislukt."
+msgstr "Uw aanmelding bij uw server ‘{0}’ als ‘{0}’ is mislukt."
 
 #: ../mail/mail.error.xml.h:138
 msgid "_Append"
@@ -15922,11 +15904,11 @@ msgstr "Genereren van berichtenlijst"
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
-msgstr ""
+msgstr "Geen enkel mailbericht voldoet aan uw zoekopdracht. Wis de zoekopdracht via het menu Zoeken->Wissen of wijzig de zoekopdracht."
 
 #: ../mail/message-list.c:4103
 msgid "There is currently no message in this folder."
-msgstr "Er is momenteel bericht in deze map."
+msgstr "Er is momenteel geen bericht in deze map."
 
 #: ../mail/message-list.etspec.h:3
 msgid "Due By"
@@ -17584,7 +17566,7 @@ msgstr ""
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr ""
+msgstr "De externe editor genoemd in uw plugin-voorkeuren kan niet opgestart worden. Porbeer een andere editor in te stellen."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in External Editor"
@@ -17791,9 +17773,8 @@ msgid "Message retract failed"
 msgstr "Terughalen van bericht is mislukt"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:2
-#, fuzzy
 msgid "The server did not allow the selected message to be retracted."
-msgstr "Het geselecteerde bericht omzetten naar een nieuwe taak"
+msgstr "De server stond niet toe dat het geselecteerde bericht werd teruggehaald."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:1
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:3
@@ -17817,7 +17798,9 @@ msgstr "U heeft al proxy-rechten aan deze gebruiker toegekend."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr "U dient een geldige gebruikersnaam te specificeren om proxy-rechten te verlenen."
+msgstr ""
+"U dient een geldige gebruikersnaam te specificeren om proxy-rechten te "
+"verlenen."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
@@ -17832,8 +17815,8 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and "
 "try again."
 msgstr ""
-"Proxy-login als &quot;{0}&quot; is niet gelukt. Controleer e-mail-ID en probeer "
-"opnieuw."
+"Proxy-login als &quot;{0}&quot; is niet gelukt. Controleer e-mail-ID en "
+"probeer opnieuw."
 
 # Deze bijeenkomst herhalen/herhaalt zich
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
@@ -17850,7 +17833,7 @@ msgstr "U kunt de map niet delen met de aangegeven gebruiker &quot;{0}&quot;."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:6
 msgid "You have to specify a user name whom you want to add to the list"
-msgstr ""
+msgstr "U moet de gebruikersnaam geven van degene die u aan de lijst wilt toevoegen"
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
@@ -19904,7 +19887,7 @@ msgstr "Een omschrijving van de huidige printerinstellingen."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Authenticate proxy server connections"
-msgstr ""
+msgstr "Aanmeldingscontrole op proxy-serververbindingen uitvoeren"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Automatic proxy configuration URL"
@@ -19935,10 +19918,11 @@ msgstr "Standaard vensterstand"
 msgid "Default window width"
 msgstr "Standaard vensterbreedte"
 
+# secure HTTP/beveilighde HTTP
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr ""
+msgstr "Activeert de proxy-instellingen bij gebruik van HTTP/Beveilighde HTTP over het internet."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy host name"
@@ -19966,7 +19950,7 @@ msgid ""
 "If true, then connections to the proxy server require authentication. The "
 "username/password combo is defined by \"/apps/evolution/shell/network_config/"
 "authentication_user\" and locally stored password in .gnome2_private/."
-msgstr ""
+msgstr "Indien ingeschakeld, vereisen verbindingen met de proxy-server aanmeldingscontrole. De combinatie gebruikersnaam/wachtwoord id gedefinieerd in ‘/apps/evolution/shell/network_config/authentication_user’ en het lokaal opgeslagen wachtwoord in ‘.gnome2_private/.’"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Last upgraded configuration version"
@@ -19981,11 +19965,11 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Non-proxy hosts"
-msgstr ""
+msgstr "Non-proxy hosts"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "Wachtwoord voor de aanmeldingscontrole bij gebruik van HTTP-proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "Proxy configuration mode"
@@ -19999,6 +19983,7 @@ msgstr "SOCKS-proxyhostnaam"
 msgid "SOCKS proxy port"
 msgstr "SOCKS-proxypoort"
 
+# secure HTTP/beveilighde HTTP
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Secure HTTP proxy host name"
 msgstr "Beveiligde HTTP-proxyhostnaam"
@@ -20013,7 +19998,7 @@ msgid ""
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
-msgstr ""
+msgstr "Selecteer de proxy-configuratiemodus. Mogelijke waarden zijn  0, 1, 2, en 3 die staan voor ‘systeeminstellingen gebruiken’, ‘geen proxy’, ‘handmatige proxy-configuratie gebruiken’ en ‘proxy-configuratie geleverd door de autoconfiguratie-url’ gebruiken."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Sidebar is visible"
@@ -20065,33 +20050,35 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "De naam van de computer die als HTTP-proxy gebruikt wordt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid "The machine name to proxy secure HTTP through."
-msgstr ""
+msgstr "De naam van de computer die als beveiligde HTTP-proxy gebruikt wordt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid "The machine name to proxy socks through."
-msgstr ""
+msgstr "De naam van de computer die als socks-proxy gebruikt wordt."
 
+# waardoor/waarmee u een proxyverbinding maakt/die u als proxy gebruikt
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
-msgstr ""
+msgstr "De poort op de computer gedefinieerd in ‘/apps/evolution/shell/network_config/http_host’ die u als proxy gebruikt."
 
+# apparaat/computer
 #: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
-msgstr ""
+msgstr "De poort op de computer gedefinieerd in ‘/apps/evolution/shell/network_config/secure_host’ die u als proxy gebruikt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
-msgstr ""
+msgstr "De poort op de computer gedefinieerd in ‘/apps/evolution/shell/network_config/socks_host’ die u als proxy gebruikt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
@@ -20109,7 +20096,7 @@ msgid ""
 "than via the proxy (if it is active). The values can be hostnames, domains "
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
-msgstr ""
+msgstr "Deze sleutel bevat een lijst met hosts waarmee een direkte verbinding gemaakt wordt in plaats van via een proxy (wanneer deze geactiveerd is). De waarden kunnen hostnamen zijn, domeinen (met een jokerteken aan het begin zoals *.foo.com), IP-host-adressen (zowel IPv4 als IPv6) en netwerkadressen met een netmasker (zoiets als: 192.168.0.0/24)"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "Toolbar is visible"
@@ -20125,7 +20112,8 @@ msgstr "HTTP-proxy gebruiken"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:48
 msgid "User name to pass as authentication when doing HTTP proxying."
-msgstr "Gebruikersnaam om als aanmeldnaam door te geven bij gebruik van HTTP-proxy."
+msgstr ""
+"Gebruikersnaam om als aanmeldnaam door te geven bij gebruik van HTTP-proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -23451,15 +23439,12 @@ msgstr "Kies een afbeelding"
 msgid "World Map"
 msgstr "Wereldkaart"
 
+# drop-down/afrolveld/valscherm/ combinatieveld/keuzeveld
 #: ../widgets/misc/e-map.c:628
-#, fuzzy
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
-msgstr ""
-"Interactieve kaart voor het met de muis selecteren van de tijdzone. "
-"Toetsenbordgebruikers moeten de tijdzone kiezen met het combinatieveld "
-"hieronder."
+msgstr "Interactieve kaart voor het met de muis selecteren van de tijdzone. Toetsenbordgebruikers moeten de tijdzone kiezen met het drop-down combinatieveld hieronder."
 
 # synchroniseren is waarschijnlijk te lang?
 #: ../widgets/misc/e-pilot-settings.c:103
@@ -24178,7 +24163,7 @@ msgstr "Teksthoogte"
 
 #: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
 msgid "Use ellipsis"
-msgstr "Ellips gebruiken"
+msgstr "Ellipsis gebruiken"
 
 #: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
 msgid "Ellipsis"
