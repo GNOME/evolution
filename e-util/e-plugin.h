@@ -9,6 +9,25 @@
 
 /* ********************************************************************** */
 
+/* Standard GObject macros */
+#define E_TYPE_PLUGIN_HOOK \
+	(e_plugin_hook_get_type ())
+#define E_PLUGIN_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_PLUGIN_HOOK, EPluginHook))
+#define E_PLUGIN_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_PLUGIN_HOOK, EPluginHookClass))
+#define E_IS_PLUGIN_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_PLUGIN_HOOK))
+#define E_IS_PLUGIN_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_PLUGIN_HOOK))
+#define E_PLUGIN_HOOK_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_PLUGIN_HOOK, EPluginHookClass))
+
 typedef struct _EPlugin EPlugin;
 typedef struct _EPluginClass EPluginClass;
 
