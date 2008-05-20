@@ -48,6 +48,7 @@
 
 #define GCONF_KEY_ATTACHMENT_REMINDER "/apps/evolution/mail/prompts/attachment_presend_check"
 #define GCONF_KEY_ATTACH_REMINDER_CLUES "/apps/evolution/mail/attachment_reminder_clues"
+#define SIGNATURE "-- "
 
 typedef struct {
 	GladeXML *xml;
@@ -186,8 +187,9 @@ strip_text_msg (gchar *msg)
 	guint i=0;
 	gchar *temp;
 
-	while (lines [i]){
-		if (lines [i] != NULL && !g_str_has_prefix (g_strstrip(lines[i]), ">")){
+	/* Note : HTML Signatures won't work. Depends on Bug #522784 */
+	while (lines [i] && !g_strcmp0 (lines[i], SIGNATURE)){
+		if (!g_str_has_prefix (g_strstrip(lines[i]), ">")){
 			temp = stripped_msg;
 
 			stripped_msg = g_strconcat (" ", stripped_msg, lines[i], NULL);
