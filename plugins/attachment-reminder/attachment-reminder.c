@@ -188,7 +188,7 @@ strip_text_msg (gchar *msg)
 	gchar *temp;
 
 	/* Note : HTML Signatures won't work. Depends on Bug #522784 */
-	while (lines [i] && !g_strcmp0 (lines[i], SIGNATURE)){
+	while (lines [i] && g_strcmp0 (lines[i], SIGNATURE)){
 		if (!g_str_has_prefix (g_strstrip(lines[i]), ">")){
 			temp = stripped_msg;
 

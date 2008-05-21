@@ -1,3 +1,7 @@
+2008-05-22  Johnny Jacob  <jjohnny@novell.com>
+
+	* attachment-reminder.c (strip_text_msg): Wrong condition check
+
 2008-05-20  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fixes Bug #473198
