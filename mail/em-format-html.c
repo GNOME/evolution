@@ -950,7 +950,7 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 		else
 			path = g_strdup_printf("/%s", *name=='/'?name+1:name);
 
-		if (mode && &mode)
+		if (mode && *mode)
 			sprintf(ftype, ";type=%c",  *mode);
 		else
 			ftype[0] = 0;

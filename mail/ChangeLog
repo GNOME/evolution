@@ -1,5 +1,13 @@
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
+	* em-format-html.c (efh_message_external):
+	Fix a typo in checking for an empty 'mode' string.
+
+	* message-list.c (subtree_size):
+	Remove this function.  Looks like it hasn't been used in years.
+
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #534360
 
 	* em-account-prefs.h:

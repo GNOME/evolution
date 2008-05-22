@@ -1,5 +1,11 @@
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
+	* gui/e-select-names-renderer.c
+	(e_select_names_renderer_focus_out_event):
+	Remove this unused function.
+
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #534360
 
 	* conduits/calendar/calendar-conduit.c:

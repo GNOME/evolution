@@ -410,7 +410,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			line = add_string_to_csv (line, temp_constchar, config);
 
 			e_cal_component_get_summary (comp, &temp_comptext);
-			line = add_string_to_csv (line, &temp_comptext?temp_comptext.value:NULL, config);
+			line = add_string_to_csv (line, temp_comptext.value, config);
 
 			e_cal_component_get_description_list (comp, &temp_list);
 			line = add_list_to_csv (line, temp_list, config, ECALCOMPONENTTEXT);

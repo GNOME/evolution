@@ -1147,26 +1147,6 @@ subtree_unread(MessageList *ml, ETreePath node)
 	return FALSE;
 }
 
-static int
-subtree_size(MessageList *ml, ETreePath node)
-{
-	CamelMessageInfo *info;
-	int size = 0;
-	ETreePath child;
-
-	while (node) {
-		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
-		g_return_val_if_fail (info != NULL, 0);
-
-		size += camel_message_info_size(info);
-		if ((child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->model), node)))
-			size += subtree_size(ml, child);
-
-		node = e_tree_model_node_get_next (ml->model, node);
-	}
-	return size;
-}
-
 static time_t
 subtree_latest(MessageList *ml, ETreePath node, int sent)
 {

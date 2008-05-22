@@ -1,3 +1,9 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	* csv-format.c (do_save_calendar_csv):
+	* rdf-format.c (do_save_calendar_rdf):
+	Remove pointless address check of a local variable.
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #526739

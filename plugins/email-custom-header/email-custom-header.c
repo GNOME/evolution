@@ -507,7 +507,6 @@ static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *comp
 
 {
 	GtkUIManager  *manager;
-	GtkhtmlEditor *editor;
 	GtkWidget     *menuitem;
 	CustomHeaderOptionsDialog *dialog = NULL;
 	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;

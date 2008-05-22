@@ -81,15 +81,6 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 	cell->priv->editable = NULL;
 }
 
-static gboolean
-e_select_names_renderer_focus_out_event (GtkWidget *entry, GdkEvent  *event, ESelectNamesRenderer *cell)
-{
-	e_select_names_renderer_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
-
-	/* entry needs focus-out-event */
-	return FALSE;
-}
-
 static GtkCellEditable *
 e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 		    GdkRectangle *bg_area, GdkRectangle *cell_area, GtkCellRendererState flags)

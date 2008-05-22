@@ -268,7 +268,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 			add_string_to_rdf (node, "uid",temp_constchar);
 
 			e_cal_component_get_summary (comp, &temp_comptext);
-			add_string_to_rdf (node, "summary",&temp_comptext?temp_comptext.value:NULL);
+			add_string_to_rdf (node, "summary", temp_comptext.value);
 
 			e_cal_component_get_description_list (comp, &temp_list);
 			add_list_to_rdf (node, "description", temp_list, ECALCOMPONENTTEXT);
