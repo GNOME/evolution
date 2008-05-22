@@ -1,3 +1,11 @@
+2008-05-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	** Fix for bug #533820
+
+	* gui/e-day-view.c: (e_day_view_update_resize),
+	(e_day_view_finish_resize): Fix for a crash on double-clicking the
+	border of meetings in day-view. 
+
 2008-05-08  Tor Lillqvist  <tml@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c: Include e-util-private.h
@@ -32,8 +40,8 @@
 
 2008-04-30  Ashish Shrivastava <shashish@novell.com>
 
-        ** Fix for bnc #368277
-        Can't C & P Email Addresses from an Appt. to a Mail Message
+	** Fix for bnc #368277
+	Can't C & P Email Addresses from an Appt. to a Mail Message
 
 	* gui/e-select-names-renderer.c:
 	(e_select_names_renderer_start_editing):

@@ -3822,6 +3822,9 @@ e_day_view_update_resize (EDayView *day_view,
 	g_print ("Updating resize Row:%i\n", row);
 #endif
 
+	if (day_view->resize_event_num == -1)
+		return;
+
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
@@ -3972,6 +3975,9 @@ e_day_view_finish_resize (EDayView *day_view)
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 
+	if (day_view->resize_event_num == -1)
+		return;
+	
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
