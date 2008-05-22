@@ -966,8 +966,8 @@ month_num_submenu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	item = gtk_menu_get_active (GTK_MENU (menu_shell));
 	item = gtk_menu_get_active (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (item))));
 
-	month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
-	gtk_object_set_user_data (GTK_OBJECT (data), GINT_TO_POINTER (month_index));
+	month_index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "data"));
+	g_object_set_data (G_OBJECT (data), "data", GINT_TO_POINTER (month_index));
 }
 
 /* Creates the option menu for the monthly recurrence number */
@@ -981,7 +981,7 @@ make_recur_month_num_submenu (const char *title, int start, int end)
 	for (i = start; i < end; i++) {
 		item = gtk_menu_item_new_with_label (_(e_cal_recur_nth[i]));
 		gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
-		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (i + 1));
+		g_object_set_data (G_OBJECT (item), "data", GINT_TO_POINTER (i + 1));
 		gtk_widget_show (item);
 	}
 
@@ -1071,7 +1071,7 @@ make_recur_month_num_menu (int month_index)
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (submenu_item), submenu);
-	gtk_object_set_user_data (GTK_OBJECT (submenu_item), GINT_TO_POINTER (month_index));
+	g_object_set_data (G_OBJECT (submenu_item), "data", GINT_TO_POINTER (month_index));
 	g_signal_connect((submenu), "selection_done",
 			    G_CALLBACK (month_num_submenu_selection_done_cb),
 			    submenu_item);
@@ -1140,7 +1140,7 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		GtkWidget *label, *item;
 
 		item = gtk_menu_get_active (GTK_MENU (menu_shell));
-		priv->month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
+		priv->month_index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "data"));
 
 		month_num = MONTH_NUM_DAY;
 		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);

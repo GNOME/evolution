@@ -52,12 +52,14 @@
 #include "e-calendar.h"
 
 static void e_cell_date_edit_destroy		(GtkObject	*object);
-static void e_cell_date_edit_get_arg		(GtkObject	*o,
-						 GtkArg		*arg,
-						 guint		 arg_id);
-static void e_cell_date_edit_set_arg		(GtkObject	*o,
-						 GtkArg		*arg,
-						 guint		 arg_id);
+static void e_cell_date_edit_get_property	(GObject	*object,
+						 guint		 property_id,
+						 GValue		*value,
+						 GParamSpec	*pspec);
+static void e_cell_date_edit_set_property	(GObject	*object,
+						 guint		 property_id,
+						 const GValue	*value,
+						 GParamSpec	*pspec);
 
 static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 						 GdkEvent	*event,
@@ -103,57 +105,114 @@ static void e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde);
 
 /* Our arguments. */
 enum {
-	ARG_0,
-	ARG_SHOW_TIME,
-	ARG_SHOW_NOW_BUTTON,
-	ARG_SHOW_TODAY_BUTTON,
-	ARG_ALLOW_NO_DATE_SET,
-	ARG_USE_24_HOUR_FORMAT,
-	ARG_LOWER_HOUR,
-	ARG_UPPER_HOUR
+	PROP_0,
+	PROP_SHOW_TIME,
+	PROP_SHOW_NOW_BUTTON,
+	PROP_SHOW_TODAY_BUTTON,
+	PROP_ALLOW_NO_DATE_SET,
+	PROP_USE_24_HOUR_FORMAT,
+	PROP_LOWER_HOUR,
+	PROP_UPPER_HOUR
 };
 
 G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_CELL_POPUP_TYPE)
 
 
 static void
-e_cell_date_edit_class_init (ECellDateEditClass *ecdec)
+e_cell_date_edit_class_init (ECellDateEditClass *class)
 {
-	GtkObjectClass	*object_class = (GtkObjectClass *) ecdec;
-	ECellPopupClass	*ecpc = (ECellPopupClass *) ecdec;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
+	ECellPopupClass	*ecpc;
 
-	gtk_object_add_arg_type ("ECellDateEdit::show_time",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_SHOW_TIME);
-	gtk_object_add_arg_type ("ECellDateEdit::show_now_button",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_SHOW_NOW_BUTTON);
-	gtk_object_add_arg_type ("ECellDateEdit::show_today_button",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_SHOW_TODAY_BUTTON);
-	gtk_object_add_arg_type ("ECellDateEdit::allow_no_date_set",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_ALLOW_NO_DATE_SET);
-	gtk_object_add_arg_type ("ECellDateEdit::use_24_hour_format",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_USE_24_HOUR_FORMAT);
-	gtk_object_add_arg_type ("ECellDateEdit::lower_hour",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_LOWER_HOUR);
-	gtk_object_add_arg_type ("ECellDateEdit::upper_hour",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_UPPER_HOUR);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = e_cell_date_edit_get_property;
+	object_class->set_property = e_cell_date_edit_set_property;
 
-	object_class->destroy = e_cell_date_edit_destroy;
-	object_class->get_arg = e_cell_date_edit_get_arg;
-	object_class->set_arg = e_cell_date_edit_set_arg;
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = e_cell_date_edit_destroy;
 
+	ecpc = E_CELL_POPUP_CLASS (class);
 	ecpc->popup = e_cell_date_edit_do_popup;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_TIME,
+		g_param_spec_boolean (
+			"show_time",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_NOW_BUTTON,
+		g_param_spec_boolean (
+			"show_now_button",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_TODAY_BUTTON,
+		g_param_spec_boolean (
+			"show_today_button",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALLOW_NO_DATE_SET,
+		g_param_spec_boolean (
+			"allow_no_date_set",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_24_HOUR_FORMAT,
+		g_param_spec_boolean (
+			"use_24_hour_format",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_LOWER_HOUR,
+		g_param_spec_int (
+			"lower_hour",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UPPER_HOUR,
+		g_param_spec_int (
+			"upper_hour",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			24,
+			G_PARAM_READWRITE));
 }
 
 
 static void
-e_cell_date_edit_init			(ECellDateEdit	*ecde)
+e_cell_date_edit_init (ECellDateEdit *ecde)
 {
 	GtkWidget *frame, *vbox, *hbox, *vbox2;
 	GtkWidget *scrolled_window, *list, *bbox;
@@ -305,120 +364,113 @@ e_cell_date_edit_destroy		(GtkObject *object)
 
 
 static void
-e_cell_date_edit_get_arg		(GtkObject	*o,
-					 GtkArg		*arg,
-					 guint		 arg_id)
+e_cell_date_edit_get_property		(GObject	*object,
+					 guint		 property_id,
+					 GValue		*value,
+					 GParamSpec	*pspec)
 {
 	ECellDateEdit *ecde;
 
-	ecde = E_CELL_DATE_EDIT (o);
+	ecde = E_CELL_DATE_EDIT (object);
 
-	switch (arg_id) {
-	case ARG_SHOW_TIME:
-		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->time_entry) ? TRUE : FALSE;
-		break;
-	case ARG_SHOW_NOW_BUTTON:
-		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->now_button) ? TRUE : FALSE;
-		break;
-	case ARG_SHOW_TODAY_BUTTON:
-		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->today_button) ? TRUE : FALSE;
-		break;
-	case ARG_ALLOW_NO_DATE_SET:
-		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->none_button) ? TRUE : FALSE;
-		break;
-	case ARG_USE_24_HOUR_FORMAT:
-		GTK_VALUE_BOOL (*arg) = ecde->use_24_hour_format;
-		break;
-	case ARG_LOWER_HOUR:
-		GTK_VALUE_INT (*arg) = ecde->lower_hour;
-		break;
-	case ARG_UPPER_HOUR:
-		GTK_VALUE_INT (*arg) = ecde->upper_hour;
-		break;
-	default:
-		g_warning ("Invalid arg");
+	switch (property_id) {
+	case PROP_SHOW_TIME:
+		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->time_entry));
+		return;
+	case PROP_SHOW_NOW_BUTTON:
+		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->now_button));
+		return;
+	case PROP_SHOW_TODAY_BUTTON:
+		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->today_button));
+		return;
+	case PROP_ALLOW_NO_DATE_SET:
+		g_value_set_boolean (value, GTK_WIDGET_VISIBLE (ecde->none_button));
+		return;
+	case PROP_USE_24_HOUR_FORMAT:
+		g_value_set_boolean (value, ecde->use_24_hour_format);
+		return;
+	case PROP_LOWER_HOUR:
+		g_value_set_int (value, ecde->lower_hour);
+		return;
+	case PROP_UPPER_HOUR:
+		g_value_set_int (value, ecde->upper_hour);
+		return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 
 static void
-e_cell_date_edit_set_arg		(GtkObject	*o,
-					 GtkArg		*arg,
-					 guint		 arg_id)
+e_cell_date_edit_set_property		(GObject	*object,
+					 guint		 property_id,
+					 const GValue	*value,
+					 GParamSpec	*pspec)
 {
 	ECellDateEdit *ecde;
 	gint ivalue;
 	gboolean bvalue;
 
-	ecde = E_CELL_DATE_EDIT (o);
+	ecde = E_CELL_DATE_EDIT (object);
 
-	switch (arg_id){
-	case ARG_SHOW_TIME:
-		bvalue = GTK_VALUE_BOOL (*arg);
-		if (bvalue) {
+	switch (property_id) {
+	case PROP_SHOW_TIME:
+		if (g_value_get_boolean (value)) {
 			gtk_widget_show (ecde->time_entry);
 			gtk_widget_show (ecde->time_list);
 		} else {
 			gtk_widget_hide (ecde->time_entry);
 			gtk_widget_hide (ecde->time_list);
 		}
-		break;
-	case ARG_SHOW_NOW_BUTTON:
-		bvalue = GTK_VALUE_BOOL (*arg);
-		if (bvalue) {
+		return;
+	case PROP_SHOW_NOW_BUTTON:
+		if (g_value_get_boolean (value)) {
 			gtk_widget_show (ecde->now_button);
 		} else {
 			gtk_widget_hide (ecde->now_button);
 		}
-		break;
-	case ARG_SHOW_TODAY_BUTTON:
-		bvalue = GTK_VALUE_BOOL (*arg);
-		if (bvalue) {
+		return;
+	case PROP_SHOW_TODAY_BUTTON:
+		if (g_value_get_boolean (value)) {
 			gtk_widget_show (ecde->today_button);
 		} else {
 			gtk_widget_hide (ecde->today_button);
 		}
-		break;
-	case ARG_ALLOW_NO_DATE_SET:
-		bvalue = GTK_VALUE_BOOL (*arg);
-		if (bvalue) {
+		return;
+	case PROP_ALLOW_NO_DATE_SET:
+		if (g_value_get_boolean (value)) {
 			gtk_widget_show (ecde->none_button);
 		} else {
 			/* FIXME: What if we have no date set now. */
 			gtk_widget_hide (ecde->none_button);
 		}
-		break;
-	case ARG_USE_24_HOUR_FORMAT:
-		bvalue = GTK_VALUE_BOOL (*arg);
+		return;
+	case PROP_USE_24_HOUR_FORMAT:
+		bvalue = g_value_get_boolean (value);
 		if (ecde->use_24_hour_format != bvalue) {
 			ecde->use_24_hour_format = bvalue;
 			ecde->need_time_list_rebuild = TRUE;
 		}
-		break;
-	case ARG_LOWER_HOUR:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_LOWER_HOUR:
+		ivalue = g_value_get_int (value);
 		ivalue = CLAMP (ivalue, 0, 24);
 		if (ecde->lower_hour != ivalue) {
 			ecde->lower_hour = ivalue;
 			ecde->need_time_list_rebuild = TRUE;
 		}
-		break;
-	case ARG_UPPER_HOUR:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_UPPER_HOUR:
+		ivalue = g_value_get_int (value);
 		ivalue = CLAMP (ivalue, 0, 24);
 		if (ecde->upper_hour != ivalue) {
 			ecde->upper_hour = ivalue;
 			ecde->need_time_list_rebuild = TRUE;
 		}
-		break;
-	default:
-		g_warning ("Invalid arg");
+		return;
 	}
 
-#if 0
-	if (ecde->need_time_list_rebuild && ecde->freeze_count == 0)
-		e_cell_date_edit_rebuild_time_list (ecde);
-#endif
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 
@@ -949,7 +1001,7 @@ void
 e_cell_date_edit_set_get_time_callback (ECellDateEdit	*ecde,
 					ECellDateEditGetTimeCallback cb,
 					gpointer	 data,
-					GtkDestroyNotify destroy)
+					GDestroyNotify   destroy)
 {
 	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
 

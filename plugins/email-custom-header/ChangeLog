@@ -1,3 +1,10 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* email-custom-header.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-05-19  Ashish Shrivastava  <shashish@novell.com>
 
 	* org-gnome-email-custom-header.eplug.xml:

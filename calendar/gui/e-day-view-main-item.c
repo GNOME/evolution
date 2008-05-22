@@ -40,8 +40,10 @@
 #include <libecal/e-cal-time-util.h>
 #include <e-calendar-view.h>
 
-static void e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg ,
-					  guint arg_id);
+static void e_day_view_main_item_set_property (GObject *object,
+					       guint property_id,
+					       const GValue *value,
+					       GParamSpec *pspec);
 static void e_day_view_main_item_update (GnomeCanvasItem *item,
 					 double *affine,
 					 ArtSVP *clip_path, int flags);
@@ -80,8 +82,8 @@ static void e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_DAY_VIEW
+	PROP_0,
+	PROP_DAY_VIEW
 };
 
 G_DEFINE_TYPE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM)
@@ -89,23 +91,26 @@ G_DEFINE_TYPE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 static void
 e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 {
-	GtkObjectClass  *object_class;
+	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass *) class;
-	item_class = (GnomeCanvasItemClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_day_view_main_item_set_property;
 
-	gtk_object_add_arg_type ("EDayViewMainItem::day_view",
-				 GTK_TYPE_POINTER, GTK_ARG_WRITABLE,
-				 ARG_DAY_VIEW);
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->update = e_day_view_main_item_update;
+	item_class->draw = e_day_view_main_item_draw;
+	item_class->point = e_day_view_main_item_point;
+	item_class->event = e_day_view_main_item_event;
 
-	object_class->set_arg = e_day_view_main_item_set_arg;
-
-	/* GnomeCanvasItem method overrides */
-	item_class->update      = e_day_view_main_item_update;
-	item_class->draw        = e_day_view_main_item_draw;
-	item_class->point       = e_day_view_main_item_point;
-	item_class->event       = e_day_view_main_item_event;
+	g_object_class_install_property (
+		object_class,
+		PROP_DAY_VIEW,
+		g_param_spec_pointer (
+			"day_view",
+			NULL,
+			NULL,
+			G_PARAM_WRITABLE));
 
 	/* init the accessibility support for e_day_view */
  	e_day_view_main_item_a11y_init ();
@@ -120,17 +125,22 @@ e_day_view_main_item_init (EDayViewMainItem *dvtitem)
 
 
 static void
-e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_day_view_main_item_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec)
 {
 	EDayViewMainItem *dvmitem;
 
-	dvmitem = E_DAY_VIEW_MAIN_ITEM (o);
+	dvmitem = E_DAY_VIEW_MAIN_ITEM (object);
 
-	switch (arg_id){
-	case ARG_DAY_VIEW:
-		dvmitem->day_view = GTK_VALUE_POINTER (*arg);
-		break;
+	switch (property_id) {
+	case PROP_DAY_VIEW:
+		dvmitem->day_view = g_value_get_pointer (value);
+		return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 

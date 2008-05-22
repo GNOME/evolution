@@ -36,9 +36,9 @@ G_BEGIN_DECLS
  * ECalListView - displays calendar events in an ETable.
  */
 
-#define E_CAL_LIST_VIEW(obj)          GTK_CHECK_CAST (obj, e_cal_list_view_get_type (), ECalListView)
-#define E_CAL_LIST_VIEW_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_cal_list_view_get_type (), ECalListViewClass)
-#define E_IS_CAL_LIST_VIEW(obj)       GTK_CHECK_TYPE (obj, e_cal_list_view_get_type ())
+#define E_CAL_LIST_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_cal_list_view_get_type (), ECalListView)
+#define E_CAL_LIST_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_cal_list_view_get_type (), ECalListViewClass)
+#define E_IS_CAL_LIST_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_cal_list_view_get_type ())
 
 
 typedef struct _ECalListView       ECalListView;
@@ -73,7 +73,7 @@ struct _ECalListViewClass
 };
 
 
-GtkType	   e_cal_list_view_get_type		(void);
+GType		   e_cal_list_view_get_type		(void);
 GtkWidget *e_cal_list_view_construct            (ECalListView *cal_list_view);
 
 GtkWidget *e_cal_list_view_new			(void);

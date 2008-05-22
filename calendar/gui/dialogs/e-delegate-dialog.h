@@ -48,7 +48,7 @@ struct _EDelegateDialogClass {
 	GtkObjectClass parent_class;
 };
 
-GtkType          e_delegate_dialog_get_type          (void);
+GType            e_delegate_dialog_get_type          (void);
 
 EDelegateDialog* e_delegate_dialog_construct         (EDelegateDialog *etd,
 						      const char      *name,

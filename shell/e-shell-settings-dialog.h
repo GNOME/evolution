@@ -32,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_SHELL_SETTINGS_DIALOG			(e_shell_settings_dialog_get_type ())
-#define E_SHELL_SETTINGS_DIALOG(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialog))
-#define E_SHELL_SETTINGS_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialogClass))
-#define E_IS_SHELL_SETTINGS_DIALOG(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
-#define E_IS_SHELL_SETTINGS_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
+#define E_SHELL_SETTINGS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialog))
+#define E_SHELL_SETTINGS_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialogClass))
+#define E_IS_SHELL_SETTINGS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
+#define E_IS_SHELL_SETTINGS_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
 
 
 typedef struct _EShellSettingsDialog        EShellSettingsDialog;
@@ -53,7 +53,7 @@ struct _EShellSettingsDialogClass {
 };
 
 
-GtkType    e_shell_settings_dialog_get_type  (void);
+GType      e_shell_settings_dialog_get_type  (void);
 GtkWidget *e_shell_settings_dialog_new       (void);
 void       e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog,
 					      const char           *type);

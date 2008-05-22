@@ -32,10 +32,10 @@ extern "C" {
 #endif /* cplusplus */
 
 #define E_TYPE_CERT_SELECTOR			(e_cert_selector_get_type ())
-#define E_CERT_SELECTOR(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_CERT_SELECTOR, ECertSelector))
-#define E_CERT_SELECTOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_CERT_SELECTOR, ECertSelectorClass))
-#define E_IS_CERT_SELECTOR(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_CERT_SELECTOR))
-#define E_IS_CERT_SELECTOR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_CERT_SELECTOR))
+#define E_CERT_SELECTOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CERT_SELECTOR, ECertSelector))
+#define E_CERT_SELECTOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CERT_SELECTOR, ECertSelectorClass))
+#define E_IS_CERT_SELECTOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CERT_SELECTOR))
+#define E_IS_CERT_SELECTOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CERT_SELECTOR))
 
 typedef struct _ECertSelector        ECertSelector;
 typedef struct _ECertSelectorClass   ECertSelectorClass;
@@ -57,7 +57,7 @@ enum _e_cert_selector_type {
 	E_CERT_SELECTOR_RECIPIENT,
 };
 
-GtkType    e_cert_selector_get_type (void);
+GType      e_cert_selector_get_type (void);
 GtkWidget *e_cert_selector_new      (int type, const char *currentid);
 
 #ifdef cplusplus

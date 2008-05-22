@@ -72,10 +72,10 @@ struct _RuleEditorPrivate {
 static GtkDialogClass *parent_class = NULL;
 
 
-GtkType
+GType
 rule_editor_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
 		static const GTypeInfo info = {
@@ -626,7 +626,7 @@ rule_bottom (GtkWidget *widget, RuleEditor *re)
 
 static struct {
 	char *name;
-	GtkSignalFunc func;
+	GCallback func;
 } edit_buttons[] = {
 	{ "rule_add",    G_CALLBACK (rule_add)    },
 	{ "rule_edit",   G_CALLBACK (rule_edit)   },

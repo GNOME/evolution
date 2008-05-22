@@ -68,7 +68,7 @@ typedef enum {
 	COMP_EDITOR_IS_SHARED = 1 << 5
 } CompEditorFlags;
 
-GtkType       comp_editor_get_type         (void);
+GType         comp_editor_get_type         (void);
 void          comp_editor_set_changed      (CompEditor             *editor,
 					    gboolean                changed);
 gboolean      comp_editor_get_changed      (CompEditor             *editor);

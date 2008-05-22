@@ -57,7 +57,7 @@ struct _EConfigPageClass {
 };
 
 
-GtkType    e_config_page_get_type    (void);
+GType      e_config_page_get_type    (void);
 GtkWidget *e_config_page_new         (void);
 
 #ifdef __cplusplus

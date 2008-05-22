@@ -1070,8 +1070,8 @@ vfolder_edit_rule(const char *uri)
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 		gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 		gtk_widget_show((GtkWidget *)gd);
-		g_object_set_data_full(G_OBJECT(gd), "rule", newrule, (GtkDestroyNotify)g_object_unref);
-		g_object_set_data_full(G_OBJECT(gd), "orig", rule, (GtkDestroyNotify)g_object_unref);
+		g_object_set_data_full(G_OBJECT(gd), "rule", newrule, (GDestroyNotify)g_object_unref);
+		g_object_set_data_full(G_OBJECT(gd), "orig", rule, (GDestroyNotify)g_object_unref);
 		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {
@@ -1160,7 +1160,7 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
-	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GtkDestroyNotify)g_object_unref);
+	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GDestroyNotify)g_object_unref);
 	g_signal_connect(gd, "response", G_CALLBACK(new_rule_clicked), NULL);
 	gtk_widget_show((GtkWidget *)gd);
 }

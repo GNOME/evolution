@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define E_CALENDAR_TABLE_CONFIG(obj)          GTK_CHECK_CAST (obj, e_calendar_table_config_get_type (), ECalendarTableConfig)
-#define E_CALENDAR_TABLE_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_calendar_table_config_get_type (), ECalendarTableConfigClass)
-#define E_IS_CALENDAR_TABLE_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_calendar_table_config_get_type ())
+#define E_CALENDAR_TABLE_CONFIG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_table_config_get_type (), ECalendarTableConfig)
+#define E_CALENDAR_TABLE_CONFIG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_table_config_get_type (), ECalendarTableConfigClass)
+#define E_IS_CALENDAR_TABLE_CONFIG(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_table_config_get_type ())
 
 typedef struct _ECalendarTableConfig        ECalendarTableConfig;
 typedef struct _ECalendarTableConfigClass   ECalendarTableConfigClass;

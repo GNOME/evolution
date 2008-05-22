@@ -28,10 +28,10 @@
 G_BEGIN_DECLS
 
 #define E_TYPE_ITIP_CONTROL			(e_itip_control_get_type ())
-#define E_ITIP_CONTROL(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_ITIP_CONTROL, EItipControl))
-#define E_ITIP_CONTROL_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_ITIP_CONTROL, EItipControlClass))
-#define E_IS_ITIP_CONTROL(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_ITIP_CONTROL))
-#define E_IS_ITIP_CONTROL_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_ITIP_CONTROL))
+#define E_ITIP_CONTROL(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ITIP_CONTROL, EItipControl))
+#define E_ITIP_CONTROL_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_ITIP_CONTROL, EItipControlClass))
+#define E_IS_ITIP_CONTROL(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ITIP_CONTROL))
+#define E_IS_ITIP_CONTROL_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_ITIP_CONTROL))
 
 
 typedef struct _EItipControl        EItipControl;
@@ -50,7 +50,7 @@ struct _EItipControlClass {
 
 
 
-GtkType      e_itip_control_get_type         (void);
+GType        e_itip_control_get_type         (void);
 GtkWidget *  e_itip_control_new              (void);
 void         e_itip_control_set_data         (EItipControl *itip,
 					      const gchar  *text);

@@ -27,10 +27,10 @@
 #include <time.h>
 
 #define E_TYPE_SENDOPTIONS_DIALOG       (e_sendoptions_dialog_get_type ())
-#define E_SENDOPTIONS_DIALOG(obj)       (GTK_CHECK_CAST ((obj), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialog))
-#define E_SENDOPTIONS_DIALOG_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialogClass))
-#define E_IS_SENDOPTIONS_DIALOG(obj)    (GTK_CHECK_TYPE ((obj), E_TYPE_SENDOPTIONS_DIALOG))
-#define E_IS_SENDOPTIONS_DIALOG_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_SENDOPTIONS_DIALOG))
+#define E_SENDOPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialog))
+#define E_SENDOPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialogClass))
+#define E_IS_SENDOPTIONS_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SENDOPTIONS_DIALOG))
+#define E_IS_SENDOPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SENDOPTIONS_DIALOG))
 
 typedef struct _ESendOptionsDialog		ESendOptionsDialog;
 typedef struct _ESendOptionsDialogClass		ESendOptionsDialogClass;

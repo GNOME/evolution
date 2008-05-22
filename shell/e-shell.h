@@ -42,10 +42,10 @@ typedef struct _EShellClass   EShellClass;
 
 
 #define E_TYPE_SHELL			(e_shell_get_type ())
-#define E_SHELL(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SHELL, EShell))
-#define E_SHELL_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL, EShellClass))
-#define E_IS_SHELL(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_SHELL))
-#define E_IS_SHELL_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL))
+#define E_SHELL(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL, EShell))
+#define E_SHELL_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL, EShellClass))
+#define E_IS_SHELL(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL))
+#define E_IS_SHELL_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL))
 
 
 enum _EShellLineStatus {
@@ -93,7 +93,7 @@ enum _EShellConstructResult {
 typedef enum _EShellConstructResult EShellConstructResult;
 
 
-GtkType                e_shell_get_type   (void);
+GType                  e_shell_get_type   (void);
 EShellConstructResult  e_shell_construct  (EShell                *shell,
 					   const char            *iid,
 					   EShellStartupLineMode  startup_line_mode);

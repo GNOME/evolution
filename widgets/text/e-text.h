@@ -232,7 +232,7 @@ struct _ETextClass {
 
 
 /* Standard Gtk function */
-GtkType  e_text_get_type        (void);
+GType    e_text_get_type        (void);
 void     e_text_cancel_editing  (EText *text);
 void     e_text_stop_editing    (EText *text);
 

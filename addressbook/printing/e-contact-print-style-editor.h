@@ -39,10 +39,10 @@ extern "C" {
  */
 
 #define E_CONTACT_PRINT_STYLE_EDITOR_TYPE			(e_contact_print_style_editor_get_type ())
-#define E_CONTACT_PRINT_STYLE_EDITOR(obj)			(GTK_CHECK_CAST ((obj), E_CONTACT_PRINT_STYLE_EDITOR_TYPE, EContactPrintStyleEditor))
-#define E_CONTACT_PRINT_STYLE_EDITOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CONTACT_PRINT_STYLE_EDITOR_TYPE, EContactPrintStyleEditorClass))
-#define E_IS_MINICARD(obj)		(GTK_CHECK_TYPE ((obj), E_CONTACT_PRINT_STYLE_EDITOR_TYPE))
-#define E_IS_MINICARD_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CONTACT_PRINT_STYLE_EDITOR_TYPE))
+#define E_CONTACT_PRINT_STYLE_EDITOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_CONTACT_PRINT_STYLE_EDITOR_TYPE, EContactPrintStyleEditor))
+#define E_CONTACT_PRINT_STYLE_EDITOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_CONTACT_PRINT_STYLE_EDITOR_TYPE, EContactPrintStyleEditorClass))
+#define E_IS_MINICARD(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_CONTACT_PRINT_STYLE_EDITOR_TYPE))
+#define E_IS_MINICARD_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_CONTACT_PRINT_STYLE_EDITOR_TYPE))
 
 
 typedef struct _EContactPrintStyleEditor       EContactPrintStyleEditor;
@@ -63,7 +63,7 @@ struct _EContactPrintStyleEditorClass
 
 
 GtkWidget *e_contact_print_style_editor_new(char *filename);
-GtkType    e_contact_print_style_editor_get_type (void);
+GType      e_contact_print_style_editor_get_type (void);
 
 #ifdef __cplusplus
 }

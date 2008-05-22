@@ -62,7 +62,7 @@ struct _EComboButtonClass {
 };
 
 
-GtkType    e_combo_button_get_type   (void);
+GType      e_combo_button_get_type   (void);
 void       e_combo_button_construct  (EComboButton *combo_button);
 GtkWidget *e_combo_button_new        (void);
 

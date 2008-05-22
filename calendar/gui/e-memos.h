@@ -33,11 +33,11 @@
 #include "e-memo-table.h"
 
 #define E_TYPE_MEMOS            (e_memos_get_type ())
-#define E_MEMOS(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_MEMOS, EMemos))
-#define E_MEMOS_CLASS(klass)    (GTK_CHECK_CAST_CLASS ((klass), E_TYPE_MEMOS, \
+#define E_MEMOS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MEMOS, EMemos))
+#define E_MEMOS_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), E_TYPE_MEMOS, \
 				 EMemosClass))
-#define E_IS_MEMOS(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_MEMOS))
-#define E_IS_MEMOS_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_MEMOS))
+#define E_IS_MEMOS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MEMOS))
+#define E_IS_MEMOS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_MEMOS))
 
 typedef struct _EMemos EMemos;
 typedef struct _EMemosClass EMemosClass;
@@ -60,7 +60,7 @@ struct _EMemosClass {
 };
 
 
-GtkType    e_memos_get_type        (void);
+GType      e_memos_get_type        (void);
 GtkWidget *e_memos_construct       (EMemos *memos);
 
 GtkWidget *e_memos_new             (void);

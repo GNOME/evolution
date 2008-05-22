@@ -53,7 +53,7 @@ typedef enum {
 } CompEditorPageFlags;
 
 typedef struct {
-	GtkObject object;
+	GObject object;
 
 	/* Some of the pages need the ECal to access timezone data. Also,
 	 * the event page needs to know it to fill the source option menu. */
@@ -70,7 +70,7 @@ typedef struct {
 } CompEditorPage;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Notification signals */
 
@@ -95,7 +95,7 @@ typedef struct {
 	void (* set_dates) (CompEditorPage *page, CompEditorPageDates *dates);
 } CompEditorPageClass;
 
-GtkType    comp_editor_page_get_type               (void);
+GType      comp_editor_page_get_type               (void);
 GtkWidget *comp_editor_page_get_widget             (CompEditorPage      *page);
 void       comp_editor_page_focus_main_widget      (CompEditorPage      *page);
 void       comp_editor_page_unset_focused_widget   (CompEditorPage *page, GtkWidget *widget);

@@ -172,7 +172,7 @@ typedef enum {
 	MESSAGE_LIST_SELECT_WRAP = 1<<1, /* option bit */
 } MessageListSelectDirection;
 
-GtkType        message_list_get_type   (void);
+GType          message_list_get_type   (void);
 GtkWidget     *message_list_new        (void);
 void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const char *uri, gboolean outgoing);
 

@@ -1,3 +1,43 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* e-activity-handler.h:
+	* e-attachment-bar.h:
+	* e-attachment.c:
+	* e-calendar-item.c:
+	* e-calendar-item.h:
+	* e-calendar.h:
+	* e-canvas-background.h:
+	* e-canvas-vbox.h:
+	* e-canvas.c:
+	* e-canvas.h:
+	* e-cell-date-edit.c:
+	* e-cell-date-edit.h:
+	* e-combo-button.c:
+	* e-combo-button.h:
+	* e-config-page.h:
+	* e-dateedit.c:
+	* e-dateedit.h:
+	* e-dropdown-button.c:
+	* e-dropdown-button.h:
+	* e-filter-bar.c:
+	* e-gui-utils.c:
+	* e-gui-utils.h:
+	* e-image-chooser.c:
+	* e-map.c:
+	* e-map.h:
+	* e-multi-config-dialog.h:
+	* e-popup-menu.h:
+	* e-printable.h:
+	* e-reflow.h:
+	* e-send-options.h:
+	* e-task-bar.h:
+	* e-task-widget.h:
+	* e-url-entry.c:
+	* e-url-entry.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-05-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #311042, Patch by Milan Crha

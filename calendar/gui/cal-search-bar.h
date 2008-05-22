@@ -29,11 +29,11 @@ G_BEGIN_DECLS
 
 
 #define TYPE_CAL_SEARCH_BAR            (cal_search_bar_get_type ())
-#define CAL_SEARCH_BAR(obj)            (GTK_CHECK_CAST ((obj), TYPE_CAL_SEARCH_BAR, CalSearchBar))
-#define CAL_SEARCH_BAR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_CAL_SEARCH_BAR,	\
+#define CAL_SEARCH_BAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CAL_SEARCH_BAR, CalSearchBar))
+#define CAL_SEARCH_BAR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_CAL_SEARCH_BAR,	\
 					CalSearchBarClass))
-#define IS_CAL_SEARCH_BAR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_CAL_SEARCH_BAR))
-#define IS_CAL_SEARCH_BAR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_CAL_SEARCH_BAR))
+#define IS_CAL_SEARCH_BAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_CAL_SEARCH_BAR))
+#define IS_CAL_SEARCH_BAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_CAL_SEARCH_BAR))
 
 typedef struct CalSearchBarPrivate CalSearchBarPrivate;
 
@@ -67,7 +67,7 @@ typedef struct {
 	void (* category_changed) (CalSearchBar *cal_search, const char *category);
 } CalSearchBarClass;
 
-GtkType cal_search_bar_get_type (void);
+GType cal_search_bar_get_type (void);
 
 CalSearchBar *cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags);
 

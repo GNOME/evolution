@@ -3385,7 +3385,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	/* Connect to the deletion of the dialog */
 
 	g_signal_connect (e_contact_editor->app, "delete_event",
-			    GTK_SIGNAL_FUNC (app_delete_event_cb), e_contact_editor);
+			    G_CALLBACK (app_delete_event_cb), e_contact_editor);
 
 	/* set the icon */
 	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "evolution-contacts-mini.png", NULL);

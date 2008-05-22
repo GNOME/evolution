@@ -29,12 +29,12 @@ G_BEGIN_DECLS
 
 
 #define TYPE_CALENDAR_VIEW_FACTORY            (calendar_view_factory_get_type ())
-#define CALENDAR_VIEW_FACTORY(obj)            (GTK_CHECK_CAST ((obj), TYPE_CALENDAR_VIEW_FACTORY,  \
+#define CALENDAR_VIEW_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CALENDAR_VIEW_FACTORY,  \
 					       CalendarViewFactory))
-#define CALENDAR_VIEW_FACTORY_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass),			   \
+#define CALENDAR_VIEW_FACTORY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),			   \
 					       TYPE_CALENDAR_VIEW_FACTORY, CalendarViewClass))
-#define IS_CALENDAR_VIEW_FACTORY(obj)         (GTK_CHECK_TYPE ((obj), TYPE_CALENDAR_VIEW_FACTORY))
-#define IS_CALENDAR_VIEW_FACTORY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass),			   \
+#define IS_CALENDAR_VIEW_FACTORY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_CALENDAR_VIEW_FACTORY))
+#define IS_CALENDAR_VIEW_FACTORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),			   \
 					       TYPE_CALENDAR_VIEW_FACTORY))
 
 typedef struct _CalendarViewFactoryPrivate CalendarViewFactoryPrivate;
@@ -50,7 +50,7 @@ typedef struct {
 	GalViewFactoryClass parent_class;
 } CalendarViewFactoryClass;
 
-GtkType calendar_view_factory_get_type (void);
+GType calendar_view_factory_get_type (void);
 
 CalendarViewFactory *calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
 						      GnomeCalendarViewType view_type);

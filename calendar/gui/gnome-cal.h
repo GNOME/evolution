@@ -40,11 +40,11 @@ G_BEGIN_DECLS
 struct _EPopup;
 
 #define GNOME_TYPE_CALENDAR            (gnome_calendar_get_type ())
-#define GNOME_CALENDAR(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CALENDAR, GnomeCalendar))
-#define GNOME_CALENDAR_CLASS(klass)    (GTK_CHECK_CAST_CLASS ((klass), GNOME_TYPE_CALENDAR,	\
+#define GNOME_CALENDAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CALENDAR, GnomeCalendar))
+#define GNOME_CALENDAR_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), GNOME_TYPE_CALENDAR,	\
 					GnomeCalendarClass))
-#define GNOME_IS_CALENDAR(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CALENDAR))
-#define GNOME_IS_CALENDAR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CALENDAR))
+#define GNOME_IS_CALENDAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CALENDAR))
+#define GNOME_IS_CALENDAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CALENDAR))
 
 typedef struct _GnomeCalendar GnomeCalendar;
 typedef struct _GnomeCalendarClass GnomeCalendarClass;
@@ -102,7 +102,7 @@ struct _GnomeCalendarClass {
 };
 
 
-GtkType    gnome_calendar_get_type         	(void);
+GType      gnome_calendar_get_type         	(void);
 GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
 GtkWidget *gnome_calendar_new			(void);

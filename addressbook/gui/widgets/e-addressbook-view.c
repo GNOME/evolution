@@ -74,7 +74,7 @@
 #define d(x)
 
 static void eab_view_init		(EABView		 *card);
-static void eab_view_class_init	(EABViewClass	 *klass);
+static void eab_view_class_init	(EABViewClass	 *class);
 
 static void eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void eab_view_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
@@ -109,8 +109,7 @@ static void search_activated            (ESearchBar *esb, EABView *view);
 static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
 static GList *get_master_list (gboolean force_rebuild);
 
-#define PARENT_TYPE GTK_TYPE_VBOX
-static GtkVBoxClass *parent_class = NULL;
+static gpointer parent_class;
 
 /* The arguments we take */
 enum {
@@ -194,21 +193,20 @@ eab_view_get_type (void)
 			(GInstanceInitFunc) eab_view_init,
 		};
 
-		type = g_type_register_static (PARENT_TYPE, "EABView", &info, 0);
+		type = g_type_register_static (GTK_TYPE_VBOX, "EABView", &info, 0);
 	}
 
 	return type;
 }
 
 static void
-eab_view_class_init (EABViewClass *klass)
+eab_view_class_init (EABViewClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
+	parent_class = g_type_class_peek_parent (class);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
-
+	object_class = G_OBJECT_CLASS(class);
 	object_class->set_property = eab_view_set_property;
 	object_class->get_property = eab_view_get_property;
 	object_class->dispose = eab_view_dispose;
@@ -377,8 +375,7 @@ eab_view_dispose (GObject *object)
 		eav->search_rule = NULL;
 	}
 
-	if (G_OBJECT_CLASS(parent_class)->dispose)
-		G_OBJECT_CLASS(parent_class)->dispose(object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

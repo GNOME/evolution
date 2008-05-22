@@ -50,7 +50,7 @@ typedef struct {
 	CompEditorPageClass parent_class;
 } MemoPageClass;
 
-GtkType   memo_page_get_type  (void);
+GType     memo_page_get_type  (void);
 MemoPage *memo_page_construct (MemoPage *epage);
 MemoPage *memo_page_new       (BonoboUIComponent *uic, CompEditorPageFlags flags);
 void      memo_page_set_classification (MemoPage *page, ECalComponentClassification class);

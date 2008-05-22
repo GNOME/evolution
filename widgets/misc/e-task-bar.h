@@ -33,10 +33,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_TASK_BAR			(e_task_bar_get_type ())
-#define E_TASK_BAR(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_TASK_BAR, ETaskBar))
-#define E_TASK_BAR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_TASK_BAR, ETaskBarClass))
-#define E_IS_TASK_BAR(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_TASK_BAR))
-#define E_IS_TASK_BAR_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_TASK_BAR))
+#define E_TASK_BAR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TASK_BAR, ETaskBar))
+#define E_TASK_BAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TASK_BAR, ETaskBarClass))
+#define E_IS_TASK_BAR(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TASK_BAR))
+#define E_IS_TASK_BAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_TASK_BAR))
 
 
 typedef struct _ETaskBar        ETaskBar;
@@ -54,7 +54,7 @@ struct _ETaskBarClass {
 };
 
 
-GtkType      e_task_bar_get_type         (void);
+GType        e_task_bar_get_type         (void);
 void         e_task_bar_construct        (ETaskBar    *task_bar);
 GtkWidget   *e_task_bar_new              (void);
 

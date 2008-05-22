@@ -111,7 +111,7 @@ static const struct {
 	{ N_("Once per month"), 30 },
 };
 
-GtkType
+GType
 em_mailer_prefs_get_type (void)
 {
 	static GType type = 0;

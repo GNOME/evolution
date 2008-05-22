@@ -383,7 +383,7 @@ static void source_remove(GtkWidget *widget, struct _source_data *data);
 
 static struct {
 	char *name;
-	GtkSignalFunc func;
+	GCallback func;
 } edit_buttons[] = {
 	{ "source_add",    G_CALLBACK(source_add)   },
 	{ "source_remove", G_CALLBACK(source_remove)},
@@ -673,7 +673,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 
 	rb = g_slist_nth_data(gtk_radio_button_get_group (rb), vr->with);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb), TRUE);
-	gtk_signal_emit_by_name (GTK_OBJECT (rb), "toggled");
+	g_signal_emit_by_name (rb, "toggled");
 
 	set_sensitive(data);
 

@@ -132,29 +132,30 @@ static GtkWidgetClass *parent_class;
  * Return value: The type ID of the #EMap class.
  **/
 
-GtkType
+GType
 e_map_get_type (void)
 {
-	static GtkType e_map_type = 0;
+	static GType type = 0;
 
-	if (!e_map_type)
-	{
-		static const GtkTypeInfo e_map_info =
-		{
-			"EMap",
-			sizeof (EMap),
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (EMapClass),
-			(GtkClassInitFunc) e_map_class_init,
-			(GtkObjectInitFunc) e_map_init,
-			NULL,	/* reserved_1 */
-			NULL,	/* reserved_2 */
-			(GtkClassInitFunc) NULL
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_map_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMap),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) e_map_init,
+			NULL   /* value_table */
 		};
 
-		e_map_type = gtk_type_unique (GTK_TYPE_WIDGET, &e_map_info);
+		type = g_type_register_static (
+			GTK_TYPE_WIDGET, "EMap", &type_info, 0);
 	}
 
-	return e_map_type;
+	return type;
 }
 
 /* Class initialization function for the map view */

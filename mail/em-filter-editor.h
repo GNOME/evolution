@@ -30,7 +30,7 @@
 #define EM_FILTER_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_editor_get_type(), EMFilterEditorClass))
 #define EM_IS_FILTER_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_filter_editor_get_type()))
 #define EM_IS_FILTER_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_filter_editor_get_type()))
-#define EM_FILTER_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), em_filter_editor_get_type(), EMFilterEditorClass))
+#define EM_FILTER_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_filter_editor_get_type(), EMFilterEditorClass))
 
 typedef struct _EMFilterEditor EMFilterEditor;
 typedef struct _EMFilterEditorClass EMFilterEditorClass;
@@ -50,7 +50,7 @@ struct _EMFilterEditorClass {
 	RuleEditorClass parent_class;
 };
 
-GtkType em_filter_editor_get_type (void);
+GType em_filter_editor_get_type (void);
 
 EMFilterEditor *em_filter_editor_new (EMFilterContext *f, const EMFilterSource *source_names);
 void em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names);

@@ -1,3 +1,81 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* conduits/calendar/calendar-conduit.c:
+	* conduits/memo/memo-conduit.c:
+	* conduits/todo/todo-conduit.c:
+	* gui/cal-search-bar.c:
+	* gui/cal-search-bar.h:
+	* gui/calendar-commands.c:
+	* gui/calendar-view-factory.h:
+	* gui/calendar-view.h:
+	* gui/comp-editor-factory.h:
+	* gui/dialogs/comp-editor-page.c:
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/e-delegate-dialog.h:
+	* gui/dialogs/event-editor.h:
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/memo-editor.h:
+	* gui/dialogs/memo-page.h:
+	* gui/dialogs/recurrence-page.c:
+	* gui/dialogs/recurrence-page.h:
+	* gui/dialogs/schedule-page.h:
+	* gui/dialogs/task-details-page.h:
+	* gui/dialogs/task-editor.h:
+	* gui/dialogs/task-page.h:
+	* gui/e-alarm-list.c:
+	* gui/e-alarm-list.h:
+	* gui/e-cal-component-memo-preview.h:
+	* gui/e-cal-component-preview.h:
+	* gui/e-cal-list-view-config.h:
+	* gui/e-cal-list-view.h:
+	* gui/e-calendar-table-config.h:
+	* gui/e-calendar-table.h:
+	* gui/e-cell-date-edit-config.h:
+	* gui/e-cell-date-edit-text.h:
+	* gui/e-date-edit-config.h:
+	* gui/e-date-time-list.c:
+	* gui/e-date-time-list.h:
+	* gui/e-day-view-config.h:
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-main-item.h:
+	* gui/e-day-view-time-item.c:
+	* gui/e-day-view-time-item.h:
+	* gui/e-day-view-top-item.c:
+	* gui/e-day-view-top-item.h:
+	* gui/e-day-view.c:
+	* gui/e-day-view.h:
+	* gui/e-itip-control.h:
+	* gui/e-meeting-time-sel-item.c:
+	* gui/e-meeting-time-sel-item.h:
+	* gui/e-meeting-time-sel.c:
+	* gui/e-meeting-time-sel.h:
+	* gui/e-memo-table-config.h:
+	* gui/e-memo-table.h:
+	* gui/e-memos.c:
+	* gui/e-memos.h:
+	* gui/e-mini-calendar-config.h:
+	* gui/e-tasks.c:
+	* gui/e-tasks.h:
+	* gui/e-timezone-entry.c:
+	* gui/e-timezone-entry.h:
+	* gui/e-week-view-config.h:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view-event-item.h:
+	* gui/e-week-view-main-item.c:
+	* gui/e-week-view-main-item.h:
+	* gui/e-week-view-titles-item.c:
+	* gui/e-week-view-titles-item.h:
+	* gui/e-week-view.c:
+	* gui/e-week-view.h:
+	* gui/gnome-cal.c:
+	* gui/gnome-cal.h:
+	* gui/weekday-picker.c:
+	* gui/weekday-picker.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-05-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	** Fix for bug #533820

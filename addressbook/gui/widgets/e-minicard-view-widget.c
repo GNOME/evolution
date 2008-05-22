@@ -30,7 +30,7 @@
 #include "e-minicard-view-widget.h"
 
 static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
-static void e_minicard_view_widget_class_init	 (EMinicardViewWidgetClass	 *klass);
+static void e_minicard_view_widget_class_init	 (EMinicardViewWidgetClass	 *class);
 static void e_minicard_view_widget_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_minicard_view_widget_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_minicard_view_widget_dispose       (GObject *object);
@@ -40,8 +40,7 @@ static void e_minicard_view_widget_style_set     (GtkWidget *widget, GtkStyle *p
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
 static gboolean e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *event);
 
-
-static ECanvasClass *parent_class = NULL;
+static gpointer parent_class;
 
 /* The arguments we take */
 enum {
@@ -86,21 +85,31 @@ e_minicard_view_widget_get_type (void)
 }
 
 static void
-e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
+e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	ECanvasClass *canvas_class;
 
-	object_class = (GObjectClass*) klass;
-	widget_class = GTK_WIDGET_CLASS (klass);
-	canvas_class = E_CANVAS_CLASS (klass);
+	parent_class = g_type_class_peek_parent (class);
 
-	parent_class = gtk_type_class (e_canvas_get_type ());
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_minicard_view_widget_set_property;
+	object_class->get_property = e_minicard_view_widget_get_property;
+	object_class->dispose = e_minicard_view_widget_dispose;
 
-	object_class->set_property       = e_minicard_view_widget_set_property;
-	object_class->get_property       = e_minicard_view_widget_get_property;
-	object_class->dispose            = e_minicard_view_widget_dispose;
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->style_set = e_minicard_view_widget_style_set;
+	widget_class->realize = e_minicard_view_widget_realize;
+	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
+	widget_class->focus_in_event = e_minicard_view_widget_real_focus_in_event;
+
+	canvas_class = E_CANVAS_CLASS (class);
+	canvas_class->reflow = e_minicard_view_widget_reflow;
+
+	class->selection_change = NULL;
+	class->column_width_changed = NULL;
+	class->right_click = NULL;
 
 	g_object_class_install_property (object_class, PROP_BOOK,
 					 g_param_spec_object ("book",
@@ -156,18 +165,6 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      NULL, NULL,
 			      eab_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
-
-	widget_class->style_set     = e_minicard_view_widget_style_set;
-	widget_class->realize       = e_minicard_view_widget_realize;
-	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
-	widget_class->focus_in_event = e_minicard_view_widget_real_focus_in_event;
-
-
-	canvas_class->reflow        = e_minicard_view_widget_reflow;
-
-	klass->selection_change     = NULL;
-	klass->column_width_changed = NULL;
-	klass->right_click          = NULL;
 }
 
 static void

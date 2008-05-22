@@ -1,3 +1,18 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* e-component-view.h:
+	* e-corba-config-page.h:
+	* e-history.h:
+	* e-shell-folder-title-bar.h:
+	* e-shell-settings-dialog.h:
+	* e-shell-view.h:
+	* e-shell.h:
+	* e-user-creatable-items-handler.h:
+	* evolution-config-control.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-05-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #525241 (EPluginUI)

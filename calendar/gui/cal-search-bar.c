@@ -147,22 +147,24 @@ cal_search_bar_class_init (CalSearchBarClass *klass)
 	ESearchBarClass *search_bar_class = E_SEARCH_BAR_CLASS (klass);
 
 	cal_search_bar_signals[SEXP_CHANGED] =
-		gtk_signal_new ("sexp_changed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalSearchBarClass, sexp_changed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("sexp_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalSearchBarClass, sexp_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 
 	cal_search_bar_signals[CATEGORY_CHANGED] =
-		gtk_signal_new ("category_changed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalSearchBarClass, category_changed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("category_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalSearchBarClass, category_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 
 	klass->sexp_changed = NULL;
 	klass->category_changed = NULL;
@@ -246,8 +248,7 @@ cal_search_bar_destroy (GtkObject *object)
 static void
 notify_sexp_changed (CalSearchBar *cal_search, const char *sexp)
 {
-	gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[SEXP_CHANGED],
-			 sexp);
+	g_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[SEXP_CHANGED], 0, sexp);
 }
 
 /* Returns the string of the currently selected category, NULL for "Unmatched" and "All
@@ -522,8 +523,7 @@ regen_view_query (CalSearchBar *cal_search)
 	notify_category_is (cal_search);
 
 	category = cal_search_bar_get_category (cal_search);
-	gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED],
-			 category);
+	g_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED], 0, category);
 }
 #endif
 

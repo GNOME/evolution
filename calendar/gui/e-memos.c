@@ -170,8 +170,7 @@ table_selection_change_cb (ETable *etable, gpointer data)
 	memos = E_MEMOS (data);
 
 	n_selected = e_table_selected_count (etable);
-	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SELECTION_CHANGED],
-			 n_selected);
+	g_signal_emit (memos, e_memos_signals[SELECTION_CHANGED], 0, n_selected);
 
 	if (n_selected != 1)
 		e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (memos->priv->preview));
@@ -558,13 +557,14 @@ e_memos_class_init (EMemosClass *klass)
 	object_class = (GtkObjectClass *) klass;
 
 	e_memos_signals[SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (EMemosClass, selection_changed),
-				g_cclosure_marshal_VOID__INT,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_INT);
+		g_signal_new ("selection_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMemosClass, selection_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
 
 	e_memos_signals[SOURCE_ADDED] =
 		g_signal_new ("source_added",
@@ -781,7 +781,7 @@ backend_died_cb (ECal *client, gpointer data)
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
 
-	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_REMOVED], source);
+	g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
 
 	e_memo_table_set_status_message (E_MEMO_TABLE (e_memos_get_calendar_table (memos)), NULL);
 
@@ -830,7 +830,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 		/* Do this last because it unrefs the client */
 		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
 
-		gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_REMOVED], source);
+		g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
 
 		set_status_message (memos, NULL);
 		g_object_unref (source);
@@ -872,7 +872,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 		/* Do this last because it unrefs the client */
 		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
 
-		gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_REMOVED], source);
+		g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
 
 		set_status_message (memos, NULL);
 		g_object_unref (priv->default_client);
@@ -956,7 +956,7 @@ e_memos_add_memo_source (EMemos *memos, ESource *source)
 	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 
-	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_ADDED], source);
+	g_signal_emit (memos, e_memos_signals[SOURCE_ADDED], 0, source);
 
 	open_ecal (memos, client, FALSE, client_cal_opened_cb);
 
@@ -993,7 +993,7 @@ e_memos_remove_memo_source (EMemos *memos, ESource *source)
 	g_hash_table_remove (priv->clients, uid);
 
 
-	gtk_signal_emit (GTK_OBJECT (memos), e_memos_signals[SOURCE_REMOVED], source);
+	g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
 
 	return TRUE;
 }

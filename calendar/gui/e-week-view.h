@@ -149,9 +149,9 @@ struct _EWeekViewEvent {
 };
 
 
-#define E_WEEK_VIEW(obj)          GTK_CHECK_CAST (obj, e_week_view_get_type (), EWeekView)
-#define E_WEEK_VIEW_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_week_view_get_type (), EWeekViewClass)
-#define E_IS_WEEK_VIEW(obj)       GTK_CHECK_TYPE (obj, e_week_view_get_type ())
+#define E_WEEK_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_week_view_get_type (), EWeekView)
+#define E_WEEK_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_week_view_get_type (), EWeekViewClass)
+#define E_IS_WEEK_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_week_view_get_type ())
 
 
 typedef struct _EWeekView       EWeekView;
@@ -347,7 +347,7 @@ struct _EWeekViewClass
 };
 
 
-GtkType	   e_week_view_get_type			(void);
+GType		   e_week_view_get_type			(void);
 GtkWidget* e_week_view_new			(void);
 
 /* The first day shown. Note that it will be rounded down to the start of a

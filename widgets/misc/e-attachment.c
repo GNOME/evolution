@@ -885,8 +885,5 @@ e_attachment_edit (EAttachment *attachment, GtkWidget *parent)
 
 	/* make sure that when the parent gets hidden/closed that our windows also close */
 	parent = gtk_widget_get_toplevel (parent);
-	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy", (GCallback) close_cb, dialog_data,
-					GTK_OBJECT (dialog_data->dialog));
-	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "hide", (GCallback) close_cb, dialog_data,
-					GTK_OBJECT (dialog_data->dialog));
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog_data->dialog), TRUE);
 }

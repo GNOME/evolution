@@ -45,7 +45,7 @@
 #include "a11y/addressbook/ea-addressbook.h"
 
 static void e_minicard_init		(EMinicard		 *card);
-static void e_minicard_class_init	(EMinicardClass	 *klass);
+static void e_minicard_class_init	(EMinicardClass	 *class);
 static void e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_minicard_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_minicard_dispose (GObject *object);
@@ -61,7 +61,7 @@ static void remodel( EMinicard *e_minicard );
 
 static gint e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event);
 
-static GnomeCanvasGroupClass *parent_class = NULL;
+static gpointer parent_class;
 
 #define d(x)
 
@@ -131,19 +131,26 @@ e_minicard_get_type (void)
 }
 
 static void
-e_minicard_class_init (EMinicardClass *klass)
+e_minicard_class_init (EMinicardClass *class)
 {
-	GObjectClass *object_class = (GObjectClass*) klass;
-	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) klass;
+	GObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
 
-	object_class->set_property  = e_minicard_set_property;
-	object_class->get_property  = e_minicard_get_property;
-	object_class->dispose    = e_minicard_dispose;
-	object_class->finalize      = e_minicard_finalize;
+	parent_class = g_type_class_peek_parent (class);
 
-	klass->style_set = e_minicard_style_set;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_minicard_set_property;
+	object_class->get_property = e_minicard_get_property;
+	object_class->dispose = e_minicard_dispose;
+	object_class->finalize = e_minicard_finalize;
 
-	parent_class = gtk_type_class (gnome_canvas_group_get_type ());
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->realize = e_minicard_realize;
+	item_class->unrealize = e_minicard_unrealize;
+	item_class->event = e_minicard_event;
+
+	class->style_set = e_minicard_style_set;
+	class->selected = NULL;
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
@@ -223,13 +230,6 @@ e_minicard_class_init (EMinicardClass *klass)
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      GTK_TYPE_STYLE);
-
-	/* GnomeCanvasItem method overrides */
-	item_class->realize    = e_minicard_realize;
-	item_class->unrealize  = e_minicard_unrealize;
-	item_class->event      = e_minicard_event;
-
-	klass->selected        = NULL;
 
 	/* init the accessibility support for e_minicard */
 	e_minicard_a11y_init();

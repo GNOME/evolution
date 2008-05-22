@@ -37,9 +37,10 @@
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
-static void e_day_view_top_item_set_arg		(GtkObject	 *o,
-						 GtkArg		 *arg,
-						 guint		  arg_id);
+static void e_day_view_top_item_set_property	(GObject	 *object,
+						 guint		  property_id,
+						 const GValue	 *value,
+						 GParamSpec	 *pspec);
 static void e_day_view_top_item_update		(GnomeCanvasItem *item,
 						 double		 *affine,
 						 ArtSVP		 *clip_path,
@@ -76,9 +77,9 @@ static gint e_day_view_top_item_event		(GnomeCanvasItem *item,
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_DAY_VIEW,
-	ARG_SHOW_DATES
+	PROP_0,
+	PROP_DAY_VIEW,
+	PROP_SHOW_DATES
 };
 
 G_DEFINE_TYPE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM)
@@ -86,27 +87,36 @@ G_DEFINE_TYPE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM)
 static void
 e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 {
-	GtkObjectClass  *object_class;
+	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass *) class;
-	item_class = (GnomeCanvasItemClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_day_view_top_item_set_property;
 
-	gtk_object_add_arg_type ("EDayViewTopItem::day_view",
-				 GTK_TYPE_POINTER, GTK_ARG_WRITABLE,
-				 ARG_DAY_VIEW);
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->update = e_day_view_top_item_update;
+	item_class->draw = e_day_view_top_item_draw;
+	item_class->point = e_day_view_top_item_point;
+	item_class->event = e_day_view_top_item_event;
 
-	gtk_object_add_arg_type ("EDayViewTopItem::show_dates",
-				 GTK_TYPE_BOOL, GTK_ARG_WRITABLE,
-				 ARG_SHOW_DATES);
+	g_object_class_install_property (
+		object_class,
+		PROP_DAY_VIEW,
+		g_param_spec_pointer (
+			"day_view",
+			NULL,
+			NULL,
+			G_PARAM_WRITABLE));
 
-	object_class->set_arg = e_day_view_top_item_set_arg;
-
-	/* GnomeCanvasItem method overrides */
-	item_class->update      = e_day_view_top_item_update;
-	item_class->draw        = e_day_view_top_item_draw;
-	item_class->point       = e_day_view_top_item_point;
-	item_class->event       = e_day_view_top_item_event;
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DATES,
+		g_param_spec_boolean (
+			"show_dates",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_WRITABLE));
 }
 
 
@@ -119,20 +129,25 @@ e_day_view_top_item_init (EDayViewTopItem *dvtitem)
 
 
 static void
-e_day_view_top_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_day_view_top_item_set_property (GObject *object,
+                                  guint property_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
 	EDayViewTopItem *dvtitem;
 
-	dvtitem = E_DAY_VIEW_TOP_ITEM (o);
+	dvtitem = E_DAY_VIEW_TOP_ITEM (object);
 
-	switch (arg_id){
-	case ARG_DAY_VIEW:
-		dvtitem->day_view = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_SHOW_DATES:
-		dvtitem->show_dates = GTK_VALUE_BOOL (*arg);
-		break;
+	switch (property_id) {
+	case PROP_DAY_VIEW:
+		dvtitem->day_view = g_value_get_pointer (value);
+		return;
+	case PROP_SHOW_DATES:
+		dvtitem->show_dates = g_value_get_boolean (value);
+		return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 

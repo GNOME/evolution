@@ -45,10 +45,12 @@
    lines across the top of cells. */
 #define E_MEETING_TIME_SELECTOR_DRAW_GRID_LINES_AT_BOTTOM 0
 
-static void e_meeting_time_selector_item_destroy (GtkObject *object);
+static void e_meeting_time_selector_item_dispose (GObject *object);
 
-static void e_meeting_time_selector_item_set_arg (GtkObject *o, GtkArg *arg,
-						  guint arg_id);
+static void e_meeting_time_selector_item_set_property (GObject *object,
+                                                       guint property_id,
+                                                       const GValue *value,
+                                                       GParamSpec *pspec);
 static void e_meeting_time_selector_item_realize (GnomeCanvasItem *item);
 static void e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item);
 static void e_meeting_time_selector_item_update (GnomeCanvasItem *item,
@@ -96,35 +98,38 @@ static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeS
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_MEETING_TIME_SELECTOR
+	PROP_0,
+	PROP_MEETING_TIME_SELECTOR
 };
 
 G_DEFINE_TYPE (EMeetingTimeSelectorItem, e_meeting_time_selector_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
-e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *mts_item_class)
+e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *class)
 {
-	GtkObjectClass  *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass *) mts_item_class;
-	item_class = (GnomeCanvasItemClass *) mts_item_class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = e_meeting_time_selector_item_dispose;
+	object_class->set_property = e_meeting_time_selector_item_set_property;
 
-	gtk_object_add_arg_type ("EMeetingTimeSelectorItem::meeting_time_selector",
-				 GTK_TYPE_POINTER, GTK_ARG_WRITABLE,
-				 ARG_MEETING_TIME_SELECTOR);
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->realize = e_meeting_time_selector_item_realize;
+	item_class->unrealize = e_meeting_time_selector_item_unrealize;
+	item_class->update = e_meeting_time_selector_item_update;
+	item_class->draw = e_meeting_time_selector_item_draw;
+	item_class->point = e_meeting_time_selector_item_point;
+	item_class->event = e_meeting_time_selector_item_event;
 
-	object_class->destroy = e_meeting_time_selector_item_destroy;
-	object_class->set_arg = e_meeting_time_selector_item_set_arg;
-
-	/* GnomeCanvasItem method overrides */
-	item_class->realize     = e_meeting_time_selector_item_realize;
-	item_class->unrealize   = e_meeting_time_selector_item_unrealize;
-	item_class->update      = e_meeting_time_selector_item_update;
-	item_class->draw        = e_meeting_time_selector_item_draw;
-	item_class->point       = e_meeting_time_selector_item_point;
-	item_class->event       = e_meeting_time_selector_item_event;
+	g_object_class_install_property (
+		object_class,
+		PROP_MEETING_TIME_SELECTOR,
+		g_param_spec_pointer (
+			"meeting_time_selector",
+			NULL,
+			NULL,
+			G_PARAM_WRITABLE));
 }
 
 
@@ -152,7 +157,7 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 
 
 static void
-e_meeting_time_selector_item_destroy (GtkObject *object)
+e_meeting_time_selector_item_dispose (GObject *object)
 {
 	EMeetingTimeSelectorItem *mts_item;
 
@@ -171,23 +176,27 @@ e_meeting_time_selector_item_destroy (GtkObject *object)
 		mts_item->busy_cursor = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->destroy)(object);
+	G_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->dispose (object);
 }
 
 
 static void
-e_meeting_time_selector_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_meeting_time_selector_item_set_property (GObject *object,
+                                           guint property_id,
+                                           const GValue *value,
+                                           GParamSpec *pspec)
 {
 	EMeetingTimeSelectorItem *mts_item;
 
-	mts_item = E_MEETING_TIME_SELECTOR_ITEM (o);
+	mts_item = E_MEETING_TIME_SELECTOR_ITEM (object);
 
-	switch (arg_id){
-	case ARG_MEETING_TIME_SELECTOR:
-		mts_item->mts = GTK_VALUE_POINTER (*arg);
-		break;
+	switch (property_id) {
+	case PROP_MEETING_TIME_SELECTOR:
+		mts_item->mts = g_value_get_pointer (value);
+		return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 

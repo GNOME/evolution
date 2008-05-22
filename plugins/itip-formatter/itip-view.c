@@ -911,7 +911,7 @@ itip_view_class_init (ItipViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ItipViewClass, source_selected),
 			      NULL, NULL,
-			      gtk_marshal_NONE__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	signals[RESPONSE] =

@@ -225,7 +225,7 @@ e_tree_memory_callbacks_init (ETreeMemoryCallbacks *etmc)
  * ETreeMemoryCallbacksModel is an implementaiton of the somewhat
  * abstract class ETreeMemory.  The ETreeMemoryCallbacksModel is
  * designed to allow people to easily create ETreeMemorys without
- * having to create a new GtkType derived from ETreeMemory every time
+ * having to create a new GType derived from ETreeMemory every time
  * they need one.
  *
  * Instead, ETreeMemoryCallbacksModel uses a setup based in callback functions, every

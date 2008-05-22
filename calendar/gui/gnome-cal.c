@@ -263,65 +263,71 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	object_class = (GtkObjectClass *) class;
 
 	gnome_calendar_signals[DATES_SHOWN_CHANGED] =
-		gtk_signal_new ("dates_shown_changed",
-				GTK_RUN_LAST,
+		g_signal_new ("dates_shown_changed",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass,
-						   dates_shown_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, dates_shown_changed),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE, 0);
 
 	gnome_calendar_signals[CALENDAR_SELECTION_CHANGED] =
-		gtk_signal_new ("calendar_selection_changed",
-				GTK_RUN_LAST,
+		g_signal_new ("calendar_selection_changed",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass, calendar_selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, calendar_selection_changed),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE, 0);
 
 	gnome_calendar_signals[TASKPAD_SELECTION_CHANGED] =
-		gtk_signal_new ("taskpad_selection_changed",
-				GTK_RUN_LAST,
+		g_signal_new ("taskpad_selection_changed",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass, taskpad_selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, taskpad_selection_changed),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE, 0);
 
 	gnome_calendar_signals[MEMOPAD_SELECTION_CHANGED] =
-		gtk_signal_new ("memopad_selection_changed",
-				GTK_RUN_LAST,
+		g_signal_new ("memopad_selection_changed",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass, memopad_selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, memopad_selection_changed),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE, 0);
 
 
 	gnome_calendar_signals[CALENDAR_FOCUS_CHANGE] =
-		gtk_signal_new ("calendar_focus_change",
-				GTK_RUN_FIRST,
+		g_signal_new ("calendar_focus_change",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass, calendar_focus_change),
-				gtk_marshal_NONE__BOOL,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_BOOL);
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, calendar_focus_change),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__BOOLEAN,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 
 	gnome_calendar_signals[TASKPAD_FOCUS_CHANGE] =
-		gtk_signal_new ("taskpad_focus_change",
-				GTK_RUN_FIRST,
+		g_signal_new ("taskpad_focus_change",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass, taskpad_focus_change),
-				gtk_marshal_NONE__BOOL,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_BOOL);
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, taskpad_focus_change),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__BOOLEAN,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 
 	gnome_calendar_signals[MEMOPAD_FOCUS_CHANGE] =
-		gtk_signal_new ("memopad_focus_change",
-				GTK_RUN_FIRST,
+		g_signal_new ("memopad_focus_change",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (GnomeCalendarClass, memopad_focus_change),
-				gtk_marshal_NONE__BOOL,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_BOOL);
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (GnomeCalendarClass, memopad_focus_change),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__BOOLEAN,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 
 	gnome_calendar_signals[SOURCE_ADDED] =
 		g_signal_new ("source_added",
@@ -994,8 +1000,7 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 static void
 view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
 {
-	gtk_signal_emit (GTK_OBJECT (gcal),
-			 gnome_calendar_signals[CALENDAR_SELECTION_CHANGED]);
+	g_signal_emit (gcal, gnome_calendar_signals[CALENDAR_SELECTION_CHANGED], 0);
 }
 
 
@@ -1050,8 +1055,8 @@ table_canvas_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer 
 
 	gcal = GNOME_CALENDAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals [TASKPAD_FOCUS_CHANGE],
-			 event->in ? TRUE : FALSE);
+	g_signal_emit (gcal, gnome_calendar_signals [TASKPAD_FOCUS_CHANGE], 0,
+		       event->in ? TRUE : FALSE);
 
 	return FALSE;
 }
@@ -1063,8 +1068,8 @@ memo_canvas_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 
 	gcal = GNOME_CALENDAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals [MEMOPAD_FOCUS_CHANGE],
-			 event->in ? TRUE : FALSE);
+	g_signal_emit (gcal, gnome_calendar_signals [MEMOPAD_FOCUS_CHANGE], 0,
+		       event->in ? TRUE : FALSE);
 
 	return FALSE;
 }
@@ -1076,8 +1081,8 @@ calendar_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data
 
 	gcal = GNOME_CALENDAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals [CALENDAR_FOCUS_CHANGE],
-			 event->in ? TRUE : FALSE);
+	g_signal_emit (gcal, gnome_calendar_signals [CALENDAR_FOCUS_CHANGE], 0,
+		       event->in ? TRUE : FALSE);
 
 	return FALSE;
 }
@@ -1133,7 +1138,7 @@ table_selection_change_cb (ETable *etable, gpointer data)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[TASKPAD_SELECTION_CHANGED]);
+	g_signal_emit (gcal, gnome_calendar_signals[TASKPAD_SELECTION_CHANGED], 0);
 }
 
 static void
@@ -1143,7 +1148,7 @@ memo_selection_change_cb (ETable *etable, gpointer data)
 
 	gcal = GNOME_CALENDAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[MEMOPAD_SELECTION_CHANGED]);
+	g_signal_emit (gcal, gnome_calendar_signals[MEMOPAD_SELECTION_CHANGED], 0);
 }
 
 static void
@@ -2668,7 +2673,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
 
-		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
@@ -2771,7 +2776,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_object_unref (priv->default_client[source_type]);
 		priv->default_client[source_type] = NULL;
 
-		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
@@ -2893,7 +2898,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 
-		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
 		break;
 
 	case E_CAL_SOURCE_TYPE_TODO:
@@ -2901,7 +2906,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 
-		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
 		break;
 
 	case E_CAL_SOURCE_TYPE_JOURNAL:
@@ -2909,7 +2914,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
 
-		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
 		break;
 	default:
 		g_return_if_reached ();
@@ -3068,7 +3073,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 	g_hash_table_insert (priv->clients[source_type], g_strdup (e_source_peek_uid (source)), client);
 	priv->clients_list[source_type] = g_list_prepend (priv->clients_list[source_type], client);
 
-	gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_ADDED], source_type, source);
+	g_signal_emit (gcal, gnome_calendar_signals[SOURCE_ADDED], 0, source_type, source);
 
 	open_ecal (gcal, client, FALSE, client_cal_opened_cb);
 
@@ -3096,7 +3101,7 @@ gnome_calendar_remove_source (GnomeCalendar *gcal, ECalSourceType source_type, E
 
 	result = gnome_calendar_remove_source_by_uid (gcal, source_type, e_source_peek_uid (source));
 	if (result)
-		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
 
 	return result;
 }
@@ -3653,8 +3658,7 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		priv->visible_start = start_time;
 		priv->visible_end = end_time;
 
-		gtk_signal_emit (GTK_OBJECT (gcal),
-				 gnome_calendar_signals[DATES_SHOWN_CHANGED]);
+		g_signal_emit (gcal, gnome_calendar_signals[DATES_SHOWN_CHANGED], 0);
 	}
 	update_memo_view (gcal);
 }

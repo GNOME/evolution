@@ -50,7 +50,7 @@ struct _MemoEditorClass {
 	CompEditorClass parent_class;
 };
 
-GtkType     memo_editor_get_type       (void);
+GType       memo_editor_get_type       (void);
 MemoEditor *memo_editor_construct      (MemoEditor *te,
 					ECal  *client);
 MemoEditor *memo_editor_new            (ECal  *client, CompEditorFlags flags);

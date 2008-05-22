@@ -125,7 +125,7 @@ struct _EDateEditPrivate {
 
 	EDateEditGetTimeCallback time_callback;
 	gpointer time_callback_data;
-	GtkDestroyNotify time_callback_destroy;
+	GDestroyNotify time_callback_destroy;
 
 	gboolean twodigit_year_can_future;
 };
@@ -219,7 +219,7 @@ static GtkHBoxClass *parent_class;
 /**
  * e_date_edit_get_type:
  *
- * Returns the GtkType for the EDateEdit widget
+ * Returns the GType for the EDateEdit widget
  */
 GType
 e_date_edit_get_type		(void)
@@ -261,7 +261,7 @@ e_date_edit_class_init		(EDateEditClass	*class)
 			      G_STRUCT_OFFSET (EDateEditClass, changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
-			      GTK_TYPE_NONE, 0);
+			      G_TYPE_NONE, 0);
 
 	object_class->dispose = e_date_edit_dispose;
 
@@ -2153,7 +2153,7 @@ void
 e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
 					 EDateEditGetTimeCallback cb,
 					 gpointer	 data,
-					 GtkDestroyNotify destroy)
+					 GDestroyNotify destroy)
 {
 	EDateEditPrivate *priv;
 

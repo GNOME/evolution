@@ -36,56 +36,56 @@ struct _EUrlEntryPrivate {
 	GtkWidget *button;
 };
 
-static void class_init (EUrlEntryClass *klass);
+static void class_init (EUrlEntryClass *class);
 static void init (EUrlEntry *url_entry);
-static void destroy (GtkObject *obj);
+static void finalize (GObject *object);
 
 static void button_clicked_cb (GtkWidget *widget, gpointer data);
 static void entry_changed_cb (GtkEditable *editable, gpointer data);
 
 static gboolean mnemonic_activate (GtkWidget *widget, gboolean group_cycling);
 
-static GtkHBoxClass *parent_class = NULL;
+static gpointer parent_class = NULL;
 
 
-GtkType
+GType
 e_url_entry_get_type (void)
 {
-  static GtkType type = 0;
+	static GType type = 0;
 
-  if (type == 0)
-    {
-      static const GtkTypeInfo info =
-      {
-        "EUrlEntry",
-        sizeof (EUrlEntry),
-        sizeof (EUrlEntryClass),
-        (GtkClassInitFunc) class_init,
-        (GtkObjectInitFunc) init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EUrlEntryClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EUrlEntry),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) init,
+			NULL   /* value_table */
+		};
 
-      type = gtk_type_unique (gtk_hbox_get_type (), &info);
-    }
+		type = g_type_register_static (
+			GTK_TYPE_HBOX, "EUrlEntry", &type_info, 0);
+	}
 
-  return type;
+	return type;
 }
 
 static void
-class_init (EUrlEntryClass *klass)
+class_init (EUrlEntryClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	widget_class = GTK_WIDGET_CLASS (klass);
+	parent_class = g_type_class_peek_parent (class);
 
-	parent_class = g_type_class_ref(gtk_hbox_get_type ());
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = finalize;
 
-	object_class->destroy = destroy;
-
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->mnemonic_activate = mnemonic_activate;
 }
 
@@ -119,17 +119,17 @@ init (EUrlEntry *url_entry)
 }
 
 static void
-destroy (GtkObject *obj)
+finalize (GObject *object)
 {
 	EUrlEntry *url_entry;
 
-	url_entry = E_URL_ENTRY (obj);
+	url_entry = E_URL_ENTRY (object);
 	if (url_entry->priv) {
 		g_free (url_entry->priv);
 		url_entry->priv = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 /* GtkWidget::mnemonic_activate() handler for the EUrlEntry */

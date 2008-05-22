@@ -924,24 +924,24 @@ class_init (EFilterBarClass *klass)
 	pspec = g_param_spec_string ("state", NULL, NULL, NULL, G_PARAM_READWRITE);
 	g_object_class_install_property (object_class, PROP_STATE, pspec);
 
-	/*gtk_object_add_arg_type ("EFilterBar::query", GTK_TYPE_STRING, GTK_ARG_READABLE, ARG_QUERY);*/
+	/*gtk_object_add_arg_type ("EFilterBar::query", G_TYPE_STRING, GTK_ARG_READABLE, ARG_QUERY);*/
 
 #if 0
 	esb_signals [QUERY_CHANGED] =
-		gtk_signal_new ("query_changed",
-				GTK_RUN_LAST,
+		g_signal_new ("query_changed",
+				G_SIGNAL_RUN_LAST,
 				object_class->type,
 				G_STRUCT_OFFSET (EFilterBarClass, query_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE, 0);
 
 	esb_signals [MENU_ACTIVATED] =
-		gtk_signal_new ("menu_activated",
-				GTK_RUN_LAST,
+		g_signal_new ("menu_activated",
+				G_SIGNAL_RUN_LAST,
 				object_class->type,
 				G_STRUCT_OFFSET (EFilterBarClass, menu_activated),
 				g_cclosure_marshal_VOID__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				G_TYPE_NONE, 1, G_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, esb_signals, LAST_SIGNAL);
 #endif
@@ -1007,24 +1007,27 @@ e_filter_bar_new_construct (RuleContext *context,
 
 }
 
-GtkType
+GType
 e_filter_bar_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type) {
-		static const GtkTypeInfo info = {
-			"EFilterBar",
-			sizeof (EFilterBar),
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (EFilterBarClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-		       	/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EFilterBar),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) init,
+			NULL   /* value_table */
 		};
 
-		type = gtk_type_unique (e_search_bar_get_type (), &info);
+		type = g_type_register_static (
+			e_search_bar_get_type (), "EFilterBar", &type_info, 0);
 	}
 
 	return type;

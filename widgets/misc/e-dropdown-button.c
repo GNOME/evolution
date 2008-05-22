@@ -207,9 +207,9 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 
 	priv->menu = GTK_WIDGET (menu);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (priv->menu), "deactivate",
-					G_CALLBACK (menu_deactivate_cb),
-					dropdown_button, GTK_OBJECT (dropdown_button));
+	g_signal_connect_object (priv->menu, "deactivate",
+				 G_CALLBACK (menu_deactivate_cb),
+				 dropdown_button, 0);
 }
 
 /**

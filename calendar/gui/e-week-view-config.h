@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define E_WEEK_VIEW_CONFIG(obj)          GTK_CHECK_CAST (obj, e_week_view_config_get_type (), EWeekViewConfig)
-#define E_WEEK_VIEW_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_week_view_config_get_type (), EWeekViewConfigClass)
-#define E_IS_WEEK_VIEW_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_week_view_config_get_type ())
+#define E_WEEK_VIEW_CONFIG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_week_view_config_get_type (), EWeekViewConfig)
+#define E_WEEK_VIEW_CONFIG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_week_view_config_get_type (), EWeekViewConfigClass)
+#define E_IS_WEEK_VIEW_CONFIG(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_week_view_config_get_type ())
 
 typedef struct _EWeekViewConfig        EWeekViewConfig;
 typedef struct _EWeekViewConfigClass   EWeekViewConfigClass;

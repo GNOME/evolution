@@ -33,10 +33,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_ACTIVITY_HANDLER			(e_activity_handler_get_type ())
-#define E_ACTIVITY_HANDLER(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_ACTIVITY_HANDLER, EActivityHandler))
-#define E_ACTIVITY_HANDLER_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_ACTIVITY_HANDLER, EActivityHandlerClass))
-#define E_IS_ACTIVITY_HANDLER(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
-#define E_IS_ACTIVITY_HANDLER_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
+#define E_ACTIVITY_HANDLER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ACTIVITY_HANDLER, EActivityHandler))
+#define E_ACTIVITY_HANDLER_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_ACTIVITY_HANDLER, EActivityHandlerClass))
+#define E_IS_ACTIVITY_HANDLER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
+#define E_IS_ACTIVITY_HANDLER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
 
 
 typedef struct _EActivityHandler        EActivityHandler;
@@ -57,7 +57,7 @@ struct _EActivityHandlerClass {
 };
 
 
-GtkType  e_activity_handler_get_type  (void);
+GType    e_activity_handler_get_type  (void);
 
 EActivityHandler *e_activity_handler_new  (void);
 

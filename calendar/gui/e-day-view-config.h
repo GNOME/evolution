@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define E_DAY_VIEW_CONFIG(obj)          GTK_CHECK_CAST (obj, e_day_view_config_get_type (), EDayViewConfig)
-#define E_DAY_VIEW_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_day_view_config_get_type (), EDayViewConfigClass)
-#define E_IS_DAY_VIEW_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_day_view_config_get_type ())
+#define E_DAY_VIEW_CONFIG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_day_view_config_get_type (), EDayViewConfig)
+#define E_DAY_VIEW_CONFIG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_day_view_config_get_type (), EDayViewConfigClass)
+#define E_IS_DAY_VIEW_CONFIG(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_day_view_config_get_type ())
 
 typedef struct _EDayViewConfig        EDayViewConfig;
 typedef struct _EDayViewConfigClass   EDayViewConfigClass;

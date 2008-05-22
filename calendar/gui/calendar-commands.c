@@ -522,9 +522,8 @@ gcal_calendar_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 		calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 		focus->calendar_focused = TRUE;
 	} else if (focus->calendar_focused) {
-		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
-					       G_CALLBACK (gcal_calendar_selection_changed_cb),
-					       control);
+		g_signal_handlers_disconnect_by_func (
+			gcal, G_CALLBACK (gcal_calendar_selection_changed_cb), control);
 		calendar_control_sensitize_calendar_commands (control, gcal, FALSE);
 		focus->calendar_focused = FALSE;
 	}
@@ -553,9 +552,8 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 		 * of blindly assumming that we are getting this event because
 		 * the taskpad was in fact focused.
 		 */
-		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
-					       G_CALLBACK (gcal_taskpad_selection_changed_cb),
-					       control);
+		g_signal_handlers_disconnect_by_func (
+			gcal, G_CALLBACK (gcal_taskpad_selection_changed_cb), control);
 		sensitize_taskpad_commands (gcal, control, FALSE);
 		focus->taskpad_focused = FALSE;
 	}

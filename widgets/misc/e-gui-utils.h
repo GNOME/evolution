@@ -47,7 +47,7 @@ gint  e_container_change_tab_order  (GtkContainer *container,
 gboolean  e_glade_xml_connect_widget  (GladeXML      *gui,
 				       char          *name,
 				       char          *signal,
-				       GtkSignalFunc  cb,
+				       GCallback      cb,
 				       gpointer       closure);
 gboolean  e_glade_xml_set_sensitive   (GladeXML      *gui,
 				       char          *name,

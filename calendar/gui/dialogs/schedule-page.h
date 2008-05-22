@@ -49,7 +49,7 @@ typedef struct {
 } SchedulePageClass;
 
 
-GtkType      schedule_page_get_type  (void);
+GType        schedule_page_get_type  (void);
 SchedulePage *schedule_page_construct (SchedulePage *mpage, EMeetingStore *ems);
 SchedulePage *schedule_page_new       (EMeetingStore *ems);
 void schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_selector);

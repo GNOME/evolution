@@ -59,7 +59,7 @@ struct _EMultiConfigDialogClass {
 };
 
 
-GtkType    e_multi_config_dialog_get_type (void);
+GType      e_multi_config_dialog_get_type (void);
 GtkWidget *e_multi_config_dialog_new      (void);
 
 void  e_multi_config_dialog_add_page  (EMultiConfigDialog *dialog,

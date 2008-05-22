@@ -214,7 +214,7 @@ e_table_simple_init (ETableSimple *simple)
  * This initializes a new ETableSimpleModel object.  ETableSimpleModel is
  * an implementaiton of the abstract class ETableModel.  The ETableSimpleModel
  * is designed to allow people to easily create ETableModels without having
- * to create a new GtkType derived from ETableModel every time they need one.
+ * to create a new GType derived from ETableModel every time they need one.
  *
  * Instead, ETableSimpleModel uses a setup based in callback functions, every
  * callback function signature mimics the signature of each ETableModel method

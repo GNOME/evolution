@@ -1,3 +1,13 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* e-timezone-dialog/e-timezone-dialog.h:
+	* menus/gal-view-instance.c:
+	* menus/gal-view-menus.h:
+	* text/e-text.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-04-25  Danny Baumann  <dannybaumann@web.de>
 
 	** Fix for bug #529893

@@ -27,9 +27,9 @@
 
 G_BEGIN_DECLS
 
-#define E_MINI_CALENDAR_CONFIG(obj)          GTK_CHECK_CAST (obj, e_mini_calendar_config_get_type (), EMiniCalendarConfig)
-#define E_MINI_CALENDAR_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_mini_calendar_config_get_type (), EMiniCalendarConfigClass)
-#define E_IS_MINI_CALENDAR_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_mini_calendar_config_get_type ())
+#define E_MINI_CALENDAR_CONFIG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_mini_calendar_config_get_type (), EMiniCalendarConfig)
+#define E_MINI_CALENDAR_CONFIG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_mini_calendar_config_get_type (), EMiniCalendarConfigClass)
+#define E_IS_MINI_CALENDAR_CONFIG(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_mini_calendar_config_get_type ())
 
 typedef struct _EMiniCalendarConfig        EMiniCalendarConfig;
 typedef struct _EMiniCalendarConfigClass   EMiniCalendarConfigClass;

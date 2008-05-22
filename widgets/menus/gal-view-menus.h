@@ -9,10 +9,10 @@
 #include <glib-object.h>
 
 #define GAL_VIEW_MENUS_TYPE        (gal_view_menus_get_type ())
-#define GAL_VIEW_MENUS(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_MENUS_TYPE, GalViewMenus))
-#define GAL_VIEW_MENUS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_MENUS_TYPE, GalViewMenusClass))
-#define GAL_IS_VIEW_MENUS(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_MENUS_TYPE))
-#define GAL_IS_VIEW_MENUS_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_MENUS_TYPE))
+#define GAL_VIEW_MENUS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_MENUS_TYPE, GalViewMenus))
+#define GAL_VIEW_MENUS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_VIEW_MENUS_TYPE, GalViewMenusClass))
+#define GAL_IS_VIEW_MENUS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_VIEW_MENUS_TYPE))
+#define GAL_IS_VIEW_MENUS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_VIEW_MENUS_TYPE))
 
 typedef struct _GalViewMenusPrivate GalViewMenusPrivate;
 
@@ -25,7 +25,7 @@ typedef struct {
 	GObjectClass parent_class;
 } GalViewMenusClass;
 
-GtkType       gal_view_menus_get_type               (void);
+GType         gal_view_menus_get_type               (void);
 GalViewMenus *gal_view_menus_new                    (GalViewInstance   *instance);
 GalViewMenus *gal_view_menus_construct              (GalViewMenus      *menus,
 						     GalViewInstance   *instance);

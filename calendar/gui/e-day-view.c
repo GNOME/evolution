@@ -3010,8 +3010,7 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 		} else if (event->type == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (day_view, -1,
 							  event_num);
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->top_canvas),
-						      "button_press_event");
+			g_signal_stop_emission_by_name (day_view->top_canvas, "button_press_event");
 			return TRUE;
 		}
 	} else if (event->button == 3) {
@@ -3050,8 +3049,7 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 			e_day_view_on_event_double_click (day_view, day,
 							  event_num);
 
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->main_canvas),
-						      "button_press_event");
+			g_signal_stop_emission_by_name (day_view->main_canvas, "button_press_event");
 			return TRUE;
 		}
 	} else if (event->button == 3) {
@@ -5776,12 +5774,11 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 
 			/* Stop the signal last or we will also stop any
 			   other events getting to the EText item. */
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
-						      "event");
+			g_signal_stop_emission_by_name (item, "event");
 			return TRUE;
 		} else if (event->key.keyval == GDK_Escape) {
 			cancel_editing (day_view);
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+			g_signal_stop_emission_by_name (item, "event");
 			/* focus should go to day view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 			return TRUE;
@@ -5816,8 +5813,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		tooltip_destroy (day_view, item);
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing)
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
-						      "event");
+			g_signal_stop_emission_by_name (item, "event");
 		break;
 	case GDK_FOCUS_CHANGE:
 		if (event->focus_change.in)

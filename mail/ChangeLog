@@ -1,3 +1,24 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* em-account-prefs.h:
+	* em-filter-editor.c:
+	* em-filter-editor.h:
+	* em-folder-selector.h:
+	* em-format-html-display.c:
+	* em-mailer-prefs.c:
+	* em-mailer-prefs.h:
+	* em-utils.c:
+	* em-vfolder-editor.c:
+	* em-vfolder-editor.h:
+	* em-vfolder-rule.c:
+	* mail-vfolder.c:
+	* meessage-tag-editor.h:
+	* message-list.h:
+	* message-tag-followup.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	* message-list.c (regen_list_done):

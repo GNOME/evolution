@@ -80,7 +80,7 @@ struct _EMAccountPrefsClass {
 };
 
 
-GtkType em_account_prefs_get_type (void);
+GType em_account_prefs_get_type (void);
 
 GtkWidget *em_account_prefs_new (GNOME_Evolution_Shell shell);
 

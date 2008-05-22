@@ -28,9 +28,9 @@
 
 G_BEGIN_DECLS
 
-#define E_CELL_DATE_EDIT_CONFIG(obj)          GTK_CHECK_CAST (obj, e_cell_date_edit_config_get_type (), ECellDateEditConfig)
-#define E_CELL_DATE_EDIT_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_cell_date_edit_config_get_type (), ECellDateEditConfigClass)
-#define E_IS_CELL_DATE_EDIT_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_cell_date_edit_config_get_type ())
+#define E_CELL_DATE_EDIT_CONFIG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_cell_date_edit_config_get_type (), ECellDateEditConfig)
+#define E_CELL_DATE_EDIT_CONFIG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_cell_date_edit_config_get_type (), ECellDateEditConfigClass)
+#define E_IS_CELL_DATE_EDIT_CONFIG(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_cell_date_edit_config_get_type ())
 
 typedef struct _ECellDateEditConfig        ECellDateEditConfig;
 typedef struct _ECellDateEditConfigClass   ECellDateEditConfigClass;

@@ -164,11 +164,11 @@ e_container_change_tab_order(GtkContainer *container, GList *widgets)
 	GList *list;
 	list = g_list_copy(widgets);
 	g_list_foreach(list, (GFunc) g_object_ref, NULL);
-	return gtk_signal_connect_full(GTK_OBJECT(container), "focus",
-				       GTK_SIGNAL_FUNC(e_container_change_tab_order_callback),
-				       NULL, list,
-				       e_container_change_tab_order_destroy_notify,
-				       FALSE, FALSE);
+	return g_signal_connect_data (container, "focus",
+				      G_CALLBACK(e_container_change_tab_order_callback),
+				      list,
+				      (GClosureNotify) e_container_change_tab_order_destroy_notify,
+				      0);
 }
 
 struct widgetandint {

@@ -65,7 +65,7 @@ struct _ECanvasBackgroundClass {
 
 
 /* Standard Gtk function */
-GtkType e_canvas_background_get_type (void);
+GType e_canvas_background_get_type (void);
 
 G_END_DECLS
 

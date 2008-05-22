@@ -31,10 +31,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_HISTORY			(e_history_get_type ())
-#define E_HISTORY(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_HISTORY, EHistory))
-#define E_HISTORY_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_HISTORY, EHistoryClass))
-#define E_IS_HISTORY(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_HISTORY))
-#define E_IS_HISTORY_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_HISTORY))
+#define E_HISTORY(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_HISTORY, EHistory))
+#define E_HISTORY_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_HISTORY, EHistoryClass))
+#define E_IS_HISTORY(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_HISTORY))
+#define E_IS_HISTORY_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_HISTORY))
 
 
 typedef struct _EHistory        EHistory;
@@ -55,7 +55,7 @@ struct _EHistoryClass {
 typedef void (* EHistoryItemFreeFunc) (void *data);
 
 
-GtkType    e_history_get_type (void);
+GType      e_history_get_type (void);
 
 void      e_history_construct  (EHistory             *history,
 				EHistoryItemFreeFunc  item_free_function);

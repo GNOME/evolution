@@ -92,12 +92,13 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 	widget_class = (GtkWidgetClass *) class;
 
 	wp_signals[CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_FIRST,
+		g_signal_new ("changed",
 				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (WeekdayPickerClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (WeekdayPickerClass, changed),
+				NULL, NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE, 0);
 
 	object_class->destroy = weekday_picker_destroy;
 
@@ -504,7 +505,7 @@ weekday_picker_set_days (WeekdayPicker *wp, guint8 day_mask)
 	priv->day_mask = day_mask;
 	colorize_items (wp);
 
-	gtk_signal_emit (GTK_OBJECT (wp), wp_signals[CHANGED]);
+	g_signal_emit (GTK_OBJECT (wp), wp_signals[CHANGED], 0);
 }
 
 /**

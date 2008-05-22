@@ -51,7 +51,7 @@ typedef struct {
 } RecurrencePageClass;
 
 
-GtkType         recurrence_page_get_type  (void);
+GType           recurrence_page_get_type  (void);
 RecurrencePage *recurrence_page_construct (RecurrencePage *rpage);
 RecurrencePage *recurrence_page_new       (void);
 

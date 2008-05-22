@@ -75,7 +75,7 @@ struct _ECellDateEdit {
 
 	ECellDateEditGetTimeCallback time_callback;
 	gpointer time_callback_data;
-	GtkDestroyNotify time_callback_destroy;
+	GDestroyNotify time_callback_destroy;
 };
 
 struct _ECellDateEditClass {
@@ -83,7 +83,7 @@ struct _ECellDateEditClass {
 };
 
 
-GtkType    e_cell_date_edit_get_type		(void);
+GType      e_cell_date_edit_get_type		(void);
 ECell     *e_cell_date_edit_new			(void);
 
 
@@ -100,7 +100,7 @@ void	   e_cell_date_edit_thaw		(ECellDateEdit	*ecde);
 void	   e_cell_date_edit_set_get_time_callback(ECellDateEdit	*ecde,
 						  ECellDateEditGetTimeCallback cb,
 						  gpointer	 data,
-						  GtkDestroyNotify destroy);
+						  GDestroyNotify destroy);
 
 
 #endif /* _E_CELL_DATE_EDIT_H_ */

@@ -39,9 +39,9 @@ G_BEGIN_DECLS
  */
 
 
-#define E_MEMO_TABLE(obj)          GTK_CHECK_CAST (obj, e_memo_table_get_type (), EMemoTable)
-#define E_MEMO_TABLE_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_memo_table_get_type (), EMemoTableClass)
-#define E_IS_MEMO_TABLE(obj)       GTK_CHECK_TYPE (obj, e_memo_table_get_type ())
+#define E_MEMO_TABLE(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_memo_table_get_type (), EMemoTable)
+#define E_MEMO_TABLE_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_memo_table_get_type (), EMemoTableClass)
+#define E_IS_MEMO_TABLE(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_memo_table_get_type ())
 
 
 typedef struct _EMemoTable       EMemoTable;
@@ -79,7 +79,7 @@ struct _EMemoTableClass {
 };
 
 
-GtkType	   e_memo_table_get_type (void);
+GType		   e_memo_table_get_type (void);
 GtkWidget* e_memo_table_new	(void);
 
 ECalModel *e_memo_table_get_model (EMemoTable *memo_table);

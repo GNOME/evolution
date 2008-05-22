@@ -162,7 +162,7 @@ G_DEFINE_TYPE (ETreeSimple, e_tree_simple, E_TREE_MODEL_TYPE)
  * This initializes a new ETreeSimpleModel object.  ETreeSimpleModel is
  * an implementaiton of the abstract class ETreeModel.  The ETreeSimpleModel
  * is designed to allow people to easily create ETreeModels without having
- * to create a new GtkType derived from ETreeModel every time they need one.
+ * to create a new GType derived from ETreeModel every time they need one.
  *
  * Instead, ETreeSimpleModel uses a setup based in callback functions, every
  * callback function signature mimics the signature of each ETreeModel method

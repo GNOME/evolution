@@ -106,7 +106,7 @@ struct _ECanvasClass
 };
 
 
-GtkType    e_canvas_get_type                             (void);
+GType      e_canvas_get_type                             (void);
 GtkWidget *e_canvas_new                                  (void);
 
 /* Used to send all of the keystroke events to a specific item as well as

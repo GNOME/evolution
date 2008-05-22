@@ -92,14 +92,13 @@ e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 	widget_class->mnemonic_activate = e_timezone_entry_mnemonic_activate;
 	widget_class->focus = e_timezone_entry_focus;
 	timezone_entry_signals[CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (ETimezoneEntryClass,
-						   changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
+		g_signal_new ("changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETimezoneEntryClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	object_class->destroy		= e_timezone_entry_destroy;
 
@@ -210,7 +209,7 @@ static void
 on_entry_changed			(GtkEntry	*entry,
 					 ETimezoneEntry *tentry)
 {
-	gtk_signal_emit (GTK_OBJECT (tentry), timezone_entry_signals[CHANGED]);
+	g_signal_emit (GTK_OBJECT (tentry), timezone_entry_signals[CHANGED], 0);
 }
 
 

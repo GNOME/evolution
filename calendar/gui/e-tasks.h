@@ -32,11 +32,11 @@
 #include "e-calendar-table.h"
 
 #define E_TYPE_TASKS            (e_tasks_get_type ())
-#define E_TASKS(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TASKS, ETasks))
-#define E_TASKS_CLASS(klass)    (GTK_CHECK_CAST_CLASS ((klass), E_TYPE_TASKS, \
+#define E_TASKS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TASKS, ETasks))
+#define E_TASKS_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), E_TYPE_TASKS, \
 				 ETasksClass))
-#define E_IS_TASKS(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_TASKS))
-#define E_IS_TASKS_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_TASKS))
+#define E_IS_TASKS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TASKS))
+#define E_IS_TASKS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TASKS))
 
 typedef struct _ETasks ETasks;
 typedef struct _ETasksClass ETasksClass;
@@ -59,7 +59,7 @@ struct _ETasksClass {
 };
 
 
-GtkType    e_tasks_get_type        (void);
+GType      e_tasks_get_type        (void);
 GtkWidget *e_tasks_construct       (ETasks *tasks);
 
 GtkWidget *e_tasks_new             (void);

@@ -66,7 +66,7 @@ struct _EAttachmentBarClass {
 };
 
 
-GtkType e_attachment_bar_get_type (void);
+GType e_attachment_bar_get_type (void);
 
 GtkWidget *e_attachment_bar_new (GtkAdjustment *adj);
 void e_attachment_bar_to_multipart (EAttachmentBar *bar, CamelMultipart *multipart,

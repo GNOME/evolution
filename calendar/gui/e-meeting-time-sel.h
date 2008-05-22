@@ -91,9 +91,9 @@ extern const gchar *EMeetingTimeSelectorHours[24];
 extern const gchar *EMeetingTimeSelectorHours12[24];
 
 
-#define E_MEETING_TIME_SELECTOR(obj)          GTK_CHECK_CAST (obj, e_meeting_time_selector_get_type (), EMeetingTimeSelector)
-#define E_MEETING_TIME_SELECTOR_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_meeting_time_selector_get_type (), EMeetingTimeSelectorClass)
-#define IS_E_MEETING_TIME_SELECTOR(obj)       GTK_CHECK_TYPE (obj, e_meeting_time_selector_get_type ())
+#define E_MEETING_TIME_SELECTOR(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_meeting_time_selector_get_type (), EMeetingTimeSelector)
+#define E_MEETING_TIME_SELECTOR_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_meeting_time_selector_get_type (), EMeetingTimeSelectorClass)
+#define IS_E_MEETING_TIME_SELECTOR(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_meeting_time_selector_get_type ())
 
 
 typedef struct _EMeetingTimeSelector       EMeetingTimeSelector;
@@ -280,7 +280,7 @@ struct _EMeetingTimeSelectorClass
  * know where the data is coming from. This is mainly just for testing for now.
  */
 
-GtkType e_meeting_time_selector_get_type (void);
+GType e_meeting_time_selector_get_type (void);
 GtkWidget* e_meeting_time_selector_new (EMeetingStore *ems);
 void e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *ems);
 

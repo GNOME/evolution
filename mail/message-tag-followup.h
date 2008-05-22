@@ -63,7 +63,7 @@ struct _MessageTagFollowUpClass {
 };
 
 
-GtkType message_tag_followup_get_type (void);
+GType message_tag_followup_get_type (void);
 
 MessageTagEditor *message_tag_followup_new (void);
 

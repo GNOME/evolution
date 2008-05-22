@@ -27,12 +27,12 @@
 
 
 #define TYPE_COMP_EDITOR_FACTORY            (comp_editor_factory_get_type ())
-#define COMP_EDITOR_FACTORY(obj)            (GTK_CHECK_CAST ((obj), TYPE_COMP_EDITOR_FACTORY,	\
+#define COMP_EDITOR_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_COMP_EDITOR_FACTORY,	\
 					     CompEditorFactory))
-#define COMP_EDITOR_FACTORY_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass),			\
+#define COMP_EDITOR_FACTORY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),			\
 					     TYPE_COMP_EDITOR_FACTORY, CompEditorFactoryClass))
-#define IS_COMP_EDITOR_FACTORY(obj)         (GTK_CHECK_TYPE ((obj), TYPE_COMP_EDITOR_FACTORY))
-#define IS_COMP_EDITOR_FACTORY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_COMP_EDITOR_FACTORY))
+#define IS_COMP_EDITOR_FACTORY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_COMP_EDITOR_FACTORY))
+#define IS_COMP_EDITOR_FACTORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_COMP_EDITOR_FACTORY))
 
 typedef struct CompEditorFactoryPrivate CompEditorFactoryPrivate;
 
@@ -49,7 +49,7 @@ typedef struct {
 	POA_GNOME_Evolution_Calendar_CompEditorFactory__epv epv;
 } CompEditorFactoryClass;
 
-GtkType comp_editor_factory_get_type (void);
+GType comp_editor_factory_get_type (void);
 
 CompEditorFactory *comp_editor_factory_new (void);
 

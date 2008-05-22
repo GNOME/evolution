@@ -35,7 +35,7 @@
 #define RULE_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), RULE_TYPE_EDITOR, RuleEditorClass))
 #define IS_RULE_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), RULE_TYPE_EDITOR))
 #define IS_RULE_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), RULE_TYPE_EDITOR))
-#define RULE_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), RULE_TYPE_EDITOR, RuleEditorClass))
+#define RULE_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), RULE_TYPE_EDITOR, RuleEditorClass))
 
 typedef struct _RuleEditor	RuleEditor;
 typedef struct _RuleEditorClass	RuleEditorClass;
@@ -89,7 +89,7 @@ struct _RuleEditorUndo {
 	int newrank;
 };
 
-GtkType rule_editor_get_type(void);
+GType rule_editor_get_type(void);
 RuleEditor *rule_editor_new(RuleContext *rc, const char *source, const char *label);
 
 void rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source, const char *label);

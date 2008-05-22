@@ -1,3 +1,11 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* exchange-account-setup.c:
+	* exchange-send-options.h:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-04-21  Bharath Acharya  <abharath@novell.com>
 
 	Fixes bnc #378203

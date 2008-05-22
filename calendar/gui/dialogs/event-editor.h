@@ -50,7 +50,7 @@ struct _EventEditorClass {
 	CompEditorClass parent_class;
 };
 
-GtkType      event_editor_get_type     (void);
+GType        event_editor_get_type     (void);
 EventEditor *event_editor_construct    (EventEditor *ee,
 					ECal   *client);
 EventEditor *event_editor_new          (ECal   *client, CompEditorFlags flags);

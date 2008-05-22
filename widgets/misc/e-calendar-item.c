@@ -56,13 +56,15 @@ static const int e_calendar_item_days_in_month[12] = {
   && ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0))) ? 1 : 0)
 
 
-static void e_calendar_item_destroy	(GtkObject	 *o);
-static void e_calendar_item_get_arg	(GtkObject	 *o,
-					 GtkArg		 *arg,
-					 guint		  arg_id);
-static void e_calendar_item_set_arg	(GtkObject	 *o,
-					 GtkArg		 *arg,
-					 guint		  arg_id);
+static void e_calendar_item_dispose	(GObject	 *object);
+static void e_calendar_item_get_property(GObject	 *object,
+					 guint		  property_id,
+					 GValue		 *value,
+					 GParamSpec	 *pspec);
+static void e_calendar_item_set_property(GObject	 *object,
+					 guint		  property_id,
+					 const GValue	 *value,
+					 GParamSpec	 *pspec);
 static void e_calendar_item_realize	(GnomeCanvasItem *item);
 static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
 static void e_calendar_item_unmap	(GnomeCanvasItem *item);
@@ -203,29 +205,29 @@ static void e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
 
 /* Our arguments. */
 enum {
-	ARG_0,
-	ARG_YEAR,
-	ARG_MONTH,
-	ARG_X1,
-	ARG_Y1,
-	ARG_X2,
-	ARG_Y2,
-	ARG_FONT_DESC,
-	ARG_WEEK_NUMBER_FONT,
-	ARG_WEEK_NUMBER_FONT_DESC,
-	ARG_ROW_HEIGHT,
-	ARG_COLUMN_WIDTH,
-	ARG_MINIMUM_ROWS,
-	ARG_MINIMUM_COLUMNS,
-	ARG_MAXIMUM_ROWS,
-	ARG_MAXIMUM_COLUMNS,
-	ARG_WEEK_START_DAY,
-	ARG_SHOW_WEEK_NUMBERS,
-	ARG_MAXIMUM_DAYS_SELECTED,
-	ARG_DAYS_TO_START_WEEK_SELECTION,
-	ARG_MOVE_SELECTION_WHEN_MOVING,
-	ARG_PRESERVE_DAY_WHEN_MOVING,
-	ARG_DISPLAY_POPUP
+	PROP_0,
+	PROP_YEAR,
+	PROP_MONTH,
+	PROP_X1,
+	PROP_Y1,
+	PROP_X2,
+	PROP_Y2,
+	PROP_FONT_DESC,
+	PROP_WEEK_NUMBER_FONT,
+	PROP_WEEK_NUMBER_FONT_DESC,
+	PROP_ROW_HEIGHT,
+	PROP_COLUMN_WIDTH,
+	PROP_MINIMUM_ROWS,
+	PROP_MINIMUM_COLUMNS,
+	PROP_MAXIMUM_ROWS,
+	PROP_MAXIMUM_COLUMNS,
+	PROP_WEEK_START_DAY,
+	PROP_SHOW_WEEK_NUMBERS,
+	PROP_MAXIMUM_DAYS_SELECTED,
+	PROP_DAYS_TO_START_WEEK_SELECTION,
+	PROP_MOVE_SELECTION_WHEN_MOVING,
+	PROP_PRESERVE_DAY_WHEN_MOVING,
+	PROP_DISPLAY_POPUP
 };
 
 enum {
@@ -244,90 +246,284 @@ G_DEFINE_TYPE (ECalendarItem, e_calendar_item, GNOME_TYPE_CANVAS_ITEM)
 static void
 e_calendar_item_class_init (ECalendarItemClass *class)
 {
-	GtkObjectClass  *object_class;
+	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = e_calendar_item_dispose;
+	object_class->get_property = e_calendar_item_get_property;
+	object_class->set_property = e_calendar_item_set_property;
 
-	gtk_object_add_arg_type ("ECalendarItem::year",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_YEAR);
-	gtk_object_add_arg_type ("ECalendarItem::month",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_MONTH);
-	gtk_object_add_arg_type ("ECalendarItem::x1",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE,
-				 ARG_X1);
-	gtk_object_add_arg_type ("ECalendarItem::y1",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE,
-				 ARG_Y1);
-	gtk_object_add_arg_type ("ECalendarItem::x2",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE,
-				 ARG_X2);
-	gtk_object_add_arg_type ("ECalendarItem::y2",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE,
-				 ARG_Y2);
-	gtk_object_add_arg_type ("ECalendarItem::font_desc",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE,
-				 ARG_FONT_DESC);
-	gtk_object_add_arg_type ("ECalendarItem::week_number_font_desc",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE,
-				 ARG_WEEK_NUMBER_FONT_DESC);
-	gtk_object_add_arg_type ("ECalendarItem::row_height",
-				 GTK_TYPE_INT, GTK_ARG_READABLE,
-				 ARG_ROW_HEIGHT);
-	gtk_object_add_arg_type ("ECalendarItem::column_width",
-				 GTK_TYPE_INT, GTK_ARG_READABLE,
-				 ARG_COLUMN_WIDTH);
-	gtk_object_add_arg_type ("ECalendarItem::minimum_rows",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_MINIMUM_ROWS);
-	gtk_object_add_arg_type ("ECalendarItem::minimum_columns",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_MINIMUM_COLUMNS);
-	gtk_object_add_arg_type ("ECalendarItem::maximum_rows",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_MAXIMUM_ROWS);
-	gtk_object_add_arg_type ("ECalendarItem::maximum_columns",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_MAXIMUM_COLUMNS);
-	gtk_object_add_arg_type ("ECalendarItem::week_start_day",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_WEEK_START_DAY);
-	gtk_object_add_arg_type ("ECalendarItem::show_week_numbers",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_SHOW_WEEK_NUMBERS);
-	gtk_object_add_arg_type ("ECalendarItem::maximum_days_selected",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_MAXIMUM_DAYS_SELECTED);
-	gtk_object_add_arg_type ("ECalendarItem::days_to_start_week_selection",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE,
-				 ARG_DAYS_TO_START_WEEK_SELECTION);
-	gtk_object_add_arg_type ("ECalendarItem::move_selection_when_moving",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_MOVE_SELECTION_WHEN_MOVING);
-	gtk_object_add_arg_type ("ECalendarItem::preserve_day_when_moving",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_PRESERVE_DAY_WHEN_MOVING);
-	gtk_object_add_arg_type ("ECalendarItem::display_popup",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_DISPLAY_POPUP);
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->realize = e_calendar_item_realize;
+	item_class->unrealize = e_calendar_item_unrealize;
+	item_class->unmap = e_calendar_item_unmap;
+	item_class->update = e_calendar_item_update;
+	item_class->draw = e_calendar_item_draw;
+	item_class->point = e_calendar_item_point;
+	item_class->event = e_calendar_item_event;
+	item_class->bounds = e_calendar_item_bounds;
+
+	class->date_range_changed = NULL;
+	class->selection_changed = NULL;
+	class->selection_preview_changed = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_YEAR,
+		g_param_spec_int (
+			"year",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MONTH,
+		g_param_spec_int (
+			"month",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_X1,
+		g_param_spec_double (
+			"x1",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_Y1,
+		g_param_spec_double (
+			"y1",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_X2,
+		g_param_spec_double (
+			"x2",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_Y2,
+		g_param_spec_double (
+			"y2",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FONT_DESC,
+		g_param_spec_boxed (
+			"font_desc",
+			NULL,
+			NULL,
+			PANGO_TYPE_FONT_DESCRIPTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_NUMBER_FONT_DESC,
+		g_param_spec_boxed (
+			"week_number_font_desc",
+			NULL,
+			NULL,
+			PANGO_TYPE_FONT_DESCRIPTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ROW_HEIGHT,
+		g_param_spec_int (
+			"row_height",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLUMN_WIDTH,
+		g_param_spec_int (
+			"column_width",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_ROWS,
+		g_param_spec_int (
+			"minimum_rows",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_COLUMNS,
+		g_param_spec_int (
+			"minimum_columns",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAXIMUM_ROWS,
+		g_param_spec_int (
+			"maximum_rows",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAXIMUM_COLUMNS,
+		g_param_spec_int (
+			"maximum_columns",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week_start_day",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_WEEK_NUMBERS,
+		g_param_spec_boolean (
+			"show_week_numbers",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAXIMUM_DAYS_SELECTED,
+		g_param_spec_int (
+			"maximum_days_selected",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DAYS_TO_START_WEEK_SELECTION,
+		g_param_spec_int (
+			"days_to_start_week_selection",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MOVE_SELECTION_WHEN_MOVING,
+		g_param_spec_boolean (
+			"move_selection_when_moving",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PRESERVE_DAY_WHEN_MOVING,
+		g_param_spec_boolean (
+			"preserve_day_when_moving",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DISPLAY_POPUP,
+		g_param_spec_boolean (
+			"display_popup",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
 
 	e_calendar_item_signals[DATE_RANGE_CHANGED] =
-		gtk_signal_new ("date_range_changed",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (ECalendarItemClass, date_range_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("date_range_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (ECalendarItemClass, date_range_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 	e_calendar_item_signals[SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (ECalendarItemClass, selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("selection_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (ECalendarItemClass, selection_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 	e_calendar_item_signals[SELECTION_PREVIEW_CHANGED] =
 		g_signal_new ("selection_preview_changed",
 			      G_TYPE_FROM_CLASS (object_class),
@@ -336,24 +532,6 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
-	object_class->destroy = e_calendar_item_destroy;
-	object_class->get_arg = e_calendar_item_get_arg;
-	object_class->set_arg = e_calendar_item_set_arg;
-
-	/* GnomeCanvasItem method overrides */
-	item_class->realize     = e_calendar_item_realize;
-	item_class->unrealize   = e_calendar_item_unrealize;
-	item_class->unmap	= e_calendar_item_unmap;
-	item_class->update      = e_calendar_item_update;
-	item_class->draw        = e_calendar_item_draw;
-	item_class->point       = e_calendar_item_point;
-	item_class->event       = e_calendar_item_event;
-	item_class->bounds      = e_calendar_item_bounds;
-
-	class->date_range_changed	= NULL;
-	class->selection_changed	= NULL;
-	class->selection_preview_changed	= NULL;
 
 	e_calendar_item_a11y_init ();
 }
@@ -416,11 +594,11 @@ e_calendar_item_init (ECalendarItem *calitem)
 
 
 static void
-e_calendar_item_destroy		(GtkObject *o)
+e_calendar_item_dispose		(GObject *object)
 {
 	ECalendarItem *calitem;
 
-	calitem = E_CALENDAR_ITEM (o);
+	calitem = E_CALENDAR_ITEM (object);
 
 	e_calendar_item_set_style_callback (calitem, NULL, NULL, NULL);
 	e_calendar_item_set_get_time_callback (calitem, NULL, NULL, NULL);
@@ -447,228 +625,229 @@ e_calendar_item_destroy		(GtkObject *o)
 
 	if (calitem->selecting_axis)
 		g_free (calitem->selecting_axis);
-	if (GTK_OBJECT_CLASS (e_calendar_item_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (e_calendar_item_parent_class)->destroy) (o);
+
+	G_OBJECT_CLASS (e_calendar_item_parent_class)->dispose (object);
 }
 
 
 static void
-e_calendar_item_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_calendar_item_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
 	ECalendarItem *calitem;
 
-	calitem = E_CALENDAR_ITEM (o);
+	calitem = E_CALENDAR_ITEM (object);
 
-	switch (arg_id) {
-	case ARG_YEAR:
-		GTK_VALUE_INT (*arg) = calitem->year;
-		break;
-	case ARG_MONTH:
-		GTK_VALUE_INT (*arg) = calitem->month;
-		break;
-	case ARG_X1:
-		GTK_VALUE_DOUBLE (*arg) = calitem->x1;
-		break;
-	case ARG_Y1:
-		GTK_VALUE_DOUBLE (*arg) = calitem->y1;
-		break;
-	case ARG_X2:
-		GTK_VALUE_DOUBLE (*arg) = calitem->x2;
-		break;
-	case ARG_Y2:
-		GTK_VALUE_DOUBLE (*arg) = calitem->y2;
-		break;
-	case ARG_FONT_DESC:
-		GTK_VALUE_BOXED (*arg) = calitem->font_desc;
-		break;
-	case ARG_WEEK_NUMBER_FONT_DESC:
-		GTK_VALUE_BOXED (*arg) = calitem->week_number_font_desc;
-		break;
-	case ARG_ROW_HEIGHT:
+	switch (property_id) {
+	case PROP_YEAR:
+		g_value_set_int (value, calitem->year);
+		return;
+	case PROP_MONTH:
+		g_value_set_int (value, calitem->month);
+		return;
+	case PROP_X1:
+		g_value_set_double (value, calitem->x1);
+		return;
+	case PROP_Y1:
+		g_value_set_double (value, calitem->y1);
+		return;
+	case PROP_X2:
+		g_value_set_double (value, calitem->x2);
+		return;
+	case PROP_Y2:
+		g_value_set_double (value, calitem->y2);
+		return;
+	case PROP_FONT_DESC:
+		g_value_set_boxed (value, calitem->font_desc);
+		return;
+	case PROP_WEEK_NUMBER_FONT_DESC:
+		g_value_set_boxed (value, calitem->week_number_font_desc);
+		return;
+	case PROP_ROW_HEIGHT:
 		e_calendar_item_recalc_sizes (calitem);
-		GTK_VALUE_INT (*arg) = calitem->min_month_height;
-		break;
-	case ARG_COLUMN_WIDTH:
+		g_value_set_int (value, calitem->min_month_height);
+		return;
+	case PROP_COLUMN_WIDTH:
 		e_calendar_item_recalc_sizes (calitem);
-		GTK_VALUE_INT (*arg) = calitem->min_month_width;
-		break;
-	case ARG_MINIMUM_ROWS:
-		GTK_VALUE_INT (*arg) = calitem->min_rows;
-		break;
-	case ARG_MINIMUM_COLUMNS:
-		GTK_VALUE_INT (*arg) = calitem->min_cols;
-		break;
-	case ARG_MAXIMUM_ROWS:
-		GTK_VALUE_INT (*arg) = calitem->max_rows;
-		break;
-	case ARG_MAXIMUM_COLUMNS:
-		GTK_VALUE_INT (*arg) = calitem->max_cols;
-		break;
-	case ARG_WEEK_START_DAY:
-		GTK_VALUE_INT (*arg) = calitem->week_start_day;
-		break;
-	case ARG_SHOW_WEEK_NUMBERS:
-		GTK_VALUE_BOOL (*arg) = calitem->show_week_numbers;
-		break;
-	case ARG_MAXIMUM_DAYS_SELECTED:
-		GTK_VALUE_INT (*arg) = e_calendar_item_get_max_days_sel (calitem);
-		break;
-	case ARG_DAYS_TO_START_WEEK_SELECTION:
-		GTK_VALUE_INT (*arg) = e_calendar_item_get_days_start_week_sel (calitem);
-		break;
-	case ARG_MOVE_SELECTION_WHEN_MOVING:
-		GTK_VALUE_BOOL (*arg) = calitem->move_selection_when_moving;
-		break;
-	case ARG_PRESERVE_DAY_WHEN_MOVING:
-		GTK_VALUE_BOOL (*arg) = calitem->preserve_day_when_moving;
-		break;
-	case ARG_DISPLAY_POPUP:
-		GTK_VALUE_BOOL (*arg) = e_calendar_item_get_display_popup (calitem);
-		break;
-	default:
-		g_warning ("Invalid arg");
+		g_value_set_int (value, calitem->min_month_width);
+		return;
+	case PROP_MINIMUM_ROWS:
+		g_value_set_int (value, calitem->min_rows);
+		return;
+	case PROP_MINIMUM_COLUMNS:
+		g_value_set_int (value, calitem->min_cols);
+		return;
+	case PROP_MAXIMUM_ROWS:
+		g_value_set_int (value, calitem->max_rows);
+		return;
+	case PROP_MAXIMUM_COLUMNS:
+		g_value_set_int (value, calitem->max_cols);
+		return;
+	case PROP_WEEK_START_DAY:
+		g_value_set_int (value, calitem->week_start_day);
+		return;
+	case PROP_SHOW_WEEK_NUMBERS:
+		g_value_set_boolean (value, calitem->show_week_numbers);
+		return;
+	case PROP_MAXIMUM_DAYS_SELECTED:
+		g_value_set_int (value, e_calendar_item_get_max_days_sel (calitem));
+		return;
+	case PROP_DAYS_TO_START_WEEK_SELECTION:
+		g_value_set_int (value, e_calendar_item_get_days_start_week_sel (calitem));
+		return;
+	case PROP_MOVE_SELECTION_WHEN_MOVING:
+		g_value_set_boolean (value, calitem->move_selection_when_moving);
+		return;
+	case PROP_PRESERVE_DAY_WHEN_MOVING:
+		g_value_set_boolean (value, calitem->preserve_day_when_moving);
+		return;
+	case PROP_DISPLAY_POPUP:
+		g_value_set_boolean (value, e_calendar_item_get_display_popup (calitem));
+		return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 
 static void
-e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_calendar_item_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ECalendarItem *calitem;
 	PangoFontDescription *font_desc;
-	gboolean need_update = FALSE;
 	gdouble dvalue;
 	gint ivalue;
 	gboolean bvalue;
 
-	item = GNOME_CANVAS_ITEM (o);
-	calitem = E_CALENDAR_ITEM (o);
+	item = GNOME_CANVAS_ITEM (object);
+	calitem = E_CALENDAR_ITEM (object);
 
-	switch (arg_id){
-	case ARG_YEAR:
-		ivalue = GTK_VALUE_INT (*arg);
+	switch (property_id) {
+	case PROP_YEAR:
+		ivalue = g_value_get_int (value);
 		e_calendar_item_set_first_month (calitem, ivalue,
 						 calitem->month);
-		break;
-	case ARG_MONTH:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_MONTH:
+		ivalue = g_value_get_int (value);
 		e_calendar_item_set_first_month (calitem, calitem->year,
 						 ivalue);
-		break;
-	case ARG_X1:
-		dvalue = GTK_VALUE_DOUBLE (*arg);
+		return;
+	case PROP_X1:
+		dvalue = g_value_get_double (value);
 		if (calitem->x1 != dvalue) {
 			calitem->x1 = dvalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_Y1:
-		dvalue = GTK_VALUE_DOUBLE (*arg);
+		return;
+	case PROP_Y1:
+		dvalue = g_value_get_double (value);
 		if (calitem->y1 != dvalue) {
 			calitem->y1 = dvalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_X2:
-		dvalue = GTK_VALUE_DOUBLE (*arg);
+		return;
+	case PROP_X2:
+		dvalue = g_value_get_double (value);
 		if (calitem->x2 != dvalue) {
 			calitem->x2 = dvalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_Y2:
-		dvalue = GTK_VALUE_DOUBLE (*arg);
+		return;
+	case PROP_Y2:
+		dvalue = g_value_get_double (value);
 		if (calitem->y2 != dvalue) {
 			calitem->y2 = dvalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_FONT_DESC:
-		font_desc = GTK_VALUE_BOXED (*arg);
+		return;
+	case PROP_FONT_DESC:
+		font_desc = g_value_get_boxed (value);
 		if (calitem->font_desc)
 			pango_font_description_free (calitem->font_desc);
 		calitem->font_desc = pango_font_description_copy (font_desc);
-		need_update = TRUE;
-		break;
-	case ARG_WEEK_NUMBER_FONT_DESC:
-		font_desc = GTK_VALUE_BOXED (*arg);
+		gnome_canvas_item_request_update (item);
+		return;
+	case PROP_WEEK_NUMBER_FONT_DESC:
+		font_desc = g_value_get_boxed (value);
 		if (calitem->week_number_font_desc)
 			pango_font_description_free (calitem->week_number_font_desc);
 		calitem->week_number_font_desc = pango_font_description_copy (font_desc);
-		need_update = TRUE;
-		break;
-	case ARG_MINIMUM_ROWS:
-		ivalue = GTK_VALUE_INT (*arg);
+		gnome_canvas_item_request_update (item);
+		return;
+	case PROP_MINIMUM_ROWS:
+		ivalue = g_value_get_int (value);
 		ivalue = MAX (1, ivalue);
 		if (calitem->min_rows != ivalue) {
 			calitem->min_rows = ivalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_MINIMUM_COLUMNS:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_MINIMUM_COLUMNS:
+		ivalue = g_value_get_int (value);
 		ivalue = MAX (1, ivalue);
 		if (calitem->min_cols != ivalue) {
 			calitem->min_cols = ivalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_MAXIMUM_ROWS:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_MAXIMUM_ROWS:
+		ivalue = g_value_get_int (value);
 		if (calitem->max_rows != ivalue) {
 			calitem->max_rows = ivalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_MAXIMUM_COLUMNS:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_MAXIMUM_COLUMNS:
+		ivalue = g_value_get_int (value);
 		if (calitem->max_cols != ivalue) {
 			calitem->max_cols = ivalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_WEEK_START_DAY:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_WEEK_START_DAY:
+		ivalue = g_value_get_int (value);
 		if (calitem->week_start_day != ivalue) {
 			calitem->week_start_day = ivalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_SHOW_WEEK_NUMBERS:
-		bvalue = GTK_VALUE_BOOL (*arg);
+		return;
+	case PROP_SHOW_WEEK_NUMBERS:
+		bvalue = g_value_get_boolean (value);
 		if (calitem->show_week_numbers != bvalue) {
 			calitem->show_week_numbers = bvalue;
-			need_update = TRUE;
+			gnome_canvas_item_request_update (item);
 		}
-		break;
-	case ARG_MAXIMUM_DAYS_SELECTED:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_MAXIMUM_DAYS_SELECTED:
+		ivalue = g_value_get_int (value);
 		e_calendar_item_set_max_days_sel (calitem, ivalue);
-		break;
-	case ARG_DAYS_TO_START_WEEK_SELECTION:
-		ivalue = GTK_VALUE_INT (*arg);
+		return;
+	case PROP_DAYS_TO_START_WEEK_SELECTION:
+		ivalue = g_value_get_int (value);
 		e_calendar_item_set_days_start_week_sel (calitem, ivalue);
-		break;
-	case ARG_MOVE_SELECTION_WHEN_MOVING:
-		bvalue = GTK_VALUE_BOOL (*arg);
+		return;
+	case PROP_MOVE_SELECTION_WHEN_MOVING:
+		bvalue = g_value_get_boolean (value);
 		calitem->move_selection_when_moving = bvalue;
-		break;
-	case ARG_PRESERVE_DAY_WHEN_MOVING:
-		bvalue = GTK_VALUE_BOOL (*arg);
+		return;
+	case PROP_PRESERVE_DAY_WHEN_MOVING:
+		bvalue = g_value_get_boolean (value);
 		calitem->preserve_day_when_moving = bvalue;
-		break;
-	case ARG_DISPLAY_POPUP:
-		bvalue = GTK_VALUE_BOOL (*arg);
+		return;
+	case PROP_DISPLAY_POPUP:
+		bvalue = g_value_get_boolean (value);
 		e_calendar_item_set_display_popup (calitem, bvalue);
-		break;
-	default:
-		g_warning ("Invalid arg");
+		return;
 	}
 
-	if (need_update) {
-		gnome_canvas_item_request_update (item);
-	}
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -3195,7 +3374,7 @@ void
 e_calendar_item_set_style_callback	(ECalendarItem	*calitem,
 					 ECalendarItemStyleCallback cb,
 					 gpointer	 data,
-					 GtkDestroyNotify destroy)
+					 GDestroyNotify  destroy)
 {
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 
@@ -3246,14 +3425,12 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 
 	if (calitem->date_range_changed) {
 		calitem->date_range_changed = FALSE;
-		gtk_signal_emit (GTK_OBJECT (calitem),
-				 e_calendar_item_signals[DATE_RANGE_CHANGED]);
+		g_signal_emit (calitem, e_calendar_item_signals[DATE_RANGE_CHANGED], 0);
 	}
 
 	if (calitem->selection_changed) {
 		calitem->selection_changed = FALSE;
-		gtk_signal_emit (GTK_OBJECT (calitem),
-				 e_calendar_item_signals[SELECTION_CHANGED]);
+		g_signal_emit (calitem, e_calendar_item_signals[SELECTION_CHANGED], 0);
 	}
 
 	g_object_unref((calitem));
@@ -3270,7 +3447,7 @@ void
 e_calendar_item_set_get_time_callback	(ECalendarItem	*calitem,
 					 ECalendarItemGetTimeCallback cb,
 					 gpointer	 data,
-					 GtkDestroyNotify destroy)
+					 GDestroyNotify  destroy)
 {
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 

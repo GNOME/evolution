@@ -23,57 +23,47 @@
 #include "e-util/e-util-private.h"
 
 static void e_contact_print_style_editor_init		(EContactPrintStyleEditor		 *card);
-static void e_contact_print_style_editor_class_init	(EContactPrintStyleEditorClass	 *klass);
-static void e_contact_print_style_editor_set_arg        (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_contact_print_style_editor_get_arg        (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_contact_print_style_editor_destroy        (GtkObject *object);
+static void e_contact_print_style_editor_class_init	(EContactPrintStyleEditorClass	 *class);
+static void e_contact_print_style_editor_finalize       (GObject *object);
 
-static GtkVBoxClass *parent_class = NULL;
+static gpointer parent_class;
 
-
-/* The arguments we take */
-enum {
-	ARG_0,
-	ARG_CARD
-};
-
-GtkType
+GType
 e_contact_print_style_editor_get_type (void)
 {
-  static GtkType contact_print_style_editor_type = 0;
+	static GType type = 0;
 
-  if (!contact_print_style_editor_type)
-    {
-      static const GtkTypeInfo contact_print_style_editor_info =
-      {
-        "EContactPrintStyleEditor",
-        sizeof (EContactPrintStyleEditor),
-        sizeof (EContactPrintStyleEditorClass),
-        (GtkClassInitFunc) e_contact_print_style_editor_class_init,
-        (GtkObjectInitFunc) e_contact_print_style_editor_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EContactPrintStyleEditorClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_contact_print_style_editor_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL, /* class_data */
+			sizeof (EContactPrintStyleEditor),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_contact_print_style_editor_init,
+			NULL  /* value_table */
+		};
 
-      contact_print_style_editor_type = gtk_type_unique (gtk_vbox_get_type (), &contact_print_style_editor_info);
-    }
+		type = g_type_register_static (
+			GTK_TYPE_VBOX, "EContactPrintStyleEditor",
+			&type_info, 0);
+	}
 
-  return contact_print_style_editor_type;
+	return type;
 }
 
 static void
-e_contact_print_style_editor_class_init (EContactPrintStyleEditorClass *klass)
+e_contact_print_style_editor_class_init (EContactPrintStyleEditorClass *class)
 {
-  GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-  object_class = (GtkObjectClass*) klass;
+	parent_class = g_type_class_peek_parent (class);
 
-  parent_class = gtk_type_class (gtk_vbox_get_type ());
-
-  object_class->set_arg = e_contact_print_style_editor_set_arg;
-  object_class->get_arg = e_contact_print_style_editor_get_arg;
-  object_class->destroy = e_contact_print_style_editor_destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_contact_print_style_editor_finalize;
 }
 
 #if 0
@@ -113,7 +103,7 @@ e_contact_print_style_editor_init (EContactPrintStyleEditor *e_contact_print_sty
 }
 
 static void
-e_contact_print_style_editor_destroy (GtkObject *object)
+e_contact_print_style_editor_finalize (GObject *object)
 {
 	EContactPrintStyleEditor *e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR(object);
 
@@ -122,30 +112,11 @@ e_contact_print_style_editor_destroy (GtkObject *object)
 		e_contact_print_style_editor->gui = NULL;
 	}
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 GtkWidget*
 e_contact_print_style_editor_new (char *filename)
 {
 	return g_object_new (e_contact_print_style_editor_get_type (), NULL);
-}
-
-static void
-e_contact_print_style_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	switch (arg_id){
-	default:
-		break;
-	}
-}
-
-static void
-e_contact_print_style_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	switch (arg_id) {
-	default:
-	  arg->type = GTK_TYPE_INVALID;
-	  break;
-	}
 }

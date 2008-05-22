@@ -33,9 +33,9 @@
 
 static void comp_editor_page_class_init (CompEditorPageClass *class);
 static void comp_editor_page_init (CompEditorPage *page);
-static void comp_editor_page_destroy (GtkObject *object);
+static void comp_editor_page_dispose (GObject *object);
 
-static GtkObjectClass *parent_class = NULL;
+static gpointer parent_class;
 
 /* Signal IDs */
 
@@ -64,40 +64,54 @@ static guint comp_editor_page_signals[LAST_SIGNAL];
  *
  * Return value: The type ID of the #CompEditorPage class.
  **/
-GtkType
+GType
 comp_editor_page_get_type (void)
 {
-	static GtkType comp_editor_page_type = 0;
+	static GType type = 0;
 
-	if (!comp_editor_page_type) {
-		static const GtkTypeInfo comp_editor_page_info = {
-			"CompEditorPage",
-			sizeof (CompEditorPage),
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (CompEditorPageClass),
-			(GtkClassInitFunc) comp_editor_page_class_init,
-			(GtkObjectInitFunc) comp_editor_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) comp_editor_page_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (CompEditorPage),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) comp_editor_page_init,
+			NULL   /* value_table */
 		};
 
-		comp_editor_page_type =
-			gtk_type_unique (GTK_TYPE_OBJECT,
-					 &comp_editor_page_info);
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "CompEditorPage", &type_info, 0);
 	}
 
-	return comp_editor_page_type;
+	return type;
 }
 
 /* Class initialization function for the abstract editor page */
 static void
 comp_editor_page_class_init (CompEditorPageClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	parent_class = g_type_class_peek_parent (class);
 
-	parent_class = g_type_class_ref(GTK_TYPE_OBJECT);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = comp_editor_page_dispose;
+
+	class->changed = NULL;
+	class->summary_changed = NULL;
+	class->dates_changed = NULL;
+
+	class->get_widget = NULL;
+	class->focus_main_widget = NULL;
+	class->fill_widgets = NULL;
+	class->fill_component = NULL;
+	class->fill_timezones = NULL;
+	class->set_summary = NULL;
+	class->set_dates = NULL;
 
 	comp_editor_page_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -159,20 +173,6 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-
-	class->changed = NULL;
-	class->summary_changed = NULL;
-	class->dates_changed = NULL;
-
-	class->get_widget = NULL;
-	class->focus_main_widget = NULL;
-	class->fill_widgets = NULL;
-	class->fill_component = NULL;
-	class->fill_timezones = NULL;
-	class->set_summary = NULL;
-	class->set_dates = NULL;
-
-	object_class->destroy = comp_editor_page_destroy;
 }
 
 
@@ -186,7 +186,7 @@ comp_editor_page_init (CompEditorPage *page)
 
 
 static void
-comp_editor_page_destroy (GtkObject *object)
+comp_editor_page_dispose (GObject *object)
 {
 	CompEditorPage *page;
 
@@ -205,8 +205,7 @@ comp_editor_page_destroy (GtkObject *object)
 		page->accel_group = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 
@@ -362,9 +361,9 @@ comp_editor_page_unset_focused_widget (CompEditorPage *page, GtkWidget *widget)
 	g_return_if_fail (page!= NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	gtk_signal_emit (GTK_OBJECT (page),
-			 comp_editor_page_signals[FOCUS_OUT],
-			 widget);
+	g_signal_emit (page,
+		       comp_editor_page_signals[FOCUS_OUT], 0,
+		       widget);
 
 }
 
@@ -379,9 +378,9 @@ comp_editor_page_set_focused_widget (CompEditorPage *page, GtkWidget *widget)
 	g_return_if_fail (page!= NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	gtk_signal_emit (GTK_OBJECT (page),
-			 comp_editor_page_signals[FOCUS_IN],
-			 widget);
+	g_signal_emit (page,
+		       comp_editor_page_signals[FOCUS_IN], 0,
+		       widget);
 
 }
 /**
@@ -414,7 +413,7 @@ comp_editor_page_notify_changed (CompEditorPage *page)
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[CHANGED]);
+	g_signal_emit (page, comp_editor_page_signals[CHANGED], 0);
 }
 
 /**
@@ -429,7 +428,7 @@ comp_editor_page_notify_needs_send (CompEditorPage *page)
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[NEEDS_SEND]);
+	g_signal_emit (page, comp_editor_page_signals[NEEDS_SEND], 0);
 }
 
 /**
@@ -447,9 +446,9 @@ comp_editor_page_notify_summary_changed (CompEditorPage *page,
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 
-	gtk_signal_emit (GTK_OBJECT (page),
-			 comp_editor_page_signals[SUMMARY_CHANGED],
-			 summary);
+	g_signal_emit (page,
+		       comp_editor_page_signals[SUMMARY_CHANGED], 0,
+		       summary);
 }
 
 /**
@@ -466,9 +465,9 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	gtk_signal_emit (GTK_OBJECT (page),
-			 comp_editor_page_signals[DATES_CHANGED],
-			 dates);
+	g_signal_emit (page,
+		       comp_editor_page_signals[DATES_CHANGED], 0,
+		       dates);
 }
 
 /**
@@ -486,9 +485,9 @@ comp_editor_page_notify_client_changed (CompEditorPage *page,
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	comp_editor_page_set_e_cal (page, client);
-	gtk_signal_emit (GTK_OBJECT (page),
-			 comp_editor_page_signals[CLIENT_CHANGED],
-			 client);
+	g_signal_emit (page,
+		       comp_editor_page_signals[CLIENT_CHANGED], 0,
+		       client);
 }
 
 /**

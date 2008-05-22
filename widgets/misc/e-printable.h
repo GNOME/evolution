@@ -61,7 +61,7 @@ typedef struct {
 	gboolean    (*will_fit)    (EPrintable *etm, GtkPrintContext *context, gdouble width, gdouble max_height, gboolean quantized);
 } EPrintableClass;
 
-GtkType     e_printable_get_type (void);
+GType       e_printable_get_type (void);
 
 EPrintable *e_printable_new                 (void);
 

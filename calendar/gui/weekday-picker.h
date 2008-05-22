@@ -28,11 +28,11 @@ G_BEGIN_DECLS
 
 
 #define TYPE_WEEKDAY_PICKER            (weekday_picker_get_type ())
-#define WEEKDAY_PICKER(obj)            (GTK_CHECK_CAST ((obj), TYPE_WEEKDAY_PICKER, WeekdayPicker))
-#define WEEKDAY_PICKER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_WEEKDAY_PICKER,	\
+#define WEEKDAY_PICKER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_WEEKDAY_PICKER, WeekdayPicker))
+#define WEEKDAY_PICKER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_WEEKDAY_PICKER,	\
 					WeekdayPickerClass))
-#define IS_WEEKDAY_PICKER(obj)         (GTK_CHECK_TYPE ((obj), TYPE_WEEKDAY_PICKER))
-#define IS_WEEKDAY_PICKER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_WEEKDAY_PICKER))
+#define IS_WEEKDAY_PICKER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_WEEKDAY_PICKER))
+#define IS_WEEKDAY_PICKER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_WEEKDAY_PICKER))
 
 typedef struct _WeekdayPicker WeekdayPicker;
 typedef struct _WeekdayPickerClass WeekdayPickerClass;
@@ -51,7 +51,7 @@ struct _WeekdayPickerClass {
 	void (* changed) (WeekdayPicker *wp);
 };
 
-GtkType weekday_picker_get_type (void);
+GType weekday_picker_get_type (void);
 
 GtkWidget *weekday_picker_new (void);
 

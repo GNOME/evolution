@@ -69,7 +69,7 @@ struct _EMapPoint
 
 /* --- Widget --- */
 
-GtkType e_map_get_type (void);
+GType e_map_get_type (void);
 
 EMap *e_map_new (void);
 

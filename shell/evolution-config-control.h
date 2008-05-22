@@ -34,10 +34,10 @@ extern "C" {
 #endif /* cplusplus */
 
 #define EVOLUTION_TYPE_CONFIG_CONTROL            (evolution_config_control_get_type ())
-#define EVOLUTION_CONFIG_CONTROL(obj)            (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_CONFIG_CONTROL, EvolutionConfigControl))
-#define EVOLUTION_CONFIG_CONTROL_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_CONFIG_CONTROL, EvolutionConfigControlClass))
-#define EVOLUTION_IS_CONFIG_CONTROL(obj)         (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_CONFIG_CONTROL))
-#define EVOLUTION_IS_CONFIG_CONTROL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_CONFIG_CONTROL))
+#define EVOLUTION_CONFIG_CONTROL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_CONFIG_CONTROL, EvolutionConfigControl))
+#define EVOLUTION_CONFIG_CONTROL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_CONFIG_CONTROL, EvolutionConfigControlClass))
+#define EVOLUTION_IS_CONFIG_CONTROL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TYPE_CONFIG_CONTROL))
+#define EVOLUTION_IS_CONFIG_CONTROL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_CONFIG_CONTROL))
 
 typedef struct _EvolutionConfigControl        EvolutionConfigControl;
 typedef struct _EvolutionConfigControlPrivate EvolutionConfigControlPrivate;
@@ -56,7 +56,7 @@ struct _EvolutionConfigControlClass {
 };
 
 
-GtkType                 evolution_config_control_get_type   (void);
+GType                   evolution_config_control_get_type   (void);
 EvolutionConfigControl *evolution_config_control_new        (GtkWidget              *widget);
 void                    evolution_config_control_construct  (EvolutionConfigControl *control,
 							     GtkWidget              *widget);

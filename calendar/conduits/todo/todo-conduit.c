@@ -133,8 +133,8 @@ todoconduit_load_configuration (guint32 pilot_id)
 	g_object_ref_sink (config);
 	if (!gnome_pilot_conduit_config_is_enabled (config, &c->sync_type))
 		c->sync_type = GnomePilotConduitSyncTypeNotSet;
-	gtk_object_unref (GTK_OBJECT (config));
-	gtk_object_unref (GTK_OBJECT (management));
+	g_object_unref (config);
+	g_object_unref (management);
 
 	/* Custom settings */
 	gnome_config_push_prefix (prefix);
@@ -1582,33 +1582,33 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	g_assert (retval != NULL);
 
 	ctxt = e_todo_context_new (pilot_id);
-	gtk_object_set_data (GTK_OBJECT (retval), "todoconduit_context", ctxt);
+	g_object_set_data (G_OBJECT (retval), "todoconduit_context", ctxt);
 
-	gtk_signal_connect (retval, "pre_sync", (GtkSignalFunc) pre_sync, ctxt);
-	gtk_signal_connect (retval, "post_sync", (GtkSignalFunc) post_sync, ctxt);
+	g_signal_connect (retval, "pre_sync", G_CALLBACK (pre_sync), ctxt);
+	g_signal_connect (retval, "post_sync", G_CALLBACK (post_sync), ctxt);
 
-  	gtk_signal_connect (retval, "set_pilot_id", (GtkSignalFunc) set_pilot_id, ctxt);
-  	gtk_signal_connect (retval, "set_status_cleared", (GtkSignalFunc) set_status_cleared, ctxt);
+  	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
+  	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
 
-  	gtk_signal_connect (retval, "for_each", (GtkSignalFunc) for_each, ctxt);
-  	gtk_signal_connect (retval, "for_each_modified", (GtkSignalFunc) for_each_modified, ctxt);
-  	gtk_signal_connect (retval, "compare", (GtkSignalFunc) compare, ctxt);
+  	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
+  	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
+  	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
 
-  	gtk_signal_connect (retval, "add_record", (GtkSignalFunc) add_record, ctxt);
-  	gtk_signal_connect (retval, "replace_record", (GtkSignalFunc) replace_record, ctxt);
-  	gtk_signal_connect (retval, "delete_record", (GtkSignalFunc) delete_record, ctxt);
-  	gtk_signal_connect (retval, "archive_record", (GtkSignalFunc) archive_record, ctxt);
+  	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
+  	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
+  	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
+  	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
 
-  	gtk_signal_connect (retval, "match", (GtkSignalFunc) match, ctxt);
-  	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
+  	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
+  	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
 
-  	gtk_signal_connect (retval, "prepare", (GtkSignalFunc) prepare, ctxt);
+  	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
 
 	/* Gui Settings */
-	gtk_signal_connect (retval, "create_settings_window", (GtkSignalFunc) create_settings_window, ctxt);
-	gtk_signal_connect (retval, "display_settings", (GtkSignalFunc) display_settings, ctxt);
-	gtk_signal_connect (retval, "save_settings", (GtkSignalFunc) save_settings, ctxt);
-	gtk_signal_connect (retval, "revert_settings", (GtkSignalFunc) revert_settings, ctxt);
+	g_signal_connect (retval, "create_settings_window", G_CALLBACK (create_settings_window), ctxt);
+	g_signal_connect (retval, "display_settings", G_CALLBACK (display_settings), ctxt);
+	g_signal_connect (retval, "save_settings", G_CALLBACK (save_settings), ctxt);
+	g_signal_connect (retval, "revert_settings", G_CALLBACK (revert_settings), ctxt);
 
 	return GNOME_PILOT_CONDUIT (retval);
 }
@@ -1619,7 +1619,7 @@ conduit_destroy_gpilot_conduit (GnomePilotConduit *conduit)
 	GtkObject *obj = GTK_OBJECT (conduit);
 	EToDoConduitContext *ctxt;
 
-	ctxt = gtk_object_get_data (obj, "todoconduit_context");
+	ctxt = g_object_get_data (G_OBJECT (obj), "todoconduit_context");
 	e_todo_context_destroy (ctxt);
 
 	gtk_object_destroy (obj);

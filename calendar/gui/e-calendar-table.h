@@ -38,9 +38,9 @@ G_BEGIN_DECLS
  */
 
 
-#define E_CALENDAR_TABLE(obj)          GTK_CHECK_CAST (obj, e_calendar_table_get_type (), ECalendarTable)
-#define E_CALENDAR_TABLE_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_calendar_table_get_type (), ECalendarTableClass)
-#define E_IS_CALENDAR_TABLE(obj)       GTK_CHECK_TYPE (obj, e_calendar_table_get_type ())
+#define E_CALENDAR_TABLE(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_table_get_type (), ECalendarTable)
+#define E_CALENDAR_TABLE_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_table_get_type (), ECalendarTableClass)
+#define E_IS_CALENDAR_TABLE(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_table_get_type ())
 
 
 typedef struct _ECalendarTable       ECalendarTable;
@@ -78,7 +78,7 @@ struct _ECalendarTableClass {
 };
 
 
-GtkType	   e_calendar_table_get_type (void);
+GType		   e_calendar_table_get_type (void);
 GtkWidget* e_calendar_table_new	(void);
 
 ECalModel *e_calendar_table_get_model (ECalendarTable *cal_table);

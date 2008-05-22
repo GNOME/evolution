@@ -76,7 +76,7 @@ struct _ECalendarClass
 };
 
 
-GtkType	   e_calendar_get_type		(void);
+GType		   e_calendar_get_type		(void);
 GtkWidget* e_calendar_new		(void);
 
 void	   e_calendar_set_minimum_size	(ECalendar	*cal,

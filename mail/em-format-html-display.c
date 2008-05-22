@@ -611,7 +611,7 @@ clear_button_clicked_cb (GtkWidget *widget, gpointer dummy, EMFormatHTMLDisplay 
 
 	gtk_entry_set_text (GTK_ENTRY (p->search_entry), "");
 
-	gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
+	g_signal_emit_by_name (p->search_entry, "activate", efhd);
 }
 
 /* Controlls the visibility of icon_entry's visibility */
@@ -755,7 +755,7 @@ em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word)
 		gtk_widget_hide (p->search_entry_box);
 
 		/* Trigger the search */
-		gtk_signal_emit_by_name (GTK_OBJECT (p->search_entry), "activate", efhd);
+		g_signal_emit_by_name (p->search_entry, "activate", efhd);
 	}
 }
 

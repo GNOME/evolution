@@ -138,7 +138,7 @@ struct _EReflowClass
  * should also do an ECanvas parent reflow request if its size
  * changes.
  */
-GtkType  e_reflow_get_type       (void);
+GType    e_reflow_get_type       (void);
 
 #ifdef __cplusplus
 }

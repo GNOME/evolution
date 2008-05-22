@@ -60,7 +60,7 @@ struct _MessageTagEditorClass {
 };
 
 
-GtkType message_tag_editor_get_type (void);
+GType message_tag_editor_get_type (void);
 
 /* methods */
 CamelTag *message_tag_editor_get_tag_list (MessageTagEditor *editor);

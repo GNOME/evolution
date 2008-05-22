@@ -35,11 +35,11 @@ extern "C" {
  * data in the main Day/Work Week display.
  */
 
-#define E_DAY_VIEW_MAIN_ITEM(obj)     (GTK_CHECK_CAST((obj), \
+#define E_DAY_VIEW_MAIN_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
         e_day_view_main_item_get_type (), EDayViewMainItem))
-#define E_DAY_VIEW_MAIN_ITEM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k),\
+#define E_DAY_VIEW_MAIN_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
 	e_day_view_main_item_get_type ()))
-#define E_IS_DAY_VIEW_MAIN_ITEM(o)    (GTK_CHECK_TYPE((o), \
+#define E_IS_DAY_VIEW_MAIN_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
 	e_day_view_main_item_get_type ()))
 
 typedef struct {
@@ -55,7 +55,7 @@ typedef struct {
 } EDayViewMainItemClass;
 
 
-GtkType  e_day_view_main_item_get_type      (void);
+GType    e_day_view_main_item_get_type      (void);
 
 
 #ifdef __cplusplus

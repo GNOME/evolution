@@ -1,3 +1,16 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* e-table-memory-callbacks.c:
+	* e-table-memory-store.c:
+	* e-table-model.c:
+	* e-table-simple.c:
+	* e-tree-memory-callbacks.c:
+	* e-tree-model.c:
+	* e-tree-simple.c:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-04-30  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #528288

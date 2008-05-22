@@ -51,7 +51,7 @@ struct _EABContactDisplayClass {
 	GtkHTMLClass parent_class;
 };
 
-GtkType        eab_contact_display_get_type    (void);
+GType          eab_contact_display_get_type    (void);
 GtkWidget *    eab_contact_display_new         (void);
 
 void           eab_contact_display_render      (EABContactDisplay *display, EContact *contact,

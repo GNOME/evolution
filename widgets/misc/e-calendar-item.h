@@ -232,11 +232,11 @@ struct _ECalendarItem
 
 	ECalendarItemStyleCallback style_callback;
 	gpointer style_callback_data;
-	GtkDestroyNotify style_callback_destroy;
+	GDestroyNotify style_callback_destroy;
 
 	ECalendarItemGetTimeCallback time_callback;
 	gpointer time_callback_data;
-	GtkDestroyNotify time_callback_destroy;
+	GDestroyNotify time_callback_destroy;
 
 	/* Colors for drawing. */
 	GdkColor colors[E_CALENDAR_ITEM_COLOR_LAST];
@@ -262,7 +262,7 @@ struct _ECalendarItemClass
 };
 
 
-GtkType  e_calendar_item_get_type		(void);
+GType    e_calendar_item_get_type		(void);
 
 /* FIXME: months are 0-11 throughout, but 1-12 may be better. */
 
@@ -351,7 +351,7 @@ void	 e_calendar_item_mark_days		(ECalendarItem	*calitem,
 void	 e_calendar_item_set_style_callback	(ECalendarItem	*calitem,
 						 ECalendarItemStyleCallback cb,
 						 gpointer	 data,
-						 GtkDestroyNotify destroy);
+						 GDestroyNotify  destroy);
 
 /* Sets a callback to use to get the current time. This is useful if the
    application needs to use its own timezone data rather than rely on the
@@ -359,7 +359,7 @@ void	 e_calendar_item_set_style_callback	(ECalendarItem	*calitem,
 void	 e_calendar_item_set_get_time_callback	(ECalendarItem	*calitem,
 						 ECalendarItemGetTimeCallback cb,
 						 gpointer	 data,
-						 GtkDestroyNotify destroy);
+						 GDestroyNotify  destroy);
 void e_calendar_item_normalize_date	(ECalendarItem	*calitem,
 					 gint		*year,
 					 gint		*month);

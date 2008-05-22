@@ -40,10 +40,10 @@ typedef struct _EComponentViewClass   EComponentViewClass;
 #include "Evolution.h"
 
 #define E_TYPE_COMPONENT_VIEW			(e_component_view_get_type ())
-#define E_COMPONENT_VIEW(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_COMPONENT_VIEW, EComponentView))
-#define E_COMPONENT_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_COMPONENT_VIEW, EComponentViewClass))
-#define E_IS_COMPONENT_VIEW(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_COMPONENT_VIEW))
-#define E_IS_COMPONENT_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_COMPONENT_VIEW))
+#define E_COMPONENT_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_COMPONENT_VIEW, EComponentView))
+#define E_COMPONENT_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_COMPONENT_VIEW, EComponentViewClass))
+#define E_IS_COMPONENT_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_COMPONENT_VIEW))
+#define E_IS_COMPONENT_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_COMPONENT_VIEW))
 
 struct _EComponentView {
 	BonoboObject parent;

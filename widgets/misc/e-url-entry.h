@@ -58,7 +58,7 @@ struct _EUrlEntryClass {
 
 
 
-GtkType    e_url_entry_get_type  (void);
+GType      e_url_entry_get_type  (void);
 GtkWidget *e_url_entry_new       (void);
 GtkWidget *e_url_entry_get_entry (EUrlEntry *url_entry);
 

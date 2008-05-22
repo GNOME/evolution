@@ -180,7 +180,7 @@ void       e_date_edit_set_twodigit_year_can_future (EDateEdit  *dedit,
 void	   e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
 						 EDateEditGetTimeCallback cb,
 						 gpointer	 data,
-						 GtkDestroyNotify destroy);
+						 GDestroyNotify  destroy);
 
 GtkWidget* e_date_edit_get_entry       (EDateEdit      *dedit);
 

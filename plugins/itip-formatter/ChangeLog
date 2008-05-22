@@ -1,3 +1,10 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534360
+
+	* itip-view.c:
+	Migrate from deprecated GtkObject symbols to GObject equivalents.
+
 2008-04-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
         ** Fixes #338330 (bnc)

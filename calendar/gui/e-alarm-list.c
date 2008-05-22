@@ -75,7 +75,7 @@ static gboolean     e_alarm_list_iter_parent     (GtkTreeModel       *tree_model
 
 static GObjectClass *parent_class = NULL;
 
-GtkType
+GType
 e_alarm_list_get_type (void)
 {
 	static GType alarm_list_type = 0;

@@ -250,34 +250,34 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	/* construct page */
 
-	vbox_settings = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
+	vbox_settings = (GtkVBox*) g_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_settings), 12);
 
-	frm_oof = (GtkFrame*) gtk_object_new (GTK_TYPE_FRAME, "label", _("Out Of Office"), NULL);
+	frm_oof = (GtkFrame*) g_object_new (GTK_TYPE_FRAME, "label", _("Out Of Office"), NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_settings), GTK_WIDGET (frm_oof), FALSE, FALSE, 0);
 
-	vbox_oof = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, NULL, "homogeneous", FALSE, "spacing", 12, NULL);
+	vbox_oof = (GtkVBox*) g_object_new (GTK_TYPE_VBOX, NULL, "homogeneous", FALSE, "spacing", 12, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_oof), 6);
 	gtk_container_add (GTK_CONTAINER (frm_oof), GTK_WIDGET (vbox_oof));
 
-	lbl_oof_desc = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("The message specified below will be automatically sent to \neach person who sends mail to you while you are out of the office."), "justify", GTK_JUSTIFY_LEFT, NULL);
+	lbl_oof_desc = (GtkLabel*) g_object_new (GTK_TYPE_LABEL, "label", _("The message specified below will be automatically sent to \neach person who sends mail to you while you are out of the office."), "justify", GTK_JUSTIFY_LEFT, NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_oof_desc), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (lbl_oof_desc), FALSE, FALSE, 0);
 
-	tbl_oof_status = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
+	tbl_oof_status = (GtkTable*) g_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
 	txt = g_strdup_printf ("<b>%s</b>", _("Status:"));
-	lbl_status = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", txt, "use-markup", TRUE, NULL);
+	lbl_status = (GtkLabel*) g_object_new (GTK_TYPE_LABEL, "label", txt, "use-markup", TRUE, NULL);
 	g_free (txt);
 	gtk_misc_set_alignment (GTK_MISC (lbl_status), 0, 0.5);
 	gtk_misc_set_padding (GTK_MISC (lbl_status), 0, 0);
 
 	if (oof_data->state) {
-		radio_oof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), NULL);
-		radio_iof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), "group", radio_oof, NULL);
+		radio_oof = (GtkRadioButton*) g_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), NULL);
+		radio_iof = (GtkRadioButton*) g_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), "group", radio_oof, NULL);
 	}
 	else {
-		radio_iof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), NULL);
-		radio_oof = (GtkRadioButton*) gtk_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), "group", radio_iof, NULL);
+		radio_iof = (GtkRadioButton*) g_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am in the office"), NULL);
+		radio_oof = (GtkRadioButton*) g_object_new (GTK_TYPE_RADIO_BUTTON, "label", _("I am out of the office"), "group", radio_iof, NULL);
 	}
 	g_signal_connect (radio_oof, "toggled", G_CALLBACK (toggled_state), NULL);
 
@@ -289,9 +289,9 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (tbl_oof_status), FALSE, FALSE, 0);
 
 
-	scrwnd_oof = (GtkScrolledWindow*) gtk_object_new (GTK_TYPE_SCROLLED_WINDOW, "hscrollbar-policy", GTK_POLICY_AUTOMATIC, "vscrollbar-policy", GTK_POLICY_AUTOMATIC, "shadow-type", GTK_SHADOW_IN, NULL);
+	scrwnd_oof = (GtkScrolledWindow*) g_object_new (GTK_TYPE_SCROLLED_WINDOW, "hscrollbar-policy", GTK_POLICY_AUTOMATIC, "vscrollbar-policy", GTK_POLICY_AUTOMATIC, "shadow-type", GTK_SHADOW_IN, NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (scrwnd_oof), FALSE, FALSE, 0);
-	txtview_oof = (GtkTextView*) gtk_object_new (GTK_TYPE_TEXT_VIEW, "justification", GTK_JUSTIFY_LEFT, "wrap-mode", GTK_WRAP_WORD, "editable", TRUE, NULL);
+	txtview_oof = (GtkTextView*) g_object_new (GTK_TYPE_TEXT_VIEW, "justification", GTK_JUSTIFY_LEFT, "wrap-mode", GTK_WRAP_WORD, "editable", TRUE, NULL);
 	buffer = gtk_text_view_get_buffer (txtview_oof);
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	oof_message = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
@@ -313,27 +313,27 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_container_add (GTK_CONTAINER (scrwnd_oof), GTK_WIDGET (txtview_oof));
 
 	/* Security settings */
-	frm_auth = (GtkFrame*) gtk_object_new (GTK_TYPE_FRAME, "label", _("Security"), NULL);
+	frm_auth = (GtkFrame*) g_object_new (GTK_TYPE_FRAME, "label", _("Security"), NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_settings), GTK_WIDGET (frm_auth), FALSE, FALSE, 0);
 
-	vbox_auth = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
+	vbox_auth = (GtkVBox*) g_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_auth), 6);
 	gtk_container_add (GTK_CONTAINER (frm_auth), GTK_WIDGET (vbox_auth));
 
-	tbl_auth = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
+	tbl_auth = (GtkTable*) g_object_new (GTK_TYPE_TABLE, "n-rows", 2, "n-columns", 2, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
 
 #ifdef HAVE_KRB5
 	/* Change Password */
-	lbl_chpass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Change the password for Exchange account"), NULL);
+	lbl_chpass = (GtkLabel*) g_object_new (GTK_TYPE_LABEL, "label", _("Change the password for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_chpass), 0, 0.5);
-	btn_chpass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Change Password"), NULL);
-	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
+	btn_chpass = (GtkButton*) g_object_new (GTK_TYPE_BUTTON, "label", _("Change Password"), NULL);
+	g_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
 #endif
 
 	/* Delegation Assistant */
-	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
+	lbl_dass = (GtkLabel*) g_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
-	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assistant"), NULL);
+	btn_dass = (GtkButton*) g_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assistant"), NULL);
 	g_signal_connect (btn_dass, "clicked", G_CALLBACK (btn_dass_clicked), NULL);
 	/* Add items to the table */
 #ifdef HAVE_KRB5
@@ -345,19 +345,19 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start (GTK_BOX (vbox_auth), GTK_WIDGET (tbl_auth), FALSE, FALSE, 0);
 
 	/* Miscelleneous settings */
-	frm_misc = (GtkFrame*) gtk_object_new (GTK_TYPE_FRAME, "label", _("Miscelleneous"), NULL);
+	frm_misc = (GtkFrame*) g_object_new (GTK_TYPE_FRAME, "label", _("Miscelleneous"), NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_settings), GTK_WIDGET (frm_misc), FALSE, FALSE, 0);
 
-	vbox_misc = (GtkVBox*) gtk_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
+	vbox_misc = (GtkVBox*) g_object_new (GTK_TYPE_VBOX, "homogeneous", FALSE, "spacing", 6, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_misc), 6);
 	gtk_container_add (GTK_CONTAINER (frm_misc), GTK_WIDGET (vbox_misc));
 
-	tbl_misc = (GtkTable*) gtk_object_new (GTK_TYPE_TABLE, "n-rows", 1, "n-columns", 1, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
+	tbl_misc = (GtkTable*) g_object_new (GTK_TYPE_TABLE, "n-rows", 1, "n-columns", 1, "homogeneous", FALSE, "row-spacing", 6, "column-spacing", 6, NULL);
 
 	/* Folder Size */
-	lbl_fsize = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("View the size of all Exchange folders"), NULL);
+	lbl_fsize = (GtkLabel*) g_object_new (GTK_TYPE_LABEL, "label", _("View the size of all Exchange folders"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_fsize), 0, 0.5);
-	btn_fsize = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Folders Size"), NULL);
+	btn_fsize = (GtkButton*) g_object_new (GTK_TYPE_BUTTON, "label", _("Folders Size"), NULL);
 	g_signal_connect (btn_fsize, "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
 	gtk_table_attach_defaults (tbl_misc, GTK_WIDGET (lbl_fsize), 0, 1, 0, 1);
 	gtk_table_attach (tbl_misc, GTK_WIDGET (btn_fsize), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);

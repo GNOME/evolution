@@ -51,7 +51,7 @@ struct _TaskEditorClass {
 	CompEditorClass parent_class;
 };
 
-GtkType     task_editor_get_type       (void);
+GType       task_editor_get_type       (void);
 TaskEditor *task_editor_construct      (TaskEditor *te,
 					ECal  *client);
 TaskEditor *task_editor_new            (ECal  *client, CompEditorFlags flags);

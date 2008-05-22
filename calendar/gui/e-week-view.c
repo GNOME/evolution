@@ -3088,12 +3088,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			/* Stop the signal last or we will also stop any
 			   other events getting to the EText item. */
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
-						      "event");
+			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 			return TRUE;
 		} else if (gdkevent->key.keyval == GDK_Escape) {
 			cancel_editing (week_view);
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 			/* focus should go to week view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			return TRUE;
@@ -3111,7 +3110,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 					     event->comp_data->client,
 					     event->comp_data->icalcomp, FALSE);
 
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+		g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 		return TRUE;
 	case GDK_BUTTON_PRESS:
 		tooltip_destroy (week_view, item);
@@ -3139,8 +3138,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						     (GdkEventButton*) gdkevent,
 						     event_num);
 
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item->canvas),
-						      "button_press_event");
+			g_signal_stop_emission_by_name (GTK_OBJECT (item->canvas),
+						    "button_press_event");
 			return TRUE;
 		}
 
@@ -3151,8 +3150,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing) {
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
-						      "event");
+			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 
 			if (gdkevent) {
 				week_view->drag_event_x = gdkevent->button.x;
@@ -3187,8 +3185,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			/* Stop the signal last or we will also stop any
 			   other events getting to the EText item. */
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
-						      "event");
+			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 			return TRUE;
 		}
 		week_view->pressed_event_num = -1;

@@ -488,7 +488,7 @@ view_item_cb (GtkWidget *widget,
 static void
 add_popup_radio_item (EPopupMenu *menu_item,
 		      gchar *title,
-		      GtkSignalFunc fn,
+		      GCallback fn,
 		      gpointer closure,
 		      gboolean value)
 {

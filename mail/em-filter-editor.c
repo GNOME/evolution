@@ -45,10 +45,10 @@ static void em_filter_editor_finalise (GObject *obj);
 static RuleEditorClass *parent_class = NULL;
 
 
-GtkType
+GType
 em_filter_editor_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
 		static const GTypeInfo info = {

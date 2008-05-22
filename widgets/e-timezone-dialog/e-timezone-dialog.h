@@ -28,11 +28,11 @@
 
 
 #define E_TYPE_TIMEZONE_DIALOG       (e_timezone_dialog_get_type ())
-#define E_TIMEZONE_DIALOG(obj)       (GTK_CHECK_CAST ((obj), E_TYPE_TIMEZONE_DIALOG, ETimezoneDialog))
-#define E_TIMEZONE_DIALOG_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_TIMEZONE_DIALOG,	\
+#define E_TIMEZONE_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TIMEZONE_DIALOG, ETimezoneDialog))
+#define E_TIMEZONE_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TIMEZONE_DIALOG,	\
 				      ETimezoneDialogClass))
-#define E_IS_TIMEZONE_DIALOG(obj)    (GTK_CHECK_TYPE ((obj), E_TYPE_TIMEZONE_DIALOG))
-#define E_IS_TIMEZONE_DIALOG_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_TIMEZONE_DIALOG))
+#define E_IS_TIMEZONE_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TIMEZONE_DIALOG))
+#define E_IS_TIMEZONE_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TIMEZONE_DIALOG))
 
 
 typedef struct _ETimezoneDialog		ETimezoneDialog;

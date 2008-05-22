@@ -97,7 +97,7 @@ typedef struct _EPopupMenu EPopupMenu;
 struct _EPopupMenu {
 	char *name;
 	char *pixname;
-	GtkSignalFunc fn;
+	GCallback fn;
 
 	EPopupMenu *submenu;
 	guint32 disable_mask;

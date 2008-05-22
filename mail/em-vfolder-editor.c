@@ -65,10 +65,10 @@ em_vfolder_editor_init (EMVFolderEditor *ve)
 	;
 }
 
-GtkType
+GType
 em_vfolder_editor_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
 		static const GTypeInfo info = {

@@ -41,9 +41,10 @@
 
 #include <text/e-text.h>
 
-static void e_week_view_event_item_set_arg	(GtkObject	 *o,
-						 GtkArg		 *arg,
-						 guint		  arg_id);
+static void e_week_view_event_item_set_property	(GObject	 *object,
+						 guint		  property_id,
+						 const GValue	 *value,
+						 GParamSpec	 *pspec);
 static void e_week_view_event_item_update	(GnomeCanvasItem *item,
 						 double		 *affine,
 						 ArtSVP		 *clip_path,
@@ -93,9 +94,9 @@ static ECalendarViewPosition e_week_view_event_item_get_position (EWeekViewEvent
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_EVENT_NUM,
-	ARG_SPAN_NUM
+	PROP_0,
+	PROP_EVENT_NUM,
+	PROP_SPAN_NUM
 };
 
 G_DEFINE_TYPE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM)
@@ -103,26 +104,41 @@ G_DEFINE_TYPE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITE
 static void
 e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 {
-	GtkObjectClass  *object_class;
+	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass *) class;
-	item_class = (GnomeCanvasItemClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_week_view_event_item_set_property;
 
-	gtk_object_add_arg_type ("EWeekViewEventItem::event_num",
-				 GTK_TYPE_INT, GTK_ARG_WRITABLE,
-				 ARG_EVENT_NUM);
-	gtk_object_add_arg_type ("EWeekViewEventItem::span_num",
-				 GTK_TYPE_INT, GTK_ARG_WRITABLE,
-				 ARG_SPAN_NUM);
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->update = e_week_view_event_item_update;
+	item_class->draw = e_week_view_event_item_draw;
+	item_class->point = e_week_view_event_item_point;
+	item_class->event = e_week_view_event_item_event;
 
-	object_class->set_arg = e_week_view_event_item_set_arg;
+	g_object_class_install_property (
+		object_class,
+		PROP_EVENT_NUM,
+		g_param_spec_int (
+			"event_num",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			-1,
+			G_PARAM_WRITABLE));
 
-	/* GnomeCanvasItem method overrides */
-	item_class->update      = e_week_view_event_item_update;
-	item_class->draw        = e_week_view_event_item_draw;
-	item_class->point       = e_week_view_event_item_point;
-	item_class->event       = e_week_view_event_item_event;
+	g_object_class_install_property (
+		object_class,
+		PROP_SPAN_NUM,
+		g_param_spec_int (
+			"span_num",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			-1,
+			G_PARAM_WRITABLE));
 }
 
 
@@ -135,28 +151,29 @@ e_week_view_event_item_init (EWeekViewEventItem *wveitem)
 
 
 static void
-e_week_view_event_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_week_view_event_item_set_property (GObject *object,
+                                     guint property_id,
+                                     const GValue *value,
+                                     GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	EWeekViewEventItem *wveitem;
-	gboolean needs_update = FALSE;
 
-	item = GNOME_CANVAS_ITEM (o);
-	wveitem = E_WEEK_VIEW_EVENT_ITEM (o);
+	item = GNOME_CANVAS_ITEM (object);
+	wveitem = E_WEEK_VIEW_EVENT_ITEM (object);
 
-	switch (arg_id){
-	case ARG_EVENT_NUM:
-		wveitem->event_num = GTK_VALUE_INT (*arg);
-		needs_update = TRUE;
-		break;
-	case ARG_SPAN_NUM:
-		wveitem->span_num = GTK_VALUE_INT (*arg);
-		needs_update = TRUE;
-		break;
+	switch (property_id) {
+	case PROP_EVENT_NUM:
+		wveitem->event_num = g_value_get_int (value);
+		gnome_canvas_item_request_update (item);
+		return;
+	case PROP_SPAN_NUM:
+		wveitem->span_num = g_value_get_int (value);
+		gnome_canvas_item_request_update (item);
+		return;
 	}
 
-	if (needs_update)
-		gnome_canvas_item_request_update (item);
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 
@@ -1021,8 +1038,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 		e_week_view_show_popup_menu (week_view,
 					     (GdkEventButton*) bevent,
 					     wveitem->event_num);
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (item->canvas),
-					      "button_press_event");
+		g_signal_stop_emission_by_name (item->canvas, "button_press_event");
 
 		return TRUE;
 	}

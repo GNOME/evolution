@@ -56,7 +56,7 @@ typedef struct {
 } EventPageClass;
 
 
-GtkType    event_page_get_type  (void);
+GType      event_page_get_type  (void);
 EventPage *event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client);
 EventPage *event_page_new       (EMeetingStore *model, ECal *client, BonoboUIComponent *uic);
 ECalComponent *event_page_get_cancel_comp (EventPage *page);

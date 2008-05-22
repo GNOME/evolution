@@ -73,7 +73,7 @@ static gboolean     e_date_time_list_iter_parent     (GtkTreeModel       *tree_m
 
 static GObjectClass *parent_class = NULL;
 
-GtkType
+GType
 e_date_time_list_get_type (void)
 {
 	static GType date_time_list_type = 0;
