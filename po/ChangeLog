@@ -1,3 +1,8 @@
+2008-05-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Fix this up.
+	* nb.po: Updated Norwegian bokmål translation.
+
 2008-05-20  Vincent van Adrighem  <adrighem@gnome.org>
 
 	* nl.po: Translation updated by Tino Meinen.

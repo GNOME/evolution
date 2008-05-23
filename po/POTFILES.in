@@ -187,6 +187,7 @@ data/evolution.keys.in.in
 e-util/e-categories-config.c
 e-util/e-dialog-utils.c
 e-util/e-error.c
+e-util/e-plugin.c
 e-util/e-print.c
 e-util/e-system.error.xml
 e-util/e-util-labels.c
@@ -288,8 +289,8 @@ plugins/default-mailer/org-gnome-default-mailer.error.xml
 plugins/default-source/default-source.c
 plugins/default-source/org-gnome-default-source.eplug.xml
 plugins/email-custom-header/email-custom-header.c
+plugins/email-custom-header/org-gnome-email-custom-header.glade
 plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml
-plugins/email-custom-header/org-gnome-email-custom-header-menu.xml
 plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
 plugins/exchange-operations/e-foreign-folder-dialog.glade
 plugins/exchange-operations/exchange-account-setup.c
@@ -381,6 +382,7 @@ plugins/mail-to-task/org-gnome-mail-to-task.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
+plugins/mark-all-read/mark-all-read.c
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
 plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml
 plugins/mono/org-gnome-evolution-mono.eplug.xml
@@ -451,8 +453,6 @@ ui/evolution-mail-message.xml
 ui/evolution-mail-messagedisplay.xml
 ui/evolution-memo-editor.xml
 ui/evolution-memos.xml
-ui/evolution-signature-editor.xml
-ui/evolution-subscribe.xml
 ui/evolution-task-editor.xml
 ui/evolution-tasks.xml
 ui/evolution.xml
