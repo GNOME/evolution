@@ -806,7 +806,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	if (mime_type) {
                 gchar *cp;
 
-                /* does gvfs expect lowercase MIME types? */
+                /* GIO expects lowercase MIME types. */
                 for (cp = mime_type; *cp != '\0'; cp++)
                         *cp = g_ascii_tolower (*cp);
 
@@ -815,18 +815,13 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		    these two soon. */
 		apps = g_app_info_get_all_for_type (mime_type);
 
-		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
-			if (filename) {
-				/* will gvfs misidentify TNEF attachments as MPEG? */
-				if (!strcmp (filename, "winmail.dat"))
-					apps = g_app_info_get_all_for_type ("application/vnd.ms-tnef");
-				else {
-					char *name_type = e_util_guess_mime_type (filename);
+		if (apps == NULL && strcmp (mime_type, "application/octet-stream") == 0) {
+			if (filename != NULL) {
+				gchar *name_type;
 
-					apps = g_app_info_get_all_for_type (name_type);
-
-					g_free (name_type);
-				}
+				name_type = e_util_guess_mime_type (filename);
+				apps = g_app_info_get_all_for_type (name_type);
+				g_free (name_type);
 			}
 		}
 

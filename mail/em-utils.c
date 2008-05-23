@@ -2209,13 +2209,8 @@ em_utils_snoop_type(CamelMimePart *part)
 	CamelDataWrapper *dw;
 
 	filename = camel_mime_part_get_filename (part);
-	if (filename) {
-		/* will GVFS misidentify TNEF attachments as MPEG? */
-		if (!strcmp (filename, "winmail.dat"))
-			return "application/vnd.ms-tnef";
-
+	if (filename != NULL)
 		name_type = e_util_guess_mime_type (filename);
-	}
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 	if (!camel_data_wrapper_is_offline(dw)) {

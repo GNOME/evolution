@@ -403,16 +403,11 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
 			if (filename) {
-				/* will gvfs misidentify TNEF attachments as MPEG? */
-				if (!strcmp (filename, "winmail.dat"))
-					apps = g_app_info_get_all_for_type ("application/vnd.ms-tnef");
-				else {
-					char *name_type = e_util_guess_mime_type (filename);
+				gchar *name_type;
 
-					apps = g_app_info_get_all_for_type (name_type);
-
-					g_free (name_type);
-				}
+				name_type = e_util_guess_mime_type (filename);
+				apps = g_app_info_get_all_for_type (name_type);
+				g_free (name_type);
 			}
 		}
 		g_free (mime_type);

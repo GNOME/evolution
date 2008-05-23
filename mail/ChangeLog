@@ -1,3 +1,12 @@
+2008-05-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534476
+
+	* em-utils.c (em_utils_snoop_type):
+	* em-popup.c (emp_standard_menu_factory):
+	Remove the special check for "winmail.dat".  GIO correctly
+	identifies it as "application/ms-tnef".
+
 2008-05-23  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-mt.c: (mail_msg_check_error): Convert the the warning to a

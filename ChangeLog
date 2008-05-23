@@ -1,3 +1,11 @@
+2008-05-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #534476
+
+	* configure.in:
+	Require shared-mime-info >= 0.22 to make sure we pick up the fix
+	for correctly identifying "winmail.dat" attachments.
+
 2008-05-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS, configure.in : Evolution 2.23.2 release and version bump.

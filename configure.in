@@ -23,6 +23,7 @@ m4_define([libglade_minimum_version], [2.0.0])          # XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
 m4_define([libgnomeui_minimum_version], [2.0.0])        # XXX Just a Guess
 m4_define([libxml_minimum_version], [2.0.0])            # XXX Just a Guess
+m4_define([shared_mime_info_minimum_version], [0.22])
 
 # Optional Packages
 #
@@ -171,7 +172,8 @@ PKG_CHECK_MODULES(GNOME_PLATFORM,
          libglade-2.0 >= libglade_minimum_version
          libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
          libgnomeui-2.0 >= libgnomeui_minimum_version
-         libxml-2.0 >= libxml_minimum_version])
+         libxml-2.0 >= libxml_minimum_version
+	 shared-mime-info >= shared_mime_info_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
