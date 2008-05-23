@@ -1,3 +1,8 @@
+2008-05-23  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-mt.c: (mail_msg_check_error): Convert the the warning to a
+	message.
+
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-format-html.c (efh_message_external):
