@@ -45,8 +45,6 @@
 #include "widgets/misc/e-attachment-bar.h"
 #include "composer/e-msg-composer.h"
 
-
-#define GCONF_KEY_ATTACHMENT_REMINDER "/apps/evolution/mail/prompts/attachment_presend_check"
 #define GCONF_KEY_ATTACH_REMINDER_CLUES "/apps/evolution/mail/attachment_reminder_clues"
 #define SIGNATURE "-- "
 
@@ -73,11 +71,10 @@ GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
 GtkWidget* org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
-static gboolean ask_for_missing_attachment (GtkWindow *widget);
+static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
 static gboolean check_for_attachment_clues (gchar *msg);
 static gboolean check_for_attachment (EMsgComposer *composer);
 static gchar* strip_text_msg (gchar *msg);
-static void toggle_cb (GtkWidget *widget, UIData *ui);
 static void commit_changes (UIData *ui);
 
 static void  cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
@@ -94,17 +91,9 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 void
 org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 {
-	GConfClient *gconf;
 	GByteArray *raw_msg_barray;
 
 	gchar *filtered_str = NULL;
-
-	gconf = gconf_client_get_default ();
-	if (!gconf_client_get_bool (gconf, GCONF_KEY_ATTACHMENT_REMINDER, NULL)){
-		g_object_unref (gconf);
-		return;
-	} else
-		g_object_unref (gconf);
 
 	raw_msg_barray = e_msg_composer_get_raw_message_text (t->composer);
 
@@ -114,20 +103,38 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 	raw_msg_barray = g_byte_array_append (raw_msg_barray, (const guint8 *)"", 1);
 
 	filtered_str = strip_text_msg ((gchar *) raw_msg_barray->data);
+
 	g_byte_array_free (raw_msg_barray, TRUE);
 
 	/* Set presend_check_status for the composer*/
 	if (check_for_attachment_clues (filtered_str) && !check_for_attachment (t->composer))
-		if (!ask_for_missing_attachment ((GtkWindow *)t->composer))
+		if (!ask_for_missing_attachment (ep, (GtkWindow *)t->composer))
 			g_object_set_data ((GObject *) t->composer, "presend_check_status", GINT_TO_POINTER(1));
 
 	g_free (filtered_str);
 }
 
 static gboolean
-ask_for_missing_attachment (GtkWindow *window)
+ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 {
-	return em_utils_prompt_user(window, GCONF_KEY_ATTACHMENT_REMINDER ,"org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
+	GtkWidget *mbox, *check = NULL;
+	gint response;
+
+	mbox = e_error_new(window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
+
+	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
+	gtk_container_set_border_width((GtkContainer *)check, 12);
+	gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
+	gtk_widget_show (check);
+
+	response = gtk_dialog_run ((GtkDialog *) mbox);
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
+		e_plugin_enable (ep, FALSE);
+
+	gtk_widget_destroy(mbox);
+
+	return response == GTK_RESPONSE_YES;
 }
 
 /* check for the clues */
@@ -135,7 +142,6 @@ static gboolean
 check_for_attachment_clues (gchar *msg)
 {
 	/* TODO : Add more strings. RegEx ??? */
-
 	GConfClient *gconf;
 	GSList *clue_list = NULL, *list;
 	gboolean ret_val = FALSE;
@@ -150,7 +156,6 @@ check_for_attachment_clues (gchar *msg)
 	g_object_unref (gconf);
 
 	msg_length = strlen (msg);
-
 	for (list = clue_list;list && !ret_val;list=g_slist_next(list)) {
 		gchar *needle = g_utf8_strdown (list->data, -1);
 		if (g_strstr_len (msg, msg_length, needle)) {
@@ -404,17 +409,6 @@ clue_edit_clicked (GtkButton *button, UIData *ui)
 }
 
 static void
-toggle_cb (GtkWidget *widget, UIData *ui)
-{
-
-	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	ui->gconf = gconf_client_get_default();
-
-   	gconf_client_set_bool (ui->gconf, GCONF_KEY_ATTACHMENT_REMINDER, active, NULL);
-	gtk_widget_set_sensitive (ui->clue_container, active);
-}
-
-static void
 selection_changed (GtkTreeSelection *selection, UIData *ui)
 {
 	GtkTreeModel *model;
@@ -449,10 +443,9 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GConfClient *gconf = gconf_client_get_default();
-	GtkWidget *button, *hbox;
+	GtkWidget *hbox;
 	GSList *clue_list = NULL, *list;
 	GtkTreeModel *model;
-	gboolean enable_ui;
 
 	UIData *ui = g_new0 (UIData, 1);
 
@@ -465,7 +458,6 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	g_free (gladefile);
 
 	ui->gconf = gconf_client_get_default ();
-	enable_ui = gconf_client_get_bool (ui->gconf, GCONF_KEY_ATTACHMENT_REMINDER, NULL);
 
 	ui->treeview = glade_xml_get_widget (ui->xml, "clue_treeview");
 
@@ -511,14 +503,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		g_slist_free (clue_list);
 	}
 
-	/* Enable / Disable */
-	button = glade_xml_get_widget (ui->xml, "reminder_enable_check");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button) , enable_ui);
-	g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (toggle_cb), ui);
-
 	/* Add the list here */
 	ui->clue_container = glade_xml_get_widget (ui->xml, "clue_container");
-	gtk_widget_set_sensitive (ui->clue_container, enable_ui);
 
 	hbox = gtk_vbox_new (FALSE, 0);
 

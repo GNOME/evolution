@@ -1,21 +1,6 @@
 <gconfschemafile>
   <schemalist>
     <schema>
-      <key>/schemas/apps/evolution/mail/prompts/attachment_presend_check</key>
-      <applyto>/apps/evolution/mail/prompts/attachment_presend_check</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Enable attachment reminder plugin</short>
-        <long>Enable attachment reminder plugin.</long>
-      </locale>
-    </schema>
-
-
-    <!-- Labels and Colours -->
-
-    <schema>
       <key>/schemas/apps/evolution/mail/attachment_reminder_clues</key>
       <applyto>/apps/evolution/mail/attachment_reminder_clues</applyto>
       <owner>evolution-mail</owner>
