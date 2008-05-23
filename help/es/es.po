@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-04-30 18:46+0000\n"
-"PO-Revision-Date: 2008-05-11 18:15+0200\n"
+"POT-Creation-Date: 2008-05-21 17:02+0000\n"
+"PO-Revision-Date: 2008-05-23 21:19+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -977,8 +977,8 @@ msgid ""
 "When the First-Run Assistant starts, the Welcome page is displayed. Click "
 "Forward to proceed to the Identity window."
 msgstr ""
-"Cuando se inicia el «Asistente de primera ejecución», se muestra la página "
-"de «Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
+"Cuando se inicia el «Asistente de primera ejecución», se muestra la página de "
+"«Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
 
 #: C/evolution.xml:238(para)
 msgid "Type your full name in the Full Name field."
@@ -1175,10 +1175,10 @@ msgid ""
 "to use. For configuration instructions, see <link linkend=\"bstgbqn\">Local "
 "Configuration Options</link>."
 msgstr ""
-"Si descarga el correo utilizando «mh» u otro programa tipo MH querrá "
-"utilizar esta opción. Debe escribir la ruta de acceso al directorio de "
-"correo que quiere usar. Para las instrucciones de configuración, vea <link "
-"linkend=\"bstgbqn\">Opciones de configuración local</link>."
+"Si descarga el correo utilizando «mh» u otro programa tipo MH querrá utilizar "
+"esta opción. Debe escribir la ruta de acceso al directorio de correo que "
+"quiere usar. Para las instrucciones de configuración, vea <link linkend="
+"\"bstgbqn\">Opciones de configuración local</link>."
 
 #: C/evolution.xml:302(title)
 msgid "Maildir Format Mail Directories:"
@@ -1256,9 +1256,7 @@ msgstr ""
 
 #: C/evolution.xml:325(para)
 msgid "Type the server name of your e-mail server in the Server field."
-msgstr ""
-"Teclee el nombre del servidor de su correo electrónico en el campo "
-"«Servidor»."
+msgstr "Teclee el nombre del servidor de su correo electrónico en el campo «Servidor»."
 
 #: C/evolution.xml:326(para)
 msgid "If you don't know the Server, contact your administrator."
@@ -1551,8 +1549,8 @@ msgid ""
 "Specify the Global Catalog server name in the Global Catalog Server Name "
 "field."
 msgstr ""
-"Especifique el nombre del servidor de Catálogo Global en el campo «Nombre "
-"del servidor de catálogo global»."
+"Especifique el nombre del servidor de Catálogo Global en el campo «Nombre del "
+"servidor de catálogo global»."
 
 #: C/evolution.xml:445(para)
 msgid ""
@@ -1764,8 +1762,8 @@ msgid ""
 "If you select Local Delivery as your receiving server type, you need to "
 "specify the following options:"
 msgstr ""
-"Si selecciona «Entrega local» como su tipo de servidor de recepción, "
-"necesita especificar las siguientes opciones:"
+"Si selecciona «Entrega local» como su tipo de servidor de recepción, necesita "
+"especificar las siguientes opciones:"
 
 #: C/evolution.xml:576(para)
 msgid ""
@@ -2254,19 +2252,15 @@ msgid "The Sidebar"
 msgstr "La barra lateral"
 
 #: C/evolution.xml:824(para)
-#, fuzzy
 msgid ""
 "Sidebar is the vertical panel on the left side of the Evolution main window. "
 "At the bottom of the sidebar is the Switcher, that lets you switch between "
 "the Evolution tools like Mail, Memo,Tasks and Contacts. Above the Switcher "
 "you can see a list of folders for the current Evolution tool."
 msgstr ""
-"La labor más importante de Evolution es facilitarle el acceso y simplificar "
-"la consulta de su información, así como ayudarle a usarla rápidamente. Una "
-"manera de conseguirlo es mediante la barra lateral, que es la columna en el "
-"lado izquierdo de la ventana principal. El selector en la parte inferior de "
-"la barra lateral le permite cambiar entre las herramientas de Evolution, "
-"como correo y Contactos que son atajos. Sobre ellos hay una lista de "
+"La barra lateral es el panel vertical en la parte lateral de la ventana principal de Evolution. "
+"En la parte inferior de la barra lateral está el Selector, que le permite cambiar entre "
+"las herramientas de Evolution, como correo y Contactos que son atajos. Sobre ellos hay una lista de "
 "carpetas para la herramienta actual de Evolution."
 
 #: C/evolution.xml:825(para)
@@ -3287,8 +3281,8 @@ msgid ""
 "minus.png\"/> icon in the preview pane."
 msgstr ""
 "Puede expandir las cabeceras del mensaje pulsando el icono <inlinegraphic "
-"format=\"PNG\" fileref=\"figures/plus.png\"/> o el «...» en el panel de "
-"vista previa. Para contraerlas pulse el icono <inlinegraphic format=\"PNG\" "
+"format=\"PNG\" fileref=\"figures/plus.png\"/> o el «...» en el panel de vista "
+"previa. Para contraerlas pulse el icono <inlinegraphic format=\"PNG\" "
 "fileref=\"figures/minus.png\"/> en el panel de vista previa."
 
 #: C/evolution.xml:1229(title)
@@ -3753,7 +3747,6 @@ msgid "Tips for E-Mail Courtesy"
 msgstr "Consejos para correo electrónico de cortesía"
 
 #: C/evolution.xml:1422(para)
-#, fuzzy
 msgid ""
 "If you want to write in a non-Latin alphabet while using a Latin keyboard, "
 "try selecting a different input method in the message composer. Right-click "
@@ -3771,8 +3764,8 @@ msgstr ""
 "Las claves actuales varían por idiomas y estilo de entrada. Por ejemplo, el "
 "método de entrada cirílico usa combinaciones de teclado de latín "
 "transliterado para obtener el alfabeto cirílico, combinando letras donde sea "
-"necesario. «Zh» y «ya» proporcionan letras simples cirílicas apropiadas, y "
-"la comilla simple (‘) proporciona un carácter de signo suave."
+"necesario. «Zh» y «ya» proporcionan letras simples cirílicas apropiadas, y la "
+"comilla simple (‘) proporciona un carácter de signo suave."
 
 #: C/evolution.xml:1423(para)
 msgid ""
@@ -3876,7 +3869,6 @@ msgstr ""
 "Guardar como, y después especifique un nombre de archivo."
 
 #: C/evolution.xml:1450(para)
-#, fuzzy
 msgid ""
 "Offline mode help you communicate with remote mail storage systems like "
 "GroupWise®, IMAP or Exchange, in situations where you are not connected to "
@@ -3884,11 +3876,11 @@ msgid ""
 "folders to allow you to compose messages, storing them in your Outbox to be "
 "sent the next time you connect."
 msgstr ""
-"El modo desconectado le permite comunicarse con sistemas de almacenamiento "
-"de correo remoto tales como GroupWise®;, IMAP o Exchange en situaciones en "
-"las que no podrá estar siempre conectado a la red local. Evolution guarda "
-"copia de una o más carpetas y le permite crear nuevos mensajes, guardarlos "
-"en la Bandeja de salida y enviarlo en cuanto vuelva a conectarse."
+"El modo desconectado le ayuda a comunicarse con sistemas de almacenamiento de correo remoto tales "
+"como GroupWise®;, IMAP o Exchange en situaciones en las que no podrá estar siempre "
+"conectado a la red local. Evolution guarda copia de una o más carpetas "
+"y le permite crear nuevos mensajes, guardarlos en la Bandeja de salida y "
+"enviarlo en cuanto vuelva a conectarse."
 
 #: C/evolution.xml:1451(para)
 msgid ""
@@ -4099,9 +4091,7 @@ msgstr ""
 
 #: C/evolution.xml:1537(para)
 msgid "Select keywords such as \"Attach\" or \"Attachment\" and click Add."
-msgstr ""
-"Seleccione las palabras clave tales como «Adjuntar» o «Adjunto» y pulse "
-"Añadir."
+msgstr "Seleccione las palabras clave tales como «Adjuntar» o «Adjunto» y pulse Añadir."
 
 #: C/evolution.xml:1538(para)
 msgid ""
@@ -4390,8 +4380,8 @@ msgid ""
 "this feature."
 msgstr ""
 "Puede buscar un patrón complejo de caracteres llamado <link linkend="
-"\"regular-expression\">expresión regular</link> o «regex» en la ventana de "
-"su editor. Si no está seguro de lo que es una expresión regular, debería "
+"\"regular-expression\">expresión regular</link> o «regex» en la ventana de su "
+"editor. Si no está seguro de lo que es una expresión regular, debería "
 "ignorar esta característica."
 
 #: C/evolution.xml:1659(title)
@@ -6305,16 +6295,15 @@ msgstr ""
 "eligiendo Marcar como terminado o Quitar marca."
 
 #: C/evolution.xml:2515(para)
-#, fuzzy
 msgid ""
 "When you read a flagged message, its flag status is displayed at the top, "
 "before the message headers. An overdue message might tell you “Overdue: Call "
 "by April 07, 2003, 5:00 PM.”"
 msgstr ""
-"Cuando lea un mensaje marcado en la parte superior derecha del mismo, "
-"aparecerá una nota con el estado de la bandera, antes de la cabecera del "
-"mensaje. Al ver un mensaje atrasado podrá decirle algo como «Llamar antes "
-"del 7 de abril de 2003 a las 5:00 PM»."
+"Cuando lea un mensaje marcado con una bandera, se mostrará su estado en la "
+"parte superior derecha del mismo, antes de la cabecera del mensaje. Al ver "
+"un mensaje atrasado podrá decirle algo como «Llamar antes del "
+"7 de abril de 2003 a las 17:00»."
 
 #: C/evolution.xml:2516(para)
 msgid ""
@@ -6327,7 +6316,7 @@ msgstr ""
 "Las marcas le pueden ayudar a organizar su correo de varias maneras. Por "
 "ejemplo, puede añadir a la lista de mensajes una columna de Marca de "
 "seguimiento y poder ordenarlos por ese campo. También puede crear una "
-"carpeta virtual que muestre todos los mensajes marcados que tiene y "
+"carpeta de búsqueda que muestre todos los mensajes marcados que tiene y "
 "quitarles las marcas cuando haya acabado, de manera que la carpeta sólo "
 "contenga mensajes pendientes."
 
@@ -7320,9 +7309,9 @@ msgid ""
 "as any search folders that display it."
 msgstr ""
 "A medida que recibe o borra los mensajes que cumplen con los criterios de la "
-"carpeta virtual, Evolution ajusta automáticamente el contenido de las "
+"carpeta de búsqueda, Evolution ajusta automáticamente el contenido de las "
 "carpetas de búsqueda. Cuando borra un mensaje, queda eliminado de la carpeta "
-"donde existe realmente, así como de cualquier carpeta virtual con la que es "
+"donde existe realmente, así como de cualquier carpeta de búsqueda con la que es "
 "posible consultarlo."
 
 #: C/evolution.xml:2987(para)
@@ -7349,7 +7338,6 @@ msgstr ""
 "remotos, la carpeta de búsqueda no coincidente tampoco los buscará."
 
 #: C/evolution.xml:2989(para)
-#, fuzzy
 msgid ""
 "As an example of using folders, searches, and search folders, consider the "
 "following: To organize his mailbox, Jim sets up a search folder for e-mail "
@@ -7370,8 +7358,8 @@ msgstr ""
 "Evolution. Si Ana le envía un mensaje acerca de cualquier otro tema distinto "
 "a Evolution, éste sólo aparece en la carpeta de búsqueda llamada «Ana». "
 "Cuando Ana le envía un correo acerca de la interfaz de usuario de Evolution, "
-"el mensaje aparece tanto en la carpeta virtual «Ana», como también en la "
-"carpeta virtual «Debate interno acerca de Evolution»."
+"el mensaje aparece tanto en la carpeta de búsqueda «Ana», como también en la "
+"carpeta de búsqueda «Debate interno acerca de Evolution»."
 
 #: C/evolution.xml:2992(title)
 msgid "Creating A Search Folder"
@@ -7773,7 +7761,6 @@ msgid "Full Name:"
 msgstr "Nombre completo:"
 
 #: C/evolution.xml:3176(para)
-#, fuzzy
 msgid ""
 "Specify the name of your contact here. You can type a name into the Full "
 "Name field, but you can also click the Full Name button to bring up a small "
@@ -7791,8 +7778,8 @@ msgstr ""
 "Especifique aquí el nombre de su contacto. Puede escribir un nombre dentro "
 "del campo Nombre completo, pero también puede pulsar el botón Nombre "
 "completo para mostrar una pequeña caja de diálogo con cajas de texto para "
-"nombre y apellido, títulos como «Sr.» o «Su excelencia», y sufijos como "
-"«Hijo». El nombre completo también interactúa con la caja Archivar como para "
+"nombre y apellido, títulos como «Sr.» o «Su excelencia», y sufijos como «Hijo». "
+"El nombre completo también interactúa con la caja Archivar como para "
 "ayudarle a organizar sus contactos y manejar apellidos multipalabra. Para "
 "ver cómo funciona escriba un nombre en el campo Nombre completo. Como "
 "ejemplo usaremos Miguel de Icaza. Notará que en campo Archivar como también "
@@ -8330,7 +8317,6 @@ msgid "Evolution cannot store contact lists on Microsoft Exchange servers."
 msgstr "Evolution no puede almacenar listas de contactos en servidores Exchange."
 
 #: C/evolution.xml:3470(para)
-#, fuzzy
 msgid ""
 "Another way to group cards is to mark them as belonging to different "
 "categories. You can mark a card as being in several categories or no "
@@ -8338,11 +8324,11 @@ msgid ""
 "category because he works with you, the “Friends” category because he's a "
 "friend, and the “Frequent” category because you call him often."
 msgstr ""
-"Otro método para agrupar tarjetas consiste en marcarlas como pertenecientes "
-"a diferentes categorías. Por tanto, puede asociar una tarjeta con numerosas "
-"categorías, o no asociarla. Por ejemplo, asocie la tarjeta de un amigo con "
-"la categoría «Trabajo» porque trabaja con él, en la categoría «Amigos»porque "
-"es un amigo y en la categoría «Frecuentes» porque lo llama frecuentemente."
+"Otro método para agrupar tarjetas consiste en marcarlas como pertenecientes a diferentes "
+"categorías. Por tanto, puede asociar una tarjeta con numerosas categorías, o no "
+"asociarla. Por ejemplo, asocie la tarjeta de un amigo con la categoría «Trabajo» "
+"porque trabaja con él, en la categoría «Amigos» porque es un amigo y en la "
+"categoría «Frecuentes» porque lo llama frecuentemente."
 
 #: C/evolution.xml:3471(para)
 msgid "To mark a card as belonging to a category,"
@@ -8510,14 +8496,13 @@ msgstr ""
 "Evolution con dispositivos portátiles</link>."
 
 #: C/evolution.xml:3543(para)
-#, fuzzy
 msgid ""
 "This section shows you how to use the Evolution™ Calendar to manage your "
 "schedule alone or in conjunction with peers. To learn about importing "
 "calendar data, see <link linkend=\"importing-mail\">Importing Single Files</"
 "link>, which covers the Import tool."
 msgstr ""
-"Este capítulo explica cómo usar el calendario de Evolution™ para planificar "
+"Esta sección explica cómo usar el calendario de Evolution™ para gestionar "
 "su horario individual o en función de sus compañeros. Para saber cómo "
 "importar datos al calendario, consulte <link linkend=\"importing-mail"
 "\">Importar un solo archivo</link>, que describe la herramienta de "
@@ -8755,8 +8740,9 @@ msgid ""
 "Evolution allows you to access your Google calendar. You can view the Google "
 "calendar offline or create, modify, and delete the calendar items online."
 msgstr ""
-"Evolution le permite acceder a su calendario de Google. Puede ver el calendario de Google "
-"cuando esté desconectado o crear, modificar y borrar elementos del calendario cuando esté conectado."
+"Evolution le permite acceder a su calendario de Google. Puede ver el "
+"calendario de Google cuando esté desconectado o crear, modificar y borrar "
+"elementos del calendario cuando esté conectado."
 
 #: C/evolution.xml:3689(para)
 msgid "To integrate the Google calendar to Evolution:"
@@ -8823,7 +8809,9 @@ msgstr ""
 
 #: C/evolution.xml:3727(para)
 msgid "If you select this option, you cannot modify or create the calendar items."
-msgstr "Si selecciona esta opción, no podrá modificar o crear elementos en el calendario."
+msgstr ""
+"Si selecciona esta opción, no podrá modificar o crear elementos en el "
+"calendario."
 
 #: C/evolution.xml:3730(para)
 msgid "Click OK to save your modifications."
@@ -9181,7 +9169,6 @@ msgstr ""
 "próximas."
 
 #: C/evolution.xml:3907(para)
-#, fuzzy
 msgid ""
 "If you are using a calendar on a Novell GroupWise® or Microsoft Exchange "
 "server, select a classification for the appointment to determine who can "
@@ -9267,7 +9254,6 @@ msgstr ""
 "búsqueda en la parte superior del calendario y seleccione una categoría."
 
 #: C/evolution.xml:3930(para)
-#, fuzzy
 msgid ""
 "The Recurrence tool button lets you describe repetition in appointments "
 "ranging from once every day up to once every 100 years. You can then choose "
@@ -9692,7 +9678,9 @@ msgstr ""
 msgid ""
 "Evolution enables you to find the Calendar items by using a Customized "
 "Search."
-msgstr "Evolution le permite buscar los elementos del Calendario usando la Búsqueda personalizada."
+msgstr ""
+"Evolution le permite buscar los elementos del Calendario usando la Búsqueda "
+"personalizada."
 
 #: C/evolution.xml:4120(para) C/evolution.xml:4435(para)
 #: C/evolution.xml:4670(para)
@@ -9771,8 +9759,8 @@ msgid ""
 "Displays all the Calendar items that match the criteria that you have "
 "selected from the drop-down list in the Search bar."
 msgstr ""
-"Muestra todos los elementos del Calendario que coincidan con los criterios que haya "
-"seleccionado de la lista desplegable en la barra de búsqueda."
+"Muestra todos los elementos del Calendario que coincidan con los criterios "
+"que haya seleccionado de la lista desplegable en la barra de búsqueda."
 
 #: C/evolution.xml:4173(para) C/evolution.xml:4723(para)
 msgid "Click the Show drop-down list."
@@ -9909,12 +9897,12 @@ msgid ""
 "You can view and create calendar events on CalDav accounts just like other "
 "calendars on Evolution."
 msgstr ""
-"Evolution le permite ver y gestionar calendarios en servidores remotos CalDAV tales como "
-"Hula®. Para obtener más información acerca de Hula, vea la <ulink url=\"http://www."
-"hula-project.org\">página web del proyecto Hula</ulink>. El procedimiento para crear un "
-"calendario CalDAV es similar al del calendario Web remoto. "
-"Puede ver y crear acontecimientos en las cuentas CalDAV igual que en los otros "
-"calendarios de Evolution."
+"Evolution le permite ver y gestionar calendarios en servidores remotos "
+"CalDAV tales como Hula®. Para obtener más información acerca de Hula, vea la "
+"<ulink url=\"http://www.hula-project.org\">página web del proyecto Hula</"
+"ulink>. El procedimiento para crear un calendario CalDAV es similar al del "
+"calendario Web remoto. Puede ver y crear acontecimientos en las cuentas "
+"CalDAV igual que en los otros calendarios de Evolution."
 
 #: C/evolution.xml:4298(para)
 msgid ""
@@ -10123,7 +10111,9 @@ msgstr "Buscar elementos de las tareas"
 
 #: C/evolution.xml:4431(para)
 msgid "Evolution enables you to find the task items by using Customized Search."
-msgstr "Evolution le permite buscar los elementos de las tareas usando la Búsqueda personalizada."
+msgstr ""
+"Evolution le permite buscar los elementos de las tareas usando la Búsqueda "
+"personalizada."
 
 #: C/evolution.xml:4452(para)
 msgid "Evolution displays the desired Task items."
@@ -10140,8 +10130,9 @@ msgid ""
 "Displays all the task items that match the criteria that you have selected "
 "from the drop-down list at the top left side, just above the display pane."
 msgstr ""
-"Muestra todos los elementos de las tareas que coincidan con los criterios que haya seleccionado "
-"de la lista desplegable en la parte superior izquierda, justo encima del panel de visualización."
+"Muestra todos los elementos de las tareas que coincidan con los criterios "
+"que haya seleccionado de la lista desplegable en la parte superior "
+"izquierda, justo encima del panel de visualización."
 
 #: C/evolution.xml:4477(para)
 msgid ""
@@ -10267,8 +10258,7 @@ msgid ""
 "entries without dates, using the filesystem as a backend."
 msgstr ""
 "En Evolution, el componente de Notas le permite crear, editar y almacenar "
-"entradas sin fecha de su diario, usando el sistema de archivos como "
-"«backend»."
+"entradas sin fecha de su diario, usando el sistema de archivos como «backend»."
 
 #: C/evolution.xml:4613(para)
 msgid "To create a new memo entry:"
@@ -10369,8 +10359,8 @@ msgid ""
 "Displays all the Memo items that match the criteria that you have selected "
 "from the Show drop-down list in the Search bar."
 msgstr ""
-"Muestra todos los elementos de las notas que coincidan con los criterios que haya seleccionado ç "
-"de la lista desplegable en la barra de búsqueda."
+"Muestra todos los elementos de las notas que coincidan con los criterios que "
+"haya seleccionado ç de la lista desplegable en la barra de búsqueda."
 
 #: C/evolution.xml:4798(para)
 msgid "You can view the desired items listed in the Memo view."
@@ -10432,9 +10422,9 @@ msgid ""
 "access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, "
 "it is free software and is licensed under the GPL."
 msgstr ""
-"Evolution™ Exchange para Microsoft Exchange permite a los clientes de Evolution "
-"acceder a cuentas en servidores Microsoft Exchange 2000 y 2003. Al igual que Evolution, "
-"es software libre y está licenciado bajo la GPL."
+"Evolution™ Exchange para Microsoft Exchange permite a los clientes de "
+"Evolution acceder a cuentas en servidores Microsoft Exchange 2000 y 2003. Al "
+"igual que Evolution, es software libre y está licenciado bajo la GPL."
 
 #: C/evolution.xml:4833(link) C/evolution.xml:4853(title)
 msgid "Evolution Exchange Features"
@@ -10539,10 +10529,11 @@ msgid ""
 "exactly the one that the Exchange server has on file. This might be "
 "“yourname@exchange-server.example.com” rather than “yourname@example.com”."
 msgstr ""
-"Si utiliza el protocolo de transporte de correo de Microsoft Exchange para enviar correo-e, "
-"asegúrese de que la dirección de correo electrónico que ha introducido como su dirección de correo-e es "
-"exactamente la misma que la que el servidor Exchange tiene en su archivo. Ésta puede ser "
-"«sunombre@exchange-server.ejemplo.com» en lugar de «sunombre@ejemplo.com»."
+"Si utiliza el protocolo de transporte de correo de Microsoft Exchange para "
+"enviar correo-e, asegúrese de que la dirección de correo electrónico que ha "
+"introducido como su dirección de correo-e es exactamente la misma que la que "
+"el servidor Exchange tiene en su archivo. Ésta puede ser «sunombre@exchange-"
+"server.ejemplo.com» en lugar de «sunombre@ejemplo.com»."
 
 #: C/evolution.xml:4896(title)
 msgid "Out of Office Message:"
@@ -10710,9 +10701,9 @@ msgid ""
 "ulink> has additional information about checking to make sure that your "
 "Exchange server accepts connections from Evolution."
 msgstr ""
-"La <ulink url=\"http://support.novell.com\">base de conocimiento de Novell®</ulink> "
-"contiene información adicional para asegurar que su servidor Exchange acepte las "
-"conexiones de Evolution."
+"La <ulink url=\"http://support.novell.com\">base de conocimiento de Novell®</"
+"ulink> contiene información adicional para asegurar que su servidor Exchange "
+"acepte las conexiones de Evolution."
 
 #: C/evolution.xml:4991(para)
 msgid ""
@@ -10913,16 +10904,14 @@ msgstr ""
 "globales (GAL) aparece vacía hasta que busque algo en ella."
 
 #: C/evolution.xml:5131(para)
-#, fuzzy
 msgid ""
 "There are some settings in Evolution that are available only with Evolution "
 "Exchange, like delegation and permission handling, creating “Out of Office” "
 "messages, changing password and viewing folder size."
 msgstr ""
-"Existen algunos ajustes en Evolution que están sólo disponibles con "
-"Evolution Exchange, tales como delegación y manejo de permisos, crear "
-"mensajes «Estoy fuera de la oficina», cambiar la contraseña y ver el tamaño "
-"de la carpeta."
+"Existen algunos ajustes en Evolution que están sólo disponibles con Evolution "
+"Exchange, tales como delegación y manejo de permisos, crear mensajes «Estoy fuera de la oficina», "
+"cambiar la contraseña y ver el tamaño de la carpeta."
 
 #: C/evolution.xml:5135(link) C/evolution.xml:5158(title)
 msgid "Send Options"
@@ -11058,16 +11047,15 @@ msgstr ""
 "vez."
 
 #: C/evolution.xml:5200(para)
-#, fuzzy
 msgid ""
 "When the recipient opens the mail, he or she can also read a message that "
 "‘The message was sent by &lt;<emphasis>Delegator's name</emphasis>&gt; on "
 "behalf of &lt;<emphasis>Delegate's name</emphasis>&gt; on the preview pane "
 "header bar."
 msgstr ""
-"Cuando el destinatario abre el correo puede leer el mensaje <guilabel>El "
+"Cuando el destinatario abre el correo puede leer el mensaje |El "
 "mensaje lo envió &lt;<emphasis>Nombre del delegado</emphasis>&gt; en nombre "
-"de &lt;<emphasis>Nombre del delegador</emphasis>&gt;</guilabel> en la barra "
+"de &lt;<emphasis>Nombre del delegador</emphasis>&gt;» en la barra "
 "de cabeceras del panel de vista preliminar."
 
 #: C/evolution.xml:5205(para)
@@ -11152,7 +11140,6 @@ msgstr ""
 "Configuración de Exchange."
 
 #: C/evolution.xml:5249(para)
-#, fuzzy
 msgid "Click Delegation Assistant to open the Delegates dialog box."
 msgstr ""
 "Pulse Asistente de delegaciones para abrir el cuadro de diálogo de los "
@@ -11171,7 +11158,6 @@ msgstr ""
 "que haya introducido algo para buscar."
 
 #: C/evolution.xml:5258(para)
-#, fuzzy
 msgid ""
 "Select the delegate and click Edit to open the delegate permission dialog "
 "box."
@@ -11224,14 +11210,13 @@ msgid "The delegate can view, create, and change items in your folders."
 msgstr "El delegado puede ver, crear y cambiar elementos en sus carpetas."
 
 #: C/evolution.xml:5285(para)
-#, fuzzy
 msgid ""
 "The delegate is notified through a separate mail that he or she is being "
 "added to your list of delegates. The mail summarizes all the rights that "
 "have been assigned to the delegate."
 msgstr ""
-"Se notificará al delegado a través de un correo separado que se le ha "
-"añadido a su lista de delegados. El correo resume todos los permisos que se "
+"Se notificará al delegado a través de un correo separado que se le ha añadido "
+"a su lista de delegados. El correo resume todos los permisos que se "
 "le han asignado."
 
 #: C/evolution.xml:5290(para)
@@ -11298,7 +11283,6 @@ msgid "To view contents of a folder, click it."
 msgstr "Para ver el contenido de una carpeta, pulse sobre ella."
 
 #: C/evolution.xml:5339(para)
-#, fuzzy
 msgid ""
 "Reminders for meetings in your Exchange calendar do not work until you have "
 "run Evolution at least once after logging in. This is different from locally "
@@ -11315,7 +11299,7 @@ msgstr ""
 "independientemene de ya haya ejecutado Evolution en la sesión, de tal manera "
 "que pueda establecer una hora conveniente para una reunión. Para activar los "
 "ajustes de los recordatorios en su cuenta de Exchange, seleccione la casilla "
-"de verificación <guilabel>Recordar la contraseña</guilabel>. Para obtener "
+"de verificación «Recordar la contraseña». Para obtener "
 "más información acerca de los Recordatorios vea <link linkend=\"bshly4v"
 "\">Recordatorios</link>."
 
@@ -11458,7 +11442,6 @@ msgstr ""
 "de cada uno de los asistentes"
 
 #: C/evolution.xml:5424(para)
-#, fuzzy
 msgid ""
 "If meeting attendees are not available during the times you have scheduled a "
 "meeting, you can “nudge” the meeting forward or backward to the nearest "
@@ -11948,7 +11931,6 @@ msgstr ""
 "calendarios de cada uno de los asistentes."
 
 #: C/evolution.xml:5773(para)
-#, fuzzy
 msgid ""
 "If meeting attendees are not available during the times you have scheduled a "
 "meeting, you can “nudge” the meeting forward or backward to the nearest "
@@ -12011,7 +11993,9 @@ msgstr "Seguir un elemento que haya enviado:"
 msgid ""
 "You can check the status in the Message Status window of an e-mail you have "
 "sent."
-msgstr "Puede comprobar el estado de un correo electrónico que haya enviado en la ventana Estado del mensaje."
+msgstr ""
+"Puede comprobar el estado de un correo electrónico que haya enviado en la "
+"ventana Estado del mensaje."
 
 #: C/evolution.xml:5807(title)
 msgid "Receive Notification When the Item is Opened or Deleted:"
@@ -12091,11 +12075,10 @@ msgid ""
 "(Optional)Select the check box next to Auto-delete sent item to "
 "automatically delete the sent item from the Sent folder."
 msgstr ""
-"(Opcional) Seleccione la casilla junto a Autoborrar el elemento enviado para borrar "
-"automáticamente el elemento enviado de la carpeta Correo enviado."
+"(Opcional) Seleccione la casilla junto a Autoborrar el elemento enviado para "
+"borrar automáticamente el elemento enviado de la carpeta Correo enviado."
 
 #: C/evolution.xml:5835(para) C/evolution.xml:5946(para)
-#, fuzzy
 msgid "Under Return Notification, specify the type of return receipt you want."
 msgstr ""
 "En Devolver notificación, especifique el tipo de notificación que desea "
@@ -12108,15 +12091,14 @@ msgstr ""
 "enviado, después pulse Seguir el estado del mensaje."
 
 #: C/evolution.xml:5848(para)
-#, fuzzy
 msgid ""
 "With Message Tracking, you know when the item reaches the recipients or is "
 "read by them. You also know exactly who received your message, who read your "
 "message, and who deleted it and when."
 msgstr ""
-"Con el seguimiento del mensaje podrá saber cuándo llegó el elemento a los "
-"destinatarios o cuándo se leyó. También podrá saber exactamente quién "
-"recibió su mensaje, quién lo leyó y quién lo borró y cuándo."
+"Con el seguimiento del mensaje podrá saber cuándo llegó el elemento a los destinatarios o "
+"cuándo se leyó. También podrá saber exactamente quién recibió su mensaje, quién lo "
+"leyó y quién lo borró y cuándo."
 
 #: C/evolution.xml:5855(title)
 msgid "Changing the Priority of an E-Mail"
@@ -12157,13 +12139,12 @@ msgstr ""
 "numérico hora año</varname> en la parte superior del mensaje."
 
 #: C/evolution.xml:5882(para)
-#, fuzzy
 msgid ""
 "Click Set Expiration Date, then specify the number of days for this message "
 "to remain in the recipient's Inbox."
 msgstr ""
-"Pulse Establecer fecha de caducidad y especifique la fecha en la que "
-"caducará el mensaje."
+"Pulse Establecer fecha de caducidad y especifique el número de días durante el cual "
+"este mensaje permanecerá en el buzón de correo del destinatario."
 
 #: C/evolution.xml:5890(title)
 msgid "Setting Message Delivery Options"
@@ -12195,7 +12176,6 @@ msgid "Click the Sent Items folder in the Folder List."
 msgstr "Pulse en la carpeta Correo enviado en la lista de carpetas."
 
 #: C/evolution.xml:5911(para)
-#, fuzzy
 msgid ""
 "All sent items reside in this folder unless you select a different folder "
 "for sent e-mail in the account editor default settings. For more "
@@ -12203,12 +12183,12 @@ msgid ""
 "Sent and Draft Items</link> under <link linkend=\"b13uhy6r\">Default "
 "Settings</link>."
 msgstr ""
-"Todos los elementos enviados residen en esta carpeta a no ser que seleccione "
+"Todos los elementos enviados están en esta carpeta a no ser que seleccione "
 "una carpeta diferente para los correos-e enviados en la configuración "
 "predeterminada del editor de cuentas. Para obtener más información vea la "
 "sección <link linkend=\"b17s9qmz\">Cambiar la carpeta predeterminada para el "
 "Correo enviado y los Borradores</link> bajo <link linkend=\"b13uhy6r"
-"\">Ajustes predeterminados</link>."
+"\">Predeterminados</link>."
 
 #: C/evolution.xml:5914(title)
 msgid "Delegating an Item"
@@ -12763,7 +12743,6 @@ msgid "Composer Preferences:"
 msgstr "Preferencias del editor:"
 
 #: C/evolution.xml:6281(para)
-#, fuzzy
 msgid ""
 "These are settings for the way that you use the mail composer, such as "
 "shortcuts, signatures, and spelling. This includes the ability to substitute "
@@ -12877,7 +12856,6 @@ msgid "Receiving Email:"
 msgstr "Recibir correo electrónico:"
 
 #: C/evolution.xml:6305(para)
-#, fuzzy
 msgid ""
 "Select the way you receive e-mail. You can download e-mail from a <link "
 "linkend=\"pop\">POP server</link>, read and keep it on the server (Microsoft "
@@ -12887,14 +12865,12 @@ msgid ""
 "from the given three options: No encryption, TLS encryption or SSL "
 "encryption."
 msgstr ""
-"Seleccione de qué manera desea recibir su correo. Puede descargarlo desde un "
+"Seleccione de qué manera desea recibir su correo-e. Puede descargarlo desde un "
 "<link linkend=\"pop\">servidor POP</link>, leerlo y conservarlo en el mismo "
-"servidor (Microsoft Exchange, <trademark class=\"registered\">Novell</"
-"trademark><trademark class=\"registered\">GroupWise</trademark> o <link "
-"linkend=\"imap\">IMAP</link>), o leerlo de archivos que ya están en su "
-"escritorio. Es posible que su servidor le permita utilizar conexiones "
-"cifradas (SSL, Secure Socket Layer). Puede seleccionar una opción de las "
-"tres dadas: Sin cifrado, cifrado TLS o cifrado SSL."
+"servidor (Microsoft Exchange, Novell® GroupWise® o <link linkend=\"imap\">IMAP</link>), o "
+"leerlo de archivos que ya están en su escritorio. Es posible que su servidor "
+"le permita utilizar conexiones cifradas (SSL, Secure Socket Layer). Puede seleccionar "
+"una opción de las tres dadas: Sin cifrado, cifrado TLS o cifrado SSL."
 
 #: C/evolution.xml:6307(para)
 msgid ""
@@ -13289,7 +13265,6 @@ msgid "Message Display:"
 msgstr "Vista de los mensajes:"
 
 #: C/evolution.xml:6435(para)
-#, fuzzy
 msgid ""
 "Choose how long you want to wait before marking a message read, how to "
 "highlight quotations, and the default encoding. Enable ‘Fall back to "
@@ -13304,16 +13279,16 @@ msgid ""
 msgstr ""
 "Elija cuánto tiempo quiere esperar antes de marcar un mensaje como leído, "
 "cómo resaltar las citas de otros mensajes y la codificación predeterminada. "
-"Active <guilabel>Agrupar los mensajes por asunto</guilabel> para agrupar los "
-"mensajes como conversaciones. También puede ajustar el límite de direcciones "
-"mostrado en la cabecera del mensaje activando la opción <guilabel>Reducir "
-"las cabeceras Para / Cc / Cco a</guilabel>. También puede ajustar el límite "
+"Active «Agrupar los mensajes por asunto» para agrupar los mensajes como "
+"conversaciones. También puede ajustar el límite de direcciones "
+"mostrado en la cabecera del mensaje activando la opción «Reducir "
+"las cabeceras Para / Cc / Cco a». También puede ajustar el límite "
 "para la renderización del contenido de texto en el mensaje que recibe. De "
 "forma predeterminada, cuando recibe un mensaje cuyo contenido de texto es "
 "mayor de 4096 Kilobytes, Evolution no renderiza el texto en el panel de "
 "vista preliminar. Puede ver el texto sin formato en línea o usando una "
 "aplicación externa. También puede activar la barra espaciadora mágica y "
-"buscar por las carpetas."
+"las carpetas de búsqueda."
 
 #: C/evolution.xml:6437(para)
 msgid ""
@@ -13389,7 +13364,6 @@ msgid "Loading Images:"
 msgstr "Cargar imágenes:"
 
 #: C/evolution.xml:6461(para)
-#, fuzzy
 msgid ""
 "You can embed a image in an e-mail and have it load only when the message "
 "arrives. However, spammers can use image loading patterns to confirm “live” "
@@ -13397,12 +13371,12 @@ msgid ""
 "automatically, to load images only if the sender is in your contacts, or "
 "always load images."
 msgstr ""
-"Al crear un mensaje puede incluir una imagen que sólo se descargue cuando el "
+"Puede incluir una imagen en un correo-e y que sólo se descargue cuando el "
 "destinatario lea el mensaje. Sin embargo los «spammers» pueden usar los "
-"patrones de descarga de imágenes para confirmar «direcciones vivas» e "
-"invadir la privacidad de sus datos. Puede elegir que nunca se carguen las "
-"imágenes automáticamente, hacerlo solamente si el remitente está en su "
-"libreta de direcciones o cargarlas todas."
+"patrones de descarga de imágenes para confirmar «direcciones activas» e invadir "
+"la privacidad de sus datos. Puede elegir que nunca se carguen las imágenes "
+"automáticamente, hacerlo solamente si el remitente está en su libreta de "
+"direcciones o cargarlas siempre."
 
 #: C/evolution.xml:6463(para)
 msgid ""
@@ -13501,7 +13475,6 @@ msgstr ""
 "característica."
 
 #: C/evolution.xml:6508(para)
-#, fuzzy
 msgid ""
 "By default it searches only in the local addressbooks enabled for "
 "autocompletion. If you deselect the option ‘Search for sender photograph "
@@ -13512,8 +13485,8 @@ msgid ""
 "Evolution takes the first contact regardless of it not having a photograph."
 msgstr ""
 "De forma predeterminada sólo se busca en las libretas de direcciones locales "
-"activadas para autocompletado. Si deselecciona la opción <guilabel>Buscar la "
-"foto del remitente sólo en libretas de direcciones locales</guilabel>, se "
+"activadas para autocompletado. Si deselecciona la opción «Buscar la "
+"foto del remitente sólo en libretas de direcciones locales», se "
 "busca en todas las libretas de direcciones activadas para autocompletado. Si "
 "hay múltiples coincidencias para el mismo contacto, siempre se toma la "
 "primera. Considere un contacto que tiene múltiples coincidencias; la primera "
@@ -13561,16 +13534,14 @@ msgid "General:"
 msgstr "General:"
 
 #: C/evolution.xml:6526(para)
-#, fuzzy
 msgid ""
 "You can check incoming e-mail for junk contents and also decide how often "
 "you want to delete junk mail. You also have the option to choose either "
 "SpamAssassin or Bogofilter, or you can select both."
 msgstr ""
-"Puede activar la detección para comprobar si el correo entrante es basura y "
-"también decidir con qué frecuencia quiere borrar el correo basura a la "
-"salida. También tiene la opción de elegir SpamAssasin, Bogofilter o ambos. "
-"Pulse Detectar si el correo entrante es spam."
+"Puede comprobar si el correo entrante es basura y también decidir con qué "
+"frecuencia quiere borrar el correo basura. También tiene la opción de elegir entre "
+"SpamAssasin, Bogofilter o ambos."
 
 #: C/evolution.xml:6529(title)
 msgid "Checking Incoming Mail for Junk:"
@@ -13585,13 +13556,12 @@ msgid "Delete junk mails on exit:"
 msgstr "Borrar los correos spam al salir:"
 
 #: C/evolution.xml:6534(para)
-#, fuzzy
 msgid ""
 "This option deletes junk messages when you exit. You can also specify when "
 "to delete the junk messages (every time, once per day, once per week, once "
 "per month)."
 msgstr ""
-"Seleccione Borrar los correos spam a la salida y también especifique cuándo "
+"Esta opción borra los correos basura al salir. También puede especificar cuándo "
 "se deben borrar los correos basura de las opciones (Cada vez, Una vez por "
 "día, Una vez por semana, Una vez por mes)."
 
@@ -13814,7 +13784,6 @@ msgstr ""
 "alternativa, o no utilizar ninguna, desde el propio editor de correo."
 
 #: C/evolution.xml:6621(para)
-#, fuzzy
 msgid ""
 "To choose a spell-checking language, select it here. You must install the "
 "gnome-spell package, for spell-checking to be available in Evolution. "
@@ -13825,11 +13794,9 @@ msgid ""
 "Spelling While I Type. You can set the color for misspelled words."
 msgstr ""
 "Seleccione aquí un idioma al que aplicar la corrección ortográfica. Debe "
-"instalar el paquete gnome-spell, disponible a través de <trademark class="
-"\"registered\">ZENworks</trademark> Linux Management, para poder disponer de "
-"corrección ortográfica en Evolution. También existen diccionarios "
-"disponibles a través de <trademark class=\"registered\">Red Carpet</"
-"trademark> y se detectan automáticamente si los tiene instalados. También "
+"instalar el paquete gnome-spell, para que la corrección ortográfica esté disponible "
+"en Evolution. También existen diccionarios disponibles a través de Red Carpet® y "
+"se detectan automáticamente si los tiene instalados. También "
 "debe instalar el paquete aspell. Si éste es el caso, por favor contacte con "
 "su empaquetado. Para que el editor compruebe automáticamente su ortografía, "
 "seleccione Comprobar ortografía mientras se escribe. Puede ajustar el color "
@@ -15446,8 +15413,8 @@ msgstr ""
 "Una expresión regular (regex) es una manera de describir una cadena de texto "
 "mediante metacaracteres o símbolos comodín. Por ejemplo la sentencia fly.*so"
 "[au]p encuentra cualquier frase que empiece por «fly» y acabe en «soup» o en "
-"«soap». Si hace una búsqueda con esa expresión podría encontrar tanto «fly "
-"in my soup» como «fly in soap». Para obtener más información introduzca "
+"«soap». Si hace una búsqueda con esa expresión podría encontrar tanto «fly in "
+"my soup» como «fly in soap». Para obtener más información introduzca "
 "<command>man grep</command> en la línea de comandos."
 
 #: C/evolution.xml:7336(glossterm)
