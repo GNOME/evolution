@@ -64,7 +64,7 @@
 */
 
 /* EPlugin stuff */
-static GObjectClass *ep_parent_class;
+static gpointer ep_parent_class;
 
 /* global table of plugin types by pluginclass.type */
 static GHashTable *ep_types;
@@ -81,8 +81,6 @@ static GConfClient *ep_gconf;
 /* the list of disabled plugins from gconf */
 static GSList *ep_disabled;
 
-/* EPluginHook stuff */
-static void *eph_parent_class;
 /* All classes which implement EPluginHooks, by class.id */
 static GHashTable *eph_types;
 
@@ -97,46 +95,44 @@ struct _plugin_doc {
 	GSList *plugins;	/* xmlNodePtr's of plugins with unknown type (mono,etc) */
 };
 
+enum {
+	EP_PROP_0,
+	EP_PROP_ENABLED
+};
+
 static gboolean
-ep_check_enabled(const char *id)
+ep_check_enabled (const char *id)
 {
-	GSList *l = ep_disabled;
-
-	for (;l;l = g_slist_next(l))
-		if (!strcmp((char *)l->data, id))
-			return FALSE;
-
-	return TRUE;
+	/* Return TRUE if 'id' is NOT in the disabled list. */
+	return !g_slist_find_custom (ep_disabled, id, (GCompareFunc) strcmp);
 }
 
 static void
-ep_set_enabled(const char *id, int state)
+ep_set_enabled (const char *id, int state)
 {
 	/* Bail out if no change to state, when expressed as a boolean: */
 	if ((state == 0) == (ep_check_enabled(id) == 0))
 		return;
 
 	if (state) {
-		GSList *l = ep_disabled;
+		GSList *link;
 
-		while (l) {
-			GSList *n = l->next;
-
-			if (!strcmp((char *)l->data, id)) {
-				g_free(l->data);
-				ep_disabled = g_slist_remove_link(ep_disabled, l);
-			}
-			l = n;
+		link = g_slist_find_custom (
+			ep_disabled, id, (GCompareFunc) strcmp);
+		if (link != NULL) {
+			g_free (link->data);
+			ep_disabled = g_slist_remove_link (ep_disabled, link);
 		}
-	} else {
-		ep_disabled = g_slist_prepend(ep_disabled, g_strdup(id));
-	}
+	} else
+		ep_disabled = g_slist_prepend (ep_disabled, g_strdup (id));
 
-	gconf_client_set_list(ep_gconf, "/apps/evolution/eplugin/disabled", GCONF_VALUE_STRING, ep_disabled, NULL);
+	gconf_client_set_list(
+		ep_gconf, "/apps/evolution/eplugin/disabled",
+		GCONF_VALUE_STRING, ep_disabled, NULL);
 }
 
 static int
-ep_construct(EPlugin *ep, xmlNodePtr root)
+ep_construct (EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
 	int res = -1;
@@ -224,48 +220,101 @@ fail:
 }
 
 static void
-ep_enable(EPlugin *ep, int state)
+ep_enable (EPlugin *ep, int state)
 {
-	GSList *l;
+	GSList *iter;
 
 	ep->enabled = state;
-	for (l=ep->hooks;l;l = g_slist_next(l))
-		e_plugin_hook_enable((EPluginHook *)l->data, state);
+	for (iter = ep->hooks; iter != NULL; iter = iter->next) {
+		EPluginHook *hook = iter->data;
+		e_plugin_hook_enable (hook, state);
+	}
 
 	ep_set_enabled(ep->id, state);
 }
 
 static void
-ep_finalise(GObject *o)
+ep_set_property (GObject *object,
+                 guint property_id,
+                 const GValue *value,
+                 GParamSpec *pspec)
 {
-	EPlugin *ep = (EPlugin *)o;
+	switch (property_id) {
+		case EP_PROP_ENABLED:
+			e_plugin_enable (
+				E_PLUGIN (object),
+				g_value_get_boolean (value));
+			return;
+	}
 
-	g_free(ep->id);
-	g_free(ep->description);
-	g_free(ep->name);
-	g_free(ep->domain);
-	g_slist_free(ep->hooks_pending);
-
-	g_slist_foreach(ep->hooks, (GFunc)g_object_unref, NULL);
-	g_slist_free(ep->hooks);
-
-	((GObjectClass *)ep_parent_class)->finalize(o);
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-ep_init(GObject *o)
+ep_get_property (GObject *object,
+                 guint property_id,
+                 GValue *value,
+                 GParamSpec *pspec)
 {
-	EPlugin *ep = (EPlugin *)o;
+	EPlugin *ep = E_PLUGIN (object);
 
+	switch (property_id) {
+		case EP_PROP_ENABLED:
+			g_value_set_boolean (value, ep->enabled);
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+ep_finalize (GObject *object)
+{
+	EPlugin *ep = E_PLUGIN (object);
+
+	g_free (ep->id);
+	g_free (ep->description);
+	g_free (ep->name);
+	g_free (ep->domain);
+	g_slist_free (ep->hooks_pending);
+
+	g_slist_foreach (ep->hooks, (GFunc) g_object_unref, NULL);
+	g_slist_free (ep->hooks);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (ep_parent_class)->finalize (object);
+}
+
+static void
+ep_class_init (EPluginClass *class)
+{
+	GObjectClass *object_class;
+
+	ep_parent_class = g_type_class_peek_parent (class);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = ep_set_property;
+	object_class->get_property = ep_get_property;
+	object_class->finalize = ep_finalize;
+
+	class->construct = ep_construct;
+	class->enable = ep_enable;
+
+	g_object_class_install_property (
+		object_class,
+		EP_PROP_ENABLED,
+		g_param_spec_boolean (
+			"enabled",
+			_("Enabled"),
+			_("Whether the plugin is enabled"),
+			TRUE,
+			G_PARAM_READWRITE));
+}
+
+static void
+ep_init (EPlugin *ep)
+{
 	ep->enabled = TRUE;
-}
-
-static void
-ep_class_init(EPluginClass *klass)
-{
-	((GObjectClass *)klass)->finalize = ep_finalise;
-	klass->construct = ep_construct;
-	klass->enable = ep_enable;
 }
 
 /**
@@ -277,22 +326,31 @@ ep_class_init(EPluginClass *klass)
  * Return value: The type.
  **/
 GType
-e_plugin_get_type(void)
+e_plugin_get_type (void)
 {
 	static GType type = 0;
 
-	if (!type) {
+	if (G_UNLIKELY (type == 0)) {
 		char *path, *col, *p;
 
-		static const GTypeInfo info = {
-			sizeof(EPluginClass), NULL, NULL, (GClassInitFunc)ep_class_init, NULL, NULL,
-			sizeof(EPlugin), 0, (GInstanceInitFunc)ep_init,
+		static const GTypeInfo type_info = {
+			sizeof (EPluginClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) ep_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EPlugin),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) ep_init,
+			NULL   /* value_table */
 		};
 
-		ep_parent_class = g_type_class_ref(G_TYPE_OBJECT);
-		type = g_type_register_static(G_TYPE_OBJECT, "EPlugin", &info, 0);
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "EPlugin", &type_info, 0);
 
-		/* Add paths in the environment variable or default global and user specific paths */
+		/* Add paths in the environment variable or default global
+		 * and user specific paths */
 		path = g_strdup(g_getenv("EVOLUTION_PLUGIN_PATH"));
 		if (path == NULL) {
 			/* Add the global path */
@@ -318,7 +376,7 @@ static EPlugin *
 ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 {
 	char *prop, *id;
-	EPluginClass *klass;
+	EPluginClass *class;
 	EPlugin *ep;
 
 	id = e_plugin_xml_prop(root, "id");
@@ -341,8 +399,8 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 	}
 
 	/* If we can't find a plugin, add it to a pending list which is checked when a new type is registered */
-	klass = g_hash_table_lookup(ep_types, prop);
-	if (klass == NULL) {
+	class = g_hash_table_lookup(ep_types, prop);
+	if (class == NULL) {
 		pd(printf("Delaying loading of plugin '%s' unknown type '%s'\n", id, prop));
 		g_free(id);
 		xmlFree(prop);
@@ -351,7 +409,7 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 	}
 	xmlFree(prop);
 
-	ep = g_object_new(G_TYPE_FROM_CLASS(klass), NULL);
+	ep = g_object_new(G_TYPE_FROM_CLASS(class), NULL);
 	ep->id = id;
 	ep->path = g_strdup(pdoc->filename);
 	ep->enabled = ep_check_enabled(id);
@@ -575,7 +633,7 @@ e_plugin_load_plugins(void)
 void
 e_plugin_register_type(GType type)
 {
-	EPluginClass *klass;
+	EPluginClass *class;
 	struct _plugin_doc *pdoc, *ndoc;
 
 	if (ep_types == NULL) {
@@ -586,11 +644,11 @@ e_plugin_register_type(GType type)
 		ep_disabled = gconf_client_get_list(ep_gconf, "/apps/evolution/eplugin/disabled", GCONF_VALUE_STRING, NULL);
 	}
 
-	klass = g_type_class_ref(type);
+	class = g_type_class_ref(type);
 
-	pd(printf("register plugin type '%s'\n", klass->type));
+	pd(printf("register plugin type '%s'\n", class->type));
 
-	g_hash_table_insert(ep_types, (void *)klass->type, klass);
+	g_hash_table_insert(ep_types, (void *)class->type, class);
 
 	/* check for pending plugins */
 	pdoc = (struct _plugin_doc *)ep_plugin_docs.head;
@@ -604,7 +662,7 @@ e_plugin_register_type(GType type)
 				char *prop_type;
 
 				prop_type = (char *)xmlGetProp(root, (const unsigned char *)"type");
-				if (!strcmp(prop_type, klass->type))
+				if (!strcmp(prop_type, class->type))
 					add = g_slist_append(add, l->data);
 				xmlFree(prop_type);
 			}
@@ -669,7 +727,14 @@ e_plugin_list_plugins(void)
 int
 e_plugin_construct(EPlugin *ep, xmlNodePtr root)
 {
-	return ((EPluginClass *)G_OBJECT_GET_CLASS(ep))->construct(ep, root);
+	EPluginClass *class;
+
+	g_return_val_if_fail (E_IS_PLUGIN (ep), -1);
+
+	class = E_PLUGIN_GET_CLASS (ep);
+	g_return_val_if_fail (class->construct != NULL, -1);
+
+	return class->construct (ep, root);
 }
 
 /**
@@ -688,12 +753,18 @@ e_plugin_construct(EPlugin *ep, xmlNodePtr root)
 void *
 e_plugin_invoke(EPlugin *ep, const char *name, void *data)
 {
-	if (!ep->enabled) {
-		g_warning("Invoking method on disabled plugin, ignored");
-		return NULL;
-	}
+	EPluginClass *class;
 
-	return ((EPluginClass *)G_OBJECT_GET_CLASS(ep))->invoke(ep, name, data);
+	g_return_val_if_fail (E_IS_PLUGIN (ep), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	/* Prevent invocation on a disabled plugin. */
+	g_return_val_if_fail (ep->enabled, NULL);
+
+	class = E_PLUGIN_GET_CLASS (ep);
+	g_return_val_if_fail (class->invoke != NULL, NULL);
+
+	return class->invoke (ep, name, data);
 }
 
 /**
@@ -711,7 +782,9 @@ e_plugin_get_symbol(EPlugin *ep, const char *name)
 {
 	EPluginClass *class;
 
-	class = (EPluginClass *) G_OBJECT_GET_CLASS (ep);
+	g_return_val_if_fail (E_IS_PLUGIN (ep), NULL);
+
+	class = E_PLUGIN_GET_CLASS (ep);
 	g_return_val_if_fail (class->get_symbol != NULL, NULL);
 
 	return class->get_symbol (ep, name);
@@ -729,30 +802,41 @@ e_plugin_get_symbol(EPlugin *ep, const char *name)
 void
 e_plugin_enable(EPlugin *ep, int state)
 {
+	EPluginClass *class;
+
+	g_return_if_fail (E_IS_PLUGIN (ep));
+
 	if ((ep->enabled == 0) == (state == 0))
 		return;
 
-	((EPluginClass *)G_OBJECT_GET_CLASS(ep))->enable(ep, state);
+	class = E_PLUGIN_GET_CLASS (ep);
+	g_return_if_fail (class->enable != NULL);
+
+	class->enable (ep, state);
+	g_object_notify (G_OBJECT (ep), "enabled");
 }
 
 /**
  * e_plugin_get_configure_widget
+ * @ep: an #EPlugin
  *
- * @param ep EPlugin of our interest.
- * @return Configure widget or NULL if there is no configure option for the plugin.
+ * Plugin itself should have implemented "e_plugin_lib_get_configure_widget"
+ * function * of prototype EPluginLibGetConfigureWidgetFunc.
  *
- * Plugin itself should have implemented "e_plugin_lib_get_configure_widget" function
- * of prototype EPluginLibGetConfigureWidgetFunc.
+ * Returns: Configure widget or %NULL
  **/
 GtkWidget *
 e_plugin_get_configure_widget (EPlugin *ep)
 {
-	EPluginClass *ptr;
-	ptr = ((EPluginClass *)G_OBJECT_GET_CLASS(ep));
-        if (ptr->get_configure_widget)
-		return ptr->get_configure_widget (ep);
+	EPluginClass *class;
 
-	return NULL;
+	g_return_val_if_fail (E_IS_PLUGIN (ep), NULL);
+
+	class = E_PLUGIN_GET_CLASS (ep);
+	if (class->get_configure_widget == NULL)
+		return NULL;
+
+	return class->get_configure_widget (ep);
 }
 
 /**
@@ -887,10 +971,8 @@ e_plugin_xml_content_domain(xmlNodePtr node, const char *domain)
 }
 
 /* ********************************************************************** */
-static void *epl_parent_class;
 
-/* this looks weird, but it saves a lot of typing */
-#define epl ((EPluginLib *)ep)
+static gpointer epl_parent_class;
 
 /* TODO:
    We need some way to manage lifecycle.
@@ -906,21 +988,23 @@ static void *epl_parent_class;
 static int
 epl_loadmodule(EPlugin *ep)
 {
-	if (epl->module == NULL) {
-		EPluginLibEnableFunc enable;
+	EPluginLib *epl = E_PLUGIN_LIB (ep);
+	EPluginLibEnableFunc enable;
 
-		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-			g_warning("can't load plugin '%s'", g_module_error());
+	if (epl->module != NULL)
+		return 0;
+
+	if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
+		g_warning("can't load plugin '%s'", g_module_error());
+		return -1;
+	}
+
+	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+		if (enable(epl, TRUE) != 0) {
+			ep->enabled = FALSE;
+			g_module_close(epl->module);
+			epl->module = NULL;
 			return -1;
-		}
-
-		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
-			if (enable(epl, TRUE) != 0) {
-				ep->enabled = FALSE;
-				g_module_close(epl->module);
-				epl->module = NULL;
-				return -1;
-			}
 		}
 	}
 
@@ -930,6 +1014,7 @@ epl_loadmodule(EPlugin *ep)
 static void *
 epl_invoke(EPlugin *ep, const char *name, void *data)
 {
+	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	EPluginLibFunc cb;
 
 	if (!ep->enabled) {
@@ -951,9 +1036,10 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 static void *
 epl_get_symbol(EPlugin *ep, const gchar *name)
 {
+	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	gpointer symbol;
 
-	if (epl_loadmodule(ep) != 0)
+	if (epl_loadmodule (ep) != 0)
 		return NULL;
 
 	if (!g_module_symbol (epl->module, name, &symbol))
@@ -965,7 +1051,9 @@ epl_get_symbol(EPlugin *ep, const gchar *name)
 static int
 epl_construct(EPlugin *ep, xmlNodePtr root)
 {
-	if (((EPluginClass *)epl_parent_class)->construct(ep, root) == -1)
+	EPluginLib *epl = E_PLUGIN_LIB (ep);
+
+	if (E_PLUGIN_CLASS (epl_parent_class)->construct (ep, root) == -1)
 		return -1;
 
 	epl->location = e_plugin_xml_prop(root, "location");
@@ -1002,6 +1090,7 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 static GtkWidget *
 epl_get_configure_widget (EPlugin *ep)
 {
+	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	EPluginLibGetConfigureWidgetFunc get_configure_widget;
 
 	pd (printf ("\n epl_get_configure_widget \n"));
@@ -1021,9 +1110,10 @@ epl_get_configure_widget (EPlugin *ep)
 static void
 epl_enable(EPlugin *ep, int state)
 {
+	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	EPluginLibEnableFunc enable;
 
-	((EPluginClass *)epl_parent_class)->enable(ep, state);
+	E_PLUGIN_CLASS (epl_parent_class)->enable (ep, state);
 
 	/* if we're disabling and it isn't loaded, nothing to do */
 	if (!state && epl->module == NULL)
@@ -1046,28 +1136,35 @@ epl_enable(EPlugin *ep, int state)
 }
 
 static void
-epl_finalise(GObject *o)
+epl_finalize (GObject *object)
 {
-	EPlugin *ep = (EPlugin *)o;
+	EPluginLib *epl = E_PLUGIN_LIB (object);
 
-	g_free(epl->location);
+	g_free (epl->location);
 
 	if (epl->module)
-		g_module_close(epl->module);
+		g_module_close (epl->module);
 
-	((GObjectClass *)epl_parent_class)->finalize(o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (epl_parent_class)->finalize (object);
 }
 
 static void
-epl_class_init(EPluginClass *klass)
+epl_class_init (EPluginClass *class)
 {
-	((GObjectClass *)klass)->finalize = epl_finalise;
-	klass->construct = epl_construct;
-	klass->invoke = epl_invoke;
-	klass->get_symbol = epl_get_symbol;
-	klass->enable = epl_enable;
-	klass->get_configure_widget = epl_get_configure_widget;
-	klass->type = "shlib";
+	GObjectClass *object_class;
+
+	epl_parent_class = g_type_class_peek_parent (class);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = epl_finalize;
+
+	class->construct = epl_construct;
+	class->invoke = epl_invoke;
+	class->get_symbol = epl_get_symbol;
+	class->enable = epl_enable;
+	class->get_configure_widget = epl_get_configure_widget;
+	class->type = "shlib";
 }
 
 /**
@@ -1080,24 +1177,34 @@ epl_class_init(EPluginClass *klass)
  * Return value: The EPluginLib type.
  **/
 GType
-e_plugin_lib_get_type(void)
+e_plugin_lib_get_type (void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof(EPluginLibClass), NULL, NULL, (GClassInitFunc) epl_class_init, NULL, NULL,
-			sizeof(EPluginLib), 0, (GInstanceInitFunc) NULL,
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EPluginLibClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) epl_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EPluginLib),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) NULL,
+			NULL   /* value_table */
 		};
 
-		epl_parent_class = g_type_class_ref(e_plugin_get_type());
-		type = g_type_register_static(e_plugin_get_type(), "EPluginLib", &info, 0);
+		type = g_type_register_static (
+			e_plugin_get_type (), "EPluginLib", &type_info, 0);
 	}
 
 	return type;
 }
 
 /* ********************************************************************** */
+
+static gpointer eph_parent_class;
 
 static int
 eph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
@@ -1114,17 +1221,12 @@ eph_enable(EPluginHook *eph, int state)
 }
 
 static void
-eph_finalise(GObject *o)
+eph_class_init(EPluginHookClass *class)
 {
-	((GObjectClass *)eph_parent_class)->finalize((GObject *)o);
-}
+	eph_parent_class = g_type_class_peek_parent (class);
 
-static void
-eph_class_init(EPluginHookClass *klass)
-{
-	((GObjectClass *)klass)->finalize = eph_finalise;
-	klass->construct = eph_construct;
-	klass->enable = eph_enable;
+	class->construct = eph_construct;
+	class->enable = eph_enable;
 }
 
 /**
@@ -1140,14 +1242,22 @@ e_plugin_hook_get_type(void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof(EPluginHookClass), NULL, NULL, (GClassInitFunc) eph_class_init, NULL, NULL,
-			sizeof(EPluginHook), 0, (GInstanceInitFunc) NULL,
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EPluginHookClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) eph_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EPluginHook),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) NULL,
+			NULL   /* value_table */
 		};
 
-		eph_parent_class = g_type_class_ref(G_TYPE_OBJECT);
-		type = g_type_register_static(G_TYPE_OBJECT, "EPluginHook", &info, 0);
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "EPluginHook", &type_info, 0);
 	}
 
 	return type;
@@ -1164,9 +1274,16 @@ e_plugin_hook_get_type(void)
  * THIS IS NOT FULY IMEPLEMENTED YET
  **/
 void
-e_plugin_hook_enable(EPluginHook *eph, int state)
+e_plugin_hook_enable (EPluginHook *eph, int state)
 {
-	((EPluginHookClass *)G_OBJECT_GET_CLASS(eph))->enable(eph, state);
+	EPluginHookClass *class;
+
+	g_return_if_fail (E_IS_PLUGIN_HOOK (eph));
+
+	class = E_PLUGIN_HOOK_GET_CLASS (eph);
+	g_return_if_fail (class->enable != NULL);
+
+	class->enable (eph, state);
 }
 
 /**
@@ -1337,13 +1454,13 @@ e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const
 /* ********************************************************************** */
 /* Plugin plugin */
 
-static void *epth_parent_class;
-#define epth ((EPluginTypeHook *)eph)
+static gpointer epth_parent_class;
 
 static int
 epth_load_plugin(void *d)
 {
 	EPluginHook *eph = d;
+	EPluginTypeHook *epth = d;
 	GType type;
 
 	epth->idle = 0;
@@ -1358,6 +1475,7 @@ epth_load_plugin(void *d)
 static int
 epth_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
+	EPluginTypeHook *epth = E_PLUGIN_TYPE_HOOK (eph);
 	xmlNodePtr node;
 
 	phd(printf("loading plugin hook\n"));
@@ -1386,25 +1504,33 @@ epth_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-epth_finalise(GObject *o)
+epth_finalize (GObject *object)
 {
-	EPluginHook *eph = (EPluginHook *)o;
+	EPluginTypeHook *epth = E_PLUGIN_TYPE_HOOK (object);
 
 	if (epth->idle != 0)
-		g_source_remove(epth->idle);
+		g_source_remove (epth->idle);
 
-	g_free(epth->get_type);
+	g_free (epth->get_type);
 
-	((GObjectClass *)eph_parent_class)->finalize((GObject *)o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (epth_parent_class)->finalize (object);
 }
 
 static void
-epth_class_init(EPluginHookClass *klass)
+epth_class_init (EPluginTypeHookClass *class)
 {
-	((GObjectClass *)klass)->finalize = epth_finalise;
-	klass->construct = epth_construct;
+	GObjectClass *object_class;
+	EPluginHookClass *hook_class;
 
-	klass->id = "org.gnome.evolution.plugin.type:1.0";
+	epth_parent_class = g_type_class_peek_parent (class);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = epth_finalize;
+
+	hook_class = E_PLUGIN_HOOK_CLASS (class);
+	hook_class->construct = epth_construct;
+	hook_class->id = "org.gnome.evolution.plugin.type:1.0";
 }
 
 /**
@@ -1419,14 +1545,22 @@ e_plugin_type_hook_get_type(void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof(EPluginTypeHookClass), NULL, NULL, (GClassInitFunc) epth_class_init, NULL, NULL,
-			sizeof(EPluginTypeHook), 0, (GInstanceInitFunc) NULL,
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EPluginTypeHookClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) epth_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EPluginTypeHook),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) NULL,
+			NULL   /* value_table */
 		};
 
-		epth_parent_class = g_type_class_ref(e_plugin_hook_get_type());
-		type = g_type_register_static(e_plugin_hook_get_type(), "EPluginTypeHook", &info, 0);
+		type = g_type_register_static (
+			E_TYPE_PLUGIN_HOOK, "EPluginTypeHook", &type_info, 0);
 	}
 
 	return type;

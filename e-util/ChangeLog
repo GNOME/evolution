@@ -1,3 +1,9 @@
+2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-plugin.c:
+	* e-plugin.h:
+	Code cleanup.  Also add an "enabled" property to EPlugin.
+
 2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #530392
