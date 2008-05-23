@@ -709,6 +709,8 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 			ret = FALSE;
 			g_free (new_uid);
 			g_object_unref (clone);
+			dt_start.value = old_start_value;
+			dt_end.value = old_end_value;
 			goto cleanup;
 		}
 

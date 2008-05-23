@@ -1,3 +1,11 @@
+2008-05-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #523402
+
+	* gui/e-calendar-view.c: (e_calendar_view_add_event): Do not leak.
+	* conduits/calendar/calendar-conduit.c: (process_multi_day):
+	Reassign back the old values before freeing.
+
 2008-05-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	** Fix for bug #533820

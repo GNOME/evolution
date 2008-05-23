@@ -364,12 +364,14 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 
 	/* set the timezone properly */
 	e_cal_component_get_dtstart (comp, &dt);
+	g_free ((char *) dt.tzid);
 	dt.tzid = icaltimezone_get_tzid (default_zone);
 	e_cal_component_set_dtstart (comp, &dt);
 	dt.tzid = NULL;
 	e_cal_component_free_datetime (&dt);
 
 	e_cal_component_get_dtend (comp, &dt);
+	g_free ((char *) dt.tzid);
 	dt.tzid = icaltimezone_get_tzid (default_zone);
 	e_cal_component_set_dtend (comp, &dt);
 	dt.tzid = NULL;
