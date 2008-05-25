@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.22\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 20:31+0000\n"
-"PO-Revision-Date: 2008-05-24 12:36+0300\n"
+"PO-Revision-Date: 2008-05-25 10:26+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -391,7 +391,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
-msgstr "LDAP serveri skeemiinfot pole võimalik hankida."
+msgstr "LDAP-serveri skeemiinfot pole võimalik hankida."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove addressbook."
@@ -423,7 +423,7 @@ msgstr "Viga {0} salvestamisel {1} alla: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
-msgstr "Tõrge LDAP serverisse autentimisel."
+msgstr "Tõrge LDAP-serverisse autentimisel."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
@@ -437,7 +437,7 @@ msgstr "GroupWise'i aadressiraamatu loomine:"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
-msgstr "LDAP server ei saatnud korrektset skeemiinfot."
+msgstr "LDAP-server ei saatnud korrektset skeemiinfot."
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Permission Denied."
@@ -467,8 +467,8 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
-"See LDAP server võib kasutada vanemat LDAP versiooni, mis ei toeta seda "
-"funktsionaalsust. Samas võib see LDAP server olla halvasti seadistatud. Küsi "
+"See LDAP-server võib kasutada vanemat LDAP-i versiooni, mis ei toeta seda "
+"funktsionaalsust. Samas võib see LDAP-server olla halvasti seadistatud. Küsi "
 "oma süsteemihaldurilt, milliseid otsingupõhjasid sa peaksid kasutama."
 
 #: ../addressbook/addressbook.error.xml.h:25
@@ -560,11 +560,11 @@ msgstr "Ä_ra salvesta"
 
 #: ../addressbook/addressbook.error.xml.h:41
 msgid "_Resize"
-msgstr ""
+msgstr "_Vähenda"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
-msgstr ""
+msgstr "_Kasuta nii nagu on"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
 #: ../addressbook/addressbook.error.xml.h:44
@@ -681,7 +681,7 @@ msgstr "Isiklik"
 #: ../addressbook/gui/component/addressbook-component.c:162
 #: ../addressbook/gui/component/addressbook-migrate.c:515
 msgid "On LDAP Servers"
-msgstr "LDAP serveris"
+msgstr "LDAP-serveris"
 
 #: ../addressbook/gui/component/addressbook-component.c:229
 msgid "_Contact"
@@ -788,7 +788,7 @@ msgstr "Siirdamine `%s':"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:643
 msgid "LDAP Servers"
-msgstr "LDAP serverid"
+msgstr "LDAP-serverid"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:758
 msgid "Autocompletion Settings"
@@ -883,7 +883,7 @@ msgstr "Kontaktide allika valimine"
 
 #: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
-msgstr "Ühendan uuesti LDAP serveriga anonüümselt"
+msgstr "Ühendan uuesti LDAP-serveriga anonüümselt"
 
 #: ../addressbook/gui/component/addressbook.c:200
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:511
@@ -1089,16 +1089,16 @@ msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
-"See valik tähendab, et Evolution ühendub sinu LDAP serverisse ainult juhul, "
-"kui LDAP server toetab SSL-i."
+"See valik tähendab, et Evolution ühendub sinu LDAP-serverisse ainult juhul, "
+"kui LDAP-server toetab SSL-i."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
-"See valik tähendab, et Evolution ühendub sinu LDAP serverisse ainult juhul, "
-"kui LDAP server toetab TLS-i."
+"See valik tähendab, et Evolution ühendub sinu LDAP-serverisse ainult juhul, "
+"kui LDAP-server toetab TLS-i."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
@@ -1150,7 +1150,7 @@ msgstr ""
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "See on LDAP serveri täispikk nimi. Näiteks: \"ldap.minufirma.ee\"."
+msgstr "See on LDAP-serveri täispikk nimi. Näiteks: \"ldap.minufirma.ee\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
@@ -1167,7 +1167,7 @@ msgid ""
 "server."
 msgstr ""
 "Siin määrataks, mil viisil Evolution tõendab serverile kasutajat.  Märkus: "
-"seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP serveri "
+"seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP-serveri "
 "toetama anonüümset ligipääsu."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
@@ -1184,7 +1184,7 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"See on LDAP serveri port, kuhu Evolution üritab ühendust luua. Nimekiri "
+"See on LDAP-serveri port, kuhu Evolution üritab ühendust luua. Nimekiri "
 "standardportidest on välja toodud. Küsi oma süsteemiülemalt millise pordi sa "
 "peaksid määrama."
 
@@ -3564,7 +3564,7 @@ msgid ""
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
 "Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid "
-"vigase URI või kasutatav LDAP server ei ole kättesaadav."
+"vigase URI või kasutatav LDAP-server ei ole kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:122
 msgid ""
@@ -3572,8 +3572,8 @@ msgid ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
-"Käesolev Evolutioni versioon ei ole kompileeritud LDAP'i toega. Kui sa "
-"soovid kasutada Evolutioni koos LDAP'i toega, pead paigaldama omale vastava "
+"Käesolev Evolutioni versioon ei ole kompileeritud LDAP-i toega. Kui sa "
+"soovid kasutada Evolutioni koos LDAP-i toega, pead paigaldama omale vastava "
 "Evolutioni paki."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:129
@@ -3799,7 +3799,7 @@ msgstr "Evolutioni CSV ja Tab-i importija"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:666
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "LDAP andmevahetusvorming (.ldif)"
+msgstr "LDAP-i andmevahetusvorming (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:667
 msgid "Evolution LDIF importer"
@@ -6138,7 +6138,7 @@ msgstr "See sündmus on alarmidega"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/dialogs/memo-page.glade.h:2
 msgid "Or_ganizer:"
-msgstr "Ko_rraldaja:"
+msgstr "Korralda_ja:"
 
 #: ../calendar/gui/dialogs/event-page.c:944
 msgid "_Delegatees"
@@ -12621,7 +12621,7 @@ msgstr "Viimane kord kui prügikasti tühjendati"
 
 #: ../mail/evolution-mail.schemas.in.h:59
 msgid "Level beyond which the message should be logged."
-msgstr ""
+msgstr "Tase, millest alates tuleb sõnumeid logida."
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "List of Labels and their associated colors"
@@ -19872,7 +19872,7 @@ msgstr "Valiku lõikamine"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
-msgstr "_Kustuta aadressiraamat"
+msgstr "Kustuta aa_dressiraamat"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
@@ -20001,7 +20001,7 @@ msgstr "_Kopeeri kausta kontaktid asukohta"
 
 #: ../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
-msgstr "_Kustuta kontakt"
+msgstr "Kustuta ko_ntakt"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
@@ -21823,7 +21823,7 @@ msgstr "Käesolev _vaade"
 #: ../widgets/menus/gal-view-menus.c:315
 #, c-format
 msgid "Select View: %s"
-msgstr "Vaate valimine: %s"
+msgstr "Vaate \"%s\" valimine"
 
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Current view is a customized view"
@@ -22923,7 +22923,7 @@ msgstr "Reamurdmine"
 
 #: ../widgets/text/e-text.c:3714 ../widgets/text/e-text.c:3715
 msgid "Break characters"
-msgstr ""
+msgstr "Murdmismärgid"
 
 #: ../widgets/text/e-text.c:3721 ../widgets/text/e-text.c:3722
 msgid "Max lines"
