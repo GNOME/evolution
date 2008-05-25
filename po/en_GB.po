@@ -245,7 +245,7 @@ msgstr "popup"
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
 msgid "popup a child"
-msgstr "popup a child"
+msgstr "pop up a child"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:614
 msgid "edit"
@@ -371,8 +371,8 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
-"Check to make sure your password is spelled correctly and that you are using "
-"a supported login method. Remember that many passwords are case sensitive; "
+"Check to make sure your password is spelt correctly and that you are using "
+"a supported login method. Remember that many passwords are case-sensitive; "
 "your caps lock might be on."
 
 #: ../addressbook/addressbook.error.xml.h:9
@@ -3073,7 +3073,7 @@ msgstr "E-mail 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
-msgstr "Surname"
+msgstr "Family Name"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "File As"
@@ -3081,7 +3081,7 @@ msgstr "File As"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Given Name"
-msgstr "Forename"
+msgstr "Given Name"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
@@ -10638,7 +10638,7 @@ msgstr "Whether the plugin is enabled"
 
 #: ../e-util/e-print.c:138
 msgid "An error occurred while printing"
-msgstr "An error occurred whilst printing"
+msgstr "An error occurred while printing"
 
 #: ../e-util/e-print.c:145
 msgid "The printing system reported the following details about the error:"
@@ -11810,7 +11810,7 @@ msgstr "Mail Deletion Failed"
 
 #: ../mail/em-folder-view.c:1098 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
-msgstr "You do not have sufficient permission to delete this mail."
+msgstr "You do not have sufficient permissions to delete this mail."
 
 #: ../mail/em-folder-view.c:1336 ../ui/evolution-mail-message.xml.h:128
 msgid "_Reply to Sender"
@@ -12549,7 +12549,7 @@ msgstr "\"Send and Receive Mail\" window height"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 msgid "\"Send and Receive Mail\" window maximize state"
-msgstr "\"Send and Receive Mail\" window maximize state"
+msgstr "\"Send and Receive Mail\" window maximise state"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "\"Send and Receive Mail\" window width"
@@ -12855,10 +12855,10 @@ msgid ""
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
 msgstr ""
-"Initial maximize state of the \"Send and Receive Mail\" window. The value "
-"updates when the user maximizes or unmaximizes the window. Note, this "
+"Initial maximise state of the \"Send and Receive Mail\" window. The value "
+"updates when the user maximises or unmaximises the window. Note, this "
 "particular value is not used by Evolution since the \"Send and Receive Mail"
-"\" window cannot be maximized. This key exists only as an implementation "
+"\" window cannot be maximised. This key exists only as an implementation "
 "detail."
 
 #: ../mail/evolution-mail.schemas.in.h:63
@@ -12871,7 +12871,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid "It disables/enables the prompt while marking multiple messages."
-msgstr "Enable or disable the prompt whilst marking multiple messages."
+msgstr "Enable or disable the prompt while marking multiple messages."
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid ""
@@ -13204,8 +13204,8 @@ msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
 msgstr ""
-"This decides the max size of the text part that can be formatted under "
-"evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
+"This decides the maximum size of the text part that can be formatted under "
+"Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 
 #: ../mail/evolution-mail.schemas.in.h:140
 msgid ""
@@ -13303,7 +13303,7 @@ msgstr "UID string of the default account."
 
 #: ../mail/evolution-mail.schemas.in.h:154
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr "Underline colour for misspelled words when using inline spelling."
+msgstr "Underline colour for misspelt words when using inline spelling."
 
 #: ../mail/evolution-mail.schemas.in.h:155
 msgid "Use SpamAssassin daemon and client"
@@ -13830,7 +13830,7 @@ msgstr "Clea_r"
 
 #: ../mail/mail-config.glade.h:57
 msgid "Color for _misspelled words:"
-msgstr "Colour for _misspelled words:"
+msgstr "Colour for _misspelt words:"
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
@@ -14918,7 +14918,7 @@ msgid ""
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Check to make sure your password is spelt correctly. Remember that many "
-"passwords are case sensitive; your caps lock might be on."
+"passwords are case-sensitive; your caps lock might be on."
 
 #: ../mail/mail.error.xml.h:43
 msgid "Could not save signature file."
@@ -15984,7 +15984,7 @@ msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
-"A test plugin which demonstrates a pop-up menu plugin which lets you copy "
+"A test plugin which demonstrates a context menu plugin which lets you copy "
 "things to the clipboard."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
@@ -18369,7 +18369,7 @@ msgstr "Play sound when new messages arrive."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr "Pop-up message together with the icon."
+msgstr "Popup message together with the icon."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
