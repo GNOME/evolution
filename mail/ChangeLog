@@ -1,5 +1,23 @@
 2008-05-26  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #317755
+
+	* mail-send-recv.c: (refresh_folders_exec):
+	* mail-ops.c: (refresh_folder_desc):
+	Also sync with a server when refreshing folder.
+	* evolution-mail.schemas.in:
+	* mail-config.h: (mail_config_get_sync_timeout):
+	* mail-config.c: (mail_config_get_sync_timeout):
+	Use int value of /apps/evolution/mail/sync_interval where is set
+	how often propagate local changes to server.
+	* mail-component.c: (struct _MailComponentPrivate), (impl_dispose),
+	(mc_sync_store_done), (mc_sync_store), (call_mail_sync),
+	(mail_component_init): Upload local changes to server on some interval.
+	* mail-component.c: (impl_quit):
+	Do not quit until we are done with mail sync.
+
+2008-05-26  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #322553
 
 	* mail-config.h: (mail_config_scripts_disabled):

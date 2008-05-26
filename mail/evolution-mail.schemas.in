@@ -1332,5 +1332,22 @@
       </locale>
     </schema>
 
+    <!-- Others -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/sync_interval</key>
+      <applyto>/apps/evolution/mail/sync_interval</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>60</default>
+      <locale name="C">
+        <short>Time interval, in seconds, how often upload store changes to server.</short>
+        <long>
+          Time interval, in seconds, how often upload store changes to server.
+	  The actual value cannot be less than 30 seconds.
+        </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

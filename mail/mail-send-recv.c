@@ -829,6 +829,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 	for (i=0;i<m->folders->len;i++) {
 		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, &ex);
 		if (folder) {
+			camel_folder_sync (folder, FALSE, &ex);
+			camel_exception_clear(&ex);
 			camel_folder_refresh_info(folder, &ex);
 			camel_exception_clear(&ex);
 			camel_object_unref(folder);

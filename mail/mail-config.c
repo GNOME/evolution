@@ -679,6 +679,31 @@ mail_config_get_message_limit (void)
 	return config->mlimit_size;
 }
 
+/* timeout interval, in seconds, when to call server update */
+gint
+mail_config_get_sync_timeout (void)
+{
+	GConfClient *gconf = mail_config_get_gconf_client ();
+	gint res = 60;
+
+	if (gconf) {
+		GError *error = NULL;
+
+		res = gconf_client_get_int (gconf, "/apps/evolution/mail/sync_interval", &error);
+
+		/* do not allow recheck sooner than every 30 seconds */
+		if (error || res == 0)
+			res = 60;
+		else if (res < 30)
+			res = 30;
+
+		if (error)
+			g_error_free (error);
+	}
+
+	return res;
+}
+
 gboolean
 mail_config_get_enable_magic_spacebar ()
 {

@@ -145,6 +145,9 @@ struct _MailComponentPrivate {
 	ELogger *logger;
 
 	EComponentView *component_view;
+
+	guint mail_sync_id; /* timeout id for sync call on the stores */
+	guint mail_sync_in_progress; /* is greater than 0 if still waiting to finish sync on some store */
 };
 
 /* indexed by _mail_component_folder_t */
@@ -451,6 +454,11 @@ static void
 impl_dispose (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
+
+	if (priv->mail_sync_id) {
+		g_source_remove (priv->mail_sync_id);
+		priv->mail_sync_id = 0;
+	}
 
 	view_changed_timeout_remove ((EComponentView *)object);
 
@@ -875,7 +883,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	}
 		/* Falls through */
 	case MC_QUIT_SYNC:
-		if (mc->priv->quit_count > 0)
+		if (mc->priv->quit_count > 0 || mc->priv->mail_sync_in_progress > 0)
 			return FALSE;
 
 		mail_cancel_all();
@@ -1067,6 +1075,43 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	camel_exception_clear (&ex);
 }
 
+static void
+mc_sync_store_done (CamelStore *store, void *data)
+{
+	MailComponent *mc = (MailComponent *) data;
+
+	mc->priv->mail_sync_in_progress--;
+}
+
+static void
+mc_sync_store (gpointer key, gpointer value, gpointer user_data)
+{
+	extern int camel_application_is_exiting;
+	MailComponent *mc = (MailComponent *) user_data;
+
+	mc->priv->mail_sync_in_progress++;
+
+	if (!camel_application_is_exiting)
+		mail_sync_store (CAMEL_STORE (key), FALSE, mc_sync_store_done, mc);
+	else
+		mc_sync_store_done (CAMEL_STORE (key), mc);
+}
+
+static gboolean
+call_mail_sync (gpointer user_data)
+{
+	extern int camel_application_is_exiting;
+	MailComponent *mc = (MailComponent *)user_data;
+
+	if (camel_application_is_exiting)
+		return FALSE;
+
+	if (!mc->priv->mail_sync_in_progress && session && camel_session_is_online (session))
+		mail_component_stores_foreach (mc, mc_sync_store, mc);
+
+	return !camel_application_is_exiting;
+}
+
 struct _setline_data {
 	GNOME_Evolution_Listener listener;
 	CORBA_boolean status;
@@ -1247,6 +1292,9 @@ mail_component_init (MailComponent *component)
 		(GDestroyNotify) store_hash_free);
 
 	mail_autoreceive_init();
+
+	priv->mail_sync_in_progress = 0;
+	priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
 }
 
 /* Public API.  */
