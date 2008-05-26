@@ -103,6 +103,7 @@ typedef struct {
 	gboolean jh_check;
 	gboolean book_lookup;
 	gboolean book_lookup_local_only;
+	gboolean scripts_disabled;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -507,6 +508,14 @@ mail_config_init (void)
 	config->book_lookup_local_only =
 		gconf_client_get_bool (config->gconf, key, NULL);
 
+	key = "/desktop/gnome/lockdown/disable_command_line";
+	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func,
+		&config->scripts_disabled, NULL, NULL);
+	config->scripts_disabled =
+		gconf_client_get_bool (config->gconf, key, NULL);
+
 	gconf_jh_check_changed (config->gconf, 0, NULL, config);
 }
 
@@ -616,6 +625,9 @@ mail_config_write_on_exit (void)
 GConfClient *
 mail_config_get_gconf_client (void)
 {
+	if (!config)
+		mail_config_init ();
+
 	return config->gconf;
 }
 
@@ -1186,6 +1198,15 @@ mail_config_get_lookup_book_local_only (void)
 	return config->book_lookup_local_only;
 }
 
+gboolean
+mail_config_scripts_disabled (void)
+{
+	if (config == NULL)
+		mail_config_init ();
+
+	return config->scripts_disabled;
+}
+
 char *
 mail_config_signature_run_script (const char *script)
 {
@@ -1193,6 +1214,9 @@ mail_config_signature_run_script (const char *script)
 	int result, status;
 	int in_fds[2];
 	pid_t pid;
+
+	if (mail_config_scripts_disabled ())
+		return NULL;
 
 	if (pipe (in_fds) == -1) {
 		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));

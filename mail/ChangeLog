@@ -1,3 +1,18 @@
+2008-05-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #322553
+
+	* mail-config.h: (mail_config_scripts_disabled):
+	* mail-config.c: (struct MailConfig), (mail_config_init),
+	(mail_config_scripts_disabled): New helper function.
+	* em-composer-prefs.c: (sig_load_preview):
+	Write to html stream at least one character.
+	* em-composer-prefs.c: (em_composer_prefs_construct): Disable
+	signature's Add Script button when not approved running scripts.
+	* mail-config.c: (mail_config_get_gconf_client): Ensure init.
+	* mail-config.c: (mail_config_signature_run_script): Do not run
+	script when disabled in /desktop/gnome/lockdown/disable_command_line.
+
 2008-05-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534476

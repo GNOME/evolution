@@ -168,8 +168,11 @@ sig_load_preview (EMComposerPrefs *prefs,
 	else
 		str = e_msg_composer_get_sig_file_content (
 			signature->filename, signature->html);
-	if (!str)
-		str = g_strdup ("");
+	if (!str || !*str) {
+		/* make html stream happy and write at least one character */
+		g_free (str);
+		str = g_strdup (" ");
+	}
 
 	if (signature->html) {
 		gtk_html_load_from_string (html, str, strlen (str));
@@ -1045,7 +1048,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	prefs->sig_add = GTK_BUTTON (widget);
 
 	widget = glade_xml_get_widget (gui, "cmdSignatureAddScript");
-	gtk_widget_set_sensitive (widget, sensitive);
+	gtk_widget_set_sensitive (widget, sensitive && !mail_config_scripts_disabled ());
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (sig_add_script_cb), prefs);

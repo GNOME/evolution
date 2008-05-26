@@ -158,6 +158,8 @@ void mail_config_reload_junk_headers (void);
 gboolean mail_config_get_lookup_book (void);
 gboolean mail_config_get_lookup_book_local_only (void);
 
+gboolean mail_config_scripts_disabled (void);
+
 GType evolution_mail_config_get_type (void);
 
 gboolean evolution_mail_config_factory_init (void);
