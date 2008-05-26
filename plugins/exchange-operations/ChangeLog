@@ -1,3 +1,10 @@
+2008-05-26  Bharath Acharya  <abharath@novell.com>
+
+	* Fixes bnc #394441
+
+	* exchange-contacts.c: (e_exchange_contacts_commit): Fixes a double
+	free
+
 2008-04-21  Bharath Acharya  <abharath@novell.com>
 
 	* Fixes bnc #378203
