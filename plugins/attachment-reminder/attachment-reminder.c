@@ -55,7 +55,6 @@ typedef struct {
 	GtkWidget   *clue_add;
 	GtkWidget   *clue_edit;
 	GtkWidget   *clue_remove;
-	GtkWidget   *clue_container;
 	GtkListStore *store;
 } UIData;
 
@@ -504,11 +503,10 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	}
 
 	/* Add the list here */
-	ui->clue_container = glade_xml_get_widget (ui->xml, "clue_container");
 
 	hbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (hbox), glade_xml_get_widget (ui->xml, "reminder_configuration_box"), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), glade_xml_get_widget (ui->xml, "reminder_configuration_box"), TRUE, TRUE, 0);
 
 	/* to let free data properly on destroy of configuration widget */
 	g_object_set_data_full (G_OBJECT (hbox), "myui-data", ui, destroy_ui_data);

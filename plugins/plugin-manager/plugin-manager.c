@@ -304,7 +304,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 			cfg_widget = def_configure_label;
 		} else {
 			gtk_widget_hide (cfg_widget);
-			gtk_box_pack_start (GTK_BOX (configure_page), cfg_widget, FALSE, FALSE, 6);
+			gtk_box_pack_start (GTK_BOX (configure_page), cfg_widget, TRUE, TRUE, 6);
 		}
 
 		gtk_list_store_append (store, &iter);
