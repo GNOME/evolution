@@ -1,3 +1,11 @@
+2008-05-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #532384
+
+	* prefer-plain.c: (org_gnome_prefer_plain_multipart_alternative):
+	Choose the text/html part in normal mode only if the alrenative
+	multipart contains also a text/plain part.
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #451976
