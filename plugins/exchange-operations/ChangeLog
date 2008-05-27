@@ -1,3 +1,10 @@
+2008-05-27  Bharath Acharya  <abharath@novell.com>
+
+	* Fixes bnc #394441
+
+	* exchange-contacts.c: (e_exchange_contacts_commit): Fixes a double
+	free
+
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534360
