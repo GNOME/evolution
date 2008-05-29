@@ -126,6 +126,7 @@ libeutil_la_LIBADD = 		\
 	$(WIN32_BOOTSTRAP_LIBS)	\
 	$(ICONV_LIBS)		\
 	$(E_UTIL_LIBS)		\
+	$(GNOME_PILOT_LIBS)	\
 	$(INTLLIBS)
 
 econdinclude_HEADERS =		\
@@ -147,7 +148,7 @@ libeconduit_la_SOURCES = $(pilot_compile)
 
 libeconduit_la_LDFLAGS = $(NO_UNDEFINED)
 
-libeconduit_la_LIBADD = $(E_UTIL_LIBS)
+libeconduit_la_LIBADD = $(E_UTIL_LIBS) 	$(GNOME_PILOT_LIBS)
 
 error_DATA = e-system.error
 errordir = $(privdatadir)/errors

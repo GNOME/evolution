@@ -1,3 +1,10 @@
+2008-05-29  Frederic Crozat  <fcrozat@mandriva.com>
+
+	** Fixes bug #535273
+
+	* Makefile.am:
+	Link e-util and econduit libraries with gnome-pilot.
+
 2008-05-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #530392
