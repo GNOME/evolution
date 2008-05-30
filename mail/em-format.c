@@ -957,6 +957,7 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
 		 || camel_content_type_is(dw->mime_type, "application", "pkcs7-mime")
 		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-signed")
 		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-encrypted")
+		 || camel_content_type_is(dw->mime_type, "x-evolution", "evolution-rss-feed")
 		 || (camel_content_type_is (dw->mime_type, "text", "*")
 		     && camel_mime_part_get_filename(part) == NULL));
 }

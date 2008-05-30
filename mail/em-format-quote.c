@@ -554,6 +554,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "multipart/appledouble", (EMFormatFunc)emfq_ignore },
 
 	/* internal evolution types */
+	{ "x-evolution/evolution-rss-feed", (EMFormatFunc)emfq_text_html },
 	{ "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
 	{ "x-evolution/message/prefix", (EMFormatFunc)emfq_format_message_prefix },
 };

@@ -1,3 +1,13 @@
+2008-05-30  Lucian Langa  <lucilanga@gnome.org>
+
+	** Fix for bug #535670
+
+	* em-format-quote.c: (type_builtin_table):
+	Add x-evolution/evolution-feed-rss as internal mime
+	for evolution-rss artiles.
+	* em-format.c: (em_format_is_attachment): prevent
+	evolution-rss articles being formatted as attachments.
+
 2008-05-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #317755
