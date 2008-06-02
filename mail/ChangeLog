@@ -1,3 +1,10 @@
+2008-06-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #531836
+
+	* em-folder-view.c:  Added bonobo accel key for Ctrl+D, Del to keep
+	working on deleted mails, but not the toolbar/menu
+
 2008-06-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #525966
