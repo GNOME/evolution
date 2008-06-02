@@ -1,3 +1,16 @@
+2008-05-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #532597
+
+	* e-selection-model-array.h: (struct ESelectionModelArray):
+	* e-selection-model-array.c: (es_row_model_to_sorted),
+	(es_row_sorted_to_model), (e_selection_model_array_delete_rows),
+	(e_selection_model_array_insert_rows), (esma_invert_selection),
+	(e_selection_model_array_move_row), (esma_clear), (esma_select_all),
+	(esma_change_cursor), (esma_set_selection_end),
+	(e_selection_model_array_init): Work with sorted cursor row to keep
+	right position after insert/delete/move row(s).
+
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534360

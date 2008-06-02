@@ -47,6 +47,7 @@ typedef struct {
 	gint cursor_row;
 	gint cursor_col;
 	gint selection_start_row;
+	gint cursor_row_sorted; /* cursor_row passed through base::sorter if necessary */
 
 	guint model_changed_id;
 	guint model_row_inserted_id, model_row_deleted_id;
