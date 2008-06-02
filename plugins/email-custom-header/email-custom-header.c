@@ -48,7 +48,6 @@ struct _EmailCustomHeaderOptionsDialogPrivate {
 	/*Widgets*/
 	GtkWidget *main;
 	GtkWidget *page;
-	GtkNotebook *notebook;
 	GtkWidget *header_table;
 	GtkWidget *header_type_name_label;
 	GArray *combo_box_header_value;
@@ -104,12 +103,10 @@ epech_get_widgets (CustomHeaderOptionsDialog *mch)
 		return FALSE;
 
 	priv->page  = EMAIL_CUSTOM_HEADER ("email-custom-header-vbox");	
-	priv->notebook = (GtkNotebook *) EMAIL_CUSTOM_HEADER ("email-custom-header-notebook");
 	priv->header_table = EMAIL_CUSTOM_HEADER ("email-custom-header-options");	
 #undef EMAIL_CUSTOM_HEADER
 
 	return (priv->page
-		&&priv->notebook
 		&&priv->header_table);
 }
 
@@ -237,7 +234,6 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent)
 
 	epech_fill_widgets_with_data (mch);
 	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(epech_header_options_cb), mch);
-	gtk_window_set_modal ((GtkWindow *) priv->main, TRUE);
 	gtk_widget_show (priv->main);
 
 	return TRUE;
@@ -387,7 +383,7 @@ epech_dialog_init (GObject *object)
 	mch->priv = priv;
 	priv->xml = NULL;
 	priv->main = NULL;
-	priv->notebook = NULL;
+	priv->page = NULL;
 	priv->header_table = NULL;
 }
 
