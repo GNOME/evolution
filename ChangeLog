@@ -1,3 +1,8 @@
+2008-06-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.3 for CAMEL_MESSAGE_FORWARDED.
+
 2008-05-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534476
