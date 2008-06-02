@@ -1,3 +1,27 @@
+Evolution 2.22.2 2008-05-26
+---------------------------
+
+Bug Fixes:
+	#311042: Allocate size for location and info labels differently (Matthew Barnes)
+	#463040: Forget former selected uid as soon as we know we moved to other. (Milan Crha)
+	#523402: Do not leak. Reassign back the old values before freeing (Milan Crha)
+	#530392: Pressing Enter in the entry activates the default response (Matthew Barnes)
+	#531426: Display face header images at 48x48 instead of 64x64 (Roland Clobus)
+	#531519: Evolution crashes on print-preview (Srinivasa Ragavan)
+	#531592: Strings such as window titles and status bar messages should not be escaped (Matthew Barnes)
+	#533465: Strip whitespace from user-entered hostname (Ritesh Khadgaray)
+	#533820: Fix for a crash on double-clicking the border of meetings in day-view. (Chenthill Palanisamy)
+
+Other Contributors:
+	More work on Windows support (Tor Lillqvist)
+
+Updated Translations:
+	Ivar Smolin (et)
+	Luca Ferretti (it)
+	Nikos Charonitakis (el)
+	Gil Forcada (ca)
+	Reinout van Schouwen (nl)
+
 Evolution 2.22.1.1 2008-05-02
 -----------------------------
 
