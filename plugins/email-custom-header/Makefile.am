@@ -46,7 +46,8 @@ glade_DATA =							\
 
 EXTRA_DIST = 							\
 	org-gnome-email-custom-header.eplug.xml			\
-	$(schema_in_files)					
+	$(schema_in_files)					\
+	$(glade_DATA)					
 
 BUILT_SOURCES = 				\
 	org-gnome-email-custom-header.eplug 			\

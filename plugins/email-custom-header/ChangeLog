@@ -1,3 +1,8 @@
+2008-06-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Distribute the Glade file.
+
 2008-06-02  Ashish Shrivastava  <shashish@novell.com>
 
 	** Fixes bug #536183
