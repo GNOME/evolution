@@ -1,3 +1,10 @@
+2008-06-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #535749
+
+	* message-list.c: (regen_list_exec): Use better condition whether
+	keep cursor_uid in the message list or not on regeneration.
+
 2008-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #531836
