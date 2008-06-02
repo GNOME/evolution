@@ -1676,8 +1676,14 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	priv->top_level = e_cal_util_new_top_level ();
 
 	priv->main_comp = icalparser_parse_string (priv->vcalendar);
-	if (priv->main_comp == NULL) {
+	if (priv->main_comp == NULL || !is_icalcomp_valid (priv->main_comp)) {
 		write_error_html (itip, _("The attachment does not contain a valid calendar message"));
+
+		if (priv->main_comp) {
+			icalcomponent_free (priv->main_comp);
+			priv->main_comp = NULL;
+		}
+
 		return;
 	}
 

@@ -1369,10 +1369,15 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
 	pitip->top_level = e_cal_util_new_top_level ();
 
 	pitip->main_comp = icalparser_parse_string (pitip->vcalendar);
-	if (pitip->main_comp == NULL) {
+	if (pitip->main_comp == NULL || !is_icalcomp_valid (pitip->main_comp)) {
 		set_itip_error (pitip, container,
 				_("The calendar attached is not valid"),
 				_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."));
+
+		if (pitip->main_comp) {
+			icalcomponent_free (pitip->main_comp);
+			pitip->main_comp = NULL;
+		}
 
 		return FALSE;
 	}
@@ -1845,7 +1850,6 @@ check_is_instance (icalcomponent *icalcomp)
 
 	return FALSE;
 }
-
 
 static gboolean
 in_proper_folder (CamelFolder *folder)

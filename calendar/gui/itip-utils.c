@@ -1810,3 +1810,26 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	return TRUE;
 }
 
+static gboolean
+check_time (const struct icaltimetype tmval, gboolean can_null_time)
+{
+	if (icaltime_is_null_time (tmval))
+		return can_null_time;
+
+	return  icaltime_is_valid_time (tmval) &&
+		tmval.month >= 1 && tmval.month <= 12 &&
+		tmval.day >= 1 && tmval.day <= 31 &&
+		tmval.hour >= 0 && tmval.hour < 24 &&
+		tmval.minute >= 0 && tmval.minute < 60 &&
+		tmval.second >= 0 && tmval.second < 60;
+}
+
+/* returns whether the passed-in icalcomponent is valid or not. It does some sanity checks on values too. */
+gboolean
+is_icalcomp_valid (icalcomponent *icalcomp)
+{
+	return  icalcomp &&
+		icalcomponent_is_valid (icalcomp) &&
+		check_time (icalcomponent_get_dtstart (icalcomp), FALSE) &&
+		check_time (icalcomponent_get_dtend (icalcomp), TRUE);
+}

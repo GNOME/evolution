@@ -1,3 +1,13 @@
+2008-05-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #535459
+
+	* gui/itip-utils.h: (is_icalcomp_valid):
+	* gui/itip-utils.c: (is_icalcomp_valid), (check_time):
+	New function to make some sanity checks on component properties.
+	* gui/e-itip-control.c: (e_itip_control_set_data):
+	Do not use component when sanity check fails.
+
 2008-05-23  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #523402
