@@ -49,6 +49,24 @@ e_selection_model_array_confirm_row_count(ESelectionModelArray *esma)
 	}
 }
 
+static gint
+es_row_model_to_sorted (ESelectionModelArray *esma, gint model_row)
+{
+	if (model_row >= 0 && esma && esma->base.sorter && e_sorter_needs_sorting (esma->base.sorter))
+		return e_sorter_model_to_sorted (esma->base.sorter, model_row);
+
+	return model_row;
+}
+
+static gint
+es_row_sorted_to_model (ESelectionModelArray *esma, gint sorted_row)
+{
+	if (sorted_row >= 0 && esma && esma->base.sorter && e_sorter_needs_sorting (esma->base.sorter))
+		return e_sorter_sorted_to_model (esma->base.sorter, sorted_row);
+
+	return sorted_row;
+}
+
 /* FIXME: Should this deal with moving the selection if it's in single mode? */
 void
 e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int count)
@@ -59,19 +77,19 @@ e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int cou
 		else
 			e_bit_array_delete(esma->eba, row, count);
 
-		if (esma->cursor_row > row + count)
-			esma->cursor_row -= count;
-		else if (esma->cursor_row > row)
-			esma->cursor_row = row;
-
-		if (esma->cursor_row >= e_bit_array_bit_count (esma->eba)) {
-			esma->cursor_row = e_bit_array_bit_count (esma->eba) - 1;
+		if (esma->cursor_row_sorted >= e_bit_array_bit_count (esma->eba)) {
+			esma->cursor_row_sorted = e_bit_array_bit_count (esma->eba) - 1;
 			esma->selection_start_row--;
-		} else if (esma->cursor_row < 0) {
-			esma->cursor_row = -1;
 		}
-		if (esma->cursor_row >= 0)
-			e_bit_array_change_one_row(esma->eba, esma->cursor_row, TRUE);
+
+		if (esma->cursor_row_sorted >= 0) {
+			esma->cursor_row = es_row_sorted_to_model (esma, esma->cursor_row_sorted);
+			e_bit_array_change_one_row (esma->eba, esma->cursor_row, TRUE);
+		} else {
+			esma->cursor_row = -1;
+			esma->cursor_row_sorted = -1;
+			esma->selection_start_row = 0;
+		}
 
 		esma->selected_row = -1;
 		esma->selected_range_end = -1;
@@ -86,8 +104,8 @@ e_selection_model_array_insert_rows(ESelectionModelArray *esma, int row, int cou
 	if (esma->eba) {
 		e_bit_array_insert(esma->eba, row, count);
 
-		if (esma->cursor_row >= row)
-			esma->cursor_row += count;
+		/* just recalculate new position of the previously set cursor row */
+		esma->cursor_row = es_row_sorted_to_model (esma, esma->cursor_row_sorted);
 
 		esma->selected_row = -1;
 		esma->selected_range_end = -1;
@@ -104,11 +122,15 @@ e_selection_model_array_move_row(ESelectionModelArray *esma, int old_row, int ne
 	if (esma->eba) {
 		gboolean selected = e_bit_array_value_at(esma->eba, old_row);
 		gboolean cursor = (esma->cursor_row == old_row);
+		gint old_row_sorted, new_row_sorted;
 
-		if (old_row < esma->cursor_row && esma->cursor_row < new_row)
-			esma->cursor_row --;
-		else if (new_row < esma->cursor_row && esma->cursor_row < old_row)
-			esma->cursor_row ++;
+		old_row_sorted = es_row_model_to_sorted (esma, old_row);
+		new_row_sorted = es_row_model_to_sorted (esma, new_row);
+
+		if (old_row_sorted < esma->cursor_row_sorted && esma->cursor_row_sorted < new_row_sorted)
+			esma->cursor_row_sorted --;
+		else if (new_row_sorted < esma->cursor_row_sorted && esma->cursor_row_sorted < old_row_sorted)
+			esma->cursor_row_sorted ++;
 
 		e_bit_array_move_row(esma->eba, old_row, new_row);
 
@@ -120,7 +142,10 @@ e_selection_model_array_move_row(ESelectionModelArray *esma, int old_row, int ne
 		}
 		if (cursor) {
 			esma->cursor_row = new_row;
-		}
+			esma->cursor_row_sorted = es_row_model_to_sorted (esma, esma->cursor_row);
+		} else
+			esma->cursor_row = es_row_sorted_to_model (esma, esma->cursor_row_sorted);
+
 		esma->selected_row = -1;
 		esma->selected_range_end = -1;
 		e_selection_model_selection_changed(esm);
@@ -232,6 +257,7 @@ esma_clear(ESelectionModel *selection)
 	}
 	esma->cursor_row = -1;
 	esma->cursor_col = -1;
+	esma->cursor_row_sorted = -1;
 	esma->selected_row = -1;
 	esma->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(esma));
@@ -276,8 +302,9 @@ esma_select_all (ESelectionModel *selection)
 	e_bit_array_select_all(esma->eba);
 
 	esma->cursor_col = 0;
-	esma->cursor_row = 0;
-	esma->selection_start_row = 0;
+	esma->cursor_row_sorted = 0;
+	esma->cursor_row = es_row_sorted_to_model (esma, esma->cursor_row_sorted);
+	esma->selection_start_row = esma->cursor_row;
 	esma->selected_row = -1;
 	esma->selected_range_end = -1;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(esma));
@@ -302,6 +329,7 @@ esma_invert_selection (ESelectionModel *selection)
 
 	esma->cursor_col = -1;
 	esma->cursor_row = -1;
+	esma->cursor_row_sorted = -1;
 	esma->selection_start_row = 0;
 	esma->selected_row = -1;
 	esma->selected_range_end = -1;
@@ -337,6 +365,7 @@ esma_change_cursor (ESelectionModel *selection, int row, int col)
 
 	esma->cursor_row = row;
 	esma->cursor_col = col;
+	esma->cursor_row_sorted = es_row_model_to_sorted (esma, esma->cursor_row);
 }
 
 static void
@@ -467,6 +496,7 @@ esma_set_selection_end (ESelectionModel *selection, int row)
 
 	esma_real_select_single_row(selection, esma->selection_start_row);
 	esma->cursor_row = esma->selection_start_row;
+	esma->cursor_row_sorted = es_row_model_to_sorted (esma, esma->cursor_row);
 	esma_real_move_selection_end(selection, row);
 
 	esma->selected_range_end = view_row;
@@ -500,6 +530,7 @@ e_selection_model_array_init (ESelectionModelArray *esma)
 	esma->selection_start_row = 0;
 	esma->cursor_row = -1;
 	esma->cursor_col = -1;
+	esma->cursor_row_sorted = -1;
 
 	esma->selected_row = -1;
 	esma->selected_range_end = -1;
