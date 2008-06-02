@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4 GNOME TRUNK\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-26 18:12+0000\n"
-"PO-Revision-Date: 2008-06-01 22:42+0930\n"
+"POT-Creation-Date: 2008-06-02 06:02+0000\n"
+"PO-Revision-Date: 2008-06-02 15:59+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -643,7 +643,7 @@ msgstr "Quản lý chứng nhận S/MIME của bạn ở đây"
 #: ../calendar/gui/migration.c:582 ../calendar/gui/migration.c:1096
 #: ../calendar/gui/tasks-component.c:196 ../mail/em-folder-tree-model.c:200
 #: ../mail/em-folder-tree-model.c:202 ../mail/mail-component.c:311
-#: ../mail/mail-vfolder.c:216 ../mail/message-list.c:1455
+#: ../mail/mail-vfolder.c:216 ../mail/message-list.c:1459
 msgid "On This Computer"
 msgstr "Trên máy này"
 
@@ -722,7 +722,7 @@ msgstr "Sao chép cục bộ nội dung sổ để thao tác ngoại tuyến"
 #: ../calendar/gui/dialogs/calendar-setup.c:380
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:292 ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2362
+#: ../plugins/itip-formatter/itip-formatter.c:2366
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Chung"
@@ -852,7 +852,7 @@ msgstr "Lưu dạng vCard..."
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1709 ../calendar/gui/e-memo-table.c:941
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2092 ../mail/em-folder-view.c:1347
+#: ../mail/em-folder-tree.c:2092 ../mail/em-folder-view.c:1348
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -2987,7 +2987,7 @@ msgstr "Cắ_t"
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1694 ../calendar/gui/e-memo-table.c:932
 #: ../composer/e-msg-composer.c:2011 ../mail/em-folder-tree.c:998
-#: ../mail/em-folder-view.c:1332 ../mail/message-list.c:2045
+#: ../mail/em-folder-view.c:1333 ../mail/message-list.c:2049
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-editor.xml.h:17 ../ui/evolution-mail-message.xml.h:104
 #: ../ui/evolution-memos.xml.h:15 ../ui/evolution-tasks.xml.h:23
@@ -3314,7 +3314,7 @@ msgid "_Open Link in Browser"
 msgstr "_Mở liên kết bằng trình duyệt"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2809
+#: ../mail/em-folder-view.c:2811
 msgid "_Copy Link Location"
 msgstr "_Chép địa chỉ liên kết"
 
@@ -4503,7 +4503,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Không thể ghi khối ứng dụng ToDo (cần làm) của pilot."
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2353
+#: ../plugins/itip-formatter/itip-formatter.c:2357
 msgid "Calendar and Tasks"
 msgstr "Tác vụ và Lịch"
 
@@ -5926,12 +5926,12 @@ msgstr[0] "%d thư đính kèm"
 
 #: ../calendar/gui/dialogs/comp-editor.c:456 ../composer/e-msg-composer.c:2012
 #: ../mail/em-folder-tree.c:999 ../mail/em-folder-utils.c:366
-#: ../mail/em-folder-view.c:1193 ../mail/message-list.c:2046
+#: ../mail/em-folder-view.c:1194 ../mail/message-list.c:2050
 msgid "_Move"
 msgstr "Chu_yển"
 
 #: ../calendar/gui/dialogs/comp-editor.c:458 ../composer/e-msg-composer.c:2014
-#: ../mail/em-folder-tree.c:1001 ../mail/message-list.c:2048
+#: ../mail/em-folder-tree.c:1001 ../mail/message-list.c:2052
 msgid "Cancel _Drag"
 msgstr "Thôi _kéo"
 
@@ -6233,7 +6233,7 @@ msgstr "Tùy chỉnh"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:205
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:2016
+#: ../plugins/itip-formatter/itip-formatter.c:2020
 #: ../widgets/misc/e-cell-date-edit.c:308 ../widgets/misc/e-dateedit.c:1533
 #: ../widgets/misc/e-dateedit.c:1747
 #: ../widgets/misc/e-signature-combo-box.c:69
@@ -6590,7 +6590,7 @@ msgstr "Hoàn tất"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:271
-#: ../calendar/gui/e-calendar-table.c:360 ../mail/message-list.c:1065
+#: ../calendar/gui/e-calendar-table.c:360 ../mail/message-list.c:1067
 msgid "High"
 msgstr "Cao"
 
@@ -6606,14 +6606,14 @@ msgstr "Đang tiến hành"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:275
-#: ../calendar/gui/e-calendar-table.c:362 ../mail/message-list.c:1063
+#: ../calendar/gui/e-calendar-table.c:362 ../mail/message-list.c:1065
 msgid "Low"
 msgstr "Thấp"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:273
 #: ../calendar/gui/e-cal-model.c:966 ../calendar/gui/e-calendar-table.c:361
-#: ../mail/message-list.c:1064
+#: ../mail/message-list.c:1066
 msgid "Normal"
 msgstr "Chuẩn"
 
@@ -6770,7 +6770,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s cho kiểu gây ra lạ"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3329
+#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3331
 #, c-format
 msgid "Click to open %s"
 msgstr "Nhấn để mở %s"
@@ -6900,7 +6900,7 @@ msgstr "Không"
 #: ../calendar/gui/e-meeting-store.c:210 ../calendar/gui/print.c:969
 #: ../calendar/gui/print.c:986 ../mail/em-utils.c:1340
 #: ../plugins/itip-formatter/itip-formatter.c:410
-#: ../plugins/itip-formatter/itip-formatter.c:2041
+#: ../plugins/itip-formatter/itip-formatter.c:2045
 #: ../plugins/plugin-manager/plugin-manager.c:84
 #: ../widgets/misc/e-attachment-bar.c:742
 #: ../widgets/misc/e-charset-picker.c:55
@@ -6931,7 +6931,7 @@ msgstr "untitled_image.%s"
 
 #: ../calendar/gui/e-cal-popup.c:285 ../calendar/gui/e-calendar-table.c:1367
 #: ../calendar/gui/e-calendar-view.c:1688 ../calendar/gui/e-memo-table.c:926
-#: ../mail/em-folder-view.c:1343 ../mail/em-popup.c:572 ../mail/em-popup.c:583
+#: ../mail/em-folder-view.c:1344 ../mail/em-popup.c:572 ../mail/em-popup.c:583
 msgid "_Save As..."
 msgstr "_Lưu dạng..."
 
@@ -7167,7 +7167,7 @@ msgstr "Chuyển dạng _iCalendar..."
 msgid "_Reply"
 msgstr "T_rả lời"
 
-#: ../calendar/gui/e-calendar-view.c:1705 ../mail/em-folder-view.c:1337
+#: ../calendar/gui/e-calendar-view.c:1705 ../mail/em-folder-view.c:1338
 #: ../mail/em-popup.c:577 ../mail/em-popup.c:588
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
@@ -7396,12 +7396,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:174 ../calendar/gui/e-meeting-store.c:197
 #: ../calendar/gui/itip-utils.c:699
-#: ../plugins/itip-formatter/itip-formatter.c:2029
+#: ../plugins/itip-formatter/itip-formatter.c:2033
 msgid "Accepted"
 msgstr "Đã chấp nhận"
 
 #: ../calendar/gui/e-itip-control.c:1178 ../calendar/gui/itip-utils.c:702
-#: ../plugins/itip-formatter/itip-formatter.c:2032
+#: ../plugins/itip-formatter/itip-formatter.c:2036
 msgid "Tentatively Accepted"
 msgstr "Tạm đã chấp nhận"
 
@@ -7409,7 +7409,7 @@ msgstr "Tạm đã chấp nhận"
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:199
 #: ../calendar/gui/itip-utils.c:705 ../calendar/gui/itip-utils.c:734
-#: ../plugins/itip-formatter/itip-formatter.c:2035
+#: ../plugins/itip-formatter/itip-formatter.c:2039
 msgid "Declined"
 msgstr "Bị từ chối"
 
@@ -7604,80 +7604,80 @@ msgstr "Thư chỉ chứa yêu cầu chưa được hỗ trợ."
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Đính kèm không chứa thư lịch hợp lệ."
 
-#: ../calendar/gui/e-itip-control.c:1712
+#: ../calendar/gui/e-itip-control.c:1718
 msgid "The attachment has no viewable calendar items"
 msgstr "Đính kèm không chứa mục lịch nào có thể xem được."
 
-#: ../calendar/gui/e-itip-control.c:1957
+#: ../calendar/gui/e-itip-control.c:1963
 msgid "Update complete\n"
 msgstr "Mới cập nhật xong\n"
 
-#: ../calendar/gui/e-itip-control.c:1991
+#: ../calendar/gui/e-itip-control.c:1997
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Đối tượng không hợp lệ nên không thể cập nhật nó.\n"
 
-#: ../calendar/gui/e-itip-control.c:2008
+#: ../calendar/gui/e-itip-control.c:2014
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 "Hồi đáp này không phải đến từ một người dự hiện thời. Thêm người này như là "
 "người dự nhé?"
 
-#: ../calendar/gui/e-itip-control.c:2026
+#: ../calendar/gui/e-itip-control.c:2032
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Không thể cập nhật trạng thái người dự vì trạng thái không hợp lệ!\n"
 
-#: ../calendar/gui/e-itip-control.c:2050
+#: ../calendar/gui/e-itip-control.c:2056
 msgid "Attendee status updated\n"
 msgstr "Mới cập nhật trạng thái người dự\n"
 
-#: ../calendar/gui/e-itip-control.c:2057
+#: ../calendar/gui/e-itip-control.c:2063
 #: ../plugins/itip-formatter/itip-formatter.c:1254
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Không thể cập nhật trạng thái người dự vì không còn có lại mục ấy."
 
-#: ../calendar/gui/e-itip-control.c:2088 ../calendar/gui/e-itip-control.c:2145
+#: ../calendar/gui/e-itip-control.c:2094 ../calendar/gui/e-itip-control.c:2151
 msgid "Item sent!\n"
 msgstr "Mục đã được gửi.\n"
 
-#: ../calendar/gui/e-itip-control.c:2094 ../calendar/gui/e-itip-control.c:2153
+#: ../calendar/gui/e-itip-control.c:2100 ../calendar/gui/e-itip-control.c:2159
 msgid "The item could not be sent!\n"
 msgstr "Không thể gửi mục này.\n"
 
-#: ../calendar/gui/e-itip-control.c:2233
+#: ../calendar/gui/e-itip-control.c:2239
 msgid "Choose an action:"
 msgstr "Chọn hành động:"
 
-#: ../calendar/gui/e-itip-control.c:2304
+#: ../calendar/gui/e-itip-control.c:2310
 msgid "Update"
 msgstr "Cập nhật"
 
-#: ../calendar/gui/e-itip-control.c:2332
+#: ../calendar/gui/e-itip-control.c:2338
 #: ../plugins/groupwise-features/process-meeting.c:48
 msgid "Accept"
 msgstr "Chấp nhận"
 
-#: ../calendar/gui/e-itip-control.c:2333
+#: ../calendar/gui/e-itip-control.c:2339
 msgid "Tentatively accept"
 msgstr "Tạm chấp nhận"
 
-#: ../calendar/gui/e-itip-control.c:2334
+#: ../calendar/gui/e-itip-control.c:2340
 #: ../plugins/groupwise-features/process-meeting.c:50
 msgid "Decline"
 msgstr "Từ chối"
 
-#: ../calendar/gui/e-itip-control.c:2363
+#: ../calendar/gui/e-itip-control.c:2369
 msgid "Send Free/Busy Information"
 msgstr "Gửi tin tức Rảnh/Bận"
 
-#: ../calendar/gui/e-itip-control.c:2391
+#: ../calendar/gui/e-itip-control.c:2397
 msgid "Update respondent status"
 msgstr "Cập nhật trạng thái trả lời"
 
-#: ../calendar/gui/e-itip-control.c:2419
+#: ../calendar/gui/e-itip-control.c:2425
 msgid "Send Latest Information"
 msgstr "Gửi tin tức"
 
-#: ../calendar/gui/e-itip-control.c:2447 ../calendar/gui/itip-utils.c:722
+#: ../calendar/gui/e-itip-control.c:2453 ../calendar/gui/itip-utils.c:722
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Hủy bỏ"
@@ -7789,7 +7789,7 @@ msgstr "Ướm"
 #: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:180 ../calendar/gui/e-meeting-store.c:203
 #: ../calendar/gui/itip-utils.c:708
-#: ../plugins/itip-formatter/itip-formatter.c:2038
+#: ../plugins/itip-formatter/itip-formatter.c:2042
 msgid "Delegated"
 msgstr "Ủy nhiệm"
 
@@ -8529,7 +8529,7 @@ msgstr ""
 "\n"
 "Bạn có thật sự muốn xoá những tác vụ này sao?"
 
-#: ../calendar/gui/tasks-control.c:458 ../mail/em-folder-view.c:1133
+#: ../calendar/gui/tasks-control.c:458 ../mail/em-folder-view.c:1134
 msgid "Do not ask me again."
 msgstr "Đừng hỏi tôi lần nữa."
 
@@ -8543,7 +8543,7 @@ msgstr "Cuộc hẹn và Cuộc họp"
 
 #: ../calendar/importers/icalendar-importer.c:337
 #: ../calendar/importers/icalendar-importer.c:620
-#: ../plugins/itip-formatter/itip-formatter.c:1573
+#: ../plugins/itip-formatter/itip-formatter.c:1578
 msgid "Opening calendar"
 msgstr "Đang mở lịch..."
 
@@ -10142,7 +10142,7 @@ msgstr "Đón_g"
 msgid "Close the current file"
 msgstr "Đóng tập tin hiện thời"
 
-#: ../composer/e-composer-actions.c:478 ../mail/em-folder-view.c:1344
+#: ../composer/e-composer-actions.c:478 ../mail/em-folder-view.c:1345
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
@@ -11058,7 +11058,7 @@ msgstr "Bộ điều khiển tùy thích thư tín Evolution."
 msgid "Evolution Network configuration control"
 msgstr "Điều khiển cấu hình Mạng Evolution"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:612
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:613
 #: ../mail/importers/elm-importer.c:329 ../mail/importers/pine-importer.c:382
 #: ../mail/mail-component.c:592 ../mail/mail-component.c:593
 #: ../mail/mail-component.c:757
@@ -11193,18 +11193,18 @@ msgstr "Thêm tập lệnh chữ ký"
 msgid "Signature(s)"
 msgstr "Chữ ký"
 
-#: ../mail/em-composer-utils.c:938 ../mail/em-format-quote.c:413
+#: ../mail/em-composer-utils.c:1007 ../mail/em-format-quote.c:413
 msgid "-------- Forwarded Message --------"
 msgstr "━━━Thư đã chuyển tiếp━━━"
 
-#: ../mail/em-composer-utils.c:1754
+#: ../mail/em-composer-utils.c:1819
 msgid "an unknown sender"
 msgstr "người gửi lạ"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1801
+#: ../mail/em-composer-utils.c:1866
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11212,7 +11212,7 @@ msgstr ""
 "Vào ${AbbrevWeekdayName}, ngày ${Day}, ${Month} năm ${Year} lúc ${24Hour}:"
 "${Minute} ${TimeZone}, ${Sender} viết:"
 
-#: ../mail/em-composer-utils.c:1942
+#: ../mail/em-composer-utils.c:2007
 msgid "-----Original Message-----"
 msgstr "━━━Thư gốc━━━"
 
@@ -11671,12 +11671,12 @@ msgstr "Đang chuyển thư mục %s..."
 msgid "Copying folder %s"
 msgstr "Đang sao chép thư mục %s..."
 
-#: ../mail/em-folder-tree.c:902 ../mail/message-list.c:1954
+#: ../mail/em-folder-tree.c:902 ../mail/message-list.c:1958
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Đang chuyển thư vào thư mục %s..."
 
-#: ../mail/em-folder-tree.c:904 ../mail/message-list.c:1956
+#: ../mail/em-folder-tree.c:904 ../mail/message-list.c:1960
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Đang sao chép thư vào thư mục %s..."
@@ -11739,13 +11739,13 @@ msgstr "Đổ _rác"
 msgid "Copying `%s' to `%s'"
 msgstr "Đang sao chép « %s » vào « %s »..."
 
-#: ../mail/em-folder-utils.c:366 ../mail/em-folder-view.c:1193
-#: ../mail/em-folder-view.c:1208
+#: ../mail/em-folder-utils.c:366 ../mail/em-folder-view.c:1194
+#: ../mail/em-folder-view.c:1209
 #: ../mail/importers/evolution-mbox-importer.c:86
 msgid "Select folder"
 msgstr "Chọn thư mục"
 
-#: ../mail/em-folder-utils.c:366 ../mail/em-folder-view.c:1208
+#: ../mail/em-folder-utils.c:366 ../mail/em-folder-view.c:1209
 msgid "C_opy"
 msgstr "Ché_p"
 
@@ -11767,168 +11767,168 @@ msgstr "Tạo thư mục"
 msgid "Specify where to create the folder:"
 msgstr "Xác định nơi tạo thư mục:"
 
-#: ../mail/em-folder-view.c:1097 ../mail/mail.error.xml.h:70
+#: ../mail/em-folder-view.c:1098 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
 msgstr "Lỗi xoá thư"
 
-#: ../mail/em-folder-view.c:1098 ../mail/mail.error.xml.h:126
+#: ../mail/em-folder-view.c:1099 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Bạn không có quyền xoá thư này."
 
-#: ../mail/em-folder-view.c:1336 ../ui/evolution-mail-message.xml.h:128
+#: ../mail/em-folder-view.c:1337 ../ui/evolution-mail-message.xml.h:128
 msgid "_Reply to Sender"
 msgstr "T_rả lời người gửi"
 
-#: ../mail/em-folder-view.c:1338 ../mail/em-popup.c:579 ../mail/em-popup.c:590
+#: ../mail/em-folder-view.c:1339 ../mail/em-popup.c:579 ../mail/em-popup.c:590
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "Chuyển t_iếp"
 
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
-#: ../mail/em-folder-view.c:1342 ../ui/evolution-mail-message.xml.h:107
+#: ../mail/em-folder-view.c:1343 ../ui/evolution-mail-message.xml.h:107
 msgid "_Edit as New Message..."
 msgstr "_Sửa dạng thư mới..."
 
-#: ../mail/em-folder-view.c:1348
+#: ../mail/em-folder-view.c:1349
 msgid "U_ndelete"
 msgstr "_Hủy xoá"
 
-#: ../mail/em-folder-view.c:1349
+#: ../mail/em-folder-view.c:1350
 msgid "_Move to Folder..."
 msgstr "Ch_uyển sang thư mục..."
 
-#: ../mail/em-folder-view.c:1350
+#: ../mail/em-folder-view.c:1351
 msgid "_Copy to Folder..."
 msgstr "_Chép vào thư mục..."
 
-#: ../mail/em-folder-view.c:1353
+#: ../mail/em-folder-view.c:1354
 msgid "Mar_k as Read"
 msgstr "Đánh dấu Đã đọ_c"
 
-#: ../mail/em-folder-view.c:1354
+#: ../mail/em-folder-view.c:1355
 msgid "Mark as _Unread"
 msgstr "Đánh dấ_u Chưa đọc"
 
-#: ../mail/em-folder-view.c:1355
+#: ../mail/em-folder-view.c:1356
 msgid "Mark as _Important"
 msgstr "Đánh dấu _Quan trọng"
 
-#: ../mail/em-folder-view.c:1356
+#: ../mail/em-folder-view.c:1357
 msgid "Mark as Un_important"
 msgstr "Đánh dấu _Không quan trọng"
 
-#: ../mail/em-folder-view.c:1357
+#: ../mail/em-folder-view.c:1358
 msgid "Mark as _Junk"
 msgstr "Đánh dấu _Thư rác"
 
-#: ../mail/em-folder-view.c:1358
+#: ../mail/em-folder-view.c:1359
 msgid "Mark as _Not Junk"
 msgstr "Đá_nh dấu Khác rác"
 
-#: ../mail/em-folder-view.c:1359
+#: ../mail/em-folder-view.c:1360
 msgid "Mark for Follo_w Up..."
 msgstr "Đánh dấu Cần th_eo dõi tiếp..."
 
-#: ../mail/em-folder-view.c:1361
+#: ../mail/em-folder-view.c:1362
 msgid "_Label"
 msgstr "_Nhãn"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1362 ../widgets/misc/e-dateedit.c:500
+#: ../mail/em-folder-view.c:1363 ../widgets/misc/e-dateedit.c:500
 msgid "_None"
 msgstr "_Không có"
 
-#: ../mail/em-folder-view.c:1365
+#: ../mail/em-folder-view.c:1366
 msgid "_New Label"
 msgstr "_Nhãn mới"
 
-#: ../mail/em-folder-view.c:1369
+#: ../mail/em-folder-view.c:1370
 msgid "Fla_g Completed"
 msgstr "Cờ _hoàn tất"
 
-#: ../mail/em-folder-view.c:1370
+#: ../mail/em-folder-view.c:1371
 msgid "Cl_ear Flag"
 msgstr "X_oá cờ"
 
-#: ../mail/em-folder-view.c:1373
+#: ../mail/em-folder-view.c:1374
 msgid "Crea_te Rule From Message"
 msgstr "_Tạo quy tắc trên thư"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
-#: ../mail/em-folder-view.c:1375
+#: ../mail/em-folder-view.c:1376
 msgid "Search Folder based on _Subject"
 msgstr "Thư mục tìm kiếm theo _Chủ đề"
 
-#: ../mail/em-folder-view.c:1376
+#: ../mail/em-folder-view.c:1377
 msgid "Search Folder based on Se_nder"
 msgstr "Thư mục tìm kiếm theo Người _gửi"
 
-#: ../mail/em-folder-view.c:1377
+#: ../mail/em-folder-view.c:1378
 msgid "Search Folder based on _Recipients"
 msgstr "Thư mục tìm kiếm theo Người _nhận"
 
-#: ../mail/em-folder-view.c:1378
+#: ../mail/em-folder-view.c:1379
 msgid "Search Folder based on Mailing _List"
 msgstr "Thư mục tìm kiếm theo _Hộp thư chung"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
-#: ../mail/em-folder-view.c:1383
+#: ../mail/em-folder-view.c:1384
 msgid "Filter based on Sub_ject"
 msgstr "Lọc th_eo Chủ đề"
 
-#: ../mail/em-folder-view.c:1384
+#: ../mail/em-folder-view.c:1385
 msgid "Filter based on Sen_der"
 msgstr "Lọc the_o Người gửi"
 
-#: ../mail/em-folder-view.c:1385
+#: ../mail/em-folder-view.c:1386
 msgid "Filter based on Re_cipients"
 msgstr "Lọc theo Ngườ_i nhận"
 
-#: ../mail/em-folder-view.c:1386
+#: ../mail/em-folder-view.c:1387
 msgid "Filter based on _Mailing List"
 msgstr "Lọc  theo Hộ_p thư chung"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:2268 ../mail/em-folder-view.c:2312
+#: ../mail/em-folder-view.c:2270 ../mail/em-folder-view.c:2314
 msgid "Default"
 msgstr "Mặc định"
 
-#: ../mail/em-folder-view.c:2530
+#: ../mail/em-folder-view.c:2532
 msgid "Unable to retrieve message"
 msgstr "Không thể nhận thư."
 
-#: ../mail/em-folder-view.c:2549
+#: ../mail/em-folder-view.c:2551
 msgid "Retrieving Message..."
 msgstr "Đang lấy thư..."
 
-#: ../mail/em-folder-view.c:2808
+#: ../mail/em-folder-view.c:2810
 msgid "C_all To..."
 msgstr "_Gọi cho..."
 
-#: ../mail/em-folder-view.c:2811
+#: ../mail/em-folder-view.c:2813
 msgid "Create _Search Folder"
 msgstr "Tạo thư mục tìm _kiếm"
 
-#: ../mail/em-folder-view.c:2812
+#: ../mail/em-folder-view.c:2814
 msgid "_From this Address"
 msgstr "_Từ địa chỉ này"
 
-#: ../mail/em-folder-view.c:2813
+#: ../mail/em-folder-view.c:2815
 msgid "_To this Address"
 msgstr "_Cho địa chỉ này"
 
-#: ../mail/em-folder-view.c:3310
+#: ../mail/em-folder-view.c:3312
 #, c-format
 msgid "Click to mail %s"
 msgstr "Nhấn để gửi thư cho %s"
 
-#: ../mail/em-folder-view.c:3322
+#: ../mail/em-folder-view.c:3324
 #, c-format
 msgid "Click to call %s"
 msgstr "Nhấn để gọi %s"
 
-#: ../mail/em-folder-view.c:3327
+#: ../mail/em-folder-view.c:3329
 msgid "Click to hide/unhide addresses"
 msgstr "Nhấn để (bỏ) ẩn địa chỉ"
 
@@ -12137,11 +12137,11 @@ msgstr "Mở _bằng"
 
 #: ../mail/em-format-html-display.c:2489
 msgid ""
-"Evolution cannot render this email as it is too large to handle. You can "
+"Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
 "Evolution không thể hiện thư này vì nó quá lớn không xử lý được. Bạn vẫn còn "
-"có khả năng xem nó không có định dạng, hoặc trong trình soạn thảo văn bản."
+"có khả năng xem nó không có định dạng, hoặc trong trình soạn thảo văn bản bên ngoài."
 
 #: ../mail/em-format-html-print.c:156
 #, c-format
@@ -12251,48 +12251,48 @@ msgstr "Ngày"
 msgid "Newsgroups"
 msgstr "Nhóm tin"
 
-#: ../mail/em-format.c:1156
+#: ../mail/em-format.c:1157
 #, c-format
 msgid "%s attachment"
 msgstr "%s đính kèm"
 
-#: ../mail/em-format.c:1196
+#: ../mail/em-format.c:1197
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Không thể phân tích thư S/MIME. Không biết sao."
 
-#: ../mail/em-format.c:1333 ../mail/em-format.c:1489
+#: ../mail/em-format.c:1334 ../mail/em-format.c:1490
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Không thể phân tích thư MIME nên hiện thị dạng mã nguồn."
 
-#: ../mail/em-format.c:1341
+#: ../mail/em-format.c:1342
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Kiểu mã hoá không được hỗ trợ cho: multipart/encrypted"
 
-#: ../mail/em-format.c:1351
+#: ../mail/em-format.c:1352
 msgid "Could not parse PGP/MIME message"
 msgstr "Không thể phân tích thư PGP/MIME"
 
-#: ../mail/em-format.c:1351
+#: ../mail/em-format.c:1352
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Không thể phân tích thư PGP/MIME: lỗi không rõ"
 
-#: ../mail/em-format.c:1508
+#: ../mail/em-format.c:1509
 msgid "Unsupported signature format"
 msgstr "Định dạng chữ ký không hỗ trợ"
 
-#: ../mail/em-format.c:1516 ../mail/em-format.c:1587
+#: ../mail/em-format.c:1517 ../mail/em-format.c:1588
 msgid "Error verifying signature"
 msgstr "Gặp lỗi khi xác minh chữ ký"
 
-#: ../mail/em-format.c:1516 ../mail/em-format.c:1578 ../mail/em-format.c:1587
+#: ../mail/em-format.c:1517 ../mail/em-format.c:1579 ../mail/em-format.c:1588
 msgid "Unknown error verifying signature"
 msgstr "Gặp lỗi lạ khi xác minh chữ ký."
 
-#: ../mail/em-format.c:1659
+#: ../mail/em-format.c:1660
 msgid "Could not parse PGP message"
 msgstr "Không thể phân tích thư PGP"
 
-#: ../mail/em-format.c:1659
+#: ../mail/em-format.c:1660
 msgid "Could not parse PGP message: Unknown error"
 msgstr "Không thể phân tích thư PGP: lỗi không rõ"
 
@@ -13250,13 +13250,17 @@ msgstr "Hiển thị nhánh trong danh sách thư, theo Chủ đề"
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Time interval, in seconds, how often upload store changes to server."
-msgstr "Khoảng thời gian, theo giây, giữa hai lần nâng cấp thay đổi kho lên máy phục vụ."
+msgstr ""
+"Khoảng thời gian, theo giây, giữa hai lần nâng cấp thay đổi kho lên máy phục "
+"vụ."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid ""
 "Time interval, in seconds, how often upload store changes to server. The "
 "actual value cannot be less than 30 seconds."
-msgstr "Khoảng thời gian, theo giây, giữa hai lần nâng cấp thay đổi kho lên máy phục vụ. Giá trị tối thiểu là 30 giây."
+msgstr ""
+"Khoảng thời gian, theo giây, giữa hai lần nâng cấp thay đổi kho lên máy phục "
+"vụ. Giá trị tối thiểu là 30 giây."
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Timeout for marking message as seen"
@@ -13578,7 +13582,7 @@ msgstr "Mức ghi lưu"
 msgid "Time"
 msgstr "Giờ"
 
-#: ../mail/mail-component.c:1808 ../mail/message-list.c:2386
+#: ../mail/mail-component.c:1808 ../mail/message-list.c:2390
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Thư"
@@ -14438,11 +14442,11 @@ msgstr "Đang gửi thư %d trên %d..."
 msgid "Failed to send %d of %d messages"
 msgstr "Việc gửi %d trên %d thư bị lỗi."
 
-#: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:711
+#: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:712
 msgid "Canceled."
 msgstr "Bị thôi."
 
-#: ../mail/mail-ops.c:765 ../mail/mail-send-recv.c:713
+#: ../mail/mail-ops.c:765 ../mail/mail-send-recv.c:714
 msgid "Complete."
 msgstr "Hoàn tất."
 
@@ -14595,11 +14599,11 @@ msgstr "Thôi _tất cả"
 msgid "Updating..."
 msgstr "Đang cập nhật..."
 
-#: ../mail/mail-send-recv.c:517 ../mail/mail-send-recv.c:590
+#: ../mail/mail-send-recv.c:517 ../mail/mail-send-recv.c:592
 msgid "Waiting..."
 msgstr "Đang chờ..."
 
-#: ../mail/mail-send-recv.c:817
+#: ../mail/mail-send-recv.c:818
 #, c-format
 msgid "Checking for new mail"
 msgstr "Đang kiểm tra tìm thư mới..."
@@ -15303,74 +15307,78 @@ msgstr "_Xoá hẳn"
 msgid "_Open Messages"
 msgstr "_Mở các thư"
 
-#: ../mail/message-list.c:1053
+#: ../mail/message-list.c:1054
 msgid "Unseen"
 msgstr "Chưa xem"
 
-#: ../mail/message-list.c:1054
+#: ../mail/message-list.c:1055
 msgid "Seen"
 msgstr "Đã xem"
 
-#: ../mail/message-list.c:1055
+#: ../mail/message-list.c:1056
 msgid "Answered"
 msgstr "Đã trả lời"
 
-#: ../mail/message-list.c:1056
+#: ../mail/message-list.c:1057
+msgid "Forwarded"
+msgstr "Đã chuyển tiếp"
+
+#: ../mail/message-list.c:1058
 msgid "Multiple Unseen Messages"
 msgstr "Nhiều thư chưa xem"
 
-#: ../mail/message-list.c:1057
+#: ../mail/message-list.c:1059
 msgid "Multiple Messages"
 msgstr "Nhiều thư"
 
-#: ../mail/message-list.c:1061
+#: ../mail/message-list.c:1063
 msgid "Lowest"
 msgstr "Thấp nhất"
 
-#: ../mail/message-list.c:1062
+#: ../mail/message-list.c:1064
 msgid "Lower"
 msgstr "Thấp hơn"
 
-#: ../mail/message-list.c:1066
+#: ../mail/message-list.c:1068
 msgid "Higher"
 msgstr "Cao hơn"
 
-#: ../mail/message-list.c:1067
+#: ../mail/message-list.c:1069
 msgid "Highest"
 msgstr "Cao nhất"
 
-#: ../mail/message-list.c:1594 ../widgets/table/e-cell-date.c:55
+#: ../mail/message-list.c:1598 ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1601 ../plugins/itip-formatter/itip-view.c:206
+#: ../mail/message-list.c:1605 ../plugins/itip-formatter/itip-view.c:206
 #: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Hôm nay %l:%M %p"
 
-#: ../mail/message-list.c:1610 ../widgets/table/e-cell-date.c:80
+#: ../mail/message-list.c:1614 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Hôm qua %l:%M %p"
 
-#: ../mail/message-list.c:1622 ../widgets/table/e-cell-date.c:92
+#: ../mail/message-list.c:1626 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1630 ../widgets/table/e-cell-date.c:100
+#: ../mail/message-list.c:1634 ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: ../mail/message-list.c:1632 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1636 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:3818
+#: ../mail/message-list.c:3822
 msgid "Generating message list"
 msgstr "Đang tạo danh sách thư..."
 
-#: ../mail/message-list.c:4081
+#: ../mail/message-list.c:4097
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15378,7 +15386,7 @@ msgstr ""
 "Không có thư nào tương ứng với tiêu chuẩn tìm kiếm của bạn. Hoặc xoá sạch "
 "trường tìm kiếm dùng mục trình đơn « Tìm kiếm > Dọn », hoặc sửa đổi chuỗi đó."
 
-#: ../mail/message-list.c:4083
+#: ../mail/message-list.c:4099
 msgid "There are no messages in this folder."
 msgstr "Không có thư trong thư mục này."
 
@@ -16629,10 +16637,10 @@ msgstr "Đăng ký với lịch của người dùng khác"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid ""
-"A plugin that handles a collection of Exchange account specific operations "
+"A plugin that manages a collection of Exchange account specific operations "
 "and features."
 msgstr ""
-"Phần bổ sung có quản lý một số thao tác và tính năng đặc trưng cho Evolution."
+"Phần bổ sung có quản lý một số thao tác đặc trưng cho tài khoản Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -17737,15 +17745,15 @@ msgstr ""
 "Thư này tuyên bố chứa một lịch, nhưng mà lịch đó không phải là một iCalendar "
 "hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1413
-#: ../plugins/itip-formatter/itip-formatter.c:1431
-#: ../plugins/itip-formatter/itip-formatter.c:1513
+#: ../plugins/itip-formatter/itip-formatter.c:1418
+#: ../plugins/itip-formatter/itip-formatter.c:1436
+#: ../plugins/itip-formatter/itip-formatter.c:1518
 msgid "The item in the calendar is not valid"
 msgstr "Mục trong lịch không hợp lệ."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1414
-#: ../plugins/itip-formatter/itip-formatter.c:1432
-#: ../plugins/itip-formatter/itip-formatter.c:1514
+#: ../plugins/itip-formatter/itip-formatter.c:1419
+#: ../plugins/itip-formatter/itip-formatter.c:1437
+#: ../plugins/itip-formatter/itip-formatter.c:1519
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17753,41 +17761,41 @@ msgstr ""
 "Thư ấy có phải chứa một lịch, nhưng mà lịch ấy không chứa sự kiện nào, tác "
 "vụ nào hay thông tin rảnh/bận nào."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1443
+#: ../plugins/itip-formatter/itip-formatter.c:1448
 msgid "The calendar attached contains multiple items"
 msgstr "Lịch đã đính kèm chứa nhiều mục"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1444
+#: ../plugins/itip-formatter/itip-formatter.c:1449
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "Để xử lý mọi mục này thì nên lưu tập tin này và nhập lịch đó."
 
-#: ../plugins/itip-formatter/itip-formatter.c:2143
+#: ../plugins/itip-formatter/itip-formatter.c:2147
 msgid "This meeting recurs"
 msgstr "Cuộc họp này lặp lại"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2146
+#: ../plugins/itip-formatter/itip-formatter.c:2150
 msgid "This task recurs"
 msgstr "Tác vụ này lặp lại"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2149
+#: ../plugins/itip-formatter/itip-formatter.c:2153
 msgid "This memo recurs"
 msgstr "Bản ghi nhớ này lặp lại"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2378
+#: ../plugins/itip-formatter/itip-formatter.c:2382
 msgid "_Delete message after acting"
 msgstr "_Xoá thư sau hành động"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2388
-#: ../plugins/itip-formatter/itip-formatter.c:2420
+#: ../plugins/itip-formatter/itip-formatter.c:2392
+#: ../plugins/itip-formatter/itip-formatter.c:2424
 msgid "Conflict Search"
 msgstr "Tìm kiếm xung đột"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2403
+#: ../plugins/itip-formatter/itip-formatter.c:2407
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Chọn những lịch cần tìm kiệm cuộc họp có xung đột với nhau"
 
@@ -18566,12 +18574,12 @@ msgstr "Gửi thư cho hộp thư chung không?"
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
 msgid ""
 "The action could not be performed. This means the header for this action did "
-"not contain any action we could handle.\n"
+"not contain any action we could process.\n"
 "\n"
 "Header: {0}"
 msgstr ""
-"Không thể trực hiện hành động ấy. Có nghĩa là dòng đầu của hành động này "
-"không chứa hành động nào trình này có quản lý được.\n"
+"Không thể trực hiện hành động đó. Có nghĩa là dòng đầu của hành động này "
+"không chứa hành động nào trình này có xử lý được.\n"
 "\n"
 "Dòng đầu: {0}"
 
@@ -18774,19 +18782,19 @@ msgstr "Chế độ chữ thô"
 msgid "Prefer plain-text"
 msgstr "Thích chữ thô hơn"
 
-#: ../plugins/prefer-plain/prefer-plain.c:158
+#: ../plugins/prefer-plain/prefer-plain.c:179
 msgid "Show HTML if present"
 msgstr "Hiển thị HTML nếu có"
 
-#: ../plugins/prefer-plain/prefer-plain.c:159
+#: ../plugins/prefer-plain/prefer-plain.c:180
 msgid "Prefer PLAIN"
 msgstr "Thích chữ thô hơn"
 
-#: ../plugins/prefer-plain/prefer-plain.c:160
+#: ../plugins/prefer-plain/prefer-plain.c:181
 msgid "Only ever show PLAIN"
 msgstr "Luôn chỉ hiển thị chữ thô"
 
-#: ../plugins/prefer-plain/prefer-plain.c:203
+#: ../plugins/prefer-plain/prefer-plain.c:224
 msgid "HTML _Mode"
 msgstr "Chế độ HT_ML"
 
@@ -19126,7 +19134,7 @@ msgid "Show _only this Task List"
 msgstr "Hiện chỉ Danh sách Tác vụ _này"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
-msgid "A plugin that handles the Startup wizard."
+msgid "A plugin that manages the Startup wizard."
 msgstr "Phần bổ sung quản lý đồ thuật Khởi chạy."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
@@ -22682,12 +22690,12 @@ msgstr "Tìm _kiếm: "
 msgid " i_n "
 msgstr " tro_ng "
 
-#: ../widgets/misc/e-selection-model-array.c:543
+#: ../widgets/misc/e-selection-model-array.c:574
 #: ../widgets/table/e-tree-selection-model.c:807
 msgid "Cursor Row"
 msgstr "Hàng con trỏ"
 
-#: ../widgets/misc/e-selection-model-array.c:550
+#: ../widgets/misc/e-selection-model-array.c:581
 #: ../widgets/table/e-tree-selection-model.c:814
 msgid "Cursor Column"
 msgstr "Cột con trỏ"
