@@ -58,7 +58,6 @@
 
     <cmd name="MessageDelete"
      _tip="Mark the selected messages for deletion"
-     accel="*Control*d"
      pixtype="pixbuf"/>
 
     <cmd name="MessageFollowUpFlag"
@@ -244,8 +243,9 @@
     <accel verb="MailNextUnread"     name="*Control*period"/>
     <accel verb="MailNextUnread"     name="period"/>
     <accel verb="MailNextUnread"     name="bracketright"/>
-    <accel verb="MessageDelete"      name="Delete"/>
-    <accel verb="MessageDelete"      name="KP_Delete"/>
+    <accel verb="MessageDeleteKey"   name="Delete"/>
+    <accel verb="MessageDeleteKey"   name="KP_Delete"/>
+    <accel verb="MessageDeleteKey"   name="*Control*d"/>
   </keybindings>
 
   <menu>
