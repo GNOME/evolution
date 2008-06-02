@@ -1,3 +1,9 @@
+2008-06-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Re-fixes bug #437579
+
+	* C/evolution.xml: Fix "entity not defined" regressions.
+
 2008-05-23  Jorge Gonzalez  <jorgegonz@svn.gnome.org> 
 
 	* es/es.po: Updated Spansih translation.

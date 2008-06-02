@@ -73,7 +73,7 @@
        its mail, calendar, addressbook, and task list features.
      </para>
    </abstract>
-  <productname>&appname;™</productname>
+  <productname class="trade">&appname;</productname>
   <productnumber>&appversion;</productnumber>
   <invpartnumber>February 2008</invpartnumber>
   <title>User guide</title>
@@ -82,7 +82,7 @@
 
  <preface id="preface">
   <title>About This Guide</title>
-  <para>This guide describes how to use and manage Evolution™ &appversion; client software. This guide is intended for users and is divided into the following sections:</para>
+  <para>This guide describes how to use and manage <trademark>Evolution</trademark> &appversion; client software. This guide is intended for users and is divided into the following sections:</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow">Getting Started</link></para>
@@ -144,13 +144,13 @@
   </itemizedlist>
   <formalpara id="b17q8uz1">
    <title>Documentation Conventions: </title>
-   <para>In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path. A trademark symbol (®, TM, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark.</para>
+   <para>In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path. A trademark symbol (<trademark class="registered"/>, <trademark/>, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark.</para>
   </formalpara>
  </preface>
 
  <chapter id="usage-mainwindow">
   <title>Getting Started</title>
-  <para>Evolution is a <link linkend="groupware">groupware</link> application thathelps you work in a group by handling e-mail, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others.</para>
+  <para><trademark>Evolution</trademark> is a <link linkend="groupware">groupware</link> application that helps you work in a group by handling e-mail, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link></para>
@@ -268,7 +268,7 @@
        <para>The following is a list of server types that are available:</para>
        <formalpara id="bsj74dr">
         <title>Novell GroupWise:</title>
-        <para>Select this option if you connect to Novell GroupWise®. Novell GroupWise keeps e-mail, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Select this option if you connect to Novell <trademark class="registered">GroupWise</trademark>. Novell GroupWise keeps e-mail, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74ds">
         <title>Microsoft Exchange:</title>
@@ -284,7 +284,7 @@
        </formalpara>
        <formalpara id="b13sa2jr">
         <title>Hula:</title>
-        <para>Select this option if you want Hula account. Evolution provide you connectivity to Hula® servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend="b1012tkg">Connecting to Hula</link></para>
+        <para>Select this option if you want Hula account. Evolution provide you connectivity to <trademark class="registered">Hula</trademark> servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend="b1012tkg">Connecting to Hula</link></para>
        </formalpara>
        <formalpara id="bstgdhu">
         <title>USENET News:</title>
@@ -1094,7 +1094,7 @@
       </row>
       <row id="bsl8i08">
        <entry colname="1">
-        <para>evolution ‘%s’</para>
+        <para>evolution <quote>%s</quote></para>
        </entry>
        <entry colname="2">
         <para>Makes Evolution your default e-mail handler for your Web browser and in the GNOME&z-3rdParty; Control Center.</para>
@@ -1108,7 +1108,7 @@
 
  <chapter id="usage-mail">
   <title>Sending and Receiving E-Mail</title>
-  <para>This section, and <link linkend="usage-mail-organize">Organizing Your E-Mail</link>, provide you with an in-depth guide to the capabilities of Evolution™ as a mail client. For information about how to customize your mail account, see <link linkend="config-prefs-mail">Mail Preferences</link>.</para>
+  <para>This section, and <link linkend="usage-mail-organize">Organizing Your E-Mail</link>, provide you with an in-depth guide to the capabilities of <trademark>Evolution</trademark> as a mail client. For information about how to customize your mail account, see <link linkend="config-prefs-mail">Mail Preferences</link>.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mail-getnsend-read">Reading Mail</link></para>
@@ -1216,13 +1216,13 @@
       <para>Select Mail Preferences</para>
      </listitem>
      <listitem id="b131onvr">
-      <para>Check ‘Shrink To/CC/Bcc headers to column’ to limit the address</para>
+      <para>Check <guilabel>Shrink To/CC/Bcc headers to column</guilabel> to limit the address</para>
      </listitem>
      <listitem id="b131oo0c">
       <para>Enter the limit in the field.</para>
      </listitem>
     </orderedlist>
-    <para>You can expand the message headers by click the  <inlinegraphic format="PNG" fileref="figures/plus.png"/> icon or the ‘…’ in the message preview pane. To collapse click  <inlinegraphic format="PNG" fileref="figures/minus.png"/> icon in the  preview pane.</para>
+    <para>You can expand the message headers by click the  <inlinegraphic format="PNG" fileref="figures/plus.png"/> icon or the <guilabel>...</guilabel> in the message preview pane. To collapse click  <inlinegraphic format="PNG" fileref="figures/minus.png"/> icon in the  preview pane.</para>
    </section>
 
    <section id="bsempjs">
@@ -1419,7 +1419,7 @@
 
    <section id="usage-mail-getnsend-send-charsets">
     <title>Unicode, ASCII, and Non-Latin Alphabets</title>
-    <para>If you want to write in a non-Latin alphabet while using a Latin keyboard, try selecting a different input method in the message composer. Right-click in the message composition area and select an input method from the Input Methods menu, then begin typing. The actual keys vary by language and input style. For example, the Cyrillic input method uses transliterated Latin keyboard combinations to get the Cyrillic alphabet, combining letters where necessary. “Zh” and “ya” produce the appropriate single Cyrillic letters, and the single-quote (‘) produces a soft sign character.</para>
+    <para>If you want to write in a non-Latin alphabet while using a Latin keyboard, try selecting a different input method in the message composer. Right-click in the message composition area and select an input method from the Input Methods menu, then begin typing. The actual keys vary by language and input style. For example, the Cyrillic input method uses transliterated Latin keyboard combinations to get the Cyrillic alphabet, combining letters where necessary. <quote>Zh</quote> and <quote>ya</quote> produce the appropriate single Cyrillic letters, and the single-quote (') produces a soft sign character.</para>
     <para>For greater language display capabilities, click Edit &gt; Preferences, then select the character set choices in the Mail Preferences and Composer Preferences sections. If you aren't sure which one to use, select UTF-8, which offers the greatest range of character displays for the greatest range of languages.</para>
 
     <section id="bsfnqkj">
@@ -1447,7 +1447,7 @@
 
    <section id="usage-mail-getnsend-offline">
     <title>Working Offline</title>
-    <para>Offline mode help you communicate with remote mail storage systems like GroupWise®, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</para>
+    <para>Offline mode help you communicate with remote mail storage systems like <trademark class="registered">GroupWise</trademark>, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</para>
     <para>POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you go offline, Evolution downloads the unread messages from the folders you have chosen to store.</para>
     <para>To mark a folder for offline use,</para>
     <orderedlist>
@@ -1534,8 +1534,8 @@
       <mediaobject id="b17rcni6"><imageobject><imagedata format="PNG" fileref="figures/evo_attachreminder_plugin.png"/></imageobject></mediaobject>
      </listitem>
      <listitem id="b17rcq0r">
-      <para>Select keywords such as &quot;Attach&quot; or &quot;Attachment&quot; and click Add.</para>
-      <para>Based on the keywords you have added here, it searches every mail you are sending. If it finds the keywords such as &ldquo;attach&rdquo; in your mail and there is no actual attached file, you are reminded of missing attachments.</para>
+      <para>Select keywords such as <quote>Attach</quote> or <quote>Attachment</quote> and click Add.</para>
+      <para>Based on the keywords you have added here, it searches every mail you are sending. If it finds the keywords such as <quote>attach</quote> in your mail and there is no actual attached file, you are reminded of missing attachments.</para>
      </listitem>
      <listitem id="b1a57zh3">
       <para>To edit any of the existing keywords, select the keyword, click Edit, then modify the word as desired.</para>
@@ -1547,7 +1547,7 @@
    </section>
    <section id="usage-mail-getnsend-send-to-types">
     <title>Specifying Additional Recipients for E-Mail</title>
-    <para>Evolution, like most e-mail programs, recognizes three types of addressee: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
+    <para><trademark>Evolution</trademark>, like most e-mail programs, recognizes three types of addressee: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
     <para>Addresses on the Bcc: list are hidden from the other recipients of the message. You can use it to send mail to large groups of people, especially if they don't know each other or if privacy is a concern. If your Bcc: field is absent, click View &gt; Bcc Field.</para>
     <para>If you frequently write e-mail to the same groups of people, you can create address lists in the contacts tool, and then send them mail as though they have a single address. To learn how to do that, see <link linkend="usage-contact-organize-group-list">Creating a List of Contacts</link>.</para>
     <para>Evolution has the ability to let you specify the Reply-To in an e-mail. Using this, you can set up a special Reply-To for an e-mail.To do this:</para>
@@ -1653,7 +1653,7 @@
     </formalpara>
     <formalpara id="bsai5pj">
      <title>Find Regex:</title>
-     <para>You can search for a complex pattern of characters, called a <link linkend="regular-expression">regular expression</link> or “regex” in your composer window. If you're not sure what a regular expression is, you should ignore this feature.</para>
+     <para>You can search for a complex pattern of characters, called a <link linkend="regular-expression">regular expression</link> or <quote>regex</quote> in your composer window. If you're not sure what a regular expression is, you should ignore this feature.</para>
     </formalpara>
     <formalpara id="bsai5wk">
      <title>Find Again:</title>
@@ -1945,7 +1945,7 @@
       <para>Don't forward chain letters. If you must, watch out for hoaxes and urban legends, and make sure the message doesn't have multiple layers of greater-than signs, (&gt;) indicating multiple layers of careless in-line forwarding.</para>
      </listitem>
      <listitem>
-      <para>Always begin and close with a salutation. Say “please” and “thank you,” just like you do in real life. You can keep your pleasantries short, but be polite.</para>
+      <para>Always begin and close with a salutation. Say <quote>please</quote> and <quote>thank you,</quote> just like you do in real life. You can keep your pleasantries short, but be polite.</para>
      </listitem>
      <listitem>
       <para>WRITING IN CAPITAL LETTERS MEANS YOU'RE SHOUTING! Don't write a whole message in capital letters. It hurts people's ears.</para>
@@ -2037,7 +2037,7 @@
      <para>You can attach an encrypted signature to a plain text message, so that the recipient can read the message without decrypting it, and needs decrypting only to verify the sender's identity.</para>
     </listitem>
    </itemizedlist>
-   <para>For example, suppose that Kevin wants to send an encrypted message to his friend Rachel. He looks up her public key on a general key server, and then tells Evolution to encrypt the message. The message now reads “@#$23ui7yr87#@!48970fsd.” When the information gets to Rachel, she decrypts it using her private key, and it appears as plain text for her to read.</para>
+   <para>For example, suppose that Kevin wants to send an encrypted message to his friend Rachel. He looks up her public key on a general key server, and then tells Evolution to encrypt the message. The message now reads <quote>@#$23ui7yr87#@!48970fsd.</quote> When the information gets to Rachel, she decrypts it using her private key, and it appears as plain text for her to read.</para>
 
    <section id="encryption-keygen">
     <title>Making a GPG Encryption Key</title>
@@ -2098,7 +2098,7 @@
     <para>To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to get the public key and add it to your keyring.</para>
     <para>To get public keys from a public key server, enter the command<command> gpg --recv-keys --keyserver wwwkeys.pgp.net <varname>keyid</varname></command>, substituting <varname>keyid</varname> for your recipient's ID. You need to enter your password, and the ID is automatically added to your keyring.</para>
     <note>
-     <para>The domain &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; is assigned to multiple hosts in various networks. 
+     <para>The domain <quote><emphasis>wwwkeys.pgp.net</emphasis></quote> is assigned to multiple hosts in various networks. 
      The gpg utility tries to connect to one in the current network; and if that particular host is down, 
      it fails with a time-out.</para>
      <para>To avoid this, Type <command>$ host wwwkeys.pgp.net</command> in a terminal console and get the IP address of the hosts. 
@@ -2236,7 +2236,7 @@
 
  <chapter id="usage-mail-organize">
   <title>Organizing Your E-Mail</title>
-  <para>Whether you only get a few e-mail messages a day, or you receive hundreds, you probably want to sort and organize them. Evolution has the tools to help you do it.</para>
+  <para>Whether you only get a few e-mail messages a day, or you receive hundreds, you probably want to sort and organize them. <trademark>Evolution</trademark> has the tools to help you do it.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="importing-mail-and-settings">Importing Your Old E-Mail</link></para>
@@ -2512,7 +2512,7 @@
     <mediaobject id="b13tarj6"><imageobject><imagedata format="PNG" fileref="figures/evo_flag_follow_up_a.png"/></imageobject></mediaobject>
     <para>The flag itself is the action you want to remind yourself about. Several are provided for you, such as Call, Forward, and Reply, but you can enter your own note or action if you want.</para>
     <para>After you have added a flag, you can mark it as complete or remove it entirely by right-clicking the message, then click either Flag Completed or Clear Flag.</para>
-    <para>When you read a flagged message, its flag status is displayed at the top, before the message headers. An overdue message might tell you “Overdue: Call by April 07, 2003, 5:00 PM.”</para>
+    <para>When you read a flagged message, its flag status is displayed at the top, before the message headers. An overdue message might tell you <quote>Overdue: Call by April 07, 2003, 5:00 PM.</quote></para>
     <para>Flags can help you organize your work in a number of ways. For example, you might add a Flag Status column to your message list and sort that way. Alternately, you could create a search folder that displays all your flagged messages, then clear the flags when you're done, so the search folder contains only messages with upcoming deadlines.</para>
     <formalpara id="b17s9rir">
      <title>Mark as Important Feature:</title>
@@ -2777,7 +2777,7 @@
        <title>Specific Header:</title>
        <para>Any header including custom ones.</para>
       </formalpara>
-      <para>If a message uses a header more than once, Evolution pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as “engineering@example.com” and then restates it as “marketing@example.com,” Evolution filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression.</para>
+      <para>If a message uses a header more than once, Evolution pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as <quote>engineering@example.com</quote> and then restates it as <quote>marketing@example.com,</quote> Evolution filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression.</para>
       <formalpara id="bshkazq">
        <title>Message Body:</title>
        <para>Searches in the actual text of the message.</para>
@@ -2986,7 +2986,7 @@
    <para>As messages that meet the search folder criteria arrive or are deleted, Evolution automatically adjusts the search folder contents. When you delete a message, it is erased from the folder in which it actually exists, as well as any search folders that display it.</para>
    <para>The Unmatched Search Folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</para>
    <para>If you use remote e-mail storage like IMAP or Microsoft Exchange, and have created search folders to search through them, the Unmatched Search Folder also searches the remote folders. If you do not create any search folders that search remote mail stores, the Unmatched Search Folder does not search in them either.</para>
-   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the “Anna” search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the “Anna” search folder and in the “Internal Evolution Discussion” search folder.</para>
+   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the <quote>Anna</quote> search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the <quote>Anna</quote> search folder and in the <quote>Internal Evolution Discussion</quote> search folder.</para>
 
    <section id="vfolder-create">
     <title>Creating A Search Folder</title>
@@ -3128,7 +3128,7 @@
 
  <chapter id="usage-contact">
   <title>Evolution Contacts: the Address Book</title>
-  <para>This section shows you how to use the Evolution contacts tool to organize any amount of contact information, share addresses over a network, and save time with everyday tasks.</para>
+  <para>This section shows you how to use the <trademark>Evolution</trademark> contacts tool to organize any amount of contact information, share addresses over a network, and save time with everyday tasks.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-contact-cards">Contacts and Cards</link></para>
@@ -3173,7 +3173,7 @@
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
      <title>Full Name:</title>
-     <para>Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like “Mr.” or “Her Excellency,” and suffixes like “Jr.” The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames.To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under “Doe, John Q.” However, Miguel's surname, “de Icaza”, has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry.</para>
+     <para>Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like <quote>Mr.</quote> or <quote>Her Excellency,</quote> and suffixes like <quote>Jr.</quote> The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames.To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under <quote>Doe, John Q.</quote> However, Miguel's surname, <quote>de Icaza,</quote> has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry.</para>
     </formalpara>
     <formalpara id="b13psvf3">
      <title>Where:</title>
@@ -3436,7 +3436,7 @@
    <section id="usage-contact-organize-group-list">
     <title>Creating a List of Contacts</title>
     <para>A contact list is a set of contacts with a single nickname that you create. When you send e-mail to the nickname, it is sent to every member of the list. This differs from a network mailing list in that it exists only on your computer as a convenience to you, rather than as an actual e-mail address managed by a mailing list application on a server.</para>
-    <para>For example, you could create one card for each family member, then add those cards to a contact list called “Family.” Then, instead of entering each person's e-mail address individually, you can send e-mail to “Family” and the message would go to all of them.</para>
+    <para>For example, you could create one card for each family member, then add those cards to a contact list called <quote>Family.</quote> Then, instead of entering each person's e-mail address individually, you can send e-mail to <quote>Family</quote> and the message would go to all of them.</para>
     <para> To create a list of contacts:</para>
     <orderedlist>
      <listitem id="bshlf6r">
@@ -3454,7 +3454,7 @@
      </listitem>
      <listitem id="bshlfem">
       <para>Choose whether you want to hide the e-mail addresses when you send a message to the list.</para>
-      <para>Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the “Bcc:” feature discussed in <link linkend="usage-mail-getnsend-send-to-types">Specifying Additional Recipients for E-Mail</link>.</para>
+      <para>Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the <quote>Bcc:</quote> feature discussed in <link linkend="usage-mail-getnsend-send-to-types">Specifying Additional Recipients for E-Mail</link>.</para>
      </listitem>
      <listitem id="bshlfgv">
       <para>When you are finished, click OK.</para>
@@ -3467,7 +3467,7 @@
 
    <section id="usage-contact-organize-group-category">
     <title>Grouping with Categories</title>
-    <para>Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the “Business” category because he works with you, the “Friends” category because he's a friend, and the “Frequent” category because you call him often.</para>
+    <para>Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the <guilabel>Business</guilabel> category because he works with you, the <guilabel>Friends</guilabel> category because he's a friend, and the <guilabel>Frequent</guilabel> category because you call him often.</para>
     <para>To mark a card as belonging to a category,</para>
     <orderedlist>
      <listitem id="b13ptaog">
@@ -3540,7 +3540,7 @@
 
  <chapter id="usage-calendar">
   <title>Evolution Calendar</title>
-  <para>This section shows you how to use the Evolution™ Calendar to manage your schedule alone or in conjunction with peers. To learn about importing calendar data, see <link linkend="importing-mail">Importing Single Files</link>, which covers the Import tool.</para>
+  <para>This section shows you how to use the <trademark>Evolution</trademark> Calendar to manage your schedule alone or in conjunction with peers. To learn about importing calendar data, see <link linkend="importing-mail">Importing Single Files</link>, which covers the Import tool.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-calendar-view">Ways of Looking at your Calendar</link></para>
@@ -3904,7 +3904,7 @@
 
     <section id="bxmtbjb">
      <title>Classifications</title>
-     <para>If you are using a calendar on a Novell GroupWise® or Microsoft Exchange server, select a classification for the appointment to determine who can view it. Public is the default category, and a public appointment can be viewed by anyone on the calendar-sharing network. Private denotes one level of security, and Confidential an even higher level. The different levels vary depending on your server settings; check with your system administrator or adjust your delegation settings.</para>
+     <para>If you are using a calendar on a Novell <trademark class="registered">GroupWise</trademark> or Microsoft Exchange server, select a classification for the appointment to determine who can view it. Public is the default category, and a public appointment can be viewed by anyone on the calendar-sharing network. Private denotes one level of security, and Confidential an even higher level. The different levels vary depending on your server settings; check with your system administrator or adjust your delegation settings.</para>
      <para>If you are using a Novell GroupWise or Microsoft Exchange server, other people on the server can check your schedule to see if you are available at any given time. If you have an appointment that is flexible or that you want to designate as Free rather than Busy time, select the Free box in the Show Time As section. Normally, appointments display as Busy.</para>
      <para>You can categorize appointments in the same way you can categorize contacts.</para>
      <orderedlist>
@@ -3927,7 +3927,7 @@
 
     <section id="bxmtcp3">
      <title>Recurrence</title>
-     <para>The Recurrence tool button lets you describe repetition in appointments ranging from once every day up to once every 100 years. You can then choose a time and date when the appointment stops recurring, and, under Exceptions, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: “Every two weeks on Monday and Friday until January 3, 2008” or “Every month on the first Friday for 12 occurrences.”</para>
+     <para>The Recurrence tool button lets you describe repetition in appointments ranging from once every day up to once every 100 years. You can then choose a time and date when the appointment stops recurring, and, under Exceptions, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: <quote>Every two weeks on Monday and Friday until January 3, 2008</quote> or <quote>Every month on the first Friday for 12 occurrences.</quote></para>
      <para>After you have finished settings, click the disk icon in the toolbar to save and close the appointment editor window. If you want, you can alter an appointment summary in the calendar view by clicking it and typing. You can change other settings by right-clicking the appointment then choosing Open, or double-clicking the appointment.</para>
     </section>
    </section>
@@ -3935,7 +3935,7 @@
    <section id="usage-calendar-rsvp">
     <title>Sending a Meeting Invitation</title>
     <para>A meeting is an event you schedule for multiple people. Evolution can be used to schedule group meetings and help you manage responses to meeting requests.</para>
-    <para>When you create a meeting or group appointment, you can specify the attendees in several categories, such as “chair” or “required.” When you save the meeting listing, each attendee is sent an e-mail with the meeting information, which also gives them the option to respond.</para>
+    <para>When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the meeting listing, each attendee is sent an e-mail with the meeting information, which also gives them the option to respond.</para>
     <para>If you don't need to collect attendance information when you're scheduling an event, and would rather just announce the event, right-click the meeting and select Forward as iCalendar. This opens a new e-mail message with the event notification attached as an announcement. Recipients can add the event to their calendars with one click, but it won't automatically send you e-mail about whether they plan to attend.</para>
     <para>To schedule a meeting:</para>
     <orderedlist>
@@ -4290,7 +4290,7 @@
    <title>Multiple Calendars, Web Calendars, and CalDAV</title>
    <para>To create a new calendar, click File &gt; New &gt; Calendar. If the calendar is one you plan to store locally, you need only provide a name and color. If it is a remote calendar, specify the name, color, URL, and a refresh frequency. The refresh frequency determines how often Evolution checks to see if the calendar has changed. If you are working with someone who publishes an online calendar, you might want to check for updates every thirty minutes. On the other hand, if you have displayed a sports team schedule in your calendar, you might not need to refresh it more than once a week.</para>
    <para>The <ulink url="http://icalshare.com">icalshare.com Web site</ulink> has an extensive list of shared online calendars, including national and religious holidays, phases of the moon, sports, and local and regional events.</para>
-   <para>Evolution lets you view and manage calendars on remote CalDAV servers such as Hula®. For more information about Hula, see the <ulink url="http://www.hula-project.org">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
+   <para>Evolution lets you view and manage calendars on remote CalDAV servers such as <trademark class="registered">Hula</trademark>. For more information about Hula, see the <ulink url="http://www.hula-project.org">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
   </section>
 
   <section id="usage-calendar-todo">
@@ -4376,7 +4376,7 @@
    <section id="b1012vcx">
     <title>Assigned Tasks</title>
     <para>Evolution can be used to assign a task to multiple people.</para>
-    <para>When you assign a task, you can specify the attendees in several categories, such as “chair” or “required.” When you save the task, each attendee is sent an e-mail with the task information, which also gives them the option to respond.</para>
+    <para>When you assign a task, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the task, each attendee is sent an e-mail with the task information, which also gives them the option to respond.</para>
     <para>To assign a new task:</para>
     <orderedlist>
      <listitem id="b1012vcy">
@@ -4827,7 +4827,7 @@
 
  <chapter id="usage-exchange">
   <title>Connecting to Exchange Servers</title>
-  <para>Evolution™ Exchange for Microsoft Exchange allows Evolution clients to access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, it is free software and is licensed under the GPL.</para>
+  <para><trademark>Evolution</trademark> Exchange for Microsoft Exchange allows Evolution clients to access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, it is free software and is licensed under the GPL.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="features">Evolution Exchange Features</link></para>
@@ -4888,13 +4888,13 @@
       <listitem>
        <formalpara id="b10fqiuh">
         <title>Sending E-mail via Exchange Protocols:</title>
-        <para>If you use the Microsoft Exchange mail transport protocol to send e-mail, make sure that the address you have entered as your e-mail address is exactly the one that the Exchange server has on file. This might be “yourname@exchange-server.example.com” rather than “yourname@example.com”.</para>
+        <para>If you use the Microsoft Exchange mail transport protocol to send e-mail, make sure that the address you have entered as your e-mail address is exactly the one that the Exchange server has on file. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com.</quote></para>
        </formalpara>
       </listitem>
       <listitem>
        <formalpara id="b13pa41j">
         <title>Out of Office Message:</title>
-        <para>You can set ‘out of Office’ message that will automatically be sent to people who send mails to you while you are away from office.</para>
+        <para>You can set <quote>out of Office</quote> message that will automatically be sent to people who send mails to you while you are away from office.</para>
        </formalpara>
       </listitem>
       <listitem>
@@ -4983,7 +4983,7 @@
       <para>You are permitted to access the account with WebDAV. This is the default setting for the Exchange server, so unless your system administrator has specifically turned it off, no changes should be necessary.</para>
      </listitem>
     </itemizedlist>
-    <para>The <ulink url="http://support.novell.com">Novell® Web site Knowledgebase</ulink> has additional information about checking to make sure that your Exchange server accepts connections from Evolution.</para>
+    <para>The <ulink url="http://support.novell.com"><trademark class="registered">Novell</trademark> Web site Knowledgebase</ulink> has additional information about checking to make sure that your Exchange server accepts connections from Evolution.</para>
    </section>
 
    <section id="config-client">
@@ -5128,7 +5128,7 @@
 
   <section id="exchange-settings">
    <title>Settings Exclusive to Evolution Exchange</title>
-   <para>There are some settings in Evolution that are available only with Evolution Exchange, like delegation and permission handling, creating “Out of Office” messages, changing password and viewing folder size.</para>
+   <para>There are some settings in Evolution that are available only with Evolution Exchange, like delegation and permission handling, creating <quote>Out of Office</quote> messages, changing password and viewing folder size.</para>
    <mediaobject id="bs4aw7m"><imageobject><imagedata format="PNG" fileref="figures/exchng-settings.png"/></imageobject></mediaobject>
    <itemizedlist>
     <listitem>
@@ -5197,7 +5197,7 @@
          <warning>
           <para>You are not permitted to send a message on behalf of more than one person at a time.</para>
          </warning>
-         <para>When the recipient opens the mail, he or she can also read a message that ‘The message was sent by &lt;<emphasis>Delegator's name</emphasis>&gt; on behalf of &lt;<emphasis>Delegate's name</emphasis>&gt; on the preview pane header bar.</para>
+         <para>When the recipient opens the mail, he or she can also read a message that <guilabel>The message was sent by &lt;<emphasis>Delegator's name</emphasis>&gt; on behalf of &lt;<emphasis>Delegate's name</emphasis>&gt;</guilabel> on the preview pane header bar.</para>
         </listitem>
        </orderedlist>
       </listitem>
@@ -5336,7 +5336,7 @@
 
    <section id="b13pnzby">
     <title>Reminders</title>
-    <para>Reminders for meetings in your Exchange calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session.so that you can fix a convenient time for a meeting.To enable Reminder setting in your Exchange account, select ‘Remember the password’ checkbox. To find more information about Reminders see<link linkend="bshly4v">Reminders</link></para>
+    <para>Reminders for meetings in your Exchange calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session.so that you can fix a convenient time for a meeting.To enable Reminder setting in your Exchange account, select <guilabel>Remember the password</guilabel> checkbox. To find more information about Reminders see<link linkend="bshly4v">Reminders</link></para>
    </section>
 
    <section id="exchange-out-of-office">
@@ -5421,13 +5421,13 @@
      <para>Click Options &gt; Update Free/Busy to check participant schedules and, if possible, update the meeting in all participants' calendars</para>
     </listitem>
    </orderedlist>
-   <para>If meeting attendees are not available during the times you have scheduled a meeting, you can “nudge” the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool lets you move the meeting to the nearest time during which all attendees are available. If you are not satisfied with those results, you can also drag the edges of the area marked as meeting time to the hours that you want to select.</para>
+   <para>If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool lets you move the meeting to the nearest time during which all attendees are available. If you are not satisfied with those results, you can also drag the edges of the area marked as meeting time to the hours that you want to select.</para>
   </section>
  </chapter>
 
  <chapter id="usage-groupwise">
   <title>Connecting to GroupWise</title>
-  <para>Evolution™ can access accounts on Novell® GroupWise® 7 system.</para>
+  <para><trademark>Evolution</trademark> can access accounts on <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark> 7 system.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="bv7wchf">GroupWise Features</link></para>
@@ -5770,7 +5770,7 @@
      <para>Click Options, then click Update Free/Busy to check participant schedules and, if possible, update the meeting in all participants' calendars.</para>
     </listitem>
    </orderedlist>
-   <para>If meeting attendees are not available during the times you have scheduled a meeting, you can “nudge” the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool moves the meeting to the nearest time during which all attendees are available. If you aren't satisfied with those results, you can drag the edges of the meeting time to the hours that you want to select.</para>
+   <para>If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool moves the meeting to the nearest time during which all attendees are available. If you aren't satisfied with those results, you can drag the edges of the meeting time to the hours that you want to select.</para>
   </section>
 
   <section id="Aaej55l">
@@ -6217,7 +6217,7 @@
 
  <chapter id="b1012tkg">
   <title>Connecting to Hula</title>
-  <para>Evolution™ supports mail connectivity to Hula® servers through IMAP and calendaring support through CalDAV.</para>
+  <para><trademark>Evolution</trademark> supports mail connectivity to <trademark class="registered">Hula</trademark> servers through IMAP and calendaring support through CalDAV.</para>
   <para>To add your Hula account to Evolution, you must create a new Hula account by performing the following steps:</para>
   <orderedlist>
    <listitem id="b10at9kq">
@@ -6234,7 +6234,7 @@
 
  <chapter id="config-prefs">
   <title>Advanced Configuration</title>
-  <para>Perhaps your mail server has changed names. Or you have grown tired of a certain layout for your appointments. Whatever the reason, you can change your Evolution™ settings.</para>
+  <para>Perhaps your mail server has changed names. Or you have grown tired of a certain layout for your appointments. Whatever the reason, you can change your <trademark>Evolution</trademark> settings.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="config-prefs-mail-identity">Working with Mail Accounts</link></para>
@@ -6278,7 +6278,7 @@
   </formalpara>
   <formalpara id="b17sa85j">
    <title>Composer Preferences:</title>
-   <para>These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for  “emoticons” such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
+   <para>These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for  <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
   </formalpara>
   <formalpara id="b17sa8cq">
    <title>Calendar and Tasks:</title>
@@ -6302,7 +6302,7 @@
    </formalpara>
    <formalpara id="bsbhe10">
     <title>Receiving Email:</title>
-    <para>Select the way you receive e-mail. You can download e-mail from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, Novell® GroupWise®, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. Your server requires you to use a Secure Socket Layer (SSL) connection. You can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
+    <para>Select the way you receive e-mail. You can download e-mail from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. Your server requires you to use a Secure Socket Layer (SSL) connection. You can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
    </formalpara>
    <para>Your system administrator might ask you to connect to a specific port on a mail server. To specify which port you use, just type a colon and the port number after the server name. For example, to connect to port 143 on the server smtp.example.com, specify smtp.example.com:143 as the server name.</para>
    <para>For additional information, see <link linkend="second-step">Receiving Mail</link>.</para>
@@ -6432,7 +6432,7 @@
     </formalpara>
     <formalpara id="bsbho3f">
      <title>Message Display:</title>
-     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable ‘Fall back to threading message by subject’ to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling ‘Shrink To/CC/BCC header to’ option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders. </para>
+     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders. </para>
     </formalpara>
     <para>To group the messages as threads select View &gt; Group By threads or press Ctrl +T.</para>
     <formalpara id="bsbhq3y">
@@ -6458,7 +6458,7 @@
     </formalpara>
     <formalpara id="bsbhr9p">
      <title>Loading Images:</title>
-     <para>You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm “live” addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images.</para>
+     <para>You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm <quote>live</quote> addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images.</para>
     </formalpara>
     <para>If you have chosen not to load images automatically, you can choose to see the images in one message at a time by selecting View &gt; Load Images or press Ctrl +I.</para>
    </section>
@@ -6505,7 +6505,7 @@
      <para>This feature adds support for viewing the photograph of the sender at the right side of the preview pane.</para>
     </formalpara>
     <para>To enable this feature, select Edit &gt; Preferences &gt; Mail Preferences &gt; Headers &gt; Show the photograph of sender in the email preview. Deselect this option to disable this feature.</para>
-    <para>By default it searches only in the local addressbooks enabled for autocompletion. If you deselect the option ‘Search for sender photograph only in the local addressbook’, it searches in all the addressbooks enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph.</para>
+    <para>By default it searches only in the local addressbooks enabled for autocompletion. If you deselect the option <guilabel>Search for sender photograph only in the local addressbook</guilabel>, it searches in all the addressbooks enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph.</para>
     <para>This feature is disabled by default as it causes delay in fetching the messages.</para>
    </section>
 
@@ -6618,7 +6618,7 @@
 
    <section id="bshpjuj">
     <title>Spell Checking</title>
-    <para>To choose a spell-checking language, select it here. You must install the gnome-spell package, for spell-checking to be available in Evolution. Additional dictionaries are also available through Red Carpet® and are detected automatically if you have installed them. You must also install the aspell package. If this is the case, please contact your packager. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words.</para>
+    <para>To choose a spell-checking language, select it here. You must install the gnome-spell package, for spell-checking to be available in Evolution. Additional dictionaries are also available through <trademark class="registered">Red Carpet</trademark> and are detected automatically if you have installed them. You must also install the aspell package. If this is the case, please contact your packager. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words.</para>
    </section>
   </section>
 
@@ -6895,7 +6895,7 @@
 
  <chapter id="config-sync">
   <title>Synchronizing Your Handheld Device</title>
-  <para>Synchronization presents you with three issues you need to address. First, you need to enable synchronization. Second, your computer needs to recognize and access your handheld. At this time, Evolution™ only supports Palm OS devices like the PalmPilot&z-3rdParty; and the Handspring Visor. Third, you should decide what sort of synchronization behavior you want.</para>
+  <para>Synchronization presents you with three issues you need to address. First, you need to enable synchronization. Second, your computer needs to recognize and access your handheld. At this time, <trademark>Evolution</trademark> only supports Palm OS devices like the PalmPilot&z-3rdParty; and the Handspring Visor. Third, you should decide what sort of synchronization behavior you want.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="bshq58g">Enabling Synchronization</link></para>
@@ -6952,7 +6952,7 @@
 
  <appendix id="outlook-migration">
   <title>Migration from Outlook to Evolution</title>
-  <para>If you are using Microsoft Outlook, but not Microsoft Exchange, this section helps you switch to Evolution™.</para>
+  <para>If you are using Microsoft Outlook, but not Microsoft Exchange, this section helps you switch to <trademark>Evolution</trademark>.</para>
 
   <section id="outlook-migration-mail">
    <title>Migrating Local Outlook Mail Folders</title>
@@ -7014,7 +7014,7 @@
 
  <appendix id="menuref">
   <title>Quick Reference</title>
-  <para>You can print this section to use it as a quick reference for most of the things you want to do with Evolution™. You can also find this information by selecting Help &gt; Quick Reference in the Menubar.</para>
+  <para>You can print this section to use it as a quick reference for most of the things you want to do with <trademark>Evolution</trademark>. You can also find this information by selecting Help &gt; Quick Reference in the Menubar.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="quickref-open">Opening or Creating Items</link></para>
@@ -7128,13 +7128,13 @@
 
  <appendix id="bugs">
   <title>Known Bugs and Limitations</title>
-  <para>Evolution™ bug tracking is done at the <ulink url="http://bugzilla.gnome.org">GNOME bug tracking System</ulink>. You can use that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) if you find bugs or want to request new features.</para>
+  <para><trademark>Evolution</trademark> bug tracking is done at the <ulink url="http://bugzilla.gnome.org">GNOME bug tracking System</ulink>. You can use that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) if you find bugs or want to request new features.</para>
   <para>A complete list of feature requests and other issues with Evolution is available online in the GNOME bug tracking system. You can learn more about the Evolution development process at the <ulink url="http://gnome.org/projects/evolution/developer.shtml">Evolution Developer site</ulink>.</para>
  </appendix>
 
  <appendix id="authors">
   <title>Authors</title>
-  <para>Evolution was written by the Evolution™ team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window.</para>
+  <para>Evolution was written by the <trademark>Evolution</trademark> team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window.</para>
   <para>The Evolution code owes a great debt to the GNOME-pim and GNOME-Calendar applications, and to KHTMLW. The developers of Evolution acknowledge the efforts and contributions of all who worked on those projects.</para>
   <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.com">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOME bug report tool, bug-buddy, to submit your defect reports.</para>
   <para>This manual was written by:</para>
@@ -7193,7 +7193,7 @@
 
  <glossary id="apx-gloss">
   <title>Glossary</title>
-  <para>This glossary contains terms that are frequently used in this guide as well as in Evolution™.</para>
+  <para>This glossary contains terms that are frequently used in this guide as well as in <trademark>Evolution</trademark>.</para>
   <glossentry id="assistant">
    <glossterm>Assistant</glossterm>
    <glossdef>
@@ -7329,7 +7329,7 @@
   <glossentry id="regular-expression">
    <glossterm>regular expression</glossterm>
    <glossdef>
-    <para>A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with ‘fly’ and ending in ‘soup’ or ‘soap’. If you searched for that expression, you'd find both ‘fly in my soup’ and ‘fly in my soap.’ For more information, enter <command>man grep</command> from the command line.</para>
+    <para>A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with <quote>fly</quote> and ending in <quote>soup</quote> or <quote>soap.</quote> If you searched for that expression, you'd find both <quote>fly in my soup</quote> and <quote>fly in my soap.</quote> For more information, enter <command>man grep</command> from the command line.</para>
    </glossdef>
   </glossentry>
   <glossentry id="script">
@@ -7410,7 +7410,7 @@
     <member>You may not use, export, or re-export this product in violation of any applicable laws or regulations including, without limitation, U.S. export regulations or the laws of the country in which you reside.</member>
    </simplelist>
    <simplelist>
-    <member>Copyright © 2007 Novell, Inc. All rights reserved. Permission is granted to copy, distribute, and/or modify this document under the terms of the GNU Free Documentation License (GFDL), Version 1.2 or any later version, published by the Free Software Foundation with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the GFDL can be found at http://www.fsf.org/licenses/fdl.html.</member>
+    <member><copyright><year>2007</year><holder>Novell, Inc.</holder></copyright> Permission is granted to copy, distribute, and/or modify this document under the terms of the GNU Free Documentation License (GFDL), Version 1.2 or any later version, published by the Free Software Foundation with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the GFDL can be found at http://www.fsf.org/licenses/fdl.html.</member>
     <member>THIS DOCUMENT AND MODIFIED VERSIONS OF THIS DOCUMENT ARE PROVIDED UNDER THE TERMS OF THE GNU FREE DOCUMENTATION LICENSE WITH THE FURTHER UNDERSTANDING THAT:</member>
     <member>1. THE DOCUMENT IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTIES THAT THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT IS FREE OF DEFECTS, MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE, OR NON-INFRINGING. THE ENTIRE RISK AS TO THE QUALITY, ACCURACY, AND PERFORMANCE OF THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT IS WITH YOU. SHOULD ANY DOCUMENT OR MODIFIED VERSION PROVE DEFECTIVE IN ANY RESPECT, YOU (NOT THE INITIAL WRITER, AUTHOR OR ANY CONTRIBUTOR) ASSUME THE COST OF ANY NECESSARY SERVICING, REPAIR OR CORRECTION. THIS DISCLAIMER OF WARRANTY CONSTITUTES AN ESSENTIAL PART OF THIS LICENSE. NO USE OF ANY DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT IS AUTHORIZED HEREUNDER EXCEPT UNDER THIS DISCLAIMER; AND</member>
     <member>2. UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, WHETHER IN TORT (INCLUDING NEGLIGENCE), CONTRACT, OR OTHERWISE, SHALL THE AUTHOR, INITIAL WRITER, ANY CONTRIBUTOR, OR ANY DISTRIBUTOR OF THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT, OR ANY SUPPLIER OF ANY OF SUCH PARTIES, BE LIABLE TO ANY PERSON FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER DAMAGES OR LOSSES ARISING OUT OF OR RELATING TO USE OF THE DOCUMENT AND MODIFIED VERSIONS OF THE DOCUMENT, EVEN IF SUCH PARTY SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES.</member>
