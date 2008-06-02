@@ -1,3 +1,18 @@
+2008-06-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #525966
+
+	* em-composer-utils.c: (composer_set_no_change):
+	New helper function to set composers state properly to "no change".
+	* em-composer-utils.c: (em_utils_compose_new_message),
+	(em_utils_compose_new_message_with_mailto), (em_utils_post_to_folder),
+	(em_utils_post_to_url), (edit_message), (forward_attached),
+	(forward_non_attached), (em_utils_redirect_message),
+	(em_utils_reply_to_message), (post_reply_to_message):
+	Use the above helper function.
+	* em-composer-utils.c: (reply_get_composer), (composer_set_body):
+	Do not drop undo in the editor multiple times, do that only once.
+
 2008-06-02  Lucian Langa  <lucilanga@gnome.org>
 
 	** Fix for bug #535689

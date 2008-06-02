@@ -44,6 +44,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
+#include "composer/e-composer-autosave.h"
 #include "em-format-html.h"
 #include "em-format-quote.h"
 #include "em-event.h"
@@ -462,6 +463,22 @@ struct _save_draft_info {
 };
 
 static void
+composer_set_no_change (EMsgComposer *composer, gboolean drop_undo)
+{
+	GtkhtmlEditor *editor;
+	
+	g_return_if_fail (composer != NULL);
+
+	editor = GTKHTML_EDITOR (composer);
+
+	if (drop_undo)
+		gtkhtml_editor_drop_undo (editor);
+
+	gtkhtml_editor_set_changed (editor, FALSE);
+	e_composer_autosave_set_saved (composer, TRUE);
+}
+
+static void
 save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
 		 const char *appended_uid, void *user_data)
 {
@@ -471,6 +488,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	if (!ok)
 		goto done;
 
+	/* do not set autosave saved to TRUE because e_msg_composer_save_draft doesn't do that too */
 	gtkhtml_editor_set_changed (GTKHTML_EDITOR (sdi->composer), FALSE);
 
 	if ((emcs = sdi->emcs) == NULL) {
@@ -664,15 +682,12 @@ void
 em_utils_compose_new_message (const char *fromuri)
 {
 	GtkWidget *composer;
-	GtkhtmlEditor *editor;
 
 	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE);
 	if (composer == NULL)
 		return;
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE);
 
 	gtk_widget_show (composer);
 }
@@ -689,7 +704,6 @@ void
 em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 {
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 
@@ -705,9 +719,7 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 	    && (account = mail_config_get_account_by_source_url(fromuri)))
 		e_composer_header_table_set_account_name (table, account->name);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (composer, TRUE);
 
 	gtk_widget_show ((GtkWidget *) composer);
 	gdk_window_raise (((GtkWidget *) composer)->window);
@@ -725,7 +737,6 @@ void
 em_utils_post_to_folder (CamelFolder *folder)
 {
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
 	EAccount *account;
 
@@ -752,9 +763,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 
 	em_composer_utils_setup_default_callbacks (composer);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (composer, TRUE);
 
 	gtk_widget_show ((GtkWidget *) composer);
 	gdk_window_raise (((GtkWidget *) composer)->window);
@@ -772,7 +781,6 @@ void
 em_utils_post_to_url (const char *url)
 {
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
 
 	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
@@ -788,9 +796,7 @@ em_utils_post_to_url (const char *url)
 
 	em_composer_utils_setup_default_callbacks (composer);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (composer, TRUE);
 
 	gtk_widget_show ((GtkWidget *) composer);
 }
@@ -801,14 +807,11 @@ static void
 edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 {
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 
 	composer = e_msg_composer_new_with_message (message);
 	em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, drafts, uid);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (composer, TRUE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
@@ -924,7 +927,6 @@ static void
 forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, CamelMimePart *part, char *subject, const char *fromuri)
 {
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 
 	composer = create_new_composer (subject, fromuri, TRUE);
 	if (composer == NULL)
@@ -936,9 +938,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 	if (uids)
 		setup_forward_attached_callbacks (composer, folder, uids);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (composer, TRUE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
@@ -987,7 +987,6 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 {
 	CamelMimeMessage *message;
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 	char *subject, *text;
 	int i;
 	guint32 flags;
@@ -1019,9 +1018,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 				if (uids && uids->pdata[i])
 					em_composer_utils_setup_callbacks (composer, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED, NULL, NULL);
 
-				editor = GTKHTML_EDITOR (composer);
-				gtkhtml_editor_set_changed (editor, FALSE);
-				gtkhtml_editor_drop_undo (editor);
+				composer_set_no_change (composer, TRUE);
 
 				gtk_widget_show (GTK_WIDGET (composer));
 			}
@@ -1191,7 +1188,6 @@ void
 em_utils_redirect_message (CamelMimeMessage *message)
 {
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
@@ -1199,9 +1195,7 @@ em_utils_redirect_message (CamelMimeMessage *message)
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
-	gtkhtml_editor_drop_undo (editor);
+	composer_set_no_change (composer, TRUE);
 }
 
 static void
@@ -1594,8 +1588,6 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	} else if (references) {
 		e_msg_composer_add_header (composer, "References", references);
 	}
-
-	gtkhtml_editor_drop_undo (GTKHTML_EDITOR (composer));
 
 	return composer;
 }
@@ -2027,8 +2019,6 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		g_free (text);
 		break;
 	}
-
-	gtkhtml_editor_drop_undo (GTKHTML_EDITOR (composer));
 }
 
 struct _reply_data {
@@ -2142,9 +2132,9 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	composer_set_no_change (composer, TRUE);
 
-	gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), FALSE);
+	gtk_widget_show (GTK_WIDGET (composer));
 }
 
 /* Posting replies... */
@@ -2158,7 +2148,6 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	EDestination **tov = NULL;
 	CamelFolder *real_folder;
 	EMsgComposer *composer;
-	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
 	char *subject, *url;
 	EAccount *account;
@@ -2188,7 +2177,6 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	get_reply_sender (message, to, NULL);
 
 	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL_POST);
-	editor = GTKHTML_EDITOR (composer);
 
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
@@ -2237,17 +2225,15 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 		e_msg_composer_add_header (composer, "References", references);
 	}
 
-	gtkhtml_editor_drop_undo (editor);
-
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	composer_set_body (composer, message, NULL);
 
 	em_composer_utils_setup_callbacks (composer, real_folder, real_uid, flags, flags, NULL, NULL);
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	composer_set_no_change (composer, TRUE);
 
-	gtkhtml_editor_set_changed (editor, FALSE);
+	gtk_widget_show (GTK_WIDGET (composer));
 
 	camel_object_unref (real_folder);
 	camel_object_unref(to);
