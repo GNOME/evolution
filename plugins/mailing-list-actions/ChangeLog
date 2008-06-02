@@ -1,3 +1,9 @@
+2008-06-02  Jacob Brown  <jeblinux@gmail.com>
+
+	** Fix for bug #529464
+
+	* org-gnome-mailing-list-actions.error.xml: Do not use "handle"
+
 2008-04-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mailing-list-actions.c (emla_list_action_do):

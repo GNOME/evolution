@@ -2486,7 +2486,7 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 				  EM_FORMAT_HTML_VPAD
 				  "<table cellspacing=0 cellpadding=0><tr><td><h3><font size=-1 color=red>");
 
-	html = camel_text_to_html(_("Evolution cannot render this email as it is too large to handle. You can view it unformatted or with an external text editor."), ((EMFormatHTML *)emf)->text_html_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
+	html = camel_text_to_html(_("Evolution cannot render this email as it is too large to process. You can view it unformatted or with an external text editor."), ((EMFormatHTML *)emf)->text_html_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	camel_stream_write_string(stream, html);
 	camel_stream_write_string(stream,
 				  "</font></h3></td></tr></table>\n");

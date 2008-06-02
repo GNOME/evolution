@@ -10,7 +10,7 @@
     <author name="Praveen Kumar" email="kpraveen@novell.com"/>
     <author name="Shakti Sen" email="shprasad@novell.com"/>
     <author name="Raghavendran R" email="raghavguru7@gmail.com"/>	
-    <_description>A plugin that handles a collection of Exchange account specific operations and features.</_description>
+    <_description>A plugin that manages a collection of Exchange account specific operations and features.</_description>
 	
     <hook class="org.gnome.evolution.mail.config:1.0">
       	<group 

@@ -30,7 +30,7 @@ Header: {1}</_secondary>
 
  <error id="no-action" type="error">
   <_primary>No e-mail action</_primary>
-  <_secondary xml:space="preserve">The action could not be performed. This means the header for this action did not contain any action we could handle.
+  <_secondary xml:space="preserve">The action could not be performed. This means the header for this action did not contain any action we could process.
 
 Header: {0}</_secondary>
  </error>
