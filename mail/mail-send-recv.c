@@ -552,6 +552,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 
 	g_object_unref (iter);
 
+	/* we also need gd during emition to be able to catch Cancel All */
+	data->gd = gd;
 	/* Hook: If some one wants to hook on to the sendreceive dialog, this is the way to go. */
 	target = em_event_target_new_send_receive (em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
 	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
@@ -628,7 +630,6 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 
 	data->infos = list;
-	data->gd = gd;
 
 	return data;
 }

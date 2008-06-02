@@ -1,3 +1,10 @@
+2008-06-02  Lucian Langa  <lucilanga@gnome.org>
+
+	** Fix for bug #535689
+
+	* mail-send-recv.c: (build_dialog): Transmit
+	gd data to hook's event target data
+
 2008-06-02  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #534312
