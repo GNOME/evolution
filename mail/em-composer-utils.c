@@ -631,7 +631,7 @@ em_composer_utils_setup_callbacks (EMsgComposer *composer,
 /* Composing messages... */
 
 static EMsgComposer *
-create_new_composer (const char *subject, const char *fromuri)
+create_new_composer (const char *subject, const char *fromuri, gboolean use_default_callbacks)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -648,7 +648,8 @@ create_new_composer (const char *subject, const char *fromuri)
 	e_composer_header_table_set_account (table, account);
 	e_composer_header_table_set_subject (table, subject);
 
-	em_composer_utils_setup_default_callbacks (composer);
+	if (use_default_callbacks)
+		em_composer_utils_setup_default_callbacks (composer);
 
 	return composer;
 }
@@ -665,7 +666,7 @@ em_utils_compose_new_message (const char *fromuri)
 	GtkWidget *composer;
 	GtkhtmlEditor *editor;
 
-	composer = (GtkWidget *) create_new_composer ("", fromuri);
+	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE);
 	if (composer == NULL)
 		return;
 
@@ -864,17 +865,76 @@ em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids, gboolean replace)
 }
 
 /* Forwarding messages... */
+struct forward_attached_data
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	char *fromuri;
+};
+
 static void
-forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, const char *fromuri)
+real_update_forwarded_flag (gpointer uid, gpointer folder)
+{
+	if (uid && folder)
+		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED);
+}
+
+static void
+update_forwarded_flags_cb (EMsgComposer *composer, gpointer user_data)
+{
+	struct forward_attached_data *fad = (struct forward_attached_data *) user_data;
+
+	if (fad && fad->uids && fad->folder)
+		g_ptr_array_foreach (fad->uids, real_update_forwarded_flag, fad->folder);
+}
+
+static void
+composer_destroy_fad_cb (gpointer user_data, GObject *deadbeef)
+{
+	struct forward_attached_data *fad = (struct forward_attached_data*) user_data;
+
+	if (fad) {
+		camel_object_unref (fad->folder);
+		em_utils_uids_free (fad->uids);
+		g_free (fad);
+	}
+}
+
+static void
+setup_forward_attached_callbacks (EMsgComposer *composer, CamelFolder *folder, GPtrArray *uids)
+{
+	struct forward_attached_data *fad;
+
+	if (!composer || !folder || !uids || !uids->len)
+		return;
+
+	camel_object_ref (folder);
+
+	fad = g_new0 (struct forward_attached_data, 1);
+	fad->folder = folder;
+	fad->uids = em_utils_uids_copy (uids);
+
+	g_signal_connect (composer, "send", G_CALLBACK (update_forwarded_flags_cb), fad);
+	g_signal_connect (composer, "save-draft", G_CALLBACK (update_forwarded_flags_cb), fad);
+
+	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_fad_cb, fad);
+}
+
+static void
+forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, CamelMimePart *part, char *subject, const char *fromuri)
 {
 	EMsgComposer *composer;
 	GtkhtmlEditor *editor;
 
-	composer = create_new_composer (subject, fromuri);
+	composer = create_new_composer (subject, fromuri, TRUE);
 	if (composer == NULL)
 		return;
 
 	e_msg_composer_attach (composer, part);
+
+
+	if (uids)
+		setup_forward_attached_callbacks (composer, folder, uids);
 
 	editor = GTKHTML_EDITOR (composer);
 	gtkhtml_editor_set_changed (editor, FALSE);
@@ -886,9 +946,13 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 static void
 forward_attached_cb (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *user_data)
 {
+	struct forward_attached_data *fad = (struct forward_attached_data *) user_data;
+
 	if (part)
-		forward_attached(folder, messages, part, subject, (char *)user_data);
-	g_free(user_data);
+		forward_attached (folder, fad->uids, messages, part, subject, fad->fromuri);
+	
+	g_free (fad->fromuri);
+	g_free (fad);
 }
 
 /**
@@ -906,14 +970,20 @@ forward_attached_cb (CamelFolder *folder, GPtrArray *messages, CamelMimePart *pa
 void
 em_utils_forward_attached (CamelFolder *folder, GPtrArray *uids, const char *fromuri)
 {
+	struct forward_attached_data *fad;
+
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	mail_build_attachment (folder, uids, forward_attached_cb, g_strdup(fromuri));
+	fad = g_new0 (struct forward_attached_data, 1);
+	fad->uids = uids;
+	fad->fromuri = g_strdup (fromuri);
+
+	mail_build_attachment (folder, uids, forward_attached_cb, fad);
 }
 
 static void
-forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
+forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, int style, const char *fromuri)
 {
 	CamelMimeMessage *message;
 	EMsgComposer *composer;
@@ -938,13 +1008,16 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL);
 
 		if (text) {
-			composer = create_new_composer (subject, fromuri);
+			composer = create_new_composer (subject, fromuri, !uids || !uids->pdata [i]);
 
 			if (composer) {
 				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
 					e_msg_composer_add_message_attachments(composer, message, FALSE);
 
 				e_msg_composer_set_body_text (composer, text, len);
+
+				if (uids && uids->pdata[i])
+					em_composer_utils_setup_callbacks (composer, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED, NULL, NULL);
 
 				editor = GTKHTML_EDITOR (composer);
 				gtkhtml_editor_set_changed (editor, FALSE);
@@ -962,7 +1035,7 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 static void
 forward_inline (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *user_data)
 {
-	forward_non_attached (messages, MAIL_CONFIG_FORWARD_INLINE, (char *)user_data);
+	forward_non_attached (folder, uids, messages, MAIL_CONFIG_FORWARD_INLINE, (char *)user_data);
 	g_free(user_data);
 }
 
@@ -986,7 +1059,7 @@ em_utils_forward_inline (CamelFolder *folder, GPtrArray *uids, const char *fromu
 static void
 forward_quoted (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *user_data)
 {
-	forward_non_attached (messages, MAIL_CONFIG_FORWARD_QUOTED, (char *)user_data);
+	forward_non_attached (folder, uids, messages, MAIL_CONFIG_FORWARD_QUOTED, (char *)user_data);
 	g_free(user_data);
 }
 
@@ -1038,15 +1111,15 @@ em_utils_forward_message (CamelMimeMessage *message, const char *fromuri)
 
 		subject = mail_tool_generate_forward_subject (message);
 
-		forward_attached (NULL, messages, part, subject, fromuri);
+		forward_attached (NULL, NULL, messages, part, subject, fromuri);
 		camel_object_unref (part);
 		g_free (subject);
 		break;
 	case MAIL_CONFIG_FORWARD_INLINE:
-		forward_non_attached (messages, MAIL_CONFIG_FORWARD_INLINE, fromuri);
+		forward_non_attached (NULL, NULL, messages, MAIL_CONFIG_FORWARD_INLINE, fromuri);
 		break;
 	case MAIL_CONFIG_FORWARD_QUOTED:
-		forward_non_attached (messages, MAIL_CONFIG_FORWARD_QUOTED, fromuri);
+		forward_non_attached (NULL, NULL, messages, MAIL_CONFIG_FORWARD_QUOTED, fromuri);
 		break;
 	}
 

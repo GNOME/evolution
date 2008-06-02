@@ -1,3 +1,18 @@
+2008-06-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #534312
+
+	* em-composer-utils.c: (create_new_composer),
+	(em_utils_compose_new_message), (struct forward_attached_data),
+	(real_update_forwarded_flag), (update_forwarded_flags_cb),
+	(composer_destroy_fad_cb), (setup_forward_attached_callbacks),
+	(forward_attached), (forward_attached_cb), (em_utils_forward_attached),
+	(forward_non_attached), (forward_quoted), (em_utils_forward_message):
+	Set new CAMEL_MESSAGE_FORWARDED flag on forwarded messages.
+	* message-list.c: (ml_value_to_string), (message_list_create_extras),
+	(ml_tree_value_at), (create_composite_cell), (struct states_pixmaps):
+	Draw mail-forward icon on forwarded messages.
+
 2008-05-30  Lucian Langa  <lucilanga@gnome.org>
 
 	** Fix for bug #535670
