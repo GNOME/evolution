@@ -64,12 +64,12 @@ main (int argc, gchar **argv)
 
   e_text_model_set_text (model, "My favorite website is http://www.ximian.com.  My next favorite www.assbarn.com.");
 
-  //  describe_model (model);
+  /*  describe_model (model); */
 
   for (i=0; i<2; ++i) {
     win[i] = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
-    gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+    gtk_widget_push_colormap (gdk_rgb_get_colormap ());
     canvas[i] = e_canvas_new ();
     gtk_widget_pop_colormap ();
 

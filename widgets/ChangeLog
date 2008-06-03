@@ -1,5 +1,11 @@
 2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* text/e-text-model-test.c: (main):
+	* text/e-text-test.c: (main):
+	gdk_rgb_get_cmap -> gdk_rgb_get_colormap
+
+2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* menus/gal-define-views-dialog.c: (gal_define_views_dialog_init):
 	* menus/gal-view-new-dialog.c: (gal_view_new_dialog_init):
 	gtk_window_set_policy -> gtk_window_set_resizable.

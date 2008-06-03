@@ -106,7 +106,7 @@ main (int argc,
   g_object_weak_ref (G_OBJECT (window),
 		     quit_cb, NULL);
 
-  gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+  gtk_widget_push_colormap (gdk_rgb_get_colormap ());
   canvas = e_canvas_new ();
   gtk_widget_pop_colormap ();
   scroller = gtk_scrolled_window_new (NULL, NULL);
