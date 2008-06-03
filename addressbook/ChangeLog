@@ -1,3 +1,8 @@
+2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/merging/eab-contact-merging.c: (mergeit):
+	Use non-deprecated gtk+ api.
+
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534360

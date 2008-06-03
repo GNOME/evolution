@@ -188,7 +188,7 @@ mergeit (EContactMergingLookup *lookup)
 	int value = 0, result;
 
 	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
-	gtk_container_border_width (GTK_CONTAINER(dialog), 5);
+	gtk_container_set_border_width (GTK_CONTAINER(dialog), 5);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
