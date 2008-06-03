@@ -139,8 +139,7 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	ecc->popup_window = gtk_window_new (GTK_WINDOW_POPUP);
 
 	gtk_window_set_type_hint (GTK_WINDOW (ecc->popup_window), GDK_WINDOW_TYPE_HINT_COMBO);
-	gtk_window_set_policy (GTK_WINDOW (ecc->popup_window),
-			       TRUE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (ecc->popup_window), TRUE);
 
 	frame = gtk_frame_new (NULL);
 	gtk_container_add (GTK_CONTAINER (ecc->popup_window), frame);
