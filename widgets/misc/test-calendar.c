@@ -42,9 +42,11 @@
 enum {
 	TARGET_SHORTCUT
 };
+
 static GtkTargetEntry target_table[] = {
 	{ "E-SHORTCUT",     0, TARGET_SHORTCUT }
 };
+
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
 
@@ -73,21 +75,21 @@ main (int argc, char **argv)
 
 	app = gnome_app_new ("Test", "Test");
 	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);
-	gtk_window_set_policy (GTK_WINDOW (app), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (app), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (app), 8);
 
-	g_signal_connect((app), "delete_event",
-			    G_CALLBACK (delete_event_cb), NULL);
+	g_signal_connect (app, "delete_event",
+			  G_CALLBACK (delete_event_cb), NULL);
 
 	cal = e_calendar_new ();
 	e_calendar_set_minimum_size (E_CALENDAR (cal), 1, 1);
 	calitem = E_CALENDAR (cal)->calitem;
 	gtk_widget_show (cal);
 
-	g_signal_connect((calitem), "date_range_changed",
-			    G_CALLBACK (on_date_range_changed), NULL);
-	g_signal_connect((calitem), "selection_changed",
-			    G_CALLBACK (on_selection_changed), NULL);
+	g_signal_connect (calitem, "date_range_changed",
+			  G_CALLBACK (on_date_range_changed), NULL);
+	g_signal_connect (calitem, "selection_changed",
+			  G_CALLBACK (on_selection_changed), NULL);
 
 
 	gtk_drag_dest_set (cal,

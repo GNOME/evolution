@@ -58,9 +58,9 @@ main (int argc, char **argv)
 
 	app = gnome_app_new ("Test", "Test");
 	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);
-	gtk_window_set_policy (GTK_WINDOW (app), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (app), TRUE);
 
-	g_signal_connect((app), "delete_event", G_CALLBACK (delete_event_cb), NULL);
+	g_signal_connect (app, "delete_event", G_CALLBACK (delete_event_cb), NULL);
 
 	info_label = e_info_label_new ("stock_default-folder");
 	e_info_label_set_info ((EInfoLabel *) info_label, "Component Name", "An annoyingly long component message");

@@ -233,8 +233,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	gtk_window_set_type_hint (GTK_WINDOW (ecde->popup_window),
 				  GDK_WINDOW_TYPE_HINT_COMBO);
-	gtk_window_set_policy (GTK_WINDOW (ecde->popup_window),
-			       TRUE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (ecde->popup_window), TRUE);
 
 	frame = gtk_frame_new (NULL);
 	gtk_container_add (GTK_CONTAINER (ecde->popup_window), frame);

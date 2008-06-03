@@ -451,8 +451,7 @@ create_children			(EDateEdit	*dedit)
 	g_signal_connect (priv->cal_popup, "button_press_event",
 			  G_CALLBACK (on_date_popup_button_press),
 			  dedit);
-	gtk_window_set_policy (GTK_WINDOW (priv->cal_popup),
-			       FALSE, FALSE, TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (priv->cal_popup), TRUE);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);

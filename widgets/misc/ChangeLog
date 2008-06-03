@@ -1,3 +1,15 @@
+2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-cell-date-edit.c: (e_cell_date_edit_init):
+	* e-dateedit.c: (create_children):
+	* e-multi-config-dialog.c: (e_multi_config_dialog_init):
+	* e-unicode.h:
+	* test-calendar.c: (main):
+	* test-dateedit.c: (main):
+	* test-info-label.c: (main):
+	Migrate from gtk_window_set_policy() to gtk_window_set_resizable()
+	and clean up a bunch of coding style issues along the way.
+
 2008-05-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #532597

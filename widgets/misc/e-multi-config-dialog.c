@@ -300,11 +300,7 @@ e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (multi_config_dialog), GTK_RESPONSE_OK);
 
-
-	gtk_window_set_policy (GTK_WINDOW (multi_config_dialog),
-			       FALSE /* allow_shrink */,
-			       TRUE /* allow_grow */,
-			       FALSE /* auto_shrink */);
+	gtk_window_set_resizable (GTK_WINDOW (multi_config_dialog), TRUE);
 
 	priv = g_new (EMultiConfigDialogPrivate, 1);
 	priv->pages                 = NULL;

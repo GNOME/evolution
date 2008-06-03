@@ -26,10 +26,7 @@
 
 #include <sys/types.h>
 #include <glib.h>
-#include <gtk/gtkclist.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libxml/tree.h>
 #include <iconv.h>
 
