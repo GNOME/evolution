@@ -1,3 +1,52 @@
+Evolution 2.23.3 2008-06-02
+---------------------------
+
+New in 2.23.3
+	New plugin for setting headers while sending email (Ashish)
+
+Bug Fixes:
+	#311042: Allocate size for location and info labels differently (Milan Crha)
+	#317755: Do not quit until we are done with mail sync (Milan Crha)
+	#322553: Do not run signature script when disabled in /desktop/gnome/lockdown/disable_command_line (Milan Crha)
+	#394441: (Novell Bugzilla) Fixes a double free (Bharath Acharya)
+	#463040: Forget former selected uid as soon as we know we moved to other (Milan Crha)
+	#473198: Ignore signature (Johnny Jacob)
+	#496476: Removed GtkTables and added simple HBoxes (Johnny Jacob)
+	#514383: Remove the "ask-mark-read" error (Matthew Barnes)
+	#523402: Do not leak. Reassign back the old values before freeing (Milan Crha)
+	#525966: Don't mark composer as dirty (Milan Crha)
+	#529464: Don't use the string handle (jeblinux)
+	#529995: Disable the "attachment reminder" plugin instead of disabling the check for missing attachment (Johnny Jacob)
+	#530392: Pressing Enter in the entry activates the default response (Matthew Barnes)
+	#531592: Do not escape window titles and status bar messages (Matthew Barnes)
+	#531836: Don't block on deleted message (Srinivasa Ragavan)
+	#532384: Choose the text/html part in normal mode only if the alrenative multipart contains also a text/plain part (Milan Crha)
+	#532597: Fix random selection of contacts (Milan Crha)
+	#533465: Strip whitespace from user-entered hostname (Ritesh Khadgaray)
+	#533820: Fix for a crash on double-clicking the border of meetings in day-view (Chenthill Palanisamy)
+	#534012: Indicate error if backup folder chosen lacks permissions (Sankar P)
+	#534312: Show icons for forwarded mails (Milan Crha)
+	#534360: Migrate from deprecated GtkObject symbols to GObject equivalents. (Matthew Barnes)
+	#534476: Remove the special check for "winmail.dat". GIO correctly identifies it as "application/ms-tnef" (Matthew Barnes)
+	#535273: Link e-util and econduit libraries with gnome-pilot (Frederic Crozat)
+	#535459: Crash while opening a mail (Milan Crha)
+	#535670: Prevent evolution-rss articles being formatted as attachments (Lucian Langa)
+	#535749: Don't leave deleted messages strike through (Milan Crha)
+
+Updated Translations:
+	Ignacio Casal Quinteiro (gl)
+	Jorge Gonzalez (es)
+	Philip Withnall (en_GB)
+	Clytie Siddall (vi)
+	Ivar Smolin (et)
+	Tino Meinen (nl)
+	Nikos Charonitakis (el)
+	Kjartan Maraas (nb)
+	Abou Manal (ar)
+	Theppitak Karoonboonyanan (th)
+	Gil Forcada (ca)
+	Reinout van Schouwen (nl)
+
 Evolution 2.23.2 2008-05-12
 ---------------------------
 
