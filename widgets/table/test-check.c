@@ -164,7 +164,7 @@ check_test (void)
 	GdkPixbuf *pixbuf;
 	GnomeCanvasItem *item;
 
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,

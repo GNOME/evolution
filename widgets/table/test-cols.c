@@ -163,7 +163,7 @@ multi_cols_test (void)
 	ECell *cell_left_just, *cell_image_toggle;
 	GnomeCanvasItem *item;
 
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,

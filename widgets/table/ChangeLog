@@ -1,5 +1,14 @@
 2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* e-table-example-1.c: (main):
+	* e-table-example-2.c: (main):
+	* e-table-size-test.c: (main):
+	* test-check.c: (check_test):
+	* test-cols.c: (multi_cols_test):
+	gdk_rgb_get_cmap -> gdk_rgb_get_colormap
+
+2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* test-check.c: (check_test):
 	* test-cols.c: (multi_cols_test):
 	gdk_pixbuf_unref() -> g_object_unref()
