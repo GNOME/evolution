@@ -255,7 +255,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	g_free (filename);
 	dialog->gui = gui;
 
-	widget = glade_xml_get_widget(gui, "table-top");
+	widget = glade_xml_get_widget (gui, "table-top");
 	if (!widget) {
 		return;
 	}
@@ -266,7 +266,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
-	g_object_unref(widget);
+	g_object_unref (widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
@@ -276,15 +276,15 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
         gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
 	gtk_tree_view_set_headers_visible (dialog->treeview, TRUE);
 
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
-	gdvd_connect_signal(dialog, "button-new",    "clicked", G_CALLBACK(gdvd_button_new_callback));
-	gdvd_connect_signal(dialog, "button-modify", "clicked", G_CALLBACK(gdvd_button_modify_callback));
-	gdvd_connect_signal(dialog, "button-delete", "clicked", G_CALLBACK(gdvd_button_delete_callback));
+	gdvd_connect_signal (dialog, "button-new",    "clicked", G_CALLBACK (gdvd_button_new_callback));
+	gdvd_connect_signal (dialog, "button-modify", "clicked", G_CALLBACK (gdvd_button_modify_callback));
+	gdvd_connect_signal (dialog, "button-delete", "clicked", G_CALLBACK (gdvd_button_delete_callback));
 #if 0
-	gdvd_connect_signal(dialog, "button-copy",   "clicked", G_CALLBACK(gdvd_button_copy_callback));
+	gdvd_connect_signal (dialog, "button-copy",   "clicked", G_CALLBACK (gdvd_button_copy_callback));
 #endif
-	gdvd_connect_signal(dialog, "treeview1", "cursor-changed", G_CALLBACK(gdvd_cursor_changed_callback));
+	gdvd_connect_signal (dialog, "treeview1", "cursor-changed", G_CALLBACK (gdvd_cursor_changed_callback));
 	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), NULL);
 
 	gtk_widget_show (GTK_WIDGET (dialog));

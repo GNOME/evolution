@@ -1,3 +1,9 @@
+2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* menus/gal-define-views-dialog.c: (gal_define_views_dialog_init):
+	* menus/gal-view-new-dialog.c: (gal_view_new_dialog_init):
+	gtk_window_set_policy -> gtk_window_set_resizable.
+
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534360
