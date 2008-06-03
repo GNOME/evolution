@@ -191,7 +191,7 @@ multi_cols_test (void)
 		cell_image_toggle = e_cell_toggle_new (0, 3, images);
 
 		for (i = 0; i < 3; i++)
-			gdk_pixbuf_unref (images [i]);
+			g_object_unref (images [i]);
 
 		g_free (images);
 	}

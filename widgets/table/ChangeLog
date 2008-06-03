@@ -1,5 +1,11 @@
 2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* test-check.c: (check_test):
+	* test-cols.c: (multi_cols_test):
+	gdk_pixbuf_unref() -> g_object_unref()
+
+2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* e-cell-combo.c: (e_cell_combo_init):
 	gtk_window_set_policy -> gtk_window_set_resizable
 
