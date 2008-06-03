@@ -528,18 +528,18 @@ int main(int argc, char **argv)
 	w = filter_part_get_widget (ff);
 
 	dialog = gtk_dialog_new ();
-	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_BUTTONS_OK, NULL);
-	gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
-	gtk_window_set_title ((GtkWindow *) dialog, _("Test"));
-	gtk_window_set_policy ((GtkWindow *) dialog, FALSE, TRUE, FALSE);
-	gtk_box_pack_start ((GtkBox *) dialog->vbox, w, TRUE, TRUE, 0);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog), GTK_BUTTONS_OK, NULL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Test"));
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), w, TRUE, TRUE, 0);
 
-	gtk_dialog_run ((GtkDialog *) dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
 	code = g_string_new ("");
 	filter_part_build_code (ff, code);
-	printf("code is:\n%s\n", code->str);
+	printf ("code is:\n%s\n", code->str);
 
 	return 0;
 }
