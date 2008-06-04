@@ -847,6 +847,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 
 	switch (id & VIEW_ITEMS_MASK) {
 	case VIEW_ALL_MESSAGES:
+		/* one space indicates no filtering */
 		view_sexp = " ";
 		break;
 
@@ -908,7 +909,8 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		break;
 
 	case VIEW_CUSTOMIZE:
-		view_sexp = " ";
+		/* one space indicates no filtering, so here use two */
+		view_sexp = "  ";
 		break;
 	}
 

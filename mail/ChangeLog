@@ -1,3 +1,13 @@
+2008-06-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #535749
+
+	* em-folder-browser.c: (get_view_query):
+	Distinguish between no filter and custom filter.
+	* message-list.c: (mail_regen_list): Report empty search as NULL.
+	* message-list.c: (regen_list_exec): Use better condition whether
+	keep cursor_uid in the message list or not on regeneration.
+
 2008-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #531836

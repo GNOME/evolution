@@ -1,3 +1,10 @@
+2008-06-04  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #535749
+
+	* e-filter-bar.c: (get_property): Do not return any query
+	with empty text from search bar.
+
 2008-05-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #532597
