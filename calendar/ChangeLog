@@ -1,3 +1,18 @@
+2008-06-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes security vulnerabilities
+	   CVE-2008-1108 and CVE-2008-1109
+
+	* gui/itip-utils.c (html_new_lines_for):
+	Do not use a fixed-size buffer for parsing external data.
+	Simplify the logic to just split and rejoin the string with a
+	different line separator.
+
+	* gui/e-itip-control.c (write_label_piece), (write_recurrence_piece),
+	(set_date_label):
+	Use a GString rather than a fixed-size buffer to build the HTML
+	string to avoid the possibility of an overflow.
+
 2008-06-04  Shuai Liu <shuai.liu@sun.com>
 
 	** Fix for bug #535204
