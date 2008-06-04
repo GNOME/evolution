@@ -1,3 +1,13 @@
+2008-06-04  Shuai Liu<shuai.liu@sun.com>
+
+	* gui/tasks-component.c: (destroy_component_view):
+        ** Fix for bug #535204
+
+        * gui/tasks-component.c: (destroy_component_view):
+        The tasks objects had been destroyed before the call of destroy_
+        component in tasks-component.c. No need to call them.
+
+
 2008-05-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #535459
