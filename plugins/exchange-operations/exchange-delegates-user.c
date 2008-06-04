@@ -51,7 +51,6 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtktogglebutton.h>
 
-#undef GTK_DISABLE_DEPRECATED
 #include <gtk/gtkoptionmenu.h>
 
 #include <glib.h>

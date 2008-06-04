@@ -1,3 +1,9 @@
+2008-06-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* exchange-delegates-user.c:
+	Don't undef DISABLE_DEPRECATED macros in source code.
+	That's just evil.
+
 2008-06-02  Jacob Brown  <jeblinux@gmail.com>
 
 	** Fix for bug #529464
