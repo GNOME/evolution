@@ -1,3 +1,9 @@
+2008-06-05  Johnny Jacob  <jjohnny@novell.com>
+
+	Committing this on behalf Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	* configure.in (EVO_SET_COMPILE_FLAGS): Add libebackend.
+
 2008-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.23.1.1 release and version bump.
