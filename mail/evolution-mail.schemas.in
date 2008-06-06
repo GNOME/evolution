@@ -102,7 +102,7 @@
     </schema>
 
     <schema>
-      <key>/schema/apps/evolution/mail/composer/spell_languages</key>
+      <key>/schemas/apps/evolution/mail/composer/spell_languages</key>
       <applyto>/apps/evolution/mail/composer/spell_languages</applyto>
       <owner>evolution-mail</owner>
       <type>list</type>
