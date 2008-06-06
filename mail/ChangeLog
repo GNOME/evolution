@@ -1,3 +1,9 @@
+2008-06-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	* message-tag-followup.c:
+	Never undefine DISABLE_DEPRECATED macros in source code.
+	Yes, it will break the build if it's defined.  That's the point!
+
 2008-06-02  Jacob Brown  <jeblinux@gmail.com>
 
 	** Fix for bug #529464

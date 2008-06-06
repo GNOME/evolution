@@ -51,8 +51,6 @@
 #include <gtk/gtktreeview.h>
 #include <gtk/gtk.h>
 
-#undef GTK_DISABLE_DEPRECATED
-
 struct _ExchangePermissionsDialogPrivate {
 	ExchangeAccount *account;
 	char *base_uri, *folder_path;

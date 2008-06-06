@@ -26,18 +26,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef GTK_DISABLE_DEPRECATED
-/* Gtk2's GtkCombo widget uses the deprecated GtkList widget, so
-   there's no way to use GtkCombo and still build if
-   GTK_DISABLE_DEPRECATED is defined. Yay Gtk! */
-#undef GTK_DISABLE_DEPRECATED
 #include <gtk/gtkcombo.h>
 #include <gtk/gtklist.h>
-#define GTK_ENABLE_DEPRECATED
-#else
-#include <gtk/gtkcombo.h>
-#include <gtk/gtklist.h>
-#endif /* !GTK_DISABLE_DEPRECATED */
 
 #include <gtk/gtkentry.h>
 #include <gtk/gtktogglebutton.h>
