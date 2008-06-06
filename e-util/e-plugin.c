@@ -995,7 +995,7 @@ epl_loadmodule(EPlugin *ep)
 		return 0;
 
 	if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-		g_warning("can't load plugin '%s'", g_module_error());
+		g_warning("can't load plugin '%s': %s", epl->location, g_module_error());
 		return -1;
 	}
 
