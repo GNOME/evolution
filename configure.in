@@ -230,6 +230,11 @@ int main (int argc, char **argv)
 
 if test $ac_cv_libiconv = yes; then
         ICONV_LIBS="$ICONV_LIBS -liconv"
+	if test $os_win32 = yes; then
+		# Don't pointlessly auto-export the global symbols
+		# from a potentially static libiconv.a
+		ICONV_LIBS="$ICONV_LIBS -Wl,--exclude-libs=libiconv.a"
+	fi
         have_iconv=yes
 else
         CFLAGS="$save_CFLAGS"

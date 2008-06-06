@@ -1,3 +1,9 @@
+2008-06-06  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Add -Wl,--exclude-libs=libiconv.a to ICONV_LIBS on
+	Windows to avoid auto-exporting functions from the static
+	libiconv.a implementation in win_iconv from evolution's DLLs.
+
 2008-06-05  Johnny Jacob  <jjohnny@novell.com>
 
 	Committing this on behalf Chenthill Palanisamy  <pchenthill@novell.com>
