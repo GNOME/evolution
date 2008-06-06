@@ -36,15 +36,8 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-control.h>
 
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-
-#include <gtk/gtkaccelgroup.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktooltips.h>
 
 #include <stdlib.h>
 #include <ctype.h>

@@ -11,15 +11,8 @@
 #include <glib/gi18n-lib.h>
 #include <stdio.h>
 #include <string.h>
+#include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkdialog.h>
 #include <libgnome/gnome-url.h>
 
 #include "camel/camel-multipart.h"

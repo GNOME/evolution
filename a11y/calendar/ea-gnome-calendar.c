@@ -26,7 +26,7 @@
 #include "ea-gnome-calendar.h"
 #include "calendar-commands.h"
 #include <string.h>
-#include <gtk/gtknotebook.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <glib/gi18n.h>

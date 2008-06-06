@@ -26,8 +26,7 @@
 
 #include <string.h>
 
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"

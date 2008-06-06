@@ -25,19 +25,7 @@
 
 #include <string.h>
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmisc.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 
 #include <gconf/gconf-client.h>
 

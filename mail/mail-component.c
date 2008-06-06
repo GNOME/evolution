@@ -74,7 +74,7 @@
 
 #include "e-task-bar.h"
 
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #include <e-util/e-mktemp.h>
 #include <Evolution.h>

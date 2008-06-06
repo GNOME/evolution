@@ -24,7 +24,7 @@
 #ifndef __EM_FOLDER_SELECTION_BUTTON_H__
 #define __EM_FOLDER_SELECTION_BUTTON_H__
 
-#include <gtk/gtkbutton.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

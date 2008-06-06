@@ -26,9 +26,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 #include "e-shell-view.h"

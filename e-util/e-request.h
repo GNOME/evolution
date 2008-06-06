@@ -23,7 +23,7 @@
 #ifndef E_REQUEST_H
 #define E_REQUEST_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 char *e_request_string  (GtkWindow  *parent,
 			 const char *title,

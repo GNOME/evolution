@@ -10,7 +10,7 @@
 #ifndef _GAL_VIEW_FACTORY_MINICARD_H_
 #define _GAL_VIEW_FACTORY_MINICARD_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <widgets/menus/gal-view-factory.h>
 
 #define GAL_TYPE_VIEW_FACTORY_MINICARD        (gal_view_factory_minicard_get_type ())

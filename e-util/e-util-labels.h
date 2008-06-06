@@ -22,8 +22,7 @@
 #ifndef _E_UTIL_LABELS_H
 #define _E_UTIL_LABELS_H
 
-#include <glib.h>
-#include <gdk/gdkcolor.h>
+#include <gtk/gtk.h>
 
 struct _GtkWindow;
 struct _GConfClient;

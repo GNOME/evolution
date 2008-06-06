@@ -1,3 +1,8 @@
+2008-06-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Allow evolution to build with G_DISABLE_SINGLE_INCLUDES and
+	   GTK_DISABLE_SINGLE_INCLUDES defined.  (#536637)
+
 2008-06-06  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Add -Wl,--exclude-libs=libiconv.a to ICONV_LIBS on

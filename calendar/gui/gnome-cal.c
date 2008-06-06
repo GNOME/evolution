@@ -35,7 +35,6 @@
 #include <fcntl.h>
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkbindings.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>

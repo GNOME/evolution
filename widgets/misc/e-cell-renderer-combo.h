@@ -23,7 +23,7 @@
 #ifndef __E_CELL_RENDERER_COMBO_H__
 #define __E_CELL_RENDERER_COMBO_H__
 
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

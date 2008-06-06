@@ -22,11 +22,8 @@
 
 #include <config.h>
 
-#include <gtk/gtk.h>
-
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
-#include <gtk/gtkscrolledwindow.h>
 #include <table/e-table-scrolled.h>
 #include <table/e-table-model.h>
 #include <misc/e-gui-utils.h>

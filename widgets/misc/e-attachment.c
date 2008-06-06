@@ -26,8 +26,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-
 #ifdef G_OS_WIN32
 /* Include <windows.h> early (as the gio stuff below will
  * include it anyway, sigh) to workaround the DATADIR problem.
@@ -46,11 +44,6 @@
 #include <errno.h>
 
 #include <camel/camel.h>
-#include <gtk/gtk.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkdialog.h>
-#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 

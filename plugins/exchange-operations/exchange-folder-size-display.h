@@ -4,8 +4,7 @@
 #ifndef __EXCHANGE_FOLDER_SIZE_DISPLAY_H__
 #define __EXCHANGE_FOLDER_SIZE_DISPLAY_H__
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

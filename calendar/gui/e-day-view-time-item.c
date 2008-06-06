@@ -32,10 +32,7 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkradiomenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <misc/e-gui-utils.h>
 #include "e-day-view-time-item.h"

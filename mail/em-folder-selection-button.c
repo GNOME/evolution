@@ -26,10 +26,6 @@
 
 #include <string.h>
 
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkhbox.h>
-
 #include <e-util/e-util.h>
 #include <glib/gi18n.h>
 

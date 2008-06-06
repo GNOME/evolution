@@ -38,13 +38,6 @@
 #include <gconf/gconf-client.h>
 #include <glade/glade.h>
 
-#include <gtk/gtkentry.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
-
-#include <gtk/gtkfilechooserbutton.h>
 #include <glib/gstdio.h>
 
 #include "e-util/e-error.h"

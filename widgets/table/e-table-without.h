@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_WITHOUT_H_
 #define _E_TABLE_WITHOUT_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <table/e-table-subset.h>
 
 #ifdef __cplusplus

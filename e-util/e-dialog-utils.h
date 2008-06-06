@@ -23,8 +23,7 @@
 #ifndef E_DIALOG_UTILS_H
 #define E_DIALOG_UTILS_H
 
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkfilechooser.h>
+#include <gtk/gtk.h>
 
 void  e_notice                       (gpointer         parent,
 				      GtkMessageType   type,

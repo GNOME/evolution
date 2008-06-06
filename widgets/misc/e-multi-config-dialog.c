@@ -32,8 +32,7 @@
 #include <table/e-cell-vbox.h>
 #include <table/e-cell-text.h>
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
-
+#include <libgnome/gnome-help.h>
 
 #define SWITCH_PAGE_INTERVAL 250
 

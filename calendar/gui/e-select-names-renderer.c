@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtkcellrenderertext.h>
 
 #include "e-calendar-marshal.h"
 

@@ -27,14 +27,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkstock.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
 #include <libgnome/libgnome.h>
-#include <glib/gi18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>

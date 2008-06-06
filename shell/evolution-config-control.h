@@ -26,7 +26,7 @@
 #include "Evolution.h"
 
 #include <bonobo/bonobo-object.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #ifdef cplusplus
 extern "C" {

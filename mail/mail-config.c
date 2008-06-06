@@ -35,14 +35,13 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
 #ifndef G_OS_WIN32
 #include <sys/wait.h>
 #endif
 
-#include <gtk/gtkdialog.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
@@ -256,9 +255,11 @@ gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 	if (!config->jh_check) {
 		mail_session_set_junk_headers (NULL, NULL, 0);
 	} else {
-		config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
-		GSList *node = config->jh_header;
+		GSList *node;
 		GPtrArray *name, *value;
+
+		config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		node = config->jh_header;
 		name = g_ptr_array_new ();
 		value = g_ptr_array_new ();
 		while (node && node->data) {
@@ -278,9 +279,11 @@ static void
 gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
                           GConfEntry *entry, gpointer user_data)
 {
-	config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
-	GSList *node = config->jh_header;
+	GSList *node;
 	GPtrArray *name, *value;
+
+	config->jh_header = gconf_client_get_list (config->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+	node = config->jh_header;
 	name = g_ptr_array_new ();
 	value = g_ptr_array_new ();
 	while (node && node->data) {

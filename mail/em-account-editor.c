@@ -39,7 +39,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <string.h>
@@ -49,22 +49,6 @@
 
 #include <glade/glade.h>
 
-#include <gtk/gtkentry.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktextbuffer.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtktable.h>
-
-#include <glib/gi18n.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 

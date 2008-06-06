@@ -22,8 +22,7 @@
 #ifndef E_CONTACT_PRINT_H
 #define E_CONTACT_PRINT_H
 
-#include <glib.h>
-#include <gtk/gtkprintoperation.h>
+#include <gtk/gtk.h>
 #include <libebook/e-book.h>
 #include "e-contact-print-types.h"
 

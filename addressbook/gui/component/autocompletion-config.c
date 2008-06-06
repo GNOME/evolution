@@ -33,11 +33,8 @@
 
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtksignal.h>
 
 
 typedef struct {

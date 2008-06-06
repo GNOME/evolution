@@ -25,7 +25,6 @@
 #ifndef _E_CELL_H_
 #define _E_CELL_H_
 
-#include <gdk/gdktypes.h>
 #include <gtk/gtk.h>
 #include <table/e-table-model.h>
 #include <table/e-table-tooltip.h>

@@ -30,7 +30,7 @@
 #include <table/e-table-without.h>
 #include <table/e-table-subset-variable.h>
 #include <table/e-table.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

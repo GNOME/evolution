@@ -23,10 +23,6 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>

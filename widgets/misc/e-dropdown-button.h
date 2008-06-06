@@ -27,8 +27,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkmenu.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

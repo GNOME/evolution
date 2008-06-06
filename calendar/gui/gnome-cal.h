@@ -26,7 +26,7 @@
 #define GNOME_CALENDAR_APP_H
 
 #include <time.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>

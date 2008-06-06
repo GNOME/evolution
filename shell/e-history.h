@@ -23,7 +23,7 @@
 #ifndef _E_HISTORY_H_
 #define _E_HISTORY_H_
 
-#include <gnome.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

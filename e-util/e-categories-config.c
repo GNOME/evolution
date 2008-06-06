@@ -9,9 +9,8 @@
  */
 
 #include <string.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserverui/e-categories-dialog.h>
 #include "e-categories-config.h"

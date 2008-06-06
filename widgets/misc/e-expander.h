@@ -24,7 +24,7 @@
 #ifndef _E_EXPANDER_H_
 #define _E_EXPANDER_H_
 
-#include <gtk/gtkbin.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

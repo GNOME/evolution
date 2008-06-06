@@ -20,8 +20,7 @@
 #ifndef __E_SEARCH_BAR_H__
 #define __E_SEARCH_BAR_H__
 
-#include <gtk/gtkhbox.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 #include <bonobo/bonobo-ui-component.h>
 

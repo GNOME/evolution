@@ -25,7 +25,7 @@
 #ifndef _E_MEMO_TABLE_H_
 #define _E_MEMO_TABLE_H_
 
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <table/e-table-scrolled.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include "e-activity-handler.h"

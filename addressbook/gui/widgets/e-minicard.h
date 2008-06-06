@@ -20,7 +20,7 @@
 #ifndef __E_MINICARD_H__
 #define __E_MINICARD_H__
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 #include "addressbook/gui/contact-editor/eab-editor.h"
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libebook/e-contact.h>

@@ -24,18 +24,7 @@
 #endif
 #include <glade/glade.h>
 #include "share-folder.h"
-#include <glib/gmain.h>
 #include <glib/gi18n-lib.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtk.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
 #include <libedataserverui/e-contact-store.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnome/gnome-init.h>

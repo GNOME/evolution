@@ -37,6 +37,7 @@
 
 #include <bonobo-activation/bonobo-activation.h>
 
+#include <stdlib.h>
 #include <string.h>
 
 struct _EShellSettingsDialogPrivate {

@@ -23,7 +23,7 @@
 #ifndef _CA_TRUST_DIALOG_H_
 #define _CA_TRUST_DIALOG_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "e-cert.h"
 
 GtkWidget* ca_trust_dialog_show (ECert *cert, gboolean importing);

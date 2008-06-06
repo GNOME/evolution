@@ -24,7 +24,6 @@
 #ifndef _E_PRINTABLE_H_
 #define _E_PRINTABLE_H_
 
-#include <gtk/gtkobject.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

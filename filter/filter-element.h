@@ -23,9 +23,7 @@
 #ifndef _FILTER_ELEMENT_H
 #define _FILTER_ELEMENT_H
 
-#include <glib.h>
-#include <glib-object.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 

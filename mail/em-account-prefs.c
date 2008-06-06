@@ -26,13 +26,6 @@
 
 #include <camel/camel-url.h>
 
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
-
 #include <glib/gi18n.h>
 
 #include "mail-component.h"

@@ -23,8 +23,7 @@
 #define __GCONF_BRIDGE_H__
 
 #include <gconf/gconf-client.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

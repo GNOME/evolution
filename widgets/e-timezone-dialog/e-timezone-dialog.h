@@ -22,7 +22,7 @@
 #ifndef __E_TIMEZONE_DIALOG_H__
 #define __E_TIMEZONE_DIALOG_H__
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libical/ical.h>
 
 

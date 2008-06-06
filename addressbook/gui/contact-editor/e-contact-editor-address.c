@@ -25,14 +25,9 @@
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 
-#include <glib.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <misc/e-gui-utils.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtklabel.h>
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>

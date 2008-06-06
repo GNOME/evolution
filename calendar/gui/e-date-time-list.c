@@ -21,10 +21,6 @@
  */
 
 #include <string.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktreednd.h>
-#include <glib.h>
 #include <libedataserver/e-time-utils.h>
 #include "e-date-time-list.h"
 #include <libecal/e-cal-time-util.h>

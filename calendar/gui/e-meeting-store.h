@@ -23,7 +23,7 @@
 #ifndef _E_MEETING_STORE_H_
 #define _E_MEETING_STORE_H_
 
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 #include "e-meeting-attendee.h"
 

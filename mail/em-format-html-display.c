@@ -26,7 +26,7 @@
 
 #include <string.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -41,28 +41,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-search.h>
-
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtktoolbutton.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtksignal.h>
 
 #include <glade/glade.h>
 

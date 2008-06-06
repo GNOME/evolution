@@ -26,8 +26,7 @@
 #ifndef E_POPUP_MENU_H
 #define E_POPUP_MENU_H
 
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

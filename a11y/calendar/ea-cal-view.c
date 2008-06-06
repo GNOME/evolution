@@ -29,7 +29,7 @@
 #include "e-week-view.h"
 #include "calendar-commands.h"
 #include "goto.h"
-#include <glib/gstrfuncs.h>
+#include <glib.h>
 #include <glib/gi18n.h>
 
 static void ea_cal_view_class_init (EaCalViewClass *klass);

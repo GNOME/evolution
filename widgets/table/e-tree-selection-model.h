@@ -24,8 +24,7 @@
 #ifndef _E_TREE_SELECTION_MODEL_H_
 #define _E_TREE_SELECTION_MODEL_H_
 
-#include <gdk/gdktypes.h>
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <e-util/e-sorter.h>
 #include <misc/e-selection-model.h>
 #include <table/e-tree-model.h>

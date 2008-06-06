@@ -23,12 +23,13 @@
 #ifndef MAIL_SEND_RECV_H
 #define MAIL_SEND_RECV_H
 
+#include <gtk/gtk.h>
+#include "mail-config.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
-
-#include "mail-config.h"
 
 /* send/receive all uri's */
 GtkWidget *mail_send_receive(void);

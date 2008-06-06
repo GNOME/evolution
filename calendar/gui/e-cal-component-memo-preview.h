@@ -25,7 +25,7 @@
 #ifndef _E_CAL_COMPONENT_MEMO_PREVIEW_H_
 #define _E_CAL_COMPONENT_MEMO_PREVIEW_H_
 
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 
 #define E_TYPE_CAL_COMPONENT_MEMO_PREVIEW            (e_cal_component_memo_preview_get_type ())

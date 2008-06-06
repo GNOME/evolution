@@ -28,7 +28,7 @@
 #include <glib/gi18n.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-main.h>
-#include <gnome.h>
+#include <libgnome/gnome-init.h>
 
 #include <libebook/e-book.h>
 

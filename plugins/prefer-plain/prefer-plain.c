@@ -7,6 +7,7 @@
 #include "config.h"
 #endif
 
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdio.h>
@@ -17,12 +18,6 @@
 #include "mail/em-format.h"
 
 #include <gconf/gconf-client.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
 #include "mail/em-config.h"
 
 void org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t);

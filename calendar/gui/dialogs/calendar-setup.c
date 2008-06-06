@@ -25,10 +25,7 @@
 
 #include <string.h>
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>

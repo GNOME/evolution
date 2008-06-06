@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_SELECTION_MODEL_H_
 #define _E_TABLE_SELECTION_MODEL_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <misc/e-selection-model-array.h>
 #include <table/e-table-model.h>
 #include <table/e-table-header.h>

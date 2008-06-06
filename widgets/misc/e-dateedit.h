@@ -41,9 +41,7 @@
 #define __E_DATE_EDIT_H_
 
 #include <time.h>
-#include <glib.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #define E_TYPE_DATE_EDIT            (e_date_edit_get_type ())
 #define E_DATE_EDIT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DATE_EDIT, EDateEdit))

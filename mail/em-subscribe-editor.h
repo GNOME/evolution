@@ -2,7 +2,7 @@
 #ifndef _EM_SUBSCRIBE_EDITOR_H
 #define _EM_SUBSCRIBE_EDITOR_H
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 GtkDialog *em_subscribe_editor_new(void);
 

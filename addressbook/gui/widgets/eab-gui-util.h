@@ -20,7 +20,7 @@
 #ifndef __E_ADDRESSBOOK_UTIL_H__
 #define __E_ADDRESSBOOK_UTIL_H__
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <libebook/e-book.h>
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"

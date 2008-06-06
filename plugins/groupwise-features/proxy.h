@@ -21,7 +21,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <gtk/gtkwidget.h>
 #include <libedataserver/e-account.h>
 #include <gtk/gtk.h>
 

@@ -21,8 +21,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <gtk/gtkaccessible.h>
-#include <glib/gstrfuncs.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include "ea-minicard.h"
 #include "ea-minicard-view.h"

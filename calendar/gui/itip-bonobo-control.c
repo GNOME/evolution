@@ -22,9 +22,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>

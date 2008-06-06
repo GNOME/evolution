@@ -2,10 +2,8 @@
 #ifndef _E_PLUGIN_H
 #define _E_PLUGIN_H
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <libxml/tree.h>
-#include <gtk/gtkwidget.h>
 
 /* ********************************************************************** */
 

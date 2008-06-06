@@ -10,25 +10,10 @@
 #include "config.h"
 #endif
 
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdio.h>
-
-#include <gtk/gtklabel.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreesortable.h>
-#include <gtk/gtktreemodelsort.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtknotebook.h>
 
 #include "e-util/e-plugin.h"
 #include "shell/es-menu.h"

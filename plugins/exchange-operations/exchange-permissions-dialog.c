@@ -40,16 +40,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-error.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkmenushell.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtk.h>
 
 struct _ExchangePermissionsDialogPrivate {
 	ExchangeAccount *account;

@@ -26,10 +26,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>

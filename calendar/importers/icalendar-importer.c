@@ -31,13 +31,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
-#include <gtk/gtkmain.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtk.h>
 
 #include <libecal/e-cal.h>
 #include <libedataserverui/e-source-selector.h>

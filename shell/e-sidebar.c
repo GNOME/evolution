@@ -28,12 +28,6 @@
 
 #include "e-shell-marshal.h"
 
-#include <gtk/gtk.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktogglebutton.h>
-
 #include <gconf/gconf-client.h>
 #include <libgnome/gnome-gconf.h>
 

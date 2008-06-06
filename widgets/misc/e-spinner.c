@@ -36,11 +36,6 @@
 #define START_PROFILER(name)
 #define STOP_PROFILER(name)
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkicontheme.h>
-#include <gtk/gtkiconfactory.h>
-#include <gtk/gtksettings.h>
-
 #include "e-util/e-icon-factory.h"
 
 /* Spinner cache implementation */

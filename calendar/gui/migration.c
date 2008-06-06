@@ -29,15 +29,10 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
 #include <bonobo/bonobo-i18n.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkprogressbar.h>
 #include <libecal/e-cal.h>
 
 #include <libebackend/e-dbhash.h>

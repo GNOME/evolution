@@ -30,8 +30,6 @@
 
 #include <pthread.h>
 
-#include <gtk/gtkicontheme.h>
-#include <gtk/gtkimage.h>
 #ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
 #include <libgnomeui/gnome-thumbnail.h>
 #endif

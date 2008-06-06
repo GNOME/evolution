@@ -36,15 +36,9 @@
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkselection.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvscrollbar.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkmain.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-util.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>

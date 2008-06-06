@@ -31,14 +31,10 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <gconf/gconf-client.h>
-
-#include <gtk/gtk.h>
-
-#include <glib/gi18n.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-file-utils.h>

@@ -22,8 +22,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <gtk/gtkmessagedialog.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <e-util/e-icon-factory.h>

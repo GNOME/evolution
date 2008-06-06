@@ -36,12 +36,7 @@
 
 #include <time.h>
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>

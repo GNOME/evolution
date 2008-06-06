@@ -22,7 +22,7 @@
 
 #include <config.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
 #ifdef G_OS_WIN32
@@ -49,18 +49,6 @@
 #include <libxml/tree.h>
 
 #include <gconf/gconf-client.h>
-
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkcheckbutton.h>
 
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>

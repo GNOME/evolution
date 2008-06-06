@@ -26,7 +26,7 @@
 #ifndef __EA_GNOME_CALENDAR_H__
 #define __EA_GNOME_CALENDAR_H__
 
-#include <gtk/gtkaccessible.h>
+#include <gtk/gtk.h>
 #include "gnome-cal.h"
 
 #ifdef __cplusplus

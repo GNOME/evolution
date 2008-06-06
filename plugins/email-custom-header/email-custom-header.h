@@ -20,7 +20,7 @@
 #ifndef __EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_H__
 #define __EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_H__
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #define EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG       (epech_dialog_get_type ())
 #define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialog))

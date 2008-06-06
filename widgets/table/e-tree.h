@@ -24,8 +24,7 @@
 #ifndef _E_TREE_H_
 #define _E_TREE_H_
 
-#include <gtk/gtkdnd.h>
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <libxml/tree.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <misc/e-printable.h>

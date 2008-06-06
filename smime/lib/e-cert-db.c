@@ -60,7 +60,8 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 /* XXX toshok why oh *why* god WHY did they do this?  no fucking
@@ -90,8 +91,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-util-private.h"
-#include <gtk/gtkmessagedialog.h>
-#include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
 #include <sys/types.h>
 #include <sys/stat.h>

@@ -20,7 +20,7 @@
 #ifndef __E_CONTACT_EDITOR_IM_H__
 #define __E_CONTACT_EDITOR_IM_H__
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libebook/e-contact.h>
 

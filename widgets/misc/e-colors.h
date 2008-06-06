@@ -24,9 +24,7 @@
 #ifndef GNOME_APP_LIBS_COLOR_H
 #define GNOME_APP_LIBS_COLOR_H
 
-#include <glib.h>
-#include <gdk/gdk.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

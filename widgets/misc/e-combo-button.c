@@ -28,14 +28,6 @@
 #include "ea-widgets.h"
 #include <e-util/e-icon-factory.h>
 
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtksignal.h>
-
 struct _EComboButtonPrivate {
 	GdkPixbuf *icon;
 

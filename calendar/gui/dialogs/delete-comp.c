@@ -22,10 +22,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtk.h>
-#include <gtk/gtkmessagedialog.h>
 #include <glib/gi18n.h>
 #include <e-util/e-icon-factory.h>
 #include "e-util/e-error.h"

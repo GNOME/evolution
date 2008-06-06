@@ -37,7 +37,7 @@
 #ifndef E_TEXT_H
 #define E_TEXT_H
 
-#include <gtk/gtkmenu.h>
+#include <gtk/gtk.h>
 
 #include <e-util/e-text-event-processor.h>
 #include <text/e-text-model.h>

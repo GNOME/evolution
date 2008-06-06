@@ -27,17 +27,10 @@
 
 #include <string.h>
 #include <time.h>
-#include <glib.h>
-#include <glib/gstdio.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkstock.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtkbindings.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
+#include <gdk/gdkkeysyms.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-error.h>
 #include <e-util/e-dialog-utils.h>

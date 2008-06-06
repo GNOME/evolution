@@ -41,6 +41,7 @@
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>
 #include <libgpilotdCM/gnome-pilot-conduit-config.h>
+#include <libgnome/gnome-config.h>
 #include <e-dialog-widgets.h>
 #include <e-pilot-map.h>
 #include <e-pilot-settings.h>

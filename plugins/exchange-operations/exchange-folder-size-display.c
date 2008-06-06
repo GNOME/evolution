@@ -28,11 +28,6 @@
 #include <glib/gi18n.h>
 #include <e-util/e-dialog-utils.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
 #include "exchange-folder-size-display.h"
 
 enum {

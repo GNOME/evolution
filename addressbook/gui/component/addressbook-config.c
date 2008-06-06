@@ -15,20 +15,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkrange.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtklabel.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 

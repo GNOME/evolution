@@ -22,7 +22,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkmessagedialog.h>
 #include <bonobo/bonobo-i18n.h>
 #include "copy-source-dialog.h"
 #include "select-source-dialog.h"

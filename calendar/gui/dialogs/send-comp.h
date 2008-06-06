@@ -21,8 +21,7 @@
 #ifndef SEND_COMP_H
 #define SEND_COMP_H
 
-#include <glib.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 

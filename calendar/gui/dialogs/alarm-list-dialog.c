@@ -29,13 +29,7 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>

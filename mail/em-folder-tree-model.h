@@ -24,8 +24,7 @@
 #ifndef __EM_FOLDER_TREE_MODEL_H__
 #define __EM_FOLDER_TREE_MODEL_H__
 
-#include <gtk/gtktreednd.h>
-#include <gtk/gtktreestore.h>
+#include <gtk/gtk.h>
 
 #include <libxml/tree.h>
 

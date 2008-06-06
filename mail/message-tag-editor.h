@@ -24,8 +24,7 @@
 #ifndef __MESSAGE_TAG_EDITOR_H__
 #define __MESSAGE_TAG_EDITOR_H__
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-summary.h>
 

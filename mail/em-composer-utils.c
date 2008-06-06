@@ -25,7 +25,7 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>

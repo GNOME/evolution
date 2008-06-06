@@ -22,11 +22,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktreednd.h>
 #include <glib/gi18n.h>
-#include <glib.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-time-utils.h>
 #include "calendar-config.h"

@@ -24,7 +24,7 @@
 #ifndef _E_CAL_COMPONENT_PREVIEW_H_
 #define _E_CAL_COMPONENT_PREVIEW_H_
 
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>

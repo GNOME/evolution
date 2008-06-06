@@ -30,8 +30,7 @@
 #ifndef __E_CELL_SPIN_BUTTON_H__
 #define __E_CELL_SPIN_BUTTON_H__
 
-#include <glib.h>
-#include <gtk/gtktypeutils.h>
+#include <gtk/gtk.h>
 #include <table/e-cell.h>
 
 #define E_CELL_SPIN_BUTTON_TYPE        (e_cell_spin_button_get_type ())

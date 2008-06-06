@@ -25,7 +25,7 @@
 #define __E_TABLE_FIELD_CHOOSER_H__
 
 #include <glade/glade.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <table/e-table-header.h>
 
 G_BEGIN_DECLS

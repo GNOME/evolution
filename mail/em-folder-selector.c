@@ -32,14 +32,6 @@
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
 
-#include <gtk/gtkentry.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkstock.h>
-
 #include <camel/camel-url.h>
 #include <camel/camel-store.h>
 #include <camel/camel-session.h>

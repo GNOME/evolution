@@ -23,7 +23,7 @@
 #ifndef E_ALARM_LIST_H
 #define E_ALARM_LIST_H
 
-#include <gtk/gtktreemodel.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 
 G_BEGIN_DECLS

@@ -23,7 +23,9 @@
 
 #include "e-multi-config-dialog.c"
 
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-ui-init.h>
 
 
 #define NUM_PAGES 10

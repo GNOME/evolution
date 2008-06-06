@@ -24,8 +24,7 @@
 #ifndef _MESSAGE_LIST_H_
 #define _MESSAGE_LIST_H_
 
-#include <gtk/gtkobject.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #include <table/e-table-simple.h>
 #include <table/e-tree-scrolled.h>

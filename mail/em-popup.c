@@ -27,19 +27,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-
-#include <gio/gio.h>
-
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkradiomenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimage.h>
 
 #include <libgnome/gnome-url.h>
 

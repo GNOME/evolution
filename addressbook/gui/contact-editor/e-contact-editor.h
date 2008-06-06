@@ -30,8 +30,7 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

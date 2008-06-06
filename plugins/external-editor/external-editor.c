@@ -201,8 +201,6 @@ show_composer_dialog (EMsgComposer *composer)
 
 void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 {
-	d(printf ("\n\nexternal_editor plugin is launched \n\n"));
-
 	/* The template to be used in the external editor */
 
 	/* README: I have not marked this for translation. 
@@ -212,6 +210,11 @@ void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 
 	gint fd;
 	char *filename = NULL;
+	char *editor = NULL;
+	GConfClient *gconf;
+	GArray *array;
+
+	d(printf ("\n\nexternal_editor plugin is launched \n\n"));
 
 	fd = g_file_open_tmp (NULL, &filename, NULL);
 	if (fd > 0) {
@@ -225,9 +228,6 @@ void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 		return ;
 	}
 
-	char *editor = NULL;
-	GConfClient *gconf;
-
 	gconf = gconf_client_get_default ();
 	editor = gconf_client_get_string (gconf, EDITOR_GCONF_KEY, NULL);
 	if (!editor) {
@@ -240,7 +240,6 @@ void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
 	}
 	g_object_unref (gconf);
 
-	GArray *array;
 	array = g_array_sized_new (TRUE, TRUE, sizeof (gpointer), 2 * sizeof(gpointer));
 	array = g_array_append_val (array, editor);
 	array = g_array_append_val (array, filename);

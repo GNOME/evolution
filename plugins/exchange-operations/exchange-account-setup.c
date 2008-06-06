@@ -28,10 +28,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
-#include <gtk/gtk.h>
-#include <gtk/gtkdialog.h>
 #include <gconf/gconf-client.h>
 #include <camel/camel-provider.h>
 #include <camel/camel-url.h>

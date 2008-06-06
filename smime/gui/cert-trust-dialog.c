@@ -31,10 +31,7 @@
 #include "cert-trust-dialog.h"
 #include "ca-trust-dialog.h"
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #include <glib/gi18n.h>
 #include <glade/glade.h>

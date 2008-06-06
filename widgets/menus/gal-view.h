@@ -24,7 +24,7 @@
 #ifndef _GAL_VIEW_H_
 #define _GAL_VIEW_H_
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <libxml/tree.h>
 
 #ifdef __cplusplus

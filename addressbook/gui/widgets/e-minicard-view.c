@@ -27,8 +27,7 @@
 #include "eab-marshal.h"
 #include "util/eab-book-util.h"
 
-#include <gtk/gtkselection.h>
-#include <gtk/gtkdnd.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <misc/e-canvas.h>
 #include <glib/gi18n.h>

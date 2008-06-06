@@ -23,11 +23,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gnome.h>
+#include <gtk/gtk.h>
 #include <libical/ical.h>
 #include <glade/glade.h>
 #include <misc/e-map.h>

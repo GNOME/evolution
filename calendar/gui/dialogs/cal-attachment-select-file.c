@@ -30,15 +30,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkversion.h>
-
-#include <gtk/gtkfilechooser.h>
-#include <gtk/gtkfilechooserdialog.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <libgnomeui/gnome-uidefs.h>
 #include <glib/gi18n.h>

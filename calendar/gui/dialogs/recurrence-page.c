@@ -28,17 +28,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>

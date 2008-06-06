@@ -24,9 +24,7 @@
 #ifndef GAL_GUI_UTILS_H
 #define GAL_GUI_UTILS_H
 
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkwindow.h>
-
+#include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 
 G_BEGIN_DECLS

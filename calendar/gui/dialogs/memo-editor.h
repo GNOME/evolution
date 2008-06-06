@@ -25,7 +25,7 @@
 #ifndef __MEMO_EDITOR_H__
 #define __MEMO_EDITOR_H__
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtk.h>
 #include "comp-editor.h"
 
 #define TYPE_MEMO_EDITOR            (memo_editor_get_type ())

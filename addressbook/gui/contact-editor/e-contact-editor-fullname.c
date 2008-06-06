@@ -25,10 +25,6 @@
 #include <e-util/e-util-private.h>
 #include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
 static void e_contact_editor_fullname_class_init	(EContactEditorFullnameClass	 *klass);

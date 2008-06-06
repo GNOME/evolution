@@ -551,9 +551,9 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 	unsigned int activity_id;
 	GSList *p;
 	char *information = g_object_get_data((GObject *) error, "primary");
-	priv = activity_handler->priv;
 	const char *img;
 
+	priv = activity_handler->priv;
 	activity_id = get_new_activity_id (activity_handler);
 
 	activity_info = activity_info_new (component_id, activity_id, NULL, information, TRUE);

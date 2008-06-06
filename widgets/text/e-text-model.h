@@ -24,8 +24,7 @@
 #ifndef E_TEXT_MODEL_H
 #define E_TEXT_MODEL_H
 
-#include <glib.h>
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

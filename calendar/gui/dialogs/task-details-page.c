@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <misc/e-dateedit.h>

@@ -11,9 +11,7 @@
 #ifndef __E_CATEGORIES_CONFIG_H__
 #define __E_CATEGORIES_CONFIG_H__
 
-#include <glib.h>
-#include <gdk/gdk.h>
-#include <gtk/gtkentry.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

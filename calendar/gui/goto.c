@@ -9,13 +9,7 @@
  */
 
 #include <config.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "e-util/e-util-private.h"

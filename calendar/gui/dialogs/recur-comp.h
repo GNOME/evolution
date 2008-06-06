@@ -21,7 +21,7 @@
 #ifndef RECUR_COMP_H
 #define RECUR_COMP_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>

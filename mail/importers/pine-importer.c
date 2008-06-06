@@ -35,10 +35,8 @@
 #include <dirent.h>
 #include <string.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkcheckbutton.h>
 
 #include <gconf/gconf-client.h>
 

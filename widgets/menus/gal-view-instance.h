@@ -24,7 +24,7 @@
 #ifndef _GAL_VIEW_INSTANCE_H_
 #define _GAL_VIEW_INSTANCE_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <widgets/menus/gal-view-collection.h>
 #include <misc/e-popup-menu.h>
 

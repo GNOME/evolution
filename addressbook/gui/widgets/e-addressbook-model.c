@@ -9,13 +9,13 @@
 
 #include <config.h>
 #include <string.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include "eab-marshal.h"
 #include "e-addressbook-model.h"
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <gnome.h>
 #include <misc/e-gui-utils.h>
 #include "eab-gui-util.h"
 

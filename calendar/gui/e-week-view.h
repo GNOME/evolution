@@ -24,7 +24,7 @@
 #ifndef _E_WEEK_VIEW_H_
 #define _E_WEEK_VIEW_H_
 
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
 #include "e-calendar-view.h"

@@ -28,7 +28,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <shell/Evolution.h>
 
 struct _ESignature;

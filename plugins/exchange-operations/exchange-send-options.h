@@ -20,7 +20,6 @@
 #ifndef __EXCHANGE_SENDOPTIONS_DIALOG_H__
 #define __EXCHANGE_SENDOPTIONS_DIALOG_H__
 
-#include <gtk/gtkwidget.h>
 #include <gtk/gtk.h>
 
 

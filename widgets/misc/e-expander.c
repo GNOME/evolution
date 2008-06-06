@@ -26,8 +26,6 @@
 #include "e-expander.h"
 #include "ea-widgets.h"
 
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcontainer.h>
 #include <gdk/gdkkeysyms.h>
 
 #define DEFAULT_EXPANDER_SIZE 10

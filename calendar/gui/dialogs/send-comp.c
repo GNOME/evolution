@@ -22,7 +22,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkmessagedialog.h>
 #include "e-util/e-error.h"
 #include "send-comp.h"
 

@@ -25,8 +25,7 @@
 #define _E_DAY_VIEW_H_
 
 #include <time.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
 #include "e-calendar-view.h"

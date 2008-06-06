@@ -2,7 +2,7 @@
 #ifndef EM_MESSAGE_BROWSER_H
 #define EM_MESSAGE_BROWSER_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "em-folder-view.h"
 
 /* Standard GObject macros */

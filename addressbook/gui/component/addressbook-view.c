@@ -26,11 +26,7 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-href.h>

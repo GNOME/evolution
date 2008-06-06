@@ -24,22 +24,19 @@
 #ifndef __EM_ACCOUNT_PREFS_H__
 #define __EM_ACCOUNT_PREFS_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkclist.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <gtk/gtktreeview.h>
 
 #include <table/e-table.h>
 
 #include "evolution-config-control.h"
 
 #include <shell/Evolution.h>
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 
 #define EM_ACCOUNT_PREFS_TYPE        (em_account_prefs_get_type ())

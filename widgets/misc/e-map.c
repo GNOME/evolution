@@ -24,8 +24,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"

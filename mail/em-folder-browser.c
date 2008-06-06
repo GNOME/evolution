@@ -31,12 +31,7 @@
 
 #include <string.h>
 
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkvpaned.h>
-#include <gtk/gtkhpaned.h>
-#include <gtkhtml/gtkhtml.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
 
@@ -99,6 +94,8 @@
 #include "mail-ops.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
+
+#include <gtkhtml/gtkhtml.h>
 
 extern CamelSession *session;
 CamelStore *vfolder_store; /* the 1 static vfolder store */

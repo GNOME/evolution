@@ -23,8 +23,7 @@
 #ifndef EM_FOLDER_VIEW_H
 #define EM_FOLDER_VIEW_H
 
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkprintoperation.h>
+#include <gtk/gtk.h>
 #include "mail/em-popup.h"
 
 /* Standard GObject macros */

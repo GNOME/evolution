@@ -22,7 +22,7 @@
 #define COMP_EDITOR_PAGE_H
 
 #include <time.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal.h>
 

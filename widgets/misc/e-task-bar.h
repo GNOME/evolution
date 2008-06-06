@@ -25,7 +25,7 @@
 
 #include "e-task-widget.h"
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

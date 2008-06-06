@@ -16,7 +16,7 @@
 
 #include "mail/em-popup.h"
 
-#include <gtk/gtkclipboard.h>
+#include <gtk/gtk.h>
 
 #include "camel/camel-internet-address.h"
 #include "camel/camel-url.h"

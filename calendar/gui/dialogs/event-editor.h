@@ -24,7 +24,7 @@
 #ifndef __EVENT_EDITOR_H__
 #define __EVENT_EDITOR_H__
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtk.h>
 #include "comp-editor.h"
 
 

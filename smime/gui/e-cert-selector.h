@@ -24,7 +24,7 @@
 #ifndef E_CERT_SELECTOR_H
 #define E_CERT_SELECTOR_H
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 #ifdef cplusplus
 extern "C" {

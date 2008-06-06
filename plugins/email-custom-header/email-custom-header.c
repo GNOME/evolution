@@ -23,10 +23,6 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtktable.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-error.h>
@@ -268,10 +264,12 @@ epech_load_from_gconf (GConfClient *client,const char *path,CustomHeaderOptionsD
 	header_list = gconf_client_get_list (client,path,GCONF_VALUE_STRING, NULL);
 
 	for (q = header_list,pos = 0; q != NULL; q = q->next,pos++) {
+		gchar **parse_header_list;
+
 		memset(&temp_header_value_details,0,sizeof(CustomSubHeader));
 		temp_header_details.sub_header_type_value = g_array_new (TRUE, TRUE, sizeof (CustomSubHeader));
 		buffer = q->data;
-		gchar **parse_header_list = g_strsplit_set (buffer, "=;,", -1);
+		parse_header_list = g_strsplit_set (buffer, "=;,", -1);
 		str_colon = g_strconcat (parse_header_list[0], ":", NULL);
 		temp_header_details.header_type_value = g_string_new("");
 		if (temp_header_details.header_type_value) {

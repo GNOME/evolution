@@ -23,7 +23,7 @@
 #ifndef __E_SELECT_NAMES_RENDERER_H__
 #define __E_SELECT_NAMES_RENDERER_H__
 
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

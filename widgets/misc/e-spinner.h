@@ -28,8 +28,7 @@
 #ifndef E_SPINNER_H
 #define E_SPINNER_H
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkenums.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

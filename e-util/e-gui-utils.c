@@ -20,14 +20,6 @@
 #include "e-gui-utils.h"
 #include <e-util/e-icon-factory.h>
 
-#include <glib.h>
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkicontheme.h>
-
 #include <libgnome/gnome-program.h>
 #include <libgnomeui/gnome-icon-lookup.h>
 

@@ -7,7 +7,7 @@
 #ifndef __EA_COMBO_BUTTON_H_
 #define __EA_COMBO_BUTTON_H_
 
-#include <gtk/gtkaccessible.h>
+#include <gtk/gtk.h>
 #include <misc/e-combo-button.h>
 
 #define EA_TYPE_COMBO_BUTTON			(ea_combo_button_get_type ())

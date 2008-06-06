@@ -43,17 +43,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <glade/glade.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkmenushell.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktogglebutton.h>
-
-#include <gtk/gtkoptionmenu.h>
-
-#include <glib.h>
 
 #include <string.h>
 

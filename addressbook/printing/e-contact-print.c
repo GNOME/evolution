@@ -26,8 +26,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <glib.h>
-
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
@@ -36,7 +34,6 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 
-#include <gtk/gtk.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-xml-utils.h>
 

@@ -23,10 +23,7 @@
 #ifndef _E_MEETING_TIME_SELECTOR_H_
 #define _E_MEETING_TIME_SELECTOR_H_
 
-#include <glib.h>
-#include <gtk/gtkaccelgroup.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <text/e-text.h>
 #include <table/e-table-model.h>

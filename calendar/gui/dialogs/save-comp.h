@@ -22,7 +22,7 @@
 #ifndef SAVE_COMP_H
 #define SAVE_COMP_H
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 
 GtkResponseType save_component_dialog (GtkWindow *parent, ECalComponent *comp);

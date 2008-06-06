@@ -26,13 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtklabel.h>
-#include <gnome.h>
 #include <glade/glade.h>
 #include <misc/e-map.h>
 #include <libecal/e-cal-time-util.h>

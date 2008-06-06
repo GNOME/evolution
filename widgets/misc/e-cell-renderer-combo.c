@@ -24,10 +24,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkbutton.h>
-
 #include "e-combo-cell-editable.h"
 #include "e-cell-renderer-combo.h"
 

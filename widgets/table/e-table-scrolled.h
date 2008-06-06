@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_SCROLLED_H_
 #define _E_TABLE_SCROLLED_H_
 
-#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtk.h>
 #include <table/e-table-model.h>
 #include <table/e-table.h>
 

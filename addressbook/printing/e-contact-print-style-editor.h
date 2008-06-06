@@ -21,7 +21,7 @@
 #ifndef __E_CONTACT_PRINT_STYLE_EDITOR_H__
 #define __E_CONTACT_PRINT_STYLE_EDITOR_H__
 
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 
 #ifdef __cplusplus

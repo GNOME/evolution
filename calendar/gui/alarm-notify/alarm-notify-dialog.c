@@ -22,17 +22,6 @@
 #include <config.h>
 #include <stdio.h>
 #include <string.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #if 0
 #  include <libgnomeui/gnome-winhints.h>

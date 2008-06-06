@@ -7,10 +7,9 @@
 #ifndef __GAL_A11Y_E_TREE_H__
 #define __GAL_A11Y_E_TREE_H__
 
-#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <atk/atkobject.h>
 #include <atk/atkcomponent.h>
-#include <gtk/gtkaccessible.h>
 
 #define GAL_A11Y_TYPE_E_TREE            (gal_a11y_e_tree_get_type ())
 #define GAL_A11Y_E_TREE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_TREE, GalA11yETree))

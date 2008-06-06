@@ -34,10 +34,10 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
-#include <glib.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gnome.h>
+#include <gdk/gdkkeysyms.h>
+#include <libgnome/gnome-url.h>
 #include <widgets/misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>

@@ -25,14 +25,7 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkrc.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktogglebutton.h>
 #include <glib/gi18n.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "e-shell-constants.h"
 #include "e-shell-marshal.h"

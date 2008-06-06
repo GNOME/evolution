@@ -22,7 +22,7 @@
 #define __EVOLUTION_SHELL_COMPONENT_UTILS_H__
 
 #include <bonobo/bonobo-ui-component.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

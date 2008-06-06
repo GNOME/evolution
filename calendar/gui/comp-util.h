@@ -22,9 +22,7 @@
 #ifndef COMP_UTIL_H
 #define COMP_UTIL_H
 
-#include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkselection.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal.h>
 

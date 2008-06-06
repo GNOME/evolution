@@ -35,11 +35,6 @@
 #include <math.h>
 #include <time.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvscrollbar.h>
-#include <gtk/gtkwindow.h>
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>
 #include <misc/e-popup-menu.h>

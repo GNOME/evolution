@@ -24,7 +24,7 @@
 #ifndef _E_TREE_SCROLLED_H_
 #define _E_TREE_SCROLLED_H_
 
-#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtk.h>
 #include <table/e-tree-model.h>
 #include <table/e-tree.h>
 

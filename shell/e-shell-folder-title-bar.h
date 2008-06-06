@@ -23,8 +23,7 @@
 #ifndef __E_SHELL_FOLDER_TITLE_BAR_H__
 #define __E_SHELL_FOLDER_TITLE_BAR_H__
 
-#include <gtk/gtkhbox.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

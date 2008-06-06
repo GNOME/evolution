@@ -29,9 +29,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-ui-init.h>

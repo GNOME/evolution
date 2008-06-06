@@ -27,8 +27,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include <glib.h>
-
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <glade/glade.h>
@@ -38,8 +37,6 @@
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-edge.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
-
-#include <gtk/gtkfilechooserbutton.h>
 
 #include "misc/e-gui-utils.h"
 

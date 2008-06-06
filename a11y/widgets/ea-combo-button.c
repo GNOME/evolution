@@ -6,8 +6,7 @@
 
 #include <config.h>
 #include "ea-combo-button.h"
-#include <gtk/gtkbutton.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 static AtkObjectClass *parent_class;

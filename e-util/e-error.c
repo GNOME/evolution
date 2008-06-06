@@ -27,16 +27,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <glib.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-url.h>
 

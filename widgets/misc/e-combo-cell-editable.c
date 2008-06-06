@@ -22,18 +22,6 @@
 
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkcelleditable.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkwindow.h>
 
 #include "e-combo-cell-editable.h"
 

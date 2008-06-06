@@ -25,8 +25,7 @@
 
 #include <stdarg.h>
 #include <unistd.h>
-#include <glib-object.h>
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include <libedataserver/e-source-list.h>
 #include <libecal/e-cal.h>
 

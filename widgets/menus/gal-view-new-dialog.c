@@ -23,8 +23,6 @@
 
 #include <config.h>
 
-#include <gtk/gtk.h>
-
 #include "table/e-table-scrolled.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"

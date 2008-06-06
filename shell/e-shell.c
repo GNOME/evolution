@@ -23,13 +23,11 @@
 #include <config.h>
 
 #include <string.h>
+#include <unistd.h>
 #include <sys/types.h>
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gstdio.h>
-
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
 
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkprivate.h>

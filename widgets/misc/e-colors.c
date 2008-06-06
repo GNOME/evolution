@@ -27,8 +27,6 @@
 
 #include <config.h>
 
-#include <gtk/gtk.h>
-
 #include "e-colors.h"
 
 GdkColor e_white, e_dark_gray, e_black;

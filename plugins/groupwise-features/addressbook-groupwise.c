@@ -18,14 +18,7 @@
  *
  */
 
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>
 #include <libedataserver/e-source.h>

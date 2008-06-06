@@ -23,7 +23,7 @@
 #ifndef _EA_EXPANDER_H_
 #define _EA_EXPANDER_H_
 
-#include <gtk/gtkaccessible.h>
+#include <gtk/gtk.h>
 #include <misc/e-expander.h>
 
 #define EA_TYPE_EXPANDER           (ea_expander_get_type ())

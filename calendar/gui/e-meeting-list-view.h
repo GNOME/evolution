@@ -23,7 +23,7 @@
 #ifndef _E_MEETING_LIST_VIEW_H_
 #define _E_MEETING_LIST_VIEW_H_
 
-#include <gtk/gtktreeview.h>
+#include <gtk/gtk.h>
 #include "e-meeting-store.h"
 #include <libedataserverui/e-name-selector.h>
 

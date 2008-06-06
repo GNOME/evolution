@@ -26,10 +26,6 @@
 
 #include "e-task-bar.h"
 
-#include <gtk/gtkiconfactory.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmisc.h>
-
 struct _ETaskBarPrivate
 {
 	GtkWidget *message_label;

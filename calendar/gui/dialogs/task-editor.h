@@ -24,7 +24,7 @@
 #ifndef __TASK_EDITOR_H__
 #define __TASK_EDITOR_H__
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtk.h>
 #include "comp-editor.h"
 
 

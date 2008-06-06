@@ -24,10 +24,8 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkimage.h>
 
 #include "e-info-label.h"
-#include <gtk/gtklabel.h>
 
 #include <e-util/e-icon-factory.h>
 

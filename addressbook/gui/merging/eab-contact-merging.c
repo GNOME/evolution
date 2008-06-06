@@ -14,12 +14,7 @@
 #include "eab-contact-merging.h"
 #include "eab-contact-compare.h"
 #include <glade/glade.h>
-#include <gtk/gtktable.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkcontainer.h>
 #include <string.h>
 #include "addressbook/gui/widgets/eab-contact-display.h"
 #include "e-util/e-util-private.h"

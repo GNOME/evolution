@@ -24,11 +24,9 @@
 #ifndef __E_TEXT_EVENT_PROCESSOR_TYPES_H__
 #define __E_TEXT_EVENT_PROCESSOR_TYPES_H__
 
-#include <glib/gmacros.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
-
-#include <gdk/gdkevents.h>
 
 typedef union _ETextEventProcessorEvent ETextEventProcessorEvent;
 

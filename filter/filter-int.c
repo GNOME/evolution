@@ -26,7 +26,7 @@
 #endif
 
 #include <stdlib.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
 
 #include <libedataserver/e-sexp.h>
 #include "filter-int.h"

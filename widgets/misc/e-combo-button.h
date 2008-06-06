@@ -27,10 +27,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkmenu.h>
-
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

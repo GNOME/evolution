@@ -22,12 +22,8 @@
 #define ALARM_NOTIFY_DIALOG_H
 
 #include <time.h>
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
 
 
 

@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <string.h>
 
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
@@ -38,7 +39,6 @@
 #include "misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>
 #include "eab-contact-merging.h"
-#include <gnome.h>
 #include <composer/e-msg-composer.h>
 #include <mail/em-composer-utils.h>
 

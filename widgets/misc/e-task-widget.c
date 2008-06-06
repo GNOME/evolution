@@ -28,14 +28,6 @@
 #include "e-spinner.h"
 #include <e-util/e-icon-factory.h>
 
-#include <gtk/gtkframe.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtktoolbutton.h>
-#include <gtk/gtkbox.h>
-
 #include <glib/gi18n.h>
 
 

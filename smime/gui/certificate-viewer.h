@@ -23,7 +23,7 @@
 #ifndef _CERTIFICATE_VIEWER_H_
 #define _CERTIFICATE_VIEWER_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "e-cert.h"
 
 GtkWidget* certificate_viewer_show (ECert *cert);

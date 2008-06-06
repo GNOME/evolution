@@ -25,13 +25,11 @@
 #ifndef __E_ATTACHMENT_H__
 #define __E_ATTACHMENT_H__
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-cipher-context.h>
-#include <gio/gio.h>
 
 #ifdef __cplusplus
 extern "C" {

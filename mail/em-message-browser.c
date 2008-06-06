@@ -33,7 +33,6 @@
 #undef interface
 #endif
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <gconf/gconf-client.h>

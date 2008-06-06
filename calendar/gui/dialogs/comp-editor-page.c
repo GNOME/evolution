@@ -23,8 +23,6 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include "comp-editor-page.h"

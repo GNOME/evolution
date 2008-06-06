@@ -26,16 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtkcombo.h>
-#include <gtk/gtklist.h>
-
-#include <gtk/gtkentry.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
-
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 
 #include <gconf/gconf.h>

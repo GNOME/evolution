@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_SEARCH_H_
 #define _E_TABLE_SEARCH_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

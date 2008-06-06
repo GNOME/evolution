@@ -24,11 +24,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtklabel.h>
-
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <e-util/e-icon-factory.h>

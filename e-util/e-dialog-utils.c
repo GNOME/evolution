@@ -29,21 +29,11 @@
 #include "e-dialog-utils.h"
 
 #include <unistd.h>
-#include <glib.h>
 #include <glib/gstdio.h>
 
-#include <gdkconfig.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
-
-#include <gtk/gtkmain.h>
-#include <gtk/gtkplug.h>
-#include <gtk/gtkversion.h>
-
-#include <gtk/gtkfilechooser.h>
-#include <gtk/gtkfilechooserdialog.h>
-#include <gtk/gtkstock.h>
 
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>

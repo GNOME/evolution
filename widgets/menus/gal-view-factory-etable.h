@@ -24,7 +24,7 @@
 #ifndef _GAL_VIEW_FACTORY_ETABLE_H_
 #define _GAL_VIEW_FACTORY_ETABLE_H_
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtk.h>
 #include <widgets/menus/gal-view-factory.h>
 #include <table/e-table-specification.h>
 

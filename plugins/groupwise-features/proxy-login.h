@@ -19,7 +19,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <gtk/gtkwidget.h>
 #include <gtk/gtk.h>
 
 #define TYPE_PROXY_LOGIN       (proxy_login_get_type ())

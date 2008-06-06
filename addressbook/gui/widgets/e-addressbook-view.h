@@ -20,7 +20,7 @@
 #ifndef __EAB_VIEW_H__
 #define __EAB_VIEW_H__
 
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <widgets/menus/gal-view-instance.h>
 #include <libebook/e-book.h>

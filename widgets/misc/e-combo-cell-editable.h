@@ -23,7 +23,7 @@
 #ifndef __E_COMBO_CELL_EDITABLE_H__
 #define __E_COMBO_CELL_EDITABLE_H__
 
-#include <gtk/gtkeventbox.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

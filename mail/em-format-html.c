@@ -1491,6 +1491,7 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 {
 	const char *fmt, *html;
 	char *mhtml = NULL;
+	gboolean is_rtl;
 	
 	if (value == NULL)
 		return;
@@ -1503,7 +1504,7 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 	else 
 		html = value;
 	
-	gboolean is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
+	is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 	if (emfh->simple_headers) {
 		fmt = "<b>%s</b>: %s<br>";
 	} else {

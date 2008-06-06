@@ -26,8 +26,7 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtktreemodel.h>
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>

@@ -23,7 +23,7 @@
 #endif
 
 #include <string.h>
-#include <glib/garray.h>
+#include <glib.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>

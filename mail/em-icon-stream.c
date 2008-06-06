@@ -30,7 +30,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
-#include <gtk/gtkimage.h>
+#include <gtk/gtk.h>
 #include "em-icon-stream.h"
 #include "e-util/e-icon-factory.h"
 

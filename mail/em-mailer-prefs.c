@@ -35,24 +35,9 @@
 #include "misc/e-charset-picker.h"
 #include <bonobo/bonobo-generic-factory.h>
 
-#include <gtk/gtkcolorbutton.h>
-#include <gtk/gtkfilechooserbutton.h>
-#include <gtk/gtkfontbutton.h>
-
 #include <glade/glade.h>
 
 #include <gconf/gconf-client.h>
-
-#include <gtk/gtkentry.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenuitem.h>
 
 #include "libedataserverui/e-cell-renderer-color.h"
 

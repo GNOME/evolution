@@ -24,7 +24,7 @@
 #ifndef __E_CANVAS_VBOX_H__
 #define __E_CANVAS_VBOX_H__
 
-#include <gtk/gtktypeutils.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus

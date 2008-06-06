@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #include "em-html-stream.h"
 
 #define d(x)

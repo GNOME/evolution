@@ -21,9 +21,6 @@
 
 #include <config.h>
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>

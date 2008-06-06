@@ -24,9 +24,7 @@
 #ifndef __GAL_DEFINE_VIEWS_DIALOG_H__
 #define __GAL_DEFINE_VIEWS_DIALOG_H__
 
-#include <gtk/gtkdialog.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreemodel.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 
 #include <widgets/menus/gal-view-collection.h>

@@ -29,8 +29,6 @@
 
 #include "e-asn1-object.h"
 
-#include <gtk/gtk.h>
-
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 

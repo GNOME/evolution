@@ -24,11 +24,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <glib.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-categories.h>
 #include <libecal/e-cal-time-util.h>

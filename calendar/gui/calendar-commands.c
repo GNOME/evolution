@@ -35,14 +35,7 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkfilesel.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-util.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock-icons.h>

@@ -10,6 +10,8 @@
 #include "config.h"
 #endif
 
+#include <gtk/gtk.h>
+#include <glib/gstdio.h>
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-mktemp.h"
 #include "camel/camel-medium.h"
@@ -18,11 +20,6 @@
 #include "camel/camel-stream-fs.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
-#include "glib/gstdio.h"
-#include "gtk/gtkbutton.h"
-#include "gtk/gtkbox.h"
-#include "gtk/gtkimage.h"
-#include "gtk/gtkhbbox.h"
 #include "gtkhtml/gtkhtml-embedded.h"
 #include "gst/gst.h"
 

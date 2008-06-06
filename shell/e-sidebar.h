@@ -23,7 +23,7 @@
 #ifndef _E_SIDEBAR_H_
 #define _E_SIDEBAR_H_
 
-#include <gtk/gtkcontainer.h>
+#include <gtk/gtk.h>
 
 #define E_TYPE_SIDEBAR			(e_sidebar_get_type ())
 #define E_SIDEBAR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SIDEBAR, ESidebar))

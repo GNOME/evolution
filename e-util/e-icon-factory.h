@@ -23,8 +23,7 @@
 #ifndef _E_ICON_FACTORY_H_
 #define _E_ICON_FACTORY_H_
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 enum {
 	E_ICON_SIZE_MENU,

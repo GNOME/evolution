@@ -27,12 +27,7 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <libedataserverui/e-source-combo-box.h>

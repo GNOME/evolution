@@ -24,7 +24,7 @@
 #ifndef _E_SELECTION_MODEL_ARRAY_H_
 #define _E_SELECTION_MODEL_ARRAY_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <misc/e-selection-model.h>
 #include <e-util/e-bit-array.h>
 

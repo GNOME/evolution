@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #include <config.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
@@ -9,7 +10,6 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <gnome.h>
 
 struct _EAddressbookTableAdapterPrivate {
 	EABModel *model;

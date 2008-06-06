@@ -24,8 +24,7 @@
 #define _E_CALENDAR_VIEW_H_
 
 #include <libecal/e-cal.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include "e-cal-model.h"
 #include "gnome-cal.h"
 

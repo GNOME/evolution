@@ -19,21 +19,13 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 #include <stdio.h>
 #include <string.h>
 
 #include <gconf/gconf-client.h>
-
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcolorbutton.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktable.h>
 
 #include <camel/camel-utf8.h>
 

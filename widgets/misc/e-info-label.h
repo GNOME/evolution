@@ -22,7 +22,7 @@
 #ifndef _E_INFO_LABEL_H
 #define _E_INFO_LABEL_H
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -27,15 +27,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <glib.h>
-
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkalignment.h>
+#include <gtk/gtk.h>
 
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>

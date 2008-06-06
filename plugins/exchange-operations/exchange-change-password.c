@@ -29,9 +29,7 @@
 #include <e2k-utils.h>
 
 #include <glade/glade-xml.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #define FILENAME EVOLUTION_GLADEDIR "/exchange-change-password.glade"
 #define ROOTNODE "pass_dialog"

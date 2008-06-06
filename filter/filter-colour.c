@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtkcolorbutton.h>
+#include <gtk/gtk.h>
 
 #include "libedataserver/e-sexp.h"
 #include "filter-colour.h"

@@ -304,6 +304,7 @@ plugin_google  (EPlugin                    *epl,
 	GtkWidget    *widget;
 	GtkWidget    *luser;
 	GtkWidget    *user;
+	GtkWidget    *label;
 	char         *uri;
 	char         *username;
 	const char   *ssl_prop;
@@ -372,7 +373,7 @@ plugin_google  (EPlugin                    *epl,
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (luser), user);
 
-	GtkWidget *label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
+	label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC(label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (parent),

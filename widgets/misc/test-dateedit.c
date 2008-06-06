@@ -29,11 +29,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-app.h>
 #include "e-dateedit.h"

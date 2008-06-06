@@ -25,6 +25,8 @@
 
 #define G_LOG_DOMAIN "ecalconduit"
 
+#include <glib/gi18n.h>
+#include <libgnome/gnome-config.h>
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>

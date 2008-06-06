@@ -24,10 +24,8 @@
 #ifndef __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
 #define __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreemodel.h>
 #include <widgets/menus/gal-view-collection.h>
 #include <widgets/menus/gal-view-instance.h>
 

@@ -4,7 +4,7 @@
 #ifndef __E2K_USER_DIALOG_H__
 #define __E2K_USER_DIALOG_H__
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 #define E2K_TYPE_USER_DIALOG		(e2k_user_dialog_get_type ())
 #define E2K_USER_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E2K_TYPE_USER_DIALOG, E2kUserDialog))

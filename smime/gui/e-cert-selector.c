@@ -25,12 +25,6 @@
 
 #include <glib/gi18n.h>
 
-#include <gtk/gtktextview.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkstock.h>
-
 #include "nss.h"
 #include "pk11func.h"
 #include "certdb.h"

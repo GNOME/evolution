@@ -27,19 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-/* for the dialog stuff */
-#include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktable.h>
 
 #include "libedataserver/e-account-list.h"
 

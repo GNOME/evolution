@@ -25,13 +25,9 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include <glib.h>
-#include <glib/gstdio.h>
-
 #include <gtk/gtk.h>
-
 #include <glib/gi18n.h>
-#include <gtk/gtkfilechooserbutton.h>
+#include <glib/gstdio.h>
 
 #include <libedataserver/e-sexp.h>
 

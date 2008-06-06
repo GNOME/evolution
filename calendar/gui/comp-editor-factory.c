@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-i18n.h>
 #include <evolution-calendar.h>

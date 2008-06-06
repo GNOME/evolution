@@ -30,10 +30,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtksignal.h>
-#include <gnome.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <glib/gi18n.h>
 #include "e-timezone-entry.h"

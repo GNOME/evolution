@@ -24,7 +24,7 @@
 #ifndef __EM_FOLDER_TREE_H__
 #define __EM_FOLDER_TREE_H__
 
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <camel/camel-store.h>
 
 #include "mail/em-folder-tree-model.h"

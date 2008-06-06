@@ -32,7 +32,7 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 
-#include <gtk/gtkeventbox.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

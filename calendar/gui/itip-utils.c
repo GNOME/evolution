@@ -26,8 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <libical/ical.h>
 #include <e-util/e-dialog-utils.h>
 #include <libecal/e-cal-time-util.h>

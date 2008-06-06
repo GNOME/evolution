@@ -23,13 +23,9 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <glib.h>
-#include <glib/gi18n.h>
-#include <gtk/gtkfilechooser.h>
-#include <gtk/gtkfilechooserdialog.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkstock.h>
+
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>

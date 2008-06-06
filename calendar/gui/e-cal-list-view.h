@@ -24,8 +24,7 @@
 #define _E_CAL_LIST_VIEW_H_
 
 #include <time.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 #include "e-calendar-view.h"
 #include "gnome-cal.h"

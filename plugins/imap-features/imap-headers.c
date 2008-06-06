@@ -29,8 +29,6 @@
 #include <mail/em-config.h>
 #include <mail/mail-config.h>
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreemodel.h>
 #include <gtk/gtk.h>
 
 #include <libedataserver/e-account.h>

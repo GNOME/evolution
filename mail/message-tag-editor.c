@@ -25,8 +25,6 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkstock.h>
-
 #include "message-tag-editor.h"
 
 static void message_tag_editor_class_init (MessageTagEditorClass *class);

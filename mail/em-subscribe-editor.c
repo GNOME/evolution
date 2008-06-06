@@ -47,19 +47,6 @@
 #include <glade/glade.h>
 #include <glib/gi18n.h>
 
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtkmenuitem.h>
-
 #define d(x)
 
 typedef struct _EMSubscribeEditor EMSubscribeEditor;

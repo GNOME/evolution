@@ -29,10 +29,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <glib.h>
-#include <glib/gstdio.h>
-#include <gtk/gtkmisc.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeui/gnome-uidefs.h>

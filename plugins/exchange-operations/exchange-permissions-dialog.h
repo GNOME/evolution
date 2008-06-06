@@ -4,7 +4,7 @@
 #ifndef __EXCHANGE_PERMISSIONS_DIALOG_H__
 #define __EXCHANGE_PERMISSIONS_DIALOG_H__
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include "e-folder.h"
 #include "exchange-types.h"
 

@@ -21,7 +21,7 @@
 #ifndef _COMP_EDITOR_UTIL_H_
 #define _COMP_EDITOR_UTIL_H_
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "comp-editor-page.h"
 
 void comp_editor_dates (CompEditorPageDates *date, ECalComponent *comp);

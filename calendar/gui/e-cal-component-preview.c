@@ -27,10 +27,9 @@
 #endif
 
 #include <string.h>
-#include <gnome.h>
-#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <libgnome/gnome-url.h>
 #include <libedataserver/e-categories.h>
 #include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml.h>

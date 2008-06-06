@@ -36,12 +36,7 @@
 
 #include "e-calendar.h"
 
-#include <glib.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkpixmap.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include <glib/gi18n.h>
 

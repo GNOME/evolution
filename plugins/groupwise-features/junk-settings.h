@@ -28,8 +28,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <glib.h>
-#include <gtk/gtkvbox.h>
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
 #include <e-gw-connection.h>

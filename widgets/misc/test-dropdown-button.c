@@ -27,11 +27,7 @@
 #endif
 
 #include <stdio.h>
-#include <glib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>

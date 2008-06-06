@@ -23,7 +23,7 @@
 #ifndef EM_FOLDER_SELECTOR_H
 #define EM_FOLDER_SELECTOR_H
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 #ifdef cplusplus
 extern "C" {

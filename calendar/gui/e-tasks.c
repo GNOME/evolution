@@ -26,7 +26,6 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <table/e-table-scrolled.h>

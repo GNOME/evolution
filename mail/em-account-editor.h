@@ -25,12 +25,12 @@
 #ifndef EM_ACCOUNT_EDITOR_H
 #define EM_ACCOUNT_EDITOR_H
 
+#include <gtk/gtk.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
-
-#include <gtk/gtkvbox.h>
 
 struct _EAccount;
 

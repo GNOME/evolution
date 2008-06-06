@@ -30,8 +30,6 @@
 
 #include <e-util/e-util.h>
 
-#include <gtk/gtksignal.h>
-
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-event-source.h>
 

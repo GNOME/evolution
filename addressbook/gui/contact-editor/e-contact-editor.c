@@ -26,15 +26,8 @@
 
 #include <string.h>
 #include <time.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>

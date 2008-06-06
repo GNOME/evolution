@@ -5,7 +5,7 @@
 #define __EXCHANGE_DELEGATES_H__
 
 #include <exchange-types.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

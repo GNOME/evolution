@@ -30,15 +30,6 @@
 #endif
 
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkdrawingarea.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkradiomenuitem.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkversion.h>
 
 #include <misc/e-unicode.h>
 #include <misc/e-gui-utils.h>

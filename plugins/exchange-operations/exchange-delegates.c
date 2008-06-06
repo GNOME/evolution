@@ -43,12 +43,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-error.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
 
 typedef struct {
 	const char *uri;

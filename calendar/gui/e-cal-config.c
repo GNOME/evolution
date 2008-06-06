@@ -23,7 +23,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "e-cal-config.h"
 
 static GObjectClass *ecp_parent_class;

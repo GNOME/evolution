@@ -23,8 +23,7 @@
 #ifndef _E_TASK_WIDGET_H_
 #define _E_TASK_WIDGET_H_
 
-#include <gtk/gtkeventbox.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

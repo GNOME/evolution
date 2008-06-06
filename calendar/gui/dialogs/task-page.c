@@ -26,15 +26,10 @@
 #endif
 
 #include <string.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
+#include <gdk/gdkkeysyms.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>

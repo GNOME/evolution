@@ -25,13 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-dateedit.h>
 
 #include "e-dialog-widgets.h"

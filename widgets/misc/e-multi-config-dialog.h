@@ -29,8 +29,7 @@
 
 #include "e-config-page.h"
 
-#include <gtk/gtkdialog.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -21,8 +21,8 @@
  */
 
 #include <config.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkcelleditable.h>
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector-entry.h>
 

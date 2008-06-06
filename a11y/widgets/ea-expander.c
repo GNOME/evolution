@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include "ea-expander.h"
-#include <gtk/gtkbutton.h>
 #include <glib/gi18n.h>
 
 static AtkObjectClass *parent_class;

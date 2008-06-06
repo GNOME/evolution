@@ -26,12 +26,6 @@
 
 #include "e-request.h"
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
-
 
 /**
  * e_request_string:

@@ -67,6 +67,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 		   categories */
 		if(strlen(category->name[i]) == 0){
 			int cat_to_add_len;
+			int desktopUniqueID;
 
 			cat_to_add_len = strlen(cat_to_add);
 			retval = i;
@@ -89,7 +90,6 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 			}
 
 			//find a desktop id that is not in use between 128 and 255
-			int desktopUniqueID;
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
 				int found = 0;
 				for(j=0; j<PILOT_MAX_CATEGORIES; j++){

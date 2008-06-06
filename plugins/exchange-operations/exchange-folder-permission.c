@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkdialog.h>
 #include <gconf/gconf-client.h>
 #include <exchange-account.h>
 #include <e-util/e-dialog-utils.h>

@@ -28,11 +28,6 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
 #include <e-util/e-dialog-utils.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkvbox.h>
 #include <libedataserverui/e-name-selector.h>
 #include "e2k-xml-utils.h"
 
