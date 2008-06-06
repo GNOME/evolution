@@ -26,6 +26,7 @@
 #include <config.h>
 #endif
 
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-source.h>

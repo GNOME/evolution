@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
 #include <libecal/e-cal-component.h>

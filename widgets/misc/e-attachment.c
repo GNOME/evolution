@@ -44,6 +44,7 @@
 #include <errno.h>
 
 #include <camel/camel.h>
+
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 

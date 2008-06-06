@@ -27,6 +27,7 @@
 #endif
 
 #include <string.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-url.h>

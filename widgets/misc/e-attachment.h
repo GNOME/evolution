@@ -25,6 +25,7 @@
 #ifndef __E_ATTACHMENT_H__
 #define __E_ATTACHMENT_H__
 
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
