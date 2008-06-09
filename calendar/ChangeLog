@@ -1,3 +1,16 @@
+2008-06-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #536813
+
+	* gui/comp-util.h: (is_icalcomp_on_the_server):
+	* gui/comp-util.c: (is_icalcomp_on_the_server): Similar helper function
+	as cal_comp_is_on_server only the parameter is icalcomponent.
+	* gui/e-week-view-event-item.c: (e_week_view_event_item_double_click):
+	* gui/e-week-view.c: (e_week_view_on_text_item_event):
+	Do not start to edit the event on the double click if the event is not
+	on the server yet. Storing the event can cause the renumbering events
+	so the result can be that the edited event would be different.
+
 2008-06-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes security vulnerabilities
