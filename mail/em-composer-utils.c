@@ -1005,7 +1005,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 
-		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL);
+		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL);
 
 		if (text) {
 			composer = create_new_composer (subject, fromuri, !uids || !uids->pdata [i]);
@@ -1990,9 +1990,11 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	char *text, *credits;
 	CamelMimePart *part;
 	GConfClient *gconf;
-	ssize_t len;
+	ssize_t len = 0;
+	gboolean start_bottom;
 
 	gconf = mail_config_get_gconf_client ();
+	start_bottom = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/reply_start_bottom", NULL);
 
 	switch (gconf_client_get_int (gconf, "/apps/evolution/mail/format/reply_style", NULL)) {
 	case MAIL_CONFIG_REPLY_DO_NOT_QUOTE:
@@ -2005,7 +2007,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		camel_object_unref (part);
 		break;
 	case MAIL_CONFIG_REPLY_OUTLOOK:
-		text = em_utils_message_to_html(message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source);
+		text = em_utils_message_to_html (message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL);
 		e_msg_composer_set_body_text(composer, text, len);
 		g_free (text);
 		break;
@@ -2014,11 +2016,27 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (ATTRIBUTION, message);
-		text = em_utils_message_to_html(message, credits, EM_FORMAT_QUOTE_CITE, &len, source);
+		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL);
 		g_free (credits);
 		e_msg_composer_set_body_text(composer, text, len);
 		g_free (text);
 		break;
+	}
+
+	if (len > 0 && start_bottom) {
+		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
+
+		/* If we are placing signature on top, then move cursor to the end,
+		   otherwise try to find the signature place and place cursor just
+		   before the signature. We added there an empty line already. */
+		gtkhtml_editor_run_command (editor, "block-selection");
+		gtkhtml_editor_run_command (editor, "cursor-bod");
+		if (gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/top_signature", NULL)
+		    || !gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1"))
+			gtkhtml_editor_run_command (editor, "cursor-eod");
+		else
+			gtkhtml_editor_run_command (editor, "selection-move-left");
+		gtkhtml_editor_run_command (editor, "unblock-selection");
 	}
 }
 

@@ -1645,6 +1645,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
  * @flags: EMFormatQuote flags
  * @len:
  * @source:
+ * @append: Text to append, can be NULL.
  *
  * Convert a message to html, quoting if the @credits attribution
  * string is given.
@@ -1652,7 +1653,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
  * Return value: The html version.
  **/
 char *
-em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags, ssize_t *len, EMFormat *source)
+em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags, ssize_t *len, EMFormat *source, const char *append)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1681,6 +1682,9 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 
 	em_format_format_clone((EMFormat *)emfq, NULL, NULL, message, source);
 	g_object_unref (emfq);
+
+	if (append && *append)
+		camel_stream_write ((CamelStream*)mem, append, strlen (append));
 
 	camel_stream_write((CamelStream *)mem, "", 1);
 	camel_object_unref(mem);

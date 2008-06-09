@@ -1,5 +1,18 @@
 2008-06-09  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #535791
+
+	* mail-config.glade:
+	* em-composer-prefs.c: (em_composer_prefs_construct):
+	New UI option to let uset choose whether start typing at the bottom
+	of the document or not on replying.
+	* em-utils.h: (em_utils_message_to_html):
+	* em-utils.c: (em_utils_message_to_html):
+	* em-composer-utils.c: (forward_non_attached), (composer_set_body):
+	Take care of /apps/evolution/mail/composer/reply_start_bottom.
+
+2008-06-09  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #201011
 
 	* em-filter-editor.c: (em_filter_editor_construct):

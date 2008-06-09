@@ -939,6 +939,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 		gtk_widget_set_sensitive (widget, FALSE);
 	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
 
+	key = "/apps/evolution/mail/composer/reply_start_bottom";
+	widget = glade_xml_get_widget (gui, "chkReplyStartBottom");
+	if (!gconf_client_key_is_writable (client, key, NULL))
+		gtk_widget_set_sensitive (widget, FALSE);
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+
 	key = "/apps/evolution/mail/composer/top_signature";
 	widget = glade_xml_get_widget (gui, "chkTopSignature");
 	if (!gconf_client_key_is_writable (client, key, NULL))
