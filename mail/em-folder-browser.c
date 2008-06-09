@@ -160,6 +160,8 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "FolderMove", EM_POPUP_SELECT_FOLDER },
 	{ "FolderDelete", EM_POPUP_SELECT_FOLDER },
 	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
+	{ "FolderRefresh", EM_POPUP_SELECT_FOLDER },
+	{ "ChangeFolderProperties", EM_POPUP_SELECT_FOLDER },
 	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },

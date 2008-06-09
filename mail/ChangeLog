@@ -1,3 +1,10 @@
+2008-06-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #536772
+
+	* em-folder-browser.c: (EMFolderViewEnable emfb_enable_map):
+	Disable Folder menu items consistently with a popup menu over folder.
+
 2008-06-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #535749
