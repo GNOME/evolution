@@ -1650,7 +1650,6 @@ e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 	return FALSE;
 }
 
-
 static gboolean
 e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 				     GdkEvent		*bevent)
@@ -1670,8 +1669,8 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 	if (week_view->editing_event_num >= 0) {
 		EWeekViewEvent *editing = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
 
-		/* do not call edit of the component, if double clicked on the same component - the event is spread into more days */
-		if (editing && event && editing->comp_data == event->comp_data)
+		/* do not call edit of the component, if double clicked on the component, which is not on the server */
+		if (editing && event && editing->comp_data == event->comp_data && (!event->comp_data || !is_icalcomp_on_the_server (event->comp_data->icalcomp, event->comp_data->client)))
 			return TRUE;
 	}
 

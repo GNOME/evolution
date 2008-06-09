@@ -3107,6 +3107,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
+		/* if we started to editing new item on the canvas, then do not open editing dialog until it's saved,
+		   because the save of the event recalculates event numbers and you can edit different one */
+		if (!is_icalcomp_on_the_server (event->comp_data->icalcomp, event->comp_data->client))
+			return TRUE;
+
 		e_calendar_view_edit_appointment (E_CALENDAR_VIEW (week_view),
 					     event->comp_data->client,
 					     event->comp_data->icalcomp, FALSE);
