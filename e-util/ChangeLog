@@ -1,3 +1,10 @@
+2008-06-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #509595
+
+	* e-logger.c: (e_logger_get_logs): Do not crash if file does not
+	exists. Also be able to read lines more than 249 characters long.
+
 2008-06-06  Tor Lillqvist  <tml@novell.com>
 
 	* e-plugin.c (epl_loadmodule): Tell which plugin it could not load

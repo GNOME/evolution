@@ -151,23 +151,46 @@ e_logger_get_logs (ELogger *el, ELogFunction func, gpointer data)
 {
 	FILE *fp;
 	char buf[250];
-	gboolean error = FALSE;
 
 	/* Flush everything before we get the logs */
 	fflush (el->priv->fp);	
 	fp = g_fopen (el->priv->logfile, "r");
-	while (!error || feof(fp)) {
+
+	if (!fp) {
+		fprintf (stderr, "Cannot open log file '%s' for reading! No flush yet?\n", el->priv->logfile ? el->priv->logfile : "[null]");
+		return;
+	}
+
+	while (!feof (fp)) {
 		char *tmp;
-		tmp = fgets (buf, 250, fp);
+		size_t len;
+
+		tmp = fgets (buf, sizeof (buf), fp);
 		if (!tmp)
 			break;
-#if 0		
-		if (strlen(tmp) == 249) {
-			/* FIXME: There may be more */
-		}
-#endif 		
-		func (tmp, data);
-	}
-	fclose(fp);
-}
 
+		len = strlen (tmp);
+		if (len > 0 && tmp [len - 1] != '\n' && !feof (fp)) {
+			/* there are more characters on a row than 249, so read them all */
+			GString *str = g_string_sized_new (1024);
+
+			g_string_append (str, tmp);
+
+			while (!feof (fp) && len > 0 && tmp [len - 1] != '\n') {
+				tmp = fgets (buf, sizeof (buf), fp);
+				if (!tmp)
+					break;
+
+				len = strlen (tmp);
+				g_string_append (str, tmp);
+			}
+
+			func (str->str, data);
+
+			g_string_free (str, TRUE);
+		} else
+			func (tmp, data);
+	}
+
+	fclose (fp);
+}
