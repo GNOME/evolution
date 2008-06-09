@@ -44,6 +44,7 @@
 
 #include "widgets/misc/e-attachment-bar.h"
 #include "composer/e-msg-composer.h"
+#include "composer/e-composer-actions.h"
 
 #define GCONF_KEY_ATTACH_REMINDER_CLUES "/apps/evolution/mail/attachment_reminder_clues"
 #define SIGNATURE "-- "
@@ -116,22 +117,27 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 static gboolean
 ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 {
-	GtkWidget *mbox, *check = NULL;
+	GtkWidget *check = NULL;
+	GtkDialog *dialog = NULL;
 	gint response;
 
-	mbox = e_error_new(window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
+	dialog = (GtkDialog*)e_error_new(window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
 
+	/*Check buttons*/
 	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
 	gtk_container_set_border_width((GtkContainer *)check, 12);
-	gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *)dialog->vbox, check, TRUE, TRUE, 0);
 	gtk_widget_show (check);
 
-	response = gtk_dialog_run ((GtkDialog *) mbox);
+	response = gtk_dialog_run ((GtkDialog *) dialog);
 
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
 		e_plugin_enable (ep, FALSE);
 
-	gtk_widget_destroy(mbox);
+	gtk_widget_destroy((GtkWidget *)dialog);
+
+	if (response == GTK_RESPONSE_OK)
+		gtk_action_activate (E_COMPOSER_ACTION_ATTACH (window));
 
 	return response == GTK_RESPONSE_YES;
 }
