@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include "e-logger.h"
 #include "e-mktemp.h"
@@ -35,129 +36,220 @@
 /* 5 Minutes */
 #define TIMEOUT_INTERVAL	300000 
 
-static GObjectClass *parent;
+#define E_LOGGER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_LOGGER, ELoggerPrivate))
 
 struct _ELoggerPrivate {
-	char *component;
-	char *logfile;
+	gchar *component;
+	gchar *logfile;
 	FILE *fp;
 
 	guint timer;
 };
 
+enum {
+	PROP_0,
+	PROP_COMPONENT
+};
+
+static gpointer parent_class;
+
 static gboolean
-flush_logfile (ELogger *el)
+flush_logfile (ELogger *logger)
 {
-	fflush (el->priv->fp);
-	el->priv->timer = 0;
+	fflush (logger->priv->fp);
+	logger->priv->timer = 0;
 
 	return FALSE;
 }
 
 static void
-el_init(GObject *o)
+logger_set_component (ELogger *logger,
+                      const gchar *component)
 {
-	ELogger *l = (ELogger *) o;
-	ELoggerPrivate *priv;
-	
-	priv = g_new (ELoggerPrivate, 1);
-	priv->logfile = NULL;
-	priv->fp = NULL;
-	l->priv=priv;
+	gchar *temp;
+
+	g_return_if_fail (logger->priv->component == NULL);
+
+	temp = g_strdup_printf ("%s.log.XXXXXX", component);
+
+	logger->priv->component = g_strdup (component);
+	logger->priv->logfile = e_mktemp (temp);
+	logger->priv->fp = g_fopen (logger->priv->logfile, "w");
+	logger->priv->timer = 0;
+
+	g_free (temp);
 }
 
 static void
-el_finalise(GObject *o)
+logger_set_property (GObject *object,
+                     guint property_id,
+                     const GValue *value,
+                     GParamSpec *pspec)
 {
-	ELogger *el = (ELogger *) o;
-	ELoggerPrivate *priv = el->priv;
-	
-	if (priv->timer)
-		g_source_remove (priv->timer);
-	flush_logfile (el);
-	fclose (el->priv->fp);
-	g_free (el->priv);
-	((GObjectClass *)parent)->finalize(o);
+	switch (property_id) {
+		case PROP_COMPONENT:
+			logger_set_component (
+				E_LOGGER (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-el_class_init(GObjectClass *klass)
+logger_get_property (GObject *object,
+                     guint property_id,
+                     GValue *value,
+                     GParamSpec *pspec)
 {
-	klass->finalize = el_finalise;
+	switch (property_id) {
+		case PROP_COMPONENT:
+			g_value_set_string (
+				value, e_logger_get_component (
+				E_LOGGER (object)));
+			return;
+	}
 
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+logger_finalize (GObject *object)
+{
+	ELogger *logger = E_LOGGER (object);
+
+	if (logger->priv->timer)
+		g_source_remove (logger->priv->timer);
+	flush_logfile (logger);
+	fclose (logger->priv->fp);
+
+	g_free (logger->priv->component);
+	g_free (logger->priv->logfile);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+logger_class_init (ELoggerClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (ELoggerPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = logger_set_property;
+	object_class->get_property = logger_get_property;
+	object_class->finalize = logger_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COMPONENT,
+		g_param_spec_string (
+			"component",
+			_("Component"),
+			_("Name of the component being logged"),
+			"anonymous",
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+logger_init (ELogger *logger)
+{
+	logger->priv = E_LOGGER_GET_PRIVATE (logger);
 }
 
 GType
-e_logger_get_type(void)
+e_logger_get_type (void)
 {
 	static GType type = 0;
 
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof(ELoggerClass),
-			NULL, NULL,
-			(GClassInitFunc)el_class_init,
-			NULL, NULL,
-			sizeof(ELogger), 0,
-			(GInstanceInitFunc)el_init
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (ELoggerClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) logger_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (ELogger),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) logger_init,
+			NULL   /* value_table */
 		};
-		parent = g_type_class_ref(G_TYPE_OBJECT);
-		type = g_type_register_static(G_TYPE_OBJECT, "ELogger", &info, 0);
+
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "ELogger", &type_info, 0);
 	}
 
 	return type;
 }
 
-
-ELogger *e_logger_create(char *component)
+ELogger *
+e_logger_create (gchar *component)
 {
-	ELogger *el = g_object_new(e_logger_get_type(), 0);
-	ELoggerPrivate *priv;
-	char *tmp;
+	g_return_val_if_fail (component != NULL, NULL);
 
-	tmp = g_strdup_printf("%s.log.XXXXXX", component);
-	priv = el->priv;
-	priv->component = g_strdup (component);
-	priv->logfile = e_mktemp (tmp);
-	g_free (tmp);
-	priv->fp = g_fopen (priv->logfile, "w");
-
-	priv->timer = 0;
-	return el;
+	return g_object_new (E_TYPE_LOGGER, "component", component, NULL);
 }
 
-
-
-static void set_dirty (ELogger *el)
+const gchar *
+e_logger_get_component (ELogger *logger)
 {
-	if (el->priv->timer)
+	g_return_val_if_fail (E_IS_LOGGER (logger), NULL);
+
+	return logger->priv->component;
+}
+
+static void
+set_dirty (ELogger *logger)
+{
+	if (logger->priv->timer)
 		return;
 
-	el->priv->timer = g_timeout_add (TIMEOUT_INTERVAL, (GSourceFunc) flush_logfile, el);
+	logger->priv->timer = g_timeout_add (
+		TIMEOUT_INTERVAL, (GSourceFunc) flush_logfile, logger);
 }
 
 void
-e_logger_log (ELogger *el, int level, char *primary, char *secondary)
+e_logger_log (ELogger *logger,
+              gint level,
+              gchar *primary,
+              gchar *secondary)
 {
 	time_t t = time (NULL);
 
-	fprintf(el->priv->fp, "%d:%ld:%s\n", level, t, primary);
-	fprintf(el->priv->fp, "%d:%ld:%s\n", level, t, secondary);
-	set_dirty (el);
+	g_return_if_fail (E_LOGGER (logger));
+	g_return_if_fail (primary != NULL);
+	g_return_if_fail (secondary != NULL);
+
+	fprintf (logger->priv->fp, "%d:%ld:%s\n", level, t, primary);
+	fprintf (logger->priv->fp, "%d:%ld:%s\n", level, t, secondary);
+	set_dirty (logger);
 }
 
 void 
-e_logger_get_logs (ELogger *el, ELogFunction func, gpointer data)
+e_logger_get_logs (ELogger *logger,
+                   ELogFunction func,
+                   gpointer data)
 {
 	FILE *fp;
-	char buf[250];
+	gchar buf[250];
 	gboolean error = FALSE;
 
+	g_return_if_fail (E_LOGGER (logger));
+	g_return_if_fail (func != NULL);
+
 	/* Flush everything before we get the logs */
-	fflush (el->priv->fp);	
-	fp = g_fopen (el->priv->logfile, "r");
+	fflush (logger->priv->fp);	
+	fp = g_fopen (logger->priv->logfile, "r");
 	while (!error || feof(fp)) {
-		char *tmp;
+		gchar *tmp;
 		tmp = fgets (buf, 250, fp);
 		if (!tmp)
 			break;
@@ -170,4 +262,3 @@ e_logger_get_logs (ELogger *el, ELogFunction func, gpointer data)
 	}
 	fclose(fp);
 }
-

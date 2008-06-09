@@ -24,16 +24,32 @@
 
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+/* Standard GObject macros */
+#define E_TYPE_LOGGER \
+	(e_logger_get_type ())
+#define E_LOGGER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_LOGGER, ELogger))
+#define E_LOGGER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_LOGGER, ELoggerClass))
+#define E_IS_LOGGER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_LOGGER))
+#define E_IS_LOGGER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_LOGGER))
+#define E_LOGGER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_LOGGER, ELoggerClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ELogger ELogger;
 typedef struct _ELoggerClass ELoggerClass;
 typedef struct _ELoggerPrivate ELoggerPrivate;
 
-typedef void (* ELogFunction) (char *line, gpointer data);
+typedef void (*ELogFunction) (gchar *line, gpointer data);
 
 enum e_log_level_t {
 	E_LOG_ERROR,
@@ -52,13 +68,17 @@ struct _ELoggerClass {
 	GObjectClass popup_class;
 };
 
-GType e_logger_get_type(void);
-ELogger *e_logger_create(char *component);
-void e_logger_log (ELogger *el, int level, char *primary, char *secondary);
-void e_logger_get_logs (ELogger *el, ELogFunction func, gpointer data);
+GType		e_logger_get_type		(void);
+ELogger *	e_logger_create			(gchar *component);
+const gchar *	e_logger_get_component		(ELogger *logger);
+void		e_logger_log			(ELogger *logger,
+						 gint level,
+						 gchar *primary,
+						 gchar *secondary);
+void		e_logger_get_logs		(ELogger *logger,
+						 ELogFunction func,
+						 gpointer data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_LOGGER_H__ */
