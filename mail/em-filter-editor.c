@@ -137,6 +137,7 @@ em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *g
 {
 	GtkWidget *menu, *item, *omenu;
 	int i;
+	GtkTreeViewColumn *column;
 
         omenu = glade_xml_get_widget (gui, "filter_source");
 	gtk_option_menu_remove_menu (GTK_OPTION_MENU (omenu));
@@ -153,6 +154,10 @@ em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *g
 	gtk_widget_show (omenu);
 
 	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0].source, _("_Filter Rules"));
+
+	/* Show the Enabled column, we support it here */
+	column = gtk_tree_view_get_column (GTK_TREE_VIEW (RULE_EDITOR (fe)->list), 0);
+	gtk_tree_view_column_set_visible (column, TRUE);
 }
 
 static FilterRule *

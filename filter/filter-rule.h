@@ -72,6 +72,8 @@ struct _FilterRule {
 
 	unsigned int system:1;	/* this is a system rule, cannot be edited/deleted */
 	GList *parts;
+
+	gboolean enabled;
 };
 
 struct _FilterRuleClass {

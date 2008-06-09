@@ -121,6 +121,7 @@ static void
 filter_rule_init (FilterRule *fr)
 {
 	fr->priv = g_malloc0 (sizeof (*fr->priv));
+	fr->enabled = TRUE;
 }
 
 static void
@@ -258,7 +259,8 @@ list_eq(GList *al, GList *bl)
 static int
 rule_eq (FilterRule *fr, FilterRule *cm)
 {
-	return fr->grouping == cm->grouping
+	return fr->enabled == cm->enabled
+		&& fr->grouping == cm->grouping
 		&& fr->threading == fr->threading
 		&& ((fr->name && cm->name && strcmp (fr->name, cm->name) == 0)
 		     || (fr->name == NULL && cm->name == NULL))
@@ -282,6 +284,9 @@ xml_encode (FilterRule *fr)
 	GList *l;
 
 	node = xmlNewNode (NULL, (const unsigned char *)"rule");
+
+	xmlSetProp (node, (const unsigned char *)"enabled", (const unsigned char *)(fr->enabled ? "true" : "false"));
+
 	switch (fr->grouping) {
 	case FILTER_GROUP_ALL:
 		xmlSetProp (node, (const unsigned char *)"grouping", (const unsigned char *)"all");
@@ -390,6 +395,14 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 		fr->name = NULL;
 	}
 
+	grouping = (char *)xmlGetProp (node, (const unsigned char *)"enabled");
+	if (!grouping)
+		fr->enabled = TRUE;
+	else {
+		fr->enabled = strcmp (grouping, "false") != 0;
+		xmlFree (grouping);
+	}
+
 	grouping = (char *)xmlGetProp (node, (const unsigned char *)"grouping");
 	if (!strcmp (grouping, "any"))
 		fr->grouping = FILTER_GROUP_ANY;
@@ -446,6 +459,8 @@ static void
 rule_copy (FilterRule *dest, FilterRule *src)
 {
 	GList *node;
+
+	dest->enabled = src->enabled;
 
 	g_free (dest->name);
 	dest->name = g_strdup (src->name);

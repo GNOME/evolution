@@ -1,3 +1,17 @@
+2008-06-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #201011
+
+	* filter-rule.h: (struct _FilterRule): New property 'enabled'
+	to be able to disable filter rules.
+	* filter-rule.c: (filter_rule_init), (rule_eq), (xml_encode),
+	(xml_decode), (rule_copy): Store/restore/use 'enabled' value.
+	* rule-editor.c: (add_editor_response), (rule_move), (set_source):
+	Set the 'enabled' column properly.
+	* rule-editor.c: (rule_able_toggled), (rule_editor_treeview_new):
+	Add column "Enabled" to the tree, but have it hidden by default, only
+	those whom supports it can show it.
+
 2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-part.c: (main): gtk_window_set_policy ->

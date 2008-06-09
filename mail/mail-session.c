@@ -548,6 +548,10 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 			g_string_truncate (fsearch, 0);
 			g_string_truncate (faction, 0);
 
+			/* skip disabled rules */
+			if (!rule->enabled)
+				continue;
+
 			filter_rule_build_code (rule, fsearch);
 			em_filter_rule_build_action ((EMFilterRule *) rule, faction);
 			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);

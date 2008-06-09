@@ -338,7 +338,7 @@ add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		g_object_ref (re->edit);
 
 		gtk_list_store_append (re->model, &iter);
-		gtk_list_store_set (re->model, &iter, 0, re->edit->name, 1, re->edit, -1);
+		gtk_list_store_set (re->model, &iter, 0, re->edit->name, 1, re->edit, 2, re->edit->enabled, -1);
 		selection = gtk_tree_view_get_selection (re->list);
 		gtk_tree_selection_select_iter (selection, &iter);
 
@@ -557,7 +557,7 @@ rule_move (RuleEditor *re, int from, int to)
 	gtk_list_store_insert (re->model, &iter, to);
 
 	/* set the data on the row */
-	gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, -1);
+	gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, 2, rule->enabled, -1);
 
 	/* select the row */
 	selection = gtk_tree_view_get_selection (re->list);
@@ -713,13 +713,40 @@ set_source (RuleEditor *re, const char *source)
 	while ((rule = rule_context_next_rule (re->context, rule, source)) != NULL) {
 		d(printf("Adding row '%s'\n", rule->name));
 		gtk_list_store_append (re->model, &iter);
-		gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, -1);
+		gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, 2, rule->enabled, -1);
 	}
 
 	g_free (re->source);
 	re->source = g_strdup (source);
 	re->current = NULL;
 	rule_editor_set_sensitive (re);
+}
+
+static void
+rule_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_data)
+{
+	GtkWidget *table = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+
+	path = gtk_tree_path_new_from_string (arg1);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (table));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (table));
+
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		FilterRule *rule = NULL;
+
+		gtk_tree_model_get (model, &iter, 1, &rule, -1);
+
+		if (rule) {
+			rule->enabled = !rule->enabled;
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 2, rule->enabled, -1);
+		}
+	}
+
+	gtk_tree_path_free (path);
 }
 
 GtkWidget *rule_editor_treeview_new (char *widget_name, char *string1, char *string2,
@@ -732,15 +759,27 @@ rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int i
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkListStore *model;
+	GtkTreeViewColumn *column;
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);
+
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_object_set (G_OBJECT (renderer), "activatable", TRUE, NULL);
+	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1,
+						     _("Enabled"), renderer,
+						     "active", 2, NULL);
+	g_signal_connect (renderer, "toggled", G_CALLBACK (rule_able_toggled), table);
+
+	/* hide enable column by default */
+	column = gtk_tree_view_get_column (GTK_TREE_VIEW (table), 0);
+	gtk_tree_view_column_set_visible (column, FALSE);
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1,

@@ -1,5 +1,13 @@
 2008-06-09  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #201011
+
+	* em-filter-editor.c: (em_filter_editor_construct):
+	Show Enabled column in the editor, because we support it here.
+	* mail-session.c: (main_get_filter_driver): Skip disabled rules.
+
+2008-06-09  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #536772
 
 	* em-folder-browser.c: (EMFolderViewEnable emfb_enable_map):
