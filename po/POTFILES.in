@@ -187,6 +187,7 @@ data/evolution.keys.in.in
 e-util/e-categories-config.c
 e-util/e-dialog-utils.c
 e-util/e-error.c
+e-util/e-logger.c
 e-util/e-plugin.c
 e-util/e-print.c
 e-util/e-system.error.xml
