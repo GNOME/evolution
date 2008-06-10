@@ -1,3 +1,8 @@
+2008-06-10  Suman Manjunath  <msuman@novell.com>
+
+	* exchange-account-listener.c: (add_cal_esource): Added a few ACL props
+	to the e-source entries. 
+
 2008-04-28  Suman Manjunath  <msuman@novell.com>
 
 	* exchange-account-listener.c: (add_cal_esource),

@@ -279,6 +279,12 @@ add_cal_esource (EAccount *account, GSList *folders, ExchangeMAPIFolderType fold
 			g_free (tmp);
 		}
 
+		e_source_set_property (source, "acl-user-name", account->id->name);
+		e_source_set_property (source, "acl-user-email", account->id->address);
+		/* FIXME: this would change after foreign folders/delegation is implemented */
+		e_source_set_property (source, "acl-owner-name", account->id->name);
+		e_source_set_property (source, "acl-owner-email", account->id->address);
+
 		e_source_group_add_source (group, source, -1);
 
 		if (source_selection_key) {
