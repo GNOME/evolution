@@ -45,7 +45,7 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
-#include <bonobo/bonobo-i18n.h>
+#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-util.h>
 #include <libedataserver/e-url.h>

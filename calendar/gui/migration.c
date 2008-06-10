@@ -30,9 +30,9 @@
 #include <errno.h>
 
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <bonobo/bonobo-i18n.h>
 #include <libecal/e-cal.h>
 
 #include <libebackend/e-dbhash.h>

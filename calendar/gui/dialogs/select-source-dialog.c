@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-i18n.h>
+#include <glib/gi18n.h>
 #include <e-util/e-icon-factory.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include "select-source-dialog.h"

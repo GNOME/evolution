@@ -27,8 +27,8 @@
 
 #include <errno.h>
 #include <string.h>
+#include <glib/gi18n.h>
 #include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>

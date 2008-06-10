@@ -1,3 +1,15 @@
+2008-06-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* common/authentication.c:
+	* gui/calendar-component.c:
+	* gui/comp-editor-factory.c:
+	* gui/dialogs/copy-source-dialog.c:
+	* gui/dialogs/select-source-dialog.c:
+	* gui/memos-component.c:
+	* gui/migration.c:
+	* gui/tasks-component.c:
+	Use <glib/gi18n.h> instead of <bonobo/bonobo-i18n.h>.
+
 2008-06-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #536813

@@ -23,8 +23,8 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-i18n.h>
 #include <evolution-calendar.h>
 #include <libedataserver/e-url.h>
 #include <libecal/e-cal.h>
