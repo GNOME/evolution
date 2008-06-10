@@ -1,3 +1,11 @@
+2008-06-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #340683
+
+	* e-attachment-bar.c: (get_system_thumbnail), (scale_pixbuf),
+	(e_attachment_bar_create_attachment_cache), (update):
+	Allow creating thumbnails of non-pictures with a gnome's thumbnailer.
+
 2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-cell-date-edit.c: (e_cell_date_edit_init):
