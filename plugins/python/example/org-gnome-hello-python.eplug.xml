@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin id="org.gnome.evolution.hello_python" type="python" _name="Python Test Plugin" location="@PLUGINDIR@" module_name="hello_python">
+    
+    <author name="Johnny Jacob" email="jjohnny@novell.com"/>
+    
+    <_description>
+      Test Plugin for Python EPlugin loader.
+    </_description>
+    
+    <hook class="org.gnome.evolution.mail.bonobomenu:1.0">
+      <menu id="org.gnome.evolution.mail.browser" target="select">
+        <!-- the path to the bonobo menu description. Any UI items on Evolution should come here -->
+        <ui file="@PLUGINDIR@/org-gnome-hello-python-ui.xml"/>
+        <item type="item" verb="HelloPy" path="/commands/HelloPy" enable="one" activate="say_hello"/>
+      </menu>
+    </hook>
+
+  </e-plugin>
+</e-plugin-list>

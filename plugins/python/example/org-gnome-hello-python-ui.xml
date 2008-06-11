@@ -1,0 +1,16 @@
+<Root>
+  <commands>
+    <cmd name="HelloPy" _label="Hello Python"
+      _tip="Python Plugin Loader tests"
+      />
+  </commands>
+
+  <menu>
+    <placeholder name="MessagePlaceholder">	  
+      <submenu name="Message">
+	  <separator f="" name="sep"/>
+	  <menuitem name="HelloPy" verb=""/>
+      </submenu>
+   </placeholder>
+  </menu>
+</Root>
