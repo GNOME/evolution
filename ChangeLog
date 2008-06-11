@@ -1,3 +1,8 @@
+2008-06-11  Johnny Jacob  <jjohnny@novell.com>
+
+	** Partially fixes #506393
+	* configure.in : Adding python plugin loader (--enable-python).
+
 2008-06-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Allow evolution to build with G_DISABLE_SINGLE_INCLUDES and

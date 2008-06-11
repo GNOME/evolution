@@ -1,0 +1,5 @@
+2008-06-09  Johnny Jacob  <jjohnny@novell.com>
+
+	* python-plugin-loader.c: Python plugin loader.
+	Initial Commit.
+
