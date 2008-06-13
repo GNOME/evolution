@@ -151,7 +151,7 @@
   <ruleset>
 
     <rule grouping="any" source="demand">
-      <_title>Name begins with</_title>
+      <_title>Name contains</_title>
       <sources/>
     </rule>
     

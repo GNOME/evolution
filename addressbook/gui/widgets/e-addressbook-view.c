@@ -1382,7 +1382,7 @@ search_activated (ESearchBar *esb, EABView *v)
 								s->str);
 				break;
 			case ESB_FULL_NAME:
-				search_query = g_strdup_printf ("(beginswith \"full_name\" %s)",
+				search_query = g_strdup_printf ("(contains \"full_name\" %s)",
 								s->str);
 				break;
 			case ESB_EMAIL:
