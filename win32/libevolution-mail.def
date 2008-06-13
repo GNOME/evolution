@@ -1,4 +1,5 @@
 EXPORTS
+	e_composer_header_table_set_account_name
 	e_composer_header_table_set_destinations_bcc
 	e_composer_header_table_set_destinations_to
 	e_composer_header_table_set_subject
@@ -6,6 +7,9 @@ EXPORTS
 	e_msg_composer_attach
 	e_msg_composer_get_header_table
 	e_msg_composer_new
+	e_msg_composer_send
+	e_msg_composer_set_body
+	e_msg_composer_set_body_text
 	em_composer_utils_setup_callbacks
 	em_folder_selection_button_get_selection
 	em_folder_selection_button_new
