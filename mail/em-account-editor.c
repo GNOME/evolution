@@ -1031,6 +1031,7 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 		/* "" is converted to NULL, but if we set NULL on the url,
 		   camel_url_to_string strips lots of details */
 		host = g_strdup((txt?txt:""));
+		camel_url_set_port (url, 0);
 	}
 
 	g_strstrip(host);
