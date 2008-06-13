@@ -3005,12 +3005,10 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 		    camel_mime_part_get_content_location (mime_part))
 			e_msg_composer_add_inline_image_from_mime_part (
 				composer, mime_part);
-	} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
-		/* do nothing */
 	} else if (related && camel_content_type_is (content_type, "image", "*")) {
 		e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
-	} else if (camel_content_type_is (content_type, "text", "*")) {
-		/* do nothing */
+	} else if (camel_content_type_is (content_type, "text", "*") && camel_mime_part_get_filename (mime_part) == NULL) {
+		/* do nothing if this is a text/anything without filename, otherwise attach it too */
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
