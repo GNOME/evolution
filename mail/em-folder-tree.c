@@ -1100,6 +1100,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 	gboolean is_store;
 	GtkTreeIter iter;
 	GList *targets;
+	guint32 flags = 0;
 
 	/* This is a bit of a mess, but should handle all the cases properly */
 
@@ -1108,6 +1109,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 
 	gtk_tree_model_get((GtkTreeModel *)p->model, &iter, COL_BOOL_IS_STORE, &is_store,
 			   COL_STRING_FULL_NAME, &full_name,
+			   COL_UINT_FLAGS, &flags,
 			   COL_POINTER_CAMEL_STORE, &dstore,
 			   COL_STRING_URI, &uri, -1);
 
@@ -1143,6 +1145,9 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 		/* don't allow copying/moving into a vTrash/vJunk folder */
 		if (!strcmp (full_name, CAMEL_VTRASH_NAME)
 		    || !strcmp (full_name, CAMEL_VJUNK_NAME))
+			goto done;
+
+		if (flags & CAMEL_FOLDER_NOSELECT)
 			goto done;
 	}
 

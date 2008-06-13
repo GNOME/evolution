@@ -1,5 +1,12 @@
 2008-06-13  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #538002
+
+	* em-folder-tree.c: (emft_drop_target): Do not allow dropping messages
+	on folders with CAMEL_FOLDER_NOSELECT flag set.
+
+2008-06-13  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #314467
 
 	* em-account-editor.c: (emae_url_set_hostport):
