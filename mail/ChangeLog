@@ -1,3 +1,10 @@
+2008-06-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #314467
+
+	* em-account-editor.c: (emae_url_set_hostport):
+	Reset port when setting host name without it.
+
 2008-06-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #535791
