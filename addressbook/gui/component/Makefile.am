@@ -1,3 +1,7 @@
+if OS_WIN32
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
+endif
+
 INCLUDES =							\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
@@ -57,6 +61,7 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la		\
 	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la	\
+	$(WIN32_BOOTSTRAP_LIBS)								\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 

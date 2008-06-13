@@ -1,3 +1,8 @@
+2008-06-13  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libevolution-mail.def: Add new functions used by
+	libevolution-composer.la.
+
 2008-06-11  Johnny Jacob  <jjohnny@novell.com>
 
 	** Partially fixes #506393

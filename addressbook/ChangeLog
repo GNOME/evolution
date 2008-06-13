@@ -1,3 +1,8 @@
+2008-06-13  Tor Lillqvist  <tml@novell.com>
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	Link with the bootstrap libevolution-mail library on Windows.
+
 2008-06-13  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #304029
