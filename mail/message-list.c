@@ -3307,8 +3307,24 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 {
 	MessageList *message_list = MESSAGE_LIST (user_data);
 	const char *new_uid;
+	ESelectionModel *etsm;
+	gint selected;
 
-	if (path == NULL)
+	etsm = e_tree_get_selection_model (message_list->tree);
+
+	selected = e_selection_model_selected_count (etsm);
+
+	if (selected == 1) {
+		GPtrArray *uids;
+
+		uids = message_list_get_selected (message_list);
+
+		new_uid = g_strdup (uids->pdata [0]);
+
+		message_list_free_uids (message_list, uids);
+	} else if (path == NULL
+	    || !e_selection_model_is_row_selected (etsm, e_selection_model_cursor_row (etsm))
+	    || selected != 1)
 		new_uid = NULL;
 	else
 		new_uid = get_message_uid (message_list, path);
@@ -3332,15 +3348,12 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 {
 	GPtrArray *uids;
 	char *newuid;
-	ETreePath cursor;
 
 	/* not sure if we could just ignore this for the cursor, i think sometimes you
 	   only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected(ml);
 	if (uids->len == 1)
 		newuid = uids->pdata[0];
-	else if ((cursor = e_tree_get_cursor(tree)))
-		newuid = (char *)camel_message_info_uid(e_tree_memory_node_get_data((ETreeMemory *)tree, cursor));
 	else
 		newuid = NULL;
 

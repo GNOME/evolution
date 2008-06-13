@@ -1,5 +1,14 @@
 2008-06-13  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #337160
+
+	* message-list.c: (on_cursor_activated_cmd): Do not pretend the row
+	with a cursor is selected when it isn't. Also take care of multiselect.
+	* message-list.c: (on_selection_changed_cmd):
+	Do not pretend the row with a cursor is selected when it isn't.
+
+2008-06-13  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #538002
 
 	* em-folder-tree.c: (emft_drop_target): Do not allow dropping messages
