@@ -1,3 +1,7 @@
+2008-06-16  Johnny Jacob  <jjohnny@novell.com>
+
+	* plugins/Makefile.am (DIST_SUBDIRS): Add python loader to DIST.
+
 2008-06-13  Tor Lillqvist  <tml@novell.com>
 
 	* win32/libevolution-mail.def: Add more functions used by
