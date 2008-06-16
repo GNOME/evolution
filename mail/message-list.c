@@ -2159,6 +2159,7 @@ message_list_init (MessageList *message_list)
 	message_list->hide_after = ML_HIDE_NONE_END;
 
 	message_list->search = NULL;
+	message_list->ensure_uid = NULL;
 
 	message_list->hide_lock = g_mutex_new();
 
@@ -2260,6 +2261,7 @@ message_list_finalise (GObject *object)
 	}
 
 	g_free(message_list->search);
+	g_free(message_list->ensure_uid);
 	g_free(message_list->frozen_search);
 	g_free(message_list->cursor_uid);
 
@@ -3573,6 +3575,16 @@ message_list_set_search (MessageList *ml, const char *search)
 	}
 }
 
+/* will ensure that the message with UID uid will be in the message list after the next rebuild */
+void
+message_list_ensure_message (MessageList *ml, const char *uid)
+{
+	g_return_if_fail (ml != NULL);
+
+	g_free (ml->ensure_uid);
+	ml->ensure_uid = g_strdup (uid);
+}
+
 /* returns the number of messages displayable *after* expression hiding has taken place */
 unsigned int
 message_list_length (MessageList *ml)
@@ -3887,15 +3899,21 @@ regen_list_exec (struct _regen_list_msg *m)
 		/* If m->changes is not NULL, then it means we are called from folder_changed event,
 		   thus we will keep the selected message to be sure it doesn't disappear because
 		   it no longer belong to our search filter. */
-		if (m->changes && m->ml->search && m->ml->cursor_uid && uids) {
+		if (uids && m->ml->search && ((m->changes && m->ml->cursor_uid) || m->ml->ensure_uid)) {
+			const char *looking_for = m->ml->cursor_uid;
+
+			/* ensure_uid has precedence of cursor_uid */
+			if (m->ml->ensure_uid)
+				looking_for = m->ml->ensure_uid;
+
 			for (i = 0; i < uids->len; i++) {
-				if (g_str_equal (m->ml->cursor_uid, uids->pdata [i]))
+				if (g_str_equal (looking_for, uids->pdata [i]))
 					break;
 			}
 
 			/* cursor_uid has been filtered out */
 			if (i == uids->len) {
-				gboolean was_deleted = (camel_folder_get_message_flags (m->folder, m->ml->cursor_uid) & CAMEL_MESSAGE_DELETED) != 0;
+				gboolean was_deleted = (camel_folder_get_message_flags (m->folder, looking_for) & CAMEL_MESSAGE_DELETED) != 0;
 
 				/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
 				   so I would know whether it was changed locally, and then just check the changes
@@ -3904,7 +3922,7 @@ regen_list_exec (struct _regen_list_msg *m)
 				   on the flag whether we can view deleted messages or not. */
 
 				if (!was_deleted || (was_deleted && !m->hidedel))
-					g_ptr_array_add (uids, g_strdup (m->ml->cursor_uid));
+					g_ptr_array_add (uids, g_strdup (looking_for));
 			}
 		}
 	}
@@ -4036,6 +4054,11 @@ regen_list_done (struct _regen_list_msg *m)
 {
 	if (m->ml->priv->destroyed)
 		return;
+
+	if (m->ml->ensure_uid) {
+		g_free (m->ml->ensure_uid);
+		m->ml->ensure_uid = NULL;
+	}
 
 	if (!m->complete)
 		return;

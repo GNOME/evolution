@@ -1,3 +1,15 @@
+2008-06-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #467892
+
+	* message-list.h: (struct _MessageList), (message_list_ensure_message):
+	* message-list.c: (message_list_init), (message_list_finalise),
+	(message_list_ensure_message), (regen_list_exec), (regen_list_done):
+	Be able to set a message uid to keep in a list after regeneration.
+	* em-folder-view.c: (em_folder_view_open_selected):
+	Inherit search criteria and ensure keeping the selected message
+	in the view even it may not belong to the filter anymore.
+
 2008-06-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #337160
