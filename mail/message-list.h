@@ -114,6 +114,10 @@ struct _MessageList {
 	/* Current search string, or %NULL */
 	char *search;
 
+	/* which message uid should be left in the list even not in a search after rebuild;
+	   rebuild will clear the value to NULL */
+	char *ensure_uid;
+
 	/* are we regenerating the message_list because set_folder was just called? */
 	guint just_set_folder : 1;
 
@@ -221,6 +225,7 @@ void           message_list_set_threaded_collapse_all (MessageList *ml);
 
 void	       message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted);
 void	       message_list_set_search (MessageList *ml, const char *search);
+void	       message_list_ensure_message (MessageList *ml, const char *uid);
 
 void           message_list_save_state (MessageList *ml);
 

@@ -562,8 +562,9 @@ em_folder_view_open_selected(EMFolderView *emfv)
 
 		emmb = (EMMessageBrowser *)em_message_browser_window_new();
 		message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);
-		/* do not inherit search filter, because it can hide actual message for some filters */
-		/*message_list_set_search(((EMFolderView *)emmb)->list, emfv->list->search);*/
+		/* always keep actual message in a list view, even it doesn't belong to the filter anymore */
+		message_list_ensure_message (((EMFolderView *)emmb)->list, views->pdata[i]);
+		message_list_set_search (((EMFolderView *)emmb)->list, emfv->list->search);
 		em_folder_view_set_hide_deleted((EMFolderView *)emmb, emfv->hide_deleted);
 		/* FIXME: session needs to be passed easier than this */
 		em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
