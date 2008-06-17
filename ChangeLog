@@ -1,3 +1,9 @@
+2008-06-17  Johnny Jacob  <jjohnny@novell.com>
+
+	* configure.in: Bumped to 2.23.5 .
+
+	* NEWS: Evolution 2.23.4 release updates.
+
 2008-06-16  Johnny Jacob  <jjohnny@novell.com>
 
 	* plugins/Makefile.am (DIST_SUBDIRS): Add python loader to DIST.

@@ -1,3 +1,31 @@
+Evolution 2.23.4 2008-06-16
+---------------------------
+New in 2.23.4
+	Python support for EPlugins. (Johnny Jacob)
+
+Bug Fixes:
+	#201011: Ability to disable filter rules (Milan Crha)
+	#201011: Show Enabled column in the editor, because we support it here (Milan Crha)
+	#314467: Reset port when setting host name without it (Milan Crha)
+	#330597: Add all text/* parts which has a filename set and also attach all submessages (Milan Crha)
+	#337160: Do not pretend the row with a cursor is selected when it isn't (Milan Crha)
+	#509595: Do not crash if file does not exists. Also be able to read lines more than 249 characters long (Milan Crha)
+	#535204: The tasks objects had been destroyed before the call of destroy_component (Shuai Liu)
+	#535791: New UI option to let uset choose whether start typing at the bottomof the document or not on replying (Milan Crha)
+	#536772: Disable Folder menu items consistently with a popup menu over folder (Milan Crha)
+	#536813: Do not start to edit the event on the double click if the event is not on the server yet (Milan Crha)
+	#538002: Do not allow dropping messages on folders with CAMEL_FOLDER_NOSELECT flag set (Milan Crha)
+	#304029: changed description of default search filter from "Name begins with" to "Name contains" (Milan Crha)
+
+Other Contributors:
+	Fix for security vulnerabilities CVE-2008-1108 and CVE-2008-1109 (Matthew Barnes)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Abou Manal (ar)
+	Kjartan Maraas (nb)
+	Yair Hershkovitz (he)
+
 Evolution 2.23.3 2008-06-02
 ---------------------------
 
