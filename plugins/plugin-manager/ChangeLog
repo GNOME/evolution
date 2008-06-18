@@ -1,3 +1,12 @@
+2008-06-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #530069
+
+	* plugin-manager.c:
+	Don't show the configuration tab unless the selected plugin
+	actually has configuration options (excluding options that get
+	crammed into the Preferences dialog).
+
 2008-05-23  Johnny Jacob  <jjohnny@novell.com>
 
 	** Fixes Bug 496476.

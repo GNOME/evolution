@@ -60,6 +60,10 @@ struct _Manager {
 
 /* for tracking if we're shown */
 static GtkDialog *dialog;
+static GtkWidget *notebook;
+static GtkWidget *configure_page;
+static gint last_selected_page;
+static gulong switch_page_handler_id;
 
 void org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t);
 
@@ -67,6 +71,14 @@ static void
 eppm_set_label (GtkLabel *l, const char *v)
 {
 	gtk_label_set_label(l, v?v:_("Unknown"));
+}
+
+static void
+eppm_switch_page_cb (GtkNotebook *notebook,
+                     GtkNotebookPage *page,
+                     guint page_num)
+{
+	last_selected_page = page_num;
 }
 
 static void
@@ -112,6 +124,11 @@ eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
 			gtk_label_set_label (m->items[i], "");
 	}
 
+	if (cfg_widget != NULL)
+		gtk_notebook_append_page_menu (
+			GTK_NOTEBOOK (notebook), configure_page,
+			gtk_label_new (_("Configuration")), NULL);
+
 	if (m->active_cfg_widget != cfg_widget) {
 		if (m->active_cfg_widget)
 			gtk_widget_hide (m->active_cfg_widget);
@@ -129,6 +146,10 @@ eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
+	g_signal_handler_block (notebook, switch_page_handler_id);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
+	g_signal_handler_unblock (notebook, switch_page_handler_id);
+
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		EPlugin *ep;
 		GtkWidget *cfg_widget = NULL;
@@ -139,6 +160,11 @@ eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
 	} else {
 		eppm_show_plugin (m, NULL, NULL);
 	}
+
+	g_signal_handler_block (notebook, switch_page_handler_id);
+	gtk_notebook_set_current_page (
+		GTK_NOTEBOOK (notebook), last_selected_page);
+	g_signal_handler_unblock (notebook, switch_page_handler_id);
 }
 
 static void
@@ -191,7 +217,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 	Manager *m;
 	int i;
 	GtkWidget *hbox, *w;
-	GtkWidget *notebook, *overview_page, *configure_page, *def_configure_label;
+	GtkWidget *overview_page;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
@@ -236,14 +262,17 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
-	gtk_notebook_set_homogeneous_tabs (GTK_NOTEBOOK (notebook), TRUE);
+
+	switch_page_handler_id = g_signal_connect (
+		notebook, "switch-page",
+		G_CALLBACK (eppm_switch_page_cb), NULL);
 
 	overview_page = gtk_vbox_new (FALSE, 0);
 	configure_page = gtk_vbox_new (FALSE, 0);
+	g_object_ref_sink (configure_page);
 	gtk_container_set_border_width (GTK_CONTAINER (overview_page), 10);
 	gtk_container_set_border_width (GTK_CONTAINER (configure_page), 10);
 	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), overview_page, gtk_label_new (_("Overview")), NULL);
-	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), configure_page, gtk_label_new (_("Configuration")), NULL);
 
 	gtk_widget_show (notebook);
 	gtk_widget_show (overview_page);
@@ -258,10 +287,6 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 		"yalign", 0.0, NULL);
 	gtk_widget_show (m->config_plugin_label);
 	gtk_box_pack_start (GTK_BOX (configure_page), m->config_plugin_label, FALSE, FALSE, 6);
-
-	def_configure_label = gtk_label_new (_("There is no configuration option for this plugin."));
-	gtk_widget_hide (def_configure_label);
-	gtk_box_pack_start (GTK_BOX (configure_page), def_configure_label, FALSE, FALSE, 6);
 
 	store = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_POINTER);
 
@@ -285,9 +310,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 		}
 
 		cfg_widget = e_plugin_get_configure_widget (ep);
-		if (!cfg_widget) {
-			cfg_widget = def_configure_label;
-		} else {
+		if (cfg_widget) {
 			gtk_widget_hide (cfg_widget);
 			gtk_box_pack_start (GTK_BOX (configure_page), cfg_widget, TRUE, TRUE, 6);
 		}
