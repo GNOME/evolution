@@ -77,18 +77,38 @@ e_selection_model_array_delete_rows(ESelectionModelArray *esma, int row, int cou
 		else
 			e_bit_array_delete(esma->eba, row, count);
 
-		if (esma->cursor_row_sorted >= e_bit_array_bit_count (esma->eba)) {
-			esma->cursor_row_sorted = e_bit_array_bit_count (esma->eba) - 1;
-			esma->selection_start_row--;
-		}
+		if (esma->cursor_row >= row && esma->cursor_row < row + count) {
+			/* we should move the cursor_row, because some lines before us are going to be removed */
+			if (esma->cursor_row_sorted >= e_bit_array_bit_count (esma->eba)) {
+				esma->cursor_row_sorted = e_bit_array_bit_count (esma->eba) - 1;
+			}
 
-		if (esma->cursor_row_sorted >= 0) {
-			esma->cursor_row = es_row_sorted_to_model (esma, esma->cursor_row_sorted);
-			e_bit_array_change_one_row (esma->eba, esma->cursor_row, TRUE);
+			if (esma->cursor_row_sorted >= 0) {
+				esma->cursor_row = es_row_sorted_to_model (esma, esma->cursor_row_sorted);
+				esma->selection_start_row = 0;
+				e_bit_array_change_one_row (esma->eba, esma->cursor_row, TRUE);
+			} else {
+				esma->cursor_row = -1;
+				esma->cursor_row_sorted = -1;
+				esma->selection_start_row = 0;
+			}
 		} else {
-			esma->cursor_row = -1;
-			esma->cursor_row_sorted = -1;
-			esma->selection_start_row = 0;
+			/* some code earlier changed the selected row, so just update the sorted one */
+			if (esma->cursor_row >= row)
+				esma->cursor_row = MAX (0, esma->cursor_row - count);
+
+			if (esma->cursor_row >= e_bit_array_bit_count (esma->eba))
+				esma->cursor_row = e_bit_array_bit_count (esma->eba) - 1;
+
+			if (esma->cursor_row >= 0) {
+				esma->cursor_row_sorted = es_row_model_to_sorted (esma, esma->cursor_row);
+				esma->selection_start_row = 0;
+				e_bit_array_change_one_row (esma->eba, esma->cursor_row, TRUE);
+			} else {
+				esma->cursor_row = -1;
+				esma->cursor_row_sorted = -1;
+				esma->selection_start_row = 0;
+			}
 		}
 
 		esma->selected_row = -1;
