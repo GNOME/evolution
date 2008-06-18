@@ -85,6 +85,8 @@
 #define d(x)
 
 #define EFH_TABLE_OPEN "<table>"
+#define EFM_MESSAGE_START_ANAME "evolution#message#start"
+#define EFH_MESSAGE_START "<A name=\"" EFM_MESSAGE_START_ANAME "\"></A>"
 
 struct _EMFormatHTMLCache {
 	CamelMultipart *textmp;
@@ -153,6 +155,7 @@ efh_init(GObject *o)
 
 	efh->html = (GtkHTML *)gtk_html_new();
 	gtk_html_set_blocking(efh->html, FALSE);
+	gtk_html_set_caret_first_focus_anchor (efh->html, EFM_MESSAGE_START_ANAME);
 	g_object_ref_sink(efh->html);
 
 	gtk_html_set_default_content_type(efh->html, "text/html; charset=utf-8");
@@ -799,7 +802,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 			camel_stream_printf (stream,
    					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
 					     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
-			camel_stream_write_string(stream, "<tt>\n");
+			camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)newpart);
 			camel_stream_flush((CamelStream *)filtered_stream);
 			camel_stream_write_string(stream, "</tt>\n");
@@ -837,7 +840,7 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	camel_object_unref(enriched);
 
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n" EFH_MESSAGE_START,
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
 
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
@@ -875,7 +878,7 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 
 	camel_stream_printf (stream,
 			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; color: #%06x;\">\n"
-			     "<!-- text/html -->\n",
+			     "<!-- text/html -->\n" EFH_MESSAGE_START,
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
 
 	/* TODO: perhaps we don't need to calculate this anymore now base is handled better */
@@ -1022,7 +1025,7 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 
-	camel_stream_write_string(stream, "<tt>\n");
+	camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_stream_write_string(stream, "</tt>\n");

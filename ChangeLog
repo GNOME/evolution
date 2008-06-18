@@ -1,3 +1,9 @@
+2008-06-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #423395
+
+	* configure.in: Requires newer GtkHTML, 3.23.5.
+
 2008-06-17  Johnny Jacob  <jjohnny@novell.com>
 
 	* configure.in: Bumped to 2.23.5 .
