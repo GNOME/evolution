@@ -1,3 +1,10 @@
+2008-06-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #318089
+
+	* mail-to-task.c: (convert_to_task): Ask for destination source only
+	when have more than one writable source defined.
+
 2007-11-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #353807

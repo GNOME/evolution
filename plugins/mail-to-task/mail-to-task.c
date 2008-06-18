@@ -407,64 +407,88 @@ get_selected_text (EMFolderView *emfv)
 static void
 convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder, EMFolderView *emfv)
 {
-	GtkWidget *dialog;
 	GConfClient *conf_client;
+	GtkWidget *dialog = NULL;
+	gboolean done = FALSE;
 	ESourceList *source_list;
+	GSList *groups, *p;
+	ESource *source = NULL;
 
-	/* ask the user which tasks list to save to */
 	conf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (conf_client, "/apps/evolution/tasks/sources");
 
-	dialog = e_source_selector_dialog_new (NULL, source_list);
+	groups = e_source_list_peek_groups (source_list);
+	for (p = groups; p != NULL && !done; p = p->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (p->data);
+		GSList *sources, *q;
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		ESource *source;
+		sources = e_source_group_peek_sources (group);
+		for (q = sources; q != NULL; q = q->next) {
+			ESource *s = E_SOURCE (q->data);
 
-		/* if a source has been selected, perform the mail2task operation */
-		source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
-		if (source) {
-			ECal *client = NULL;
-			AsyncData *data = NULL;
-			GThread *thread = NULL;
-			GError *error = NULL;
+			if (s && !e_source_get_readonly (s)) {
+				if (source) {
+					source = NULL;
+					done = TRUE;
+					break;
+				}
 
-			client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-			if (!client) {
-				char *uri = e_source_get_uri (source);
+				source = s;
+			}
+		}
+	}
+	
+	if (!source) {
+		/* ask the user which tasks list to save to */
+		dialog = e_source_selector_dialog_new (NULL, source_list);
 
-				g_warning ("Could not create the client: %s \n", uri);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+			source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
+	}
 
-				g_free (uri);
-				g_object_unref (conf_client);
-				g_object_unref (source_list);
+	/* if a source has been selected, perform the mail2task operation */
+	if (source) {
+		ECal *client = NULL;
+		AsyncData *data = NULL;
+		GThread *thread = NULL;
+		GError *error = NULL;
+
+		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+		if (!client) {
+			char *uri = e_source_get_uri (source);
+
+			g_warning ("Could not create the client: %s\n", uri);
+
+			g_free (uri);
+			g_object_unref (source_list);
+			g_object_unref (conf_client);
+			if (dialog)
 				gtk_widget_destroy (dialog);
-				return;
-			}
+			return;
+		}
 
-			/* Fill the elements in AsynData */
-			data = g_new0 (AsyncData, 1);
-			data->client = client;
-			data->folder = folder;
-			data->uids = uid_array;
+		/* Fill the elements in AsynData */
+		data = g_new0 (AsyncData, 1);
+		data->client = client;
+		data->folder = folder;
+		data->uids = uid_array;
 
-			if (uid_array->len == 1)
-				data->selected_text = get_selected_text (emfv);
-			else
-				data->selected_text = NULL;
+		if (uid_array->len == 1)
+			data->selected_text = get_selected_text (emfv);
+		else
+			data->selected_text = NULL;
 
-			thread = g_thread_create ((GThreadFunc) do_mail_to_task, data, FALSE, &error);
-			if (!thread) {
-				g_warning (G_STRLOC ": %s", error->message);
-				g_error_free (error);
-			}
-
+		thread = g_thread_create ((GThreadFunc) do_mail_to_task, data, FALSE, &error);
+		if (!thread) {
+			g_warning (G_STRLOC ": %s", error->message);
+			g_error_free (error);
 		}
 	}
 
 	g_object_unref (conf_client);
 	g_object_unref (source_list);
-	gtk_widget_destroy (dialog);
-
+	if (dialog)
+		gtk_widget_destroy (dialog);
 }
 
 void
