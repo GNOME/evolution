@@ -1,3 +1,12 @@
+2008-06-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #532472
+
+	* mail-config.c (mail_config_get_account_by_transport_url):
+	Strip the account URL (via CAMEL_URL_HIDE_ALL) before comparing
+	it to the already-stripped 'transport_url', to avoid unnecessary
+	password prompts.
+
 2008-06-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #467892

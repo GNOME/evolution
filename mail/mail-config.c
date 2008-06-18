@@ -829,47 +829,48 @@ mail_config_get_account_by_source_url (const char *source_url)
 EAccount *
 mail_config_get_account_by_transport_url (const char *transport_url)
 {
-	CamelProvider *provider;
-	CamelURL *transport;
-	EAccount *account;
+	EAccount *account = NULL;
 	EIterator *iter;
 
 	g_return_val_if_fail (transport_url != NULL, NULL);
 
-	provider = camel_provider_get(transport_url, NULL);
-	if (!provider)
-		return NULL;
-
-	transport = camel_url_new (transport_url, NULL);
-	if (!transport)
-		return NULL;
-
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
+		CamelURL *url;
+		gchar *string;
+
 		account = (EAccount *) e_iterator_get (iter);
 
-		if (account->transport && account->transport->url && account->transport->url[0]) {
-			CamelURL *url;
-
-			url = camel_url_new (account->transport->url, NULL);
-			if (url && provider->url_equal (url, transport)) {
-				camel_url_free (url);
-				camel_url_free (transport);
-				g_object_unref (iter);
-
-				return account;
-			}
-
-			if (url)
-				camel_url_free (url);
-		}
-
 		e_iterator_next (iter);
+
+		if (account->transport == NULL)
+			continue;
+
+		else if (account->transport->url == NULL)
+			continue;
+
+		else if (*account->transport->url == '\0')
+			continue;
+
+		url = camel_url_new (account->transport->url, NULL);
+		if (url == NULL)
+			continue;
+
+		/* Simplify the account URL for comparison. */
+		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		if (string == NULL || strcmp (string, transport_url) != 0)
+			account = NULL;  /* not a match */
+
+		camel_url_free (url);
+		g_free (string);
+
+		if (account != NULL) {
+			g_object_unref (iter);
+			return account;
+		}
 	}
 
 	g_object_unref (iter);
-
-	camel_url_free (transport);
 
 	return NULL;
 }
