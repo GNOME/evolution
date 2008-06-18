@@ -1,3 +1,11 @@
+2008-06-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #532597
+
+	* e-selection-model-array.c: (e_selection_model_array_delete_rows):
+	Do not leave selected more than one item if somebody else took care
+	or reposition of the cursor row before the delete.
+
 2008-06-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #340683
