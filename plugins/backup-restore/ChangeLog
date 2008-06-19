@@ -1,3 +1,10 @@
+2008-06-19  Milan Crha <mcrha@redhat.com>
+
+	** Fix for bug #478469
+
+	* backup.c: (main):
+	Changed the progress dialog to be more HIG compliant.
+
 2008-05-20  Sankar P  <psankar@novell.com>
 
 	* backup-restore.c: (epbr_perform_pre_backup_checks),

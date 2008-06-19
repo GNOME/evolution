@@ -262,9 +262,10 @@ main (int argc, char **argv)
 		}
 	}
 
-	if (gui_arg) {
-		GtkWidget *vbox, *hbox, *label;
-		char *str=NULL;
+	if (gui_arg && !check_op) {
+		GtkWidget *widget, *container;
+		char *str = NULL, *txt;
+		const char *txt2;
 
 		/* Backup / Restore only can have GUI. We should restrict the rest */
 	 	progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Backup"): _("Evolution Restore"),
@@ -274,25 +275,83 @@ main (int argc, char **argv)
                                 	                  GTK_RESPONSE_REJECT,
                                         	          NULL);
 
+		gtk_dialog_set_has_separator (GTK_DIALOG (progress_dialog), FALSE);
+		gtk_container_set_border_width (GTK_CONTAINER (progress_dialog), 12);
+
+		/* Override GtkDialog defaults */
+		widget = GTK_DIALOG (progress_dialog)->vbox;
+		gtk_box_set_spacing (GTK_BOX (widget), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		widget = GTK_DIALOG (progress_dialog)->action_area;
+		gtk_box_set_spacing (GTK_BOX (widget), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+
 		if (oper && file)
 			str = g_strdup_printf(oper, file);
 
-		vbox = gtk_vbox_new (FALSE, 6);
-		if (str) {
-			hbox = gtk_hbox_new (FALSE, 12);
-			label = gtk_label_new (str);
-			g_free (str);
-			gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
-			gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
+		container = gtk_table_new (2, 3, FALSE);
+		gtk_table_set_col_spacings (GTK_TABLE (container), 12);
+		gtk_table_set_row_spacings (GTK_TABLE (container), 12);
+		gtk_widget_show (container);
+
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (progress_dialog)->vbox), container, FALSE, TRUE, 0);
+
+		widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_DIALOG);
+		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+		gtk_widget_show (widget);
+
+		gtk_table_attach (GTK_TABLE (container), widget, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+
+		if (backup_op) {
+			txt = _("Backing up Evolution Data");
+			txt2 = _("Please wait while Evolution is backing up your data.");
+		} else if (restore_op) {
+			txt = _("Restoring Evolution Data");
+			txt2 = _("Please wait while Evolution is restoring your data.");
+		} else {
+			/* do not translate these two, it's just a fallback when something goes wrong,
+			   we should never get here anyway. */
+			txt = "Oops, doing nothing...";
+			txt2 = "Should not be here now, really...";
 		}
-		hbox = gtk_hbox_new (FALSE, 12);
+
+		txt = g_strconcat ("<b><big>", txt, "</big></b>", NULL);
+		widget = gtk_label_new (NULL);
+		gtk_label_set_line_wrap (GTK_LABEL (widget), FALSE);
+		gtk_label_set_markup (GTK_LABEL (widget), txt);
+		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+		gtk_widget_show (widget);
+		g_free (txt);
+
+		gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+
+		txt = g_strconcat (txt2, " ", _("This may take a while depending on the amount of data in your account."), NULL);
+		widget = gtk_label_new (NULL);
+		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+		gtk_label_set_markup (GTK_LABEL (widget), txt);
+		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+		gtk_widget_show (widget);
+		g_free (txt);
+
+		gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+
 		pbar = gtk_progress_bar_new ();
-		gtk_box_pack_start ((GtkBox *)hbox, pbar, TRUE, TRUE, 6);
 
-		gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 0);
+		if (str) {
+			txt = g_strconcat ("<i>", str, "</i>", NULL);
+			widget = gtk_label_new (NULL);
+			gtk_label_set_markup (GTK_LABEL (widget), txt);
+			gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+			g_free (txt);
+			g_free (str);
+			gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+			gtk_table_set_row_spacing (GTK_TABLE (container), 2, 6);
 
-		gtk_container_add (GTK_CONTAINER (GTK_DIALOG(progress_dialog)->vbox), vbox);
-		gtk_window_set_default_size ((GtkWindow *) progress_dialog,450, 120);
+			gtk_table_attach (GTK_TABLE (container), pbar, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+		} else
+			gtk_table_attach (GTK_TABLE (container), pbar, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+
+		gtk_window_set_default_size ((GtkWindow *) progress_dialog, 450, 120);
 		g_signal_connect (progress_dialog, "response", G_CALLBACK(dlg_response), NULL);
 		gtk_widget_show_all (progress_dialog);
 	} else if (check_op) {
