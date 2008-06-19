@@ -1,3 +1,9 @@
+2008-06-19  Sankar P  <psankar@novell.com>
+
+	* mail-retract.c (retract_mail_settings):
+	Ask the user if he really wants to retract mails.
+	Re-arrange the menus a little for grouping related things.
+
 2008-05-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #534360
