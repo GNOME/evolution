@@ -744,6 +744,20 @@ attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row
 }
 
 static void
+do_grab_focus_cb (GtkWidget *widget, gpointer data)
+{
+	gboolean *done = (gboolean *) data;
+
+	if (*done)
+		return;
+
+	if (widget && GTK_WIDGET_CAN_FOCUS (widget)) {
+		*done = TRUE;
+		gtk_widget_grab_focus (widget);
+	}
+}
+
+static void
 more_parts (GtkWidget *button, struct _rule_data *data)
 {
 	FilterPart *new;
@@ -772,6 +786,24 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 		rows = GTK_TABLE (data->parts)->nrows;
 		gtk_table_resize (GTK_TABLE (data->parts), rows + 1, 2);
 		attach_rule (w, data, new, rows);
+
+		if (GTK_IS_CONTAINER (w)) {
+			gboolean done = FALSE;
+
+			gtk_container_foreach (GTK_CONTAINER (w), do_grab_focus_cb, &done);
+		} else
+			gtk_widget_grab_focus (w);
+
+		/* also scroll down to see new part */
+		w = (GtkWidget*) g_object_get_data (G_OBJECT (button), "scrolled-window");
+		if (w) {
+			GtkAdjustment *adjustment;
+
+			adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (w));
+			if (adjustment)
+				gtk_adjustment_set_value (adjustment, adjustment->upper);
+				
+		}
 	}
 }
 
@@ -951,6 +983,8 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 3);
 
 	gtk_widget_show_all (vbox);
+
+	g_object_set_data (G_OBJECT (add), "scrolled-window", scrolledwindow);
 
 	return vbox;
 }

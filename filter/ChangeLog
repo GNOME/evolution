@@ -1,3 +1,10 @@
+2008-06-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #382783
+
+	* filter-rule.c: (do_grab_focus_cb), (more_parts), (get_widget):
+	Grab focus of new rule part on adding and scroll to the bottom too.
+
 2008-06-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #201011
