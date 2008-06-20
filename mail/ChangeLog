@@ -1,3 +1,18 @@
+2008-06-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #534039
+
+	* em-folder-tree-model.h: (em_folder_tree_model_signal_block):
+	* em-folder-tree-model.c: (em_folder_tree_model_signal_block):
+	Removed obsolete function.
+	* mail-vfolder.c: (vfolder_load_storage):
+	Add storage to the tree model when everything is loaded, thus
+	everything will be shown when enabling the Search Folders on demand.
+	Also ensure the Search Folders to be enabled next start.
+	* mail-vfolder.c: (mail_vfolder_add_uri), (mail_vfolder_delete_uri):
+	Track folders even when Search Folders disabled, to have them
+	known when enabling Search Folders on demand.
+
 2008-06-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #382783
