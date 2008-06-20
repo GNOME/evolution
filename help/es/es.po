@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2008-06-02 14:10+0000\n"
-"PO-Revision-Date: 2008-06-08 13:06+0200\n"
+"PO-Revision-Date: 2008-06-20 15:19+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3267,12 +3267,11 @@ msgid "Select Mail Preferences"
 msgstr "Seleccione Opciones de correo"
 
 #: C/evolution.xml:1219(para)
-#, fuzzy
 msgid ""
 "Check <guilabel>Shrink To/CC/Bcc headers to column</guilabel> to limit the "
 "address"
 msgstr ""
-"Marque la columna «Reducir las cabeceras Para / Cc / Cco a» para limitar las "
+"Marque la columna <guilabel>Reducir las cabeceras Para / Cc / Cco a</guilabel> para limitar las "
 "direcciones"
 
 #: C/evolution.xml:1222(para)
@@ -3754,7 +3753,6 @@ msgid "Tips for E-Mail Courtesy"
 msgstr "Consejos para correo electrónico de cortesía"
 
 #: C/evolution.xml:1422(para)
-#, fuzzy
 msgid ""
 "If you want to write in a non-Latin alphabet while using a Latin keyboard, "
 "try selecting a different input method in the message composer. Right-click "
@@ -3773,7 +3771,7 @@ msgstr ""
 "Las claves actuales varían por idiomas y estilo de entrada. Por ejemplo, el "
 "método de entrada cirílico usa combinaciones de teclado de latín "
 "transliterado para obtener el alfabeto cirílico, combinando letras donde sea "
-"necesario. «Zh» y «ya» proporcionan letras simples cirílicas apropiadas, y la "
+"necesario. <quote>Zh</quote> y <quote>ya</quote> proporcionan letras simples cirílicas apropiadas, y la "
 "comilla simple (‘) proporciona un carácter de signo suave."
 
 #: C/evolution.xml:1423(para)
@@ -3878,7 +3876,6 @@ msgstr ""
 "Guardar como, y después especifique un nombre de archivo."
 
 #: C/evolution.xml:1450(para)
-#, fuzzy
 msgid ""
 "Offline mode help you communicate with remote mail storage systems like "
 "<trademark class=\"registered\">GroupWise</trademark>, IMAP or Exchange, in "
@@ -3887,7 +3884,7 @@ msgid ""
 "messages, storing them in your Outbox to be sent the next time you connect."
 msgstr ""
 "El modo desconectado le ayuda a comunicarse con sistemas de almacenamiento "
-"de correo remoto tales como GroupWise®;, IMAP o Exchange en situaciones en "
+"de correo remoto tales como <trademark class=\"registered\">GroupWise</trademark>, IMAP o Exchange en situaciones en "
 "las que no podrá estar siempre conectado a la red local. Evolution guarda "
 "copia de una o más carpetas y le permite crear nuevos mensajes, guardarlos "
 "en la Bandeja de salida y enviarlo en cuanto vuelva a conectarse."
@@ -4100,14 +4097,12 @@ msgstr ""
 "faltantes está seleccionado."
 
 #: C/evolution.xml:1537(para)
-#, fuzzy
 msgid ""
 "Select keywords such as <quote>Attach</quote> or <quote>Attachment</quote> "
 "and click Add."
-msgstr "Seleccione las palabras clave tales como «Adjuntar» o «Adjunto» y pulse Añadir."
+msgstr "Seleccione las palabras clave tales como <quote>Adjuntar</quote> o <quote>Adjunto</quote> y pulse Añadir."
 
 #: C/evolution.xml:1538(para)
-#, fuzzy
 msgid ""
 "Based on the keywords you have added here, it searches every mail you are "
 "sending. If it finds the keywords such as <quote>attach</quote> in your mail "
@@ -4116,7 +4111,7 @@ msgid ""
 msgstr ""
 "Busca cada correo electrónico que esté enviando basándose en las palabras "
 "clave que haya añadido aquí. Si en su correo-e encuentra palabras clave "
-"tales como &ldquo;adjuntar&rdquo; y no hay un archivo adjunto, se le "
+"tales como <quote>adjuntar</quote> y no hay un archivo adjunto, se le "
 "recuerda que faltan adjuntos."
 
 #: C/evolution.xml:1541(para)
@@ -4136,7 +4131,6 @@ msgstr ""
 "Gestor de complementos."
 
 #: C/evolution.xml:1550(para)
-#, fuzzy
 msgid ""
 "<trademark>Evolution</trademark>, like most e-mail programs, recognizes "
 "three types of addressee: primary recipients, secondary recipients, and "
@@ -4144,7 +4138,7 @@ msgid ""
 "the e-mail address or addresses in the To: field, which denotes primary "
 "recipients. Use the Cc: field to send a message to secondary recipients."
 msgstr ""
-"Evolution, como la mayoría de programas de correo electrónico, reconoce tres "
+"<trademark>Evolution</trademark>, como la mayoría de programas de correo electrónico, reconoce tres "
 "tipos de direcciones: destinatarios primarios, destinatarios secundarios y "
 "destinatarios ocultos. La manera más simple de enviar un mensaje es "
 "escribiendo la dirección o direcciones de correo electrónico en el campo "
@@ -4388,7 +4382,6 @@ msgid "Find Regex:"
 msgstr "Buscar expresión regular:"
 
 #: C/evolution.xml:1656(para)
-#, fuzzy
 msgid ""
 "You can search for a complex pattern of characters, called a <link linkend="
 "\"regular-expression\">regular expression</link> or <quote>regex</quote> in "
@@ -4396,7 +4389,7 @@ msgid ""
 "should ignore this feature."
 msgstr ""
 "Puede buscar un patrón complejo de caracteres llamado <link linkend="
-"\"regular-expression\">expresión regular</link> o «regex» en la ventana de su "
+"\"regular-expression\">expresión regular</link> o <quote>regex</quote> en la ventana de su "
 "editor. Si no está seguro de lo que es una expresión regular, debería "
 "ignorar esta característica."
 
@@ -4953,13 +4946,12 @@ msgstr ""
 "descuidados."
 
 #: C/evolution.xml:1948(para)
-#, fuzzy
 msgid ""
 "Always begin and close with a salutation. Say <quote>please</quote> and "
 "<quote>thank you,</quote> just like you do in real life. You can keep your "
 "pleasantries short, but be polite."
 msgstr ""
-"Empiece  y acabe siempre con un saludo. Diga «por favor» y «gracias» de la "
+"Empiece  y acabe siempre con un saludo. Diga <quote>por favor</quote> y <quote>gracias</quote> de la "
 "misma manera que haría en la vida real. Puede ser breve en sus cumplidos "
 "pero sea educado."
 
@@ -5212,7 +5204,6 @@ msgstr ""
 "remitente."
 
 #: C/evolution.xml:2040(para)
-#, fuzzy
 msgid ""
 "For example, suppose that Kevin wants to send an encrypted message to his "
 "friend Rachel. He looks up her public key on a general key server, and then "
@@ -5224,7 +5215,7 @@ msgstr ""
 "Por ejemplo, suponga que Antonio quiere enviar un mensaje cifrado a su amigo "
 "Jorge. Él busca su clave pública en un servidor público y entonces le pide a "
 "Evolution que cifre el mensaje. El mensaje ahora tiene una apariencia del "
-"estilo «@#$23ui7yr87#@!48970fsd». Cuando le llega a Jorge, él usa su clave "
+"estilo <quote>@#$23ui7yr87#@!48970fsd</quote>. Cuando le llega a Jorge, él usa su clave "
 "privada para descifrarlo y el mensaje quedará listo para su lectura."
 
 #: C/evolution.xml:2043(title)
@@ -5408,15 +5399,14 @@ msgstr ""
 "su identificador se añadirá automáticamente a su llavero."
 
 #: C/evolution.xml:2101(para)
-#, fuzzy
 msgid ""
 "The domain <quote><emphasis>wwwkeys.pgp.net</emphasis></quote> is assigned "
 "to multiple hosts in various networks. The gpg utility tries to connect to "
 "one in the current network; and if that particular host is down, it fails "
 "with a time-out."
 msgstr ""
-"El dominio &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; está asignado "
-"en múltiples servidores en varias redes. La utilidad gpg trata de conectarse "
+"El dominio <quote>wwwkeys.pg<emphasis>p.net está asign</quote>ado "
+"en</emphasis> múltiples servidores en varias redes. La utilidad gpg trata de conectarse "
 "a una en la red actual y si ese servidor en particular está caído, falla al "
 "superarse el tiempo de expiración."
 
