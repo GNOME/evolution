@@ -1,3 +1,7 @@
+2008-06-20  Milan Crha <mcrha@redhat.com>
+
+	* backup.c: (main): Use Evolution icon for the window.
+
 2008-06-19  Milan Crha <mcrha@redhat.com>
 
 	** Fix for bug #478469

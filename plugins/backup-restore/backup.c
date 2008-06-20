@@ -267,6 +267,8 @@ main (int argc, char **argv)
 		char *str = NULL, *txt;
 		const char *txt2;
 
+		gtk_window_set_default_icon_name ("evolution");
+
 		/* Backup / Restore only can have GUI. We should restrict the rest */
 	 	progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Backup"): _("Evolution Restore"),
         	                                          NULL,
