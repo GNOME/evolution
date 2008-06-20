@@ -3,7 +3,7 @@
  * Authors:
  *   Christopher James Lahey <clahey@ximian.com>
  *
- * Copyright (C) 2001 Chris Lahey
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
 #ifndef __GAL_A11Y_E_TEXT_FACTORY_H__

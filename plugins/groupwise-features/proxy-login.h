@@ -1,6 +1,6 @@
  /* Evolution calendar - Timezone selector dialog
  *
- * Copyright (C) 2005 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Shreyas Srinivasan <sshreyas@novell.com>
  *

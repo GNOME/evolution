@@ -2,7 +2,7 @@
 /*
  * eab-vcard-control.c
  *
- * Copyright (C) 1999, 2000, 2001, 2002, 2003, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

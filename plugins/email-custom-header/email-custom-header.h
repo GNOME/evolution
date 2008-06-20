@@ -1,5 +1,5 @@
  /* Evolution Email custom header options
- * Copyright (C) 2008 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Ashish <shashish@novell.com>
  *

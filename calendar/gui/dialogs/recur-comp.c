@@ -1,6 +1,6 @@
 /* Evolution calendar - Recurring calendar component dialog
  *
- * Copyright (C) 2002 Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Author: JP Rosevear <jpr@ximian.com>
  *

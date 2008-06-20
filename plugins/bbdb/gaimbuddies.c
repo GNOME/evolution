@@ -10,7 +10,7 @@
  *
  *  Nat Friedman <nat@novell.com>
  *
- *  Copyright 2004 Novell, Inc.
+ *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation

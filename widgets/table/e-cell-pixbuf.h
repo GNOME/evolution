@@ -1,6 +1,6 @@
 /*
  * e-cell-pixbuf.h - An ECell that displays a GdkPixbuf
- * Copyright 2001, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors:
  *  Vladimir Vukicevic <vladimir@ximian.com>

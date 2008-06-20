@@ -3,7 +3,7 @@
 /*
  * eab-popup-control.h
  *
- * Copyright (C) 2001-2003, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Jon Trowbridge <trow@ximian.com>
  *          Chris Toshok <toshok@ximian.com>

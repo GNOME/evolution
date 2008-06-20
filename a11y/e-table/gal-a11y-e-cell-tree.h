@@ -3,7 +3,7 @@
  * Authors:
  *   Tim Wo <tim.wo@sun.com>, Sun Microsystem Inc. 2003.
  *
- * Copyright (C) 2002 Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
 #ifndef __GAL_A11Y_E_CELL_TREE_H__

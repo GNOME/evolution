@@ -7,7 +7,7 @@
  *   Chris Toshok (toshok@ximian.com)
  *
  * Copyright (C) 1999 Miguel de Icaza
- * Copyright (C) 2000-2003 Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
 

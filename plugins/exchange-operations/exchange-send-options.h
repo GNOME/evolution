@@ -1,5 +1,5 @@
  /* Evolution exchange send options
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Raghavendran R <raghavguru7@gmail.com>
  *

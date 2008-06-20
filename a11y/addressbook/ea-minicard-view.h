@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * ea-minicard-view.h
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  * Author: Leon Zhang <leon.zhang@sun.com> Sun Microsystem Inc., 2003
  *
  * This library is free software; you can redistribute it and/or

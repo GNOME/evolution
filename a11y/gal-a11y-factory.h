@@ -2,7 +2,7 @@
 /* GAL A11Y
  * gal-a11y-factory.h
  *
- * Copyright 2003 Ximian Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

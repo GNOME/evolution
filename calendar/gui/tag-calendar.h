@@ -1,6 +1,6 @@
 /* Evolution calendar - Utilities for tagging ECalendar widgets
  *
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Damon Chaplin <damon@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>

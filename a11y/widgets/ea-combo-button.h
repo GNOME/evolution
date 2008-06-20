@@ -1,7 +1,7 @@
 /*
  * Authors: Harry Lu  <harry.lu@sun.com>
  *
- * Copyright (C) 2004 Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
 #ifndef __EA_COMBO_BUTTON_H_

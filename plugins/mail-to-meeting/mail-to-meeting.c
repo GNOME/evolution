@@ -1,6 +1,6 @@
 /* Evolution - Mail To Meeting plugin
  *
- * Copyright (C) 2004 Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Rodrigo Moya <rodrigo@ximian.com>
  *

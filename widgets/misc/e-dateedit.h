@@ -4,7 +4,7 @@
  * Author :
  *  Damon Chaplin <damon@ximian.com>
  *
- * Copyright 2000, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Based on the GnomeDateEdit, part of the Gnome Library.
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation

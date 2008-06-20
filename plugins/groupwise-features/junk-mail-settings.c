@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Author(s): Vivek Jain <jvivek@novell.com>
  *

@@ -1,6 +1,6 @@
 /* Evolution calendar - Main page of the Groupwise send options Dialog
  *
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Chenthill Palanisamy <pchenthill@novell.com>
  *

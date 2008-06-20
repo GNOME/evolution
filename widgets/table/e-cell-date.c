@@ -1,6 +1,6 @@
 /*
  * e-cell-date.c - Date item for e-table.
- * Copyright 2001, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Author:
  *  Chris Lahey <clahey@ximian.com>

@@ -5,7 +5,7 @@
  * Author:
  *   Rodrigo Moya <rodrigo@ximian.com>
  *
- * Copyright 2002, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
 #include <string.h>

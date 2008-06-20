@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-cell-hbox.c - Hbox cell object.
- * Copyright 2006 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors:
  *   Srinivasa Ragavan <sragavan@novell.com>
@@ -9,7 +9,7 @@
  * A majority of code taken from:
  *
  * the ECellText renderer.
- * Copyright 1999, 2000, Ximian, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Author(s): Chenthill Palanisamy <pchenthill@novell.com>
  *	      Parthasarathi Susarla <sparthasarathi@novell.com>

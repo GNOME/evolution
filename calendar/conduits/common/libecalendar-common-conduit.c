@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar - ToDo Conduit
  *
- * Copyright (C) 2007 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Tom Billet <mouse256@ulyssis.org>
  *          Nathan Owens <pianocomp81@yahoo.com>

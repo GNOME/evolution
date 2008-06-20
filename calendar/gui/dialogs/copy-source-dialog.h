@@ -1,6 +1,6 @@
 /* Evolution calendar - Copy source dialog
  *
- * Copyright (C) 2003 Novell, Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Author: Rodrigo Moya <rodrigo@ximian.com>
  *
