@@ -1,6 +1,13 @@
 2008-06-20  Sankar P  <psankar@novell.com>
 
 	* mail-retract.c (retract_mail_settings):
+	Multiple open dialogs is an usability issue
+	and a potential HIG violation. 
+	Thanks to Akhil for pointing out.
+
+2008-06-20  Sankar P  <psankar@novell.com>
+
+	* mail-retract.c (retract_mail_settings):
 	Check if cnc is valid before using it.
 	Fixes a crash.
 

@@ -43,6 +43,7 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	CamelStore *store = folder->parent_store;
 	char *id;
 	GtkWidget *confirm_dialog, *confirm_warning;
+	int n;
 
 	cnc = get_cnc (store);
 
@@ -62,7 +63,12 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 		gtk_widget_set_size_request (confirm_dialog, 400, 100);
 		gtk_widget_show_all (confirm_dialog);
 
-		if (gtk_dialog_run (GTK_DIALOG (confirm_dialog)) == GTK_RESPONSE_YES) {
+		n =gtk_dialog_run (GTK_DIALOG (confirm_dialog));
+
+		gtk_widget_destroy (confirm_warning);
+		gtk_widget_destroy (confirm_dialog);
+
+		if (n == GTK_RESPONSE_YES) {
 
 			if (e_gw_connection_retract_request (cnc, id, NULL, FALSE, FALSE) != E_GW_CONNECTION_STATUS_OK )
 				e_error_run (NULL, "org.gnome.evolution.message.retract:retract-failure", NULL);
@@ -72,10 +78,7 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 				gtk_dialog_run (GTK_DIALOG(dialog));
 				gtk_widget_destroy (dialog);
 			}
-		}
-
-		gtk_widget_destroy (confirm_warning);
-		gtk_widget_destroy (confirm_dialog);
+		} 
 	}
 }
 
