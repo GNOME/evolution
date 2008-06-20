@@ -49,6 +49,8 @@
 	E_COMPOSER_ACTION ((composer), "security-menu")
 #define E_COMPOSER_ACTION_SEND(composer) \
 	E_COMPOSER_ACTION ((composer), "send")
+#define E_COMPOSER_ACTION_SEND_OPTIONS(composer) \
+	E_COMPOSER_ACTION ((composer), "send-options")
 #define E_COMPOSER_ACTION_SMIME_ENCRYPT(composer) \
 	E_COMPOSER_ACTION ((composer), "smime-encrypt")
 #define E_COMPOSER_ACTION_SMIME_SIGN(composer) \

@@ -1,3 +1,14 @@
+2008-06-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #538908
+
+	* e-composer-actions.h:
+	Define E_COMPOSER_ACTION_SEND_OPTIONS.
+
+	* e-msg-composer.c (msg_composer_account_changed_cb):
+	Desensitize the "send-options" action unless we've selected an
+	Exchange or GroupWise account.  Based on a patch by Paul Bolle.
+
 2008-06-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #330597

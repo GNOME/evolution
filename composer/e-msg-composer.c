@@ -1669,6 +1669,7 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	ESignature *signature;
 	EAccount *account;
 	gboolean active;
+	gboolean sensitive;
 	const gchar *cc_addrs = NULL;
 	const gchar *bcc_addrs = NULL;
 	const gchar *uid;
@@ -1701,6 +1702,13 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	uid = account->id->sig_uid;
 	signature = uid ? mail_config_get_signature_by_uid (uid) : NULL;
 	e_composer_header_table_set_signature (table, signature);
+
+	/* XXX This should be done more generically.  The composer
+	 *     should not know about particular account types. */
+	sensitive =
+		(strstr (account->transport->url, "exchange") != NULL) ||
+		(strstr (account->transport->url, "groupwise") != NULL);
+	gtk_action_set_sensitive (ACTION (SEND_OPTIONS), sensitive);
 
 exit:
 	update_auto_recipients (table, UPDATE_AUTO_CC, cc_addrs);
