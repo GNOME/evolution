@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* mail-component.c
  *
- * Copyright (C) 2003  Ximian Inc.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Ettore Perazzoli <ettore@ximian.com>
  *	    Michael Zucchi <notzed@ximian.com>
