@@ -45,35 +45,38 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	GtkWidget *confirm_dialog, *confirm_warning;
 
 	cnc = get_cnc (store);
-	id = (char *)item->user_data;
 
-	confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL, 
+	if (cnc && E_IS_GW_CONNECTION(cnc)) {
+		id = (char *)item->user_data;
+
+		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL, 
 				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, 
 				GTK_STOCK_YES, GTK_RESPONSE_YES,
 				GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
 
-	confirm_warning = gtk_label_new (_("Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this ?"));
-	gtk_label_set_line_wrap (GTK_LABEL (confirm_warning), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (confirm_warning), TRUE);
+		confirm_warning = gtk_label_new (_("Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this ?"));
+		gtk_label_set_line_wrap (GTK_LABEL (confirm_warning), TRUE);
+		gtk_label_set_selectable (GTK_LABEL (confirm_warning), TRUE);
 
-	gtk_container_add (GTK_CONTAINER ((GTK_DIALOG(confirm_dialog))->vbox), confirm_warning);
-	gtk_widget_set_size_request (confirm_dialog, 400, 100);
-	gtk_widget_show_all (confirm_dialog);
+		gtk_container_add (GTK_CONTAINER ((GTK_DIALOG(confirm_dialog))->vbox), confirm_warning);
+		gtk_widget_set_size_request (confirm_dialog, 400, 100);
+		gtk_widget_show_all (confirm_dialog);
 
-	if (gtk_dialog_run (GTK_DIALOG (confirm_dialog)) == GTK_RESPONSE_YES) {
+		if (gtk_dialog_run (GTK_DIALOG (confirm_dialog)) == GTK_RESPONSE_YES) {
 
-		if (e_gw_connection_retract_request (cnc, id, NULL, FALSE, FALSE) != E_GW_CONNECTION_STATUS_OK )
-			e_error_run (NULL, "org.gnome.evolution.message.retract:retract-failure", NULL);
-		else {
-			GtkWidget *dialog;
-			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));
-			gtk_dialog_run (GTK_DIALOG(dialog));
-			gtk_widget_destroy (dialog);
+			if (e_gw_connection_retract_request (cnc, id, NULL, FALSE, FALSE) != E_GW_CONNECTION_STATUS_OK )
+				e_error_run (NULL, "org.gnome.evolution.message.retract:retract-failure", NULL);
+			else {
+				GtkWidget *dialog;
+				dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));
+				gtk_dialog_run (GTK_DIALOG(dialog));
+				gtk_widget_destroy (dialog);
+			}
 		}
-	}
 
-	gtk_widget_destroy (confirm_warning);
-	gtk_widget_destroy (confirm_dialog);
+		gtk_widget_destroy (confirm_warning);
+		gtk_widget_destroy (confirm_dialog);
+	}
 }
 
 static EPopupItem popup_items[] = {
