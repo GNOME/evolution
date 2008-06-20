@@ -4,7 +4,7 @@
  *    Jeffrey Stedfast <fejj@ximian.com>
  *    Dan Winship <danw@ximian.com>
  *
- *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
+ *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
