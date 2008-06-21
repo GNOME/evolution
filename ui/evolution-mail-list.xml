@@ -31,7 +31,7 @@
      accel="*Control*h"/>
 
     <cmd name="MessageMarkAllAsRead"
-     _tip="Mark all messages in the folder as read"
+     _tip="Mark all messages in the folder as read" accel="*Control*slash"
      pixtype="pixbuf"/>
 
     <cmd name="ChangeFolderProperties"
@@ -72,7 +72,7 @@
      type="toggle" />
 
     <cmd name="ViewThreadsCollapseAll"
-    _tip="Collapse all message threads"/>
+    _tip="Collapse all message threads" accel="*Control**Shift*b"/>
 
     <cmd name="ViewThreadsExpandAll"
     _tip="Expand all message threads"/>

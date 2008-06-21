@@ -1,3 +1,10 @@
+2008-06-21  Roshan Kumar Singh  <roshan.singh08@yahoo.com>
+
+	** Fix for bug #395636
+
+	* evolution-mail-list.xml: Added accel key Ctrl+Shift+B for collapsing
+	all threads and Ctrl+/ for marking all messages as read. 
+
 2008-06-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #531836
