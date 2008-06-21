@@ -1718,6 +1718,45 @@ exit:
 }
 
 static void
+msg_composer_account_list_changed_cb (EMsgComposer *composer)
+{
+	EComposerHeaderTable *table;
+	EAccountList *account_list;
+	EIterator *iterator;
+	gboolean visible = FALSE;
+
+	/* Determine whether to show the "send-options" action by
+	 * examining the account list for account types that support it.
+	 *
+	 * XXX I'd prefer a more general way of doing this.  The composer
+	 *     should not know about particular account types.  Perhaps
+	 *     add a "supports advanced send options" flag to EAccount. */
+
+	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
+	account_list = e_composer_header_table_get_account_list (table);
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (!visible && e_iterator_is_valid (iterator)) {
+		EAccount *account;
+		const gchar *url;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+		e_iterator_next (iterator);
+
+		if (!account->enabled)
+			continue;
+
+		url = account->transport->url;
+		visible |= (strstr (url, "exchange") != NULL);
+		visible |= (strstr (url, "groupwise") != NULL);
+	}
+
+	gtk_action_set_visible (ACTION (SEND_OPTIONS), visible);
+	g_object_unref (iterator);
+}
+
+static void
 msg_composer_attach_message (EMsgComposer *composer,
                              CamelMimeMessage *msg)
 {
@@ -2764,6 +2803,9 @@ msg_composer_init (EMsgComposer *composer)
 		table, "notify::account",
 		G_CALLBACK (msg_composer_account_changed_cb), composer);
 	g_signal_connect_swapped (
+		table, "notify::account-list",
+		G_CALLBACK (msg_composer_account_list_changed_cb), composer);
+	g_signal_connect_swapped (
 		table, "notify::destinations-bcc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 	g_signal_connect_swapped (
@@ -2786,6 +2828,7 @@ msg_composer_init (EMsgComposer *composer)
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 
 	msg_composer_account_changed_cb (composer);
+	msg_composer_account_list_changed_cb (composer);
 
 	/* Attachment Bar */
 
@@ -2846,14 +2889,12 @@ static EMsgComposer *
 create_composer (gint visible_mask)
 {
 	EMsgComposer *composer;
-	EMsgComposerPrivate *p;
 	EComposerHeaderTable *table;
 	GtkToggleAction *action;
 	gboolean active;
 
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, NULL);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
-	p = composer->priv;
 
 	/* Configure View Menu */
 
