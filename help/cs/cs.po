@@ -1,14 +1,14 @@
 # Czech translation of evolution documentation.
-# Copyright (C) 2008 Free Software Foundation, Inc.
+# Copyright (C) 2008 the author(s) of evolution.
 # This file is distributed under GNU Free Documentation License 1.2.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2008-03-26 07:11+0000\n"
-"PO-Revision-Date: 2008-04-04 01:19+0100\n"
-"Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
+"POT-Creation-Date: 2008-06-02 14:10+0000\n"
+"PO-Revision-Date: 2008-06-14 22:08+0100\n"
+"Last-Translator: Jiří Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -586,8 +586,10 @@ msgid "A user's guide to Evolution which explains how to use its mail, calendar,
 msgstr "Uživatelská příručka aplikace Evolution, která vysvětluje, jak používat její funkce pro elekronickou poštu, kalendář, adresář a seznam úkolů."
 
 #: C/evolution.xml:76(productname)
-msgid "Evolution™"
-msgstr "Evolution™"
+#: C/evolution.xml:5557(para)
+#: C/evolution.xml:7234(glossterm)
+msgid "Evolution"
+msgstr "Evolution"
 
 #: C/evolution.xml:78(invpartnumber)
 msgid "February 2008"
@@ -602,8 +604,8 @@ msgid "About This Guide"
 msgstr "O této příručce"
 
 #: C/evolution.xml:85(para)
-msgid "This guide describes how to use and manage Evolution™ 2.22 client software. This guide is intended for users and is divided into the following sections:"
-msgstr "Tato příručka popisuje, jak používat a spravovat klientský software Evolution™ 2.22. Je určená pro uživatele a rozdělená do následujících sekcí:"
+msgid "This guide describes how to use and manage <trademark>Evolution</trademark> 2.22 client software. This guide is intended for users and is divided into the following sections:"
+msgstr "Tato příručka popisuje, jak používat a spravovat klientský software <trademark>Evolution</trademark> 2.22. Je určená pro uživatele a rozdělená do následujících sekcí:"
 
 #: C/evolution.xml:88(link)
 #: C/evolution.xml:152(title)
@@ -701,12 +703,12 @@ msgid "Documentation Conventions:"
 msgstr "Konvence dokumentace:"
 
 #: C/evolution.xml:147(para)
-msgid "In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path. A trademark symbol (®, TM, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark."
-msgstr "V dokumentaci Novellu je symbol (&gt;) používán pro oddělení akcí do kroků a položek napříč návodem. Obchodní známky (®, TM, atd.) označují obchodní známky Novellu. A hvězdička(*) označuje obchodní známky třetích stran."
+msgid "In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path. A trademark symbol (<trademark class=\"registered\"/>, <trademark/>, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark."
+msgstr "V dokumentaci Novellu je symbol větší než (&gt;) používán pro oddělení akcí do kroků a položek napříč návodem. Symbol  (<trademark class=\"registered\"/>, <trademark/>, atd.) označuje obchodní známku Novellu. A hvězdička (*) označuje obchodní známky třetích stran."
 
 #: C/evolution.xml:153(para)
-msgid "Evolution is a <link linkend=\"groupware\">groupware</link> application thathelps you work in a group by handling e-mail, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others."
-msgstr ""
+msgid "<trademark>Evolution</trademark> is a <link linkend=\"groupware\">groupware</link> application that helps you work in a group by handling e-mail, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others."
+msgstr "Evolution je <link linkend=\"groupware\">groupware</link> aplikace, která vám pomáhá pracovat v týmu tak, že obsluhuje e-maily, adresy, poznámky, úkoly a jeden nebo více kalendářů. To zjednodušuje úlohy uložení, organizace a získání vašich osobních informací tak, že můžete pracovat a s ostatními komunikovat efektivněji."
 
 #: C/evolution.xml:156(link)
 #: C/evolution.xml:164(title)
@@ -875,8 +877,8 @@ msgid "Novell GroupWise:"
 msgstr "Novell GroupWise:"
 
 #: C/evolution.xml:271(para)
-msgid "Select this option if you connect to Novell GroupWise®. Novell GroupWise keeps e-mail, calendar, and contact information on the server. For configuration instructions, see <link linkend=\"bstfw13\">Remote Configuration Options</link>."
-msgstr "Vyberte tuto volbu, pokud jste připojení do Novell GroupWise®. Novell GroupWise uchovává vaši poštu, kalendář a kontakty na serveru. Více instrukcí o nastavení zjistíte na <link linkend=\"bstfw13\">Možnosti vzdálené konfigurace</link>."
+msgid "Select this option if you connect to Novell <trademark class=\"registered\">GroupWise</trademark>. Novell GroupWise keeps e-mail, calendar, and contact information on the server. For configuration instructions, see <link linkend=\"bstfw13\">Remote Configuration Options</link>."
+msgstr "Vyberte tuto volbu, pokud jste připojení do Novell <trademark class=\"registered\">GroupWise</trademark>. Novell GroupWise uchovává vaši poštu, kalendář a kontakty na serveru. Více instrukcí o nastavení zjistíte na <link linkend=\"bstfw13\">Možnosti vzdálené konfigurace</link>."
 
 #: C/evolution.xml:274(title)
 msgid "Microsoft Exchange:"
@@ -907,8 +909,8 @@ msgid "Hula:"
 msgstr "Hula:"
 
 #: C/evolution.xml:287(para)
-msgid "Select this option if you want Hula account. Evolution provide you connectivity to Hula® servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend=\"b1012tkg\">Connecting to Hula</link>"
-msgstr "Vyberte tuto možnost, pokud chcete účet Hula. Evolution poskytuje připojení k serverům Hula® pomocí IMAPu a podporuje kalendář pomocí CalDAV. Více informací se dozvíte na <link linkend=\"b1012tkg\">Připojení k Hula</link>"
+msgid "Select this option if you want Hula account. Evolution provide you connectivity to <trademark class=\"registered\">Hula</trademark> servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend=\"b1012tkg\">Connecting to Hula</link>"
+msgstr "Vyberte tuto možnost, pokud chcete účet Hula. Evolution poskytuje připojení k serverům <trademark class=\"registered\">Hula</trademark> pomocí IMAPu a podporuje kalendář pomocí CalDAV. Více informací se dozvíte na <link linkend=\"b1012tkg\">Připojení k Hula</link>"
 
 #: C/evolution.xml:290(title)
 msgid "USENET News:"
@@ -2082,16 +2084,16 @@ msgid "Forces every part of Evolution to shut down immediately."
 msgstr "Přinutí každou část Evolutionu, aby se okamžitě ukončila."
 
 #: C/evolution.xml:1097(para)
-msgid "evolution ‘%s’"
-msgstr "evolution ‘%s’"
+msgid "evolution <quote>%s</quote>"
+msgstr "evolution <quote>%s</quote>"
 
 #: C/evolution.xml:1100(para)
 msgid "Makes Evolution your default e-mail handler for your Web browser and in the GNOME* Control Center."
 msgstr "Udělá z Evolutionu výchozího poštovního klienta v Ovládacím centru GNOME* a pro váš prohlížeč."
 
 #: C/evolution.xml:1111(para)
-msgid "This section, and <link linkend=\"usage-mail-organize\">Organizing Your E-Mail</link>, provide you with an in-depth guide to the capabilities of Evolution™ as a mail client. For information about how to customize your mail account, see <link linkend=\"config-prefs-mail\">Mail Preferences</link>."
-msgstr "Tato sekce a <link linkend=\"usage-mail-organize\">Organizování pošty</link> vám nabízí hlubšího průvodce schopnostmi Evolutionu™ jako poštovního klienta. Více informací o tom, jak si přizpůsobit svůj poštovní účet se dozvíte v <link linkend=\"config-prefs-mail\">Nastavení pošty</link>."
+msgid "This section, and <link linkend=\"usage-mail-organize\">Organizing Your E-Mail</link>, provide you with an in-depth guide to the capabilities of <trademark>Evolution</trademark> as a mail client. For information about how to customize your mail account, see <link linkend=\"config-prefs-mail\">Mail Preferences</link>."
+msgstr "Tato sekce a <link linkend=\"usage-mail-organize\">Organizování pošty</link> vám nabízí hlubšího průvodce schopnostmi <trademark>Evolutionu</trademark> jako poštovního klienta. Více informací o tom, jak si přizpůsobit svůj poštovní účet se dozvíte v <link linkend=\"config-prefs-mail\">Nastavení pošty</link>."
 
 #: C/evolution.xml:1114(link)
 #: C/evolution.xml:1131(title)
@@ -2140,7 +2142,7 @@ msgstr "S Magickým mezerníkem můžete jednoduše číst nepřečtené zprávy
 
 #: C/evolution.xml:1141(para)
 msgid "To enable Magic Spacebar:"
-msgstr ""
+msgstr "Pro povolení Magického mezerníku:"
 
 #: C/evolution.xml:1144(para)
 msgid "Click Edit &gt; Preferences &gt; Mail Preferences and select the Enable Magic Spacebar check box."
@@ -2255,16 +2257,16 @@ msgid "Select Mail Preferences"
 msgstr "Vyberte Nastavení pošty"
 
 #: C/evolution.xml:1219(para)
-msgid "Check ‘Shrink To/CC/Bcc headers to column’ to limit the address"
-msgstr "Zatrhněte \"Zmenšit To/Cc/Bcc hlavičky na\" pro omezení adres"
+msgid "Check <guilabel>Shrink To/CC/Bcc headers to column</guilabel> to limit the address"
+msgstr "Zatrhněte <guilabel>Zmenšit To/Cc/Bcc hlavičky na</guilabel> pro omezení adres"
 
 #: C/evolution.xml:1222(para)
 msgid "Enter the limit in the field."
 msgstr "Vložte do pole limit."
 
 #: C/evolution.xml:1225(para)
-msgid "You can expand the message headers by click the <inlinegraphic format=\"PNG\" fileref=\"figures/plus.png\"/> icon or the ‘…’ in the message preview pane. To collapse click <inlinegraphic format=\"PNG\" fileref=\"figures/minus.png\"/> icon in the preview pane."
-msgstr "Rozbalit hlavičky můžete kliknutím na ikonu <inlinegraphic format=\"PNG\" fileref=\"figures/plus.png\"/> nebo na \"...\" v panelu náhledu zprávy. Pro opětovné sbalení klikněte na ikonu <inlinegraphic format=\"PNG\" fileref=\"figures/minus.png\"/> v panelu náhledu."
+msgid "You can expand the message headers by click the <inlinegraphic format=\"PNG\" fileref=\"figures/plus.png\"/> icon or the <guilabel>...</guilabel> in the message preview pane. To collapse click <inlinegraphic format=\"PNG\" fileref=\"figures/minus.png\"/> icon in the preview pane."
+msgstr "Rozbalit hlavičky můžete kliknutím na ikonu <inlinegraphic format=\"PNG\" fileref=\"figures/plus.png\"/> nebo na <guilabel>...</guilabel> v panelu náhledu zprávy. Pro opětovné sbalení klikněte na ikonu <inlinegraphic format=\"PNG\" fileref=\"figures/minus.png\"/> v panelu náhledu."
 
 #: C/evolution.xml:1229(title)
 msgid "Sharing Mailboxes with Other Mail Programs"
@@ -2552,8 +2554,8 @@ msgid "Tips for E-Mail Courtesy"
 msgstr "Tipy pro e-mailovou etiketu"
 
 #: C/evolution.xml:1422(para)
-msgid "If you want to write in a non-Latin alphabet while using a Latin keyboard, try selecting a different input method in the message composer. Right-click in the message composition area and select an input method from the Input Methods menu, then begin typing. The actual keys vary by language and input style. For example, the Cyrillic input method uses transliterated Latin keyboard combinations to get the Cyrillic alphabet, combining letters where necessary. “Zh” and “ya” produce the appropriate single Cyrillic letters, and the single-quote (‘) produces a soft sign character."
-msgstr "Pokud chcete psát v abecedě nepoužívající latinku na klávesnici s latinkou, zkuste zvolit jinou vstupní metodu v editoru zpráv. Klikněte pravým tlačítkem do prostoru pro tvorbu zprávy, vyberte metodu vstupu z nabídky Vstupní metody a začněte psát. Skutečné klávesy se liší podle jazyku a zvolené vstupní metody. Např. vstupní metoda cyrilice používá transliterované kombinace klávesnice s latinkou, aby dosáhla abecedy cyrilice. Kombinování písmen je nezbytné. \"Zh\" a \"ya\" vytvářejí odpovídající jednotlivé písmena cyrilice a jedna uvozovka (') měkký znak."
+msgid "If you want to write in a non-Latin alphabet while using a Latin keyboard, try selecting a different input method in the message composer. Right-click in the message composition area and select an input method from the Input Methods menu, then begin typing. The actual keys vary by language and input style. For example, the Cyrillic input method uses transliterated Latin keyboard combinations to get the Cyrillic alphabet, combining letters where necessary. <quote>Zh</quote> and <quote>ya</quote> produce the appropriate single Cyrillic letters, and the single-quote (') produces a soft sign character."
+msgstr "Pokud chcete psát v abecedě nepoužívající latinku na klávesnici s latinkou, zkuste zvolit jinou vstupní metodu v editoru zpráv. Klikněte pravým tlačítkem do prostoru pro tvorbu zprávy, vyberte metodu vstupu z nabídky Vstupní metody a začněte psát. Skutečné klávesy se liší podle jazyku a zvolené vstupní metody. Např. vstupní metoda cyrilice používá transliterované kombinace klávesnice s latinkou, aby dosáhla abecedy cyrilice. Kombinování písmen je nezbytné. <quote>Zh</quote> a <quote>ya</quote> vytvářejí odpovídající jednotlivé písmena cyrilice a jedna uvozovka (') měkký znak."
 
 #: C/evolution.xml:1423(para)
 msgid "For greater language display capabilities, click Edit &gt; Preferences, then select the character set choices in the Mail Preferences and Composer Preferences sections. If you aren't sure which one to use, select UTF-8, which offers the greatest range of character displays for the greatest range of languages."
@@ -2588,8 +2590,8 @@ msgid "If you prefer to save your message as a text file, click File &gt; Save A
 msgstr "Pokud dáváte přednost uložení zprávy jako textový soubor, klikněte na Soubor &gt; Uložit jako, potom zadejte název souboru."
 
 #: C/evolution.xml:1450(para)
-msgid "Offline mode help you communicate with remote mail storage systems like GroupWise®, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect."
-msgstr "Režim off-line vám pomáhá komunikovat se vzdálenými systémy pro uložení pošty jako GroupWise®, IMAP nebo Exchange v situacích, kdy nejste pořád připojení do sítě. Evolution uchovává místní kopii jedné nebo více složek, aby vám umožnil vytvářet zprávy a ukládat je do složky K Odeslání do té doby, než budete on-line. "
+msgid "Offline mode help you communicate with remote mail storage systems like <trademark class=\"registered\">GroupWise</trademark>, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect."
+msgstr "Režim off-line vám pomáhá komunikovat se vzdálenými systémy pro uložení pošty jako <trademark class=\"registered\">GroupWise</trademark>, IMAP nebo Exchange v situacích, kdy nejste pořád připojení do sítě. Evolution uchovává místní kopii jedné nebo více složek, aby vám umožnil vytvářet zprávy a ukládat je do složky K Odeslání do té doby, než budete on-line. "
 
 #: C/evolution.xml:1451(para)
 msgid "POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you go offline, Evolution downloads the unread messages from the folders you have chosen to store."
@@ -2714,15 +2716,15 @@ msgstr "Vyberte Upravit &gt; Zásuvné moduly &gt; Připomínka přílohy."
 
 #: C/evolution.xml:1533(para)
 msgid "Click Configuration, then make sure that Remind Missing Attachments is selected."
-msgstr ""
+msgstr "Klikněte na Nastavení a ujistěte se, že je zašktnuto Připomenout chybějící přílohy."
 
 #: C/evolution.xml:1537(para)
-msgid "Select keywords such as \"Attach\" or \"Attachment\" and click Add."
-msgstr ""
+msgid "Select keywords such as <quote>Attach</quote> or <quote>Attachment</quote> and click Add."
+msgstr "Vyberte klíčová slova jako <quote>Attach</quote> nebo <quote>Příloha</quote> a klikněte na Přidat. "
 
 #: C/evolution.xml:1538(para)
-msgid "Based on the keywords you have added here, it searches every mail you are sending. If it finds the keywords such as &ldquo;attach&rdquo; in your mail and there is no actual attached file, you are reminded of missing attachments."
-msgstr "Na základě klíčových slov, které jste zde přidali, prohledává každý e-mail, který odesíláte. Pokud nalezne v e-mailu klíčové slovo jako např. &ldquo;příloha&rdquo; a žádný přiložený soubor, budete upozorněn na chybějící přílohu."
+msgid "Based on the keywords you have added here, it searches every mail you are sending. If it finds the keywords such as <quote>attach</quote> in your mail and there is no actual attached file, you are reminded of missing attachments."
+msgstr "Na základě klíčových slov, které jste zde přidali, prohledává každý e-mail, který odesíláte. Pokud nalezne v e-mailu klíčové slovo jako např. <quote>příloha</quote> a žádný přiložený soubor, budete upozorněn na chybějící přílohu."
 
 #: C/evolution.xml:1541(para)
 msgid "To edit any of the existing keywords, select the keyword, click Edit, then modify the word as desired."
@@ -2730,11 +2732,11 @@ msgstr "Chcete-li editovat kterékoliv z existujících klíčových slov, vyber
 
 #: C/evolution.xml:1544(para)
 msgid "When you have finished making your selections, click Close to exit the Plugin Manager."
-msgstr ""
+msgstr "Jste-li hotovi s výběrem, zavřete Správce zasuvných modulů kliknutím na Zavřít."
 
 #: C/evolution.xml:1550(para)
-msgid "Evolution, like most e-mail programs, recognizes three types of addressee: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients."
-msgstr "Evolution, stejně jako většina ostatních e-mailových klientů, rozpoznává tři druhy adresátů: hlavní příjemci, vedlejší příjemci a skrytí (neviditelní) příjemci. Nejjednodušší způsob, jak směrovat zprávu je vložit e-mailovou adresu nebo adresáta do pole Komu:, které udává hlavní příjemce. Použijte pole Kopie, chcete-li zprávu poslat vedlejšímu příjemci."
+msgid "<trademark>Evolution</trademark>, like most e-mail programs, recognizes three types of addressee: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients."
+msgstr "<trademark>Evolution</trademark>, stejně jako většina ostatních e-mailových klientů, rozpoznává tři druhy adresátů: hlavní příjemci, vedlejší příjemci a skrytí (neviditelní) příjemci. Nejjednodušší způsob, jak směrovat zprávu je vložit e-mailovou adresu nebo adresáta do pole Komu:, které udává hlavní příjemce. Použijte pole Kopie, chcete-li zprávu poslat vedlejšímu příjemci."
 
 #: C/evolution.xml:1551(para)
 msgid "Addresses on the Bcc: list are hidden from the other recipients of the message. You can use it to send mail to large groups of people, especially if they don't know each other or if privacy is a concern. If your Bcc: field is absent, click View &gt; Bcc Field."
@@ -2865,8 +2867,8 @@ msgid "Find Regex:"
 msgstr "Hledat regulární výraz:"
 
 #: C/evolution.xml:1656(para)
-msgid "You can search for a complex pattern of characters, called a <link linkend=\"regular-expression\">regular expression</link> or “regex” in your composer window. If you're not sure what a regular expression is, you should ignore this feature."
-msgstr "Můžete v editoru zpráv vyhledávat komplexní vzory znaků zvané <link linkend=\"regular-expression\">regulární výrazy</link> nebo \"regex\". Pokud si nejste jistí, co regulární výrazy jsou, měli byste tuto funkci ignorovat. "
+msgid "You can search for a complex pattern of characters, called a <link linkend=\"regular-expression\">regular expression</link> or <quote>regex</quote> in your composer window. If you're not sure what a regular expression is, you should ignore this feature."
+msgstr "Můžete v editoru zpráv vyhledávat komplexní vzory znaků zvané <link linkend=\"regular-expression\">regulární výrazy</link> nebo <quote>regex</quote>. Pokud si nejste jistí, co regulární výrazy jsou, měli byste tuto funkci ignorovat. "
 
 #: C/evolution.xml:1659(title)
 msgid "Find Again:"
@@ -3218,8 +3220,8 @@ msgid "Don't forward chain letters. If you must, watch out for hoaxes and urban 
 msgstr "Nepřeposílete řetězové dopisy. Pokud musíte, dejte si pozor na hoaxy a urban legends a ujistěte se, že zpráva nemá několik vrstev znamének větší, (&gt;) signalizuje několik vrstev nedbale přeposlaných zpráv."
 
 #: C/evolution.xml:1948(para)
-msgid "Always begin and close with a salutation. Say “please” and “thank you,” just like you do in real life. You can keep your pleasantries short, but be polite."
-msgstr "Vždy začínejte a končete pozdravem. Říkejte \"prosím a \"děkuji\" stejně, jako to děláte ve skutečnosti. Nepřehánějte to se zdvořilostí, ale buďte slušní."
+msgid "Always begin and close with a salutation. Say <quote>please</quote> and <quote>thank you,</quote> just like you do in real life. You can keep your pleasantries short, but be polite."
+msgstr "Vždy začínejte a končete pozdravem. Říkejte <quote>prosím</quote> a <quote>děkuji</quote> stejně, jako to děláte ve skutečnosti. Nepřehánějte to se zdvořilostí, ale buďte slušní."
 
 #: C/evolution.xml:1951(para)
 msgid "WRITING IN CAPITAL LETTERS MEANS YOU'RE SHOUTING! Don't write a whole message in capital letters. It hurts people's ears."
@@ -3359,8 +3361,8 @@ msgid "You can attach an encrypted signature to a plain text message, so that th
 msgstr "Můžete připojit zašifrovaný podpis ke zprávě prostého textu tak, že příjemce může zprávu přečíst bez dešifrování a dešifrování musí použít, pouze pokud chce ověřit identitu odesílatele."
 
 #: C/evolution.xml:2040(para)
-msgid "For example, suppose that Kevin wants to send an encrypted message to his friend Rachel. He looks up her public key on a general key server, and then tells Evolution to encrypt the message. The message now reads “@#$23ui7yr87#@!48970fsd.” When the information gets to Rachel, she decrypts it using her private key, and it appears as plain text for her to read."
-msgstr "Například dejme tomu, že chce Kevin poslat zašifrovanou zprávu své přítelkyni Rachel. Najde si její veřejný klíč na všeobecném serveru klíčů a potom řekne Evolutionu, aby zašifroval zprávu. Ve zprávě nyní stojí “@#$23ui7yr87#@!48970fsd”. Když informace dorazí k Rachel, dešifruje ji pomocí privátního klíče a zobrazí se jí prostý text, který si může přečíst."
+msgid "For example, suppose that Kevin wants to send an encrypted message to his friend Rachel. He looks up her public key on a general key server, and then tells Evolution to encrypt the message. The message now reads <quote>@#$23ui7yr87#@!48970fsd.</quote> When the information gets to Rachel, she decrypts it using her private key, and it appears as plain text for her to read."
+msgstr "Například dejme tomu, že chce Kevin poslat zašifrovanou zprávu své přítelkyni Rachel. Najde si její veřejný klíč na všeobecném serveru klíčů a potom řekne Evolutionu, aby zašifroval zprávu. Ve zprávě nyní stojí <quote>@#$23ui7yr87#@!48970fsd.</quote>. Když informace dorazí k Rachel, dešifruje ji pomocí privátního klíče a zobrazí se jí prostý text, který si může přečíst."
 
 #: C/evolution.xml:2043(title)
 msgid "Making a GPG Encryption Key"
@@ -3459,8 +3461,8 @@ msgid "To get public keys from a public key server, enter the command<command> g
 msgstr "Pro získání veřejných klíčů ze serveru veřejných klíčů, vložte příkaz <command> gpg --recv-keys --keyserver wwwkeys.pgp.net <varname>keyid</varname></command> s tím, že nahradíte <varname>keyid</varname> ID vašeho příjemce. Musíte vložit vaše heslo a ID se automaticky přidá do vaší klíčenky."
 
 #: C/evolution.xml:2101(para)
-msgid "The domain &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; is assigned to multiple hosts in various networks. The gpg utility tries to connect to one in the current network; and if that particular host is down, it fails with a time-out."
-msgstr "Doména &rsquo;<emphasis>wwwkeys.pgp.net</emphasis>&rsquo; je přidělená více hostům v různých sítích. Nástroj gpg se zkouší připojit k jednomu z nich v aktuální síti a pokud je určitý host nedostupný, selže vypršením časového limitu."
+msgid "The domain <quote><emphasis>wwwkeys.pgp.net</emphasis></quote> is assigned to multiple hosts in various networks. The gpg utility tries to connect to one in the current network; and if that particular host is down, it fails with a time-out."
+msgstr "Doména <quote><emphasis>wwwkeys.pgp.net</emphasis></quote> je přidělená více hostům v různých sítích. Nástroj gpg se zkouší připojit k jednomu z nich v aktuální síti a pokud je určitý host nedostupný, selže vypršením časového limitu."
 
 #: C/evolution.xml:2104(para)
 msgid "To avoid this, Type <command>$ host wwwkeys.pgp.net</command> in a terminal console and get the IP address of the hosts. You can ping each of them to find the one which is up and running. Now, you can replace wwwkeys.pgp.net in the gpg --recv-keys --keyserver wwwkeys.pgp.net keyid command with that explicit IP number as returned by the host utility."
@@ -3616,8 +3618,8 @@ msgid "Select the appropriate options."
 msgstr "Vyberte příslušné volby."
 
 #: C/evolution.xml:2239(para)
-msgid "Whether you only get a few e-mail messages a day, or you receive hundreds, you probably want to sort and organize them. Evolution has the tools to help you do it."
-msgstr "Jestli dostanete jen pár e-mailových zpráv denně, nebo obdržíte stovky, pravděpodobně je chcete třídit a organizovat. Evolution má nástroje, které vám s tím pomůžou."
+msgid "Whether you only get a few e-mail messages a day, or you receive hundreds, you probably want to sort and organize them. <trademark>Evolution</trademark> has the tools to help you do it."
+msgstr "Jestli dostanete jen pár e-mailových zpráv denně, nebo obdržíte stovky, pravděpodobně je chcete třídit a organizovat. <trademark>Evolution</trademark> má nástroje, které vám s tím pomůžou."
 
 #: C/evolution.xml:2242(link)
 #: C/evolution.xml:2265(title)
@@ -4038,7 +4040,7 @@ msgid "After you have added a flag, you can mark it as complete or remove it ent
 msgstr "Poté, co jste značku přidali, ji můžete označit jako dokončenou nebo úplně vymazat tak, že kliknete na zprávu pravým tlačítkem a potom kliknete buď na Označit jako dokončeno nebo na Zrušit značku."
 
 #: C/evolution.xml:2515(para)
-msgid "When you read a flagged message, its flag status is displayed at the top, before the message headers. An overdue message might tell you “Overdue: Call by April 07, 2003, 5:00 PM.”"
+msgid "When you read a flagged message, its flag status is displayed at the top, before the message headers. An overdue message might tell you <quote>Overdue: Call by April 07, 2003, 5:00 PM.</quote>"
 msgstr "Když čtete označenou zprávu, stav značky je zobrazen nahoře nad hlavičkami zprávy. Ve zpoždění vám muže zpráva říkat  <quote>Již mělo být splněno: Zavolat do 7. duben, 2003, 17:00</quote>."
 
 #: C/evolution.xml:2516(para)
@@ -4424,7 +4426,7 @@ msgid "Any header including custom ones."
 msgstr "Jakákoliv hlavička včetně vlastních."
 
 #: C/evolution.xml:2780(para)
-msgid "If a message uses a header more than once, Evolution pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as “engineering@example.com” and then restates it as “marketing@example.com,” Evolution filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression."
+msgid "If a message uses a header more than once, Evolution pays attention only to the first instance, even if the message defines the header differently the second time. For example, if a message declares the Resent-From: header as <quote>engineering@example.com</quote> and then restates it as <quote>marketing@example.com,</quote> Evolution filters as though the second declaration did not occur. To filter on messages that use headers multiple times, use a regular expression."
 msgstr "Pokud zpráva používá hlavičku více než jedenkrát, Evolution se jí zabývá pouze v první instanci, dokonce i když zpráva definuje podruhé hlavičku jinak. Např. pokud zpráva deklaruje hlavičku Resent-From: jako <quote>engineering@example.com</quote> a potom ji zopakuje jako <quote>marketing@example.com,</quote>, Evolution ji filtruje, jakoby se druhá deklarace neobjevila. Pro filtrování zpráv, které používají hlavičky vícekrát, použijte regulární výrazy. "
 
 #: C/evolution.xml:2782(title)
@@ -4746,7 +4748,7 @@ msgid "If you use remote e-mail storage like IMAP or Microsoft Exchange, and hav
 msgstr "Používáte-li vzdálené úložiště e-mailu jako IMAP nebo Microsoft Exchange a vytvořili jste složky hledání, aby ho prohledávaly, Nepřiřazená složka hledání bude také prohledávat vzdálené složky. Pokud jste nevytvořili jedinou složku hledání, která prohledává vzdálená úložiště, Nepřiřazená složka hledání je nebude prohledávat také."
 
 #: C/evolution.xml:2989(para)
-msgid "As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the “Anna” search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the “Anna” search folder and in the “Internal Evolution Discussion” search folder."
+msgid "As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the <quote>Anna</quote> search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the <quote>Anna</quote> search folder and in the <quote>Internal Evolution Discussion</quote> search folder."
 msgstr "Za příklad použití složek, hledání a složek hledání považujte toto: Aby Jim zorganizoval svoji poštovní schránku, nastavil si složku hledání pro e-maily od jeho kamarádky a spolupracovnice Anny. Má i složku hledání pro zprávy mající novell.com v adrese a Evolution v předmětu, takže si může udržovat záznamy o tom, co mu lidé z práce poslali ohledně Evolutionu. Pokud mu Anna pošle zprávu o čemkoliv jiném než Evolutionu, objeví se to pouze ve složce hledání <quote>Anna</quote>. Když mu Anna pošle e-mail o uživatelském rozhraní pro Evolution, může vidět zprávu jak ve složce hledání <quote>Anna</quote>, tak ve složce hledání <quote>Interní diskuse o Evolutionu</quote>."
 
 #: C/evolution.xml:2992(title)
@@ -4755,252 +4757,252 @@ msgstr "Vytvoření složky hledání"
 
 #: C/evolution.xml:2995(para)
 msgid "Click Message &gt; Create Rule, then select a search folder based on Subject, Sender, Recipient, or Mailing List."
-msgstr ""
+msgstr "Klikněte na Zpráva &gt; Vytvořit pravidlo a vyberte složku hledání podle předmětu, odesílatele, příjemce nebo poštovní konference."
 
 #: C/evolution.xml:2997(para)
 msgid "Select Search menu &gt; Create Search Folder From Search."
-msgstr ""
+msgstr "Vyberte nabídku Hledat &gt; Vytvořit složku hledání z vyhledávání."
 
 #: C/evolution.xml:2999(para)
 msgid "Perform this operation from the search results. Create a search folder from search is enabled only when you already have performed a search."
-msgstr ""
+msgstr "Proveďte tuto operaci z výsledků vyhledávání. Tvorba složky hledání z vyhledávání je povolena, pouze když jste provedli vyhledávání."
 
 #: C/evolution.xml:3002(para)
 msgid "Select Edit &gt; Search Folder"
-msgstr ""
+msgstr "Vyberte Upravit &gt; Prohledat složky"
 
 #: C/evolution.xml:3010(para)
 msgid "Type the name of the search folder in the Search name field."
-msgstr ""
+msgstr "Napište jméno složky hledání do podle Název pravidla."
 
 #: C/evolution.xml:3013(para)
 msgid "Select your search criteria. For each criterion, you must first select which of the following parts of the message you want the search to examine. The criteria are almost similar to those for filters."
-msgstr ""
+msgstr "Vyberte kritéria hledání. Pro každé kritérium musíte prvně vybrat, která z následujících části má být prohledávána. Kritéria jsou téměř stejná jako ty pro filtry."
 
 #: C/evolution.xml:3016(para)
 msgid "Sender's address."
-msgstr ""
+msgstr "Adresa odesílatele."
 
 #: C/evolution.xml:3019(title)
 msgid "Recipients:"
-msgstr ""
+msgstr "Příjemci:"
 
 #: C/evolution.xml:3031(title)
 msgid "Expression:(For programmers only)"
-msgstr ""
+msgstr "Výraz:(pouze pro programátory)"
 
 #: C/evolution.xml:3032(para)
 msgid "Match a message according to an expression you write in the Scheme language used to define filters in Evolution."
-msgstr ""
+msgstr "Porovnává zprávu s výrazem, který jste napsali v jazyku Scheme, který se používá pro definování filtrů v Evolutionu."
 
 #: C/evolution.xml:3044(para)
 msgid "Messages can have labels of Important, Work, Personal, To Do, or Later. You can set labels with other filters or manually."
-msgstr ""
+msgstr "Zprávy mohou mít štítky Důležité, Pracovní, Osobní, Zpracovávané, Později. Štítky můžete nastavit jinými filtry nebo ručně."
 
 #: C/evolution.xml:3059(title)
 msgid "Follow Up:"
-msgstr ""
+msgstr "K vyřízení:"
 
 #: C/evolution.xml:3067(title)
 msgid "Mailing List:"
-msgstr ""
+msgstr "Poštovní konference:"
 
 #: C/evolution.xml:3071(title)
 msgid "Match all:"
-msgstr ""
+msgstr "Vše odpovídá:"
 
 #: C/evolution.xml:3072(para)
 msgid "Checks whether the message matchs all the criteria listed."
-msgstr ""
+msgstr "Kontroluje, zda zpráva odpovídá všem uvedeným kritériím."
 
 #: C/evolution.xml:3076(para)
 msgid "Select the folders where this search folder will search. Your options are:"
-msgstr ""
+msgstr "Vyberte složky, kde bude tato složka hledání hledat. Vaše možnosti jsou:"
 
 #: C/evolution.xml:3078(title)
 msgid "All local folders:"
-msgstr ""
+msgstr "Všechny místní složky:"
 
 #: C/evolution.xml:3079(para)
 msgid "Uses all local folders for the search folder source in addition to individual folders that are selected."
-msgstr ""
+msgstr "Jako zdroj pro složku hledání používá všechny místní složky navíc k těm, které jste jednotlivě vybrali."
 
 #: C/evolution.xml:3082(title)
 msgid "All active remote folders:"
-msgstr ""
+msgstr "Všechny aktivní, vzdálené složky:"
 
 #: C/evolution.xml:3083(para)
 msgid "Remote folders are considered active if you are connected to the server; you must be connected to your mail server for the search folder to include any messages from that source in addition to individual folders that are selected."
-msgstr ""
+msgstr "Vzdálené složky jsou považovány za aktivní, pokud jste připojeni k serveru; pro složky hledání musíte být připojeni k vašemu poštovního serveru, chcete-li přidat jakékoliv zprávy z tohoto zdroje ke složkám, které jste vybrali jednotlivě."
 
 #: C/evolution.xml:3086(title)
 msgid "All local and active remote folders:"
-msgstr ""
+msgstr "Všechny místní a aktivní, vzdálené složky:"
 
 #: C/evolution.xml:3087(para)
 msgid "Uses all local and active remote folders for the search folder source in addition to individual folders that are selected."
-msgstr ""
+msgstr "Používá všechny místní a aktivní, vzdálené složky navíc ke složkám, které jste vybrali jednotlivě."
 
 #: C/evolution.xml:3090(title)
 msgid "Specific folders only:"
-msgstr ""
+msgstr "Pouze konkrétní složky:"
 
 #: C/evolution.xml:3091(para)
 msgid "Uses individual folders for the search folder source."
-msgstr ""
+msgstr "Jako zdroj pro složky hledání používá jednotlivé složky."
 
 #: C/evolution.xml:3093(para)
 msgid "If you select Specific folders only,"
-msgstr ""
+msgstr "Vyberete-li pouze konkrétní složky,"
 
 #: C/evolution.xml:3096(para)
 msgid "click Add button to open the Select folder window."
-msgstr ""
+msgstr "klikněte na tlačítko Přidat a otevře se okno Vybrat složku."
 
 #: C/evolution.xml:3103(para)
 msgid "Select the folder and press Add button."
-msgstr ""
+msgstr "Vyberte složku a klikněte na tlačítko Přidat."
 
 #: C/evolution.xml:3106(para)
 msgid "You can view the folder added to the list in the entry box at the bottom of the New Search Folder window."
-msgstr ""
+msgstr "Složku přidanou do seznamu můžete vidět v rámečku s položkami dole v okně Nová složka hledání."
 
 #: C/evolution.xml:3117(para)
 msgid "Evolution can check for junk mail for you. Evolution uses SpamAssassin and/ or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder."
-msgstr ""
+msgstr "Evolution vám může kontrolovat nevyžádanou poštu. Ke kontrole spamu Evolution používá SpamAssassin a/nebo Bogofilter s Bayesian filtrem, který je schopný se učit. Když software odhalí zprávu, která se jeví jako nevyžádaná, označí ji a skryje ji před vaším pohledem. Zprávy, kterou jsou označeny jako nevyžádaná pošta jsou zobrazeny pouze ve složce Nevyžádaná pošta."
 
 #: C/evolution.xml:3118(para)
 msgid "The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn't get flagged as junk mail. If good mail, is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk or press Shift+Ctrl+J. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on."
-msgstr ""
+msgstr "Filtr nevyžádané pošty se umí učit, který typ pošty je v pořádku a který není, pokud ho učit necháte. Když začnete poprvé používat blokování nevyžádané pošty, kontrolujte si složku Nevyžádaná pošta, abyste se ujistili, že pošta, která je v pořádku, není označena jako spam. Pokud je dobrá pošta nesprávně označena, odstraňte ji ze složky Nevyžádaná pošta kliknutím pravým tlačítkem a zvolením Označit, že není nevyžádaná nebo stisknutím Shift+Ctrl+J. Pokud Evolutionu spam proklouzne, klikněte pravým tlačítkem na zprávu a potom klikněte na Označit jako nevyžádaná nebo stiskněte Ctrl+J. Když provedete opravu, filtr bude umět v budoucnu rozpoznat podobné zprávy a bude postupně přesnější."
 
 #: C/evolution.xml:3119(para)
 msgid "Every filter needs to learn at the least 100 spam and 100 ham to start working. For that, you must mark each message manually by clicking the <emphasis>Not junk</emphasis> button in the toolbar to learn that it is ham. The <emphasis>Junk</emphasis> button learns a message as spam."
-msgstr ""
+msgstr "Každý filtr se potřebuje naučit aspoň 100 spamů a 100 hamů, aby začal pracovat. Proto musíte ručně označit každou zprávu kliknutím na tlačítko <emphasis>Není nevyžádané</emphasis> v liště nástrojů, aby se naučil, že jde o ham.  Tlačítko <emphasis>Nevyžádaná pošta</emphasis> naopak učí, že jde o spam. "
 
 #: C/evolution.xml:3120(para)
 msgid "To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. For more information on this see, <link linkend=\"mail-prefs-junk\">Junk Mail Preferences</link>."
-msgstr ""
+msgstr "Pro změnu vašeho nastavení filtrování nevyžádané pošty klikněte na Upravit &gt; Nastavení, potom na Nastavení pošty. Více informací najdete v <link linkend=\"mail-prefs-junk\">Nastavení nevyžádané pošty</link>."
 
 #: C/evolution.xml:3121(para)
 msgid "For additional junk mail settings, see <link linkend=\"more-mail-options\">Receiving Mail Options</link>."
-msgstr ""
+msgstr "Informace o dalším nastavení nevyžádané pošty naleznete v <link linkend=\"more-mail-options\">Možnosti přijímání pošty</link>."
 
 #: C/evolution.xml:3123(para)
 msgid "SpamAssassin is an application that scan through the mail box to find junk mails. Evolution uses SpamAssassin as the default spam-filtering application. For more information, see<ulink url=\"http://spamassassin.apache.org/\"> The Apache SpamAssassin Project</ulink>."
-msgstr ""
+msgstr "SpamAssassin je aplikace, který skenuje poštovní schránku, aby nalezl nevyžádanou poštu. Evolution používá SpamAssassin jako výchozí aplikaci na filtrování spamu. Více informací naleznete na <ulink url=\"http://spamassassin.apache.org/\"> The Apache SpamAssassin Project</ulink>."
 
 #: C/evolution.xml:3124(para)
 msgid "Bogofilter is a mail filter that classifies mail as spam or ham (non-spam) by a statistical analysis of the message's header and content (body). It is able to learn from the user's classifications and corrections. For more information on Bogofilter, see <ulink url=\"http://bogofilter.sourceforge.net/\">The Bogofilter site</ulink>."
-msgstr ""
+msgstr "Bogofilter je filtr pošty, který třídí poštu na spam a ham (nespam) podle statistické analýzy hlaviček a těla zprávy. Je schopen se učit z uživatelova třídění a oprav. Více informací naleznete na <ulink url=\"http://bogofilter.sourceforge.net/\">stránkách  o Bogofilter</ulink>."
 
 #: C/evolution.xml:3131(para)
-msgid "This section shows you how to use the Evolution contacts tool to organize any amount of contact information, share addresses over a network, and save time with everyday tasks."
-msgstr ""
+msgid "This section shows you how to use the <trademark>Evolution</trademark> contacts tool to organize any amount of contact information, share addresses over a network, and save time with everyday tasks."
+msgstr "Tato sekce vám ukáže, jak používat nástroj kontaktů <trademark>Evolutionu</trademark> pro organizaci jakéhokoliv množství informací kontaktů, sdílení adres po síti a časovou úsporu při plnění každodenních úkolů."
 
 #: C/evolution.xml:3134(link)
 #: C/evolution.xml:3151(title)
 msgid "Contacts and Cards"
-msgstr ""
+msgstr "Kontakty a karty"
 
 #: C/evolution.xml:3137(link)
 #: C/evolution.xml:3246(title)
 msgid "Searching for Contacts"
-msgstr ""
+msgstr "Vyhledávání kontaktů"
 
 #: C/evolution.xml:3140(link)
 #: C/evolution.xml:3397(title)
 msgid "Organizing your Contacts"
-msgstr ""
+msgstr "Organizace kontaktů"
 
 #: C/evolution.xml:3143(link)
 #: C/evolution.xml:3513(title)
 msgid "LDAP: Shared Address Books on a Network"
-msgstr ""
+msgstr "LDAP: Sdílené adresáře po síti"
 
 #: C/evolution.xml:3146(link)
 #: C/evolution.xml:3536(title)
 msgid "Send Me a Card: Adding New Cards Quickly"
-msgstr ""
+msgstr "Pošli mi kartu: Rychlé přidávání nových karet"
 
 #: C/evolution.xml:3152(para)
 msgid "Contacts are the individuals you have chosen to add to your address book so you can keep track of information about them and send e-mail to them. In Evolution, an individual contact is called a card.For more information on organizing your contact list see <link linkend=\"usage-contact-organize\">Organizing your Contacts</link>. To learn about configuring the contacts tool, refer <link linkend=\"config-prefs-contact\">Contact Management</link>."
-msgstr ""
+msgstr "Kontakty jsou jednotlivci, které jste se rozhodli přidat do vašeho adresáře tak, abyste o nich měli uchované informace a mohli jim posílat e-maily. V Evolutionu se jednotlivé kontakty nazývají karty. Více informací o organizaci vašeho seznamu kontaktů naleznete v <link linkend=\"usage-contact-organize\">Organizaci kontaktů</link>."
 
 #: C/evolution.xml:3155(title)
 msgid "The Contact Editor"
-msgstr ""
+msgstr "Editor kontaktů"
 
 #: C/evolution.xml:3156(para)
 msgid "If you want to add or change cards, use the contact editor. You can edit email address, telephone numbers, mailer addresses and all other contact information you have entered for a particular contact."
-msgstr ""
+msgstr "Chcete-li přidat nebo změnit karty, použijte editor kontaktů. Můžete upravovat emailovou adresu, telefonní čísla, poštovní adresy a všechny ostatní informace kontaktu, které jste pro daný kontakt vložili."
 
 #: C/evolution.xml:3157(para)
 msgid "The contact editor window has three tabs:"
-msgstr ""
+msgstr "Okno editoru kontaktů má tři karty:"
 
 #: C/evolution.xml:3159(title)
 msgid "Contacts:"
-msgstr ""
+msgstr "Kontakty:"
 
 #: C/evolution.xml:3160(para)
 msgid "Contains basic contact information."
-msgstr ""
+msgstr "Obsahuje základní informace o kontaktu."
 
 #: C/evolution.xml:3163(title)
 msgid "Personal Information:"
-msgstr ""
+msgstr "Osobní informace:"
 
 #: C/evolution.xml:3164(para)
 msgid "Contains a more specific description of the person, including URLs for calendar and free/busy information."
-msgstr ""
+msgstr "Obsahuje přesnější popis osoby včetně URL kalendáře a informací o volnu a obsazení."
 
 #: C/evolution.xml:3167(title)
 msgid "Mailing Address:"
-msgstr ""
+msgstr "Poštovní adresa:"
 
 #: C/evolution.xml:3168(para)
 msgid "Contains the individual's mailing address."
-msgstr ""
+msgstr "Obsahuje poštovní adresu daného jednotlivce."
 
 #: C/evolution.xml:3170(para)
 msgid "You can also use Action Menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's e-mail address."
-msgstr ""
+msgstr "Můžete také použít nabídku akci pro nalezení funkce Přeposlat kontakt, která otevře novou zprávu s již přiloženou kartou, a Poslat kontaktu zprávu, která otevře novou zprávu s e-mailovou adresou kontaktu."
 
 #: C/evolution.xml:3171(para)
 msgid "From the Contact Editor toolbar, you can save and close, print, close, or delete the contact."
-msgstr ""
+msgstr "Z nástrojové lišty editoru kontaktů můžete ukládat, zavírat, tisknout nebo mazat kontakt."
 
 #: C/evolution.xml:3172(para)
 msgid "You can add card from within an e-mail message or calendar appointment. In an open e-mail, right-click any e-mail address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu."
-msgstr ""
+msgstr "Můžete přidat kartu z e-mailové zprávy nebo události v kalendáři. V otevřeném e-mailu klikněte pravým tlačítkem na kteroukoliv adresu nebo zprávu a klikněte na Přidat do adresáře nebo vyberte Přidat odesílatele do adresáře z nabídky Zpráva."
 
 #: C/evolution.xml:3173(para)
 msgid "Most of the items in the contact editor simply display the information you enter, but some of them have additional features:"
-msgstr ""
+msgstr "Většina položek v editoru kontaktů jednoduše zobrazuje to, co jste vložili, některé však mají další funkce:"
 
 #: C/evolution.xml:3175(title)
 msgid "Full Name:"
-msgstr ""
+msgstr "Celé jméno:"
 
 #: C/evolution.xml:3176(para)
-msgid "Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like “Mr.” or “Her Excellency,” and suffixes like “Jr.” The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames.To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under “Doe, John Q.” However, Miguel's surname, “de Icaza”, has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry."
-msgstr ""
+msgid "Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like <quote>Mr.</quote> or <quote>Her Excellency,</quote> and suffixes like <quote>Jr.</quote> The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames.To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under <quote>Doe, John Q.</quote> However, Miguel's surname, <quote>de Icaza,</quote> has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry."
+msgstr "Určuje zde jméno kontaktu. Můžete napsat jméno do pole Celé jméno, nebo kliknout na tlačítko Celé jméno a  vyskočí malé dialogové okno s textovými poli křestních jmen a příjmení, titulů jako \"Pan\" nebo \"Jeho excelence\" a příponami jako \"ml.\". Pole Celé jméno také ovlivňuje pole Uložit jako tak, aby pomohlo organizovat vaše kontakty a manipulovat s víceslovnými příjmeními. Chcete-li vidět, jak to funguje, napište jméno do pole Celé jméno. Jako příklad použijeme Miguel de Icaza. Všimněte si, že pole Uložit jako se vyplňuje také, ale opačně: Icaza, Miguel de. Vložíte-li John Q. Doe, editor kontaktů správně odhadne, že položka bude uložena jako \"Doe, John Q.\" Nicméně Miguelovo příjmení, \"de Icaza\", má dvě slova a abyste jej rozdělili správně, musíte vložit de Icaza, Miguel do pole Uložit jako."
 
 #: C/evolution.xml:3179(title)
 msgid "Where:"
-msgstr ""
+msgstr "Kde:"
 
 #: C/evolution.xml:3180(para)
 msgid "Select one of your address books as the location for this contact. You might not be able to write to all available address books, especially those on a network."
-msgstr ""
+msgstr "Vyberte jeden z vašich adresářů jako umístění pro tento kontakt. Možná nebudete moct zapisovat do všech dostupných adresářů, především těch na síti."
 
 #: C/evolution.xml:3183(title)
 msgid "Categories:"
-msgstr ""
+msgstr "Kategorie:"
 
 #: C/evolution.xml:3184(para)
 msgid "Click the Categories button to select categories for this card. If you assign contact categories, you can then search for contacts using those categories. For more information on contact categories, see <link linkend=\"usage-contact-organize\">Organizing your Contacts</link>"
-msgstr ""
+msgstr "Klikněte na tlačítko Kategorie a vyberte kategorie pro tuto kartu. Přidělíte-li kontaktu kategorie, můžete potom vyhledávat kontakty, které používají tyto kategorie. Více informací o kategoriích kontaktů naleznete v <link linkend=\"usage-contact-organize\">Organizaci kontaktů</link>."
 
 #: C/evolution.xml:3187(title)
 msgid "Free/Busy and Calendar URLs:"
@@ -5349,7 +5351,7 @@ msgid "A contact list is a set of contacts with a single nickname that you creat
 msgstr ""
 
 #: C/evolution.xml:3439(para)
-msgid "For example, you could create one card for each family member, then add those cards to a contact list called “Family.” Then, instead of entering each person's e-mail address individually, you can send e-mail to “Family” and the message would go to all of them."
+msgid "For example, you could create one card for each family member, then add those cards to a contact list called <quote>Family.</quote> Then, instead of entering each person's e-mail address individually, you can send e-mail to <quote>Family</quote> and the message would go to all of them."
 msgstr ""
 
 #: C/evolution.xml:3440(para)
@@ -5381,7 +5383,7 @@ msgid "Choose whether you want to hide the e-mail addresses when you send a mess
 msgstr ""
 
 #: C/evolution.xml:3457(para)
-msgid "Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the “Bcc:” feature discussed in <link linkend=\"usage-mail-getnsend-send-to-types\">Specifying Additional Recipients for E-Mail</link>."
+msgid "Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the <quote>Bcc:</quote> feature discussed in <link linkend=\"usage-mail-getnsend-send-to-types\">Specifying Additional Recipients for E-Mail</link>."
 msgstr ""
 
 #: C/evolution.xml:3460(para)
@@ -5401,7 +5403,7 @@ msgid "Evolution cannot store contact lists on Microsoft Exchange servers."
 msgstr ""
 
 #: C/evolution.xml:3470(para)
-msgid "Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the “Business” category because he works with you, the “Friends” category because he's a friend, and the “Frequent” category because you call him often."
+msgid "Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the <guilabel>Business</guilabel> category because he works with you, the <guilabel>Friends</guilabel> category because he's a friend, and the <guilabel>Frequent</guilabel> category because you call him often."
 msgstr ""
 
 #: C/evolution.xml:3471(para)
@@ -5477,7 +5479,7 @@ msgid "When you get information about a person in the mail or in a calendar entr
 msgstr ""
 
 #: C/evolution.xml:3543(para)
-msgid "This section shows you how to use the Evolution™ Calendar to manage your schedule alone or in conjunction with peers. To learn about importing calendar data, see <link linkend=\"importing-mail\">Importing Single Files</link>, which covers the Import tool."
+msgid "This section shows you how to use the <trademark>Evolution</trademark> Calendar to manage your schedule alone or in conjunction with peers. To learn about importing calendar data, see <link linkend=\"importing-mail\">Importing Single Files</link>, which covers the Import tool."
 msgstr ""
 
 #: C/evolution.xml:3546(link)
@@ -5969,7 +5971,7 @@ msgid "If you have stored reminders in a local calendar, they work from the mome
 msgstr ""
 
 #: C/evolution.xml:3907(para)
-msgid "If you are using a calendar on a Novell GroupWise® or Microsoft Exchange server, select a classification for the appointment to determine who can view it. Public is the default category, and a public appointment can be viewed by anyone on the calendar-sharing network. Private denotes one level of security, and Confidential an even higher level. The different levels vary depending on your server settings; check with your system administrator or adjust your delegation settings."
+msgid "If you are using a calendar on a Novell <trademark class=\"registered\">GroupWise</trademark> or Microsoft Exchange server, select a classification for the appointment to determine who can view it. Public is the default category, and a public appointment can be viewed by anyone on the calendar-sharing network. Private denotes one level of security, and Confidential an even higher level. The different levels vary depending on your server settings; check with your system administrator or adjust your delegation settings."
 msgstr ""
 
 #: C/evolution.xml:3908(para)
@@ -6007,7 +6009,7 @@ msgid "Appointments with categories appear with icons in the calendar display, a
 msgstr ""
 
 #: C/evolution.xml:3930(para)
-msgid "The Recurrence tool button lets you describe repetition in appointments ranging from once every day up to once every 100 years. You can then choose a time and date when the appointment stops recurring, and, under Exceptions, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: “Every two weeks on Monday and Friday until January 3, 2008” or “Every month on the first Friday for 12 occurrences.”"
+msgid "The Recurrence tool button lets you describe repetition in appointments ranging from once every day up to once every 100 years. You can then choose a time and date when the appointment stops recurring, and, under Exceptions, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: <quote>Every two weeks on Monday and Friday until January 3, 2008</quote> or <quote>Every month on the first Friday for 12 occurrences.</quote>"
 msgstr ""
 
 #: C/evolution.xml:3931(para)
@@ -6019,7 +6021,7 @@ msgid "A meeting is an event you schedule for multiple people. Evolution can be 
 msgstr ""
 
 #: C/evolution.xml:3938(para)
-msgid "When you create a meeting or group appointment, you can specify the attendees in several categories, such as “chair” or “required.” When you save the meeting listing, each attendee is sent an e-mail with the meeting information, which also gives them the option to respond."
+msgid "When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the meeting listing, each attendee is sent an e-mail with the meeting information, which also gives them the option to respond."
 msgstr ""
 
 #: C/evolution.xml:3939(para)
@@ -6398,7 +6400,7 @@ msgid "The <ulink url=\"http://icalshare.com\">icalshare.com Web site</ulink> ha
 msgstr ""
 
 #: C/evolution.xml:4293(para)
-msgid "Evolution lets you view and manage calendars on remote CalDAV servers such as Hula®. For more information about Hula, see the <ulink url=\"http://www.hula-project.org\">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution."
+msgid "Evolution lets you view and manage calendars on remote CalDAV servers such as <trademark class=\"registered\">Hula</trademark>. For more information about Hula, see the <ulink url=\"http://www.hula-project.org\">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution."
 msgstr ""
 
 #: C/evolution.xml:4298(para)
@@ -6501,7 +6503,7 @@ msgid "Evolution can be used to assign a task to multiple people."
 msgstr ""
 
 #: C/evolution.xml:4379(para)
-msgid "When you assign a task, you can specify the attendees in several categories, such as “chair” or “required.” When you save the task, each attendee is sent an e-mail with the task information, which also gives them the option to respond."
+msgid "When you assign a task, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the task, each attendee is sent an e-mail with the task information, which also gives them the option to respond."
 msgstr ""
 
 #: C/evolution.xml:4380(para)
@@ -6758,7 +6760,7 @@ msgid "The Marcus Bains Line is a marker to show the current date and time. This
 msgstr ""
 
 #: C/evolution.xml:4830(para)
-msgid "Evolution™ Exchange for Microsoft Exchange allows Evolution clients to access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, it is free software and is licensed under the GPL."
+msgid "<trademark>Evolution</trademark> Exchange for Microsoft Exchange allows Evolution clients to access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, it is free software and is licensed under the GPL."
 msgstr ""
 
 #: C/evolution.xml:4833(link)
@@ -6845,7 +6847,7 @@ msgid "Sending E-mail via Exchange Protocols:"
 msgstr ""
 
 #: C/evolution.xml:4891(para)
-msgid "If you use the Microsoft Exchange mail transport protocol to send e-mail, make sure that the address you have entered as your e-mail address is exactly the one that the Exchange server has on file. This might be “yourname@exchange-server.example.com” rather than “yourname@example.com”."
+msgid "If you use the Microsoft Exchange mail transport protocol to send e-mail, make sure that the address you have entered as your e-mail address is exactly the one that the Exchange server has on file. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com.</quote>"
 msgstr ""
 
 #: C/evolution.xml:4896(title)
@@ -6853,7 +6855,7 @@ msgid "Out of Office Message:"
 msgstr ""
 
 #: C/evolution.xml:4897(para)
-msgid "You can set ‘out of Office’ message that will automatically be sent to people who send mails to you while you are away from office."
+msgid "You can set <quote>out of Office</quote> message that will automatically be sent to people who send mails to you while you are away from office."
 msgstr ""
 
 #: C/evolution.xml:4902(title)
@@ -6963,7 +6965,7 @@ msgid "You are permitted to access the account with WebDAV. This is the default 
 msgstr ""
 
 #: C/evolution.xml:4986(para)
-msgid "The <ulink url=\"http://support.novell.com\">Novell® Web site Knowledgebase</ulink> has additional information about checking to make sure that your Exchange server accepts connections from Evolution."
+msgid "The <ulink url=\"http://support.novell.com\"><trademark class=\"registered\">Novell</trademark> Web site Knowledgebase</ulink> has additional information about checking to make sure that your Exchange server accepts connections from Evolution."
 msgstr ""
 
 #: C/evolution.xml:4991(para)
@@ -7060,7 +7062,7 @@ msgid "To avoid unnecessary strain on the server, the Global Address List (GAL) 
 msgstr ""
 
 #: C/evolution.xml:5131(para)
-msgid "There are some settings in Evolution that are available only with Evolution Exchange, like delegation and permission handling, creating “Out of Office” messages, changing password and viewing folder size."
+msgid "There are some settings in Evolution that are available only with Evolution Exchange, like delegation and permission handling, creating <quote>Out of Office</quote> messages, changing password and viewing folder size."
 msgstr ""
 
 #: C/evolution.xml:5135(link)
@@ -7154,7 +7156,7 @@ msgid "You are not permitted to send a message on behalf of more than one person
 msgstr ""
 
 #: C/evolution.xml:5200(para)
-msgid "When the recipient opens the mail, he or she can also read a message that ‘The message was sent by &lt;<emphasis>Delegator's name</emphasis>&gt; on behalf of &lt;<emphasis>Delegate's name</emphasis>&gt; on the preview pane header bar."
+msgid "When the recipient opens the mail, he or she can also read a message that <guilabel>The message was sent by &lt;<emphasis>Delegator's name</emphasis>&gt; on behalf of &lt;<emphasis>Delegate's name</emphasis>&gt;</guilabel> on the preview pane header bar."
 msgstr ""
 
 #: C/evolution.xml:5205(para)
@@ -7306,7 +7308,7 @@ msgid "To view contents of a folder, click it."
 msgstr ""
 
 #: C/evolution.xml:5339(para)
-msgid "Reminders for meetings in your Exchange calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session.so that you can fix a convenient time for a meeting.To enable Reminder setting in your Exchange account, select ‘Remember the password’ checkbox. To find more information about Reminders see<link linkend=\"bshly4v\">Reminders</link>"
+msgid "Reminders for meetings in your Exchange calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session.so that you can fix a convenient time for a meeting.To enable Reminder setting in your Exchange account, select <guilabel>Remember the password</guilabel> checkbox. To find more information about Reminders see<link linkend=\"bshly4v\">Reminders</link>"
 msgstr ""
 
 #: C/evolution.xml:5344(para)
@@ -7398,11 +7400,11 @@ msgid "Click Options &gt; Update Free/Busy to check participant schedules and, i
 msgstr ""
 
 #: C/evolution.xml:5424(para)
-msgid "If meeting attendees are not available during the times you have scheduled a meeting, you can “nudge” the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool lets you move the meeting to the nearest time during which all attendees are available. If you are not satisfied with those results, you can also drag the edges of the area marked as meeting time to the hours that you want to select."
+msgid "If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool lets you move the meeting to the nearest time during which all attendees are available. If you are not satisfied with those results, you can also drag the edges of the area marked as meeting time to the hours that you want to select."
 msgstr ""
 
 #: C/evolution.xml:5430(para)
-msgid "Evolution™ can access accounts on Novell® GroupWise® 7 system."
+msgid "<trademark>Evolution</trademark> can access accounts on <trademark class=\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</trademark> 7 system."
 msgstr ""
 
 #: C/evolution.xml:5433(link)
@@ -7535,11 +7537,6 @@ msgstr ""
 
 #: C/evolution.xml:5554(para)
 msgid "GroupWise"
-msgstr ""
-
-#: C/evolution.xml:5557(para)
-#: C/evolution.xml:7234(glossterm)
-msgid "Evolution"
 msgstr ""
 
 #: C/evolution.xml:5564(para)
@@ -7728,7 +7725,7 @@ msgid "Click Options, then click Update Free/Busy to check participant schedules
 msgstr ""
 
 #: C/evolution.xml:5773(para)
-msgid "If meeting attendees are not available during the times you have scheduled a meeting, you can “nudge” the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool moves the meeting to the nearest time during which all attendees are available. If you aren't satisfied with those results, you can drag the edges of the meeting time to the hours that you want to select."
+msgid "If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool moves the meeting to the nearest time during which all attendees are available. If you aren't satisfied with those results, you can drag the edges of the meeting time to the hours that you want to select."
 msgstr ""
 
 #: C/evolution.xml:5780(link)
@@ -8144,7 +8141,7 @@ msgid "Select the e-mail address to remove, then click Remove."
 msgstr ""
 
 #: C/evolution.xml:6220(para)
-msgid "Evolution™ supports mail connectivity to Hula® servers through IMAP and calendaring support through CalDAV."
+msgid "<trademark>Evolution</trademark> supports mail connectivity to <trademark class=\"registered\">Hula</trademark> servers through IMAP and calendaring support through CalDAV."
 msgstr ""
 
 #: C/evolution.xml:6221(para)
@@ -8164,7 +8161,7 @@ msgid "Follow the procedure explained in <link linkend=\"usage-mainwindow-starti
 msgstr ""
 
 #: C/evolution.xml:6237(para)
-msgid "Perhaps your mail server has changed names. Or you have grown tired of a certain layout for your appointments. Whatever the reason, you can change your Evolution™ settings."
+msgid "Perhaps your mail server has changed names. Or you have grown tired of a certain layout for your appointments. Whatever the reason, you can change your <trademark>Evolution</trademark> settings."
 msgstr ""
 
 #: C/evolution.xml:6240(link)
@@ -8244,7 +8241,7 @@ msgid "Composer Preferences:"
 msgstr ""
 
 #: C/evolution.xml:6281(para)
-msgid "These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for “emoticons” such as : ) that many people use in e-mail. This tool is covered in <link linkend=\"config-prefs-mail-composer\">Composer Preferences</link>."
+msgid "These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend=\"config-prefs-mail-composer\">Composer Preferences</link>."
 msgstr ""
 
 #: C/evolution.xml:6284(title)
@@ -8296,7 +8293,7 @@ msgid "Receiving Email:"
 msgstr ""
 
 #: C/evolution.xml:6305(para)
-msgid "Select the way you receive e-mail. You can download e-mail from a <link linkend=\"pop\">POP server</link>, read and keep it on the server (Microsoft Exchange, Novell® GroupWise®, or IMAP<link linkend=\"imap\">IMAP</link>), or read it from files that already exist on your desktop computer. Your server requires you to use a Secure Socket Layer (SSL) connection. You can select from the given three options: No encryption, TLS encryption or SSL encryption."
+msgid "Select the way you receive e-mail. You can download e-mail from a <link linkend=\"pop\">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class=\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</trademark>, or IMAP<link linkend=\"imap\">IMAP</link>), or read it from files that already exist on your desktop computer. Your server requires you to use a Secure Socket Layer (SSL) connection. You can select from the given three options: No encryption, TLS encryption or SSL encryption."
 msgstr ""
 
 #: C/evolution.xml:6307(para)
@@ -8519,7 +8516,7 @@ msgid "Message Display:"
 msgstr ""
 
 #: C/evolution.xml:6435(para)
-msgid "Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable ‘Fall back to threading message by subject’ to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling ‘Shrink To/CC/BCC header to’ option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders."
+msgid "Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders."
 msgstr ""
 
 #: C/evolution.xml:6437(para)
@@ -8567,7 +8564,7 @@ msgid "Loading Images:"
 msgstr ""
 
 #: C/evolution.xml:6461(para)
-msgid "You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm “live” addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images."
+msgid "You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm <quote>live</quote> addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images."
 msgstr ""
 
 #: C/evolution.xml:6463(para)
@@ -8631,7 +8628,7 @@ msgid "To enable this feature, select Edit &gt; Preferences &gt; Mail Preference
 msgstr ""
 
 #: C/evolution.xml:6508(para)
-msgid "By default it searches only in the local addressbooks enabled for autocompletion. If you deselect the option ‘Search for sender photograph only in the local addressbook’, it searches in all the addressbooks enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph."
+msgid "By default it searches only in the local addressbooks enabled for autocompletion. If you deselect the option <guilabel>Search for sender photograph only in the local addressbook</guilabel>, it searches in all the addressbooks enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph."
 msgstr ""
 
 #: C/evolution.xml:6509(para)
@@ -8790,7 +8787,7 @@ msgid "The signature editor allows you to create several different signatures in
 msgstr ""
 
 #: C/evolution.xml:6621(para)
-msgid "To choose a spell-checking language, select it here. You must install the gnome-spell package, for spell-checking to be available in Evolution. Additional dictionaries are also available through Red Carpet® and are detected automatically if you have installed them. You must also install the aspell package. If this is the case, please contact your packager. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words."
+msgid "To choose a spell-checking language, select it here. You must install the gnome-spell package, for spell-checking to be available in Evolution. Additional dictionaries are also available through <trademark class=\"registered\">Red Carpet</trademark> and are detected automatically if you have installed them. You must also install the aspell package. If this is the case, please contact your packager. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words."
 msgstr ""
 
 #: C/evolution.xml:6627(para)
@@ -9175,7 +9172,7 @@ msgid "The <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning.pn
 msgstr "Ikona <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-warning.png\"/> signalizuje, že chybová zpráva je varováním. Ikona <inlinegraphic format=\"PNG\" fileref=\"figures/evo_dialog-info.png\"/> signalizuje informační zprávu."
 
 #: C/evolution.xml:6898(para)
-msgid "Synchronization presents you with three issues you need to address. First, you need to enable synchronization. Second, your computer needs to recognize and access your handheld. At this time, Evolution™ only supports Palm OS devices like the PalmPilot* and the Handspring Visor. Third, you should decide what sort of synchronization behavior you want."
+msgid "Synchronization presents you with three issues you need to address. First, you need to enable synchronization. Second, your computer needs to recognize and access your handheld. At this time, <trademark>Evolution</trademark> only supports Palm OS devices like the PalmPilot* and the Handspring Visor. Third, you should decide what sort of synchronization behavior you want."
 msgstr ""
 
 #: C/evolution.xml:6901(link)
@@ -9262,7 +9259,7 @@ msgid "If you have followed the setup instructions properly, your Palm OS device
 msgstr ""
 
 #: C/evolution.xml:6955(para)
-msgid "If you are using Microsoft Outlook, but not Microsoft Exchange, this section helps you switch to Evolution™."
+msgid "If you are using Microsoft Outlook, but not Microsoft Exchange, this section helps you switch to <trademark>Evolution</trademark>."
 msgstr ""
 
 #: C/evolution.xml:6958(title)
@@ -9307,169 +9304,169 @@ msgstr ""
 
 #: C/evolution.xml:6978(para)
 msgid "Mount your Windows drive or the disk where you saved the mail files."
-msgstr ""
+msgstr "Připojte váš disk s Windows nebo disk, kde máte uloženy soubory s poštou."
 
 #: C/evolution.xml:6981(para)
 msgid "Copy all the mail files into your home directory or another convenient place."
-msgstr ""
+msgstr "Zkopírujte všechny soubory s poštou do vašeho domovského adresáře nebo do jiné příhodné složky."
 
 #: C/evolution.xml:6984(para)
 msgid "Start Evolution."
-msgstr ""
+msgstr "Zapněte Evolution."
 
 #: C/evolution.xml:6987(para)
 msgid "Select File &gt; New Folder to create the folders you want."
-msgstr ""
+msgstr "Vyberte Soubor &gt; Nový &gt; Nová složka pro vytvoření složek, které chcete."
 
 #: C/evolution.xml:6990(para)
 msgid "To import the data files:"
-msgstr ""
+msgstr "Importování datových souborů:"
 
 #: C/evolution.xml:6993(para)
 msgid "In Evolution, open the File Import assistant by clicking File &gt; Import."
-msgstr ""
+msgstr "V Evolutionu kliknutím na Soubor &gt; Importovat otevřete Asistenta importování souboru."
 
 #: C/evolution.xml:6996(para)
 msgid "Click Next, then select Import A Single File."
-msgstr ""
+msgstr "Klikněte na Vpřed, potom na Importovat jeden soubor."
 
 #: C/evolution.xml:6999(para)
 msgid "Leave the file type as Automatic, then click Browse to select the data file."
-msgstr ""
+msgstr "Nechte typ souboru jako Automatický a potom klikněte na prohlížení pro vybrání datového souboru."
 
 #: C/evolution.xml:7000(para)
 msgid "Remember, the data files are the files that have no file extension."
-msgstr ""
+msgstr "Pamatujte, datové soubory jsou soubory, které nemají příponu."
 
 #: C/evolution.xml:7003(para)
 msgid "Select the folder where you want to put the imported data file."
-msgstr ""
+msgstr "Vyberte složku, kde chcete umístit importovaný datový soubor."
 
 #: C/evolution.xml:7009(para)
 msgid "Repeat the import steps until you have imported all your mail."
-msgstr ""
+msgstr "Opakujte kroky importu, dokud nebudete mít importovánu celou vaši poštu."
 
 #: C/evolution.xml:7017(para)
-msgid "You can print this section to use it as a quick reference for most of the things you want to do with Evolution™. You can also find this information by selecting Help &gt; Quick Reference in the Menubar."
-msgstr ""
+msgid "You can print this section to use it as a quick reference for most of the things you want to do with <trademark>Evolution</trademark>. You can also find this information by selecting Help &gt; Quick Reference in the Menubar."
+msgstr "Tuto sekci si můžete vytisknout jako stručnou příručku pro většinu operací, které chcete s <trademark>Evolutionem</trademark> dělat. Tyto informace naleznete také tak, že vyberete Nápověda &gt; Stručná příručka v nabídce."
 
 #: C/evolution.xml:7020(link)
 #: C/evolution.xml:7034(title)
 msgid "Opening or Creating Items"
-msgstr ""
+msgstr "Otevírání a vytváření položek"
 
 #: C/evolution.xml:7023(link)
 #: C/evolution.xml:7059(title)
 msgid "Mail Tasks"
-msgstr ""
+msgstr "Úkoly pošty"
 
 #: C/evolution.xml:7029(link)
 #: C/evolution.xml:7109(title)
 msgid "Address Book"
-msgstr ""
+msgstr "Adresář"
 
 #: C/evolution.xml:7037(title)
 msgid "New Item:"
-msgstr ""
+msgstr "Nová položka:"
 
 #: C/evolution.xml:7038(para)
 msgid "Press Ctrl+N to open a new item for whatever part of Evolution you're working in. In mail, this means you create a new message. If you're looking at your address book, Ctrl+N creates a new contact card, and in the calendar, a new appointment."
-msgstr ""
+msgstr "Pro otevření nové položky klikněte na Ctrl+N, je jedno, v jaké části Evolutionu pracujete. V poště to znamená, že otevřete novou zprávu. Pokud se podíváte do vašeho adresáře, Ctrl+N otevře kartu nového kontaktu, a v kalendáři pak novou událost."
 
 #: C/evolution.xml:7041(title)
 msgid "Creating a New E-mail Message:"
-msgstr ""
+msgstr "Vytvoření nové e-mailové zprávy:"
 
 #: C/evolution.xml:7042(para)
 msgid "Use File &gt; New &gt; Mail Message or Shift+Ctrl+M."
-msgstr ""
+msgstr "Použijte Soubor &gt; Nový &gt; Zpráva nebo Shift+Ctrl+M."
 
 #: C/evolution.xml:7045(title)
 #: C/evolution.xml:7098(title)
 msgid "Creating a New Appointment:"
-msgstr ""
+msgstr "Vytvoření nové události:"
 
 #: C/evolution.xml:7046(para)
 #: C/evolution.xml:7099(para)
 msgid "Use File &gt; New Appointment or Shift+Ctrl+A."
-msgstr ""
+msgstr "Použijte Soubor &gt; Nová &gt; Událost nebo Shift+Ctrl+A."
 
 #: C/evolution.xml:7049(title)
 msgid "Entering a New Contact:"
-msgstr ""
+msgstr "Vložení nového kontaktu:"
 
 #: C/evolution.xml:7050(para)
 msgid "Double-click in any blank space in the contact manager to create a new address card. You can also use File &gt; New Contact or Shift+Ctrl+C."
-msgstr ""
+msgstr "Dvojtým kliknutím kdekoliv do prázdného prostoru v manažeru kontaktů otevřete novou kartu adresáře. Taktéž můžete použít Soubor &gt; Nový &gt; Kontakt nebo Shift+Ctrl+C. "
 
 #: C/evolution.xml:7053(title)
 #: C/evolution.xml:7103(title)
 msgid "Creating a New Task:"
-msgstr ""
+msgstr "Vytvoření nového úkolu:"
 
 #: C/evolution.xml:7054(para)
 msgid "File &gt; New Task or Shift+Ctrl+T."
-msgstr ""
+msgstr "Soubor &gt; Nový &gt; Úkol nebo Shift+Ctrl+T."
 
 #: C/evolution.xml:7061(title)
 msgid "Send and Receive Mail:"
-msgstr ""
+msgstr "Posílání a přijímání pošty:"
 
 #: C/evolution.xml:7062(para)
 msgid "Press F9, click the Send/Receive button in the toolbar, or click File &gt; Send/Receive."
-msgstr ""
+msgstr "Stiskněte F9, klikněte na Odeslat/Přijmout v liště nástrojů nebo klikněte na Soubor &gt; Odeslat/Přijmout"
 
 #: C/evolution.xml:7065(title)
 msgid "Navigating the Message List with the Keyboard:"
-msgstr ""
+msgstr "Pohybování se v seznamu zpráv pomocí klávesnice:"
 
 #: C/evolution.xml:7066(para)
 msgid "Press (]) or (.) to jump to the next unread message. ([) or (,) goes to the previous unread message. Use the arrow keys to move up and down in the list of all messages."
-msgstr ""
+msgstr "Stiskněte (]) nebo (.) pro přeskočení na další nepřečtenou zprávu. ([) nebo (,) posouvá na předchozí nepřečtenou zprávu. Pro pohyb nahorů a dolů v seznamu všech zpráv použijte klávesy se šipkami."
 
 #: C/evolution.xml:7069(title)
 msgid "Moving the Display Up and Down in the Preview Pane:"
-msgstr ""
+msgstr "Posouvání zobrazení nahorů a dolů v panelu náhledu."
 
 #: C/evolution.xml:7070(para)
 msgid "Press the Spacebar to move down a page. Press Backspace to move up a page."
-msgstr ""
+msgstr "Stiskněte mezerník pro posunutí stránky dolů. Stiskněte Backspace pro pusunutí stránky nahorů."
 
 #: C/evolution.xml:7073(title)
 msgid "Replying To a Message:"
-msgstr ""
+msgstr "Odpověď na zprávu:"
 
 #: C/evolution.xml:7074(para)
 msgid "To reply only to the sender of the message, click Reply in the toolbar, or press Ctrl+R."
-msgstr ""
+msgstr "Chcete-li odpovědět odesílateli zprávy, klikněte na Odpovědět v liště nástrojů nebo stikněte Ctrl+R."
 
 #: C/evolution.xml:7076(para)
 msgid "To reply to the sender and all the other visible recipients of the message, click Reply to All or select the message and press Shift+Ctrl+R."
-msgstr ""
+msgstr "Pro odpověď odesílateli a všem ostatním příjemcům zprávy, klikněte na Odpovědět všem nebo vyberte zprávu a stiskněte Shift+Ctrl+R."
 
 #: C/evolution.xml:7078(title)
 msgid "Forwarding a Message:"
-msgstr ""
+msgstr "Přeposílání zprávy:"
 
 #: C/evolution.xml:7079(para)
 msgid "Select the message or messages you want to forward, then click Forward in the toolbar, or press Ctrl+F."
-msgstr ""
+msgstr "Vyberte zprávu nebo zprávy, které chcete přeposlat, potom klikněte na Přeposlat v liště nástrojů nebo stiskněte Ctrl+F."
 
 #: C/evolution.xml:7082(title)
 msgid "Opening a Message In a New Window:"
-msgstr ""
+msgstr "Otevírání zprávy v novém okně:"
 
 #: C/evolution.xml:7083(para)
 msgid "Double-click the message you want to view, or select it and press Enter or Ctrl+O."
-msgstr ""
+msgstr "Dvakrát klikněte na zprávu, kterou chcete vidět, nebo ji vyberte a stiskněte Enter nebo Ctrl+O."
 
 #: C/evolution.xml:7086(title)
 msgid "Creating Filters and Search Folders:"
-msgstr ""
+msgstr "Vytváření filtrů a složek hledání:"
 
 #: C/evolution.xml:7087(para)
 msgid "Right-click a message and select Create Rule From Message. You can also create filters and Search folders in the Edit menu."
-msgstr ""
+msgstr "Klikněte pravým tlačítkem na zprávu a vyberte Vytvořit pravidlo ze zprávy.  Filtry a složky hledání můžete také vytvořit přes nabídku Upravit. "
 
 #: C/evolution.xml:7090(title)
 msgid "Adding a Sender to the Address Book:"
@@ -9520,16 +9517,16 @@ msgid "Double-click in any blank space in the contact manager to create a new ad
 msgstr "Dvojitý klik kdekoliv v prázdném místě správce kontaktů vyvolá okno s dialogem pro vytvoření nového kontaktu. Nebo klik pravým tlačítkem kdekoliv v adresáři a vybrání Nový kontakt. Taktéž můžete kliknout na Soubor &gt; Nový kontakt nebo stisknout Shift+Ctrl+C."
 
 #: C/evolution.xml:7131(para)
-msgid "Evolution™ bug tracking is done at the <ulink url=\"http://bugzilla.gnome.org\">GNOME bug tracking System</ulink>. You can use that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) if you find bugs or want to request new features."
-msgstr "Systém pro hlášení chyb v aplikaci Evolution™ je vytvořen v  <ulink url=\"http://bugzilla.gnome.org\">Systému pro hlášení chyb v GNOME</ulink>. Pokud naleznete nějakou chybu nebo chcete novou funkci, můžete použít jej nebo nástroj pro nahlášení chyb v GNOME (v příkazové řádce známý jako bug-buddy)."
+msgid "<trademark>Evolution</trademark> bug tracking is done at the <ulink url=\"http://bugzilla.gnome.org\">GNOME bug tracking System</ulink>. You can use that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) if you find bugs or want to request new features."
+msgstr "Systém pro hlášení chyb v aplikaci <trademark>Evolution</trademark> je vytvořen v <ulink url=\"http://bugzilla.gnome.org\">Systému pro hlášení chyb v GNOME</ulink>. Pokud naleznete nějakou chybu nebo chcete novou funkci, můžete použít jej nebo nástroj pro nahlášení chyb v GNOME (v příkazové řádce známý jako bug-buddy)."
 
 #: C/evolution.xml:7132(para)
 msgid "A complete list of feature requests and other issues with Evolution is available online in the GNOME bug tracking system. You can learn more about the Evolution development process at the <ulink url=\"http://gnome.org/projects/evolution/developer.shtml\">Evolution Developer site</ulink>."
 msgstr "Kompletní seznam požadovaných funkcí a ostatních problémů s aplikací Evolution je k dispozici v systému pro hlášení chyb v GNOME. O procesu vývoje Evolutionu se můžete více dozvědět na <ulink url=\"http://gnome.org/projects/evolution/developer.shtml\">stránkách vývoje Evolutionu.</ulink>."
 
 #: C/evolution.xml:7137(para)
-msgid "Evolution was written by the Evolution™ team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window."
-msgstr "Evolution byl napsán týmem Evolution™ a mnoha dalšími nadšenými vývojáři GNOME. Jejich jména můžete vidět tak, že kliknete na Pomoc &gt; O programu v jakémkoliv okně aplikace Evolution."
+msgid "Evolution was written by the <trademark>Evolution</trademark> team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window."
+msgstr "Evolution byl napsán týmem <trademark>Evolution</trademark> a mnoha dalšími nadšenými vývojáři GNOME. Jejich jména můžete vidět tak, že kliknete na Pomoc &gt; O programu v jakémkoliv okně aplikace Evolution."
 
 #: C/evolution.xml:7138(para)
 msgid "The Evolution code owes a great debt to the GNOME-pim and GNOME-Calendar applications, and to KHTMLW. The developers of Evolution acknowledge the efforts and contributions of all who worked on those projects."
@@ -9612,8 +9609,8 @@ msgid "Sergey V. Mironov for Russian (.ru)"
 msgstr "Sergey V. Mironov pro ruštinu (.ru)"
 
 #: C/evolution.xml:7196(para)
-msgid "This glossary contains terms that are frequently used in this guide as well as in Evolution™."
-msgstr "Tento rejstřík obsahuje výrazy, které jsou často používány v této příručce stejně jako v aplikaci Evolution™."
+msgid "This glossary contains terms that are frequently used in this guide as well as in <trademark>Evolution</trademark>."
+msgstr "Tento rejstřík obsahuje výrazy, které jsou často používány v této příručce stejně jako v aplikaci <trademark>Evolution</trademark>."
 
 #: C/evolution.xml:7198(glossterm)
 msgid "Assistant"
@@ -9792,8 +9789,8 @@ msgid "regular expression"
 msgstr "regulární výraz"
 
 #: C/evolution.xml:7332(para)
-msgid "A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with ‘fly’ and ending in ‘soup’ or ‘soap’. If you searched for that expression, you'd find both ‘fly in my soup’ and ‘fly in my soap.’ For more information, enter <command>man grep</command> from the command line."
-msgstr "regulární výraz je způsob, jakým lze popsat řetězec použitím speciálních znaků a symbolů. Např. sdělení fly.*so[au]p znamená jakoukoliv frázi začínající na 'fly' a končící na 'soup' nebo 'soap'. Pokud byste hledali tento výraz, nalezli byste 'fly in my soup' a 'fly in my soap'. Pokud chcete získat více informací, vložte <command>man grep</command> z příkazové řádky."
+msgid "A regular expression (regex) is a way of describing a string of text using metacharacters or wildcard symbols. For example, the statement fly.*so[au]p means any phrase beginning with <quote>fly</quote> and ending in <quote>soup</quote> or <quote>soap.</quote> If you searched for that expression, you'd find both <quote>fly in my soup</quote> and <quote>fly in my soap.</quote> For more information, enter <command>man grep</command> from the command line."
+msgstr "regulární výraz je způsob, jakým lze popsat řetězec použitím speciálních znaků a symbolů. Např. sdělení fly.*so[au]p znamená jakoukoliv frázi začínající na <quote>fly</quote> a končící na <quote>soup</quote> nebo <quote>soap.</quote> Pokud byste hledali tento výraz, nalezli byste <quote>fly in my soup</quote> a <quote>fly in my soap.</quote> Pokud chcete získat více informací, vložte <command>man grep</command> z příkazové řádky."
 
 #: C/evolution.xml:7336(glossterm)
 msgid "script"
@@ -9889,7 +9886,7 @@ msgstr "Právní poznámky"
 
 #: C/evolution.xml:7406(member)
 msgid "Novell, Inc. makes no representations or warranties with respect to the contents or use of this documentation, and specifically disclaims any express or implied warranties of merchantability or fitness for any particular purpose. Further, Novell, Inc. reserves the right to revise this publication and to make changes to its content, at any time, without obligation to notify any person or entity of such revisions or changes."
-msgstr ""
+msgstr "Novell, Inc. neprovádí žádné zastoupení nebo záruky vzhledem k obsahu a použití tohoto dokumentu a především se zříká jakýchkoliv výslovných nebo odvozených záruk prodejnosti nebo vhodnosti pro jakýkoliv účel. Dále si Novell, Inc. zachovává právo revidovat tuto publikaci a měnit její obsah kdykoliv bez nutnosti informovat o tom jakoukoliv osobu nebo předmět revizí a změn."
 
 #: C/evolution.xml:7407(member)
 msgid "Further, Novell, Inc. makes no representations or warranties with respect to any software, and specifically disclaims any express or implied warranties of merchantability or fitness for any particular purpose. Further, Novell, Inc. reserves the right to make changes to any and all parts of Novell software, at any time, without any obligation to notify any person or entity of such changes."
@@ -9899,9 +9896,18 @@ msgstr "Dále společnost Novell, Inc. nedělá zastoupení nebo záruky s ohled
 msgid "You may not use, export, or re-export this product in violation of any applicable laws or regulations including, without limitation, U.S. export regulations or the laws of the country in which you reside."
 msgstr "Nemůžete tento produkt používat, exportovat a reexportovat v rozporu s jakýmkoliv použitelným zákonem, včetně nařízení, exportními nařízeními Spojených států nebo zákony země, v které sídlíte."
 
+#: C/evolution.xml:7413(year)
+msgid "2007"
+msgstr "2007"
+
+#: C/evolution.xml:7413(holder)
+#: C/evolution.xml:7419(member)
+msgid "Novell, Inc."
+msgstr "Novell, Inc."
+
 #: C/evolution.xml:7413(member)
-msgid "Copyright © 2007 Novell, Inc. All rights reserved. Permission is granted to copy, distribute, and/or modify this document under the terms of the GNU Free Documentation License (GFDL), Version 1.2 or any later version, published by the Free Software Foundation with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the GFDL can be found at http://www.fsf.org/licenses/fdl.html."
-msgstr "Copyright © 2007 Novell, Inc. Všechna práva vyhrazena. Je povoleno kopírovat, šířit a/nebo upravovat tento dokument za podmínek GNU Free Documentation License, verze 1.2 nebo jakékoli další verze vydané nadací Free Software Foundation; bez neměnných oddílů, bez textů předních desek a bez textů zadních desek. Kopii GFDL můžete najít na http://www.fsf.org/licences/fdl.html"
+msgid "<copyright><placeholder-1/><placeholder-2/></copyright> Permission is granted to copy, distribute, and/or modify this document under the terms of the GNU Free Documentation License (GFDL), Version 1.2 or any later version, published by the Free Software Foundation with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the GFDL can be found at http://www.fsf.org/licenses/fdl.html."
+msgstr "<copyright><placeholder-1/><placeholder-2/></copyright> Je povoleno kopírovat, šířit a/nebo upravovat tento dokument za podmínek GNU Free Documentation License, verze 1.2 nebo jakékoli další verze vydané nadací Free Software Foundation; bez neměnných oddílů, bez textů předních desek a bez textů zadních desek. Kopii GFDL můžete najít na http://www.fsf.org/licences/fdl.html"
 
 #: C/evolution.xml:7414(member)
 msgid "THIS DOCUMENT AND MODIFIED VERSIONS OF THIS DOCUMENT ARE PROVIDED UNDER THE TERMS OF THE GNU FREE DOCUMENTATION LICENSE WITH THE FURTHER UNDERSTANDING THAT:"
@@ -9914,10 +9920,6 @@ msgstr ""
 #: C/evolution.xml:7416(member)
 msgid "2. UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, WHETHER IN TORT (INCLUDING NEGLIGENCE), CONTRACT, OR OTHERWISE, SHALL THE AUTHOR, INITIAL WRITER, ANY CONTRIBUTOR, OR ANY DISTRIBUTOR OF THE DOCUMENT OR MODIFIED VERSION OF THE DOCUMENT, OR ANY SUPPLIER OF ANY OF SUCH PARTIES, BE LIABLE TO ANY PERSON FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER DAMAGES OR LOSSES ARISING OUT OF OR RELATING TO USE OF THE DOCUMENT AND MODIFIED VERSIONS OF THE DOCUMENT, EVEN IF SUCH PARTY SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES."
 msgstr ""
-
-#: C/evolution.xml:7419(member)
-msgid "Novell, Inc."
-msgstr "Novell, Inc."
 
 #: C/evolution.xml:7420(member)
 msgid "404 Wyman Street, Suite 500"
@@ -9972,6 +9974,10 @@ msgstr "Všechny obchodní známky třetích stran jsou majetkem příslušných
 msgid "translator-credits"
 msgstr "Jiří Eischmann <jiri@eischmann.cz>, 2008."
 
+#~ msgid "Evolution™"
+#~ msgstr "Evolution™"
+#~ msgid "evolution ‘%s’"
+#~ msgstr "evolution ‘%s’"
 #~ msgid "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 #~ msgstr "@@image: 'figures/evo_label_a.png'; md5=THIS FILE DOESN'T EXIST"
 #~ msgid ""
@@ -10040,16 +10046,11 @@ msgstr "Jiří Eischmann <jiri@eischmann.cz>, 2008."
 #~ msgid "Click Configure to add the keywords."
 #~ msgstr "Klikněte na Configure pro přidání klíčových slov."
 #~ msgid ""
-#~ "Click Add to add keywords such as &ldquo;Attach&rdquo; or &ldquo;"
-#~ "Attachment&rdquo;."
-#~ msgstr ""
-#~ "Klikněte na Přidat pro přidání klíčových slov jako &ldquo;připojit&rdquo; "
-#~ "nebo &ldquo;příloha&rdquo;. "
-#~ msgid ""
 #~ "If you need additional help with Evolution, visit the <ulink url=\"http://"
 #~ "support.novell.com\">Novell® support site at</ulink>."
 #~ msgstr ""
 #~ "Jestliže potřebujete další pomoc s aplikací Evolution, navštivte <ulink "
 #~ "url=\"http://support.novell.com\">stránku podpory společnosti Novell®</"
 #~ "ulink>."
+
 

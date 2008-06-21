@@ -1,3 +1,8 @@
+2008-06-21  Petr Kovar  <pknbe@volny.cz>
+
+	* cs.po: Fixed Czech translation (bug #517967), thanks
+	to Lucas Lommer.
+
 2008-06-21  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
