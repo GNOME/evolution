@@ -1,3 +1,10 @@
+2008-06-21  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #538741
+
+	* em-format-html.c: (efh_format_header):
+	Strip preceding tabs from Date headers too.
+
 2008-06-21  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #537725
