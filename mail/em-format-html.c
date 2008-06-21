@@ -1720,7 +1720,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		struct tm local;
 
 		txt = header->value;
-		while (*txt == ' ')
+		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
 		/* Show the local timezone equivalent in brackets if the sender is remote */
