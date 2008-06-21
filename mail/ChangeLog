@@ -1,3 +1,11 @@
+2008-06-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #537725
+
+	* em-composer-utils.c (save_draft_done):
+	Set the autosaved flag so we don't get pestered with a save dialog
+	if the user then decides to close the composer window.
+
 2008-06-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #534039

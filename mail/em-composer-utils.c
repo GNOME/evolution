@@ -489,8 +489,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	if (!ok)
 		goto done;
 
-	/* do not set autosave saved to TRUE because e_msg_composer_save_draft doesn't do that too */
-	gtkhtml_editor_set_changed (GTKHTML_EDITOR (sdi->composer), FALSE);
+	composer_set_no_change (sdi->composer, FALSE);
 
 	if ((emcs = sdi->emcs) == NULL) {
 		emcs = emcs_new ();
