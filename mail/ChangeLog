@@ -1,5 +1,12 @@
 2008-06-21  Paul Bolle  <pebolle@tiscali.nl>
 
+	** Fix for bug #539268
+
+	* em-format.c: (em_format_describe_part): do not use both filename
+	and description if these are identical.
+
+2008-06-21  Paul Bolle  <pebolle@tiscali.nl>
+
 	** Fix for bug #538741
 
 	* em-format-html.c: (efh_format_header):
