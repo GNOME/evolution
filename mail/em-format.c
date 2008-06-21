@@ -1149,16 +1149,17 @@ char *
 em_format_describe_part(CamelMimePart *part, const char *mime_type)
 {
 	GString *stext;
-	const char *text;
+	const char *filename, *description;
 	char *out;
 
 	stext = g_string_new("");
 	text = gnome_vfs_mime_get_description(mime_type);
 	g_string_append_printf(stext, _("%s attachment"), text?text:mime_type);
-	if ((text = camel_mime_part_get_filename (part)))
-		g_string_append_printf(stext, " (%s)", text);
-	if ((text = camel_mime_part_get_description(part)))
-		g_string_append_printf(stext, ", \"%s\"", text);
+	if ((filename = camel_mime_part_get_filename (part)))
+		g_string_append_printf(stext, " (%s)", filename);
+	if ((description = camel_mime_part_get_description(part)) &&
+		!(filename && (strcmp(filename, description) == 0)))
+		g_string_append_printf(stext, ", \"%s\"", description);
 
 	out = stext->str;
 	g_string_free(stext, FALSE);
