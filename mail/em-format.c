@@ -1149,6 +1149,7 @@ char *
 em_format_describe_part(CamelMimePart *part, const char *mime_type)
 {
 	GString *stext;
+	const char *text;
 	const char *filename, *description;
 	char *out;
 
