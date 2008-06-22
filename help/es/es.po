@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-06-02 14:10+0000\n"
-"PO-Revision-Date: 2008-06-20 15:19+0200\n"
+"POT-Creation-Date: 2008-06-21 03:36+0000\n"
+"PO-Revision-Date: 2008-06-22 11:55+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -736,8 +736,9 @@ msgid ""
 "2.22 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
-"Esta guía describe cómo usar y gestionar el cliente de <trademark>Evolution</trademark> "
-"2.22. Esta guía está dirigida a los usuarios y se divide en las siguientes secciones:"
+"Esta guía describe cómo usar y gestionar el cliente de <trademark>Evolution</"
+"trademark> 2.22. Esta guía está dirigida a los usuarios y se divide en las "
+"siguientes secciones:"
 
 #: C/evolution.xml:88(link) C/evolution.xml:152(title)
 msgid "Getting Started"
@@ -834,8 +835,9 @@ msgid ""
 msgstr ""
 "En la documentación de Novell se usa un símbolo «mayor que» (&gt;) para "
 "separar acciones dentro de un paso y elementos en una referencia cruzada. Un "
-"símbolo de marca registrada (<trademark class=\"registered\"/>, <trademark/>, etc.) denota una "
-"marca registrada de Novell. Un asterisco (*) denota una marca registrada de terceras partes."
+"símbolo de marca registrada (<trademark class=\"registered\"/>, <trademark/"
+">, etc.) denota una marca registrada de Novell. Un asterisco (*) denota una "
+"marca registrada de terceras partes."
 
 #: C/evolution.xml:153(para)
 msgid ""
@@ -845,11 +847,12 @@ msgid ""
 "storing, organizing, and retrieving your personal information easy, so you "
 "can work and communicate more effectively with others."
 msgstr ""
-"<trademark>Evolution</trademark> es una aplicación de <link linkend=\"groupware\">trabajo en grupo</"
-"link> que le ayuda a trabajar en grupo gestionando correo-e, direcciones, "
-"notas, tareas y uno o más calendarios. Esto hace sencillo el almacenamiento, "
-"organización y obtención de su información personal, de tal forma que puede "
-"trabajar y comunicarse de una forma más efectiva con los demás."
+"<trademark>Evolution</trademark> es una aplicación de <link linkend="
+"\"groupware\">trabajo en grupo</link> que le ayuda a trabajar en grupo "
+"gestionando correo-e, direcciones, notas, tareas y uno o más calendarios. "
+"Esto hace sencillo el almacenamiento, organización y obtención de su "
+"información personal, de tal forma que puede trabajar y comunicarse de una "
+"forma más efectiva con los demás."
 
 #: C/evolution.xml:156(link) C/evolution.xml:164(title)
 msgid "Starting Evolution for the First Time"
@@ -1065,9 +1068,10 @@ msgid ""
 "linkend=\"bstfw13\">Remote Configuration Options</link>."
 msgstr ""
 "Seleccione esta opción si se conecta a Novell <trademark class=\"registered"
-"\">GroupWise</trademark>. Novell GroupWise conserva la información de correo-e, calendario, y "
-"contactos en el servidor. Para las instrucciones de configuración, consulte <link linkend=\"bstfw13"
-"\">Opciones de configuración remotas</link>."
+"\">GroupWise</trademark>. Novell GroupWise conserva la información de correo-"
+"e, calendario, y contactos en el servidor. Para las instrucciones de "
+"configuración, consulte <link linkend=\"bstfw13\">Opciones de configuración "
+"remotas</link>."
 
 #: C/evolution.xml:274(title)
 msgid "Microsoft Exchange:"
@@ -1128,9 +1132,9 @@ msgid ""
 "refer <link linkend=\"b1012tkg\">Connecting to Hula</link>"
 msgstr ""
 "Seleccione esta opción si quiere una cuenta Hula. Evolution le proporciona "
-"conectividad con servidores <trademark class=\"registered\">Hula</trademark> a través de IMAP y a través de soporte "
-"CalDAV. Para obtener más información consulte <link linkend=\"b1012tkg"
-"\">Concetar con Hula</link>."
+"conectividad con servidores <trademark class=\"registered\">Hula</trademark> "
+"a través de IMAP y a través de soporte CalDAV. Para obtener más información "
+"consulte <link linkend=\"b1012tkg\">Concetar con Hula</link>."
 
 #: C/evolution.xml:290(title)
 msgid "USENET News:"
@@ -2974,9 +2978,9 @@ msgid ""
 msgstr ""
 "Esta sección, así como<link linkend=\"usage-mail-organize\">Organización de "
 "su correo-e</link>, le ofrece una guía en profundidad de las posibilidades "
-"de <trademark>Evolution</trademark> como cliente de correo. Para saber más sobre cómo configurar "
-"su cuenta de correo consulte <link linkend=\"config-prefs-mail\">Opciones de "
-"correo</link>."
+"de <trademark>Evolution</trademark> como cliente de correo. Para saber más "
+"sobre cómo configurar su cuenta de correo consulte <link linkend=\"config-"
+"prefs-mail\">Opciones de correo</link>."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
@@ -3271,8 +3275,8 @@ msgid ""
 "Check <guilabel>Shrink To/CC/Bcc headers to column</guilabel> to limit the "
 "address"
 msgstr ""
-"Marque la columna <guilabel>Reducir las cabeceras Para / Cc / Cco a</guilabel> para limitar las "
-"direcciones"
+"Marque la columna <guilabel>Reducir las cabeceras Para / Cc / Cco a</"
+"guilabel> para limitar las direcciones"
 
 #: C/evolution.xml:1222(para)
 msgid "Enter the limit in the field."
@@ -3771,8 +3775,9 @@ msgstr ""
 "Las claves actuales varían por idiomas y estilo de entrada. Por ejemplo, el "
 "método de entrada cirílico usa combinaciones de teclado de latín "
 "transliterado para obtener el alfabeto cirílico, combinando letras donde sea "
-"necesario. <quote>Zh</quote> y <quote>ya</quote> proporcionan letras simples cirílicas apropiadas, y la "
-"comilla simple (‘) proporciona un carácter de signo suave."
+"necesario. <quote>Zh</quote> y <quote>ya</quote> proporcionan letras simples "
+"cirílicas apropiadas, y la comilla simple (‘) proporciona un carácter de "
+"signo suave."
 
 #: C/evolution.xml:1423(para)
 msgid ""
@@ -3884,10 +3889,11 @@ msgid ""
 "messages, storing them in your Outbox to be sent the next time you connect."
 msgstr ""
 "El modo desconectado le ayuda a comunicarse con sistemas de almacenamiento "
-"de correo remoto tales como <trademark class=\"registered\">GroupWise</trademark>, IMAP o Exchange en situaciones en "
-"las que no podrá estar siempre conectado a la red local. Evolution guarda "
-"copia de una o más carpetas y le permite crear nuevos mensajes, guardarlos "
-"en la Bandeja de salida y enviarlo en cuanto vuelva a conectarse."
+"de correo remoto tales como <trademark class=\"registered\">GroupWise</"
+"trademark>, IMAP o Exchange en situaciones en las que no podrá estar siempre "
+"conectado a la red local. Evolution guarda copia de una o más carpetas y le "
+"permite crear nuevos mensajes, guardarlos en la Bandeja de salida y enviarlo "
+"en cuanto vuelva a conectarse."
 
 #: C/evolution.xml:1451(para)
 msgid ""
@@ -4100,7 +4106,9 @@ msgstr ""
 msgid ""
 "Select keywords such as <quote>Attach</quote> or <quote>Attachment</quote> "
 "and click Add."
-msgstr "Seleccione las palabras clave tales como <quote>Adjuntar</quote> o <quote>Adjunto</quote> y pulse Añadir."
+msgstr ""
+"Seleccione las palabras clave tales como <quote>Adjuntar</quote> o "
+"<quote>Adjunto</quote> y pulse Añadir."
 
 #: C/evolution.xml:1538(para)
 msgid ""
@@ -4138,12 +4146,12 @@ msgid ""
 "the e-mail address or addresses in the To: field, which denotes primary "
 "recipients. Use the Cc: field to send a message to secondary recipients."
 msgstr ""
-"<trademark>Evolution</trademark>, como la mayoría de programas de correo electrónico, reconoce tres "
-"tipos de direcciones: destinatarios primarios, destinatarios secundarios y "
-"destinatarios ocultos. La manera más simple de enviar un mensaje es "
-"escribiendo la dirección o direcciones de correo electrónico en el campo "
-"Para:, que denota los destinatarios primarios. Use el campo Cc: para enviar "
-"un mensaje de correo a destinatarios secundarios."
+"<trademark>Evolution</trademark>, como la mayoría de programas de correo "
+"electrónico, reconoce tres tipos de direcciones: destinatarios primarios, "
+"destinatarios secundarios y destinatarios ocultos. La manera más simple de "
+"enviar un mensaje es escribiendo la dirección o direcciones de correo "
+"electrónico en el campo Para:, que denota los destinatarios primarios. Use "
+"el campo Cc: para enviar un mensaje de correo a destinatarios secundarios."
 
 #: C/evolution.xml:1551(para)
 msgid ""
@@ -4389,9 +4397,9 @@ msgid ""
 "should ignore this feature."
 msgstr ""
 "Puede buscar un patrón complejo de caracteres llamado <link linkend="
-"\"regular-expression\">expresión regular</link> o <quote>regex</quote> en la ventana de su "
-"editor. Si no está seguro de lo que es una expresión regular, debería "
-"ignorar esta característica."
+"\"regular-expression\">expresión regular</link> o <quote>regex</quote> en la "
+"ventana de su editor. Si no está seguro de lo que es una expresión regular, "
+"debería ignorar esta característica."
 
 #: C/evolution.xml:1659(title)
 msgid "Find Again:"
@@ -4951,9 +4959,9 @@ msgid ""
 "<quote>thank you,</quote> just like you do in real life. You can keep your "
 "pleasantries short, but be polite."
 msgstr ""
-"Empiece  y acabe siempre con un saludo. Diga <quote>por favor</quote> y <quote>gracias</quote> de la "
-"misma manera que haría en la vida real. Puede ser breve en sus cumplidos "
-"pero sea educado."
+"Empiece  y acabe siempre con un saludo. Diga <quote>por favor</quote> y "
+"<quote>gracias</quote> de la misma manera que haría en la vida real. Puede "
+"ser breve en sus cumplidos pero sea educado."
 
 #: C/evolution.xml:1951(para)
 msgid ""
@@ -5215,8 +5223,9 @@ msgstr ""
 "Por ejemplo, suponga que Antonio quiere enviar un mensaje cifrado a su amigo "
 "Jorge. Él busca su clave pública en un servidor público y entonces le pide a "
 "Evolution que cifre el mensaje. El mensaje ahora tiene una apariencia del "
-"estilo <quote>@#$23ui7yr87#@!48970fsd</quote>. Cuando le llega a Jorge, él usa su clave "
-"privada para descifrarlo y el mensaje quedará listo para su lectura."
+"estilo <quote>@#$23ui7yr87#@!48970fsd</quote>. Cuando le llega a Jorge, él "
+"usa su clave privada para descifrarlo y el mensaje quedará listo para su "
+"lectura."
 
 #: C/evolution.xml:2043(title)
 msgid "Making a GPG Encryption Key"
@@ -5405,10 +5414,10 @@ msgid ""
 "one in the current network; and if that particular host is down, it fails "
 "with a time-out."
 msgstr ""
-"El dominio <quote>wwwkeys.pg<emphasis>p.net está asign</quote>ado "
-"en</emphasis> múltiples servidores en varias redes. La utilidad gpg trata de conectarse "
-"a una en la red actual y si ese servidor en particular está caído, falla al "
-"superarse el tiempo de expiración."
+"El dominio <quote>wwwkeys.pg<emphasis>p.net está asign</quote>ado en</"
+"emphasis> múltiples servidores en varias redes. La utilidad gpg trata de "
+"conectarse a una en la red actual y si ese servidor en particular está "
+"caído, falla al superarse el tiempo de expiración."
 
 #: C/evolution.xml:2104(para)
 msgid ""
@@ -5664,14 +5673,13 @@ msgid "Select the appropriate options."
 msgstr "Seleccione las opciones apropiadas."
 
 #: C/evolution.xml:2239(para)
-#, fuzzy
 msgid ""
 "Whether you only get a few e-mail messages a day, or you receive hundreds, "
 "you probably want to sort and organize them. <trademark>Evolution</"
 "trademark> has the tools to help you do it."
 msgstr ""
 "Independientemente de que reciba unos pocos correos-e al día, o unos "
-"cientos, probablemente querrá organizarlos. Evolution™ tiene las "
+"cientos, probablemente querrá organizarlos. <trademark>Evolution</trademark> tiene las "
 "herramientas para ayudarle a hacerlo."
 
 #: C/evolution.xml:2242(link) C/evolution.xml:2265(title)
@@ -6306,7 +6314,6 @@ msgstr ""
 "eligiendo Marcar como terminado o Quitar marca."
 
 #: C/evolution.xml:2515(para)
-#, fuzzy
 msgid ""
 "When you read a flagged message, its flag status is displayed at the top, "
 "before the message headers. An overdue message might tell you "
@@ -6314,8 +6321,8 @@ msgid ""
 msgstr ""
 "Cuando lea un mensaje marcado con una bandera, se mostrará su estado en la "
 "parte superior derecha del mismo, antes de la cabecera del mensaje. Al ver "
-"un mensaje atrasado podrá decirle algo como «Llamar antes del 7 de abril de "
-"2003 a las 17:00»."
+"un mensaje atrasado podrá decirle algo como <quote>Llamar antes del 7 de abril de "
+"2003 a las 17:00</quote>."
 
 #: C/evolution.xml:2516(para)
 msgid ""
@@ -6852,7 +6859,6 @@ msgid "Any header including custom ones."
 msgstr "Cualquier cabecera, incluyendo las personalizadas."
 
 #: C/evolution.xml:2780(para)
-#, fuzzy
 msgid ""
 "If a message uses a header more than once, Evolution pays attention only to "
 "the first instance, even if the message defines the header differently the "
@@ -6865,8 +6871,8 @@ msgstr ""
 "Si en un mensaje aparece más de una vez la misma cabecera, Evolution sólo se "
 "fija en la primera, aunque en la segunda el contenido sea diferente. Por "
 "ejemplo, si un mensaje declara la cabecera Reenviado-De: con "
-"«engineering@rupertcorp.com» y a continuación la redefine como "
-"«marketing@rupertcorp.com», Evolution aplicará el filtro como si la segunda "
+"<quote>engineering@rupertcorp.com</quote>» y a continuación la redefine como "
+"<quote>marketing@rupertcorp.com</quote>, Evolution aplicará el filtro como si la segunda "
 "declaración no apareciera. Para filtrar mensajes que utilizan varias "
 "cabeceras varias veces, utilice una expresión regular."
 
@@ -7352,7 +7358,6 @@ msgstr ""
 "remotos, la carpeta de búsqueda no coincidente tampoco los buscará."
 
 #: C/evolution.xml:2989(para)
-#, fuzzy
 msgid ""
 "As an example of using folders, searches, and search folders, consider the "
 "following: To organize his mailbox, Jim sets up a search folder for e-mail "
@@ -7372,10 +7377,10 @@ msgstr ""
 "la dirección, y Evolution en la línea del asunto, con el fin de conservar el "
 "seguimiento de lo que sus compañeros de trabajo le envían acerca de "
 "Evolution. Si Ana le envía un mensaje acerca de cualquier otro tema distinto "
-"a Evolution, éste sólo aparece en la carpeta de búsqueda llamada «Ana». "
+"a Evolution, éste sólo aparece en la carpeta de búsqueda llamada <quote>Ana</quote>. "
 "Cuando Ana le envía un correo acerca de la interfaz de usuario de Evolution, "
-"el mensaje aparece tanto en la carpeta de búsqueda «Ana», como también en la "
-"carpeta de búsqueda «Debate interno acerca de Evolution»."
+"el mensaje aparece tanto en la carpeta de búsqueda <quote>Ana</quote>, como también en la "
+"carpeta de búsqueda <quote>Debate interno acerca de Evolution</quote>."
 
 #: C/evolution.xml:2992(title)
 msgid "Creating A Search Folder"
@@ -7641,13 +7646,12 @@ msgstr ""
 "Bogofilter</ulink>."
 
 #: C/evolution.xml:3131(para)
-#, fuzzy
 msgid ""
 "This section shows you how to use the <trademark>Evolution</trademark> "
 "contacts tool to organize any amount of contact information, share addresses "
 "over a network, and save time with everyday tasks."
 msgstr ""
-"Esta sección le muestra cómo usar la herramienta de contactos de Evolution™ "
+"Esta sección le muestra cómo usar la herramienta de contactos de <trademark>Evolution</trademark> "
 "para organizar cualquier cantidad de información sobre contactos, compartir "
 "direcciones a través de una red y ahorrar tiempo con las tareas cotidianas."
 
@@ -7778,7 +7782,6 @@ msgid "Full Name:"
 msgstr "Nombre completo:"
 
 #: C/evolution.xml:3176(para)
-#, fuzzy
 msgid ""
 "Specify the name of your contact here. You can type a name into the Full "
 "Name field, but you can also click the Full Name button to bring up a small "
@@ -7797,15 +7800,15 @@ msgstr ""
 "Especifique aquí el nombre de su contacto. Puede escribir un nombre dentro "
 "del campo Nombre completo, pero también puede pulsar el botón Nombre "
 "completo para mostrar una pequeña caja de diálogo con cajas de texto para "
-"nombre y apellido, títulos como «Sr.» o «Su excelencia», y sufijos como «Hijo». "
+"nombre y apellido, títulos como <quote>Sr.</quote> o <quote>Su excelencia</quote>, y sufijos como <quote>Hijo</quote>. "
 "El nombre completo también interactúa con la caja Archivar como para "
 "ayudarle a organizar sus contactos y manejar apellidos multipalabra. Para "
 "ver cómo funciona escriba un nombre en el campo Nombre completo. Como "
 "ejemplo usaremos Miguel de Icaza. Notará que en campo Archivar como también "
 "se rellena, pero en orden inverso: Icaza, Miguel de. Si ha introducido "
 "Ignacio Sopelana Matamoros, el editor de contactos debería haber adivinado "
-"que la entrada debería archivarse como «Matamoros, Ignacio S.». No obstante "
-"el apellido de Miguel, «de Icaza» tiene dos palabras y para ordenarlo "
+"que la entrada debería archivarse como <quote>Matamoros, Ignacio S.</quote>. No obstante "
+"el apellido de Miguel, <quote>de Icaza</quote> tiene dos palabras y para ordenarlo "
 "correctamente debe introducir de Icaza, Miguel en el campo Archivar como."
 
 #: C/evolution.xml:3179(title)
@@ -8246,7 +8249,6 @@ msgstr ""
 "gestionada por una aplicación para listas de correo en un servidor."
 
 #: C/evolution.xml:3439(para)
-#, fuzzy
 msgid ""
 "For example, you could create one card for each family member, then add "
 "those cards to a contact list called <quote>Family.</quote> Then, instead of "
@@ -8254,9 +8256,9 @@ msgid ""
 "<quote>Family</quote> and the message would go to all of them."
 msgstr ""
 "Por ejemplo, puede crear una tarjeta para cada miembro de su familia, "
-"después añadir esas tarjetas a una lista de contactos llamada «Familia». "
+"después añadir esas tarjetas a una lista de contactos llamada <quote>Familia</quote>. "
 "Después, en lugar de introducir cada dirección de correo electrónico de cada "
-"persona individualmente, puede enviar un correo electrónico a «Familia» y el "
+"persona individualmente, puede enviar un correo electrónico a <quote>Familia</quote> y el "
 "mensaje se enviará a todos ellos."
 
 #: C/evolution.xml:3440(para)
@@ -8294,7 +8296,6 @@ msgstr ""
 "mensaje a la lista."
 
 #: C/evolution.xml:3457(para)
-#, fuzzy
 msgid ""
 "Unless it is a very small list, it is recommended that you leave the "
 "addresses hidden. This is the same thing as using the <quote>Bcc:</quote> "
@@ -8302,7 +8303,7 @@ msgid ""
 "\">Specifying Additional Recipients for E-Mail</link>."
 msgstr ""
 "A no ser que sea una lista muy pequeña, es recomendable que oculte las "
-"direcciones. Este funcionamiento es similar al de la característica «Cco:», "
+"direcciones. Este funcionamiento es similar al de la característica <quote>Cco:</quote>, "
 "comentada en <link linkend=\"usage-mail-getnsend-send-to-types\">Especificar "
 "destinatarios adicioneles para correo electrónico</link>."
 
@@ -8338,7 +8339,6 @@ msgid "Evolution cannot store contact lists on Microsoft Exchange servers."
 msgstr "Evolution no puede almacenar listas de contactos en servidores Exchange."
 
 #: C/evolution.xml:3470(para)
-#, fuzzy
 msgid ""
 "Another way to group cards is to mark them as belonging to different "
 "categories. You can mark a card as being in several categories or no "
@@ -8350,8 +8350,8 @@ msgstr ""
 "Otro método para agrupar tarjetas consiste en marcarlas como pertenecientes "
 "a diferentes categorías. Por tanto, puede asociar una tarjeta con numerosas "
 "categorías, o no asociarla. Por ejemplo, asocie la tarjeta de un amigo con "
-"la categoría «Trabajo» porque trabaja con él, en la categoría «Amigos» porque "
-"es un amigo y en la categoría «Frecuentes» porque lo llama frecuentemente."
+"la categoría <guilabel>Trabajo</guilabel> porque trabaja con él, en la categoría <guilabel>Amigos</guilabel> porque "
+"es un amigo y en la categoría <guilabel>Frecuentes</guilabel> porque lo llama frecuentemente."
 
 #: C/evolution.xml:3471(para)
 msgid "To mark a card as belonging to a category,"
@@ -8519,14 +8519,13 @@ msgstr ""
 "Evolution con dispositivos portátiles</link>."
 
 #: C/evolution.xml:3543(para)
-#, fuzzy
 msgid ""
 "This section shows you how to use the <trademark>Evolution</trademark> "
 "Calendar to manage your schedule alone or in conjunction with peers. To "
 "learn about importing calendar data, see <link linkend=\"importing-mail"
 "\">Importing Single Files</link>, which covers the Import tool."
 msgstr ""
-"Esta sección explica cómo usar el calendario de Evolution™ para gestionar su "
+"Esta sección explica cómo usar el calendario de <trademark>Evolution</trademark> para gestionar su "
 "horario individual o en función de sus compañeros. Para saber cómo importar "
 "datos al calendario, consulte <link linkend=\"importing-mail\">Importar un "
 "solo archivo</link>, que describe la herramienta de importación."
@@ -9192,7 +9191,6 @@ msgstr ""
 "próximas."
 
 #: C/evolution.xml:3907(para)
-#, fuzzy
 msgid ""
 "If you are using a calendar on a Novell <trademark class=\"registered"
 "\">GroupWise</trademark> or Microsoft Exchange server, select a "
@@ -9203,7 +9201,7 @@ msgid ""
 "your server settings; check with your system administrator or adjust your "
 "delegation settings."
 msgstr ""
-"Si está usando un calendario en servidor Novell GroupWise®; o Microsoft "
+"Si está usando un calendario en servidor Novell <trademark class=\"registered\">GroupWise</trademark>; o Microsoft "
 "Exchange, seleccione una clasificación para la cita para determinar quién "
 "puede verla. La categoría predeterminada es Publico, y una cita pública "
 "puede verla cualquiera en un calendario compartido por red. Privado denota "
@@ -9279,7 +9277,6 @@ msgstr ""
 "búsqueda en la parte superior del calendario y seleccione una categoría."
 
 #: C/evolution.xml:3930(para)
-#, fuzzy
 msgid ""
 "The Recurrence tool button lets you describe repetition in appointments "
 "ranging from once every day up to once every 100 years. You can then choose "
@@ -9294,8 +9291,8 @@ msgstr ""
 "Puede elegir una hora y una fecha a la que quiere que la cita deje de ser "
 "periódica y, en la sección Excepciones, elegir días individuales en los que "
 "la cita no tendrá lugar. Haga su selección de izquierda a derecha y podrá "
-"construir una frase: «cada dos semanas en lunes y viernes hasta el 23 de "
-"junio de 2008» o «de cada mes el primer viernes en 12 ocasiones»."
+"construir una frase: <quote>cada dos semanas en lunes y viernes hasta el 23 de "
+"junio de 2008</quote> o <quote>de cada mes el primer viernes en 12 ocasiones</quote>."
 
 #: C/evolution.xml:3931(para)
 msgid ""
@@ -9323,7 +9320,6 @@ msgstr ""
 "las respuestas a las solicitudes de reunión."
 
 #: C/evolution.xml:3938(para)
-#, fuzzy
 msgid ""
 "When you create a meeting or group appointment, you can specify the "
 "attendees in several categories, such as <quote>chair</quote> or "
@@ -9332,7 +9328,7 @@ msgid ""
 "option to respond."
 msgstr ""
 "Al crear una reunión o una cita en grupo puede especificar a los asistentes "
-"en varias categorías como «presidencia» o «participante requerido». Cuando "
+"en varias categorías como <quote>presidencia</quote> o <quote>participante requerido</quote>. Cuando "
 "guarde su lista, cada invitado recibirá un mensaje con los datos de la cita "
 "y tendrán la opción de responder."
 
@@ -9917,7 +9913,6 @@ msgstr ""
 "acontecimientos locales y regionales."
 
 #: C/evolution.xml:4293(para)
-#, fuzzy
 msgid ""
 "Evolution lets you view and manage calendars on remote CalDAV servers such "
 "as <trademark class=\"registered\">Hula</trademark>. For more information "
@@ -9927,7 +9922,7 @@ msgid ""
 "calendar events on CalDav accounts just like other calendars on Evolution."
 msgstr ""
 "Evolution le permite ver y gestionar calendarios en servidores remotos "
-"CalDAV tales como Hula®. Para obtener más información acerca de Hula, vea la "
+"CalDAV tales como <trademark class=\"registered\">Hula</trademark>. Para obtener más información acerca de Hula, vea la "
 "<ulink url=\"http://www.hula-project.org\">página web del proyecto Hula</"
 "ulink>. El procedimiento para crear un calendario CalDAV es similar al del "
 "calendario Web remoto. Puede ver y crear acontecimientos en las cuentas "
@@ -10079,7 +10074,6 @@ msgid "Evolution can be used to assign a task to multiple people."
 msgstr "Evolution se puede usar para asignar una tarea a varias personas."
 
 #: C/evolution.xml:4379(para)
-#, fuzzy
 msgid ""
 "When you assign a task, you can specify the attendees in several categories, "
 "such as <quote>chair</quote> or <quote>required.</quote> When you save the "
@@ -10087,7 +10081,7 @@ msgid ""
 "gives them the option to respond."
 msgstr ""
 "Al asignar una tarea puede especificar los asistentes en varias categorías, "
-"tales como «presidencia» o «participante requerido». Cuando guarde la tarea, "
+"tales como <quote>presidencia</quote> o <quote>participante requerido</quote>. Cuando guarde la tarea, "
 "cada invitado recibirá un mensaje con los datos de la cita y tendrán la "
 "opción de responder."
 
@@ -10447,13 +10441,12 @@ msgstr ""
 "Esta característica ahora está disponible en el calendario de Evolution."
 
 #: C/evolution.xml:4830(para)
-#, fuzzy
 msgid ""
 "<trademark>Evolution</trademark> Exchange for Microsoft Exchange allows "
 "Evolution clients to access accounts on Microsoft Exchange 2000 and 2003 "
 "servers. Like Evolution, it is free software and is licensed under the GPL."
 msgstr ""
-"Evolution™ Exchange para Microsoft Exchange permite a los clientes de "
+"<trademark>Evolution</trademark> Exchange para Microsoft Exchange permite a los clientes de "
 "Evolution acceder a cuentas en servidores Microsoft Exchange 2000 y 2003. Al "
 "igual que Evolution, es software libre y está licenciado bajo la GPL."
 
@@ -10554,7 +10547,6 @@ msgid "Sending E-mail via Exchange Protocols:"
 msgstr "Envío de correo mediante protocolos Exchange:"
 
 #: C/evolution.xml:4891(para)
-#, fuzzy
 msgid ""
 "If you use the Microsoft Exchange mail transport protocol to send e-mail, "
 "make sure that the address you have entered as your e-mail address is "
@@ -10565,20 +10557,19 @@ msgstr ""
 "Si utiliza el protocolo de transporte de correo de Microsoft Exchange para "
 "enviar correo-e, asegúrese de que la dirección de correo electrónico que ha "
 "introducido como su dirección de correo-e es exactamente la misma que la que "
-"el servidor Exchange tiene en su archivo. Ésta puede ser «sunombre@exchange-"
-"server.ejemplo.com» en lugar de «sunombre@ejemplo.com»."
+"el servidor Exchange tiene en su archivo. Ésta puede ser <quote>sunombre@exchange-"
+"server.ejemplo.com</quote> en lugar de <quote>sunombre@ejemplo.com.</quote>."
 
 #: C/evolution.xml:4896(title)
 msgid "Out of Office Message:"
 msgstr "Mensaje de Estoy fuera de la oficina:"
 
 #: C/evolution.xml:4897(para)
-#, fuzzy
 msgid ""
 "You can set <quote>out of Office</quote> message that will automatically be "
 "sent to people who send mails to you while you are away from office."
 msgstr ""
-"Puede establecer su mensaje «Estoy fuera de la oficina» que se enviará "
+"Puede establecer su mensaje <quote>Estoy fuera de la oficina</quote> que se enviará "
 "automáticamente a las personas que le envíen correos mientras está fuera de "
 "la oficina."
 
@@ -10730,14 +10721,13 @@ msgstr ""
 "a menos que su administrador de sistema lo haya deshabilitado."
 
 #: C/evolution.xml:4986(para)
-#, fuzzy
 msgid ""
 "The <ulink url=\"http://support.novell.com\"><trademark class=\"registered"
 "\">Novell</trademark> Web site Knowledgebase</ulink> has additional "
 "information about checking to make sure that your Exchange server accepts "
 "connections from Evolution."
 msgstr ""
-"La <ulink url=\"http://support.novell.com\">base de conocimiento de Novell®</"
+"La <ulink url=\"http://support.novell.com\">base de conocimiento de <trademark class=\"registered\">Novell</trademark></"
 "ulink> contiene información adicional para asegurar que su servidor Exchange "
 "acepte las conexiones de Evolution."
 
@@ -10940,7 +10930,6 @@ msgstr ""
 "globales (GAL) aparece vacía hasta que busque algo en ella."
 
 #: C/evolution.xml:5131(para)
-#, fuzzy
 msgid ""
 "There are some settings in Evolution that are available only with Evolution "
 "Exchange, like delegation and permission handling, creating <quote>Out of "
@@ -10948,7 +10937,7 @@ msgid ""
 msgstr ""
 "Existen algunos ajustes en Evolution que están sólo disponibles con "
 "Evolution Exchange, tales como delegación y manejo de permisos, crear "
-"mensajes «Estoy fuera de la oficina», cambiar la contraseña y ver el tamaño "
+"mensajes <quote>Estoy fuera de la oficina</quote>, cambiar la contraseña y ver el tamaño "
 "de la carpeta."
 
 #: C/evolution.xml:5135(link) C/evolution.xml:5158(title)
@@ -11506,8 +11495,9 @@ msgid ""
 "\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</"
 "trademark> 7 system."
 msgstr ""
-"<trademark>Evolution</trademark> puede acceder a cuentas en el sistema <trademark class="
-"\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</trademark> 7."
+"<trademark>Evolution</trademark> puede acceder a cuentas en el sistema "
+"<trademark class=\"registered\">Novell</trademark><trademark class="
+"\"registered\">GroupWise</trademark> 7."
 
 #: C/evolution.xml:5433(link) C/evolution.xml:5456(title)
 msgid "GroupWise Features"
