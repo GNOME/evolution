@@ -1,3 +1,12 @@
+2008-06-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #440818 (patch by Rodrigo Castro)
+
+	* importers/evolution-csv-importer.c: (parseLine): Convert line
+	to UTF-8 if not a valid one. Pretend it to be an ISO-8859-1 line.
+	* importers/evolution-csv-importer.c: (getNextCSVEntry):
+	Append char-by-char and check for EOF too.
+
 2008-06-13  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):

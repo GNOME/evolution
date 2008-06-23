@@ -343,22 +343,28 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 	other_address = g_new0(EContactAddress, 1);
 	bday = g_new0(EContactDate, 1);
 
+	if (!g_utf8_validate (ptr, -1, NULL))
+		ptr = g_convert (ptr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+
 	while(*ptr != '\n') {
 		value = g_string_new("");
 		while(*ptr != delimiter) {
 			if(*ptr == '\n')
 				break;
 			if(*ptr != '"') {
-				g_string_append_unichar(value, *ptr);
+				g_string_append_unichar (value, g_utf8_get_char (ptr));
 			}
 			else {
-				ptr++;
-				while (*ptr != '"') {
-					g_string_append_unichar(value, *ptr);
-					ptr++;
+				ptr = g_utf8_next_char (ptr);
+				while (*ptr && *ptr != '"') {
+					g_string_append_unichar (value, g_utf8_get_char (ptr));
+					ptr = g_utf8_next_char (ptr);
 				}
+
+				if (!*ptr)
+					break;
 			}
-			ptr++;
+			ptr = g_utf8_next_char (ptr);
 		}
 		if(importer == OUTLOOK_IMPORTER) {
 			contact_field = csv_fields_outlook[i].contact_field;
@@ -481,7 +487,7 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 		i++;
 		g_string_free(value, TRUE);
 		if(*ptr != '\n')
-			ptr++;
+			ptr = g_utf8_next_char (ptr);
 	}
 	if(strlen(home_street->str) != 0)
 		home_address->street = g_strdup(home_street->str);
@@ -536,20 +542,20 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 		if (c == EOF)
 			return NULL;
 		if (c == '\n') {
-			g_string_append_unichar(line, c);
+			g_string_append_c (line, c);
 			break ;
 		}
 		if (c == '"') {
-			g_string_append_unichar(line, c);
+			g_string_append_c (line, c);
 			c = fgetc (f);
-			while (c != '"') {
-				g_string_append_unichar(line, c);
+			while (!feof (f) && c != '"') {
+				g_string_append_c (line, c);
 				c = fgetc (f);
 			}
-			g_string_append_unichar(line, c);
+			g_string_append_c (line, c);
 		}
 		else
-			g_string_append_unichar(line, c);
+			g_string_append_c (line, c);
 	}
 
 	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
@@ -560,20 +566,20 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 			if (c == EOF)
 				return NULL;
 			if (c == '\n') {
-				g_string_append_unichar(line, c);
+				g_string_append_c (line, c);
 				break ;
 			}
 			if (c == '"') {
-				g_string_append_unichar(line, c);
+				g_string_append_c (line, c);
 				c = fgetc (f);
-				while (c != '"') {
-					g_string_append_unichar(line, c);
+				while (!feof (f) && c != '"') {
+					g_string_append_c (line, c);
 					c = fgetc (f);
 				}
-				g_string_append_unichar(line, c);
+				g_string_append_c (line, c);
 			}
 			else
-				g_string_append_unichar(line, c);
+				g_string_append_c (line, c);
 		}
 		gci->count ++;
 	}
