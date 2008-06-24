@@ -266,12 +266,19 @@ add_to_notes(EContact *contact, gint i, char *val) {
 	GString *new_text;
 
 	old_text = e_contact_get_const(contact, E_CONTACT_NOTE);
-	if(importer == OUTLOOK_IMPORTER)
-		field_text = csv_fields_outlook[i].csv_attribute;
-	else if(importer == MOZILLA_IMPORTER)
-		field_text = csv_fields_mozilla[i].csv_attribute;
-	else
-		field_text = csv_fields_evolution[i].csv_attribute;
+	if (importer == OUTLOOK_IMPORTER) {
+		if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook))
+			field_text = csv_fields_outlook[i].csv_attribute;
+	} else if (importer == MOZILLA_IMPORTER) {
+		if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla))
+			field_text = csv_fields_mozilla[i].csv_attribute;
+	} else {
+		if (i >= 0 && i < G_N_ELEMENTS (csv_fields_evolution))
+			field_text = csv_fields_evolution[i].csv_attribute;
+	}
+
+	if (!field_text)
+		return;
 
 	new_text = g_string_new(old_text);
 	if(strlen(new_text->str) != 0)
@@ -325,9 +332,9 @@ date_from_string (const char *str)
 }
 
 static gboolean
-parseLine (CSVImporter *gci, EContact *contact, char **buf) {
+parseLine (CSVImporter *gci, EContact *contact, char *buf) {
 
-	char *ptr = *buf;
+	char *ptr = buf, *do_free = NULL;
 	GString *value;
 	gint i = 0;
 	int flags = 0;
@@ -343,8 +350,10 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 	other_address = g_new0(EContactAddress, 1);
 	bday = g_new0(EContactDate, 1);
 
-	if (!g_utf8_validate (ptr, -1, NULL))
-		ptr = g_convert (ptr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+	if (!g_utf8_validate (ptr, -1, NULL)) {
+		do_free = g_convert (ptr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+		ptr = do_free;
+	}
 
 	while(*ptr != '\n') {
 		value = g_string_new("");
@@ -366,27 +375,45 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 			}
 			ptr = g_utf8_next_char (ptr);
 		}
+
+		contact_field = NOMAP;
+		flags = FLAG_INVALID;
+
 		if(importer == OUTLOOK_IMPORTER) {
-			contact_field = csv_fields_outlook[i].contact_field;
-			flags = csv_fields_outlook[i].flags;
+			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook)) {
+				contact_field = csv_fields_outlook[i].contact_field;
+				flags = csv_fields_outlook[i].flags;
+			}
 		}
 		else if(importer == MOZILLA_IMPORTER) {
-			contact_field = csv_fields_mozilla[i].contact_field;
-			flags = csv_fields_mozilla[i].flags;
+			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla)) {
+				contact_field = csv_fields_mozilla[i].contact_field;
+				flags = csv_fields_mozilla[i].flags;
+			}
 		}
 		else {
-			contact_field = csv_fields_evolution[i].contact_field;
-			flags = csv_fields_evolution[i].flags;
+			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_evolution)) {
+				contact_field = csv_fields_evolution[i].contact_field;
+				flags = csv_fields_evolution[i].flags;
+			}
 		}
 
 		if(strlen(value->str) != 0) {
 			if (contact_field != NOMAP) {
-				if(importer == OUTLOOK_IMPORTER)
-					e_contact_set(contact, csv_fields_outlook[i].contact_field, value->str);
-				else if(importer == MOZILLA_IMPORTER)
-					e_contact_set(contact, csv_fields_mozilla[i].contact_field, value->str);
-				else
-					e_contact_set(contact, csv_fields_evolution[i].contact_field, value->str);
+				if(importer == OUTLOOK_IMPORTER) {
+					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook))
+						e_contact_set (contact, csv_fields_outlook[i].contact_field, value->str);
+				} else if(importer == MOZILLA_IMPORTER) {
+					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla))
+						e_contact_set (contact, csv_fields_mozilla[i].contact_field, value->str);
+				} else {
+					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_evolution)) {
+						if (csv_fields_evolution[i].contact_field == E_CONTACT_WANTS_HTML)
+							e_contact_set (contact, csv_fields_evolution[i].contact_field, GINT_TO_POINTER (g_ascii_strcasecmp (value->str, "TRUE") == 0));
+						else
+							e_contact_set (contact, csv_fields_evolution[i].contact_field, value->str);
+					}
+				}
 			}
 			else {
 				switch (flags) {
@@ -514,6 +541,8 @@ parseLine (CSVImporter *gci, EContact *contact, char **buf) {
 			e_contact_set(contact, E_CONTACT_BIRTH_DATE, bday);
 	}
 
+	g_free (do_free);
+
 	return TRUE;
 }
 
@@ -598,7 +627,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 
 	buf = str->str;
 
-	if(!parseLine (gci, contact, &buf)) {
+	if(!parseLine (gci, contact, buf)) {
 		g_object_unref(contact);
 		return NULL;
 	}

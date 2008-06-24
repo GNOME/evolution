@@ -1,3 +1,13 @@
+2008-06-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #539755
+
+	* importers/evolution-csv-importer.c: (parseLine):
+	Do not leak (introduced in bug #440818).
+	* importers/evolution-csv-importer.c: (add_to_notes),
+	(parseLine), (getNextCSVEntry): Do not access memory beyond
+	the columns array.
+
 2008-06-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #440818 (patch by Rodrigo Castro)
