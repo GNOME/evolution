@@ -1,3 +1,12 @@
+2008-06-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #537275
+
+	* em-html-stream.c: (emhs_cleanup): Close GtkHTMLStream on cancel.
+	* em-html-stream.c: (emhs_gtkhtml_destroy): Set the cancel.
+	* em-sync-stream.c: (emss_process_message):
+	Do not pass data to the child structure if we were canceled.
+
 2008-06-21  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #539268

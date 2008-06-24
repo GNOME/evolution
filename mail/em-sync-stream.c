@@ -59,6 +59,13 @@ emss_process_message (struct _write_msg *msg)
 {
 	struct _EMSyncStream *emss = msg->emss;
 
+	if (emss->cancel) {
+		/* Do not pass data to the child if we are canceled. */
+		e_flag_set (msg->done);
+
+		return FALSE;
+	}
+
 	/* Force out any pending data before doing anything else. */
 	if (emss->buffer != NULL && emss->buffer->len > 0) {
 		EMSS_CLASS (emss)->sync_write (
