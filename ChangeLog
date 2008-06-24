@@ -1,3 +1,15 @@
+2008-06-18  Alp Toker  <alp@nuanti.com>
+
+	Reviewed by Jeffrey Stedfast.
+
+	* configure.in:
+	* acinclude.m4:
+	Add dolt revision 5e9eef10 to the autotools build system. Speeds up
+	the build, often by a factor of two or more on supported platforms,
+	otherwise falls back to libtool.
+
+	See http://dolt.freedesktop.org for details.
+
 2008-06-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #423395
