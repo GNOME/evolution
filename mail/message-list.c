@@ -2166,6 +2166,9 @@ message_list_init (MessageList *message_list)
 	message_list->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 	message_list->async_event = mail_async_event_new();
 
+	message_list->cursor_uid = NULL;
+	message_list->last_sel_single = FALSE;
+
 	/* TODO: Should this only get the selection if we're realised? */
 	p = message_list->priv = g_malloc0(sizeof(*message_list->priv));
 	p->invisible = gtk_invisible_new();
@@ -3309,30 +3312,19 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 {
 	MessageList *message_list = MESSAGE_LIST (user_data);
 	const char *new_uid;
-	ESelectionModel *etsm;
-	gint selected;
 
-	etsm = e_tree_get_selection_model (message_list->tree);
-
-	selected = e_selection_model_selected_count (etsm);
-
-	if (selected == 1) {
-		GPtrArray *uids;
-
-		uids = message_list_get_selected (message_list);
-
-		new_uid = g_strdup (uids->pdata [0]);
-
-		message_list_free_uids (message_list, uids);
-	} else if (path == NULL
-	    || !e_selection_model_is_row_selected (etsm, e_selection_model_cursor_row (etsm))
-	    || selected != 1)
+	if (path == NULL)
 		new_uid = NULL;
 	else
 		new_uid = get_message_uid (message_list, path);
 
+	/* Do not check the cursor_uid and the new_uid values, because the selected item
+	   (set in on_selection_changed_cmd) can be different from the one with a cursor
+	   (when selecting with Ctrl, for example). This has a little side-effect, when
+	   keeping list it that state, then changing folders forth and back will select
+	   and move cursor to that selected item. Does anybody consider it as a bug? */
 	if ((message_list->cursor_uid == NULL && new_uid == NULL)
-	    || (message_list->cursor_uid != NULL && new_uid != NULL && !strcmp (message_list->cursor_uid, new_uid)))
+	    || (message_list->last_sel_single && message_list->cursor_uid != NULL && new_uid != NULL))
 		return;
 
 	g_free (message_list->cursor_uid);
@@ -3350,20 +3342,23 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 {
 	GPtrArray *uids;
 	char *newuid;
+	ETreePath cursor;
 
 	/* not sure if we could just ignore this for the cursor, i think sometimes you
 	   only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected(ml);
 	if (uids->len == 1)
 		newuid = uids->pdata[0];
+	else if ((cursor = e_tree_get_cursor(tree)))
+		newuid = (char *)camel_message_info_uid(e_tree_memory_node_get_data((ETreeMemory *)tree, cursor));
 	else
 		newuid = NULL;
 
 	/* If the selection isn't empty, then we ignore the no-uid check, since this event
 	   is also used for other updating.  If it is empty, it might just be a setup event
 	   from etree which we do need to ignore */
-	if ((newuid == NULL && ml->cursor_uid == NULL && uids->len == 0)
-	    || (uids->len == 1 && newuid != NULL && ml->cursor_uid != NULL && !strcmp(ml->cursor_uid, newuid))) {
+	if ((newuid == NULL && ml->cursor_uid == NULL && uids->len == 0) ||
+	    (ml->last_sel_single && uids->len == 1 && newuid != NULL && ml->cursor_uid != NULL && !strcmp (ml->cursor_uid, newuid))) {
 		/* noop */
 	} else {
 		g_free(ml->cursor_uid);
@@ -3371,6 +3366,8 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 		if (!ml->idle_id)
 			ml->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
 	}
+
+	ml->last_sel_single = uids->len == 1;
 
 	message_list_free_uids(ml, uids);
 }

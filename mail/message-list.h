@@ -138,6 +138,9 @@ struct _MessageList {
 	/* Where the ETree cursor is. */
 	char *cursor_uid;
 
+	/* whether the last selection was on a single row or none/multi */
+	gboolean last_sel_single;
+
 	/* Row-selection and seen-marking timers */
 	guint idle_id, seen_id;
 

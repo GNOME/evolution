@@ -1,3 +1,13 @@
+2008-06-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #540160
+
+	* message-list.h: (struct _MessageList):
+	* message-list.c: (message_list_init), (on_cursor_activated_cmd),
+	(on_selection_changed_cmd): Remember whether we come from none/multi
+	select to single select and properly update the preview.
+	(Reverting patch for bug #337160 and doing that with other approach.)
+
 2008-06-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #537275
