@@ -1,3 +1,11 @@
+2008-06-16  Maciej Piechotka  <uzytkownik2@gmal.com>
+
+	** Fix for bug #526262
+
+	* filter-part.c: (xml_create):
+	* filter-part.c: (filter_part_xml_create):
+	Handle _title element in analogical way as title
+
 2008-06-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #382783

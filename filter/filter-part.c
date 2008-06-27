@@ -189,7 +189,7 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp ((char *)n->name, "title")) {
+		} else if (!strcmp ((char *)n->name, "title") || !strcmp ((char *)n->name, "_title")) {
 			if (!ff->title) {
 				str = (char *)xmlNodeGetContent (n);
 				ff->title = g_strdup (str);

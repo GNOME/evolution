@@ -1,3 +1,10 @@
+2008-06-16  Maciej Piechotka <uzytkownik2@gmail.com>
+
+	* gui/caltypes.xml:
+	* gui/memotypes.xml:
+	* gui/tasktypes.xml:
+	Usage _title instead of title to allow translations.
+
 2008-06-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* common/authentication.c:
