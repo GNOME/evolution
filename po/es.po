@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 10:35+0000\n"
-"PO-Revision-Date: 2008-06-21 15:10+0200\n"
+"POT-Creation-Date: 2008-06-24 14:29+0000\n"
+"PO-Revision-Date: 2008-06-27 14:41+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3011,7 +3011,7 @@ msgstr "Cor_tar"
 #: ../calendar/gui/dialogs/comp-editor.c:453
 #: ../calendar/gui/e-calendar-table.c:1373
 #: ../calendar/gui/e-calendar-view.c:1687 ../calendar/gui/e-memo-table.c:932
-#: ../composer/e-msg-composer.c:2011 ../mail/em-folder-tree.c:996
+#: ../composer/e-msg-composer.c:2058 ../mail/em-folder-tree.c:996
 #: ../mail/em-folder-view.c:1331 ../mail/message-list.c:2045
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-editor.xml.h:17 ../ui/evolution-mail-message.xml.h:104
@@ -3778,7 +3778,7 @@ msgstr "Guardar en la libreta de direcciones"
 msgid "Card View"
 msgstr "Vista de la tarjeta"
 
-#: ../addressbook/importers/evolution-csv-importer.c:623
+#: ../addressbook/importers/evolution-csv-importer.c:658
 #: ../addressbook/importers/evolution-ldif-importer.c:498
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:306
@@ -3786,27 +3786,27 @@ msgstr "Vista de la tarjeta"
 msgid "Importing..."
 msgstr "Importando…"
 
-#: ../addressbook/importers/evolution-csv-importer.c:825
+#: ../addressbook/importers/evolution-csv-importer.c:860
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr "VSC o Tab de Outlook (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:826
+#: ../addressbook/importers/evolution-csv-importer.c:861
 msgid "Outlook CSV and Tab Importer"
 msgstr "Importador de VSC y Tab"
 
-#: ../addressbook/importers/evolution-csv-importer.c:834
+#: ../addressbook/importers/evolution-csv-importer.c:869
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "VSC o Tab de Mozilla (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:835
+#: ../addressbook/importers/evolution-csv-importer.c:870
 msgid "Mozilla CSV and Tab Importer"
 msgstr "Importador de VSC y Tab de Mozilla"
 
-#: ../addressbook/importers/evolution-csv-importer.c:843
+#: ../addressbook/importers/evolution-csv-importer.c:878
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr "VSC o Tab de Evolution (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:844
+#: ../addressbook/importers/evolution-csv-importer.c:879
 msgid "Evolution CSV and Tab Importer"
 msgstr "Importador de VSC y Tab de Evolution"
 
@@ -5970,21 +5970,21 @@ msgstr "Mensaje adjunto: %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:210
-#: ../calendar/gui/dialogs/comp-editor.c:383 ../composer/e-msg-composer.c:1725
-#: ../composer/e-msg-composer.c:1944
+#: ../calendar/gui/dialogs/comp-editor.c:383 ../composer/e-msg-composer.c:1772
+#: ../composer/e-msg-composer.c:1991
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:454 ../composer/e-msg-composer.c:2012
+#: ../calendar/gui/dialogs/comp-editor.c:454 ../composer/e-msg-composer.c:2059
 #: ../mail/em-folder-tree.c:997 ../mail/em-folder-utils.c:366
 #: ../mail/em-folder-view.c:1192 ../mail/message-list.c:2046
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:456 ../composer/e-msg-composer.c:2014
+#: ../calendar/gui/dialogs/comp-editor.c:456 ../composer/e-msg-composer.c:2061
 #: ../mail/em-folder-tree.c:999 ../mail/message-list.c:2048
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
@@ -6287,7 +6287,7 @@ msgstr "Personalizar"
 #: ../calendar/gui/dialogs/event-page.c:3080
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:669
-#: ../calendar/gui/e-itip-control.c:1158 ../filter/filter-rule.c:907
+#: ../calendar/gui/e-itip-control.c:1158 ../filter/filter-rule.c:939
 #: ../mail/em-account-editor.c:685 ../mail/em-account-editor.c:1409
 #: ../mail/em-account-prefs.c:438 ../mail/em-junk-hook.c:94
 #: ../plugins/calendar-weather/calendar-weather.c:370
@@ -6839,7 +6839,7 @@ msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:134
-#: ../calendar/gui/e-cal-component-preview.c:176 ../filter/filter-rule.c:820
+#: ../calendar/gui/e-cal-component-preview.c:176 ../filter/filter-rule.c:852
 #: ../shell/e-shell-folder-title-bar.c:586
 msgid "Untitled"
 msgstr "Sin título"
@@ -10451,11 +10451,11 @@ msgstr[1] "Adjuntos"
 msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
-#: ../composer/e-msg-composer.c:1574 ../composer/e-msg-composer.c:2734
+#: ../composer/e-msg-composer.c:1574 ../composer/e-msg-composer.c:2781
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4007
+#: ../composer/e-msg-composer.c:4056
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10896,56 +10896,56 @@ msgstr "Elija un archivo"
 msgid "Test"
 msgstr "Prueba"
 
-#: ../filter/filter-rule.c:815
+#: ../filter/filter-rule.c:847
 msgid "R_ule name:"
 msgstr "Nombre de la _regla:"
 
-#: ../filter/filter-rule.c:843
+#: ../filter/filter-rule.c:875
 msgid "Find items that meet the following criteria"
 msgstr "Buscar elementos que cumplen con estos criterios"
 
-#: ../filter/filter-rule.c:877
+#: ../filter/filter-rule.c:909
 msgid "A_dd Filter Criteria"
 msgstr "_Añadir regla de filtrado"
 
-#: ../filter/filter-rule.c:883
+#: ../filter/filter-rule.c:915
 msgid "If all criteria are met"
 msgstr "Si se cumplen todos los criterios"
 
-#: ../filter/filter-rule.c:883
+#: ../filter/filter-rule.c:915
 msgid "If any criteria are met"
 msgstr "Si se cumple algún criterio"
 
-#: ../filter/filter-rule.c:885
+#: ../filter/filter-rule.c:917
 msgid "_Find items:"
 msgstr "_Buscar elementos:"
 
-#: ../filter/filter-rule.c:907
+#: ../filter/filter-rule.c:939
 msgid "All related"
 msgstr "Todas las relacionadas"
 
-#: ../filter/filter-rule.c:907
+#: ../filter/filter-rule.c:939
 msgid "Replies"
 msgstr "Respuestas"
 
-#: ../filter/filter-rule.c:907
+#: ../filter/filter-rule.c:939
 msgid "Replies and parents"
 msgstr "Respuestas y antecesores"
 
-#: ../filter/filter-rule.c:907
+#: ../filter/filter-rule.c:939
 msgid "No reply or parent"
 msgstr "Sin respuesta o antecesor"
 
-#: ../filter/filter-rule.c:909
+#: ../filter/filter-rule.c:941
 msgid "I_nclude threads"
 msgstr "I_ncluir conversaciones"
 
-#: ../filter/filter-rule.c:1005 ../filter/filter.glade.h:3
+#: ../filter/filter-rule.c:1039 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:308
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../filter/filter-rule.c:1005 ../mail/em-utils.c:309
+#: ../filter/filter-rule.c:1039 ../mail/em-utils.c:309
 msgid "Outgoing"
 msgstr "Saliente"
 
@@ -11264,18 +11264,18 @@ msgstr "Añadir un script de firma"
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:1008 ../mail/em-format-quote.c:413
+#: ../mail/em-composer-utils.c:1007 ../mail/em-format-quote.c:413
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1820
+#: ../mail/em-composer-utils.c:1819
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1867
+#: ../mail/em-composer-utils.c:1866
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11283,7 +11283,7 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:2010
+#: ../mail/em-composer-utils.c:2009
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
@@ -11584,11 +11584,11 @@ msgid "Unset Status"
 msgstr "Quitar estado"
 
 #. and now for the action area
-#: ../mail/em-filter-rule.c:489
+#: ../mail/em-filter-rule.c:521
 msgid "Then"
 msgstr "Luego"
 
-#: ../mail/em-filter-rule.c:517
+#: ../mail/em-filter-rule.c:549
 msgid "Add Ac_tion"
 msgstr "Añadir a_cción"
 
@@ -11676,8 +11676,9 @@ msgstr "C_rear"
 msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
+#. load store to mail component at the end, when everything is loaded
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:935 ../mail/mail-vfolder.c:1020
+#: ../mail/mail-vfolder.c:970 ../mail/mail-vfolder.c:1027
 msgid "Search Folders"
 msgstr "Carpetas de búsqueda"
 
@@ -12341,43 +12342,43 @@ msgstr "Grupos de noticias"
 msgid "%s attachment"
 msgstr "%s adjunto"
 
-#: ../mail/em-format.c:1197
+#: ../mail/em-format.c:1198
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "No es posible interpretar el mensaje S/MIME: Error desconocido"
 
-#: ../mail/em-format.c:1334 ../mail/em-format.c:1490
+#: ../mail/em-format.c:1335 ../mail/em-format.c:1491
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "No es posible analizar el mensaje MIME. Mostrando la fuente."
 
-#: ../mail/em-format.c:1342
+#: ../mail/em-format.c:1343
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado no soportado para multipart/encrypted"
 
-#: ../mail/em-format.c:1352
+#: ../mail/em-format.c:1353
 msgid "Could not parse PGP/MIME message"
 msgstr "No es posible interpretar el mensaje PGP/MIME"
 
-#: ../mail/em-format.c:1352
+#: ../mail/em-format.c:1353
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "No es posible interpretar el mensaje PGP/MIME: Error desconocido"
 
-#: ../mail/em-format.c:1509
+#: ../mail/em-format.c:1510
 msgid "Unsupported signature format"
 msgstr "Formato de firma no soportado"
 
-#: ../mail/em-format.c:1517 ../mail/em-format.c:1588
+#: ../mail/em-format.c:1518 ../mail/em-format.c:1589
 msgid "Error verifying signature"
 msgstr "Error al verificar la firma"
 
-#: ../mail/em-format.c:1517 ../mail/em-format.c:1579 ../mail/em-format.c:1588
+#: ../mail/em-format.c:1518 ../mail/em-format.c:1580 ../mail/em-format.c:1589
 msgid "Unknown error verifying signature"
 msgstr "Error desconocido al verificar la firma"
 
-#: ../mail/em-format.c:1660
+#: ../mail/em-format.c:1661
 msgid "Could not parse PGP message"
 msgstr "No es posible interpretar el mensaje PGP"
 
-#: ../mail/em-format.c:1660
+#: ../mail/em-format.c:1661
 msgid "Could not parse PGP message: Unknown error"
 msgstr "No es posible interpretar el mensaje PGP: Error desconocido"
 
@@ -14799,11 +14800,11 @@ msgstr "Actualizando carpetas de búsqueda para «%s: %s»"
 msgid "Updating Search Folders for '%s'"
 msgstr "Actualizando carpetas de búsqueda para «%s»"
 
-#: ../mail/mail-vfolder.c:1059
+#: ../mail/mail-vfolder.c:1066
 msgid "Edit Search Folder"
 msgstr "Editar carpeta de búsqueda"
 
-#: ../mail/mail-vfolder.c:1148
+#: ../mail/mail-vfolder.c:1155
 msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
@@ -15773,31 +15774,31 @@ msgid "Restoring from the folder %s"
 msgstr "Restaurando desde la carpeta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:271
+#: ../plugins/backup-restore/backup.c:273
 msgid "Evolution Backup"
 msgstr "Respaldo de Evolution"
 
-#: ../plugins/backup-restore/backup.c:271
+#: ../plugins/backup-restore/backup.c:273
 msgid "Evolution Restore"
 msgstr "Restaurador de Evolution"
 
-#: ../plugins/backup-restore/backup.c:306
+#: ../plugins/backup-restore/backup.c:308
 msgid "Backing up Evolution Data"
 msgstr "Respaldando los datos de Evolution"
 
-#: ../plugins/backup-restore/backup.c:307
+#: ../plugins/backup-restore/backup.c:309
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Espere mientras Evolution respalda sus datos."
 
-#: ../plugins/backup-restore/backup.c:309
+#: ../plugins/backup-restore/backup.c:311
 msgid "Restoring Evolution Data"
 msgstr "Restaurando los datos de Evolution"
 
-#: ../plugins/backup-restore/backup.c:310
+#: ../plugins/backup-restore/backup.c:312
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Espere mientras Evolution restaura sus datos."
 
-#: ../plugins/backup-restore/backup.c:328
+#: ../plugins/backup-restore/backup.c:330
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Esto puede llevar un tiempo dependiendo de la cantidad de datos en su cuenta."
 
@@ -17312,23 +17313,23 @@ msgstr "_Activar"
 msgid "_Junk List"
 msgstr "Lista de _SPAM"
 
-#: ../plugins/groupwise-features/mail-retract.c:50
+#: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message Retract"
 msgstr "Retirada de mensaje"
 
-#: ../plugins/groupwise-features/mail-retract.c:55
+#: ../plugins/groupwise-features/mail-retract.c:58
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
 msgstr ""
-"Retirar un mensaje puede eliminarlo del buzón de correo del destinatario. ¿Está seguro que "
-"quiere hacer esto?"
+"Retirar un mensaje puede eliminarlo del buzón de correo del destinatario. "
+"¿Está seguro que quiere hacer esto?"
 
-#: ../plugins/groupwise-features/mail-retract.c:69
+#: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
 msgstr "Mensaje retractado con éxito"
 
-#: ../plugins/groupwise-features/mail-retract.c:81
+#: ../plugins/groupwise-features/mail-retract.c:87
 msgid "Retract Mail"
 msgstr "Retractar correo"
 
@@ -19076,6 +19077,30 @@ msgid ""
 msgstr ""
 "Disponibilidad\n"
 "iCal"
+
+#: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:1
+msgid "Hello Python"
+msgstr "Hello Python"
+
+#: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
+msgid "Python Plugin Loader tests"
+msgstr "Pruebas de carga de los complementos Python"
+
+#: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
+msgid "Python Test Plugin"
+msgstr "Complemento de prueba Python"
+
+#: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
+msgid "Test Plugin for Python EPlugin loader."
+msgstr "Probar el complemento para el cargador Python EPlugin."
+
+#: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
+msgid "A plugin which loads other plugins written using python."
+msgstr "Un complemento que carga otros complementos escritos en Python."
+
+#: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
+msgid "Python Loader"
+msgstr "Cargador de Python"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:108
 msgid "SpamAssassin (built-in)"
