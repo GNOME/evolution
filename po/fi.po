@@ -1,5 +1,5 @@
 # Finnish messages for evolution
-# Copyright (C) 2000-2003 Free Software Foundation, Inc.
+# Copyright (C) 2000-2008 Free Software Foundation, Inc.
 # Jarkko Ranta <jjranta@cc.joensuu.fi> 2000-2001,
 # Sami Pesonen <sampeson@iki.fi> 2001-2003,
 # Ilkka Tuohela <hile@iki.fi> 2003-2008.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-27 14:33+0300\n"
-"PO-Revision-Date: 2008-06-27 14:33+0300\n"
+"PO-Revision-Date: 2008-06-27 15:10+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -365,7 +365,7 @@ msgstr "Uutta yhteystietoa ei voi lisätä"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
-msgstr "Yhteystietoa ei voida siirtää."
+msgstr "Yhteystietoa ei voi siirtää."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Category editor not available."
@@ -505,7 +505,7 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Yrität siirtää yhteystietoa osoitekirjasta toiseen, mutta sitä ei voida "
+"Yrität siirtää yhteystietoa osoitekirjasta toiseen, mutta sitä ei voi "
 "poistaa lähdeosoitekirjasta. Haluatko sen sijaan tallentaa kopion?"
 
 #: ../addressbook/addressbook.error.xml.h:34
@@ -534,7 +534,7 @@ msgstr ""
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
-"Yhteystietoja {0} ei voida käyttää ennen kuin Evolution käynnistetään "
+"Yhteystietoja {0} ei voi käyttää ennen kuin Evolution käynnistetään "
 "uudestaan."
 
 #: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:512
@@ -3575,7 +3575,7 @@ msgid ""
 "an incorrect URI, or the server is unreachable."
 msgstr ""
 "Osoitekirjan avaus epäonnistui. Syötit joko virheellisen URIn tai palvelinta "
-"ei voida tavoittaa."
+"ei voi tavoittaa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:154
 msgid ""
@@ -4015,7 +4015,7 @@ msgstr "Tämän pitäisi testata yhteystiedon tulostuksen koodia"
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
-msgstr "Tiedostoa ei voida avata"
+msgstr "Tiedostoa ei voi avata"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
 msgid "Couldn't get list of addressbooks"
@@ -4120,42 +4120,42 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
-"Kaikki tiedot näissä muistilapuissa poistetaan eikä niitä voida palauttaa."
+"Kaikki tiedot näissä muistilapuissa poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
-"Kaikki tiedot tässä muistilapussa poistetaan eikä niitä voida palauttaa."
+"Kaikki tiedot tässä muistilapussa poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Kaikki tiedot näistä tapaamisista poistetaan eikä niitä voida palauttaa."
+"Kaikki tiedot näistä tapaamisista poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:10
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr "Kaikki tiedot näistä tehtävistä poistetaan eikä niitä voida palauttaa."
+msgstr "Kaikki tiedot näistä tehtävistä poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:11
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
-"Kaikki tiedot tästä tapaamisesta poistetaan eikä niitä voida palauttaa."
+"Kaikki tiedot tästä tapaamisesta poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr "Kaikki tiedot tästä kokouksesta poistetaan eikä niitä voida palauttaa."
+msgstr "Kaikki tiedot tästä kokouksesta poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "All information on this memo will be deleted and can not be restored."
-msgstr "Kaikki tämän muistilapun tiedot poistetaan eikä niitä voida palauttaa."
+msgstr "Kaikki tämän muistilapun tiedot poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "Kaikki tiedot tästä tehtävästä poistetaan eikä niitä voida palauttaa."
+msgstr "Kaikki tiedot tästä tehtävästä poistetaan eikä niitä voi palauttaa."
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -5534,7 +5534,7 @@ msgstr "tapaamisen alkua"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:243
 msgid "Action/Trigger"
-msgstr "Toimenpide/liipasin"
+msgstr "Toimenpide/liipaisin"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
@@ -6050,7 +6050,7 @@ msgstr "Tähän kohtaan tehdyt muutokset voidaan hylätä, jos päivitys saapuu"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3050
 msgid "Unable to use current version!"
-msgstr "Nykyistä versiota ei voida käyttää!"
+msgstr "Nykyistä versiota ei voi käyttää!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:60
 msgid "Could not open source"
@@ -6519,7 +6519,7 @@ msgstr "Lisää poikkeus"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2200
 msgid "Could not get a selection to modify."
-msgstr "Valintaa ei voitu hakea muokattavaksi."
+msgstr "Valintaa ei voi hakea muokattavaksi."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2206
 msgid "Modify exception"
@@ -7611,7 +7611,7 @@ msgstr "Päivitys valmis\n"
 
 #: ../calendar/gui/e-itip-control.c:2014
 msgid "Object is invalid and cannot be updated\n"
-msgstr "Kohde on virheellinen eikä sitä voida päivittää\n"
+msgstr "Kohde on virheellinen eikä sitä voi päivittää\n"
 
 #: ../calendar/gui/e-itip-control.c:2031
 msgid "This response is not from a current attendee.  Add as an attendee?"
@@ -7629,7 +7629,7 @@ msgstr "Läsnäolon tila päivitetty\n"
 #: ../plugins/itip-formatter/itip-formatter.c:1254
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"Läsnäolon tilaa ei voida päivittää, koska kohdetta ei enää ole olemassa"
+"Läsnäolon tilaa ei voi päivittää, koska kohdetta ei enää ole olemassa"
 
 #: ../calendar/gui/e-itip-control.c:2111 ../calendar/gui/e-itip-control.c:2168
 msgid "Item sent!\n"
@@ -10114,7 +10114,7 @@ msgstr "Automaattitallennuksen tiedostoa ei voi avata"
 
 #: ../composer/e-composer-autosave.c:282
 msgid "Unable to retrieve message from editor"
-msgstr "Viestiä ei voida hakea muokkaimelta"
+msgstr "Viestiä ei voi hakea muokkaimelta"
 
 #: ../composer/e-composer-actions.c:46
 msgid "Insert Attachment"
@@ -10386,7 +10386,7 @@ msgstr "Näytä _liitepalkki"
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
-"Lähtevää viestiä ei voida allekirjoittaa: allekirjoitusvarmennetta ei ole "
+"Lähtevää viestiä ei voi allekirjoittaa: allekirjoitusvarmennetta ei ole "
 "asetettu tälle tilille"
 
 #: ../composer/e-msg-composer.c:880
@@ -10394,7 +10394,7 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"Lähtevää viestiä ei voida salata: Salausvarmennetta ei ole asetettu tälle "
+"Lähtevää viestiä ei voi salata: Salausvarmennetta ei ole asetettu tälle "
 "tilille"
 
 #: ../composer/e-msg-composer.c:1501 ../mail/em-format-html-display.c:1914
@@ -10480,7 +10480,7 @@ msgstr "Varmuuskopiotiedostoa &quot;{0}&quot; ei voi tallentaa."
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Directories can not be attached to Messages."
-msgstr "Hakemistoja ei voida liittää viesteihin."
+msgstr "Hakemistoja ei voi liittää viesteihin."
 
 #: ../composer/mail-composer.error.xml.h:13
 msgid "Do you want to recover unfinished messages?"
@@ -10517,7 +10517,7 @@ msgstr "Lähetysasetukset eivät ole saatavilla."
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
-"Tiedosto `{0}' ei ole tavallinen tiedosto eikä sitä voida lähettää viestissä."
+"Tiedosto `{0}' ei ole tavallinen tiedosto eikä sitä voi lähettää viestissä."
 
 #: ../composer/mail-composer.error.xml.h:20
 msgid ""
@@ -11719,7 +11719,7 @@ msgstr "Kopioidaan viestejä kansioon %s"
 
 #: ../mail/em-folder-tree.c:917
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "Viestiä ei voida tiputtaa ylätason taltioon"
+msgstr "Viestiä ei voi tiputtaa ylätason taltioon"
 
 #: ../mail/em-folder-tree.c:994 ../ui/evolution-mail-message.xml.h:105
 msgid "_Copy to Folder"
@@ -11932,7 +11932,7 @@ msgstr "Oletukset"
 
 #: ../mail/em-folder-view.c:2530
 msgid "Unable to retrieve message"
-msgstr "Viestiä ei voida hakea"
+msgstr "Viestiä ei voi hakea"
 
 #: ../mail/em-folder-view.c:2549
 msgid "Retrieving Message..."
@@ -12024,7 +12024,7 @@ msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
-"Tämän viestin allekirjoitusta ei voida tarkistaa, se on ehkä muuttunut "
+"Tämän viestin allekirjoitusta ei voi tarkistaa, se on ehkä muuttunut "
 "siirron aikana."
 
 #: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:653
@@ -12037,7 +12037,7 @@ msgid ""
 "cannot be verified."
 msgstr ""
 "Tämä viesti on allekirjoitettu kelvollisella allekirjoituksella, mutta "
-"viestin lähettäjää ei voida varmistaa."
+"viestin lähettäjää ei voi varmistaa."
 
 #: ../mail/em-format-html-display.c:953 ../mail/em-format-html.c:654
 msgid "Signature exists, but need public key"
@@ -12109,7 +12109,7 @@ msgstr "_Näytä varmenne"
 
 #: ../mail/em-format-html-display.c:1079
 msgid "This certificate is not viewable"
-msgstr "Tätä varmennetta ei voida näyttää"
+msgstr "Tätä varmennetta ei voi näyttää"
 
 #: ../mail/em-format-html-display.c:1372
 msgid "Completed on %B %d, %Y, %l:%M %p"
@@ -12429,7 +12429,7 @@ msgstr ""
 #: ../mail/em-migrate.c:1649
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "Kansiota '%s' ei voida luoda: %s"
+msgstr "Kansiota '%s' ei voi luoda: %s"
 
 #: ../mail/em-migrate.c:1675
 #, c-format
@@ -14607,7 +14607,7 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"Tulostiedostoa ei voida luoda: %s:\n"
+"Tulostiedostoa ei voi luoda: %s:\n"
 "%s"
 
 #: ../mail/mail-ops.c:2169
@@ -14857,62 +14857,62 @@ msgstr "Tyhjä allekirjoitus"
 #: ../mail/mail.error.xml.h:22
 #, fuzzy
 msgid "Cannot add Search Folder \"{0}\"."
-msgstr "Hakunäkymää &quot;{0}&quot; ei voida lisätä."
+msgstr "Hakunäkymää &quot;{0}&quot; ei voi lisätä."
 
 #: ../mail/mail.error.xml.h:23
 #, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Kansiota &quot;{0}&quot; ei voida kopioida kohtaan &quot;{1}&quot;."
+msgstr "Kansiota &quot;{0}&quot; ei voi kopioida kohtaan &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:24
 #, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Kansiota &quot;{0}&quot; ei voida luoda."
+msgstr "Kansiota &quot;{0}&quot; ei voi luoda."
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create temporary save directory."
-msgstr "Väliaikaista hakemistoa ei voida luoda."
+msgstr "Väliaikaista hakemistoa ei voi luoda."
 
 #: ../mail/mail.error.xml.h:26
 #, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Tallennushakemisto ei voida luoda, syy: &quot;{1}&quot;"
+msgstr "Tallennushakemisto ei voi luoda, syy: &quot;{1}&quot;"
 
 #: ../mail/mail.error.xml.h:27
 #, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr "Kansiota &quot;{0}&quot; ei voida poistaa."
+msgstr "Kansiota &quot;{0}&quot; ei voi poistaa."
 
 #: ../mail/mail.error.xml.h:28
 #, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Järjestelmäkansiota &quot;{0}&quot; ei voida poistaa."
+msgstr "Järjestelmäkansiota &quot;{0}&quot; ei voi poistaa."
 
 #: ../mail/mail.error.xml.h:29
 #, fuzzy
 msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgstr ""
-"Hakunäkymää &quot;{0}&quot; ei voida muokata, koska sitä ei ole olemassa."
+"Hakunäkymää &quot;{0}&quot; ei voi muokata, koska sitä ei ole olemassa."
 
 #: ../mail/mail.error.xml.h:30
 #, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Kansiota &quot;{0}&quot; ei voida siirtää  kohtaan &quot;{1}&quot;."
+msgstr "Kansiota &quot;{0}&quot; ei voi siirtää  kohtaan &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:31
 #, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Lähdettä &quot;{1}&quot; ei voida avata."
+msgstr "Lähdettä &quot;{1}&quot; ei voi avata."
 
 #: ../mail/mail.error.xml.h:32
 #, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Lähdettä &quot;{2}&quot; ei voida avata."
+msgstr "Lähdettä &quot;{2}&quot; ei voi avata."
 
 #: ../mail/mail.error.xml.h:33
 #, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Kohdetta &quot;{2}&quot; ei voida avata."
+msgstr "Kohdetta &quot;{2}&quot; ei voi avata."
 
 #: ../mail/mail.error.xml.h:34
 #, fuzzy
@@ -14920,38 +14920,38 @@ msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
 msgstr ""
-"Lisenssitiedostoa &quot;{0}&quot; ei voida lukea asennusongelman takia. Et "
+"Lisenssitiedostoa &quot;{0}&quot; ei voi lukea asennusongelman takia. Et "
 "voi käyttää tätä lähdettä ennen kuin voit hyväksyä lisenssin."
 
 #: ../mail/mail.error.xml.h:35
 #, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "&quot;{0}&quot; ei voida nimetä uudestaan nimelle &quot;{1}&quot;."
+msgstr "&quot;{0}&quot; ei voi nimetä uudestaan nimelle &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:36
 #, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
 msgstr ""
-"Järjestelmäkansiota &quot;{0}&quot; ei voida siirtää tai nimetä uudestaan."
+"Järjestelmäkansiota &quot;{0}&quot; ei voi siirtää tai nimetä uudestaan."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save changes to account."
-msgstr "Muutoksia tiliin ei voida tallentaa."
+msgstr "Muutoksia tiliin ei voi tallentaa."
 
 #: ../mail/mail.error.xml.h:38
 #, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "Hakemistoon &quot;{0}&quot; ei voida tallentaa."
+msgstr "Hakemistoon &quot;{0}&quot; ei voi tallentaa."
 
 #: ../mail/mail.error.xml.h:39
 #, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr "Tiedostoon &quot;{0}&quot; ei voida tallentaa."
+msgstr "Tiedostoon &quot;{0}&quot; ei voi tallentaa."
 
 #: ../mail/mail.error.xml.h:40
 #, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Allekirjoitus-skriptiä &quot;{0}&quot; ei voida asettaa."
+msgstr "Allekirjoitus-skriptiä &quot;{0}&quot; ei voi asettaa."
 
 #: ../mail/mail.error.xml.h:41
 #, fuzzy
@@ -15039,7 +15039,7 @@ msgstr "Virhe suoritettaessa komentoa \"{0}\"."
 
 #: ../mail/mail.error.xml.h:59
 msgid "File exists but cannot overwrite it."
-msgstr "Tiedosto on jo olemassa, mutta sitä ei voida ylikirjoittaa."
+msgstr "Tiedosto on jo olemassa, mutta sitä ei voi ylikirjoittaa."
 
 #: ../mail/mail.error.xml.h:60
 msgid "File exists but is not a regular file."
@@ -15213,7 +15213,7 @@ msgid ""
 "be renamed, moved, or deleted."
 msgstr ""
 "Järjestelmäkansioita tarvitaan, jotta Evolution toimii oikein, eikä niitä "
-"voida nimetä uudestaan, siirtää tai poistaa."
+"voi nimetä uudestaan, siirtää tai poistaa."
 
 #: ../mail/mail.error.xml.h:98
 msgid ""
@@ -15279,13 +15279,13 @@ msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"Viestiä ei voida lähettää, koska viestin lähetykseen valitsemasi tili ei ole "
+"Viestiä ei voi lähettää, koska viestin lähetykseen valitsemasi tili ei ole "
 "käytössä"
 
 #: ../mail/mail.error.xml.h:115
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
-msgstr "Viestiä ei voida lähettää, koska et ole määritellyt vastaanottajia"
+msgstr "Viestiä ei voi lähettää, koska et ole määritellyt vastaanottajia"
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
@@ -16613,11 +16613,11 @@ msgstr "<b>Oikeudet</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "Cannot Delete"
-msgstr "Ei voida poistaa"
+msgstr "Ei voi poistaa"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:3
 msgid "Cannot Edit"
-msgstr "Ei voida muokata"
+msgstr "Ei voi muokata"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Create items"
@@ -16760,7 +16760,7 @@ msgstr "Salasanaa ei voi vaihtaa asetusongelmien takia."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot display folders."
-msgstr "Kansioita ei voida näyttää."
+msgstr "Kansioita ei voi näyttää."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:3
 msgid "Cannot perform the operation."
@@ -17340,7 +17340,7 @@ msgstr "Epäkelpo käyttäjä"
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:2
 #, fuzzy
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Tiedostoon &quot;{0}&quot; ei voida tallentaa."
+msgstr "Tiedostoon &quot;{0}&quot; ei voi tallentaa."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:3
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:2
@@ -17738,7 +17738,7 @@ msgstr "_Synkronoi iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
-msgstr "_iPodin synkronointi"
+msgstr "iPod-synkronointi"
 
 #: ../plugins/itip-formatter/itip-formatter.c:444
 #: ../plugins/itip-formatter/itip-formatter.c:569
@@ -18601,7 +18601,7 @@ msgstr "Sähköposti kokoukselle"
 #: ../plugins/mail-to-task/mail-to-task.c:270
 #, c-format
 msgid "Cannot open calendar. %s"
-msgstr "Kalenteria ei voida avata: %s"
+msgstr "Kalenteria ei voi avata: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:275
 msgid ""
@@ -18822,7 +18822,7 @@ msgstr "Vain nykyinen _kansio"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
-msgstr "Merkitse kaikki _luetuksi"
+msgstr "Merkitse kaikki luetuksi"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
 msgid "Mark Me_ssages as Read"
@@ -23528,7 +23528,7 @@ msgstr "Kahvan ponnahdusikkuna"
 #~ msgstr "Avaa tiedosto"
 
 #~ msgid "Cannot open file &quot;{0}&quot;."
-#~ msgstr "Tiedostoa &quot;{0}&quot; ei voida avata."
+#~ msgstr "Tiedostoa &quot;{0}&quot; ei voi avata."
 
 #~ msgid "Attach original message"
 #~ msgstr "Liitä alkuperäinen viesti"
