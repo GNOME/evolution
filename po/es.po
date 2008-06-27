@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-24 14:29+0000\n"
-"PO-Revision-Date: 2008-06-27 14:41+0200\n"
+"POT-Creation-Date: 2008-06-27 17:24+0000\n"
+"PO-Revision-Date: 2008-06-27 23:33+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -671,10 +671,11 @@ msgstr "En este equipo"
 #: ../addressbook/gui/component/addressbook-migrate.c:507
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../addressbook/gui/widgets/eab-contact-display.c:660
-#: ../calendar/gui/calendar-component.c:248
-#: ../calendar/gui/memos-component.c:209 ../calendar/gui/migration.c:485
-#: ../calendar/gui/migration.c:585 ../calendar/gui/migration.c:1099
-#: ../calendar/gui/tasks-component.c:205 ../mail/em-migrate.c:1055
+#: ../calendar/gui/calendar-component.c:248 ../calendar/gui/caltypes.xml.h:29
+#: ../calendar/gui/memos-component.c:209 ../calendar/gui/memotypes.xml.h:27
+#: ../calendar/gui/migration.c:485 ../calendar/gui/migration.c:585
+#: ../calendar/gui/migration.c:1099 ../calendar/gui/tasks-component.c:205
+#: ../calendar/gui/tasktypes.xml.h:35 ../mail/em-migrate.c:1055
 msgid "Personal"
 msgstr "Privado"
 
@@ -2507,6 +2508,7 @@ msgid "Service"
 msgstr "Servicio"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:121
+#: ../calendar/gui/caltypes.xml.h:25
 #: ../calendar/gui/e-cal-list-view.etspec.h:3 ../mail/message-list.etspec.h:9
 #: ../plugins/publish-calendar/publish-calendar.c:693
 #: ../plugins/save-calendar/csv-format.c:375
@@ -2879,8 +2881,8 @@ msgstr "Correo-e"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../addressbook/gui/widgets/e-addressbook-view.c:162
-#: ../calendar/gui/cal-search-bar.c:77 ../calendar/gui/caltypes.xml.h:1
-#: ../calendar/gui/memotypes.xml.h:1 ../calendar/gui/tasktypes.xml.h:1
+#: ../calendar/gui/cal-search-bar.c:77 ../calendar/gui/caltypes.xml.h:3
+#: ../calendar/gui/memotypes.xml.h:3 ../calendar/gui/tasktypes.xml.h:5
 msgid "Any field contains"
 msgstr "Cualquier campo contiene"
 
@@ -3426,12 +3428,14 @@ msgid "Web Log"
 msgstr "Diario web"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:656
-#: ../calendar/gui/e-calendar-view.c:2355
+#: ../calendar/gui/caltypes.xml.h:6 ../calendar/gui/e-calendar-view.c:2355
+#: ../calendar/gui/memotypes.xml.h:5 ../calendar/gui/tasktypes.xml.h:8
 msgid "Birthday"
 msgstr "Cumpleaños"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:657
-#: ../calendar/gui/e-calendar-view.c:2356
+#: ../calendar/gui/caltypes.xml.h:1 ../calendar/gui/e-calendar-view.c:2356
+#: ../calendar/gui/memotypes.xml.h:1 ../calendar/gui/tasktypes.xml.h:3
 msgid "Anniversary"
 msgstr "Aniversario"
 
@@ -5428,14 +5432,219 @@ msgid "Month View"
 msgstr "Vista mensual"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
-#: ../calendar/gui/tasktypes.xml.h:2
+#: ../calendar/gui/tasktypes.xml.h:4
+msgid "Any Field"
+msgstr "Cualquier campo"
+
+#: ../calendar/gui/caltypes.xml.h:4 ../calendar/gui/memotypes.xml.h:4
+#: ../calendar/gui/tasktypes.xml.h:6 ../mail/em-filter-i18n.h:5
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#: ../calendar/gui/caltypes.xml.h:5
+#: ../calendar/gui/e-meeting-time-sel.etspec.h:1
+#: ../calendar/gui/tasktypes.xml.h:7
+msgid "Attendee"
+msgstr "Participante"
+
+#: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/memotypes.xml.h:6
+#: ../calendar/gui/tasktypes.xml.h:9
+msgid "Business"
+msgstr "Trabajo"
+
+#: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/memotypes.xml.h:7
+#: ../calendar/gui/tasktypes.xml.h:11
+msgid "Category"
+msgstr "Categoría"
+
+#: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/memotypes.xml.h:8
+#: ../widgets/misc/e-send-options.glade.h:6
+msgid "Classification"
+msgstr "Clasificación"
+
+#: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/memotypes.xml.h:9
+#: ../calendar/gui/tasktypes.xml.h:12
+msgid "Competition"
+msgstr "Completado"
+
+#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:255
+#: ../calendar/gui/e-cal-model.c:329 ../calendar/gui/e-calendar-table.c:340
+#: ../calendar/gui/memotypes.xml.h:10
+msgid "Confidential"
+msgstr "Confidencial"
+
+#: ../calendar/gui/caltypes.xml.h:12 ../calendar/gui/memotypes.xml.h:11
+#: ../calendar/gui/tasktypes.xml.h:14
+#: ../plugins/plugin-manager/plugin-manager.c:43
+#: ../widgets/table/e-table-config.glade.h:6
+msgid "Description"
+msgstr "Descripción"
+
+#: ../calendar/gui/caltypes.xml.h:13 ../calendar/gui/memotypes.xml.h:12
+#: ../calendar/gui/tasktypes.xml.h:15
 msgid "Description Contains"
 msgstr "La descripción contiene"
 
-#: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
-#: ../calendar/gui/tasktypes.xml.h:3
+#: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/memotypes.xml.h:13
+#: ../calendar/gui/tasktypes.xml.h:16 ../mail/em-filter-i18n.h:22
+msgid "Do Not Exist"
+msgstr "No existen"
+
+#: ../calendar/gui/caltypes.xml.h:15 ../calendar/gui/memotypes.xml.h:14
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/em-filter-i18n.h:25
+msgid "Exist"
+msgstr "Existen"
+
+#: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:15
+#: ../calendar/gui/tasktypes.xml.h:18
+msgid "Favourites"
+msgstr "Favoritoso"
+
+#: ../calendar/gui/caltypes.xml.h:17 ../calendar/gui/memotypes.xml.h:16
+#: ../calendar/gui/tasktypes.xml.h:19
+msgid "Gifts"
+msgstr "Regalos"
+
+#: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:17
+#: ../calendar/gui/tasktypes.xml.h:20
+msgid "Goals/Objectives"
+msgstr "Objetivos"
+
+#: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/memotypes.xml.h:18
+#: ../calendar/gui/tasktypes.xml.h:22
+msgid "Holiday"
+msgstr "Fiestas"
+
+#: ../calendar/gui/caltypes.xml.h:20 ../calendar/gui/memotypes.xml.h:19
+#: ../calendar/gui/tasktypes.xml.h:23
+msgid "Holiday Cards"
+msgstr "Tarjetas de vacaciones"
+
+#: ../calendar/gui/caltypes.xml.h:21 ../calendar/gui/memotypes.xml.h:20
+#: ../calendar/gui/tasktypes.xml.h:24
+msgid "Hot Contacts"
+msgstr ""
+
+#: ../calendar/gui/caltypes.xml.h:22 ../calendar/gui/memotypes.xml.h:21
+#: ../calendar/gui/tasktypes.xml.h:25
+msgid "Ideas"
+msgstr "Ideas"
+
+#: ../calendar/gui/caltypes.xml.h:23 ../calendar/gui/memotypes.xml.h:22
+#: ../calendar/gui/tasktypes.xml.h:27
+msgid "International"
+msgstr "Internacional"
+
+#: ../calendar/gui/caltypes.xml.h:24 ../calendar/gui/memotypes.xml.h:23
+#: ../calendar/gui/tasktypes.xml.h:28
+msgid "Key Customer"
+msgstr "Cliente clave"
+
+#: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:24
+#: ../calendar/gui/tasktypes.xml.h:30
+msgid "Miscellaneous"
+msgstr "Miscelánea"
+
+#: ../calendar/gui/caltypes.xml.h:27 ../calendar/gui/tasktypes.xml.h:31
+msgid "Next 7 days"
+msgstr "Próximos 7 días"
+
+#: ../calendar/gui/caltypes.xml.h:28
+#: ../calendar/gui/dialogs/meeting-page.glade.h:6
+#: ../calendar/gui/memotypes.xml.h:26 ../calendar/gui/tasktypes.xml.h:34
+msgid "Organizer"
+msgstr "Organizador"
+
+#: ../calendar/gui/caltypes.xml.h:30 ../calendar/gui/memotypes.xml.h:28
+#: ../calendar/gui/tasktypes.xml.h:36
+msgid "Phone Calls"
+msgstr "Llamadas de teléfono"
+
+#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:254
+#: ../calendar/gui/e-cal-model.c:327 ../calendar/gui/e-calendar-table.c:339
+#: ../calendar/gui/memotypes.xml.h:29
+msgid "Private"
+msgstr "Privado"
+
+#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:253
+#: ../calendar/gui/e-cal-model.c:318 ../calendar/gui/e-cal-model.c:325
+#: ../calendar/gui/e-calendar-table.c:338 ../calendar/gui/memotypes.xml.h:30
+msgid "Public"
+msgstr "Público"
+
+#: ../calendar/gui/caltypes.xml.h:33
+#: ../calendar/gui/dialogs/event-editor.c:606
+#: ../ui/evolution-event-editor.xml.h:14
+msgid "Recurrence"
+msgstr "Repetición"
+
+#: ../calendar/gui/caltypes.xml.h:34
+#: ../calendar/gui/e-calendar-table.etspec.h:10
+#: ../calendar/gui/e-meeting-list-view.c:545
+#: ../calendar/gui/e-meeting-time-sel.etspec.h:10
+#: ../calendar/gui/memotypes.xml.h:31 ../calendar/gui/tasktypes.xml.h:38
+#: ../mail/em-filter-i18n.h:70 ../mail/message-list.etspec.h:17
+msgid "Status"
+msgstr "Estado"
+
+#: ../calendar/gui/caltypes.xml.h:35 ../calendar/gui/memotypes.xml.h:32
+#: ../calendar/gui/tasktypes.xml.h:39
+msgid "Strategies"
+msgstr "Estrategias"
+
+#: ../calendar/gui/caltypes.xml.h:36
+#: ../calendar/gui/e-cal-list-view.etspec.h:5
+#: ../calendar/gui/e-calendar-table.etspec.h:11
+#: ../calendar/gui/e-memo-table.etspec.h:4 ../calendar/gui/memotypes.xml.h:33
+#: ../calendar/gui/tasktypes.xml.h:40 ../mail/mail-dialogs.glade.h:20
+#: ../plugins/save-calendar/csv-format.c:361
+msgid "Summary"
+msgstr "Resumen"
+
+#: ../calendar/gui/caltypes.xml.h:37 ../calendar/gui/memotypes.xml.h:34
+#: ../calendar/gui/tasktypes.xml.h:41
 msgid "Summary Contains"
 msgstr "El resumen contiene"
+
+#: ../calendar/gui/caltypes.xml.h:38 ../calendar/gui/memotypes.xml.h:35
+#: ../calendar/gui/tasktypes.xml.h:42
+msgid "Suppliers"
+msgstr "Proveedores"
+
+#: ../calendar/gui/caltypes.xml.h:39 ../calendar/gui/memotypes.xml.h:36
+#: ../calendar/gui/tasktypes.xml.h:43
+msgid "Time &amp; Expenses"
+msgstr "Tiempo y gastos"
+
+#: ../calendar/gui/caltypes.xml.h:40 ../calendar/gui/memotypes.xml.h:37
+#: ../calendar/gui/tasktypes.xml.h:45
+msgid "VIP"
+msgstr "VIP"
+
+#: ../calendar/gui/caltypes.xml.h:41 ../calendar/gui/memotypes.xml.h:38
+#: ../calendar/gui/tasktypes.xml.h:46
+msgid "Waiting"
+msgstr "Esperando"
+
+#: ../calendar/gui/caltypes.xml.h:42 ../calendar/gui/memotypes.xml.h:39
+#: ../calendar/gui/tasktypes.xml.h:47 ../mail/em-filter-i18n.h:10
+msgid "contains"
+msgstr "contiene"
+
+#: ../calendar/gui/caltypes.xml.h:43 ../calendar/gui/memotypes.xml.h:40
+#: ../calendar/gui/tasktypes.xml.h:48 ../mail/em-filter-i18n.h:16
+msgid "does not contain"
+msgstr "no contiene"
+
+#: ../calendar/gui/caltypes.xml.h:44 ../calendar/gui/memotypes.xml.h:41
+#: ../calendar/gui/tasktypes.xml.h:49 ../mail/em-filter-i18n.h:30
+msgid "is"
+msgstr "es"
+
+#: ../calendar/gui/caltypes.xml.h:45 ../calendar/gui/memotypes.xml.h:42
+#: ../calendar/gui/tasktypes.xml.h:52 ../mail/em-filter-i18n.h:36
+msgid "is not"
+msgstr "no es"
 
 #: ../calendar/gui/comp-editor-factory.c:405
 msgid "Error while opening the calendar"
@@ -6173,11 +6382,6 @@ msgstr "Introducir un delegado"
 msgid "Appoint_ment"
 msgstr "_Cita"
 
-#: ../calendar/gui/dialogs/event-editor.c:606
-#: ../ui/evolution-event-editor.xml.h:14
-msgid "Recurrence"
-msgstr "Repetición"
-
 #: ../calendar/gui/dialogs/event-page.c:823
 #: ../calendar/gui/dialogs/event-page.c:2832
 msgid "This event has alarms"
@@ -6368,10 +6572,6 @@ msgstr "Cambiar or_ganizador"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "Co_ntacts..."
 msgstr "_Contactos…"
-
-#: ../calendar/gui/dialogs/meeting-page.glade.h:6
-msgid "Organizer"
-msgstr "Organizador"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:7
 #: ../calendar/gui/e-itip-control.glade.h:7
@@ -6645,13 +6845,15 @@ msgstr "<span weight=\"bold\">Estado</span>"
 #: ../calendar/gui/e-calendar-table.c:234
 #: ../calendar/gui/e-calendar-table.c:435 ../calendar/gui/e-itip-control.c:946
 #: ../calendar/gui/e-meeting-store.c:181 ../calendar/gui/e-meeting-store.c:204
-#: ../calendar/gui/print.c:2520 ../plugins/save-calendar/csv-format.c:365
+#: ../calendar/gui/print.c:2520 ../calendar/gui/tasktypes.xml.h:13
+#: ../plugins/save-calendar/csv-format.c:365
 msgid "Completed"
 msgstr "Terminado"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:271
-#: ../calendar/gui/e-calendar-table.c:360 ../mail/message-list.c:1063
+#: ../calendar/gui/e-calendar-table.c:360 ../calendar/gui/tasktypes.xml.h:21
+#: ../mail/message-list.c:1063
 msgid "High"
 msgstr "Alta"
 
@@ -6667,14 +6869,15 @@ msgstr "En proceso"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:275
-#: ../calendar/gui/e-calendar-table.c:362 ../mail/message-list.c:1061
+#: ../calendar/gui/e-calendar-table.c:362 ../calendar/gui/tasktypes.xml.h:29
+#: ../mail/message-list.c:1061
 msgid "Low"
 msgstr "Baja"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:273
 #: ../calendar/gui/e-cal-model.c:966 ../calendar/gui/e-calendar-table.c:361
-#: ../mail/message-list.c:1062
+#: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1062
 msgid "Normal"
 msgstr "Normal"
 
@@ -6684,6 +6887,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-model-tasks.c:671
 #: ../calendar/gui/e-calendar-table.c:230
 #: ../calendar/gui/e-calendar-table.c:433 ../calendar/gui/print.c:2514
+#: ../calendar/gui/tasktypes.xml.h:33
 msgid "Not Started"
 msgstr "Sin comenzar"
 
@@ -6696,7 +6900,7 @@ msgid "Stat_us:"
 msgstr "_Estado:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
-#: ../calendar/gui/e-calendar-table.c:363
+#: ../calendar/gui/e-calendar-table.c:363 ../calendar/gui/tasktypes.xml.h:44
 msgid "Undefined"
 msgstr "Sin definir"
 
@@ -6886,21 +7090,6 @@ msgstr "Estado:"
 msgid "Priority:"
 msgstr "Prioridad:"
 
-#: ../calendar/gui/e-cal-list-view.c:253 ../calendar/gui/e-cal-model.c:318
-#: ../calendar/gui/e-cal-model.c:325 ../calendar/gui/e-calendar-table.c:338
-msgid "Public"
-msgstr "Público"
-
-#: ../calendar/gui/e-cal-list-view.c:254 ../calendar/gui/e-cal-model.c:327
-#: ../calendar/gui/e-calendar-table.c:339
-msgid "Private"
-msgstr "Privado"
-
-#: ../calendar/gui/e-cal-list-view.c:255 ../calendar/gui/e-cal-model.c:329
-#: ../calendar/gui/e-calendar-table.c:340
-msgid "Confidential"
-msgstr "Confidencial"
-
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
 msgstr "Fecha de terminación"
@@ -6909,13 +7098,6 @@ msgstr "Fecha de terminación"
 #: ../calendar/gui/e-memo-table.etspec.h:3
 msgid "Start Date"
 msgstr "Fecha de inicio"
-
-#: ../calendar/gui/e-cal-list-view.etspec.h:5
-#: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-memo-table.etspec.h:4 ../mail/mail-dialogs.glade.h:20
-#: ../plugins/save-calendar/csv-format.c:361
-msgid "Summary"
-msgstr "Resumen"
 
 #: ../calendar/gui/e-cal-model-calendar.c:183
 #: ../calendar/gui/e-calendar-table.c:412
@@ -7153,6 +7335,7 @@ msgid "Due date"
 msgstr "Fecha de vencimiento"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:8
+#: ../calendar/gui/tasktypes.xml.h:37
 #: ../plugins/save-calendar/csv-format.c:372
 msgid "Priority"
 msgstr "Prioridad"
@@ -7160,13 +7343,6 @@ msgstr "Prioridad"
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
 msgstr "Fecha de inicio"
-
-#: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:545
-#: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:70
-#: ../mail/message-list.etspec.h:17
-msgid "Status"
-msgstr "Estado"
 
 #: ../calendar/gui/e-calendar-view.c:1349
 msgid "Moving items"
@@ -7934,10 +8110,6 @@ msgstr "Hora de _inicio:"
 msgid "_End time:"
 msgstr "Hora de _fin:"
 
-#: ../calendar/gui/e-meeting-time-sel.etspec.h:1
-msgid "Attendee"
-msgstr "Participante"
-
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
 msgstr "Pulse aquí para añadir un participante"
@@ -8247,6 +8419,10 @@ msgstr "Crea una lista de notas nueva"
 #: ../calendar/gui/memos-control.c:353 ../calendar/gui/memos-control.c:369
 msgid "Print Memos"
 msgstr "Imprimir notas"
+
+#: ../calendar/gui/memotypes.xml.h:25
+msgid "Next 7 Days'"
+msgstr "Próximos 7 días"
 
 #: ../calendar/gui/migration.c:157
 msgid ""
@@ -8582,6 +8758,27 @@ msgstr "No me preguntes otra vez."
 #: ../calendar/gui/tasks-control.c:492 ../calendar/gui/tasks-control.c:508
 msgid "Print Tasks"
 msgstr "Imprimir tareas"
+
+#: ../calendar/gui/tasktypes.xml.h:2
+#, no-c-format
+msgid "% Completed"
+msgstr "% terminado"
+
+#: ../calendar/gui/tasktypes.xml.h:10
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#: ../calendar/gui/tasktypes.xml.h:26
+msgid "In progress"
+msgstr "En proceso"
+
+#: ../calendar/gui/tasktypes.xml.h:50 ../mail/em-filter-i18n.h:34
+msgid "is greater than"
+msgstr "es mayor que"
+
+#: ../calendar/gui/tasktypes.xml.h:51 ../mail/em-filter-i18n.h:35
+msgid "is less than"
+msgstr "es menor que"
 
 #: ../calendar/importers/icalendar-importer.c:73
 msgid "Appointments and Meetings"
@@ -11304,10 +11501,6 @@ msgstr "Asignar color"
 msgid "Assign Score"
 msgstr "Asignar puntuación"
 
-#: ../mail/em-filter-i18n.h:5
-msgid "Attachments"
-msgstr "Adjuntos"
-
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
 msgstr "Cco"
@@ -11323,10 +11516,6 @@ msgstr "Cc"
 #: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
 msgstr "Completado en"
-
-#: ../mail/em-filter-i18n.h:10
-msgid "contains"
-msgstr "contiene"
 
 #: ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -11352,10 +11541,6 @@ msgstr "Borrar"
 msgid "Deleted"
 msgstr "Borrado"
 
-#: ../mail/em-filter-i18n.h:16
-msgid "does not contain"
-msgstr "no contiene"
-
 #: ../mail/em-filter-i18n.h:17
 msgid "does not end with"
 msgstr "no acaba en"
@@ -11376,10 +11561,6 @@ msgstr "no suena como"
 msgid "does not start with"
 msgstr "no comienza por"
 
-#: ../mail/em-filter-i18n.h:22
-msgid "Do Not Exist"
-msgstr "No existen"
-
 #: ../mail/em-filter-i18n.h:23
 msgid "Draft"
 msgstr "Borrador"
@@ -11387,10 +11568,6 @@ msgstr "Borrador"
 #: ../mail/em-filter-i18n.h:24
 msgid "ends with"
 msgstr "acaba en"
-
-#: ../mail/em-filter-i18n.h:25
-msgid "Exist"
-msgstr "Existen"
 
 #: ../mail/em-filter-i18n.h:26
 msgid "exists"
@@ -11408,10 +11585,6 @@ msgstr "Seguimiento"
 msgid "Important"
 msgstr "Importante"
 
-#: ../mail/em-filter-i18n.h:30
-msgid "is"
-msgstr "es"
-
 #: ../mail/em-filter-i18n.h:31
 msgid "is after"
 msgstr "es posterior a"
@@ -11423,18 +11596,6 @@ msgstr "es anterior a"
 #: ../mail/em-filter-i18n.h:33
 msgid "is Flagged"
 msgstr "está marcado"
-
-#: ../mail/em-filter-i18n.h:34
-msgid "is greater than"
-msgstr "es mayor que"
-
-#: ../mail/em-filter-i18n.h:35
-msgid "is less than"
-msgstr "es menor que"
-
-#: ../mail/em-filter-i18n.h:36
-msgid "is not"
-msgstr "no es"
 
 #: ../mail/em-filter-i18n.h:37
 msgid "is not Flagged"
@@ -13686,7 +13847,7 @@ msgstr "Nivel de sucesos"
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1808 ../mail/message-list.c:2388
+#: ../mail/mail-component.c:1808 ../mail/message-list.c:2391
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensajes"
@@ -15487,11 +15648,11 @@ msgstr "%b %e %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%e %b %Y"
 
-#: ../mail/message-list.c:3843
+#: ../mail/message-list.c:3840
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
-#: ../mail/message-list.c:4129
+#: ../mail/message-list.c:4126
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15499,7 +15660,7 @@ msgstr ""
 "Ningún mensaje satisface su criterio de búsqueda. Limpie el criterio de "
 "selección con el elemento del menú Buscar->Limpiar o cámbielo."
 
-#: ../mail/message-list.c:4131
+#: ../mail/message-list.c:4128
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -18906,11 +19067,6 @@ msgstr "Com_plementos"
 #: ../plugins/plugin-manager/plugin-manager.c:42
 msgid "Author(s)"
 msgstr "Autores(s)"
-
-#: ../plugins/plugin-manager/plugin-manager.c:43
-#: ../widgets/table/e-table-config.glade.h:6
-msgid "Description"
-msgstr "Descripción"
 
 #: ../plugins/plugin-manager/plugin-manager.c:130
 msgid "Configuration"
@@ -22938,10 +23094,6 @@ msgstr "<b>Seguimiento de estado</b>"
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
 msgstr "_Autoborrar el elemento enviado"
-
-#: ../widgets/misc/e-send-options.glade.h:6
-msgid "Classification"
-msgstr "Clasificación"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
