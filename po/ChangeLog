@@ -1,4 +1,8 @@
-2008-06-05   Clytie Siddall <clytie@riverland.net.au>
+2008-06-27  Timo Jyrinki <timo.jyrinki@iki.fi>
+
+  * fi.po: Update Finnish translation (backport some fixes from trunk)
+
+2008-06-05  Clytie Siddall <clytie@riverland.net.au>
 
 	* vi.po: Updated Vietnamese translation.
 
