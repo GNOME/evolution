@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-27 17:24+0000\n"
-"PO-Revision-Date: 2008-06-27 23:33+0200\n"
+"POT-Creation-Date: 2008-06-27 22:00+0000\n"
+"PO-Revision-Date: 2008-06-28 12:06+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5523,7 +5523,7 @@ msgstr "Tarjetas de vacaciones"
 #: ../calendar/gui/caltypes.xml.h:21 ../calendar/gui/memotypes.xml.h:20
 #: ../calendar/gui/tasktypes.xml.h:24
 msgid "Hot Contacts"
-msgstr ""
+msgstr "Contactos frecuentes"
 
 #: ../calendar/gui/caltypes.xml.h:22 ../calendar/gui/memotypes.xml.h:21
 #: ../calendar/gui/tasktypes.xml.h:25
