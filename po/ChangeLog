@@ -1,3 +1,8 @@
+2008-06-28  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: "Foreported" fixes from the gnome-2-22 branch; credits to
+	Vladimir Melo and myself.
+
 2008-06-28 Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
@@ -12,7 +17,7 @@
 
 2008-06-27  Timo Jyrinki  <timo.jyrinki@iki.fi>
 
-  * fi.po: Fixes to existing translations and some new translations.
+	* fi.po: Fixes to existing translations and some new translations.
 
 2008-06-24  Johnny Jacob  <jjohnny@novell.com>
 
