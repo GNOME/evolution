@@ -1,3 +1,12 @@
+2008-06-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Committed on behalf of PC Radhika <pradhika@novell.com>
+	
+	Fixes #536280, 507372.
+	* C/figures/exchng-rec-mails.png: Updated figure exchng-rec-mails.png.
+	
+	* C/evolution.xml : Updated the doc for new field Mailbox. 
+
 2008-04-06  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
 
 	* ru/ru.po: Updated Russian translation by Sergey Mironov <sergo@bk.ru>
