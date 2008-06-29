@@ -427,6 +427,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	char *at, *user;
 	gboolean valid = FALSE;
 	ExchangeParams *exchange_params;
+	GtkWidget *mailbox_entry = g_object_get_data (G_OBJECT (button), "mailbox-entry");
 
 	exchange_params = g_new0 (ExchangeParams, 1);
 	exchange_params->host = NULL;
@@ -468,6 +469,9 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	/* Supress the trailing slash */
 	key [strlen(key) -1] = 0;
 
+	/* set the mailbox before function call to let it use our, not create one */
+	exchange_params->mailbox = g_strdup (camel_url_get_param (url, "mailbox"));
+
 	valid =  e2k_validate_user (owa_url, key, &url->user, exchange_params,
 						&remember_password, &result,
 						GTK_WINDOW (gtk_widget_get_toplevel (button)));
@@ -485,6 +489,12 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	camel_url_set_param (url, "ad_server", valid ? exchange_params->ad_server: NULL);
 	camel_url_set_param (url, "mailbox", valid ? exchange_params->mailbox : NULL);
 	camel_url_set_param (url, "owa_path", valid ? exchange_params->owa_path : NULL);
+
+	if (mailbox_entry) {
+		const char *par = camel_url_get_param (url, "mailbox");
+
+		gtk_entry_set_text (GTK_ENTRY (mailbox_entry), par ? par : "");
+	}
 
 	g_free (exchange_params->owa_path);
 	g_free (exchange_params->mailbox);
@@ -543,6 +553,46 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 	camel_url_free (url);
 }
 
+static void
+update_mailbox_param_in_url (EAccount *account, e_account_item_t item, const char *mailbox)
+{
+	CamelURL *url;
+	char *url_string;
+	const char *target_url;
+
+	if (!account)
+		return;
+
+	target_url = e_account_get_string (account, item);
+	if (target_url && target_url[0] != '\0')
+		url = camel_url_new (target_url, NULL);
+	else
+		return;
+
+	if (mailbox && *mailbox)
+		camel_url_set_param (url, "mailbox", mailbox);
+	else
+		camel_url_set_param (url, "mailbox", NULL);
+
+	url_string = camel_url_to_string (url, 0);
+	e_account_set_string (account, item, url_string);
+	g_free (url_string);
+	camel_url_free (url);
+}
+
+static void
+mailbox_editor_entry_changed (GtkWidget *entry, EConfig *config)
+{
+	EMConfigTargetAccount *target;
+	const char *mailbox;
+
+	target = (EMConfigTargetAccount *)config->target;
+	mailbox = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	update_mailbox_param_in_url (target->account, E_ACCOUNT_SOURCE_URL, mailbox);
+	update_mailbox_param_in_url (target->account, E_ACCOUNT_TRANSPORT_URL, mailbox);
+}
+
 static char *
 construct_owa_url (CamelURL *url)
 {
@@ -575,8 +625,8 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	const char *source_url;
-	char *owa_url = NULL;
-	GtkWidget *owa_entry;
+	char *owa_url = NULL, *mailbox_name;
+	GtkWidget *owa_entry, *mailbox_entry;
 	CamelURL *url;
 	int row;
 	GtkWidget *hbox, *label, *button;
@@ -608,6 +658,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	owa_url = g_strdup (camel_url_get_param(url, "owa_url"));
+	mailbox_name = g_strdup (camel_url_get_param (url, "mailbox"));
 
 	/* if the host is null, then user+other info is dropped silently, force it to be kept */
 	if (url->host == NULL) {
@@ -668,7 +719,26 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* check for correctness of the input in the owa_entry */
 	owa_editor_entry_changed (owa_entry, data->config);
 
+	row++;
+	label = gtk_label_new_with_mnemonic (_("_Mailbox:"));
+	gtk_widget_show (label);
+
+	mailbox_entry = gtk_entry_new ();
+	gtk_widget_show (mailbox_entry);
+	if (mailbox_name)
+		gtk_entry_set_text (GTK_ENTRY (mailbox_entry), mailbox_name);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mailbox_entry);
+
+	g_signal_connect (mailbox_entry, "changed", G_CALLBACK (mailbox_editor_entry_changed), data->config);
+	g_object_set_data (G_OBJECT (button), "mailbox-entry", mailbox_entry);
+
+	gtk_table_attach (GTK_TABLE (data->parent), label, 0, 1, row, row+1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (data->parent), mailbox_entry, 1, 2, row, row+1, GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0);
+
 	g_free (owa_url);
+	g_free (mailbox_name);
+
 	return hbox;
 }
 
