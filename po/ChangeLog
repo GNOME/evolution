@@ -1,3 +1,8 @@
+2008-06-29  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Another "foreport" of Brazilian Portuguese translation.
+	Updated the translation and improved some accelerators keys.
+
 2008-06-28  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
 
 	* pt_BR.po: "Foreported" fixes from the gnome-2-22 branch; credits to
