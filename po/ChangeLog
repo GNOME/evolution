@@ -1,6 +1,15 @@
+2008-06-29  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Updated Brazilian Portuguese translation.
+
+2008-06-28  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Improved Brazilian Portuguese translation by Vladimir Melo
+	and myself.
+
 2008-06-27  Timo Jyrinki <timo.jyrinki@iki.fi>
 
-  * fi.po: Update Finnish translation (backport some fixes from trunk)
+	* fi.po: Update Finnish translation (backport some fixes from trunk)
 
 2008-06-05  Clytie Siddall <clytie@riverland.net.au>
 
