@@ -62,9 +62,11 @@ static void
 backup (const char *filename)
 {
 	char *command;
+	char *quotedfname;
 
 	g_return_if_fail (filename && *filename);
-
+	quotedfname = g_shell_quote(filename);
+	
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
@@ -81,9 +83,10 @@ backup (const char *filename)
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
-	command = g_strdup_printf ("cd $HOME && tar cf - .evolution .camel_certs | gzip > %s", filename);
+	command = g_strdup_printf ("cd $HOME && tar cf - .evolution .camel_certs | gzip > %s", quotedfname);
 	s (command);
 	g_free (command);
+	g_free (quotedfname);
 
 	txt = _("Backup complete");
 
@@ -102,9 +105,11 @@ static void
 restore (const char *filename)
 {
 	char *command;
-
+	char *quotedfname;
+	
 	g_return_if_fail (filename && *filename);
-
+	quotedfname = g_shell_quote(filename);
+	
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
@@ -117,9 +122,10 @@ restore (const char *filename)
 
 	CANCEL (complete);
 	txt = _("Extracting files from backup");
-	command = g_strdup_printf ("cd $HOME && gzip -cd %s| tar xf -", filename);
+	command = g_strdup_printf ("cd $HOME && gzip -cd %s| tar xf -", quotedfname);
 	s (command);
 	g_free (command);
+	g_free (quotedfname);
 
 	CANCEL (complete);
 	txt = _("Loading Evolution settings");
@@ -144,10 +150,12 @@ static void
 check (const char *filename)
 {
 	char *command;
+	char *quotedfname;
 
 	g_return_if_fail (filename && *filename);
-
-	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", filename);
+	quotedfname = g_shell_quote(filename);
+	
+	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", quotedfname);
 	result = system (command);
 	g_free (command);
 
@@ -155,10 +163,11 @@ check (const char *filename)
 	if (result)
 		exit (result);
 
-	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/%s$\"", filename, GCONF_DUMP_FILE);
+	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/%s$\"", quotedfname, GCONF_DUMP_FILE);
 	result = system (command);
 	g_free (command);
-
+	g_free (quotedfname);
+	
 	g_message ("Second result %d", result);
 
 }
