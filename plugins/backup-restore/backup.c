@@ -72,6 +72,8 @@ backup (const char *filename)
 	/* FIXME Will the versioned setting always work? */
 	s (EVOLUTION " --force-shutdown");
 
+	s ("rm $HOME/.evolution/.running");
+
 	CANCEL (complete);
 	txt = _("Backing Evolution accounts and settings");
 	s ("gconftool-2 --dump " GCONF_DIR " > " GCONF_DUMP_PATH);
@@ -136,6 +138,7 @@ restore (const char *filename)
 	s ("rm -rf " GCONF_DUMP_PATH);
 	s ("rm -rf " EVOLUTION_DIR_BACKUP);
 	s ("rm -rf $HOME/.camel_certs_old");
+	s ("rm $HOME/.evolution/.running");
 
 	if (restart_arg) {
 		CANCEL (complete);

@@ -1,3 +1,11 @@
+2008-06-30  Milan Crha <mcrha@redhat.com>
+
+	** Fix for bug #536488
+
+	* backup.c: (backup), (restore): Remove '~/.evolution/.running'
+	file before backup/after restore, thus Evolution will not claim
+	next start it was closed incorrectly.
+
 2008-06-30  Tobias Mueller  <muelli@auftrags-killer.org>
 
 	** Fix for bug #540516
