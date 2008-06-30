@@ -232,6 +232,19 @@ composer_post_header_dispose (GObject *object)
 }
 
 static void
+composer_post_header_finalize (GObject *object)
+{
+	EComposerPostHeaderPrivate *priv;
+
+	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
+
+	g_free (priv->base_url);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 composer_post_header_class_init (EComposerPostHeaderClass *class)
 {
 	GObjectClass *object_class;
@@ -244,6 +257,7 @@ composer_post_header_class_init (EComposerPostHeaderClass *class)
 	object_class->set_property = composer_post_header_set_property;
 	object_class->get_property = composer_post_header_get_property;
 	object_class->dispose = composer_post_header_dispose;
+	object_class->finalize = composer_post_header_finalize;
 
 	g_object_class_install_property (
 		object_class,

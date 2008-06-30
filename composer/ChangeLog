@@ -1,3 +1,8 @@
+2008-06-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-composer-post-header.c (composer_post_header_finalize):
+	Add a finalize() method to free priv->base_url, which was leaking.
+
 2008-06-21  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #310988
