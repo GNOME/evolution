@@ -131,3 +131,5 @@ DOC_FIGURES =  \
 
 DOC_LINGUAS = cs de el en_GB es fr oc ru sv mk
 
+check:
+	xmllint --valid --noout $(top_srcdir)/help/C/evolution.xml

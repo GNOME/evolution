@@ -1,3 +1,13 @@
+2008-06-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Run xmllint on C/evolution.xml when building with "make check"
+	or "make distcheck".  Should hopefully prevent any more invalid
+	DocBook syntax from slipping into releases.
+
+	* C/evolution.xml:
+	Fix some issues that xmllint caught.
+
 2008-06-27 Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation
