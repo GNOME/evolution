@@ -1,3 +1,9 @@
+2008-06-30  Srinivasa Ragavan <sragavan@novell.com?
+
+	** Fix for bug #540918 from  Götz Waschk
+
+	* C/evolution.xml: Fix doc issues.
+
 2008-06-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Committed on behalf of PC Radhika <pradhika@novell.com>

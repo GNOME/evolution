@@ -150,7 +150,8 @@
 
  <chapter id="usage-mainwindow">
   <title>Getting Started</title>
-  <para>Evolution is a highly evolved<link linkend=\"groupware\">groupware</link> application that makes it easy to store, organize, and retrieve your personal information. Evolution seamlessly combines e-mail, a calendar, an address book, and a task list in one easy-to-use application. You can read and manage your mail and events locally or on a network and thus handle the daily communication more effectively.</para>
+  <para>Evolution is a highly evolved<link linkend="groupware">groupware</link> application that makes it easy to store, organize, and retrieve your personal information. Evolution seamlessly combines e-mail, a calendar, an address book, and a task list in one easy-to-use application. You can read and manage your mail and events locally or on a network and thus handle the daily communication more effectively.</para>
+   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link></para>
    </listitem>
