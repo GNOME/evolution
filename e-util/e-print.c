@@ -25,105 +25,125 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
 
-#define PRINTING "/apps/evolution/shell/printing"
+#include "e-util.h"
 
-static void
-pack_settings (const gchar *key, const gchar *value, GSList **p_list)
+/* XXX Would be better if GtkPrint exposed these. */
+#define PAGE_SETUP_GROUP_NAME		"Page Setup"
+#define PRINT_SETTINGS_GROUP_NAME	"Print Settings"
+
+static gchar *
+key_file_get_filename (void)
 {
-	gchar *item;
-	item = g_strdup_printf ("%s=%s", key, value);
-	*p_list = g_slist_prepend (*p_list, item);
+	return g_build_filename (e_get_user_data_dir (), "printing", NULL);
 }
 
 static void
-unpack_settings (gchar *item, GtkPrintSettings *settings)
+load_key_file (GKeyFile *key_file)
 {
-	gchar *cp, *key, *value;
-	cp = strchr (item, '=');
-	if (cp == NULL)
-		return;
-	*cp ++ = '\0';
-	key = g_strstrip (item);
-	value = g_strstrip (cp);
-	gtk_print_settings_set (settings, key, value);
-	g_free (item);
-}
-
-static GtkPrintSettings *
-load_settings (void)
-{
-	GConfClient *client;
-	GtkPrintSettings *settings;
-	GSList *list;
+	gchar *filename;
 	GError *error = NULL;
 
-	client = gconf_client_get_default ();
-	settings = gtk_print_settings_new ();
+	filename = key_file_get_filename ();
 
-	list = gconf_client_get_list (
-		client, PRINTING, GCONF_VALUE_STRING, &error);
-	if (error == NULL) {
-		g_slist_foreach (list, (GFunc) unpack_settings, settings);
-		g_slist_free (list);
-	} else {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+		goto exit;
+
+	g_key_file_load_from_file (
+		key_file, filename, G_KEY_FILE_KEEP_COMMENTS |
+		G_KEY_FILE_KEEP_TRANSLATIONS, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
 
-	g_object_unref (client);
+exit:
+	g_free (filename);
+}
+
+static void
+save_key_file (GKeyFile *key_file)
+{
+	gchar *contents;
+	gchar *filename;
+	gsize length;
+	GError *error = NULL;
+
+	filename = key_file_get_filename ();
+	contents = g_key_file_to_data (key_file, &length, NULL);
+
+	g_file_set_contents (filename, contents, length, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_free (contents);
+	g_free (filename);
+}
+
+static GtkPrintSettings *
+load_settings (GKeyFile *key_file)
+{
+	GtkPrintSettings *settings;
+	GError *error = NULL;
+
+	/* XXX Use gtk_print_settings_load_key_file() here once
+	 *     GTK+ 2.14 becomes available. */
+
+	if (!g_key_file_has_group (key_file, PRINT_SETTINGS_GROUP_NAME))
+		return gtk_print_settings_new ();
+
+	settings = gtk_print_settings_new_from_key_file (
+		key_file, NULL, &error);
+
+	if (error != NULL) {
+		settings = gtk_print_settings_new ();
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 
 	return settings;
 }
 
 static void
-save_settings (GtkPrintSettings *settings)
+save_settings (GtkPrintSettings *settings,
+               GKeyFile *key_file)
 {
-	GConfClient *client;
-	GSList *list = NULL;
-	GError *error = NULL;
-
-	client = gconf_client_get_default ();
-
-	gtk_print_settings_foreach (
-		settings, (GtkPrintSettingsFunc) pack_settings, &list);
-	gconf_client_set_list (
-		client, PRINTING, GCONF_VALUE_STRING, list, &error);
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
-	g_slist_foreach (list, (GFunc) g_free, NULL);
-	g_slist_free (list);
-
-	g_object_unref (client);
+	gtk_print_settings_to_key_file (settings, key_file, NULL);
 }
 
 static GtkPageSetup *
-load_page_setup (GtkPrintSettings *settings)
+load_page_setup (GKeyFile *key_file)
 {
 	GtkPageSetup *page_setup;
-	GtkPaperSize *paper_size;
+	GError *error = NULL;
 
-	page_setup = gtk_page_setup_new ();
-	gtk_page_setup_set_orientation (
-		page_setup, gtk_print_settings_get_orientation (settings));
-	paper_size = gtk_print_settings_get_paper_size (settings);
-	if (paper_size != NULL)
-		gtk_page_setup_set_paper_size_and_default_margins (
-			page_setup, paper_size);
+	/* XXX Use gtk_page_setup_load_key_file() here once
+	 *     GTK+ 2.14 becomes available. */
+
+	if (!g_key_file_has_group (key_file, PAGE_SETUP_GROUP_NAME))
+		return gtk_page_setup_new ();
+
+	page_setup = gtk_page_setup_new_from_key_file (
+		key_file, NULL, &error);
+
+	if (error != NULL) {
+		page_setup = gtk_page_setup_new ();
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 
 	return page_setup;
 }
 
 static void
-save_page_setup (GtkPrintSettings *settings, GtkPageSetup *page_setup)
+save_page_setup (GtkPageSetup *page_setup,
+                 GKeyFile *key_file)
 {
-	gtk_print_settings_set_orientation (
-		settings, gtk_page_setup_get_orientation (page_setup));
-	gtk_print_settings_set_paper_size (
-		settings, gtk_page_setup_get_paper_size (page_setup));
+	gtk_page_setup_to_key_file (page_setup, key_file, NULL);
 }
 
 static void
@@ -160,16 +180,21 @@ handle_error (GtkPrintOperation *operation)
 }
 
 static void
-print_done_cb (GtkPrintOperation *operation, GtkPrintOperationResult result)
+print_done_cb (GtkPrintOperation *operation,
+               GtkPrintOperationResult result,
+               GKeyFile *key_file)
 {
 	GtkPrintSettings *settings;
 
 	settings = gtk_print_operation_get_print_settings (operation);
 
 	if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
-		save_settings (settings);
+		save_settings (settings, key_file);
 	if (result == GTK_PRINT_OPERATION_RESULT_ERROR)
 		handle_error (operation);
+
+	save_key_file (key_file);
+	g_key_file_free (key_file);
 }
 
 GtkPrintOperation *
@@ -177,14 +202,25 @@ e_print_operation_new (void)
 {
 	GtkPrintOperation *operation;
 	GtkPrintSettings *settings;
+	GtkPageSetup *page_setup;
+	GKeyFile *key_file;
 
 	operation = gtk_print_operation_new ();
 
-	settings = load_settings ();
+	key_file = g_key_file_new ();
+	load_key_file (key_file);
+
+	settings = load_settings (key_file);
 	gtk_print_operation_set_print_settings (operation, settings);
 	g_object_unref (settings);
 
-	g_signal_connect (operation, "done", G_CALLBACK (print_done_cb), NULL);
+	page_setup = load_page_setup (key_file);
+	gtk_print_operation_set_default_page_setup (operation, page_setup);
+	g_object_unref (page_setup);
+
+	g_signal_connect (
+		operation, "done",
+		G_CALLBACK (print_done_cb), key_file);
 
 	return operation;
 }
@@ -195,15 +231,22 @@ e_print_run_page_setup_dialog (GtkWindow *parent)
 	GtkPageSetup *new_page_setup;
 	GtkPageSetup *old_page_setup;
 	GtkPrintSettings *settings;
+	GKeyFile *key_file;
 
-	settings = load_settings ();
-	old_page_setup = load_page_setup (settings);
+	key_file = g_key_file_new ();
+	load_key_file (key_file);
+
+	settings = load_settings (key_file);
+	old_page_setup = load_page_setup (key_file);
 	new_page_setup = gtk_print_run_page_setup_dialog (
 		parent, old_page_setup, settings);
-	save_page_setup (settings, new_page_setup);
-	save_settings (settings);
+	save_page_setup (new_page_setup, key_file);
+	save_settings (settings, key_file);
 
 	g_object_unref (new_page_setup);
 	g_object_unref (old_page_setup);
 	g_object_unref (settings);
+
+	save_key_file (key_file);
+	g_key_file_free (key_file);
 }

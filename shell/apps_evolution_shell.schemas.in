@@ -229,19 +229,6 @@
       </locale>
     </schema>
 
-    <!-- Print settings -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/printing</key>
-      <applyto>/apps/evolution/shell/printing</applyto>
-      <owner>evolution</owner>
-      <type>list</type>
-      <list_type>string</list_type>
-      <locale name="C">
-        <long>A string description of the current printer settings.</long>
-      </locale>
-    </schema>
-
     <!-- Network config defaults -->
 
     <schema>
