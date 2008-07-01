@@ -474,6 +474,7 @@ ep_load(const char *filename, int load_level)
 					ep->flags |= E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
 				else
 					ep->flags &= ~E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
+				g_free (is_system_plugin);
 
 				pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
 				cache |= (ep->hooks_pending != NULL);

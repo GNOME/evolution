@@ -1,3 +1,9 @@
+2008-07-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #540972
+
+	* e-plugin.c: (ep_load): Small memory leak fix.
+
 2008-06-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #509595
