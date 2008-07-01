@@ -12,6 +12,12 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-util.h>
 
+#include <libebook/e-book.h>
+#include <libecal/e-cal.h>
+#include <libedataserver/e-account.h>
+#include <libedataserver/e-account-list.h>
+#include "e-util/e-util.h"
+
 #define EVOLUTION "evolution"
 #define EVOLUTION_DIR "$HOME/.evolution/"
 #define EVOLUTION_DIR_BACKUP "$HOME/.evolution-old/"
@@ -53,10 +59,38 @@ static const GOptionEntry options[] = {
 
 #define d(x) x
 
-/* #define s(x) system (x) */
-#define s(x) G_STMT_START { g_message (x); system (x); } G_STMT_END
+#define rc(x) G_STMT_START { g_message (x); system (x); } G_STMT_END
 
 #define CANCEL(x) if (x) return;
+
+static void
+s (const char *cmd)
+{
+	if (!cmd)
+		return;
+
+	if (strstr (cmd, "$HOME") != NULL) {
+		/* read the doc for g_get_home_dir to know why replacing it here */
+		const char *home = g_get_home_dir ();
+		const char *p, *next;
+		GString *str = g_string_new ("");
+
+		p = cmd;
+		while (next = strstr (p, "$HOME"), next) {
+			if (p + 1 < next)
+				g_string_append_len (str, p, next - p);
+			g_string_append (str, home);
+
+			p = next + 5;
+		}
+
+		g_string_append (str, p);
+
+		rc (str->str);
+		g_string_free (str, TRUE);
+	} else
+		rc (cmd);
+}
 
 static void
 backup (const char *filename)
@@ -104,10 +138,97 @@ backup (const char *filename)
 }
 
 static void
+ensure_locals (ESourceList *source_list, const char *base_dir)
+{
+	GSList *groups, *sources;
+
+	if (!source_list)
+		return;
+
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
+		char *base_filename, *base_uri;
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+
+		if (!group || !e_source_group_peek_base_uri (group) || !g_str_has_prefix (e_source_group_peek_base_uri (group), "file://"))
+			continue;
+
+		base_filename = g_build_filename (base_dir, "local", NULL);
+		base_uri = g_filename_to_uri (base_filename, NULL, NULL);
+
+		if (base_uri && !g_str_equal (base_uri, e_source_group_peek_base_uri (group))) {
+			/* groups base_uri differs from the new one, maybe users imports
+			   to the account with different user name, thus fixing this */
+			e_source_group_set_base_uri (group, base_uri);
+		}
+
+		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+			ESource *source = E_SOURCE (sources->data);
+
+			if (!source || !e_source_peek_absolute_uri (source))
+				continue;
+
+			if (!g_str_has_prefix (e_source_peek_absolute_uri (source), base_uri)) {
+				char *abs_uri = e_source_build_absolute_uri (source);
+
+				e_source_set_absolute_uri (source, abs_uri);
+				g_free (abs_uri);
+			}
+		}
+
+		g_free (base_filename);
+		g_free (base_uri);
+	}
+}
+
+/* returns whether changed the item */
+static gboolean
+fix_account_folder_uri (EAccount *account, e_account_item_t item, const char *base_dir)
+{
+	gboolean changed = FALSE;
+	const char *uri;
+
+	/* the base_dir should always contain that part, so just a sanity check */
+	if (!account || !base_dir || strstr (base_dir, "/.evolution/mail/local") == NULL)
+		return FALSE;
+
+	uri = e_account_get_string (account, item);
+	if (uri && strstr (uri, "/.evolution/mail/local") != NULL) {
+		const char *path = strchr (uri, ':') + 1;
+
+		if (!g_str_has_prefix (path, base_dir)) {
+			GString *new_uri = g_string_new ("");
+
+			/* prefix, like "mbox:" */
+			g_string_append_len (new_uri, uri, path - uri);
+			/* middle, changing old patch with new path  */
+			g_string_append_len (new_uri, base_dir, strstr (base_dir, "/.evolution/mail/local") - base_dir);
+			/* sufix, the rest beginning with "/.evolution/..." */
+			g_string_append (new_uri, strstr (uri, "/.evolution/mail/local"));
+
+			changed = TRUE;
+			e_account_set_string (account, item, new_uri->str);
+			g_string_free (new_uri, TRUE);
+		}
+	}
+
+	return changed;
+}
+
+static void
 restore (const char *filename)
 {
+	struct _calendars { ECalSourceType type; const char *dir; } 
+		calendars[] = {
+			{ E_CAL_SOURCE_TYPE_EVENT,   "calendar"},
+			{ E_CAL_SOURCE_TYPE_TODO,    "tasks"},
+			{ E_CAL_SOURCE_TYPE_JOURNAL, "memos"},
+			{ E_CAL_SOURCE_TYPE_LAST,    NULL} };
+	int i;
 	char *command;
 	char *quotedfname;
+	ESourceList *sources = NULL;
+	EAccountList *accounts;
+	GConfClient *gconf;
 	
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
@@ -139,6 +260,59 @@ restore (const char *filename)
 	s ("rm -rf " EVOLUTION_DIR_BACKUP);
 	s ("rm -rf $HOME/.camel_certs_old");
 	s ("rm $HOME/.evolution/.running");
+
+	CANCEL (complete);
+	txt = _("Ensuring local sources");
+
+	if (e_book_get_addressbooks (&sources, NULL)) {
+		char *base_dir = g_build_filename (e_get_user_data_dir (), "addressbook", NULL);
+
+		ensure_locals (sources, base_dir);
+		g_object_unref (sources);
+		sources = NULL;
+
+		g_free (base_dir);
+	}
+
+	for (i = 0; calendars[i].dir; i++) {
+		if (e_cal_get_sources (&sources, calendars [i].type, NULL)) {
+			char *base_dir = g_build_filename (e_get_user_data_dir (), calendars [i].dir, NULL);
+
+			ensure_locals (sources, base_dir);
+			g_object_unref (sources);
+			sources = NULL;
+
+			g_free (base_dir);
+		}
+	}
+
+	gconf = gconf_client_get_default ();
+	accounts = e_account_list_new (gconf);
+
+	if (accounts) {
+		gboolean changed = FALSE;
+		char *base_dir = g_build_filename (e_get_user_data_dir (), "mail", "local", NULL);
+		EIterator *it;
+
+		for (it = e_list_get_iterator (E_LIST (accounts)); e_iterator_is_valid (it); e_iterator_next (it)) {
+			/* why does this return a 'const' object?!? */
+			EAccount *account = (EAccount *) e_iterator_get (it);
+
+			if (account) {
+				changed = fix_account_folder_uri (account, E_ACCOUNT_DRAFTS_FOLDER_URI, base_dir) || changed;
+				changed = fix_account_folder_uri (account, E_ACCOUNT_SENT_FOLDER_URI, base_dir) || changed;
+			}
+		}
+
+		if (changed)
+			e_account_list_save (accounts);
+
+		g_object_unref (it);
+		g_object_unref (accounts);
+		g_free (base_dir);
+	}
+
+	g_object_unref (gconf);
 
 	if (restart_arg) {
 		CANCEL (complete);

@@ -22,7 +22,11 @@ liborg_gnome_backup_restore_la_LDFLAGS = -module -avoid-version
 
 privlibexec_PROGRAMS = evolution-backup
 evolution_backup_SOURCES = backup.c
-evolution_backup_LDADD = $(SHELL_LIBS)
+evolution_backup_LDADD = $(SHELL_LIBS)		\
+	$(EVOLUTION_CALENDAR_LIBS)		\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)		\
+	$(top_builddir)/e-util/libeutil.la
+
 
 EXTRA_DIST = 					\
 	org-gnome-backup-restore.eplug.xml	\

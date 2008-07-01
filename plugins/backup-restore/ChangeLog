@@ -1,3 +1,14 @@
+2008-07-01  Milan Crha <mcrha@redhat.com>
+
+	** Fix for bug #540274
+
+	* Makefile.am: Link with libraries we require now.
+	* backup.c: (rc), (s): Exchange $HOME with g_get_home_dir in commands.
+	* backup.c: (ensure_locals), (fix_account_folder_uri), (restore):
+	After restore walk through all account, addressbook, calendar, task
+	and memo sources and fix the base uri if required. (One should be able
+	to import also into different user than one where the backup was done.)
+
 2008-06-30  Milan Crha <mcrha@redhat.com>
 
 	** Fix for bug #536488
