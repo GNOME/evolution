@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-31 22:25+0000\n"
-"PO-Revision-Date: 2008-03-07 10:34+0100\n"
+"PO-Revision-Date: 2008-06-02 11:27+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -834,7 +834,7 @@ msgstr "Glossari"
 
 #: C/evolution.xml:148(title)
 msgid "Additional Documentation:"
-msgstr ""
+msgstr "Documentacion suplementària :"
 
 #: C/evolution.xml:149(para)
 msgid "You can find additional help in three places:"
@@ -4954,7 +4954,7 @@ msgstr "Estatut"
 
 #: C/evolution.xml:2442(para)
 msgid "Custom"
-msgstr "Personalisat"
+msgstr "Personalizat"
 
 #: C/evolution.xml:2446(para)
 msgid ""
@@ -5257,7 +5257,7 @@ msgstr "Pus tard"
 
 #: C/evolution.xml:2581(para)
 msgid "Read Messages"
-msgstr ""
+msgstr "Messatges legits"
 
 #: C/evolution.xml:2584(para)
 msgid "Recent Messages"
@@ -6476,7 +6476,7 @@ msgstr ""
 
 #: C/evolution.xml:3316(para) C/evolution.xml:4704(para)
 msgid "Favorites"
-msgstr "Favorits"
+msgstr "Marca-paginas"
 
 #: C/evolution.xml:3319(para) C/evolution.xml:4161(para)
 #: C/evolution.xml:4511(para) C/evolution.xml:4707(para)
@@ -7810,7 +7810,7 @@ msgstr "Rendètz-voses pel 7 jorns que venon"
 
 #: C/evolution.xml:4158(para) C/evolution.xml:4508(para)
 msgid "Favourites"
-msgstr "Favorits"
+msgstr "Marca-paginas"
 
 #: C/evolution.xml:4167(para) C/evolution.xml:4517(para)
 #: C/evolution.xml:4713(para)
@@ -8171,7 +8171,7 @@ msgstr ""
 
 #: C/evolution.xml:4490(para)
 msgid "Completed Tasks"
-msgstr ""
+msgstr "Prètzfaches acabats"
 
 #: C/evolution.xml:4493(para)
 msgid "Tasks With Attachments"
@@ -12391,7 +12391,7 @@ msgstr "Novell, Inc."
 
 #: C/evolution.xml:7346(member)
 msgid "404 Wyman Street, Suite 500"
-msgstr ""
+msgstr "404 Wyman Street, Suite 500"
 
 #: C/evolution.xml:7347(member)
 msgid "Waltham, MA 02451"
