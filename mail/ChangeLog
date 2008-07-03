@@ -1,3 +1,11 @@
+2008-07-02  Jeffrey Stedfast  <fejj@novell.com>
+
+	Sort the uids so that moving/copying messages preserves mailbox
+	ordering rather than jumbled randomness.
+
+	* message-list.c (message_list_get_uids): Sort the uids.
+	(message_list_get_selected): Same.
+
 2008-06-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #540160

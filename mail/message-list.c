@@ -3438,9 +3438,10 @@ message_list_get_uids(MessageList *ml)
 		ml,
 		g_ptr_array_new()
 	};
-
+	
 	e_tree_path_foreach(ml->tree, ml_getselected_cb, &data);
-
+	camel_folder_sort_uids (ml->folder, data.uids);
+	
 	return data.uids;
 }
 
@@ -3451,9 +3452,10 @@ message_list_get_selected(MessageList *ml)
 		ml,
 		g_ptr_array_new()
 	};
-
+	
 	e_tree_selected_path_foreach(ml->tree, ml_getselected_cb, &data);
-
+	camel_folder_sort_uids (ml->folder, data.uids);
+	
 	return data.uids;
 }
 
