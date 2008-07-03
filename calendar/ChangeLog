@@ -1,3 +1,12 @@
+2008-07-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #540152
+
+	* gui/calendar-component.c: (ensure_sources):
+	Unref sources only when we created it - the list owns the pointer now.
+	* gui/tasks-component.c: (ensure_sources):
+	* gui/memos-component.c: (ensure_sources): Do not leak ESource.
+
 2008-06-16  Maciej Piechotka <uzytkownik2@gmail.com>
 
 	* gui/caltypes.xml:

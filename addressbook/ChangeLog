@@ -1,3 +1,10 @@
+2008-07-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #540152
+
+	* gui/component/addressbook-component.c: (ensure_sources):
+	Unref source only when we created it - the list owns the pointer now.
+
 2008-06-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #539755

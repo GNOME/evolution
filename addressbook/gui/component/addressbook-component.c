@@ -151,6 +151,7 @@ ensure_sources (AddressbookComponent *component)
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
+		g_object_unref (source);
 
 		e_source_set_property (source, "completion", "true");
 
@@ -164,8 +165,7 @@ ensure_sources (AddressbookComponent *component)
 
 		on_ldap_servers = group;
 	}
-	if (personal_source)
-		g_object_unref (personal_source);
+
 	g_free (base_uri_proto);
 	g_free (base_uri);
 }

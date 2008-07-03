@@ -204,6 +204,7 @@ ensure_sources (TasksComponent *component)
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
+		g_object_unref (source);
 
 		tasks_selected = calendar_config_get_tasks_selected ();
 

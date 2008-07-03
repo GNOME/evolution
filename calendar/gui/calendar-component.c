@@ -247,6 +247,7 @@ ensure_sources (CalendarComponent *component)
 		/* Create the default Person addressbook */
 		personal_source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, personal_source, -1);
+		g_object_unref (personal_source);
 
 		calendars_selected = calendar_config_get_calendars_selected ();
 		if (!primary_calendar && !calendars_selected) {
@@ -295,6 +296,7 @@ ensure_sources (CalendarComponent *component)
 	if (!birthdays_source) {
 		birthdays_source = e_source_new (_("Birthdays & Anniversaries"), "/");
 		e_source_group_add_source (contacts, birthdays_source, -1);
+		g_object_unref (birthdays_source);
 	}
 
 	if (!e_source_get_property (birthdays_source, "delete"))
@@ -311,11 +313,6 @@ ensure_sources (CalendarComponent *component)
 	}
 
 	component->priv->source_list = source_list;
-
-	if (personal_source)
-		g_object_unref (personal_source);
-	if (birthdays_source)
-		g_object_unref (birthdays_source);
 
 	g_free (base_uri_proto);
 	g_free (base_uri);
