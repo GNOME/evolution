@@ -119,7 +119,7 @@ backup (const char *filename)
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
-	command = g_strdup_printf ("cd $HOME && tar cf - .evolution .camel_certs | gzip > %s", quotedfname);
+	command = g_strdup_printf ("cd $HOME && tar chf - .evolution .camel_certs | gzip > %s", quotedfname);
 	s (command);
 	g_free (command);
 	g_free (quotedfname);

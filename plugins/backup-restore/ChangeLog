@@ -1,3 +1,9 @@
+2008-07-03  Roger Zauner  <roger@eskimo.com>
+
+	** Fix for bug #540400
+
+	* backup.c: (backup): Make Evolution Backup follow symbolic links.
+
 2008-07-01  Milan Crha <mcrha@redhat.com>
 
 	** Fix for bug #540274
