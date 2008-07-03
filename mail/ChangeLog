@@ -1,3 +1,10 @@
+2008-07-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #541365
+
+	* message-list.c: (message_list_get_uids), (message_list_get_selected):
+	Do not call 'camel_folder_sort_uids' when we do not have folder or uid.
+
 2008-07-02  Jeffrey Stedfast  <fejj@novell.com>
 
 	Sort the uids so that moving/copying messages preserves mailbox
