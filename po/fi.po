@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-27 14:33+0300\n"
-"PO-Revision-Date: 2008-06-27 15:10+0300\n"
+"PO-Revision-Date: 2008-07-03 10:48+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -6407,7 +6407,7 @@ msgstr "Tätä ja tulevia kertoja"
 
 #: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "All Instances"
-msgstr "Kaikki tahot"
+msgstr "Kaikki kerrat"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:495
 msgid "This appointment contains recurrences that Evolution cannot edit."
