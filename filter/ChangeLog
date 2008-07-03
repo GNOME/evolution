@@ -1,3 +1,10 @@
+2008-07-03  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #243201
+
+	* filter-rule.c: (xml_encode): Escape rule title so that can contain
+	also XML entities in the file.
+
 2008-06-16  Maciej Piechotka  <uzytkownik2@gmal.com>
 
 	** Fix for bug #526262

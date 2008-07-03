@@ -321,9 +321,13 @@ xml_encode (FilterRule *fr)
 	}
 
 	if (fr->name) {
+		char *escaped = g_markup_escape_text (fr->name, -1);
+
 		work = xmlNewNode (NULL, (const unsigned char *)"title");
-		xmlNodeSetContent (work, (unsigned char *)fr->name);
+		xmlNodeSetContent (work, (unsigned char *)escaped);
 		xmlAddChild (node, work);
+
+		g_free (escaped);
 	}
 
 	set = xmlNewNode (NULL, (const unsigned char *)"partset");
