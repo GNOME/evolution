@@ -1,3 +1,10 @@
+2008-07-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #368038
+
+	* gui/calendar-component.c: (ensure_sources):
+	Ensure only one Birthdays & Anniversaries source.
+
 2008-07-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #540152

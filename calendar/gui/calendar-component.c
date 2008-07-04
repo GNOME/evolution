@@ -278,8 +278,22 @@ ensure_sources (CalendarComponent *component)
 	}
 	if (contacts) {
 		GSList *sources = e_source_group_peek_sources (contacts);
-		if (sources)
+		if (sources) {
 			birthdays_source = E_SOURCE (sources->data); /* There is only one source under Contacts Group*/
+
+			if (sources->next) {
+				/* Ensure we have only one contacts source - we was able to create more than one before */
+				GSList *l = NULL, *p;
+
+				for (p = sources->next; p; p = p->next)
+					l = g_slist_prepend (l, p->data);
+
+				for (p = l; p; p = p->next)
+					e_source_group_remove_source (contacts, p->data);
+
+				g_slist_free (l);
+			}
+		}
 	}
 	else  {
 		/* Create the contacts group */
