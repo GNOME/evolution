@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-27 22:00+0000\n"
-"PO-Revision-Date: 2008-06-28 12:06+0200\n"
+"POT-Creation-Date: 2008-07-01 14:09+0000\n"
+"PO-Revision-Date: 2008-07-04 15:43+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10868,15 +10868,15 @@ msgstr "Activado"
 msgid "Whether the plugin is enabled"
 msgstr "Indica si el complemento está activado"
 
-#: ../e-util/e-print.c:138
+#: ../e-util/e-print.c:158
 msgid "An error occurred while printing"
 msgstr "Ocurrió un error al imprimir"
 
-#: ../e-util/e-print.c:145
+#: ../e-util/e-print.c:165
 msgid "The printing system reported the following details about the error:"
 msgstr "El sistema de impresión informó de los siguientes detalles sobre el error:"
 
-#: ../e-util/e-print.c:151
+#: ../e-util/e-print.c:171
 msgid "The printing system did not report any additional details about the error."
 msgstr ""
 "El sistema de impresión no proporcionó ningún detalle adicional acerca del "
@@ -15864,102 +15864,106 @@ msgstr "Seleccione un archivador de Evolution para restaurar:"
 msgid "Choose a file to restore"
 msgstr "Elija un archivador para restaurar"
 
-#: ../plugins/backup-restore/backup.c:40
+#: ../plugins/backup-restore/backup.c:46
 msgid "Backup Evolution directory"
 msgstr "Respaldar el directorio de Evolution"
 
-#: ../plugins/backup-restore/backup.c:42
+#: ../plugins/backup-restore/backup.c:48
 msgid "Restore Evolution directory"
 msgstr "Restaurar el directorio de Evolution"
 
-#: ../plugins/backup-restore/backup.c:44
+#: ../plugins/backup-restore/backup.c:50
 msgid "Check Evolution Backup"
 msgstr "Comprobar respaldo de Evolution"
 
-#: ../plugins/backup-restore/backup.c:46
+#: ../plugins/backup-restore/backup.c:52
 msgid "Restart Evolution"
 msgstr "Reiniciar Evolution"
 
-#: ../plugins/backup-restore/backup.c:48
+#: ../plugins/backup-restore/backup.c:54
 msgid "With Graphical User Interface"
 msgstr "Con interfaz gráfica de usuario"
 
-#: ../plugins/backup-restore/backup.c:69
-#: ../plugins/backup-restore/backup.c:110
+#: ../plugins/backup-restore/backup.c:105
+#: ../plugins/backup-restore/backup.c:238
 msgid "Shutting down Evolution"
 msgstr "Cerrando Evolution"
 
-#: ../plugins/backup-restore/backup.c:74
+#: ../plugins/backup-restore/backup.c:112
 msgid "Backing Evolution accounts and settings"
 msgstr "Respaldar las cuentas y la configuración de Evolution"
 
-#: ../plugins/backup-restore/backup.c:78
+#: ../plugins/backup-restore/backup.c:116
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Respaldar los datos de Evolution (correos, contactos, calendario, tareas, "
 "notas)"
 
-#: ../plugins/backup-restore/backup.c:88
+#: ../plugins/backup-restore/backup.c:127
 msgid "Backup complete"
 msgstr "Respaldo completado"
 
-#: ../plugins/backup-restore/backup.c:93
-#: ../plugins/backup-restore/backup.c:136
+#: ../plugins/backup-restore/backup.c:132
+#: ../plugins/backup-restore/backup.c:319
 msgid "Restarting Evolution"
 msgstr "Reiniciando Evolution"
 
-#: ../plugins/backup-restore/backup.c:114
+#: ../plugins/backup-restore/backup.c:242
 msgid "Backup current Evolution data"
 msgstr "Respaldar los datos actuales de Evolution"
 
-#: ../plugins/backup-restore/backup.c:119
+#: ../plugins/backup-restore/backup.c:247
 msgid "Extracting files from backup"
 msgstr "Extrayendo archivos del respaldo"
 
-#: ../plugins/backup-restore/backup.c:125
+#: ../plugins/backup-restore/backup.c:254
 msgid "Loading Evolution settings"
 msgstr "Carga la configuración de Evolution"
 
-#: ../plugins/backup-restore/backup.c:129
+#: ../plugins/backup-restore/backup.c:258
 msgid "Removing temporary backup files"
 msgstr "Eliminando archivos temporales de respaldo"
 
-#: ../plugins/backup-restore/backup.c:249
+#: ../plugins/backup-restore/backup.c:265
+msgid "Ensuring local sources"
+msgstr "Asegurando fuentes locales"
+
+#: ../plugins/backup-restore/backup.c:435
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Respaldando a la carpeta %s"
 
-#: ../plugins/backup-restore/backup.c:254
+#: ../plugins/backup-restore/backup.c:440
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Restaurando desde la carpeta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:273
+#: ../plugins/backup-restore/backup.c:459
 msgid "Evolution Backup"
 msgstr "Respaldo de Evolution"
 
-#: ../plugins/backup-restore/backup.c:273
+#: ../plugins/backup-restore/backup.c:459
 msgid "Evolution Restore"
 msgstr "Restaurador de Evolution"
 
-#: ../plugins/backup-restore/backup.c:308
+#: ../plugins/backup-restore/backup.c:494
 msgid "Backing up Evolution Data"
 msgstr "Respaldando los datos de Evolution"
 
-#: ../plugins/backup-restore/backup.c:309
+#: ../plugins/backup-restore/backup.c:495
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Espere mientras Evolution respalda sus datos."
 
-#: ../plugins/backup-restore/backup.c:311
+#: ../plugins/backup-restore/backup.c:497
 msgid "Restoring Evolution Data"
 msgstr "Restaurando los datos de Evolution"
 
-#: ../plugins/backup-restore/backup.c:312
+#: ../plugins/backup-restore/backup.c:498
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Espere mientras Evolution restaura sus datos."
 
-#: ../plugins/backup-restore/backup.c:330
+#: ../plugins/backup-restore/backup.c:516
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Esto puede llevar un tiempo dependiendo de la cantidad de datos en su cuenta."
 
@@ -19583,66 +19587,62 @@ msgid "Evolution Test component"
 msgstr "Componente de Prueba de Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-msgid "A string description of the current printer settings."
-msgstr "Una descripción de la configuración de la impresora actual."
-
-#: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Authenticate proxy server connections"
 msgstr "Autenticar las conexiones del servidor proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:3
+#: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Automatic proxy configuration URL"
 msgstr "URL para la configuración automática del proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:4
+#: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
 msgstr "Versión de la configuración"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:5
+#: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Decides whether the crash detection should be run or not."
 msgstr "Decide si se debe ejecutar la detección de cuelgue o no."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.h:5
 msgid "Default sidebar width"
 msgstr "Anchura predeterminada de la barra lateral"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.h:6
 msgid "Default window height"
 msgstr "Altura predeterminada de la ventana"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window state"
 msgstr "Estado predeterminado de la ventana"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Default window width"
 msgstr "Anchura predeterminada de la ventana"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr "Activa los ajustes del proxy al acceder a HTTP/Secure HTTP en Internet."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid "HTTP proxy host name"
 msgstr "Nombre del equipo proxy HTtP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy password"
 msgstr "Contraseña del proxy HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "HTTP proxy port"
 msgstr "Puerto del proxy HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy username"
 msgstr "Usuario del proxy HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Id o alias del componente que se mostrará al iniciar."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid ""
 "If true, then connections to the proxy server require authentication. The "
 "username/password combo is defined by \"/apps/evolution/shell/network_config/"
@@ -19653,45 +19653,45 @@ msgstr ""
 "network_config/authentication_user\" y la contraseña se almacena ocalmente "
 "en .gnome2_private/."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "Last upgraded configuration version"
 msgstr "Última versión de la configuración actualizada"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Lista de rutas a las carpetas que se sincronizarán al disco para usar "
 "desconectado"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Non-proxy hosts"
 msgstr "Equipos que no sean proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Password to pass as authentication when doing HTTP proxying."
 msgstr "Contraseña para pasar como autenticación al hacer HTTP proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Proxy configuration mode"
 msgstr "Modo de configuración del proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "SOCKS proxy host name"
 msgstr "Nombre del equipo proxy SOCKS"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "SOCKS proxy port"
 msgstr "Puerto del proxy SOCKS"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Secure HTTP proxy host name"
 msgstr "Nombre del equipo proxy HTTP seguro"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Secure HTTP proxy port"
 msgstr "Puerto del proxy HTTP seguro"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid ""
 "Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 "
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
@@ -19703,27 +19703,27 @@ msgstr ""
 "\"usar configuración manual del proxy\" y \"usar la configuración "
 "proporcionada en la URL de autoconfiguración del proxy\" respectivamente."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:27
+#: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Sidebar is visible"
 msgstr "La barra lateral es visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:28
+#: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Skip development warning dialog"
 msgstr "Saltar el diálogo de advertencia de desarrollo"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:29
+#: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "Skip recovery warning dialog"
 msgstr "Saltar el diálogo de advertencia de recuperación"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:30 ../shell/main.c:565
+#: ../shell/apps_evolution_shell.schemas.in.h:29 ../shell/main.c:565
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:31
+#: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Statusbar is visible"
 msgstr "La barra de estado es visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:32
+#: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
@@ -19731,19 +19731,19 @@ msgstr ""
 "La versión de configuración de Evolution, con nivel de configuración mayor/"
 "menor (por ejemplo \"2.6.0\")."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33
+#: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid "The default height for the main window, in pixels."
 msgstr "Altura predeterminada de la ventana principal, en píxeles."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:34
+#: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "The default width for the main window, in pixels."
 msgstr "La anchura predeterminada de la ventana principal, en píxeles."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35
+#: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The default width for the sidebar, in pixels."
 msgstr "La anchura predeterminada para la barra lateral, en píxeles."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:36
+#: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -19751,19 +19751,19 @@ msgstr ""
 "La última versión de configuración de Evolution actualizada, con nivel de "
 "configuración mayor/menor (por ejemplo \"2.6.0\")."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:37
+#: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "The machine name to proxy HTTP through."
 msgstr "El nombre de la máquina por la que se hace proxy HTTP."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:38
+#: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid "The machine name to proxy secure HTTP through."
 msgstr "El nombre de la máquina por la que se hace proxy HTTP seguro."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:39
+#: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid "The machine name to proxy socks through."
 msgstr "El nombre de la máquina por la que se hace proxy socks."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:40
+#: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
@@ -19771,7 +19771,7 @@ msgstr ""
 "El puerto de la máquina definida por \"/apps/evolution/shell/network_config/"
 "http_host\" que hace de proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:41
+#: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
@@ -19779,7 +19779,7 @@ msgstr ""
 "El puerto de la máquina definida por \"/apps/evolution/shell/network_config/"
 "secure_host\" que hace de proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:42
+#: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
@@ -19787,7 +19787,7 @@ msgstr ""
 "El puerto de la máquina definida por \"/apps/evolution/shell/network_config/"
 "socks_host\" que hace de proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:43
+#: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -19797,7 +19797,7 @@ msgstr ""
 "\", \"toolbar\". Si se selecciona \"toolbar\", el estilo de los botones se "
 "determina por la configuración de la barra de herramientas de GNOME."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:44
+#: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "This key contains a list of hosts which are connected to directly, rather "
 "than via the proxy (if it is active). The values can be hostnames, domains "
@@ -19810,69 +19810,69 @@ msgstr ""
 "foo.com), direcciones IP de anfitriones (tanto IPv4 como IPv6) y direcciones "
 "de red con una máscara (algo como 192.168.0.0/24)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:45
+#: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "Toolbar is visible"
 msgstr "La barra de herramientas es visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:46
+#: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "URL that provides proxy configuration values."
 msgstr "URL que proporciona las variables de configuración del proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:47
+#: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Use HTTP proxy"
 msgstr "Usar proxy HTTP"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:48
+#: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid "User name to pass as authentication when doing HTTP proxying."
 msgstr "Usuario que pasar como autenticación al usar el proxy HTTP."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:49
+#: ../shell/apps_evolution_shell.schemas.in.h:48
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Indica si Evolution se iniciará en modo desconectado en vez de en modo "
 "conectado."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:50
+#: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid "Whether crash detection should be done or not"
 msgstr "Indica si se debe realizar la detección de cuelgue o no"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:51
+#: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid "Whether or not the window should be maximized."
 msgstr "Indica si la ventana debe o no maximizarse."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:52
+#: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "Whether the sidebar should be visible."
 msgstr "Indica si la barra lateral debe ser visible."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:53
+#: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Whether the status bar should be visible."
 msgstr "Indica si la barra de estado debe ser visible."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:54
+#: ../shell/apps_evolution_shell.schemas.in.h:53
 msgid "Whether the toolbar should be visible."
 msgstr "Indica si la barra de herramientas debe ser visible."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:55
+#: ../shell/apps_evolution_shell.schemas.in.h:54
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 "Indica si se omite el diálogo de advertencia en las versiones de desarrollo "
 "de Evolution."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:56
+#: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
 msgstr ""
 "Indica si se omite el diálogo de advertencia en las recuperaciones de "
 "Evolution."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:57
+#: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether the window buttons should be visible."
 msgstr "Indica si la los botones de la ventana deben ser visibles."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:58
+#: ../shell/apps_evolution_shell.schemas.in.h:57
 msgid "Window button style"
 msgstr "Estilo de los botones de ventana"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:59
+#: ../shell/apps_evolution_shell.schemas.in.h:58
 msgid "Window buttons are visible"
 msgstr "Los botones de la ventana son visibles"
 
