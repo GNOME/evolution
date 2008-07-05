@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-04 23:41+0900\n"
-"PO-Revision-Date: 2008-07-04 23:40+0900\n"
+"POT-Creation-Date: 2008-07-05 11:41+0900\n"
+"PO-Revision-Date: 2008-07-05 11:39+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -14041,7 +14041,7 @@ msgstr "選択したメッセージのフィルタリング"
 
 #: ../mail/mail-ops.c:264
 msgid "Fetching Mail"
-msgstr "メールを同期"
+msgstr "メールの取得中"
 
 #. sending mail, filtering failed
 #: ../mail/mail-ops.c:560
@@ -14587,7 +14587,7 @@ msgstr "操作を実行する際にエラーが発生しました。"
 
 #: ../mail/mail.error.xml.h:58
 msgid "Error while {0}."
-msgstr "{0}する際にエラーが発生しました"
+msgstr "{0}にエラーが発生しました"
 
 #: ../mail/mail.error.xml.h:59
 msgid "File exists but cannot overwrite it."
