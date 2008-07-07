@@ -218,10 +218,12 @@ struct _ECalendarItem
 
 	/* Widths of the day characters. */
 	gint day_widths[7];
+	gint max_day_width;
 
 	/* Widths of the digits, '0' .. '9'. */
 	gint digit_widths[10];
 	gint max_digit_width;
+
 	gint week_number_digit_widths[10];
 	gint max_week_number_digit_width;
 

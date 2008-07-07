@@ -1,3 +1,15 @@
+2008-07-07  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #370731 (bugzilla.novell.com)
+
+	* e-calendar-item.c (e_calendar_item_update),
+	(e_calendar_item_draw_month), (e_calendar_item_draw_day_numbers),
+	(e_calendar_item_recalc_sizes):
+	* e-calendar-item.h: 
+	Use MAX (<max width of day-names>, (2 * <max width of a digit>))
+	to determine the minimal size for each cell. This prevents the numbers
+	and day-names from getting fuzzy when using large font-sizes. 
+
 2008-06-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #519536

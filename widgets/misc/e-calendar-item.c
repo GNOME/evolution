@@ -974,7 +974,7 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 
 	calitem->month_width = calitem->min_month_width;
 	calitem->month_height = calitem->min_month_height;
-	calitem->cell_width = calitem->max_digit_width * 2
+	calitem->cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
 		+ E_CALENDAR_ITEM_MIN_CELL_XPAD;
 	calitem->cell_height = char_height
 		+ E_CALENDAR_ITEM_MIN_CELL_YPAD;
@@ -1305,7 +1305,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 	/* Draw the day initials across the top of the month. */
-	min_cell_width = calitem->max_digit_width * 2
+	min_cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
 		+ E_CALENDAR_ITEM_MIN_CELL_XPAD;
 
 	cells_x = month_x + E_CALENDAR_ITEM_XPAD_BEFORE_WEEK_NUMBERS + calitem->month_lpad
@@ -1431,7 +1431,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
-	min_cell_width = calitem->max_digit_width * 2
+	min_cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
 		+ E_CALENDAR_ITEM_MIN_CELL_XPAD;
 	min_cell_height = char_height + E_CALENDAR_ITEM_MIN_CELL_YPAD;
 
@@ -1920,7 +1920,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	GnomeCanvasItem *canvas_item;
 	GtkStyle *style;
 	gchar *digits = "0123456789";
-	gint day, digit, max_digit_width, max_week_number_digit_width;
+	gint day, max_day_width, digit, max_digit_width, max_week_number_digit_width;
 	gint char_height, width, min_cell_width, min_cell_height;
 	PangoFontDescription *font_desc, *wkfont_desc;
 	PangoContext *pango_context;
@@ -1949,10 +1949,15 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
+	max_day_width = 0;
 	for (day = 0; day < 7; day++) {
 		layout_set_day_text (calitem, layout, day);
-		pango_layout_get_pixel_size (layout, &calitem->day_widths [day], NULL);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+
+		calitem->day_widths[day] = width;
+		max_day_width = MAX (max_day_width, width);
 	}
+	calitem->max_day_width = max_day_width;
 
 	max_digit_width = 0;
 	max_week_number_digit_width = 0;
@@ -1983,7 +1988,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	calitem->max_digit_width = max_digit_width;
 	calitem->max_week_number_digit_width = max_week_number_digit_width;
 
-	min_cell_width = calitem->max_digit_width * 2
+	min_cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
 		+ E_CALENDAR_ITEM_MIN_CELL_XPAD;
 	min_cell_height = char_height + E_CALENDAR_ITEM_MIN_CELL_YPAD;
 
