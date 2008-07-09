@@ -1,3 +1,11 @@
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #524130
+
+	* gui/e-cal-component-preview.c: (write_html):
+	* gui/e-cal-component-memo-preview.c: (write_html): Pass description
+	text through 'camel_text_to_html' to have links clickable in a preview.
+
 2008-07-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #368038
