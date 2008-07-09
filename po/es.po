@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-01 14:09+0000\n"
-"PO-Revision-Date: 2008-07-04 15:43+0200\n"
+"POT-Creation-Date: 2008-07-09 08:16+0000\n"
+"PO-Revision-Date: 2008-07-09 23:26+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgid "calendar view for one or more days"
 msgstr "vista de calendario para uno o más días"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
-#: ../calendar/gui/calendar-component.c:747
+#: ../calendar/gui/calendar-component.c:758
 msgid "%A %d %b %Y"
 msgstr "%A, %e de %b de %Y"
 
@@ -169,7 +169,7 @@ msgstr "%A, %e de %b de %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:191
-#: ../calendar/gui/calendar-component.c:750
+#: ../calendar/gui/calendar-component.c:761
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1540
 #: ../calendar/gui/e-week-view-main-item.c:340
 msgid "%a %d %b"
@@ -178,9 +178,9 @@ msgstr "%a, %e de %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:193
 #: ../a11y/calendar/ea-gnome-calendar.c:198
 #: ../a11y/calendar/ea-gnome-calendar.c:200
-#: ../calendar/gui/calendar-component.c:752
-#: ../calendar/gui/calendar-component.c:757
-#: ../calendar/gui/calendar-component.c:759
+#: ../calendar/gui/calendar-component.c:763
+#: ../calendar/gui/calendar-component.c:768
+#: ../calendar/gui/calendar-component.c:770
 msgid "%a %d %b %Y"
 msgstr "%a, %e de %b de %Y"
 
@@ -188,10 +188,10 @@ msgstr "%a, %e de %b de %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:223
 #: ../a11y/calendar/ea-gnome-calendar.c:229
 #: ../a11y/calendar/ea-gnome-calendar.c:231
-#: ../calendar/gui/calendar-component.c:771
-#: ../calendar/gui/calendar-component.c:778
-#: ../calendar/gui/calendar-component.c:784
-#: ../calendar/gui/calendar-component.c:786
+#: ../calendar/gui/calendar-component.c:782
+#: ../calendar/gui/calendar-component.c:789
+#: ../calendar/gui/calendar-component.c:795
+#: ../calendar/gui/calendar-component.c:797
 msgid "%d %b %Y"
 msgstr "%e de %B de %Y"
 
@@ -201,7 +201,7 @@ msgstr "%e de %B de %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:221
-#: ../calendar/gui/calendar-component.c:776
+#: ../calendar/gui/calendar-component.c:787
 #: ../calendar/gui/e-day-view-top-item.c:860 ../calendar/gui/e-day-view.c:1556
 #: ../calendar/gui/e-week-view-main-item.c:354
 msgid "%d %b"
@@ -611,7 +611,7 @@ msgstr "Configure el autocompletado aquí"
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1334
-#: ../calendar/gui/calendar-component.c:285 ../calendar/gui/migration.c:396
+#: ../calendar/gui/calendar-component.c:300 ../calendar/gui/migration.c:396
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
 #: ../plugins/exchange-operations/exchange-folder.c:580
 msgid "Contacts"
@@ -680,7 +680,7 @@ msgid "Personal"
 msgstr "Privado"
 
 #. Create the LDAP source group
-#: ../addressbook/gui/component/addressbook-component.c:162
+#: ../addressbook/gui/component/addressbook-component.c:163
 #: ../addressbook/gui/component/addressbook-migrate.c:517
 msgid "On LDAP Servers"
 msgstr "En servidores LDAP"
@@ -865,10 +865,10 @@ msgstr "Guardar como vCard…"
 
 #: ../addressbook/gui/component/addressbook-view.c:954
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
-#: ../calendar/gui/calendar-component.c:609
+#: ../calendar/gui/calendar-component.c:620
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1702 ../calendar/gui/e-memo-table.c:941
-#: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
+#: ../calendar/gui/memos-component.c:469 ../calendar/gui/tasks-component.c:460
 #: ../mail/em-folder-tree.c:2095 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
@@ -3069,7 +3069,7 @@ msgstr "Teléfono del coche"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
-#: ../calendar/gui/e-cal-component-memo-preview.c:143
+#: ../calendar/gui/e-cal-component-memo-preview.c:144
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -3389,7 +3389,7 @@ msgstr "Charla por vídeo"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:92
-#: ../calendar/gui/calendar-component.c:795
+#: ../calendar/gui/calendar-component.c:806
 #: ../calendar/gui/dialogs/calendar-setup.c:367
 #: ../calendar/gui/gnome-cal.c:2376
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
@@ -3503,7 +3503,7 @@ msgstr "Protocolo no implementado"
 #. E_BOOK_ERROR_CANCELLED
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 #: ../calendar/gui/dialogs/task-details-page.glade.h:3
-#: ../calendar/gui/e-cal-component-preview.c:255
+#: ../calendar/gui/e-cal-component-preview.c:256
 #: ../calendar/gui/e-cal-model-tasks.c:360
 #: ../calendar/gui/e-cal-model-tasks.c:677
 #: ../calendar/gui/e-calendar-table.c:236
@@ -4465,7 +4465,7 @@ msgstr "Sus tareas no estarán disponibles hasta que reinicie Evolution."
 msgid "_Discard Changes"
 msgstr "_Descartar cambios"
 
-#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:492
+#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:500
 #: ../ui/evolution-editor.xml.h:23
 msgid "_Save"
 msgstr "_Guardar"
@@ -4536,7 +4536,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1392
+#: ../calendar/gui/calendar-component.c:1403
 msgid "Calendars"
 msgstr "Calendarios"
 
@@ -4578,8 +4578,8 @@ msgstr "_Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1120
-#: ../calendar/gui/gnome-cal.c:1702 ../calendar/gui/memos-component.c:548
-#: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:353
+#: ../calendar/gui/gnome-cal.c:1702 ../calendar/gui/memos-component.c:549
+#: ../calendar/gui/memos-component.c:1102 ../calendar/gui/memos-control.c:353
 #: ../calendar/gui/memos-control.c:369
 msgid "Memos"
 msgstr "Notas"
@@ -4587,8 +4587,8 @@ msgstr "Notas"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:495 ../calendar/gui/e-tasks.c:1429
 #: ../calendar/gui/gnome-cal.c:1574 ../calendar/gui/print.c:1966
-#: ../calendar/gui/tasks-component.c:539
-#: ../calendar/gui/tasks-component.c:1090 ../calendar/gui/tasks-control.c:492
+#: ../calendar/gui/tasks-component.c:540
+#: ../calendar/gui/tasks-component.c:1091 ../calendar/gui/tasks-control.c:492
 #: ../calendar/gui/tasks-control.c:508
 #: ../calendar/importers/icalendar-importer.c:74
 #: ../calendar/importers/icalendar-importer.c:735
@@ -5315,103 +5315,103 @@ msgstr "días"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:273
-#: ../calendar/gui/memos-component.c:235 ../calendar/gui/migration.c:505
+#: ../calendar/gui/calendar-component.c:274
+#: ../calendar/gui/memos-component.c:236 ../calendar/gui/migration.c:505
 #: ../calendar/gui/migration.c:604 ../calendar/gui/migration.c:1118
-#: ../calendar/gui/tasks-component.c:231
+#: ../calendar/gui/tasks-component.c:232
 msgid "On The Web"
 msgstr "En la web"
 
-#: ../calendar/gui/calendar-component.c:296 ../calendar/gui/migration.c:399
+#: ../calendar/gui/calendar-component.c:311 ../calendar/gui/migration.c:399
 msgid "Birthdays & Anniversaries"
 msgstr "Cumpleaños y aniversarios"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:308
+#: ../calendar/gui/calendar-component.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "Meteorología"
 
-#: ../calendar/gui/calendar-component.c:605
+#: ../calendar/gui/calendar-component.c:616
 msgid "_New Calendar"
 msgstr "Calendario _nuevo"
 
-#: ../calendar/gui/calendar-component.c:606
-#: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
+#: ../calendar/gui/calendar-component.c:617
+#: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
 #: ../mail/em-folder-tree.c:2090
 msgid "_Copy..."
 msgstr "_Copiar…"
 
-#: ../calendar/gui/calendar-component.c:612
+#: ../calendar/gui/calendar-component.c:623
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
+#: ../calendar/gui/memos-component.c:472 ../calendar/gui/tasks-component.c:463
 #: ../composer/e-msg-composer.c:1047 ../mail/em-folder-tree.c:2104
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Propiedades"
 
-#: ../calendar/gui/calendar-component.c:939
+#: ../calendar/gui/calendar-component.c:950
 msgid "Failed upgrading calendars."
 msgstr "Falló al actualizar calendarios."
 
-#: ../calendar/gui/calendar-component.c:1238
+#: ../calendar/gui/calendar-component.c:1249
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "No es posible abrir el calendario «%s» para crear acontecimientos y reuniones"
 
-#: ../calendar/gui/calendar-component.c:1254
+#: ../calendar/gui/calendar-component.c:1265
 msgid "There is no calendar available for creating events and meetings"
 msgstr "No hay un calendario disponible para crear acontecimientos y reuniones"
 
-#: ../calendar/gui/calendar-component.c:1367
+#: ../calendar/gui/calendar-component.c:1378
 msgid "Calendar Source Selector"
 msgstr "Selector de origen del calendario"
 
-#: ../calendar/gui/calendar-component.c:1585
+#: ../calendar/gui/calendar-component.c:1596
 msgid "New appointment"
 msgstr "Cita nueva"
 
-#: ../calendar/gui/calendar-component.c:1586
+#: ../calendar/gui/calendar-component.c:1597
 msgid "_Appointment"
 msgstr "_Cita"
 
-#: ../calendar/gui/calendar-component.c:1587
+#: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Crea una cita nueva"
 
-#: ../calendar/gui/calendar-component.c:1593
+#: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Reunión nueva"
 
-#: ../calendar/gui/calendar-component.c:1594
+#: ../calendar/gui/calendar-component.c:1605
 msgid "M_eeting"
 msgstr "_Reunión"
 
-#: ../calendar/gui/calendar-component.c:1595
+#: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
 msgstr "Crea una solicitud de reunión nueva"
 
-#: ../calendar/gui/calendar-component.c:1601
+#: ../calendar/gui/calendar-component.c:1612
 msgid "New all day appointment"
 msgstr "Cita nueva para todo el día"
 
-#: ../calendar/gui/calendar-component.c:1602
+#: ../calendar/gui/calendar-component.c:1613
 msgid "All Day A_ppointment"
 msgstr "Cita para todo el _día"
 
-#: ../calendar/gui/calendar-component.c:1603
+#: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Crea una cita nueva para todo el día"
 
-#: ../calendar/gui/calendar-component.c:1609
+#: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Calendario nuevo"
 
-#: ../calendar/gui/calendar-component.c:1610
+#: ../calendar/gui/calendar-component.c:1621
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
-#: ../calendar/gui/calendar-component.c:1611
+#: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
@@ -5789,7 +5789,7 @@ msgid "Alarms"
 msgstr "Alertas"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:84
-#: ../composer/e-composer-actions.c:63
+#: ../composer/e-composer-actions.c:64
 msgid "_Suggest automatic display of attachment"
 msgstr "_Sugerir mostrar automáticamente el adjunto"
 
@@ -6491,7 +6491,7 @@ msgstr "Personalizar"
 #: ../calendar/gui/dialogs/event-page.c:3080
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:669
-#: ../calendar/gui/e-itip-control.c:1158 ../filter/filter-rule.c:939
+#: ../calendar/gui/e-itip-control.c:1158 ../filter/filter-rule.c:943
 #: ../mail/em-account-editor.c:685 ../mail/em-account-editor.c:1409
 #: ../mail/em-account-prefs.c:438 ../mail/em-junk-hook.c:94
 #: ../plugins/calendar-weather/calendar-weather.c:370
@@ -6839,7 +6839,7 @@ msgstr "<span weight=\"bold\">Estado</span>"
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
 #: ../calendar/gui/dialogs/task-details-page.glade.h:4
-#: ../calendar/gui/e-cal-component-preview.c:252
+#: ../calendar/gui/e-cal-component-preview.c:253
 #: ../calendar/gui/e-cal-model-tasks.c:358
 #: ../calendar/gui/e-cal-model-tasks.c:675
 #: ../calendar/gui/e-calendar-table.c:234
@@ -6851,14 +6851,14 @@ msgid "Completed"
 msgstr "Terminado"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
-#: ../calendar/gui/e-cal-component-preview.c:271
+#: ../calendar/gui/e-cal-component-preview.c:272
 #: ../calendar/gui/e-calendar-table.c:360 ../calendar/gui/tasktypes.xml.h:21
 #: ../mail/message-list.c:1063
 msgid "High"
 msgstr "Alta"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:6
-#: ../calendar/gui/e-cal-component-preview.c:249
+#: ../calendar/gui/e-cal-component-preview.c:250
 #: ../calendar/gui/e-cal-model-tasks.c:356
 #: ../calendar/gui/e-cal-model-tasks.c:673
 #: ../calendar/gui/e-cal-model-tasks.c:750
@@ -6868,21 +6868,21 @@ msgid "In Progress"
 msgstr "En proceso"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
-#: ../calendar/gui/e-cal-component-preview.c:275
+#: ../calendar/gui/e-cal-component-preview.c:276
 #: ../calendar/gui/e-calendar-table.c:362 ../calendar/gui/tasktypes.xml.h:29
 #: ../mail/message-list.c:1061
 msgid "Low"
 msgstr "Baja"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
-#: ../calendar/gui/e-cal-component-preview.c:273
+#: ../calendar/gui/e-cal-component-preview.c:274
 #: ../calendar/gui/e-cal-model.c:966 ../calendar/gui/e-calendar-table.c:361
 #: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1062
 msgid "Normal"
 msgstr "Normal"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:9
-#: ../calendar/gui/e-cal-component-preview.c:259
+#: ../calendar/gui/e-cal-component-preview.c:260
 #: ../calendar/gui/e-cal-model-tasks.c:354
 #: ../calendar/gui/e-cal-model-tasks.c:671
 #: ../calendar/gui/e-calendar-table.c:230
@@ -6918,7 +6918,7 @@ msgid "_Web Page:"
 msgstr "Página _web:"
 
 #: ../calendar/gui/dialogs/task-editor.c:426
-#: ../calendar/gui/tasks-component.c:1325
+#: ../calendar/gui/tasks-component.c:1326
 msgid "_Task"
 msgstr "_Tarea"
 
@@ -7036,57 +7036,57 @@ msgstr "%s a %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3329
+#: ../calendar/gui/e-cal-component-memo-preview.c:75
+#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3329
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:134
-#: ../calendar/gui/e-cal-component-preview.c:176 ../filter/filter-rule.c:852
+#: ../calendar/gui/e-cal-component-memo-preview.c:135
+#: ../calendar/gui/e-cal-component-preview.c:177 ../filter/filter-rule.c:856
 #: ../shell/e-shell-folder-title-bar.c:586
 msgid "Untitled"
 msgstr "Sin título"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:186
-#: ../calendar/gui/e-cal-component-preview.c:216
-#: ../calendar/gui/e-cal-component-preview.c:227
+#: ../calendar/gui/e-cal-component-memo-preview.c:187
+#: ../calendar/gui/e-cal-component-preview.c:217
+#: ../calendar/gui/e-cal-component-preview.c:228
 msgid "Start Date:"
 msgstr "Fecha de inicio:"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:199
-#: ../calendar/gui/e-cal-component-preview.c:290
+#: ../calendar/gui/e-cal-component-memo-preview.c:200
+#: ../calendar/gui/e-cal-component-preview.c:291
 #: ../calendar/gui/e-itip-control.c:1218
 #: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:69
 #: ../widgets/misc/e-attachment.glade.h:2
 msgid "Description:"
 msgstr "Descripción:"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:235
-#: ../calendar/gui/e-cal-component-preview.c:323
+#: ../calendar/gui/e-cal-component-memo-preview.c:224
+#: ../calendar/gui/e-cal-component-preview.c:315
 msgid "Web Page:"
 msgstr "Página web:"
 
-#: ../calendar/gui/e-cal-component-preview.c:209
+#: ../calendar/gui/e-cal-component-preview.c:210
 #: ../calendar/gui/e-itip-control.c:1162
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
 msgstr "Resumen:"
 
-#: ../calendar/gui/e-cal-component-preview.c:238
+#: ../calendar/gui/e-cal-component-preview.c:239
 msgid "Due Date:"
 msgstr "Fecha de vencimiento:"
 
 #. write status
 #. Status
-#: ../calendar/gui/e-cal-component-preview.c:245
+#: ../calendar/gui/e-cal-component-preview.c:246
 #: ../calendar/gui/e-itip-control.c:1186
 #: ../plugins/exchange-operations/exchange-account-setup.c:267
 #: ../plugins/itip-formatter/itip-view.c:1027
 msgid "Status:"
 msgstr "Estado:"
 
-#: ../calendar/gui/e-cal-component-preview.c:269
+#: ../calendar/gui/e-cal-component-preview.c:270
 msgid "Priority:"
 msgstr "Prioridad:"
 
@@ -7249,7 +7249,7 @@ msgstr "Actualizando objetos"
 
 #: ../calendar/gui/e-calendar-table.c:1139
 #: ../calendar/gui/e-calendar-view.c:1230 ../calendar/gui/e-memo-table.c:821
-#: ../composer/e-composer-actions.c:277
+#: ../composer/e-composer-actions.c:278
 msgid "Save as..."
 msgstr "Guardar como…"
 
@@ -8343,76 +8343,76 @@ msgstr "Información de iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
-#: ../calendar/gui/memos-component.c:464
+#: ../calendar/gui/memos-component.c:465
 msgid "_New Memo List"
 msgstr "Lista de notas _nueva"
 
-#: ../calendar/gui/memos-component.c:544
+#: ../calendar/gui/memos-component.c:545
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d nota"
 msgstr[1] "%d notas"
 
-#: ../calendar/gui/memos-component.c:546 ../calendar/gui/tasks-component.c:537
+#: ../calendar/gui/memos-component.c:547 ../calendar/gui/tasks-component.c:538
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d seleccionado"
 msgstr[1] ", %d seleccionados"
 
-#: ../calendar/gui/memos-component.c:593
+#: ../calendar/gui/memos-component.c:594
 msgid "Failed upgrading memos."
 msgstr "Fallo al actualizar las notas."
 
-#: ../calendar/gui/memos-component.c:953
+#: ../calendar/gui/memos-component.c:954
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
 "No es posible abrir la lista de notas «%s» para crear acontecimientos y "
 "reuniones"
 
-#: ../calendar/gui/memos-component.c:966
+#: ../calendar/gui/memos-component.c:967
 msgid "There is no calendar available for creating memos"
 msgstr "No hay un calendario disponible para crear notas"
 
-#: ../calendar/gui/memos-component.c:1076
+#: ../calendar/gui/memos-component.c:1077
 msgid "Memo Source Selector"
 msgstr "Selector de origen de notas"
 
-#: ../calendar/gui/memos-component.c:1259
+#: ../calendar/gui/memos-component.c:1260
 msgid "New memo"
 msgstr "Nota nueva"
 
-#: ../calendar/gui/memos-component.c:1260
+#: ../calendar/gui/memos-component.c:1261
 msgid "Mem_o"
 msgstr "_Nota"
 
-#: ../calendar/gui/memos-component.c:1261
+#: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Crea una nota nueva"
 
-#: ../calendar/gui/memos-component.c:1267
+#: ../calendar/gui/memos-component.c:1268
 msgid "New shared memo"
 msgstr "Nota nueva compartida"
 
-#: ../calendar/gui/memos-component.c:1268
+#: ../calendar/gui/memos-component.c:1269
 msgid "_Shared memo"
 msgstr "Nota _compartida"
 
-#: ../calendar/gui/memos-component.c:1269
+#: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Crea una nota compartida nueva"
 
-#: ../calendar/gui/memos-component.c:1275
+#: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Lista de notas nueva"
 
-#: ../calendar/gui/memos-component.c:1276
+#: ../calendar/gui/memos-component.c:1277
 msgid "Memo li_st"
 msgstr "_Lista de notas"
 
-#: ../calendar/gui/memos-component.c:1277
+#: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
 msgstr "Crea una lista de notas nueva"
 
@@ -8677,65 +8677,65 @@ msgstr "Contactos: "
 msgid "Upcoming Appointments"
 msgstr "Eventos próximos"
 
-#: ../calendar/gui/tasks-component.c:455
+#: ../calendar/gui/tasks-component.c:456
 msgid "_New Task List"
 msgstr "_Lista de tareas nueva"
 
-#: ../calendar/gui/tasks-component.c:535
+#: ../calendar/gui/tasks-component.c:536
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
-#: ../calendar/gui/tasks-component.c:584
+#: ../calendar/gui/tasks-component.c:585
 msgid "Failed upgrading tasks."
 msgstr "Fallo al actualizar las tareas."
 
-#: ../calendar/gui/tasks-component.c:941
+#: ../calendar/gui/tasks-component.c:942
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "No es posible abrir la lista de tareas «%s» para crear acontecimientos y "
 "reuniones"
 
-#: ../calendar/gui/tasks-component.c:954
+#: ../calendar/gui/tasks-component.c:955
 msgid "There is no calendar available for creating tasks"
 msgstr "No hay un calendario disponible para crear tareas"
 
-#: ../calendar/gui/tasks-component.c:1065
+#: ../calendar/gui/tasks-component.c:1066
 msgid "Task Source Selector"
 msgstr "Selector de origen de tareas"
 
-#: ../calendar/gui/tasks-component.c:1324
+#: ../calendar/gui/tasks-component.c:1325
 msgid "New task"
 msgstr "Tarea nueva"
 
-#: ../calendar/gui/tasks-component.c:1326
+#: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Crea una tarea nueva"
 
-#: ../calendar/gui/tasks-component.c:1332
+#: ../calendar/gui/tasks-component.c:1333
 msgid "New assigned task"
 msgstr "Nueva tarea asignada"
 
-#: ../calendar/gui/tasks-component.c:1333
+#: ../calendar/gui/tasks-component.c:1334
 msgid "Assigne_d Task"
 msgstr "Tarea _asignada"
 
-#: ../calendar/gui/tasks-component.c:1334
+#: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Crea una tarea nueva asignada"
 
-#: ../calendar/gui/tasks-component.c:1340
+#: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Lista de tareas nueva"
 
-#: ../calendar/gui/tasks-component.c:1341
+#: ../calendar/gui/tasks-component.c:1342
 msgid "Tas_k list"
 msgstr "_Lista de tareas"
 
-#: ../calendar/gui/tasks-component.c:1342
+#: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
@@ -10356,197 +10356,205 @@ msgstr "No se pudo abrir el archivo de autoguardado"
 msgid "Unable to retrieve message from editor"
 msgstr "No se pudo obtener el mensaje del editor"
 
-#: ../composer/e-composer-actions.c:46
+#: ../composer/e-composer-actions.c:47
 msgid "Insert Attachment"
 msgstr "Inserta un adjunto"
 
-#: ../composer/e-composer-actions.c:50
+#: ../composer/e-composer-actions.c:51
 msgid "A_ttach"
 msgstr "_Adjuntar"
 
-#: ../composer/e-composer-actions.c:142
+#: ../composer/e-composer-actions.c:143
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
-#: ../composer/e-composer-actions.c:464 ../ui/evolution-editor.xml.h:15
+#: ../composer/e-composer-actions.c:472 ../ui/evolution-editor.xml.h:15
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../composer/e-composer-actions.c:466
+#: ../composer/e-composer-actions.c:474
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../composer/e-composer-actions.c:471 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:479 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../composer/e-composer-actions.c:473
+#: ../composer/e-composer-actions.c:481
 msgid "Close the current file"
 msgstr "Cierra el archivo actual"
 
-#: ../composer/e-composer-actions.c:478 ../mail/em-folder-view.c:1343
+#: ../composer/e-composer-actions.c:486 ../mail/em-folder-view.c:1343
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "_Imprimir…"
 
-#: ../composer/e-composer-actions.c:485 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:493 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Vi_sta previa de impresión"
 
-#: ../composer/e-composer-actions.c:494
+#: ../composer/e-composer-actions.c:502
 msgid "Save the current file"
 msgstr "Guardar archivo actual"
 
-#: ../composer/e-composer-actions.c:499
+#: ../composer/e-composer-actions.c:507
 msgid "Save _As..."
 msgstr "Guardar _como…"
 
-#: ../composer/e-composer-actions.c:501
+#: ../composer/e-composer-actions.c:509
 msgid "Save the current file with a different name"
 msgstr "Guardar el archivo actual con un nombre diferente"
 
-#: ../composer/e-composer-actions.c:506
+#: ../composer/e-composer-actions.c:514
 msgid "Save _Draft"
 msgstr "Guardar _borrador"
 
-#: ../composer/e-composer-actions.c:508
+#: ../composer/e-composer-actions.c:516
 msgid "Save as draft"
 msgstr "Guardar como borrador"
 
-#: ../composer/e-composer-actions.c:513
+#: ../composer/e-composer-actions.c:521
 msgid "S_end"
 msgstr "_Enviar"
 
-#: ../composer/e-composer-actions.c:515
+#: ../composer/e-composer-actions.c:523
 msgid "Send this message"
 msgstr "Enviar este mensaje"
 
-#: ../composer/e-composer-actions.c:520 ../ui/evolution-task-editor.xml.h:23
+#: ../composer/e-composer-actions.c:528 ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "Opciones de _envío"
 
-#: ../composer/e-composer-actions.c:522
+#: ../composer/e-composer-actions.c:530
 msgid "Insert Send options"
 msgstr "Insertar opciones de envío"
 
-#: ../composer/e-composer-actions.c:529
+#: ../composer/e-composer-actions.c:535
+msgid "New _Message"
+msgstr "_Mensaje nuevo"
+
+#: ../composer/e-composer-actions.c:537
+msgid "Open New Message window"
+msgstr "Abrir la ventana del mensaje nuevo"
+
+#: ../composer/e-composer-actions.c:544
 msgid "Character _Encoding"
 msgstr "_Codificación de caracteres"
 
-#: ../composer/e-composer-actions.c:536
+#: ../composer/e-composer-actions.c:551
 msgid "_Security"
 msgstr "_Seguridad"
 
-#: ../composer/e-composer-actions.c:546
+#: ../composer/e-composer-actions.c:561
 msgid "PGP _Encrypt"
 msgstr "Cif_rar con PGP"
 
-#: ../composer/e-composer-actions.c:548
+#: ../composer/e-composer-actions.c:563
 msgid "Encrypt this message with PGP"
 msgstr "Cifrar este mensaje con PGP"
 
-#: ../composer/e-composer-actions.c:554
+#: ../composer/e-composer-actions.c:569
 msgid "PGP _Sign"
 msgstr "_Firmar con PGP"
 
-#: ../composer/e-composer-actions.c:556
+#: ../composer/e-composer-actions.c:571
 msgid "Sign this message with your PGP key"
 msgstr "Firmar este mensaje con su clave GPG"
 
-#: ../composer/e-composer-actions.c:562
+#: ../composer/e-composer-actions.c:577
 msgid "_Prioritize Message"
 msgstr "_Priorizar mensaje"
 
-#: ../composer/e-composer-actions.c:564
+#: ../composer/e-composer-actions.c:579
 msgid "Set the message priority to high"
 msgstr "Establecer la prioridad del mensaje a alta"
 
-#: ../composer/e-composer-actions.c:570
+#: ../composer/e-composer-actions.c:585
 msgid "Re_quest Read Receipt"
 msgstr "_Solicitar confirmación de lectura"
 
-#: ../composer/e-composer-actions.c:572
+#: ../composer/e-composer-actions.c:587
 msgid "Get delivery notification when your message is read"
 msgstr "Obtener notificación de entrega cuando su mensaje sea leído"
 
-#: ../composer/e-composer-actions.c:578
+#: ../composer/e-composer-actions.c:593
 msgid "S/MIME En_crypt"
 msgstr "C_ifrar con S/MIME"
 
-#: ../composer/e-composer-actions.c:580
+#: ../composer/e-composer-actions.c:595
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Cifrar este mensaje con su certificado de cifrado S/MIME"
 
-#: ../composer/e-composer-actions.c:586
+#: ../composer/e-composer-actions.c:601
 msgid "S/MIME Sig_n"
 msgstr "Fi_rmar con S/MIME"
 
-#: ../composer/e-composer-actions.c:588
+#: ../composer/e-composer-actions.c:603
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Firmar este mensaje con su certificado de firma S/MIME"
 
-#: ../composer/e-composer-actions.c:594
+#: ../composer/e-composer-actions.c:609
 msgid "_Bcc Field"
 msgstr "Campo «Cc_o»"
 
-#: ../composer/e-composer-actions.c:596
+#: ../composer/e-composer-actions.c:611
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cco»"
 
-#: ../composer/e-composer-actions.c:602
+#: ../composer/e-composer-actions.c:617
 msgid "_Cc Field"
 msgstr "Campo «_Cc»"
 
-#: ../composer/e-composer-actions.c:604
+#: ../composer/e-composer-actions.c:619
 msgid "Toggles whether the CC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cc»"
 
-#: ../composer/e-composer-actions.c:610
+#: ../composer/e-composer-actions.c:625
 msgid "_From Field"
 msgstr "Campo «_De»"
 
-#: ../composer/e-composer-actions.c:612
+#: ../composer/e-composer-actions.c:627
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Conmutador que indica si se muestra el selector «De»"
 
-#: ../composer/e-composer-actions.c:618
+#: ../composer/e-composer-actions.c:633
 msgid "_Post-To Field"
 msgstr "Campo «_Publicar-en»"
 
-#: ../composer/e-composer-actions.c:620
+#: ../composer/e-composer-actions.c:635
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Publicar-en»"
 
-#: ../composer/e-composer-actions.c:626
+#: ../composer/e-composer-actions.c:641
 msgid "_Reply-To Field"
 msgstr "Campo «_Responder-a»"
 
-#: ../composer/e-composer-actions.c:628
+#: ../composer/e-composer-actions.c:643
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Responder-a»"
 
-#: ../composer/e-composer-actions.c:634
+#: ../composer/e-composer-actions.c:649
 msgid "_Subject Field"
 msgstr "Campo A_sunto"
 
-#: ../composer/e-composer-actions.c:636
+#: ../composer/e-composer-actions.c:651
 msgid "Toggles whether the Subject field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Asunto»"
 
-#: ../composer/e-composer-actions.c:642
+#: ../composer/e-composer-actions.c:657
 msgid "_To Field"
 msgstr "Campo «_Para»"
 
-#: ../composer/e-composer-actions.c:644
+#: ../composer/e-composer-actions.c:659
 msgid "Toggles whether the To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Para»"
 
-#: ../composer/e-composer-actions.c:685 ../ui/evolution-editor.xml.h:1
+#: ../composer/e-composer-actions.c:700 ../ui/evolution-editor.xml.h:1
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -11093,56 +11101,56 @@ msgstr "Elija un archivo"
 msgid "Test"
 msgstr "Prueba"
 
-#: ../filter/filter-rule.c:847
+#: ../filter/filter-rule.c:851
 msgid "R_ule name:"
 msgstr "Nombre de la _regla:"
 
-#: ../filter/filter-rule.c:875
+#: ../filter/filter-rule.c:879
 msgid "Find items that meet the following criteria"
 msgstr "Buscar elementos que cumplen con estos criterios"
 
-#: ../filter/filter-rule.c:909
+#: ../filter/filter-rule.c:913
 msgid "A_dd Filter Criteria"
 msgstr "_Añadir regla de filtrado"
 
-#: ../filter/filter-rule.c:915
+#: ../filter/filter-rule.c:919
 msgid "If all criteria are met"
 msgstr "Si se cumplen todos los criterios"
 
-#: ../filter/filter-rule.c:915
+#: ../filter/filter-rule.c:919
 msgid "If any criteria are met"
 msgstr "Si se cumple algún criterio"
 
-#: ../filter/filter-rule.c:917
+#: ../filter/filter-rule.c:921
 msgid "_Find items:"
 msgstr "_Buscar elementos:"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "All related"
 msgstr "Todas las relacionadas"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "Replies"
 msgstr "Respuestas"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "Replies and parents"
 msgstr "Respuestas y antecesores"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "No reply or parent"
 msgstr "Sin respuesta o antecesor"
 
-#: ../filter/filter-rule.c:941
+#: ../filter/filter-rule.c:945
 msgid "I_nclude threads"
 msgstr "I_ncluir conversaciones"
 
-#: ../filter/filter-rule.c:1039 ../filter/filter.glade.h:3
+#: ../filter/filter-rule.c:1043 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:308
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../filter/filter-rule.c:1039 ../mail/em-utils.c:309
+#: ../filter/filter-rule.c:1043 ../mail/em-utils.c:309
 msgid "Outgoing"
 msgstr "Saliente"
 
@@ -13847,7 +13855,7 @@ msgstr "Nivel de sucesos"
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1808 ../mail/message-list.c:2391
+#: ../mail/mail-component.c:1808 ../mail/message-list.c:2429
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensajes"
@@ -15648,11 +15656,11 @@ msgstr "%b %e %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%e %b %Y"
 
-#: ../mail/message-list.c:3840
+#: ../mail/message-list.c:3884
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
-#: ../mail/message-list.c:4126
+#: ../mail/message-list.c:4170
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15660,7 +15668,7 @@ msgstr ""
 "Ningún mensaje satisface su criterio de búsqueda. Limpie el criterio de "
 "selección con el elemento del menú Buscar->Limpiar o cámbielo."
 
-#: ../mail/message-list.c:4128
+#: ../mail/message-list.c:4172
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
