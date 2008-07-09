@@ -4,6 +4,8 @@
       <menu action='file-menu'>
         <menuitem action='send'/>
         <separator/>
+        <menuitem action='new-message'/>
+        <separator/>
         <menuitem action='save'/>
         <menuitem action='save-as'/>
         <menuitem action='save-draft'/>

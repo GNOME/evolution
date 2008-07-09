@@ -1,3 +1,12 @@
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #206592
+
+	* evolution-composer.ui:
+	* e-composer-actions.h:
+	* e-composer-actions.c: (action_new_message_cb), (entries):
+	Action to invoke New Message window from the composer itself.
+
 2008-06-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-composer-post-header.c (composer_post_header_finalize):
