@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.23.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-01 09:29+0200\n"
-"PO-Revision-Date: 2008-07-01 09:36+0200\n"
+"POT-Creation-Date: 2008-07-09 13:59+0200\n"
+"PO-Revision-Date: 2008-07-09 14:08+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgid "calendar view for one or more days"
 msgstr "kalendervisning for en eller flere dager"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:188
-#: ../calendar/gui/calendar-component.c:747
+#: ../calendar/gui/calendar-component.c:758
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -162,7 +162,7 @@ msgstr "%A %d %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:191
-#: ../calendar/gui/calendar-component.c:750
+#: ../calendar/gui/calendar-component.c:761
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1540
 #: ../calendar/gui/e-week-view-main-item.c:340
 msgid "%a %d %b"
@@ -171,9 +171,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:193
 #: ../a11y/calendar/ea-gnome-calendar.c:198
 #: ../a11y/calendar/ea-gnome-calendar.c:200
-#: ../calendar/gui/calendar-component.c:752
-#: ../calendar/gui/calendar-component.c:757
-#: ../calendar/gui/calendar-component.c:759
+#: ../calendar/gui/calendar-component.c:763
+#: ../calendar/gui/calendar-component.c:768
+#: ../calendar/gui/calendar-component.c:770
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -181,10 +181,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:223
 #: ../a11y/calendar/ea-gnome-calendar.c:229
 #: ../a11y/calendar/ea-gnome-calendar.c:231
-#: ../calendar/gui/calendar-component.c:771
-#: ../calendar/gui/calendar-component.c:778
-#: ../calendar/gui/calendar-component.c:784
-#: ../calendar/gui/calendar-component.c:786
+#: ../calendar/gui/calendar-component.c:782
+#: ../calendar/gui/calendar-component.c:789
+#: ../calendar/gui/calendar-component.c:795
+#: ../calendar/gui/calendar-component.c:797
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -194,7 +194,7 @@ msgstr "%d %b %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:221
-#: ../calendar/gui/calendar-component.c:776
+#: ../calendar/gui/calendar-component.c:787
 #: ../calendar/gui/e-day-view-top-item.c:860 ../calendar/gui/e-day-view.c:1556
 #: ../calendar/gui/e-week-view-main-item.c:354
 msgid "%d %b"
@@ -598,7 +598,7 @@ msgstr "Konfigurer automatisk fullføring her"
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1334
-#: ../calendar/gui/calendar-component.c:285 ../calendar/gui/migration.c:396
+#: ../calendar/gui/calendar-component.c:300 ../calendar/gui/migration.c:396
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
 #: ../plugins/exchange-operations/exchange-folder.c:580
 msgid "Contacts"
@@ -667,7 +667,7 @@ msgid "Personal"
 msgstr "Personlig"
 
 #. Create the LDAP source group
-#: ../addressbook/gui/component/addressbook-component.c:162
+#: ../addressbook/gui/component/addressbook-component.c:163
 #: ../addressbook/gui/component/addressbook-migrate.c:517
 msgid "On LDAP Servers"
 msgstr "På LDAP-tjenere"
@@ -851,10 +851,10 @@ msgstr "Lagre som vCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:954
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
-#: ../calendar/gui/calendar-component.c:609
+#: ../calendar/gui/calendar-component.c:620
 #: ../calendar/gui/e-calendar-table.c:1387
 #: ../calendar/gui/e-calendar-view.c:1702 ../calendar/gui/e-memo-table.c:941
-#: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
+#: ../calendar/gui/memos-component.c:469 ../calendar/gui/tasks-component.c:460
 #: ../mail/em-folder-tree.c:2095 ../mail/em-folder-view.c:1346
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
@@ -3048,7 +3048,7 @@ msgstr "Biltelefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:7
-#: ../calendar/gui/e-cal-component-memo-preview.c:143
+#: ../calendar/gui/e-cal-component-memo-preview.c:144
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -3368,7 +3368,7 @@ msgstr "Videosamtale"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:92
-#: ../calendar/gui/calendar-component.c:795
+#: ../calendar/gui/calendar-component.c:806
 #: ../calendar/gui/dialogs/calendar-setup.c:367
 #: ../calendar/gui/gnome-cal.c:2376
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
@@ -3482,7 +3482,7 @@ msgstr "Protokollen er ikke støttet"
 #. E_BOOK_ERROR_CANCELLED
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
 #: ../calendar/gui/dialogs/task-details-page.glade.h:3
-#: ../calendar/gui/e-cal-component-preview.c:255
+#: ../calendar/gui/e-cal-component-preview.c:256
 #: ../calendar/gui/e-cal-model-tasks.c:360
 #: ../calendar/gui/e-cal-model-tasks.c:677
 #: ../calendar/gui/e-calendar-table.c:236
@@ -4450,7 +4450,7 @@ msgstr ""
 msgid "_Discard Changes"
 msgstr "_Forkast endringer"
 
-#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:492
+#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:500
 #: ../ui/evolution-editor.xml.h:23
 msgid "_Save"
 msgstr "_Lagre"
@@ -4521,7 +4521,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalender og oppgaver"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1392
+#: ../calendar/gui/calendar-component.c:1403
 msgid "Calendars"
 msgstr "Kalendere"
 
@@ -4563,8 +4563,8 @@ msgstr "_Notater"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1120
-#: ../calendar/gui/gnome-cal.c:1702 ../calendar/gui/memos-component.c:548
-#: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:353
+#: ../calendar/gui/gnome-cal.c:1702 ../calendar/gui/memos-component.c:549
+#: ../calendar/gui/memos-component.c:1102 ../calendar/gui/memos-control.c:353
 #: ../calendar/gui/memos-control.c:369
 msgid "Memos"
 msgstr "Notater"
@@ -4572,8 +4572,8 @@ msgstr "Notater"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:495 ../calendar/gui/e-tasks.c:1429
 #: ../calendar/gui/gnome-cal.c:1574 ../calendar/gui/print.c:1966
-#: ../calendar/gui/tasks-component.c:539
-#: ../calendar/gui/tasks-component.c:1090 ../calendar/gui/tasks-control.c:492
+#: ../calendar/gui/tasks-component.c:540
+#: ../calendar/gui/tasks-component.c:1091 ../calendar/gui/tasks-control.c:492
 #: ../calendar/gui/tasks-control.c:508
 #: ../calendar/importers/icalendar-importer.c:74
 #: ../calendar/importers/icalendar-importer.c:735
@@ -5271,103 +5271,103 @@ msgstr "dager"
 #. Create the LDAP source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:273
-#: ../calendar/gui/memos-component.c:235 ../calendar/gui/migration.c:505
+#: ../calendar/gui/calendar-component.c:274
+#: ../calendar/gui/memos-component.c:236 ../calendar/gui/migration.c:505
 #: ../calendar/gui/migration.c:604 ../calendar/gui/migration.c:1118
-#: ../calendar/gui/tasks-component.c:231
+#: ../calendar/gui/tasks-component.c:232
 msgid "On The Web"
 msgstr "På nettet"
 
-#: ../calendar/gui/calendar-component.c:296 ../calendar/gui/migration.c:399
+#: ../calendar/gui/calendar-component.c:311 ../calendar/gui/migration.c:399
 msgid "Birthdays & Anniversaries"
 msgstr "Fødselsdager og jubileum"
 
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:308
+#: ../calendar/gui/calendar-component.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "Vær"
 
-#: ../calendar/gui/calendar-component.c:605
+#: ../calendar/gui/calendar-component.c:616
 msgid "_New Calendar"
 msgstr "_Ny kalender"
 
-#: ../calendar/gui/calendar-component.c:606
-#: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
+#: ../calendar/gui/calendar-component.c:617
+#: ../calendar/gui/memos-component.c:466 ../calendar/gui/tasks-component.c:457
 #: ../mail/em-folder-tree.c:2090
 msgid "_Copy..."
 msgstr "_Kopier..."
 
-#: ../calendar/gui/calendar-component.c:612
+#: ../calendar/gui/calendar-component.c:623
 #: ../calendar/gui/dialogs/comp-editor.c:1126
-#: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
+#: ../calendar/gui/memos-component.c:472 ../calendar/gui/tasks-component.c:463
 #: ../composer/e-msg-composer.c:1047 ../mail/em-folder-tree.c:2104
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "Egenska_per..."
 
-#: ../calendar/gui/calendar-component.c:939
+#: ../calendar/gui/calendar-component.c:950
 msgid "Failed upgrading calendars."
 msgstr "Feil under oppgradering av kalendere."
 
-#: ../calendar/gui/calendar-component.c:1238
+#: ../calendar/gui/calendar-component.c:1249
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Kan ikke åpne kalender «%s» for oppretting av hendelser og møter"
 
-#: ../calendar/gui/calendar-component.c:1254
+#: ../calendar/gui/calendar-component.c:1265
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Ingen kalender er tilgjengelig for oppretting av hendelser og møter"
 
-#: ../calendar/gui/calendar-component.c:1367
+#: ../calendar/gui/calendar-component.c:1378
 msgid "Calendar Source Selector"
 msgstr "Valg av kalenderkilde"
 
-#: ../calendar/gui/calendar-component.c:1585
+#: ../calendar/gui/calendar-component.c:1596
 msgid "New appointment"
 msgstr "Ny avtale"
 
-#: ../calendar/gui/calendar-component.c:1586
+#: ../calendar/gui/calendar-component.c:1597
 msgid "_Appointment"
 msgstr "A_vtale"
 
-#: ../calendar/gui/calendar-component.c:1587
+#: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Opprett en ny avtale"
 
-#: ../calendar/gui/calendar-component.c:1593
+#: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Nytt møte"
 
-#: ../calendar/gui/calendar-component.c:1594
+#: ../calendar/gui/calendar-component.c:1605
 msgid "M_eeting"
 msgstr "Møt_e"
 
-#: ../calendar/gui/calendar-component.c:1595
+#: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
 msgstr "Opprett en ny møteforespørsel"
 
-#: ../calendar/gui/calendar-component.c:1601
+#: ../calendar/gui/calendar-component.c:1612
 msgid "New all day appointment"
 msgstr "Ny avtale for hele dagen"
 
-#: ../calendar/gui/calendar-component.c:1602
+#: ../calendar/gui/calendar-component.c:1613
 msgid "All Day A_ppointment"
 msgstr "Avtale for hele _dagen"
 
-#: ../calendar/gui/calendar-component.c:1603
+#: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Opprett en ny avtale for hele dagen"
 
-#: ../calendar/gui/calendar-component.c:1609
+#: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Ny kalender"
 
-#: ../calendar/gui/calendar-component.c:1610
+#: ../calendar/gui/calendar-component.c:1621
 msgid "Cale_ndar"
 msgstr "Kale_nder"
 
-#: ../calendar/gui/calendar-component.c:1611
+#: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
 msgstr "Opprett en ny kalender"
 
@@ -5745,7 +5745,7 @@ msgid "Alarms"
 msgstr "Varsel"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:84
-#: ../composer/e-composer-actions.c:63
+#: ../composer/e-composer-actions.c:64
 msgid "_Suggest automatic display of attachment"
 msgstr "Fore_slå automatisk visning av vedlegg"
 
@@ -6443,7 +6443,7 @@ msgstr "Tilpass"
 #: ../calendar/gui/dialogs/event-page.c:3080
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:669
-#: ../calendar/gui/e-itip-control.c:1158 ../filter/filter-rule.c:939
+#: ../calendar/gui/e-itip-control.c:1158 ../filter/filter-rule.c:943
 #: ../mail/em-account-editor.c:685 ../mail/em-account-editor.c:1409
 #: ../mail/em-account-prefs.c:438 ../mail/em-junk-hook.c:94
 #: ../plugins/calendar-weather/calendar-weather.c:370
@@ -6792,7 +6792,7 @@ msgstr "<span weight=\"bold\">Status</span>"
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
 #: ../calendar/gui/dialogs/task-details-page.glade.h:4
-#: ../calendar/gui/e-cal-component-preview.c:252
+#: ../calendar/gui/e-cal-component-preview.c:253
 #: ../calendar/gui/e-cal-model-tasks.c:358
 #: ../calendar/gui/e-cal-model-tasks.c:675
 #: ../calendar/gui/e-calendar-table.c:234
@@ -6804,14 +6804,14 @@ msgid "Completed"
 msgstr "Fullført"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
-#: ../calendar/gui/e-cal-component-preview.c:271
+#: ../calendar/gui/e-cal-component-preview.c:272
 #: ../calendar/gui/e-calendar-table.c:360 ../calendar/gui/tasktypes.xml.h:21
 #: ../mail/message-list.c:1063
 msgid "High"
 msgstr "Høy"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:6
-#: ../calendar/gui/e-cal-component-preview.c:249
+#: ../calendar/gui/e-cal-component-preview.c:250
 #: ../calendar/gui/e-cal-model-tasks.c:356
 #: ../calendar/gui/e-cal-model-tasks.c:673
 #: ../calendar/gui/e-cal-model-tasks.c:750
@@ -6821,21 +6821,21 @@ msgid "In Progress"
 msgstr "Under arbeid"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
-#: ../calendar/gui/e-cal-component-preview.c:275
+#: ../calendar/gui/e-cal-component-preview.c:276
 #: ../calendar/gui/e-calendar-table.c:362 ../calendar/gui/tasktypes.xml.h:29
 #: ../mail/message-list.c:1061
 msgid "Low"
 msgstr "Lav"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
-#: ../calendar/gui/e-cal-component-preview.c:273
+#: ../calendar/gui/e-cal-component-preview.c:274
 #: ../calendar/gui/e-cal-model.c:966 ../calendar/gui/e-calendar-table.c:361
 #: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1062
 msgid "Normal"
 msgstr "Normal"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:9
-#: ../calendar/gui/e-cal-component-preview.c:259
+#: ../calendar/gui/e-cal-component-preview.c:260
 #: ../calendar/gui/e-cal-model-tasks.c:354
 #: ../calendar/gui/e-cal-model-tasks.c:671
 #: ../calendar/gui/e-calendar-table.c:230
@@ -6871,7 +6871,7 @@ msgid "_Web Page:"
 msgstr "_Nettside:"
 
 #: ../calendar/gui/dialogs/task-editor.c:426
-#: ../calendar/gui/tasks-component.c:1325
+#: ../calendar/gui/tasks-component.c:1326
 msgid "_Task"
 msgstr "_Oppgave"
 
@@ -6989,57 +6989,57 @@ msgstr "%s ved %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s for en ukjent utløsertype"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:74
-#: ../calendar/gui/e-cal-component-preview.c:72 ../mail/em-folder-view.c:3329
+#: ../calendar/gui/e-cal-component-memo-preview.c:75
+#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3329
 #, c-format
 msgid "Click to open %s"
 msgstr "Klikk for å åpne %s"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:134
-#: ../calendar/gui/e-cal-component-preview.c:176 ../filter/filter-rule.c:852
+#: ../calendar/gui/e-cal-component-memo-preview.c:135
+#: ../calendar/gui/e-cal-component-preview.c:177 ../filter/filter-rule.c:856
 #: ../shell/e-shell-folder-title-bar.c:586
 msgid "Untitled"
 msgstr "Uten navn"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:186
-#: ../calendar/gui/e-cal-component-preview.c:216
-#: ../calendar/gui/e-cal-component-preview.c:227
+#: ../calendar/gui/e-cal-component-memo-preview.c:187
+#: ../calendar/gui/e-cal-component-preview.c:217
+#: ../calendar/gui/e-cal-component-preview.c:228
 msgid "Start Date:"
 msgstr "Startdato:"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:199
-#: ../calendar/gui/e-cal-component-preview.c:290
+#: ../calendar/gui/e-cal-component-memo-preview.c:200
+#: ../calendar/gui/e-cal-component-preview.c:291
 #: ../calendar/gui/e-itip-control.c:1218
 #: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:69
 #: ../widgets/misc/e-attachment.glade.h:2
 msgid "Description:"
 msgstr "Beskrivelse:"
 
-#: ../calendar/gui/e-cal-component-memo-preview.c:235
-#: ../calendar/gui/e-cal-component-preview.c:323
+#: ../calendar/gui/e-cal-component-memo-preview.c:224
+#: ../calendar/gui/e-cal-component-preview.c:315
 msgid "Web Page:"
 msgstr "Nettside:"
 
-#: ../calendar/gui/e-cal-component-preview.c:209
+#: ../calendar/gui/e-cal-component-preview.c:210
 #: ../calendar/gui/e-itip-control.c:1162
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
 msgstr "Sammendrag:"
 
-#: ../calendar/gui/e-cal-component-preview.c:238
+#: ../calendar/gui/e-cal-component-preview.c:239
 msgid "Due Date:"
 msgstr "Ferdig-dato:"
 
 #. write status
 #. Status
-#: ../calendar/gui/e-cal-component-preview.c:245
+#: ../calendar/gui/e-cal-component-preview.c:246
 #: ../calendar/gui/e-itip-control.c:1186
 #: ../plugins/exchange-operations/exchange-account-setup.c:267
 #: ../plugins/itip-formatter/itip-view.c:1027
 msgid "Status:"
 msgstr "Status:"
 
-#: ../calendar/gui/e-cal-component-preview.c:269
+#: ../calendar/gui/e-cal-component-preview.c:270
 msgid "Priority:"
 msgstr "Prioritet:"
 
@@ -7202,7 +7202,7 @@ msgstr "Oppdaterer objekter"
 
 #: ../calendar/gui/e-calendar-table.c:1139
 #: ../calendar/gui/e-calendar-view.c:1230 ../calendar/gui/e-memo-table.c:821
-#: ../composer/e-composer-actions.c:277
+#: ../composer/e-composer-actions.c:278
 msgid "Save as..."
 msgstr "Lagre som..."
 
@@ -8292,74 +8292,74 @@ msgstr "iCalendar-informasjon"
 msgid "You must be an attendee of the event."
 msgstr "Du må være en deltager i hendelsen."
 
-#: ../calendar/gui/memos-component.c:464
+#: ../calendar/gui/memos-component.c:465
 msgid "_New Memo List"
 msgstr "_Ny notatliste"
 
-#: ../calendar/gui/memos-component.c:544
+#: ../calendar/gui/memos-component.c:545
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d notat"
 msgstr[1] "%d notater"
 
-#: ../calendar/gui/memos-component.c:546 ../calendar/gui/tasks-component.c:537
+#: ../calendar/gui/memos-component.c:547 ../calendar/gui/tasks-component.c:538
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d valgt"
 msgstr[1] ", %d valgt"
 
-#: ../calendar/gui/memos-component.c:593
+#: ../calendar/gui/memos-component.c:594
 msgid "Failed upgrading memos."
 msgstr "Feil under oppgradering av notater."
 
-#: ../calendar/gui/memos-component.c:953
+#: ../calendar/gui/memos-component.c:954
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr "Kan ikke åpne notatliste «%s» for oppretting av hendelser og møter"
 
-#: ../calendar/gui/memos-component.c:966
+#: ../calendar/gui/memos-component.c:967
 msgid "There is no calendar available for creating memos"
 msgstr "Ingen kalender tilgjengelig for opppretting av notater"
 
-#: ../calendar/gui/memos-component.c:1076
+#: ../calendar/gui/memos-component.c:1077
 msgid "Memo Source Selector"
 msgstr "Valgt av notatkilde"
 
-#: ../calendar/gui/memos-component.c:1259
+#: ../calendar/gui/memos-component.c:1260
 msgid "New memo"
 msgstr "Nytt notat"
 
-#: ../calendar/gui/memos-component.c:1260
+#: ../calendar/gui/memos-component.c:1261
 msgid "Mem_o"
 msgstr "N_otat"
 
-#: ../calendar/gui/memos-component.c:1261
+#: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Lag et nytt notat"
 
-#: ../calendar/gui/memos-component.c:1267
+#: ../calendar/gui/memos-component.c:1268
 msgid "New shared memo"
 msgstr "Nytt delt notat"
 
-#: ../calendar/gui/memos-component.c:1268
+#: ../calendar/gui/memos-component.c:1269
 msgid "_Shared memo"
 msgstr "_Delt notat"
 
-#: ../calendar/gui/memos-component.c:1269
+#: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Lag et nytt delt notat"
 
-#: ../calendar/gui/memos-component.c:1275
+#: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Ny notatliste"
 
-#: ../calendar/gui/memos-component.c:1276
+#: ../calendar/gui/memos-component.c:1277
 msgid "Memo li_st"
 msgstr "Notatli_ste"
 
-#: ../calendar/gui/memos-component.c:1277
+#: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
 msgstr "Lag en ny notatliste"
 
@@ -8624,63 +8624,63 @@ msgstr "Kontakter: "
 msgid "Upcoming Appointments"
 msgstr "Kommende avtaler"
 
-#: ../calendar/gui/tasks-component.c:455
+#: ../calendar/gui/tasks-component.c:456
 msgid "_New Task List"
 msgstr "_Ny oppgaveliste"
 
-#: ../calendar/gui/tasks-component.c:535
+#: ../calendar/gui/tasks-component.c:536
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d oppgave"
 msgstr[1] "%d oppgaver"
 
-#: ../calendar/gui/tasks-component.c:584
+#: ../calendar/gui/tasks-component.c:585
 msgid "Failed upgrading tasks."
 msgstr "Feil under oppgradering av oppgaver."
 
-#: ../calendar/gui/tasks-component.c:941
+#: ../calendar/gui/tasks-component.c:942
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Kan ikke åpne oppgaveliste «%s» for oppretting av hendelser og møter"
 
-#: ../calendar/gui/tasks-component.c:954
+#: ../calendar/gui/tasks-component.c:955
 msgid "There is no calendar available for creating tasks"
 msgstr "Ingen kalender tilgjengelig for opppretting av oppgaver"
 
-#: ../calendar/gui/tasks-component.c:1065
+#: ../calendar/gui/tasks-component.c:1066
 msgid "Task Source Selector"
 msgstr "Valgt av oppgavekilde"
 
-#: ../calendar/gui/tasks-component.c:1324
+#: ../calendar/gui/tasks-component.c:1325
 msgid "New task"
 msgstr "Ny oppgave"
 
-#: ../calendar/gui/tasks-component.c:1326
+#: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Opprett en ny oppgave"
 
-#: ../calendar/gui/tasks-component.c:1332
+#: ../calendar/gui/tasks-component.c:1333
 msgid "New assigned task"
 msgstr "Ny tildelt oppgave"
 
-#: ../calendar/gui/tasks-component.c:1333
+#: ../calendar/gui/tasks-component.c:1334
 msgid "Assigne_d Task"
 msgstr "Til_delt oppgave"
 
-#: ../calendar/gui/tasks-component.c:1334
+#: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Opprett en ny tildelt oppgave"
 
-#: ../calendar/gui/tasks-component.c:1340
+#: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Ny oppgaveliste"
 
-#: ../calendar/gui/tasks-component.c:1341
+#: ../calendar/gui/tasks-component.c:1342
 msgid "Tas_k list"
 msgstr "Oppgave_liste"
 
-#: ../calendar/gui/tasks-component.c:1342
+#: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
 msgstr "Opprett en ny oppgaveliste"
 
@@ -10301,197 +10301,205 @@ msgstr "Kunne ikke åpne automatisk lagret fil"
 msgid "Unable to retrieve message from editor"
 msgstr "Kunne ikke hente melding fra editor"
 
-#: ../composer/e-composer-actions.c:46
+#: ../composer/e-composer-actions.c:47
 msgid "Insert Attachment"
 msgstr "Sett inn vedlegg"
 
-#: ../composer/e-composer-actions.c:50
+#: ../composer/e-composer-actions.c:51
 msgid "A_ttach"
 msgstr "Le_gg ved"
 
-#: ../composer/e-composer-actions.c:142
+#: ../composer/e-composer-actions.c:143
 msgid "Untitled Message"
 msgstr "Melding uten navn"
 
-#: ../composer/e-composer-actions.c:464 ../ui/evolution-editor.xml.h:15
+#: ../composer/e-composer-actions.c:472 ../ui/evolution-editor.xml.h:15
 msgid "_Attachment..."
 msgstr "_Vedlegg..."
 
-#: ../composer/e-composer-actions.c:466
+#: ../composer/e-composer-actions.c:474
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
-#: ../composer/e-composer-actions.c:471 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:479 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-editor.xml.h:16 ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
 msgstr "L_ukk"
 
-#: ../composer/e-composer-actions.c:473
+#: ../composer/e-composer-actions.c:481
 msgid "Close the current file"
 msgstr "Lukk aktiv fil"
 
-#: ../composer/e-composer-actions.c:478 ../mail/em-folder-view.c:1343
+#: ../composer/e-composer-actions.c:486 ../mail/em-folder-view.c:1343
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:124 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "S_kriv ut..."
 
-#: ../composer/e-composer-actions.c:485 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:493 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Forhåndsvisning av utskrift"
 
-#: ../composer/e-composer-actions.c:494
+#: ../composer/e-composer-actions.c:502
 msgid "Save the current file"
 msgstr "Lagre aktiv fil"
 
-#: ../composer/e-composer-actions.c:499
+#: ../composer/e-composer-actions.c:507
 msgid "Save _As..."
 msgstr "L_agre som..."
 
-#: ../composer/e-composer-actions.c:501
+#: ../composer/e-composer-actions.c:509
 msgid "Save the current file with a different name"
 msgstr "Lagre aktiv fil med et nytt navn"
 
-#: ../composer/e-composer-actions.c:506
+#: ../composer/e-composer-actions.c:514
 msgid "Save _Draft"
 msgstr "L_agre utkast"
 
-#: ../composer/e-composer-actions.c:508
+#: ../composer/e-composer-actions.c:516
 msgid "Save as draft"
 msgstr "Lagre som utkast"
 
-#: ../composer/e-composer-actions.c:513
+#: ../composer/e-composer-actions.c:521
 msgid "S_end"
 msgstr "S_end"
 
-#: ../composer/e-composer-actions.c:515
+#: ../composer/e-composer-actions.c:523
 msgid "Send this message"
 msgstr "Send denne meldingen"
 
-#: ../composer/e-composer-actions.c:520 ../ui/evolution-task-editor.xml.h:23
+#: ../composer/e-composer-actions.c:528 ../ui/evolution-task-editor.xml.h:23
 msgid "_Send Options"
 msgstr "Alternativer for _sending"
 
-#: ../composer/e-composer-actions.c:522
+#: ../composer/e-composer-actions.c:530
 msgid "Insert Send options"
 msgstr "Sett inn alternativer for sending"
 
-#: ../composer/e-composer-actions.c:529
+#: ../composer/e-composer-actions.c:535
+msgid "New _Message"
+msgstr "Ny _melding"
+
+#: ../composer/e-composer-actions.c:537
+msgid "Open New Message window"
+msgstr "Åpne nytt meldingsvindu"
+
+#: ../composer/e-composer-actions.c:544
 msgid "Character _Encoding"
 msgstr "T_egnkoding"
 
-#: ../composer/e-composer-actions.c:536
+#: ../composer/e-composer-actions.c:551
 msgid "_Security"
 msgstr "_Sikkerhet"
 
-#: ../composer/e-composer-actions.c:546
+#: ../composer/e-composer-actions.c:561
 msgid "PGP _Encrypt"
 msgstr "Krypt_er med PGP"
 
-#: ../composer/e-composer-actions.c:548
+#: ../composer/e-composer-actions.c:563
 msgid "Encrypt this message with PGP"
 msgstr "Krypter denne meldingen med PGP"
 
-#: ../composer/e-composer-actions.c:554
+#: ../composer/e-composer-actions.c:569
 msgid "PGP _Sign"
 msgstr "_Signer med PGP"
 
-#: ../composer/e-composer-actions.c:556
+#: ../composer/e-composer-actions.c:571
 msgid "Sign this message with your PGP key"
 msgstr "Signer denne meldingen med din PGP-nøkkel"
 
-#: ../composer/e-composer-actions.c:562
+#: ../composer/e-composer-actions.c:577
 msgid "_Prioritize Message"
 msgstr "_Prioriter melding"
 
-#: ../composer/e-composer-actions.c:564
+#: ../composer/e-composer-actions.c:579
 msgid "Set the message priority to high"
 msgstr "Sett meldingsprioritet til høy"
 
-#: ../composer/e-composer-actions.c:570
+#: ../composer/e-composer-actions.c:585
 msgid "Re_quest Read Receipt"
 msgstr "S_pør om lesekvittering"
 
-#: ../composer/e-composer-actions.c:572
+#: ../composer/e-composer-actions.c:587
 msgid "Get delivery notification when your message is read"
 msgstr "Motta leveringsmelding når meldingen blir lest"
 
-#: ../composer/e-composer-actions.c:578
+#: ../composer/e-composer-actions.c:593
 msgid "S/MIME En_crypt"
 msgstr "_Krypter med S/MIME"
 
-#: ../composer/e-composer-actions.c:580
+#: ../composer/e-composer-actions.c:595
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Krypter denne meldingen med ditt S/MIME-krypteringssertifikat"
 
-#: ../composer/e-composer-actions.c:586
+#: ../composer/e-composer-actions.c:601
 msgid "S/MIME Sig_n"
 msgstr "Sig_ner med S/MIME"
 
-#: ../composer/e-composer-actions.c:588
+#: ../composer/e-composer-actions.c:603
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Signer denne meldingen med ditt S/MIME signatursertifikat"
 
-#: ../composer/e-composer-actions.c:594
+#: ../composer/e-composer-actions.c:609
 msgid "_Bcc Field"
 msgstr "_Bcc-felt"
 
-#: ../composer/e-composer-actions.c:596
+#: ../composer/e-composer-actions.c:611
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Slå av/på visning av BCC-feltet"
 
-#: ../composer/e-composer-actions.c:602
+#: ../composer/e-composer-actions.c:617
 msgid "_Cc Field"
 msgstr "_Cc-felt"
 
-#: ../composer/e-composer-actions.c:604
+#: ../composer/e-composer-actions.c:619
 msgid "Toggles whether the CC field is displayed"
 msgstr "Slå av/på visning av CC-feltet"
 
-#: ../composer/e-composer-actions.c:610
+#: ../composer/e-composer-actions.c:625
 msgid "_From Field"
 msgstr "_Fra-felt"
 
-#: ../composer/e-composer-actions.c:612
+#: ../composer/e-composer-actions.c:627
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Slå av/på visning av Fra-feltet"
 
-#: ../composer/e-composer-actions.c:618
+#: ../composer/e-composer-actions.c:633
 msgid "_Post-To Field"
 msgstr "_Post-til-felt"
 
-#: ../composer/e-composer-actions.c:620
+#: ../composer/e-composer-actions.c:635
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Slå av/på visning av Post-til feltet"
 
-#: ../composer/e-composer-actions.c:626
+#: ../composer/e-composer-actions.c:641
 msgid "_Reply-To Field"
 msgstr "Svar-til felt"
 
-#: ../composer/e-composer-actions.c:628
+#: ../composer/e-composer-actions.c:643
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Slå av/på visning av Svar-til feltet"
 
-#: ../composer/e-composer-actions.c:634
+#: ../composer/e-composer-actions.c:649
 msgid "_Subject Field"
 msgstr "_Emnefelt"
 
-#: ../composer/e-composer-actions.c:636
+#: ../composer/e-composer-actions.c:651
 msgid "Toggles whether the Subject field is displayed"
 msgstr "Slår av/på visning av emnefeltet"
 
-#: ../composer/e-composer-actions.c:642
+#: ../composer/e-composer-actions.c:657
 msgid "_To Field"
 msgstr "_Til-felt"
 
-#: ../composer/e-composer-actions.c:644
+#: ../composer/e-composer-actions.c:659
 msgid "Toggles whether the To field is displayed"
 msgstr "Slå av/på visning av Til-feltet"
 
-#: ../composer/e-composer-actions.c:685 ../ui/evolution-editor.xml.h:1
+#: ../composer/e-composer-actions.c:700 ../ui/evolution-editor.xml.h:1
 msgid "Attach"
 msgstr "Legg ved"
 
@@ -10816,15 +10824,15 @@ msgstr "Aktivert"
 msgid "Whether the plugin is enabled"
 msgstr "Om tillegget er aktivert"
 
-#: ../e-util/e-print.c:138
+#: ../e-util/e-print.c:158
 msgid "An error occurred while printing"
 msgstr "En feil oppsto under utskrift"
 
-#: ../e-util/e-print.c:145
+#: ../e-util/e-print.c:165
 msgid "The printing system reported the following details about the error:"
 msgstr "Utskriftssystemet rapporterte følgende detaljer om feilen:"
 
-#: ../e-util/e-print.c:151
+#: ../e-util/e-print.c:171
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "Utskriftssystemet rapporterte ingen detaljer om feilen."
@@ -11039,56 +11047,56 @@ msgstr "Velg en fil"
 msgid "Test"
 msgstr "Test"
 
-#: ../filter/filter-rule.c:847
+#: ../filter/filter-rule.c:851
 msgid "R_ule name:"
 msgstr "Regel_navn:"
 
-#: ../filter/filter-rule.c:875
+#: ../filter/filter-rule.c:879
 msgid "Find items that meet the following criteria"
 msgstr "Finn oppføringer som møter følgende kriterier"
 
-#: ../filter/filter-rule.c:909
+#: ../filter/filter-rule.c:913
 msgid "A_dd Filter Criteria"
 msgstr "Le_gg til filterkriterie"
 
-#: ../filter/filter-rule.c:915
+#: ../filter/filter-rule.c:919
 msgid "If all criteria are met"
 msgstr "Hvis alle kriterier er møtt"
 
-#: ../filter/filter-rule.c:915
+#: ../filter/filter-rule.c:919
 msgid "If any criteria are met"
 msgstr "Hvis noe kriterie er møtt"
 
-#: ../filter/filter-rule.c:917
+#: ../filter/filter-rule.c:921
 msgid "_Find items:"
 msgstr "_Finn oppføringer:"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "All related"
 msgstr "Alle relaterte"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "Replies"
 msgstr "Svar"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "Replies and parents"
 msgstr "Svar med opphav"
 
-#: ../filter/filter-rule.c:939
+#: ../filter/filter-rule.c:943
 msgid "No reply or parent"
 msgstr "Ingen svar eller opphav"
 
-#: ../filter/filter-rule.c:941
+#: ../filter/filter-rule.c:945
 msgid "I_nclude threads"
 msgstr "Ta _med tråder"
 
-#: ../filter/filter-rule.c:1039 ../filter/filter.glade.h:3
+#: ../filter/filter-rule.c:1043 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:308
 msgid "Incoming"
 msgstr "Innkommende"
 
-#: ../filter/filter-rule.c:1039 ../mail/em-utils.c:309
+#: ../filter/filter-rule.c:1043 ../mail/em-utils.c:309
 msgid "Outgoing"
 msgstr "Utgående"
 
@@ -13766,7 +13774,7 @@ msgstr "Loggnivå"
 msgid "Time"
 msgstr "Tid"
 
-#: ../mail/mail-component.c:1808 ../mail/message-list.c:2391
+#: ../mail/mail-component.c:1808 ../mail/message-list.c:2429
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Meldinger"
@@ -15560,11 +15568,11 @@ msgstr "%d %b %H.%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:3840
+#: ../mail/message-list.c:3884
 msgid "Generating message list"
 msgstr "Genererer meldingsliste"
 
-#: ../mail/message-list.c:4126
+#: ../mail/message-list.c:4170
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15572,7 +15580,7 @@ msgstr ""
 "Ingen meldinger passer dine søkekriterier. Du kan enten tømme søket med "
 "menyoppføringen Søk->Tøm eller endre det."
 
-#: ../mail/message-list.c:4128
+#: ../mail/message-list.c:4172
 msgid "There are no messages in this folder."
 msgstr "Det er ingen meldinger i denne mappen."
 
@@ -15775,101 +15783,105 @@ msgstr "Velg Evolution-arkiv som skal gjenopprettes:"
 msgid "Choose a file to restore"
 msgstr "Velg en fil som skal gjenopprettes"
 
-#: ../plugins/backup-restore/backup.c:40
+#: ../plugins/backup-restore/backup.c:46
 msgid "Backup Evolution directory"
 msgstr "Ta sikkerhetskopi av Evolution-mapper"
 
-#: ../plugins/backup-restore/backup.c:42
+#: ../plugins/backup-restore/backup.c:48
 msgid "Restore Evolution directory"
 msgstr "Gjenopprett Evolution-mapper"
 
-#: ../plugins/backup-restore/backup.c:44
+#: ../plugins/backup-restore/backup.c:50
 msgid "Check Evolution Backup"
 msgstr "Sjekk sikkerhetskopi for Evolution"
 
-#: ../plugins/backup-restore/backup.c:46
+#: ../plugins/backup-restore/backup.c:52
 msgid "Restart Evolution"
 msgstr "Start Evolution på nytt"
 
-#: ../plugins/backup-restore/backup.c:48
+#: ../plugins/backup-restore/backup.c:54
 msgid "With Graphical User Interface"
 msgstr "Med grafisk brukergrensesnitt"
 
-#: ../plugins/backup-restore/backup.c:71
-#: ../plugins/backup-restore/backup.c:117
+#: ../plugins/backup-restore/backup.c:105
+#: ../plugins/backup-restore/backup.c:238
 msgid "Shutting down Evolution"
 msgstr "Avslutter Evolution"
 
-#: ../plugins/backup-restore/backup.c:78
+#: ../plugins/backup-restore/backup.c:112
 msgid "Backing Evolution accounts and settings"
 msgstr "Sikkerhetskopiering av kontoer og innstillinger for Evolution"
 
-#: ../plugins/backup-restore/backup.c:82
+#: ../plugins/backup-restore/backup.c:116
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Sikkerhetskopiering av data (e-post, kontakter, kalendere, oppgaver, notater)"
 
-#: ../plugins/backup-restore/backup.c:93
+#: ../plugins/backup-restore/backup.c:127
 msgid "Backup complete"
 msgstr "Sikkerhetskopiering fullført"
 
-#: ../plugins/backup-restore/backup.c:98
-#: ../plugins/backup-restore/backup.c:145
+#: ../plugins/backup-restore/backup.c:132
+#: ../plugins/backup-restore/backup.c:319
 msgid "Restarting Evolution"
 msgstr "Starter Evolution på nytt"
 
-#: ../plugins/backup-restore/backup.c:121
+#: ../plugins/backup-restore/backup.c:242
 msgid "Backup current Evolution data"
 msgstr "Ta sikkerhetskopi av data for Evolution"
 
-#: ../plugins/backup-restore/backup.c:126
+#: ../plugins/backup-restore/backup.c:247
 msgid "Extracting files from backup"
 msgstr "Henter ut filer fra sikkerhetskopien"
 
-#: ../plugins/backup-restore/backup.c:133
+#: ../plugins/backup-restore/backup.c:254
 msgid "Loading Evolution settings"
 msgstr "Laster innstillinger for Evolution"
 
-#: ../plugins/backup-restore/backup.c:137
+#: ../plugins/backup-restore/backup.c:258
 msgid "Removing temporary backup files"
 msgstr "Fjerner midlertidige sikkerhetskopier"
 
-#: ../plugins/backup-restore/backup.c:261
+#: ../plugins/backup-restore/backup.c:265
+msgid "Ensuring local sources"
+msgstr "Sikrer lokale kilder"
+
+#: ../plugins/backup-restore/backup.c:435
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Sikkerhetskopierer til mappe %s"
 
-#: ../plugins/backup-restore/backup.c:266
+#: ../plugins/backup-restore/backup.c:440
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Gjenoppretter fra mappe %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:459
 msgid "Evolution Backup"
 msgstr "Evolution sikkerhetskopiering"
 
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:459
 msgid "Evolution Restore"
 msgstr "Evolution gjenoppretting"
 
-#: ../plugins/backup-restore/backup.c:320
+#: ../plugins/backup-restore/backup.c:494
 msgid "Backing up Evolution Data"
 msgstr "Ta sikkerhetskopi av data for Evolution"
 
-#: ../plugins/backup-restore/backup.c:321
+#: ../plugins/backup-restore/backup.c:495
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Vennligst vent mens Evolution tar sikkerhetskopi av dine data."
 
-#: ../plugins/backup-restore/backup.c:323
+#: ../plugins/backup-restore/backup.c:497
 msgid "Restoring Evolution Data"
 msgstr "Gjenoppretter data for Evolution"
 
-#: ../plugins/backup-restore/backup.c:324
+#: ../plugins/backup-restore/backup.c:498
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Vennligst vent mens Evolution gjenoppretter dine data."
 
-#: ../plugins/backup-restore/backup.c:342
+#: ../plugins/backup-restore/backup.c:516
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Dette kan ta en stund avhengig av hvor mye data du har i din konto."
 
@@ -17390,7 +17402,9 @@ msgstr "Trekk tilbake melding"
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
-msgstr "Tilbaketrekking av en melding kan fjerne den fra en mottakers postboks. Er du sikker på at du vil gjøre dette?"
+msgstr ""
+"Tilbaketrekking av en melding kan fjerne den fra en mottakers postboks. Er "
+"du sikker på at du vil gjøre dette?"
 
 #: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
@@ -19478,115 +19492,111 @@ msgid "Evolution Test component"
 msgstr "Testkomponent for Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
-msgid "A string description of the current printer settings."
-msgstr "Beskrivelse av de aktive skriverinstillingene."
-
-#: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Authenticate proxy server connections"
 msgstr "Autentiser tilkoblinger via proxy-tjener"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:3
+#: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Automatic proxy configuration URL"
 msgstr "URL for automatisk konfigurasjon av proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:4
+#: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
 msgstr "Konfigurasjonsversjon"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:5
+#: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Decides whether the crash detection should be run or not."
 msgstr "Bestemmer om gjenoppretting etter krasj skal kjøres eller ikke."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.h:5
 msgid "Default sidebar width"
 msgstr "Forvalgt bredde på sidelinje"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:7
+#: ../shell/apps_evolution_shell.schemas.in.h:6
 msgid "Default window height"
 msgstr "Forvalgt vinduhøyde"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window state"
 msgstr "Forvalgt vindutilstand"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:9
+#: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Default window width"
 msgstr "Forvalgt vindubredde"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:10
+#: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
 "Aktiverer innstillinger for proxy ved aksess via HTTP/sikker HTTP over "
 "internett."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:11
+#: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid "HTTP proxy host name"
 msgstr "Vertsnavn for HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:12
+#: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy password"
 msgstr "Passord for HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:13
+#: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "HTTP proxy port"
 msgstr "Port for HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy username"
 msgstr "Brukernavn for HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:15
+#: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ID eller alias for komponenten som skal være forvalgt ved oppstart."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:16
+#: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid ""
 "If true, then connections to the proxy server require authentication. The "
 "username/password combo is defined by \"/apps/evolution/shell/network_config/"
 "authentication_user\" and locally stored password in .gnome2_private/."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:17
+#: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "Last upgraded configuration version"
 msgstr "Sist oppgradert konfigurasjonsversjon"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Liste over stier for mapper som skal bli synkronisert til disk for frakoblet "
 "bruk"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:19
+#: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Non-proxy hosts"
 msgstr "Verter som ikke bruker proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:20
+#: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Password to pass as authentication when doing HTTP proxying."
 msgstr "Passord som skal sendes som autentisering ved bruk av HTTP-proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:21
+#: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Proxy configuration mode"
 msgstr "Konfigurasjonsmodus for proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:22
+#: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "SOCKS proxy host name"
 msgstr "Vertsnavn for SOCKS-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:23
+#: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "SOCKS proxy port"
 msgstr "Port for SOCKS-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:24
+#: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Secure HTTP proxy host name"
 msgstr "Vertsnavn for sikker HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:25
+#: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Secure HTTP proxy port"
 msgstr "Port for sikker HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:26
+#: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid ""
 "Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 "
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
@@ -19594,27 +19604,27 @@ msgid ""
 "\" respectively."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:27
+#: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Sidebar is visible"
 msgstr "Sidelinjen er synlig"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:28
+#: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Skip development warning dialog"
 msgstr "Hopp over varseldialogen om utviklingsversjonen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:29
+#: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "Skip recovery warning dialog"
 msgstr "Hopp over varseldialog"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:30 ../shell/main.c:565
+#: ../shell/apps_evolution_shell.schemas.in.h:29 ../shell/main.c:565
 msgid "Start in offline mode"
 msgstr "Start i frakoblet modus"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:31
+#: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Statusbar is visible"
 msgstr "Statuslinjen er synlig"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:32
+#: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
@@ -19622,19 +19632,19 @@ msgstr ""
 "Konfigurasjonsversjon for Evolution med større/mindre/konfigurasjonsnivå "
 "(for eksempel «2.6.0»)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33
+#: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid "The default height for the main window, in pixels."
 msgstr "Forvalgt høyde på hovedvinduet i piksler."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:34
+#: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "The default width for the main window, in pixels."
 msgstr "Forvalgt bredde på hovedvinduet i piksler."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35
+#: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The default width for the sidebar, in pixels."
 msgstr "Forvalgt bredde på sidelinjen i piksler."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:36
+#: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
@@ -19642,37 +19652,37 @@ msgstr ""
 "Sist oppgradert konfigurasjonsversjon for Evolution, med major/minor/"
 "konfigurasjonsnivå (for eksempel «2.6.0»)."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:37
+#: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "Maskinnavn for HTTP-proxy."
+
+#: ../shell/apps_evolution_shell.schemas.in.h:37
+msgid "The machine name to proxy secure HTTP through."
+msgstr "Maskinnavn for HTTPS-proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
-msgid "The machine name to proxy secure HTTP through."
-msgstr ""
+msgid "The machine name to proxy socks through."
+msgstr "Maskinnavn for socks-proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
-msgid "The machine name to proxy socks through."
-msgstr ""
-
-#: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:41
+#: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:42
+#: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:43
+#: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -19682,7 +19692,7 @@ msgstr ""
 "«toolbar» er satt vil stilen på knappene bli bestemt av GNOME «toolbar»-"
 "instillingene."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:44
+#: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "This key contains a list of hosts which are connected to directly, rather "
 "than via the proxy (if it is active). The values can be hostnames, domains "
@@ -19690,66 +19700,66 @@ msgid ""
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
 msgstr ""
 
-#: ../shell/apps_evolution_shell.schemas.in.h:45
+#: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "Toolbar is visible"
 msgstr "Verktøylinjen er synlig"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:46
+#: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "URL that provides proxy configuration values."
 msgstr "URL som oppgir verdier for konfigurasjon av proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:47
+#: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Use HTTP proxy"
 msgstr "Bruk HTTP-proxy"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:48
+#: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid "User name to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "Brukernavn for autentisering med HTTP-proxy."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:49
+#: ../shell/apps_evolution_shell.schemas.in.h:48
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Om Evolution skal startes i frakoblet modus i stedet for tilkoblet modus."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:50
+#: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid "Whether crash detection should be done or not"
 msgstr "Om gjenoppretting etter krasj skal utføres eller ikke"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:51
+#: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid "Whether or not the window should be maximized."
 msgstr "Om vinduet skal være maksimert."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:52
+#: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "Whether the sidebar should be visible."
 msgstr "Om sidelinjen skal være synlig."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:53
+#: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Whether the status bar should be visible."
 msgstr "Om statuslinjen skal være synlig."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:54
+#: ../shell/apps_evolution_shell.schemas.in.h:53
 msgid "Whether the toolbar should be visible."
 msgstr "Om verktøylinjen skal være synlig."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:55
+#: ../shell/apps_evolution_shell.schemas.in.h:54
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 "Om advarselsdialogen i utviklingsversjoner av Evolution blir hoppet over."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:56
+#: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "Whether the warning dialog in recovery of Evolution is skipped."
 msgstr "Om varseldialogen for gjenoppretting av Evolution skal hoppes over."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:57
+#: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether the window buttons should be visible."
 msgstr "Om vinduknappene skal være synlige."
 
-#: ../shell/apps_evolution_shell.schemas.in.h:58
+#: ../shell/apps_evolution_shell.schemas.in.h:57
 msgid "Window button style"
 msgstr "Knappestil for vindu"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:59
+#: ../shell/apps_evolution_shell.schemas.in.h:58
 msgid "Window buttons are visible"
 msgstr "Vindusknapper er synlige"
 
