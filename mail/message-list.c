@@ -2100,11 +2100,49 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 	}
 }
 
+struct search_child_struct {
+	gboolean found;
+	gconstpointer looking_for;
+};
+
+static void
+search_child_cb (GtkWidget *widget, gpointer data)
+{
+	struct search_child_struct *search = (struct search_child_struct *) data;
+
+	search->found = search->found || g_direct_equal (widget, search->looking_for);
+}
+
+static gboolean
+is_tree_widget_children (ETree *tree, gconstpointer widget)
+{
+	struct search_child_struct search;
+
+	search.found = FALSE;
+	search.looking_for = widget;
+
+	gtk_container_foreach (GTK_CONTAINER (tree), search_child_cb, &search);
+
+	return search.found;
+}
+
 static gboolean
 ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint time, MessageList *ml)
 {
 	GList *targets;
 	GdkDragAction action, actions = 0;
+
+	/* If drop target is name of the account/store and not actual folder, don't allow any action */
+	if (!ml->folder) {
+		gdk_drag_status (context, 0, time);
+		return TRUE;
+	}
+
+	/* If source widget is packed under 'tree', don't allow any action */
+	if (is_tree_widget_children (tree, gtk_drag_get_source_widget (context))) {
+		gdk_drag_status (context, 0, time);
+		return TRUE;
+	}
 
 	for (targets = context->targets; targets; targets = targets->next) {
 		int i;

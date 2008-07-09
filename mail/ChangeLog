@@ -1,3 +1,12 @@
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #207802 (Patch suggested by Veerapuram Varadhan.)
+
+	* message-list.c: (struct search_child_struct), (search_child_cb),
+	(is_tree_widget_children), (ml_tree_drag_motion): Do not allow drop
+	messages to the same message list as is the source. Also do not
+	allow drop over message list if it doesn't have set a folder.
+
 2008-07-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #541365
