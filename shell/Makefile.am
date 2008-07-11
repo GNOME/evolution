@@ -129,8 +129,6 @@ evolution_SOURCES =				\
 	e-config-upgrade.h			\
 	e-corba-config-page.c			\
 	e-corba-config-page.h			\
-	e-history.c				\
-	e-history.h				\
 	e-shell.c				\
 	e-shell.h				\
 	e-shell-constants.h			\
