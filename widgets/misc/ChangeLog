@@ -1,3 +1,10 @@
+2008-07-12  Paolo Borelli  <pborelli@katamail.com>
+
+	** Fix for bug #542631
+
+	* e-attachment-bar.c: use g_format_size_for_display instead of cut and
+	pasted code.
+
 2008-07-07  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #370731 (bugzilla.novell.com)

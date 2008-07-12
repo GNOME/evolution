@@ -95,37 +95,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static void update (EAttachmentBar *bar);
 
-
-static char *
-size_to_string (gulong size)
-{
-	/* code copied from gnome-vfs */
-	#define KILOBYTE_FACTOR  1024.0
-	#define MEGABYTE_FACTOR (1024.0 * 1024.0)
-	#define GIGABYTE_FACTOR (1024.0 * 1024.0 * 1024.0)
-
-	if (size < (gulong) KILOBYTE_FACTOR) {
-		return g_strdup_printf (ngettext ("%u byte", "%u bytes",(guint) size), (guint) size);
-	} else {
-		gdouble displayed_size;
-
-		if (size < (gulong) MEGABYTE_FACTOR) {
-			displayed_size = (gdouble) size / KILOBYTE_FACTOR;
-			return g_strdup_printf (_("%.1f KB"), displayed_size);
-		} else if (size < (gulong) GIGABYTE_FACTOR) {
-			displayed_size = (gdouble) size / MEGABYTE_FACTOR;
-			return g_strdup_printf (_("%.1f MB"), displayed_size);
-		} else {
-			displayed_size = (gdouble) size / GIGABYTE_FACTOR;
-			return g_strdup_printf (_("%.1f GB"), displayed_size);
-		}
-	}
-
-	#undef KILOBYTE_FACTOR
-	#undef MEGABYTE_FACTOR
-	#undef GIGABYTE_FACTOR
-}
-
 /* Attachment handling functions.  */
 
 static void
@@ -483,7 +452,7 @@ update (EAttachmentBar *bar)
 		if (!desc)
 			desc = _("attachment");
 
-		if (attachment->size && (size_string = size_to_string (attachment->size))) {
+		if (attachment->size && (size_string = g_format_size_for_display (attachment->size))) {
 			label = g_strdup_printf ("%s (%s)", desc, size_string);
 			g_free (size_string);
 		} else
@@ -1290,7 +1259,6 @@ e_attachment_bar_to_multipart (EAttachmentBar *bar, CamelMultipart *multipart, c
 	}
 }
 
-
 guint
 e_attachment_bar_get_num_attachments (EAttachmentBar *bar)
 {
@@ -1298,7 +1266,6 @@ e_attachment_bar_get_num_attachments (EAttachmentBar *bar)
 
 	return bar->priv->attachments->len;
 }
-
 
 void
 e_attachment_bar_attach (EAttachmentBar *bar, const char *file_name, const char *disposition)
