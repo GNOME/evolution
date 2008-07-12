@@ -90,7 +90,6 @@ eshellincludedir = $(privincludedir)/shell
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
 	e-component-view.h			\
-	e-shell-utils.h				\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
 	evolution-component.h			\
@@ -105,7 +104,6 @@ libeshell_la_SOURCES =				\
 	e-component-view.c			\
 	evolution-component.c			\
 	evolution-listener.c			\
-	e-shell-utils.c				\
 	e-user-creatable-items-handler.c	\
 	evolution-config-control.c		\
 	evolution-shell-component-utils.c	\

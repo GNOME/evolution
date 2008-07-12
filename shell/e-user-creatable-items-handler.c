@@ -26,7 +26,6 @@
 
 #include "e-user-creatable-items-handler.h"
 #include <e-util/e-icon-factory.h>
-#include "e-shell-utils.h"
 #include "Evolution.h"
 
 #include "e-util/e-corba-utils.h"
