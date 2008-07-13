@@ -1,3 +1,10 @@
+2008-07-13  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #542101
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):
+	Escape PlaceOfTheMeeting in the Location: line of the tooltip.
+
 2008-07-13  Keith Packard  <keithp@keithp.com>
 
 	** Fix for bug #541355

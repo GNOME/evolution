@@ -2244,7 +2244,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	if (str) {
 		/* To Translators: It will display "Location: PlaceOfTheMeeting" */
-		tmp = g_strdup_printf (_("Location: %s"), str);
+		tmp = g_markup_printf_escaped (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
 		gtk_label_set_markup ((GtkLabel *)label, tmp);
 		hbox = gtk_hbox_new (FALSE, 0);
