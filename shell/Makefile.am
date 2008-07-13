@@ -130,8 +130,6 @@ evolution_SOURCES =				\
 	e-shell.c				\
 	e-shell.h				\
 	e-shell-constants.h			\
-	e-shell-folder-title-bar.c		\
-	e-shell-folder-title-bar.h		\
 	e-shell-importer.c			\
 	e-shell-importer.h			\
 	e-shell-settings-dialog.c		\

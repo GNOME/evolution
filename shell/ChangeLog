@@ -1,3 +1,8 @@
+2008-07-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-folder-title-bar.[ch]:
+	Remove still more unused files.
+
 2008-07-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-utils.[ch]:
