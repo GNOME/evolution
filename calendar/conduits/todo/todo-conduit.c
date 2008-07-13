@@ -1487,6 +1487,8 @@ free_match (GnomePilotConduitSyncAbs *conduit,
 
 	g_return_val_if_fail (local != NULL, -1);
 
+	ctxt->locals = g_list_remove (ctxt->locals, local);
+
 	todoconduit_destroy_record (local);
 
 	return 0;

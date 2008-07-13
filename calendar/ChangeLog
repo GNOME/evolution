@@ -1,3 +1,15 @@
+2008-07-13  Keith Packard  <keithp@keithp.com>
+
+	** Fix for bug #541355
+
+	* conduits/calendar/calendar-conduit.c:
+	* conduits/memo/memo-conduit.c:
+	* conduits/todo/todo-conduit.c:
+	The pilot link code does call free_match on data returned from the 
+	for_each method, which the evolution conduits aren't prepared to 
+	handle. This patch removes any freed objects from the 'locals' list in 
+	each conduit which otherwise frees them again when the conduit is closed.
+
 2008-07-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #524130
