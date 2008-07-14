@@ -1,3 +1,12 @@
+2008-17-14  Paolo Borelli  <pborelli@katamail.com>
+
+	** Fix for bug #542889
+
+	* e-search-bar.h:
+	* widgets/misc/e-search-bar.c:
+	* widgets/misc/e-task-widget.c:
+	Port to the new gtk tooltip api.
+
 2008-07-12  Paolo Borelli  <pborelli@katamail.com>
 
 	** Fix for bug #542631

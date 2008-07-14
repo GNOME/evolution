@@ -112,9 +112,6 @@ struct _EShellWindowPrivate {
 	/* The current view (can be NULL initially).  */
 	ComponentView *current_view;
 
-	/* Tooltips.  */
-	GtkTooltips *tooltips;
-
 	/* The status bar widgetry.  */
 	GtkWidget *status_bar;
 	GtkWidget *offline_toggle;
@@ -407,7 +404,7 @@ update_offline_toggle_status (EShellWindow *window)
 	gtk_image_set_from_file (GTK_IMAGE (priv->offline_toggle_image), icon_file);
 	g_free (icon_file);
 	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
-	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
+	gtk_widget_set_tooltip_text (priv->offline_toggle, tooltip);
 
 	/* TODO: If we get more shell flags, this should be centralised */
 	t = es_menu_target_new_shell(priv->menu, flags);
@@ -863,11 +860,6 @@ impl_dispose (GObject *object)
 		priv->ui_component = NULL;
 	}
 
-	if (priv->tooltips != NULL) {
-		gtk_object_destroy (GTK_OBJECT (priv->tooltips));
-		priv->tooltips = NULL;
-	}
-
 	if (priv->store_window_size_timer) {
 		g_source_remove (priv->store_window_size_timer);
 		self->priv->store_window_size_timer = 0;
@@ -992,7 +984,6 @@ e_shell_window_init (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = g_new0 (EShellWindowPrivate, 1);
 
-	priv->tooltips = gtk_tooltips_new ();
 	priv->shell_view = e_shell_view_new(shell_window);
 	priv->destroyed = FALSE;
 

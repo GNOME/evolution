@@ -339,8 +339,9 @@ paint_search_text (GtkWidget *widget, ESearchBar *esb)
 		}
 
 		t = g_strdup_printf ("%s: %s\n%s", _("Search"), text, _("Click here to change the search type"));
-		gtk_tooltips_set_tip (esb->tooltips, esb->option_button, t, "Search type");
+		gtk_widget_set_tooltip_text (esb->option_button, t);
 		g_free (t);
+
 		gtk_widget_set_sensitive (esb->clear_button, FALSE);
 	}
 
@@ -474,7 +475,7 @@ option_activated_cb (GtkWidget *widget,
 		else
 			t = g_strdup_printf ("%s: %s", _("Search"), _("Click here to change the search type"));
 
-		gtk_tooltips_set_tip (esb->tooltips, esb->option_button, t, "Search type");
+		gtk_widget_set_tooltip_text (esb->option_button, t);
 		g_free (t);
 	}
 
@@ -934,7 +935,6 @@ init (ESearchBar *esb)
 	esb->scopeoption      = NULL;
 	esb->scopeoption_box  = NULL;
 
-	esb->tooltips         = NULL;
 	esb->pending_activate = 0;
 
 	esb->item_id          = 0;
@@ -969,8 +969,6 @@ e_search_bar_construct (ESearchBar *search_bar,
 	gtk_box_set_spacing (GTK_BOX (search_bar), 3);
 
 	gtk_box_set_homogeneous (GTK_BOX (search_bar), FALSE);
-
-	search_bar->tooltips = gtk_tooltips_new ();
 
 	bighbox = gtk_hbox_new (FALSE, 0);
 	search_bar->entry_box = gtk_hbox_new (0, FALSE);

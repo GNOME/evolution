@@ -94,7 +94,7 @@ struct _ESearchBar
 	GtkWidget *scopeoption_menu;
 
 	guint      pending_activate;
-	GtkTooltips *tooltips;
+
 	/* The currently-selected item & subitem */
 	int        item_id;
 	int        viewitem_id; /* Current View Id */

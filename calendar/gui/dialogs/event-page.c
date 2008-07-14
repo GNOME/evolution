@@ -784,15 +784,13 @@ static GtkWidget *
 create_image_event_box (const char *image_text, const char *tip_text)
 {
 	GtkWidget *image, *box;
-	GtkTooltips *tip;
 
 	box = gtk_event_box_new ();
-	tip = gtk_tooltips_new ();
 	image = e_icon_factory_get_image (image_text, E_ICON_SIZE_MENU);
 
 	gtk_container_add ((GtkContainer *) box, image);
 	gtk_widget_show_all (box);
-	gtk_tooltips_set_tip (tip, box, tip_text, NULL);
+	gtk_widget_set_tooltip_text (box, tip_text);
 
 	return box;
 }

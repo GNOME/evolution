@@ -1,3 +1,12 @@
+2008-17-14  Paolo Borelli  <pborelli@katamail.com>
+
+	** Fix for bug #542889
+
+	* e-shell-window.c:
+	* e-user-creatable-items-handler.c:
+	* e-sidebar.c:
+	Port to the new gtk tooltip api.
+
 2008-07-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-folder-title-bar.[ch]:

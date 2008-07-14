@@ -1549,7 +1549,6 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	QueuedAlarm *qa;
 	ECalComponent *comp;
 	const char *summary, *location;
-	GtkTooltips *tooltips;
 	ECalComponentText text;
 	char *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
@@ -1579,7 +1578,6 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	e_cal_component_get_location (comp, &location);
 
 	/* create the tray icon */
-	tooltips = gtk_tooltips_new ();
 
 	current_zone = config_data_get_timezone ();
 	alarm_str = timet_to_str_with_zone (trigger, current_zone);

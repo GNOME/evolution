@@ -88,7 +88,6 @@ struct _EUserCreatableItemsHandlerPrivate {
 	char *menu_xml;
 	GtkWidget *new_button, *new_menu;
 	BonoboControl *new_control;
-	GtkTooltips *tooltips;
 	GtkAccelGroup *accel_group;
 };
 
@@ -744,11 +743,10 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gconf_client_notify_add(gconf,"/desktop/gnome/interface/toolbar_style",
 		(GConfClientNotifyFunc)new_button_change, handler, NULL, NULL);
 
+	gtk_widget_set_tooltip_text (priv->new_button,
+				     priv->default_menu_item->tooltip);
 	gtk_widget_show (priv->new_button);
-	priv->tooltips = gtk_tooltips_new ();
-	g_object_ref_sink (priv->tooltips);
-	gtk_tooltips_set_tip (priv->tooltips, priv->new_button,
-			      priv->default_menu_item->tooltip, NULL);
+
 	g_free (val);
 	g_object_unref (gconf);
 }
@@ -794,11 +792,6 @@ impl_dispose (GObject *object)
 	if (priv->new_control) {
 		bonobo_object_unref (priv->new_control);
 		priv->new_control = NULL;
-	}
-
-	if (priv->tooltips) {
-		g_object_unref (priv->tooltips);
-		priv->tooltips = NULL;
 	}
 
 	if (priv->accel_group) {

@@ -36,8 +36,6 @@
 struct _ETaskWidgetPrivate {
 	char *component_id;
 
-	GtkTooltips *tooltips;
-
 	GdkPixbuf *icon_pixbuf;
 	GtkWidget *label;
 	GtkWidget *box;
@@ -60,11 +58,6 @@ impl_dispose (GObject *object)
 	task_widget = E_TASK_WIDGET (object);
 
 	priv = task_widget->priv;
-
-	if (priv->tooltips != NULL) {
-		g_object_unref (priv->tooltips);
-		priv->tooltips = NULL;
-	}
 
 	if (priv->icon_pixbuf != NULL) {
 		g_object_unref (priv->icon_pixbuf);
@@ -107,7 +100,6 @@ e_task_widget_init (ETaskWidget *task_widget)
 	priv = g_new (ETaskWidgetPrivate, 1);
 
 	priv->component_id = NULL;
-	priv->tooltips     = NULL;
 	priv->icon_pixbuf  = NULL;
 	priv->label        = NULL;
 	priv->image        = NULL;
@@ -213,9 +205,6 @@ e_task_widget_construct (ETaskWidget *task_widget,
 
 	}
 
-	priv->tooltips = gtk_tooltips_new ();
-	g_object_ref_sink (priv->tooltips);
-
 	e_task_widget_update (task_widget, information, -1.0);
 }
 
@@ -297,7 +286,7 @@ e_task_widget_update (ETaskWidget *task_widget,
 
 	gtk_label_set_text (GTK_LABEL (priv->label), text);
 
-	gtk_tooltips_set_tip (priv->tooltips, GTK_WIDGET (task_widget), text, NULL);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (task_widget), text);
 
 	g_free (text);
 }

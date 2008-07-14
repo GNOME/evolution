@@ -36,7 +36,6 @@ typedef struct {
 	GtkWidget *label;
 	GtkWidget *icon;
 	GtkWidget *hbox;
-	GtkTooltips *tooltips;
 	GdkPixbuf *default_icon;
 	int id;
 } Button;
@@ -73,8 +72,11 @@ G_DEFINE_TYPE (ESidebar, e_sidebar, GTK_TYPE_CONTAINER)
 /* Utility functions.  */
 
 static Button *
-button_new (GtkWidget *button_widget, GtkWidget *label, GtkWidget *icon, GtkTooltips *tooltips,
-	    GtkWidget *hbox, int id)
+button_new (GtkWidget *button_widget,
+	    GtkWidget *label,
+	    GtkWidget *icon,
+	    GtkWidget *hbox,
+	    int        id)
 {
 	Button *button = g_new (Button, 1);
 
@@ -82,7 +84,6 @@ button_new (GtkWidget *button_widget, GtkWidget *label, GtkWidget *icon, GtkTool
 	button->label = label;
 	button->icon = icon;
 	button->hbox = hbox;
-	button->tooltips = tooltips;
 	button->id = id;
 	button->default_icon = NULL;
 
@@ -90,7 +91,6 @@ button_new (GtkWidget *button_widget, GtkWidget *label, GtkWidget *icon, GtkTool
 	g_object_ref (label);
 	g_object_ref (icon);
 	g_object_ref (hbox);
-	g_object_ref (tooltips);
 
 	return button;
 }
@@ -102,7 +102,6 @@ button_free (Button *button)
 	g_object_unref (button->label);
 	g_object_unref (button->icon);
 	g_object_unref (button->hbox);
-	g_object_unref (button->tooltips);
 	if (button->default_icon)
 		g_object_unref (button->default_icon);
 	g_free (button);
@@ -180,6 +179,30 @@ button_pressed_callback (GtkToggleButton *toggle_button,
 	}
 
 	return return_val;
+}
+
+static gboolean
+button_query_tooltip (GtkWidget  *widget,
+		      gint        x,
+		      gint        y,
+		      gboolean    keyboard_mode,
+		      GtkTooltip *tooltip,
+		      ESidebar   *sidebar)
+{
+	/* Show the tooltip only if the label is hidden */
+	if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_ICON) {
+		char *tip;
+
+		tip = g_object_get_data (G_OBJECT (widget),
+					 "ESidebar:button-tooltip");
+		if (tip) {
+			gtk_tooltip_set_text (tooltip, tip);
+
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 
@@ -529,7 +552,6 @@ e_sidebar_add_button (ESidebar *sidebar,
 	GtkWidget *hbox;
 	GtkWidget *icon_widget;
 	GtkWidget *label_widget;
-	GtkTooltips *button_tooltips;
 
 	button_widget = gtk_toggle_button_new ();
 	if (sidebar->priv->show)
@@ -548,29 +570,32 @@ e_sidebar_add_button (ESidebar *sidebar,
 	label_widget = gtk_label_new (label);
 	gtk_misc_set_alignment (GTK_MISC (label_widget), 0.0, 0.5);
 	gtk_widget_show (label_widget);
-	button_tooltips = gtk_tooltips_new();
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (button_tooltips), button_widget, tooltips, NULL);
+
+	g_object_set_data_full (G_OBJECT (button_widget),
+				"ESidebar:button-tooltip",
+				g_strdup (tooltips),
+				g_free);
+	gtk_widget_set_has_tooltip (button_widget, TRUE);
+	g_signal_connect (button_widget, "query-tooltip",
+			  G_CALLBACK (button_query_tooltip), sidebar);
 
 	switch (INTERNAL_MODE (sidebar)) {
 	case E_SIDEBAR_MODE_TEXT:
 		gtk_box_pack_start (GTK_BOX (hbox), label_widget, TRUE, TRUE, 0);
-		gtk_tooltips_disable (button_tooltips);
 		break;
 	case E_SIDEBAR_MODE_ICON:
 		gtk_box_pack_start (GTK_BOX (hbox), icon_widget, TRUE, TRUE, 0);
-		gtk_tooltips_enable (button_tooltips);
 		break;
 	case E_SIDEBAR_MODE_BOTH:
 	default:
 		gtk_box_pack_start (GTK_BOX (hbox), icon_widget, FALSE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (hbox), label_widget, TRUE, TRUE, 0);
-		gtk_tooltips_disable (button_tooltips);
 		break;
 	}
 
 	gtk_container_add (GTK_CONTAINER (button_widget), hbox);
 
-	sidebar->priv->buttons = g_slist_append (sidebar->priv->buttons, button_new (button_widget, label_widget, icon_widget, button_tooltips, hbox, id));
+	sidebar->priv->buttons = g_slist_append (sidebar->priv->buttons, button_new (button_widget, label_widget, icon_widget, hbox, id));
 	gtk_widget_set_parent (button_widget, GTK_WIDGET (sidebar));
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
@@ -657,7 +682,6 @@ set_mode_internal (ESidebar *sidebar, ESidebarMode mode )
 			if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_ICON) {
 				gtk_box_pack_start (GTK_BOX (button->hbox), button->label, TRUE, TRUE, 0);
 				gtk_widget_show (button->label);
-				gtk_tooltips_disable (button->tooltips);
 			}
 			break;
 		case E_SIDEBAR_MODE_ICON:
@@ -669,7 +693,6 @@ set_mode_internal (ESidebar *sidebar, ESidebarMode mode )
 				gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
 							 "expand", TRUE,
 							 NULL);
-			gtk_tooltips_enable (button->tooltips);
 			break;
 		case E_SIDEBAR_MODE_BOTH:
 			if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_TEXT) {
@@ -682,7 +705,6 @@ set_mode_internal (ESidebar *sidebar, ESidebarMode mode )
 							 NULL);
 			}
 
-			gtk_tooltips_disable (button->tooltips);
 			gtk_box_pack_start (GTK_BOX (button->hbox), button->label, TRUE, TRUE, 0);
 			gtk_widget_show (button->label);
 			break;

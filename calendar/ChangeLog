@@ -1,3 +1,11 @@
+2008-17-14  Paolo Borelli  <pborelli@katamail.com>
+
+	** Fix for bug #542889
+
+	* gui/dialogs/event-page.c:
+	* gui/alarm-notify/alarm-queue.c:
+	Port to the new gtk tooltip api.
+
 2008-07-13  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #542101
