@@ -26,9 +26,6 @@
 #include <string.h>
 #include <libical/ical.h>
 #include <glib/gi18n.h>
-#include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"

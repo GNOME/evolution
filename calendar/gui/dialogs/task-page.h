@@ -24,55 +24,75 @@
 #ifndef TASK_PAGE_H
 #define TASK_PAGE_H
 
-#include <bonobo/bonobo-window.h>
-#include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-widget.h>
- #include "comp-editor-page.h"
+#include "comp-editor.h"
+#include "comp-editor-page.h"
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
 
+/* Standard GObject macros */
+#define TYPE_TASK_PAGE \
+	(task_page_get_type ())
+#define TASK_PAGE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), TYPE_TASK_PAGE, TaskPage))
+#define TASK_PAGE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), TYPE_TASK_PAGE, TaskPageClass))
+#define IS_TASK_PAGE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), TYPE_TASK_PAGE))
+#define IS_TASK_PAGE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), TYPE_TASK_PAGE))
+#define TASK_PAGE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), TYPE_TASK_PAGE, TaskPageClass))
+
 G_BEGIN_DECLS
 
-
-
-#define TYPE_TASK_PAGE            (task_page_get_type ())
-#define TASK_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_TASK_PAGE, TaskPage))
-#define TASK_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_TASK_PAGE, TaskPageClass))
-#define IS_TASK_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_TASK_PAGE))
-#define IS_TASK_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_TASK_PAGE))
-
+typedef struct _TaskPage TaskPage;
+typedef struct _TaskPageClass TaskPageClass;
 typedef struct _TaskPagePrivate TaskPagePrivate;
 
-typedef struct {
+struct _TaskPage {
 	CompEditorPage page;
-
-	/* Private data */
 	TaskPagePrivate *priv;
-} TaskPage;
+};
 
-typedef struct {
+struct _TaskPageClass {
 	CompEditorPageClass parent_class;
-} TaskPageClass;
+};
 
-GType     task_page_get_type  (void);
-TaskPage *task_page_construct (TaskPage *epage, EMeetingStore *model, ECal *client);
-TaskPage *task_page_new       (EMeetingStore *model, ECal *client, BonoboUIComponent *uic);
-ECalComponent * task_page_get_cancel_comp (TaskPage *page);
-void task_page_show_options (TaskPage *page);
-void task_page_hide_options (TaskPage *page);
-void task_page_set_assignment (TaskPage *page, gboolean set);
-void task_page_sendoptions_clicked_cb (TaskPage *tpage);
-void task_page_set_view_role (TaskPage *page, gboolean state);
-void task_page_set_view_status (TaskPage *page, gboolean state);
-void task_page_set_view_type (TaskPage *page, gboolean state);
-void task_page_set_view_rsvp (TaskPage *page, gboolean state);
-void task_page_set_classification (TaskPage *page, ECalComponentClassification class);
-void task_page_set_show_timezone (TaskPage *page, gboolean state);
-void task_page_set_show_categories (TaskPage *page, gboolean state);
-void task_page_set_info_string (TaskPage *tpage, const gchar *icon, const gchar *msg);
-void task_page_add_attendee (TaskPage *tpage, EMeetingAttendee *attendee);
-
+GType		task_page_get_type		(void);
+TaskPage *	task_page_construct		(TaskPage *epage,
+						 EMeetingStore *model,
+						 ECal *client);
+TaskPage *	task_page_new			(EMeetingStore *model,
+						 CompEditor *editor);
+ECalComponent *	task_page_get_cancel_comp	(TaskPage *page);
+void		task_page_show_options		(TaskPage *page);
+void		task_page_hide_options		(TaskPage *page);
+void		task_page_set_assignment	(TaskPage *page,
+						 gboolean set);
+void		task_page_sendoptions_clicked_cb(TaskPage *tpage);
+void		task_page_set_view_role		(TaskPage *page,
+						 gboolean state);
+void		task_page_set_view_status	(TaskPage *page,
+						 gboolean state);
+void		task_page_set_view_type		(TaskPage *page,
+						 gboolean state);
+void		task_page_set_view_rsvp		(TaskPage *page,
+						 gboolean state);
+void		task_page_set_show_timezone	(TaskPage *page,
+						 gboolean state);
+void		task_page_set_show_categories	(TaskPage *page,
+						 gboolean state);
+void		task_page_set_info_string	(TaskPage *tpage,
+						 const gchar *icon,
+						 const gchar *msg);
+void		task_page_add_attendee		(TaskPage *tpage,
+						 EMeetingAttendee *attendee);
 
 G_END_DECLS
 

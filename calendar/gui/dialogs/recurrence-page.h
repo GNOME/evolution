@@ -25,38 +25,47 @@
 #ifndef RECURRENCE_PAGE_H
 #define RECURRENCE_PAGE_H
 
+#include "comp-editor.h"
 #include "comp-editor-page.h"
+
+/* Standard GObject macros */
+#define TYPE_RECURRENCE_PAGE \
+	(recurrence_page_get_type ())
+#define RECURRENCE_PAGE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), TYPE_RECURRENCE_PAGE, RecurrencePage))
+#define RECURRENCE_PAGE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), TYPE_RECURRENCE_PAGE, RecurrencePageClass))
+#define IS_RECURRENCE_PAGE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), TYPE_RECURRENCE_PAGE))
+#define IS_RECURRENCE_PAGE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), TYPE_RECURRENCE_PAGE))
+#define RECURRENCE_PAGE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), TYPE_RECURRENCE_PAGE, RecurrencePageClass))
 
 G_BEGIN_DECLS
 
-
-
-#define TYPE_RECURRENCE_PAGE            (recurrence_page_get_type ())
-#define RECURRENCE_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_RECURRENCE_PAGE, RecurrencePage))
-#define RECURRENCE_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_RECURRENCE_PAGE, RecurrencePageClass))
-#define IS_RECURRENCE_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_RECURRENCE_PAGE))
-#define IS_RECURRENCE_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_RECURRENCE_PAGE))
-
+typedef struct _RecurrencePage RecurrencePage;
+typedef struct _RecurrencePageClass RecurrencePageClass;
 typedef struct _RecurrencePagePrivate RecurrencePagePrivate;
 
-typedef struct {
+struct _RecurrencePage {
 	CompEditorPage page;
-
-	/* Private data */
 	RecurrencePagePrivate *priv;
-} RecurrencePage;
+};
 
-typedef struct {
+struct _RecurrencePageClass {
 	CompEditorPageClass parent_class;
-} RecurrencePageClass;
+};
 
-
-GType           recurrence_page_get_type  (void);
-RecurrencePage *recurrence_page_construct (RecurrencePage *rpage);
-RecurrencePage *recurrence_page_new       (void);
-
-
+GType		recurrence_page_get_type	(void);
+RecurrencePage *recurrence_page_construct	(RecurrencePage *rpage);
+RecurrencePage *recurrence_page_new		(CompEditor *editor);
 
 G_END_DECLS
 
-#endif
+#endif /* RECURRENCE_PAGE_H */

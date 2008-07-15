@@ -31,9 +31,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-widget.h>
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-dialog-widgets.h"

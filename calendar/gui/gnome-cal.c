@@ -3263,7 +3263,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	GnomeCalendarPrivate *priv;
 	ECal *ecal;
 	ECalModel *model;
-	TaskEditor *tedit;
+	CompEditor *editor;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	const char *category;
@@ -3281,7 +3281,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
-	tedit = task_editor_new (ecal, flags);
+	editor = task_editor_new (ecal, flags);
 
 	icalcomp = e_cal_model_create_component_with_defaults (model);
 	comp = e_cal_component_new ();
@@ -3306,10 +3306,10 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	if (dtstart || dtend)
 		e_cal_component_commit_sequence (comp);
 
-	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
+	comp_editor_edit_comp (editor, comp);
 	g_object_unref (comp);
 
-	comp_editor_focus (COMP_EDITOR (tedit));
+	gtk_window_present (GTK_WINDOW (editor));
 }
 
 

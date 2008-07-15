@@ -27,13 +27,26 @@
 #include <gtk/gtk.h>
 #include "comp-editor.h"
 
-
+/* Standard GObject macros */
+#define TYPE_EVENT_EDITOR \
+	(event_editor_get_type ())
+#define EVENT_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), TYPE_EVENT_EDITOR, EventEditor))
+#define EVENT_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), TYPE_EVENT_EDITOR, EventEditorClass))
+#define IS_EVENT_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), TYPE_EVENT_EDITOR))
+#define IS_EVENT_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), TYPE_EVENT_EDITOR))
+#define EVENT_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), TYPE_EVENT_EDITOR, EventEditorClass))
 
-#define TYPE_EVENT_EDITOR            (event_editor_get_type ())
-#define EVENT_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_EDITOR, EventEditor))
-#define EVENT_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT_EDITOR,	EventEditorClass))
-#define IS_EVENT_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_EDITOR))
-#define IS_EVENT_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT_EDITOR))
+G_BEGIN_DECLS
 
 typedef struct _EventEditor EventEditor;
 typedef struct _EventEditorClass EventEditorClass;
@@ -41,8 +54,6 @@ typedef struct _EventEditorPrivate EventEditorPrivate;
 
 struct _EventEditor {
 	CompEditor parent;
-
-	/* Private data */
 	EventEditorPrivate *priv;
 };
 
@@ -50,12 +61,11 @@ struct _EventEditorClass {
 	CompEditorClass parent_class;
 };
 
-GType        event_editor_get_type     (void);
-EventEditor *event_editor_construct    (EventEditor *ee,
-					ECal   *client);
-EventEditor *event_editor_new          (ECal   *client, CompEditorFlags flags);
-void         event_editor_show_meeting (EventEditor *ee);
+GType		event_editor_get_type		(void);
+CompEditor *	event_editor_new		(ECal *client,
+						 CompEditorFlags flags);
+void		event_editor_show_meeting	(EventEditor *ee);
 
-
+G_END_DECLS
 
 #endif /* __EVENT_EDITOR_H__ */

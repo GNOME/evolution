@@ -37,9 +37,10 @@
 #include "comp-editor-util.h"
 #include "task-details-page.h"
 
-
+#define TASK_DETAILS_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPagePrivate))
 
-/* Private part of the TaskDetailsPage structure */
 struct _TaskDetailsPagePrivate {
 	/* Glade XML data */
 	GladeXML *xml;
@@ -57,8 +58,6 @@ struct _TaskDetailsPagePrivate {
 	GtkWidget *url_label;
 	GtkWidget *url_entry;
 	GtkWidget *url;
-
-	gboolean updating;
 };
 
 /* Note that these two arrays must match. */
@@ -85,10 +84,6 @@ static const int priority_map[] = {
 	-1
 };
 
-
-
-static void task_details_page_finalize (GObject *object);
-
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
 static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
@@ -97,81 +92,51 @@ static gboolean task_details_page_fill_timezones (CompEditorPage *page, GHashTab
 
 G_DEFINE_TYPE (TaskDetailsPage, task_details_page, TYPE_COMP_EDITOR_PAGE)
 
-/* Class initialization function for the task page */
+static void
+task_details_page_dispose (GObject *object)
+{
+	TaskDetailsPagePrivate *priv;
+
+	priv = TASK_DETAILS_PAGE_GET_PRIVATE (object);
+
+	if (priv->main != NULL) {
+		g_object_unref (priv->main);
+		priv->main = NULL;
+	}
+
+	if (priv->xml != NULL) {
+		g_object_unref (priv->xml);
+		priv->xml = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (task_details_page_parent_class)->dispose (object);
+}
+
 static void
 task_details_page_class_init (TaskDetailsPageClass *class)
 {
-	CompEditorPageClass *editor_page_class;
 	GObjectClass *object_class;
+	CompEditorPageClass *editor_page_class;
 
-	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	g_type_class_add_private (class, sizeof (TaskDetailsPagePrivate));
 
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = task_details_page_dispose;
+
+	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
 	editor_page_class->get_widget = task_details_page_get_widget;
 	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_details_page_fill_widgets;
 	editor_page_class->fill_component = task_details_page_fill_component;
 	editor_page_class->fill_timezones = task_details_page_fill_timezones;
-
-	object_class->finalize = task_details_page_finalize;
 }
 
-/* Object initialization function for the task page */
 static void
 task_details_page_init (TaskDetailsPage *tdpage)
 {
-	TaskDetailsPagePrivate *priv;
-
-	priv = g_new0 (TaskDetailsPagePrivate, 1);
-	tdpage->priv = priv;
-
-	priv->xml = NULL;
-
-	priv->main = NULL;
-
-	priv->status = NULL;
-	priv->priority = NULL;
-	priv->percent_complete = NULL;
-
-	priv->date_completed_label = NULL;
-	priv->completed_date = NULL;
-
-	priv->url_label = NULL;
-	priv->url_entry = NULL;
-	priv->url = NULL;
-
-	priv->updating = FALSE;
+	tdpage->priv = TASK_DETAILS_PAGE_GET_PRIVATE (tdpage);
 }
-
-/* Destroy handler for the task page */
-static void
-task_details_page_finalize (GObject *object)
-{
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_TASK_DETAILS_PAGE (object));
-
-	tdpage = TASK_DETAILS_PAGE (object);
-	priv = tdpage->priv;
-
-	if (priv->main)
-		g_object_unref (priv->main);
-
-	if (priv->xml) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
-	}
-
-	g_free (priv);
-	tdpage->priv = NULL;
-
-	if (G_OBJECT_CLASS (task_details_page_parent_class)->finalize)
-		(* G_OBJECT_CLASS (task_details_page_parent_class)->finalize) (object);
-}
-
-
 
 /* get_widget handler for the task page */
 static GtkWidget *
@@ -261,12 +226,15 @@ clear_widgets (TaskDetailsPage *tdpage)
 static void
 sensitize_widgets (TaskDetailsPage *tdpage)
 {
+	TaskDetailsPagePrivate *priv = tdpage->priv;
+	CompEditor *editor;
+	ECal *client;
 	gboolean read_only;
-	TaskDetailsPagePrivate *priv;
 
-	priv = tdpage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
+	client = comp_editor_get_client (editor);
 
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (tdpage)->client, &read_only, NULL))
+	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
 
 	gtk_widget_set_sensitive (priv->status, !read_only);
@@ -291,8 +259,6 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
-
-	priv->updating = TRUE;
 
 	/* Clean the screen */
 	clear_widgets (tdpage);
@@ -360,8 +326,6 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* URL */
 	e_cal_component_get_url (comp, &url);
 	e_dialog_editable_set (priv->url, url);
-
-	priv->updating = FALSE;
 
 	sensitize_widgets (tdpage);
 
@@ -549,22 +513,19 @@ complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
 }
 
 static void
-date_changed_cb (EDateEdit *dedit, gpointer data)
+date_changed_cb (EDateEdit *dedit,
+                 TaskDetailsPage *tdpage)
 {
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
+	TaskDetailsPagePrivate *priv = tdpage->priv;
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
 	struct icaltimetype completed_tt = icaltime_null_time ();
 	icalproperty_status status;
 	gboolean date_set;
 
-	tdpage = TASK_DETAILS_PAGE (data);
-	priv = tdpage->priv;
-
-	if (priv->updating)
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tdpage)))
 		return;
 
-	priv->updating = TRUE;
+	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), TRUE);
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
 					 &completed_tt.year,
@@ -593,7 +554,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 		e_dialog_spin_set (priv->percent_complete, 100);
 	}
 
-	priv->updating = FALSE;
+	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), FALSE);
 
 	/* Notify upstream */
 	dates.complete = &completed_tt;
@@ -605,14 +566,17 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
 	icalproperty_status status;
+	CompEditor *editor;
 	time_t ctime = -1;
 
 	priv = tdpage->priv;
 
-	if (priv->updating)
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tdpage)))
 		return;
 
-	priv->updating = TRUE;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
+
+	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), TRUE);
 
 	status = e_dialog_option_menu_get (priv->status, status_map);
 	if (status == ICAL_STATUS_NONE) {
@@ -633,9 +597,9 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 		complete_date_changed (tdpage, ctime, TRUE);
 	}
 
-	priv->updating = FALSE;
+	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), FALSE);
 
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
+	comp_editor_set_changed (editor, TRUE);
 }
 
 static void
@@ -644,15 +608,18 @@ percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
 	TaskDetailsPagePrivate *priv;
 	gint percent;
 	icalproperty_status status;
+	CompEditor *editor;
 	gboolean complete;
 	time_t ctime = -1;
 
 	priv = tdpage->priv;
 
-	if (priv->updating)
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tdpage)))
 		return;
 
-	priv->updating = TRUE;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
+
+	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), TRUE);
 
 	percent = e_dialog_spin_get_int (priv->percent_complete);
 	if (percent == 100) {
@@ -672,23 +639,9 @@ percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
 	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 	complete_date_changed (tdpage, ctime, complete);
 
-	priv->updating = FALSE;
+	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), FALSE);
 
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
-}
-
-/* This is called when any field is changed; it notifies upstream. */
-static void
-field_changed_cb (GtkWidget *widget, gpointer data)
-{
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
-
-	tdpage = TASK_DETAILS_PAGE (data);
-	priv = tdpage->priv;
-
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
+	comp_editor_set_changed (editor, TRUE);
 }
 
 /* Hooks the widget signals */
@@ -721,27 +674,22 @@ init_widgets (TaskDetailsPage *tdpage)
 			    G_CALLBACK (percent_complete_changed), tdpage);
 
 	/* Priority */
-	g_signal_connect((GTK_OPTION_MENU (priv->priority)->menu),
-			    "deactivate",
-			    G_CALLBACK (field_changed_cb), tdpage);
+	g_signal_connect_swapped (
+		GTK_OPTION_MENU (priv->priority)->menu, "deactivate",
+		G_CALLBACK (comp_editor_page_changed), tdpage);
 
 	/* Completed Date */
-	g_signal_connect((priv->completed_date), "changed",
-			    G_CALLBACK (date_changed_cb), tdpage);
-	g_signal_connect (priv->completed_date, "changed",
-			    G_CALLBACK (field_changed_cb), tdpage);
+	g_signal_connect (
+		priv->completed_date, "changed",
+		G_CALLBACK (date_changed_cb), tdpage);
+	g_signal_connect_swapped (
+		priv->completed_date, "changed",
+		G_CALLBACK (comp_editor_page_changed), tdpage);
 
 	/* URL */
-	g_signal_connect((priv->url), "changed",
-			    G_CALLBACK (field_changed_cb), tdpage);
-}
-
-static void
-client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
-{
-	TaskDetailsPage *tdpage = TASK_DETAILS_PAGE (page);
-
-	sensitize_widgets (tdpage);
+	g_signal_connect_swapped (
+		priv->url, "changed",
+		G_CALLBACK (comp_editor_page_changed), tdpage);
 }
 
 /**
@@ -756,10 +704,11 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 TaskDetailsPage *
 task_details_page_construct (TaskDetailsPage *tdpage)
 {
-	TaskDetailsPagePrivate *priv;
+	TaskDetailsPagePrivate *priv = tdpage->priv;
+	CompEditor *editor;
 	char *gladefile;
 
-	priv = tdpage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "task-details-page.glade",
@@ -781,8 +730,9 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 
 	init_widgets (tdpage);
 
-	g_signal_connect_after (G_OBJECT (tdpage), "client_changed",
-				G_CALLBACK (client_changed_cb), NULL);
+	g_signal_connect_swapped (
+		editor, "notify::client",
+		G_CALLBACK (sensitize_widgets), tdpage);
 
 	return tdpage;
 }
@@ -796,14 +746,14 @@ task_details_page_construct (TaskDetailsPage *tdpage)
  * not be created.
  **/
 TaskDetailsPage *
-task_details_page_new (void)
+task_details_page_new (CompEditor *editor)
 {
 	TaskDetailsPage *tdpage;
 
-	tdpage = g_object_new (TYPE_TASK_DETAILS_PAGE, NULL);
+	tdpage = g_object_new (TYPE_TASK_DETAILS_PAGE, "editor", editor, NULL);
 	if (!task_details_page_construct (tdpage)) {
 		g_object_unref (tdpage);
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 
 	return tdpage;

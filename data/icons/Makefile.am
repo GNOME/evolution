@@ -27,6 +27,7 @@ private_icons = \
 	hicolor_actions_22x22_view-calendar-week.png \
 	hicolor_actions_22x22_view-calendar-workweek.png \
  	hicolor_actions_24x24_go-today.png \
+	hicolor_actions_24x24_query-free-busy.png \
 	hicolor_actions_24x24_view-calendar-day.png \
 	hicolor_actions_24x24_view-calendar-list.png \
 	hicolor_actions_24x24_view-calendar-month.png \

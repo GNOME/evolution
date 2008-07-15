@@ -173,7 +173,7 @@ foreach_close_cb (gpointer key, gpointer value, gpointer data)
 
 	g_signal_handlers_block_matched (rdata->editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, data);
 
-	comp_editor_focus (rdata->editor);
+	gtk_window_present (GTK_WINDOW (rdata->editor));
 	if (!comp_editor_close (rdata->editor)) {
 		g_signal_handlers_unblock_matched (rdata->editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, data);
 		return FALSE;

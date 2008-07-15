@@ -27,14 +27,26 @@
 #include <gtk/gtk.h>
 #include "comp-editor.h"
 
-
+/* Standard GObject macros */
+#define TYPE_TASK_EDITOR \
+	(task_editor_get_type ())
+#define TASK_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), TYPE_TASK_EDITOR, TaskEditor))
+#define TASK_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), TYPE_TASK_EDITOR, TaskEditorClass))
+#define IS_TASK_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), TYPE_TASK_EDITOR))
+#define IS_TASK_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), TYPE_TASK_EDITOR))
+#define TASK_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), TYPE_TASK_EDITOR, TaskEditorClass))
 
-#define TYPE_TASK_EDITOR            (task_editor_get_type ())
-#define TASK_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_TASK_EDITOR, TaskEditor))
-#define TASK_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_TASK_EDITOR,	\
-				      TaskEditorClass))
-#define IS_TASK_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_TASK_EDITOR))
-#define IS_TASK_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_TASK_EDITOR))
+G_BEGIN_DECLS
 
 typedef struct _TaskEditor TaskEditor;
 typedef struct _TaskEditorClass TaskEditorClass;
@@ -42,8 +54,6 @@ typedef struct _TaskEditorPrivate TaskEditorPrivate;
 
 struct _TaskEditor {
 	CompEditor parent;
-
-	/* Private data */
 	TaskEditorPrivate *priv;
 };
 
@@ -51,11 +61,11 @@ struct _TaskEditorClass {
 	CompEditorClass parent_class;
 };
 
-GType       task_editor_get_type       (void);
-TaskEditor *task_editor_construct      (TaskEditor *te,
-					ECal  *client);
-TaskEditor *task_editor_new            (ECal  *client, CompEditorFlags flags);
-void        task_editor_show_assignment(TaskEditor *te);
-
+GType		task_editor_get_type		(void);
+CompEditor *	task_editor_new			(ECal *client,
+						 CompEditorFlags flags);
+void		task_editor_show_assignment	(TaskEditor *te);
+
+G_END_DECLS
 
 #endif /* __TASK_EDITOR_H__ */

@@ -32,476 +32,359 @@
 #include <glib/gi18n.h>
 
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 #include <evolution-shell-component-utils.h>
 
 #include "task-page.h"
 #include "task-details-page.h"
 #include "cancel-comp.h"
-#include "../calendar-config.h"
 #include "task-editor.h"
+
+#define TASK_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_TASK_EDITOR, TaskEditorPrivate))
 
 struct _TaskEditorPrivate {
 	TaskPage *task_page;
 	TaskDetailsPage *task_details_page;
-
 	GtkWidget *task_details_window;
-	EMeetingStore *model;
 
+	EMeetingStore *model;
 	gboolean assignment_shown;
-	gboolean is_assigned;
 	gboolean updating;
 };
 
-
+/* Extends the UI definition in CompEditor */
+static const gchar *ui =
+"<ui>"
+"  <menubar action='main-menu'>"
+"    <menu action='view-menu'>"
+"      <menuitem action='view-type'/>"
+"      <menuitem action='view-status'/>"
+"      <menuitem action='view-role'/>"
+"      <menuitem action='view-rsvp'/>"
+"      <separator/>"
+"      <menuitem action='view-time-zone'/>"
+"      <menuitem action='view-categories'/>"
+"    </menu>"
+"    <menu action='insert-menu'>"
+"      <menuitem action='send-options'/>"
+"    </menu>"
+"    <menu action='options-menu'>"
+"      <menu action='classification-menu'>"
+"        <menuitem action='classify-public'/>"
+"        <menuitem action='classify-private'/>"
+"        <menuitem action='classify-confidential'/>"
+"      </menu>"
+"      <menuitem action='option-status'/>"
+"    </menu>"
+"  </menubar>"
+"  <toolbar name='main-toolbar'>"
+"    <toolitem action='view-time-zone'/>"
+"    <toolitem action='option-status'/>"
+"  </toolbar>"
+"</ui>";
 
-static void task_editor_set_e_cal (CompEditor *editor, ECal *client);
 static void task_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
-static void task_editor_finalize (GObject *object);
-
-static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
-static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
 G_DEFINE_TYPE (TaskEditor, task_editor, TYPE_COMP_EDITOR)
 
-/* Class initialization function for the event editor */
 static void
-task_editor_class_init (TaskEditorClass *klass)
+action_option_status_cb (GtkAction *action,
+                         TaskEditor *editor)
+{
+	gtk_widget_show (editor->priv->task_details_window);
+}
+
+static void
+action_send_options_cb (GtkAction *action,
+                        TaskEditor *editor)
+{
+	task_page_sendoptions_clicked_cb (editor->priv->task_page);
+}
+
+static GtkActionEntry task_entries[] = {
+
+	{ "option-status",
+	  "stock_view-details",
+	  N_("_Status Details"),
+	  "<Control>t",
+	  N_("Click to change or view the status details of the task"),
+	  G_CALLBACK (action_option_status_cb) }
+};
+
+static GtkActionEntry assigned_task_entries[] = {
+
+	{ "send-options",
+	  NULL,
+	  N_("_Send Options"),
+	  NULL,
+	  N_("Insert advanced send options"),
+	  G_CALLBACK (action_send_options_cb) }
+};
+
+static void
+task_editor_client_changed_cb (TaskEditor *te)
+{
+	ECal *client;
+
+	client = comp_editor_get_client (COMP_EDITOR (te));
+	e_meeting_store_set_e_cal (te->priv->model, client);
+}
+
+static void
+task_editor_model_changed_cb (TaskEditor *te)
+{
+	if (!te->priv->updating) {
+		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (te), TRUE);
+	}
+}
+
+static GObject *
+task_editor_constructor (GType type,
+                         guint n_construct_properties,
+                         GObjectConstructParam *construct_properties)
+{
+	GObject *object;
+	CompEditor *editor;
+	CompEditorFlags flags;
+	TaskEditorPrivate *priv;
+	GtkActionGroup *action_group;
+	ECal *client;
+	gboolean is_assigned;
+
+	/* Chain up to parent's constructor() method. */
+	object = G_OBJECT_CLASS (task_editor_parent_class)->constructor (
+		type, n_construct_properties, construct_properties);
+
+	editor = COMP_EDITOR (object);
+	priv = TASK_EDITOR_GET_PRIVATE (object);
+
+	client = comp_editor_get_client (editor);
+	flags = comp_editor_get_flags (editor);
+	action_group = comp_editor_get_action_group (editor, "coordinated");
+
+	is_assigned = flags & COMP_EDITOR_IS_ASSIGNED;
+
+	task_page_set_assignment (priv->task_page, is_assigned);
+	gtk_action_group_set_visible (action_group, is_assigned);
+
+	if (is_assigned) {
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+			task_page_show_options (priv->task_page);
+		comp_editor_set_group_item (editor, TRUE);
+	}
+
+	return object;
+}
+
+static void
+task_editor_dispose (GObject *object)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (object);
+
+	if (priv->task_page) {
+		g_object_unref (priv->task_page);
+		priv->task_page = NULL;
+	}
+
+	if (priv->task_details_page) {
+		g_object_unref (priv->task_details_page);
+		priv->task_details_page = NULL;
+	}
+
+	if (priv->model) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (task_editor_parent_class)->dispose (object);
+}
+
+static void
+task_editor_show_categories (CompEditor *editor,
+                             gboolean visible)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
+
+	task_page_set_show_categories (priv->task_page, visible);
+}
+
+static void
+task_editor_show_role (CompEditor *editor,
+                       gboolean visible)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
+
+	task_page_set_view_role (priv->task_page, visible);
+}
+
+static void
+task_editor_show_rsvp (CompEditor *editor,
+                       gboolean visible)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
+
+	task_page_set_view_rsvp (priv->task_page, visible);
+}
+
+static void
+task_editor_show_status (CompEditor *editor,
+                         gboolean visible)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
+
+	task_page_set_view_status (priv->task_page, visible);
+}
+
+static void
+task_editor_show_time_zone (CompEditor *editor,
+                            gboolean visible)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
+
+	task_page_set_show_timezone (priv->task_page, visible);
+}
+
+static void
+task_editor_show_type (CompEditor *editor,
+                       gboolean visible)
+{
+	TaskEditorPrivate *priv;
+
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
+
+	task_page_set_view_type (priv->task_page, visible);
+}
+
+static void
+task_editor_class_init (TaskEditorClass *class)
 {
 	GObjectClass *object_class;
 	CompEditorClass *editor_class;
 
-	object_class = (GObjectClass *) klass;
-	editor_class = (CompEditorClass *) klass;
+	g_type_class_add_private (class, sizeof (TaskEditorPrivate));
 
-	editor_class->set_e_cal = task_editor_set_e_cal;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructor = task_editor_constructor;
+	object_class->dispose = task_editor_dispose;
+
+	editor_class = COMP_EDITOR_CLASS (class);
+	editor_class->help_section = "usage-calendar-todo";
 	editor_class->edit_comp = task_editor_edit_comp;
 	editor_class->send_comp = task_editor_send_comp;
-
-	object_class->finalize = task_editor_finalize;
+	editor_class->show_categories = task_editor_show_categories;
+	editor_class->show_role = task_editor_show_role;
+	editor_class->show_rsvp = task_editor_show_rsvp;
+	editor_class->show_status = task_editor_show_status;
+	editor_class->show_time_zone = task_editor_show_time_zone;
+	editor_class->show_type = task_editor_show_type;
 }
 
-static void
-init_widgets (TaskEditor *te)
-{
-	TaskEditorPrivate *priv;
-
-	priv = te->priv;
-
-	g_signal_connect((priv->model), "row_changed",
-			    G_CALLBACK (model_row_change_insert_cb), te);
-	g_signal_connect((priv->model), "row_inserted",
-			    G_CALLBACK (model_row_change_insert_cb), te);
-	g_signal_connect((priv->model), "row_deleted",
-			    G_CALLBACK (model_row_delete_cb), te);
-}
-
-static void
-client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
-{
-//	set_menu_sens (TASK_EDITOR (user_data));
-}
-
-static void
-menu_view_role_cb (BonoboUIComponent           *component,
-		      const char                  *path,
-		      Bonobo_UIComponent_EventType type,
-		      const char                  *state,
-		      gpointer                     user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	task_page_set_view_role (te->priv->task_page, atoi(state));
-	calendar_config_set_show_role (atoi(state));
-}
-
-static void
-menu_view_status_cb (BonoboUIComponent           *component,
-		      const char                  *path,
-		      Bonobo_UIComponent_EventType type,
-		      const char                  *state,
-		      gpointer                     user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	task_page_set_view_status (te->priv->task_page, atoi(state));
-	calendar_config_set_show_status (atoi(state));
-}
-
-static void
-menu_view_type_cb (BonoboUIComponent           *component,
-		      const char                  *path,
-		      Bonobo_UIComponent_EventType type,
-		      const char                  *state,
-		      gpointer                     user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	task_page_set_view_type (te->priv->task_page, atoi(state));
-	calendar_config_set_show_type (atoi(state));
-}
-
-static void
-menu_view_rsvp_cb (BonoboUIComponent           *component,
-		      const char                  *path,
-		      Bonobo_UIComponent_EventType type,
-		      const char                  *state,
-		      gpointer                     user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	task_page_set_view_rsvp (te->priv->task_page, atoi(state));
-	calendar_config_set_show_rsvp (atoi(state));
-}
-
-static void
-menu_show_time_zone_cb (BonoboUIComponent           *component,
-		       const char                  *path,
-		       Bonobo_UIComponent_EventType type,
-		       const char                  *state,
-		       gpointer                     user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	task_page_set_show_timezone (te->priv->task_page, atoi(state));
-	calendar_config_set_show_timezone (atoi(state));
-}
-
-static void
-menu_show_categories_cb (BonoboUIComponent           *component,
-		       const char                  *path,
-		       Bonobo_UIComponent_EventType type,
-		       const char                  *state,
-		       gpointer                     user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	task_page_set_show_categories (te->priv->task_page, atoi(state));
-	calendar_config_set_show_categories (atoi(state));
-}
-
-static void
-menu_class_public_cb (BonoboUIComponent          *ui_component,
-		     const char                  *path,
-		     Bonobo_UIComponent_EventType type,
-		     const char                  *state,
-		     gpointer			  user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	if (state[0] == '0')
-		return;
-
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (te->priv->task_page));
-	task_page_set_classification (te->priv->task_page, E_CAL_COMPONENT_CLASS_PUBLIC);
-}
-
-static void
-menu_class_private_cb (BonoboUIComponent          *ui_component,
-		      const char                  *path,
-		      Bonobo_UIComponent_EventType type,
-		      const char                  *state,
-		      gpointer			   user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-	if (state[0] == '0')
-		return;
-
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (te->priv->task_page));
-	task_page_set_classification (te->priv->task_page, E_CAL_COMPONENT_CLASS_PRIVATE);
-}
-
-static void
-menu_class_confidential_cb (BonoboUIComponent          *ui_component,
-		     	   const char                  *path,
-		     	   Bonobo_UIComponent_EventType type,
-		     	   const char                  *state,
-		     	   gpointer			user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-	if (state[0] == '0')
-		return;
-
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (te->priv->task_page));
-	task_page_set_classification (te->priv->task_page, E_CAL_COMPONENT_CLASS_CONFIDENTIAL);
-}
-
-
-static void
-menu_option_status_cb (BonoboUIComponent           *ui_component,
-		       const char                  *path,
-		       Bonobo_UIComponent_EventType type,
-		       const char                  *state,
-		       gpointer			user_data)
-{
-	TaskEditor *te = (TaskEditor *) user_data;
-
-	gtk_widget_show (te->priv->task_details_window);
-}
-
-static void
-menu_insert_send_options_cmd (BonoboUIComponent *uic,
-		   	 void *data,
-		   	 const char *path)
-{
-	TaskEditor *te = (TaskEditor *) data;
-
-	task_page_sendoptions_clicked_cb (te->priv->task_page);
-}
-
-static void
-menu_show_time_zone_cmd (BonoboUIComponent *uic,
-		   	 void *data,
-		   	 const char *path)
-{	/* TODO implement it
-	TaskEditor *te = (TaskEditor *) data;
-
-	task_page_set_show_timezone (te->priv->task_page, atoi(state));
-	calendar_config_set_show_timezone (atoi(state)); */
-}
-
-static void
-menu_option_status_cmd (BonoboUIComponent *uic,
-		     void *data,
-		     const char *path)
-{
-	TaskEditor *te = (TaskEditor *) data;
-
-	gtk_widget_show (te->priv->task_details_window);
-}
-
-static BonoboUIVerb verbs [] = {
-
-	BONOBO_UI_VERB ("ViewTimeZone", menu_show_time_zone_cmd),
-	BONOBO_UI_VERB ("OptionStatus", menu_option_status_cmd),
-	BONOBO_UI_VERB ("InsertSendOptions", menu_insert_send_options_cmd),
-	BONOBO_UI_VERB_END
-};
-
-static EPixmap pixmaps[] = {
-	E_PIXMAP ("/commands/OptionStatus", "stock_view-details", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewTimeZone", "stock_timezone", E_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/Toolbar/ViewTimeZone", "stock_timezone", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/OptionStatus", "stock_view-details", E_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP_END
-};
-
-
-/* Object initialization function for the task editor */
 static void
 task_editor_init (TaskEditor *te)
 {
-	TaskEditorPrivate *priv;
-	CompEditor *editor = COMP_EDITOR(te);
-	gboolean status;
-	char *xmlfile;
-
-	priv = g_new0 (TaskEditorPrivate, 1);
-	te->priv = priv;
-
-	priv->model = E_MEETING_STORE (e_meeting_store_new ());
-	priv->assignment_shown = TRUE;
-	priv->updating = FALSE;
-	priv->is_assigned = FALSE;
-
-	bonobo_ui_component_freeze (editor->uic, NULL);
-
-	bonobo_ui_component_add_verb_list_with_data (editor->uic, verbs, te);
-
-	xmlfile = g_build_filename (EVOLUTION_UIDIR,
-				    "evolution-task-editor.xml",
-				    NULL);
-	bonobo_ui_util_set_ui (editor->uic, PREFIX,
-			       xmlfile,
-			       "evolution-task-editor", NULL);
-	g_free (xmlfile);
-
-	/* Show hide the status fields */
-	status = calendar_config_get_show_status ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewStatus",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewStatus",
-		menu_view_status_cb, editor);
-
-	/* Show hide the type fields */
-	status = calendar_config_get_show_type ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewType",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewType",
-		menu_view_type_cb, editor);
-
-	/* Show hide the role fields */
-	status = calendar_config_get_show_role ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewRole",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewRole",
-		menu_view_role_cb, editor);
-
-	/* Show hide the rsvp fields */
-	status = calendar_config_get_show_rsvp ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewRSVP",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewRSVP",
-		menu_view_rsvp_cb, editor);
-
-	status = calendar_config_get_show_timezone ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewTimeZone",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewTimeZone",
-		menu_show_time_zone_cb, editor);
-
-	status = calendar_config_get_show_categories ();
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ViewCategories",
-		"state", status ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ViewCategories",
-		menu_show_categories_cb, editor);
-
-	bonobo_ui_component_set_prop (
-		editor->uic, "/commands/ActionClassPublic",
-		"state", "1", NULL);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ActionClassPublic",
-		menu_class_public_cb, editor);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ActionClassPrivate",
-		menu_class_private_cb, editor);
-	bonobo_ui_component_add_listener (
-		editor->uic, "ActionClassConfidential",
-		menu_class_confidential_cb, editor);
-
-	bonobo_ui_component_add_listener (
-		editor->uic, "OptionStatus",
-		menu_option_status_cb, editor);
-
-	e_pixmaps_update (editor->uic, pixmaps);
-
-	bonobo_ui_component_thaw (editor->uic, NULL);
-
-
-	comp_editor_set_help_section (COMP_EDITOR (te), "usage-calendar-todo");
-}
-
-TaskEditor *
-task_editor_construct (TaskEditor *te, ECal *client)
-{
-	TaskEditorPrivate *priv;
-	gboolean read_only = FALSE;
 	CompEditor *editor = COMP_EDITOR (te);
+	GtkUIManager *manager;
+	GtkActionGroup *action_group;
+	GError *error = NULL;
 
-	priv = te->priv;
+	te->priv = TASK_EDITOR_GET_PRIVATE (te);
+	te->priv->model = E_MEETING_STORE (e_meeting_store_new ());
+	te->priv->assignment_shown = TRUE;
+	te->priv->updating = FALSE;
 
-	priv->task_page = task_page_new (priv->model, client, editor->uic);
-	g_object_ref_sink (priv->task_page);
-	comp_editor_append_page (COMP_EDITOR (te),
-				 COMP_EDITOR_PAGE (priv->task_page),
-				 _("_Task"), TRUE);
-	g_signal_connect (G_OBJECT (priv->task_page), "client_changed",
-			  G_CALLBACK (client_changed_cb), te);
+	te->priv->task_page = task_page_new (te->priv->model, editor);
+	g_object_ref_sink (te->priv->task_page);
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (te->priv->task_page),
+		_("_Task"), TRUE);
 
-	priv->task_details_window = gtk_dialog_new_with_buttons (_("Task Details"),
-								(GtkWindow *) te, GTK_DIALOG_MODAL,
-							  	"gtk-close", GTK_RESPONSE_CLOSE,
-							  	NULL);
-	g_signal_connect (priv->task_details_window, "response", G_CALLBACK(gtk_widget_hide), NULL);
-	g_signal_connect (priv->task_details_window, "delete-event", G_CALLBACK(gtk_widget_hide), NULL);
+	te->priv->task_details_window = gtk_dialog_new_with_buttons (
+		_("Task Details"), GTK_WINDOW (te), GTK_DIALOG_MODAL,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+	g_signal_connect (
+		te->priv->task_details_window, "response",
+		G_CALLBACK (gtk_widget_hide), NULL);
+	g_signal_connect (
+		te->priv->task_details_window, "delete-event",
+		G_CALLBACK(gtk_widget_hide), NULL);
 
-	priv->task_details_page = task_details_page_new ();
-	g_object_ref_sink (priv->task_details_page);
-	gtk_container_add ((GtkContainer *) GTK_DIALOG(priv->task_details_window)->vbox,
-		           comp_editor_page_get_widget ((CompEditorPage *)priv->task_details_page));
-	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (priv->task_details_window) ) );
-	/* gtk_widget_hide (priv->task_details_window); */
-	comp_editor_append_page (editor, COMP_EDITOR_PAGE (priv->task_details_page), NULL, FALSE);
+	te->priv->task_details_page = task_details_page_new (editor);
+	g_object_ref_sink (te->priv->task_details_page);
+	gtk_container_add (
+		GTK_CONTAINER (GTK_DIALOG (te->priv->task_details_window)->vbox),
+		comp_editor_page_get_widget ((CompEditorPage *) te->priv->task_details_page));
+	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (te->priv->task_details_page), NULL, FALSE);
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-			read_only = TRUE;
+	action_group = comp_editor_get_action_group (editor, "individual");
+	gtk_action_group_add_actions (
+		action_group, task_entries,
+		G_N_ELEMENTS (task_entries), te);
 
-	if (priv->is_assigned) {
-		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
-			task_page_show_options (priv->task_page);
+	action_group = comp_editor_get_action_group (editor, "coordinated");
+	gtk_action_group_add_actions (
+		action_group, assigned_task_entries,
+		G_N_ELEMENTS (assigned_task_entries), te);
 
-		task_page_set_assignment (priv->task_page, TRUE);
-		comp_editor_set_group_item (COMP_EDITOR (te), TRUE);
-	} else {
-		task_page_set_assignment (priv->task_page, FALSE);
+	manager = comp_editor_get_ui_manager (editor);
+	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
+	e_plugin_ui_register_manager ("task-editor", manager, te);
 
-		bonobo_ui_component_set_prop (editor->uic, "/commands/InsertSendOptions", "hidden", "1", NULL);
-		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewRole", "hidden", "1", NULL);
-		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewRSVP", "hidden", "1", NULL);
-		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewType", "hidden", "1", NULL);
-		bonobo_ui_component_set_prop (editor->uic, "/commands/ViewStatus", "hidden", "1", NULL);
-		bonobo_ui_component_set_prop (editor->uic, "/menu/View/AttendeeOptions/timezonesep", "hidden", "1", NULL);
+	if (error != NULL) {
+		g_critical ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
 	}
 
-	comp_editor_set_e_cal (COMP_EDITOR (te), client);
+	g_signal_connect (
+		te, "notify::client",
+		G_CALLBACK (task_editor_client_changed_cb), NULL);
 
-	init_widgets (te);
-
-	return te;
-}
-
-static void
-task_editor_set_e_cal (CompEditor *editor, ECal *client)
-{
-	TaskEditor *te;
-	TaskEditorPrivate *priv;
-
-	te = TASK_EDITOR (editor);
-	priv = te->priv;
-
-	e_meeting_store_set_e_cal (priv->model, client);
-
-	if (COMP_EDITOR_CLASS (task_editor_parent_class)->set_e_cal)
-		COMP_EDITOR_CLASS (task_editor_parent_class)->set_e_cal (editor, client);
+	g_signal_connect_swapped (
+		te->priv->model, "row_changed",
+		G_CALLBACK (task_editor_model_changed_cb), te);
+	g_signal_connect_swapped (
+		te->priv->model, "row_inserted",
+		G_CALLBACK (task_editor_model_changed_cb), te);
+	g_signal_connect_swapped (
+		te->priv->model, "row_deleted",
+		G_CALLBACK (task_editor_model_changed_cb), te);
 }
 
 static void
 task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
-	TaskEditor *te;
 	TaskEditorPrivate *priv;
 	ECalComponentOrganizer organizer;
 	ECal *client;
 	GSList *attendees = NULL;
 
-	te = TASK_EDITOR (editor);
-	priv = te->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
 
 	priv->updating = TRUE;
 
 	if (COMP_EDITOR_CLASS (task_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (task_editor_parent_class)->edit_comp (editor, comp);
 
-	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
+	client = comp_editor_get_client (editor);
 
 	/* Get meeting related stuff */
 	e_cal_component_get_organizer (comp, &organizer);
@@ -553,12 +436,12 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		}
 
 
-		comp_editor_set_group_item (COMP_EDITOR (te), TRUE);
+		comp_editor_set_group_item (editor, TRUE);
 		priv->assignment_shown = TRUE;
 	}
 	e_cal_component_free_attendee_list (attendees);
 
-	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown && itip_organizer_is_user (comp, client));
+	comp_editor_set_needs_send (editor, priv->assignment_shown && itip_organizer_is_user (comp, client));
 
 	priv->updating = FALSE;
 }
@@ -566,11 +449,10 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 static gboolean
 task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
-	TaskEditor *te = TASK_EDITOR (editor);
 	TaskEditorPrivate *priv;
 	ECalComponent *comp = NULL;
 
-	priv = te->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
 
 	/* Don't cancel more than once or when just publishing */
 	if (method == E_CAL_COMPONENT_METHOD_PUBLISH ||
@@ -598,40 +480,6 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	return FALSE;
 }
 
-/* Destroy handler for the event editor */
-static void
-task_editor_finalize (GObject *object)
-{
-	TaskEditor *te;
-	TaskEditorPrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_TASK_EDITOR (object));
-
-	te = TASK_EDITOR (object);
-	priv = te->priv;
-
-	if (priv->task_page) {
-		g_object_unref (priv->task_page);
-		priv->task_page = NULL;
-	}
-
-	if (priv->task_details_page) {
-		g_object_unref (priv->task_details_page);
-		priv->task_details_page = NULL;
-	}
-
-	if (priv->model) {
-		g_object_unref (priv->model);
-		priv->model = NULL;
-	}
-
-	g_free (priv);
-
-	if (G_OBJECT_CLASS (task_editor_parent_class)->finalize)
-		(* G_OBJECT_CLASS (task_editor_parent_class)->finalize) (object);
-}
-
 /**
  * task_editor_new:
  * @client: a ECal
@@ -641,61 +489,31 @@ task_editor_finalize (GObject *object)
  * Return value: A newly-created event editor dialog, or NULL if the event
  * editor could not be created.
  **/
-TaskEditor *
+CompEditor *
 task_editor_new (ECal *client, CompEditorFlags flags)
 {
-	TaskEditor *te;
+	g_return_val_if_fail (E_IS_CAL (client), NULL);
 
-	te = g_object_new (TYPE_TASK_EDITOR, NULL);
-	te->priv->is_assigned = flags & COMP_EDITOR_IS_ASSIGNED;
-	comp_editor_set_flags (COMP_EDITOR (te), flags);
-
-	return task_editor_construct (te, client);
-}
-
-static void
-show_assignment (TaskEditor *te)
-{
-	TaskEditorPrivate *priv;
-
-	priv = te->priv;
-
-	task_page_set_assignment (priv->task_page, TRUE);
-	if (!priv->assignment_shown) {
-		priv->assignment_shown = TRUE;
-
-		comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown);
-		comp_editor_set_changed (COMP_EDITOR (te), FALSE);
-	}
-
+	return g_object_new (
+		TYPE_TASK_EDITOR,
+		"flags", flags, "client", client, NULL);
 }
 
 void
 task_editor_show_assignment (TaskEditor *te)
 {
-	g_return_if_fail (te != NULL);
+	CompEditor *editor;
+
 	g_return_if_fail (IS_TASK_EDITOR (te));
 
-	show_assignment (te);
-}
+	editor = COMP_EDITOR (te);
 
-static void
-model_changed (TaskEditor *te)
-{
-	if (!te->priv->updating) {
-		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
-		comp_editor_set_needs_send (COMP_EDITOR (te), TRUE);
+	task_page_set_assignment (te->priv->task_page, TRUE);
+	if (!te->priv->assignment_shown) {
+		te->priv->assignment_shown = TRUE;
+		comp_editor_set_needs_send (editor, TRUE);
+		comp_editor_set_changed (editor, FALSE);
 	}
+
 }
 
-static void
-model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	model_changed (TASK_EDITOR (data));
-}
-
-static void
-model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
-{
-	model_changed (TASK_EDITOR (data));
-}

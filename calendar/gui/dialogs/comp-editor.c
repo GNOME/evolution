@@ -30,16 +30,10 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-widget.h>
 #include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-uidefs.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
+#include <e-util/gconf-bridge.h>
 #include <evolution-shell-component-utils.h>
 
 #include <camel/camel-url.h>
@@ -62,16 +56,18 @@
 #include "recur-comp.h"
 #include "comp-editor.h"
 #include "../e-cal-popup.h"
+#include "../calendar-config-keys.h"
 #include "cal-attachment-select-file.h"
 
 #include "e-attachment-bar.h"
 #include "misc/e-expander.h"
 #include "e-util/e-error.h"
 
+#define COMP_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_COMP_EDITOR, CompEditorPrivate))
 
-#define d(x) x
-
-
+#define d(x)
 
 /* Private part of the CompEditor structure */
 struct _CompEditorPrivate {
@@ -93,9 +89,6 @@ struct _CompEditorPrivate {
 	/* Notebook to hold the pages */
 	GtkNotebook *notebook;
 
-	/* Focussed Widget*/
-	GtkWidget *focused_entry;
-
 	/* Attachment handling */
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_scrolled_window;
@@ -103,6 +96,11 @@ struct _CompEditorPrivate {
 	GtkWidget *attachment_expander_label;
 	GtkWidget *attachment_expander_icon;
 	GtkWidget *attachment_expander_num;
+
+	/* Manages menus and toolbars */
+	GtkUIManager *manager;
+
+	gchar *summary;
 
 	guint32 attachment_bar_visible : 1;
 
@@ -120,35 +118,63 @@ struct _CompEditorPrivate {
 	gboolean is_group_item;
 
  	gboolean warned;
-
-        char *help_section;
 };
 
-
+enum {
+	PROP_0,
+	PROP_CHANGED,
+	PROP_CLIENT,
+	PROP_FLAGS,
+	PROP_SUMMARY
+};
 
-static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
-static void comp_editor_finalize (GObject *object);
+static const gchar *ui =
+"<ui>"
+"  <menubar action='main-menu'>"
+"    <menu action='file-menu'>"
+"      <menuitem action='save'/>"
+"      <menuitem action='close'/>"
+"    </menu>"
+"    <menu action='edit-menu'>"
+"      <menuitem action='cut'/>"
+"      <menuitem action='copy'/>"
+"      <menuitem action='paste'/>"
+"      <separator/>"
+"      <menuitem action='select-all'/>"
+"    </menu>"
+"    <menu action='view-menu'/>"
+"    <menu action='insert-menu'>"
+"      <menuitem action='attach'/>"
+"      <menuitem action='attach-recent'/>"
+"    </menu>"
+"    <menu action='options-menu'/>"
+"    <menu action='help-menu'>"
+"      <menuitem action='help'/>"
+"    </menu>"
+"  </menubar>"
+"  <toolbar name='main-toolbar'>"
+"    <toolitem action='save'/>"
+"    <toolitem action='close'/>"
+"    <separator/>"
+"    <toolitem action='attach'/>"
+"  </toolbar>"
+"</ui>";
+
 static void comp_editor_show_help (CompEditor *editor);
+static void setup_widgets (CompEditor *editor);
 
-static void real_set_e_cal (CompEditor *editor, ECal *client);
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method);
 static gboolean prompt_and_save_changes (CompEditor *editor, gboolean send);
-static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
-static void page_changed_cb (GtkObject *obj, gpointer data);
-static void needs_send_cb (GtkObject *obj, gpointer data);
-static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
-static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
-static void page_focus_in_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data);
-static void page_focus_out_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data);
+static void page_dates_changed_cb (CompEditor *editor, CompEditorPageDates *dates, CompEditorPage *page);
 
-static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
-static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
+static void obj_modified_cb (ECal *client, GList *objs, CompEditor *editor);
+static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
 static gboolean open_attachment (EAttachmentBar *bar, CompEditor *editor);
 
-G_DEFINE_TYPE (CompEditor, comp_editor, BONOBO_TYPE_WINDOW)
+G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_WINDOW)
 
 enum {
 	DND_TYPE_MESSAGE_RFC822,
@@ -535,96 +561,26 @@ drag_motion(GObject *o, GdkDragContext *context, gint x, gint y, guint time, Com
 	return action != 0;
 }
 
-/* Class initialization function for the calendar component editor */
 static void
-comp_editor_class_init (CompEditorClass *klass)
+add_to_bar (CompEditor *editor, GPtrArray *file_list, int is_inline)
 {
-	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
+	CompEditorPrivate *priv = editor->priv;
 	int i;
 
-	for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
-		drag_info[i].atom = gdk_atom_intern(drag_info[i].target, FALSE);
+	for (i = 0; i < file_list->len; i++) {
+		CamelURL *url;
 
-	object_class = G_OBJECT_CLASS (klass);
-	widget_class = GTK_WIDGET_CLASS (klass);
+		if (!(url = camel_url_new (file_list->pdata[i], NULL)))
+			continue;
 
-	klass->set_e_cal = real_set_e_cal;
-	klass->edit_comp = real_edit_comp;
-	klass->send_comp = real_send_comp;
-	klass->object_created = NULL;
+		if (!g_ascii_strcasecmp (url->protocol, "file")) {
+			e_attachment_bar_attach((EAttachmentBar *)priv->attachment_bar, url->path, is_inline ? "inline" : "attachment");
+		} else {
+			e_attachment_bar_attach_remote_file ((EAttachmentBar *)priv->attachment_bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
+		}
 
-	comp_editor_signals[OBJECT_CREATED] =
-		g_signal_new ("object_created",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CompEditorClass, object_created),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	widget_class->key_press_event = comp_editor_key_press_event;
-	object_class->finalize = comp_editor_finalize;
-}
-
-static void
-listen_for_changes (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	const char *uid = NULL;
-
-	priv = editor->priv;
-
-	/* Discard change listener */
-	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
-
-		g_object_unref (priv->view);
-		priv->view = NULL;
+		camel_url_free (url);
 	}
-
-	/* Listen for changes */
-	if (priv->comp)
-		e_cal_component_get_uid (priv->comp, &uid);
-
-	if (uid) {
-		char *query;
-
-		query = g_strdup_printf ("(uid? \"%s\")", uid);
-		e_cal_get_query (priv->source_client, query, &priv->view, NULL);
-		g_free (query);
-	}
-
-	if (priv->view) {
-		g_signal_connect (priv->view, "objects_modified",
-				  G_CALLBACK (obj_modified_cb), editor);
-
-		g_signal_connect((priv->view), "objects_removed",
-				 G_CALLBACK (obj_removed_cb), editor);
-
-		e_cal_view_start (priv->view);
-	}
-}
-
-/* This sets the focus to the toplevel, so any field being edited is committed.
-   FIXME: In future we may also want to check some of the fields are valid,
-   e.g. the EDateEdit fields. */
-static void
-commit_all_fields (CompEditor *editor)
-{
-	gtk_window_set_focus (GTK_WINDOW (editor), NULL);
-}
-
-static void
-send_timezone (gpointer key, gpointer value, gpointer user_data)
-{
-	icaltimezone *zone = value;
-	CompEditor *editor = user_data;
-
-	e_cal_add_timezone (editor->priv->client, zone, NULL);
 }
 
 static GSList *
@@ -701,10 +657,72 @@ get_attachment_list (CompEditor *editor)
 	return list;
 }
 
+/* This sets the focus to the toplevel, so any field being edited is committed.
+   FIXME: In future we may also want to check some of the fields are valid,
+   e.g. the EDateEdit fields. */
+static void
+commit_all_fields (CompEditor *editor)
+{
+	gtk_window_set_focus (GTK_WINDOW (editor), NULL);
+}
+
+static void
+listen_for_changes (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	const char *uid = NULL;
+
+	priv = editor->priv;
+
+	/* Discard change listener */
+	if (priv->view) {
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      editor);
+
+		g_object_unref (priv->view);
+		priv->view = NULL;
+	}
+
+	/* Listen for changes */
+	if (priv->comp)
+		e_cal_component_get_uid (priv->comp, &uid);
+
+	if (uid) {
+		char *query;
+
+		query = g_strdup_printf ("(uid? \"%s\")", uid);
+		e_cal_get_query (priv->source_client, query, &priv->view, NULL);
+		g_free (query);
+	}
+
+	if (priv->view) {
+		g_signal_connect (
+			priv->view, "objects_modified",
+			G_CALLBACK (obj_modified_cb), editor);
+		g_signal_connect (
+			priv->view, "objects_removed",
+			G_CALLBACK (obj_removed_cb), editor);
+
+		e_cal_view_start (priv->view);
+	}
+}
+
+static void
+send_timezone (gpointer key, gpointer value, gpointer user_data)
+{
+	icaltimezone *zone = value;
+	CompEditor *editor = user_data;
+
+	e_cal_add_timezone (editor->priv->client, zone, NULL);
+}
+
 static gboolean
 save_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	CompEditorFlags flags;
 	ECalComponent *clone;
 	GList *l;
 	gboolean result;
@@ -717,6 +735,8 @@ save_comp (CompEditor *editor)
 
 	if (!priv->changed)
 		return TRUE;
+
+	flags = comp_editor_get_flags (editor);
 
 	/* Stop listening because we are about to change things */
 	if (priv->view) {
@@ -781,7 +801,7 @@ save_comp (CompEditor *editor)
 
 		if (result && priv->mod == CALOBJ_MOD_THIS) {
 			/* FIXME do we really need to do this ? */
-			if ((priv->flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone))
+			if ((flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone))
 				e_cal_component_commit_sequence (clone);
 			else
 				e_cal_component_abort_sequence (clone);
@@ -857,13 +877,15 @@ static gboolean
 save_comp_with_send (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	CompEditorFlags flags;
 	gboolean send;
 	gboolean delegate;
 
 	priv = editor->priv;
 
+	flags = comp_editor_get_flags (editor);
 	send = priv->changed && priv->needs_send;
-	delegate = priv->flags & COMP_EDITOR_DELEGATE;
+	delegate = flags & COMP_EDITOR_DELEGATE;
 
 	if (delegate) {
 		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
@@ -893,6 +915,892 @@ save_comp_with_send (CompEditor *editor)
  	}
 
 	return TRUE;
+}
+
+static void
+update_window_border (CompEditor *editor,
+                      const gchar *description)
+{
+	const gchar *icon_name;
+	const gchar *format;
+	gchar *title;
+
+	if (editor->priv->comp == NULL) {
+		title = g_strdup (_("Edit Appointment"));
+		icon_name = "stock_calendar";
+		goto exit;
+
+	} else switch (e_cal_component_get_vtype (editor->priv->comp)) {
+		case E_CAL_COMPONENT_EVENT:
+			if (editor->priv->is_group_item)
+				format = _("Meeting - %s");
+			else
+				format = _("Appointment - %s");
+			icon_name = "appointment-new";
+			break;
+
+		case E_CAL_COMPONENT_TODO:
+			if (editor->priv->is_group_item)
+				format = _("Assigned Task - %s");
+			else
+				format = _("Task - %s");
+			icon_name = "stock_task";
+			break;
+
+		case E_CAL_COMPONENT_JOURNAL:
+			format = _("Memo - %s");
+			icon_name = "stock_insert-note";
+			break;
+
+		default:
+			g_return_if_reached ();
+	}
+
+	if (description == NULL || *description == '\0') {
+		ECalComponentText text;
+
+		e_cal_component_get_summary (editor->priv->comp, &text);
+		description = text.value;
+	}
+
+	if (description == NULL || *description == '\0')
+		description = _("No Summary");
+
+	title = g_strdup_printf (format, description);
+
+exit:
+	gtk_window_set_icon_name (GTK_WINDOW (editor), icon_name);
+	gtk_window_set_title (GTK_WINDOW (editor), title);
+
+	g_free (title);
+}
+
+static void
+action_attach_cb (GtkAction *action,
+                  CompEditor *editor)
+{
+	GPtrArray *file_list;
+	gboolean is_inline = FALSE;
+	int i;
+
+	file_list = comp_editor_select_file_attachments (editor, &is_inline);
+
+	if (file_list) {
+		add_to_bar (editor, file_list, is_inline);
+
+		for (i = 0; i < file_list->len; i++)
+			g_free (file_list->pdata[i]);
+
+		g_ptr_array_free (file_list, TRUE);
+	}
+}
+
+static void
+action_close_cb (GtkAction *action,
+                 CompEditor *editor)
+{
+	commit_all_fields (editor);
+
+	if (prompt_and_save_changes (editor, TRUE))
+		close_dialog (editor);
+}
+
+static void
+action_copy_cb (GtkAction *action,
+                CompEditor *editor)
+{
+	GtkWidget *focus;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (editor));
+
+	if (GTK_IS_ENTRY (focus))
+		gtk_editable_copy_clipboard (GTK_EDITABLE (focus));
+
+	if (GTK_IS_TEXT_VIEW (focus))
+		g_signal_emit_by_name (focus, "copy-clipboard");
+}
+
+static void
+action_cut_cb (GtkAction *action,
+               CompEditor *editor)
+{
+	GtkWidget *focus;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (editor));
+
+	if (GTK_IS_ENTRY (focus))
+		gtk_editable_cut_clipboard (GTK_EDITABLE (focus));
+
+	if (GTK_IS_TEXT_VIEW (focus))
+		g_signal_emit_by_name (focus, "cut-clipboard");
+}
+
+static void
+action_help_cb (GtkAction *action,
+                CompEditor *editor)
+{
+	comp_editor_show_help (editor);
+}
+
+static void
+action_paste_cb (GtkAction *action,
+                 CompEditor *editor)
+{
+	GtkWidget *focus;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (editor));
+
+	if (GTK_IS_ENTRY (focus))
+		gtk_editable_paste_clipboard (GTK_EDITABLE (focus));
+
+	if (GTK_IS_TEXT_VIEW (focus))
+		g_signal_emit_by_name (focus, "paste-clipboard");
+}
+
+static void
+action_print_cb (GtkAction *action,
+                 CompEditor *editor)
+{
+	CompEditorPrivate *priv = editor->priv;
+	ECalComponent *comp;
+	GList *l;
+	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+
+	for (l = priv->pages; l != NULL; l = l->next)
+		 comp_editor_page_fill_component (l->data, comp);
+
+	print_comp (comp, priv->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+
+	g_object_unref (comp);
+}
+
+static void
+action_print_preview_cb (GtkAction *action,
+                         CompEditor *editor)
+{
+	CompEditorPrivate *priv = editor->priv;
+	ECalComponent *comp;
+	GList *l;
+	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	for (l = priv->pages; l != NULL; l = l->next)
+		 comp_editor_page_fill_component (l->data, comp);
+	print_comp (comp, priv->client, TRUE);
+
+	g_object_unref (comp);
+}
+
+static void
+action_save_cb (GtkAction *action,
+                CompEditor *editor)
+{
+	CompEditorPrivate *priv = editor->priv;
+	ECalComponentText text;
+	gboolean delegated = FALSE;
+	gboolean read_only, correct = FALSE;
+	ECalComponent *comp;
+
+	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
+		gboolean response = 1;
+	/*FIXME: Cannot use mail functions from calendar!!!! */
+#if 0
+		ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
+
+		if (vtype == E_CAL_COMPONENT_EVENT)
+			response = em_utils_prompt_user((GtkWindow *)widget,
+							 NULL,
+							 "calendar:ask-send-event-pending-download",
+							  NULL);
+		else
+			response = em_utils_prompt_user((GtkWindow *)widget,
+							 NULL,
+							 "calendar:ask-send-task-pending-download",
+							  NULL);
+#endif
+	if (!response)
+		return;
+	}
+
+	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
+		e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal-editor", e_source_peek_name (e_cal_get_source (priv->client)), NULL);
+		return;
+	}
+
+	commit_all_fields (editor);
+	if (e_cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
+			return;
+
+	comp = comp_editor_get_current_comp (editor, &correct);
+	e_cal_component_get_summary (comp, &text);
+	g_object_unref (comp);
+
+	if (!correct)
+		return;
+
+	if (!text.value)
+		if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+			return;
+	if (save_comp_with_send (editor))
+		close_dialog (editor);
+
+}
+
+static void
+action_select_all_cb (GtkAction *action,
+                      CompEditor *editor)
+{
+	GtkWidget *focus;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (editor));
+
+	if (GTK_IS_ENTRY (focus)) {
+		gtk_editable_set_position (GTK_EDITABLE (focus), -1);
+		gtk_editable_select_region (GTK_EDITABLE (focus), 0, -1);
+	}
+
+	if (GTK_IS_TEXT_VIEW (focus))
+		g_signal_emit_by_name (focus, "select-all", TRUE);
+}
+
+static void
+action_view_categories_cb (GtkToggleAction *action,
+                           CompEditor *editor)
+{
+	CompEditorClass *class;
+	gboolean active;
+
+	class = COMP_EDITOR_GET_CLASS (editor);
+	active = gtk_toggle_action_get_active (action);
+
+	if (class->show_categories != NULL)
+		class->show_categories (editor, active);
+}
+
+static void
+action_view_role_cb (GtkToggleAction *action,
+                     CompEditor *editor)
+{
+	CompEditorClass *class;
+	gboolean active;
+
+	class = COMP_EDITOR_GET_CLASS (editor);
+	active = gtk_toggle_action_get_active (action);
+
+	if (class->show_role != NULL)
+		class->show_role (editor, active);
+}
+
+static void
+action_view_rsvp_cb (GtkToggleAction *action,
+                     CompEditor *editor)
+{
+	CompEditorClass *class;
+	gboolean active;
+
+	class = COMP_EDITOR_GET_CLASS (editor);
+	active = gtk_toggle_action_get_active (action);
+
+	if (class->show_rsvp != NULL)
+		class->show_rsvp (editor, active);
+}
+
+static void
+action_view_status_cb (GtkToggleAction *action,
+                       CompEditor *editor)
+{
+	CompEditorClass *class;
+	gboolean active;
+
+	class = COMP_EDITOR_GET_CLASS (editor);
+	active = gtk_toggle_action_get_active (action);
+
+	if (class->show_status != NULL)
+		class->show_status (editor, active);
+}
+
+static void
+action_view_time_zone_cb (GtkToggleAction *action,
+                          CompEditor *editor)
+{
+	CompEditorClass *class;
+	gboolean active;
+
+	class = COMP_EDITOR_GET_CLASS (editor);
+	active = gtk_toggle_action_get_active (action);
+
+	if (class->show_time_zone != NULL)
+		class->show_time_zone (editor, active);
+}
+
+static void
+action_view_type_cb (GtkToggleAction *action,
+                     CompEditor *editor)
+{
+	CompEditorClass *class;
+	gboolean active;
+
+	class = COMP_EDITOR_GET_CLASS (editor);
+	active = gtk_toggle_action_get_active (action);
+
+	if (class->show_type != NULL)
+		class->show_type (editor, active);
+}
+
+static GtkActionEntry core_entries[] = {
+
+	{ "close",
+	  GTK_STOCK_CLOSE,
+	  NULL,
+	  NULL,
+	  N_("Click here to close the current window"),
+	  G_CALLBACK (action_close_cb) },
+
+	{ "copy",
+	  GTK_STOCK_COPY,
+	  NULL,
+	  NULL,
+	  N_("Copy selected text to the clipboard"),
+	  G_CALLBACK (action_copy_cb) },
+
+	{ "cut",
+	  GTK_STOCK_CUT,
+	  NULL,
+	  NULL,
+	  N_("Cut selected text to the clipboard"),
+	  G_CALLBACK (action_cut_cb) },
+
+	{ "help",
+	  GTK_STOCK_HELP,
+	  NULL,
+	  NULL,
+	  N_("Click here to view help available"),
+	  G_CALLBACK (action_help_cb) },
+
+	{ "paste",
+	  GTK_STOCK_PASTE,
+	  NULL,
+	  NULL,
+	  N_("Paste text from the clipboard"),
+	  G_CALLBACK (action_paste_cb) },
+
+	{ "print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_print_cb) },
+
+	{ "print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_print_preview_cb) },
+
+	{ "save",
+	  GTK_STOCK_SAVE,
+	  NULL,
+	  NULL,
+	  N_("Click here to save the current window"),
+	  G_CALLBACK (action_save_cb) },
+
+	{ "select-all",
+	  GTK_STOCK_SELECT_ALL,
+	  NULL,
+	  NULL,
+	  N_("Select all text"),
+	  G_CALLBACK (action_select_all_cb) },
+
+	/* Menus */
+
+	{ "classification-menu",
+	  NULL,
+	  N_("_Classification"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "edit-menu",
+	  NULL,
+	  N_("_Edit"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "file-menu",
+	  NULL,
+	  N_("_File"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "help-menu",
+	  NULL,
+	  N_("_Help"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "insert-menu",
+	  NULL,
+	  N_("_Insert"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "options-menu",
+	  NULL,
+	  N_("_Options"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "view-menu",
+	  NULL,
+	  N_("_View"),
+	  NULL,
+	  NULL,
+	  NULL }
+};
+
+static GtkActionEntry individual_entries[] = {
+
+	{ "attach",
+	  "mail-attachment",
+	  N_("_Attachment..."),
+	  "<Control>m",
+	  N_("Click here to attach a file"),
+	  G_CALLBACK (action_attach_cb) }
+};
+
+static GtkToggleActionEntry individual_toggle_entries[] = {
+
+	{ "view-categories",
+	  NULL,
+	  N_("_Categories"),
+	  NULL,
+	  N_("Toggles whether to display categories"),
+	  G_CALLBACK (action_view_categories_cb),
+	  FALSE },
+
+	{ "view-time-zone",
+	  "stock_timezone",
+	  N_("Time _Zone"),
+	  NULL,
+	  N_("Toggles whether the time zone is displayed"),
+	  G_CALLBACK (action_view_time_zone_cb),
+	  FALSE }
+};
+
+static GtkRadioActionEntry classification_radio_entries[] = {
+
+	{ "classify-public",
+	  NULL,
+	  N_("Pu_blic"),
+	  NULL,
+	  N_("Classify as public"),
+	  E_CAL_COMPONENT_CLASS_PUBLIC },
+
+	{ "classify-private",
+	  NULL,
+	  N_("_Private"),
+	  NULL,
+	  N_("Classify as private"),
+	  E_CAL_COMPONENT_CLASS_PRIVATE },
+
+	{ "classify-confidential",
+	  NULL,
+	  N_("_Confidential"),
+	  NULL,
+	  N_("Classify as confidential"),
+	  E_CAL_COMPONENT_CLASS_CONFIDENTIAL }
+};
+
+static GtkToggleActionEntry coordinated_toggle_entries[] = {
+
+	{ "view-role",
+	  NULL,
+	  N_("R_ole Field"),
+	  NULL,
+	  N_("Toggles whether the Role field is displayed"),
+	  G_CALLBACK (action_view_role_cb),
+	  FALSE },
+
+	{ "view-rsvp",
+	  NULL,
+	  N_("_RSVP"),
+	  NULL,
+	  N_("Toggles whether the RSVP field is displayed"),
+	  G_CALLBACK (action_view_rsvp_cb),
+	  FALSE },
+
+	{ "view-status",
+	  NULL,
+	  N_("_Status Field"),
+	  NULL,
+	  N_("Toggles whether the Status field is displayed"),
+	  G_CALLBACK (action_view_status_cb),
+	  FALSE },
+
+	{ "view-type",
+	  NULL,
+	  N_("_Type Field"),
+	  NULL,
+	  N_("Toggles whether the Attendee Type is displayed"),
+	  G_CALLBACK (action_view_type_cb),
+	  FALSE }
+};
+
+static void
+comp_editor_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CHANGED:
+			comp_editor_set_changed (
+				COMP_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_CLIENT:
+			comp_editor_set_client (
+				COMP_EDITOR (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_FLAGS:
+			comp_editor_set_flags (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_SUMMARY:
+			comp_editor_set_summary (
+				COMP_EDITOR (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+comp_editor_get_property (GObject *object,
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CHANGED:
+			g_value_set_boolean (
+				value, comp_editor_get_changed (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_CLIENT:
+			g_value_set_object (
+				value, comp_editor_get_client (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_FLAGS:
+			g_value_set_int (
+				value, comp_editor_get_flags (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_SUMMARY:
+			g_value_set_string (
+				value, comp_editor_get_summary (
+				COMP_EDITOR (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+comp_editor_dispose (GObject *object)
+{
+	CompEditorPrivate *priv;
+
+	priv = COMP_EDITOR_GET_PRIVATE (object);
+
+	if (priv->client) {
+		g_object_unref (priv->client);
+		priv->client = NULL;
+	}
+
+	if (priv->source_client) {
+		g_object_unref (priv->source_client);
+		priv->source_client = NULL;
+	}
+
+	if (priv->view) {
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      object);
+
+		g_object_unref (priv->view);
+		priv->view = NULL;
+	}
+
+	/* We want to destroy the pages after the widgets get destroyed,
+	   since they have lots of signal handlers connected to the widgets
+	   with the pages as the data. */
+	g_list_foreach (priv->pages, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->pages);
+	priv->pages = NULL;
+
+	if (priv->comp) {
+		g_object_unref (priv->comp);
+		priv->comp = NULL;
+	}
+
+	if (priv->manager != NULL) {
+		g_object_unref (priv->manager);
+		priv->manager = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (comp_editor_parent_class)->dispose (object);
+}
+
+static void
+comp_editor_finalize (GObject *object)
+{
+	CompEditorPrivate *priv;
+
+	priv = COMP_EDITOR_GET_PRIVATE (object);
+
+	g_free (priv->summary);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (comp_editor_parent_class)->finalize (object);
+}
+
+static void
+comp_editor_map (GtkWidget *widget)
+{
+	CompEditor *editor = COMP_EDITOR (widget);
+	GConfBridge *bridge = gconf_bridge_get ();
+	GtkAction *action;
+
+	/* Give subclasses a chance to construct their pages before
+	 * we fiddle with their widgets.  That's why we don't do this
+	 * until after object construction. */
+
+	action = comp_editor_get_action (editor, "view-categories");
+	gconf_bridge_bind_property (
+		bridge, CALENDAR_CONFIG_SHOW_CATEGORIES,
+		G_OBJECT (action), "active");
+
+	action = comp_editor_get_action (editor, "view-role");
+	gconf_bridge_bind_property (
+		bridge, CALENDAR_CONFIG_SHOW_ROLE,
+		G_OBJECT (action), "active");
+
+	action = comp_editor_get_action (editor, "view-rsvp");
+	gconf_bridge_bind_property (
+		bridge, CALENDAR_CONFIG_SHOW_RSVP,
+		G_OBJECT (action), "active");
+
+	action = comp_editor_get_action (editor, "view-status");
+	gconf_bridge_bind_property (
+		bridge, CALENDAR_CONFIG_SHOW_STATUS,
+		G_OBJECT (action), "active");
+
+	action = comp_editor_get_action (editor, "view-time-zone");
+	gconf_bridge_bind_property (
+		bridge, CALENDAR_CONFIG_SHOW_TIMEZONE,
+		G_OBJECT (action), "active");
+
+	action = comp_editor_get_action (editor, "view-type");
+	gconf_bridge_bind_property (
+		bridge, CALENDAR_CONFIG_SHOW_TYPE,
+		G_OBJECT (action), "active");
+
+	/* Chain up to parent's map() method. */
+	GTK_WIDGET_CLASS (comp_editor_parent_class)->map (widget);
+}
+
+static void
+comp_editor_class_init (CompEditorClass *class)
+{
+	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
+	int i;
+
+	for (i = 0; i < G_N_ELEMENTS (drag_info); i++)
+		drag_info[i].atom = gdk_atom_intern(drag_info[i].target, FALSE);
+
+	g_type_class_add_private (class, sizeof (CompEditorPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = comp_editor_set_property;
+	object_class->get_property = comp_editor_get_property;
+	object_class->dispose = comp_editor_dispose;
+	object_class->finalize = comp_editor_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->map = comp_editor_map;
+
+	class->help_section = "usage-calendar";
+	class->edit_comp = real_edit_comp;
+	class->send_comp = real_send_comp;
+	class->object_created = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CHANGED,
+		g_param_spec_boolean (
+			"changed",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT,
+		g_param_spec_object (
+			"client",
+			NULL,
+			NULL,
+			E_TYPE_CAL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	/* FIXME: Use a proper flags type instead of int. */
+	g_object_class_install_property (
+		object_class,
+		PROP_FLAGS,
+		g_param_spec_int (
+			"flags",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SUMMARY,
+		g_param_spec_string (
+			"summary",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	comp_editor_signals[OBJECT_CREATED] =
+		g_signal_new ("object_created",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (CompEditorClass, object_created),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+}
+
+static void
+comp_editor_init (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	GtkActionGroup *action_group;
+	GtkAction *action;
+	GError *error = NULL;
+
+	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
+
+	priv->pages = NULL;
+	priv->changed = FALSE;
+	priv->needs_send = FALSE;
+	priv->mod = CALOBJ_MOD_ALL;
+ 	priv->existing_org = FALSE;
+ 	priv->user_org = FALSE;
+ 	priv->warned = FALSE;
+	priv->is_group_item = FALSE;
+
+	priv->attachment_bar = e_attachment_bar_new (NULL);
+	priv->manager = gtk_ui_manager_new ();
+
+	action_group = gtk_action_group_new ("core");
+	gtk_action_group_set_translation_domain (
+		action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (
+		action_group, core_entries,
+		G_N_ELEMENTS (core_entries), editor);
+	gtk_ui_manager_insert_action_group (
+		priv->manager, action_group, 0);
+	g_object_unref (action_group);
+
+	action_group = gtk_action_group_new ("individual");
+	gtk_action_group_set_translation_domain (
+		action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (
+		action_group, individual_entries,
+		G_N_ELEMENTS (individual_entries), editor);
+	gtk_action_group_add_toggle_actions (
+		action_group, individual_toggle_entries,
+		G_N_ELEMENTS (individual_toggle_entries), editor);
+	gtk_action_group_add_radio_actions (
+		action_group, classification_radio_entries,
+		G_N_ELEMENTS (classification_radio_entries),
+		E_CAL_COMPONENT_CLASS_PUBLIC,
+		NULL, NULL);  /* no callback */
+	action = e_attachment_bar_recent_action_new (
+		E_ATTACHMENT_BAR (priv->attachment_bar),
+		"attach-recent", _("Recent Docu_ments"));
+	gtk_action_group_add_action (action_group, action);
+	gtk_ui_manager_insert_action_group (
+		priv->manager, action_group, 0);
+	g_object_unref (action_group);
+
+	action_group = gtk_action_group_new ("coordinated");
+	gtk_action_group_set_translation_domain (
+		action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_toggle_actions (
+		action_group, coordinated_toggle_entries,
+		G_N_ELEMENTS (coordinated_toggle_entries), editor);
+	gtk_ui_manager_insert_action_group (
+		priv->manager, action_group, 0);
+	g_object_unref (action_group);
+
+	/* Fine Tuning */
+
+	action = comp_editor_get_action (editor, "attach");
+	g_object_set (G_OBJECT (action), "short-label", _("Attach"), NULL);
+
+	/* Desensitize the "save" action. */
+	action = comp_editor_get_action (editor, "save");
+	gtk_action_set_sensitive (action, FALSE);
+
+	gtk_ui_manager_add_ui_from_string (priv->manager, ui, -1, &error);
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	setup_widgets (editor);
+
+	/* DND support */
+	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
+	g_signal_connect(editor, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
+	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), editor);
+
+	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 }
 
 static gboolean
@@ -946,10 +1854,10 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 }
 
 static int
-delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+delete_event_cb (GtkWidget *widget,
+                 GdkEvent *event,
+                 CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (data);
-
 	commit_all_fields (editor);
 
 	if (prompt_and_save_changes (editor, TRUE))
@@ -960,10 +1868,8 @@ delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 
 static void
 attachment_bar_changed_cb (EAttachmentBar *bar,
-			   void *data)
+                           CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (data);
-
 	guint attachment_num = e_attachment_bar_get_num_attachments (
 		E_ATTACHMENT_BAR (editor->priv->attachment_bar));
 	if (attachment_num) {
@@ -1195,18 +2101,19 @@ cab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
 /* GtkWidget methods.  */
 
 static gboolean
-popup_menu_event (GtkWidget *widget)
+popup_menu_event (EAttachmentBar *bar)
 {
-	cab_popup((EAttachmentBar *)widget, NULL, -1);
+	cab_popup (bar, NULL, -1);
+
 	return TRUE;
 }
 
 
 static int
-button_press_event (GtkWidget *widget, GdkEventButton *event)
+button_press_event (EAttachmentBar *bar,
+                    GdkEventButton *event)
 {
-	EAttachmentBar *bar = (EAttachmentBar *)widget;
-	GnomeIconList *icon_list = GNOME_ICON_LIST(widget);
+	GnomeIconList *icon_list = GNOME_ICON_LIST (bar);
 	int icon_number = -1;
 
 	if (event->button != 3)
@@ -1226,9 +2133,9 @@ button_press_event (GtkWidget *widget, GdkEventButton *event)
 }
 
 static gint
-key_press_event(GtkWidget *widget, GdkEventKey *event)
+key_press_event (EAttachmentBar *bar,
+                 GdkEventKey *event)
 {
-	EAttachmentBar *bar = (EAttachmentBar *)widget;
 	if (event->keyval == GDK_Delete) {
                 e_attachment_bar_remove_selected (bar);
                 return TRUE;
@@ -1238,7 +2145,8 @@ key_press_event(GtkWidget *widget, GdkEventKey *event)
 }
 
 static gint
-editor_key_press_event(GtkWidget *widget, GdkEventKey *event, CompEditor *editor)
+editor_key_press_event (CompEditor *editor,
+                        GdkEventKey *event)
 {
         if (event->keyval == GDK_Escape) {
 		commit_all_fields (editor);
@@ -1251,315 +2159,40 @@ editor_key_press_event(GtkWidget *widget, GdkEventKey *event, CompEditor *editor
 
         return FALSE;
 }
+
 /* Menu callbacks */
-static void
-menu_file_save_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	CompEditorPrivate *priv = editor->priv;
-	ECalComponentText text;
-	gboolean delegated = FALSE;
-	gboolean read_only, correct = FALSE;
-	ECalComponent *comp;
 
-	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
-		gboolean response = 1;
-	/*FIXME: Cannot use mail functions from calendar!!!! */
-#if 0
-		ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
-
-		if (vtype == E_CAL_COMPONENT_EVENT)
-			response = em_utils_prompt_user((GtkWindow *)widget,
-							 NULL,
-							 "calendar:ask-send-event-pending-download",
-							  NULL);
-		else
-			response = em_utils_prompt_user((GtkWindow *)widget,
-							 NULL,
-							 "calendar:ask-send-task-pending-download",
-							  NULL);
-#endif
-	if (!response)
-		return;
-	}
-
-	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
-		e_error_run ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (editor)), "calendar:prompt-read-only-cal-editor", e_source_peek_name (e_cal_get_source (priv->client)), NULL);
-		return;
-	}
-
-	commit_all_fields (editor);
-	if (e_cal_component_is_instance (priv->comp))
-		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
-			return;
-
-	comp = comp_editor_get_current_comp (editor, &correct);
-	e_cal_component_get_summary (comp, &text);
-	g_object_unref (comp);
-
-	if (!correct)
-		return;
-
-	if (!text.value)
-		if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
-			return;
-	if (save_comp_with_send (editor))
-		close_dialog (editor);
-
-}
-
-static void
-menu_file_print_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	CompEditorPrivate *priv = editor->priv;
-	ECalComponent *comp;
-	GList *l;
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
-
-	for (l = priv->pages; l != NULL; l = l->next)
-		 comp_editor_page_fill_component (l->data, comp);
-
-	print_comp (comp, priv->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-
-	g_object_unref (comp);
-}
-
-static void
-menu_file_print_preview_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	CompEditorPrivate *priv = editor->priv;
-	ECalComponent *comp;
-	GList *l;
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
-	for (l = priv->pages; l != NULL; l = l->next)
-		 comp_editor_page_fill_component (l->data, comp);
-	print_comp (comp, priv->client, TRUE);
-
-	g_object_unref (comp);
-}
-
-static void
-menu_file_close_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-
-	commit_all_fields (editor);
-
-	if (prompt_and_save_changes (editor, TRUE))
-		close_dialog (editor);
-}
-
-static void
-menu_edit_copy_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	CompEditorPrivate *priv = editor->priv;
-
-	if (GTK_IS_ENTRY (priv->focused_entry))
-		gtk_editable_copy_clipboard (GTK_EDITABLE (priv->focused_entry));
-	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
-		g_signal_emit_by_name (priv->focused_entry, "copy-clipboard");
-}
-
-static void
-menu_edit_paste_cb (BonoboUIComponent *uic,
-		    void *data,
-		    const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	CompEditorPrivate *priv = editor->priv;
-
-	if (GTK_IS_ENTRY (priv->focused_entry))
-		gtk_editable_paste_clipboard (GTK_EDITABLE (priv->focused_entry));
-	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
-		g_signal_emit_by_name (priv->focused_entry, "paste-clipboard");
-
-
-}
-
-static void
-menu_edit_selectall_cb (BonoboUIComponent *uic,
-			void *data,
-			const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	CompEditorPrivate *priv = editor->priv;
-
-	if (GTK_IS_ENTRY (priv->focused_entry)) {
-		gtk_editable_set_position (GTK_EDITABLE (priv->focused_entry), -1);
-		gtk_editable_select_region (GTK_EDITABLE (priv->focused_entry), 0, -1);
-	}
-	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
-		g_signal_emit_by_name (priv->focused_entry, "select-all", TRUE);
-}
-
-static void
-menu_edit_cut_cb (BonoboUIComponent *uic,
-		  void *data,
-		  const char *path)
-{
-	CompEditor *editor = data;
-	CompEditorPrivate *priv = editor->priv;
-
-	if (GTK_IS_ENTRY (priv->focused_entry))
-		gtk_editable_cut_clipboard (GTK_EDITABLE (priv->focused_entry));
-	if (GTK_IS_TEXT_VIEW (priv->focused_entry))
-		g_signal_emit_by_name (priv->focused_entry, "cut-clipboard");
-
-
-}
-
-static void
-add_to_bar (CompEditor *editor, GPtrArray *file_list, int is_inline)
-{
-	CompEditorPrivate *priv = editor->priv;
-	int i;
-
-	for (i = 0; i < file_list->len; i++) {
-		CamelURL *url;
-
-		if (!(url = camel_url_new (file_list->pdata[i], NULL)))
-			continue;
-
-		if (!g_ascii_strcasecmp (url->protocol, "file")) {
-			e_attachment_bar_attach((EAttachmentBar *)priv->attachment_bar, url->path, is_inline ? "inline" : "attachment");
-		} else {
-			e_attachment_bar_attach_remote_file ((EAttachmentBar *)priv->attachment_bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
-		}
-
-		camel_url_free (url);
-	}
-}
-
-static void
-menu_insert_attachment_cb (BonoboUIComponent *uic,
-		   	   void *data,
-		   	   const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-	GPtrArray *file_list;
-	gboolean is_inline = FALSE;
-	int i;
-
-	file_list = comp_editor_select_file_attachments (editor, &is_inline);
-
-	if (file_list) {
-		add_to_bar (editor, file_list, is_inline);
-
-		for (i = 0; i < file_list->len; i++)
-			g_free (file_list->pdata[i]);
-
-		g_ptr_array_free (file_list, TRUE);
-	}
-}
-
-static void
-menu_insert_attach_recent_docs_cb (BonoboUIComponent *uic,
-				   gpointer user_data,
-				   const char *cname)
-{
-	CompEditor *editor = (CompEditor *) user_data;
-	gchar *command = NULL, *uri = NULL;
-	GPtrArray *file_list = g_ptr_array_new ();
-	int i;
-
-	command = g_strdup_printf ("/commands/%s", cname);
-	uri = bonobo_ui_component_get_prop (editor->uic, command, "uri", NULL);
-	g_free (command);
-
-	if (uri && *uri) {
-		g_ptr_array_add (file_list, uri);
-		add_to_bar (editor, file_list, FALSE);
-	}
-
-	for (i = 0; i < file_list->len; i++)
-		g_free (file_list->pdata[i]);
-	g_ptr_array_free (file_list, TRUE);
-}
-
-static void
-menu_help_cb (BonoboUIComponent *uic,
-	      void *data,
-	      const char *path)
-{
-	CompEditor *editor = (CompEditor *) data;
-
-	comp_editor_show_help (editor);
-}
-
-static BonoboUIVerb verbs [] = {
-
-	BONOBO_UI_VERB ("FileSave", menu_file_save_cb),
-	BONOBO_UI_VERB ("CalendarPrint", menu_file_print_cb),
-	BONOBO_UI_VERB ("CalendarPrintPreview", menu_file_print_preview_cb),
-	BONOBO_UI_VERB ("FileClose", menu_file_close_cb),
-
-	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
-	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
-	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
-	BONOBO_UI_VERB ("EditSelectAll", menu_edit_selectall_cb),
-	BONOBO_UI_VERB ("InsertAttachments", menu_insert_attachment_cb),
-
-	BONOBO_UI_VERB ("Help", menu_help_cb),
-
-	BONOBO_UI_VERB_END
-};
-
-static EPixmap pixmaps[] = {
-	E_PIXMAP ("/commands/FileSave", "document-save", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FileClose", "window-close", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditPaste", "edit-paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/InsertAttachments", "mail-attachment", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/Help", "help-contents", E_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/Toolbar/FileSave", "document-save", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/FileClose", "window-close", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/InsertAttachments", "mail-attachment", E_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP_END
-};
-
-/* Creates the basic in the editor */
 static void
 setup_widgets (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	GtkWidget *expander_hbox, *vbox;
-	GdkPixbuf *attachment_pixbuf;
+	GtkWidget *expander_hbox;
+	GtkWidget *widget;
+	GtkWidget *vbox;
 
 	priv = editor->priv;
 
 	/* Useful vbox */
 	vbox = gtk_vbox_new (FALSE, 0);
-	bonobo_window_set_contents (BONOBO_WINDOW (editor), vbox);
+	gtk_container_add (GTK_CONTAINER (editor), vbox);
 	gtk_widget_show (vbox);
 
+	/* Main Menu */
+	widget = comp_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	/* Main Toolbar */
+	widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
 	/* Notebook */
-	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
-	gtk_widget_show (GTK_WIDGET (priv->notebook));
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
-			    TRUE, TRUE, 0);
-	gtk_notebook_set_show_tabs (priv->notebook, FALSE);
+	widget = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+	priv->notebook = GTK_NOTEBOOK (widget);
 
 	g_signal_connect (editor, "delete_event", G_CALLBACK (delete_event_cb), editor);
 	g_signal_connect (editor, "key_press_event", G_CALLBACK (editor_key_press_event), editor);
@@ -1570,8 +2203,6 @@ setup_widgets (CompEditor *editor)
 					     GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->attachment_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	priv->attachment_bar = e_attachment_bar_new (NULL);
 
 	g_signal_connect (priv->attachment_bar, "button_press_event", G_CALLBACK (button_press_event), NULL);
         g_signal_connect (priv->attachment_bar, "key_press_event", G_CALLBACK (key_press_event), NULL);
@@ -1593,11 +2224,9 @@ setup_widgets (CompEditor *editor)
 	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_num), 1.0, 0.5);
 	expander_hbox = gtk_hbox_new (FALSE, 0);
 
-	attachment_pixbuf = e_icon_factory_get_icon ("mail-attachment", E_ICON_SIZE_MENU);
-	priv->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
+	priv->attachment_expander_icon = gtk_image_new_from_icon_name ("mail-attachment", GTK_ICON_SIZE_MENU);
 	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (priv->attachment_expander_icon, 100, -1);
-	g_object_unref (attachment_pixbuf);
 
 	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_label,
 			    TRUE, TRUE, 0);
@@ -1614,151 +2243,24 @@ setup_widgets (CompEditor *editor)
 	atk_object_set_description (gtk_widget_get_accessible (priv->attachment_expander), _("Press space key to toggle attachment bar"));
 	gtk_container_add (GTK_CONTAINER (priv->attachment_expander), priv->attachment_scrolled_window);
 
-	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander, FALSE, FALSE, GNOME_PAD_SMALL);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander, FALSE, FALSE, 4);
 	gtk_widget_show (priv->attachment_expander);
 	e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), FALSE);
 	g_signal_connect_after (priv->attachment_expander, "activate",
 				G_CALLBACK (attachment_expander_activate_cb), editor);
 }
 
-/* Object initialization function for the calendar component editor */
-static void
-comp_editor_init (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	BonoboUIContainer *container;
-	char *xmlfile;
-
-	priv = g_new0 (CompEditorPrivate, 1);
-	editor->priv = priv;
-
-	setup_widgets (editor);
-
-	priv->focused_entry = NULL;
-	priv->pages = NULL;
-	priv->changed = FALSE;
-	priv->needs_send = FALSE;
-	priv->mod = CALOBJ_MOD_ALL;
- 	priv->existing_org = FALSE;
- 	priv->user_org = FALSE;
- 	priv->warned = FALSE;
-	priv->is_group_item = FALSE;
-	priv->help_section = g_strdup ("usage-calendar");
-
-	container = bonobo_window_get_ui_container (BONOBO_WINDOW (editor));
-	editor->uic = bonobo_ui_component_new_default ();
-	/* FIXME: handle bonobo exceptions */
-	bonobo_ui_component_set_container (editor->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
-
-	bonobo_ui_component_add_verb_list_with_data (editor->uic, verbs, editor);
-
-	bonobo_ui_component_freeze (editor->uic, NULL);
-
-	xmlfile = g_build_filename (EVOLUTION_UIDIR,
-				    "evolution-editor.xml",
-				    NULL);
-	bonobo_ui_util_set_ui (editor->uic, PREFIX,
-			       xmlfile,
-			       "evolution-editor", NULL);
-	g_free (xmlfile);
-
-	e_pixmaps_update (editor->uic, pixmaps);
-	bonobo_ui_component_thaw (editor->uic, NULL);
-
-	bonobo_ui_component_set_prop (editor->uic, "/commands/FileSave", "sensitive", "0", NULL);
-
-	/* FIXME: this should have been setup_widgets, but editor->uic is uninitialized then */
-	e_attachment_bar_bonobo_ui_populate_with_recent (editor->uic, "/menu/Insert/RecentDocsPlaceholder", 
-							 E_ATTACHMENT_BAR (priv->attachment_bar), 
-							 menu_insert_attach_recent_docs_cb, editor);
-
-	/* DND support */
-	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
-	g_signal_connect(editor, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
-	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), editor);
-
-	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
-}
-
-
-static gint
-comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
-{
-#if 0
-	if (e->keyval == GDK_Escape) {
-		if (prompt_and_save_changes (COMP_EDITOR (d), TRUE))
-			close_dialog (COMP_EDITOR (d));
-		return TRUE;
-	}
-#endif
-
-	if (GTK_WIDGET_CLASS (comp_editor_parent_class)->key_press_event)
-		return (* GTK_WIDGET_CLASS (comp_editor_parent_class)->key_press_event) (d, e);
-
-	return FALSE;
-}
-
-/* Destroy handler for the calendar component editor */
-static void
-comp_editor_finalize (GObject *object)
-{
-	CompEditor *editor;
-	CompEditorPrivate *priv;
-	GList *l;
-
-	editor = COMP_EDITOR (object);
-	priv = editor->priv;
-
-	g_free (priv->help_section);
-
-	if (priv->client) {
-		g_object_unref (priv->client);
-		priv->client = NULL;
-	}
-
-	if (priv->source_client) {
-		g_object_unref (priv->source_client);
-		priv->source_client = NULL;
-	}
-
-	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
-
-		g_object_unref (priv->view);
-		priv->view = NULL;
-	}
-
-	/* We want to destroy the pages after the widgets get destroyed,
-	   since they have lots of signal handlers connected to the widgets
-	   with the pages as the data. */
-	for (l = priv->pages; l != NULL; l = l->next)
-		g_object_unref (l->data);
-
-	if (priv->comp) {
-		g_object_unref (priv->comp);
-		priv->comp = NULL;
-	}
-
-	g_free (priv);
-	editor->priv = NULL;
-
-	if (G_OBJECT_CLASS (comp_editor_parent_class)->finalize)
-		(* G_OBJECT_CLASS (comp_editor_parent_class)->finalize) (object);
-}
 
 static void
 comp_editor_show_help (CompEditor *editor)
 {
+	CompEditorClass *class;
 	GError *error = NULL;
-	CompEditorPrivate *priv;
 
-	priv = editor->priv;
+	class = COMP_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class->help_section != NULL);
 
-	gnome_help_display (
-		"evolution.xml", priv->help_section, &error);
+	gnome_help_display ("evolution.xml", class->help_section, &error);
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
@@ -1766,30 +2268,11 @@ comp_editor_show_help (CompEditor *editor)
 }
 
 
-static void
-delete_comp (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	const char *uid;
-
-	priv = editor->priv;
-
-	e_cal_component_get_uid (priv->comp, &uid);
-	if (e_cal_component_is_instance (priv->comp)|| e_cal_component_has_recurrences (priv->comp))
-		e_cal_remove_object_with_mod (priv->client, uid, NULL,
-				CALOBJ_MOD_ALL, NULL);
-	else
-		e_cal_remove_object (priv->client, uid, NULL);
-	close_dialog (editor);
-}
-
 /* Closes the dialog box and emits the appropriate signals */
 static void
 close_dialog (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
+	CompEditorPrivate *priv = editor->priv;
 
 	/* FIXME Unfortunately we do this here because otherwise corba
 	   calls happen during destruction and we might get a change
@@ -1806,79 +2289,122 @@ close_dialog (CompEditor *editor)
 void
 comp_editor_set_existing_org (CompEditor *editor, gboolean existing_org)
 {
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv = editor->priv;
-
-	priv->existing_org = existing_org;
+	editor->priv->existing_org = existing_org;
 }
 
 gboolean
 comp_editor_get_existing_org (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	priv = editor->priv;
-
-	return priv->existing_org;
+	return editor->priv->existing_org;
 }
 
 void
-comp_editor_set_user_org (CompEditor *editor, gboolean user_org)
+comp_editor_set_user_org (CompEditor *editor,
+                          gboolean user_org)
 {
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv = editor->priv;
-
-	priv->user_org = user_org;
+	editor->priv->user_org = user_org;
 }
 
 gboolean
 comp_editor_get_user_org (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	priv = editor->priv;
-
-	return priv->user_org;
+	return editor->priv->user_org;
 }
 
 void
-comp_editor_set_group_item (CompEditor *editor, gboolean group_item)
+comp_editor_set_group_item (CompEditor *editor,
+                            gboolean group_item)
 {
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv = editor->priv;
-
-	priv->is_group_item = group_item;
+	editor->priv->is_group_item = group_item;
 }
 
 gboolean
 comp_editor_get_group_item (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	priv = editor->priv;
+	return editor->priv->is_group_item;
+}
 
-	return priv->is_group_item;
+void
+comp_editor_set_classification (CompEditor *editor,
+                                ECalComponentClassification classification)
+{
+	GtkAction *action;
+
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	switch (classification) {
+		case E_CAL_COMPONENT_CLASS_PUBLIC:
+		case E_CAL_COMPONENT_CLASS_PRIVATE:
+		case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
+			break;
+		default:
+			classification = E_CAL_COMPONENT_CLASS_PUBLIC;
+			break;
+	}
+
+	action = comp_editor_get_action (editor, "classify-public");
+	gtk_radio_action_set_current_value (
+		GTK_RADIO_ACTION (action), classification);
+}
+
+ECalComponentClassification
+comp_editor_get_classification (CompEditor *editor)
+{
+	GtkAction *action;
+
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
+
+	action = comp_editor_get_action (editor, "classify-public");
+	return gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+}
+
+void
+comp_editor_set_summary (CompEditor *editor,
+                         const gchar *summary)
+{
+	gboolean show_warning;
+
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	g_free (editor->priv->summary);
+	editor->priv->summary = g_strdup (summary);
+
+	show_warning =
+		!editor->priv->warned &&
+		editor->priv->existing_org &&
+		!editor->priv->user_org;
+
+	if (show_warning) {
+		e_notice (
+			editor->priv->notebook, GTK_MESSAGE_INFO,
+			_("Changes made to this item may be "
+			  "discarded if an update arrives"));
+		editor->priv->warned = TRUE;
+	}
+
+	update_window_border (editor, summary);
+
+	g_object_notify (G_OBJECT (editor), "summary");
+}
+
+const gchar *
+comp_editor_get_summary (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	return editor->priv->summary;
 }
 
 /**
@@ -1889,16 +2415,33 @@ comp_editor_get_group_item (CompEditor *editor)
  * Set the dialog changed state to the given value
  **/
 void
-comp_editor_set_changed (CompEditor *editor, gboolean changed)
+comp_editor_set_changed (CompEditor *editor,
+                         gboolean changed)
 {
-	CompEditorPrivate *priv;
+	GtkAction *action;
+	gboolean show_warning;
 
-	priv = editor->priv;
+	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv->changed = changed;
+	editor->priv->changed = changed;
 
-	bonobo_ui_component_set_prop (editor->uic, "/commands/FileSave", "sensitive", changed ? "1" : "0"
-			, NULL);
+	action = comp_editor_get_action (editor, "save");
+	g_return_if_fail (action != NULL);
+	gtk_action_set_sensitive (action, changed);
+
+	show_warning =
+		changed && !editor->priv->warned &&
+		editor->priv->existing_org && !editor->priv->user_org;
+
+	if (show_warning) {
+		e_notice (
+			editor->priv->notebook, GTK_MESSAGE_INFO,
+			_("Changes made to this item may be "
+			  "discarded if an update arrives"));
+		editor->priv->warned = TRUE;
+	}
+
+	g_object_notify (G_OBJECT (editor), "changed");
 }
 
 /**
@@ -1913,40 +2456,100 @@ comp_editor_set_changed (CompEditor *editor, gboolean changed)
 gboolean
 comp_editor_get_changed (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	priv = editor->priv;
-
-	return priv->changed;
+	return editor->priv->changed;
 }
 
 void
-comp_editor_set_flags (CompEditor *editor, CompEditorFlags flags)
+comp_editor_set_flags (CompEditor *editor,
+                       CompEditorFlags flags)
 {
-
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv = editor->priv;
+	editor->priv->flags = flags;
 
-	priv->flags = flags;
+	g_object_notify (G_OBJECT (editor), "flags");
 }
 
 
 CompEditorFlags
 comp_editor_get_flags (CompEditor *editor)
 {
-
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	priv = editor->priv;
+	return editor->priv->flags;
+}
 
-	return priv->flags;
+GtkUIManager *
+comp_editor_get_ui_manager (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	return editor->priv->manager;
+}
+
+GtkAction *
+comp_editor_get_action (CompEditor *editor,
+                        const gchar *action_name)
+{
+	GtkAction *action = NULL;
+	GList *iter;
+
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	iter = gtk_ui_manager_get_action_groups (editor->priv->manager);
+	while (iter != NULL && action == NULL) {
+		GtkActionGroup *action_group = iter->data;
+
+		action = gtk_action_group_get_action (
+			action_group, action_name);
+		iter = g_list_next (iter);
+	}
+	g_return_val_if_fail (action != NULL, NULL);
+
+	return action;
+}
+
+GtkActionGroup *
+comp_editor_get_action_group (CompEditor *editor,
+                              const gchar *group_name)
+{
+	GList *iter;
+
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	iter = gtk_ui_manager_get_action_groups (editor->priv->manager);
+	while (iter != NULL) {
+		GtkActionGroup *action_group = iter->data;
+		const gchar *name;
+
+		name = gtk_action_group_get_name (action_group);
+		if (strcmp (name, group_name) == 0)
+			return action_group;
+		iter = g_list_next (iter);
+	}
+
+	g_return_val_if_reached (NULL);
+}
+
+GtkWidget *
+comp_editor_get_managed_widget (CompEditor *editor,
+                                const gchar *widget_path)
+{
+	GtkUIManager *manager;
+	GtkWidget *widget;
+
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+	g_return_val_if_fail (widget_path != NULL, NULL);
+
+	manager = comp_editor_get_ui_manager (editor);
+	widget = gtk_ui_manager_get_widget (manager, widget_path);
+	g_return_val_if_fail (widget != NULL, NULL);
+
+	return widget;
 }
 
 /**
@@ -1957,13 +2560,12 @@ comp_editor_get_flags (CompEditor *editor)
  * Set the dialog needs send state to the given value
  **/
 void
-comp_editor_set_needs_send (CompEditor *editor, gboolean needs_send)
+comp_editor_set_needs_send (CompEditor *editor,
+                            gboolean needs_send)
 {
-	CompEditorPrivate *priv;
+	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv = editor->priv;
-
-	priv->needs_send = needs_send;
+	editor->priv->needs_send = needs_send;
 }
 
 /**
@@ -1978,15 +2580,14 @@ comp_editor_set_needs_send (CompEditor *editor, gboolean needs_send)
 gboolean
 comp_editor_get_needs_send (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	priv = editor->priv;
-
-	return priv->needs_send;
+	return editor->priv->needs_send;
 }
 
-static void page_mapped_cb (GtkWidget *page_widget,
-			    CompEditorPage *page)
+static void
+page_mapped_cb (GtkWidget *page_widget,
+                CompEditorPage *page)
 {
 	GtkWidget *toplevel;
 
@@ -2000,8 +2601,9 @@ static void page_mapped_cb (GtkWidget *page_widget,
 	}
 }
 
-static void page_unmapped_cb (GtkWidget *page_widget,
-			      CompEditorPage *page)
+static void
+page_unmapped_cb (GtkWidget *page_widget,
+                  CompEditorPage *page)
 {
 	GtkWidget *toplevel;
 
@@ -2036,17 +2638,12 @@ comp_editor_append_page (CompEditor *editor,
 	GtkWidget *label_widget = NULL;
 	gboolean is_first_page;
 
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	priv = editor->priv;
 
 	g_object_ref (page);
-
-	/* set the flags */
-	page->flags = priv->flags;
 
 	/* If we are editing something, fill the widgets with current info */
 	if (priv->comp != NULL) {
@@ -2071,24 +2668,18 @@ comp_editor_append_page (CompEditor *editor,
 		gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
 
 	/* Listen for things happening on the page */
-	g_signal_connect(page, "changed",
-			    G_CALLBACK (page_changed_cb), editor);
-	g_signal_connect(page, "needs_send",
-			    G_CALLBACK (needs_send_cb), editor);
-	g_signal_connect(page, "summary_changed",
-			    G_CALLBACK (page_summary_changed_cb), editor);
-	g_signal_connect(page, "dates_changed",
-			    G_CALLBACK (page_dates_changed_cb), editor);
-	g_signal_connect(page, "focus_in",
-			        G_CALLBACK (page_focus_in_widget_cb), editor);
-	g_signal_connect(page, "focus_out",
-				G_CALLBACK (page_focus_out_widget_cb), editor);
+	g_signal_connect_swapped (
+		page, "dates_changed",
+		G_CALLBACK (page_dates_changed_cb), editor);
+
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup. */
-	g_signal_connect((page_widget), "map",
-			    G_CALLBACK (page_mapped_cb), page);
-	g_signal_connect((page_widget), "unmap",
-			    G_CALLBACK (page_unmapped_cb), page);
+	g_signal_connect (
+		page_widget, "map",
+		G_CALLBACK (page_mapped_cb), page);
+	g_signal_connect(
+		page_widget, "unmap",
+		G_CALLBACK (page_unmapped_cb), page);
 
 	/* The first page is the main page of the editor, so we ask it to focus
 	 * its main widget.
@@ -2111,9 +2702,7 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
 	GtkWidget *page_widget;
 	gint page_num;
 
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	priv = editor->priv;
@@ -2147,9 +2736,7 @@ comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
 	GtkWidget *page_widget;
 	gint page_num;
 
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	priv = editor->priv;
@@ -2160,28 +2747,35 @@ comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
 }
 
 /**
- * comp_editor_set_e_cal:
+ * comp_editor_set_client:
  * @editor: A component editor
  * @client: The calendar client to use
  *
  * Sets the calendar client used by the editor to update components
  **/
 void
-comp_editor_set_e_cal (CompEditor *editor, ECal *client)
+comp_editor_set_client (CompEditor *editor,
+                        ECal *client)
 {
-	CompEditorClass *klass;
-
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
+	g_return_if_fail (client == NULL || E_IS_CAL (client));
 
-	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
+	if (client != NULL)
+		g_object_ref (client);
 
-	if (klass->set_e_cal)
-		klass->set_e_cal (editor, client);
+	if (editor->priv->client != NULL)
+		g_object_unref (editor->priv->client);
+
+	editor->priv->client = client;
+
+	if (editor->priv->source_client == NULL && client != NULL)
+		editor->priv->source_client = g_object_ref (client);
+
+	g_object_notify (G_OBJECT (editor), "client");
 }
 
 /**
- * comp_editor_get_e_cal:
+ * comp_editor_get_client:
  * @editor: A component editor
  *
  * Returns the calendar client of the editor
@@ -2189,177 +2783,11 @@ comp_editor_set_e_cal (CompEditor *editor, ECal *client)
  * Return value: The calendar client of the editor
  **/
 ECal *
-comp_editor_get_e_cal (CompEditor *editor)
+comp_editor_get_client (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
-	priv = editor->priv;
-
-	return priv->client;
-}
-
-void
-comp_editor_set_help_section (CompEditor *editor, const char *section)
-{
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	g_free (priv->help_section);
-	priv->help_section = g_strdup (section);
-}
-
-/* Creates an appropriate title for the event editor dialog */
-static char *
-make_title_from_comp (ECalComponent *comp, gboolean is_group_item)
-{
-	char *title;
-	const char *type_string;
-	ECalComponentVType type;
-	ECalComponentText text;
-
-	if (!comp)
-		return g_strdup (_("Edit Appointment"));
-
-	type = e_cal_component_get_vtype (comp);
-	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
-		if (is_group_item)
-			type_string = _("Meeting - %s");
-		else
-			type_string = _("Appointment - %s");
-		break;
-	case E_CAL_COMPONENT_TODO:
-		if (is_group_item)
-			type_string = _("Assigned Task - %s");
-		else
-			type_string = _("Task - %s");
-		break;
-	case E_CAL_COMPONENT_JOURNAL:
-		type_string = _("Memo - %s");
-		break;
-	default:
-		g_message ("make_title_from_comp(): Cannot handle object of type %d", type);
-		return NULL;
-	}
-
-	e_cal_component_get_summary (comp, &text);
-	if (text.value) {
-		title = g_strdup_printf (type_string, text.value);
-	} else {
-		title = g_strdup_printf (type_string, _("No summary"));
-	}
-
-	return title;
-}
-
-/* Creates an appropriate title for the event editor dialog */
-static char *
-make_title_from_string (ECalComponent *comp, const char *str, gboolean is_group_item)
-{
-	char *title;
-	const char *type_string;
-	ECalComponentVType type;
-
-	if (!comp)
-		return g_strdup (_("Edit Appointment"));
-
-	type = e_cal_component_get_vtype (comp);
-	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
-		if (is_group_item)
-			type_string = _("Meeting - %s");
-		else
-			type_string = _("Appointment - %s");
-		break;
-	case E_CAL_COMPONENT_TODO:
-		if (is_group_item)
-			type_string = _("Assigned Task - %s");
-		else
-			type_string = _("Task - %s");
-		break;
-	case E_CAL_COMPONENT_JOURNAL:
-		type_string = _("Memo - %s");
-		break;
-	default:
-		g_message ("make_title_from_string(): Cannot handle object of type %d", type);
-		return NULL;
-	}
-
-	if (str) {
-		title = g_strdup_printf (type_string, str);
-	} else {
-		title = g_strdup_printf (type_string, _("No summary"));
-	}
-
-	return title;
-}
-
-static const char *
-make_icon_from_comp (ECalComponent *comp)
-{
-	ECalComponentVType type;
-
-	if (!comp)
-		return "stock_calendar";
-
-	type = e_cal_component_get_vtype (comp);
-	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
-		return "appointment-new";
-	case E_CAL_COMPONENT_TODO:
-		return "stock_task";
-	case E_CAL_COMPONENT_JOURNAL:
-		return "stock_insert-note";
-	default:
-		return "stock_calendar";
-	}
-}
-
-/* Sets the event editor's window title from a calendar component */
-static void
-set_title_from_comp (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	char *title;
-
-	priv = editor->priv;
-	title = make_title_from_comp (priv->comp, priv->is_group_item);
-	gtk_window_set_title (GTK_WINDOW (editor), title);
-	g_free (title);
-}
-
-static void
-set_title_from_string (CompEditor *editor, const char *str)
-{
-	CompEditorPrivate *priv;
-	char *title;
-
-	priv = editor->priv;
-	title = make_title_from_string (priv->comp, str, priv->is_group_item);
-	gtk_window_set_title (GTK_WINDOW (editor), title);
-	g_free (title);
-}
-
-static void
-set_icon_from_comp (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	const char *icon_name;
-	GList *icon_list;
-
-	priv = editor->priv;
-	icon_name = make_icon_from_comp (priv->comp);
-
-	icon_list = e_icon_factory_get_icon_list (icon_name);
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (editor), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	return editor->priv->client;
 }
 
 static void
@@ -2479,45 +2907,11 @@ fill_widgets (CompEditor *editor)
 }
 
 static void
-real_set_e_cal (CompEditor *editor, ECal *client)
-{
-	CompEditorPrivate *priv;
-	GList *elem;
-
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	priv = editor->priv;
-
-	if (client == priv->client)
-		return;
-
-	if (client) {
-		g_return_if_fail (E_IS_CAL (client));
-		g_return_if_fail (e_cal_get_load_state (client) ==
-				  E_CAL_LOAD_LOADED);
-		g_object_ref (client);
-	}
-
-	if (priv->client)
-		g_object_unref (priv->client);
-
-	priv->client = client;
-	if (!priv->source_client)
-		priv->source_client = g_object_ref (client);
-
-	/* Pass the client to any pages that need it. */
-	for (elem = priv->pages; elem; elem = elem->next)
-		comp_editor_page_set_e_cal (elem->data, client);
-}
-
-static void
 real_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
 	CompEditorPrivate *priv;
 	const char *uid;
 
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	priv = editor->priv;
@@ -2534,8 +2928,7 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
  	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp));
  	priv->warned = FALSE;
 
-	set_title_from_comp (editor);
-	set_icon_from_comp (editor);
+	update_window_border (editor, NULL);
 	e_cal_component_get_uid (comp, &uid);
 
 	fill_widgets (editor);
@@ -2607,14 +3000,15 @@ static gboolean
 real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
+	CompEditorFlags flags;
 	ECalComponent *send_comp = NULL;
 	char *address = NULL;
 	GList *users = NULL;
 
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	priv = editor->priv;
+	flags = comp_editor_get_flags (editor);
 
 	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {
 		/* Ensure we send the master object, not the instance only */
@@ -2639,7 +3033,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		get_users_from_memo_comp (send_comp, &users);
 
 	/* The user updates the delegated status to the Organizer, so remove all other attendees */
-	if ((priv->flags & COMP_EDITOR_DELEGATE)) {
+	if (flags & COMP_EDITOR_DELEGATE) {
 		address = itip_get_comp_attendee (send_comp, priv->client);
 
 		if (address)
@@ -2695,30 +3089,23 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 void
 comp_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
-	CompEditorClass *klass;
+	CompEditorClass *class;
 
-	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
+	class = COMP_EDITOR_GET_CLASS (editor);
 
-	if (klass->edit_comp)
-		klass->edit_comp (editor, comp);
+	if (class->edit_comp)
+		class->edit_comp (editor, comp);
 }
 
 ECalComponent *
 comp_editor_get_comp (CompEditor *editor)
 {
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
-	priv = editor->priv;
-
-	return priv->comp;
+	return editor->priv->comp;
 }
 
 /**
@@ -2737,7 +3124,6 @@ comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
 	GList *l;
 	gboolean all_ok = TRUE;
 
-	g_return_val_if_fail (editor != NULL, NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
 	priv = editor->priv;
@@ -2775,7 +3161,20 @@ comp_editor_save_comp (CompEditor *editor, gboolean send)
 void
 comp_editor_delete_comp (CompEditor *editor)
 {
-	delete_comp (editor);
+	CompEditorPrivate *priv;
+	const char *uid;
+
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	e_cal_component_get_uid (priv->comp, &uid);
+	if (e_cal_component_is_instance (priv->comp)|| e_cal_component_has_recurrences (priv->comp))
+		e_cal_remove_object_with_mod (priv->client, uid, NULL,
+				CALOBJ_MOD_ALL, NULL);
+	else
+		e_cal_remove_object (priv->client, uid, NULL);
+	close_dialog (editor);
 }
 
 /**
@@ -2788,15 +3187,14 @@ comp_editor_delete_comp (CompEditor *editor)
 gboolean
 comp_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
-	CompEditorClass *klass;
+	CompEditorClass *class;
 
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
+	class = COMP_EDITOR_GET_CLASS (editor);
 
-	if (klass->send_comp)
-		return klass->send_comp (editor, method);
+	if (class->send_comp)
+		return class->send_comp (editor, method);
 
 	return FALSE;
 }
@@ -2806,7 +3204,6 @@ comp_editor_close (CompEditor *editor)
 {
 	gboolean close;
 
-	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	commit_all_fields (editor);
@@ -2870,150 +3267,16 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 	return attach_list;
 }
 
-/* Brings attention to a window by raising it and giving it focus */
 static void
-raise_and_focus (GtkWidget *widget)
-{
-	g_return_if_fail (GTK_WIDGET_REALIZED (widget));
-	gdk_window_show (widget->window);
-	gtk_widget_grab_focus (widget);
-}
-
-/**
- * comp_editor_focus:
- * @editor: A component editor
- *
- * Brings the editor window to the front and gives it focus
- **/
-void
-comp_editor_focus (CompEditor *editor)
-{
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	gtk_widget_show (GTK_WIDGET (editor));
-	raise_and_focus (GTK_WIDGET (editor));
-}
-
-/**
- * comp_editor_notify_client_changed:
- * @editor: A component editor.
- *
- * Makes an editor emit the "client_changed" signal.
- **/
-void
-comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
-{
-	GList *l;
-	CompEditorPrivate *priv;
-	gboolean read_only;
-
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	priv = editor->priv;
-
-	priv->changed = TRUE;
-
-	g_object_unref (priv->client);
-	priv->client = client;
-
-	comp_editor_set_e_cal (editor, client);
-	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (l->data), client);
-
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
-
-	/* FIXME: SRINI: Disable widgets */
-}
-
-static void
-page_changed_cb (GtkObject *obj, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	comp_editor_set_changed (editor, TRUE);
-
-	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (priv->notebook, GTK_MESSAGE_INFO,
-			  _("Changes made to this item may be discarded if an update arrives"));
-		priv->warned = TRUE;
-	}
-
-}
-
-static void
-needs_send_cb (GtkObject *obj, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-
-	comp_editor_set_needs_send (editor, TRUE);
-}
-
-/* Focus out widget callback */
-static void
-page_focus_out_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	priv->focused_entry = NULL;
-}
-
-/* Focus in widget callback*/
-static void
-page_focus_in_widget_cb (GtkObject *obj, GtkWidget *widget, gpointer data)
-{
-
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	priv->focused_entry = widget;
-}
-/* Page signal callbacks */
-static void
-page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-	GList *l;
-
-	priv = editor->priv;
-
-	for (l = priv->pages; l != NULL; l = l->next)
-		if (obj != l->data)
-			comp_editor_page_set_summary (l->data, summary);
-
-	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (priv->notebook, GTK_MESSAGE_INFO,
-			  _("Changes made to this item may be discarded if an update arrives"));
-		priv->warned = TRUE;
-	}
-
-	set_title_from_string (editor, summary);
-}
-
-static void
-page_dates_changed_cb (GtkObject *obj,
+page_dates_changed_cb (CompEditor *editor,
 		       CompEditorPageDates *dates,
-		       gpointer data)
+                       CompEditorPage *page)
 {
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
+	CompEditorPrivate *priv = editor->priv;
 	GList *l;
 
-	priv = editor->priv;
-
 	for (l = priv->pages; l != NULL; l = l->next)
-		if (obj != l->data)
+		if (page != (CompEditorPage *) l->data)
 			comp_editor_page_set_dates (l->data, dates);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
@@ -3024,9 +3287,10 @@ page_dates_changed_cb (GtkObject *obj,
 }
 
 static void
-obj_modified_cb (ECal *client, GList *objects, gpointer data)
+obj_modified_cb (ECal *client,
+                 GList *objects,
+                 CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
 	ECalComponent *comp = NULL;
 
@@ -3059,12 +3323,11 @@ obj_modified_cb (ECal *client, GList *objects, gpointer data)
 }
 
 static void
-obj_removed_cb (ECal *client, GList *uids, gpointer data)
+obj_removed_cb (ECal *client,
+                GList *uids,
+                CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
+	CompEditorPrivate *priv = editor->priv;
 
 	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
 		close_dialog (editor);

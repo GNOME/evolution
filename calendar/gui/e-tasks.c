@@ -1071,7 +1071,7 @@ void
 e_tasks_new_task			(ETasks		*tasks)
 {
 	ETasksPrivate *priv;
-	TaskEditor *tedit;
+	CompEditor *editor;
 	ECalComponent *comp;
 	const char *category;
 	ECal *ecal;
@@ -1093,11 +1093,11 @@ e_tasks_new_task			(ETasks		*tasks)
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	e_cal_component_set_categories (comp, category);
 
-	tedit = task_editor_new (ecal, flags);
-	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
+	editor = task_editor_new (ecal, flags);
+	comp_editor_edit_comp (editor, comp);
 	g_object_unref (comp);
 
-	comp_editor_focus (COMP_EDITOR (tedit));
+	gtk_window_present (GTK_WINDOW (editor));
 }
 
 void
