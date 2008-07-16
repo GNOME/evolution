@@ -458,7 +458,7 @@ idle_cb (gchar **uris)
 			}
 			g_object_unref (client);
 
-			e_shell_create_window (shell, default_component_id, NULL);
+			e_shell_create_window (shell, default_component_id);
 		}
 	} else {
 		CORBA_Environment ev;

@@ -1,5 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/*
+/* e-shell-common.h
+ *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * This program is free software; you can redistribute it and/or
@@ -15,31 +16,15 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Author: Michael Zucchi <notzed@novell.com>
- *
- * Abstract class wrapper for EvolutionComponent
  */
 
-#ifndef _EVOLUTION_COMPONENT_H_
-#define _EVOLUTION_COMPONENT_H_
+#ifndef E_SHELL_COMMON_H
+#define E_SHELL_COMMON_H
 
-#include <bonobo/bonobo-object.h>
-#include "shell/Evolution.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-typedef struct _EvolutionComponent        EvolutionComponent;
-typedef struct _EvolutionComponentClass   EvolutionComponentClass;
+#include <gtk/gtk.h>
 
-struct _EvolutionComponent {
-	BonoboObject parent;
-};
-
-struct _EvolutionComponentClass {
-	BonoboObjectClass parent_class;
-
-	POA_GNOME_Evolution_Component__epv epv;
-};
-
-GType           evolution_component_get_type(void);
-
-#endif /* _EVOLUTION_COMPONENT_H_ */
+#endif /* E_SHELL_COMMON_H */

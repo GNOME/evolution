@@ -16,72 +16,58 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifndef _E_SIDEBAR_H_
-#define _E_SIDEBAR_H_
+#ifndef E_SIDEBAR_H
+#define E_SIDEBAR_H
 
 #include <gtk/gtk.h>
 
-#define E_TYPE_SIDEBAR			(e_sidebar_get_type ())
-#define E_SIDEBAR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SIDEBAR, ESidebar))
-#define E_SIDEBAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SIDEBAR, ESidebarClass))
-#define E_IS_SIDEBAR(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SIDEBAR))
-#define E_IS_SIDEBAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SIDEBAR))
+/* Standard GObject macros */
+#define E_TYPE_SIDEBAR \
+	(e_sidebar_get_type ())
+#define E_SIDEBAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SIDEBAR, ESidebar))
+#define E_SIDEBAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SIDEBAR, ESidebarClass))
+#define E_IS_SIDEBAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SIDEBAR))
+#define E_IS_SIDEBAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_SIDEBAR))
+#define E_SIDEBAR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SIDEBAR, ESidebarClass))
 
+G_BEGIN_DECLS
 
-typedef struct _ESidebar        ESidebar;
+typedef struct _ESidebar ESidebar;
+typedef struct _ESidebarClass ESidebarClass;
 typedef struct _ESidebarPrivate ESidebarPrivate;
-typedef struct _ESidebarClass   ESidebarClass;
-
-typedef enum {
-	E_SIDEBAR_MODE_TEXT,
-	E_SIDEBAR_MODE_ICON,
-	E_SIDEBAR_MODE_BOTH,
-	E_SIDEBAR_MODE_TOOLBAR
-} ESidebarMode;
 
 struct _ESidebar {
-	GtkContainer parent;
-
+	GtkBin parent;
 	ESidebarPrivate *priv;
 };
 
 struct _ESidebarClass {
-	GtkContainerClass parent_class;
-
-	/* signals */
-	void (* button_selected) (ESidebar *sidebar, int id);
-	void (* button_pressed)  (ESidebar *sidebar, GdkEventButton *event, int id);
+	GtkBinClass parent_class;
 };
 
+GType		e_sidebar_get_type		(void);
+GtkWidget *	e_sidebar_new			(void);
+void		e_sidebar_add_action		(ESidebar *sidebar,
+						 GtkAction *action);
+gboolean	e_sidebar_get_actions_visible	(ESidebar *sidebar);
+void		e_sidebar_set_actions_visible	(ESidebar *sidebar,
+						 gboolean visible);
+GtkToolbarStyle	e_sidebar_get_toolbar_style	(ESidebar *sidebar);
+void		e_sidebar_set_toolbar_style	(ESidebar *sidebar,
+						 GtkToolbarStyle style);
 
-GType      e_sidebar_get_type  (void);
-GtkWidget *e_sidebar_new       (void);
+G_END_DECLS
 
-void  e_sidebar_set_selection_widget  (ESidebar   *sidebar,
-				       GtkWidget  *widget);
-
-void  e_sidebar_add_button  (ESidebar   *sidebar,
-			     const char *label,
-			     const char *tooltips,
-			     GdkPixbuf  *icon,
-			     int         id);
-
-void  e_sidebar_select_button  (ESidebar *sidebar,
-				int       id);
-
-void e_sidebar_change_button_icon (ESidebar *sidebar,
-				   GdkPixbuf  *icon,
-				   int button_id);
-
-ESidebarMode e_sidebar_get_mode (ESidebar *sidebar);
-void e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode);
-
-void  e_sidebar_set_show_buttons  (ESidebar *sidebar, gboolean show);
-gboolean  e_sidebar_get_show_buttons  (ESidebar *sidebar);
-
-
-#endif /* _E_SIDEBAR_H_ */
+#endif /* E_SIDEBAR_H */

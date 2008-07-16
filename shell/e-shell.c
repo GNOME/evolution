@@ -16,8 +16,6 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Author: Ettore Perazzoli
  */
 
 #include <config.h>
@@ -82,12 +80,7 @@ struct _EShellPrivate {
 
 	GList *windows;
 
-	/* EUriSchemaRegistry *uri_schema_registry; FIXME */
 	EComponentRegistry *component_registry;
-
-	/* Names for the types of the folders that have maybe crashed.  */
-	/* FIXME TODO */
-	GList *crash_type_names; /* char * */
 
 	/* Line status and controllers  */
 	EShellLineStatus line_status;
@@ -125,7 +118,6 @@ struct _EShellPrivate {
 enum {
 	NO_WINDOWS_LEFT,
 	LINE_STATUS_CHANGED,
-	NEW_WINDOW_CREATED,
 	LAST_SIGNAL
 };
 
@@ -238,7 +230,7 @@ impl_Shell_createNewWindow (PortableServer_Servant servant,
 	if (component_id[0] == '\0')
 		component_id = NULL;
 
-	shell_window = e_shell_create_window (shell, component_id, NULL);
+	shell_window = e_shell_create_window (shell, component_id);
 	if (shell_window == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
@@ -282,7 +274,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	if (show) {
 		GtkWidget *shell_window;
 
-		shell_window = (GtkWidget *)e_shell_create_window (shell, component_info->id, NULL);
+		shell_window = (GtkWidget *)e_shell_create_window (shell, component_info->id);
 		if (shell_window == NULL) {
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
 			return;
@@ -317,31 +309,6 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 	else
 		e_shell_go_offline (shell, NULL, GNOME_Evolution_USER_OFFLINE);
 }
-/*
-static GNOME_Evolution_Component
-impl_Shell_findComponent(PortableServer_Servant servant,
-			 const CORBA_char *id,
-			 CORBA_Environment *ev)
-{
-	EShell *shell;
-	EComponentInfo *ci;
-
-	if (raise_exception_if_not_ready (servant, ev))
-		return CORBA_OBJECT_NIL;
-
-	shell = (EShell *)bonobo_object_from_servant (servant);
-	ci = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_ALIAS, id);
-	if (ci == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
-		return CORBA_OBJECT_NIL;
-	} else if (ci->iface == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_NotReady, NULL);
-		return CORBA_OBJECT_NIL;
-	} else {
-		return ci->iface;
-	}
-}
-*/
 
 /* EShellWindow handling and bookkeeping.  */
 
@@ -418,13 +385,6 @@ impl_dispose (GObject *object)
 
 	priv->is_initialized = FALSE;
 
-#if 0				/* FIXME */
-	if (priv->uri_schema_registry != NULL) {
-		g_object_unref (priv->uri_schema_registry);
-		priv->uri_schema_registry = NULL;
-	}
-#endif
-
 	if (priv->component_registry != NULL) {
 		g_object_unref (priv->component_registry);
 		priv->component_registry = NULL;
@@ -467,24 +427,6 @@ impl_dispose (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
-static void
-impl_finalize (GObject *object)
-{
-	EShell *shell;
-	EShellPrivate *priv;
-
-	shell = E_SHELL (object);
-	priv = shell->priv;
-
-	g_list_foreach (priv->crash_type_names, (GFunc) g_free, NULL);
-	g_list_free (priv->crash_type_names);
-
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
-
-
 /* Initialization.  */
 
 static void
@@ -497,7 +439,6 @@ e_shell_class_init (EShellClass *klass)
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
 
 	signals[NO_WINDOWS_LEFT] =
 		g_signal_new ("no_windows_left",
@@ -517,16 +458,6 @@ e_shell_class_init (EShellClass *klass)
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
-
-	signals[NEW_WINDOW_CREATED] =
-		g_signal_new ("new_window_created",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EShellClass, new_window_created),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
 
 	epv = & klass->epv;
 	epv->createNewWindow = impl_Shell_createNewWindow;
@@ -918,7 +849,6 @@ check_old:
  * e_shell_create_window:
  * @shell: The shell for which to create a new window.
  * @component_id: Id or alias of the component to display in the new window.
- * @template_window: Window from which to copy the window settings (can be %NULL).
  *
  * Create a new window for @uri.
  *
@@ -926,12 +856,9 @@ check_old:
  **/
 EShellWindow *
 e_shell_create_window (EShell *shell,
-		       const char *component_id,
-		       EShellWindow *template_window)
+		       const char *component_id)
 {
 	EShellWindow *window;
-
-	/* FIXME need to actually copy settings from template_window.  */
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -941,8 +868,6 @@ e_shell_create_window (EShell *shell,
 	g_signal_connect (window, "delete_event", G_CALLBACK (window_delete_event_cb), shell);
 	g_object_weak_ref (G_OBJECT (window), window_weak_notify, shell);
 	shell->priv->windows = g_list_prepend (shell->priv->windows, window);
-
-	g_signal_emit (shell, signals[NEW_WINDOW_CREATED], 0, window);
 
 	gtk_widget_show (GTK_WIDGET (window));
 
@@ -976,25 +901,6 @@ e_shell_request_close_window (EShell *shell,
 
 	return e_shell_quit(shell);
 }
-
-#if 0				/* FIXME */
-/**
- * e_shell_peek_uri_schema_registry:
- * @shell: An EShell object.
- *
- * Get the schema registry associated to @shell.
- *
- * Return value: A pointer to the EUriSchemaRegistry associated to @shell.
- **/
-EUriSchemaRegistry  *
-e_shell_peek_uri_schema_registry (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	return shell->priv->uri_schema_registry;
-}
-#endif
-
 
 /**
  * e_shell_peek_component_registry:

@@ -13,6 +13,7 @@ INCLUDES =							\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
+	-DEVOLUTION_MODULEDIR=\""$(evolutionmoduledir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
@@ -89,10 +90,13 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-component-view.h			\
+	e-shell-common.h			\
+	e-shell-module.h			\
+	e-shell-view.h				\
+	e-shell-window.h			\
+	e-shell-window-actions.h		\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
-	evolution-component.h			\
 	evolution-listener.h			\
 	evolution-shell-component-utils.h	\
 	es-event.h				\
@@ -101,8 +105,10 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
-	e-component-view.c			\
-	evolution-component.c			\
+	e-shell-module.c			\
+	e-shell-view.c				\
+	e-shell-window.c			\
+	e-shell-window-actions.c		\
 	evolution-listener.c			\
 	e-user-creatable-items-handler.c	\
 	evolution-config-control.c		\
@@ -132,14 +138,12 @@ evolution_SOURCES =				\
 	e-shell-constants.h			\
 	e-shell-importer.c			\
 	e-shell-importer.h			\
+	e-shell-registry.c			\
+	e-shell-registry.h			\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
-	e-shell-window-commands.c		\
-	e-shell-window-commands.h		\
-	e-shell-window.c			\
-	e-shell-window.h			\
-	e-shell-view.c				\
-	e-shell-view.h				\
+	e-shell-window-private.c		\
+	e-shell-window-private.h		\
 	e-sidebar.c				\
 	e-sidebar.h				\
 	es-event.c				\

@@ -57,6 +57,7 @@ widgetsinclude_HEADERS =			\
 	e-info-label.h				\
 	e-map.h					\
 	e-multi-config-dialog.h			\
+	e-online-button.h			\
 	e-search-bar.h				\
 	e-task-bar.h				\
 	e-task-widget.h				\
@@ -104,6 +105,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-info-label.c				\
 	e-map.c					\
 	e-multi-config-dialog.c			\
+	e-online-button.c			\
 	e-search-bar.c				\
 	e-task-bar.c				\
 	e-task-widget.c				\

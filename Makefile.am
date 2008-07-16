@@ -31,6 +31,29 @@ if ENABLE_SMIME
 SMIME_DIR=smime
 endif
 
+# Disabled component and plugin directories during shell rewrite.
+
+#SUBDIRS = 			\
+#	win32			\
+#	data                    \
+#	e-util                  \
+#	a11y			\
+#	widgets                 \
+#	shell                   \
+#	filter			\
+#	$(SMIME_DIR)		\
+#	addressbook		\
+#	calendar		\
+#	art                     \
+#	composer		\
+#	mail			\
+#	plugins			\
+#	ui			\
+#	views			\
+#	tools			\
+#	po			\
+#	sounds
+
 SUBDIRS = 			\
 	win32			\
         data                    \
@@ -38,14 +61,7 @@ SUBDIRS = 			\
 	a11y			\
         widgets                 \
         shell                   \
-	filter			\
-	$(SMIME_DIR)		\
-	addressbook		\
-	calendar		\
         art                     \
-	composer		\
-	mail			\
-	plugins			\
 	ui			\
 	views			\
 	tools			\

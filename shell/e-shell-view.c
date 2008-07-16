@@ -3,8 +3,6 @@
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
- * Author(s): Michael Zucchi <notzed@ximian.com>
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
  * License as published by the Free Software Foundation.
@@ -18,130 +16,252 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Helper class for evolution shells to setup a view
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-shell-view.h"
 
-#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-shell-view.h"
 #include "e-shell-window.h"
-#include "e-util/e-icon-factory.h"
 
-static BonoboObjectClass *parent_class = NULL;
+#define E_SHELL_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
 
 struct _EShellViewPrivate {
-	int dummy;
+	gchar *title;
+	gpointer window;  /* weak pointer */
 };
 
-static void
-impl_ShellView_setTitle(PortableServer_Servant _servant, const CORBA_char *id, const CORBA_char * title, CORBA_Environment * ev)
-{
-	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
-	/* To translators: This is the window title and %s is the
-	component name. Most translators will want to keep it as is. */
-	char *tmp = g_strdup_printf(_("%s - Evolution"), title);
-
-	e_shell_window_set_title(esw->window, id, tmp);
-	g_free(tmp);
-}
-
-static void
-impl_ShellView_setComponent(PortableServer_Servant _servant, const CORBA_char *id, CORBA_Environment * ev)
-{
-	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
-
-	e_shell_window_switch_to_component(esw->window, id);
-}
-
-struct change_icon_struct {
-	const char *component_name;
-	GdkPixbuf *icon;
+enum {
+	PROP_0,
+	PROP_TITLE,
+	PROP_WINDOW
 };
 
-static gboolean
-change_button_icon_func (EShell *shell, EShellWindow *window, gpointer user_data)
+static gpointer parent_class;
+
+static void
+shell_view_set_window (EShellView *shell_view,
+                       GtkWindow *window)
 {
-	struct change_icon_struct *cis = (struct change_icon_struct*)user_data;
+	g_return_if_fail (GTK_IS_WINDOW (window));
 
-	g_return_val_if_fail (window != NULL, FALSE);
-	g_return_val_if_fail (cis != NULL, FALSE);
+	shell_view->priv->window = window;
 
-	e_shell_window_change_component_button_icon (window, cis->component_name, cis->icon);
-
-	return TRUE;
+	g_object_add_weak_pointer (
+		G_OBJECT (window), &shell_view->priv->window);
 }
 
 static void
-impl_ShellView_setButtonIcon (PortableServer_Servant _servant, const CORBA_char *id, const CORBA_char * iconName, CORBA_Environment * ev)
+shell_view_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
 {
-	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
-	EShell *shell = e_shell_window_peek_shell (esw->window);
+	switch (property_id) {
+		case PROP_TITLE:
+			e_shell_view_set_title (
+				E_SHELL_VIEW (object),
+				g_value_get_string (value));
+			return;
 
-	struct change_icon_struct cis;
-	cis.component_name = id;
-	cis.icon = NULL;
+		case PROP_WINDOW:
+			shell_view_set_window (
+				E_SHELL_VIEW (object),
+				g_value_get_object (value));
+			return;
+	}
 
-	if (iconName)
-		cis.icon = e_icon_factory_get_icon (iconName, E_ICON_SIZE_BUTTON);
-
-	e_shell_foreach_shell_window (shell, change_button_icon_func, &cis);
-
-	if (cis.icon)
-		g_object_unref (cis.icon);
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-impl_dispose (GObject *object)
+shell_view_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
 {
-	/*EShellView *esv = (EShellView *)object;*/
+	switch (property_id) {
+		case PROP_TITLE:
+			g_value_set_string (
+				value, e_shell_view_get_title (
+				E_SHELL_VIEW (object)));
+			return;
 
-	((GObjectClass *)parent_class)->dispose(object);
+		case PROP_WINDOW:
+			g_value_set_object (
+				value, e_shell_view_get_window (
+				E_SHELL_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-impl_finalise (GObject *object)
+shell_view_dispose (GObject *object)
 {
-	((GObjectClass *)parent_class)->finalize(object);
+	EShellViewPrivate *priv;
+
+	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+
+	if (priv->window != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->window), &priv->window);
+		priv->window = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_shell_view_class_init (EShellViewClass *klass)
+shell_view_finalize (GObject *object)
+{
+	EShellViewPrivate *priv;
+
+	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+
+	g_free (priv->title);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+shell_view_class_init (EShellViewClass *class)
 {
 	GObjectClass *object_class;
-	POA_GNOME_Evolution_ShellView__epv *epv;
 
-	parent_class = g_type_class_ref(bonobo_object_get_type());
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EShellViewPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalise;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = shell_view_set_property;
+	object_class->get_property = shell_view_get_property;
+	object_class->dispose = shell_view_dispose;
+	object_class->finalize = shell_view_finalize;
 
-	epv = & klass->epv;
-	epv->setTitle = impl_ShellView_setTitle;
-	epv->setComponent = impl_ShellView_setComponent;
-	epv->setButtonIcon = impl_ShellView_setButtonIcon;
+	g_object_class_install_property (
+		object_class,
+		PROP_TITLE,
+		g_param_spec_string (
+			"title",
+			_("Title"),
+			_("The title of the shell view"),
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WINDOW,
+		g_param_spec_object (
+			"window",
+			_("Window"),
+			_("The window to which the shell view belongs"),
+			GTK_TYPE_WINDOW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
-e_shell_view_init (EShellView *shell)
+shell_view_init (EShellView *shell_view)
 {
+	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
 }
 
-EShellView *e_shell_view_new(struct _EShellWindow *window)
+GType
+e_shell_view_get_type (void)
 {
-	EShellView *new = g_object_new (e_shell_view_get_type (), NULL);
+	static GType type = 0;
 
-	/* TODO: listen to destroy? */
-	new->window = window;
+	if (G_UNLIKELY (type == 0)) {
+		const GTypeInfo type_info = {
+			sizeof (EShellViewClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) shell_view_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EShellView),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) shell_view_init,
+			NULL   /* value_table */
+		};
 
-	return new;
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "EShellView",
+			&type_info, G_TYPE_FLAG_ABSTRACT);
+	}
+
+	return type;
 }
 
-BONOBO_TYPE_FUNC_FULL (EShellView, GNOME_Evolution_ShellView, bonobo_object_get_type(), e_shell_view)
+const gchar *
+e_shell_view_get_title (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
+	return shell_view->priv->title;
+}
+
+void
+e_shell_view_set_title (EShellView *shell_view,
+                        const gchar *title)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	g_free (shell_view->priv->title);
+	shell_view->priv->title = g_strdup (title);
+
+	g_object_notify (G_OBJECT (shell_view), "title");
+}
+
+GtkWindow *
+e_shell_view_get_window (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->window;
+}
+
+GtkWidget *
+e_shell_view_get_content_widget (EShellView *shell_view)
+{
+	EShellViewClass *class;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	class = E_SHELL_VIEW_CLASS (shell_view);
+	g_return_val_if_fail (class->get_content_widget != NULL, NULL);
+
+	return class->get_content_widget (shell_view);
+}
+
+GtkWidget *
+e_shell_view_get_sidebar_widget (EShellView *shell_view)
+{
+	EShellViewClass *class;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	class = E_SHELL_VIEW_CLASS (shell_view);
+	g_return_val_if_fail (class->get_sidebar_widget != NULL, NULL);
+
+	return class->get_sidebar_widget (shell_view);
+}
+
+GtkWidget *
+e_shell_view_get_status_widget (EShellView *shell_view)
+{
+	EShellViewClass *class;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	class = E_SHELL_VIEW_CLASS (shell_view);
+	g_return_val_if_fail (class->get_status_widget != NULL, NULL);
+
+	return class->get_status_widget (shell_view);
+}

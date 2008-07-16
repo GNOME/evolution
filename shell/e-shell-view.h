@@ -16,55 +16,64 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * This is only a CORBA wrapper around e_shell_window.
  */
 
-#ifndef _E_SHELL_VIEW_H_
-#define _E_SHELL_VIEW_H_
+#ifndef E_SHELL_VIEW_H
+#define E_SHELL_VIEW_H
 
-#include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-object.h>
+#include "e-shell-common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+/* Standard GObject macros */
+#define E_TYPE_SHELL_VIEW \
+	(e_shell_view_get_type ())
+#define E_SHELL_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SHELL_VIEW, EShellView))
+#define E_SHELL_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SHELL_VIEW, EShellViewClass))
+#define E_IS_SHELL_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SHELL_VIEW))
+#define E_IS_SHELL_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_SHELL_VIEW))
+#define E_SHELL_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SHELL_VIEW, EShellViewClass))
 
-struct _EShell;
+G_BEGIN_DECLS
 
-typedef struct _EShellView        EShellView;
+typedef struct _EShellView EShellView;
+typedef struct _EShellViewClass EShellViewClass;
 typedef struct _EShellViewPrivate EShellViewPrivate;
-typedef struct _EShellViewClass   EShellViewClass;
-
-#include "Evolution.h"
-
-#define E_TYPE_SHELL_VIEW			(e_shell_view_get_type ())
-#define E_SHELL_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_VIEW, EShellView))
-#define E_SHELL_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL_VIEW, EShellViewClass))
-#define E_IS_SHELL_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL_VIEW))
-#define E_IS_SHELL_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_VIEW))
 
 struct _EShellView {
-	BonoboObject parent;
-
-	struct _EShellWindow *window;
-
+	GObject parent;
 	EShellViewPrivate *priv;
 };
 
 struct _EShellViewClass {
-	BonoboObjectClass parent_class;
+	GObjectClass parent_class;
 
-	POA_GNOME_Evolution_ShellView__epv epv;
+	/* Initial GtkRadioAction values */
+	const gchar *label;
+	const gchar *icon_name;
+
+	GtkWidget *	(*get_content_widget)	(EShellView *shell_view);
+	GtkWidget *	(*get_sidebar_widget)	(EShellView *shell_view);
+	GtkWidget *	(*get_status_widget)	(EShellView *shell_view);
 };
 
-GType                e_shell_view_get_type   (void);
-EShellView *e_shell_view_new(struct _EShellWindow *window);
+GType		e_shell_view_get_type		(void);
+const gchar *	e_shell_view_get_title		(EShellView *shell_view);
+void		e_shell_view_set_title		(EShellView *shell_view,
+						 const gchar *title);
+GtkWindow *	e_shell_view_get_window		(EShellView *shell_view);
+GtkWidget *	e_shell_view_get_content_widget (EShellView *shell_view);
+GtkWidget *	e_shell_view_get_sidebar_widget (EShellView *shell_view);
+GtkWidget *	e_shell_view_get_status_widget	(EShellView *shell_view);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* _E_SHELL_VIEW_H_ */
-
+#endif /* E_SHELL_VIEW_H */
