@@ -1,3 +1,9 @@
+2008-07-16  Sankar P  <psankar@novell.com>
+
+	Pushing disk summary changes from the madagascar branch
+
+	* itip-formatter.c (view_response_cb):
+
 2008-05-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #535459

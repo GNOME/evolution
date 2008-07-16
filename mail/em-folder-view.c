@@ -2172,7 +2172,7 @@ emfv_enable_menus(EMFolderView *emfv)
 		return;
 
 	{
-		if (emfv->menu) {
+		if (emfv->menu && emfv->folder) {
 			EMMenuTargetSelect *t;
 
 			t = em_menu_target_new_select(emfv->menu, emfv->folder, emfv->folder_uri, message_list_get_selected(emfv->list));

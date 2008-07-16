@@ -873,11 +873,15 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		view_sexp = " ";
 		break;
 
+	/* README: All the sexp below are not rocket science but it is not straightforward as well.
+	I believe it is better to document the assumptions and the conventions followed for the sexp,
+	before I forget so that no one else again needs to read through the code  -- Sankar */
+
 	case VIEW_UNREAD_MESSAGES:
-		view_sexp = "(match-all (not (system-flag  \"Seen\")))";
+		view_sexp = "(match-all (system-flag  \"Seen\"))";
 		break;
 	case VIEW_READ_MESSAGES:
-		view_sexp = "(match-all (system-flag  \"Seen\"))";
+		view_sexp = "(match-all (system-flag  \"Seen\" \"set\"))";
 		break;
         case VIEW_RECENT_MESSAGES:
 		if (!em_utils_folder_is_sent (folder, folder_uri))
@@ -892,10 +896,10 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 			view_sexp = " (match-all (> (get-sent-date) (- (get-current-date) 432000)))";
 		break;
         case VIEW_WITH_ATTACHMENTS:
-		view_sexp = "(match-all (system-flag \"Attachments\"))";
+		view_sexp = "(match-all (system-flag \"Attachments\" \"set\"))";
 		break;
 	case VIEW_NOT_JUNK:
-		view_sexp = "(match-all (not (system-flag \"junk\")))";
+		view_sexp = "(match-all (system-flag \"junk\"))";
 		break;
         case VIEW_NO_LABEL: {
 		GSList *l;
@@ -911,6 +915,8 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 					tag += 6;
 
 				g_string_append_printf (s, " (match-all (not (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\"))))", tag, tag, tag);
+				/* FIXME: I dont see a way of mapping this kind of sexp into sql atm. I guess this option could be kicked out */
+				/* May be we should copy what I did for system flags -- Sankar */
 			}
 		}
 
@@ -921,11 +927,11 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		} break;
         case VIEW_LABEL:
 		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
-		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\")))", tag, tag, tag);
+		view_sexp = g_strdup_printf ("(match-all (and (and (user-tag \"label\" \"%s\")) (or (user-flag \"$Label%s\")) (or (user-flag \"%s\"))))", tag, tag, tag);
 		duplicate = FALSE;
 		break;
 	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
-		view_sexp = "(match-all (system-flag  \"Flagged\"))";
+		view_sexp = "(match-all (system-flag  \"Flagged\" \"set\"))";
 		break;
 	case VIEW_ANY_FIELD_CONTAINS:
 		break;

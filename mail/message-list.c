@@ -40,6 +40,7 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
+#include <camel/camel-folder-summary.h>
 #include <camel/camel-vee-folder.h>
 
 #include <libedataserver/e-memory.h>
@@ -4062,6 +4063,7 @@ regen_list_exec (struct _regen_list_msg *m)
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
+	//camel_folder_summary_reload_from_db (m->folder->summary, NULL);
 	if (!camel_operation_cancel_check(m->base.cancel)) {
 		/* update/build a new tree */
 		if (m->dotree) {
@@ -4071,6 +4073,10 @@ regen_list_exec (struct _regen_list_msg *m)
 				m->tree = camel_folder_thread_messages_new (m->folder, showuids, m->thread_subject);
 		} else {
 			m->summary = g_ptr_array_new ();
+			if (showuids->len != camel_folder_summary_cache_size (m->folder->summary) ) {
+			    CamelException ex;
+				camel_folder_summary_reload_from_db (m->folder->summary, &ex);
+			}
 			for (i = 0; i < showuids->len; i++) {
 				info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
 				if (info)

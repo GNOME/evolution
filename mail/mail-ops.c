@@ -1620,9 +1620,9 @@ refresh_folder_desc (struct _sync_folder_msg *m)
 static void
 refresh_folder_exec (struct _sync_folder_msg *m)
 {
-	camel_folder_sync (m->folder, FALSE, &m->base.ex);
+	//camel_folder_sync (m->folder, FALSE, &m->base.ex);
 
-	if (!camel_exception_is_set (&m->base.ex))
+	//if (!camel_exception_is_set (&m->base.ex))
 		camel_folder_refresh_info(m->folder, &m->base.ex);
 }
 

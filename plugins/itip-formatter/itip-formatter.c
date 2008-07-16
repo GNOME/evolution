@@ -1741,7 +1741,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 						}
 						camel_message_info_free (mi);
 					}
-					camel_folder_summary_array_free (pitip->folder->summary, summary_array);
+					camel_folder_free_summary (pitip->folder, summary_array);
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
