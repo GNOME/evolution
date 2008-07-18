@@ -243,6 +243,7 @@ event_page_class_init (EventPageClass *class)
 	g_type_class_add_private (class, sizeof (EventPagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = event_page_dispose;
 	object_class->finalize = event_page_finalize;
 
 	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
