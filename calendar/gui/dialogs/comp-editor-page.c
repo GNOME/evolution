@@ -23,45 +23,159 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
+#include "comp-editor.h"
 #include "comp-editor-page.h"
 
-
+#define COMP_EDITOR_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate))
 
-static void comp_editor_page_class_init (CompEditorPageClass *class);
-static void comp_editor_page_init (CompEditorPage *page);
-static void comp_editor_page_dispose (GObject *object);
-
-static gpointer parent_class;
-
-/* Signal IDs */
+struct _CompEditorPagePrivate {
+	CompEditor *editor;  /* not referenced */
+	gboolean updating;
+};
 
 enum {
-	CHANGED,
-	NEEDS_SEND,
-	SUMMARY_CHANGED,
+	PROP_0,
+	PROP_EDITOR,
+	PROP_UPDATING
+};
+
+enum {
 	DATES_CHANGED,
-	CLIENT_CHANGED,
-	FOCUS_IN,
-	FOCUS_OUT,
 	LAST_SIGNAL
 };
 
+static gpointer parent_class;
 static guint comp_editor_page_signals[LAST_SIGNAL];
 
-#define CLASS(page) (COMP_EDITOR_PAGE_CLASS (G_OBJECT_GET_CLASS (page)))
+static void
+comp_editor_page_set_property (GObject *object,
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
+{
+	CompEditorPagePrivate *priv;
 
-
+	priv = COMP_EDITOR_PAGE_GET_PRIVATE (object);
 
-/**
- * comp_editor_page_get_type:
- *
- * Registers the #CompEditorPage class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the #CompEditorPage class.
- **/
+	switch (property_id) {
+		case PROP_EDITOR:
+			priv->editor = g_value_get_object (value);
+			return;
+
+		case PROP_UPDATING:
+			comp_editor_page_set_updating (
+				COMP_EDITOR_PAGE (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+comp_editor_page_get_property (GObject *object,
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EDITOR:
+			g_value_set_object (
+				value, comp_editor_page_get_editor (
+				COMP_EDITOR_PAGE (object)));
+			return;
+
+		case PROP_UPDATING:
+			g_value_set_boolean (
+				value, comp_editor_page_get_updating (
+				COMP_EDITOR_PAGE (object)));
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+comp_editor_page_dispose (GObject *object)
+{
+	CompEditorPage *page;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (object));
+
+	page = COMP_EDITOR_PAGE (object);
+
+	if (page->accel_group) {
+		g_object_unref (page->accel_group);
+		page->accel_group = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+comp_editor_page_class_init (CompEditorPageClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (CompEditorPagePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = comp_editor_page_set_property;
+	object_class->get_property = comp_editor_page_get_property;
+	object_class->dispose = comp_editor_page_dispose;
+
+	class->dates_changed = NULL;
+
+	class->get_widget = NULL;
+	class->focus_main_widget = NULL;
+	class->fill_widgets = NULL;
+	class->fill_component = NULL;
+	class->fill_timezones = NULL;
+	class->set_dates = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITOR,
+		g_param_spec_object (
+			"editor",
+			NULL,
+			NULL,
+			TYPE_COMP_EDITOR,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UPDATING,
+		g_param_spec_boolean (
+			"updating",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	comp_editor_page_signals[DATES_CHANGED] =
+		g_signal_new ("dates_changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CompEditorPageClass, dates_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+}
+
+static void
+comp_editor_page_init (CompEditorPage *page)
+{
+	page->priv = COMP_EDITOR_PAGE_GET_PRIVATE (page);
+
+	page->accel_group = NULL;
+}
+
 GType
 comp_editor_page_get_type (void)
 {
@@ -88,124 +202,21 @@ comp_editor_page_get_type (void)
 	return type;
 }
 
-/* Class initialization function for the abstract editor page */
-static void
-comp_editor_page_class_init (CompEditorPageClass *class)
+/**
+ * comp_editor_page_get_editor:
+ * @page: a #CompEditorPage
+ *
+ * Returns the #CompEditor to which @page belongs.
+ *
+ * Returns: the parent #CompEditor
+ **/
+CompEditor *
+comp_editor_page_get_editor (CompEditorPage *page)
 {
-	GObjectClass *object_class;
+	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), NULL);
 
-	parent_class = g_type_class_peek_parent (class);
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = comp_editor_page_dispose;
-
-	class->changed = NULL;
-	class->summary_changed = NULL;
-	class->dates_changed = NULL;
-
-	class->get_widget = NULL;
-	class->focus_main_widget = NULL;
-	class->fill_widgets = NULL;
-	class->fill_component = NULL;
-	class->fill_timezones = NULL;
-	class->set_summary = NULL;
-	class->set_dates = NULL;
-
-	comp_editor_page_signals[CHANGED] =
-		g_signal_new ("changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	comp_editor_page_signals[NEEDS_SEND] =
-		g_signal_new ("needs_send",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, needs_send),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	comp_editor_page_signals[SUMMARY_CHANGED] =
-		g_signal_new ("summary_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, summary_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-
-	comp_editor_page_signals[DATES_CHANGED] =
-		g_signal_new ("dates_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, dates_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-
-	comp_editor_page_signals[CLIENT_CHANGED] =
-		g_signal_new ("client_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, client_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
-	comp_editor_page_signals[FOCUS_IN] =
-		g_signal_new ("focus_in",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, focus_in),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-	comp_editor_page_signals[FOCUS_OUT] =
-		g_signal_new ("focus_out",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, focus_out),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	return page->priv->editor;
 }
-
-
-
-static void
-comp_editor_page_init (CompEditorPage *page)
-{
-	page->client = NULL;
-	page->accel_group = NULL;
-}
-
-
-static void
-comp_editor_page_dispose (GObject *object)
-{
-	CompEditorPage *page;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (object));
-
-	page = COMP_EDITOR_PAGE (object);
-
-	if (page->client) {
-		g_object_unref (page->client);
-		page->client = NULL;
-	}
-
-	if (page->accel_group) {
-		g_object_unref (page->accel_group);
-		page->accel_group = NULL;
-	}
-
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
 
 /**
  * comp_editor_page_get_widget:
@@ -219,11 +230,50 @@ comp_editor_page_dispose (GObject *object)
 GtkWidget *
 comp_editor_page_get_widget (CompEditorPage *page)
 {
-	g_return_val_if_fail (page != NULL, NULL);
-	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), NULL);
-	g_return_val_if_fail (CLASS (page)->get_widget != NULL, NULL);
+	CompEditorPageClass *class;
 
-	return (* CLASS (page)->get_widget) (page);
+	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), NULL);
+
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
+	g_return_val_if_fail (class->get_widget != NULL, NULL);
+
+	return class->get_widget (page);
+}
+
+gboolean
+comp_editor_page_get_updating (CompEditorPage *page)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
+
+	return page->priv->updating;
+}
+
+void
+comp_editor_page_set_updating (CompEditorPage *page,
+                               gboolean updating)
+{
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	page->priv->updating = updating;
+
+	g_object_notify (G_OBJECT (page), "updating");
+}
+
+void
+comp_editor_page_changed (CompEditorPage *page)
+{
+	CompEditor *editor;
+
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	/* Block change notifications if the page is updating.  This right
+	 * here is why we have an 'updating' flag.  It's up to subclasses
+	 * to set and clear it at appropriate times. */
+	if (page->priv->updating)
+		return;
+
+	editor = comp_editor_page_get_editor (page);
+	comp_editor_set_changed (editor, TRUE);
 }
 
 /**
@@ -237,11 +287,14 @@ comp_editor_page_get_widget (CompEditorPage *page)
 void
 comp_editor_page_focus_main_widget (CompEditorPage *page)
 {
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-	g_return_if_fail (CLASS (page)->focus_main_widget != NULL);
+	CompEditorPageClass *class;
 
-	(* CLASS (page)->focus_main_widget) (page);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
+	g_return_if_fail (class->focus_main_widget != NULL);
+
+	class->focus_main_widget (page);
 }
 
 /**
@@ -252,13 +305,23 @@ comp_editor_page_focus_main_widget (CompEditorPage *page)
  * Fills the widgets of an editor page with the data from a calendar component.
  **/
 gboolean
-comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
+comp_editor_page_fill_widgets (CompEditorPage *page,
+                               ECalComponent *comp)
 {
+	CompEditorPageClass *class;
+	gboolean success;
+
 	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
-	g_return_val_if_fail (CLASS (page)->fill_widgets != NULL, FALSE);
 
-	return (* CLASS (page)->fill_widgets) (page, comp);
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
+	g_return_val_if_fail (class->fill_widgets != NULL, FALSE);
+
+	comp_editor_page_set_updating (page, TRUE);
+	success = class->fill_widgets (page, comp);
+	comp_editor_page_set_updating (page, FALSE);
+
+	return success;
 }
 
 /**
@@ -275,12 +338,15 @@ comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 gboolean
 comp_editor_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
-	g_return_val_if_fail (page != NULL, FALSE);
+	CompEditorPageClass *class;
+
 	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
 	g_return_val_if_fail (comp != NULL, FALSE);
 
-	if (CLASS (page)->fill_component != NULL)
-		return (* CLASS (page)->fill_component) (page, comp);
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
+
+	if (class->fill_component != NULL)
+		return class->fill_component (page, comp);
 
 	return TRUE;
 }
@@ -298,89 +364,19 @@ comp_editor_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 gboolean
 comp_editor_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 {
+	CompEditorPageClass *class;
+
 	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
 	g_return_val_if_fail (timezones != NULL, FALSE);
 
-	if (CLASS (page)->fill_timezones != NULL)
-		return (* CLASS (page)->fill_timezones) (page, timezones);
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
+
+	if (class->fill_timezones != NULL)
+		return class->fill_timezones (page, timezones);
 
 	return TRUE;
 }
 
-/**
- * comp_editor_page_set_e_cal:
- * @page: An editor page
- * @client: A #ECal object
- *
- * Sets the #ECal for the dialog page to use.
- **/
-void
-comp_editor_page_set_e_cal (CompEditorPage *page, ECal *client)
-{
-	g_return_if_fail (page != NULL);
-        g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	if (client == page->client)
-		return;
-
-	if (page->client)
-		g_object_unref (page->client);
-
-	page->client = client;
-	if (page->client)
-		g_object_ref (client);
-}
-
-/**
- * comp_editor_page_set_summary:
- * @page: An editor page
- * @summary: The text of the new summary value
- *
- * Sets the summary value for this group of widgets
- **/
-void
-comp_editor_page_set_summary (CompEditorPage *page, const char *summary)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	if (CLASS (page)->set_summary != NULL)
-		(* CLASS (page)->set_summary) (page, summary);
-}
-
-/**
- * comp_editor_page_unset_focused_widget
- * @page: An editor page
- * @widget: The widget that has the current focus
-**/
-void
-comp_editor_page_unset_focused_widget (CompEditorPage *page, GtkWidget *widget)
-{
-	g_return_if_fail (page!= NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	g_signal_emit (page,
-		       comp_editor_page_signals[FOCUS_OUT], 0,
-		       widget);
-
-}
-
-/**
- * comp_editor_page_set_focussed_widget:
- * @page: An editor page
- * @widget: The widget that has the current focus
-**/
-void
-comp_editor_page_set_focused_widget (CompEditorPage *page, GtkWidget *widget)
-{
-	g_return_if_fail (page!= NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	g_signal_emit (page,
-		       comp_editor_page_signals[FOCUS_IN], 0,
-		       widget);
-
-}
 /**
  * comp_editor_page_set_dates:
  * @page: An editor page
@@ -391,62 +387,14 @@ comp_editor_page_set_focused_widget (CompEditorPage *page, GtkWidget *widget)
 void
 comp_editor_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
-	g_return_if_fail (page != NULL);
+	CompEditorPageClass *class;
+
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	if (CLASS (page)->set_dates != NULL)
-		(* CLASS (page)->set_dates) (page, dates);
-}
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
 
-/**
- * comp_editor_page_notify_changed:
- * @page: An editor page.
- *
- * Makes an editor page emit the "changed" signal.  This is meant to be
- * used only by page implementations.
- **/
-void
-comp_editor_page_notify_changed (CompEditorPage *page)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	g_signal_emit (page, comp_editor_page_signals[CHANGED], 0);
-}
-
-/**
- * comp_editor_page_notify_needs_send:
- * @page:
- *
- *
- **/
-void
-comp_editor_page_notify_needs_send (CompEditorPage *page)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	g_signal_emit (page, comp_editor_page_signals[NEEDS_SEND], 0);
-}
-
-/**
- * comp_editor_page_notify_summary_changed:
- * @page: An editor page.
- *
- * Makes an editor page emit the "summary_changed" signal.  This is meant to be
- * used only by page implementations.
- **/
-void
-comp_editor_page_notify_summary_changed (CompEditorPage *page,
-					 const char *summary)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-
-	g_signal_emit (page,
-		       comp_editor_page_signals[SUMMARY_CHANGED], 0,
-		       summary);
+	if (class->set_dates != NULL)
+		class->set_dates (page, dates);
 }
 
 /**
@@ -460,32 +408,11 @@ void
 comp_editor_page_notify_dates_changed (CompEditorPage *page,
 				       CompEditorPageDates *dates)
 {
-	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	g_signal_emit (page,
 		       comp_editor_page_signals[DATES_CHANGED], 0,
 		       dates);
-}
-
-/**
- * comp_editor_page_notify_client_changed:
- * @page: An editor page.
- *
- * Makes an editor page emit the "client_changed" signal.  This is meant to be
- * used only by page implementations.
- **/
-void
-comp_editor_page_notify_client_changed (CompEditorPage *page,
-					ECal *client)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	comp_editor_page_set_e_cal (page, client);
-	g_signal_emit (page,
-		       comp_editor_page_signals[CLIENT_CHANGED], 0,
-		       client);
 }
 
 /**

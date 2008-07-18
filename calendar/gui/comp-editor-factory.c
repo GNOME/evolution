@@ -265,7 +265,7 @@ edit_existing (OpenClient *oc, const char *uid)
 		if (e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_MEETING;
 
-		editor = COMP_EDITOR (event_editor_new (oc->client, flags));
+		editor = event_editor_new (oc->client, flags);
 		break;
 
 	case E_CAL_COMPONENT_TODO:
@@ -280,7 +280,7 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	/* Set the object on the editor */
 	comp_editor_edit_comp (editor, comp);
-	comp_editor_focus (editor);
+	gtk_window_present (GTK_WINDOW (editor));
 	g_object_unref (comp);
 
 	oc->editor_count++;
@@ -308,15 +308,15 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
+		editor = event_editor_new (oc->client, FALSE);
 		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
-		editor = COMP_EDITOR (event_editor_new (oc->client, TRUE));
+		editor = event_editor_new (oc->client, TRUE);
 		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
+		editor = event_editor_new (oc->client, FALSE);
 		comp = cal_comp_event_new_with_current_time (oc->client, TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
@@ -331,7 +331,7 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	comp_editor_edit_comp (editor, comp);
 	if (type == GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING)
 		event_editor_show_meeting (EVENT_EDITOR (editor));
-	comp_editor_focus (editor);
+	gtk_window_present (GTK_WINDOW (editor));
 
 	oc->editor_count++;
 	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);
@@ -566,7 +566,7 @@ impl_editExisting (PortableServer_Servant servant,
 	if (editor == NULL) {
 		edit_existing (oc, uid);
 	} else {
-		comp_editor_focus (editor);
+		gtk_window_present (GTK_WINDOW (editor));
 	}
 }
 

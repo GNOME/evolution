@@ -39,7 +39,9 @@
 #include "e-delegate-dialog.h"
 #include "schedule-page.h"
 
-
+#define SCHEDULE_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_SCHEDULE_PAGE, SchedulePagePrivate))
 
 /* Private part of the SchedulePage structure */
 struct _SchedulePagePrivate {
@@ -59,13 +61,7 @@ struct _SchedulePagePrivate {
 	   start and end date. We convert the end date if it is passed in in
 	   another timezone. */
 	icaltimezone *zone;
-
-	gboolean updating;
 };
-
-
-
-static void schedule_page_finalize (GObject *object);
 
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
@@ -73,79 +69,60 @@ static gboolean schedule_page_fill_widgets (CompEditorPage *page, ECalComponent 
 static gboolean schedule_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
-static void times_changed_cb (GtkWidget *widget, gpointer data);
+static void times_changed_cb (GtkWidget *widget, SchedulePage *spage);
 
 G_DEFINE_TYPE (SchedulePage, schedule_page, TYPE_COMP_EDITOR_PAGE)
 
-/* Class initialization function for the schedule page */
 static void
-schedule_page_class_init (SchedulePageClass *class)
-{
-	CompEditorPageClass *editor_page_class;
-	GObjectClass *object_class;
-
-	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
-
-	editor_page_class->get_widget = schedule_page_get_widget;
-	editor_page_class->focus_main_widget = schedule_page_focus_main_widget;
-	editor_page_class->fill_widgets = schedule_page_fill_widgets;
-	editor_page_class->fill_component = schedule_page_fill_component;
-	editor_page_class->set_summary = NULL;
-	editor_page_class->set_dates = schedule_page_set_dates;
-
-	object_class->finalize = schedule_page_finalize;
-}
-
-/* Object initialization function for the schedule page */
-static void
-schedule_page_init (SchedulePage *spage)
+schedule_page_dispose (GObject *object)
 {
 	SchedulePagePrivate *priv;
 
-	priv = g_new0 (SchedulePagePrivate, 1);
-	spage->priv = priv;
+	priv = SCHEDULE_PAGE_GET_PRIVATE (object);
 
-	priv->xml = NULL;
-
-	priv->main = NULL;
-
-	priv->zone = NULL;
-
-	priv->updating = FALSE;
-}
-
-/* Destroy handler for the schedule page */
-static void
-schedule_page_finalize (GObject *object)
-{
-	SchedulePage *spage;
-	SchedulePagePrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_SCHEDULE_PAGE (object));
-
-	spage = SCHEDULE_PAGE (object);
-	priv = spage->priv;
-
-	if (priv->main)
+	if (priv->main != NULL) {
 		g_object_unref (priv->main);
+		priv->main = NULL;
+	}
 
-	if (priv->xml) {
+	if (priv->xml != NULL) {
 		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
-	g_object_unref(priv->model);
+	if (priv->model != NULL) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
 
-	g_free (priv);
-	spage->priv = NULL;
-
-	if (G_OBJECT_CLASS (schedule_page_parent_class)->finalize)
-		(* G_OBJECT_CLASS (schedule_page_parent_class)->finalize) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (schedule_page_parent_class)->dispose (object);
 }
 
-
+static void
+schedule_page_class_init (SchedulePageClass *class)
+{
+	GObjectClass *object_class;
+	CompEditorPageClass *editor_page_class;
+
+	g_type_class_add_private (class, sizeof (SchedulePagePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = schedule_page_dispose;
+
+	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
+	editor_page_class->get_widget = schedule_page_get_widget;
+	editor_page_class->focus_main_widget = schedule_page_focus_main_widget;
+	editor_page_class->fill_widgets = schedule_page_fill_widgets;
+	editor_page_class->fill_component = schedule_page_fill_component;
+	editor_page_class->set_dates = schedule_page_set_dates;
+}
+
+static void
+schedule_page_init (SchedulePage *spage)
+{
+	spage->priv = SCHEDULE_PAGE_GET_PRIVATE (spage);
+}
 
 /* get_widget handler for the schedule page */
 static GtkWidget *
@@ -176,41 +153,40 @@ schedule_page_focus_main_widget (CompEditorPage *page)
 static void
 sensitize_widgets (SchedulePage *spage)
 {
-	gboolean read_only;
 	SchedulePagePrivate *priv = spage->priv;
+	CompEditor *editor;
+	ECal *client;
+	gboolean read_only;
 
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (spage)->client, &read_only, NULL))
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
+	client = comp_editor_get_client (editor);
+
+	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
 
 	e_meeting_time_selector_set_read_only (priv->sel, read_only);
-}
-
-static void
-client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
-{
-	SchedulePage *spage = SCHEDULE_PAGE (page);
-
-	sensitize_widgets (spage);
 }
 
 /* Set date/time */
 static void
 update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date)
 {
-	SchedulePagePrivate *priv;
+	SchedulePagePrivate *priv = spage->priv;
+	CompEditor *editor;
 	struct icaltimetype start_tt, end_tt;
 	icaltimezone *start_zone = NULL, *end_zone = NULL;
+	ECal *client;
 	gboolean all_day;
 
-	priv = spage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
+	client = comp_editor_get_client (editor);
 
 	/* Note that if we are creating a new event, the timezones may not be
 	   on the server, so we try to get the builtin timezone with the TZID
 	   first. */
 	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 	if (!start_zone) {
-		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (spage)->client,
-					      start_date->tzid, &start_zone, NULL)) {
+		if (!e_cal_get_timezone (client, start_date->tzid, &start_zone, NULL)) {
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   start_date->tzid ? start_date->tzid : "");
@@ -219,8 +195,7 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 
 	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
 	if (!end_zone) {
-		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (spage)->client,
-					      end_date->tzid, &end_zone, NULL)) {
+		if (!e_cal_get_timezone (client, end_date->tzid, &end_zone, NULL)) {
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   end_date->tzid ? end_date->tzid : "");
@@ -283,8 +258,6 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
 
-	priv->updating = TRUE;
-
 	/* Clean the screen */
 	clear_widgets (spage);
 
@@ -300,8 +273,6 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	e_cal_component_free_datetime (&start_date);
 	e_cal_component_free_datetime (&end_date);
-
-	priv->updating = FALSE;
 
 	sensitize_widgets (spage);
 
@@ -324,11 +295,9 @@ schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
 
-	priv->updating = TRUE;
-
+	comp_editor_page_set_updating (page, TRUE);
 	update_time (spage, dates->start, dates->end);
-
-	priv->updating = FALSE;
+	comp_editor_page_set_updating (page, FALSE);
 }
 
 
@@ -413,10 +382,11 @@ schedule_page_set_meeting_time (SchedulePage *spage, icaltimetype *start_tt, ica
 SchedulePage *
 schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 {
-	SchedulePagePrivate *priv;
+	SchedulePagePrivate *priv = spage->priv;
+	CompEditor *editor;
 	char *gladefile;
 
-	priv = spage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "schedule-page.glade",
@@ -457,8 +427,10 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 		return NULL;
 	}
 
-	g_signal_connect_after (G_OBJECT (spage), "client_changed",
-				G_CALLBACK (client_changed_cb), NULL);
+	g_signal_connect_swapped (
+		editor, "notify::client",
+		G_CALLBACK (sensitize_widgets), spage);
+
 	return spage;
 }
 
@@ -471,14 +443,15 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
  * not be created.
  **/
 SchedulePage *
-schedule_page_new (EMeetingStore *ems)
+schedule_page_new (EMeetingStore *ems,
+                   CompEditor *editor)
 {
 	SchedulePage *spage;
 
-	spage = g_object_new (TYPE_SCHEDULE_PAGE, NULL);
+	spage = g_object_new (TYPE_SCHEDULE_PAGE, "editor", editor, NULL);
 	if (!schedule_page_construct (spage, ems)) {
 		g_object_unref (spage);
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 
 	return spage;
@@ -511,19 +484,22 @@ schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_select
 }
 
 static void
-times_changed_cb (GtkWidget *widget, gpointer data)
+times_changed_cb (GtkWidget *widget,
+                  SchedulePage *spage)
 {
-	SchedulePage *spage = data;
 	SchedulePagePrivate *priv;
 	CompEditorPageDates dates;
+	CompEditor *editor;
 	ECalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype end_tt = icaltime_null_time ();
 
 	priv = spage->priv;
 
-	if (priv->updating)
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (spage)))
 		return;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 
 	e_date_edit_get_date (E_DATE_EDIT (priv->sel->start_date_edit),
 			      &start_tt.year,
@@ -563,5 +539,5 @@ times_changed_cb (GtkWidget *widget, gpointer data)
 	dates.complete = NULL;
 
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (spage), &dates);
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (spage));
+	comp_editor_set_changed (editor, TRUE);
 }

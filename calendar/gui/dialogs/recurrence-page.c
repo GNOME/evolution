@@ -45,7 +45,9 @@
 #include "../e-mini-calendar-config.h"
 #include "recurrence-page.h"
 
-
+#define RECURRENCE_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_RECURRENCE_PAGE, RecurrencePagePrivate))
 
 enum month_num_options {
 	MONTH_NUM_FIRST,
@@ -183,146 +185,208 @@ struct _RecurrencePagePrivate {
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *preview_calendar;
 	EMiniCalendarConfig *preview_calendar_config;
-
-	gboolean updating;
 };
 
 
 
 static void recurrence_page_finalize (GObject *object);
 
+static gboolean fill_component (RecurrencePage *rpage, ECalComponent *comp);
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
 static void recurrence_page_focus_main_widget (CompEditorPage *page);
 static gboolean recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean recurrence_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
-static void preview_date_range_changed_cb (ECalendarItem *item, gpointer data);
-static void interval_selection_done_cb (GtkOptionMenu *menu, gpointer data);
-static void ending_selection_done_cb (GtkOptionMenu *menu, gpointer data);
+static void preview_date_range_changed_cb (ECalendarItem *item, RecurrencePage *rpage);
 
-static void field_changed (RecurrencePage *apage);
 static void make_ending_count_special (RecurrencePage *rpage);
 static void make_ending_special (RecurrencePage *rpage);
 
 G_DEFINE_TYPE (RecurrencePage, recurrence_page, TYPE_COMP_EDITOR_PAGE)
 
-/* Class initialization function for the recurrence page */
+/* Re-tags the recurrence preview calendar based on the current information of
+ * the widgets in the recurrence page.
+ */
+static void
+preview_recur (RecurrencePage *rpage)
+{
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
+	ECal *client;
+	ECalComponent *comp;
+	ECalComponentDateTime cdt;
+	GSList *l;
+	icaltimezone *zone = NULL;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	client = comp_editor_get_client (editor);
+
+	/* If our component has not been set yet through ::fill_widgets(), we
+	 * cannot preview the recurrence.
+	 */
+	if (!priv || !priv->comp || e_cal_component_is_instance (priv->comp))
+		return;
+
+	/* Create a scratch component with the start/end and
+	 * recurrence/exception information from the one we are editing.
+	 */
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
+
+	e_cal_component_get_dtstart (priv->comp, &cdt);
+	if (cdt.tzid != NULL) {
+		/* FIXME Will e_cal_get_timezone really not return builtin zones? */
+		if (!e_cal_get_timezone (client, cdt.tzid, &zone, NULL))
+			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
+	}
+	e_cal_component_set_dtstart (comp, &cdt);
+	e_cal_component_free_datetime (&cdt);
+
+	e_cal_component_get_dtend (priv->comp, &cdt);
+	e_cal_component_set_dtend (comp, &cdt);
+	e_cal_component_free_datetime (&cdt);
+
+	e_cal_component_get_exdate_list (priv->comp, &l);
+	e_cal_component_set_exdate_list (comp, l);
+	e_cal_component_free_exdate_list (l);
+
+	e_cal_component_get_exrule_list (priv->comp, &l);
+	e_cal_component_set_exrule_list (comp, l);
+	e_cal_component_free_recur_list (l);
+
+	e_cal_component_get_rdate_list (priv->comp, &l);
+	e_cal_component_set_rdate_list (comp, l);
+	e_cal_component_free_period_list (l);
+
+	e_cal_component_get_rrule_list (priv->comp, &l);
+	e_cal_component_set_rrule_list (comp, l);
+	e_cal_component_free_recur_list (l);
+
+	fill_component (rpage, comp);
+
+	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
+			      client, zone, TRUE, FALSE);
+	g_object_unref(comp);
+}
+
+static GObject *
+recurrence_page_constructor (GType type,
+                             guint n_construct_properties,
+                             GObjectConstructParam *construct_properties)
+{
+	GObject *object;
+	CompEditor *editor;
+
+	/* Chain up to parent's constructor() method. */
+	object = G_OBJECT_CLASS (recurrence_page_parent_class)->constructor (
+		type, n_construct_properties, construct_properties);
+
+	/* Keep the calendar updated as the user twizzles widgets. */
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (object));
+
+	g_signal_connect_swapped (
+		editor, "notify::changed",
+		G_CALLBACK (preview_recur), object);
+
+	return object;
+}
+
+static void
+recurrence_page_dispose (GObject *object)
+{
+	RecurrencePagePrivate *priv;
+
+	priv = RECURRENCE_PAGE_GET_PRIVATE (object);
+
+	if (priv->main != NULL) {
+		g_object_unref (priv->main);
+		priv->main = NULL;
+	}
+
+	if (priv->xml != NULL) {
+		g_object_unref (priv->xml);
+		priv->xml = NULL;
+	}
+
+	if (priv->comp != NULL) {
+		g_object_unref (priv->comp);
+		priv->comp = NULL;
+	}
+
+	if (priv->exception_list_store != NULL) {
+		g_object_unref (priv->exception_list_store);
+		priv->exception_list_store = NULL;
+	}
+
+	if (priv->preview_calendar_config != NULL) {
+		g_object_unref (priv->preview_calendar_config);
+		priv->preview_calendar_config = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (recurrence_page_parent_class)->dispose (object);
+}
+
+static void
+recurrence_page_finalize (GObject *object)
+{
+	RecurrencePagePrivate *priv;
+
+	priv = RECURRENCE_PAGE_GET_PRIVATE (object);
+
+	g_signal_handlers_disconnect_matched (
+		E_CALENDAR (priv->preview_calendar)->calitem,
+		G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		preview_date_range_changed_cb, NULL);
+
+	g_signal_handlers_disconnect_matched (
+		priv->interval_unit, G_SIGNAL_MATCH_DATA,
+		0, 0, NULL, NULL, object);
+
+	g_signal_handlers_disconnect_matched (
+		priv->ending_menu, G_SIGNAL_MATCH_DATA,
+		0, 0, NULL, NULL, object);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (recurrence_page_parent_class)->finalize (object);
+}
+
 static void
 recurrence_page_class_init (RecurrencePageClass *class)
 {
-	CompEditorPageClass *editor_page_class;
 	GObjectClass *object_class;
+	CompEditorPageClass *editor_page_class;
 
-	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	g_type_class_add_private (class, sizeof (RecurrencePagePrivate));
 
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructor = recurrence_page_constructor;
+	object_class->dispose = recurrence_page_dispose;
+	object_class->finalize = recurrence_page_finalize;
+
+	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
 	editor_page_class->get_widget = recurrence_page_get_widget;
 	editor_page_class->focus_main_widget = recurrence_page_focus_main_widget;
 	editor_page_class->fill_widgets = recurrence_page_fill_widgets;
 	editor_page_class->fill_component = recurrence_page_fill_component;
 	editor_page_class->set_dates = recurrence_page_set_dates;
 
-	object_class->finalize = recurrence_page_finalize;
 }
 
-/* Object initialization function for the recurrence page */
 static void
 recurrence_page_init (RecurrencePage *rpage)
 {
-	RecurrencePagePrivate *priv;
-
-	priv = g_new0 (RecurrencePagePrivate, 1);
-	rpage->priv = priv;
-
-	priv->xml = NULL;
-
-	priv->main = NULL;
-	priv->recurs = NULL;
-	priv->custom = FALSE;
-	priv->params = NULL;
-	priv->interval_value = NULL;
-	priv->interval_unit = NULL;
-	priv->special = NULL;
-	priv->ending_menu = NULL;
-	priv->ending_special = NULL;
-	priv->custom_warning_bin = NULL;
-	priv->weekday_picker = NULL;
-	priv->month_day_menu = NULL;
-	priv->month_num_menu = NULL;
-	priv->ending_date_edit = NULL;
-	priv->ending_count_spin = NULL;
-	priv->exception_list = NULL;
-	priv->exception_add = NULL;
-	priv->exception_modify = NULL;
-	priv->exception_delete = NULL;
-	priv->preview_bin = NULL;
-	priv->preview_calendar = NULL;
-
-	priv->comp = NULL;
+	rpage->priv = RECURRENCE_PAGE_GET_PRIVATE (rpage);
 }
-
-/* Destroy handler for the recurrence page */
-static void
-recurrence_page_finalize (GObject *object)
-{
-	RecurrencePage *rpage;
-	RecurrencePagePrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_RECURRENCE_PAGE (object));
-
-	rpage = RECURRENCE_PAGE (object);
-	priv = rpage->priv;
-
-	g_signal_handlers_disconnect_matched (E_CALENDAR (priv->preview_calendar)->calitem, G_SIGNAL_MATCH_FUNC,
-			    0, 0, NULL, preview_date_range_changed_cb, NULL);
-
-	g_signal_handlers_disconnect_by_func (GTK_OPTION_MENU (priv->interval_unit), 
-			    G_CALLBACK (interval_selection_done_cb), rpage);
-	g_signal_handlers_disconnect_by_func (GTK_OPTION_MENU (priv->ending_menu), 
-			    G_CALLBACK (ending_selection_done_cb), rpage);
-
-	if (priv->main)
-		g_object_unref (priv->main);
-
-	if (priv->xml) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
-	}
-
-	if (priv->comp) {
-		g_object_unref (priv->comp);
-		priv->comp = NULL;
-	}
-
-	if (priv->exception_list_store) {
-		g_object_unref (priv->exception_list_store);
-		priv->exception_list_store = NULL;
-	}
-
-	if (priv->preview_calendar_config) {
-		g_object_unref (priv->preview_calendar_config);
-		priv->preview_calendar_config = NULL;
-	}
-
-	g_free (priv);
-	rpage->priv = NULL;
-
-	if (G_OBJECT_CLASS (recurrence_page_parent_class)->finalize)
-		(* G_OBJECT_CLASS (recurrence_page_parent_class)->finalize) (object);
-}
-
-
 
 /* get_widget handler for the recurrence page */
 static GtkWidget *
 recurrence_page_get_widget (CompEditorPage *page)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 
-	rpage = RECURRENCE_PAGE (page);
-	priv = rpage->priv;
+	priv = RECURRENCE_PAGE_GET_PRIVATE (page);
 
 	return priv->main;
 }
@@ -331,11 +395,9 @@ recurrence_page_get_widget (CompEditorPage *page)
 static void
 recurrence_page_focus_main_widget (CompEditorPage *page)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 
-	rpage = RECURRENCE_PAGE (page);
-	priv = rpage->priv;
+	priv = RECURRENCE_PAGE_GET_PRIVATE (page);
 
 	gtk_widget_grab_focus (priv->recurs);
 }
@@ -468,14 +530,17 @@ set_special_defaults (RecurrencePage *rpage)
 static void
 sensitize_recur_widgets (RecurrencePage *rpage)
 {
-	RecurrencePagePrivate *priv;
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	gboolean recurs, sens = TRUE;
 	GtkWidget *label;
 
-	priv = rpage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	flags = comp_editor_get_flags (editor);
 
-	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
-		sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+	if (flags & COMP_EDITOR_MEETING)
+		sens = flags & COMP_EDITOR_USER_ORG;
 
 	recurs = e_dialog_toggle_get (priv->recurs);
 
@@ -512,26 +577,35 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 static void
 sensitize_buttons (RecurrencePage *rpage)
 {
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	gboolean read_only, sensitize = TRUE;
 	gint selected_rows;
-	RecurrencePagePrivate *priv;
 	icalcomponent *icalcomp;
+	ECal *client;
 	const char *uid;
 
-	priv = rpage->priv;
-	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
-		sensitize = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+	if (priv->comp == NULL)
+		return;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	client = comp_editor_get_client (editor);
+	flags = comp_editor_get_flags (editor);
+
+	if (flags & COMP_EDITOR_MEETING)
+		sensitize = flags & COMP_EDITOR_USER_ORG;
 
 	selected_rows = gtk_tree_selection_count_selected_rows (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
 
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
+	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
 
 	if (!read_only) {
 		e_cal_component_get_uid (priv->comp, &uid);
 
-		if (e_cal_get_static_capability (COMP_EDITOR_PAGE (rpage)->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_get_object(COMP_EDITOR_PAGE (rpage)->client, uid, NULL, &icalcomp, NULL)) {
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
 			read_only = TRUE;
 			icalcomponent_free (icalcomp);
 		}
@@ -540,7 +614,7 @@ sensitize_buttons (RecurrencePage *rpage)
 			GList *list;
 
 			/* see if we have detached instances */
-			if (e_cal_get_objects_for_uid (COMP_EDITOR_PAGE (rpage)->client, uid, &list, NULL)) {
+			if (e_cal_get_objects_for_uid (client, uid, &list, NULL)) {
 				if (list && g_list_length (list) > 1)
 					read_only = TRUE;
 
@@ -830,81 +904,6 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 	return TRUE;
 }
 
-/* Re-tags the recurrence preview calendar based on the current information of
- * the widgets in the recurrence page.
- */
-static void
-preview_recur (RecurrencePage *rpage)
-{
-	RecurrencePagePrivate *priv;
-	ECalComponent *comp;
-	ECalComponentDateTime cdt;
-	GSList *l;
-	icaltimezone *zone = NULL;
-
-	priv = rpage->priv;
-
-	/* If our component has not been set yet through ::fill_widgets(), we
-	 * cannot preview the recurrence.
-	 */
-	if (!priv || !priv->comp || e_cal_component_is_instance (priv->comp))
-		return;
-
-	/* Create a scratch component with the start/end and
-	 * recurrence/exception information from the one we are editing.
-	 */
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
-
-	e_cal_component_get_dtstart (priv->comp, &cdt);
-	if (cdt.tzid != NULL) {
-		/* FIXME Will e_cal_get_timezone really not return builtin zones? */
-		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (rpage)->client, cdt.tzid, &zone, NULL))
-			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
-	}
-	e_cal_component_set_dtstart (comp, &cdt);
-	e_cal_component_free_datetime (&cdt);
-
-	e_cal_component_get_dtend (priv->comp, &cdt);
-	e_cal_component_set_dtend (comp, &cdt);
-	e_cal_component_free_datetime (&cdt);
-
-	e_cal_component_get_exdate_list (priv->comp, &l);
-	e_cal_component_set_exdate_list (comp, l);
-	e_cal_component_free_exdate_list (l);
-
-	e_cal_component_get_exrule_list (priv->comp, &l);
-	e_cal_component_set_exrule_list (comp, l);
-	e_cal_component_free_recur_list (l);
-
-	e_cal_component_get_rdate_list (priv->comp, &l);
-	e_cal_component_set_rdate_list (comp, l);
-	e_cal_component_free_period_list (l);
-
-	e_cal_component_get_rrule_list (priv->comp, &l);
-	e_cal_component_set_rrule_list (comp, l);
-	e_cal_component_free_recur_list (l);
-
-	fill_component (rpage, comp);
-
-	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      COMP_EDITOR_PAGE (rpage)->client, zone, TRUE, FALSE);
-	g_object_unref(comp);
-}
-
-/* Callback used when the recurrence weekday picker changes */
-static void
-weekday_picker_changed_cb (WeekdayPicker *wp, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-
-	field_changed (rpage);
-	preview_recur (rpage);
-}
-
 /* Creates the special contents for weekly recurrences */
 static void
 make_weekly_special (RecurrencePage *rpage)
@@ -941,9 +940,9 @@ make_weekly_special (RecurrencePage *rpage)
 	weekday_picker_set_week_start_day (wp, calendar_config_get_week_start_day ());
 	weekday_picker_set_days (wp, priv->weekday_day_mask);
 
-	g_signal_connect((wp), "changed",
-			    G_CALLBACK (weekday_picker_changed_cb),
-			    rpage);
+	g_signal_connect_swapped (
+		wp, "changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
 }
 
 
@@ -1111,14 +1110,13 @@ make_recur_month_menu (void)
 }
 
 static void
-month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+month_num_menu_selection_done_cb (GtkMenuShell *menu_shell,
+                                  RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	enum month_num_options month_num;
 	enum month_day_options month_day;
 
-	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
 	month_num = e_dialog_option_menu_get (priv->month_num_menu,
@@ -1150,8 +1148,8 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		e_dialog_option_menu_set (priv->month_day_menu,
 					  MONTH_DAY_MON,
 					  month_num_options_map);
-	field_changed (rpage);
-	preview_recur (rpage);
+
+	comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 }
 
 /* Callback used when the monthly day selection menu changes.  We need
@@ -1159,14 +1157,13 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
  * are 1-31 while a Sunday is the 1st through 5th.
  */
 static void
-month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+month_day_menu_selection_done_cb (GtkMenuShell *menu_shell,
+                                  RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	enum month_num_options month_num;
 	enum month_day_options month_day;
 
-	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
 	month_num = e_dialog_option_menu_get (priv->month_num_menu,
@@ -1181,20 +1178,8 @@ month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		e_dialog_option_menu_set (priv->month_num_menu,
 					  MONTH_NUM_FIRST,
 					  month_num_options_map);
-	field_changed (rpage);
-	preview_recur (rpage);
-}
 
-/* Callback used when the month index value changes. */
-static void
-month_index_value_changed_cb (GtkAdjustment *adj, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-
-	field_changed (rpage);
-	preview_recur (rpage);
+	comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 }
 
 /* Creates the special contents for monthly recurrences */
@@ -1243,8 +1228,9 @@ make_monthly_special (RecurrencePage *rpage)
 				  priv->month_day,
 				  month_day_options_map);
 
-	g_signal_connect((adj), "value_changed",			    G_CALLBACK (month_index_value_changed_cb),
-			    rpage);
+	g_signal_connect_swapped (
+		adj, "value-changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->month_num_menu));
 	g_signal_connect((menu), "selection_done",
@@ -1321,29 +1307,21 @@ count_by_xxx (short *field, int max_elements)
 	return i;
 }
 
-/* Callback used when the ending-until date editor changes */
-static void
-ending_until_changed_cb (EDateEdit *de, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-	field_changed (rpage);
-	preview_recur (rpage);
-}
-
 /* Creates the special contents for "ending until" (end date) recurrences */
 static void
 make_ending_until_special (RecurrencePage *rpage)
 {
-	RecurrencePagePrivate *priv;
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	EDateEdit *de;
 	ECalComponentDateTime dt_start;
 
-	priv = rpage->priv;
-
 	g_return_if_fail (GTK_BIN (priv->ending_special)->child == NULL);
 	g_return_if_fail (priv->ending_date_edit == NULL);
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	flags = comp_editor_get_flags (editor);
 
 	/* Create the widget */
 
@@ -1357,7 +1335,7 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	/* Set the value */
 
-  if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
+	if (flags & COMP_EDITOR_NEW_ITEM) {
 		e_cal_component_get_dtstart (priv->comp, &dt_start);
 		/* Setting the default until time to 2 weeks */
 		icaltime_adjust (dt_start.value, 14, 0, 0, 0);
@@ -1367,25 +1345,15 @@ make_ending_until_special (RecurrencePage *rpage)
 		e_date_edit_set_date (de, priv->ending_date_tt.year, priv->ending_date_tt.month, priv->ending_date_tt.day);
 	}
 
-	g_signal_connect((de), "changed",
-			    G_CALLBACK (ending_until_changed_cb), rpage);
+	g_signal_connect_swapped (
+		de, "changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	/* Make sure the EDateEdit widget uses our timezones to get the
 	   current time. */
 	e_date_edit_set_get_time_callback (de,
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   rpage, NULL);
-}
-
-/* Callback used when the ending-count value changes */
-static void
-ending_count_value_changed_cb (GtkAdjustment *adj, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-	field_changed (rpage);
-	preview_recur (rpage);
 }
 
 /* Creates the special contents for the occurrence count case */
@@ -1422,9 +1390,9 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	e_dialog_spin_set (priv->ending_count_spin, priv->ending_count);
 
-	g_signal_connect((adj), "value_changed",
-			    G_CALLBACK (ending_count_value_changed_cb),
-			    rpage);
+	g_signal_connect_swapped (
+		adj, "value-changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
 }
 
 /* Changes the recurrence-ending-special widget to match the ending date option
@@ -1477,10 +1445,13 @@ make_ending_special (RecurrencePage *rpage)
 static void
 fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 {
-	RecurrencePagePrivate *priv;
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
 	GtkWidget *menu;
+	ECal *client;
 
-	priv = rpage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	client = comp_editor_get_client (editor);
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
 	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
@@ -1496,7 +1467,6 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 			/* Ending date */
 
 			if (!r->until.is_date) {
-				ECal *client = COMP_EDITOR_PAGE (rpage)->client;
 				ECalComponentDateTime dt;
 				icaltimezone *from_zone, *to_zone;
 
@@ -1552,6 +1522,8 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	ECalComponentText text;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	CompEditorPageDates dates;
 	GSList *rrule_list;
 	int len;
@@ -1565,6 +1537,9 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
 
+	editor = comp_editor_page_get_editor (page);
+	flags = comp_editor_get_flags (editor);
+
 	/* Keep a copy of the component so that we can expand the recurrence
 	 * set for the preview.
 	 */
@@ -1574,11 +1549,10 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	priv->comp = e_cal_component_clone (comp);
 
-	if (!e_cal_component_has_organizer (comp))
-		 page->flags |= COMP_EDITOR_PAGE_USER_ORG;
-
-	/* Don't send off changes during this time */
-	priv->updating = TRUE;
+	if (!e_cal_component_has_organizer (comp)) {
+		flags |= COMP_EDITOR_USER_ORG;
+		comp_editor_set_flags (editor, flags);
+	}
 
 	/* Clean the page */
 	clear_widgets (rpage);
@@ -1609,7 +1583,6 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		sensitize_buttons (rpage);
 		preview_recur (rpage);
 
-		priv->updating = FALSE;
 		return TRUE;
 	}
 
@@ -1896,8 +1869,6 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_free_recur_list (rrule_list);
 	preview_recur (rpage);
 
-	priv->updating = FALSE;
-
 	return TRUE;
 }
 
@@ -1918,11 +1889,16 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	ECalComponentDateTime dt;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	struct icaltimetype icaltime;
 	guint8 mask;
 
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
+
+	editor = comp_editor_page_get_editor (page);
+	flags = comp_editor_get_flags (editor);
 
 	/* Copy the dates to our component */
 
@@ -1957,7 +1933,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		}
 	}
 
-	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_NEW_ITEM) {
+	if (flags & COMP_EDITOR_NEW_ITEM) {
 		ECalendar *ecal;
 		GDate *start, *end;
 
@@ -2044,11 +2020,9 @@ get_widgets (RecurrencePage *rpage)
  * calendar changes.
  */
 static void
-preview_date_range_changed_cb (ECalendarItem *item, gpointer data)
+preview_date_range_changed_cb (ECalendarItem *item,
+                               RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
 	preview_recur (rpage);
 }
 
@@ -2056,70 +2030,28 @@ preview_date_range_changed_cb (ECalendarItem *item, gpointer data)
  * enable or disable the recurrence parameters.
  */
 static void
-type_toggled_cb (GtkToggleButton *toggle, gpointer data)
+type_toggled_cb (GtkToggleButton *toggle,
+                 RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
-	RecurrencePagePrivate *priv;
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
+	ECal *client;
 	gboolean read_only;
 
-	rpage = RECURRENCE_PAGE (data);
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	client = comp_editor_get_client (editor);
 
-	priv = rpage->priv;
-
-	field_changed (rpage);
-
+	comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 	sensitize_buttons (rpage);
-	preview_recur (rpage);
 
 	/* enable/disable the 'Add' button */
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
+	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recurs)) || read_only)
 		gtk_widget_set_sensitive (priv->exception_add, FALSE);
 	else
 		gtk_widget_set_sensitive (priv->exception_add, TRUE);
-}
-
-/* Callback used when the recurrence interval value spin button changes. */
-static void
-interval_value_changed_cb (GtkAdjustment *adj, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-
-	field_changed (rpage);
-	preview_recur (rpage);
-}
-
-/* Callback used when the recurrence interval option menu changes.  We need to
- * change the contents of the recurrence special widget.
- */
-static void
-interval_selection_done_cb (GtkOptionMenu *menu, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-
-	field_changed (rpage);
-	make_recurrence_special (rpage);
-	preview_recur (rpage);
-}
-
-/* Callback used when the recurrence ending option menu changes.  We need to
- * change the contents of the ending special widget.
- */
-static void
-ending_selection_done_cb (GtkOptionMenu *menu, gpointer data)
-{
-	RecurrencePage *rpage;
-
-	rpage = RECURRENCE_PAGE (data);
-	field_changed (rpage);
-	make_ending_special (rpage);
-	preview_recur (rpage);
 }
 
 static GtkWidget *
@@ -2146,21 +2078,17 @@ create_exception_dialog (RecurrencePage *rpage, const char *title, GtkWidget **d
 
 /* Callback for the "add exception" button */
 static void
-exception_add_cb (GtkWidget *widget, gpointer data)
+exception_add_cb (GtkWidget *widget,
+                  RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
 	GtkWidget *dialog, *date_edit;
 	gboolean date_set;
-
-	rpage = RECURRENCE_PAGE (data);
 
 	dialog = create_exception_dialog (rpage, _("Add exception"), &date_edit);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		ECalComponentDateTime dt;
 		struct icaltimetype icaltime = icaltime_null_time ();
-
-		field_changed (rpage);
 
 		dt.value = &icaltime;
 
@@ -2175,7 +2103,8 @@ exception_add_cb (GtkWidget *widget, gpointer data)
 		g_return_if_fail (date_set);
 
 		append_exception (rpage, &dt);
-		preview_recur (rpage);
+
+		comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 	}
 
 	gtk_widget_destroy (dialog);
@@ -2183,16 +2112,15 @@ exception_add_cb (GtkWidget *widget, gpointer data)
 
 /* Callback for the "modify exception" button */
 static void
-exception_modify_cb (GtkWidget *widget, gpointer data)
+exception_modify_cb (GtkWidget *widget,
+                     RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *date_edit;
 	const ECalComponentDateTime *current_dt;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
-	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
@@ -2212,8 +2140,6 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 		struct icaltimetype icaltime = icaltime_null_time ();
 		struct icaltimetype *tt;
 
-		field_changed (rpage);
-
 		dt.value = &icaltime;
 		tt = dt.value;
 		e_date_edit_get_date (E_DATE_EDIT (date_edit),
@@ -2227,7 +2153,8 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 		dt.tzid = NULL;
 
 		e_date_time_list_set_date_time (priv->exception_list_store, &iter, &dt);
-		preview_recur (rpage);
+
+		comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 	}
 
 	gtk_widget_destroy (dialog);
@@ -2235,16 +2162,15 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 
 /* Callback for the "delete exception" button */
 static void
-exception_delete_cb (GtkWidget *widget, gpointer data)
+exception_delete_cb (GtkWidget *widget,
+                     RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	gboolean valid_iter;
 
-	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list));
@@ -2252,8 +2178,6 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 		g_warning (_("Could not get a selection to delete."));
 		return;
 	}
-
-	field_changed (rpage);
 
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->exception_list_store), &iter);
 	e_date_time_list_remove (priv->exception_list_store, &iter);
@@ -2269,7 +2193,8 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 		gtk_tree_selection_select_iter (selection, &iter);
 
 	gtk_tree_path_free (path);
-	preview_recur (rpage);
+
+	comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 }
 
 /* Callback used when a row is selected in the list of exception
@@ -2277,13 +2202,12 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
  * exception's value.
  */
 static void
-exception_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
+exception_selection_changed_cb (GtkTreeSelection *selection,
+                                RecurrencePage *rpage)
 {
-	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	GtkTreeIter iter;
 
-	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
@@ -2294,18 +2218,6 @@ exception_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 
 	gtk_widget_set_sensitive (priv->exception_modify, TRUE);
 	gtk_widget_set_sensitive (priv->exception_delete, TRUE);
-}
-
-/* This is called when any field is changed; it notifies upstream. */
-static void
-field_changed (RecurrencePage *rpage)
-{
-	RecurrencePagePrivate *priv;
-
-	priv = rpage->priv;
-
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (rpage));
 }
 
 /* Hooks the widget signals */
@@ -2344,20 +2256,27 @@ init_widgets (RecurrencePage *rpage)
 	/* Recurrence interval */
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
-	g_signal_connect((adj), "value_changed",
-			    G_CALLBACK (interval_value_changed_cb),
-			    rpage);
+	g_signal_connect_swapped (
+		adj, "value-changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	/* Recurrence units */
 
-	g_signal_connect(GTK_OPTION_MENU (priv->interval_unit), "changed",
-			    G_CALLBACK (interval_selection_done_cb),
-			    rpage);
+	g_signal_connect_swapped (
+		priv->interval_unit, "changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
+	g_signal_connect_swapped (
+		priv->interval_unit, "changed",
+		G_CALLBACK (make_recurrence_special), rpage);
 
 	/* Recurrence ending */
 
-	g_signal_connect(GTK_OPTION_MENU (priv->ending_menu), "changed",
-			    G_CALLBACK (ending_selection_done_cb), rpage);
+	g_signal_connect_swapped (
+		priv->ending_menu, "changed",
+		G_CALLBACK (comp_editor_page_changed), rpage);
+	g_signal_connect_swapped (
+		priv->ending_menu, "changed",
+		G_CALLBACK (make_ending_special), rpage);
 
 	/* Exception buttons */
 
@@ -2390,16 +2309,6 @@ init_widgets (RecurrencePage *rpage)
 			  G_CALLBACK (exception_selection_changed_cb), rpage);
 }
 
-
-
-static void
-client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
-{
-	RecurrencePage *rpage = RECURRENCE_PAGE (page);
-
-	sensitize_buttons (rpage);
-}
-
 /**
  * recurrence_page_construct:
  * @rpage: A recurrence page.
@@ -2412,10 +2321,11 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 RecurrencePage *
 recurrence_page_construct (RecurrencePage *rpage)
 {
-	RecurrencePagePrivate *priv;
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
 	char *gladefile;
 
-	priv = rpage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "recurrence-page.glade",
@@ -2437,8 +2347,9 @@ recurrence_page_construct (RecurrencePage *rpage)
 
 	init_widgets (rpage);
 
-	g_signal_connect_after (G_OBJECT (rpage), "client_changed",
-				G_CALLBACK (client_changed_cb), NULL);
+	g_signal_connect_swapped (
+		editor, "notify::client",
+		G_CALLBACK (sensitize_buttons), rpage);
 
 	return rpage;
 }
@@ -2452,14 +2363,16 @@ recurrence_page_construct (RecurrencePage *rpage)
  * be created.
  **/
 RecurrencePage *
-recurrence_page_new (void)
+recurrence_page_new (CompEditor *editor)
 {
 	RecurrencePage *rpage;
 
-	rpage = g_object_new (TYPE_RECURRENCE_PAGE, NULL);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	rpage = g_object_new (TYPE_RECURRENCE_PAGE, "editor", editor, NULL);
 	if (!recurrence_page_construct (rpage)) {
 		g_object_unref (rpage);
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
 
 	return rpage;

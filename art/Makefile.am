@@ -3,7 +3,6 @@ images_DATA = \
 	offline.png			\
 	online.png			\
 	world_map-960.png		\
-	query-free-busy.png		\
 	plus.png			\
 	minus.png
 

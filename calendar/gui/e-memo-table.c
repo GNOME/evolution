@@ -763,7 +763,7 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 		if (itip_organizer_is_user (comp, comp_data->client))
 			flags |= COMP_EDITOR_USER_ORG;
 
-		medit = COMP_EDITOR (memo_editor_new (comp_data->client, flags));
+		medit = memo_editor_new (comp_data->client, flags);
 
 		comp_editor_edit_comp (medit, comp);
 		g_object_unref (comp);
@@ -771,7 +771,7 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 		e_comp_editor_registry_add (comp_editor_registry, medit, FALSE);
 	}
 
-	comp_editor_focus (medit);
+	gtk_window_present (GTK_WINDOW (medit));
 }
 
 /* Opens the task in the specified row */

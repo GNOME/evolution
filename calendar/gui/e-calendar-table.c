@@ -1075,7 +1075,7 @@ e_calendar_table_open_task (ECalendarTable *cal_table, ECal *client, icalcompone
 				flags |= COMP_EDITOR_USER_ORG;
 		}
 
-		tedit = COMP_EDITOR (task_editor_new (client, flags));
+		tedit = task_editor_new (client, flags);
 		comp_editor_edit_comp (tedit, comp);
 		g_object_unref (comp);
 
@@ -1084,7 +1084,7 @@ e_calendar_table_open_task (ECalendarTable *cal_table, ECal *client, icalcompone
 
 		e_comp_editor_registry_add (comp_editor_registry, tedit, FALSE);
 	}
-	comp_editor_focus (tedit);
+	gtk_window_present (GTK_WINDOW (tedit));
 }
 
 /* Opens the task in the specified row */

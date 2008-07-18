@@ -988,7 +988,7 @@ object_created_cb (CompEditor *ce, EMemoTable *memo_table)
 {
 	g_return_if_fail (memo_table != NULL);
 
-	memo_table->user_created_cal = comp_editor_get_e_cal (ce);
+	memo_table->user_created_cal = comp_editor_get_client (ce);
 	g_signal_emit_by_name (memo_table, "user_created");
 	memo_table->user_created_cal = NULL;
 }
@@ -998,7 +998,7 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 {
 	ECal *ecal;
 	ECalComponent *comp;
-	MemoEditor *editor;
+	CompEditor *editor;
 	CompEditorFlags flags = 0;
 
 	ecal = setup_create_ecal (memo_component, component_view);
@@ -1017,10 +1017,10 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 	if (component_view)
 		g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_memos_get_calendar_table (component_view->memos));
 
-	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
-	comp_editor_focus (COMP_EDITOR (editor));
+	comp_editor_edit_comp (editor, comp);
+	gtk_window_present (GTK_WINDOW (editor));
 
-	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 
 	return TRUE;
 }

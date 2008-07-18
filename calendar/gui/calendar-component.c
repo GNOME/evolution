@@ -1294,7 +1294,7 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 		e_calendar_view_new_appointment_full (view, is_allday, is_meeting, TRUE);
 	} else {
 		ECalComponent *comp;
-		EventEditor *editor;
+		CompEditor *editor;
 		CompEditorFlags flags;
 
 		flags = COMP_EDITOR_USER_ORG | COMP_EDITOR_NEW_ITEM;
@@ -1304,12 +1304,12 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 		editor = event_editor_new (ecal, flags);
 		e_cal_component_commit_sequence (comp);
 
-		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+		comp_editor_edit_comp (editor, comp);
 		if (is_meeting)
-			event_editor_show_meeting (editor);
-		comp_editor_focus (COMP_EDITOR (editor));
+			event_editor_show_meeting (EVENT_EDITOR (editor));
+		gtk_window_present (GTK_WINDOW (editor));
 
-		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+		e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 	}
 
 	return TRUE;

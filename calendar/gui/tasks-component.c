@@ -976,7 +976,7 @@ object_created_cb (CompEditor *ce, ECalendarTable *cal_table)
 {
 	g_return_if_fail (cal_table != NULL);
 
-	cal_table->user_created_cal = comp_editor_get_e_cal (ce);
+	cal_table->user_created_cal = comp_editor_get_client (ce);
 	g_signal_emit_by_name (cal_table, "user_created");
 	cal_table->user_created_cal = NULL;
 }
@@ -986,7 +986,7 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 {
 	ECal *ecal;
 	ECalComponent *comp;
-	TaskEditor *editor;
+	CompEditor *editor;
 	guint32 flags = 0;
 
 	ecal = setup_create_ecal (task_component, component_view);
@@ -1004,12 +1004,12 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 	if (component_view)
 		g_signal_connect (editor, "object_created", G_CALLBACK (object_created_cb), e_tasks_get_calendar_table (component_view->tasks));
 
-	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+	comp_editor_edit_comp (editor, comp);
 	if (is_assigned)
-		task_editor_show_assignment (editor);
-	comp_editor_focus (COMP_EDITOR (editor));
+		task_editor_show_assignment (TASK_EDITOR (editor));
+	gtk_window_present (GTK_WINDOW (editor));
 
-	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 
 	return TRUE;
 }

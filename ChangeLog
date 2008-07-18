@@ -1,3 +1,12 @@
+2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* data/icons/hicolor_actions_24x24_query-free-busy.png:
+	Moved here from art/query-free-busy.png so we can treat it as a
+	named icon.
+
+	* data/icons/Makefile.am:
+	Add hicolor_actions_24x24_query-free-busy.png.
+
 2008-07-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

@@ -56,16 +56,17 @@
 #include "event-page.h"
 #include "e-send-options-utils.h"
 
-
+#define EVENT_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_EVENT_PAGE, EventPagePrivate))
 
 /* Private part of the EventPage structure */
 struct _EventPagePrivate {
 	/* Glade XML data */
 	GladeXML *xml;
-	/* Widgets from the Glade file */
 
+	/* Widgets from the Glade file */
 	GtkWidget *main;
-	BonoboUIComponent *uic;
 
 	/* Generic informative messages placeholder */
 	GtkWidget *info_hbox;
@@ -107,8 +108,6 @@ struct _EventPagePrivate {
 
 	GtkWidget *description;
 
-	ECalComponentClassification classification;
-
 	gboolean  show_time_as_busy;
 
 	GtkWidget *alarm_dialog;
@@ -133,14 +132,12 @@ struct _EventPagePrivate {
 
 	/* ListView stuff */
 	EMeetingStore *model;
-	ECal	  *client;
 	EMeetingListView *list_view;
 	gint row;
 
 	/* For handling who the organizer is */
 	gboolean user_org;
 	gboolean existing;
-        gboolean updating;
 
 	EAlarmList *alarm_list_store;
 
@@ -160,16 +157,11 @@ struct _EventPagePrivate {
 	GtkWidget *alarm_list_dlg_widget;
 };
 
-
-
-static void event_page_finalize (GObject *object);
-
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
 static gboolean event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean event_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static gboolean event_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
-static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 static void notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt, struct icaltimetype *end_tt);
 static gboolean check_start_before_end (struct icaltimetype *start_tt, icaltimezone *start_zone,
@@ -184,159 +176,91 @@ static void set_subscriber_info_string (EventPage *epage, const char *backend_ad
 
 G_DEFINE_TYPE (EventPage, event_page, TYPE_COMP_EDITOR_PAGE);
 
-/* Class initialization function for the event page */
+static void
+event_page_dispose (GObject *object)
+{
+	EventPagePrivate *priv;
+
+	priv = EVENT_PAGE_GET_PRIVATE (object);
+
+	if (priv->comp != NULL) {
+		g_object_unref (priv->comp);
+		priv->comp = NULL;
+	}
+
+	if (priv->main != NULL) {
+		g_object_unref (priv->main);
+		priv->main = NULL;
+	}
+
+	if (priv->xml != NULL) {
+		g_object_unref (priv->xml);
+		priv->xml = NULL;
+	}
+
+	if (priv->alarm_list_store != NULL) {
+		g_object_unref (priv->alarm_list_store);
+		priv->alarm_list_store = NULL;
+	}
+
+	if (priv->sod != NULL) {
+		g_object_unref (priv->sod);
+		priv->sod = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (event_page_parent_class)->dispose (object);
+}
+
+static void
+event_page_finalize (GObject *object)
+{
+	EventPagePrivate *priv;
+
+	priv = EVENT_PAGE_GET_PRIVATE (object);
+
+	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
+	g_list_free (priv->address_strings);
+
+	g_ptr_array_foreach (
+		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
+	g_ptr_array_free (priv->deleted_attendees, TRUE);
+
+	g_free (priv->old_summary);
+
+	priv->alarm_list_dlg_widget = NULL;
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (event_page_parent_class)->finalize (object);
+}
+
 static void
 event_page_class_init (EventPageClass *class)
 {
-	CompEditorPageClass *editor_page_class;
 	GObjectClass *object_class;
+	CompEditorPageClass *editor_page_class;
 
-	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GObjectClass *) class;
+	g_type_class_add_private (class, sizeof (EventPagePrivate));
 
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = event_page_finalize;
+
+	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
 	editor_page_class->get_widget = event_page_get_widget;
 	editor_page_class->focus_main_widget = event_page_focus_main_widget;
 	editor_page_class->fill_widgets = event_page_fill_widgets;
 	editor_page_class->fill_component = event_page_fill_component;
 	editor_page_class->fill_timezones = event_page_fill_timezones;
-	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->set_dates = event_page_set_dates;
-
-	object_class->finalize = event_page_finalize;
 }
 
-/* Object initialization function for the event page */
 static void
 event_page_init (EventPage *epage)
 {
-	EventPagePrivate *priv;
-
-	priv = g_new0 (EventPagePrivate, 1);
-	epage->priv = priv;
-
-	priv->xml = NULL;
-	priv->uic = NULL;
-
-	priv->main = NULL;
-	priv->summary = NULL;
-	priv->summary_label = NULL;
-	priv->location = NULL;
-	priv->location_label = NULL;
-	priv->start_time = NULL;
-	priv->end_time = NULL;
-	priv->start_timezone = NULL;
-	priv->end_timezone = NULL;
-	priv->timezone_label = NULL;
-	priv->all_day_event = FALSE;
-	priv->status_icons = NULL;
-	priv->alarm_icon = NULL;
-	priv->recur_icon = NULL;
-	priv->description = NULL;
-	priv->classification = E_CAL_COMPONENT_CLASS_NONE;
-	priv->show_time_as_busy = FALSE;
-	priv->alarm_dialog = NULL;
-	priv->alarm_time = NULL;
-	priv->alarm_box = NULL;
-	priv->categories_btn = NULL;
-	priv->categories = NULL;
-	priv->sod = NULL;
-
-	priv->info_hbox = NULL;
-	priv->info_icon = NULL;
-	priv->info_string = NULL;
-
-	priv->deleted_attendees = g_ptr_array_new ();
-
-	priv->comp = NULL;
-
-	priv->accounts = NULL;
-	priv->address_strings = NULL;
-	priv->ia = NULL;
-	priv->invite = NULL;
-
-	priv->model = NULL;
-	priv->list_view = NULL;
-
-	priv->updating = FALSE;
-
-	priv->alarm_interval =  -1;
-
-	priv->sendoptions_shown = FALSE;
-	priv->is_meeting = FALSE;
-	priv->sync_timezones = FALSE;
-
-	priv->alarm_list_dlg_widget = NULL;
+	epage->priv = EVENT_PAGE_GET_PRIVATE (epage);
+	epage->priv->deleted_attendees = g_ptr_array_new ();
+	epage->priv->alarm_interval = -1;
 }
-
-static void
-cleanup_attendees (GPtrArray *attendees)
-{
-	int i;
-
-	for (i = 0; i < attendees->len; i++)
-		g_object_unref (g_ptr_array_index (attendees, i));
-}
-
-/* Destroy handler for the event page */
-static void
-event_page_finalize (GObject *object)
-{
-	EventPage *epage;
-	EventPagePrivate *priv;
-	GList *l;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_EVENT_PAGE (object));
-
-	epage = EVENT_PAGE (object);
-	priv = epage->priv;
-
-	for (l = priv->address_strings; l != NULL; l = l->next)
-		g_free (l->data);
-	g_list_free (priv->address_strings);
-
-	if (priv->comp != NULL)
-		g_object_unref (priv->comp);
-
-	cleanup_attendees (priv->deleted_attendees);
-	g_ptr_array_free (priv->deleted_attendees, TRUE);
-
-	if (priv->main)
-		g_object_unref (priv->main);
-
-	if (priv->xml) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
-	}
-
-	if (priv->alarm_list_store) {
-		g_object_unref (priv->alarm_list_store);
-		priv->alarm_list_store = NULL;
-	}
-
-	if (priv->sod) {
-		g_object_unref (priv->sod);
-		priv->sod = NULL;
-	}
-	g_free (priv->old_summary);
-
-	priv->alarm_list_dlg_widget = NULL;
-
-	g_free (priv);
-	epage->priv = NULL;
-
-	if (G_OBJECT_CLASS (event_page_parent_class)->finalize)
-		(* G_OBJECT_CLASS (event_page_parent_class)->finalize) (object);
-}
-
-
-
-static const int classification_map[] = {
-	E_CAL_COMPONENT_CLASS_PUBLIC,
-	E_CAL_COMPONENT_CLASS_PRIVATE,
-	E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
-	-1
-};
 
 enum {
 	ALARM_NONE,
@@ -358,62 +282,45 @@ static const int alarm_map[] = {
 };
 
 static void
-set_classification_menu (EventPage *epage, gint class)
+set_busy_time_menu (EventPage *epage, gboolean active)
 {
-	bonobo_ui_component_freeze (epage->priv->uic, NULL);
-	switch (class) {
-		case E_CAL_COMPONENT_CLASS_PUBLIC:
-			bonobo_ui_component_set_prop (
-				epage->priv->uic, "/commands/ActionClassPublic",
-				"state", "1", NULL);
-			break;
-		case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
-			bonobo_ui_component_set_prop (
-				epage->priv->uic, "/commands/ActionClassConfidential",
-				"state", "1", NULL);
-			break;
-		case E_CAL_COMPONENT_CLASS_PRIVATE:
-			bonobo_ui_component_set_prop (
-				epage->priv->uic, "/commands/ActionClassPrivate",
-				"state", "1", NULL);
-			break;
-	}
-	bonobo_ui_component_thaw (epage->priv->uic, NULL);
+	CompEditor *editor;
+	GtkAction *action;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	action = comp_editor_get_action (editor, "show-time-busy");
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), active);
 }
 
 static void
-set_busy_time_menu (EventPage *epage, gboolean status)
+enable_busy_time_menu (EventPage *epage, gboolean sensitive)
 {
-	bonobo_ui_component_set_prop (
-		epage->priv->uic, "/commands/ActionShowTimeBusy",
-		"state", status ? "1" : "0", NULL);
+	CompEditor *editor;
+	GtkAction *action;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	action = comp_editor_get_action (editor, "show-time-busy");
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void
-enable_busy_time_menu (EventPage *epage, gboolean state)
+set_all_day_event_menu (EventPage *epage, gboolean active)
 {
-	bonobo_ui_component_set_prop (
-		epage->priv->uic, "/commands/ActionShowTimeBusy",
-		"sensitive", state ? "1" : "0", NULL);
-}
+	CompEditor *editor;
+	GtkAction *action;
 
-static void
-set_all_day_event_menu (EventPage *epage, gboolean status)
-{
-	bonobo_ui_component_set_prop (
-		epage->priv->uic, "/commands/ActionAllDayEvent",
-		"state", status ? "1" : "0", NULL);
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	action = comp_editor_get_action (editor, "all-day-event");
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), active);
 }
 
 /* get_widget handler for the event page */
 static GtkWidget *
 event_page_get_widget (CompEditorPage *page)
 {
-	EventPage *epage;
 	EventPagePrivate *priv;
 
-	epage = EVENT_PAGE (page);
-	priv = epage->priv;
+	priv = EVENT_PAGE_GET_PRIVATE (page);
 
 	return priv->main;
 }
@@ -422,11 +329,9 @@ event_page_get_widget (CompEditorPage *page)
 static void
 event_page_focus_main_widget (CompEditorPage *page)
 {
-	EventPage *epage;
 	EventPagePrivate *priv;
 
-	epage = EVENT_PAGE (page);
-	priv = epage->priv;
+	priv = EVENT_PAGE_GET_PRIVATE (page);
 
 	gtk_widget_grab_focus (priv->summary);
 }
@@ -455,12 +360,15 @@ set_all_day (EventPage *epage, gboolean all_day)
 static void
 update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date)
 {
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
+	ECal *client;
 	struct icaltimetype *start_tt, *end_tt, implied_tt;
 	icaltimezone *start_zone = NULL, *def_zone = NULL;
 	gboolean all_day_event, homezone=TRUE;
 
-	priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
 
 	/* Note that if we are creating a new event, the timezones may not be
 	   on the server, so we try to get the builtin timezone with the TZID
@@ -468,8 +376,7 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 	if (!start_zone) {
 		/* FIXME: Handle error better. */
-		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (epage)->client,
-					      start_date->tzid, &start_zone, NULL)) {
+		if (!e_cal_get_timezone (client, start_date->tzid, &start_zone, NULL)) {
 			g_warning ("Couldn't get timezone from server: %s",
 				   start_date->tzid ? start_date->tzid : "");
 		}
@@ -545,9 +452,10 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 static void
 clear_widgets (EventPage *epage)
 {
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
 
-	priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
@@ -568,8 +476,7 @@ clear_widgets (EventPage *epage)
 	set_all_day (epage, FALSE);
 
 	/* Classification */
-	priv->classification = E_CAL_COMPONENT_CLASS_PUBLIC;
-	set_classification_menu (epage, priv->classification);
+	comp_editor_set_classification (editor, E_CAL_COMPONENT_CLASS_PUBLIC);
 
 	/* Show Time As (Transparency) */
 	priv->show_time_as_busy = TRUE;
@@ -774,12 +681,6 @@ event_page_set_view_rsvp (EventPage *epage, gboolean state)
 	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
 }
 
-void
-event_page_set_classification (EventPage *epage, ECalComponentClassification class)
-{
-	epage->priv->classification = class;
-}
-
 static GtkWidget *
 create_image_event_box (const char *image_text, const char *tip_text)
 {
@@ -798,18 +699,27 @@ create_image_event_box (const char *image_text, const char *tip_text)
 static void
 sensitize_widgets (EventPage *epage)
 {
+	ECal *client;
+	CompEditor *editor;
+	CompEditorFlags flags;
+	GtkActionGroup *action_group;
+	GtkAction *action;
 	gboolean read_only, custom, alarm, sens = TRUE, sensitize;
 	EventPagePrivate *priv;
 	gboolean delegate;
 
-	priv = epage->priv;
-	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_MEETING)
-	 	sens = COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
+	flags = comp_editor_get_flags (editor);
 
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (epage)->client, &read_only, NULL))
+	priv = epage->priv;
+	if (flags & COMP_EDITOR_MEETING)
+	 	sens = flags & COMP_EDITOR_USER_ORG;
+
+	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
 
-	delegate = COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE;
+	delegate = flags & COMP_EDITOR_DELEGATE;
 
 	sensitize = !read_only && sens;
 
@@ -838,7 +748,7 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->alarm_time, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
 	/*TODO implement the for portion of the end time selector */
-	if ( (COMP_EDITOR_PAGE(epage)->flags) & COMP_EDITOR_PAGE_NEW_ITEM ) {
+	if (flags & COMP_EDITOR_NEW_ITEM) {
 		if (priv->all_day_event)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
 		else
@@ -863,28 +773,11 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->invite, (!read_only &&  sens) || delegate);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 
-	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertAttachments", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAllDayEvent", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionShowTimeBusy", "sensitive", !read_only ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionAlarm", "sensitive", !read_only ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPublic", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassPrivate", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionClassConfidential", "sensitive",
-		       	sensitize ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/InsertSendOptions", "sensitive", sensitize ? "1" : "0"
-			, NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionRecurrence", "sensitive", sensitize ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ActionFreeBusy", "sensitive", sensitize ? "1" : "0", NULL);
+	action_group = comp_editor_get_action_group (editor, "individual");
+	gtk_action_group_set_sensitive (action_group, sensitize);
 
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewCategories", "sensitive", "1", NULL);
-	bonobo_ui_component_set_prop (priv->uic, "/commands/ViewTimeZone", "sensitive", "1", NULL);
-
+	action = comp_editor_get_action (editor, "free-busy");
+	gtk_action_set_sensitive (action, sensitize);
 
 	if (!priv->is_meeting) {
 		gtk_widget_hide (priv->calendar_label);
@@ -906,19 +799,27 @@ sensitize_widgets (EventPage *epage)
 void
 event_page_hide_options (EventPage *page)
 {
+	CompEditor *editor;
+	GtkAction *action;
+
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
-	bonobo_ui_component_set_prop (page->priv->uic, "/commands/InsertSendOptions", "hidden", "1", NULL);
-	page->priv->sendoptions_shown = FALSE;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
+	action = comp_editor_get_action (editor, "send-options");
+	gtk_action_set_visible (action, FALSE);
 }
 
 void
 event_page_show_options (EventPage *page)
 {
+	CompEditor *editor;
+	GtkAction *action;
+
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
-	bonobo_ui_component_set_prop (page->priv->uic, "/commands/InsertSendOptions", "hidden", "0", NULL);
-	page->priv->sendoptions_shown = TRUE;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
+	action = comp_editor_get_action (editor, "send-options");
+	gtk_action_set_visible (action, TRUE);
 }
 
 void
@@ -976,6 +877,9 @@ get_current_account (EventPage *epage)
 static gboolean
 event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
+	ECal *client;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	EventPage *epage;
 	EventPagePrivate *priv;
 	ECalComponentText text;
@@ -988,23 +892,25 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	GSList *l;
 	gboolean validated = TRUE;
 
-	g_return_val_if_fail (page->client != NULL, FALSE);
-
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
 
-	if (!e_cal_component_has_organizer (comp))
-		page->flags |= COMP_EDITOR_PAGE_USER_ORG;
+	editor = comp_editor_page_get_editor (page);
+	client = comp_editor_get_client (editor);
+	flags = comp_editor_get_flags (editor);
 
-	/* Don't send off changes during this time */
-	priv->updating = TRUE;
+	if (!e_cal_component_has_organizer (comp)) {
+		flags |= COMP_EDITOR_USER_ORG;
+		comp_editor_set_flags (editor, flags);
+	}
 
 	/* Clean out old data */
 	if (priv->comp != NULL)
 		g_object_unref (priv->comp);
 	priv->comp = NULL;
 
-	cleanup_attendees (priv->deleted_attendees);
+	g_ptr_array_foreach (
+		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
 	g_ptr_array_set_size (priv->deleted_attendees, 0);
 
 	/* Clean the page */
@@ -1032,13 +938,13 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	}
 	e_cal_component_free_text_list (l);
 
-	e_cal_get_cal_address (COMP_EDITOR_PAGE (epage)->client, &backend_addr, NULL);
+	e_cal_get_cal_address (client, &backend_addr, NULL);
 	set_subscriber_info_string (epage, backend_addr);
 
 	if (priv->is_meeting) {
 		ECalComponentOrganizer organizer;
 
-		priv->user_add = itip_get_comp_attendee (comp, COMP_EDITOR_PAGE (epage)->client);
+		priv->user_add = itip_get_comp_attendee (comp, client);
 
 		/* Organizer strings */
 		event_page_select_organizer (epage, backend_addr);
@@ -1051,14 +957,14 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				gchar *string;
 				GList *list = NULL;
 
-				if (itip_organizer_is_user (comp, page->client) || itip_sentby_is_user (comp)) {
+				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) {
 					if (e_cal_get_static_capability (
-								page->client,
+								client,
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 						priv->user_org = TRUE;
 				} else {
 					if (e_cal_get_static_capability (
-								page->client,
+								client,
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_set_sensitive (priv->invite, FALSE);
 					gtk_widget_set_sensitive (priv->add, FALSE);
@@ -1067,7 +973,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					priv->user_org = FALSE;
 				}
 
-				if (e_cal_get_static_capability (COMP_EDITOR_PAGE (epage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE))
+				if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
 					string = g_strdup (backend_addr);
 				else if ( organizer.cn != NULL)
 					string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
@@ -1089,9 +995,6 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			a = get_current_account (epage);
 			if (a != NULL) {
-				/* Reuse earlier declared *page, or rename this to avoid confusion? */
-				CompEditorPage *page = (CompEditorPage *) epage;
-
 				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->model);
 				g_object_ref (priv->ia);
 
@@ -1103,7 +1006,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					e_meeting_attendee_set_sentby (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
 				}
 
-				if (page->client && e_cal_get_organizer_must_accept (page->client))
+				if (client && e_cal_get_organizer_must_accept (client))
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_NEEDSACTION);
 				else
 					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
@@ -1134,17 +1037,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	update_end_time_selector (epage);
 	/* Classification */
 	e_cal_component_get_classification (comp, &cl);
-	switch (cl) {
-	case E_CAL_COMPONENT_CLASS_PUBLIC:
-	case E_CAL_COMPONENT_CLASS_PRIVATE:
-	case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
-		break;
-	default:
-		cl = E_CAL_COMPONENT_CLASS_PUBLIC;
-		break;
-	}
-	set_classification_menu (epage, cl);
-	priv->classification = cl;
+	comp_editor_set_classification (editor, cl);
 
 	/* Show Time As (Transparency) */
 	e_cal_component_get_transparency (comp, &transparency);
@@ -1160,7 +1053,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		break;
 	}
 
-	if (e_cal_get_static_capability (page->client, CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
+	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
 		enable_busy_time_menu (epage, FALSE);
 	else
 		enable_busy_time_menu (epage, TRUE);
@@ -1201,15 +1094,13 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* Source */
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (priv->source_selector),
-		e_cal_get_source (page->client));
+		e_cal_get_source (client));
 
 	e_cal_component_get_uid (comp, &uid);
-	if (!(COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE)
-			&& !(COMP_EDITOR_PAGE (epage)->flags && COMP_EDITOR_PAGE_NEW_ITEM)) {
+	if (!(flags & COMP_EDITOR_DELEGATE)
+			&& !(flags && COMP_EDITOR_NEW_ITEM)) {
 		event_page_hide_options (epage);
 	}
-
-	priv->updating = FALSE;
 
 	sensitize_widgets (epage);
 
@@ -1220,8 +1111,12 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 static gboolean
 event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
+	CompEditor *editor;
+	CompEditorFlags flags;
+	ECal *client;
 	EventPage *epage;
 	EventPagePrivate *priv;
+	ECalComponentClassification classification;
 	ECalComponentDateTime start_date, end_date;
 	struct icaltimetype start_tt, end_tt;
 	gboolean all_day_event, start_date_set, end_date_set, busy;
@@ -1231,6 +1126,11 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
+
+	editor = comp_editor_page_get_editor (page);
+	client = comp_editor_get_client (editor);
+	flags = comp_editor_get_flags (editor);
+
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	/* Summary */
@@ -1363,7 +1263,8 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		g_free (str);
 
 	/* Classification */
-	e_cal_component_set_classification (comp, priv->classification);
+	classification = comp_editor_get_classification (editor);
+	e_cal_component_set_classification (comp, classification);
 
 	/* Show Time As (Transparency) */
 	busy = priv->show_time_as_busy;
@@ -1489,7 +1390,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			EAccount *a;
 			gchar *backend_addr = NULL, *org_addr = NULL, *sentby = NULL;
 
-			e_cal_get_cal_address (priv->client, &backend_addr, NULL);
+			e_cal_get_cal_address (client, &backend_addr, NULL);
 
 			/* Find the identity for the organizer or sentby field */
 			a = get_current_account (epage);
@@ -1533,7 +1434,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		}
 
 
-		if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE ) {
+		if (flags & COMP_EDITOR_DELEGATE) {
 			GSList *attendee_list, *l;
 			int i;
 			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
@@ -1595,13 +1496,6 @@ event_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 	}
 
 	return TRUE;
-}
-
-/* set_summary handler for the event page */
-static void
-event_page_set_summary (CompEditorPage *page, const char *summary)
-{
-	/* nothing */
 }
 
 static void
@@ -1673,13 +1567,13 @@ void update_end_time_selector (EventPage *epage)
 void
 static hour_sel_changed (GtkSpinButton *widget, EventPage *epage)
 {
-	hour_minute_changed(epage);
+	hour_minute_changed (epage);
 }
 
 void
 static minute_sel_changed (GtkSpinButton *widget, EventPage *epage)
 {
-	hour_minute_changed ( epage);
+	hour_minute_changed (epage);
 }
 
 void
@@ -1735,11 +1629,16 @@ edit_clicked_cb (GtkButton *btn, EventPage *epage)
 static void
 add_clicked_cb (GtkButton *btn, EventPage *epage)
 {
+	CompEditor *editor;
+	CompEditorFlags flags;
 	EMeetingAttendee *attendee;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	flags = comp_editor_get_flags (editor);
 
 	attendee = e_meeting_store_add_attendee_with_defaults (epage->priv->model);
 
-	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
+	if (flags & COMP_EDITOR_DELEGATE) {
 		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", epage->priv->user_add));
 	}
 
@@ -1785,11 +1684,16 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 static void
 remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 {
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	int pos = 0;
-	gboolean delegate = (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE);
+	gboolean delegate;
 
-	priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	flags = comp_editor_get_flags (editor);
+
+	delegate = (flags & COMP_EDITOR_DELEGATE);
 
 	/* If the user deletes the organizer attendee explicitly,
 	   assume they no longer want the organizer showing up */
@@ -1903,19 +1807,24 @@ invite_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *ia, gpointer user_data)
+attendee_added_cb (EMeetingListView *emlv,
+                   EMeetingAttendee *ia,
+                   EventPage *epage)
 {
-   EventPage *epage = EVENT_PAGE (user_data);
-   EventPagePrivate *priv;
-   gboolean delegate = (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE);
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
+	ECal *client;
 
-   priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
+	flags = comp_editor_get_flags (editor);
 
-   if (delegate) {
+	if (flags & COMP_EDITOR_DELEGATE) {
 	   if (existing_attendee (ia, priv->comp))
 		   e_meeting_store_remove_attendee (priv->model, ia);
 	   else {
-		   if (!e_cal_get_static_capability (COMP_EDITOR_PAGE(epage)->client,
+		   if (!e_cal_get_static_capability (client,
 					   CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
 			   const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
 			   EMeetingAttendee *delegator;
@@ -1930,7 +1839,7 @@ attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *ia, gpointer user_d
 			   gtk_widget_set_sensitive (priv->edit, FALSE);
 		   }
 	   }
-   }
+}
 
 }
 
@@ -1972,7 +1881,9 @@ context_popup_free(EPopup *ep, GSList *items, void *data)
 static gint
 button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 {
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
 	GtkMenu *menu;
 	EMeetingAttendee *ia;
 	GtkTreePath *path;
@@ -1982,11 +1893,13 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 	GSList *menus = NULL;
 	ECalPopup *ep;
 	int i;
-	priv = epage->priv;
 
 	/* only process right-clicks */
 	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
 		return FALSE;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	flags = comp_editor_get_flags (editor);
 
 	/* only if we right-click on an attendee */
 	if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL)) {
@@ -2011,7 +1924,7 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 
 	if (GTK_WIDGET_IS_SENSITIVE(priv->add))
 		disable_mask &= ~ATTENDEE_CAN_ADD;
-	else if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_USER_ORG)
+	else if (flags & COMP_EDITOR_USER_ORG)
 		disable_mask &= ~ATTENDEE_CAN_ADD;
 
 	ep = e_cal_popup_new("org.gnome.evolution.calendar.meeting.popup");
@@ -2029,14 +1942,19 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 static gboolean
 list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage) {
 
-	EventPagePrivate *priv= epage->priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
 
-	if (event->type == GDK_2BUTTON_PRESS && COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_USER_ORG) {
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	flags = comp_editor_get_flags (editor);
+
+	if (event->type == GDK_2BUTTON_PRESS && flags & COMP_EDITOR_USER_ORG) {
 		EMeetingAttendee *attendee;
 
 		attendee = e_meeting_store_add_attendee_with_defaults (priv->model);
 
-		if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
+		if (flags & COMP_EDITOR_DELEGATE) {
 			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", epage->priv->user_add));
 		}
 
@@ -2071,7 +1989,11 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	EventPagePrivate *priv = epage->priv;
 	struct icaltimetype start_tt = icaltime_null_time();
 	struct icaltimetype end_tt = icaltime_null_time();
+	CompEditor *editor;
+	GtkAction *action;
 	gboolean date_set;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 
 	epage->priv->all_day_event = all_day;
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
@@ -2102,9 +2024,10 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	else
 		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 0);
 
-	if (all_day) {
-		bonobo_ui_component_set_prop (epage->priv->uic, "/commands/ViewTimeZone", "sensitive", "0", NULL);
+	action = comp_editor_get_action (editor, "view-time-zone");
+	gtk_action_set_sensitive (action, !all_day);
 
+	if (all_day) {
 		/* Round down to the start of the day. */
 		start_tt.hour = 0;
 		start_tt.minute  = 0;
@@ -2120,8 +2043,6 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 		end_tt.is_date = TRUE;
 	} else {
 		icaltimezone *start_zone;
-
-		bonobo_ui_component_set_prop (epage->priv->uic, "/commands/ViewTimeZone", "sensitive", "1", NULL);
 
 		if (end_tt.year == start_tt.year
 		    && end_tt.month == start_tt.month
@@ -2169,18 +2090,14 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	/* Notify upstream */
 	notify_dates_changed (epage, &start_tt, &end_tt);
 
-        if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
-
+	comp_editor_page_changed (COMP_EDITOR_PAGE (epage));
 }
 
 void
 event_page_set_show_time_busy (EventPage *epage, gboolean state)
 {
 	epage->priv->show_time_as_busy = state;
-	if (!epage->priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
-
+	comp_editor_page_changed (COMP_EDITOR_PAGE (epage));
 }
 
 void
@@ -2336,47 +2253,19 @@ get_widgets (EventPage *epage)
 		&& priv->description );
 }
 
-/* sets the current focused widget */
-static gboolean
-widget_focus_in_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
-{
-	EventPage *epage;
-	epage = EVENT_PAGE (data);
-
-	comp_editor_page_set_focused_widget (COMP_EDITOR_PAGE (epage), widget);
-
-	return FALSE;
-}
-
-/* unset the current focused widget */
-static gboolean
-widget_focus_out_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
-{
-	EventPage *epage;
-	epage = EVENT_PAGE (data);
-
-	comp_editor_page_unset_focused_widget (COMP_EDITOR_PAGE (epage), widget);
-
-	return FALSE;
-}
-
-/* Callback used when the summary changes; we emit the notification signal. */
 static void
-summary_changed_cb (GtkEditable *editable, gpointer data)
+summary_changed_cb (GtkEditable *editable,
+                    CompEditorPage *page)
 {
-	EventPage *epage;
-	EventPagePrivate *priv;
+	CompEditor *editor;
 	gchar *summary;
 
-	epage = EVENT_PAGE (data);
-	priv = epage->priv;
-
-	if (priv->updating)
+	if (comp_editor_page_get_updating (page))
 		return;
 
+	editor = comp_editor_page_get_editor (page);
 	summary = e_dialog_editable_get (GTK_WIDGET (editable));
-	comp_editor_page_notify_summary_changed (COMP_EDITOR_PAGE (epage),
-						 summary);
+	comp_editor_set_summary (editor, summary);
 	g_free (summary);
 }
 
@@ -2481,7 +2370,7 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 
 	priv = epage->priv;
 
-	if (priv->updating)
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
 		return;
 
 	/* Fetch the start and end times and timezones from the widgets. */
@@ -2605,11 +2494,11 @@ start_timezone_changed_cb (GtkWidget *widget, gpointer data)
 
 	if (priv->sync_timezones) {
 		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
-		priv->updating = TRUE;
+		comp_editor_page_set_updating (COMP_EDITOR_PAGE (epage), TRUE);
 		/*the earlier method caused an infinite recursion*/
 		priv->end_timezone=priv->start_timezone;
 		gtk_widget_show_all (priv->end_timezone);
-		priv->updating = FALSE;
+		comp_editor_page_set_updating (COMP_EDITOR_PAGE (epage), FALSE);
 	}
 
 	times_updated (epage, TRUE);
@@ -2636,10 +2525,14 @@ void
 event_page_sendoptions_clicked_cb (EventPage *epage)
 {
 	EventPagePrivate *priv;
+	CompEditor *editor;
 	GtkWidget *toplevel;
 	ESource *source;
+	ECal *client;
 
 	priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
 
 	if (!priv->sod) {
 		priv->sod = e_sendoptions_dialog_new ();
@@ -2649,8 +2542,7 @@ event_page_sendoptions_clicked_cb (EventPage *epage)
 		priv->sod->data->initialized = TRUE;
 	}
 
-	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (epage)->client,
-					 CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
+	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
 		e_sendoptions_set_need_general_options (priv->sod, FALSE);
 	}
 
@@ -2658,89 +2550,81 @@ event_page_sendoptions_clicked_cb (EventPage *epage)
 	e_sendoptions_dialog_run (priv->sod, toplevel, E_ITEM_CALENDAR);
 }
 
-/* This is called when any field is changed; it notifies upstream. */
-static void
-field_changed_cb (GtkWidget *widget, gpointer data)
-{
-	EventPage *epage;
-	EventPagePrivate *priv;
-
-	epage = EVENT_PAGE (data);
-	priv = epage->priv;
-
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
-}
-
 static void
 source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 {
 	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
 	ESource *source;
+	ECal *client;
 
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
+		return;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 	source = e_source_combo_box_get_active (source_combo_box);
 
-	if (!priv->updating) {
-		ECal *client;
+	if (client) {
+		icaltimezone *zone;
 
-		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+		zone = calendar_config_get_icaltimezone ();
+		e_cal_set_default_timezone (client, zone, NULL);
+	}
+
+	if (!client || !e_cal_open (client, FALSE, NULL)) {
+		GtkWidget *dialog;
+		ECal *old_client;
+
+		old_client = comp_editor_get_client (editor);
+
+		if (client)
+			g_object_unref (client);
+
+		e_source_combo_box_set_active (
+			E_SOURCE_COMBO_BOX (priv->source_selector),
+			e_cal_get_source (old_client));
+
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+						 _("Unable to open the calendar '%s'."),
+						 e_source_peek_name (source));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+	} else {
+		comp_editor_set_client (editor, client);
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
+			event_page_show_options (epage);
+		else
+			event_page_hide_options (epage);
+
 		if (client) {
-			icaltimezone *zone;
+			gchar *backend_addr = NULL;
 
-			zone = calendar_config_get_icaltimezone ();
-			e_cal_set_default_timezone (client, zone, NULL);
+			e_cal_get_cal_address(client, &backend_addr, NULL);
+
+			if (priv->is_meeting)
+				event_page_select_organizer (epage, backend_addr);
+
+			set_subscriber_info_string (epage, backend_addr);
+			g_free (backend_addr);
 		}
 
-		if (!client || !e_cal_open (client, FALSE, NULL)) {
-			GtkWidget *dialog;
+		sensitize_widgets (epage);
 
-			if (client)
-				g_object_unref (client);
-
-			e_source_combo_box_set_active (
-				E_SOURCE_COMBO_BOX (priv->source_selector),
-				e_cal_get_source (COMP_EDITOR_PAGE (epage)->client));
-
-			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-							 _("Unable to open the calendar '%s'."),
-							 e_source_peek_name (source));
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-		} else {
-			comp_editor_notify_client_changed (
-				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
-				client);
-			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
-				event_page_show_options (epage);
-			else
-				event_page_hide_options (epage);
-
-			if (client) {
-				gchar *backend_addr = NULL;
-
-				e_cal_get_cal_address(client, &backend_addr, NULL);
-
-				if (priv->is_meeting)
-					event_page_select_organizer (epage, backend_addr);
-
-				set_subscriber_info_string (epage, backend_addr);
-				g_free (backend_addr);
-			}
-
-			sensitize_widgets (epage);
-
-			alarm_list_dialog_set_client (priv->alarm_list_dlg_widget, client);
-		}
+		alarm_list_dialog_set_client (priv->alarm_list_dlg_widget, client);
 	}
 }
 
 static void
 set_subscriber_info_string (EventPage *epage, const char *backend_address)
 {
-	ECal *client = COMP_EDITOR_PAGE (epage)->client;
+	CompEditor *editor;
+	ECal *client;
 	ESource *source;
 
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
 	source = e_cal_get_source (client);
 
 	if (e_source_get_property (source, "subscriber"))
@@ -2841,38 +2725,22 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	sensitize_widgets (epage);
 }
 
-static void
-alarm_store_inserted_cb (EAlarmList *alarm_list_store, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	field_changed_cb (NULL, data);
-}
-
-static void
-alarm_store_deleted_cb (EAlarmList *alarm_list_store, GtkTreePath *path, gpointer data)
-{
-	field_changed_cb (NULL, data);
-}
-
-static void
-alarm_store_changed_cb (EAlarmList *alarm_list_store, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	field_changed_cb (NULL, data);
-}
-
 #if 0
 static void
-alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
+alarm_custom_clicked_cb (GtkWidget *widget,
+                         EventPage *epage)
 {
-	EventPage *epage;
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
 	EAlarmList *temp_list_store;
+	CompEditor *editor;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean valid_iter;
 	GtkWidget *toplevel;
+	ECal *client;
 
-	epage = EVENT_PAGE (data);
-	priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
 
 	/* Make a copy of the list store in case the user cancels */
 	temp_list_store = e_alarm_list_new ();
@@ -2892,11 +2760,11 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 	}
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	if (alarm_list_dialog_run (toplevel, COMP_EDITOR_PAGE (epage)->client, temp_list_store)) {
+	if (alarm_list_dialog_run (toplevel, client, temp_list_store)) {
 		g_object_unref (priv->alarm_list_store);
 		priv->alarm_list_store = temp_list_store;
 
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
+		comp_editor_set_changed (editor, TRUE);
 	} else {
 		g_object_unref (temp_list_store);
 	}
@@ -2912,14 +2780,17 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 static gboolean
 init_widgets (EventPage *epage)
 {
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
 	char *menu_label = NULL;
 	GtkTreeSelection *selection;
 	GtkWidget *cus_item, *menu;
+	ECal *client;
 
-	priv = epage->priv;
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	   current time. */
@@ -2936,20 +2807,12 @@ init_widgets (EventPage *epage)
 	/* Summary */
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), epage);
-	g_signal_connect(priv->summary, "focus-in-event",
-			    G_CALLBACK (widget_focus_in_cb), epage);
-	g_signal_connect(priv->summary, "focus-out-event",
-			    G_CALLBACK (widget_focus_out_cb), epage);
 
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
-	g_signal_connect(priv->description, "focus-in-event",
-			    G_CALLBACK (widget_focus_in_cb), epage);
-	g_signal_connect(priv->description, "focus-out-event",
-			    G_CALLBACK (widget_focus_out_cb), epage);
 
 	/* Start and end times */
 	g_signal_connect((priv->start_time), "changed",
@@ -2966,12 +2829,15 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (source_changed_cb), epage);
 	/* Alarms */
 	priv->alarm_list_store = e_alarm_list_new ();
-	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-inserted",
-			    G_CALLBACK (alarm_store_inserted_cb), epage);
-	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-deleted",
-			    G_CALLBACK (alarm_store_deleted_cb), epage);
-	g_signal_connect((GtkTreeModel *)(priv->alarm_list_store), "row-changed",
- 			    G_CALLBACK (alarm_store_changed_cb), epage);
+	g_signal_connect_swapped (
+		priv->alarm_list_store, "row-inserted",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->alarm_list_store, "row-deleted",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->alarm_list_store, "row-changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
 
 	/* Timezone changed */
 	g_signal_connect((priv->start_timezone), "changed",
@@ -3005,7 +2871,7 @@ init_widgets (EventPage *epage)
 	/* Alarm dialog */
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "delete-event", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
-	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (priv->client, priv->alarm_list_store);
+	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (client, priv->alarm_list_store);
 	gtk_widget_reparent (priv->alarm_list_dlg_widget, priv->alarm_box);
 	gtk_widget_show_all (priv->alarm_list_dlg_widget);
 	gtk_widget_hide (priv->alarm_dialog);
@@ -3080,35 +2946,38 @@ init_widgets (EventPage *epage)
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), cus_item);
 
-	g_signal_connect (priv->alarm_time, "changed",
-			  G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect (priv->alarm_time, "changed",
-			  G_CALLBACK (alarm_changed_cb), epage);
+	g_signal_connect_swapped (
+		priv->alarm_time, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect (
+		priv->alarm_time, "changed",
+		G_CALLBACK (alarm_changed_cb), epage);
 
 	/* Belongs to priv->description */
-	g_signal_connect((text_buffer), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-
-	g_signal_connect((priv->summary), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->location), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->location), "focus-in-event",
-			    G_CALLBACK (widget_focus_in_cb), epage);
-	g_signal_connect((priv->location), "focus-out-event",
-			    G_CALLBACK (widget_focus_out_cb), epage);
-	g_signal_connect((priv->start_time), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->end_time), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->categories), "changed",
-			    G_CALLBACK (field_changed_cb), epage);
-
-	/* emit signal when the group is changed */
-	g_signal_connect((priv->source_selector),"changed",G_CALLBACK(field_changed_cb),epage);
-
-	/*call the field_changed_cb when the timezone is changed*/
-	g_signal_connect((priv->start_timezone), "changed",G_CALLBACK (field_changed_cb), epage);
+	g_signal_connect_swapped (
+		text_buffer, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->summary, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->location, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->start_time, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->end_time, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->categories, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->source_selector, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
+	g_signal_connect_swapped (
+		priv->start_timezone, "changed",
+		G_CALLBACK (comp_editor_page_changed), epage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = calendar_config_get_icaltimezone ();
@@ -3125,8 +2994,10 @@ init_widgets (EventPage *epage)
 static void
 event_page_select_organizer (EventPage *epage, const char *backend_address)
 {
-	EventPagePrivate *priv;
+	EventPagePrivate *priv = epage->priv;
+	CompEditor *editor;
 	GList *l;
+	ECal *client;
 	EAccount *def_account;
 	gchar *def_address = NULL;
 	const char *default_address;
@@ -3138,9 +3009,11 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
-	priv = epage->priv;
-	if (COMP_EDITOR_PAGE (epage)->client)
-		source = e_cal_get_source (COMP_EDITOR_PAGE (epage)->client);
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	client = comp_editor_get_client (editor);
+
+	if (client)
+		source = e_cal_get_source (client);
 	if (source)
 		user_addr = e_source_get_property (source, "subscriber");
 
@@ -3182,7 +3055,7 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
  * created.
  **/
 EventPage *
-event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
+event_page_construct (EventPage *epage, EMeetingStore *model)
 {
 	EventPagePrivate *priv;
 	EIterator *it;
@@ -3192,7 +3065,6 @@ event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
 	priv = epage->priv;
 	g_object_ref (model);
 	priv->model = model;
-	priv->client = client;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "event-page.glade",
@@ -3254,17 +3126,15 @@ event_page_construct (EventPage *epage, EMeetingStore *model, ECal *client)
  * not be created.
  **/
 EventPage *
-event_page_new (EMeetingStore *model, ECal *client, BonoboUIComponent *uic)
+event_page_new (EMeetingStore *model, CompEditor *editor)
 {
 	EventPage *epage;
 
-	epage = g_object_new (TYPE_EVENT_PAGE, NULL);
-	if (!event_page_construct (epage, model, client)) {
+	epage = g_object_new (TYPE_EVENT_PAGE, "editor", editor, NULL);
+	if (!event_page_construct (epage, model)) {
 		g_object_unref (epage);
-		return NULL;
+		g_return_val_if_reached (NULL);
 	}
-
-	epage->priv->uic = uic;
 
 	return epage;
 }

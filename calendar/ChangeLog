@@ -1,3 +1,52 @@
+2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #542125
+
+	** This set of changes migrates CompEditor, CompEditorPage and the
+	   various subclasses from using BonoboUI to GtkUIManager for menus
+	   and toolbars.  It also substantially cleans up the code and
+	   streamlines the CompEditorPage API, making more effective use
+	   of GObject properties.
+
+	Core changes:
+	* gui/dialogs/comp-editor-page.c:
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/event-editor.h:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/memo-editor.c:
+	* gui/dialogs/memo-editor.h:
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/memo-page.h:
+	* gui/dialogs/recurrence-page.c:
+	* gui/dialogs/recurrence-page.h:
+	* gui/dialogs/schedule-page.c:
+	* gui/dialogs/schedule-page.h:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/task-details-page.h:
+	* gui/dialogs/task-editor.c:
+	* gui/dialogs/task-editor.h:
+	* gui/dialogs/task-page.c:
+	* gui/dialogs/task-page.h:
+
+	Supporting changes:
+	* gui/calendar-component.c:
+	* gui/comp-editor-factory.c:
+	* gui/e-cal-popup.c:
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-comp-editor-registry.c:
+	* gui/e-memo-table.c:
+	* gui/e-tasks.c:
+	* gui/gnome-cal.c:
+	* gui/memos-component.c:
+	* gui/tasks-component.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/comp-editor-util.c:
+
 2008-17-14  Paolo Borelli  <pborelli@katamail.com>
 
 	** Fix for bug #542889

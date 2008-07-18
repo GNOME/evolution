@@ -24,38 +24,47 @@
 #ifndef TASK_DETAILS_PAGE_H
 #define TASK_DETAILS_PAGE_H
 
+#include "comp-editor.h"
 #include "comp-editor-page.h"
+
+/* Standard GObject macros */
+#define TYPE_TASK_DETAILS_PAGE \
+	(task_details_page_get_type ())
+#define TASK_DETAILS_PAGE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPage))
+#define TASK_DETAILS_PAGE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), TYPE_TASK_DETAILS_PAGE, TaskDetailsPageClass))
+#define IS_TASK_DETAILS_PAGE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), TYPE_TASK_DETAILS_PAGE))
+#define IS_TASK_DETAILS_PAGE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), TYPE_TASK_DETAILS_PAGE))
+#define TASK_DETAILS_PAGE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPageClass))
 
 G_BEGIN_DECLS
 
-
-
-#define TYPE_TASK_DETAILS_PAGE            (task_details_page_get_type ())
-#define TASK_DETAILS_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPage))
-#define TASK_DETAILS_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_TASK_DETAILS_PAGE, TaskDetailsPageClass))
-#define IS_TASK_DETAILS_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_TASK_DETAILS_PAGE))
-#define IS_TASK_DETAILS_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_TASK_DETAILS_PAGE))
-
+typedef struct _TaskDetailsPage TaskDetailsPage;
+typedef struct _TaskDetailsPageClass TaskDetailsPageClass;
 typedef struct _TaskDetailsPagePrivate TaskDetailsPagePrivate;
 
-typedef struct {
+struct _TaskDetailsPage {
 	CompEditorPage page;
-
-	/* Private data */
 	TaskDetailsPagePrivate *priv;
-} TaskDetailsPage;
+};
 
-typedef struct {
+struct _TaskDetailsPageClass {
 	CompEditorPageClass parent_class;
-} TaskDetailsPageClass;
+};
 
-
-GType            task_details_page_get_type        (void);
-TaskDetailsPage *task_details_page_construct       (TaskDetailsPage *tdpage);
-TaskDetailsPage *task_details_page_new             (void);
-
-
+GType		 task_details_page_get_type	(void);
+TaskDetailsPage *task_details_page_construct	(TaskDetailsPage *tdpage);
+TaskDetailsPage *task_details_page_new		(CompEditor *editor);
 
 G_END_DECLS
 
-#endif
+#endif /* TASK_DETAILS_PAGE_H */
