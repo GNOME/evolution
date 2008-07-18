@@ -422,10 +422,8 @@ shell/apps_evolution_shell.schemas.in
 shell/e-active-connection-dialog.glade
 shell/e-component-registry.c
 shell/e-config-upgrade.c
-shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
 shell/e-shell-settings-dialog.c
-shell/e-shell-utils.c
 shell/e-shell-view.c
 shell/e-shell-window-commands.c
 shell/e-shell-window.c
@@ -449,15 +447,11 @@ smime/lib/e-pkcs12.c
 tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
-ui/evolution-editor.xml
-ui/evolution-event-editor.xml
 ui/evolution-mail-global.xml
 ui/evolution-mail-list.xml
 ui/evolution-mail-message.xml
 ui/evolution-mail-messagedisplay.xml
-ui/evolution-memo-editor.xml
 ui/evolution-memos.xml
-ui/evolution-task-editor.xml
 ui/evolution-tasks.xml
 ui/evolution.xml
 views/addressbook/galview.xml
