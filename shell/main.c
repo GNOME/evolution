@@ -680,7 +680,7 @@ main (int argc, char **argv)
 				      NULL);
 
 #ifdef G_OS_WIN32
-	if (strcmp (_(""), "") == 0) {
+	if (strcmp (gettext (""), "") == 0) {
 		/* No message catalog installed for the current locale language,
 		 * so don't bother with the localisations provided by other things then
 		 * either. Reset thread locale to "en-US" and C library locale to "C".

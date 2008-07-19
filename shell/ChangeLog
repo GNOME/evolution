@@ -1,3 +1,10 @@
+2008-07-19  Tor Lillqvist  <tml@novell.com>
+
+	Bug 543758 - Never mark empty strings for translations
+
+	* main.c (main): Change _("") to explicit gettext ("") to avoid
+	potentially confusing translation tools or translators.
+
 2008-17-14  Paolo Borelli  <pborelli@katamail.com>
 
 	** Fix for bug #542889
