@@ -1,3 +1,12 @@
+2008-07-11  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #542149
+
+	* exchange-folder-subscription.c: (subscribe_to_folder): Display an 
+	error message to restart if user tries to subscribe to other's mailbox.
+	* org-gnome-exchange-operations.error.xml: Added the corresponding 
+	error message.
+
 2008-06-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #273627

@@ -221,6 +221,10 @@ username, and password, and try again.</_secondary>
   <_primary>Folder already exists</_primary>
  </error>
 
+ <error id="folder-restart-evo" type="error">
+  <_primary>Evolution requires a restart to load the subscribed user's mailbox</_primary>
+ </error>
+
  <error id="folder-doesnt-exist-error" type="error">
   <_primary>Folder does not exist</_primary>
  </error>
