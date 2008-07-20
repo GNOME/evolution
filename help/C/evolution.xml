@@ -326,7 +326,7 @@
         <para>If you are unsure what your Server address is, contact your system administrator.</para>
        </listitem>
        <listitem id="bstg8sr">
-        <para>Type your username for the account in the Username field.</para>
+        <para>Type your username in the Username field.</para>
        </listitem>
        <listitem id="bstg8yn">
         <para>Select if you want to use a secure connection (SSL).</para>
@@ -459,8 +459,8 @@
         <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
        </listitem>
        <listitem id="b13sbqmb">
-        <para>Select Check new messages for junk contents to filter new messages for spam messages.</para>
-        <para>For more information refer <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link></para>
+        <para>Select if you want to check new messages for junk content.</para>
+        <para>For additional information on junk content, see <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk</link>.</para>
        </listitem>
        <listitem id="bstgtoj">
         <para>Click Forward.</para>
@@ -526,7 +526,7 @@
         <para>Select if you want to leave messages on the server.</para>
        </listitem>
        <listitem id="bsthpn9">
-        <para>Select if you want to disable support for all POP3 extensions (support for POP3).</para>
+        <para>Select if you want to disable support for all POP3 extensions.</para>
        </listitem>
        <listitem id="bsthpur">
         <para>Click Forward.</para>
@@ -1005,7 +1005,7 @@
     <para>This feature restores your settings from the archive.</para>
     <orderedlist>
      <listitem id="b17rbrfm">
-      <para>Select File &gt; Restore Settings to open the available evolution.tar.gz files</para>
+      <para>Select File &gt; Restore Settings to open the available evolution.tar.gz files.</para>
      </listitem>
      <listitem id="b17rbry6">
       <para>Select the evolution.tar.gz and click Save.</para>
@@ -6114,7 +6114,7 @@
 
   <section id="bxqwde6">
    <title>Junk Mail Handling</title>
-   <para>Junk mail handling for GroupWise accounts is a little different then other junk mail handling. When you mark an item as junk mail in GroupWise, the item is added to your junk list in the GroupWise system. Because these settings are on the GroupWise system, your junk list follows you from computer to computer.</para>
+   <para>Junk mail handling for GroupWise accounts is a little different than other junk mail handling. When you mark an item as junk mail in GroupWise, the item is added to your junk list in the GroupWise system. Because these settings are on the GroupWise system, your junk list follows you from computer to computer.</para>
    <itemizedlist>
     <listitem>
      <para><link linkend="bxqwfae">Marking a Message As Junk Mail</link></para>
@@ -6537,7 +6537,7 @@
      <para>Select Convert mail text to Unicode to enable Unicode&z-3rdParty; filtering. For more information on Bogofilter, see the <ulink url="http://bogofilter.sourceforge.net/">Bogofilter site</ulink>.</para>
     </formalpara>
     <note>
-     <para>Check new messages for junk contents option under Edit &gt; Preferences &gt; Mail Accounts &gt; Edit &gt; Receiving options is enabled only for IMAP. Check incoming mail for junk option under Edit &gt; Prefernces &gt; Mail Preferences &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
+     <para>Check new messages for junk contents option under Edit &gt; Preferences &gt; Mail Accounts &gt; Edit &gt; Receiving options is enabled only for IMAP. Check incoming mail for junk option under Edit &gt; Preferences &gt; Mail Preferences &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
     </note>
    </section>
 
