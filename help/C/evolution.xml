@@ -924,7 +924,7 @@
       <para>It lets you guard your privacy with encryption.</para>
      </listitem>
     </itemizedlist>
-    <para>However, Evolution has some important differences from other e-mail programs. First, It is built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There's also the <link linkend="usage-mail-organize-vfolders">search folder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you'll find this feature especially useful. Here's a quick explanation of what's happening in your main Evolution e-mail window.</para>
+    <para>However, Evolution has some important differences from other e-mail programs. First, It is built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There's also the <link linkend="usage-mail-organize-vfolders">search folder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you will find this feature especially useful. Here's a quick explanation of what's happening in your main Evolution e-mail window.</para>
     <mediaobject id="b159qi3q"><imageobject><imagedata format="PNG" fileref="figures/evo_mail_a.png"/></imageobject></mediaobject>
     <formalpara id="b17sa4um">
      <title>Message List:</title>
@@ -2372,11 +2372,11 @@
   <section id="usage-mail-organize-columns">
    <title>Sorting the Message List</title>
    <para>Evolution helps you work by letting you sort your e-mail. To sort by sender, subject, or date, click the bars with those labels at the top of the message list. The direction of the arrow next to the label indicates the direction of the sort. Click again, to sort them in reverse order. For example, click Date to sort messages by date from oldest to newest. Click again, and Evolution sorts the list from newest to oldest. You can also right-click the message header bars to get a set of sorting options, and to add to or remove columns from the message list.</para>
-   <para>To look at the complete headers for a message, click View &gt; Message Display &gt; Show Full Headers. To see all message data, click View &gt; Message Display &gt; Show E-Mail Source.</para>
+   <para>To look at the complete headers for a message, click View &gt; All Message Headers. To see all message data, click View &gt; Message Source.</para>
 
    <section id="b17qguvc">
     <title>Sorting Mail In E-mail Threads</title>
-    <para>You can also choose a threaded message view. Click View &gt; Threaded Message List to turn the threaded view on or off. When you select this option, Evolution groups the replies to a message with the original, so you can follow the thread of a conversation from one message to the next.</para>
+    <para>You can also choose a threaded message view. Click View &gt; Group By Threads to turn the threaded view on or off. When you select this option, Evolution groups the replies to a message with the original, so you can follow the thread of a conversation from one message to the next.</para>
     <mediaobject id="b1448dzl"><imageobject><imagedata format="PNG" fileref="figures/mail-threaded.png"/></imageobject></mediaobject>
     <para>In a thread of conversation view, each new message is stacked below of the ones that arrived before it, so that the newest message is always the one you see first. Whenever a new message arrives to an old thread as a reply, you will see it below the parent message. You always see the thread based on the date of the recent message received. The threads are sorted by the date of most recent message in the threads.</para>
     <tip>
@@ -2391,7 +2391,7 @@
 
    <section id="b17qgvet">
     <title>Sorting Mail With Column Headers</title>
-    <para>In addition to it, Evolution enables you to sort your messages by using Sort-by list. You can use any of the criteria given in the Sort-by list such as <emphasis>sender, location, to, from, size, </emphasis>and so forth to perform sorting. It returns the sorted email list that matches the criteria you have selected.</para>
+    <para>In addition to it, Evolution enables you to sort your messages by using Sort-by list. You can use any of the criteria given in the Sort-by list such as <emphasis>sender, location, to, from, size</emphasis> and so forth to perform sorting. It returns the sorted email list that matches the criteria you have selected.</para>
     <para>To sort messages, perform the following procedure:</para>
     <orderedlist>
      <listitem id="b131itxb">
@@ -2460,7 +2460,7 @@
        </listitem>
       </itemizedlist>
       <note>
-       <para>Clicking each sort criteria cycles take you through three possibilities. Sort by criteria in ascending or descending order or unsort the message. When you click any of the sort criteria reiteratively, Evolution sort the messages in a sequential order - ascending, descending and unsort. For example, when you click Recepients for the first time, Evolution sort the messages by recepients in ascending order and for the second time, sort in the reverse order. For the next click, messages will be displayed unsorted.</para>
+       <para>Clicking each sort criteria cycles take you through three possibilities. Sort by criteria in ascending or descending order or unsort the message. When you click any of the sort criteria reiteratively, Evolution sort the messages in a sequential order - ascending, descending and unsort. For example, when you click Recepients for the first time, Evolution sort the messages by recipients in ascending order and for the second time, sort in the reverse order. For the next click, messages will be displayed unsorted.</para>
       </note>
       <formalpara id="bsawhu7">
        <title>Sort Ascending:</title>
@@ -2492,7 +2492,7 @@
       </formalpara>
      </listitem>
      <listitem id="b131iudb">
-      <para>Select the search criteria.</para>
+      <para>Select the search criteria from the list.</para>
       <para>You can view the messages in the desired order in the message list.</para>
      </listitem>
     </orderedlist>
@@ -2568,7 +2568,7 @@
      <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131j2j8">
-     <para>Select the search criteria from the list</para>
+     <para>Select the search criteria from the list:</para>
      <itemizedlist>
       <listitem>
        <para>All Messages</para>
@@ -3133,8 +3133,8 @@
 
   <section id="usage-mail-organize-spam">
    <title>Stopping Junk Mail (Spam)</title>
-   <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin and/ or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
-   <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn't get flagged as junk mail. If good mail, is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk or press Shift+Ctrl+J. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
+   <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin and/or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
+   <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn't get flagged as junk mail. If good mail is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk or press Shift+Ctrl+J. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
    <para>Every filter needs to learn at the least 100 spam and 100 ham to start working. For that, you must mark each message manually by clicking the <emphasis>Not junk</emphasis> button in the toolbar to learn that it is ham. The <emphasis>Junk</emphasis> button learns a message as spam.</para>
    <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. For more information on this see, <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
    <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
@@ -3168,7 +3168,7 @@
 
   <section id="usage-contact-cards">
    <title>Contacts and Cards</title>
-   <para>Contacts are the individuals you have chosen to add to your address book so you can keep track of information about them and send e-mail to them. In Evolution, an individual contact is called a card.For more information on organizing your contact list see <link linkend="usage-contact-organize">Organizing your Contacts</link>. To learn about configuring the contacts tool, refer <link linkend="config-prefs-contact">Contact Management</link>.</para>
+   <para>Contacts are the individuals you have chosen to add to your address book so you can keep track of information about them and send e-mail to them. In Evolution, an individual contact is called a card. For more information on organizing your contacts see <link linkend="usage-contact-organize">Organizing your Contacts</link>. To learn about configuring the contacts tool, refer <link linkend="config-prefs-contact">Contact Management</link>.</para>
 
    <section id="bsqchx3">
     <title>The Contact Editor</title>
@@ -3191,7 +3191,7 @@
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
      <title>Full Name:</title>
-     <para>Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like <quote>Mr.</quote> or <quote>Her Excellency,</quote> and suffixes like <quote>Jr.</quote> The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames. To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under <quote>Doe, John Q.</quote> However, Miguel's surname, <quote>de Icaza,</quote> has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry.</para>
+     <para>Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like <quote>Mr.</quote> or <quote>Her Excellency,</quote> and suffixes like <quote>Jr.</quote> The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames. To see how it works, type a name in the Full Name field. As an example, we will use Miguel de Icaza. You will notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under <quote>Doe, John Q.</quote> However, Miguel's surname, <quote>de Icaza,</quote> has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry.</para>
     </formalpara>
     <formalpara id="b13psvf3">
      <title>Where:</title>
@@ -3245,12 +3245,12 @@
        <para>Right click on the address from Message Header.</para>
       </listitem>
       <listitem id="b13psizd">
-       <para>Select Add to Address Book to appear Contact Quick-Add window.</para>
+       <para>Select Add to Address Book to bring up the Contact Quick-Add window.</para>
        <mediaobject id="b13psl8w"><imageobject><imagedata format="PNG" fileref="figures/quick_add_a.png"/></imageobject></mediaobject>
        
       </listitem>
       <listitem id="b13pslot">
-       <para>Press Edit Full tab at the bottom left to appear Contact Editor window.</para>
+       <para>Press the Edit Full button at the bottom left to bring up the Contact Editor window.</para>
       </listitem>
       <listitem id="b13pslyy">
        <para>Edit the required information from Contact Editor and press OK.</para>
@@ -3300,10 +3300,10 @@
      <para>Select Add to add additional criteria.</para>
     </listitem>
     <listitem id="bsb05aw">
-     <para>Click Search.</para>
+     <para>Click OK.</para>
     </listitem>
    </orderedlist>
-   <para>To show all your contacts, Click Clear in the search bar or search with an empty query.</para>
+   <para>To clear your search you can click the Clear icon in the search string field, or choose Search &gt; Clear from the menubar, or enter a blank search. You can also press Shift+Ctrl+Q to clear the search.</para>
    <formalpara id="b131mh80">
     <title>Quick Search:</title>
     <para>Displays all the contacts that match the built-in criteria you have selected from the drop-down list at the top left side, just above the Display pane.</para>
@@ -3314,7 +3314,7 @@
      <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131mkao">
-     <para>Select the search criteria from any of the following:</para>
+     <para>Select the search criteria from the list:</para>
      <itemizedlist>
       <listitem>
        <para>Anniversary</para>
@@ -3413,7 +3413,7 @@
 
   <section id="usage-contact-organize">
    <title>Organizing your Contacts</title>
-   <para>Evolution allows you to organize your contact list. You can create several individual address books, or contact groups. Within a given address book, you can have several categories of contacts.</para>
+   <para>Evolution allows you to organize your contacts. You can create several individual address books, or contact lists. Within a given address book, you can have several categories of contacts.</para>
    <itemizedlist>
     <listitem>
      <para><link linkend="usage-contact-organize-group">Contacts Groups</link></para>
@@ -3431,8 +3431,8 @@
 
    <section id="usage-contact-organize-group">
     <title>Contacts Groups</title>
-    <para>Contacts Groups are nothing but Address Books.The simplest way to organize contacts is to create additional address books. You can create a new one by clicking File &gt; New &gt; Address Book. For contacts groups on your computer, you only need to provide a name. For contacts on the network, you need to provide more information about the contacts server you are trying to access.</para>
-    <para>To move a card from one group to another, just drag it from the main display of contacts. You cannot change the contents of most network contact groups.</para>
+    <para>Contacts Groups are nothing but Address Books. The simplest way to organize contacts is to create additional address books. You can create a new one by clicking File &gt; New &gt; Address Book. For contacts groups on your computer, you only need to provide a name. For contacts on the network, you need to provide more information about the contacts server you are trying to access.</para>
+    <para>To move a card from one group to another, just drag it from the main display of contacts and drop it to a different group. You cannot change the contents of most network contact groups.</para>
     <note>
      <para>Contacts groups are not the same as contact lists. A contact group is like a folder or address book full of contacts. A contact list is a single contact that contains other contacts, and is most often used to e-mail several people at once.</para>
     </note>
@@ -3485,7 +3485,7 @@
 
    <section id="usage-contact-organize-group-category">
     <title>Grouping with Categories</title>
-    <para>Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the <guilabel>Business</guilabel> category because he works with you, the <guilabel>Friends</guilabel> category because he's a friend, and the <guilabel>Frequent</guilabel> category because you call him often.</para>
+    <para>Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the <guilabel>Business</guilabel> category because he works with you and the <guilabel>Friends</guilabel> category because he's a friend.</para>
     <para>To mark a card as belonging to a category,</para>
     <orderedlist>
      <listitem id="b13ptaog">
@@ -3530,10 +3530,10 @@
   <section id="usage-contact-sharing">
    <title>LDAP: Shared Address Books on a Network</title>
    <para>The <link linkend="ldap">LDAP</link> protocol was created to let users share contact information over a network by sharing access to a central directory. LDAP allows a company to maintain a shared set of contact information. Many companies keep a common LDAP address book for all their employees or for client contacts.</para>
-   <para>To learn how to add a remote LDAP directory to your available contact folders, see <link linkend="config-prefs-contact">Contact Management</link>. Remote groups of contacts appear under the On LDAP Servers item in the switcher. They work like a local folder of contact cards, with the following exceptions:</para>
+   <para>To learn how to add a remote LDAP directory to your available address books, see <link linkend="config-prefs-contact">Contact Management</link>. Remote groups of contacts appear under the On LDAP Servers item in the switcher. They work like a local folder of contact cards, with the following exceptions:</para>
    <itemizedlist>
     <listitem>
-     <para>Network folders are only available when you are connected to the network. If you use a laptop or have a modem connection, you might want to copy or cache some of the network directory. You do this by dragging and dropping your desired contacts into the local contacts list.</para>
+     <para>Network folders are only available when you are connected to the network. If you use a laptop or have a modem connection, you might want to copy or cache some of the network directory. You do this by dragging and dropping your desired contacts into the local address books.</para>
      <para>You can also mark the network folder for offline usage. To mark the folder, right-click the folder, then click Properties. Select Copy Folder Content Locally for Offline Operation.</para>
     </listitem>
     <listitem>
@@ -3918,7 +3918,7 @@
        <para>Select Customize to add or remove customized alarms for the event.</para>
       </listitem>
      </orderedlist>
-     <para>If you have stored reminders in a local calendar, they work from the moment you log in. However, for reminders stored on any remote server like GroupWise Exchange which requires authentication, you must run Evolution at least once after logging in. No matter where the reminders are stored, you can quit Evolution and still be reminded of an upcoming appointment.</para>
+     <para>If you have stored reminders in a local calendar, they work from the moment you log in. However, for reminders stored on any remote server like GroupWise or Exchange which requires authentication, you must run Evolution at least once after logging in. No matter where the reminders are stored, you can quit Evolution and still be reminded of an upcoming appointment.</para>
     </section>
 
     <section id="bxmtbjb">
@@ -3928,7 +3928,7 @@
      <para>You can categorize appointments in the same way you can categorize contacts.</para>
      <orderedlist>
       <listitem id="bzxwtyr">
-       <para>Type a category in the Categories field.</para>
+       <para>(Optional) Type a category in the Categories field.</para>
       </listitem>
       <listitem id="bsqcyli">
        <para>Select the check box next to each category that matches the appointment you are creating.</para>
@@ -3941,13 +3941,13 @@
       <para>You can add a new category to your category list by clicking Edit Master Category List, then click Click Here To Add A Category.</para>
      </tip>
      <para>After you have selected your categories, click OK to assign these categories to the appointment. The categories you selected are now listed in the text box to the right of the Categories button.</para>
-     <para>Appointments with categories appear with icons in the calendar display, and you can also search for appointments by category. To display only the appointments in a particular category, select Category Is in the search bar at the top of the calendar, and select a category.</para>
+     <para>Appointments with categories appear with icons in the calendar display, and you can also search for appointments by category. To display only the appointments in a particular category, select the corresponding category in the search bar at the top of the calendar.</para>
     </section>
 
     <section id="bxmtcp3">
      <title>Recurrence</title>
      <para>The Recurrence tool button lets you describe repetition in appointments ranging from once every day up to once every 100 years. You can then choose a time and date when the appointment stops recurring, and, under Exceptions, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: <quote>Every two weeks on Monday and Friday until January 3, 2008</quote> or <quote>Every month on the first Friday for 12 occurrences.</quote></para>
-     <para>After you have finished settings, click the disk icon in the toolbar to save and close the appointment editor window. If you want, you can alter an appointment summary in the calendar view by clicking it and typing. You can change other settings by right-clicking the appointment then choosing Open, or double-clicking the appointment.</para>
+     <para>After you have finished settings, click the Save button in the toolbar to save and close the appointment editor window. If you want, you can alter an appointment summary in the calendar view by clicking it and typing. You can change other settings by right-clicking the appointment then choosing Open, or double-clicking the appointment.</para>
     </section>
    </section>
 
@@ -4057,7 +4057,7 @@
 
    <section id="receiving-rsvp-response">
     <title>Reading Responses to Meeting Requests</title>
-    <para>When you get a reply to a meeting invitation you sent, you can view it inline by clicking the attachment and selecting View Inline. At the bottom, you can click OK to update your attendee list.</para>
+    <para>When you get a reply to a meeting invitation you sent, you can view it inline by clicking the attachment and selecting View Inline.</para>
    </section>
 
    <section id="usage-calendar-freebusy">
@@ -4194,7 +4194,7 @@
      <para>Click the Show drop-down list.</para>
     </listitem>
     <listitem id="b131n7gu">
-     <para>Select the search criteria:</para>
+     <para>Select the search criteria from the list:</para>
      <itemizedlist>
       <listitem>
        <para>Any Category</para>
@@ -4535,7 +4535,7 @@
       <para>Click the Show drop-down list from the Search bar.</para>
      </listitem>
      <listitem id="b17qd0wm">
-      <para>Select the search criteria:</para>
+      <para>Select the search criteria from the list:</para>
       <itemizedlist>
        <listitem>
         <para>Any Category</para>
@@ -4745,7 +4745,7 @@
       <para>Click the Show drop-down list.</para>
      </listitem>
      <listitem id="b17qezl9">
-      <para>Select the search criteria:</para>
+      <para>Select the search criteria from the list:</para>
       <itemizedlist>
        <listitem>
         <para>Any Category</para>
@@ -6245,7 +6245,7 @@
   </formalpara>
   <formalpara id="b17sa7hj">
    <title>Autocompletion:</title>
-   <para>Set the contact groups to be used when completing e-mail addresses in the message composer. For more information, see <link linkend="bshoq5l">Autocompletion</link>.</para>
+   <para>Set the address books to be used when completing e-mail addresses in the message composer. For more information, see <link linkend="bshoq5l">Autocompletion</link>.</para>
   </formalpara>
   <formalpara id="b17sa7qv">
    <title>Mail Preferences:</title>
@@ -6253,7 +6253,7 @@
   </formalpara>
   <formalpara id="b17sa85j">
    <title>Composer Preferences:</title>
-   <para>These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
+   <para>These are settings for the way that you use the mail composer, such as signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
   </formalpara>
   <formalpara id="b17sa8cq">
    <title>Calendar and Tasks:</title>
@@ -6268,7 +6268,7 @@
   <section id="config-prefs-mail-identity">
    <title>Working with Mail Accounts</title>
    <para>Evolution allows you to maintain multiple accounts, or identities. When you are writing an e-mail message, you can choose which account to use by selecting from the drop-down list next to the From field in the message composer.</para>
-   <para>Click Send/Receive to select all mail sources that are not disabled. If you don't want to check mail for a given account, select the account in the Mail Accounts tab and click the Disable button.</para>
+   <para>Click Send/Receive to update all mail sources that are not disabled. If you don't want to check mail for a given account, select the account in Edit &gt; Preferences &gt; Mail Accounts page and click the Disable button.</para>
    <para>To add a new account, click Add to open the Evolution configuration assistant. To alter an existing account, select it in the Preferences window, then click Edit to open the account editor dialog box.</para>
    <para>The account editor dialog box has seven sections:</para>
    <formalpara id="bsbhdwn">
@@ -6277,7 +6277,7 @@
    </formalpara>
    <formalpara id="bsbhe10">
     <title>Receiving Email:</title>
-    <para>Select the way you receive e-mail. You can download e-mail from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. Your server requires you to use a Secure Socket Layer (SSL) connection. You can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
+    <para>Select the way you receive e-mail. You can download e-mail from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. If your server requires you to use a secure connection, you can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
    </formalpara>
    <para>Your system administrator might ask you to connect to a specific port on a mail server. To specify which port you use, just type a colon and the port number after the server name. For example, to connect to port 143 on the server smtp.example.com, specify smtp.example.com:143 as the server name.</para>
    <para>For additional information, see <link linkend="second-step">Receiving Mail</link>.</para>
@@ -6288,12 +6288,12 @@
    <para>For additional information, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
    <formalpara id="bsbhltb">
     <title>Sending Mail:</title>
-    <para>Use this section to choose and configure a method for sending mail. You can choose <link linkend="smtp">SMTP</link>, Microsoft Exchange (if you have installed the Evolution Connector for Microsoft Exchange), or <link linkend="sendmail">Sendmail</link>.</para>
+    <para>Use this section to choose and configure a method for sending mail. You can choose <link linkend="smtp">SMTP</link>, Microsoft Exchange (if you have installed the Evolution Connector for Microsoft Exchange), <link linkend="sendmail">Sendmail</link> or many other options.</para>
    </formalpara>
    <para>For additional information, see <link linkend="third-step">Sending Mail</link>.</para>
    <formalpara id="bsbhn0t">
     <title>Defaults:</title>
-    <para>Use this section to set where this account stores the messages that it has sent, and the messages that you save as drafts. If you want to revert to the default settings, click Restore Defaults.</para>
+    <para>Use this section to set where this account stores the messages that it has sent, and the messages that you save as drafts. If you want to revert to the default settings, click Restore.</para>
    </formalpara>
    <para>If you want to send someone a copy of every message from this account, select either Always Carbon-Copy (Cc) To: or Always Blind Carbon-Copy (Bcc) To:, and specify one or more addresses.</para>
    <para>You can specify the way you want to receive message receipts. You can set Send message receipts to Never, Always or Ask for each message. For more information refer <link linkend="b13uhy6r">Default Settings</link>.</para>
@@ -6310,15 +6310,15 @@
 
   <section id="bshoq5l">
    <title>Autocompletion</title>
-   <para>The Autocompletion tool lets you choose address books to auto-complete names for you. This functionality requires accessibility to each of the address books you want to use. To enable autocompletion, select each of the address books that you want to use auto completion in the Autocompletion page.</para>
+   <para>The Autocompletion tool lets you choose address books to auto-complete names for you in the mail composer. This functionality requires accessibility to each of the address books you want to use. To enable autocompletion, select each of the address books that you want to use auto completion in the Autocompletion page.</para>
   </section>
 
   <section id="b15fx7uz">
    <title>IMAP Mail Headers</title>
-   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the download time and at the same time having control as to filter or move your mails around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail headers are as follows:</para>
+   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the download time and filter or move your mails around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
    <formalpara id="b15fzvdp">
     <title>All Headers:</title>
-    <para>This include all the available IMAP Mail headers. By choosing this option, Evolution will download all the Headers for all the messages.</para>
+    <para>This include all the available IMAP Mail headers. By choosing this option, Evolution will download all the headers for all the messages.</para>
    </formalpara>
    <formalpara id="b15fzvjw">
     <title>Basic Headers:</title>
@@ -6326,9 +6326,9 @@
    </formalpara>
    <formalpara id="b15fzvq4">
     <title>Mailing List Headers:</title>
-    <para>Enable this option to have filters based on mailing list headers (like list ID) so that in addition to the basic headers, the headers that correspond to mailing-lists are also fetched. Mailing list headers will have the informations such as the mailing list ID, owner of the mailing list, and so on with which you can create mailing list filters.</para>
+    <para>Enable this option to have filters based on mailing list headers (like list ID) so that in addition to the basic headers, the headers that correspond to mailing-lists are also fetched. Mailing list headers will have the informations such as the mailinglist-ID, owner of the mailing list, and so on with which you can create mailing list filters.</para>
    </formalpara>
-   <para>This is the default Header preferences that comes with Evolution. When this option is chosen, Evolution will download a basic set of headers (as described above) along with a set of headers that are needed for client-side filters based on mailing lists. If you do not have any filters on Evolution, it is recommended to switch to the "Basic Headers Only"option.</para>
+   <para>This is the default Header preference that comes with Evolution. When this option is chosen, Evolution will download a basic set of headers (as described above) along with a set of headers that are needed for client-side filters based on mailing lists. If you do not have any filters on Evolution, it is recommended to switch to the "Basic Headers Only" option.</para>
    <formalpara id="b15g0l0t">
     <title>Custom Headers:</title>
     <para>These are the extra headers in addition to the above standard headers. You can add custom headers in addition to the standard headers. If you want to have filters based on some specific custom headers and you do not want to compromise on the network speed by downloading-all-mail-headers, Evolution provides a handy way of achieving this by the Custom Headers Option. Here, you can selectively Add/Remove headers based on your needs.</para>
@@ -6403,16 +6403,16 @@
     <para>The General page has the following options:</para>
     <formalpara id="bsbhnw0">
      <title>Message Fonts:</title>
-     <para>Normally, Evolution uses the same fonts as other GNOME applications. To choose different fonts, deselect Use the same fonts as other applications and select one font for standard typefaces and a second for monospace, terminal, or display.</para>
+     <para>Normally, Evolution uses the same fonts as other GNOME applications. To choose different fonts, deselect Use the same fonts as other applications and select one font for standard typefaces and a second for monospace.</para>
     </formalpara>
     <formalpara id="bsbho3f">
      <title>Message Display:</title>
-     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders.</para>
+     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you receive. By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders.</para>
     </formalpara>
     <para>To group the messages as threads select View &gt; Group By threads or press Ctrl+T.</para>
     <formalpara id="bsbhq3y">
      <title>Deleting Mail:</title>
-     <para>Choose whether to delete messages automatically when quitting Evolution and how frequently, and whether you want to explicitly confirm the final deletion of messages.Select Confirm when expunging a folder to confirm the final deletion. You can have four different options to set the frequency for deletion: Everytime, Once per day, Once per week, and Once per month.</para>
+     <para>Choose whether to delete messages automatically when quitting Evolution and how frequently, and whether you want to explicitly confirm the final deletion of messages. Select Confirm when expunging a folder to confirm the final deletion. You can have four different options to set the frequency for deletion: Everytime, Once per day, Once per week, and Once per month.</para>
     </formalpara>
     <formalpara id="bsbhq7t">
      <title>New Mail Notifications:</title>
@@ -6433,9 +6433,9 @@
     </formalpara>
     <formalpara id="bsbhr9p">
      <title>Loading Images:</title>
-     <para>You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm <quote>live</quote> addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images.</para>
+     <para>You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm <quote>valid</quote> addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images.</para>
     </formalpara>
-    <para>If you have chosen not to load images automatically, you can choose to see the images in one message at a time by selecting View &gt; Load Images or press Ctrl +I.</para>
+    <para>If you have chosen not to load images automatically, you can choose to see the images in one message at a time by selecting View &gt; Load Images or press Ctrl+I.</para>
    </section>
 
    <section id="mail-prefs-colors">
@@ -6523,7 +6523,7 @@
      <para>Select Convert mail text to Unicode to enable Unicode&z-3rdParty; filtering. For more information on Bogofilter, see the <ulink url="http://bogofilter.sourceforge.net/">Bogofilter site</ulink>.</para>
     </formalpara>
     <note>
-     <para>Check new messages for junk contents option under Edit &gt; Preferences &gt; Mail Accounts &gt; Edit &gt; Receiving option is enabled only for IMAP. Check incoming mail for junk option under Edit &gt; Prefernces &gt; Mail Preferences &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
+     <para>Check new messages for junk contents option under Edit &gt; Preferences &gt; Mail Accounts &gt; Edit &gt; Receiving options is enabled only for IMAP. Check incoming mail for junk option under Edit &gt; Prefernces &gt; Mail Preferences &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
     </note>
    </section>
 
@@ -6541,7 +6541,7 @@
 
   <section id="config-prefs-mail-composer">
    <title>Composer Preferences</title>
-   <para>There are three tabs for message composer settings where you can set the composer preferences. The General tab covers shortcuts and assorted behavior, the Signature tab sets your signature, and the Spell Checking tab controls spell checking.</para>
+   <para>There are three tabs for message composer settings where you can set the composer preferences. The General tab covers assorted behavior, the Signature tab sets your signature, and the Spell Checking tab controls spell checking.</para>
    <itemizedlist>
     <listitem>
      <para><link linkend="bshpixy">General</link></para>
@@ -6556,7 +6556,7 @@
 
    <section id="bshpixy">
     <title>General</title>
-    <para>In the General tab, you can set the following options:</para>
+    <para>The General page has the following options:</para>
     <formalpara id="bsbhs8n">
      <title>Default Behavior:</title>
      <para>Choose how to normally forward and reply to messages, what character set they will use, whether they are in HTML, and whether that HTML can contain graphic emoticons.</para>
@@ -6593,7 +6593,8 @@
 
    <section id="bshpjuj">
     <title>Spell Checking</title>
-    <para>To choose a spell-checking language, select it here. You must install the gnome-spell package, for spell-checking to be available in Evolution. Additional dictionaries are also available through <trademark class="registered">Red Carpet</trademark> and are detected automatically if you have installed them. You must also install the aspell package. If this is the case, please contact your packager. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words.</para>
+    <para>To choose a spell-checking language, select it here. You must install gnome-spell, aspell, and an aspell language package
+(like for example aspell-en for english language) for spell-checking to be available in Evolution. Additional dictionaries are available through your package manager and are detected automatically if you have installed them. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words.</para>
    </section>
   </section>
 
@@ -6772,9 +6773,9 @@
       </formalpara>
      </listitem>
      <listitem id="bxmw8kf">
-      <para>If you selected On This Computer, specify the name of the computer, and choose whether you want to the new address book as your default folder.</para>
+      <para>If you selected On This Computer, specify the name of the address book, and choose whether you want to the new address book as your default folder.</para>
       <para>or</para>
-      <para> If you are creating an <link linkend="ldap">LDAP</link> server, enter the server information as requested by the assistant:</para>
+      <para> If you are creating an address book on an <link linkend="ldap">LDAP</link> server, enter the server information as requested by the assistant:</para>
       <formalpara id="bxmwai1">
        <title>Server Name:</title>
        <para>The Internet address of the contact server you are using.</para>
@@ -6789,7 +6790,7 @@
       </formalpara>
       <formalpara id="bxmwai4">
        <title>Use SSL/TLS:</title>
-       <para>SSL and TLS are security mechanisms. If you select Always, Evolution does not connect unless secure connections are available. The default value is Whenever Possible, which uses secure connections if they are available, but does not cause failure if they are not.</para>
+       <para>SSL and TLS are security mechanisms. If you select No Encryption, Evolution will send your password unencrypted. By using SSL or TLS, a secure connection will be used and your password will be send encrypted.</para>
       </formalpara>
       <formalpara id="bxmwai5">
        <title>Details: Search Base:</title>
@@ -6835,7 +6836,7 @@
        <title>Search Filter:</title>
        <para>The search filter can be set here for all the LDAP queries. For example:</para>
       </formalpara>
-      <para>ObjectClass=*: Lists all the objects from the server.ObjectClass=User: Lists only the user objects.Filter (|(ObjectClass=User)(ObjectClass=groupOfNames)): Retrieves the User and Contact List objects.(&amp;(mail=*)(ObjectClass=*)): Lists the objects associated with the e-mail addresses.</para>
+      <para>ObjectClass=*: Lists all the objects from the server.ObjectClass=User: Lists only the users. Filter (|(ObjectClass=User)(ObjectClass=groupOfNames)): Retrieves the User and Contact List objects.(&amp;(mail=*)(ObjectClass=*)): Lists the objects associated with the e-mail addresses.</para>
       <note>
        <para>If you change any LDAP address book configurations, Evolution and the Evolution Data Server need to be restarted in order to see the changes.</para>
       </note>
@@ -6885,7 +6886,7 @@
 
   <section id="bshq58g">
    <title>Enabling Synchronization</title>
-   <para>If you haven't used a handheld device with your computer before, you need to run the GNOME Control Center by clicking System &gt; Settings, and make sure that Pilot Link is properly configured. Make sure that you have read and write permissions on the device, which is normally n /dev/pilot. If that does not work, check in /dev/ttyS0 if you have a serial connection, or in /dev/ttyUSB1 for a USB connection. You can do this by becoming root and adding your username to the group that owns this device node. For a USB device on sync, two device nodes are created, ttyUSB0 and ttyUSB1. The second node is the one to be used in configuring the device.</para>
+   <para>If you haven't used a handheld device with your computer before, you need to run the GNOME Control Center by clicking System &gt; Settings, and make sure that Pilot Link is properly configured. Make sure that you have read and write permissions on the device, which is normally in /dev/pilot. If that does not work, check in /dev/ttyS0 if you have a serial connection, or in /dev/ttyUSB1 for a USB connection. You can do this by becoming root and adding your username to the group that owns this device node. For a USB device on sync, two device nodes are created, ttyUSB0 and ttyUSB1. The second node is the one to be used in configuring the device.</para>
   </section>
 
   <section id="bshq7hl">
@@ -6914,7 +6915,7 @@
   <section id="bshq2qn">
    <title>Synchronizing Information</title>
    <para>Use the following procedure to synchronize the data on your Palm OS device with the data you store in Evolution.</para>
-   <para>If you want to back up your information before synchronizing, make a copy of the <command>evolution</command> directory inside your home directory.</para>
+   <para>If you want to back up your information before synchronizing, make a copy of the <command>.evolution</command> directory inside your home directory.</para>
    <orderedlist>
     <listitem id="bshq1vg">
      <para>Put your handheld device in its cradle and press the HotSync button.</para>
