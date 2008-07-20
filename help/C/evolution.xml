@@ -3816,7 +3816,7 @@
       </listitem>
       <listitem id="b10fnwj2">
        <para>Select a calendar in the Calendar drop-down list.</para>
-       <para>Enter a brief description in the Summary field.</para>
+       <para>Enter a brief summary in the Summary field.</para>
        <mediaobject id="b13uby19"><imageobject><imagedata format="PNG" fileref="figures/evo_calender_appointmnt.png"/></imageobject></mediaobject>
        
       </listitem>
@@ -3824,10 +3824,10 @@
        <para>(Optional) Type a location in the Location field.</para>
       </listitem>
       <listitem id="b13uc0pd">
-       <para>Select the date, time and set the duration.</para>
+       <para>Select the date and time.</para>
       </listitem>
       <listitem id="b13uc1k9">
-       <para>(Optional) Enter a brief summary of the appointment in the description field.</para>
+       <para>Enter a brief summary in the Summary field.</para>
       </listitem>
       <listitem id="b10fnwwl">
        <para>To select this appointment as an all day event, click Options &gt; All Day Event.</para>
@@ -3859,7 +3859,7 @@
        <para>To show or hide the Categories field, click View &gt; Categories.</para>
       </listitem>
       <listitem id="b10fo1zg">
-       <para>Type a description in the Description field.</para>
+       <para>(Optional) Enter a description in the Description field.</para>
       </listitem>
       <listitem id="b10fo251">
        <para>To select an alarm for this appointment, click Alarm on the toolbar.</para>
@@ -3988,13 +3988,15 @@
       <para>Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b10fofv1">
-      <para>Enter a brief description in the Summary field.</para>
+      <para>Enter a brief summary in the Summary field.</para>
      </listitem>
      <listitem id="b10fofxb">
       <para>(Optional) Type a location in the Location field.</para>
      </listitem>
      <listitem id="b10fofz9">
-      <para>To select this meeting as an all day event, click the All Day Event button on the toolbar.</para>
+       <para>To select this appointment as an all day event, click Options &gt; All Day Event.</para>
+       <para>or</para>
+       <para>Click the All Day Event button on the toolbar.</para>
      </listitem>
      <listitem id="b10fog24">
       <para>If the event is an all day event, specify a starting date and an ending date.</para>
@@ -4368,7 +4370,7 @@
       <para>Select a group for the task.</para>
      </listitem>
      <listitem id="b10155ht">
-      <para>Enter a brief description in the Summary field.</para>
+      <para>Enter a brief summary in the Summary field.</para>
      </listitem>
      <listitem id="b10155hu">
       <para>(Optional) Specify a starting date and ending date for the task.</para>
@@ -4387,7 +4389,7 @@
       <para>To show or hide the Categories field, click View &gt; Categories.</para>
      </listitem>
      <listitem id="b10155hy">
-      <para>Type a description for the task.</para>
+      <para>(Optional) Enter a description in the Description field.</para>
      </listitem>
      <listitem id="b10155hz">
       <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
@@ -4422,7 +4424,7 @@
       <para>Click Add, or press Insert key, or right click and then press Add to add the e-mail addresses of people you want to assign the task.To remove an attendee from the list, select an attendee, then press Remove.To edit a field, select the field, then click Edit.Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b1012vd2">
-      <para>Enter a brief description in the Summary field.</para>
+      <para>Enter a brief summary in the Summary field.</para>
      </listitem>
      <listitem id="b1012vd3">
       <para>(Optional) Specify a starting date and time, and a due date and time for the task.</para>
@@ -4438,7 +4440,7 @@
       <para>To show or hide Categories field, click View &gt; Categories.</para>
      </listitem>
      <listitem id="b1012vd7">
-      <para>Type a description for the task.</para>
+      <para>(Optional) Enter a description in the Description field.</para>
      </listitem>
      <listitem id="b10fqh6o">
       <para>(Optional) To add an attachment to the assigned task, drag and drop the attachment into the attachment bar.</para>
@@ -4653,13 +4655,13 @@
      <para>To show or hide Categories field, click View &gt; Categories.</para>
     </listitem>
     <listitem id="b1012vdh">
-     <para>Enter a brief description in the Summary field.</para>
+     <para>Enter a brief summary in the Summary field.</para>
     </listitem>
     <listitem id="b15ilfa0">
      <para>In the Start Date field, type the date this reminder note should appear in the recipients' Calendars.</para>
     </listitem>
     <listitem id="b15ilpb6">
-     <para>Type text for the memo in the Description field.</para>
+     <para>(Optional) Enter a description in the Description field.</para>
     </listitem>
     <listitem id="b10fqh6q">
      <para>(Optional) To add an attachment to the memo, drag and drop the attachment into the attachment bar.</para>
@@ -5718,7 +5720,7 @@
      <para>Select the Group in which you would like to create the entry.</para>
     </listitem>
     <listitem id="b15ijg02">
-     <para>Enter a brief description in the Summary field.</para>
+     <para>Enter a brief summary in the Summary field.</para>
     </listitem>
     <listitem id="b15ijgcw">
      <para>In the Start Date field, type the date this reminder note should appear in the recipients' Calendars.</para>
@@ -5727,7 +5729,7 @@
      <para>Specify the category that the Reminder note falls under.</para>
     </listitem>
     <listitem id="b15ijkkf">
-     <para>Enter the description for the Reminder Note.</para>
+     <para>(Optional) Enter a description in the Description field.</para>
     </listitem>
     <listitem id="b15ijkqc">
      <para>Click Save.</para>
