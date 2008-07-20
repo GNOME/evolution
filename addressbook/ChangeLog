@@ -1,3 +1,7 @@
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* addressbook.error.xml: Fix some strings. See bug #543753.
+
 2008-07-13  Keith Packard  <keithp@keithp.com>
 
 	** Fix for bug #541355
