@@ -479,7 +479,7 @@
         <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bstgh57">
-        <para>Select if you want Evolution to use custom commands to connect to Evolution.</para>
+        <para>Select if you want Evolution to use custom commands to connect to the IMAP server.</para>
         <para>If you select this option, specify the custom command you want Evolution to use.</para>
        </listitem>
        <listitem id="bstgi0r">
@@ -736,8 +736,9 @@
     <section id="fourth-step">
      <title>Importing Mail (Optional)</title>
      <para>After selecting your time zone, if Evolution finds e-mail or address files from another application, it offers to import them. For a full description of the import feature, see <link linkend="importing-mail">Importing Single Files</link>.</para>
-     <para>Microsoft Outlook&z-3rdParty; and versions of Outlook Express after version 4 use proprietary formats that Evolution cannot read or import. To import information, you might want to use the Export tool under Windows&z-3rdParty;. See the instructions in <link linkend="outlook-migration-mail">Migrating Local Outlook Mail Folders</link>.</para>
-     <para>Before importing e-mail from Netscape&z-3rdParty;, make sure you have selected File &gt; Compact All Folders. If you don't, Evolution will import and undelete the messages in your Trash folders.</para>
+     <para>Microsoft Outlook&z-3rdParty; and versions of Outlook Express after version 4 use proprietary formats that Evolution cannot read or import.</para>
+     <para>To import information, you might want to use the Export tool under Windows&z-3rdParty;. See the instructions in <link linkend="outlook-migration-mail">Migrating Local Outlook Mail Folders</link>.</para>
+     <para>Before importing e-mail from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      <tip>
       <para>Evolution uses standard file types for e-mail and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <command>mbox</command> for e-mail and iCal for calendar information.</para>
       <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export contact data, open your contacts tool and select the contacts you want to export (press Ctrl+A to select them all). Click File &gt; Save Contact as VCard.</para>
@@ -2191,7 +2192,7 @@
     <title>S/MIME Encryption</title>
     <para>S/MIME encryption also uses a key-based approach, but it has some significant advantages in convenience and security. S/MIME uses certificates, which are similar to keys. The public portion of each certificate is held by the sender of a message and by one of several certificate authorities, who are paid to guarantee the identity of the sender and the security of the message. Evolution already recognizes a large number of certificate authorities, so when you get a message with an S/MIME certificate, your system automatically receives the public portion of the certificate and decrypts or verifies the message.</para>
     <para>S/MIME is used most often in corporate settings. In these cases, administrators supply certificates that they have purchased from a certificate authority. In some cases, an organization can act as its own certificate authority, with or without a guarantee from a dedicated authority such as VeriSign&z-3rdParty; or Thawte&z-3rdParty;. In either case, the system administrator provides you with a certificate file.</para>
-    <para>If you want to use S/MIME independently, you can extract an identification certificate from your Mozilla&z-3rdParty; or Netscape* Web browser. See the Mozilla help <ulink url="http://www.mozilla.org/projects/security/pki/psm/help_21/using_certs_help.html">Mozilla Help</ulink>for more information on security certificates.</para>
+    <para>If you want to use S/MIME independently, you can extract an identification certificate from your Mozilla&z-3rdParty; or Netscape&z-3rdParty; Web browser. See the Mozilla help <ulink url="http://www.mozilla.org/projects/security/pki/psm/help_21/using_certs_help.html">Mozilla Help</ulink>for more information on security certificates.</para>
     <para>The certificate file is a password-protected file on your computer.</para>
 
     <section id="bspyee8">
@@ -2349,11 +2350,12 @@
      </listitem>
     </orderedlist>
     <mediaobject id="b13sf59f"><imageobject><imagedata format="PNG" fileref="figures/evo_import_asst_a.png"/></imageobject></mediaobject>
-    <para>Microsoft Outlook and versions of Outlook Express after version 4 use proprietary formats that Evolution cannot read or import. One migration method that works well is to use the Outport application. See <ulink url="http://outport.sourceforge.net">outport.sourceforge.net</ulink> for additional information. You can also import data into another Windows mail client such as Mozilla.</para>
+    <para>Microsoft Outlook&z-3rdParty; and versions of Outlook Express after version 4 use proprietary formats that Evolution cannot read or import.</para>
+    <para>One migration method that works well is to use the Outport application. See <ulink url="http://outport.sourceforge.net">outport.sourceforge.net</ulink> for additional information. You can also import data into another Windows mail client such as Mozilla.</para>
     <orderedlist>
      <listitem id="bsawgkk">
       <para>While in Windows, import your .pst files into Mozilla Mail (or another mail program such as Netscape or Eudora that uses the standard mbox format).</para>
-      <para>Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
+      <para>Before importing e-mail from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      </listitem>
      <listitem id="bsawh7h">
       <para>Copy the files to the system or partition that Evolution is installed on.</para>
@@ -2541,12 +2543,12 @@
    <title>Getting Organized with Folders</title>
    <para>Evolution, like most other mail systems, stores mail in folders. You start out with a few mail folders, such as Inbox, Outbox, and Drafts, but you can create as many as you like. Create new folders by clicking Folder &gt; New, or by right-clicking in the folder list and selecting New Folder.</para>
    <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click on the message and choose Move to folder, or press Shift+Ctrl+V.</para>
-   <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder or press Shift+Ctrl+V. This will open the Select folder window, where you can drop your message to any of the folders listed.</para>
+   <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder. This will open the Select folder window, where you can drop your message to any of the folders listed.</para>
    <mediaobject id="b13td8j9"><imageobject><imagedata format="PNG" fileref="figures/evo_select_folder.png"/></imageobject></mediaobject>
    <para>If you want to create a new folder click New at the bottom left of the window. Specify the location and enter the label of the folder at the entry box appeared at the top. You can also move the messages from one folder to another by selecting the message and then press Move tab at the bottom right.</para>
-   <para>If you create a filter with the filter assistant, you can have mail filed automatically. For that select Edit &gt; Message Filters to appear Message Filters window</para>
+   <para>If you create a filter with the filter assistant, you can have mail filed automatically. Select Edit &gt; Message Filters to bring up the Message Filters window.</para>
    <mediaobject id="b13tf6pl"><imageobject><imagedata format="PNG" fileref="figures/evo_message_filters_a.png"/></imageobject></mediaobject>
-   <para>Click the Add tab to appear Add Rule window from where you can set different criteria for filtering messages. For more information refer <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
+   <para>Click on the Add button to bring up the Add Rule window from where you can set different criteria for filtering messages. For more information refer <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
    <note>
     <para>The Inbox folder on most IMAP servers cannot contain both subfolders and messages. When you create additional folders on your IMAP mail server, branch them from the root of the IMAP account's folder tree, not from the Inbox. If you create subfolders in your Inbox folder, you lose the ability to read messages that exist in your Inbox until you move the folders out of the way.</para>
    </note>
@@ -2637,7 +2639,7 @@
    </tip>
    <formalpara id="b131jgie">
     <title>Customized Search:</title>
-    <para>Evolution allows you to perform customized search.To search for a message use the following procedure:</para>
+    <para>Evolution allows you to perform customized search. To search for a message use the following procedure:</para>
    </formalpara>
    <orderedlist>
     <listitem id="b131jhwt">
@@ -2700,11 +2702,11 @@
    </tip>
    <formalpara id="b13tvajl">
     <title>Advanced Search:</title>
-    <para>To perform advanced search,</para>
+    <para>To perform an advanced search,</para>
    </formalpara>
    <orderedlist>
     <listitem id="b13tvav6">
-     <para>Select Search menu.</para>
+     <para>Select the Search menu.</para>
     </listitem>
     <listitem id="b13tvb7l">
      <para>Click Advanced Search to open Advanced Search dialog box.</para>
@@ -2730,19 +2732,19 @@
    </formalpara>
    <formalpara id="b13tvnp3">
     <title>Edit Saved Searches:</title>
-    <para>To edit your saved searches</para>
+    <para>To edit your saved searches,</para>
    </formalpara>
    <orderedlist>
     <listitem id="b13tw1cm">
-     <para>Select Search </para>
+     <para>Select Search from the menu bar.</para>
     </listitem>
     <listitem id="b13tw2vp">
-     <para>Click Edit Saved Searches to open Searches dialog box.</para>
+     <para>Click Edit Saved Searches to open the Searches dialog box.</para>
      <mediaobject id="b13tw8de"><imageobject><imagedata format="PNG" fileref="figures/evo_edit_search.png"/></imageobject></mediaobject>
      
     </listitem>
     <listitem id="b13tw8px">
-     <para>Click Edit tab to edit to open Edit Rule dialog box.</para>
+     <para>Click the Edit button to open the Edit Rule dialog box.</para>
      <para>You can also add or remove Searches from the list by using the respective buttons available at the right.</para>
      <mediaobject id="b13twan3"><imageobject><imagedata format="PNG" fileref="figures/evo_edit_rule_a.png"/></imageobject></mediaobject>
      
@@ -2856,7 +2858,7 @@
       </formalpara>
       <formalpara id="bshkh3t">
        <title>Select the Criteria for the Condition:</title>
-       <para>If you want multiple criteria for this filter, click Add Criterion and repeat step 4.</para>
+       <para>If you want multiple criteria for this filter, click Add and repeat step 4.</para>
       </formalpara>
       <formalpara id="bshkhi8">
        <title>Select the Actions for the Filter in the Then Section:</title>
@@ -2944,7 +2946,7 @@
       </itemizedlist>
      </listitem>
      <listitem id="bsazp1t">
-      <para>Click Add Action if you need multiple actions and click OK.</para>
+      <para>Click Add if you need multiple actions and click OK.</para>
      </listitem>
      <listitem id="bsazq81">
       <para>Click OK.</para>
@@ -2956,7 +2958,7 @@
       <para>Right-click the message in the message list.</para>
      </listitem>
      <listitem id="bsh22bz">
-      <para>Select one of the items under the Create Rule from the Message submenu.</para>
+      <para>Select one of the items under the Create Rule From Message submenu.</para>
       <para>Creating a rule based on a message opens the filter creation tool with some of the information about the message already filled in for your convenience.</para>
      </listitem>
     </orderedlist>
@@ -6479,7 +6481,7 @@
 
    <section id="mail-prefs-junk">
     <title>Junk Mail Preferences</title>
-    <para>You can check your incoming messages for junk content by using Bogofilter and SpamAssassin* tools, which have trainable Bayesian filters. You need to enable the Junk plugins to start filtering junk mail.</para>
+    <para>You can check your incoming messages for junk content by using Bogofilter and SpamAssassin&z-3rdParty; tools, which have trainable Bayesian filters. You need to enable the Junk plugins to start filtering junk mail.</para>
     <para>To enable Junk plugins:</para>
     <orderedlist>
      <listitem id="b17rdxkm">
@@ -6513,7 +6515,7 @@
     <para>This option uses tests that require a network connection, such as checking to see if a message is in a list of known junk messages, or if the sender or gateway are blacklisted by anti-spam organizations. Online tests can make filtering slower, because remote tests add to the amount of time it takes to check for junk mail, but they increase accuracy. When you select this option, you do not need to do any additional setup.</para>
     <formalpara id="b17rfjnv">
      <title>Bogofilter Options:</title>
-     <para>Select Convert mail text to Unicode to enable Unicode* filtering. For more information on Bogofilter, see the <ulink url="http://bogofilter.sourceforge.net/">Bogofilter site</ulink>.</para>
+     <para>Select Convert mail text to Unicode to enable Unicode&z-3rdParty; filtering. For more information on Bogofilter, see the <ulink url="http://bogofilter.sourceforge.net/">Bogofilter site</ulink>.</para>
     </formalpara>
     <note>
      <para>Check new messages for junk contents option under Edit &gt; Preferences &gt; Mail Accounts &gt; Edit &gt; Receiving option is enabled only for IMAP. Check incoming mail for junk option under Edit &gt; Prefernces &gt; Mail Preferences &gt; Junk &gt; General refers only to POP and Local Delivery.</para>
@@ -6939,7 +6941,7 @@
     </listitem>
    </orderedlist>
    <para>Mozilla creates a set of files in the directory<command> Windows\Application_Data\Mozilla\Profiles\(UserName)\(Random Letters)\Mail\Local Folders\OutlookMail\</command>. The data files are those that have no file extension.</para>
-   <para>If you are using Windows Vista*, Windows XP* or Windows 2000*, your Windows hard drive is probably in the NTFS format, which some Linux systems cannot read without additional software. You might find it simpler to copy the mail folders to a different drive or to burn a CD.</para>
+   <para>If you are using Windows Vista&z-3rdParty;, Windows XP&z-3rdParty; or Windows 2000&z-3rdParty;, your Windows hard drive is probably in the NTFS format, which some Linux systems cannot read without additional software. You might find it simpler to copy the mail folders to a different drive or to burn a CD.</para>
    <para>When you have your mail in a format Evolution can understand, reboot to Linux. Then continue with the following procedure. To create new folders for your files:</para>
    <orderedlist>
     <listitem id="bshqeej">
