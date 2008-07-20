@@ -26,6 +26,14 @@
 
 2008-07-09  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #269152
+
+	* em-format-quote.c: (emfq_format_header):
+	* em-format-html.c: (efh_format_headers):
+	Use X-MimeOLE as Mailer header when there's nothing better available.
+
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #207802 (Patch suggested by Veerapuram Varadhan.)
 
 	* message-list.c: (struct search_child_struct), (search_child_cb),

@@ -1942,15 +1942,30 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
 								!g_ascii_strcasecmp (header->name, "User-Agent") ||
-								!g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
-					struct _camel_header_raw xmailer;
+								!g_ascii_strcasecmp (header->name, "X-Newsreader") ||
+								!g_ascii_strcasecmp (header->name, "X-MimeOLE"))) {
+					struct _camel_header_raw xmailer, *use_header = NULL;
+
+					if (!g_ascii_strcasecmp (header->name, "X-MimeOLE")) {
+						for (use_header = header->next; use_header; use_header = use_header->next) {
+							if (!g_ascii_strcasecmp (use_header->name, "X-Mailer") ||
+							    !g_ascii_strcasecmp (use_header->name, "User-Agent") ||
+							    !g_ascii_strcasecmp (use_header->name, "X-Newsreader")) {
+								/* even we have X-MimeOLE, then use rather the standard one, when available */
+								break;
+							}
+						}
+					}
+
+					if (!use_header)
+						use_header = header;
 
 					xmailer.name = "X-Evolution-Mailer";
-					xmailer.value = header->value;
+					xmailer.value = use_header->value;
 					mailer_shown = TRUE;
 
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
-					if (strstr(header->value, "Evolution"))
+					if (strstr(use_header->value, "Evolution"))
 						have_icon = TRUE;
 				} else if (!g_ascii_strcasecmp (header->name, "Face") && !face_decoded) {
 					char *cp = header->value;
