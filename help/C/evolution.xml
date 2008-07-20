@@ -2192,7 +2192,7 @@
     <title>S/MIME Encryption</title>
     <para>S/MIME encryption also uses a key-based approach, but it has some significant advantages in convenience and security. S/MIME uses certificates, which are similar to keys. The public portion of each certificate is held by the sender of a message and by one of several certificate authorities, who are paid to guarantee the identity of the sender and the security of the message. Evolution already recognizes a large number of certificate authorities, so when you get a message with an S/MIME certificate, your system automatically receives the public portion of the certificate and decrypts or verifies the message.</para>
     <para>S/MIME is used most often in corporate settings. In these cases, administrators supply certificates that they have purchased from a certificate authority. In some cases, an organization can act as its own certificate authority, with or without a guarantee from a dedicated authority such as VeriSign&z-3rdParty; or Thawte&z-3rdParty;. In either case, the system administrator provides you with a certificate file.</para>
-    <para>If you want to use S/MIME independently, you can extract an identification certificate from your Mozilla&z-3rdParty; or Netscape&z-3rdParty; Web browser. See the Mozilla help <ulink url="http://www.mozilla.org/projects/security/pki/psm/help_21/using_certs_help.html">Mozilla Help</ulink>for more information on security certificates.</para>
+    <para>If you want to use S/MIME independently, you can extract an identification certificate from your Mozilla&z-3rdParty; or Netscape&z-3rdParty; Web browser. See the <ulink url="http://www.mozilla.org/projects/security/pki/psm/help_21/using_certs_help.html">Mozilla Help</ulink>for more information on security certificates.</para>
     <para>The certificate file is a password-protected file on your computer.</para>
 
     <section id="bspyee8">
@@ -2299,7 +2299,7 @@
     </formalpara>
     <formalpara id="b10ac57t">
      <title>Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):</title>
-     <para>CSV or Tab files saved using Evolution, Microsoft Outlook and Mozilla.</para>
+     <para>CSV or Tab files saved by using Evolution, Microsoft Outlook and Mozilla.</para>
     </formalpara>
     <formalpara id="bsawckg">
      <title>Microsoft Outlook Express 4 (.mbx):</title>
@@ -3174,7 +3174,7 @@
     <para>If you want to add or change cards, use the contact editor. You can edit email address, telephone numbers, mailer addresses and all other contact information you have entered for a particular contact.</para>
     <para>The contact editor window has three tabs:</para>
     <formalpara id="b13psru7">
-     <title>Contacts:</title>
+     <title>Contact:</title>
      <para>Contains basic contact information.</para>
     </formalpara>
     <formalpara id="b13pss9b">
@@ -3186,8 +3186,7 @@
      <para>Contains the individual's mailing address.</para>
     </formalpara>
     <para>You can also use Action Menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's e-mail address.</para>
-    <para>From the Contact Editor toolbar, you can save and close, print, close, or delete the contact.</para>
-    <para>You can add card from within an e-mail message or calendar appointment. In an open e-mail, right-click any e-mail address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu.</para>
+    <para>You can add a card from within an e-mail message or calendar appointment. In an open e-mail, right-click any e-mail address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu.</para>
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
      <title>Full Name:</title>
@@ -3374,7 +3373,7 @@
        <para>Suppliers</para>
       </listitem>
       <listitem>
-       <para>Time &amp;Expenses</para>
+       <para>Time &amp; Expenses</para>
       </listitem>
       <listitem>
        <para>VIP</para>
@@ -3383,25 +3382,25 @@
        <para>Waiting</para>
       </listitem>
       <listitem>
-       <para>Weather:Cloudy</para>
+       <para>Weather: Cloudy</para>
       </listitem>
       <listitem>
-       <para>Weather:Fog</para>
+       <para>Weather: Fog</para>
       </listitem>
       <listitem>
-       <para>Weather:Partly Cloudy</para>
+       <para>Weather: Partly Cloudy</para>
       </listitem>
       <listitem>
-       <para>Weather:Rain</para>
+       <para>Weather: Rain</para>
       </listitem>
       <listitem>
-       <para>Weather:Snow</para>
+       <para>Weather: Snow</para>
       </listitem>
       <listitem>
-       <para>Weather:Sunny</para>
+       <para>Weather: Sunny</para>
       </listitem>
       <listitem>
-       <para>Weather:Thunderstorms</para>
+       <para>Weather: Thunderstorms</para>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -3827,10 +3826,10 @@
        <para>Click the All Day Event button on the toolbar.</para>
       </listitem>
       <listitem id="b10fnxet">
-       <para>If the event is an all day event, specify a starting and ending date.</para>
+       <para>If the event is an all day event, specify a starting date and an ending date.</para>
       </listitem>
       <listitem id="b10fnxkk">
-       <para>If the event is not an all day event, specify a starting and ending time.</para>
+       <para>If the event is not an all day event, specify a starting time and an ending time.</para>
       </listitem>
       <listitem id="b10fnxtn">
        <para>Select For to specify the duration.</para>
@@ -3854,7 +3853,8 @@
       </listitem>
       <listitem id="b10fo251">
        <para>To select an alarm for this appointment, click Alarm on the toolbar.</para>
-       <para>If you select an alarm, specify when and how you want the alarm to notify. For more information on reminders, see <link linkend="bshly4v">Reminders</link>.</para>
+       <para>If you select an alarm, specify when and how you want the alarm to notify.</para>
+       <para>For more information on reminders, see <link linkend="bshly4v">Reminders</link>.</para>
       </listitem>
       <listitem id="b10fo3gm">
        <para>(Optional) To add an attachment to the appointment, drag and drop the attachment into the attachment bar.</para>
@@ -3993,7 +3993,9 @@
       <para>If the event is not an all day event, specify a starting time and an ending time.</para>
      </listitem>
      <listitem id="bzxwvrs">
-      <para>Select For to specify the duration or select Until to specify the ending time of the event.</para>
+      <para>Select For to specify the duration.</para>
+      <para>or</para>
+      <para>Select Until to specify the ending time of the event.</para>
      </listitem>
      <listitem id="bzxys1w">
       <para>Type the time zone information in the Time Zone field.</para>
@@ -4114,7 +4116,7 @@
      </orderedlist>
      <para>To immediately publish calendar information, go to the Calendar tool and click Actions &gt; Publish Calendar Information.</para>
      <note>
-      <para>Evolution allows you to specify a template to use when posting to the Free/Busy server.</para>
+      <para>You can specify a template to use when posting to the Free/Busy server.</para>
      </note>
     </section>
 
@@ -4226,7 +4228,7 @@
        <para>Goals/Objectives</para>
       </listitem>
       <listitem>
-       <para>Holidays</para>
+       <para>Holiday</para>
       </listitem>
       <listitem>
        <para>Holiday Cards</para>
@@ -4238,7 +4240,7 @@
        <para>International</para>
       </listitem>
       <listitem>
-       <para>Key Customers</para>
+       <para>Key Customer</para>
       </listitem>
       <listitem>
        <para>Miscellaneous</para>
@@ -4275,7 +4277,7 @@
 
   <section id="CHDFEJGG">
    <title>Printing Displayed Items</title>
-   <para>To print the displayed calendar items, click File &gt; Print or right click on the calendar item &gt; Print.</para>
+   <para>To print the displayed calendar items, click File &gt; Print.</para>
   </section>
 
   <section id="bshm4dy">
@@ -6682,7 +6684,7 @@
 
    <section id="b13yjhw2">
     <title>Free/Busy</title>
-    <para>Allows you to specify a template to use while posting your Free/Busy information to a server.</para>
+    <para>You can specify a template to use when posting to the Free/Busy server.</para>
    </section>
 
    <section id="bxjng8p">
