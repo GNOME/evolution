@@ -1,3 +1,9 @@
+2008-07-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #542587
+
+	* e-shell-window.c: Use new EOnlineButton widget.
+
 2008-07-19  Tor Lillqvist  <tml@novell.com>
 
 	Bug 543758 - Never mark empty strings for translations

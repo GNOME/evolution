@@ -30,6 +30,7 @@
 #include "Evolution.h"
 
 #include "e-util/e-util-private.h"
+#include "widgets/misc/e-online-button.h"
 
 #include "e-component-registry.h"
 #include "e-shell-window-commands.h"
@@ -115,7 +116,6 @@ struct _EShellWindowPrivate {
 	/* The status bar widgetry.  */
 	GtkWidget *status_bar;
 	GtkWidget *offline_toggle;
-	GtkWidget *offline_toggle_image;
 	GtkWidget *menu_hint_label;
 
 	/* The timeout for saving the window size */
@@ -132,10 +132,6 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (EShellWindow, e_shell_window, BONOBO_TYPE_WINDOW)
-
-/* The icons for the offline/online status.  */
-#define OFFLINE_ICON "offline.png"
-#define ONLINE_ICON  "online.png"
 
 static gboolean store_window_size (GtkWidget* widget);
 
@@ -365,9 +361,9 @@ static void
 update_offline_toggle_status (EShellWindow *window)
 {
 	EShellWindowPrivate *priv;
-	const char *icon;
-	char *icon_file;
-	const char *tooltip;
+	GtkWidget *widget;
+	const gchar *tooltip;
+	gboolean online;
 	gboolean sensitive;
 	guint32 flags = 0;
 	ESMenuTargetShell *t;
@@ -376,23 +372,23 @@ update_offline_toggle_status (EShellWindow *window)
 
 	switch (e_shell_get_line_status (priv->shell.eshell)) {
 	case E_SHELL_LINE_STATUS_ONLINE:
-		icon        = ONLINE_ICON;
+		online      = TRUE;
 		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently online. "
+		tooltip     = _("Evolution is currently online.\n"
 				"Click on this button to work offline.");
 		flags = ES_MENU_SHELL_ONLINE;
 		break;
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
-		icon        = ONLINE_ICON;
+		online      = TRUE;
 		sensitive   = FALSE;
 		tooltip     = _("Evolution is in the process of going offline.");
 		flags = ES_MENU_SHELL_OFFLINE;
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
 	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
-		icon        = OFFLINE_ICON;
+		online      = FALSE;
 		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently offline. "
+		tooltip     = _("Evolution is currently offline.\n"
 				"Click on this button to work online.");
 		flags = ES_MENU_SHELL_OFFLINE;
 		break;
@@ -400,11 +396,10 @@ update_offline_toggle_status (EShellWindow *window)
 		g_return_if_reached ();
 	}
 
-	icon_file = g_build_filename (EVOLUTION_IMAGESDIR, icon, NULL);
-	gtk_image_set_from_file (GTK_IMAGE (priv->offline_toggle_image), icon_file);
-	g_free (icon_file);
-	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
-	gtk_widget_set_tooltip_text (priv->offline_toggle, tooltip);
+        widget = window->priv->offline_toggle;
+        gtk_widget_set_sensitive (widget, sensitive);
+        gtk_widget_set_tooltip_text (widget, tooltip);
+        e_online_button_set_online (E_ONLINE_BUTTON (widget), online);
 
 	/* TODO: If we get more shell flags, this should be centralised */
 	t = es_menu_target_new_shell(priv->menu, flags);
@@ -476,8 +471,7 @@ sidebar_button_pressed_callback (ESidebar       *sidebar,
 }
 
 static void
-offline_toggle_clicked_callback (GtkButton *button,
-				 EShellWindow *window)
+offline_toggle_clicked_cb (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
 
@@ -527,39 +521,21 @@ ui_engine_remove_hint_callback (BonoboUIEngine *engine,
 static void
 setup_offline_toggle (EShellWindow *window)
 {
-	EShellWindowPrivate *priv;
-	GtkWidget *toggle;
-	GtkWidget *image;
-	GtkWidget *label;
-	GtkWidget *hbox;
+	GtkWidget *widget;
 
-	priv = window->priv;
+	g_return_if_fail (window->priv->status_bar != NULL);
 
-	toggle = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (toggle, GTK_CAN_FOCUS);
-	gtk_button_set_relief (GTK_BUTTON (toggle), GTK_RELIEF_NONE);
-
-	g_signal_connect (toggle, "clicked",
-			  G_CALLBACK (offline_toggle_clicked_callback), window);
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (toggle), hbox);
-
-	image = gtk_image_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
-
-	label = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-	gtk_widget_show_all (toggle);
-
-	priv->offline_toggle       = toggle;
-	priv->offline_toggle_image = image;
+	widget = e_online_button_new ();
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (offline_toggle_clicked_cb), window);
+	gtk_box_pack_start (
+		GTK_BOX (window->priv->status_bar),
+		widget, FALSE, TRUE, 0);
+	window->priv->offline_toggle = widget;
+	gtk_widget_show (widget);
 
 	update_offline_toggle_status (window);
-
-	g_return_if_fail (priv->status_bar != NULL);
-
-	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->offline_toggle, FALSE, TRUE, 0);
 }
 
 static void

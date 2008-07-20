@@ -1,3 +1,13 @@
+2008-07-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #542587
+
+	* e-online-button.c:
+	* e-online-button.h:
+	New widget implements the online/offline button used in the main
+	window.  The button just maintains an "online" flag and displays
+	the appropriate button image for the flag.
+
 2008-17-14  Paolo Borelli  <pborelli@katamail.com>
 
 	** Fix for bug #542889
