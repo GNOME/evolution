@@ -8,6 +8,16 @@
 	handle. This patch removes any freed objects from the 'locals' list in 
 	each conduit which otherwise frees them again when the conduit is closed.
 
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #228725
+
+	* gui/widgets/e-minicard-view.h: (struct _EMinicardView):
+	* gui/widgets/e-minicard-view.c: (set_empty_message),
+	(stop_state_changed), (e_minicard_view_set_property),
+	(e_minicard_view_dispose), (e_minicard_view_init):
+	Show different message in a view when searching.
+
 2008-07-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #540152

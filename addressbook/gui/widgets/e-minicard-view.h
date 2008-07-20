@@ -70,6 +70,7 @@ struct _EMinicardView
 
 	guint canvas_drag_data_get_id;
 	guint writable_status_id;
+	guint stop_state_id;
 };
 
 struct _EMinicardViewClass

@@ -155,28 +155,34 @@ static void
 set_empty_message (EMinicardView *view)
 {
 	char *empty_message;
-	gboolean editable = FALSE, perform_initial_query = FALSE;
+	gboolean editable = FALSE, perform_initial_query = FALSE, searching = FALSE;
 	EBook *book;
 
 	if (view->adapter) {
+		EABModel *model = NULL;
+
 		g_object_get (view->adapter,
 			      "editable", &editable,
+			      "model", &model,
 			      NULL);
 
 		g_object_get (view->adapter, "book", &book, NULL);
 		if (!e_book_check_static_capability (book, "do-initial-query"))
 			perform_initial_query = TRUE;
+
+		searching = model && eab_model_can_stop (model);
 	}
 
-	if (editable) {
+	if (searching) {
+		empty_message = _("\n\nSearching for the Contacts...");
+	} else if (editable) {
 		if (perform_initial_query)
 			empty_message = _("\n\nSearch for the Contact\n\n"
 					  "or double-click here to create a new Contact.");
 		else
 			empty_message = _("\n\nThere are no items to show in this view.\n\n"
 					  "Double-click here to create a new Contact.");
-	}
-	else {
+	} else {
 		if (perform_initial_query)
 			empty_message = _("\n\nSearch for the Contact.");
 		else
@@ -190,6 +196,12 @@ set_empty_message (EMinicardView *view)
 
 static void
 writable_status_change (EABModel *model, gboolean writable, EMinicardView *view)
+{
+	set_empty_message (view);
+}
+
+static void
+stop_state_changed (EABModel *model, EMinicardView *view)
 {
 	set_empty_message (view);
 }
@@ -216,19 +228,23 @@ e_minicard_view_set_property (GObject *object,
 	switch (prop_id){
 	case PROP_ADAPTER:
 		if (view->adapter) {
-			if (view->writable_status_id) {
+			if (view->writable_status_id || view->stop_state_id) {
 				EABModel *model;
 				g_object_get (view->adapter,
 					      "model", &model,
 					      NULL);
 				if (model) {
-					g_signal_handler_disconnect (model, view->writable_status_id);
+					if (view->writable_status_id)
+						g_signal_handler_disconnect (model, view->writable_status_id);
+					if (view->stop_state_id)
+						g_signal_handler_disconnect (model, view->stop_state_id);
 				}
 			}
 
 			g_object_unref (view->adapter);
 		}
 		view->writable_status_id = 0;
+		view->stop_state_id = 0;
 		view->adapter = g_value_get_object (value);
 		g_object_ref (view->adapter);
 		adapter_changed (view);
@@ -244,6 +260,9 @@ e_minicard_view_set_property (GObject *object,
 				view->writable_status_id =
 					g_signal_connect (model, "writable_status",
 							  G_CALLBACK (writable_status_change), view);
+				view->stop_state_id =
+					g_signal_connect (model, "stop_state_changed",
+							  G_CALLBACK (stop_state_changed), view);
 			}
 
 		}
@@ -317,19 +336,23 @@ e_minicard_view_dispose (GObject *object)
 	}
 
 	if (view->adapter) {
-		if (view->writable_status_id) {
+		if (view->writable_status_id || view->stop_state_id) {
 			EABModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);
 			if (model) {
-				g_signal_handler_disconnect (model, view->writable_status_id);
+				if (view->writable_status_id)
+					g_signal_handler_disconnect (model, view->writable_status_id);
+				if (view->stop_state_id)
+					g_signal_handler_disconnect (model, view->stop_state_id);
 			}
 		}
 
 		g_object_unref (view->adapter);
 	}
 	view->writable_status_id = 0;
+	view->stop_state_id = 0;
 	view->adapter = NULL;
 
 	if (G_OBJECT_CLASS(parent_class)->dispose)
@@ -548,6 +571,7 @@ e_minicard_view_init (EMinicardView *view)
 	view->adapter = NULL;
 	view->canvas_drag_data_get_id = 0;
 	view->writable_status_id = 0;
+	view->stop_state_id = 0;
 
 	set_empty_message (view);
 }

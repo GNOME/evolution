@@ -4316,6 +4316,15 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 		camel_folder_thread_messages_ref(m->tree);
 	}
 
+	if (message_list_length (ml) <= 0) {
+		/* there is some info why the message list is empty, let it be something useful */
+		char *txt = g_strconcat (_("Generating message list"), "..." , NULL);
+
+		e_tree_set_info_message (m->ml->tree, txt);
+
+		g_free (txt);
+	}
+
 	/* if we're busy already kick off timeout processing, so normal updates are immediate */
 	if (ml->regen == NULL)
 		ml_regen_timeout(m);

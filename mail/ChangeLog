@@ -34,6 +34,12 @@
 
 2008-07-09  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #228725
+
+	* message-list.c: (mail_regen_list): Update empty message on regen.
+
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #207802 (Patch suggested by Veerapuram Varadhan.)
 
 	* message-list.c: (struct search_child_struct), (search_child_cb),
