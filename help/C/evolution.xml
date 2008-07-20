@@ -136,7 +136,7 @@
   </formalpara>
   <itemizedlist>
    <listitem>
-    <para>For information about command line options, open a terminal window and type <command>evolution --help</command>.</para>
+    <para>Evolution has a number of command line options that you can use. For information about command line options, open a terminal window and type <command>evolution --help</command>.</para>
    </listitem>
    <listitem>
     <para>In the Evolution interface, click Help &gt; Contents.</para>
@@ -519,7 +519,8 @@
       <para>If you select POP as your receiving server type, you need to specify the following options:</para>
       <orderedlist>
        <listitem id="bsthozk">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthpck">
         <para>Select if you want to leave messages on the server.</para>
@@ -1019,7 +1020,8 @@
   </section>
   <section id="bsekq8r">
    <title>Command Line Options</title>
-   <para>Evolution has a number of command line options that you can use. You can find the full list by entering the command <command>man evolution</command> or <command>evolution --help</command>. The most important command line options are:</para>
+   <para>Evolution has a number of command line options that you can use. For more information about command line options, open a terminal window and type <command>evolution --help</command>.</para>
+   <para>The most important command line options are:</para>
    <informaltable>
     <tgroup cols="2">
      <colspec colwidth="2.844*" colname="1" colnum="1"/>
@@ -2516,7 +2518,7 @@
     <para>Flags can help you organize your work in a number of ways. For example, you might add a Flag Status column to your message list and sort that way. Alternately, you could create a search folder that displays all your flagged messages, then clear the flags when you're done, so the search folder contains only messages with upcoming deadlines.</para>
     <formalpara id="b17s9rir">
      <title>Mark as Important Feature:</title>
-     <para>If you prefer a simpler way to remind yourself about messages, you can mark them as important by right-clicking the message, then click Mark as Important or Select Message &gt; Mark as &gt;Important.</para>
+     <para>If you prefer a simpler way to remind yourself about messages, you can mark them as important by right-clicking the message, then click Mark as Important or Select Message &gt; Mark as &gt; Important from the menubar.</para>
     </formalpara>
    </section>
   </section>
@@ -2543,7 +2545,7 @@
     <title>Quick Search:</title>
     <para>Quick Search displays all the messages that match the in-built criteria you selected from the drop-down list at the top left side, just above the message list.</para>
    </formalpara>
-   <para>To perform quick search, perform the following procedure:</para>
+   <para>To perform a quick search, perform the following procedure:</para>
    <orderedlist>
     <listitem id="b131j296">
      <para>Click Show to expand the drop-down list.</para>
@@ -2625,7 +2627,7 @@
    </formalpara>
    <orderedlist>
     <listitem id="b131jhwt">
-     <para>Click search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to specify the search type.</para>
+     <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
      <formalpara id="b131lvi6">
       <title>Subject or Sender Contain:</title>
       <para>Finds messages that contain the search text in the subject or sender. It does not search in the message body.</para>
@@ -2677,7 +2679,7 @@
    </orderedlist>
    <para>Evolution shows your search results in the message list. You might want to create a search folder instead; see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link> for more detail.</para>
    <note>
-    <para>To clear your search click the Clear button or menu, or enter a blank search. You can also press Shift+Ctrl+Q to clear the search.</para>
+    <para>To clear your search you can click the Clear icon in the search string field, or choose Search &gt; Clear from the menubar, or enter a blank search. You can also press Shift+Ctrl+Q to clear the search.</para>
    </note>
    <tip>
     <para>You can even perform a quick search on a customized search results as it just filters and displays the messages in the message list.</para>
@@ -2759,7 +2761,7 @@
       
      </listitem>
      <listitem id="bsazb4y">
-      <para>Define the criteria for the filter in the If section.</para>
+      <para>Define the criteria for the filter in the first section.</para>
       <para>For each of the filter criteria, you must first select which parts of the message you want to filter:</para>
       <formalpara id="bsh25ic">
        <title>Sender:</title>
@@ -3250,7 +3252,7 @@
    </formalpara>
    <orderedlist>
     <listitem id="b131m9n2">
-     <para>Click <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
+     <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131mb7o">
      <para>Specify the search criteria from any of the following:</para>
@@ -3293,7 +3295,7 @@
    <para>To perform quick search, use the following procedure:</para>
    <orderedlist>
     <listitem id="b131mjuy">
-     <para>Click show to expand the drop-down list.</para>
+     <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131mkao">
      <para>Select the search criteria from any of the following:</para>
@@ -4117,10 +4119,10 @@
    </formalpara>
    <orderedlist>
     <listitem id="b131n1cx">
-     <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list</para>
+     <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131n2au">
-     <para>Select the search type:</para>
+     <para>Specify the search criteria from any of the following:</para>
      <itemizedlist>
       <listitem>
        <para>Summary contains</para>
@@ -4360,7 +4362,7 @@
       <para>Type a description for the task.</para>
      </listitem>
      <listitem id="b10155hz">
-      <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential) for the task.</para>
+      <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
      </listitem>
      <listitem id="b10155i0">
       <para>(Optional) To specify a status for the task, click Options &gt; Status Details.</para>
@@ -4416,7 +4418,7 @@
       <para>Click the Attach button on the toolbar, then browse to the attachment.</para>
      </listitem>
      <listitem id="b10fqh6p">
-      <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential) for the task.</para>
+      <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
      </listitem>
      <listitem id="b1012vda">
       <para>(Optional) To specify a status for the task, click Options &gt; Status Details.</para>
@@ -4432,10 +4434,10 @@
     </formalpara>
     <orderedlist>
      <listitem id="b17qcy7p">
-      <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list</para>
+      <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
      </listitem>
      <listitem id="b17qcyfg">
-      <para>Select the search type:</para>
+      <para>Specify the search criteria from any of the following:</para>
       <itemizedlist>
        <listitem>
         <para>Summary contains</para>
@@ -4629,7 +4631,7 @@
      <para>In the Start Date field, type the date this reminder note should appear in the recipients' Calendars.</para>
     </listitem>
     <listitem id="b15ilpb6">
-     <para>Type text for the memo in the Memo Content field.</para>
+     <para>Type text for the memo in the Description field.</para>
     </listitem>
     <listitem id="b10fqh6q">
      <para>(Optional) To add an attachment to the memo, drag and drop the attachment into the attachment bar.</para>
@@ -4637,7 +4639,7 @@
      <para>Click the Attach button on the toolbar, then browse to the attachment.</para>
     </listitem>
     <listitem id="b10fqh6r">
-     <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential) for the memo.</para>
+     <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
     </listitem>
    </orderedlist>
 
@@ -4650,7 +4652,7 @@
       <para>Click File &gt; New &gt; Memo List.</para>
      </listitem>
      <listitem id="b1012vdm">
-      <para>Type the group, name and color for the memo list.</para>
+      <para>Enter the type, name and color for the memo list.</para>
      </listitem>
      <listitem id="b1012vdo">
       <para>Click OK.</para>
@@ -4667,10 +4669,10 @@
     </formalpara>
     <orderedlist>
      <listitem id="b17qers6">
-      <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list</para>
+      <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
      </listitem>
      <listitem id="b17qerzd">
-      <para>Select the search type:</para>
+      <para>Specify the search criteria from any of the following:</para>
       <itemizedlist>
        <listitem>
         <para>Summary contains</para>
@@ -4821,7 +4823,7 @@
 
   <section id="bxqaqja">
    <title>Marcus Bains Line</title>
-   <para>The Marcus Bains Line is a marker to show the current date and time. This feature is now available in the Evolution calendar.</para>
+   <para>The Marcus Bains Line is a marker to show the current date and time. This feature is available in the Evolution calendar.</para>
   </section>
  </chapter>
 
@@ -6606,7 +6608,7 @@
 
   <section id="config-prefs-cal">
    <title>Calendar and Tasks Settings</title>
-   <para>The calendar configuration tool has four pages:</para>
+   <para>The calendar configuration tool has several pages:</para>
    <itemizedlist>
     <listitem>
      <para><link linkend="bshpskx">General</link></para>
@@ -6639,7 +6641,7 @@
     </formalpara>
     <formalpara id="bsbhuzl">
      <title>Day Begins:</title>
-     <para>For Evolution, a normal work day begins at 9 a.m. and ends at 5 p.m. You can select your preferred hours to make sure that all your events are displayed properly.</para>
+     <para>For Evolution, a normal work day begins at 9 a.m. and ends at 5 p.m. You can select your preferred hours.</para>
     </formalpara>
     <formalpara id="bsbhv3n">
      <title>Day Ends:</title>
@@ -6694,7 +6696,7 @@
 
    <section id="b13yjhw2">
     <title>Free/Busy</title>
-    <para>Allows you to specify a template to use while posting your Free/Buy information to a server.</para>
+    <para>Allows you to specify a template to use while posting your Free/Busy information to a server.</para>
    </section>
 
    <section id="bxjng8p">
