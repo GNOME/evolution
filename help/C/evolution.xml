@@ -405,7 +405,7 @@
        </listitem>
        <listitem id="bsthlvl">
         <para>Select if you want to check new messages for junk content.</para>
-        <para>For additional information on junk content, see <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk </link>.</para>
+        <para>For additional information on junk content, see <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk</link>.</para>
        </listitem>
        <listitem id="bsthm9q">
         <para>Select if you want to only check for junk messages in the Inbox folder.</para>
@@ -541,7 +541,8 @@
       <para>If you select USENET News as your receiving server type, you need to specify the following options:</para>
       <orderedlist>
        <listitem id="bsthqws">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthr47">
         <para>Select if you want to show folders in short notation.</para>
@@ -563,7 +564,8 @@
       <para>If you select Local Delivery as your receiving server type, you need to specify the following options:</para>
       <orderedlist>
        <listitem id="bsthsnr">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthsv1">
         <para>Click Forward.</para>
@@ -577,7 +579,8 @@
       <para>If you select MH-Format Mail Directories as your receiving server type, you need to specify the following options:</para>
       <orderedlist>
        <listitem id="bsthtg0">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthth2">
         <para>Select if you want to use the <emphasis>.folders</emphasis> summary file.</para>
@@ -596,7 +599,8 @@
       <para>If you select Maildir-Format Mail Directories as your receiving server type, you need to specify the following options:</para>
       <orderedlist>
        <listitem id="bsthu9o">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthuah">
         <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
@@ -615,7 +619,8 @@
       <title>Standard Unix mbox spool file Receiving Options</title>
       <orderedlist>
        <listitem id="bsthuto">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthuv9">
         <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
@@ -637,7 +642,8 @@
       <para>If you select Standard Unix mbox Spool directory as your receiving server type, you need to specify the following options:</para>
       <orderedlist>
        <listitem id="b185aln9">
-        <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
+        <para>Select if you want Evolution to automatically check for new mail.</para>
+        <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="b185alna">
         <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
@@ -1944,7 +1950,8 @@
       <para>Select an addressee as you would when sending a new message; the subject is already entered, although you can alter it if you want.</para>
      </listitem>
      <listitem id="b10fnop8">
-      <para>Add your comments on the message in the composition frame, then click Send.</para>
+      <para>Add your comments on the message in the composition frame</para>
+      <para>Click Send.</para>
      </listitem>
     </orderedlist>
     <para>Attachments to a message you are forwarding are forwarded only when you send the original message as an attachment. Inline messages do not forward any attachments.</para>
@@ -2157,7 +2164,8 @@
       <para>Click Security &gt; PGP Encrypt.</para>
      </listitem>
      <listitem id="bsg2prj">
-      <para>Compose your message, then click Send.</para>
+      <para>Compose your message.</para>
+      <para>Click Send.</para>
      </listitem>
     </orderedlist>
     <para>You can set Evolution to always sign your e-mail messages:</para>
@@ -2549,7 +2557,7 @@
    <para>If you want to create a new folder click New at the bottom left of the window. Specify the location and enter the label of the folder at the entry box appeared at the top. You can also move the messages from one folder to another by selecting the message and then press Move tab at the bottom right.</para>
    <para>If you create a filter with the filter assistant, you can have mail filed automatically. Select Edit &gt; Message Filters to bring up the Message Filters window.</para>
    <mediaobject id="b13tf6pl"><imageobject><imagedata format="PNG" fileref="figures/evo_message_filters_a.png"/></imageobject></mediaobject>
-   <para>Click on the Add button to bring up the Add Rule window from where you can set different criteria for filtering messages. For more information refer <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
+   <para>Click on the Add button to bring up the Add Rule window from where you can set different criteria for filtering messages. For additional information on filtering, see <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
    <note>
     <para>The Inbox folder on most IMAP servers cannot contain both subfolders and messages. When you create additional folders on your IMAP mail server, branch them from the root of the IMAP account's folder tree, not from the Inbox. If you create subfolders in your Inbox folder, you lose the ability to read messages that exist in your Inbox until you move the folders out of the way.</para>
    </note>
@@ -3136,7 +3144,8 @@
    <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin and/or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
    <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn't get flagged as junk mail. If good mail is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk or press Shift+Ctrl+J. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
    <para>Every filter needs to learn at the least 100 spam and 100 ham to start working. For that, you must mark each message manually by clicking the <emphasis>Not junk</emphasis> button in the toolbar to learn that it is ham. The <emphasis>Junk</emphasis> button learns a message as spam.</para>
-   <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. For more information on this see, <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
+   <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences.</para>
+   <para>For additional information on junk content, see <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
    <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
    <note>
     <para>SpamAssassin is an application that scan through the mail box to find junk mails. Evolution uses SpamAssassin as the default spam-filtering application. For more information, see<ulink url="http://spamassassin.apache.org/"> The Apache SpamAssassin Project</ulink>.</para>
@@ -3250,7 +3259,8 @@
        <para>Press the Edit Full button at the bottom left to bring up the Contact Editor window.</para>
       </listitem>
       <listitem id="b13pslyy">
-       <para>Edit the required information from Contact Editor and press OK.</para>
+       <para>Edit the information in the Contact Editor window.</para>
+       <para>Click OK.</para>
       </listitem>
      </orderedlist>
     </section>
@@ -3515,7 +3525,7 @@
       <para>You can view the category name appeared in the field next to Categories button in the Contact Editor.</para>
      </listitem>
      <listitem id="b13ptgw7">
-      <para>Press OK at the right bottom of the Contact Editor window.</para>
+      <para>Click OK.</para>
      </listitem>
     </orderedlist>
     <tip>
@@ -3742,7 +3752,7 @@
       <para>If you select this option, you cannot modify or create the calendar items.</para>
      </listitem>
      <listitem id="b1a4awms">
-      <para>Click OK to save your modifications.</para>
+      <para>Click OK.</para>
      </listitem>
     </orderedlist>
    </section>
@@ -5070,7 +5080,8 @@
        
       </listitem>
       <listitem id="bshnhvg">
-       <para>Click the Receiving Options tab, then specify how often to check for new mail, your Global Catalog server name and whether to apply filters to messages in your Inbox, check for junk, set a password expiry period, and any other settings you want to include.</para>
+       <para>Click the Receiving Options tab.</para>
+       <para>Specify how often to check for new mail, your Global Catalog server name and whether to apply filters to messages in your Inbox, check for junk, set a password expiry period, and any other settings you want to include.</para>
       </listitem>
       <listitem id="bshnjw0">
        <para>Use the Defaults tab to define folders, send cc: or bcc: messages to certain IDs, and set options for message receipts.</para>
@@ -5177,7 +5188,7 @@
        <para>Select the Request a read receipt for this message to get a read receipt for the message you have sent.</para>
       </listitem>
       <listitem id="b15flpzo">
-       <para>Click OK to confirm your selection.</para>
+       <para>Click OK.</para>
       </listitem>
      </orderedlist>
     </section>
@@ -5196,7 +5207,8 @@
        <para>Add the recipients.</para>
       </listitem>
       <listitem id="b17renoo">
-       <para>Fill in the information, then click Send.</para>
+       <para>Fill in the information.</para>
+       <para>Click Send.</para>
        <para>When the recipient receives the calendar item, a message indicates that the item was created by someone on behalf of the Delegator.</para>
       </listitem>
      </orderedlist>
@@ -5640,7 +5652,8 @@
       </note>
      </listitem>
      <listitem id="bsthkyr">
-      <para>Click the Receiving Options tab, then select if you want Evolution to automatically check for new mail.</para>
+      <para>Click the Receiving Options tab.</para>
+      <para>Select if you want Evolution to automatically check for new mail.</para>
       <para>If you select this option, you need to specify how often Evolution should check for new messages.</para>
       <mediaobject id="bv7wc82"><imageobject><imagedata format="PNG" fileref="figures/evo_gwreceiveoptedit_a.png"/></imageobject></mediaobject>
       
@@ -5788,7 +5801,8 @@
      <title>Enabling Status Tracking</title>
      <orderedlist>
       <listitem id="b17qt8ih">
-       <para>In the Compose Message window, click Insert &gt; Send Options &gt; Status Tracking</para>
+       <para>In the Compose Message window, click Insert &gt; Send Options.</para>
+       <para>Select Status Tracking.</para>
        <mediaobject id="b17qsuu3"><imageobject><imagedata format="PNG" fileref="figures/evo_gwstatustrack.png"/></imageobject></mediaobject>
        
       </listitem>
