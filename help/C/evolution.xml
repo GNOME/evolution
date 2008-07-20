@@ -175,7 +175,7 @@
           <para>GNOME:</para>
          </entry>
          <entry colname="2">
-          <para>Click  Applications &gt; Office &gt; Evolution.</para>
+          <para>Click Applications &gt; Office &gt; Evolution.</para>
          </entry>
         </row>
         <row id="bsptywg">
@@ -229,7 +229,7 @@
 
     <section id="first-step">
      <title>Defining Your Identity</title>
-     <para>The Identity window is the first step in the assistant. </para>
+     <para>The Identity window is the first step in the assistant.</para>
      <mediaobject id="bsj8pww"><imageobject><imagedata format="PNG" fileref="figures/evo_identity_a.png"/></imageobject></mediaobject>
      <para>Here, you enter some basic personal information. You can define multiple identities later by clicking Edit &gt; Preferences, then clicking Mail Accounts.</para>
      <para>When the First-Run Assistant starts, the Welcome page is displayed. Click Forward to proceed to the Identity window.</para>
@@ -351,7 +351,7 @@
 
      <section id="bstgbqn">
       <title>Local Configuration Options</title>
-      <para>If you selected Local Delivery, MH-Format Mail Directories, Maildir-Format Mail Directories, or Standard Unix mbox spool file and Standard Unix mbox spool directory, you must specify the path to the local files in the path field. Continue with<link linkend="more-mail-options">Receiving Mail Options</link> .</para>
+      <para>If you selected Local Delivery, MH-Format Mail Directories, Maildir-Format Mail Directories, or Standard Unix mbox spool file and Standard Unix mbox spool directory, you must specify the path to the local files in the path field. Continue with<link linkend="more-mail-options">Receiving Mail Options</link>.</para>
      </section>
     </section>
 
@@ -405,14 +405,14 @@
        </listitem>
        <listitem id="bsthlvl">
         <para>Select if you want to check new messages for junk content.</para>
-        <para>For additional information on junk content, see  <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk </link>.</para>
+        <para>For additional information on junk content, see <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk </link>.</para>
        </listitem>
        <listitem id="bsthm9q">
         <para>Select if you want to only check for junk messages in the Inbox folder.</para>
        </listitem>
        <listitem id="bsthmhx">
         <para>Select if you want to automatically synchronize remote mail locally.</para>
-        <para>Evolution, by default downloads only the header information such as From, Subject, and Date.  The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
+        <para>Evolution, by default downloads only the header information such as From, Subject, and Date. The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
         <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
        </listitem>
        <listitem id="bsthnab">
@@ -445,7 +445,7 @@
         <para>The Global Catalog Server contains the user information for users. If you are unsure what your Global Catalog server name is, contact your system administrator.</para>
        </listitem>
        <listitem id="bstglhn">
-        <para>Select if you want to limit the number of Global Address Lists (GAL). </para>
+        <para>Select if you want to limit the number of Global Address Lists (GAL).</para>
         <para>The GAL contains a list of all e-mail addresses. If you select this option, you need to specify the maximum number of responses.</para>
        </listitem>
        <listitem id="bstgsrp">
@@ -459,7 +459,7 @@
         <para>Select apply filters to new messages in inbox on this server to apply filters.</para>
        </listitem>
        <listitem id="b13sbqmb">
-        <para>Select check new messages for junk contents to filter new messages for spam messages. </para>
+        <para>Select check new messages for junk contents to filter new messages for spam messages.</para>
         <para>For more information refer <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link></para>
        </listitem>
        <listitem id="bstgtoj">
@@ -687,7 +687,7 @@
          <listitem id="bsw0acl">
           <para>Select your authentication type in the Authentication list.</para>
           <para>or</para>
-          <para>Click Check for Supported Types to have Evolution check for supported types. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work. </para>
+          <para>Click Check for Supported Types to have Evolution check for supported types. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</para>
          </listitem>
          <listitem id="bsw0aqr">
           <para>Type your username in the Username field.</para>
@@ -842,7 +842,7 @@
 
     <section id="b17s9pb0">
      <title>Changing Switcher Appearance:</title>
-     <para>To change the appearance of  your switcher click <emphasis>View &gt; Switcher Appearance</emphasis> from the Menu bar. Under Switcher Appearance you can select:</para>
+     <para>To change the appearance of your switcher click <emphasis>View &gt; Switcher Appearance</emphasis> from the Menu bar. Under Switcher Appearance you can select:</para>
      <formalpara id="b13cep2o">
       <title>Icons and Text:</title>
       <para>Displays buttons with the label and the icon corresponding to it.</para>
@@ -910,7 +910,7 @@
     <para>Evolution e-mail is like other e-mail programs in several ways:</para>
     <itemizedlist>
      <listitem>
-      <para>It can send and receive e-mail in HTML or as plain text, and makes it easy to send and receive multiple file attachments. </para>
+      <para>It can send and receive e-mail in HTML or as plain text, and makes it easy to send and receive multiple file attachments.</para>
      </listitem>
      <listitem>
       <para>It supports multiple e-mail sources, including <link linkend="imap">IMAP</link>, <link linkend="pop">POP3</link>, and local mbox or mh spools and files created by other e-mail programs.</para>
@@ -1049,7 +1049,7 @@
        </entry>
        <entry colname="2">
         <para>Disables all the preview panes when you launch Evolution.</para>
-        <para>It lets Evolution not to open the last crashed message, task or contact when you restart Evolution. Thus, it  provides a way to avoid system crash caused by previewing message, task or contact. </para>
+        <para>It lets Evolution not to open the last crashed message, task or contact when you restart Evolution. Thus, it provides a way to avoid system crash caused by previewing message, task or contact.</para>
        </entry>
       </row>
       <row id="bsl8i03">
@@ -1156,7 +1156,7 @@
       <para>If you press the Spacebar after you reach the bottom of the page, it takes you to the next unread message.</para>
      </listitem>
      <listitem>
-      <para>If there are no more unread messages in the mailbox,  pressing the Spacebar takes you to the next unread message in the next folder.</para>
+      <para>If there are no more unread messages in the mailbox, pressing the Spacebar takes you to the next unread message in the next folder.</para>
      </listitem>
      <listitem>
       <para>If new messages arrive in a number of folders, the Spacebar toggles between those folders. This feature allows you to switch to the next unread message in a different folder without clicking the folder.</para>
@@ -1173,13 +1173,13 @@
 
    <section id="b17qh4uo">
     <title>New Mail Notification</title>
-    <para>Evolution notifies you of new e-mail. When you receive a new mail in your inbox,  a blinking icon appears on the Switcher.</para>
+    <para>Evolution notifies you of new e-mail. When you receive a new mail in your inbox, a blinking icon appears on the Switcher.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
-    <para>You can also view a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/>  in the notification area that disappears when you open the new e-mail. Mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
+    <para>You can also view a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new e-mail. Mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
    </section>
 
    <section id="b131ni8g">
-    <title>Vertical View Versus Classical View</title>      
+    <title>Vertical View Versus Classical View</title>
     <para>Evolution provides you vertical view in addition to the classical view. In the vertical view, message preview pane is located at the right side of the message list when compared to the Classical view where the message preview pane is placed below the message list. Vertical View enables you to use the extra width of the wide screen monitors.</para>
     <formalpara id="b131nl11">
      <title>Vertical View:</title>
@@ -1222,7 +1222,7 @@
       <para>Enter the limit in the field.</para>
      </listitem>
     </orderedlist>
-    <para>You can expand the message headers by click the  <inlinegraphic format="PNG" fileref="figures/plus.png"/> icon or the <guilabel>...</guilabel> in the message preview pane. To collapse click  <inlinegraphic format="PNG" fileref="figures/minus.png"/> icon in the  preview pane.</para>
+    <para>You can expand the message headers by click the <inlinegraphic format="PNG" fileref="figures/plus.png"/> icon or the <guilabel>...</guilabel> in the message preview pane. To collapse click <inlinegraphic format="PNG" fileref="figures/minus.png"/> icon in the  preview pane.</para>
    </section>
 
    <section id="bsempjs">
@@ -1997,7 +1997,7 @@
      <para>Select Folder &gt; Subscriptions.</para>
     </listitem>
     <listitem id="bsmqyid">
-     <para>If you have accounts on multiple IMAP servers, select the server where you want to manage your subscriptions. </para>
+     <para>If you have accounts on multiple IMAP servers, select the server where you want to manage your subscriptions.</para>
      <para>Evolution displays a list of available files and folders.</para>
     </listitem>
     <listitem id="bsmqyky">
@@ -2286,15 +2286,15 @@
     </formalpara>
     <formalpara id="bsawckg">
      <title>Microsoft Outlook Express 4 (.mbx):</title>
-     <para>The e-mail file format used by Microsoft Outlook Express 4. For other versions of Microsoft Outlook and Outlook Express, see the workaround described in <link linkend="bsawgkk">Step 1</link>. </para>
+     <para>The e-mail file format used by Microsoft Outlook Express 4. For other versions of Microsoft Outlook and Outlook Express, see the workaround described in <link linkend="bsawgkk">Step 1</link>.</para>
     </formalpara>
     <formalpara id="bsawdfx">
      <title>LDAP Data Interchange Format (.LDIF):</title>
-     <para>A standard data format for contact cards. </para>
+     <para>A standard data format for contact cards.</para>
     </formalpara>
     <formalpara id="bsawdmw">
      <title>Berkley Mailbox (.mbox or null extension):</title>
-     <para>The e-mail format used by Mozilla, Netscape, Evolution, Eudora&z-3rdParty;, and many other e-mail clients. </para>
+     <para>The e-mail format used by Mozilla, Netscape, Evolution, Eudora&z-3rdParty;, and many other e-mail clients.</para>
     </formalpara>
     <para>To import your old e-mail:</para>
     <orderedlist>
@@ -2441,7 +2441,7 @@
        </listitem>
       </itemizedlist>
       <note>
-       <para>Clicking each sort criteria cycles take you through three possibilities. Sort by criteria in ascending or descending order or unsort the message. When you click any of the sort criteria reiteratively, Evolution sort the messages in a sequential order - ascending, descending and unsort. For example, when you click Recepients for the first time, Evolution sort the messages by recepients in ascending order and for the second  time, sort in the reverse order. For the next click, messages will be displayed unsorted.</para>
+       <para>Clicking each sort criteria cycles take you through three possibilities. Sort by criteria in ascending or descending order or unsort the message. When you click any of the sort criteria reiteratively, Evolution sort the messages in a sequential order - ascending, descending and unsort. For example, when you click Recepients for the first time, Evolution sort the messages by recepients in ascending order and for the second time, sort in the reverse order. For the next click, messages will be displayed unsorted.</para>
       </note>
       <formalpara id="bsawhu7">
        <title>Sort Ascending:</title>
@@ -2457,7 +2457,7 @@
       </formalpara>
       <formalpara id="bsawiat">
        <title>Removing a Column: </title>
-       <para>Remove this column from the display. You can also remove columns by dragging the header off the list and letting it drop. </para>
+       <para>Remove this column from the display. You can also remove columns by dragging the header off the list and letting it drop.</para>
       </formalpara>
       <formalpara id="bsawie2">
        <title>Adding a Column:</title>
@@ -2524,7 +2524,7 @@
   <section id="usage-mail-organize-folders">
    <title>Getting Organized with Folders</title>
    <para>Evolution, like most other mail systems, stores mail in folders. You start out with a few mail folders, such as Inbox, Outbox, and Drafts, but you can create as many as you like. Create new folders by clicking Folder &gt; New, or by right-clicking in the folder list and selecting New Folder.</para>
-   <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click &gt; Move to folder or press Shift+Ctrl+V. </para>
+   <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click &gt; Move to folder or press Shift+Ctrl+V.</para>
    <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder or press Shift+Ctrl +V. This will open Select folder window, where you can drop your message to any of the folders listed.</para>
    <mediaobject id="b13td8j9"><imageobject><imagedata format="PNG" fileref="figures/evo_select_folder.png"/></imageobject></mediaobject>
    <para>If you want to create a new folder click New at the bottom left of the window. Specify the location and enter the label of the folder at the entry box appeared at the top. You can also move the messages from one folder to another by selecting the message and then press Move tab at the bottom right.</para>
@@ -2677,10 +2677,10 @@
    </orderedlist>
    <para>Evolution shows your search results in the message list. You might want to create a search folder instead; see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link> for more detail.</para>
    <note>
-    <para>To clear your search click the Clear button or menu, or enter a blank search. You can also  press Shift+Ctrl+Q to clear the search.</para>
+    <para>To clear your search click the Clear button or menu, or enter a blank search. You can also press Shift+Ctrl+Q to clear the search.</para>
    </note>
    <tip>
-    <para>You can even perform a quick search on a customized search results as it just filters and displays  the messages in the message list.</para>
+    <para>You can even perform a quick search on a customized search results as it just filters and displays the messages in the message list.</para>
    </tip>
    <formalpara id="b13tvajl">
     <title>Advanced Search:</title>
@@ -3029,7 +3029,7 @@
       </formalpara>
       <formalpara id="bshkzum">
        <title>Expression:(For programmers only)</title>
-       <para>Match a message according to an expression you write in the Scheme language used to define filters in Evolution.  </para>
+       <para>Match a message according to an expression you write in the Scheme language used to define filters in Evolution.</para>
       </formalpara>
       <formalpara id="bshkzun">
        <title>Date Sent:</title>
@@ -3114,9 +3114,9 @@
 
   <section id="usage-mail-organize-spam">
    <title>Stopping Junk Mail (Spam)</title>
-   <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin  and/ or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
+   <para>Evolution can check for junk mail for you. Evolution uses SpamAssassin and/ or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</para>
    <para>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it. When you first start using junk mail blocking, check the Junk folder to be sure that legitimate mail doesn't get flagged as junk mail. If good mail, is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting Mark as Not Junk or press Shift+Ctrl+J. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press Ctrl+J. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</para>
-   <para>Every filter needs to learn at the least 100 spam and 100 ham to start working. For that, you must  mark each message manually by clicking the <emphasis>Not junk</emphasis> button in the toolbar to learn that it is ham. The <emphasis>Junk</emphasis> button learns a message as spam.</para>
+   <para>Every filter needs to learn at the least 100 spam and 100 ham to start working. For that, you must mark each message manually by clicking the <emphasis>Not junk</emphasis> button in the toolbar to learn that it is ham. The <emphasis>Junk</emphasis> button learns a message as spam.</para>
    <para>To change your junk mail filtering preferences, click Edit &gt; Preferences, then click Mail Preferences. For more information on this see, <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
    <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
    <note>
@@ -3714,7 +3714,7 @@
       </itemizedlist>
      </listitem>
      <listitem id="b1a4ah6w">
-      <para>Set the time to automatically refresh the calendar. </para>
+      <para>Set the time to automatically refresh the calendar.</para>
      </listitem>
      <listitem id="b1a4ak4r">
       <para>Select Use SSL to enable SSL for communication between Evolution and the Google server.</para>
@@ -4070,7 +4070,7 @@
 
     <section id="publishing-freebusy">
      <title>Publishing Calendar and Free/Busy Information Without a Groupware Server</title>
-     <para>You can publish Calendar and Free/Busy information to a WebDAV,  FTP server, or remote machine through secure shell or other Web server with HTTP PUT support. Check with your system administrator if you are not sure you have this functionality.</para>
+     <para>You can publish Calendar and Free/Busy information to a WebDAV, FTP server, or remote machine through secure shell or other Web server with HTTP PUT support. Check with your system administrator if you are not sure you have this functionality.</para>
      <para>To set up Calendar or Free/Busy publishing:</para>
      <orderedlist>
       <listitem id="bxpfdeu">
@@ -4411,7 +4411,7 @@
       <para>Type a description for the task.</para>
      </listitem>
      <listitem id="b10fqh6o">
-      <para>(Optional) To add an attachment to the assigned task, drag and drop the attachment into the attachment bar. </para>
+      <para>(Optional) To add an attachment to the assigned task, drag and drop the attachment into the attachment bar.</para>
       <para>or</para>
       <para>Click the Attach button on the toolbar, then browse to the attachment.</para>
      </listitem>
@@ -4702,7 +4702,7 @@
       
      </listitem>
      <listitem id="b17qetof">
-      <para>Click Add to add rules. </para>
+      <para>Click Add to add rules.</para>
      </listitem>
      <listitem id="b17qewzp">
       <para>Select the criteria, then type a search entry in the given field.</para>
@@ -4882,7 +4882,7 @@
       <listitem>
        <formalpara id="b10fqio8">
         <title>Viewing Mail in Exchange Folders:</title>
-        <para>Mail stored on the Exchange server is visible in the Mail component in Evolution. </para>
+        <para>Mail stored on the Exchange server is visible in the Mail component in Evolution.</para>
        </formalpara>
       </listitem>
       <listitem>
@@ -4928,7 +4928,7 @@
       <listitem>
        <formalpara id="b10fqjzj">
         <title>Address Completion:</title>
-        <para>Supported for your Exchange Contacts folder. </para>
+        <para>Supported for your Exchange Contacts folder.</para>
        </formalpara>
       </listitem>
       <listitem>
@@ -5224,7 +5224,7 @@
        <para>Open a new Meeting composer window.</para>
       </listitem>
       <listitem id="b17ren0l">
-       <para>Add the recipients. </para>
+       <para>Add the recipients.</para>
       </listitem>
       <listitem id="b17renoo">
        <para>Fill in the information, then click Send.</para>
@@ -5649,7 +5649,7 @@
       <para>Select the account you want to convert, then click Edit.</para>
      </listitem>
      <listitem id="buw5x0n">
-      <para>Click the Identity tab. </para>
+      <para>Click the Identity tab.</para>
       <mediaobject id="bv7wbfs"><imageobject><imagedata format="PNG" fileref="figures/evo_identityedit_a.png"/></imageobject></mediaobject>
       
      </listitem>
@@ -6261,7 +6261,7 @@
     <para><link linkend="b1a4ol61">Debug Logs</link></para>
    </listitem>
   </itemizedlist>
-  <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column, similar to the Evolution switcher, that lets you choose which portion of  Evolution to customize. The right part of the window is where you make your actual changes.</para>
+  <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column, similar to the Evolution switcher, that lets you choose which portion of Evolution to customize. The right part of the window is where you make your actual changes.</para>
   <mediaobject id="config-prefs-mail-fig"><imageobject><imagedata format="PNG" fileref="figures/mailer_preferences.png"/></imageobject></mediaobject>
   <para>There are six items you can customize.</para>
   <formalpara id="b17sa7c0">
@@ -6278,7 +6278,7 @@
   </formalpara>
   <formalpara id="b17sa85j">
    <title>Composer Preferences:</title>
-   <para>These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for  <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
+   <para>These are settings for the way that you use the mail composer, such as shortcuts, signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
   </formalpara>
   <formalpara id="b17sa8cq">
    <title>Calendar and Tasks:</title>
@@ -6293,7 +6293,7 @@
   <section id="config-prefs-mail-identity">
    <title>Working with Mail Accounts</title>
    <para>Evolution allows you to maintain multiple accounts, or identities. When you are writing an e-mail message, you can choose which account to use by selecting from the drop-down list next to the From field in the message composer.</para>
-   <para>Click Send/Receive to select all mail sources that are not disabled. If you don't want to check mail for a given account, select the account in the Mail Accounts tab and click the Disable button.. </para>
+   <para>Click Send/Receive to select all mail sources that are not disabled. If you don't want to check mail for a given account, select the account in the Mail Accounts tab and click the Disable button.</para>
    <para>To add a new account, click Add to open the Evolution configuration assistant. To alter an existing account, select it in the Preferences window, then click Edit to open the account editor dialog box.</para>
    <para>The account editor dialog box has seven sections:</para>
    <formalpara id="bsbhdwn">
@@ -6340,7 +6340,7 @@
 
   <section id="b15fx7uz">
    <title>IMAP Mail Headers</title>
-   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the  download time and at the same time having control as to filter or move your mails around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail headers are as follows:</para>
+   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the download time and at the same time having control as to filter or move your mails around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail headers are as follows:</para>
    <formalpara id="b15fzvdp">
     <title>All Headers:</title>
     <para>This include all the available IMAP Mail headers. By choosing this option, Evolution will download all the Headers for all the messages.</para>
@@ -6384,7 +6384,7 @@
      <para>Click Basic Headers to download basic headers.</para>
     </listitem>
     <listitem id="b15g0kdi">
-     <para>Click Basic and Mailing Headers to download both. </para>
+     <para>Click Basic and Mailing Headers to download both.</para>
     </listitem>
     <listitem id="b15g160e">
      <para>Click Add to add any predefined custom headers.</para>
@@ -6432,9 +6432,9 @@
     </formalpara>
     <formalpara id="bsbho3f">
      <title>Message Display:</title>
-     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders. </para>
+     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you recive.By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable Magic spacebar and search folders.</para>
     </formalpara>
-    <para>To group the messages as threads select View &gt; Group By threads or press Ctrl +T.</para>
+    <para>To group the messages as threads select View &gt; Group By threads or press Ctrl+T.</para>
     <formalpara id="bsbhq3y">
      <title>Deleting Mail:</title>
      <para>Choose whether to delete messages automatically when quitting Evolution and how frequently, and whether you want to explicitly confirm the final deletion of messages.Select Confirm when expunging a folder to confirm the final deletion. You can have four different options to set the frequency for deletion: Everytime, Once per day, Once per week, and Once per month.</para>
@@ -6511,7 +6511,7 @@
 
    <section id="mail-prefs-junk">
     <title>Junk Mail Preferences</title>
-    <para>You can check your incoming messages for junk content by using Bogofilter and  SpamAssassin* tools, which have trainable Bayesian filters. You need to enable the Junk plugins to start filtering junk mail.</para>
+    <para>You can check your incoming messages for junk content by using Bogofilter and SpamAssassin* tools, which have trainable Bayesian filters. You need to enable the Junk plugins to start filtering junk mail.</para>
     <para>To enable Junk plugins:</para>
     <orderedlist>
      <listitem id="b17rdxkm">
@@ -6540,7 +6540,7 @@
     <mediaobject id="b17rds6i"><imageobject><imagedata format="PNG" fileref="figures/evo_junk_a.png"/></imageobject></mediaobject>
     <formalpara id="b17rfjfx">
      <title>SpamAssassin Options:</title>
-     <para>Remote Test performs junk mail filtering on remote servers. It also includes online tests, like checking for blacklisted message senders and ISPs. </para>
+     <para>Remote Test performs junk mail filtering on remote servers. It also includes online tests, like checking for blacklisted message senders and ISPs.</para>
     </formalpara>
     <para>This option uses tests that require a network connection, such as checking to see if a message is in a list of known junk messages, or if the sender or gateway are blacklisted by anti-spam organizations. Online tests can make filtering slower, because remote tests add to the amount of time it takes to check for junk mail, but they increase accuracy. When you select this option, you do not need to do any additional setup.</para>
     <formalpara id="b17rfjnv">
@@ -6554,7 +6554,7 @@
 
    <section id="bxjnb81">
     <title>Automatic Contacts Preferences</title>
-    <para>There are two items in this section: Automatic Contacts automatically adds people that you respond to into your address book. You can select the default address book for automatic contacts from the list. </para>
+    <para>There are two items in this section: Automatic Contacts automatically adds people that you respond to into your address book. You can select the default address book for automatic contacts from the list.</para>
     <para>Instant Messaging Contacts periodically synchronizes contact information and images with your instant messaging program. Currently this only works with Pidgin. Your address book must not be a read-only one for both these features to function properly.</para>
    </section>
 
@@ -6649,7 +6649,7 @@
     </formalpara>
     <formalpara id="bsbhup9">
      <title>Time Format:</title>
-     <para>Choose between twelve-hour (AM/PM) and twenty-four-hour time formats. </para>
+     <para>Choose between twelve-hour (AM/PM) and twenty-four-hour time formats.</para>
     </formalpara>
     <formalpara id="bsbhuut">
      <title>Week Starts:</title>
@@ -6657,7 +6657,7 @@
     </formalpara>
     <formalpara id="bsbhuzl">
      <title>Day Begins:</title>
-     <para>For Evolution, a normal work day begins at 9 a.m. and ends at 5 p.m. You can select your preferred hours to make sure that all your events are displayed properly. </para>
+     <para>For Evolution, a normal work day begins at 9 a.m. and ends at 5 p.m. You can select your preferred hours to make sure that all your events are displayed properly.</para>
     </formalpara>
     <formalpara id="bsbhv3n">
      <title>Day Ends:</title>
@@ -6810,11 +6810,11 @@
       </formalpara>
       <formalpara id="bxmwai3">
        <title>Port:</title>
-       <para>The Internet port Evolution connects to in order to access the LDAP database. This is normally 389. </para>
+       <para>The Internet port Evolution connects to in order to access the LDAP database. This is normally 389.</para>
       </formalpara>
       <formalpara id="bxmwai4">
        <title>Use SSL/TLS:</title>
-       <para>SSL and TLS are security mechanisms. If you select Always, Evolution does not connect unless secure connections are available. The default value is Whenever Possible, which uses secure connections if they are available, but does not cause failure if they are not. </para>
+       <para>SSL and TLS are security mechanisms. If you select Always, Evolution does not connect unless secure connections are available. The default value is Whenever Possible, which uses secure connections if they are available, but does not cause failure if they are not.</para>
       </formalpara>
       <formalpara id="bxmwai5">
        <title>Details: Search Base:</title>
@@ -6883,7 +6883,7 @@
      <mediaobject id="b1a4or91"><imageobject><imagedata format="PNG" fileref="figures/evo_debuglogs_a.png"/></imageobject></mediaobject>
     </listitem>
     <listitem id="b1a4orv0">
-     <para>Specify the display duration for the error messages. </para>
+     <para>Specify the display duration for the error messages.</para>
      <para>The messages remain in the statusbar for this specified time.</para>
     </listitem>
    </orderedlist>
@@ -7039,7 +7039,7 @@
    </formalpara>
    <formalpara id="b17sa9q1">
     <title>Creating a New E-mail Message:</title>
-    <para>Use File &gt; New &gt; Mail Message or Shift+Ctrl+M. </para>
+    <para>Use File &gt; New &gt; Mail Message or Shift+Ctrl+M.</para>
    </formalpara>
    <formalpara id="b17saa12">
     <title>Creating a New Appointment:</title>
@@ -7113,7 +7113,7 @@
    </formalpara>
    <formalpara id="b17sb24c">
     <title>Deleting a Contact: </title>
-    <para>Right-click a contact, then click Delete; or select a contact, then click Delete on the toolbar. </para>
+    <para>Right-click a contact, then click Delete; or select a contact, then click Delete on the toolbar.</para>
    </formalpara>
    <formalpara id="b17sb29u">
     <title>Sending E-mails to a Contact:</title>
@@ -7317,7 +7317,7 @@
   <glossentry id="protocol">
    <glossterm>protocol</glossterm>
    <glossdef>
-    <para>An agreed-upon method of communication, especially one for sending particular types of information between computer systems. Examples include POP (Post Office Protocol), for e-mail, and HTTP (HypterText Transfer Protocol) for Web pages.</para>
+    <para>An agreed-upon method of communication, especially one for sending particular types of information between computer systems. Examples include POP (Post Office Protocol), for e-mail, and HTTP (HyperText Transfer Protocol) for Web pages.</para>
    </glossdef>
   </glossentry>
   <glossentry id="public-key-encryption">
