@@ -1,5 +1,9 @@
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Fixed bug #477082.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Fixed comments 201 to 317 of bug #438479.
 
 2008-07-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>

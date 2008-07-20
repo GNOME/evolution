@@ -351,7 +351,7 @@
 
      <section id="bstgbqn">
       <title>Local Configuration Options</title>
-      <para>If you selected Local Delivery, MH-Format Mail Directories, Maildir-Format Mail Directories, or Standard Unix mbox spool file and Standard Unix mbox spool directory, you must specify the path to the local files in the path field. Continue with<link linkend="more-mail-options">Receiving Mail Options</link>.</para>
+      <para>If you selected Local Delivery, MH-Format Mail Directories, Maildir-Format Mail Directories, Standard Unix mbox spool file or Standard Unix mbox spool directory, you must specify the path to the local files in the path field. Continue with<link linkend="more-mail-options">Receiving Mail Options</link>.</para>
      </section>
     </section>
 
@@ -411,7 +411,7 @@
         <para>Select if you want to only check for junk messages in the Inbox folder.</para>
        </listitem>
        <listitem id="bsthmhx">
-        <para>Select automatically synchronize remote mail locally to download the messages to your local system.</para>
+        <para>Select Automatically synchronize remote mail locally to download the messages to your local system.</para>
         <para>Evolution, by default downloads only the header information such as From, Subject, and Date. The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
         <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
        </listitem>
@@ -777,7 +777,7 @@
    </formalpara>
    <formalpara id="b17xycio">
     <title>Switcher:</title>
-    <para>The switcher at the bottom of the side bar lets you switch between the Evolution tools - mail, contacts, Calendars, Memos and Tasks.</para>
+    <para>The switcher at the bottom of the side bar lets you switch between the Evolution tools - Mail, Contacts, Calendars, Memos and Tasks.</para>
    </formalpara>
    <formalpara id="b17s9ol7">
     <title>Status Bar:</title>
@@ -1878,7 +1878,7 @@
       <para>Select Edit &gt; Preferences.</para>
      </listitem>
      <listitem id="b13uu2g0">
-      <para>Select the mail account you want to change the default settings.</para>
+      <para>Select the mail account whose default settings you want to change.</para>
      </listitem>
      <listitem id="b13uu7dv">
       <para>Click Edit to open Account Editor window.</para>
@@ -3047,7 +3047,7 @@
        <para>Searches in the actual text of the message.</para>
       </formalpara>
       <formalpara id="bshkzum">
-       <title>Expression:(For programmers only)</title>
+       <title>Expression (For programmers only):</title>
        <para>Match a message according to an expression you write in the Scheme language used to define filters in Evolution.</para>
       </formalpara>
       <formalpara id="bshkzun">
@@ -3212,10 +3212,7 @@
      <para>Follow the steps given below to create a new card.</para>
      <orderedlist>
       <listitem id="b13prudx">
-       <para>Click the down arrow key next to the New button in the toolbar</para>
-      </listitem>
-      <listitem id="b13prup2">
-       <para>Select Contacts from the drop-down list or press Shift+Ctrl+C to bring up the Contact Editor.</para>
+      <para>Click File &gt; New &gt; Contact.</para>
       </listitem>
       <listitem id="b13prwao">
        <para>Enter the contact information to the entry boxes provided.</para>
@@ -3522,7 +3519,7 @@
      </listitem>
     </orderedlist>
     <tip>
-     <para>You can edit or set the color and icon for each categories available under categories list. To achieve that click Edit button at the bottom of the Categories window. Press delete button to delete the items from the list.</para>
+     <para>You can edit or set the color and icon for each categories available under categories list. To achieve that click Edit button at the bottom of the Categories window. Press the Delete button to delete the items from the list.</para>
     </tip>
    </section>
   </section>
