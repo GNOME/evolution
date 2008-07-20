@@ -18,5 +18,12 @@
 				</menubar>
 			</ui-manager>
 		</hook>
+		
+		<hook class="org.gnome.evolution.mail.config:1.0">
+                        <group target="prefs" id="org.gnome.evolution.mail.composerPrefs">
+                                <item type="section" path="00.general/10.alerts/" factory="org_gnome_email_custom_header_config_option"/>
+                        </group>
+                </hook>
+
 	</e-plugin>
 </e-plugin-list>

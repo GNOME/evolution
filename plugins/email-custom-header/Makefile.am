@@ -42,7 +42,8 @@ install-data-local:
 	fi
 
 glade_DATA =							\
-	org-gnome-email-custom-header.glade
+	org-gnome-email-custom-header.glade			\
+	email-custom-header.glade
 
 EXTRA_DIST = 							\
 	org-gnome-email-custom-header.eplug.xml			\
