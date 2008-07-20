@@ -520,6 +520,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 	}
 
         if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
+	    || em_utils_folder_is_templates(emfv->folder, emfv->folder_uri) 	
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
 		em_utils_edit_messages(emfv->folder, uids, TRUE);
 		return uids->len;
@@ -2647,7 +2648,7 @@ emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent
 	/* Ignore double-clicks on columns that handle thier own state */
 	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
-
+	
 	em_folder_view_open_selected(emfv);
 }
 

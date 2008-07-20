@@ -1,3 +1,10 @@
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	** Part of fix for bug #200147
+
+	* configure.in: Added a new plugin templates, which will make it 
+	possible for users to use standard templates to reply to their messages.
+
 2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	* data/icons/hicolor_actions_24x24_query-free-busy.png:

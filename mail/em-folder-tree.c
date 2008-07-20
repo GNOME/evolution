@@ -1087,7 +1087,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 static gboolean
 is_special_local_folder (const char *name)
 {
-	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent"));
+	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates"));
 }
 
 static GdkAtom

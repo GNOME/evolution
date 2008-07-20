@@ -1,8 +1,15 @@
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	* POTFILES.in:
+	Updated file-list for templates plugin.
+
+	** See bug #200147
+
 2008-07-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org> 
 
 	* es.po: Updated Spanish translation  
 
-2008-07-19  Andre Klapper  <a9016009@gmx.de>
+2008-07-19  Andre KlappeJohnnyr  <a9016009@gmx.de>
 
 	* de.po: Updated German translation.
 

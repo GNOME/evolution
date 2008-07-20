@@ -161,6 +161,7 @@ static struct {
 	{ N_("Drafts"), },
 	{ N_("Outbox"), },
 	{ N_("Sent"), },
+	{ N_("Templates"), },
 	{ "Inbox", },		/* 'always local' inbox */
 };
 

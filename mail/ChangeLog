@@ -1,3 +1,20 @@
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #200147
+	Added basic Template support
+
+	* em-composer-utils.c (edit_message), (em_utils_edit_message): Modified 
+	to suit it better for plugins to use it. And added support for template 
+	placeholders to be replaced in the messages.
+	* em-composer-utils.h:
+	* em-folder-tree.c (is_special_local_folder):
+	* em-folder-utils.c (emfu_is_special_local_folder):
+	* em-folder-view.c (em_folder_view_open_selected):
+	* em-utils.c (em_utils_folder_is_templates):
+	* em-utils.h:
+	* mail-component.c:
+	* mail-component.h:
+
 2008-07-16  Sankar P  <psankar@novell.com>
 
 	Pushing disk summary changes from the madagascar branch

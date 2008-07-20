@@ -68,6 +68,8 @@
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #endif
 
+#define GCONF_KEY_TEMPLATE_PLACEHOLDERS "/apps/evolution/mail/template_placeholders"
+
 static EAccount * guess_account (CamelMimeMessage *message, CamelFolder *folder);
 
 struct emcs_t {
@@ -808,8 +810,144 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 {
 	EMsgComposer *composer;
 
+	/* Template specific code follows. */
+	if (em_utils_folder_is_templates(drafts, NULL) == TRUE) {
+		/* retrieve the message from the CamelFolder */
+		CamelDataWrapper *content;
+		CamelStream *mem;
+		CamelContentType *type;
+		CamelMimePart *mime_part = CAMEL_MIME_PART (message);
+		CamelDataWrapper *mail_text;
+		CamelMultipart *body = camel_multipart_new ();
+		CamelStream *stream;		
+		CamelMimePart *part;
+		int count1 = 0, string_changed = 0;
+
+		char *str, *convert_str = NULL;
+		gsize bytes_read, bytes_written;
+		gint count = 2;
+
+		content = camel_medium_get_content_object ((CamelMedium *) message);
+		if (!content)
+			return;
+
+		/*
+		 * Get non-multipart content from multipart message.
+		 */
+		while (CAMEL_IS_MULTIPART (content) && count > 0)
+		{
+			mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), 0);
+			content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			count--;
+		}
+
+		if (!mime_part)
+			return;
+
+		type = camel_mime_part_get_content_type (mime_part);
+		if (!camel_content_type_is (type, "text", "plain"))
+			return;
+
+		mem = camel_stream_mem_new ();
+		camel_data_wrapper_decode_to_stream (content, mem);
+
+		str = g_strndup ((const gchar*)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+		camel_object_unref (mem);
+
+		const char *cur = str;
+		int i;
+		for (i = 0; i < strlen(str); i++) {
+			if (!g_ascii_strncasecmp (cur, "$", 1)) {
+				const char *end = cur, *check_env;
+				char *out;
+				GConfClient *gconf;
+				GSList *clue_list = NULL, *list;
+
+				gconf = gconf_client_get_default ();
+
+				while (*end && !isspace (*end) && (*end != '"'))
+					end++;
+
+				out = g_strndup ((const gchar *) cur, end - cur);
+				check_env = out;
+
+				char **temp_str = g_strsplit (str, out, 2);
+
+				/* Get the list from gconf */
+				clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
+
+				g_object_unref (gconf);
+
+				for (list = clue_list; list; list = g_slist_next (list)) {
+					char **temp = g_strsplit (list->data, "=", 2);
+					if (!g_ascii_strcasecmp(temp[0], out+1)) {
+						str = g_strdup_printf("%s%s%s", temp_str[0], temp[1], temp_str[1]);
+						cur = str + i;
+						count1 = 1;
+						string_changed = 1;
+					}
+					else
+						count1 = 0;
+					g_strfreev(temp);
+				}
+
+				if (clue_list) {
+					g_slist_foreach (clue_list, (GFunc) g_free, NULL);
+					g_slist_free (clue_list);
+				}
+
+				if (!count1) {
+					if (getenv(out+1)) {
+						str = g_strdup_printf("%s%s%s", temp_str[0], getenv(out + 1), temp_str[1]);
+						cur = str + i;
+						count1 = 1;
+						string_changed = 1;
+					}
+					else
+						count1 = 0;
+				}
+
+				g_strfreev(temp_str);
+			}	
+			else 
+				cur++;
+		}
+
+		if (string_changed) {
+
+			/* Create toplevel container */
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
+					"multipart/alternative;");
+			camel_multipart_set_boundary (body, NULL);
+
+			stream = camel_stream_mem_new ();
+
+			mail_text = camel_data_wrapper_new ();
+			camel_data_wrapper_set_mime_type_field (mail_text, type);
+			
+			camel_stream_printf (stream, "%s", g_strdup(str));
+
+			camel_data_wrapper_construct_from_stream (mail_text, stream);
+			camel_object_unref (stream);
+
+			part = camel_mime_part_new ();
+			camel_medium_set_content_object (CAMEL_MEDIUM (part), mail_text);
+			camel_object_unref (mail_text);
+			camel_multipart_add_part (body, part);
+			camel_object_unref (part);
+
+			/* Finish creating the message */
+			camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER(body));
+			camel_object_unref (body);
+		}
+	}
+		
 	composer = e_msg_composer_new_with_message (message);
-	em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, drafts, uid);
+	
+	if (em_utils_folder_is_templates(drafts, NULL) == TRUE) 
+		em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, NULL, NULL);
+	else
+		em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, drafts, uid);
 
 	composer_set_no_change (composer, TRUE);
 
@@ -819,16 +957,20 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 /**
  * em_utils_edit_message:
  * @message: message to edit
+ * @folder: used to recognize the templates folder
  *
  * Opens a composer filled in with the headers/mime-parts/etc of
  * @message.
  **/
 void
-em_utils_edit_message (CamelMimeMessage *message)
+em_utils_edit_message (CamelMimeMessage *message, CamelFolder *folder)
 {
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	edit_message (message, NULL, NULL);
+	if (folder)
+		edit_message (message, folder, NULL);
+	else
+		edit_message (message, NULL, NULL);	
 }
 
 static void

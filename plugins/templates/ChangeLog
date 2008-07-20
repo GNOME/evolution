@@ -1,0 +1,13 @@
+2008-07-18  Bharath Acharya  <abharath@novell.com>
+
+	** Fixes Bug #200147
+
+	Basic functionality implemented by Diego Escalante Urrelo 
+	<diegoe@gnome.org> Everyone owes him a big mug of Beer for that.
+
+	** Added Templates plugin
+	* Makefile.am:
+	* apps-evolution-template-placeholders.schemas.in:
+	* org-gnome-templates.eplug.xml:
+	* templates.c: 
+	* templates.glade:

@@ -1,3 +1,9 @@
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #200147
+
+	* evolution-composer.ui: Added a Template placeholder
+
 2008-07-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #206592

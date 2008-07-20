@@ -1,0 +1,26 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/evolution/mail/template_placeholders</key>
+      <applyto>/apps/evolution/mail/template_placeholders</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+
+      <!-- The following are the keyword/value pairs used by the plugin to 
+      substitute the messages stored under the Templates folder. The list can 
+      have any number of such pairs.-->
+
+      <default>[myphone=012345,myplace=Abcd,myname=Alice]</default>
+      <locale name="C">
+         <short>List of keyword/value pairs for the Templates plugin to 
+		substitute in a message body.</short>
+         <long>
+	       List of keyword/value pairs for the Templates plugin to 
+	       substitute in a message body.
+         </long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>
+
