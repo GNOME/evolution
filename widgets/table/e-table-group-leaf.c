@@ -408,6 +408,14 @@ etgl_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
 }
 
 static void
+etgl_compute_mouse_over (ETableGroup *etg, int x, int y, int *row, int *col)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+
+	e_table_item_compute_mouse_over (etgl->item, x, y, row, col);
+}
+
+static void
 etgl_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, int *width, int *height)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
@@ -565,6 +573,7 @@ etgl_class_init (ETableGroupLeafClass *klass)
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
 	e_group_class->compute_location = etgl_compute_location;
+	e_group_class->compute_mouse_over = etgl_compute_mouse_over;
 	e_group_class->get_cell_geometry = etgl_get_cell_geometry;
 
 	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,

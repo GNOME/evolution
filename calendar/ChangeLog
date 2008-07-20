@@ -47,6 +47,13 @@
 	* gui/dialogs/alarm-dialog.c:
 	* gui/dialogs/comp-editor-util.c:
 
+2008-07-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329821
+
+	* gui/e-calendar-table.c: (get_time_as_text), (query_tooltip_cb),
+	(e_calendar_table_init): Show tooltips over task's table.
+
 2008-17-14  Paolo Borelli  <pborelli@katamail.com>
 
 	** Fix for bug #542889

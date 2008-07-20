@@ -90,6 +90,7 @@ typedef struct {
 	gint        (*get_focus_column)      (ETableGroup *etg);
 	EPrintable *(*get_printable)         (ETableGroup *etg);
 	void        (*compute_location)      (ETableGroup *etg, int *x, int *y, int *row, int *col);
+	void        (*compute_mouse_over)    (ETableGroup *etg, int x, int y, int *row, int *col);
 	void        (*get_cell_geometry)     (ETableGroup *etg, int *row, int *col, int *x, int *y, int *width, int *height);
 
 } ETableGroupClass;
@@ -120,6 +121,11 @@ EPrintable   *e_table_group_get_printable     (ETableGroup       *etg);
 void          e_table_group_compute_location  (ETableGroup       *etg,
 					       int               *x,
 					       int               *y,
+					       int               *row,
+					       int               *col);
+void          e_table_group_compute_mouse_over(ETableGroup       *etg,
+					       int                x,
+					       int                y,
 					       int               *row,
 					       int               *col);
 void          e_table_group_get_cell_geometry (ETableGroup       *etg,

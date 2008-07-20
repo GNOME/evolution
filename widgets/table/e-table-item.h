@@ -214,6 +214,11 @@ void        e_table_item_compute_location    (ETableItem        *eti,
 					      int               *y,
 					      int               *row,
 					      int               *col);
+void        e_table_item_compute_mouse_over  (ETableItem        *eti,
+					      int                x,
+					      int                y,
+					      int               *row,
+					      int               *col);
 void        e_table_item_get_cell_geometry   (ETableItem        *eti,
 					      int               *row,
 					      int               *col,

@@ -2171,12 +2171,15 @@ find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row
 		y1 = y2 = height_extra;
 		if (y < height_extra)
 			return FALSE;
-		for (row = 0; row < rows - 1; row++, y1 = y2){
+		for (row = 0; row < rows; row++, y1 = y2) {
 			y2 += ETI_ROW_HEIGHT (eti, row) + height_extra;
 
 			if (y <= y2)
 				break;
 		}
+
+		if (row == rows)
+			return FALSE;
 	}
 	*view_col_res = col;
 	if (x1_res)
@@ -3437,6 +3440,37 @@ e_table_item_compute_location (ETableItem        *eti,
 
 	if (!find_cell (eti, *x, *y, col, row, NULL, NULL)) {
 		*y -= eti->height;
+	}
+
+	eti->grabbed_row = grabbed_row;
+}
+
+/**
+ * e_table_item_compute_mouse_over:
+ * Similar to e_table_item_compute_location, only here recalculating
+ * the position inside the item too.
+ **/
+void
+e_table_item_compute_mouse_over (ETableItem        *eti,
+				 int                x,
+				 int                y,
+				 int               *row,
+				 int               *col)
+{
+	double realx, realy;
+	/* Save the grabbed row but make sure that we don't get flawed
+           results because the cursor is grabbed. */
+	int grabbed_row = eti->grabbed_row;
+	eti->grabbed_row = -1;
+
+	realx = x;
+	realy = y;
+
+	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM (eti), &realx, &realy);
+
+	if (!find_cell (eti, (int)realx, (int)realy, col, row, NULL, NULL)) {
+		*row = -1;
+		*col = -1;
 	}
 
 	eti->grabbed_row = grabbed_row;
