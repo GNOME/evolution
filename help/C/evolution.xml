@@ -329,7 +329,7 @@
         <para>Type your username for the account in the Username field.</para>
        </listitem>
        <listitem id="bstg8yn">
-        <para>Select to use a secure (SSL) connection.</para>
+        <para>Select if you want to use a secure connection (SSL).</para>
         <para>If your server supports secure connections, you should enable this security option. If you are unsure if your server supports a secure connection, contact your system administrator.</para>
        </listitem>
        <listitem id="bstg9rc">
@@ -699,7 +699,7 @@
         </orderedlist>
        </listitem>
        <listitem id="bsthypm">
-        <para>Select if you use a secure connection (SSL).</para>
+        <para>Select if you want to use a secure connection (SSL).</para>
        </listitem>
        <listitem id="bsti1a0">
         <para>Click Forward.</para>
@@ -1350,8 +1350,8 @@
 
    <section id="usage-mail-getnsend-get-news">
     <title>Using Evolution for News</title>
-    <para>USENET newsgroups are similar to mail, so it is often convenient to read news and mail side by side. You can add a news source, called an NNTP server, the same way you would add <link linkend="bse54o0">new e-mail account</link>, selecting USENET News as the source type. The news server appear as a remote mail server, and each news group works like an IMAP folder. When you click Send/Receive, Evolution also checks for news messages.</para>
-    <para>When you create a news group account, you are not subscribed to any groups. To subscribe to a news group:</para>
+    <para>USENET newsgroups are similar to mail, so it is often convenient to read news and mail side by side. You can add a news source, called an NNTP server, the same way you would add <link linkend="bse54o0">new e-mail account</link>, selecting USENET News as the Server type. The news server appear as a remote mail server, and each newsgroup works like an IMAP folder. When you click Send/Receive, Evolution also checks for news messages.</para>
+    <para>When you create a newsgroup account, you are not subscribed to any groups. To subscribe to a newsgroup:</para>
     <orderedlist>
      <listitem id="bsx1euy">
       <para>Click Folder &gt; Subscriptions.</para>
@@ -1376,7 +1376,7 @@
 
    <section id="usage-mail-getnsend-undelete">
     <title>Undeleting Messages</title>
-    <para>You can undelete a message that has been deleted but not expunged. To undelete a message, select the message, click Edit &gt; Undelete.</para>
+    <para>You can undelete a message that has been deleted but not expunged. To undelete a message, select the message, click Edit &gt; Undelete. Note that View &gt; Hide Deleted messages in the menubar must be disabled for this.</para>
     <para>If you have marked a message for deletion, undeleting it unmarks it, and the message is removed from the Trash folder.</para>
    </section>
   </section>
@@ -1384,7 +1384,7 @@
   <section id="usage-mail-getnsend-send">
    <title>Composing New E-Mail Messages</title>
    <para>You can start writing a new e-mail message by clicking File &gt; New &gt; Mail Message, by pressing Ctrl+N when in the mailing tool, or by clicking New in the toolbar.</para>
-   <para>Enter an address in the To field. If you want to enter multiple email addresses, type in the addresses separated by comma. You can also use contact list to send messages to multiple recipients.Enter a subject in the Subject field, and a message in the box at the bottom of the window. After you have written your message, click Send.</para>
+   <para>Enter an address in the To field. If you want to enter multiple email addresses, type in the addresses separated by comma. You can also use a contact list to send messages to multiple recipients. Enter a subject in the Subject field, and a message in the box at the bottom of the window. After you have written your message, click Send.</para>
    <para>New mail message window look like this:</para>
    <mediaobject id="usage-mail-newmsg-fig"><imageobject><imagedata format="PNG" fileref="figures/evo_newmess_a.png"/></imageobject></mediaobject>
    <para>This section contains the following topics:</para>
@@ -1435,7 +1435,7 @@
     <section id="bsfnqkj">
      <title>Using Character Sets</title>
      <para>A character set is a computer's version of an alphabet. In the past, the ASCII character set was used almost universally. However, it contains only 128 characters, meaning it is unable to display characters in Cyrillic, Kanjii, or other non-Latin alphabets. To work around language display problems, programmers developed a variety of methods, so many human languages now have their own specific character sets, and items written in other character sets display incorrectly. Eventually, standards organizations developed the UTF-8 Unicode&z-3rdParty; character set to provide a single compatible set of codes for everyone.</para>
-     <para>Most e-mail messages state in advance which character set they use, so Evolution usually knows what to display for a given binary number. However, if you find that messages are displayed as rows of incomprehensible characters, try selecting a different character set in the mail settings screen. If your recipients can't read your messages, try selecting a different character set in the composer options dialog box. For some languages, such as Turkish or Korean, it might work best for you to select the language-specific character set. However, the best choice for most users is UTF-8, which offers the widest range of characters for the widest range of languages.</para>
+     <para>Most e-mail messages state in advance which character set they use, so Evolution usually can display those messages correctly. However, if you find that messages are displayed as rows of incomprehensible characters, try selecting a different character set in the mail settings screen. If your recipients can't read your messages, try selecting a different character set in the composer options dialog box. For some languages, such as Turkish or Korean, it might work best for you to select the language-specific character set. However, the best choice for most users is UTF-8, which offers the widest range of characters for the widest range of languages.</para>
     </section>
    </section>
 
@@ -1457,7 +1457,7 @@
 
    <section id="usage-mail-getnsend-offline">
     <title>Working Offline</title>
-    <para>Offline mode help you communicate with remote mail storage systems like <trademark class="registered">GroupWise</trademark>, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</para>
+    <para>Offline mode helps you communicate with remote mail storage systems like <trademark class="registered">GroupWise</trademark>, IMAP or Exchange, in situations where you are not connected to the network at all times. Evolution keeps a local copy of one or more folders to allow you to compose messages, storing them in your Outbox to be sent the next time you connect.</para>
     <para>POP mail downloads all messages to your local system, but other connections usually download just the headers, and get the rest only when you want to read the message. Before you go offline, Evolution downloads the unread messages from the folders you have chosen to store.</para>
     <para>To mark a folder for offline use,</para>
     <orderedlist>
@@ -1522,7 +1522,7 @@
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
-    <para>You can also drag a file into the composer window. If you want to send it as an inline attachment, right-click the attachment and click Properties, then select Automatic Display of Attachments.</para>
+    <para>You can also drag a file to the attachment bar of the composer window. If you want to send it as an inline attachment, right-click the attachment and click Properties, then select Automatic Display of Attachments.</para>
     <para>When you send the message, a copy of the attached file goes with it. Be aware that large attachments can take a long time to send and receive.</para>
    </section>
    <section id="b17rcxmf">
@@ -1557,7 +1557,7 @@
    </section>
    <section id="usage-mail-getnsend-send-to-types">
     <title>Specifying Additional Recipients for E-Mail</title>
-    <para><trademark>Evolution</trademark>, like most e-mail programs, recognizes three types of addressee: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
+    <para><trademark>Evolution</trademark>, like most e-mail programs, recognizes three types of addresses: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
     <para>Addresses on the Bcc: list are hidden from the other recipients of the message. You can use it to send mail to large groups of people, especially if they don't know each other or if privacy is a concern. If your Bcc: field is absent, click View &gt; Bcc Field.</para>
     <para>If you frequently write e-mail to the same groups of people, you can create address lists in the contacts tool, and then send them mail as though they have a single address. To learn how to do that, see <link linkend="usage-contact-organize-group-list">Creating a List of Contacts</link>.</para>
     <para>Evolution has the ability to let you specify the Reply-To in an e-mail. Using this, you can set up a special Reply-To for an e-mail.To do this:</para>
@@ -1582,15 +1582,15 @@
 
    <section id="usage-mail-getnsend-send-to">
     <title>Choosing Recipients Quickly</title>
-    <para>Address auto completion is by default enabled in Evolution when you create contacts.Evolution makes it easy for you to quickly fill in the address field without having to remember the email address of recipients. You can type nicknames or other portions of address data in the address field and Evolution will display a drop-down list of possible address completions from your contacts. If you type a name or nickname that can go with more than one card, Evolution opens a dialog box to ask you which person you meant.</para>
-    <para>If Evolution does not complete addresses automatically, click Edit &gt; Preferences, then click Autocompletion. There, select the groups of contacts you want to use for address autocompletion in the mailer.</para>
+    <para>Address auto completion is by default enabled in Evolution when you create contacts. Evolution makes it easy for you to quickly fill in the address field without having to remember the email address of recipients. You can type nicknames or other portions of address data in the address field and Evolution will display a drop-down list of possible address completions from your contacts. If you type a name or nickname that can go with more than one card, Evolution opens a dialog box to ask you which person you meant.</para>
+    <para>If Evolution does not complete addresses automatically, click Edit &gt; Preferences, then click Autocompletion. There, select the address book you want to use for address autocompletion in the mailer.</para>
     <para>Alternately, you can click the To:, Cc:, or Bcc: buttons to get a list of the e-mail addresses in your contacts. Select addresses and click the arrows to move them into the appropriate address columns.</para>
     <para>For more information about using e-mail with the contact manager and the calendar, see <link linkend="contact-automation-basic">Send Me a Card: Adding New Cards Quickly</link> and <link linkend="usage-calendar-apts">Scheduling With the Evolution Calendar</link>.</para>
    </section>
 
    <section id="usage-mail-getnsend-send-reply">
     <title>Replying to E-Mail Messages</title>
-    <para>To reply to a message, click the message to reply to in the message list and click Reply, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message.</para>
+    <para>To reply to a message, click the message to reply to in the message list and click the Reply button in the toolbar, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message.</para>
     <para>If you're reading a message with several recipients, you can use Reply to All instead of Reply. If there are large numbers of people in the Cc: or To: fields, this can save substantial amounts of time.</para>
 
     <section id="bsfo4jl">
@@ -1683,7 +1683,7 @@
 
     <section id="bsait28">
      <title>Basic HTML Formatting</title>
-     <para>You can change the format of an e-mail message from plain text to HTML by choosing Format HTML.</para>
+     <para>You can change the format of an e-mail message from plain text to HTML by choosing Format &gt; HTML from the menu bar.</para>
      <para>To send all your mail as HTML by default, set your mail format preferences in the mail configuration dialog box. See <link linkend="config-prefs-mail-composer">Composer Preferences</link> for more information.</para>
      <para>HTML formatting tools are located in the toolbar just above the space where you actually compose the message. They also appear in the Insert and Format menus.</para>
      <para>The icons in the toolbar are explained in <link linkend="tooltip">tool-tips</link>, which appear when you hold your mouse pointer over the buttons. The buttons fall into five categories:</para>
@@ -1795,7 +1795,7 @@
       <title>Inserting an Image</title>
       <orderedlist>
        <listitem id="bsainv6">
-        <para>Click Image.</para>
+        <para>Click Insert &gt; Image in the menubar.</para>
        </listitem>
        <listitem id="bsaio4q">
         <para>Browse to and select the image file.</para>
@@ -1811,7 +1811,7 @@
       <para>You can insert a horizontal line into the text to help divide two sections:</para>
       <orderedlist>
        <listitem id="bsaiotf">
-        <para>Click Rule.</para>
+        <para>Click Insert &gt; Rule in the menubar.</para>
        </listitem>
        <listitem id="bsaioxz">
         <para>Select the width, size, and alignment.</para>
@@ -1830,7 +1830,7 @@
       <para>You can insert a table into the text:</para>
       <orderedlist>
        <listitem id="bsaiq2x">
-        <para>Click Table.</para>
+        <para>Click Insert &gt; Table in the menubar.</para>
        </listitem>
        <listitem id="bsaiq6r">
         <para>Select the number of rows and columns.</para>
@@ -1873,7 +1873,7 @@
     <para>To change your default settings,</para>
     <orderedlist>
      <listitem id="b13uu17q">
-      <para>Select Edit &gt;Preferences to open Evolution Preferences window.</para>
+      <para>Select Edit &gt; Preferences.</para>
      </listitem>
      <listitem id="b13uu2g0">
       <para>Select the mail account you want to change the default settings.</para>
@@ -2200,7 +2200,7 @@
       <listitem id="bsg2rkq">
        <para>Select Edit &gt; Preferences.</para>
       </listitem>
-      <listitem id="bsg2rkq">
+      <listitem id="bsg2rkr">
        <para>Click Certificates.</para>
       </listitem>
       <listitem id="bsg2rra">
@@ -2540,8 +2540,8 @@
   <section id="usage-mail-organize-folders">
    <title>Getting Organized with Folders</title>
    <para>Evolution, like most other mail systems, stores mail in folders. You start out with a few mail folders, such as Inbox, Outbox, and Drafts, but you can create as many as you like. Create new folders by clicking Folder &gt; New, or by right-clicking in the folder list and selecting New Folder.</para>
-   <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click &gt; Move to folder or press Shift+Ctrl+V.</para>
-   <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder or press Shift+Ctrl +V. This will open Select folder window, where you can drop your message to any of the folders listed.</para>
+   <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click on the message and choose Move to folder, or press Shift+Ctrl+V.</para>
+   <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder or press Shift+Ctrl+V. This will open the Select folder window, where you can drop your message to any of the folders listed.</para>
    <mediaobject id="b13td8j9"><imageobject><imagedata format="PNG" fileref="figures/evo_select_folder.png"/></imageobject></mediaobject>
    <para>If you want to create a new folder click New at the bottom left of the window. Specify the location and enter the label of the folder at the entry box appeared at the top. You can also move the messages from one folder to another by selecting the message and then press Move tab at the bottom right.</para>
    <para>If you create a filter with the filter assistant, you can have mail filed automatically. For that select Edit &gt; Message Filters to appear Message Filters window</para>
@@ -2704,10 +2704,10 @@
    </formalpara>
    <orderedlist>
     <listitem id="b13tvav6">
-     <para>Select Search menu</para>
+     <para>Select Search menu.</para>
     </listitem>
     <listitem id="b13tvb7l">
-     <para>Click Advanced Search to open Advanced Search dialogue box</para>
+     <para>Click Advanced Search to open Advanced Search dialog box.</para>
      <mediaobject id="b13tvd61"><imageobject><imagedata format="PNG" fileref="figures/evo_adv_search_a.png"/></imageobject></mediaobject>
      
     </listitem>
@@ -2737,18 +2737,18 @@
      <para>Select Search </para>
     </listitem>
     <listitem id="b13tw2vp">
-     <para>Click Edit Saved Searches to open Searches dialogue box.</para>
+     <para>Click Edit Saved Searches to open Searches dialog box.</para>
      <mediaobject id="b13tw8de"><imageobject><imagedata format="PNG" fileref="figures/evo_edit_search.png"/></imageobject></mediaobject>
      
     </listitem>
     <listitem id="b13tw8px">
-     <para>Click Edit tab to edit to open Edit Rule dialogue box</para>
+     <para>Click Edit tab to edit to open Edit Rule dialog box.</para>
      <para>You can also add or remove Searches from the list by using the respective buttons available at the right.</para>
      <mediaobject id="b13twan3"><imageobject><imagedata format="PNG" fileref="figures/evo_edit_rule_a.png"/></imageobject></mediaobject>
      
     </listitem>
     <listitem id="b13twb4j">
-     <para>Edit the title or search criteria from the dialogue box.</para>
+     <para>Edit the title or search criteria from the dialog box.</para>
     </listitem>
     <listitem id="b13twbu1">
      <para>Click OK.</para>
@@ -3089,7 +3089,7 @@
       </formalpara>
      </listitem>
      <listitem id="bsazxjk">
-      <para>Select the folders where this search folder will search. Your options are:</para>
+      <para>Select which folders will be used for the search folder. Your options are:</para>
       <formalpara id="bsmr82i">
        <title> All local folders:</title>
        <para>Uses all local folders for the search folder source in addition to individual folders that are selected.</para>
@@ -3491,7 +3491,7 @@
      </listitem>
      <listitem id="b13ptb98">
       <para>Click the Categories button at the left.</para>
-      <para>You can view the Categories dialogue box as given below.</para>
+      <para>You can view the Categories dialog box as given below.</para>
       <para></para>
       <para></para>
       <para></para>
@@ -3592,7 +3592,7 @@
 
   <section id="usage-calendar-view">
    <title>Ways of Looking at your Calendar</title>
-   <para>In Evolution, you can keep multiple calendars and overlay them one over the next. For example, you might have a schedule of events for work, one for home, and one for your favorite sports team. The switcher lists those calendars, and you can select or deselect the boxes next to them to show and hide the appointments in your calendar view. By hiding and showing different sets of appointments, you can be sure to avoid conflicts, while keeping a minimum of clutter in your view.</para>
+   <para>In Evolution, you can keep multiple calendars and overlay them one over the next. For example, you might have a schedule of events for work, one for home, and one for your favorite sports team. The side bar lists those calendars, and you can select or deselect the boxes next to them to show and hide the appointments in your calendar view. By hiding and showing different sets of appointments, you can be sure to avoid conflicts, while keeping a minimum of clutter in your view.</para>
    <para>Appointments for each calendar appear as a different color.</para>
    <para>The toolbar offers you five different buttons that can show you different views of your calendar.</para>
    <informaltable>
@@ -3653,9 +3653,9 @@
      </tbody>
     </tgroup>
    </informaltable>
-   <para>You can also select an arbitrary range of days in the small calendar just above the switcher at the left. To do this, select the days that you want to view in your calendar.</para>
+   <para>You can also select an arbitrary range of days in the small calendar in the side bar. To do this, select the days that you want to view in your calendar.</para>
    <mediaobject id="b14av0ey"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_a.png"/></imageobject></mediaobject>
-   <para>The Prev and Next buttons move you forward and back in your calendar pages. If you are using a week or month view, you can move by week or month. To return to today's listing, click the Today button in the toolbar.</para>
+   <para>The Previous and Next buttons move you forward and back in your calendar pages. If you are using a week or month view, you can move by week or month. To return to today's listing, click the Today button in the toolbar.</para>
    <para>To visit calendar entries for a specific date, click Go To and select the date in the dialog box that appears.</para>
 
    <section id="b13xy2ak">
@@ -3663,13 +3663,13 @@
     <para>Evolution allows you to edit the label of your calendar, assign color, and copy content for offline use. To set your calendar properties</para>
     <orderedlist>
      <listitem id="b13xybev">
-      <para>Select the calendar from the folder view at the left.</para>
+      <para>Select the calendar from the side bar at the left.</para>
      </listitem>
      <listitem id="b13xyc0b">
-      <para>Right click.</para>
+      <para>Right click on the calendar.</para>
      </listitem>
      <listitem id="b13xyc3r">
-      <para>Select Properties to open Calendar Properties dialogue box.</para>
+      <para>Select Properties to open Calendar Properties dialog box.</para>
       <para></para>
       <para></para>
       <para></para>
@@ -3684,7 +3684,7 @@
       <para>Edit the label from Name field.</para>
      </listitem>
      <listitem id="b13xyirm">
-      <para>To assign a color for the calendar, click the Color tab.</para>
+      <para>To assign a color for the calendar, click the Color button.</para>
      </listitem>
      <listitem id="b13xyj63">
       <para>Select the color and click OK.</para>
@@ -3801,7 +3801,7 @@
        <para>or</para>
        <para>Click Calendars on the Switcher, then click File &gt; New &gt; Appointment.</para>
        <para>or</para>
-       <para>Double-click in a blank space on the calendar view to open an Appointment dialogue box. The appointment is created for that particular time on the calendar view against which you have double clicked on.</para>
+       <para>Double-click in a blank space on the calendar view to open an Appointment dialog box. The particular time on the calendar view against which you have double clicked on will be suggested for the new appointment.</para>
        <para>or</para>
        <para>Select the required duration on the calender view and enter the summary.</para>
       </listitem>
@@ -3811,13 +3811,13 @@
        
       </listitem>
       <listitem id="b10fnwru">
-       <para>Type a location for the appointment in the Location field.</para>
+       <para>(Optional) Type a location for the appointment in the Location field.</para>
       </listitem>
       <listitem id="b13uc0pd">
-       <para>Select the date, time and set the duration</para>
+       <para>Select the date, time and set the duration.</para>
       </listitem>
       <listitem id="b13uc1k9">
-       <para>Enter a brief summary of the appointment in the description field.</para>
+       <para>(Optional) Enter a brief summary of the appointment in the description field.</para>
       </listitem>
       <listitem id="b10fnwwl">
        <para>To select this appointment as an all day event, click Options &gt; All Day Event.</para>
@@ -3846,7 +3846,6 @@
       </listitem>
       <listitem id="b10fnz0t">
        <para>(Optional) Type a category in the Categories field. To show or hide the Categories field, click View &gt; Categories.</para>
-       <para>For more information on categories, see <link linkend="bxmtbjb">Classifications</link>.</para>
       </listitem>
       <listitem id="b10fo1zg">
        <para>Type a description in the Description field.</para>
@@ -5156,10 +5155,10 @@
        </important>
        <orderedlist>
         <listitem id="b17qwr4g">
-         <para>Click User to open Show Contacts dialogue box.</para>
+         <para>Click User to open Show Contacts dialog box.</para>
         </listitem>
         <listitem id="b17qwruz">
-         <para>Select the contact from the desired Address book and click Add, then close the dialogue box.</para>
+         <para>Select the contact from the desired Address book and click Add, then close the dialog box.</para>
          <warning>
           <para>You are not permitted to send a message on behalf of more than one person at a time.</para>
          </warning>
@@ -5211,7 +5210,7 @@
       <listitem id="bxpfj0n">
        <para>Select Edit &gt; Preferences.</para>
       </listitem>
-      <listitem id="bxpfj0n">
+      <listitem id="bxpfj0o">
        <para>Click the Exchange Settings tab.</para>
       </listitem>
       <listitem id="b17qx94g">
@@ -6698,7 +6697,7 @@
    <para>Evolution allows you to add certificates for yourself as well as for contacts. This allows you to communicate with others securely over an encrypted connection, or sign a message confirming your identity to the contact. These settings only apply to S/MIME encryption.</para>
    <formalpara id="bshov9m">
     <title>Your Certificates:</title>
-    <para>Click the Your Certificates tab to display a list of certificates that you own. You can import, view, back up and delete your certificates from this page.</para>
+    <para>Click the Your Certificates tab to display a list of certificates that you own. You can import, view and delete your certificates from this page.</para>
    </formalpara>
    <formalpara id="bshovvp">
     <title>Contact Certificates:</title>
