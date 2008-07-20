@@ -1188,7 +1188,7 @@
     <title>New Mail Notification</title>
     <para>Evolution notifies you of new e-mail. When you receive a new mail in your inbox, a blinking icon appears on the Switcher.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
-    <para>You can also view a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new e-mail. Mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
+    <para>You can also see a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new e-mail. Mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
    </section>
 
    <section id="b131ni8g">
@@ -1559,7 +1559,7 @@
       <para>To edit any of the existing keywords, select the keyword, click Edit, then modify the word as desired.</para>
      </listitem>
      <listitem id="b1a57zh4">
-      <para>When you have finished making your selections, click Close to exit the Plugin Manager.</para>
+      <para>Click Close.</para>
      </listitem>
     </orderedlist>
    </section>
@@ -2174,7 +2174,7 @@
       <para>Select Edit &gt; Preferences, then select Mail Accounts.</para>
      </listitem>
      <listitem id="bsaj1aj">
-      <para>Select the mail account to encrypt, then click Edit.</para>
+      <para>Select the account you want to use securely, then click Edit.</para>
      </listitem>
      <listitem id="bsaj1es">
       <para>Click the Security tab.</para>
@@ -3862,8 +3862,8 @@
        <para>(Optional) Enter a description in the Description field.</para>
       </listitem>
       <listitem id="b10fo251">
-       <para>To select an alarm for this appointment, click Alarm on the toolbar.</para>
-       <para>If you select an alarm, specify when and how you want the alarm to notify.</para>
+       <para>To create an alarm for this appointment, click Alarms on the toolbar, or click Options &gt; Alarms.</para>
+       <para>Select Customize to add or remove customized alarms for the event.</para>
        <para>For more information on reminders, see <link linkend="bshly4v">Reminders</link>.</para>
       </listitem>
       <listitem id="b10fo3gm">
@@ -3917,10 +3917,7 @@
      <para>To create a reminder:</para>
      <orderedlist>
       <listitem id="bxmtait">
-       <para>When creating an appointment, click Alarms on the toolbar, or click Options &gt; Alarms.</para>
-      </listitem>
-      <listitem id="bzz2wmd">
-       <para>Select the alarm for the event.</para>
+       <para>To create an alarm for this appointment, click Alarms on the toolbar, or click Options &gt; Alarms.</para>
       </listitem>
       <listitem id="bzz2xh4">
        <para>Select Customize to add or remove customized alarms for the event.</para>
@@ -4016,7 +4013,8 @@
       <para>To hide or show the Time Zone field, click View &gt; Time Zone.</para>
      </listitem>
      <listitem id="b10foc50">
-      <para>(Optional) To set an alarm for this meeting, click Alarms on the toolbar, then specify when and how you want to the alarm to notify you.</para>
+      <para>To create an alarm for this appointment, click Alarms on the toolbar, or click Options &gt; Alarms.</para>
+      <para>Select Customize to add or remove customized alarms for the event.</para>
       <para>For more information on reminders, see <link linkend="bshly4v">Reminders</link>.</para>
      </listitem>
      <listitem id="b10fof8e">
@@ -5690,7 +5688,8 @@
       <para>(Optional) Click the Proxy tab, then click Add to add any Proxy users to your account.</para>
      </listitem>
      <listitem id="buw5x0s">
-      <para>Click OK, then click Close.</para>
+      <para>Click OK.</para>
+      <para>Click Close.</para>
      </listitem>
     </orderedlist>
    </section>
@@ -6440,7 +6439,7 @@
     <para>The HTML Mail page has the following options:</para>
     <formalpara id="bsbhqot">
      <title>Show Image Animations:</title>
-     <para>Turns animation on or off.</para>
+     <para>Turns image animation (e.g. GIF files) on or off.</para>
     </formalpara>
     <formalpara id="bsbhquu">
      <title>Prompt When Sending HTML Messages to Contacts That Don't Want Them:</title>
