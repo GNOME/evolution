@@ -755,7 +755,7 @@
    </formalpara>
    <formalpara id="b17s9n8w">
     <title>Folder List:</title>
-    <para>The folder list gives you a list of the available folders for each account. To see the contents of a folder, click the folder name and the contents are displayed in the e-mail list.</para>
+    <para>The folder list gives you a list of the available folders for each account. To see the contents of a folder, click the folder name and the contents are displayed in the message list.</para>
    </formalpara>
    <formalpara id="b17s9nvy">
     <title>Toolbar:</title>
@@ -767,7 +767,7 @@
    </formalpara>
    <formalpara id="b17s9o9p">
     <title>Message List:</title>
-    <para>The message list displays a list of e-mail that you have received. To view an e-mail in the preview pane, click the e-mail in the e-mail list.</para>
+    <para>The message list displays a list of e-mail that you have received. To view an e-mail in the preview pane, click the e-mail in the message list.</para>
    </formalpara>
    <formalpara id="b17s9of0">
     <title>Side bar:</title>
@@ -783,7 +783,7 @@
    </formalpara>
    <formalpara id="b17s9or8">
     <title>Preview Pane:</title>
-    <para>The preview pane displays the contents of the e-mail that is selected in the e-mail list.</para>
+    <para>The preview pane displays the contents of the e-mail that is selected in the message list.</para>
    </formalpara>
 
    <section id="usage-mainwindow-menubar">
@@ -1580,7 +1580,7 @@
 
    <section id="usage-mail-getnsend-send-reply">
     <title>Replying to E-Mail Messages</title>
-    <para>To reply to a message, click the message to reply to in the e-mail list and click Reply, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message.</para>
+    <para>To reply to a message, click the message to reply to in the message list and click Reply, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message.</para>
     <para>If you're reading a message with several recipients, you can use Reply to All instead of Reply. If there are large numbers of people in the Cc: or To: fields, this can save substantial amounts of time.</para>
 
     <section id="bsfo4jl">
@@ -1830,7 +1830,7 @@
        </listitem>
        <listitem id="bsaiqp8">
         <para>Select a background for the table.</para>
-        <para>To insert a picture for the background, click Browse and select the desired image.</para>
+        <para>To insert a picture for the background, click the filechooser button and select the desired image.</para>
        </listitem>
        <listitem id="bsaiqs5">
         <para>Click Close.</para>
@@ -2131,7 +2131,7 @@
       <para>Click Close.</para>
      </listitem>
     </orderedlist>
-    <para>Evolution requires that you know your key ID. If you don't remember it, you can find it by typing <command>gpg --list-keys</command> in a console window. Your key ID is an eight-character string with random numbers and letters.</para>
+    <para>Evolution requires that you know your key ID. If you don't remember it, you can find it by typing <command>gpg --list-keys</command> in a terminal window. Your key ID is an eight-character string with random numbers and letters.</para>
    </section>
 
    <section id="bspya9p">
@@ -2273,7 +2273,7 @@
      <para>The address book format used by the GNOME, KDE, and many other contact management applications. You should be able to export to vCard format from any address book application.</para>
     </formalpara>
     <formalpara id="b141jcun">
-     <title>vCalender:</title>
+     <title>vCalendar:</title>
      <para>A format for storing calender files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer.</para>
     </formalpara>
     <formalpara id="bsawccr">
@@ -2445,11 +2445,11 @@
       </note>
       <formalpara id="bsawhu7">
        <title>Sort Ascending:</title>
-       <para>Sorts the messages top to bottom and returns you the sorted e-mail list in the order of oldest to the latest.</para>
+       <para>Sorts the messages top to bottom and returns you the sorted message list in the order of oldest to the latest.</para>
       </formalpara>
       <formalpara id="b1449089">
        <title>Sort Descending:</title>
-       <para>Sort descending revers the order and returns you the sorted e-mail list in the order of newest to oldest.</para>
+       <para>Sort descending revers the order and returns you the sorted message list in the order of newest to oldest.</para>
       </formalpara>
       <formalpara id="b144939d">
        <title>Unsort:</title>
@@ -2600,7 +2600,7 @@
     </listitem>
    </orderedlist>
    <tip>
-    <para>The following labels need not necessarily be the same as the default names listed here.You can change the name of these labels by selecting Edit &gt; Preferences &gt; Mail Preferences &gt; Colors.</para>
+    <para>The following labels need not necessarily be the same as the default names listed here. You can change the name of these labels by selecting Edit &gt; Preferences &gt; Mail Preferences &gt; Colors.</para>
     <itemizedlist>
      <listitem>
       <para>Important</para>
@@ -2937,7 +2937,7 @@
     <para>There is an easy shortcut for fast filter or search folder creation:</para>
     <orderedlist>
      <listitem id="bsh2232">
-      <para>Right-click the message in the e-mail list.</para>
+      <para>Right-click the message in the message list.</para>
      </listitem>
      <listitem id="bsh22bz">
       <para>Select one of the items under the Create Rule from the Message submenu.</para>
@@ -5010,30 +5010,12 @@
       </listitem>
       <listitem id="bshnbxz">
        <para>Create the account following the procedure in <link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link>. Remember to select Microsoft Exchange as server type in the Receiving Mail section.</para>
-       <para></para>
-       <para></para>
-       <para></para>
-       <para></para>
-       <para></para>
        <mediaobject id="bs4aw7k"><imageobject><imagedata format="PNG" fileref="figures/exchng-rec-mails.png"/></imageobject></mediaobject>
        
       </listitem>
      </orderedlist>
      <note>
-      <para>You may configure only Only one Microsoft Exchange account can be configured in Evolution.</para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
+      <para>Only one Microsoft Exchange account can be configured in Evolution.</para>
      </note>
      <mediaobject id="bs4aw7l"><imageobject><imagedata format="PNG" fileref="figures/exchng-rec-options.png"/></imageobject></mediaobject>
      
@@ -5336,12 +5318,12 @@
 
    <section id="b13pnzby">
     <title>Reminders</title>
-    <para>Reminders for meetings in your Exchange calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session.so that you can fix a convenient time for a meeting.To enable Reminder setting in your Exchange account, select <guilabel>Remember the password</guilabel> checkbox. To find more information about Reminders see<link linkend="bshly4v">Reminders</link></para>
+    <para>Reminders for meetings in your Exchange calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session so that you can fix a convenient time for a meeting. To enable Reminder setting in your Exchange account, select <guilabel>Remember the password</guilabel> checkbox. To find more information about Reminders see<link linkend="bshly4v">Reminders</link>.</para>
    </section>
 
    <section id="exchange-out-of-office">
     <title>Setting an Out of Office Message</title>
-    <para>An Out of Office message is an automatic reply that you can send as a reply to messages, explaining why you aren't immediately responding to their messages. For example, if you go on vacation for a week and won't access your e-mail, you can set an automatic reply so that people know that you aren't ignoring them.</para>
+    <para>An Out of Office message is an automatic reply that you can send as a reply to messages, explaining why you are not immediately responding to their messages. For example, if you go on vacation for a week and will not access your e-mail, you can set an automatic reply so that people know that you are not ignoring them.</para>
     <orderedlist>
      <listitem id="bsbgb7t">
       <para>Click Edit &gt; Preferences &gt; Mail Accounts.</para>
@@ -7134,9 +7116,9 @@
 
  <appendix id="authors">
   <title>Authors</title>
-  <para>Evolution was written by the <trademark>Evolution</trademark> team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from any Evolution window.</para>
+  <para>Evolution was written by the <trademark>Evolution</trademark> team and numerous other dedicated GNOME programmers. You can see their names by clicking Help &gt; About from the main Evolution window.</para>
   <para>The Evolution code owes a great debt to the GNOME-pim and GNOME-Calendar applications, and to KHTMLW. The developers of Evolution acknowledge the efforts and contributions of all who worked on those projects.</para>
-  <para>For more information please visit the Evolution <ulink url="http://www.novell.com/products/desktop/features/evolution.html">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.com">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOME bug report tool, bug-buddy, to submit your defect reports.</para>
+  <para>For more information please visit the Evolution <ulink url="http://www.gnome.org/projects/evolution">Web page</ulink>. Please send all comments, suggestions, and bug reports to the <ulink url="http://bugzilla.gnome.org">bug tracking database</ulink>. Instructions for submitting bug reports can be found on-line at the same location. You can also use the GNOME bug report tool, bug-buddy, to submit your defect reports.</para>
   <para>This manual was written by:</para>
   <itemizedlist>
    <listitem>
@@ -7173,7 +7155,7 @@
     <para>With the help of the application programmers and the GNOME Documentation Project.</para>
    </listitem>
   </itemizedlist>
-  <para>Please file comments and suggestions for this manual as bugs in the GNOME bug tracking system. If you contributed to this project but do not see your name here, please contact Radhika PC (pradhika@novell.com) or Sreenivasa Ragavan (sragavan@novell.com) and either of them will list you.</para>
+  <para>Please file comments and suggestions for this manual as bugs in the GNOME bug tracking system. If you contributed to this project but do not see your name here, please contact Radhika PC (pradhika@novell.com) or Srinivasa Ragavan (sragavan@novell.com) and either of them will list you.</para>
   <para>Partial list of Documentation Translators (application translated to numerous additional languages):</para>
   <itemizedlist>
    <listitem>

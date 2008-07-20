@@ -1,5 +1,10 @@
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Replace all "e-mail list" by "message list".
+	Fixed comments 1 to 20 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Remove more wrong whitespaces.
 
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
