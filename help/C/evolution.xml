@@ -2711,7 +2711,7 @@
    </tip>
    <formalpara id="b13tvajl">
     <title>Advanced Search:</title>
-    <para>To perform an advanced search,</para>
+    <para> You can perform an advanced search based on any of the search types.</para>
    </formalpara>
    <orderedlist>
     <listitem id="b13tvav6">
@@ -3867,7 +3867,7 @@
        <para>For more information on reminders, see <link linkend="bshly4v">Reminders</link>.</para>
       </listitem>
       <listitem id="b10fo3gm">
-       <para>(Optional) To add an attachment to the appointment, drag and drop the attachment into the attachment bar.</para>
+       <para>(Optional) To add an attachment, drag and drop the attachment into the attachment bar.</para>
        <para>or</para>
        <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
       </listitem>
@@ -4018,7 +4018,7 @@
       <para>For more information on reminders, see <link linkend="bshly4v">Reminders</link>.</para>
      </listitem>
      <listitem id="b10fof8e">
-      <para>(Optional) To add an attachment to the appointment, drag and drop the attachment into the attachment bar.</para>
+      <para>(Optional) To add an attachment, drag and drop the attachment into the attachment bar.</para>
       <para>or</para>
       <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
      </listitem>
@@ -4172,7 +4172,7 @@
    </formalpara>
    <orderedlist>
     <listitem id="b17qblvd">
-     <para>Select the desired search type from the drop-down list.</para>
+     <para>Select the Search menu.</para>
     </listitem>
     <listitem id="b17qbhvy">
      <para>Select Advanced Search to open Advanced Search dialog box.</para>
@@ -4396,9 +4396,9 @@
       <para>(Optional) To specify a status for the task, click Options &gt; Status Details.</para>
      </listitem>
      <listitem id="b10fqh6m">
-      <para>(Optional) To add an attachment to the task, drag and drop the attachment into the attachment bar.</para>
+      <para>(Optional) To add an attachment, drag and drop the attachment into the attachment bar.</para>
       <para>or</para>
-      <para>Click the Attach button on the toolbar, then browse to the attachment.</para>
+      <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
      </listitem>
     </orderedlist>
    </section>
@@ -4441,9 +4441,9 @@
       <para>(Optional) Enter a description in the Description field.</para>
      </listitem>
      <listitem id="b10fqh6o">
-      <para>(Optional) To add an attachment to the assigned task, drag and drop the attachment into the attachment bar.</para>
+      <para>(Optional) To add an attachment, drag and drop the attachment into the attachment bar.</para>
       <para>or</para>
-      <para>Click the Attach button on the toolbar, then browse to the attachment.</para>
+      <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
      </listitem>
      <listitem id="b10fqh6p">
       <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
@@ -4488,6 +4488,7 @@
     </formalpara>
     <orderedlist>
      <listitem id="b17qczhr">
+      <para>Select the Search menu.</para>
       <para>Select Advanced Search to open Advanced Search dialog box.</para>
       <para>Search name field displays the search type you have selected.</para>
       <mediaobject id="b17qcztn"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_advsearch.png"/></imageobject></mediaobject>
@@ -4662,9 +4663,9 @@
      <para>(Optional) Enter a description in the Description field.</para>
     </listitem>
     <listitem id="b10fqh6q">
-     <para>(Optional) To add an attachment to the memo, drag and drop the attachment into the attachment bar.</para>
+     <para>(Optional) To add an attachment, drag and drop the attachment into the attachment bar.</para>
      <para>or</para>
-     <para>Click the Attach button on the toolbar, then browse to the attachment.</para>
+     <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
     </listitem>
     <listitem id="b10fqh6r">
      <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
