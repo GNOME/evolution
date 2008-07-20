@@ -413,7 +413,7 @@
        <listitem id="bsthmhx">
         <para>Select Automatically synchronize remote mail locally to download the messages to your local system.</para>
         <para>Evolution, by default downloads only the header information such as From, Subject, and Date. The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
-        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
+        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mail for reading them offline, when you have checked this option.</para>
        </listitem>
        <listitem id="bsthnab">
         <para>Type your Post Office Agent SOAP port in the Post Office Agent SOAP Port field.</para>
@@ -496,15 +496,15 @@
        </listitem>
        <listitem id="bstgiv6">
         <para>Select if you want to check new messages for junk content.</para>
-        <para>For additional information on junk content, see <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
+        <para>For additional information on junk content, see <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk</link>.</para>
        </listitem>
        <listitem id="bstgj0g">
         <para>Select if you want to check for junk messages in the Inbox folder.</para>
        </listitem>
        <listitem id="bstgje2">
-        <para>Select if you want to automatically synchronize remote mail locally.</para>
+        <para>Select Automatically synchronize remote mail locally to download the messages to your local system.</para>
         <para>Evolution, by default downloads only the header information such as From, Subject, and Date. The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
-        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
+        <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mail for reading them offline, when you have checked this option.</para>
        </listitem>
        <listitem id="bstgjlq">
         <para>Click Forward.</para>
@@ -1378,7 +1378,7 @@
     <para>Evolution allows you to delete unwanted messages. To delete a message, select it and press the Delete key, or click the delete tool in the toolbar, press Ctrl+D, or right-click the message, then click Delete.</para>
     <para>When you press Delete or click the Trash folder, your mail is not actually deleted, but is marked for deletion. Your e-mail is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion.To show deleted messages, uncheck Hide Deleted Messages option from the View menu. You can view the messages striken off for later deletion. You can also find deleted messages in your Trash folder.</para>
     <para>To permanently erase all the deleted messages in a folder, click Folder &gt; Expunge or press Ctrl+E.</para>
-    <para>Trash folders in GroupWise, local and IMAP accounts are actually virtual search folders that display all messages you have marked for later deletion. Hence, emptying Trash is nothing but expunging deleted mails from all your folders in the account.</para>
+    <para>Trash folders in GroupWise, local and IMAP accounts are actually virtual search folders that display all messages you have marked for later deletion. Hence, emptying Trash is nothing but expunging deleted mail from all your folders in the account.</para>
     <para>However, this is not true for the Trash folder on Exchange servers, which behaves just the same as it does in Outlook. It is a normal folder with actual messages in it. For more information about search folders, see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
    </section>
 
@@ -1860,7 +1860,7 @@
 
    <section id="BJEHCDFA">
     <title>Mail Send Options</title>
-    <para>You can set the following options when sending mails in Evolution.</para>
+    <para>You can set the following options when sending mail in Evolution.</para>
     <formalpara id="b101lleg">
      <title>Read Receipts:</title>
      <para>Evolution allows you to request a receipt for your sent messages to indicate when your message is being viewed by the recipient. Receipts are useful when sending e-mail that is time-sensitive. To request a receipt, click Insert &gt; Request Read Receipt in the composer window.</para>
@@ -3148,7 +3148,7 @@
    <para>For additional information on junk content, see <link linkend="mail-prefs-junk">Junk Mail Preferences</link>.</para>
    <para>For additional junk mail settings, see <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
    <note>
-    <para>SpamAssassin is an application that scan through the mail box to find junk mails. Evolution uses SpamAssassin as the default spam-filtering application. For more information, see<ulink url="http://spamassassin.apache.org/"> The Apache SpamAssassin Project</ulink>.</para>
+    <para>SpamAssassin is an application that scan through the mail box to find junk mail. Evolution uses SpamAssassin as the default spam-filtering application. For more information, see<ulink url="http://spamassassin.apache.org/"> The Apache SpamAssassin Project</ulink>.</para>
     <para>Bogofilter is a mail filter that classifies mail as spam or ham (non-spam) by a statistical analysis of the message's header and content (body). It is able to learn from the user's classifications and corrections. For more information on Bogofilter, see <ulink url="http://bogofilter.sourceforge.net/">The Bogofilter site</ulink>.</para>
    </note>
   </section>
@@ -4925,7 +4925,7 @@
       <listitem>
        <formalpara id="b13pa41j">
         <title>Out of Office Message:</title>
-        <para>You can set <quote>out of Office</quote> message that will automatically be sent to people who send mails to you while you are away from office.</para>
+        <para>You can set <quote>out of Office</quote> message that will automatically be sent to people who send mail to you while you are away from office.</para>
        </formalpara>
       </listitem>
       <listitem>
@@ -6330,7 +6330,7 @@
 
   <section id="b15fx7uz">
    <title>IMAP Mail Headers</title>
-   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the download time and filter or move your mails around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
+   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the download time and filter or move your mail around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
    <formalpara id="b15fzvdp">
     <title>All Headers:</title>
     <para>This include all the available IMAP Mail headers. By choosing this option, Evolution will download all the headers for all the messages.</para>
@@ -6520,7 +6520,7 @@
      <para>This option turns automatic junk mail filtering on or off.</para>
     </formalpara>
     <formalpara id="b17xmakf">
-     <title>Delete junk mails on exit:</title>
+     <title>Delete junk mail on exit:</title>
      <para>This option deletes junk messages when you exit. You can also specify when to delete the junk messages (every time, once per day, once per week, once per month).</para>
     </formalpara>
     <formalpara id="b17rfn2y">
