@@ -954,7 +954,8 @@
     </formalpara>
     <formalpara id="b17sa5qs">
      <title>Task List:</title>
-     <para>Tasks are distinct from appointments because they generally don't have times associated with them. You can see a larger view of your task list by clicking Tasks in the switcher.</para>
+     <para>Tasks are distinct from appointments because they generally don't have times associated with them.</para>
+     <para>You can use the list in a larger window by clicking the Tasks button in the side bar.</para>
     </formalpara>
     <para>For more information about the calendar, see <link linkend="usage-calendar">Evolution Calendar</link>.</para>
    </section>
@@ -2390,7 +2391,7 @@
 
    <section id="b17qgvet">
     <title>Sorting Mail With Column Headers</title>
-    <para>In addition to it, Evolution enables you to sort your messages by using Sort-by list.You can use any of the criteria given in the Sort-by list such as <emphasis>sender, location, to, from, size, </emphasis>and so forth to perform sorting. It returns the sorted email list that matches the criteria you have selected.</para>
+    <para>In addition to it, Evolution enables you to sort your messages by using Sort-by list. You can use any of the criteria given in the Sort-by list such as <emphasis>sender, location, to, from, size, </emphasis>and so forth to perform sorting. It returns the sorted email list that matches the criteria you have selected.</para>
     <para>To sort messages, perform the following procedure:</para>
     <orderedlist>
      <listitem id="b131itxb">
@@ -2564,7 +2565,7 @@
    <para>To perform a quick search, perform the following procedure:</para>
    <orderedlist>
     <listitem id="b131j296">
-     <para>Click Show to expand the drop-down list.</para>
+     <para>Click the search icon <inlinegraphic format="PNG" fileref="figures/stock_search.png"/> to expand the drop-down list.</para>
     </listitem>
     <listitem id="b131j2j8">
      <para>Select the search criteria from the list</para>
@@ -3190,7 +3191,7 @@
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
      <title>Full Name:</title>
-     <para>Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like <quote>Mr.</quote> or <quote>Her Excellency,</quote> and suffixes like <quote>Jr.</quote> The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames.To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under <quote>Doe, John Q.</quote> However, Miguel's surname, <quote>de Icaza,</quote> has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry.</para>
+     <para>Specify the name of your contact here. You can type a name into the Full Name field, but you can also click the Full Name button to bring up a small dialog box with text boxes for first and last names, titles like <quote>Mr.</quote> or <quote>Her Excellency,</quote> and suffixes like <quote>Jr.</quote> The Full Name field also interacts with the File Under box to help you organize your contacts and to handle multi-word surnames. To see how it works, type a name in the Full Name field. As an example, we'll use Miguel de Icaza. You'll notice that the File Under field also fills in, but in reverse: Icaza, Miguel de. If you had entered John Q. Doe, the contacts editor would have correctly guessed that the entry should be filed under <quote>Doe, John Q.</quote> However, Miguel's surname, <quote>de Icaza,</quote> has two words, and to sort it correctly you must enter de Icaza, Miguel in the File As entry.</para>
     </formalpara>
     <formalpara id="b13psvf3">
      <title>Where:</title>
@@ -3214,7 +3215,7 @@
        <para>Click the down arrow key next to the New button in the toolbar</para>
       </listitem>
       <listitem id="b13prup2">
-       <para>Select Contacts from the drop-down list or press Shift+Ctrl+C to appear Contact Editor.</para>
+       <para>Select Contacts from the drop-down list or press Shift+Ctrl+C to bring up the Contact Editor.</para>
       </listitem>
       <listitem id="b13prwao">
        <para>Enter the contact information to the entry boxes provided.</para>
@@ -3226,30 +3227,30 @@
      <para>If you want to change a card that already exists,</para>
      <orderedlist>
       <listitem id="b13ps1yb">
-       <para>Press Contact tool from the Switcher to appear the Contact list.</para>
+       <para>Go to the Contacts window by selecting View &gt; Window &gt; Contacts from the menubar.</para>
       </listitem>
       <listitem id="b13ps28d">
        <para>Double click on the card you want to edit.</para>
       </listitem>
       <listitem id="b13ps3r7">
-       <para>Edit from the Contact Editor window.</para>
+       <para>Edit the information in the Contact Editor window.</para>
       </listitem>
       <listitem id="b13ps518">
        <para>Click OK.</para>
       </listitem>
      </orderedlist>
-     <para>You can also edit the contact information from the message list.</para>
+     <para>You can also edit the contact information from the preview pane.</para>
      <orderedlist>
       <listitem id="b13psb92">
-       <para>Right click on the address from Message Header</para>
+       <para>Right click on the address from Message Header.</para>
       </listitem>
       <listitem id="b13psizd">
-       <para>Select Add to Address Book to appear Contact Quick-Add window</para>
+       <para>Select Add to Address Book to appear Contact Quick-Add window.</para>
        <mediaobject id="b13psl8w"><imageobject><imagedata format="PNG" fileref="figures/quick_add_a.png"/></imageobject></mediaobject>
        
       </listitem>
       <listitem id="b13pslot">
-       <para>Press Edit Full tab at the bottom left to appear Contact Editor window</para>
+       <para>Press Edit Full tab at the bottom left to appear Contact Editor window.</para>
       </listitem>
       <listitem id="b13pslyy">
        <para>Edit the required information from Contact Editor and press OK.</para>
@@ -3507,14 +3508,14 @@
       <para>Select the category from the list. You can select as many or as few categories as you like.</para>
      </listitem>
     </orderedlist>
-    <para>If the master list of categories doesn't suit you, you can add your own categories. To add new category,</para>
+    <para>If the master list of categories doesn't suit you, you can add your own categories. To add a new category,</para>
     <orderedlist>
      <listitem id="b13ptcwe">
-      <para>Enter the new category in the entry box at the top</para>
+      <para>Enter the new category in the entry box at the top.</para>
      </listitem>
      <listitem id="b13ptef4">
       <para>Click OK.</para>
-      <para>You can view the category name appeared in the field next to Categories button in the Contact Editor</para>
+      <para>You can view the category name appeared in the field next to Categories button in the Contact Editor.</para>
      </listitem>
      <listitem id="b13ptgw7">
       <para>Press OK at the right bottom of the Contact Editor window.</para>
@@ -3846,7 +3847,8 @@
        <para>To show the time as busy, click Options &gt; Show Time as Busy.</para>
       </listitem>
       <listitem id="b10fnz0t">
-       <para>(Optional) Type a category in the Categories field. To show or hide the Categories field, click View &gt; Categories.</para>
+       <para>(Optional) Type a category in the Categories field.</para>
+       <para>To show or hide the Categories field, click View &gt; Categories.</para>
       </listitem>
       <listitem id="b10fo1zg">
        <para>Type a description in the Description field.</para>
@@ -3932,7 +3934,7 @@
        <para>Select the check box next to each category that matches the appointment you are creating.</para>
       </listitem>
       <listitem id="bzy02er">
-       <para>To show or hide Categories field, click View &gt; Categories.</para>
+       <para>To show or hide the Categories field, click View &gt; Categories.</para>
       </listitem>
      </orderedlist>
      <tip>
@@ -4293,7 +4295,7 @@
      <para>In the Calendar, right-click the meeting you want to delegate.</para>
     </listitem>
     <listitem id="bxqatxv">
-     <para>Click Delegate Meetings.</para>
+     <para>Click Delegate Meeting.</para>
     </listitem>
     <listitem id="bxqe3l9">
      <para>Select the contacts you want to delegate the meeting to.</para>
@@ -4302,7 +4304,7 @@
      <para>Click OK.</para>
     </listitem>
    </orderedlist>
-   <para>Each contact receives a copy of the meeting.</para>
+   <para>Each contact receives a copy of the meeting invitation.</para>
   </section>
 
   <section id="usage-calendar-multiple">
@@ -4314,7 +4316,8 @@
 
   <section id="usage-calendar-todo">
    <title>The Task List</title>
-   <para>The Task List, located in the lower-right corner of the calendar, lets you keep a list of tasks separate from your calendar appointments. You can use the list in a larger window by clicking the Tasks button in the switcher or in the folder tree.</para>
+   <para>The Task List, located in the upper-right corner of the calendar, lets you keep a list of tasks separate from your calendar appointments.</para>
+   <para>You can use the list in a larger window by clicking the Tasks button in the side bar.</para>
    <para>Task Lists are more easily organized in the dedicated Tasks tool. Each task list is assigned a color, and you can use the Tasks tool switcher to hide and show task lists just like calendars. In the calendar display task pad, tasks from all visible task lists appear, color coded by list.</para>
    <itemizedlist>
     <listitem>
@@ -4344,7 +4347,7 @@
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
-    <para>After you have added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete.The list of tasks is sorted in a similar way to the list of e-mail messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display.</para>
+    <para>After you have added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete. The list of tasks is sorted in a similar way to the list of e-mail messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display.</para>
    </section>
 
    <section id="task-folders">
@@ -4662,7 +4665,7 @@
 
    <section id="b1012vdk">
     <title>The Memo List</title>
-    <para>As with calendars and tasks, you can create multiple memo lists. Each memo list is assigned a color, and you can use the Memos switcher to hide and show memos.</para>
+    <para>As with calendars and tasks, you can create multiple memo lists. Each memo list is assigned a color, and you can use the side bar to hide and show memo lists.</para>
     <para>To create a new memo list:</para>
     <orderedlist>
      <listitem id="b1012vdl">

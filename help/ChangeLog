@@ -4,6 +4,10 @@
 
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Fixed comments 181 to 200 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Fixed comments 161 to 180 of bug #438479.
 
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
