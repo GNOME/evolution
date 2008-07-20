@@ -284,7 +284,7 @@
        </formalpara>
        <formalpara id="b13sa2jr">
         <title>Hula:</title>
-        <para>Select this option if you want Hula account. Evolution provide you connectivity to <trademark class="registered">Hula</trademark> servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend="b1012tkg">Connecting to Hula</link></para>
+        <para>Select this option if you want to use a Hula account. Evolution provides you connectivity to <trademark class="registered">Hula</trademark> servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend="b1012tkg">Connecting to Hula</link>.</para>
        </formalpara>
        <formalpara id="bstgdhu">
         <title>USENET News:</title>
@@ -345,7 +345,7 @@
         <para>Click Forward.</para>
        </listitem>
       </orderedlist>
-      <para>(Conditional) If you chose Microsoft Exchange as the server type, provide your username in the Username field and your Outlook Web Access (OWA) URL in the OWA URL field. The URL and the usernames should use the Outlook format.If the mailbox path is different from the username, the OWA path should also include mailbox path, for example http://<varname>server name</varname>/exchange/<varname>mail box path</varname>.</para>
+      <para>(Conditional) If you chose Microsoft Exchange as the server type, provide your username in the Username field and your Outlook Web Access (OWA) URL in the OWA URL field. The URL and the usernames should use the Outlook format. If the mailbox path is different from the username, the OWA path should also include mailbox path, for example http://<varname>server name</varname>/exchange/<varname>mail box path</varname>.</para>
       <para>When you have finished, continue with <link linkend="more-mail-options">Receiving Mail Options</link>.</para>
      </section>
 
@@ -400,7 +400,7 @@
         <para>Select if you want to check for new messages in all folders.</para>
        </listitem>
        <listitem id="bsthlol">
-        <para>Select if you want to apply filters to new messages in the Inbox on the server.</para>
+        <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
         <para>For additional information on filtering, see <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
        </listitem>
        <listitem id="bsthlvl">
@@ -411,7 +411,7 @@
         <para>Select if you want to only check for junk messages in the Inbox folder.</para>
        </listitem>
        <listitem id="bsthmhx">
-        <para>Select if you want to automatically synchronize remote mail locally.</para>
+        <para>Select automatically synchronize remote mail locally to download the messages to your local system.</para>
         <para>Evolution, by default downloads only the header information such as From, Subject, and Date. The body of the message and the attachments are downloaded only when you click the message. Thus you can save time and network usage. This is useful when you don't read all the messages you receive.</para>
         <para>If you check this option, evolution fetches the headers as well as the body of the message simultaneously. In this case, the time taken to open a message is comparatively less. In addition to that, you can download the mails for reading them offline, when you have checked this option.</para>
        </listitem>
@@ -453,13 +453,13 @@
         <para>If you select this option, you need to specify how often Evolution should send the password expire message.</para>
        </listitem>
        <listitem id="bv6uqm7">
-        <para>Select automatically synchronize remote mail locally to download the messages to your local system.</para>
+        <para>Select Automatically synchronize remote mail locally to download the messages to your local system.</para>
        </listitem>
        <listitem id="b13sbpg5">
-        <para>Select apply filters to new messages in inbox on this server to apply filters.</para>
+        <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
        </listitem>
        <listitem id="b13sbqmb">
-        <para>Select check new messages for junk contents to filter new messages for spam messages.</para>
+        <para>Select Check new messages for junk contents to filter new messages for spam messages.</para>
         <para>For more information refer <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link></para>
        </listitem>
        <listitem id="bstgtoj">
@@ -491,7 +491,7 @@
         <para>By choosing this option you can rename the folders that the server provides. If you select this option, you need to specify the namespace to use.</para>
        </listitem>
        <listitem id="bstgip8">
-        <para>Select if you want to apply filters to new messages in the Inbox.</para>
+        <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
         <para>For additional information on filtering, see <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
        </listitem>
        <listitem id="bstgiv6">
@@ -598,7 +598,7 @@
         <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthuah">
-        <para>Select if you want to apply filters to new messages in the Inbox.</para>
+        <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
         <para>For additional information on filtering, see <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
        </listitem>
        <listitem id="bsthuhd">
@@ -617,7 +617,7 @@
         <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="bsthuv9">
-        <para>Select if you want to apply filters to new messages in the Inbox.</para>
+        <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
        </listitem>
        <listitem id="bsthv0m">
         <para>Select if you want to store status headers in Elm, Pine, and Mutt formats.</para>
@@ -639,7 +639,7 @@
         <para>Select if you want Evolution to automatically check for new mail.If you select this option, you need to specify how often Evolution should check for new messages.</para>
        </listitem>
        <listitem id="b185alna">
-        <para>Select if you want to apply filters to new messages in the Inbox.</para>
+        <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
        </listitem>
        <listitem id="b185alnb">
         <para>Select if you want to store status headers in Elm, Pine, and Mutt formats.</para>
@@ -771,7 +771,7 @@
    </formalpara>
    <formalpara id="b17s9of0">
     <title>Side bar:</title>
-    <para>The side bar lets you switch between folders and between Evolution tools. At the bottom of the side bar is the switcher that let you switch Evolution tools, and above that is a list of all the available folders for the current tool.For additional information, see <link linkend="usage-mainwindow-shortcutbar">The Side Bar</link>.</para>
+    <para>The side bar lets you switch between folders and between Evolution tools. At the bottom of the side bar is the switcher that let you switch Evolution tools, and above that is a list of all the available folders for the current tool. For additional information, see <link linkend="usage-mainwindow-shortcutbar">The Side Bar</link>.</para>
    </formalpara>
    <formalpara id="b17xycio">
     <title>Switcher:</title>
@@ -3783,14 +3783,14 @@
       <listitem id="bshlods">
        <para>Click File &gt; New &gt; Appointment.</para>
        <para>or</para>
-       <para>Click Calendars on the Switcher, then click New &gt; Appointment.</para>
+       <para>Click Calendars on the Switcher, then click File &gt; New &gt; Appointment.</para>
        <para>or</para>
        <para>Double-click in a blank space on the calendar view to open an Appointment dialogue box. The appointment is created for that particular time on the calendar view against which you have double clicked on.</para>
        <para>or</para>
        <para>Select the required duration on the calender view and enter the summary.</para>
       </listitem>
       <listitem id="b10fnwj2">
-       <para>Select a calendar in the Calendar drop-down list. Type a brief summary of the appointment in the Summary field.</para>
+       <para>Select a calendar in the Calendar drop-down list. Type a brief summary for the appointment in the Summary field.</para>
        <mediaobject id="b13uby19"><imageobject><imagedata format="PNG" fileref="figures/evo_calender_appointmnt.png"/></imageobject></mediaobject>
        
       </listitem>
@@ -3961,7 +3961,7 @@
       <para>Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b10fofv1">
-      <para>Type summary of the meeting in the Summary field.</para>
+      <para>Type a brief summary for the meeting in the Summary field.</para>
      </listitem>
      <listitem id="b10fofxb">
       <para>Type a location for the meeting in the Location field.</para>
@@ -4332,7 +4332,7 @@
     <title>Creating a New Task</title>
     <orderedlist>
      <listitem id="b10155hr">
-      <para>Click New &gt; Task.</para>
+      <para>Click File &gt; New &gt; Task.</para>
      </listitem>
      <listitem id="b10155hs">
       <para>Select a group for the task.</para>
@@ -4392,7 +4392,7 @@
       <para>Click Add, or press Insert key, or right click and then press Add to add the e-mail addresses of people you want to assign the task.To remove an attendee from the list, select an attendee, then press Remove.To edit a field, select the field, then click Edit.Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b1012vd2">
-      <para>Type a brief summary of the task in the Summary field.</para>
+      <para>Type a brief summary for the task in the Summary field.</para>
      </listitem>
      <listitem id="b1012vd3">
       <para>(Optional) Specify a starting date and time, and a due date and time for the task.</para>
@@ -4623,7 +4623,7 @@
      <para>To show or hide Categories field, click View &gt; Categories.</para>
     </listitem>
     <listitem id="b1012vdh">
-     <para>Type text for the memo in the Summary field.</para>
+     <para>Type a brief summary for the memo in the Summary field.</para>
     </listitem>
     <listitem id="b15ilfa0">
      <para>In the Start Date field, type the date this reminder note should appear in the recipients' Calendars.</para>
@@ -5659,7 +5659,7 @@
       <para>Select if you want to check for new messages in all folders.</para>
      </listitem>
      <listitem id="bv7wbr9">
-      <para>Select if you want to apply filters to new messages in the Inbox on the server.</para>
+      <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
       <para>For additional information on filtering, see <link linkend="usage-mail-org-filters-new">Creating New Filter Rules</link>.</para>
      </listitem>
      <listitem id="bv7wbto">
@@ -5702,7 +5702,7 @@
    <para>To send a Reminder Note,</para>
    <orderedlist>
     <listitem id="b15ijcgi">
-     <para>Click New &gt; Shared Memo to open the new window.</para>
+     <para>Click File &gt; New &gt; Shared Memo.</para>
     </listitem>
     <listitem id="b15ijcow">
      <para>Select the Organizer's account name from the drop-down list given next to the Organizer field.</para>
@@ -6953,7 +6953,7 @@
     </listitem>
    </orderedlist>
    <para>Mozilla creates a set of files in the directory<command> Windows\Application_Data\Mozilla\Profiles\(UserName)\(Random Letters)\Mail\Local Folders\OutlookMail\</command>. The data files are those that have no file extension.</para>
-   <para>If you are using Windows XP or Windows 2000, your Windows hard drive is probably in the NTFS format, which some Linux systems cannot read without additional software. You might find it simpler to copy the mail folders to a different drive or to burn a CD.</para>
+   <para>If you are using Windows Vista*, Windows XP* or Windows 2000*, your Windows hard drive is probably in the NTFS format, which some Linux systems cannot read without additional software. You might find it simpler to copy the mail folders to a different drive or to burn a CD.</para>
    <para>When you have your mail in a format Evolution can understand, reboot to Linux. Then continue with the following procedure. To create new folders for your files:</para>
    <orderedlist>
     <listitem id="bshqeej">
@@ -6966,7 +6966,7 @@
      <para>Start Evolution.</para>
     </listitem>
     <listitem id="bshqejx">
-     <para>Select File &gt; New Folder to create the folders you want.</para>
+     <para>Select File &gt; New &gt; Mail Folder to create the folders you want.</para>
     </listitem>
    </orderedlist>
    <para>To import the data files:</para>
@@ -6975,10 +6975,10 @@
      <para>In Evolution, open the File Import assistant by clicking File &gt; Import.</para>
     </listitem>
     <listitem id="bshqera">
-     <para>Click Next, then select Import A Single File.</para>
+     <para>Click Next, then select Import a single file.</para>
     </listitem>
     <listitem id="bshqesz">
-     <para>Leave the file type as Automatic, then click Browse to select the data file.</para>
+     <para>Click on the filechooser to select the data file.</para>
      <para>Remember, the data files are the files that have no file extension.</para>
     </listitem>
     <listitem id="bshqeuv">
@@ -7021,19 +7021,19 @@
    </formalpara>
    <formalpara id="b17sa9q1">
     <title>Creating a New E-mail Message:</title>
-    <para>Use File &gt; New &gt; Mail Message or Shift+Ctrl+M.</para>
+    <para>Click File &gt; New &gt; Mail Message or Shift+Ctrl+M.</para>
    </formalpara>
    <formalpara id="b17saa12">
     <title>Creating a New Appointment:</title>
-    <para>Use File &gt; New Appointment or Shift+Ctrl+A.</para>
+    <para>Click File &gt; New &gt; Appointment or Shift+Ctrl+A.</para>
    </formalpara>
    <formalpara id="b17saa8l">
     <title>Entering a New Contact:</title>
-    <para>Double-click in any blank space in the contact manager to create a new address card. You can also use File &gt; New Contact or Shift+Ctrl+C.</para>
+    <para>Double-click in any blank space in the contact manager to create a new address card. You can also click File &gt; New &gt; Contact or Shift+Ctrl+C.</para>
    </formalpara>
    <formalpara id="b17saahc">
     <title>Creating a New Task:</title>
-    <para>File &gt; New Task or Shift+Ctrl+T.</para>
+    <para>Click File &gt; New &gt; Task or Shift+Ctrl+T.</para>
    </formalpara>
   </section>
 
@@ -7078,12 +7078,12 @@
    <title>Calendar</title>
    <formalpara id="b17sb0hv">
     <title>Creating a New Appointment:</title>
-    <para>Use File &gt; New Appointment or Shift+Ctrl+A.</para>
+    <para>Click File &gt; New &gt; Appointment or Shift+Ctrl+A.</para>
    </formalpara>
    <para>You can also click in any blank spot in the calendar and start typing to create a new appointment entry.</para>
    <formalpara id="b17sb0tt">
     <title>Creating a New Task:</title>
-    <para>Use File &gt; New Task or Shift+Ctrl+T.</para>
+    <para>Click File &gt; New &gt; Task or Shift+Ctrl+T.</para>
    </formalpara>
   </section>
 
