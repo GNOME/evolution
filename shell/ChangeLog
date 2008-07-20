@@ -1,3 +1,10 @@
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	** Fixes bug #542828
+
+	* e-shell-window-commands.c:
+	update and fix list of contributors. Patch by Maxim Ermilov.
+
 2008-07-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #542587
