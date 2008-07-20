@@ -741,7 +741,7 @@
      <para>Before importing e-mail from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      <tip>
       <para>Evolution uses standard file types for e-mail and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <command>mbox</command> for e-mail and iCal for calendar information.</para>
-      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export contact data, open your contacts tool and select the contacts you want to export (press Ctrl+A to select them all). Click File &gt; Save Contact as VCard.</para>
+      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export an addressbook, click File &gt; Save Address Book As VCard". If you want to export only one contact, click File &gt; Save Contact as VCard.</para>
      </tip>
     </section>
    </section>
@@ -824,7 +824,7 @@
    <section id="usage-mainwindow-shortcutbar">
     <title>The Sidebar</title>
     <para>Sidebar is the vertical panel on the left side of the Evolution main window. At the bottom of the sidebar is the Switcher, that lets you switch between the Evolution tools like Mail, Memo,Tasks and Contacts. Above the Switcher you can see a list of folders for the current Evolution tool.</para>
-    <para>The folder list organizes your e-mail, calendars, contact lists, and task lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
+    <para>The folder list organizes your e-mail, calendars, address books, task lists and memo lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
     <para>If you get large amounts of e-mail, you might want more folders than just your Inbox. You can create multiple calendar, task, or contacts folders.</para>
     <para>To create a new folder:</para>
     <orderedlist>
@@ -932,7 +932,7 @@
     </formalpara>
     <formalpara id="b17sa500">
      <title>Preview Pane:</title>
-     <para>This is where your e-mail is displayed.</para>
+     <para>The preview pane displays the message that is currently chosen in the message list.</para>
     </formalpara>
     <para>If you find the preview pane too small, you can resize the pane, enlarge the whole window, or double-click the message in the message list to have it open in a new window. To change the size of a pane, drag the divider between the two panes.</para>
     <para>As with folders, you can right-click messages in the message list and get a menu of possible actions, including moving or deleting them, creating filters or search folders based on them, and marking them as junk mail.</para>
@@ -1294,7 +1294,7 @@
     <section id="usage-mail-getnsend-get-attach-html">
      <title>Inline Images in HTML Mail</title>
      <para>When someone sends you HTML mail that includes an image in the body of the message (for example, the welcome message in your Inbox), Evolution displays the image inside the message. You can create messages like this by using the Insert Image tool in the message composer. Alternately, just drag an image into the message composition area.</para>
-     <para>Some images are links in a message, rather than being part of the message. Evolution can download those images from the Internet, but does not do so unless you request it. This is because remotely Servered images can be slow to load and display, and can even be used by spammers to track who reads the e-mail. Not automatically loading images helps protect your privacy.</para>
+     <para>Some images are links in a message, rather than being part of the message. Evolution can download those images from the Internet, but does not do so unless you request it. This is because remotely servered images can be slow to load and display, and can even be used by spammers to track who reads the e-mail. Not automatically loading images helps protect your privacy.</para>
      <para>To load the images for one message:</para>
      <orderedlist>
       <listitem id="bsen9jh">
@@ -1765,13 +1765,13 @@
      </formalpara>
      <formalpara id="bsaialx">
       <title>Color Selection:</title>
-      <para>At the far right is the color section tool, where a box displays the current text color. To choose a new color, click the arrow button to the right. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next. You can select a background color or image by right-clicking the message background, then selecting Style Page.</para>
+      <para>At the far right is the color section tool, where a box displays the current text color. To choose a new color, click the arrow button to the right. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next. You can select a background color or image by right-clicking the message background, then selecting Style &gt; Page Style.</para>
      </formalpara>
     </section>
 
     <section id="bsait29">
      <title>Advanced HTML Formatting</title>
-     <para>Under the Insert menu, there are several more items you can use to style your e-mail. To use these and other HTML formatting tools, make sure you have enabled HTML mode by using Format HTML.</para>
+     <para>Under the Insert menu, there are several more items you can use to style your e-mail. To use these and other HTML formatting tools, make sure you have enabled HTML mode by using Format &gt; HTML from the menu bar.</para>
 
      <section id="bsait2a">
       <title>Inserting a Link</title>
@@ -1980,7 +1980,7 @@
   <section id="rsvp-stuff">
    <title>Sending Invitations by Mail</title>
    <para>If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution e-mail tool. The invitation card is sent as an attachment in iCal format.</para>
-   <para>To send an invitation in GroupWise, right click on the calendar item and click Forward as iCalendar.</para>
+   <para>To send an invitation, right click on the calendar item and click Forward as iCalendar.</para>
    <para>When you receive an invitation, you have several options:</para>
    <formalpara id="bsaizt9">
     <title>Accept:</title>
@@ -1992,10 +1992,10 @@
    </formalpara>
    <formalpara id="bsaj06a">
     <title>Decline:</title>
-    <para>Indicates you are unable to attend the meeting. The meeting is not entered into your calendar when you click OK, although your response is sent to the meeting host if you have selected the RSVP option.</para>
+    <para>Indicates you are unable to attend the meeting. The meeting is not entered into your calendar when you click OK, although your response is sent to the meeting host if you have selected the Send reply to sender option.</para>
    </formalpara>
    <formalpara id="bsaj0dc">
-    <title>RSVP:</title>
+    <title>Send reply to sender:</title>
     <para>Select this option if you want your response sent to the meeting organizers.</para>
    </formalpara>
   </section>
@@ -2016,7 +2016,7 @@
      <para>You should select at least the Inbox folder. Depending upon the way your IMAP server is configured, the list of available files might include non-mail folders. If it does, you can ignore them.</para>
     </listitem>
     <listitem id="bsmqz9t">
-     <para>Click Subscribe to add a folder to the subscribed list.</para>
+     <para>Enable the corresponding checkbox to add a folder to the subscribed list.</para>
     </listitem>
     <listitem id="bsmqzlz">
      <para>When you have subscribed to the folders you want, close the window.</para>
@@ -7058,7 +7058,7 @@
    </formalpara>
    <formalpara id="b17sazyg">
     <title>Adding a Sender to the Address Book:</title>
-    <para>Right-click a message and select Add Sender to Address Book. You can also right-click on any e-mail address to add it to your address book.</para>
+    <para>Right-click on any e-mail address to add it to your address book.</para>
    </formalpara>
   </section>
 
