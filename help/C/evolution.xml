@@ -3815,12 +3815,13 @@
        <para>Select the required duration on the calender view and enter the summary.</para>
       </listitem>
       <listitem id="b10fnwj2">
-       <para>Select a calendar in the Calendar drop-down list. Type a brief summary for the appointment in the Summary field.</para>
+       <para>Select a calendar in the Calendar drop-down list.</para>
+       <para>Enter a brief description in the Summary field.</para>
        <mediaobject id="b13uby19"><imageobject><imagedata format="PNG" fileref="figures/evo_calender_appointmnt.png"/></imageobject></mediaobject>
        
       </listitem>
       <listitem id="b10fnwru">
-       <para>(Optional) Type a location for the appointment in the Location field.</para>
+       <para>(Optional) Type a location in the Location field.</para>
       </listitem>
       <listitem id="b13uc0pd">
        <para>Select the date, time and set the duration.</para>
@@ -3987,10 +3988,10 @@
       <para>Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b10fofv1">
-      <para>Type a brief summary for the meeting in the Summary field.</para>
+      <para>Enter a brief description in the Summary field.</para>
      </listitem>
      <listitem id="b10fofxb">
-      <para>Type a location for the meeting in the Location field.</para>
+      <para>(Optional) Type a location in the Location field.</para>
      </listitem>
      <listitem id="b10fofz9">
       <para>To select this meeting as an all day event, click the All Day Event button on the toolbar.</para>
@@ -4367,13 +4368,13 @@
       <para>Select a group for the task.</para>
      </listitem>
      <listitem id="b10155ht">
-      <para>Type a brief summary for the task in the Summary field.</para>
+      <para>Enter a brief description in the Summary field.</para>
      </listitem>
      <listitem id="b10155hu">
-      <para>(Optional) Specify a starting date and ending date for the task</para>
+      <para>(Optional) Specify a starting date and ending date for the task.</para>
      </listitem>
      <listitem id="b10155hv">
-      <para>(Optional) Specify a starting time and ending time for the task</para>
+      <para>(Optional) Specify a starting time and ending time for the task.</para>
      </listitem>
      <listitem id="b10fqh6l">
       <para>Type the time zone information in the Time Zone field.</para>
@@ -4421,7 +4422,7 @@
       <para>Click Add, or press Insert key, or right click and then press Add to add the e-mail addresses of people you want to assign the task.To remove an attendee from the list, select an attendee, then press Remove.To edit a field, select the field, then click Edit.Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b1012vd2">
-      <para>Type a brief summary for the task in the Summary field.</para>
+      <para>Enter a brief description in the Summary field.</para>
      </listitem>
      <listitem id="b1012vd3">
       <para>(Optional) Specify a starting date and time, and a due date and time for the task.</para>
@@ -4645,14 +4646,14 @@
      <para>Click File &gt; New &gt; Memo.</para>
     </listitem>
     <listitem id="b1012vdf">
-     <para>Select a group in which you would create a memo entry.</para>
+     <para>Select the Group in which you would like to create the entry.</para>
     </listitem>
     <listitem id="b1012vdg">
      <para>(Optional) Type a category in the Categories field.</para>
      <para>To show or hide Categories field, click View &gt; Categories.</para>
     </listitem>
     <listitem id="b1012vdh">
-     <para>Type a brief summary for the memo in the Summary field.</para>
+     <para>Enter a brief description in the Summary field.</para>
     </listitem>
     <listitem id="b15ilfa0">
      <para>In the Start Date field, type the date this reminder note should appear in the recipients' Calendars.</para>
@@ -5484,7 +5485,7 @@
        <para>If you receive a card attachment and click Save in Address Book, it is saved to your Personal address book. New Address Book entries can also be added to your personal address book from received E-mail messages.</para>
       </listitem>
       <listitem>
-       <para>To create your GroupWise Frequent contacts and Personal address books, you need to access your GroupWise account once through GroupWise Java client because Evolution currently does not support creating them.The GroupWise system address book is marked for offline use by default.This boosts performance.</para>
+       <para>To create your GroupWise Frequent contacts and Personal address books, you need to access your GroupWise account once through GroupWise Java client because Evolution currently does not support creating them. The GroupWise system address book is marked for offline use by default.This boosts performance.</para>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -5714,10 +5715,10 @@
      <para>In the To field, type a username, then press Enter. Repeat for additional users.</para>
     </listitem>
     <listitem id="b15ijfl9">
-     <para>Select the Group in which you would create the entry.</para>
+     <para>Select the Group in which you would like to create the entry.</para>
     </listitem>
     <listitem id="b15ijg02">
-     <para>Enter a brief description about the Reminder Note in the Summary field.</para>
+     <para>Enter a brief description in the Summary field.</para>
     </listitem>
     <listitem id="b15ijgcw">
      <para>In the Start Date field, type the date this reminder note should appear in the recipients' Calendars.</para>
@@ -6064,7 +6065,8 @@
       <para>Repeat <link linkend="Aai4sat">Step 4</link> and <link linkend="Aai4sll">Step 5</link> to assign rights to each user in the Proxy List.</para>
      </listitem>
      <listitem id="Aai4sse">
-      <para>Click OK, then click Close.</para>
+      <para>Click OK.</para>
+      <para>Click Close.</para>
      </listitem>
     </orderedlist>
     <para>To delete a user from the Proxy List, select the user, then click Remove User.</para>
