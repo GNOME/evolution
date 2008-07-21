@@ -1,5 +1,9 @@
 2008-07-21  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: s/a company environment/an organizational environment
+
+2008-07-21  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Fix most of bug 543883. Patch by Allan Day.
 
 2008-07-21  Jorge Gonzalez  <jorgegonz@svn.gnome.org>

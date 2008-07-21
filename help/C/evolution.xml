@@ -331,13 +331,13 @@
        <listitem id="bstg8yn">
         <para>Select if you want to use a secure connection (SSL or TLS).</para>
         <para>You should enable this option if your server supports it.</para>
-        <para>Free webmail providers usually supply information about which of these options can be used. If you are in a company environment, you may want to contact your system administrator for more information.</para>
+        <para>Free webmail providers usually supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</para>
        </listitem>
        <listitem id="bstg9rc">
         <para>Select your authentication type in the Authentication list.</para>
         <para>or</para>
         <para>Click Check for Supported Types to have Evolution check for supported types. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</para>
-        <para>Free webmail providers usually supply information about which of these options can be used. If you are in a company environment, you may want to contact your system administrator for more information.</para>
+        <para>Free webmail providers usually supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</para>
        </listitem>
        <listitem id="bstgaxb">
         <para>Select if you want Evolution to remember your password.</para>
