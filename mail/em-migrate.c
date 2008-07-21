@@ -2853,7 +2853,8 @@ migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelEx
 		em_migrate_set_folder_name (tmp);
 		g_free (tmp);
 		folder = camel_store_get_folder (store, fi->full_name, 0, ex);
-		camel_folder_summary_migrate_infos (folder->summary);
+		if (folder != NULL)
+			camel_folder_summary_migrate_infos (folder->summary);
 		migrate_folders(store, fi->child, acc, ex);
 		fi = fi->next;
 	}

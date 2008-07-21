@@ -1,8 +1,13 @@
 2008-07-21  Tor Lillqvist  <tml@novell.com>
 
-	* em-migrate.c: Rearrange G_OS_WIN32 ifdefs a bit, as we need
-	to compile more of this file to support upgrade attempts from 2.12
+	* em-migrate.c: Rearrange G_OS_WIN32 ifdefs a bit, as we need to
+	compile more of this file to support upgrade attempts from 2.12
 	and later.
+	(migrate_folders): Guard against camel_store_get_folder()
+	returning NULL, which happened at least for me. It was for a
+	partially broken GroupWise folder structure on disk, so that is a
+	case of garbage in--garbage out I guess, but it can't hurt to be
+	careful...
 
 2008-07-21  Bharath Acharya  <abharath@novell.com>
 
