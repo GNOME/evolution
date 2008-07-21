@@ -1,3 +1,9 @@
+2008-07-21  Johnny Jacob  <jjohnny@novell.com>
+
+	* templates.c: Remove unused header files.
+
+	* Makefile.am (INCLUDES): Allow includes from top_builddir.
+
 2008-07-18  Bharath Acharya  <abharath@novell.com>
 
 	** Fixes Bug #200147

@@ -41,7 +41,6 @@
 
 #include <mail/em-composer-utils.h>
 #include <mail/em-popup.h>
-#include <mail/mail-component.h>
 #include <mail/mail-session.h>
 #include <mail/mail-ops.h>
 #include <e-util/e-error.h>
