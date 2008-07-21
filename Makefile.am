@@ -57,6 +57,8 @@ SUBDIRS += help
 endif
 
 DISTCLEANFILES = 		\
+	doltcompile		\
+	doltlibtool		\
 	intltool-extract	\
 	intltool-merge 		\
 	intltool-update 	\

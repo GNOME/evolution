@@ -1,3 +1,9 @@
+2008-07-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Add doltcompile and doltlibtool to DISTCLEANFILES to fix
+	distcheck breakage.
+
 2008-07-20  Bharath Acharya  <abharath@novell.com>
 
 	** Part of fix for bug #200147
