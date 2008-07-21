@@ -960,8 +960,7 @@
     </formalpara>
     <formalpara id="b17sa5qs">
      <title>Task List:</title>
-     <para>Tasks are distinct from appointments because they generally don't have times associated with them.</para>
-     <para>You can use the list in a larger window by clicking the Tasks button in the side bar.</para>
+     <para>Tasks are distinct from appointments because they generally don't have times associated with them. You can use the list in a larger window by clicking the Tasks button in the side bar.</para>
     </formalpara>
     <para>For more information about the calendar, see <link linkend="usage-calendar">Evolution Calendar</link>.</para>
    </section>
