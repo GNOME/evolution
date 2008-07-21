@@ -290,7 +290,7 @@ plugins/default-mailer/org-gnome-default-mailer.error.xml
 plugins/default-source/default-source.c
 plugins/default-source/org-gnome-default-source.eplug.xml
 plugins/email-custom-header/email-custom-header.c
-plugins/email-custom-header/email-custom-header.glad
+plugins/email-custom-header/email-custom-header.glade
 plugins/email-custom-header/org-gnome-email-custom-header.glade
 plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml
 plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
