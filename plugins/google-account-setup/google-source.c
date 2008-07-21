@@ -41,6 +41,8 @@
 #include <libedataserver/e-account-list.h>
 #include <libecal/e-cal.h>
 
+#include "google-contacts-source.h"
+
 #define CALENDAR_LOCATION "http://www.google.com/calendar/feeds/"
 
 #define d(x)
@@ -96,6 +98,9 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 	if (enable) {
 		d(printf ("\n Google Eplugin starting up ...\n"));
 		ensure_google_source_group ();
+		ensure_google_contacts_source_group ();
+	} else {
+		remove_google_contacts_source_group ();
 	}
 
 	return 0;

@@ -1,3 +1,15 @@
+2008-05-24  Jörgen Scheibengruber  <mfcn@gmx.de>
+
+	* Makefile.am:
+	* google-contacts-source.c (ensure_google_contacts_source_group),
+	(remove_google_contacts_source_group), (on_username_entry_changed),
+	(on_update_cb_toggled), (on_interval_sb_value_changed),
+	(plugin_google_contacts):
+	* google-contacts-source.h:
+	* google-source.c (e_plugin_lib_enable):
+	* org-gnome-evolution-google.eplug.xml:
+	Added a UI for the addressbook part
+
 2008-03-31  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #346555
