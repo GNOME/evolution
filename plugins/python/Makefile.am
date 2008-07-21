@@ -16,10 +16,10 @@ liborg_gnome_evolution_python_la_LIBADD =	\
 	$(E_UTIL_LIBS)
 
 example_sources =					\
-	examples/hello_python.py 			\
-	examples/org-gnome-hello-python-ui.xml		\
-	examples/org-gnome-hello-python.eplug.xml	\
-	examples/Makefile.am	
+	example/hello_python.py 			\
+	example/org-gnome-hello-python-ui.xml		\
+	example/org-gnome-hello-python.eplug.xml	\
+	example/Makefile.am	
 
 EXTRA_DIST = org-gnome-evolution-python.eplug.xml	\
 	$(example_sources)

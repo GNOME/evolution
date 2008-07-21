@@ -1,5 +1,9 @@
 2008-07-21  Johnny Jacob  <jjohnny@novell.com>
 
+	* Makefile.am (example_sources): More typo fixes. :(
+
+2008-07-21  Johnny Jacob  <jjohnny@novell.com>
+
 	* Makefile.am (example_SOURCES): Add example sources
 	EXTRA_DIST.
 
