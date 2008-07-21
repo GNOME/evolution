@@ -1,9 +1,15 @@
+2008-07-21  Johnny Jacob  <jjohnny@novell.com>
+
+	* data/hicolor_actions_24x24_query-free-busy.png: Moved to 
+	data/icons/hicolor_actions_24x24_query-free-busy.png as per 
+	rev 35753.
+	
 2008-07-21  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am:
 	Add doltcompile and doltlibtool to DISTCLEANFILES to fix
 	distcheck breakage.
-
+	
 2008-07-20  Bharath Acharya  <abharath@novell.com>
 
 	** Part of fix for bug #200147
