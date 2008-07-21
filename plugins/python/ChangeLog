@@ -1,3 +1,8 @@
+2008-07-21  Johnny Jacob  <jjohnny@novell.com>
+
+	* Makefile.am (example_SOURCES): Add example sources
+	EXTRA_DIST.
+
 2008-06-12  Johnny Jacob  <jjohnny@novell.com>
 
 	* example/org-gnome-hello-python-ui.xml: Added.
