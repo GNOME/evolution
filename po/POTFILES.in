@@ -290,6 +290,7 @@ plugins/default-mailer/org-gnome-default-mailer.error.xml
 plugins/default-source/default-source.c
 plugins/default-source/org-gnome-default-source.eplug.xml
 plugins/email-custom-header/email-custom-header.c
+plugins/email-custom-header/email-custom-header.glad
 plugins/email-custom-header/org-gnome-email-custom-header.glade
 plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml
 plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
@@ -332,6 +333,7 @@ plugins/face/org-gnome-face.eplug.xml
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml
 plugins/google-account-setup/google-source.c
+plugins/google-account-setup/google-contacts-source.c
 plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
 plugins/groupwise-account-setup/camel-gw-listener.c
 plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml
