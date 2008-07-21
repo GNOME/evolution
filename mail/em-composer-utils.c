@@ -823,8 +823,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 		CamelMimePart *part;
 		int count1 = 0, string_changed = 0;
 
-		char *str, *convert_str = NULL;
-		gsize bytes_read, bytes_written;
+		char *str;
 		gint count = 2;
 
 		content = camel_medium_get_content_object ((CamelMedium *) message);
@@ -865,7 +864,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 
 				gconf = gconf_client_get_default ();
 
-				while (*end && !isspace (*end) && (*end != '"'))
+				while (*end && !g_unichar_isspace (*end) && (*end != '"'))
 					end++;
 
 				out = g_strndup ((const gchar *) cur, end - cur);

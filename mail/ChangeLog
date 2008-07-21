@@ -1,3 +1,9 @@
+2008-07-21  Bharath Acharya  <abharath@novell.com>
+
+	Fixed some compiler warnings for Templates specific hunk.
+
+	* em-composer-utils.c: (edit_message):
+
 2008-07-20  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #200147
