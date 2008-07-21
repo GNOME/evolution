@@ -76,9 +76,10 @@
 #define d(x) x
 
 #ifndef G_OS_WIN32
-
-/* No previous versions have been available on Win32, so don't bother
- * with upgrade support from 1.x on Win32.
+/* No versions previous to 2.8 or thereabouts have been available on
+ * Windows, so don't bother with upgrade support from earlier versions
+ * on Win32. Do try to support upgrades from 2.12 and later to the
+ * current version.
  */
 
 /* upgrade helper functions */
@@ -1191,6 +1192,8 @@ em_migrate_session_new (const char *path)
 }
 
 
+#endif	/* !G_OS_WIN32 */
+
 static GtkWidget *window;
 static GtkLabel *label;
 static GtkProgressBar *progress;
@@ -1263,6 +1266,8 @@ em_migrate_set_progress (double percent)
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
+
+#ifndef G_OS_WIN32
 
 static gboolean
 is_mail_folder (const char *metadata)
@@ -1476,10 +1481,8 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 			goto exception;
 
 		total += nwritten;
-#ifndef G_OS_WIN32
 		if (show_progress)
 			em_migrate_set_progress (((double) total) / ((double) st.st_size));
-#endif
 	} while (total < st.st_size);
 
 	if (fsync (writefd) == -1)
@@ -2673,7 +2676,7 @@ em_update_accounts_2_11 (void)
 		mail_config_save_accounts ();
 }
 
-#endif
+#endif	/* !G_OS_WIN32 */
 
 static int
 emm_setup_initial(const char *evolution_dir)
@@ -2968,8 +2971,8 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	if (major == 0)
 		return emm_setup_initial(evolution_dir);
 
-#ifndef G_OS_WIN32
 	if (major == 1 && minor < 5) {
+#ifndef G_OS_WIN32
 		xmlDocPtr config_xmldb = NULL, filters, vfolders;
 
 		path = g_build_filename (g_get_home_dir (), "evolution", NULL);
@@ -3025,11 +3028,19 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		}
 
 		g_free (path);
+#else
+		g_error ("Upgrading from ancient versions not supported on Windows");
+#endif
 	}
 
 	if (major < 2 || (major == 2 && minor < 12)) {
+#ifndef G_OS_WIN32
 		em_update_accounts_2_11 ();
+#else
+		g_error ("Upgrading from ancient versions not supported on Windows");
+#endif
 	}
+
 
 	if (major < 2 || (major == 2 && minor < 22))
 		em_update_message_notify_settings_2_21 ();
@@ -3039,6 +3050,5 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		migrate_to_db();
 	}
 
-#endif	/* !G_OS_WIN32 */
 	return 0;
 }
