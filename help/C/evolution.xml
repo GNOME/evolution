@@ -329,14 +329,15 @@
         <para>Type your username in the Username field.</para>
        </listitem>
        <listitem id="bstg8yn">
-        <para>Select if you want to use a secure connection (SSL).</para>
-        <para>If your server supports secure connections, you should enable this security option. If you are unsure if your server supports a secure connection, contact your system administrator.</para>
+        <para>Select if you want to use a secure connection (SSL or TLS).</para>
+        <para>You should enable this option if your server supports it.</para>
+        <para>Free webmail providers usually supply information about which of these options can be used. If you are in a company environment, you may want to contact your system administrator for more information.</para>
        </listitem>
        <listitem id="bstg9rc">
         <para>Select your authentication type in the Authentication list.</para>
         <para>or</para>
         <para>Click Check for Supported Types to have Evolution check for supported types. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</para>
-        <para>If you are unsure what authentication type you need, contact your system administrator.</para>
+        <para>Free webmail providers usually supply information about which of these options can be used. If you are in a company environment, you may want to contact your system administrator for more information.</para>
        </listitem>
        <listitem id="bstgaxb">
         <para>Select if you want Evolution to remember your password.</para>
@@ -705,7 +706,7 @@
         </orderedlist>
        </listitem>
        <listitem id="bsthypm">
-        <para>Select if you want to use a secure connection (SSL).</para>
+        <para>Select if you want to use a secure connection (SSL or TLS).</para>
        </listitem>
        <listitem id="bsti1a0">
         <para>Click Forward.</para>
@@ -2043,8 +2044,8 @@
     </listitem>
    </itemizedlist>
    <para>Evolution helps you protect your privacy by using GNU Privacy Guard (GPG), an implementation of strong <link linkend="public-key-encryption">Public Key Encryption.</link></para>
-   <para>GPG uses two keys: public and private. You can give your public key to anyone you want to receive encrypted messages, or put it on a public key server so that people can look it up before contacting you. Your private key lets you decrypt any message encrypted with your public key. Never give your private key to anyone.</para>
-   <para> When you send a message that is encrypted, you must encrypt it using your intended recipient's public key. To receive an encrypted message, you must make sure that the sender has your public key in advance. For signing messages, you encrypt the signature with your private key, so only your public key can unlock it. When you send the message, the recipient gets your public key and unlocks the signature, verifying your identity.</para>
+   <para>In order to encrypt and decrypt emails using GPG, it is necessary to use two kinds of encryption keys: public and private. Private keys are used to encrypt messages and public keys to decrypt them. Private keys should not be shared with others, while public keys can be shared with those you want to send encrypted messages to. You may also place them on a public key server.</para>
+   <para>To send encrypted email, you must have your own private key on your keyring, and the person you are sending it to must have your public key in order to decrypt and read it. To decrypt and read someone else's encrypted email, you must first have a copy of their public key on your keyring.</para>
    <para>Evolution does not support older versions of PGP, such as OpenPGP and Inline PGP.</para>
    <para>You can use encryption in two different ways:</para>
    <itemizedlist>
@@ -4040,7 +4041,7 @@
     </orderedlist>
     <para>An e-mail is sent out to all the recipients, inviting them to your event.</para>
     <note>
-     <para>A meeting can have only one organizer, and only the organizer can add participants. You can designate yourself the organizer of the meeting, but if you are not the original organizer, you can create confusion in the scheduling process. If you want to invite additional people to a meeting without changing the organizer, it is best to forward the first organizer's message to the additional participants.</para>
+     <para>In Evolution, a meeting can have only one organizer, and only the organizer can add participants to that meeting. Though it is possible to change the organizer of a meeting, this is not recommended as a means to invite additional participants to meetings. If you want to invite additional people to a meeting and are not that meeting's organizer, it is recommended that you forward the invitation message you received from the original meeting organiser to additional participants.</para>
     </note>
    </section>
 
@@ -7199,7 +7200,7 @@
   <glossentry id="automatic-indexing">
    <glossterm>automatic indexing</glossterm>
    <glossdef>
-    <para>A pre-downloading procedure that allows Evolution to quickly refer to data. It enables faster searches and decreases memory usage for data displays.</para>
+    <para>A feature which allows Evolution to quickly find and sort data.</para>
    </glossdef>
   </glossentry>
   <glossentry id="bsi89la">
