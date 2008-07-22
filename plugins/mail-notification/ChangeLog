@@ -1,3 +1,11 @@
+2008-07-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #544022
+
+	* Makefile.am:
+	* mail-notification.c: (send_dbus_message): Do not redefine
+	DBUS_VERSION define, it's supplied by dbus itself.
+
 2008-07-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #543134

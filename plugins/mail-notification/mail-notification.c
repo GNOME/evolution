@@ -136,7 +136,7 @@ send_dbus_message (const char *name, const char *data, guint new)
 
 	/* Appends the data as an argument to the message */
 	dbus_message_append_args (message,
-#if DBUS_VERSION >= 310
+#if FOUND_DBUS_VERSION >= 310
 				  DBUS_TYPE_STRING, &data,
 #else
 				  DBUS_TYPE_STRING, data,
@@ -146,7 +146,7 @@ send_dbus_message (const char *name, const char *data, guint new)
 	if (new) {
 		char * display_name = em_utils_folder_name_from_uri (data);
 		dbus_message_append_args (message,
-#if DBUS_VERSION >= 310
+#if FOUND_DBUS_VERSION >= 310
 					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
 #else
 					  DBUS_TYPE_STRING, display_name, DBUS_TYPE_UINT32, new,

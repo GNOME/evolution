@@ -224,6 +224,8 @@ struct _trie {
 	EMemChunk *match_chunks;
 };
 
+/* will be enabled only if debug is enabled */
+#if d(1) -1 != -1
 static void
 dump_trie(struct _state *s, int d)
 {
@@ -242,6 +244,7 @@ dump_trie(struct _state *s, int d)
 		m = m->next;
 	}
 }
+#endif
 
 /* This builds an Aho-Corasick search trie for a set of utf8 words */
 /* See

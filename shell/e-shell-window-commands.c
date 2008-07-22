@@ -272,7 +272,7 @@ static const char *authors[] = {
 	"Daniel van Eeden",
 	"Daniel Veillard",
 	"Daniel Yacob",
-	"Danilo \xC5\xA0egan",
+	"Danilo \xC5\xA0" "egan",
 	"Darin Adler",
 	"Dave Benson",
 	"Dave Camp",

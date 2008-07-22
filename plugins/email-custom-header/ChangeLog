@@ -1,3 +1,9 @@
+2008-07-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #544022
+
+	* email-custom-header.c: Compiler warning cleanup.
+
 2008-06-25  Ashish Shrivastava  <shashish@novell.com>
 	* email-custom-header.glade:  Marked strings for
 	translation.

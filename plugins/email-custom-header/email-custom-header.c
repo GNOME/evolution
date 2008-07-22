@@ -33,6 +33,7 @@
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"
 #include "libedataserver/e-account.h"
+#include "e-util/e-config.h"
 #include "email-custom-header.h"
 
 
@@ -81,6 +82,7 @@ static void commit_changes (ConfigData *cd);
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 gboolean e_plugin_ui_init(GtkUIManager *manager, EMsgComposer *composer);
+GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
