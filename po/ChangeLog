@@ -1,3 +1,8 @@
+2008-07-23  Petr Kovar  <pknbe@volny.cz>
+
+	* cs.po: Fixed Czech translation, thanks for noticing
+	to Pavel Sefranek.
+
 2008-07-21  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
