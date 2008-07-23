@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-22 03:59+0000\n"
-"PO-Revision-Date: 2008-07-23 03:03+0200\n"
+"POT-Creation-Date: 2008-07-23 01:12+0000\n"
+"PO-Revision-Date: 2008-07-23 15:19+0200\n"
 "Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -807,6 +807,9 @@ msgid ""
 "storing, organizing, and retrieving your personal information easy, so you "
 "can work and communicate more effectively with others."
 msgstr ""
+"<trademark>Evolution</trademark> ist eine <link linkend=\"groupware\">"
+"Groupware</link>-Anwendung die Ihnen dabei hilft, E-Mails, Adressen, Notizen, "
+"Aufgaben und Kalender zu handhaben."
 
 #: C/evolution.xml:156(link) C/evolution.xml:164(title)
 msgid "Starting Evolution for the First Time"
@@ -1233,13 +1236,14 @@ msgstr "Tragen Sie Ihren Benutzernamen in das »Benutzername«-Feld ein."
 #: C/evolution.xml:332(para) C/evolution.xml:709(para)
 msgid "Select if you want to use a secure connection (SSL or TLS)."
 msgstr ""
-"Wählen Sie aus, ob Sie eine sichere Verbindung (SSL oder TLS) benutzen möchten."
+"Wählen Sie aus, ob Sie eine sichere Verbindung (SSL oder TLS) benutzen "
+"möchten."
 
 #: C/evolution.xml:333(para)
 msgid "You should enable this option if your server supports it."
 msgstr ""
-"Sie sollten diese Funktion aktivieren, falls sie von Ihrem Server unterstützt "
-"wird."
+"Sie sollten diese Funktion aktivieren, falls sie von Ihrem Server "
+"unterstützt wird."
 
 #: C/evolution.xml:334(para) C/evolution.xml:340(para)
 msgid ""
@@ -1249,8 +1253,8 @@ msgid ""
 msgstr ""
 "Kostenlose Webmail-Provider veröffentlichen normalerweise Informationen "
 "darüber, welche Optionen Sie zum Verbinden nutzen können. Falls Sie in einer "
-"Firma oder einer Organisation arbeiten, so fragen Sie bitte Ihren "
-"System-Administrator für weitere Informationen."
+"Firma oder einer Organisation arbeiten, so fragen Sie bitte Ihren System-"
+"Administrator für weitere Informationen."
 
 #: C/evolution.xml:337(para) C/evolution.xml:696(para)
 #: C/evolution.xml:5080(para)
@@ -1876,10 +1880,9 @@ msgid ""
 "See the instructions in <link linkend=\"outlook-migration-mail\">Migrating "
 "Local Outlook Mail Folders</link>."
 msgstr ""
-"Um diese Informationen importieren zu können können Sie die "
-"Exportieren-Funktion unter Windows* benutzen, siehe die Anleitung unter "
-"<link linkend=\"outlook-migration-mail\">Lokale Outlook-E-Mail-Ordner "
-"migrieren</link>."
+"Um diese Informationen importieren zu können können Sie die Exportieren-"
+"Funktion unter Windows* benutzen, siehe die Anleitung unter <link linkend="
+"\"outlook-migration-mail\">Lokale Outlook-E-Mail-Ordner migrieren</link>."
 
 #: C/evolution.xml:748(para) C/evolution.xml:2367(para)
 msgid ""
@@ -1888,11 +1891,10 @@ msgid ""
 "mail tool. Otherwise, Evolution imports and undeletes the messages in your "
 "Trash folders."
 msgstr ""
-"Bevor Sie E-Mails aus Netscape* importieren, sollten Mozilla- und "
-"Netscape-Benutzer Datei &gt; Komprimieren &gt; Alle Ordner im Programm Netscape "
-"oder Mozilla Mail auswählen. Andernfalls "
-"importiert Evolution jegliche Nachrichten in den Papierkörben und macht das "
-"Löschen rückgängig."
+"Bevor Sie E-Mails aus Netscape* importieren, sollten Mozilla- und Netscape-"
+"Benutzer Datei &gt; Komprimieren &gt; Alle Ordner im Programm Netscape oder "
+"Mozilla Mail auswählen. Andernfalls importiert Evolution jegliche "
+"Nachrichten in den Papierkörben und macht das Löschen rückgängig."
 
 #: C/evolution.xml:750(para)
 msgid ""
@@ -2591,7 +2593,6 @@ msgid "Task List:"
 msgstr "Aufgabenliste:"
 
 #: C/evolution.xml:964(para)
-#, fuzzy
 msgid ""
 "Tasks are distinct from appointments because they generally don't have times "
 "associated with them. You can use the list in a larger window by clicking "
@@ -2653,7 +2654,6 @@ msgstr ""
 "Mail-Fenster klicken und dadurch einfach einen neuen Kontakt erstellen."
 
 #: C/evolution.xml:975(emphasis)
-#, fuzzy
 msgid "Contact List"
 msgstr "Liste der Kontakte"
 
@@ -2775,13 +2775,15 @@ msgstr ""
 
 #: C/evolution.xml:1024(title)
 msgid "Crash Recovery"
-msgstr ""
+msgstr "Wiederabsturzverhinderung"
 
 #: C/evolution.xml:1025(para)
 msgid ""
 "Evolution displays a crash detection message when you restart it after a "
 "crash."
 msgstr ""
+"Wenn Sie Evolution nach einem Absturz wieder startet, so wird eine Nachricht "
+"angezeigt."
 
 #: C/evolution.xml:1027(para)
 msgid ""
@@ -2907,9 +2909,8 @@ msgstr ""
 "Dieser Abschnitt, und <link linkend=\"usage-mail-organize\">E-Mails "
 "organisieren</link>, gibt Ihnen einen tieferen Einblick in die Fähigkeiten "
 "von <trademark>Evolution</trademark> als einem E-Mail-Programm. Für weitere "
-"Informationen über das "
-"Einrichten eines E-Mail-Kontos siehe <link linkend=\"config-prefs-mail\">E-"
-"Mail-Einstellungen</link>."
+"Informationen über das Einrichten eines E-Mail-Kontos siehe <link linkend="
+"\"config-prefs-mail\">E-Mail-Einstellungen</link>."
 
 #: C/evolution.xml:1124(link) C/evolution.xml:1141(title)
 msgid "Reading Mail"
@@ -2989,7 +2990,7 @@ msgstr ""
 
 #: C/evolution.xml:1151(para)
 msgid "To enable Magic Spacebar:"
-msgstr ""
+msgstr "Um die »Magische Leertaste« zu aktivieren:"
 
 #: C/evolution.xml:1154(para) C/evolution.xml:1250(para)
 #: C/evolution.xml:2135(para) C/evolution.xml:2174(para)
@@ -3001,7 +3002,7 @@ msgstr "Klicken Sie auf Bearbeiten &gt; Einstellungen, dann E-Mail-Konten."
 
 #: C/evolution.xml:1157(para)
 msgid "Select the Enable Magic Spacebar check box."
-msgstr ""
+msgstr "Wählen Sie »Magische Leertaste einschalten« aus."
 
 #: C/evolution.xml:1160(para)
 msgid "When you are in the Mail view, the Spacebar has the following behavior:"
@@ -3210,8 +3211,8 @@ msgid ""
 "Check <guilabel>Shrink To/CC/Bcc headers to column</guilabel> to limit the "
 "address."
 msgstr ""
-"Wählen Sie <guilabel>Empfängerkopfzeilen (An/Kopie/Blindkopie) "
-"verkleinern</guilabel> um die Anzahl der angezeigten Adressen zu begrenzen."
+"Wählen Sie <guilabel>Empfängerkopfzeilen (An/Kopie/Blindkopie) verkleinern</"
+"guilabel> um die Anzahl der angezeigten Adressen zu begrenzen."
 
 #: C/evolution.xml:1235(para)
 msgid "Enter the limit in the field."
@@ -3225,8 +3226,8 @@ msgid ""
 "fileref=\"figures/minus.png\"/> icon in the preview pane."
 msgstr ""
 "Um alle Adressen zu sehen, klicken Sie auf das <inlinegraphic format=\"PNG\" "
-"fileref=\"figures/plus.png\"/> Symbol oder auf <guilabel>...</guilabel> in der "
-"Nachrichtenvorschau. Um wieder zu verkleinern, klicken Sie auf das "
+"fileref=\"figures/plus.png\"/> Symbol oder auf <guilabel>...</guilabel> in "
+"der Nachrichtenvorschau. Um wieder zu verkleinern, klicken Sie auf das "
 "<inlinegraphic format=\"PNG\" fileref=\"figures/minus.png\"/> Symbol in der "
 "Nachrichtenvorschau."
 
@@ -3345,9 +3346,8 @@ msgstr ""
 "Anlagenleiste."
 
 #: C/evolution.xml:1277(para)
-#, fuzzy
 msgid "Click Save As."
-msgstr "Klicken Sie auf »Speichern«."
+msgstr "Klicken Sie auf »Speichern unter«."
 
 #: C/evolution.xml:1280(para)
 msgid "Select a location and name for the file."
@@ -3722,8 +3722,8 @@ msgstr ""
 "können Sie schreiben. Die jeweiligen Tasten variieren je nach Sprache und "
 "Eingabemethode; so nutzt die kyrillische Eingabemethode transliterierte "
 "Tastenkombinationen um das gesamte kyrillische Alphabet zu erzeugen, weshalb "
-"das Kombinieren von Buchstaben nötig ist. <quote>Zh</quote> und <quote>"
-"ya</quote> erzeugen die jeweiligen kyrillischen Buchstaben, und ein einfaches "
+"das Kombinieren von Buchstaben nötig ist. <quote>Zh</quote> und <quote>ya</"
+"quote> erzeugen die jeweiligen kyrillischen Buchstaben, und ein einfaches "
 "Anführungszeichen (') erzeugt das Weichheitszeichen."
 
 #: C/evolution.xml:1441(para)
@@ -3835,13 +3835,11 @@ msgid ""
 "messages, storing them in your Outbox to be sent the next time you connect."
 msgstr ""
 "Der Offline-Modus hilft Ihnen, mit entfernten Mail-Systemen wie <trademark "
-"class=\"registered\">"
-"GroupWise</trademark>, IMAP oder Exchange ohne durchgehende Verbindung zum "
-"Netzwerk "
-"zu arbeiten. Evolution hält eine lokale Kopie von einem oder mehreren Ordner "
-"vorrätig, damit Sie Nachrichten schreiben und im Ausgangsordner speichern "
-"können, so dass diese bei der nächsten Verbindung mit einem Netzwerk "
-"verschickt werden können."
+"class=\"registered\">GroupWise</trademark>, IMAP oder Exchange ohne "
+"durchgehende Verbindung zum Netzwerk zu arbeiten. Evolution hält eine lokale "
+"Kopie von einem oder mehreren Ordner vorrätig, damit Sie Nachrichten "
+"schreiben und im Ausgangsordner speichern können, so dass diese bei der "
+"nächsten Verbindung mit einem Netzwerk verschickt werden können."
 
 #: C/evolution.xml:1469(para)
 msgid ""
@@ -4056,12 +4054,16 @@ msgid ""
 "Click Configuration, then make sure that Remind Missing Attachments is "
 "selected."
 msgstr ""
+"Wählen Sie den Reiter »Konfiguration« und stellen Sie sicher, dass »An "
+"vergessene Anlagen erinnern« aktiviert ist."
 
 #: C/evolution.xml:1555(para)
 msgid ""
 "Select keywords such as <quote>Attach</quote> or <quote>Attachment</quote> "
 "and click Add."
 msgstr ""
+"Klicken Sie auf »Hinzufügen«, um Schlüsselwörter wie <quote>Anhang</quote> oder "
+"<quote>beigelegt</quote> hinzuzufügen."
 
 #: C/evolution.xml:1556(para)
 msgid ""
@@ -4080,6 +4082,8 @@ msgid ""
 "To edit any of the existing keywords, select the keyword, click Edit, then "
 "modify the word as desired."
 msgstr ""
+"Um bestehende Schlüsselwörter zu bearbeiten, wählen Sie »Bearbeiten« aus und "
+"ändern Sie das Schlüsselwort wie gewünscht."
 
 #: C/evolution.xml:1568(para)
 msgid ""
@@ -4089,12 +4093,12 @@ msgid ""
 "the e-mail address or addresses in the To: field, which denotes primary "
 "recipients. Use the Cc: field to send a message to secondary recipients."
 msgstr ""
-"<trademark>Evolution</trademark> versteht (wie die meisten anderen "
-"E-mail-Programme auch) drei "
-"verschiedene Arten von Adressen: Primäre Adressen, sekundäre Adressen, und "
-"versteckte (blinde) Adressen. Der einfachste Weg ist es, eine oder mehrere E-"
-"Mail-Adressen in das An:-Feld einzufügen, wobei es sich dann um primäre "
-"Adressen handelt. Nutzen Sie das Kopie:-Feld für sekundäre Adressen."
+"<trademark>Evolution</trademark> versteht (wie die meisten anderen E-mail-"
+"Programme auch) drei verschiedene Arten von Adressen: Primäre Adressen, "
+"sekundäre Adressen, und versteckte (blinde) Adressen. Der einfachste Weg ist "
+"es, eine oder mehrere E-Mail-Adressen in das An:-Feld einzufügen, wobei es "
+"sich dann um primäre Adressen handelt. Nutzen Sie das Kopie:-Feld für "
+"sekundäre Adressen."
 
 #: C/evolution.xml:1569(para)
 msgid ""
@@ -4340,8 +4344,8 @@ msgid ""
 "should ignore this feature."
 msgstr ""
 "Sie können nach einem komplexeren Muster im Text Ihrer E-Mail suchen, <link "
-"linkend=\"regular-expression\">Regulärer Ausdruck</link> oder <quote>"
-"Regex</quote> genannt. Falls Sie sich nicht sicher sind, was dies ist, so "
+"linkend=\"regular-expression\">Regulärer Ausdruck</link> oder <quote>Regex</"
+"quote> genannt. Falls Sie sich nicht sicher sind, was dies ist, so "
 "ignorieren Sie diese Funktion einfach."
 
 #: C/evolution.xml:1677(title)
@@ -4628,9 +4632,8 @@ msgid "Inserting an Image"
 msgstr "Ein Bild einfügen"
 
 #: C/evolution.xml:1806(para)
-#, fuzzy
 msgid "Click Insert &gt; Image in the menubar."
-msgstr "Klicken Sie auf Bearbeiten &gt; Nachrichtenfilter"
+msgstr "Klicken Sie auf Einfügen &gt; Bild in der Menüleiste."
 
 #: C/evolution.xml:1809(para)
 msgid "Browse to and select the image file."
@@ -4649,7 +4652,7 @@ msgstr ""
 
 #: C/evolution.xml:1822(para)
 msgid "Click Insert &gt; Rule in the menubar."
-msgstr ""
+msgstr "Klicken Sie auf Einfügen &gt; Trennlinie in der Menüleiste."
 
 #: C/evolution.xml:1825(para)
 msgid "Select the width, size, and alignment."
@@ -4668,11 +4671,8 @@ msgid "You can insert a table into the text:"
 msgstr "Sie können eine Tabelle in den Text einfügen:"
 
 #: C/evolution.xml:1841(para)
-#, fuzzy
 msgid "Click Insert &gt; Table in the menubar."
-msgstr ""
-"Klicken Sie auf den Speichern-Knopf in der Werkzeugleiste, um die "
-"Besprechung zu speichern."
+msgstr "Klicken Sie auf Einfügen &gt; Tabelle in der Menüleiste."
 
 #: C/evolution.xml:1844(para)
 msgid "Select the number of rows and columns."
@@ -4967,8 +4967,8 @@ msgid ""
 "To send an invitation, right click on the calendar item and click Forward as "
 "iCalendar."
 msgstr ""
-"Um eine Einladung zu verschicken, klicken Sie mit der rechten "
-"Maustaste auf den Kalendereintrag und wählen Sie »Als iCalendar weiterleiten«."
+"Um eine Einladung zu verschicken, klicken Sie mit der rechten Maustaste auf "
+"den Kalendereintrag und wählen Sie »Als iCalendar weiterleiten«."
 
 #: C/evolution.xml:1992(para)
 msgid "When you receive an invitation, you have several options:"
@@ -5018,9 +5018,8 @@ msgstr ""
 "ist."
 
 #: C/evolution.xml:2006(title)
-#, fuzzy
 msgid "Send reply to sender:"
-msgstr "Antwort an Absender"
+msgstr "Antwort an Absender:"
 
 #: C/evolution.xml:2007(para)
 msgid ""
@@ -5172,8 +5171,8 @@ msgstr ""
 "Nehmen wir zum Beispiel an, dass Karl eine verschlüsselte Nachricht an seine "
 "Freundin Helene schicken will. Er ruft ihren öffentlichen Schlüssel auf "
 "einem öffentlichen Schlüssel-Server ab und wählt in Evolution aus, dass die "
-"Nachricht verschlüsselt werden soll. Die Nachricht liest sich nun so: <quote>"
-"@#$23ui7yr87#@!48970fsd.</quote> Helene erhält die Nachricht und "
+"Nachricht verschlüsselt werden soll. Die Nachricht liest sich nun so: "
+"<quote>@#$23ui7yr87#@!48970fsd.</quote> Helene erhält die Nachricht und "
 "entschlüsselt diese mit ihrem privaten Schlüssel, wodurch die Nachricht als "
 "Klartext für sie lesbar dargestellt wird."
 
@@ -5542,9 +5541,8 @@ msgid "Adding a Signing Certificate"
 msgstr "Hinzufügen eines Zertifikates zum Signieren"
 
 #: C/evolution.xml:2214(para)
-#, fuzzy
 msgid "Click Certificates."
-msgstr "Zertifikate"
+msgstr "Klicken Sie auf »Zertifikate«."
 
 #: C/evolution.xml:2217(para) C/evolution.xml:2340(para)
 msgid "Click Import."
@@ -5586,9 +5584,10 @@ msgid "To have every message signed or encrypted:"
 msgstr "Um jede Nachricht zu signieren oder zu verschlüsseln:"
 
 #: C/evolution.xml:2238(para)
-#, fuzzy
 msgid "Select the account to encrypt the messages in."
-msgstr "Wählen Sie das E-Mail-Konto aus und klicken Sie auf Bearbeiten."
+msgstr ""
+"Wählen Sie das E-Mail-Konto aus, für welches die Nachrichten verschlüsselt "
+"werden sollen."
 
 #: C/evolution.xml:2241(para)
 msgid "Click Edit, then click Security."
@@ -5809,11 +5808,10 @@ msgid ""
 "ulink> for additional information. You can also import data into another "
 "Windows mail client such as Mozilla."
 msgstr ""
-"Eine zuverlässige Methode der Migration ist die Nutzung des "
-"Programmes »Outport«. Siehe <ulink url=\"http://outport.sourceforge.net"
-"\">outport.sourceforge.net</ulink> für weitere Informationen. Sie können "
-"auch die Daten in ein anderes Windows-E-Mail-Programm wie Mozilla "
-"importieren."
+"Eine zuverlässige Methode der Migration ist die Nutzung des Programmes "
+"»Outport«. Siehe <ulink url=\"http://outport.sourceforge.net\">outport."
+"sourceforge.net</ulink> für weitere Informationen. Sie können auch die Daten "
+"in ein anderes Windows-E-Mail-Programm wie Mozilla importieren."
 
 #: C/evolution.xml:2366(para)
 msgid ""
@@ -6781,9 +6779,8 @@ msgid "Sender:"
 msgstr "Absender:"
 
 #: C/evolution.xml:2793(para)
-#, fuzzy
 msgid "The sender's email address or the name of the sender."
-msgstr "Geben Sie Ihre E-Mail-Adresse ein und drücken Sie die Eingabetaste."
+msgstr "Die E-Mail-Adresse oder der Name des Absenders."
 
 #: C/evolution.xml:2796(title)
 msgid "Recipient:"
@@ -7053,9 +7050,8 @@ msgid "Move to Folder:"
 msgstr "In Ordner verschieben:"
 
 #: C/evolution.xml:2880(para)
-#, fuzzy
 msgid "Moves the message into a folder you specify."
-msgstr "Markiert die Nachricht mit einer Farbe ihrer Wahl."
+msgstr "Verschiebt die Nachricht in einen Ordner ihrer Wahl."
 
 #: C/evolution.xml:2885(title)
 msgid "Copy to Folder:"
@@ -7334,10 +7330,10 @@ msgstr ""
 "Nachrichten die »novell.com« in der Adresse und »Evolution« in der "
 "Betreffzeile haben, damit er einfach sehen kann, was ihm Leute von der "
 "Arbeit über Evolution schicken. Wenn Marianne ihm eine Nachricht über etwas "
-"anderes als Evolution schickt, so wird diese Nachricht im <quote>"
-"Marianne</quote>-Suchordner angezeigt. Wenn ihm Marianne eine Nachricht über "
-"die Benutzeroberfläche von Evolution schickt, so wird diese Nachricht sowohl "
-"im <quote>Anna</quote>-Suchordner als auch im <quote>Interne Evolution-"
+"anderes als Evolution schickt, so wird diese Nachricht im <quote>Marianne</"
+"quote>-Suchordner angezeigt. Wenn ihm Marianne eine Nachricht über die "
+"Benutzeroberfläche von Evolution schickt, so wird diese Nachricht sowohl im "
+"<quote>Anna</quote>-Suchordner als auch im <quote>Interne Evolution-"
 "Diskussion</quote>-Suchordner angezeigt."
 
 #: C/evolution.xml:3019(title)
@@ -7549,12 +7545,12 @@ msgstr ""
 "Nachricht als Spam."
 
 #: C/evolution.xml:3147(para)
-#, fuzzy
 msgid ""
 "To change your junk mail filtering preferences, click Edit &gt; Preferences, "
 "then click Mail Preferences."
 msgstr ""
-"Klicken Sie auf Bearbeiten &gt; Einstellungen, dann auf E-Mail-Einstellungen."
+"Um die Einstellungen zu unerwünschter E-Mail zu ändern, klicken Sie auf "
+"Bearbeiten &gt; Einstellungen, dann auf E-Mail-Einstellungen."
 
 #: C/evolution.xml:3148(para) C/evolution.xml:5672(para)
 msgid ""
@@ -7606,10 +7602,9 @@ msgid ""
 "contacts tool to organize any amount of contact information, share addresses "
 "over a network, and save time with everyday tasks."
 msgstr ""
-"Dieses Kapitel beschreibt die Nutzung der <trademark>Evolution</trademark>"
-"-Kontaktfunktion, "
-"mit der Sie Ihre Kontakte organisieren können und Adressinformationen über "
-"ein Netzwerk freigeben können."
+"Dieses Kapitel beschreibt die Nutzung der <trademark>Evolution</trademark>-"
+"Kontaktfunktion, mit der Sie Ihre Kontakte organisieren können und "
+"Adressinformationen über ein Netzwerk freigeben können."
 
 #: C/evolution.xml:3162(link) C/evolution.xml:3179(title)
 msgid "Contacts and Cards"
@@ -7835,6 +7830,8 @@ msgid ""
 "Go to the Contacts window by selecting View &gt; Window &gt; Contacts from "
 "the menubar."
 msgstr ""
+"Gehen Sie in die Kontakte-Ansicht, indem Sie in der Menüleiste »Ansicht &gt; "
+"Fenster &gt; Kontakte« auswählen."
 
 #: C/evolution.xml:3239(para)
 msgid "Double click on the card you want to edit."
@@ -7859,7 +7856,6 @@ msgstr ""
 "Kopfzeile der Nachricht."
 
 #: C/evolution.xml:3254(para)
-#, fuzzy
 msgid "Select Add to Address Book to bring up the Contact Quick-Add window."
 msgstr "Wählen Sie aus dem Menü »Zum Adressbuch hinzufügen« aus."
 
@@ -8176,10 +8172,10 @@ msgid ""
 msgstr ""
 "Sie können zum Beispiel in Evolution einen Kontakt für jedes "
 "Familienmitglied erstellen und dann all diese Kontakte zu einer Kontaktliste "
-"hinzufügen, die Sie <quote>Famile</quote> nennen. Danach können Sie, anstelle "
-"jede E-Mail-Adresse der Familienmitglieder einzeln einzugeben, einfach eine "
-"E-Mail an <quote>Familie</quote> schreiben und die E-Mail wird automatisch an "
-"alle einzelnen Familienmitglieder versendet."
+"hinzufügen, die Sie <quote>Famile</quote> nennen. Danach können Sie, "
+"anstelle jede E-Mail-Adresse der Familienmitglieder einzeln einzugeben, "
+"einfach eine E-Mail an <quote>Familie</quote> schreiben und die E-Mail wird "
+"automatisch an alle einzelnen Familienmitglieder versendet."
 
 #: C/evolution.xml:3465(para)
 msgid "To create a list of contacts:"
@@ -8225,8 +8221,8 @@ msgstr ""
 "Falls es sich nicht um eine sehr kleine Liste handelt, wird empfohlen, die "
 "Adressen nicht anzeigen zu lassen. Hierbei handelt es sich um dieselbe "
 "Funktion wie die unter <link linkend=\"usage-mail-getnsend-send-to-types"
-"\">Weitere Empfänger zu einer E-Mail hinzufügen</link> beschriebene <quote>"
-"Blindkopie</quote>-Funktion."
+"\">Weitere Empfänger zu einer E-Mail hinzufügen</link> beschriebene "
+"<quote>Blindkopie</quote>-Funktion."
 
 #: C/evolution.xml:3485(para)
 msgid "When you are finished, click OK."
@@ -8272,8 +8268,8 @@ msgstr ""
 "Kategorien zugehörig zu markieren. Sie können einem Kontakt mehrere oder gar "
 "keine Kategorien zuweisen. Sie können einen Kontakt zum Beispiel in die "
 "<guilabel>Geschäftlich</guilabel>-Kategorie einordnen, da er mit Ihnen "
-"arbeitet, "
-"und in die <guilabel>Persönlich</guilabel>-Kategorie da er ein Freund ist."
+"arbeitet, und in die <guilabel>Persönlich</guilabel>-Kategorie da er ein "
+"Freund ist."
 
 #: C/evolution.xml:3496(para)
 msgid "To mark a card as belonging to a category,"
@@ -8440,11 +8436,10 @@ msgid ""
 "learn about importing calendar data, see <link linkend=\"importing-mail"
 "\">Importing Single Files</link>, which covers the Import tool."
 msgstr ""
-"Dieses Kapitel erklärt die Nutzung des <trademark>Evolution</trademark>"
-"-Kalenders und wie "
-"Sie Ihre Termine alleine oder im Team planen können. Um mehr darüber zu "
-"erfahren, wie Sie Kalenderdaten importieren können, siehe <link linkend="
-"\"importing-mail\">Einzelne Dateien importieren</link>."
+"Dieses Kapitel erklärt die Nutzung des <trademark>Evolution</trademark>-"
+"Kalenders und wie Sie Ihre Termine alleine oder im Team planen können. Um "
+"mehr darüber zu erfahren, wie Sie Kalenderdaten importieren können, siehe "
+"<link linkend=\"importing-mail\">Einzelne Dateien importieren</link>."
 
 #: C/evolution.xml:3571(link) C/evolution.xml:3603(title)
 msgid "Ways of Looking at your Calendar"
@@ -8618,7 +8613,6 @@ msgid "Right click on the calendar."
 msgstr "Klicken Sie mit rechts auf den Kalender."
 
 #: C/evolution.xml:3681(para)
-#, fuzzy
 msgid "Select Properties to open Calendar Properties dialog box."
 msgstr "Wählen Sie Eigenschaften aus."
 
@@ -8681,20 +8675,21 @@ msgid ""
 "Evolution allows you to access your Google calendar. You can view the Google "
 "calendar offline or create, modify, and delete the calendar items online."
 msgstr ""
+"Evolution ermöglicht Ihnen den Zugriff auf Ihren Google-Kalender. Sie können "
+"Ihren Google-Kalender offline betrachten und online Kalendereinträge erstellen, "
+"bearbeiten und löschen."
 
 #: C/evolution.xml:3714(para)
 msgid "To integrate the Google calendar to Evolution:"
-msgstr ""
+msgstr "Um Ihren Google-Kalender in Evolution zu nutzen:"
 
 #: C/evolution.xml:3717(para)
-#, fuzzy
 msgid "Click New, then select Calendar to open the New Calendar dialog."
-msgstr "Klicken Sie auf Neu &gt; Gemeinsame Notiz um das neue Fenster zu öffnen."
+msgstr "Klicken Sie auf Neu &gt; Kalender."
 
 #: C/evolution.xml:3720(para)
-#, fuzzy
 msgid "Select Google from the Type drop-down list."
-msgstr "Wählen Sie Ihre Zeitzone aus der Auswahlliste aus."
+msgstr "Wählen Sie in der »Art«-Auswahlliste Google aus."
 
 #: C/evolution.xml:3725(para)
 msgid "Specify the following:"
@@ -8714,26 +8709,29 @@ msgstr "Benutzername:"
 
 #: C/evolution.xml:3736(para)
 msgid "Specify your username for your Google account"
-msgstr ""
+msgstr "Geben Sie den Benutzernamen für Ihr Google-Konto ein."
 
 #: C/evolution.xml:3742(para)
-#, fuzzy
 msgid "Set the time to automatically refresh the calendar."
-msgstr "Wählen Sie das Layout für die Tabelle."
+msgstr ""
+"Setzen Sie eine Zeit für die Häufigkeit der Aktualisierung, welche bestimmt, "
+"wie oft Evolution nach Änderungen im Kalender schauen soll."
 
 #: C/evolution.xml:3745(para)
 msgid ""
 "Select Use SSL to enable SSL for communication between Evolution and the "
 "Google server."
 msgstr ""
+"Wählen Sie »SSL verwenden« um eine sichere verschlüsselte Verbindung zwischen "
+"Evolution und dem Google-Server zu erzeugen."
 
 #: C/evolution.xml:3748(para)
 msgid ""
 "If you want to set a color label for the calendar, click the Color tab, "
 "select the desired color, then click OK."
 msgstr ""
-"Um einem Kalender eine Farbe zuzuweisen, klicken Sie auf den Farb-Knopf, wählen "
-"Sie die gewünschte Farbe, und klicken Sie auf OK."
+"Um einem Kalender eine Farbe zuzuweisen, klicken Sie auf den Farb-Knopf, "
+"wählen Sie die gewünschte Farbe, und klicken Sie auf OK."
 
 #: C/evolution.xml:3751(para)
 msgid ""
@@ -8744,11 +8742,10 @@ msgstr ""
 "Kalenderinhalt lokal zur Arbeit im Offline-Modus kopieren« aus."
 
 #: C/evolution.xml:3752(para)
-#, fuzzy
 msgid "If you select this option, you cannot modify or create the calendar items."
 msgstr ""
-"Falls Sie diese Option wählen müssen Sie angeben, wie oft Evolution nach "
-"neuen Nachrichten schauen soll."
+"Falls Sie diese Option wählen können Sie Kalendereinträge weder erzeugen noch "
+"bearbeiten."
 
 #: C/evolution.xml:3762(para)
 msgid ""
@@ -8822,10 +8819,11 @@ msgid "Click File &gt; New &gt; Appointment."
 msgstr "Klicken Sie auf Datei &gt; Neu &gt; Termin."
 
 #: C/evolution.xml:3811(para)
-#, fuzzy
 msgid ""
 "Click Calendars on the Switcher, then click File &gt; New &gt; Appointment."
-msgstr "Wählen Sie Neu &gt; Termin in der Werkzeugleiste."
+msgstr ""
+"Gehen Sie zur Kalenderansicht und wählen Sie Datei &gt; Neu &gt; Termin in der "
+"Menüleiste."
 
 #: C/evolution.xml:3813(para)
 msgid ""
@@ -8852,9 +8850,7 @@ msgstr "Wählen Sie einen Kalender in der Kalender-Auswahlliste."
 #: C/evolution.xml:4425(para) C/evolution.xml:4657(para)
 #: C/evolution.xml:5723(para)
 msgid "Enter a brief summary in the Summary field."
-msgstr ""
-"Geben Sie eine kurze Zusammenfassung in das »Zusammenfassung«-"
-"Feld ein."
+msgstr "Geben Sie eine kurze Zusammenfassung in das »Zusammenfassung«-Feld ein."
 
 #: C/evolution.xml:3824(para) C/evolution.xml:3991(para)
 msgid "(Optional) Type a location in the Location field."
@@ -8973,8 +8969,8 @@ msgid ""
 "(Optional) To add an attachment, drag and drop the attachment into the "
 "attachment bar."
 msgstr ""
-"(Optional) Um einen Anhang hinzuzufügen, ziehen Sie den Anhang "
-"per Maus in die Anlagenleiste und lassen Sie dann die Maustaste los."
+"(Optional) Um einen Anhang hinzuzufügen, ziehen Sie den Anhang per Maus in "
+"die Anlagenleiste und lassen Sie dann die Maustaste los."
 
 #: C/evolution.xml:3872(para) C/evolution.xml:4023(para)
 #: C/evolution.xml:4401(para) C/evolution.xml:4446(para)
@@ -9119,16 +9115,15 @@ msgid ""
 "your server settings; check with your system administrator or adjust your "
 "delegation settings."
 msgstr ""
-"Falls Sie einen Kalender auf einem Novell <trademark class=\"registered\">"
-"GroupWise</trademark>- oder Microsoft Exchange-"
-"Server benutzen, wählen Sie eine Einstufung für den Termin um zu bestimmen, "
-"wer den Termin sehen kann. Die Vorgabe-Einstufung ist »öffentlich«; "
-"öffentliche Termine können von jeder Person im Kalender-Netzwerk betrachtet "
-"werden. »Privat« bezeichnet einen ersten Grad an Vertraulichkeit, und "
-"»Vertraulich« einen höheren Grad. Die verschiedenen Grade können je nach "
-"Server-Einstellungen unterschiedlich sein; fragen Sie Ihren "
-"Systemadministrator oder ändern Sie Ihre Zuweisungseinstellungen "
-"dementsprechend."
+"Falls Sie einen Kalender auf einem Novell <trademark class=\"registered"
+"\">GroupWise</trademark>- oder Microsoft Exchange-Server benutzen, wählen "
+"Sie eine Einstufung für den Termin um zu bestimmen, wer den Termin sehen "
+"kann. Die Vorgabe-Einstufung ist »öffentlich«; öffentliche Termine können von "
+"jeder Person im Kalender-Netzwerk betrachtet werden. »Privat« bezeichnet "
+"einen ersten Grad an Vertraulichkeit, und »Vertraulich« einen höheren Grad. "
+"Die verschiedenen Grade können je nach Server-Einstellungen unterschiedlich "
+"sein; fragen Sie Ihren Systemadministrator oder ändern Sie Ihre "
+"Zuweisungseinstellungen dementsprechend."
 
 #: C/evolution.xml:3932(para)
 msgid ""
@@ -9561,6 +9556,8 @@ msgid ""
 "You can use a customized search, an advanced search, or a quick search to "
 "search for Calendar items."
 msgstr ""
+"Sie können eine Individuelle Suche, eine Erweiterte Suche, oder eine Schnelle "
+"Suche nach Kalendereinträgen durchführen."
 
 #: C/evolution.xml:4145(para)
 msgid ""
@@ -9758,9 +9755,9 @@ msgid ""
 "You can use the list in a larger window by clicking the Tasks button in the "
 "side bar."
 msgstr ""
-"Sie können diese Liste in einem größeren Fenster "
-"betrachten, indem Sie auf den »Aufgaben«-Knopf unten links in der "
-"Seitenleiste klicken, um zum Aufgaben-Fenster zu wechseln."
+"Sie können diese Liste in einem größeren Fenster betrachten, indem Sie auf "
+"den »Aufgaben«-Knopf unten links in der Seitenleiste klicken, um zum Aufgaben-"
+"Fenster zu wechseln."
 
 #: C/evolution.xml:4329(para)
 msgid ""
@@ -9974,8 +9971,8 @@ msgstr "Aufgaben der nächsten 7 Tage:"
 #: C/evolution.xml:4519(para)
 msgid "Displays all the active tasks that are due within the next seven days."
 msgstr ""
-"Zeigt alle aktiven Aufgaben an, deren Fälligkeitsdatum innerhalb der nächsten 7 "
-"Tage liegt."
+"Zeigt alle aktiven Aufgaben an, deren Fälligkeitsdatum innerhalb der "
+"nächsten 7 Tage liegt."
 
 #: C/evolution.xml:4522(title)
 msgid "Active Tasks:"
@@ -10114,8 +10111,8 @@ msgid ""
 "lists."
 msgstr ""
 "Genau so wie bei Kalendern und Aufgaben können Sie mehrere Notizlisten "
-"erstellen. Jeder Notizliste wird eine Farbe zugewiesen, und Sie können einzelne "
-"Notizlisten in der Seitenleiste anzeigen und verstecken."
+"erstellen. Jeder Notizliste wird eine Farbe zugewiesen, und Sie können "
+"einzelne Notizlisten in der Seitenleiste anzeigen und verstecken."
 
 #: C/evolution.xml:4678(para)
 msgid "To create a new memo list:"
@@ -10138,6 +10135,8 @@ msgid ""
 "You can use a customized search, an advanced search, or a quick search to "
 "search for Memo Items."
 msgstr ""
+"Sie können eine Individuelle Suche, eine Erweiterte Suche, oder eine Schnelle "
+"Suche nach Notizen durchführen."
 
 #: C/evolution.xml:4697(para)
 msgid "Evolution enables you to find the Memo items by using a Customized Search."
@@ -10227,10 +10226,9 @@ msgid ""
 "servers. Like Evolution, it is free software and is licensed under the GPL."
 msgstr ""
 "<trademark>Evolution</trademark> Exchange für Microsoft Exchange ermöglicht "
-"Evolution-"
-"Installationen den Zugriff auf Konten auf Microsoft Exchange 2000- und 2003-"
-"Servern. Genauso wie Evolution handelt es sich um freie Software unter der "
-"GPL-Lizenz."
+"Evolution-Installationen den Zugriff auf Konten auf Microsoft Exchange 2000- "
+"und 2003-Servern. Genauso wie Evolution handelt es sich um freie Software "
+"unter der GPL-Lizenz."
 
 #: C/evolution.xml:4864(link) C/evolution.xml:4884(title)
 msgid "Evolution Exchange Features"
@@ -10347,7 +10345,7 @@ msgstr ""
 
 #: C/evolution.xml:4933(title)
 msgid "Send Options:"
-msgstr ""
+msgstr "Versandoptionen:"
 
 #: C/evolution.xml:4934(para)
 msgid ""
@@ -10479,6 +10477,10 @@ msgid ""
 "information about checking to make sure that your Exchange server accepts "
 "connections from Evolution."
 msgstr ""
+"In der <ulink url=\"http://support.novell.com\"><trademark class=\"registered\">"
+"Novell</trademark>-Wissensdatenbank</ulink> finden Sie weitere Informationen, "
+"wie Sie sicherstellen können, dass Ihr Exchange-Server Verbindung von Evolution "
+"akzeptiert."
 
 #: C/evolution.xml:5022(para)
 msgid ""
@@ -10628,7 +10630,7 @@ msgstr ""
 
 #: C/evolution.xml:5117(link) C/evolution.xml:5140(title)
 msgid "Send Options"
-msgstr ""
+msgstr "Versandoptionen"
 
 #: C/evolution.xml:5120(link) C/evolution.xml:5221(title)
 msgid "Access Delegation"
@@ -11072,6 +11074,9 @@ msgid ""
 "\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</"
 "trademark> 7 system."
 msgstr ""
+"<trademark>Evolution</trademark> kann auf Konten eines »<trademark "
+"class=\"registered\">Novell</trademark><trademark class=\"registered\">"
+"GroupWise</trademark> 7«-Systems zugreifen."
 
 #: C/evolution.xml:5419(link) C/evolution.xml:5442(title)
 msgid "GroupWise Features"
@@ -11975,9 +11980,9 @@ msgid ""
 "class=\"registered\">Hula</trademark> servers through IMAP and calendaring "
 "support through CalDAV."
 msgstr ""
-"<trademark>Evolution</trademark unterstützt den E-Mail-Zugriff auf <trademark "
-"class=\"registered\">Hula</trademark>-Server per "
-"IMAP und den Kalender-Zugriff per CalDAV."
+"<trademark>Evolution</trademark unterstützt den E-Mail-Zugriff auf "
+"<trademark class=\"registered\">Hula</trademark>-Server per IMAP und den "
+"Kalender-Zugriff per CalDAV."
 
 #: C/evolution.xml:6211(para)
 msgid ""
@@ -12241,10 +12246,9 @@ msgid ""
 msgstr ""
 "Wählen Sie die Art aus, wie Sie E-Mail erhalten wollen. Sie können E-Mails "
 "von einem <link linkend=\"pop\"/>POP</link>-Server herunterladen, Sie auf "
-"dem Server behalten und dort lesen (Microsoft Exchange, <trademark "
-"class=\"registered\">Novell</trademark> "
-"<trademark class=\"registered\">GroupWise</trademark>, oder <link "
-"linkend=\"imap\">IMAP</link>), oder aus Dateien "
+"dem Server behalten und dort lesen (Microsoft Exchange, <trademark class="
+"\"registered\">Novell</trademark> <trademark class=\"registered\">GroupWise</"
+"trademark>, oder <link linkend=\"imap\">IMAP</link>), oder aus Dateien "
 "lesen, die bereits auf Ihrem Computer existieren. Falls Ihr Server eine "
 "sichere Verbindung voraussetzt, so können Sie aus den Optionen »Keine "
 "Verschlüsselung«, »TLS-Verschlüsselung« und »SSL-Verschlüsselung« wählen."
@@ -12639,19 +12643,15 @@ msgstr ""
 "Wählen Sie wie lange es dauern soll, bis eine geöffnete Nachricht als "
 "gelesen markiert wird, wie Zitate dargestellt werden sollen, sowie die "
 "Vorgabe-Zeichenkodierung. Wählen Sie <guilabel>Zurückfallen auf "
-"betreffsbezogenes "
-"Threading der Nachrichten</guilabel> damit Nachrichten als Threads dargestellt "
-"werden. "
-"Sie können auch die maximale Anzahl an Adressen angeben, die in der "
-"Nachrichtenvorschau angezeigt werden soll, indem Sie <guilabel>"
-"Empfängerkopfzeilen "
-"verkleinern</guilabel> auswählen. Sie können hier auch eine Grenze für das "
-"Darstellen "
-"von erhaltenen E-Mails setzen: Per Vorgabe stelle Evolution keine "
-"Nachrichten in der Nachrichtenvorschau dar, die größer als 4096 Kilobytes "
-"sind, da Evolution sonst zu lange für die Darstellung benötigen würde. Die "
-"Nachricht kann stattdessen unformattiert eingebettet oder mit einer anderen "
-"Anwendungen dargestellt werden."
+"betreffsbezogenes Threading der Nachrichten</guilabel> damit Nachrichten als "
+"Threads dargestellt werden. Sie können auch die maximale Anzahl an Adressen "
+"angeben, die in der Nachrichtenvorschau angezeigt werden soll, indem Sie "
+"<guilabel>Empfängerkopfzeilen verkleinern</guilabel> auswählen. Sie können "
+"hier auch eine Grenze für das Darstellen von erhaltenen E-Mails setzen: Per "
+"Vorgabe stelle Evolution keine Nachrichten in der Nachrichtenvorschau dar, "
+"die größer als 4096 Kilobytes sind, da Evolution sonst zu lange für die "
+"Darstellung benötigen würde. Die Nachricht kann stattdessen unformattiert "
+"eingebettet oder mit einer anderen Anwendungen dargestellt werden."
 
 #: C/evolution.xml:6427(para)
 msgid ""
@@ -12789,9 +12789,8 @@ msgid "Select the label and click Edit."
 msgstr "Wählen Sie die gewünschte Farbe und klicken Sie auf OK."
 
 #: C/evolution.xml:6475(para)
-#, fuzzy
 msgid "Edit name and color, then click OK."
-msgstr "Wählen Sie eine Stadt aus und klicken Sie auf OK."
+msgstr "Bearbeiten Sie Namen und Farbe und klicken Sie auf OK."
 
 #: C/evolution.xml:6478(para)
 msgid "To assign a label to a specific e-mail message:"
@@ -12859,12 +12858,13 @@ msgid ""
 "photograph."
 msgstr ""
 "Per Vorgabe wird nur in den lokalen Adressbüchern gesucht, die für die Auto-"
-"Vervollständigung markiert sind. Wenn Sie die Option <guilabel>Nach Photo des "
-"Absenders nur in den lokalen Adressbüchern suchen</guilabel> abwählen, so sucht "
-"Evolution in allen Adressbüchern, die für die Auto-Vervollständigung "
-"markiert sind. Falls es mehrere Treffer für den selben Kontakt gibt, so wird "
-"immer der erste Treffer verwendet, egal ob beim zweiten Treffer "
-"gegebenenfalls ein Photo vorhanden ist und beim ersten Treffer nicht."
+"Vervollständigung markiert sind. Wenn Sie die Option <guilabel>Nach Photo "
+"des Absenders nur in den lokalen Adressbüchern suchen</guilabel> abwählen, "
+"so sucht Evolution in allen Adressbüchern, die für die Auto-"
+"Vervollständigung markiert sind. Falls es mehrere Treffer für den selben "
+"Kontakt gibt, so wird immer der erste Treffer verwendet, egal ob beim "
+"zweiten Treffer gegebenenfalls ein Photo vorhanden ist und beim ersten "
+"Treffer nicht."
 
 #: C/evolution.xml:6499(para)
 msgid ""
@@ -13982,11 +13982,10 @@ msgid ""
 "folders to a different drive or to burn a CD."
 msgstr ""
 "Falls Sie Windows Vista*, Windows XP* oder Windows 2000* nutzen, so ist ihre "
-"Windows-Festplatte "
-"wahrscheinlich im NTFS-Format, welches von einigen Linux-Systemen nicht ohne "
-"zusätzliche Software gelesen werden kann. In diesem Fall kann es einfacher "
-"sein, die E-Mail-Ordner auf ein anderes Laufwerk zu kopieren, oder eine CD "
-"zu brennen."
+"Windows-Festplatte wahrscheinlich im NTFS-Format, welches von einigen Linux-"
+"Systemen nicht ohne zusätzliche Software gelesen werden kann. In diesem Fall "
+"kann es einfacher sein, die E-Mail-Ordner auf ein anderes Laufwerk zu "
+"kopieren, oder eine CD zu brennen."
 
 #: C/evolution.xml:6966(para)
 msgid ""
@@ -14059,8 +14058,8 @@ msgid ""
 msgstr ""
 "Sie können diesen Bereich drucken, um ihn als Kurzreferenz für die "
 "wichtigsten Dinge in <trademark>Evolution</trademark> benutzen. Sie können "
-"diese "
-"Informationen auch in der Menüleiste unter Hilfe &gt; Kurzreferenz aufrufen."
+"diese Informationen auch in der Menüleiste unter Hilfe &gt; Kurzreferenz "
+"aufrufen."
 
 #: C/evolution.xml:7011(link) C/evolution.xml:7025(title)
 msgid "Opening or Creating Items"
@@ -14301,12 +14300,11 @@ msgid ""
 "that, or the GNOME Bug Report Tool (known as bug-buddy at the command line) "
 "if you find bugs or want to request new features."
 msgstr ""
-"Die Verwaltung von <trademark>Evolution</trademark>-Fehlern findet in der <"
-"ulink url="
-"\"http://bugzilla.gnome.org\">GNOME-Fehlerdatenbank</ulink> statt. Um Fehler "
-"oder Anfragen für neue Funktionen einzureichen, können Sie diese Internet-"
-"Adresse oder das GNOME-Fehlerreport-Programm (»bug-buddy« auf der "
-"Befehlszeile) nutzen."
+"Die Verwaltung von <trademark>Evolution</trademark>-Fehlern findet in der "
+"<ulink url=\"http://bugzilla.gnome.org\">GNOME-Fehlerdatenbank</ulink> "
+"statt. Um Fehler oder Anfragen für neue Funktionen einzureichen, können Sie "
+"diese Internet-Adresse oder das GNOME-Fehlerreport-Programm (»bug-buddy« auf "
+"der Befehlszeile) nutzen."
 
 #: C/evolution.xml:7123(para)
 msgid ""
@@ -14328,9 +14326,8 @@ msgid ""
 "clicking Help &gt; About from the main Evolution window."
 msgstr ""
 "Evolution wurde geschrieben vom <trademark>Evolution</trademark>-Team und "
-"vielen weiteren "
-"GNOME-Programmierern. Sie können ihre Namen einsehen, indem Sie in Evolution "
-"auf Hilfe &gt; Info klicken."
+"vielen weiteren GNOME-Programmierern. Sie können ihre Namen einsehen, indem "
+"Sie in Evolution auf Hilfe &gt; Info klicken."
 
 #: C/evolution.xml:7129(para)
 msgid ""
@@ -14352,13 +14349,13 @@ msgid ""
 "can be found on-line at the same location. You can also use the GNOME bug "
 "report tool, bug-buddy, to submit your defect reports."
 msgstr ""
-"Bitte besuchen Sie für weitere Informationen die <ulink url=\"http://www.gnome."
-"org/projects/evolution\">Evolution-"
-"Internetseite</ulink>. Bitte senden Sie jegliche Kommentare, Vorschläge und "
-"Fehlerberichte an die <ulink url=\"http://bugzilla.gnome.org\">GNOME-"
-"Fehlerverwaltung</ulink>. Anleitungen zur Erstellung von Fehlerberichten "
-"können online an der selben Stelle vorgefunden werden. Sie können auch das "
-"GNOME-Programm bug-buddy zum Berichten von Fehlermeldungen benutzen."
+"Bitte besuchen Sie für weitere Informationen die <ulink url=\"http://www."
+"gnome.org/projects/evolution\">Evolution-Internetseite</ulink>. Bitte senden "
+"Sie jegliche Kommentare, Vorschläge und Fehlerberichte an die <ulink url="
+"\"http://bugzilla.gnome.org\">GNOME-Fehlerverwaltung</ulink>. Anleitungen "
+"zur Erstellung von Fehlerberichten können online an der selben Stelle "
+"vorgefunden werden. Sie können auch das GNOME-Programm bug-buddy zum "
+"Berichten von Fehlermeldungen benutzen."
 
 #: C/evolution.xml:7131(para)
 msgid "This manual was written by:"
@@ -14452,9 +14449,8 @@ msgid ""
 "This glossary contains terms that are frequently used in this guide as well "
 "as in <trademark>Evolution</trademark>."
 msgstr ""
-"Dieses Glossar enthält Begriffe, die in <trademark>Evolution</trademark> und in "
-"diesem "
-"Handbuch oft benutzt werden."
+"Dieses Glossar enthält Begriffe, die in <trademark>Evolution</trademark> und "
+"in diesem Handbuch oft benutzt werden."
 
 #: C/evolution.xml:7189(glossterm)
 msgid "Assistant"
@@ -14775,11 +14771,11 @@ msgid ""
 msgstr ""
 "Ein regulärer Ausdruck (Regex) beschreibt einen Text durch Metabuchstaben "
 "und Jokerzeichen-Symbole. Zum Beispiel bedeutet der Ausdruck fly.*so[au]p "
-"jeglichen Text der mit <quote>fly</quote> beginnt und mit <quote>soup</quote> "
-"oder <quote>soap</quote> endet. Wenn Sie nach diesem Ausdruck suchen, würden "
-"Sie sowohl <quote>fly in my soup</quote> als auch <quote>fly in my soap."
-"</quote> finden. Für weitere (englischsprachige) Informationen, geben Sie "
-"<command>man grep</command> auf der Kommandozeile ein."
+"jeglichen Text der mit <quote>fly</quote> beginnt und mit <quote>soup</"
+"quote> oder <quote>soap</quote> endet. Wenn Sie nach diesem Ausdruck suchen, "
+"würden Sie sowohl <quote>fly in my soup</quote> als auch <quote>fly in my "
+"soap.</quote> finden. Für weitere (englischsprachige) Informationen, geben "
+"Sie <command>man grep</command> auf der Kommandozeile ein."
 
 #: C/evolution.xml:7327(glossterm)
 msgid "script"
@@ -14984,8 +14980,8 @@ msgid ""
 "Back-Cover Texts. A copy of the GFDL can be found at http://www.fsf.org/"
 "licenses/fdl.html."
 msgstr ""
-"Copyright 2007 Novell, Inc. All rights reserved. Kopieren, Verbreiten "
-"und/oder Modifizieren ist unter den Bedingungen der GNU Free Documentation "
+"Copyright 2007 Novell, Inc. All rights reserved. Kopieren, Verbreiten und/"
+"oder Modifizieren ist unter den Bedingungen der GNU Free Documentation "
 "License (GFDL), Version 1.2 oder einer späteren Version, veröffentlicht von "
 "der Free Software Foundation, erlaubt. Es gibt keine unveränderlichen "
 "Abschnitte, keinen vorderen Umschlagtext und keinen hinteren Umschlagtext. "
