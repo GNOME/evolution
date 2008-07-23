@@ -1,10 +1,15 @@
+2008-07-23  Johnny Jacob  <jjohnny@novell.com>
+
+	* configure.in: Version bumped to 2.23.6.
+	* NEWS: Updates for 2.23.5
+
 2008-07-22  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #544022
 
 	* configure.in: Do not redefine DBUS_VERSION define supplied
 	by dbus itself, rather rename our define to FOUND_DBUS_VERSION.
-
+	
 2008-07-21  Johnny Jacob  <jjohnny@novell.com>
 
 	* data/hicolor_actions_24x24_query-free-busy.png: Moved to 
