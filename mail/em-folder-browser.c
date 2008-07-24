@@ -878,7 +878,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 	before I forget so that no one else again needs to read through the code  -- Sankar */
 
 	case VIEW_UNREAD_MESSAGES:
-		view_sexp = "(match-all (system-flag  \"Seen\"))";
+		view_sexp = "(match-all (not (system-flag  \"Seen\")))";
 		break;
 	case VIEW_READ_MESSAGES:
 		view_sexp = "(match-all (system-flag  \"Seen\" ))";
@@ -899,7 +899,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		view_sexp = "(match-all (system-flag \"Attachments\" ))";
 		break;
 	case VIEW_NOT_JUNK:
-		view_sexp = "(match-all (system-flag \"junk\"))";
+		view_sexp = "(match-all (not (system-flag \"junk\")))";
 		break;
         case VIEW_NO_LABEL: {
 		GSList *l;
