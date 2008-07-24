@@ -927,7 +927,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		} break;
         case VIEW_LABEL:
 		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
-		view_sexp = g_strdup_printf ("(match-all (and (and (user-tag \"label\" \"%s\")) (or (user-flag \"$Label%s\")) (or (user-flag \"%s\"))))", tag, tag, tag);
+		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\")))", tag, tag, tag);
 		duplicate = FALSE;
 		break;
 	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
