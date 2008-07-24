@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-21 04:10+0000\n"
-"PO-Revision-Date: 2008-07-21 21:12+0200\n"
+"POT-Creation-Date: 2008-07-22 05:23+0000\n"
+"PO-Revision-Date: 2008-07-24 18:00+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -347,8 +347,9 @@ msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"«{0}» es una libreta de direcciones de sólo lectura y no se puede modificar. Seleccione una "
-"libreta de direcciones diferente de la barra lateral en la vista de contactos."
+"«{0}» es una libreta de direcciones de sólo lectura y no se puede modificar. "
+"Seleccione una libreta de direcciones diferente de la barra lateral en la "
+"vista de contactos."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -399,9 +400,10 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and GroupWise Personal Contacts folders."
 msgstr ""
-"Actualmente sólo puede acceder a la libreta de direcciones del sistema de GroupWise desde Evolution. "
-"Use algún cliente de correo de GroupWise una sola vez para obtener sus Contactos frecuentes de GroupWise y las "
-"carpetas personales de contactos de GroupWise."
+"Actualmente sólo puede acceder a la libreta de direcciones del sistema de "
+"GroupWise desde Evolution. Use algún cliente de correo de GroupWise una sola "
+"vez para obtener sus Contactos frecuentes de GroupWise y las carpetas "
+"personales de contactos de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -653,8 +655,9 @@ msgstr "Gestione sus certificados S/MIME aquí"
 #: ../calendar/gui/memos-component.c:200 ../calendar/gui/migration.c:475
 #: ../calendar/gui/migration.c:577 ../calendar/gui/migration.c:1091
 #: ../calendar/gui/tasks-component.c:196 ../mail/em-folder-tree-model.c:200
-#: ../mail/em-folder-tree-model.c:202 ../mail/mail-component.c:312
-#: ../mail/mail-vfolder.c:216 ../mail/message-list.c:1456
+#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2906
+#: ../mail/mail-component.c:312 ../mail/mail-vfolder.c:216
+#: ../mail/message-list.c:1456
 msgid "On This Computer"
 msgstr "En este equipo"
 
@@ -671,7 +674,7 @@ msgstr "En este equipo"
 #: ../calendar/gui/memos-component.c:209 ../calendar/gui/memotypes.xml.h:27
 #: ../calendar/gui/migration.c:485 ../calendar/gui/migration.c:585
 #: ../calendar/gui/migration.c:1099 ../calendar/gui/tasks-component.c:205
-#: ../calendar/gui/tasktypes.xml.h:35 ../mail/em-migrate.c:1055
+#: ../calendar/gui/tasktypes.xml.h:35 ../mail/em-migrate.c:1058
 msgid "Personal"
 msgstr "Privado"
 
@@ -774,12 +777,12 @@ msgid "Address Book Properties"
 msgstr "Propiedades de la libreta de direcciones"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:73
-#: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1202
+#: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1207
 msgid "Migrating..."
 msgstr "Migrando…"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
-#: ../calendar/gui/migration.c:195 ../mail/em-migrate.c:1243
+#: ../calendar/gui/migration.c:195
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Migrando «%s»:"
@@ -1360,7 +1363,7 @@ msgstr "Teléfono"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:194
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:643
-#: ../mail/em-migrate.c:1054
+#: ../mail/em-migrate.c:1057
 msgid "Work"
 msgstr "Trabajo"
 
@@ -5769,6 +5772,7 @@ msgid "hour(s)"
 msgstr "hora(s)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
+#: ../plugins/google-account-setup/google-contacts-source.c:242
 msgid "minute(s)"
 msgstr "minuto(s)"
 
@@ -11678,18 +11682,18 @@ msgstr "Añadir un script de firma"
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:1149 ../mail/em-format-quote.c:415
+#: ../mail/em-composer-utils.c:1148 ../mail/em-format-quote.c:415
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1961
+#: ../mail/em-composer-utils.c:1960
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2008
+#: ../mail/em-composer-utils.c:2007
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11697,7 +11701,7 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:2151
+#: ../mail/em-composer-utils.c:2150
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
@@ -11798,7 +11802,7 @@ msgstr "Expresión"
 msgid "Follow Up"
 msgstr "Seguimiento"
 
-#: ../mail/em-filter-i18n.h:29 ../mail/em-migrate.c:1053
+#: ../mail/em-filter-i18n.h:29 ../mail/em-migrate.c:1056
 msgid "Important"
 msgstr "Importante"
 
@@ -12810,16 +12814,36 @@ msgid "No Junk plugin available"
 msgstr "No hay complemento para SPAM disponible"
 
 #. green
-#: ../mail/em-migrate.c:1056
+#: ../mail/em-migrate.c:1059
 msgid "To Do"
 msgstr "Tareas pendientes"
 
 #. blue
-#: ../mail/em-migrate.c:1057
+#: ../mail/em-migrate.c:1060
 msgid "Later"
 msgstr "Más tarde"
 
-#: ../mail/em-migrate.c:1210
+#: ../mail/em-migrate.c:1247
+#, c-format
+msgid "Migrating '%s':"
+msgstr "Migrando «%s»:"
+
+#: ../mail/em-migrate.c:1652
+#, c-format
+msgid "Unable to create new folder `%s': %s"
+msgstr "No es posible crear la carpeta nueva: «%s»: %s"
+
+#: ../mail/em-migrate.c:1678
+#, c-format
+msgid "Unable to copy folder `%s' to `%s': %s"
+msgstr "No es posible copiar el la carpeta «%s» a «%s»: %s"
+
+#: ../mail/em-migrate.c:1863
+#, c-format
+msgid "Unable to scan for existing mailboxes at `%s': %s"
+msgstr "No es posible buscar buzones existentes en «%s»: %s"
+
+#: ../mail/em-migrate.c:1868
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
@@ -12831,47 +12855,44 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#: ../mail/em-migrate.c:1649
-#, c-format
-msgid "Unable to create new folder `%s': %s"
-msgstr "No es posible crear la carpeta nueva: «%s»: %s"
-
-#: ../mail/em-migrate.c:1675
-#, c-format
-msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "No es posible copiar el la carpeta «%s» a «%s»: %s"
-
-#: ../mail/em-migrate.c:1860
-#, c-format
-msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "No es posible buscar buzones existentes en «%s»: %s"
-
-#: ../mail/em-migrate.c:2064
+#: ../mail/em-migrate.c:2069
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
 msgstr "No es posible abrir los datos antiguos POP keep-on-server «%s»: %s"
 
-#: ../mail/em-migrate.c:2078
+#: ../mail/em-migrate.c:2083
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
 msgstr "Fallo al crear directorio de datos POP3 keep-on-server «%s»: %s"
 
-#: ../mail/em-migrate.c:2107
+#: ../mail/em-migrate.c:2112
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr "No es posible copiar los datos POP3 keep-on-server «%s»: %s"
 
-#: ../mail/em-migrate.c:2578 ../mail/em-migrate.c:2590
+#: ../mail/em-migrate.c:2583 ../mail/em-migrate.c:2595
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "No es posible crear el almacén de correo local «%s»: %s"
 
-#: ../mail/em-migrate.c:2851
+#: ../mail/em-migrate.c:2898
+msgid ""
+"The summary format of the Evolution mailbox folders has been moved to sqlite "
+"since Evolution 2.24.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"El formato de resúmenes de las carpetas del buzón de Evolution se ha movido a sqlite "
+"desde Evolution 2.24.\n"
+"\n"
+"Tenga paciencia mientras Evolution migra sus carpetas…"
+
+#: ../mail/em-migrate.c:2963
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "No es posible crear las carpetas de correo local en: «%s»: %s"
 
-#: ../mail/em-migrate.c:2870
+#: ../mail/em-migrate.c:2982
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -13927,8 +13948,8 @@ msgstr "Lista de correo %s"
 msgid "Add Filter Rule"
 msgstr "Añadir regla de filtrado"
 
-#: ../mail/mail-component.c:164 ../plugins/templates/templates.c:522
-#: ../plugins/templates/templates.c:692 ../plugins/templates/templates.c:727
+#: ../mail/mail-component.c:164 ../plugins/templates/templates.c:521
+#: ../plugins/templates/templates.c:691 ../plugins/templates/templates.c:726
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid "Templates"
 msgstr "Plantillas"
@@ -15990,7 +16011,7 @@ msgstr ""
 "el cuerpo de un mensaje."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:474
-#: ../plugins/templates/templates.c:395
+#: ../plugins/templates/templates.c:394
 msgid "Keywords"
 msgstr "Palabras clave"
 
@@ -16537,9 +16558,18 @@ msgid "Key"
 msgstr "Clave"
 
 #: ../plugins/email-custom-header/email-custom-header.c:892
-#: ../plugins/templates/templates.c:401
+#: ../plugins/templates/templates.c:400
 msgid "Values"
 msgstr "Valores"
+
+#. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
+#: ../plugins/email-custom-header/email-custom-header.glade.h:2
+msgid ""
+"The format for specifying a Custom Header key value is:\n"
+"Name of the Custom Header key values separated by \";\"."
+msgstr ""
+"El formato para especificar el valor de una clave de cabecera personalizada es:\n"
+"Valores clave del nombre de la cabecera personalizada separados por «;»."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
 msgid "Email Custom Header"
@@ -17249,7 +17279,9 @@ msgstr "No es posible actualizar el estado de disponibilidad"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr "Evolution requiere reiniciarse para cargar el buzón de correo del usuario suscrito"
+msgstr ""
+"Evolution requiere reiniciarse para cargar el buzón de correo del usuario "
+"suscrito"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Exchange Account is offline."
@@ -17612,8 +17644,23 @@ msgstr "Des_uscribir"
 
 #: ../plugins/google-account-setup/google-source.c:73
 #: ../plugins/google-account-setup/google-source.c:80
+#: ../plugins/google-account-setup/google-contacts-source.c:52
+#: ../plugins/google-account-setup/google-contacts-source.c:57
+#: ../plugins/google-account-setup/google-contacts-source.c:83
 msgid "Google"
 msgstr "Google"
+
+#: ../plugins/google-account-setup/google-contacts-source.c:198
+msgid "<b>Server</b>"
+msgstr "<b>Servidor</b>"
+
+#: ../plugins/google-account-setup/google-contacts-source.c:208
+msgid "Username:"
+msgstr "Usuario:"
+
+#: ../plugins/google-account-setup/google-contacts-source.c:230
+msgid "Update every"
+msgstr "Actualizar cada"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "A plugin to setup google calendar and contacts."
@@ -19794,18 +19841,18 @@ msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Lista de pares de palabras clave y valores para que el complemento de plantillas sustituya en "
-"el cuerpo del mensaje."
+"Lista de pares de palabras clave y valores para que el complemento de "
+"plantillas sustituya en el cuerpo del mensaje."
 
-#: ../plugins/templates/templates.c:615
+#: ../plugins/templates/templates.c:614
 msgid "No title"
 msgstr "Sin título"
 
-#: ../plugins/templates/templates.c:744
+#: ../plugins/templates/templates.c:743
 msgid "Save as _Template"
 msgstr "Guardar como plan_tilla"
 
-#: ../plugins/templates/templates.c:746
+#: ../plugins/templates/templates.c:745
 msgid "Save as Template"
 msgstr "Guardar como plantilla"
 
@@ -21210,7 +21257,7 @@ msgstr "Renombra la carpeta seleccionada"
 
 #: ../ui/evolution-addressbook.xml.h:30
 msgid "S_ave Address Book As VCard"
-msgstr "G_uarda la libreta de direcciones como VCard"
+msgstr "G_uardar la libreta de direcciones como VCard"
 
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
