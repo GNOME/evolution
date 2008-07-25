@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.gnome-2-22\n"
-"POT-Creation-Date: 2008-07-05 14:24+0000\n"
-"PO-Revision-Date: 2008-07-18 14:01+0200\n"
+"POT-Creation-Date: 2008-07-18 13:47+0000\n"
+"PO-Revision-Date: 2008-07-25 16:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -847,9 +847,10 @@ msgstr ""
 "Evolution es una aplicación <link linkend=\"groupware\">groupware</link> muy "
 "evolucionada que hace fácil almacenar, organizar y obtener su información "
 "personal. Evolution combina correo-e, un calendario, una libreta de "
-"direcciones y una lista de tareas en una sola aplicación fácil de usar. Puede leer "
-"y gestionar su correo y los acontecimientos de forma local o en una red y con ello "
-"manejar la comunicación del día a día de una forma más efectiva."
+"direcciones y una lista de tareas en una sola aplicación fácil de usar. "
+"Puede leer y gestionar su correo y los acontecimientos de forma local o en "
+"una red y con ello manejar la comunicación del día a día de una forma más "
+"efectiva."
 
 #: C/evolution.xml:156(link) C/evolution.xml:164(title)
 msgid "Starting Evolution for the First Time"
@@ -1128,9 +1129,9 @@ msgid ""
 "to Hula</link>."
 msgstr ""
 "Seleccione esta opción si quiere una cuenta Hula. Evolution le proporciona "
-"conectividad con servidores Hula® a través de IMAP y soporte de calendarios a través "
-"de CalDAV. Para obtener más información consulte <link linkend=\"b1012tkg\">Concetar "
-"con Hula</link>."
+"conectividad con servidores Hula® a través de IMAP y soporte de calendarios "
+"a través de CalDAV. Para obtener más información consulte <link linkend="
+"\"b1012tkg\">Concetar con Hula</link>."
 
 #: C/evolution.xml:290(title)
 msgid "USENET News:"
@@ -1161,8 +1162,8 @@ msgid ""
 msgstr ""
 "Elija esta opción si quiere mover el correo desde el buzón local a su "
 "directorio de inicio. Debe proporcionar la ruta al buzón de correo que "
-"quiere usar, Si quiere dejar el correo en los archivos de «spool» del sistema, "
-"elija la opción «Mbox estándar de Unix». Para las instrucciones de "
+"quiere usar, Si quiere dejar el correo en los archivos de «spool» del "
+"sistema, elija la opción «Mbox estándar de Unix». Para las instrucciones de "
 "configuración , consulte <link linkend=\"bstgbqn\">Opciones de configuración "
 "local</link>."
 
@@ -1337,11 +1338,11 @@ msgid ""
 "If the mailbox path is different from the username, specify the mail box "
 "name in the Mail box field."
 msgstr ""
-"(Condicional) Se eligió Microsoft Exchange como tipo de servidor, proporcione "
-"su nombre de usuario en el campo Usuario y su URL Outlook Web Access (OWA) en "
-"el campo OWA URL. El URL y los nombres de usuario deben usar el formato Outlook. "
-"Si la ruta del buzón es diferente de la del nombre de usuario, especifique el nombre del buzón "
-"en el campo Buzón de correo."
+"(Condicional) Se eligió Microsoft Exchange como tipo de servidor, "
+"proporcione su nombre de usuario en el campo Usuario y su URL Outlook Web "
+"Access (OWA) en el campo OWA URL. El URL y los nombres de usuario deben usar "
+"el formato Outlook. Si la ruta del buzón es diferente de la del nombre de "
+"usuario, especifique el nombre del buzón en el campo Buzón de correo."
 
 #: C/evolution.xml:349(para)
 msgid ""
@@ -6900,13 +6901,12 @@ msgid "Expression(For programmers only):"
 msgstr "Expresión: (sólo para programadores)"
 
 #: C/evolution.xml:2783(para)
-#, fuzzy
 msgid ""
 "Matches a message according to an expression you write in the Scheme "
 "language, used to define filters in Evolution."
 msgstr ""
 "Busca un mensaje que coincida con una expresión escrita en lenguaje Scheme, "
-"utilizado para definir filtros en Evolution."
+"usado para definir filtros en Evolution."
 
 #: C/evolution.xml:2786(title) C/evolution.xml:3031(title)
 msgid "Date Sent:"
@@ -7884,7 +7884,6 @@ msgstr ""
 "herramientas."
 
 #: C/evolution.xml:3196(para)
-#, fuzzy
 msgid ""
 "Select Contact from the drop-down list or press Shift+Ctrl+C to appear "
 "Contact Editor."
@@ -8415,28 +8414,22 @@ msgstr ""
 "contactos."
 
 #: C/evolution.xml:3502(para)
-#, fuzzy
 msgid "To set the category properties:"
-msgstr "Para editar las propiedades de la etiqueta:"
+msgstr "Para establecer las propiedades de la categoría:"
 
 #: C/evolution.xml:3505(para)
-#, fuzzy
 msgid ""
 "Select the category, and click Edit to open the Category Properties dialog "
 "box."
-msgstr ""
-"Seleccione el delegado y pulse Editar para abrir el cuadro de diálogo de "
-"permisos del delegado."
+msgstr "Seleccione la categoría y pulse Editar para abrir el cuadro de diálogo de Propiedades de la cateogría."
 
 #: C/evolution.xml:3508(para)
-#, fuzzy
 msgid "Click Category Color to choose a color for the category."
-msgstr "Pulse la solapa de color y seleccione el color, después pulse Aceptar."
+msgstr "Pulse Color de la categoría para elegir un color para la categoría."
 
 #: C/evolution.xml:3511(para)
-#, fuzzy
 msgid "Click Category Icon and select an icon and click Open."
-msgstr "Pulse la solapa de color y seleccione el color, después pulse Aceptar."
+msgstr "Pulse Icono de categoría, seleccione un icono y pulse Abrir."
 
 #: C/evolution.xml:3521(para)
 msgid ""
@@ -8732,9 +8725,8 @@ msgid "Edit the label from Name field."
 msgstr "Edite la etiqueta desde el campo Nombre."
 
 #: C/evolution.xml:3678(para)
-#, fuzzy
 msgid "Click Color to assign a color for the calendar."
-msgstr "Para establecer el color para el calendario, pulse sobre la solapa Color."
+msgstr "Pulse Color para asignar un color al calendario."
 
 #: C/evolution.xml:3681(para)
 msgid "Select the color and click OK."
@@ -9724,13 +9716,12 @@ msgstr ""
 "el siguiente procedimiento:"
 
 #: C/evolution.xml:4126(para)
-#, fuzzy
 msgid ""
 "Click the search icon <inlinegraphic format=\"PNG\" fileref=\"figures/"
 "stock_search.png\"/> to expand the drop-down list."
 msgstr ""
 "Pulse el botón de búsqueda <inlinegraphic format=\"PNG\" fileref=\"figures/"
-"stock_search.png\"/> para expandir la dista desplegable"
+"stock_search.png\"/> para expandir la lista desplegable."
 
 #: C/evolution.xml:4129(para) C/evolution.xml:4446(para)
 #: C/evolution.xml:4681(para)
@@ -10341,12 +10332,11 @@ msgid "Type text for the memo in the Summary field."
 msgstr "Escriba el texto para la nota en el campo Resumen."
 
 #: C/evolution.xml:4638(para)
-#, fuzzy
 msgid ""
 "In the Start Date field, specify a date to place the reminder note on the "
 "recipients' Calendars."
 msgstr ""
-"En el campo Fecha de inicio escriba la fecha en la que esta nota "
+"En el campo Fecha de inicio especifique la fecha en la que esta nota "
 "recordatoria debería aparecer en los calendarios de los Destinatarios."
 
 #: C/evolution.xml:4641(para)
@@ -10595,11 +10585,9 @@ msgid "Out of Office Message:"
 msgstr "Mensaje de Estoy fuera de la oficina:"
 
 #: C/evolution.xml:4907(para)
-#, fuzzy
 msgid "You can set an ‘out of Office’ auto-reply while you are away from office."
 msgstr ""
-"Puede establecer su mensaje «Estoy fuera de la oficina» que se enviará "
-"automáticamente a las personas que le envíen correos mientras está fuera de "
+"Puede establecer su respuesta automática «Estoy fuera de la oficina» mientras está fuera de "
 "la oficina."
 
 #: C/evolution.xml:4912(title)
@@ -11291,9 +11279,8 @@ msgid "To access the folders delegated to you:"
 msgstr "Para acceder a las carpetas que le han sido delegadas:"
 
 #: C/evolution.xml:5304(para)
-#, fuzzy
 msgid "Click File &gt; Subscribe to Other User's Folder."
-msgstr "Pulse Archivo &gt; Suscribirse a la carpeta Exchange de otro usuario."
+msgstr "Pulse Archivo &gt; Suscribirse a la carpeta de otro usuario."
 
 #: C/evolution.xml:5309(para)
 msgid ""
@@ -11528,9 +11515,8 @@ msgstr ""
 "reunión hacia las horas que desea seleccionar."
 
 #: C/evolution.xml:5441(para)
-#, fuzzy
 msgid "Evolution can access accounts on GroupWise 7 system."
-msgstr "Evolution™ puede acceder a cuentas en el sistema Novell® GroupWise 7®."
+msgstr "Evolution puede acceder a cuentas en el sistema GroupWise 7."
 
 #: C/evolution.xml:5444(link) C/evolution.xml:5467(title)
 msgid "GroupWise Features"
@@ -11573,7 +11559,6 @@ msgid "Viewing mail and folders stored on the GroupWise system."
 msgstr "Ver el correo y las carpetas almacenadas en el sistema GroupWise."
 
 #: C/evolution.xml:5477(para)
-#, fuzzy
 msgid "Sending mail from your GroupWise account."
 msgstr "Enviar correo desde su cuenta GroupWise."
 
@@ -11748,9 +11733,8 @@ msgid "Phone Message"
 msgstr "Mensajes telefónicos"
 
 #: C/evolution.xml:5610(para)
-#, fuzzy
 msgid "None; use a email message"
-msgstr "Ninguno, usar un mensaje"
+msgstr "Ninguno, usar un mensaje de correo-e"
 
 #: C/evolution.xml:5615(para)
 msgid "Checklist"
@@ -11989,9 +11973,8 @@ msgstr ""
 "cuenta si ejecutó el Evolution durante dicha sesión."
 
 #: C/evolution.xml:5772(para)
-#, fuzzy
 msgid "Click New &gt; Meeting"
-msgstr "Pulse Archivo &gt; Nuevo &gt; Reunión."
+msgstr "Pulse Nuevo &gt; Reunión"
 
 #: C/evolution.xml:5775(para)
 msgid ""
@@ -12400,9 +12383,8 @@ msgstr ""
 "describe los permisos que puede otorgar a los usuarios:"
 
 #: C/evolution.xml:6020(para)
-#, fuzzy
 msgid "Options"
-msgstr "Opciones de envío"
+msgstr "Opciones"
 
 #: C/evolution.xml:6030(para)
 msgid "Read"
@@ -12649,13 +12631,12 @@ msgstr ""
 "pulse Ctrl+J."
 
 #: C/evolution.xml:6176(para)
-#, fuzzy
 msgid ""
 "The message is moved to your Junk Mail folder and the sender is added to "
 "your junk list."
 msgstr ""
-"El mensaje se moverá a su carpeta de correo basura y el usuario se añadirá a "
-"su lista de spam."
+"El mensaje se moverá a su carpeta de correo basura y el remitente se añadirá a "
+"su lista de SPAM."
 
 #: C/evolution.xml:6185(para)
 msgid "Select the message to mark as not junk in your Junk Mail folder."
@@ -13150,10 +13131,10 @@ msgid ""
 "download time. You can also have control over filtering or moving your mail."
 "The IMAP Mail headers are as follows:"
 msgstr ""
-"Evolution le permite personalizar sus preferencias de las cabeceras IMAP. Puede "
-"elegir un número limitado de cabeceras que descargar y así reducir el "
-"tiempo de descarga. También puede tener control sobre los filtros o mover su correo. "
-"Las cabeceras de correo IMAP son las siguientes:"
+"Evolution le permite personalizar sus preferencias de las cabeceras IMAP. "
+"Puede elegir un número limitado de cabeceras que descargar y así reducir el "
+"tiempo de descarga. También puede tener control sobre los filtros o mover su "
+"correo. Las cabeceras de correo IMAP son las siguientes:"
 
 #: C/evolution.xml:6369(title)
 msgid "All Headers:"
@@ -13433,11 +13414,12 @@ msgid ""
 "alert in the Mail notification plugin configuration. For that select Edit "
 "&gt; Plugins &gt; New Mail Notifications."
 msgstr ""
-"Evolution puede alertarle de la llegada de correo nuevo con un pitido o reproduciendo "
-"un archivo de sonido. Elija el sonido de alerta o seleccione ninguno, tal como prefiera. Puede "
-"elegir no notificar la llegada de correo nuevo. También puede configurar alertas de sonido "
-"en la configuración del complemento de notificación de correo. Para ello, seleccione Editar "
-"&gt;Complementos&gt; Notificación de correo."
+"Evolution puede alertarle de la llegada de correo nuevo con un pitido o "
+"reproduciendo un archivo de sonido. Elija el sonido de alerta o seleccione "
+"ninguno, tal como prefiera. Puede elegir no notificar la llegada de correo "
+"nuevo. También puede configurar alertas de sonido en la configuración del "
+"complemento de notificación de correo. Para ello, seleccione Editar &gt;"
+"Complementos&gt; Notificación de correo."
 
 #: C/evolution.xml:6474(para)
 msgid "The HTML Mail page has the following options:"
@@ -13890,7 +13872,6 @@ msgstr ""
 "alternativa, o no utilizar ninguna, desde el propio editor de correo."
 
 #: C/evolution.xml:6647(para)
-#, fuzzy
 msgid ""
 "To choose a spell-checking language, select it here. You must install the "
 "gnome-spell package for spell-checking to be available in Evolution. "
@@ -13900,10 +13881,9 @@ msgid ""
 "the composer automatically check your spelling while you type, select Check "
 "Spelling While I Type. You can set the color for misspelled words."
 msgstr ""
-"Seleccione aquí un idioma al que aplicar la corrección ortográfica. Debe "
-"instalar el paquete gnome-spell, disponible a través de ZENworks Linu®x "
-"Management, para poder disponer de corrección ortográfica en Evolution. "
-"También existen diccionarios disponibles a través de Red Carpet y se® "
+"Seleccione aquí un idioma al que aplicar la corrección ortográfica. Debe instalar el "
+"paquete gnome-spell para poder disponer de corrección ortográfica en Evolution. "
+"También existen diccionarios disponibles a través de Red Carpet y se "
 "detectan automáticamente si los tiene instalados. También debe instalar el "
 "paquete aspell. Si éste es el caso, por favor contacte con su empaquetado. "
 "Para que el editor compruebe automáticamente su ortografía, seleccione "
@@ -15054,15 +15034,14 @@ msgstr ""
 "desarrolladores de Evolution</ulink>."
 
 #: C/evolution.xml:7163(para)
-#, fuzzy
 msgid ""
 "Evolution was written by the Evolution team and numerous other dedicated "
 "GNOME programmers. You can see their names by clicking Help &gt; About from "
 "any Evolution window."
 msgstr ""
-"Evolution ha sido creado por el equipo de Evolution™ y otros muchos "
-"programadores dedicados a GNOME. Para ver sus nombres, seleccione Ayuda &gt; "
-"Acerca de en cualquiera de las ventanas de Evolution."
+"Evolution ha sido creado por el equipo de Evolution y otros muchos programadores dedicados "
+"a GNOME. Para ver sus nombres, seleccione Ayuda &gt; Acerca desde cualquiera "
+"de las ventanas de Evolution."
 
 #: C/evolution.xml:7164(para)
 msgid ""
@@ -15223,14 +15202,12 @@ msgid "automatic indexing"
 msgstr "indexado automático"
 
 #: C/evolution.xml:7238(para)
-#, fuzzy
 msgid ""
 "A pre-downloading procedure that allows Evolution to quickly refer to data. "
 "It enables faster searches and decreases memory usage for data displays."
 msgstr ""
-"Un procedimiento de predescarga que permite a Novell; Ev®olution™ acceder "
-"rápidamente a los datos. Permite búsquedas más rápidas y reduce el uso de "
-"memoria para mostrar los datos."
+"Un procedimiento de predescarga que permite a Evolution acceder rápidamente a los datos. "
+"Permite búsquedas más rápidas y reduce el uso de memoria para mostrar los datos."
 
 #: C/evolution.xml:7242(glossterm)
 msgid "Bcc (Blind Carbon Copy)"
