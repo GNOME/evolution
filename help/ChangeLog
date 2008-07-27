@@ -1,5 +1,10 @@
 2008-07-27  Claude Paroz  <claude@2xlibre.net>
 
+	* C/evolution.xml: Typos/Syntax improvements.
+	Fixes #544994.
+
+2008-07-27  Claude Paroz  <claude@2xlibre.net>
+
 	* fr/fr.po: Updated French translation.
 	* figures/evo_label_a.png: New screenshot.
 

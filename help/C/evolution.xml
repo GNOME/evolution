@@ -1163,7 +1163,7 @@
       <para>When you press the Spacebar for the first time, it takes you to the next unread message.</para>
      </listitem>
      <listitem>
-      <para>If the message is more than one screen long, the apacebar works as Page Down key.</para>
+      <para>If the message is more than one screen long, the Spacebar works as Page Down key.</para>
      </listitem>
      <listitem>
       <para>If you press the Spacebar after you reach the bottom of the page, it takes you to the next unread message.</para>
@@ -1188,7 +1188,7 @@
     <title>New Mail Notification</title>
     <para>Evolution notifies you of new e-mail. When you receive a new mail in your inbox, a blinking icon appears on the Switcher.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
-    <para>You can also see a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new e-mail. Mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
+    <para>You can also see a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new e-mail. You can keep the mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
    </section>
 
    <section id="b131ni8g">
@@ -1235,7 +1235,7 @@
       <para>Enter the limit in the field.</para>
      </listitem>
     </orderedlist>
-    <para>You can expand the message headers by click the <inlinegraphic format="PNG" fileref="figures/plus.png"/> icon or the <guilabel>...</guilabel> in the message preview pane. To collapse click <inlinegraphic format="PNG" fileref="figures/minus.png"/> icon in the  preview pane.</para>
+    <para>You can expand the message headers by clicking the <inlinegraphic format="PNG" fileref="figures/plus.png"/> icon or the <guilabel>...</guilabel> in the message preview pane. To collapse click <inlinegraphic format="PNG" fileref="figures/minus.png"/> icon in the  preview pane.</para>
    </section>
 
    <section id="bsempjs">
@@ -4484,7 +4484,7 @@
     </orderedlist>
     <formalpara id="b17qczaw">
      <title>Advanced Search:</title>
-     <para>You can perform an advanced search based on any of the search type.</para>
+     <para>You can perform an advanced search based on any of the search types.</para>
     </formalpara>
     <orderedlist>
      <listitem id="b17qczhr">
@@ -4532,7 +4532,7 @@
     </formalpara>
     <formalpara id="b17qei0d">
      <title>Tasks With Attachment:</title>
-     <para>It shows all the tasks with attachments.</para>
+     <para>Displays all the tasks with attachments.</para>
     </formalpara>
     <formalpara id="b17qejz7">
      <title>&lt;List of Categories&gt;:</title>
@@ -4736,7 +4736,7 @@
       <para>Click Add to add rules.</para>
      </listitem>
      <listitem id="b17qewzp">
-      <para>Select the criteria, then type a search entry in the given field.</para>
+      <para>Select the criteria, and then type a search entry in the given field.</para>
      </listitem>
      <listitem id="b17qexap">
       <para>Click OK.</para>
@@ -6330,10 +6330,10 @@
 
   <section id="b15fx7uz">
    <title>IMAP Mail Headers</title>
-   <para>Evolution allow you to choose the headers that you want to download so that you can reduce the download time and filter or move your mail around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
+   <para>Evolution allows you to choose the headers that you want to download so that you can reduce the download time and filter or move your mail around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
    <formalpara id="b15fzvdp">
     <title>All Headers:</title>
-    <para>This include all the available IMAP Mail headers. By choosing this option, Evolution will download all the headers for all the messages.</para>
+    <para>This includes all the available IMAP Mail headers. By choosing this option, Evolution will download all the headers for all the messages.</para>
    </formalpara>
    <formalpara id="b15fzvjw">
     <title>Basic Headers:</title>
@@ -6805,7 +6805,7 @@
       </formalpara>
       <formalpara id="bxmwai4">
        <title>Use SSL/TLS:</title>
-       <para>SSL and TLS are security mechanisms. If you select No Encryption, Evolution will send your password unencrypted. By using SSL or TLS, a secure connection will be used and your password will be send encrypted.</para>
+       <para>SSL and TLS are security mechanisms. If you select No Encryption, Evolution will send your password unencrypted. By using SSL or TLS, a secure connection will be used and your password will be sent encrypted.</para>
       </formalpara>
       <formalpara id="bxmwai5">
        <title>Details: Search Base:</title>
