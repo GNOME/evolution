@@ -1,3 +1,10 @@
+2008-07-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #543411
+
+	* mail/em-folder-tree-model.c: Dont load known folders.
+	* mail/em-folder-tree.c: Move iter to the last entry.
+
 2008-07-25  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail/em-folder-browser.c: Make show unread/etc work well.

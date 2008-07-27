@@ -1724,7 +1724,7 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 {
 	struct _EMFolderTreePrivate *priv = m->emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	GtkTreeIter root, iter;
+	GtkTreeIter root, iter, titer;
 	CamelFolderInfo *fi;
 	GtkTreeStore *model;
 	GtkTreePath *path;
@@ -1765,6 +1765,13 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 	/* get the first child (which will be a dummy node) */
 	gtk_tree_model_iter_children ((GtkTreeModel *) model, &iter, &root);
+
+	/* Traverse to the last valid iter */
+	titer = iter;
+	while (gtk_tree_model_iter_next(model, &iter)) 
+		titer = iter; /* Preserve the last valid iter */
+
+	iter = titer;
 
 	/* FIXME: camel's IMAP code is totally on crack here, @top's
 	 * folder info should be @fi and fi->child should be what we

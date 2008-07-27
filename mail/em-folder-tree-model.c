@@ -448,6 +448,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	const char *name;
 	guint32 flags;
 
+	/* make sure we don't already know about it? */
+	if (g_hash_table_lookup (si->full_hash, fi->full_name))
+		return;
+	
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 
