@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-23 20:29+0200\n"
-"PO-Revision-Date: 2008-07-23 20:14+0100\n"
+"POT-Creation-Date: 2008-07-27 20:54+0200\n"
+"PO-Revision-Date: 2008-07-27 20:49+0100\n"
 "Last-Translator: Petr Kovar <pknbe@volny.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -19089,22 +19089,22 @@ msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
 msgstr[0] ""
-"Dorazila vám %d nová zpráva\n"
-"v %s."
+"Přijata %d nová zpráva\n"
+"ve složce %s."
 msgstr[1] ""
-"Dorazily vám %d nové zprávy\n"
-"v %s."
+"Přijaty %d nové zprávy\n"
+"ve složce %s."
 msgstr[2] ""
-"Dorazilo vám %d nových zpráv\n"
-"v %s."
+"Přijato %d nových zpráv\n"
+"ve složce %s."
 
 #: ../plugins/mail-notification/mail-notification.c:445
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "Přišla vám %d nová zpráva."
-msgstr[1] "Přišly vám %d nové zprávy."
-msgstr[2] "Přišlo vám %d nových zpráv."
+msgstr[0] "Přijata %d nová zpráva."
+msgstr[1] "Přijaty %d nové zprávy."
+msgstr[2] "Přijato %d nových zpráv."
 
 #: ../plugins/mail-notification/mail-notification.c:457
 #: ../plugins/mail-notification/mail-notification.c:462
@@ -21721,7 +21721,7 @@ msgstr "Vyjmout vybrané zprávy do schránky"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr "_Rozbalit všechny vlákna"
+msgstr "_Rozbalit všechna vlákna"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
@@ -21729,7 +21729,7 @@ msgstr "_Vyčistit"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
-msgstr "Rozbalit všechny vlákna"
+msgstr "Rozbalit všechna vlákna"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
