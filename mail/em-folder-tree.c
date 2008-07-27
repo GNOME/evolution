@@ -72,6 +72,7 @@
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 #include "em-folder-properties.h"
+#include "em-event.h"
 
 #define d(x)
 
@@ -285,6 +286,8 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_store;
 	guint32 flags;
+	EMEventTargetCustomIcon *target;
+	const char *folder_name;
 
 	if (!initialised) {
 		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("folder", E_ICON_SIZE_MENU);
@@ -326,8 +329,14 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 				pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
 			else if (flags & CAMEL_FOLDER_VIRTUAL)
 				pixbuf = folder_icons[FOLDER_ICON_VIRTUAL];
-			else
+			else {
 				pixbuf = folder_icons[FOLDER_ICON_NORMAL];
+				g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
+				gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &folder_name, -1);
+				target = em_event_target_new_custom_icon (em_event_peek(), renderer, folder_name, EM_EVENT_CUSTOM_ICON);
+     				e_event_emit ((EEvent *)em_event_peek (), "folder.customicon", (EEventTarget *) target);
+				return;
+			}
 		}
 	}
 

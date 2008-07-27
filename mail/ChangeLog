@@ -1,3 +1,11 @@
+2008-07-27  Lucian Langa <lucilanga@gnome.org>
+
+	* mail/em-event.h (struct _EMEventTargetCustomIcon):
+	* mail/em-event.c (em_event_target_new_custom_icon):
+	* mail/em-folder-tree.c (render_pixbuf):
+	** See bug #544969: Added the hook for folder
+	custom icon.
+
 2008-07-28  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #543411
