@@ -2934,7 +2934,7 @@ migrate_to_db()
 				migrate_folders(store, info, account->name, &ex);
 				
 			} else
-				printf("%s(%d):%s: failed to get folder infos \n", __FILE__, __LINE__, __PRETTY_FUNCTION__);
+				printf("%s(%d):%s: failed to get folder infos \n", __FILE__, __LINE__, G_GNUC_PRETTY_FUNCTION);
 			camel_exception_clear(&ex);
 				
 		}

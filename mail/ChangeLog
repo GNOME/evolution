@@ -1,3 +1,10 @@
+2008-07-28 Jeff Cai <jeff.cai@sun.com> 
+
+	* em-migrate.c: (migrate_to_db):
+	* em-network-prefs.c: (notify_proxy_type_changed),
+	(widget_entry_changed_cb):
+    Use G_GNUC_PRETTY_FUNCTION instead of __PRETTY__FUNCTION
+
 2008-07-27  Lucian Langa <lucilanga@gnome.org>
 
 	* mail/em-event.h (struct _EMEventTargetCustomIcon):
