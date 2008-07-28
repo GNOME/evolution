@@ -1,3 +1,10 @@
+2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544958
+
+	* C/evolution.xml:
+	Use email, not e-mail (per documentation guidelines).
+
 2008-07-27  Claude Paroz  <claude@2xlibre.net>
 
 	* C/evolution.xml: Typos/Syntax improvements.

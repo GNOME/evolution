@@ -88,10 +88,10 @@
     <para><link linkend="usage-mainwindow">Getting Started</link></para>
    </listitem>
    <listitem>
-    <para><link linkend="usage-mail">Sending and Receiving E-Mail</link></para>
+    <para><link linkend="usage-mail">Sending and Receiving Email</link></para>
    </listitem>
    <listitem>
-    <para><link linkend="usage-mail-organize">Organizing Your E-Mail</link></para>
+    <para><link linkend="usage-mail-organize">Organizing Your Email</link></para>
    </listitem>
    <listitem>
     <para><link linkend="usage-contact">Evolution Contacts: the Address Book</link></para>
@@ -150,7 +150,7 @@
 
  <chapter id="usage-mainwindow">
   <title>Getting Started</title>
-  <para><trademark>Evolution</trademark> is a <link linkend="groupware">groupware</link> application that helps you work in a group by handling e-mail, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others.</para>
+  <para><trademark>Evolution</trademark> is a <link linkend="groupware">groupware</link> application that helps you work in a group by handling email, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link></para>
@@ -202,7 +202,7 @@
 
    <section id="bse54o0">
     <title>Using the First-Run Assistant</title>
-    <para>The first time you run Evolution, it creates a directory <emphasis>.evolution</emphasis> in your home directory, where it stores all of its local data. Then, it opens a First-Run Assistant to help you set up e-mail accounts and import data from other applications.</para>
+    <para>The first time you run Evolution, it creates a directory <emphasis>.evolution</emphasis> in your home directory, where it stores all of its local data. Then, it opens a First-Run Assistant to help you set up email accounts and import data from other applications.</para>
     <para>Using the first-run assistant takes two to five minutes.</para>
     <para>Later on, if you want to change this account, or if you want to create a new one, click Edit &gt; Preferences, then click Mail Accounts. Select the account you want to change, then click Edit. Alternately, add a new account by clicking Add. See <link linkend="config-prefs-mail">Mail Preferences</link> for details.</para>
     <para>The First-Run Assistant helps you provide the information Evolution needs to get started.</para>
@@ -238,7 +238,7 @@
        <para>Type your full name in the Full Name field.</para>
       </listitem>
       <listitem id="bstfipr">
-       <para>Type your e-mail address in the E-Mail Address field.</para>
+       <para>Type your email address in the Email Address field.</para>
       </listitem>
       <listitem id="bstfj3i">
        <para>(Optional) Select if this account is your default account.</para>
@@ -249,7 +249,7 @@
       </listitem>
       <listitem id="bstfkcz">
        <para>(Optional) Type your organization name in the Organization field.</para>
-       <para>This is the company where you work, or the organization you represent when you send e-mail.</para>
+       <para>This is the company where you work, or the organization you represent when you send email.</para>
       </listitem>
       <listitem id="bstfl19">
        <para>Click Forward.</para>
@@ -259,7 +259,7 @@
 
     <section id="second-step">
      <title>Receiving Mail</title>
-     <para>The Receiving E-mail option lets you determine where you get your e-mail.</para>
+     <para>The Receiving Email option lets you determine where you get your email.</para>
      <mediaobject id="bsj8qah"><imageobject><imagedata format="PNG" fileref="figures/evo_receive_setup_a.png"/></imageobject></mediaobject>
      <para>You need to specify the type of server you want to receive mail with. If you are unsure about the type of server to choose, ask your system administrator or ISP.</para>
      <orderedlist>
@@ -268,19 +268,19 @@
        <para>The following is a list of server types that are available:</para>
        <formalpara id="bsj74dr">
         <title>Novell GroupWise:</title>
-        <para>Select this option if you connect to Novell <trademark class="registered">GroupWise</trademark>. Novell GroupWise keeps e-mail, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Select this option if you connect to Novell <trademark class="registered">GroupWise</trademark>. Novell GroupWise keeps email, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74ds">
         <title>Microsoft Exchange:</title>
-        <para>Available only if you have installed the Connector for Microsoft&z-3rdParty; Exchange. It allows you to connect to a Microsoft Exchange 2000 or 2003 server, which stores e-mail, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Available only if you have installed the Connector for Microsoft&z-3rdParty; Exchange. It allows you to connect to a Microsoft Exchange 2000 or 2003 server, which stores email, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dt">
         <title>IMAP:</title>
-        <para>Keeps the e-mail on your server so you can access your e-mail from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Keeps the email on your server so you can access your email from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74du">
         <title>POP:</title>
-        <para>Downloads your e-mail to your hard disk for permanent storage, freeing up space on the e-mail server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Downloads your email to your hard disk for permanent storage, freeing up space on the email server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="b13sa2jr">
         <title>Hula:</title>
@@ -292,27 +292,27 @@
        </formalpara>
        <formalpara id="bsj74dv">
         <title>Local Delivery:</title>
-        <para>Choose this option if you want to move e-mail from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave e-mail in your system's spool files, choose the Standard Unix Mbox Spool option instead. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>Choose this option if you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the Standard Unix Mbox Spool option instead. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dw">
         <title>MH Format Mail Directories:</title>
-        <para>If you download your e-mail using mh or another MH-style program, you should use this option. You need to provide the path to the mail directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you download your email using mh or another MH-style program, you should use this option. You need to provide the path to the mail directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dx">
         <title>Maildir Format Mail Directories:</title>
-        <para>If you download your e-mail using Qmail or another maildir-style program, you should use this option. You need to provide the path to the mail directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you download your email using Qmail or another maildir-style program, you should use this option. You need to provide the path to the mail directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dy">
         <title>Standard Unix mbox spool file:</title>
-        <para>If you want to read and store e-mail in the mail spool file on your local system, choose this option. You need to provide the path to the mail spool file you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you want to read and store email in the mail spool file on your local system, choose this option. You need to provide the path to the mail spool file you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="b185ajx5">
         <title>Standard Unix mbox spool directory:</title>
-        <para>If you want to read and store e-mail in the mail spool directory on your local system, choose this option. You need to provide the path to the mail spool directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you want to read and store email in the mail spool directory on your local system, choose this option. You need to provide the path to the mail spool directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dz">
         <title>None:</title>
-        <para>Select this if you do not plan to check e-mail with this account. If you select this, there are no configuration options.</para>
+        <para>Select this if you do not plan to check email with this account. If you select this, there are no configuration options.</para>
        </formalpara>
       </listitem>
      </orderedlist>
@@ -322,7 +322,7 @@
       <para>If you selected Novell GroupWise, IMAP, POP, or USENET News as your server, you need to specify additional information.</para>
       <orderedlist>
        <listitem id="bstg8f2">
-        <para>Type the server name of your e-mail server in the Server field.</para>
+        <para>Type the server name of your email server in the Server field.</para>
         <para>If you are unsure what your Server address is, contact your system administrator.</para>
        </listitem>
        <listitem id="bstg8sr">
@@ -447,7 +447,7 @@
        </listitem>
        <listitem id="bstglhn">
         <para>Select if you want to limit the number of Global Address Lists (GAL).</para>
-        <para>The GAL contains a list of all e-mail addresses. If you select this option, you need to specify the maximum number of responses.</para>
+        <para>The GAL contains a list of all email addresses. If you select this option, you need to specify the maximum number of responses.</para>
        </listitem>
        <listitem id="bstgsrp">
         <para>Select if you want to use a password expire warning time period.</para>
@@ -685,7 +685,7 @@
       <mediaobject id="bsj8ujq"><imageobject><imagedata format="PNG" fileref="figures/evo_send_setup_a.png"/></imageobject></mediaobject>
       <orderedlist>
        <listitem id="bsthxta">
-        <para>Type the server name of your e-mail server in the Server field.</para>
+        <para>Type the server name of your email server in the Server field.</para>
         <para>If you are unsure what your Server address is, contact your system administrator.</para>
        </listitem>
        <listitem id="bsthy6f">
@@ -718,7 +718,7 @@
 
     <section id="bsti1ty">
      <title>Account Management</title>
-     <para>Now that you have finished the e-mail configuration process you need to give the account a name. The name can be any name you prefer. Type your account name on the Name field, then click Forward.</para>
+     <para>Now that you have finished the email configuration process you need to give the account a name. The name can be any name you prefer. Type your account name on the Name field, then click Forward.</para>
      <para>Continue with <link linkend="step-three-b">Time Zone</link><link linkend="step-three-b"/>.</para>
     </section>
 
@@ -737,17 +737,17 @@
        <para>Evolution opens with your new account created.</para>
       </listitem>
      </orderedlist>
-     <para>If you want to import e-mail from another e-mail client, continue with <link linkend="fourth-step">Importing Mail (Optional)</link>. If not, skip to <link linkend="ui-intro">Using Evolution: An Overview</link>.</para>
+     <para>If you want to import email from another email client, continue with <link linkend="fourth-step">Importing Mail (Optional)</link>. If not, skip to <link linkend="ui-intro">Using Evolution: An Overview</link>.</para>
     </section>
 
     <section id="fourth-step">
      <title>Importing Mail (Optional)</title>
-     <para>After selecting your time zone, if Evolution finds e-mail or address files from another application, it offers to import them. For a full description of the import feature, see <link linkend="importing-mail">Importing Single Files</link>.</para>
+     <para>After selecting your time zone, if Evolution finds email or address files from another application, it offers to import them. For a full description of the import feature, see <link linkend="importing-mail">Importing Single Files</link>.</para>
      <para>Microsoft Outlook&z-3rdParty; and versions of Outlook Express after version 4 use proprietary formats that Evolution cannot read or import.</para>
      <para>To import information, you might want to use the Export tool under Windows&z-3rdParty;. See the instructions in <link linkend="outlook-migration-mail">Migrating Local Outlook Mail Folders</link>.</para>
-     <para>Before importing e-mail from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
+     <para>Before importing email from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      <tip>
-      <para>Evolution uses standard file types for e-mail and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <command>mbox</command> for e-mail and iCal for calendar information.</para>
+      <para>Evolution uses standard file types for email and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <command>mbox</command> for email and iCal for calendar information.</para>
       <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export an addressbook, click File &gt; Save Address Book As VCard". If you want to export only one contact, click File &gt; Save Contact as VCard.</para>
      </tip>
     </section>
@@ -772,11 +772,11 @@
    </formalpara>
    <formalpara id="b17s9o2z">
     <title>Search Tool:</title>
-    <para>The search tool lets you search your e-mail, contacts, calendar, and tasks to easily find what you're looking for.</para>
+    <para>The search tool lets you search your email, contacts, calendar, and tasks to easily find what you're looking for.</para>
    </formalpara>
    <formalpara id="b17s9o9p">
     <title>Message List:</title>
-    <para>The message list displays a list of e-mail that you have received. To view an e-mail in the preview pane, click the e-mail in the message list.</para>
+    <para>The message list displays a list of email that you have received. To view an email in the preview pane, click the email in the message list.</para>
    </formalpara>
    <formalpara id="b17s9of0">
     <title>Side bar:</title>
@@ -788,16 +788,16 @@
    </formalpara>
    <formalpara id="b17s9ol7">
     <title>Status Bar:</title>
-    <para>The status bar periodically displays a message, or tells you the progress of a task. This most often happens when you're checking or sending e-mail. These progress queues are shown in the previous figure. The Online/Offline indicator is here, too, in the lower left of the window.</para>
+    <para>The status bar periodically displays a message, or tells you the progress of a task. This most often happens when you're checking or sending email. These progress queues are shown in the previous figure. The Online/Offline indicator is here, too, in the lower left of the window.</para>
    </formalpara>
    <formalpara id="b17s9or8">
     <title>Preview Pane:</title>
-    <para>The preview pane displays the contents of the e-mail that is selected in the message list.</para>
+    <para>The preview pane displays the contents of the email that is selected in the message list.</para>
    </formalpara>
 
    <section id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
-    <para>The menu bar's contents always provide all the possible actions for any given view of your data. If you're looking at your Inbox, most of the menu items relate to e-mail. Some content relates to other components of Evolution and some, especially in the File menu, relates to the application as a whole.</para>
+    <para>The menu bar's contents always provide all the possible actions for any given view of your data. If you're looking at your Inbox, most of the menu items relate to email. Some content relates to other components of Evolution and some, especially in the File menu, relates to the application as a whole.</para>
     <formalpara id="bs7g1fu">
      <title>File:</title>
      <para>Anything related to a file or to the operations of the application is listed in this menu, such as creating things, saving them to disk, printing them, and quitting the program itself.</para>
@@ -831,8 +831,8 @@
    <section id="usage-mainwindow-shortcutbar">
     <title>The Sidebar</title>
     <para>Sidebar is the vertical panel on the left side of the Evolution main window. At the bottom of the sidebar is the Switcher, that lets you switch between the Evolution tools like Mail, Memo,Tasks and Contacts. Above the Switcher you can see a list of folders for the current Evolution tool.</para>
-    <para>The folder list organizes your e-mail, calendars, address books, task lists and memo lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the e-mail tool shows any remote e-mail storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
-    <para>If you get large amounts of e-mail, you might want more folders than just your Inbox. You can create multiple calendar, task, or contacts folders.</para>
+    <para>The folder list organizes your email, calendars, address books, task lists and memo lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the email tool shows any remote email storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
+    <para>If you get large amounts of email, you might want more folders than just your Inbox. You can create multiple calendar, task, or contacts folders.</para>
     <para>To create a new folder:</para>
     <orderedlist>
      <listitem id="bs7fael">
@@ -910,32 +910,32 @@
       <para>Checks the number of total and unread messages in a folder, and, for remote folders, lets you select whether to copy the folder to your local system for offline operation.</para>
      </formalpara>
      <para>You can also rearrange folders and messages by dragging and dropping them.</para>
-     <para>Any time new e-mail arrives in a e-mail folder, that folder label is displayed in bold text, along with the number of new messages in that folder.</para>
+     <para>Any time new email arrives in a email folder, that folder label is displayed in bold text, along with the number of new messages in that folder.</para>
     </section>
    </section>
 
    <section id="basics-mail">
-    <title>E-Mail</title>
-    <para>Evolution e-mail is like other e-mail programs in several ways:</para>
+    <title>Email</title>
+    <para>Evolution email is like other email programs in several ways:</para>
     <itemizedlist>
      <listitem>
-      <para>It can send and receive e-mail in HTML or as plain text, and makes it easy to send and receive multiple file attachments.</para>
+      <para>It can send and receive email in HTML or as plain text, and makes it easy to send and receive multiple file attachments.</para>
      </listitem>
      <listitem>
-      <para>It supports multiple e-mail sources, including <link linkend="imap">IMAP</link>, <link linkend="pop">POP3</link>, and local mbox or mh spools and files created by other e-mail programs.</para>
+      <para>It supports multiple email sources, including <link linkend="imap">IMAP</link>, <link linkend="pop">POP3</link>, and local mbox or mh spools and files created by other email programs.</para>
      </listitem>
      <listitem>
-      <para>It can sort and organize your e-mail in a wide variety of ways with folders, searches, and filters.</para>
+      <para>It can sort and organize your email in a wide variety of ways with folders, searches, and filters.</para>
      </listitem>
      <listitem>
       <para>It lets you guard your privacy with encryption.</para>
      </listitem>
     </itemizedlist>
-    <para>However, Evolution has some important differences from other e-mail programs. First, It is built to handle very large amounts of e-mail. The <link linkend="usage-mail-organize-spam">junk e-mail</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There's also the <link linkend="usage-mail-organize-vfolders">search folder</link>, an advanced organizational feature not found in some e-mail clients. If you get a lot of e-mail, or if you keep every message you get in case you need to refer to it later, you will find this feature especially useful. Here's a quick explanation of what's happening in your main Evolution e-mail window.</para>
+    <para>However, Evolution has some important differences from other email programs. First, It is built to handle very large amounts of email. The <link linkend="usage-mail-organize-spam">junk email</link>, message <link linkend="usage-mail-organize-filters">filtering</link> and <link linkend="usage-mail-organize-search">searching</link> functions were built for speed and efficiency. There's also the <link linkend="usage-mail-organize-vfolders">search folder</link>, an advanced organizational feature not found in some email clients. If you get a lot of email, or if you keep every message you get in case you need to refer to it later, you will find this feature especially useful. Here's a quick explanation of what's happening in your main Evolution email window.</para>
     <mediaobject id="b159qi3q"><imageobject><imagedata format="PNG" fileref="figures/evo_mail_a.png"/></imageobject></mediaobject>
     <formalpara id="b17sa4um">
      <title>Message List:</title>
-     <para>The message list displays all the messages that you have. This includes all your read and unread messages, and e-mail that is flagged to be deleted.</para>
+     <para>The message list displays all the messages that you have. This includes all your read and unread messages, and email that is flagged to be deleted.</para>
     </formalpara>
     <formalpara id="b17sa500">
      <title>Preview Pane:</title>
@@ -943,8 +943,8 @@
     </formalpara>
     <para>If you find the preview pane too small, you can resize the pane, enlarge the whole window, or double-click the message in the message list to have it open in a new window. To change the size of a pane, drag the divider between the two panes.</para>
     <para>As with folders, you can right-click messages in the message list and get a menu of possible actions, including moving or deleting them, creating filters or search folders based on them, and marking them as junk mail.</para>
-    <para>Most of the e-mail-related actions you want to perform are listed in the Message Menu and Folder Menu in the menu bar. The most frequently used ones, like Reply and Forward, also appear as buttons in the toolbar. Most of them are also located in the right-click menu and as keyboard shortcuts.</para>
-    <para>For an in-depth guide to the e-mail capabilities of Evolution, read <link linkend="usage-mail">Sending and Receiving E-Mail</link>.</para>
+    <para>Most of the email-related actions you want to perform are listed in the Message Menu and Folder Menu in the menu bar. The most frequently used ones, like Reply and Forward, also appear as buttons in the toolbar. Most of them are also located in the right-click menu and as keyboard shortcuts.</para>
+    <para>For an in-depth guide to the email capabilities of Evolution, read <link linkend="usage-mail">Sending and Receiving Email</link>.</para>
    </section>
 
    <section id="basics-calendar">
@@ -971,9 +971,9 @@
     <para>The Evolution contacts can handle all of the functions of an address book or phone book. However, it is easier to update Evolution than it is to change an actual paper book, in part because Evolution can synchronize with Palm OS&z-3rdParty; devices and use <link linkend="ldap">LDAP</link> directories on a network.</para>
     <para>To use the contacts tool, click Contacts in the switcher. By default, the display shows all your contacts in alphabetical order, in a minicard view. You can select other views from the View menu, and adjust the width of the columns by clicking and dragging the gray column dividers.</para>
     <mediaobject id="usage-contact-fig"><imageobject><imagedata format="PNG" fileref="figures/contacts_mainwindow_a.png"/></imageobject></mediaobject>
-    <para>Another advantage of the Evolution contacts is its integration with the rest of the application. For example, you can right-click an e-mail address in Evolution mail to instantly create a contact entry.</para>
+    <para>Another advantage of the Evolution contacts is its integration with the rest of the application. For example, you can right-click an email address in Evolution mail to instantly create a contact entry.</para>
     <para><emphasis>Contact List</emphasis></para>
-    <para>The largest section of the contacts display shows a list of individual contacts. You can also search the contacts in the same way that you search e-mail folders, using the search tool on the right side of the toolbar.</para>
+    <para>The largest section of the contacts display shows a list of individual contacts. You can also search the contacts in the same way that you search email folders, using the search tool on the right side of the toolbar.</para>
     <para>For detailed instructions on how to use the address book, read <link linkend="usage-contact">Evolution Contacts: the Address Book</link>.</para>
    </section>
   </section>
@@ -1067,7 +1067,7 @@
         <para>evolution mailto:<varname>joe@somewhere.net</varname></para>
        </entry>
        <entry colname="2">
-        <para>Starts Evolution and begins composing a message to the e-mail address listed.</para>
+        <para>Starts Evolution and begins composing a message to the email address listed.</para>
        </entry>
       </row>
       <row id="bsl8i04">
@@ -1107,7 +1107,7 @@
         <para>evolution <quote>%s</quote></para>
        </entry>
        <entry colname="2">
-        <para>Makes Evolution your default e-mail handler for your Web browser and in the GNOME&z-3rdParty; Control Center.</para>
+        <para>Makes Evolution your default email handler for your Web browser and in the GNOME&z-3rdParty; Control Center.</para>
        </entry>
       </row>
      </tbody>
@@ -1117,14 +1117,14 @@
  </chapter>
 
  <chapter id="usage-mail">
-  <title>Sending and Receiving E-Mail</title>
-  <para>This section, and <link linkend="usage-mail-organize">Organizing Your E-Mail</link>, provide you with an in-depth guide to the capabilities of <trademark>Evolution</trademark> as a mail client. For information about how to customize your mail account, see <link linkend="config-prefs-mail">Mail Preferences</link>.</para>
+  <title>Sending and Receiving Email</title>
+  <para>This section, and <link linkend="usage-mail-organize">Organizing Your Email</link>, provide you with an in-depth guide to the capabilities of <trademark>Evolution</trademark> as a mail client. For information about how to customize your mail account, see <link linkend="config-prefs-mail">Mail Preferences</link>.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mail-getnsend-read">Reading Mail</link></para>
    </listitem>
    <listitem>
-    <para><link linkend="usage-mail-getnsend-send">Composing New E-Mail Messages</link></para>
+    <para><link linkend="usage-mail-getnsend-send">Composing New Email Messages</link></para>
    </listitem>
    <listitem>
     <para><link linkend="rsvp-stuff">Sending Invitations by Mail</link></para>
@@ -1141,7 +1141,7 @@
    <title>Reading Mail</title>
    <para>If you are not already viewing mail, switch to the mail tool by clicking the Mail shortcut button, or press Ctrl+1. To read a message, select it in the message list; if you'd like to see it in its own window, either double-click it, press Enter, or press Ctrl+O.</para>
    <tip>
-    <para>To read mail with the keyboard, you can click the Spacebar to page down and press Backspace to page up while reading an e-mail. Ensure that you use the keys when the message list is enabled.</para>
+    <para>To read mail with the keyboard, you can click the Spacebar to page down and press Backspace to page up while reading an email. Ensure that you use the keys when the message list is enabled.</para>
     <para>Navigate the message list by using the arrow keys on the keyboard. To go to the next and previous unread messages, press the period (.) or comma (,) keys. On some keyboards, these keys are also marked with the &gt; and &lt; symbols, which is a convenient way to remember that they move you forward and backward in your message list. You can also use the right square bracket (]) for the next unread message, and the left square bracket ([) for the previous unread message.</para>
    </tip>
 
@@ -1179,16 +1179,16 @@
 
    <section id="b13qb7i4">
     <title>Checking for New Mail</title>
-    <para>To check your mail, click Send/Receive in the toolbar. If you haven&apos;t created any mail accounts yet, the setup assistant asks you for the information it needs to check your e-mail. For information on creating mail accounts, see <link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link>.</para>
-    <para>If this is your first time checking mail, or you haven&apos;t asked Evolution to store your password, you are prompted for the password. Enter your password to download your e-mail.</para>
+    <para>To check your mail, click Send/Receive in the toolbar. If you haven&apos;t created any mail accounts yet, the setup assistant asks you for the information it needs to check your email. For information on creating mail accounts, see <link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link>.</para>
+    <para>If this is your first time checking mail, or you haven&apos;t asked Evolution to store your password, you are prompted for the password. Enter your password to download your email.</para>
     <para>If you get an error message instead of mail, you probably need to check your network settings. To learn how to do that, see <link linkend="mail-prefs-headers">Mail Header Preferences</link>, or ask your system administrator.</para>
    </section>
 
    <section id="b17qh4uo">
     <title>New Mail Notification</title>
-    <para>Evolution notifies you of new e-mail. When you receive a new mail in your inbox, a blinking icon appears on the Switcher.</para>
+    <para>Evolution notifies you of new email. When you receive a new mail in your inbox, a blinking icon appears on the Switcher.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
-    <para>You can also see a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new e-mail. You can keep the mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
+    <para>You can also see a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new email. You can keep the mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
    </section>
 
    <section id="b131ni8g">
@@ -1240,7 +1240,7 @@
 
    <section id="bsempjs">
     <title>Sharing Mailboxes with Other Mail Programs</title>
-    <para>If you want to use Evolution and another e-mail client, such as Mutt, at the same time, use the following procedure:</para>
+    <para>If you want to use Evolution and another email client, such as Mutt, at the same time, use the following procedure:</para>
     <orderedlist>
      <listitem id="bsen3rq">
       <para>Download your mail in the other application as you would normally.</para>
@@ -1266,7 +1266,7 @@
 
     <section id="usage-mail-getnsend-get-attach-actions">
      <title>Saving or Opening Attachments</title>
-     <para>If you get an e-mail message with an attachment, Evolution can help you save the attachment or open it with the appropriate applications.</para>
+     <para>If you get an email message with an attachment, Evolution can help you save the attachment or open it with the appropriate applications.</para>
      <para>Evolution shows a right-arrow icon, the number of attachments, and a Save or Save All button to save all the attachments. Click the right-arrow icon to show the attachment bar.</para>
      <para>To save an attachment to disk:</para>
      <orderedlist>
@@ -1301,7 +1301,7 @@
     <section id="usage-mail-getnsend-get-attach-html">
      <title>Inline Images in HTML Mail</title>
      <para>When someone sends you HTML mail that includes an image in the body of the message (for example, the welcome message in your Inbox), Evolution displays the image inside the message. You can create messages like this by using the Insert Image tool in the message composer. Alternately, just drag an image into the message composition area.</para>
-     <para>Some images are links in a message, rather than being part of the message. Evolution can download those images from the Internet, but does not do so unless you request it. This is because remotely servered images can be slow to load and display, and can even be used by spammers to track who reads the e-mail. Not automatically loading images helps protect your privacy.</para>
+     <para>Some images are links in a message, rather than being part of the message. Evolution can download those images from the Internet, but does not do so unless you request it. This is because remotely servered images can be slow to load and display, and can even be used by spammers to track who reads the email. Not automatically loading images helps protect your privacy.</para>
      <para>To load the images for one message:</para>
      <orderedlist>
       <listitem id="bsen9jh">
@@ -1358,7 +1358,7 @@
 
    <section id="usage-mail-getnsend-get-news">
     <title>Using Evolution for News</title>
-    <para>USENET newsgroups are similar to mail, so it is often convenient to read news and mail side by side. You can add a news source, called an NNTP server, the same way you would add <link linkend="bse54o0">new e-mail account</link>, selecting USENET News as the Server type. The news server appear as a remote mail server, and each newsgroup works like an IMAP folder. When you click Send/Receive, Evolution also checks for news messages.</para>
+    <para>USENET newsgroups are similar to mail, so it is often convenient to read news and mail side by side. You can add a news source, called an NNTP server, the same way you would add <link linkend="bse54o0">new email account</link>, selecting USENET News as the Server type. The news server appear as a remote mail server, and each newsgroup works like an IMAP folder. When you click Send/Receive, Evolution also checks for news messages.</para>
     <para>When you create a newsgroup account, you are not subscribed to any groups. To subscribe to a newsgroup:</para>
     <orderedlist>
      <listitem id="bsx1euy">
@@ -1376,7 +1376,7 @@
    <section id="usage-mail-getnsend-delete">
     <title>Deleting Mail</title>
     <para>Evolution allows you to delete unwanted messages. To delete a message, select it and press the Delete key, or click the delete tool in the toolbar, press Ctrl+D, or right-click the message, then click Delete.</para>
-    <para>When you press Delete or click the Trash folder, your mail is not actually deleted, but is marked for deletion. Your e-mail is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion.To show deleted messages, uncheck Hide Deleted Messages option from the View menu. You can view the messages striken off for later deletion. You can also find deleted messages in your Trash folder.</para>
+    <para>When you press Delete or click the Trash folder, your mail is not actually deleted, but is marked for deletion. Your email is recoverable until you have expunged your mail. When you expunge a folder, you remove all the mail that you have marked for deletion.To show deleted messages, uncheck Hide Deleted Messages option from the View menu. You can view the messages striken off for later deletion. You can also find deleted messages in your Trash folder.</para>
     <para>To permanently erase all the deleted messages in a folder, click Folder &gt; Expunge or press Ctrl+E.</para>
     <para>Trash folders in GroupWise, local and IMAP accounts are actually virtual search folders that display all messages you have marked for later deletion. Hence, emptying Trash is nothing but expunging deleted mail from all your folders in the account.</para>
     <para>However, this is not true for the Trash folder on Exchange servers, which behaves just the same as it does in Outlook. It is a normal folder with actual messages in it. For more information about search folders, see <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
@@ -1390,8 +1390,8 @@
   </section>
 
   <section id="usage-mail-getnsend-send">
-   <title>Composing New E-Mail Messages</title>
-   <para>You can start writing a new e-mail message by clicking File &gt; New &gt; Mail Message, by pressing Ctrl+N when in the mailing tool, or by clicking New in the toolbar.</para>
+   <title>Composing New Email Messages</title>
+   <para>You can start writing a new email message by clicking File &gt; New &gt; Mail Message, by pressing Ctrl+N when in the mailing tool, or by clicking New in the toolbar.</para>
    <para>Enter an address in the To field. If you want to enter multiple email addresses, type in the addresses separated by comma. You can also use a contact list to send messages to multiple recipients. Enter a subject in the Subject field, and a message in the box at the bottom of the window. After you have written your message, click Send.</para>
    <para>New mail message window look like this:</para>
    <mediaobject id="usage-mail-newmsg-fig"><imageobject><imagedata format="PNG" fileref="figures/evo_newmess_a.png"/></imageobject></mediaobject>
@@ -1410,19 +1410,19 @@
      <para><link linkend="usage-mail-getnsend-send-compose">Attachments</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="usage-mail-getnsend-send-to-types">Specifying Additional Recipients for E-Mail</link></para>
+     <para><link linkend="usage-mail-getnsend-send-to-types">Specifying Additional Recipients for Email</link></para>
     </listitem>
     <listitem>
      <para><link linkend="usage-mail-getnsend-send-to">Choosing Recipients Quickly</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="usage-mail-getnsend-send-reply">Replying to E-Mail Messages</link></para>
+     <para><link linkend="usage-mail-getnsend-send-reply">Replying to Email Messages</link></para>
     </listitem>
     <listitem>
      <para><link linkend="usage-mail-getnsend-send-find">Searching and Replacing with the Composer</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="usage-mail-getnsend-send-html">Enhancing Your E-Mail with HTML</link></para>
+     <para><link linkend="usage-mail-getnsend-send-html">Enhancing Your Email with HTML</link></para>
     </listitem>
     <listitem>
      <para><link linkend="BJEHCDFA">Mail Send Options</link></para>
@@ -1431,7 +1431,7 @@
      <para><link linkend="usage-mail-getnsend-fwd">Forwarding Mail</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="usage-mail-getnsend-ettiquette">Tips for E-Mail Courtesy</link></para>
+     <para><link linkend="usage-mail-getnsend-ettiquette">Tips for Email Courtesy</link></para>
     </listitem>
    </itemizedlist>
 
@@ -1443,7 +1443,7 @@
     <section id="bsfnqkj">
      <title>Using Character Sets</title>
      <para>A character set is a computer's version of an alphabet. In the past, the ASCII character set was used almost universally. However, it contains only 128 characters, meaning it is unable to display characters in Cyrillic, Kanjii, or other non-Latin alphabets. To work around language display problems, programmers developed a variety of methods, so many human languages now have their own specific character sets, and items written in other character sets display incorrectly. Eventually, standards organizations developed the UTF-8 Unicode&z-3rdParty; character set to provide a single compatible set of codes for everyone.</para>
-     <para>Most e-mail messages state in advance which character set they use, so Evolution usually can display those messages correctly. However, if you find that messages are displayed as rows of incomprehensible characters, try selecting a different character set in the mail settings screen. If your recipients can't read your messages, try selecting a different character set in the composer options dialog box. For some languages, such as Turkish or Korean, it might work best for you to select the language-specific character set. However, the best choice for most users is UTF-8, which offers the widest range of characters for the widest range of languages.</para>
+     <para>Most email messages state in advance which character set they use, so Evolution usually can display those messages correctly. However, if you find that messages are displayed as rows of incomprehensible characters, try selecting a different character set in the mail settings screen. If your recipients can't read your messages, try selecting a different character set in the composer options dialog box. For some languages, such as Turkish or Korean, it might work best for you to select the language-specific character set. However, the best choice for most users is UTF-8, which offers the widest range of characters for the widest range of languages.</para>
     </section>
    </section>
 
@@ -1518,7 +1518,7 @@
 
    <section id="usage-mail-getnsend-send-compose">
     <title>Attachments</title>
-    <para>To attach a file to your e-mail:</para>
+    <para>To attach a file to your email:</para>
     <orderedlist>
      <listitem id="bsfnwxr">
       <para>Click the Attach icon in the composer toolbar.</para>
@@ -1535,7 +1535,7 @@
    </section>
    <section id="b17rcxmf">
     <title>Attachment Reminder:</title>
-    <para>Evolution has an Attachment Reminder plugin you can use to remind yourself to attach a file to an e-mail. If it determines that you have not attached the file, it displays the following message:</para>
+    <para>Evolution has an Attachment Reminder plugin you can use to remind yourself to attach a file to an email. If it determines that you have not attached the file, it displays the following message:</para>
     <mediaobject id="b17rcrvr"><imageobject><imagedata format="PNG" fileref="figures/attach_reminder_a.png.png"/></imageobject></mediaobject>
     <orderedlist>
      <listitem id="b17rctav">
@@ -1564,11 +1564,11 @@
     </orderedlist>
    </section>
    <section id="usage-mail-getnsend-send-to-types">
-    <title>Specifying Additional Recipients for E-Mail</title>
-    <para><trademark>Evolution</trademark>, like most e-mail programs, recognizes three types of addresses: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the e-mail address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
+    <title>Specifying Additional Recipients for Email</title>
+    <para><trademark>Evolution</trademark>, like most email programs, recognizes three types of addresses: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the email address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
     <para>Addresses on the Bcc: list are hidden from the other recipients of the message. You can use it to send mail to large groups of people, especially if they don't know each other or if privacy is a concern. If your Bcc: field is absent, click View &gt; Bcc Field.</para>
-    <para>If you frequently write e-mail to the same groups of people, you can create address lists in the contacts tool, and then send them mail as though they have a single address. To learn how to do that, see <link linkend="usage-contact-organize-group-list">Creating a List of Contacts</link>.</para>
-    <para>Evolution has the ability to let you specify the Reply-To in an e-mail. Using this, you can set up a special Reply-To for an e-mail.To do this:</para>
+    <para>If you frequently write email to the same groups of people, you can create address lists in the contacts tool, and then send them mail as though they have a single address. To learn how to do that, see <link linkend="usage-contact-organize-group-list">Creating a List of Contacts</link>.</para>
+    <para>Evolution has the ability to let you specify the Reply-To in an email. Using this, you can set up a special Reply-To for an email.To do this:</para>
     <orderedlist>
      <listitem id="bsfnz55">
       <para>Open a compose window.</para>
@@ -1592,18 +1592,18 @@
     <title>Choosing Recipients Quickly</title>
     <para>Address auto completion is by default enabled in Evolution when you create contacts. Evolution makes it easy for you to quickly fill in the address field without having to remember the email address of recipients. You can type nicknames or other portions of address data in the address field and Evolution will display a drop-down list of possible address completions from your contacts. If you type a name or nickname that can go with more than one card, Evolution opens a dialog box to ask you which person you meant.</para>
     <para>If Evolution does not complete addresses automatically, click Edit &gt; Preferences, then click Autocompletion. There, select the address book you want to use for address autocompletion in the mailer.</para>
-    <para>Alternately, you can click the To:, Cc:, or Bcc: buttons to get a list of the e-mail addresses in your contacts. Select addresses and click the arrows to move them into the appropriate address columns.</para>
-    <para>For more information about using e-mail with the contact manager and the calendar, see <link linkend="contact-automation-basic">Send Me a Card: Adding New Cards Quickly</link> and <link linkend="usage-calendar-apts">Scheduling With the Evolution Calendar</link>.</para>
+    <para>Alternately, you can click the To:, Cc:, or Bcc: buttons to get a list of the email addresses in your contacts. Select addresses and click the arrows to move them into the appropriate address columns.</para>
+    <para>For more information about using email with the contact manager and the calendar, see <link linkend="contact-automation-basic">Send Me a Card: Adding New Cards Quickly</link> and <link linkend="usage-calendar-apts">Scheduling With the Evolution Calendar</link>.</para>
    </section>
 
    <section id="usage-mail-getnsend-send-reply">
-    <title>Replying to E-Mail Messages</title>
+    <title>Replying to Email Messages</title>
     <para>To reply to a message, click the message to reply to in the message list and click the Reply button in the toolbar, or right-click within the message and select Reply to Sender. This opens the message composer. The To: and Subject: fields are already filled, although you can alter them if you prefer. In addition, the full text of the old message is inserted into the new message, either in grey with a blue line on one side (for HTML display) or with the &gt; character before each line (in plain text mode), to indicate that it is part of the previous message.</para>
     <para>If you're reading a message with several recipients, you can use Reply to All instead of Reply. If there are large numbers of people in the Cc: or To: fields, this can save substantial amounts of time.</para>
 
     <section id="bsfo4jl">
      <title>Using the Reply To All Feature</title>
-     <para>Susan sends an e-mail to a client and sends copies to Tim and to an internal company mailing list of co-workers. If Tim wants to make a comment for all of them to read, he uses Reply to All, but if he just wants to tell Susan that he agrees with her, he uses Reply. His reply does not reach anyone that Susan put on her Bcc list, because that list is not shared with anyone.</para>
+     <para>Susan sends an email to a client and sends copies to Tim and to an internal company mailing list of co-workers. If Tim wants to make a comment for all of them to read, he uses Reply to All, but if he just wants to tell Susan that he agrees with her, he uses Reply. His reply does not reach anyone that Susan put on her Bcc list, because that list is not shared with anyone.</para>
      <para>If you subscribe to a mailing list, and want your reply to go just to the list, rather than to the sender, select Reply to List instead of Reply or Reply to All.</para>
     </section>
 
@@ -1685,13 +1685,13 @@
    </section>
 
    <section id="usage-mail-getnsend-send-html">
-    <title>Enhancing Your E-Mail with HTML</title>
-    <para>Normally, you can't set text styles or insert pictures in e-mail. However, most newer e-mail programs can display images and text styles in addition to basic alignment and paragraph formatting. They do this with <link linkend="html">HTML</link>, just like Web pages do.</para>
+    <title>Enhancing Your Email with HTML</title>
+    <para>Normally, you can't set text styles or insert pictures in email. However, most newer email programs can display images and text styles in addition to basic alignment and paragraph formatting. They do this with <link linkend="html">HTML</link>, just like Web pages do.</para>
     <para>Some people do not have HTML-capable mail clients, or prefer not to receive HTML-enhanced mail because it is slower to download and display. Because of this, Evolution sends plain text unless you explicitly ask for HTML.</para>
 
     <section id="bsait28">
      <title>Basic HTML Formatting</title>
-     <para>You can change the format of an e-mail message from plain text to HTML by choosing Format &gt; HTML from the menu bar.</para>
+     <para>You can change the format of an email message from plain text to HTML by choosing Format &gt; HTML from the menu bar.</para>
      <para>To send all your mail as HTML by default, set your mail format preferences in the mail configuration dialog box. See <link linkend="config-prefs-mail-composer">Composer Preferences</link> for more information.</para>
      <para>HTML formatting tools are located in the toolbar just above the space where you actually compose the message. They also appear in the Insert and Format menus.</para>
      <para>The icons in the toolbar are explained in <link linkend="tooltip">tool-tips</link>, which appear when you hold your mouse pointer over the buttons. The buttons fall into five categories:</para>
@@ -1702,7 +1702,7 @@
      <para>For instance, instead of using asterisks to mark a bulleted list, you can use the Bulleted List style from the style drop-down list. Evolution uses different bullet styles, and handles word wrap and multiple levels of indentation.</para>
      <formalpara id="bsai86c">
       <title>Text Styles:</title>
-      <para>Use these buttons to determine the way your e-mail looks. If you have text selected, the style applies to the selected text. If you do not have text selected, the style applies to whatever you type next.</para>
+      <para>Use these buttons to determine the way your email looks. If you have text selected, the style applies to the selected text. If you do not have text selected, the style applies to whatever you type next.</para>
      </formalpara>
      <informaltable>
       <tgroup cols="2">
@@ -1778,7 +1778,7 @@
 
     <section id="bsait29">
      <title>Advanced HTML Formatting</title>
-     <para>Under the Insert menu, there are several more items you can use to style your e-mail. To use these and other HTML formatting tools, make sure you have enabled HTML mode by using Format &gt; HTML from the menu bar.</para>
+     <para>Under the Insert menu, there are several more items you can use to style your email. To use these and other HTML formatting tools, make sure you have enabled HTML mode by using Format &gt; HTML from the menu bar.</para>
 
      <section id="bsait2a">
       <title>Inserting a Link</title>
@@ -1863,7 +1863,7 @@
     <para>You can set the following options when sending mail in Evolution.</para>
     <formalpara id="b101lleg">
      <title>Read Receipts:</title>
-     <para>Evolution allows you to request a receipt for your sent messages to indicate when your message is being viewed by the recipient. Receipts are useful when sending e-mail that is time-sensitive. To request a receipt, click Insert &gt; Request Read Receipt in the composer window.</para>
+     <para>Evolution allows you to request a receipt for your sent messages to indicate when your message is being viewed by the recipient. Receipts are useful when sending email that is time-sensitive. To request a receipt, click Insert &gt; Request Read Receipt in the composer window.</para>
     </formalpara>
     <formalpara id="b101llei">
      <title>Prioritize Message:</title>
@@ -1938,7 +1938,7 @@
 
    <section id="usage-mail-getnsend-fwd">
     <title>Forwarding Mail</title>
-    <para>When you receive an e-mail, you can forward it to other individuals or groups that might be interested. You can forward a message as an attachment to a new message (this is the default) or you can send it <link linkend="inline">in	line</link> as a quoted portion of the message you are sending. Attachment forwarding is best if you want to send the full, unaltered message to someone else. Inline forwarding is best if you want to send portions of a message, or if you have a large number of comments on different sections of the message you are forwarding. Remember to note from whom the message came, and whether you have removed or altered content.</para>
+    <para>When you receive an email, you can forward it to other individuals or groups that might be interested. You can forward a message as an attachment to a new message (this is the default) or you can send it <link linkend="inline">in	line</link> as a quoted portion of the message you are sending. Attachment forwarding is best if you want to send the full, unaltered message to someone else. Inline forwarding is best if you want to send portions of a message, or if you have a large number of comments on different sections of the message you are forwarding. Remember to note from whom the message came, and whether you have removed or altered content.</para>
     <para>To forward a message you are reading:</para>
     <orderedlist>
      <listitem id="b10fnnjq">
@@ -1958,7 +1958,7 @@
    </section>
 
    <section id="usage-mail-getnsend-ettiquette">
-    <title>Tips for E-Mail Courtesy</title>
+    <title>Tips for Email Courtesy</title>
     <itemizedlist>
      <listitem>
       <para>Don't forward chain letters. If you must, watch out for hoaxes and urban legends, and make sure the message doesn't have multiple layers of greater-than signs, (&gt;) indicating multiple layers of careless in-line forwarding.</para>
@@ -1973,7 +1973,7 @@
       <para>Check your spelling and use complete sentences. By default, Evolution puts a red line beneath words it doesn't recognize, as you type them.</para>
      </listitem>
      <listitem>
-      <para>Don't send nasty e-mails (flames). If you get one, don't write back.</para>
+      <para>Don't send nasty emails (flames). If you get one, don't write back.</para>
      </listitem>
      <listitem>
       <para>When you reply or forward, include enough of the previous message to provide context.</para>
@@ -1987,7 +1987,7 @@
 
   <section id="rsvp-stuff">
    <title>Sending Invitations by Mail</title>
-   <para>If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution e-mail tool. The invitation card is sent as an attachment in iCal format.</para>
+   <para>If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution email tool. The invitation card is sent as an attachment in iCal format.</para>
    <para>To send an invitation, right click on the calendar item and click Forward as iCalendar.</para>
    <para>When you receive an invitation, you have several options:</para>
    <formalpara id="bsaizt9">
@@ -2034,7 +2034,7 @@
 
   <section id="encryption">
    <title>Encryption</title>
-   <para>To protect and encode your e-mail transmissions, Evolution offers two encryption methods:</para>
+   <para>To protect and encode your email transmissions, Evolution offers two encryption methods:</para>
    <itemizedlist>
     <listitem>
      <para>GPG Encryption</para>
@@ -2082,7 +2082,7 @@
       <para>Type your real name, then press Enter.</para>
      </listitem>
      <listitem id="bsg30bg">
-      <para>Type your e-mail address, then press Enter.</para>
+      <para>Type your email address, then press Enter.</para>
      </listitem>
      <listitem id="bsg30ec">
       <para>(Optional) Type a comment, then press Enter.</para>
@@ -2168,7 +2168,7 @@
       <para>Click Send.</para>
      </listitem>
     </orderedlist>
-    <para>You can set Evolution to always sign your e-mail messages:</para>
+    <para>You can set Evolution to always sign your email messages:</para>
     <orderedlist>
      <listitem id="bsaj12e">
       <para>Select Edit &gt; Preferences, then select Mail Accounts.</para>
@@ -2261,11 +2261,11 @@
  </chapter>
 
  <chapter id="usage-mail-organize">
-  <title>Organizing Your E-Mail</title>
-  <para>Whether you only get a few e-mail messages a day, or you receive hundreds, you probably want to sort and organize them. <trademark>Evolution</trademark> has the tools to help you do it.</para>
+  <title>Organizing Your Email</title>
+  <para>Whether you only get a few email messages a day, or you receive hundreds, you probably want to sort and organize them. <trademark>Evolution</trademark> has the tools to help you do it.</para>
   <itemizedlist>
    <listitem>
-    <para><link linkend="importing-mail-and-settings">Importing Your Old E-Mail</link></para>
+    <para><link linkend="importing-mail-and-settings">Importing Your Old Email</link></para>
    </listitem>
    <listitem>
     <para><link linkend="usage-mail-organize-columns">Sorting the Message List</link></para>
@@ -2288,8 +2288,8 @@
   </itemizedlist>
 
   <section id="importing-mail-and-settings">
-   <title>Importing Your Old E-Mail</title>
-   <para>Evolution allows you to import old e-mail and contacts so that you don't need to worry about losing your old information.</para>
+   <title>Importing Your Old Email</title>
+   <para>Evolution allows you to import old email and contacts so that you don't need to worry about losing your old information.</para>
 
    <section id="importing-mail">
     <title>Importing Single Files</title>
@@ -2312,7 +2312,7 @@
     </formalpara>
     <formalpara id="bsawckg">
      <title>Microsoft Outlook Express 4 (.mbx):</title>
-     <para>The e-mail file format used by Microsoft Outlook Express 4. For other versions of Microsoft Outlook and Outlook Express, see the workaround described in <link linkend="bsawgkk">Step 1</link>.</para>
+     <para>The email file format used by Microsoft Outlook Express 4. For other versions of Microsoft Outlook and Outlook Express, see the workaround described in <link linkend="bsawgkk">Step 1</link>.</para>
     </formalpara>
     <formalpara id="bsawdfx">
      <title>LDAP Data Interchange Format (.LDIF):</title>
@@ -2320,9 +2320,9 @@
     </formalpara>
     <formalpara id="bsawdmw">
      <title>Berkley Mailbox (.mbox or null extension):</title>
-     <para>The e-mail format used by Mozilla, Netscape, Evolution, Eudora&z-3rdParty;, and many other e-mail clients.</para>
+     <para>The email format used by Mozilla, Netscape, Evolution, Eudora&z-3rdParty;, and many other email clients.</para>
     </formalpara>
-    <para>To import your old e-mail:</para>
+    <para>To import your old email:</para>
     <orderedlist>
      <listitem id="bsaweb1">
       <para>Click File &gt; Import.</para>
@@ -2364,7 +2364,7 @@
     <orderedlist>
      <listitem id="bsawgkk">
       <para>While in Windows, import your .pst files into Mozilla Mail (or another mail program such as Netscape or Eudora that uses the standard mbox format).</para>
-      <para>Before importing e-mail from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
+      <para>Before importing email from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      </listitem>
      <listitem id="bsawh7h">
       <para>Copy the files to the system or partition that Evolution is installed on.</para>
@@ -2379,11 +2379,11 @@
 
   <section id="usage-mail-organize-columns">
    <title>Sorting the Message List</title>
-   <para>Evolution helps you work by letting you sort your e-mail. To sort by sender, subject, or date, click the bars with those labels at the top of the message list. The direction of the arrow next to the label indicates the direction of the sort. Click again, to sort them in reverse order. For example, click Date to sort messages by date from oldest to newest. Click again, and Evolution sorts the list from newest to oldest. You can also right-click the message header bars to get a set of sorting options, and to add to or remove columns from the message list.</para>
+   <para>Evolution helps you work by letting you sort your email. To sort by sender, subject, or date, click the bars with those labels at the top of the message list. The direction of the arrow next to the label indicates the direction of the sort. Click again, to sort them in reverse order. For example, click Date to sort messages by date from oldest to newest. Click again, and Evolution sorts the list from newest to oldest. You can also right-click the message header bars to get a set of sorting options, and to add to or remove columns from the message list.</para>
    <para>To look at the complete headers for a message, click View &gt; All Message Headers. To see all message data, click View &gt; Message Source.</para>
 
    <section id="b17qguvc">
-    <title>Sorting Mail In E-mail Threads</title>
+    <title>Sorting Mail In Email Threads</title>
     <para>You can also choose a threaded message view. Click View &gt; Group By Threads to turn the threaded view on or off. When you select this option, Evolution groups the replies to a message with the original, so you can follow the thread of a conversation from one message to the next.</para>
     <mediaobject id="b1448dzl"><imageobject><imagedata format="PNG" fileref="figures/mail-threaded.png"/></imageobject></mediaobject>
     <para>In a thread of conversation view, each new message is stacked below of the ones that arrived before it, so that the newest message is always the one you see first. Whenever a new message arrives to an old thread as a reply, you will see it below the parent message. You always see the thread based on the date of the recent message received. The threads are sorted by the date of most recent message in the threads.</para>
@@ -2843,7 +2843,7 @@
       </formalpara>
       <formalpara id="bshkej1">
        <title>Attachments:</title>
-       <para>Creates a filter based on whether there is an attachment for the e-mail.</para>
+       <para>Creates a filter based on whether there is an attachment for the email.</para>
       </formalpara>
       <formalpara id="bshkev3">
        <title>Mailing List </title>
@@ -2943,7 +2943,7 @@
        <listitem>
         <formalpara id="bsmrdip">
          <title>Pipe to Program:</title>
-         <para>Sends the message to a program of your choice. No return value is expected. This feature can be used to create automatic Web postings from e-mail messages or to perform additional message post processing not supported by Evolution.</para>
+         <para>Sends the message to a program of your choice. No return value is expected. This feature can be used to create automatic Web postings from email messages or to perform additional message post processing not supported by Evolution.</para>
         </formalpara>
        </listitem>
        <listitem>
@@ -3008,12 +3008,12 @@
 
   <section id="usage-mail-organize-vfolders">
    <title>Using Search Folders</title>
-   <para>If filters aren't flexible enough, or you find yourself performing the same search again and again, consider a search folder. Search folders are an advanced way of viewing your e-mail messages within Evolution. If you get a lot of mail or often forget where you put messages, search folders can help you keep things organized.</para>
+   <para>If filters aren't flexible enough, or you find yourself performing the same search again and again, consider a search folder. Search folders are an advanced way of viewing your email messages within Evolution. If you get a lot of mail or often forget where you put messages, search folders can help you keep things organized.</para>
    <para>A search folder is really a hybrid of all the other organizational tools: it looks like a folder, it acts like a search, and you set it up like a filter. In other words, a conventional folder actually contains messages, but a search folder is a view of messages that might be in several different folders. The messages it contains are determined on the fly using a set of criteria you choose in advance.</para>
    <para>As messages that meet the search folder criteria arrive or are deleted, Evolution automatically adjusts the search folder contents. When you delete a message, it is erased from the folder in which it actually exists, as well as any search folders that display it.</para>
    <para>The Unmatched Search Folder is the opposite of other search folders: it displays all messages that do not appear in other search folders.</para>
-   <para>If you use remote e-mail storage like IMAP or Microsoft Exchange, and have created search folders to search through them, the Unmatched Search Folder also searches the remote folders. If you do not create any search folders that search remote mail stores, the Unmatched Search Folder does not search in them either.</para>
-   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for e-mail from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the <quote>Anna</quote> search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the <quote>Anna</quote> search folder and in the <quote>Internal Evolution Discussion</quote> search folder.</para>
+   <para>If you use remote email storage like IMAP or Microsoft Exchange, and have created search folders to search through them, the Unmatched Search Folder also searches the remote folders. If you do not create any search folders that search remote mail stores, the Unmatched Search Folder does not search in them either.</para>
+   <para>As an example of using folders, searches, and search folders, consider the following: To organize his mailbox, Jim sets up a search folder for email from his friend and co-worker Anna. He has another search folder for messages that have novell.com in the address and Evolution in the subject line, so he can keep a record of what people from work send him about Evolution. If Anna sends him a message about anything other than Evolution, it only shows up in the <quote>Anna</quote> search folder. When Anna sends him mail about the user interface for Evolution, he can see the message both in the <quote>Anna</quote> search folder and in the <quote>Internal Evolution Discussion</quote> search folder.</para>
 
    <section id="vfolder-create">
     <title>Creating A Search Folder</title>
@@ -3088,7 +3088,7 @@
       </formalpara>
       <formalpara id="bshkzuu">
        <title>Attachments:</title>
-       <para>Creates a filter based on whether there is an attachment for the e-mail.</para>
+       <para>Creates a filter based on whether there is an attachment for the email.</para>
       </formalpara>
       <formalpara id="bshkzuv">
        <title>Mailing List:</title>
@@ -3177,7 +3177,7 @@
 
   <section id="usage-contact-cards">
    <title>Contacts and Cards</title>
-   <para>Contacts are the individuals you have chosen to add to your address book so you can keep track of information about them and send e-mail to them. In Evolution, an individual contact is called a card. For more information on organizing your contacts see <link linkend="usage-contact-organize">Organizing your Contacts</link>. To learn about configuring the contacts tool, refer <link linkend="config-prefs-contact">Contact Management</link>.</para>
+   <para>Contacts are the individuals you have chosen to add to your address book so you can keep track of information about them and send email to them. In Evolution, an individual contact is called a card. For more information on organizing your contacts see <link linkend="usage-contact-organize">Organizing your Contacts</link>. To learn about configuring the contacts tool, refer <link linkend="config-prefs-contact">Contact Management</link>.</para>
 
    <section id="bsqchx3">
     <title>The Contact Editor</title>
@@ -3195,8 +3195,8 @@
      <title>Mailing Address:</title>
      <para>Contains the individual's mailing address.</para>
     </formalpara>
-    <para>You can also use Action Menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's e-mail address.</para>
-    <para>You can add a card from within an e-mail message or calendar appointment. In an open e-mail, right-click any e-mail address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu.</para>
+    <para>You can also use Action Menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's email address.</para>
+    <para>You can add a card from within an email message or calendar appointment. In an open email, right-click any email address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu.</para>
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
      <title>Full Name:</title>
@@ -3441,7 +3441,7 @@
     <para>Contacts Groups are nothing but Address Books. The simplest way to organize contacts is to create additional address books. You can create a new one by clicking File &gt; New &gt; Address Book. For contacts groups on your computer, you only need to provide a name. For contacts on the network, you need to provide more information about the contacts server you are trying to access.</para>
     <para>To move a card from one group to another, just drag it from the main display of contacts and drop it to a different group. You cannot change the contents of most network contact groups.</para>
     <note>
-     <para>Contacts groups are not the same as contact lists. A contact group is like a folder or address book full of contacts. A contact list is a single contact that contains other contacts, and is most often used to e-mail several people at once.</para>
+     <para>Contacts groups are not the same as contact lists. A contact group is like a folder or address book full of contacts. A contact list is a single contact that contains other contacts, and is most often used to email several people at once.</para>
     </note>
    </section>
 
@@ -3460,8 +3460,8 @@
 
    <section id="usage-contact-organize-group-list">
     <title>Creating a List of Contacts</title>
-    <para>A contact list is a set of contacts with a single nickname that you create. When you send e-mail to the nickname, it is sent to every member of the list. This differs from a network mailing list in that it exists only on your computer as a convenience to you, rather than as an actual e-mail address managed by a mailing list application on a server.</para>
-    <para>For example, you could create one card for each family member, then add those cards to a contact list called <quote>Family.</quote> Then, instead of entering each person's e-mail address individually, you can send e-mail to <quote>Family</quote> and the message would go to all of them.</para>
+    <para>A contact list is a set of contacts with a single nickname that you create. When you send email to the nickname, it is sent to every member of the list. This differs from a network mailing list in that it exists only on your computer as a convenience to you, rather than as an actual email address managed by a mailing list application on a server.</para>
+    <para>For example, you could create one card for each family member, then add those cards to a contact list called <quote>Family.</quote> Then, instead of entering each person's email address individually, you can send email to <quote>Family</quote> and the message would go to all of them.</para>
     <para> To create a list of contacts:</para>
     <orderedlist>
      <listitem id="bshlf6r">
@@ -3473,20 +3473,20 @@
       <para>Specify a name for the list.</para>
      </listitem>
      <listitem id="bshlfcp">
-      <para>Specify the names or e-mail addresses of contacts.</para>
+      <para>Specify the names or email addresses of contacts.</para>
       <para>or</para>
       <para>Drag contacts from the main window into the list.</para>
      </listitem>
      <listitem id="bshlfem">
-      <para>Choose whether you want to hide the e-mail addresses when you send a message to the list.</para>
-      <para>Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the <quote>Bcc:</quote> feature discussed in <link linkend="usage-mail-getnsend-send-to-types">Specifying Additional Recipients for E-Mail</link>.</para>
+      <para>Choose whether you want to hide the email addresses when you send a message to the list.</para>
+      <para>Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the <quote>Bcc:</quote> feature discussed in <link linkend="usage-mail-getnsend-send-to-types">Specifying Additional Recipients for Email</link>.</para>
      </listitem>
      <listitem id="bshlfgv">
       <para>When you are finished, click OK.</para>
      </listitem>
     </orderedlist>
-    <para>The list appears as a contact card, which you can use as you would any other card, including mailing the list to another person and sending e-mail to the list.</para>
-    <para>To mail the list, open a new e-mail and type the name you chose for the list. Evolution addresses the message to the entire list when you send the message. You can also right-click the list's address card in the contacts tool and select Send Message to List.</para>
+    <para>The list appears as a contact card, which you can use as you would any other card, including mailing the list to another person and sending email to the list.</para>
+    <para>To mail the list, open a new email and type the name you chose for the list. Evolution addresses the message to the entire list when you send the message. You can also right-click the list's address card in the contacts tool and select Send Message to List.</para>
     <para>Evolution cannot store contact lists on Microsoft Exchange servers.</para>
    </section>
 
@@ -3559,7 +3559,7 @@
 
   <section id="contact-automation-basic">
    <title>Send Me a Card: Adding New Cards Quickly</title>
-   <para>When you get information about a person in the mail or in a calendar entry, you can add it to an address card. To do so, right-click any e-mail address or e-mail message, and click Add to Address Book on the menu that appears. If the sender already exists, the Editor tab opens and you can edit the detail. Evolution can also add cards from a hand-held device during HotSync&z-3rdParty; operation. For more information, see <link linkend="config-sync">Synchronizing Your Handheld Device</link>.</para>
+   <para>When you get information about a person in the mail or in a calendar entry, you can add it to an address card. To do so, right-click any email address or email message, and click Add to Address Book on the menu that appears. If the sender already exists, the Editor tab opens and you can edit the detail. Evolution can also add cards from a hand-held device during HotSync&z-3rdParty; operation. For more information, see <link linkend="config-sync">Synchronizing Your Handheld Device</link>.</para>
   </section>
  </chapter>
 
@@ -3959,21 +3959,21 @@
    <section id="usage-calendar-rsvp">
     <title>Sending a Meeting Invitation</title>
     <para>A meeting is an event you schedule for multiple people. Evolution can be used to schedule group meetings and help you manage responses to meeting requests.</para>
-    <para>When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the meeting listing, each attendee is sent an e-mail with the meeting information, which also gives them the option to respond.</para>
-    <para>If you don't need to collect attendance information when you're scheduling an event, and would rather just announce the event, right-click the meeting and select Forward as iCalendar. This opens a new e-mail message with the event notification attached as an announcement. Recipients can add the event to their calendars with one click, but it won't automatically send you e-mail about whether they plan to attend.</para>
+    <para>When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the meeting listing, each attendee is sent an email with the meeting information, which also gives them the option to respond.</para>
+    <para>If you don't need to collect attendance information when you're scheduling an event, and would rather just announce the event, right-click the meeting and select Forward as iCalendar. This opens a new email message with the event notification attached as an announcement. Recipients can add the event to their calendars with one click, but it won't automatically send you email about whether they plan to attend.</para>
     <para>To schedule a meeting:</para>
     <orderedlist>
      <listitem id="bsb0agm">
       <para>Click File &gt; New &gt; Meeting.</para>
      </listitem>
      <listitem id="bsb0ao0">
-      <para>If you have multiple e-mail accounts, select the one to use by selecting an item in the Organizer field.</para>
+      <para>If you have multiple email accounts, select the one to use by selecting an item in the Organizer field.</para>
      </listitem>
      <listitem id="b10fof8d">
       <para>Select a calendar in the Calendar drop-down list.</para>
      </listitem>
      <listitem id="b10fofba">
-      <para>Click Add to add the e-mail addresses of people you want to invite.</para>
+      <para>Click Add to add the email addresses of people you want to invite.</para>
      </listitem>
      <listitem id="b10fofdk">
       <para>To remove an attendee from the list, select an attendee and press Remove.</para>
@@ -4039,7 +4039,7 @@
       <para>Click Save to save the meeting.</para>
      </listitem>
     </orderedlist>
-    <para>An e-mail is sent out to all the recipients, inviting them to your event.</para>
+    <para>An email is sent out to all the recipients, inviting them to your event.</para>
     <note>
      <para>In Evolution, a meeting can have only one organizer, and only the organizer can add participants to that meeting. Though it is possible to change the organizer of a meeting, this is not recommended as a means to invite additional participants to meetings. If you want to invite additional people to a meeting and are not that meeting's organizer, it is recommended that you forward the invitation message you received from the original meeting organiser to additional participants.</para>
     </note>
@@ -4059,7 +4059,7 @@
       <para>Decline</para>
      </listitem>
     </itemizedlist>
-    <para>Click OK to send an e-mail to the organizer with your answer. The event is also added to your calendar if you accept.</para>
+    <para>Click OK to send an email to the organizer with your answer. The event is also added to your calendar if you accept.</para>
     <para>After you add the meeting to your calendar, you can make changes to the information, but if the original organizer sends out another update, your changes might be overwritten.</para>
    </section>
 
@@ -4077,7 +4077,7 @@
       <para>Click File &gt; New &gt; Meeting.</para>
      </listitem>
      <listitem id="b10foig5">
-      <para>Click Add to add the e-mail addresses of people you want to invite.</para>
+      <para>Click Add to add the email addresses of people you want to invite.</para>
      </listitem>
      <listitem id="bsb0c7x">
       <para>Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy.</para>
@@ -4085,7 +4085,7 @@
       
      </listitem>
      <listitem id="b10fogwo">
-      <para>Adjust the meeting time, either by dragging the meeting borders or by using the Autopick buttons to choose a time automatically, then click Save and Close. Attendees on an Exchange server have the appointment updated automatically; others receive e-mail notification of any change in plans.</para>
+      <para>Adjust the meeting time, either by dragging the meeting borders or by using the Autopick buttons to choose a time automatically, then click Save and Close. Attendees on an Exchange server have the appointment updated automatically; others receive email notification of any change in plans.</para>
      </listitem>
     </orderedlist>
     <formalpara id="bsb0cyw">
@@ -4355,7 +4355,7 @@
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
-    <para>After you have added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete. The list of tasks is sorted in a similar way to the list of e-mail messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display.</para>
+    <para>After you have added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete. The list of tasks is sorted in a similar way to the list of email messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display.</para>
    </section>
 
    <section id="task-folders">
@@ -4406,20 +4406,20 @@
    <section id="b1012vcx">
     <title>Assigned Tasks</title>
     <para>Evolution can be used to assign a task to multiple people.</para>
-    <para>When you assign a task, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the task, each attendee is sent an e-mail with the task information, which also gives them the option to respond.</para>
+    <para>When you assign a task, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the task, each attendee is sent an email with the task information, which also gives them the option to respond.</para>
     <para>To assign a new task:</para>
     <orderedlist>
      <listitem id="b1012vcy">
       <para>Click File &gt; New &gt; Assigned Task.</para>
      </listitem>
      <listitem id="b1012vcz">
-      <para>If you have multiple e-mail accounts, select the one to use by selecting an item in the Organizer field.</para>
+      <para>If you have multiple email accounts, select the one to use by selecting an item in the Organizer field.</para>
      </listitem>
      <listitem id="b1012vd0">
       <para>Select a group for the task.</para>
      </listitem>
      <listitem id="b1012vd1">
-      <para>Click Add, or press Insert key, or right click and then press Add to add the e-mail addresses of people you want to assign the task.To remove an attendee from the list, select an attendee, then press Remove.To edit a field, select the field, then click Edit.Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
+      <para>Click Add, or press Insert key, or right click and then press Add to add the email addresses of people you want to assign the task.To remove an attendee from the list, select an attendee, then press Remove.To edit a field, select the field, then click Edit.Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b1012vd2">
       <para>Enter a brief summary in the Summary field.</para>
@@ -4918,8 +4918,8 @@
       </listitem>
       <listitem>
        <formalpara id="b10fqiuh">
-        <title>Sending E-mail via Exchange Protocols:</title>
-        <para>If you use the Microsoft Exchange mail transport protocol to send e-mail, make sure that the address you have entered as your e-mail address is exactly the one that the Exchange server has on file. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com.</quote></para>
+        <title>Sending Email via Exchange Protocols:</title>
+        <para>If you use the Microsoft Exchange mail transport protocol to send email, make sure that the address you have entered as your email address is exactly the one that the Exchange server has on file. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com.</quote></para>
        </formalpara>
       </listitem>
       <listitem>
@@ -4965,7 +4965,7 @@
       <listitem>
        <formalpara id="b10fqk4l">
         <title>Adding vCards to the Address Book:</title>
-        <para>Allows you to save the vCards you receive in attachment to your Exchange address book.New Address Book entries can also be created on Exchange from received e-mail messages with a single click.</para>
+        <para>Allows you to save the vCards you receive in attachment to your Exchange address book.New Address Book entries can also be created on Exchange from received email messages with a single click.</para>
        </formalpara>
       </listitem>
      </itemizedlist>
@@ -5066,7 +5066,7 @@
        
       </listitem>
       <listitem id="bshngg7">
-       <para>Change your e-mail address as needed.</para>
+       <para>Change your email address as needed.</para>
       </listitem>
       <listitem id="bshngsm">
        <para>Click the Receiving Mail tab, then select Microsoft Exchange as your server type.</para>
@@ -5103,7 +5103,7 @@
   <section id="access">
    <title>Accessing the Exchange Server</title>
    <para>When you have installed Evolution Exchange, you can access public folders and perform certain Exchange actions like delegation and password management, and subscribing to other user's calendars, tasks, and contact folders. You can also carry out any folder-related operations like adding, deleting, and renaming folders, and selecting folder permissions on calendars, tasks, and contact folders. Use the regular Mail tool for mail, the Contacts tool for contacts, and the Calendar tool for setting schedules.</para>
-   <para>If you are using both an Exchange account and a local mail account, you should be aware that whenever you save an e-mail address or appointment from an e-mail message, it is saved in your Exchange contacts list or calendar, rather than in your local account. The same is true for synchronization with Palm OS devices; tasks, and appointments.Addresses from your Palm OS device are synchronized in the Exchange folders rather than in local folders.</para>
+   <para>If you are using both an Exchange account and a local mail account, you should be aware that whenever you save an email address or appointment from an email message, it is saved in your Exchange contacts list or calendar, rather than in your local account. The same is true for synchronization with Palm OS devices; tasks, and appointments.Addresses from your Palm OS device are synchronized in the Exchange folders rather than in local folders.</para>
    <para>To avoid unnecessary strain on the server, the Global Address List (GAL) appears empty until you search for something in it.</para>
    <para></para>
   </section>
@@ -5281,7 +5281,7 @@
        
       </listitem>
       <listitem id="bshokwk">
-       <para>Specify the e-mail address of the user who has delegated to you, or click User to select the user from your address book.</para>
+       <para>Specify the email address of the user who has delegated to you, or click User to select the user from your address book.</para>
       </listitem>
       <listitem id="bshol98">
        <para>Select the folder you want to open.</para>
@@ -5327,7 +5327,7 @@
 
    <section id="exchange-out-of-office">
     <title>Setting an Out of Office Message</title>
-    <para>An Out of Office message is an automatic reply that you can send as a reply to messages, explaining why you are not immediately responding to their messages. For example, if you go on vacation for a week and will not access your e-mail, you can set an automatic reply so that people know that you are not ignoring them.</para>
+    <para>An Out of Office message is an automatic reply that you can send as a reply to messages, explaining why you are not immediately responding to their messages. For example, if you go on vacation for a week and will not access your email, you can set an automatic reply so that people know that you are not ignoring them.</para>
     <orderedlist>
      <listitem id="bsbgb7t">
       <para>Select Edit &gt; Preferences, then select Mail Accounts.</para>
@@ -5483,7 +5483,7 @@
        <para>Address Completion is supported for your GroupWise address books, including the System address book, the Frequent Contacts address book, and your personal address book.</para>
       </listitem>
       <listitem>
-       <para>If you receive a card attachment and click Save in Address Book, it is saved to your Personal address book. New Address Book entries can also be added to your personal address book from received E-mail messages.</para>
+       <para>If you receive a card attachment and click Save in Address Book, it is saved to your Personal address book. New Address Book entries can also be added to your personal address book from received Email messages.</para>
       </listitem>
       <listitem>
        <para>To create your GroupWise Frequent contacts and Personal address books, you need to access your GroupWise account once through GroupWise Java client because Evolution currently does not support creating them. The GroupWise system address book is marked for offline use by default.This boosts performance.</para>
@@ -5626,7 +5626,7 @@
 
    <section id="buw5x0k">
     <title>Changing an Existing Account to Work with GroupWise</title>
-    <para>If you have an existing e-mail account, and want to convert it to use with GroupWise:</para>
+    <para>If you have an existing email account, and want to convert it to use with GroupWise:</para>
     <orderedlist>
      <listitem id="buw5x0l">
       <para>Select Edit &gt; Preferences, then select Mail Accounts.</para>
@@ -5640,7 +5640,7 @@
       
      </listitem>
      <listitem id="bxpfqzp">
-      <para>Change your e-mail address as needed.</para>
+      <para>Change your email address as needed.</para>
      </listitem>
      <listitem id="buw5x0o">
       <para>Click the Receiving Email tab, then select Novell GroupWise as your server type.</para>
@@ -5752,7 +5752,7 @@
      <para>Click Actions &gt; Schedule Meeting.</para>
     </listitem>
     <listitem id="bv7wato">
-     <para>Add attendees, either by entering their e-mail addresses into the list, or by clicking the Invite Others button.</para>
+     <para>Add attendees, either by entering their email addresses into the list, or by clicking the Invite Others button.</para>
     </listitem>
     <listitem id="bv7wb0h">
      <para>Click Options, then click Update Free/Busy to check participant schedules and, if possible, update the meeting in all participants' calendars.</para>
@@ -5781,15 +5781,15 @@
     </listitem>
    </itemizedlist>
    <important>
-    <para>You can manage your sent items for GroupWise e-mail only if the recipient is located on the same GroupWise system as you.</para>
+    <para>You can manage your sent items for GroupWise email only if the recipient is located on the same GroupWise system as you.</para>
    </important>
 
    <section id="Aaez1x0">
     <title>Confirming Delivery of Items You have Sent</title>
-    <para>Evolution provides several ways for you to confirm that your item was delivered. You can easily track message status of any message you have sent. For example, you can see when an e-mail was delivered and when the recipient opened or deleted the e-mail.</para>
+    <para>Evolution provides several ways for you to confirm that your item was delivered. You can easily track message status of any message you have sent. For example, you can see when an email was delivered and when the recipient opened or deleted the email.</para>
     <formalpara id="b17sa0q2">
      <title>Track an Item You Sent:</title>
-     <para> You can check the status in the Message Status window of an e-mail you have sent.</para>
+     <para> You can check the status in the Message Status window of an email you have sent.</para>
     </formalpara>
     <formalpara id="b17sa0y1">
      <title>Receive Notification When the Item is Opened or Deleted:</title>
@@ -5797,7 +5797,7 @@
     </formalpara>
     <formalpara id="b17sa1iu">
      <title>Request a Reply:</title>
-     <para>You can inform the recipient that you need a reply to an e-mail. Evolution adds a sentence to the item stating that a reply is requested and changes the icon in the recipient's Mailbox to a double arrow. For information, see <link linkend="Ak05sv1">Requesting a Reply for Items You Send</link>.</para>
+     <para>You can inform the recipient that you need a reply to an email. Evolution adds a sentence to the item stating that a reply is requested and changes the icon in the recipient's Mailbox to a double arrow. For information, see <link linkend="Ak05sv1">Requesting a Reply for Items You Send</link>.</para>
     </formalpara>
 
     <section id="b17qstbk">
@@ -5833,7 +5833,7 @@
      <title>Checking the Status of an Item You Have Sent</title>
      <orderedlist>
       <listitem id="Aaezj33">
-       <para>Right-click an e-mail in your Sent folder, then click Track Message Status.</para>
+       <para>Right-click an email in your Sent folder, then click Track Message Status.</para>
        <para>With Message Tracking, you know when the item reaches the recipients or is read by them. You also know exactly who received your message, who read your message, and who deleted it and when.</para>
       </listitem>
      </orderedlist>
@@ -5841,7 +5841,7 @@
    </section>
 
    <section id="bv7v0t1">
-    <title>Changing the Priority of an E-Mail</title>
+    <title>Changing the Priority of an Email</title>
     <orderedlist>
      <listitem id="bv7vmrv">
       <para>In the Compose Message window, click Insert &gt; Send Options.</para>
@@ -5897,7 +5897,7 @@
       <para>Click the Sent Items folder in the Folder List.</para>
      </listitem>
     </orderedlist>
-    <para>All sent items reside in this folder unless you select a different folder for sent e-mail in the account editor default settings. For more information, refer to <link linkend="b17s9qmz">Changing Default Folder for Sent and Draft Items</link> under <link linkend="b13uhy6r">Default Settings</link>.</para>
+    <para>All sent items reside in this folder unless you select a different folder for sent email in the account editor default settings. For more information, refer to <link linkend="b17s9qmz">Changing Default Folder for Sent and Draft Items</link> under <link linkend="b13uhy6r">Default Settings</link>.</para>
    </section>
    <section id="bxjm31g">
     <title>Delegating an Item</title>
@@ -6127,10 +6127,10 @@
      <para><link linkend="bxqwfgd">Enabling or Disabling Your Junk Mail List</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="bxqwjg6">Adding an E-Mail Address to Your Junk List</link></para>
+     <para><link linkend="bxqwjg6">Adding an Email Address to Your Junk List</link></para>
     </listitem>
     <listitem>
-     <para><link linkend="bxqwk0f">Removing an E-Mail Address from Your Junk List</link></para>
+     <para><link linkend="bxqwk0f">Removing an Email Address from Your Junk List</link></para>
     </listitem>
    </itemizedlist>
 
@@ -6174,13 +6174,13 @@
    </section>
 
    <section id="bxqwjg6">
-    <title>Adding an E-Mail Address to Your Junk List</title>
+    <title>Adding an Email Address to Your Junk List</title>
     <orderedlist>
      <listitem id="bxqwjmf">
       <para>Right-click a message, then click Junk Mail Settings.</para>
      </listitem>
      <listitem id="bxqwjq0">
-      <para>Type the e-mail address to block in the Email field.</para>
+      <para>Type the email address to block in the Email field.</para>
      </listitem>
      <listitem id="bxqwju6">
       <para>Click Add, then click OK.</para>
@@ -6189,13 +6189,13 @@
    </section>
 
    <section id="bxqwk0f">
-    <title>Removing an E-Mail Address from Your Junk List</title>
+    <title>Removing an Email Address from Your Junk List</title>
     <orderedlist>
      <listitem id="bxqwkeq">
       <para>Right-click a message, then click Junk Mail Settings.</para>
      </listitem>
      <listitem id="bxqwker">
-      <para>Select the e-mail address to remove, then click Remove.</para>
+      <para>Select the email address to remove, then click Remove.</para>
      </listitem>
      <listitem id="bxqwkes">
       <para>Click OK.</para>
@@ -6256,11 +6256,11 @@
   <para>There are six items you can customize.</para>
   <formalpara id="b17sa7c0">
    <title>Mail Accounts:</title>
-   <para>Add or change information about your e-mail accounts, such as the servers you connect to, the way you download mail, and your password authentication mode. This is the most complex item in the list, and is covered in <link linkend="config-prefs-mail-identity">Working with Mail Accounts</link>.</para>
+   <para>Add or change information about your email accounts, such as the servers you connect to, the way you download mail, and your password authentication mode. This is the most complex item in the list, and is covered in <link linkend="config-prefs-mail-identity">Working with Mail Accounts</link>.</para>
   </formalpara>
   <formalpara id="b17sa7hj">
    <title>Autocompletion:</title>
-   <para>Set the address books to be used when completing e-mail addresses in the message composer. For more information, see <link linkend="bshoq5l">Autocompletion</link>.</para>
+   <para>Set the address books to be used when completing email addresses in the message composer. For more information, see <link linkend="bshoq5l">Autocompletion</link>.</para>
   </formalpara>
   <formalpara id="b17sa7qv">
    <title>Mail Preferences:</title>
@@ -6268,7 +6268,7 @@
   </formalpara>
   <formalpara id="b17sa85j">
    <title>Composer Preferences:</title>
-   <para>These are settings for the way that you use the mail composer, such as signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in e-mail. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
+   <para>These are settings for the way that you use the mail composer, such as signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in email. This tool is covered in <link linkend="config-prefs-mail-composer">Composer Preferences</link>.</para>
   </formalpara>
   <formalpara id="b17sa8cq">
    <title>Calendar and Tasks:</title>
@@ -6282,17 +6282,17 @@
 
   <section id="config-prefs-mail-identity">
    <title>Working with Mail Accounts</title>
-   <para>Evolution allows you to maintain multiple accounts, or identities. When you are writing an e-mail message, you can choose which account to use by selecting from the drop-down list next to the From field in the message composer.</para>
+   <para>Evolution allows you to maintain multiple accounts, or identities. When you are writing an email message, you can choose which account to use by selecting from the drop-down list next to the From field in the message composer.</para>
    <para>Click Send/Receive to update all mail sources that are not disabled. If you don't want to check mail for a given account, select the account in Edit &gt; Preferences &gt; Mail Accounts page and click the Disable button.</para>
    <para>To add a new account, click Add to open the Evolution configuration assistant. To alter an existing account, select it in the Preferences window, then click Edit to open the account editor dialog box.</para>
    <para>The account editor dialog box has seven sections:</para>
    <formalpara id="bsbhdwn">
     <title>Identity:</title>
-    <para>Specify the name and e-mail address for this account. You can also choose a default signature to insert into messages sent from this account.</para>
+    <para>Specify the name and email address for this account. You can also choose a default signature to insert into messages sent from this account.</para>
    </formalpara>
    <formalpara id="bsbhe10">
     <title>Receiving Email:</title>
-    <para>Select the way you receive e-mail. You can download e-mail from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. If your server requires you to use a secure connection, you can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
+    <para>Select the way you receive email. You can download email from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. If your server requires you to use a secure connection, you can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
    </formalpara>
    <para>Your system administrator might ask you to connect to a specific port on a mail server. To specify which port you use, just type a colon and the port number after the server name. For example, to connect to port 143 on the server smtp.example.com, specify smtp.example.com:143 as the server name.</para>
    <para>For additional information, see <link linkend="second-step">Receiving Mail</link>.</para>
@@ -6411,7 +6411,7 @@
      <para><link linkend="bxjncro">Calendar and Tasks Preferences</link></para>
     </listitem>
    </itemizedlist>
-   <para>For information on individual e-mail account settings, see <link linkend="config-prefs-mail-identity">Working with Mail Accounts</link>.</para>
+   <para>For information on individual email account settings, see <link linkend="config-prefs-mail-identity">Working with Mail Accounts</link>.</para>
 
    <section id="config-prefs-mail-general">
     <title>General Mail Settings</title>
@@ -6448,7 +6448,7 @@
     </formalpara>
     <formalpara id="bsbhr9p">
      <title>Loading Images:</title>
-     <para>You can embed a image in an e-mail and have it load only when the message arrives. However, spammers can use image loading patterns to confirm <quote>valid</quote> addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images.</para>
+     <para>You can embed a image in an email and have it load only when the message arrives. However, spammers can use image loading patterns to confirm <quote>valid</quote> addresses and invade your privacy. You can elect to never load images automatically, to load images only if the sender is in your contacts, or always load images.</para>
     </formalpara>
     <para>If you have chosen not to load images automatically, you can choose to see the images in one message at a time by selecting View &gt; Load Images or press Ctrl+I.</para>
    </section>
@@ -6475,7 +6475,7 @@
       <para>Edit name and color, then click OK.</para>
      </listitem>
     </orderedlist>
-    <para>To assign a label to a specific e-mail message:</para>
+    <para>To assign a label to a specific email message:</para>
     <orderedlist>
      <listitem id="b1a58ynk">
       <para>Right-click the message from the message preview.</para>
@@ -6513,7 +6513,7 @@
     </orderedlist>
     <formalpara id="b17rdsy5">
      <title>General:</title>
-     <para>You can check incoming e-mail for junk contents and also decide how often you want to delete junk mail. You also have the option to choose either SpamAssassin or Bogofilter, or you can select both.</para>
+     <para>You can check incoming email for junk contents and also decide how often you want to delete junk mail. You also have the option to choose either SpamAssassin or Bogofilter, or you can select both.</para>
     </formalpara>
     <formalpara id="bsaz9zd">
      <title>Checking Incoming Mail for Junk:</title>
@@ -6603,7 +6603,7 @@
 
    <section id="bshpjpl">
     <title>Signature</title>
-    <para>The signature editor allows you to create several different signatures in plain text or in HTML, and to specify which of them will be added to e-mail you create in the message composer. If you prefer to use an alternate signature or none at all, you can select it from the mail composer itself.</para>
+    <para>The signature editor allows you to create several different signatures in plain text or in HTML, and to specify which of them will be added to email you create in the message composer. If you prefer to use an alternate signature or none at all, you can select it from the mail composer itself.</para>
    </section>
 
    <section id="bshpjuj">
@@ -6797,7 +6797,7 @@
       </formalpara>
       <formalpara id="bxmwai2">
        <title>Login Method:</title>
-       <para>Specify whether your login is anonymous, uses an e-mail address, or uses a distinguished name. If the login is not anonymous, specify the e-mail address or distinguished name (DN) required by the server.</para>
+       <para>Specify whether your login is anonymous, uses an email address, or uses a distinguished name. If the login is not anonymous, specify the email address or distinguished name (DN) required by the server.</para>
       </formalpara>
       <formalpara id="bxmwai3">
        <title>Port:</title>
@@ -6851,7 +6851,7 @@
        <title>Search Filter:</title>
        <para>The search filter can be set here for all the LDAP queries. For example:</para>
       </formalpara>
-      <para>ObjectClass=*: Lists all the objects from the server.ObjectClass=User: Lists only the users. Filter (|(ObjectClass=User)(ObjectClass=groupOfNames)): Retrieves the User and Contact List objects.(&amp;(mail=*)(ObjectClass=*)): Lists the objects associated with the e-mail addresses.</para>
+      <para>ObjectClass=*: Lists all the objects from the server.ObjectClass=User: Lists only the users. Filter (|(ObjectClass=User)(ObjectClass=groupOfNames)): Retrieves the User and Contact List objects.(&amp;(mail=*)(ObjectClass=*)): Lists the objects associated with the email addresses.</para>
       <note>
        <para>If you change any LDAP address book configurations, Evolution and the Evolution Data Server need to be restarted in order to see the changes.</para>
       </note>
@@ -7029,7 +7029,7 @@
     <para>Press Ctrl+N to open a new item for whatever part of Evolution you're working in. In mail, this means you create a new message. If you're looking at your address book, Ctrl+N creates a new contact card, and in the calendar, a new appointment.</para>
    </formalpara>
    <formalpara id="b17sa9q1">
-    <title>Creating a New E-mail Message:</title>
+    <title>Creating a New Email Message:</title>
     <para>Click File &gt; New &gt; Mail Message or Shift+Ctrl+M.</para>
    </formalpara>
    <formalpara id="b17saa12">
@@ -7079,7 +7079,7 @@
    </formalpara>
    <formalpara id="b17sazyg">
     <title>Adding a Sender to the Address Book:</title>
-    <para>Right-click on any e-mail address to add it to your address book.</para>
+    <para>Right-click on any email address to add it to your address book.</para>
    </formalpara>
   </section>
 
@@ -7107,7 +7107,7 @@
     <para>Right-click a contact, then click Delete; or select a contact, then click Delete on the toolbar.</para>
    </formalpara>
    <formalpara id="b17sb29u">
-    <title>Sending E-mails to a Contact:</title>
+    <title>Sending Emails to a Contact:</title>
     <para>Right-click a contact, then click Send Message to Contact.</para>
    </formalpara>
    <formalpara id="b17sb2ia">
@@ -7194,7 +7194,7 @@
   <glossentry id="attachment">
    <glossterm>attachment</glossterm>
    <glossdef>
-    <para>Any file sent with an e-mail. Attachments can be embedded in a message or appended to it.</para>
+    <para>Any file sent with an email. Attachments can be embedded in a message or appended to it.</para>
    </glossdef>
   </glossentry>
   <glossentry id="automatic-indexing">
@@ -7254,19 +7254,19 @@
   <glossentry id="forward">
    <glossterm>forward</glossterm>
    <glossdef>
-    <para>Forwards a copy of the message and any additional comments to a different e-mail address.</para>
+    <para>Forwards a copy of the message and any additional comments to a different email address.</para>
    </glossdef>
   </glossentry>
   <glossentry id="groupware">
    <glossterm>groupware</glossterm>
    <glossdef>
-    <para>A term describing an application that helps groups of people work together. Typically, a groupware application has several productivity features built into one program, including e-mail, calendar, and address book tools.</para>
+    <para>A term describing an application that helps groups of people work together. Typically, a groupware application has several productivity features built into one program, including email, calendar, and address book tools.</para>
    </glossdef>
   </glossentry>
   <glossentry id="html">
    <glossterm>HTML</glossterm>
    <glossdef>
-    <para>Hypertext Markup Language (HTML) is a language for describing page layout in electronic documents such as Web pages, help files, and e-mail messages. HTML can be used in e-mail and news posts to insert images and apply text treatments.</para>
+    <para>Hypertext Markup Language (HTML) is a language for describing page layout in electronic documents such as Web pages, help files, and email messages. HTML can be used in email and news posts to insert images and apply text treatments.</para>
    </glossdef>
   </glossentry>
   <glossentry id="ical">
@@ -7278,7 +7278,7 @@
   <glossentry id="imap">
    <glossterm>IMAP</glossterm>
    <glossdef>
-    <para>Internet Mail Access Protocol. It allows access to e-mail that is typically stored remotely on a server rather than on a local hard disk. Often contrasted with POP.</para>
+    <para>Internet Mail Access Protocol. It allows access to email that is typically stored remotely on a server rather than on a local hard disk. Often contrasted with POP.</para>
    </glossdef>
   </glossentry>
   <glossentry id="inline">
@@ -7296,19 +7296,19 @@
   <glossentry id="mail-client">
    <glossterm>mail client</glossterm>
    <glossdef>
-    <para>The application with which a person reads and sends e-mail. Its counterparts are the various types of mail servers, which handle user authentication and direct messages from the sender to the recipient.</para>
+    <para>The application with which a person reads and sends email. Its counterparts are the various types of mail servers, which handle user authentication and direct messages from the sender to the recipient.</para>
    </glossdef>
   </glossentry>
   <glossentry id="pop">
    <glossterm>POP</glossterm>
    <glossdef>
-    <para>Post Office Protocol. A mechanism for e-mail transport. In contrast to IMAP, it is used only to get mail from a server and store it locally on your hard disk.</para>
+    <para>Post Office Protocol. A mechanism for email transport. In contrast to IMAP, it is used only to get mail from a server and store it locally on your hard disk.</para>
    </glossdef>
   </glossentry>
   <glossentry id="protocol">
    <glossterm>protocol</glossterm>
    <glossdef>
-    <para>An agreed-upon method of communication, especially one for sending particular types of information between computer systems. Examples include POP (Post Office Protocol), for e-mail, and HTTP (HyperText Transfer Protocol) for Web pages.</para>
+    <para>An agreed-upon method of communication, especially one for sending particular types of information between computer systems. Examples include POP (Post Office Protocol), for email, and HTTP (HyperText Transfer Protocol) for Web pages.</para>
    </glossdef>
   </glossentry>
   <glossentry id="public-key-encryption">
@@ -7338,7 +7338,7 @@
   <glossentry id="vfolder">
    <glossterm>search folder</glossterm>
    <glossdef>
-    <para>An e-mail organization tool. Search folders allow you to create a folder that contains the results of a complex search. Search folder contents are updated dynamically.</para>
+    <para>An email organization tool. Search folders allow you to create a folder that contains the results of a complex search. Search folder contents are updated dynamically.</para>
    </glossdef>
   </glossentry>
   <glossentry id="search-scope">
@@ -7362,7 +7362,7 @@
   <glossentry id="signature">
    <glossterm>signature</glossterm>
    <glossdef>
-    <para>Text placed at the end of every e-mail sent, similar to a hand-written signature at the bottom of a written letter. A signature can be anything from a favorite quotation to a link to a Web page; courtesy dictates that it be fewer than four lines long.</para>
+    <para>Text placed at the end of every email sent, similar to a hand-written signature at the bottom of a written letter. A signature can be anything from a favorite quotation to a link to a Web page; courtesy dictates that it be fewer than four lines long.</para>
    </glossdef>
   </glossentry>
   <glossentry id="smtp">
@@ -7386,7 +7386,7 @@
   <glossentry id="vcard">
    <glossterm>vCard</glossterm>
    <glossdef>
-    <para>A file format for the exchange of contact information. When you get an address card attached to an e-mail, it is probably in vCard format.</para>
+    <para>A file format for the exchange of contact information. When you get an address card attached to an email, it is probably in vCard format.</para>
    </glossdef>
   </glossentry>
  </glossary>
