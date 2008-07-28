@@ -4962,7 +4962,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				<widget class="GtkCheckButton" id="mlimit_checkbutton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Do not format text contents in messages if the text si_ze exceeds</property>
+				  <property name="label" translatable="yes">Do not format messages when text si_ze exceeds</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>
@@ -5646,7 +5646,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		    <widget class="GtkCheckButton" id="chkPromptWantHTML">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Prompt when sending HTML messages to contacts that do not want them</property>
+		      <property name="label" translatable="yes">_Prompt on sending HTML mails to contacts that do not want them</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -6847,7 +6847,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <child>
 			<widget class="GtkLabel" id="label590">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">This option will be overridden if a match for custom junk headers is found.</property>
+			  <property name="label" translatable="yes">Option is ignored if a match for custom junk headers is found.</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
