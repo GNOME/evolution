@@ -1,3 +1,12 @@
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #544383
+
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(e_contact_list_editor_get_contact): Put list members in reverse order,
+	because 'e_vcard_add_attribute' uses prepend, thus changes order on
+	every single save of the contact list.
+
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
 
 	* addressbook.error.xml: Fix some strings. See bug #543753.
