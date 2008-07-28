@@ -221,14 +221,14 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 
 		if (recurring) {
 			gint response;
-			const char *arg;
+			const char *msg;
 
 			if (status == ICAL_PARTSTAT_ACCEPTED || status == ICAL_PARTSTAT_TENTATIVE)
-				arg = "accept";
+				msg = "org.gnome.evolution.mail_shared_folder:recurrence-accept";
 			else
-				arg = "decline";
+				msg = "org.gnome.evolution.mail_shared_folder:recurrence-decline";
 
-			response = e_error_run (NULL, "org.gnome.evolution.mail_shared_folder:recurrence", arg, NULL);
+			response = e_error_run (NULL, msg, NULL);
 			if (response == GTK_RESPONSE_YES) {
 				icalproperty *prop;
 				const char *uid = icalcomponent_get_uid (r_data->icalcomp);
