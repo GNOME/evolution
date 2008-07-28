@@ -1,3 +1,10 @@
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #256540
+
+	* mail-dialogs.glade: (message_security_dialog):
+	Do not use GtkNotebook with only one tab.
+
 2008-07-28  Lucian Langa  <lucilanga@gnome.org>
 
 	* mail/mail-config.glade:
