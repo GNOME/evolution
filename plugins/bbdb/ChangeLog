@@ -1,3 +1,9 @@
+2008-07-28  Lucian Langa  <lucilanga@gnome.org>
+
+	** See bug #504417
+
+	* bbdb.c: - Preferences window cut off
+
 2008-01-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #496402
