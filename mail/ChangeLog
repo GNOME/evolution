@@ -1,5 +1,12 @@
 2008-07-28  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #543532
+
+	* em-folder-tree-model.c: (em_folder_tree_model_remove_store_info):
+	Let free memory when we are done with it, not before.
+
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #256540
 
 	* mail-dialogs.glade: (message_security_dialog):
