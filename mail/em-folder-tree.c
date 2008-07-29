@@ -1777,7 +1777,7 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 	/* Traverse to the last valid iter */
 	titer = iter;
-	while (gtk_tree_model_iter_next(model, &iter)) 
+	while (gtk_tree_model_iter_next((GtkTreeModel *) model, &iter)) 
 		titer = iter; /* Preserve the last valid iter */
 
 	iter = titer;

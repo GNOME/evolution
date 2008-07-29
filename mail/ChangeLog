@@ -1,3 +1,7 @@
+2008-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/em-folder-tree.c: Kill a compilation warning.
+
 2008-07-28  Lucian Langa  <lucilanga@gnome.org>
 
 	* mail/mail-config.glade:
