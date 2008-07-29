@@ -1,3 +1,10 @@
+2008-07-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329821
+
+	* gui/e-calendar-table.c: (query_tooltip_cb):
+	Recalculate returned row to the model row, if we are sorting.
+
 2008-07-20  Andre Klapper  <a9016009@gmx.de>
 
 	* calendar.error.xml: Fix some strings. See bug #543753.

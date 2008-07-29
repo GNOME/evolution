@@ -296,6 +296,8 @@ query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, Gtk
 	icaltimezone *zone, *default_zone;
 	GSList *desc, *p;
 	int len;
+	ETable *etable;
+	ESelectionModel *esm;
 
 	if (keyboard_mode)
 		return FALSE;
@@ -306,9 +308,15 @@ query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, Gtk
 
 	cal_table = E_CALENDAR_TABLE (user_data);
 
-	e_table_get_mouse_over_cell (e_calendar_table_get_table (cal_table), x, y, &row, &col);
-	if (row == -1)
+	etable = e_calendar_table_get_table (cal_table);
+	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
+	if (row == -1 || !etable)
 		return FALSE;
+
+	/* respect sorting option, the 'e_table_get_mouse_over_cell' returns sorted row, not the model one */
+	esm = e_table_get_selection_model (etable);
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_sorted_to_model (esm->sorter, row);
 
 	comp = e_cal_model_get_component_at (cal_table->model, row);
 	if (!comp || !comp->icalcomp)
