@@ -1,3 +1,11 @@
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #500389
+
+	* em-account-editor.c: (emae_option_options_changed),
+	(emae_option_options), (emae_receive_options_extra_item):
+	New ability to define Options (ComboBox) in provider's options.
+
 2008-07-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail/em-folder-tree.c: Kill a compilation warning.

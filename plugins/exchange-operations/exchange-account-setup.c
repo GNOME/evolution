@@ -413,6 +413,18 @@ print_error (const char *owa_url, E2kAutoconfigResult result)
 	}
 }
 
+static const char *
+gal_auth_to_string (E2kAutoconfigGalAuthPref ad_auth)
+{
+	switch (ad_auth) {
+	case E2K_AUTOCONFIG_USE_GAL_DEFAULT: return "default";
+	case E2K_AUTOCONFIG_USE_GAL_BASIC:   return "basic";
+	case E2K_AUTOCONFIG_USE_GAL_NTLM:    return "ntlm";
+	}
+
+	return "default";
+}
+
 static void
 owa_authenticate_user(GtkWidget *button, EConfig *config)
 {
@@ -430,6 +442,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	exchange_params = g_new0 (ExchangeParams, 1);
 	exchange_params->host = NULL;
 	exchange_params->ad_server = NULL;
+	exchange_params->ad_auth = E2K_AUTOCONFIG_USE_GAL_DEFAULT;
 	exchange_params->mailbox = NULL;
 	exchange_params->owa_path = NULL;
 	exchange_params->is_ntlm = TRUE;
@@ -487,6 +500,7 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	camel_url_set_param (url, "ad_server", valid ? exchange_params->ad_server: NULL);
 	camel_url_set_param (url, "mailbox", valid ? exchange_params->mailbox : NULL);
 	camel_url_set_param (url, "owa_path", valid ? exchange_params->owa_path : NULL);
+	camel_url_set_param (url, "ad_auth", valid ? gal_auth_to_string (exchange_params->ad_auth) : NULL);
 
 	if (mailbox_entry) {
 		const char *par = camel_url_get_param (url, "mailbox");

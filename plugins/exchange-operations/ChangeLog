@@ -1,3 +1,10 @@
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #500389
+
+	* exchange-account-setup.c: (gal_auth_to_string),
+	(owa_authenticate_user): Use default authentication for GAL.
+
 2008-07-11  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #542149
