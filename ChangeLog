@@ -1,3 +1,8 @@
+2008-07-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.6 for CAMEL_PROVIDER_CONF_OPTIONS.
+
 2008-07-23  Johnny Jacob  <jjohnny@novell.com>
 
 	* configure.in: Version bumped to 2.23.6.
