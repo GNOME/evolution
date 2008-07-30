@@ -1536,7 +1536,7 @@
    <section id="b17rcxmf">
     <title>Attachment Reminder:</title>
     <para>Evolution has an Attachment Reminder plugin you can use to remind yourself to attach a file to an email. If it determines that you have not attached the file, it displays the following message:</para>
-    <mediaobject id="b17rcrvr"><imageobject><imagedata format="PNG" fileref="figures/attach_reminder_a.png.png"/></imageobject></mediaobject>
+    <mediaobject id="b17rcrvr"><imageobject><imagedata format="PNG" fileref="figures/attach_reminder_a.png"/></imageobject></mediaobject>
     <orderedlist>
      <listitem id="b17rctav">
       <para>Click Continue Editing to attach the missing file, or click Send to send the message without any attachment.</para>

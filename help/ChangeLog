@@ -1,3 +1,15 @@
+2007-07-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** This was preventing dblatex from working correctly.
+	   I use dblatex to generate a PDF for the website.
+
+	* xx/figures/attach_reminder_a.png:
+	Rename attach_reminder_a.png.png to attach_reminder_a.png.
+
+	* Makefile.am:
+	* xx/evolution.xml:
+	Update accordingly.
+
 2008-07-28  Claude Paroz  <claude@2xlibre.net>
 
 	* fr/fr.po: Updated French translation.
