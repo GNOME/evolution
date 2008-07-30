@@ -1,3 +1,13 @@
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211267
+
+	* printing/e-contact-print.c: (struct _EContactPrintContext),
+	(e_contact_print_letter_heading), (e_contact_start_new_page),
+	(e_contact_print_contact), (contact_draw_page),
+	(e_contact_print): Report correct number of pages to print
+	and print them as requested.
+
 2008-07-30  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Andre Klapper <a9016009@gmx.de>

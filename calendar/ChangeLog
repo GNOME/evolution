@@ -1,3 +1,13 @@
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211267
+
+	* gui/print.c: (bound_text), (print_attendees), (print_day_event),
+	(print_todo_details), (print_comp_draw_real), (print_comp_draw_page),
+	(print_comp_begin_print), (print_comp): When printing only one event,
+	then divide it to more pages if required, also word-wrap description
+	text if necessary to fit the page.
+
 2008-07-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #329821
