@@ -444,12 +444,13 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 			load_set (work, fr, f);
 		} else if (!strcmp ((char *)work->name, "title") || !strcmp ((char *)work->name, "_title")) {
 			if (!fr->name) {
-				char *str, *decstr;
+				char *str, *decstr = NULL;
 
 				str = (char *)xmlNodeGetContent (work);
-				decstr = g_strdup (str);
-				if (str)
+				if (str) {
+					decstr = g_strdup (_(str));
 					xmlFree (str);
+				}
 				fr->name = decstr;
 			}
 		}

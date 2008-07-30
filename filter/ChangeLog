@@ -1,3 +1,11 @@
+2008-07-30  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Srinivasa Ragavan <sragavan@novell.com>
+
+	** Fix for bug #545303
+
+	* filter-rule.c: (xml_decode): Add gettext in the xml string.
+
 2008-07-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #530388
