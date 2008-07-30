@@ -1,3 +1,12 @@
+2008-07-30  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Andre Klapper <a9016009@gmx.de>
+
+	** Fix for bug #545300
+
+	* gui/merging/eab-contact-duplicate-detected.glade:
+	Add a translatable tag in "_Merge" string.
+
 2008-07-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #544383
