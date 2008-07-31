@@ -1,4 +1,12 @@
-2007-07-30  Matthew Barnes  <mbarnes@redhat.com>
+2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545558
+
+	* C/evolution.xml:
+	Hula support is disabled by default now, so remove any
+	mention of it from the User Guide.
+
+2008-07-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	** This was preventing dblatex from working correctly.
 	   I use dblatex to generate a PDF for the website.

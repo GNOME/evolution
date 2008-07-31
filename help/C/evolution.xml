@@ -106,9 +106,6 @@
     <para><link linkend="usage-groupwise">Connecting to GroupWise</link></para>
    </listitem>
    <listitem>
-    <para><link linkend="b1012tkg">Connecting to Hula</link></para>
-   </listitem>
-   <listitem>
     <para><link linkend="config-prefs">Advanced Configuration</link></para>
    </listitem>
    <listitem>
@@ -281,10 +278,6 @@
        <formalpara id="bsj74du">
         <title>POP:</title>
         <para>Downloads your email to your hard disk for permanent storage, freeing up space on the email server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
-       </formalpara>
-       <formalpara id="b13sa2jr">
-        <title>Hula:</title>
-        <para>Select this option if you want to use a Hula account. Evolution provides you connectivity to <trademark class="registered">Hula</trademark> servers through IMAP and calendaring support through CalDAV. For more information refer <link linkend="b1012tkg">Connecting to Hula</link>.</para>
        </formalpara>
        <formalpara id="bstgdhu">
         <title>USENET News:</title>
@@ -4319,7 +4312,7 @@
    <title>Multiple Calendars, Web Calendars, and CalDAV</title>
    <para>To create a new calendar, click File &gt; New &gt; Calendar. If the calendar is one you plan to store locally, you need only provide a name and color. If it is a remote calendar, specify the name, color, URL, and a refresh frequency. The refresh frequency determines how often Evolution checks to see if the calendar has changed. If you are working with someone who publishes an online calendar, you might want to check for updates every thirty minutes. On the other hand, if you have displayed a sports team schedule in your calendar, you might not need to refresh it more than once a week.</para>
    <para>The <ulink url="http://icalshare.com">icalshare.com Web site</ulink> has an extensive list of shared online calendars, including national and religious holidays, phases of the moon, sports, and local and regional events.</para>
-   <para>Evolution lets you view and manage calendars on remote CalDAV servers such as <trademark class="registered">Hula</trademark>. For more information about Hula, see the <ulink url="http://www.hula-project.org">Hula Project Web site</ulink>. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
+   <para>Evolution lets you view and manage calendars on remote CalDAV servers. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
   </section>
 
   <section id="usage-calendar-todo">
@@ -6203,23 +6196,6 @@
     </orderedlist>
    </section>
   </section>
- </chapter>
-
- <chapter id="b1012tkg">
-  <title>Connecting to Hula</title>
-  <para><trademark>Evolution</trademark> supports mail connectivity to <trademark class="registered">Hula</trademark> servers through IMAP and calendaring support through CalDAV.</para>
-  <para>To add your Hula account to Evolution, you must create a new Hula account by performing the following steps:</para>
-  <orderedlist>
-   <listitem id="b10at9kq">
-    <para>Click Edit, click Preferences, then click Mail Accounts.</para>
-   </listitem>
-   <listitem id="b10at9yx">
-    <para>In the Preferences window, click Add.</para>
-   </listitem>
-   <listitem id="b10ata4v">
-    <para>Follow the procedure explained in <link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link>.</para>
-   </listitem>
-  </orderedlist>
  </chapter>
 
  <chapter id="config-prefs">
