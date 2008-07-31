@@ -1,3 +1,9 @@
+2008-07-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #545436
+
+	* mail/message-list.c: Check the info before accessing it.
+
 2008-07-30  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #500389

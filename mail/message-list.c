@@ -2590,7 +2590,7 @@ find_next_selectable (MessageList *ml)
 		return NULL;
 
 	info = get_message_info (ml, node);
-	if (is_node_selectable (ml, info))
+	if (info && is_node_selectable (ml, info))
 		return NULL;
 
 	last = e_tree_row_count (ml->tree);
@@ -2604,7 +2604,7 @@ find_next_selectable (MessageList *ml)
 	while (vrow < last) {
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
-		if (is_node_selectable (ml, info))
+		if (info && is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
 		vrow ++;
 	}
@@ -2616,7 +2616,7 @@ find_next_selectable (MessageList *ml)
 	while (vrow >= 0) {
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
-		if (is_node_selectable (ml, info))
+		if (info && is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
 		vrow --;
 	}
