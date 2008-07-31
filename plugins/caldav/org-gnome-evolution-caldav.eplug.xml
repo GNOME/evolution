@@ -7,7 +7,8 @@
 	  load-on-startup="true"
 	  domain="@GETTEXT_PACKAGE@"
 	  localedir="@LOCALEDIR@"
-	  _name="CalDAV sources">
+	  _name="CalDAV sources"
+          system_plugin="true">
   		<author name="Christian Kellner" email="gicmo@gnome.org"/>
 		<_description>CalDAV Calendar sources</_description>
 

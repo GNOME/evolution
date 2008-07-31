@@ -5,7 +5,8 @@
     id="org.gnome.evolution.plugin.exchange-operations"
     location="@PLUGINDIR@/liborg-gnome-exchange-operations@SOEXT@"
     load-on-startup="true"
-    _name="Exchange Operations">
+    _name="Exchange Operations"
+    system_plugin="true">
     <author name="Sushma Rai" email="rsushma@novell.com"/>
     <author name="Praveen Kumar" email="kpraveen@novell.com"/>
     <author name="Shakti Sen" email="shprasad@novell.com"/>

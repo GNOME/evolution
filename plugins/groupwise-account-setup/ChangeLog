@@ -1,3 +1,11 @@
+2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545568
+
+	* org-gnome-gw-account-setup.eplug.xml:
+	Add "system_plugin=true" so it's not shown in the Plugin Manager.
+	This plugin is not designed to be disabled by the user.
+
 2008-04-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	** Fixes #358644 (bnc)

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <e-plugin-list>
   <e-plugin id="org.gnome.evolution.google" type="shlib" _name="Google sources"
-    location="@PLUGINDIR@/liborg-gnome-evolution-google@SOEXT@" load-on-startup="false" localedir = "@LOCALEDIR@">
+    location="@PLUGINDIR@/liborg-gnome-evolution-google@SOEXT@" load-on-startup="false" localedir = "@LOCALEDIR@" system_plugin="true">
     <author name="Ebby Wiselyn" email="ebbywiselyn@gmail.com"/>
     <author name="Joergen Scheibengruber" email="joergen.scheibengruber@googlemail.com"/>
     <_description>A plugin to setup google calendar and contacts.</_description>
