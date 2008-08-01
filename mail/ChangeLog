@@ -1,3 +1,9 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #545820
+
+	* mail-ops.c (save_messages_desc): Fix a typo. (Nicolas Kaiser)
+
 2008-07-31  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #545436
