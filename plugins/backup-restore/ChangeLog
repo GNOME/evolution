@@ -1,3 +1,10 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #543754
+
+	* org-gnome-backup-restore.error.xml:
+	Reword "insufficient-permissions" error message.
+
 2008-07-03  Roger Zauner  <roger@eskimo.com>
 
 	** Fix for bug #540400
