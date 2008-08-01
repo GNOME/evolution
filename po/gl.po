@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-01 14:43+0200\n"
-"PO-Revision-Date: 2008-08-01 14:43+0200\n"
+"POT-Creation-Date: 2008-08-01 21:23+0200\n"
+"PO-Revision-Date: 2008-08-01 21:29+0200\n"
 "Last-Translator: Frco. Javier Rial Rodríguez <>\n"
 "Language-Team: Galician <g11n@mancomun.org>\n"
 "MIME-Version: 1.0\n"
@@ -4693,7 +4693,7 @@ msgstr "_Pospor o aviso:"
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-mail-messagedisplay.xml.h:5 ../ui/evolution-memos.xml.h:17
-#: ../ui/evolution-tasks.xml.h:25 ../ui/evolution.xml.h:41
+#: ../ui/evolution-tasks.xml.h:25 ../ui/evolution.xml.h:42
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit"
 msgstr "_Editar"
@@ -5054,12 +5054,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Mostrar o campo de estado no editor de eventos/tarefas/reunións"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#: ../mail/evolution-mail.schemas.in.h:122
+#: ../mail/evolution-mail.schemas.in.h:124
 msgid "Show the \"Preview\" pane"
 msgstr "Mostrar o panel de \"Previsualización\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#: ../mail/evolution-mail.schemas.in.h:123
+#: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show the \"Preview\" pane."
 msgstr "Mostrar o panel de \"Previsualización\"."
 
@@ -5791,8 +5791,10 @@ msgstr "tempos adicionais a cada"
 msgid "hour(s)"
 msgstr "hora(s)"
 
+#. Translators: This is the second half of the sentence "Update
+#. * every NNN minute(s)", where NNN is a spin button widget.
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
-#: ../plugins/google-account-setup/google-contacts-source.c:242
+#: ../plugins/google-account-setup/google-contacts-source.c:247
 msgid "minute(s)"
 msgstr "minuto(s)"
 
@@ -6308,12 +6310,12 @@ msgstr "_Clasificación"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1338
 #: ../mail/mail-signature-editor.c:208
-#: ../ui/evolution-mail-messagedisplay.xml.h:6 ../ui/evolution.xml.h:42
+#: ../ui/evolution-mail-messagedisplay.xml.h:6 ../ui/evolution.xml.h:43
 msgid "_File"
 msgstr "_Ficheiro"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1345
-#: ../ui/evolution-mail-global.xml.h:24 ../ui/evolution.xml.h:45
+#: ../ui/evolution-mail-global.xml.h:24 ../ui/evolution.xml.h:46
 msgid "_Help"
 msgstr "_Axuda"
 
@@ -6328,7 +6330,7 @@ msgstr "_Opcións"
 #: ../calendar/gui/dialogs/comp-editor.c:1366 ../mail/em-folder-tree.c:2098
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
-#: ../ui/evolution.xml.h:54
+#: ../ui/evolution.xml.h:55
 msgid "_View"
 msgstr "_Ver"
 
@@ -8676,8 +8678,8 @@ msgid "Print Memos"
 msgstr "Imprimir notas"
 
 #: ../calendar/gui/memotypes.xml.h:25
-msgid "Next 7 Days'"
-msgstr "Tarefas dos seguintes 7 días"
+msgid "Next 7 Days"
+msgstr "Os seguintes 7 días"
 
 #: ../calendar/gui/migration.c:157
 msgid ""
@@ -13079,10 +13081,18 @@ msgstr ""
 "address_count."
 
 #: ../mail/evolution-mail.schemas.in.h:17
+msgid ""
+"Controls how frequently local changes are synchronized with the remote mail "
+"server. The interval must be at least 30 seconds."
+msgstr ""
+"Controla como de frecuente os cambios locais son sincronizados co servidor "
+"de correo remoto. O intervalo deber ser alomenos 30 segundos."
+
+#: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
 msgstr "Cabeceiras personalizadas para comprobar o correo non desexado."
 
-#: ../mail/evolution-mail.schemas.in.h:18
+#: ../mail/evolution-mail.schemas.in.h:19
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
@@ -13090,59 +13100,59 @@ msgstr ""
 "Cabeceiras personalizadas para comprobar o correo non desexado. Os elementos "
 "da lista son cadeas co formato \"nomedacabeceira=valor\"."
 
-#: ../mail/evolution-mail.schemas.in.h:19
+#: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
 msgstr "Conxunto de caracteres predeterminado para escribir mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:20
+#: ../mail/evolution-mail.schemas.in.h:21
 msgid "Default charset in which to compose messages."
 msgstr "Conxunto de caracteres predeterminado para escribir mensaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:21
+#: ../mail/evolution-mail.schemas.in.h:22
 msgid "Default charset in which to display messages"
 msgstr "Conxunto de caracteres predeterminado para mostrar mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:22
+#: ../mail/evolution-mail.schemas.in.h:23
 msgid "Default charset in which to display messages."
 msgstr "Conxunto de caracteres predeterminado para mostrar mensaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:23
+#: ../mail/evolution-mail.schemas.in.h:24
 msgid "Default forward style"
 msgstr "Estilo de reenvío predeterminado"
 
-#: ../mail/evolution-mail.schemas.in.h:24
+#: ../mail/evolution-mail.schemas.in.h:25
 msgid "Default height of the Composer Window."
 msgstr "Altura predeterminada da ventá do editor."
 
-#: ../mail/evolution-mail.schemas.in.h:25
+#: ../mail/evolution-mail.schemas.in.h:26
 msgid "Default height of the message window."
 msgstr "Altura predeterminada da ventá da mensaxe."
 
-#: ../mail/evolution-mail.schemas.in.h:26
+#: ../mail/evolution-mail.schemas.in.h:27
 msgid "Default height of the subscribe dialog."
 msgstr "Altura predeterminada do diálogo de subscrición."
 
-#: ../mail/evolution-mail.schemas.in.h:27
+#: ../mail/evolution-mail.schemas.in.h:28
 msgid "Default reply style"
 msgstr "Estilo de resposta predeterminado"
 
-#: ../mail/evolution-mail.schemas.in.h:28
+#: ../mail/evolution-mail.schemas.in.h:29
 msgid "Default value for thread expand state"
 msgstr "Valor predeterminado para o estado expandido do fío"
 
-#: ../mail/evolution-mail.schemas.in.h:29
+#: ../mail/evolution-mail.schemas.in.h:30
 msgid "Default width of the Composer Window."
 msgstr "Largura predeterminada da ventá do editor."
 
-#: ../mail/evolution-mail.schemas.in.h:30
+#: ../mail/evolution-mail.schemas.in.h:31
 msgid "Default width of the message window."
 msgstr "Largura predeterminada da ventá da mensaxe."
 
-#: ../mail/evolution-mail.schemas.in.h:31
+#: ../mail/evolution-mail.schemas.in.h:32
 msgid "Default width of the subscribe dialog."
 msgstr "Largura predeterminada do diálogo de subscrición."
 
-#: ../mail/evolution-mail.schemas.in.h:32
+#: ../mail/evolution-mail.schemas.in.h:33
 msgid ""
 "Determines whether to look up addresses for junk filtering in local "
 "addressbook only"
@@ -13150,12 +13160,12 @@ msgstr ""
 "Determina se se deben buscar os enderezos para o correo non desexado "
 "filtrando soamente no libro de enderezos local"
 
-#: ../mail/evolution-mail.schemas.in.h:33
+#: ../mail/evolution-mail.schemas.in.h:34
 msgid "Determines whether to lookup in addressbook for sender email"
 msgstr ""
 "Determina se se debe buscar o enderezo do remitente no libro de enderezos"
 
-#: ../mail/evolution-mail.schemas.in.h:34
+#: ../mail/evolution-mail.schemas.in.h:35
 msgid ""
 "Determines whether to loopup the sender email in addressbook. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -13167,13 +13177,13 @@ msgstr ""
 "libros marcados para autocompletado. Pode ser lento se se marcaron para "
 "autocompletado libros de enderezos remotos (coma LDAP)."
 
-#: ../mail/evolution-mail.schemas.in.h:35
+#: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 "Determina se se deben usar cabeceiras personalizadas para comprobar correo "
 "non desexado"
 
-#: ../mail/evolution-mail.schemas.in.h:36
+#: ../mail/evolution-mail.schemas.in.h:37
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -13183,7 +13193,7 @@ msgstr ""
 "non desexado. Se esta opción está activada e se mencionan as cabeceiras, "
 "mellorarase a velocidade de comprobación de correo non desexado."
 
-#: ../mail/evolution-mail.schemas.in.h:37
+#: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
@@ -13191,64 +13201,64 @@ msgstr ""
 "Determina se se debe usar o mesmo tipo de letra para as liñas \"De\" e "
 "\"Asunto\" na columna \"Mensaxes\" da vista vertical."
 
-#: ../mail/evolution-mail.schemas.in.h:38
+#: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
 msgstr "Directorio onde cargar/anexar os ficheiros no editor."
 
-#: ../mail/evolution-mail.schemas.in.h:39
+#: ../mail/evolution-mail.schemas.in.h:40
 msgid "Directory for saving mail component files."
 msgstr "Directorio onde gardar os ficheiros enviados por correo."
 
-#: ../mail/evolution-mail.schemas.in.h:40
+#: ../mail/evolution-mail.schemas.in.h:41
 msgid "Disable or enable ellipsizing of folder names in folder tree"
 msgstr ""
 "Habilitar ou deshabilitar a elipse dos nomes dos cartafoles na árbore de "
 "cartafoles"
 
-#: ../mail/evolution-mail.schemas.in.h:41
+#: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
 msgstr ""
 "Debuxar os indicadores de erros de ortografía nas palabras mentres se "
 "escribe."
 
-#: ../mail/evolution-mail.schemas.in.h:42
+#: ../mail/evolution-mail.schemas.in.h:43
 msgid "Empty Junk folders on exit"
 msgstr "Baleirar os cartafoles do correo non desexado ao saír"
 
-#: ../mail/evolution-mail.schemas.in.h:43
+#: ../mail/evolution-mail.schemas.in.h:44
 msgid "Empty Trash folders on exit"
 msgstr "Baleirar os cartafoles do lixo ao saír"
 
-#: ../mail/evolution-mail.schemas.in.h:44
+#: ../mail/evolution-mail.schemas.in.h:45
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 "Baleirar todos os cartafoles de correo non desexado ao saír do Evolution."
 
-#: ../mail/evolution-mail.schemas.in.h:45
+#: ../mail/evolution-mail.schemas.in.h:46
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Baleirar todos os cartafoles do lixo ao saír do Evolution."
 
-#: ../mail/evolution-mail.schemas.in.h:46
+#: ../mail/evolution-mail.schemas.in.h:47
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Activar modo cursor, para que poida ver un cursor cando lea un correo."
 
-#: ../mail/evolution-mail.schemas.in.h:47
+#: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable or disable magic space bar"
 msgstr "Activar ou desactivar a barra espaciadora máxica"
 
-#: ../mail/evolution-mail.schemas.in.h:48
+#: ../mail/evolution-mail.schemas.in.h:49
 msgid "Enable or disable type ahead search feature"
 msgstr "Activar ou desactivar a característica de busca ao teclear"
 
-#: ../mail/evolution-mail.schemas.in.h:49
+#: ../mail/evolution-mail.schemas.in.h:50
 msgid "Enable search folders"
 msgstr "Activar cartafoles de busca"
 
-#: ../mail/evolution-mail.schemas.in.h:50
+#: ../mail/evolution-mail.schemas.in.h:51
 msgid "Enable search folders on startup."
 msgstr "Activar cartafoles de busca ao inicio."
 
-#: ../mail/evolution-mail.schemas.in.h:51
+#: ../mail/evolution-mail.schemas.in.h:52
 msgid ""
 "Enable side bar search feature so that you can start interactive searching "
 "by typing in the text. Use is that you can easily find a folder in that side "
@@ -13260,7 +13270,7 @@ msgstr ""
 "facilmente un cartafol nesa barra lateral tan só tecleando o nome do "
 "cartafol e a selección salta automaticamente a ese cartafol."
 
-#: ../mail/evolution-mail.schemas.in.h:52
+#: ../mail/evolution-mail.schemas.in.h:53
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -13268,28 +13278,28 @@ msgstr ""
 "Activar isto para usar a barra espaciadora para desprazarse na vista previa "
 "da mensaxe, lista de mensaxes e cartafoles."
 
-#: ../mail/evolution-mail.schemas.in.h:53
+#: ../mail/evolution-mail.schemas.in.h:54
 msgid "Enable to render message text part of limited size."
 msgstr ""
 "Activar para renderizar a parte da mensaxe de texto de tamaño limitado."
 
-#: ../mail/evolution-mail.schemas.in.h:54
+#: ../mail/evolution-mail.schemas.in.h:55
 msgid "Enable/disable caret mode"
 msgstr "Activar/desactivar o modo cursor"
 
-#: ../mail/evolution-mail.schemas.in.h:55
+#: ../mail/evolution-mail.schemas.in.h:56
 msgid "Height of the message-list pane"
 msgstr "Altura do panel da lista de mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:56
+#: ../mail/evolution-mail.schemas.in.h:57
 msgid "Height of the message-list pane."
 msgstr "Altura do panel da lista de mensaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:57
+#: ../mail/evolution-mail.schemas.in.h:58
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Oculta a vista previa por cartafol e elimina a selección"
 
-#: ../mail/evolution-mail.schemas.in.h:58
+#: ../mail/evolution-mail.schemas.in.h:59
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -13297,7 +13307,7 @@ msgstr ""
 "Se o usuario tenta abrir 10 ou máis mensaxes ao mesmo tempo, preguntar ao "
 "usuario se está seguro de que quere facelo."
 
-#: ../mail/evolution-mail.schemas.in.h:59
+#: ../mail/evolution-mail.schemas.in.h:60
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
@@ -13305,7 +13315,7 @@ msgstr ""
 "Se o panel de \"Previsualización\" está activado, móstrao de lado a lado en "
 "vez de verticalmente."
 
-#: ../mail/evolution-mail.schemas.in.h:60
+#: ../mail/evolution-mail.schemas.in.h:61
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -13316,7 +13326,7 @@ msgstr ""
 "visualizador de compoñentes Bonobo na base de datos do Gnome pode empregarse "
 "para mostrar o contido."
 
-#: ../mail/evolution-mail.schemas.in.h:61
+#: ../mail/evolution-mail.schemas.in.h:62
 msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
@@ -13324,7 +13334,7 @@ msgstr ""
 "Altura inicial da ventá \"Enviar e recibir correo\". O valor actualízase "
 "cada vez que o usuario cambia o tamaño en vertical da ventá."
 
-#: ../mail/evolution-mail.schemas.in.h:62
+#: ../mail/evolution-mail.schemas.in.h:63
 msgid ""
 "Initial maximize state of the \"Send and Receive Mail\" window. The value "
 "updates when the user maximizes or unmaximizes the window. Note, this "
@@ -13338,7 +13348,7 @@ msgstr ""
 "correo\" non pode ser maximizada. Este característica só existe como detalle "
 "da implementación."
 
-#: ../mail/evolution-mail.schemas.in.h:63
+#: ../mail/evolution-mail.schemas.in.h:64
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
@@ -13346,11 +13356,11 @@ msgstr ""
 "Largura inicial da ventá \"Enviar e recibir correo\". O valor actualízase "
 "cada vez que o usuario cambia a tamaño en horizontal da ventá."
 
-#: ../mail/evolution-mail.schemas.in.h:64
+#: ../mail/evolution-mail.schemas.in.h:65
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr "Desactiva ou activa a pregunta cando se marcan varias mensaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:65
+#: ../mail/evolution-mail.schemas.in.h:66
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
@@ -13358,7 +13368,7 @@ msgstr ""
 "Activa/desactiva a característica onde se repite a pregunta de requírese "
 "sincronización antes de pasar ao modo traballar desconectado."
 
-#: ../mail/evolution-mail.schemas.in.h:66
+#: ../mail/evolution-mail.schemas.in.h:67
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -13368,31 +13378,31 @@ msgstr ""
 "dun cartafol de busca borra permanentemente a mensaxe, non só os elimina dos "
 "resultados de busca."
 
-#: ../mail/evolution-mail.schemas.in.h:67
+#: ../mail/evolution-mail.schemas.in.h:68
 msgid "Last time empty junk was run"
 msgstr "Última vez que se baleirou o correo non desexado"
 
-#: ../mail/evolution-mail.schemas.in.h:68
+#: ../mail/evolution-mail.schemas.in.h:69
 msgid "Last time empty trash was run"
 msgstr "Última vez que se baleirou o lixo"
 
-#: ../mail/evolution-mail.schemas.in.h:69
+#: ../mail/evolution-mail.schemas.in.h:70
 msgid "Level beyond which the message should be logged."
 msgstr "Nivel máis alá do cal a mensaxe débese rexistrar."
 
-#: ../mail/evolution-mail.schemas.in.h:70
+#: ../mail/evolution-mail.schemas.in.h:71
 msgid "List of Labels and their associated colors"
 msgstr "Lista de etiquetas e as súas cores asociadas"
 
-#: ../mail/evolution-mail.schemas.in.h:71
+#: ../mail/evolution-mail.schemas.in.h:72
 msgid "List of accepted licenses"
 msgstr "Lista de licenzas aceptadas"
 
-#: ../mail/evolution-mail.schemas.in.h:72
+#: ../mail/evolution-mail.schemas.in.h:73
 msgid "List of accounts"
 msgstr "Lista de contas"
 
-#: ../mail/evolution-mail.schemas.in.h:73
+#: ../mail/evolution-mail.schemas.in.h:74
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -13401,15 +13411,15 @@ msgstr ""
 "contén cadeas que nomean subdirectorios relativos a /apps/evolution/mail/"
 "accounts."
 
-#: ../mail/evolution-mail.schemas.in.h:74
+#: ../mail/evolution-mail.schemas.in.h:75
 msgid "List of custom headers and whether they are enabled."
 msgstr "Lista de cabeceiras personalizadas e se están activadas."
 
-#: ../mail/evolution-mail.schemas.in.h:75
+#: ../mail/evolution-mail.schemas.in.h:76
 msgid "List of dictionary language codes used for spell checking."
 msgstr "Lista de códigos de idioma de diccionarios usados para a corrección."
 
-#: ../mail/evolution-mail.schemas.in.h:76
+#: ../mail/evolution-mail.schemas.in.h:77
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -13418,20 +13428,20 @@ msgstr ""
 "lista contén cadeas que conteñen o nome: cor onde cor usa a codificación "
 "hexadecimal HTML."
 
-#: ../mail/evolution-mail.schemas.in.h:77
+#: ../mail/evolution-mail.schemas.in.h:78
 msgid "List of mime types to check for bonobo component viewers"
 msgstr ""
 "Lista de tipos mime de verificación de visualizadores de compoñentes Bonobo"
 
-#: ../mail/evolution-mail.schemas.in.h:78
+#: ../mail/evolution-mail.schemas.in.h:79
 msgid "List of protocol names whose license has been accepted."
 msgstr "Lista de nomes de protocolos coa se aceptou a licenza."
 
-#: ../mail/evolution-mail.schemas.in.h:79
+#: ../mail/evolution-mail.schemas.in.h:80
 msgid "Load images for HTML messages over http"
 msgstr "Cargar imaxes para mensaxes HTML sobre http"
 
-#: ../mail/evolution-mail.schemas.in.h:80
+#: ../mail/evolution-mail.schemas.in.h:81
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net. 1 - Load images in messages from contacts. 2 - "
@@ -13441,110 +13451,110 @@ msgstr ""
 "nunca cargar as imaxes desde a rede, 1 - cargar as imaxes se o remitente "
 "está na axenda de enderezos, 2 - cargar sempre as imaxes desde a rede."
 
-#: ../mail/evolution-mail.schemas.in.h:81
+#: ../mail/evolution-mail.schemas.in.h:82
 msgid "Log filter actions"
 msgstr "Rexistrar accións de filtraxe"
 
-#: ../mail/evolution-mail.schemas.in.h:82
+#: ../mail/evolution-mail.schemas.in.h:83
 msgid "Log filter actions to the specified log file."
 msgstr "Rexistrar accións de filtraxe no ficheiro de rexistro especificado."
 
-#: ../mail/evolution-mail.schemas.in.h:83
+#: ../mail/evolution-mail.schemas.in.h:84
 msgid "Logfile to log filter actions"
 msgstr "Ficheiro de rexistro para rexistrar as accións de filtraxe"
 
-#: ../mail/evolution-mail.schemas.in.h:84
+#: ../mail/evolution-mail.schemas.in.h:85
 msgid "Logfile to log filter actions."
 msgstr "Ficheiro de rexistro para rexistrar as accións de filtraxe."
 
-#: ../mail/evolution-mail.schemas.in.h:85
+#: ../mail/evolution-mail.schemas.in.h:86
 msgid "Mark as Seen after specified timeout"
 msgstr "Marcar como visto despois do tempo de espera especificado"
 
-#: ../mail/evolution-mail.schemas.in.h:86
+#: ../mail/evolution-mail.schemas.in.h:87
 msgid "Mark as Seen after specified timeout."
 msgstr "Marcar como visto despois do tempo de espera especificado."
 
-#: ../mail/evolution-mail.schemas.in.h:87
+#: ../mail/evolution-mail.schemas.in.h:88
 msgid "Mark citations in the message \"Preview\""
 msgstr "Marcar as citas textuais na \"Previsualización\" da mensaxe"
 
-#: ../mail/evolution-mail.schemas.in.h:88
+#: ../mail/evolution-mail.schemas.in.h:89
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Marcar as citas textuais na \"Previsualización\" da mensaxe."
 
-#: ../mail/evolution-mail.schemas.in.h:89
+#: ../mail/evolution-mail.schemas.in.h:90
 msgid "Message Window default height"
 msgstr "Altura predeterminada da ventá de mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:90
+#: ../mail/evolution-mail.schemas.in.h:91
 msgid "Message Window default width"
 msgstr "Largura predeterminada da ventá de mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:91
+#: ../mail/evolution-mail.schemas.in.h:92
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr ""
 "Estilo de visualización de mensaxe (\"normal\", \"cabeceiras completas\", "
 "\"orixe\")"
 
-#: ../mail/evolution-mail.schemas.in.h:92
+#: ../mail/evolution-mail.schemas.in.h:93
 msgid "Minimum days between emptying the junk on exit"
 msgstr ""
 "Número mínimo de días antes do baleirado do correo non desexado ao saír"
 
-#: ../mail/evolution-mail.schemas.in.h:93
+#: ../mail/evolution-mail.schemas.in.h:94
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Número mínimo de días antes do baleirado do lixo ao saír"
 
-#: ../mail/evolution-mail.schemas.in.h:94
+#: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Tempo mínimo antes do baleirado do correo non desexado ao saír, en días."
 
-#: ../mail/evolution-mail.schemas.in.h:95
+#: ../mail/evolution-mail.schemas.in.h:96
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Tempo mínimo antes do baleirado do lixo ao saír, en días."
 
-#: ../mail/evolution-mail.schemas.in.h:96
+#: ../mail/evolution-mail.schemas.in.h:97
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Número de enderezos para mostrar en A/CC/CCO"
 
-#: ../mail/evolution-mail.schemas.in.h:97
+#: ../mail/evolution-mail.schemas.in.h:98
 msgid "Prompt on empty subject"
 msgstr "Preguntar cando o asunto está baleiro"
 
-#: ../mail/evolution-mail.schemas.in.h:98
+#: ../mail/evolution-mail.schemas.in.h:99
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Preguntar ao usuario cando tente expurgar un cartafol."
 
-#: ../mail/evolution-mail.schemas.in.h:99
+#: ../mail/evolution-mail.schemas.in.h:100
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Preguntar ao usuario cando tente enviar unha mensaxe sen un asunto."
 
-#: ../mail/evolution-mail.schemas.in.h:100
+#: ../mail/evolution-mail.schemas.in.h:101
 msgid "Prompt to check if the user wants to go offline immediately"
 msgstr ""
 "Preguntar para verificar se o usuario quere desconectarse inmediatamente"
 
-#: ../mail/evolution-mail.schemas.in.h:101
+#: ../mail/evolution-mail.schemas.in.h:102
 msgid "Prompt when deleting messages in search folder"
 msgstr "Preguntar cando se eliminan mensaxes nun cartafol de busca"
 
-#: ../mail/evolution-mail.schemas.in.h:102
+#: ../mail/evolution-mail.schemas.in.h:103
 msgid "Prompt when user expunges"
 msgstr "Preguntar cando o usuario expurga"
 
-#: ../mail/evolution-mail.schemas.in.h:103
+#: ../mail/evolution-mail.schemas.in.h:104
 msgid "Prompt when user only fills Bcc"
 msgstr "Preguntar cando o usuario só encha o campo Cco"
 
-#: ../mail/evolution-mail.schemas.in.h:104
+#: ../mail/evolution-mail.schemas.in.h:105
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 "Preguntar cando o usuario tente abrir dez ou máis mensaxes ao mesmo tempo"
 
-#: ../mail/evolution-mail.schemas.in.h:105
+#: ../mail/evolution-mail.schemas.in.h:106
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -13552,133 +13562,137 @@ msgstr ""
 "Preguntar ao enviar mensaxes en HTML aos destinatarios que non desexen "
 "recibilas."
 
-#: ../mail/evolution-mail.schemas.in.h:106
+#: ../mail/evolution-mail.schemas.in.h:107
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Preguntar cando o usuario tente enviar unha mensaxe sen destinatarios Para "
 "ou CC."
 
-#: ../mail/evolution-mail.schemas.in.h:107
+#: ../mail/evolution-mail.schemas.in.h:108
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Preguntar cando o usuario tente enviar un HTML non desexado"
 
-#: ../mail/evolution-mail.schemas.in.h:108
+#: ../mail/evolution-mail.schemas.in.h:109
 msgid "Prompt while marking multiple messages"
 msgstr "Preguntar cando se marcan varias mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:109
+#: ../mail/evolution-mail.schemas.in.h:110
 msgid "Recognize emoticons in text and replace them with images."
 msgstr "Recoñecer emoticonas no texto e substituílas con imaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:110
+#: ../mail/evolution-mail.schemas.in.h:111
 msgid "Recognize links in text and replace them."
 msgstr "Recoñecer ligazóns no texto e substituílas."
 
-#: ../mail/evolution-mail.schemas.in.h:111
+#: ../mail/evolution-mail.schemas.in.h:112
 msgid "Run junk test on incoming mail."
 msgstr "Executar a proba de correo non desexado no correo entrante."
 
-#: ../mail/evolution-mail.schemas.in.h:112
+#: ../mail/evolution-mail.schemas.in.h:113
 msgid "Save directory"
 msgstr "Directorio onde gardar"
 
-#: ../mail/evolution-mail.schemas.in.h:113
+#: ../mail/evolution-mail.schemas.in.h:114
 msgid "Search for the sender photo in local addressbooks"
 msgstr "Buscar a foto do remitente nas axendas locais de enderezos"
 
-#: ../mail/evolution-mail.schemas.in.h:114
+#: ../mail/evolution-mail.schemas.in.h:115
 msgid "Send HTML mail by default"
 msgstr "Enviar correo en HTML por defecto"
 
-#: ../mail/evolution-mail.schemas.in.h:115
+#: ../mail/evolution-mail.schemas.in.h:116
 msgid "Send HTML mail by default."
 msgstr "Enviar correo en HTML por defecto."
 
-#: ../mail/evolution-mail.schemas.in.h:116
+#: ../mail/evolution-mail.schemas.in.h:117
 msgid "Sender email-address column in the message list"
 msgstr "Mostrar o correo do remitente na columna da lista de mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:117
+#: ../mail/evolution-mail.schemas.in.h:118
+msgid "Server synchronization interval"
+msgstr "Intervalo de sincronización do servidor"
+
+#: ../mail/evolution-mail.schemas.in.h:119
 msgid "Show Animations"
 msgstr "Mostrar animacións"
 
-#: ../mail/evolution-mail.schemas.in.h:118
+#: ../mail/evolution-mail.schemas.in.h:120
 msgid "Show animated images as animations."
 msgstr "Mostrar as imaxes animadas como animacións."
 
-#: ../mail/evolution-mail.schemas.in.h:119
+#: ../mail/evolution-mail.schemas.in.h:121
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Mostrar as mensaxes eliminadas (riscadas) na lista de mensaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:120
+#: ../mail/evolution-mail.schemas.in.h:122
 msgid "Show deleted messages in the message-list"
 msgstr "Mostrar as mensaxes eliminadas na lista de mensaxes"
 
-#: ../mail/evolution-mail.schemas.in.h:121
+#: ../mail/evolution-mail.schemas.in.h:123
 msgid "Show photo of the sender"
 msgstr "Mostrar a foto do remitente"
 
-#: ../mail/evolution-mail.schemas.in.h:124
+#: ../mail/evolution-mail.schemas.in.h:126
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
 "Mostrar o correo do remitente nunha columna separada na lista de mensaxes."
 
-#: ../mail/evolution-mail.schemas.in.h:125
+#: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Mostrar a foto do remitente no panel de lectura da mensaxe."
 
-#: ../mail/evolution-mail.schemas.in.h:126
+#: ../mail/evolution-mail.schemas.in.h:128
 msgid "Spell check inline"
 msgstr "Verificación ortográfica en liña"
 
-#: ../mail/evolution-mail.schemas.in.h:127
+#: ../mail/evolution-mail.schemas.in.h:129
 msgid "Spell checking color"
 msgstr "Cor da verificación de ortografía"
 
-#: ../mail/evolution-mail.schemas.in.h:128
+#: ../mail/evolution-mail.schemas.in.h:130
 msgid "Spell checking languages"
 msgstr "Idiomas da verificación ortográfica"
 
-#: ../mail/evolution-mail.schemas.in.h:129
+#: ../mail/evolution-mail.schemas.in.h:131
 msgid "Subscribe dialog default height"
 msgstr "Altura predeterminada do diálogo de subscrición"
 
-#: ../mail/evolution-mail.schemas.in.h:130
+#: ../mail/evolution-mail.schemas.in.h:132
 msgid "Subscribe dialog default width"
 msgstr "Largura predeterminada do diálogo de subscrición"
 
-#: ../mail/evolution-mail.schemas.in.h:131
+#: ../mail/evolution-mail.schemas.in.h:133
 msgid "Terminal font"
 msgstr "Tipo de letra do terminal"
 
-#: ../mail/evolution-mail.schemas.in.h:132
+#: ../mail/evolution-mail.schemas.in.h:134
 msgid "Text message part limit"
 msgstr "Límite da parte de texto da mensaxe"
 
-#: ../mail/evolution-mail.schemas.in.h:133
+#: ../mail/evolution-mail.schemas.in.h:135
 msgid "The default plugin for Junk hook"
 msgstr "O plugin predefinido para a asociación de correo non desexado"
 
-#: ../mail/evolution-mail.schemas.in.h:134
+#: ../mail/evolution-mail.schemas.in.h:136
 msgid "The last time empty junk was run, in days since the epoch."
 msgstr ""
 "A última vez que se baleirou o correo non desexado, en días desde a época."
 
-#: ../mail/evolution-mail.schemas.in.h:135
+#: ../mail/evolution-mail.schemas.in.h:137
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "A última vez que se baleirou o lixo, en días desde a época."
 
-#: ../mail/evolution-mail.schemas.in.h:136
+#: ../mail/evolution-mail.schemas.in.h:138
 msgid "The terminal font for mail display."
 msgstr "O tipo de letra do terminal para mostrar o correo."
 
-#: ../mail/evolution-mail.schemas.in.h:137
+#: ../mail/evolution-mail.schemas.in.h:139
 msgid "The variable width font for mail display."
 msgstr "O tipo de letra de largura variable para mostrar o correo."
 
-#: ../mail/evolution-mail.schemas.in.h:138
+#: ../mail/evolution-mail.schemas.in.h:140
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
@@ -13686,7 +13700,7 @@ msgstr ""
 "Isto pode ter tres posibles valores. 0 para erros. 1 para avisos. 2 para "
 "mensaxes de depuración."
 
-#: ../mail/evolution-mail.schemas.in.h:139
+#: ../mail/evolution-mail.schemas.in.h:141
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
@@ -13694,7 +13708,7 @@ msgstr ""
 "Isto decide o tamaño máximo da parte de texto que se pode formatar no "
 "Evolution. O predeterminado é 4MB / 4096 e está especificado en KB."
 
-#: ../mail/evolution-mail.schemas.in.h:140
+#: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
@@ -13704,7 +13718,7 @@ msgstr ""
 "varios plugins activados. Se o plugin predeterminado listado está "
 "desactivado, entón non se usarán os outros plugins dispoñibles."
 
-#: ../mail/evolution-mail.schemas.in.h:141
+#: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "This key is read only once and reset to false after read. This unselects the "
 "mail in the list and removes the preview for that folder."
@@ -13712,7 +13726,7 @@ msgstr ""
 "Esta chave é dunha soa lectura e despois de lida establécese a «false». Isto "
 "deselecciona o correo na lista e elimina a vista previa para esa carpeta."
 
-#: ../mail/evolution-mail.schemas.in.h:142
+#: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -13724,7 +13738,7 @@ msgstr ""
 "estrutura XML é &lt;header enabled&gt; - defínao como activado se se debe "
 "mostrar a cabeceira na visualización do correo."
 
-#: ../mail/evolution-mail.schemas.in.h:143
+#: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local addressbook only to exclude "
@@ -13734,11 +13748,11 @@ msgstr ""
 "determinar se se debe buscar na axenda de enderezos locais só para excluír "
 "dos filtros de correo non desexado o correo enviado por contactos coñecidos."
 
-#: ../mail/evolution-mail.schemas.in.h:144
+#: ../mail/evolution-mail.schemas.in.h:146
 msgid "This option would help in improving the speed of fetching."
 msgstr "Esta opción podería axudar a mellorar a velocidade de recepción."
 
-#: ../mail/evolution-mail.schemas.in.h:145
+#: ../mail/evolution-mail.schemas.in.h:147
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -13746,7 +13760,7 @@ msgstr ""
 "Isto define o número de enderezos que se mostra na visualización da lista de "
 "mensaxes predeterminada, para os restantes móstrase un '...'."
 
-#: ../mail/evolution-mail.schemas.in.h:146
+#: ../mail/evolution-mail.schemas.in.h:148
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -13754,7 +13768,7 @@ msgstr ""
 "Esta opción especifica se os fíos deberían estar por defecto no estado "
 "expandido ou contraído. É necesario reiniciar o Evolution."
 
-#: ../mail/evolution-mail.schemas.in.h:147
+#: ../mail/evolution-mail.schemas.in.h:149
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
@@ -13764,32 +13778,17 @@ msgstr ""
 "mensaxe en cada fío, en lugar de pola data das mensaxes. É necesario "
 "reiniciar o Evolution."
 
-#: ../mail/evolution-mail.schemas.in.h:148
+#: ../mail/evolution-mail.schemas.in.h:150
 msgid "Thread the message list."
 msgstr "Lista de mensaxes por fíos."
 
-#: ../mail/evolution-mail.schemas.in.h:149
+#: ../mail/evolution-mail.schemas.in.h:151
 msgid "Thread the message-list"
 msgstr "Lista de mensaxes por fíos"
 
-#: ../mail/evolution-mail.schemas.in.h:150
+#: ../mail/evolution-mail.schemas.in.h:152
 msgid "Thread the message-list based on Subject"
 msgstr "Lista de mensaxes por fíos baseadas no asunto"
-
-#: ../mail/evolution-mail.schemas.in.h:151
-msgid "Time interval, in seconds, how often upload store changes to server."
-msgstr ""
-"Intervalo de tempo, en segundos, para a frecuencia coa que subir os cambios "
-"de almacenamento ao servidor."
-
-#: ../mail/evolution-mail.schemas.in.h:152
-msgid ""
-"Time interval, in seconds, how often upload store changes to server. The "
-"actual value cannot be less than 30 seconds."
-msgstr ""
-"Intervalo de tempo, en segundos, para a frecuencia coa que subir os cambios "
-"de almacenamento ao servidor. O valor actual non pode ser inferior a 30 "
-"segundos."
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Timeout for marking message as seen"
@@ -16307,9 +16306,8 @@ msgid "Please select a valid backup file to restore."
 msgstr "Seleccione un ficheiro válido de copia de seguranza para restaurar."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-msgid "The selected folder does not have enough permissions to create the file"
-msgstr ""
-"Non ten suficientes permisos no cartafol seleccionado para crear o ficheiro"
+msgid "The selected folder is not writable."
+msgstr "Non se pode escribir no cartafol seleccionado."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid ""
@@ -16651,7 +16649,7 @@ msgid "Custom Header"
 msgstr "Cabeceira personalizada"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
-msgid "List of Custom Header"
+msgid "List of Custom Headers"
 msgstr "Lista de cabeceiras personalizadas"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
@@ -17651,8 +17649,8 @@ msgstr ""
 "complemento  Ténteo establecendo un editor distinto."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-msgid "Compose in External Editor"
-msgstr "Compoñer nun editor externo"
+msgid "Compose in _External Editor"
+msgstr "Compoñer nun editor _externo"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
@@ -17732,7 +17730,9 @@ msgstr "<b>Servidor</b>"
 msgid "Username:"
 msgstr "Nome de usuario:"
 
-#: ../plugins/google-account-setup/google-contacts-source.c:230
+#. Translators: This is the first half of the sentence "Update
+#. * every NNN minute(s)", where NNN is a spin button widget.
+#: ../plugins/google-account-setup/google-contacts-source.c:233
 msgid "Update every"
 msgstr "Actualizar cada"
 
@@ -17899,10 +17899,10 @@ msgstr "A conta xa existe"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
 msgid ""
-"Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and "
-"try again."
+"Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
+"address and try again."
 msgstr ""
-"Non se puido iniciar sesión no proxy como &quot;{0}&quot;. Comprobe o Id do "
+"Non se puido iniciar sesión no proxy como &quot;{0}&quot;. Comprobe o "
 "enderezo de correo e ténteo de novo."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
@@ -19848,12 +19848,12 @@ msgid "Show _only this Task List"
 msgstr "Mostrar _só esta lista de tarefas"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
-msgid "A plugin that manages the Startup wizard."
-msgstr "Un plugin que manipula o asistente de inicio."
+msgid "Guides you through your initial account setup."
+msgstr "Guíalle pola súa configuración da conta inicial."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
-msgid "Startup wizard"
-msgstr "Asistente de inicio"
+msgid "Setup Assistant"
+msgstr "Asistente de configuración"
 
 #: ../plugins/startup-wizard/startup-wizard.c:84
 msgid "Evolution Setup Assistant"
@@ -20028,13 +20028,14 @@ msgstr "ID ou alias do compoñente que se mostrará por defecto ao iniciar."
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid ""
 "If true, then connections to the proxy server require authentication. The "
-"username/password combo is defined by \"/apps/evolution/shell/network_config/"
-"authentication_user\" and locally stored password in .gnome2_private/."
+"username is retrieved from the \"/apps/evolution/shell/network_config/"
+"authentication_user\" GConf key, and the password is retrieved from either "
+"gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
 "Se está activado, as conexións ao servidor proxy requiren autenticación. O "
-"combo nome de usuario e contrasinal está definido en \"/apss/evolution/shell/"
-"network_config/authentication_user\" e o contrasinal gárdase localmente en ."
-"gnome2_private/."
+"nome de usuario está definido na chave de GConf en \"/apps/evolution/shell/"
+"network_config/authentication_user\" e o contrasinal gárdase por medio de "
+"gnome-keyring ou o ficheiro de contrasinal ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "Last upgraded configuration version"
@@ -20373,7 +20374,7 @@ msgstr "Erro ao abrir a páxina web coas FAQ."
 msgid "_Work Online"
 msgstr "_Traballar con conexión"
 
-#: ../shell/e-shell-window-commands.c:968 ../ui/evolution.xml.h:56
+#: ../shell/e-shell-window-commands.c:968 ../ui/evolution.xml.h:57
 msgid "_Work Offline"
 msgstr "_Traballar sen conexión"
 
@@ -21428,7 +21429,7 @@ msgstr "_Mover contacto a..."
 msgid "_Move Folder Contacts To"
 msgstr "_Mover cartafol de contactos a"
 
-#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:48
+#: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:49
 msgid "_New"
 msgstr "_Novo"
 
@@ -22510,50 +22511,54 @@ msgid "View/Hide the Status Bar"
 msgstr "Ver/Ocultar a barra de estado"
 
 #: ../ui/evolution.xml.h:39
+msgid "Work _Offline"
+msgstr "Traballar sen c_onexión"
+
+#: ../ui/evolution.xml.h:40
 msgid "_About"
 msgstr "_Sobre"
 
-#: ../ui/evolution.xml.h:40
+#: ../ui/evolution.xml.h:41
 msgid "_Close Window"
 msgstr "_Pechar ventá"
 
-#: ../ui/evolution.xml.h:43
+#: ../ui/evolution.xml.h:44
 msgid "_Forget Passwords"
 msgstr "Es_quecer contrasinais"
 
-#: ../ui/evolution.xml.h:44
+#: ../ui/evolution.xml.h:45
 msgid "_Frequently Asked Questions"
 msgstr "_Preguntas máis frecuentes"
 
-#: ../ui/evolution.xml.h:46
+#: ../ui/evolution.xml.h:47
 msgid "_Hide Buttons"
 msgstr "_Ocultar botóns"
 
-#: ../ui/evolution.xml.h:47
+#: ../ui/evolution.xml.h:48
 msgid "_Icons Only"
 msgstr "Só _iconas"
 
-#: ../ui/evolution.xml.h:49
+#: ../ui/evolution.xml.h:50
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../ui/evolution.xml.h:50
+#: ../ui/evolution.xml.h:51
 msgid "_Quit"
 msgstr "_Saír"
 
-#: ../ui/evolution.xml.h:51
+#: ../ui/evolution.xml.h:52
 msgid "_Switcher Appearance"
 msgstr "Aparencia do _selector"
 
-#: ../ui/evolution.xml.h:52
+#: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
 msgstr "Opcións de _sincronización..."
 
-#: ../ui/evolution.xml.h:53
+#: ../ui/evolution.xml.h:54
 msgid "_Text Only"
 msgstr "Só _texto"
 
-#: ../ui/evolution.xml.h:55
+#: ../ui/evolution.xml.h:56
 msgid "_Window"
 msgstr "_Ventá"
 
@@ -23866,3 +23871,28 @@ msgstr "Contexto MI"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Tirador emerxente"
+
+#~ msgid "Time interval, in seconds, how often upload store changes to server."
+#~ msgstr ""
+#~ "Intervalo de tempo, en segundos, para a frecuencia coa que subir os "
+#~ "cambios de almacenamento ao servidor."
+
+#~ msgid ""
+#~ "Time interval, in seconds, how often upload store changes to server. The "
+#~ "actual value cannot be less than 30 seconds."
+#~ msgstr ""
+#~ "Intervalo de tempo, en segundos, para a frecuencia coa que subir os "
+#~ "cambios de almacenamento ao servidor. O valor actual non pode ser "
+#~ "inferior a 30 segundos."
+
+#~ msgid ""
+#~ "The selected folder does not have enough permissions to create the file"
+#~ msgstr ""
+#~ "Non ten suficientes permisos no cartafol seleccionado para crear o "
+#~ "ficheiro"
+
+#~ msgid "A plugin that manages the Startup wizard."
+#~ msgstr "Un plugin que manipula o asistente de inicio."
+
+#~ msgid "Startup wizard"
+#~ msgstr "Asistente de inicio"
