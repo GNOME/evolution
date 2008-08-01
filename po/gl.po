@@ -14,17 +14,18 @@
 # Ignacio Casal Quinteiro <nacho.resa@gmail.com>, 2005, 2006.
 # Ignacio Casal Quinteiro <icq@svn.gnome.org>, 2007, 2008.
 # Frco. Javier Rial Rodríguez <fjrial@cesga.es>, 2008
+# Frco. Javier Rial Rodríguez <>, 2008
 #: ../shell/main.c:683
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-31 16:10+0200\n"
-"PO-Revision-Date: 2008-07-31 10:53+0200\n"
-"Last-Translator: Frco. Javier Rial Rodríguez\n"
+"POT-Creation-Date: 2008-08-01 14:43+0200\n"
+"PO-Revision-Date: 2008-08-01 14:43+0200\n"
+"Last-Translator: Frco. Javier Rial Rodríguez <>\n"
 "Language-Team: Galician <g11n@mancomun.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type:  text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
@@ -4673,8 +4674,8 @@ msgstr "Citas"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1593
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1599
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1600
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1606
 #: ../calendar/gui/e-itip-control.c:1172
 #: ../plugins/itip-formatter/itip-view.c:1004
 msgid "Location:"
@@ -4705,32 +4706,32 @@ msgstr "_Pospor"
 msgid "location of appointment"
 msgstr "localización da cita"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1454
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1576
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1459
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1583
 msgid "No summary available."
 msgstr "Non hai resumo dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1463
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1465
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1468
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1470
 msgid "No description available."
 msgstr "Non hai descrición dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1473
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1478
 msgid "No location information available."
 msgstr "Non hai información da localización dispoñible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1517
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1522
 #, c-format
 msgid "You have %d alarms"
 msgstr "Posúe %d alarmas"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1677
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1705
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1684
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1712
 #: ../mail/mail-component.c:1585
 msgid "Warning"
 msgstr "Aviso"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1681
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1688
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4742,7 +4743,7 @@ msgstr ""
 "configurado para enviar unha mensaxe de correo electrónico. No seu lugar\n"
 "Evolution vai mostrar un diálogo de aviso normal."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1711
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1718
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4759,7 +4760,7 @@ msgstr ""
 "\n"
 "Está seguro de que quere executar este programa?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1725
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1732
 msgid "Do not ask me about this program again."
 msgstr "Non volver preguntar sobre este programa."
 
@@ -14383,8 +14384,7 @@ msgstr "Asinar _dixitalmente as mensaxes saíntes (por defecto)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not format messages when text si_ze exceeds"
-msgstr ""
-"Non formatar os correos se o ta_maño do texto excede"
+msgstr "Non formatar os correos se o ta_maño do texto excede"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Do not mar_k messages as junk if sender is in my addressbook"
@@ -15086,7 +15086,7 @@ msgstr[1] "Recuperando %d mensaxes"
 #: ../mail/mail-ops.c:1978
 #, c-format
 msgid "Saving %d message"
-msgid_plural "Saving %d messsages"
+msgid_plural "Saving %d messages"
 msgstr[0] "Gardando %d mensaxe"
 msgstr[1] "Gardando %d mensaxes"
 
@@ -16348,7 +16348,8 @@ msgstr "Contactos automáticos"
 #: ../plugins/bbdb/bbdb.c:565
 msgid "_Auto-create addressbook entries when replying to messages"
 msgstr ""
-"Crear entradas _automaticamente na axenda de enderezos ao responder a mensaxes"
+"Crear entradas _automaticamente na axenda de enderezos ao responder a "
+"mensaxes"
 
 #: ../plugins/bbdb/bbdb.c:571
 msgid "Select Address book for Automatic Contacts"
@@ -16362,8 +16363,8 @@ msgstr "Mensaxe instantánea de contactos"
 #: ../plugins/bbdb/bbdb.c:601
 msgid "Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
-"Sincronizar información e as imaxes de contacto desde a "
-"lista de amigos do Pidgin"
+"Sincronizar información e as imaxes de contacto desde a lista de amigos do "
+"Pidgin"
 
 #: ../plugins/bbdb/bbdb.c:607
 msgid "Select Address book for Pidgin buddy list"
@@ -19045,16 +19046,16 @@ msgstr ""
 msgid "Generate a _D-Bus message"
 msgstr "Xerar unha mensaxe _D-Bus"
 
-#: ../plugins/mail-notification/mail-notification.c:361
+#: ../plugins/mail-notification/mail-notification.c:378
 msgid "Evolution's Mail Notification"
 msgstr "Notificación de correo de Evolution"
 
-#: ../plugins/mail-notification/mail-notification.c:382
+#: ../plugins/mail-notification/mail-notification.c:399
 msgid "Mail Notification Properties"
 msgstr "Propiedades da notificación de correo"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
-#: ../plugins/mail-notification/mail-notification.c:440
+#: ../plugins/mail-notification/mail-notification.c:458
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -19069,55 +19070,55 @@ msgstr[1] ""
 "Recibiu %d mensaxes novas\n"
 "en %s."
 
-#: ../plugins/mail-notification/mail-notification.c:445
+#: ../plugins/mail-notification/mail-notification.c:463
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Recibiu %d mensaxe nova."
 msgstr[1] "Recibiu %d mensaxes novas."
 
-#: ../plugins/mail-notification/mail-notification.c:457
-#: ../plugins/mail-notification/mail-notification.c:462
+#: ../plugins/mail-notification/mail-notification.c:480
+#: ../plugins/mail-notification/mail-notification.c:485
 msgid "New email"
 msgstr "Novo correo"
 
-#: ../plugins/mail-notification/mail-notification.c:519
+#: ../plugins/mail-notification/mail-notification.c:542
 msgid "Show icon in _notification area"
 msgstr "Mostrar icona na área de _notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:522
+#: ../plugins/mail-notification/mail-notification.c:545
 msgid "B_link icon in notification area"
 msgstr "_Facer intermitencia a icona na área de notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:524
+#: ../plugins/mail-notification/mail-notification.c:547
 msgid "Popup _message together with the icon"
 msgstr "_Mensaxe emerxente xunto coa icona"
 
-#: ../plugins/mail-notification/mail-notification.c:705
+#: ../plugins/mail-notification/mail-notification.c:728
 msgid "_Play sound when new messages arrive"
 msgstr "Reproducir un ficheiro de son ao  _chegar correo novo"
 
-#: ../plugins/mail-notification/mail-notification.c:711
+#: ../plugins/mail-notification/mail-notification.c:734
 msgid "_Beep"
 msgstr "_Ton de aviso"
 
-#: ../plugins/mail-notification/mail-notification.c:712
+#: ../plugins/mail-notification/mail-notification.c:735
 msgid "Play _sound file"
 msgstr "Reproducir un ficheiro de _son"
 
-#: ../plugins/mail-notification/mail-notification.c:723
+#: ../plugins/mail-notification/mail-notification.c:746
 msgid "Specify _filename:"
 msgstr "Especificar o nome de _ficheiro:"
 
-#: ../plugins/mail-notification/mail-notification.c:724
+#: ../plugins/mail-notification/mail-notification.c:747
 msgid "Select sound file"
 msgstr "Seleccionar un ficheiro de son"
 
-#: ../plugins/mail-notification/mail-notification.c:725
+#: ../plugins/mail-notification/mail-notification.c:748
 msgid "Pl_ay"
 msgstr "_Reproducir"
 
-#: ../plugins/mail-notification/mail-notification.c:782
+#: ../plugins/mail-notification/mail-notification.c:805
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar novas mensaxes só para a _bandexa de entrada"
 
