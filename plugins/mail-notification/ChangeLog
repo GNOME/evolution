@@ -1,3 +1,10 @@
+2008-08-01  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #353927
+
+	* mail-notification.c: (icon_activated), (stop_blinking_cb),
+	(new_notify_status): Do not blink the icon more than 15 seconds.
+
 2008-07-22  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #544022

@@ -271,6 +271,7 @@ get_config_widget_dbus (void)
 #define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
 
 static GtkStatusIcon *status_icon = NULL;
+static guint blink_timeout_id = 0;
 static unsigned int status_count = 0;
 
 #ifdef HAVE_LIBNOTIFY
@@ -295,6 +296,11 @@ icon_activated (GtkStatusIcon *icon, gpointer pnotify)
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_object_unref (status_icon);
 
+	if (blink_timeout_id) {
+		g_source_remove (blink_timeout_id);
+		blink_timeout_id = 0;
+	}
+
 	status_icon = NULL;
 	status_count = 0;
 }
@@ -306,6 +312,17 @@ notification_callback (gpointer notify)
 	return (!notify_notification_show (notify, NULL));
 }
 #endif
+
+static gboolean
+stop_blinking_cb (gpointer data)
+{
+	blink_timeout_id = 0;
+
+	if (status_icon)
+		gtk_status_icon_set_blinking (status_icon, FALSE);
+
+	return FALSE;
+}
 
 struct _StatusConfigureWidgets
 {
@@ -428,8 +445,9 @@ static void
 new_notify_status (EMEventTargetFolder *t)
 {
 	char *msg;
+	gboolean new_icon = !status_icon;
 
-	if (!status_icon) {
+	if (new_icon) {
 		status_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("mail-unread", E_ICON_SIZE_LARGE_TOOLBAR));
 	}
@@ -447,8 +465,13 @@ new_notify_status (EMEventTargetFolder *t)
 	}
 
 	gtk_status_icon_set_tooltip (status_icon, msg);
+
+	if (new_icon && is_part_enabled (GCONF_KEY_STATUS_BLINK)) {
+		gtk_status_icon_set_blinking (status_icon, TRUE);
+		blink_timeout_id = g_timeout_add_seconds (15, stop_blinking_cb, NULL);
+	}
+
 	gtk_status_icon_set_visible (status_icon, TRUE);
-	gtk_status_icon_set_blinking (status_icon, is_part_enabled (GCONF_KEY_STATUS_BLINK));
 
 	#ifdef HAVE_LIBNOTIFY
 	/* Now check whether we're supposed to send notifications */

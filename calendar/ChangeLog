@@ -1,3 +1,10 @@
+2008-08-01  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #353927
+
+	* gui/alarm-notify/alarm-queue.c: (tray_icon_blink_cb),
+	(display_notification): Do not blink the icon more than 15 seconds.
+
 2008-07-30  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #211267

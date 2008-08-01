@@ -79,7 +79,7 @@ static GList *tray_icons_list = NULL;
 /* Top Tray Image */
 static GtkStatusIcon *tray_icon = NULL;
 static int tray_blink_id = -1;
-static int tray_blink_state = FALSE;
+static int tray_blink_countdown = 0;
 static AlarmNotify *an;
 
 /* Structure that stores a client we are monitoring */
@@ -1383,11 +1383,13 @@ popup_menu (GtkStatusIcon *icon, guint button, guint activate_time)
 static gboolean
 tray_icon_blink_cb (gpointer data)
 {
+	static gboolean tray_blink_state = FALSE;
 	GdkPixbuf *pixbuf;
 
-	tray_blink_state = tray_blink_state == TRUE ? FALSE: TRUE;
+	tray_blink_countdown--;
+	tray_blink_state = !tray_blink_state;
 
-	pixbuf = e_icon_factory_get_icon  (tray_blink_state == TRUE?
+	pixbuf = e_icon_factory_get_icon  ((tray_blink_state || tray_blink_countdown <= 0)?
 					   "stock_appointment-reminder-excl" :
 					   "stock_appointment-reminder",
 					   E_ICON_SIZE_LARGE_TOOLBAR);
@@ -1396,7 +1398,10 @@ tray_icon_blink_cb (gpointer data)
 		gtk_status_icon_set_from_pixbuf (tray_icon, pixbuf);
 	g_object_unref (pixbuf);
 
-	return TRUE;
+	if (tray_blink_countdown <= 0)
+		tray_blink_id = -1;
+
+	return tray_blink_countdown > 0;
 }
 
 
@@ -1536,8 +1541,10 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		open_alarm_dialog (tray_data);
 		gtk_window_stick (GTK_WINDOW (alarm_notifications_dialog->dialog));
 	} else {
-		if (tray_blink_id == -1)
+		if (tray_blink_id == -1) {
+			tray_blink_countdown = 30;
 			tray_blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
+		}
 	}
 }
 
