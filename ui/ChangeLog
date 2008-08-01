@@ -1,3 +1,10 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #517825
+
+	* evolution.xml:
+	Fix duplicate mnemonic.  "_Work Offline" -> "Work _Offline"
+
 2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #542125
