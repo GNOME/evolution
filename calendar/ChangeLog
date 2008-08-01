@@ -1,3 +1,9 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544857
+
+	* gui/memotypes.xml: Fix a typo.
+
 2008-08-01  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #353927
