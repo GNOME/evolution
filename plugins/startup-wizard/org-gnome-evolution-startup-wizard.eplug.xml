@@ -4,9 +4,9 @@
 	    type="shlib"
 	    id="org.gnome.evolution.plugin.startup-wizard"
 	    location="@PLUGINDIR@/liborg-gnome-evolution-startup-wizard@SOEXT@"
-	    _name="Startup wizard">
+	    _name="Setup Assistant">
 	     <author name="JP Rosevear" email="jpr@novell.com"/>
-	     <_description>A plugin that manages the Startup wizard.</_description>
+	     <_description>Guides you through your initial account setup.</_description>
 		<hook class="org.gnome.evolution.shell.events:1.0">
 			<event
 			   id="upgrade.done"
