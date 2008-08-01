@@ -1341,10 +1341,10 @@
       <type>int</type>
       <default>60</default>
       <locale name="C">
-        <short>Time interval, in seconds, how often upload store changes to server.</short>
+        <short>Server synchronization interval</short>
         <long>
-          Time interval, in seconds, how often upload store changes to server.
-	  The actual value cannot be less than 30 seconds.
+          Controls how frequently local changes are synchronized with the
+          remote mail server.  The interval must be at least 30 seconds.
         </long>
       </locale>
     </schema>

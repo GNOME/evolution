@@ -1,5 +1,12 @@
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #544859
+
+	* evolution-mail.schemas.in:
+	Clarify description of "sync_interval" key.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #545820
 
 	* mail-ops.c (save_messages_desc): Fix a typo. (Nicolas Kaiser)
