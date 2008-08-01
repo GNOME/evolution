@@ -1,5 +1,12 @@
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #514006
+
+	* apps-evolution-mail-notification.schemas.in:
+	Quote literal values.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #544859
 
 	* evolution-mail.schemas.in:

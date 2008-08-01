@@ -77,7 +77,7 @@
       <default>true</default>
       <locale name="C">
         <short>Beep or play sound file.</short>
-        <long>If true, then beep, otherwise will play sound file when new messages arrive.</long>
+        <long>If "true", then beep, otherwise will play sound file when new messages arrive.</long>
       </locale>
     </schema>
     <schema>
