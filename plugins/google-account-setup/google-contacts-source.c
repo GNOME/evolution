@@ -227,6 +227,9 @@ plugin_google_contacts (EPlugin                    *epl,
     } else {
         refresh_interval = -1;
     }
+
+    /* Translators: This is the first half of the sentence "Update
+     * every NNN minute(s)", where NNN is a spin button widget. */
     update_cb = gtk_check_button_new_with_label (_("Update every"));
     gtk_box_pack_start (GTK_BOX (hbox), update_cb, FALSE, FALSE, 0);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (update_cb),
@@ -239,6 +242,8 @@ plugin_google_contacts (EPlugin                    *epl,
                                refresh_interval > 0 ? refresh_interval / 60 : 30);
     gtk_box_pack_start (GTK_BOX (hbox), interval_sb, FALSE, FALSE, 0);
 
+    /* Translators: This is the second half of the sentence "Update
+     * every NNN minute(s)", where NNN is a spin button widget. */
     label = gtk_label_new (_("minute(s)"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 

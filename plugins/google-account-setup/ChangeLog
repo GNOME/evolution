@@ -1,3 +1,10 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544860
+
+	* google-contacts-source.c (plugin_google_contacts):
+	Add translator comments for split "update every" sentence.
+
 2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #545568
