@@ -3,7 +3,7 @@
 <error id="invalid-user" type="error">
 <_primary>Invalid user</_primary>
 <_secondary>
-Proxy login as &quot;{0}&quot; was unsuccessful. Please check Email Id and try again. 
+Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email address and try again. 
 </_secondary>
 </error>
 
