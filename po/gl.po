@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-01 21:23+0200\n"
-"PO-Revision-Date: 2008-08-01 21:29+0200\n"
+"POT-Creation-Date: 2008-08-02 11:35+0200\n"
+"PO-Revision-Date: 2008-08-02 11:37+0200\n"
 "Last-Translator: Frco. Javier Rial Rodríguez <>\n"
 "Language-Team: Galician <g11n@mancomun.org>\n"
 "MIME-Version: 1.0\n"
@@ -4494,7 +4494,7 @@ msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "As súas tarefas non estarán dispoñibles até que reinicie o Evolution."
 
 #: ../calendar/calendar.error.xml.h:75
-#: ../composer/mail-composer.error.xml.h:29
+#: ../composer/mail-composer.error.xml.h:30
 msgid "_Discard Changes"
 msgstr "_Rexeitar as modificacións"
 
@@ -4507,7 +4507,7 @@ msgid "_Save Changes"
 msgstr "_Gardar modificacións"
 
 #: ../calendar/calendar.error.xml.h:78
-#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:142
+#: ../composer/mail-composer.error.xml.h:34 ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:6
 msgid "_Send"
 msgstr "_Enviar"
@@ -11054,17 +11054,21 @@ msgstr "Non pode anexar o ficheiro `{0}' a esta mensaxe."
 msgid "You need to configure an account before you can compose mail."
 msgstr "Necesita configurar unha conta antes de poder escribir un correo."
 
-#: ../composer/mail-composer.error.xml.h:30
+#: ../composer/mail-composer.error.xml.h:29
+msgid "_Continue Editing"
+msgstr "_Continuar editando"
+
+#: ../composer/mail-composer.error.xml.h:31
 msgid "_Do not Recover"
 msgstr "_Non recuperar"
 
-#: ../composer/mail-composer.error.xml.h:31 ../shell/main.c:306
+#: ../composer/mail-composer.error.xml.h:32 ../shell/main.c:306
 msgid "_Recover"
 msgstr "_Recuperar"
 
-#: ../composer/mail-composer.error.xml.h:32
-msgid "_Save Message"
-msgstr "_Gardar mensaxe"
+#: ../composer/mail-composer.error.xml.h:33
+msgid "_Save Draft"
+msgstr "_Gardar borrador"
 
 #: ../data/evolution.desktop.in.in.h:1
 msgid "Evolution Mail and Calendar"
@@ -13443,9 +13447,9 @@ msgstr "Cargar imaxes para mensaxes HTML sobre http"
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid ""
-"Load images for HTML messages over http(s). Possible values are: 0 - Never "
-"load images off the net. 1 - Load images in messages from contacts. 2 - "
-"Always load images off the net."
+"Load images for HTML messages over http(s). Possible values are: \"0\" - "
+"Never load images off the net. \"1\" - Load images in messages from "
+"contacts. \"2\" - Always load images off the net."
 msgstr ""
 "Cargar imaxes de mensaxes HTML sobre http(s). Os valores posibles son: 0 - "
 "nunca cargar as imaxes desde a rede, 1 - cargar as imaxes se o remitente "
@@ -13694,11 +13698,11 @@ msgstr "O tipo de letra de largura variable para mostrar o correo."
 
 #: ../mail/evolution-mail.schemas.in.h:140
 msgid ""
-"This can have three possible values. 0 for errors. 1 for warnings. 2 for "
-"debug messages."
+"This can have three possible values. \"0\" for errors. \"1\" for warnings. "
+"\"2\" for debug messages."
 msgstr ""
-"Isto pode ter tres posibles valores. 0 para erros. 1 para avisos. 2 para "
-"mensaxes de depuración."
+"Isto pode ter tres posibles valores. \"0\" para erros. \"1\" para avisos. \"2"
+"\" para mensaxes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid ""
@@ -13720,11 +13724,12 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
-"This key is read only once and reset to false after read. This unselects the "
-"mail in the list and removes the preview for that folder."
+"This key is read only once and reset to \"false\" after read. This unselects "
+"the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta chave é dunha soa lectura e despois de lida establécese a «false». Isto "
-"deselecciona o correo na lista e elimina a vista previa para esa carpeta."
+"Esta chave é dunha soa lectura e despois de lida establécese a \"false\". "
+"Isto deselecciona o correo na lista e elimina a vista previa para esa "
+"carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -18990,7 +18995,8 @@ msgstr "Xera unha mensaxe D-BUS ao chegar mensaxes novas."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid ""
-"If true, then beep, otherwise will play sound file when new messages arrive."
+"If \"true\", then beep, otherwise will play sound file when new messages "
+"arrive."
 msgstr ""
 "Se está activado emitirá un ton de aviso, senón reproducirá un ficheiro de "
 "son cando chegue correo novo."
@@ -23871,6 +23877,9 @@ msgstr "Contexto MI"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Tirador emerxente"
+
+#~ msgid "_Save Message"
+#~ msgstr "_Gardar mensaxe"
 
 #~ msgid "Time interval, in seconds, how often upload store changes to server."
 #~ msgstr ""
