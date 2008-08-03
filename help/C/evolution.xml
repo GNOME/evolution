@@ -1561,7 +1561,7 @@
     <para><trademark>Evolution</trademark>, like most email programs, recognizes three types of addresses: primary recipients, secondary recipients, and hidden (blind) recipients. The simplest way to direct a message is to put the email address or addresses in the To: field, which denotes primary recipients. Use the Cc: field to send a message to secondary recipients.</para>
     <para>Addresses on the Bcc: list are hidden from the other recipients of the message. You can use it to send mail to large groups of people, especially if they don't know each other or if privacy is a concern. If your Bcc: field is absent, click View &gt; Bcc Field.</para>
     <para>If you frequently write email to the same groups of people, you can create address lists in the contacts tool, and then send them mail as though they have a single address. To learn how to do that, see <link linkend="usage-contact-organize-group-list">Creating a List of Contacts</link>.</para>
-    <para>Evolution has the ability to let you specify the Reply-To in an email. Using this, you can set up a special Reply-To for an email.To do this:</para>
+    <para>Evolution has the ability to let you specify the Reply-To in an email. Using this, you can set up a special Reply-To for an email. To do this:</para>
     <orderedlist>
      <listitem id="bsfnz55">
       <para>Open a compose window.</para>
@@ -2037,8 +2037,8 @@
     </listitem>
    </itemizedlist>
    <para>Evolution helps you protect your privacy by using GNU Privacy Guard (GPG), an implementation of strong <link linkend="public-key-encryption">Public Key Encryption.</link></para>
-   <para>In order to encrypt and decrypt emails using GPG, it is necessary to use two kinds of encryption keys: public and private. Private keys are used to encrypt messages and public keys to decrypt them. Private keys should not be shared with others, while public keys can be shared with those you want to send encrypted messages to. You may also place them on a public key server.</para>
-   <para>To send encrypted email, you must have your own private key on your keyring, and the person you are sending it to must have your public key in order to decrypt and read it. To decrypt and read someone else's encrypted email, you must first have a copy of their public key on your keyring.</para>
+   <para>In order to send and receive encrypted emails using GPG, it is necessary to use two kinds of encryption keys: public and private. Public keys are used to encrypt messages and private keys to decrypt them. To send encrypted email, you must have the recepient's public key, which is used to encrypt the message. The recipient then uses their private key to decrypt (and read) the encrypted message.</para>
+   <para>Those who wish to send you encrypted email must first have a copy of your public key on your keyring. To this end, public keys can be shared with those who want to send encrypted messages to you. In order to do this, you may place your public key on a public key server. Private keys should not be shared with others.</para>
    <para>Evolution does not support older versions of PGP, such as OpenPGP and Inline PGP.</para>
    <para>You can use encryption in two different ways:</para>
    <itemizedlist>
@@ -3188,7 +3188,7 @@
      <title>Mailing Address:</title>
      <para>Contains the individual's mailing address.</para>
     </formalpara>
-    <para>You can also use Action Menu to find Forward Contact, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's email address.</para>
+    <para>You can also the Forward Contact menu item in the Action menu, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's email address.</para>
     <para>You can add a card from within an email message or calendar appointment. In an open email, right-click any email address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu.</para>
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
@@ -3952,7 +3952,7 @@
    <section id="usage-calendar-rsvp">
     <title>Sending a Meeting Invitation</title>
     <para>A meeting is an event you schedule for multiple people. Evolution can be used to schedule group meetings and help you manage responses to meeting requests.</para>
-    <para>When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the meeting listing, each attendee is sent an email with the meeting information, which also gives them the option to respond.</para>
+    <para>When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required</quote>. When you save the meeting listing, each attendee is sent an email with the meeting information, which also gives them the option to respond.</para>
     <para>If you don't need to collect attendance information when you're scheduling an event, and would rather just announce the event, right-click the meeting and select Forward as iCalendar. This opens a new email message with the event notification attached as an announcement. Recipients can add the event to their calendars with one click, but it won't automatically send you email about whether they plan to attend.</para>
     <para>To schedule a meeting:</para>
     <orderedlist>
@@ -4412,7 +4412,7 @@
       <para>Select a group for the task.</para>
      </listitem>
      <listitem id="b1012vd1">
-      <para>Click Add, or press Insert key, or right click and then press Add to add the email addresses of people you want to assign the task.To remove an attendee from the list, select an attendee, then press Remove.To edit a field, select the field, then click Edit.Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
+      <para>Click Add, or press Insert key, or right click and then press Add to add the email addresses of people you want to assign the task. To remove an attendee from the list, select an attendee, then press Remove. To edit a field, select the field, then click Edit. Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b1012vd2">
       <para>Enter a brief summary in the Summary field.</para>

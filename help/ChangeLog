@@ -1,5 +1,10 @@
 2008-08-03  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Typo fixes and fix for bug #544886 on
+	behalf of Allan Day.
+
+2008-08-03  Andre Klapper  <a9016009@gmx.de>
+
 	* de/de.po: Update German translation.
 
 2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
