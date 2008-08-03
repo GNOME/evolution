@@ -58,7 +58,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	dialog = e_source_selector_dialog_new (parent, source_list);
 
 	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
-		icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+		icon_list = e_icon_factory_get_icon_list ("x-office-calendar");
 	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
 		icon_list = e_icon_factory_get_icon_list ("stock_todo");
         else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)

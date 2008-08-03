@@ -1,3 +1,11 @@
+2008-08-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546057
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	* gui/contact-list-editor/contact-list-editor.glade:
+	Use "x-office-address-book" icon name instead of "stock_addressbook".
+
 2008-07-30  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #211267

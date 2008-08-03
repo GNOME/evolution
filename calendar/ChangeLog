@@ -1,3 +1,18 @@
+2008-08-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546057
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	* gui/calendar-component.c:
+	* gui/e-calendar-view.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/alarm-list-dialog.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/select-source-dialog.c:
+	Use "x-office-calendar" icon name instead of "stock_calendar".
+
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #544857

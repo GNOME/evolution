@@ -105,7 +105,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO, "%s", str);
 
-	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+	icon_list = e_icon_factory_get_icon_list ("x-office-calendar");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (dialog), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
