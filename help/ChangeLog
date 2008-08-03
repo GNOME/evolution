@@ -1,5 +1,9 @@
 2008-08-03  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Make Claude happy (bug #544886 comment 4).
+
+2008-08-03  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Typo fixes and fix for bug #544886 on
 	behalf of Allan Day.
 

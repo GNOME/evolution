@@ -2037,7 +2037,7 @@
     </listitem>
    </itemizedlist>
    <para>Evolution helps you protect your privacy by using GNU Privacy Guard (GPG), an implementation of strong <link linkend="public-key-encryption">Public Key Encryption.</link></para>
-   <para>In order to send and receive encrypted emails using GPG, it is necessary to use two kinds of encryption keys: public and private. Public keys are used to encrypt messages and private keys to decrypt them. To send encrypted email, you must have the recepient's public key, which is used to encrypt the message. The recipient then uses their private key to decrypt (and read) the encrypted message.</para>
+   <para>In order to send and receive encrypted emails using GPG, it is necessary to use two kinds of encryption keys: public and private. Public keys are used to encrypt messages and private keys to decrypt them. To send encrypted email, you must have the recepient's public key, which is used to encrypt the message. The recipient then uses his/her private key to decrypt (and read) the encrypted message.</para>
    <para>Those who wish to send you encrypted email must first have a copy of your public key on your keyring. To this end, public keys can be shared with those who want to send encrypted messages to you. In order to do this, you may place your public key on a public key server. Private keys should not be shared with others.</para>
    <para>Evolution does not support older versions of PGP, such as OpenPGP and Inline PGP.</para>
    <para>You can use encryption in two different ways:</para>
