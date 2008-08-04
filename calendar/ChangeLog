@@ -1,3 +1,10 @@
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #544157
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	Sort View / Window (sub)menu in shortcut order.
+
 2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #249844
