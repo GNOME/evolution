@@ -312,8 +312,8 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 					e_dlist_addtail(&sub->pending, (EDListNode *)node);
 			}
 		} else {
-			d(printf("%s:%d:%s: fi->flags & CAMEL_FOLDER_NOINFERIORS=%d\t node->path=[%p]\n",
-				 __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__, fi->flags & CAMEL_FOLDER_NOINFERIORS,
+			d(printf("%s:%s: fi->flags & CAMEL_FOLDER_NOINFERIORS=%d\t node->path=[%p]\n",
+				 G_STRLOC, G_STRFUNC, fi->flags & CAMEL_FOLDER_NOINFERIORS,
 				 node->path));
 		}
 
@@ -408,7 +408,7 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 	struct _emse_folderinfo_msg *m;
 	int id;
 
-	d(printf("%s:%d:%s: Starting get folderinfo of '%s'\n", __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__,
+	d(printf("%s:%s: Starting get folderinfo of '%s'\n", G_STRLOC, G_STRFUNC,
 		 node?node->info->full_name:"<root>"));
 
 	m = mail_msg_new (&sub_folderinfo_info);
@@ -501,7 +501,7 @@ sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubs
 	char *row_name;
 
 	gtk_tree_model_get(model, iter, 1, &row_name, -1);
-	d(printf("%s:%d:%s: row-expanded '%s'\n", __FILE__, __LINE__, __GNUC_PRETTY_FUNCTION__,
+	d(printf("%s:%s: row-expanded '%s'\n", G_STRLOC, G_STRFUNC,
 		 row_name?row_name:"<root>"));
 
 	/* Do we really need to fetch the children for this row? */

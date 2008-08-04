@@ -323,8 +323,7 @@ notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_MANUAL, FALSE);
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_AUTOCONFIG, FALSE);
 		if (type == NETWORK_PROXY_SYS_SETTINGS) {
-			d(g_print ("%s:%s:%d: Loading sys settings... \n", 
-				   __FILE__,G_GNUC_PRETTY_FUNCTION, __LINE__));
+			d(g_print ("%s:%s: Loading sys settings... \n", G_STRLOC, G_STRFUNC));
 			emnp_load_sys_settings (prefs->gconf);
 		}
 
@@ -357,11 +356,11 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
 		gconf_client_set_int (gconf, (const char *)data, port, NULL);
-		d(g_print ("%s:%s:%d: %s is SpinButton: value = [%d]\n", __FILE__,G_GNUC_PRETTY_FUNCTION, __LINE__, (const char *)data, port));
+		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, (const char *)data, port));
 	} else if (GTK_IS_ENTRY (widget)) {
 		value = gtk_entry_get_text (GTK_ENTRY (widget));
 		gconf_client_set_string (gconf, (const char *)data, value, NULL);
-		d(g_print ("%s:%s:%d: %s is Entry: value = [%s]\n", __FILE__,G_GNUC_PRETTY_FUNCTION, __LINE__, (const char *)data, value));
+		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, (const char *)data, value));
 	}
 
 }

@@ -1,3 +1,14 @@
+2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-migrate.c (migrate_to_db):
+	* em-network-prefs.c (notify_proxy_type_changed),
+	(widget_entry_changed_cb):
+	* em-subscribe-editor.c (sub_fill_level), (sub_queue_fill_level),
+	(sub_row_expanded):
+	* mail-vfolder.c:
+	Use G_STRLOC or G_STRFUNC instead of deprecated
+	G_GNUC_PRETTY_FUNCTION.
+
 2008-08-04  Paul Bolle <pebolle@tiscali.nl>
 
 	** Fix for bug #543058

@@ -50,7 +50,7 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
-#define d(x)  /* (printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
+#define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
 static EMVFolderContext *context;	/* context remains open all time */
 CamelStore *vfolder_store; /* the 1 static vfolder store */
