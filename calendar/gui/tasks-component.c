@@ -1323,7 +1323,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[0].id = CREATE_TASK_ID;
 	list->_buffer[0].description = _("New task");
-	list->_buffer[0].menuDescription = _("_Task");
+	list->_buffer[0].menuDescription = C_("New", "_Task");
 	list->_buffer[0].tooltip = _("Create a new task");
 	list->_buffer[0].menuShortcut = 't';
 	list->_buffer[0].iconName = "stock_task";
@@ -1331,7 +1331,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[1].id = CREATE_TASK_ASSIGNED_ID;
 	list->_buffer[1].description = _("New assigned task");
-	list->_buffer[1].menuDescription = _("Assigne_d Task");
+	list->_buffer[1].menuDescription = C_("New", "Assigne_d Task");
 	list->_buffer[1].tooltip = _("Create a new assigned task");
 	list->_buffer[1].menuShortcut = '\0';
 	list->_buffer[1].iconName = "stock_task";
@@ -1339,7 +1339,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = CREATE_TASK_LIST_ID;
 	list->_buffer[2].description = _("New task list");
-	list->_buffer[2].menuDescription = _("Tas_k list");
+	list->_buffer[2].menuDescription = C_("New", "Tas_k list");
 	list->_buffer[2].tooltip = _("Create a new task list");
 	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "stock_todo";

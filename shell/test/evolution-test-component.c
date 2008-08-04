@@ -105,7 +105,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[0].id = CREATE_TEST_ID;
 	list->_buffer[0].description = _("New Test");
-	list->_buffer[0].menuDescription = _("_Test");
+	list->_buffer[0].menuDescription = C_("New", "_Test");
 	list->_buffer[0].tooltip = _("Create a new test item");
 	list->_buffer[0].menuShortcut = 'i';
 	list->_buffer[0].iconName = "";

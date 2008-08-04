@@ -377,7 +377,7 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		 * Do not translate the "folder-display|" part. Remove it
 		 * from your translation.
 		 */
-		display = g_strdup_printf (Q_("folder-display|%s (%u)"), name, unread);
+		display = g_strdup_printf (C_("folder-display", "%s (%u)"), name, unread);
 		g_free (name);
 	} else
 		display = name;

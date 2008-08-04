@@ -226,7 +226,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[0].id = "contact";
 	list->_buffer[0].description = _("New Contact");
-	list->_buffer[0].menuDescription = _("_Contact");
+	list->_buffer[0].menuDescription = C_("New", "_Contact");
 	list->_buffer[0].tooltip = _("Create a new contact");
 	list->_buffer[0].menuShortcut = 'c';
 	list->_buffer[0].iconName = "contact-new";
@@ -234,7 +234,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[1].id = "contact_list";
 	list->_buffer[1].description = _("New Contact List");
-	list->_buffer[1].menuDescription = _("Contact _List");
+	list->_buffer[1].menuDescription = C_("New", "Contact _List");
 	list->_buffer[1].tooltip = _("Create a new contact list");
 	list->_buffer[1].menuShortcut = 'l';
 	list->_buffer[1].iconName = "stock_contact-list";
@@ -242,7 +242,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = "address_book";
 	list->_buffer[2].description = _("New Address Book");
-	list->_buffer[2].menuDescription = _("Address _Book");
+	list->_buffer[2].menuDescription = C_("New", "Address _Book");
 	list->_buffer[2].tooltip = _("Create a new address book");
 	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "address-book-new";
