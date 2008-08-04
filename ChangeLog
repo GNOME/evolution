@@ -1,3 +1,19 @@
+2008-08-04  Matthias Braun <matze@braunis.de>
+
+	** Fix for bug #544051 - Added a plugin for the WebDAV addressbook 
+	account setup. 
+
+	* configure.in:
+	* plugins/webdav-account-setup/Makefile.am:
+	* plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml
+	:
+	* plugins/webdav-account-setup/webdav-contacts-source.c
+	(ensure_webdav_contacts_source_group),
+	(remove_webdav_contacts_source_group), (print_uri_noproto),
+	(set_ui_from_source), (set_source_from_ui), (on_entry_changed),
+	(on_toggle_changed), (destroy_ui_data), (plugin_webdav_contacts),
+	(e_plugin_lib_enable):
+
 2008-07-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #545558
