@@ -1159,6 +1159,7 @@ em_format_describe_part(CamelMimePart *part, const char *mime_type)
 	if ((filename = camel_mime_part_get_filename (part)))
 		g_string_append_printf(stext, " (%s)", filename);
 	if ((description = camel_mime_part_get_description(part)) &&
+		(*description != 0) &&
 		!(filename && (strcmp(filename, description) == 0)))
 		g_string_append_printf(stext, ", \"%s\"", description);
 
