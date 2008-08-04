@@ -1,3 +1,14 @@
+2008-08-04  Paul Bolle <pebolle@tiscali.nl>
+
+	** Fix for bug #543058
+
+	* em-folder-properties.c (emfp_dialog_got_folder_quota):
+	* mail-component.c (view_changed): Replace three occurrences of
+	INBOX in the GUI code with Inbox. INBOX is a written in all caps
+	because that is the way it is used in the IMAP protocol. There's
+	little reason to use it in the GUI. Inbox is properly capitalized and
+	can be localized too.
+
 2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Further fix for bug #539268

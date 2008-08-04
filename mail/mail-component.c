@@ -579,6 +579,8 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
 			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent")))
 			use_name = _(name);
+		else if (!strcmp (name, "INBOX"))
+ 			use_name = _("Inbox");
 		else
 			use_name = name;
 
