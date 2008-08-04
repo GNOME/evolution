@@ -1,3 +1,10 @@
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fixes bug #544252
+
+	* quickref/C/quickref.tex: Use names consistent to the GUI for 
+	different components. 
+
 2008-08-03  Andre Klapper  <a9016009@gmx.de>
 
 	* C/evolution.xml: Make Claude happy (bug #544886 comment 4).
