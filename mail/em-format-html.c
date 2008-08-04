@@ -1868,7 +1868,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			GString *html;
 
 			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
-				return;
+				break;
 
 			html = g_string_new("");
 			name = efh_format_address(efh, html, addrs, header->name);
@@ -1883,7 +1883,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			GString *html;
 
 			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
-				return;
+				break;
 
 			html = g_string_new("");
 			name = efh_format_address(efh, html, addrs, header->name);
