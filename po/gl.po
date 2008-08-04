@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-02 11:35+0200\n"
-"PO-Revision-Date: 2008-08-02 11:37+0200\n"
+"POT-Creation-Date: 2008-08-04 20:56+0200\n"
+"PO-Revision-Date: 2008-08-04 20:59+0200\n"
 "Last-Translator: Frco. Javier Rial Rodríguez <>\n"
 "Language-Team: Galician <g11n@mancomun.org>\n"
 "MIME-Version: 1.0\n"
@@ -690,17 +690,9 @@ msgstr "Persoal"
 msgid "On LDAP Servers"
 msgstr "En servidores LDAP"
 
-#: ../addressbook/gui/component/addressbook-component.c:229
-msgid "_Contact"
-msgstr "_Contacto"
-
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Crear un novo contacto"
-
-#: ../addressbook/gui/component/addressbook-component.c:237
-msgid "Contact _List"
-msgstr "_Lista de contactos"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -710,10 +702,6 @@ msgstr "Crear unha lista de contactos nova"
 #: ../addressbook/gui/component/addressbook-config.c:1192
 msgid "New Address Book"
 msgstr "Nova axenda de enderezos"
-
-#: ../addressbook/gui/component/addressbook-component.c:245
-msgid "Address _Book"
-msgstr "Ax_enda de enderezos"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -4727,7 +4715,7 @@ msgstr "Posúe %d alarmas"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1684
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1712
-#: ../mail/mail-component.c:1585
+#: ../mail/mail-component.c:1587
 msgid "Warning"
 msgstr "Aviso"
 
@@ -7161,7 +7149,6 @@ msgid "_Send Options"
 msgstr "Opción_s de envío"
 
 #: ../calendar/gui/dialogs/task-editor.c:317
-#: ../calendar/gui/tasks-component.c:1326
 msgid "_Task"
 msgstr "_Tarefa"
 
@@ -8641,10 +8628,6 @@ msgstr "Selector de orixe de notas"
 msgid "New memo"
 msgstr "Nova nota"
 
-#: ../calendar/gui/memos-component.c:1261
-msgid "Mem_o"
-msgstr "N_ota"
-
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Crear unha nova nota"
@@ -8653,10 +8636,6 @@ msgstr "Crear unha nova nota"
 msgid "New shared memo"
 msgstr "Nova nota compartida"
 
-#: ../calendar/gui/memos-component.c:1269
-msgid "_Shared memo"
-msgstr "Nota _compartida"
-
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Crear unha nova nota compartida"
@@ -8664,10 +8643,6 @@ msgstr "Crear unha nova nota compartida"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Nova lista de notas"
-
-#: ../calendar/gui/memos-component.c:1277
-msgid "Memo li_st"
-msgstr "Li_sta de notas"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8976,10 +8951,6 @@ msgstr "Crear unha tarefa nova"
 msgid "New assigned task"
 msgstr "Nova tarefa asignada"
 
-#: ../calendar/gui/tasks-component.c:1334
-msgid "Assigne_d Task"
-msgstr "Tarefa asigna_da"
-
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Crear unha nova tarefa asignada"
@@ -8987,10 +8958,6 @@ msgstr "Crear unha nova tarefa asignada"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Nova lista de tarefas"
-
-#: ../calendar/gui/tasks-component.c:1342
-msgid "Tas_k list"
-msgstr "Lista de tare_fas"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -11592,8 +11559,8 @@ msgstr "Control de configuración de rede de Evolution"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:612
 #: ../mail/importers/elm-importer.c:327 ../mail/importers/pine-importer.c:380
-#: ../mail/mail-component.c:593 ../mail/mail-component.c:594
-#: ../mail/mail-component.c:758
+#: ../mail/mail-component.c:595 ../mail/mail-component.c:596
+#: ../mail/mail-component.c:760
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Correo"
@@ -12084,7 +12051,16 @@ msgstr[1] "Mensaxes totais:"
 msgid "Quota usage"
 msgstr "Uso da cota"
 
-#: ../mail/em-folder-properties.c:385
+#. translators: standard local mailbox names
+#: ../mail/em-folder-properties.c:355 ../mail/em-folder-tree-model.c:507
+#: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:160
+#: ../mail/mail-component.c:583
+#: ../plugins/exchange-operations/exchange-delegates-user.c:76
+#: ../plugins/exchange-operations/exchange-folder.c:592
+msgid "Inbox"
+msgstr "Caixa de entrada"
+
+#: ../mail/em-folder-properties.c:386
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Propiedades do cartafol"
@@ -12116,14 +12092,6 @@ msgstr "NON EQUIVALENCIA"
 msgid "Drafts"
 msgstr "Borradores"
 
-#. translators: standard local mailbox names
-#: ../mail/em-folder-tree-model.c:507 ../mail/em-folder-tree.c:2556
-#: ../mail/mail-component.c:160
-#: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:592
-msgid "Inbox"
-msgstr "Caixa de entrada"
-
 #: ../mail/em-folder-tree-model.c:510 ../mail/mail-component.c:162
 msgid "Outbox"
 msgstr "Caixa de saída"
@@ -12135,26 +12103,6 @@ msgstr "Enviado"
 #: ../mail/em-folder-tree-model.c:534 ../mail/em-folder-tree-model.c:841
 msgid "Loading..."
 msgstr "Cargando..."
-
-#. Translators: This is the string used for displaying the
-#. * folder names in folder trees. "%s" will be replaced by
-#. * the folder's name and "%u" will be replaced with the
-#. * number of unread messages in the folder.
-#. *
-#. * Most languages should translate this as "%s (%u)". The
-#. * languages that use localized digits (like Persian) may
-#. * need to replace "%u" with "%Iu". Right-to-left languages
-#. * (like Arabic and Hebrew) may need to add bidirectional
-#. * formatting codes to take care of the cases the folder
-#. * name appears in either direction.
-#. *
-#. * Do not translate the "folder-display|" part. Remove it
-#. * from your translation.
-#.
-#: ../mail/em-folder-tree.c:380
-#, c-format
-msgid "folder-display|%s (%u)"
-msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
@@ -12760,43 +12708,43 @@ msgstr "Grupos de noticias"
 msgid "%s attachment"
 msgstr "%s anexo"
 
-#: ../mail/em-format.c:1198
+#: ../mail/em-format.c:1199
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Non se puido analizar a mensaxe S/MIME: erro descoñecido"
 
-#: ../mail/em-format.c:1335 ../mail/em-format.c:1491
+#: ../mail/em-format.c:1336 ../mail/em-format.c:1492
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Non se puido analizar a mensaxe MIME. Mostrando como orixe."
 
-#: ../mail/em-format.c:1343
+#: ../mail/em-format.c:1344
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado non soportado para multipart/encrypted"
 
-#: ../mail/em-format.c:1353
+#: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message"
 msgstr "Non se puido analizar a mensaxe PGP/MIME"
 
-#: ../mail/em-format.c:1353
+#: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Non se puido analizar a mensaxe PGP/MIME: Erro descoñecido"
 
-#: ../mail/em-format.c:1510
+#: ../mail/em-format.c:1511
 msgid "Unsupported signature format"
 msgstr "Formato de sinatura non soportado"
 
-#: ../mail/em-format.c:1518 ../mail/em-format.c:1589
+#: ../mail/em-format.c:1519 ../mail/em-format.c:1590
 msgid "Error verifying signature"
 msgstr "Erro ao verificar a sinatura"
 
-#: ../mail/em-format.c:1518 ../mail/em-format.c:1580 ../mail/em-format.c:1589
+#: ../mail/em-format.c:1519 ../mail/em-format.c:1581 ../mail/em-format.c:1590
 msgid "Unknown error verifying signature"
 msgstr "Erro descoñecido ao verificar a sinatura"
 
-#: ../mail/em-format.c:1661
+#: ../mail/em-format.c:1662
 msgid "Could not parse PGP message"
 msgstr "Non se puido analizar a mensaxe PGP"
 
-#: ../mail/em-format.c:1661
+#: ../mail/em-format.c:1662
 msgid "Could not parse PGP message: Unknown error"
 msgstr "Non se puido analizar a mensaxe PGP: Erro descoñecido"
 
@@ -14056,86 +14004,78 @@ msgid_plural "%d total"
 msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
-#: ../mail/mail-component.c:914
+#: ../mail/mail-component.c:916
 msgid "New Mail Message"
 msgstr "Nova mensaxe de correo"
 
-#: ../mail/mail-component.c:915
-msgid "_Mail Message"
-msgstr "Enviar _mensaxe"
-
-#: ../mail/mail-component.c:916
+#: ../mail/mail-component.c:918
 msgid "Compose a new mail message"
 msgstr "Compor unha mensaxe de correo nova"
 
-#: ../mail/mail-component.c:922
+#: ../mail/mail-component.c:924
 msgid "New Mail Folder"
 msgstr "Novo cartafol de correo"
 
-#: ../mail/mail-component.c:923
-msgid "Mail _Folder"
-msgstr "_Cartafol de correo"
-
-#: ../mail/mail-component.c:924
+#: ../mail/mail-component.c:926
 msgid "Create a new mail folder"
 msgstr "Crear un cartafol de correo novo"
 
-#: ../mail/mail-component.c:1071
+#: ../mail/mail-component.c:1073
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Fallou ao actualizar a configuración do correo ou os cartafoles."
 
-#: ../mail/mail-component.c:1584
+#: ../mail/mail-component.c:1586
 msgid "Error"
 msgstr "Erro"
 
-#: ../mail/mail-component.c:1584
+#: ../mail/mail-component.c:1586
 msgid "Errors"
 msgstr "Erros"
 
-#: ../mail/mail-component.c:1585
+#: ../mail/mail-component.c:1587
 msgid "Warnings and Errors"
 msgstr "Avisos e erros"
 
-#: ../mail/mail-component.c:1586
+#: ../mail/mail-component.c:1588
 msgid "Debug"
 msgstr "Depurar"
 
-#: ../mail/mail-component.c:1586
+#: ../mail/mail-component.c:1588
 msgid "Error, Warnings and Debug messages"
 msgstr "Erro, avisos e mensaxes de depuración"
 
-#: ../mail/mail-component.c:1713
+#: ../mail/mail-component.c:1715
 msgid "Debug Logs"
 msgstr "Rexistros de depuración"
 
-#: ../mail/mail-component.c:1727
+#: ../mail/mail-component.c:1729
 msgid "Show _errors in the status bar for"
 msgstr "Mostrar _erros na barra de estado"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1743
+#: ../mail/mail-component.c:1745
 msgid "second(s)."
 msgstr "segundo(s)."
 
-#: ../mail/mail-component.c:1749
+#: ../mail/mail-component.c:1751
 msgid "Log Messages:"
 msgstr "Mensaxes de rexistro:"
 
-#: ../mail/mail-component.c:1790
+#: ../mail/mail-component.c:1792
 msgid "Log Level"
 msgstr "Nivel de rexistro"
 
-#: ../mail/mail-component.c:1799 ../widgets/misc/e-dateedit.c:395
+#: ../mail/mail-component.c:1801 ../widgets/misc/e-dateedit.c:395
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1809 ../mail/message-list.c:2430
+#: ../mail/mail-component.c:1811 ../mail/message-list.c:2430
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensaxes"
 
-#: ../mail/mail-component.c:1818 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../mail/mail-component.c:1820 ../ui/evolution-mail-messagedisplay.xml.h:2
 #: ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "Pechar esta ventá"
@@ -14715,6 +14655,7 @@ msgstr "Usar aute_nticación"
 
 #: ../mail/mail-config.glade.h:156 ../plugins/caldav/caldav-source.c:282
 #: ../plugins/google-account-setup/google-source.c:364
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
 msgid "User_name:"
 msgstr "_Nome de usuario:"
 
@@ -17728,6 +17669,7 @@ msgid "Google"
 msgstr "Google"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:198
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
 msgid "<b>Server</b>"
 msgstr "<b>Servidor</b>"
 
@@ -19957,6 +19899,28 @@ msgstr "Un complemento sinxelo que usa ytnef para decodificar adxuntos TNEF."
 msgid "TNEF Attachment decoder"
 msgstr "Decodificador de adxuntos TNEF"
 
+#: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
+msgid "A plugin to setup WebDAV contacts."
+msgstr "Un plugin para configurar os contactos WebDAV."
+
+#: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
+msgid "WebDAV contacts"
+msgstr "Contactos WebDAV"
+
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:69
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:74
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:100
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:311
+msgid "URL:"
+msgstr "URL:"
+
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:338
+msgid "_Avoid IfMatch (needed on apache < 2.2.8)"
+msgstr "_Evitar IfMatch (necesario en apache < 2.2.8)"
+
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
 msgstr "O intérprete de comandos do Evolution"
@@ -20447,10 +20411,6 @@ msgstr "Novo"
 #: ../shell/test/evolution-test-component.c:107
 msgid "New Test"
 msgstr "Nova proba"
-
-#: ../shell/test/evolution-test-component.c:108
-msgid "_Test"
-msgstr "_Proba"
 
 #: ../shell/test/evolution-test-component.c:109
 msgid "Create a new test item"
@@ -23877,6 +23837,42 @@ msgstr "Contexto MI"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Tirador emerxente"
+
+#~ msgid "_Contact"
+#~ msgstr "_Contacto"
+
+#~ msgid "Contact _List"
+#~ msgstr "_Lista de contactos"
+
+#~ msgid "Address _Book"
+#~ msgstr "Ax_enda de enderezos"
+
+#~ msgid "Mem_o"
+#~ msgstr "N_ota"
+
+#~ msgid "_Shared memo"
+#~ msgstr "Nota _compartida"
+
+#~ msgid "Memo li_st"
+#~ msgstr "Li_sta de notas"
+
+#~ msgid "Assigne_d Task"
+#~ msgstr "Tarefa asigna_da"
+
+#~ msgid "Tas_k list"
+#~ msgstr "Lista de tare_fas"
+
+#~ msgid "folder-display|%s (%u)"
+#~ msgstr "%s (%u)"
+
+#~ msgid "_Mail Message"
+#~ msgstr "Enviar _mensaxe"
+
+#~ msgid "Mail _Folder"
+#~ msgstr "_Cartafol de correo"
+
+#~ msgid "_Test"
+#~ msgstr "_Proba"
 
 #~ msgid "_Save Message"
 #~ msgstr "_Gardar mensaxe"

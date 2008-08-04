@@ -422,6 +422,8 @@ plugins/templates/templates.c
 plugins/templates/templates.glade
 plugins/templates/org-gnome-templates.eplug.xml
 plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml
+plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml
+plugins/webdav-account-setup/webdav-contacts-source.c
 shell/GNOME_Evolution_Shell.server.in.in
 shell/test/GNOME_Evolution_Test.server.in.in
 shell/apps_evolution_shell.schemas.in
