@@ -3645,6 +3645,9 @@ glib_crapback(void *key, void *data, void *x)
 	struct _glibsuxcrap *y = x;
 	CamelMessageInfo *mi;
 
+	if(y->count)
+		return;
+
 	mi = camel_folder_get_message_info(y->folder, key);
 	if (mi) {
 		y->count++;
@@ -3652,7 +3655,7 @@ glib_crapback(void *key, void *data, void *x)
 	}
 }
 
-/* returns number of hidden messages */
+/* returns 0 or 1 depending if there are hidden messages */
 unsigned int
 message_list_hidden(MessageList *ml)
 {

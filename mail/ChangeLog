@@ -1,3 +1,8 @@
+2008-08-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/message-list.c: Fix a performance issue, where we can just go
+	by the presence than the exact count.
+
 2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-migrate.c (migrate_to_db):
