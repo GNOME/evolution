@@ -1,3 +1,66 @@
+Evolution 2.23.6 2008-08-04
+---------------------------
+
+New in 2.23.6:
+	WebDAV contacts plugin (Matthias Braun)
+
+Bug Fixes:
+	#211267: Report correct number of pages to print and print them as requested (Milan Crha)
+	#249844: Use fully qualified names for "New" submenu entries (Matthew Barnes)
+	#256540: Do not use GtkNotebook with only one tab (Milan Crha)
+	#329821: Recalculate returned row to the model row, if we are sorting (Milan Crha)
+	#353927: Do not blink the icon more than 15 seconds (Milan Crha)
+	#428384: Improve buttons in the "exit-unsaved" dialog by replacing "Cancel" with "Continue Editing" and "Save Message" with "Save Draft". (Matthew Barnes)
+	#491176: Word-wrap the summary if necessary; keep the text and action buttons aligned on the left (Milan Crha)
+	#500389: New ability to define Options (ComboBox) in provider's options (Milan Crha)
+	#504417: Preferences windows cut off (Lucian Langa)
+	#514006: Quote literal values (Matthew Barnes)
+	#517151: Give a mnemonic to "Composer in External Editor" (Matthew Barnes)
+	#517825: Fix duplicate mnemonic.  "_Work Offline" -> "Work _Offline" (Matthew Barnes)
+	#529460: Change "Startup Wizard" to "Setup Assistant".  Also make the plugin description less lame (Matthew Barnes)
+	#530388: Fix a crash when editing labels (Milan Crha)
+	#537088: Fix empty headers if FROM/Sender is NULL (Paul Bolle)
+	#539268: Fix attachment description (Paul Bolle)
+	#543058: Properly capitalize INBOX (Paul Bolle)
+	#543411: Don't load known folders (Srinivasa Ragavan)
+	#543532: Let free memory when we are done with it, not before. (Milan Crha)
+	#543754: Reword "insufficient-permissions" error message (Matthew Barnes)
+	#543755: Fix a typo (Matthew Barnes)
+	#543756: Make question better translatable (Milan Crha)
+	#543943: Fix a memory leak (Milan Crha)
+	#544252: Use consistent naming to the GUI for different components (Paul Bolle)
+	#544157: Sort View / Window (sub)menu in shortcut order. (Paul Bolle)
+	#544383: Put contact list members in reverse order (Milan Crha)
+	#544857: Fix a typo (Matthew Barnes)
+	#544859: Clarify description of "sync_interval" key. (Matthew Barnes)
+	#544860: Add translator comments for split "update every" sentence (Matthew Barnes)
+	#544861: Reword "invalid-user" error message (Matthew Barnes)
+	#544862: Clarify description of "use_authentication" key (Matthew Barnes)
+	#544958: Use email, not e-mail (per documentation guidelines) (Matthew Barnes)
+	#544969: Added the hook for folder custom icon (Lucian Langa)
+	#544994: Typos/Syntax improvements (Claude Paroz)
+	#545300: Add a translatable tag in "_Merge" string (Takao Fujiwara)
+	#545303: Add gettext in the xml string (Takao Fujiwara)
+	#545436: Check the info before accessing it (Srinivasa Ragavan)
+	#545558: Hula support is disabled by default now, so remove any  mention of it from the User Guide (Matthew Barnes)
+	#545568: Make sure system plugins are enabled on startup (Matthew Barnes)
+	#545820: Fix a typo. (Nicolas Kaiser)
+	#546057: Use "x-office-calendar" icon name instead of "stock_calendar" (Matthew Barnes)
+
+Updated Translations:
+	Ignacio Casal Quinteiro (gl)
+	Frco. Javier Rial Rodríguez (gl)
+	Kjartan Maraas (nb)
+	Changwoo Ryu (ko)
+	Abou Manal (ar)
+	Petr Kovar (cs)
+	Fabrício Godoy (pt_BR)
+	Jorge Gonzalez (es)
+	Bruno Brouard and Claude Paroz (fr)
+	Zabeeh Khan (ps)
+	Pavel Sefranek (cs)
+
+
 Evolution 2.23.5 2008-07-21
 ---------------------------
 New in 2.23.5
