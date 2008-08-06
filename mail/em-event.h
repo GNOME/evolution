@@ -117,7 +117,7 @@ struct _EMEventTargetCustomIcon {
 	EEventTarget target;
 
 	GtkCellRenderer *renderer;
-	char 		*folder_name;
+	const char 	*folder_name;
 };
 
 typedef struct _EEventItem EMEventItem;

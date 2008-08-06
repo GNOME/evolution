@@ -1594,7 +1594,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[0].id = CREATE_EVENT_ID;
 	list->_buffer[0].description = _("New appointment");
-	list->_buffer[0].menuDescription = _("_Appointment");
+	list->_buffer[0].menuDescription = (char *) C_("New", "_Appointment");
 	list->_buffer[0].tooltip = _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
 	list->_buffer[0].iconName = "appointment-new";
@@ -1602,7 +1602,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[1].id = CREATE_MEETING_ID;
 	list->_buffer[1].description = _("New meeting");
-	list->_buffer[1].menuDescription = _("M_eeting");
+	list->_buffer[1].menuDescription = (char *) C_("New", "M_eeting");
 	list->_buffer[1].tooltip = _("Create a new meeting request");
 	list->_buffer[1].menuShortcut = 'e';
 	list->_buffer[1].iconName = "stock_new-meeting";
@@ -1610,7 +1610,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
 	list->_buffer[2].description = _("New all day appointment");
-	list->_buffer[2].menuDescription = _("All Day A_ppointment");
+	list->_buffer[2].menuDescription = (char *) C_("New", "All Day A_ppointment");
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "stock_new-24h-appointment";
@@ -1618,7 +1618,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[3].id = CREATE_CALENDAR_ID;
 	list->_buffer[3].description = _("New calendar");
-	list->_buffer[3].menuDescription = _("Cale_ndar");
+	list->_buffer[3].menuDescription = (char *) C_("New", "Cale_ndar");
 	list->_buffer[3].tooltip = _("Create a new calendar");
 	list->_buffer[3].menuShortcut = '\0';
 	list->_buffer[3].iconName = "x-office-calendar";

@@ -1,5 +1,12 @@
 2008-08-06  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #249844
+
+	* gui/component/addressbook-component.c:
+	(impl__get_userCreatableItems): Do not let compiler claim.
+
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #546263
 
 	* gui/widgets/e-minicard.c: (add_field), (add_email_field), (remodel):

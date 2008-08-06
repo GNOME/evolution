@@ -1,3 +1,12 @@
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #249844
+
+	* em-event.h: (struct _EMEventTargetCustomIcon): Declare 'folder_name'
+	as const char * to let compiler happy; no copy of the pointer anyway.
+	* mail-component.c: (impl__get_userCreatableItems):
+	Do not let compiler claim.
+
 2008-08-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail/message-list.c: Fix a performance issue, where we can just go
