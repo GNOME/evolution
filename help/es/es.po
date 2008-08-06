@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-07-31 17:22+0000\n"
-"PO-Revision-Date: 2008-08-06 00:25+0200\n"
+"POT-Creation-Date: 2008-08-05 22:32+0000\n"
+"PO-Revision-Date: 2008-08-06 18:40+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4181,7 +4181,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Evolution has the ability to let you specify the Reply-To in an email. Using "
-"this, you can set up a special Reply-To for an email.To do this:"
+"this, you can set up a special Reply-To for an email. To do this:"
 msgstr ""
 "Evolution tiene la capacidad de permitirle especificar el campo «Responder "
 "a:» en un correo-e. Usando esto, puede establecer un «Responder a:» especial "
@@ -4987,7 +4987,6 @@ msgstr ""
 "roja bajo las palabras conforme las vaya escribiendo."
 
 #: C/evolution.xml:1969(para)
-#, fuzzy
 msgid "Don't send nasty emails (flames). If you get one, don't write back."
 msgstr "No envíe correos desagradables. Si recibe alguno, mejor no lo responda."
 
@@ -5134,13 +5133,12 @@ msgid "When you have subscribed to the folders you want, close the window."
 msgstr "Cierre la ventana cuando se haya suscrito a las carpetas que desea."
 
 #: C/evolution.xml:2030(para)
-#, fuzzy
 msgid ""
 "To protect and encode your email transmissions, Evolution offers two "
 "encryption methods:"
 msgstr ""
 "Para proteger y codificar sus transmisiones de correos-e, Evolution ofrece "
-"dos métodos de cifrad:"
+"dos métodos de cifrado:"
 
 #: C/evolution.xml:2033(para)
 msgid "GPG Encryption"
@@ -5161,12 +5159,14 @@ msgstr ""
 "\"public-key-encryption\">cifrado de clave pública</link>."
 
 #: C/evolution.xml:2040(para)
+#, fuzzy
 msgid ""
-"In order to encrypt and decrypt emails using GPG, it is necessary to use two "
-"kinds of encryption keys: public and private. Private keys are used to "
-"encrypt messages and public keys to decrypt them. Private keys should not be "
-"shared with others, while public keys can be shared with those you want to "
-"send encrypted messages to. You may also place them on a public key server."
+"In order to send and receive encrypted emails using GPG, it is necessary to "
+"use two kinds of encryption keys: public and private. Public keys are used "
+"to encrypt messages and private keys to decrypt them. To send encrypted "
+"email, you must have the recepient's public key, which is used to encrypt "
+"the message. The recipient then uses his/her private key to decrypt (and "
+"read) the encrypted message."
 msgstr ""
 "Para poder cifrar y descifrar correos usando GPG es necesario usar dos tipos "
 "de claves de cifrado: públicas y privadas. Las claves privadas se usan para "
@@ -5177,16 +5177,17 @@ msgstr ""
 
 #: C/evolution.xml:2041(para)
 msgid ""
-"To send encrypted email, you must have your own private key on your keyring, "
-"and the person you are sending it to must have your public key in order to "
-"decrypt and read it. To decrypt and read someone else's encrypted email, you "
-"must first have a copy of their public key on your keyring."
+"Those who wish to send you encrypted email must first have a copy of your "
+"public key on your keyring. To this end, public keys can be shared with "
+"those who want to send encrypted messages to you. In order to do this, you "
+"may place your public key on a public key server. Private keys should not be "
+"shared with others."
 msgstr ""
-"Para enviar correo cifrado debe tener su propia clave privada en su depósito "
-"de claves y la persona a la que se lo está enviando debe tener su clave "
-"pública para poder descifrarlo y leerlo. Para descifrar y leer el correo "
-"cifrado de otros, primero debe tener una copia de sus claves públicas en su "
-"depósito de claves."
+"Aquellos que quieran enviarle un correo electrónico cifrado deben tener una copia de su "
+"clave pública en su depósito de claves. Para este fin, las claves públicas se pueden compartir "
+"con aquellos que quieran enviarle mensajes cifrados. Para ello, debe subir sus "
+"claves públicas a un servidor de claves públicas. Las claves privadas no se deben "
+"compartir con otros."
 
 #: C/evolution.xml:2042(para)
 msgid ""
@@ -5293,7 +5294,6 @@ msgid "Type your real name, then press Enter."
 msgstr "Escriba su nombre real, después pulse Intro."
 
 #: C/evolution.xml:2078(para)
-#, fuzzy
 msgid "Type your email address, then press Enter."
 msgstr "Escriba su dirección de correo-e, después pulse Intro."
 
@@ -5502,7 +5502,6 @@ msgid "Compose your message."
 msgstr "Edite su mensaje."
 
 #: C/evolution.xml:2164(para)
-#, fuzzy
 msgid "You can set Evolution to always sign your email messages:"
 msgstr ""
 "Puede configurar Evolution para que firme siempre sus mensajes de correo "
@@ -5677,7 +5676,6 @@ msgstr ""
 "tiene las herramientas para ayudarle a hacerlo."
 
 #: C/evolution.xml:2261(link) C/evolution.xml:2284(title)
-#, fuzzy
 msgid "Importing Your Old Email"
 msgstr "Importar su correo-e antiguo"
 
@@ -5706,7 +5704,6 @@ msgid "Stopping Junk Mail (Spam)"
 msgstr "Parar el correo basura (SPAM)"
 
 #: C/evolution.xml:2285(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to import old email and contacts so that you don't need "
 "to worry about losing your old information."
@@ -5776,7 +5773,6 @@ msgid "Microsoft Outlook Express 4 (.mbx):"
 msgstr "Microsoft Outlook Express 4 (.mbx):"
 
 #: C/evolution.xml:2308(para)
-#, fuzzy
 msgid ""
 "The email file format used by Microsoft Outlook Express 4. For other "
 "versions of Microsoft Outlook and Outlook Express, see the workaround "
@@ -5799,7 +5795,6 @@ msgid "Berkley Mailbox (.mbox or null extension):"
 msgstr "Berkley Mailbox (.mbox o extensión nula):"
 
 #: C/evolution.xml:2316(para)
-#, fuzzy
 msgid ""
 "The email format used by Mozilla, Netscape, Evolution, Eudora*, and many "
 "other email clients."
@@ -7753,9 +7748,9 @@ msgstr "Contiene las direcciones de correo individuales."
 #: C/evolution.xml:3191(para)
 #, fuzzy
 msgid ""
-"You can also use Action Menu to find Forward Contact, which opens a new "
-"message with the card already attached, and Send Message to Contact, which "
-"opens a new message to the contact's email address."
+"You can also the Forward Contact menu item in the Action menu, which opens a "
+"new message with the card already attached, and Send Message to Contact, "
+"which opens a new message to the contact's email address."
 msgstr ""
 "También puede usar el menú Acciones para Reenviar un contacto, lo que abrirá "
 "un nuevo mensaje con la tarjeta adjuntada, y Enviar mensaje al contacto, que "
@@ -9313,7 +9308,7 @@ msgstr ""
 msgid ""
 "When you create a meeting or group appointment, you can specify the "
 "attendees in several categories, such as <quote>chair</quote> or "
-"<quote>required.</quote> When you save the meeting listing, each attendee is "
+"<quote>required</quote>. When you save the meeting listing, each attendee is "
 "sent an email with the meeting information, which also gives them the option "
 "to respond."
 msgstr ""
@@ -9974,10 +9969,10 @@ msgstr "Pulse Archivo &gt; Nuevo &gt; Tarea asignada."
 #, fuzzy
 msgid ""
 "Click Add, or press Insert key, or right click and then press Add to add the "
-"email addresses of people you want to assign the task.To remove an attendee "
-"from the list, select an attendee, then press Remove.To edit a field, select "
-"the field, then click Edit.Click View on the menu bar to show or hide the "
-"Type, Role, Status, and RSVP fields."
+"email addresses of people you want to assign the task. To remove an attendee "
+"from the list, select an attendee, then press Remove. To edit a field, "
+"select the field, then click Edit. Click View on the menu bar to show or "
+"hide the Type, Role, Status, and RSVP fields."
 msgstr ""
 "Pulse Añadir, pulse la tecla Insertar o pulse con el botón derecho y después "
 "pulse Añadir para añadir las direcciones de correo electrónico de las "
@@ -10973,9 +10968,8 @@ msgid "Add the recipients."
 msgstr "Añada los destinatarios."
 
 #: C/evolution.xml:5205(para)
-#, fuzzy
 msgid "Fill in the information."
-msgstr "Rellene la información, después pulse Enviar."
+msgstr "Rellene la información."
 
 #: C/evolution.xml:5207(para)
 msgid ""
@@ -11003,9 +10997,8 @@ msgid "To add someone to your list of delegates:"
 msgstr "Para añadir alguien a su lista de delegados:"
 
 #: C/evolution.xml:5225(para)
-#, fuzzy
 msgid "Click the Exchange Settings tab."
-msgstr "Pulse en la solapa de Seguridad."
+msgstr "Pulse en la solapa Configuración de Exchange."
 
 #: C/evolution.xml:5228(para)
 msgid "Click Delegation Assistant to open the Delegates dialog box."
@@ -11096,7 +11089,6 @@ msgid "Click File &gt; Subscribe to Other User's Exchange Folder."
 msgstr "Pulse Archivo &gt; Suscribirse a la carpeta Exchange de otro usuario."
 
 #: C/evolution.xml:5277(para)
-#, fuzzy
 msgid ""
 "Specify the email address of the user who has delegated to you, or click "
 "User to select the user from your address book."
@@ -11174,7 +11166,6 @@ msgstr ""
 "<link linkend=\"bshly4v\">Recordatorios</link>."
 
 #: C/evolution.xml:5323(para)
-#, fuzzy
 msgid ""
 "An Out of Office message is an automatic reply that you can send as a reply "
 "to messages, explaining why you are not immediately responding to their "
@@ -11429,7 +11420,6 @@ msgstr ""
 "frecuentes y su libreta de direcciones personal."
 
 #: C/evolution.xml:5479(para)
-#, fuzzy
 msgid ""
 "If you receive a card attachment and click Save in Address Book, it is saved "
 "to your Personal address book. New Address Book entries can also be added to "
@@ -11569,7 +11559,6 @@ msgstr ""
 "mainwindow-starting\">Inicio de Evolution por primera vez</link>."
 
 #: C/evolution.xml:5622(para)
-#, fuzzy
 msgid ""
 "If you have an existing email account, and want to convert it to use with "
 "GroupWise:"
@@ -11760,7 +11749,6 @@ msgid "Click Actions &gt; Schedule Meeting."
 msgstr "Pulse Acciones &gt; Planificar una reunión."
 
 #: C/evolution.xml:5748(para)
-#, fuzzy
 msgid ""
 "Add attendees, either by entering their email addresses into the list, or by "
 "clicking the Invite Others button."
@@ -11813,7 +11801,6 @@ msgid "Requesting a Reply for Items You Send"
 msgstr "Petición de respuesta para elementos que envíe"
 
 #: C/evolution.xml:5777(para)
-#, fuzzy
 msgid ""
 "You can manage your sent items for GroupWise email only if the recipient is "
 "located on the same GroupWise system as you."
@@ -11822,7 +11809,6 @@ msgstr ""
 "sólo si el destinatario está ubicado en el mismo sistema GruopWise."
 
 #: C/evolution.xml:5782(para)
-#, fuzzy
 msgid ""
 "Evolution provides several ways for you to confirm that your item was "
 "delivered. You can easily track message status of any message you have sent. "
@@ -11839,7 +11825,6 @@ msgid "Track an Item You Sent:"
 msgstr "Seguir un elemento que haya enviado:"
 
 #: C/evolution.xml:5785(para)
-#, fuzzy
 msgid ""
 "You can check the status in the Message Status window of an email you have "
 "sent."
@@ -11866,7 +11851,6 @@ msgid "Request a Reply:"
 msgstr "Pedir una respuesta:"
 
 #: C/evolution.xml:5793(para)
-#, fuzzy
 msgid ""
 "You can inform the recipient that you need a reply to an email. Evolution "
 "adds a sentence to the item stating that a reply is requested and changes "
@@ -11889,9 +11873,8 @@ msgid "In the Compose Message window, click Insert &gt; Send Options."
 msgstr "En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío."
 
 #: C/evolution.xml:5801(para)
-#, fuzzy
 msgid "Select Status Tracking."
-msgstr "Seguimiento de estado mejorado."
+msgstr "Seleccione Seguimiento de estado"
 
 #: C/evolution.xml:5806(para) C/evolution.xml:5918(para)
 msgid "Select the check box next to Create a sent item to track information."
@@ -11938,7 +11921,6 @@ msgstr ""
 "recibir."
 
 #: C/evolution.xml:5829(para)
-#, fuzzy
 msgid "Right-click an email in your Sent folder, then click Track Message Status."
 msgstr ""
 "Pulse con el botón derecho sobre un correo-e en su carpeta de Correo "
@@ -11955,7 +11937,6 @@ msgstr ""
 "recibió su mensaje, quién lo leyó y quién lo borró y cuándo."
 
 #: C/evolution.xml:5837(title)
-#, fuzzy
 msgid "Changing the Priority of an Email"
 msgstr "Cambiar la prioridad de un correo-e"
 
@@ -12382,12 +12363,10 @@ msgid "Enabling or Disabling Your Junk Mail List"
 msgstr "Activar o desactivar su lista de correo basura"
 
 #: C/evolution.xml:6123(link) C/evolution.xml:6170(title)
-#, fuzzy
 msgid "Adding an Email Address to Your Junk List"
 msgstr "Añadir una dirección de correo electrónico a su lista de correo basura"
 
 #: C/evolution.xml:6126(link) C/evolution.xml:6185(title)
-#, fuzzy
 msgid "Removing an Email Address from Your Junk List"
 msgstr "Quitar una dirección de correo electrónico de su lista de correo basura"
 
@@ -12439,7 +12418,6 @@ msgid "Select if you want to enable or disable junk mail handling."
 msgstr "Seleccione si quiere activar o desactivar el manejo del correo basura."
 
 #: C/evolution.xml:6176(para)
-#, fuzzy
 msgid "Type the email address to block in the Email field."
 msgstr "Escriba la dirección de correo electrónico a bloquear en el campo Correo-e."
 
@@ -12448,7 +12426,6 @@ msgid "Click Add, then click OK."
 msgstr "Pulse Añadir, después pulse Aceptar."
 
 #: C/evolution.xml:6191(para)
-#, fuzzy
 msgid "Select the email address to remove, then click Remove."
 msgstr "Seleccione la dirección de correo-e a quitar, después pulse Quitar."
 
@@ -12518,7 +12495,6 @@ msgid "Mail Accounts:"
 msgstr "Cuentas de correo:"
 
 #: C/evolution.xml:6235(para)
-#, fuzzy
 msgid ""
 "Add or change information about your email accounts, such as the servers you "
 "connect to, the way you download mail, and your password authentication "
@@ -12536,7 +12512,6 @@ msgid "Autocompletion:"
 msgstr "Autocompletado:"
 
 #: C/evolution.xml:6239(para)
-#, fuzzy
 msgid ""
 "Set the address books to be used when completing email addresses in the "
 "message composer. For more information, see <link linkend=\"bshoq5l"
@@ -12630,7 +12605,6 @@ msgstr ""
 "disponible en el menú Mensaje de la herramienta Exchange."
 
 #: C/evolution.xml:6261(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to maintain multiple accounts, or identities. When you "
 "are writing an email message, you can choose which account to use by "
@@ -12674,7 +12648,6 @@ msgid "Identity:"
 msgstr "Identidad:"
 
 #: C/evolution.xml:6267(para)
-#, fuzzy
 msgid ""
 "Specify the name and email address for this account. You can also choose a "
 "default signature to insert into messages sent from this account."
@@ -12781,7 +12754,6 @@ msgid "Defaults:"
 msgstr "Predeterminados:"
 
 #: C/evolution.xml:6287(para)
-#, fuzzy
 msgid ""
 "Use this section to set where this account stores the messages that it has "
 "sent, and the messages that you save as drafts. If you want to revert to the "
@@ -12894,7 +12866,6 @@ msgid "All Headers:"
 msgstr "Todas las cabeceras:"
 
 #: C/evolution.xml:6312(para)
-#, fuzzy
 msgid ""
 "This includes all the available IMAP Mail headers. By choosing this option, "
 "Evolution will download all the headers for all the messages."
@@ -13070,7 +13041,6 @@ msgid "Calendar and Tasks Preferences"
 msgstr "Preferencias del calendario y de las tareas"
 
 #: C/evolution.xml:6390(para)
-#, fuzzy
 msgid ""
 "For information on individual email account settings, see <link linkend="
 "\"config-prefs-mail-identity\">Working with Mail Accounts</link>."
@@ -13088,7 +13058,6 @@ msgid "Message Fonts:"
 msgstr "Tipografías del mensaje:"
 
 #: C/evolution.xml:6397(para)
-#, fuzzy
 msgid ""
 "Normally, Evolution uses the same fonts as other GNOME applications. To "
 "choose different fonts, deselect Use the same fonts as other applications "
@@ -13268,7 +13237,6 @@ msgstr "Edite el nombre y color, después pulse Aceptar."
 
 # index.docbook:41, index.docbook:293
 #: C/evolution.xml:6454(para)
-#, fuzzy
 msgid "To assign a label to a specific email message:"
 msgstr "Para asignar una etiqueta a un mensaje de correo-e específico:"
 
@@ -13993,7 +13961,6 @@ msgid "Login Method:"
 msgstr "Método de inicio de sesión:"
 
 #: C/evolution.xml:6776(para)
-#, fuzzy
 msgid ""
 "Specify whether your login is anonymous, uses an email address, or uses a "
 "distinguished name. If the login is not anonymous, specify the email address "
@@ -14021,7 +13988,6 @@ msgid "Use SSL/TLS:"
 msgstr "Usar SSL/TLS:"
 
 #: C/evolution.xml:6784(para)
-#, fuzzy
 msgid ""
 "SSL and TLS are security mechanisms. If you select No Encryption, Evolution "
 "will send your password unencrypted. By using SSL or TLS, a secure "
@@ -14122,7 +14088,6 @@ msgstr ""
 "LDAP. Por ejemplo:"
 
 #: C/evolution.xml:6830(para)
-#, fuzzy
 msgid ""
 "ObjectClass=*: Lists all the objects from the server.ObjectClass=User: Lists "
 "only the users. Filter (|(ObjectClass=User)(ObjectClass=groupOfNames)): "
@@ -14546,7 +14511,6 @@ msgstr ""
 "calendario se abrirá una nueva cita."
 
 #: C/evolution.xml:7008(title)
-#, fuzzy
 msgid "Creating a New Email Message:"
 msgstr "Crear un nuevo mensaje de correo-e:"
 
@@ -14683,7 +14647,6 @@ msgid "Adding a Sender to the Address Book:"
 msgstr "Añadir un remitente a la libreta de direcciones:"
 
 #: C/evolution.xml:7058(para)
-#, fuzzy
 msgid "Right-click on any email address to add it to your address book."
 msgstr ""
 "Pulse con el botón derecho sobre cualquier dirección de correo-e para "
@@ -14721,7 +14684,6 @@ msgstr ""
 "herramientas."
 
 #: C/evolution.xml:7086(title)
-#, fuzzy
 msgid "Sending Emails to a Contact:"
 msgstr "Enviar correos-e a un contacto:"
 
@@ -14930,7 +14892,6 @@ msgid "attachment"
 msgstr "adjunto"
 
 #: C/evolution.xml:7173(para)
-#, fuzzy
 msgid ""
 "Any file sent with an email. Attachments can be embedded in a message or "
 "appended to it."
@@ -15074,7 +15035,6 @@ msgid "forward"
 msgstr "reenviar"
 
 #: C/evolution.xml:7233(para)
-#, fuzzy
 msgid ""
 "Forwards a copy of the message and any additional comments to a different "
 "email address."
@@ -15087,7 +15047,6 @@ msgid "groupware"
 msgstr "groupware"
 
 #: C/evolution.xml:7239(para)
-#, fuzzy
 msgid ""
 "A term describing an application that helps groups of people work together. "
 "Typically, a groupware application has several productivity features built "
@@ -15103,7 +15062,6 @@ msgid "HTML"
 msgstr "HTML"
 
 #: C/evolution.xml:7245(para)
-#, fuzzy
 msgid ""
 "Hypertext Markup Language (HTML) is a language for describing page layout in "
 "electronic documents such as Web pages, help files, and email messages. HTML "
@@ -15131,7 +15089,6 @@ msgid "IMAP"
 msgstr "IMAP"
 
 #: C/evolution.xml:7257(para)
-#, fuzzy
 msgid ""
 "Internet Mail Access Protocol. It allows access to email that is typically "
 "stored remotely on a server rather than on a local hard disk. Often "
@@ -15187,13 +15144,12 @@ msgid "POP"
 msgstr "POP"
 
 #: C/evolution.xml:7281(para)
-#, fuzzy
 msgid ""
 "Post Office Protocol. A mechanism for email transport. In contrast to IMAP, "
 "it is used only to get mail from a server and store it locally on your hard "
 "disk."
 msgstr ""
-" POP, el Protocolo de Oficina Postal, es un mecanismo de transporte de "
+"POP, el Protocolo de Oficina Postal, es un mecanismo de transporte de "
 "correo electrónico. En contraste con IMAP sólo se usa para descargar el "
 "correo y almacenarlo localmente en el disco duro."
 
@@ -15202,7 +15158,6 @@ msgid "protocol"
 msgstr "protocolo"
 
 #: C/evolution.xml:7287(para)
-#, fuzzy
 msgid ""
 "An agreed-upon method of communication, especially one for sending "
 "particular types of information between computer systems. Examples include "
@@ -15287,7 +15242,6 @@ msgid "search folder"
 msgstr "carpeta de búsqueda"
 
 #: C/evolution.xml:7317(para)
-#, fuzzy
 msgid ""
 "An email organization tool. Search folders allow you to create a folder that "
 "contains the results of a complex search. Search folder contents are updated "
@@ -15336,7 +15290,6 @@ msgid "signature"
 msgstr "firma"
 
 #: C/evolution.xml:7341(para)
-#, fuzzy
 msgid ""
 "Text placed at the end of every email sent, similar to a hand-written "
 "signature at the bottom of a written letter. A signature can be anything "
@@ -15393,7 +15346,6 @@ msgid "vCard"
 msgstr "vCard"
 
 #: C/evolution.xml:7365(para)
-#, fuzzy
 msgid ""
 "A file format for the exchange of contact information. When you get an "
 "address card attached to an email, it is probably in vCard format."
