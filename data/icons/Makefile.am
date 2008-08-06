@@ -2,10 +2,25 @@ NULL =
 
 public_icons = \
 	hicolor_apps_16x16_evolution.png \
+	hicolor_apps_16x16_evolution-mail.png \
+	hicolor_apps_16x16_evolution-memos.png \
+	hicolor_apps_16x16_evolution-tasks.png \
 	hicolor_apps_22x22_evolution.png \
+	hicolor_apps_22x22_evolution-mail.png \
+	hicolor_apps_22x22_evolution-memos.png \
+	hicolor_apps_22x22_evolution-tasks.png \
 	hicolor_apps_24x24_evolution.png \
+	hicolor_apps_24x24_evolution-mail.png \
+	hicolor_apps_24x24_evolution-memos.png \
+	hicolor_apps_24x24_evolution-tasks.png \
 	hicolor_apps_32x32_evolution.png \
+	hicolor_apps_32x32_evolution-mail.png \
+	hicolor_apps_32x32_evolution-memos.png \
+	hicolor_apps_32x32_evolution-tasks.png \
 	hicolor_apps_48x48_evolution.png \
+	hicolor_apps_48x48_evolution-mail.png \
+	hicolor_apps_48x48_evolution-memos.png \
+	hicolor_apps_48x48_evolution-tasks.png \
 	hicolor_apps_scalable_evolution.svg \
 	$(NULL)
 

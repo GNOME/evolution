@@ -1330,7 +1330,7 @@ addressbook_view_init (AddressbookView *view)
 	e_activity_handler_attach_task_bar (priv->activity_handler,
 					    E_TASK_BAR (priv->statusbar_widget));
 
-	priv->info_widget = e_info_label_new("contact-new");
+	priv->info_widget = e_info_label_new("x-office-address-book");
 	e_info_label_set_info((EInfoLabel*)priv->info_widget, _("Contacts"), "");
 	gtk_widget_show (priv->info_widget);
 

@@ -756,7 +756,7 @@ impl_createView (PortableServer_Servant servant,
 	gtk_widget_show (statusbar_widget);
 
 	vbox = gtk_vbox_new(FALSE, 0);
-	info = e_info_label_new("stock_mail");
+	info = e_info_label_new("evolution-mail");
 	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");
 	gtk_box_pack_start((GtkBox *)vbox, info, FALSE, TRUE, 0);
 	gtk_box_pack_start((GtkBox *)vbox, tree_widget, TRUE, TRUE, 0);

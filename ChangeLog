@@ -1,5 +1,19 @@
 2008-08-06  Michael Monreal  <mmonreal@svn.gnome.org>
 
+	** Fix for bug #467115
+
+	* addressbook/gui/component/addressbook-view.c:
+	(addressbook_view_init):
+	* calendar/gui/GNOME_Evolution_Calendar.server.in.in:
+	* calendar/gui/memos-component.c: (create_component_view):
+	* calendar/gui/tasks-component.c: (create_component_view):
+	* data/icons/Makefile.am:
+	* mail/GNOME_Evolution_Mail.server.in.in:
+	* mail/mail-component.c: (impl_createView):
+	Ship and use tango icons for the mail, tasks and memos components.
+
+2008-08-06  Michael Monreal  <mmonreal@svn.gnome.org>
+
 	** Fix for bug #531288
 
 	* data/icons/Makefile.am:

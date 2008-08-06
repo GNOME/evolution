@@ -74,7 +74,7 @@
 	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*4"/>
 	<oaf_attribute name="evolution:button_label" type="string" _value="Tasks"/>
 	<oaf_attribute name="evolution:button_tooltips" type="string" _value="Tasks"/>
-        <oaf_attribute name="evolution:button_icon" type="string" value="stock_todo"/>
+        <oaf_attribute name="evolution:button_icon" type="string" value="evolution-tasks"/>
 	<oaf_attribute name="evolution:button_sort_order" type="string" value="-7"/>
 
         <oaf_attribute name="evolution:uri_schemas" type="stringv">
@@ -99,7 +99,7 @@
 	<oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*5"/>
 	<oaf_attribute name="evolution:button_label" type="string" _value="Memos"/>
 	<oaf_attribute name="evolution:button_tooltips" type="string" _value="Memos"/>
-        <oaf_attribute name="evolution:button_icon" type="string" value="stock_notes"/>
+        <oaf_attribute name="evolution:button_icon" type="string" value="evolution-memos"/>
 	<oaf_attribute name="evolution:button_sort_order" type="string" value="-6"/>
 </oaf_server>
 

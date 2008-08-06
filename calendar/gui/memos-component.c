@@ -1098,7 +1098,7 @@ create_component_view (MemosComponent *memos_component)
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	component_view->info_label = (EInfoLabel *)e_info_label_new("stock_insert-note");
+	component_view->info_label = (EInfoLabel *)e_info_label_new("evolution-memos");
 	e_info_label_set_info(component_view->info_label, _("Memos"), "");
 	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 

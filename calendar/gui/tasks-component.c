@@ -1087,7 +1087,7 @@ create_component_view (TasksComponent *tasks_component)
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	component_view->info_label = (EInfoLabel *)e_info_label_new("stock_task");
+	component_view->info_label = (EInfoLabel *)e_info_label_new("evolution-tasks");
 	e_info_label_set_info(component_view->info_label, _("Tasks"), "");
 	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 
