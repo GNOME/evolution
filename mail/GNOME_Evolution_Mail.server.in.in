@@ -177,7 +177,7 @@
 		   _value="Configure your network connection settings here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="stock_proxy"/>
+		   value="preferences-system-network-proxy"/>
     
     <oaf_attribute name="evolution2:config_item:priority" type="string" value="-8"/>
     
