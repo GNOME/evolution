@@ -735,7 +735,7 @@ emf_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 	if (emf->valid == NULL) {
 		emf->valid = valid;
 	} else {
-		e_dlist_addtail(&emf->valid_parent->children, (EDListNode *)valid);
+		camel_dlist_addtail(&emf->valid_parent->children, (CamelDListNode *)valid);
 		camel_cipher_validity_envelope(emf->valid_parent, valid);
 	}
 
