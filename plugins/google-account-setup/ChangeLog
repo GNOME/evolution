@@ -1,3 +1,14 @@
+2008-08-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #535745
+
+	* google-source.c: (sanitize_user_mail), (construct_default_uri),
+	(is_default_uri), (init_combo_values), (user_changed),
+	(cal_combo_changed), (claim_error), (retrieve_list_clicked),
+	(plugin_google): New widgets and functionality to retrieve list
+	of subscribed calendars from the Google account and let user choose
+	which one would be shown.
+
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #544860

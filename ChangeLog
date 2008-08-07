@@ -1,3 +1,10 @@
+2008-08-07  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #535745
+
+	* configure.in: Require and link calendar libs with libgdata
+	and libgdata-google.
+
 2008-08-06  Michael Monreal  <mmonreal@svn.gnome.org>
 
 	** Fix for bug #467115

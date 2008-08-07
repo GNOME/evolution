@@ -184,7 +184,9 @@ PKG_CHECK_MODULES(EVOLUTION_DATA_SERVER,
          libedataserver-$EDS_PACKAGE >= eds_minimum_version
          libedataserverui-$EDS_PACKAGE >= eds_minimum_version
          libegroupwise-$EDS_PACKAGE >= eds_minimum_version
-         libebackend-$EDS_PACKAGE >= eds_minimum_version])
+         libebackend-$EDS_PACKAGE >= eds_minimum_version
+	 libgdata-$EDS_PACKAGE >= eds_minimum_version
+	 libgdata-google-$EDS_PACKAGE >= eds_minimum_version])
 
 
 dnl ******************
@@ -1570,7 +1572,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
