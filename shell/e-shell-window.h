@@ -73,6 +73,6 @@ void e_shell_window_set_title(EShellWindow *window, const char *component_id, co
 void  e_shell_window_save_defaults  (EShellWindow *window);
 void  e_shell_window_show_settings  (EShellWindow *window);
 
-void e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, GdkPixbuf *icon);
+void e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, const char *icon_name);
 
 #endif /* _E_SHELL_WINDOW_H_ */

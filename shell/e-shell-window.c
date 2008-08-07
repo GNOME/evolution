@@ -331,8 +331,8 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	} else
 		gtk_window_set_title (GTK_WINDOW (window), component_view->title);
 
-	if (info->button_icon)
-		gtk_window_set_icon (GTK_WINDOW (window), info->button_icon);
+	if (info->icon_name)
+		gtk_window_set_icon_name (GTK_WINDOW (window), info->icon_name);
 
 	gconf_client_set_string (gconf_client, "/apps/evolution/shell/view_defaults/component_id",
 				 (component_view->component_alias != NULL
@@ -756,12 +756,14 @@ setup_widgets (EShellWindow *window)
 		char *tmp, *tmp2;
 		EComponentInfo *info = p->data;
 		ComponentView *view = component_view_new (info->id, info->alias, button_id);
+		GtkIconInfo *icon_info;
+		gint width;
 
 		window->priv->component_views = g_slist_prepend (window->priv->component_views, view);
 
 		if (!info->button_label || !info->menu_label)
 			continue;
-		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_tooltips, info->button_icon, button_id);
+		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_tooltips, info->icon_name, button_id);
 
 		g_string_printf(xml, "SwitchComponent-%s", info->alias);
 		bonobo_ui_component_add_verb (e_shell_window_peek_bonobo_ui_component (window),
@@ -783,11 +785,14 @@ setup_widgets (EShellWindow *window)
 		g_free (tmp2);
 		g_free (tmp);
 
-		tmp = bonobo_ui_util_pixbuf_to_xml (info->menu_icon),
-		g_string_append_printf(xml, "\" pixtype=\"pixbuf\" pixname=\"%s\"/>"
+		gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, NULL);
+		icon_info = gtk_icon_theme_lookup_icon (
+			gtk_icon_theme_get_default (),
+			info->icon_name, width, 0);
+		g_string_append_printf(xml, "\" pixtype=\"filename\" pixname=\"%s\"/>"
 				       "</placeholder></submenu></submenu>\n",
-				       tmp);
-		g_free(tmp);
+				       gtk_icon_info_get_filename (icon_info));
+		gtk_icon_info_free (icon_info);
 		bonobo_ui_component_set_translate (e_shell_window_peek_bonobo_ui_component (window),
 						   "/menu",
 						   xml->str,
@@ -1246,7 +1251,7 @@ e_shell_window_set_title(EShellWindow *window, const char *component_id, const c
  * @param icon Icon buffer.
  **/
 void
-e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, GdkPixbuf *icon)
+e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, const char *icon_name)
 {
 	EShellWindowPrivate *priv;
 	GSList *p;
@@ -1265,7 +1270,7 @@ e_shell_window_change_component_button_icon (EShellWindow *window, const char *c
 		if (strcmp (this_view->component_id, component_id) == 0
 		    || (this_view->component_alias != NULL
 			&& strcmp (this_view->component_alias, component_id) == 0)) {
-			e_sidebar_change_button_icon (E_SIDEBAR (priv->sidebar), icon, this_view->button_id);
+			e_sidebar_change_button_icon (E_SIDEBAR (priv->sidebar), icon_name, this_view->button_id);
 			break;
 		}
 	}

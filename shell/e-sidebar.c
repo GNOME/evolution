@@ -36,7 +36,7 @@ typedef struct {
 	GtkWidget *label;
 	GtkWidget *icon;
 	GtkWidget *hbox;
-	GdkPixbuf *default_icon;
+	gchar *default_icon_name;
 	int id;
 } Button;
 
@@ -79,17 +79,20 @@ button_new (GtkWidget *button_widget,
 	    int        id)
 {
 	Button *button = g_new (Button, 1);
+	const gchar *icon_name;
 
 	button->button_widget = button_widget;
 	button->label = label;
-	button->icon = icon;
+        button->icon = icon;
 	button->hbox = hbox;
 	button->id = id;
-	button->default_icon = NULL;
+
+	gtk_image_get_icon_name (GTK_IMAGE (icon), &icon_name, NULL);
+	button->default_icon_name = g_strdup (icon_name);
 
 	g_object_ref (button_widget);
 	g_object_ref (label);
-	g_object_ref (icon);
+        g_object_ref (icon);
 	g_object_ref (hbox);
 
 	return button;
@@ -102,8 +105,7 @@ button_free (Button *button)
 	g_object_unref (button->label);
 	g_object_unref (button->icon);
 	g_object_unref (button->hbox);
-	if (button->default_icon)
-		g_object_unref (button->default_icon);
+	g_free (button->default_icon_name);
 	g_free (button);
 }
 
@@ -545,7 +547,7 @@ void
 e_sidebar_add_button (ESidebar *sidebar,
 		      const char *label,
 		      const char *tooltips,
-		      GdkPixbuf *icon,
+		      const char *icon_name,
 		      int id)
 {
 	GtkWidget *button_widget;
@@ -564,7 +566,8 @@ e_sidebar_add_button (ESidebar *sidebar,
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 	gtk_widget_show (hbox);
 
-	icon_widget = gtk_image_new_from_pixbuf (icon);
+	icon_widget = gtk_image_new_from_icon_name (
+		icon_name, GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (icon_widget);
 
 	label_widget = gtk_label_new (label);
@@ -603,16 +606,15 @@ e_sidebar_add_button (ESidebar *sidebar,
 
 /**
  * e_sidebar_change_button_icon
+ * @sidebar: an #ESidebar
+ * @icon_name: button icon name, or %NULL
+ * @button_id: component's button ID, for which change the icon.
+ *
  * This will change icon in icon_widget of the button of known component.
  * You cannot change icon as in a stack, only one default icon will be stored.
- * @param sidebar ESidebar instance.
- * @param icon Pointer to buffer with icon. Can by NULL, in this case the icon will be
- *             put back to default one for the component.
- * @param button_id Component's button ID, for which change the icon.
  **/
-
 void
-e_sidebar_change_button_icon (ESidebar *sidebar, GdkPixbuf  *icon, int button_id)
+e_sidebar_change_button_icon (ESidebar *sidebar, const gchar *icon_name, int button_id)
 {
 	GSList *p;
 
@@ -625,16 +627,12 @@ e_sidebar_change_button_icon (ESidebar *sidebar, GdkPixbuf  *icon, int button_id
 			if (!button->icon)
 				break;
 
-			if (icon) {
-				if (!button->default_icon)
-					button->default_icon = gdk_pixbuf_copy (gtk_image_get_pixbuf (GTK_IMAGE (button->icon)));
+			if (icon_name == NULL)
+				icon_name = button->default_icon_name;
 
-				gtk_image_set_from_pixbuf (GTK_IMAGE (button->icon), icon);
-			} else if (button->default_icon) {
-				gtk_image_set_from_pixbuf (GTK_IMAGE (button->icon), button->default_icon);
-				g_object_unref (button->default_icon);
-				button->default_icon = NULL;
-			}
+			gtk_image_set_from_icon_name (
+				GTK_IMAGE (button->icon),
+				icon_name, GTK_ICON_SIZE_BUTTON);
 
 			break;
 		}

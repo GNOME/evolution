@@ -67,14 +67,14 @@ void  e_sidebar_set_selection_widget  (ESidebar   *sidebar,
 void  e_sidebar_add_button  (ESidebar   *sidebar,
 			     const char *label,
 			     const char *tooltips,
-			     GdkPixbuf  *icon,
+			     const char *icon_name,
 			     int         id);
 
 void  e_sidebar_select_button  (ESidebar *sidebar,
 				int       id);
 
 void e_sidebar_change_button_icon (ESidebar *sidebar,
-				   GdkPixbuf  *icon,
+				   const char *icon_name,
 				   int button_id);
 
 ESidebarMode e_sidebar_get_mode (ESidebar *sidebar);

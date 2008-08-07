@@ -61,7 +61,7 @@ impl_ShellView_setComponent(PortableServer_Servant _servant, const CORBA_char *i
 
 struct change_icon_struct {
 	const char *component_name;
-	GdkPixbuf *icon;
+	const char *icon_name;
 };
 
 static gboolean
@@ -72,7 +72,7 @@ change_button_icon_func (EShell *shell, EShellWindow *window, gpointer user_data
 	g_return_val_if_fail (window != NULL, FALSE);
 	g_return_val_if_fail (cis != NULL, FALSE);
 
-	e_shell_window_change_component_button_icon (window, cis->component_name, cis->icon);
+	e_shell_window_change_component_button_icon (window, cis->component_name, cis->icon_name);
 
 	return TRUE;
 }
@@ -85,15 +85,9 @@ impl_ShellView_setButtonIcon (PortableServer_Servant _servant, const CORBA_char 
 
 	struct change_icon_struct cis;
 	cis.component_name = id;
-	cis.icon = NULL;
-
-	if (iconName)
-		cis.icon = e_icon_factory_get_icon (iconName, E_ICON_SIZE_BUTTON);
+	cis.icon_name = iconName;
 
 	e_shell_foreach_shell_window (shell, change_button_icon_func, &cis);
-
-	if (cis.icon)
-		g_object_unref (cis.icon);
 }
 
 static void

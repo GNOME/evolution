@@ -1,3 +1,27 @@
+2008-08-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #467115
+
+	* e-component-registry.h:
+	Replace button and menu icon pixbufs with an icon name string.
+
+	* e-component-registry.c (query_components):
+	No need to create pixbufs, just save the icon name.
+
+	* e-sidebar.c:
+	Remember a default icon name rather than a default pixbuf.
+
+	* e-sidebar.c (e_sidebar_add_button), (e_sidebar_change_button_icon):
+	* e-shell-window.c (e_shell_window_change_component_button_icon):
+	Take an icon name instead of a pixbuf.
+
+	* e-shell-window.c (switch_view):
+	Call gtk_window_set_icon_name() instead of gtk_window_set_icon().
+
+	* e-shell-window.c (setup_widgets):
+	Change XML from pixtype="pixbuf" to pixbuf="filename" and derive
+	an appropriate filename from the icon name.
+
 2008-08-06  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #249844
