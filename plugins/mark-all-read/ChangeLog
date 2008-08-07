@@ -1,3 +1,10 @@
+2008-08-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #530402
+
+	* mark-all-read.c (prompt_user):
+	Improve dialog wording, and don't use a window title (HIG).
+
 2008-05-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #514383
