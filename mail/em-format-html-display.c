@@ -100,8 +100,6 @@
 
 #define d(x)
 
-#define EFHD_TABLE_OPEN "<table>"
-
 struct _EMFormatHTMLDisplayPrivate {
 	/* For the interactive search dialogue */
 	/* TODO: Should this be more subtle, like the mozilla one? */

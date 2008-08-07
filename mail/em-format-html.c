@@ -84,7 +84,6 @@
 
 #define d(x)
 
-#define EFH_TABLE_OPEN "<table>"
 #define EFM_MESSAGE_START_ANAME "evolution#message#start"
 #define EFH_MESSAGE_START "<A name=\"" EFM_MESSAGE_START_ANAME "\"></A>"
 
@@ -2101,7 +2100,7 @@ static void efh_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart 
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 
-	camel_stream_write_string((CamelStream *)stream, EFH_TABLE_OPEN "<tr><td><tt>");
+	camel_stream_write_string((CamelStream *)stream, "<table><tr><td><tt>");
 	em_format_format_text(emf, (CamelStream *)filtered_stream, dw);
 	camel_object_unref(filtered_stream);
 
