@@ -38,6 +38,8 @@
 
 #include <string.h>
 
+#define d(x)
+
 /*****************************************************************************/
 /* prototypes */
 int              e_plugin_lib_enable      (EPluginLib                 *ep,
@@ -84,7 +86,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
 
 	if (enable) {
-		g_print ("CalDAV Eplugin starting up ...\n");
+		d(g_print ("CalDAV Eplugin starting up ...\n"));
 		ensure_caldav_source_group ();
 	}
 

@@ -49,6 +49,8 @@
 
 #include "bbdb.h"
 
+#define d(x)
+
 /* Plugin hooks */
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target);
@@ -119,7 +121,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
  	/* Start up the plugin. */
 	if (enable) {
-		fprintf (stderr, "BBDB spinning up...\n");
+		d(fprintf (stderr, "BBDB spinning up...\n"));
 
 		if (bbdb_check_gaim_enabled ())
 			bbdb_sync_buddy_list_check ();
