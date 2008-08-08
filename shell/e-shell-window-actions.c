@@ -656,8 +656,15 @@ static void
 action_close_cb (GtkAction *action,
                  EShellWindow *window)
 {
-	if (e_shell_request_close_window (window))
-		gtk_widget_destroy (GTK_WIDGET (window));
+	GtkWidget *widget = GTK_WIDGET (window);
+	GdkEvent *event;
+
+	/* Synthesize a delete_event on this window. */
+	event = gdk_event_new (GDK_DELETE);
+	event->any.window = g_object_ref (widget->window);
+	event->any.send_event = TRUE;
+	gtk_main_do_event (event);
+	gdk_event_free (event);
 }
 
 static void

@@ -245,6 +245,37 @@ e_shell_module_get_view_type (EShellModule *shell_module)
 	return shell_module->priv->info.shell_view_type;
 }
 
+gboolean
+e_shell_module_is_busy (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
+
+	if (shell_module->priv->info.is_busy != NULL)
+		return shell_module->priv->info.is_busy ();
+
+	return FALSE;
+}
+
+gboolean
+e_shell_module_shutdown (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), TRUE);
+
+	if (shell_module->priv->info.shutdown != NULL)
+		return shell_module->priv->info.shutdown ();
+
+	return TRUE;
+}
+
+void
+e_shell_module_send_and_receive (EShellModule *shell_module)
+{
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+
+	if (shell_module->priv->info.send_and_receive != NULL)
+		shell_module->priv->info.send_and_receive ();
+}
+
 void
 e_shell_module_window_created (EShellModule *shell_module,
                                EShellWindow *shell_window)
@@ -267,4 +298,7 @@ e_shell_module_set_info (EShellModule *shell_module,
 	shell_module->priv->info.aliases = g_intern_string (info->aliases);
 	shell_module->priv->info.schemas = g_intern_string (info->schemas);
 	shell_module->priv->info.shell_view_type = info->shell_view_type;
+
+	shell_module->priv->info.request_quit = info->request_quit;
+	shell_module->priv->info.window_created = info->window_created;
 }

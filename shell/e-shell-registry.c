@@ -118,6 +118,12 @@ e_shell_registry_init (void)
 	g_dir_close (dir);
 }
 
+GList *
+e_shell_registry_list_modules (void)
+{
+	return g_list_copy (loaded_modules);
+}
+
 GType *
 e_shell_registry_get_view_types (guint *n_types)
 {
@@ -144,13 +150,6 @@ e_shell_registry_get_view_types (guint *n_types)
 		*n_types = ii;
 
 	return types;
-}
-
-void
-e_shell_registry_foreach_module (GFunc func,
-                                 gpointer user_data)
-{
-	g_list_foreach (loaded_modules, func, user_data);
 }
 
 EShellModule *

@@ -43,12 +43,15 @@ enum _EShellStartupLineMode {
 };
 
 EShellWindow *	e_shell_create_window		(void);
-gboolean	e_shell_request_close_window	(EShellWindow *shell_window);
 void		e_shell_send_receive		(GtkWindow *parent);
 void		e_shell_show_preferences	(GtkWindow *parent);
 void		e_shell_go_offline		(void);
 void		e_shell_go_online		(void);
-void		e_shell_quit			(void);
+EShellLineStatus
+		e_shell_get_line_status		(void);
+gboolean	e_shell_is_busy			(void);
+gboolean	e_shell_do_quit			(void);
+gboolean	e_shell_quit			(void);
 
 G_END_DECLS
 

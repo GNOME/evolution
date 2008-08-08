@@ -270,6 +270,8 @@ e_shell_window_private_dispose (EShellWindow *window)
 #elif NM_SUPPORT
 	e_shell_dbus_dispose (E_SHELL_WINDOW (object));
 #endif
+
+	priv->destroyed = TRUE;
 }
 
 void

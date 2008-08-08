@@ -59,9 +59,6 @@ struct _EShellWindowClass {
 };
 
 GType		e_shell_window_get_type		(void);
-gint		e_shell_window_get_current_view	(EShellWindow *window);
-void		e_shell_window_set_current_view	(EShellWindow *window,
-						 gint current_view);
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *window);
 GtkAction *	e_shell_window_get_action	(EShellWindow *window,
 						 const gchar *action_name);

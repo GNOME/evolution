@@ -56,7 +56,10 @@ struct _EShellModuleInfo {
 	const gchar *schemas;   /* colon-separated list */
 	GType shell_view_type;  /* EShellView subclass  */
 
-	void (*window_created) (EShellWindow *window);
+	gboolean	(*is_busy)		(void);
+	gboolean	(*shutdown)		(void);
+	void		(*send_and_receive)	(void);
+	void		(*window_created)	(EShellWindow *window);
 };
 
 struct _EShellModule {
@@ -74,6 +77,9 @@ gint		e_shell_module_compare		(EShellModule *shell_module_a,
 						 EShellModule *shell_module_b);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 GType		e_shell_module_get_view_type	(EShellModule *shell_module);
+gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
+gboolean	e_shell_module_shutdown		(EShellModule *shell_module);
+void		e_shell_module_send_and_receive	(EShellModlue *shell_module);
 void		e_shell_module_window_created	(EShellModule *shell_module,
 						 EShellWindow *shell_window);
 void		e_shell_module_set_info		(EShellModule *shell_module,

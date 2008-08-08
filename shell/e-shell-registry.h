@@ -27,9 +27,8 @@
 G_BEGIN_DECLS
 
 void		e_shell_registry_init			(void);
+GList *		e_shell_registry_list_modules		(void);
 GType *		e_shell_registry_get_view_types		(guint *n_types);
-void		e_shell_registry_foreach_module		(GFunc func,
-							 gpointer user_data);
 EShellModule *	e_shell_registry_get_module_by_name	(const gchar *name);
 EShellModule *	e_shell_registry_get_module_by_schema	(const gchar *schema);
 

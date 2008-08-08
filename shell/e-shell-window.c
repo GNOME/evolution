@@ -22,8 +22,7 @@
 #include <config.h>
 #endif
 
-#include "e-shell-window.h"
-#include "e-shell-view.h"
+#include "e-shell-window-private.h"
 
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
@@ -45,54 +44,9 @@
 static gpointer parent_class;
 
 static void
-shell_window_update_title (EShellWindow *window)
-{
-	EShellView *shell_view;
-	const gchar *title = _("Evolution");
-	gchar *buffer = NULL;
-
-	shell_view = window->priv->current_view;
-	if (shell_view != NULL)
-		title = e_shell_view_get_title (shell_view);
-
-	if (shell_view != NULL && title == NULL) {
-		const gchar *id;
-
-		id = e_shell_view_get_id (shell_view);
-
-		/* Translators: This is the window title and %s is the
-		 * view name.  Most translators will want to keep it as is. */
-		buffer = g_strdup_printf (_("%s - Evolution"), id);
-
-		title = buffer;
-	}
-
-	gtk_window_set_title (GTK_WINDOW (window), title);
-
-	g_free (buffer);
-}
-
-static void
 shell_window_dispose (GObject *object)
 {
-	EShellWindowPrivate *priv;
-
-	priv = E_SHELL_WINDOW_GET_PRIVATE (object);
-
-	priv->destroyed = TRUE;
-
 	e_shell_window_private_dispose (E_SHELL_WINDOW (object));
-
-	if (priv->shell != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell), &priv->shell);
-		priv->shell = NULL;
-	}
-
-	if (priv->current_view != NULL) {
-		g_object_unref (priv->current_view);
-		priv->current_view = NULL;
-	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -101,14 +55,7 @@ shell_window_dispose (GObject *object)
 static void
 shell_window_finalize (GObject *object)
 {
-	EShellWindowPrivate *priv;
-
-	priv = E_SHELL_WINDOW_GET_PRIVATE (object);
-
 	e_shell_window_private_finalize (E_SHELL_WINDOW (object));
-
-	g_slist_foreach (priv->component_views, (GFunc) component_view_free, NULL);
-	g_slist_free (priv->component_views);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -138,9 +85,6 @@ shell_window_init (EShellWindow *window)
 
 	manager = e_shell_window_get_ui_manager (window);
 
-	window->priv->shell_view = e_shell_view_new (window);
-	window->priv->destroyed = FALSE;
-
 	e_plugin_ui_register_manager (
 		"org.gnome.evolution.shell", manager, window);
 }
@@ -169,17 +113,6 @@ e_shell_window_get_type (void)
 	}
 
 	return type;
-}
-
-const gchar *
-e_shell_window_get_current_view (EShellWindow *window)
-{
-}
-
-void
-e_shell_window_set_current_view (EShellWindow *window,
-                                 const gchar *shell_view_id)
-{
 }
 
 GtkUIManager *
@@ -262,6 +195,7 @@ e_shell_window_get_managed_widget (EShellWindow *window,
 	return widget;
 }
 
+#if 0
 static void
 init_view (EShellWindow *window,
 	   ComponentView *view)
@@ -411,10 +345,12 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 
 	g_object_notify (G_OBJECT (window), "current-view");
 }
+#endif
 
 
 /* Functions to update the sensitivity of buttons and menu items depending on the status.  */
 
+#if 0
 static void
 update_offline_toggle_status (EShellWindow *window)
 {
@@ -424,11 +360,10 @@ update_offline_toggle_status (EShellWindow *window)
 	gboolean online;
 	gboolean sensitive;
 	guint32 flags = 0;
-	ESMenuTargetShell *t;
 
 	priv = window->priv;
 
-	switch (e_shell_get_line_status (priv->shell)) {
+	switch (e_shell_get_line_status ()) {
 	case E_SHELL_LINE_STATUS_ONLINE:
 		online      = TRUE;
 		sensitive   = TRUE;
@@ -454,84 +389,9 @@ update_offline_toggle_status (EShellWindow *window)
 		g_return_if_reached ();
 	}
 
-	widget = window->priv->offline_toggle;
+	widget = window->priv->online_button;
 	gtk_widget_set_sensitive (widget, sensitive);
 	gtk_widget_set_tooltip_text (widget, tooltip);
 	e_online_button_set_online (E_ONLINE_BUTTON (widget), online);
-
-	/* TODO: If we get more shell flags, this should be centralised */
-	t = es_menu_target_new_shell(priv->menu, flags);
-	t->target.widget = (GtkWidget *)window;
-	e_menu_update_target((EMenu *)priv->menu, t);
 }
-
-static void
-update_send_receive_sensitivity (EShellWindow *window)
-{
-	if (e_shell_get_line_status (window->priv->shell) == E_SHELL_LINE_STATUS_OFFLINE || 
-		e_shell_get_line_status (window->priv->shell) == E_SHELL_LINE_STATUS_FORCED_OFFLINE)
-		bonobo_ui_component_set_prop (window->priv->ui_component,
-					      "/commands/SendReceive",
-					      "sensitive", "0", NULL);
-	else
-		bonobo_ui_component_set_prop (window->priv->ui_component,
-					      "/commands/SendReceive",
-					      "sensitive", "1", NULL);
-}
-
-
-/* Callbacks.  */
-
-static ComponentView *
-get_component_view (EShellWindow *window, int id)
-{
-	GSList *p;
-
-	for (p = window->priv->component_views; p; p = p->next) {
-		if (((ComponentView *) p->data)->button_id == id)
-			return p->data;
-	}
-
-	g_warning ("Unknown component button id %d", id);
-	return NULL;
-}
-
-static void
-sidebar_button_selected_callback (ESidebar *sidebar,
-				  int button_id,
-				  EShellWindow *window)
-{
-	ComponentView *component_view;
-
-	if ((component_view = get_component_view (window, button_id)))
-		switch_view (window, component_view);
-}
-
-static gboolean
-sidebar_button_pressed_callback (ESidebar       *sidebar,
-				 GdkEventButton *event,
-				 int             button_id,
-				 EShellWindow   *window)
-{
-	if (event->type == GDK_BUTTON_PRESS &&
-	    event->button == 2) {
-		/* open it in a new window */
-		ComponentView *component_view;
-
-		if ((component_view = get_component_view (window, button_id))) {
-			e_shell_create_window (window->priv->shell,
-					       component_view->component_id);
-		}
-		return TRUE;
-	}
-	return FALSE;
-}
-
-static void
-shell_line_status_changed_callback (EShell *shell,
-				    EShellLineStatus new_status,
-				    EShellWindow *window)
-{
-	update_offline_toggle_status (window);
-	update_send_receive_sensitivity (window);
-}
+#endif
