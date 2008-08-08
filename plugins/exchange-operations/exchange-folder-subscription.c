@@ -237,9 +237,12 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 									  user_email_address,
 									  folder_name, &folder);
 			g_free (folder_name);
+			gtk_widget_hide (dialog);
 			switch (result) {
 				case EXCHANGE_ACCOUNT_FOLDER_OK:
 					exchange_account_rescan_tree (subscription_info->account);
+					if (!g_ascii_strcasecmp (e_folder_get_type_string (folder), "mail"))
+						e_error_run (NULL, ERROR_DOMAIN ":folder-restart-evo", NULL);
 					break;
 				case EXCHANGE_ACCOUNT_FOLDER_ALREADY_EXISTS:
 					e_error_run (NULL, ERROR_DOMAIN ":folder-exists-error", NULL);

@@ -927,7 +927,7 @@ update_window_border (CompEditor *editor,
 
 	if (editor->priv->comp == NULL) {
 		title = g_strdup (_("Edit Appointment"));
-		icon_name = "stock_calendar";
+		icon_name = "x-office-calendar";
 		goto exit;
 
 	} else switch (e_cal_component_get_vtype (editor->priv->comp)) {

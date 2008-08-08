@@ -2020,6 +2020,96 @@ emae_option_checkspin(EMAccountEditorService *service, CamelURL *url, const char
 	return hbox;
 }
 
+static void
+emae_option_options_changed (GtkComboBox *options, EMAccountEditorService *service)
+{
+	const char *name = g_object_get_data (G_OBJECT (options), "option-name");
+	char *value = NULL;
+	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
+	int id = gtk_combo_box_get_active (options);
+
+	if (id != -1) {
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+
+		model = gtk_combo_box_get_model (options);
+		if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
+			gtk_tree_model_get (model, &iter, 0, &value, -1);
+		}
+	}
+
+	camel_url_set_param (url, name, value);
+	emae_uri_changed (service, url);
+	camel_url_free (url);
+	g_free (value);
+}
+
+/* 'values' is in format "value0:caption0:value2:caption2:...valueN:captionN" */
+static GtkWidget *
+emae_option_options (EMAccountEditorService *service, CamelURL *url, const char *name, const char *values, GtkWidget *l)
+{
+	GtkComboBox *w;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	const char *p, *value, *caption;
+	GtkCellRenderer *cell;
+	int active = 0; /* the first item entered is always a default item */
+	int i;
+	const char *val = camel_url_get_param (url, name);
+
+	w = GTK_COMBO_BOX (gtk_combo_box_new ());
+
+	/* value and caption */
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+
+	p = values;
+	for (p = values, i = 0; p; i++) {
+		char *vl, *cp;
+
+		value = p;
+		caption = strchr (p, ':');
+		if (caption) {
+			caption++;
+		} else {
+			g_warning (G_STRLOC ": expected ':' not found at '%s'", p);
+			break;
+		}
+		p = strchr (caption, ':');
+
+		vl = g_strndup (value, caption - value - 1);
+		if (p) {
+			p++;
+			cp = g_strndup (caption, p - caption - 1);
+		} else
+			cp = g_strdup (caption);
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, vl, 1, dgettext (service->provider->translation_domain, cp), -1);
+
+		if (val && g_ascii_strcasecmp (val, vl) == 0)
+			active = i;
+
+		g_free (vl);
+		g_free (cp);
+	}
+
+	gtk_combo_box_set_model (w, (GtkTreeModel *)store);
+	gtk_combo_box_set_active (w, i > 0 ? active : -1);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), cell, "text", 1, NULL);
+
+	gtk_widget_show (GTK_WIDGET (w));
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (l), GTK_WIDGET (w));
+
+	g_object_set_data (G_OBJECT (w), "option-name", (void *)name);
+	g_signal_connect (w, "changed", G_CALLBACK (emae_option_options_changed), service);
+
+	return GTK_WIDGET (w);
+}
+
 static GtkWidget *
 emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
@@ -2062,7 +2152,7 @@ emae_receive_options_extra_item(EConfig *ec, EConfigItem *eitem, struct _GtkWidg
 {
 	EMAccountEditor *emae = data;
 	struct _receive_options_item *item = (struct _receive_options_item *)eitem;
-	GtkWidget *w, *l;
+	GtkWidget *w, *l, *h;
 	CamelProviderConfEntry *entries;
 	GtkWidget *depw;
 	GSList *depl = NULL, *n;
@@ -2149,6 +2239,20 @@ section:
 			gtk_table_attach((GtkTable *)parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 			if (depw)
 				depl = g_slist_prepend(depl, w);
+			row++;
+			break;
+		case CAMEL_PROVIDER_CONF_OPTIONS:
+			h = gtk_hbox_new (FALSE, 4);
+			gtk_widget_show (h);
+			l = g_object_new (gtk_label_get_type (), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
+			gtk_widget_show (l);
+			w = emae_option_options (service, url, entries[i].name, entries[i].value, l);
+			gtk_box_pack_start (GTK_BOX (h), l, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX (h), w, FALSE, FALSE, 0);
+			gtk_table_attach ((GtkTable *)parent, h, 0, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			if (depw) {
+				depl = g_slist_prepend (depl, h);
+			}
 			row++;
 			break;
 		default:

@@ -780,21 +780,21 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	new_item = e_minicard_label_new(group);
 
 	if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
-		gnome_canvas_item_set( new_item,
-				       "width", e_minicard->width - 4.0,
-				       "fieldname", is_rtl ? "" : string,
-			    	       "field", is_rtl ? string : "",
-			 	      "max_field_name_length", left_width,
-			    	   "editable", FALSE /* e_minicard->editable */,
-			    	   NULL );
+		gnome_canvas_item_set (new_item,
+					"fieldname", is_rtl ? "" : string,
+					"field", is_rtl ? string : "",
+					"max_field_name_length", left_width,
+					"editable", FALSE /* e_minicard->editable */,
+					"width", e_minicard->width - 4.0,
+					NULL );
 	else
-		gnome_canvas_item_set( new_item,
-				       "width", e_minicard->width - 4.0,
-				       "fieldname", is_rtl ? string : name,
-			    	   "field", is_rtl ? name : string,
-			 	      "max_field_name_length", left_width,
-			    	   "editable", FALSE /* e_minicard->editable */,
-			    	   NULL );
+		gnome_canvas_item_set (new_item,
+					"fieldname", is_rtl ? string : name,
+					"field", is_rtl ? name : string,
+					"max_field_name_length", left_width,
+					"editable", FALSE /* e_minicard->editable */,
+					"width", e_minicard->width - 4.0,
+					NULL );
 
 
 #ifdef notyet
@@ -831,7 +831,7 @@ get_email_location (EVCardAttribute *attr)
 }
 
 static void
-add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, int limit)
+add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, int limit, gboolean is_list)
 {
 	GnomeCanvasItem *new_item;
 	GnomeCanvasGroup *group;
@@ -850,8 +850,13 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		char *parsed_name = NULL;
 		gboolean parser_check;
 
-		tmp = get_email_location ((EVCardAttribute *) l->data);
-		name = g_strdup_printf ("%s:", tmp);
+		/* do not use name for fields in the contact list */
+		if (is_list) {
+			name = (char *)"";
+		} else {
+			tmp = get_email_location ((EVCardAttribute *) l->data);
+			name = g_strdup_printf ("%s:", tmp);
+		}
 
 		parser_check = eab_parse_qp_email ((const gchar *) le->data, &parsed_name, &email);
 		if (parser_check) {
@@ -864,12 +869,12 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 
 		new_item = e_minicard_label_new(group);
 
-		gnome_canvas_item_set( new_item,
-				       "width", e_minicard->width - 4.0,
+		gnome_canvas_item_set (new_item,
 				       "fieldname", is_rtl ? string : name,
 				       "field", is_rtl ? name : string,
 				       "max_field_name_length", left_width,
 				       "editable", FALSE /* e_minicard->editable */,
+				       "width", e_minicard->width - 4.0,
 				       NULL );
 
 #ifdef notyet
@@ -888,7 +893,8 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 		e_minicard->fields = g_list_append( e_minicard->fields, minicard_field);
 		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 		count++;
-		g_free (name);
+		if (!is_list)
+			g_free (name);
 		g_free (string);
 		g_free (parsed_name);
 		g_free (email);
@@ -1005,7 +1011,7 @@ remodel( EMinicard *e_minicard )
 
 					limit = 5 - count;
 					email = e_contact_get_attributes (e_minicard->contact, E_CONTACT_EMAIL);
-					add_email_field (e_minicard, email, left_width, limit);
+					add_email_field (e_minicard, email, left_width, limit, is_list);
 					if (count+limit >5)
 						count = 5;
 					else

@@ -72,6 +72,7 @@
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 #include "em-folder-properties.h"
+#include "em-event.h"
 
 #define d(x)
 
@@ -285,6 +286,8 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_store;
 	guint32 flags;
+	EMEventTargetCustomIcon *target;
+	const char *folder_name;
 
 	if (!initialised) {
 		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("folder", E_ICON_SIZE_MENU);
@@ -326,8 +329,14 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 				pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
 			else if (flags & CAMEL_FOLDER_VIRTUAL)
 				pixbuf = folder_icons[FOLDER_ICON_VIRTUAL];
-			else
+			else {
 				pixbuf = folder_icons[FOLDER_ICON_NORMAL];
+				g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
+				gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &folder_name, -1);
+				target = em_event_target_new_custom_icon (em_event_peek(), renderer, folder_name, EM_EVENT_CUSTOM_ICON);
+     				e_event_emit ((EEvent *)em_event_peek (), "folder.customicon", (EEventTarget *) target);
+				return;
+			}
 		}
 	}
 
@@ -368,7 +377,7 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		 * Do not translate the "folder-display|" part. Remove it
 		 * from your translation.
 		 */
-		display = g_strdup_printf (Q_("folder-display|%s (%u)"), name, unread);
+		display = g_strdup_printf (C_("folder-display", "%s (%u)"), name, unread);
 		g_free (name);
 	} else
 		display = name;
@@ -1087,7 +1096,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 static gboolean
 is_special_local_folder (const char *name)
 {
-	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent"));
+	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates"));
 }
 
 static GdkAtom
@@ -1724,7 +1733,7 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 {
 	struct _EMFolderTreePrivate *priv = m->emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	GtkTreeIter root, iter;
+	GtkTreeIter root, iter, titer;
 	CamelFolderInfo *fi;
 	GtkTreeStore *model;
 	GtkTreePath *path;
@@ -1765,6 +1774,13 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 	/* get the first child (which will be a dummy node) */
 	gtk_tree_model_iter_children ((GtkTreeModel *) model, &iter, &root);
+
+	/* Traverse to the last valid iter */
+	titer = iter;
+	while (gtk_tree_model_iter_next((GtkTreeModel *) model, &iter)) 
+		titer = iter; /* Preserve the last valid iter */
+
+	iter = titer;
 
 	/* FIXME: camel's IMAP code is totally on crack here, @top's
 	 * folder info should be @fi and fi->child should be what we

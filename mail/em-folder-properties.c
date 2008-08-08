@@ -351,7 +351,8 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 			}
 			emfp_items_translated = TRUE;
 		}
-	}
+	} else if (!strcmp(prop_data->name, "INBOX"))
+		emfp_items[EMFP_FOLDER_SECTION].label = _("Inbox");
 	else
 		emfp_items[EMFP_FOLDER_SECTION].label = prop_data->name;
 

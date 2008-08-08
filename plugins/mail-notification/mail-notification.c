@@ -55,6 +55,7 @@
 #define GCONF_KEY_ENABLED_SOUND	 	GCONF_KEY_ROOT "sound-enabled"
 
 static gboolean enabled = FALSE;
+static GtkWidget *get_cfg_widget (void);
 
 /**
  * each part should "implement" its own "public" functions:
@@ -135,7 +136,7 @@ send_dbus_message (const char *name, const char *data, guint new)
 
 	/* Appends the data as an argument to the message */
 	dbus_message_append_args (message,
-#if DBUS_VERSION >= 310
+#if FOUND_DBUS_VERSION >= 310
 				  DBUS_TYPE_STRING, &data,
 #else
 				  DBUS_TYPE_STRING, data,
@@ -145,7 +146,7 @@ send_dbus_message (const char *name, const char *data, guint new)
 	if (new) {
 		char * display_name = em_utils_folder_name_from_uri (data);
 		dbus_message_append_args (message,
-#if DBUS_VERSION >= 310
+#if FOUND_DBUS_VERSION >= 310
 					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
 #else
 					  DBUS_TYPE_STRING, display_name, DBUS_TYPE_UINT32, new,
@@ -270,6 +271,7 @@ get_config_widget_dbus (void)
 #define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
 
 static GtkStatusIcon *status_icon = NULL;
+static guint blink_timeout_id = 0;
 static unsigned int status_count = 0;
 
 #ifdef HAVE_LIBNOTIFY
@@ -294,6 +296,11 @@ icon_activated (GtkStatusIcon *icon, gpointer pnotify)
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_object_unref (status_icon);
 
+	if (blink_timeout_id) {
+		g_source_remove (blink_timeout_id);
+		blink_timeout_id = 0;
+	}
+
 	status_icon = NULL;
 	status_count = 0;
 }
@@ -305,6 +312,17 @@ notification_callback (gpointer notify)
 	return (!notify_notification_show (notify, NULL));
 }
 #endif
+
+static gboolean
+stop_blinking_cb (gpointer data)
+{
+	blink_timeout_id = 0;
+
+	if (status_icon)
+		gtk_status_icon_set_blinking (status_icon, FALSE);
+
+	return FALSE;
+}
 
 struct _StatusConfigureWidgets
 {
@@ -348,11 +366,88 @@ toggled_status_cb (GtkWidget *widget, gpointer data)
 /* -------------------------------------------------------------------  */
 
 static void
+do_properties (GtkMenuItem *item, gpointer user_data)
+{
+	GtkWidget *cfg, *dialog, *vbox, *label, *hbox;
+	char *text;
+
+	cfg = get_cfg_widget ();
+	if (!cfg)
+		return;
+
+	text = g_strconcat ("<span size=\"x-large\">", _("Evolution's Mail Notification"), "</span>", NULL);
+
+	vbox = gtk_vbox_new (FALSE, 10);
+	label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_label_set_markup (GTK_LABEL (label), text);
+	g_free (text);
+
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+	gtk_widget_show (vbox);
+
+	hbox = gtk_hbox_new (FALSE, 10);
+	label = gtk_label_new ("   ");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show_all (hbox);
+
+	gtk_box_pack_start (GTK_BOX (hbox), cfg, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+
+	dialog = gtk_dialog_new_with_buttons (_("Mail Notification Properties"),
+						NULL, 
+						GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, 
+						GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+						NULL);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), vbox);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
+	gtk_widget_set_size_request (dialog, 400, -1);
+	g_signal_connect_swapped (dialog, "response",  G_CALLBACK (gtk_widget_destroy), dialog);
+	gtk_widget_show (dialog);
+}
+
+static void
+popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time, gpointer user_data)
+{
+	GtkMenu *menu;
+	GtkWidget *item;
+
+	menu = GTK_MENU (gtk_menu_new ());
+
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_CLOSE, NULL);
+	#ifdef HAVE_LIBNOTIFY
+	g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (icon_activated), notify);
+	#else
+	g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (icon_activated), NULL);
+	#endif
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	
+	item = gtk_separator_menu_item_new ();
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_PROPERTIES, NULL);
+	g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (do_properties), NULL);
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	g_object_ref_sink (menu);
+	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, button, activate_time);
+	g_object_unref (menu);
+}
+
+static void
 new_notify_status (EMEventTargetFolder *t)
 {
 	char *msg;
+	gboolean new_icon = !status_icon;
 
-	if (!status_icon) {
+	if (new_icon) {
 		status_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("mail-unread", E_ICON_SIZE_LARGE_TOOLBAR));
 	}
@@ -370,8 +465,13 @@ new_notify_status (EMEventTargetFolder *t)
 	}
 
 	gtk_status_icon_set_tooltip (status_icon, msg);
+
+	if (new_icon && is_part_enabled (GCONF_KEY_STATUS_BLINK)) {
+		gtk_status_icon_set_blinking (status_icon, TRUE);
+		blink_timeout_id = g_timeout_add_seconds (15, stop_blinking_cb, NULL);
+	}
+
 	gtk_status_icon_set_visible (status_icon, TRUE);
-	gtk_status_icon_set_blinking (status_icon, is_part_enabled (GCONF_KEY_STATUS_BLINK));
 
 	#ifdef HAVE_LIBNOTIFY
 	/* Now check whether we're supposed to send notifications */
@@ -399,6 +499,8 @@ new_notify_status (EMEventTargetFolder *t)
 	#else
 	g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), NULL);
 	#endif
+
+	g_signal_connect (G_OBJECT (status_icon), "popup-menu", G_CALLBACK (popup_menu_status), NULL);
 }
 
 static void
@@ -694,6 +796,37 @@ toggled_only_inbox_cb (GtkWidget *widget, gpointer data)
 	set_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 }
 
+static GtkWidget *
+get_cfg_widget (void)
+{
+	GtkWidget *cfg, *vbox, *check;
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	check = gtk_check_button_new_with_mnemonic (_("Notify new messages for _Inbox only"));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), is_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX));
+	g_signal_connect (G_OBJECT (check), "toggled", G_CALLBACK (toggled_only_inbox_cb), NULL);
+	gtk_widget_show (check);
+	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
+
+#ifdef HAVE_DBUS	
+	cfg = get_config_widget_dbus ();
+	if (cfg)
+		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
+#endif 
+	cfg = get_config_widget_status ();
+	if (cfg)
+		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
+
+	cfg = get_config_widget_sound ();
+	if (cfg)
+		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
+
+	gtk_widget_show (vbox);
+
+	return vbox;
+}
+
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 
@@ -779,30 +912,5 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 GtkWidget *
 e_plugin_lib_get_configure_widget (EPlugin *epl)
 {
-	GtkWidget *cfg, *vbox, *check;
-
-	vbox = gtk_vbox_new (FALSE, 6);
-	check = gtk_check_button_new_with_mnemonic (_("Notify new messages for _Inbox only"));
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), is_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX));
-	g_signal_connect (G_OBJECT (check), "toggled", G_CALLBACK (toggled_only_inbox_cb), NULL);
-	gtk_widget_show (check);
-	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
-
-#ifdef HAVE_DBUS	
-	cfg = get_config_widget_dbus ();
-	if (cfg)
-		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
-#endif 
-	cfg = get_config_widget_status ();
-	if (cfg)
-		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
-
-	cfg = get_config_widget_sound ();
-	if (cfg)
-		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
-
-	gtk_widget_show (vbox);
-
-	return vbox;
+	return get_cfg_widget ();
 }

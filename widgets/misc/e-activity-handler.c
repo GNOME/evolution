@@ -612,6 +612,7 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 	activity_info->error = error;
 	activity_info->error_time = time (NULL);
 	activity_info->error_type = E_LOG_ERROR;
+	g_free (activity_info->information);
 	activity_info->information = g_strdup (g_object_get_data ((GObject *) error, "primary"));
 	for (sp = priv->task_bars; sp != NULL; sp = sp->next) {
 		ETaskBar *task_bar;

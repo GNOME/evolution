@@ -1,3 +1,34 @@
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #435969
+
+	* org-gnome-exchange-operations.eplug.xml:
+	Show authentication section in an account druid too.
+
+2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545568
+
+	* org-gnome-exchange-operations.eplug.xml:
+	Add "system_plugin=true" so it's not shown in the Plugin Manager.
+	This plugin is not designed to be disabled by the user.
+
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #500389
+
+	* exchange-account-setup.c: (gal_auth_to_string),
+	(owa_authenticate_user): Use default authentication for GAL.
+
+2008-07-11  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #542149
+
+	* exchange-folder-subscription.c: (subscribe_to_folder): Display an 
+	error message to restart if user tries to subscribe to other's mailbox.
+	* org-gnome-exchange-operations.error.xml: Added the corresponding 
+	error message.
+
 2008-06-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #273627

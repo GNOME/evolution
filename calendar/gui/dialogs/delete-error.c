@@ -106,7 +106,7 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 					 GTK_MESSAGE_ERROR,
 					 GTK_BUTTONS_OK, "%s", str);
 	if (vtype == E_CAL_COMPONENT_EVENT)
-		icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+		icon_list = e_icon_factory_get_icon_list ("x-office-calendar");
 	else if (vtype == E_CAL_COMPONENT_TODO)
 		icon_list = e_icon_factory_get_icon_list ("stock_todo");
 

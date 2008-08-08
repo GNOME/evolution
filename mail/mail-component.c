@@ -161,6 +161,7 @@ static struct {
 	{ N_("Drafts"), },
 	{ N_("Outbox"), },
 	{ N_("Sent"), },
+	{ N_("Templates"), },
 	{ "Inbox", },		/* 'always local' inbox */
 };
 
@@ -578,6 +579,8 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
 			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent")))
 			use_name = _(name);
+		else if (!strcmp (name, "INBOX"))
+ 			use_name = _("Inbox");
 		else
 			use_name = name;
 
@@ -753,7 +756,7 @@ impl_createView (PortableServer_Servant servant,
 	gtk_widget_show (statusbar_widget);
 
 	vbox = gtk_vbox_new(FALSE, 0);
-	info = e_info_label_new("stock_mail");
+	info = e_info_label_new("evolution-mail");
 	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");
 	gtk_box_pack_start((GtkBox *)vbox, info, FALSE, TRUE, 0);
 	gtk_box_pack_start((GtkBox *)vbox, tree_widget, TRUE, TRUE, 0);
@@ -911,7 +914,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 
 	list->_buffer[0].id = "message";
 	list->_buffer[0].description = _("New Mail Message");
-	list->_buffer[0].menuDescription = _("_Mail Message");
+	list->_buffer[0].menuDescription = (char *) C_("New", "_Mail Message");
 	list->_buffer[0].tooltip = _("Compose a new mail message");
 	list->_buffer[0].menuShortcut = 'm';
 	list->_buffer[0].iconName = "mail-message-new";
@@ -919,7 +922,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 
 	list->_buffer[1].id = "folder";
 	list->_buffer[1].description = _("New Mail Folder");
-	list->_buffer[1].menuDescription = _("Mail _Folder");
+	list->_buffer[1].menuDescription = (char *) C_("New", "Mail _Folder");
 	list->_buffer[1].tooltip = _("Create a new mail folder");
 	list->_buffer[1].menuShortcut = '\0';
 	list->_buffer[1].iconName = "folder-new";

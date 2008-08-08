@@ -448,6 +448,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	const char *name;
 	guint32 flags;
 
+	/* make sure we don't already know about it? */
+	if (g_hash_table_lookup (si->full_hash, fi->full_name))
+		return;
+	
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 
@@ -878,8 +882,9 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *st
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
 
-	g_hash_table_remove (model->store_hash, si->store);
 	g_hash_table_remove (model->account_hash, si->account);
+	/* store_hash owns and frees the si structure, thus free it after done with it */
+	g_hash_table_remove (model->store_hash, si->store);
 }
 
 

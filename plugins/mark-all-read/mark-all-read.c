@@ -34,9 +34,10 @@
 #include "e-util/e-error.h"
 
 #define PRIMARY_TEXT \
-	N_("Mark all messages in this folder and subfolders as read?")
+	N_("Also mark messages in subfolders?")
 #define SECONDARY_TEXT \
-	N_("Do you want the operation to be performed also in the subfolders?")
+	N_("Do you want to mark messages as read in the current folder " \
+	   "only, or in the current folder as well as all subfolders?")
 
 void org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *target);
 static void mar_got_folder (char *uri, CamelFolder *folder, void *data);
@@ -81,8 +82,7 @@ prompt_user (void)
 	dialog = gtk_dialog_new ();
 	gtk_widget_hide (GTK_DIALOG (dialog)->action_area);
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	gtk_window_set_title (
-		GTK_WINDOW (dialog), _("Mark All Messages as Read"));
+	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	g_signal_connect (
 		dialog, "map",
 		G_CALLBACK (gtk_widget_queue_resize), NULL);

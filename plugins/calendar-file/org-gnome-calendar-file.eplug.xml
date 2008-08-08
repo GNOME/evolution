@@ -4,7 +4,8 @@
      type="shlib"
      location="@PLUGINDIR@/liborg-gnome-calendar-file@SOEXT@"
      id="org.gnome.evolution.calendar.file"
-     _name="Local Calendars">
+     _name="Local Calendars"
+     system_plugin="true">
      <author name="JP Rosevear" email="jpr@novell.com"/>
      <_description>Provides core functionality for local calendars.</_description>
         <hook class="org.gnome.evolution.calendar.config:1.0">

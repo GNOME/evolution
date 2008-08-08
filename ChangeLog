@@ -1,3 +1,105 @@
+2008-08-07  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #535745
+
+	* configure.in: Require and link calendar libs with libgdata
+	and libgdata-google.
+
+2008-08-06  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #467115
+
+	* addressbook/gui/component/addressbook-view.c:
+	(addressbook_view_init):
+	* calendar/gui/GNOME_Evolution_Calendar.server.in.in:
+	* calendar/gui/memos-component.c: (create_component_view):
+	* calendar/gui/tasks-component.c: (create_component_view):
+	* data/icons/Makefile.am:
+	* mail/GNOME_Evolution_Mail.server.in.in:
+	* mail/mail-component.c: (impl_createView):
+	Ship and use tango icons for the mail, tasks and memos components.
+
+2008-08-06  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #531288
+
+	* data/icons/Makefile.am:
+	* mail/GNOME_Evolution_Mail.server.in.in:
+	Use proxy icon from tango-icon-theme and fall back to the icon
+	shipped by gnome-control-center (thanks to Josef Vybíral).
+
+2008-08-04  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.23.6 release and version bump.
+
+2008-08-04  Matthias Braun <matze@braunis.de>
+
+	** Fix for bug #544051 - Added a plugin for the WebDAV addressbook 
+	account setup. 
+
+	* configure.in:
+	* plugins/webdav-account-setup/Makefile.am:
+	* plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml
+	:
+	* plugins/webdav-account-setup/webdav-contacts-source.c
+	(ensure_webdav_contacts_source_group),
+	(remove_webdav_contacts_source_group), (print_uri_noproto),
+	(set_ui_from_source), (set_source_from_ui), (on_entry_changed),
+	(on_toggle_changed), (destroy_ui_data), (plugin_webdav_contacts),
+	(e_plugin_lib_enable):
+
+2008-07-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545558
+
+	* configure.in:
+	Mark the "hula-account-setup" plugin as experimental.
+
+2008-07-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.6 for CAMEL_PROVIDER_CONF_OPTIONS.
+
+2008-07-23  Johnny Jacob  <jjohnny@novell.com>
+
+	* configure.in: Version bumped to 2.23.6.
+	* NEWS: Updates for 2.23.5
+
+2008-07-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #544022
+
+	* configure.in: Do not redefine DBUS_VERSION define supplied
+	by dbus itself, rather rename our define to FOUND_DBUS_VERSION.
+	
+2008-07-21  Johnny Jacob  <jjohnny@novell.com>
+
+	* data/hicolor_actions_24x24_query-free-busy.png: Moved to 
+	data/icons/hicolor_actions_24x24_query-free-busy.png as per 
+	rev 35753.
+	
+2008-07-21  Matthew Barnes  <mbarnes@redhat.com>
+
+	* Makefile.am:
+	Add doltcompile and doltlibtool to DISTCLEANFILES to fix
+	distcheck breakage.
+	
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	** Part of fix for bug #200147
+
+	* configure.in: Added a new plugin templates, which will make it 
+	possible for users to use standard templates to reply to their messages.
+
+2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* data/icons/hicolor_actions_24x24_query-free-busy.png:
+	Moved here from art/query-free-busy.png so we can treat it as a
+	named icon.
+
+	* data/icons/Makefile.am:
+	Add hicolor_actions_24x24_query-free-busy.png.
+
 2008-07-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

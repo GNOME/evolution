@@ -37,6 +37,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gnome.h>
+#include <gtk/gtktooltip.h>
 #include <misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
@@ -46,6 +47,8 @@
 #include <e-util/e-util-private.h>
 #include <misc/e-cell-date-edit.h>
 #include <misc/e-cell-percent.h>
+#include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-time-utils.h>
 
 #include "calendar-component.h"
 #include "calendar-config.h"
@@ -54,6 +57,7 @@
 #include "dialogs/task-editor.h"
 #include "e-cal-model-tasks.h"
 #include "e-calendar-table.h"
+#include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
 #include "e-comp-editor-registry.h"
 #include "print.h"
@@ -257,6 +261,209 @@ static void
 row_appended_cb (ECalModel *model, ECalendarTable *cal_table)
 {
 	g_signal_emit (cal_table, signals[USER_CREATED], 0);
+}
+
+static void
+get_time_as_text (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone, char *buff, int buff_len)
+{
+        struct tm tmp_tm;
+
+	buff [0] = 0;
+
+	tmp_tm = icaltimetype_to_tm_with_zone (tt, f_zone, t_zone);
+        e_time_format_date_and_time (&tmp_tm,
+                                     calendar_config_get_24_hour_format (),
+                                     FALSE, FALSE,
+                                     buff, buff_len);
+}
+
+static gboolean
+query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+{
+	ECalendarTable *cal_table;
+	ECalModelComponent *comp;
+	int row = -1, col = -1;
+	GtkWidget *box, *l, *w;
+	GtkStyle *style = gtk_widget_get_default_style ();
+	char *tmp;
+	const char *str;
+	GString *tmp2;
+	char buff[1001];
+	gboolean free_text = FALSE;
+	ECalComponent *new_comp;
+	ECalComponentOrganizer organizer;
+	ECalComponentDateTime dtstart, dtdue;
+	icaltimezone *zone, *default_zone;
+	GSList *desc, *p;
+	int len;
+	ETable *etable;
+	ESelectionModel *esm;
+
+	if (keyboard_mode)
+		return FALSE;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CALENDAR_TABLE (user_data), FALSE);
+	g_return_val_if_fail (tooltip != NULL, FALSE);
+
+	cal_table = E_CALENDAR_TABLE (user_data);
+
+	etable = e_calendar_table_get_table (cal_table);
+	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
+	if (row == -1 || !etable)
+		return FALSE;
+
+	/* respect sorting option, the 'e_table_get_mouse_over_cell' returns sorted row, not the model one */
+	esm = e_table_get_selection_model (etable);
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_sorted_to_model (esm->sorter, row);
+
+	comp = e_cal_model_get_component_at (cal_table->model, row);
+	if (!comp || !comp->icalcomp)
+		return FALSE;
+
+	new_comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (new_comp, icalcomponent_new_clone (comp->icalcomp))) {
+		g_object_unref (new_comp);
+		return FALSE;
+	}
+
+	box = gtk_vbox_new (FALSE, 0);
+
+	str = e_calendar_view_get_icalcomponent_summary (comp->client, comp->icalcomp, &free_text);
+	if (!(str && *str)) {
+		if (free_text)
+			g_free ((char *)str);
+		free_text = FALSE;
+		str = _("* No Summary *");
+	}
+
+	l = gtk_label_new (NULL);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
+	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+	gtk_label_set_markup (GTK_LABEL (l), tmp);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	w = gtk_event_box_new ();
+
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
+	gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+	g_free (tmp);
+
+	if (free_text)
+		g_free ((char *)str);
+	free_text = FALSE;
+
+	w = gtk_event_box_new ();
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
+
+	l = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	w = l;
+
+	e_cal_component_get_organizer (new_comp, &organizer);
+	if (organizer.cn) {
+		char *ptr ;
+		ptr = strchr( organizer.value, ':');
+
+		if (ptr) {
+			ptr++;
+			/* To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
+		} else {
+			/* With SunOne accounts, there may be no ':' in organiser.value */
+			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
+		}
+
+		l = gtk_label_new (tmp);
+		gtk_label_set_line_wrap (GTK_LABEL (l), FALSE);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+		g_free (tmp);
+	}
+
+	e_cal_component_get_dtstart (new_comp, &dtstart);
+	e_cal_component_get_due (new_comp, &dtdue);
+
+	default_zone = e_cal_model_get_timezone  (cal_table->model);
+
+	if (dtstart.tzid) {
+		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
+		if (!zone)
+			e_cal_get_timezone (comp->client, dtstart.tzid, &zone, NULL);
+		if (!zone)
+			zone = default_zone;
+	} else {
+		zone = NULL;
+	}
+
+	tmp2 = g_string_new ("");
+
+	if (dtstart.value) {
+		get_time_as_text (dtstart.value, zone, default_zone, buff, 1000);
+
+		if (buff [0]) {
+			g_string_append (tmp2, _("Start: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (dtdue.value) {
+		get_time_as_text (dtdue.value, zone, default_zone, buff, 1000);
+
+		if (buff [0]) {
+			if (tmp2->len)
+				g_string_append (tmp2, "; ");
+
+			g_string_append (tmp2, _("Due: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	e_cal_component_free_datetime (&dtstart);
+	e_cal_component_free_datetime (&dtdue);
+
+	tmp2 = g_string_new ("");
+	e_cal_component_get_description_list (new_comp, &desc);
+	for (len = 0, p = desc; p != NULL; p = p->next) {
+		ECalComponentText *text = p->data;
+
+		if (text->value != NULL) {
+			len += strlen (text->value);
+			g_string_append (tmp2, text->value);
+			if (len > 1024) {
+				g_string_set_size (tmp2, 1020);
+				g_string_append (tmp2, "...");
+				break;
+			}
+		}
+	}
+	e_cal_component_free_text_list (desc);
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	gtk_widget_show_all (box);
+	gtk_tooltip_set_custom (tooltip, box);
+
+	g_object_unref (new_comp);
+
+	return TRUE;
 }
 
 static void
@@ -489,6 +696,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_calendar_table_on_right_click), cal_table);
 	g_signal_connect (e_table, "key_press", G_CALLBACK (e_calendar_table_on_key_press), cal_table);
 	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_calendar_table_on_popup_menu), cal_table);
+	g_signal_connect (e_table, "query-tooltip", G_CALLBACK (query_tooltip_cb), cal_table);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (e_table), TRUE);
 
 	a11y = gtk_widget_get_accessible ((GtkWidget *)e_table);
 	if (a11y)

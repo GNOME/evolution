@@ -189,6 +189,18 @@ em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, 
 	return t;
 }
 
+EMEventTargetCustomIcon *
+em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const char *folder_name, guint32 flags)
+{
+	EMEventTargetCustomIcon *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_CUSTOM_ICON, sizeof(*t));
+
+	t->renderer = renderer;
+	t->folder_name = folder_name;
+	t->target.mask = ~flags;
+
+	return t;
+}
+
 /* ********************************************************************** */
 
 static void *emeh_parent_class;
@@ -215,11 +227,16 @@ static const EEventHookTargetMask emeh_send_receive_masks[] = {
 	{ NULL }
 };
 
+static const EEventHookTargetMask emeh_custom_icon_masks[] = {
+	{ "customicon", EM_EVENT_CUSTOM_ICON },
+	{ NULL }
+};
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "folder", EM_EVENT_TARGET_FOLDER, emeh_folder_masks },
 	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
 	{ "composer", EM_EVENT_TARGET_COMPOSER, emeh_composer_masks},
 	{ "sendreceive", EM_EVENT_TARGET_SEND_RECEIVE, emeh_send_receive_masks},
+	{ "customicon", EM_EVENT_TARGET_CUSTOM_ICON, emeh_custom_icon_masks},
 	{ NULL }
 };
 

@@ -1,3 +1,41 @@
+2008-08-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #535745
+
+	* google-source.c: (sanitize_user_mail), (construct_default_uri),
+	(is_default_uri), (init_combo_values), (user_changed),
+	(cal_combo_changed), (claim_error), (retrieve_list_clicked),
+	(plugin_google): New widgets and functionality to retrieve list
+	of subscribed calendars from the Google account and let user choose
+	which one would be shown.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544860
+
+	* google-contacts-source.c (plugin_google_contacts):
+	Add translator comments for split "update every" sentence.
+
+2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545568
+
+	* org-gnome-evolution-google.eplug.xml:
+	Add "system_plugin=true" so it's not shown in the Plugin Manager.
+	This plugin is not designed to be disabled by the user.
+
+2008-05-24  Jörgen Scheibengruber  <mfcn@gmx.de>
+
+	* Makefile.am:
+	* google-contacts-source.c (ensure_google_contacts_source_group),
+	(remove_google_contacts_source_group), (on_username_entry_changed),
+	(on_update_cb_toggled), (on_interval_sb_value_changed),
+	(plugin_google_contacts):
+	* google-contacts-source.h:
+	* google-source.c (e_plugin_lib_enable):
+	* org-gnome-evolution-google.eplug.xml:
+	Added a UI for the addressbook part
+
 2008-03-31  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #346555

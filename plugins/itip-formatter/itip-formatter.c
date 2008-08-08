@@ -1652,6 +1652,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		icalcomponent_add_property (pitip->ical_comp, prop);
 	}
 
+	/*FIXME Save schedules is misused here, remove it */
 	save_schedules = e_cal_get_save_schedules (pitip->current_ecal);
 
 	switch (response) {
@@ -1713,6 +1714,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			break;
 	}
 
+	/* FIXME Remove this and handle this at the groupwise mail provider */
 	if (delete_invitation_from_cache) {
 		CamelFolderChangeInfo *changes = NULL;
 		const char *tag = NULL;

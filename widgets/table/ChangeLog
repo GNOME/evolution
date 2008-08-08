@@ -1,3 +1,22 @@
+2008-07-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #329821
+
+	* e-table-item.c: (find_cell): Do not consider last row's height
+	till the bottom.
+	* e-table-item.h: (e_table_item_compute_mouse_over):
+	* e-table-item.c: (e_table_item_compute_mouse_over):
+	* e-table-group-container.c: (etgc_compute_mouse_over),
+	(etgc_class_init):
+	* e-table-group-leaf.c: (etgl_compute_mouse_over), (etgl_class_init):
+	* e-table.h: (e_table_get_mouse_over_cell):
+	* e-table.c: (e_table_get_mouse_over_cell):
+	* e-table-group.h: (struct ETableGroupClass),
+	(e_table_group_compute_mouse_over):
+	* e-table-group.c: (e_table_group_compute_mouse_over),
+	(etg_class_init): Be able to calculate mouse-over position correctly,
+	relatively to the ETableItem.
+
 2008-06-03  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-table-example-1.c: (main):

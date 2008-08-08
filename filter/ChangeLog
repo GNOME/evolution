@@ -1,3 +1,22 @@
+2008-07-30  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Srinivasa Ragavan <sragavan@novell.com>
+
+	** Fix for bug #545303
+
+	* filter-rule.c: (xml_decode): Add gettext in the xml string.
+
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530388
+
+	* filter-label.c: (filter_label_init), (filter_label_finalise),
+	(fill_options), (filter_label_count), (filter_label_label),
+	(filter_label_index): Make 'cache_lock' a rec mutex.
+	* filter-label.c: (regen_label_options): Guard also regeneration
+	of each tracked item with the rec lock, thus noone will touch
+	'tracked_filters' GSList until we are fully done with it.
+
 2008-07-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #243201

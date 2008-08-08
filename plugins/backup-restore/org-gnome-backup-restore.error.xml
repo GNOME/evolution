@@ -19,6 +19,6 @@
   </error>  
    <error id="insufficient-permissions" type="error">
    	<_title>Insufficient Permissions</_title>
-	<_secondary>The selected folder does not have enough permissions to create the file</_secondary>
+	<_secondary>The selected folder is not writable.</_secondary>
    </error>
 </error-list>

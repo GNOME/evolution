@@ -214,10 +214,6 @@
      _tip="Force images in HTML mail to be loaded"
      accel="*Control*i" pixtype="pixbuf"/>
 
-    <cmd name="ViewNormal"
-     _tip="Show messages in the normal style"
-     type="radio" group="message_display"/>
-
     <cmd name="ViewSource"
      _tip="Show the raw email source of the message"
      accel="*Control*u"/>

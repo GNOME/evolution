@@ -51,7 +51,7 @@ void em_utils_compose_new_message_with_mailto (const char *url, const char *from
 void em_utils_post_to_folder (struct _CamelFolder *folder);
 void em_utils_post_to_url (const char *url);
 
-void em_utils_edit_message (struct _CamelMimeMessage *message);
+void em_utils_edit_message (struct _CamelMimeMessage *message, struct _CamelFolder *folder);
 void em_utils_edit_messages (struct _CamelFolder *folder, GPtrArray *uids, gboolean replace);
 
 void em_utils_forward_attached (struct _CamelFolder *folder, GPtrArray *uids, const char *fromuri);

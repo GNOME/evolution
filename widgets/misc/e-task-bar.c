@@ -82,9 +82,15 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 }
 #endif 
 
+
+static void impl_finalize (GObject *object);
+
 static void
 e_task_bar_class_init (ETaskBarClass *klass)
 {
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->finalize = impl_finalize;
 }
 
 static void
@@ -112,6 +118,20 @@ e_task_bar_init (ETaskBar *task_bar)
 	 *     The true value is probably buried in a style property. */
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
 	gtk_widget_set_size_request (GTK_WIDGET (task_bar), -1, height * 2);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	ETaskBar *task_bar;
+	ETaskBarPrivate *priv;
+
+	task_bar = E_TASK_BAR (object);
+	priv = task_bar->priv;
+
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (e_task_bar_parent_class)->finalize) (object);
 }
 
 

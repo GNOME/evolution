@@ -343,7 +343,9 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 	} else if (!strcmp (name, "X-Evolution-Mailer")) { /* pseudo-header */
 		if (!(txt = camel_medium_get_header (part, "x-mailer")))
 			if (!(txt = camel_medium_get_header (part, "user-agent")))
-				return;
+				if (!(txt = camel_medium_get_header (part, "x-newsreader")))
+					if (!(txt = camel_medium_get_header (part, "x-mimeole")))
+						return;
 		
 		txt = value = camel_header_format_ctext (txt, charset);
 		

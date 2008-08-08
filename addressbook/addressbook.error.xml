@@ -110,18 +110,18 @@
 
  <error id="gw-book-list-init" type="warning">
   <_primary>GroupWise Address book creation:</_primary> 
-  <_secondary>Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and Groupwise Personal Contacts folders.</_secondary>
+  <_secondary>Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and GroupWise Personal Contacts folders.</_secondary>
  </error>
 
  <error id="contact-delete-error-perm" type="warning">
   <_primary>Failed to delete contact</_primary> 
-  <_secondary>You do not have enough permissions to delete contact in this Address Book.</_secondary>
+  <_secondary>You do not have permission to delete contacts in this address book.</_secondary>
  </error>
 
  <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
   <_primary>Cannot add new contact</_primary>
   <!-- For Translators: {0} is the name of the address book source -->
-  <_secondary>'{0}' is a read-only address book source. Switch to Contacts View and highlight an address book that can accept contacts.</_secondary>
+  <_secondary>'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 

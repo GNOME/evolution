@@ -74,7 +74,7 @@ filter_label_get_type (void)
 	return type;
 }
 
-static GStaticMutex cache_lock = G_STATIC_MUTEX_INIT;
+static GStaticRecMutex cache_lock = G_STATIC_REC_MUTEX_INIT;
 static guint cache_notifier_id = 0;
 static GSList *tracked_filters = NULL;
 static GSList *labels_cache = NULL;
@@ -103,7 +103,7 @@ filter_label_init (FilterLabel *fl)
 {
 	((FilterOption *) fl)->type = "label";
 
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
 
 	if (!tracked_filters) {
 		fill_cache ();
@@ -115,7 +115,7 @@ filter_label_init (FilterLabel *fl)
 
 	tracked_filters = g_slist_prepend (tracked_filters, fl);
 
-	g_static_mutex_unlock (&cache_lock);
+	g_static_rec_mutex_unlock (&cache_lock);
 }
 
 static void
@@ -123,7 +123,7 @@ filter_label_finalise (GObject *obj)
 {
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
 
 	tracked_filters = g_slist_remove (tracked_filters, obj);
 
@@ -138,7 +138,7 @@ filter_label_finalise (GObject *obj)
 		gconf_client = NULL;
 	}
 
-	g_static_mutex_unlock (&cache_lock);
+	g_static_rec_mutex_unlock (&cache_lock);
 }
 
 /**
@@ -176,7 +176,7 @@ fill_options (FilterOption *fo)
 {
 	GSList *l;
 
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
 
 	for (l = labels_cache; l; l = l->next) {
 		EUtilLabel *label = l->data;
@@ -197,7 +197,7 @@ fill_options (FilterOption *fo)
 		g_free (title);
 	}
 
-	g_static_mutex_unlock (&cache_lock);
+	g_static_rec_mutex_unlock (&cache_lock);
 }
 
 static void
@@ -222,12 +222,13 @@ regen_label_options (FilterOption *fo)
 static void
 gconf_labels_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
 {
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
+
 	clear_cache ();
 	fill_cache ();
-	g_static_mutex_unlock (&cache_lock);
-
 	g_slist_foreach (tracked_filters, (GFunc)regen_label_options, NULL);
+
+	g_static_rec_mutex_unlock (&cache_lock);
 }
 
 /* ************************************************************************* */
@@ -237,11 +238,11 @@ filter_label_count (void)
 {
 	int res;
 
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
 
 	res = g_slist_length (labels_cache);
 
-	g_static_mutex_unlock (&cache_lock);
+	g_static_rec_mutex_unlock (&cache_lock);
 	
 	return res;
 }
@@ -253,7 +254,7 @@ filter_label_label (int i)
 	GSList *l;
 	EUtilLabel *label;
 
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
 	
 	l = g_slist_nth (labels_cache,  i);
 
@@ -269,7 +270,7 @@ filter_label_label (int i)
 			res = label->tag;
 	}
 
-	g_static_mutex_unlock (&cache_lock);
+	g_static_rec_mutex_unlock (&cache_lock);
 
 	return res;
 }
@@ -280,7 +281,7 @@ filter_label_index (const char *label)
 	int i;
 	GSList *l;
 
-	g_static_mutex_lock (&cache_lock);
+	g_static_rec_mutex_lock (&cache_lock);
 
 	for (i = 0, l = labels_cache; l; i++, l = l->next) {
 		EUtilLabel *lbl = l->data;
@@ -293,7 +294,7 @@ filter_label_index (const char *label)
 			break;
 	}
 
-	g_static_mutex_unlock (&cache_lock);
+	g_static_rec_mutex_unlock (&cache_lock);
 
 	if (l)
 		return i;

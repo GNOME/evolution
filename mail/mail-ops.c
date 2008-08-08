@@ -1976,7 +1976,7 @@ static gchar *
 save_messages_desc (struct _save_messages_msg *m)
 {
 	return g_strdup_printf(ngettext("Saving %d message",
-					"Saving %d messsages", m->uids->len),
+					"Saving %d messages", m->uids->len),
 			       m->uids->len);
 }
 

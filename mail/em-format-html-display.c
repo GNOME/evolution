@@ -100,8 +100,6 @@
 
 #define d(x)
 
-#define EFHD_TABLE_OPEN "<table>"
-
 struct _EMFormatHTMLDisplayPrivate {
 	/* For the interactive search dialogue */
 	/* TODO: Should this be more subtle, like the mozilla one? */
@@ -1030,10 +1028,10 @@ efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 #endif
 
 static void
-efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_pobject *po)
+efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, CamelDList *certlist, struct _smime_pobject *po)
 {
 	CamelCipherCertInfo *info = (CamelCipherCertInfo *)certlist->head;
-	GtkTable *table = (GtkTable *)gtk_table_new(e_dlist_length(certlist), 2, FALSE);
+	GtkTable *table = (GtkTable *)gtk_table_new(camel_dlist_length(certlist), 2, FALSE);
 	int n = 0;
 
 	while (info->next) {
@@ -1135,7 +1133,7 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
-	if (!e_dlist_empty(&po->valid->sign.signers))
+	if (!camel_dlist_empty(&po->valid->sign.signers))
 		efhd_xpkcs7mime_add_cert_table(vbox, &po->valid->sign.signers, po);
 
 	gtk_widget_show_all(vbox);
@@ -1167,7 +1165,7 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
-	if (!e_dlist_empty(&po->valid->encrypt.encrypters))
+	if (!camel_dlist_empty(&po->valid->encrypt.encrypters))
 		efhd_xpkcs7mime_add_cert_table(vbox, &po->valid->encrypt.encrypters, po);
 
 	gtk_widget_show_all(vbox);

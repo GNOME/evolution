@@ -1,3 +1,10 @@
+2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #542125
+
+	* Makefile.am:
+	Move query-free-busy.png to data/icons.
+
 2007-10-12  Michael Monreal <michael.monreal@gmail.com>
 
          ** Migration of theme icons to data/icons/ (bug #479257)

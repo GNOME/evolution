@@ -28,7 +28,7 @@
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="icon_size">6</property>
-                <property name="icon_name">stock_addressbook</property>
+                <property name="icon_name">x-office-address-book</property>
               </widget>
               <packing>
                 <property name="left_attach">1</property>

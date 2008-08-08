@@ -73,10 +73,9 @@ struct _EComponentInfo {
 
 	char *button_label;
 	char *button_tooltips;
-	GdkPixbuf *button_icon;
 	char *menu_label;
 	char *menu_accelerator;
-	GdkPixbuf *menu_icon;
+	char *icon_name;
 
 	int sort_order;
 

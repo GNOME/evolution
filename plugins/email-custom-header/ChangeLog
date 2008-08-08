@@ -1,3 +1,31 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #543755
+
+	* apps_evolution_email_custom_header.schemas.in: Fix typo.
+
+2008-07-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #544022
+
+	* email-custom-header.c: Compiler warning cleanup.
+
+2008-06-25  Ashish Shrivastava  <shashish@novell.com>
+	* email-custom-header.glade:  Marked strings for
+	translation.
+	remove "window1" string from translation.
+
+2008-06-24  Ashish Shrivastava  <shashish@novell.com>
+
+	* email-custom-header.c: (e_plugin_lib_get_configure_widget),
+	(org_gnome_email_custom_header_config_option):
+	Added Support for configuring gconf values.
+	* email-custom-header.glade: 
+	Configure email-custom-header plugin within the plugin-manager.
+	* org-gnome-email-custom-header.eplug.xml: Add hook class
+	for Configure tab.
+	* Makefile.am: Add new file.(email-custom-header.glade).
+
 2008-06-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am:

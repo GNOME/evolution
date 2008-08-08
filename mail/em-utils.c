@@ -1364,7 +1364,53 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 	return path;
 }
 
+/** em_utils_folder_is_templates:
+ * @folder: folder
+ * @uri: uri for this folder, if known
+ *
+ * Decides if @folder is a Templates folder.
+ *
+ * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
+ **/
 
+gboolean
+em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
+{
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
+	int is = FALSE;
+	char *templates_uri;
+
+	if (folder == mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_TEMPLATES))
+		return TRUE;
+	
+	if (uri == NULL)
+		return FALSE;
+		
+	accounts = mail_config_get_accounts();
+	iter = e_list_get_iterator ((EList *)accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *)e_iterator_get (iter);
+		
+		if (account->templates_folder_uri) {
+			templates_uri = em_uri_to_camel (account->templates_folder_uri);
+			if (camel_store_folder_uri_equal (folder->parent_store, templates_uri, uri)) {
+				g_free (templates_uri);
+				is = TRUE;
+				break;
+			}
+			g_free (templates_uri);
+		}
+		
+		e_iterator_next (iter);
+	}
+	
+	g_object_unref (iter);
+	
+	return is;
+}
+		
 /**
  * em_utils_folder_is_drafts:
  * @folder: folder

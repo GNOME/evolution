@@ -46,6 +46,7 @@ enum _em_event_target_t {
 	EM_EVENT_TARGET_MESSAGE,
 	EM_EVENT_TARGET_COMPOSER,
 	EM_EVENT_TARGET_SEND_RECEIVE,
+	EM_EVENT_TARGET_CUSTOM_ICON,
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -66,6 +67,11 @@ enum {
 /* Flags that describe TARGET_SEND_RECEIVE*/
 enum {
 	EM_EVENT_SEND_RECEIVE = 1<< 0,
+};
+
+/* Flags that describe TARGET_CUSTOM_ICON*/
+enum {
+	EM_EVENT_CUSTOM_ICON = 1<< 0,
 };
 
 typedef struct _EMEventTargetFolder EMEventTargetFolder;
@@ -105,6 +111,14 @@ struct _EMEventTargetSendReceive {
 	int row;
 };
 
+typedef struct _EMEventTargetCustomIcon EMEventTargetCustomIcon;
+
+struct _EMEventTargetCustomIcon {
+	EEventTarget target;
+
+	GtkCellRenderer *renderer;
+	const char 	*folder_name;
+};
 
 typedef struct _EEventItem EMEventItem;
 
@@ -127,6 +141,7 @@ EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, g
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer data, int row, guint32 flags);
+EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const char *uri, guint32 flags);
 
 /* ********************************************************************** */
 

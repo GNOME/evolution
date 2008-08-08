@@ -1,3 +1,18 @@
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #428384
+
+	* mail-composer.error.xml:
+	Improve buttons in the "exit-unsaved" dialog by replacing "Cancel"
+	with "Continue Editing" and "Save Message" with "Save Draft".
+	Suggested by bytesmythe.
+
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #200147
+
+	* evolution-composer.ui: Added a Template placeholder
+
 2008-07-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #206592

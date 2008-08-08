@@ -9,6 +9,7 @@
         <menuitem action='save'/>
         <menuitem action='save-as'/>
         <menuitem action='save-draft'/>
+	<placeholder name='template-holder'/>
         <separator/>
         <menuitem action='print-preview'/>
         <menuitem action='print'/>

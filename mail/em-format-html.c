@@ -84,7 +84,6 @@
 
 #define d(x)
 
-#define EFH_TABLE_OPEN "<table>"
 #define EFM_MESSAGE_START_ANAME "evolution#message#start"
 #define EFH_MESSAGE_START "<A name=\"" EFM_MESSAGE_START_ANAME "\"></A>"
 
@@ -1868,7 +1867,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			GString *html;
 
 			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
-				return;
+				break;
 
 			html = g_string_new("");
 			name = efh_format_address(efh, html, addrs, header->name);
@@ -1883,7 +1882,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			GString *html;
 
 			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
-				return;
+				break;
 
 			html = g_string_new("");
 			name = efh_format_address(efh, html, addrs, header->name);
@@ -1942,15 +1941,30 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
 								!g_ascii_strcasecmp (header->name, "User-Agent") ||
-								!g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
-					struct _camel_header_raw xmailer;
+								!g_ascii_strcasecmp (header->name, "X-Newsreader") ||
+								!g_ascii_strcasecmp (header->name, "X-MimeOLE"))) {
+					struct _camel_header_raw xmailer, *use_header = NULL;
+
+					if (!g_ascii_strcasecmp (header->name, "X-MimeOLE")) {
+						for (use_header = header->next; use_header; use_header = use_header->next) {
+							if (!g_ascii_strcasecmp (use_header->name, "X-Mailer") ||
+							    !g_ascii_strcasecmp (use_header->name, "User-Agent") ||
+							    !g_ascii_strcasecmp (use_header->name, "X-Newsreader")) {
+								/* even we have X-MimeOLE, then use rather the standard one, when available */
+								break;
+							}
+						}
+					}
+
+					if (!use_header)
+						use_header = header;
 
 					xmailer.name = "X-Evolution-Mailer";
-					xmailer.value = header->value;
+					xmailer.value = use_header->value;
 					mailer_shown = TRUE;
 
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
-					if (strstr(header->value, "Evolution"))
+					if (strstr(use_header->value, "Evolution"))
 						have_icon = TRUE;
 				} else if (!g_ascii_strcasecmp (header->name, "Face") && !face_decoded) {
 					char *cp = header->value;
@@ -2086,7 +2100,7 @@ static void efh_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart 
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 
-	camel_stream_write_string((CamelStream *)stream, EFH_TABLE_OPEN "<tr><td><tt>");
+	camel_stream_write_string((CamelStream *)stream, "<table><tr><td><tt>");
 	em_format_format_text(emf, (CamelStream *)filtered_stream, dw);
 	camel_object_unref(filtered_stream);
 

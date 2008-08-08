@@ -2589,7 +2589,7 @@ find_next_selectable (MessageList *ml)
 		return NULL;
 
 	info = get_message_info (ml, node);
-	if (is_node_selectable (ml, info))
+	if (info && is_node_selectable (ml, info))
 		return NULL;
 
 	last = e_tree_row_count (ml->tree);
@@ -2603,7 +2603,7 @@ find_next_selectable (MessageList *ml)
 	while (vrow < last) {
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
-		if (is_node_selectable (ml, info))
+		if (info && is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
 		vrow ++;
 	}
@@ -2615,7 +2615,7 @@ find_next_selectable (MessageList *ml)
 	while (vrow >= 0) {
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
-		if (is_node_selectable (ml, info))
+		if (info && is_node_selectable (ml, info))
 			return g_strdup (camel_message_info_uid (info));
 		vrow --;
 	}
@@ -3644,6 +3644,9 @@ glib_crapback(void *key, void *data, void *x)
 	struct _glibsuxcrap *y = x;
 	CamelMessageInfo *mi;
 
+	if(y->count)
+		return;
+
 	mi = camel_folder_get_message_info(y->folder, key);
 	if (mi) {
 		y->count++;
@@ -3651,7 +3654,7 @@ glib_crapback(void *key, void *data, void *x)
 	}
 }
 
-/* returns number of hidden messages */
+/* returns 0 or 1 depending if there are hidden messages */
 unsigned int
 message_list_hidden(MessageList *ml)
 {
@@ -4308,6 +4311,15 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	} else if (ml->thread_tree) {
 		m->tree = ml->thread_tree;
 		camel_folder_thread_messages_ref(m->tree);
+	}
+
+	if (message_list_length (ml) <= 0) {
+		/* there is some info why the message list is empty, let it be something useful */
+		char *txt = g_strconcat (_("Generating message list"), "..." , NULL);
+
+		e_tree_set_info_message (m->ml->tree, txt);
+
+		g_free (txt);
 	}
 
 	/* if we're busy already kick off timeout processing, so normal updates are immediate */

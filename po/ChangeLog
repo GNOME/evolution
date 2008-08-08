@@ -1,3 +1,120 @@
+2008-08-07  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-07  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-06  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-06  Djihed Afifi <djihed@gmail.com> 
+
+	* ar.po: Updated Arabic Translation by Abou Manal.
+
+2008-08-05: Sweta Kothari  <swkothar@redhat.com>
+
+	* gu.po: Committed Gujarati Translation.
+
+2008-08-04  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-03  Leonid Kanter <leon@asplinux.ru>
+
+	 ru.po: Updated Russian translation
+
+2008-08-02  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-01  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-01  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-07-31  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* gl.po: Updated Galician Translation by Frco. Javier Rial Rodríguez.
+
+2008-07-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Updated Norwegian bokmål translation.
+
+2008-07-29  Changwoo Ryu  <cwryu@debian.org>
+
+	* ko.po: Updated Korean translation.
+
+2008-07-29  Djihed Afifi <djihed@gmail.com> 
+
+	* ar.po: Updated Arabic Translation by Abou Manal.
+
+2008-07-27  Petr Kovar  <pknbe@volny.cz>
+
+	* cs.po: Fixed Czech translation.
+
+2008-07-24  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Terminology fixes by Fabrício Godoy.
+
+2008-06-24  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-07-24  Claude Paroz  <claude@2xlibre.net>
+
+	* fr.po: Updated French translation by Bruno Brouard and Claude Paroz.
+
+2008-07-23  Gil Forcada  <gforcada@gnome.org>
+
+	* ps.po: Added Pashto translation by Zabeeh Khan.
+	* LINGUAS: Added ps.
+
+2008-07-23  Petr Kovar  <pknbe@volny.cz>
+
+	* cs.po: Fixed Czech translation, thanks for noticing
+	to Pavel Sefranek.
+
+2008-07-21  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-07-21  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* gl.po: Updated Galician Translation.
+
+2008-07-21  Johnny Jacob  <jjohnny@novell.com>
+
+	* POTFILES.in: Fixed a typo.
+
+2008-07-21  J0hnny Jacob <jjohnny@novell.com>
+
+	* POTFILES.in: Updated file lsit.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: Updated file list.
+
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	* POTFILES.in:
+	Updated file-list for templates plugin.
+
+	** See bug #200147
+
+2008-07-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org> 
+
+	* es.po: Updated Spanish translation  
+
+2008-07-19  Andre Klapper  <a9016009@gmx.de>
+
+	* de.po: Updated German translation.
+
 2008-07-09  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation

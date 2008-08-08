@@ -323,8 +323,8 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	} else
 		gtk_window_set_title (GTK_WINDOW (window), component_view->title);
 
-	if (info->button_icon)
-		gtk_window_set_icon (GTK_WINDOW (window), info->button_icon);
+	if (info->icon_name)
+		gtk_window_set_icon_name (GTK_WINDOW (window), info->icon_name);
 
 	gconf_client_set_string (gconf_client, "/apps/evolution/shell/view_defaults/component_id",
 				 (component_view->component_alias != NULL

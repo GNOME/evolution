@@ -82,6 +82,7 @@ char *em_utils_temp_save_part(struct _GtkWidget *parent, struct _CamelMimePart *
 void em_utils_save_parts (struct _GtkWidget *parent, const char *prompt, GSList * parts);
 
 gboolean em_utils_folder_is_drafts(struct _CamelFolder *folder, const char *uri);
+gboolean em_utils_folder_is_templates(struct _CamelFolder *folder, const char *uri);
 gboolean em_utils_folder_is_sent(struct _CamelFolder *folder, const char *uri);
 gboolean em_utils_folder_is_outbox(struct _CamelFolder *folder, const char *uri);
 

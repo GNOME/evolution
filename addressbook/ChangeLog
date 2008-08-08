@@ -1,3 +1,78 @@
+2008-08-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #324203
+
+	* gui/component/ldap-config.glade:
+	* gui/component/addressbook-config.c: (canbrowse_toggled_cb),
+	(eabc_details_limit): New check box to be able to set LDAP
+	address books browseable until reaches given limits.
+
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #249844
+
+	* gui/component/addressbook-component.c:
+	(impl__get_userCreatableItems): Do not let compiler claim.
+
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #546263
+
+	* gui/widgets/e-minicard.c: (add_field), (add_email_field), (remodel):
+	Add 'width' property as the last one for 'new' item, thus it will know
+	all the information to properly calculate column widths. Also don't
+	set field names for the contact-lists. Both changes prevents messing
+	of minicard painting for changed contact-lists.
+
+2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #249844
+
+	* gui/component/addressbook-component.c
+	(impl__get_userCreatableItems): 
+	Use C_() macro instead of Q_() macro. 
+	Use fully qualified names for "New" submenu entries. 
+
+2008-08-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546057
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	* gui/contact-list-editor/contact-list-editor.glade:
+	Use "x-office-address-book" icon name instead of "stock_addressbook".
+
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #211267
+
+	* printing/e-contact-print.c: (struct _EContactPrintContext),
+	(e_contact_print_letter_heading), (e_contact_start_new_page),
+	(e_contact_print_contact), (contact_draw_page),
+	(e_contact_print): Report correct number of pages to print
+	and print them as requested.
+
+2008-07-30  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Andre Klapper <a9016009@gmx.de>
+
+	** Fix for bug #545300
+
+	* gui/merging/eab-contact-duplicate-detected.glade:
+	Add a translatable tag in "_Merge" string.
+
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #544383
+
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(e_contact_list_editor_get_contact): Put list members in reverse order,
+	because 'e_vcard_add_attribute' uses prepend, thus changes order on
+	every single save of the contact list.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* addressbook.error.xml: Fix some strings. See bug #543753.
+
 2008-07-13  Keith Packard  <keithp@keithp.com>
 
 	** Fix for bug #541355
@@ -7,6 +82,16 @@
 	for_each method, which the evolution conduits aren't prepared to 
 	handle. This patch removes any freed objects from the 'locals' list in 
 	each conduit which otherwise frees them again when the conduit is closed.
+
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #228725
+
+	* gui/widgets/e-minicard-view.h: (struct _EMinicardView):
+	* gui/widgets/e-minicard-view.c: (set_empty_message),
+	(stop_state_changed), (e_minicard_view_set_property),
+	(e_minicard_view_dispose), (e_minicard_view_init):
+	Show different message in a view when searching.
 
 2008-07-03  Milan Crha  <mcrha@redhat.com>
 

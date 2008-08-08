@@ -1,3 +1,208 @@
+2008-08-06  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-08-05  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fixes bug #544252
+
+	* quickref/C/quickref.tex: Use names consistent to the GUI for 
+	different components. 
+
+2008-08-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Make Claude happy (bug #544886 comment 4).
+
+2008-08-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Typo fixes and fix for bug #544886 on
+	behalf of Allan Day.
+
+2008-08-03  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545558
+
+	* C/evolution.xml:
+	Hula support is disabled by default now, so remove any
+	mention of it from the User Guide.
+
+2008-07-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** This was preventing dblatex from working correctly.
+	   I use dblatex to generate a PDF for the website.
+
+	* xx/figures/attach_reminder_a.png:
+	Rename attach_reminder_a.png.png to attach_reminder_a.png.
+
+	* Makefile.am:
+	* xx/evolution.xml:
+	Update accordingly.
+
+2008-07-28  Claude Paroz  <claude@2xlibre.net>
+
+	* fr/fr.po: Updated French translation.
+
+2007-07-27  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544958
+
+	* C/evolution.xml:
+	Use email, not e-mail (per documentation guidelines).
+
+2008-07-27  Claude Paroz  <claude@2xlibre.net>
+
+	* C/evolution.xml: Typos/Syntax improvements.
+	Fixes #544994.
+
+2008-07-27  Claude Paroz  <claude@2xlibre.net>
+
+	* fr/fr.po: Updated French translation.
+	* figures/evo_label_a.png: New screenshot.
+
+2008-07-25  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-24  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-23  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2008-07-23  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2008-07-22  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-21  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: s/a company environment/an organizational environment
+
+2008-07-21  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix most of bug 543883. Patch by Allan Day.
+
+2008-07-21  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-21  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix build break.
+
+2008-07-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings, changed "mails" to "mail".
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings, fixed some typos.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings, fixed a typo.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Synchronized more strings, fixed a typo.
+
+2008-07-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed bug #477082.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 201 to 317 of bug #438479.
+
+2008-07-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 181 to 200 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 161 to 180 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 141 to 160 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 121 to 140 of bug #438479.
+	Use &z-3rdParty; instead of *.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 81 to 120 of bug #438479.
+	Synced dialogue vs dialog. Fixed two duplicated IDs.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 61 to 80 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 41 to 60 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fixed comments 21 to 40 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Replace all "e-mail list" by "message list".
+	Fixed comments 1 to 20 of bug #438479.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Remove more wrong whitespaces.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Removed braindead whitespaces, fix duplicated
+	whitespaces, fix spellings.
+
 2008-07-05  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation 

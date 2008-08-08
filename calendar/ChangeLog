@@ -1,3 +1,135 @@
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #249844
+
+	* gui/tasks-component.c: (impl__get_userCreatableItems):
+	* gui/memos-component.c: (impl__get_userCreatableItems):
+	Do not let compiler claim.
+	* gui/calendar-component.c: (impl__get_userCreatableItems):
+	Use C_() macro instead of Q_() macro.
+	Use fully qualified names for "New" submenu entries.
+
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #544157
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	Sort View / Window (sub)menu in shortcut order.
+
+2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #249844
+
+	* gui/memos-component.c (impl__get_userCreatableItems):
+	* gui/tasks-component.c (impl__get_userCreatableItems):
+	Use C_() macro instead of Q_() macro. 
+	Use fully qualified names for "New" submenu entries. 
+
+2008-08-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546057
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	* gui/calendar-component.c:
+	* gui/e-calendar-view.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/alarm-list-dialog.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/select-source-dialog.c:
+	Use "x-office-calendar" icon name instead of "stock_calendar".
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544857
+
+	* gui/memotypes.xml: Fix a typo.
+
+2008-08-01  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #353927
+
+	* gui/alarm-notify/alarm-queue.c: (tray_icon_blink_cb),
+	(display_notification): Do not blink the icon more than 15 seconds.
+
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #211267
+
+	* gui/print.c: (bound_text), (print_attendees), (print_day_event),
+	(print_todo_details), (print_comp_draw_real), (print_comp_draw_page),
+	(print_comp_begin_print), (print_comp): When printing only one event,
+	then divide it to more pages if required, also word-wrap description
+	text if necessary to fit the page.
+
+2008-07-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329821
+
+	* gui/e-calendar-table.c: (query_tooltip_cb):
+	Recalculate returned row to the model row, if we are sorting.
+
+2008-07-20  Andre Klapper  <a9016009@gmx.de>
+
+	* calendar.error.xml: Fix some strings. See bug #543753.
+
+2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #542125
+
+	** This set of changes migrates CompEditor, CompEditorPage and the
+	   various subclasses from using BonoboUI to GtkUIManager for menus
+	   and toolbars.  It also substantially cleans up the code and
+	   streamlines the CompEditorPage API, making more effective use
+	   of GObject properties.
+
+	Core changes:
+	* gui/dialogs/comp-editor-page.c:
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/event-editor.h:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/memo-editor.c:
+	* gui/dialogs/memo-editor.h:
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/memo-page.h:
+	* gui/dialogs/recurrence-page.c:
+	* gui/dialogs/recurrence-page.h:
+	* gui/dialogs/schedule-page.c:
+	* gui/dialogs/schedule-page.h:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/task-details-page.h:
+	* gui/dialogs/task-editor.c:
+	* gui/dialogs/task-editor.h:
+	* gui/dialogs/task-page.c:
+	* gui/dialogs/task-page.h:
+
+	Supporting changes:
+	* gui/calendar-component.c:
+	* gui/comp-editor-factory.c:
+	* gui/e-cal-popup.c:
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-comp-editor-registry.c:
+	* gui/e-memo-table.c:
+	* gui/e-tasks.c:
+	* gui/gnome-cal.c:
+	* gui/memos-component.c:
+	* gui/tasks-component.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/comp-editor-util.c:
+
+2008-07-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #329821
+
+	* gui/e-calendar-table.c: (get_time_as_text), (query_tooltip_cb),
+	(e_calendar_table_init): Show tooltips over task's table.
+
 2008-17-14  Paolo Borelli  <pborelli@katamail.com>
 
 	** Fix for bug #542889

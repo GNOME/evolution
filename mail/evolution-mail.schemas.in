@@ -318,9 +318,9 @@
          <short>Load images for HTML messages over http</short>
          <long>
           Load images for HTML messages over http(s). Possible values are:
-          0 - Never load images off the net.
-          1 - Load images in messages from contacts.
-          2 - Always load images off the net.
+          "0" - Never load images off the net.
+          "1" - Load images in messages from contacts.
+          "2" - Always load images off the net.
          </long>
       </locale>
     </schema>
@@ -506,8 +506,9 @@
       <locale name="C">
          <short>Hides the per-folder preview and removes the selection</short>
          <long>
-          This key is read only once and reset to false after read. This unselects the 
-	  mail in the list and removes the preview for that folder.
+          This key is read only once and reset to "false" after read. This
+          unselects the mail in the list and removes the preview for that
+          folder.
          </long>
       </locale>
     </schema>
@@ -1026,8 +1027,9 @@
       <default>0</default>
       <locale name="C">
          <short>Level beyond which the message should be logged.</short>
-         <long> This can have three possible values. 0 for errors. 1 for warnings. 
-	 	2 for debug messages.
+         <long>
+           This can have three possible values. "0" for errors.
+           "1" for warnings. "2" for debug messages.
          </long>
       </locale>
     </schema>
@@ -1341,10 +1343,10 @@
       <type>int</type>
       <default>60</default>
       <locale name="C">
-        <short>Time interval, in seconds, how often upload store changes to server.</short>
+        <short>Server synchronization interval</short>
         <long>
-          Time interval, in seconds, how often upload store changes to server.
-	  The actual value cannot be less than 30 seconds.
+          Controls how frequently local changes are synchronized with the
+          remote mail server.  The interval must be at least 30 seconds.
         </long>
       </locale>
     </schema>

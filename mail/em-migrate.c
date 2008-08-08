@@ -67,16 +67,19 @@
 #include "e-util/e-util-private.h"
 #include "e-util/e-plugin.h"
 
+#include "mail-component.h"
 #include "mail-config.h"
+#include "mail-session.h"
 #include "em-utils.h"
 #include "em-migrate.h"
 
 #define d(x) x
 
 #ifndef G_OS_WIN32
-
-/* No previous versions have been available on Win32, so don't bother
- * with upgrade support from 1.x on Win32.
+/* No versions previous to 2.8 or thereabouts have been available on
+ * Windows, so don't bother with upgrade support from earlier versions
+ * on Win32. Do try to support upgrades from 2.12 and later to the
+ * current version.
  */
 
 /* upgrade helper functions */
@@ -1189,12 +1192,14 @@ em_migrate_session_new (const char *path)
 }
 
 
+#endif	/* !G_OS_WIN32 */
+
 static GtkWidget *window;
 static GtkLabel *label;
 static GtkProgressBar *progress;
 
 static void
-em_migrate_setup_progress_dialog (void)
+em_migrate_setup_progress_dialog (const char *desc)
 {
 	GtkWidget *vbox, *hbox, *w;
 
@@ -1207,9 +1212,8 @@ em_migrate_setup_progress_dialog (void)
 	gtk_widget_show (vbox);
 	gtk_container_add ((GtkContainer *) window, vbox);
 
-	w = gtk_label_new (_("The location and hierarchy of the Evolution mailbox "
-			     "folders has changed since Evolution 1.x.\n\nPlease be "
-			     "patient while Evolution migrates your folders..."));
+	w = gtk_label_new (desc);
+	
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_widget_show (w);
 	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
@@ -1240,12 +1244,11 @@ em_migrate_set_folder_name (const char *folder_name)
 {
 	char *text;
 
-	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
+	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (label, text);
 	g_free (text);
 
 	gtk_progress_bar_set_fraction (progress, 0.0);
-
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
@@ -1263,6 +1266,8 @@ em_migrate_set_progress (double percent)
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
+
+#ifndef G_OS_WIN32
 
 static gboolean
 is_mail_folder (const char *metadata)
@@ -1476,10 +1481,8 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 			goto exception;
 
 		total += nwritten;
-#ifndef G_OS_WIN32
 		if (show_progress)
 			em_migrate_set_progress (((double) total) / ((double) st.st_size));
-#endif
 	} while (total < st.st_size);
 
 	if (fsync (writefd) == -1)
@@ -1862,7 +1865,9 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
 		return -1;
 	}
 
-	em_migrate_setup_progress_dialog ();
+	em_migrate_setup_progress_dialog (_("The location and hierarchy of the Evolution mailbox "
+			     "folders has changed since Evolution 1.x.\n\nPlease be "
+			     "patient while Evolution migrates your folders..."));
 
 	while (res == 0 && (dent = readdir (dir))) {
 		char *full_path;
@@ -2671,7 +2676,7 @@ em_update_accounts_2_11 (void)
 		mail_config_save_accounts ();
 }
 
-#endif
+#endif	/* !G_OS_WIN32 */
 
 static int
 emm_setup_initial(const char *evolution_dir)
@@ -2837,6 +2842,113 @@ em_update_sa_junk_setting_2_23 (void)
 	g_object_unref (client);
 }
 
+
+static void
+migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelException *ex)
+{
+	CamelFolder *folder;
+
+	while (fi) {
+		char *tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
+		em_migrate_set_folder_name (tmp);
+		g_free (tmp);
+		folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+		if (folder != NULL)
+			camel_folder_summary_migrate_infos (folder->summary);
+		migrate_folders(store, fi->child, acc, ex);
+		fi = fi->next;
+	}
+}
+
+static CamelStore *
+setup_local_store (MailComponent *mc)
+{
+	CamelURL *url;
+	char *tmp;
+	CamelStore *store;
+	
+	url = camel_url_new("mbox:", NULL);
+	tmp = g_build_filename (mail_component_peek_base_directory(mc), "local", NULL);
+	camel_url_set_path(url, tmp);
+	g_free(tmp);
+	tmp = camel_url_to_string(url, 0);
+	store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, NULL);
+	g_free(tmp);
+
+	return store;
+	
+}
+static void
+migrate_to_db()
+{
+	EAccountList *accounts;
+	EIterator *iter;
+	int i=0, len;
+	MailComponent *component = mail_component_peek ();
+	CamelStore *store = NULL;
+	CamelFolderInfo *info;
+	
+	if (!(accounts = mail_config_get_accounts ()))
+		return;
+	
+	iter = e_list_get_iterator ((EList *) accounts);
+	len = e_list_length ((EList *) accounts);
+	
+	camel_session_set_online ((CamelSession *) session, FALSE);
+	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
+			     "folders has been moved to sqlite since Evolution 2.24.\n\nPlease be "
+			     "patient while Evolution migrates your folders..."));
+
+	em_migrate_set_progress ( (double)i/(len+1));
+	store = setup_local_store (component);
+	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);	
+	if (info) {
+		migrate_folders(store, info, _("On This Computer"), NULL);
+	}
+	i++;
+	em_migrate_set_progress ( (double)i/(len+1));
+
+	
+	while (e_iterator_is_valid (iter)) {
+		EAccount *account = (EAccount *) e_iterator_get (iter);
+		EAccountService *service;
+		const char *name;
+
+		
+		service = account->source;
+		name = account->name;
+		em_migrate_set_progress ( (double)i/(len+1));		
+		if (account->enabled
+		    && service->url != NULL
+		    && service->url[0]
+		    && strncmp(service->url, "mbox:", 5) != 0) {
+
+			CamelException ex;
+
+			camel_exception_init (&ex);
+			mail_component_load_store_by_uri (component, service->url, name);
+
+			store = (CamelStore *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
+			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
+			if (info) {
+				migrate_folders(store, info, account->name, &ex);
+				
+			} else
+				printf("%s:%s: failed to get folder infos \n", G_STRLOC, G_STRFUNC);
+			camel_exception_clear(&ex);
+				
+		}
+		i++;
+		e_iterator_next (iter);
+
+	}
+
+	//camel_session_set_online ((CamelSession *) session, TRUE);
+
+	g_object_unref (iter);
+	em_migrate_close_progress_dialog ();
+}
+
 int
 em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
 {
@@ -2860,8 +2972,8 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	if (major == 0)
 		return emm_setup_initial(evolution_dir);
 
-#ifndef G_OS_WIN32
 	if (major == 1 && minor < 5) {
+#ifndef G_OS_WIN32
 		xmlDocPtr config_xmldb = NULL, filters, vfolders;
 
 		path = g_build_filename (g_get_home_dir (), "evolution", NULL);
@@ -2917,18 +3029,27 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		}
 
 		g_free (path);
+#else
+		g_error ("Upgrading from ancient versions not supported on Windows");
+#endif
 	}
 
 	if (major < 2 || (major == 2 && minor < 12)) {
+#ifndef G_OS_WIN32
 		em_update_accounts_2_11 ();
+#else
+		g_error ("Upgrading from ancient versions not supported on Windows");
+#endif
 	}
+
 
 	if (major < 2 || (major == 2 && minor < 22))
 		em_update_message_notify_settings_2_21 ();
 
-	if (major < 2 || (major == 2 && minor < 24))
+	if (major < 2 || (major == 2 && minor < 24)) {
 		em_update_sa_junk_setting_2_23 ();
+		migrate_to_db();
+	}
 
-#endif	/* !G_OS_WIN32 */
 	return 0;
 }

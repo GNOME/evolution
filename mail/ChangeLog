@@ -1,3 +1,246 @@
+2008-08-07  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #546788
+
+	* em-folder-view.c: "/commands/ViewNormal" isn't actually used. It is
+	probably a leftover from a previous way of setting the formatting
+	style. It can be removed. Related cleanups.
+
+2008-08-06  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #546668
+
+	* em-format-html.c: Drop a (pointless) define used only once.
+	* em-format-html-display.c: Drop one unused define.
+
+2008-08-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-format.c (emf_format_secure):
+	* em-format-html-display.c (efhd_xpkcs7mime_add_cert_table):
+	Use CamelDList instead of EDList.
+
+2008-08-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #249844
+
+	* em-event.h: (struct _EMEventTargetCustomIcon): Declare 'folder_name'
+	as const char * to let compiler happy; no copy of the pointer anyway.
+	* mail-component.c: (impl__get_userCreatableItems):
+	Do not let compiler claim.
+
+2008-08-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/message-list.c: Fix a performance issue, where we can just go
+	by the presence than the exact count.
+
+2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-migrate.c (migrate_to_db):
+	* em-network-prefs.c (notify_proxy_type_changed),
+	(widget_entry_changed_cb):
+	* em-subscribe-editor.c (sub_fill_level), (sub_queue_fill_level),
+	(sub_row_expanded):
+	* mail-vfolder.c:
+	Use G_STRLOC or G_STRFUNC instead of deprecated
+	G_GNUC_PRETTY_FUNCTION.
+
+2008-08-04  Paul Bolle <pebolle@tiscali.nl>
+
+	** Fix for bug #543058
+
+	* em-folder-properties.c (emfp_dialog_got_folder_quota):
+	* mail-component.c (view_changed): Replace three occurrences of
+	INBOX in the GUI code with Inbox. INBOX is a written in all caps
+	because that is the way it is used in the IMAP protocol. There's
+	little reason to use it in the GUI. Inbox is properly capitalized and
+	can be localized too.
+
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Further fix for bug #539268
+
+	* em-format.c (em_format_describe_part): Do not append description 
+	if it is just an empty string.
+
+2008-08-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #249844
+
+	* em-folder-tree.c (render_display_name):
+	* mail-component.c (impl__get_userCreatableItems):
+	Use C_() macro instead of Q_() macro. 
+	Use fully qualified names for "New" submenu entries. 
+
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fixes bug #537088
+
+	* em-format-html.c: (efh_format_headers): Break out of the loop rather
+	that return from this function when running into an empty From: or
+	Sender: header.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #514006
+
+	* apps-evolution-mail-notification.schemas.in:
+	Quote literal values.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #544859
+
+	* evolution-mail.schemas.in:
+	Clarify description of "sync_interval" key.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #545820
+
+	* mail-ops.c (save_messages_desc): Fix a typo. (Nicolas Kaiser)
+
+2008-07-31  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #545436
+
+	* mail/message-list.c: Check the info before accessing it.
+
+2008-07-30  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #500389
+
+	* em-account-editor.c: (emae_option_options_changed),
+	(emae_option_options), (emae_receive_options_extra_item):
+	New ability to define Options (ComboBox) in provider's options.
+
+2008-07-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/em-folder-tree.c: Kill a compilation warning.
+
+2008-07-28  Lucian Langa  <lucilanga@gnome.org>
+
+	* mail/mail-config.glade:
+	Corrected string "Prompt on sending HTML.."
+
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #543532
+
+	* em-folder-tree-model.c: (em_folder_tree_model_remove_store_info):
+	Let free memory when we are done with it, not before.
+
+2008-07-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #256540
+
+	* mail-dialogs.glade: (message_security_dialog):
+	Do not use GtkNotebook with only one tab.
+
+2008-07-28  Lucian Langa  <lucilanga@gnome.org>
+
+	* mail/mail-config.glade:
+	** See bug #504417: Preferences windows
+	cut off
+
+2008-07-28 Jeff Cai <jeff.cai@sun.com> 
+
+	* em-migrate.c: (migrate_to_db):
+	* em-network-prefs.c: (notify_proxy_type_changed),
+	(widget_entry_changed_cb):
+    Use G_GNUC_PRETTY_FUNCTION instead of __PRETTY__FUNCTION
+
+2008-07-27  Lucian Langa <lucilanga@gnome.org>
+
+	* mail/em-event.h (struct _EMEventTargetCustomIcon):
+	* mail/em-event.c (em_event_target_new_custom_icon):
+	* mail/em-folder-tree.c (render_pixbuf):
+	** See bug #544969: Added the hook for folder
+	custom icon.
+
+2008-07-28  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #543411
+
+	* mail/em-folder-tree-model.c: Dont load known folders.
+	* mail/em-folder-tree.c: Move iter to the last entry.
+
+2008-07-25  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/em-folder-browser.c: Make show unread/etc work well.
+
+2008-07-24  Sankar P  <psankar@novell.com>
+
+	* em-folder-browser.c (get_view_query):
+	Search by Labels.
+
+2008-07-24  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/em-folder-browser.c: Revert Sankar's search hacks.
+
+2008-07-22  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #544022
+
+	* e-searching-tokenizer.c: (dump_trie):
+	Define function only when required. (Compiler warning cleanup.)
+
+2008-07-21  Tor Lillqvist  <tml@novell.com>
+
+	* em-migrate.c: Rearrange G_OS_WIN32 ifdefs a bit, as we need to
+	compile more of this file to support upgrade attempts from 2.12
+	and later.
+	(migrate_folders): Guard against camel_store_get_folder()
+	returning NULL, which happened at least for me. It was for a
+	partially broken GroupWise folder structure on disk, so that is a
+	case of garbage in--garbage out I guess, but it can't hurt to be
+	careful...
+
+2008-07-21  Bharath Acharya  <abharath@novell.com>
+
+	Fixed some compiler warnings for Templates specific hunk.
+
+	* em-composer-utils.c: (edit_message):
+
+2008-07-20  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #200147
+	Added basic Template support
+
+	* em-composer-utils.c (edit_message), (em_utils_edit_message): Modified 
+	to suit it better for plugins to use it. And added support for template 
+	placeholders to be replaced in the messages.
+	* em-composer-utils.h:
+	* em-folder-tree.c (is_special_local_folder):
+	* em-folder-utils.c (emfu_is_special_local_folder):
+	* em-folder-view.c (em_folder_view_open_selected):
+	* em-utils.c (em_utils_folder_is_templates):
+	* em-utils.h:
+	* mail-component.c:
+	* mail-component.h:
+
+2008-07-16  Sankar P  <psankar@novell.com>
+
+	Pushing disk summary changes from the madagascar branch
+
+	* em-folder-browser.c (get_view_query):
+	* em-folder-view.c (emfv_enable_menus):
+	* mail-ops.c (refresh_folder_exec):
+	* message-list.c (regen_list_exec):
+
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #269152
+
+	* em-format-quote.c: (emfq_format_header):
+	* em-format-html.c: (efh_format_headers):
+	Use X-MimeOLE as Mailer header when there's nothing better available.
+
+2008-07-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #228725
+
+	* message-list.c: (mail_regen_list): Update empty message on regen.
+
 2008-07-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #207802 (Patch suggested by Veerapuram Varadhan.)

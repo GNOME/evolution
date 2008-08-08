@@ -995,8 +995,10 @@ itip_view_init (ItipView *view)
 	/* Summary */
 	priv->summary_label = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (priv->summary_label), 0, 0.5);
+	gtk_label_set_line_wrap_mode (GTK_LABEL (priv->summary_label), PANGO_WRAP_WORD);
+	gtk_label_set_line_wrap (GTK_LABEL (priv->summary_label), TRUE);
 	gtk_widget_show (priv->summary_label);
-	gtk_table_attach (GTK_TABLE (table), priv->summary_label, 0, 2, 0, 1, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->summary_label, 0, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Location */
 	priv->location_header = gtk_label_new (_("Location:"));
@@ -1004,7 +1006,7 @@ itip_view_init (ItipView *view)
 	gtk_misc_set_alignment (GTK_MISC (priv->location_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->location_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->location_header, 0, 1, 1, 2, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->location_label, 1, 2, 1, 2, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->location_label, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Start time */
 	priv->start_header = gtk_label_new (_("Start time:"));
@@ -1013,7 +1015,7 @@ itip_view_init (ItipView *view)
 	gtk_misc_set_alignment (GTK_MISC (priv->start_label), 0, 0.5);
 	gtk_widget_show (priv->start_header);
 	gtk_table_attach (GTK_TABLE (table), priv->start_header, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->start_label, 1, 2, 2, 3, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->start_label, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* End time */
 	priv->end_header = gtk_label_new (_("End time:"));
@@ -1021,7 +1023,7 @@ itip_view_init (ItipView *view)
 	gtk_misc_set_alignment (GTK_MISC (priv->end_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->end_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->end_label, 1, 2, 3, 4, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->end_label, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Status */
 	priv->status_header = gtk_label_new (_("Status:"));
@@ -1029,7 +1031,7 @@ itip_view_init (ItipView *view)
 	gtk_misc_set_alignment (GTK_MISC (priv->status_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->status_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->status_header, 0, 1, 4, 5, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->status_label, 1, 2, 4, 5, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->status_label, 1, 2, 4, 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Comment */
 	priv->comment_header = gtk_label_new (_("Comment:"));
@@ -1037,7 +1039,7 @@ itip_view_init (ItipView *view)
 	gtk_misc_set_alignment (GTK_MISC (priv->comment_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->comment_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->comment_header, 0, 1, 5, 6, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->comment_label, 1, 2, 5, 6, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->comment_label, 1, 2, 5, 6, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Upper Info items */
 	priv->upper_info_box = gtk_vbox_new (FALSE, 12);
@@ -1119,7 +1121,7 @@ itip_view_init (ItipView *view)
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_END);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (priv->button_box), 12);
 	gtk_widget_show (priv->button_box);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->button_box, FALSE, FALSE, 0);

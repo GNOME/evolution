@@ -1,3 +1,18 @@
+2008-08-07  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fixes bug #546785
+
+	* bbdb.c: (e_plugin_lib_enable): The bbdb plugin is noisy when
+	enabled:
+	    "BBDB spinning up..."
+	Make this plugin just as polite as google-account-setup.
+
+2008-07-28  Lucian Langa  <lucilanga@gnome.org>
+
+	** See bug #504417
+
+	* bbdb.c: - Preferences window cut off
+
 2008-01-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #496402

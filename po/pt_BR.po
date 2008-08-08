@@ -8,6 +8,7 @@
 # Rodrigo Flores <rodrigomarquesflores@gmail.com>, 2007.
 # Leonardo Ferreira Fontenelle <leo.fontenelle@gmail.com>, 2008.
 # Vladimir Melo <vladimirmelo.psi@gmail.com>, 2008
+# Fabrício Godoy <skarllot@gmail.com>, 2008
 #
 #: ../shell/main.c:694
 msgid ""
@@ -15,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-29 19:52+0000\n"
-"PO-Revision-Date: 2008-06-29 17:15-0300\n"
-"Last-Translator: Vladimir Melo <vladimirmelo.psi@gmail.com>\n"
+"PO-Revision-Date: 2008-07-22 02:46-0300\n"
+"Last-Translator: Fabrício Godoy <skarllot@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -454,7 +455,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "O catálogo de endereços do Evolution terminou de forma inesperada."
+msgstr "O catálogo de endereços do Evolution saiu inesperadamente."
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid ""
@@ -592,11 +593,11 @@ msgstr "Não foi possível carregar o catálogo de endereços"
 #: ../addressbook/conduit/address-conduit.c:1397
 #: ../addressbook/conduit/address-conduit.c:1400
 msgid "Could not read pilot's Address application block"
-msgstr "Não foi possível ler os dados do aplicativo de endereços do Palm"
+msgstr "Não foi possível ler os dados do aplicativo de endereços do PDA"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr "Completar Automaticamente"
+msgstr "Completar automaticamente"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
@@ -1162,7 +1163,7 @@ msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
-"Este é o número máximo de entradas a serem baixadas. Atribuir um valor muito "
+"Este é o número máximo de entradas a serem baixadas. Definir um valor muito "
 "grande a este número diminuirá a velocidade de seu catálogo de endereços."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
@@ -1416,7 +1417,7 @@ msgstr "A_rquivar em:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Free/Busy:"
-msgstr "_Livre/Ocupado:"
+msgstr "Disponibi_lidade:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home Page:"
@@ -3405,7 +3406,7 @@ msgstr "Agenda"
 #: ../calendar/gui/dialogs/event-editor.c:369
 #: ../ui/evolution-event-editor.xml.h:8
 msgid "Free/Busy"
-msgstr "Livre/Ocupado"
+msgstr "Disponibilidade"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:638
 #: ../addressbook/gui/widgets/eab-contact-display.c:653
@@ -3628,7 +3629,7 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:170
 msgid "This query did not complete successfully."
-msgstr "Esta consulta não terminou com sucesso."
+msgstr "Esta consulta não foi concluída com sucesso."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:192
 msgid "Error adding list"
@@ -4361,15 +4362,15 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:47
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "A agenda do Evolution terminou inesperadamente."
+msgstr "A agenda do Evolution saiu inesperadamente."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "The Evolution memo has quit unexpectedly."
-msgstr "O memorando do Evolution terminou inesperadamente."
+msgstr "O memorando do Evolution saiu inesperadamente."
 
 #: ../calendar/calendar.error.xml.h:49
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr "As tarefas do Evolution terminaram inesperadamente."
+msgstr "As tarefas do Evolution sairam inesperadamente."
 
 #: ../calendar/calendar.error.xml.h:50
 msgid "The calendar is not marked for offline usage."
@@ -4512,17 +4513,17 @@ msgstr "Não foi possível iniciar o evolution-data-server"
 #: ../calendar/conduits/calendar/calendar-conduit.c:1627
 #: ../calendar/conduits/calendar/calendar-conduit.c:1630
 msgid "Could not read pilot's Calendar application block"
-msgstr "Não foi possível ler os dados do aplicativo de Agenda do palm"
+msgstr "Não foi possível ler os dados do aplicativo de Agenda do PDA"
 
 #: ../calendar/conduits/memo/memo-conduit.c:912
 #: ../calendar/conduits/memo/memo-conduit.c:915
 msgid "Could not read pilot's Memo application block"
-msgstr "Não foi possível ler os dados do aplicativo de memorandos do palm"
+msgstr "Não foi possível ler os dados do aplicativo de memorandos do PDA"
 
 #: ../calendar/conduits/memo/memo-conduit.c:959
 #: ../calendar/conduits/memo/memo-conduit.c:962
 msgid "Could not write pilot's Memo application block"
-msgstr "Não foi possível ler os dados do aplicativo de memorandos do palm"
+msgstr "Não foi possível gravar os dados do aplicativo de memorandos do PDA"
 
 #: ../calendar/conduits/todo/todo-conduit.c:238
 msgid "Default Priority:"
@@ -4531,12 +4532,12 @@ msgstr "Prioridade Padrão:"
 #: ../calendar/conduits/todo/todo-conduit.c:1100
 #: ../calendar/conduits/todo/todo-conduit.c:1103
 msgid "Could not read pilot's ToDo application block"
-msgstr "Não foi possível ler os dados do aplicativo de tarefas do palm"
+msgstr "Não foi possível ler os dados do aplicativo de tarefas do PDA"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1145
 #: ../calendar/conduits/todo/todo-conduit.c:1148
 msgid "Could not write pilot's ToDo application block"
-msgstr "Não foi possível escrever os dados do aplicativo de tarefas do palm"
+msgstr "Não foi possível gravar os dados do aplicativo de tarefas do PDA"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 #: ../plugins/itip-formatter/itip-formatter.c:2354
@@ -4858,11 +4859,11 @@ msgstr "Transparência do Evento"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:17
 msgid "Free/busy server URLs"
-msgstr "URLs de servidor de livre/ocupado"
+msgstr "URLs de servidor de disponibilidade"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:18
 msgid "Free/busy template URL"
-msgstr "Modelo de URL livre/ocupado"
+msgstr "Modelo de URL de disponibilidade"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:19
 msgid "Gradient of the events in calendar views."
@@ -4902,7 +4903,7 @@ msgstr "Hora do último alarme"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:28
 msgid "List of server URLs for free/busy publishing."
-msgstr "Lista de URLs de servidores para a publicação de livre/ocupado."
+msgstr "Lista de URLs de servidores para a publicação de disponibilidade."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:29
 msgid "Marcus Bains Line"
@@ -5060,9 +5061,9 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"O modelo de URL a se usar como padrão para dados de livre/ocupado, %u é "
-"substituído pela parte usuário do endereço de e-mail e %d é substituído pelo "
-"domínio."
+"O modelo de URL a se usar como padrão para dados de disponibilidade, %u é "
+"substituído pela parte referente ao usuário do endereço de e-mail e %d é "
+"substituído pelo domínio."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:62
 msgid ""
@@ -5611,7 +5612,7 @@ msgstr "<span weight=\"bold\">Alertas</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr "<span weight=\"bold\">Servidor Livre/Ocupado Padrão</span>"
+msgstr "<span weight=\"bold\">Servidor Padrão de Disponibilidade</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:17
@@ -7123,7 +7124,7 @@ msgstr "Clique para adicionar uma tarefa"
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr "% Concluída"
+msgstr "% Concluído"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5
 msgid "Complete"
@@ -7592,33 +7593,33 @@ msgstr "Mensagem de Tarefa Inválida"
 #: ../calendar/gui/e-itip-control.c:1515
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> publicou informação de livre/ocupado."
+msgstr "<b>%s</b> publicou informações de disponibilidade."
 
 #: ../calendar/gui/e-itip-control.c:1516
 msgid "Free/Busy Information"
-msgstr "Informação de livre/ocupado"
+msgstr "Informação de disponibilidade"
 
 #: ../calendar/gui/e-itip-control.c:1520
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr "<b>%s</b> requisita sua informação de livre/ocupado."
+msgstr "<b>%s</b> está requisitando sua informação de disponibilidade."
 
 #: ../calendar/gui/e-itip-control.c:1521
 msgid "Free/Busy Request"
-msgstr "Pedido de Livre/Ocupado"
+msgstr "Pedido de Disponibilidade"
 
 #: ../calendar/gui/e-itip-control.c:1525
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b> respondeu a um pedido de livre/ocupado."
+msgstr "<b>%s</b> respondeu a um pedido de disponibilidade."
 
 #: ../calendar/gui/e-itip-control.c:1526
 msgid "Free/Busy Reply"
-msgstr "Resposta de Livre/Ocupado"
+msgstr "Resposta de Disponibilidade"
 
 #: ../calendar/gui/e-itip-control.c:1531
 msgid "Bad Free/Busy Message"
-msgstr "Mensagem de Livre/Ocupado Inválida"
+msgstr "Mensagem de Disponibilidade Inválida"
 
 #: ../calendar/gui/e-itip-control.c:1607
 msgid "The message does not appear to be properly formed"
@@ -7696,7 +7697,7 @@ msgstr "Recusar"
 
 #: ../calendar/gui/e-itip-control.c:2388
 msgid "Send Free/Busy Information"
-msgstr "Enviar Informação de Livre/Ocupado"
+msgstr "Enviar Informação de Disponibilidade"
 
 #: ../calendar/gui/e-itip-control.c:2416
 msgid "Update respondent status"
@@ -7885,7 +7886,7 @@ msgstr "Mostrar com _menos ampliação"
 
 #: ../calendar/gui/e-meeting-time-sel.c:493
 msgid "_Update free/busy"
-msgstr "_Atualizar livre/ocupado"
+msgstr "_Atualizar disponibilidade"
 
 #: ../calendar/gui/e-meeting-time-sel.c:508
 msgid "_<<"
@@ -8130,7 +8131,7 @@ msgstr "Informação do memorando"
 
 #: ../calendar/gui/itip-utils.c:662 ../calendar/gui/itip-utils.c:801
 msgid "Free/Busy information"
-msgstr "Informação de Livre/Ocupado"
+msgstr "Informação de disponibilidade"
 
 #: ../calendar/gui/itip-utils.c:664
 msgid "Calendar information"
@@ -8151,7 +8152,7 @@ msgstr "Contraproposta"
 #: ../calendar/gui/itip-utils.c:797
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "Informação de livre/ocupado (%s para %s)"
+msgstr "Informação de disponibilidade (%s para %s)"
 
 #: ../calendar/gui/itip-utils.c:807
 msgid "iCalendar information"
@@ -10359,7 +10360,7 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
-"O Evolution terminou de forma inesperada enquanto você redigia uma nova "
+"O Evolution saiu de forma inesperada enquanto você redigia uma nova "
 "mensagem. Recuperar a mensagem permitirá que você continue de onde você "
 "parou."
 
@@ -12497,10 +12498,10 @@ msgid ""
 "can be slow, if remote addressbooks (like ldap) are marked for "
 "autocompletion."
 msgstr ""
-"Procurar no catálogo de endereços o e-mail do remetente. Se encontrado não "
-"será classificado como SPAM. Procurar nos livros marcados para completar "
+"Procurar no catálogo de endereços o e-mail do remetente. Se encontrado, não "
+"será classificado como spam. Procurar nos catálogos marcados para completar "
 "automaticamente. Se estiverem marcados catálogos de endereços remotos (como "
-"ldap), poderá ser demorado para completar automaticamente."
+"LDAP), poderá ser demorado para completar automaticamente."
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Determines whether to use custom headers to check for junk"
@@ -12538,7 +12539,7 @@ msgstr "Exibir indicadores de erros ortográficos enquanto você digita."
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid "Empty Junk folders on exit"
-msgstr "Esvaziar pastas Spam ao sair"
+msgstr "Esvaziar pastas de Spam ao sair"
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Empty Trash folders on exit"
@@ -12546,7 +12547,7 @@ msgstr "Esvaziar pastas Lixeira ao sair"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr "Esvaziar todas as pastas Spam ao sair do Evolution."
+msgstr "Esvaziar todas as pastas de Spam ao sair do Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid "Empty all Trash folders when exiting Evolution."
@@ -12791,7 +12792,7 @@ msgstr "Tempo mínimo em dias para esvaziar o spam ao sair."
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Intervalo mínimo para esvaziar a lixeira ao sair, em dias."
+msgstr "Tempo mínimo em dias para esvaziar a lixeira ao sair."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -13387,7 +13388,7 @@ msgstr " V_erificar Tipos com Suporte "
 
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
-msgstr "(Nota: É necessário reiniciar a aplicação)"
+msgstr "(Nota: É necessário reiniciar o aplicativo)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -13608,7 +13609,7 @@ msgstr ""
 "Agora você está pronto para enviar e receber e-mails \n"
 "utilizando o Evolution. \n"
 "\n"
-"Pressione \"Aplicar\" para salvar suas configurações."
+"Clique em \"Aplicar\" para salvar suas configurações."
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
@@ -13620,7 +13621,7 @@ msgstr "Co_dificação de caracteres padrão:"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
-msgstr "E_xcluir spam ao sair"
+msgstr "Remover mensagens marcadas como spam ao sair"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -14453,10 +14454,10 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
 msgstr ""
-"A pasta não vazia em &quot;{1}&quot; já existe.\n"
+"Uma pasta não vazia em &quot;{1}&quot; já existe.\n"
 "\n"
-"Você pode escolher entre ignorar esta pasta, sobrescrevê-la, adicionar o seu "
-"conteúdo ou sair."
+"Você pode escolher entre ignorar esta pasta, acrescentar o seu conteúdo, "
+"sobrescrevê-la ou sair."
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
@@ -14752,7 +14753,7 @@ msgid ""
 "again."
 msgstr ""
 "Se você sair, estas mensagens não serão enviadas até que o Evolution seja "
-"reiniciado."
+"iniciado novamente."
 
 #: ../mail/mail.error.xml.h:68
 msgid "Ignore"
@@ -15336,12 +15337,13 @@ msgid ""
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
 "Você pode restaurar o Evolution a partir do backup. Você pode restaurar "
-"todas Mensagens, Agendas, Tarefas, Memorandos, e Catálogos de Endereços.\n"
-"Também serão restauradas suas configurações pessoais, filtros de e-mail etc."
+"todas as Mensagens, Agendas, Tarefas, Memorandos, e Catálogos de Endereços.\n"
+"Também serão restauradas suas configurações pessoais, filtros de e-mail e "
+"etc."
 
 #: ../plugins/backup-restore/backup-restore.c:244
 msgid "_Restore Evolution from the backup file"
-msgstr "_Restaurar Evolution a partir do arquivo de backup"
+msgstr "_Restaurar o Evolution a partir do arquivo de backup"
 
 #: ../plugins/backup-restore/backup-restore.c:251
 msgid "Please select an Evolution Archive to restore:"
@@ -15361,7 +15363,7 @@ msgstr "Restaurar diretório do Evolution"
 
 #: ../plugins/backup-restore/backup.c:44
 msgid "Check Evolution Backup"
-msgstr "Checar Backup do Evolution"
+msgstr "Verificar o Backup do Evolution"
 
 #: ../plugins/backup-restore/backup.c:46
 msgid "Restart Evolution"
@@ -15388,7 +15390,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup.c:88
 msgid "Backup complete"
-msgstr "Backup Completo"
+msgstr "Backup concluído"
 
 #: ../plugins/backup-restore/backup.c:93
 #: ../plugins/backup-restore/backup.c:136
@@ -15409,7 +15411,7 @@ msgstr "Carregando configurações do Evolution"
 
 #: ../plugins/backup-restore/backup.c:129
 msgid "Removing temporary backup files"
-msgstr "removendo arquivos temporários de backup"
+msgstr "Removendo arquivos temporários de backup"
 
 #: ../plugins/backup-restore/backup.c:249
 #, c-format
@@ -15457,10 +15459,10 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
-"Backup do Evolution somente pode começar quando o Evolution não está "
-"executando. Por favor esteja certo que você salvou e fechou todas as janelas "
-"não salvas antes de prosseguir. Se você quiser o Evolution pode reiniciar "
-"automaticamente após fazer o backup, por favor habilite o botão de "
+"Backup do Evolution somente pode começar quando o Evolution não está sendo "
+"executado. Por favor, esteja certo de que você salvou e fechou todas as "
+"janelas não salvas antes de prosseguir. Se você quiser, o Evolution pode "
+"reiniciar automaticamente após fazer o backup, por favor habilite o botão de "
 "alternância."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
@@ -15483,12 +15485,12 @@ msgstr ""
 "los a partir do backup. A Restauração do Evolution só poderá ser iniciada "
 "quando o Evolution não estiver em execução. Por favor, certifique-se de "
 "fechar todas as janela não salvas antes de prosseguir. Se você deseja que o "
-"Evolution reinicie automaticamente após a restaurações, por favor habilite "
-"o  botão de alternância."
+"Evolution reinicie automaticamente após a restauração, por favor habilite o "
+"botão de alternância."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
-msgstr "Fazer backup e restaurar configurações e dados do Evolution"
+msgstr "Fazer backup e restauração das configurações e dados do Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
@@ -17356,7 +17358,7 @@ msgid ""
 "tasks or free/busy information"
 msgstr ""
 "A mensagem contém uma agenda, mas a agenda não contém eventos, tarefas ou "
-"informação de livre/ocupado"
+"informação de disponibilidade"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1445
 msgid "The calendar attached contains multiple items"
@@ -18539,7 +18541,7 @@ msgid ""
 "Free/Busy"
 msgstr ""
 "iCal\n"
-"Livre/Ocupado"
+"Disponibilidade"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:108
 msgid "SpamAssassin (built-in)"
@@ -18756,7 +18758,7 @@ msgstr ""
 "ao Evolution conectar-se às suas contas de e-mail e importar\n"
 "arquivos de outros aplicativos. \n"
 "\n"
-"Por favor, clique o botão \"Avançar\" para continuar. "
+"Por favor, clique no botão \"Avançar\" para continuar. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:134
 msgid "Importing files"
@@ -19265,7 +19267,7 @@ msgstr ""
 "para indivíduos com tendência a acessos violentos de raiva.\n"
 "\n"
 "Nós esperamos que você aprecie os resultados do nosso trabalho\n"
-"duro, e estamos esperando ansiosamente suas contribuições!\n"
+"duro, e estamos esperando ansiosamente as suas contribuições!\n"
 
 #: ../shell/main.c:257
 msgid ""
@@ -20512,7 +20514,7 @@ msgstr "_Confidencial"
 
 #: ../ui/evolution-event-editor.xml.h:31
 msgid "_Free/Busy"
-msgstr "_Livre/Ocupado"
+msgstr "Disponibilidade"
 
 #: ../ui/evolution-event-editor.xml.h:32 ../ui/evolution-memo-editor.xml.h:9
 #: ../ui/evolution-task-editor.xml.h:21
@@ -20557,7 +20559,7 @@ msgstr "Criar ou editar as regras para filtragem de correio"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages of accounts/folders marked for offline"
-msgstr "Baixar mensagens das contas/pastas marcadas como desligadas"
+msgstr "Baixar mensagens das contas e pastas marcadas como desconectadas"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
@@ -20620,7 +20622,7 @@ msgstr "_Logs de Depuração"
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Download Messages for Offline Usage"
-msgstr "Baixar mensagens para leitura _desconectado"
+msgstr "Baixar mensagens para uso _desconectado"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -22617,7 +22619,7 @@ msgstr "%s (...)"
 #: ../widgets/misc/e-task-widget.c:303
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr "%s (%d%% cumprida)"
+msgstr "%s (%d%% concluído)"
 
 #: ../widgets/misc/e-url-entry.c:107
 msgid "Click here to go to URL"

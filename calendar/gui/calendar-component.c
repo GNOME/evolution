@@ -613,7 +613,7 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem ecc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
+	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "x-office-calendar", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_calendar_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR, "20.bar" },
@@ -1399,7 +1399,7 @@ create_component_view (CalendarComponent *calendar_component)
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	component_view->info_label = (EInfoLabel *)e_info_label_new("stock_calendar");
+	component_view->info_label = (EInfoLabel *)e_info_label_new("x-office-calendar");
 	e_info_label_set_info (component_view->info_label, _("Calendars"), "");
 	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 
@@ -1594,7 +1594,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[0].id = CREATE_EVENT_ID;
 	list->_buffer[0].description = _("New appointment");
-	list->_buffer[0].menuDescription = _("_Appointment");
+	list->_buffer[0].menuDescription = (char *) C_("New", "_Appointment");
 	list->_buffer[0].tooltip = _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
 	list->_buffer[0].iconName = "appointment-new";
@@ -1602,7 +1602,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[1].id = CREATE_MEETING_ID;
 	list->_buffer[1].description = _("New meeting");
-	list->_buffer[1].menuDescription = _("M_eeting");
+	list->_buffer[1].menuDescription = (char *) C_("New", "M_eeting");
 	list->_buffer[1].tooltip = _("Create a new meeting request");
 	list->_buffer[1].menuShortcut = 'e';
 	list->_buffer[1].iconName = "stock_new-meeting";
@@ -1610,7 +1610,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
 	list->_buffer[2].description = _("New all day appointment");
-	list->_buffer[2].menuDescription = _("All Day A_ppointment");
+	list->_buffer[2].menuDescription = (char *) C_("New", "All Day A_ppointment");
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = '\0';
 	list->_buffer[2].iconName = "stock_new-24h-appointment";
@@ -1618,10 +1618,10 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[3].id = CREATE_CALENDAR_ID;
 	list->_buffer[3].description = _("New calendar");
-	list->_buffer[3].menuDescription = _("Cale_ndar");
+	list->_buffer[3].menuDescription = (char *) C_("New", "Cale_ndar");
 	list->_buffer[3].tooltip = _("Create a new calendar");
 	list->_buffer[3].menuShortcut = '\0';
-	list->_buffer[3].iconName = "stock_calendar";
+	list->_buffer[3].iconName = "x-office-calendar";
 	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;

@@ -283,6 +283,7 @@ void             e_table_get_cell_at               (ETable               *table,
 						    int                   y,
 						    int                  *row_return,
 						    int                  *col_return);
+void e_table_get_mouse_over_cell (ETable *table, int x, int y, int *row, int *col);
 void             e_table_get_cell_geometry         (ETable               *table,
 						    int                   row,
 						    int                   col,

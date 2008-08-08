@@ -52,7 +52,7 @@
     <cmd name="Settings" pixtype="stock" pixname="gtk-preferences"/>
 
     <cmd name="ToggleOffline" 
-      _label="_Work Offline"
+      _label="Work _Offline"
       _tip="Toggle whether we are working offline."/>
 
     <cmd name="HelpAbout" _label="About Evolution..."

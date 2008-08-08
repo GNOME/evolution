@@ -1,3 +1,26 @@
+2008-08-07  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #546788
+
+	* evolution-mail-message.xml: Drop unused "ViewNormal" cmd entry.
+
+2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #517825
+
+	* evolution.xml:
+	Fix duplicate mnemonic.  "_Work Offline" -> "Work _Offline"
+
+2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #542125
+
+	* evolution-editor.xml:
+	* evolution-event-editor.xml:
+	* evolution-memo-editor.xml:
+	* evolution-task-editor.xml:
+	Remove these files from source control.
+
 2008-06-21  Roshan Kumar Singh  <roshan.singh08@yahoo.com>
 
 	** Fix for bug #395636

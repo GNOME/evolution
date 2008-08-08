@@ -877,7 +877,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		view_sexp = "(match-all (not (system-flag  \"Seen\")))";
 		break;
 	case VIEW_READ_MESSAGES:
-		view_sexp = "(match-all (system-flag  \"Seen\"))";
+		view_sexp = "(match-all (system-flag  \"Seen\" ))";
 		break;
         case VIEW_RECENT_MESSAGES:
 		if (!em_utils_folder_is_sent (folder, folder_uri))
@@ -892,7 +892,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 			view_sexp = " (match-all (> (get-sent-date) (- (get-current-date) 432000)))";
 		break;
         case VIEW_WITH_ATTACHMENTS:
-		view_sexp = "(match-all (system-flag \"Attachments\"))";
+		view_sexp = "(match-all (system-flag \"Attachments\" ))";
 		break;
 	case VIEW_NOT_JUNK:
 		view_sexp = "(match-all (not (system-flag \"junk\")))";
@@ -925,7 +925,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 		duplicate = FALSE;
 		break;
 	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
-		view_sexp = "(match-all (system-flag  \"Flagged\"))";
+		view_sexp = "(match-all (system-flag  \"Flagged\" ))";
 		break;
 	case VIEW_ANY_FIELD_CONTAINS:
 		break;

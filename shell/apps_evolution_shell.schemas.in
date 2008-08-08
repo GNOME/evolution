@@ -314,7 +314,7 @@
       <type>bool</type>
       <locale name="C">
         <short>Authenticate proxy server connections</short>
-        <long>If true, then connections to the proxy server require authentication. The username/password combo is defined by "/apps/evolution/shell/network_config/authentication_user" and locally stored password in .gnome2_private/.</long>
+        <long>If true, then connections to the proxy server require authentication. The username is retrieved from the "/apps/evolution/shell/network_config/authentication_user" GConf key, and the password is retrieved from either gnome-keyring or the ~/.gnome2_private/Evolution password file.</long>
       </locale>
     </schema>
 

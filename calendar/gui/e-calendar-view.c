@@ -62,7 +62,7 @@
 #include "misc.h"
 
 /* Used for the status bar messages */
-#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "stock_calendar"
+#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "x-office-calendar"
 static GdkPixbuf *progress_icon = NULL;
 
 struct _ECalendarViewPrivate {

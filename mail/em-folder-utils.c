@@ -81,7 +81,7 @@ extern CamelSession *session;
 static gboolean
 emfu_is_special_local_folder (const char *name)
 {
-	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent"));
+	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates"));
 }
 
 struct _EMCopyFolders {

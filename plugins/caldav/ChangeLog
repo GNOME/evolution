@@ -1,3 +1,20 @@
+2008-08-07  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fixes bug #546785
+
+	* caldav-source.c: (e_plugin_lib_enable): The caldav plugin is noisy
+	when enabled:
+	    "CalDAV Eplugin starting up ..."
+	Make this plugin just as polite as google-account-setup.
+
+2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #545568
+
+	* org-gnome-caldav.eplug.xml:
+	Add "system_plugin=true" so it's not shown in the Plugin Manager.
+	This plugin is not designed to be disabled by the user.
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* caldav-source.c: (ensure_caldav_source_group):

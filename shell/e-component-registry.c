@@ -54,9 +54,8 @@ component_info_new (const char *id,
 	  	    const char *button_tooltips,
 		    const char *menu_label,
 		    const char *menu_accelerator,
-		    int sort_order,
-		    GdkPixbuf *button_icon,
-		    GdkPixbuf *menu_icon)
+                    const char *icon_name,
+		    int sort_order)
 {
 	EComponentInfo *info = g_new0 (EComponentInfo, 1);
 
@@ -67,15 +66,8 @@ component_info_new (const char *id,
 	info->button_tooltips = g_strdup (button_tooltips);
 	info->menu_label = g_strdup (menu_label);
 	info->menu_accelerator = g_strdup (menu_accelerator);
+        info->icon_name = g_strdup (icon_name);
 	info->sort_order = sort_order;
-
-	info->button_icon = button_icon;
-	if (info->button_icon)
-		g_object_ref (info->button_icon);
-
-	info->menu_icon = menu_icon;
-	if (info->menu_icon)
-		g_object_ref (info->menu_icon);
 
 	return info;
 }
@@ -89,12 +81,6 @@ component_info_free (EComponentInfo *info)
 	g_free (info->button_tooltips);
 	g_free (info->menu_label);
 	g_free (info->menu_accelerator);
-
-	if (info->button_icon)
-		g_object_unref (info->button_icon);
-
-	if (info->menu_icon)
-		g_object_unref (info->menu_icon);
 
 	if (info->iface != NULL)
 		bonobo_object_release_unref (info->iface, NULL);
@@ -183,7 +169,6 @@ query_components (EComponentRegistry *registry)
 		const char *icon_name;
 		const char *sort_order_string;
 		const char *tooltips;
-		GdkPixbuf *icon = NULL, *menuicon = NULL;
 		EComponentInfo *info;
 		int sort_order;
 		GNOME_Evolution_Component iface;
@@ -211,10 +196,6 @@ query_components (EComponentRegistry *registry)
 		alias = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:component_alias", NULL);
 
 		icon_name = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_icon", NULL);
-		if (icon_name) {
-			icon = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
-			menuicon = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_MENU);
-		}
 
 		sort_order_string = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
 								    "evolution:button_sort_order", NULL);
@@ -224,15 +205,11 @@ query_components (EComponentRegistry *registry)
 			sort_order = atoi (sort_order_string);
 
 		info = component_info_new (id, iface, alias, label, tooltips, menu_label,
-					   menu_accelerator, sort_order, icon, menuicon);
+					   menu_accelerator, icon_name, sort_order);
 		set_schemas (info, & info_list->_buffer [i]);
 
 		registry->priv->infos = g_slist_prepend (registry->priv->infos, info);
 
-		if (icon != NULL)
-			g_object_unref (icon);
-		if (menuicon != NULL)
-			g_object_unref (menuicon);
 		bonobo_object_release_unref(iface, NULL);
 	}
 	g_slist_free(languages);

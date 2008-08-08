@@ -220,13 +220,6 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MailStop", 0 },
 
 	{ NULL },
-
-	/* always enabled
-
-	{ "ViewFullHeaders", IS_0MESSAGE, 0 },
-	{ "ViewNormal",      IS_0MESSAGE, 0 },
-	{ "ViewSource",      IS_0MESSAGE, 0 },
-	{ "CaretMode",       IS_0MESSAGE, 0 }, */
 };
 
 struct _EMFolderViewPrivate {
@@ -520,6 +513,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 	}
 
         if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
+	    || em_utils_folder_is_templates(emfv->folder, emfv->folder_uri) 	
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
 		em_utils_edit_messages(emfv->folder, uids, TRUE);
 		return uids->len;
@@ -2209,13 +2203,6 @@ emfv_enable_menus(EMFolderView *emfv)
 	g_string_free(name, TRUE);
 }
 
-/* must match em_format_mode_t order */
-static const char * const emfv_display_styles[] = {
-	"/commands/ViewNormal",
-	"/commands/ViewFullHeaders",
-	"/commands/ViewSource"
-};
-
 static void
 emfv_view_mode(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
 {
@@ -2299,10 +2286,9 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_add_listener(uic, "CaretMode", emfv_caret_mode, emfv);
 
 		style = ((EMFormat *)emfv->preview)->mode?EM_FORMAT_ALLHEADERS:EM_FORMAT_NORMAL;
-		bonobo_ui_component_set_prop(uic, emfv_display_styles[style], "state", style?"1":"0", NULL);
-		/*		bonobo_ui_component_add_listener(uic, "ViewNormal", emfv_view_mode, emfv); */
+		if (style)
+			bonobo_ui_component_set_prop(uic, "/commands/ViewFullHeaders", "state", "1", NULL);
 		bonobo_ui_component_add_listener(uic, "ViewFullHeaders", emfv_view_mode, emfv);
-		/*		bonobo_ui_component_add_listener(uic, "ViewSource", emfv_view_mode, emfv); */
 		em_format_set_mode((EMFormat *)emfv->preview, style);
 
 		if (emfv->folder)
@@ -2647,7 +2633,7 @@ emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent
 	/* Ignore double-clicks on columns that handle thier own state */
 	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
-
+	
 	em_folder_view_open_selected(emfv);
 }
 

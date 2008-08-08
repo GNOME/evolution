@@ -9,7 +9,7 @@ DOC_INCLUDES =
 DOC_FIGURES =  \
 	figures/account_editor_a.png 		\
 	figures/addrs_book_a.png		\
-	figures/attach_reminder_a.png.png	\
+	figures/attach_reminder_a.png		\
 	figures/calendar.png 			\
 	figures/categories_a.png 		\
 	figures/collap_head_a.png 		\
