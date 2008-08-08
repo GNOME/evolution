@@ -25,6 +25,11 @@ public_icons = \
 	$(NULL)
 
 private_icons = \
+    hicolor_apps_16x16_contact-editor.png \
+    hicolor_apps_22x22_contact-editor.png \
+    hicolor_apps_24x24_contact-editor.png \
+    hicolor_apps_32x32_contact-editor.png \
+    hicolor_apps_48x48_contact-editor.png \
 	hicolor_actions_16x16_folder-copy.png \
 	hicolor_actions_16x16_folder-move.png \
 	hicolor_actions_16x16_mail-copy.png \
