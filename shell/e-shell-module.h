@@ -53,11 +53,12 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
 struct _EShellModuleInfo {
 	gint sort_order;
 	const gchar *aliases;   /* colon-separated list */
-	const gchar *schemas;   /* colon-separated list */
+	const gchar *schemes;   /* colon-separated list */
 	GType shell_view_type;  /* EShellView subclass  */
 
 	gboolean	(*is_busy)		(void);
 	gboolean	(*shutdown)		(void);
+	gboolean	(*handle_uri)		(const gchar *uri);
 	void		(*send_and_receive)	(void);
 	void		(*window_created)	(EShellWindow *window);
 };
@@ -79,6 +80,8 @@ const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 GType		e_shell_module_get_view_type	(EShellModule *shell_module);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
 gboolean	e_shell_module_shutdown		(EShellModule *shell_module);
+gboolean	e_shell_module_handle_uri	(EShellModule *shell_module,
+						 const gchar *uri);
 void		e_shell_module_send_and_receive	(EShellModule *shell_module);
 void		e_shell_module_window_created	(EShellModule *shell_module,
 						 EShellWindow *shell_window);

@@ -20,9 +20,16 @@
  * Author: Iain Holmes  <iain@ximian.com>
  */
 
-#ifndef _E_SHELL_IMPORTER_H_
-#define _E_SHELL_IMPORTER_H_
+#ifndef E_SHELL_IMPORTER_H
+#define E_SHELL_IMPORTER_H
 
-void  e_shell_importer_start_import  (EShellWindow *shell_window);
+#include "e-shell-common.h"
+#include "e-shell-window.h"
 
-#endif
+G_BEGIN_DECLS
+
+void		e_shell_importer_start_import	(EShellWindow *shell_window);
+
+G_END_DECLS
+
+#endif /* E_SHELL_IMPORTER_H */

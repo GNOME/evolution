@@ -56,8 +56,6 @@
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-client.h>
 
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 
 #include <bonobo-activation/bonobo-activation.h>
@@ -92,9 +90,6 @@
 #define RECOVERY_KEY \
 	"/apps/evolution/shell/recovery"
 
-
-static EShell *shell = NULL;
-
 /* Command-line options.  */
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
@@ -110,21 +105,6 @@ static gboolean idle_cb (gchar **uris);
 static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
 static gchar **remaining_args;
-
-static void
-no_windows_left_cb (EShell *shell, gpointer data)
-{
-	bonobo_object_unref (BONOBO_OBJECT (shell));
-	bonobo_main_quit ();
-}
-
-static void
-shell_weak_notify (void *data,
-		   GObject *where_the_object_was)
-{
-	bonobo_main_quit ();
-}
-
 
 #ifdef KILL_PROCESS_CMD
 
@@ -352,25 +332,15 @@ show_recovery_warning(void)
 }
 
 static void
-open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
+open_uris (gchar **uris)
 {
-	CORBA_Environment ev;
-	guint n_uris, ii;
+	guint ii;
 
 	g_return_if_fail (uris != NULL);
-	n_uris = g_strv_length (uris);
 
-	CORBA_exception_init (&ev);
-
-	for (ii = 0; ii < n_uris; ii++) {
-		GNOME_Evolution_Shell_handleURI (corba_shell, uris[ii], &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
+	for (ii = 0; uris[ii] != NULL; ii++)
+		if (!e_shell_handle_uri (uris[ii]))
 			g_warning ("Invalid URI: %s", uris[ii]);
-			CORBA_exception_free (&ev);
-		}
-	}
-
-	CORBA_exception_free (&ev);
 }
 
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
@@ -378,9 +348,6 @@ open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
 static gboolean
 idle_cb (gchar **uris)
 {
-	GNOME_Evolution_Shell corba_shell;
-	CORBA_Environment ev;
-	EShellConstructResult result;
 	EShellStartupLineMode startup_line_mode;
 
 	g_return_val_if_fail (uris == NULL || g_strv_length (uris) > 0, FALSE);
@@ -389,8 +356,6 @@ idle_cb (gchar **uris)
 	kill_old_dataserver ();
 #endif
 
-	CORBA_exception_init (&ev);
-
 	if (! start_online && ! start_offline)
 		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_CONFIG;
 	else if (start_online)
@@ -398,93 +363,51 @@ idle_cb (gchar **uris)
 	else
 		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
 
-	shell = e_shell_new (startup_line_mode, &result);
+	/* FIXME Do something with startup_line_mode. */
 
-	switch (result) {
-	case E_SHELL_CONSTRUCT_RESULT_OK:
-		g_signal_connect (shell, "no_windows_left", G_CALLBACK (no_windows_left_cb), NULL);
-		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
-		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
-		break;
+	if (uris != NULL)
+		open_uris (uris);
+	else {
+		EShellWindow *shell_window;
+		GConfClient *client = gconf_client_get_default ();
+		
+		if (gconf_client_get_bool (client, RECOVERY_KEY, NULL) && e_file_lock_exists ()) {
+			/* It should have crashed last time or a force-shutdown */
+			gboolean skip = gconf_client_get_bool (client, SKIP_RECOVERY_DIALOG_KEY, NULL);
+			gboolean recover = TRUE;
+			if (!skip){
+				int flags = show_recovery_warning ();
 
-	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
-		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
-			e_error_run(NULL, "shell:noshell", NULL);
-			CORBA_exception_free (&ev);
-			bonobo_main_quit ();
-			return FALSE;
-		}
-		break;
-
-	default:
-		e_error_run(NULL, "shell:noshell-reason",
-			    e_shell_construct_result_to_string(result), NULL);
-		CORBA_exception_free (&ev);
-		bonobo_main_quit ();
-		return FALSE;
-
-	}
-
-	if (shell != NULL) {
-		if (uris != NULL)
-			open_uris (corba_shell, uris);
-		else {
-			GConfClient *client = gconf_client_get_default ();
-			
-			if (gconf_client_get_bool (client, RECOVERY_KEY, NULL) && e_file_lock_exists ()) {
-				/* It should have crashed last time or a force-shutdown */
-				gboolean skip = gconf_client_get_bool (client, SKIP_RECOVERY_DIALOG_KEY, NULL);
-				gboolean recover = TRUE;
-				if (!skip){
-					int flags = show_recovery_warning ();
-
-					gconf_client_set_bool (client, SKIP_RECOVERY_DIALOG_KEY, (flags & (1<<2)) ? TRUE : FALSE, NULL);
-					recover = (flags & (1<<1)) ? TRUE: FALSE;
-				}
-
-				if (recover) {
-					/* Disable the previews */
-					gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
-					gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
-					gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
-					gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
-				}
-				/* Let us not delete and recreate a lock, instead reuse it. We don't use timestamps anyways */
-			} else {
-				/* What great can we do, if lock creation fails ?*/
-				e_file_lock_create ();
+				gconf_client_set_bool (client, SKIP_RECOVERY_DIALOG_KEY, (flags & (1<<2)) ? TRUE : FALSE, NULL);
+				recover = (flags & (1<<1)) ? TRUE: FALSE;
 			}
-			g_object_unref (client);
 
-			e_shell_create_window (shell, default_component_id);
+			if (recover) {
+				/* Disable the previews */
+				gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
+				gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
+				gconf_client_set_bool (client, "/apps/evolution/addressbook/display/show_preview", FALSE, NULL);
+				gconf_client_set_bool (client, "/apps/evolution/calendar/display/show_task_preview", FALSE, NULL);
+			}
+			/* Let us not delete and recreate a lock, instead reuse it. We don't use timestamps anyways */
+		} else {
+			/* What great can we do, if lock creation fails ?*/
+			e_file_lock_create ();
 		}
-	} else {
-		CORBA_Environment ev;
+		g_object_unref (client);
 
-		CORBA_exception_init (&ev);
-		if (uris != NULL)
-			open_uris (corba_shell, uris);
-		else
-			if (default_component_id == NULL)
-				GNOME_Evolution_Shell_createNewWindow (corba_shell, "", &ev);
-			else
-				GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
-
-		CORBA_exception_free (&ev);
+		shell_window = e_shell_create_window ();
+		/* XXX Switch to default_component_id. */
 	}
 
-	CORBA_Object_release (corba_shell, &ev);
-
-	CORBA_exception_free (&ev);
-
+#if 0  /* MBARNES */
 	if (shell == NULL) {
 		/*there is another instance but because we don't open any windows
 		we must notify the startup was complete manually*/
 		gdk_notify_startup_complete ();
 		bonobo_main_quit ();
 	}
+#endif
 
 	return FALSE;
 }
@@ -547,15 +470,20 @@ setup_segv_redirect (void)
 #endif
 
 static gint
-gnome_master_client_save_yourself_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown, GnomeInteractStyle interact_style, gint fast, gpointer user_data)
+gnome_master_client_save_yourself_cb (GnomeClient *client,
+                                      GnomeSaveStyle save_style,
+                                      gint shutdown,
+                                      GnomeInteractStyle interact_style,
+                                      gint fast,
+                                      gpointer user_data)
 {
-	return !shell || e_shell_can_quit (shell);
+	return !e_shell_is_busy ();
 }
 
 static void
 gnome_master_client_die_cb (GnomeClient *client)
 {
-	e_shell_do_quit (shell);
+	e_shell_do_quit ();
 }
 
 static const GOptionEntry options[] = {
@@ -627,15 +555,6 @@ set_paths (void)
 
 	g_free (path);
 
-	/* Set BONOBO_ACTIVATION_PATH */
-	if (g_getenv ("BONOBO_ACTIVATION_PATH" ) == NULL) {
-		path = g_build_filename (top_folder_utf8,
-					 "lib/bonobo/servers",
-					 NULL);
-		if (!g_setenv ("BONOBO_ACTIVATION_PATH", path, TRUE))
-			g_warning ("Could not set BONOBO_ACTIVATION_PATH");
-		g_free (path);
-	}
 	g_free (top_folder_utf8);
 }
 #endif
@@ -780,7 +699,7 @@ main (int argc, char **argv)
 #endif
 	g_object_unref (client);
 
-	bonobo_main ();
+	gtk_main ();
 
 	e_icon_factory_shutdown ();
 	g_object_unref (program);

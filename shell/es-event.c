@@ -112,6 +112,14 @@ ESEvent *es_event_peek(void)
 	return es_event;
 }
 
+ESEventTargetShell *
+es_event_target_new (ESEvent *eme)
+{
+	return e_event_target_new (
+		&eme->event, ES_EVENT_TARGET_SHELL,
+		sizeof (ESEventTargetShell));
+}
+
 ESEventTargetState *
 es_event_target_new_state(ESEvent *eme, int state)
 {
@@ -126,16 +134,6 @@ es_event_target_new_state(ESEvent *eme, int state)
 		mask &= ~ES_EVENT_STATE_OFFLINE;
 
 	t->target.mask = mask;
-
-	return t;
-}
-
-ESEventTargetShell *
-es_event_target_new_shell(ESEvent *eme, EShell *shell)
-{
-	ESEventTargetShell *t = e_event_target_new(&eme->event, ES_EVENT_TARGET_SHELL, sizeof(*t));
-
-	t->shell = shell;
 
 	return t;
 }

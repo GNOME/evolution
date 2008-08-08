@@ -24,10 +24,12 @@
 
 #include "e-shell-module.h"
 #include "e-shell-registry.h"
+#include "e-shell-settings-dialog.h"
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
 
 static GList *active_windows;
+static GtkWidget *preferences;
 
 static gboolean
 shell_window_delete_event_cb (EShellWindow *shell_window)
@@ -120,4 +122,56 @@ e_shell_create_window (void)
 	gtk_widget_show (shell_window);
 
 	return E_SHELL_WINDOW (shell_window);
+}
+
+gboolean
+e_shell_handle_uri (const gchar *uri)
+{
+	EShellModule *shell_module;
+	GFile *file;
+	gchar *scheme;
+
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	file = g_file_new_for_uri (uri);
+	scheme = g_file_get_uri_scheme (file);
+	g_object_unref (file);
+
+	if (scheme == NULL)
+		return FALSE;
+
+	shell_module = e_shell_registry_get_module_by_scheme (scheme);
+
+	/* Scheme lookup failed so try looking up the shell module by
+	 * name.  Note, we only open a shell window if the URI refers
+	 * to a shell module by name, not by scheme. */
+	if (shell_module == NULL) {
+		EShellWindow *shell_window;
+
+		shell_module = e_shell_registry_get_module_by_name (scheme);
+
+		if (shell_module == NULL)
+			return FALSE;
+
+		shell_window = e_shell_create_window ();
+		/* FIXME  Set window to appropriate view. */
+	}
+
+	return e_shell_module_handle_uri (shell_module, uri);
+}
+
+void
+e_shell_show_preferences (GtkWindow *parent)
+{
+	if (preferences != NULL) {
+		gtk_window_present (GTK_WINDOW (preferences));
+		return;
+	}
+
+	preferences = e_shell_settings_dialog_new ();
+	/* FIXME e_shell_settings_dialog_show_type (...); */
+
+	gtk_window_set_transient_for (GTK_WINDOW (preferences), parent);
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (preferences), TRUE);
+	gtk_widget_show (preferences);
 }

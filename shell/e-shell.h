@@ -43,6 +43,7 @@ enum _EShellStartupLineMode {
 };
 
 EShellWindow *	e_shell_create_window		(void);
+gboolean	e_shell_handle_uri		(const gchar *uri);
 void		e_shell_send_receive		(GtkWindow *parent);
 void		e_shell_show_preferences	(GtkWindow *parent);
 void		e_shell_go_offline		(void);

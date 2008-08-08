@@ -16,69 +16,33 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-multi-config-dialog.h"
-
-#include <table/e-table-scrolled.h>
-#include <table/e-table-memory-store.h>
-#include <table/e-cell-pixbuf.h>
-#include <table/e-cell-vbox.h>
-#include <table/e-cell-text.h>
 
 #include <libgnome/gnome-help.h>
 
 #define SWITCH_PAGE_INTERVAL 250
 
+#define E_MULTI_CONFIG_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialogPrivate))
+
 struct _EMultiConfigDialogPrivate {
-	GSList *pages;
-
-	GtkWidget *list_e_table;
-	ETableModel *list_e_table_model;
-
+	GtkWidget *icon_view;
 	GtkWidget *notebook;
-
-	int set_page_timeout_id;
-	int set_page_timeout_page;
+	guint timeout_id;
 };
 
-G_DEFINE_TYPE (EMultiConfigDialog, e_multi_config_dialog, GTK_TYPE_DIALOG)
+enum {
+	COLUMN_TEXT,	/* G_TYPE_STRING */
+	COLUMN_PIXBUF	/* GDK_TYPE_PIXBUF */
+};
 
-
-/* ETable stuff.  */
-
-static char *list_e_table_spec =
-	"<ETableSpecification cursor-mode=\"line\""
-	"		      selection-mode=\"browse\""
-	"                     no-headers=\"true\""
-        "                     alternating-row-colors=\"false\""
-        "                     horizontal-resize=\"true\""
-        ">"
-	"  <ETableColumn model_col=\"0\""
-	"	         expansion=\"1.0\""
-	"                cell=\"vbox\""
- 	"                minimum_width=\"32\""
-	"                resizable=\"true\""
-	"	         _title=\"Category\""
-	"                compare=\"string\"/>"
-	"  <ETableState>"
-	"    <column source=\"0\"/>"
-	"    <grouping>"
-	"    </grouping>"
-	"  </ETableState>"
-	"</ETableSpecification>";
-
-/* Page handling.  */
+static gpointer parent_class;
 
 static GtkWidget *
-create_page_container (const char *description,
-		       GtkWidget *widget)
+create_page_container (GtkWidget *widget)
 {
 	GtkWidget *vbox;
 
@@ -92,290 +56,328 @@ create_page_container (const char *description,
 	return vbox;
 }
 
-/* Timeout for switching pages (so it's more comfortable navigating with the
-   keyboard).  */
-
-static int
-set_page_timeout_callback (void *data)
+static GdkPixbuf *
+multi_config_dialog_load_pixbuf (const gchar *icon_name)
 {
-	EMultiConfigDialog *multi_config_dialog;
-	EMultiConfigDialogPrivate *priv;
+	GtkIconTheme *icon_theme;
+	GtkIconInfo *icon_info;
+	GdkPixbuf *pixbuf;
+	const gchar *filename;
+	gint size;
+	GError *error = NULL;
 
-	multi_config_dialog = E_MULTI_CONFIG_DIALOG (data);
-	priv = multi_config_dialog->priv;
+	icon_theme = gtk_icon_theme_get_default ();
 
-	gtk_notebook_set_current_page (
-		GTK_NOTEBOOK (priv->notebook), priv->set_page_timeout_page);
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &size, 0))
+		return NULL;
 
-	priv->set_page_timeout_id = 0;
-	gtk_widget_grab_focus(priv->list_e_table);
+	icon_info = gtk_icon_theme_lookup_icon (
+		icon_theme, icon_name, size, 0);
+
+	if (icon_info == NULL)
+		return NULL;
+
+	filename = gtk_icon_info_get_filename (icon_info);
+
+	pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+
+	gtk_icon_info_free (icon_info);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	return pixbuf;
+}
+
+static gboolean
+multi_config_dialog_timeout_cb (EMultiConfigDialog *dialog)
+{
+	GtkIconView *icon_view;
+	GtkNotebook *notebook;
+	GList *list;
+
+	icon_view = GTK_ICON_VIEW (dialog->priv->icon_view);
+	notebook = GTK_NOTEBOOK (dialog->priv->notebook);
+
+	list = gtk_icon_view_get_selected_items (icon_view);
+
+	if (list != NULL) {
+		GtkTreePath *path = list->data;
+		gint page;
+
+		page = gtk_tree_path_get_indices (path)[0];
+		gtk_notebook_set_current_page (notebook, page);
+	}
+
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
+
+	dialog->priv->timeout_id = 0;
+	gtk_widget_grab_focus (GTK_WIDGET (icon_view));
+
 	return FALSE;
 }
 
-
-/* Button handling.  */
-
 static void
-do_close (EMultiConfigDialog *dialog)
+multi_config_dialog_selection_changed_cb (EMultiConfigDialog *dialog)
 {
-	gtk_widget_destroy (GTK_WIDGET (dialog));
+	if (dialog->priv->timeout_id == 0)
+		dialog->priv->timeout_id = g_timeout_add (
+			SWITCH_PAGE_INTERVAL, (GSourceFunc)
+			multi_config_dialog_timeout_cb, dialog);
 }
 
-
-/* ETable signals.  */
-
 static void
-table_cursor_change_callback (ETable *etable,
-			      int row,
-			      void *data)
+multi_config_dialog_dispose (GObject *object)
 {
-	EMultiConfigDialog *dialog;
 	EMultiConfigDialogPrivate *priv;
 
-	dialog = E_MULTI_CONFIG_DIALOG (data);
-	priv = dialog->priv;
+	priv = E_MULTI_CONFIG_DIALOG_GET_PRIVATE (object);
 
-	if (priv->set_page_timeout_id == 0)
-		priv->set_page_timeout_id = g_timeout_add (SWITCH_PAGE_INTERVAL,
-							   set_page_timeout_callback,
-							   dialog);
+	if (priv->icon_view != NULL) {
+		g_object_unref (priv->icon_view);
+		priv->icon_view = NULL;
+	}
 
-	priv->set_page_timeout_page = row;
+	if (priv->notebook != NULL) {
+		g_object_unref (priv->notebook);
+		priv->notebook = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-
-/* GObject methods.  */
-
 static void
-impl_finalize (GObject *object)
+multi_config_dialog_finalize (GObject *object)
 {
-	EMultiConfigDialog *dialog;
 	EMultiConfigDialogPrivate *priv;
 
-	dialog = E_MULTI_CONFIG_DIALOG (object);
-	priv = dialog->priv;
+	priv = E_MULTI_CONFIG_DIALOG_GET_PRIVATE (object);
 
-	if (priv->set_page_timeout_id != 0)
-		g_source_remove (priv->set_page_timeout_id);
+	if (priv->timeout_id != 0)
+		g_source_remove (priv->timeout_id);
 
-	g_slist_free (priv->pages);
-
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (e_multi_config_dialog_parent_class)->finalize) (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static void
+multi_config_dialog_map (GtkWidget *widget)
+{
+	GtkDialog *dialog;
 
-/* GtkDialog methods.  */
+	/* Chain up to parent's map() method. */
+	GTK_WIDGET_CLASS (parent_class)->map (widget);
+
+	/* Override those stubborn style properties. */
+	dialog = GTK_DIALOG (widget);
+	gtk_box_set_spacing (GTK_BOX (dialog->vbox), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->action_area), 0);
+}
 
 static void
-impl_response (GtkDialog *dialog, int response_id)
+multi_config_dialog_response (GtkDialog *dialog,
+		              gint response_id)
 {
-	EMultiConfigDialog *multi_config_dialog;
 	GError *error = NULL;
 
-	multi_config_dialog = E_MULTI_CONFIG_DIALOG (dialog);
-
 	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		gnome_help_display (
-			"evolution.xml", "config-prefs", &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
-		break;
-	case GTK_RESPONSE_CLOSE:
-	default:
-		do_close (multi_config_dialog);
-		break;
+		case GTK_RESPONSE_HELP:
+			gnome_help_display (
+				"evolution.xml", "config-prefs", &error);
+			if (error != NULL) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
+			}
+			break;
+
+		case GTK_RESPONSE_CLOSE:
+		default:
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+			break;
 	}
 }
 
-
-/* GObject ctors.  */
-
 static void
-e_multi_config_dialog_class_init (EMultiConfigDialogClass *class)
+multi_config_dialog_class_init (EMultiConfigDialogClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	GtkDialogClass *dialog_class;
 
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMultiConfigDialogPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = impl_finalize;
+	object_class->dispose = multi_config_dialog_dispose;
+	object_class->finalize = multi_config_dialog_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->map = multi_config_dialog_map;
 
 	dialog_class = GTK_DIALOG_CLASS (class);
-	dialog_class->response = impl_response;
+	dialog_class->response = multi_config_dialog_response;
 }
 
-#define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
-			   ((color).green & 0xff00) | \
-			   ((color).blue & 0xff00) >> 8)
-
 static void
-canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
+multi_config_dialog_init (EMultiConfigDialog *dialog)
 {
-}
-
-
-static ETableMemoryStoreColumnInfo columns[] = {
-	E_TABLE_MEMORY_STORE_STRING,
-	E_TABLE_MEMORY_STORE_PIXBUF,
-	E_TABLE_MEMORY_STORE_PIXBUF,
-	E_TABLE_MEMORY_STORE_PIXBUF,
-	E_TABLE_MEMORY_STORE_PIXBUF,
-	E_TABLE_MEMORY_STORE_TERMINATOR
-};
-
-static void
-e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
-{
-	EMultiConfigDialogPrivate *priv;
-	ETableModel *list_e_table_model;
-	GtkWidget *dialog_vbox;
+	GtkListStore *store;
+	GtkWidget *container;
 	GtkWidget *hbox;
-	GtkWidget *notebook;
-	GtkWidget *list_e_table;
-	ETableExtras *extras;
-	ECell *pixbuf;
-	ECell *text;
-	ECell *vbox;
+	GtkWidget *widget;
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (multi_config_dialog), FALSE);
-	gtk_widget_realize (GTK_WIDGET (multi_config_dialog));
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (multi_config_dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (multi_config_dialog)->action_area), 12);
+	dialog->priv = E_MULTI_CONFIG_DIALOG_GET_PRIVATE (dialog);
 
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
-	dialog_vbox = GTK_DIALOG (multi_config_dialog)->vbox;
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
-	gtk_container_add (GTK_CONTAINER (dialog_vbox), hbox);
+	/* XXX Remove this once we kill Bonobo. */
+	gtk_widget_realize (GTK_WIDGET (dialog));
 
-	list_e_table_model = e_table_memory_store_new (columns);
+	container = GTK_DIALOG (dialog)->vbox;
 
-	vbox = e_cell_vbox_new ();
-
-	pixbuf = e_cell_pixbuf_new();
-	g_object_set (G_OBJECT (pixbuf),
-		      "focused_column", 2,
-		      "selected_column", 3,
-		      "unselected_column", 4,
-		      NULL);
-	e_cell_vbox_append (E_CELL_VBOX (vbox), pixbuf, 1);
-	g_object_unref (pixbuf);
-
-	text = e_cell_text_new (NULL, GTK_JUSTIFY_CENTER);
-	e_cell_vbox_append (E_CELL_VBOX (vbox), text, 0);
-	g_object_unref (text);
-
-	extras = e_table_extras_new ();
-	e_table_extras_add_cell (extras, "vbox", vbox);
-
-	list_e_table = e_table_scrolled_new (list_e_table_model, extras, list_e_table_spec, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (list_e_table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table)),
-			  "cursor_change", G_CALLBACK (table_cursor_change_callback), multi_config_dialog);
-
-	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))->table_canvas,
-			  "realize", G_CALLBACK (canvas_realize), multi_config_dialog);
-
-	g_object_unref (extras);
-
-	gtk_box_pack_start (GTK_BOX (hbox), list_e_table, FALSE, TRUE, 0);
-
-	notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
-	gtk_box_pack_start (GTK_BOX (hbox), notebook, TRUE, TRUE, 0);
-
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_container_add (GTK_CONTAINER (container), hbox);
 	gtk_widget_show (hbox);
-	gtk_widget_show (notebook);
-	gtk_widget_show (list_e_table);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (multi_config_dialog),
-				GTK_STOCK_HELP, GTK_RESPONSE_HELP,
-				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-				NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (multi_config_dialog), GTK_RESPONSE_OK);
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
 
-	gtk_window_set_resizable (GTK_WINDOW (multi_config_dialog), TRUE);
+	container = widget;
 
-	priv = g_new (EMultiConfigDialogPrivate, 1);
-	priv->pages                 = NULL;
-	priv->list_e_table          = list_e_table;
-	priv->list_e_table_model    = list_e_table_model;
-	priv->notebook              = notebook;
-	priv->set_page_timeout_id   = 0;
-	priv->set_page_timeout_page = 0;
+	store = gtk_list_store_new (2, G_TYPE_STRING, GDK_TYPE_PIXBUF);
+	widget = gtk_icon_view_new_with_model (GTK_TREE_MODEL (store));
+	gtk_icon_view_set_columns (GTK_ICON_VIEW (widget), 1);
+	gtk_icon_view_set_text_column (GTK_ICON_VIEW (widget), COLUMN_TEXT);
+	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (widget), COLUMN_PIXBUF);
+	g_signal_connect_swapped (
+		widget, "selection-changed",
+		G_CALLBACK (multi_config_dialog_selection_changed_cb), dialog);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	dialog->priv->icon_view = g_object_ref (widget);
+	gtk_widget_show (widget);
+	g_object_unref (store);
 
-	multi_config_dialog->priv = priv;
+	widget = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
+	dialog->priv->notebook = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (dialog),
+		GTK_STOCK_HELP, GTK_RESPONSE_HELP,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		NULL);
+
+	gtk_dialog_set_default_response (
+		GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
 }
 
-
+GType
+e_multi_config_dialog_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		const GTypeInfo type_info = {
+			sizeof (EMultiConfigDialogClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) multi_config_dialog_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMultiConfigDialog),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) multi_config_dialog_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_DIALOG, "EMultiConfigDialog", &type_info, 0);
+	}
+
+	return type;
+}
+
 GtkWidget *
 e_multi_config_dialog_new (void)
 {
 	return g_object_new (e_multi_config_dialog_get_type (), NULL);
 }
 
-
 void
 e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
-				const char *title,
-				const char *description,
-				GdkPixbuf *icon,
+				const gchar *caption,
+				const gchar *icon_name,
 				EConfigPage *page_widget)
 {
-	EMultiConfigDialogPrivate *priv;
-	AtkObject *a11y;
-	AtkObject *a11yPage;
-	gint page_no;
+	GtkIconView *icon_view;
+	GtkNotebook *notebook;
+	GtkTreeModel *model;
+	GdkPixbuf *pixbuf;
+	GtkTreeIter iter;
 
 	g_return_if_fail (E_IS_MULTI_CONFIG_DIALOG (dialog));
-	g_return_if_fail (title != NULL);
-	g_return_if_fail (description != NULL);
+	g_return_if_fail (caption != NULL);
+	g_return_if_fail (icon_name != NULL);
 	g_return_if_fail (E_IS_CONFIG_PAGE (page_widget));
 
-	priv = dialog->priv;
+	icon_view = GTK_ICON_VIEW (dialog->priv->icon_view);
+	notebook = GTK_NOTEBOOK (dialog->priv->notebook);
 
-	priv->pages = g_slist_append (priv->pages, page_widget);
+	model = gtk_icon_view_get_model (icon_view);
+	pixbuf = multi_config_dialog_load_pixbuf (icon_name);
 
-	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon, NULL, NULL, NULL);
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 
-	page_no = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  create_page_container (description, GTK_WIDGET (page_widget)),
-				  NULL);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		COLUMN_TEXT, caption, COLUMN_PIXBUF, pixbuf, -1);
 
-	a11y = gtk_widget_get_accessible (GTK_WIDGET(priv->notebook));
-	a11yPage = atk_object_ref_accessible_child (a11y, page_no);
-	if (a11yPage != NULL) {
-		if (atk_object_get_role (a11yPage) == ATK_ROLE_PAGE_TAB)
-			atk_object_set_name (a11yPage, title);
-		g_object_unref (a11yPage);
+	if (gtk_tree_model_iter_n_children (model, NULL) == 1) {
+		GtkTreePath *path;
+
+		path = gtk_tree_path_new_first ();
+		gtk_icon_view_select_path (icon_view, path);
+		gtk_tree_path_free (path);
 	}
-	if (priv->pages->next == NULL) {
-		ETable *table;
 
-		/* FIXME: This is supposed to select the first entry by default
-		   but it doesn't seem to work at all.  */
-		table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->list_e_table));
-		e_table_set_cursor_row (table, 0);
-		e_selection_model_select_all (e_table_get_selection_model (table));
-	}
+	gtk_notebook_append_page (
+		notebook, create_page_container (
+		GTK_WIDGET (page_widget)), NULL);
 }
 
 void
-e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
+e_multi_config_dialog_show_page (EMultiConfigDialog *dialog,
+                                 gint page)
 {
-	EMultiConfigDialogPrivate *priv;
+	GtkIconView *icon_view;
+	GtkNotebook *notebook;
+	GtkTreePath *path;
 
-	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (E_IS_MULTI_CONFIG_DIALOG (dialog));
 
-	priv = dialog->priv;
+	icon_view = GTK_ICON_VIEW (dialog->priv->icon_view);
+	notebook = GTK_NOTEBOOK (dialog->priv->notebook);
 
-	e_table_set_cursor_row (e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->list_e_table)), page);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), page);
+	path = gtk_tree_path_new_from_indices (page, -1);
+	gtk_icon_view_select_path (icon_view, path);
+	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
+	gtk_tree_path_free (path);
+
+	gtk_notebook_set_current_page (notebook, page);
 }
-

@@ -16,12 +16,10 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifndef _E_MULTI_CONFIG_DIALOG_H_
-#define _E_MULTI_CONFIG_DIALOG_H_
+#ifndef E_MULTI_CONFIG_DIALOG_H
+#define E_MULTI_CONFIG_DIALOG_H
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -31,25 +29,33 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#define E_TYPE_MULTI_CONFIG_DIALOG			(e_multi_config_dialog_get_type ())
-#define E_MULTI_CONFIG_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialog))
-#define E_MULTI_CONFIG_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialogClass))
-#define E_IS_MULTI_CONFIG_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MULTI_CONFIG_DIALOG))
-#define E_IS_MULTI_CONFIG_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MULTI_CONFIG_DIALOG))
+/* Standard GObject macros */
+#define E_TYPE_MULTI_CONFIG_DIALOG \
+	(e_multi_config_dialog_get_type ())
+#define E_MULTI_CONFIG_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialog))
+#define E_MULTI_CONFIG_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialogClass))
+#define E_IS_MULTI_CONFIG_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MULTI_CONFIG_DIALOG))
+#define E_IS_MULTI_CONFIG_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_MULTI_CONFIG_DIALOG))
+#define E_MULTI_CONFIG_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_TYPE \
+	((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialogClass))
 
-
-typedef struct _EMultiConfigDialog        EMultiConfigDialog;
+typedef struct _EMultiConfigDialog EMultiConfigDialog;
+typedef struct _EMultiConfigDialogClass EMultiConfigDialogClass;
 typedef struct _EMultiConfigDialogPrivate EMultiConfigDialogPrivate;
-typedef struct _EMultiConfigDialogClass   EMultiConfigDialogClass;
 
 struct _EMultiConfigDialog {
 	GtkDialog parent;
-
 	EMultiConfigDialogPrivate *priv;
 };
 
@@ -57,20 +63,16 @@ struct _EMultiConfigDialogClass {
 	GtkDialogClass parent_class;
 };
 
-
-GType      e_multi_config_dialog_get_type (void);
-GtkWidget *e_multi_config_dialog_new      (void);
+GType		e_multi_config_dialog_get_type	(void);
+GtkWidget *	e_multi_config_dialog_new	(void);
 
-void  e_multi_config_dialog_add_page  (EMultiConfigDialog *dialog,
-				       const char         *title,
-				       const char         *description,
-				       GdkPixbuf          *icon,
-				       EConfigPage        *page);
-void  e_multi_config_dialog_show_page (EMultiConfigDialog *dialog,
-				       int                 page);
+void		e_multi_config_dialog_add_page	(EMultiConfigDialog *dialog,
+						 const gchar *caption,
+						 const gchar *icon_name,
+						 EConfigPage *page);
+void		e_multi_config_dialog_show_page	(EMultiConfigDialog *dialog,
+						 gint page);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* _E_MULTI_CONFIG_DIALOG_H_ */
+#endif /* E_MULTI_CONFIG_DIALOG_H */

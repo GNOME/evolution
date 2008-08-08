@@ -22,7 +22,7 @@
 
 static GList *loaded_modules;
 static GHashTable *modules_by_name;
-static GHashTable *modules_by_schema;
+static GHashTable *modules_by_scheme;
 
 static void
 shell_registry_insert_items (GHashTable *hash_table,
@@ -77,9 +77,9 @@ shell_registry_query_module (const gchar *filename)
 		shell_registry_insert_items (
 			modules_by_name, string, shell_module);
 
-	if ((string = info->schemas) != NULL)
+	if ((string = info->schemes) != NULL)
 		shell_registry_insert_items (
-			modules_by_schema, string, shell_module);
+			modules_by_scheme, string, shell_module);
 }
 
 void
@@ -93,7 +93,7 @@ e_shell_registry_init (void)
 	g_return_if_fail (loaded_modules == NULL);
 
 	modules_by_name = g_hash_table_new (g_str_hash, g_str_equal);
-	modules_by_schema = g_hash_table_new (g_str_hash, g_str_equal);
+	modules_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
 
 	dirname = EVOLUTION_MODULEDIR;
 
@@ -161,9 +161,9 @@ e_shell_registry_get_module_by_name (const gchar *name)
 }
 
 EShellModule *
-e_shell_registry_get_module_by_schema (const gchar *schema)
+e_shell_registry_get_module_by_scheme (const gchar *scheme)
 {
-	g_return_val_if_fail (schema != NULL, NULL);
+	g_return_val_if_fail (scheme != NULL, NULL);
 
-	return g_hash_table_lookup (modules_by_schema, schema);
+	return g_hash_table_lookup (modules_by_scheme, scheme);
 }

@@ -17,34 +17,40 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifndef _E_SHELL_SETTINGS_DIALOG_H_
-#define _E_SHELL_SETTINGS_DIALOG_H_
+#ifndef E_SHELL_SETTINGS_DIALOG_H
+#define E_SHELL_SETTINGS_DIALOG_H
 
 #include "e-multi-config-dialog.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#define E_TYPE_SHELL_SETTINGS_DIALOG			(e_shell_settings_dialog_get_type ())
-#define E_SHELL_SETTINGS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialog))
-#define E_SHELL_SETTINGS_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialogClass))
-#define E_IS_SHELL_SETTINGS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
-#define E_IS_SHELL_SETTINGS_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
+/* Standard GObject macros */
+#define E_TYPE_SHELL_SETTINGS_DIALOG \
+	(e_shell_settings_dialog_get_type ())
+#define E_SHELL_SETTINGS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialog))
+#define E_SHELL_SETTINGS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialogClass))
+#define E_IS_SHELL_SETTINGS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SHELL_SETTINGS_DIALOG))
+#define E_IS_SHELL_SETTINGS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SHELL_SETTINGS_DIALOG))
+#define E_SHELL_SETTINGS_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialogClass))
 
-
-typedef struct _EShellSettingsDialog        EShellSettingsDialog;
+typedef struct _EShellSettingsDialog EShellSettingsDialog;
+typedef struct _EShellSettingsDialogClass EShellSettingsDialogClass;
 typedef struct _EShellSettingsDialogPrivate EShellSettingsDialogPrivate;
-typedef struct _EShellSettingsDialogClass   EShellSettingsDialogClass;
 
 struct _EShellSettingsDialog {
 	EMultiConfigDialog parent;
-
 	EShellSettingsDialogPrivate *priv;
 };
 
@@ -52,14 +58,12 @@ struct _EShellSettingsDialogClass {
 	EMultiConfigDialogClass parent_class;
 };
 
-
-GType      e_shell_settings_dialog_get_type  (void);
-GtkWidget *e_shell_settings_dialog_new       (void);
-void       e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog,
-					      const char           *type);
+GType		e_shell_settings_dialog_get_type(void);
+GtkWidget *	e_shell_settings_dialog_new	(void);
+void		e_shell_settings_dialog_show_type
+						(EShellSettingsDialog *dialog,
+						 const gchar *type);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* _E_SHELL_SETTINGS_DIALOG_H_ */
+#endif /* E_SHELL_SETTINGS_DIALOG_H */

@@ -41,10 +41,8 @@ add_pages (EMultiConfigDialog *multi_config_dialog)
 		GtkWidget *page;
 		char *string;
 		char *title;
-		char *description;
 
 		string = g_strdup_printf ("This is page %d", i);
-		description = g_strdup_printf ("Description of page %d", i);
 		title = g_strdup_printf ("Title of page %d", i);
 
 		widget = gtk_label_new (string);
@@ -53,12 +51,12 @@ add_pages (EMultiConfigDialog *multi_config_dialog)
 		page = e_config_page_new ();
 		gtk_container_add (GTK_CONTAINER (page), widget);
 
-		e_multi_config_dialog_add_page (multi_config_dialog, title, description, NULL,
-						E_CONFIG_PAGE (page));
+		e_multi_config_dialog_add_page (
+			multi_config_dialog, title, "gtk-properties",
+			E_CONFIG_PAGE (page));
 
 		g_free (string);
 		g_free (title);
-		g_free (description);
 	}
 }
 

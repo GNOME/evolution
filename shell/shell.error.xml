@@ -51,28 +51,6 @@ Once deleted, you cannot downgrade to the previous version of Evolution without 
   <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
  </error>
 
- <error id="noshell" type="error">
-  <title>Cannot start Evolution</title>
-  <_primary>Evolution can not start.</_primary>
-  <_secondary xml:space="preserve">Your system configuration does not match your Evolution configuration.
-
-Click help for details</_secondary>
-  <help uri="http://go-evolution.org/FAQ#What_does_.22Your_system_configuration_does_not_match_your_Evolution_configuration.22_mean.3F"/>
-  <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
- </error>
-
- <error id="noshell-reason" type="error">
-  <title>Cannot start Evolution</title>
-  <_primary>Evolution can not start.</_primary>
-  <_secondary xml:space="preserve">Your system configuration does not match your Evolution configuration:
-
-{0}
-
-Click help for details.</_secondary>
-  <help uri="http://go-evolution.org/FAQ#What_does_.22Your_system_configuration_does_not_match_your_Evolution_configuration.22_mean.3F"/>
-  <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
- </error>
-
  <error id="forget-passwords" type="question" default="GTK_RESPONSE_CANCEL">
   <_primary>Are you sure you want to forget all remembered passwords?</_primary>
   <_secondary xml:space="preserve">Forgetting your passwords will clear all remembered passwords. You will be reprompted next time they are needed.</_secondary>

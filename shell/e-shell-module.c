@@ -267,6 +267,19 @@ e_shell_module_shutdown (EShellModule *shell_module)
 	return TRUE;
 }
 
+gboolean
+e_shell_module_handle_uri (EShellModule *shell_module,
+                           const gchar *uri)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	if (shell_module->priv->info.handle_uri != NULL)
+		return shell_module->priv->info.handle_uri (uri);
+
+	return FALSE;
+}
+
 void
 e_shell_module_send_and_receive (EShellModule *shell_module)
 {
@@ -296,7 +309,7 @@ e_shell_module_set_info (EShellModule *shell_module,
 
 	shell_module->priv->info.sort_order = info->sort_order;
 	shell_module->priv->info.aliases = g_intern_string (info->aliases);
-	shell_module->priv->info.schemas = g_intern_string (info->schemas);
+	shell_module->priv->info.schemes = g_intern_string (info->schemes);
 	shell_module->priv->info.shell_view_type = info->shell_view_type;
 
 	shell_module->priv->info.is_busy = info->is_busy;

@@ -85,7 +85,6 @@ typedef struct _ImportDialogImporterPage {
 } ImportDialogImporterPage;
 
 typedef struct _ImportData {
-	EShell *shell;
 	EShellWindow *window;
 
 	GladeXML *wizard;
@@ -241,29 +240,6 @@ item_selected (GtkWidget *item,
 	data->filepage->importer = g_object_get_data((GObject *)item, "importer");
 	filename_changed(data->filepage->filename, data);
 }
-
-#if 0
-static int
-compare_info_name (const void *data1, const void  *data2)
-{
-	const Bonobo_ServerInfo *info1 = (Bonobo_ServerInfo *)data1;
-	const Bonobo_ServerInfo *info2 = (Bonobo_ServerInfo *)data2;
-	const char *name1 = get_name_from_component_info (info1);
-	const char *name2 = get_name_from_component_info (info2);
-
-	/* If we can't find a name for a plug-in, its iid will be used
-	 * for display. Put such plug-ins at the end of the list since
-	 * their displayed name won't be really user-friendly
-	 */
-	if (name1 == NULL) {
-		return -1;
-	}
-	if (name2 == NULL) {
-		return 1;
-	}
-	return g_utf8_collate (name1, name2);
-}
-#endif
 
 static ImportDialogFilePage *
 importer_file_page_new (ImportData *data)
@@ -678,7 +654,6 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	dialog_open = TRUE;
 	data->window = shell_window;
-	data->shell = e_shell_window_peek_shell (data->window);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "import.glade", NULL);
 	data->wizard = glade_xml_new (gladefile, NULL, NULL);

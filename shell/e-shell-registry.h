@@ -30,7 +30,7 @@ void		e_shell_registry_init			(void);
 GList *		e_shell_registry_list_modules		(void);
 GType *		e_shell_registry_get_view_types		(guint *n_types);
 EShellModule *	e_shell_registry_get_module_by_name	(const gchar *name);
-EShellModule *	e_shell_registry_get_module_by_schema	(const gchar *schema);
+EShellModule *	e_shell_registry_get_module_by_scheme	(const gchar *scheme);
 
 G_END_DECLS
 
