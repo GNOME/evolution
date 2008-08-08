@@ -85,7 +85,6 @@ typedef struct _ImportDialogImporterPage {
 } ImportDialogImporterPage;
 
 typedef struct _ImportData {
-	EShell *shell;
 	EShellWindow *window;
 
 	GladeXML *wizard;
@@ -678,7 +677,6 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	dialog_open = TRUE;
 	data->window = shell_window;
-	data->shell = e_shell_window_peek_shell (data->window);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "import.glade", NULL);
 	data->wizard = glade_xml_new (gladefile, NULL, NULL);
