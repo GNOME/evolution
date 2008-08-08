@@ -954,7 +954,7 @@ static EPopupItem abv_source_popups[] = {
 	{ E_POPUP_ITEM, "30.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR,  "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties..."), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
 };
 
 static void

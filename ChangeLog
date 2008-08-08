@@ -1,5 +1,13 @@
 2008-08-08  Michael Monreal  <mmonreal@svn.gnome.org>
 
+	** Fix for bug #546748
+
+	* addressbook/gui/component/addressbook-view.c:
+	Change "_Properties..." to "_Properties" to match HIG and other
+	components.
+
+2008-08-08  Michael Monreal  <mmonreal@svn.gnome.org>
+
 	** Additional fix for bug #467115
 
 	* addressbook/gui/contact-editor/e-contact-editor.c:
