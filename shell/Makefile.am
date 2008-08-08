@@ -131,8 +131,6 @@ evolution_SOURCES =				\
 	e-component-registry.h			\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
-	e-corba-config-page.c			\
-	e-corba-config-page.h			\
 	e-shell.c				\
 	e-shell.h				\
 	e-shell-constants.h			\
