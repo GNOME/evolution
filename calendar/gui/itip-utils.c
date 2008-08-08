@@ -1142,9 +1142,9 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	char *ical_string = NULL;
-	gchar *from;
-	gchar *content_type;
-	gchar *subject;
+	gchar *from = NULL;
+	gchar *content_type = NULL;
+	gchar *subject = NULL;
 	gboolean retval = FALSE;
 
 	/* check whether backend could handle sending requests/updates */
