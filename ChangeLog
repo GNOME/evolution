@@ -1,3 +1,10 @@
+2008-08-08  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #546744
+
+	* addressbook/gui/component/addressbook-view.c:
+	Use address-book-new icon instead of contacts-new.
+
 2008-08-07  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #535745
