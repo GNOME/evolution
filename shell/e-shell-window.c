@@ -115,6 +115,12 @@ e_shell_window_get_type (void)
 	return type;
 }
 
+GtkWidget *
+e_shell_window_new (void)
+{
+	return g_object_new (E_TYPE_SHELL_WINDOW, NULL);
+}
+
 GtkUIManager *
 e_shell_window_get_ui_manager (EShellWindow *window)
 {

@@ -299,6 +299,8 @@ e_shell_module_set_info (EShellModule *shell_module,
 	shell_module->priv->info.schemas = g_intern_string (info->schemas);
 	shell_module->priv->info.shell_view_type = info->shell_view_type;
 
-	shell_module->priv->info.request_quit = info->request_quit;
+	shell_module->priv->info.is_busy = info->is_busy;
+	shell_module->priv->info.shutdown = info->shutdown;
+	shell_module->priv->info.send_and_receive = info->send_and_receive;
 	shell_module->priv->info.window_created = info->window_created;
 }

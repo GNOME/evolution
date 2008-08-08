@@ -20,11 +20,14 @@
 
 #include "e-shell.h"
 
+#include <glib/gi18n.h>
+
+#include "e-shell-module.h"
+#include "e-shell-registry.h"
+
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
 
 static GList *active_windows;
-static gboolean session_started;
-static gboolean shutting_down;
 
 static gboolean
 shell_window_delete_event_cb (EShellWindow *shell_window)
@@ -56,7 +59,7 @@ shell_shutdown_timeout (void)
 	static guint source_id = 0;
 	static guint message_timer = 1;
 
-	list = e_shell_registry_get_modules ();
+	list = e_shell_registry_list_modules ();
 
 	/* Any module can defer shutdown if it's still busy. */
 	for (iter = list; proceed && iter != NULL; iter = iter->next) {
@@ -97,7 +100,7 @@ shell_shutdown_timeout (void)
 	return !proceed;
 }
 
-void
+EShellWindow *
 e_shell_create_window (void)
 {
 	GtkWidget *shell_window;
@@ -115,4 +118,6 @@ e_shell_create_window (void)
 		shell_window_weak_notify_cb, NULL);
 
 	gtk_widget_show (shell_window);
+
+	return E_SHELL_WINDOW (shell_window);
 }

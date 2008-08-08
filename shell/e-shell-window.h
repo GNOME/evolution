@@ -59,6 +59,7 @@ struct _EShellWindowClass {
 };
 
 GType		e_shell_window_get_type		(void);
+GtkWidget *	e_shell_window_new		(void);
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *window);
 GtkAction *	e_shell_window_get_action	(EShellWindow *window,
 						 const gchar *action_name);
