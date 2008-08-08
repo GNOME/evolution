@@ -1,3 +1,36 @@
+Evolution 2.22.3 2008-06-30
+---------------------------
+
+Bug Fixes:
+	#273627: New entry to enter mailbox name in case it differs from the username. (Milan Crha)
+	#314467: Reset port when setting host name without it (Milan Crha)
+	#467892: Inherit search criteria and ensure keeping the selected message in the view even it may not belong to the filter anymore (Milan Crha)
+	#509595: Do not crash if file does not exists. Also be able to read lines more than 249 characters long (Milan Crha)
+	#519536: Crash in e-activity handler crash (Srinivasa Ragavan)
+	#531836: Added bonobo accel key for Ctrl+D, Del to keep working on deleted mails, but not the toolbar/menu (Srinivasa Ragavan)
+	#532597: Do not leave selected more than one item if somebody else took care or reposition of the cursor row before the delete (Milan Crha)
+	#535204: Fixed a crash during exit (Shuai Liu)
+	#535459: Opening a message with incorrect time information in the ICS attachment (Milan Crha)
+	#535749: Evolution leaves deleted messages strike through (Milan Crha)
+	#536280,507372: Updated figure exchng-rec-mails.png. Updated the doc for new field Mailbox. (PC Radhika)
+	#536772: Disable Folder menu items consistently with a popup menu over folder (Milan Crha)
+	#536813: Double-click unresponsive in calendar when trying to review detail (Milan Crha)
+	#538002: Do not allow dropping messages on folders with CAMEL_FOLDER_NOSELECT flag set (Milan Crha)
+	#538741: Strip preceding tabs from Date headers too (Paul Bolle)
+	#539268: Do not use both filename and description if these are identical (Paul Bolle)
+	#540516: Sanitize user input while accepting path/filename of the backup (Tobias Mueller)
+
+Other Contributors:
+	Fixes security vulnerabilities CVE-2008-1108 and CVE-2008-1109 (Matthew Barnes)
+	Tell which plugin it could not load in the warning message (Tor Lillqvist)
+	Add -Wl,--exclude-libs=libiconv.a to ICONV_LIBS onWindows to avoid auto-exporting functions from the static libiconv.a implementation in win_iconv from evolution's DLLs. (Tor Lillqvist)
+
+Updated Translations:
+	Vladimir Melo (pt_BR)
+	Leonardo Ferreira Fontenelle (pt_BR)
+	Timo Jyrinki (fi)
+	Clytie Siddall (vi)
+
 Evolution 2.22.2 2008-05-26
 ---------------------------
 

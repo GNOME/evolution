@@ -1,3 +1,7 @@
+2008-06-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS, configure.in: Evolution 2.22.3 release.
+
 2008-06-06  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Add -Wl,--exclude-libs=libiconv.a to ICONV_LIBS on
