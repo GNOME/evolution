@@ -720,7 +720,12 @@ static void
 action_preferences_cb (GtkAction *action,
                        EShellWindow *window)
 {
-	e_shell_show_preferences (GTK_WINDOW (window));
+	GtkWidget *preferences_window;
+
+	preferences_window = e_shell_get_preferences_window ();
+	gtk_window_present (GTK_WINDOW (preferences_window));
+
+	/* FIXME Switch to a page appropriate for the current view. */
 }
 
 static void

@@ -21,15 +21,14 @@
 #include "e-shell.h"
 
 #include <glib/gi18n.h>
+#include <e-preferences-window.h>
 
 #include "e-shell-module.h"
 #include "e-shell-registry.h"
-#include "e-shell-settings-dialog.h"
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
 
 static GList *active_windows;
-static GtkWidget *preferences;
 
 static gboolean
 shell_window_delete_event_cb (EShellWindow *shell_window)
@@ -160,18 +159,13 @@ e_shell_handle_uri (const gchar *uri)
 	return e_shell_module_handle_uri (shell_module, uri);
 }
 
-void
-e_shell_show_preferences (GtkWindow *parent)
+GtkWidget *
+e_shell_get_preferences_window (void)
 {
-	if (preferences != NULL) {
-		gtk_window_present (GTK_WINDOW (preferences));
-		return;
-	}
+	static GtkWidget *preferences_window = NULL;
 
-	preferences = e_shell_settings_dialog_new ();
-	/* FIXME e_shell_settings_dialog_show_type (...); */
+	if (G_UNLIKELY (preferences_window == NULL))
+		preferences_window = e_preferences_window_new ();
 
-	gtk_window_set_transient_for (GTK_WINDOW (preferences), parent);
-	gtk_window_set_destroy_with_parent (GTK_WINDOW (preferences), TRUE);
-	gtk_widget_show (preferences);
+	return preferences_window;
 }

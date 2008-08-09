@@ -29,7 +29,6 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-online-button.h"
 
-#include "e-component-registry.h"
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
 #include "es-menu.h"

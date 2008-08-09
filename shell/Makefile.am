@@ -26,32 +26,6 @@ INCLUDES =							\
 
 noinst_PROGRAMS = evolution
 
-# Shell CORBA stuff
-
-IDLS = \
-	Evolution-ConfigControl.idl		\
-	Evolution-Component.idl			\
-	Evolution-Shell.idl			\
-	Evolution.idl
-
-IDL_GENERATED_H = \
-	Evolution.h
-
-IDL_GENERATED_C = 		\
-	Evolution-common.c	\
-	Evolution-skels.c	\
-	Evolution-stubs.c
-
-idl_defines = \
-	-D__evolution_shell_COMPILATION
-
-IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
-
-$(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(idl_defines) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
-
-$(IDL_GENERATED_C): $(IDL_GENERATED_H)
-
 if NM_SUPPORT_GLIB
 NM_SUPPORT_FILES = e-shell-nm-glib.c
 else
@@ -77,10 +51,6 @@ $(DATASERVER_IDL_GENERATED_H): $(DATASERVER_IDL)
 $(DATASERVER_IDL_GENERATED_C): $(DATASERVER_IDL_GENERATED_H)
 
 
-# IDL install
-
-idl_DATA = $(IDLS)
-
 # Shell library
 
 privsolib_LTLIBRARIES =	\
@@ -97,7 +67,6 @@ eshellinclude_HEADERS = 			\
 	e-shell-window-actions.h		\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
-	evolution-listener.h			\
 	evolution-shell-component-utils.h	\
 	es-event.h				\
 	es-menu.h
@@ -109,7 +78,6 @@ libeshell_la_SOURCES =				\
 	e-shell-view.c				\
 	e-shell-window.c			\
 	e-shell-window-actions.c		\
-	evolution-listener.c			\
 	e-user-creatable-items-handler.c	\
 	evolution-config-control.c		\
 	evolution-shell-component-utils.c	\
@@ -127,8 +95,6 @@ libeshell_la_LIBADD =					\
 evolution_SOURCES =				\
 	$(DATASERVER_IDL_GENERATED)		\
 	$(NM_SUPPORT_FILES)			\
-	e-component-registry.c			\
-	e-component-registry.h			\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
 	e-shell.c				\
@@ -155,11 +121,6 @@ evolution_LDADD =							\
 	$(SHELL_LIBS)
 
 # Misc stuff
-
-server_in_files = GNOME_Evolution_Shell.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-@EVO_SERVER_RULE@
-@INTLTOOL_SERVER_RULE@
 
 error_DATA = shell.error
 errordir = $(privdatadir)/errors
@@ -228,8 +189,6 @@ MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
 # Extra dist stuff
 
 EXTRA_DIST = 					\
-	$(IDLS)					\
-	$(server_in_files)			\
 	shell.error.xml				\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
@@ -251,7 +210,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
