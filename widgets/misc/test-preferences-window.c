@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* test-multi-config-dialog.c
+/* test-preferences-window.c
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -16,47 +16,38 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Authors:
- *   Ettore Perazzoli <ettore@ximian.com>
  */
 
-#include "e-multi-config-dialog.c"
+#include "e-preferences-window.c"
 
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-ui-init.h>
 
-
 #define NUM_PAGES 10
 
-
 static void
-add_pages (EMultiConfigDialog *multi_config_dialog)
+add_pages (EPreferencesWindow *preferences_window)
 {
 	int i;
 
 	for (i = 0; i < NUM_PAGES; i ++) {
 		GtkWidget *widget;
-		GtkWidget *page;
-		char *string;
-		char *title;
+		char *caption;
+		char *page_name;
 
-		string = g_strdup_printf ("This is page %d", i);
-		title = g_strdup_printf ("Title of page %d", i);
+		caption = g_strdup_printf ("Title of page %d", i);
+		page_name = g_strdup_printf ("page-%d", i);
 
-		widget = gtk_label_new (string);
+		widget = gtk_label_new (caption);
 		gtk_widget_show (widget);
 
-		page = e_config_page_new ();
-		gtk_container_add (GTK_CONTAINER (page), widget);
+		e_preferences_window_add_page (
+			preferences_window, page_name,
+			"gtk-properties", caption, i, widget);
 
-		e_multi_config_dialog_add_page (
-			multi_config_dialog, title, "gtk-properties",
-			E_CONFIG_PAGE (page));
-
-		g_free (string);
-		g_free (title);
+		g_free (caption);
+		g_free (page_name);
 	}
 }
 
@@ -70,23 +61,22 @@ delete_event_callback (GtkWidget *widget,
 	return TRUE;
 }
 
-
 int
 main (int argc, char **argv)
 {
 	GtkWidget *dialog;
 
 	gnome_program_init (
-		"test-multi-config-dialog", "0.0", LIBGNOMEUI_MODULE,
+		"test-preferences-window", "0.0", LIBGNOMEUI_MODULE,
 		argc, argv, GNOME_PARAM_NONE);
 
-	dialog = e_multi_config_dialog_new ();
+	dialog = e_preferences_window_new ();
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 	g_signal_connect((dialog), "delete_event",
 			    G_CALLBACK (delete_event_callback), NULL);
 
-	add_pages (E_MULTI_CONFIG_DIALOG (dialog));
+	add_pages (E_PREFERENCES_WINDOW (dialog));
 
 	gtk_widget_show (dialog);
 

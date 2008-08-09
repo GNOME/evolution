@@ -138,8 +138,6 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-registry.c			\
 	e-shell-registry.h			\
-	e-shell-settings-dialog.c		\
-	e-shell-settings-dialog.h		\
 	e-shell-window-private.c		\
 	e-shell-window-private.h		\
 	e-sidebar.c				\

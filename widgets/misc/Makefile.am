@@ -56,7 +56,7 @@ widgetsinclude_HEADERS =			\
 	e-image-chooser.h			\
 	e-info-label.h				\
 	e-map.h					\
-	e-multi-config-dialog.h			\
+	e-preferences-window.h			\
 	e-online-button.h			\
 	e-search-bar.h				\
 	e-task-bar.h				\
@@ -104,7 +104,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-image-chooser.c			\
 	e-info-label.c				\
 	e-map.c					\
-	e-multi-config-dialog.c			\
+	e-preferences-window.c			\
 	e-online-button.c			\
 	e-search-bar.c				\
 	e-task-bar.c				\
@@ -158,7 +158,7 @@ noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
 	test-dropdown-button		\
-	test-multi-config-dialog 	\
+	test-preferences-window		\
 	test-info-label
 
 # test-calendar
@@ -191,12 +191,12 @@ test_dropdown_button_LDADD =			\
 	$(top_builddir)/e-util/libeutil.la  	\
 	$(E_WIDGETS_LIBS)
 
-# test-multi-config-dialog
+# test-preferences-window
 
-test_multi_config_dialog_SOURCES = 	\
-	test-multi-config-dialog.c
+test_preferences_window_SOURCES =		\
+	test-preferences-window.c
 
-test_multi_config_dialog_LDADD = 		\
+test_preferences_window_LDADD = 		\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
