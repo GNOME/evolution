@@ -66,8 +66,6 @@ eshellinclude_HEADERS = 			\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
 	e-user-creatable-items-handler.h	\
-	evolution-config-control.h		\
-	evolution-shell-component-utils.h	\
 	es-event.h				\
 	es-menu.h
 
@@ -79,8 +77,6 @@ libeshell_la_SOURCES =				\
 	e-shell-window.c			\
 	e-shell-window-actions.c		\
 	e-user-creatable-items-handler.c	\
-	evolution-config-control.c		\
-	evolution-shell-component-utils.c	\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LDFLAGS = $(NO_UNDEFINED)
