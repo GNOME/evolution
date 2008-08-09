@@ -47,7 +47,6 @@ widgetsinclude_HEADERS =			\
 	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
 	e-combo-cell-editable.h			\
-	e-config-page.h				\
 	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
@@ -95,7 +94,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
 	e-combo-cell-editable.c			\
-	e-config-page.c				\
 	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
