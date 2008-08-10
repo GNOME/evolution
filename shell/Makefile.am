@@ -179,9 +179,6 @@ uninstall-local: uninstall-evolution
 endif
 
 
-MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
-@EVO_MARSHAL_RULE@
-
 # Extra dist stuff
 
 EXTRA_DIST = 					\
@@ -189,7 +186,6 @@ EXTRA_DIST = 					\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
-	e-shell-marshal.list			\
 	evolution-nognome.in
 
 # Purify support
