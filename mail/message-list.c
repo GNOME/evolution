@@ -4076,9 +4076,15 @@ regen_list_exec (struct _regen_list_msg *m)
 				m->tree = camel_folder_thread_messages_new (m->folder, showuids, m->thread_subject);
 		} else {
 			m->summary = g_ptr_array_new ();
-			if (showuids->len != camel_folder_summary_cache_size (m->folder->summary) ) {
-			    CamelException ex;
+			if (showuids->len > camel_folder_summary_cache_size (m->folder->summary) ) {
+				CamelException ex;
+				camel_exception_init (&ex);
 				camel_folder_summary_reload_from_db (m->folder->summary, &ex);
+				if (camel_exception_is_set (&ex)) {
+					g_warning ("Exception while reloading: %s\n", camel_exception_get_description (&ex));
+					camel_exception_clear (&ex);
+				}
+
 			}
 			for (i = 0; i < showuids->len; i++) {
 				info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
