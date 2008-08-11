@@ -462,6 +462,21 @@
     </rule>
 
     <rule grouping="any" source="demand">
+      <_title>Subject or Recipients contains</_title>
+      <partset>
+        <part name="subject">
+          <value name="subject-type" type="option" value="contains"/>
+          <value name="subject" type="string"/>
+        </part>
+         <part name="to">
+          <value name="recipient-type" type="option" value="contains"/>
+          <value name="recipient" type="address"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
+    <rule grouping="any" source="demand">
       <_title>Recipients contain</_title>
       <partset>
         <part name="to">

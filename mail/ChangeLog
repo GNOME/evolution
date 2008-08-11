@@ -1,5 +1,11 @@
 2008-08-11  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Part fix for bug #529743
+
+	* searchtypes.xml: Support Subject or Recipients contain search.
+
+2008-08-11  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* mail/message-list.c: Don't use uninitialized exception. It leads to
 	freeing uninitialized memory.
 
