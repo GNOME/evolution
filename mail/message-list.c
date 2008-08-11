@@ -111,6 +111,7 @@ struct _MessageListPrivate {
 	gboolean destroyed;
 
 	gboolean thread_latest;
+	gboolean any_row_changed; /* save state before regen list when this is set to true */
 };
 
 static struct {
@@ -1798,6 +1799,8 @@ save_tree_state(MessageList *ml)
 	filename = mail_config_folder_to_cachename(ml->folder, "et-expanded-");
 	e_tree_save_expanded_state(ml->tree, filename);
 	g_free(filename);
+
+	ml->priv->any_row_changed = FALSE;
 }
 
 static void
@@ -1811,18 +1814,23 @@ load_tree_expand_all (MessageList *ml, gboolean state)
 	save_tree_state (ml);
 }
 static void
-load_tree_state (MessageList *ml)
+load_tree_state (MessageList *ml, xmlDoc *expand_state)
 {
-	char *filename;
-
 	if (ml->folder == NULL || ml->tree == NULL)
 		return;
 
-	filename = mail_config_folder_to_cachename (ml->folder, "et-expanded-");
-	e_tree_load_expanded_state (ml->tree, filename);
-	g_free (filename);
-}
+	if (expand_state) {
+		e_tree_load_expanded_state_xml (ml->tree, expand_state);
+	} else {
+		char *filename;
 
+		filename = mail_config_folder_to_cachename (ml->folder, "et-expanded-");
+		e_tree_load_expanded_state (ml->tree, filename);
+		g_free (filename);
+	}
+
+	ml->priv->any_row_changed = FALSE;
+}
 
 void
 message_list_save_state (MessageList *ml)
@@ -2173,6 +2181,12 @@ ml_scrolled (GtkAdjustment *adj, MessageList *ml)
 	g_signal_emit (ml, message_list_signals[MESSAGE_LIST_SCROLLED], 0);
 }
 
+static void
+on_model_row_changed (ETableModel *model, int row, MessageList *ml)
+{
+	ml->priv->any_row_changed = TRUE;
+}
+
 /*
  * GObject::init
  */
@@ -2213,6 +2227,7 @@ message_list_init (MessageList *message_list)
 	p->invisible = gtk_invisible_new();
 	p->destroyed = FALSE;
 	g_object_ref_sink(p->invisible);
+	p->any_row_changed = FALSE;
 
 	matom = gdk_atom_intern ("x-uid-list", FALSE);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, matom, 0);
@@ -2429,6 +2444,8 @@ message_list_construct (MessageList *message_list)
 		a11y = gtk_widget_get_accessible((GtkWidget *)message_list->tree);
 		atk_object_set_name(a11y, _("Messages"));
 	}
+
+	g_signal_connect (e_tree_get_table_adapter (message_list->tree), "model_row_changed", G_CALLBACK (on_model_row_changed), message_list);
 
 	g_signal_connect((message_list->tree), "cursor_activated",
 			 G_CALLBACK (on_cursor_activated_cmd),
@@ -3870,6 +3887,8 @@ struct _regen_list_msg {
 	GPtrArray *summary;
 
 	int last_row; /* last selected (cursor) row */
+
+	xmlDoc *expand_state; /* stored expanded state of the previous view */
 };
 
 /*
@@ -4128,10 +4147,14 @@ regen_list_done (struct _regen_list_msg *m)
 	e_profile_event_emit("list.buildtree", m->folder->full_name, 0);
 
 	if (m->dotree) {
-		if (m->ml->just_set_folder)
+		if (m->ml->just_set_folder) {
 			m->ml->just_set_folder = FALSE;
-		else /* Saving the tree state causes bug 352695 but fixes bug 387312 */
-			save_tree_state (m->ml);
+			if (m->expand_state) {
+				/* rather load state from disk than use the memory data when changing folders */
+				xmlFreeDoc (m->expand_state);
+				m->expand_state = NULL;
+			}
+		}
 
 		build_tree (m->ml, m->tree, m->changes);
 		if (m->ml->thread_tree)
@@ -4144,7 +4167,7 @@ regen_list_done (struct _regen_list_msg *m)
 		else if (m->ml->collapse_all)
 			load_tree_expand_all (m->ml, FALSE);
 		else
-			load_tree_state (m->ml);
+			load_tree_state (m->ml, m->expand_state);
 
 		m->ml->expand_all = 0;
 		m->ml->collapse_all = 0;
@@ -4189,6 +4212,7 @@ regen_list_done (struct _regen_list_msg *m)
 		e_tree_set_info_message (m->ml->tree, NULL);
 
 	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
+	m->ml->priv->any_row_changed = FALSE;
 }
 
 static void
@@ -4217,6 +4241,9 @@ regen_list_free (struct _regen_list_msg *m)
 
 	/* we have to poke this here as well since we might've been cancelled and regened wont get called */
 	m->ml->regen = g_list_remove(m->ml->regen, m);
+
+	if (m->expand_state)
+		xmlFreeDoc (m->expand_state);
 
 	g_object_unref(m->ml);
 }
@@ -4316,6 +4343,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	m->folder = ml->folder;
 	camel_object_ref(m->folder);
 	m->last_row = -1;
+	m->expand_state = NULL;
 
 	if ((!m->hidedel || !m->dotree) && ml->thread_tree) {
 		camel_folder_thread_messages_unref(ml->thread_tree);
@@ -4332,6 +4360,13 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 		e_tree_set_info_message (m->ml->tree, txt);
 
 		g_free (txt);
+	} else if (ml->priv->any_row_changed && m->dotree && !ml->just_set_folder && (!ml->search || g_str_equal (ml->search, " "))) {
+		/* there has been some change on any row, if it was an expand state change,
+		   then let it save; if not, then nothing happen. */
+		message_list_save_state (ml);
+	} else if (m->dotree && !ml->just_set_folder) {
+		/* remember actual expand state and restore it after regen */
+		m->expand_state = e_tree_save_expanded_state_xml (ml->tree);
 	}
 
 	/* if we're busy already kick off timeout processing, so normal updates are immediate */

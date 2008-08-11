@@ -2069,6 +2069,25 @@ e_tree_load_expanded_state (ETree *et, char *filename)
 	e_tree_table_adapter_load_expanded_state (et->priv->etta, filename);
 }
 
+xmlDoc *
+e_tree_save_expanded_state_xml (ETree *et)
+{
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return e_tree_table_adapter_save_expanded_state_xml (et->priv->etta);
+}
+
+void
+e_tree_load_expanded_state_xml (ETree *et, xmlDoc *doc)
+{
+	g_return_if_fail (et != NULL);
+	g_return_if_fail (E_IS_TREE (et));
+	g_return_if_fail (doc != NULL);
+
+	e_tree_table_adapter_load_expanded_state_xml (et->priv->etta, doc);
+}
+
 void
 e_tree_load_all_expanded_state (ETree *et, gboolean state)
 {

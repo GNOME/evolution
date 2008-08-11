@@ -286,6 +286,10 @@ void            e_tree_save_expanded_state        (ETree                *et,
 						   char                 *filename);
 void            e_tree_load_expanded_state        (ETree                *et,
 						   char                 *filename);
+
+xmlDoc         *e_tree_save_expanded_state_xml    (ETree                *et);
+void            e_tree_load_expanded_state_xml    (ETree                *et, xmlDoc *doc);
+
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
 void            e_tree_load_all_expanded_state (ETree *et, gboolean state);

@@ -1,3 +1,16 @@
+2008-08-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #352695
+
+	* message-list.c: (struct _MessageListPrivate), (save_tree_state),
+	(load_tree_state), (on_model_row_changed), (message_list_init),
+	(message_list_construct), (struct _regen_list_msg), (regen_list_done),
+	(regen_list_free), (mail_regen_list): Be able to recognize whether
+	there has been any change on any row in a list and save expanded
+	state only in case there was any change. Also use in-memory storing
+	of the expanded state in case we do not want to rewrite full view
+	It's for searches only, and it's not stored between sessions.
+
 2008-08-11  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Part fix for bug #529743

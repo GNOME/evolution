@@ -30,6 +30,7 @@
 #include <table/e-tree-model.h>
 #include <table/e-table-sort-info.h>
 #include <table/e-table-header.h>
+#include <libxml/tree.h>
 
 G_BEGIN_DECLS
 
@@ -88,6 +89,9 @@ void         e_tree_table_adapter_save_expanded_state        (ETreeTableAdapter 
 							      const char        *filename);
 void         e_tree_table_adapter_load_expanded_state        (ETreeTableAdapter *etta,
 							      const char        *filename);
+
+xmlDoc      *e_tree_table_adapter_save_expanded_state_xml    (ETreeTableAdapter *etta);
+void         e_tree_table_adapter_load_expanded_state_xml    (ETreeTableAdapter *etta, xmlDoc *doc);
 
 void         e_tree_table_adapter_set_sort_info              (ETreeTableAdapter *etta,
 							      ETableSortInfo    *sort_info);

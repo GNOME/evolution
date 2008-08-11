@@ -1,3 +1,21 @@
+2008-08-11  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #352695
+
+	* e-tree-table-adapter.h:
+	(e_tree_table_adapter_save_expanded_state_xml),
+	(e_tree_table_adapter_load_expanded_state_xml):
+	* e-tree-table-adapter.c:
+	(e_tree_table_adapter_save_expanded_state_xml),
+	(e_tree_table_adapter_save_expanded_state),
+	(e_tree_table_adapter_load_expanded_state_xml),
+	(e_tree_table_adapter_load_expanded_state):
+	* e-tree.h: (e_tree_save_expanded_state_xml),
+	(e_tree_load_expanded_state_xml):
+	* e-tree.c: (e_tree_save_expanded_state_xml),
+	(e_tree_load_expanded_state_xml):
+	Be able to store expanded state also in memory, not only on the disk.
+
 2008-07-15  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #329821

@@ -912,14 +912,14 @@ save_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 	}
 }
 
-void
-e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *filename)
+xmlDoc *
+e_tree_table_adapter_save_expanded_state_xml (ETreeTableAdapter *etta)
 {
 	TreeAndRoot tar;
 	xmlDocPtr doc;
 	xmlNode *root;
 
-	g_return_if_fail(etta != NULL);
+	g_return_val_if_fail (etta != NULL, NULL);
 
 	doc = xmlNewDoc ((const unsigned char *)"1.0");
 	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"expanded_state", NULL);
@@ -934,8 +934,21 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 
 	g_hash_table_foreach (etta->priv->nodes, save_expanded_state_func, &tar);
 
-	e_xml_save_file (filename, doc);
-	xmlFreeDoc (doc);
+	return doc;
+}
+
+void
+e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *filename)
+{
+	xmlDoc *doc;
+
+	g_return_if_fail (etta != NULL);
+
+	doc = e_tree_table_adapter_save_expanded_state_xml (etta);
+	if (doc) {
+		e_xml_save_file (filename, doc);
+		xmlFreeDoc (doc);
+	}
 }
 
 static xmlDoc *
@@ -1022,18 +1035,14 @@ e_tree_table_adapter_load_all_expanded_state (ETreeTableAdapter *etta, gboolean 
 }
 
 void
-e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *filename)
+e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta, xmlDoc *doc)
 {
-	xmlDoc *doc;
 	xmlNode *root, *child;
 	gboolean model_default;
 	gboolean file_default = FALSE;
 
-	g_return_if_fail(etta != NULL);
-
-	doc = open_file(etta, filename);
-	if (!doc)
-		return;
+	g_return_if_fail (etta != NULL);
+	g_return_if_fail (doc != NULL);
 
 	root = xmlDocGetRootElement (doc);
 
@@ -1083,6 +1092,20 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 
 		g_free (id);
 	}
+}
+
+void
+e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *filename)
+{
+	xmlDoc *doc;
+
+	g_return_if_fail(etta != NULL);
+
+	doc = open_file(etta, filename);
+	if (!doc)
+		return;
+
+	e_tree_table_adapter_load_expanded_state_xml  (etta, doc);
 
 	xmlFreeDoc (doc);
 
