@@ -353,62 +353,6 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	return pixbuf;
 }
 
-GtkWidget  *
-e_icon_factory_get_image (const char *icon_name, int icon_size)
-{
-	GdkPixbuf *pixbuf;
-	GtkWidget *image;
-
-	pixbuf = e_icon_factory_get_icon  (icon_name, icon_size);
-	image = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
-
-	return image;
-}
-
-/**
- * e_icon_factory_get_icon_list:
- * @icon_name: name of the icon
- *
- * Returns a list of GdkPixbufs of the requested name suitable for
- * gtk_window_set_icon_list().
- **/
-GList *
-e_icon_factory_get_icon_list (const char *icon_name)
-{
-	static int icon_list_sizes[] = { 128, 64, 48, 32, 16 };
-	GList *list = NULL;
-	char *icon_key;
-	Icon *icon;
-	int size, i;
-
-	if (!icon_name || !strcmp (icon_name, ""))
-		return NULL;
-
-	g_static_mutex_lock (&mutex);
-
-	icon_key = g_alloca (strlen (icon_name) + 9);
-
-	for (i = 0; i < G_N_ELEMENTS (icon_list_sizes); i++) {
-		size = icon_list_sizes[i];
-		sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
-
-		if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
-			if ((icon = load_icon (icon_key, icon_name, size, FALSE)))
-				g_hash_table_insert (name_to_icon, icon->name, icon);
-		}
-
-		if (icon && icon->pixbuf) {
-			list = g_list_prepend (list, icon->pixbuf);
-			g_object_ref (icon->pixbuf);
-		}
-	}
-
-	g_static_mutex_unlock (&mutex);
-
-	return list;
-}
-
 /**
  * e_icon_factory_pixbuf_scale
  * Scales pixbuf to desired size.

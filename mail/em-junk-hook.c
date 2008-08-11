@@ -29,7 +29,6 @@
 #include <glib.h>
 #include "em-junk-hook.h"
 #include "mail-session.h"
-#include <e-util/e-icon-factory.h>
 #include "e-util/e-error.h"
 #include "em-utils.h"
 #include <camel/camel-junk-plugin.h>

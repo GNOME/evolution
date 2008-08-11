@@ -31,7 +31,6 @@
 
 #include "e-shell-view.h"
 #include "e-shell-window.h"
-#include "e-util/e-icon-factory.h"
 
 static BonoboObjectClass *parent_class = NULL;
 

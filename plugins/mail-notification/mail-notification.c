@@ -38,7 +38,6 @@
 #include <time.h>
 
 #include "e-util/e-config.h"
-#include "e-util/e-icon-factory.h"
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree-model.h"
@@ -449,7 +448,7 @@ new_notify_status (EMEventTargetFolder *t)
 
 	if (new_icon) {
 		status_icon = gtk_status_icon_new ();
-		gtk_status_icon_set_from_pixbuf (status_icon, e_icon_factory_get_icon ("mail-unread", E_ICON_SIZE_LARGE_TOOLBAR));
+		gtk_status_icon_set_from_icon_name (status_icon, "mail-unread");
 	}
 
 	if (!status_count) {

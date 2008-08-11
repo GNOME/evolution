@@ -36,7 +36,6 @@
 #include <glib/gi18n.h>
 
 #include "cal-attachment-select-file.h"
-#include <e-util/e-icon-factory.h>
 
 enum {
 	SELECTOR_MODE_MULTI    = (1 << 0),
@@ -49,7 +48,6 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 	GtkWidget *selection;
 	GtkWidget *showinline = NULL;
 	char *path;
-	GList *icon_list;
 
 	path = g_object_get_data ((GObject *) editor, "attach_path");
 
@@ -90,12 +88,7 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
 	gtk_window_set_wmclass ((GtkWindow *) selection, "fileselection", "Evolution:editor");
 	gtk_window_set_modal ((GtkWindow *) selection, TRUE);
 
-	icon_list = e_icon_factory_get_icon_list ("mail-message-new");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (selection), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_icon_name (GTK_WINDOW (selection), "mail-message-new");
 
 	if (gtk_dialog_run ((GtkDialog *) selection) == GTK_RESPONSE_OK) {
 		if (showinline_p)

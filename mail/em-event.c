@@ -32,7 +32,6 @@
 #include "em-event.h"
 #include "composer/e-msg-composer.h"
 #include "libedataserver/e-msgport.h"
-#include <e-util/e-icon-factory.h>
 
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>

@@ -38,7 +38,6 @@
 #include "e-attachment-bar.h"
 #include <camel/camel-vee-folder.h>
 #include "e-util/e-error.h"
-#include "e-util/e-icon-factory.h"
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include <libical/icalvcal.h>
@@ -254,7 +253,8 @@ init_widgets(char *path)
 
 	g_object_unref (source_list);
 	hbox = gtk_hbox_new (FALSE, FALSE);
-	icon = e_icon_factory_get_image ("stock_mail-import", E_ICON_SIZE_MENU);
+	icon = gtk_image_new_from_icon_name (
+		"stock_mail-import", GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX(hbox), icon, FALSE, FALSE, 6);
 	label = gtk_label_new_with_mnemonic (_("_Import"));
 	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 6);

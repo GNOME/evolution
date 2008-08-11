@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include "e-contact-editor-fullname.h"
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
@@ -100,7 +99,6 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	GList *icon_list;
 	char *gladefile;
 
 	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
@@ -136,12 +134,8 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
 	g_object_unref(widget);
 
-	icon_list = e_icon_factory_get_icon_list ("contact-new");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (e_contact_editor_fullname), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_icon_name (
+		GTK_WINDOW (e_contact_editor_fullname), "contact-new");
 }
 
 static void

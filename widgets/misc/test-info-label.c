@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-ui-init.h>
-#include <e-util/e-icon-factory.h>
 #include "e-info-label.h"
 
 static void
@@ -36,7 +35,6 @@ delete_event_cb (GtkWidget *widget,
 		 gpointer data)
 {
 	gtk_main_quit ();
-	e_icon_factory_shutdown ();
 }
 
 int
@@ -50,7 +48,6 @@ main (int argc, char **argv)
 	gnome_program_init (
 		"test-title-bar", "0.0", LIBGNOMEUI_MODULE,
 		argc, argv, GNOME_PARAM_NONE);
-	e_icon_factory_init ();
 
 	app = gnome_app_new ("Test", "Test");
 	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);

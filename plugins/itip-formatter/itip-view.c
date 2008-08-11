@@ -40,7 +40,6 @@
 #include <mail/em-format-hook.h>
 #include <mail/em-format-html.h>
 #include <libedataserver/e-account-list.h>
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-util.h>
 #include <calendar/gui/itip-utils.h>
 #include "itip-view.h"
@@ -723,7 +722,7 @@ set_info_items (GtkWidget *info_box, GSList *info_items)
 			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_SMALL_TOOLBAR);
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS:
-			image = e_icon_factory_get_image ("stock_animation", E_ICON_SIZE_BUTTON);
+			image = gtk_image_new_from_icon_name ("stock_animation", GTK_ICON_SIZE_BUTTON);
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_NONE:
 		default:
@@ -963,7 +962,8 @@ itip_view_init (ItipView *view)
 	gtk_box_set_spacing (GTK_BOX (view), 12);
 
 	/* The meeting icon */
-	icon = e_icon_factory_get_image (MEETING_ICON, E_ICON_SIZE_LARGE_TOOLBAR);
+	icon = gtk_image_new_from_icon_name (
+		MEETING_ICON, GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_misc_set_alignment (GTK_MISC (icon), 0.5, 0);
 	gtk_widget_show (icon);
 

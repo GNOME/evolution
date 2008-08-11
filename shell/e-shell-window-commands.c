@@ -39,9 +39,9 @@
 
 #include <gconf/gconf-client.h>
 
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
+#include "e-util/e-icon-factory.h"
 #include "e-util/e-print.h"
 #include "e-util/e-util-private.h"
 

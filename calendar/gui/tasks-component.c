@@ -52,7 +52,6 @@
 #include "dialogs/task-editor.h"
 #include "misc/e-info-label.h"
 #include "e-util/e-error.h"
-#include "e-util/e-icon-factory.h"
 
 #define CREATE_TASK_ID               "task"
 #define CREATE_TASK_ASSIGNED_ID      "task-assigned"

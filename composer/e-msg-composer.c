@@ -110,7 +110,6 @@
 #include "e-composer-header-table.h"
 
 #include "evolution-shell-component-utils.h"
-#include <e-util/e-icon-factory.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>

@@ -18,7 +18,6 @@
 #include <string.h>
 
 #include "e-gui-utils.h"
-#include <e-util/e-icon-factory.h>
 
 #include <libgnome/gnome-program.h>
 #include <libgnomeui/gnome-icon-lookup.h>
@@ -62,7 +61,8 @@ GtkWidget *e_create_image_widget(gchar *name,
 	GtkWidget *w;
 
 	if (string1) {
-		w = e_icon_factory_get_image (string1, E_ICON_SIZE_DIALOG);
+		w = gtk_image_new_from_icon_name (
+			string1, GTK_ICON_SIZE_DIALOG);
 
 		gtk_misc_set_alignment (GTK_MISC (w), 0.5, 0.5);
 

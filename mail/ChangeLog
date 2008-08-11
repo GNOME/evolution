@@ -1,3 +1,22 @@
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* em-folder-browser.c:
+	* em-format-html-display.c:
+	* mail-send-recv.c:
+	* message-tag-followup.c:
+	Prefer gtk_image_new_from_icon_name() over e_icon_factory_get_image().
+
+	* mail-send-recv.c:
+	* message-tag-followup.c:
+	Prefer gtk_window_set_icon_name() over gtk_window_set_icon_list().
+
+	* mail-mt.c:
+	e_activity_handler_cancelable_operation_started() no longer takes a
+	GdkPixbuf.  It was ignoring the pixbuf anyway ever since we added a
+	spinner icon.
+
 2008-08-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #519292

@@ -33,7 +33,6 @@
 
 #include "em-config.h"
 #include "libedataserver/e-msgport.h"
-#include <e-util/e-icon-factory.h>
 #include "em-utils.h"
 #include "em-composer-utils.h"
 

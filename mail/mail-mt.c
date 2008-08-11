@@ -71,8 +71,6 @@ struct _MailMsgPrivate {
 	gboolean cancelable;
 };
 
-static GdkPixbuf *progress_icon = NULL;
-
 /* mail_msg stuff */
 #ifdef LOG_OPS
 static FILE *log;
@@ -983,9 +981,6 @@ op_status_exec (struct _op_status_msg *m)
 		} else {
 			data->activity_state = 1;
 
-			if (progress_icon == NULL)
-				progress_icon = e_icon_factory_get_icon ("mail-unread", E_ICON_SIZE_MENU);
-
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->info->desc)
 				what = msg->info->desc (msg);
@@ -996,7 +991,7 @@ op_status_exec (struct _op_status_msg *m)
 				what = g_strdup("");
 			}
 
-			data->activity_id = e_activity_handler_cancelable_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE, (void (*) (gpointer)) camel_operation_cancel, msg->cancel);
+			data->activity_id = e_activity_handler_cancelable_operation_started (activity_handler, "evolution-mail", what, TRUE, (void (*) (gpointer)) camel_operation_cancel, msg->cancel);
 
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);

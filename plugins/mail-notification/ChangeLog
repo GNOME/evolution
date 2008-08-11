@@ -1,3 +1,11 @@
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* mail-notification.c:
+	Prefer gtk_status_icon_set_from_icon_name() over
+	gtk_status_icon_set_from_pixbuf().
+
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #514006

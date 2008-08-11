@@ -3314,7 +3314,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
 	GtkWidget *widget, *label;
-	char *icon_path;
 	char *gladefile;
 
 	e_contact_editor->name = e_contact_name_new();

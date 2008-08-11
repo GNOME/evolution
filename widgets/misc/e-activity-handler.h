@@ -71,12 +71,10 @@ void  e_activity_handler_unset_message (EActivityHandler *activity_handler);
 
 guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler,
 					      const char       *component_id,
-					      GdkPixbuf        *icon_pixbuf,
 					      const char       *information,
 					      gboolean          cancellable);
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
 						      const char       *component_id,
-						      GdkPixbuf        *icon_pixbuf,
 					      	      const char       *information,
 					      	      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),

@@ -26,8 +26,6 @@
 
 #include "e-component-registry.h"
 
-#include <e-util/e-icon-factory.h>
-
 #include <glib/gi18n.h>
 
 #include <bonobo/bonobo-object.h>

@@ -26,7 +26,6 @@
 
 #include "e-combo-button.h"
 #include "ea-widgets.h"
-#include <e-util/e-icon-factory.h>
 
 struct _EComboButtonPrivate {
 	GdkPixbuf *icon;
@@ -461,7 +460,8 @@ e_combo_button_pack_hbox (EComboButton *combo_button)
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);
 
-	priv->icon_image = e_icon_factory_get_image (NULL, E_ICON_SIZE_MENU);
+	priv->icon_image = gtk_image_new_from_stock (
+		GTK_STOCK_MISSING_IMAGE, GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->icon_image, TRUE, TRUE, 0);
 	gtk_widget_show (priv->icon_image);
 
@@ -498,7 +498,8 @@ e_combo_button_pack_vbox (EComboButton *combo_button)
    	priv->vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (priv->vbox);
 
-	priv->icon_image = e_icon_factory_get_image (NULL, E_ICON_SIZE_MENU);
+	priv->icon_image = gtk_image_new_from_stock (
+		GTK_STOCK_MISSING_IMAGE, GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (priv->vbox), priv->icon_image, TRUE, TRUE, 0);
 	gtk_widget_show (priv->icon_image);
 

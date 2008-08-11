@@ -1,3 +1,17 @@
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* e-gui-utils.c:
+	* e-popup.c:
+	Prefer gtk_image_new_from_icon_name() over e_icon_factory_get_image().
+
+	* e-icon-factory.c (e_icon_factory_get_image):
+	Kill this function.  Use gtk_image_new_from_icon_name().
+
+	* e-icon-factory.c (e_icon_factory_get_icon_list):
+	Kill this function.  Use gtk_window_set_icon_name().
+
 2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #545568

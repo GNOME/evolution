@@ -42,7 +42,6 @@
 #include "../e-timezone-entry.h"
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 
 #include "../e-meeting-attendee.h"
@@ -688,7 +687,7 @@ create_image_event_box (const char *image_text, const char *tip_text)
 	GtkWidget *image, *box;
 
 	box = gtk_event_box_new ();
-	image = e_icon_factory_get_image (image_text, E_ICON_SIZE_MENU);
+	image = gtk_image_new_from_icon_name (image_text, GTK_ICON_SIZE_MENU);
 
 	gtk_container_add ((GtkContainer *) box, image);
 	gtk_widget_show_all (box);

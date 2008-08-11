@@ -37,7 +37,6 @@
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-dialog-widgets.h"
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
@@ -1142,7 +1141,6 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 {
 	Dialog dialog;
 	int response_id;
-	GList *icon_list;
 	char *gladefile;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
@@ -1178,12 +1176,8 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->action_area), 12);
 
-	icon_list = e_icon_factory_get_icon_list ("x-office-calendar");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (dialog.toplevel), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_icon_name (
+		GTK_WINDOW (dialog.toplevel), "x-office-calendar");
 
 	gtk_window_set_transient_for (GTK_WINDOW (dialog.toplevel),
 				      GTK_WINDOW (parent));

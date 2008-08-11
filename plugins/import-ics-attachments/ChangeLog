@@ -1,3 +1,10 @@
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* icsimporter.c:
+	Prefer gtk_image_new_from_icon_name() over e_icon_factory_get_image().
+
 2008-04-17  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #526739

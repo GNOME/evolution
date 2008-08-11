@@ -1181,15 +1181,16 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 {
 	GtkWidget *icon, *button;
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
-	const char *name;
+	const char *icon_name;
 
 	/* FIXME: need to have it based on encryption and signing too */
 	if (po->valid->sign.status != 0)
-		name = smime_sign_table[po->valid->sign.status].icon;
+		icon_name = smime_sign_table[po->valid->sign.status].icon;
 	else
-		name = smime_encrypt_table[po->valid->encrypt.status].icon;
+		icon_name = smime_encrypt_table[po->valid->encrypt.status].icon;
 
-	icon = e_icon_factory_get_image (name, E_ICON_SIZE_LARGE_TOOLBAR);
+	icon = gtk_image_new_from_icon_name (
+		icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_widget_show(icon);
 
 	button = gtk_button_new();
@@ -2371,7 +2372,8 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 
 	button = gtk_button_new();
 	hbox = gtk_hbox_new (FALSE, 0);
-	img = e_icon_factory_get_image ("stock_show-all", E_ICON_SIZE_BUTTON);
+	img = gtk_image_new_from_icon_name (
+		"stock_show-all", GTK_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("View _Unformatted"));
 	g_object_set_data (G_OBJECT (button), "text-label", (gpointer)label);
 	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
@@ -2390,7 +2392,8 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 
 	button = gtk_button_new();
 	hbox = gtk_hbox_new (FALSE, 0);
-	img = e_icon_factory_get_image ("stock_open", E_ICON_SIZE_BUTTON);
+	img = gtk_image_new_from_stock (
+		GTK_STOCK_OPEN, GTK_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("O_pen With"));
 	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
 	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);

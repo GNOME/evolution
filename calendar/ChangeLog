@@ -1,3 +1,30 @@
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/alarm-list-dialog.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/select-source-dialog.c:
+	Prefer gtk_window_set_icon_name() over gtk_window_set_icon_list().
+
+	* gui/dialogs/event-page.c:
+	* gui/e-timezone-entry.c:
+	Prefer gtk_image_new_from_icon_name() over e_icon_factory_get_image().
+
+	* gui/alarm-notify/alarm-queue.c:
+	Prefer gtk_status_icon_set_from_icon_name() over
+	gtk_status_icon_set_from_pixbuf().
+
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-memo-table.c:
+	e_activity_handler_operation_started() no longer takes a GdkPixbuf.
+	It was ignoring the pixbuf anyway ever since we added a spinner icon.
+
 2008-08-08  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #544117

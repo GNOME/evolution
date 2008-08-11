@@ -35,8 +35,8 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-print.h>
 #include <e-util/e-icon-factory.h>
+#include <e-util/e-print.h>
 #include <e-util/e-util-private.h>
 
 #include "calendar-config.h"

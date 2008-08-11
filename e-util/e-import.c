@@ -35,8 +35,6 @@
 
 #include "e-import.h"
 
-#include <e-util/e-icon-factory.h>
-
 #include <glib/gi18n.h>
 
 #define d(x)

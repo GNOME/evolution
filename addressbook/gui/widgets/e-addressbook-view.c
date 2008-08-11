@@ -31,7 +31,6 @@
 #include <filter/rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <e-util/e-xml-utils.h>
-#include <e-util/e-icon-factory.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include "addressbook/printing/e-contact-print.h"
@@ -1476,8 +1475,16 @@ generate_viewoption_menu (EABSearchBarItem *subitems)
 			char *str = NULL;
 			str = e_str_without_underscores (subitems[i].search.text);
 			menu_item = gtk_image_menu_item_new_with_label (str);
-/*			if (subitems[i].image)
-				gtk_image_menu_item_set_image (menu_item, e_icon_factory_get_image (subitems[i].image, E_ICON_SIZE_MENU)); */
+                        if (subitems[i].image) {
+                                GtkWidget *image;
+
+                                image = gtk_image_new_from_icon_name (
+                                        subitems[i].image,
+                                        GTK_ICON_SIZE_MENU);
+                                gtk_image_menu_item_set_image (
+                                        GTK_IMAGE_MENU_ITEM (menu_item),
+                                        image);
+                        }
 			g_free (str);
 		} else {
 			menu_item = gtk_menu_item_new ();
