@@ -1117,7 +1117,7 @@ e_shell_window_actions_init (EShellWindow *window)
 	domain = GETTEXT_PACKAGE;
 
 	/* Shell Actions */
-	action_group = ACTION_GROUP (SHELL);
+	action_group = window->priv->shell_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
 		action_group, shell_entries,
@@ -1128,22 +1128,22 @@ e_shell_window_actions_init (EShellWindow *window)
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* New Item Actions (empty) */
-	action_group = ACTION_GROUP (NEW_ITEM);
+	action_group = window->priv->new_item_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* New Group Actions (empty) */
-	action_group = ACTION_GROUP (NEW_GROUP);
+	action_group = window->priv->new_group_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* New Source Actions (empty) */
-	action_group = ACTION_GROUP (NEW_SOURCE);
+	action_group = window->priv->new_source_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Shell View Actions (empty) */
-	action_group = ACTION_GROUP (SHELL_VIEW);
+	action_group = window->priv->shell_view_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 }
@@ -1160,7 +1160,7 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (window));
 
-	action_group = ACTION_GROUP (SHELL_VIEW);
+	action_group = window->priv->shell_view_actions;
 	types = e_shell_registry_get_view_types (&n_types);
 	manager = e_shell_window_get_ui_manager (window);
 	merge_id = gtk_ui_manager_new_merge_id (manager);

@@ -159,6 +159,31 @@ e_shell_handle_uri (const gchar *uri)
 	return e_shell_module_handle_uri (shell_module, uri);
 }
 
+void
+e_shell_send_receive (GtkWindow *parent)
+{
+	/* FIXME */
+}
+
+void
+e_shell_go_offline (void)
+{
+	/* FIXME */
+}
+
+void
+e_shell_go_online (void)
+{
+	/* FIXME */
+}
+
+EShellLineStatus
+e_shell_get_line_status (void)
+{
+	/* FIXME */
+	return E_SHELL_LINE_STATUS_ONLINE;
+}
+
 GtkWidget *
 e_shell_get_preferences_window (void)
 {
@@ -168,4 +193,25 @@ e_shell_get_preferences_window (void)
 		preferences_window = e_preferences_window_new ();
 
 	return preferences_window;
+}
+
+gboolean
+e_shell_is_busy (void)
+{
+	/* FIXME */
+	return FALSE;
+}
+
+gboolean
+e_shell_do_quit (void)
+{
+	/* FIXME */
+	return TRUE;
+}
+
+gboolean
+e_shell_quit (void)
+{
+	/* FIXME */
+	return TRUE;
 }

@@ -59,13 +59,11 @@ privsolib_LTLIBRARIES =	\
 eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
-	Evolution.h				\
 	e-shell-common.h			\
 	e-shell-module.h			\
 	e-shell-view.h				\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
-	e-user-creatable-items-handler.h	\
 	es-event.h				\
 	es-menu.h
 
@@ -76,7 +74,6 @@ libeshell_la_SOURCES =				\
 	e-shell-view.c				\
 	e-shell-window.c			\
 	e-shell-window-actions.c		\
-	e-user-creatable-items-handler.c	\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LDFLAGS = $(NO_UNDEFINED)
@@ -123,7 +120,6 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 glade_DATA =						\
-	e-active-connection-dialog.glade		\
 	import.glade
 
 # GConf schemas
