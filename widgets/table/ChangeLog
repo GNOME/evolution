@@ -1,5 +1,14 @@
 2008-08-11  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #352695
+
+	* e-tree-table-adapter.c: (e_tree_table_adapter_load_expanded_state),
+	(e_tree_table_adapter_load_expanded_state_xml):
+	Call the e_table_model_changed in the proper function, to prevent
+	lock of the model caused by previous commit to this bug.
+
+2008-08-11  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #519292
 
 	* e-tree.h: (e_tree_load_all_expanded_state):

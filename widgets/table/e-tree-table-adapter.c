@@ -1066,6 +1066,8 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta, xmlDoc *d
 
 		g_free (id);
 	}
+
+	e_table_model_changed (E_TABLE_MODEL (etta));
 }
 
 void
@@ -1082,8 +1084,6 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	e_tree_table_adapter_load_expanded_state_xml  (etta, doc);
 
 	xmlFreeDoc (doc);
-
-	e_table_model_changed (E_TABLE_MODEL (etta));
 }
 
 void
