@@ -72,8 +72,8 @@ void         e_tree_table_adapter_node_set_expanded          (ETreeTableAdapter 
 void         e_tree_table_adapter_node_set_expanded_recurse  (ETreeTableAdapter *etta,
 							      ETreePath          path,
 							      gboolean           expanded);
-void         e_tree_table_adapter_load_all_expanded_state    (ETreeTableAdapter *etta,
-							      gboolean state);
+void         e_tree_table_adapter_force_expanded_state       (ETreeTableAdapter *etta,
+							      int state);
 void         e_tree_table_adapter_root_node_set_visible      (ETreeTableAdapter *etta,
 							      gboolean           visible);
 ETreePath    e_tree_table_adapter_node_at_row                (ETreeTableAdapter *etta,

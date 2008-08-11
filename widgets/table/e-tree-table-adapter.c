@@ -82,6 +82,8 @@ struct ETreeTableAdapterPriv {
 	int          sort_info_changed_id;
 
 	guint        resort_idle_id;
+
+	int          force_expanded_state; /* use this instead of model's default if not 0; <0 ... collapse, >0 ... expand */
 };
 
 static void etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta);
@@ -322,7 +324,7 @@ create_gnode(ETreeTableAdapter *etta, ETreePath path)
 	node = g_new0(node_t, 1);
 	node->path = path;
 	node->index = -1;
-	node->expanded = e_tree_model_get_expanded_default(etta->priv->source);
+	node->expanded = etta->priv->force_expanded_state == 0 ? e_tree_model_get_expanded_default (etta->priv->source) : etta->priv->force_expanded_state > 0;
 	node->expandable = e_tree_model_node_is_expandable(etta->priv->source, path);
 	node->expandable_set = 1;
 	node->num_visible_children = 0;
@@ -737,6 +739,7 @@ etta_init (ETreeTableAdapter *etta)
 	etta->priv->node_request_collapse_id = 0;
 
 	etta->priv->resort_idle_id           = 0;
+	etta->priv->force_expanded_state     = 0;
 }
 
 static void
@@ -996,42 +999,13 @@ open_file (ETreeTableAdapter *etta, const char *filename)
 	return doc;
 }
 
-static void
-set_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
-{
-	ETreePath path = keyp;
-	node_t *node = ((GNode *)value)->data;
-	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
-
-	if (node->expanded != TRUE) {
-		e_tree_table_adapter_node_set_expanded_recurse (etta, path, TRUE);
-		node->expanded = TRUE;
-	}
-}
-
-static void
-set_collapsed_state_func (gpointer keyp, gpointer value, gpointer data)
-{
-	ETreePath path = keyp;
-	node_t *node = ((GNode *)value)->data;
-	ETreeTableAdapter *etta = (ETreeTableAdapter *) data;
-
-	if (node->expanded != FALSE) {
-		e_tree_table_adapter_node_set_expanded_recurse (etta, path, FALSE);
-		node->expanded = FALSE;
-	}
-}
-
+/* state: <0 ... collapse;  0 ... use default; >0 ... expand */
 void
-e_tree_table_adapter_load_all_expanded_state (ETreeTableAdapter *etta, gboolean state)
+e_tree_table_adapter_force_expanded_state (ETreeTableAdapter *etta, int state)
 {
+	g_return_if_fail (etta != NULL);
 
-	g_return_if_fail(etta != NULL);
-
-	if (state)
-		g_hash_table_foreach (etta->priv->nodes, set_expanded_state_func, etta);
-	else
-		g_hash_table_foreach (etta->priv->nodes, set_collapsed_state_func, etta);
+	etta->priv->force_expanded_state = state;
 }
 
 void

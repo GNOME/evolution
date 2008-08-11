@@ -1,5 +1,14 @@
 2008-08-11  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #519292
+
+	* message-list.c: (load_tree_expand_all): Drop function.
+	* message-list.c: (regen_list_done): Rather use desired expanded state
+	value when creating the tree instead of the default model's value for
+	this to have 'expand/collapse all' commands work better and quicker.
+
+2008-08-11  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #352695
 
 	* message-list.c: (struct _MessageListPrivate), (save_tree_state),

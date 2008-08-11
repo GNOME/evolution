@@ -2088,10 +2088,13 @@ e_tree_load_expanded_state_xml (ETree *et, xmlDoc *doc)
 	e_tree_table_adapter_load_expanded_state_xml (et->priv->etta, doc);
 }
 
+/* state: <0 ... collapse; 0 ... no force - use default; >0 ... expand;
+   when using this, be sure to reset to 0 once no forcing is required
+   anymore, aka the build of the tree is done */
 void
-e_tree_load_all_expanded_state (ETree *et, gboolean state)
+e_tree_force_expanded_state (ETree *et, int state)
 {
-	e_tree_table_adapter_load_all_expanded_state (et->priv->etta, state);
+	e_tree_table_adapter_force_expanded_state (et->priv->etta, state);
 }
 
 gint

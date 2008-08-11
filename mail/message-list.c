@@ -1804,16 +1804,6 @@ save_tree_state(MessageList *ml)
 }
 
 static void
-load_tree_expand_all (MessageList *ml, gboolean state)
-{
-
-	if (ml->folder == NULL || ml->tree == NULL)
-		return;
-
-	e_tree_load_all_expanded_state (ml->tree, state);
-	save_tree_state (ml);
-}
-static void
 load_tree_state (MessageList *ml, xmlDoc *expand_state)
 {
 	if (ml->folder == NULL || ml->tree == NULL)
@@ -4147,6 +4137,8 @@ regen_list_done (struct _regen_list_msg *m)
 	e_profile_event_emit("list.buildtree", m->folder->full_name, 0);
 
 	if (m->dotree) {
+		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
+
 		if (m->ml->just_set_folder) {
 			m->ml->just_set_folder = FALSE;
 			if (m->expand_state) {
@@ -4156,17 +4148,21 @@ regen_list_done (struct _regen_list_msg *m)
 			}
 		}
 
+		if (forcing_expand_state)
+			e_tree_force_expanded_state (m->ml->tree, m->ml->expand_all ? 1 : -1);
+
 		build_tree (m->ml, m->tree, m->changes);
 		if (m->ml->thread_tree)
 			camel_folder_thread_messages_unref(m->ml->thread_tree);
 		m->ml->thread_tree = m->tree;
 		m->tree = NULL;
 
-		if (m->ml->expand_all)
-			load_tree_expand_all (m->ml, TRUE);
-		else if (m->ml->collapse_all)
-			load_tree_expand_all (m->ml, FALSE);
-		else
+		if (forcing_expand_state) {
+			if (m->ml->folder != NULL && m->ml->tree != NULL)
+				save_tree_state (m->ml);
+			/* do not forget to set this back to use the default value... */
+			e_tree_force_expanded_state (m->ml->tree, 0);
+		} else
 			load_tree_state (m->ml, m->expand_state);
 
 		m->ml->expand_all = 0;
