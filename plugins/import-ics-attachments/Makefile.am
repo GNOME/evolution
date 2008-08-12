@@ -24,6 +24,8 @@ liborg_gnome_evolution_mail_attachments_import_ics_la_LDFLAGS = -module -avoid-v
 liborg_gnome_evolution_mail_attachments_import_ics_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
+	$(EVOLUTION_CALENDAR_LIBS)	\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-mail-attachments-import-ics.eplug.xml

@@ -1,3 +1,8 @@
+2008-08-12  Bharath Acharya  <abharath@novell.com>
+
+	* Makefile.am: Added necessary libraries to link to. Build break while 
+	compiling on Windows.
+
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #543755
