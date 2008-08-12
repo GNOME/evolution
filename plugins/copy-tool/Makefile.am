@@ -8,7 +8,9 @@ plugin_DATA = org-gnome-copy-tool.eplug
 plugin_LTLIBRARIES = liborg-gnome-copy-tool.la
 
 liborg_gnome_copy_tool_la_SOURCES = copy-tool.c
-liborg_gnome_copy_tool_la_LDFLAGS = -module -avoid-version
+liborg_gnome_copy_tool_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_copy_tool_la_LIBADD =	\
+	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-copy-tool.eplug.xml
 

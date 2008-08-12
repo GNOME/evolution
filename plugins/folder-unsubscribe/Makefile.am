@@ -8,6 +8,9 @@ plugin_DATA = org-gnome-mail-folder-unsubscribe.eplug
 plugin_LTLIBRARIES = liborg-gnome-mail-folder-unsubscribe.la
 
 liborg_gnome_mail_folder_unsubscribe_la_SOURCES = folder-unsubscribe.c
-liborg_gnome_mail_folder_unsubscribe_la_LDFLAGS = -module -avoid-version
+liborg_gnome_mail_folder_unsubscribe_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_mail_folder_unsubscribe_la_LIBADD =	\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-mail-folder-unsubscribe.eplug.xml

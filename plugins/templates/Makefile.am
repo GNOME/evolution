@@ -15,7 +15,11 @@ plugin_DATA = 					\
 plugin_LTLIBRARIES = liborg-gnome-templates.la
 
 liborg_gnome_templates_la_SOURCES = templates.c
-liborg_gnome_templates_la_LDFLAGS = -module -avoid-version
+liborg_gnome_templates_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_templates_la_LIBADD =	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_MAIL_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-template-placeholders.schemas.in
