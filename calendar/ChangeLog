@@ -1,3 +1,8 @@
+2008-08-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/migration.c:
+	Fix TeX-style quotes.  (#547372)
+
 2008-08-12  Dmitrijs Ledkovs  <dmitrij.ledkov@gmail.com>
 
 	** Fixes bug #498095

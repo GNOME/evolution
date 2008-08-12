@@ -1,3 +1,11 @@
+2008-08-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	Fix a typo.  (#547369)
+
+	* gui/component/addressbook-migrate.c:
+	Fix TeX-style quotes.  (#547372)
+
 2008-08-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #547308

@@ -192,7 +192,7 @@ dialog_set_folder_name (const char *folder_name)
 {
 	char *text;
 
-	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
+	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (label, text);
 	g_free (text);
 
