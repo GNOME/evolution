@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-12 12:21+0200\n"
-"PO-Revision-Date: 2008-08-12 12:22+0200\n"
+"POT-Creation-Date: 2008-08-12 17:37+0200\n"
+"PO-Revision-Date: 2008-08-12 17:37+0200\n"
 "Last-Translator: Frco. Javier Rial Rodríguez <>\n"
 "Language-Team: Galician <g11n@mancomun.org>\n"
 "MIME-Version: 1.0\n"
@@ -642,8 +642,8 @@ msgid "Evolution Address Book component"
 msgstr "Compoñente da axenda de enderezos do Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
-msgid "Evolution S/Mime Certificate Management Control"
-msgstr "Control de xestión de certificados S/Mime do Evolution"
+msgid "Evolution S/MIME Certificate Management Control"
+msgstr "Control de xestión de certificados S/MIME do Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -794,10 +794,10 @@ msgid "Migrating..."
 msgstr "Migrando..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
-#: ../calendar/gui/migration.c:195
+#: ../calendar/gui/migration.c:195 ../mail/em-migrate.c:1247
 #, c-format
-msgid "Migrating `%s':"
-msgstr "Migrando `%s':"
+msgid "Migrating '%s':"
+msgstr "Migrando '%s':"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:645
 msgid "LDAP Servers"
@@ -12897,11 +12897,6 @@ msgstr "Tarefas pendentes"
 msgid "Later"
 msgstr "Máis tarde"
 
-#: ../mail/em-migrate.c:1247
-#, c-format
-msgid "Migrating '%s':"
-msgstr "Migrando '%s':"
-
 #: ../mail/em-migrate.c:1652
 #, c-format
 msgid "Unable to create new folder `%s': %s"
@@ -14161,7 +14156,7 @@ msgstr "Nivel de rexistro"
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1811 ../mail/message-list.c:2435
+#: ../mail/mail-component.c:1811 ../mail/message-list.c:2454
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensaxes"
@@ -15971,11 +15966,11 @@ msgid "%b %d %Y"
 msgstr "%d de %B de %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3897 ../mail/message-list.c:4354
+#: ../mail/message-list.c:3916 ../mail/message-list.c:4373
 msgid "Generating message list"
 msgstr "Xerando a lista de mensaxes"
 
-#: ../mail/message-list.c:4204
+#: ../mail/message-list.c:4223
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15983,7 +15978,7 @@ msgstr ""
 "Non hai mensaxes que coincidan cos seus criterios de busca. Probe a limpar a "
 "busca co elemento Limpar do menú Buscar ou cámbiea."
 
-#: ../mail/message-list.c:4206
+#: ../mail/message-list.c:4225
 msgid "There are no messages in this folder."
 msgstr "Non hai mensaxes para amosar neste cartafol."
 
@@ -23962,6 +23957,9 @@ msgstr "Contexto MI"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Tirador emerxente"
+
+#~ msgid "Migrating `%s':"
+#~ msgstr "Migrando `%s':"
 
 #~ msgid "D_escription:"
 #~ msgstr "D_escrición:"
