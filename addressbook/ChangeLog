@@ -1,3 +1,16 @@
+2008-08-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #547308
+
+	* gui/component/addressbook.c: (load_source_auth_cb):
+	Do not try to authenticate to the server more than twice when knows
+	the password and it didn't fail because of wrong user name/password.
+	* gui/widgets/eab-gui-util.c: (const char *status_to_string[]):
+	New string for new status code.
+	* gui/widgets/eab-gui-util.c: (eab_load_error_dialog):
+	Include detailed error in generic failure error, if available and is
+	not a repository offline error.
+
 2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #546892
