@@ -1,3 +1,11 @@
+2008-08-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #519292
+
+	* message-list.c: (read_boolean_with_default),
+	(message_list_construct): Read 'thread_expand' and 'thread_latest'
+	safely with TRUE as default if key doesn't exist.
+
 2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #546892

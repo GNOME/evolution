@@ -2373,6 +2373,25 @@ message_list_class_init (MessageListClass *message_list_class)
 	message_list_init_images ();
 }
 
+static gboolean
+read_boolean_with_default (GConfClient *gconf, const char *key, gboolean def_value)
+{
+	GConfValue *value;
+	gboolean res;
+
+	g_return_val_if_fail (gconf != NULL, def_value);
+	g_return_val_if_fail (key != NULL, def_value);
+
+	value = gconf_client_get (gconf, key, NULL);
+	if (!value)
+		return def_value;
+
+	res = gconf_value_get_bool (value);
+	gconf_value_free (value);
+
+	return res;
+}
+
 static void
 message_list_construct (MessageList *message_list)
 {
@@ -2406,11 +2425,11 @@ message_list_construct (MessageList *message_list)
 					     message_list);
 
 	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model),
-					   gconf_client_get_bool (gconf,
-					   			  "/apps/evolution/mail/display/thread_expand",
-								  NULL));
+					   read_boolean_with_default (gconf,
+					   			      "/apps/evolution/mail/display/thread_expand",
+								      TRUE));
 
-	message_list->priv->thread_latest = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_latest", NULL);
+	message_list->priv->thread_latest = read_boolean_with_default (gconf, "/apps/evolution/mail/display/thread_latest", TRUE);
 
 	/*
 	 * The etree
