@@ -57,19 +57,39 @@ typedef enum {
 	E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES = 0x01
 } ECalModelFlags;
 
-typedef struct {
+#define E_TYPE_CAL_MODEL_COMPONENT            (e_cal_model_component_get_type ())
+#define E_CAL_MODEL_COMPONENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponent))
+#define E_CAL_MODEL_COMPONENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CAL_MODEL_COMPONENT,	\
+				       ECalComponentClass))
+#define E_IS_CAL_MODEL_COMPONENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_MODEL_COMPONENT))
+#define E_IS_CAL_MODEL_COMPONENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_MODEL_COMPONENT))
+
+typedef struct _ECalModelComponent ECalModelComponent;
+typedef struct _ECalModelComponentClass ECalModelComponentClass;
+typedef struct _ECalModelComponentPrivate ECalModelComponentPrivate;
+
+struct _ECalModelComponent {
+	GObject object;
+
 	ECal *client;
 	icalcomponent *icalcomp;
 	time_t instance_start;
 	time_t instance_end;
-
-	/* private data */
+	
+	/* Private data used by ECalModelCalendar and ECalModelTasks */
+	/* keep these public to avoid many accessor functions */
 	ECellDateEditValue *dtstart;
 	ECellDateEditValue *dtend;
 	ECellDateEditValue *due;
 	ECellDateEditValue *completed;
 	gchar *color;
-} ECalModelComponent;
+
+	ECalModelComponentPrivate *priv;
+};
+
+struct _ECalModelComponentClass {
+	GObjectClass parent_class;
+};
 
 typedef struct {
 	ECalModelComponent *comp_data;
@@ -97,6 +117,7 @@ typedef struct {
 } ECalModelClass;
 
 GType               e_cal_model_get_type                       (void);
+GType 		    e_cal_model_component_get_type 	       (void);
 icalcomponent_kind  e_cal_model_get_component_kind             (ECalModel           *model);
 void                e_cal_model_set_component_kind             (ECalModel           *model,
 								icalcomponent_kind   kind);

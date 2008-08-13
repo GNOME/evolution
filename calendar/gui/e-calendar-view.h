@@ -81,6 +81,8 @@ typedef struct _ECalendarViewPrivate ECalendarViewPrivate;
 
 struct _ECalendarView {
 	GtkTable table;
+
+	gboolean in_focus;
 	ECalendarViewPrivate *priv;
 };
 

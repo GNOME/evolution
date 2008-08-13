@@ -75,7 +75,7 @@ struct _ECalListViewClass
 GType		   e_cal_list_view_get_type		(void);
 GtkWidget *e_cal_list_view_construct            (ECalListView *cal_list_view);
 
-GtkWidget *e_cal_list_view_new			(void);
+GtkWidget *e_cal_list_view_new			(ECalModel *cal_model);
 void e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename);
 void e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename);
 

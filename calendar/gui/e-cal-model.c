@@ -75,6 +75,10 @@ struct _ECalModelPrivate {
         gboolean use_24_hour_format;
 };
 
+#define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
+
 static void e_cal_model_dispose (GObject *object);
 static void e_cal_model_finalize (GObject *object);
 
@@ -1120,9 +1124,6 @@ e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone)
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 		priv->zone = zone;
 
-		for (l = priv->clients; l; l = l->next)
-			e_cal_set_default_timezone (((ECalModelClient *)l->data)->client, priv->zone, NULL);
-
 		/* the timezone affects the times shown for date fields,
 		   so we need to redisplay everything */
 		e_table_model_changed (E_TABLE_MODEL (model));
@@ -1364,13 +1365,11 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	e_cal_component_set_dtend (comp, &to_set);
 	e_cal_component_free_datetime (&datetime);
 
-	comp_data = g_new0 (ECalModelComponent, 1);
+	comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 	comp_data->client = g_object_ref (rdata->client);
 	comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
 	comp_data->instance_start = instance_start;
 	comp_data->instance_end = instance_end;
-	comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
-	comp_data->color = NULL;
 
 	g_ptr_array_add (priv->objects, comp_data);
 	e_table_model_row_inserted (E_TABLE_MODEL (rdata->model), priv->objects->len - 1);
@@ -1456,12 +1455,10 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 		} else {
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 
-			comp_data = g_new0 (ECalModelComponent, 1);
+			comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 			comp_data->client = g_object_ref (e_cal_view_get_client (query));
 			comp_data->icalcomp = icalcomponent_new_clone (l->data);
 			e_cal_model_set_instance_times (comp_data, priv->zone);
-			comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
-			comp_data->color = NULL;
 
 			g_ptr_array_add (priv->objects, comp_data);
 			e_table_model_row_inserted (E_TABLE_MODEL (model), priv->objects->len - 1);
@@ -1525,6 +1522,7 @@ e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer user_data)
 {
  	ECalModel *model = (ECalModel *) user_data;
 	ECal *client = e_cal_view_get_client (query);
+	ECalModelPrivate *priv = model->priv;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
@@ -1537,6 +1535,8 @@ static void
 update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 {
 	ECalModelPrivate *priv;
+	GError *error = NULL;
+	gint tries = 0;
 
 	priv = model->priv;
 
@@ -1559,7 +1559,16 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	if (!client_data->do_query)
 		return;
 
-	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, NULL)) {
+try_again:		
+	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, &error)) {
+		if (error->code == E_CALENDAR_STATUS_BUSY && tries != 3) {
+			tries++;
+			/*TODO chose an optimal value */
+			g_usleep (50);
+			g_clear_error (&error);
+			goto try_again;	
+		}	
+
 		g_warning (G_STRLOC ": Unable to get query");
 
 		return;
@@ -1597,7 +1606,6 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		e_cal_model_remove_client (model, client);
-
 		return;
 	}
 
@@ -1618,6 +1626,11 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 	ECalModelClient *client_data;
 
 	priv = model->priv;
+
+	/* DEBUG the load state should always be loaded here
+	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED) {
+		g_assert_not_reached ();
+	} */
 
 	/* Look to see if we already have this client */
 	client_data = find_client_data (model, client);
@@ -2087,45 +2100,32 @@ copy_ecdv (ECellDateEditValue *ecdv)
 	return new_ecdv;
 }
 
-/**
- * e_cal_model_copy_component_data
- */
-ECalModelComponent *
-e_cal_model_copy_component_data (ECalModelComponent *comp_data)
+
+struct _ECalModelComponentPrivate {
+};
+
+static void e_cal_model_component_finalize (GObject *object);
+
+static GObjectClass *parent_class;
+
+/* Class initialization function for the calendar component object */
+static void
+e_cal_model_component_class_init (ECalModelComponentClass *klass)
 {
-	ECalModelComponent *new_data;
+	GObjectClass *object_class;
 
-	g_return_val_if_fail (comp_data != NULL, NULL);
+	object_class = (GObjectClass *) klass;
 
-	new_data = g_new0 (ECalModelComponent, 1);
+	parent_class = g_type_class_peek_parent (klass);
 
-	new_data->instance_start = comp_data->instance_start;
-	new_data->instance_end = comp_data->instance_end;
-	if (comp_data->icalcomp)
-		new_data->icalcomp = icalcomponent_new_clone (comp_data->icalcomp);
-	if (comp_data->client)
-		new_data->client = g_object_ref (comp_data->client);
-	if (comp_data->dtstart)
-		new_data->dtstart = copy_ecdv (comp_data->dtstart);
-	if (comp_data->dtend)
-		new_data->dtend = copy_ecdv (comp_data->dtend);
-	if (comp_data->due)
-		new_data->due = copy_ecdv (comp_data->due);
-	if (comp_data->completed)
-		new_data->completed = copy_ecdv (comp_data->completed);
-	if (comp_data->color)
-		new_data->color = g_strdup (comp_data->color);
-
-	return new_data;
+	object_class->finalize = e_cal_model_component_finalize;
 }
 
-/**
- * e_cal_model_free_component_data
- */
-void
-e_cal_model_free_component_data (ECalModelComponent *comp_data)
+
+static void
+e_cal_model_component_finalize (GObject *object) 
 {
-	g_return_if_fail (comp_data != NULL);
+	ECalModelComponent *comp_data = E_CAL_MODEL_COMPONENT(object);
 
 	if (comp_data->client) {
 		g_object_unref (comp_data->client);
@@ -2155,8 +2155,64 @@ e_cal_model_free_component_data (ECalModelComponent *comp_data)
 		g_free (comp_data->color);
 		comp_data->color = NULL;
 	}
+	
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
 
-	g_free (comp_data);
+/* Object initialization function for the calendar component object */
+static void
+e_cal_model_component_init (ECalModelComponent *comp)
+{
+	comp->dtstart = NULL;
+	comp->dtend = NULL;
+	comp->due = NULL;
+	comp->completed = NULL;
+	comp->color = NULL;
+}
+
+GType
+e_cal_model_component_get_type (void)
+{
+	static GType e_cal_model_component_type = 0;
+
+	if (!e_cal_model_component_type) {
+		static GTypeInfo info = {
+                        sizeof (ECalModelComponentClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) e_cal_model_component_class_init,
+                        NULL, NULL,
+                        sizeof (ECalModelComponent),
+                        0,
+                        (GInstanceInitFunc) e_cal_model_component_init
+                };
+		e_cal_model_component_type = g_type_register_static (G_TYPE_OBJECT, "ECalModelComponent", &info, 0);
+	}
+
+	return e_cal_model_component_type;
+}
+
+/**
+ * e_cal_model_copy_component_data
+ */
+ECalModelComponent *
+e_cal_model_copy_component_data (ECalModelComponent *comp_data)
+{
+	g_return_val_if_fail (comp_data != NULL, NULL);
+
+	return g_object_ref (comp_data);
+}
+
+/**
+ * e_cal_model_free_component_data
+ */
+void
+e_cal_model_free_component_data (ECalModelComponent *comp_data)
+{
+	g_return_if_fail (comp_data != NULL);
+	
+	g_object_unref (comp_data);
 }
 
 /**

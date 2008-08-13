@@ -393,8 +393,6 @@ static void
 e_calendar_view_init (ECalendarView *cal_view)
 {
 	cal_view->priv = g_new0 (ECalendarViewPrivate, 1);
-
-	cal_view->priv->model = (ECalModel *) e_cal_model_calendar_new ();
 }
 
 static void
@@ -463,7 +461,6 @@ e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model)
 	}
 
 	cal_view->priv->model = g_object_ref (model);
-	e_calendar_view_update_query (cal_view);
 }
 
 icaltimezone *

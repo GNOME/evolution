@@ -486,6 +486,11 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		return;
+	}
+
 	/* Calculate the first day that should be shown, based on start_time
 	   and the days_shown setting. If we are showing 1 day it is just the
 	   start of the day given by start_time, otherwise it is the previous
@@ -568,6 +573,10 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		return;
+	}
+
 	update_row (day_view, row);
 }
 
@@ -575,6 +584,10 @@ static void
 model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
+
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		return;
+	}
 
 	update_row (day_view, row);
 }
@@ -585,6 +598,10 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	ECalModel *model;
 	int i;
+
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		return;
+	}
 
 	e_day_view_stop_editing_event (day_view);
 
@@ -611,6 +628,10 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	int i;
+
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		return;
+	}
 
 	e_day_view_stop_editing_event (day_view);
 
@@ -653,6 +674,10 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	
+	if (!cal_view->in_focus)
+		return;
+	
 	/* If our time hasn't been set yet, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
@@ -673,7 +698,6 @@ e_day_view_init (EDayView *day_view)
 {
 	gint day;
 	GnomeCanvasGroup *canvas_group;
-	ECalModel *model;
 	GtkWidget *w;
 
 	GTK_WIDGET_SET_FLAGS (day_view, GTK_CAN_FOCUS);
@@ -981,9 +1005,16 @@ e_day_view_init (EDayView *day_view)
 			   target_table, n_targets,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
-	/* Get the model */
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
+	/* connect to ECalendarView's signals */
+	g_signal_connect (G_OBJECT (day_view), "timezone_changed",
+			  G_CALLBACK (timezone_changed_cb), NULL);
+}
+
+
+static void
+init_model (EDayView *day_view, ECalModel *model)
+{
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",
 			  G_CALLBACK (time_range_changed_cb), day_view);
@@ -995,10 +1026,6 @@ e_day_view_init (EDayView *day_view)
 			  G_CALLBACK (model_rows_inserted_cb), day_view);
 	g_signal_connect (G_OBJECT (model), "model_rows_deleted",
 			  G_CALLBACK (model_rows_deleted_cb), day_view);
-
-	/* connect to ECalendarView's signals */
-	g_signal_connect (G_OBJECT (day_view), "timezone_changed",
-			  G_CALLBACK (timezone_changed_cb), NULL);
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker
@@ -1019,12 +1046,13 @@ e_day_view_on_canvas_realized (GtkWidget *widget,
  * Creates a new #EDayView.
  **/
 GtkWidget *
-e_day_view_new (void)
+e_day_view_new (ECalModel *model)
 {
 	GObject *day_view;
 
 	day_view = g_object_new (e_day_view_get_type (), NULL);
-	e_cal_model_set_flags (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
+	e_calendar_view_set_model ((ECalendarView *)day_view, model);
+	init_model ((EDayView *) day_view, model);
 
 	return GTK_WIDGET (day_view);
 }
@@ -2346,7 +2374,7 @@ e_day_view_set_mins_per_row	(EDayView	*day_view,
 	e_day_view_recalc_num_rows (day_view);
 
 	/* If we aren't visible, we'll sort it out later. */
-	if (!GTK_WIDGET_VISIBLE (day_view))
+	if (!E_CALENDAR_VIEW (day_view)->in_focus)
 	    return;
 
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
@@ -4147,12 +4175,11 @@ e_day_view_add_event (ECalComponent *comp,
 
 	add_event_data = data;
 
-#if 0
+	/*
 	g_print ("Day view lower: %s", ctime (&add_event_data->day_view->lower));
 	g_print ("Day view upper: %s", ctime (&add_event_data->day_view->upper));
 	g_print ("Event start: %s", ctime (&start));
-	g_print ("Event end  : %s\n", ctime (&end));
-#endif
+	g_print ("Event end  : %s\n", ctime (&end)); */
 
 	/* Check that the event times are valid. */
 	g_return_val_if_fail (start <= end, TRUE);
@@ -4167,7 +4194,7 @@ e_day_view_add_event (ECalComponent *comp,
 	if (add_event_data->comp_data) {
 		event.comp_data = e_cal_model_copy_component_data (add_event_data->comp_data);
 	} else {
-		event.comp_data = g_new0 (ECalModelComponent, 1);
+		event.comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 
 		event.comp_data->client = g_object_ref (e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->day_view))));
 		e_cal_component_abort_sequence (comp);
@@ -4241,7 +4268,7 @@ e_day_view_check_layout (EDayView *day_view)
 	gint day, rows_in_top_display;
 
 	/* Don't bother if we aren't visible. */
-	if (!GTK_WIDGET_VISIBLE (day_view))
+	if (!E_CALENDAR_VIEW (day_view)->in_focus)
 	    return;
 
 	/* Make sure the events are sorted (by start and size). */
