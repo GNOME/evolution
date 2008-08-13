@@ -1,3 +1,28 @@
+2008-08-08  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #546748
+
+	* addressbook/gui/component/addressbook-view.c:
+	Change "_Properties..." to "_Properties" to match HIG and other
+	components.
+
+2008-08-08  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Additional fix for bug #467115
+
+	* addressbook/gui/contact-editor/e-contact-editor.c:
+	(e_contact_editor_init):
+	* art/Makefile.am:
+	* data/icons/Makefile.am:
+	Get rid of old contact-editor icon.
+
+2008-08-08  Michael Monreal  <mmonreal@svn.gnome.org>
+
+	** Fix for bug #546744
+
+	* addressbook/gui/component/addressbook-view.c:
+	Use address-book-new icon instead of contacts-new.
+
 2008-08-07  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #535745

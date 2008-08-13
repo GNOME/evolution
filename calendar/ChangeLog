@@ -1,3 +1,10 @@
+2008-08-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #544117
+
+	* gui/itip-utils.c: (itip_send_comp): Initialize variables to NULL,
+	to not free uninitialized memory in the cleanup part on the error.
+
 2008-08-06  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #249844

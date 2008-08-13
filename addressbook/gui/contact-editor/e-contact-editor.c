@@ -3381,9 +3381,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 			    G_CALLBACK (app_delete_event_cb), e_contact_editor);
 
 	/* set the icon */
-	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "evolution-contacts-mini.png", NULL);
-	gtk_window_set_icon_from_file (GTK_WINDOW (e_contact_editor->app), icon_path, NULL);
-	g_free (icon_path);
+	gtk_window_set_icon_name (GTK_WINDOW (e_contact_editor->app), "contact-editor");
 
 	/* show window */
 	gtk_widget_show (e_contact_editor->app);

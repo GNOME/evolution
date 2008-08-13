@@ -1,5 +1,4 @@
 images_DATA = \
-	evolution-contacts-mini.png	\
 	offline.png			\
 	online.png			\
 	world_map-960.png		\

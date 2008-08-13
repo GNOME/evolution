@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-08-05 22:32+0000\n"
-"PO-Revision-Date: 2008-08-06 18:40+0200\n"
+"POT-Creation-Date: 2008-08-06 16:50+0000\n"
+"PO-Revision-Date: 2008-08-08 15:07+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -838,7 +838,6 @@ msgstr ""
 "marca registrada de terceras partes."
 
 #: C/evolution.xml:150(para)
-#, fuzzy
 msgid ""
 "<trademark>Evolution</trademark> is a <link linkend=\"groupware\">groupware</"
 "link> application that helps you work in a group by handling email, address, "
@@ -894,7 +893,6 @@ msgid "Using the First-Run Assistant"
 msgstr "Uso del asistente para la primera ejecución"
 
 #: C/evolution.xml:202(para)
-#, fuzzy
 msgid ""
 "The first time you run Evolution, it creates a directory <emphasis>."
 "evolution</emphasis> in your home directory, where it stores all of its "
@@ -1061,7 +1059,6 @@ msgid "Novell GroupWise:"
 msgstr "Novell GroupWise:"
 
 #: C/evolution.xml:268(para)
-#, fuzzy
 msgid ""
 "Select this option if you connect to Novell <trademark class=\"registered"
 "\">GroupWise</trademark>. Novell GroupWise keeps email, calendar, and "
@@ -1079,7 +1076,6 @@ msgid "Microsoft Exchange:"
 msgstr "Microsoft Exchange:"
 
 #: C/evolution.xml:272(para)
-#, fuzzy
 msgid ""
 "Available only if you have installed the Connector for Microsoft* Exchange. "
 "It allows you to connect to a Microsoft Exchange 2000 or 2003 server, which "
@@ -1087,10 +1083,10 @@ msgid ""
 "configuration instructions, see <link linkend=\"bstfw13\">Remote "
 "Configuration Options</link>."
 msgstr ""
-"Sólo disponible si ha instalado el Conector para Microsoft Exchange, permite "
+"Sólo disponible si ha instalado el Conector para Microsoft* Exchange, permite "
 "conectarse a un servidor Microsoft* Exchange Server 2000 o 2003, que "
 "almacena la información de calendario, contacto y correo electrónico en el "
-"servidor. Para las instrucciones de configuración, vea <link linkend="
+"servidor. Para las instrucciones de configuración, consulte <link linkend="
 "\"bstfw13\">Opciones de configuración remota</link>."
 
 #: C/evolution.xml:275(title)
@@ -1098,14 +1094,13 @@ msgid "IMAP:"
 msgstr "IMAP:"
 
 #: C/evolution.xml:276(para)
-#, fuzzy
 msgid ""
 "Keeps the email on your server so you can access your email from multiple "
 "systems. For configuration instructions, see <link linkend=\"bstfw13"
 "\">Remote Configuration Options</link>."
 msgstr ""
 "Conserva su correo-e en el servidor para que pueda acceder a él con sistemas "
-"diferentes. Para las instrucciones de configuración, vea <link linkend="
+"diferentes. Para las instrucciones de configuración, consulte <link linkend="
 "\"bstfw13\">Opciones de configuración remotas</link>."
 
 #: C/evolution.xml:279(title)
@@ -1113,7 +1108,6 @@ msgid "POP:"
 msgstr "POP:"
 
 #: C/evolution.xml:280(para)
-#, fuzzy
 msgid ""
 "Downloads your email to your hard disk for permanent storage, freeing up "
 "space on the email server. For configuration instructions, see <link linkend="
@@ -1121,7 +1115,7 @@ msgid ""
 msgstr ""
 "Descarga su correo-e en su disco duro para almacenarlo permanentemente, "
 "liberando espacio en el servidor de correo-e. Para las instrucciones de "
-"configuración, vea <link linkend=\"bstfw13\">Opciones de configuración "
+"configuración, consulte <link linkend=\"bstfw13\">Opciones de configuración "
 "remota.</link>."
 
 #: C/evolution.xml:283(title)
@@ -1143,7 +1137,6 @@ msgid "Local Delivery:"
 msgstr "Entrega local:"
 
 #: C/evolution.xml:288(para)
-#, fuzzy
 msgid ""
 "Choose this option if you want to move email from the spool (the location "
 "where mail waits for delivery) and store it in your home directory. You need "
@@ -1154,9 +1147,9 @@ msgid ""
 msgstr ""
 "Elija esta opciones si quiere mover el correo desde el buzón local a su "
 "directorio de inicio. Necesita propocinar la ruta al buzón de correo que "
-"quiere usar, Si quiere dear el correo en los archivos de spools del sistema, "
+"quiere usar, Si quiere dejar el correo en los archivos de spools del sistema, "
 "elija la opción «Mbox estándar de Unix». Para las instrucciones de "
-"configuración , vea <link linkend=\"bstgbqn\">Opciones de configuración "
+"configuración , consulte <link linkend=\"bstgbqn\">Opciones de configuración "
 "local</link>."
 
 #: C/evolution.xml:291(title)
@@ -1164,7 +1157,6 @@ msgid "MH Format Mail Directories:"
 msgstr "Directorios de correo en formato MH:"
 
 #: C/evolution.xml:292(para)
-#, fuzzy
 msgid ""
 "If you download your email using mh or another MH-style program, you should "
 "use this option. You need to provide the path to the mail directory you want "
@@ -1173,7 +1165,7 @@ msgid ""
 msgstr ""
 "Si descarga el correo utilizando «mh» u otro programa tipo MH querrá utilizar "
 "esta opción. Debe escribir la ruta de acceso al directorio de correo que "
-"quiere usar. Para las instrucciones de configuración, vea <link linkend="
+"quiere usar. Para las instrucciones de configuración, consulte <link linkend="
 "\"bstgbqn\">Opciones de configuración local</link>."
 
 #: C/evolution.xml:295(title)
@@ -1181,7 +1173,6 @@ msgid "Maildir Format Mail Directories:"
 msgstr "Directorios de correo en formato Maildir:"
 
 #: C/evolution.xml:296(para)
-#, fuzzy
 msgid ""
 "If you download your email using Qmail or another maildir-style program, you "
 "should use this option. You need to provide the path to the mail directory "
@@ -1190,7 +1181,7 @@ msgid ""
 msgstr ""
 "Si descarga su correo usando Qmail u otro programa tipo maildir, querrá usar "
 "esta opción. Debe escribir la ruta de acceso al directorio de correo que "
-"quiere usar. Para las instrucciones de configuración, vea <link linkend="
+"quiere usar. Para las instrucciones de configuración, consulte <link linkend="
 "\"bstgbqn\">Opciones de configuración local</link>."
 
 #: C/evolution.xml:299(title)
@@ -1198,7 +1189,6 @@ msgid "Standard Unix mbox spool file:"
 msgstr "Archivo spool mbox estándar de Unix:"
 
 #: C/evolution.xml:300(para)
-#, fuzzy
 msgid ""
 "If you want to read and store email in the mail spool file on your local "
 "system, choose this option. You need to provide the path to the mail spool "
@@ -1216,7 +1206,6 @@ msgid "Standard Unix mbox spool directory:"
 msgstr "Directorio spool estándar de Unix:"
 
 #: C/evolution.xml:304(para)
-#, fuzzy
 msgid ""
 "If you want to read and store email in the mail spool directory on your "
 "local system, choose this option. You need to provide the path to the mail "
@@ -1588,7 +1577,6 @@ msgstr ""
 "(GAL)»."
 
 #: C/evolution.xml:443(para)
-#, fuzzy
 msgid ""
 "The GAL contains a list of all email addresses. If you select this option, "
 "you need to specify the maximum number of responses."
@@ -1830,7 +1818,6 @@ msgid "Continue with <link linkend=\"bsti1ty\">Account Management</link>."
 msgstr "Continue con <link linkend=\"bsti1ty\">Gestión de cuentas</link>."
 
 #: C/evolution.xml:714(para)
-#, fuzzy
 msgid ""
 "Now that you have finished the email configuration process you need to give "
 "the account a name. The name can be any name you prefer. Type your account "
@@ -1865,7 +1852,6 @@ msgid "Evolution opens with your new account created."
 msgstr "Evolution se abre con su cuenta nueva creada."
 
 #: C/evolution.xml:733(para)
-#, fuzzy
 msgid ""
 "If you want to import email from another email client, continue with <link "
 "linkend=\"fourth-step\">Importing Mail (Optional)</link>. If not, skip to "
@@ -1880,7 +1866,6 @@ msgid "Importing Mail (Optional)"
 msgstr "Importar correo (opcional)"
 
 #: C/evolution.xml:738(para)
-#, fuzzy
 msgid ""
 "After selecting your time zone, if Evolution finds email or address files "
 "from another application, it offers to import them. For a full description "
@@ -1889,7 +1874,7 @@ msgid ""
 msgstr ""
 "Tras seleccionar su zona horaria, si Evolution encontrara corre-e o archivos "
 "de direcciones de otras aplicaciones, ofrece importarlos. Para una completa "
-"descripción de la característica de importación, vea <link linkend="
+"descripción de la característica de importación, consulte <link linkend="
 "\"importing-mail\">Importación de archivos aislados</link>."
 
 #: C/evolution.xml:739(para) C/evolution.xml:2355(para)
@@ -1911,7 +1896,6 @@ msgstr ""
 "mail\">Migrar carpetas de correo locales de Outlook</link>."
 
 #: C/evolution.xml:741(para) C/evolution.xml:2360(para)
-#, fuzzy
 msgid ""
 "Before importing email from Netscape*, Mozilla and Netscape users need to "
 "click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla "
@@ -1924,7 +1908,6 @@ msgstr ""
 "importa y recupera los mensajes en sus carpetas de papelera."
 
 #: C/evolution.xml:743(para)
-#, fuzzy
 msgid ""
 "Evolution uses standard file types for email and calendar information, so "
 "you can copy those files from your <command>~/.evolution</command> "
@@ -2006,7 +1989,6 @@ msgid "Search Tool:"
 msgstr "Herramienta de búsqueda:"
 
 #: C/evolution.xml:768(para)
-#, fuzzy
 msgid ""
 "The search tool lets you search your email, contacts, calendar, and tasks to "
 "easily find what you're looking for."
@@ -2019,14 +2001,13 @@ msgid "Message List:"
 msgstr "Lista de mensajes:"
 
 #: C/evolution.xml:772(para)
-#, fuzzy
 msgid ""
 "The message list displays a list of email that you have received. To view an "
 "email in the preview pane, click the email in the message list."
 msgstr ""
 "La lista de mensajes muestra una lista del correo que ha recibido. Para ver "
 "un correo-e en el panel de vista previa, pulse en correo-e en la lista de "
-"correo-e."
+"mensajes."
 
 #: C/evolution.xml:775(title)
 msgid "Side bar:"
@@ -2065,7 +2046,6 @@ msgid "Status Bar:"
 msgstr "Barra de estado:"
 
 #: C/evolution.xml:784(para)
-#, fuzzy
 msgid ""
 "The status bar periodically displays a message, or tells you the progress of "
 "a task. This most often happens when you're checking or sending email. These "
@@ -2083,27 +2063,25 @@ msgid "Preview Pane:"
 msgstr "Panel de vista previa:"
 
 #: C/evolution.xml:788(para)
-#, fuzzy
 msgid ""
 "The preview pane displays the contents of the email that is selected in the "
 "message list."
 msgstr ""
 "El panel de vista previa muestra el contenido del correo-e que está "
-"seleccionado en la lista de correo-e."
+"seleccionado en la lista de mensajes."
 
 #: C/evolution.xml:792(title)
 msgid "The Menu Bar"
 msgstr "La barra del menú"
 
 #: C/evolution.xml:793(para)
-#, fuzzy
 msgid ""
 "The menu bar's contents always provide all the possible actions for any "
 "given view of your data. If you're looking at your Inbox, most of the menu "
 "items relate to email. Some content relates to other components of Evolution "
 "and some, especially in the File menu, relates to the application as a whole."
 msgstr ""
-"Los contenidos de la barra del menú contienen todas las acciones posibles "
+"El contenido de la barra del menú proporcionan todas las acciones posibles "
 "para cualquier vista de sus datos. Si está examinando su buzón de entrada, "
 "la mayoría de los elementos del menú estarán relacionados con el correo; "
 "algunos lo estarán con otros componentes de Evolution y algunos, "
@@ -2218,7 +2196,6 @@ msgstr ""
 "para la herramienta actual de Evolution."
 
 #: C/evolution.xml:827(para)
-#, fuzzy
 msgid ""
 "The folder list organizes your email, calendars, address books, task lists "
 "and memo lists in a tree, similar to a <link linkend=\"filetree\">file tree</"
@@ -2240,7 +2217,6 @@ msgstr ""
 "organize-vfolders\">Uso de carpetas de búsqueda</link>."
 
 #: C/evolution.xml:828(para)
-#, fuzzy
 msgid ""
 "If you get large amounts of email, you might want more folders than just "
 "your Inbox. You can create multiple calendar, task, or contacts folders."
@@ -2441,7 +2417,6 @@ msgstr ""
 "soltándolos donde desee."
 
 #: C/evolution.xml:906(para)
-#, fuzzy
 msgid ""
 "Any time new email arrives in a email folder, that folder label is displayed "
 "in bold text, along with the number of new messages in that folder."
@@ -2450,17 +2425,14 @@ msgstr ""
 "mostrará en negrita junto al número de mensajes nuevos en esa carpeta."
 
 #: C/evolution.xml:911(title)
-#, fuzzy
 msgid "Email"
 msgstr "Correo-e"
 
 #: C/evolution.xml:912(para)
-#, fuzzy
 msgid "Evolution email is like other email programs in several ways:"
 msgstr "Evolution es como cualquier otro programa de correo electrónico:"
 
 #: C/evolution.xml:915(para)
-#, fuzzy
 msgid ""
 "It can send and receive email in HTML or as plain text, and makes it easy to "
 "send and receive multiple file attachments."
@@ -2469,18 +2441,16 @@ msgstr ""
 "envío y recepción de múltiples archivos adjuntos."
 
 #: C/evolution.xml:918(para)
-#, fuzzy
 msgid ""
 "It supports multiple email sources, including <link linkend=\"imap\">IMAP</"
 "link>, <link linkend=\"pop\">POP3</link>, and local mbox or mh spools and "
 "files created by other email programs."
 msgstr ""
 "Soporta múltiples fuentes de correo, como <link linkend=\"imap\">IMAP</"
-"link>, <link linkend=\"pop\">POP3</link>, y archivos locales mbox o mh "
-"creados por otros programas de correo."
+"link>, <link linkend=\"pop\">POP3</link>, y archivos locales mbox o spool mh "
+"y archivos creados por otros programas de correo."
 
 #: C/evolution.xml:921(para)
-#, fuzzy
 msgid ""
 "It can sort and organize your email in a wide variety of ways with folders, "
 "searches, and filters."
@@ -5183,11 +5153,11 @@ msgid ""
 "may place your public key on a public key server. Private keys should not be "
 "shared with others."
 msgstr ""
-"Aquellos que quieran enviarle un correo electrónico cifrado deben tener una copia de su "
-"clave pública en su depósito de claves. Para este fin, las claves públicas se pueden compartir "
-"con aquellos que quieran enviarle mensajes cifrados. Para ello, debe subir sus "
-"claves públicas a un servidor de claves públicas. Las claves privadas no se deben "
-"compartir con otros."
+"Aquellos que quieran enviarle un correo electrónico cifrado deben tener una "
+"copia de su clave pública en su depósito de claves. Para este fin, las "
+"claves públicas se pueden compartir con aquellos que quieran enviarle "
+"mensajes cifrados. Para ello, debe subir sus claves públicas a un servidor "
+"de claves públicas. Las claves privadas no se deben compartir con otros."
 
 #: C/evolution.xml:2042(para)
 msgid ""
@@ -15149,9 +15119,9 @@ msgid ""
 "it is used only to get mail from a server and store it locally on your hard "
 "disk."
 msgstr ""
-"POP, el Protocolo de Oficina Postal, es un mecanismo de transporte de "
-"correo electrónico. En contraste con IMAP sólo se usa para descargar el "
-"correo y almacenarlo localmente en el disco duro."
+"POP, el Protocolo de Oficina Postal, es un mecanismo de transporte de correo "
+"electrónico. En contraste con IMAP sólo se usa para descargar el correo y "
+"almacenarlo localmente en el disco duro."
 
 #: C/evolution.xml:7285(glossterm)
 msgid "protocol"
