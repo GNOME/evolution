@@ -1,3 +1,10 @@
+2008-08-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-gui-utils.c (e_create_image_widget):
+	Remove this unused function.
+
+	* e-util.h: Cosmetic cleanups.
+
 2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #546892
