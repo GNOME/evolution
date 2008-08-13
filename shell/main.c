@@ -35,6 +35,7 @@
 
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
+#include "e-shell-registry.h"
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util.h"
 
@@ -661,7 +662,8 @@ main (int argc, char **argv)
 	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
-	e_passwords_init();
+	e_passwords_init ();
+	e_shell_registry_init ();
 
 	gtk_window_set_default_icon_name ("evolution");
 

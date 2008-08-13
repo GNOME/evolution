@@ -1634,6 +1634,9 @@ AC_SUBST(privincludedir)
 componentdir="$privlibdir/components"
 AC_SUBST(componentdir)
 
+moduledir="$privlibdir/modules"
+AC_SUBST(moduledir)
+
 idldir='${datadir}'/idl/evolution-$BASE_VERSION
 AC_SUBST(idldir)
 

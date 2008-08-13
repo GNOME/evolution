@@ -11,6 +11,7 @@ privlibexecdir=@privlibexecdir@
 privincludedir=@privincludedir@
 idldir=@idldir@
 componentdir=@componentdir@
+moduledir=@moduledir@
 evolutionuidir=@evolutionuidir@
 imagesdir=@imagesdir@
 

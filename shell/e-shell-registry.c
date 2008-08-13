@@ -58,8 +58,6 @@ shell_registry_query_module (const gchar *filename)
 		return;
 	}
 
-	g_type_module_unuse (G_TYPE_MODULE (shell_module));
-
 	loaded_modules = g_list_insert_sorted (
 		loaded_modules, shell_module,
 		(GCompareFunc) e_shell_module_compare);
@@ -121,7 +119,7 @@ e_shell_registry_init (void)
 GList *
 e_shell_registry_list_modules (void)
 {
-	return g_list_copy (loaded_modules);
+	return loaded_modules;
 }
 
 GType *

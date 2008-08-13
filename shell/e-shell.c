@@ -60,6 +60,7 @@ shell_shutdown_timeout (void)
 	static guint source_id = 0;
 	static guint message_timer = 1;
 
+	/* Module list is read-only; do not free. */
 	list = e_shell_registry_list_modules ();
 
 	/* Any module can defer shutdown if it's still busy. */
@@ -78,8 +79,6 @@ shell_shutdown_timeout (void)
 	}
 
 	message_timer = (message_timer + 1) % 10;
-
-	g_list_free (list);
 
 	/* If we're go for shutdown, destroy all shell windows.  Note,
 	 * we iterate over a /copy/ of the active windows list because
@@ -117,6 +116,10 @@ e_shell_create_window (void)
 	g_object_weak_ref (
 		G_OBJECT (shell_window), (GWeakNotify)
 		shell_window_weak_notify_cb, NULL);
+
+	g_list_foreach (
+		e_shell_registry_list_modules (),
+		(GFunc) e_shell_module_window_created, shell_window);
 
 	gtk_widget_show (shell_window);
 
@@ -162,7 +165,9 @@ e_shell_handle_uri (const gchar *uri)
 void
 e_shell_send_receive (GtkWindow *parent)
 {
-	/* FIXME */
+	g_list_foreach (
+		e_shell_registry_list_modules (),
+		(GFunc) e_shell_module_send_and_receive, NULL);
 }
 
 void
