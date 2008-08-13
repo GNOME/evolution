@@ -1,3 +1,9 @@
+2008-08-13  Moritz Mertinkat  <moritz@mertinkat.net>
+
+	* em-format-html.c: Added meaningful user agent for HTTP requests
+	used to load remote images. The original part (CamelHttpStream/1.0)
+	has been kept for backward compatibility.
+
 2008-08-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #519292
