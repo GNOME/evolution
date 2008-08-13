@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-08-08 19:07+0000\n"
-"PO-Revision-Date: 2008-08-12 10:54+0200\n"
+"POT-Creation-Date: 2008-08-12 16:19+0000\n"
+"PO-Revision-Date: 2008-08-13 11:12+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -9732,11 +9732,10 @@ msgstr ""
 "calendario."
 
 #: C/evolution.xml:4122(para) C/evolution.xml:6682(para)
-#, fuzzy
 msgid "You can specify a template to use when posting to the Free/Busy server."
 msgstr ""
-"Evolution le permite especificar una plantilla para usar cuando publique "
-"contra el servidor de disponibilidad."
+"Puede especificar una plantilla para usar cuando publique contra el servidor "
+"de disponibilidad."
 
 #: C/evolution.xml:4128(para)
 msgid ""
@@ -9855,11 +9854,9 @@ msgid "You can view the desired items listed in the Calendar view."
 msgstr "Puede ver los elementos deseados listados en la vista del Calendario."
 
 #: C/evolution.xml:4283(para)
-#, fuzzy
 msgid "To print the displayed calendar items, click File &gt; Print."
 msgstr ""
-"Para imprimir los elementos mostrados del calendario, pulse Archivo &gt; "
-"Imprimir o pulse con el botón derecho sobre el elemento del calendario &gt; "
+"Para imprimir los elementos mostrados del calendario pulse Archivo &gt; "
 "Imprimir."
 
 #: C/evolution.xml:4288(para)
@@ -9884,7 +9881,6 @@ msgstr ""
 "delegar."
 
 #: C/evolution.xml:4299(para)
-#, fuzzy
 msgid "Click Delegate Meeting."
 msgstr "Pulse Delegar reunión."
 
@@ -9893,9 +9889,8 @@ msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 
 #: C/evolution.xml:4308(para)
-#, fuzzy
 msgid "Each contact receives a copy of the meeting invitation."
-msgstr "Cada contacto recibe una copia de la reunión."
+msgstr "Cada contacto recibe una copia de la invitación a la reunión."
 
 #: C/evolution.xml:4313(para)
 msgid ""
@@ -9948,15 +9943,13 @@ msgstr ""
 "calendarios de Evolution."
 
 #: C/evolution.xml:4320(para)
-#, fuzzy
 msgid ""
 "The Task List, located in the upper-right corner of the calendar, lets you "
 "keep a list of tasks separate from your calendar appointments."
 msgstr ""
-"La libreta de tareas, localizada en la esquina inferior derecha del "
+"La lista de tareas, localizada en la esquina superior derecha del "
 "calendario, permite mantener la lista de tareas separada de las citas del "
-"calendario. Para mostrarla en una ventana más grande, pulse el botón Tareas "
-"en el selector o en el árbol de carpetas."
+"calendario."
 
 #: C/evolution.xml:4321(para)
 msgid ""
@@ -10038,18 +10031,16 @@ msgid "Select a group for the task."
 msgstr "Seleccione un grupo para la tarea."
 
 #: C/evolution.xml:4367(para)
-#, fuzzy
 msgid "(Optional) Specify a starting date and ending date for the task."
 msgstr ""
 "(Opcional) especifique una fecha de comienzo y una fecha de finalización "
-"para la tarea"
+"para la tarea."
 
 #: C/evolution.xml:4370(para)
-#, fuzzy
 msgid "(Optional) Specify a starting time and ending time for the task."
 msgstr ""
 "(Opcional) especifique una hora de comienzo y una hora de finalización para "
-"la tarea"
+"la tarea."
 
 #: C/evolution.xml:4386(para) C/evolution.xml:4442(para)
 #: C/evolution.xml:4664(para)
@@ -10073,7 +10064,6 @@ msgid "Evolution can be used to assign a task to multiple people."
 msgstr "Evolution se puede usar para asignar una tarea a varias personas."
 
 #: C/evolution.xml:4402(para)
-#, fuzzy
 msgid ""
 "When you assign a task, you can specify the attendees in several categories, "
 "such as <quote>chair</quote> or <quote>required.</quote> When you save the "
@@ -10082,7 +10072,7 @@ msgid ""
 msgstr ""
 "Al asignar una tarea puede especificar los asistentes en varias categorías, "
 "tales como <quote>presidencia</quote> o <quote>participante requerido</"
-"quote>. Cuando guarde la tarea, cada invitado recibirá un mensaje con los "
+"quote>. Cuando guarde la tarea, cada invitado recibirá un correo-e con los "
 "datos de la cita y tendrán la opción de responder."
 
 # index.docbook:41, index.docbook:293
@@ -10095,7 +10085,6 @@ msgid "Click File &gt; New &gt; Assigned Task."
 msgstr "Pulse Archivo &gt; Nuevo &gt; Tarea asignada."
 
 #: C/evolution.xml:4415(para)
-#, fuzzy
 msgid ""
 "Click Add, or press Insert key, or right click and then press Add to add the "
 "email addresses of people you want to assign the task. To remove an attendee "
@@ -10103,12 +10092,12 @@ msgid ""
 "select the field, then click Edit. Click View on the menu bar to show or "
 "hide the Type, Role, Status, and RSVP fields."
 msgstr ""
-"Pulse Añadir, pulse la tecla Insertar o pulse con el botón derecho y después "
-"pulse Añadir para añadir las direcciones de correo electrónico de las "
-"personas a las que quiere asignar la tarea. Para eliminar un participante de "
-"la lista, seleccione al participante y pulse Quitar. Para editar un campo, "
-"seleccione el campo y después pulse Editar. Pulse Ver en la barra de menú "
-"para mostrar u ocultar los campos Tipo, Rol, Estado y RSVP."
+"Pulse Añadir, la tecla Insertar, o pule con el botón derecho y después pulse "
+"Añadir para añadir las direcciones de correo electrónico de las personas a "
+"las que quiere asignar la tarea. Para eliminar un participante de la lista, "
+"seleccione al participante y pulse Quitar. Para editar un campo, seleccione "
+"el campo y después pulse Editar. Pulse Ver en la barra de menú para mostrar "
+"u ocultar los campos Tipo, Rol, Estado y RSVP."
 
 #: C/evolution.xml:4421(para)
 msgid ""
@@ -10214,7 +10203,6 @@ msgid "Tasks With Attachment:"
 msgstr "Tareas con adjuntos:"
 
 #: C/evolution.xml:4528(para)
-#, fuzzy
 msgid "Displays all the tasks with attachments."
 msgstr "Muestra todas las tareas con adjuntos."
 
@@ -10287,7 +10275,6 @@ msgid "Click File &gt; New &gt; Memo."
 msgstr "Pulse Archivo &gt; Nuevo &gt; Nota."
 
 #: C/evolution.xml:4643(para) C/evolution.xml:5713(para)
-#, fuzzy
 msgid "Select the Group in which you would like to create the entry."
 msgstr "Seleccione el grupo en el que quiere crear la entrada."
 
@@ -10308,7 +10295,6 @@ msgid "The Memo List"
 msgstr "La lista de notas"
 
 #: C/evolution.xml:4670(para)
-#, fuzzy
 msgid ""
 "As with calendars and tasks, you can create multiple memo lists. Each memo "
 "list is assigned a color, and you can use the side bar to hide and show memo "
@@ -10521,12 +10507,10 @@ msgstr ""
 "correo de Evolution."
 
 #: C/evolution.xml:4914(title)
-#, fuzzy
 msgid "Sending Email via Exchange Protocols:"
 msgstr "Envío de correo mediante protocolos Exchange:"
 
 #: C/evolution.xml:4915(para)
-#, fuzzy
 msgid ""
 "If you use the Microsoft Exchange mail transport protocol to send email, "
 "make sure that the address you have entered as your email address is exactly "
@@ -10546,7 +10530,6 @@ msgid "Out of Office Message:"
 msgstr "Mensaje de Estoy fuera de la oficina:"
 
 #: C/evolution.xml:4921(para)
-#, fuzzy
 msgid ""
 "You can set <quote>out of Office</quote> message that will automatically be "
 "sent to people who send mail to you while you are away from office."
@@ -10626,7 +10609,6 @@ msgid "Adding vCards to the Address Book:"
 msgstr "Añadir vCards a la libreta de direcciones:"
 
 #: C/evolution.xml:4961(para)
-#, fuzzy
 msgid ""
 "Allows you to save the vCards you receive in attachment to your Exchange "
 "address book.New Address Book entries can also be created on Exchange from "
@@ -10793,9 +10775,8 @@ msgid "You can view Identity tab enabled."
 msgstr "Podrá ver la solapa Identidad activada."
 
 #: C/evolution.xml:5062(para) C/evolution.xml:5636(para)
-#, fuzzy
 msgid "Change your email address as needed."
-msgstr "Modifique su cuenta de correo electrónico si es necesario."
+msgstr "Cambie su cuenta de correo electrónico si es necesario."
 
 #: C/evolution.xml:5065(para)
 msgid ""
@@ -10816,22 +10797,19 @@ msgstr ""
 "autenticará su cuenta."
 
 #: C/evolution.xml:5078(para) C/evolution.xml:5650(para)
-#, fuzzy
 msgid "Click the Receiving Options tab."
-msgstr "Pulse en la solapa de Seguridad."
+msgstr "Pulse en la solapa Opciones de recepción."
 
 #: C/evolution.xml:5079(para)
-#, fuzzy
 msgid ""
 "Specify how often to check for new mail, your Global Catalog server name and "
 "whether to apply filters to messages in your Inbox, check for junk, set a "
 "password expiry period, and any other settings you want to include."
 msgstr ""
-"Pulse la solapa Recepción de correo, después especifique con qué frecuencia "
-"quiere que se compruebe si hay correo nuevo, el nombre del servidor del "
-"Catálogo Global y si quiere aplicar los filtros a su Bandeja de entrada, "
-"comprobar el correo basura, establecer una caducidad para la contraseña y "
-"cualquier otro ajuste que quiera incluir."
+"Especifique con qué frecuencia quiere que se compruebe si hay correo nuevo, "
+"el nombre del servidor del Catálogo Global y si quiere aplicar los filtros a "
+"su Bandeja de entrada, comprobar el correo basura, establecer una caducidad "
+"para la contraseña y cualquier otro ajuste que quiera incluir."
 
 #: C/evolution.xml:5082(para)
 msgid ""
@@ -10880,7 +10858,6 @@ msgstr ""
 "planificar sus horarios."
 
 #: C/evolution.xml:5099(para)
-#, fuzzy
 msgid ""
 "If you are using both an Exchange account and a local mail account, you "
 "should be aware that whenever you save an email address or appointment from "
@@ -10891,9 +10868,9 @@ msgid ""
 msgstr ""
 "Cuando utiliza a la vez una cuenta Exchange y una cuenta local, conviene "
 "tener presente que cada vez que guarda una dirección de correo o una cita a "
-"partir de un mensaje, ésta se guardará en la lista de contactos o en el "
-"calendario de Exchange, en lugar de hacerlo en su cuenta local. Lo mismo "
-"ocurre para sincronizar dispositivos Palm OS: tareas y citas. Las "
+"partir de un mensaje de correo-e, ésta se guardará en la lista de contactos "
+"o en el calendario de Exchange, en lugar de hacerlo en su cuenta local. Lo "
+"mismo ocurre para sincronizar dispositivos Palm OS: tareas y citas. Las "
 "direcciones de su dispositivo Palm OS se sincronizarán con las carpetas "
 "correspondientes en Exchange, y no en su equipo local."
 
