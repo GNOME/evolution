@@ -117,34 +117,102 @@ on_username_entry_changed (GtkEntry *entry, gpointer user_data)
 }
 
 static void
-on_update_cb_toggled (GtkToggleButton *tb, gpointer user_data)
+on_ssl_cb_toggled (GtkToggleButton *tb, gpointer user_data)
 {
     ESource *source = user_data;
-    GtkWidget *sb = g_object_get_data (G_OBJECT (tb), "sb");
 
-    gtk_widget_set_sensitive (sb, gtk_toggle_button_get_active (tb));
     if (gtk_toggle_button_get_active (tb)) {
-        gdouble value;
-        char *value_string;
-
-        value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (sb));
-        value_string = g_strdup_printf ("%d", (int)(value * 60.0));
-        e_source_set_property (source, "refresh-interval", value_string);
-        g_free (value_string);
+        e_source_set_property (source, "use-ssl", "true");
     } else {
-        e_source_set_property (source, "refresh-interval", "-1");
+        e_source_set_property (source, "use-ssl", "false");
     }
+}
+
+typedef enum {
+    MINUTES,
+    HOURS,
+    DAYS,
+    WEEKS
+} IntervalType;
+
+static void
+seconds_to_interval (guint seconds, IntervalType *type, int *time)
+{
+    int minutes = seconds / 60;
+
+    *type = MINUTES;
+    *time = minutes;
+    if (minutes  && !(minutes % 10080)) {
+        *type = WEEKS;
+        *time = minutes / 10080;
+    } else if (minutes && !(minutes % 1440)) {
+        *type = DAYS;
+        *time = minutes / 1440;
+    } else if (minutes && !(minutes % 60)) {
+        *type = HOURS;
+        *time = minutes / 60;
+    }
+}
+
+static guint
+interval_to_seconds (IntervalType type, int time)
+{
+    switch (type) {
+    case MINUTES:
+        return time * 60;
+    case HOURS:
+        return time * 60 * 60;
+    case DAYS:
+        return time * 60 * 60 * 24;
+    case WEEKS:
+        return time * 60 * 60 * 24 * 7;
+    default:
+        g_warning ("Time unit out of range");
+        break;
+    }
+    return 0;
 }
 
 static void
 on_interval_sb_value_changed (GtkSpinButton *sb, gpointer user_data)
 {
     ESource *source = user_data;
-    gdouble value;
+    gdouble time;
+    guint seconds;
     char *value_string;
+    GtkWidget *interval_combo;
+    IntervalType type;
 
-    value = gtk_spin_button_get_value (sb);
-    value_string = g_strdup_printf ("%d", (int)(value * 60.0));
+    interval_combo = g_object_get_data (G_OBJECT (sb), "interval-combo");
+    type = gtk_combo_box_get_active (GTK_COMBO_BOX (interval_combo));
+
+    time = gtk_spin_button_get_value (sb);
+
+    seconds = interval_to_seconds (type, time);
+
+    value_string = g_strdup_printf ("%u", seconds);
+    e_source_set_property (source, "refresh-interval", value_string);
+    g_free (value_string);
+}
+
+static void
+on_interval_combo_changed (GtkComboBox *combo, gpointer user_data)
+{
+    ESource *source = user_data;
+    gdouble time;
+    guint seconds;
+    char *value_string;
+    GtkWidget *sb;
+    IntervalType type;
+
+    sb = g_object_get_data (G_OBJECT (combo), "interval-sb");
+    type = gtk_combo_box_get_active (combo);
+
+    time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (sb));
+
+    seconds = interval_to_seconds (type, time);
+
+    value_string = g_strdup_printf ("%u", seconds);
     e_source_set_property (source, "refresh-interval", value_string);
     g_free (value_string);
 }
@@ -159,7 +227,9 @@ plugin_google_contacts (EPlugin                    *epl,
     const char   *base_uri;
     const char   *username;
     const char   *refresh_interval_str;
-    int           refresh_interval;
+    guint         refresh_interval;
+    const char   *use_ssl_str;
+    gboolean      use_ssl;
     GtkWidget    *parent;
     GtkWidget    *vbox;
 
@@ -171,17 +241,17 @@ plugin_google_contacts (EPlugin                    *epl,
     GtkWidget    *label;
     GtkWidget    *username_entry;
 
-    GtkWidget    *update_cb;
     GtkWidget    *interval_sb;
+    GtkWidget    *interval_combo;
+    IntervalType type;
+    int        time;
 
+    GtkWidget    *ssl_cb;
 
     source = t->source;
     group = e_source_peek_group (source);
 
     base_uri = e_source_group_peek_base_uri (group);
-
-    g_object_set_data_full (G_OBJECT (epl), "widget", NULL,
-                            (GDestroyNotify)gtk_widget_destroy);
 
     if (strcmp (base_uri, "google://")) {
         return NULL;
@@ -205,7 +275,7 @@ plugin_google_contacts (EPlugin                    *epl,
     spacer = gtk_label_new ("   ");
     gtk_box_pack_start (GTK_BOX (hbox), spacer, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Username:"));
+    label = gtk_label_new_with_mnemonic (_("User_name:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
     username_entry = gtk_entry_new ();
@@ -221,43 +291,59 @@ plugin_google_contacts (EPlugin                    *epl,
     spacer = gtk_label_new ("   ");
     gtk_box_pack_start (GTK_BOX (hbox), spacer, FALSE, FALSE, 0);
 
+    use_ssl_str = e_source_get_property (source, "use-ssl");
+    if (use_ssl_str && ('1' == use_ssl_str[0] ||
+        0 == g_ascii_strcasecmp (use_ssl_str, "true"))) {
+        use_ssl = 1;
+    } else {
+        use_ssl = 0;
+    }
+    ssl_cb = gtk_check_button_new_with_mnemonic (_("Use _SSL"));
+    gtk_box_pack_start (GTK_BOX (hbox), ssl_cb, FALSE, FALSE, 0);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssl_cb),
+                                  use_ssl);
+
+    hbox = gtk_hbox_new (FALSE, 10);
+    gtk_box_pack_start (GTK_BOX (vbox2), hbox, TRUE, TRUE, 0);
+
+    spacer = gtk_label_new ("   ");
+    gtk_box_pack_start (GTK_BOX (hbox), spacer, FALSE, FALSE, 0);
+
     refresh_interval_str = e_source_get_property (source, "refresh-interval");
     if (refresh_interval_str &&
-        (1 == sscanf (refresh_interval_str, "%d", &refresh_interval))) {
+        (1 == sscanf (refresh_interval_str, "%u", &refresh_interval))) {
     } else {
         refresh_interval = -1;
     }
+    seconds_to_interval (refresh_interval, &type, &time);
 
-    /* Translators: This is the first half of the sentence "Update
-     * every NNN minute(s)", where NNN is a spin button widget. */
-    update_cb = gtk_check_button_new_with_label (_("Update every"));
-    gtk_box_pack_start (GTK_BOX (hbox), update_cb, FALSE, FALSE, 0);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (update_cb),
-                                  refresh_interval > 0);
+    label = gtk_label_new_with_mnemonic (_("Re_fresh:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-    interval_sb = gtk_spin_button_new_with_range (1, 60, 1);
-    gtk_widget_set_sensitive (interval_sb,
-                              refresh_interval > 0);
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (interval_sb),
-                               refresh_interval > 0 ? refresh_interval / 60 : 30);
+    interval_sb = gtk_spin_button_new_with_range (1, 100, 1);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (interval_sb), time);
     gtk_box_pack_start (GTK_BOX (hbox), interval_sb, FALSE, FALSE, 0);
 
-    /* Translators: This is the second half of the sentence "Update
-     * every NNN minute(s)", where NNN is a spin button widget. */
-    label = gtk_label_new (_("minute(s)"));
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    interval_combo = gtk_combo_box_new_text ();
+    gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("minutes"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("hours"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("days"));
+    gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("weeks"));
+    gtk_combo_box_set_active (GTK_COMBO_BOX (interval_combo), type);
+    gtk_box_pack_start (GTK_BOX (hbox), interval_combo, FALSE, FALSE, 0);
 
     gtk_widget_show_all (vbox2);
 
-    g_object_set_data (G_OBJECT (update_cb), "sb", interval_sb);
-    g_object_set_data_full (G_OBJECT (epl), "widget", vbox2,
-                            (GDestroyNotify)gtk_widget_destroy);
-
+    g_object_set_data (G_OBJECT (interval_sb), "interval-combo", interval_combo);
+    g_object_set_data (G_OBJECT (interval_combo), "interval-sb", interval_sb);
     g_signal_connect (G_OBJECT (username_entry), "changed",
                       G_CALLBACK (on_username_entry_changed),
                       source);
-    g_signal_connect (G_OBJECT (update_cb), "toggled",
-                      G_CALLBACK (on_update_cb_toggled),
+    g_signal_connect (G_OBJECT (interval_combo), "changed",
+                      G_CALLBACK (on_interval_combo_changed),
+                      source);
+    g_signal_connect (G_OBJECT (ssl_cb), "toggled",
+                      G_CALLBACK (on_ssl_cb_toggled),
                       source);
     g_signal_connect (G_OBJECT (interval_sb), "value-changed",
                       G_CALLBACK (on_interval_sb_value_changed),
