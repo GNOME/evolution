@@ -44,6 +44,13 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	E_SWITCHER_ICONS,
+	E_SWITCHER_TEXT,
+	E_SWITCHER_BOTH,
+	E_SWITCHER_USER
+} ESwitcherStyle;
+
 typedef struct _ESidebar ESidebar;
 typedef struct _ESidebarClass ESidebarClass;
 typedef struct _ESidebarPrivate ESidebarPrivate;

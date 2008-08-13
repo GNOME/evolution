@@ -20,6 +20,7 @@
 
 #include "e-shell-window-private.h"
 
+#include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 
 #ifdef NM_SUPPORT_GLIB
@@ -70,7 +71,8 @@ shell_window_connect_proxy_cb (EShellWindow *window,
 		return;
 
 	g_object_set_data_full (
-		G_OBJECT (proxy), "action", action,
+		G_OBJECT (proxy),
+		"action", g_object_ref (action),
 		(GDestroyNotify) g_object_unref);
 
 	g_signal_connect_swapped (
@@ -112,7 +114,7 @@ e_shell_window_private_init (EShellWindow *window)
 
 	priv->shell_views = g_ptr_array_new ();
 
-	/* XXX Load UI file. */
+	e_load_ui_definition (priv->manager, "evolution-shell.ui");
 
 	e_shell_window_actions_init (window);
 
@@ -128,6 +130,7 @@ e_shell_window_private_init (EShellWindow *window)
 
 	widget = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (window), widget);
+	gtk_widget_show (widget);
 
 	container = widget;
 
@@ -142,7 +145,7 @@ e_shell_window_private_init (EShellWindow *window)
 	gtk_widget_show (widget);
 
 	widget = gtk_hpaned_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->content_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -213,16 +216,16 @@ e_shell_window_private_init (EShellWindow *window)
 	key = "/apps/evolution/shell/view_defaults/folder_bar/width";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 
-	object = G_OBJECT (ACTION (SHOW_BUTTONS));
-	key = "/apps/evolution/shell/view-defaults/buttons_visible";
-	gconf_bridge_bind_property (bridge, key, object, "active");
-
 	object = G_OBJECT (ACTION (SHOW_SIDEBAR));
-	key = "/apps/evolution/shell/view-defaults/sidebar_visible";
+	key = "/apps/evolution/shell/view_defaults/sidebar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
 	object = G_OBJECT (ACTION (SHOW_STATUSBAR));
 	key = "/apps/evolution/shell/view_defaults/statusbar_visible";
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	object = G_OBJECT (ACTION (SHOW_SWITCHER));
+	key = "/apps/evolution/shell/view_defaults/buttons_visible";
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
 	object = G_OBJECT (ACTION (SHOW_TOOLBAR));

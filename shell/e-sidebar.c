@@ -336,7 +336,6 @@ sidebar_get_style (GtkToolShell *shell)
 static GtkReliefStyle
 sidebar_get_relief_style (GtkToolShell *shell)
 {
-	g_debug ("%s", G_STRFUNC);
 	return GTK_RELIEF_NORMAL;
 }
 
@@ -459,12 +458,11 @@ e_sidebar_add_action (ESidebar *sidebar,
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (widget), TRUE);
 	gtk_widget_show (widget);
 
-	sidebar->priv->proxies = g_list_append (sidebar->priv->proxies, widget);
+	sidebar->priv->proxies = g_list_append (
+		sidebar->priv->proxies, widget);
 
 	gtk_widget_set_parent (widget, GTK_WIDGET (sidebar));
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
-
-	g_debug ("Relief Style: %d", gtk_tool_item_get_relief_style (GTK_TOOL_ITEM (widget)));
 }
 
 gboolean

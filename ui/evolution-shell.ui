@@ -1,0 +1,57 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <menu action='new-menu'/>
+      <menuitem action='new-window'/>
+      <separator/>
+      <menuitem action='send-receive'/>
+      <separator/>
+      <menuitem action='import'/>
+      <separator/>
+      <menuitem action='page-setup'/>
+      <placeholder name='print-actions'/>
+      <separator/>
+      <menuitem action='forget-passwords'/>
+      <menuitem action='work-online'/>
+      <menuitem action='work-offline'/>
+      <menuitem action='close'/>
+      <menuitem action='quit'/>
+    </menu>
+    <menu action='edit-menu'>
+      <menuitem action='sync-options'/>
+      <menuitem action='preferences'/>
+    </menu>
+    <menu action='view-menu'>
+      <menu action='window-menu'/>
+      <menu action='layout-menu'>
+        <menuitem action='show-toolbar'/>
+	<menuitem action='show-statusbar'/>
+	<menuitem action='show-sidebar'/>
+      </menu>
+      <menu action='switcher-menu'>
+        <menuitem action='switcher-style-both'/>
+	<menuitem action='switcher-style-icons'/>
+	<menuitem action='switcher-style-text'/>
+	<menuitem action='switcher-style-user'/>
+	<separator/>
+	<menuitem action='show-switcher'/>
+      </menu>
+    </menu>
+    <placeholder name='custom-menus'/>
+    <menu action='search-menu'/>
+    <menu action='help-menu'>
+      <menuitem action='contents'/>
+      <menuitem action='quick-reference'/>
+      <separator/>
+      <menuitem action='faq'/>
+      <menuitem action='submit-bug'/>
+      <separator/>
+      <menuitem action='about'/>
+    </menu>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <separator/>
+    <toolitem action='send-receive'/>
+    <separator/>
+  </toolbar>
+</ui>

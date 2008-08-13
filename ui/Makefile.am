@@ -9,8 +9,12 @@ XML_FILES =					\
 	evolution-memos.xml			\
 	evolution-tasks.xml
 
-evolutionui_DATA = $(XML_FILES)
+UI_FILES =					\
+	evolution-shell.ui
+
+evolutionui_DATA = $(UI_FILES) $(XML_FILES)
 
 EXTRA_DIST =					\
+	$(UI_FILES)				\
 	$(XML_FILES)				\
 	ChangeLog.pre-1-4

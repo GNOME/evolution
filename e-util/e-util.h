@@ -25,17 +25,14 @@
 #define _E_UTIL_H_
 
 #include <sys/types.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <limits.h>
 #include <gconf/gconf-client.h>
 #include <cairo.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
 #include <e-util/e-util-marshal.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	E_FOCUS_NONE,
@@ -45,6 +42,8 @@ typedef enum {
 } EFocus;
 
 const gchar *	e_get_user_data_dir		(void);
+guint		e_load_ui_definition		(GtkUIManager *manager,
+						 const gchar *basename);
 
 char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,
@@ -104,27 +103,30 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 
 /* Alternating char * and int arguments with a NULL char * to end.
    Less than 0 for the int means copy the whole string. */
-gchar    *	e_strdup_append_strings		(gchar *first_string,
+gchar *		e_strdup_append_strings		(gchar *first_string,
 						 ...);
 
-cairo_font_options_t * get_font_options		(void);
+cairo_font_options_t *
+		get_font_options		(void);
 
 void		e_file_update_save_path		(gchar *uri,
 						 gboolean free);
 gchar *		e_file_get_save_path		(void);
 
-gboolean	e_file_lock_create (void);
-void		e_file_lock_destroy (void);
-gboolean 	e_file_lock_exists (void);
+gboolean	e_file_lock_create		(void);
+void		e_file_lock_destroy		(void);
+gboolean 	e_file_lock_exists		(void);
 
-char *e_util_guess_mime_type (const char *filename);
-char *e_util_filename_to_uri (const char *filename);
-char *e_util_uri_to_filename (const char *uri);
+gchar *		e_util_guess_mime_type		(const gchar *filename);
+gchar *		e_util_filename_to_uri		(const gchar *filename);
+gchar *		e_util_uri_to_filename		(const gchar *uri);
 
-gboolean e_util_read_file  (const char *filename, gboolean filename_is_uri, char **buffer, gsize *read,  GError **error);
+gboolean	e_util_read_file		(const gchar *filename,
+						 gboolean filename_is_uri,
+						 gchar **buffer,
+						 gsize *read,
+						 GError **error);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_UTIL_H_ */

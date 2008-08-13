@@ -70,6 +70,39 @@ e_get_user_data_dir (void)
 }
 
 /**
+ * e_load_ui_definition:
+ * @manager: a #GtkUIManager
+ * @basename: basename of the UI definition file
+ *
+ * Loads a UI definition into @manager from Evolution's UI directory.
+ * Failure here is fatal, since the application can't function without
+ * its UI definitions.
+ *
+ * Returns: The merge ID for the merged UI.  The merge ID can be used to
+ *          unmerge the UI with gtk_ui_manager_remove_ui().
+ **/
+guint
+e_load_ui_definition (GtkUIManager *manager,
+                      const gchar *basename)
+{
+	gchar *filename;
+	guint merge_id;
+	GError *error = NULL;
+
+	g_return_val_if_fail (GTK_IS_UI_MANAGER (manager), 0);
+	g_return_val_if_fail (basename != NULL, 0);
+
+	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
+	merge_id = gtk_ui_manager_add_ui_from_file (manager, filename, &error);
+	g_free (filename);
+
+	if (error != NULL)
+		g_error ("%s", error->message);  /* does not return */
+
+	return merge_id;
+}
+
+/**
  * e_str_without_underscores:
  * @s: the string to strip underscores from.
  *

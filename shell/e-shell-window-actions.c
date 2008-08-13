@@ -668,6 +668,13 @@ action_close_cb (GtkAction *action,
 }
 
 static void
+action_contents_cb (GtkAction *action,
+                    EShellWindow *window)
+{
+	/* FIXME  Unfinished. */
+}
+
+static void
 action_faq_cb (GtkAction *action,
                EShellWindow *window)
 {
@@ -801,18 +808,6 @@ action_shell_view_cb (GtkRadioAction *action,
 }
 
 static void
-action_show_buttons_cb (GtkToggleAction *action,
-                        EShellWindow *window)
-{
-	ESidebar *sidebar;
-	gboolean active;
-
-	sidebar = E_SIDEBAR (window->priv->sidebar);
-	active = gtk_toggle_action_get_active (action);
-	e_sidebar_set_actions_visible (sidebar, active);
-}
-
-static void
 action_show_sidebar_cb (GtkToggleAction *action,
                         EShellWindow *window)
 {
@@ -834,6 +829,18 @@ action_show_statusbar_cb (GtkToggleAction *action,
 	widget = window->priv->status_area;
 	active = gtk_toggle_action_get_active (action);
 	g_object_set (widget, "visible", active, NULL);
+}
+
+static void
+action_show_switcher_cb (GtkToggleAction *action,
+                         EShellWindow *window)
+{
+	ESidebar *sidebar;
+	gboolean active;
+
+	sidebar = E_SIDEBAR (window->priv->sidebar);
+	active = gtk_toggle_action_get_active (action);
+	e_sidebar_set_actions_visible (sidebar, active);
 }
 
 static void
@@ -870,6 +877,14 @@ action_submit_bug_cb (GtkAction *action,
 		e_notice (window, GTK_MESSAGE_ERROR, message);
 		g_error_free (error);
 	}
+}
+
+static void
+action_switcher_style_cb (GtkRadioAction *action,
+                          GtkRadioAction *current,
+                          EShellWindow *window)
+{
+	/* FIXME  Unfinished. */
 }
 
 static void
@@ -914,7 +929,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "about",
 	  GTK_STOCK_ABOUT,
-	  N_("_About"),
+	  NULL,
 	  NULL,
 	  N_("Show information about Evolution"),
 	  G_CALLBACK (action_about_cb) },
@@ -925,6 +940,13 @@ static GtkActionEntry shell_entries[] = {
 	  "<Control>w",
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
+
+	{ "contents",
+	  GTK_STOCK_HELP,
+	  N_("_Contents"),
+	  NULL,
+	  N_("Open the Evolution User Guide"),
+	  G_CALLBACK (action_contents_cb) },
 
 	{ "faq",
 	  GTK_STOCK_DIALOG_INFO,
@@ -956,14 +978,14 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "page-setup",
 	  GTK_STOCK_PAGE_SETUP,
-	  N_("Page Set_up..."),
+	  NULL,
 	  NULL,
 	  N_("Change the page settings for your current printer"),
 	  G_CALLBACK (action_page_setup_cb) },
 
 	{ "preferences",
 	  GTK_STOCK_PREFERENCES,
-	  N_("Prefere_nces"),
+	  NULL,
 	  "<Control><Shift>s",
 	  N_("Configure Evolution"),
 	  G_CALLBACK (action_preferences_cb) },
@@ -977,8 +999,8 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "quit",
 	  GTK_STOCK_QUIT,
-	  N_("_Quit"),
-	  "<Control>q",
+	  NULL,
+	  NULL,
 	  N_("Exit the program"),
 	  G_CALLBACK (action_quit_cb) },
 
@@ -1040,6 +1062,13 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  NULL },
 
+	{ "layout-menu",
+	  NULL,
+	  N_("Lay_out"),
+	  NULL,
+	  NULL,
+	  NULL },
+
 	{ "new-menu",
 	  GTK_STOCK_NEW,
 	  N_("_New"),
@@ -1050,6 +1079,13 @@ static GtkActionEntry shell_entries[] = {
 	{ "search-menu",
 	  NULL,
 	  N_("_Search"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "switcher-menu",
+	  NULL,
+	  N_("_Switcher Appearance"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -1071,14 +1107,6 @@ static GtkActionEntry shell_entries[] = {
 
 static GtkToggleActionEntry shell_toggle_entries[] = {
 
-	{ "show-buttons",
-	  NULL,
-	  N_("Show _Buttons"),
-	  NULL,
-	  N_("Show the switcher buttons"),
-	  G_CALLBACK (action_show_buttons_cb),
-	  TRUE },
-
 	{ "show-sidebar",
 	  NULL,
 	  N_("Show Side _Bar"),
@@ -1095,6 +1123,14 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	  G_CALLBACK (action_show_statusbar_cb),
 	  TRUE },
 
+	{ "show-switcher",
+	  NULL,
+	  N_("Show _Buttons"),
+	  NULL,
+	  N_("Show the switcher buttons"),
+	  G_CALLBACK (action_show_switcher_cb),
+	  TRUE },
+
 	{ "show-toolbar",
 	  NULL,
 	  N_("Show _Toolbar"),
@@ -1102,6 +1138,37 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	  N_("Show the toolbar"),
 	  G_CALLBACK (action_show_toolbar_cb),
 	  TRUE }
+};
+
+static GtkRadioActionEntry shell_switcher_style_entries[] = {
+
+	{ "switcher-style-icons",
+	  NULL,
+	  N_("_Icons Only"),
+	  NULL,
+	  N_("Display window buttons with icons only"),
+	  E_SWITCHER_ICONS },
+
+	{ "switcher-style-text",
+	  NULL,
+	  N_("_Text Only"),
+	  NULL,
+	  N_("Display window buttons with text only"),
+	  E_SWITCHER_TEXT },
+
+	{ "switcher-style-both",
+	  NULL,
+	  N_("Icons _and Text"),
+	  NULL,
+	  N_("Display window buttons with icons and text"),
+	  E_SWITCHER_BOTH },
+
+	{ "switcher-style-user",
+	  NULL,
+	  N_("Tool_bar Style"),
+	  NULL,
+	  N_("Display window buttons using the desktop toolbar setting"),
+	  E_SWITCHER_USER }
 };
 
 void
@@ -1125,6 +1192,11 @@ e_shell_window_actions_init (EShellWindow *window)
 	gtk_action_group_add_toggle_actions (
 		action_group, shell_toggle_entries,
 		G_N_ELEMENTS (shell_toggle_entries), window);
+	gtk_action_group_add_radio_actions (
+		action_group, shell_switcher_style_entries,
+		G_N_ELEMENTS (shell_switcher_style_entries),
+		E_SWITCHER_USER,
+		G_CALLBACK (action_switcher_style_cb),  window);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* New Item Actions (empty) */

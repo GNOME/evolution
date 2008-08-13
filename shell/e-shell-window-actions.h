@@ -50,12 +50,12 @@
 	E_SHELL_WINDOW_ACTION ((window), "quit")
 #define E_SHELL_WINDOW_ACTION_SEND_RECEIVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "send-receive")
-#define E_SHELL_WINDOW_ACTION_SHOW_BUTTONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "show-buttons")
 #define E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-sidebar")
 #define E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-statusbar")
+#define E_SHELL_WINDOW_ACTION_SHOW_SWITCHER(window) \
+	E_SHELL_WINDOW_ACTION ((window), "show-switcher")
 #define E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-toolbar")
 #define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
