@@ -1,3 +1,7 @@
+2008-08-12  Milan Crha  <mcrha@redhat.com>
+
+	* ipod-sync.c: Added missing include.
+
 2008-04-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	* ical-fomat.c (do_save_calendar_ical):

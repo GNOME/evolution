@@ -9,8 +9,10 @@ plugin_DATA = org-gnome-audio-inline.eplug
 plugin_LTLIBRARIES = liborg-gnome-audio-inline.la
 
 liborg_gnome_audio_inline_la_SOURCES = audio-inline.c
-liborg_gnome_audio_inline_la_LDFLAGS = -module -avoid-version
-liborg_gnome_audio_inline_la_LIBADD = $(GSTREAMER_LIBS)
+liborg_gnome_audio_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_audio_inline_la_LIBADD =	\
+	$(GSTREAMER_LIBS)		\
+	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-audio-inline.eplug.xml
 

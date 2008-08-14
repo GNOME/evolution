@@ -12,7 +12,8 @@ liborg_gnome_evolution_webdav_la_SOURCES = \
 	webdav-contacts-source.c
 
 liborg_gnome_evolution_webdav_la_LIBADD = \
-	$(EPLUGIN_LIBS)		
+	$(EPLUGIN_LIBS)	\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)	
 
 liborg_gnome_evolution_webdav_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

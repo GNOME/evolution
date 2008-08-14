@@ -61,10 +61,6 @@
 #include "e-cal-popup.h"
 #include "misc.h"
 
-/* Used for the status bar messages */
-#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "x-office-calendar"
-static GdkPixbuf *progress_icon = NULL;
-
 struct _ECalendarViewPrivate {
 	/* The GnomeCalendar we are associated to */
 	GnomeCalendar *calendar;
@@ -397,8 +393,6 @@ static void
 e_calendar_view_init (ECalendarView *cal_view)
 {
 	cal_view->priv = g_new0 (ECalendarViewPrivate, 1);
-
-	cal_view->priv->model = (ECalModel *) e_cal_model_calendar_new ();
 }
 
 static void
@@ -467,7 +461,6 @@ e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model)
 	}
 
 	cal_view->priv->model = g_object_ref (model);
-	e_calendar_view_update_query (cal_view);
 }
 
 icaltimezone *
@@ -582,10 +575,8 @@ e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *messag
 	} else if (priv->activity_id == 0) {
 		char *client_id = g_strdup_printf ("%p", cal_view);
 
-		if (progress_icon == NULL)
-			progress_icon = e_icon_factory_get_icon (EVOLUTION_CALENDAR_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
-
-		priv->activity_id = e_activity_handler_operation_started (priv->activity_handler, client_id, progress_icon, message, TRUE);
+		priv->activity_id = e_activity_handler_operation_started (
+			priv->activity_handler, client_id, message, TRUE);
 
 		g_free (client_id);
 	} else {

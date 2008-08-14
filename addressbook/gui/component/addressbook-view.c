@@ -43,7 +43,6 @@
 #include "misc/e-task-bar.h"
 #include "misc/e-info-label.h"
 
-
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 #include "shell/e-user-creatable-items-handler.h"
@@ -65,10 +64,6 @@
 
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class = NULL;
-
-/* This is used for the addressbook status bar */
-#define EVOLUTION_CONTACTS_PROGRESS_IMAGE "contact-new"
-static GdkPixbuf *progress_icon = NULL;
 
 #define d(x)
 
@@ -489,11 +484,8 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 	} else if (priv->activity_id == 0) {
 		char *clientid = g_strdup_printf ("%p", view);
 
-		if (progress_icon == NULL)
-			progress_icon = e_icon_factory_get_icon (EVOLUTION_CONTACTS_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
-
-		priv->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
-									  progress_icon, message, TRUE);
+		priv->activity_id = e_activity_handler_operation_started (
+			activity_handler, clientid, message, TRUE);
 
 		g_free (clientid);
 	} else {

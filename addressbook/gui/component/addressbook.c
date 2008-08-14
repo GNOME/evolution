@@ -73,6 +73,9 @@ static void
 load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	LoadSourceData *data = closure;
+	gboolean was_in = g_object_get_data (G_OBJECT (book), "authenticated") != NULL;
+
+	g_object_set_data (G_OBJECT (book), "authenticated", NULL);
 
 	if (data->cancelled) {
 		free_load_source_data (data);
@@ -99,38 +102,42 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 						"%s", _("Accessing LDAP Server anonymously"));
 				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
-				if (data->cb)
-					data->cb (book, E_BOOK_ERROR_OK, data->closure);
-				free_load_source_data (data);
-				return;
+				status = E_BOOK_ERROR_OK;
+
+				goto done;
 			}
 		} else if (status == E_BOOK_ERROR_INVALID_SERVER_VERSION) {
 			e_error_run (NULL, "addressbook:server-version", NULL);
 			status = E_BOOK_ERROR_OK;
-			if (data->cb)
-				data->cb (book, status, data->closure);
-			free_load_source_data (data);
-			return;
-
+			goto done;
+		} else if (status == E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD) {
+			goto done;
 		} else {
-			const gchar *uri = e_book_get_uri (book);
-			gchar *stripped_uri = remove_parameters_from_uri (uri);
-			const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
-			const gchar *component_name;
-
-			component_name = auth_domain ? auth_domain : "Addressbook";
-
 			if (status == E_BOOK_ERROR_AUTHENTICATION_FAILED) {
+				const gchar *uri = e_book_get_uri (book);
+				gchar *stripped_uri = remove_parameters_from_uri (uri);
+				const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
+				const gchar *component_name;
+
+				component_name = auth_domain ? auth_domain : "Addressbook";
+
 				e_passwords_forget_password (component_name, stripped_uri);
+
+				g_free (stripped_uri);
+			} else if (was_in) {
+				/* We already tried to authenticate to the server, and it failed with
+				   other reason than with E_BOOK_ERROR_AUTHENTICATION_FAILED, thus stop
+				   poking with the server and report error to the user. */
+				goto done;
 			}
 
+			g_object_set_data (G_OBJECT (book), "authenticated", GINT_TO_POINTER (1));
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
-
-			g_free (stripped_uri);
 			return;
 		}
 	}
 
+done:
 	if (data->cb)
 		data->cb (book, status, data->closure);
 

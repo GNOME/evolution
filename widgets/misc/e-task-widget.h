@@ -53,34 +53,27 @@ struct _ETaskWidgetClass {
 };
 
 
-GType      e_task_widget_get_type   (void);
-void       e_task_widget_construct  (ETaskWidget *task_widget,
-				     GdkPixbuf   *icon_pixbuf,
-				     const char  *component_id,
-				     const char  *information,
-				     void (*cancel_func) (gpointer data),
-				     gpointer data);
-GtkWidget *e_task_widget_new        (GdkPixbuf   *icon_pixbuf,
-				     const char  *component_id,
-				     const char  *information);
-GtkWidget *
-e_task_widget_new_with_cancel (GdkPixbuf *icon_pixbuf,
-		   const char *component_id,
-		   const char *information,
-		   void (*cancel_func) (gpointer data),
-		   gpointer data);
-
-void  e_task_widget_update  (ETaskWidget *task_widget,
-			     const char  *information,
-			     double       completion);
-GtkWidget *
-e_task_widget_update_image (ETaskWidget *task_widget,
-			    const char *stock, const char *text);
-
-void  e_task_wiget_alert    (ETaskWidget *task_widget);
-void  e_task_wiget_unalert  (ETaskWidget *task_widget);
-
-const char *e_task_widget_get_component_id  (ETaskWidget *task_widget);
+GType		e_task_widget_get_type		(void);
+void		e_task_widget_construct		(ETaskWidget *task_widget,
+						 const char *component_id,
+						 const char *information,
+						 void (*cancel_func) (gpointer data),
+						 gpointer data);
+GtkWidget *	e_task_widget_new		(const char *component_id,
+						 const char *information);
+GtkWidget *	e_task_widget_new_with_cancel	(const char *component_id,
+						 const char *information,
+						 void (*cancel_func) (gpointer data),
+						 gpointer data);
+void		e_task_widget_update		(ETaskWidget *task_widget,
+						 const char *information,
+						 double completion);
+GtkWidget *	e_task_widget_update_image	(ETaskWidget *task_widget,
+						 const char *stock,
+						 const char *text);
+void		e_task_wiget_alert		(ETaskWidget *task_widget);
+void		e_task_wiget_unalert		(ETaskWidget *task_widget);
+const char *	e_task_widget_get_component_id	(ETaskWidget *task_widget);
 
 #ifdef __cplusplus
 }

@@ -159,7 +159,7 @@
 	      <child>
 		<widget class="GtkLabel" id="description-label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">D_escription:</property>
+		  <property name="label" translatable="yes">_Description:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>

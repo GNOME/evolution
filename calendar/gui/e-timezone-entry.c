@@ -33,7 +33,6 @@
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <glib/gi18n.h>
 #include "e-timezone-entry.h"
-#include <e-util/e-icon-factory.h>
 
 struct _ETimezoneEntryPrivate {
 	/* The current timezone, set in e_timezone_entry_set_timezone()
@@ -106,7 +105,7 @@ static void
 e_timezone_entry_init		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	GtkWidget *gtk_image;
+	GtkWidget *image;
 	AtkObject *a11y;
 
 	tentry->priv = priv = g_new0 (ETimezoneEntryPrivate, 1);
@@ -130,9 +129,10 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 		atk_object_set_name (a11y, _("Select Timezone"));
 	}
 
-	gtk_image = e_icon_factory_get_image ("stock_timezone", E_ICON_SIZE_BUTTON);
-	gtk_container_add (GTK_CONTAINER (priv->button), gtk_image);
-	gtk_widget_show (gtk_image);
+	image = gtk_image_new_from_icon_name (
+		"stock_timezone", GTK_ICON_SIZE_BUTTON);
+	gtk_container_add (GTK_CONTAINER (priv->button), image);
+	gtk_widget_show (image);
 }
 
 

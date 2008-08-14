@@ -1095,10 +1095,6 @@ static char *test[] = {
 
 #endif
 
-/* Displays messages on the status bar */
-#define EVOLUTION_MEMOS_PROGRESS_IMAGE "stock_notes"
-static GdkPixbuf *progress_icon = NULL;
-
 void
 e_memo_table_set_activity_handler (EMemoTable *memo_table, EActivityHandler *activity_handler)
 {
@@ -1123,11 +1119,8 @@ e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
         } else if (memo_table->activity_id == 0) {
                 char *client_id = g_strdup_printf ("%p", memo_table);
 
-                if (progress_icon == NULL)
-                        progress_icon = e_icon_factory_get_icon (EVOLUTION_MEMOS_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
-
-                memo_table->activity_id = e_activity_handler_operation_started (memo_table->activity_handler, client_id,
-									        progress_icon, message, TRUE);
+                memo_table->activity_id = e_activity_handler_operation_started (
+			memo_table->activity_handler, client_id, message, TRUE);
 
                 g_free (client_id);
         } else {

@@ -42,7 +42,6 @@
 
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-icon-factory.h"
 
 #include "mail-config.h"
 #include "em-config.h"

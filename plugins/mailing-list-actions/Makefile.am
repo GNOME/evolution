@@ -9,7 +9,11 @@ plugin_DATA = org-gnome-mailing-list-actions.eplug org-gnome-mailing-list-action
 plugin_LTLIBRARIES = liborg-gnome-mailing-list-actions.la
 
 liborg_gnome_mailing_list_actions_la_SOURCES = mailing-list-actions.c
-liborg_gnome_mailing_list_actions_la_LDFLAGS = -module -avoid-version
+liborg_gnome_mailing_list_actions_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_mailing_list_actions_la_LIBADD =	\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_MAIL_LIBS)
 
 error_DATA = org-gnome-mailing-list-actions.error
 errordir = $(privdatadir)/errors

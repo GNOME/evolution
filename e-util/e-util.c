@@ -35,10 +35,11 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include <glib.h>
-#include <glib/gstdio.h>
-#include <gtk/gtk.h>
 #include <gio/gio.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
+#include <glib/gstdio.h>
+#include <libgnome/gnome-help.h>
 #include <libgnome/gnome-util.h>
 
 #ifdef G_OS_WIN32
@@ -67,6 +68,41 @@ e_get_user_data_dir (void)
 			g_get_home_dir (), ".evolution", NULL);
 
 	return dirname;
+}
+
+/**
+ * e_display_help:
+ * @parent: a parent #GtkWindow or %NULL
+ * @link_id: help section to present or %NULL
+ *
+ * Opens the user documentation to the section given by @link_id, or to the
+ * table of contents if @link_id is %NULL.  If the user documentation cannot
+ * be opened, it presents a dialog describing the error.  The dialog is set
+ * as transient to @parent if @parent is non-%NULL.
+ **/
+void
+e_display_help (GtkWindow *parent,
+                const gchar *link_id)
+{
+	GtkWidget *dialog;
+	GError *error = NULL;
+
+	if (gnome_help_display ("evolution.xml", link_id, &error))
+		return;
+
+	dialog = gtk_message_dialog_new_with_markup (
+		parent, GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		"<big><b>%s</b></big>",
+		_("Could not display help for Evolution."));
+
+	gtk_message_dialog_format_secondary_text (
+		GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+	g_error_free (error);
 }
 
 /**

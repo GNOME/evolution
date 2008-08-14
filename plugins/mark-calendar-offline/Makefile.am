@@ -8,7 +8,9 @@ plugin_DATA = org-gnome-mark-calendar-offline.eplug
 plugin_LTLIBRARIES = liborg-gnome-mark-calendar-offline.la
 
 liborg_gnome_mark_calendar_offline_la_SOURCES = mark-calendar-offline.c
-liborg_gnome_mark_calendar_offline_la_LDFLAGS = -module -avoid-version
+liborg_gnome_mark_calendar_offline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_mark_calendar_offline_la_LIBADD =	\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST = org-gnome-mark-calendar-offline.eplug.xml
 

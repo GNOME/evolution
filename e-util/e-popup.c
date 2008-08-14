@@ -31,8 +31,6 @@
 
 #include "e-popup.h"
 
-#include <e-util/e-icon-factory.h>
-
 #include <glib/gi18n.h>
 
 #define d(x)
@@ -357,12 +355,8 @@ ep_build_tree(struct _item_node *inode, guint32 mask)
 			if (item->image) {
 				GtkWidget *image;
 
-				/* work-around e-icon-factory not doing GTK_STOCK stuff */
-				if (strncmp((char *)item->image, "gtk-", 4) == 0)
-					image = gtk_image_new_from_stock((char *)item->image, GTK_ICON_SIZE_MENU);
-				else
-					image = e_icon_factory_get_image((char *)item->image, E_ICON_SIZE_MENU);
-
+				image = gtk_image_new_from_icon_name (
+					(gchar *) item->image, GTK_ICON_SIZE_MENU);
 				gtk_widget_show(image);
 				menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
 				gtk_image_menu_item_set_image((GtkImageMenuItem *)menuitem, image);

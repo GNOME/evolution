@@ -24,7 +24,6 @@
 #include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
 #include <string.h>
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 
 static void e_contact_editor_im_init		(EContactEditorIm		 *card);
@@ -189,7 +188,8 @@ setup_service_optmenu(EContactEditorIm *editor)
 		gtk_container_add(GTK_CONTAINER(item), hbox);
 		gtk_widget_show(hbox);
 
-		image = e_icon_factory_get_image (im_images[i], E_ICON_SIZE_MENU);
+		image = gtk_image_new_from_icon_name (
+			im_images[i], GTK_ICON_SIZE_MENU);
 
 		gtk_size_group_add_widget(sg, image);
 
@@ -240,7 +240,6 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	GList *icon_list;
 	char *gladefile;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_im),
@@ -279,13 +278,8 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 
 	gtk_widget_grab_focus(glade_xml_get_widget(gui, "entry-username"));
 
-	/* set the icon */
-	icon_list = e_icon_factory_get_icon_list ("contact-new");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (e_contact_editor_im), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_icon_name (
+		GTK_WINDOW (e_contact_editor_im), "contact-new");
 }
 
 static void

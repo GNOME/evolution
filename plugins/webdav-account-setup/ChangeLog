@@ -1,0 +1,15 @@
+2008-08-12  Bharath Acharya  <abharath@novell.com>
+
+	* Makefile.am:	Added necessary libraries to link to. Build break while 
+	compiling on Windows. Added a ChangeLog file for webdav-account-setup 
+	plugin.
+
+2008-08-04  Matthias Braun <matze@braunis.de>
+
+	** Fix for bug #544051
+
+	** Added WebDAV plugin
+	* Makefile.am:
+	* org-gnome-evolution-webdav.eplug.xml:
+	* webdav-contacts-source.c:
+	WebDAV backend for addressbook - GUI plugin for account setup.

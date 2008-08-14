@@ -26,7 +26,6 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-error.h>
-#include <libgnome/libgnome.h>
 #include <glade/glade.h>
 #include "mail/em-menu.h"
 #include "mail/em-utils.h"
@@ -34,6 +33,7 @@
 #include "composer/e-msg-composer.h"
 #include "libedataserver/e-account.h"
 #include "e-util/e-config.h"
+#include "e-util/e-util.h"
 #include "email-custom-header.h"
 
 
@@ -197,7 +197,6 @@ epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	CustomHeaderOptionsDialog *mch;
-	GError *error = NULL;     
 
 	mch = func_data;
 	priv = mch->priv;
@@ -211,12 +210,9 @@ epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 			g_object_unref (priv->xml);
 			break;	     
 		case GTK_RESPONSE_HELP:
-			gnome_help_display (
-					"evolution.xml", priv->help_section, &error);
-			if (error) {
-				g_warning ("%s", error->message);
-				g_error_free (error);
-			}
+			e_display_help (
+				GTK_WINDOW (priv->main),
+				priv->help_section);
 			break;
 	}
 

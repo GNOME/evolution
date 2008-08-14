@@ -1,3 +1,13 @@
+2008-08-12  Bharath Acharya  <abharath@novell.com>
+
+	* Makefile.am: Have a check for OS_WIN32 and handle the schema data 
+	differently. make install error on win32.
+
+2008-08-12  Bharath Acharya  <abharath@novell.com>
+
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries. To generate
+	dlls on Windows.
+
 2007-08-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	* Makefile.am: Fix a distcheck error.

@@ -1,3 +1,12 @@
+2008-08-14  Jörgen Scheibengruber  <mfcn@gmx.de>
+
+	* google-contacts-source.c (on_ssl_cb_toggled),
+	(seconds_to_interval), (interval_to_seconds),
+	(on_interval_sb_value_changed), (on_interval_combo_changed),
+	(plugin_google_contacts):
+
+	Add ssl toggle; synch UI for refreshin with the google calendar plugin
+
 2008-08-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #535745

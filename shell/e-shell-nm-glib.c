@@ -26,9 +26,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Evolution.h>
 #include <libnm_glib.h>
-#include <e-shell-window.h>
+#include <e-shell.h>
 
 static libnm_glib_ctx *nm_ctx = NULL;
 static guint id = 0;

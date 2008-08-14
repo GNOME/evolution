@@ -12,7 +12,6 @@
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-mktemp.h"
 #include "camel/camel-medium.h"
 #include "camel/camel-mime-part.h"

@@ -51,7 +51,6 @@
 
 #include "e-util/e-mktemp.h"
 #include "e-util/e-request.h"
-#include "e-util/e-icon-factory.h"
 
 #include "e-util/e-error.h"
 

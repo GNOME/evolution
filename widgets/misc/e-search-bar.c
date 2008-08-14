@@ -45,7 +45,6 @@
 #include "e-search-bar.h"
 #include "e-util/e-util.h"
 #include "e-util/e-util-marshal.h"
-#include "e-util/e-icon-factory.h"
 
 
 enum {

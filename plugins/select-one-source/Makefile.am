@@ -8,7 +8,9 @@ plugin_DATA = org-gnome-select-one-source.eplug
 plugin_LTLIBRARIES = liborg-gnome-select-one-source.la
 
 liborg_gnome_select_one_source_la_SOURCES = select-one-source.c
-liborg_gnome_select_one_source_la_LDFLAGS = -module -avoid-version
+liborg_gnome_select_one_source_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_select_one_source_la_LIBADD =	\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST = org-gnome-select-one-source.eplug.xml
 

@@ -242,6 +242,11 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		return;
+	}
+
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Calculate the weekday of the given date, 0 = Mon. */
@@ -346,6 +351,11 @@ static void
 model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
+	
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		return;
+	}
+
 
 	update_row (week_view, row);
 }
@@ -354,6 +364,10 @@ static void
 model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
+
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		return;
+	}
 
 	update_row (week_view, row);
 }
@@ -364,6 +378,10 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
 	ECalModel *model;
 	int i;
+
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		return;
+	}
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
@@ -389,6 +407,9 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 	int i;
 
 	/* FIXME Stop editing? */
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		return;
+	}
 
 	for (i = row + count; i > row; i--) {
 		gint event_num;
@@ -428,6 +449,9 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	if (!cal_view->in_focus)
+		return;
+
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
 		return;
@@ -450,7 +474,6 @@ e_week_view_init (EWeekView *week_view)
 	GnomeCanvasGroup *canvas_group;
 	GtkObject *adjustment;
 	GdkPixbuf *pixbuf;
-	ECalModel *model;
 	gint i;
 
 	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
@@ -586,9 +609,14 @@ e_week_view_init (EWeekView *week_view)
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
 
-	/* Get the model */
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+		/* connect to ECalendarView's signals */
+	g_signal_connect (G_OBJECT (week_view), "timezone_changed",
+			  G_CALLBACK (timezone_changed_cb), NULL);
+}
 
+static void
+init_model (EWeekView *week_view, ECalModel *model)
+{
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",
 			  G_CALLBACK (time_range_changed_cb), week_view);
@@ -601,11 +629,7 @@ e_week_view_init (EWeekView *week_view)
 	g_signal_connect (G_OBJECT (model), "model_rows_deleted",
 			  G_CALLBACK (model_rows_deleted_cb), week_view);
 
-	/* connect to ECalendarView's signals */
-	g_signal_connect (G_OBJECT (week_view), "timezone_changed",
-			  G_CALLBACK (timezone_changed_cb), NULL);
 }
-
 
 /**
  * e_week_view_new:
@@ -614,12 +638,13 @@ e_week_view_init (EWeekView *week_view)
  * Creates a new #EWeekView.
  **/
 GtkWidget *
-e_week_view_new (void)
+e_week_view_new (ECalModel *model)
 {
 	GtkWidget *week_view;
 
 	week_view = GTK_WIDGET (g_object_new (e_week_view_get_type (), NULL));
-	e_cal_model_set_flags (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
+	e_calendar_view_set_model ((ECalendarView *) week_view, model);
+	init_model ((EWeekView *) week_view, model);
 
 	return week_view;
 }
@@ -2403,7 +2428,7 @@ e_week_view_add_event (ECalComponent *comp,
 	if (add_event_data->comp_data) {
 		event.comp_data = e_cal_model_copy_component_data (add_event_data->comp_data);
 	} else {
-		event.comp_data = g_new0 (ECalModelComponent, 1);
+		event.comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 
 		event.comp_data->client = g_object_ref (e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->week_view))));
 		e_cal_component_abort_sequence (comp);
@@ -2447,7 +2472,7 @@ static void
 e_week_view_check_layout (EWeekView *week_view)
 {
 	/* Don't bother if we aren't visible. */
-	if (!GTK_WIDGET_VISIBLE (week_view))
+	if (!E_CALENDAR_VIEW (week_view)->in_focus)
 	    return;
 
 	/* Make sure the events are sorted (by start and size). */

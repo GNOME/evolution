@@ -145,26 +145,6 @@ e_day_view_config_get_view (EDayViewConfig *view_config)
 }
 
 static void
-set_timezone (EDayView *day_view)
-{
-	icaltimezone *zone;
-
-	zone = calendar_config_get_icaltimezone ();
-	e_calendar_view_set_timezone (E_CALENDAR_VIEW (day_view), zone);
-}
-
-static void
-timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	EDayViewConfig *view_config = data;
-	EDayViewConfigPrivate *priv;
-
-	priv = view_config->priv;
-
-	set_timezone (priv->view);
-}
-
-static void
 set_week_start (EDayView *day_view)
 {
 	int week_start_day;
@@ -419,12 +399,6 @@ e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 		return;
 
 	priv->view = g_object_ref (day_view);
-
-	/* Time zone */
-	set_timezone (day_view);
-
-	not = calendar_config_add_notification_timezone (timezone_changed_cb, view_config);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* Week start */
 	set_week_start (day_view);

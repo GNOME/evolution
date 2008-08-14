@@ -8,7 +8,10 @@ plugin_DATA = org-gnome-prefer-plain.eplug
 plugin_LTLIBRARIES = liborg-gnome-prefer-plain.la
 
 liborg_gnome_prefer_plain_la_SOURCES = prefer-plain.c
-liborg_gnome_prefer_plain_la_LDFLAGS = -module -avoid-version
+liborg_gnome_prefer_plain_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_prefer_plain_la_LIBADD =	\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-prefer-plain.eplug.xml
 

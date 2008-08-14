@@ -14,7 +14,10 @@ liborg_gnome_save_calendar_la_SOURCES = \
 	rdf-format.c			\
 	format-handler.h
 
-liborg_gnome_save_calendar_la_LDFLAGS = -module -avoid-version
+liborg_gnome_save_calendar_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_save_calendar_la_LIBADD =	\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST = org-gnome-save-calendar.eplug.xml
 

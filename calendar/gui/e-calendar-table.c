@@ -1836,10 +1836,6 @@ static char *test[] = {
 
 #endif
 
-/* Displays messages on the status bar */
-#define EVOLUTION_TASKS_PROGRESS_IMAGE "stock_todo"
-static GdkPixbuf *progress_icon = NULL;
-
 void
 e_calendar_table_set_activity_handler (ECalendarTable *cal_table, EActivityHandler *activity_handler)
 {
@@ -1864,11 +1860,8 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
         } else if (cal_table->activity_id == 0) {
                 char *client_id = g_strdup_printf ("%p", cal_table);
 
-                if (progress_icon == NULL)
-                        progress_icon = e_icon_factory_get_icon (EVOLUTION_TASKS_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
-
-                cal_table->activity_id = e_activity_handler_operation_started (cal_table->activity_handler, client_id,
-									       progress_icon, message, TRUE);
+                cal_table->activity_id = e_activity_handler_operation_started (
+			cal_table->activity_handler, client_id, message, TRUE);
 
                 g_free (client_id);
         } else {

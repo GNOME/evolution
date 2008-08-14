@@ -31,8 +31,6 @@
 
 #include "e-event.h"
 
-#include <e-util/e-icon-factory.h>
-
 #include <glib/gi18n.h>
 #include <libedataserver/e-msgport.h>
 

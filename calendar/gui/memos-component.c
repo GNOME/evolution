@@ -51,7 +51,6 @@
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/memo-editor.h"
 #include "widgets/misc/e-info-label.h"
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-error.h"
 #include "calendar-component.h"
 

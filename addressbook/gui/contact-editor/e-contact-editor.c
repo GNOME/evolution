@@ -28,10 +28,7 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-window-icon.h>
-#include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-help.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
@@ -45,6 +42,7 @@
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
+#include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "misc/e-dateedit.h"
@@ -3210,14 +3208,8 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 static void
 show_help_cb (GtkWidget *widget, gpointer data)
 {
-	GError *error = NULL;
-
-	gnome_help_display (
-		"evolution.xml", "usage-contact-cards", &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	/* FIXME Pass a proper parent window. */
+	e_display_help (NULL, "usage-contact-cards");
 }
 
 static GList *
@@ -3314,7 +3306,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
 	GtkWidget *widget, *label;
-	char *icon_path;
 	char *gladefile;
 
 	e_contact_editor->name = e_contact_name_new();

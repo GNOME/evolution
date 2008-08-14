@@ -1,3 +1,8 @@
+2008-08-12  Bharath Acharya  <abharath@novell.com>
+
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries. To generate
+	dlls on Windows.
+
 2007-04-02  Sankar P  <psankar@novell.com>
 
 	* Committed on behalf of Gilles Dartiguelongue <dartigug@esiee.fr>

@@ -23,7 +23,6 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <e-util/e-icon-factory.h>
 #include "e-util/e-error.h"
 #include "../calendar-config.h"
 #include "delete-comp.h"

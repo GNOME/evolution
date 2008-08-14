@@ -1,3 +1,24 @@
+2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-multi-config-dialog.c:
+	* e-send-options.c:
+	Use e_display_help() for displaying help.
+
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* e-combo-button.c:
+	* e-info-label.c:
+	* e-url-entry.c:
+	* e-task-widget.c:
+	Prefer gtk_image_new_from_stock() over e_icon_factory_get_image().
+
+	* e-activity-handler.c:
+	* e-task-widget.c:
+	Purge the GdkPixbuf arguments from the API.  We've been ignoring
+	them since the spinner icon was added.
+
 2008-07-23  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #543943

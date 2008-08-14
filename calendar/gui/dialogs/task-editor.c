@@ -31,7 +31,6 @@
 #include <glade/glade.h>
 #include <glib/gi18n.h>
 
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 #include <evolution-shell-component-utils.h>

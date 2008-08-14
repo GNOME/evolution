@@ -102,7 +102,7 @@
         <oaf_attribute name="evolution2:config_item:priority" type="string" value="-6"/>
                                                                                           
         <oaf_attribute name="name" type="string"
-                       _value="Evolution S/Mime Certificate Management Control"/>
+                       _value="Evolution S/MIME Certificate Management Control"/>
                                                                                           
 </oaf_server>
 

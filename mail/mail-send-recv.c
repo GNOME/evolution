@@ -46,7 +46,6 @@
 #include "mail-send-recv.h"
 #include "mail-folder-cache.h"
 #include "em-event.h"
-#include <e-util/e-icon-factory.h>
 #include <e-util/gconf-bridge.h>
 
 #define d(x)
@@ -379,7 +378,6 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	char *pretty_url;
 	EAccount *account;
 	EIterator *iter;
-	GList *icon_list;
 	EMEventTargetSendReceive *target;
 
 	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
@@ -401,12 +399,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	gtk_widget_show (cancel_button);
 	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
 
-	icon_list = e_icon_factory_get_icon_list ("mail-send-receive");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (gd), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_icon_name (GTK_WINDOW (gd), "mail-send-receive");
 
 	num_sources = 0;
 
@@ -487,8 +480,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
-		recv_icon = e_icon_factory_get_image (
-			"mail-inbox", E_ICON_SIZE_LARGE_TOOLBAR);
+		recv_icon = gtk_image_new_from_icon_name (
+			"mail-inbox", GTK_ICON_SIZE_LARGE_TOOLBAR);
 	       	pretty_url = format_url (source->url, account->name);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (
@@ -564,8 +557,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
-		send_icon = e_icon_factory_get_image (
-			"mail-outbox", E_ICON_SIZE_LARGE_TOOLBAR);
+		send_icon = gtk_image_new_from_icon_name (
+			"mail-outbox", GTK_ICON_SIZE_LARGE_TOOLBAR);
 		pretty_url = format_url (destination, NULL);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (

@@ -75,7 +75,8 @@ static const char *status_to_string[] = {
 	/* E_BOOK_ERROR_NO_SUCH_SOURCE */                       N_("No such source"),
 	/* E_BOOK_ERROR_OFFLINE_UNAVAILABLE */			N_("Not available in offline mode"),
 	/* E_BOOK_ERROR_OTHER_ERROR */                          N_("Other error"),
-	/* E_BOOK_ERROR_INVALID_SERVER_VERSION */		N_("Invalid server version")
+	/* E_BOOK_ERROR_INVALID_SERVER_VERSION */		N_("Invalid server version"),
+	/* E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD */    N_("Unsupported authentication method")
 };
 
 void
@@ -131,6 +132,12 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 			_("We were unable to open this addressbook.  This either "
 			  "means you have entered an incorrect URI, or the server "
 			  "is unreachable.");
+
+		/* do not show repository offline message, it's kind of generic error */
+		if (status != E_BOOK_ERROR_REPOSITORY_OFFLINE && status > 0 && status < G_N_ELEMENTS (status_to_string) && status_to_string [status]) {
+			label = g_strconcat (label_string, "\n\n", _("Detailed error:"), " ", _(status_to_string [status]), NULL);
+			label_string = label;
+		}
 	}
 
 	dialog  = e_error_new ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);

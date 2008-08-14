@@ -35,7 +35,6 @@
 #include <libgnomeui/gnome-pixmap.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 
 #include "misc/e-dateedit.h"
@@ -271,19 +270,13 @@ construct (MessageTagEditor *editor)
 	GtkWidget *widget;
 	GList *strings;
 	GladeXML *gui;
-	GList *icon_list;
-	GdkPixbuf *pixbuf;
 	int i;
 	char *gladefile;
 
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 
-	icon_list = e_icon_factory_get_icon_list ("stock_mail-flag-for-followup");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (editor), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
+	gtk_window_set_icon_name (
+		GTK_WINDOW (editor), "stock_mail-flag-for-followup");
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
@@ -302,9 +295,9 @@ construct (MessageTagEditor *editor)
 	gtk_box_set_child_packing (GTK_BOX (GTK_DIALOG (editor)->vbox), widget, TRUE, TRUE, 6, GTK_PACK_START);
 
 	widget = glade_xml_get_widget (gui, "pixmap");
-	pixbuf = e_icon_factory_get_icon ("stock_mail-flag-for-followup", E_ICON_SIZE_DIALOG);
-	gtk_image_set_from_pixbuf ((GtkImage *)widget, pixbuf);
-	g_object_unref (pixbuf);
+	gtk_image_set_from_icon_name (
+		GTK_IMAGE (widget), "stock_mail-flag-for-followup",
+		GTK_ICON_SIZE_DIALOG);
 
 	followup->message_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "message_list"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);

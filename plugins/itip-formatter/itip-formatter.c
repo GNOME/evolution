@@ -50,7 +50,6 @@
 #include <mail/mail-tools.h>
 #include <mail/mail-mt.h>
 #include <libedataserver/e-account-list.h>
-#include <e-util/e-icon-factory.h>
 #include <e-util/e-error.h>
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>

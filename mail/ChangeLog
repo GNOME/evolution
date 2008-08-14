@@ -1,3 +1,69 @@
+2008-08-13  Moritz Mertinkat  <moritz@mertinkat.net>
+
+	* em-format-html.c: Added meaningful user agent for HTTP requests
+	used to load remote images. The original part (CamelHttpStream/1.0)
+	has been kept for backward compatibility.
+
+2008-08-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #519292
+
+	* message-list.c: (read_boolean_with_default),
+	(message_list_construct): Read 'thread_expand' and 'thread_latest'
+	safely with TRUE as default if key doesn't exist.
+
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* em-folder-browser.c:
+	* em-format-html-display.c:
+	* mail-send-recv.c:
+	* message-tag-followup.c:
+	Prefer gtk_image_new_from_icon_name() over e_icon_factory_get_image().
+
+	* mail-send-recv.c:
+	* message-tag-followup.c:
+	Prefer gtk_window_set_icon_name() over gtk_window_set_icon_list().
+
+	* mail-mt.c:
+	e_activity_handler_cancelable_operation_started() no longer takes a
+	GdkPixbuf.  It was ignoring the pixbuf anyway ever since we added a
+	spinner icon.
+
+2008-08-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #519292
+
+	* message-list.c: (load_tree_expand_all): Drop function.
+	* message-list.c: (regen_list_done): Rather use desired expanded state
+	value when creating the tree instead of the default model's value for
+	this to have 'expand/collapse all' commands work better and quicker.
+
+2008-08-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #352695
+
+	* message-list.c: (struct _MessageListPrivate), (save_tree_state),
+	(load_tree_state), (on_model_row_changed), (message_list_init),
+	(message_list_construct), (struct _regen_list_msg), (regen_list_done),
+	(regen_list_free), (mail_regen_list): Be able to recognize whether
+	there has been any change on any row in a list and save expanded
+	state only in case there was any change. Also use in-memory storing
+	of the expanded state in case we do not want to rewrite full view
+	It's for searches only, and it's not stored between sessions.
+
+2008-08-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Part fix for bug #529743
+
+	* searchtypes.xml: Support Subject or Recipients contain search.
+
+2008-08-11  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/message-list.c: Don't use uninitialized exception. It leads to
+	freeing uninitialized memory.
+
 2008-08-07  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #546788

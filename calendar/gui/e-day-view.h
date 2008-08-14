@@ -474,7 +474,7 @@ struct _EDayViewClass
 
 
 GType		   e_day_view_get_type			(void);
-GtkWidget* e_day_view_new			(void);
+GtkWidget* e_day_view_new			(ECalModel *model);
 
 /* Whether we are displaying a work-week, in which case the display always
    starts on the first day of the working week. */

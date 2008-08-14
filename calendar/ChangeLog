@@ -1,3 +1,102 @@
+2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/dialogs/comp-editor.c:
+	Use e_display_help() for displaying help.
+
+2008-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.c: (source_changed_cb):
+	* gui/dialogs/memo-page.c: (source_changed_cb):
+	* gui/e-cal-model.c: (e_cal_model_set_timezone),
+	(e_cal_view_done_cb):
+	* gui/e-day-view-config.c: Fixed some warnings.
+
+2008-08-15  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #347287
+	* gui/e-cal-list-view-config.c: (e_cal_list_view_config_set_view):
+	* gui/e-cal-list-view.c: (e_cal_list_view_new):
+	* gui/e-cal-list-view.h:
+	* gui/e-cal-model.c: (e_cal_model_set_timezone), (add_instance_cb),
+	(e_cal_view_objects_added_cb), (e_cal_view_done_cb),
+	(update_e_cal_view_for_client), (cal_opened_cb), (add_new_client),
+	(e_cal_model_component_class_init),
+	(e_cal_model_component_finalize), (e_cal_model_component_init),
+	(e_cal_model_component_get_type),
+	(e_cal_model_copy_component_data),
+	(e_cal_model_free_component_data):
+	* gui/e-cal-model.h:
+	* gui/e-calendar-view.c: (e_calendar_view_init),
+	(e_calendar_view_set_model):
+	* gui/e-calendar-view.h:
+	* gui/e-day-view-config.c: (e_day_view_config_set_view):
+	* gui/e-day-view.c: (time_range_changed_cb),
+	(model_row_changed_cb), (model_cell_changed_cb),
+	(model_rows_inserted_cb), (model_rows_deleted_cb),
+	(timezone_changed_cb), (e_day_view_init), (init_model),
+	(e_day_view_new), (e_day_view_set_mins_per_row),
+	(e_day_view_add_event), (e_day_view_check_layout):
+	* gui/e-day-view.h:
+	* gui/e-week-view-config.c: (e_week_view_config_set_view):
+	* gui/e-week-view.c: (time_range_changed_cb),
+	(model_row_changed_cb), (model_cell_changed_cb),
+	(model_rows_inserted_cb), (model_rows_deleted_cb),
+	(timezone_changed_cb), (e_week_view_init), (init_model),
+	(e_week_view_new), (e_week_view_add_event),
+	(e_week_view_check_layout):
+	* gui/e-week-view.h:
+	* gui/gnome-cal.c: (message_proxy), (create_thread_pool),
+	(message_push), (update_query_async), (update_query),
+	(set_search_query), (set_timezone), (setup_widgets),
+	(update_view_times), (display_view), (display_view_cb),
+	(add_mclient_async), (add_mclient), (client_cal_opened_cb),
+	(default_client_cal_opened_cb),
+	(gnome_calendar_remove_source_by_uid),
+	(gnome_calendar_on_date_navigator_selection_changed): Use a
+	single model for all the views.			
+
+2008-08-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/migration.c:
+	Fix TeX-style quotes.  (#547372)
+
+2008-08-12  Dmitrijs Ledkovs  <dmitrij.ledkov@gmail.com>
+
+	** Fixes bug #498095
+
+	* gui/dialogs/event-page.glade: "D_escription" -> "_Description"
+	* gui/dialogs/task-page.glade: As above and "_Due Date" -> "D_ue Date"
+	Change mnemonics to resolve clash with "_Edit".
+	* gui/dialogs/memo-page.glade:
+	Set proper mnemonic widget for description label.
+
+2008-08-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546892
+
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/alarm-list-dialog.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/select-source-dialog.c:
+	Prefer gtk_window_set_icon_name() over gtk_window_set_icon_list().
+
+	* gui/dialogs/event-page.c:
+	* gui/e-timezone-entry.c:
+	Prefer gtk_image_new_from_icon_name() over e_icon_factory_get_image().
+
+	* gui/alarm-notify/alarm-queue.c:
+	Prefer gtk_status_icon_set_from_icon_name() over
+	gtk_status_icon_set_from_pixbuf().
+
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-memo-table.c:
+	e_activity_handler_operation_started() no longer takes a GdkPixbuf.
+	It was ignoring the pixbuf anyway ever since we added a spinner icon.
+
 2008-08-08  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #544117

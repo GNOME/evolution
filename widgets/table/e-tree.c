@@ -2069,10 +2069,32 @@ e_tree_load_expanded_state (ETree *et, char *filename)
 	e_tree_table_adapter_load_expanded_state (et->priv->etta, filename);
 }
 
-void
-e_tree_load_all_expanded_state (ETree *et, gboolean state)
+xmlDoc *
+e_tree_save_expanded_state_xml (ETree *et)
 {
-	e_tree_table_adapter_load_all_expanded_state (et->priv->etta, state);
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return e_tree_table_adapter_save_expanded_state_xml (et->priv->etta);
+}
+
+void
+e_tree_load_expanded_state_xml (ETree *et, xmlDoc *doc)
+{
+	g_return_if_fail (et != NULL);
+	g_return_if_fail (E_IS_TREE (et));
+	g_return_if_fail (doc != NULL);
+
+	e_tree_table_adapter_load_expanded_state_xml (et->priv->etta, doc);
+}
+
+/* state: <0 ... collapse; 0 ... no force - use default; >0 ... expand;
+   when using this, be sure to reset to 0 once no forcing is required
+   anymore, aka the build of the tree is done */
+void
+e_tree_force_expanded_state (ETree *et, int state)
+{
+	e_tree_table_adapter_force_expanded_state (et->priv->etta, state);
 }
 
 gint

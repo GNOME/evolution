@@ -348,7 +348,7 @@ struct _EWeekViewClass
 
 
 GType		   e_week_view_get_type			(void);
-GtkWidget* e_week_view_new			(void);
+GtkWidget* e_week_view_new			(ECalModel *model);
 
 /* The first day shown. Note that it will be rounded down to the start of a
    week when set. The returned value will be invalid if no date has been set

@@ -32,6 +32,7 @@
 #include <glib.h>
 #include <gio/gio.h>
 #include <glib/gi18n.h>
+#include <unistd.h>
 
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>

@@ -497,6 +497,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		}
 
 		instream = camel_http_stream_new(CAMEL_HTTP_METHOD_GET, ((EMFormat *)job->format)->session, url);
+		camel_http_stream_set_user_agent((CamelHttpStream *)instream, "CamelHttpStream/1.0 Evolution/" VERSION);
 		proxy = em_utils_get_proxy_uri();
 		camel_http_stream_set_proxy((CamelHttpStream *)instream, proxy);
 		g_free(proxy);
