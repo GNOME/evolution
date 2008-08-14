@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2008-08-12 16:19+0000\n"
-"PO-Revision-Date: 2008-08-13 11:12+0200\n"
+"POT-Creation-Date: 2008-08-13 19:08+0000\n"
+"PO-Revision-Date: 2008-08-14 15:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2562,7 +2562,6 @@ msgid "It lets you guard your privacy with encryption."
 msgstr "Permite proteger su privacidad utilizando cifrado."
 
 #: C/evolution.xml:927(para)
-#, fuzzy
 msgid ""
 "However, Evolution has some important differences from other email programs. "
 "First, It is built to handle very large amounts of email. The <link linkend="
@@ -2580,7 +2579,7 @@ msgstr ""
 "otros programas de correo. Primero está construido para manejar ingentes "
 "cantidades de correo. Las funciones de <link linkend=\"usage-mail-organize-"
 "spam\">antispam</link>, <link linkend=\"usage-mail-organize-filters"
-"\">filtrado de mensajes</link> y de  <link linkend=\"usage-mail-organize-"
+"\">filtrado</link> de mensajes y de  <link linkend=\"usage-mail-organize-"
 "search\">búsqueda</link> se han optimizado en velocidad y eficiencia. "
 "También están las <link linkend=\"usage-mail-organize-vfolders\">carpetas de "
 "búsqueda</link>, una característica organizacional avanzada que no está "
@@ -2590,14 +2589,12 @@ msgstr ""
 "explicación de qué es lo que hay en su ventana de correo-e de Evolution."
 
 #: C/evolution.xml:931(para)
-#, fuzzy
 msgid ""
 "The message list displays all the messages that you have. This includes all "
 "your read and unread messages, and email that is flagged to be deleted."
 msgstr ""
-"La lista de mensajes muestra todos los mensajes de correo que tiene. Esto "
-"incluye todos sus mensajes leídos y no leídos, y el correo marcado para "
-"borrarlo."
+"La lista de mensajes muestra todos los mensajes que tiene. Esto incluye "
+"todos sus mensajes leídos y no leídos, y el correo marcado para borrar."
 
 #: C/evolution.xml:935(para)
 msgid ""
@@ -2646,7 +2643,6 @@ msgstr ""
 "contextual (con el botón derecho) y como atajos de teclado."
 
 #: C/evolution.xml:940(para)
-#, fuzzy
 msgid ""
 "For an in-depth guide to the email capabilities of Evolution, read <link "
 "linkend=\"usage-mail\">Sending and Receiving Email</link>."
@@ -2752,7 +2748,6 @@ msgstr ""
 "columnas grises."
 
 #: C/evolution.xml:967(para)
-#, fuzzy
 msgid ""
 "Another advantage of the Evolution contacts is its integration with the rest "
 "of the application. For example, you can right-click an email address in "
@@ -2760,24 +2755,23 @@ msgid ""
 msgstr ""
 "Otra ventaja de los contactos de Evolution es su integración con el resto de "
 "la aplicación. Por ejemplo puede crear una entrada de contacto a partir de "
-"un mensaje de correo sólo pulsando con el botón derecho sobre la dirección "
-"del remitente del mensaje."
+"un mensaje de correo sólo pulsando con el botón derecho sobre una dirección "
+"de correo-e."
 
 #: C/evolution.xml:968(emphasis)
 msgid "Contact List"
 msgstr "Lista de contactos"
 
 #: C/evolution.xml:969(para)
-#, fuzzy
 msgid ""
 "The largest section of the contacts display shows a list of individual "
 "contacts. You can also search the contacts in the same way that you search "
 "email folders, using the search tool on the right side of the toolbar."
 msgstr ""
 "La sección más grande del visor de contactos muestra una lista de los "
-"contactos individuales. También le permite buscar entre ellas de la misma "
-"manera que con las carpetas de correo, usando la barra de búsqueda que está "
-"en el lado derecho de la barra de herramientas."
+"contactos individuales. También puede buscar entre ellas de la misma manera "
+"que con las carpetas de correo, usando la barra de búsqueda que está en el "
+"lado derecho de la barra de herramientas."
 
 #: C/evolution.xml:970(para)
 msgid ""
@@ -2959,7 +2953,6 @@ msgid "evolution mailto:<varname>joe@somewhere.net</varname>"
 msgstr "evolution mailto:<varname>joe@somewhere.net</varname>"
 
 #: C/evolution.xml:1063(para)
-#, fuzzy
 msgid ""
 "Starts Evolution and begins composing a message to the email address listed."
 msgstr ""
@@ -3005,13 +2998,12 @@ msgid "evolution <quote>%s</quote>"
 msgstr "evolution <quote>%s</quote>"
 
 #: C/evolution.xml:1103(para)
-#, fuzzy
 msgid ""
 "Makes Evolution your default email handler for your Web browser and in the "
 "GNOME* Control Center."
 msgstr ""
 "Hace de Evolution su manipulador de correo-e predeterminado para su "
-"navegador web y en el centro de control de GNOME."
+"navegador web y en el centro de control de GNOME*."
 
 #: C/evolution.xml:1114(para)
 #, fuzzy
@@ -3035,7 +3027,6 @@ msgid "Reading Mail"
 msgstr "Lectura de correo"
 
 #: C/evolution.xml:1120(link) C/evolution.xml:1386(title)
-#, fuzzy
 msgid "Composing New Email Messages"
 msgstr "Redacción de mensajes de correo-e nuevos"
 
@@ -3140,7 +3131,6 @@ msgstr ""
 "correo no leído."
 
 #: C/evolution.xml:1159(para)
-#, fuzzy
 msgid ""
 "If the message is more than one screen long, the Spacebar works as Page Down "
 "key."
@@ -3195,13 +3185,12 @@ msgstr ""
 "mainwindow-starting\">Iniciar Evolution por primera vez</link>."
 
 #: C/evolution.xml:1176(para)
-#, fuzzy
 msgid ""
 "If this is your first time checking mail, or you haven't asked Evolution to "
 "store your password, you are prompted for the password. Enter your password "
 "to download your email."
 msgstr ""
-" Si es la primera vez que comprueba el correo-e, o no se le ha pedido a "
+"Si es la primera vez que comprueba el correo-e, o no se le ha pedido a "
 "Evolution que almacena su contraseña, se le pedirá la contraseña. Introduzca "
 "su contraseña para descargar su correo."
 
@@ -3217,11 +3206,11 @@ msgstr ""
 "pregunte al administrador del sistema."
 
 #: C/evolution.xml:1181(title)
+#, fuzzy
 msgid "New Mail Notification"
 msgstr "Notificaciones de correo nuevo"
 
 #: C/evolution.xml:1182(para)
-#, fuzzy
 msgid ""
 "Evolution notifies you of new email. When you receive a new mail in your "
 "inbox, a blinking icon appears on the Switcher."
@@ -3361,7 +3350,6 @@ msgid "Sharing Mailboxes with Other Mail Programs"
 msgstr "Compartir buzones con otros programas de correo"
 
 #: C/evolution.xml:1236(para)
-#, fuzzy
 msgid ""
 "If you want to use Evolution and another email client, such as Mutt, at the "
 "same time, use the following procedure:"
@@ -3437,12 +3425,11 @@ msgid "Saving or Opening Attachments"
 msgstr "Guardar o abrir adjuntos"
 
 #: C/evolution.xml:1262(para)
-#, fuzzy
 msgid ""
 "If you get an email message with an attachment, Evolution can help you save "
 "the attachment or open it with the appropriate applications."
 msgstr ""
-"Si recibe un adjunto dentro de un mensaje de correo electrónica, Evolution "
+"Si recibe un adjunto dentro de un mensaje de correo electrónico, Evolution "
 "le ayuda a guardarlo o a abrirlo con las aplicaciones adecuadas."
 
 #: C/evolution.xml:1263(para)
@@ -3742,7 +3729,6 @@ msgstr ""
 "marca y el mensaje se borrará de la carpeta Papelera."
 
 #: C/evolution.xml:1387(para)
-#, fuzzy
 msgid ""
 "You can start writing a new email message by clicking File &gt; New &gt; "
 "Mail Message, by pressing Ctrl+N when in the mailing tool, or by clicking "
@@ -3793,7 +3779,6 @@ msgid "Attachments"
 msgstr "Adjuntos"
 
 #: C/evolution.xml:1406(link) C/evolution.xml:1560(title)
-#, fuzzy
 msgid "Specifying Additional Recipients for Email"
 msgstr "Especificar destinatarios adicioneles para correo electrónico"
 
@@ -3802,7 +3787,6 @@ msgid "Choosing Recipients Quickly"
 msgstr "Eligiendo los destinatarios rápidamente"
 
 #: C/evolution.xml:1412(link) C/evolution.xml:1593(title)
-#, fuzzy
 msgid "Replying to Email Messages"
 msgstr "Responder a mensajes de correo-e"
 
@@ -3811,9 +3795,8 @@ msgid "Searching and Replacing with the Composer"
 msgstr "Buscar y sustituir en el editor de mensajes"
 
 #: C/evolution.xml:1418(link) C/evolution.xml:1681(title)
-#, fuzzy
 msgid "Enhancing Your Email with HTML"
-msgstr "Mejore su correo electrónico con HTML"
+msgstr "Mejorar su correo electrónico con HTML"
 
 #: C/evolution.xml:1421(link) C/evolution.xml:1855(title)
 msgid "Mail Send Options"
@@ -3826,7 +3809,6 @@ msgid "Forwarding Mail"
 msgstr "Reenviar correo"
 
 #: C/evolution.xml:1427(link) C/evolution.xml:1954(title)
-#, fuzzy
 msgid "Tips for Email Courtesy"
 msgstr "Consejos para correo electrónico de cortesía"
 
@@ -4109,7 +4091,6 @@ msgstr ""
 "Manager."
 
 #: C/evolution.xml:1514(para)
-#, fuzzy
 msgid "To attach a file to your email:"
 msgstr "Para adjuntar un archivo a su correo-e:"
 
@@ -4146,7 +4127,6 @@ msgid "Attachment Reminder:"
 msgstr "Recuerdo de adjuntos:"
 
 #: C/evolution.xml:1531(para)
-#, fuzzy
 msgid ""
 "Evolution has an Attachment Reminder plugin you can use to remind yourself "
 "to attach a file to an email. If it determines that you have not attached "
@@ -4539,7 +4519,6 @@ msgid "Basic HTML Formatting"
 msgstr "Formateo básico de HTML"
 
 #: C/evolution.xml:1687(para)
-#, fuzzy
 msgid ""
 "You can change the format of an email message from plain text to HTML by "
 "choosing Format &gt; HTML from the menu bar."
@@ -4612,7 +4591,6 @@ msgid "Text Styles:"
 msgstr "Estilos de texto:"
 
 #: C/evolution.xml:1698(para)
-#, fuzzy
 msgid ""
 "Use these buttons to determine the way your email looks. If you have text "
 "selected, the style applies to the selected text. If you do not have text "
@@ -5084,15 +5062,15 @@ msgid "Don't send spam."
 msgstr "No envíe spam."
 
 #: C/evolution.xml:1983(para)
-#, fuzzy
 msgid ""
 "If you create an event in the calendar component, you can then send "
 "invitations to the attendee list through the Evolution email tool. The "
 "invitation card is sent as an attachment in iCal format."
 msgstr ""
 "Al crear un acontecimiento en la agenda puede enviar invitaciones por correo "
-"electrónico la lista de invitados. Las invitaciones se envían como archivos "
-"adjuntos en formato iCal."
+"electrónico la lista de invitados a través de la herramienta de correo de "
+"Evolution. La tarjeta de invitación se envía como archivo adjunto en formato "
+"iCal."
 
 #: C/evolution.xml:1984(para)
 msgid ""
@@ -5136,15 +5114,14 @@ msgid "Decline:"
 msgstr "Rehusar:"
 
 #: C/evolution.xml:1996(para)
-#, fuzzy
 msgid ""
 "Indicates you are unable to attend the meeting. The meeting is not entered "
 "into your calendar when you click OK, although your response is sent to the "
 "meeting host if you have selected the Send reply to sender option."
 msgstr ""
-"Elija esta opción si no va a poder asistir a la reunión. Al pulsar Aceptar "
-"no se anotará en su agenda pero si ha marcado la casilla RSVP (confirmación "
-"de asistencia) su respuesta se enviará al organizador."
+"Indica que no puede asistir a la reunión. La reunión no se introduce en su "
+"calendario al pulsar Aceptar, aunque su respuesta se envía al organizador de "
+"la reunión si ha seleccionado la opción Responder al remitente."
 
 #: C/evolution.xml:1999(title)
 msgid "Send reply to sender:"
@@ -5660,18 +5637,17 @@ msgstr ""
 "proporciona un archivo de certificado."
 
 #: C/evolution.xml:2197(para)
-#, fuzzy
 msgid ""
 "If you want to use S/MIME independently, you can extract an identification "
 "certificate from your Mozilla* or Netscape* Web browser. See the <ulink url="
 "\"http://www.mozilla.org/projects/security/pki/psm/help_21/using_certs_help."
 "html\">Mozilla Help</ulink>for more information on security certificates."
 msgstr ""
-"Si quiere usar S/MIME independientemente, puede extraer un certificado de "
+"Si quiere usar S/MIME independientemente puede extraer un certificado de "
 "identificación de su navegador Mozilla* o Netscape*. Para obtener más "
-"información acerca de certificados, vea la <ulink url=\"http://www.mozilla."
-"org/projects/security/pki/psm/help_21/using_certs_help.html\">ayuda de "
-"mozilla</ulink>."
+"información acerca de certificados consulte la <ulink url=\"http://www."
+"mozilla.org/projects/security/pki/psm/help_21/using_certs_help.html\">ayuda "
+"de mozilla</ulink>."
 
 #: C/evolution.xml:2198(para)
 msgid "The certificate file is a password-protected file on your computer."
@@ -5753,15 +5729,14 @@ msgid "Select the appropriate options."
 msgstr "Seleccione las opciones apropiadas."
 
 #: C/evolution.xml:2258(para)
-#, fuzzy
 msgid ""
 "Whether you only get a few email messages a day, or you receive hundreds, "
 "you probably want to sort and organize them. <trademark>Evolution</"
 "trademark> has the tools to help you do it."
 msgstr ""
-"Independientemente de que reciba unos pocos correos-e al día, o unos "
-"cientos, probablemente querrá organizarlos. <trademark>Evolution</trademark> "
-"tiene las herramientas para ayudarle a hacerlo."
+"Independientemente de que reciba unos pocos correos-e al día o unos cientos, "
+"probablemente querrá organizarlos. <trademark>Evolution</trademark> tiene "
+"las herramientas para ayudarle a hacerlo."
 
 #: C/evolution.xml:2261(link) C/evolution.xml:2284(title)
 msgid "Importing Your Old Email"
@@ -5892,7 +5867,6 @@ msgstr ""
 "Evolution, Eudora* y muchos otros clientes de correo electrónico."
 
 #: C/evolution.xml:2318(para)
-#, fuzzy
 msgid "To import your old email:"
 msgstr "Importar sus correos electrónicos antiguos:"
 
@@ -6031,9 +6005,8 @@ msgstr ""
 "pulse Ver &gt; Mensaje en bruto."
 
 #: C/evolution.xml:2379(title)
-#, fuzzy
 msgid "Sorting Mail In Email Threads"
-msgstr "Ordenar los correos-e por conversaciones"
+msgstr "Ordenar los correos por conversaciones"
 
 #: C/evolution.xml:2380(para)
 #, fuzzy
@@ -6854,16 +6827,13 @@ msgid "Select Search from the menu bar."
 msgstr "Seleccione Buscar en la barra de menú."
 
 #: C/evolution.xml:2744(para)
-#, fuzzy
 msgid "Click Edit Saved Searches to open the Searches dialog box."
 msgstr ""
 "Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsquedas."
 
 #: C/evolution.xml:2749(para)
-#, fuzzy
 msgid "Click the Edit button to open the Edit Rule dialog box."
-msgstr ""
-"Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla"
+msgstr "Pulse el botón Editar para abrir el cuadro de diálogo Editar regla."
 
 #: C/evolution.xml:2750(para)
 msgid ""
@@ -7099,9 +7069,8 @@ msgid "Attachments:"
 msgstr "Adjuntos:"
 
 #: C/evolution.xml:2839(para) C/evolution.xml:3084(para)
-#, fuzzy
 msgid "Creates a filter based on whether there is an attachment for the email."
-msgstr "Crea un filtro en función de si el mensaje contiene un adjunto."
+msgstr "Crea un filtro en función de si el correo-e contiene un adjunto."
 
 #: C/evolution.xml:2842(title)
 msgid "Mailing List"
