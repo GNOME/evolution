@@ -37,7 +37,7 @@
 	((obj), E_TYPE_SHELL_VIEW))
 #define E_IS_SHELL_VIEW_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((obj), E_TYPE_SHELL_VIEW))
+	((cls), E_TYPE_SHELL_VIEW))
 #define E_SHELL_VIEW_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SHELL_VIEW, EShellViewClass))

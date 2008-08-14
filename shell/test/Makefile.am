@@ -8,7 +8,9 @@ INCLUDES =					\
 	$(EVOLUTION_TEST_CFLAGS)
 
 libevolution_test_la_SOURCES =			\
-	evolution-test-module.c
+	e-test-shell-module.c			\
+	e-test-shell-view.c			\
+	e-test-shell-view.h
 
 libevolution_test_la_LIBADD =			\
 	$(top_builddir)/shell/libeshell.la	\

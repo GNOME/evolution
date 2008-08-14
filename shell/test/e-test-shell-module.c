@@ -20,6 +20,8 @@
 
 #include <e-shell-module.h>
 
+#include "e-test-shell-view.h"
+
 #define MODULE_SORT_ORDER	100
 #define MODULE_ALIASES		"test"
 #define MODULE_SCHEMES		""
@@ -82,5 +84,6 @@ void
 e_shell_module_init (GTypeModule *module)
 {
 	g_type_module_set_name (module, "name");
+	module_info.shell_view_type = e_test_shell_view_get_type (module);
 	e_shell_module_set_info (E_SHELL_MODULE (module), &module_info);
 }

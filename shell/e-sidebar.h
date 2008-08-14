@@ -44,13 +44,6 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
-	E_SWITCHER_ICONS,
-	E_SWITCHER_TEXT,
-	E_SWITCHER_BOTH,
-	E_SWITCHER_USER
-} ESwitcherStyle;
-
 typedef struct _ESidebar ESidebar;
 typedef struct _ESidebarClass ESidebarClass;
 typedef struct _ESidebarPrivate ESidebarPrivate;
@@ -62,6 +55,9 @@ struct _ESidebar {
 
 struct _ESidebarClass {
 	GtkBinClass parent_class;
+
+	void		(*style_changed)	(ESidebar *sidebar,
+						 GtkToolbarStyle style);
 };
 
 GType		e_sidebar_get_type		(void);
@@ -71,9 +67,10 @@ void		e_sidebar_add_action		(ESidebar *sidebar,
 gboolean	e_sidebar_get_actions_visible	(ESidebar *sidebar);
 void		e_sidebar_set_actions_visible	(ESidebar *sidebar,
 						 gboolean visible);
-GtkToolbarStyle	e_sidebar_get_toolbar_style	(ESidebar *sidebar);
-void		e_sidebar_set_toolbar_style	(ESidebar *sidebar,
+GtkToolbarStyle	e_sidebar_get_style		(ESidebar *sidebar);
+void		e_sidebar_set_style		(ESidebar *sidebar,
 						 GtkToolbarStyle style);
+void		e_sidebar_unset_style		(ESidebar *sidebar);
 
 G_END_DECLS
 

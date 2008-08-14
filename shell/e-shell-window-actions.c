@@ -884,7 +884,24 @@ action_switcher_style_cb (GtkRadioAction *action,
                           GtkRadioAction *current,
                           EShellWindow *window)
 {
-	/* FIXME  Unfinished. */
+	ESidebar *sidebar;
+	GtkToolbarStyle style;
+
+	sidebar = E_SIDEBAR (window->priv->sidebar);
+	style = gtk_radio_action_get_current_value (action);
+
+	switch (style) {
+		case GTK_TOOLBAR_ICONS:
+		case GTK_TOOLBAR_TEXT:
+		case GTK_TOOLBAR_BOTH:
+		case GTK_TOOLBAR_BOTH_HORIZ:
+			e_sidebar_set_style (sidebar, style);
+			break;
+
+		default:
+			e_sidebar_unset_style (sidebar);
+			break;
+	}
 }
 
 static void
@@ -1147,28 +1164,28 @@ static GtkRadioActionEntry shell_switcher_style_entries[] = {
 	  N_("_Icons Only"),
 	  NULL,
 	  N_("Display window buttons with icons only"),
-	  E_SWITCHER_ICONS },
+	  GTK_TOOLBAR_ICONS },
 
 	{ "switcher-style-text",
 	  NULL,
 	  N_("_Text Only"),
 	  NULL,
 	  N_("Display window buttons with text only"),
-	  E_SWITCHER_TEXT },
+	  GTK_TOOLBAR_TEXT },
 
 	{ "switcher-style-both",
 	  NULL,
 	  N_("Icons _and Text"),
 	  NULL,
 	  N_("Display window buttons with icons and text"),
-	  E_SWITCHER_BOTH },
+	  GTK_TOOLBAR_BOTH_HORIZ },
 
 	{ "switcher-style-user",
 	  NULL,
 	  N_("Tool_bar Style"),
 	  NULL,
 	  N_("Display window buttons using the desktop toolbar setting"),
-	  E_SWITCHER_USER }
+	  -1 }
 };
 
 void
@@ -1194,8 +1211,7 @@ e_shell_window_actions_init (EShellWindow *window)
 		G_N_ELEMENTS (shell_toggle_entries), window);
 	gtk_action_group_add_radio_actions (
 		action_group, shell_switcher_style_entries,
-		G_N_ELEMENTS (shell_switcher_style_entries),
-		E_SWITCHER_USER,
+		G_N_ELEMENTS (shell_switcher_style_entries), -1,
 		G_CALLBACK (action_switcher_style_cb),  window);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
@@ -1247,7 +1263,7 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 		class = g_type_class_ref (types[ii]);
 		type_name = g_type_name (types[ii]);
 
-		if (class->label != NULL) {
+		if (class->label == NULL) {
 			g_critical ("Label member not set on %s", type_name);
 			continue;
 		}
@@ -1255,9 +1271,17 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 		action_name = g_strdup_printf ("shell-view-%s", type_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
 
+		/* Note, we have to set "icon-name" separately because
+		 * gtk_radio_action_new() expects a "stock-id".  Sadly,
+		 * GTK+ still distinguishes between the two. */
+
 		action = gtk_radio_action_new (
 			action_name, class->label,
-			tooltip, class->icon_name, ii);
+			tooltip, NULL, ii);
+
+		g_object_set (
+			G_OBJECT (action),
+			"icon-name", class->icon_name, NULL);
 
 		g_signal_connect (
 			action, "changed",

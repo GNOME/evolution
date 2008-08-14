@@ -32,7 +32,8 @@
 struct _ESidebarPrivate {
 	GList *proxies;
 	gboolean actions_visible;
-	GtkToolbarStyle toolbar_style;
+	gboolean style_set;
+	GtkToolbarStyle style;
 };
 
 enum {
@@ -41,7 +42,13 @@ enum {
 	PROP_TOOLBAR_STYLE
 };
 
+enum {
+	STYLE_CHANGED,
+	LAST_SIGNAL
+};
+
 static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 static int
 sidebar_layout_actions (ESidebar *sidebar)
@@ -62,7 +69,7 @@ sidebar_layout_actions (ESidebar *sidebar)
 	if (num_btns == 0)
 		return y;
 
-	icons_only = (sidebar->priv->toolbar_style == GTK_TOOLBAR_ICONS);
+	icons_only = (sidebar->priv->style == GTK_TOOLBAR_ICONS);
 
 	/* Figure out the max width and height */
 	for (p = sidebar->priv->proxies; p != NULL; p = p->next) {
@@ -143,8 +150,6 @@ sidebar_layout_actions (ESidebar *sidebar)
 	return y;
 }
 
-/* GtkWidget methods.  */
-
 static void
 sidebar_set_property (GObject *object,
                       guint property_id,
@@ -159,7 +164,7 @@ sidebar_set_property (GObject *object,
 			return;
 
 		case PROP_TOOLBAR_STYLE:
-			e_sidebar_set_toolbar_style (
+			e_sidebar_set_style (
 				E_SIDEBAR (object),
 				g_value_get_enum (value));
 			return;
@@ -183,7 +188,7 @@ sidebar_get_property (GObject *object,
 
 		case PROP_TOOLBAR_STYLE:
 			g_value_set_enum (
-				value, e_sidebar_get_toolbar_style (
+				value, e_sidebar_get_style (
 				E_SIDEBAR (object)));
 			return;
 	}
@@ -315,6 +320,23 @@ sidebar_forall (GtkContainer *container,
 		container, include_internals, callback, callback_data);
 }
 
+static void
+sidebar_style_changed (ESidebar *sidebar,
+                       GtkToolbarStyle style)
+{
+	if (sidebar->priv->style == style)
+		return;
+
+	sidebar->priv->style = style;
+
+	g_list_foreach (
+		sidebar->priv->proxies,
+		(GFunc) gtk_tool_item_toolbar_reconfigured, NULL);
+
+	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+	g_object_notify (G_OBJECT (sidebar), "toolbar-style");
+}
+
 static GtkIconSize
 sidebar_get_icon_size (GtkToolShell *shell)
 {
@@ -330,7 +352,7 @@ sidebar_get_orientation (GtkToolShell *shell)
 static GtkToolbarStyle
 sidebar_get_style (GtkToolShell *shell)
 {
-	return e_sidebar_get_toolbar_style (E_SIDEBAR (shell));
+	return e_sidebar_get_style (E_SIDEBAR (shell));
 }
 
 static GtkReliefStyle
@@ -362,6 +384,8 @@ sidebar_class_init (ESidebarClass *class)
 	container_class->remove = sidebar_remove;
 	container_class->forall = sidebar_forall;
 
+	class->style_changed = sidebar_style_changed;
+
 	g_object_class_install_property (
 		object_class,
 		PROP_ACTIONS_VISIBLE,
@@ -384,6 +408,16 @@ sidebar_class_init (ESidebarClass *class)
 			DEFAULT_TOOLBAR_STYLE,
 			G_PARAM_CONSTRUCT |
 			G_PARAM_READWRITE));
+
+	signals[STYLE_CHANGED] = g_signal_new (
+		"style-changed",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (ESidebarClass, style_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__ENUM,
+		G_TYPE_NONE, 1,
+		GTK_TYPE_TOOLBAR_STYLE);
 }
 
 static void
@@ -493,27 +527,42 @@ e_sidebar_set_actions_visible (ESidebar *sidebar,
 }
 
 GtkToolbarStyle
-e_sidebar_get_toolbar_style (ESidebar *sidebar)
+e_sidebar_get_style (ESidebar *sidebar)
 {
 	g_return_val_if_fail (E_IS_SIDEBAR (sidebar), DEFAULT_TOOLBAR_STYLE);
 
-	return sidebar->priv->toolbar_style;
+	return sidebar->priv->style;
 }
 
 void
-e_sidebar_set_toolbar_style (ESidebar *sidebar,
-                             GtkToolbarStyle style)
+e_sidebar_set_style (ESidebar *sidebar,
+                     GtkToolbarStyle style)
 {
 	g_return_if_fail (E_IS_SIDEBAR (sidebar));
 
-	if (sidebar->priv->toolbar_style == style)
+	sidebar->priv->style_set = TRUE;
+	g_signal_emit (sidebar, signals[STYLE_CHANGED], 0, style);
+}
+
+void
+e_sidebar_unset_style (ESidebar *sidebar)
+{
+	GtkSettings *settings;
+	GtkToolbarStyle style;
+
+	g_return_if_fail (E_IS_SIDEBAR (sidebar));
+
+	if (!sidebar->priv->style_set)
 		return;
 
-	sidebar->priv->toolbar_style = style;
+	settings = gtk_widget_get_settings (GTK_WIDGET (sidebar));
+	g_object_get (settings, "gtk-toolbar-style", &style, NULL);
 
-	g_list_foreach (
-		sidebar->priv->proxies,
-		(GFunc) gtk_tool_item_toolbar_reconfigured, NULL);
+	if (style == GTK_TOOLBAR_BOTH)
+		style = GTK_TOOLBAR_BOTH_HORIZ;
 
-	g_object_notify (G_OBJECT (sidebar), "toolbar-style");
+	if (style != sidebar->priv->style)
+		g_signal_emit (sidebar, signals[STYLE_CHANGED], 0, style);
+
+	sidebar->priv->style_set = FALSE;
 }
