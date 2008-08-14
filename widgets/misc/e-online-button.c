@@ -22,9 +22,6 @@
 
 #include <glib/gi18n.h>
 
-#define ONLINE_IMAGE	"online.png"
-#define OFFLINE_IMAGE	"offline.png"
-
 #define E_ONLINE_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate))
@@ -177,18 +174,25 @@ e_online_button_set_online (EOnlineButton *button,
                             gboolean online)
 {
 	GtkImage *image;
-	gchar *filename;
-	const gchar *image_name;
+	GtkIconInfo *icon_info;
+	GtkIconTheme *icon_theme;
+	const gchar *filename;
+	const gchar *icon_name;
 
 	g_return_if_fail (E_IS_ONLINE_BUTTON (button));
 
 	button->priv->online = online;
-	image_name = online ? ONLINE_IMAGE : OFFLINE_IMAGE;
 
 	image = GTK_IMAGE (button->priv->image);
-	filename = g_build_filename (EVOLUTION_IMAGES, image_name, NULL);
+	icon_name = online ? "online" : "offline";
+	icon_theme = gtk_icon_theme_get_default ();
+
+	/* Prevent GTK+ from scaling these rectangular icons. */
+	icon_info = gtk_icon_theme_lookup_icon (
+		icon_theme, icon_name, GTK_ICON_SIZE_BUTTON, 0);
+	filename = gtk_icon_info_get_filename (icon_info);
 	gtk_image_set_from_file (image, filename);
-	g_free (filename);
+	gtk_icon_info_free (icon_info);
 
 	g_object_notify (G_OBJECT (button), "online");
 }

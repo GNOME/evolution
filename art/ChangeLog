@@ -1,3 +1,12 @@
+2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #547411
+
+	* online.png:
+	* offline.png:
+	New, Tangoized versions of these images now live in data/icons.
+	Remove them from here.
+
 2008-07-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #542125

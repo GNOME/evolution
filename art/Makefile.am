@@ -1,6 +1,4 @@
 images_DATA = \
-	offline.png			\
-	online.png			\
 	world_map-960.png		\
 	plus.png			\
 	minus.png

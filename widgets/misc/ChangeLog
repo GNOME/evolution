@@ -1,5 +1,13 @@
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #547411
+
+	* e-online-button.c (e_online_button_set_online):
+	The button icons are themed now but still oblong.
+	Load the icons by filename so GTK+ doesn't scale them.
+
+2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
+
 	* e-multi-config-dialog.c:
 	* e-send-options.c:
 	Use e_display_help() for displaying help.
