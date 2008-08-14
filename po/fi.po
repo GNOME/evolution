@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-13 15:14+0300\n"
+"POT-Creation-Date: 2008-08-14 16:46+0300\n"
 "PO-Revision-Date: 2008-08-13 15:30+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -344,8 +344,8 @@ msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"\"{0}\" on vain luettavissa oleva osoitekirja eikä sitä voi muokata. "
-"Valitse yhteystietonäkymän sivupalkista toinen osoitekirja."
+"\"{0}\" on vain luettavissa oleva osoitekirja eikä sitä voi muokata. Valitse "
+"yhteystietonäkymän sivupalkista toinen osoitekirja."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -395,10 +395,10 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and GroupWise Personal Contacts folders."
 msgstr ""
-"Voit tällä hetkellä käyttää vain GroupWisen järjestelmäosoitekirjaa Evolutionista. "
-"Käytä jotain toista GroupWise-asiakasta kerran, jotta saat GroupWisen "
-"\"Toistuvat yhteystiedot\"- ja \"Henkilökohtaiset yhteystiedot\"-kansiot "
-"käyttöösi."
+"Voit tällä hetkellä käyttää vain GroupWisen järjestelmäosoitekirjaa "
+"Evolutionista. Käytä jotain toista GroupWise-asiakasta kerran, jotta saat "
+"GroupWisen \"Toistuvat yhteystiedot\"- ja \"Henkilökohtaiset yhteystiedot\"-"
+"kansiot käyttöösi."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -520,7 +520,8 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "Oikeutesi eivät riitä yhteystietojen poistamiseen tästä osoitekirjasta."
+msgstr ""
+"Oikeutesi eivät riitä yhteystietojen poistamiseen tästä osoitekirjasta."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -1246,6 +1247,7 @@ msgstr "kortteja"
 #: ../plugins/calendar-http/calendar-http.c:279
 #: ../plugins/calendar-weather/calendar-weather.c:561
 #: ../plugins/google-account-setup/google-source.c:715
+#: ../plugins/google-account-setup/google-contacts-source.c:328
 msgid "minutes"
 msgstr "minuutti"
 
@@ -4633,6 +4635,7 @@ msgstr[1] "minuuttia"
 #: ../plugins/calendar-http/calendar-http.c:280
 #: ../plugins/calendar-weather/calendar-weather.c:562
 #: ../plugins/google-account-setup/google-source.c:716
+#: ../plugins/google-account-setup/google-contacts-source.c:329
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "tunti"
@@ -5287,6 +5290,7 @@ msgstr "Poista vanhemmat tapahtumat kuin"
 #: ../plugins/calendar-http/calendar-http.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:563
 #: ../plugins/google-account-setup/google-source.c:717
+#: ../plugins/google-account-setup/google-contacts-source.c:330
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "päivä"
@@ -5721,10 +5725,7 @@ msgstr "ylimääräistä kertaa joka"
 msgid "hour(s)"
 msgstr "tunti(a)"
 
-#. Translators: This is the second half of the sentence "Update
-#. * every NNN minute(s)", where NNN is a spin button widget.
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
-#: ../plugins/google-account-setup/google-contacts-source.c:247
 msgid "minute(s)"
 msgstr "minuutti(a)"
 
@@ -11395,6 +11396,7 @@ msgstr "määrittelemäsi aika"
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:282
 #: ../plugins/calendar-weather/calendar-weather.c:564
 #: ../plugins/google-account-setup/google-source.c:718
+#: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "weeks"
 msgstr "viikkoa"
 
@@ -12948,8 +12950,8 @@ msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
-"Määrittää kuinka usein paikalliset muutokset synkronoidaan postipalvelimelle.  "
-"Aikavälin täytyy olla vähintään 30 sekuntia."
+"Määrittää kuinka usein paikalliset muutokset synkronoidaan "
+"postipalvelimelle.  Aikavälin täytyy olla vähintään 30 sekuntia."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -13186,8 +13188,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"\"Lähetä ja vastaanota sähköpostia\"-ikkunan aloituskorkeus. Arvo muuttuu, jos "
-"käyttäjä muuttaa ikkunan korkeutta."
+"\"Lähetä ja vastaanota sähköpostia\"-ikkunan aloituskorkeus. Arvo muuttuu, "
+"jos käyttäjä muuttaa ikkunan korkeutta."
 
 #: ../mail/evolution-mail.schemas.in.h:63
 msgid ""
@@ -13197,18 +13199,18 @@ msgid ""
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
 msgstr ""
-"\"Lähetä ja vastaanota sähköpostia\"-ikkunan suurennustilan oletusarvo. Arvo muuttuu, "
-"jos käyttäjä suurentaa tai palauttaa ikkunan. Huomaa, että evolution ei "
-"käytä tätä arvoa, koska kyseinen ikkuna ei ole suurennettavissa. Avain on "
-"olemassa vain teknisten yksityiskohtien takia."
+"\"Lähetä ja vastaanota sähköpostia\"-ikkunan suurennustilan oletusarvo. Arvo "
+"muuttuu, jos käyttäjä suurentaa tai palauttaa ikkunan. Huomaa, että "
+"evolution ei käytä tätä arvoa, koska kyseinen ikkuna ei ole "
+"suurennettavissa. Avain on olemassa vain teknisten yksityiskohtien takia."
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"\"Lähetä ja vastaanota sähköpostia\"-ikkunan aloitusleveys. Arvo muuttuu, jos "
-"käyttäjä muuttaa ikkunan leveyttä."
+"\"Lähetä ja vastaanota sähköpostia\"-ikkunan aloitusleveys. Arvo muuttuu, "
+"jos käyttäjä muuttaa ikkunan leveyttä."
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -13544,8 +13546,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Tällä asetuksella voi olla kolme arvoa: \"0\" (ei virheitä), \"1\" (varoitukset) "
-"tai \"2\" (vianetsintäviestit)."
+"Tällä asetuksella voi olla kolme arvoa: \"0\" (ei virheitä), \"1"
+"\" (varoitukset) tai \"2\" (vianetsintäviestit)."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid ""
@@ -13570,8 +13572,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Tämä avain luetaan kerran, ja nollataan arvoksi \"epätosi\" lukemisen jälkeen.  "
-"Tämä peruu sähköpostin valinnan luettelosta ja poistaa esikatselun kansiolta."
+"Tämä avain luetaan kerran, ja nollataan arvoksi \"epätosi\" lukemisen "
+"jälkeen.  Tämä peruu sähköpostin valinnan luettelosta ja poistaa esikatselun "
+"kansiolta."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -13650,8 +13653,9 @@ msgstr "Oletustilin UID-merkkijono."
 
 #: ../mail/evolution-mail.schemas.in.h:156
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr "Väärinkirjoitettujen sanojen alleviivauksen väri käytettäessä "
-"kirjoituksen aikaista oikolukua."
+msgstr ""
+"Väärinkirjoitettujen sanojen alleviivauksen väri käytettäessä kirjoituksen "
+"aikaista oikolukua."
 
 #: ../mail/evolution-mail.schemas.in.h:157
 msgid "Use SpamAssassin daemon and client"
@@ -14353,7 +14357,8 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:109
 msgid "Option is ignored if a match for custom junk headers is found."
-msgstr "Valitsin ohitetaan, jos täsmäävä oma sähköpostn roskapostiotsake löydetään."
+msgstr ""
+"Valitsin ohitetaan, jos täsmäävä oma sähköpostn roskapostiotsake löydetään."
 
 #: ../mail/mail-config.glade.h:110
 msgid "Or_ganization:"
@@ -14539,6 +14544,7 @@ msgstr "Käytä _tunnistautumista"
 
 #: ../mail/mail-config.glade.h:156 ../plugins/caldav/caldav-source.c:284
 #: ../plugins/google-account-setup/google-source.c:678
+#: ../plugins/google-account-setup/google-contacts-source.c:278
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
 msgid "User_name:"
 msgstr "Käyttäjät_unnus:"
@@ -15095,8 +15101,8 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Vastaanoton kuittausta pyydettiin viestille \"{1}\". Lähetetäänkö "
-"kuittaus osoitteeseen {0}?"
+"Vastaanoton kuittausta pyydettiin viestille \"{1}\". Lähetetäänkö kuittaus "
+"osoitteeseen {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -15142,8 +15148,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
-msgstr ""
-"Haluatko varmasti poistaa kaikki poistetut viestit kansiosta \"%{0}\"?"
+msgstr "Haluatko varmasti poistaa kaikki poistetut viestit kansiosta \"%{0}\"?"
 
 #: ../mail/mail.error.xml.h:15
 msgid "Are you sure you want to send a message in HTML format?"
@@ -15224,8 +15229,8 @@ msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
 msgstr ""
-"Lisenssitiedostoa \"{0}\" ei voi lukea asennusongelman takia. Et voi "
-"käyttää tätä lähdettä ennen kuin voit hyväksyä lisenssin."
+"Lisenssitiedostoa \"{0}\" ei voi lukea asennusongelman takia. Et voi käyttää "
+"tätä lähdettä ennen kuin voit hyväksyä lisenssin."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -16253,6 +16258,7 @@ msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:271
 #: ../plugins/google-account-setup/google-source.c:671
+#: ../plugins/google-account-setup/google-contacts-source.c:301
 msgid "Use _SSL"
 msgstr "Käytä _SSLää"
 
@@ -16275,6 +16281,7 @@ msgstr "Tarjoaa paikallisten kalenterien perustoiminnot."
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:546
 #: ../plugins/google-account-setup/google-source.c:695
+#: ../plugins/google-account-setup/google-contacts-source.c:320
 msgid "Re_fresh:"
 msgstr "Vi_rkistä:"
 
@@ -17140,7 +17147,9 @@ msgstr "\"Poissa konttorilta\"-tilaa ei voi päivittää."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr "Evolution vaatii uudelleenkäynnistyksen tilatun käyttäjän postilaatikon lataamiseksi"
+msgstr ""
+"Evolution vaatii uudelleenkäynnistyksen tilatun käyttäjän postilaatikon "
+"lataamiseksi"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Exchange Account is offline."
@@ -17429,8 +17438,8 @@ msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
-"Evolution ei voinut luoda väliaikaistiedostoa viestin tallentamiseksi. "
-"Yritä myöhemmin uudestaan."
+"Evolution ei voinut luoda väliaikaistiedostoa viestin tallentamiseksi. Yritä "
+"myöhemmin uudestaan."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
@@ -17539,20 +17548,10 @@ msgstr "_Kalenteri:"
 msgid "Retrieve _list"
 msgstr "Nouda _luettelo"
 
-#: ../plugins/google-account-setup/google-contacts-source.c:198
+#: ../plugins/google-account-setup/google-contacts-source.c:268
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
 msgid "<b>Server</b>"
 msgstr "<b>Palvelin</b>"
-
-#: ../plugins/google-account-setup/google-contacts-source.c:208
-msgid "Username:"
-msgstr "Käyttäjätunnus:"
-
-#. Translators: This is the first half of the sentence "Update
-#. * every NNN minute(s)", where NNN is a spin button widget.
-#: ../plugins/google-account-setup/google-contacts-source.c:233
-msgid "Update every"
-msgstr "Päivitetään joka"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "A plugin to setup google calendar and contacts."
@@ -17702,7 +17701,8 @@ msgstr "Tälle käyttäjälle on jo annettu välipalvelinasetukset."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr "Välipalvelinoikeuksien määrittely vaatii kelvollisen käyttäjätunnuksen."
+msgstr ""
+"Välipalvelinoikeuksien määrittely vaatii kelvollisen käyttäjätunnuksen."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
@@ -19825,7 +19825,8 @@ msgstr "Ikkunan oletusleveys"
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
-"Määrittää välipalvelinasetukset avattaessa HTTP- tai HTTPS-yhteyksiä verkkoon."
+"Määrittää välipalvelinasetukset avattaessa HTTP- tai HTTPS-yhteyksiä "
+"verkkoon."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 msgid "HTTP proxy host name"
@@ -19854,10 +19855,10 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
-"Jos tosi, vaativat yhteyden välipalvelimelle tunnistautumisen. Käyttäjätunnus "
-"otetaan avaimesta \"/apps/evolution/shell/network_config/authentication_user\" "
-"ja salasana haetaan joko gnome-keyring -avainrenkaasta tai tiedostosta "
-"~/.gnome2_private/Evolution."
+"Jos tosi, vaativat yhteyden välipalvelimelle tunnistautumisen. "
+"Käyttäjätunnus otetaan avaimesta \"/apps/evolution/shell/network_config/"
+"authentication_user\" ja salasana haetaan joko gnome-keyring -avainrenkaasta "
+"tai tiedostosta ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "Last upgraded configuration version"
@@ -19907,8 +19908,8 @@ msgid ""
 msgstr ""
 "Valitse välipalvelimen asetustila. Tuetut arvot ovat 0, 1, 2, ja 3, jotka "
 "tarkoittavat arvoja \"käytä järjestelmän asetuksia\", \"ei välipalvelinta\", "
-"\"aseta välipalvelin käsin\" ja \"käytä automaattimäärittelyn URL:issa annettua "
-"määrittelyä\"."
+"\"aseta välipalvelin käsin\" ja \"käytä automaattimäärittelyn URL:issa "
+"annettua määrittelyä\"."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Sidebar is visible"
@@ -19975,24 +19976,24 @@ msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
 msgstr ""
-"Portti, jonka kautta käytetään avaimessa "
-"\"/apps/evolution/shell/network_config/http_host\" määriteltyä välipalvelinta."
+"Portti, jonka kautta käytetään avaimessa \"/apps/evolution/shell/"
+"network_config/http_host\" määriteltyä välipalvelinta."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
 msgstr ""
-"Portti, jonka kautta käytetään avaimessa "
-"\"/apps/evolution/shell/network_config/secure_host\" määriteltyä välipalvelinta."
+"Portti, jonka kautta käytetään avaimessa \"/apps/evolution/shell/"
+"network_config/secure_host\" määriteltyä välipalvelinta."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
 msgstr ""
-"Portti, jonka kautta käytetään avaimessa "
-"\"/apps/evolution/shell/network_config/socks_host\" määriteltyä välipalvelinta."
+"Portti, jonka kautta käytetään avaimessa \"/apps/evolution/shell/"
+"network_config/socks_host\" määriteltyä välipalvelinta."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
@@ -23671,6 +23672,12 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
+
+#~ msgid "Username:"
+#~ msgstr "Käyttäjätunnus:"
+
+#~ msgid "Update every"
+#~ msgstr "Päivitetään joka"
 
 #~ msgid "Migrating `%s':"
 #~ msgstr "Siirretään  \"%s\""
