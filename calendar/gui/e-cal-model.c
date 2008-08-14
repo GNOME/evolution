@@ -1115,7 +1115,6 @@ void
 e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone)
 {
 	ECalModelPrivate *priv;
-	GList *l;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
@@ -1522,7 +1521,6 @@ e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer user_data)
 {
  	ECalModel *model = (ECalModel *) user_data;
 	ECal *client = e_cal_view_get_client (query);
-	ECalModelPrivate *priv = model->priv;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
@@ -2088,6 +2086,7 @@ e_cal_model_date_value_to_string (ECalModel *model, const void *value)
 	return g_strdup (buffer);
 }
 
+/* FIXME is it still needed ?
 static ECellDateEditValue *
 copy_ecdv (ECellDateEditValue *ecdv)
 {
@@ -2098,7 +2097,7 @@ copy_ecdv (ECellDateEditValue *ecdv)
 	new_ecdv->zone = ecdv ? ecdv->zone : NULL;
 
 	return new_ecdv;
-}
+} */
 
 
 struct _ECalModelComponentPrivate {

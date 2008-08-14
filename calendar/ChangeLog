@@ -1,3 +1,11 @@
+2008-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.c: (source_changed_cb):
+	* gui/dialogs/memo-page.c: (source_changed_cb):
+	* gui/e-cal-model.c: (e_cal_model_set_timezone),
+	(e_cal_view_done_cb):
+	* gui/e-day-view-config.c: Fixed some warnings.
+
 2008-08-15  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #347287

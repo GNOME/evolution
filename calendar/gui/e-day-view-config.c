@@ -145,17 +145,6 @@ e_day_view_config_get_view (EDayViewConfig *view_config)
 }
 
 static void
-timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	EDayViewConfig *view_config = data;
-	EDayViewConfigPrivate *priv;
-
-	priv = view_config->priv;
-
-	set_timezone (priv->view);
-}
-
-static void
 set_week_start (EDayView *day_view)
 {
 	int week_start_day;
