@@ -1,3 +1,10 @@
+2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
+
+        ** Fix for bug #547805
+
+	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):
+          don't filter applications using g_app_info_should_show()
+
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/dialogs/comp-editor.c:
