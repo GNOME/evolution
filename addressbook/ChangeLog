@@ -1,3 +1,8 @@
+2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/contact-editor/e-contact-editor.c:
+	Use e_display_help() for displaying help.
+
 2008-08-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in:

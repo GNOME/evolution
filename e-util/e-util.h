@@ -25,7 +25,7 @@
 #define _E_UTIL_H_
 
 #include <sys/types.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <limits.h>
 #include <gconf/gconf-client.h>
 #include <cairo.h>
@@ -42,6 +42,8 @@ typedef enum {
 } EFocus;
 
 const gchar *	e_get_user_data_dir		(void);
+void		e_display_help			(GtkWindow *parent,
+						 const gchar *link_id);
 
 char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,

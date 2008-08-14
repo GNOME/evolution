@@ -23,11 +23,11 @@
 #endif
 
 #include <string.h>
-#include <libgnome/libgnome.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <time.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
 #include "e-dateedit.h"
@@ -586,7 +586,6 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 {
 	ESendOptionsDialogPrivate *priv;
 	ESendOptionsDialog *sod;
-	GError *error = NULL;
 
 	sod = func_data;
 	priv = sod->priv;
@@ -600,12 +599,9 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 			g_object_unref (priv->xml);
 			break;
 		case GTK_RESPONSE_HELP:
-			gnome_help_display (
-				"evolution.xml", priv->help_section, &error);
-			if (error != NULL) {
-				g_warning ("%s", error->message);
-				g_error_free (error);
-			}
+			e_display_help (
+				GTK_WINDOW (priv->main),
+				priv->help_section);
     			break;
 	}
 

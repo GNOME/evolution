@@ -31,6 +31,7 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/libgnome.h>
+#include <e-util/e-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
@@ -2257,16 +2258,11 @@ static void
 comp_editor_show_help (CompEditor *editor)
 {
 	CompEditorClass *class;
-	GError *error = NULL;
 
 	class = COMP_EDITOR_GET_CLASS (editor);
 	g_return_if_fail (class->help_section != NULL);
 
-	gnome_help_display ("evolution.xml", class->help_section, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_display_help (GTK_WINDOW (editor), class->help_section);
 }
 
 

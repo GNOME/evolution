@@ -1,3 +1,8 @@
+2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/dialogs/comp-editor.c:
+	Use e_display_help() for displaying help.
+
 2008-08-17  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/event-page.c: (source_changed_cb):

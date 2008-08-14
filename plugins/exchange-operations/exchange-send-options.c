@@ -26,9 +26,8 @@
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-contact-store.h>
 #include "exchange-operations.h"
+#include <e-util/e-util.h>
 #include <e-util/e-error.h>
-#include <libgnome/libgnome.h>
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
 #include "e-util/e-util-private.h"
@@ -280,7 +279,6 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 {
    	ExchangeSendOptionsDialogPrivate *priv;
    	ExchangeSendOptionsDialog *sod;
-        GError *error = NULL;
 
 	sod = func_data;
         priv = sod->priv;
@@ -295,12 +293,9 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 	           	g_object_unref (priv->xml);
 	             	break;
 		case GTK_RESPONSE_HELP:
-		     	gnome_help_display (
-				"evolution.xml", priv->help_section, &error);
-			if (error != NULL) {
-				g_warning ("%s", error->message);
-				g_error_free (error);
-			}
+			e_display_help (
+				GTK_WINDOW (priv->main),
+				priv->help_section);
 	    	    	break;
 	}
 	g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);

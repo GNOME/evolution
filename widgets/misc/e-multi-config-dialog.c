@@ -26,13 +26,12 @@
 
 #include "e-multi-config-dialog.h"
 
+#include <e-util/e-util.h>
 #include <table/e-table-scrolled.h>
 #include <table/e-table-memory-store.h>
 #include <table/e-cell-pixbuf.h>
 #include <table/e-cell-vbox.h>
 #include <table/e-cell-text.h>
-
-#include <libgnome/gnome-help.h>
 
 #define SWITCH_PAGE_INTERVAL 250
 
@@ -172,18 +171,12 @@ static void
 impl_response (GtkDialog *dialog, int response_id)
 {
 	EMultiConfigDialog *multi_config_dialog;
-	GError *error = NULL;
 
 	multi_config_dialog = E_MULTI_CONFIG_DIALOG (dialog);
 
 	switch (response_id) {
 	case GTK_RESPONSE_HELP:
-		gnome_help_display (
-			"evolution.xml", "config-prefs", &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+		e_display_help (GTK_WINDOW (dialog), "config-prefs");
 		break;
 	case GTK_RESPONSE_CLOSE:
 	default:
