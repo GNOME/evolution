@@ -802,7 +802,7 @@ set_info (CalendarComponentView *component_view)
 		g_return_if_reached ();
 	}
 
-	e_info_label_set_info (component_view->info_label, _("Calendar"), buffer);
+	e_info_label_set_info (component_view->info_label, _("Calendars"), buffer);
 }
 
 static void

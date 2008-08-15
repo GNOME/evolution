@@ -1,3 +1,9 @@
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	* gui/gui/calendar-component.c: (set_info):
+	Use "Calendars" as label for component, not "Calendar", for
+	consistency.
+
 2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
 
         ** Fix for bug #547805
