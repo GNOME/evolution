@@ -1,3 +1,7 @@
+2008-08-15  Milan Crha  <mcrha@redhat.com>
+
+	* POTFILES.in: Added e-util/e-util.c there.
+
 2008-08-14  Shankar Prasad  <svenkate@redhat.com>
 
 	* kn.po: Updated Kannada Translation.

@@ -191,6 +191,7 @@ e-util/e-logger.c
 e-util/e-plugin.c
 e-util/e-print.c
 e-util/e-system.error.xml
+e-util/e-util.c
 e-util/e-util-labels.c
 e-util/gconf-bridge.c
 filter/filter-datespec.c
