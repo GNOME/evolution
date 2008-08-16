@@ -34,6 +34,8 @@ struct _ESidebarPrivate {
 	gboolean actions_visible;
 	gboolean style_set;
 	GtkToolbarStyle style;
+	GtkSettings *settings;
+	gulong settings_handler_id;
 };
 
 enum {
@@ -148,6 +150,15 @@ sidebar_layout_actions (ESidebar *sidebar)
 	g_free (rows);
 
 	return y;
+}
+
+static void
+sidebar_toolbar_style_changed_cb (ESidebar *sidebar)
+{
+	if (!sidebar->priv->style_set) {
+		sidebar->priv->style_set = TRUE;
+		e_sidebar_unset_style (sidebar);
+	}
 }
 
 static void
@@ -278,6 +289,40 @@ sidebar_size_allocate (GtkWidget *widget,
 }
 
 static void
+sidebar_screen_changed (GtkWidget *widget,
+                        GdkScreen *previous_screen)
+{
+	ESidebarPrivate *priv;
+	GtkSettings *settings;
+
+	priv = E_SIDEBAR_GET_PRIVATE (widget);
+
+	if (gtk_widget_has_screen (widget))
+		settings = gtk_widget_get_settings (widget);
+	else
+		settings = NULL;
+
+	if (settings == priv->settings)
+		return;
+
+	if (priv->settings != NULL) {
+		g_signal_handler_disconnect (
+			priv->settings, priv->settings_handler_id);
+		g_object_unref (priv->settings);
+	}
+
+	if (settings != NULL) {
+		priv->settings = g_object_ref (settings);
+		priv->settings_handler_id = g_signal_connect_swapped (
+			settings, "notify::gtk-toolbar-style",
+			G_CALLBACK (sidebar_toolbar_style_changed_cb), widget);
+	} else
+		priv->settings = NULL;
+
+	sidebar_toolbar_style_changed_cb (E_SIDEBAR (widget));
+}
+
+static void
 sidebar_remove (GtkContainer *container,
                 GtkWidget *widget)
 {
@@ -379,6 +424,7 @@ sidebar_class_init (ESidebarClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = sidebar_size_request;
 	widget_class->size_allocate = sidebar_size_allocate;
+	widget_class->screen_changed = sidebar_screen_changed;
 
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = sidebar_remove;
@@ -555,8 +601,11 @@ e_sidebar_unset_style (ESidebar *sidebar)
 	if (!sidebar->priv->style_set)
 		return;
 
-	settings = gtk_widget_get_settings (GTK_WIDGET (sidebar));
-	g_object_get (settings, "gtk-toolbar-style", &style, NULL);
+	settings = sidebar->priv->settings;
+	if (settings != NULL)
+		g_object_get (settings, "gtk-toolbar-style", &style, NULL);
+	else
+		style = DEFAULT_TOOLBAR_STYLE;
 
 	if (style == GTK_TOOLBAR_BOTH)
 		style = GTK_TOOLBAR_BOTH_HORIZ;
