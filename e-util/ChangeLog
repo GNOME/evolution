@@ -1,3 +1,9 @@
+2008-08-16  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	* e-icon-factory.c: (e_icon_size_to_gtk_icon_size),
+	(e_icon_factory_get_icon_filename), (e_icon_factory_get_icon):
+	Make evolution respect GTK_ICON_SIZE changes, part of bug #416258.
+
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-util.c (e_display_help):
