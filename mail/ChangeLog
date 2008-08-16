@@ -1,3 +1,11 @@
+2008-08-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #513363
+
+	* default/C/Inbox:
+	Remove the outdated "New Features" list, and well as the incorrect
+	"Evolution team" email address.
+
 2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
 
         ** Fix for bug #547805

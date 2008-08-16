@@ -12,7 +12,7 @@ Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
 From: "The Evolution Team" <evolution@novell.com>
 To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.10.0
+X-Mailer: Evolution 2.24.0
 Date: 14 March 2007 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
@@ -47,15 +47,6 @@ Getting Started
 	For a complete guide to Evolution, select "Table of
 	Contents" from the "Help" menu, or press the F1 key. 
 
-New Features
-
-	Evolution 2.10 brings you
-	
-	# Integration with gtk-print
-	# Customizable fetching of IMAP headers.
-	# Faster Performance, lots of Memory Fixes and Memory Reduction
-	# Lots of Bug fixes and lots of other Improvements
-
 Bug Reporting
 
 	Bugs should be reported to http://bugzilla.gnome.org.
@@ -71,7 +62,6 @@ More Information
 
 Yours Sincerely,
 The Evolution Team
-evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -129,26 +119,6 @@ Getting Started
 </blockquote>
 
 <h2>
-New Features
-</h2>
-
-<blockquote>
-	Evolution 2.10 brings you 
-	<ul>
-	<li>
-	Integration with gtk-print
-	</li><li>
-	Customizable fetching of IMAP headers
-	</li><li>
-	Faster Performance, lots of Memory Fixes and Memory Reduction
-	</li><li>
-	Lots of Bug fixes and lots of other Improvements
-	</li>
-	</ul>
-<br>
-</blockquote>
-
-<h2>
 Bug Reporting
 </h2>
 <blockquote>
@@ -176,7 +146,6 @@ More Information
 Yours Sincerely,
 <br>
 The Evolution Team
-<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
