@@ -56,7 +56,6 @@ struct _EShellWindowPrivate {
 	GtkUIManager *manager;
 	GtkActionGroup *shell_actions;
 	GtkActionGroup *new_item_actions;
-	GtkActionGroup *new_group_actions;
 	GtkActionGroup *new_source_actions;
 	GtkActionGroup *shell_view_actions;
 

@@ -1220,11 +1220,6 @@ e_shell_window_actions_init (EShellWindow *window)
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
-	/* New Group Actions (empty) */
-	action_group = window->priv->new_group_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
-
 	/* New Source Actions (empty) */
 	action_group = window->priv->new_source_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1252,6 +1247,10 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 	types = e_shell_registry_get_view_types (&n_types);
 	manager = e_shell_window_get_ui_manager (window);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
+
+	/* Construct a group of radio actions from the various EShellView
+	 * subclasses and register them with our ESidebar.  These actions
+	 * are manifested as switcher buttons and View->Window menu items. */
 
 	for (ii = 0; ii < n_types; ii++) {
 		EShellViewClass *class;

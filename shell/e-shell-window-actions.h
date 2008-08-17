@@ -68,8 +68,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "work-online")
 
 /* Action Groups */
-#define E_SHELL_WINDOW_ACTION_GROUP_NEW_GROUP(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-group")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-item")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE(window) \

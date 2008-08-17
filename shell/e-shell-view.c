@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 
 #include "e-shell-window.h"
+#include "e-shell-window-actions.h"
 
 #define E_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,9 +42,105 @@ enum {
 
 static gpointer parent_class;
 
+static gint
+shell_view_compare_actions (GtkAction *action1,
+                            GtkAction *action2)
+{
+	gchar *label1, *label2;
+	gint result;
+
+	/* XXX This is really inefficient, but we're only sorting
+	 *     a small number of actions (repeatedly, though). */
+
+	g_object_get (action1, "label", &label1, NULL);
+	g_object_get (action2, "label", &label2, NULL);
+
+	result = g_utf8_collate (label1, label2);
+
+	g_free (label1);
+	g_free (label2);
+
+	return result;
+}
+
+static void
+shell_view_extract_actions (EShellView *shell_view,
+                            GList **source_list,
+			    GList **destination_list)
+{
+	GList *match_list = NULL;
+	GList *iter;
+
+	/* Pick out the actions from the source list that are tagged
+	 * as belonging to the given EShellView and move them to the
+	 * destination list. */
+
+	/* Example: Suppose [A] and [C] are tagged for this EShellView.
+	 *
+	 *        source_list = [A] -> [B] -> [C]
+	 *                       ^             ^
+	 *                       |             |
+	 *         match_list = [ ] --------> [ ]
+	 *
+	 *  
+	 *   destination_list = [1] -> [2]  (other actions)
+	 */
+	for (iter = *source_list; iter != NULL; iter = iter->next) {
+		GtkAction *action = iter->data;
+		EShellView *action_shell_view;
+
+		action_shell_view = g_object_get_data (
+			G_OBJECT (action), "shell-view");
+
+		if (action_shell_view != shell_view)
+			continue;
+
+		match_list = g_list_append (match_list, iter);
+	}
+
+	/* source_list = [B]   match_list = [A] -> [C] */
+	for (iter = match_list; iter != NULL; iter = iter->next) {
+		GList *link = iter->data;
+
+		iter->data = link->data;
+		*source_list = g_list_delete_link (*source_list, link);
+	}
+
+	/* destination_list = [1] -> [2] -> [A] -> [C] */
+	*destination_list = g_list_concat (*destination_list, match_list);
+}
+
+static void
+shell_view_register_new_actions (EShellView *shell_view,
+                                 GtkActionGroup *action_group,
+                                 const GtkActionEntry *entries,
+                                 guint n_entries)
+{
+	guint ii;
+
+	gtk_action_group_add_actions (
+		action_group, entries, n_entries, shell_view);
+
+	/* Tag each action with the shell view that registered it.
+	 * This is used to help sort items in the "New" menu. */
+
+	for (ii = 0; ii < n_entries; ii++) {
+		const gchar *action_name;
+		GtkAction *action;
+
+		action_name = entries[ii].name;
+
+		action = gtk_action_group_get_action (
+			action_group, action_name);
+
+		g_object_set_data (
+			G_OBJECT (action), "shell-view", shell_view);
+	}
+}
+
 static void
 shell_view_set_window (EShellView *shell_view,
-                       GtkWindow *window)
+                       GtkWidget *window)
 {
 	g_return_if_fail (GTK_IS_WINDOW (window));
 
@@ -129,6 +226,80 @@ shell_view_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static GtkWidget *
+shell_view_create_new_menu (EShellView *shell_view)
+{
+	GtkActionGroup *action_group;
+	GList *new_item_actions;
+	GList *new_source_actions;
+	GList *iter, *list = NULL;
+	GtkWidget *menu;
+	GtkWidget *separator;
+	GtkWidget *window;
+
+	window = e_shell_view_get_window (shell_view);
+
+	/* Get sorted lists of "new item" and "new source" actions. */
+
+	action_group = E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM (window);
+
+	new_item_actions = g_list_sort (
+		gtk_action_group_list_actions (action_group),
+		(GCompareFunc) shell_view_compare_actions);
+
+	action_group = E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE (window);
+
+	new_source_actions = g_list_sort (
+		gtk_action_group_list_actions (action_group),
+		(GCompareFunc) shell_view_compare_actions);
+
+	/* Give priority to actions that belong to this shell view. */
+
+	shell_view_extract_actions (
+		shell_view, &new_item_actions, &list);
+
+	shell_view_extract_actions (
+		shell_view, &new_source_actions, &list);
+
+	/* Convert the actions to menu item proxy widgets. */
+
+	for (iter = list; iter != NULL; iter = iter->next)
+		iter->data = gtk_action_create_menu_item (iter->data);
+
+	for (iter = new_item_actions; iter != NULL; iter = iter->next)
+		iter->data = gtk_action_create_menu_item (iter->data);
+
+	for (iter = new_source_actions; iter != NULL; iter = iter->next)
+		iter->data = gtk_action_create_menu_item (iter->data);
+
+	/* Add menu separators. */
+
+	separator = gtk_separator_menu_item_new ();
+	new_item_actions = g_list_prepend (new_item_actions, separator);
+
+	separator = gtk_separator_menu_item_new ();
+	new_source_actions = g_list_prepend (new_source_actions, separator);
+
+	/* Merge everything into one list, reflecting the menu layout. */
+
+	list = g_list_concat (list, new_item_actions);
+	new_item_actions = NULL;    /* just for clarity */
+
+	list = g_list_concat (list, new_source_actions);
+	new_source_actions = NULL;  /* just for clarity */
+
+	/* And finally, build the menu. */
+
+	menu = gtk_menu_new ();
+
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), iter->data);
+
+	g_list_free (list);
+
+	return menu;
+}
+
 static void
 shell_view_class_init (EShellViewClass *class)
 {
@@ -142,6 +313,8 @@ shell_view_class_init (EShellViewClass *class)
 	object_class->get_property = shell_view_get_property;
 	object_class->dispose = shell_view_dispose;
 	object_class->finalize = shell_view_finalize;
+
+	class->create_new_menu = shell_view_create_new_menu;
 
 	g_object_class_install_property (
 		object_class,
@@ -219,12 +392,25 @@ e_shell_view_set_title (EShellView *shell_view,
 	g_object_notify (G_OBJECT (shell_view), "title");
 }
 
-GtkWindow *
+GtkWidget *
 e_shell_view_get_window (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->window;
+}
+
+GtkWidget *
+e_shell_view_create_new_menu (EShellView *shell_view)
+{
+	EShellViewClass *class;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	class = E_SHELL_VIEW_CLASS (shell_view);
+	g_return_val_if_fail (class->create_new_menu != NULL, NULL);
+
+	return class->create_new_menu (shell_view);
 }
 
 GtkWidget *
@@ -264,4 +450,40 @@ e_shell_view_get_status_widget (EShellView *shell_view)
 	g_return_val_if_fail (class->get_status_widget != NULL, NULL);
 
 	return class->get_status_widget (shell_view);
+}
+
+void
+e_shell_view_register_new_item_actions (EShellView *shell_view,
+                                        const GtkActionEntry *entries,
+                                        guint n_entries)
+{
+	GtkWidget *window;
+	GtkActionGroup *action_group;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (entries != NULL);
+
+	window = e_shell_view_get_window (shell_view);
+	action_group = E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM (window);
+
+	shell_view_register_new_actions (
+		shell_view, action_group, entries, n_entries);
+}
+
+void
+e_shell_view_register_new_source_actions (EShellView *shell_view,
+                                          const GtkActionEntry *entries,
+					  guint n_entries)
+{
+	GtkWidget *window;
+	GtkActionGroup *action_group;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (entries != NULL);
+
+	window = e_shell_view_get_window (shell_view);
+	action_group = E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE (window);
+
+	shell_view_register_new_actions (
+		shell_view, action_group, entries, n_entries);
 }

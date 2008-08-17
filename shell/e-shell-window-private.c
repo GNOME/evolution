@@ -108,7 +108,6 @@ e_shell_window_private_init (EShellWindow *window)
 	priv->manager = gtk_ui_manager_new ();
 	priv->shell_actions = gtk_action_group_new ("shell");
 	priv->new_item_actions = gtk_action_group_new ("new-item");
-	priv->new_group_actions = gtk_action_group_new ("new-group");
 	priv->new_source_actions = gtk_action_group_new ("new-source");
 	priv->shell_view_actions = gtk_action_group_new ("shell-view");
 
@@ -253,7 +252,6 @@ e_shell_window_private_dispose (EShellWindow *window)
 	DISPOSE (priv->manager);
 	DISPOSE (priv->shell_actions);
 	DISPOSE (priv->new_item_actions);
-	DISPOSE (priv->new_group_actions);
 	DISPOSE (priv->new_source_actions);
 	DISPOSE (priv->shell_view_actions);
 
