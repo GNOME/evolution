@@ -1220,7 +1220,7 @@ e_shell_go_online (EShell *shell,
 gboolean
 e_shell_get_crash_recovery (EShell *shell)
 {
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	return shell->priv->crash_recovery;
 }
