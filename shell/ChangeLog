@@ -1,3 +1,11 @@
+2008-08-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #416258
+
+	* e-user-creatable-items-handler.c (ensure_menu_items),
+	(free_menu_items), (new_button_change), (setup_toolbar_button):
+	Added icon_toolbar for default items which is used instead of menu icon.
+
 2008-08-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-importer.c:
