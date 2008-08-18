@@ -210,6 +210,7 @@ init_view (EShellWindow *window,
 	Bonobo_Control sidebar_control;
 	Bonobo_Control view_control;
 	Bonobo_Control statusbar_control;
+	CORBA_boolean select_item;
 	CORBA_Environment ev;
 	int sidebar_notebook_page_num;
 	int view_notebook_page_num;
@@ -217,6 +218,9 @@ init_view (EShellWindow *window,
 	g_return_if_fail (view->view_widget == NULL);
 	g_return_if_fail (view->sidebar_widget == NULL);
 	g_return_if_fail (view->notebook_page_num == -1);
+
+	select_item = !e_shell_get_crash_recovery (priv->shell.eshell);
+	e_shell_set_crash_recovery (priv->shell.eshell, FALSE);
 
 	CORBA_exception_init (&ev);
 
@@ -238,7 +242,7 @@ init_view (EShellWindow *window,
 	   (e.g. methods not implemented)...  So handle it as if there was no
 	   component at all.  */
 
-	component_view = GNOME_Evolution_Component_createView(component_iface, BONOBO_OBJREF(priv->shell_view), &ev);
+	component_view = GNOME_Evolution_Component_createView(component_iface, BONOBO_OBJREF(priv->shell_view), select_item, &ev);
 	if (component_view == NULL || BONOBO_EX (&ev)) {
 		g_warning ("Cannot create view for %s", view->component_id);
 		bonobo_object_release_unref (component_iface, NULL);

@@ -1013,12 +1013,6 @@
    </section>
   </section>
 
-  <section id="b1a5acwx">
-   <title>Crash Recovery</title>
-   <para>Evolution displays a crash detection message when you restart it after a crash.</para>
-   <mediaobject id="b1a5aezg"><imageobject><imagedata format="PNG" fileref="figures/evo_crash_recovery.png"/></imageobject></mediaobject>
-   <para>Click Ignore to restore the preview pane displayed when Evolution crashed. If you click Recover, Evolution opens with all preview panes hidden.</para>
-  </section>
   <section id="bsekq8r">
    <title>Command Line Options</title>
    <para>Evolution has a number of command line options that you can use. For more information about command line options, open a terminal window and type <command>evolution --help</command>.</para>

@@ -711,6 +711,7 @@ enable_folder_tree (GtkWidget *emfb, GtkWidget *emft)
 static GNOME_Evolution_ComponentView
 impl_createView (PortableServer_Servant servant,
 		 GNOME_Evolution_ShellView parent,
+		 CORBA_boolean select_item,
 		 CORBA_Environment *ev)
 {
 	MailComponent *mail_component = MAIL_COMPONENT (bonobo_object_from_servant (servant));
@@ -725,6 +726,10 @@ impl_createView (PortableServer_Servant servant,
 	mc_startup(mail_component);
 
 	view_widget = em_folder_browser_new ();
+
+	if (!select_item)
+		em_folder_browser_suppress_message_selection (
+			(EMFolderBrowser *) view_widget);
 
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);

@@ -1,3 +1,15 @@
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #508732
+
+	* mail-component.c (impl_createView):
+	Add a "select_item" argument for crash recovery, which we forward
+	to EMFolderBrowser as a "suppress_message_selection" flag.
+
+	* em-folder-browser.c (emfb_set_folder):
+	Suppress automatic message selection if we are recovering from a
+	crash.
+
 2008-08-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #513363

@@ -1,3 +1,13 @@
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #508732
+
+	* gui/calendar-component.c (impl_createView):
+	* gui/memos-component.c (impl_createView):
+	* gui/tasks-component.c (impl_createView):
+	Add a "select_item" argument for crash recovery, which these
+	components do not use.
+
 2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
 
 	* gui/gui/calendar-component.c: (set_info):

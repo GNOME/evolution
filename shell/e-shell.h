@@ -124,6 +124,10 @@ void              e_shell_go_offline       (EShell       *shell,
 void              e_shell_go_online        (EShell       *shell,
 					    EShellWindow *action_window, GNOME_Evolution_ShellState shell_state);
 
+gboolean	e_shell_get_crash_recovery	(EShell *shell);
+void		e_shell_set_crash_recovery	(EShell *shell,
+						 gboolean crash_recovery);
+
 void  e_shell_send_receive  (EShell *shell);
 
 void  e_shell_show_settings  (EShell       *shell,

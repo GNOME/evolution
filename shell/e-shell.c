@@ -117,6 +117,9 @@ struct _EShellPrivate {
 	/* Whether quit has been requested, and the shell is now waiting for
 	   permissions from all the components to quit.  */
 	unsigned int preparing_to_quit : 1;
+
+	/* Whether we are recovering from a crash in the previous session. */
+	unsigned int crash_recovery : 1;
 };
 
 
@@ -1212,6 +1215,23 @@ e_shell_go_online (EShell *shell,
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
 
 	set_line_status(shell, shell_state);
+}
+
+gboolean
+e_shell_get_crash_recovery (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->crash_recovery;
+}
+
+void
+e_shell_set_crash_recovery (EShell *shell,
+                            gboolean crash_recovery)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	shell->priv->crash_recovery = crash_recovery;
 }
 
 void

@@ -75,7 +75,8 @@ module Evolution {
 			raises (UnsupportedVersion, UpgradeFailed);
 
 		/*** Basic functionality.  ***/
-		ComponentView createView(in ShellView parent)
+		ComponentView createView(in ShellView parent,
+		                         in boolean select_item)
 			raises (Failed);
 
 
