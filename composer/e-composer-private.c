@@ -87,6 +87,8 @@ e_composer_private_init (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *expander;
 	GtkWidget *container;
+	GtkWidget *send_widget;
+	const gchar *path;
 	gchar *filename;
 	GError *error = NULL;
 
@@ -119,6 +121,11 @@ e_composer_private_init (EMsgComposer *composer)
 	filename = e_composer_find_data_file ("evolution-composer.ui");
 	gtk_ui_manager_add_ui_from_file (manager, filename, &error);
 	g_free (filename);
+
+	/* We set the send button as important to have a label */
+	path = "/main-toolbar/pre-main-toolbar/send";
+	send_widget = gtk_ui_manager_get_widget (manager, path);
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
 
 	composer_setup_charset_menu (composer);
 
