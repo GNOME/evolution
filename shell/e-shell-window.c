@@ -39,7 +39,46 @@
 
 #include <string.h>
 
+enum {
+	PROP_0,
+	PROP_SAFE_MODE
+};
+
 static gpointer parent_class;
+
+static void
+shell_window_set_property (GObject *object,
+                           guint property_id,
+			   const GValue *value,
+			   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SAFE_MODE:
+			e_shell_window_set_safe_mode (
+				E_SHELL_WINDOW (object),
+				g_value_get_boolean (value));
+			break;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+shell_window_get_property (GObject *object,
+                           guint property_id,
+			   GValue *value,
+			   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SAFE_MODE:
+			g_value_set_boolean (
+				value, e_shell_window_get_safe_mode (
+				E_SHELL_WINDOW (object)));
+			break;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 shell_window_dispose (GObject *object)
@@ -68,8 +107,21 @@ shell_window_class_init (EShellWindowClass *class)
 	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = shell_window_set_property;
+	object_class->get_property = shell_window_get_property;
 	object_class->dispose = shell_window_dispose;
 	object_class->finalize = shell_window_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SAFE_MODE,
+		g_param_spec_boolean (
+			"safe-mode",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 }
 
 static void
@@ -114,9 +166,10 @@ e_shell_window_get_type (void)
 }
 
 GtkWidget *
-e_shell_window_new (void)
+e_shell_window_new (gboolean safe_mode)
 {
-	return g_object_new (E_TYPE_SHELL_WINDOW, NULL);
+	return g_object_new (
+		E_TYPE_SHELL_WINDOW, "safe-mode", safe_mode, NULL);
 }
 
 GtkUIManager *
@@ -199,203 +252,21 @@ e_shell_window_get_managed_widget (EShellWindow *window,
 	return widget;
 }
 
-#if 0
-static void
-init_view (EShellWindow *window,
-	   ComponentView *view)
+gboolean
+e_shell_window_get_safe_mode (EShellWindow *window)
 {
-	EShellWindowPrivate *priv = window->priv;
-	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
-	GNOME_Evolution_Component component_iface;
-	GNOME_Evolution_ComponentView component_view;
-	Bonobo_UIContainer container;
-	Bonobo_Control sidebar_control;
-	Bonobo_Control view_control;
-	Bonobo_Control statusbar_control;
-	CORBA_Environment ev;
-	int sidebar_notebook_page_num;
-	int content_notebook_page_num;
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), FALSE);
 
-	g_return_if_fail (view->view_widget == NULL);
-	g_return_if_fail (view->sidebar_widget == NULL);
-	g_return_if_fail (view->notebook_page_num == -1);
-
-	CORBA_exception_init (&ev);
-
-	/* 1. Activate component.  (FIXME: Shouldn't do this here.)  */
-
-	component_iface = e_component_registry_activate (registry, view->component_id, &ev);
-	if (BONOBO_EX (&ev) || component_iface == CORBA_OBJECT_NIL) {
-		char *ex_text = bonobo_exception_get_text (&ev);
-		g_warning ("Cannot activate component  %s: %s", view->component_id, ex_text);
-		g_free (ex_text);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	/* 2. Set up view.  */
-
-	/* The rest of the code assumes that the component is valid and can create
-	   controls; if this fails something is really wrong in the component
-	   (e.g. methods not implemented)...  So handle it as if there was no
-	   component at all.  */
-
-	component_view = GNOME_Evolution_Component_createView(component_iface, BONOBO_OBJREF(priv->shell_view), &ev);
-	if (component_view == NULL || BONOBO_EX (&ev)) {
-		g_warning ("Cannot create view for %s", view->component_id);
-		bonobo_object_release_unref (component_iface, NULL);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	GNOME_Evolution_ComponentView_getControls(component_view, &sidebar_control, &view_control, &statusbar_control, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot create view for %s", view->component_id);
-		bonobo_object_release_unref (component_iface, NULL);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	view->component_view = component_view;
-
-	CORBA_exception_free (&ev);
-
-	container = bonobo_ui_component_get_container (priv->ui_component);
-
-	view->sidebar_widget = bonobo_widget_new_control_from_objref (sidebar_control, container);
-	gtk_widget_show (view->sidebar_widget);
-	bonobo_object_release_unref (sidebar_control, NULL);
-
-	view->view_widget = bonobo_widget_new_control_from_objref (view_control, container);
-	gtk_widget_show (view->view_widget);
-	bonobo_object_release_unref (view_control, NULL);
-
-	view->statusbar_widget = bonobo_widget_new_control_from_objref (statusbar_control, container);
-	gtk_widget_show (view->statusbar_widget);
-	bonobo_object_release_unref (statusbar_control, NULL);
-
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->sidebar_notebook), view->sidebar_widget, NULL);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->content_notebook), view->view_widget, NULL);
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->statusbar_notebook), view->statusbar_widget, NULL);
-
-	sidebar_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->sidebar_notebook), view->sidebar_widget);
-	content_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->content_notebook), view->view_widget);
-
-	/* Since we always add a view page and a sidebar page at the same time...  */
-	g_return_if_fail (sidebar_notebook_page_num == content_notebook_page_num);
-
-	view->notebook_page_num = content_notebook_page_num;
-
-	/* 3. Switch to the new page.  */
-
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->content_notebook), content_notebook_page_num);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), content_notebook_page_num);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->statusbar_notebook), content_notebook_page_num);
-
-	priv->current_view = view;
-
-	bonobo_object_release_unref (component_iface, NULL);
+	return window->priv->safe_mode;
 }
 
-static void
-switch_view (EShellWindow *window, ComponentView *component_view)
+void
+e_shell_window_set_safe_mode (EShellWindow *window,
+                              gboolean safe_mode)
 {
-	EShellWindowPrivate *priv = window->priv;
-	GConfClient *gconf_client = gconf_client_get_default ();
-	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
-	EComponentInfo *info = e_component_registry_peek_info (registry,
-							       ECR_FIELD_ID,
-							       component_view->component_id);
-	char *title;
+	g_return_if_fail (E_IS_SHELL_WINDOW (window));
 
-	if (component_view->sidebar_widget == NULL) {
-		init_view (window, component_view);
-	} else {
-		priv->current_view = component_view;
+	window->priv->safe_mode = safe_mode;
 
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->content_notebook), component_view->notebook_page_num);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), component_view->notebook_page_num);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->statusbar_notebook), component_view->notebook_page_num);
-	}
-
-	if (component_view->title == NULL) {
-		/* To translators: This is the window title and %s is the 
-		component name. Most translators will want to keep it as is. */
-		title = g_strdup_printf (_("%s - Evolution"), info->button_label);
-		gtk_window_set_title (GTK_WINDOW (window), title);
-		g_free (title);
-	} else
-		gtk_window_set_title (GTK_WINDOW (window), component_view->title);
-
-	if (info->icon_name)
-		gtk_window_set_icon_name (GTK_WINDOW (window), info->icon_name);
-
-	gconf_client_set_string (gconf_client, "/apps/evolution/shell/view_defaults/component_id",
-				 (component_view->component_alias != NULL
-				  ? component_view->component_alias
-				  : component_view->component_id),
-				 NULL);
-
-	g_object_unref (gconf_client);
-
-	/** @Event: Shell component activated or switched to.
-	 * @Id: component.activated
-	 * @Target: ESEventTargetComponent
-	 * 
-	 * This event is emitted whenever the shell successfully activates component
-	 * view.
-	 */
-	e_event_emit ((EEvent *) es_event_peek (), "component.activated", (EEventTarget *) es_event_target_new_component (es_event_peek (), component_view->component_id));
-
-	g_object_notify (G_OBJECT (window), "current-view");
+	g_object_notify (G_OBJECT (window), "safe-mode");
 }
-#endif
-
-
-/* Functions to update the sensitivity of buttons and menu items depending on the status.  */
-
-#if 0
-static void
-update_offline_toggle_status (EShellWindow *window)
-{
-	EShellWindowPrivate *priv;
-	GtkWidget *widget;
-	const gchar *tooltip;
-	gboolean online;
-	gboolean sensitive;
-	guint32 flags = 0;
-
-	priv = window->priv;
-
-	switch (e_shell_get_line_status ()) {
-	case E_SHELL_LINE_STATUS_ONLINE:
-		online      = TRUE;
-		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently online.\n"
-				"Click on this button to work offline.");
-		flags = ES_MENU_SHELL_ONLINE;
-		break;
-	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
-		online      = TRUE;
-		sensitive   = FALSE;
-		tooltip     = _("Evolution is in the process of going offline.");
-		flags = ES_MENU_SHELL_OFFLINE;
-		break;
-	case E_SHELL_LINE_STATUS_OFFLINE:
-	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
-		online      = FALSE;
-		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently offline.\n"
-				"Click on this button to work online.");
-		flags = ES_MENU_SHELL_OFFLINE;
-		break;
-	default:
-		g_return_if_reached ();
-	}
-
-	widget = window->priv->online_button;
-	gtk_widget_set_sensitive (widget, sensitive);
-	gtk_widget_set_tooltip_text (widget, tooltip);
-	e_online_button_set_online (E_ONLINE_BUTTON (widget), online);
-}
-#endif

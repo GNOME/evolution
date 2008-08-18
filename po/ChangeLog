@@ -1,3 +1,31 @@
+2008-08-18  Shankar Prasad  <svenkate@redhat.com>
+
+        * kn.po: Updated Kannada translation
+
+2008-08-17  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-17  Takeshi AIHANA <takeshi.aihana@gmail.com>
+
+	* ja.po: Updated Japanese translation.
+
+2008-08-16  Priit Laes  <plaes at svn dot gnome dot org>
+
+	* et.po: Translation updated by Ivar Smolin
+
+2008-08-15  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Updated Norwegian bokmål translation.
+
+2008-08-15  Milan Crha  <mcrha@redhat.com>
+
+	* POTFILES.in: Added e-util/e-util.c there.
+
 2008-08-14  Shankar Prasad  <svenkate@redhat.com>
 
 	* kn.po: Updated Kannada Translation.

@@ -79,6 +79,7 @@ struct _EShellWindowPrivate {
 	/* Miscellaneous */
 
 	gboolean destroyed;  /* XXX Do we still need this? */
+	gboolean safe_mode;
 };
 
 void		e_shell_window_private_init	(EShellWindow *window);

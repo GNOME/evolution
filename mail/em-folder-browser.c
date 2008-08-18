@@ -122,6 +122,7 @@ struct _EMFolderBrowserPrivate {
 	guint folder_changed_id;
 
 	guint show_wide:1;
+	guint suppress_message_selection:1;
 	gboolean scope_restricted;
 
 	EMMenu *menu;		/* toplevel menu manager */
@@ -2001,6 +2002,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
+	gboolean different_folder;
 
 	message_list_freeze(emfv->list);
 
@@ -2018,6 +2020,10 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
 		emfb->priv->folder_changed_id = 0;
 	}
+
+	different_folder =
+		emfb->view.folder != NULL &&
+		folder != emfb->view.folder;
 
 	emfb_parent->set_folder(emfv, folder, uri);
 
@@ -2102,15 +2108,20 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			e_search_bar_paint ((ESearchBar *)emfb->search);
 		}
 
-		/* set the query manually, so we dont pop up advanced or saved search stuff */
+		/* This function gets triggered several times at startup,
+		 * so we don't want to reset the message suppression state
+		 * unless we're actually switching to a different folder. */
+		if (different_folder)
+			p->suppress_message_selection = FALSE;
 
-		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid"))) {
-			g_free (emfb->priv->select_uid);
-			emfb->priv->select_uid = sstate;
-		} else {
-			g_free(p->select_uid);
-			p->select_uid = NULL;
-		}
+		if (!p->suppress_message_selection)
+			sstate = camel_object_meta_get (
+				folder, "evolution:selected_uid");
+		else
+			sstate = NULL;
+
+		g_free (p->select_uid);
+		p->select_uid = sstate;
 
 		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
 			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
@@ -2221,4 +2232,10 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		emfb_parent->activate(emfv, uic, act);
 	}
+}
+
+void
+em_folder_browser_suppress_message_selection (EMFolderBrowser *emfb)
+{
+	emfb->priv->suppress_message_selection = TRUE;
 }

@@ -25,11 +25,11 @@ public_icons = \
 	$(NULL)
 
 private_icons = \
-    hicolor_apps_16x16_contact-editor.png \
-    hicolor_apps_22x22_contact-editor.png \
-    hicolor_apps_24x24_contact-editor.png \
-    hicolor_apps_32x32_contact-editor.png \
-    hicolor_apps_48x48_contact-editor.png \
+	hicolor_apps_16x16_contact-editor.png \
+	hicolor_apps_22x22_contact-editor.png \
+	hicolor_apps_24x24_contact-editor.png \
+	hicolor_apps_32x32_contact-editor.png \
+	hicolor_apps_48x48_contact-editor.png \
 	hicolor_actions_16x16_folder-copy.png \
 	hicolor_actions_16x16_folder-move.png \
 	hicolor_actions_16x16_mail-copy.png \
@@ -79,6 +79,8 @@ private_icons = \
 	hicolor_places_24x24_mail-inbox.png \
 	hicolor_places_24x24_mail-outbox.png \
 	hicolor_places_24x24_mail-sent.png \
+	hicolor_status_32x32_offline.png \
+	hicolor_status_32x32_online.png \
 	$(NULL)
 
 noinst_DATA = \
@@ -105,6 +107,8 @@ noinst_DATA = \
 	hicolor_places_22x22_mail-inbox.svg \
 	hicolor_places_22x22_mail-outbox.svg \
 	hicolor_places_22x22_mail-sent.svg \
+	hicolor_status_32x32_offline.svg \
+	hicolor_status_32x32_online.svg \
  	$(NULL)
 
 EXTRA_DIST = \

@@ -104,8 +104,13 @@ EShellWindow *
 e_shell_create_window (void)
 {
 	GtkWidget *shell_window;
+	gboolean safe_mode;
 
-	shell_window = e_shell_window_new ();
+	/* Put the first window into safe mode if we detect the previous
+	 * session did not shut down cleanly, perhaps due to a crash. */
+	safe_mode = (active_windows == NULL) && e_file_lock_exists ();
+
+	shell_window = e_shell_window_new (safe_mode);
 
 	active_windows = g_list_prepend (active_windows, shell_window);
 

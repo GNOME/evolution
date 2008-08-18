@@ -1207,6 +1207,7 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 static GNOME_Evolution_ComponentView
 impl_createView (PortableServer_Servant servant,
 		 GNOME_Evolution_ShellView parent,
+		 CORBA_boolean select_item,
 		 CORBA_Environment *ev)
 {
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));

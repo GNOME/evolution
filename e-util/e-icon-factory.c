@@ -34,21 +34,14 @@
 #include <libgnomeui/gnome-thumbnail.h>
 #endif
 
+#include <gtk/gtkiconfactory.h>
+
 #include "e-icon-factory.h"
 #include "e-util-private.h"
 
 #include "art/broken-image-16.xpm"
 #include "art/broken-image-24.xpm"
-
-static int sizes[E_ICON_NUM_SIZES] = {
-	16, /* menu */
-	20, /* button */
-	18, /* small toolbar */
-	24, /* large toolbar */
-	32, /* dnd */
-	48, /* dialog */
-};
-
+#define d(x)
 
 typedef struct {
 	char *name;
@@ -173,21 +166,25 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 	return icon_new (icon_key, pixbuf);
 }
 
-
-/* temporary workaround for code that has not yet been ported to the new icon_size API */
-static int
-pixel_size_to_icon_size (int pixel_size)
+static GtkIconSize
+e_icon_size_to_gtk_icon_size (guint size)
 {
-	int i, icon_size = -1;
-
-	for (i = 0; i < E_ICON_NUM_SIZES; i++) {
-		if (pixel_size == sizes[i]) {
-			icon_size = i;
-			break;
-		}
+	switch (size) {
+	case E_ICON_SIZE_MENU:
+		return GTK_ICON_SIZE_MENU;
+	case E_ICON_SIZE_BUTTON:
+		return GTK_ICON_SIZE_BUTTON;
+	case E_ICON_SIZE_SMALL_TOOLBAR:
+		return GTK_ICON_SIZE_SMALL_TOOLBAR;
+	case E_ICON_SIZE_LARGE_TOOLBAR:
+		return GTK_ICON_SIZE_LARGE_TOOLBAR;
+	case E_ICON_SIZE_DND:
+		return GTK_ICON_SIZE_DND;
+	case E_ICON_SIZE_DIALOG:
+		return GTK_ICON_SIZE_DIALOG;
+	default:
+		g_assert_not_reached ();
 	}
-
-	return icon_size;
 }
 
 static void
@@ -264,21 +261,30 @@ e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
 {
 	GtkIconInfo *icon_info;
 	char *filename;
+	gint width, height;
 
 	g_return_val_if_fail (icon_name != NULL, NULL);
 	g_return_val_if_fail (strcmp (icon_name, ""), NULL);
 
 	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_warning (
+		g_critical (
 			"calling %s with unknown icon_size value (%d)",
 			G_STRFUNC, icon_size);
-		if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)
+		/* if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)*/
 			return NULL;
 	}
 
+	if (! gtk_icon_size_lookup_for_settings (gtk_settings_get_default (),
+	    	e_icon_size_to_gtk_icon_size (icon_size),
+		&width, &height))
+		return NULL;
+
+	d(g_message ("Size is %d", icon_size));
+	d(g_message ("looking up %s at %dx%d", icon_name, width, height));
+
 	g_static_mutex_lock (&mutex);
 	icon_info = gtk_icon_theme_lookup_icon (
-		icon_theme, icon_name, sizes[icon_size], 0);
+		icon_theme, icon_name, height, 0);
 	if (icon_info != NULL) {
 		filename = g_strdup (
 			gtk_icon_info_get_filename (icon_info));
@@ -310,17 +316,25 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	GdkPixbuf *pixbuf;
 	char *icon_key;
 	Icon *icon;
-	int size;
+	int size, width, height;
 
 	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_warning (
+		g_critical (
 			"calling %s with unknown icon_size value (%d)",
 			G_STRFUNC, icon_size);
-		if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)
+		/*if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1) */
 			return NULL;
 	}
 
-	size = sizes[icon_size];
+	if (! gtk_icon_size_lookup_for_settings (gtk_settings_get_default (),
+	    	e_icon_size_to_gtk_icon_size (icon_size),
+		&width, &height))
+		return NULL;
+
+	d(g_message ("Size is %d", icon_size));
+	d(g_message ("looking up %s at %dx%d", icon_name, width, height));
+
+	size = height;
 
 	if (icon_name == NULL || !strcmp (icon_name, "")) {
 		if (size >= 24)

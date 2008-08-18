@@ -1,3 +1,30 @@
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #508732
+
+	* mail-component.c (impl_createView):
+	Add a "select_item" argument for crash recovery, which we forward
+	to EMFolderBrowser as a "suppress_message_selection" flag.
+
+	* em-folder-browser.c (emfb_set_folder):
+	Suppress automatic message selection if we are recovering from a
+	crash.
+
+2008-08-16  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #513363
+
+	* default/C/Inbox:
+	Remove the outdated "New Features" list, and well as the incorrect
+	"Evolution team" email address.
+
+2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
+
+        ** Fix for bug #547805
+
+	* em-popup.c: (emp_standard_menu_factory): 
+          don't filter applications using g_app_info_should_show()
+
 2008-08-13  Moritz Mertinkat  <moritz@mertinkat.net>
 
 	* em-format-html.c: Added meaningful user agent for HTTP requests

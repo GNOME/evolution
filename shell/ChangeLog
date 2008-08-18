@@ -1,3 +1,38 @@
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* test/evolution-test-component.c (impl_upgradeFromVersion):
+	Fix the function signature to conform to the component interface.
+
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #508732
+
+	* e-shell.c:
+	Add a "crash_recovery" flag, with accessor functions for it.
+
+	* e-shell-window (init_view):
+	Check and reset the "crash_recovery" flag before creating a
+	new shell view.  The components can use this flag to take
+	steps to recover from the previous crash.
+
+	* apps_evolution_shell.schemas.in:
+	Remove the "skip_recovery_dialog" and "recovery" keys.
+
+	* Evolution-Component.idl (createView):
+	Add a "select_item" boolean parameter.
+
+	* main.c:
+	Kill the crash recovery dialog.  Instead just set the crash
+	recovery flag in e-shell appropriately.
+
+2008-08-18  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #416258
+
+	* e-user-creatable-items-handler.c (ensure_menu_items),
+	(free_menu_items), (new_button_change), (setup_toolbar_button):
+	Added icon_toolbar for default items which is used instead of menu icon.
+
 2008-08-08  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-importer.c:

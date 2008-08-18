@@ -41,31 +41,6 @@
       </locale>
     </schema>
 
-    <!-- Recovery -->
-     <schema>
-      <key>/schemas/apps/evolution/shell/skip_recovery_dialog</key>
-      <applyto>/apps/evolution/shell/skip_recovery_dialog</applyto>
-      <owner>evolution</owner>
-      <type>bool</type>
-      <default>false</default>
-      <locale name="C">
-        <short>Skip recovery warning dialog</short>
-	<long>Whether the warning dialog in recovery of Evolution is skipped.</long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/recovery</key>
-      <applyto>/apps/evolution/shell/recovery</applyto>
-      <owner>evolution</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Whether crash detection should be done or not</short>
-	<long>Decides whether the crash detection should be run or not.</long>
-      </locale>
-    </schema>
-
  <!-- Offline Mode -->
 
     <schema>

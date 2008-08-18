@@ -1,3 +1,33 @@
+2008-08-18  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #462242
+
+	* gui/gnome-cal.c: (default_client_cal_opened_cb):
+	Do not unref NULL pointers.
+
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #508732
+
+	* gui/calendar-component.c (impl_createView):
+	* gui/memos-component.c (impl_createView):
+	* gui/tasks-component.c (impl_createView):
+	Add a "select_item" argument for crash recovery, which these
+	components do not use.
+
+2008-08-04  Paul Bolle  <pebolle@tiscali.nl>
+
+	* gui/gui/calendar-component.c: (set_info):
+	Use "Calendars" as label for component, not "Calendar", for
+	consistency.
+
+2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
+
+	** Fix for bug #547805
+
+	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):
+	don't filter applications using g_app_info_should_show()
+
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/dialogs/comp-editor.c:

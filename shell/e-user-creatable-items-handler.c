@@ -60,6 +60,7 @@ struct _MenuItem {
 	char *tooltip;
 	char *component;
 	GdkPixbuf *icon;
+	GdkPixbuf *icon_toolbar;
 };
 typedef struct _MenuItem MenuItem;
 
@@ -258,8 +259,13 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 
 				if (corba_item->iconName == NULL || *corba_item->iconName == '\0') {
 					item->icon = NULL;
+					item->icon_toolbar = NULL;
 				} else {
 					item->icon = e_icon_factory_get_icon (corba_item->iconName, E_ICON_SIZE_MENU);
+					if (item_is_default (item, component->alias))
+						item->icon_toolbar = e_icon_factory_get_icon (corba_item->iconName, E_ICON_SIZE_LARGE_TOOLBAR);
+					else
+						item->icon_toolbar = NULL;
 				}
 
 				if (corba_item->type == GNOME_Evolution_CREATABLE_OBJECT)
@@ -303,6 +309,9 @@ free_menu_items (GSList *menu_items)
 
 		if (item->icon != NULL)
 			g_object_unref (item->icon);
+
+		if (item->icon_toolbar != NULL)
+			g_object_unref (item->icon_toolbar);
 
 		g_free (item->component);
 		g_free (item);
@@ -698,7 +707,7 @@ new_button_change (GConfClient *gconf,
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 
 	set_combo_button_style (E_COMBO_BUTTON (priv->new_button),
-				val, priv->default_menu_item->icon);
+				val, priv->default_menu_item->icon_toolbar ? priv->default_menu_item->icon_toolbar : priv->default_menu_item->icon);
 
 	g_free (val);
 	gtk_widget_show (priv->new_button);
@@ -738,7 +747,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	gtk_widget_set_sensitive (priv->new_button, TRUE);
 
 	set_combo_button_style (E_COMBO_BUTTON (priv->new_button),
-				val, priv->default_menu_item->icon);
+				val, priv->default_menu_item->icon_toolbar ? priv->default_menu_item->icon_toolbar : priv->default_menu_item->icon);
 
 	gconf_client_notify_add(gconf,"/desktop/gnome/interface/toolbar_style",
 		(GConfClientNotifyFunc)new_button_change, handler, NULL, NULL);

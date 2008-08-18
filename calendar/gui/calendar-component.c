@@ -802,7 +802,7 @@ set_info (CalendarComponentView *component_view)
 		g_return_if_reached ();
 	}
 
-	e_info_label_set_info (component_view->info_label, _("Calendar"), buffer);
+	e_info_label_set_info (component_view->info_label, _("Calendars"), buffer);
 }
 
 static void
@@ -1550,6 +1550,7 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 static GNOME_Evolution_ComponentView
 impl_createView (PortableServer_Servant servant,
 		 GNOME_Evolution_ShellView parent,
+		 CORBA_boolean select_item,
 		 CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
