@@ -2870,7 +2870,8 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
 
 		/* FIXME Is there a better way to handle this? */
-		g_object_unref (priv->default_client[source_type]);
+		if (priv->default_client[source_type])
+			g_object_unref (priv->default_client[source_type]);
 		priv->default_client[source_type] = NULL;
 
 		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
