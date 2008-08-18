@@ -1,5 +1,10 @@
 2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
 
+	* test/evolution-test-component.c (impl_upgradeFromVersion):
+	Fix the function signature to conform to the component interface.
+
+2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #508732
 
 	* e-shell.c:
