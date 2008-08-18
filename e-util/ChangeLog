@@ -1,3 +1,8 @@
+2008-08-18  Bharath Acharya  <abharath@novell.com>
+
+	* e-icon-factory.c: (e_icon_factory_get_icon_filename),
+	(e_icon_factory_get_icon): Added a debug macro and turned it off.
+
 2008-08-16  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	* e-icon-factory.c: (e_icon_size_to_gtk_icon_size),

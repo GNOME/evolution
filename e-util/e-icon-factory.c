@@ -41,6 +41,7 @@
 
 #include "art/broken-image-16.xpm"
 #include "art/broken-image-24.xpm"
+#define d(x)
 
 typedef struct {
 	char *name;
@@ -278,8 +279,8 @@ e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
 		&width, &height))
 		return NULL;
 
-	g_message ("Size is %d", icon_size);
-	g_message ("looking up %s at %dx%d", icon_name, width, height);
+	d(g_message ("Size is %d", icon_size));
+	d(g_message ("looking up %s at %dx%d", icon_name, width, height));
 
 	g_static_mutex_lock (&mutex);
 	icon_info = gtk_icon_theme_lookup_icon (
@@ -330,8 +331,8 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 		&width, &height))
 		return NULL;
 
-	g_message ("Size is %d", icon_size);
-	g_message ("looking up %s at %dx%d", icon_name, width, height);
+	d(g_message ("Size is %d", icon_size));
+	d(g_message ("looking up %s at %dx%d", icon_name, width, height));
 
 	size = height;
 
