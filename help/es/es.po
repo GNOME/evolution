@@ -9,12 +9,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.gnome-2-22\n"
-"POT-Creation-Date: 2008-07-18 13:47+0000\n"
-"PO-Revision-Date: 2008-07-25 16:22+0200\n"
+"POT-Creation-Date: 2008-07-25 14:28+0000\n"
+"PO-Revision-Date: 2008-08-18 10:35+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type:  text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
@@ -22,8 +22,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:233(None)
-msgid "@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
-msgstr "@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgid ""
+"@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgstr ""
+"@@image: 'figures/evo_identity_a.png'; md5=51fef803bd3083b0b2c2583221d1c151"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -38,14 +40,18 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:424(None)
-msgid "@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
-msgstr "@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
+msgid ""
+"@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
+msgstr ""
+"@@image: 'figures/evo_gwreceive_a.png'; md5=ef64e581e652d0f03e4e6dd4a3b6d5a2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:434(None)
-msgid "@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
-msgstr "@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
+msgid ""
+"@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
+msgstr ""
+"@@image: 'figures/evo_mereceive_a.png'; md5=c3c759f902c2584ee218dc40d6e46806"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -60,20 +66,26 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:518(None)
-msgid "@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
-msgstr "@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
+msgid ""
+"@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
+msgstr ""
+"@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:539(None)
-msgid "@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
-msgstr "@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
+msgid ""
+"@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
+msgstr ""
+"@@image: 'figures/evo_usereceive_a.png'; md5=3c14cafdde81fca95d480851aee9db0f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:586(None)
-msgid "@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
-msgstr "@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
+msgid ""
+"@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
+msgstr ""
+"@@image: 'figures/evo_mhreceive_a.png'; md5=c7b97b4a2e9b9cf1c550244cca15a189"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -98,14 +110,18 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:677(None)
-msgid "@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
-msgstr "@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
+msgid ""
+"@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
+msgstr ""
+"@@image: 'figures/evo_send_setup_a.png'; md5=82760a1733ccb49ffa8424d265278b42"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:724(None)
-msgid "@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
-msgstr "@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
+msgid ""
+"@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
+msgstr ""
+"@@image: 'figures/evo_timezone_a.png'; md5=4ee80aae45be18c238c25329ab5ce59a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -121,7 +137,8 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:926(None)
 msgid "@@image: 'figures/evo_mail_a.png'; md5=cf315e85737412c6ee3c3202b8807701"
-msgstr "@@image: 'figures/evo_mail_a.png'; md5=cf315e85737412c6ee3c3202b8807701"
+msgstr ""
+"@@image: 'figures/evo_mail_a.png'; md5=cf315e85737412c6ee3c3202b8807701"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -147,7 +164,8 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:979(None)
 msgid "@@image: 'figures/evo_backup.png'; md5=45f1608179074557b35d6a31fbd49cec"
-msgstr "@@image: 'figures/evo_backup.png'; md5=45f1608179074557b35d6a31fbd49cec"
+msgstr ""
+"@@image: 'figures/evo_backup.png'; md5=45f1608179074557b35d6a31fbd49cec"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -172,8 +190,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1009(None)
-msgid "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
-msgstr "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
+msgid ""
+"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
+msgstr ""
+"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -188,32 +208,41 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1173(None)
-msgid "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
-msgstr "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
+msgid ""
+"@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
+msgstr ""
+"@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1190(None)
 msgid "@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
-msgstr "@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
+msgstr ""
+"@@image: 'figures/ver_view_a.png'; md5=f3075b70b9eebf8f2b8f3b587143ef8b"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1205(None)
-msgid "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
-msgstr "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
+msgid ""
+"@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
+msgstr ""
+"@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1375(None)
-msgid "@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
-msgstr "@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
+msgid ""
+"@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
+msgstr ""
+"@@image: 'figures/evo_newmess_a.png'; md5=3bd7f656fa4d7fa3d5b337241e56f575"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1463(None)
-msgid "@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
-msgstr "@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
+msgid ""
+"@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
+msgstr ""
+"@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -248,8 +277,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1898(None)
-msgid "@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
-msgstr "@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
+msgid ""
+"@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
+msgstr ""
+"@@image: 'figures/account_editor_a.png'; md5=cd9c4e71a53f8f03424c1432d7d46e30"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -264,8 +295,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2357(None)
-msgid "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-msgstr "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+msgid ""
+"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+msgstr ""
+"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -300,32 +333,41 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2691(None)
-msgid "@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
-msgstr "@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
+msgid ""
+"@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
+msgstr ""
+"@@image: 'figures/evo_adv_search_a.png'; md5=676d35d686745650c9bcfa832763362c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2721(None)
-msgid "@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
-msgstr "@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
+msgid ""
+"@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
+msgstr ""
+"@@image: 'figures/evo_edit_search.png'; md5=2ce150b3eb63cc4ec0f0292e13167be8"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2727(None)
-msgid "@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
-msgstr "@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
+msgid ""
+"@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
+msgstr ""
+"@@image: 'figures/evo_edit_rule_a.png'; md5=0ae423517b27dfd34cfcb54550335fbb"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2754(None)
-msgid "@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
-msgstr "@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
+msgid ""
+"@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
+msgstr ""
+"@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3002(None)
 msgid "@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
-msgstr "@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
+msgstr ""
+"@@image: 'figures/evo_rule_a.png'; md5=5f8fb34b77c0d3abe7aff767edd53aaa"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -350,14 +392,18 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3227(None)
-msgid "@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
-msgstr "@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
+msgid ""
+"@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
+msgstr ""
+"@@image: 'figures/quick_add_a.png'; md5=2a3d3007ec4cd18bb7e3a208bcbfb252"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3482(None)
-msgid "@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
-msgstr "@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
+msgid ""
+"@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
+msgstr ""
+"@@image: 'figures/categories_a.png'; md5=362ebe93a74beec4fd820776c7f2db77"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -368,14 +414,18 @@ msgstr "@@image: 'figures/evo_cal_a.png'; md5=08a60dd21a8c52bace4a9d1d606b3ff5"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3671(None)
-msgid "@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
-msgstr "@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
+msgid ""
+"@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
+msgstr ""
+"@@image: 'figures/evo_cal_prop_a.png'; md5=f28511f098847b4fc9278ba6c54c9c3d"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3703(None)
-msgid "@@image: 'figures/google_cal_view.png'; md5=6574c207d4b219a80da96982ee650ce2"
-msgstr "@@image: 'figures/google_cal_view.png'; md5=6574c207d4b219a80da96982ee650ce2"
+msgid ""
+"@@image: 'figures/google_cal_view.png'; md5=6574c207d4b219a80da96982ee650ce2"
+msgstr ""
+"@@image: 'figures/google_cal_view.png'; md5=6574c207d4b219a80da96982ee650ce2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -390,8 +440,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3868(None)
-msgid "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
-msgstr "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
+msgid ""
+"@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
+msgstr ""
+"@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -415,19 +467,24 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4621(None)
 msgid "@@image: 'figures/evo_memo_a.png'; md5=d3e1bb4520b51afabc1b396fdd4ab82c"
-msgstr "@@image: 'figures/evo_memo_a.png'; md5=d3e1bb4520b51afabc1b396fdd4ab82c"
+msgstr ""
+"@@image: 'figures/evo_memo_a.png'; md5=d3e1bb4520b51afabc1b396fdd4ab82c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5017(None)
-msgid "@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
-msgstr "@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgid ""
+"@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
+msgstr ""
+"@@image: 'figures/exchng-identity.png'; md5=51fef803bd3083b0b2c2583221d1c151"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5027(None)
-msgid "@@image: 'figures/exchng-rec-mails.png'; md5=79e539dd7f7c229b281953a486b1776c"
-msgstr "@@image: 'figures/exchng-rec-mails.png'; md5=79e539dd7f7c229b281953a486b1776c"
+msgid ""
+"@@image: 'figures/exchng-rec-mails.png'; md5=79e539dd7f7c229b281953a486b1776c"
+msgstr ""
+"@@image: 'figures/exchng-rec-mails.png'; md5=79e539dd7f7c229b281953a486b1776c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -442,14 +499,18 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5070(None)
-msgid "@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
-msgstr "@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
+msgid ""
+"@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
+msgstr ""
+"@@image: 'figures/exchg-identity.png'; md5=3733884734da6765870c652f1651bbd2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5092(None)
-msgid "@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
-msgstr "@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
+msgid ""
+"@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
+msgstr ""
+"@@image: 'figures/exchng-rec-mail.png'; md5=fe7f5e7b758b0306998ec477abf790f3"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -464,8 +525,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5141(None) C/evolution.xml:5376(None)
-msgid "@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
-msgstr "@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
+msgid ""
+"@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
+msgstr ""
+"@@image: 'figures/exchng-settings.png'; md5=7e82c0934afd2de5fca76c164d6342f4"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -506,8 +569,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5335(None)
-msgid "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
-msgstr " @@image: 'figures/filter-new-fig.png'; md5=8816e3bdeb3a4e936b7cf877f51c033c"
+msgid ""
+"@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
+msgstr ""
+" @@image: 'figures/filter-new-fig.png'; md5=8816e3bdeb3a4e936b7cf877f51c033c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -542,13 +607,16 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5729(None)
-msgid "@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
-msgstr "@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
+msgid ""
+"@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
+msgstr ""
+"@@image: 'figures/evo_rmdrnotes_a.png'; md5=ae24ed3554b8359af96ef2374ccd261a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5761(None)
-msgid "@@image: 'figures/evo_shd_memo_a.png'; md5=dd7069c9f52641dd13101c1dd935feb8"
+msgid ""
+"@@image: 'figures/evo_shd_memo_a.png'; md5=dd7069c9f52641dd13101c1dd935feb8"
 msgstr ""
 " @@image: 'figures/evo_send_setup_a.png'; "
 "md5=956fcc991274e17196342801de1f55a4"
@@ -566,19 +634,24 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5888(None)
-msgid "@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
-msgstr "@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
+msgid ""
+"@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
+msgstr ""
+"@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5953(None)
-msgid "@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
-msgstr "@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
+msgid ""
+"@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
+msgstr ""
+"@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6098(None)
-msgid "@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
+msgid ""
+"@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
 msgstr ""
 " @@image: 'figures/evo_imapreceive_a.png'; "
 "md5=0b35b1fc693bb79aefe7dcfb5f354faf"
@@ -586,14 +659,17 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6120(None)
-msgid "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
-msgstr "@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
+msgid ""
+"@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
+msgstr ""
+"@@image: 'figures/proxy-login.png'; md5=7adee93cffbeea4636df9bb1a8923b07"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6129(None)
 msgid "@@image: 'figures/proxy-cal.png'; md5=8e1f3438047198a963e7642d5ff9cac6"
-msgstr " @@image: 'figures/evo_rule_a.png'; md5=8ae53424d65dce07dfdf738a81d81ffc"
+msgstr ""
+" @@image: 'figures/evo_rule_a.png'; md5=8ae53424d65dce07dfdf738a81d81ffc"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -608,38 +684,49 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6398(None)
-msgid "@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
-msgstr "@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
+msgid ""
+"@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
+msgstr ""
+"@@image: 'figures/evo_imapheader_a.png'; md5=b11aa6167ce03769ce3084d32f4b4459"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6493(None)
-msgid "@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
-msgstr "@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
+msgid ""
+"@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
+msgstr ""
+"@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6521(None)
-msgid "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
-msgstr "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
+msgid ""
+"@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
+msgstr ""
+"@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6566(None)
 msgid "@@image: 'figures/evo_junk_a.png'; md5=9ea63d33ed9dae0df3a8a62a85063340"
-msgstr "@@image: 'figures/evo_junk_a.png'; md5=9ea63d33ed9dae0df3a8a62a85063340"
+msgstr ""
+"@@image: 'figures/evo_junk_a.png'; md5=9ea63d33ed9dae0df3a8a62a85063340"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6909(None)
-msgid "@@image: 'figures/evo_debuglogs_a.png'; md5=07f28e4574670558cf11897915b2ce7e"
-msgstr "@@image: 'figures/evo_debuglogs_a.png'; md5=07f28e4574670558cf11897915b2ce7e"
+msgid ""
+"@@image: 'figures/evo_debuglogs_a.png'; md5=07f28e4574670558cf11897915b2ce7e"
+msgstr ""
+"@@image: 'figures/evo_debuglogs_a.png'; md5=07f28e4574670558cf11897915b2ce7e"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:7061(None)
-msgid "@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
-msgstr "@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
+msgid ""
+"@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
+msgstr ""
+"@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd324f5"
 
 #: C/evolution.xml:15(title) C/evolution.xml:7451(para)
 msgid "Evolution 2.22 User Guide"
@@ -989,7 +1076,8 @@ msgstr "Teclee su nombre completo en el campo «Nombre completo»."
 
 #: C/evolution.xml:241(para)
 msgid "Type your e-mail address in the E-Mail Address field."
-msgstr "Escriba su dirección de correo-e en el campo de direcciones de correo-e."
+msgstr ""
+"Escriba su dirección de correo-e en el campo de direcciones de correo-e."
 
 #: C/evolution.xml:244(para)
 msgid "(Optional) Select if this account is your default account."
@@ -1002,14 +1090,16 @@ msgstr ""
 "«Responder a»."
 
 #: C/evolution.xml:248(para)
-msgid "Use this field if you want replies to messages sent to a different address."
+msgid ""
+"Use this field if you want replies to messages sent to a different address."
 msgstr ""
 "Use este campo si quiere que las respuestas a los correos-e se envíen a una "
 "dirección diferente."
 
 #: C/evolution.xml:251(para)
 msgid "(Optional) Type your organization name in the Organization field."
-msgstr "(Opcional) Teclee el nombre de su organización en el campo «Organización»."
+msgstr ""
+"(Opcional) Teclee el nombre de su organización en el campo «Organización»."
 
 #: C/evolution.xml:252(para)
 msgid ""
@@ -1031,7 +1121,8 @@ msgid "Click Forward."
 msgstr "Pulse «Adelante»."
 
 #: C/evolution.xml:262(para)
-msgid "The Receiving E-mail option lets you determine where you get your e-mail."
+msgid ""
+"The Receiving E-mail option lets you determine where you get your e-mail."
 msgstr ""
 "La opción «Recepción de correo-e» permite determinar de dónde obtendrá su "
 "correo-e."
@@ -1052,7 +1143,8 @@ msgstr "Seleccione un tipo de servidor en la lista «Tipo de servidor»."
 
 #: C/evolution.xml:268(para)
 msgid "The following is a list of server types that are available:"
-msgstr "Lo siguiente es una lista de tipos de servidores que están disponibles:"
+msgstr ""
+"Lo siguiente es una lista de tipos de servidores que están disponibles:"
 
 #: C/evolution.xml:270(title)
 msgid "Novell GroupWise:"
@@ -1259,7 +1351,8 @@ msgstr ""
 
 #: C/evolution.xml:325(para)
 msgid "Type the server name of your e-mail server in the Server field."
-msgstr "Teclee el nombre del servidor de su correo electrónico en el campo «Servidor»."
+msgstr ""
+"Teclee el nombre del servidor de su correo electrónico en el campo «Servidor»."
 
 #: C/evolution.xml:326(para)
 msgid "If you don't know the Server, contact your administrator."
@@ -1267,7 +1360,8 @@ msgstr "Si no sabe el nombre del servidor, contacte con su administrador."
 
 #: C/evolution.xml:329(para)
 msgid "Type your username for the account in the Username field."
-msgstr "Teclee su nombre de usuario para el campo de su cuenta en el campo «Usuario»."
+msgstr ""
+"Teclee su nombre de usuario para el campo de su cuenta en el campo «Usuario»."
 
 #: C/evolution.xml:332(para)
 msgid "Select to use a secure (SSL) connection."
@@ -1357,7 +1451,6 @@ msgid "Local Configuration Options"
 msgstr "Opciones de configuración local"
 
 #: C/evolution.xml:354(para)
-#, fuzzy
 msgid ""
 "If you selected Local Delivery, MH-Format Mail Directories, Maildir-Format "
 "Mail Directories, or Standard Unix mbox spool file or directory, you must "
@@ -1425,7 +1518,8 @@ msgstr ""
 #: C/evolution.xml:396(para) C/evolution.xml:437(para)
 #: C/evolution.xml:478(para)
 msgid "Select if you want Evolution to automatically check for new mail."
-msgstr "Marque si quiere que Evolution compruebe automáticamente si hay correo nuevo."
+msgstr ""
+"Marque si quiere que Evolution compruebe automáticamente si hay correo nuevo."
 
 #: C/evolution.xml:397(para) C/evolution.xml:438(para)
 #: C/evolution.xml:479(para) C/evolution.xml:5683(para)
@@ -1439,7 +1533,8 @@ msgstr ""
 #: C/evolution.xml:400(para) C/evolution.xml:441(para)
 #: C/evolution.xml:5688(para)
 msgid "Select if you want to check for new messages in all folders."
-msgstr "Marque si quiere que compruebe si hay mensajes nuevos en todas las carpetas."
+msgstr ""
+"Marque si quiere que compruebe si hay mensajes nuevos en todas las carpetas."
 
 #: C/evolution.xml:403(para) C/evolution.xml:5691(para)
 msgid ""
@@ -1475,14 +1570,15 @@ msgstr ""
 
 #: C/evolution.xml:411(para) C/evolution.xml:5699(para)
 msgid "Select if you want to only check for junk messages in the Inbox folder."
-msgstr "Marque si sólo quiere comprobar el correo basura en la Bandeja de entrada."
+msgstr ""
+"Marque si sólo quiere comprobar el correo basura en la Bandeja de entrada."
 
 #: C/evolution.xml:414(para) C/evolution.xml:505(para)
 msgid "Select if you want to automatically synchronize remote mail locally."
-msgstr "Marque si quiere sincronizar automáticamente el correo remoto localmente."
+msgstr ""
+"Marque si quiere sincronizar automáticamente el correo remoto localmente."
 
 #: C/evolution.xml:415(para)
-#, fuzzy
 msgid ""
 "By default, Evolution downloads only the header information such as From, "
 "Subject, and Date. The body of the message and the attachments are "
@@ -1497,14 +1593,13 @@ msgstr ""
 "recibe."
 
 #: C/evolution.xml:416(para)
-#, fuzzy
 msgid ""
 "If you check this option, Evolution fetches the headers as well as the body "
 "of the message simultaneously. In this case, the time taken to open a "
 "message is comparitevely less. In addition to that, you can download the "
 "mails for reading them offline, when you have checked this option."
 msgstr ""
-"Si selecciona esta opción, Evolution obtendrá las cabeceras así como el "
+"Si selecciona esta opción Evolution obtendrá las cabeceras así como el "
 "cuerpo del mensaje de forma simultánea. En este caso, el tiempo que lleva "
 "abrir un mensaje es comparativamente inferior. Además de esto, puede "
 "descargar los correos para leerlos cuando esté desconectado, siempre que "
@@ -1591,12 +1686,11 @@ msgstr ""
 "Evolution envía un mensaje de contraseña caducada."
 
 #: C/evolution.xml:456(para)
-#, fuzzy
 msgid ""
 "Select Automatically synchronize remote mail locally option to download the "
 "messages to your local system."
 msgstr ""
-"Marque si quiere sincronizar automáticamente el correo remoto localmente "
+"Seleccione la opción Sincronizar automáticamente el correo remoto localmente "
 "para descargar los correos a su sistema local."
 
 #: C/evolution.xml:459(para)
@@ -1608,12 +1702,12 @@ msgstr ""
 "entrada en este servidor para aplicar los filtros."
 
 #: C/evolution.xml:462(para)
-#, fuzzy
 msgid ""
 "Select Check new messages for junk contents option to filter out new "
 "messages for spam content."
 msgstr ""
-"Marque si quiere comprobar si los mensajes nuevos contienen basura para "
+"Seleccione la opción Comprobar si el contenido de los mensajes nuevos es "
+"SPAM si quiere comprobar si los mensajes nuevos contienen basura para "
 "filtrar los nuevos mensajes como correos SPAM."
 
 #: C/evolution.xml:463(para)
@@ -1633,7 +1727,8 @@ msgstr ""
 "especificar las siguientes opciones:"
 
 #: C/evolution.xml:482(para)
-msgid "Select if you want Evolution to use custom commands to connect to Evolution."
+msgid ""
+"Select if you want Evolution to use custom commands to connect to Evolution."
 msgstr ""
 "Seleccione si quiere que Evolution use comandos personalizados para "
 "conectarse al servidor."
@@ -1659,7 +1754,8 @@ msgstr ""
 "suscribiéndose a ellas."
 
 #: C/evolution.xml:490(para)
-msgid "Select if you want Evolution to override server-supplied folder namespaces."
+msgid ""
+"Select if you want Evolution to override server-supplied folder namespaces."
 msgstr ""
 "Marque si quiere que Evolution no haga caso de los espacios de nombres de "
 "carpetas suministrados por el servidor."
@@ -1709,18 +1805,16 @@ msgstr ""
 "recibe."
 
 #: C/evolution.xml:507(para)
-#, fuzzy
 msgid ""
 "If you check this option, Evolution fetches the headers as well as the body "
 "of the message simultaneously. In this case, the time taken to open a "
 "message is comparatively less. In addition to that, you can also download "
 "the mail for reading them offline."
 msgstr ""
-"Si selecciona esta opción, Evolution obtendrá las cabeceras así como el "
+"Si selecciona esta opción Evolution obtendrá las cabeceras así como el "
 "cuerpo del mensaje de forma simultánea. En este caso, el tiempo que lleva "
 "abrir un mensaje es comparativamente inferior. Además de esto, puede "
-"descargar los correos para leerlos cuando esté desconectado, siempre que "
-"haya seleccionado esta opción."
+"descargar los correos para leerlos cuando esté desconectado."
 
 #: C/evolution.xml:519(para)
 msgid ""
@@ -1806,7 +1900,8 @@ msgstr ""
 "recepción, necesita especificar las opciones siguientes:"
 
 #: C/evolution.xml:582(para)
-msgid "Select if you want to use the <emphasis>.folders</emphasis> summary file."
+msgid ""
+"Select if you want to use the <emphasis>.folders</emphasis> summary file."
 msgstr ""
 "Seleccione si quiere usar el archivo de resumen <emphasis>.folders</"
 "emphasis>."
@@ -1820,23 +1915,24 @@ msgstr ""
 "recepción, necesita especificar las opciones siguientes:"
 
 #: C/evolution.xml:623(para) C/evolution.xml:645(para)
-msgid "Select if you want to store status headers in Elm, Pine, and Mutt formats."
+msgid ""
+"Select if you want to store status headers in Elm, Pine, and Mutt formats."
 msgstr ""
 "Seleccione si quiere almacenar las cabeceras de estado en los formatos Elm, "
 "Pine y Mutt."
 
 #: C/evolution.xml:635(title)
 msgid "Standard Unix mbox spool directory Receiving Options"
-msgstr "Opciones de recepción para directorios de correo en formato estándar de Unix"
+msgstr ""
+"Opciones de recepción para directorios de correo en formato estándar de Unix"
 
 #: C/evolution.xml:636(para)
-#, fuzzy
 msgid ""
 "If you select Standard Unix mbox Spool directory as your receiving server "
 "type, you need to specify the following options:"
 msgstr ""
 "Si selecciona directorios estándar Unix de correo como su tipo de servidor "
-"de recepción, necesita especificar las opciones siguientes:"
+"de recepción debe especificar las siguientes opciones:"
 
 #: C/evolution.xml:659(para)
 msgid ""
@@ -2115,7 +2211,6 @@ msgid "Side bar:"
 msgstr "Barra lateral:"
 
 #: C/evolution.xml:774(para)
-#, fuzzy
 msgid ""
 "The sidebar lets you switch between folders and between Evolution tools. At "
 "the bottom of the sidebar is the switcher that let you switch Evolution "
@@ -2135,7 +2230,6 @@ msgid "Switcher:"
 msgstr "Selector:"
 
 #: C/evolution.xml:778(para)
-#, fuzzy
 msgid ""
 "The switcher at the bottom of the sidebar lets you switch between Mail, "
 "Contacts, Calendars, Memos and Tasks."
@@ -2287,20 +2381,17 @@ msgid "The Side Bar"
 msgstr "La barra lateral"
 
 #: C/evolution.xml:824(para)
-#, fuzzy
 msgid ""
 "Sidebar is the vertical panel on the left side of the Evolution main window. "
 "Atthe bottom of the sidebar is the switcher, that let you switch between the "
 "Evolution components Mail, Memo, Tasks, Calendar and Contacts. Above them is "
 "a list of folders for the current Evolution component."
 msgstr ""
-"La labor más importante de Evolution es facilitarle el acceso y simplificar "
-"la consulta de su información, así como ayudarle a usarla rápidamente. Una "
-"manera de conseguirlo es mediante la barra lateral, que es la columna en el "
-"lado izquierdo de la ventana principal. El selector en la parte inferior de "
-"la barra lateral le permite cambiar entre las herramientas de Evolution, "
-"como correo y Contactos que son atajos. Sobre ellos hay una lista de "
-"carpetas para la herramienta actual de Evolution."
+"La barra lateral es el panel vertical en la parte izquierda de la ventana "
+"principal de Evolution. En la parte inferior de la barra lateral está el "
+"selector que le permite cambiar entre los componentes de Evolution como "
+"Correo, Notas, Calendario y Contactos. Sobre ellos hay una lista de carpetas "
+"para el componente actual de Evolution."
 
 #: C/evolution.xml:825(para)
 msgid ""
@@ -2514,7 +2605,8 @@ msgstr ""
 "sistema local para operación desconectada."
 
 #: C/evolution.xml:903(para)
-msgid "You can also rearrange folders and messages by dragging and dropping them."
+msgid ""
+"You can also rearrange folders and messages by dragging and dropping them."
 msgstr ""
 "También puede reorganizar las carpetas y los mensajes arrastrándolos y "
 "soltándolos donde desee."
@@ -2803,7 +2895,8 @@ msgid "To take the backup,"
 msgstr "Para realizar el respaldo,"
 
 #: C/evolution.xml:978(para)
-msgid "Select File &gt; Backup Settings to select the folder to save the backup."
+msgid ""
+"Select File &gt; Backup Settings to select the folder to save the backup."
 msgstr ""
 "Seleccione Archivo &gt; Configuración del respaldo para seleccionar la "
 "carpeta donde guardar el respaldo."
@@ -2937,7 +3030,8 @@ msgstr "evolution --disable-preview"
 
 #: C/evolution.xml:1053(para)
 msgid "Disables all the preview panes when you launch Evolution."
-msgstr "Deshabilita todos los paneles de vista preliminar cuando inicie Evolution."
+msgstr ""
+"Deshabilita todos los paneles de vista preliminar cuando inicie Evolution."
 
 #: C/evolution.xml:1054(para)
 msgid ""
@@ -2955,7 +3049,8 @@ msgid "evolution mailto:<varname>joe@somewhere.net</varname>"
 msgstr "evolution mailto:<varname>joe@somewhere.net</varname>"
 
 #: C/evolution.xml:1062(para)
-msgid "Starts Evolution and begins composing a message to the e-mail address listed."
+msgid ""
+"Starts Evolution and begins composing a message to the e-mail address listed."
 msgstr ""
 "Inicia Evolution y empieza redactando un mensaje a la dirección de correo "
 "listada."
@@ -3116,7 +3211,8 @@ msgstr ""
 "correo no leído."
 
 #: C/evolution.xml:1149(para)
-msgid "If the message is more than one screen long, the spacebar works as pagedown."
+msgid ""
+"If the message is more than one screen long, the spacebar works as pagedown."
 msgstr ""
 "Si el mensaje es más largo que la pantalla, la barra espaciadora funciona "
 "como avance de página."
@@ -3284,7 +3380,8 @@ msgstr ""
 "de direcciones para mostrar en el panel de vista previa."
 
 #: C/evolution.xml:1206(para)
-msgid "Use the following procedure to set the limit of addresses to be displayed:"
+msgid ""
+"Use the following procedure to set the limit of addresses to be displayed:"
 msgstr ""
 "Use el siguiente procedimiento para establecer el límite de direcciones a "
 "mostrar:"
@@ -3941,7 +4038,8 @@ msgstr ""
 
 #: C/evolution.xml:1454(para)
 msgid "Click Copy Folder Content Locally for Offline Operation."
-msgstr "Pulse Copiar el contenido de la carpeta localmente para operar desconectado."
+msgstr ""
+"Pulse Copiar el contenido de la carpeta localmente para operar desconectado."
 
 #: C/evolution.xml:1457(para)
 msgid ""
@@ -4124,7 +4222,8 @@ msgstr "Pulse Configurar para añadir las palabras clave."
 msgid ""
 "Click Add to add keywords such as &ldquo;Attach&rdquo; or &ldquo;"
 "Attachment&rdquo;."
-msgstr "Pulse Añadir para añadir palabras clave tales como «Adjuntar» o «Adjunto»."
+msgstr ""
+"Pulse Añadir para añadir palabras clave tales como «Adjuntar» o «Adjunto»."
 
 #: C/evolution.xml:1535(para)
 msgid ""
@@ -4380,7 +4479,8 @@ msgid "Ctrl+F"
 msgstr "Ctrl+F"
 
 #: C/evolution.xml:1645(para)
-msgid "The message composer makes several text searching features available to you."
+msgid ""
+"The message composer makes several text searching features available to you."
 msgstr ""
 "El editor de mensajes le proporciona varias características de búsqueda de "
 "texto."
@@ -4415,7 +4515,8 @@ msgstr "Buscar de nuevo:"
 
 #: C/evolution.xml:1656(para)
 msgid "Select this item to repeat the last search you performed."
-msgstr "Seleccione este elemento para repetir la última búsqueda que haya realizado."
+msgstr ""
+"Seleccione este elemento para repetir la última búsqueda que haya realizado."
 
 #: C/evolution.xml:1659(title)
 msgid "Replace:"
@@ -4701,8 +4802,10 @@ msgid "Inserting a Rule"
 msgstr "Insertar una regla"
 
 #: C/evolution.xml:1797(para)
-msgid "You can insert a horizontal line into the text to help divide two sections:"
-msgstr "Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
+msgid ""
+"You can insert a horizontal line into the text to help divide two sections:"
+msgstr ""
+"Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
 
 #: C/evolution.xml:1800(para)
 msgid "Click Rule."
@@ -4750,7 +4853,8 @@ msgstr ""
 
 #: C/evolution.xml:1841(para)
 msgid "You can set the following options when sending mails in Evolution."
-msgstr "Puede establecer las siguientes opciones cuando envía correos con Evolution."
+msgstr ""
+"Puede establecer las siguientes opciones cuando envía correos con Evolution."
 
 #: C/evolution.xml:1843(title)
 msgid "Read Receipts:"
@@ -4814,7 +4918,6 @@ msgid "To change your default settings,"
 msgstr "Cambiar los ajustes predeterminados,"
 
 #: C/evolution.xml:1862(para)
-#, fuzzy
 msgid "Select Edit &gt; Preferences to open Evolution Preferences window."
 msgstr ""
 "Seleccione Editar &gt; Preferencias para abrir la ventana de preferencias de "
@@ -4831,7 +4934,6 @@ msgid "Click Edit to open Account Editor window."
 msgstr "Pulse Editar para abrir la ventana del editor de cuentas."
 
 #: C/evolution.xml:1871(para)
-#, fuzzy
 msgid "Click Defaults tab."
 msgstr "Pulse sobre la solapa Predeterminados."
 
@@ -4844,14 +4946,16 @@ msgstr ""
 "correo-e que quiere usar para los campos Cc y Cco."
 
 #: C/evolution.xml:1877(para)
-msgid "Select the desired option for send message receipts from the drop-down list."
+msgid ""
+"Select the desired option for send message receipts from the drop-down list."
 msgstr ""
 "Seleccione la opción que desea para la notificación de recepción de mensajes "
 "de la lista desplegable."
 
 #: C/evolution.xml:1882(title)
 msgid "Changing Default Folder for Sent and Draft Items"
-msgstr "Cambiar la carpeta predeterminada para el Correo enviado y los Borradores"
+msgstr ""
+"Cambiar la carpeta predeterminada para el Correo enviado y los Borradores"
 
 #: C/evolution.xml:1883(para)
 msgid ""
@@ -4937,7 +5041,8 @@ msgstr ""
 "ya está introducido, aunque puede cambiarlo si lo desea."
 
 #: C/evolution.xml:1931(para)
-msgid "Add your comments on the message in the composition frame, then click Send."
+msgid ""
+"Add your comments on the message in the composition frame, then click Send."
 msgstr ""
 "Añada sus comentarios en el marco de edición del mensaje, después pulse "
 "Enviar."
@@ -4992,7 +5097,8 @@ msgstr ""
 
 #: C/evolution.xml:1953(para)
 msgid "Don't send nasty e-mails (flames). If you get one, don't write back."
-msgstr "No envíe correos desagradables. Si recibe alguno, mejor no lo responda."
+msgstr ""
+"No envíe correos desagradables. Si recibe alguno, mejor no lo responda."
 
 #: C/evolution.xml:1956(para)
 msgid ""
@@ -5072,7 +5178,8 @@ msgid "RSVP:"
 msgstr "RSVP (confirmación de asistencia):"
 
 #: C/evolution.xml:1984(para)
-msgid "Select this option if you want your response sent to the meeting organizers."
+msgid ""
+"Select this option if you want your response sent to the meeting organizers."
 msgstr ""
 "Marque esta casilla si quiere que su respuesta llegue a los organizadores de "
 "la reunión."
@@ -5254,7 +5361,8 @@ msgstr ""
 
 #: C/evolution.xml:2043(para)
 msgid "Open a terminal and enter <command>gpg --gen-key</command>."
-msgstr "Abra una terminal e instroduzca el comando <command>gpg --gen-key</command>."
+msgstr ""
+"Abra una terminal e instroduzca el comando <command>gpg --gen-key</command>."
 
 #: C/evolution.xml:2046(para)
 msgid "Select an algorithm, then press Enter."
@@ -5302,7 +5410,8 @@ msgstr "(Opcional) Escriba un comentario, después pulse Intro."
 
 #: C/evolution.xml:2068(para)
 msgid "Review your selected user ID. If it is correct, press O."
-msgstr "Compruebe el ID de usuario que ha seleccionado. Si es correcto pulse O."
+msgstr ""
+"Compruebe el ID de usuario que ha seleccionado. Si es correcto pulse O."
 
 #: C/evolution.xml:2071(para)
 msgid "Type a passphrase, then press Enter."
@@ -5463,7 +5572,8 @@ msgstr "Pulse Editar &gt; Preferencias, después pulse Cuentas de correo."
 
 #: C/evolution.xml:2115(para)
 msgid "Select the account you want to use securely, then click Edit."
-msgstr "Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
+msgstr ""
+"Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
 
 #: C/evolution.xml:2118(para) C/evolution.xml:2156(para)
 msgid "Click the Security tab."
@@ -5522,7 +5632,8 @@ msgstr "Seleccione la cuenta de correo para cifrar, después pulse Editar."
 # index.docbook:172, index.docbook:216
 #: C/evolution.xml:2159(para)
 msgid "Select Always Sign Outgoing Messages When Using This Account."
-msgstr "Seleccione Firmar siempre los mensajes salientes cuando se use esta cuenta."
+msgstr ""
+"Seleccione Firmar siempre los mensajes salientes cuando se use esta cuenta."
 
 #: C/evolution.xml:2171(title)
 msgid "Unencrypting a Received Message"
@@ -5600,7 +5711,8 @@ msgstr ""
 
 #: C/evolution.xml:2181(para)
 msgid "The certificate file is a password-protected file on your computer."
-msgstr "El archivo certificado es un archivo protegido por contraseña en su equipo."
+msgstr ""
+"El archivo certificado es un archivo protegido por contraseña en su equipo."
 
 #: C/evolution.xml:2184(title)
 msgid "Adding a Signing Certificate"
@@ -5847,7 +5959,8 @@ msgstr ""
 "que puede reconocer."
 
 #: C/evolution.xml:2326(para)
-msgid "Select Import Data and Settings From Older Programs, then click Forward."
+msgid ""
+"Select Import Data and Settings From Older Programs, then click Forward."
 msgstr ""
 "Seleccione Importar datos y configuración de programas antiguos, después "
 "pulse Adelante."
@@ -5905,14 +6018,16 @@ msgstr ""
 "papelera."
 
 #: C/evolution.xml:2339(para)
-msgid "Copy the files to the system or partition that Evolution is installed on."
+msgid ""
+"Copy the files to the system or partition that Evolution is installed on."
 msgstr ""
 "Copie los archivos al sistema o a la partición en la que esté instalado "
 "Evolution."
 
 #: C/evolution.xml:2342(para)
 msgid "Use the Evolution import tool to import the files."
-msgstr "Use la herramienta de importar de Evolution para importar los archivos."
+msgstr ""
+"Use la herramienta de importar de Evolution para importar los archivos."
 
 #: C/evolution.xml:2345(para)
 msgid ""
@@ -5998,7 +6113,6 @@ msgstr ""
 "conversaciones."
 
 #: C/evolution.xml:2360(para)
-#, fuzzy
 msgid ""
 "There is a Gconf key to toggle between the collapsed or expanded state of "
 "mail thread. By default, it is collapsed and you can change this at /apps/"
@@ -6007,8 +6121,8 @@ msgid ""
 "arranged to this state. This is a highly advanced option only for the "
 "advanced users."
 msgstr ""
-"Existe hay una clave de gconf para conmutar entre el estado contraído o "
-"expandido de una conversación. De forma predeterminada están contraidas y "
+"Existe hay una clave de Gconf para conmutar entre el estado contraído o "
+"expandido de una conversación. De forma predeterminada están contraídas y "
 "puede cambiarlo en /apps/evolution/mail/display/thread_expand. Si el valor "
 "es «false», se recordarán los estados expandidos. Cuando reinicie Evolution, "
 "todas las conversaciones toman este estado. Es una opción muy avanzada sólo "
@@ -6066,7 +6180,8 @@ msgstr "Ordenar por:"
 
 #: C/evolution.xml:2381(para)
 msgid "Sorts the message by different criteria as listed below:"
-msgstr "Ordena los mensajes por diferentes criterios tal y como se lista debajo:"
+msgstr ""
+"Ordena los mensajes por diferentes criterios tal y como se lista debajo:"
 
 #: C/evolution.xml:2385(para)
 msgid "Recipients"
@@ -6297,7 +6412,8 @@ msgid "Select Follow Up or press Shift+Ctrl+G."
 msgstr "Seleccione Marcar para seguimiento o pulse Mayús+Ctrl+G."
 
 #: C/evolution.xml:2505(para)
-msgid "A dialog box opens to allow you to set the type of flag and the due date."
+msgid ""
+"A dialog box opens to allow you to set the type of flag and the due date."
 msgstr ""
 "Se abrirá una caja de diálogo para permitirle establecer el tipo de marca y "
 "la fecha de vencimiento."
@@ -6422,15 +6538,14 @@ msgstr ""
 "mensajes para que aparezca la ventana Filtros de mensajes."
 
 #: C/evolution.xml:2529(para)
-#, fuzzy
 msgid ""
 "Click Add to open the Add Rule window. In the Add Rule window, you can set "
 "different criteria for filtering messages. For more information refer <link "
 "linkend=\"usage-mail-org-filters-new\">Creating New Filter Rules</link>."
 msgstr ""
-"Pulse la solapa de añadir para que aparezca la ventana Añadir regla, donde "
+"Pulse la solapa Añadir para que aparezca la ventana Añadir regla, donde "
 "puede establecer diferentes criterios para filtrar los mensajes. Para "
-"obtener más información vea la <link linkend=\"usage-mail-org-filters-new"
+"obtener más información consulte <link linkend=\"usage-mail-org-filters-new"
 "\">Crear de reglas de filtrado nuevas</link>."
 
 #: C/evolution.xml:2531(para)
@@ -6478,7 +6593,8 @@ msgstr ""
 
 #: C/evolution.xml:2542(para) C/evolution.xml:4178(para)
 msgid "To perform quick search, perform the following procedure:"
-msgstr "Para realizar una búsqueda rápida, realice los siguientes procedimientos:"
+msgstr ""
+"Para realizar una búsqueda rápida, realice los siguientes procedimientos:"
 
 #: C/evolution.xml:2545(para)
 msgid "Click Show to expand the drop-down list."
@@ -6624,14 +6740,16 @@ msgstr "El asunto contiene:"
 
 #: C/evolution.xml:2639(para)
 msgid "Shows messages where the search text is in the subject line."
-msgstr "Muestra los mensajes donde el texto de búsqueda está en la línea del asunto."
+msgstr ""
+"Muestra los mensajes donde el texto de búsqueda está en la línea del asunto."
 
 #: C/evolution.xml:2642(title)
 msgid "Sender Contain:"
 msgstr "El remitente contiene:"
 
 #: C/evolution.xml:2643(para)
-msgid "Finds messages whose From: header contains a match for your search text."
+msgid ""
+"Finds messages whose From: header contains a match for your search text."
 msgstr ""
 "Busca mensajes cuya cabecera De: contiene coincidencias con el texto que ha "
 "introducido."
@@ -6720,7 +6838,8 @@ msgstr "Seleccione el menú Buscar"
 
 #: C/evolution.xml:2690(para)
 msgid "Click Advanced Search to open Advanced Search dialogue box"
-msgstr "Pulse Búsqueda avanzada para abrir la caja de diálogo Búsqueda avanzada"
+msgstr ""
+"Pulse Búsqueda avanzada para abrir la caja de diálogo Búsqueda avanzada"
 
 #: C/evolution.xml:2695(para)
 msgid "Enter the Search name."
@@ -6768,11 +6887,13 @@ msgstr "Seleccione Buscar"
 
 #: C/evolution.xml:2720(para)
 msgid "Click Edit Saved Searches to open Searches dialogue box."
-msgstr "Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsquedas."
+msgstr ""
+"Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsquedas."
 
 #: C/evolution.xml:2725(para)
 msgid "Click Edit tab to edit to open Edit Rule dialogue box"
-msgstr "Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla"
+msgstr ""
+"Pulse sobre la solapa Editar para abrir el cuadro de diálogo de Editar regla"
 
 #: C/evolution.xml:2726(para)
 msgid ""
@@ -6869,7 +6990,6 @@ msgid "Any header including custom ones."
 msgstr "Cualquier cabecera, incluyendo las personalizadas."
 
 #: C/evolution.xml:2776(para)
-#, fuzzy
 msgid ""
 "If a message uses a header more than once, Evolution pays attention only to "
 "the first instance, even if the message defines the header differently the "
@@ -6896,9 +7016,8 @@ msgid "Searches in the actual text of the message."
 msgstr "Busca en el texto efectivo del mensaje."
 
 #: C/evolution.xml:2782(title)
-#, fuzzy
 msgid "Expression(For programmers only):"
-msgstr "Expresión: (sólo para programadores)"
+msgstr "Expresión (sólo para programadores):"
 
 #: C/evolution.xml:2783(para)
 msgid ""
@@ -7009,7 +7128,8 @@ msgid "Attachments:"
 msgstr "Adjuntos:"
 
 #: C/evolution.xml:2815(para) C/evolution.xml:3060(para)
-msgid "Creates a filter based on whether there is an attachment for the e-mail."
+msgid ""
+"Creates a filter based on whether there is an attachment for the e-mail."
 msgstr "Crea un filtro en función de si el mensaje contiene un adjunto."
 
 #: C/evolution.xml:2818(title)
@@ -7146,7 +7266,8 @@ msgstr "Parar de procesar:"
 
 #: C/evolution.xml:2867(para)
 msgid "Select this if you want to have all other filters ignore this message."
-msgstr "Especifique si desea que todos los demás filtros pasen por alto este mensaje."
+msgstr ""
+"Especifique si desea que todos los demás filtros pasen por alto este mensaje."
 
 #: C/evolution.xml:2872(title)
 msgid "Assign Color:"
@@ -7234,7 +7355,8 @@ msgstr "Evolution ejecutar una aplicación."
 
 #: C/evolution.xml:2927(para)
 msgid "Click Add Action if you need multiple actions and click OK."
-msgstr "Pulse Añadir si necesita añadir múltiples acciones y después pulse Aceptar."
+msgstr ""
+"Pulse Añadir si necesita añadir múltiples acciones y después pulse Aceptar."
 
 #: C/evolution.xml:2933(para)
 msgid "There is an easy shortcut for fast filter or search folder creation:"
@@ -7486,7 +7608,8 @@ msgid "Checks whether the message matchs all the criteria listed."
 msgstr "Comprueba si el mensaje coincide con todos los criterios listados."
 
 #: C/evolution.xml:3072(para)
-msgid "Select the folders where this search folder will search. Your options are:"
+msgid ""
+"Select the folders where this search folder will search. Your options are:"
 msgstr ""
 "Seleccione las carpetas donde esta carpeta de búsqueda buscará. Sus opciones "
 "son:"
@@ -7893,7 +8016,8 @@ msgstr ""
 
 #: C/evolution.xml:3199(para)
 msgid "Enter the contact information to the entry boxes provided."
-msgstr "Introduzca la información del contacto en las cajas de texto proporcionadas."
+msgstr ""
+"Introduzca la información del contacto en las cajas de texto proporcionadas."
 
 #: C/evolution.xml:3205(para)
 msgid "If you want to change a card that already exists,"
@@ -7915,11 +8039,13 @@ msgstr "Edite desde la ventana del editor de contactos."
 
 #: C/evolution.xml:3220(para)
 msgid "You can also edit the contact information from the message list."
-msgstr "También puede editar la información del contacto desde la lista de mensajes."
+msgstr ""
+"También puede editar la información del contacto desde la lista de mensajes."
 
 #: C/evolution.xml:3223(para)
 msgid "Right click on the address from Message Header"
-msgstr "Pulse con el botón derecho en la dirección desde Cabeceras del mensaje."
+msgstr ""
+"Pulse con el botón derecho en la dirección desde Cabeceras del mensaje."
 
 #: C/evolution.xml:3226(para)
 msgid "Select Add to Address Book to appear Contact Quick-Add window"
@@ -7935,7 +8061,8 @@ msgstr ""
 
 #: C/evolution.xml:3234(para)
 msgid "Edit the required information from Contact Editor and press OK."
-msgstr "Edite la información necesaria en el editor de contactos y pulse Aceptar."
+msgstr ""
+"Edite la información necesaria en el editor de contactos y pulse Aceptar."
 
 #: C/evolution.xml:3245(para)
 msgid ""
@@ -7957,7 +8084,8 @@ msgstr ""
 
 #: C/evolution.xml:3252(para)
 msgid "Specify the search criteria from any of the following:"
-msgstr "Especifique el criterio de búsqueda entre cualquiera de los siguientes:"
+msgstr ""
+"Especifique el criterio de búsqueda entre cualquiera de los siguientes:"
 
 #: C/evolution.xml:3255(para)
 msgid "Name begins with"
@@ -8345,7 +8473,8 @@ msgstr ""
 
 #: C/evolution.xml:3461(para)
 msgid "Evolution cannot store contact lists on Microsoft Exchange servers."
-msgstr "Evolution no puede almacenar listas de contactos en servidores Exchange."
+msgstr ""
+"Evolution no puede almacenar listas de contactos en servidores Exchange."
 
 #: C/evolution.xml:3466(para)
 msgid ""
@@ -8397,7 +8526,8 @@ msgstr ""
 
 #: C/evolution.xml:3492(para)
 msgid "Enter the new category in the entry box at the top"
-msgstr "Introduzca la nueva categoría en la caja de entrada de la parte superior."
+msgstr ""
+"Introduzca la nueva categoría en la caja de entrada de la parte superior."
 
 #: C/evolution.xml:3496(para)
 msgid ""
@@ -8421,7 +8551,9 @@ msgstr "Para establecer las propiedades de la categoría:"
 msgid ""
 "Select the category, and click Edit to open the Category Properties dialog "
 "box."
-msgstr "Seleccione la categoría y pulse Editar para abrir el cuadro de diálogo de Propiedades de la cateogría."
+msgstr ""
+"Seleccione la categoría y pulse Editar para abrir el cuadro de diálogo de "
+"Propiedades de la cateogría."
 
 #: C/evolution.xml:3508(para)
 msgid "Click Category Color to choose a color for the category."
@@ -8892,7 +9024,8 @@ msgid "Using the Free/Busy View"
 msgstr "Uso de la característica de disponibilidad"
 
 #: C/evolution.xml:3762(link) C/evolution.xml:4079(title)
-msgid "Publishing Calendar and Free/Busy Information Without a Groupware Server"
+msgid ""
+"Publishing Calendar and Free/Busy Information Without a Groupware Server"
 msgstr ""
 "Publicar la información de Disponibilidad de calendario sin un servidor "
 "Groupware"
@@ -8903,7 +9036,8 @@ msgstr "Acceder a datos de Disponibilidad sin un servidor Groupware"
 
 #: C/evolution.xml:3771(para)
 msgid "In Evolution, an appointment is an event you schedule for yourself."
-msgstr "En Evolution, una cita es un acontecimiento que programa para si mismo."
+msgstr ""
+"En Evolution, una cita es un acontecimiento que programa para si mismo."
 
 #: C/evolution.xml:3774(link) C/evolution.xml:3788(title)
 msgid "Creating Appointments"
@@ -8941,7 +9075,8 @@ msgstr ""
 "vista del calendario sobre la que haya pulsado dos veces."
 
 #: C/evolution.xml:3797(para)
-msgid "Select the required duration on the calender view and enter the summary."
+msgid ""
+"Select the required duration on the calender view and enter the summary."
 msgstr ""
 "Seleccione la duración requerida en la vista del calendario y escriba el "
 "resumen."
@@ -8976,7 +9111,8 @@ msgstr ""
 
 #: C/evolution.xml:3816(para)
 msgid "Click the All Day Event button on the toolbar."
-msgstr "Pulse el botón Acontecimiento para todo el día de la barra de herramientas."
+msgstr ""
+"Pulse el botón Acontecimiento para todo el día de la barra de herramientas."
 
 #: C/evolution.xml:3819(para)
 msgid "If the event is an all day event, specify a starting and ending date."
@@ -8985,7 +9121,8 @@ msgstr ""
 "fecha de comienzo y final."
 
 #: C/evolution.xml:3822(para)
-msgid "If the event is not an all day event, specify a starting and ending time."
+msgid ""
+"If the event is not an all day event, specify a starting and ending time."
 msgstr ""
 "Si el acontecimiento no es un acontecimiento para todo el día, especifique "
 "una hora de comienzo y final."
@@ -8996,7 +9133,8 @@ msgstr "Seleccione Durante para especificar la duración."
 
 #: C/evolution.xml:3827(para)
 msgid "Select Until to specify the ending time of the event."
-msgstr "Seleccione Hasta para especificar la hora de finalización del acontecimiento."
+msgstr ""
+"Seleccione Hasta para especificar la hora de finalización del acontecimiento."
 
 #: C/evolution.xml:3830(para) C/evolution.xml:3989(para)
 #: C/evolution.xml:4358(para) C/evolution.xml:4409(para)
@@ -9011,7 +9149,8 @@ msgstr "Pulse el globo terráqueo para personalizar la zona horaria."
 #: C/evolution.xml:3833(para) C/evolution.xml:3992(para)
 #: C/evolution.xml:4361(para) C/evolution.xml:4412(para)
 msgid "To hide or show the Time Zone field, click View &gt; Time Zone."
-msgstr "Para ocultar o mostrar el campo Zona horaria, pulse Ver &gt; Zona horaria."
+msgstr ""
+"Para ocultar o mostrar el campo Zona horaria, pulse Ver &gt; Zona horaria."
 
 #: C/evolution.xml:3836(para)
 msgid "To show the time as busy, click Options &gt; Show Time as Busy."
@@ -9137,8 +9276,10 @@ msgid "Display:"
 msgstr "Mostrar:"
 
 #: C/evolution.xml:3880(para)
-msgid "A notification pops up on your screen to remind you of your appointment."
-msgstr "Se abrirá una ventana emergente en su pantalla para recordarle su cita."
+msgid ""
+"A notification pops up on your screen to remind you of your appointment."
+msgstr ""
+"Se abrirá una ventana emergente en su pantalla para recordarle su cita."
 
 #: C/evolution.xml:3885(title)
 msgid "Audio:"
@@ -9242,8 +9383,10 @@ msgstr ""
 "muestran como Ocupado."
 
 #: C/evolution.xml:3916(para)
-msgid "You can categorize appointments in the same way you can categorize contacts."
-msgstr "Puede categorizar las citas de la misma manera que categoriza contactos."
+msgid ""
+"You can categorize appointments in the same way you can categorize contacts."
+msgstr ""
+"Puede categorizar las citas de la misma manera que categoriza contactos."
 
 #: C/evolution.xml:3919(para)
 msgid "Type a category in the Categories field."
@@ -9391,7 +9534,8 @@ msgstr ""
 "que quiere invitar."
 
 #: C/evolution.xml:3962(para)
-msgid "To remove an attendee from the list, select an attendee and press Remove."
+msgid ""
+"To remove an attendee from the list, select an attendee and press Remove."
 msgstr ""
 "Para quitar un participante de la lista, seleccione un participante y pulse "
 "Quitar."
@@ -9425,7 +9569,8 @@ msgstr ""
 "el botón Acontecimiento para todo el día en la barra de herramientas."
 
 #: C/evolution.xml:3980(para)
-msgid "If the event is an all day event, specify a starting date and an ending date."
+msgid ""
+"If the event is an all day event, specify a starting date and an ending date."
 msgstr ""
 "Si el acontecimiento es un acontecimiento para todo el día, especifique la "
 "fecha de comienzo y la fecha de finalización."
@@ -9480,7 +9625,8 @@ msgid "Click Save to save the meeting."
 msgstr "Pulse Guardar para guardar la reunión."
 
 #: C/evolution.xml:4020(para)
-msgid "An e-mail is sent out to all the recipients, inviting them to your event."
+msgid ""
+"An e-mail is sent out to all the recipients, inviting them to your event."
 msgstr ""
 "Se enviará un correo-e a todos los destinatarios, invitándoles a su "
 "acontecimiento."
@@ -9581,7 +9727,8 @@ msgid "To access the free/busy view:"
 msgstr "Para acceder a la vista de disponibilidad:"
 
 #: C/evolution.xml:4061(para)
-msgid "Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy."
+msgid ""
+"Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy."
 msgstr ""
 "Pulse el botón Disponibilidad en la barra de herramientas o pulse Opciones "
 "&gt; Disponibilidad."
@@ -9604,7 +9751,8 @@ msgid "Attendee List:"
 msgstr "Lista de asistentes:"
 
 #: C/evolution.xml:4071(para)
-msgid "The Attendee List shows the people who have been invited to the appointment."
+msgid ""
+"The Attendee List shows the people who have been invited to the appointment."
 msgstr ""
 "La Lista de asistentes muestra a las personas que han sido invitadas a la "
 "reunión."
@@ -9931,7 +10079,6 @@ msgstr ""
 "acontecimientos locales y regionales."
 
 #: C/evolution.xml:4301(para)
-#, fuzzy
 msgid ""
 "Evolution lets you view and manage calendars on remote CalDAV servers such "
 "as Hula®. For more information about Hula, see the <ulink url=\"http://www."
@@ -9941,7 +10088,7 @@ msgid ""
 "calendars on Evolution."
 msgstr ""
 "Evolution le permite ver y gestionar calendarios en servidores remotos "
-"CalDAV tales como Hula. Par®a obtener más información acerca de Hula, vea la "
+"CalDAV tales como Hula®. Para obtener más información acerca de Hula, vea la "
 "<ulink url=\"http://www.hula-project.org\">página web del proyecto Hula</"
 "ulink>. El procedimiento para crear un calendario CalDAV es similar al del "
 "calendario Web remoto. Puede ver y crear acontecimientos en las cuentas "
@@ -9995,7 +10142,8 @@ msgid "Specify the name and color for the task list."
 msgstr "Especifique el nombre y el color para la lista de tareas."
 
 #: C/evolution.xml:4330(para)
-msgid "(Optional) If the task is an online list, specify the URL of the task list."
+msgid ""
+"(Optional) If the task is an online list, specify the URL of the task list."
 msgstr ""
 "(Opcional) Si la tarea es una lista en línea, especifique el URL de la lista "
 "de tareas."
@@ -10422,7 +10570,8 @@ msgstr ""
 
 #: C/evolution.xml:4822(para)
 msgid "Click the icon next to the Time Zone field, then select your location."
-msgstr "Pulse el icono junto al campo Zona horaria, después seleccione su ubicación."
+msgstr ""
+"Pulse el icono junto al campo Zona horaria, después seleccione su ubicación."
 
 #: C/evolution.xml:4823(para)
 msgid "Each red dot represents a major city."
@@ -10503,7 +10652,8 @@ msgstr ""
 "una cuenta válida en el servidor Microsoft Exchange, incluida la licencia."
 
 #: C/evolution.xml:4864(para)
-msgid "Evolution Exchange supports the following basic Microsoft Exchange features:"
+msgid ""
+"Evolution Exchange supports the following basic Microsoft Exchange features:"
 msgstr ""
 "Evolution Exchange soporta las siguientes características básicas de "
 "Microsoft Exchange:"
@@ -10585,10 +10735,11 @@ msgid "Out of Office Message:"
 msgstr "Mensaje de Estoy fuera de la oficina:"
 
 #: C/evolution.xml:4907(para)
-msgid "You can set an ‘out of Office’ auto-reply while you are away from office."
+msgid ""
+"You can set an ‘out of Office’ auto-reply while you are away from office."
 msgstr ""
-"Puede establecer su respuesta automática «Estoy fuera de la oficina» mientras está fuera de "
-"la oficina."
+"Puede establecer su respuesta automática «Estoy fuera de la oficina» mientras "
+"está fuera de la oficina."
 
 #: C/evolution.xml:4912(title)
 msgid "Send Options:"
@@ -10797,7 +10948,8 @@ msgstr ""
 msgid ""
 "You may configure only Only one Microsoft Exchange account can be configured "
 "in Evolution."
-msgstr "Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
+msgstr ""
+"Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
 
 #: C/evolution.xml:5053(para)
 msgid ""
@@ -10808,7 +10960,8 @@ msgstr ""
 "Evolution Exchange:"
 
 #: C/evolution.xml:5056(para)
-msgid "Click Edit &gt; Preferences or press Shift+Ctrl+S, then click Mail Accounts."
+msgid ""
+"Click Edit &gt; Preferences or press Shift+Ctrl+S, then click Mail Accounts."
 msgstr ""
 "Pulse Editar &gt; Preferencias o pulse Mayús+Ctrl+S, después pulse Cuentas "
 "de correo."
@@ -11202,7 +11355,8 @@ msgstr ""
 
 #: C/evolution.xml:5265(para)
 msgid "Click Add, then search for a contact in the Global Address List."
-msgstr "Pulse Añadir, después busque un contacto en la Lista de direcciones global."
+msgstr ""
+"Pulse Añadir, después busque un contacto en la Lista de direcciones global."
 
 #: C/evolution.xml:5266(para)
 msgid ""
@@ -11317,7 +11471,8 @@ msgstr ""
 
 #: C/evolution.xml:5325(para)
 msgid "You can subscribe to public folders available on the Exchange server."
-msgstr "Puede suscribirse a carpetas públicas disponibles en el servidor Exchange."
+msgstr ""
+"Puede suscribirse a carpetas públicas disponibles en el servidor Exchange."
 
 #: C/evolution.xml:5331(para)
 msgid "Select the Exchange account."
@@ -11328,7 +11483,8 @@ msgid "Check the folders you want to subscribe to."
 msgstr "Seleccione las carpetas a las que se quiere suscribir."
 
 #: C/evolution.xml:5340(para)
-msgid "The folders you have subscribed to appear in the folder list at the left."
+msgid ""
+"The folders you have subscribed to appear in the folder list at the left."
 msgstr ""
 "Las carpetas a las que se ha suscrito para aparecer en la lista de carpetas "
 "a la izquierda."
@@ -11338,7 +11494,6 @@ msgid "To view contents of a folder, click it."
 msgstr "Para ver el contenido de una carpeta, pulse sobre ella."
 
 #: C/evolution.xml:5350(para)
-#, fuzzy
 msgid ""
 "Reminders for meetings in your Exchange calendar do not work until you have "
 "run Evolution at least once after logging in. This is different from locally "
@@ -11352,11 +11507,12 @@ msgstr ""
 "hasta que ejecute Evolution al menos una vez después de iniciar la sesión. "
 "Este comportamiento difiere del de los recordatorios administrados "
 "localmente, que funcionan desde el mismo momento que inicia la sesión, "
-"independientemene de ya haya ejecutado Evolution en la sesión, de tal manera "
-"que pueda establecer una hora conveniente para una reunión. Para activar los "
-"ajustes de los recordatorios en su cuenta de Exchange, seleccione la casilla "
-"de verificación «Recordar la contraseña». Para obtener más información acerca "
-"de los Recordatorios vea <link linkend=\"bshly4v\">Recordatorios</link>."
+"independientemente de ya haya ejecutado Evolution en la sesión, de tal "
+"manera que pueda establecer una hora conveniente para una reunión. Para "
+"activar los ajustes de los recordatorios en su cuenta de Exchange, "
+"seleccione la casilla de verificación «Recordar la contraseña». Para obtener "
+"más información acerca de los Recordatorios consulte <link linkend=\"bshly4v"
+"\">Recordatorios</link>."
 
 #: C/evolution.xml:5355(para)
 msgid ""
@@ -11446,7 +11602,8 @@ msgstr ""
 "de direcciones globales (GAL)."
 
 #: C/evolution.xml:5397(para)
-msgid "You can directly select the participants from the following address lists."
+msgid ""
+"You can directly select the participants from the following address lists."
 msgstr ""
 "Puede seleccionar directamente a los participantes de la siguiente lista de "
 "direcciones."
@@ -11611,13 +11768,12 @@ msgstr ""
 "frecuentes y su libreta de direcciones personal."
 
 #: C/evolution.xml:5511(para)
-#, fuzzy
 msgid ""
 "If you receive a vCard attachment and click Save in Address Book, it is "
 "saved to your Personal address book. New Address Book entries can also be "
 "added to your personal address book from received E-mail messages."
 msgstr ""
-"Si recibe una tarjeta como adjunto y pulsa Guardar en la libreta de "
+"Si recibe una tarjeta vCard como adjunto y pulsa Guardar en la libreta de "
 "direcciones, se guardará en su libreta de direcciones personal. Las entradas "
 "de las libretas de direcciones nuevas también se pueden añadir a su libreta "
 "de direcciones personal desde mensajes de correo-e recibidos."
@@ -11641,7 +11797,6 @@ msgid "Reminder Note"
 msgstr "Nota de recuerdo"
 
 #: C/evolution.xml:5522(para)
-#, fuzzy
 msgid ""
 "Reminder notes are like mail messages except they are scheduled for a "
 "particular day. You can use reminder notes to show vacations, holidays, "
@@ -11649,10 +11804,12 @@ msgid ""
 "at the bottom right of the Calendar view given that you have selected them "
 "under the Memo component."
 msgstr ""
-"La nota de recuerdo de GruopWise está integrada en el componente de Notas. "
-"Puede ver las Notas de recuerdo listadas bajo las Notas en la parte inferior "
-"derecha de la vista del Calendario suponiendo que las ha seleccionando bajo "
-"el componente de Notas."
+"Las notas de recuerdo son como mensajes de correo salvo que están "
+"planificadas para un día en concreto. Puede usar las notas de recuerdo para "
+"mostrar vacaciones, fiestas, cumpleaños y demás. Puede ver las Notas de "
+"recuerdo listadas bajo las Notas en la parte inferior derecha de la vista "
+"del Calendario suponiendo que las ha seleccionando bajo el componente de "
+"Notas."
 
 #: C/evolution.xml:5527(para)
 msgid "Proxy"
@@ -12097,7 +12254,8 @@ msgstr "Seguimiento de estado"
 
 #: C/evolution.xml:5825(para)
 msgid "You can enable Status Tracking before you send any messages."
-msgstr "Puede activar el Seguimiento de estado antes de que envíe ningún mensaje."
+msgstr ""
+"Puede activar el Seguimiento de estado antes de que envíe ningún mensaje."
 
 #: C/evolution.xml:5826(para)
 msgid "To track the status of the message you are sending,"
@@ -12154,13 +12312,15 @@ msgid "Return Notification:"
 msgstr "Devolver notificación:"
 
 #: C/evolution.xml:5847(para) C/evolution.xml:5969(para)
-msgid "In the Return Notification, specify the type of return receipt you want."
+msgid ""
+"In the Return Notification, specify the type of return receipt you want."
 msgstr ""
 "En Devolver notificación, especifique el tipo de notificación que desea "
 "recibir."
 
 #: C/evolution.xml:5860(para)
-msgid "Right-click an e-mail in your Sent folder, then click Track Message Status."
+msgid ""
+"Right-click an e-mail in your Sent folder, then click Track Message Status."
 msgstr ""
 "Pulse con el botón derecho sobre un correo-e en su carpeta de Correo "
 "enviado, después pulse Seguir el estado del mensaje."
@@ -12181,7 +12341,8 @@ msgstr "Cambiar la prioridad de un correo-e"
 
 #: C/evolution.xml:5871(para) C/evolution.xml:5887(para)
 msgid "In the Compose Message window, click Insert &gt; Send Options."
-msgstr "En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío."
+msgstr ""
+"En la ventana de Edición de mensaje pulse Insertar &gt; Opciones de envío."
 
 #: C/evolution.xml:5874(para)
 msgid "Select High Priority, Standard Priority, Low Priority, or Undefined."
@@ -12246,7 +12407,8 @@ msgid "Click Delay message delivery."
 msgstr "Pulse Retrasar la entrega del mensaje."
 
 #: C/evolution.xml:5913(para)
-msgid "Set the Date and Time until you want the message to be held in the Outbox."
+msgid ""
+"Set the Date and Time until you want the message to be held in the Outbox."
 msgstr ""
 "Establezca la fecha y hora hasta que desee que el mensaje se mantenga en la "
 "bandeja de salida."
@@ -12282,7 +12444,8 @@ msgid "Delegating an Item"
 msgstr "Borrar un elemento"
 
 #: C/evolution.xml:5936(para)
-msgid "In the Calendar, right-click the meeting or appointment you want to delegate."
+msgid ""
+"In the Calendar, right-click the meeting or appointment you want to delegate."
 msgstr ""
 "En el Calendario, pulse con el botón derecho sobre la reunión o cita que "
 "quiere delegar."
@@ -12515,7 +12678,8 @@ msgstr ""
 
 #: C/evolution.xml:6116(para)
 msgid "Right-click on the GroupWise account in the folder list."
-msgstr "Pulse con el botón derecho sobre la cuenta GroupWise en la lista de carpetas."
+msgstr ""
+"Pulse con el botón derecho sobre la cuenta GroupWise en la lista de carpetas."
 
 #: C/evolution.xml:6119(para)
 msgid "Click Proxy Login."
@@ -12580,7 +12744,8 @@ msgstr ""
 
 #: C/evolution.xml:6142(para)
 msgid "In an open item, click Actions, then click Mark Private."
-msgstr "En un elemento abierto, pulse Acciones, después pulse Marcar como privado."
+msgstr ""
+"En un elemento abierto, pulse Acciones, después pulse Marcar como privado."
 
 #: C/evolution.xml:6144(para)
 msgid ""
@@ -12622,10 +12787,12 @@ msgstr "Añadir una dirección de correo electrónico a su lista de correo basur
 
 #: C/evolution.xml:6167(link) C/evolution.xml:6226(title)
 msgid "Removing an E-Mail Address from Your Junk List"
-msgstr "Quitar una dirección de correo electrónico de su lista de correo basura"
+msgstr ""
+"Quitar una dirección de correo electrónico de su lista de correo basura"
 
 #: C/evolution.xml:6175(para)
-msgid "Select the message to mark as junk, then click the Junk icon or press Ctrl+J."
+msgid ""
+"Select the message to mark as junk, then click the Junk icon or press Ctrl+J."
 msgstr ""
 "Seleccione el mensaje marcado como spam, después pulse el icono de SPAM o "
 "pulse Ctrl+J."
@@ -12635,8 +12802,8 @@ msgid ""
 "The message is moved to your Junk Mail folder and the sender is added to "
 "your junk list."
 msgstr ""
-"El mensaje se moverá a su carpeta de correo basura y el remitente se añadirá a "
-"su lista de SPAM."
+"El mensaje se moverá a su carpeta de correo basura y el remitente se añadirá "
+"a su lista de SPAM."
 
 #: C/evolution.xml:6185(para)
 msgid "Select the message to mark as not junk in your Junk Mail folder."
@@ -12673,7 +12840,8 @@ msgstr "Seleccione si quiere activar o desactivar el manejo del correo basura."
 
 #: C/evolution.xml:6217(para)
 msgid "Type the e-mail address to block in the Email field."
-msgstr "Escriba la dirección de correo electrónico a bloquear en el campo Correo-e."
+msgstr ""
+"Escriba la dirección de correo electrónico a bloquear en el campo Correo-e."
 
 #: C/evolution.xml:6220(para)
 msgid "Click Add, then click OK."
@@ -13222,7 +13390,8 @@ msgstr ""
 "cabeceras según sus necesidades."
 
 #: C/evolution.xml:6386(para)
-msgid "This option may not be needed if you have chosen to download ALL Headers."
+msgid ""
+"This option may not be needed if you have chosen to download ALL Headers."
 msgstr ""
 "Puede que esta opción no sea necesaria si ha elegido descargar Todas las "
 "cabeceras."
@@ -13237,7 +13406,8 @@ msgstr "Seleccione Editar &gt; Preferencias."
 
 #: C/evolution.xml:6394(para)
 msgid "Select the IMAP account and click Edit to open the Account Editor."
-msgstr "Seleccione la cuenta IMAP y pulse Editar para abrir el editor de cuentas."
+msgstr ""
+"Seleccione la cuenta IMAP y pulse Editar para abrir el editor de cuentas."
 
 #: C/evolution.xml:6397(para)
 msgid ""
@@ -13248,7 +13418,8 @@ msgstr ""
 "Cabeceras IMAP en el Editor de cuentas."
 
 #: C/evolution.xml:6402(para)
-msgid "Click Fetch All Headers to download all the available header information."
+msgid ""
+"Click Fetch All Headers to download all the available header information."
 msgstr ""
 "Pulse Obtener todas las cabeceras para descargar toda la información "
 "disponible sobre las cabeceras."
@@ -13496,7 +13667,8 @@ msgstr "No puede borrar las etiquetas predeterminadas."
 
 #: C/evolution.xml:6499(para)
 msgid "Click Add and specify the name in the Label Name dialog."
-msgstr "Pulse Añadir y especifique el nombre en la el diálogo Nombre de la etiqueta."
+msgstr ""
+"Pulse Añadir y especifique el nombre en la el diálogo Nombre de la etiqueta."
 
 #: C/evolution.xml:6502(para)
 msgid "Click the color tab and select a color, then click OK."
@@ -13521,7 +13693,8 @@ msgstr "Para asignar una etiqueta para el correo:"
 
 #: C/evolution.xml:6517(para)
 msgid "Right-click the message from the message preview."
-msgstr "Pulse con el botón derecho sobre el mensaje desde la vista previa del mismo."
+msgstr ""
+"Pulse con el botón derecho sobre el mensaje desde la vista previa del mismo."
 
 #: C/evolution.xml:6520(para)
 msgid "Click Label and select the desired label for the message."
@@ -13605,7 +13778,8 @@ msgstr ""
 
 #: C/evolution.xml:6541(para)
 msgid "To enable junk filtering using SpamAssassin and/or Bogofilter,"
-msgstr "Para activar el filtro de correo basura usando SpamAssasin y/o Bogofilter,"
+msgstr ""
+"Para activar el filtro de correo basura usando SpamAssasin y/o Bogofilter,"
 
 #: C/evolution.xml:6544(para)
 msgid "Select Edit &gt; Plugins"
@@ -13637,7 +13811,8 @@ msgstr "Detectar si el correo entrante es spam:"
 
 #: C/evolution.xml:6556(para)
 msgid "This option turns automatic junk mail filtering on or off."
-msgstr "Esta opción activa los filtros de comprobación automática de correo basura."
+msgstr ""
+"Esta opción activa los filtros de comprobación automática de correo basura."
 
 #: C/evolution.xml:6559(title)
 msgid "Delete junk mails on exit:"
@@ -13841,7 +14016,8 @@ msgstr "Preguntar al mandar mensajes con el asunto vacío:"
 
 #: C/evolution.xml:6628(para)
 msgid "The composer warns you if you try to send a message without a subject."
-msgstr "El editor muestra una advertencia si intenta enviar un mensaje sin asunto."
+msgstr ""
+"El editor muestra una advertencia si intenta enviar un mensaje sin asunto."
 
 #: C/evolution.xml:6633(title)
 msgid "Prompt When Sending Messages with Only Bcc Recipients Defined:"
@@ -13881,14 +14057,14 @@ msgid ""
 "the composer automatically check your spelling while you type, select Check "
 "Spelling While I Type. You can set the color for misspelled words."
 msgstr ""
-"Seleccione aquí un idioma al que aplicar la corrección ortográfica. Debe instalar el "
-"paquete gnome-spell para poder disponer de corrección ortográfica en Evolution. "
-"También existen diccionarios disponibles a través de Red Carpet y se "
-"detectan automáticamente si los tiene instalados. También debe instalar el "
-"paquete aspell. Si éste es el caso, por favor contacte con su empaquetado. "
-"Para que el editor compruebe automáticamente su ortografía, seleccione "
-"Comprobar ortografía mientras se escribe. Puede ajustar el color de las "
-"palabras mal escritas."
+"Seleccione aquí un idioma al que aplicar la corrección ortográfica. Debe "
+"instalar el paquete gnome-spell para poder disponer de corrección "
+"ortográfica en Evolution. También existen diccionarios disponibles a través "
+"de Red Carpet y se detectan automáticamente si los tiene instalados. También "
+"debe instalar el paquete aspell. Si éste es el caso, por favor contacte con "
+"su empaquetado. Para que el editor compruebe automáticamente su ortografía, "
+"seleccione Comprobar ortografía mientras se escribe. Puede ajustar el color "
+"de las palabras mal escritas."
 
 #: C/evolution.xml:6653(para)
 msgid "The calendar configuration tool has four pages:"
@@ -13987,7 +14163,8 @@ msgstr ""
 
 #: C/evolution.xml:6706(title)
 msgid "Show appointment end times in week and month views:"
-msgstr "Mostrar la hora del final de las citas en las vistas semanales y mensuales:"
+msgstr ""
+"Mostrar la hora del final de las citas en las vistas semanales y mensuales:"
 
 #: C/evolution.xml:6707(para)
 msgid ""
@@ -14151,7 +14328,8 @@ msgstr ""
 
 #: C/evolution.xml:6772(para)
 msgid "There are two main tasks for configuring contact information:"
-msgstr "Existen dos tareas principales para configurar la información de un contacto:"
+msgstr ""
+"Existen dos tareas principales para configurar la información de un contacto:"
 
 #: C/evolution.xml:6775(link) C/evolution.xml:6783(title)
 msgid "Creating a Contact"
@@ -14371,7 +14549,8 @@ msgid "Search Filter:"
 msgstr "Filtro de búsquedas:"
 
 #: C/evolution.xml:6887(para)
-msgid "The search filter can be set here for all the LDAP queries. For example:"
+msgid ""
+"The search filter can be set here for all the LDAP queries. For example:"
 msgstr ""
 "Se puede establecer aquí el filtro de búsqueda para todas las consultas "
 "LDAP. Por ejemplo:"
@@ -14431,7 +14610,8 @@ msgstr "Especifique la duración del mostrado de los mensajes de error."
 
 #: C/evolution.xml:6913(para)
 msgid "The messages remain in the statusbar for this specified time."
-msgstr "El mensaje permanece en la barra de estado durante el tiempo especificado."
+msgstr ""
+"El mensaje permanece en la barra de estado durante el tiempo especificado."
 
 #: C/evolution.xml:6917(para)
 msgid ""
@@ -14548,7 +14728,8 @@ msgid "Copy From Pilot:"
 msgstr "Copiar desde Pilot:"
 
 #: C/evolution.xml:6956(para)
-msgid "If there is any new data on the handheld device, copy it to the computer."
+msgid ""
+"If there is any new data on the handheld device, copy it to the computer."
 msgstr "Si el dispositivo de mano contiene datos nuevos, los copia al equipo."
 
 #: C/evolution.xml:6959(title)
@@ -14715,7 +14896,8 @@ msgstr ""
 "correo."
 
 #: C/evolution.xml:7007(para)
-msgid "Copy all the mail files into your home directory or another convenient place."
+msgid ""
+"Copy all the mail files into your home directory or another convenient place."
 msgstr ""
 "Copie todos los archivos de correo en su carpeta personal o cualquier otro "
 "lugar conveniente."
@@ -14726,14 +14908,16 @@ msgstr "Inicie Evolution."
 
 #: C/evolution.xml:7013(para)
 msgid "Select File &gt; New Folder to create the folders you want."
-msgstr "Seleccione Archivo &gt; Nueva carpeta para crear las carpetas que necesite."
+msgstr ""
+"Seleccione Archivo &gt; Nueva carpeta para crear las carpetas que necesite."
 
 #: C/evolution.xml:7016(para)
 msgid "To import the data files:"
 msgstr "Importar los archivos de datos:"
 
 #: C/evolution.xml:7019(para)
-msgid "In Evolution, open the File Import assistant by clicking File &gt; Import."
+msgid ""
+"In Evolution, open the File Import assistant by clicking File &gt; Import."
 msgstr ""
 "En Evolution, abra el asistente de Importación de archivos pulsando Archivo "
 "&gt; Importar."
@@ -14743,7 +14927,8 @@ msgid "Click Next, then select Import A Single File."
 msgstr "Pulse Siguiente, después seleccione Importar un solo archivo."
 
 #: C/evolution.xml:7025(para)
-msgid "Leave the file type as Automatic, then click Browse to select the data file."
+msgid ""
+"Leave the file type as Automatic, then click Browse to select the data file."
 msgstr ""
 "Deje el tipo de archivo como Automático, después pulse Examinar para "
 "seleccionar el archivo de datos."
@@ -14756,11 +14941,13 @@ msgstr ""
 
 #: C/evolution.xml:7029(para)
 msgid "Select the folder where you want to put the imported data file."
-msgstr "Seleccione la carpeta donde quiere poner sus archivos de datos importados."
+msgstr ""
+"Seleccione la carpeta donde quiere poner sus archivos de datos importados."
 
 #: C/evolution.xml:7035(para)
 msgid "Repeat the import steps until you have imported all your mail."
-msgstr "Repita los pasos de importación hasta que haya importado todo su correo."
+msgstr ""
+"Repita los pasos de importación hasta que haya importado todo su correo."
 
 #: C/evolution.xml:7043(para)
 msgid ""
@@ -14872,7 +15059,8 @@ msgid "Moving the Display Up and Down in the Preview Pane:"
 msgstr "Moverse adelante y atrás en el panel de visualización de mensajes:"
 
 #: C/evolution.xml:7096(para)
-msgid "Press the Spacebar to move down a page. Press Backspace to move up a page."
+msgid ""
+"Press the Spacebar to move down a page. Press Backspace to move up a page."
 msgstr ""
 "Pulse la barra espaciadora para avanzar una página. Pulse la tecla Retroceso "
 "para volver hacia atrás una página."
@@ -15039,9 +15227,9 @@ msgid ""
 "GNOME programmers. You can see their names by clicking Help &gt; About from "
 "any Evolution window."
 msgstr ""
-"Evolution ha sido creado por el equipo de Evolution y otros muchos programadores dedicados "
-"a GNOME. Para ver sus nombres, seleccione Ayuda &gt; Acerca desde cualquiera "
-"de las ventanas de Evolution."
+"Evolution ha sido creado por el equipo de Evolution y otros muchos "
+"programadores dedicados a GNOME. Para ver sus nombres, seleccione Ayuda &gt; "
+"Acerca desde cualquiera de las ventanas de Evolution."
 
 #: C/evolution.xml:7164(para)
 msgid ""
@@ -15151,7 +15339,8 @@ msgid "Daniel Persson for Swedish (.se)"
 msgstr "Daniel Persson al sueco"
 
 #: C/evolution.xml:7209(para)
-msgid "Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)"
+msgid ""
+"Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)"
 msgstr ""
 "Hector García Álvarez, Franciso Javier F. Serrador y Jorge González para el "
 "español (.es)"
@@ -15206,8 +15395,9 @@ msgid ""
 "A pre-downloading procedure that allows Evolution to quickly refer to data. "
 "It enables faster searches and decreases memory usage for data displays."
 msgstr ""
-"Un procedimiento de predescarga que permite a Evolution acceder rápidamente a los datos. "
-"Permite búsquedas más rápidas y reduce el uso de memoria para mostrar los datos."
+"Un procedimiento de predescarga que permite a Evolution acceder rápidamente "
+"a los datos. Permite búsquedas más rápidas y reduce el uso de memoria para "
+"mostrar los datos."
 
 #: C/evolution.xml:7242(glossterm)
 msgid "Bcc (Blind Carbon Copy)"
@@ -15832,7 +16022,8 @@ msgstr ""
 
 #: C/evolution.xml:7460(member)
 msgid "SUSE is a registered trademark of SUSE AG, a Novell company."
-msgstr "SUSE es una marca comercial registrada de SUSE AG, una filial de Novell."
+msgstr ""
+"SUSE es una marca comercial registrada de SUSE AG, una filial de Novell."
 
 #: C/evolution.xml:7461(member)
 msgid ""
@@ -15854,4 +16045,3 @@ msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2008.\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006."
-
