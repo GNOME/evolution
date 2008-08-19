@@ -1,3 +1,52 @@
+Evolution 2.23.90 2008-08-18
+----------------------------
+
+Bug Fixes:
+	#249844: Fix compiler warnings (Milan Crha)
+	#324203: New check box to be able to set LDAP address books browseable until reaches given limits (Milan Crha)
+	#347287: Use a single model for all the views (Chenthill Palanisamy)
+	#352695: Search and clear action, looses the expanded state of threads (Milan Crha)
+	#416258: Make evolution respect GTK_ICON_SIZE changes (Gilles Dartiguelongue)
+	#435969: Show authentication section in an account druid too (Milan Crha)
+	#467115: Fix missing icons in different modules (Matthew Barnes)
+	#498095: Set proper mnemonic widget for description label (Dmitrijs Ledkovs)
+	#508732 Removed 'Crash detection' startup dialog box. (Mathew Barnes)
+	#513363: Removed the outdated "New Features" list and the incorrect "Evolution team" email address. (Mathew Barnes)
+	#519292: Better thread expand and collapse handling (Milan Crha)
+	#529743: Support Subject or Recipients contain search (Srinivasa Ragavan)
+	#530402: Improve dialog wording, and don't use a window title (HIG) (Matthew Barnes)(
+	#531288: Use proxy icon from tango-icon-theme and fall back to the icon shipped by gnome-control-center (Josef Vybíral)
+	#535745: Require and link calendar libs with libgdata and libgdata-google (Milan Crha)
+	#544117: Initialize variables to NULL, to not free uninitialized memory in the cleanup part on the error (Milan Crha)
+	#546263: Editing contact list messes minicard view fixed (Milan Crha)
+	#546668: Drop one unused define (Paul Bolle)
+	#546744: Use address-book-new icon instead of contacts-new (Michael Monreal)
+	#546748: Change "_Properties..." to "_Properties" to match HIG and other components. (Michael Monreal)
+	#546785: Make bbdb plugin just as polite as google-account-setup (Paul Bolle)
+	#546788: Drop unused "ViewNormal" cmd entry (Paul Bolle)
+	#546788: Remove unused formatting style option (Paul Bolle)
+	#546892: Prefer themed icon names (Matthew Barnes)
+	#547308: Do not try to authenticate to the server more than twice with correct credentials (Milan Crha)
+	#547369: Fix a typo. (Matthew Barnes)
+	#547372: Fix TeX-style quotes (Matthew Barnes)
+	#547411: New, Tangoized versions of images now live in data/icons (Matthew Barnes)
+	#547805: Do not filter list of applications to open attachments (Sebastien Bacher)
+
+Other fixes:
+	Lots of disk summary related stability fixes (Srinivasa Ragavan)
+
+Updated Translations:
+	Ignacio Casal Quinteiro (gl)
+	Kjartan Maraas (nb)
+	Shankar Prasad (kn)
+	Ilkka Tuohela (fi)
+	Jorge Gonzalez (es)
+	Duarte Loreto (pt)
+	Chao-Hsiung Liao (zh_HK)
+	Chao-Hsiung Liao (zh_TW)
+	Ivar Smolin (et)
+	Abou Manal (ar)
+
 Evolution 2.23.6 2008-08-04
 ---------------------------
 
