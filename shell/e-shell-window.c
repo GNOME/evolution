@@ -54,10 +54,10 @@
 #include <string.h>
 
 #ifdef NM_SUPPORT_GLIB
-void e_shell_nm_glib_initialise (EShellWindow *window);
+gboolean e_shell_nm_glib_initialise (EShellWindow *window);
 void e_shell_nm_glib_dispose (EShellWindow *window);
 #elif NM_SUPPORT
-void e_shell_dbus_initialise (EShellWindow *window);
+gboolean e_shell_dbus_initialise (EShellWindow *window);
 void e_shell_dbus_dispose (EShellWindow *window);
 #endif
 

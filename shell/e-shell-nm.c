@@ -40,11 +40,9 @@ typedef enum _ShellLineStatus {
 	E_SHELL_LINE_UP
 } ShellLineStatus;
 
-
 static gboolean init_dbus (EShellWindow *window);
 
 static DBusConnection *dbus_connection = NULL;
-
 
 static gboolean
 reinit_dbus (gpointer user_data)
@@ -59,7 +57,7 @@ reinit_dbus (gpointer user_data)
 
 static DBusHandlerResult
 e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
-			 DBusMessage *message, void *user_data)
+                         DBusMessage *message, void *user_data)
 {
 	DBusError error;
 	const char *object;
@@ -69,11 +67,11 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	GNOME_Evolution_ShellState shell_state;
 	EShellLineStatus line_status;
 
- 	if (!user_data || !E_IS_SHELL_WINDOW (user_data))
- 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+	if (!user_data || !E_IS_SHELL_WINDOW (user_data))
+		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
  
- 	window = E_SHELL_WINDOW (user_data);
- 	shell = e_shell_window_peek_shell (window);
+	window = E_SHELL_WINDOW (user_data);
+	shell = e_shell_window_peek_shell (window);
 
 	dbus_error_init (&error);
 	object = dbus_message_get_path (message);
@@ -102,11 +100,11 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	line_status = e_shell_get_line_status (shell);
 
 	if (line_status == E_SHELL_LINE_STATUS_ONLINE && status == E_SHELL_LINE_DOWN) {
-		  shell_state = GNOME_Evolution_FORCED_OFFLINE;
-		  e_shell_go_offline (shell, window, shell_state);
+		shell_state = GNOME_Evolution_FORCED_OFFLINE;
+		e_shell_go_offline (shell, window, shell_state);
 	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && status == E_SHELL_LINE_UP) {
-		  shell_state = GNOME_Evolution_USER_ONLINE;
-		  e_shell_go_online (shell, window, shell_state);
+		shell_state = GNOME_Evolution_USER_ONLINE;
+		e_shell_go_online (shell, window, shell_state);
 	}
 
 	return DBUS_HANDLER_RESULT_HANDLED;
@@ -145,7 +143,7 @@ init_dbus (EShellWindow *window)
 
 	return TRUE;
 
- exception:
+exception:
 
 	dbus_connection_unref (dbus_connection);
 	dbus_connection = NULL;
@@ -153,16 +151,17 @@ init_dbus (EShellWindow *window)
 	return FALSE;
 }
 
-int e_shell_dbus_initialise (EShellWindow *window)
+gboolean
+e_shell_dbus_initialise (EShellWindow *window)
 {
 	g_type_init ();
 
 	return init_dbus (window);
 }
 
-void e_shell_dbus_dispose (EShellWindow *window)
+void
+e_shell_dbus_dispose (EShellWindow *window)
 {
 	//FIXME
 	return;
 }
-
