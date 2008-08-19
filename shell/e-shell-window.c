@@ -41,6 +41,7 @@
 
 enum {
 	PROP_0,
+	PROP_CURRENT_VIEW,
 	PROP_SAFE_MODE
 };
 
@@ -53,11 +54,17 @@ shell_window_set_property (GObject *object,
 			   GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CURRENT_VIEW:
+			e_shell_window_set_current_view (
+				E_SHELL_WINDOW (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_SAFE_MODE:
 			e_shell_window_set_safe_mode (
 				E_SHELL_WINDOW (object),
 				g_value_get_boolean (value));
-			break;
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -70,11 +77,17 @@ shell_window_get_property (GObject *object,
 			   GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CURRENT_VIEW:
+			g_value_set_string (
+				value, e_shell_window_get_current_view (
+				E_SHELL_WINDOW (object)));
+			return;
+
 		case PROP_SAFE_MODE:
 			g_value_set_boolean (
 				value, e_shell_window_get_safe_mode (
 				E_SHELL_WINDOW (object)));
-			break;
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -114,6 +127,17 @@ shell_window_class_init (EShellWindowClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CURRENT_VIEW,
+		g_param_spec_string (
+			"current-view",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SAFE_MODE,
 		g_param_spec_boolean (
 			"safe-mode",
@@ -125,18 +149,18 @@ shell_window_class_init (EShellWindowClass *class)
 }
 
 static void
-shell_window_init (EShellWindow *window)
+shell_window_init (EShellWindow *shell_window)
 {
 	GtkUIManager *manager;
 
-	window->priv = E_SHELL_WINDOW_GET_PRIVATE (window);
+	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
 
-	e_shell_window_private_init (window);
+	e_shell_window_private_init (shell_window);
 
-	manager = e_shell_window_get_ui_manager (window);
+	manager = e_shell_window_get_ui_manager (shell_window);
 
 	e_plugin_ui_register_manager (
-		"org.gnome.evolution.shell", manager, window);
+		"org.gnome.evolution.shell", manager, shell_window);
 }
 
 GType
@@ -173,25 +197,25 @@ e_shell_window_new (gboolean safe_mode)
 }
 
 GtkUIManager *
-e_shell_window_get_ui_manager (EShellWindow *window)
+e_shell_window_get_ui_manager (EShellWindow *shell_window)
 {
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 
-	return window->priv->manager;
+	return shell_window->priv->manager;
 }
 
 GtkAction *
-e_shell_window_get_action (EShellWindow *window,
+e_shell_window_get_action (EShellWindow *shell_window,
                            const gchar *action_name)
 {
 	GtkUIManager *manager;
 	GtkAction *action = NULL;
 	GList *iter;
 
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	manager = e_shell_window_get_ui_manager (window);
+	manager = e_shell_window_get_ui_manager (shell_window);
 	iter = gtk_ui_manager_get_action_groups (manager);
 
 	while (iter != NULL && action == NULL) {
@@ -208,16 +232,16 @@ e_shell_window_get_action (EShellWindow *window,
 }
 
 GtkActionGroup *
-e_shell_window_get_action_group (EShellWindow *window,
+e_shell_window_get_action_group (EShellWindow *shell_window,
                                  const gchar *group_name)
 {
 	GtkUIManager *manager;
 	GList *iter;
 
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
-	manager = e_shell_window_get_ui_manager (window);
+	manager = e_shell_window_get_ui_manager (shell_window);
 	iter = gtk_ui_manager_get_action_groups (manager);
 
 	while (iter != NULL) {
@@ -235,16 +259,16 @@ e_shell_window_get_action_group (EShellWindow *window,
 }
 
 GtkWidget *
-e_shell_window_get_managed_widget (EShellWindow *window,
+e_shell_window_get_managed_widget (EShellWindow *shell_window,
                                    const gchar *widget_path)
 {
 	GtkUIManager *manager;
 	GtkWidget *widget;
 
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (widget_path != NULL, NULL);
 
-	manager = e_shell_window_get_ui_manager (window);
+	manager = e_shell_window_get_ui_manager (shell_window);
 	widget = gtk_ui_manager_get_widget (manager, widget_path);
 
 	g_return_val_if_fail (widget != NULL, NULL);
@@ -252,21 +276,125 @@ e_shell_window_get_managed_widget (EShellWindow *window,
 	return widget;
 }
 
-gboolean
-e_shell_window_get_safe_mode (EShellWindow *window)
+const gchar *
+e_shell_window_get_current_view (EShellWindow *shell_window)
 {
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), FALSE);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 
-	return window->priv->safe_mode;
+	return shell_window->priv->current_view;
 }
 
 void
-e_shell_window_set_safe_mode (EShellWindow *window,
+e_shell_window_set_current_view (EShellWindow *shell_window,
+                                 const gchar *name_or_alias)
+{
+	const gchar *current_view;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if (name_or_alias != NULL)
+		current_view =
+			e_shell_registry_get_canonical_name (name_or_alias);
+
+	if (current_view == NULL)
+		current_view = shell_window->priv->default_view;
+
+	shell_window->priv->current_view = current_view;
+
+	g_object_notify (G_OBJECT (shell_window), "current-view");
+}
+
+gboolean
+e_shell_window_get_safe_mode (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->safe_mode;
+}
+
+void
+e_shell_window_set_safe_mode (EShellWindow *shell_window,
                               gboolean safe_mode)
 {
-	g_return_if_fail (E_IS_SHELL_WINDOW (window));
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	window->priv->safe_mode = safe_mode;
+	shell_window->priv->safe_mode = safe_mode;
 
-	g_object_notify (G_OBJECT (window), "safe-mode");
+	g_object_notify (G_OBJECT (shell_window), "safe-mode");
+}
+
+void
+e_shell_window_register_new_item_actions (EShellWindow *shell_window,
+                                          const gchar *module_name,
+                                          const GtkActionEntry *entries,
+                                          guint n_entries)
+{
+	GtkActionGroup *action_group;
+	guint ii;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	g_return_if_fail (module_name != NULL);
+	g_return_if_fail (entries != NULL);
+
+	action_group = shell_window->priv->new_item_actions;
+	module_name = g_intern_string (module_name);
+
+	gtk_action_group_add_actions (
+		action_group, entries, n_entries, shell_window);
+
+	/* Tag each action with the name of the shell module that
+	 * registered it.  This is used to help sort actions in the
+	 * "New" menu. */
+
+	for (ii = 0; ii < n_entries; ii++) {
+		const gchar *action_name;
+		GtkAction *action;
+
+		action_name = entries[ii].name;
+
+		action = gtk_action_group_get_action (
+			action_group, action_name);
+
+		g_object_set_data (
+			G_OBJECT (action),
+			"module-name", (gpointer) module_name);
+	}
+}
+
+void
+e_shell_window_register_new_source_actions (EShellWindow *shell_window,
+                                            const gchar *module_name,
+                                            const GtkActionEntry *entries,
+                                            guint n_entries)
+{
+	GtkActionGroup *action_group;
+	guint ii;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	g_return_if_fail (module_name != NULL);
+	g_return_if_fail (entries != NULL);
+
+	action_group = shell_window->priv->new_source_actions;
+	module_name = g_intern_string (module_name);
+
+	gtk_action_group_add_actions (
+		action_group, entries, n_entries, shell_window);
+
+	/* Tag each action with the name of the shell module that
+	 * registered it.  This is used to help sort actions in the
+	 * "New" menu. */
+
+	for (ii = 0; ii < n_entries; ii++) {
+		const gchar *action_name;
+		GtkAction *action;
+
+		action_name = entries[ii].name;
+
+		action = gtk_action_group_get_action (
+			action_group, action_name);
+
+		g_object_set_data (
+			G_OBJECT (action),
+			"module-name", (gpointer) module_name);
+	}
 }

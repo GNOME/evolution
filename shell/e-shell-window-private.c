@@ -98,6 +98,7 @@ void
 e_shell_window_private_init (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
+	GHashTable *loaded_views;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -105,13 +106,17 @@ e_shell_window_private_init (EShellWindow *window)
 	const gchar *key;
 	gint height;
 
+	loaded_views = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) g_object_unref);
+
 	priv->manager = gtk_ui_manager_new ();
 	priv->shell_actions = gtk_action_group_new ("shell");
 	priv->new_item_actions = gtk_action_group_new ("new-item");
 	priv->new_source_actions = gtk_action_group_new ("new-source");
 	priv->shell_view_actions = gtk_action_group_new ("shell-view");
-
-	priv->shell_views = g_ptr_array_new ();
+	priv->loaded_views = loaded_views;
 
 	e_load_ui_definition (priv->manager, "evolution-shell.ui");
 
@@ -255,6 +260,8 @@ e_shell_window_private_dispose (EShellWindow *window)
 	DISPOSE (priv->new_source_actions);
 	DISPOSE (priv->shell_view_actions);
 
+	g_hash_table_remove_all (priv->loaded_views);
+
 	DISPOSE (priv->main_menu);
 	DISPOSE (priv->main_toolbar);
 	DISPOSE (priv->content_pane);
@@ -280,6 +287,5 @@ e_shell_window_private_finalize (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
 
-	g_ptr_array_foreach (priv->shell_views, (GFunc) g_object_unref, NULL);
-	g_ptr_array_free (priv->shell_views, TRUE);
+	g_hash_table_destroy (priv->loaded_views);
 }

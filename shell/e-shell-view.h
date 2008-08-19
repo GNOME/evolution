@@ -60,30 +60,24 @@ struct _EShellViewClass {
 	const gchar *label;
 	const gchar *icon_name;
 
-	GtkWidget *	(*create_new_menu)	(EShellView *shell_view);
+	/* Subclasses should set this via the "class_data" field in
+	 * the GTypeInfo they pass to g_type_module_register_type(). */
+	GTypeModule *module;
+
 	GtkWidget *	(*get_content_widget)	(EShellView *shell_view);
 	GtkWidget *	(*get_sidebar_widget)	(EShellView *shell_view);
 	GtkWidget *	(*get_status_widget)	(EShellView *shell_view);
 };
 
 GType		e_shell_view_get_type		(void);
+const gchar *	e_shell_view_get_name		(EShellView *shell_view);
 const gchar *	e_shell_view_get_title		(EShellView *shell_view);
 void		e_shell_view_set_title		(EShellView *shell_view,
 						 const gchar *title);
 GtkWidget *	e_shell_view_get_window		(EShellView *shell_view);
-GtkWidget *	e_shell_view_create_new_menu	(EShellView *shell_view);
 GtkWidget *	e_shell_view_get_content_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_sidebar_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_status_widget	(EShellView *shell_view);
-
-void		e_shell_view_register_new_item_actions
-						(EShellView *shell_view,
-						 const GtkActionEntry *entries,
-						 guint n_entries);
-void		e_shell_view_register_new_source_actions
-						(EShellView *shell_view,
-						 const GtkActionEntry *entries,
-						 guint n_entries);
 
 G_END_DECLS
 

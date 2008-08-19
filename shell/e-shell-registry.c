@@ -66,7 +66,7 @@ shell_registry_query_module (const gchar *filename)
 
 	info = (EShellModuleInfo *) shell_module->priv;
 
-	if ((string = G_TYPE_MODULE (shell_module)->name) != NULL)
+	if ((string = info->name) != NULL)
 		g_hash_table_insert (
 			modules_by_name, (gpointer)
 			g_intern_string (string), shell_module);
@@ -122,32 +122,19 @@ e_shell_registry_list_modules (void)
 	return loaded_modules;
 }
 
-GType *
-e_shell_registry_get_view_types (guint *n_types)
+const gchar *
+e_shell_registry_get_canonical_name (const gchar *name)
 {
-	GType *types;
-	GList *iter;
-	guint ii = 0;
+	EShellModule *shell_module;
 
-	types = g_new0 (GType, g_list_length (loaded_modules) + 1);
+	g_return_val_if_fail (name != NULL, NULL);
 
-	for (iter = loaded_modules; iter != NULL; iter = iter->next) {
-		EShellModule *shell_module = iter->data;
-		EShellModuleInfo *info;
+	shell_module = e_shell_registry_get_module_by_name (name);
 
-		info = (EShellModuleInfo *) shell_module->priv;
+	if (shell_module == NULL)
+		return NULL;
 
-		/* Allow for modules with no corresponding view type. */
-		if (!g_type_is_a (info->shell_view_type, E_TYPE_SHELL_VIEW))
-			continue;
-
-		types[ii++] = info->shell_view_type;
-	}
-
-	if (n_types != NULL)
-		*n_types = ii;
-
-	return types;
+	return G_TYPE_MODULE (shell_module)->name;
 }
 
 EShellModule *

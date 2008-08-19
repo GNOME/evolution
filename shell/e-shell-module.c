@@ -237,21 +237,17 @@ e_shell_module_get_filename (EShellModule *shell_module)
 	return shell_module->priv->filename;
 }
 
-GType
-e_shell_module_get_view_type (EShellModule *shell_module)
-{
-	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), 0);
-
-	return shell_module->priv->info.shell_view_type;
-}
-
 gboolean
 e_shell_module_is_busy (EShellModule *shell_module)
 {
+	EShellModuleInfo *module_info;
+
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
 
-	if (shell_module->priv->info.is_busy != NULL)
-		return shell_module->priv->info.is_busy ();
+	module_info = &shell_module->priv->info;
+
+	if (module_info->is_busy != NULL)
+		return module_info->is_busy (shell_module);
 
 	return FALSE;
 }
@@ -259,10 +255,14 @@ e_shell_module_is_busy (EShellModule *shell_module)
 gboolean
 e_shell_module_shutdown (EShellModule *shell_module)
 {
+	EShellModuleInfo *module_info;
+
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), TRUE);
 
-	if (shell_module->priv->info.shutdown != NULL)
-		return shell_module->priv->info.shutdown ();
+	module_info = &shell_module->priv->info;
+
+	if (module_info->shutdown != NULL)
+		return module_info->shutdown (shell_module);
 
 	return TRUE;
 }
@@ -271,11 +271,15 @@ gboolean
 e_shell_module_handle_uri (EShellModule *shell_module,
                            const gchar *uri)
 {
+	EShellModuleInfo *module_info;
+
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 
-	if (shell_module->priv->info.handle_uri != NULL)
-		return shell_module->priv->info.handle_uri (uri);
+	module_info = &shell_module->priv->info;
+
+	if (module_info->handle_uri != NULL)
+		return module_info->handle_uri (shell_module, uri);
 
 	return FALSE;
 }
@@ -283,37 +287,55 @@ e_shell_module_handle_uri (EShellModule *shell_module,
 void
 e_shell_module_send_and_receive (EShellModule *shell_module)
 {
+	EShellModuleInfo *module_info;
+
 	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
 
-	if (shell_module->priv->info.send_and_receive != NULL)
-		shell_module->priv->info.send_and_receive ();
+	module_info = &shell_module->priv->info;
+
+	if (module_info->send_and_receive != NULL)
+		module_info->send_and_receive (shell_module);
 }
 
 void
 e_shell_module_window_created (EShellModule *shell_module,
                                EShellWindow *shell_window)
 {
+	EShellModuleInfo *module_info;
+
 	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	if (shell_module->priv->info.window_created != NULL)
-		shell_module->priv->info.window_created (shell_window);
+	module_info = &shell_module->priv->info;
+
+	if (module_info->window_created != NULL)
+		module_info->window_created (shell_module, shell_window);
 }
 
 void
 e_shell_module_set_info (EShellModule *shell_module,
                          const EShellModuleInfo *info)
 {
+	GTypeModule *module;
+	EShellModuleInfo *module_info;
+
 	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
 	g_return_if_fail (info != NULL);
 
-	shell_module->priv->info.sort_order = info->sort_order;
-	shell_module->priv->info.aliases = g_intern_string (info->aliases);
-	shell_module->priv->info.schemes = g_intern_string (info->schemes);
-	shell_module->priv->info.shell_view_type = info->shell_view_type;
+	module = G_TYPE_MODULE (shell_module);
+	module_info = &shell_module->priv->info;
 
-	shell_module->priv->info.is_busy = info->is_busy;
-	shell_module->priv->info.shutdown = info->shutdown;
-	shell_module->priv->info.send_and_receive = info->send_and_receive;
-	shell_module->priv->info.window_created = info->window_created;
+	/* A module name is required. */
+	g_return_if_fail (info->name != NULL);
+	module_info->name = g_intern_string (info->name);
+	g_type_module_set_name (module, module_info->name);
+
+	module_info->aliases = g_intern_string (info->aliases);
+	module_info->schemes = g_intern_string (info->schemes);
+	module_info->sort_order = info->sort_order;
+
+	module_info->is_busy = info->is_busy;
+	module_info->shutdown = info->shutdown;
+	module_info->send_and_receive = info->send_and_receive;
+	module_info->window_created = info->window_created;
 }

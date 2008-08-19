@@ -22,6 +22,7 @@
 
 #include <glib/gi18n.h>
 #include <e-preferences-window.h>
+#include <e-util/e-util.h>
 
 #include "e-shell-module.h"
 #include "e-shell-registry.h"

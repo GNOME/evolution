@@ -799,12 +799,10 @@ action_shell_view_cb (GtkRadioAction *action,
                       GtkRadioAction *current,
                       EShellWindow *window)
 {
-	gint value;
+	const gchar *view_name;
 
-	if (action != current)
-		return;
-
-	value = gtk_radio_action_get_current_value (action);
+	view_name = g_object_get_data (G_OBJECT (current), "view-name");
+	e_shell_window_set_current_view (window, view_name);
 }
 
 static void
@@ -1188,6 +1186,77 @@ static GtkRadioActionEntry shell_switcher_style_entries[] = {
 	  -1 }
 };
 
+static gint
+shell_window_compare_actions (GtkAction *action1,
+                              GtkAction *action2)
+{
+	gchar *label1, *label2;
+	gint result;
+
+	/* XXX This is really inefficient, but we're only sorting
+	 *     a small number of actions (repeatedly, though). */
+
+	g_object_get (action1, "label", &label1, NULL);
+	g_object_get (action2, "label", &label2, NULL);
+
+	result = g_utf8_collate (label1, label2);
+
+	g_free (label1);
+	g_free (label2);
+
+	return result;
+}
+
+static void
+shell_window_extract_actions (EShellWindow *window,
+                              GList **source_list,
+                              GList **destination_list)
+{
+	const gchar *current_view;
+	GList *match_list = NULL;
+	GList *iter;
+
+	/* Pick out the actions from the source list that are tagged
+	 * as belonging to the current EShellView and move them to the
+	 * destination list. */
+
+	current_view = e_shell_window_get_current_view (window);
+
+	/* Example: Suppose [A] and [C] are tagged for this EShellView.
+	 *
+	 *        source_list = [A] -> [B] -> [C]
+	 *                       ^             ^
+	 *                       |             |
+	 *         match_list = [ ] --------> [ ]
+	 *
+	 *  
+	 *   destination_list = [1] -> [2]  (other actions)
+	 */
+	for (iter = *source_list; iter != NULL; iter = iter->next) {
+		GtkAction *action = iter->data;
+		const gchar *view_name;
+
+		view_name = g_object_get_data (
+			G_OBJECT (action), "view-name");
+
+		if (view_name != current_view)
+			continue;
+
+		match_list = g_list_append (match_list, iter);
+	}
+
+	/* source_list = [B]   match_list = [A] -> [C] */
+	for (iter = match_list; iter != NULL; iter = iter->next) {
+		GList *link = iter->data;
+
+		iter->data = link->data;
+		*source_list = g_list_delete_link (*source_list, link);
+	}
+
+	/* destination_list = [1] -> [2] -> [A] -> [C] */
+	*destination_list = g_list_concat (*destination_list, match_list);
+}
+
 void
 e_shell_window_actions_init (EShellWindow *window)
 {
@@ -1231,20 +1300,91 @@ e_shell_window_actions_init (EShellWindow *window)
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 }
 
+GtkWidget *
+e_shell_window_create_new_menu (EShellWindow *window)
+{
+	GtkActionGroup *action_group;
+	GList *new_item_actions;
+	GList *new_source_actions;
+	GList *iter, *list = NULL;
+	GtkWidget *menu;
+	GtkWidget *separator;
+
+	/* Get sorted lists of "new item" and "new source" actions. */
+
+	action_group = window->priv->new_item_actions;
+
+	new_item_actions = g_list_sort (
+		gtk_action_group_list_actions (action_group),
+		(GCompareFunc) shell_window_compare_actions);
+
+	action_group = window->priv->new_source_actions;
+
+	new_source_actions = g_list_sort (
+		gtk_action_group_list_actions (action_group),
+		(GCompareFunc) shell_window_compare_actions);
+
+	/* Give priority to actions that belong to this shell view. */
+
+	shell_window_extract_actions (
+		window, &new_item_actions, &list);
+
+	shell_window_extract_actions (
+		window, &new_source_actions, &list);
+
+	/* Convert the actions to menu item proxy widgets. */
+
+	for (iter = list; iter != NULL; iter = iter->next)
+		iter->data = gtk_action_create_menu_item (iter->data);
+
+	for (iter = new_item_actions; iter != NULL; iter = iter->next)
+		iter->data = gtk_action_create_menu_item (iter->data);
+
+	for (iter = new_source_actions; iter != NULL; iter = iter->next)
+		iter->data = gtk_action_create_menu_item (iter->data);
+
+	/* Add menu separators. */
+
+	separator = gtk_separator_menu_item_new ();
+	new_item_actions = g_list_prepend (new_item_actions, separator);
+
+	separator = gtk_separator_menu_item_new ();
+	new_source_actions = g_list_prepend (new_source_actions, separator);
+
+	/* Merge everything into one list, reflecting the menu layout. */
+
+	list = g_list_concat (list, new_item_actions);
+	new_item_actions = NULL;    /* just for clarity */
+
+	list = g_list_concat (list, new_source_actions);
+	new_source_actions = NULL;  /* just for clarity */
+
+	/* And finally, build the menu. */
+
+	menu = gtk_menu_new ();
+
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), iter->data);
+
+	g_list_free (list);
+
+	return menu;
+}
+
 void
 e_shell_window_create_shell_view_actions (EShellWindow *window)
 {
-	GType *types;
+	GType *children;
 	GSList *group = NULL;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
-	guint n_types, ii;
+	guint n_children, ii;
 	guint merge_id;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (window));
 
 	action_group = window->priv->shell_view_actions;
-	types = e_shell_registry_get_view_types (&n_types);
+	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
 	manager = e_shell_window_get_ui_manager (window);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
@@ -1252,22 +1392,31 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 	 * subclasses and register them with our ESidebar.  These actions
 	 * are manifested as switcher buttons and View->Window menu items. */
 
-	for (ii = 0; ii < n_types; ii++) {
+	for (ii = 0; ii < n_children; ii++) {
 		EShellViewClass *class;
 		GtkRadioAction *action;
-		const gchar *type_name;
+		const gchar *view_name;
 		gchar *action_name;
 		gchar *tooltip;
 
-		class = g_type_class_ref (types[ii]);
-		type_name = g_type_name (types[ii]);
+		class = g_type_class_ref (children[ii]);
 
 		if (class->label == NULL) {
-			g_critical ("Label member not set on %s", type_name);
+			g_critical (
+				"Label member not set on %s",
+				G_OBJECT_CLASS_NAME (class));
 			continue;
 		}
 
-		action_name = g_strdup_printf ("shell-view-%s", type_name);
+		if (class->module == NULL) {
+			g_critical (
+				"Module member not set on %s",
+				G_OBJECT_CLASS_NAME (class));
+			continue;
+		}
+
+		view_name = class->module->name;
+		action_name = g_strdup_printf ("shell-view-%s", view_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
 
 		/* Note, we have to set "icon-name" separately because
@@ -1282,9 +1431,20 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 			G_OBJECT (action),
 			"icon-name", class->icon_name, NULL);
 
-		g_signal_connect (
-			action, "changed",
-			G_CALLBACK (action_shell_view_cb), window);
+		g_object_set_data (
+			G_OBJECT (action),
+			"view-name", (gpointer) view_name);
+
+		if (group == NULL) {
+
+			/* First view is the default. */
+			window->priv->default_view = view_name;
+
+			/* Only listen to the first action. */
+			g_signal_connect (
+				action, "changed",
+				G_CALLBACK (action_shell_view_cb), window);
+		}
 
 		gtk_radio_action_set_group (action, group);
 		group = gtk_radio_action_get_group (action);
@@ -1308,5 +1468,5 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 		g_type_class_unref (class);
 	}
 
-	g_free (types);
+	g_free (children);
 }

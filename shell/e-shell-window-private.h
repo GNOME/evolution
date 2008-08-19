@@ -61,7 +61,9 @@ struct _EShellWindowPrivate {
 
 	/*** Shell Views ***/
 
-	GPtrArray *shell_views;
+	GHashTable *loaded_views;
+	const gchar *current_view;
+	const gchar *default_view;
 
 	/*** Widgetry ***/
 
@@ -89,6 +91,7 @@ void		e_shell_window_private_finalize	(EShellWindow *window);
 /* Private Utilities */
 
 void		e_shell_window_actions_init	(EShellWindow *window);
+GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *window);
 void		e_shell_window_create_shell_view_actions
 						(EShellWindow *window);
 

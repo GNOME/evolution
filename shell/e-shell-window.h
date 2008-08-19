@@ -22,7 +22,6 @@
 #define E_SHELL_WINDOW_H
 
 #include "e-shell-common.h"
-#include "e-shell-view.h"
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_WINDOW \
@@ -60,17 +59,33 @@ struct _EShellWindowClass {
 
 GType		e_shell_window_get_type		(void);
 GtkWidget *	e_shell_window_new		(gboolean safe_mode);
-GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *window);
-GtkAction *	e_shell_window_get_action	(EShellWindow *window,
+GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
+GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,
 						 const gchar *action_name);
-GtkActionGroup *e_shell_window_get_action_group	(EShellWindow *window,
+GtkActionGroup *e_shell_window_get_action_group	(EShellWindow *shell_window,
 						 const gchar *group_name);
 GtkWidget *	e_shell_window_get_managed_widget
-						(EShellWindow *window,
+						(EShellWindow *shell_window,
 						 const gchar *widget_path);
-gboolean	e_shell_window_get_safe_mode	(EShellWindow *window);
-void		e_shell_window_set_safe_mode	(EShellWindow *window,
+const gchar *	e_shell_window_get_current_view	(EShellWindow *shell_window);
+void		e_shell_window_set_current_view (EShellWindow *shell_window,
+						 const gchar *name_or_alias);
+gboolean	e_shell_window_get_safe_mode	(EShellWindow *shell_window);
+void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
+
+/* These should be called from the shell module's window_created() method. */
+
+void		e_shell_window_register_new_item_actions
+						(EShellWindow *shell_window,
+						 const gchar *module_name,
+						 const GtkActionEntry *entries,
+						 guint n_entries);
+void		e_shell_window_register_new_source_actions
+						(EShellWindow *shell_window,
+						 const gchar *module_name,
+						 const GtkActionEntry *entries,
+						 guint n_entries);
 
 G_END_DECLS
 

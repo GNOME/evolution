@@ -22,15 +22,16 @@
 
 #include "e-test-shell-view.h"
 
-#define MODULE_SORT_ORDER	100
-#define MODULE_ALIASES		"test"
+#define MODULE_NAME		"test"
+#define MODULE_ALIASES		"monkey"
 #define MODULE_SCHEMES		""
+#define MODULE_SORT_ORDER	100
 
 /* Module Entry Point */
 void e_shell_module_init (GTypeModule *module);
 
 static gboolean
-test_module_is_busy (void)
+test_module_is_busy (EShellModule *shell_module)
 {
 	g_debug ("%s", G_STRFUNC);
 
@@ -38,7 +39,7 @@ test_module_is_busy (void)
 }
 
 static gboolean
-test_module_shutdown (void)
+test_module_shutdown (EShellModule *shell_module)
 {
 	g_debug ("%s", G_STRFUNC);
 
@@ -46,7 +47,8 @@ test_module_shutdown (void)
 }
 
 static gboolean
-test_module_handle_uri (const gchar *uri)
+test_module_handle_uri (EShellModule *shell_module,
+                        const gchar *uri)
 {
 	g_debug ("%s (uri=%s)", G_STRFUNC, uri);
 
@@ -54,23 +56,24 @@ test_module_handle_uri (const gchar *uri)
 }
 
 static void
-test_module_send_and_receive (void)
+test_module_send_and_receive (EShellModule *shell_module)
 {
 	g_debug ("%s", G_STRFUNC);
 }
 
 static void
-test_module_window_created (EShellWindow *window)
+test_module_window_created (EShellModule *shell_module,
+                            EShellWindow *shell_window)
 {
-	g_debug ("%s (window=%p)", G_STRFUNC, window);
+	g_debug ("%s (window=%p)", G_STRFUNC, shell_window);
 }
 
 static EShellModuleInfo module_info = {
 
-	MODULE_SORT_ORDER,
+	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	G_TYPE_INVALID,
+	MODULE_SORT_ORDER,
 
 	/* Methods */
 	test_module_is_busy,
@@ -83,7 +86,6 @@ static EShellModuleInfo module_info = {
 void
 e_shell_module_init (GTypeModule *module)
 {
-	g_type_module_set_name (module, "name");
-	module_info.shell_view_type = e_test_shell_view_get_type (module);
+	e_test_shell_view_get_type (module);
 	e_shell_module_set_info (E_SHELL_MODULE (module), &module_info);
 }

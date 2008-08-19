@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 void		e_shell_registry_init			(void);
 GList *		e_shell_registry_list_modules		(void);
-GType *		e_shell_registry_get_view_types		(guint *n_types);
+const gchar *	e_shell_registry_get_canonical_name	(const gchar *name);
 EShellModule *	e_shell_registry_get_module_by_name	(const gchar *name);
 EShellModule *	e_shell_registry_get_module_by_scheme	(const gchar *scheme);
 
