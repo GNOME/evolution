@@ -118,43 +118,6 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 
 
 /********************************************************************************************************************/
-/* the location field for google sources */
-/* stolen from calendar-weather eplugin */
-static gchar *
-print_uri_noproto (EUri *uri)
-{
-	gchar *uri_noproto;
-
-	if (uri->port != 0)
-		uri_noproto = g_strdup_printf (
-			"%s%s%s%s%s%s%s:%d%s%s%s",
-			uri->user ? uri->user : "",
-			uri->authmech ? ";auth=" : "",
-			uri->authmech ? uri->authmech : "",
-			uri->passwd ? ":" : "",
-			uri->passwd ? uri->passwd : "",
-			uri->user ? "@" : "",
-			uri->host ? uri->host : "",
-			uri->port,
-			uri->path ? uri->path : "",
-			uri->query ? "?" : "",
-			uri->query ? uri->query : "");
-	else
-		uri_noproto = g_strdup_printf (
-			"%s%s%s%s%s%s%s%s%s%s",
-			uri->user ? uri->user : "",
-			uri->authmech ? ";auth=" : "",
-			uri->authmech ? uri->authmech : "",
-			uri->passwd ? ":" : "",
-			uri->passwd ? uri->passwd : "",
-			uri->user ? "@" : "",
-			uri->host ? uri->host : "",
-			uri->path ? uri->path : "",
-			uri->query ? "?" : "",
-			uri->query ? uri->query : "");
-	return uri_noproto;
-}
-
 #if 0
 
 FIXME: Not sure why this function is declared but called no where. This needs fixing.
@@ -264,21 +227,8 @@ static void init_combo_values (GtkComboBox *combo, const char *deftitle, const c
 static void
 user_changed (GtkEntry *editable, ESource *source)
 {
-	EUri       *euri;
 	char       *uri;
-	char       *ruri;
 	const char *user;
-
-	uri = e_source_get_uri (source);
-
-	if (uri == NULL) {
-		g_free (uri);
-		return;
-	}
-
-	euri = e_uri_new (uri);
-	g_free (euri->user);
-	euri->user = NULL;
 
 	/* two reasons why set readonly to FALSE:
 	   a) the e_source_set_relative_uri does nothing for readonly sources
@@ -290,7 +240,7 @@ user_changed (GtkEntry *editable, ESource *source)
 	e_source_set_relative_uri (source, uri);
 	g_free (uri);
 
-	e_source_set_property (source, "username", gtk_entry_get_text (GTK_ENTRY (editable)));
+	e_source_set_property (source, "username", user);
 	e_source_set_property (source, "protocol", "google");
 	e_source_set_property (source, "auth-domain", "google");
 	e_source_set_property (source, "auth", (user && *user) ? "1" : NULL);
@@ -299,10 +249,6 @@ user_changed (GtkEntry *editable, ESource *source)
 	/* we changed user, thus reset the chosen calendar combo too, because
 	   other user means other calendars subscribed */
 	init_combo_values (GTK_COMBO_BOX (g_object_get_data (G_OBJECT (editable), "CalendarCombo")), _("Default"), NULL);
-
-	ruri = print_uri_noproto (euri);
-	g_free (ruri);
-	e_uri_free (euri);
 }
 
 static char *
@@ -623,7 +569,7 @@ plugin_google  (EPlugin                    *epl,
 	GtkWidget    *label;
 	GtkWidget    *combo;
 	char         *uri;
-	char         *username;
+	const char   *username;
 	const char   *ssl_prop;
 	gboolean      ssl_enabled;
 	int           row;
@@ -651,7 +597,8 @@ plugin_google  (EPlugin                    *epl,
 		return NULL;
 	}
 
-	username = euri->user;
+	username = e_source_get_property (source, "username");
+	g_free (euri->user);
 	euri->user = NULL;
 	uri = e_uri_to_string (euri, FALSE);
 
@@ -742,7 +689,6 @@ plugin_google  (EPlugin                    *epl,
 			  source);
 
         g_free (uri);
-	g_free (username);
 
 	label = gtk_label_new_with_mnemonic (_("Cal_endar:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
