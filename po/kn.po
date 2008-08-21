@@ -1,4 +1,4 @@
-# translation of evolution.HEAD.kn.po to Kannada
+# translation of kn.po to Kannada
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -6,10 +6,10 @@
 # Shankar Prasad <svenkate@redhat.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.kn\n"
+"Project-Id-Version: kn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-18 05:19+0000\n"
-"PO-Revision-Date: 2008-08-18 12:44+0530\n"
+"POT-Creation-Date: 2008-08-18 07:19+0000\n"
+"PO-Revision-Date: 2008-08-21 17:51+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -339,7 +339,7 @@ msgstr "ಸಕ್ರಿಯಗೊಳಿಸು"
 msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
-msgstr ""
+msgstr "'{0}' ಒಂದು ಓದಲು ಮಾತ್ರವಾದಂತಹ ವಿಳಾಸಪುಸ್ತಕವಾಗಿದ್ದು ಅದನ್ನು ನೀವು ಮಾರ್ಪಡಿಸುವಂತಿಲ್ಲ. ದಯವಿಟ್ಟು ಅಂಚಿನಲ್ಲಿರುವ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಸಂಪರ್ಕಗಳ ನೋಟದಿಂದ ಬೇರೊಂದು ವಿಳಾಸಪುಸ್ತಕವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -414,7 +414,7 @@ msgstr "ಸಂಪರ್ಕವಿಳಾಸವನ್ನು ಅಳಿಸಿ ಹಾ�
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "GroupWise Address book creation:"
-msgstr "ಸಮೂಹಕ್ರಮದಲ್ಲಿ ವಿಳಾಸ ಪುಸ್ತಕದ ರಚನೆ:"
+msgstr "ಸಮೂಹಕ್ರಮದ ವಿಳಾಸ ಪುಸ್ತಕದ ರಚನೆ:"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
@@ -566,7 +566,7 @@ msgstr "ವಿಳಾಸಪುಸ್ತಕವನ್ನು ಲೋಡ್ ಮಾಡ�
 #: ../addressbook/conduit/address-conduit.c:1398
 #: ../addressbook/conduit/address-conduit.c:1401
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "ಪೈಲಟ್‌ನ ವಿಳಾಸ ಅನ್ವಯ ಬ್ಲಾಕ್ ಅನ್ನು ಓದಲಾಗಿಲ್ಲ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -4068,7 +4068,7 @@ msgstr "ಕೇವಲ csv ಅಥವ ವಿಕಾರ್ಡ್ ವಿನ್ಯಾ�
 
 #: ../addressbook/tools/evolution-addressbook-export.c:125
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "ಎಸಿಂಕ್(async) ಕ್ರಮದಲ್ಲಿ, ಔಟ್‌ಪುಟ್ ಒಂದು ಕಡತವಾಗಿರಬೇಕು."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:133
 msgid "In normal mode, there is no need for the size option."
@@ -4083,14 +4083,14 @@ msgstr "ನಿಭಾಯಿಸದ ದೋಷ"
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
-msgstr ""
+msgstr "'{0}' ಒಂದು ಓದಲು ಮಾತ್ರವಾಗಿರುವ ಕ್ಯಾಲೆಂಡರ್ ಆಗಿದ್ದು ಅದನ್ನು ಮಾರ್ಪಡಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಅಂಚಿನ ಪಟ್ಟಿಯಲ್ಲಿನ ಕ್ಯಾಲೆಂಡರ್ ನೋಟದಿಂದ ಬೇರೊಂದು ಕ್ಯಾಲೆಂಡರನ್ನು ಆರಿಸಿ."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
-msgstr ""
+msgstr "'{0}' ಒಂದು ಓದಲು ಮಾತ್ರವಾಗಿರುವ ಕ್ಯಾಲೆಂಡರ್ ಆಗಿದ್ದು ಅದನ್ನು ಮಾರ್ಪಡಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಅಪಾಯಿಂಟ್‌ಮೆಂಟುಗಳನ್ನು ಅಂಗೀಕರಿಸುವ ಬೇರೊಂದು ಕ್ಯಾಲೆಂಡರನ್ನು ಆರಿಸಿ."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
@@ -4128,7 +4128,9 @@ msgstr "ಈ ಕಾರ್ಯಗಳಲ್ಲಿನ ಎಲ್ಲಾ ಮಾಹಿತ
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr "ಈ ಅಪಾಯಿಂಟ್‍ಮೆಂಟ್‍ನಲ್ಲಿನ ಎಲ್ಲಾ ಮಾಹಿತಿಗಳು ಅಳಿಸಲಾಗುತ್ತದೆ ಹಾಗೂ ಎಂದಿಗೂ ಮರಳಿ ಪಡೆಯಲು ಆಗುವುದಿಲ್ಲ."
+msgstr ""
+"ಈ ಅಪಾಯಿಂಟ್‍ಮೆಂಟ್‍ನಲ್ಲಿನ ಎಲ್ಲಾ ಮಾಹಿತಿಗಳು ಅಳಿಸಲಾಗುತ್ತದೆ ಹಾಗೂ ಎಂದಿಗೂ ಮರಳಿ ಪಡೆಯಲು "
+"ಆಗುವುದಿಲ್ಲ."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "All information on this meeting will be deleted and can not be restored."
@@ -5344,7 +5346,7 @@ msgstr "ಲಗತ್ತುಗಳು"
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 #: ../calendar/gui/tasktypes.xml.h:7
 msgid "Attendee"
-msgstr "ಭಾಗವಹಿಸುವವರು"
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರು"
 
 #: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/memotypes.xml.h:6
 #: ../calendar/gui/tasktypes.xml.h:9
@@ -8106,7 +8108,7 @@ msgstr ""
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:491
 msgid "Attendee                          "
-msgstr "ಭಾಗವಹಿಸುವವರು                          "
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರು                          "
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/e-meeting-list-view.c:533
@@ -14881,15 +14883,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:1
 msgid "A folder named \"{0}\" already exists. Please use a different name."
-msgstr ""
-"\"{0}\" ಎಂಬ ಹೆಸರಿನ ಕೋಶವು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ಬೇರೊಂದು "
-"ಹೆಸರನ್ನು ಬಳಸಿ."
+msgstr "\"{0}\" ಎಂಬ ಹೆಸರಿನ ಕೋಶವು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ಬೇರೊಂದು ಹೆಸರನ್ನು ಬಳಸಿ."
 
 #: ../mail/mail.error.xml.h:2
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr ""
-"\"{1}\" ಎಂಬ ಹೆಸರಿನ ಕೋಶವು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ಬೇರೊಂದು "
-"ಹೆಸರನ್ನು ಬಳಸಿ."
+msgstr "\"{1}\" ಎಂಬ ಹೆಸರಿನ ಕೋಶವು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ಬೇರೊಂದು ಹೆಸರನ್ನು ಬಳಸಿ."
 
 #: ../mail/mail.error.xml.h:3
 msgid ""
@@ -16972,7 +16970,7 @@ msgstr "ಬೇರೊಂದು ಗುಪ್ತಪದದಿಂದ ಪುನಃ ಪ
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 msgid "Unable to add user to access control list:"
-msgstr ""
+msgstr "ನಿಲುಕಣಾ ನಿಯಂತ್ರಣ ಪಟ್ಟಿಗೆ ಬಳಕೆದಾರನನ್ನು ಸೇರಿಸಲಾಗಿಲ್ಲ:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "Unable to edit delegates."
@@ -16989,7 +16987,7 @@ msgstr "ಗೊತ್ತಿರದ ದೋಷ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 msgid "Unknown type"
-msgstr ""
+msgstr "ಗೊತ್ತಿರದ ಬಗೆ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "Unsupported operation"
@@ -16997,63 +16995,63 @@ msgstr "ಬೆಂಬಲವಿಲ್ಲದ ಕಾರ್ಯಾಚರಣೆ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid "You are nearing your quota available for storing mail on this server."
-msgstr ""
+msgstr "ಈ ಪರಿಚಾರಕದಲ್ಲಿ ಮೈಲ್ ಅನ್ನು ಶೇಖರಿಸಿಡುವ ನಿಮ್ಮ ಕೋಟಾದ ಮಿತಿಯನ್ನು ಸಮೀಪಿಸುತ್ತಿದ್ದೀರಿ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid ""
 "You are permitted to send a message on behalf of only one delegator at a "
 "time."
-msgstr ""
+msgstr "ನೀವು ಒಂದು ಬಾರಿಗೆ ಕೇವಲ ಒಬ್ಬ ಡೆಲಿಗೇಟರಿನ ಪರವಾಗಿ ಮಾತ್ರ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸು ಅನುಮತಿ ಇದೆ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid "You cannot make yourself your own delegate"
-msgstr ""
+msgstr "ನಿಮ್ಮನ್ನು ನೀವು ಸ್ವತಃ ಡೆಲಿಗೇಟ್ ಮಾಡುವಂತಿಲ್ಲ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
 msgid "You have exceeded your quota for storing mail on this server."
-msgstr ""
+msgstr "ಈ ಪರಿಚಾರಕದಲ್ಲಿ ಮೈಲ್ ಅನ್ನು ಶೇಖರಿಸಿಡುವ ನಿಮ್ಮ ಕೋಟಾವನ್ನು ಮೀರಿದ್ದೀರಿ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "You may only configure a single Exchange account."
-msgstr ""
+msgstr "ನೀವು ಕೇವಲ ಒಂದು ಎಕ್ಸ್‍ಚೇಂಜ್ ಖಾತೆಯನ್ನು ಸಂರಚಿಸಬಹುದಾಗಿದೆ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
-msgstr ""
+msgstr "ನಿಮ್ಮ ಸದ್ಯದ ಬಳಕೆಯು: {0} ಕೆಬಿ ಆಗಿದೆ. ನೀವು ಕೆಲವು ಮೈಲ್‌ಗಳನ್ನು ಅಳಿಸಿಹಾಕಿ ಒಂದಿಷ್ಟು ಜಾಗವನ್ನು ತೆರವುಗೊಳಿಸಲು ಪ್ರಯತ್ನಿಸಿ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr ""
+msgstr "ನಿಮ್ಮ ಸದ್ಯದ ಬಳಕೆಯು: {0} ಕೆಬಿ ಆಗಿದೆ. ನೀವು ಈಗ ಯಾವುದೆ ಮೈಲನ್ನು ಕಳುಹಿಸಲು ಅಥವ ಪಡೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
-msgstr ""
+msgstr "ನಿಮ್ಮ ಸದ್ಯದ ಬಳಕೆಯು: {0} ಕೆಬಿ ಆಗಿದೆ. ನೀವು ಕೆಲವು ಮೈಲ್‌ಗಳನ್ನು ಅಳಿಸಿಹಾಕಿ ಒಂದಿಷ್ಟು ಜಾಗವನ್ನು ತೆರವುಗೊಳಿಸದ ಹೊರತು ಯಾವುದೆ ಮೈಲನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid "Your password has expired."
-msgstr ""
+msgstr "ನಿಮ್ಮ ಗುಪ್ತಪದದ ವಾಯಿದೆ ಪೂರ್ಣಗೊಂಡಿದೆ."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:83
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "{0} ಅನ್ನು ಒಂದು ನಿಲುಕಣಾ ನಿಯಂತ್ರಣ ಪಟ್ಟಿಗೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:84
 msgid "{0} is already a delegate"
-msgstr ""
+msgstr "{0} ಈಗಾಗಲೆ ಒಬ್ಬ ಡೆಲಿಗೇಟ್ ಆಗಿದ್ದಾರೆ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:85
 msgid "{0} is already in the list"
-msgstr ""
+msgstr "{0} ಈಗಾಗಲೆ ಪಟ್ಟಿಯಲ್ಲಿದ್ದಾರೆ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
-msgstr ""
+msgstr "ಇತರೆ ಬಳಕೆದಾರರ ಕೆಲಸಗಳಿಗೆ ಚಂದಾದಾರನಾಗು"
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
@@ -17065,13 +17063,15 @@ msgstr "ಡೀಫಾಲ್ಟ್‍ ಹೊರಗಿನ ಸಂಪಾದಕ"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "ಸಂಪಾದಕವಾಗಿ ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್ ಆಜ್ಞೆ."
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
 msgstr ""
+"ಹೊರಗಿನ ಸಂಪಾದಕವನ್ನು ಒಂದು ಕಂಪೋಸರ್ ಆಗಿ ಬಳಸಲು ಒಂದು ಪ್ಲಗ್ಇನ್. ನೀವು ಸರಳ-ಪಠ್ಯ ಸಂದೇಶಗಳನ್ನು "
+"ಮಾತ್ರ ಕಳುಹಿಸಬಹುದಾಗಿದೆ."
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -17084,19 +17084,19 @@ msgstr "ತಾತ್ಕಾಲಿಕ ಕಡತವನ್ನು ನಿರ್ಮಿ�
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:2
 msgid "Editor not launchable"
-msgstr ""
+msgstr "ಸಂಪಾದಕವನ್ನು ಆರಂಭಿಸಲಾಗುವುದಿಲ್ಲ"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:3
 msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
-msgstr ""
+msgstr "ನಿಮ್ಮ ಮೈಲನ್ನು ಉಳಿಸಲು ಒಂದು ತಾತ್ಕಾಲಿಕ ಕಡತವನ್ನು ರಚಿಸಲು ಎವಲ್ಯೂಶನ್‌ಗೆ ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr ""
+msgstr "ನಿಮ್ಮ ಪ್ಲಗ್ಇನ್ ಆದ್ಯತೆಗಳಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಹೊರಗಿನ ಸಂಪಾದಕವನ್ನು ಆರಂಭಿಸಲಾಗುವುದಿಲ್ಲ. ಬೇರೊಂದು ಸಂಪಾದಕವನ್ನು ಸಿದ್ಧಗೊಳಿಸಿ ಪ್ರಯತ್ನಿಸಿ."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in _External Editor"
@@ -17104,21 +17104,23 @@ msgstr "ಹೊರಗಿನ ಸಂಪಾದಕದಲ್ಲಿ ಬರೆ"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "ಒಂದು ಹೊರಗಿನ ಸಂಪಾದಕವನ್ನು ಬಳಸಿಕೊಂಡು ಸಂದೇಶಗಳನ್ನು ರಚಿಸಿ"
 
 #: ../plugins/external-editor/external-editor.c:91
 msgid "Command to be executed to launch the editor: "
-msgstr ""
+msgstr "ಸಂಪಾದಕವನ್ನು ಆರಂಭಿಸಲು ಕಾರ್ಯಗತಗೊಳಿಸಬೇಕಿರುವ ಆಜ್ಞೆ: "
 
 #: ../plugins/external-editor/external-editor.c:92
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim\""
 msgstr ""
+"ಎಮಾಕ್ಸಿಗಾಗಿ \"xemacs\" ಅನ್ನು ಬಳಸಿ\n"
+"VI ಗೆ \"gvim\" ಅನ್ನು ಬಳಸಿ"
 
 #: ../plugins/face/face.c:58
 msgid "Select a (48*48) png of size < 700bytes"
-msgstr ""
+msgstr "ಒಂದು (48*48) png ಗಾತ್ರವನ್ನು ಆರಿಸು < 700ಬೈಟುಗಳು"
 
 #: ../plugins/face/face.c:68
 msgid "PNG files"
@@ -17142,7 +17144,7 @@ msgstr "ಚಹರೆ"
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:56
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr ""
+msgstr "ಕಡತಕೋಶ \"%s\" ದ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
@@ -17150,11 +17152,11 @@ msgstr ""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
-msgstr ""
+msgstr "ಕಡತಕೋಶಗಳಿಗೆ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು(_U)"
 
 #: ../plugins/google-account-setup/google-source.c:83
 #: ../plugins/google-account-setup/google-source.c:90
@@ -17171,7 +17173,7 @@ msgstr "ದಯವಿಟ್ಟು ಮೊದಲು ಬಳಕೆದಾರ ಹೆಸ
 #: ../plugins/google-account-setup/google-source.c:497
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr ""
+msgstr "ಚಂದಾದಾರನಾದ ಕ್ಯಾಲೆಂಡರುಗಳ ಪಟ್ಟಿಯನ್ನು ನಿಲುಕಿಸಿಕೊಳ್ಳಲು ಬಳಕೆದಾರ %s ಗಾಗಿ ಗುಪ್ತಪದವನ್ನು ನಮೂದಿಸು."
 
 #: ../plugins/google-account-setup/google-source.c:597
 #, c-format
@@ -17179,6 +17181,8 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
+"ಗೂಗಲ್ ಪರಿಚಾರಕದಿಂದ ಮಾಹಿತಿಯನ್ನು ಓದಲಾಗಿಲ್ಲ.\n"
+"%s"
 
 #: ../plugins/google-account-setup/google-source.c:747
 msgid "Cal_endar:"
@@ -17195,7 +17199,7 @@ msgstr "<b>ಪರಿಚಾರಕ</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "A plugin to setup google calendar and contacts."
-msgstr ""
+msgstr "ಗೂಗಲ್ ಕ್ಯಾಲೆಂಡರ್ ಹಾಗು ಸಂಪರ್ಕವಿಳಾಸಗಳನ್ನು ಸಿದ್ಧಪಡಿಸುವ ಒಂದು ಪ್ಲಗ್ಇನ್."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -17203,15 +17207,15 @@ msgstr "ಗೂಗಲ್"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
 msgid "Checklist"
-msgstr ""
+msgstr "ತಾಳೆಪಟ್ಟಿ"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "A plugin to setup groupwise calendar and contacts sources."
-msgstr ""
+msgstr "ಗುಂಪುಆಧರಿತ ಕ್ಯಾಲೆಂಡರ್ ಹಾಗು ಸಂಪರ್ಕ ಮೂಲಗಳನ್ನು ಸಿದ್ಧಗೊಳಿಸುವ ಒಂದು ಪ್ಲಗ್ಇನ್."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "Groupwise Account Setup"
-msgstr ""
+msgstr "ಗುಂಪುಆಧರಿತ ಖಾತೆಯ ಸಿದ್ಧಗೊಳಿಕೆ"
 
 #: ../plugins/groupwise-features/install-shared.c:219
 #, c-format
@@ -17227,14 +17231,24 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
+"ಬಳಕೆದಾರ '%s' ನಿಮ್ಮೊಂದಿಗೆ ಒಂದು ಕಡತಕೋಶವನ್ನು ಹಂಚಿಕೊಂಡಿದ್ದಾರೆ\n"
+"\n"
+"'%s' ಇಂದ ಬಂದ ಸಂದೇಶ\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"ಹಂಚಲಾದ ಕಡತವನ್ನು ಅನುಸ್ಥಾಪಿಸಲು 'ಮುಂದಕ್ಕೆ' ಅನ್ನು ಕ್ಲಿಕ್ಕಿಸಿ\n"
+"\n"
 
 #: ../plugins/groupwise-features/install-shared.c:224
 msgid "Install the shared folder"
-msgstr ""
+msgstr "ಹಂಚಲಾದ ಕಡತಕೋಶವನ್ನು ಅನುಸ್ಥಾಪಿಸು"
 
 #: ../plugins/groupwise-features/install-shared.c:226
 msgid "Shared Folder Installation"
-msgstr ""
+msgstr "ಹಂಚಲಾದ ಕಡತಕೋಶ ಅನುಸ್ಥಾಪನೆ"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:78
 msgid "Junk Settings"
@@ -17278,37 +17292,35 @@ msgstr "ಸಂದೇಶ ಹೆಡರ್"
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
-msgstr ""
+msgstr "ಸಂದೇಶವನ್ನು ಹಿಂದಕ್ಕೆ ಪಡೆದಾಗ ಅದನ್ನು ಕಳುಹಿಸಲಾದವರ ಮೈಲ್‌ಬಾಕ್ಸಿನಿಂದ ತೆಗೆದು ಹಾಕಲ್ಪಡಬಹುದು. ಹೀಗೆ ಮಾಡಬೇಕೆಂದು ನೀವು ಖಚಿತವೆ?"
 
 #: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
-msgstr ""
+msgstr "ಸಂದೇಶವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಹಿಂದಕ್ಕೆ ಪಡೆಯಲಾಯಿತು"
 
 #: ../plugins/groupwise-features/mail-retract.c:87
 msgid "Retract Mail"
-msgstr ""
+msgstr "ಮೈಲನ್ನು ಹಿಂಪಡೆ"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr ""
+msgstr "ಗುಂಪುಆಧರಿತವಾದ ಸಂದೇಶಗಳಿಗೆ ಕಳುಹಿಸವ ಆಯ್ಕೆಯನ್ನು ಸೇರಿಸಿ"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in Groupwise accounts."
-msgstr ""
+msgstr "ಗುಂಪುಆಧರಿತವಾದ ಖಾತೆಗಳಲ್ಲಿನ ಸವಲತ್ತುಗಳಿಗಾಗಿನ ಒಂದು ಪ್ಲಗ್ಇನ್."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "Groupwise Features"
-msgstr ""
+msgstr "ಗುಂಪುಆಧರಿತವಾದ ಸವಲತ್ತುಗಳು"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:1
-#, fuzzy
 msgid "Message retract failed"
-msgstr "ಸಂದೇಶ ಇದನ್ನು ಹೊಂದಿದೆ"
+msgstr "ಸಂದೇಶವನ್ನು ಹಿಂಪಡೆಯುವಲ್ಲಿ ವಿಫಲತೆ"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:2
-#, fuzzy
 msgid "The server did not allow the selected message to be retracted."
-msgstr "ಆಯ್ದ ಸಂದೇಶಗಳನ್ನು ಕಾರ್ಯಕ್ಕೆ ಬದಲಾಯಿಸು"
+msgstr "ಆಯ್ದ ಸಂದೇಶವನ್ನು ಹಿಂಪಡೆಯಲು ಪರಿಚಾರಕವು ಅನುಮತಿಸಿಲ್ಲ."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:1
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:3
@@ -17335,7 +17347,9 @@ msgstr "ಪ್ರಾಕ್ಸಿ ಹಕ್ಕುಗಳನ್ನು ನೀಡಲ�
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "&quot;{0}&quot; ಎಂಬ ಹೆಸರಿನ ಖಾತೆಯು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಕೋಶ ಟ್ರೀ ಅನ್ನು ಪರೀಕ್ಷಿಸಿ."
+msgstr ""
+"&quot;{0}&quot; ಎಂಬ ಹೆಸರಿನ ಖಾತೆಯು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಕೋಶ ಟ್ರೀ "
+"ಅನ್ನು ಪರೀಕ್ಷಿಸಿ."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
 msgid "Account Already Exists"
@@ -17345,7 +17359,9 @@ msgstr "ಖಾತೆಯು ಈಗಾಗಲೆ ಅಸ್ತಿತ್ವದಲ್�
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
-msgstr "&quot;{0}&quot; ಆಗಿ ಲಾಗಿನ್ ಆಗುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಮೈಲ್ ವಿಳಾಸವನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
+msgstr ""
+"&quot;{0}&quot; ಆಗಿ ಲಾಗಿನ್ ಆಗುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಮೈಲ್ ವಿಳಾಸವನ್ನು "
+"ಪರಿಶೀಲಿಸಿ ಹಾಗು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -17369,7 +17385,7 @@ msgstr "ನೀವು ಯಾರನ್ನು ಪಟ್ಟಿಗೆ ಸೇರಿಸ
 
 #: ../plugins/groupwise-features/process-meeting.c:49
 msgid "Accept Tentatively"
-msgstr ""
+msgstr "ತಾತ್ಕಾಲಿಕವಾಗಿ ಒಪ್ಪಿಕೊ"
 
 #: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
@@ -17390,11 +17406,11 @@ msgstr "ಸಂದೇಶ"
 
 #: ../plugins/groupwise-features/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "ಹಂಚಲ್ಪಟ್ಟ ಕಡತಕೋಶ ಸೂಚನೆಗಳು"
 
 #: ../plugins/groupwise-features/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr "ಭಾಗವಹಿಸು ಎಲ್ಲರೂ ಈ ಕೆಳಗಿನ ಸೂಚನೆಯನ್ನು ಪಡೆದುಕೊಳ್ಳುತ್ತಾರೆ.\n"
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವ ಎಲ್ಲರೂ ಈ ಕೆಳಗಿನ ಸೂಚನೆಯನ್ನು ಪಡೆದುಕೊಳ್ಳುತ್ತಾರೆ.\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Not Shared"
@@ -17434,15 +17450,15 @@ msgstr "ಖಾಸಗಿ ಎಂದು ಗುರುತು ಹಾಕಲಾದ ಅ�
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 msgid "Reminder Notes"
-msgstr ""
+msgstr "ಜ್ಞಾಪನಾ ಸೂಚನೆಗಳು"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 msgid "Subscribe to my _alarms"
-msgstr ""
+msgstr "ನನ್ನ ಅಲಾರಂಗಳಿಗೆ ಚಂದಾದಾರನಾಗಿಸು(_n)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 msgid "Subscribe to my _notifications"
-msgstr ""
+msgstr "ನನ್ನ ಸೂಚನೆಗಳಿಗೆ ಚಂದಾದಾರನಾಗಿಸು(_n)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 msgid "_Write"
@@ -17471,7 +17487,7 @@ msgstr "ಪ್ರಾಕ್ಸಿ ಪ್ರವೇಶ"
 #: ../plugins/groupwise-features/send-options.c:83
 #, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr ""
+msgstr "%s %s ಗಾಗಿ ಗುಪ್ತಪದವನ್ನು ನಮೂದಿಸಿ (ಬಳಕೆದಾರ %s)"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
 #. * feature by which one person can send/read mails/appointments using another person's identity
@@ -17572,7 +17588,7 @@ msgstr "ಸಂದೇಶದ ಸ್ಥಿತಿಯ ಜಾಡನ್ನು ಹಿಡ
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr ""
+msgstr "ಹುಲಾ(hula) ಕ್ಯಾಲೆಂಡರುಗಳನ್ನು ಸಿದ್ಧಗೊಳಿಸುವ ಒಂದು ಪ್ಲಗ್ಇನ್."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -17596,7 +17612,7 @@ msgstr "<b>IMAP ಹೆಡರುಗಳು</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr ""
+msgstr "ಮೂಲ ಹಾಗು ಮೈಲಿಂಗ ಲಿಸ್ಟ್ ಹೆಡರುಗಳು(_M)(ಡೀಫಾಲ್ಟ್)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
@@ -17622,6 +17638,8 @@ msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
+"ಮೂಲ ಹೆಡರುಗಳು(_B) - (ವೇಗವಾದ) \n"
+"ಮೈಲಿಂಗ್ ಲಿಸ್ಟುಗಳ ಆಧರಿತವಾದ ಫಿಲ್ಟರುಗಳು ನಿಮ್ಮಲ್ಲಿರದೆ ಹೋದಲ್ಲಿ ಇದನ್ನು ಬಳಸಿ"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "A plugin for the features in the IMAP accounts."
@@ -17667,13 +17685,13 @@ msgstr "ICS ಅಟ್ಯಾಚ್‌ಮೆಂಟುಗಳನ್ನು ಕ್ಯ�
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:34
 msgid "Hardware Abstraction Layer not loaded"
-msgstr ""
+msgstr "Hardware Abstraction Layer ಲೋಡ್ ಆಗಿಲ್ಲ"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:35
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
-msgstr ""
+msgstr "\"hald\" ಸೇವೆಯ ಅಗತ್ಯವಿದೆ ಆದರೆ ಈಗ ಅದು ಚಾಲನೆಯಲ್ಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಆ ಸೇವೆಯನ್ನು ಶಕ್ತಗೊಳಿಸಿ ಹಾಗು ಈ ಪ್ರೋಗ್ರಾಂ ಅನ್ನು ಮತ್ತೊಮ್ಮೆ ಚಲಾಯಿಸಿ, ಅಥವ ನಿಮ್ಮ ಗಣಕ ವ್ಯವಸ್ಥಾಪಕರನ್ನು ಸಂಪರ್ಕಿಸಿ."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:68
 msgid "Search for an iPod failed"
@@ -17683,7 +17701,7 @@ msgstr "ಒಂದು ಐಪಾಡ್‌ಗಾಗಿ ಹುಡುಕುವಲ್�
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
-msgstr ""
+msgstr "ಮೇಳೈಸಲು ಇವಲ್ಯೂಶನ್‌ಗೆ ಒಂದು ಐಪಾಡ್ ಕಂಡುಬಂದಿಲ್ಲ. ಒಂದೋ ಐಪಾಡ್ ಗಣಕಕ್ಕೆ ಸಂಪರ್ಕಗೊಂಡಿಲ್ಲ ಅಥವ ಅದನ್ನು ಆನ್ ಮಾಡಲಾಗಿಲ್ಲ."
 
 #: ../plugins/ipod-sync/ical-format.c:118
 #: ../plugins/save-calendar/ical-format.c:163
@@ -17692,15 +17710,15 @@ msgstr "ಐಕ್ಯಾಲೆಂಡರ್ ಫಾರ್ಮಾಟ್(.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
-msgstr ""
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಕಾರ್ಯ/ಮೆಮೊ/ಕ್ಯಾಲೆಂಡರ್/ವಿಳಾಸಪುಸ್ತಕವನ್ನು ಆಪಲ್‌ ಐಪಾಡಿನೊಂದಿಗೆ ಮೇಳೈಸು"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
-msgstr ""
+msgstr "ಐಪಾಡಿಗೆ ಮೇಳೈಸು"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
-msgstr ""
+msgstr "ಐಪಾಡಿಗೆ ಮೇಳೈಸುವಿಕೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:443
 #: ../plugins/itip-formatter/itip-formatter.c:568
@@ -17711,7 +17729,7 @@ msgstr "'%s' ಕ್ಯಾಲೆಂಡರನ್ನು ಲೋಡ್ ಮಾಡು�
 #: ../plugins/itip-formatter/itip-formatter.c:588
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr ""
+msgstr "'%s' ಕ್ಯಾಲೆಂಡರಿನಲ್ಲಿನ ಒಂದು ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ ಈ ಮೀಟಿಂಗಿಗೆ ತೊಡಕಾಗುತ್ತಿದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:614
 #, c-format
@@ -17755,7 +17773,7 @@ msgstr "'%s' ಕ್ಯಾಲೆಂಡರಿಗೆ ಕಳುಹಿಸಿದ್ದ
 #: ../plugins/itip-formatter/itip-formatter.c:1019
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr ""
+msgstr "ಕ್ಯಾಲೆಂಡರ್ '%s' ಅನ್ನು ತಾತ್ಕಾಲಿಕ ಎಂದು ಕಳುಹಿಸಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1024
 #, c-format
@@ -17770,28 +17788,28 @@ msgstr "'%s' ಕ್ಯಾಲೆಂಡರಿಗೆ ಕಳುಹಿಸಿದ್ದ
 #: ../plugins/itip-formatter/itip-formatter.c:1123
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "ವ್ಯವಸ್ಥಾಪಕರು ಪ್ರತಿನಿಧಿ %s ಅನ್ನು ತೆಗೆದು ಹಾಕಿದ್ದಾರೆ "
 
 #: ../plugins/itip-formatter/itip-formatter.c:1130
 msgid "Sent a cancelation notice to the delegate"
-msgstr ""
+msgstr "ಡೆಲಿಗೇಟ್‌ಗೆ ರದ್ದತಿ ಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1132
 msgid "Could not send the cancelation notice to the delegate"
-msgstr ""
+msgstr "ಡೆಲಿಗೇಟ್‌ಗೆ ರದ್ದತಿ ಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1218
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr ""
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಲಿಲ್ಲ ಏಕೆಂದರೆ ಸ್ಥಿತಿಯು ಅಮಾನ್ಯವಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1245
 #, c-format
 msgid "Unable to update attendee. %s"
-msgstr ""
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರನ್ನು ಅಪ್ಡೇಟ್‌ ಮಾಡಲಾಗಲಿಲ್ಲ. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1249
 msgid "Attendee status updated"
-msgstr ""
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1275
 msgid "Meeting information sent"
@@ -17827,7 +17845,7 @@ msgstr "ಲಗತ್ತಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ ಸರಿ�
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr ""
+msgstr "ಸಂದೇಶವು ಒಂದು ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ಹೊಂದಿದೆ ಎಂದು ಹೇಳುತ್ತಿದೆ, ಆದರೆ ಕ್ಯಾಲೆಂಡರ್ ಒಂದು ಮಾನ್ಯವಾದ ಐಕ್ಯಾಲೆಂಡರ್ ಆಗಿಲ್ಲ."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1417
 #: ../plugins/itip-formatter/itip-formatter.c:1435
@@ -17851,7 +17869,9 @@ msgstr "ಲಗತ್ತಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ ಅನೇ�
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "ಈ ಎಲ್ಲಾ ಅಂಶಗಳನ್ನು ಸಂಸ್ಕರಿಸಲು, ಕಡತವನ್ನು ಉಳಿಸಬೇಕು ಹಾಗು ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಬೇಕು"
+msgstr ""
+"ಈ ಎಲ್ಲಾ ಅಂಶಗಳನ್ನು ಸಂಸ್ಕರಿಸಲು, ಕಡತವನ್ನು ಉಳಿಸಬೇಕು ಹಾಗು ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ಆಮದು "
+"ಮಾಡಿಕೊಳ್ಳಬೇಕು"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2148
 msgid "This meeting recurs"
@@ -17869,17 +17889,17 @@ msgstr "ಈ ಮೆಮೊ ಪುನರಾವರ್ತಿತಗೊಳ್ಳುತ�
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:2383
 msgid "_Delete message after acting"
-msgstr ""
+msgstr "ಕಾರ್ಯಾಚರಣೆಯ ನಂತರ ಸಂದೇಶವನ್ನು ಅಳಿಸಿ ಹಾಕು(_D)"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2393
 #: ../plugins/itip-formatter/itip-formatter.c:2425
 msgid "Conflict Search"
-msgstr ""
+msgstr "ತೊಡಕಿಗಾಗಿ ಹುಡುಕು"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2408
 msgid "Select the calendars to search for meeting conflicts"
-msgstr ""
+msgstr "ಮೀಟಿಂಗ್‌ಗಳ ನಡುವಿನ ತೊಡಕಿಗಾಗಿ ಹುಡುಕಲು ಕ್ಯಾಲೆಂಡರುಗಳನ್ನು ಆರಿಸಿ"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:189 ../ui/evolution-calendar.xml.h:34
@@ -18051,7 +18071,7 @@ msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾಹಿತಿಯನ್
 #: ../plugins/itip-formatter/itip-view.c:363
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr ""
+msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಅನ್ನು ನಿಮಗೆ ನಿಯೋಜಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:366
 #, c-format
@@ -18078,7 +18098,9 @@ msgstr "ಈಗಿರುವ ಒಂದು ಮೀಟಿಂಗ್‌ಗೆ <b>%s</b>
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following meeting:"
-msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನ ಬಗ್ಗೆ <b>%s</b> %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr ""
+"ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನ ಬಗ್ಗೆ <b>%s</b> %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
+"ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
@@ -18138,7 +18160,7 @@ msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು ಪ್�
 #: ../plugins/itip-formatter/itip-view.c:451
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr ""
+msgstr "<b>%s</b> ಈ ಕೆಳಗಿನವರಿಗೆ %s ಕಾರ್ಯವನ್ನು ನಿಯೋಜಿಸಲು ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:454
 #, c-format
@@ -18165,24 +18187,28 @@ msgstr "<b>%s</b> ಈಗಿರುವ ಒಂದು ಕಾರ್ಯಕ್ಕೆ �
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following assigned task:"
-msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ <b>%s</b> %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr ""
+"ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ <b>%s</b> %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು "
+"ಪಡೆದುಕೊಳ್ಳಲು ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:470
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ <b>%s</b> ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr ""
+"ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ <b>%s</b> ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
+"ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, c-format
 msgid "<b>%s</b> through %s has sent back the following assigned task response:"
-msgstr ""
+msgstr "<b>%s</b> %s ಮೂಲಕ ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳ ಮಾರುತ್ತರವನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr ""
+msgstr "<b>%s</b> ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳ ಮಾರುತ್ತರವನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:480
 #, c-format
@@ -18197,12 +18223,12 @@ msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವ
 #: ../plugins/itip-formatter/itip-view.c:486
 #, c-format
 msgid "<b>%s</b> through %s has proposed the following task assignment changes:"
-msgstr ""
+msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಕಾರ್ಯ ಕಾರ್ಯ ನಿಯೋಜನೆಯ ಬದಲಾವಣೆಗಳನ್ನು ಮುಂದಿಟ್ಟಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:488
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr ""
+msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಕಾರ್ಯ ಕಾರ್ಯ ನಿಯೋಜನೆಯ ಬದಲಾವಣೆಗಳನ್ನು ಮುಂದಿಟ್ಟಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:492
 #, c-format
@@ -18271,14 +18297,14 @@ msgstr "ಎಲ್ಲವನ್ನೂ ತಿರಸ್ಕರಿಸು(_D)"
 
 #: ../plugins/itip-formatter/itip-view.c:829
 msgid "_Tentative all"
-msgstr ""
+msgstr "ಎಲ್ಲಾ ತಾತ್ಕಾಲಿಕ(_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:829
 #: ../plugins/itip-formatter/itip-view.c:835
 #: ../plugins/itip-formatter/itip-view.c:852
 #: ../plugins/itip-formatter/itip-view.c:857
 msgid "_Tentative"
-msgstr ""
+msgstr "ತಾತ್ಕಾಲಿಕ(_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:830
 msgid "_Accept all"
@@ -18292,7 +18318,7 @@ msgstr "ಮಾಹಿತಿಯನ್ನು ಕಳುಹಿಸು(_S)"
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:845
 msgid "_Update Attendee Status"
-msgstr ""
+msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡು(_U)"
 
 #: ../plugins/itip-formatter/itip-view.c:848
 msgid "_Update"
@@ -18320,7 +18346,7 @@ msgstr "ಕಳುಹಿಸಿದವರಿಗೆ ಪ್ರತ್ಯುತ್ತ�
 
 #: ../plugins/itip-formatter/itip-view.c:1101
 msgid "Send _updates to attendees"
-msgstr "ಅಪ್ಡೇಟುಗಳನ್ನು ಭಾಗವಹಿಸುವವರಿಗೆ ಕಳುಹಿಸು(_u)"
+msgstr "ಅಪ್ಡೇಟುಗಳನ್ನು ಪಾಲ್ಗೊಳ್ಳುವವರಿಗೆ ಕಳುಹಿಸು(_u)"
 
 #: ../plugins/itip-formatter/itip-view.c:1110
 msgid "_Apply to all instances"
@@ -18351,15 +18377,18 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
 msgstr ""
+"&quot;{0}&quot; ಯು ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ಡೆಲಿಗೇಟ್ ಮಾಡಿದ್ದಾರೆ. ನೀವು ಡೆಲಿಗೇಟ್"
+"&quot;{1}&quot; ಅನ್ನು ಸೇರಿಸಲು ಬಯಸುತ್ತೀರೆ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
 msgstr "ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ಡೆಲಿಗೇಟ್ ಮಾಡಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "ಈ ಪ್ರತಿಕ್ರಿಯೆಯು ಈಗಿರುವ ಭಾಗವಹಿಸುವವರಲ್ಲಿ ಒಬ್ಬರಿಂದ ಬಂದಿಲ್ಲ. ಕಳುಹಿಸದವರನ್ನು ಭಾಗವಹಿಸುವವರಲ್ಲಿ ಒಬ್ಬರು ಎಂದು ಸೇರಿಸಬೇಕೆ? "
+msgstr ""
+"ಈ ಪ್ರತಿಕ್ರಿಯೆಯು ಈಗಿರುವ ಪಾಲ್ಗೊಳ್ಳುವವರಲ್ಲಿ ಒಬ್ಬರಿಂದ ಬಂದಿಲ್ಲ. ಕಳುಹಿಸದವರನ್ನು "
+"ಪಾಲ್ಗೊಳ್ಳುವವರಲ್ಲಿ ಒಬ್ಬರು ಎಂದು ಸೇರಿಸಬೇಕೆ? "
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
@@ -18398,8 +18427,8 @@ msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
 msgstr ""
-"\"true\" ಆಗಿದ್ದಲ್ಲಿ, ಹೊಸ ಸಂದೇಶಗಳು ಬಂದಾಗ ಬೀಪ್ ಶಬ್ಧವನ್ನು ಮಾಡುತ್ತದೆ, ಇಲ್ಲದೆ ಹೋದಲ್ಲಿ ಬೇರೆ "
-"ಶಬ್ಧ ಕಡತವನ್ನು ಪ್ಲೇ ಮಾಡುತ್ತದೆ."
+"\"true\" ಆಗಿದ್ದಲ್ಲಿ, ಹೊಸ ಸಂದೇಶಗಳು ಬಂದಾಗ ಬೀಪ್ ಶಬ್ಧವನ್ನು ಮಾಡುತ್ತದೆ, ಇಲ್ಲದೆ ಹೋದಲ್ಲಿ "
+"ಬೇರೆ ಶಬ್ಧ ಕಡತವನ್ನು ಪ್ಲೇ ಮಾಡುತ್ತದೆ."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -18525,7 +18554,7 @@ msgstr "ಹೊಸ ಸಂದೇಶಗಳು ಇನ್‌ಬಾಕ್ಸಿಗೆ 
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
-msgstr ""
+msgstr "ಒಂದು ಹೊಸ ಸಂದೇಶವು ಬಂದಾಗ, ಸೂಚನಾ ಸ್ಥಳದಲ್ಲಿ ಒಂದು ಚಿಹ್ನೆ ಹಾಗು ಸೂಚನಾ ಸಂದೇಶದ ಮೂಲಕ ಒಂದು ಡಿ-ಬಸ್ ಸಂದೇಶವನ್ನು ಉತ್ಪಾದಿಸುತ್ತದೆ ಅಥವ ಬಳಕೆದಾರರಿಗೆ ಸೂಚಿಸುತ್ತದೆ."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -18535,7 +18564,9 @@ msgstr "ಮೈಲ್ ಸೂಚನೆ"
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr "ಒಂದು ಮೈಲ್‌ ಸಂದೇಶದಲ್ಲಿರುವ ವಿಷಯಗಳಿಂದ ಮೀಟಿಂಗ್‌ಗಳನ್ನು ರಚಿಸಲು ಅನುವು ಮಾಡಿಕೊಡುವ ಒಂದು ಪ್ಲಗ್‌ಇನ್ ಇದಾಗಿದೆ."
+msgstr ""
+"ಒಂದು ಮೈಲ್‌ ಸಂದೇಶದಲ್ಲಿರುವ ವಿಷಯಗಳಿಂದ ಮೀಟಿಂಗ್‌ಗಳನ್ನು ರಚಿಸಲು ಅನುವು ಮಾಡಿಕೊಡುವ ಒಂದು "
+"ಪ್ಲಗ್‌ಇನ್ ಇದಾಗಿದೆ."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
@@ -18554,13 +18585,17 @@ msgstr "ಕ್ಯಾಲೆಂಡರನ್ನು ತೆಗೆಯಲಾಗಿಲ�
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
-msgstr "ಆರಿಸಲಾದ ಆಕರವು ಕೇವಲ ಓದಲು ಮಾತ್ರವಾಗಿದೆ, ಆದ್ದರಿಂದ ಅಲ್ಲಿ ಒಂದು ಕಾರ್ಯವನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೊಂದು ಆಕರವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ."
+msgstr ""
+"ಆರಿಸಲಾದ ಆಕರವು ಕೇವಲ ಓದಲು ಮಾತ್ರವಾಗಿದೆ, ಆದ್ದರಿಂದ ಅಲ್ಲಿ ಒಂದು ಕಾರ್ಯವನ್ನು ರಚಿಸಲು "
+"ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೊಂದು ಆಕರವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr "ಒಂದು ಮೈಲ್‌ ಸಂದೇಶದಲ್ಲಿರುವ ವಿಷಯಗಳಿಂದ ಕಾರ್ಯಗಳನ್ನು ರಚಿಸಲು ಅನುವು ಮಾಡಿಕೊಡುವ ಒಂದು ಪ್ಲಗ್‌ಇನ್ ಇದಾಗಿದೆ."
+msgstr ""
+"ಒಂದು ಮೈಲ್‌ ಸಂದೇಶದಲ್ಲಿರುವ ವಿಷಯಗಳಿಂದ ಕಾರ್ಯಗಳನ್ನು ರಚಿಸಲು ಅನುವು ಮಾಡಿಕೊಡುವ ಒಂದು ಪ್ಲಗ್‌ಇನ್ "
+"ಇದಾಗಿದೆ."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
@@ -18598,7 +18633,7 @@ msgstr "ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್‍(_L)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
-msgstr ""
+msgstr "ಸಾಮಾನ್ಯ ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್ ಆಜ್ಞೆಗಳಿಗೆ ಕ್ರಿಯೆಗಳನ್ನು ಒದಗಿಸು (ಚಂದಾದಾರನಾಗಿಸುವಿಕೆ, ಚಂದಾದಾರಿಕೆಯ ರದ್ದುಗೊಳಿಕೆ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -18610,7 +18645,7 @@ msgstr "ಲಿಸ್ಟಿಗೆ ಚಂದಾದಾರನಾಗು(_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
 msgid "_Un-subscribe to list"
-msgstr ""
+msgstr "ಲಿಸ್ಟಿನ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು(_U)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -18624,6 +18659,9 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"URL \"{0}\" ಗೆ ಒಂದು ಇಮೈಲ್ ಅನ್ನು ಕಳುಹಿಸಲಾಗುವುದು. ನೀವು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಬಹುದು ಅಥವ ಮೊದಲು ಅದನ್ನು ನೋಡಿ ಹಾಗು ಬದಲಾಯಿಸಬಹುದು.\n"
+"\n"
+"ನೀವು ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿಗೆ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸದ ಸ್ವಲ್ಪಹೊತ್ತಿನಲ್ಲಿಯೆ ಅದಕ್ಕೆ ಮಾರುತ್ತರ ಬರಬೇಕು."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
@@ -18641,7 +18679,9 @@ msgstr "ಕಳುಹಿಸಲು ಅನುಮತಿ ಇಲ್ಲ"
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
-msgstr "ಈ ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲು ಅನುಮತಿ ಇಲ್ಲ. ಬಹುಷಃ, ಇದು ಕೇವಲ ಓದಲು ಮಾತ್ರ ಇರುವ ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್‍ ಆಗಿರಬಹುದು. ವಿವರಗಳಿಗಾಗಿ ಲಿಸ್ಟಿನ ಮಾಲಿಕರನ್ನು ಸಂಪರ್ಕಿಸಿ."
+msgstr ""
+"ಈ ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲು ಅನುಮತಿ ಇಲ್ಲ. ಬಹುಷಃ, ಇದು ಕೇವಲ ಓದಲು ಮಾತ್ರ ಇರುವ "
+"ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್‍ ಆಗಿರಬಹುದು. ವಿವರಗಳಿಗಾಗಿ ಲಿಸ್ಟಿನ ಮಾಲಿಕರನ್ನು ಸಂಪರ್ಕಿಸಿ."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "Send e-mail message to mailing list?"
@@ -18654,6 +18694,9 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"ಕೆಲಸವನ್ನು ಮಾಡಲಾಗಲಗಲಿಲ್ಲ. ಇದರರ್ಥ ಈ ಕೆಲಸದ ಹೆಡರ್ ನಾವು ಸಂಸ್ಕರಿಸಬಹುದಾದಂತಹ ಯಾವುದೆ ಕೆಲಸವನ್ನು ಹೊಂದಿಲ್ಲ.\n"
+"\n"
+"ಹೆಡರ್: {0}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
 msgid ""
@@ -18713,7 +18756,7 @@ msgstr "ಈ ಸಂದೇಶವು ಯಾವ ಮೈಲಿಂಗ್ ಲಿಸ್�
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr ""
+msgstr "ಈ ಸಂದೇಶವು ಯಾವ ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿಗೆ ಸಂಬಂಧಿಸಿದೆಯೊ ಅದರ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post Message to List"
@@ -18736,6 +18779,8 @@ msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
+"ಈಗಿನ ಕೋಶದಲ್ಲಿ ಇರುವ ಸಂದೇಶಗಳನ್ನು ಮಾತ್ರ ಓದಲು ಮಾತ್ರ ಎಂದು ಗುರುತು ಹಾಕಬೇಕೆ, ಅಥವ ಅದರ "
+"ಉಪಕೋಶದಲ್ಲಿರುವದನ್ನೂ ಸಹ ಓದಲು ಮಾತ್ರವೆ ಎಂದು ಗುರುತು ಹಾಕಬೇಕೆ?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:162
 msgid "Current Folder and _Subfolders"
@@ -18755,7 +18800,7 @@ msgstr "ಸಂದೇಶವನ್ನು ಓದಲಾಗದೆ ಎಂದು ಗು
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
-msgstr ""
+msgstr "ಒಂದು ಕೋಶದಲ್ಲಿನ ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಓದಲು ಮಾತ್ರ ಎಂದು ಗುರುತುಹಾಕಲು ಬಳಸಲಾಗುತ್ತದೆ"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
@@ -18831,11 +18876,11 @@ msgstr ""
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
 msgid "Plain Text Mode"
-msgstr ""
+msgstr "ಸರಳ ಪಠ್ಯದ ಕ್ರಮ"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:7
 msgid "Prefer plain-text"
-msgstr ""
+msgstr "ಸರಳ-ಪಠ್ಯಕ್ಕೆ ಆದ್ಯತೆ"
 
 #: ../plugins/prefer-plain/prefer-plain.c:174
 msgid "Show HTML if present"
@@ -18843,11 +18888,11 @@ msgstr "HTML ಇದ್ದಲ್ಲಿ ಅದನ್ನು ತೋರಿಸು"
 
 #: ../plugins/prefer-plain/prefer-plain.c:175
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "PLAIN ಗೆ ಆದ್ಯತೆ"
 
 #: ../plugins/prefer-plain/prefer-plain.c:176
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "ಯಾವಗಲೂ PLAIN ಅನ್ನು ಮಾತ್ರ ತೋರಿಸು"
 
 #: ../plugins/prefer-plain/prefer-plain.c:219
 msgid "HTML _Mode"
@@ -18859,7 +18904,7 @@ msgstr "ಇವಲ್ಯೂಶನ್ ಪ್ರೊಫೈಲರ್"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
-msgstr ""
+msgstr "ಪ್ರೊಫೈಲ್ ಮಾಡುವ ದತ್ತಾಂಶ ಸಂದರ್ಭಗಳ ದಾಖಲೆಯನ್ನು ಬರೆದಿಡುತ್ತದೆ."
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
@@ -19041,7 +19086,9 @@ msgstr "ದೂರಸ್ಥ ಪರೀಕ್ಷೆಗಳನ್ನು ಒಳಗೊ�
 msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
-msgstr "ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಬಳಸಿಕೊಂಡು ಜಂಕ್‌ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ. ಈ ಪ್ಲಗ್ಇನ್‌ಗಾಗಿ ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಬೇಕಾಗುತ್ತದೆ. "
+msgstr ""
+"ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಬಳಸಿಕೊಂಡು ಜಂಕ್‌ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ. ಈ ಪ್ಲಗ್ಇನ್‌ಗಾಗಿ ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ "
+"ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಬೇಕಾಗುತ್ತದೆ. "
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
@@ -19071,7 +19118,7 @@ msgstr "ಎಲ್ಲಾ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್�
 
 #: ../plugins/save-attachments/save-attachments.c:320
 msgid "Select save base name"
-msgstr ""
+msgstr "ಉಳಿಕೆಯ ಮೂಲ ಹೆಸರನ್ನು ಆರಿಸಿ"
 
 #: ../plugins/save-attachments/save-attachments.c:339
 msgid "MIME Type"
@@ -19143,7 +19190,7 @@ msgstr "CSV ಮಾದರಿಗಾಗಿ ಸುಧಾರಿತ ಆಯ್ಕೆಗ
 
 #: ../plugins/save-calendar/csv-format.c:538
 msgid "Prepend a header"
-msgstr ""
+msgstr "ಒಂದು ಹೆಡರನ್ನು ಸೇರಿಸಿ"
 
 #: ../plugins/save-calendar/csv-format.c:547
 msgid "Value delimiter:"
@@ -19155,11 +19202,11 @@ msgstr "ರೆಕಾರ್ಡ್ ಡಿಲಿಮಿಟರ್:"
 
 #: ../plugins/save-calendar/csv-format.c:559
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "ಮೌಲ್ಯಗಳನ್ನು ಇದರಿಂದ ಆವರಿಕೆ ಮಾಡು(ಎನ್‌ಕ್ಯಾಪ್ಸುಲೇಟ್):"
 
 #: ../plugins/save-calendar/csv-format.c:581
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "ವಿರಾಮ ಚಿಹ್ನೆಗಳಿಂದ ಕೂಡಿದ ಮೌಲ್ಯ ವಿನ್ಯಾಸ (.csv)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
@@ -19271,11 +19318,11 @@ msgstr ""
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
-msgstr ""
+msgstr "ವಿಷಯ ಎಳೆ(ತ್ರೆಡಿಂಗ್)"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
-msgstr ""
+msgstr "ವಿಷಯಗಳ ಮೇರೆಗೆ ಸಂದೇಶಗಳನ್ನು ಎಳೆಯನ್ನಾಗಿಸು(ತ್ರೆಡ್)"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -19302,7 +19349,7 @@ msgstr "ಮಾದರಿಯಾಗಿ ಆಗಿ ಉಳಿಸು"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "ಡ್ರಾಫ್ಟ್ ಆಧರಿತವಾದ ಮಾದರಿ ಪ್ಲಗ್ಇನ್"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
@@ -19380,7 +19427,7 @@ msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ವಿಂಡೋ ಅಗಲ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr ""
+msgstr "HTTP/ಸುರಕ್ಷಿತ HTTP ಯನ್ನು ಅಂತರ್ಜಾಲದಲ್ಲಿ ನಿಲುಕಿಸಿಕೊಳ್ಳುವಾಗ ಪ್ರಾಕ್ಸಿ ಸಂಯೋಜನೆಗಳನ್ನು ಶಕ್ತಗೊಳಿಸು."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "HTTP proxy host name"
@@ -19400,7 +19447,7 @@ msgstr "HTTP ಪ್ರಾಕ್ಸಿ ಬಳಕೆದಾರಹೆಸರು"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "ಆರಂಭಗೊಂಡಾಗ ಡೀಫಾಲ್ಟಾಗಿ ತೋರಿಸಬೇಕಿರುವ ಘಟಕದ ಐಡಿ ಅಥವ ಅಲಿಯಾಸ್."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid ""
@@ -19416,7 +19463,7 @@ msgstr "ಹಿಂದಿನ ಬಾರಿ ನವೀಕರಿಸಲಾದ ಸಂರ
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
+msgstr "ಆಫ್‌ಲೈನ್ ಬಳಕೆಗಾಗಿ ಡಿಸ್ಕಿಗೆ ಮೇಳೈಸಬೇಕಿರುವ ಕಡತಕೋಶಗಳ ಮಾರ್ಗಗಳ ಪಟ್ಟಿ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Non-proxy hosts"
@@ -19424,7 +19471,7 @@ msgstr "ಪ್ರಾಕ್ಸಿಯಲ್ಲದ ಅತಿಥೇಯಗಳು"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "HTTP ಪ್ರಾಕ್ಸಿ ಕಾರ್ಯವು ನಡೆಸುವಾಗ ದೃಢೀಕರಿಸಲು ಬಳಸಬೇಕಿರುವ ಗುಪ್ತಪದ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Proxy configuration mode"
@@ -19460,7 +19507,7 @@ msgstr "ಬದಿಯ ಪಟ್ಟಿಯು ಕಾಣುತ್ತಿದೆ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Skip development warning dialog"
-msgstr ""
+msgstr "ವಿಕಸನಾ ಎಚ್ಚರಿಕೆಯ ಸಂವಾದವನ್ನು ಉಪೇಕ್ಷಿಸಲಾಗುತ್ತಿದೆ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27 ../shell/main.c:471
 msgid "Start in offline mode"
@@ -19471,11 +19518,10 @@ msgid "Statusbar is visible"
 msgstr "ಸ್ಥಿತಿ ಪಟ್ಟಿಯು ಕಾಣುತ್ತಿದೆ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:29
-#, fuzzy
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "ಆವೃತ್ತಿ"
+msgstr "ಇವಲ್ಯೂಶನ್‌ನ ಸಂರಚನೆಯ ಆವೃತ್ತಿ, ಹಿರಿಯ/ಕಿರಿಯ ಸಂರಚನಾ ಮಟ್ಟದೊಂದಿಗೆ (ಉದಾಹರಣೆಗೆ \"೨.೬.೦\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "The default height for the main window, in pixels."
@@ -19490,41 +19536,40 @@ msgid "The default width for the sidebar, in pixels."
 msgstr "ಬದಿಪಟ್ಟಿಯ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
-#, fuzzy
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
-msgstr "ಆವೃತ್ತಿ"
+msgstr "ಕೊನೆಯ ಬಾರಿಗೆ ನವೀಕರಿಸಲಾದ ಸಂರಚನೆಯನ್ನು ಹೊಂದಿದ ಇವಲ್ಯೂಶನ್‌ನ ಆವೃತ್ತಿ, ಹಿರಿಯ/ಕಿರಿಯ ಸಂರಚನಾ ಮಟ್ಟದೊಂದಿಗೆ (ಉದಾಹರಣೆಗೆ \"೨.೬.೦\")"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "ಪ್ರಾಕ್ಸಿ HTTP ಮಾಡಲು ಗಣಕದ ಹೆಸರು."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid "The machine name to proxy secure HTTP through."
-msgstr ""
+msgstr "ಪ್ರಾಕ್ಸಿ ಸುರಕ್ಷಿತ HTTP ಮಾಡಲು ಗಣಕದ ಹೆಸರು."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "The machine name to proxy socks through."
-msgstr ""
+msgstr "ಪ್ರಾಕ್ಸಿ ಸಾಕ್ಸ್ ಮಾಡಲು ಗಣಕದ ಹೆಸರು."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
-msgstr ""
+msgstr "ನೀವು ಪ್ರಾಕ್ಸಿ ಅನ್ನು ಯಾವುದರ ಮೂಲಕ ಮಾಡಬೇಕೊ ಅದು ಗಣಕದಲ್ಲಿನ ಸಂಪರ್ಕಸ್ಥಾನ \"/apps/evolution/shell/network_config/http_host\" ಯಿಂದ ಸೂಚಿತಗೊಂಡಿದೆ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
-msgstr ""
+msgstr "ನೀವು ಪ್ರಾಕ್ಸಿ ಅನ್ನು ಯಾವುದರ ಮೂಲಕ ಮಾಡಬೇಕೊ ಅದು ಗಣಕದಲ್ಲಿನ ಸಂಪರ್ಕಸ್ಥಾನ \"/apps/evolution/shell/network_config/secure_host\" ಯಿಂದ ಸೂಚಿತಗೊಂಡಿದೆ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
-msgstr ""
+msgstr "ನೀವು ಪ್ರಾಕ್ಸಿ ಅನ್ನು ಯಾವುದರ ಮೂಲಕ ಮಾಡಬೇಕೊ ಅದು ಗಣಕದಲ್ಲಿನ ಸಂಪರ್ಕಸ್ಥಾನ \"/apps/evolution/shell/network_config/socks_host\" ಯಿಂದ ಸೂಚಿತಗೊಂಡಿದೆ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
@@ -19555,7 +19600,7 @@ msgstr "HTTP ಪ್ರಾಕ್ಸಿಯನ್ನು ಬಳಸು"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "User name to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "HTTP ಪ್ರಾಕ್ಸಿ ಕಾರ್ಯವು ನಡೆಸುವಾಗ ದೃಢೀಕರಿಸಲು ಬಳಸಬೇಕಿರುವ ಬಳಕೆದಾರ ಹೆಸರು."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -19578,9 +19623,8 @@ msgid "Whether the toolbar should be visible."
 msgstr "ಉಪಕರಣ ಪಟ್ಟಿಯು ಕಾಣಿಸಿಕೊಳ್ಳಬೇಕೆ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
-#, fuzzy
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr "ಆವೃತ್ತಿ"
+msgstr "ಎವಲ್ಯೂಶನ್‌ನ ವಿಕಸನಾ ಆವೃತ್ತಿಯಲ್ಲಿ ಎಚ್ಚರಿಕಾ ಪೆಟ್ಟಿಗೆಯನ್ನು ಆಲಕ್ಷಿಸಲಾಗಿತ್ತೆ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Whether the window buttons should be visible."
@@ -19608,7 +19652,7 @@ msgstr "ಈ ಸಂಪರ್ಕಗಳನ್ನು ಅಂತ್ಯಗೊಳಿಸ�
 
 #: ../shell/e-shell-importer.c:131
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "ಚಲಾಯಿಸಲು ಆಮದುಗಾರನನ್ನು ಆರಿಸಿ:"
 
 #: ../shell/e-shell-importer.c:134
 msgid ""
@@ -19618,9 +19662,11 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"ಇವಲ್ಯೂಶನ್‌ಗೆ ನೀವು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲು ಬಯಸುವ ಕಡತವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ, ಹಾಗು ಪಟ್ಟಿಯಿಂದ ಅದು ಯಾವ ಬಗೆಯ ಕಡತವೆಂದು ಆರಿಸಿ.\n"
+"ಇವಲ್ಯೂಶನ್‌ಗೆ ನೀವು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲು ಬಯಸುವ ಕಡತವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ, ಹಾಗು ಪಟ್ಟಿಯಿಂದ ಅದು "
+"ಯಾವ ಬಗೆಯ ಕಡತವೆಂದು ಆರಿಸಿ.\n"
 "\n"
-"ನಿಮಗಿದು ತಿಳಿಯದೆ ಇದಲ್ಲಿ \"ಸ್ವಯಂಚಾಲಿತ\" ಅನ್ನು ಕ್ಲಿಕ್ಕಿಸಿ, ಆಗ ಇವಲ್ಯೂಶನ್ ಇದನ್ನು ನಿರ್ವಹಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ."
+"ನಿಮಗಿದು ತಿಳಿಯದೆ ಇದಲ್ಲಿ \"ಸ್ವಯಂಚಾಲಿತ\" ಅನ್ನು ಕ್ಲಿಕ್ಕಿಸಿ, ಆಗ ಇವಲ್ಯೂಶನ್ ಇದನ್ನು "
+"ನಿರ್ವಹಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ."
 
 #: ../shell/e-shell-importer.c:140
 msgid "Choose the destination for this import"
@@ -19784,7 +19830,9 @@ msgstr "ಒಂದು ಹೊಸ ಪರೀಕ್ಷಾ ಅಂಶವನ್ನು �
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "ಇವಲ್ಯೂಶನ್‌ಗೆ ಕಡತವನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುವುದನ್ನು ಆರಂಭಿಸಲು \"ಆಮದು ಮಾಡಿಕೊ\"ಅನ್ನು ಕ್ಲಿಕ್ಕಿಸಿ. "
+msgstr ""
+"ಇವಲ್ಯೂಶನ್‌ಗೆ ಕಡತವನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುವುದನ್ನು ಆರಂಭಿಸಲು \"ಆಮದು ಮಾಡಿಕೊ\"ಅನ್ನು "
+"ಕ್ಲಿಕ್ಕಿಸಿ. "
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -19846,14 +19894,17 @@ msgstr ""
 "ಇವಲ್ಯೂಶನ್‌ನ ಈ ಆವೃತ್ತಿಯು ಇನ್ನೂ ಸಂಪೂರ್ಣಗೊಂಡಿಲ್ಲ. ಇದು ಪೂರ್ಣಗೊಳ್ಳುವ ಹಂತದಲ್ಲಿದೆಯಾದರೂ,\n"
 "ಕೆಲವು ಸವಲತ್ತುಗಳು ಇನ್ನೂ ಪೂರ್ಣಗೊಂಡಿಲ್ಲ ಅಥವ ಸರಿಯಾಗಿ ಕೆಲಸ ಮಾಡುವುದಿಲ್ಲ.\n"
 "\n"
-"ನಿಮಗೆ ಇವಲ್ಯೂಶನ್‌ನ ಒಂದು ಸದೃಢ ಆವೃತ್ತಿಯು ಬೇಕಾದಲ್ಲಿ, ಅನುಸ್ಥಾಪಿಸಲಾದ ಆವೃತ್ತಿಯನ್ನು ತೆಗದು ಹಾಕಿ\n"
+"ನಿಮಗೆ ಇವಲ್ಯೂಶನ್‌ನ ಒಂದು ಸದೃಢ ಆವೃತ್ತಿಯು ಬೇಕಾದಲ್ಲಿ, ಅನುಸ್ಥಾಪಿಸಲಾದ ಆವೃತ್ತಿಯನ್ನು ತೆಗದು "
+"ಹಾಕಿ\n"
 "ಇದರ ಬದಲಿಗೆ %s ಅನ್ನು ನೀವು ಅನುಸ್ಥಾಪಿಸಿರೆಂದು ಆಗ್ರಹಿಸುತ್ತೇವೆ .\n"
 "\n"
 "ಇದರಲ್ಲಿ ನಿಮಗೇನಾದರೂ ದೋಷಗಳು ಕಂಡುಬಂದಲ್ಲಿ, ದಯವಿಟ್ಟು ಅವನ್ನು bugzilla.gnome.org\n"
-"ನಲ್ಲಿ ವರದಿ ಮಾಡಿ. ಈ ಉತ್ಪನ್ನಕ್ಕೆ ಯಾವುದೆ ವಾರಂಟಿಯನ್ನು ನೀಡಲಾಗುವುದಿಲ್ಲ ಹಾಗು ಇದು ಬಹುಬೇಗನೆ \n"
+"ನಲ್ಲಿ ವರದಿ ಮಾಡಿ. ಈ ಉತ್ಪನ್ನಕ್ಕೆ ಯಾವುದೆ ವಾರಂಟಿಯನ್ನು ನೀಡಲಾಗುವುದಿಲ್ಲ ಹಾಗು ಇದು "
+"ಬಹುಬೇಗನೆ \n"
 "ಕೋಪಗೊಳ್ಳುವವರಿಗೆ ಬಳಸಲು ಇದು ತರವಲ್ಲ.\n"
 "\n"
-"ನೀವು ನಮ್ಮ ಈ ಕಠಿಣ ಪರಿಶ್ರಮದ ಉತ್ಪನ್ನವನ್ನು ಸಂತೋಷದಿಂದ ಬಳಸುತ್ತೀರೆಂದು ನಂಬಿದ್ದೇವೆ, ಅಲ್ಲದೆ ನಿಮ್ಮ\n"
+"ನೀವು ನಮ್ಮ ಈ ಕಠಿಣ ಪರಿಶ್ರಮದ ಉತ್ಪನ್ನವನ್ನು ಸಂತೋಷದಿಂದ ಬಳಸುತ್ತೀರೆಂದು ನಂಬಿದ್ದೇವೆ, ಅಲ್ಲದೆ "
+"ನಿಮ್ಮ\n"
 "ಕೊಡುಗೆಗಾಗಿ ಉತ್ಸುಕತೆಯಿಂದ ಕಾಯುತ್ತಿದ್ದೇವೆ!\n"
 
 #: ../shell/main.c:241
@@ -19894,7 +19945,7 @@ msgstr "ಯಾವುದೆ ಪ್ಲಗ್ಿನ್‍ಗಳನ್ನು ಲೋ�
 
 #: ../shell/main.c:487
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
+msgstr "ಮೈಲ್, ಸಂಪರ್ಕ ವಿಳಾಸಗಳು ಹಾಗು ಕಾರ್ಯಗಳ ಮುನ್ನೋಟವನ್ನು ಅಶಕ್ತಗೊಳಿಸು."
 
 #: ../shell/main.c:572
 msgid "- The Evolution PIM and Email Client"
@@ -19929,7 +19980,9 @@ msgstr "ಇವಲ್ಯೂಶನ್ ಆರಂಭಗೊಳ್ಳುವುದಿ�
 msgid ""
 "Forgetting your passwords will clear all remembered passwords. You will be "
 "reprompted next time they are needed."
-msgstr "ನಿಮ್ಮ ಗುಪ್ತಪದಗಳನ್ನು ಮರೆಯುವುದರಿಂದ ನೆನಪಿಟ್ಟುಕೊಂಡ ಎಲ್ಲಾ ಗುಪ್ತಪದಗಳು ಅಳಿಸಿ ಹೋಗುತ್ತದೆ. ಮುಂದಿನ ಬಾರಿ ಅವುಗಳ ಅಗತ್ಯವಿದ್ದಾಗ ನಿಮ್ಮನ್ನು ಕೇಳಲಾಗುವುದು."
+msgstr ""
+"ನಿಮ್ಮ ಗುಪ್ತಪದಗಳನ್ನು ಮರೆಯುವುದರಿಂದ ನೆನಪಿಟ್ಟುಕೊಂಡ ಎಲ್ಲಾ ಗುಪ್ತಪದಗಳು ಅಳಿಸಿ ಹೋಗುತ್ತದೆ. "
+"ಮುಂದಿನ ಬಾರಿ ಅವುಗಳ ಅಗತ್ಯವಿದ್ದಾಗ ನಿಮ್ಮನ್ನು ಕೇಳಲಾಗುವುದು."
 
 #: ../shell/shell.error.xml.h:7
 msgid "Insufficient disk space for upgrade."
@@ -19954,12 +20007,12 @@ msgstr ""
 "&quot;ಇವಲ್ಯೂಶನ್‌&quot; ಕೋಶದಲ್ಲಿರುವ ಸಂಪೂರ್ಣ ಮಾಹಿತಿಗಳು ಈಗ ಶಾಶ್ವತವಾಗಿ ತೆಗೆದು "
 "ಹಾಕಲ್ಪಡಲಿದೆ.\n"
 "\n"
-"ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಅಳಿಸುವ ಮೊದಲು ನಿಮ್ಮ ಎಲ್ಲಾ ಮೈಲ್, ಸಂಪರ್ಕ ವಿಳಾಸ, ಹಾಗು "
-"ಕ್ಯಾಲೆಂಡರ್ ಮಾಹಿತಿಯು ಇವೆಯೆಂದು ಮತ್ತು ಈ ಇವಲ್ಯೂಶನ್‌ನ ಆವೃತ್ತಿಯು ಸರಿಯಾಗಿ "
-"ಕೆಲಸ ಮಾಡುತ್ತಿದೆ ಎಂದು ಪರಿಶೀಲಿಸಿ.\n"
+"ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಅಳಿಸುವ ಮೊದಲು ನಿಮ್ಮ ಎಲ್ಲಾ ಮೈಲ್, ಸಂಪರ್ಕ ವಿಳಾಸ, ಹಾಗು ಕ್ಯಾಲೆಂಡರ್ "
+"ಮಾಹಿತಿಯು ಇವೆಯೆಂದು ಮತ್ತು ಈ ಇವಲ್ಯೂಶನ್‌ನ ಆವೃತ್ತಿಯು ಸರಿಯಾಗಿ ಕೆಲಸ ಮಾಡುತ್ತಿದೆ ಎಂದು "
+"ಪರಿಶೀಲಿಸಿ.\n"
 "\n"
-"ಒಮ್ಮೆ ಅಳಿಸಲಾಯಿತೆಂದರೆ, ನಿಮ್ಮ ಹಸ್ತಕ್ಷೇಪದ ಹೊರತು ನೀವು ಇವಲ್ಯೂಶನ್‌ನ ಈ "
-"ಹಿಂದಿನ ಆವೃತ್ತಿಗೆ ಮರಳಲು ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ.\n"
+"ಒಮ್ಮೆ ಅಳಿಸಲಾಯಿತೆಂದರೆ, ನಿಮ್ಮ ಹಸ್ತಕ್ಷೇಪದ ಹೊರತು ನೀವು ಇವಲ್ಯೂಶನ್‌ನ ಈ ಹಿಂದಿನ ಆವೃತ್ತಿಗೆ "
+"ಮರಳಲು ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ.\n"
 
 #: ../shell/shell.error.xml.h:15
 msgid ""
@@ -19972,9 +20025,10 @@ msgid ""
 msgstr ""
 "ಎಲ್ಯೂಶನ್‌ನ ಈ ಹಿಂದಿನ ಆವೃತ್ತಿಯು ದತ್ತಾಂಶವನ್ನು ಬೇರೊಂದು ಪ್ರತ್ಯೇಕ ಸ್ಥಳದಲ್ಲಿ ಶೇಖರಿಸಿಟ್ಟಿದೆ.\n"
 "\n"
-"ನೀವು ಈ ದತ್ತಾಂಶವನ್ನು ತೆಗೆದು ಹಾಕಲು ಬಯಸಿದಲ್ಲಿ, &quot;"
-"ಎವಲ್ಯೂಶನ್‌&quot; ಕೋಶದಲ್ಲಿರುವ ಎಲ್ಲಾ ಮಾಹಿತಿಗಳು ಶಾಶ್ವತವಾಗಿ ತೆಗೆದು ಹಾಕಲ್ಪಡುತ್ತವೆ. ನೀವು ಈ ದತ್ತಾಂಶವನ್ನು ಇರಿಸಿಕೊಳ್ಳಲು ಬಯಸಿದಲ್ಲಿ, ನಿಮ್ಮ ಸಮಯದ ಅನೂಕೂಲಕ್ಕೆ ತಕ್ಕಂತೆ ನಂತರ ನೀವೆ ಕೈಯಾರೆ &quot;"
-"ಇವಲ್ಯೂಶನ್‌&quot; ಹೊಂದಿರು ಮಾಹಿತಿಗಳನ್ನು ತೆಗೆದು ಹಾಕಬಹುದು.\n"
+"ನೀವು ಈ ದತ್ತಾಂಶವನ್ನು ತೆಗೆದು ಹಾಕಲು ಬಯಸಿದಲ್ಲಿ, &quot;ಎವಲ್ಯೂಶನ್‌&quot; ಕೋಶದಲ್ಲಿರುವ ಎಲ್ಲಾ "
+"ಮಾಹಿತಿಗಳು ಶಾಶ್ವತವಾಗಿ ತೆಗೆದು ಹಾಕಲ್ಪಡುತ್ತವೆ. ನೀವು ಈ ದತ್ತಾಂಶವನ್ನು ಇರಿಸಿಕೊಳ್ಳಲು "
+"ಬಯಸಿದಲ್ಲಿ, ನಿಮ್ಮ ಸಮಯದ ಅನೂಕೂಲಕ್ಕೆ ತಕ್ಕಂತೆ ನಂತರ ನೀವೆ ಕೈಯಾರೆ &quot;ಇವಲ್ಯೂಶನ್‌&quot; "
+"ಹೊಂದಿರು ಮಾಹಿತಿಗಳನ್ನು ತೆಗೆದು ಹಾಕಬಹುದು.\n"
 
 #: ../shell/shell.error.xml.h:19
 msgid "Upgrade from previous version failed: {0}"
@@ -19988,9 +20042,11 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"ನಿಮ್ಮಲ್ಲಿನ ಮಾಹಿತಿ ಹಾಗು ಸಂಯೋಜನೆಗಳನ್ನು ನವೀಕರಿಸಲು {0} ವರೆಗೆ ಡಿಸ್ಕ್‍ ಜಾಗದ ಅಗತ್ಯವಿದೆ, ಆದರೆ ನಿಮ್ಮಲ್ಲಿ ಕೇವಲ {1} ಲಭ್ಯವಿದೆ.\n"
+"ನಿಮ್ಮಲ್ಲಿನ ಮಾಹಿತಿ ಹಾಗು ಸಂಯೋಜನೆಗಳನ್ನು ನವೀಕರಿಸಲು {0} ವರೆಗೆ ಡಿಸ್ಕ್‍ ಜಾಗದ ಅಗತ್ಯವಿದೆ, "
+"ಆದರೆ ನಿಮ್ಮಲ್ಲಿ ಕೇವಲ {1} ಲಭ್ಯವಿದೆ.\n"
 "\n"
-"ಮುಂದುವರೆಯು ಮೊದಲು ನಿಮ್ಮ ನೆಲೆ ಕಡತ ಕೋಶದಲ್ಲಿ ಒಂದಿಷ್ಟು ಹೆಚ್ಚಿನ ಜಾಗವನ್ನು ತೆರವುಗೊಳಿಸುವುದು ಅಗತ್ಯವಾಗುತ್ತದೆ."
+"ಮುಂದುವರೆಯು ಮೊದಲು ನಿಮ್ಮ ನೆಲೆ ಕಡತ ಕೋಶದಲ್ಲಿ ಒಂದಿಷ್ಟು ಹೆಚ್ಚಿನ ಜಾಗವನ್ನು "
+"ತೆರವುಗೊಳಿಸುವುದು ಅಗತ್ಯವಾಗುತ್ತದೆ."
 
 #: ../shell/shell.error.xml.h:23
 msgid ""
@@ -20037,7 +20093,8 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"ನೀವು ಮುಂದುವರೆಯಲು ಬಯಸಿದಲ್ಲಿ, ನಿಮಗೆ ನಿಮ್ಮ ಕೆಲವು ಹಳೆಯ ಮಾಹಿತಿಗಳನ್ನು ನೋಡಲು ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ.\n"
+"ನೀವು ಮುಂದುವರೆಯಲು ಬಯಸಿದಲ್ಲಿ, ನಿಮಗೆ ನಿಮ್ಮ ಕೆಲವು ಹಳೆಯ ಮಾಹಿತಿಗಳನ್ನು ನೋಡಲು "
+"ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ.\n"
 
 #: ../smime/gui/ca-trust-dialog.c:102
 #, c-format
@@ -20055,14 +20112,18 @@ msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr "ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಒದಗಿಸಿದ ಪ್ರಮಾಣಪತ್ರ ಅಥಾರಿಟಿಯನ್ನು ನೀವು ನಂಬುವುದರಿಂದ, ಇಲ್ಲಿ ಸೂಚಿಸದ ಹೊರತು ನೀವು ಈ ಪ್ರಮಾಣಪತ್ರದ ವಿಶ್ವಾಸಾರ್ಹತೆಯನ್ನು ನಂಬುತ್ತೀರ ಎಂದು ತಿಳಿಯಲಾಗುತ್ತದೆ"
+msgstr ""
+"ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಒದಗಿಸಿದ ಪ್ರಮಾಣಪತ್ರ ಅಥಾರಿಟಿಯನ್ನು ನೀವು ನಂಬುವುದರಿಂದ, ಇಲ್ಲಿ ಸೂಚಿಸದ "
+"ಹೊರತು ನೀವು ಈ ಪ್ರಮಾಣಪತ್ರದ ವಿಶ್ವಾಸಾರ್ಹತೆಯನ್ನು ನಂಬುತ್ತೀರ ಎಂದು ತಿಳಿಯಲಾಗುತ್ತದೆ"
 
 #: ../smime/gui/cert-trust-dialog.c:155
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr "ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಒದಗಿಸಿದ ಪ್ರಮಾಣಪತ್ರ ಅಥಾರಿಟಿಯನ್ನು ನೀವು ನಂಬದ ಕಾರಣ, ಇಲ್ಲಿ ಸೂಚಿಸದ ಹೊರತು ನೀವು ಈ ಪ್ರಮಾಣಪತ್ರದ ವಿಶ್ವಾಸಾರ್ಹತೆಯನ್ನು ನಂಬುವುದಿಲ್ಲ ಎಂದು ತಿಳಿಯಲಾಗುತ್ತದೆ"
+msgstr ""
+"ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಒದಗಿಸಿದ ಪ್ರಮಾಣಪತ್ರ ಅಥಾರಿಟಿಯನ್ನು ನೀವು ನಂಬದ ಕಾರಣ, ಇಲ್ಲಿ ಸೂಚಿಸದ "
+"ಹೊರತು ನೀವು ಈ ಪ್ರಮಾಣಪತ್ರದ ವಿಶ್ವಾಸಾರ್ಹತೆಯನ್ನು ನಂಬುವುದಿಲ್ಲ ಎಂದು ತಿಳಿಯಲಾಗುತ್ತದೆ"
 
 #: ../smime/gui/certificate-manager.c:137
 #: ../smime/gui/certificate-manager.c:380
@@ -20443,7 +20504,7 @@ msgstr "ಸೈನಿಂಗ್"
 
 #: ../smime/lib/e-cert.c:871
 msgid "Non-repudiation"
-msgstr ""
+msgstr "ನಿರಾಕರಿಸದ"
 
 #: ../smime/lib/e-cert.c:875
 msgid "Key Encipherment"
@@ -20920,7 +20981,7 @@ msgstr "ಸಂದೇಶ ಮುನ್ನೋಟ ವಿಂಡೋವನ್ನು ತ
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "ದೂರಸ್ಥ ಪರಿಚಾರಕಗಳಿಗೆ ಕಡತಕೋಶಗಳನ್ನು ಚಂದಾದಾರನಾಗಿಸು ಅಥವ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
@@ -21338,7 +21399,7 @@ msgstr "ಜಂಕ್ ಅಲ್ಲ"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
-msgstr "ಮೈಲ್ ಸಂದೇಶವನ್ನು ಕಂಪೋಸ್ ಮಾಡಲು ಒಂದು ವಿಂಡೋವನ್ನು ತೆರೆಯಿರಿ"
+msgstr "ಮೈಲ್ ಸಂದೇಶವನ್ನು ರಚಿಸಲು ಒಂದು ವಿಂಡೋವನ್ನು ತೆರೆಯಿರಿ"
 
 #: ../ui/evolution-mail-message.xml.h:64
 msgid "Open the selected messages in a new window"
@@ -21823,11 +21884,11 @@ msgstr "ನಿರ್ಗಮಿಸು(_Q)"
 
 #: ../ui/evolution.xml.h:52
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "ಸ್ವಿಚರಿನ ಗೋಚರಿಕೆ(_S)"
 
 #: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "ಮೇಳೈಸುವ ಆಯ್ಕೆಗಳು(_S)..."
 
 #: ../ui/evolution.xml.h:54
 msgid "_Text Only"
@@ -21867,7 +21928,7 @@ msgstr "ಕೆಲಸ ವಾರದ ನೋಟ(_W)"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
-msgstr ""
+msgstr "ಅಗಲವಾದ ನೋಟಕ್ಕೆ ಕಳುಹಿಸಿದ ಕಡತಕೋಶವಾಗಿ(_d)"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -21886,8 +21947,9 @@ msgid "By Su_bject"
 msgstr "ವಿಷಯಕ್ಕನುಗುಣವಾಗಿ(_b)"
 
 #: ../views/mail/galview.xml.h:6
+#, fuzzy
 msgid "By _Follow Up Flag"
-msgstr ""
+msgstr " (_F)"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
@@ -22308,7 +22370,9 @@ msgstr "ಅಡಿಗೆರೆಯನ್ನು ಬಳಸು"
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
-msgstr "ಇದನ್ನು ಸೆಟ್ ಮಾಡಿದಲ್ಲಿ, ಅಡಿಗೆರೆಯನ್ನು ಎಳೆದ ಪಠ್ಯದ ಮುಂದಿನ ಅಕ್ಷರವು ನಿಮೋನಿಕ್ ಎಕ್ಸಲರೇಟರ್ ಕೀಲಿಗಾಗಿ ಬಳಸಬೇಕು."
+msgstr ""
+"ಇದನ್ನು ಸೆಟ್ ಮಾಡಿದಲ್ಲಿ, ಅಡಿಗೆರೆಯನ್ನು ಎಳೆದ ಪಠ್ಯದ ಮುಂದಿನ ಅಕ್ಷರವು ನಿಮೋನಿಕ್ ಎಕ್ಸಲರೇಟರ್ "
+"ಕೀಲಿಗಾಗಿ ಬಳಸಬೇಕು."
 
 #: ../widgets/misc/e-expander.c:205
 msgid "Space to put between the label and the child"
@@ -22397,7 +22461,9 @@ msgstr "ಜಾಗತಿಕ ನಕ್ಷೆ"
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
-msgstr "ಸಮಯವನ್ನುಆಯ್ಕೆ ಮಾಡಲು ಮೌಸ್‌ ಆಧರಿತವಾದ ಸಂವಾದಾತ್ಮಕ ಮ್ಯಾಪ್ ವಿಜೆಟ್. ಕೀಲಿ ಮಣೆ ಬಳಕೆದಾರರು ಇದರ ಬದಲಿಗೆ ಕೆಳಗಿರುವ ಡ್ರಾಪ್-ಡೌನ್ ಕಾಂಬಿನೇಶನ್ ಬಾಕ್ಸಿನಿಂದ ಕಾಲವಲಯವನ್ನು ಆರಿಸಬೇಕು."
+msgstr ""
+"ಸಮಯವನ್ನುಆಯ್ಕೆ ಮಾಡಲು ಮೌಸ್‌ ಆಧರಿತವಾದ ಸಂವಾದಾತ್ಮಕ ಮ್ಯಾಪ್ ವಿಜೆಟ್. ಕೀಲಿ ಮಣೆ ಬಳಕೆದಾರರು ಇದರ "
+"ಬದಲಿಗೆ ಕೆಳಗಿರುವ ಡ್ರಾಪ್-ಡೌನ್ ಕಾಂಬಿನೇಶನ್ ಬಾಕ್ಸಿನಿಂದ ಕಾಲವಲಯವನ್ನು ಆರಿಸಬೇಕು."
 
 #: ../widgets/misc/e-online-button.c:109
 msgid "Online"
