@@ -33,6 +33,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 void mail_session_init (const char *base_directory);
+void mail_session_shutdown (void);
 gboolean mail_session_get_interactive (void);
 void mail_session_set_interactive (gboolean interactive);
 char *mail_session_request_dialog (const char *prompt, gboolean secret,

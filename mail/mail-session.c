@@ -711,6 +711,12 @@ mail_session_init (const char *base_directory)
 	g_free (camel_dir);
 }
 
+void
+mail_session_shutdown (void)
+{
+	camel_shutdown ();
+}
+
 gboolean
 mail_session_get_interactive (void)
 {

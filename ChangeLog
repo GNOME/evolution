@@ -1,3 +1,10 @@
+2008-08-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546926
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.91 for camel_shutdown().
+
 2008-08-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.23.90 release and Version bump.

@@ -505,6 +505,8 @@ impl_finalize (GObject *object)
 	g_object_unref (priv->logger);
 	g_free (priv);
 
+	mail_session_shutdown ();
+
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
