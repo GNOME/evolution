@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-08-15 11:18+0000\n"
-"PO-Revision-Date: 2008-08-17 23:36+0200\n"
+"PO-Revision-Date: 2008-08-22 14:21+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -13599,15 +13599,15 @@ msgstr "Mostrar animaciones"
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Show animated images as animations."
-msgstr "Muestra las imágenes animadas como animaciones."
+msgstr "Mostrar las imágenes animadas como animaciones."
 
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "Muestra los mensajes borrados (tachados) en la lista de mensajes."
+msgstr "Mostrar los mensajes borrados (tachados) en la lista de mensajes."
 
 #: ../mail/evolution-mail.schemas.in.h:122
 msgid "Show deleted messages in the message-list"
-msgstr "Muestra los mensajes borrados en la lista de mensajes"
+msgstr "Mostrar los mensajes borrados en la lista de mensajes"
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "Show photo of the sender"
@@ -13618,12 +13618,12 @@ msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
-"Muestra el correo-e del remitente en una columna separada en la lista de "
+"Mostrar el correo-e del remitente en una columna separada en la lista de "
 "mensajes."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show the photo of the sender in the message reading pane."
-msgstr "Muestra la foto del remitente en el panel de lectura de mensajes."
+msgstr "Mostrar la foto del remitente en el panel de lectura de mensajes."
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Spell check inline"
@@ -18911,7 +18911,7 @@ msgstr "Notas:"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
-msgstr "Muestra las partes de texto/calendario en los mensajes."
+msgstr "Mostrar las partes de texto/calendario en los mensajes."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
@@ -21385,7 +21385,7 @@ msgstr "Envía los contactos seleccionados a otra persona."
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
-msgstr "Muestra una ventana de vista previa de contactos"
+msgstr "Mostrar una ventana de vista previa de contactos"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
@@ -21478,11 +21478,11 @@ msgstr "Ir a"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
-msgstr "Retrocede"
+msgstr "Retroceder"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr "Avanza"
+msgstr "Avanzar"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -21536,23 +21536,23 @@ msgstr "Selecciona hoy"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr "Muestra como una lista"
+msgstr "Mostrar como una lista"
 
 #: ../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
-msgstr "Muestra un día"
+msgstr "Mostrar un día"
 
 #: ../ui/evolution-calendar.xml.h:31
 msgid "Show one month"
-msgstr "Muestra un mes"
+msgstr "Mostrar un mes"
 
 #: ../ui/evolution-calendar.xml.h:32
 msgid "Show one week"
-msgstr "Muestra una semana"
+msgstr "Mostrar una semana"
 
 #: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr "Muestra la semana laboral"
+msgstr "Mostrar la semana laboral"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
@@ -21621,15 +21621,15 @@ msgstr "Mostrar vista _previa del mensaje"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview below the message list"
-msgstr "Muestra la vista previa del mensaje bajo la lista de mensajes"
+msgstr "Mostrar la vista previa del mensaje bajo la lista de mensajes"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview side-by-side with the message list"
-msgstr "Muestra la vista previa de mensajes al lado de la lista de mensajes"
+msgstr "Mostrar la vista previa de mensajes al lado de la lista de mensajes"
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "Show message preview window"
-msgstr "Muestra una ventana de vista previa de mensajes"
+msgstr "Mostrar una ventana de vista previa de mensajes"
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -21799,7 +21799,7 @@ msgstr "_Mostrar mensajes ocultos"
 
 #: ../ui/evolution-mail-list.xml.h:31
 msgid "Show messages that have been temporarily hidden"
-msgstr "Muestra los mensajes que han estado ocultos temporalmente"
+msgstr "Mostrar los mensajes que han estado ocultos temporalmente"
 
 #: ../ui/evolution-mail-list.xml.h:32
 msgid "Temporarily hide all messages that have already been read"
@@ -21918,31 +21918,31 @@ msgstr "Reduce el tamaño del texto"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
-msgstr "Muestra el mensaje siguiente importante"
+msgstr "Mostrar el mensaje siguiente importante"
 
 #: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next message"
-msgstr "Muestra el mensaje siguiente"
+msgstr "Mostrar el mensaje siguiente"
 
 #: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next thread"
-msgstr "Muestra la siguiente conversación"
+msgstr "Mostrar la siguiente conversación"
 
 #: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
-msgstr "Muestra el siguiente mensaje no leído"
+msgstr "Mostrar el siguiente mensaje no leído"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
-msgstr "Muestra el anterior mensaje importante"
+msgstr "Mostrar el anterior mensaje importante"
 
 #: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous message"
-msgstr "Muestra el mensaje anterior"
+msgstr "Mostrar el mensaje anterior"
 
 #: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous unread message"
-msgstr "Muestra el anterior mensaje no leído"
+msgstr "Mostrar el anterior mensaje no leído"
 
 #: ../ui/evolution-mail-message.xml.h:33
 msgid "F_orward As..."
@@ -22150,15 +22150,15 @@ msgstr "Establecer la configuración de la página para la impresora actual"
 
 #: ../ui/evolution-mail-message.xml.h:94
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Muestra un cursor parpadeante en el cuerpo de los mensajes mostrados"
+msgstr "Mostrar un cursor parpadeante en el cuerpo de los mensajes mostrados"
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Show messages with all email headers"
-msgstr "Muestra los mensajes con todas las cabeceras de correo-e"
+msgstr "Mostrar los mensajes con todas las cabeceras de correo-e"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show the raw email source of the message"
-msgstr "Muestra mensaje de correo-e en bruto"
+msgstr "Mostrar mensaje de correo-e en bruto"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Undelete the selected messages"
@@ -22347,7 +22347,7 @@ msgstr "Imprime la lista de tareas"
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
-msgstr "Muestra una ventana de vista previa de tarea"
+msgstr "Mostrar una ventana de vista previa de tarea"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
@@ -22473,7 +22473,7 @@ msgstr "Mostrar barra de _herramientas"
 
 #: ../ui/evolution.xml.h:31
 msgid "Show information about Evolution"
-msgstr "Muestra información acerca de Evolution"
+msgstr "Mostrar información acerca de Evolution"
 
 #: ../ui/evolution.xml.h:32
 msgid "Submit Bug Report"
