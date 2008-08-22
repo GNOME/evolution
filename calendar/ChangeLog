@@ -1,3 +1,12 @@
+2008-08-22  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	* gui/print.c (print_table_draw_page):
+	Make it show "Tasks" for printing tasks list and "Calendar" for
+	printing a calendar. Patch by
+	Rouslan Solomakhin <rouslan@solomakhin.net>
+	
+	** Fixes bug 547822
+
 2008-08-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #462242
