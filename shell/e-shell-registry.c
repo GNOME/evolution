@@ -44,13 +44,14 @@ shell_registry_insert_items (GHashTable *hash_table,
 }
 
 static void
-shell_registry_query_module (const gchar *filename)
+shell_registry_query_module (EShell *shell,
+                             const gchar *filename)
 {
 	EShellModule *shell_module;
 	EShellModuleInfo *info;
 	const gchar *string;
 
-	shell_module = e_shell_module_new (filename);
+	shell_module = e_shell_module_new (shell, filename);
 
 	if (!g_type_module_use (G_TYPE_MODULE (shell_module))) {
 		g_critical ("Failed to load module: %s", filename);
@@ -81,13 +82,14 @@ shell_registry_query_module (const gchar *filename)
 }
 
 void
-e_shell_registry_init (void)
+e_shell_registry_init (EShell *shell)
 {
 	GDir *dir;
 	const gchar *dirname;
 	const gchar *basename;
 	GError *error = NULL;
 
+	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (loaded_modules == NULL);
 
 	modules_by_name = g_hash_table_new (g_str_hash, g_str_equal);
@@ -109,7 +111,7 @@ e_shell_registry_init (void)
 			continue;
 
 		filename = g_build_filename (dirname, basename, NULL);
-		shell_registry_query_module (filename);
+		shell_registry_query_module (shell, filename);
 		g_free (filename);
 	}
 

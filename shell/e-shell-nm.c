@@ -28,33 +28,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include <e-shell-window.h>
-#include <Evolution.h>
+#include <e-shell.h>
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
 #include <dbus/dbus-glib.h>
 #include <NetworkManager/NetworkManager.h>
 
-typedef enum _ShellLineStatus {
-	E_SHELL_LINE_DOWN,
-	E_SHELL_LINE_UP
-} ShellLineStatus;
+static DBusConnection *dbus_connection;
 
-
-static gboolean init_dbus (EShellWindow *window);
-
-static DBusConnection *dbus_connection = NULL;
-
+/* Forward Declaration */
+gboolean e_shell_dbus_initialize (EShell *shell);
 
 static gboolean
-reinit_dbus (gpointer user_data)
+reinit_dbus (EShell *shell)
 {
-	if (init_dbus (user_data))
-		return FALSE;
-
-	/* keep trying to re-establish dbus connection */
-
-	return TRUE;
+	return !e_shell_dbus_initialize (shell);
 }
 
 static DBusHandlerResult
@@ -62,18 +50,10 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 			 DBusMessage *message, void *user_data)
 {
 	DBusError error;
-	const char *object;
-	ShellLineStatus status;
-	EShellWindow *window = NULL;
-	EShell *shell = NULL;
-	GNOME_Evolution_ShellState shell_state;
+	const gchar *object;
+	EShell *shell = user_data;
 	EShellLineStatus line_status;
-
- 	if (!user_data || !E_IS_SHELL_WINDOW (user_data))
- 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
- 
- 	window = E_SHELL_WINDOW (user_data);
- 	shell = e_shell_window_peek_shell (window);
+	gboolean device_active;
 
 	dbus_error_init (&error);
 	object = dbus_message_get_path (message);
@@ -83,15 +63,15 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		dbus_connection_unref (dbus_connection);
 		dbus_connection = NULL;
 
-		g_timeout_add (3000, reinit_dbus, window);
+		g_timeout_add (3000, (GSourceFunc) reinit_dbus, shell);
 
 		return DBUS_HANDLER_RESULT_HANDLED;
 	}
 
 	if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNoLongerActive"))
-		status = E_SHELL_LINE_DOWN;
+		device_active = FALSE;
 	else if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNowActive"))
-		status = E_SHELL_LINE_UP;
+		device_active = TRUE;
 	else
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
@@ -101,21 +81,20 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 
 	line_status = e_shell_get_line_status (shell);
 
-	if (line_status == E_SHELL_LINE_STATUS_ONLINE && status == E_SHELL_LINE_DOWN) {
-		  shell_state = GNOME_Evolution_FORCED_OFFLINE;
-		  e_shell_go_offline (shell, window, shell_state);
-	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && status == E_SHELL_LINE_UP) {
-		  shell_state = GNOME_Evolution_USER_ONLINE;
-		  e_shell_go_online (shell, window, shell_state);
-	}
+	if (line_status == E_SHELL_LINE_STATUS_ONLINE && !device_active)
+		e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_FORCED_OFFLINE);
+	else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && device_active)
+		e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_ONLINE);
 
 	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
-static gboolean
-init_dbus (EShellWindow *window)
+gboolean
+e_shell_dbus_initialize (EShell *shell)
 {
 	DBusError error;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	if (dbus_connection != NULL)
 		return TRUE;
@@ -130,7 +109,7 @@ init_dbus (EShellWindow *window)
 	dbus_connection_setup_with_g_main (dbus_connection, NULL);
 	dbus_connection_set_exit_on_disconnect (dbus_connection, FALSE);
 
-	if (!dbus_connection_add_filter (dbus_connection, e_shell_network_monitor, window, NULL))
+	if (!dbus_connection_add_filter (dbus_connection, e_shell_network_monitor, shell, NULL))
 		goto exception;
 
 	dbus_bus_add_match (dbus_connection,
@@ -145,24 +124,10 @@ init_dbus (EShellWindow *window)
 
 	return TRUE;
 
- exception:
+exception:
 
 	dbus_connection_unref (dbus_connection);
 	dbus_connection = NULL;
 
 	return FALSE;
 }
-
-int e_shell_dbus_initialise (EShellWindow *window)
-{
-	g_type_init ();
-
-	return init_dbus (window);
-}
-
-void e_shell_dbus_dispose (EShellWindow *window)
-{
-	//FIXME
-	return;
-}
-

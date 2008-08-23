@@ -51,6 +51,8 @@ G_BEGIN_DECLS
 
 struct _EShellWindowPrivate {
 
+	EShell *shell;
+
 	/*** UI Management ***/
 
 	GtkUIManager *manager;

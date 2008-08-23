@@ -18,7 +18,9 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <e-shell.h>
 #include <e-shell-module.h>
+#include <e-shell-window.h>
 
 #include "e-test-shell-view.h"
 
@@ -52,13 +54,14 @@ test_module_handle_uri (EShellModule *shell_module,
 {
 	g_debug ("%s (uri=%s)", G_STRFUNC, uri);
 
-	return TRUE;
+	return FALSE;
 }
 
 static void
-test_module_send_and_receive (EShellModule *shell_module)
+test_module_send_receive (EShellModule *shell_module,
+                          GtkWindow *parent_window)
 {
-	g_debug ("%s", G_STRFUNC);
+	g_debug ("%s (window=%p)", G_STRFUNC, parent_window);
 }
 
 static void
@@ -66,6 +69,13 @@ test_module_window_created (EShellModule *shell_module,
                             EShellWindow *shell_window)
 {
 	g_debug ("%s (window=%p)", G_STRFUNC, shell_window);
+}
+
+static void
+test_module_window_destroyed (EShellModule *shell_module,
+                              gboolean last_window)
+{
+	g_debug ("%s (last=%d)", G_STRFUNC, last_window);
 }
 
 static EShellModuleInfo module_info = {
@@ -77,15 +87,31 @@ static EShellModuleInfo module_info = {
 
 	/* Methods */
 	test_module_is_busy,
-	test_module_shutdown,
-	test_module_handle_uri,
-	test_module_send_and_receive,
-	test_module_window_created
+	test_module_shutdown
 };
 
 void
 e_shell_module_init (GTypeModule *module)
 {
+	EShell *shell;
+
 	e_test_shell_view_get_type (module);
+	shell = e_shell_module_get_shell (E_SHELL_MODULE (module));
 	e_shell_module_set_info (E_SHELL_MODULE (module), &module_info);
+
+	g_signal_connect_swapped (
+		shell, "handle-uri",
+		G_CALLBACK (test_module_handle_uri), module);
+
+	g_signal_connect_swapped (
+		shell, "send-receive",
+		G_CALLBACK (test_module_send_receive), module);
+
+	g_signal_connect_swapped (
+		shell, "window-created",
+		G_CALLBACK (test_module_window_created), module);
+
+	g_signal_connect_swapped (
+		shell, "window-destroyed",
+		G_CALLBACK (test_module_window_destroyed), module);
 }

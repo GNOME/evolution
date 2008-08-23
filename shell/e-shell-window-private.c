@@ -20,16 +20,90 @@
 
 #include "e-shell-window-private.h"
 
-#include "e-util/e-util.h"
-#include "e-util/gconf-bridge.h"
+#include <string.h>
+#include <e-util/e-util.h>
+#include <e-util/gconf-bridge.h>
 
-#ifdef NM_SUPPORT_GLIB
-void e_shell_nm_glib_initialise (EShellWindow *window);
-void e_shell_nm_glib_dispose (EShellWindow *window);
-#elif NM_SUPPORT
-void e_shell_dbus_initialise (EShellWindow *window);
-void e_shell_dbus_dispose (EShellWindow *window);
-#endif
+static void
+shell_window_save_switcher_style_cb (GtkRadioAction *action,
+                                     GtkRadioAction *current,
+                                     EShellWindow *window)
+{
+	GConfClient *client;
+	GtkToolbarStyle style;
+	const gchar *key;
+	const gchar *string;
+	GError *error = NULL;
+
+	client = gconf_client_get_default ();
+	style = gtk_radio_action_get_current_value (action);
+	key = "/apps/evolution/shell/view_defaults/buttons_style";
+
+	switch (style) {
+		case GTK_TOOLBAR_ICONS:
+			string = "icons";
+			break;
+
+		case GTK_TOOLBAR_TEXT:
+			string = "text";
+			break;
+
+		case GTK_TOOLBAR_BOTH:
+		case GTK_TOOLBAR_BOTH_HORIZ:
+			string = "both";
+			break;
+
+		default:
+			string = "toolbar";
+			break;
+	}
+
+	if (!gconf_client_set_string (client, key, string, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_object_unref (client);
+}
+
+static void
+shell_window_init_switcher_style (EShellWindow *window)
+{
+	GtkAction *action;
+	GConfClient *client;
+	GtkToolbarStyle style;
+	const gchar *key;
+	gchar *string;
+	GError *error = NULL;
+
+	/* XXX GConfBridge doesn't let you convert between numeric properties
+	 *     and string keys, so we have to create the binding manually. */
+
+	client = gconf_client_get_default ();
+	action = ACTION (SWITCHER_STYLE_ICONS);
+	key = "/apps/evolution/shell/view_defaults/buttons_style";
+	string = gconf_client_get_string (client, key, &error);
+
+	if (string != NULL) {
+		if (strcmp (string, "icons") == 0)
+			style = GTK_TOOLBAR_ICONS;
+		else if (strcmp (string, "text") == 0)
+			style = GTK_TOOLBAR_TEXT;
+		else if (strcmp (string, "both") == 0)
+			style = GTK_TOOLBAR_BOTH_HORIZ;
+		else
+			style = -1;
+
+		gtk_radio_action_set_current_value (
+			GTK_RADIO_ACTION (action), style);
+	}
+
+	g_signal_connect (
+		action, "changed",
+		G_CALLBACK (shell_window_save_switcher_style_cb), window);
+
+	g_object_unref (client);
+}
 
 static void
 shell_window_menu_item_select_cb (EShellWindow *window,
@@ -236,13 +310,7 @@ e_shell_window_private_init (EShellWindow *window)
 	key = "/apps/evolution/shell/view_defaults/toolbar_visible";
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
-	/* NetworkManager integration. */
-
-#ifdef NM_SUPPORT_GLIB
-	e_shell_nm_glib_initialise (window);
-#elif NM_SUPPORT
-	e_shell_dbus_initialise (window);
-#endif
+	shell_window_init_switcher_style (window);
 
 	/* Initialize shell views */
 
@@ -253,6 +321,8 @@ void
 e_shell_window_private_dispose (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
+
+	DISPOSE (priv->shell);
 
 	DISPOSE (priv->manager);
 	DISPOSE (priv->shell_actions);
@@ -272,12 +342,6 @@ e_shell_window_private_dispose (EShellWindow *window)
 	DISPOSE (priv->online_button);
 	DISPOSE (priv->tooltip_label);
 	DISPOSE (priv->status_notebook);
-
-#ifdef NM_SUPPORT_GLIB
-	e_shell_nm_glib_dispose (E_SHELL_WINDOW (object));
-#elif NM_SUPPORT
-	e_shell_dbus_dispose (E_SHELL_WINDOW (object));
-#endif
 
 	priv->destroyed = TRUE;
 }

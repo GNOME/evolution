@@ -42,6 +42,8 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SIDEBAR, ESidebarClass))
 
+#define E_SIDEBAR_DEFAULT_TOOLBAR_STYLE		GTK_TOOLBAR_BOTH_HORIZ
+
 G_BEGIN_DECLS
 
 typedef struct _ESidebar ESidebar;

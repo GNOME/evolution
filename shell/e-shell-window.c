@@ -42,10 +42,19 @@
 enum {
 	PROP_0,
 	PROP_CURRENT_VIEW,
-	PROP_SAFE_MODE
+	PROP_SAFE_MODE,
+	PROP_SHELL
 };
 
 static gpointer parent_class;
+
+static void
+shell_window_set_shell (EShellWindow *shell_window,
+                        EShell *shell)
+{
+	g_return_if_fail (shell_window->priv->shell == NULL);
+	shell_window->priv->shell = g_object_ref (shell);
+}
 
 static void
 shell_window_set_property (GObject *object,
@@ -64,6 +73,12 @@ shell_window_set_property (GObject *object,
 			e_shell_window_set_safe_mode (
 				E_SHELL_WINDOW (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHELL:
+			shell_window_set_shell (
+				E_SHELL_WINDOW (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -86,6 +101,12 @@ shell_window_get_property (GObject *object,
 		case PROP_SAFE_MODE:
 			g_value_set_boolean (
 				value, e_shell_window_get_safe_mode (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_SHELL:
+			g_value_set_object (
+				value, e_shell_window_get_shell (
 				E_SHELL_WINDOW (object)));
 			return;
 	}
@@ -146,6 +167,17 @@ shell_window_class_init (EShellWindowClass *class)
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL,
+		g_param_spec_object (
+			"shell",
+			NULL,
+			NULL,
+			E_TYPE_SHELL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -190,10 +222,20 @@ e_shell_window_get_type (void)
 }
 
 GtkWidget *
-e_shell_window_new (gboolean safe_mode)
+e_shell_window_new (EShell *shell,
+                    gboolean safe_mode)
 {
 	return g_object_new (
-		E_TYPE_SHELL_WINDOW, "safe-mode", safe_mode, NULL);
+		E_TYPE_SHELL_WINDOW, "shell", shell,
+		"safe-mode", safe_mode, NULL);
+}
+
+EShell *
+e_shell_window_get_shell (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	return shell_window->priv->shell;
 }
 
 GtkUIManager *

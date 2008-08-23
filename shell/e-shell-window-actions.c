@@ -713,7 +713,10 @@ static void
 action_new_window_cb (GtkAction *action,
                       EShellWindow *window)
 {
-	e_shell_create_window ();
+	EShell *shell;
+
+	shell = e_shell_window_get_shell (window);
+	e_shell_create_window (shell);
 }
 
 static void
@@ -784,14 +787,20 @@ static void
 action_quit_cb (GtkAction *action,
                 EShellWindow *window)
 {
-	e_shell_quit ();
+	EShell *shell;
+
+	shell = e_shell_window_get_shell (window);
+	e_shell_quit (shell);
 }
 
 static void
 action_send_receive_cb (GtkAction *action,
                         EShellWindow *window)
 {
-	e_shell_send_receive (GTK_WINDOW (window));
+	EShell *shell;
+
+	shell = e_shell_window_get_shell (window);
+	e_shell_send_receive (shell, GTK_WINDOW (window));
 }
 
 static void
@@ -812,7 +821,7 @@ action_show_sidebar_cb (GtkToggleAction *action,
 	GtkWidget *widget;
 	gboolean active;
 
-	widget = window->priv->sidebar_notebook;
+	widget = window->priv->sidebar;
 	active = gtk_toggle_action_get_active (action);
 	g_object_set (widget, "visible", active, NULL);
 }
@@ -930,14 +939,20 @@ static void
 action_work_offline_cb (GtkAction *action,
                         EShellWindow *window)
 {
-	e_shell_go_offline ();
+	EShell *shell;
+
+	shell = e_shell_window_get_shell (window);
+	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_OFFLINE);
 }
 
 static void
 action_work_online_cb (GtkAction *action,
                        EShellWindow *window)
 {
-	e_shell_go_online ();
+	EShell *shell;
+
+	shell = e_shell_window_get_shell (window);
+	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_ONLINE);
 }
 
 static GtkActionEntry shell_entries[] = {
@@ -1280,7 +1295,8 @@ e_shell_window_actions_init (EShellWindow *window)
 		G_N_ELEMENTS (shell_toggle_entries), window);
 	gtk_action_group_add_radio_actions (
 		action_group, shell_switcher_style_entries,
-		G_N_ELEMENTS (shell_switcher_style_entries), -1,
+		G_N_ELEMENTS (shell_switcher_style_entries),
+		E_SIDEBAR_DEFAULT_TOOLBAR_STYLE,
 		G_CALLBACK (action_switcher_style_cb),  window);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 

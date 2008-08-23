@@ -38,6 +38,7 @@ struct _EShellModulePrivate {
 
 	GModule *module;
 	gchar *filename;
+	EShell *shell;
 
 	/* Initializes the loaded module. */
 	void (*init) (GTypeModule *module);
@@ -45,7 +46,8 @@ struct _EShellModulePrivate {
 
 enum {
 	PROP_0,
-	PROP_FILENAME
+	PROP_FILENAME,
+	PROP_SHELL
 };
 
 static gpointer parent_class;
@@ -54,8 +56,16 @@ static void
 shell_module_set_filename (EShellModule *shell_module,
                            const gchar *filename)
 {
-	g_free (shell_module->priv->filename);
+	g_return_if_fail (shell_module->priv->filename == NULL);
 	shell_module->priv->filename = g_strdup (filename);
+}
+
+static void
+shell_module_set_shell (EShellModule *shell_module,
+                        EShell *shell)
+{
+	g_return_if_fail (shell_module->priv->shell == NULL);
+	shell_module->priv->shell = g_object_ref (shell);
 }
 
 static void
@@ -69,6 +79,12 @@ shell_module_set_property (GObject *object,
 			shell_module_set_filename (
 				E_SHELL_MODULE (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_SHELL:
+			shell_module_set_shell (
+				E_SHELL_MODULE (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -87,9 +103,31 @@ shell_module_get_property (GObject *object,
 				value, e_shell_module_get_filename (
 				E_SHELL_MODULE (object)));
 			return;
+
+		case PROP_SHELL:
+			g_value_set_object (
+				value, e_shell_module_get_shell (
+				E_SHELL_MODULE (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+shell_module_dispose (GObject *object)
+{
+	EShellModulePrivate *priv;
+
+	priv = E_SHELL_MODULE_GET_PRIVATE (object);
+
+	if (priv->shell != NULL) {
+		g_object_unref (priv->shell);
+		priv->shell = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -161,6 +199,7 @@ shell_module_class_init (EShellModuleClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_module_set_property;
 	object_class->get_property = shell_module_get_property;
+	object_class->dispose = shell_module_dispose;
 	object_class->finalize = shell_module_finalize;
 
 	type_module_class = G_TYPE_MODULE_CLASS (class);
@@ -175,6 +214,17 @@ shell_module_class_init (EShellModuleClass *class)
 			_("Filename"),
 			_("The filename of the module"),
 			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL,
+		g_param_spec_object (
+			"shell",
+			_("Shell"),
+			_("The EShell singleton"),
+			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -212,11 +262,14 @@ e_shell_module_get_type (void)
 }
 
 EShellModule *
-e_shell_module_new (const gchar *filename)
+e_shell_module_new (EShell *shell,
+                    const gchar *filename)
 {
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	return g_object_new (E_TYPE_SHELL_MODULE, "filename", filename, NULL);
+	return g_object_new (
+		E_TYPE_SHELL_MODULE, "shell", shell,
+		"filename", filename, NULL);
 }
 
 gint
@@ -235,6 +288,14 @@ e_shell_module_get_filename (EShellModule *shell_module)
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
 
 	return shell_module->priv->filename;
+}
+
+EShell *
+e_shell_module_get_shell (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+
+	return shell_module->priv->shell;
 }
 
 gboolean
@@ -267,51 +328,6 @@ e_shell_module_shutdown (EShellModule *shell_module)
 	return TRUE;
 }
 
-gboolean
-e_shell_module_handle_uri (EShellModule *shell_module,
-                           const gchar *uri)
-{
-	EShellModuleInfo *module_info;
-
-	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
-	g_return_val_if_fail (uri != NULL, FALSE);
-
-	module_info = &shell_module->priv->info;
-
-	if (module_info->handle_uri != NULL)
-		return module_info->handle_uri (shell_module, uri);
-
-	return FALSE;
-}
-
-void
-e_shell_module_send_and_receive (EShellModule *shell_module)
-{
-	EShellModuleInfo *module_info;
-
-	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
-
-	module_info = &shell_module->priv->info;
-
-	if (module_info->send_and_receive != NULL)
-		module_info->send_and_receive (shell_module);
-}
-
-void
-e_shell_module_window_created (EShellModule *shell_module,
-                               EShellWindow *shell_window)
-{
-	EShellModuleInfo *module_info;
-
-	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	module_info = &shell_module->priv->info;
-
-	if (module_info->window_created != NULL)
-		module_info->window_created (shell_module, shell_window);
-}
-
 void
 e_shell_module_set_info (EShellModule *shell_module,
                          const EShellModuleInfo *info)
@@ -336,6 +352,4 @@ e_shell_module_set_info (EShellModule *shell_module,
 
 	module_info->is_busy = info->is_busy;
 	module_info->shutdown = info->shutdown;
-	module_info->send_and_receive = info->send_and_receive;
-	module_info->window_created = info->window_created;
 }

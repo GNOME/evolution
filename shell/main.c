@@ -91,7 +91,7 @@
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
-static gboolean killev = FALSE;
+static gboolean force_shutdown = FALSE;
 #if DEVELOPMENT
 static gboolean force_migrate = FALSE;
 #endif
@@ -99,6 +99,7 @@ static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
+static EShell *global_shell;
 static char *default_component_id = NULL;
 static char *evolution_debug_log = NULL;
 static gchar **remaining_args;
@@ -272,7 +273,7 @@ open_uris (gchar **uris)
 	g_return_if_fail (uris != NULL);
 
 	for (ii = 0; uris[ii] != NULL; ii++)
-		if (!e_shell_handle_uri (uris[ii]))
+		if (!e_shell_handle_uri (global_shell, uris[ii]))
 			g_warning ("Invalid URI: %s", uris[ii]);
 }
 
@@ -301,9 +302,9 @@ idle_cb (gchar **uris)
 	if (uris != NULL)
 		open_uris (uris);
 	else {
-		EShellWindow *shell_window;
+		GtkWidget *shell_window;
 
-		shell_window = e_shell_create_window ();
+		shell_window = e_shell_create_window (global_shell);
 		/* XXX Switch to default_component_id. */
 	}
 
@@ -376,23 +377,6 @@ setup_segv_redirect (void)
 #define setup_segv_redirect() (void)0
 #endif
 
-static gint
-gnome_master_client_save_yourself_cb (GnomeClient *client,
-                                      GnomeSaveStyle save_style,
-                                      gint shutdown,
-                                      GnomeInteractStyle interact_style,
-                                      gint fast,
-                                      gpointer user_data)
-{
-	return !e_shell_is_busy ();
-}
-
-static void
-gnome_master_client_die_cb (GnomeClient *client)
-{
-	e_shell_do_quit ();
-}
-
 static const GOptionEntry options[] = {
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &default_component_id,
 	  N_("Start Evolution activating the specified component"), NULL },
@@ -401,7 +385,7 @@ static const GOptionEntry options[] = {
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
 	  N_("Start in online mode"), NULL },
 #ifdef KILL_PROCESS_CMD
-	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev,
+	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down all Evolution components"), NULL },
 #endif
 #if DEVELOPMENT
@@ -466,6 +450,85 @@ set_paths (void)
 }
 #endif
 
+static void
+shell_window_destroyed_cb (EShell *shell,
+                           gboolean last_window)
+{
+	if (last_window)
+		gtk_main_quit ();
+}
+
+static gint
+master_client_save_yourself_cb (GnomeClient *client,
+                                GnomeSaveStyle save_style,
+                                gint shutdown,
+                                GnomeInteractStyle interact_style,
+                                gint fast,
+                                gpointer user_data)
+{
+	EShell *shell = user_data;
+
+	return !e_shell_is_busy (shell);
+}
+
+static void
+master_client_die_cb (GnomeClient *client,
+                      gpointer user_data)
+{
+	EShell *shell = user_data;
+
+	e_shell_do_quit (shell);
+}
+
+static void
+create_shell (void)
+{
+	EShell *shell;
+	GConfClient *conf_client;
+	GnomeClient *master_client;
+	gboolean online = TRUE;
+	GError *error = NULL;
+
+	conf_client = gconf_client_get_default ();
+	master_client = gnome_master_client ();
+
+	if (start_online)
+		online = TRUE;
+	else if (start_offline)
+		online = FALSE;
+	else {
+		const gchar *key;
+		gboolean value;
+
+		key = "/apps/evolution/shell/start_offline";
+		value = gconf_client_get_bool (conf_client, key, &error);
+		if (error == NULL)
+			online = !value;
+		else {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
+	}
+
+	shell = e_shell_new (online);
+
+	g_signal_connect (
+		shell, "window-destroyed",
+		G_CALLBACK (shell_window_destroyed_cb), NULL);
+
+	g_signal_connect (
+		master_client, "save_yourself",
+		G_CALLBACK (master_client_save_yourself_cb), shell);
+
+	g_signal_connect (
+		master_client, "die",
+		G_CALLBACK (master_client_die_cb), shell);
+
+	g_object_unref (conf_client);
+
+	global_shell = shell;
+}
+
 int
 main (int argc, char **argv)
 {
@@ -478,9 +541,9 @@ main (int argc, char **argv)
 	gboolean skip_warning_dialog;
 #endif
 	GnomeProgram *program;
-	GnomeClient *master_client;
 	GOptionContext *context;
-	char *filename;
+	const gchar *parameter_string;
+	gchar *filename;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -489,21 +552,21 @@ main (int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	context = g_option_context_new (_("- The Evolution PIM and Email Client"));
-
+	parameter_string = _("- The Evolution PIM and Email Client");
+	context = g_option_context_new (parameter_string);
 	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-
-	g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
+	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);
 
 #ifdef G_OS_WIN32
 	set_paths ();
 #endif
 
-	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
-				      GNOME_PROGRAM_STANDARD_PROPERTIES,
-				      GNOME_PARAM_GOPTION_CONTEXT, context,
-				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
-				      NULL);
+	program = gnome_program_init (
+		PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
+		GNOME_PROGRAM_STANDARD_PROPERTIES,
+		GNOME_PARAM_GOPTION_CONTEXT, context,
+		GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
+		NULL);
 
 #ifdef G_OS_WIN32
 	if (strcmp (gettext (""), "") == 0) {
@@ -517,15 +580,14 @@ main (int argc, char **argv)
 	}
 #endif
 	if (start_online && start_offline) {
-		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
+		g_printerr (_("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
 			 argv[0], argv[0]);
 		exit (1);
 	}
 
-	if (killev) {
-		filename = g_build_filename (EVOLUTION_TOOLSDIR,
-					     "killev",
-					     NULL);
+	if (force_shutdown) {
+		filename = g_build_filename (
+			EVOLUTION_TOOLSDIR, "killev", NULL);
 		execl (filename, "killev", NULL);
 		/* Not reached */
 		exit (0);
@@ -534,11 +596,10 @@ main (int argc, char **argv)
 	client = gconf_client_get_default ();
 
 #if DEVELOPMENT
-	
-	if (force_migrate) {
+	if (force_migrate)
 		destroy_config (client);
-	}
 #endif
+
 	if (disable_preview) {
 		gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
 		gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
@@ -560,16 +621,10 @@ main (int argc, char **argv)
 			g_warning ("Could not set up debugging output file.");
 	}
 
-	master_client = gnome_master_client ();
-
-	g_signal_connect (G_OBJECT (master_client), "save_yourself", G_CALLBACK (gnome_master_client_save_yourself_cb), NULL);
-	g_signal_connect (G_OBJECT (master_client), "die", G_CALLBACK (gnome_master_client_die_cb), NULL);
-
 	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
 	e_passwords_init ();
-	e_shell_registry_init ();
 
 	gtk_window_set_default_icon_name ("evolution");
 
@@ -579,16 +634,16 @@ main (int argc, char **argv)
 	gnome_sound_init ("localhost");
 
 	if (!disable_eplugin) {
-		e_plugin_register_type(e_plugin_lib_get_type());
-		e_plugin_hook_register_type(es_menu_hook_get_type());
-		e_plugin_hook_register_type(es_event_hook_get_type());
+		e_plugin_register_type (e_plugin_lib_get_type ());
+		e_plugin_hook_register_type (es_menu_hook_get_type ());
+		e_plugin_hook_register_type (es_event_hook_get_type ());
 #ifdef ENABLE_PROFILING
-		e_plugin_hook_register_type(e_profile_event_hook_get_type());
+		e_plugin_hook_register_type (e_profile_event_hook_get_type ());
 #endif
-		e_plugin_hook_register_type(e_plugin_type_hook_get_type());
-		e_plugin_hook_register_type(e_import_hook_get_type());
-		e_plugin_hook_register_type(E_TYPE_PLUGIN_UI_HOOK);
-		e_plugin_load_plugins();
+		e_plugin_hook_register_type (e_plugin_type_hook_get_type ());
+		e_plugin_hook_register_type (e_import_hook_get_type ());
+		e_plugin_hook_register_type (E_TYPE_PLUGIN_UI_HOOK);
+		e_plugin_load_plugins ();
 	}
 
 #if DEVELOPMENT
@@ -605,7 +660,10 @@ main (int argc, char **argv)
 #else
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 #endif
+
 	g_object_unref (client);
+
+	create_shell ();
 
 	gtk_main ();
 

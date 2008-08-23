@@ -22,6 +22,7 @@
 #define E_SHELL_WINDOW_H
 
 #include "e-shell-common.h"
+#include "e-shell.h"
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_WINDOW \
@@ -58,7 +59,9 @@ struct _EShellWindowClass {
 };
 
 GType		e_shell_window_get_type		(void);
-GtkWidget *	e_shell_window_new		(gboolean safe_mode);
+GtkWidget *	e_shell_window_new		(EShell *shell,
+						 gboolean safe_mode);
+EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
 GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,
 						 const gchar *action_name);

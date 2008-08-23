@@ -1517,22 +1517,15 @@ dnl --- evolution (shell) flags
 
 NM_SUPPORT_PACKAGES=""
 
-PKG_CHECK_MODULES(NM, dbus-glib-1 libnm_glib, NM_SUPPORT_GLIB="yes", NM_SUPPORT_GLIB="no")
-if test "x$NM_SUPPORT_GLIB" = "xyes"; then 
-   AC_DEFINE(NM_SUPPORT_GLIB, 1, [network manager available])
-   NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1 libnm_glib"
-else
-   PKG_CHECK_MODULES(NM, dbus-glib-1, NM_SUPPORT="yes", NM_SUPPORT="no")
-   AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [ nm_header="yes" ] )
-   if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then 
+PKG_CHECK_MODULES(NM, dbus-glib-1, NM_SUPPORT="yes", NM_SUPPORT="no")
+AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [nm_header="yes"])
+if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then 
 	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
 	NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1"
-   else
+else
         NM_SUPPORT=no
-   fi	   
-fi 
+fi	   
 
-AM_CONDITIONAL(NM_SUPPORT_GLIB, test x$NM_SUPPORT_GLIB = xyes)
 AM_CONDITIONAL(NM_SUPPORT, test x$NM_SUPPORT = xyes)
 
 

@@ -23,10 +23,11 @@
 
 #include "e-shell-common.h"
 #include "e-shell-module.h"
+#include "e-shell.h"
 
 G_BEGIN_DECLS
 
-void		e_shell_registry_init			(void);
+void		e_shell_registry_init			(EShell *shell);
 GList *		e_shell_registry_list_modules		(void);
 const gchar *	e_shell_registry_get_canonical_name	(const gchar *name);
 EShellModule *	e_shell_registry_get_module_by_name	(const gchar *name);

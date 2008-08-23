@@ -60,6 +60,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "show-toolbar")
 #define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
+#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "switcher-style-icons")
 #define E_SHELL_WINDOW_ACTION_SYNC_OPTIONS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "sync-options")
 #define E_SHELL_WINDOW_ACTION_WORK_OFFLINE(window) \

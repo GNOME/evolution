@@ -26,13 +26,9 @@ INCLUDES =							\
 
 noinst_PROGRAMS = evolution
 
-if NM_SUPPORT_GLIB
-NM_SUPPORT_FILES = e-shell-nm-glib.c
-else
 if NM_SUPPORT
 NM_SUPPORT_FILES = e-shell-nm.c 
 endif
-endif 
 
 # Data Server CORBA stuff
 DATASERVER_IDL_GENERATED_H =			\
@@ -174,6 +170,10 @@ uninstall-local: uninstall-evolution
 
 endif
 
+MARSHAL_GENERATED =				\
+	e-shell-marshal.c			\
+	e-shell-marshal.h
+@EVO_MARSHAL_RULE@
 
 # Extra dist stuff
 
@@ -182,6 +182,7 @@ EXTRA_DIST = 					\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
+	e-shell-marshal.list			\
 	evolution-nognome.in
 
 # Purify support

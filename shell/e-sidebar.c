@@ -27,8 +27,6 @@
 #define H_PADDING 6
 #define V_PADDING 6
 
-#define DEFAULT_TOOLBAR_STYLE	GTK_TOOLBAR_BOTH_HORIZ
-
 struct _ESidebarPrivate {
 	GList *proxies;
 	gboolean actions_visible;
@@ -451,7 +449,7 @@ sidebar_class_init (ESidebarClass *class)
 			NULL,
 			NULL,
 			GTK_TYPE_TOOLBAR_STYLE,
-			DEFAULT_TOOLBAR_STYLE,
+			E_SIDEBAR_DEFAULT_TOOLBAR_STYLE,
 			G_PARAM_CONSTRUCT |
 			G_PARAM_READWRITE));
 
@@ -575,7 +573,8 @@ e_sidebar_set_actions_visible (ESidebar *sidebar,
 GtkToolbarStyle
 e_sidebar_get_style (ESidebar *sidebar)
 {
-	g_return_val_if_fail (E_IS_SIDEBAR (sidebar), DEFAULT_TOOLBAR_STYLE);
+	g_return_val_if_fail (
+		E_IS_SIDEBAR (sidebar), E_SIDEBAR_DEFAULT_TOOLBAR_STYLE);
 
 	return sidebar->priv->style;
 }
@@ -605,7 +604,7 @@ e_sidebar_unset_style (ESidebar *sidebar)
 	if (settings != NULL)
 		g_object_get (settings, "gtk-toolbar-style", &style, NULL);
 	else
-		style = DEFAULT_TOOLBAR_STYLE;
+		style = E_SIDEBAR_DEFAULT_TOOLBAR_STYLE;
 
 	if (style == GTK_TOOLBAR_BOTH)
 		style = GTK_TOOLBAR_BOTH_HORIZ;

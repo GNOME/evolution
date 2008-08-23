@@ -22,12 +22,43 @@
 #define E_SHELL_H
 
 #include "e-shell-common.h"
-#include "e-shell-window.h"
+
+/* Standard GObject macros */
+#define E_TYPE_SHELL \
+	(e_shell_get_type ())
+#define E_SHELL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SHELL, EShell))
+#define E_SHELL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SHELL, EShellClass))
+#define E_IS_SHELL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SHELL))
+#define E_IS_SHELL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SHELL))
+#define E_SHELL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SHELL, EShellClass))
 
 G_BEGIN_DECLS
 
+typedef struct _EShell EShell;
+typedef struct _EShellClass EShellClass;
+typedef struct _EShellPrivate EShellPrivate;
+
 typedef enum _EShellLineStatus EShellLineStatus;
 typedef enum _EShellStartupLineMode EShellStartupLineMode;
+
+struct _EShell {
+	GObject parent;
+	EShellPrivate *priv;
+};
+
+struct _EShellClass {
+	GObjectClass parent_class;
+};
 
 enum _EShellLineStatus {
 	E_SHELL_LINE_STATUS_ONLINE,
@@ -42,17 +73,24 @@ enum _EShellStartupLineMode {
 	E_SHELL_STARTUP_LINE_MODE_OFFLINE
 };
 
-EShellWindow *	e_shell_create_window		(void);
-gboolean	e_shell_handle_uri		(const gchar *uri);
-void		e_shell_send_receive		(GtkWindow *parent);
-void		e_shell_go_offline		(void);
-void		e_shell_go_online		(void);
+GType		e_shell_get_type		(void);
+EShell *	e_shell_new			(gboolean online);
+GtkWidget *	e_shell_create_window		(EShell *shell);
+gboolean	e_shell_handle_uri		(EShell *shell,
+                                                 const gchar *uri);
+void		e_shell_send_receive		(EShell *shell,
+						 GtkWindow *parent);
+gboolean	e_shell_get_online		(EShell *shell);
+void		e_shell_set_online		(EShell *shell,
+						 gboolean online);
 EShellLineStatus
-		e_shell_get_line_status		(void);
+		e_shell_get_line_status		(EShell *shell);
+void		e_shell_set_line_status		(EShell *shell,
+                                                 EShellLineStatus status);
 GtkWidget *	e_shell_get_preferences_window	(void);
-gboolean	e_shell_is_busy			(void);
-gboolean	e_shell_do_quit			(void);
-gboolean	e_shell_quit			(void);
+gboolean	e_shell_is_busy			(EShell *shell);
+gboolean	e_shell_do_quit			(EShell *shell);
+gboolean	e_shell_quit			(EShell *shell);
 
 G_END_DECLS
 
