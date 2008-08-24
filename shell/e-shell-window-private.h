@@ -25,21 +25,24 @@
 
 #include <glib/gi18n.h>
 
-#include "e-shell.h"
-#include "e-shell-view.h"
-#include "e-shell-registry.h"
-#include "e-shell-window-actions.h"
+#include <e-shell.h>
+#include <e-shell-view.h>
+#include <e-shell-registry.h>
+#include <e-shell-window-actions.h>
 
-#include "e-online-button.h"
-#include "e-sidebar.h"
+#include <e-menu-tool-button.h>
+#include <e-online-button.h>
+#include <e-sidebar.h>
 
 #define E_SHELL_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_WINDOW, EShellWindowPrivate))
 
-/* Shorthand, requires a variable named "window". */
-#define ACTION(name)		(E_SHELL_WINDOW_ACTION_##name (window))
-#define ACTION_GROUP(name)	(E_SHELL_WINDOW_ACTION_GROUP_##name (window))
+/* Shorthand, requires a variable named "shell_window". */
+#define ACTION(name) \
+	(E_SHELL_WINDOW_ACTION_##name (shell_window))
+#define ACTION_GROUP(name) \
+	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
 
 /* For use in dispose() methods. */
 #define DISPOSE(obj) \
@@ -71,6 +74,7 @@ struct _EShellWindowPrivate {
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
+	GtkWidget *menu_tool_button;
 	GtkWidget *content_pane;
 	GtkWidget *content_notebook;
 	GtkWidget *sidebar;
@@ -82,20 +86,20 @@ struct _EShellWindowPrivate {
 
 	/* Miscellaneous */
 
-	gboolean destroyed;  /* XXX Do we still need this? */
-	gboolean safe_mode;
+	guint destroyed : 1;  /* XXX Do we still need this? */
+	guint safe_mode : 1;
 };
 
-void		e_shell_window_private_init	(EShellWindow *window);
-void		e_shell_window_private_dispose	(EShellWindow *window);
-void		e_shell_window_private_finalize	(EShellWindow *window);
+void		e_shell_window_private_init	(EShellWindow *shell_window);
+void		e_shell_window_private_dispose	(EShellWindow *shell_window);
+void		e_shell_window_private_finalize	(EShellWindow *shell_window);
 
 /* Private Utilities */
 
-void		e_shell_window_actions_init	(EShellWindow *window);
-GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *window);
+void		e_shell_window_actions_init	(EShellWindow *shell_window);
+GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *shell_window);
 void		e_shell_window_create_shell_view_actions
-						(EShellWindow *window);
+						(EShellWindow *shell_window);
 
 G_END_DECLS
 

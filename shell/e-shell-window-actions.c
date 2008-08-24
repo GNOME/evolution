@@ -20,14 +20,16 @@
 
 #include "e-shell-window-private.h"
 
-#include "e-shell.h"
-#include "e-shell-importer.h"
-
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-error.h"
-#include "e-util/e-print.h"
-
 #include <string.h>
+
+#include <e-shell.h>
+#include <e-shell-importer.h>
+
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-error.h>
+#include <e-util/e-print.h>
+#include <e-util/e-util.h>
+
 #include <libedataserverui/e-passwords.h>
 
 #define EVOLUTION_COPYRIGHT \
@@ -626,7 +628,7 @@ static const gchar *documenters[] = {
 
 static void
 action_about_cb (GtkAction *action,
-                 EShellWindow *window)
+                 EShellWindow *shell_window)
 {
 	gchar *translator_credits;
 
@@ -638,7 +640,7 @@ action_about_cb (GtkAction *action,
 		translator_credits = NULL;
 
 	gtk_show_about_dialog (
-		GTK_WINDOW (window),
+		GTK_WINDOW (shell_window),
 		"program-name", "Evolution",
 		"version", VERSION,
 		"copyright", EVOLUTION_COPYRIGHT,
@@ -654,9 +656,9 @@ action_about_cb (GtkAction *action,
 
 static void
 action_close_cb (GtkAction *action,
-                 EShellWindow *window)
+                 EShellWindow *shell_window)
 {
-	GtkWidget *widget = GTK_WIDGET (window);
+	GtkWidget *widget = GTK_WIDGET (shell_window);
 	GdkEvent *event;
 
 	/* Synthesize a delete_event on this window. */
@@ -669,14 +671,14 @@ action_close_cb (GtkAction *action,
 
 static void
 action_contents_cb (GtkAction *action,
-                    EShellWindow *window)
+                    EShellWindow *shell_window)
 {
-	/* FIXME  Unfinished. */
+	e_display_help (GTK_WINDOW (shell_window), NULL);
 }
 
 static void
 action_faq_cb (GtkAction *action,
-               EShellWindow *window)
+               EShellWindow *shell_window)
 {
 	GError *error = NULL;
 
@@ -691,12 +693,12 @@ action_faq_cb (GtkAction *action,
 
 static void
 action_forget_passwords_cb (GtkAction *action,
-                            EShellWindow *window)
+                            EShellWindow *shell_window)
 {
 	gint response;
 
 	response = e_error_run (
-		GTK_WINDOW (window), "shell:forget-passwords", NULL);
+		GTK_WINDOW (shell_window), "shell:forget-passwords", NULL);
 
 	if (response == GTK_RESPONSE_OK)
 		e_passwords_forget_passwords ();
@@ -704,31 +706,31 @@ action_forget_passwords_cb (GtkAction *action,
 
 static void
 action_import_cb (GtkAction *action,
-                  EShellWindow *window)
+                  EShellWindow *shell_window)
 {
-	e_shell_importer_start_import (window);
+	e_shell_importer_start_import (shell_window);
 }
 
 static void
 action_new_window_cb (GtkAction *action,
-                      EShellWindow *window)
+                      EShellWindow *shell_window)
 {
 	EShell *shell;
 
-	shell = e_shell_window_get_shell (window);
+	shell = e_shell_window_get_shell (shell_window);
 	e_shell_create_window (shell);
 }
 
 static void
 action_page_setup_cb (GtkAction *action,
-                      EShellWindow *window)
+                      EShellWindow *shell_window)
 {
-	e_print_run_page_setup_dialog (GTK_WINDOW (window));
+	e_print_run_page_setup_dialog (GTK_WINDOW (shell_window));
 }
 
 static void
 action_preferences_cb (GtkAction *action,
-                       EShellWindow *window)
+                       EShellWindow *shell_window)
 {
 	GtkWidget *preferences_window;
 
@@ -740,7 +742,7 @@ action_preferences_cb (GtkAction *action,
 
 static void
 action_quick_reference_cb (GtkAction *action,
-                           EShellWindow *window)
+                           EShellWindow *shell_window)
 {
 	const gchar * const *language_names;
 
@@ -785,86 +787,86 @@ action_quick_reference_cb (GtkAction *action,
 
 static void
 action_quit_cb (GtkAction *action,
-                EShellWindow *window)
+                EShellWindow *shell_window)
 {
 	EShell *shell;
 
-	shell = e_shell_window_get_shell (window);
+	shell = e_shell_window_get_shell (shell_window);
 	e_shell_quit (shell);
 }
 
 static void
 action_send_receive_cb (GtkAction *action,
-                        EShellWindow *window)
+                        EShellWindow *shell_window)
 {
 	EShell *shell;
 
-	shell = e_shell_window_get_shell (window);
-	e_shell_send_receive (shell, GTK_WINDOW (window));
+	shell = e_shell_window_get_shell (shell_window);
+	e_shell_send_receive (shell, GTK_WINDOW (shell_window));
 }
 
 static void
 action_shell_view_cb (GtkRadioAction *action,
                       GtkRadioAction *current,
-                      EShellWindow *window)
+                      EShellWindow *shell_window)
 {
 	const gchar *view_name;
 
 	view_name = g_object_get_data (G_OBJECT (current), "view-name");
-	e_shell_window_set_current_view (window, view_name);
+	e_shell_window_set_current_view (shell_window, view_name);
 }
 
 static void
 action_show_sidebar_cb (GtkToggleAction *action,
-                        EShellWindow *window)
+                        EShellWindow *shell_window)
 {
 	GtkWidget *widget;
 	gboolean active;
 
-	widget = window->priv->sidebar;
+	widget = shell_window->priv->sidebar;
 	active = gtk_toggle_action_get_active (action);
 	g_object_set (widget, "visible", active, NULL);
 }
 
 static void
 action_show_statusbar_cb (GtkToggleAction *action,
-                          EShellWindow *window)
+                          EShellWindow *shell_window)
 {
 	GtkWidget *widget;
 	gboolean active;
 
-	widget = window->priv->status_area;
+	widget = shell_window->priv->status_area;
 	active = gtk_toggle_action_get_active (action);
 	g_object_set (widget, "visible", active, NULL);
 }
 
 static void
 action_show_switcher_cb (GtkToggleAction *action,
-                         EShellWindow *window)
+                         EShellWindow *shell_window)
 {
 	ESidebar *sidebar;
 	gboolean active;
 
-	sidebar = E_SIDEBAR (window->priv->sidebar);
+	sidebar = E_SIDEBAR (shell_window->priv->sidebar);
 	active = gtk_toggle_action_get_active (action);
 	e_sidebar_set_actions_visible (sidebar, active);
 }
 
 static void
 action_show_toolbar_cb (GtkToggleAction *action,
-                        EShellWindow *window)
+                        EShellWindow *shell_window)
 {
 	GtkWidget *widget;
 	gboolean active;
 
-	widget = window->priv->main_toolbar;
+	widget = shell_window->priv->main_toolbar;
 	active = gtk_toggle_action_get_active (action);
 	g_object_set (widget, "visible", active, NULL);
 }
 
 static void
 action_submit_bug_cb (GtkAction *action,
-                      EShellWindow *window)
+                      EShellWindow *shell_window)
 {
 	const gchar *command_line;
 	GError *error = NULL;
@@ -881,7 +883,7 @@ action_submit_bug_cb (GtkAction *action,
 			message = _("Bug Buddy is not installed.");
 		else
 			message = _("Bug Buddy could not be run.");
-		e_notice (window, GTK_MESSAGE_ERROR, message);
+		e_notice (shell_window, GTK_MESSAGE_ERROR, message);
 		g_error_free (error);
 	}
 }
@@ -889,12 +891,12 @@ action_submit_bug_cb (GtkAction *action,
 static void
 action_switcher_style_cb (GtkRadioAction *action,
                           GtkRadioAction *current,
-                          EShellWindow *window)
+                          EShellWindow *shell_window)
 {
 	ESidebar *sidebar;
 	GtkToolbarStyle style;
 
-	sidebar = E_SIDEBAR (window->priv->sidebar);
+	sidebar = E_SIDEBAR (shell_window->priv->sidebar);
 	style = gtk_radio_action_get_current_value (action);
 
 	switch (style) {
@@ -913,7 +915,7 @@ action_switcher_style_cb (GtkRadioAction *action,
 
 static void
 action_sync_options_cb (GtkAction *action,
-                        EShellWindow *window)
+                        EShellWindow *shell_window)
 {
 	const gchar *command_line;
 	GError *error = NULL;
@@ -930,28 +932,28 @@ action_sync_options_cb (GtkAction *action,
 			message = _("GNOME Pilot is not installed.");
 		else
 			message = _("GNOME Pilot could not be run.");
-		e_notice (window, GTK_MESSAGE_ERROR, message);
+		e_notice (shell_window, GTK_MESSAGE_ERROR, message);
 		g_error_free (error);
 	}
 }
 
 static void
 action_work_offline_cb (GtkAction *action,
-                        EShellWindow *window)
+                        EShellWindow *shell_window)
 {
 	EShell *shell;
 
-	shell = e_shell_window_get_shell (window);
+	shell = e_shell_window_get_shell (shell_window);
 	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_OFFLINE);
 }
 
 static void
 action_work_online_cb (GtkAction *action,
-                       EShellWindow *window)
+                       EShellWindow *shell_window)
 {
 	EShell *shell;
 
-	shell = e_shell_window_get_shell (window);
+	shell = e_shell_window_get_shell (shell_window);
 	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_ONLINE);
 }
 
@@ -1102,7 +1104,7 @@ static GtkActionEntry shell_entries[] = {
 	{ "new-menu",
 	  GTK_STOCK_NEW,
 	  N_("_New"),
-	  NULL,
+	  "",
 	  NULL,
 	  NULL },
 
@@ -1223,7 +1225,7 @@ shell_window_compare_actions (GtkAction *action1,
 }
 
 static void
-shell_window_extract_actions (EShellWindow *window,
+shell_window_extract_actions (EShellWindow *shell_window,
                               GList **source_list,
                               GList **destination_list)
 {
@@ -1235,7 +1237,7 @@ shell_window_extract_actions (EShellWindow *window,
 	 * as belonging to the current EShellView and move them to the
 	 * destination list. */
 
-	current_view = e_shell_window_get_current_view (window);
+	current_view = e_shell_window_get_current_view (shell_window);
 
 	/* Example: Suppose [A] and [C] are tagged for this EShellView.
 	 *
@@ -1273,51 +1275,51 @@ shell_window_extract_actions (EShellWindow *window,
 }
 
 void
-e_shell_window_actions_init (EShellWindow *window)
+e_shell_window_actions_init (EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
 
-	g_return_if_fail (E_IS_SHELL_WINDOW (window));
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	manager = e_shell_window_get_ui_manager (window);
+	manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
 	/* Shell Actions */
-	action_group = window->priv->shell_actions;
+	action_group = shell_window->priv->shell_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
 		action_group, shell_entries,
-		G_N_ELEMENTS (shell_entries), window);
+		G_N_ELEMENTS (shell_entries), shell_window);
 	gtk_action_group_add_toggle_actions (
 		action_group, shell_toggle_entries,
-		G_N_ELEMENTS (shell_toggle_entries), window);
+		G_N_ELEMENTS (shell_toggle_entries), shell_window);
 	gtk_action_group_add_radio_actions (
 		action_group, shell_switcher_style_entries,
 		G_N_ELEMENTS (shell_switcher_style_entries),
 		E_SIDEBAR_DEFAULT_TOOLBAR_STYLE,
-		G_CALLBACK (action_switcher_style_cb),  window);
+		G_CALLBACK (action_switcher_style_cb), shell_window);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* New Item Actions (empty) */
-	action_group = window->priv->new_item_actions;
+	action_group = shell_window->priv->new_item_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* New Source Actions (empty) */
-	action_group = window->priv->new_source_actions;
+	action_group = shell_window->priv->new_source_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Shell View Actions (empty) */
-	action_group = window->priv->shell_view_actions;
+	action_group = shell_window->priv->shell_view_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 }
 
 GtkWidget *
-e_shell_window_create_new_menu (EShellWindow *window)
+e_shell_window_create_new_menu (EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;
 	GList *new_item_actions;
@@ -1328,13 +1330,13 @@ e_shell_window_create_new_menu (EShellWindow *window)
 
 	/* Get sorted lists of "new item" and "new source" actions. */
 
-	action_group = window->priv->new_item_actions;
+	action_group = shell_window->priv->new_item_actions;
 
 	new_item_actions = g_list_sort (
 		gtk_action_group_list_actions (action_group),
 		(GCompareFunc) shell_window_compare_actions);
 
-	action_group = window->priv->new_source_actions;
+	action_group = shell_window->priv->new_source_actions;
 
 	new_source_actions = g_list_sort (
 		gtk_action_group_list_actions (action_group),
@@ -1343,10 +1345,10 @@ e_shell_window_create_new_menu (EShellWindow *window)
 	/* Give priority to actions that belong to this shell view. */
 
 	shell_window_extract_actions (
-		window, &new_item_actions, &list);
+		shell_window, &new_item_actions, &list);
 
 	shell_window_extract_actions (
-		window, &new_source_actions, &list);
+		shell_window, &new_source_actions, &list);
 
 	/* Convert the actions to menu item proxy widgets. */
 
@@ -1388,7 +1390,7 @@ e_shell_window_create_new_menu (EShellWindow *window)
 }
 
 void
-e_shell_window_create_shell_view_actions (EShellWindow *window)
+e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 {
 	GType *children;
 	GSList *group = NULL;
@@ -1397,11 +1399,11 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 	guint n_children, ii;
 	guint merge_id;
 
-	g_return_if_fail (E_IS_SHELL_WINDOW (window));
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	action_group = window->priv->shell_view_actions;
+	action_group = shell_window->priv->shell_view_actions;
 	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
-	manager = e_shell_window_get_ui_manager (window);
+	manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	/* Construct a group of radio actions from the various EShellView
@@ -1454,12 +1456,13 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 		if (group == NULL) {
 
 			/* First view is the default. */
-			window->priv->default_view = view_name;
+			shell_window->priv->default_view = view_name;
 
 			/* Only listen to the first action. */
 			g_signal_connect (
 				action, "changed",
-				G_CALLBACK (action_shell_view_cb), window);
+				G_CALLBACK (action_shell_view_cb),
+				shell_window);
 		}
 
 		gtk_radio_action_set_group (action, group);
@@ -1469,7 +1472,7 @@ e_shell_window_create_shell_view_actions (EShellWindow *window)
 			action_group, GTK_ACTION (action));
 
 		e_sidebar_add_action (
-			E_SIDEBAR (window->priv->sidebar),
+			E_SIDEBAR (shell_window->priv->sidebar),
 			GTK_ACTION (action));
 
 		gtk_ui_manager_add_ui (

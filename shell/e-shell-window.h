@@ -77,7 +77,7 @@ gboolean	e_shell_window_get_safe_mode	(EShellWindow *shell_window);
 void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
 
-/* These should be called from the shell module's window_created() method. */
+/* These should be called from the shell module's window_created() handler. */
 
 void		e_shell_window_register_new_item_actions
 						(EShellWindow *shell_window,

@@ -20,7 +20,7 @@
 
 #include "e-preferences-window.h"
 
-#include <libgnome/gnome-help.h>
+#include <e-util/e-util.h>
 
 #define SWITCH_PAGE_INTERVAL 250
 
@@ -162,16 +162,9 @@ static void
 preferences_window_response (GtkDialog *dialog,
                              gint response_id)
 {
-	GError *error = NULL;
-
 	switch (response_id) {
 		case GTK_RESPONSE_HELP:
-			gnome_help_display (
-				"evolution.xml", "config-prefs", &error);
-			if (error != NULL) {
-				g_warning ("%s", error->message);
-				g_error_free (error);
-			}
+			e_display_help (GTK_WINDOW (dialog), "config-prefs");
 			break;
 
 		case GTK_RESPONSE_CLOSE:

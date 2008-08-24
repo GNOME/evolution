@@ -39,13 +39,13 @@ struct _EShellPrivate {
 	GList *active_windows;
 	EShellLineStatus line_status;
 
-	guint online    : 1;
-	guint safe_mode : 1;
+	guint online_mode : 1;
+	guint safe_mode   : 1;
 };
 
 enum {
 	PROP_0,
-	PROP_ONLINE
+	PROP_ONLINE_MODE
 };
 
 enum {
@@ -145,8 +145,8 @@ shell_set_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ONLINE:
-			e_shell_set_online (
+		case PROP_ONLINE_MODE:
+			e_shell_set_online_mode (
 				E_SHELL (object),
 				g_value_get_boolean (value));
 			return;
@@ -162,9 +162,9 @@ shell_get_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ONLINE:
+		case PROP_ONLINE_MODE:
 			g_value_set_boolean (
-				value, e_shell_get_online (
+				value, e_shell_get_online_mode (
 				E_SHELL (object)));
 			return;
 	}
@@ -202,10 +202,10 @@ shell_class_init (EShellClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ONLINE,
+		PROP_ONLINE_MODE,
 		g_param_spec_boolean (
-			"online",
-			_("Online"),
+			"online-mode",
+			_("Online Mode"),
 			_("Whether the shell is online"),
 			TRUE,
 			G_PARAM_READWRITE |
@@ -290,9 +290,9 @@ e_shell_get_type (void)
 }
 
 EShell *
-e_shell_new (gboolean online)
+e_shell_new (gboolean online_mode)
 {
-	return g_object_new (E_TYPE_SHELL, "online", online, NULL);
+	return g_object_new (E_TYPE_SHELL, "online-mode", online_mode, NULL);
 }
 
 GtkWidget *
@@ -349,22 +349,22 @@ e_shell_send_receive (EShell *shell,
 }
 
 gboolean
-e_shell_get_online (EShell *shell)
+e_shell_get_online_mode (EShell *shell)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	return shell->priv->online;
+	return shell->priv->online_mode;
 }
 
 void
-e_shell_set_online (EShell *shell,
-                    gboolean online)
+e_shell_set_online_mode (EShell *shell,
+                         gboolean online_mode)
 {
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	shell->priv->online = online;
+	shell->priv->online_mode = online_mode;
 
-	g_object_notify (G_OBJECT (shell), "online");
+	g_object_notify (G_OBJECT (shell), "online-mode");
 }
 
 EShellLineStatus

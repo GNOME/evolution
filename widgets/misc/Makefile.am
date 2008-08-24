@@ -47,7 +47,6 @@ widgetsinclude_HEADERS =			\
 	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
 	e-combo-cell-editable.h			\
-	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
 	e-expander.h				\
@@ -55,6 +54,7 @@ widgetsinclude_HEADERS =			\
 	e-image-chooser.h			\
 	e-info-label.h				\
 	e-map.h					\
+	e-menu-tool-button.h			\
 	e-preferences-window.h			\
 	e-online-button.h			\
 	e-search-bar.h				\
@@ -94,7 +94,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
 	e-combo-cell-editable.c			\
-	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
 	e-expander.c				\
@@ -102,6 +101,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-image-chooser.c			\
 	e-info-label.c				\
 	e-map.c					\
+	e-menu-tool-button.c			\
 	e-preferences-window.c			\
 	e-online-button.c			\
 	e-search-bar.c				\

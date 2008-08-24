@@ -282,22 +282,11 @@ open_uris (gchar **uris)
 static gboolean
 idle_cb (gchar **uris)
 {
-	EShellStartupLineMode startup_line_mode;
-
 	g_return_val_if_fail (uris == NULL || g_strv_length (uris) > 0, FALSE);
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
 #endif
-
-	if (! start_online && ! start_offline)
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_CONFIG;
-	else if (start_online)
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_ONLINE;
-	else
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
-
-	/* FIXME Do something with startup_line_mode. */
 
 	if (uris != NULL)
 		open_uris (uris);
@@ -486,16 +475,16 @@ create_shell (void)
 	EShell *shell;
 	GConfClient *conf_client;
 	GnomeClient *master_client;
-	gboolean online = TRUE;
+	gboolean online_mode = TRUE;
 	GError *error = NULL;
 
 	conf_client = gconf_client_get_default ();
 	master_client = gnome_master_client ();
 
 	if (start_online)
-		online = TRUE;
+		online_mode = TRUE;
 	else if (start_offline)
-		online = FALSE;
+		online_mode = FALSE;
 	else {
 		const gchar *key;
 		gboolean value;
@@ -503,14 +492,14 @@ create_shell (void)
 		key = "/apps/evolution/shell/start_offline";
 		value = gconf_client_get_bool (conf_client, key, &error);
 		if (error == NULL)
-			online = !value;
+			online_mode = !value;
 		else {
 			g_warning ("%s", error->message);
 			g_error_free (error);
 		}
 	}
 
-	shell = e_shell_new (online);
+	shell = e_shell_new (online_mode);
 
 	g_signal_connect (
 		shell, "window-destroyed",

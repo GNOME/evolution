@@ -18,6 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <glib/gi18n.h>
+
 #include <e-shell.h>
 #include <e-shell-module.h>
 #include <e-shell-window.h>
@@ -31,6 +33,40 @@
 
 /* Module Entry Point */
 void e_shell_module_init (GTypeModule *module);
+
+static void
+action_new_test_item_cb (GtkAction *action,
+                         EShellWindow *shell_window)
+{
+	g_debug ("%s", G_STRFUNC);
+}
+
+static void
+action_new_test_source_cb (GtkAction *action,
+                           EShellWindow *shell_window)
+{
+	g_debug ("%s", G_STRFUNC);
+}
+
+static GtkActionEntry item_entries[] = {
+
+	{ "new-test-item",
+	  "document-new",
+	  N_("_Test Item"),
+	  NULL,
+	  N_("Create a new test item"),
+	  G_CALLBACK (action_new_test_item_cb) }
+};
+
+static GtkActionEntry source_entries[] = {
+
+	{ "new-test-source",
+	  "folder-new",
+	  N_("Test _Source"),
+	  NULL,
+	  N_("Create a new test source"),
+	  G_CALLBACK (action_new_test_source_cb) }
+};
 
 static gboolean
 test_module_is_busy (EShellModule *shell_module)
@@ -68,7 +104,19 @@ static void
 test_module_window_created (EShellModule *shell_module,
                             EShellWindow *shell_window)
 {
+	const gchar *module_name;
+
 	g_debug ("%s (window=%p)", G_STRFUNC, shell_window);
+
+	module_name = G_TYPE_MODULE (shell_module)->name;
+
+	e_shell_window_register_new_item_actions (
+		shell_window, module_name,
+		item_entries, G_N_ELEMENTS (item_entries));
+
+	e_shell_window_register_new_source_actions (
+		shell_window, module_name,
+		source_entries, G_N_ELEMENTS (source_entries));
 }
 
 static void

@@ -18,26 +18,20 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-shell-window-private.h"
 
-#include "e-util/e-plugin-ui.h"
-#include "e-util/e-util-private.h"
-#include "e-util/gconf-bridge.h"
-#include "widgets/misc/e-online-button.h"
-
-#include "e-sidebar.h"
-#include "es-menu.h"
-#include "es-event.h"
-
+#include <string.h>
 #include <glib/gi18n.h>
-
 #include <gconf/gconf-client.h>
 
-#include <string.h>
+#include <e-sidebar.h>
+#include <es-event.h>
+#include <es-menu.h>
+
+#include <e-util/e-plugin-ui.h>
+#include <e-util/e-util-private.h>
+#include <e-util/gconf-bridge.h>
+#include <widgets/misc/e-online-button.h>
 
 enum {
 	PROP_0,
@@ -49,11 +43,41 @@ enum {
 static gpointer parent_class;
 
 static void
+shell_window_online_mode_notify_cb (EShell *shell,
+                                    GParamSpec *pspec,
+                                    EShellWindow *shell_window)
+{
+	GtkAction *action;
+	EOnlineButton *online_button;
+	gboolean online_mode;
+
+	online_mode = e_shell_get_online_mode (shell);
+
+	action = ACTION (WORK_OFFLINE);
+	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, online_mode);
+
+	action = ACTION (WORK_ONLINE);
+	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, !online_mode);
+
+	online_button = E_ONLINE_BUTTON (shell_window->priv->online_button);
+	e_online_button_set_online (online_button, online_mode);
+}
+
+static void
 shell_window_set_shell (EShellWindow *shell_window,
                         EShell *shell)
 {
 	g_return_if_fail (shell_window->priv->shell == NULL);
 	shell_window->priv->shell = g_object_ref (shell);
+
+	g_signal_connect (
+		shell, "notify::online-mode",
+		G_CALLBACK (shell_window_online_mode_notify_cb),
+		shell_window);
+
+	g_object_notify (G_OBJECT (shell), "online-mode");
 }
 
 static void
@@ -226,8 +250,8 @@ e_shell_window_new (EShell *shell,
                     gboolean safe_mode)
 {
 	return g_object_new (
-		E_TYPE_SHELL_WINDOW, "shell", shell,
-		"safe-mode", safe_mode, NULL);
+		E_TYPE_SHELL_WINDOW,
+		"shell", shell, "safe-mode", safe_mode, NULL);
 }
 
 EShell *
@@ -372,6 +396,8 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
                                           guint n_entries)
 {
 	GtkActionGroup *action_group;
+	GtkAccelGroup *accel_group;
+	GtkUIManager *manager;
 	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
@@ -379,6 +405,8 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	g_return_if_fail (entries != NULL);
 
 	action_group = shell_window->priv->new_item_actions;
+	manager = e_shell_window_get_ui_manager (shell_window);
+	accel_group = gtk_ui_manager_get_accel_group (manager);
 	module_name = g_intern_string (module_name);
 
 	gtk_action_group_add_actions (
@@ -397,10 +425,15 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 		action = gtk_action_group_get_action (
 			action_group, action_name);
 
+		gtk_action_set_accel_group (action, accel_group);
+
 		g_object_set_data (
 			G_OBJECT (action),
 			"module-name", (gpointer) module_name);
 	}
+
+	/* Force a rebuild of the "New" menu. */
+	g_object_notify (G_OBJECT (shell_window), "current-view");
 }
 
 void
@@ -410,6 +443,8 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
                                             guint n_entries)
 {
 	GtkActionGroup *action_group;
+	GtkAccelGroup *accel_group;
+	GtkUIManager *manager;
 	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
@@ -417,6 +452,8 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 	g_return_if_fail (entries != NULL);
 
 	action_group = shell_window->priv->new_source_actions;
+	manager = e_shell_window_get_ui_manager (shell_window);
+	accel_group = gtk_ui_manager_get_accel_group (manager);
 	module_name = g_intern_string (module_name);
 
 	gtk_action_group_add_actions (
@@ -435,8 +472,13 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 		action = gtk_action_group_get_action (
 			action_group, action_name);
 
+		gtk_action_set_accel_group (action, accel_group);
+
 		g_object_set_data (
 			G_OBJECT (action),
 			"module-name", (gpointer) module_name);
 	}
+
+	/* Force a rebuild of the "New" menu. */
+	g_object_notify (G_OBJECT (shell_window), "current-view");
 }

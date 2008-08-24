@@ -49,7 +49,6 @@ typedef struct _EShellClass EShellClass;
 typedef struct _EShellPrivate EShellPrivate;
 
 typedef enum _EShellLineStatus EShellLineStatus;
-typedef enum _EShellStartupLineMode EShellStartupLineMode;
 
 struct _EShell {
 	GObject parent;
@@ -67,12 +66,6 @@ enum _EShellLineStatus {
 	E_SHELL_LINE_STATUS_FORCED_OFFLINE
 };
 
-enum _EShellStartupLineMode {
-	E_SHELL_STARTUP_LINE_MODE_CONFIG,
-	E_SHELL_STARTUP_LINE_MODE_ONLINE,
-	E_SHELL_STARTUP_LINE_MODE_OFFLINE
-};
-
 GType		e_shell_get_type		(void);
 EShell *	e_shell_new			(gboolean online);
 GtkWidget *	e_shell_create_window		(EShell *shell);
@@ -80,9 +73,9 @@ gboolean	e_shell_handle_uri		(EShell *shell,
                                                  const gchar *uri);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
-gboolean	e_shell_get_online		(EShell *shell);
-void		e_shell_set_online		(EShell *shell,
-						 gboolean online);
+gboolean	e_shell_get_online_mode		(EShell *shell);
+void		e_shell_set_online_mode		(EShell *shell,
+						 gboolean online_mode);
 EShellLineStatus
 		e_shell_get_line_status		(EShell *shell);
 void		e_shell_set_line_status		(EShell *shell,
