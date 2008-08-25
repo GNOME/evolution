@@ -49,10 +49,6 @@ dbus_listener_message_handler (DBusConnection *connection,
 				DBUS_TYPE_STRING, &session_str,
 				DBUS_TYPE_STRING, &storage_path,
 				DBUS_TYPE_INVALID);
-		if (!ret) {
-			g_warning ("Unable to get args\n");
-			return DBUS_HANDLER_RESULT_HANDLED;
-		}
 
 		camel_session_construct (session, storage_path);
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);

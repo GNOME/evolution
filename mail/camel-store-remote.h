@@ -5,4 +5,8 @@
 
 typedef struct {
 	char *object_id;
+} CamelFolderRemote;
+
+typedef struct {
+	char *object_id;
 } CamelStoreRemote;
