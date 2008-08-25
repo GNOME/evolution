@@ -28,6 +28,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 {
 	const char *method = dbus_message_get_member (message);
 	DBusMessage *reply;
+	gboolean added = FALSE;
 
 	reply = dbus_message_new_method_return (message);
 
@@ -43,20 +44,77 @@ dbus_listener_message_handler (DBusConnection *connection,
 		ret = dbus_message_get_args(message, NULL, 
 				DBUS_TYPE_STRING, &path,
 				DBUS_TYPE_INVALID);
-		if (!ret) {
-			g_warning ("Unable to get args\n");
-			return DBUS_HANDLER_RESULT_HANDLED;
-		}
-
 		d(printf("calling mail_session_init with: %s\n", path));
 		mail_session_init (path);
-	}
+	} else if (strcmp(method, "mail_session_get_interactive") == 0) {
+		gboolean interactive = mail_session_get_interactive();
+		dbus_message_append_args (reply, DBUS_TYPE_BOOLEAN, interactive, DBUS_TYPE_INVALID);
+		d(printf("%s: %d\n", method, interactive));
+		added = TRUE;
+	} else if (strcmp(method, "mail_session_set_interactive") == 0) {
+		gboolean interactive;
+		gboolean ret;
 
-	dbus_message_append_args(reply, DBUS_TYPE_INVALID);
+		ret = dbus_message_get_args(message, NULL, 
+				DBUS_TYPE_BOOLEAN, &interactive,
+				DBUS_TYPE_INVALID);
+		d(printf("mail_session_set_interactive: %d\n", interactive));
+		mail_session_set_interactive (interactive);
+	} else if (strcmp(method, "mail_session_get_password") == 0) {
+		gboolean ret;
+		char *key = NULL, *pass;
+
+		ret = dbus_message_get_args(message, NULL, 
+				DBUS_TYPE_STRING, &key,
+				DBUS_TYPE_INVALID);
+		d(printf("%s: %s\n", method, key));
+		pass = mail_session_get_password (key);
+		added = TRUE;
+		dbus_message_append_args (reply, DBUS_TYPE_STRING, pass, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "mail_session_add_password") == 0) {
+		gboolean ret;
+		char *key = NULL, *pass = NULL;
+
+		ret = dbus_message_get_args(message, NULL, 
+				DBUS_TYPE_STRING, &key,
+				DBUS_TYPE_STRING, &pass,
+				DBUS_TYPE_INVALID);
+		d(printf("%s: %s\n", method, key));
+		mail_session_add_password (key, pass);
+	} else if (strcmp(method, "mail_session_remember password") == 0) {
+		gboolean ret;
+		char *key = NULL;
+
+		ret = dbus_message_get_args(message, NULL, 
+				DBUS_TYPE_STRING, &key,
+				DBUS_TYPE_INVALID);
+		d(printf("%s: %s\n", method, key));
+		mail_session_remember_password (key);
+	} else if (strcmp(method, "mail_session_forget_password") == 0) {
+		gboolean ret;
+		char *key = NULL;
+
+		ret = dbus_message_get_args(message, NULL, 
+				DBUS_TYPE_STRING, &key,
+				DBUS_TYPE_INVALID);
+		d(printf("%s: %s\n", method, key));
+		mail_session_forget_password (key);
+	} else if (strcmp(method, "mail_session_flush_filter_log") == 0) {
+		gboolean ret;
+
+		d(printf("%s\n", method));
+		mail_session_flush_filter_log ();
+	} 
+
+
+	if (!added)
+		dbus_message_append_args(reply, DBUS_TYPE_INVALID);
+
 	dbus_connection_send (connection, reply, NULL);
 	dbus_message_unref (reply);
 	dbus_connection_flush  (connection);
-	printf("reply send\n");
+	d(printf("reply send\n"));
+
 	return DBUS_HANDLER_RESULT_HANDLED;
 
 }
