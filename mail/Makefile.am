@@ -29,7 +29,9 @@ INCLUDES =						\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
-	-DG_LOG_DOMAIN=\"evolution-mail\"
+	-DG_LOG_DOMAIN=\"evolution-mail\"		\
+	-I/usr/include/dbus-1.0				\
+	-I/usr/lib/dbus-1.0/include
 
 component_LTLIBRARIES = libevolution-mail.la
 
@@ -184,7 +186,28 @@ libevolution_mail_la_SOURCES =			\
 	message-tag-editor.c			\
 	message-tag-editor.h			\
 	message-tag-followup.c			\
-	message-tag-followup.h
+	message-tag-followup.h			\
+	dbind.c					\
+	dbind.h					\
+	dbind-any.c				\
+	dbind-any.h				\
+	camel-store-remote.c			\
+	camel-store-remote.h			\
+	camel-store-remote-impl.c		\
+	camel-store-remote-impl.h		\
+	mail-dbus.c				\
+	mail-dbus.h				\
+	evo-dbus.c				\
+	evo-dbus.h				\
+	camel-session-remote.c			\
+	camel-session-remote.h			\
+	camel-session-remote-impl.c		\
+	camel-session-remote-impl.h		\
+	mail-session-remote.c			\
+	mail-session-remote.h			\
+	mail-session-remote-impl.c		\
+	mail-session-remote-impl.h		
+
 
 if ENABLE_SMIME
 SMIME_LIBS = 				\
@@ -210,7 +233,8 @@ libevolution_mail_la_LIBADD =					\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(REGEX_LIBS)						\
-	$(THREADS_LIBS)
+	$(THREADS_LIBS)						\
+	-ldbus-1 -ldbus-glib-1
 
 libevolution_mail_la_LDFLAGS = 			\
 	-avoid-version -module $(NO_UNDEFINED)
