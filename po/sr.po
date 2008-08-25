@@ -10619,7 +10619,7 @@ msgstr[2] "пре %d секунди"
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
-msgstr[0] "1 секунда у будућности"
+msgstr[0] "%d секунда у будућности"
 msgstr[1] "%d секунде у будућности"
 msgstr[2] "%d секунди у будућности"
 
@@ -10635,7 +10635,7 @@ msgstr[2] "пре %d минута"
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] "1 минут у будућности"
+msgstr[0] "%d минут у будућности"
 msgstr[1] "%d минута у будућности"
 msgstr[2] "%d минута у будућности"
 
@@ -10651,7 +10651,7 @@ msgstr[2] "пре %d сати"
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
-msgstr[0] "1 сат у будућности"
+msgstr[0] "%d сат у будућности"
 msgstr[1] "%d сата у будућности"
 msgstr[2] "%d сати у будућности"
 
@@ -10667,7 +10667,7 @@ msgstr[2] "пре %d дана"
 #, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
-msgstr[0] "1 дан у будућности"
+msgstr[0] "%d дан у будућности"
 msgstr[1] "%d дана у будућности"
 msgstr[2] "%d дана у будућности"
 
@@ -10683,7 +10683,7 @@ msgstr[2] "пре %d недеља"
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] "1 недеља у будућности"
+msgstr[0] "%d недеља у будућности"
 msgstr[1] "%d недеље у будућности"
 msgstr[2] "%d недеља у будућности"
 
@@ -10699,7 +10699,7 @@ msgstr[2] "пре %d месеци"
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] "1 месец у будућности"
+msgstr[0] "%d месец у будућности"
 msgstr[1] "%d months in the future"
 msgstr[2] "%d months in the future"
 
@@ -10715,7 +10715,7 @@ msgstr[2] "пре %d година"
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] "1 година у будућности"
+msgstr[0] "%d година у будућности"
 msgstr[1] "%d године у будућности"
 msgstr[2] "%d година у будућности"
 
