@@ -3,6 +3,6 @@
  *
  * */
 
-typedef struct CamelStoreRemote  {
+typedef struct {
 	char *object_id;
-};
+} CamelStoreRemote;
