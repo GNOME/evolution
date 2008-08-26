@@ -189,6 +189,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		camel_exception_free (ex);
 			
 		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &store_hash_key, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+		printf("%s: Success: %s:%s\n", method, store_hash_key, err);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_alert_user") == 0) {
 		char *session_str, *prompt, *err = NULL;
