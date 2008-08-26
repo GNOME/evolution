@@ -104,6 +104,11 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		d(printf("%s\n", method));
 		mail_session_flush_filter_log ();
+	} else if (strcmp(method, "mail_session_shutdown") == 0) {
+		gboolean ret;
+
+		d(printf("%s\n", method));
+		mail_session_shutdown ();
 	} 
 
 

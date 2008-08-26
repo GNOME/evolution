@@ -211,3 +211,30 @@ mail_session_remote_flush_filter_log ()
 	d(printf("mail_session_flush_filter_log: Success \n"));
 	return;
 }
+
+void
+mail_session_remote_shutdown (void)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			MAIL_SESSION_OBJECT_PATH,
+			MAIL_SESSION_INTERFACE,
+			"mail_session_shutdown",
+			&error, 
+			""); 
+
+	if (!ret) {
+		g_warning ("Error:mail_session_remote_shutdown : %s\n", error.message);
+		return ;
+	}
+
+	d(printf("mail_session_shutdown: Success \n"));
+	return;
+}
+
+
