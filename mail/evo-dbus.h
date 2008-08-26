@@ -9,7 +9,7 @@
 #include <string.h>
 #define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbind.h>
-#include <dbine-any.h>
+#include <dbind-any.h>
 
 
 int evolution_dbus_init (void);
