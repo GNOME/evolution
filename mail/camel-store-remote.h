@@ -25,3 +25,7 @@ void camel_store_delete_folder_remote(CamelStoreRemote * store,
 void camel_store_rename_folder_remote(CamelStoreRemote * store,
 				      const char *old_folder_name,
 				      const char *new_folder_name);
+
+gboolean camel_store_supports_subscriptions_remote(CamelStoreRemote * store);
+
+void camel_store_sync_remote(CamelStoreRemote * store, int expunge);

@@ -108,6 +108,8 @@ camel_store_rename_folder_remote(CamelStoreRemote * store,
 				 const char *old_folder_name,
 				 const char *new_folder_name)
 {
+#warning "CamelException needs to be remoted after which the err can be used"
+#warning "error should also be used"
 	gboolean ret;
 	DBusError error;
 	char *err;
@@ -122,4 +124,41 @@ camel_store_rename_folder_remote(CamelStoreRemote * store,
 					&error,
 					"sss=>s", store->object_id,
 					old_folder_name, new_folder_name, &err);
+}
+
+void camel_store_sync_remote(CamelStoreRemote * store, int expunge)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_sync",
+					&error,
+					"si=>s", store->object_id,
+					expunge, &err);
+}
+
+gboolean camel_store_supports_subscriptions_remote(CamelStoreRemote * store)
+{
+	gboolean ret;
+	DBusError error;
+	int supports;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_supports_subscriptions",
+					&error,
+					"s=>i", store->object_id, &supports);
+
+	return (gboolean) (supports);
 }
