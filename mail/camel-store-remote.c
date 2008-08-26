@@ -162,3 +162,219 @@ gboolean camel_store_supports_subscriptions_remote(CamelStoreRemote * store)
 
 	return (gboolean) (supports);
 }
+
+gboolean camel_store_folder_subscribed_remote(CamelStoreRemote * store,
+					      const char *folder_name)
+{
+	gboolean ret;
+	DBusError error;
+	int subscribed;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_folder_subscribed",
+					&error,
+					"ss=>i", store->object_id, folder_name,
+					&subscribed);
+
+	return (gboolean) (subscribed);
+}
+
+void camel_store_subscribe_folder_remote(CamelStoreRemote * store,
+					 const char *folder_name)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_subscribe_folder",
+					&error,
+					"ss=>s", store->object_id, folder_name,
+					&err);
+
+	return;
+}
+
+void camel_store_unsubscribe_folder_remote(CamelStoreRemote * store,
+					   const char *folder_name)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_unsubscribe_folder",
+					&error,
+					"ss=>s", store->object_id, folder_name,
+					&err);
+
+	return;
+}
+
+void camel_store_noop_remote(CamelStoreRemote * store)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_noop",
+					&error, "s=>s", store->object_id, &err);
+	return;
+}
+
+int
+camel_store_folder_uri_equal_remote(CamelStoreRemote * store, const char *uri0,
+				    const char *uri1)
+{
+	gboolean ret;
+	DBusError error;
+	int equality;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_folder_uri_equal",
+					&error,
+					"sss=>i", store->object_id, uri0, uri1,
+					&equality);
+
+	return equality;
+}
+
+void camel_isubscribe_subscribe_remote(CamelStoreRemote * store,
+				       const char *folder_name)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_isubscribe_subscribe",
+					&error,
+					"ss=>s", store->object_id, folder_name,
+					&err);
+
+	return;
+}
+
+void camel_isubscribe_unsubscribe_remote(CamelStoreRemote * store,
+					 const char *folder_name)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_isubscribe_unsubscribe",
+					&error,
+					"ss=>s", store->object_id, folder_name,
+					&err);
+
+	return;
+}
+
+guint32 camel_store_get_mode_remote(CamelStoreRemote * store)
+{
+	gboolean ret;
+	DBusError error;
+	guint32 mode;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_get_mode",
+					&error,
+					"s=>u", store->object_id, &mode);
+
+	return mode;
+}
+
+guint32 camel_store_get_flags_remote(CamelStoreRemote * store)
+{
+	gboolean ret;
+	DBusError error;
+	guint32 flags;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_get_mode",
+					&error,
+					"s=>u", store->object_id, &flags);
+
+	return flags;
+}
+
+void camel_store_set_mode_remote(CamelStoreRemote * store, guint32 mode)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_set_mode",
+					&error, "su", store->object_id, &mode);
+
+	return;
+}
+
+void camel_store_set_flags_remote(CamelStoreRemote * store, guint32 flags)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_set_flags",
+					&error, "su", store->object_id, flags);
+
+	return;
+}

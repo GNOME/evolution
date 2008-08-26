@@ -35,23 +35,12 @@ int camel_store_get_specific_folder_remote(DBusConnection * connection,
 	CamelStore *store;
 	char *err, *folder_hash_key = NULL, *store_hash_key;
 
-	char *store_not_found = _("Store not found");
-	int ret = dbus_message_get_args(message,
-					NULL,
-					DBUS_TYPE_STRING, &store_hash_key,
-					DBUS_TYPE_INVALID);
-
-	if (ret)
-		return ret;
+	dbus_message_get_args(message,
+			      NULL,
+			      DBUS_TYPE_STRING, &store_hash_key,
+			      DBUS_TYPE_INVALID);
 
 	store = g_hash_table_lookup(store_hash, store_hash_key);
-	if (!store) {
-		dbus_message_append_args(reply, DBUS_TYPE_STRING, "",
-					 DBUS_TYPE_STRING, &(store_not_found),
-					 DBUS_TYPE_INVALID);
-		return -1;
-	}
-
 	ex = camel_exception_new();
 
 	if (g_str_has_suffix(method, "inbox"))
@@ -89,9 +78,6 @@ dbus_listener_message_handler(DBusConnection * connection,
 	const char *method = dbus_message_get_member(message);
 	DBusMessage *reply;
 
-	char *store_not_found = _("Store not found");
-	char *arg_not_parseable = _("Arguments not parseable");
-
 	printf
 	    ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
 	     dbus_message_get_path(message),
@@ -109,26 +95,15 @@ dbus_listener_message_handler(DBusConnection * connection,
 		char *err, *folder_hash_key =
 		    NULL, *store_hash_key, *folder_name;
 
-		int ret = dbus_message_get_args(message,
-						NULL,
-						DBUS_TYPE_STRING,
-						&store_hash_key,
-						DBUS_TYPE_STRING, &folder_name,
-						DBUS_TYPE_UINT32, &flags,
-						DBUS_TYPE_INVALID);
-
-		if (ret)
-			goto fail;
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING, &folder_name,
+				      DBUS_TYPE_UINT32, &flags,
+				      DBUS_TYPE_INVALID);
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
-		if (!store) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING, "",
-						 DBUS_TYPE_STRING,
-						 &(store_not_found),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
-
 		ex = camel_exception_new();
 		folder = camel_store_get_folder(store, folder_name, flags, ex);
 		if (!folder) {
@@ -164,28 +139,14 @@ dbus_listener_message_handler(DBusConnection * connection,
 		CamelException *ex;
 		const char *err;
 
-		int ret = dbus_message_get_args(message,
-						NULL,
-						DBUS_TYPE_STRING,
-						&store_hash_key,
-						DBUS_TYPE_STRING, &folder_name,
-						DBUS_TYPE_INVALID);
-
-		if (ret) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(arg_not_parseable),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING, &folder_name,
+				      DBUS_TYPE_INVALID);
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
-		if (!store) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(store_not_found),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
-
 		ex = camel_exception_new();
 		/* FIXME: camel_store_delete_folder should have sane return values and the exception should be used properly */
 		camel_store_delete_folder(store, folder_name, ex);
@@ -202,31 +163,16 @@ dbus_listener_message_handler(DBusConnection * connection,
 		CamelException *ex;
 		const char *err;
 
-		int ret = dbus_message_get_args(message,
-						NULL,
-						DBUS_TYPE_STRING,
-						&store_hash_key,
-						DBUS_TYPE_STRING,
-						&old_folder_name,
-						DBUS_TYPE_STRING,
-						&new_folder_name,
-						DBUS_TYPE_INVALID);
-
-		if (ret) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(arg_not_parseable),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING,
+				      &old_folder_name,
+				      DBUS_TYPE_STRING,
+				      &new_folder_name, DBUS_TYPE_INVALID);
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
-		if (!store) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(store_not_found),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
-
 		ex = camel_exception_new();
 		/* FIXME: camel_store_delete_folder should have sane return values and the exception should be used properly */
 		camel_store_rename_folder(store, old_folder_name,
@@ -244,29 +190,14 @@ dbus_listener_message_handler(DBusConnection * connection,
 		char *store_hash_key;
 		int expunge;
 		const char *err;
-		int ret = dbus_message_get_args(message,
-						NULL,
-						DBUS_TYPE_STRING,
-						&store_hash_key,
-						DBUS_TYPE_INT32,
-						&expunge,
-						DBUS_TYPE_INVALID);
-
-		if (ret) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(arg_not_parseable),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_INT32,
+				      &expunge, DBUS_TYPE_INVALID);
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
-		if (!store) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(store_not_found),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
-
 		ex = camel_exception_new();
 		camel_store_sync(store, expunge, ex);
 		err = camel_exception_get_description(ex);
@@ -281,33 +212,214 @@ dbus_listener_message_handler(DBusConnection * connection,
 		int supports;
 		char *store_hash_key;
 
-		int ret = dbus_message_get_args(message,
-						NULL,
-						DBUS_TYPE_STRING,
-						&store_hash_key,
-						DBUS_TYPE_INVALID);
-
-		if (ret) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(arg_not_parseable),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key, DBUS_TYPE_INVALID);
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
-		if (!store) {
-			dbus_message_append_args(reply, DBUS_TYPE_STRING,
-						 &(store_not_found),
-						 DBUS_TYPE_INVALID);
-			goto fail;
-		}
-
 		supports = (int)(camel_store_supports_subscriptions(store));
 		dbus_message_append_args(reply, DBUS_TYPE_INT32,
 					 &supports, DBUS_TYPE_INVALID);
 
+	} else if (!g_strcmp0(method, "camel_store_folder_subscribed")) {
+		CamelStore *store;
+		char *store_hash_key, *folder_name;
+		int subscribed;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING, &folder_name,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+
+		subscribed =
+		    (int)camel_store_folder_subscribed(store, folder_name);
+
+		dbus_message_append_args(reply, DBUS_TYPE_INT32,
+					 &subscribed, DBUS_TYPE_INVALID);
+	} else if (!g_strcmp0(method, "camel_store_subsribe_folder")) {
+		char *folder_name, *store_hash_key;
+		CamelStore *store;
+		CamelException *ex;
+		const char *err;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING,
+				      &folder_name, DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		ex = camel_exception_new();
+		camel_store_subscribe_folder(store, folder_name, ex);
+		err = camel_exception_get_description(ex);
+		if (!err)
+			err = "";
+		dbus_message_append_args(reply, DBUS_TYPE_STRING,
+					 &err, DBUS_TYPE_INVALID);
+		camel_exception_free(ex);
+
+	} else if (!g_strcmp0(method, "camel_store_unsubsribe_folder")) {
+		char *folder_name, *store_hash_key;
+		CamelStore *store;
+		CamelException *ex;
+		const char *err;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING,
+				      &folder_name, DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		ex = camel_exception_new();
+		camel_store_unsubscribe_folder(store, folder_name, ex);
+		err = camel_exception_get_description(ex);
+		if (!err)
+			err = "";
+		dbus_message_append_args(reply, DBUS_TYPE_STRING,
+					 &err, DBUS_TYPE_INVALID);
+		camel_exception_free(ex);
+	} else if (!g_strcmp0(method, "camel_store_noop")) {
+		CamelStore *store;
+		CamelException *ex;
+		char *store_hash_key;
+		const char *err;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key, DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		ex = camel_exception_new();
+		camel_store_noop(store, ex);
+		err = camel_exception_get_description(ex);
+		if (!err)
+			err = "";
+		dbus_message_append_args(reply, DBUS_TYPE_STRING,
+					 &err, DBUS_TYPE_INVALID);
+		camel_exception_free(ex);
+	} else if (!g_strcmp0(method, "camel_store_folder_uri_equal")) {
+		CamelStore *store;
+		char *store_hash_key, *uri0, *uri1;
+		int equality;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING, &uri0,
+				      DBUS_TYPE_STRING, &uri1,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		equality = camel_store_folder_uri_equal(store, uri0, uri1);
+
+		dbus_message_append_args(reply, DBUS_TYPE_INT32,
+					 &equality, DBUS_TYPE_INVALID);
+	} else if (!g_strcmp0(method, "camel_isubscribe_subscribe")) {
+		char *folder_name, *store_hash_key;
+		CamelStore *store;
+		CamelException *ex;
+		const char *err;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING,
+				      &folder_name, DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		ex = camel_exception_new();
+		camel_isubscribe_subscribe(store, folder_name, ex);
+		err = camel_exception_get_description(ex);
+		if (!err)
+			err = "";
+		dbus_message_append_args(reply, DBUS_TYPE_STRING,
+					 &err, DBUS_TYPE_INVALID);
+		camel_exception_free(ex);
+	} else if (!g_strcmp0(method, "camel_isubscribe_unsubscribe")) {
+		char *folder_name, *store_hash_key;
+		CamelStore *store;
+		CamelException *ex;
+		const char *err;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_STRING,
+				      &folder_name, DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		ex = camel_exception_new();
+		camel_isubscribe_unsubscribe(store, folder_name, ex);
+		err = camel_exception_get_description(ex);
+		if (!err)
+			err = "";
+		dbus_message_append_args(reply, DBUS_TYPE_STRING,
+					 &err, DBUS_TYPE_INVALID);
+		camel_exception_free(ex);
+	} else if (!g_strcmp0(method, "camel_store_get_mode")) {
+		char *store_hash_key;
+		CamelStore *store;
+		guint32 mode;
+
+		dbus_message_get_args(message, NULL,
+				      DBUS_TYPE_STRING, &store_hash_key,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		mode = store->mode;
+		dbus_message_append_args(reply, DBUS_TYPE_UINT32, mode,
+					 DBUS_TYPE_INVALID);
+	} else if (!g_strcmp0(method, "camel_store_get_flags")) {
+		char *store_hash_key;
+		CamelStore *store;
+		guint32 flags;
+
+		dbus_message_get_args(message, NULL,
+				      DBUS_TYPE_STRING, &store_hash_key,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		flags = store->flags;
+		dbus_message_append_args(reply, DBUS_TYPE_UINT32, flags,
+					 DBUS_TYPE_INVALID);
+	} else if (!g_strcmp0(method, "camel_store_set_flags")) {
+		char *store_hash_key;
+		CamelStore *store;
+		guint32 flags;
+
+		dbus_message_get_args(message, NULL,
+				      DBUS_TYPE_STRING, &store_hash_key,
+				      DBUS_TYPE_UINT32, &flags,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		store->flags = flags;
+	} else if (!g_strcmp0(method, "camel_store_set_mode")) {
+		char *store_hash_key;
+		CamelStore *store;
+		guint32 mode;
+
+		dbus_message_get_args(message, NULL,
+				      DBUS_TYPE_STRING, &store_hash_key,
+				      DBUS_TYPE_UINT32, &mode,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		store->mode = mode;
 	}
-      fail:
+
 	dbus_connection_send(connection, reply, NULL);
 	dbus_message_unref(reply);
 
