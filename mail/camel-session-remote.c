@@ -7,9 +7,8 @@
 #include <dbind.h>
 #include <evo-dbus.h>
 #include "camel-session-remote.h"
+#include "camel-object-remote.h"
 
-#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session"
-#define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 #define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
 
 #define d(x) x
@@ -56,7 +55,7 @@ camel_session_remote_construct	(CamelSessionRemote *session,
 
 char *
 camel_session_remote_get_password (CamelSessionRemote *session,
-			CamelStoreRemote *service,
+			CamelObjectRemote *service,
 			const char *domain,
 			const char *prompt,
 			const char *item,
@@ -87,7 +86,7 @@ camel_session_remote_get_password (CamelSessionRemote *session,
 }
 
 char *
-camel_session_remote_get_storage_path (CamelSessionRemote *session, CamelStoreRemote *service)
+camel_session_remote_get_storage_path (CamelSessionRemote *session, CamelObjectRemote *service)
 {
 	gboolean ret;
 	DBusError error;
@@ -115,7 +114,7 @@ camel_session_remote_get_storage_path (CamelSessionRemote *session, CamelStoreRe
 
 void
 camel_session_remote_forget_password (CamelSessionRemote *session, 
-				CamelStoreRemote *service,
+				CamelObjectRemote *service,
 				const char *domain,
 				const char *item)
 {
@@ -143,14 +142,14 @@ camel_session_remote_forget_password (CamelSessionRemote *session,
 	return;
 }
 
-CamelStoreRemote *
+CamelObjectRemote *
 camel_session_remote_get_service (CamelSessionRemote *session, const char *url_string,
 			   CamelProviderType type, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
 	char *service;
-	CamelStoreRemote *rstore;
+	CamelObjectRemote *rstore;
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -167,8 +166,10 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 		return NULL;
 	}
 
-	rstore = g_new (CamelStoreRemote, 1);
+	rstore = g_new0 (CamelObjectRemote, 1);
 	rstore->object_id = service;
+	rstore->type = CAMEL_RO_STORE;
+	rstore->hooks = NULL;
 	d(printf("Camel session get service remotely\n"));
 
 	return rstore;

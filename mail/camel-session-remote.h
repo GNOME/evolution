@@ -7,6 +7,7 @@
 #define CAMEL_SESSION_REMOTE_H
 
 #include "camel-store-remote.h"
+#include "camel-object-remote.h"
 
 typedef struct {
 	char *object_id;
@@ -25,22 +26,22 @@ void camel_session_remote_construct (CamelSessionRemote *session,
 					const char *storage_path);
 
 char *camel_session_remote_get_password (CamelSessionRemote *session,
-				CamelStoreRemote *service,
+				CamelObjectRemote *service,
 				const char *domain,
 				const char *prompt,
 				const char *item,
 				guint32 flags);
 
 char *camel_session_remote_get_storage_path (CamelSessionRemote *session, 
-					CamelStoreRemote *service);
+					CamelObjectRemote *service);
 
 void camel_session_remote_forget_password (CamelSessionRemote *session, 
-					CamelStoreRemote *service,
+					CamelObjectRemote *service,
 					const char *domain,
 					const char *item);
 
 
-CamelStoreRemote *camel_session_remote_get_service (CamelSessionRemote *session, 
+CamelObjectRemote *camel_session_remote_get_service (CamelSessionRemote *session, 
 						const char *url_string,
 			   			CamelProviderType type,
 						CamelException *ex);
