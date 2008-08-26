@@ -17,5 +17,5 @@ int e_dbus_setup_handlers (void);
 char * e_dbus_get_store_hash (const char *store_url);
 
 char * e_dbus_get_folder_hash (const char *store_url, const char *folder_name);
-
+DBusConnection * e_dbus_connection_get (void);
 int mail_dbus_init(void);

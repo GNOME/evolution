@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "mail-dbus.h"
 #include "mail-session-remote-impl.h"
+#include "camel-object-remote-impl.h"
 
 #define d(x) x
 #define DBUS_BUS_NAME "org.gnome.evolution.camel"
@@ -29,7 +30,7 @@ get_session_address ()
 	return address;
 }
 
-static DBusConnection *
+DBusConnection *
 e_dbus_connection_get ()
 {
 	DBusError error;
@@ -192,6 +193,7 @@ idle_cb(gpointer data)
 
 	/* Initialize Mail Session */
 	mail_session_remote_impl_init ();
+	camel_object_remote_impl_init ();
 	return FALSE;
 }
 
