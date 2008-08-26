@@ -11,7 +11,7 @@
 #define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 #define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
 
-
+/*
 typedef enum {
 	CAMEL_PROVIDER_STORE,
 	CAMEL_PROVIDER_TRANSPORT,
@@ -23,7 +23,7 @@ typedef enum {
 	CAMEL_SESSION_ALERT_WARNING,
 	CAMEL_SESSION_ALERT_ERROR
 } CamelSessionAlertType;
-
+*/
 void
 camel_session_remote_construct	(CamelSessionRemote *session,
 			const char *storage_path)

@@ -13,7 +13,7 @@
 
 static gboolean session_setup = FALSE;
 
-extern GHashTable *store_hash = NULL;
+extern GHashTable *store_hash;
 
 static DBusHandlerResult
 dbus_listener_message_handler (DBusConnection *connection,
