@@ -109,6 +109,7 @@ dbind_connection_method_call_va (DBusConnection *cnx,
     DBusError *err, real_err;
     char *p;
 
+    printf("DBIND: %s: %s: %s: %d\n", bus_name, path, method, dbus_connection_get_is_connected(cnx));
     if (opt_error)
         err = opt_error;
     else {
@@ -208,6 +209,7 @@ out:
     if (err == &real_err)
         dbus_error_free (err);
 
+    printf("END: %d\n", dbus_connection_get_is_connected(cnx));
     return success;
 }
 
