@@ -97,7 +97,7 @@ camel_store_delete_folder_remote(CamelStoreRemote * store,
 					CAMEL_DBUS_NAME,
 					CAMEL_STORE_OBJECT_PATH,
 					CAMEL_STORE_INTERFACE,
-					"camel_store_create_folder",
+					"camel_store_delete_folder",
 					&error,
 					"ss=>s", store->object_id, folder_name,
 					&err);
@@ -338,7 +338,7 @@ guint32 camel_store_get_flags_remote(CamelStoreRemote * store)
 					CAMEL_DBUS_NAME,
 					CAMEL_STORE_OBJECT_PATH,
 					CAMEL_STORE_INTERFACE,
-					"camel_store_get_mode",
+					"camel_store_get_flags",
 					&error,
 					"s=>u", store->object_id, &flags);
 
