@@ -6,6 +6,8 @@
 #include <glib.h>
 #include <dbus/dbus.h>
 #include "mail-dbus.h"
+/* Lets load the actual session. */
+#define MAIL_SESSION_REMOTE_H
 #include "mail-session.h"
 
 #define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"
