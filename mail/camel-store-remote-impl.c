@@ -123,7 +123,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 		camel_exception_free(ex);
 
 		dbus_message_append_args(reply, DBUS_TYPE_STRING,
-					 folder_hash_key, DBUS_TYPE_STRING, err,
+					 &folder_hash_key, DBUS_TYPE_STRING, &err,
 					 DBUS_TYPE_INVALID);
 		g_free(folder_hash_key);
 		g_free(err);
@@ -379,7 +379,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
 		mode = store->mode;
-		dbus_message_append_args(reply, DBUS_TYPE_UINT32, mode,
+		dbus_message_append_args(reply, DBUS_TYPE_UINT32, &mode,
 					 DBUS_TYPE_INVALID);
 	} else if (!g_strcmp0(method, "camel_store_get_flags")) {
 		char *store_hash_key;
@@ -392,7 +392,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
 		flags = store->flags;
-		dbus_message_append_args(reply, DBUS_TYPE_UINT32, flags,
+		dbus_message_append_args(reply, DBUS_TYPE_UINT32, &flags,
 					 DBUS_TYPE_INVALID);
 	} else if (!g_strcmp0(method, "camel_store_set_flags")) {
 		char *store_hash_key;
@@ -418,7 +418,8 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		store = g_hash_table_lookup(store_hash, store_hash_key);
 		store->mode = mode;
-	}
+	} else
+		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
 	dbus_connection_send(connection, reply, NULL);
 	dbus_message_unref(reply);
@@ -430,7 +431,6 @@ dbus_listener_message_handler(DBusConnection * connection,
 void camel_store_remote_impl_init()
 {
 	store_setup = TRUE;
-	store_hash = g_hash_table_new(g_str_hash, g_str_equal);
 	folder_hash = g_hash_table_new(g_str_hash, g_str_equal);
 	e_dbus_register_handler(CAMEL_STORE_OBJECT_PATH,
 				dbus_listener_message_handler, NULL);
