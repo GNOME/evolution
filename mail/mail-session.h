@@ -27,6 +27,8 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <camel/camel-session.h>
 
+#include "mail-session-remote.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
