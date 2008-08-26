@@ -206,7 +206,11 @@ libevolution_mail_la_SOURCES =			\
 	mail-session-remote.c			\
 	mail-session-remote.h			\
 	mail-session-remote-impl.c		\
-	mail-session-remote-impl.h		
+	mail-session-remote-impl.h		\
+	camel-object-remote.c			\
+	camel-object-remote.h			\
+	camel-object-remote-impl.c		\
+	camel-object-remote-impl.h	
 
 
 if ENABLE_SMIME
