@@ -50,7 +50,7 @@ mail_session_remote_get_interactive (void)
 			MAIL_SESSION_INTERFACE,
 			"mail_session_get_interactive",
 			&error, 
-			"=>b", &ret_val);
+			"=>i", &ret_val);
 
 	if (!ret) {
 		g_warning ("Error: mail_session_remote_get_interactive: %s\n", error.message);

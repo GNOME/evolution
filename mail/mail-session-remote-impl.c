@@ -50,7 +50,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		mail_session_init (path);
 	} else if (strcmp(method, "mail_session_get_interactive") == 0) {
 		gboolean interactive = mail_session_get_interactive();
-		dbus_message_append_args (reply, DBUS_TYPE_BOOLEAN, interactive, DBUS_TYPE_INVALID);
+		dbus_message_append_args (reply, DBUS_TYPE_INT32, &interactive, DBUS_TYPE_INVALID);
 		d(printf("%s: %d\n", method, interactive));
 		added = TRUE;
 	} else if (strcmp(method, "mail_session_set_interactive") == 0) {
@@ -72,7 +72,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		d(printf("%s: %s\n", method, key));
 		pass = mail_session_get_password (key);
 		added = TRUE;
-		dbus_message_append_args (reply, DBUS_TYPE_STRING, pass, DBUS_TYPE_INVALID);
+		dbus_message_append_args (reply, DBUS_TYPE_STRING, &pass, DBUS_TYPE_INVALID);
 	} else if (strcmp(method, "mail_session_add_password") == 0) {
 		gboolean ret;
 		char *key = NULL, *pass = NULL;
