@@ -253,8 +253,9 @@ dbus_listener_folder_handler (DBusConnection *connection,
 void
 camel_object_remote_impl_init ()
 {
-	e_dbus_register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_session_handler, NULL);
-	e_dbus_register_handler (CAMEL_STORE_OBJECT_PATH, dbus_listener_store_handler, NULL);
-	e_dbus_register_handler (CAMEL_FOLDER_OBJECT_PATH, dbus_listener_folder_handler, NULL);
+	/* Do it better */
+	//e_dbus_register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_session_handler, NULL);
+	//e_dbus_register_handler (CAMEL_STORE_OBJECT_PATH, dbus_listener_store_handler, NULL);
+	//e_dbus_register_handler (CAMEL_FOLDER_OBJECT_PATH, dbus_listener_folder_handler, NULL);
 }
 
