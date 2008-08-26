@@ -766,6 +766,8 @@ mail_session_flush_filter_log (void)
 		fflush (ms->filter_logfile);
 }
 
+/* Junk needs to made up: Decide how to make EPlugin re arch with Mail to EDS */
+
 void
 mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plugin)
 {
