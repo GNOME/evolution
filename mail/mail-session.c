@@ -52,6 +52,8 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
+/* Lets not rewrite mail session ;-) */
+#define MAIL_SESSION_REMOTE_H
 #include "mail-session.h"
 #include "mail-tools.h"
 
