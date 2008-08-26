@@ -5,6 +5,10 @@
 #define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbus/dbus.h>
 
+
+struct _DBindContext {
+    DBusConnection *cnx;
+};
 typedef struct _DBindContext DBindContext;
 
 DBindContext *dbind_create_context         (DBusBusType type, DBusError *opt_error);
@@ -35,5 +39,6 @@ dbus_bool_t   dbind_connection_method_call_va (DBusConnection *cnx,
                                                DBusError *opt_error,
                                                const char *arg_types,
                                                va_list     args);
+
 
 #endif /* _DBIND_H_ */

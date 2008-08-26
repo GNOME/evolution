@@ -80,7 +80,7 @@ mail_session_remote_set_interactive (gboolean interactive)
 			MAIL_SESSION_INTERFACE,
 			"mail_session_set_interactive",
 			&error, 
-			"b", interactive); 
+			"i", interactive); 
 
 	if (!ret) {
 		g_warning ("Error:mail_session_remote_set_interactive : %s\n", error.message);

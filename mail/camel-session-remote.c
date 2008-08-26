@@ -27,6 +27,7 @@ typedef enum {
 	CAMEL_SESSION_ALERT_ERROR
 } CamelSessionAlertType;
 */
+
 void
 camel_session_remote_construct	(CamelSessionRemote *session,
 			const char *storage_path)

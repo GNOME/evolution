@@ -11,9 +11,6 @@
  *        do dynamic padding of structures etc.
  */
 
-struct _DBindContext {
-    DBusConnection *cnx;
-};
 
 DBindContext *
 dbind_create_context (DBusBusType type, DBusError *opt_error)
