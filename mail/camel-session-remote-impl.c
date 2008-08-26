@@ -159,7 +159,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_get_service") == 0) {
-		char *session_str, *url_string, *err, *store_url;
+		char *url_string, *err, *store_url;
 		char *store_hash_key;
 		CamelProviderType type;
 		CamelService *service;
@@ -173,9 +173,6 @@ dbus_listener_message_handler (DBusConnection *connection,
 				DBUS_TYPE_INT32, &type,
 				DBUS_TYPE_INVALID);
 		
-		camel_exception_init (ex);
-
-#warning "A big warning :P The store hash needs to be handled properly"		
 		service = camel_session_get_service (session, url_string, type, ex);
 
 		store_url = camel_service_get_url (service);
@@ -298,7 +295,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 		g_free (err);
-	}
+	} else
+		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
 
 fail:
