@@ -4,12 +4,15 @@
  * */
 
 #include <mail-dbus.h>
+#include <dbind.h>
+#include <evo-dbus.h>
 #include "camel-session-remote.h"
-#include "camel-store-remote.h"
 
 #define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
 #define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 #define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
+
+#define d(x) x
 
 /*
 typedef enum {
@@ -146,6 +149,7 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 	gboolean ret;
 	DBusError error;
 	char *service, *ex;
+	CamelStoreRemote *rstore;
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -159,12 +163,14 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 
 	if (!ret) {
 		g_warning ("Error: Camel session get service: %s\n", error.message);
-		return;
+		return NULL;
 	}
 
+	rstore = g_new (CamelStoreRemote, 1);
+	rstore->object_id = service;
 	d(printf("Camel session get service remotely\n"));
 
-	return;
+	return rstore;
 }
 
 gboolean  

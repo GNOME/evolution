@@ -3,7 +3,9 @@
  *
  * */
 
+#include <string.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include "mail-dbus.h"
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
@@ -19,6 +21,9 @@ static DBusHandlerResult
 dbus_listener_message_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data);
+
+void 
+camel_session_remote_impl_init (void);
 
 static DBusHandlerResult
 dbus_listener_message_handler (DBusConnection *connection,
@@ -60,6 +65,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 		gboolean ret;
 		CamelException *ex;
 
+		ex = camel_exception_new ();
+
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
 				DBUS_TYPE_STRING, &store_hash_key,
@@ -77,7 +84,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		camel_exception_init (ex);
 		
-		passwd = camel_session_get_password (session, store, domain, prompt, item, flags, ex);
+		passwd = camel_session_get_password (session, (CamelService *)store, domain, prompt, item, flags, ex);
 
 		if (ex)
 			err = g_strdup (camel_exception_get_description (ex));
@@ -92,6 +99,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 		gboolean ret;
 		CamelException *ex;
 
+		ex = camel_exception_new ();
+
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
 				DBUS_TYPE_STRING, &store_hash_key,
@@ -105,7 +114,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		camel_exception_init (ex);
 		
-		storage_path = camel_session_get_storage_path (session, store, ex);
+		storage_path = camel_session_get_storage_path (session, (CamelService *)store, ex);
 
 		if (ex)
 			err = g_strdup (camel_exception_get_description (ex));
@@ -120,6 +129,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 		char *session_str, *store_hash_key, *domain, *item, *err;
 		gboolean ret;
 		CamelException *ex;
+
+		ex = camel_exception_new ();
 
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
@@ -136,7 +147,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		camel_exception_init (ex);
 		
-		camel_session_forget_password (session, store, domain, item, ex);
+		camel_session_forget_password (session, (CamelService *)store, domain, item, ex);
 
 		if (ex)
 			err = g_strdup (camel_exception_get_description (ex));
@@ -153,6 +164,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 		CamelService *service;
 		gboolean ret;
 		CamelException *ex;
+
+		ex = camel_exception_new ();
 
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
@@ -175,7 +188,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_alert_user") == 0) {
-		char *session_str, *prompt, *err;
+		char *session_str, *prompt, *err = NULL;
 		gboolean ret, cancel, response;
 		int alert;
 
@@ -192,7 +205,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		g_free (err);
 	} else if (strcmp (method, "camel_session_build_password_prompt") == 0) {
 		gboolean ret;
-		char *type, *user, *host, *prompt, *err;
+		char *type, *user, *host, *prompt, *err = NULL;
 		
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &type,
@@ -206,7 +219,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		g_free (err);
 	} else if (strcmp (method, "camel_session_is_online") == 0) {
 		gboolean ret, is_online;
-		char *session_str, *err;
+		char *session_str, *err = NULL;
 		
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
@@ -218,7 +231,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		g_free (err);
 	} else if (strcmp (method, "camel_session_set_online") == 0) {
 		gboolean ret, set;
-		char *session_str, *err;
+		char *session_str, *err = NULL;
 		
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
@@ -247,5 +260,3 @@ camel_session_remote_impl_init ()
 	session_setup = TRUE;
 	e_dbus_register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_message_handler, NULL);
 }
-
-
