@@ -47,6 +47,8 @@
 #include <glade/glade.h>
 #include <glib/gi18n.h>
 
+#include "camel-session-remote.h"
+
 #define d(x)
 
 typedef struct _EMSubscribeEditor EMSubscribeEditor;

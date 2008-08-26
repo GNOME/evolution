@@ -40,6 +40,8 @@
 #include "em-folder-selector.h"
 #include "em-folder-utils.h"
 
+#include "camel-session-remote.h"
+
 #define d(x)
 
 

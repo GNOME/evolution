@@ -74,6 +74,8 @@
 #include "em-folder-properties.h"
 #include "em-event.h"
 
+#include "camel-session-remote.h"
+
 #define d(x)
 
 struct _selected_uri {

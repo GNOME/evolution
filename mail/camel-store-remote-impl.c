@@ -13,7 +13,7 @@
 
 static gboolean store_setup = FALSE;
 
-GHashTable *store_hash = NULL;
+extern GHashTable *store_hash;
 GHashTable *folder_hash = NULL;
 static DBusHandlerResult
 dbus_listener_message_handler(DBusConnection * connection,

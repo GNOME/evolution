@@ -35,6 +35,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include "camel-session-remote.h"
+
 #include <libedataserver/e-data-server-util.h>
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -297,7 +299,7 @@ mc_setup_local_store(MailComponent *mc)
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
-	p->local_store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
+	p->local_store = (CamelStore *)camel_session_remote_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
 	g_free(tmp);
 	if (p->local_store == NULL)
 		goto fail;

@@ -29,6 +29,8 @@
 
 #include "mail-session-remote.h"
 
+#include "camel-session-remote.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }

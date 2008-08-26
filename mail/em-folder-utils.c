@@ -73,6 +73,8 @@
 #include "em-folder-selection.h"
 #include "em-folder-properties.h"
 
+#include "camel-session-remote.h"
+
 #define d(x)
 
 extern CamelSession *session;

@@ -73,6 +73,8 @@
 #include "em-utils.h"
 #include "em-migrate.h"
 
+#include "camel-session-remote.h"
+
 #define d(x) x
 
 #ifndef G_OS_WIN32

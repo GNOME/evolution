@@ -37,6 +37,8 @@
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
 
+#include "camel-session-remote.h"
+
 #include <e-util/e-mktemp.h>
 
 #include <glib/gi18n.h>
@@ -412,7 +414,7 @@ account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+	if (!(store = (CamelStore *) camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
 		camel_exception_clear (&ex);
 		return;
 	}
@@ -1076,7 +1078,7 @@ emftm_uri_to_key (const char *uri)
 	if (!uri)
 		return NULL;
 
-	store = (CamelStore *)camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+	store = (CamelStore *)camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	camel_exception_clear(&ex);
 
 	url = camel_url_new (uri, NULL);

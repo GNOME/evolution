@@ -3,12 +3,24 @@
  *
  * */
 
+#ifndef CAMEL_SESSION_REMOTE_H
+#define CAMEL_SESSION_REMOTE_H
+
 #include "camel-store-remote.h"
 
 typedef struct {
 	char *object_id;
 } CamelSessionRemote;
 
+/*
+#define camel_session_construct camel_session_remote_construct
+#define camel_session_get_password camel_session_remote_get_password
+#define camel_session_get_storage_path camel_session_remote_get_storage_path
+#define camel_session_forget_password camel_session_remote_forget_password
+#define camel_session_get_service camel_session_remote_get_service
+#define camel_session_alert_user camel_session_remote_alert_user
+#define camel_session_build_password_prompt camel_session_remote_build_password_prompt
+*/
 void camel_session_remote_construct (CamelSessionRemote *session,
 					const char *storage_path);
 
@@ -30,7 +42,8 @@ void camel_session_remote_forget_password (CamelSessionRemote *session,
 
 CamelStoreRemote *camel_session_remote_get_service (CamelSessionRemote *session, 
 						const char *url_string,
-			   			CamelProviderType type);
+			   			CamelProviderType type,
+						CamelException *ex);
 
 gboolean camel_session_remote_alert_user (CamelSessionRemote *session, 
 					CamelSessionAlertType type,
@@ -57,4 +70,4 @@ gboolean camel_session_remote_get_network_state (CamelSessionRemote *session);
 void camel_session_remote_set_network_state  (CamelSessionRemote *session,
 				     	gboolean network_state);
 
-
+#endif

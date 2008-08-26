@@ -8,7 +8,7 @@
 #include <evo-dbus.h>
 #include "camel-session-remote.h"
 
-#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
+#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session"
 #define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 #define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
 
@@ -145,11 +145,11 @@ camel_session_remote_forget_password (CamelSessionRemote *session,
 
 CamelStoreRemote *
 camel_session_remote_get_service (CamelSessionRemote *session, const char *url_string,
-			   CamelProviderType type)
+			   CamelProviderType type, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
-	char *service, *ex;
+	char *service;
 	CamelStoreRemote *rstore;
 
 	dbus_error_init (&error);
@@ -160,7 +160,7 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_get_service",
 			&error, 
-			"ssi=>ss", session->object_id, url_string, type, &service, &ex);
+			"si=>ss", url_string, type, &service, &ex);
 
 	if (!ret) {
 		g_warning ("Error: Camel session get service: %s\n", error.message);

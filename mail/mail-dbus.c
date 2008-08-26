@@ -193,6 +193,7 @@ idle_cb(gpointer data)
 
 	/* Initialize Mail Session */
 	mail_session_remote_impl_init ();
+	camel_session_remote_impl_init ();
 	camel_object_remote_impl_init ();
 	return FALSE;
 }

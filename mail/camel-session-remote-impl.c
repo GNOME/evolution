@@ -15,7 +15,8 @@
 
 static gboolean session_setup = FALSE;
 
-extern GHashTable *store_hash;
+GHashTable *store_hash = NULL;
+extern CamelSession *session;
 
 static DBusHandlerResult
 dbus_listener_message_handler (DBusConnection *connection,
@@ -32,8 +33,6 @@ dbus_listener_message_handler (DBusConnection *connection,
 {
 	const char *method = dbus_message_get_member (message);
 	DBusMessage *return_val;
-
-	CamelSession *session = NULL;
 	CamelStore *store;
 	char *store_not_found = _("Store not found");
 
@@ -160,7 +159,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_get_service") == 0) {
-		char *session_str, *url_string, *err;
+		char *session_str, *url_string, *err, *store_url;
+		char *store_hash_key;
 		CamelProviderType type;
 		CamelService *service;
 		gboolean ret;
@@ -169,14 +169,20 @@ dbus_listener_message_handler (DBusConnection *connection,
 		ex = camel_exception_new ();
 
 		ret = dbus_message_get_args(message, NULL,
-				DBUS_TYPE_STRING, &session_str,
 				DBUS_TYPE_STRING, &url_string,
 				DBUS_TYPE_INT32, &type,
 				DBUS_TYPE_INVALID);
 		
 		camel_exception_init (ex);
-		
+
+#warning "A big warning :P The store hash needs to be handled properly"		
 		service = camel_session_get_service (session, url_string, type, ex);
+
+		store_url = camel_service_get_url (service);
+
+		store_hash_key = e_dbus_get_store_hash (store_url);
+
+		g_hash_table_insert (store_hash, store_hash_key, service);
 
 		if (ex)
 			err = g_strdup (camel_exception_get_description (ex));
@@ -185,8 +191,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		camel_exception_free (ex);
 			
-/*verify and fix this*/	
-		dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &store_hash_key, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_alert_user") == 0) {
 		char *session_str, *prompt, *err = NULL;
@@ -309,5 +314,6 @@ void
 camel_session_remote_impl_init ()
 {
 	session_setup = TRUE;
+	store_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	e_dbus_register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_message_handler, NULL);
 }
