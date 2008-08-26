@@ -60,8 +60,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-view.h				\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
-	es-event.h				\
-	es-menu.h
+	es-event.h
 
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
@@ -98,7 +97,6 @@ evolution_SOURCES =				\
 	e-sidebar.c				\
 	e-sidebar.h				\
 	es-event.c				\
-	es-menu.c				\
 	main.c					
 
 evolution_LDADD =							\

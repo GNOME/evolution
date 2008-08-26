@@ -20,6 +20,7 @@
 
 #include "e-shell-view.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 
 #include "e-shell-window.h"
@@ -211,10 +212,10 @@ e_shell_view_get_name (EShellView *shell_view)
 	 * module that registered the shell view subclass. */
 
 	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (class->module != NULL, NULL);
-	g_return_val_if_fail (class->module->name != NULL, NULL);
+	g_return_val_if_fail (class->type_module != NULL, NULL);
+	g_return_val_if_fail (class->type_module->name != NULL, NULL);
 
-	return class->module->name;
+	return class->type_module->name;
 }
 
 const gchar *
@@ -237,12 +238,31 @@ e_shell_view_set_title (EShellView *shell_view,
 	g_object_notify (G_OBJECT (shell_view), "title");
 }
 
-GtkWidget *
+EShellWindow *
 e_shell_view_get_window (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->window;
+	return E_SHELL_WINDOW (shell_view->priv->window);
+}
+
+gboolean
+e_shell_view_is_selected (EShellView *shell_view)
+{
+	EShellViewClass *class;
+	EShellWindow *shell_window;
+	const gchar *curr_view_name;
+	const gchar *this_view_name;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_window = e_shell_view_get_window (shell_view);
+	this_view_name = e_shell_view_get_name (shell_view);
+	curr_view_name = e_shell_window_get_current_view (shell_window);
+	g_return_val_if_fail (curr_view_name != NULL, FALSE);
+
+	return (strcmp (curr_view_name, this_view_name) == 0);
 }
 
 GtkWidget *

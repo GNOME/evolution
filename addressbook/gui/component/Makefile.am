@@ -23,8 +23,6 @@ INCLUDES =							\
 component_LTLIBRARIES = libevolution-addressbook.la
 
 libevolution_addressbook_la_SOURCES = 	\
-	addressbook-component.c		\
-	addressbook-component.h		\
 	addressbook-config.c		\
 	addressbook-config.h		\
 	addressbook-migrate.c		\
@@ -35,9 +33,14 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook.h			\
 	addressbook-view.c		\
 	addressbook-view.h		\
-	component-factory.c
-
-#	$(top_builddir)/addressbook/printing/libecontactprint.la
+	component-factory.c		\
+	e-book-shell-module.c		\
+	e-book-shell-view.c		\
+	e-book-shell-view.h		\
+	e-book-shell-view-actions.c	\
+	e-book-shell-view-actions.h	\
+	e-book-shell-view-private.c	\
+	e-book-shell-view-private.h
 
 if ENABLE_SMIME
 SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la

@@ -21,7 +21,7 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include "e-shell-common.h"
+#include <e-shell-common.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL \

@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-test-module.c
+/* e-test-shell-module.c
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -32,17 +32,17 @@
 #define MODULE_SORT_ORDER	100
 
 /* Module Entry Point */
-void e_shell_module_init (GTypeModule *module);
+void e_shell_module_init (GTypeModule *type_module);
 
 static void
-action_new_test_item_cb (GtkAction *action,
+action_test_item_new_cb (GtkAction *action,
                          EShellWindow *shell_window)
 {
 	g_debug ("%s", G_STRFUNC);
 }
 
 static void
-action_new_test_source_cb (GtkAction *action,
+action_test_source_new_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
 	g_debug ("%s", G_STRFUNC);
@@ -50,22 +50,22 @@ action_new_test_source_cb (GtkAction *action,
 
 static GtkActionEntry item_entries[] = {
 
-	{ "new-test-item",
+	{ "test-item-new",
 	  "document-new",
 	  N_("_Test Item"),
 	  NULL,
 	  N_("Create a new test item"),
-	  G_CALLBACK (action_new_test_item_cb) }
+	  G_CALLBACK (action_test_item_new_cb) }
 };
 
 static GtkActionEntry source_entries[] = {
 
-	{ "new-test-source",
+	{ "test-source-new",
 	  "folder-new",
 	  N_("Test _Source"),
 	  NULL,
 	  N_("Create a new test source"),
-	  G_CALLBACK (action_new_test_source_cb) }
+	  G_CALLBACK (action_test_source_new_cb) }
 };
 
 static gboolean
@@ -139,27 +139,30 @@ static EShellModuleInfo module_info = {
 };
 
 void
-e_shell_module_init (GTypeModule *module)
+e_shell_module_init (GTypeModule *type_module)
 {
 	EShell *shell;
+	EShellModule *shell_module;
 
-	e_test_shell_view_get_type (module);
-	shell = e_shell_module_get_shell (E_SHELL_MODULE (module));
-	e_shell_module_set_info (E_SHELL_MODULE (module), &module_info);
+	shell_module = E_SHELL_MODULE (type_module);
+	shell = e_shell_module_get_shell (shell_module);
+
+	e_test_shell_view_get_type (type_module);
+	e_shell_module_set_info (shell_module, &module_info);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (test_module_handle_uri), module);
+		G_CALLBACK (test_module_handle_uri), shell_module);
 
 	g_signal_connect_swapped (
 		shell, "send-receive",
-		G_CALLBACK (test_module_send_receive), module);
+		G_CALLBACK (test_module_send_receive), shell_module);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (test_module_window_created), module);
+		G_CALLBACK (test_module_window_created), shell_module);
 
 	g_signal_connect_swapped (
 		shell, "window-destroyed",
-		G_CALLBACK (test_module_window_destroyed), module);
+		G_CALLBACK (test_module_window_destroyed), shell_module);
 }

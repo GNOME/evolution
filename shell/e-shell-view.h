@@ -21,7 +21,8 @@
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
-#include "e-shell-common.h"
+#include <e-shell-common.h>
+#include <e-shell-window.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \
@@ -62,7 +63,7 @@ struct _EShellViewClass {
 
 	/* Subclasses should set this via the "class_data" field in
 	 * the GTypeInfo they pass to g_type_module_register_type(). */
-	GTypeModule *module;
+	GTypeModule *type_module;
 
 	GtkWidget *	(*get_content_widget)	(EShellView *shell_view);
 	GtkWidget *	(*get_sidebar_widget)	(EShellView *shell_view);
@@ -74,7 +75,8 @@ const gchar *	e_shell_view_get_name		(EShellView *shell_view);
 const gchar *	e_shell_view_get_title		(EShellView *shell_view);
 void		e_shell_view_set_title		(EShellView *shell_view,
 						 const gchar *title);
-GtkWidget *	e_shell_view_get_window		(EShellView *shell_view);
+EShellWindow *	e_shell_view_get_window		(EShellView *shell_view);
+gboolean	e_shell_view_is_selected	(EShellView *shell_view);
 GtkWidget *	e_shell_view_get_content_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_sidebar_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_status_widget	(EShellView *shell_view);

@@ -22,15 +22,14 @@
 
 #include <string.h>
 
-#include <e-shell.h>
-#include <e-shell-importer.h>
-
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-error.h>
 #include <e-util/e-print.h>
 #include <e-util/e-util.h>
 
 #include <libedataserverui/e-passwords.h>
+
+#include "e-shell-importer.h"
 
 #define EVOLUTION_COPYRIGHT \
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
@@ -1286,6 +1285,8 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
+	e_load_ui_definition (manager, "evolution-shell.ui");
+
 	/* Shell Actions */
 	action_group = shell_window->priv->shell_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1426,14 +1427,14 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 			continue;
 		}
 
-		if (class->module == NULL) {
+		if (class->type_module == NULL) {
 			g_critical (
 				"Module member not set on %s",
 				G_OBJECT_CLASS_NAME (class));
 			continue;
 		}
 
-		view_name = class->module->name;
+		view_name = class->type_module->name;
 		action_name = g_strdup_printf ("shell-view-%s", view_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
 

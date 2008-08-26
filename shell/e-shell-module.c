@@ -22,6 +22,7 @@
 
 #include <gmodule.h>
 #include <glib/gi18n.h>
+#include <e-util/e-util.h>
 
 /* This is the symbol we look for when loading a module. */
 #define INIT_SYMBOL	"e_shell_module_init"
@@ -38,10 +39,12 @@ struct _EShellModulePrivate {
 
 	GModule *module;
 	gchar *filename;
-	EShell *shell;
 
-	/* Initializes the loaded module. */
-	void (*init) (GTypeModule *module);
+	EShell *shell;
+	gchar *data_dir;
+
+	/* Initializes the loaded type module. */
+	void (*init) (GTypeModule *type_module);
 };
 
 enum {
@@ -138,6 +141,7 @@ shell_module_finalize (GObject *object)
 	priv = E_SHELL_MODULE_GET_PRIVATE (object);
 
 	g_free (priv->filename);
+	g_free (priv->data_dir);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -283,6 +287,15 @@ e_shell_module_compare (EShellModule *shell_module_a,
 }
 
 const gchar *
+e_shell_module_get_data_dir (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+	g_return_val_if_fail (shell_module->priv->data_dir != NULL, NULL);
+
+	return shell_module->priv->data_dir;
+}
+
+const gchar *
 e_shell_module_get_filename (EShellModule *shell_module)
 {
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
@@ -332,19 +345,19 @@ void
 e_shell_module_set_info (EShellModule *shell_module,
                          const EShellModuleInfo *info)
 {
-	GTypeModule *module;
+	GTypeModule *type_module;
 	EShellModuleInfo *module_info;
 
 	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
 	g_return_if_fail (info != NULL);
 
-	module = G_TYPE_MODULE (shell_module);
+	type_module = G_TYPE_MODULE (shell_module);
 	module_info = &shell_module->priv->info;
 
 	/* A module name is required. */
 	g_return_if_fail (info->name != NULL);
 	module_info->name = g_intern_string (info->name);
-	g_type_module_set_name (module, module_info->name);
+	g_type_module_set_name (type_module, module_info->name);
 
 	module_info->aliases = g_intern_string (info->aliases);
 	module_info->schemes = g_intern_string (info->schemes);
@@ -352,4 +365,8 @@ e_shell_module_set_info (EShellModule *shell_module,
 
 	module_info->is_busy = info->is_busy;
 	module_info->shutdown = info->shutdown;
+
+	g_free (shell_module->priv->data_dir);
+	shell_module->priv->data_dir = g_build_filename (
+		e_get_user_data_dir (), module_info->name, NULL);
 }

@@ -35,7 +35,7 @@ static gpointer parent_class;
 
 static void
 test_shell_view_class_init (ETestShellViewClass *class,
-                            GTypeModule *module)
+                            GTypeModule *type_module)
 {
 	EShellViewClass *shell_view_class;
 
@@ -45,17 +45,17 @@ test_shell_view_class_init (ETestShellViewClass *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Test");
 	shell_view_class->icon_name = "face-monkey";
-	shell_view_class->module = module;
+	shell_view_class->type_module = type_module;
 }
 
 static void
-test_shell_view_init (ETestShellView *test_view)
+test_shell_view_init (ETestShellView *view)
 {
-	test_view->priv = E_TEST_SHELL_VIEW_GET_PRIVATE (test_view);
+	view->priv = E_TEST_SHELL_VIEW_GET_PRIVATE (view);
 }
 
 GType
-e_test_shell_view_get_type (GTypeModule *module)
+e_test_shell_view_get_type (GTypeModule *type_module)
 {
 	if (e_test_shell_view_type == 0) {
 		const GTypeInfo type_info = {
@@ -64,16 +64,16 @@ e_test_shell_view_get_type (GTypeModule *module)
 			(GBaseFinalizeFunc) NULL,
 			(GClassInitFunc) test_shell_view_class_init,
 			(GClassFinalizeFunc) NULL,
-			module,  /* class_data */
+			type_module,
 			sizeof (ETestShellView),
-			0,       /* n_preallocs */
+			0,    /* n_preallocs */
 			(GInstanceInitFunc) test_shell_view_init,
-			NULL     /* value_table */
+			NULL  /* value_table */
 		};
 
 		e_test_shell_view_type =
 			g_type_module_register_type (
-				module, E_TYPE_SHELL_VIEW,
+				type_module, E_TYPE_SHELL_VIEW,
 				"ETestShellView", &type_info, 0);
 	}
 

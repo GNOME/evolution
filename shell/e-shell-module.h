@@ -21,8 +21,7 @@
 #ifndef E_SHELL_MODULE_H
 #define E_SHELL_MODULE_H
 
-#include "e-shell-common.h"
-#include "e-shell.h"
+#include <e-shell.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_MODULE \
@@ -74,6 +73,7 @@ EShellModule *	e_shell_module_new		(EShell *shell,
 						 const gchar *filename);
 gint		e_shell_module_compare		(EShellModule *shell_module_a,
 						 EShellModule *shell_module_b);
+const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 EShell *	e_shell_module_get_shell	(EShellModule *shell_module);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);

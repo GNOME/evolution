@@ -26,7 +26,6 @@
 
 #include <e-sidebar.h>
 #include <es-event.h>
-#include <es-menu.h>
 
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
@@ -252,6 +251,57 @@ e_shell_window_new (EShell *shell,
 	return g_object_new (
 		E_TYPE_SHELL_WINDOW,
 		"shell", shell, "safe-mode", safe_mode, NULL);
+}
+
+gpointer
+e_shell_window_get_view (EShellWindow *shell_window,
+                         const gchar *view_name)
+{
+	GHashTable *loaded_views;
+	EShellView *shell_view;
+	GType *children;
+	guint n_children, ii;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+	g_return_val_if_fail (view_name != NULL, NULL);
+
+	loaded_views = shell_window->priv->loaded_views;
+	shell_view = g_hash_table_lookup (loaded_views, view_name);
+
+	if (shell_view != NULL)
+		return shell_view;
+
+	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
+
+	for (ii = 0; ii < n_children && shell_view == NULL; ii++) {
+		GType shell_view_type = children[ii];
+		EShellViewClass *class;
+
+		class = g_type_class_ref (shell_view_type);
+
+		if (class->type_module == NULL) {
+			g_critical (
+				"Module member not set on %s",
+				G_OBJECT_CLASS_NAME (class));
+			continue;
+		}
+
+		if (strcmp (view_name, class->type_module->name) == 0) {
+			shell_view = g_object_new (
+				shell_view_type, "title", class->label,
+				"window", shell_window, NULL);
+			g_hash_table_insert (
+				loaded_views,
+				g_strdup (view_name), shell_view);
+		}
+
+		g_type_class_unref (class);
+	}
+
+	if (shell_view == NULL)
+		g_critical ("Unknown shell view name: %s", view_name);
+
+	return shell_view;
 }
 
 EShell *

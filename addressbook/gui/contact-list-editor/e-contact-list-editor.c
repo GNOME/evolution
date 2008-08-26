@@ -32,8 +32,6 @@
 
 #include <libedataserverui/e-source-combo-box.h>
 
-#include "shell/evolution-shell-component-utils.h"
-
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"

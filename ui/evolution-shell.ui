@@ -5,6 +5,7 @@
       <menuitem action='new-window'/>
       <separator/>
       <menuitem action='send-receive'/>
+      <placeholder name='file-actions'/>
       <separator/>
       <menuitem action='import'/>
       <separator/>
@@ -18,6 +19,8 @@
       <menuitem action='quit'/>
     </menu>
     <menu action='edit-menu'>
+      <placeholder name='edit-actions'/>
+      <separator/>
       <menuitem action='sync-options'/>
       <menuitem action='preferences'/>
     </menu>

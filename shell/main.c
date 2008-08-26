@@ -40,7 +40,6 @@
 #include "e-util/e-util.h"
 
 #include "e-shell.h"
-#include "es-menu.h"
 #include "es-event.h"
 
 #include "e-util/e-util-private.h"
@@ -624,7 +623,6 @@ main (int argc, char **argv)
 
 	if (!disable_eplugin) {
 		e_plugin_register_type (e_plugin_lib_get_type ());
-		e_plugin_hook_register_type (es_menu_hook_get_type ());
 		e_plugin_hook_register_type (es_event_hook_get_type ());
 #ifdef ENABLE_PROFILING
 		e_plugin_hook_register_type (e_profile_event_hook_get_type ());

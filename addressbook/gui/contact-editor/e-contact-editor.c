@@ -48,7 +48,6 @@
 #include "misc/e-dateedit.h"
 #include "misc/e-image-chooser.h"
 #include "misc/e-url-entry.h"
-#include "shell/evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 

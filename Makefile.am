@@ -61,6 +61,7 @@ SUBDIRS = 			\
 	a11y			\
         widgets                 \
         shell                   \
+	addressbook		\
         art                     \
 	ui			\
 	views			\

@@ -10,6 +10,7 @@ XML_FILES =					\
 	evolution-tasks.xml
 
 UI_FILES =					\
+	evolution-contacts.ui			\
 	evolution-shell.ui
 
 evolutionui_DATA = $(UI_FILES) $(XML_FILES)

@@ -1,0 +1,45 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='contact-open'/>
+        <menuitem action='contact-save-as'/>
+        <menuitem action='address-book-save-as'/>
+      </placeholder>
+      <placeholder name='print-actions'>
+        <menuitem action='contact-print-preview'/>
+        <menuitem action='contact-print'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'>
+        <menuitem action='contact-select-all'/>
+        <separator/>
+        <menuitem action='contact-clipboard-cut'/>
+        <menuitem action='contact-clipboard-copy'/>
+        <menuitem action='contact-clipboard-paste'/>
+        <separator/>
+        <menuitem action='contact-delete'/>
+        <menuitem action='address-book-delete'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <menuitem action='contact-preview'/>
+    </menu>
+    <placeholder name='custom-menus'>
+      <menu action='action-menu'>
+        <menuitem action='contact-forward'/>
+        <menuitem action='contact-send-message'/>
+        <menuitem action='address-book-stop'/>
+        <separator/>
+        <menuitem action='contact-copy'/>
+        <menuitem action='contact-move'/>
+        <separator/>
+        <menuitem action='address-book-copy'/>
+        <menuitem action='address-book-move'/>
+        <separator/>
+        <menuitem action='address-book-properties'/>
+      </menu>
+    </placeholder>
+  </menubar>
+</ui>

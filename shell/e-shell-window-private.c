@@ -29,6 +29,7 @@ shell_window_notify_current_view_cb (EShellWindow *shell_window)
 {
 	GtkWidget *menu;
 	GtkWidget *widget;
+	EShellView *shell_view;
 	const gchar *path;
 
 	/* Update the "File -> New" submenu. */
@@ -205,8 +206,8 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	gint height;
 
 	loaded_views = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) NULL,
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
 	priv->manager = gtk_ui_manager_new ();
@@ -215,8 +216,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->new_source_actions = gtk_action_group_new ("new-source");
 	priv->shell_view_actions = gtk_action_group_new ("shell-view");
 	priv->loaded_views = loaded_views;
-
-	e_load_ui_definition (priv->manager, "evolution-shell.ui");
 
 	e_shell_window_actions_init (shell_window);
 
