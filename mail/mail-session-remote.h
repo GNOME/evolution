@@ -6,10 +6,6 @@
 #ifndef MAIL_SESSION_REMOTE_H
 #define MAIL_SESSION_REMOTE_H
 
-typedef struct _MailSessionRemote  {
-	char *object_id;
-}MailSessionRemote;
-
 #define mail_session_init	mail_session_remote_init
 #define mail_session_get_interactive	mail_session_remote_get_interactive
 #define mail_session_set_interactive	mail_session_remote_set_interactive
