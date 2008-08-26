@@ -190,7 +190,7 @@ camel_session_remote_alert_user (CamelSessionRemote *session,
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_alert_user",
 			&error, 
-			"sis(int)b=>(int)b", session->object_id, type, prompt, cancel, &success);
+			"sisi=>i", session->object_id, type, prompt, cancel, &success);
 
 	if (!ret) {
 		g_warning ("Error: Camel session alerting user: %s\n", error.message);
@@ -245,7 +245,7 @@ camel_session_remote_is_online (CamelSessionRemote *session)
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_is_online",
 			&error, 
-			"s=>(int)b", session->object_id, &is_online);
+			"s=>i", session->object_id, &is_online);
 
 	if (!ret) {
 		g_warning ("Error: Camel session check for online: %s\n", error.message);
@@ -285,4 +285,55 @@ camel_session_remote_set_online  (CamelSessionRemote *session,
 	return;
 }
 
+gboolean
+camel_session_remote_check_junk (CamelSessionRemote *session)
+{
+	gboolean ret, check_junk;
+	DBusError error;
 
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_SESSION_OBJECT_PATH,
+			CAMEL_SESSION_INTERFACE,
+			"camel_session_check_junk",
+			&error, 
+			"s=>i", session->object_id, &check_junk);
+
+	if (!ret) {
+		g_warning ("Error: Camel session check for junk: %s\n", error.message);
+		return 0;
+	}
+
+	d(printf("Camel session check for junk remotely\n"));
+
+	return check_junk;
+}
+
+void 
+camel_session_remote_set_check_junk (CamelSessionRemote *session,
+				   gboolean check_junk)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_SESSION_OBJECT_PATH,
+			CAMEL_SESSION_INTERFACE,
+			"camel_session_set_check_junk",
+			&error, 
+			"ss", session->object_id, check_junk);
+
+	if (!ret) {
+		g_warning ("Error: Camel session set check junk: %s\n", error.message);
+		return;
+	}
+
+	d(printf("Camel session set check junk remotely\n"));
+
+	return;
+}

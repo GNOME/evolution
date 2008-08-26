@@ -196,12 +196,12 @@ dbus_listener_message_handler (DBusConnection *connection,
 				DBUS_TYPE_STRING, &session_str,
 				DBUS_TYPE_INT32, &alert,
 				DBUS_TYPE_STRING, &prompt,
-				DBUS_TYPE_BOOLEAN, &cancel,
+				DBUS_TYPE_INT32, &cancel,
 				DBUS_TYPE_INVALID);
 		
 		response = camel_session_alert_user (session, alert, prompt, cancel);
 
-		dbus_message_append_args (return_val, DBUS_TYPE_BOOLEAN, response, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, response, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_build_password_prompt") == 0) {
 		gboolean ret;
@@ -227,7 +227,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		is_online = camel_session_is_online (session);
 
-		dbus_message_append_args (return_val, DBUS_TYPE_BOOLEAN, is_online, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, is_online, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_set_online") == 0) {
 		gboolean ret, set;
@@ -235,10 +235,35 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		ret = dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &session_str,
-				DBUS_TYPE_BOOLEAN, &set,
+				DBUS_TYPE_INT32, &set,
 				DBUS_TYPE_INVALID);
 		
 		camel_session_set_online (session, set);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+		g_free (err);
+	} else if (strcmp (method, "camel_session_check_junk") == 0) {
+		gboolean ret, check_junk;
+		char *session_str, *err = NULL;
+		
+		ret = dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &session_str,
+				DBUS_TYPE_INVALID);
+		
+		check_junk = camel_session_check_junk (session);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, check_junk, DBUS_TYPE_INVALID);
+		g_free (err);
+	} else if (strcmp (method, "camel_session_set_check_junk") == 0) {
+		gboolean ret, set_check;
+		char *session_str, *err = NULL;
+		
+		ret = dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &session_str,
+				DBUS_TYPE_INT32, &set_check,
+				DBUS_TYPE_INVALID);
+		
+		camel_session_set_online (session, set_check);
 
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 		g_free (err);

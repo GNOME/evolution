@@ -46,3 +46,9 @@ gboolean camel_session_remote_is_online (CamelSessionRemote *session);
 void camel_session_remote_set_online  (CamelSessionRemote *session,
 				gboolean online);
 
+gboolean camel_session_remote_check_junk (CamelSessionRemote *session);
+
+
+void camel_session_remote_set_check_junk (CamelSessionRemote *session,
+				   gboolean check_junk);
+
