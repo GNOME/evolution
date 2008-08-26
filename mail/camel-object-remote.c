@@ -64,9 +64,9 @@ hash_data (CamelObjectEventHookFunc func, gpointer data)
 }
 
 unsigned int
-camel_object_remote_hook_event (CamelRemoteObject *object, char *signal, CamelObjectEventHookFunc func, gpointer data)
+camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelObjectEventHookFunc func, gpointer data)
 {
-	CamelRemoteHook *hook;
+	CamelHookRemote *hook;
 	gboolean ret;
 	DBusError error;
 	char *hash;
@@ -79,7 +79,7 @@ camel_object_remote_hook_event (CamelRemoteObject *object, char *signal, CamelOb
 		register_handler (CAMEL_FOLDER_OBJECT_PATH, dbus_listener_folder_handler, NULL);
 	}
 
-	hook = g_new (CamelRemoteHook, 1);
+	hook = g_new (CamelHookRemote, 1);
 	hook->object_id = g_strdup (object->object_id);
 	hook->signal = g_strdup (signal);
 	hook->func = func;

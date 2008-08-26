@@ -21,13 +21,13 @@
 #define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
 #define CAMEL_FOLDER_INTERFACE "org.gnome.evolution.camel.folder"
 
-typedef struct _CamelRemoteHook {
+typedef struct _CamelHookRemote {
 	char *object_id;
 	char *signal;
 	CamelObjectEventHookFunc func;
 	gpointer data;
 	guint remote_id;
-}CamelRemoteHook;
+}CamelHookRemote;
 
 typedef enum {
 	CAMEL_RO_SESSION=0,
@@ -37,14 +37,14 @@ typedef enum {
 }CamelRemoteObjectType;
 
 
-typedef struct _CamelRemoteObject {
+typedef struct _CamelObjectRemote {
 	char *object_id;
 	CamelRemoteObjectType type;
 	GList *hooks; /* Hooks of CamelRemoteHook */
-}CamelRemoteObject;
+}CamelObjectRemote;
 
 
 unsigned int
-camel_object_remote_hook_event (CamelRemoteObject *object, char *signal, CamelObjectEventHookFunc func, gpointer data);
+camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelObjectEventHookFunc func, gpointer data);
 
 #endif
