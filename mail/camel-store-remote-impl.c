@@ -180,7 +180,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 			goto fail;
 		}
 
-		camel_exception_init(ex);
+		ex = camel_exception_new();
 		/* FIXME: camel_store_delete_folder should have sane return values and the exception should be used properly */
 		camel_store_delete_folder(store, folder_name, ex);
 		camel_exception_free(ex);
@@ -214,7 +214,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 			goto fail;
 		}
 
-		camel_exception_init(ex);
+		ex = camel_exception_new ();
 		/* FIXME: camel_store_delete_folder should have sane return values and the exception should be used properly */
 		camel_store_rename_folder(store, old_folder_name,
 					  new_folder_name, ex);
