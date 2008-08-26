@@ -50,5 +50,11 @@ gboolean camel_session_remote_check_junk (CamelSessionRemote *session);
 
 
 void camel_session_remote_set_check_junk (CamelSessionRemote *session,
-				   gboolean check_junk);
+				   	gboolean check_junk);
+
+gboolean camel_session_remote_get_network_state (CamelSessionRemote *session);
+
+void camel_session_remote_set_network_state  (CamelSessionRemote *session,
+				     	gboolean network_state);
+
 

@@ -35,6 +35,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 	CamelSession *session = NULL;
 	CamelStore *store;
+	char *store_not_found = _("Store not found");
 
   	printf ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
            dbus_message_get_path (message),
@@ -78,7 +79,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		store = g_hash_table_lookup (store_hash, store_hash_key);
 		if (!store) {
-			dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, _("Store not found"), DBUS_TYPE_INVALID);
+			dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, &(store_not_found), DBUS_TYPE_INVALID);
 			goto fail;
 		}
 
@@ -92,7 +93,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 			err = g_strdup ("");
 		camel_exception_free (ex);
 			
-		dbus_message_append_args (return_val, DBUS_TYPE_STRING, passwd, DBUS_TYPE_STRING, err, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &passwd, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_get_storage_path") == 0) {
 		char *session_str, *store_hash_key, *storage_path, *err;
@@ -108,7 +109,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		store = g_hash_table_lookup (store_hash, store_hash_key);
 		if (!store) {
-			dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, _("Store not found"), DBUS_TYPE_INVALID);
+			dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, &(store_not_found), DBUS_TYPE_INVALID);
 			goto fail;
 		}
 
@@ -123,7 +124,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		camel_exception_free (ex);
 			
-		dbus_message_append_args (return_val, DBUS_TYPE_STRING, storage_path, DBUS_TYPE_STRING, err, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &storage_path, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_forget_password") == 0) {
 		char *session_str, *store_hash_key, *domain, *item, *err;
@@ -141,7 +142,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		store = g_hash_table_lookup (store_hash, store_hash_key);
 		if (!store) {
-			dbus_message_append_args (return_val, DBUS_TYPE_STRING, _("Store not found"), DBUS_TYPE_INVALID);
+			dbus_message_append_args (return_val, DBUS_TYPE_STRING, &(store_not_found), DBUS_TYPE_INVALID);
 			goto fail;
 		}
 
@@ -156,7 +157,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		camel_exception_free (ex);
 			
-		dbus_message_append_args (return_val, DBUS_TYPE_STRING, err, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_get_service") == 0) {
 		char *session_str, *url_string, *err;
@@ -185,7 +186,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		camel_exception_free (ex);
 			
 /*verify and fix this*/	
-		dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, err, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, "", DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_alert_user") == 0) {
 		char *session_str, *prompt, *err = NULL;
@@ -201,7 +202,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		response = camel_session_alert_user (session, alert, prompt, cancel);
 
-		dbus_message_append_args (return_val, DBUS_TYPE_INT32, response, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &response, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_build_password_prompt") == 0) {
 		gboolean ret;
@@ -215,7 +216,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		prompt = camel_session_build_password_prompt (type, user, host);
 
-		dbus_message_append_args (return_val, DBUS_TYPE_STRING, prompt, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &prompt, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_is_online") == 0) {
 		gboolean ret, is_online;
@@ -227,7 +228,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		is_online = camel_session_is_online (session);
 
-		dbus_message_append_args (return_val, DBUS_TYPE_INT32, is_online, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &is_online, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_set_online") == 0) {
 		gboolean ret, set;
@@ -252,7 +253,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		
 		check_junk = camel_session_check_junk (session);
 
-		dbus_message_append_args (return_val, DBUS_TYPE_INT32, check_junk, DBUS_TYPE_INVALID);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &check_junk, DBUS_TYPE_INVALID);
 		g_free (err);
 	} else if (strcmp (method, "camel_session_set_check_junk") == 0) {
 		gboolean ret, set_check;
@@ -264,6 +265,31 @@ dbus_listener_message_handler (DBusConnection *connection,
 				DBUS_TYPE_INVALID);
 		
 		camel_session_set_online (session, set_check);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+		g_free (err);
+	} else if (strcmp (method, "camel_session_get_network_state") == 0) {
+		gboolean ret, network_state;
+		char *session_str, *err = NULL;
+		
+		ret = dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &session_str,
+				DBUS_TYPE_INVALID);
+		
+		network_state = camel_session_get_network_state (session);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &network_state, DBUS_TYPE_INVALID);
+		g_free (err);
+	} else if (strcmp (method, "camel_session_set_network_state") == 0) {
+		gboolean ret, set_network;
+		char *session_str, *err = NULL;
+		
+		ret = dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &session_str,
+				DBUS_TYPE_INT32, &set_network,
+				DBUS_TYPE_INVALID);
+		
+		camel_session_set_online (session, set_network);
 
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 		g_free (err);

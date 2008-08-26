@@ -337,3 +337,57 @@ camel_session_remote_set_check_junk (CamelSessionRemote *session,
 
 	return;
 }
+
+gboolean 
+camel_session_remote_get_network_state (CamelSessionRemote *session)
+{
+	gboolean ret, network_state;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_SESSION_OBJECT_PATH,
+			CAMEL_SESSION_INTERFACE,
+			"camel_session_get_network_state",
+			&error, 
+			"s=>i", session->object_id, &network_state);
+
+	if (!ret) {
+		g_warning ("Error: Camel session check for network state: %s\n", error.message);
+		return 0;
+	}
+
+	d(printf("Camel session check for network state remotely\n"));
+
+	return network_state;
+}
+
+void 
+camel_session_remote_set_network_state  (CamelSessionRemote *session,
+				     	gboolean network_state)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_SESSION_OBJECT_PATH,
+			CAMEL_SESSION_INTERFACE,
+			"camel_session_set_network_state",
+			&error, 
+			"ss", session->object_id, network_state);
+
+	if (!ret) {
+		g_warning ("Error: Camel session set network state: %s\n", error.message);
+		return;
+	}
+
+	d(printf("Camel session set check network state remotely\n"));
+
+	return;
+}
+
