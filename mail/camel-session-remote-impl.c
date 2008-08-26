@@ -181,7 +181,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		g_hash_table_insert (store_hash, store_hash_key, service);
 
-		if (ex)
+		if (camel_exception_is_set(ex))
 			err = g_strdup (camel_exception_get_description (ex));
 		else
 			err = g_strdup ("");
