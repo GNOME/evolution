@@ -32,9 +32,9 @@ int camel_store_get_specific_folder_remote(DBusConnection * connection,
 					   DBusMessage * reply)
 {
 	CamelException *ex;
-	CamelFolder *folder;
+	CamelFolder *folder = NULL;
 	CamelStore *store;
-	char *err, *folder_hash_key, *store_hash_key;
+	char *err, *folder_hash_key = NULL, *store_hash_key;
 
 	int ret = dbus_message_get_args(message,
 					NULL,
@@ -52,7 +52,7 @@ int camel_store_get_specific_folder_remote(DBusConnection * connection,
 		return -1;
 	}
 
-	camel_exception_init(ex);
+	ex = camel_exception_new ();
 
 	if (g_str_has_suffix(method, "inbox"))
 		folder = camel_store_get_inbox(store, ex);
@@ -103,7 +103,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 		CamelException *ex;
 		CamelFolder *folder;
 		CamelStore *store;
-		char *err, *folder_hash_key, *store_hash_key, *folder_name;
+		char *err, *folder_hash_key = NULL, *store_hash_key, *folder_name;
 
 		int ret = dbus_message_get_args(message,
 						NULL,
@@ -125,7 +125,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 			goto fail;
 		}
 
-		camel_exception_init(ex);
+		ex = camel_exception_new ();
 		folder = camel_store_get_folder(store, folder_name, flags, ex);
 		if (!folder) {
 			err = g_strdup(camel_exception_get_description(ex));
