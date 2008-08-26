@@ -1296,7 +1296,7 @@ mail_component_init (MailComponent *component)
 	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
 	e_activity_handler_set_error_flush_time (priv->activity_handler, mail_config_get_error_timeout ()*1000);
 
-	mail_session_remote_init (e_get_user_data_dir ());
+	mail_session_init (e_get_user_data_dir ());
 
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new_full (
