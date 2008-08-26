@@ -1157,6 +1157,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 		    if (!efb->account_search_vf) {
 			    store = emfv->folder->parent_store;
+				#warning DAMN WRONG. You must be a moron to leave this. Fix it soon.
+				/*
 			    if (store->folders) {
 				    folders = camel_object_bag_list(store->folders);
 				    for (i=0;i<folders->len;i++) {
@@ -1164,6 +1166,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 					    folder_list_account = g_list_append(folder_list_account, folder);
 				    }
 			    }
+				*/
 
 			    /* Create a camel vee folder */
 			    storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));

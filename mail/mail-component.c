@@ -91,6 +91,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <camel-store-remote.h>
 #include "mail-dbus.h"
 
 #define d(x)
@@ -171,6 +172,7 @@ static struct _store_info *
 store_info_new(CamelStore *store, const char *name)
 {
 	struct _store_info *si;
+	int store_flags;
 
 	si = g_malloc0(sizeof(*si));
 	si->ref_count = 1;
@@ -180,11 +182,14 @@ store_info_new(CamelStore *store, const char *name)
 		si->name = g_strdup(name);
 	si->store = store;
 	camel_object_ref(store);
+
+	store_flags = camel_store_get_flags_remote (store);
+
 	/* If these are vfolders then they need to be opened now,
 	 * otherwise they wont keep track of all folders */
-	if ((store->flags & CAMEL_STORE_VTRASH) != 0)
+	if ((store_flags & CAMEL_STORE_VTRASH) != 0)
 		si->vtrash = camel_store_get_trash(store, NULL);
-	if ((store->flags & CAMEL_STORE_VJUNK) != 0)
+	if ((store_flags & CAMEL_STORE_VJUNK) != 0)
 		si->vjunk = camel_store_get_junk(store, NULL);
 
 	return si;

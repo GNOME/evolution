@@ -38,6 +38,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 
+#include <camel-store-remote.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
@@ -211,7 +212,7 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_READ;
 
-		if ((store->flags & CAMEL_STORE_VJUNK) && !draft_or_outbox) {
+		if ((camel_store_get_flags_remote (store) & CAMEL_STORE_VJUNK) && !draft_or_outbox) {
 			if ((flags & CAMEL_MESSAGE_JUNK))
 				mask &= ~EM_POPUP_SELECT_NOT_JUNK;
 			else

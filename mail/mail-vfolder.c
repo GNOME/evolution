@@ -28,6 +28,7 @@
 
 #include <glib/gi18n.h>
 
+#include <camel-store-remote.h>
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
@@ -63,7 +64,7 @@ static GList *source_folders_local;	/* list of source folder uri's - local ones 
 static GHashTable *vfolder_hash;
 /* This is a slightly hacky solution to shutting down, we poll this variable in various
    loops, and just quit processing if it is set. */
-static volatile int shutdown;		/* are we shutting down? */
+static volatile int vshutdown;		/* are we shutting down? */
 /* more globals ... */
 extern CamelSession *session;
 
@@ -100,7 +101,7 @@ vfolder_setup_exec (struct _setup_msg *m)
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
 	l = m->sources_uri;
-	while (l && !shutdown) {
+	while (l && !vshutdown) {
 		d(printf(" Adding uri: %s\n", (char *)l->data));
 		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
 		if (folder) {
@@ -113,14 +114,14 @@ vfolder_setup_exec (struct _setup_msg *m)
 	}
 
 	l = m->sources_folder;
-	while (l && !shutdown) {
+	while (l && !vshutdown) {
 		d(printf(" Adding folder: %s\n", ((CamelFolder *)l->data)->full_name));
 		camel_object_ref(l->data);
 		list = g_list_append(list, l->data);
 		l = l->next;
 	}
 
-	if (!shutdown)
+	if (!vshutdown)
 		camel_vee_folder_set_folders((CamelVeeFolder *)m->folder, list);
 
 	l = list;
@@ -248,7 +249,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 	GList *l;
 	CamelFolder *folder = NULL;
 
-	if (shutdown)
+	if (vshutdown)
 		return;
 
 	d(printf("%s uri to vfolder: %s\n", m->remove?"Removing":"Adding", m->uri));
@@ -265,7 +266,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 
 	if (folder != NULL) {
 		l = m->folders;
-		while (l && !shutdown) {
+		while (l && !vshutdown) {
 			if (m->remove)
 				camel_vee_folder_remove_folder((CamelVeeFolder *)l->data, folder);
 			else
@@ -389,9 +390,13 @@ uri_is_spethal(CamelStore *store, const char *uri)
 	CamelURL *url;
 	int res;
 
+	guint32 store_flags;
+
+	store_flags = camel_store_get_flags_remote (store);
+
 	/* This is a bit of a hack, but really the only way it can be done at the moment. */
 
-	if ((store->flags & (CAMEL_STORE_VTRASH|CAMEL_STORE_VJUNK)) == 0)
+	if ((store_flags & (CAMEL_STORE_VTRASH|CAMEL_STORE_VJUNK)) == 0)
 		return FALSE;
 
 	url = camel_url_new(uri, NULL);
@@ -400,15 +405,15 @@ uri_is_spethal(CamelStore *store, const char *uri)
 
 	/* don't use strcasecmp here */
 	if (url->fragment) {
-		res = (((store->flags & CAMEL_STORE_VTRASH)
+		res = (((store_flags & CAMEL_STORE_VTRASH)
 			&& strcmp(url->fragment, CAMEL_VTRASH_NAME) == 0)
-		       || ((store->flags & CAMEL_STORE_VJUNK)
+		       || ((store_flags & CAMEL_STORE_VJUNK)
 			   && strcmp(url->fragment, CAMEL_VJUNK_NAME) == 0));
 	} else {
 		res = url->path
-			&& (((store->flags & CAMEL_STORE_VTRASH)
+			&& (((store_flags & CAMEL_STORE_VTRASH)
 			     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
-			    || ((store->flags & CAMEL_STORE_VJUNK)
+			    || ((store_flags & CAMEL_STORE_VJUNK)
 				&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
 	}
 
@@ -1214,7 +1219,7 @@ vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
 void
 mail_vfolder_shutdown (void)
 {
-	shutdown = 1;
+	vshutdown = 1;
 
 	if (vfolder_hash) {
 		g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);

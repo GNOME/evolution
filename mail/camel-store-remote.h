@@ -3,6 +3,9 @@
  *
  * */
 
+#ifndef CAMEL_STORE_REMOTE_H
+#define CAMEL_STORE_REMOTE_H
+
 #include <camel/camel.h>
 
 typedef struct {
@@ -46,3 +49,4 @@ guint32 camel_store_get_mode_remote(CamelStoreRemote * store);
 guint32 camel_store_get_flags_remote(CamelStoreRemote * store);
 void camel_store_set_mode_remote(CamelStoreRemote * store, guint32 mode);
 void camel_store_set_flags_remote(CamelStoreRemote * store, guint32 mode);
+#endif

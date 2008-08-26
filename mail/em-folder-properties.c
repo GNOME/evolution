@@ -30,6 +30,7 @@
 #include <gconf/gconf-client.h>
 
 #include <camel/camel-store.h>
+#include <camel-store-remote.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-folder.h>
@@ -298,6 +299,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 	GConfClient *gconf;
 	CamelStore *store;
 	char *uri = (char *)data;
+	guint32 store_flags;
 
 	if (folder == NULL) {
 		g_free (uri);
@@ -321,10 +323,12 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 	gconf = mail_config_get_gconf_client ();
 	hide_deleted = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 
+	store_flags = camel_store_get_flags_remote (store);
+
 	/*
 	   Do the calculation only for those accounts that support VTRASHes
 	 */
-	if (store->flags & CAMEL_STORE_VTRASH) {
+	if (store_flags & CAMEL_STORE_VTRASH) {
 		if (CAMEL_IS_VTRASH_FOLDER(folder))
 			prop_data->total += deleted;
 		else if (!hide_deleted && deleted > 0)
@@ -334,7 +338,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 	/*
 	 * If the ffolder is junk folder, get total number of mails.
 	 */
-	if (store->flags & CAMEL_STORE_VJUNK) {
+	if (store_flags & CAMEL_STORE_VJUNK) {
 		camel_object_get (folder, NULL, CAMEL_FOLDER_TOTAL, &prop_data->total, NULL);
 	}
 

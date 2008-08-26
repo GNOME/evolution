@@ -30,6 +30,8 @@
 #include "shell/evolution-component.h"
 #include "Evolution-Mail.h"
 
+#include <camel-store-remote.h>
+
 struct _CamelStore;
 
 #define MAIL_TYPE_COMPONENT			(mail_component_get_type ())
