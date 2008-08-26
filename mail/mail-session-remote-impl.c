@@ -3,13 +3,14 @@
  *
  * */
 
+#include <string.h>
 #include <glib.h>
 #include <dbus/dbus.h>
 #include "mail-dbus.h"
 /* Lets load the actual session. */
 #define MAIL_SESSION_REMOTE_H
 #include "mail-session.h"
-
+#include "mail-session-remote-impl.h"
 #define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"
 
 #define d(x) x
@@ -102,13 +103,9 @@ dbus_listener_message_handler (DBusConnection *connection,
 		d(printf("%s: %s\n", method, key));
 		mail_session_forget_password (key);
 	} else if (strcmp(method, "mail_session_flush_filter_log") == 0) {
-		gboolean ret;
-
 		d(printf("%s\n", method));
 		mail_session_flush_filter_log ();
 	} else if (strcmp(method, "mail_session_shutdown") == 0) {
-		gboolean ret;
-
 		d(printf("%s\n", method));
 		mail_session_shutdown ();
 	} 

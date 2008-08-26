@@ -91,6 +91,8 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
+#include "mail-dbus.h"
+
 #define d(x)
 
 static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);

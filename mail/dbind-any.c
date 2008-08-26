@@ -37,7 +37,7 @@ warn_braces ()
 }
 
 /* gather immediate allocation information for this type */
-size_t dbind_gather_alloc_info_r (char **type)
+static size_t dbind_gather_alloc_info_r (char **type)
 {
     char t = **type;
     (*type)++;
@@ -364,7 +364,6 @@ dbind_any_demarshal (DBusMessageIter *iter,
 static void
 dbind_any_free_r (char **type, void **data)
 {
-    size_t len;
 
 #ifdef DEBUG
     fprintf (stderr, "any free '%c' to %p\n", **type, *data);
@@ -389,7 +388,7 @@ dbind_any_free_r (char **type, void **data)
         int i;
         GArray *vals = **(void ***)data;
         size_t elem_size, elem_align;
-        char *saved_child_type, *child_type_string;
+        char *saved_child_type;
 
         (*type)++;
         saved_child_type = *type;

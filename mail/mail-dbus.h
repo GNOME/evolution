@@ -14,3 +14,8 @@ int e_dbus_register_handler (const char *object_path, DBusObjectPathMessageFunct
 void e_dbus_connection_close (void);
 
 int e_dbus_setup_handlers (void);
+char * e_dbus_get_store_hash (const char *store_url);
+
+char * e_dbus_get_folder_hash (const char *store_url, const char *folder_name);
+
+int mail_dbus_init(void);

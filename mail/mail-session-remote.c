@@ -3,7 +3,12 @@
  *
  * */
 
+#include <stdio.h>
+#include <glib.h>
+#include "dbind.h"
 #include <mail-dbus.h>
+#include "evo-dbus.h"
+#include "mail-session-remote.h"
 
 #define MAIL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
 #define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"

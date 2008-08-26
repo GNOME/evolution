@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include "mail-dbus.h"
+#include "mail-session-remote-impl.h"
 
 #define d(x) x
 #define DBUS_BUS_NAME "org.gnome.evolution.camel"
@@ -17,7 +18,7 @@ gboolean inited = FALSE;
 /* FIXME: This is from dbus internal file */
 #define DBUS_SESSION_BUS_DEFAULT_ADDRESS	"autolaunch:"
 
-char *
+static const char *
 get_session_address ()
 {
 	const char *address = g_getenv ("DBUS_SESSION_BUS_ADDRESS");
@@ -125,7 +126,6 @@ e_dbus_get_store_hash (const char *store_url)
 	guint8 *digest;
 	gsize length;
 	int state = 0, save = 0;
-	char *tmp;
 	char *buffer = g_malloc0(sizeof(char)*9);
 	int i;
 
@@ -157,7 +157,6 @@ e_dbus_get_folder_hash (const char *store_url, const char *folder_name)
 	guint8 *digest;
 	gsize length;
 	int state = 0, save = 0;
-	char *tmp;
 	char *buffer = g_malloc0(sizeof(char)*9);
 	int i;
 
@@ -196,13 +195,15 @@ idle_cb(gpointer data)
 	return FALSE;
 }
 
-gpointer 
+static gpointer 
 mail_dbus_run ()
 {
 
 	main_loop = g_main_loop_new (gm_ctx, FALSE);
 	inited = TRUE;
 	g_main_loop_run (main_loop);
+
+	return NULL;
 }
 
 int
@@ -217,4 +218,6 @@ mail_dbus_init ()
 	/* FIXME: This is a hack and should be fixed well. It maynot work always */
 	while (!inited)
 		g_main_context_iteration (NULL, TRUE);
+
+	return 0;
 }
