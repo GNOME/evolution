@@ -52,7 +52,8 @@ camel_session_remote_construct	(CamelSessionRemote *session,
 		return;
 	}
 
-	store_rhash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	if (!store_rhash)
+		store_rhash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	d(printf("Camel session constructed remotely\n"));
 
 }
@@ -156,6 +157,9 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 	DBusError error;
 	char *service, *err;
 	CamelObjectRemote *rstore;
+
+	if (!store_rhash)
+		store_rhash = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
