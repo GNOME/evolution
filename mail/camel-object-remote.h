@@ -16,7 +16,7 @@
 #define CAMEL_FOLDER_OBJECT_PATH "/org/gnome/evolution/camel/folder"
 #define CAMEL_STORE_OBJECT_PATH "/org/gnome/evolution/camel/store"
 
-#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
+#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session"
 #define MAIL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
 #define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
 #define CAMEL_FOLDER_INTERFACE "org.gnome.evolution.camel.folder"
