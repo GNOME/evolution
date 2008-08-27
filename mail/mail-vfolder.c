@@ -33,6 +33,8 @@
 #include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
 
+#include "camel-session-remote.h"
+
 #include "libedataserver/e-account-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"

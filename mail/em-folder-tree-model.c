@@ -1089,7 +1089,7 @@ emftm_uri_to_key (const char *uri)
 		const char *path;
 		EAccount *account;
 
-		if (((CamelService *)store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+		if (camel_store_get_url_flags_remote((CamelService *)store) & CAMEL_URL_FRAGMENT_IS_PATH)
 			path = url->fragment;
 		else
 			path = url->path && url->path[0]=='/' ? url->path+1:url->path;

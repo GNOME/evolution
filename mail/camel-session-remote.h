@@ -80,5 +80,11 @@ gboolean camel_session_remote_get_network_state (CamelSessionRemote *session);
 void camel_session_remote_set_network_state  (CamelSessionRemote *session,
 				     	gboolean network_state);
 
+#define camel_session_remote_get_store(session, url_string, ex) \
+	((CamelStore *) camel_session_remote_get_service_connected \
+	(session, url_string, CAMEL_PROVIDER_STORE, ex))
+#define camel_session_remote_get_transport(session, url_string, ex) \
+	((CamelTransport *) camel_session_remote_get_service_connected \
+	(session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
 
 #endif

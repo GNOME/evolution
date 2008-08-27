@@ -1638,7 +1638,7 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expa
 			char *expand_key, *end;
 			EAccount *account;
 
-			if (((CamelService *)u->store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+			if (camel_store_get_url_flags_remote((CamelService *)u->store) & CAMEL_URL_FRAGMENT_IS_PATH)
 				path = url->fragment;
 			else
 				path = url->path && url->path[0]=='/' ? url->path+1:url->path;

@@ -396,3 +396,21 @@ char *camel_store_get_url_remote(CamelStoreRemote *store)
 
 	return url;
 }
+
+int camel_store_get_url_flags_remote (CamelStoreRemote *store)
+{
+	gboolean ret;
+	DBusError error;
+	int url_flags;;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_get_url_flags",
+					&error, "s=>i", store->object_id, &url_flags);
+
+	return url_flags;
+}

@@ -433,6 +433,21 @@ dbus_listener_message_handler(DBusConnection * connection,
 		url = camel_service_get_url((CamelService *)store);
 		dbus_message_append_args(reply, DBUS_TYPE_STRING,
 					 &url, DBUS_TYPE_INVALID);
+	} else if (!g_strcmp0(method, "camel_store_get_url_flags")) {
+		char *store_hash_key;
+		CamelStore *store;
+		CamelProvider *provider;
+
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING,
+				      &store_hash_key,
+				      DBUS_TYPE_INVALID);
+
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		provider = camel_service_get_provider((CamelService *)store);
+		dbus_message_append_args(reply, DBUS_TYPE_INT32,
+					 &provider->url_flags, DBUS_TYPE_INVALID);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_store_signal_handler (connection, message, user_data);
 	} else
