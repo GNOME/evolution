@@ -19,9 +19,9 @@ typedef struct {
 CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 					   const char *folder_name,
 					   guint32 flags);
-CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store);
-CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store);
-CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store);
+CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex);
+CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex);
+CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex);
 
 void camel_store_delete_folder_remote(CamelStoreRemote * store,
 				      const char *folder_name);

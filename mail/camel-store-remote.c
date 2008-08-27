@@ -65,19 +65,19 @@ static CamelFolder *camel_store_get_specific_folder_remote(CamelStoreRemote *
 	}
 }
 
-CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store)
+CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	return (camel_store_get_specific_folder_remote
 		(store, "camel_store_get_inbox"));
 }
 
-CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store)
+CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	return (camel_store_get_specific_folder_remote
 		(store, "camel_store_get_trash"));
 }
 
-CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store)
+CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	return (camel_store_get_specific_folder_remote
 		(store, "camel_store_get_junk"));

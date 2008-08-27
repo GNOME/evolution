@@ -66,7 +66,6 @@ int camel_store_get_specific_folder_remote(DBusConnection * connection,
 
 	dbus_message_append_args(reply, DBUS_TYPE_STRING, &folder_hash_key,
 				 DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
-	g_free(folder_hash_key);
 	g_free(err);
 	return 0;
 }
