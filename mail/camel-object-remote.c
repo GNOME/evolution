@@ -44,11 +44,14 @@ register_handler (const char *object_path, DBusObjectPathMessageFunction reg, DB
 {
 	DBusObjectPathVTable *dbus_listener_vtable;
 	DBindContext *ctx = evolution_dbus_peek_context ();
-
+	DBusError err; int ret;
+	dbus_error_init (&err);
 	dbus_listener_vtable = g_new0 (DBusObjectPathVTable, 1);
 	dbus_listener_vtable->message_function = reg;
 	dbus_listener_vtable->unregister_function = unreg;
-
+	
+	ret = dbus_bus_request_name (ctx->cnx, "org.gnome.evolution.mail", DBUS_NAME_FLAG_REPLACE_EXISTING, &err);
+	printf("req bus :%d %s\n", ret, err.message);
 	if (!dbus_connection_register_object_path (ctx->cnx,
 						   object_path,
 						   dbus_listener_vtable,
