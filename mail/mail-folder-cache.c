@@ -178,9 +178,9 @@ real_flush_updates(void *o, void *event_data, void *data)
 				mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name,
 							up->olduri, up->uri);
 			}
-
-			if (!up->olduri && up->add)
-				mail_vfolder_add_uri(up->store, up->uri, FALSE);
+			#warning disabled vfolders
+			//if (!up->olduri && up->add)
+			//	mail_vfolder_add_uri(up->store, up->uri, FALSE);
 		}
 
 		/* update unread counts */
@@ -923,7 +923,6 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 	guint timeout;
 	int hook = 0;
 
-	g_return_if_fail (CAMEL_IS_STORE(store));
 	g_return_if_fail (mail_in_main_thread());
 
 	LOCK(info_lock);
@@ -943,8 +942,9 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 
 		si = g_malloc0(sizeof(*si));
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
-		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
-						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
+#warning fix hash later.
+		si->folders_uri = g_hash_table_new(g_str_hash, g_str_equal);//CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
+						   //CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
 		si->store = store;
 		camel_object_ref((CamelObject *)store);
 		g_hash_table_insert(stores, store, si);
@@ -1004,7 +1004,8 @@ struct _find_info {
 static void storeinfo_find_folder_info(CamelObjectRemote *store, struct _store_info *si, struct _find_info *fi)
 {
 	if (fi->fi == NULL) {
-		if (((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
+#warning implement a new func
+		if (0 && ((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
 			char *path = fi->url->fragment?fi->url->fragment:fi->url->path;
 
 			if (path[0] == '/')
