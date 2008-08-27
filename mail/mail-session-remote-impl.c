@@ -55,7 +55,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 		d(printf("%s: %d\n", method, interactive));
 		added = TRUE;
 	} else if (strcmp(method, "mail_session_set_interactive") == 0) {
-		gboolean interactive;
+		gboolean interactive=0;
 		gboolean ret;
 
 		ret = dbus_message_get_args(message, NULL, 
