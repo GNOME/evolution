@@ -47,4 +47,5 @@ typedef struct _CamelObjectRemote {
 unsigned int
 camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelObjectEventHookFunc func, gpointer data);
 
+CamelObjectRemote * camel_object_remote_from_camel_store (CamelStore *store);
 #endif

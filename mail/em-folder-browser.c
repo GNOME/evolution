@@ -1156,7 +1156,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    g_signal_emit (emfb, folder_browser_signals [ACCOUNT_SEARCH_ACTIVATED], 0);
 
 		    if (!efb->account_search_vf) {
-			    store = emfv->folder->parent_store;
+			    store = camel_object_remote_from_camel_store (emfv->folder->parent_store);
 				#warning DAMN WRONG. You must be a moron to leave this. Fix it soon.
 				/*
 			    if (store->folders) {

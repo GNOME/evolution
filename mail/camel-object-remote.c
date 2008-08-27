@@ -153,3 +153,14 @@ dbus_listener_folder_handler (DBusConnection *connection,
 	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
+CamelObjectRemote *
+camel_object_remote_from_camel_store (CamelStore *store)
+{
+	CamelObjectRemote *obj;
+
+	obj = g_new0 (CamelObjectRemote , 1);
+
+	obj->object_id = e_dbus_get_store_hash (camel_service_get_url((CamelService *)store)); 
+	obj->type = CAMEL_RO_STORE;
+	obj->hooks = NULL;
+}
