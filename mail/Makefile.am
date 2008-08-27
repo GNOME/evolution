@@ -305,10 +305,10 @@ endif
 
 # GConf
 
-schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = evolution-mail.schemas.in
-schema_DATA = $(schema_in_files:.schemas.in=.schemas)
-@INTLTOOL_SCHEMAS_RULE@
+#schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+#schema_in_files = evolution-mail.schemas.in
+#schema_DATA = $(schema_in_files:.schemas.in=.schemas)
+#@INTLTOOL_SCHEMAS_RULE@
 
 if OS_WIN32
 install-data-local:

@@ -85,7 +85,7 @@ CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store, CamelExceptio
 
 void
 camel_store_delete_folder_remote(CamelStoreRemote * store,
-				 const char *folder_name)
+				 const char *folder_name, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
@@ -106,7 +106,7 @@ camel_store_delete_folder_remote(CamelStoreRemote * store,
 void
 camel_store_rename_folder_remote(CamelStoreRemote * store,
 				 const char *old_folder_name,
-				 const char *new_folder_name)
+				 const char *new_folder_name, CamelException *ex)
 {
 #warning "CamelException needs to be remoted after which the err can be used"
 #warning "error should also be used"
@@ -126,7 +126,7 @@ camel_store_rename_folder_remote(CamelStoreRemote * store,
 					old_folder_name, new_folder_name, &err);
 }
 
-void camel_store_sync_remote(CamelStoreRemote * store, int expunge)
+void camel_store_sync_remote(CamelStoreRemote * store, int expunge, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
@@ -185,7 +185,7 @@ gboolean camel_store_folder_subscribed_remote(CamelStoreRemote * store,
 }
 
 void camel_store_subscribe_folder_remote(CamelStoreRemote * store,
-					 const char *folder_name)
+					 const char *folder_name, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
@@ -206,7 +206,7 @@ void camel_store_subscribe_folder_remote(CamelStoreRemote * store,
 }
 
 void camel_store_unsubscribe_folder_remote(CamelStoreRemote * store,
-					   const char *folder_name)
+					   const char *folder_name, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
@@ -226,7 +226,7 @@ void camel_store_unsubscribe_folder_remote(CamelStoreRemote * store,
 	return;
 }
 
-void camel_store_noop_remote(CamelStoreRemote * store)
+void camel_store_noop_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
@@ -266,7 +266,7 @@ camel_store_folder_uri_equal_remote(CamelStoreRemote * store, const char *uri0,
 }
 
 void camel_isubscribe_subscribe_remote(CamelStoreRemote * store,
-				       const char *folder_name)
+				       const char *folder_name, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
@@ -287,7 +287,7 @@ void camel_isubscribe_subscribe_remote(CamelStoreRemote * store,
 }
 
 void camel_isubscribe_unsubscribe_remote(CamelStoreRemote * store,
-					 const char *folder_name)
+					 const char *folder_name, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
