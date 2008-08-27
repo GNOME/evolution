@@ -11,18 +11,21 @@
 #include "mail-dbus.h"
 #include <camel/camel.h>
 #include "camel-object-remote-impl.h"
+#include "dbind.h"
 
 extern GHashTable *store_hash;
 extern GHashTable *folder_hash;
 extern CamelSession *session;
 
 
+#define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
+
 #define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 #define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"
 #define CAMEL_FOLDER_OBJECT_PATH "/org/gnome/evolution/camel/folder"
 #define CAMEL_STORE_OBJECT_PATH "/org/gnome/evolution/camel/store"
 
-#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
+#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session"
 #define MAIL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
 #define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
 #define CAMEL_FOLDER_INTERFACE "org.gnome.evolution.camel.folder"
@@ -33,16 +36,21 @@ session_signal_cb (CamelObject *sess, gpointer ev_data, gpointer data)
 {
 	/* Signal back to the caller */
 	DBusMessage *signal;
+	DBusError err;
+	DBindContext *ctx = evolution_dbus_peek_context ();
+	dbus_error_init (&err);
+
 	DBusConnection *dbus = e_dbus_connection_get();
 
-	signal = dbus_message_new_signal (CAMEL_SESSION_OBJECT_PATH, 
+	signal = dbus_message_new_method_call (NULL, CAMEL_SESSION_OBJECT_PATH, 
 					CAMEL_SESSION_INTERFACE, 
 					"session_signal");
 	/* It sucks here to pass the pointer across the object */
-	dbus_message_append_args (signal, DBUS_TYPE_INT32, &ev_data, DBUS_TYPE_STRING, &data, DBUS_TYPE_INVALID);
-	dbus_connection_send (dbus, signal, NULL);
+	dbus_message_append_args (signal, DBUS_TYPE_INT32, &ev_data, DBUS_TYPE_INT32, &data, DBUS_TYPE_INVALID);
+	if (!dbus_connection_send (ctx->cnx, signal, &err)) {
+		g_warning ("error: %s\n", err.message);
+	}
 	dbus_message_unref (signal);
-	dbus_connection_flush(dbus);
 }
 
 DBusHandlerResult
@@ -53,27 +61,22 @@ camel_object_session_signal_handler (DBusConnection *connection,
 	const char *method = dbus_message_get_member (message);
 	DBusMessage *return_val;
 	gboolean added = FALSE;
-	CamelSession *session = NULL;
 
-  	printf ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
-           dbus_message_get_path (message),
-           dbus_message_get_interface (message),
-           dbus_message_get_member (message),
-           dbus_message_get_destination (message));
-	
-	
+	printf("Handling session/co functions : %s\n", dbus_message_get_sender(message));
 	return_val = dbus_message_new_method_return (message);
 
 	if (strcmp(method, "camel_object_hook_event") == 0) {
 		char *signal, *data, *object_hash;
 		unsigned int ret_id;
+		int ptr;
 
 		dbus_message_get_args(message, NULL,
 				DBUS_TYPE_STRING, &object_hash,
 				DBUS_TYPE_STRING, &signal,
-				DBUS_TYPE_STRING, &data,
+				DBUS_TYPE_INT32, &ptr,
 				DBUS_TYPE_INVALID);
-
+		data = GINT_TO_POINTER (ptr);
+		printf("got: %s %s %p\n", object_hash, signal, data);
 		ret_id = camel_object_hook_event (session, signal, (CamelObjectEventHookFunc)session_signal_cb, data);
 		dbus_message_append_args (return_val, DBUS_TYPE_UINT32, &ret_id, DBUS_TYPE_INVALID);
 		added = TRUE;
