@@ -247,6 +247,20 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	/* XXX Having this separator in the UI definition doesn't work
+	 *     because GtkUIManager is unaware of the "New" button, so
+	 *     it makes the separator invisible.  One possibility is to
+	 *     define a GtkAction subclass for which create_tool_item()
+	 *     returns an EMenuToolButton.  Then both this separator
+	 *     and the "New" button could be added to the UI definition.
+	 *     Tempting, but the "New" button and its dynamically
+	 *     generated menu is already a complex beast, and I'm not
+	 *     convinced having it proxy some new type of GtkAction
+	 *     is worth the extra effort. */
+	item = gtk_separator_tool_item_new ();
+	gtk_toolbar_insert (GTK_TOOLBAR (widget), item, 0);
+	gtk_widget_show (GTK_WIDGET (item));
+
 	item = e_menu_tool_button_new (_("New"));
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (item), TRUE);
 	gtk_toolbar_insert (GTK_TOOLBAR (widget), item, 0);

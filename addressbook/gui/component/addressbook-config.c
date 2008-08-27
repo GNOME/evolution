@@ -18,8 +18,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <bonobo/bonobo-generic-factory.h>
-
 #ifdef G_OS_WIN32
 /* Include <windows.h> early and work around DATADIR lossage */
 #define DATADIR crap_DATADIR
@@ -30,7 +28,6 @@
 #include <glade/glade.h>
 
 #include "addressbook.h"
-#include "addressbook-component.h"
 #include "addressbook-config.h"
 
 #include "e-util/e-error.h"

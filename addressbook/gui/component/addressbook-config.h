@@ -25,7 +25,8 @@
 #ifndef __ADDRESSBOOK_CONFIG_H__
 #define __ADDRESSBOOK_CONFIG_H__
 
-#include "evolution-config-control.h"
+#include <gtk/gtk.h>
+#include <libedataserver/e-source.h>
 
 typedef enum {
 	ADDRESSBOOK_LDAP_AUTH_NONE,

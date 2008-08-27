@@ -22,10 +22,17 @@
 #ifndef _ADDRESSBOOK_MIGRATE_H_
 #define _ADDRESSBOOK_MIGRATE_H_
 
-#include "addressbook-component.h"
+#include <glib.h>
+#include <e-shell-module.h>
 
-struct _GError;
+G_BEGIN_DECLS
 
-int addressbook_migrate (AddressbookComponent *component, int major, int minor, int revision, struct _GError **err);
+gboolean	addressbook_migrate		(EShellModule *shell_module,
+						 gint major,
+						 gint minor,
+						 gint revision,
+						 GError **error);
+
+G_END_DECLS
 
 #endif /* _ADDRESSBOOK_MIGRATE_H_ */

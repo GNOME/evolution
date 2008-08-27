@@ -56,7 +56,7 @@ typedef struct {
 
 	ESourceList *source_list;
 
-	AddressbookComponent *component;
+	const gchar *data_dir;
 
 	GtkWidget *window;
 	GtkWidget *label;
@@ -449,14 +449,12 @@ create_groups (MigrationContext *context,
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
-	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
 	*personal_source = NULL;
 
-	base_dir = addressbook_component_peek_base_directory (context->component);
-	base_uri = g_build_filename (base_dir, "local", NULL);
+	base_uri = g_build_filename (context->data_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
 
@@ -743,11 +741,16 @@ get_source_by_name (ESourceList *source_list, const char *name)
 static gboolean
 migrate_completion_folders (MigrationContext *context)
 {
-	char *uris_xml = gconf_client_get_string (addressbook_component_peek_gconf_client (context->component),
-						  "/apps/evolution/addressbook/completion/uris",
-						  NULL);
+	GConfClient *client;
+	const gchar *key;
+	gchar *uris_xml;
 
 	printf ("trying to migrate completion folders\n");
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/addressbook/completion/uris";
+	uris_xml = gconf_client_get_string (client, key, NULL);
+	g_object_unref (client);
 
 	if (uris_xml) {
 		xmlDoc  *doc = xmlParseMemory (uris_xml, strlen (uris_xml));
@@ -1075,17 +1078,20 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 	g_dir_close (dir);
 }
 
-static MigrationContext*
-migration_context_new (AddressbookComponent *component)
+static MigrationContext *
+migration_context_new (const gchar *data_dir)
 {
 	MigrationContext *context = g_new (MigrationContext, 1);
 
 	/* set up the mapping from old uris to new uids */
-	context->folder_uid_map = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_free);
+	context->folder_uid_map = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
 
 	e_book_get_addressbooks (&context->source_list, NULL);
 
-	context->component = component;
+	context->data_dir = data_dir;
 
 	return context;
 }
@@ -1102,16 +1108,26 @@ migration_context_free (MigrationContext *context)
 	g_free (context);
 }
 
-int
-addressbook_migrate (AddressbookComponent *component, int major, int minor, int revision, GError **err)
+gboolean
+addressbook_migrate (EShellModule *shell_module,
+                     gint major,
+                     gint minor,
+                     gint revision,
+                     GError **error)
 {
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_ldap_servers;
 	ESource *personal_source;
-	MigrationContext *context = migration_context_new (component);
+	MigrationContext *context;
 	gboolean need_dialog = FALSE;
+	const gchar *data_dir;
 
 	printf ("addressbook_migrate (%d.%d.%d)\n", major, minor, revision);
+
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
+
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	context = migration_context_new (data_dir);
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
@@ -1170,8 +1186,7 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 						     "Please be patient while Evolution migrates your Pilot Sync data..."));
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Contacts", NULL);
-			new_path = g_build_filename (addressbook_component_peek_base_directory (component),
-						     "local", "system", NULL);
+			new_path = g_build_filename (data_dir, "local", "system", NULL);
 			migrate_pilot_data (old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);

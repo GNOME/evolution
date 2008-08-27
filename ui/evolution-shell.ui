@@ -53,7 +53,6 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
-    <separator/>
     <toolitem action='send-receive'/>
     <separator/>
   </toolbar>
