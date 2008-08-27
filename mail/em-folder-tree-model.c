@@ -800,13 +800,14 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelObjectRemote *sto
 	char *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (display_name != NULL);
 
 	if ((si = g_hash_table_lookup (model->store_hash, store)))
 		em_folder_tree_model_remove_store (model, store);
 
-	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
+	#warning make the function to pass flags for it.
+	// uri = camel_url_to_string (camel_store_get_url_remote (store), CAMEL_URL_HIDE_ALL);
+	uri = camel_store_get_url_remote (store);
 
 	account = mail_config_get_account_by_source_url (uri);
 
