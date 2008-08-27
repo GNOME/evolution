@@ -378,3 +378,21 @@ void camel_store_set_flags_remote(CamelStoreRemote * store, guint32 flags)
 
 	return;
 }
+
+char *camel_store_get_url_remote(CamelStoreRemote *store)
+{
+	gboolean ret;
+	DBusError error;
+	char *url;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_get_url",
+					&error, "s=>s", store->object_id, &url);
+
+	return url;
+}

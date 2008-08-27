@@ -49,4 +49,6 @@ guint32 camel_store_get_mode_remote(CamelStoreRemote * store);
 guint32 camel_store_get_flags_remote(CamelStoreRemote * store);
 void camel_store_set_mode_remote(CamelStoreRemote * store, guint32 mode);
 void camel_store_set_flags_remote(CamelStoreRemote * store, guint32 mode);
+
+char *camel_store_get_url_remote(CamelStoreRemote *store);
 #endif

@@ -1557,7 +1557,7 @@ sync_store_desc (struct _sync_store_msg *m)
 {
 	char *uri, *res;
 
-	uri = camel_url_to_string(((CamelService *)m->store)->url, CAMEL_URL_HIDE_ALL);
+	uri = camel_store_get_url_remote(m->store);
 	res = g_strdup_printf(m->expunge
 			      ?_("Expunging and storing account '%s'")
 			      :_("Storing account '%s'"),

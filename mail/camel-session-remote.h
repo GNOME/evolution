@@ -30,15 +30,18 @@ char *camel_session_remote_get_password (CamelSessionRemote *session,
 				const char *domain,
 				const char *prompt,
 				const char *item,
-				guint32 flags);
+				guint32 flags,
+				CamelException *ex);
 
 char *camel_session_remote_get_storage_path (CamelSessionRemote *session, 
-					CamelObjectRemote *service);
+					CamelObjectRemote *service,
+					CamelException *ex);
 
 void camel_session_remote_forget_password (CamelSessionRemote *session, 
 					CamelObjectRemote *service,
 					const char *domain,
-					const char *item);
+					const char *item,
+					CamelException *ex);
 
 
 CamelObjectRemote *camel_session_remote_get_service (CamelSessionRemote *session, 

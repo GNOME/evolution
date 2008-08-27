@@ -59,11 +59,12 @@ camel_session_remote_get_password (CamelSessionRemote *session,
 			const char *domain,
 			const char *prompt,
 			const char *item,
-			guint32 flags)
+			guint32 flags,
+			CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
-	char *passwd, *ex;
+	char *passwd, *err;
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -73,7 +74,7 @@ camel_session_remote_get_password (CamelSessionRemote *session,
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_get_password",
 			&error, 
-			"sssssu=>ss", session->object_id, service->object_id, domain, prompt, item, flags, &passwd, &ex); 
+			"sssssu=>ss", session->object_id, service->object_id, domain, prompt, item, flags, &passwd, &err); 
 
 	if (!ret) {
 		g_warning ("Error: Camel session fetching password: %s\n", error.message);
@@ -86,11 +87,11 @@ camel_session_remote_get_password (CamelSessionRemote *session,
 }
 
 char *
-camel_session_remote_get_storage_path (CamelSessionRemote *session, CamelObjectRemote *service)
+camel_session_remote_get_storage_path (CamelSessionRemote *session, CamelObjectRemote *service, CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
-	char *storage_path, *ex;
+	char *storage_path, *err;
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -100,7 +101,7 @@ camel_session_remote_get_storage_path (CamelSessionRemote *session, CamelObjectR
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_get_storage_path",
 			&error, 
-			"ss=>ss", session->object_id, service->object_id, &storage_path, &ex);
+			"ss=>ss", session->object_id, service->object_id, &storage_path, &err);
 
 	if (!ret) {
 		g_warning ("Error: Camel session fetching storage path: %s\n", error.message);
@@ -116,11 +117,12 @@ void
 camel_session_remote_forget_password (CamelSessionRemote *session, 
 				CamelObjectRemote *service,
 				const char *domain,
-				const char *item)
+				const char *item,
+				CamelException *ex)
 {
 	gboolean ret;
 	DBusError error;
-	char *ex;
+	char *err;
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -130,7 +132,7 @@ camel_session_remote_forget_password (CamelSessionRemote *session,
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_forget_password",
 			&error, 
-			"ssss=>s", session->object_id, service->object_id, domain, item, &ex); 
+			"ssss=>s", session->object_id, service->object_id, domain, item, &err); 
 
 	if (!ret) {
 		g_warning ("Error: Camel session forget password: %s\n", error.message);
@@ -148,7 +150,7 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 {
 	gboolean ret;
 	DBusError error;
-	char *service;
+	char *service, *err;
 	CamelObjectRemote *rstore;
 
 	dbus_error_init (&error);
@@ -159,7 +161,7 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_get_service",
 			&error, 
-			"si=>ss", url_string, type, &service, &ex);
+			"si=>ss", url_string, type, &service, &err);
 
 	if (!ret) {
 		g_warning ("Error: Camel session get service: %s\n", error.message);
