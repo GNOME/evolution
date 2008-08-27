@@ -110,7 +110,7 @@ static BonoboObjectClass *parent_class = NULL;
 #define ONLINE 1
 
 struct _store_info {
-	CamelStore *store;
+	CamelObjectRemote *store;
 	char *name;
 
 	/* we keep a reference to these so they remain around for the session */
@@ -118,7 +118,7 @@ struct _store_info {
 	CamelFolder *vjunk;
 
 	/* for setup only */
-	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	void (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data);
 	void *done_data;
 
 	int ref_count:31;
@@ -146,7 +146,7 @@ struct _MailComponentPrivate {
 
 	char *context_path;	/* current path for right-click menu */
 
-	CamelStore *local_store;
+	CamelObjectRemote *local_store;
 	ELogger *logger;
 
 	EComponentView *component_view;
@@ -171,7 +171,7 @@ static struct {
 };
 
 static struct _store_info *
-store_info_new(CamelStore *store, const char *name)
+store_info_new(CamelObjectRemote *store, const char *name)
 {
 	struct _store_info *si;
 	int store_flags;
@@ -221,7 +221,7 @@ store_info_unref(struct _store_info *si)
 }
 
 static gboolean
-mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+mc_add_store_done(CamelObjectRemote *store, CamelFolderInfo *info, void *data)
 {
 	struct _store_info *si = data;
 
@@ -243,7 +243,7 @@ mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 
 /* Utility functions.  */
 static void
-mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
+mc_add_store(MailComponent *component, CamelObjectRemote *store, const char *name, void (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data))
 {
 	struct _store_info *si;
 
@@ -258,7 +258,7 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 }
 
 static void
-mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+mc_add_local_store_done(CamelObjectRemote *store, CamelFolderInfo *info, void *data)
 {
 	/*MailComponent *mc = data;*/
 	int i;
@@ -270,7 +270,7 @@ mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 }
 
 static void
-mc_add_local_store(CamelStore *store, const char *name, MailComponent *mc)
+mc_add_local_store(CamelObjectRemote *store, const char *name, MailComponent *mc)
 {
 	mc_add_store(mc, store, name, mc_add_local_store_done);
 	camel_object_unref(store);
@@ -299,7 +299,7 @@ mc_setup_local_store(MailComponent *mc)
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
-	p->local_store = (CamelStore *)camel_session_remote_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
+	p->local_store = (CamelObjectRemote *)camel_session_remote_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
 	g_free(tmp);
 	if (p->local_store == NULL)
 		goto fail;
@@ -827,7 +827,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 }
 
 static void
-mc_quit_sync_done(CamelStore *store, void *data)
+mc_quit_sync_done(CamelObjectRemote *store, void *data)
 {
 	MailComponent *mc = data;
 
@@ -835,14 +835,14 @@ mc_quit_sync_done(CamelStore *store, void *data)
 }
 
 static void
-mc_quit_sync(CamelStore *store, struct _store_info *si, MailComponent *mc)
+mc_quit_sync(CamelObjectRemote *store, struct _store_info *si, MailComponent *mc)
 {
 	mc->priv->quit_count++;
 	mail_sync_store(store, mc->priv->quit_expunge, mc_quit_sync_done, mc);
 }
 
 static void
-mc_quit_delete (CamelStore *store, struct _store_info *si, MailComponent *mc)
+mc_quit_delete (CamelObjectRemote *store, struct _store_info *si, MailComponent *mc)
 {
 	CamelFolder *folder = camel_store_get_junk (store, NULL);
 
@@ -1095,7 +1095,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 }
 
 static void
-mc_sync_store_done (CamelStore *store, void *data)
+mc_sync_store_done (CamelObjectRemote *store, void *data)
 {
 	MailComponent *mc = (MailComponent *) data;
 
@@ -1138,7 +1138,7 @@ struct _setline_data {
 };
 
 static void
-setline_done(CamelStore *store, void *data)
+setline_done(CamelObjectRemote *store, void *data)
 {
 	struct _setline_data *sd = data;
 
@@ -1167,7 +1167,7 @@ setline_check(void *key, void *value, void *data)
 	if (CAMEL_IS_DISCO_STORE(service)
 	    || CAMEL_IS_OFFLINE_STORE(service)) {
 		sd->pending++;
-		mail_store_set_offline((CamelStore *)service, !sd->status, setline_done, sd);
+		mail_store_set_offline((CamelObjectRemote *)service, !sd->status, setline_done, sd);
 	}
 }
 
@@ -1365,7 +1365,7 @@ struct _CamelSession *mail_component_peek_session(MailComponent *component)
 }
 
 void
-mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
+mail_component_add_store (MailComponent *component, CamelObjectRemote *store, const char *name)
 {
 	mc_add_store(component, store, name, NULL);
 }
@@ -1376,14 +1376,14 @@ mail_component_add_store (MailComponent *component, CamelStore *store, const cha
  * @uri: uri of store
  * @name: name of store (used for display purposes)
  *
- * Return value: Pointer to the newly added CamelStore.  The caller is supposed
+ * Return value: Pointer to the newly added CamelObjectRemote.  The caller is supposed
  * to ref the object if it wants to store it.
  **/
-CamelStore *
+CamelObjectRemote *
 mail_component_load_store_by_uri (MailComponent *component, const char *uri, const char *name)
 {
 	CamelException ex;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelProvider *prov;
 
 	MAIL_COMPONENT_DEFAULT(component);
@@ -1407,7 +1407,7 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return NULL;
 
-	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+	store = (CamelObjectRemote *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* EPFIXME: real error dialog */
 		g_warning ("couldn't get service %s: %s\n", uri,
@@ -1423,14 +1423,14 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 }
 
 static void
-store_disconnect (CamelStore *store, void *event_data, void *user_data)
+store_disconnect (CamelObjectRemote *store, void *event_data, void *user_data)
 {
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
 	camel_object_unref (store);
 }
 
 void
-mail_component_remove_store (MailComponent *component, CamelStore *store)
+mail_component_remove_store (MailComponent *component, CamelObjectRemote *store)
 {
 	MailComponentPrivate *priv;
 
@@ -1463,7 +1463,7 @@ void
 mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 {
 	CamelProvider *prov;
-	CamelStore *store;
+	CamelObjectRemote *store;
 
 	MAIL_COMPONENT_DEFAULT(component);
 
@@ -1473,7 +1473,7 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
+	store = (CamelObjectRemote *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
 	if (store != NULL) {
 		mail_component_remove_store (component, store);
 		camel_object_unref (store);
@@ -1495,7 +1495,7 @@ struct _store_foreach_data {
 };
 
 static void
-mc_stores_foreach(CamelStore *store, struct _store_info *si, struct _store_foreach_data *data)
+mc_stores_foreach(CamelObjectRemote *store, struct _store_info *si, struct _store_foreach_data *data)
 {
 	data->func((void *)store, (void *)si->name, data->data);
 }
@@ -1511,7 +1511,7 @@ mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user
 }
 
 void
-mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
+mail_component_remove_folder (MailComponent *component, CamelObjectRemote *store, const char *path)
 {
 	MAIL_COMPONENT_DEFAULT(component);
 
@@ -1526,7 +1526,7 @@ mail_component_peek_tree_model (MailComponent *component)
 	return component->priv->model;
 }
 
-CamelStore *
+CamelObjectRemote *
 mail_component_peek_local_store (MailComponent *mc)
 {
 	MAIL_COMPONENT_DEFAULT (mc);

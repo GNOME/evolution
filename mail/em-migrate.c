@@ -1143,7 +1143,7 @@ em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filt
 typedef struct _EMMigrateSession {
 	CamelSession parent_object;
 
-	CamelStore *store;   /* new folder tree store */
+	CamelObjectRemote *store;   /* new folder tree store */
 	char *srcdir;        /* old folder tree path */
 } EMMigrateSession;
 
@@ -1608,7 +1608,7 @@ static int
 em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *full_name, CamelException *ex)
 {
 	CamelFolder *old_folder = NULL, *new_folder = NULL;
-	CamelStore *local_store = NULL;
+	CamelObjectRemote *local_store = NULL;
 	char *name, *uri;
 	GPtrArray *uids;
 	struct stat st;
@@ -2846,7 +2846,7 @@ em_update_sa_junk_setting_2_23 (void)
 
 
 static void
-migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelException *ex)
+migrate_folders(CamelObjectRemote *store, CamelFolderInfo *fi, const char *acc, CamelException *ex)
 {
 	CamelFolder *folder;
 
@@ -2862,19 +2862,19 @@ migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelEx
 	}
 }
 
-static CamelStore *
+static CamelObjectRemote *
 setup_local_store (MailComponent *mc)
 {
 	CamelURL *url;
 	char *tmp;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	
 	url = camel_url_new("mbox:", NULL);
 	tmp = g_build_filename (mail_component_peek_base_directory(mc), "local", NULL);
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
-	store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, NULL);
+	store = (CamelObjectRemote *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, NULL);
 	g_free(tmp);
 
 	return store;
@@ -2887,7 +2887,7 @@ migrate_to_db()
 	EIterator *iter;
 	int i=0, len;
 	MailComponent *component = mail_component_peek ();
-	CamelStore *store = NULL;
+	CamelObjectRemote *store = NULL;
 	CamelFolderInfo *info;
 	
 	if (!(accounts = mail_config_get_accounts ()))
@@ -2930,7 +2930,7 @@ migrate_to_db()
 			camel_exception_init (&ex);
 			mail_component_load_store_by_uri (component, service->url, name);
 
-			store = (CamelStore *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
+			store = (CamelObjectRemote *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
 			if (info) {
 				migrate_folders(store, info, account->name, &ex);

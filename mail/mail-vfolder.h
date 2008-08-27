@@ -2,7 +2,7 @@
 #ifndef _MAIL_VFOLDER_H
 #define _MAIL_VFOLDER_H
 
-struct _CamelStore;
+struct _CamelObjectRemote;
 struct _FilterPart;
 struct _FilterRule;
 struct _CamelMimeMessage;
@@ -24,13 +24,13 @@ GList * mail_vfolder_get_sources_local (void);
 GList * mail_vfolder_get_sources_remote (void);
 
 /* add a uri that is now (un)available to vfolders in a transient manner */
-void mail_vfolder_add_uri(struct _CamelStore *store, const char *uri, int remove);
+void mail_vfolder_add_uri(struct _CamelObjectRemote *store, const char *uri, int remove);
 
 /* note that a folder has changed name (uri) */
-void mail_vfolder_rename_uri(struct _CamelStore *store, const char *from, const char *to);
+void mail_vfolder_rename_uri(struct _CamelObjectRemote *store, const char *from, const char *to);
 
 /* remove a uri that should be removed from vfolders permanently */
-void mail_vfolder_delete_uri(struct _CamelStore *store, const char *uri);
+void mail_vfolder_delete_uri(struct _CamelObjectRemote *store, const char *uri);
 
 /* close up, clean up */
 void mail_vfolder_shutdown (void);

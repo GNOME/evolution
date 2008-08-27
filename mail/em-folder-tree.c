@@ -81,7 +81,7 @@
 struct _selected_uri {
 	char *key;		/* store:path or account/path */
 	char *uri;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	char *path;
 };
 
@@ -608,11 +608,11 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	extern CamelStore *vfolder_store;
+	extern CamelObjectRemote *vfolder_store;
 	GtkTreeRowReference *row;
 	GtkTreePath *path;
 	EAccount *account;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	const char *p;
 	char *uid;
 	size_t n;
@@ -631,7 +631,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 		CamelException ex;
 
 		camel_exception_init (&ex);
-		store = (CamelStore *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
+		store = (CamelObjectRemote *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
 		camel_exception_clear (&ex);
 
 		if (store == NULL)
@@ -679,7 +679,7 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	gboolean is_store;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	EAccount *account;
 	char *full_name;
 	char *key;
@@ -772,7 +772,7 @@ tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *
 	char *full_name = NULL;
 	GtkTreePath *src_path;
 	gboolean is_store;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelException ex;
 	GtkTreeIter iter;
 
@@ -806,7 +806,7 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 	char *full_name = NULL, *uri = NULL;
 	GtkTreePath *src_path;
 	CamelFolder *folder;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelException ex;
 	GtkTreeIter iter;
 
@@ -865,7 +865,7 @@ struct _DragDataReceivedAsync {
 	/* Only selection->data and selection->length are valid */
 	GtkSelectionData *selection;
 
-	CamelStore *store;
+	CamelObjectRemote *store;
 	char *full_name;
 	guint32 action;
 	guint info;
@@ -1024,7 +1024,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	GtkTreePath *dest_path;
 	struct _DragDataReceivedAsync *m;
 	gboolean is_store;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	GtkTreeIter iter;
 	char *full_name;
 	int i;
@@ -1106,7 +1106,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 {
 	struct _EMFolderTreePrivate *p = emft->priv;
 	char *full_name = NULL, *uri = NULL, *src_uri = NULL;
-	CamelStore *local, *sstore, *dstore;
+	CamelObjectRemote *local, *sstore, *dstore;
 	GdkAtom atom = GDK_NONE;
 	gboolean is_store;
 	GtkTreeIter iter;
@@ -1623,7 +1623,7 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expa
 		CamelException ex = { 0 };
 
 		u->uri = g_strdup(list->data);
-		u->store = (CamelStore *)camel_session_get_service (session, u->uri, CAMEL_PROVIDER_STORE, &ex);
+		u->store = (CamelObjectRemote *)camel_session_get_service (session, u->uri, CAMEL_PROVIDER_STORE, &ex);
 		camel_exception_clear(&ex);
 
 		url = camel_url_new(u->uri, NULL);
@@ -1703,7 +1703,7 @@ struct _EMFolderTreeGetFolderInfo {
 	/* input data */
 	GtkTreeRowReference *root;
 	EMFolderTree *emft;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	guint32 flags;
 	char *top;
 
@@ -1845,7 +1845,7 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	gboolean is_store;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	EAccount *account;
 	char *full_name;
 	char *key;
@@ -1878,7 +1878,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeGetFolderInfo *m;
 	GtkTreeModel *model;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	char *full_name;
 	gboolean load;
 
@@ -2134,7 +2134,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 {
 	GtkTreeView *treeview;
 	GtkTreeSelection *selection;
-	CamelStore *local, *store;
+	CamelObjectRemote *local, *store;
 	EMPopupTargetFolder *target;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -2499,7 +2499,7 @@ em_folder_tree_get_selected_folder (EMFolderTree *emft)
 	GtkTreeIter iter;
 	char *full_name = NULL;
 	CamelException ex;
-	CamelStore *store = NULL;
+	CamelObjectRemote *store = NULL;
 	CamelFolder *folder = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
@@ -2526,7 +2526,7 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
 	GtkTreeIter iter;
 	char *full_name = NULL, *name = NULL, *uri = NULL;
 	CamelException ex;
-	CamelStore *store = NULL;
+	CamelObjectRemote *store = NULL;
 	CamelFolderInfo *fi = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
@@ -2571,7 +2571,7 @@ em_folder_tree_get_model (EMFolderTree *emft)
 }
 
 EMFolderTreeModelStoreInfo *
-em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store)
+em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelObjectRemote *store)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;

@@ -768,7 +768,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 /* ********************************************************************** */
 
 static void
-get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
+get_folders (CamelObjectRemote *store, GPtrArray *folders, CamelFolderInfo *info)
 {
 	CamelException ex;
 
@@ -789,7 +789,7 @@ struct _refresh_folders_msg {
 
 	struct _send_info *info;
 	GPtrArray *folders;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelFolderInfo *finfo;
 };
 
@@ -854,7 +854,7 @@ static MailMsgInfo refresh_folders_info = {
 };
 
 static gboolean
-receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *data)
+receive_update_got_folderinfo(CamelObjectRemote *store, CamelFolderInfo *info, void *data)
 {
 	if (info) {
 		GPtrArray *folders = g_ptr_array_new();
@@ -880,7 +880,7 @@ receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *da
 }
 
 static void
-receive_update_got_store (char *uri, CamelStore *store, void *data)
+receive_update_got_store (char *uri, CamelObjectRemote *store, void *data)
 {
 	struct _send_info *info = data;
 

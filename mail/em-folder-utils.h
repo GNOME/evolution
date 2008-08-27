@@ -24,7 +24,7 @@
 #ifndef _EM_FOLDER_UTILS_H
 #define _EM_FOLDER_UTILS_H
 
-int em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelStore *tostore, const char *tobase, int delete);
+int em_folder_utils_copy_folders(CamelObjectRemote *fromstore, const char *frombase, CamelObjectRemote *tostore, const char *tobase, int delete);
 
 /* FIXME: These api's are really busted, there is no consistency and most rely on the wrong data */
 

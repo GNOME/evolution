@@ -38,8 +38,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 
-#include <camel-store-remote.h>
-#include <camel/camel-store.h>
+#include <camel-object-remote.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-string-utils.h>
@@ -167,7 +166,7 @@ EMPopupTargetSelect *
 em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
 {
 	EMPopupTargetSelect *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_SELECT, sizeof(*t));
-	CamelStore *store = CAMEL_STORE (folder->parent_store);
+	CamelObjectRemote *store = CAMEL_STORE (folder->parent_store);
 	guint32 mask = ~0;
 	gboolean draft_or_outbox;
 	int i;

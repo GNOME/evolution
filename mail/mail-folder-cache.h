@@ -25,19 +25,19 @@
 #ifndef _MAIL_FOLDER_CACHE_H
 #define _MAIL_FOLDER_CACHE_H
 
-#include <camel/camel-store.h>
+#include <camel-object-remote.h>
 
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
    runtime via the folder_created event.
    The 'done' function returns if we can free folder info. */
 void
-mail_note_store (CamelStore *store, CamelOperation *op,
-		 gboolean (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
+mail_note_store (CamelObjectRemote *store, CamelOperation *op,
+		 gboolean (*done) (CamelObjectRemote *store, CamelFolderInfo *info, void *data),
 		 void *data);
 
 /* de-note a store */
-void mail_note_store_remove (CamelStore *store);
+void mail_note_store_remove (CamelObjectRemote *store);
 
 /* When a folder has been opened, notify it for watching.
    The folder must have already been created on the store (which has already been noted)

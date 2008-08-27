@@ -239,7 +239,7 @@ mail_filter_junk (CamelFolder *folder, GPtrArray *uids)
 
 /* Temporary workaround for various issues. Gone before 0.11 */
 static char *
-uid_cachename_hack (CamelStore *store)
+uid_cachename_hack (CamelObjectRemote *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	char *encoded_url, *filename;
@@ -1040,9 +1040,9 @@ mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 struct _get_folderinfo_msg {
 	MailMsg base;
 
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelFolderInfo *info;
-	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	gboolean (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data);
 	void *data;
 	gboolean can_clear; /* whether we can clear folder info */
 };
@@ -1101,7 +1101,7 @@ static MailMsgInfo get_folderinfo_info = {
 };
 
 int
-mail_get_folderinfo (CamelStore *store, CamelOperation *op, gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+mail_get_folderinfo (CamelObjectRemote *store, CamelOperation *op, gboolean (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _get_folderinfo_msg *m;
 	int id;
@@ -1328,8 +1328,8 @@ struct _get_store_msg {
 	MailMsg base;
 
 	char *uri;
-	CamelStore *store;
-	void (*done) (char *uri, CamelStore *store, void *data);
+	CamelObjectRemote *store;
+	void (*done) (char *uri, CamelObjectRemote *store, void *data);
 	void *data;
 };
 
@@ -1344,7 +1344,7 @@ get_store_exec (struct _get_store_msg *m)
 {
 	/*camel_session_get_store connects us, which we don't want to do on startup. */
 
-	m->store = (CamelStore *) camel_session_get_service (session, m->uri,
+	m->store = (CamelObjectRemote *) camel_session_get_service (session, m->uri,
 							     CAMEL_PROVIDER_STORE,
 							     &m->base.ex);
 }
@@ -1373,7 +1373,7 @@ static MailMsgInfo get_store_info = {
 };
 
 int
-mail_get_store (const char *uri, CamelOperation *op, void (*done) (char *uri, CamelStore *store, void *data), void *data)
+mail_get_store (const char *uri, CamelOperation *op, void (*done) (char *uri, CamelObjectRemote *store, void *data), void *data)
 {
 	struct _get_store_msg *m;
 	int id;
@@ -1413,7 +1413,7 @@ remove_folder_desc (struct _remove_folder_msg *m)
 static void
 remove_folder_exec (struct _remove_folder_msg *m)
 {
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	int i;
@@ -1546,9 +1546,9 @@ mail_sync_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *d
 struct _sync_store_msg {
 	MailMsg base;
 
-	CamelStore *store;
+	CamelObjectRemote *store;
 	int expunge;
-	void (*done) (CamelStore *store, void *data);
+	void (*done) (CamelObjectRemote *store, void *data);
 	void *data;
 };
 
@@ -1595,7 +1595,7 @@ static MailMsgInfo sync_store_info = {
 };
 
 void
-mail_sync_store(CamelStore *store, int expunge, void (*done) (CamelStore *store, void *data), void *data)
+mail_sync_store(CamelObjectRemote *store, int expunge, void (*done) (CamelObjectRemote *store, void *data), void *data)
 {
 	struct _sync_store_msg *m;
 
@@ -2300,9 +2300,9 @@ mail_prep_offline(const char *uri,
 struct _set_offline_msg {
 	MailMsg base;
 
-	CamelStore *store;
+	CamelObjectRemote *store;
 	gboolean offline;
-	void (*done)(CamelStore *store, void *data);
+	void (*done)(CamelObjectRemote *store, void *data);
 	void *data;
 };
 
@@ -2374,8 +2374,8 @@ static MailMsgInfo set_offline_info = {
 };
 
 int
-mail_store_set_offline (CamelStore *store, gboolean offline,
-			void (*done)(CamelStore *, void *data),
+mail_store_set_offline (CamelObjectRemote *store, gboolean offline,
+			void (*done)(CamelObjectRemote *, void *data),
 			void *data)
 {
 	struct _set_offline_msg *m;
@@ -2448,7 +2448,7 @@ static MailMsgInfo prepare_offline_info = {
 };
 
 int
-mail_store_prepare_offline (CamelStore *store)
+mail_store_prepare_offline (CamelObjectRemote *store)
 {
 	struct _set_offline_msg *m;
 	int id;

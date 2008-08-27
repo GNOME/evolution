@@ -104,14 +104,14 @@ struct _folder_update {
 	char *olduri;
 
 	int unread;
-	CamelStore *store;
+	CamelObjectRemote *store;
 };
 
 struct _store_info {
 	GHashTable *folders;	/* by full_name */
 	GHashTable *folders_uri; /* by uri */
 
-	CamelStore *store;	/* the store for these folders */
+	CamelObjectRemote *store;	/* the store for these folders */
 
 	/* Outstanding folderinfo requests */
 	EDList folderinfo_updates;
@@ -393,7 +393,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	static time_t last_newmail = 0;
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *)o;
-	CamelStore *store = folder->parent_store;
+	CamelObjectRemote *store = folder->parent_store;
 	CamelMessageInfo *info;
 	struct _store_info *si;
 	struct _folder_info *mfi;
@@ -440,7 +440,7 @@ static void
 folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolder *folder = (CamelFolder *)o;
-	CamelStore *store = folder->parent_store;
+	CamelObjectRemote *store = folder->parent_store;
 	struct _store_info *si;
 	struct _folder_info *mfi;
 
@@ -470,7 +470,7 @@ folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 
 void mail_note_folder(CamelFolder *folder)
 {
-	CamelStore *store = folder->parent_store;
+	CamelObjectRemote *store = folder->parent_store;
 	struct _store_info *si;
 	struct _folder_info *mfi;
 
@@ -539,7 +539,7 @@ store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
 	struct _store_info *si;
 	CamelFolderInfo *fi = event_data;
 	struct _folder_info *mfi;
-	CamelStore *store = (CamelStore *)o;
+	CamelObjectRemote *store = (CamelObjectRemote *)o;
 
 	d(printf("Store Folder deleted: %s\n", fi->full_name));
 
@@ -566,7 +566,7 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 }
 
 static char *
-folder_to_url(CamelStore *store, const char *full_name)
+folder_to_url(CamelObjectRemote *store, const char *full_name)
 {
 	CamelURL *url;
 	char *out;
@@ -693,7 +693,7 @@ folder_cmp(const void *ap, const void *bp)
 static void
 store_folder_renamed(CamelObject *o, void *event_data, void *data)
 {
-	CamelStore *store = (CamelStore *)o;
+	CamelObjectRemote *store = (CamelObjectRemote *)o;
 	CamelRenameInfo *info = event_data;
 	struct _store_info *si;
 
@@ -729,7 +729,7 @@ struct _update_data {
 	int id;			/* id for cancellation */
 	guint cancel:1;		/* also tells us we're cancelled */
 
-	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	gboolean (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data);
 	void *data;
 };
 
@@ -746,7 +746,7 @@ free_folder_info_hash(char *path, struct _folder_info *mfi, void *data)
 }
 
 void
-mail_note_store_remove(CamelStore *store)
+mail_note_store_remove(CamelObjectRemote *store)
 {
 	struct _update_data *ud;
 	struct _store_info *si;
@@ -789,7 +789,7 @@ mail_note_store_remove(CamelStore *store)
 }
 
 static gboolean
-update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
+update_folders(CamelObjectRemote *store, CamelFolderInfo *fi, void *data)
 {
 	struct _update_data *ud = data;
 	struct _store_info *si;
@@ -820,7 +820,7 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 struct _ping_store_msg {
 	MailMsg base;
 
-	CamelStore *store;
+	CamelObjectRemote *store;
 };
 
 static gchar *
@@ -869,7 +869,7 @@ static MailMsgInfo ping_store_info = {
 static void
 ping_store (gpointer key, gpointer val, gpointer user_data)
 {
-	CamelStore *store = (CamelStore *) key;
+	CamelObjectRemote *store = (CamelObjectRemote *) key;
 	struct _ping_store_msg *m;
 
 	if (CAMEL_SERVICE (store)->status != CAMEL_SERVICE_CONNECTED)
@@ -895,7 +895,7 @@ ping_cb (gpointer user_data)
 }
 
 static void
-store_online_cb (CamelStore *store, void *data)
+store_online_cb (CamelObjectRemote *store, void *data)
 {
 	struct _update_data *ud = data;
 
@@ -914,8 +914,8 @@ store_online_cb (CamelStore *store, void *data)
 }
 
 void
-mail_note_store(CamelStore *store, CamelOperation *op,
-		gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+mail_note_store(CamelObjectRemote *store, CamelOperation *op,
+		gboolean (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
 	struct _update_data *ud;
@@ -1001,7 +1001,7 @@ struct _find_info {
 };
 
 /* look up on each storeinfo using proper hash function for that stores uri's */
-static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si, struct _find_info *fi)
+static void storeinfo_find_folder_info(CamelObjectRemote *store, struct _store_info *si, struct _find_info *fi)
 {
 	if (fi->fi == NULL) {
 		if (((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {

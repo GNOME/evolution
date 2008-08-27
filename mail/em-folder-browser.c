@@ -98,7 +98,7 @@
 #include <gtkhtml/gtkhtml.h>
 
 extern CamelSession *session;
-CamelStore *vfolder_store; /* the 1 static vfolder store */
+CamelObjectRemote *vfolder_store; /* the 1 static vfolder store */
 
 #define d(x)
 
@@ -1096,7 +1096,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	char *word = NULL, *storeuri = NULL, *search_word = NULL;
 	gint id, i;
 	CamelFolder *folder;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	GPtrArray *folders;
 	GList *folder_list_account = NULL ;
 	GList *l, *folder_list = NULL ;

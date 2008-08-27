@@ -56,6 +56,8 @@
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
 
+#include <camel-object-remote.h>
+
 #define d(x)
 
 static void
@@ -375,7 +377,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 }
 
 void
-mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri)
+mail_filter_rename_uri(CamelObjectRemote *store, const char *olduri, const char *newuri)
 {
 	EMFilterContext *fc;
 	char *user, *system;
@@ -407,7 +409,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 }
 
 void
-mail_filter_delete_uri(CamelStore *store, const char *uri)
+mail_filter_delete_uri(CamelObjectRemote *store, const char *uri)
 {
 	EMFilterContext *fc;
 	char *user, *system;

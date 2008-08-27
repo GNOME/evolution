@@ -32,7 +32,7 @@
 
 #include <camel-store-remote.h>
 
-struct _CamelStore;
+struct _CamelObjectRemote;
 
 #define MAIL_TYPE_COMPONENT			(mail_component_get_type ())
 #define MAIL_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MAIL_TYPE_COMPONENT, MailComponent))
@@ -77,14 +77,14 @@ struct _EActivityHandler *mail_component_peek_activity_handler  (MailComponent *
 struct _CamelSession *mail_component_peek_session(MailComponent *);
 
 void        mail_component_add_store            (MailComponent *component,
-						 struct _CamelStore    *store,
+						 struct _CamelObjectRemote    *store,
 						 const char    *name);
-struct _CamelStore *mail_component_load_store_by_uri    (MailComponent *component,
+struct _CamelObjectRemote *mail_component_load_store_by_uri    (MailComponent *component,
 						 const char    *uri,
 						 const char    *name);
 
 void        mail_component_remove_store         (MailComponent *component,
-						 struct _CamelStore    *store);
+						 struct _CamelObjectRemote    *store);
 void        mail_component_remove_store_by_uri  (MailComponent *component,
 						 const char    *uri);
 
@@ -93,11 +93,11 @@ void         mail_component_stores_foreach   (MailComponent *component,
 					      GHFunc         func,
 					      void          *data);
 
-void mail_component_remove_folder (MailComponent *component, struct _CamelStore *store, const char *path);
+void mail_component_remove_folder (MailComponent *component, struct _CamelObjectRemote *store, const char *path);
 
 struct _EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
 
-struct _CamelStore *mail_component_peek_local_store (MailComponent *mc);
+struct _CamelObjectRemote *mail_component_peek_local_store (MailComponent *mc);
 struct _CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
 const char *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
 

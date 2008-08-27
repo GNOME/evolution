@@ -89,8 +89,8 @@ struct _EMCopyFolders {
 	MailMsg base;
 
 	/* input data */
-	CamelStore *fromstore;
-	CamelStore *tostore;
+	CamelObjectRemote *fromstore;
+	CamelObjectRemote *tostore;
 
 	char *frombase;
 	char *tobase;
@@ -243,7 +243,7 @@ static MailMsgInfo copy_folders_info = {
 };
 
 int
-em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelStore *tostore, const char *tobase, int delete)
+em_folder_utils_copy_folders(CamelObjectRemote *fromstore, const char *frombase, CamelObjectRemote *tostore, const char *tobase, int delete)
 {
 	struct _EMCopyFolders *m;
 	int seq;
@@ -272,7 +272,7 @@ static void
 emfu_copy_folder_selected (const char *uri, void *data)
 {
 	struct _copy_folder_data *cfd = data;
-	CamelStore *fromstore = NULL, *tostore = NULL;
+	CamelObjectRemote *fromstore = NULL, *tostore = NULL;
 	char *tobase = NULL;
 	CamelException ex;
 	CamelURL *url;
@@ -370,7 +370,7 @@ em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, int delete)
 }
 
 static void
-emfu_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
+emfu_delete_rec (CamelObjectRemote *store, CamelFolderInfo *fi, CamelException *ex)
 {
 	while (fi) {
 		CamelFolder *folder;
@@ -413,7 +413,7 @@ emfu_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
 }
 
 static void
-emfu_delete_folders (CamelStore *store, const char *full_name, CamelException *ex)
+emfu_delete_folders (CamelObjectRemote *store, const char *full_name, CamelException *ex)
 {
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	CamelFolderInfo *fi;
@@ -429,7 +429,7 @@ emfu_delete_folders (CamelStore *store, const char *full_name, CamelException *e
 static void
 emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
 {
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelException ex;
 	char *full_name;
 
@@ -454,7 +454,7 @@ emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
 void
 em_folder_utils_delete_folder (CamelFolder *folder)
 {
-	CamelStore *local;
+	CamelObjectRemote *local;
 	GtkWidget *dialog;
 
 	local = mail_component_peek_local_store (NULL);
@@ -483,7 +483,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 {
 	char *prompt, *new_name;
 	const char *p;
-	CamelStore *local;
+	CamelObjectRemote *local;
 	gboolean done = FALSE;
 	size_t base_len;
 
@@ -561,7 +561,7 @@ struct _EMCreateFolder {
 	MailMsg base;
 
 	/* input data */
-	CamelStore *store;
+	CamelObjectRemote *store;
 	char *full_name;
 	char *parent;
 	char *name;
@@ -626,7 +626,7 @@ static MailMsgInfo create_folder_info = {
 
 
 static int
-emfu_create_folder_real (CamelStore *store, const char *full_name, void (* done) (CamelFolderInfo *fi, void *user_data), void *user_data)
+emfu_create_folder_real (CamelObjectRemote *store, const char *full_name, void (* done) (CamelFolderInfo *fi, void *user_data), void *user_data)
 {
 	char *name, *namebuf = NULL;
 	struct _EMCreateFolder *m;
@@ -681,7 +681,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	EMFolderTreeModelStoreInfo *si;
 	const char *uri, *path;
 	CamelException ex;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	struct _EMCreateFolderTempData  *emcftd;
 
 	if (response != GTK_RESPONSE_OK) {
@@ -697,7 +697,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	g_print ("DEBUG: %s (%s)\n", path, uri);
 
 	camel_exception_init (&ex);
-	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+	if (!(store = (CamelObjectRemote *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
 		camel_exception_clear (&ex);
 		return;
 	}

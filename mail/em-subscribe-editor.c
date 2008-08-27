@@ -82,7 +82,7 @@ struct _EMSubscribe {
 	char *store_uri;
 	int store_id;		/* looking up a store */
 
-	CamelStore *store;
+	CamelObjectRemote *store;
 	GHashTable *folders;
 
 	GtkWidget *widget;	/* widget to show for this store */
@@ -579,7 +579,7 @@ subscribe_new(EMSubscribeEditor *se, const char *uri)
 }
 
 static void
-subscribe_set_store(EMSubscribe *sub, CamelStore *store)
+subscribe_set_store(EMSubscribe *sub, CamelObjectRemote *store)
 {
 	if (store == NULL || !camel_store_supports_subscriptions(store)) {
 		GtkWidget *w = gtk_label_new(_("This store does not support subscriptions, or they are not enabled."));
@@ -699,7 +699,7 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 }
 
 static void
-sub_editor_got_store(char *uri, CamelStore *store, void *data)
+sub_editor_got_store(char *uri, CamelObjectRemote *store, void *data)
 {
 	struct _EMSubscribe *sub = data;
 

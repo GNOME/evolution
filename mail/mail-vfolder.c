@@ -54,7 +54,7 @@
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
 static EMVFolderContext *context;	/* context remains open all time */
-CamelStore *vfolder_store; /* the 1 static vfolder store */
+CamelObjectRemote *vfolder_store; /* the 1 static vfolder store */
 
 /* lock for accessing shared resources (below) */
 static pthread_mutex_t vfolder_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -320,7 +320,7 @@ vfolder_adduri(const char *uri, GList *folders, int remove)
 /* ********************************************************************** */
 
 static GList *
-mv_find_folder(GList *l, CamelStore *store, const char *uri)
+mv_find_folder(GList *l, CamelObjectRemote *store, const char *uri)
 {
 	while (l) {
 		if (camel_store_folder_uri_equal(store, l->data, uri))
@@ -332,7 +332,7 @@ mv_find_folder(GList *l, CamelStore *store, const char *uri)
 
 /* uri is a camel uri */
 static int
-uri_is_ignore(CamelStore *store, const char *uri)
+uri_is_ignore(CamelObjectRemote *store, const char *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
@@ -385,7 +385,7 @@ uri_is_ignore(CamelStore *store, const char *uri)
 
 /* so special we never use it */
 static int
-uri_is_spethal(CamelStore *store, const char *uri)
+uri_is_spethal(CamelObjectRemote *store, const char *uri)
 {
 	CamelURL *url;
 	int res;
@@ -424,7 +424,7 @@ uri_is_spethal(CamelStore *store, const char *uri)
 
 /* called when a new uri becomes (un)available */
 void
-mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
+mail_vfolder_add_uri(CamelObjectRemote *store, const char *curi, int remove)
 {
 	FilterRule *rule;
 	const char *source;
@@ -524,7 +524,7 @@ done:
 
 /* called when a uri is deleted from a store */
 void
-mail_vfolder_delete_uri(CamelStore *store, const char *curi)
+mail_vfolder_delete_uri(CamelObjectRemote *store, const char *curi)
 {
 	FilterRule *rule;
 	const char *source;
@@ -614,7 +614,7 @@ done:
 
 /* called when a uri is renamed in a store */
 void
-mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
+mail_vfolder_rename_uri(CamelObjectRemote *store, const char *cfrom, const char *cto)
 {
 	FilterRule *rule;
 	const char *source;
@@ -798,8 +798,8 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	/* TODO: remove from folder info cache? */
 
 	/* FIXME: is this even necessary? if we remove the folder from
-	 * the CamelStore, the tree should pick it up auto-magically
-	 * because it listens to CamelStore events... */
+	 * the CamelObjectRemote, the tree should pick it up auto-magically
+	 * because it listens to CamelObjectRemote events... */
 	path = g_strdup_printf("/%s", rule->name);
 	mail_component_remove_folder (mail_component_peek (), vfolder_store, path);
 	g_free(path);
@@ -820,7 +820,7 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 static void
 store_folder_created(CamelObject *o, void *event_data, void *data)
 {
-	CamelStore *store = (CamelStore *)o;
+	CamelObjectRemote *store = (CamelObjectRemote *)o;
 	CamelFolderInfo *info = event_data;
 
 	store = store;
@@ -830,7 +830,7 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 static void
 store_folder_deleted(CamelObject *o, void *event_data, void *data)
 {
-	CamelStore *store = (CamelStore *)o;
+	CamelObjectRemote *store = (CamelObjectRemote *)o;
 	CamelFolderInfo *info = event_data;
 	FilterRule *rule;
 	char *user;

@@ -30,7 +30,7 @@ struct _EMVFolderContext;
 struct _EMFilterContext;
 struct _CamelMimeMessage;
 struct _CamelInternetAddress;
-struct _CamelStore;
+struct _CamelObjectRemote;
 
 enum {
 	AUTO_SUBJECT = 1,
@@ -47,7 +47,7 @@ struct _FilterRule *em_vfolder_rule_from_address(struct _EMVFolderContext *conte
 void  filter_gui_add_from_message(struct _CamelMimeMessage *msg, const char *source, int flags);
 
 /* Also easiest place for these, we should really share a global rule context for this stuff ... */
-void mail_filter_rename_uri(struct _CamelStore *store, const char *olduri, const char *newuri);
-void mail_filter_delete_uri(struct _CamelStore *store, const char *uri);
+void mail_filter_rename_uri(struct _CamelObjectRemote *store, const char *olduri, const char *newuri);
+void mail_filter_delete_uri(struct _CamelObjectRemote *store, const char *uri);
 
 #endif

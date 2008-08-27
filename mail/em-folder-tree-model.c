@@ -185,9 +185,9 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 static int
 sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
 {
-	extern CamelStore *vfolder_store;
+	extern CamelObjectRemote *vfolder_store;
 	char *aname, *bname;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	gboolean is_store;
 	guint32 aflags, bflags;
 	int rv = -2;
@@ -391,7 +391,7 @@ account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
 	EMFolderTreeModel *model = user_data;
 	struct _EMFolderTreeModelStoreInfo *si;
 	CamelProvider *provider;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelException ex;
 	char *uri;
 
@@ -414,7 +414,7 @@ account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	if (!(store = (CamelStore *) camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+	if (!(store = (CamelObjectRemote *) camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
 		camel_exception_clear (&ex);
 		return;
 	}
@@ -575,7 +575,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 
 
 static void
-folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
+folder_subscribed (CamelObjectRemote *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -636,7 +636,7 @@ folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *mo
 }
 
 static void
-folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_subscribed_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel *model)
 {
 	CamelFolderInfo *fi;
 
@@ -646,7 +646,7 @@ folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *mo
 }
 
 static void
-folder_unsubscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
+folder_unsubscribed (CamelObjectRemote *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -674,7 +674,7 @@ folder_unsubscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *
 }
 
 static void
-folder_unsubscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_unsubscribed_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel *model)
 {
 	CamelFolderInfo *fi;
 
@@ -684,7 +684,7 @@ folder_unsubscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *
 }
 
 static void
-folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_created_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel *model)
 {
 	CamelFolderInfo *fi;
 
@@ -698,7 +698,7 @@ folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 }
 
 static void
-folder_deleted_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_deleted_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel *model)
 {
 	CamelFolderInfo *fi;
 
@@ -712,7 +712,7 @@ folder_deleted_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 }
 
 static void
-folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *model)
+folder_renamed (CamelObjectRemote *store, CamelRenameInfo *info, EMFolderTreeModel *model)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -776,7 +776,7 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 }
 
 static void
-folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_renamed_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel *model)
 {
 	CamelRenameInfo *rinfo, *info = event_data;
 
@@ -790,7 +790,7 @@ folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 }
 
 void
-em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const char *display_name)
+em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelObjectRemote *store, const char *display_name)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -874,7 +874,7 @@ em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const char *uri)
 
 
 static void
-em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *store)
+em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelObjectRemote *store)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 
@@ -928,7 +928,7 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 
 
 void
-em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store)
+em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelObjectRemote *store)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreePath *path;
@@ -1071,14 +1071,14 @@ static gchar *
 emftm_uri_to_key (const char *uri)
 {
 	CamelException ex = { 0 };
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelURL *url;
 	gchar *key;
 
 	if (!uri)
 		return NULL;
 
-	store = (CamelStore *)camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+	store = (CamelObjectRemote *)camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	camel_exception_clear(&ex);
 
 	url = camel_url_new (uri, NULL);
@@ -1218,7 +1218,7 @@ em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFu
 }
 
 gboolean
-em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const char *full)
+em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelObjectRemote *store, const char *full)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -1259,7 +1259,7 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store,
 }
 
 char *
-em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const char *full)
+em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelObjectRemote *store, const char *full)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -1295,7 +1295,7 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *stor
 }
 
 void
-em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *full, int unread)
+em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelObjectRemote *store, const char *full, int unread)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;

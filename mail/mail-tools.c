@@ -64,7 +64,7 @@
 CamelFolder *
 mail_tool_get_inbox (const gchar *url, CamelException *ex)
 {
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelFolder *folder;
 
 	store = camel_session_get_store (session, url, ex);
@@ -80,13 +80,13 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 CamelFolder *
 mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 {
-	CamelStore *store;
+	CamelObjectRemote *store;
 	CamelFolder *trash;
 
 	if (connect)
 		store = camel_session_get_store (session, url, ex);
 	else
-		store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, ex);
+		store = (CamelObjectRemote *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, ex);
 
 	if (!store)
 		return NULL;
@@ -279,7 +279,7 @@ CamelFolder *
 mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 {
 	CamelURL *url;
-	CamelStore *store = NULL;
+	CamelObjectRemote *store = NULL;
 	CamelFolder *folder = NULL;
 	int offset = 0;
 	char *curi = NULL;
@@ -307,7 +307,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 		return NULL;
 	}
 
-	store = (CamelStore *)camel_session_get_service(session, uri+offset, CAMEL_PROVIDER_STORE, ex);
+	store = (CamelObjectRemote *)camel_session_get_service(session, uri+offset, CAMEL_PROVIDER_STORE, ex);
 	if (store) {
 		const char *name;
 

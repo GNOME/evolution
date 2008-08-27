@@ -2766,7 +2766,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 
 /* HACK: FIXME: the component should listen to the account object directly */
 static void
-add_new_store (char *uri, CamelStore *store, void *user_data)
+add_new_store (char *uri, CamelObjectRemote *store, void *user_data)
 {
 	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;

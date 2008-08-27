@@ -91,7 +91,7 @@ CamelFolder *em_folder_tree_get_selected_folder (EMFolderTree *emft);
 CamelFolderInfo *em_folder_tree_get_selected_folder_info (EMFolderTree *emft);
 
 EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
-EMFolderTreeModelStoreInfo *em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store);
+EMFolderTreeModelStoreInfo *em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelObjectRemote *store);
 
 gboolean em_folder_tree_create_folder (EMFolderTree *emft, const char *full_name, const char *uri);
 

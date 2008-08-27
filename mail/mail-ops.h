@@ -32,7 +32,7 @@ extern "C" {
 
 #include "mail-mt.h"
 
-#include "camel/camel-store.h"
+#include "camel-object-remote.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-mime-message.h"
@@ -80,7 +80,7 @@ int mail_get_folder_quota (CamelFolder *folder,
 
 /* and for a store */
 int mail_get_store (const char *uri, CamelOperation *op,
-		    void (*done) (char *uri, CamelStore *store, void *data), void *data);
+		    void (*done) (char *uri, CamelObjectRemote *store, void *data), void *data);
 
 /* build an attachment */
 void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
@@ -91,8 +91,8 @@ void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
 void mail_sync_folder (CamelFolder *folder,
 		       void (*done) (CamelFolder *folder, void *data), void *data);
 
-void mail_sync_store(CamelStore *store, int expunge,
-		     void (*done) (CamelStore *store, void *data), void *data);
+void mail_sync_store(CamelObjectRemote *store, int expunge,
+		     void (*done) (CamelObjectRemote *store, void *data), void *data);
 
 void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, void *data),
@@ -107,8 +107,8 @@ void mail_empty_trash (EAccount *account,
 		       void *data);
 
 /* get folder info asynchronously */
-int mail_get_folderinfo (CamelStore *store, CamelOperation *op,
-			 gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data),
+int mail_get_folderinfo (CamelObjectRemote *store, CamelOperation *op,
+			 gboolean (*done)(CamelObjectRemote *store, CamelFolderInfo *info, void *data),
 			 void *data);
 
 /* remove an existing folder */
@@ -158,10 +158,10 @@ void mail_filter_junk (CamelFolder *folder, GPtrArray *uids);
 void mail_prep_offline(const char *uri, CamelOperation *cancel,
 		       void (*done)(const char *, void *data),
 		       void *data);
-int mail_store_set_offline(CamelStore *store, gboolean offline,
-			   void (*done)(CamelStore *, void *data),
+int mail_store_set_offline(CamelObjectRemote *store, gboolean offline,
+			   void (*done)(CamelObjectRemote *, void *data),
 			   void *data);
-int mail_store_prepare_offline (CamelStore *store);
+int mail_store_prepare_offline (CamelObjectRemote *store);
 
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, void *data);

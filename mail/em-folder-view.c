@@ -1560,7 +1560,7 @@ prepare_offline(void *key, void *value, void *data)
 
 	if (CAMEL_IS_DISCO_STORE(service)
 	    || CAMEL_IS_OFFLINE_STORE(service)) {
-		mail_store_prepare_offline((CamelStore *)service);
+		mail_store_prepare_offline((CamelObjectRemote *)service);
 	}
 }
 

@@ -29,6 +29,7 @@
 #include <libxml/tree.h>
 
 #include <camel/camel-store.h>
+#include <camel-object-remote.h>
 
 #include <libedataserver/e-account-list.h>
 
@@ -50,7 +51,7 @@ typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 
 enum {
 	COL_STRING_DISPLAY_NAME,  /* string that appears in the tree */
-	COL_POINTER_CAMEL_STORE,  /* CamelStore object */
+	COL_POINTER_CAMEL_STORE,  /* CamelObjectRemote object */
 	COL_STRING_FULL_NAME,   /* if node is a folder, the full path name of the folder, no leading / */
 	COL_STRING_URI,           /* the uri to get the store or folder object */
 	COL_UINT_UNREAD,          /* unread count */
@@ -65,7 +66,7 @@ enum {
 
 
 struct _EMFolderTreeModelStoreInfo {
-	CamelStore *store;
+	CamelObjectRemote *store;
 	GtkTreeRowReference *row;
 	GHashTable *full_hash;  /* maps CamelFolderInfo::full_name's to GtkTreeRowReferences */
 	EAccount *account;
@@ -85,7 +86,7 @@ struct _EMFolderTreeModel {
 	char *filename;            /* state filename */
 	xmlDocPtr state;           /* saved expanded state from previous session */
 
-	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
+	GHashTable *store_hash;    /* maps CamelObjectRemote's to store-info's */
 	GHashTable *uri_hash;      /* maps URI's to GtkTreeRowReferences */
 
 	EAccountList *accounts;
@@ -125,8 +126,8 @@ void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter
 					   struct _EMFolderTreeModelStoreInfo *si,
 					   CamelFolderInfo *fi, int fully_loaded);
 
-void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const char *display_name);
-void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
+void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelObjectRemote *store, const char *display_name);
+void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelObjectRemote *store);
 void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si,
 					  GtkTreeIter *toplevel);
 
@@ -144,9 +145,9 @@ void em_folder_tree_model_save_state (EMFolderTreeModel *model);
 typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const char *path, void *user_data);
 void em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, void *user_data);
 
-void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread);
-gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const char *full);
-char * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const char *full);
+void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelObjectRemote *store, const char *path, int unread);
+gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelObjectRemote *store, const char *full);
+char * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelObjectRemote *store, const char *full);
 
 #ifdef __cplusplus
 }

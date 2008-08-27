@@ -297,7 +297,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 	CamelArgV *argv;
 	gboolean hide_deleted;
 	GConfClient *gconf;
-	CamelStore *store;
+	CamelObjectRemote *store;
 	char *uri = (char *)data;
 	guint32 store_flags;
 
