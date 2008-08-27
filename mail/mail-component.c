@@ -308,7 +308,7 @@ mc_setup_local_store(MailComponent *mc)
 		/* FIXME: should this uri be account relative? */
 		camel_url_set_fragment(url, mc_default_folders[i].name);
 		mc_default_folders[i].uri = camel_url_to_string(url, 0);
-		mc_default_folders[i].folder = camel_store_get_folder(p->local_store, mc_default_folders[i].name,
+		mc_default_folders[i].folder = camel_store_get_folder_remote(p->local_store, mc_default_folders[i].name,
 								      CAMEL_STORE_FOLDER_CREATE, &ex);
 		camel_exception_clear(&ex);
 	}
@@ -844,7 +844,7 @@ mc_quit_sync(CamelObjectRemote *store, struct _store_info *si, MailComponent *mc
 static void
 mc_quit_delete (CamelObjectRemote *store, struct _store_info *si, MailComponent *mc)
 {
-	CamelFolder *folder = camel_store_get_junk (store, NULL);
+	CamelFolder *folder = camel_store_get_junk_remote (store, NULL);
 
 	if (folder) {
 		GPtrArray *uids;

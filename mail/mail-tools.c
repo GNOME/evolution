@@ -71,7 +71,7 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 	if (!store)
 		return NULL;
 
-	folder = camel_store_get_inbox (store, ex);
+	folder = camel_store_get_inbox_remote (store, ex);
 	camel_object_unref (store);
 
 	return folder;
@@ -92,7 +92,7 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 		return NULL;
 
 	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED)
-		trash = camel_store_get_trash (store, ex);
+		trash = camel_store_get_trash_remote (store, ex);
 	else
 		trash = NULL;
 
@@ -324,11 +324,11 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 
 		if (offset) {
 			if (offset == 7)
-				folder = camel_store_get_trash (store, ex);
+				folder = camel_store_get_trash_remote (store, ex);
 			else if (offset == 6)
-				folder = camel_store_get_junk (store, ex);
+				folder = camel_store_get_junk_remote (store, ex);
 		} else
-			folder = camel_store_get_folder (store, name, flags, ex);
+			folder = camel_store_get_folder_remote (store, name, flags, ex);
 		camel_object_unref (store);
 	}
 

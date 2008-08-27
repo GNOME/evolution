@@ -1436,11 +1436,11 @@ remove_folder_exec (struct _remove_folder_msg *m)
 	camel_folder_free_uids (folder, uids);
 
 	/* if the store supports subscriptions, unsubscribe from this folder... */
-	if (camel_store_supports_subscriptions (store))
-		camel_store_unsubscribe_folder (store, folder->full_name, NULL);
+	if (camel_store_supports_subscriptions_remote (store))
+		camel_store_unsubscribe_folder_remote (store, folder->full_name, NULL);
 
 	/* Then delete the folder from the store */
-	camel_store_delete_folder (store, folder->full_name, &m->base.ex);
+	camel_store_delete_folder_remote (store, folder->full_name, &m->base.ex);
 	m->removed = !camel_exception_is_set (&m->base.ex);
 	camel_object_unref (folder);
 }
@@ -1570,7 +1570,7 @@ sync_store_desc (struct _sync_store_msg *m)
 static void
 sync_store_exec (struct _sync_store_msg *m)
 {
-	camel_store_sync(m->store, m->expunge, &m->base.ex);
+	camel_store_sync_remote(m->store, m->expunge, &m->base.ex);
 }
 
 static void

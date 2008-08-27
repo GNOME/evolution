@@ -1745,11 +1745,11 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		guint32 flags = CAMEL_STORE_FOLDER_CREATE;
 
 		if (!(local_store = camel_session_remote_get_store ((CamelSession *) session, uri, ex))
-		    || !(old_folder = camel_store_get_folder (local_store, name, 0, ex)))
+		    || !(old_folder = camel_store_get_folder_remote (local_store, name, 0, ex)))
 			goto fatal;
 
 		flags |= (index ? CAMEL_STORE_FOLDER_BODY_INDEX : 0);
-		if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, ex)))
+		if (!(new_folder = camel_store_get_folder_remote (session->store, full_name, flags, ex)))
 			goto fatal;
 
 		if (thread_list != -1) {
@@ -2854,7 +2854,7 @@ migrate_folders(CamelObjectRemote *store, CamelFolderInfo *fi, const char *acc, 
 		char *tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
 		em_migrate_set_folder_name (tmp);
 		g_free (tmp);
-		folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+		folder = camel_store_get_folder_remote (store, fi->full_name, 0, ex);
 		if (folder != NULL)
 			camel_folder_summary_migrate_infos (folder->summary);
 		migrate_folders(store, fi->child, acc, ex);

@@ -175,9 +175,9 @@ static void
 sub_folder_exec (struct _zsubscribe_msg *m)
 {
 	if (m->subscribe)
-		camel_store_subscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
+		camel_store_subscribe_folder_remote (m->sub->store, m->node->info->full_name, &m->base.ex);
 	else
-		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &m->base.ex);
+		camel_store_unsubscribe_folder_remote (m->sub->store, m->node->info->full_name, &m->base.ex);
 }
 
 static void
@@ -581,7 +581,7 @@ subscribe_new(EMSubscribeEditor *se, const char *uri)
 static void
 subscribe_set_store(EMSubscribe *sub, CamelObjectRemote *store)
 {
-	if (store == NULL || !camel_store_supports_subscriptions(store)) {
+	if (store == NULL || !camel_store_supports_subscriptions_remote(store)) {
 		GtkWidget *w = gtk_label_new(_("This store does not support subscriptions, or they are not enabled."));
 
 		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);

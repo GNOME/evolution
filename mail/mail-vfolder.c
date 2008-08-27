@@ -325,7 +325,7 @@ static GList *
 mv_find_folder(GList *l, CamelObjectRemote *store, const char *uri)
 {
 	while (l) {
-		if (camel_store_folder_uri_equal(store, l->data, uri))
+		if (camel_store_folder_uri_equal_remote(store, l->data, uri))
 			break;
 		l = l->next;
 	}
@@ -346,9 +346,9 @@ uri_is_ignore(CamelObjectRemote *store, const char *uri)
 		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT),
 		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)));
 
-	found = camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
-		|| camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)
-		|| camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS), uri);
+	found = camel_store_folder_uri_equal_remote(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
+		|| camel_store_folder_uri_equal_remote(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)
+		|| camel_store_folder_uri_equal_remote(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS), uri);
 
 	if (found)
 		return found;
@@ -365,12 +365,12 @@ uri_is_ignore(CamelObjectRemote *store, const char *uri)
 
 		if (account->sent_folder_uri) {
 			curi = em_uri_to_camel(account->sent_folder_uri);
-			found = camel_store_folder_uri_equal(store, uri, curi);
+			found = camel_store_folder_uri_equal_remote(store, uri, curi);
 			g_free(curi);
 		}
 		if (!found && account->drafts_folder_uri) {
 			curi = em_uri_to_camel(account->drafts_folder_uri);
-			found = camel_store_folder_uri_equal(store, uri, curi);
+			found = camel_store_folder_uri_equal_remote(store, uri, curi);
 			g_free(curi);
 		}
 
@@ -499,7 +499,7 @@ mail_vfolder_add_uri(CamelObjectRemote *store, const char *curi, int remove)
 		while (!found && (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source))) {
 			char *csource;
 			csource = em_uri_to_camel(source);
-			found = camel_store_folder_uri_equal(store, curi, csource);
+			found = camel_store_folder_uri_equal_remote(store, curi, csource);
 			d(printf(found?" '%s' == '%s'?\n":" '%s' != '%s'\n", curi, csource));
 			g_free(csource);
 		}
@@ -566,7 +566,7 @@ mail_vfolder_delete_uri(CamelObjectRemote *store, const char *curi)
 
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (camel_store_folder_uri_equal(store, curi, csource)) {
+			if (camel_store_folder_uri_equal_remote(store, curi, csource)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
@@ -645,7 +645,7 @@ mail_vfolder_rename_uri(CamelObjectRemote *store, const char *cfrom, const char 
 
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (camel_store_folder_uri_equal(store, cfrom, csource)) {
+			if (camel_store_folder_uri_equal_remote(store, cfrom, csource)) {
 				d(printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to));
 				vf = g_hash_table_lookup(vfolder_hash, rule->name);
 				if (!vf) {
@@ -746,7 +746,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 		/* TODO: make the folder->full_name var thread accessible */
 		oldname = g_strdup(folder->full_name);
-		camel_store_rename_folder(vfolder_store, oldname, rule->name, NULL);
+		camel_store_rename_folder_remote(vfolder_store, oldname, rule->name, NULL);
 		g_free(oldname);
 	}
 
@@ -777,7 +777,7 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 	d(printf("rule added: %s\n", rule->name));
 
 	/* this always runs quickly */
-	folder = camel_store_get_folder(vfolder_store, rule->name, 0, NULL);
+	folder = camel_store_get_folder_remote(vfolder_store, rule->name, 0, NULL);
 	if (folder) {
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
@@ -813,7 +813,7 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	}
 	UNLOCK();
 
-	camel_store_delete_folder(vfolder_store, rule->name, NULL);
+	camel_store_delete_folder_remote(vfolder_store, rule->name, NULL);
 	/* this must be unref'd after its deleted */
 	if (folder)
 		camel_object_unref ((CamelFolder *) folder);

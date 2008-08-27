@@ -791,7 +791,7 @@ tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *
 		goto fail;
 
 	camel_exception_init(&ex);
-	camel_store_delete_folder(store, full_name, &ex);
+	camel_store_delete_folder_remote(store, full_name, &ex);
 	if (camel_exception_is_set(&ex))
 		camel_exception_clear(&ex);
 fail:
@@ -834,7 +834,7 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
-		if ((folder = camel_store_get_folder(store, full_name, 0, &ex))) {
+		if ((folder = camel_store_get_folder_remote(store, full_name, 0, &ex))) {
 			GPtrArray *uids = camel_folder_get_uids(folder);
 
 			em_utils_selection_set_urilist(selection, folder, uids);
@@ -926,7 +926,7 @@ emft_drop_async__exec (struct _DragDataReceivedAsync *m)
 	} else if (m->full_name == NULL) {
 		camel_exception_set (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot drop message(s) into toplevel store"));
-	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &m->base.ex))) {
+	} else if ((folder = camel_store_get_folder_remote (m->store, m->full_name, 0, &m->base.ex))) {
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
@@ -2511,7 +2511,7 @@ em_folder_tree_get_selected_folder (EMFolderTree *emft)
 		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 				    COL_STRING_FULL_NAME, &full_name, -1);
 
-	folder = camel_store_get_folder (store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+	folder = camel_store_get_folder_remote (store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
 
 	camel_exception_clear (&ex);
 

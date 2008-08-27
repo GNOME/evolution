@@ -62,12 +62,13 @@ int camel_store_get_specific_folder_remote(DBusConnection * connection,
 					   ((CamelService *) folder->
 					    parent_store), folder->full_name);
 		g_hash_table_insert(folder_hash, folder_hash_key, folder);
-		g_free(folder_hash_key);
 	}
+
 	camel_exception_free(ex);
 
 	dbus_message_append_args(reply, DBUS_TYPE_STRING, &folder_hash_key,
 				 DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+	g_free(folder_hash_key);
 	g_free(err);
 	return 0;
 }
@@ -119,7 +120,6 @@ dbus_listener_message_handler(DBusConnection * connection,
 						   folder->full_name);
 			g_hash_table_insert(folder_hash, folder_hash_key,
 					    folder);
-			g_free(folder_hash_key);
 		}
 		camel_exception_free(ex);
 

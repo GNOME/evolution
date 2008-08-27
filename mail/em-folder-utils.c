@@ -154,20 +154,20 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				d(printf ("this folder is selectable\n"));
 				if (m->tostore == m->fromstore && m->delete) {
-					camel_store_rename_folder (m->fromstore, info->full_name, toname->str, &m->base.ex);
+					camel_store_rename_folder_remote (m->fromstore, info->full_name, toname->str, &m->base.ex);
 					if (camel_exception_is_set (&m->base.ex))
 						goto exception;
 
 					/* this folder no longer exists, unsubscribe it */
-					if (camel_store_supports_subscriptions (m->fromstore))
-						camel_store_unsubscribe_folder (m->fromstore, info->full_name, NULL);
+					if (camel_store_supports_subscriptions_remote (m->fromstore))
+						camel_store_unsubscribe_folder_remote (m->fromstore, info->full_name, NULL);
 
 					deleted = 1;
 				} else {
-					if (!(fromfolder = camel_store_get_folder (m->fromstore, info->full_name, 0, &m->base.ex)))
+					if (!(fromfolder = camel_store_get_folder_remote (m->fromstore, info->full_name, 0, &m->base.ex)))
 						goto exception;
 
-					if (!(tofolder = camel_store_get_folder (m->tostore, toname->str, CAMEL_STORE_FOLDER_CREATE, &m->base.ex))) {
+					if (!(tofolder = camel_store_get_folder_remote (m->tostore, toname->str, CAMEL_STORE_FOLDER_CREATE, &m->base.ex))) {
 						camel_object_unref (fromfolder);
 						goto exception;
 					}
@@ -190,9 +190,9 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 				deleting = g_list_prepend (deleting, info);
 
 			/* subscribe to the new folder if appropriate */
-			if (camel_store_supports_subscriptions (m->tostore)
-			    && !camel_store_folder_subscribed (m->tostore, toname->str))
-				camel_store_subscribe_folder (m->tostore, toname->str, NULL);
+			if (camel_store_supports_subscriptions_remote (m->tostore)
+			    && !camel_store_folder_subscribed_remote (m->tostore, toname->str))
+				camel_store_subscribe_folder_remote (m->tostore, toname->str, NULL);
 
 			info = info->next;
 		}
@@ -208,10 +208,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 		/* FIXME: we need to do something with the exception
 		   since otherwise the users sees a failed operation
 		   with no error message or even any warnings */
-		if (camel_store_supports_subscriptions (m->fromstore))
-			camel_store_unsubscribe_folder (m->fromstore, info->full_name, NULL);
+		if (camel_store_supports_subscriptions_remote (m->fromstore))
+			camel_store_unsubscribe_folder_remote (m->fromstore, info->full_name, NULL);
 
-		camel_store_delete_folder (m->fromstore, info->full_name, NULL);
+		camel_store_delete_folder_remote (m->fromstore, info->full_name, NULL);
 		l = l->next;
 	}
 
@@ -384,10 +384,10 @@ emfu_delete_rec (CamelObjectRemote *store, CamelFolderInfo *fi, CamelException *
 		d(printf ("deleting folder '%s'\n", fi->full_name));
 
 		/* shouldn't camel do this itself? */
-		if (camel_store_supports_subscriptions (store))
-			camel_store_unsubscribe_folder (store, fi->full_name, NULL);
+		if (camel_store_supports_subscriptions_remote (store))
+			camel_store_unsubscribe_folder_remote (store, fi->full_name, NULL);
 
-		if (!(folder = camel_store_get_folder (store, fi->full_name, 0, ex)))
+		if (!(folder = camel_store_get_folder_remote (store, fi->full_name, 0, ex)))
 			return;
 
 		if (!CAMEL_IS_VEE_FOLDER (folder)) {
@@ -404,7 +404,7 @@ emfu_delete_rec (CamelObjectRemote *store, CamelFolderInfo *fi, CamelException *
 			camel_folder_thaw (folder);
 		}
 
-		camel_store_delete_folder (store, fi->full_name, ex);
+		camel_store_delete_folder_remote (store, fi->full_name, ex);
 		if (camel_exception_is_set (ex))
 			return;
 
@@ -540,7 +540,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 				d(printf ("renaming %s to %s\n", oldpath, newpath));
 
 				camel_exception_clear (&ex);
-				camel_store_rename_folder (folder->parent_store, oldpath, newpath, &ex);
+				camel_store_rename_folder_remote (folder->parent_store, oldpath, newpath, &ex);
 				if (camel_exception_is_set (&ex)) {
 					e_error_run(NULL,
 						    "mail:no-rename-folder", oldpath, newpath, ex.desc, NULL);
@@ -593,9 +593,9 @@ emfu_create_folder__exec (struct _EMCreateFolder *m)
 {
 	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
 
-	if ((m->fi = camel_store_create_folder (m->store, m->parent, m->name, &m->base.ex))) {
-		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder (m->store, m->full_name, &m->base.ex);
+	if ((m->fi = camel_store_create_folder_remote (m->store, m->parent, m->name, &m->base.ex))) {
+		if (camel_store_supports_subscriptions_remote (m->store))
+			camel_store_subscribe_folder_remote (m->store, m->full_name, &m->base.ex);
 	}
 }
 

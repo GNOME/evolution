@@ -18,7 +18,8 @@ typedef struct {
 
 CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 					   const char *folder_name,
-					   guint32 flags);
+					   guint32 flags,
+					   CamelException *ex);
 CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex);
 CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex);
 CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex);

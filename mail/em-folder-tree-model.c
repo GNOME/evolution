@@ -689,7 +689,7 @@ folder_created_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel
 	CamelFolderInfo *fi;
 
 	/* we only want created events to do more work if we don't support subscriptions */
-	if (camel_store_supports_subscriptions (store))
+	if (camel_store_supports_subscriptions_remote (store))
 		return;
 
 	camel_object_ref (store);
@@ -703,7 +703,7 @@ folder_deleted_cb (CamelObjectRemote *store, void *event_data, EMFolderTreeModel
 	CamelFolderInfo *fi;
 
 	/* we only want deleted events to do more work if we don't support subscriptions */
-	if (camel_store_supports_subscriptions (store))
+	if (camel_store_supports_subscriptions_remote (store))
 		return;
 
 	camel_object_ref (store);

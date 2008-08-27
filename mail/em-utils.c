@@ -1395,7 +1395,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 		
 		if (account->templates_folder_uri) {
 			templates_uri = em_uri_to_camel (account->templates_folder_uri);
-			if (camel_store_folder_uri_equal (folder->parent_store, templates_uri, uri)) {
+			if (camel_store_folder_uri_equal_remote (folder->parent_store, templates_uri, uri)) {
 				g_free (templates_uri);
 				is = TRUE;
 				break;
@@ -1442,7 +1442,7 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 
 		if (account->drafts_folder_uri) {
 			drafts_uri = em_uri_to_camel (account->drafts_folder_uri);
-			if (camel_store_folder_uri_equal (folder->parent_store, drafts_uri, uri)) {
+			if (camel_store_folder_uri_equal_remote (folder->parent_store, drafts_uri, uri)) {
 				g_free (drafts_uri);
 				is = TRUE;
 				break;
@@ -1489,7 +1489,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 
 		if (account->sent_folder_uri) {
 			sent_uri = em_uri_to_camel (account->sent_folder_uri);
-			if (camel_store_folder_uri_equal (folder->parent_store, sent_uri, uri)) {
+			if (camel_store_folder_uri_equal_remote (folder->parent_store, sent_uri, uri)) {
 				g_free (sent_uri);
 				is = TRUE;
 				break;

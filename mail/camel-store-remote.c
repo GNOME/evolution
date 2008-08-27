@@ -16,7 +16,8 @@ extern GHashTable *folder_hash;
 
 CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 					   const char *folder_name,
-					   guint32 flags)
+					   guint32 flags,
+					   CamelException *ex)
 {
 	DBusError error;
 	char *err;
@@ -34,6 +35,7 @@ CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 				  flags, &shash, &err);
 
 	CamelFolder *folder = g_hash_table_lookup(folder_hash, shash);
+	
 	return folder;
 }
 

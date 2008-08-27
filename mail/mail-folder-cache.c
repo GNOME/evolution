@@ -521,7 +521,7 @@ static void
 store_folder_created(CamelObject *o, void *event_data, void *data)
 {
 	/* we only want created events to do more work if we dont support subscriptions */
-	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
+	if (!camel_store_supports_subscriptions_remote(CAMEL_STORE(o)))
 		store_folder_subscribed(o, event_data, data);
 }
 
@@ -561,7 +561,7 @@ static void
 store_folder_deleted(CamelObject *o, void *event_data, void *data)
 {
 	/* we only want deleted events to do more work if we dont support subscriptions */
-	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
+	if (!camel_store_supports_subscriptions_remote(CAMEL_STORE(o)))
 		store_folder_unsubscribed(o, event_data, data);
 }
 
@@ -849,7 +849,7 @@ ping_store_exec (struct _ping_store_msg *m)
 			online = TRUE;
 	}
 	if (online)
-		camel_store_noop (m->store, &m->base.ex);
+		camel_store_noop_remote (m->store, &m->base.ex);
 }
 
 static void
