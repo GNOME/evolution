@@ -10,47 +10,31 @@
 #include <dbus/dbus.h>
 #include "mail-dbus.h"
 #include <camel/camel.h>
+#include "camel-object-remote.h"
 #include "camel-object-remote-impl.h"
-#include "dbind.h"
+#include "evo-dbus.h"
 
 extern GHashTable *store_hash;
 extern GHashTable *folder_hash;
 extern CamelSession *session;
 
-
-#define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
-
-#define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
-#define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"
-#define CAMEL_FOLDER_OBJECT_PATH "/org/gnome/evolution/camel/folder"
-#define CAMEL_STORE_OBJECT_PATH "/org/gnome/evolution/camel/store"
-
-#define CAMEL_SESSION_INTERFACE	"org.gnome.evolution.camel.session"
-#define MAIL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
-#define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
-#define CAMEL_FOLDER_INTERFACE "org.gnome.evolution.camel.folder"
-
 /* Session */
 static void 
 session_signal_cb (CamelObject *sess, gpointer ev_data, gpointer data)
 {
-	/* Signal back to the caller */
-	DBusMessage *signal;
 	DBusError err;
-	DBindContext *ctx = evolution_dbus_peek_context ();
+	dbus_bool_t ret;
 	dbus_error_init (&err);
 
-	DBusConnection *dbus = e_dbus_connection_get();
-	printf("Sending session cb signal\n");
-	signal = dbus_message_new_method_call ("org.gnome.evolution.mail", CAMEL_SESSION_OBJECT_PATH, 
-					CAMEL_SESSION_INTERFACE, 
-					"session_signal");
-	/* It sucks here to pass the pointer across the object */
-	dbus_message_append_args (signal, DBUS_TYPE_INT32, &ev_data, DBUS_TYPE_INT32, &data, DBUS_TYPE_INVALID);
-	if (!dbus_connection_send (dbus, signal, &err)) {
+	ret = dbind_context_method_call (e_dbus_peek_context(),
+					 CLIENT_DBUS_NAME,
+					 CAMEL_SESSION_OBJECT_PATH,
+					 CAMEL_SESSION_INTERFACE,
+					 "session_signal",
+					 &err, "ii", ev_data, data);
+
+	if (!ret)
 		g_warning ("error: %s\n", err.message);
-	}
-	dbus_message_unref (signal);
 }
 
 DBusHandlerResult

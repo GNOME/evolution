@@ -4,34 +4,22 @@
  * */
 
 #include <stdio.h>
+#include "dbind.h"
 #include "mail-dbus.h"
 #include "mail-session-remote-impl.h"
+#include "camel-object-remote.h"
 #include "camel-object-remote-impl.h"
 
 #define d(x) x
-#define DBUS_BUS_NAME "org.gnome.evolution.camel"
 
+static DBindContext *dbctx = NULL;
 static DBusConnection *dbus = NULL;
 GMainContext *gm_ctx = NULL;
 GMainLoop *main_loop = NULL;
 gboolean inited = FALSE;
 
-/* FIXME: This is from dbus internal file */
-#define DBUS_SESSION_BUS_DEFAULT_ADDRESS	"autolaunch:"
-
-static const char *
-get_session_address ()
-{
-	const char *address = g_getenv ("DBUS_SESSION_BUS_ADDRESS");
-
-	if (!address)
-		address = DBUS_SESSION_BUS_DEFAULT_ADDRESS;
-
-	return address;
-}
-
 DBusConnection *
-e_dbus_connection_get ()
+e_dbus_connection_get (void)
 {
 	DBusError error;
 
@@ -40,11 +28,10 @@ e_dbus_connection_get ()
 
 	dbus_error_init (&error);
 
-//	if ((dbus = dbus_bus_get (DBUS_BUS_SESSION, &error))) {
-	if ((dbus = dbus_connection_open_private (get_session_address(), &error))) {
-		  dbus_bus_register(dbus, &error);
-	          dbus_connection_setup_with_g_main (dbus, gm_ctx);
-		  dbus_connection_set_exit_on_disconnect (dbus, FALSE);
+	dbctx = dbind_create_context (DBUS_BUS_SESSION, NULL);
+	if (dbctx && (dbus = dbctx->cnx)) {
+		dbus_connection_setup_with_g_main (dbus, gm_ctx);
+		dbus_connection_set_exit_on_disconnect (dbus, FALSE);
 	} else {
 		g_warning ("Failed to open connection to bus: %s\n", error.message);
 		dbus_error_free (&error);
@@ -52,9 +39,9 @@ e_dbus_connection_get ()
 	}
 	printf("MAIL DBUS %p\n", dbus);
 	dbus_bus_request_name (dbus,
-				 DBUS_BUS_NAME,
-				 0,
-				 &error);
+			       CAMEL_DBUS_NAME,
+			       0,
+			       &error);
 
 	if (dbus_error_is_set (&error)) {
 		g_warning ("dbus_bus_request_name error: %s\n", error.message);
@@ -224,4 +211,10 @@ mail_dbus_init ()
 		g_main_context_iteration (NULL, TRUE);
 
 	return 0;
+}
+
+DBindContext *
+e_dbus_peek_context (void)
+{
+	return dbctx;
 }

@@ -12,9 +12,6 @@
 
 #define d(x) x
 
-#define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
-#define MAIL_SESSION_INTERFACE	"org.gnome.evolution.camel.session.mail"
-
 static char *obj_path[] = {CAMEL_SESSION_OBJECT_PATH, MAIL_SESSION_OBJECT_PATH, CAMEL_STORE_OBJECT_PATH, CAMEL_FOLDER_OBJECT_PATH};
 static char *obj_if[] = {CAMEL_SESSION_INTERFACE, MAIL_SESSION_INTERFACE, CAMEL_STORE_INTERFACE, CAMEL_FOLDER_INTERFACE};
 static int signal_inited = FALSE;
@@ -39,6 +36,7 @@ dbus_listener_folder_handler (DBusConnection *connection,
                                     void           *user_data);
 
 
+/* FIXME: needs to move into evo-dbus.[ch] */
 static int 
 register_handler (const char *object_path, DBusObjectPathMessageFunction reg, DBusObjectPathUnregisterFunction unreg)
 {
@@ -50,8 +48,8 @@ register_handler (const char *object_path, DBusObjectPathMessageFunction reg, DB
 	dbus_listener_vtable->message_function = reg;
 	dbus_listener_vtable->unregister_function = unreg;
 	
-	ret = dbus_bus_request_name (ctx->cnx, "org.gnome.evolution.mail", DBUS_NAME_FLAG_REPLACE_EXISTING, &err);
-	printf("req bus :%d %s\n", ret, err.message);
+//	ret = dbus_bus_request_name (ctx->cnx, "org.gnome.evolution.mail", DBUS_NAME_FLAG_REPLACE_EXISTING, &err);
+//	printf("req bus :%d %s\n", ret, err.message);
 	if (!dbus_connection_register_object_path (ctx->cnx,
 						   object_path,
 						   dbus_listener_vtable,

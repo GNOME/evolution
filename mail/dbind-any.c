@@ -37,7 +37,7 @@ warn_braces ()
 }
 
 /* gather immediate allocation information for this type */
-static size_t dbind_gather_alloc_info_r (char **type)
+size_t dbind_gather_alloc_info_r (char **type)
 {
     char t = **type;
     (*type)++;
@@ -322,7 +322,6 @@ dbind_any_demarshal (DBusMessageIter *iter,
             ptr = ALIGN_ADDRESS (ptr, elem_align);
             dbind_any_demarshal (&child, &subt, &ptr);
             i++;
-	    dbus_message_iter_next (&child);
         };
         break;
     }
@@ -343,7 +342,6 @@ dbind_any_demarshal (DBusMessageIter *iter,
 			*data = PTR_PLUS (data0, offset);
             dbind_any_demarshal (&child, type, data);
             offset += dbind_gather_alloc_info (subt);
-            dbus_message_iter_next (&child);
         }
 
 		offset = ALIGN_VALUE (offset, stralign);
@@ -359,11 +357,13 @@ dbind_any_demarshal (DBusMessageIter *iter,
         warn_braces ();
         break;
     }
+    dbus_message_iter_next (iter);
 }
 
 static void
 dbind_any_free_r (char **type, void **data)
 {
+    size_t len;
 
 #ifdef DEBUG
     fprintf (stderr, "any free '%c' to %p\n", **type, *data);
@@ -388,7 +388,7 @@ dbind_any_free_r (char **type, void **data)
         int i;
         GArray *vals = **(void ***)data;
         size_t elem_size, elem_align;
-        char *saved_child_type;
+        char *saved_child_type, *child_type_string;
 
         (*type)++;
         saved_child_type = *type;

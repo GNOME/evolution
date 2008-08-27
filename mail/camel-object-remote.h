@@ -8,8 +8,12 @@
 #ifndef CAMEL_OBJECT_REMOTE_IMPL_H
 #define CAMEL_OBJECT_REMOTE_IMPL_H
 
-
 #include <camel/camel.h>
+
+/* the data server */
+#define CAMEL_DBUS_NAME "org.gnome.evolution.server.camel"
+/* the hard-coded, single client [yuck] */
+#define CLIENT_DBUS_NAME "org.gnome.evolution.client"
 
 #define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 #define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"

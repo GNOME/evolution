@@ -14,8 +14,10 @@
 #include <dbind.h>
 #include <dbind-any.h>
 
+/* Methods to be used when calling the remote server
+   process from the client */
 
-int evolution_dbus_init (void);
-DBindContext * evolution_dbus_peek_context (void);
+int           evolution_dbus_init (void);
+DBindContext *evolution_dbus_peek_context (void);
 
 #endif

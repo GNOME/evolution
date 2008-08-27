@@ -8,11 +8,8 @@
 #include <dbind.h>
 #include <camel/camel-folder.h>
 #include "camel-store-remote.h"
+#include "camel-object-remote.h"
 extern GHashTable *folder_hash;
-
-#define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
-#define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
-#define CAMEL_STORE_OBJECT_PATH "/org/gnome/evolution/camel/store"
 
 CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 					   const char *folder_name,

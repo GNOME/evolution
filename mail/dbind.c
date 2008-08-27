@@ -11,7 +11,6 @@
  *        do dynamic padding of structures etc.
  */
 
-
 DBindContext *
 dbind_create_context (DBusBusType type, DBusError *opt_error)
 {
@@ -26,12 +25,14 @@ dbind_create_context (DBusBusType type, DBusError *opt_error)
         err = &real_err;
     }
    
-    cnx = dbus_bus_get (DBUS_BUS_SESSION, err);
+    cnx = dbus_bus_get_private (type, err);
     if (!cnx)
         goto out;
+
     ctx = g_new0 (DBindContext, 1);
     ctx->cnx = cnx;
     printf("DBIND DBUS %p\n", cnx);
+
 out:
     if (err == &real_err)
         dbus_error_free (err);
@@ -94,6 +95,31 @@ dbind_connection_method_call (DBusConnection *cnx,
     return success;
 }
 
+static void set_reply (DBusPendingCall *pending, void *user_data)
+{
+  void **replyptr = (void **)user_data;
+
+  *replyptr = dbus_pending_call_steal_reply (pending);
+}
+
+static DBusMessage *
+send_and_allow_reentry (DBusConnection *bus, DBusMessage *message, int timeout, DBusError *error)
+{
+  DBusPendingCall *pending;
+  DBusMessage *reply = NULL;
+
+  if (!dbus_connection_send_with_reply (bus, message, &pending, timeout))
+  {
+    return NULL;
+  }
+  dbus_pending_call_set_notify (pending, set_reply, (void *)&reply, NULL);
+  while (!reply)
+  {
+    if (!dbus_connection_read_write_dispatch (bus, timeout)) return NULL;
+  }
+  return reply;
+}
+
 dbus_bool_t
 dbind_connection_method_call_va (DBusConnection *cnx,
                                  const char *bus_name,
@@ -108,6 +134,7 @@ dbind_connection_method_call_va (DBusConnection *cnx,
     DBusMessage *msg = NULL, *reply = NULL;
     DBusError *err, real_err;
     char *p;
+    char *dest;
 
     printf("DBIND: %s: %s: %s: %d\n", bus_name, path, method, dbus_connection_get_is_connected(cnx));
     if (opt_error)
@@ -160,10 +187,13 @@ dbind_connection_method_call_va (DBusConnection *cnx,
             case DBUS_TYPE_OBJECT_PATH:
             case DBUS_TYPE_SIGNATURE:
             case DBUS_TYPE_ARRAY:
-            case DBUS_STRUCT_BEGIN_CHAR:
             case DBUS_TYPE_DICT_ENTRY:
                 ptrarg = va_arg (args, void *);
                 arg = &ptrarg;
+                break;
+            case DBUS_STRUCT_BEGIN_CHAR:
+                ptrarg = va_arg (args, void *);
+                arg = ptrarg;
                 break;
 
             case DBUS_TYPE_VARIANT:
@@ -180,17 +210,31 @@ dbind_connection_method_call_va (DBusConnection *cnx,
             }
     }
 
-    reply = dbus_connection_send_with_reply_and_block (cnx, msg, -1, err);
+    dest = dbus_message_get_destination(msg);
+    if (!dest)
+        goto out;
+
+    /* We should clean evo.'s APIs up to not require re-enterancy later */
+    if (*p == '\0') { /* one-way */
+	success = dbus_connection_send (cnx, msg, NULL);
+	goto out;
+    } else {
+	reply = send_and_allow_reentry (cnx, msg, -1, err);
+    }
     if (!reply)
         goto out;
 
+    if (dbus_message_get_type (reply) == DBUS_MESSAGE_TYPE_ERROR)
+    {
+      char *name = dbus_message_get_error_name (reply);
+      dbus_set_error (err, name, g_strdup (""));
+      goto out;
+    }
     /* demarshal */
     if (p[0] == '=' && p[1] == '>')
     {
         DBusMessageIter iter;
         p += 2;
-        fprintf (stderr, "has return values\n");
-
         dbus_message_iter_init (reply, &iter);
         for (;*p != '\0';) {
             void *arg = va_arg (args, void *);
@@ -209,7 +253,6 @@ out:
     if (err == &real_err)
         dbus_error_free (err);
 
-    printf("END: %d\n", dbus_connection_get_is_connected(cnx));
     return success;
 }
 

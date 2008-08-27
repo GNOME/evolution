@@ -9,7 +9,6 @@
 #include "camel-session-remote.h"
 #include "camel-object-remote.h"
 
-#define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
 extern GHashTable *store_hash;
 GHashTable *store_rhash = NULL;
 #define d(x) x
