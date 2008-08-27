@@ -22,6 +22,7 @@ static GHashTable *objects;
 
 
 extern GHashTable *store_rhash;
+extern GHashTable *store_hash;
 
 static DBusHandlerResult
 dbus_listener_store_handler (DBusConnection *connection,

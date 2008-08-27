@@ -88,6 +88,9 @@ mailinclude_HEADERS =				\
 	mail-session.h				\
 	mail-tools.h				\
 	message-list.h				\
+	camel-store-remote.h		\
+	camel-object-remote.h		\
+	camel-session-remote.h		\
 	mail-vfolder.h
 
 # libevolution-mail

@@ -29,7 +29,7 @@
 #include <libxml/tree.h>
 
 #include <camel/camel-store.h>
-#include <camel-object-remote.h>
+#include "camel-object-remote.h"
 
 #include <libedataserver/e-account-list.h>
 
