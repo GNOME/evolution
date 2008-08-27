@@ -31,16 +31,6 @@ evolution_dbus_init ()
 		return -1;
 	}
 
-	d(printf("Client context setup: request name\n"));
-	dbus_error_init (&error);
-	dbus_bus_request_name (ctx->cnx, CLIENT_DBUS_NAME, 0, &error);
-
-	if (dbus_error_is_set (&error)) {
-		g_warning ("**** dbus_bus_request_name error: %s\n", error.message);
-		dbus_error_free (&error);
-		return -1;
-	}
-
 	d(printf("DBind context setup: done\n"));
 
 	return 0;

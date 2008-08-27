@@ -95,6 +95,52 @@ dbind_connection_method_call (DBusConnection *cnx,
     return success;
 }
 
+dbus_bool_t
+dbind_context_emit_signal (DBindContext *ctx,
+			   const char *bus_name,
+			   const char *path,
+			   const char *interface,
+			   const char *method,
+			   DBusError *opt_error,
+			   const char *arg_types,
+			   ...)
+{
+    dbus_bool_t success;
+    va_list args;
+
+    va_start (args, arg_types);
+
+    success = dbind_connection_emit_signal_va
+        (ctx->cnx, bus_name, path, interface, method, opt_error, arg_types, args);
+
+    va_end (args);
+
+    return success;
+}
+
+dbus_bool_t
+dbind_connection_emit_signal (DBusConnection *cnx,
+                              const char *bus_name,
+                              const char *path,
+                              const char *interface,
+                              const char *method,
+                              DBusError *opt_error,
+                              const char *arg_types,
+                              ...)
+{
+    dbus_bool_t success;
+    va_list args;
+
+    va_start (args, arg_types);
+
+    success = dbind_connection_emit_signal_va
+        (cnx, bus_name, path, interface, method, opt_error, arg_types, args);
+
+    va_end (args);
+
+    return success;
+}
+
 static void set_reply (DBusPendingCall *pending, void *user_data)
 {
   void **replyptr = (void **)user_data;
@@ -120,15 +166,16 @@ send_and_allow_reentry (DBusConnection *bus, DBusMessage *message, int timeout, 
   return reply;
 }
 
-dbus_bool_t
-dbind_connection_method_call_va (DBusConnection *cnx,
-                                 const char *bus_name,
-                                 const char *path,
-                                 const char *interface,
-                                 const char *method,
-                                 DBusError *opt_error,
-                                 const char *arg_types,
-                                 va_list     args)
+static dbus_bool_t
+dbind_connection_exec_va (DBusConnection *cnx,
+			  int         message_type, 
+			  const char *bus_name,
+			  const char *path,
+			  const char *interface,
+			  const char *method,
+			  DBusError *opt_error,
+			  const char *arg_types,
+			  va_list     args)
 {
     dbus_bool_t success = FALSE;
     DBusMessage *msg = NULL, *reply = NULL;
@@ -144,7 +191,12 @@ dbind_connection_method_call_va (DBusConnection *cnx,
         err = &real_err;
     }
 
-    msg = dbus_message_new_method_call (bus_name, path, interface, method);
+//    msg = dbus_message_new_method_call (bus_name, path, interface, method);
+    msg = dbus_message_new (message_type);
+    dbus_message_set_destination (msg, bus_name);
+    dbus_message_set_path (msg, path);
+    dbus_message_set_interface (msg, interface);
+    dbus_message_set_member (msg, method);
     if (!msg)
         goto out;
     dbus_message_set_auto_start (msg, TRUE);
@@ -214,11 +266,11 @@ dbind_connection_method_call_va (DBusConnection *cnx,
     if (!dest)
         goto out;
 
-    /* We should clean evo.'s APIs up to not require re-enterancy later */
-    if (*p == '\0') { /* one-way */
+    if (*p == '\0' || message_type == DBUS_MESSAGE_TYPE_SIGNAL) { /* one-way */
 	success = dbus_connection_send (cnx, msg, NULL);
 	goto out;
     } else {
+        /* FIXME: We should clean evo.'s APIs up to not require re-enterancy later */
 	reply = send_and_allow_reentry (cnx, msg, -1, err);
     }
     if (!reply)
@@ -256,3 +308,33 @@ out:
     return success;
 }
 
+/* urgh - axe this mess in favour of a single public message_type method */
+dbus_bool_t
+dbind_connection_method_call_va (DBusConnection *cnx,
+                                 const char *bus_name,
+                                 const char *path,
+                                 const char *interface,
+                                 const char *method,
+                                 DBusError *opt_error,
+                                 const char *arg_types,
+                                 va_list     args)
+{
+  return dbind_connection_exec_va (cnx, DBUS_MESSAGE_TYPE_METHOD_CALL,
+				   bus_name, path, interface, method,
+				   opt_error, arg_types, args);
+}
+
+dbus_bool_t
+dbind_connection_emit_signal_va (DBusConnection *cnx,
+                                 const char *bus_name,
+                                 const char *path,
+                                 const char *interface,
+                                 const char *method,
+                                 DBusError *opt_error,
+                                 const char *arg_types,
+                                 va_list     args)
+{
+  return dbind_connection_exec_va (cnx, DBUS_MESSAGE_TYPE_SIGNAL,
+				   bus_name, path, interface, method,
+				   opt_error, arg_types, args);
+}
