@@ -1063,7 +1063,7 @@ get_folderinfo_exec (struct _get_folderinfo_msg *m)
 {
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
-	m->info = camel_store_get_folder_info (m->store, NULL, flags, &m->base.ex);
+	m->info = camel_store_get_folder_info_remote (m->store, NULL, flags, &m->base.ex);
 }
 
 static void
