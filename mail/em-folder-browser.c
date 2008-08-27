@@ -98,7 +98,7 @@
 #include <gtkhtml/gtkhtml.h>
 
 extern CamelSession *session;
-CamelObjectRemote *vfolder_store; /* the 1 static vfolder store */
+CamelStore *vfolder_store; /* the 1 static vfolder store */
 
 #define d(x)
 

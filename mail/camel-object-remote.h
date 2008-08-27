@@ -49,4 +49,5 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 
 CamelObjectRemote * camel_object_remote_from_camel_store (CamelStore *store);
 CamelStore * camel_object_remote_get_camel_store (CamelObjectRemote *obj);
+
 #endif
