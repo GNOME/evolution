@@ -279,7 +279,7 @@ camel_session_remote_set_online  (CamelSessionRemote *session,
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_set_online",
 			&error, 
-			"si", session->object_id, online);
+			"si", "session", online);
 
 	if (!ret) {
 		g_warning ("Error: Camel session set online: %s\n", error.message);
