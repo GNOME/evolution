@@ -1,3 +1,9 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* mono-plugin.h:
+
 2008-04-01  Johnny Jacob  <jjohnny@novell.com>
 
 	* Camel.cs: Type cast. Fixes compile error.

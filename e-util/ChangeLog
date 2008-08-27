@@ -1,3 +1,38 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-bconf-map.c:
+	* e-bconf-map.h:
+	* e-bit-array.c:
+	* e-bit-array.h:
+	* e-categories-config.h:
+	* e-config.h:
+	* e-cursor.h:
+	* e-event.h:
+	* e-folder-map.c:
+	* e-folder-map.h:
+	* e-fsutils.c:
+	* e-icon-factory.h:
+	* e-import.h:
+	* e-logger.c:
+	* e-menu.h:
+	* e-pilot-util.h:
+	* e-popup.h:
+	* e-print.c:
+	* e-print.h:
+	* e-profile-event.h:
+	* e-signature-list.c:
+	* e-signature-list.h:
+	* e-signature.c:
+	* e-signature.h:
+	* e-sorter.h:
+	* e-text-event-processor-emacs-like.h:
+	* e-text-event-processor-types.h:
+	* e-util-labels.h:
+	* e-util-private.h:
+	* e-win32-reloc.c:
+
 2008-08-18  Bharath Acharya  <abharath@novell.com>
 
 	* e-icon-factory.c: (e_icon_factory_get_icon_filename),

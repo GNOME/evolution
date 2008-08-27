@@ -1,3 +1,54 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-searching-tokenizer.h:
+	* em-account-prefs.h:
+	* em-composer-utils.h:
+	* em-event.h:
+	* em-filter-context.h:
+	* em-filter-editor.h:
+	* em-filter-folder-element.c:
+	* em-filter-folder-element.h:
+	* em-filter-rule.h:
+	* em-folder-browser.h:
+	* em-folder-properties.h:
+	* em-folder-selection-button.h:
+	* em-folder-selection.c:
+	* em-folder-selection.h:
+	* em-folder-selector.c:
+	* em-folder-selector.h:
+	* em-folder-tree.h:
+	* em-format-hook.h:
+	* em-format-html-display.h:
+	* em-format-html-print.c:
+	* em-format-html.h:
+	* em-format-quote.c:
+	* em-format.h:
+	* em-html-stream.c:
+	* em-html-stream.h:
+	* em-inline-filter.h:
+	* em-junk-hook.h:
+	* em-menu.h:
+	* em-message-browser.h:
+	* em-popup.h:
+	* em-search-context.c:
+	* em-search-context.h:
+	* em-stripsig-filter.c:
+	* em-subscribe-editor.h:
+	* em-sync-stream.h:
+	* em-vfolder-context.c:
+	* em-vfolder-context.h:
+	* em-vfolder-editor.c:
+	* importers/mail-importer.h:
+	* mail-config-factory.c:
+	* mail-signature-editor.h:
+	* mail-types.h:
+	* message-tag-editor.c:
+	* message-tag-editor.h:
+	* message-tag-followup.c:
+	* message-tag-followup.h:
+
 2008-08-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #546926

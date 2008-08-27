@@ -1,3 +1,9 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* format-handler.h:
+
 2008-08-12  Milan Crha  <mcrha@redhat.com>
 
 	* ipod-sync.c: Added missing include.

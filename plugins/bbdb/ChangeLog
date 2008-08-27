@@ -1,3 +1,10 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* bbdb.h:
+	* test-evobuddy.c:
+
 2008-08-12  Bharath Acharya  <abharath@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries. To generate
