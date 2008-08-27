@@ -50,7 +50,7 @@ static GOptionEntry entries[] = {
 	  N_("OUTPUTFILE") },
 	{ "list-addressbook-folders", 'l', 0,
 	  G_OPTION_ARG_NONE, &opt_list_folders_mode,
-	  N_("List local addressbook folders") },
+	  N_("List local address book folders") },
 	{ "format", '\0', 0,
 	  G_OPTION_ARG_STRING, &opt_output_format,
 	  N_("Show cards as vcard or csv file"),

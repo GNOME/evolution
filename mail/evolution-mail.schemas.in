@@ -376,7 +376,7 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Search for the sender photo in local addressbooks </short>
+         <short>Search for the sender photo in local address books </short>
          <long>
           This option would help in improving the speed of fetching.
          </long>
@@ -1163,9 +1163,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Determines whether to lookup in addressbook for sender email</short>
+         <short>Determines whether to lookup in address book for sender email</short>
          <long>
-	 Determines whether to loopup the sender email in addressbook. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote addressbooks (like ldap) are marked for autocompletion.
+	 Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion.
          </long>
       </locale>
     </schema>
@@ -1177,9 +1177,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Determines whether to look up addresses for junk filtering in local addressbook only</short>
+         <short>Determines whether to look up addresses for junk filtering in local address book only</short>
          <long>
-	 This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local addressbook only to exclude mail sent by known contacts from junk filtering.
+	 This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local address book only to exclude mail sent by known contacts from junk filtering.
          </long>
       </locale>
     </schema>

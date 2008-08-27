@@ -63,7 +63,7 @@
 	 type="toggle"/>
  
     <cmd name="FolderCreate" _label="_New"
-         _tip="Create a new addressbook folder"
+         _tip="Create a new address book folder"
 	 pixtype="pixbuf"/>
 
     <cmd name="FolderCopy" _label="_Copy Folder Contacts To"

@@ -1317,8 +1317,8 @@ pre_sync (GnomePilotConduit *conduit,
 				  G_CALLBACK (addressbook_authenticate), ctxt->cfg->source);
 	}
 	if (!ctxt->ebook || !e_book_open (ctxt->ebook, TRUE, NULL)) {
-		WARN(_("Could not load addressbook"));
-		gnome_pilot_conduit_error (conduit, _("Could not load addressbook"));
+		WARN(_("Could not load address book"));
+		gnome_pilot_conduit_error (conduit, _("Could not load address book"));
 
 		return -1;
 	}

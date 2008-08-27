@@ -4,7 +4,7 @@
 	_name="iPod Synchronization"
 	    location="@PLUGINDIR@/liborg-gnome-ipod-sync-evolution@SOEXT@"> 
 	    <author name="Srinivasa Ragavan" email="sragavan@novell.com"/>
-	    <_description>Synchronize the selected task/memo/calendar/addressbook with Apple iPod</_description>
+	    <_description>Synchronize the selected task/memo/calendar/address book with Apple iPod</_description>
 	
 		<hook class="org.gnome.evolution.calendar.popup:1.0">
 			<menu id="org.gnome.evolution.tasks.source.popup" target="source">

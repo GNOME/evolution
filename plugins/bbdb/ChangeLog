@@ -1,3 +1,11 @@
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
+
+	* bbdb.c: (bbdb_page_factory):
+	* org-gnome-evolution-bbdb.eplug.xml: Change "addressbook" to
+	"address book" in translatable strings.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

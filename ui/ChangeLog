@@ -1,3 +1,10 @@
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
+
+	* evolution-addressbook.xml: Change "addressbook" to "address book"
+	in translatable strings.
+
 2008-08-07  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #546788

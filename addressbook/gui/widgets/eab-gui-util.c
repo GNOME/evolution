@@ -99,16 +99,16 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	uri = e_source_get_uri (source);
 
 	if (status == E_BOOK_ERROR_OFFLINE_UNAVAILABLE) {
-		label_string = _("We were unable to open this addressbook. This either means "
+		label_string = _("We were unable to open this address book. This either means "
                                  "this book is not marked for offline usage or not yet downloaded "
-                                 "for offline usage. Please load the addressbook once in online mode "
+                                 "for offline usage. Please load the address book once in online mode "
                                  "to download its contents");
 	}
 
 	else if (!strncmp (uri, "file:", 5)) {
 		char *path = g_filename_from_uri (uri, NULL, NULL);
 		label = g_strdup_printf (
-			_("We were unable to open this addressbook.  Please check that the "
+			_("We were unable to open this address book.  Please check that the "
 			  "path %s exists and that you have permission to access it."), path);
 		g_free (path);
 		label_string = label;
@@ -117,7 +117,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 		/* special case for ldap: contact folders so we can tell the user about openldap */
 #ifdef HAVE_LDAP
 		label_string =
-			_("We were unable to open this addressbook.  This either "
+			_("We were unable to open this address book.  This either "
 			  "means you have entered an incorrect URI, or the LDAP server "
 			  "is unreachable.");
 #else
@@ -129,7 +129,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 	} else {
 		/* other network folders */
 		label_string =
-			_("We were unable to open this addressbook.  This either "
+			_("We were unable to open this address book.  This either "
 			  "means you have entered an incorrect URI, or the server "
 			  "is unreachable.");
 
@@ -161,19 +161,19 @@ eab_search_result_dialog      (GtkWidget *parent,
 		str = _("More cards matched this query than either the server is \n"
 			"configured to return or Evolution is configured to display.\n"
 			"Please make your search more specific or raise the result limit in\n"
-			"the directory server preferences for this addressbook.");
+			"the directory server preferences for this address book.");
 		break;
 	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
 		str = _("The time to execute this query exceeded the server limit or the limit\n"
-			"you have configured for this addressbook.  Please make your search\n"
+			"you have configured for this address book.  Please make your search\n"
 			"more specific or raise the time limit in the directory server\n"
-			"preferences for this addressbook.");
+			"preferences for this address book.");
 		break;
 	case E_BOOK_VIEW_ERROR_INVALID_QUERY:
-		str = _("The backend for this addressbook was unable to parse this query.");
+		str = _("The backend for this address book was unable to parse this query.");
 		break;
 	case E_BOOK_VIEW_ERROR_QUERY_REFUSED:
-		str = _("The backend for this addressbook refused to perform this query.");
+		str = _("The backend for this address book refused to perform this query.");
 		break;
 	case E_BOOK_VIEW_ERROR_OTHER_ERROR:
 		str = _("This query did not complete successfully.");
