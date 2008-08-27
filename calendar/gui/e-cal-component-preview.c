@@ -290,13 +290,13 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
 
-		gtk_html_stream_printf (stream, "<TD><PRE>");
+		gtk_html_stream_printf (stream, "<TD><TT>");
 
 		for (node = l; node != NULL; node = node->next) {
 			char *html;
 
 			text = * (ECalComponentText *) node->data;
-			html = camel_text_to_html (text.value ? text.value : "", CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+			html = camel_text_to_html (text.value ? text.value : "", CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 
 			if (html)
 				gtk_html_stream_printf (stream, "%s", html);
@@ -304,7 +304,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 			g_free (html);
 		}
 
-		gtk_html_stream_printf (stream, "</PRE></TD></TR>");
+		gtk_html_stream_printf (stream, "</TT></TD></TR>");
 
 		e_cal_component_free_text_list (l);
 	}

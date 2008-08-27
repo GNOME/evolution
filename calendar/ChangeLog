@@ -1,3 +1,11 @@
+2008-08-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #523327
+
+	* gui/e-cal-component-preview.c: (write_html):
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	Show description in monospace font and wrap lines too.
+
 2008-08-22  Tobias Mueller  <tobiasmue@svn.gnome.org>
 
 	* gui/print.c (print_table_draw_page):
