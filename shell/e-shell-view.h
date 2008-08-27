@@ -77,6 +77,7 @@ void		e_shell_view_set_title		(EShellView *shell_view,
 						 const gchar *title);
 EShellWindow *	e_shell_view_get_window		(EShellView *shell_view);
 gboolean	e_shell_view_is_selected	(EShellView *shell_view);
+gint		e_shell_view_get_page_num	(EShellView *shell_view);
 GtkWidget *	e_shell_view_get_content_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_sidebar_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_status_widget	(EShellView *shell_view);

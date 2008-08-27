@@ -20,18 +20,74 @@
 
 #include "e-test-shell-view.h"
 
-#include <glib/gi18n.h>
-
 #define E_TEST_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TEST_SHELL_VIEW, ETestShellViewPrivate))
 
 struct _ETestShellViewPrivate {
-	gint dummy_value;
+	GtkWidget *content_widget;
+	GtkWidget *sidebar_widget;
+	GtkWidget *status_widget;
 };
 
 GType e_test_shell_view_type = 0;
 static gpointer parent_class;
+
+static void
+test_shell_view_dispose (GObject *object)
+{
+	ETestShellViewPrivate *priv;
+
+	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
+
+	if (priv->content_widget != NULL) {
+		g_object_unref (priv->content_widget);
+		priv->content_widget = NULL;
+	}
+
+	if (priv->sidebar_widget != NULL) {
+		g_object_unref (priv->sidebar_widget);
+		priv->sidebar_widget = NULL;
+	}
+
+	if (priv->status_widget != NULL) {
+		g_object_unref (priv->status_widget);
+		priv->status_widget = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static GtkWidget *
+test_shell_view_get_content_widget (EShellView *shell_view)
+{
+	ETestShellViewPrivate *priv;
+
+	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	return priv->content_widget;
+}
+
+static GtkWidget *
+test_shell_view_get_sidebar_widget (EShellView *shell_view)
+{
+	ETestShellViewPrivate *priv;
+
+	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	return priv->sidebar_widget;
+}
+
+static GtkWidget *
+test_shell_view_get_status_widget (EShellView *shell_view)
+{
+	ETestShellViewPrivate *priv;
+
+	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	return priv->status_widget;
+}
 
 static void
 test_shell_view_class_init (ETestShellViewClass *class,
@@ -43,15 +99,37 @@ test_shell_view_class_init (ETestShellViewClass *class,
 	g_type_class_add_private (class, sizeof (ETestShellViewPrivate));
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
-	shell_view_class->label = N_("Test");
+	shell_view_class->label = "Test";
 	shell_view_class->icon_name = "face-monkey";
 	shell_view_class->type_module = type_module;
+
+	shell_view_class->get_content_widget =
+		test_shell_view_get_content_widget;
+	shell_view_class->get_sidebar_widget =
+		test_shell_view_get_sidebar_widget;
+	shell_view_class->get_status_widget =
+		test_shell_view_get_status_widget;
 }
 
 static void
-test_shell_view_init (ETestShellView *view)
+test_shell_view_init (ETestShellView *test_shell_view)
 {
-	view->priv = E_TEST_SHELL_VIEW_GET_PRIVATE (view);
+	GtkWidget *widget;
+
+	test_shell_view->priv =
+		E_TEST_SHELL_VIEW_GET_PRIVATE (test_shell_view);
+
+	widget = gtk_label_new ("Content Widget");
+	test_shell_view->priv->content_widget = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new ("Sidebar Widget");
+	test_shell_view->priv->sidebar_widget = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new ("Status Widget");
+	test_shell_view->priv->status_widget = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
 }
 
 GType

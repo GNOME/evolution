@@ -32,16 +32,25 @@
 
 struct _EShellViewPrivate {
 	gchar *title;
+	gint page_num;
 	gpointer window;  /* weak pointer */
 };
 
 enum {
 	PROP_0,
+	PROP_PAGE_NUM,
 	PROP_TITLE,
 	PROP_WINDOW
 };
 
 static gpointer parent_class;
+
+static void
+shell_view_set_page_num (EShellView *shell_view,
+                         gint page_num)
+{
+	shell_view->priv->page_num = page_num;
+}
 
 static void
 shell_view_set_window (EShellView *shell_view,
@@ -62,6 +71,12 @@ shell_view_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_PAGE_NUM:
+			shell_view_set_page_num (
+				E_SHELL_VIEW (object),
+				g_value_get_int (value));
+			return;
+
 		case PROP_TITLE:
 			e_shell_view_set_title (
 				E_SHELL_VIEW (object),
@@ -85,6 +100,12 @@ shell_view_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_PAGE_NUM:
+			g_value_set_int (
+				value, e_shell_view_get_page_num (
+				E_SHELL_VIEW (object)));
+			return;
+
 		case PROP_TITLE:
 			g_value_set_string (
 				value, e_shell_view_get_title (
@@ -144,6 +165,19 @@ shell_view_class_init (EShellViewClass *class)
 	object_class->get_property = shell_view_get_property;
 	object_class->dispose = shell_view_dispose;
 	object_class->finalize = shell_view_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PAGE_NUM,
+		g_param_spec_int (
+			"page-num",
+			_("Page Number"),
+			_("The notebook page number of the shell view"),
+			-1,
+			G_MAXINT,
+			-1,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -265,6 +299,14 @@ e_shell_view_is_selected (EShellView *shell_view)
 	return (strcmp (curr_view_name, this_view_name) == 0);
 }
 
+gint
+e_shell_view_get_page_num (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), -1);
+
+	return shell_view->priv->page_num;
+}
+
 GtkWidget *
 e_shell_view_get_content_widget (EShellView *shell_view)
 {
@@ -272,7 +314,7 @@ e_shell_view_get_content_widget (EShellView *shell_view)
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	class = E_SHELL_VIEW_CLASS (shell_view);
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_val_if_fail (class->get_content_widget != NULL, NULL);
 
 	return class->get_content_widget (shell_view);
@@ -285,7 +327,7 @@ e_shell_view_get_sidebar_widget (EShellView *shell_view)
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	class = E_SHELL_VIEW_CLASS (shell_view);
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_val_if_fail (class->get_sidebar_widget != NULL, NULL);
 
 	return class->get_sidebar_widget (shell_view);
@@ -298,7 +340,7 @@ e_shell_view_get_status_widget (EShellView *shell_view)
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	class = E_SHELL_VIEW_CLASS (shell_view);
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_val_if_fail (class->get_status_widget != NULL, NULL);
 
 	return class->get_status_widget (shell_view);
