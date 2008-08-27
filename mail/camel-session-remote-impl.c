@@ -10,6 +10,7 @@
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
 #include <camel/camel.h>
+#include "camel-object-remote-impl.h"
 
 #define CAMEL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session"
 
@@ -296,6 +297,8 @@ dbus_listener_message_handler (DBusConnection *connection,
 
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 		g_free (err);
+	} else if (strncmp (method, "camel_object", 12) == 0) {
+		return camel_object_session_signal_handler (connection, message, user_data);
 	} else
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 

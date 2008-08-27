@@ -3,10 +3,12 @@
  *
  * */
 
+#include <string.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include "mail-dbus.h"
 #include <camel/camel.h>
+#include "camel-object-remote-impl.h"
 
 #define CAMEL_STORE_OBJECT_PATH "/org/gnome/evolution/camel/store"
 #define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
@@ -431,6 +433,8 @@ dbus_listener_message_handler(DBusConnection * connection,
 		url = camel_service_get_url((CamelService *)store);
 		dbus_message_append_args(reply, DBUS_TYPE_STRING,
 					 &url, DBUS_TYPE_INVALID);
+	} else if (strncmp (method, "camel_object", 12) == 0) {
+		return camel_object_store_signal_handler (connection, message, user_data);
 	} else
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
