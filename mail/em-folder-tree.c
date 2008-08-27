@@ -1727,7 +1727,7 @@ emft_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 {
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
-	m->fi = camel_store_get_folder_info (m->store, m->top, flags, &m->base.ex);
+	m->fi = camel_store_get_folder_info_remote (m->store, m->top, flags, &m->base.ex);
 }
 
 static void
