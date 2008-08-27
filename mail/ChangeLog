@@ -1,3 +1,11 @@
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
+
+	* evolution-mail.schemas.in:
+	* mail-config.glade: Change "addressbook" to "address book" in
+	translatable strings.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

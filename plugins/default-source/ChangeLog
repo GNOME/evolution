@@ -1,3 +1,10 @@
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
+
+	* org-gnome-default-source.eplug.xml: Change "addressbook" to
+	"address book" in translatable strings.
+
 2008-04-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #448863

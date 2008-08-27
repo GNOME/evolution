@@ -41,7 +41,7 @@ action_list_folders_init (ActionContext * p_actctx)
 	FILE *outputfile = NULL;
 
 	if (!e_book_get_addressbooks (&addressbooks, NULL)) {
-		g_warning (_("Couldn't get list of addressbooks"));
+		g_warning (_("Couldn't get list of address books"));
 		exit (-1);
 	}
 

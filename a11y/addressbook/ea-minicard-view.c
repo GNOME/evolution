@@ -175,7 +175,7 @@ ea_minicard_view_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 
-	return _("evolution addressbook");
+	return _("evolution address book");
 }
 
 AtkObject*

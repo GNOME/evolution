@@ -1,3 +1,17 @@
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
+
+	* addressbook.error.xml:
+	* conduit/address-conduit.c:
+	* gui/widgets/eab-gui-util.c: (eab_load_error_dialog),
+	(eab_search_result_dialog):
+	* gui/widgets/eab-vcard-control.c: (eab_vcard_control_new):
+	* tools/evolution-addressbook-export-list-folders.c:
+	(action_list_folders_init):
+	* tools/evolution-addressbook-export.c: Change "addressbook" to
+	"address book" in translatable strings.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

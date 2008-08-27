@@ -2,8 +2,8 @@
 <error-list domain="addressbook">
 
  <error id="ldap-init" type="error" modal="true">
-  <_primary>This addressbook could not be opened.</_primary>
-  <_secondary>This addressbook server might be unreachable or the server name may be misspelled or your network connection could be down.</_secondary>
+  <_primary>This address book could not be opened.</_primary>
+  <_secondary>This address book server might be unreachable or the server name may be misspelled or your network connection could be down.</_secondary>
  </error>
 
  <error id="ldap-auth" type="error" modal="true">
@@ -12,7 +12,7 @@
  </error>
 
  <error id="ldap-search-base" type="error" modal="true">
-  <_primary>This addressbook server does not have any suggested search bases.</_primary>
+  <_primary>This address book server does not have any suggested search bases.</_primary>
   <_secondary>This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases.</_secondary>
  </error>
 
@@ -29,7 +29,7 @@
  </error>
 
  <error id="remove-addressbook" type="error" modal="true">
-  <_primary>Could not remove addressbook.</_primary>
+  <_primary>Could not remove address book.</_primary>
  </error>
 
  <error id="ask-delete-addressbook" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
@@ -51,15 +51,15 @@
  </error>
 
  <error id="load-error" type="error">
-  <_title>Unable to open addressbook</_title>
-  <_primary>Error loading addressbook.</_primary>
-  <!-- For Translators: {0} is string describing the error why the addressbook could not be loaded -->
+  <_title>Unable to open address book</_title>
+  <_primary>Error loading address book.</_primary>
+  <!-- For Translators: {0} is string describing the error why the address book could not be loaded -->
   <_secondary>{0}</_secondary>
  </error>
 
  <error id="search-error" type="error">
   <_primary>Unable to perform search.</_primary>
-  <!-- For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query." -->
+  <!-- For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query." -->
   <_secondary>{0}</_secondary>
  </error>
 
@@ -73,7 +73,7 @@
 
  <error id="prompt-move" type="question" default="GTK_RESPONSE_NO">
   <_primary>Cannot move contact.</_primary>
-  <_secondary>You are attempting to move a contact from one addressbook to another but it cannot be removed from the source. Do you want to save a copy instead?</_secondary>
+  <_secondary>You are attempting to move a contact from one address book to another but it cannot be removed from the source. Do you want to save a copy instead?</_secondary>
   <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
   <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
  </error>
@@ -91,7 +91,7 @@
  </error>
 
  <error id="backend-died" type="error">
-  <_primary>The Evolution addressbook has quit unexpectedly.</_primary>
+  <_primary>The Evolution address book has quit unexpectedly.</_primary>
   <_secondary>Your contacts for {0} will not be available until Evolution is restarted.</_secondary>
  </error>
 

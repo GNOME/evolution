@@ -1,3 +1,13 @@
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
+
+	* addressbook/ea-addressbook-view.c: (ea_ab_view_get_name),
+	(ea_ab_view_get_description):
+	* addressbook/ea-minicard-view.c:
+	(ea_minicard_view_get_description): Change "addressbook" to
+	"address book" in translatable strings.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
