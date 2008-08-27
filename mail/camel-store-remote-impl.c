@@ -448,6 +448,28 @@ dbus_listener_message_handler(DBusConnection * connection,
 		provider = camel_service_get_provider((CamelService *)store);
 		dbus_message_append_args(reply, DBUS_TYPE_INT32,
 					 &provider->url_flags, DBUS_TYPE_INVALID);
+	} else if (!g_strcmp0(method, "camel_store_get_folder_info")) {
+		char *store_hash_key;
+		CamelStore *store;
+		char *top, *err="";
+		CamelException ex;
+		guint32 flags;
+		CamelFolderInfo *info;
+
+		camel_exception_init (&ex);
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING, &store_hash_key,
+				      DBUS_TYPE_STRING, &top,
+				      DBUS_TYPE_UINT32, &flags,
+				      DBUS_TYPE_INVALID);
+		
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		info = camel_store_get_folder_info (store, top, flags, &ex);
+		if (camel_exception_is_set(&ex))
+			err = camel_exception_get_description (&ex);	
+		dbus_message_append_args(reply, DBUS_TYPE_INT32, &info, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+		camel_exception_clear (&ex);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_store_signal_handler (connection, message, user_data);
 	} else

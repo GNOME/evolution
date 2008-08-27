@@ -416,3 +416,25 @@ int camel_store_get_url_flags_remote (CamelStoreRemote *store)
 
 	return url_flags;
 }
+
+CamelFolderInfo * camel_store_get_folder_info_remote (CamelStoreRemote *store, const char *top, guint32 flags, CamelException *ex)
+{
+	gboolean ret;
+	DBusError error;
+	gpointer info;
+	int ptr;
+	char *err;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_store_get_folder_info",
+					&error, "ssu=>is", store->object_id, top ? top : "", flags, &ptr, &err);
+
+	info = (gpointer)ptr;
+
+	return info;
+}
