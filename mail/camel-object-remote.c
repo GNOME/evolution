@@ -93,7 +93,6 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
-	hash = hash_data (func, data);
 	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
 			CAMEL_DBUS_NAME,
 			obj_path[object->type],

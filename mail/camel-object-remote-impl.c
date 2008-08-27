@@ -42,7 +42,7 @@ session_signal_cb (CamelObject *sess, gpointer ev_data, gpointer data)
 
 	DBusConnection *dbus = e_dbus_connection_get();
 
-	signal = dbus_message_new_method_call (NULL, CAMEL_SESSION_OBJECT_PATH, 
+	signal = dbus_message_new_method_call (CAMEL_DBUS_NAME, CAMEL_SESSION_OBJECT_PATH, 
 					CAMEL_SESSION_INTERFACE, 
 					"session_signal");
 	/* It sucks here to pass the pointer across the object */
