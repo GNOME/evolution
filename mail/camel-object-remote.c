@@ -57,14 +57,8 @@ register_handler (const char *object_path, DBusObjectPathMessageFunction reg, DB
 		return -1;
 	}
 
-	d(printf("successfully inited signal for %s\n", object_path));
+	d(printf("EVODBUS: successfully inited signal handlers for %s\n", object_path));
 	return 0;
-}
-
-static char *
-hash_data (CamelObjectEventHookFunc func, gpointer data)
-{
-	return g_strdup_printf ("%p:%p", (gpointer)func, data);
 }
 
 unsigned int
@@ -74,8 +68,15 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 	gboolean ret;
 	DBusError error;
 	char *hash;
+	CamelObjectRemote obj = {"session", CAMEL_RO_SESSION, NULL};
+
+
+	if (object == NULL) {
+		object = &obj;
+	}
 
 	if (!signal_inited) {
+		DBindContext *ctx = evolution_dbus_peek_context ();
 		signal_inited = TRUE;
 		objects = g_hash_table_new (g_str_hash, g_str_equal);
 		register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_session_handler, NULL);
@@ -99,7 +100,7 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 			obj_if[object->type],
 			"camel_object_hook_event",
 			&error, 
-			"sss=>u", object->object_id, signal, hash, &hook->remote_id); /* Just string of base dir */
+			"ssi=>u", object->object_id, signal, data, &hook->remote_id); /* Just string of base dir */
 
 	if (!ret) {
 		g_warning ("Error: Initializing mail session: %s\n", error.message);
@@ -134,7 +135,7 @@ dbus_listener_session_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data)
 {
-	printf ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
+	printf ("EVOD-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
            dbus_message_get_path (message),
            dbus_message_get_interface (message),
            dbus_message_get_member (message),
