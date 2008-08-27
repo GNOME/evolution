@@ -37,7 +37,7 @@ dbus_listener_message_handler (DBusConnection *connection,
 	CamelStore *store;
 	char *store_not_found = _("Store not found");
 
-  	printf ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
+  	printf ("MAILDBUS: SESSION D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
            dbus_message_get_path (message),
            dbus_message_get_interface (message),
            dbus_message_get_member (message),
