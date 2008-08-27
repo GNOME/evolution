@@ -908,7 +908,7 @@ mail_send_receive (void)
 		return send_recv_dialog;
 	}
 
-	if (!camel_session_is_online (session))
+	if (!camel_session_remote_is_online (session))
 		return send_recv_dialog;
 
 	account = mail_config_get_default_account ();
@@ -966,7 +966,7 @@ auto_timeout(void *data)
 {
 	struct _auto_data *info = data;
 
-	if (camel_session_is_online(session)) {
+	if (camel_session_remote_is_online(session)) {
 		const char *uri = e_account_get_string(info->account, E_ACCOUNT_SOURCE_URL);
 		int keep = e_account_get_bool(info->account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
 

@@ -13,6 +13,7 @@ typedef struct {
 	char *object_id;
 } CamelSessionRemote;
 
+
 /*
 #define camel_session_construct camel_session_remote_construct
 #define camel_session_get_password camel_session_remote_get_password
@@ -49,6 +50,11 @@ CamelObjectRemote *camel_session_remote_get_service (CamelSessionRemote *session
 			   			CamelProviderType type,
 						CamelException *ex);
 
+CamelObjectRemote *camel_session_remote_get_service_connected (CamelSessionRemote *session, 
+						const char *url_string,
+			   			CamelProviderType type,
+						CamelException *ex);
+
 gboolean camel_session_remote_alert_user (CamelSessionRemote *session, 
 					CamelSessionAlertType type,
 					const char *prompt,
@@ -73,5 +79,6 @@ gboolean camel_session_remote_get_network_state (CamelSessionRemote *session);
 
 void camel_session_remote_set_network_state  (CamelSessionRemote *session,
 				     	gboolean network_state);
+
 
 #endif

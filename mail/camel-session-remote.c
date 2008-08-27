@@ -14,6 +14,15 @@ extern GHashTable *store_hash;
 GHashTable *store_rhash = NULL;
 #define d(x) x
 
+#define camel_session_remote_get_store(session, url_string, ex) \
+	((CamelStore *) camel_session_remote_get_service_connected \
+	(session, url_string, CAMEL_PROVIDER_STORE, ex))
+#define camel_session_remote_get_transport(session, url_string, ex) \
+	((CamelTransport *) camel_session_remote_get_service_connected \
+	(session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
+
+const char *session_str = "session";
+
 /*
 typedef enum {
 	CAMEL_PROVIDER_STORE,
@@ -179,6 +188,39 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 	return rstore;
 }
 
+CamelObjectRemote *
+camel_session_remote_get_service_connected (CamelSessionRemote *session, const char *url_string,
+			   CamelProviderType type, CamelException *ex)
+{
+	gboolean ret;
+	DBusError error;
+	char *service, *err;
+	CamelObjectRemote *rstore;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_SESSION_OBJECT_PATH,
+			CAMEL_SESSION_INTERFACE,
+			"camel_session_get_service_connected",
+			&error, 
+			"si=>ss", url_string, type, &service, &err);
+
+	if (!ret) {
+		g_warning ("Error: Camel session get service connected: %s\n", error.message);
+		return NULL;
+	}
+
+	rstore = g_new0 (CamelObjectRemote, 1);
+	rstore->object_id = service;
+	rstore->type = CAMEL_RO_STORE;
+	rstore->hooks = NULL;
+	d(printf("Camel session get service connected remotely\n"));
+	g_hash_table_insert (store_rhash, g_hash_table_lookup(store_hash, service), rstore);
+	return rstore;
+}
+
 gboolean  
 camel_session_remote_alert_user (CamelSessionRemote *session, 
 					CamelSessionAlertType type,
@@ -332,7 +374,7 @@ camel_session_remote_set_check_junk (CamelSessionRemote *session,
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_set_check_junk",
 			&error, 
-			"ss", session->object_id, check_junk);
+			"si", session->object_id, check_junk);
 
 	if (!ret) {
 		g_warning ("Error: Camel session set check junk: %s\n", error.message);
@@ -385,7 +427,7 @@ camel_session_remote_set_network_state  (CamelSessionRemote *session,
 			CAMEL_SESSION_INTERFACE,
 			"camel_session_set_network_state",
 			&error, 
-			"ss", session->object_id, network_state);
+			"si", session_str, network_state);
 
 	if (!ret) {
 		g_warning ("Error: Camel session set network state: %s\n", error.message);

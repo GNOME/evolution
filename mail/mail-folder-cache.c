@@ -960,7 +960,7 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 	/* We might get a race when setting up a store, such that it is still left in offline mode,
 	   after we've gone online.  This catches and fixes it up when the shell opens us */
 	if (CAMEL_IS_DISCO_STORE (store)) {
-		if (camel_session_is_online (session)
+		if (camel_session_remote_is_online (session)
 		    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
 			/* Note: we use the 'id' here, even though its not the right id, its still ok */
 			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
@@ -968,7 +968,7 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 			goto normal_setup;
 		}
 	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
-		if (camel_session_is_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+		if (camel_session_remote_is_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
 			/* Note: we use the 'id' here, even though its not the right id, its still ok */
 			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
 		} else {

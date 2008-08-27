@@ -1170,7 +1170,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 			    /* Create a camel vee folder */
 			    storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
-			    vfolder_store = camel_session_get_store (session, storeuri, NULL);
+			    vfolder_store = camel_session_remote_get_store (session, storeuri, NULL);
 			    efb->account_search_vf = (CamelVeeFolder *)camel_vee_folder_new (vfolder_store,_("Account Search"),CAMEL_STORE_VEE_FOLDER_AUTO);
 
 			    /* Set the search expression  */
@@ -1223,7 +1223,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    if (!efb->all_account_search_vf) {
 			    /* Create a camel vee folder */
 			    storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
-			    vfolder_store = camel_session_get_store (session, storeuri, NULL);
+			    vfolder_store = camel_session_remote_get_store (session, storeuri, NULL);
 			    efb->all_account_search_vf = (CamelVeeFolder *)camel_vee_folder_new (vfolder_store,_("All Account Search"),CAMEL_STORE_VEE_FOLDER_AUTO);
 
 			    /* Set sexp  */

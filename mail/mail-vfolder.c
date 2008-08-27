@@ -931,7 +931,7 @@ vfolder_load_storage(void)
 
 	/* first, create the vfolder store, and set it up */
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
-	vfolder_store = camel_session_get_store(session, storeuri, NULL);
+	vfolder_store = camel_session_remote_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
 		g_warning("Cannot open vfolder store - no vfolders available");
 		return;

@@ -631,7 +631,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 		CamelException ex;
 
 		camel_exception_init (&ex);
-		store = (CamelObjectRemote *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
+		store = (CamelObjectRemote *) camel_session_remote_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
 		camel_exception_clear (&ex);
 
 		if (store == NULL)
@@ -1623,7 +1623,7 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expa
 		CamelException ex = { 0 };
 
 		u->uri = g_strdup(list->data);
-		u->store = (CamelObjectRemote *)camel_session_get_service (session, u->uri, CAMEL_PROVIDER_STORE, &ex);
+		u->store = (CamelObjectRemote *)camel_session_remote_get_service (session, u->uri, CAMEL_PROVIDER_STORE, &ex);
 		camel_exception_clear(&ex);
 
 		url = camel_url_new(u->uri, NULL);

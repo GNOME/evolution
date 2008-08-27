@@ -817,7 +817,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
 	if (folder != NULL
-	    && camel_session_is_online(session)
+	    && camel_session_remote_is_online(session)
 	    && camel_object_get(folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) == 0
 	    && unsent > 0
 	    && e_error_run(NULL, "mail:exit-unsaved", NULL) != GTK_RESPONSE_YES)
@@ -1125,7 +1125,7 @@ call_mail_sync (gpointer user_data)
 	if (camel_application_is_exiting)
 		return FALSE;
 
-	if (!mc->priv->mail_sync_in_progress && session && camel_session_is_online (session))
+	if (!mc->priv->mail_sync_in_progress && session && camel_session_remote_is_online (session))
 		mail_component_stores_foreach (mc, mc_sync_store, mc);
 
 	return !camel_application_is_exiting;
@@ -1153,7 +1153,7 @@ setline_done(CamelObjectRemote *store, void *data)
 		CORBA_Object_release(sd->listener, &ev);
 		CORBA_exception_free(&ev);
 		if (!sd->status)
-			camel_session_set_online(session, sd->status);
+			camel_session_remote_set_online(session, sd->status);
 		g_free(sd);
 	}
 }
@@ -1187,10 +1187,10 @@ status_check (GNOME_Evolution_ShellState shell_state)
 		    status = OFFLINE;
 		    /* Cancel all operations as they wont happen anyway cos Network is down*/
 		    mail_cancel_all ();
-		    camel_session_set_network_state (session, FALSE);
+		    camel_session_remote_set_network_state (session, FALSE);
 		    break;
 	    case GNOME_Evolution_USER_ONLINE:
-		    camel_session_set_network_state (session, TRUE);
+		    camel_session_remote_set_network_state (session, TRUE);
 		    status = ONLINE;
 	}
 
@@ -1206,7 +1206,7 @@ impl_setLineStatus(PortableServer_Servant servant, GNOME_Evolution_ShellState sh
 	/* This will dis/enable further auto-mail-check action. */
 	/* FIXME: If send/receive active, wait for it to finish? */
 	if (status)
-		camel_session_set_online(session, status);
+		camel_session_remote_set_online(session, status);
 
 	sd = g_malloc0(sizeof(*sd));
 	sd->status = status;
@@ -1225,7 +1225,7 @@ impl_setLineStatus(PortableServer_Servant servant, GNOME_Evolution_ShellState sh
 		g_free(sd);
 
 		if (!status)
-			camel_session_set_online(session, status);
+			camel_session_remote_set_online(session, status);
 		GNOME_Evolution_Listener_complete(listener, ev);
 	}
 }
@@ -1407,7 +1407,7 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return NULL;
 
-	store = (CamelObjectRemote *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+	store = (CamelObjectRemote *) camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* EPFIXME: real error dialog */
 		g_warning ("couldn't get service %s: %s\n", uri,
@@ -1473,7 +1473,7 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	store = (CamelObjectRemote *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
+	store = (CamelObjectRemote *) camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
 	if (store != NULL) {
 		mail_component_remove_store (component, store);
 		camel_object_unref (store);

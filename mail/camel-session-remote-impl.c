@@ -179,6 +179,39 @@ dbus_listener_message_handler (DBusConnection *connection,
 		store_url = camel_service_get_url (service);
 
 		store_hash_key = e_dbus_get_store_hash (store_url);
+/* the insertion in the hash table needs to be handled */
+		g_hash_table_insert (store_hash, store_hash_key, service);
+
+		if (camel_exception_is_set(ex))
+			err = g_strdup (camel_exception_get_description (ex));
+		else
+			err = g_strdup ("");
+
+		camel_exception_free (ex);
+			
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &store_hash_key, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+		printf("%s: Success: %s:%s\n", method, store_hash_key, err);
+		g_free (err);
+	} else if (strcmp (method, "camel_session_get_service_connected") == 0) {
+		char *url_string, *err, *store_url;
+		char *store_hash_key;
+		CamelProviderType type;
+		CamelService *service;
+		gboolean ret;
+		CamelException *ex;
+
+		ex = camel_exception_new ();
+
+		ret = dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &url_string,
+				DBUS_TYPE_INT32, &type,
+				DBUS_TYPE_INVALID);
+		
+		service = camel_session_get_service_connected (session, url_string, type, ex);
+
+		store_url = camel_service_get_url (service);
+
+		store_hash_key = e_dbus_get_store_hash (store_url);
 
 		g_hash_table_insert (store_hash, store_hash_key, service);
 

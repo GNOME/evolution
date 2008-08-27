@@ -284,7 +284,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 
 	camel_exception_init (&ex);
 
-	if (!(fromstore = camel_session_get_store (session, cfd->fi->uri, &ex))) {
+	if (!(fromstore = camel_session_remote_get_store (session, cfd->fi->uri, &ex))) {
 		e_error_run(NULL,
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
@@ -297,7 +297,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 		goto fail;
 	}
 
-	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
+	if (!(tostore = camel_session_remote_get_store (session, uri, &ex))) {
 		e_error_run(NULL,
 			    cfd->delete?"mail:no-move-folder-to-notexist":"mail:no-copy-folder-to-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
@@ -697,7 +697,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	g_print ("DEBUG: %s (%s)\n", path, uri);
 
 	camel_exception_init (&ex);
-	if (!(store = (CamelObjectRemote *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+	if (!(store = (CamelObjectRemote *) camel_session_remote_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
 		camel_exception_clear (&ex);
 		return;
 	}

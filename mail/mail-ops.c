@@ -513,7 +513,7 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	}
 
 	if (camel_address_length(recipients) > 0) {
-		xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
+		xport = camel_session_remote_get_transport (session, transport_url ? transport_url : destination, ex);
 		if (camel_exception_is_set(ex))
 			goto exit;
 
@@ -1344,7 +1344,7 @@ get_store_exec (struct _get_store_msg *m)
 {
 	/*camel_session_get_store connects us, which we don't want to do on startup. */
 
-	m->store = (CamelObjectRemote *) camel_session_get_service (session, m->uri,
+	m->store = (CamelObjectRemote *) camel_session_remote_get_service (session, m->uri,
 							     CAMEL_PROVIDER_STORE,
 							     &m->base.ex);
 }
@@ -2502,7 +2502,7 @@ check_service_exec (struct _check_msg *m)
 {
 	CamelService *service;
 
-	service = camel_session_get_service(session, m->url, m->type, &m->base.ex);
+	service = camel_session_remote_get_service(session, m->url, m->type, &m->base.ex);
 	if (!service) {
 		camel_operation_unregister(m->base.cancel);
 		return;

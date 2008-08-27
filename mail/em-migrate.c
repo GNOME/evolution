@@ -1188,7 +1188,7 @@ em_migrate_session_new (const char *path)
 
 	session = CAMEL_SESSION (camel_object_new (EM_MIGRATE_SESSION_TYPE));
 
-	camel_session_construct (session, path);
+	camel_session_remote_construct (session, path);
 
 	return session;
 }
@@ -1744,7 +1744,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 	} else {
 		guint32 flags = CAMEL_STORE_FOLDER_CREATE;
 
-		if (!(local_store = camel_session_get_store ((CamelSession *) session, uri, ex))
+		if (!(local_store = camel_session_remote_get_store ((CamelSession *) session, uri, ex))
 		    || !(old_folder = camel_store_get_folder (local_store, name, 0, ex)))
 			goto fatal;
 
@@ -2592,7 +2592,7 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	}
 
 	camel_exception_init (&lex);
-	if (!(session->store = camel_session_get_store ((CamelSession *) session, path, &lex))) {
+	if (!(session->store = camel_session_remote_get_store ((CamelSession *) session, path, &lex))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to create local mail storage `%s': %s"),
 				      path, lex.desc);
@@ -2874,7 +2874,7 @@ setup_local_store (MailComponent *mc)
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
-	store = (CamelObjectRemote *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, NULL);
+	store = (CamelObjectRemote *)camel_session_remote_get_service(session, tmp, CAMEL_PROVIDER_STORE, NULL);
 	g_free(tmp);
 
 	return store;
@@ -2896,7 +2896,7 @@ migrate_to_db()
 	iter = e_list_get_iterator ((EList *) accounts);
 	len = e_list_length ((EList *) accounts);
 	
-	camel_session_set_online ((CamelSession *) session, FALSE);
+	camel_session_remote_set_online ((CamelSession *) session, FALSE);
 	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
 			     "folders has been moved to sqlite since Evolution 2.24.\n\nPlease be "
 			     "patient while Evolution migrates your folders..."));
@@ -2930,7 +2930,7 @@ migrate_to_db()
 			camel_exception_init (&ex);
 			mail_component_load_store_by_uri (component, service->url, name);
 
-			store = (CamelObjectRemote *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
+			store = (CamelObjectRemote *) camel_session_remote_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
 			if (info) {
 				migrate_folders(store, info, account->name, &ex);

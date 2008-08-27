@@ -50,6 +50,8 @@
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vtrash-folder.h>
 
+#include "camel-store-remote.h"
+
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
