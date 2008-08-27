@@ -1,3 +1,30 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook-component.h:
+	* gui/component/addressbook-migrate.h:
+	* gui/component/addressbook-view.h:
+	* gui/component/openldap-extract.h:
+	* gui/contact-editor/eab-editor.h:
+	* gui/contact-list-editor/e-contact-list-model.h:
+	* gui/merging/eab-contact-compare.h:
+	* gui/widgets/e-addressbook-model.h:
+	* gui/widgets/e-addressbook-reflow-adapter.h:
+	* gui/widgets/e-addressbook-table-adapter.h:
+	* gui/widgets/e-minicard-view.h:
+	* gui/widgets/eab-config.h:
+	* gui/widgets/eab-gui-util.h:
+	* gui/widgets/eab-menu.h:
+	* gui/widgets/eab-popup-control.h:
+	* gui/widgets/eab-popup.h:
+	* gui/widgets/eab-vcard-control.h:
+	* gui/widgets/gal-view-factory-minicard.h:
+	* gui/widgets/gal-view-minicard.c:
+	* importers/evolution-addressbook-importers.h:
+	* tools/evolution-addressbook-export-list-folders.c:
+	* tools/evolution-addressbook-export.h:
+
 2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #508732

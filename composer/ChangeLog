@@ -1,3 +1,16 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-composer-common.h:
+	* e-composer-from-header.c:
+	* e-composer-from-header.h:
+	* e-composer-header.c:
+	* e-composer-name-header.c:
+	* e-composer-post-header.c:
+	* e-composer-post-header.h:
+	* e-composer-text-header.h:
+
 2008-08-18  Baptiste Mille-Mathias  <bmm80@free.fr>
 
 	** Fixes bug #546867

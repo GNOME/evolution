@@ -1,3 +1,64 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-cell-checkbox.c:
+	* e-cell-checkbox.h:
+	* e-cell-combo.h:
+	* e-cell-date.h:
+	* e-cell-hbox.h:
+	* e-cell-number.h:
+	* e-cell-popup.h:
+	* e-cell-toggle.h:
+	* e-cell-vbox.h:
+	* e-cell.c:
+	* e-table-col-dnd.h:
+	* e-table-col.h:
+	* e-table-defines.h:
+	* e-table-extras.h:
+	* e-table-field-chooser-dialog.c:
+	* e-table-field-chooser-item.h:
+	* e-table-field-chooser.h:
+	* e-table-group-container.h:
+	* e-table-group-leaf.c:
+	* e-table-group-leaf.h:
+	* e-table-group.h:
+	* e-table-header-utils.h:
+	* e-table-header.h:
+	* e-table-item.h:
+	* e-table-memory-callbacks.c:
+	* e-table-memory-store.h:
+	* e-table-model.c:
+	* e-table-model.h:
+	* e-table-one.c:
+	* e-table-scrolled.h:
+	* e-table-search.h:
+	* e-table-selection-model.h:
+	* e-table-simple.c:
+	* e-table-simple.h:
+	* e-table-sorted-variable.h:
+	* e-table-sorted.h:
+	* e-table-specification.h:
+	* e-table-subset.c:
+	* e-table-subset.h:
+	* e-table-tree.h:
+	* e-table-utils.c:
+	* e-table-utils.h:
+	* e-table-without.c:
+	* e-table-without.h:
+	* e-tree-memory-callbacks.c:
+	* e-tree-memory.h:
+	* e-tree-model.h:
+	* e-tree-scrolled.c:
+	* e-tree-scrolled.h:
+	* e-tree-simple.c:
+	* e-tree-simple.h:
+	* e-tree-sorted-variable.h:
+	* e-tree-sorted.h:
+	* table-test.h:
+	* test-check.c:
+	* test-cols.c:
+
 2008-08-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #352695

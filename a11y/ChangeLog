@@ -1,3 +1,41 @@
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* calendar/ea-cal-view.h:
+	* calendar/ea-calendar-helpers.c:
+	* calendar/ea-calendar-helpers.h:
+	* calendar/ea-calendar.h:
+	* calendar/ea-day-view-cell.c:
+	* calendar/ea-day-view-cell.h:
+	* calendar/ea-day-view-main-item.c:
+	* calendar/ea-day-view-main-item.h:
+	* calendar/ea-gnome-calendar.c:
+	* calendar/ea-jump-button.c:
+	* calendar/ea-jump-button.h:
+	* calendar/ea-week-view-cell.c:
+	* calendar/ea-week-view-main-item.h:
+	* calendar/ea-week-view.h:
+	* e-table/gal-a11y-e-cell-popup.h:
+	* e-table/gal-a11y-e-cell-vbox.c:
+	* e-table/gal-a11y-e-cell-vbox.h:
+	* e-table/gal-a11y-e-table-column-header.c:
+	* e-table/gal-a11y-e-table-column-header.h:
+	* e-table/gal-a11y-e-table-factory.c:
+	* e-table/gal-a11y-e-table-factory.h:
+	* e-table/gal-a11y-e-table-item.h:
+	* e-table/gal-a11y-e-table.h:
+	* e-text/gal-a11y-e-text.h:
+	* ea-factory.h:
+	* gal-a11y-util.c:
+	* gal-a11y-util.h:
+	* widgets/ea-calendar-cell.c:
+	* widgets/ea-combo-button.c:
+	* widgets/ea-combo-button.h:
+	* widgets/ea-expander.c:
+	* widgets/ea-expander.h:
+	* widgets/ea-widgets.h:
+
 2008-01-24  Tor Lillqvist  <tml@novell.com>
 
 	* widgets/Makefile.am (libevolution_widgets_a11y_la_LIBADD): Link
