@@ -10,7 +10,8 @@
 #include "camel-object-remote.h"
 
 #define CAMEL_DBUS_NAME "org.gnome.evolution.camel"
-
+extern GHashTable *store_hash;
+GHashTable *store_rhash = NULL;
 #define d(x) x
 
 /*
@@ -49,6 +50,7 @@ camel_session_remote_construct	(CamelSessionRemote *session,
 		return;
 	}
 
+	store_rhash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	d(printf("Camel session constructed remotely\n"));
 
 }
@@ -173,7 +175,7 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 	rstore->type = CAMEL_RO_STORE;
 	rstore->hooks = NULL;
 	d(printf("Camel session get service remotely\n"));
-
+	g_hash_table_insert (store_rhash, g_hash_table_lookup(store_hash, service), rstore);
 	return rstore;
 }
 

@@ -20,6 +20,9 @@ static char *obj_if[] = {CAMEL_SESSION_INTERFACE, MAIL_SESSION_INTERFACE, CAMEL_
 static int signal_inited = FALSE;
 static GHashTable *objects;
 
+
+extern GHashTable *store_rhash;
+
 static DBusHandlerResult
 dbus_listener_store_handler (DBusConnection *connection,
                                     DBusMessage    *message,
@@ -158,9 +161,19 @@ camel_object_remote_from_camel_store (CamelStore *store)
 {
 	CamelObjectRemote *obj;
 
-	obj = g_new0 (CamelObjectRemote , 1);
+	obj = (CamelObjectRemote *) g_hash_table_lookup (store_rhash, camel_service_get_url((CamelService *)store));
+	return obj;
+}
 
-	obj->object_id = e_dbus_get_store_hash (camel_service_get_url((CamelService *)store)); 
-	obj->type = CAMEL_RO_STORE;
-	obj->hooks = NULL;
+
+CamelStore *
+camel_object_remote_get_camel_store (CamelObjectRemote *obj)
+{
+	CamelStore *store;
+
+	if (obj->type != CAMEL_RO_STORE)
+		return NULL;
+
+	store = (CamelStore *) g_hash_table_lookup (store_hash, obj->object_id);
+	return store;
 }
