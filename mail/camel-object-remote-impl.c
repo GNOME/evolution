@@ -28,11 +28,6 @@ extern CamelSession *session;
 #define CAMEL_FOLDER_INTERFACE "org.gnome.evolution.camel.folder"
 
 /* Session */
-static DBusHandlerResult
-dbus_listener_session_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
-
 static void 
 session_signal_cb (CamelObject *sess, gpointer ev_data, gpointer data)
 {
@@ -50,8 +45,8 @@ session_signal_cb (CamelObject *sess, gpointer ev_data, gpointer data)
 	dbus_connection_flush(dbus);
 }
 
-static DBusHandlerResult
-dbus_listener_session_handler (DBusConnection *connection,
+DBusHandlerResult
+camel_object_session_signal_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data)
 {
@@ -97,11 +92,6 @@ dbus_listener_session_handler (DBusConnection *connection,
 }
 
 /* Store */
-static DBusHandlerResult
-dbus_listener_store_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
-
 static char *
 hash_store (CamelObject *store)
 {
@@ -126,8 +116,8 @@ store_signal_cb (CamelObject *store, gpointer ev_data, gpointer data)
 	dbus_connection_flush(dbus);
 }
 
-static DBusHandlerResult
-dbus_listener_store_handler (DBusConnection *connection,
+DBusHandlerResult
+camel_object_store_signal_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data)
 {
@@ -174,11 +164,6 @@ dbus_listener_store_handler (DBusConnection *connection,
 
 
 /* Folder */
-static DBusHandlerResult
-dbus_listener_folder_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
-
 static char *
 hash_folder (CamelObject *obj)
 {
@@ -203,8 +188,8 @@ folder_signal_cb (CamelObject *folder, gpointer ev_data, gpointer data)
 	dbus_connection_flush(dbus);
 }
 
-static DBusHandlerResult
-dbus_listener_folder_handler (DBusConnection *connection,
+DBusHandlerResult
+camel_object_folder_signal_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data)
 {
@@ -253,7 +238,7 @@ dbus_listener_folder_handler (DBusConnection *connection,
 void
 camel_object_remote_impl_init ()
 {
-	/* Do it better */
+	/* Later...  these comments no longer needed */
 	//e_dbus_register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_session_handler, NULL);
 	//e_dbus_register_handler (CAMEL_STORE_OBJECT_PATH, dbus_listener_store_handler, NULL);
 	//e_dbus_register_handler (CAMEL_FOLDER_OBJECT_PATH, dbus_listener_folder_handler, NULL);
