@@ -1080,7 +1080,6 @@ mail_autoreceive_init(void)
 		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
 
 	camel_object_remote_hook_event(NULL /*Ugly hack for session object */, "online", auto_online, NULL);
-	camel_session_remote_set_online (NULL, TRUE);
 }
 
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert
