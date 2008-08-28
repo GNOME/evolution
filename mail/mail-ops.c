@@ -241,9 +241,13 @@ mail_filter_junk (CamelFolder *folder, GPtrArray *uids)
 static char *
 uid_cachename_hack (CamelObjectRemote *store)
 {
-	CamelURL *url = CAMEL_SERVICE (store)->url;
+	CamelURL *url;
+	char * store_url;
 	char *encoded_url, *filename;
 	const char *evolution_dir;
+
+	store_url = camel_store_get_url_remote (store);
+	url = camel_url_new (store_url, NULL);
 
 	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
 				       url->authmech ? ";auth=" : "",
