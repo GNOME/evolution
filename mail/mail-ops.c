@@ -1442,10 +1442,10 @@ remove_folder_exec (struct _remove_folder_msg *m)
 
 	/* if the store supports subscriptions, unsubscribe from this folder... */
 	if (camel_store_supports_subscriptions_remote (store))
-		camel_store_unsubscribe_folder_remote (store, camel_folder_remote_get_full_name (folder), NULL);
+		camel_store_unsubscribe_folder_remote (store, camel_folder_remote_get_name (folder), NULL);
 
 	/* Then delete the folder from the store */
-	camel_store_delete_folder_remote (store, camel_folder_remote_get_full_name (folder), &m->base.ex);
+	camel_store_delete_folder_remote (store, camel_folder_remote_get_name (folder), &m->base.ex);
 	m->removed = !camel_exception_is_set (&m->base.ex);
 	camel_object_unref (folder);
 }
@@ -1502,7 +1502,7 @@ static gchar *
 sync_folder_desc (struct _sync_folder_msg *m)
 {
 	return g_strdup_printf (_("Storing folder \'%s\'"),
-			       camel_folder_get_full_name (m->folder));
+			       camel_folder_remote_get_name (m->folder));
 }
 
 static void
