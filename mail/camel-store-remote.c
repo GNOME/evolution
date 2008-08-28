@@ -19,6 +19,7 @@ CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 	DBusError error;
 	char *err;
 	char *shash;
+	CamelFolder *folder;
 
 	dbus_error_init(&error);
 	/* Invoke the appropriate dbind call to CamelStoreGetFolder */
@@ -31,8 +32,8 @@ CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 				  "ssu=>ss", store->object_id, folder_name,
 				  flags, &shash, &err);
 
-	CamelFolder *folder = g_hash_table_lookup(folder_hash, shash);
-	
+	folder = g_hash_table_lookup(folder_hash, shash);
+	printf("Back folder %p: %s: %p\n", folder_hash, shash, folder);
 	return folder;
 }
 
@@ -452,4 +453,13 @@ char * camel_store_get_service_name_remote (CamelStoreRemote *store, gboolean br
 					&error, "si=>s", store->object_id, brief, &name);
 
 	return name;
+}
+
+gint camel_store_get_status_remote (CamelStoreRemote *store)
+{
+	gboolean ret;
+	DBusError error;
+	char *name = NULL;
+	/* Implement it.*/
+	return CAMEL_SERVICE_DISCONNECTED;
 }

@@ -120,6 +120,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 						   folder->full_name);
 			g_hash_table_insert(folder_hash, folder_hash_key,
 					    folder);
+			printf("Adding to hash %p: %s: %p\n", folder_hash, folder_hash_key, folder);
 		}
 		camel_exception_free(ex);
 

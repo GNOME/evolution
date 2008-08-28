@@ -55,5 +55,5 @@ char *camel_store_get_url_remote(CamelStoreRemote *store);
 
 int camel_store_get_url_flags_remote(CamelStoreRemote *store);
 char * camel_store_get_service_name_remote (CamelStoreRemote *store, gboolean brief);
-
+gint camel_store_get_status_remote (CamelStoreRemote *store);
 #endif

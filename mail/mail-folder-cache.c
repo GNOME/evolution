@@ -872,7 +872,7 @@ ping_store (gpointer key, gpointer val, gpointer user_data)
 	CamelObjectRemote *store = (CamelObjectRemote *) key;
 	struct _ping_store_msg *m;
 
-	if (camel_store_remote_get_status (store) != CAMEL_SERVICE_CONNECTED)
+	if (camel_store_get_status_remote (store) != CAMEL_SERVICE_CONNECTED)
 		return;
 
 	m = mail_msg_new (&ping_store_info);
