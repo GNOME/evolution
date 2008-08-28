@@ -304,7 +304,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 	}
 
 	url = camel_url_new (uri, NULL);
-	if (((CamelService *)tostore)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+	if (camel_store_get_url_flags_remote (store) & CAMEL_URL_FRAGMENT_IS_PATH)
 		tobase = url->fragment;
 	else if (url->path && url->path[0])
 		tobase = url->path+1;
