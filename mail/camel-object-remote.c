@@ -167,8 +167,11 @@ CamelObjectRemote *
 camel_object_remote_from_camel_store (CamelStore *store)
 {
 	CamelObjectRemote *obj;
+	char *store_hash_key;
 
-	obj = (CamelObjectRemote *) g_hash_table_lookup (store_rhash, camel_service_get_url((CamelService *)store));
+	store_hash_key = e_dbus_get_store_hash (camel_service_get_url((CamelService *)store));
+
+	obj = (CamelObjectRemote *) g_hash_table_lookup (store_rhash, store_hash_key);
 	return obj;
 }
 

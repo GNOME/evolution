@@ -138,4 +138,31 @@ camel_folder_remote_get_deleted_message_count (CamelFolderRemote *folder)
 	return message_count;
 }
 
+CamelObjectRemote *
+camel_folder_remote_get_parent_store (CamelFolderRemote *folder)
+{
+	gboolean ret;
+	DBusError error;
+	char *store_hash_key;
+	CamelObjectRemote *rstore;
 
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_get_parent_store",
+			&error, 
+			"s=>s", folder->object_id, &store_hash_key); 
+
+	if (!ret) {
+		g_warning ("Error: Get parent store from camel folder remote: %s\n", error.message);
+		return;
+	}
+
+	rstore = (CamelObjectRemote *) g_hash_table_lookup (store_rhash, store_hash_key);
+	
+	d(printf("Got parent store from camel folder remotely\n"));
+	return rstore;
+}

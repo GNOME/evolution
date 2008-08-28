@@ -17,6 +17,8 @@ int camel_folder_remote_get_message_count (CamelFolderRemote *folder);
 
 int camel_folder_remote_get_deleted_message_count (CamelFolderRemote *folder);
 
-const char *camel_folder_remote_get_name (CamelFolder *folder);
+CamelObjectRemote *camel_folder_remote_get_parent_store (CamelFolderRemote *folder);
+
+const char *camel_folder_remote_get_name (CamelFolderRemote *folder);
 
 #endif

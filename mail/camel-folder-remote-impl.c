@@ -93,6 +93,22 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		message_count = camel_folder_get_deleted_message_count (folder);
 		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &message_count, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_get_parent_store") == 0) {
+		gboolean ret;
+		char *store_url, *store_hash_key;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+		
+		store = camel_folder_get_parent_store (folder);		
+		store_url = camel_service_get_url ((CamelService *)store);
+
+		store_hash_key = e_dbus_get_store_hash (store_url);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &store_hash_key, DBUS_TYPE_INVALID);
+		printf("%s: Success. store_hash_key:%s\n", method, store_hash_key);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_FOLDER);
 	} else
