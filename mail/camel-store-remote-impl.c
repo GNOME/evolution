@@ -470,6 +470,26 @@ dbus_listener_message_handler(DBusConnection * connection,
 			err = camel_exception_get_description (&ex);	
 		dbus_message_append_args(reply, DBUS_TYPE_INT32, &info, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		camel_exception_clear (&ex);
+	}  else if (!g_strcmp0(method, "camel_service_get_name")) {
+		char *store_hash_key;
+		CamelStore *store;
+		char *name;
+		gboolean brief;
+		CamelException ex;
+
+		camel_exception_init (&ex);
+		dbus_message_get_args(message,
+				      NULL,
+				      DBUS_TYPE_STRING, &store_hash_key,
+				      DBUS_TYPE_INT32, &brief,
+				      DBUS_TYPE_INVALID);
+		
+		store = g_hash_table_lookup(store_hash, store_hash_key);
+		name = camel_service_get_name ((CamelService *) store, brief);
+		dbus_message_append_args(reply, DBUS_TYPE_STRING, &name, DBUS_TYPE_INVALID);
+		if (camel_exception_is_set(&ex))
+				g_warning ("%s: %s", method, camel_exception_get_description(&ex));
+		camel_exception_clear (&ex);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_STORE);
 	} else

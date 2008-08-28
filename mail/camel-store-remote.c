@@ -435,3 +435,21 @@ CamelFolderInfo * camel_store_get_folder_info_remote (CamelStoreRemote *store, c
 
 	return info;
 }
+
+char * camel_store_get_service_name_remote (CamelStoreRemote *store, gboolean brief)
+{
+	gboolean ret;
+	DBusError error;
+	char *name = NULL;
+
+	dbus_error_init(&error);
+
+	ret = dbind_context_method_call(evolution_dbus_peek_context(),
+					CAMEL_DBUS_NAME,
+					CAMEL_STORE_OBJECT_PATH,
+					CAMEL_STORE_INTERFACE,
+					"camel_service_get_name",
+					&error, "si=>s", store->object_id, brief, &name);
+
+	return name;
+}
