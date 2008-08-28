@@ -8,6 +8,7 @@
 #define d(x) x
 
 extern GHashTable *folder_hash;
+extern GHashTable *store_rhash;
 
 void
 camel_folder_remote_construct (CamelFolderRemote *folder,
