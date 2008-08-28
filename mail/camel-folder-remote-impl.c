@@ -65,6 +65,12 @@ dbus_listener_message_handler(DBusConnection * connection,
 		return camel_object_folder_signal_handler (connection, message, user_data);
 	} else
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+
+	dbus_connection_send (connection, return_val, NULL);
+	dbus_message_unref (return_val);
+	dbus_connection_flush(connection);
+
+	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
 void camel_folder_remote_impl_init()

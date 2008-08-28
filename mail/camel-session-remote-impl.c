@@ -342,7 +342,6 @@ fail:
 	dbus_connection_flush(connection);
 
 	return DBUS_HANDLER_RESULT_HANDLED;
-
 }
 
 void
