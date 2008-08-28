@@ -1,3 +1,11 @@
+2008-08-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Related to bug #547822
+
+	* gui/print.c (print_table_draw_page), (print_table):
+	Use g_malloc() and g_free() instead of malloc() and free().
+	Also fix an "assignment discards qualifiers" compiler warning.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -2746,7 +2746,7 @@ print_title (GtkPrintContext *context, const gchar *text, gdouble page_width)
 
 struct print_opts {
   EPrintable *printable;
-  gchar *print_header;
+  const gchar *print_header;
 };
 
 static void
@@ -2772,7 +2772,7 @@ print_table_draw_page (GtkPrintOperation *operation,
 
 	} while (e_printable_data_left (opts->printable));
 
-	free(opts);
+	g_free (opts);
 }
 
 void
@@ -2790,7 +2790,7 @@ print_table (ETable *table, const gchar *dialog_title,
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
-	opts = malloc(sizeof(struct print_opts));
+	opts = g_malloc (sizeof (struct print_opts));
 	opts->printable = printable;
 	opts->print_header = print_header;
 
