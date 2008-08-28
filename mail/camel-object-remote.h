@@ -5,8 +5,8 @@
  * */
 
 
-#ifndef CAMEL_OBJECT_REMOTE_IMPL_H
-#define CAMEL_OBJECT_REMOTE_IMPL_H
+#ifndef CAMEL_OBJECT_REMOTE_H
+#define CAMEL_OBJECT_REMOTE_H
 
 #include <camel/camel.h>
 
