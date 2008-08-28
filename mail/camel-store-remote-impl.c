@@ -110,16 +110,15 @@ dbus_listener_message_handler(DBusConnection * connection,
 		folder = camel_store_get_folder(store, folder_name, flags, ex);
 		if (!folder) {
 			err = g_strdup(camel_exception_get_description(ex));
+			folder_hash_key = g_strdup ("");
 		} else {
 			err = g_strdup("");
-			/* FIXME: Free all */
 			folder_hash_key =
 			    e_dbus_get_folder_hash(camel_service_get_url
 						   ((CamelService *) folder->
 						    parent_store),
 						   folder->full_name);
-			g_hash_table_insert(folder_hash, folder_hash_key,
-					    folder);
+			g_hash_table_insert(folder_hash, g_strdup (folder_hash_key), folder);
 			printf("Adding to hash %p: %s: %p\n", folder_hash, folder_hash_key, folder);
 		}
 		camel_exception_free(ex);
