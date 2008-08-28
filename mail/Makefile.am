@@ -91,6 +91,7 @@ mailinclude_HEADERS =				\
 	camel-store-remote.h		\
 	camel-object-remote.h		\
 	camel-session-remote.h		\
+	camel-folder-remote.h		\
 	mail-vfolder.h
 
 # libevolution-mail
@@ -197,7 +198,6 @@ libevolution_mail_la_SOURCES =			\
 	camel-store-remote.c			\
 	camel-store-remote.h			\
 	camel-store-remote-impl.c		\
-	camel-store-remote-impl.h		\
 	mail-dbus.c				\
 	mail-dbus.h				\
 	evo-dbus.c				\
@@ -205,7 +205,6 @@ libevolution_mail_la_SOURCES =			\
 	camel-session-remote.c			\
 	camel-session-remote.h			\
 	camel-session-remote-impl.c		\
-	camel-session-remote-impl.h		\
 	mail-session-remote.c			\
 	mail-session-remote.h			\
 	mail-session-remote-impl.c		\
@@ -213,7 +212,10 @@ libevolution_mail_la_SOURCES =			\
 	camel-object-remote.c			\
 	camel-object-remote.h			\
 	camel-object-remote-impl.c		\
-	camel-object-remote-impl.h	
+	camel-object-remote-impl.h		\
+	camel-folder-remote.c			\
+	camel-folder-remote.h			\
+	camel-folder-remote-impl.c		
 
 
 if ENABLE_SMIME
