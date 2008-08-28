@@ -1,3 +1,11 @@
+2008-08-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #509647
+
+	* em-folder-utils.c: (emft_copy_folders__exec):
+	* mail-ops.c: (fetch_mail_exec), (send_queue_exec):
+	Do not expunge folder when something goes wrong.
+
 2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #534762

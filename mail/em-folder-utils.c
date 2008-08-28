@@ -174,7 +174,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 					camel_folder_transfer_messages_to (fromfolder, uids, tofolder, NULL, m->delete, &m->base.ex);
 					camel_folder_free_uids (fromfolder, uids);
 
-					if (m->delete)
+					if (m->delete && !camel_exception_is_set (&m->base.ex))
 						camel_folder_sync(fromfolder, TRUE, NULL);
 
 					camel_object_unref (fromfolder);
