@@ -6,6 +6,8 @@
 #include <glib.h>
 #include <stdarg.h>
 
+#define d(x) 
+
 /*
  * FIXME: compare types - to ensure they match &
  *        do dynamic padding of structures etc.
@@ -31,7 +33,7 @@ dbind_create_context (DBusBusType type, DBusError *opt_error)
 
     ctx = g_new0 (DBindContext, 1);
     ctx->cnx = cnx;
-    printf("DBIND DBUS %p\n", cnx);
+    d(printf("DBIND DBUS %p\n", cnx));
 
 out:
     if (err == &real_err)
@@ -183,7 +185,7 @@ dbind_connection_exec_va (DBusConnection *cnx,
     char *p;
     char *dest;
 
-    printf("DBIND: %s: %s: %s: %d\n", bus_name, path, method, dbus_connection_get_is_connected(cnx));
+    d(printf("DBIND: %s: %s: %s: %d\n", bus_name, path, method, dbus_connection_get_is_connected(cnx)));
     if (opt_error)
         err = opt_error;
     else {

@@ -985,12 +985,12 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 
 	/* there is potential for race here, but it is safe as we check for the store anyway */
 	if (hook) {
-		camel_object_hook_event(store, "folder_opened", store_folder_opened, NULL);
-		camel_object_hook_event(store, "folder_created", store_folder_created, NULL);
-		camel_object_hook_event(store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_hook_event(store, "folder_renamed", store_folder_renamed, NULL);
-		camel_object_hook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
-		camel_object_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+		camel_object_remote_hook_event(store, "folder_opened", store_folder_opened, NULL);
+		camel_object_remote_hook_event(store, "folder_created", store_folder_created, NULL);
+		camel_object_remote_hook_event(store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_remote_hook_event(store, "folder_renamed", store_folder_renamed, NULL);
+		camel_object_remote_hook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_remote_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 	}
 }
 

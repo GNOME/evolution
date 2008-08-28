@@ -11,7 +11,7 @@
 #include "camel-object-remote.h"
 #include "mail-session-remote.h"
 
-#define d(x) x
+#define d(x) 
 extern CamelObjectRemote *rsession;
 
 void

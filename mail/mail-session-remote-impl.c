@@ -13,7 +13,7 @@
 #include "mail-session-remote-impl.h"
 #define MAIL_SESSION_OBJECT_PATH "/org/gnome/evolution/camel/session/mail"
 
-#define d(x) x
+#define d(x) 
 
 static gboolean ms_setup = FALSE;
 

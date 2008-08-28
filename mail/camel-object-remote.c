@@ -104,7 +104,6 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 	
 	/* We purposefully append */
 	object->hooks = g_list_append (object->hooks, hook);
-	d(printf("Mail session initated remotely\n"));
 	if(!g_hash_table_lookup(objects, object->object_id))
 		g_hash_table_insert (objects, object->object_id, object);
 

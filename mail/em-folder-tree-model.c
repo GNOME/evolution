@@ -880,7 +880,6 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelObjectRem
 	struct _EMFolderTreeModelStoreInfo *si;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
 
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
@@ -936,7 +935,6 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelObjectRemote *
 	GtkTreeIter iter;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
 
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
@@ -1228,7 +1226,6 @@ em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelObjectRemote 
 	guint32 flags;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 	g_return_val_if_fail (full != NULL, FALSE);
 
 	u(printf("Checking if the folder is an INBOX type %p '%s' %d\n", store, full, unread));
@@ -1269,7 +1266,6 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelObjectRemot
 	char *name = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 	g_return_val_if_fail (full != NULL, FALSE);
 
 	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
@@ -1304,7 +1300,6 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelObjectRemo
 	GtkTreeIter iter;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (full != NULL);
 
 	u(printf("set unread count %p '%s' %d\n", store, full, unread));
