@@ -62,7 +62,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 		camel_folder_thaw (folder);
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
-		return camel_object_folder_signal_handler (connection, message, user_data);
+		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_FOLDER);
 	} else
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
