@@ -91,7 +91,7 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 	if (!store)
 		return NULL;
 
-	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED)
+	if (connect || (camel_store_remote_get_status (store) == CAMEL_SERVICE_CONNECTED))
 		trash = camel_store_get_trash_remote (store, ex);
 	else
 		trash = NULL;
