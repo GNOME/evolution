@@ -19,7 +19,6 @@ CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 	DBusError error;
 	char *err = NULL, *shash = NULL;
 	CamelFolder *folder = NULL;
-	CamelFolder *folder;
 
 	dbus_error_init(&error);
 	/* Invoke the appropriate dbind call to CamelStoreGetFolder */
