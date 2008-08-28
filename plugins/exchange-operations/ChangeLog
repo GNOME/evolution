@@ -1,3 +1,10 @@
+2008-08-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #458512
+
+	* exchange-send-options.glade:
+	Delete the accessibility tag from the User button.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
