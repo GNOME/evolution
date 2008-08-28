@@ -1716,7 +1716,7 @@ emft_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
 {
 	char *ret, *name;
 
-	name = camel_service_get_name((CamelService *)m->store, TRUE);
+	name = camel_store_get_service_name_remote((CamelService *)m->store, TRUE);
 	ret = g_strdup_printf(_("Scanning folders in \"%s\""), name);
 	g_free(name);
 	return ret;

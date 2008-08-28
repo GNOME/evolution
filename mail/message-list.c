@@ -1845,7 +1845,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 			      "uniform_row_height", TRUE,
 			      NULL);
 
-		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
+		name = camel_store_get_service_name_remote (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
 		d(printf ("folder name is '%s'\n", name));
 
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");

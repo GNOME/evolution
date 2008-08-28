@@ -179,7 +179,7 @@ store_info_new(CamelObjectRemote *store, const char *name)
 	si = g_malloc0(sizeof(*si));
 	si->ref_count = 1;
 	if (name == NULL)
-		si->name = camel_service_get_name((CamelService *)store, TRUE);
+		si->name = camel_store_get_service_name_remote((CamelService *)store, TRUE);
 	else
 		si->name = g_strdup(name);
 	si->store = store;

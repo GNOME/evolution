@@ -826,7 +826,7 @@ struct _ping_store_msg {
 static gchar *
 ping_store_desc (struct _ping_store_msg *m)
 {
-	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	char *service_name = camel_store_get_service_name_remote (CAMEL_SERVICE (m->store), TRUE);
 	char *msg;
 
 	msg = g_strdup_printf (_("Pinging %s"), service_name);

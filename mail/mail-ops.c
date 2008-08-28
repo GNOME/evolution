@@ -1057,7 +1057,7 @@ get_folderinfo_desc (struct _get_folderinfo_msg *m)
 {
 	char *ret, *name;
 
-	name = camel_service_get_name((CamelService *)m->store, TRUE);
+	name = camel_store_get_service_name_remote((CamelService *)m->store, TRUE);
 	ret = g_strdup_printf(_("Scanning folders in \"%s\""), name);
 	g_free(name);
 	return ret;
@@ -1272,7 +1272,7 @@ struct _get_quota_msg {
 static gchar *
 get_quota_desc (struct _get_quota_msg *m)
 {
-	return g_strdup_printf(_("Retrieving quota information for folder %s"), camel_folder_get_name (m->folder));
+	return g_strdup_printf(_("Retrieving quota information for folder %s"), camel_folder_get_name(m->folder));
 }
 
 static void
@@ -2314,7 +2314,7 @@ struct _set_offline_msg {
 static gchar *
 set_offline_desc (struct _set_offline_msg *m)
 {
-	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	char *service_name = camel_store_get_service_name_remote(CAMEL_SERVICE (m->store), TRUE);
 	char *msg;
 
 	msg = g_strdup_printf(m->offline?_("Disconnecting from %s"):_("Reconnecting to %s"),
@@ -2410,7 +2410,7 @@ mail_store_set_offline (CamelObjectRemote *store, gboolean offline,
 static char *
 prepare_offline_desc (struct _set_offline_msg *m)
 {
-	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	char *service_name = camel_store_get_service_name_remote(CAMEL_SERVICE (m->store), TRUE);
 	char *msg;
 
 	msg = g_strdup_printf (_("Preparing account '%s' for offline"), service_name);
