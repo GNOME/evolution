@@ -1641,10 +1641,13 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		char *p;
 		int mode;
 
-		g_string_printf (src, "%s/%s", uri + 5, name);
-		mbox_build_filename (dest, ((CamelService *)session->store)->url->path, full_name);
-		p = strrchr (dest->str, '/');
-		*p = '\0';
+		#warning "RED Alert. migration code is broken"
+		/*
+		   g_string_printf (src, "%s/%s", uri + 5, name);
+		   mbox_build_filename (dest, ((CamelService *)session->store)->url->path, full_name);
+		   p = strrchr (dest->str, '/');
+		 *p = '\0';
+		 */
 
 		slen = src->len;
 		dlen = dest->len;
