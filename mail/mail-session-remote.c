@@ -12,6 +12,7 @@
 #include "mail-session-remote.h"
 
 #define d(x) x
+extern CamelObjectRemote *rsession;
 
 void
 mail_session_remote_init (const char *base_dir)
@@ -33,6 +34,14 @@ mail_session_remote_init (const char *base_dir)
 		g_warning ("Error: Initializing mail session: %s\n", error.message);
 		return;
 	}
+
+	if (!rsession) {
+		rsession = g_new (CamelObjectRemote, 1);
+		rsession->object_id = "session";
+		rsession->type = CAMEL_RO_SESSION;
+		rsession->hooks = NULL;
+	}
+
 
 	d(printf("Mail session initated remotely\n"));
 }
