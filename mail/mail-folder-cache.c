@@ -571,8 +571,8 @@ folder_to_url(CamelObjectRemote *store, const char *full_name)
 	CamelURL *url;
 	char *out;
 
-	url = camel_url_copy(((CamelService *)store)->url);
-	if (((CamelService *)store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
+	url = camel_url_copy(camel_store_get_url_remote (store));
+	if (camel_store_get_url_flags_remote (store)  & CAMEL_URL_FRAGMENT_IS_PATH) {
 		camel_url_set_fragment(url, full_name);
 	} else {
 		char *name = g_alloca(strlen(full_name)+2);
@@ -840,12 +840,12 @@ ping_store_exec (struct _ping_store_msg *m)
 {
 	gboolean online = FALSE;
 
-	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED) {
+	if (camel_store_get_status_remote (camel_object_remote_from_camel_store (m->store)) == CAMEL_SERVICE_CONNECTED) {
 		if (CAMEL_IS_DISCO_STORE (m->store) &&
 		    camel_disco_store_status (CAMEL_DISCO_STORE (m->store)) != CAMEL_DISCO_STORE_OFFLINE)
 			online = TRUE;
 		else if (CAMEL_IS_OFFLINE_STORE (m->store) &&
-			 CAMEL_OFFLINE_STORE (m->store)->state != CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
+			 camel_store_get_state_remote ( m->store) != CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
 			online = TRUE;
 	}
 	if (online)
@@ -872,7 +872,7 @@ ping_store (gpointer key, gpointer val, gpointer user_data)
 	CamelObjectRemote *store = (CamelObjectRemote *) key;
 	struct _ping_store_msg *m;
 
-	if (CAMEL_SERVICE (store)->status != CAMEL_SERVICE_CONNECTED)
+	if (camel_store_remote_get_status (store) != CAMEL_SERVICE_CONNECTED)
 		return;
 
 	m = mail_msg_new (&ping_store_info);
@@ -938,7 +938,7 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 
 	si = g_hash_table_lookup(stores, store);
 	if (si == NULL) {
-		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
+		d(printf("Noting a new store: %p: %s\n", store, camel_store_get_url_remote (store)));
 
 		si = g_malloc0(sizeof(*si));
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
@@ -968,7 +968,7 @@ mail_note_store(CamelObjectRemote *store, CamelOperation *op,
 			goto normal_setup;
 		}
 	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
-		if (camel_session_remote_is_online (session) && CAMEL_OFFLINE_STORE (store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+		if (camel_session_remote_is_online (session) && camel_store_get_state_remote (store) == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
 			/* Note: we use the 'id' here, even though its not the right id, its still ok */
 			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
 		} else {
@@ -1005,6 +1005,7 @@ static void storeinfo_find_folder_info(CamelObjectRemote *store, struct _store_i
 {
 	if (fi->fi == NULL) {
 #warning implement a new func
+#if 0
 		if (0 && ((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
 			char *path = fi->url->fragment?fi->url->fragment:fi->url->path;
 
@@ -1012,6 +1013,7 @@ static void storeinfo_find_folder_info(CamelObjectRemote *store, struct _store_i
 				path++;
 			fi->fi = g_hash_table_lookup(si->folders, path);
 		}
+#endif
 	}
 }
 

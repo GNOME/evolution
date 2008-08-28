@@ -432,7 +432,7 @@ mail_vfolder_add_uri(CamelObjectRemote *store, const char *curi, int remove)
 	const char *source;
 	CamelVeeFolder *vf;
 	GList *folders = NULL, *link;
-	int remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
+	int remote = (camel_store_get_flags_remote (store) & CAMEL_PROVIDER_IS_REMOTE) != 0;
 	int is_ignore;
 	char *uri;
 
