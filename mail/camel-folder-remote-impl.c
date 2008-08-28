@@ -61,6 +61,38 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		camel_folder_thaw (folder);
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_freeze") == 0) {
+		gboolean ret;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		camel_folder_freeze (folder);
+		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_get_message_count") == 0) {
+		gboolean ret;
+		int message_count;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		message_count = camel_folder_get_message_count (folder);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &message_count, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_get_deleted_message_count") == 0) {
+		gboolean ret;
+		int message_count;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		message_count = camel_folder_get_deleted_message_count (folder);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &message_count, DBUS_TYPE_INVALID);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_FOLDER);
 	} else
