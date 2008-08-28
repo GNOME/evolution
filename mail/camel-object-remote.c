@@ -11,6 +11,7 @@
 #include <evo-dbus.h>
 
 #define d(x) x
+extern CamelObjectRemote *rsession;
 
 static char *obj_path[] = {CAMEL_SESSION_OBJECT_PATH, MAIL_SESSION_OBJECT_PATH, CAMEL_STORE_OBJECT_PATH, CAMEL_FOLDER_OBJECT_PATH};
 static char *obj_if[] = {CAMEL_SESSION_INTERFACE, MAIL_SESSION_INTERFACE, CAMEL_STORE_INTERFACE, CAMEL_FOLDER_INTERFACE};
@@ -22,16 +23,7 @@ extern GHashTable *store_rhash;
 extern GHashTable *store_hash;
 
 static DBusHandlerResult
-dbus_listener_store_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
-static DBusHandlerResult
-dbus_listener_session_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
-
-static DBusHandlerResult
-dbus_listener_folder_handler (DBusConnection *connection,
+dbus_listener_object_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data);
 
@@ -74,20 +66,18 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 	gboolean ret;
 	DBusError error;
 	char *hash;
-	CamelObjectRemote obj = {"session", CAMEL_RO_SESSION, NULL};
-
 
 	if (object == NULL) {
-		object = &obj;
+		object = rsession;
 	}
 
 	if (!signal_inited) {
 		DBindContext *ctx = evolution_dbus_peek_context ();
 		signal_inited = TRUE;
 		objects = g_hash_table_new (g_str_hash, g_str_equal);
-		register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_session_handler, NULL);
-		register_handler (CAMEL_STORE_OBJECT_PATH, dbus_listener_store_handler, NULL);
-		register_handler (CAMEL_FOLDER_OBJECT_PATH, dbus_listener_folder_handler, NULL);
+		register_handler (CAMEL_SESSION_OBJECT_PATH, dbus_listener_object_handler, NULL);
+		register_handler (CAMEL_STORE_OBJECT_PATH, dbus_listener_object_handler, NULL);
+		register_handler (CAMEL_FOLDER_OBJECT_PATH, dbus_listener_object_handler, NULL);
 	}
 
 	hook = g_new (CamelHookRemote, 1);
@@ -121,46 +111,57 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 	return hook->remote_id;
 }
 
-
 static DBusHandlerResult
-dbus_listener_store_handler (DBusConnection *connection,
+dbus_listener_object_handler (DBusConnection *connection,
                                     DBusMessage    *message,
                                     void           *user_data)
 {
-  	printf ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
-           dbus_message_get_path (message),
-           dbus_message_get_interface (message),
-           dbus_message_get_member (message),
-           dbus_message_get_destination (message));
+	gpointer *ev_data;
+	char *data;
+	int ptr;
+	char **tokens;
+	CamelObjectRemote *object;
 
-	return DBUS_HANDLER_RESULT_HANDLED;
-}
-static DBusHandlerResult
-dbus_listener_session_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data)
-{
 	printf ("EVOD-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
            dbus_message_get_path (message),
            dbus_message_get_interface (message),
            dbus_message_get_member (message),
            dbus_message_get_destination (message));
 
+	if (strcmp(dbus_message_get_member (message), "signal") != 0)
+		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+
+	dbus_message_get_args(message, NULL,
+				DBUS_TYPE_INT32, &ptr,
+				DBUS_TYPE_STRING, &data,
+				DBUS_TYPE_INVALID);
+	printf("dbus_listener_session_handler: %s %d\n", data, ptr);
+	tokens = g_strsplit(data, ":", 0);
+	object = g_hash_table_lookup(objects, tokens[0]);
+	if (object) {
+		GList *tmp = object->hooks;
+		printf("Whoo, we have a object");
+		while (tmp) {
+			CamelHookRemote *hook = tmp->data;
+			if (strcmp(hook->signal, tokens[1]) == 0) {
+				printf("INVOKING CALLBACK: \n");
+				hook->func (object, (gpointer)ptr, hook->data);
+			}
+			tmp = tmp->next;
+		}
+	}
+	g_strfreev(tokens);
+	{
+		DBusMessage *return_val = dbus_message_new_method_return (message);
+		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+		dbus_connection_send (connection, return_val, NULL);
+		dbus_message_unref (return_val);
+		dbus_connection_flush(connection);
+
+
+	}
 	return DBUS_HANDLER_RESULT_HANDLED;
 
-}
-static DBusHandlerResult
-dbus_listener_folder_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data)
-{
-	printf ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
-           dbus_message_get_path (message),
-           dbus_message_get_interface (message),
-           dbus_message_get_member (message),
-           dbus_message_get_destination (message));
-
-	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
 CamelObjectRemote *
