@@ -471,7 +471,7 @@ dbus_listener_message_handler(DBusConnection * connection,
 		dbus_message_append_args(reply, DBUS_TYPE_INT32, &info, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
 		camel_exception_clear (&ex);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
-		return camel_object_store_signal_handler (connection, message, user_data);
+		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_STORE);
 	} else
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
