@@ -12,7 +12,7 @@
 extern GHashTable *store_hash;
 GHashTable *store_rhash = NULL;
 #define d(x) x
-
+CamelObjectRemote *rsession = NULL;
 const char *session_str = "session";
 
 /*
@@ -49,6 +49,13 @@ camel_session_remote_construct	(CamelSessionRemote *session,
 	if (!ret) {
 		g_warning ("Error: Constructing camel session: %s\n", error.message);
 		return;
+	}
+
+	if (!rsession) {
+		rsession = g_new (CamelObjectRemote, 1);
+		rsession->object_id = "session";
+		rsession->type = CAMEL_RO_SESSION;
+		rsession->hooks = NULL;
 	}
 
 	if (!store_rhash)
