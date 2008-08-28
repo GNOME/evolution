@@ -266,7 +266,7 @@ dbind_connection_exec_va (DBusConnection *cnx,
     if (!dest)
         goto out;
 
-    if (*p == '\0' || message_type == DBUS_MESSAGE_TYPE_SIGNAL) { /* one-way */
+    if (message_type == DBUS_MESSAGE_TYPE_SIGNAL) { /* one-way */
 	success = dbus_connection_send (cnx, msg, NULL);
 	goto out;
     } else {

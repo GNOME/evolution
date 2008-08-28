@@ -26,12 +26,14 @@ session_signal_cb (CamelObject *sess, gpointer ev_data, gpointer data)
 	dbus_bool_t ret;
 	dbus_error_init (&err);
 
+	access ("before dbind context emit signal", 0);
 	ret = dbind_context_emit_signal (e_dbus_peek_context(),
 					 CAMEL_DBUS_NAME,
 					 CAMEL_SESSION_OBJECT_PATH,
 					 CAMEL_SESSION_INTERFACE,
 					 "session_signal",
 					 &err, "ii", ev_data, data);
+	access ("after dbind context emit signal", 0);
 
 	if (!ret)
 		g_warning ("error: %s\n", err.message);

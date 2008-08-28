@@ -50,7 +50,7 @@ register_handler (const char *object_path, DBusObjectPathMessageFunction reg, DB
 	dbus_listener_vtable->message_function = reg;
 	dbus_listener_vtable->unregister_function = unreg;
 
-	rule = g_strconcat ("type='signal',path='", object_path, "'", NULL);
+	rule = g_strconcat ("type='signal',sender='", CAMEL_DBUS_NAME, "',path='", object_path, "'", NULL);
 	d(printf("EVODBUS: add match '%s'\n", rule)); 
 	dbus_bus_add_match (ctx->cnx, rule, NULL);
 	g_free (rule);
