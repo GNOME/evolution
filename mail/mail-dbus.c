@@ -135,6 +135,8 @@ e_dbus_get_store_hash (const char *store_url)
 			buffer[i] = '_';
 	}
 
+	g_assert (g_utf8_validate (buffer, -1, NULL));
+
 	return buffer;
 }
 
@@ -169,6 +171,8 @@ e_dbus_get_folder_hash (const char *store_url, const char *folder_name)
 
 	/* End by NULL */
 	buffer[8] = 0;
+
+	g_assert (g_utf8_validate (buffer, -1, NULL));
 
 	return buffer;
 }

@@ -143,11 +143,18 @@ dbind_connection_emit_signal (DBusConnection *cnx,
     return success;
 }
 
+/* urgh */
+static GMutex *mutex = NULL;
+static GCond *cond = NULL;
+static gboolean waiting = FALSE;
+
 static void set_reply (DBusPendingCall *pending, void *user_data)
 {
   void **replyptr = (void **)user_data;
 
   *replyptr = dbus_pending_call_steal_reply (pending);
+  //  fprintf (stderr, "L: %p set_reply - %p\n", g_thread_self(), replyptr);
+  g_cond_broadcast (cond);
 }
 
 static DBusMessage *
@@ -155,16 +162,36 @@ send_and_allow_reentry (DBusConnection *bus, DBusMessage *message, int timeout, 
 {
   DBusPendingCall *pending;
   DBusMessage *reply = NULL;
+  gboolean terminate = FALSE;
 
+  /* urgh */
+  if (!mutex) {
+    mutex = g_mutex_new ();
+    cond = g_cond_new();
+  }
   if (!dbus_connection_send_with_reply (bus, message, &pending, timeout))
   {
     return NULL;
   }
   dbus_pending_call_set_notify (pending, set_reply, (void *)&reply, NULL);
-  while (!reply)
-  {
-    if (!dbus_connection_read_write_dispatch (bus, timeout)) return NULL;
+  g_mutex_lock (mutex);
+  //  fprintf (stderr, "L: %p send - %p (%s) [%d]\n", g_thread_self(), &reply, dbus_message_get_member (message), waiting);
+
+  /* DBus's connection_read_write_dispatch is deadly broken wrt. replies ... */
+  while (!reply && !terminate) {
+	gboolean do_poll = !waiting;
+	if (do_poll) {
+		waiting = TRUE;
+		g_mutex_unlock (mutex);
+		terminate = !dbus_connection_read_write_dispatch (bus, timeout);
+		g_mutex_lock (mutex);
+		g_cond_broadcast (cond);
+		waiting = FALSE;
+	} else
+		g_cond_wait (cond, mutex);
   }
+  g_mutex_unlock (mutex);
+
   return reply;
 }
 
