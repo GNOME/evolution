@@ -159,11 +159,22 @@ camel_folder_remote_get_parent_store (CamelFolderRemote *folder)
 
 	if (!ret) {
 		g_warning ("Error: Get parent store from camel folder remote: %s\n", error.message);
-		return;
+		return NULL;
 	}
 
 	rstore = (CamelObjectRemote *) g_hash_table_lookup (store_rhash, store_hash_key);
 	
 	d(printf("Got parent store from camel folder remotely\n"));
 	return rstore;
+}
+
+guint32 camel_folder_remote_get_folder_flags (CamelFolderRemote *folder)
+{
+	abort ();
+	return 0;
+}
+
+const char *camel_folder_remote_get_name (CamelFolderRemote *folder)
+{
+	return "";
 }

@@ -56,4 +56,9 @@ char *camel_store_get_url_remote(CamelStoreRemote *store);
 int camel_store_get_url_flags_remote(CamelStoreRemote *store);
 char * camel_store_get_service_name_remote (CamelStoreRemote *store, gboolean brief);
 gint camel_store_get_status_remote (CamelStoreRemote *store);
+
+CamelFolderInfo * camel_store_create_folder_remote (CamelStoreRemote *store, char *parent, char * name, CamelException *ex);
+
+int camel_store_get_state_remote (CamelStoreRemote *store);
+
 #endif

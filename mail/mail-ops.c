@@ -69,6 +69,8 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
+#include <camel-session-remote.h>
+
 #define w(x)
 #define d(x)
 

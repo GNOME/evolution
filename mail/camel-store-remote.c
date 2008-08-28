@@ -469,3 +469,15 @@ gint camel_store_get_status_remote (CamelStoreRemote *store)
 	/* Implement it.*/
 	return CAMEL_SERVICE_DISCONNECTED;
 }
+
+CamelFolderInfo * camel_store_create_folder_remote (CamelStoreRemote *store, char *parent, char * name, CamelException *ex)
+{
+	return NULL;
+}
+
+int
+camel_store_get_state_remote (CamelStoreRemote *store)
+{
+	abort ();	
+	return -1;
+}
