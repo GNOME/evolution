@@ -7,21 +7,17 @@
 #ifndef CAMEL_OBJECT_REMOTE_IMPL_H
 #define CAMEL_OBJECT_REMOTE_IMPL_H
 
-DBusHandlerResult
-camel_object_session_signal_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
+typedef enum {
+	CAMEL_ROT_SESSION=0,
+	CAMEL_ROT_STORE,
+	CAMEL_ROT_FOLDER		
+}CamelObjectRemoteImplType;
 
 DBusHandlerResult
-camel_object_store_signal_handler (DBusConnection *connection,
+camel_object_signal_handler (DBusConnection *connection,
                                     DBusMessage    *message,
-                                    void           *user_data);
-
-DBusHandlerResult
-camel_object_folder_signal_handler (DBusConnection *connection,
-                                    DBusMessage    *message,
-                                    void           *user_data);
-
+                                    void           *user_data,
+				    CamelObjectRemoteImplType type);
 void
 camel_object_remote_impl_init (void);
 
