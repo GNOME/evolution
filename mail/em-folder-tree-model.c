@@ -445,7 +445,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load = FALSE;
-	struct _CamelFolder *folder;
+	CamelFolderRemote *folder;
 	gboolean emitted = FALSE;
 	const char *name;
 	guint32 flags;
@@ -473,8 +473,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)) {
 			int total;
 
-			if ((total = camel_folder_get_message_count (folder)) > 0) {
-				int deleted = camel_folder_get_deleted_message_count (folder);
+			if ((total = camel_folder_remote_get_message_count (folder)) > 0) {
+				int deleted = camel_folder_remote_get_deleted_message_count (folder);
 
 				if (deleted != -1)
 					total -= deleted;
@@ -485,8 +485,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)) {
 			int total;
 
-			if ((total = camel_folder_get_message_count (folder)) > 0) {
-				int deleted = camel_folder_get_deleted_message_count (folder);
+			if ((total = camel_folder_remote_get_message_count (folder)) > 0) {
+				int deleted = camel_folder_remote_get_deleted_message_count (folder);
 
 				if (deleted != -1)
 					total -= deleted;

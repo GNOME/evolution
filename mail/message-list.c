@@ -100,7 +100,7 @@
 
 struct _MLSelection {
 	GPtrArray *uids;
-	CamelFolder *folder;
+	CamelObjectRemote *folder;
 	char *folder_uri;
 };
 
@@ -820,13 +820,13 @@ message_list_copy(MessageList *ml, gboolean cut)
 		if (cut) {
 			int i;
 
-			camel_folder_freeze(ml->folder);
+			camel_folder_remote_freeze(ml->folder);
 			for (i=0;i<uids->len;i++)
 				camel_folder_set_message_flags(ml->folder, uids->pdata[i],
 							       CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED,
 							       CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED);
 
-			camel_folder_thaw(ml->folder);
+			camel_folder_remote_thaw(ml->folder);
 		}
 
 		p->clipboard.uids = uids;
@@ -1429,7 +1429,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	}
 	case COL_LOCATION: {
 		/* Fixme : freeing memory stuff (mem leaks) */
-		CamelFolder *folder;
+		CamelObjectRemote *folder;
 		CamelURL *curl;
 		EAccount *account;
 		char *location = NULL;
@@ -1845,7 +1845,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 			      "uniform_row_height", TRUE,
 			      NULL);
 
-		name = camel_store_get_service_name_remote (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
+		name = camel_store_get_service_name_remote (CAMEL_SERVICE (camel_folder_remote_get_parent_store(message_list->folder)), TRUE);
 		d(printf ("folder name is '%s'\n", name));
 
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
@@ -1936,7 +1936,7 @@ struct _drop_msg {
 	/* Only selection->data and selection->length are valid */
 	GtkSelectionData *selection;
 
-	CamelFolder *folder;
+	CamelObjectRemote *folder;
 
 	guint32 action;
 	guint info;
@@ -1950,9 +1950,9 @@ static gchar *
 ml_drop_async_desc (struct _drop_msg *m)
 {
 	if (m->move)
-		return g_strdup_printf(_("Moving messages into folder %s"), m->folder->full_name);
+		return g_strdup_printf(_("Moving messages into folder %s"), camel_folder_remote_get_name (m->folder));
 	else
-		return g_strdup_printf(_("Copying messages into folder %s"), m->folder->full_name);
+		return g_strdup_printf(_("Copying messages into folder %s"), camel_folder_remote_get_name (m->folder));
 }
 
 static void
@@ -2565,8 +2565,8 @@ is_node_selectable (MessageList *ml, CamelMessageInfo *info)
 	g_return_val_if_fail (info != NULL, FALSE);
 
 	/* check folder type */
-	is_junk_folder = ml->folder->folder_flags & CAMEL_FOLDER_IS_JUNK;
-	is_trash_folder = ml->folder->folder_flags & CAMEL_FOLDER_IS_TRASH;
+	is_junk_folder = camel_folder_remote_get_folder_flags (ml->folder) & CAMEL_FOLDER_IS_JUNK;
+	is_trash_folder = camel_folder_remote_get_folder_flags (ml->folder) & CAMEL_FOLDER_IS_TRASH;
 
 	/* check flags set on current message */
 	flags = camel_message_info_flags (info);
@@ -3138,7 +3138,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 
 
 static void
-mail_folder_hide_by_flag (CamelFolder *folder, MessageList *ml, CamelFolderChangeInfo **changes, int flag)
+mail_folder_hide_by_flag (CamelObjectRemote *folder, MessageList *ml, CamelFolderChangeInfo **changes, int flag)
 {
 	CamelFolderChangeInfo *newchanges, *oldchanges = *changes;
 	CamelMessageInfo *info;
@@ -3181,7 +3181,7 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	MessageList *ml = MESSAGE_LIST (user_data);
 	CamelFolderChangeInfo *changes = (CamelFolderChangeInfo *)event_data;
-	CamelFolder *folder = (CamelFolder *)o;
+	CamelObjectRemote *folder = (CamelObjectRemote *)o;
 	int i;
 
 	/* may be NULL if we're in the process of being destroyed */
@@ -3254,7 +3254,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
  * the "Outgoing folder" column view.
  **/
 void
-message_list_set_folder (MessageList *message_list, CamelFolder *folder, const char *uri, gboolean outgoing)
+message_list_set_folder (MessageList *message_list, CamelFolderRemote *folder, const char *uri, gboolean outgoing)
 {
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
@@ -3320,7 +3320,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		message_list->just_set_folder = TRUE;
 
 		/* Setup the strikeout effect for non-trash folders */
-		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH))
+		if (!(camel_folder_remote_get_folder_flags (folder) & CAMEL_FOLDER_IS_TRASH))
 			strikeout_col = COL_DELETED;
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_date");
@@ -3345,8 +3345,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
-		message_list->hidedeleted = hide_deleted && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
-		message_list->hidejunk = junk_folder && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
+		message_list->hidedeleted = hide_deleted && !(camel_folder_remote_get_folder_flags (folder) & CAMEL_FOLDER_IS_TRASH);
+		message_list->hidejunk = junk_folder && !(camel_folder_remote_get_folder_flags (folder) & CAMEL_FOLDER_IS_JUNK) && !(camel_folder_remote_get_folder_flags (folder) & CAMEL_FOLDER_IS_TRASH);
 
 		load_hide_state (message_list);
 		if (message_list->frozen == 0)
@@ -3662,7 +3662,7 @@ message_list_length (MessageList *ml)
 
 struct _glibsuxcrap {
 	unsigned int count;
-	CamelFolder *folder;
+	CamelObjectRemote *folder;
 };
 
 static void
@@ -3892,7 +3892,7 @@ struct _regen_list_msg {
 	gboolean thread_subject;
 	CamelFolderThread *tree;
 
-	CamelFolder *folder;
+	CamelObjectRemote *folder;
 	GPtrArray *summary;
 
 	int last_row; /* last selected (cursor) row */
@@ -3932,7 +3932,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	if (cursor)
 		m->last_row = e_tree_table_adapter_row_of_node (e_tree_get_table_adapter (m->ml->tree), cursor);
 
-	e_profile_event_emit("list.getuids", m->folder->full_name, 0);
+	e_profile_event_emit("list.getuids", camel_folder_remote_get_name (m->folder), 0);
 
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability(m->folder)) {
@@ -4092,7 +4092,7 @@ regen_list_exec (struct _regen_list_msg *m)
 
 	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
 
-	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
+	e_profile_event_emit("list.threaduids", camel_folder_remote_get_name (m->folder), 0);
 
 	//camel_folder_summary_reload_from_db (m->folder->summary, NULL);
 	if (!camel_operation_cancel_check(m->base.cancel)) {
@@ -4104,10 +4104,10 @@ regen_list_exec (struct _regen_list_msg *m)
 				m->tree = camel_folder_thread_messages_new (m->folder, showuids, m->thread_subject);
 		} else {
 			m->summary = g_ptr_array_new ();
-			if (showuids->len > camel_folder_summary_cache_size (m->folder->summary) ) {
+			if (showuids->len > camel_folder_summary_cache_size (camel_folder_remote_get_summary (m->folder)) ) {
 				CamelException ex;
 				camel_exception_init (&ex);
-				camel_folder_summary_reload_from_db (m->folder->summary, &ex);
+				camel_folder_summary_reload_from_db (camel_folder_remote_get_summary (m->folder), &ex);
 				if (camel_exception_is_set (&ex)) {
 					g_warning ("Exception while reloading: %s\n", camel_exception_get_description (&ex));
 					camel_exception_clear (&ex);
@@ -4153,7 +4153,7 @@ regen_list_done (struct _regen_list_msg *m)
 	if (m->ml->folder != m->folder)
 		return;
 
-	e_profile_event_emit("list.buildtree", m->folder->full_name, 0);
+	e_profile_event_emit("list.buildtree", camel_folder_remote_get_name (m->folder), 0);
 
 	if (m->dotree) {
 		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
@@ -4235,7 +4235,7 @@ regen_list_free (struct _regen_list_msg *m)
 {
 	int i;
 
-	e_profile_event_emit("list.regenerated", m->folder->full_name, 0);
+	e_profile_event_emit("list.regenerated", camel_folder_remote_get_name (m->folder), 0);
 
 	if (m->summary) {
 		for (i = 0; i < m->summary->len; i++)
@@ -4274,7 +4274,7 @@ static MailMsgInfo regen_list_info = {
 static gboolean
 ml_regen_timeout(struct _regen_list_msg *m)
 {
-	e_profile_event_emit("list.regenerate", m->folder->full_name, 0);
+	e_profile_event_emit("list.regenerate", camel_folder_remote_get_name (m->folder), 0);
 
 	m->ml->regen = g_list_prepend(m->ml->regen, m);
 	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */

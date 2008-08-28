@@ -77,13 +77,13 @@
 struct _filter_mail_msg {
 	MailMsg base;
 
-	CamelFolder *source_folder; /* where they come from */
+	CamelFolderRemote *source_folder; /* where they come from */
 	GPtrArray *source_uids;	/* uids to copy, or NULL == copy all */
 	CamelUIDCache *cache;  /* UID cache if we are to cache the uids, NULL otherwise */
 	CamelOperation *cancel;
 	CamelFilterDriver *driver;
 	int delete;		/* delete messages after filtering them? */
-	CamelFolder *destination; /* default destination for any messages, NULL for none */
+	CamelFolderRemote *destination; /* default destination for any messages, NULL for none */
 };
 
 /* since fetching also filters, we subclass the data here */
@@ -110,7 +110,7 @@ em_filter_folder_element_desc (struct _filter_mail_msg *m)
 static void
 em_filter_folder_element_exec (struct _filter_mail_msg *m)
 {
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	GPtrArray *uids, *folder_uids = NULL;
 
 	if (m->cancel)
@@ -118,18 +118,18 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m)
 
 	folder = m->source_folder;
 
-	if (folder == NULL || camel_folder_get_message_count (folder) == 0) {
+	if (folder == NULL || camel_folder_remote_get_message_count (folder) == 0) {
 		if (m->cancel)
 			camel_operation_unregister (m->cancel);
 		return;
 	}
 
 	if (m->destination) {
-		camel_folder_freeze (m->destination);
+		camel_folder_remote_freeze (m->destination);
 		camel_filter_driver_set_default_folder (m->driver, m->destination);
 	}
 
-	camel_folder_freeze (folder);
+	camel_folder_remote_freeze (folder);
 
 	if (m->source_uids)
 		uids = m->source_uids;
@@ -145,10 +145,10 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m)
 	/* sync our source folder */
 	if (!m->cache)
 		camel_folder_sync (folder, FALSE, camel_exception_is_set (&m->base.ex) ? NULL : &m->base.ex);
-	camel_folder_thaw (folder);
+	camel_folder_remote_thaw (folder);
 
 	if (m->destination)
-		camel_folder_thaw (m->destination);
+		camel_folder_remote_thaw (m->destination);
 
 	/* this may thaw/unref source folders, do it here so we dont do it in the main thread
 	   see also fetch_mail_fetch() below */
@@ -194,7 +194,7 @@ static MailMsgInfo em_filter_folder_element_info = {
 };
 
 void
-mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
+mail_filter_folder (CamelFolderRemote *source_folder, GPtrArray *uids,
 		    const char *type, gboolean notify,
 		    CamelOperation *cancel)
 {
@@ -224,13 +224,13 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 
 /* convenience functions for it */
 void
-mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
+mail_filter_on_demand (CamelFolderRemote *folder, GPtrArray *uids)
 {
 	mail_filter_folder (folder, uids, FILTER_SOURCE_DEMAND, FALSE, NULL);
 }
 
 void
-mail_filter_junk (CamelFolder *folder, GPtrArray *uids)
+mail_filter_junk (CamelFolderRemote *folder, GPtrArray *uids)
 {
 	mail_filter_folder (folder, uids, FILTER_SOURCE_JUNKTEST, FALSE, NULL);
 }
@@ -288,17 +288,17 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 		char *path = mail_tool_do_movemail (m->source_uri, &fm->base.ex);
 
 		if (path && !camel_exception_is_set (&fm->base.ex)) {
-			camel_folder_freeze (fm->destination);
+			camel_folder_remote_freeze (fm->destination);
 			camel_filter_driver_set_default_folder (fm->driver, fm->destination);
 			camel_filter_driver_filter_mbox (fm->driver, path, m->source_uri, &fm->base.ex);
-			camel_folder_thaw (fm->destination);
+			camel_folder_remote_thaw (fm->destination);
 
 			if (!camel_exception_is_set (&fm->base.ex))
 				g_unlink (path);
 		}
 		g_free (path);
 	} else {
-		CamelFolder *folder = fm->source_folder = mail_tool_get_inbox (m->source_uri, &fm->base.ex);
+		CamelFolderRemote *folder = fm->source_folder = mail_tool_get_inbox (m->source_uri, &fm->base.ex);
 
 		if (folder) {
 			/* this handles 'keep on server' stuff, if we have any new uid's to copy
@@ -306,7 +306,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 			CamelUIDCache *cache = NULL;
 			char *cachename;
 
-			cachename = uid_cachename_hack (folder->parent_store);
+			cachename = uid_cachename_hack (camel_folder_remote_get_parent_store (folder));
 			cache = camel_uid_cache_new (cachename);
 			g_free (cachename);
 
@@ -446,7 +446,7 @@ static char *resent_recipients[] = {
 
 /* send 1 message to a specific transport */
 static void
-mail_send_message(CamelFolder *queue, const char *uid, const char *destination, CamelFilterDriver *driver, CamelException *ex)
+mail_send_message(CamelFolderRemote *queue, const char *uid, const char *destination, CamelFilterDriver *driver, CamelException *ex)
 {
 	EAccount *account = NULL;
 	const CamelInternetAddress *iaddr;
@@ -456,7 +456,7 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	char *transport_url = NULL;
 	char *sent_folder_uri = NULL;
 	const char *resent_from, *tmp;
-	CamelFolder *folder = NULL;
+	CamelFolderRemote *folder = NULL;
 	GString *err = NULL;
 	struct _camel_header_raw *xev, *header;
 	CamelMimeMessage *message;
@@ -590,7 +590,7 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 
 		camel_folder_append_message (folder, message, info, NULL, ex);
 		if (camel_exception_is_set (ex)) {
-			CamelFolder *sent_folder;
+			CamelFolderRemote *sent_folder;
 
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
@@ -658,7 +658,7 @@ exit:
 struct _send_queue_msg {
 	MailMsg base;
 
-	CamelFolder *queue;
+	CamelFolderRemote *queue;
 	char *destination;
 
 	CamelFilterDriver *driver;
@@ -690,7 +690,7 @@ report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, int
 static void
 send_queue_exec (struct _send_queue_msg *m)
 {
-	CamelFolder *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+	CamelFolderRemote *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
 	GPtrArray *uids, *send_uids = NULL;
 	CamelException ex;
 	int i, j;
@@ -823,7 +823,7 @@ static MailMsgInfo send_queue_info = {
 
 /* same interface as fetch_mail, just 'cause i'm lazy today (and we need to run it from the same spot?) */
 void
-mail_send_queue(CamelFolder *queue, const char *destination,
+mail_send_queue(CamelFolderRemote *queue, const char *destination,
 		const char *type, CamelOperation *cancel,
 		CamelFilterGetFolderFunc get_folder, void *get_data,
 		CamelFilterStatusFunc *status, void *status_data,
@@ -859,12 +859,12 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 struct _append_msg {
 	MailMsg base;
 
-        CamelFolder *folder;
+        CamelFolderRemote *folder;
 	CamelMimeMessage *message;
         CamelMessageInfo *info;
 	char *appended_uid;
 
-	void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, const char *appended_uid, void *data);
+	void (*done)(CamelFolderRemote *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, const char *appended_uid, void *data);
 	void *data;
 };
 
@@ -905,8 +905,8 @@ static MailMsgInfo append_mail_info = {
 };
 
 void
-mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
-		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, const char *appended_uid, void *data),
+mail_append_mail (CamelFolderRemote *folder, CamelMimeMessage *message, CamelMessageInfo *info,
+		  void (*done)(CamelFolderRemote *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, const char *appended_uid, void *data),
 		  void *data)
 {
 	struct _append_msg *m;
@@ -936,7 +936,7 @@ mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageIn
 struct _transfer_msg {
 	MailMsg base;
 
-	CamelFolder *source;
+	CamelFolderRemote *source;
 	GPtrArray *uids;
 	gboolean delete;
 	char *dest_uri;
@@ -957,7 +957,7 @@ transfer_messages_desc (struct _transfer_msg *m)
 static void
 transfer_messages_exec (struct _transfer_msg *m)
 {
-	CamelFolder *dest;
+	CamelFolderRemote *dest;
 
 	dest = mail_tool_uri_to_folder (m->dest_uri, m->dest_flags, &m->base.ex);
 	if (camel_exception_is_set (&m->base.ex))
@@ -969,8 +969,8 @@ transfer_messages_exec (struct _transfer_msg *m)
 		return;
 	}
 
-	camel_folder_freeze (m->source);
-	camel_folder_freeze (dest);
+	camel_folder_remote_freeze (m->source);
+	camel_folder_remote_freeze (dest);
 
 	camel_folder_transfer_messages_to (m->source, m->uids, dest, NULL, m->delete, &m->base.ex);
 
@@ -984,8 +984,8 @@ transfer_messages_exec (struct _transfer_msg *m)
 							CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	}
 
-	camel_folder_thaw (m->source);
-	camel_folder_thaw (dest);
+	camel_folder_remote_thaw (m->source);
+	camel_folder_remote_thaw (dest);
 	camel_folder_sync (dest, FALSE, NULL);
 	camel_object_unref (dest);
 }
@@ -1014,7 +1014,7 @@ static MailMsgInfo transfer_messages_info = {
 };
 
 void
-mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
+mail_transfer_messages (CamelFolderRemote *source, GPtrArray *uids,
 			gboolean delete_from_source,
 			const char *dest_uri,
 			guint32 dest_flags,
@@ -1131,12 +1131,12 @@ mail_get_folderinfo (CamelObjectRemote *store, CamelOperation *op, gboolean (*do
 /* ** ATTACH MESSAGES ****************************************************** */
 
 struct _build_data {
-	void (*done)(CamelFolder *folder, GPtrArray *uids, CamelMimePart *part, char *subject, void *data);
+	void (*done)(CamelFolderRemote *folder, GPtrArray *uids, CamelMimePart *part, char *subject, void *data);
 	void *data;
 };
 
 static void
-do_build_attachment (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
+do_build_attachment (CamelFolderRemote *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {
 	struct _build_data *d = data;
 	CamelMultipart *multipart;
@@ -1178,8 +1178,8 @@ do_build_attachment (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, 
 }
 
 void
-mail_build_attachment(CamelFolder *folder, GPtrArray *uids,
-		      void (*done)(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data), void *data)
+mail_build_attachment(CamelFolderRemote *folder, GPtrArray *uids,
+		      void (*done)(CamelFolderRemote *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data), void *data)
 {
 	struct _build_data *d;
 
@@ -1199,8 +1199,8 @@ struct _get_folder_msg {
 
 	char *uri;
 	guint32 flags;
-	CamelFolder *folder;
-	void (*done) (char *uri, CamelFolder *folder, void *data);
+	CamelFolderRemote *folder;
+	void (*done) (char *uri, CamelFolderRemote *folder, void *data);
 	void *data;
 };
 
@@ -1241,7 +1241,7 @@ static MailMsgInfo get_folder_info = {
 
 int
 mail_get_folder (const char *uri, guint32 flags,
-		 void (*done)(char *uri, CamelFolder *folder, void *data),
+		 void (*done)(char *uri, CamelFolderRemote *folder, void *data),
 		 void *data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_folder_msg *m;
@@ -1263,9 +1263,9 @@ mail_get_folder (const char *uri, guint32 flags,
 struct _get_quota_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	CamelFolderQuotaInfo *quota;
-	void (*done) (CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data);
+	void (*done) (CamelFolderRemote *folder, CamelFolderQuotaInfo *quota, void *data);
 	void *data;
 };
 
@@ -1306,8 +1306,8 @@ static MailMsgInfo get_quota_info = {
 };
 
 int
-mail_get_folder_quota (CamelFolder *folder,
-		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data),
+mail_get_folder_quota (CamelFolderRemote *folder,
+		 void (*done)(CamelFolderRemote *folder, CamelFolderQuotaInfo *quota, void *data),
 		 void *data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_quota_msg *m;
@@ -1419,7 +1419,7 @@ static void
 remove_folder_exec (struct _remove_folder_msg *m)
 {
 	CamelObjectRemote *store;
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	GPtrArray *uids;
 	int i;
 
@@ -1429,23 +1429,23 @@ remove_folder_exec (struct _remove_folder_msg *m)
 	if (!folder)
 		return;
 
-	store = folder->parent_store;
+	store = camel_folder_remote_get_parent_store (folder);
 
 	/* Delete every message in this folder, then expunge it */
 	uids = camel_folder_get_uids (folder);
-	camel_folder_freeze(folder);
+	camel_folder_remote_freeze(folder);
 	for (i = 0; i < uids->len; i++)
 		camel_folder_delete_message (folder, uids->pdata[i]);
 	camel_folder_sync (folder, TRUE, NULL);
-	camel_folder_thaw(folder);
+	camel_folder_remote_thaw(folder);
 	camel_folder_free_uids (folder, uids);
 
 	/* if the store supports subscriptions, unsubscribe from this folder... */
 	if (camel_store_supports_subscriptions_remote (store))
-		camel_store_unsubscribe_folder_remote (store, folder->full_name, NULL);
+		camel_store_unsubscribe_folder_remote (store, camel_folder_remote_get_full_name (folder), NULL);
 
 	/* Then delete the folder from the store */
-	camel_store_delete_folder_remote (store, folder->full_name, &m->base.ex);
+	camel_store_delete_folder_remote (store, camel_folder_remote_get_full_name (folder), &m->base.ex);
 	m->removed = !camel_exception_is_set (&m->base.ex);
 	camel_object_unref (folder);
 }
@@ -1493,8 +1493,8 @@ mail_remove_folder (const char *uri, void (*done) (char *uri, gboolean removed, 
 struct _sync_folder_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
-	void (*done) (CamelFolder *folder, void *data);
+	CamelFolderRemote *folder;
+	void (*done) (CamelFolderRemote *folder, void *data);
 	void *data;
 };
 
@@ -1533,7 +1533,7 @@ static MailMsgInfo sync_folder_info = {
 };
 
 void
-mail_sync_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *data), void *data)
+mail_sync_folder(CamelFolderRemote *folder, void (*done) (CamelFolderRemote *folder, void *data), void *data)
 {
 	struct _sync_folder_msg *m;
 
@@ -1641,7 +1641,7 @@ static MailMsgInfo refresh_folder_info = {
 };
 
 void
-mail_refresh_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *data), void *data)
+mail_refresh_folder(CamelFolderRemote *folder, void (*done) (CamelFolderRemote *folder, void *data), void *data)
 {
 	struct _sync_folder_msg *m;
 
@@ -1678,7 +1678,7 @@ static MailMsgInfo expunge_folder_info = {
 };
 
 void
-mail_expunge_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *data), void *data)
+mail_expunge_folder(CamelFolderRemote *folder, void (*done) (CamelFolderRemote *folder, void *data), void *data)
 {
 	struct _sync_folder_msg *m;
 
@@ -1717,7 +1717,7 @@ static void
 empty_trash_exec (struct _empty_trash_msg *m)
 {
 	const char *evolution_dir;
-	CamelFolder *trash;
+	CamelFolderRemote *trash;
 	char *uri;
 
 	if (m->account) {
@@ -1777,9 +1777,9 @@ mail_empty_trash(EAccount *account, void (*done) (EAccount *account, void *data)
 struct _get_message_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	char *uid;
-	void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data);
+	void (*done) (CamelFolderRemote *folder, const char *uid, CamelMimeMessage *msg, void *data);
 	void *data;
 	CamelMimeMessage *message;
 	CamelOperation *cancel;
@@ -1824,7 +1824,7 @@ static MailMsgInfo get_message_info = {
 };
 
 void
-mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder *folder, const char *uid,
+mail_get_message(CamelFolderRemote *folder, const char *uid, void (*done) (CamelFolderRemote *folder, const char *uid,
 								     CamelMimeMessage *msg, void *data),
 		 void *data, MailMsgDispatchFunc dispatch)
 {
@@ -1835,13 +1835,13 @@ mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder
 	camel_object_ref(folder);
 	m->uid = g_strdup(uid);
 	m->data = data;
-	m->done = (void (*) (CamelFolder *, const char *, CamelMimeMessage *, void *)) done;
+	m->done = (void (*) (CamelFolderRemote *, const char *, CamelMimeMessage *, void *)) done;
 	m->cancel = camel_operation_new(NULL, NULL);
 
 	dispatch (m);
 }
 
-typedef void (*get_done)(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *);
+typedef void (*get_done)(CamelFolderRemote *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *);
 
 static void
 get_messagex_done (struct _get_message_msg *m)
@@ -1863,7 +1863,7 @@ static MailMsgInfo get_messagex_info = {
 /* This is temporary, to avoid having to rewrite everything that uses
    mail_get_message; it adds an exception argument to the callback */
 void
-mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
+mail_get_messagex(CamelFolderRemote *folder, const char *uid, void (*done) (CamelFolderRemote *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
 		 void *data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_message_msg *m;
@@ -1873,7 +1873,7 @@ mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolde
 	camel_object_ref(folder);
 	m->uid = g_strdup(uid);
 	m->data = data;
-	m->done = (void (*) (CamelFolder *, const char *, CamelMimeMessage *, void *)) done;
+	m->done = (void (*) (CamelFolderRemote *, const char *, CamelMimeMessage *, void *)) done;
 	m->cancel = camel_operation_new(NULL, NULL);
 
 	dispatch (m);
@@ -1884,11 +1884,11 @@ mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolde
 struct _get_messages_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	GPtrArray *uids;
 	GPtrArray *messages;
 
-	void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data);
+	void (*done) (CamelFolderRemote *folder, GPtrArray *uids, GPtrArray *msgs, void *data);
 	void *data;
 };
 
@@ -1948,8 +1948,8 @@ static MailMsgInfo get_messages_info = {
 };
 
 void
-mail_get_messages(CamelFolder *folder, GPtrArray *uids,
-		  void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data),
+mail_get_messages(CamelFolderRemote *folder, GPtrArray *uids,
+		  void (*done) (CamelFolderRemote *folder, GPtrArray *uids, GPtrArray *msgs, void *data),
 		  void *data)
 {
 	struct _get_messages_msg *m;
@@ -1970,10 +1970,10 @@ mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 struct _save_messages_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	GPtrArray *uids;
 	char *path;
-	void (*done)(CamelFolder *folder, GPtrArray *uids, char *path, void *data);
+	void (*done)(CamelFolderRemote *folder, GPtrArray *uids, char *path, void *data);
 	void *data;
 };
 
@@ -2095,8 +2095,8 @@ static MailMsgInfo save_messages_info = {
 };
 
 int
-mail_save_messages(CamelFolder *folder, GPtrArray *uids, const char *path,
-		   void (*done) (CamelFolder *folder, GPtrArray *uids, char *path, void *data), void *data)
+mail_save_messages(CamelFolderRemote *folder, GPtrArray *uids, const char *path,
+		   void (*done) (CamelFolderRemote *folder, GPtrArray *uids, char *path, void *data), void *data)
 {
 	struct _save_messages_msg *m;
 	int id;
@@ -2234,7 +2234,7 @@ struct _prep_offline_msg {
 static void
 prep_offline_exec (struct _prep_offline_msg *m)
 {
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 
 	if (m->cancel)
 		camel_operation_register(m->cancel);

@@ -29,6 +29,8 @@
 #include <table/e-table-simple.h>
 #include <table/e-tree-scrolled.h>
 
+#include <camel-folder-remote.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -96,7 +98,7 @@ struct _MessageList {
 	ETableExtras *extras;
 
 	/* The folder & matching uri */
-	CamelFolder  *folder;
+	CamelFolderRemote  *folder;
 	char *folder_uri;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
@@ -180,7 +182,7 @@ typedef enum {
 
 GType          message_list_get_type   (void);
 GtkWidget     *message_list_new        (void);
-void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const char *uri, gboolean outgoing);
+void           message_list_set_folder (MessageList *message_list, CamelFolderRemote *camel_folder, const char *uri, gboolean outgoing);
 
 void	       message_list_freeze(MessageList *ml);
 void	       message_list_thaw(MessageList *ml);

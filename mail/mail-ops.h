@@ -33,6 +33,7 @@ extern "C" {
 #include "mail-mt.h"
 
 #include "camel-object-remote.h"
+#include "camel-folder-remote.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-mime-message.h"
@@ -40,12 +41,12 @@ extern "C" {
 
 #include "libedataserver/e-account.h"
 
-void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
-		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
+void mail_append_mail (CamelFolderRemote *folder, CamelMimeMessage *message, CamelMessageInfo *info,
+		       void (*done)(CamelFolderRemote *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
 				    const char *appended_uid, void *data),
 		       void *data);
 
-void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
+void mail_transfer_messages (CamelFolderRemote *source, GPtrArray *uids,
 			     gboolean delete_from_source,
 			     const char *dest_uri,
 			     guint32 dest_flags,
@@ -53,29 +54,29 @@ void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 			     void *data);
 
 /* get a single message, asynchronously */
-void mail_get_message (CamelFolder *folder, const char *uid,
-		       void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data),
+void mail_get_message (CamelFolderRemote *folder, const char *uid,
+		       void (*done) (CamelFolderRemote *folder, const char *uid, CamelMimeMessage *msg, void *data),
 		       void *data,
 		       MailMsgDispatchFunc dispatch);
 
 void
-mail_get_messagex(CamelFolder *folder, const char *uid,
-		  void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
+mail_get_messagex(CamelFolderRemote *folder, const char *uid,
+		  void (*done) (CamelFolderRemote *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
 		  void *data, MailMsgDispatchFunc dispatch);
 
 /* get several messages */
-void mail_get_messages (CamelFolder *folder, GPtrArray *uids,
-			void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data),
+void mail_get_messages (CamelFolderRemote *folder, GPtrArray *uids,
+			void (*done) (CamelFolderRemote *folder, GPtrArray *uids, GPtrArray *msgs, void *data),
 			void *data);
 
 /* same for a folder */
 int mail_get_folder (const char *uri, guint32 flags,
-		     void (*done) (char *uri, CamelFolder *folder, void *data), void *data,
+		     void (*done) (char *uri, CamelFolderRemote *folder, void *data), void *data,
 		     MailMsgDispatchFunc dispatch);
 
 /* get quota information for a folder */
-int mail_get_folder_quota (CamelFolder *folder,
-		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data),
+int mail_get_folder_quota (CamelFolderRemote *folder,
+		 void (*done)(CamelFolderRemote *folder, CamelFolderQuotaInfo *quota, void *data),
 		 void *data, MailMsgDispatchFunc dispatch);
 
 /* and for a store */
@@ -83,23 +84,23 @@ int mail_get_store (const char *uri, CamelOperation *op,
 		    void (*done) (char *uri, CamelObjectRemote *store, void *data), void *data);
 
 /* build an attachment */
-void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
-			    void (*done)(CamelFolder *folder, GPtrArray *messages,
+void mail_build_attachment (CamelFolderRemote *folder, GPtrArray *uids,
+			    void (*done)(CamelFolderRemote *folder, GPtrArray *messages,
 					 CamelMimePart *part, char *subject, void *data),
 			    void *data);
 
-void mail_sync_folder (CamelFolder *folder,
-		       void (*done) (CamelFolder *folder, void *data), void *data);
+void mail_sync_folder (CamelFolderRemote *folder,
+		       void (*done) (CamelFolderRemote *folder, void *data), void *data);
 
 void mail_sync_store(CamelObjectRemote *store, int expunge,
 		     void (*done) (CamelObjectRemote *store, void *data), void *data);
 
-void mail_refresh_folder (CamelFolder *folder,
-			  void (*done) (CamelFolder *folder, void *data),
+void mail_refresh_folder (CamelFolderRemote *folder,
+			  void (*done) (CamelFolderRemote *folder, void *data),
 			  void *data);
 
-void mail_expunge_folder (CamelFolder *folder,
-			  void (*done) (CamelFolder *folder, void *data),
+void mail_expunge_folder (CamelFolderRemote *folder,
+			  void (*done) (CamelFolderRemote *folder, void *data),
 			  void *data);
 
 void mail_empty_trash (EAccount *account,
@@ -119,12 +120,12 @@ void mail_remove_folder (const char *uri,
 /* transfer (copy/move) a folder */
 void mail_xfer_folder (const char *src_uri, const char *dest_uri, gboolean remove_source,
 		       void (*done) (char *src_uri, char *dest_uri, gboolean remove_source,
-				     CamelFolder *folder, void *data),
+				     CamelFolderRemote *folder, void *data),
 		       void *data);
 
 /* save messages */
-int mail_save_messages (CamelFolder *folder, GPtrArray *uids, const char *path,
-			void (*done) (CamelFolder *folder, GPtrArray *uids, char *path, void *data),
+int mail_save_messages (CamelFolderRemote *folder, GPtrArray *uids, const char *path,
+			void (*done) (CamelFolderRemote *folder, GPtrArray *uids, char *path, void *data),
 			void *data);
 
 int mail_save_part (CamelMimePart *part, const char *path,
@@ -132,7 +133,7 @@ int mail_save_part (CamelMimePart *part, const char *path,
 		    void *data, gboolean readonly);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
-void mail_send_queue (CamelFolder *queue, const char *destination,
+void mail_send_queue (CamelFolderRemote *queue, const char *destination,
 		      const char *type, CamelOperation *cancel,
 		      CamelFilterGetFolderFunc get_folder, void *get_data,
 		      CamelFilterStatusFunc *status, void *status_data,
@@ -146,13 +147,13 @@ void mail_fetch_mail (const char *source, int keep,
 		      void (*done)(char *source, void *data),
 		      void *data);
 
-void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
+void mail_filter_folder (CamelFolderRemote *source_folder, GPtrArray *uids,
 			 const char *type, gboolean notify,
 			 CamelOperation *cancel);
 
 /* convenience functions for above */
-void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
-void mail_filter_junk (CamelFolder *folder, GPtrArray *uids);
+void mail_filter_on_demand (CamelFolderRemote *folder, GPtrArray *uids);
+void mail_filter_junk (CamelFolderRemote *folder, GPtrArray *uids);
 
 /* Work Offline */
 void mail_prep_offline(const char *uri, CamelOperation *cancel,
