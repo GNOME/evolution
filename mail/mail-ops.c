@@ -258,6 +258,7 @@ uid_cachename_hack (CamelObjectRemote *store)
 	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
 	filename = g_build_filename (evolution_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
+	g_free (url);
 
 	return filename;
 }
