@@ -1756,8 +1756,8 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 			goto fatal;
 
 		if (thread_list != -1) {
-			camel_object_meta_set (new_folder, "evolution:thread_list", thread_list ? "1" : "0");
-			camel_object_state_write (new_folder);
+			camel_object_remote_meta_set (new_folder, "evolution:thread_list", thread_list ? "1" : "0");
+			camel_object_remote_state_write (new_folder);
 		}
 
 		uids = camel_folder_get_uids (old_folder);
