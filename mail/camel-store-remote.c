@@ -10,15 +10,19 @@
 #include "camel-store-remote.h"
 #include "camel-object-remote.h"
 extern GHashTable *folder_hash;
+GHashTable *folder_rhash = NULL;
 
-CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
+CamelObjectRemote *camel_store_get_folder_remote(CamelStoreRemote * store,
 					   const char *folder_name,
 					   guint32 flags,
 					   CamelException *ex)
 {
 	DBusError error;
 	char *err = NULL, *shash = NULL;
-	CamelFolder *folder = NULL;
+	CamelObjectRemote *object = NULL;
+
+	if (!folder_rhash)
+		folder_rhash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	dbus_error_init(&error);
 	/* Invoke the appropriate dbind call to CamelStoreGetFolder */
@@ -30,18 +34,24 @@ CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
 				      &error,
 				      "ssu=>ss", store->object_id, folder_name,
 				      flags, &shash, &err))
-		folder = g_hash_table_lookup (folder_hash, shash);
+		object = g_hash_table_lookup (folder_rhash, shash);
+		if (!object) {
+			object = g_new0(CamelObjectRemote, 1);
+			object->object_id = shash;
+			object->type = CAMEL_RO_FOLDER;
+			g_hash_table_insert (folder_rhash, shash, object);
+		}
 	else {
 		g_warning ("camel_store_get_folder error: %s\n", error.message);
 		dbus_error_free (&error);
 	}
 	
-	printf("Back folder %p: %s: %p\n", folder_hash, shash, folder);
+	printf("Back folder %p: %s: %p\n", folder_hash, shash, object);
 
-	return folder;
+	return object;
 }
 
-static CamelFolder *camel_store_get_specific_folder_remote(CamelStoreRemote *
+static CamelObjectRemote *camel_store_get_specific_folder_remote(CamelStoreRemote *
 							   store,
 							   const char *method)
 {
@@ -49,6 +59,9 @@ static CamelFolder *camel_store_get_specific_folder_remote(CamelStoreRemote *
 	DBusError error;
 	char *err;
 	char *fhash;
+
+	if (!folder_rhash)
+		folder_rhash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	dbus_error_init(&error);
 	/* Invoke the appropriate dbind call to CamelStoreGetFolder */
@@ -64,24 +77,30 @@ static CamelFolder *camel_store_get_specific_folder_remote(CamelStoreRemote *
 	if (ret != DBUS_HANDLER_RESULT_HANDLED) {
 		return NULL;
 	} else {
-		CamelFolder *folder = g_hash_table_lookup(folder_hash, fhash);
-		return folder;
+		CamelObjectRemote *object = g_hash_table_lookup (folder_rhash, fhash);
+		if (!object) {
+			object = g_new0(CamelObjectRemote, 1);
+			object->object_id = fhash;
+			object->type = CAMEL_RO_FOLDER;
+			g_hash_table_insert (folder_rhash, fhash, object);
+		}	
+		return object;
 	}
 }
 
-CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex)
+CamelObjectRemote *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	return (camel_store_get_specific_folder_remote
 		(store, "camel_store_get_inbox"));
 }
 
-CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex)
+CamelObjectRemote *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	return (camel_store_get_specific_folder_remote
 		(store, "camel_store_get_trash"));
 }
 
-CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex)
+CamelObjectRemote *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex)
 {
 	return (camel_store_get_specific_folder_remote
 		(store, "camel_store_get_junk"));
@@ -439,7 +458,7 @@ CamelFolderInfo * camel_store_get_folder_info_remote (CamelStoreRemote *store, c
 					&error, "ssu=>is", store->object_id, top ? top : "", flags, &ptr, &err);
 
 	info = (gpointer)ptr;
-
+	
 	return info;
 }
 

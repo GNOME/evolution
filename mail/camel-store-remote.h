@@ -7,7 +7,7 @@
 #define CAMEL_STORE_REMOTE_H
 
 #include <camel/camel.h>
-
+#include "camel-object-remote.h"
 typedef struct {
 	char *object_id;
 } CamelFolderRemote;
@@ -16,13 +16,13 @@ typedef struct {
 	char *object_id;
 } CamelStoreRemote;
 
-CamelFolder *camel_store_get_folder_remote(CamelStoreRemote * store,
+CamelObjectRemote *camel_store_get_folder_remote(CamelStoreRemote * store,
 					   const char *folder_name,
 					   guint32 flags,
 					   CamelException *ex);
-CamelFolder *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex);
-CamelFolder *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex);
-CamelFolder *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex);
+CamelObjectRemote *camel_store_get_inbox_remote(CamelStoreRemote * store, CamelException *ex);
+CamelObjectRemote *camel_store_get_trash_remote(CamelStoreRemote * store, CamelException *ex);
+CamelObjectRemote *camel_store_get_junk_remote(CamelStoreRemote * store, CamelException *ex);
 
 void camel_store_delete_folder_remote(CamelStoreRemote * store,
 				      const char *folder_name, CamelException *ex);
