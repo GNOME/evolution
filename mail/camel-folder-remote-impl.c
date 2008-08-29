@@ -109,6 +109,67 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &store_hash_key, DBUS_TYPE_INVALID);
 		printf("%s: Success. store_hash_key:%s\n", method, store_hash_key);
+	} else if (strcmp(method, "camel_folder_get_name") == 0) {
+		gboolean ret;
+		const char *name; 
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		name = camel_folder_get_name (folder);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &name, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_get_full_name") == 0) {
+		gboolean ret;
+		const char *full_name; 
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		full_name = camel_folder_get_full_name (folder);
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &full_name, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_sync") == 0) {
+		gboolean ret, expunge;
+		char *err;
+		CamelException *ex;
+
+		ex = camel_exception_new ();
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INT32, &expunge,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		camel_folder_sync (folder, expunge, ex);
+
+		if (camel_exception_is_set(ex))
+			err = g_strdup (camel_exception_get_description (ex));
+		else
+			err = g_strdup ("");
+
+		camel_exception_free (ex);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_set_message_flags") == 0) {
+		gboolean ret, is_set;
+		const char *uid;
+		unsigned int flags, set;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_STRING, &uid,
+				DBUS_TYPE_INT32, &flags,
+				DBUS_TYPE_INT32, &set,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		is_set = camel_folder_set_message_flags (folder, uid, flags, set);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &is_set, DBUS_TYPE_INVALID);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_FOLDER);
 	} else

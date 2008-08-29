@@ -21,6 +21,12 @@ CamelObjectRemote *camel_folder_remote_get_parent_store (CamelFolderRemote *fold
 
 const char *camel_folder_remote_get_name (CamelFolderRemote *folder);
 
+const char *camel_folder_remote_get_full_name (CamelFolderRemote *folder);
+
+void camel_folder_remote_sync (CamelFolderRemote *folder, gboolean expunge, CamelException *ex);
+
+gboolean camel_folder_remote_set_message_flags (CamelFolderRemote *folder, const char *uid, guint32 flags, guint32 set);
+
 guint32 camel_folder_remote_get_folder_flags (CamelFolderRemote *folder);
 
 #endif
