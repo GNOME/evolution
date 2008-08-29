@@ -15,12 +15,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-29 04:43+0000\n"
-"PO-Revision-Date: 2008-08-22 14:21+0200\n"
+"POT-Creation-Date: 2008-08-29 18:03+0000\n"
+"PO-Revision-Date: 2008-08-29 20:45+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type:  text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
@@ -28,7 +28,6 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:178
-#, fuzzy
 msgid "evolution address book"
 msgstr "libreta de direcciones de Evolution"
 
@@ -392,7 +391,6 @@ msgid "Could not get schema information for LDAP server."
 msgstr "No es posible obtener el esquema de información del servidor LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:10
-#, fuzzy
 msgid "Could not remove address book."
 msgstr "No es posible eliminar la libreta de direcciones."
 
@@ -412,7 +410,6 @@ msgid "Delete address book '{0}'?"
 msgstr "¿Quiere borrar la libreta de direcciones «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:13
-#, fuzzy
 msgid "Error loading address book."
 msgstr "Error al cargar la libreta de direcciones."
 
@@ -449,7 +446,6 @@ msgstr ""
 "actual"
 
 #: ../addressbook/addressbook.error.xml.h:21
-#, fuzzy
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "La libreta de direcciones de Evolution ha terminado inesperadamente."
 
@@ -471,19 +467,16 @@ msgstr ""
 "administrador de sistema las bases de búsqueda soportadas."
 
 #: ../addressbook/addressbook.error.xml.h:24
-#, fuzzy
 msgid "This address book could not be opened."
 msgstr "Esta libreta de direcciones no se pudo abrir."
 
 #: ../addressbook/addressbook.error.xml.h:25
-#, fuzzy
 msgid "This address book server does not have any suggested search bases."
 msgstr ""
 "Este servidor de libretas de direcciones no tiene ninguna de las bases de "
 "búsqueda sugeridas."
 
 #: ../addressbook/addressbook.error.xml.h:26
-#, fuzzy
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -501,7 +494,6 @@ msgid "This server does not support LDAPv3 schema information."
 msgstr "Este servidor no soporta el esquema de información LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:29
-#, fuzzy
 msgid "Unable to open address book"
 msgstr "Es imposible abrir la libreta de direcciones"
 
@@ -518,7 +510,6 @@ msgid "Would you like to save your changes?"
 msgstr "¿Desea guardar los cambios?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#, fuzzy
 msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -594,7 +585,6 @@ msgstr "Dirección de sincr. predeterminada:"
 
 #: ../addressbook/conduit/address-conduit.c:1320
 #: ../addressbook/conduit/address-conduit.c:1321
-#, fuzzy
 msgid "Could not load address book"
 msgstr "No es posible cargar la libreta de direcciones"
 
@@ -3592,7 +3582,6 @@ msgid "Unsupported authentication method"
 msgstr "Método de autenticación no soportado"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:102
-#, fuzzy
 msgid ""
 "We were unable to open this address book. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -3604,7 +3593,7 @@ msgstr ""
 "modo conectado para descargar su contenido"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:111
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We were unable to open this address book.  Please check that the path %s "
 "exists and that you have permission to access it."
@@ -3613,7 +3602,6 @@ msgstr ""
 "exista y que tenga permisos para acceder a ella."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:120
-#, fuzzy
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the LDAP server is unreachable."
@@ -3632,7 +3620,6 @@ msgstr ""
 "activado."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:132
-#, fuzzy
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the server is unreachable."
@@ -3645,7 +3632,6 @@ msgid "Detailed error:"
 msgstr "Detalle del error:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:161
-#, fuzzy
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3659,7 +3645,6 @@ msgstr ""
 "de directorios para esta libreta de direcciones."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:167
-#, fuzzy
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this address book.  Please make your search\n"
@@ -3673,13 +3658,11 @@ msgstr ""
 " de direcciones."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:173
-#, fuzzy
 msgid "The backend for this address book was unable to parse this query."
 msgstr ""
 "El backend de esta libreta de direcciones no pudo analizar esta consulta."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:176
-#, fuzzy
 msgid "The backend for this address book refused to perform this query."
 msgstr ""
 "El backend para esta libreta de direcciones rehusó a efectuar esta consulta."
@@ -3831,7 +3814,6 @@ msgid "Show Compact vCard"
 msgstr "Mostrar vCard compacta"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
-#, fuzzy
 msgid "Save in address book"
 msgstr "Guardar en la libreta de direcciones"
 
@@ -4094,7 +4076,6 @@ msgid "Can not open file"
 msgstr "No es posible abrir el archivo"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-#, fuzzy
 msgid "Couldn't get list of address books"
 msgstr "No se pudo obtener una lista de libretas de direcciones"
 
@@ -4111,7 +4092,6 @@ msgid "OUTPUTFILE"
 msgstr "ARCHIVO-DE-SALIDA"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
-#, fuzzy
 msgid "List local address book folders"
 msgstr "Listar las carpetas de libretas de direcciones locales"
 
@@ -13231,7 +13211,6 @@ msgid "Default width of the subscribe dialog."
 msgstr "Anchura predeterminada del diálogo de suscripción."
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -13240,14 +13219,12 @@ msgstr ""
 "libreta de direcciones local"
 
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
 "Determina si se debe buscar la dirección del remitente en la libreta de "
 "direcciones"
 
 #: ../mail/evolution-mail.schemas.in.h:35
-#, fuzzy
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -13668,7 +13645,6 @@ msgid "Save directory"
 msgstr "Directorio donde guardar"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#, fuzzy
 msgid "Search for the sender photo in local address books"
 msgstr "Buscar la foto del remitente en libretas de direcciones locales"
 
@@ -13817,7 +13793,6 @@ msgstr ""
 "debe mostrar en la vista de correo."
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -14471,7 +14446,6 @@ msgid "Do not format messages when text si_ze exceeds"
 msgstr "No formatear mensajes si el ta_maño del texto excede"
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "_No marcar los mensajes como basura si el remitente está en mi libreta de "
@@ -14685,7 +14659,6 @@ msgid "S_OCKS Host:"
 msgstr "Equipo S_OCKS:"
 
 #: ../mail/mail-config.glade.h:127
-#, fuzzy
 msgid "S_earch for sender photograph only in local address books"
 msgstr "Bu_scar la foto del remitente sólo en libretas de direcciones locales"
 
@@ -14854,7 +14827,6 @@ msgid "_Load images in messages from contacts"
 msgstr "_Cargar imágenes en los correo de mis contactos"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Lookup in local address book only"
 msgstr "_Buscar sólo en la libreta de direcciones local"
 
@@ -16428,7 +16400,6 @@ msgstr "Contactos automáticos"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:567
-#, fuzzy
 msgid "_Auto-create address book entries when replying to messages"
 msgstr ""
 "Crear entradas _automáticamente en la libreta de direcciones al responder "
@@ -16460,7 +16431,6 @@ msgid "Synchronize with _buddy list now"
 msgstr "Sincronizar con la lista de _contactos de MI ahora"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Automatically fills your address book with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
@@ -16693,7 +16663,6 @@ msgid "Default Sources"
 msgstr "Fuentes predeterminadas"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Provides functionality for marking a calendar or an address book as the "
 "default one."
@@ -18368,7 +18337,6 @@ msgid "iCalendar format (.ics)"
 msgstr "Formato iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Synchronize the selected task/memo/calendar/address book with Apple iPod"
 msgstr ""
@@ -21370,24 +21338,23 @@ msgstr "Copiar"
 
 #: ../ui/evolution-addressbook.xml.h:7
 msgid "Copy Selected Contacts to Another Folder..."
-msgstr "Copia los contactos seleccionados a otra carpeta…"
+msgstr "Copiar los contactos seleccionados a otra carpeta…"
 
 #: ../ui/evolution-addressbook.xml.h:8
 msgid "Copy the contacts of the selected folder into another folder"
-msgstr "Copia los contactos de la carpeta seleccionada en otra carpeta"
+msgstr "Copiar el contenido de la carpeta seleccionada en otra carpeta"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "Copia la selección"
+msgstr "Copiar la selección"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
-msgstr "Copia a la carpeta…"
+msgstr "Copiar a la carpeta…"
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Create a new address book folder"
-msgstr "Crea una libreta de direcciones nueva"
+msgstr "Crear una libreta de direcciones nueva"
 
 #: ../ui/evolution-addressbook.xml.h:12 ../ui/evolution-memos.xml.h:4
 #: ../ui/evolution-tasks.xml.h:4
@@ -21396,7 +21363,7 @@ msgstr "Cortar"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "Corta la selección"
+msgstr "Cortar la selección"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
@@ -21404,11 +21371,11 @@ msgstr "_Borrar la libreta de direcciones"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
-msgstr "Borra los contactos seleccionados"
+msgstr "Borrar los contactos seleccionados"
 
 #: ../ui/evolution-addressbook.xml.h:17
 msgid "Delete the selected folder"
-msgstr "Borra las carpeta seleccionada"
+msgstr "Borrar las carpeta seleccionada"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
@@ -21420,11 +21387,11 @@ msgstr "Mo_ver todos los contactos a…"
 
 #: ../ui/evolution-addressbook.xml.h:20
 msgid "Move Selected Contacts to Another Folder..."
-msgstr "Mueve los contactos seleccionados a otra carpeta…"
+msgstr "Mover los contactos seleccionados a otra carpeta…"
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
-msgstr "Mueve los contactos de la carpeta seleccionada a otra carpeta"
+msgstr "Mover los contactos de la carpeta seleccionada a otra carpeta"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
@@ -21441,15 +21408,15 @@ msgstr "Pega el contenido del porta papeles"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
-msgstr "Previsualiza los contactos a imprimir"
+msgstr "Previsualizar los contactos que imprimir"
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
-msgstr "Imprime los contactos seleccionados"
+msgstr "Imprimir los contactos seleccionados"
 
 #: ../ui/evolution-addressbook.xml.h:29
 msgid "Rename the selected folder"
-msgstr "Renombra la carpeta seleccionada"
+msgstr "Renombrar la carpeta seleccionada"
 
 #: ../ui/evolution-addressbook.xml.h:30
 msgid "S_ave Address Book As VCard"
