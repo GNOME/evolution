@@ -59,7 +59,7 @@ camel_session_remote_construct	(CamelSessionRemote *session,
 	}
 
 	if (!store_rhash)
-		store_rhash = g_hash_table_new (g_direct_hash, g_direct_equal);
+		store_rhash = g_hash_table_new (g_str_hash, g_str_equal);
 	d(printf("Camel session constructed remotely\n"));
 
 }
@@ -165,7 +165,7 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 	CamelObjectRemote *rstore;
 
 	if (!store_rhash)
-		store_rhash = g_hash_table_new (g_direct_hash, g_direct_equal);
+		store_rhash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -186,8 +186,8 @@ camel_session_remote_get_service (CamelSessionRemote *session, const char *url_s
 	rstore->object_id = service;
 	rstore->type = CAMEL_RO_STORE;
 	rstore->hooks = NULL;
-	d(printf("Camel session get service remotely\n"));
-	g_hash_table_insert (store_rhash, g_hash_table_lookup(store_hash, service), rstore);
+	d(printf("Camel session get service remotely and added %s(%p) to rhash(%p)\n", service, rstore, store_rhash));
+	g_hash_table_insert (store_rhash, service, rstore);
 	return rstore;
 }
 
@@ -219,8 +219,8 @@ camel_session_remote_get_service_connected (CamelSessionRemote *session, const c
 	rstore->object_id = service;
 	rstore->type = CAMEL_RO_STORE;
 	rstore->hooks = NULL;
-	d(printf("Camel session get service connected remotely\n"));
-	g_hash_table_insert (store_rhash, g_hash_table_lookup(store_hash, service), rstore);
+	d(printf("Camel session get service connected remotely and adding %s(%p) to rhash \n", service, rstore));
+	g_hash_table_insert (store_rhash, store_hash, rstore);
 	return rstore;
 }
 
