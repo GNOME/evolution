@@ -70,7 +70,7 @@ static volatile int vshutdown;		/* are we shutting down? */
 /* more globals ... */
 extern CamelSession *session;
 
-static void rule_changed(FilterRule *rule, CamelFolder *folder);
+static void rule_changed(FilterRule *rule, CamelFolderRemote *folder);
 
 #define LOCK() pthread_mutex_lock(&vfolder_lock);
 #define UNLOCK() pthread_mutex_unlock(&vfolder_lock);
@@ -80,7 +80,7 @@ static void rule_changed(FilterRule *rule, CamelFolder *folder);
 struct _setup_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 	char *query;
 	GList *sources_uri;
 	GList *sources_folder;
@@ -89,16 +89,16 @@ struct _setup_msg {
 static gchar *
 vfolder_setup_desc (struct _setup_msg *m)
 {
-	return g_strdup_printf(_("Setting up Search Folder: %s"), m->folder->full_name);
+	return g_strdup_printf(_("Setting up Search Folder: %s"), camel_folder_remote_get_name (m->folder));
 }
 
 static void
 vfolder_setup_exec (struct _setup_msg *m)
 {
 	GList *l, *list = NULL;
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 
-	d(printf("Setting up Search Folder: %s\n", m->folder->full_name));
+	d(printf("Setting up Search Folder: %s\n", camel_folder_remote_get_name (m->folder)));
 
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
@@ -117,7 +117,7 @@ vfolder_setup_exec (struct _setup_msg *m)
 
 	l = m->sources_folder;
 	while (l && !vshutdown) {
-		d(printf(" Adding folder: %s\n", ((CamelFolder *)l->data)->full_name));
+		d(printf(" Adding folder: %s\n", ((CamelFolderRemote *)l->data)->full_name));
 		camel_object_ref(l->data);
 		list = g_list_append(list, l->data);
 		l = l->next;
@@ -172,7 +172,7 @@ static MailMsgInfo vfolder_setup_info = {
 
 /* sources_uri should be camel uri's */
 static int
-vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList *sources_folder)
+vfolder_setup(CamelFolderRemote *folder, const char *query, GList *sources_uri, GList *sources_folder)
 {
 	struct _setup_msg *m;
 	int id;
@@ -249,7 +249,7 @@ static void
 vfolder_adduri_exec (struct _adduri_msg *m)
 {
 	GList *l;
-	CamelFolder *folder = NULL;
+	CamelFolderRemote *folder = NULL;
 
 	if (vshutdown)
 		return;
@@ -700,7 +700,7 @@ rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
 {
 	GList *sources_folder = *sources_folderp;
 	GList *sources_uri = *sources_urip;
-	CamelFolder *newfolder;
+	CamelFolderRemote *newfolder;
 
 	while (l) {
 		char *curi = em_uri_to_camel(l->data);
@@ -720,13 +720,13 @@ rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
 }
 
 static void
-rule_changed(FilterRule *rule, CamelFolder *folder)
+rule_changed(FilterRule *rule, CamelFolderRemote *folder)
 {
 	GList *sources_uri = NULL, *sources_folder = NULL;
 	GString *query;
 
 	/* if the folder has changed name, then add it, then remove the old manually */
-	if (strcmp(folder->full_name, rule->name) != 0) {
+	if (strcmp(camel_folder_remote_get_name (folder), rule->name) != 0) {
 		char *oldname;
 
 		gpointer key;
@@ -734,18 +734,18 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 		LOCK();
 		d(printf("Changing folder name in hash table to '%s'\n", rule->name));
-		if (g_hash_table_lookup_extended (vfolder_hash, folder->full_name, &key, &oldfolder)) {
+		if (g_hash_table_lookup_extended (vfolder_hash, camel_folder_remote_get_name (folder), &key, &oldfolder)) {
 			g_hash_table_remove (vfolder_hash, key);
 			g_free (key);
 			g_hash_table_insert (vfolder_hash, g_strdup(rule->name), folder);
 			UNLOCK();
 		} else {
 			UNLOCK();
-			g_warning("couldn't find a vfolder rule in our table? %s", folder->full_name);
+			g_warning("couldn't find a vfolder rule in our table? %s", camel_folder_remote_get_name (folder));
 		}
 
-		/* TODO: make the folder->full_name var thread accessible */
-		oldname = g_strdup(folder->full_name);
+		/* TODO: make the camel_folder_remote_get_name (folder) var thread accessible */
+		oldname = g_strdup(camel_folder_remote_get_name (folder));
 		camel_store_rename_folder_remote(vfolder_store, oldname, rule->name, NULL);
 		g_free(oldname);
 	}
@@ -772,7 +772,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 {
-	CamelFolder *folder;
+	CamelFolderRemote *folder;
 
 	d(printf("rule added: %s\n", rule->name));
 
@@ -816,7 +816,7 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	camel_store_delete_folder_remote(vfolder_store, rule->name, NULL);
 	/* this must be unref'd after its deleted */
 	if (folder)
-		camel_object_unref ((CamelFolder *) folder);
+		camel_object_unref ((CamelFolderRemote *) folder);
 }
 
 static void
@@ -1210,7 +1210,7 @@ vfolder_gui_add_from_address(CamelInternetAddress *addr, int flags, const char *
 static void
 vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
 {
-	CamelFolder *folder = CAMEL_FOLDER (data);
+	CamelFolderRemote *folder = CAMEL_FOLDER (data);
 
 	if (folder)
 		camel_object_unref(folder);
