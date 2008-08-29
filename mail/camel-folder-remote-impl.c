@@ -210,7 +210,8 @@ dbus_listener_message_handler(DBusConnection * connection,
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 	} else if (strcmp(method, "camel_folder_get_message_user_tag") == 0) {
 		gboolean ret;
-		const char *uid, *name, user_tag; 
+		const char *uid, *name;
+		char *user_tag; 
 
 		ret = dbus_message_get_args (message, NULL,
 				DBUS_TYPE_STRING, &folder_hash_key,
