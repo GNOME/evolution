@@ -110,6 +110,55 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 	return hook->remote_id;
 }
 
+void
+camel_object_remote_unhook_event (CamelObjectRemote *object, char *signal, CamelObjectEventHookFunc func, gpointer data)
+{
+	CamelHookRemote *hook;
+	gboolean ret;
+	DBusError error;
+	char *hash;
+	GList *tmp, *prev;
+	
+	if (object == NULL) {
+		object = rsession;
+	}
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			obj_path[object->type],
+			obj_if[object->type],
+			"camel_object_unhook_event",
+			&error, 
+			"ssi", object->object_id, signal, data); /* Just string of base dir */
+
+	if (!ret) {
+		g_warning ("Error: Unhooking : %s\n", error.message);
+		return;
+	}
+	
+	/* We purposefully append */
+	tmp = object->hooks;
+	prev = NULL;
+	while (tmp) {
+		 CamelHookRemote *hook = tmp->data;
+		 if (hook->func == func && data == hook->data && strcmp(hook->signal, signal) == 0) {
+			  /* Delete it */
+			  if (prev)
+				   prev = tmp->next;
+			  else
+				   object->hooks = tmp->next;
+			  g_free (hook);
+			  break;
+		 }
+		 prev = tmp;
+		 tmp = tmp->next;
+	}
+
+	return;
+}
+
 gboolean
 camel_object_remote_meta_set (CamelObjectRemote *object, char *name, char *value)
 {

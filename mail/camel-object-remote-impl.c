@@ -74,7 +74,26 @@ camel_object_signal_handler (DBusConnection *connection,
 		ret_id = camel_object_hook_event (object, signal, (CamelObjectEventHookFunc)object_signal_cb, data);
 		dbus_message_append_args (return_val, DBUS_TYPE_UINT32, &ret_id, DBUS_TYPE_INVALID);
 		added = TRUE;
-	} else if(strcmp (method, "camel_object_meta_set")) {
+	} else if (strcmp(method, "camel_object_unhook_event") == 0) {
+		char *signal, *data, *object_hash;
+		unsigned int ret_id;
+		int ptr;
+
+		dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &object_hash,
+				DBUS_TYPE_STRING, &signal,
+				DBUS_TYPE_INT32, &ptr,
+				DBUS_TYPE_INVALID);
+		data = g_strdup_printf ("%s:%s:%d", object_hash, signal, ptr);
+		if (type == CAMEL_ROT_STORE)
+			object = g_hash_table_lookup (store_hash, object_hash);
+		else if (type == CAMEL_ROT_FOLDER)
+				object = g_hash_table_lookup (folder_hash, object_hash);
+		else 
+			object = session;
+
+		camel_object_unhook_event (object, signal, (CamelObjectEventHookFunc)object_signal_cb, data);
+	} else if(strcmp (method, "camel_object_meta_set") == 0) {
 		 char *name, *value, *object_hash;
 		 gboolean ret;
 
@@ -93,7 +112,7 @@ camel_object_signal_handler (DBusConnection *connection,
 		 ret = camel_object_meta_set (object, name, value);
 		 dbus_message_append_args (return_val, DBUS_TYPE_INT32, &ret, DBUS_TYPE_INVALID);
 		 added = TRUE;
-	} else if(strcmp (method, "camel_object_state_write")) {
+	} else if(strcmp (method, "camel_object_state_write") == 0) {
 		 char *object_hash;
 		 int ret;
 
@@ -111,7 +130,7 @@ camel_object_signal_handler (DBusConnection *connection,
 		 ret = camel_object_state_write (object);
 		 dbus_message_append_args (return_val, DBUS_TYPE_INT32, &ret, DBUS_TYPE_INVALID);
 		 added = TRUE;
-	} else if(strcmp (method, "camel_object_meta_get")) {
+	} else if(strcmp (method, "camel_object_meta_get") == 0) {
 		 char *name, *value, *object_hash;
 		 gboolean ret;
 
@@ -127,6 +146,8 @@ camel_object_signal_handler (DBusConnection *connection,
 			  object = session;
 
 		 value = camel_object_meta_get (object, name);
+		 if (!value)
+			  value = "";
 		 dbus_message_append_args (return_val, DBUS_TYPE_STRING, &value, DBUS_TYPE_INVALID);
 		 added = TRUE;
 	} else /* FIXME: Free memory and return */
