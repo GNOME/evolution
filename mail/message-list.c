@@ -2256,7 +2256,7 @@ message_list_destroy(GtkObject *object)
 			message_list->uid_nodemap = NULL;
 		}
 
-		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
+		camel_object_remote_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
 		camel_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
@@ -3289,7 +3289,7 @@ message_list_set_folder (MessageList *message_list, CamelFolderRemote *folder, c
 	e_tree_memory_thaw(E_TREE_MEMORY(etm));
 
 	if (message_list->folder) {
-		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
+		camel_object_remote_unhook_event((CamelObject *)message_list->folder, "folder_changed",
 					  folder_changed, message_list);
 		camel_object_unref (message_list->folder);
 		message_list->folder = NULL;
@@ -3341,7 +3341,7 @@ message_list_set_folder (MessageList *message_list, CamelFolderRemote *folder, c
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
 
-		camel_object_hook_event (folder, "folder_changed", folder_changed, message_list);
+		camel_object_remote_hook_event (folder, "folder_changed", folder_changed, message_list);
 
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);

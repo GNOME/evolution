@@ -231,9 +231,9 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;
 
-		camel_object_unhook_event(folder, "folder_changed", folder_changed, NULL);
-		camel_object_unhook_event(folder, "renamed", folder_renamed, NULL);
-		camel_object_unhook_event(folder, "finalize", folder_finalised, NULL);
+		camel_object_remote_unhook_event(folder, "folder_changed", folder_changed, NULL);
+		camel_object_remote_unhook_event(folder, "renamed", folder_renamed, NULL);
+		camel_object_remote_unhook_event(folder, "finalize", folder_finalised, NULL);
 	}
 
 	if ((mfi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
@@ -497,9 +497,9 @@ void mail_note_folder(CamelFolder *folder)
 
 	UNLOCK(info_lock);
 
-	camel_object_hook_event(folder, "folder_changed", folder_changed, NULL);
-	camel_object_hook_event(folder, "renamed", folder_renamed, NULL);
-	camel_object_hook_event(folder, "finalize", folder_finalised, NULL);
+	camel_object_remote_hook_event(folder, "folder_changed", folder_changed, NULL);
+	camel_object_remote_hook_event(folder, "renamed", folder_renamed, NULL);
+	camel_object_remote_hook_event(folder, "finalize", folder_finalised, NULL);
 }
 
 static void
@@ -762,12 +762,12 @@ mail_note_store_remove(CamelObjectRemote *store)
 	if (si) {
 		g_hash_table_remove(stores, store);
 
-		camel_object_unhook_event(store, "folder_opened", store_folder_opened, NULL);
-		camel_object_unhook_event(store, "folder_created", store_folder_created, NULL);
-		camel_object_unhook_event(store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_unhook_event(store, "folder_renamed", store_folder_renamed, NULL);
-		camel_object_unhook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
-		camel_object_unhook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+		camel_object_remote_unhook_event(store, "folder_opened", store_folder_opened, NULL);
+		camel_object_remote_unhook_event(store, "folder_created", store_folder_created, NULL);
+		camel_object_remote_unhook_event(store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_remote_unhook_event(store, "folder_renamed", store_folder_renamed, NULL);
+		camel_object_remote_unhook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_remote_unhook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info_hash, NULL);
 
 		ud = (struct _update_data *)si->folderinfo_updates.head;

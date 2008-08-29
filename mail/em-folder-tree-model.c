@@ -854,11 +854,11 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelObjectRemote *sto
 
 	/* listen to store events */
 #define CAMEL_CALLBACK(func) ((CamelObjectEventHookFunc) func)
-	si->created_id = camel_object_hook_event (store, "folder_created", CAMEL_CALLBACK (folder_created_cb), model);
-	si->deleted_id = camel_object_hook_event (store, "folder_deleted", CAMEL_CALLBACK (folder_deleted_cb), model);
-	si->renamed_id = camel_object_hook_event (store, "folder_renamed", CAMEL_CALLBACK (folder_renamed_cb), model);
-	si->subscribed_id = camel_object_hook_event (store, "folder_subscribed", CAMEL_CALLBACK (folder_subscribed_cb), model);
-	si->unsubscribed_id = camel_object_hook_event (store, "folder_unsubscribed", CAMEL_CALLBACK (folder_unsubscribed_cb), model);
+	si->created_id = camel_object_remote_hook_event (store, "folder_created", CAMEL_CALLBACK (folder_created_cb), model);
+	si->deleted_id = camel_object_remote_hook_event (store, "folder_deleted", CAMEL_CALLBACK (folder_deleted_cb), model);
+	si->renamed_id = camel_object_remote_hook_event (store, "folder_renamed", CAMEL_CALLBACK (folder_renamed_cb), model);
+	si->subscribed_id = camel_object_remote_hook_event (store, "folder_subscribed", CAMEL_CALLBACK (folder_subscribed_cb), model);
+	si->unsubscribed_id = camel_object_remote_hook_event (store, "folder_unsubscribed", CAMEL_CALLBACK (folder_unsubscribed_cb), model);
 
 	g_signal_emit (model, signals[LOADED_ROW], 0, path, &root);
 	gtk_tree_path_free (path);

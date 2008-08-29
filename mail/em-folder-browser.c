@@ -2058,7 +2058,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 
 		mail_refresh_folder(folder, NULL, NULL);
 
-		emfb->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
+		emfb->priv->folder_changed_id = camel_object_remote_hook_event(folder, "folder_changed",
 									(CamelObjectEventHookFunc)emfb_folder_changed, emfb);
 
 		/* FIXME: this mostly copied from activate() */
