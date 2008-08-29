@@ -994,7 +994,7 @@ vfolder_setup_exec(struct _setup_msg *m)
 
 	d(printf("Setting up Search Folder: %s\n", m->folder->full_name));
 
-	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
+	camel_folder_remote_set_vee_folder_expression (m->folder, m->query);
 
 	l = m->sources_uri;
 	while (l) {
@@ -1183,7 +1183,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    g_free (storeuri);
 		    } else {
 			    /* Reuse the existing search folder */
-			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->account_search_vf, search_word);
+				camel_folder_remote_set_vee_folder_expression (efb->account_search_vf, search_word);
 		    }
 
 		    break;
@@ -1266,7 +1266,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    g_free (storeuri);
 		    } else {
 			    /* Reuse the existing search folder */
-			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->all_account_search_vf, search_word);
+				camel_folder_remote_set_vee_folder_expression (efb->all_account_search_vf, search_word);
 		    }
 
 		    break;

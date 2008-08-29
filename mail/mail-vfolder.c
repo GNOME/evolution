@@ -100,7 +100,7 @@ vfolder_setup_exec (struct _setup_msg *m)
 
 	d(printf("Setting up Search Folder: %s\n", camel_folder_remote_get_name (m->folder)));
 
-	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
+	camel_folder_remote_set_vee_folder_expression (m->folder, m->query);
 
 	l = m->sources_uri;
 	while (l && !vshutdown) {

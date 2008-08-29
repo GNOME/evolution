@@ -39,4 +39,6 @@ const char *camel_folder_remote_get_message_user_tag (CamelFolderRemote *folder,
 
 void camel_folder_remote_set_message_user_tag (CamelFolderRemote *folder, const char *uid, const char *name, const char *value);
 
+void camel_folder_remote_set_vee_folder_expression (CamelFolderRemote *folder, const char *query);
+
 #endif

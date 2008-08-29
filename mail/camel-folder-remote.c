@@ -400,3 +400,27 @@ camel_folder_remote_set_message_user_tag (CamelFolderRemote *folder, const char 
 }
 
 
+void
+camel_folder_remote_set_vee_folder_expression (CamelFolderRemote *folder, const char *query)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_vee_folder_set_expression",
+			&error, 
+			"ss", folder->object_id, &query); 
+
+	if (!ret) {
+		g_warning ("Error: camel_folder_remote_set_vee_folder_expression : %s\n", error.message);
+		return;
+	}
+
+	d(printf("camel_folder_remote_set_vee_folder_expression \n"));
+}

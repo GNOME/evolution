@@ -237,6 +237,18 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		camel_folder_set_message_user_tag (folder, uid, name, user_tag);
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+	} else if (strcmp (method, "camel_vee_folder_set_expression") == 0) {
+			gboolean ret;
+			const char *query; 
+
+			ret = dbus_message_get_args (message, NULL,
+							DBUS_TYPE_STRING, &folder_hash_key,
+							DBUS_TYPE_STRING, &query,
+							DBUS_TYPE_INVALID);
+			folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+			camel_vee_folder_set_expression ((CamelVeeFolder *) folder, query);
+			dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
 	} else if (strncmp (method, "camel_object", 12) == 0) {
 		return camel_object_signal_handler (connection, message, user_data, CAMEL_ROT_FOLDER);
 	} else
