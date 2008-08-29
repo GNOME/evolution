@@ -13,6 +13,8 @@
 #define CAMEL_STORE_OBJECT_PATH "/org/gnome/evolution/camel/store"
 #define CAMEL_STORE_INTERFACE "org.gnome.evolution.camel.store"
 
+#define d(x)
+
 static gboolean store_setup = FALSE;
 
 extern GHashTable *store_hash;
@@ -80,12 +82,12 @@ dbus_listener_message_handler(DBusConnection * connection,
 	const char *method = dbus_message_get_member(message);
 	DBusMessage *reply;
 
-	printf
+	d(printf
 	    ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
 	     dbus_message_get_path(message),
 	     dbus_message_get_interface(message),
 	     dbus_message_get_member(message),
-	     dbus_message_get_destination(message));
+	     dbus_message_get_destination(message)));
 
 	reply = dbus_message_new_method_return(message);
 
