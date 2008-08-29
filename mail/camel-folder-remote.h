@@ -29,4 +29,14 @@ gboolean camel_folder_remote_set_message_flags (CamelFolderRemote *folder, const
 
 guint32 camel_folder_remote_get_folder_flags (CamelFolderRemote *folder);
 
+gboolean camel_folder_remote_get_message_user_flag (CamelFolderRemote *folder, const char *uid,
+				    		const char *name);
+
+void camel_folder_remote_set_message_user_flag (CamelFolderRemote *folder, const char *uid,
+				    		const char *name, gboolean value);
+
+const char *camel_folder_remote_get_message_user_tag (CamelFolderRemote *folder, const char *uid,  const char *name);
+
+void camel_folder_remote_set_message_user_tag (CamelFolderRemote *folder, const char *uid, const char *name, const char *value);
+
 #endif

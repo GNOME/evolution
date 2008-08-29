@@ -259,20 +259,144 @@ camel_folder_remote_set_message_flags (CamelFolderRemote *folder, const char *ui
 			CAMEL_FOLDER_INTERFACE,
 			"camel_folder_set_message_flags",
 			&error, 
-			"ssii=>i", folder->object_id, uid, flags, set, &is_set); 
+			"ssuu=>i", folder->object_id, uid, flags, set, &is_set); 
 
 	if (!ret) {
-		g_warning ("Error: Camel folder sync: %s\n", error.message);
+		g_warning ("Error: Camel folder set message flags: %s\n", error.message);
 		return 0;
 	}
 
-	d(printf("Camel folder sync remotely\n"));
+	d(printf("Camel folder set message flags remotely\n"));
 	return is_set;
 }
 
 
-guint32 camel_folder_remote_get_folder_flags (CamelFolderRemote *folder)
+guint32 
+camel_folder_remote_get_folder_flags (CamelFolderRemote *folder)
 {
-	return 0;
+	gboolean ret;
+	DBusError error;
+	guint32 folder_flags;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_get_folder_flags",
+			&error, 
+			"s=>u", folder->object_id, &folder_flags); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder get folder flags: %s\n", error.message);
+		return 0;
+	}
+
+	d(printf("Camel folder get folder flags remotely\n"));
+	
+	return folder_flags;
 }
+
+gboolean 
+camel_folder_remote_get_message_user_flag (CamelFolderRemote *folder, const char *uid,
+				    	const char *name)
+{
+	gboolean ret, user_flag;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_get_message_user_flag",
+			&error, 
+			"sss=>i", folder->object_id, uid, name, &user_flag); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder get message user flag: %s\n", error.message);
+		return 0;
+	}
+
+	d(printf("Camel folder get message user flag remotely\n"));
+	return user_flag;
+}
+
+void 
+camel_folder_remote_set_message_user_flag (CamelFolderRemote *folder, const char *uid,
+				    		const char *name, gboolean value)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_set_message_user_flag",
+			&error, 
+			"sssi", folder->object_id, uid, name, value); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder set message user flag: %s\n", error.message);
+		return;
+	}
+
+	d(printf("Camel folder set message user flag remotely\n"));
+}
+
+const char *
+camel_folder_remote_get_message_user_tag (CamelFolderRemote *folder, const char *uid,  const char *name)
+{
+	gboolean ret;
+	const char *user_tag;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_get_message_user_flag",
+			&error, 
+			"sss=>s", folder->object_id, uid, name, &user_tag); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder get message user tag: %s\n", error.message);
+		return NULL;
+	}
+
+	d(printf("Camel folder get message user tag remotely\n"));
+	return user_tag;
+}
+
+void 
+camel_folder_remote_set_message_user_tag (CamelFolderRemote *folder, const char *uid, const char *name, const char *value)
+{
+	gboolean ret;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_set_message_user_tag",
+			&error, 
+			"ssss", folder->object_id, uid, name, value); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder set message user tag: %s\n", error.message);
+		return;
+	}
+
+	d(printf("Camel folder set message user tag remotely\n"));
+}
+
 
