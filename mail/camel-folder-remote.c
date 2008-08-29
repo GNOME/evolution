@@ -145,7 +145,7 @@ camel_folder_remote_get_parent_store (CamelFolderRemote *folder)
 	gboolean ret;
 	DBusError error;
 	char *store_hash_key;
-	CamelObjectRemote *rstore;
+	CamelObjectRemote *rstore=NULL;
 
 	dbus_error_init (&error);
 	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
@@ -164,13 +164,12 @@ camel_folder_remote_get_parent_store (CamelFolderRemote *folder)
 
 	rstore = (CamelObjectRemote *) g_hash_table_lookup (store_rhash, store_hash_key);
 	
-	d(printf("Got parent store from camel folder remotely\n"));
+	d(printf("Got parent store from camel folder remotely:%s %p in %p\n", store_hash_key, rstore, store_rhash));
 	return rstore;
 }
 
 guint32 camel_folder_remote_get_folder_flags (CamelFolderRemote *folder)
 {
-	abort ();
 	return 0;
 }
 
