@@ -187,6 +187,7 @@ idle_cb(gpointer data)
 	camel_session_remote_impl_init ();
 	camel_object_remote_impl_init ();
 	camel_store_remote_impl_init ();
+	camel_folder_remote_impl_init();
 	return FALSE;
 }
 
