@@ -1577,6 +1577,11 @@ sync_store_desc (struct _sync_store_msg *m)
 static void
 sync_store_exec (struct _sync_store_msg *m)
 {
+	if (m->store == NULL) {
+		g_warning ("URGH - null store in sync"); /* FIXME: remove me */
+		return;
+	}
+
 	camel_store_sync_remote(m->store, m->expunge, &m->base.ex);
 }
 

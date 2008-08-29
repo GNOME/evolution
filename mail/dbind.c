@@ -143,17 +143,26 @@ dbind_connection_emit_signal (DBusConnection *cnx,
     return success;
 }
 
+#ifdef CRAZY
 /* urgh */
 static GMutex *mutex = NULL;
 static GCond *cond = NULL;
 static gboolean waiting = FALSE;
 
+/*
+ * So - it is worse than this ...
+ * If a reply comes in on the mainloop ...
+ * We don't wake other threads up (!?)
+ * or - what happens ? do we even get a 'set_reply' called ?
+ */
+   
 static void set_reply (DBusPendingCall *pending, void *user_data)
 {
   void **replyptr = (void **)user_data;
 
   *replyptr = dbus_pending_call_steal_reply (pending);
-  //  fprintf (stderr, "L: %p set_reply - %p\n", g_thread_self(), replyptr);
+  fprintf (stderr, "L: %p set_reply - %p, serial %d\n", g_thread_self(), replyptr,
+	   dbus_message_get_serial (*replyptr));
   g_cond_broadcast (cond);
 }
 
@@ -175,7 +184,10 @@ send_and_allow_reentry (DBusConnection *bus, DBusMessage *message, int timeout, 
   }
   dbus_pending_call_set_notify (pending, set_reply, (void *)&reply, NULL);
   g_mutex_lock (mutex);
-  //  fprintf (stderr, "L: %p send - %p (%s) [%d]\n", g_thread_self(), &reply, dbus_message_get_member (message), waiting);
+  fprintf (stderr, "L: %p send - %p (%s) [%d] serial %d reply serial %d\n",
+	   g_thread_self(), &reply, dbus_message_get_member (message),
+	   waiting, dbus_message_get_serial (message),
+	   dbus_message_get_reply_serial (message));
 
   /* DBus's connection_read_write_dispatch is deadly broken wrt. replies ... */
   while (!reply && !terminate) {
@@ -183,6 +195,8 @@ send_and_allow_reentry (DBusConnection *bus, DBusMessage *message, int timeout, 
 	if (do_poll) {
 		waiting = TRUE;
 		g_mutex_unlock (mutex);
+		/* FIXME: should we use a glib mainloop instead to process
+		   this stuff ? */
 		terminate = !dbus_connection_read_write_dispatch (bus, timeout);
 		g_mutex_lock (mutex);
 		g_cond_broadcast (cond);
@@ -194,6 +208,7 @@ send_and_allow_reentry (DBusConnection *bus, DBusMessage *message, int timeout, 
 
   return reply;
 }
+#endif
 
 static dbus_bool_t
 dbind_connection_exec_va (DBusConnection *cnx,
@@ -299,8 +314,11 @@ dbind_connection_exec_va (DBusConnection *cnx,
 	success = dbus_connection_send (cnx, msg, NULL);
 	goto out;
     } else {
+	reply = dbus_connection_send_with_reply_and_block (cnx, msg, -1, err);
+#ifdef CRAZY
         /* FIXME: We should clean evo.'s APIs up to not require re-enterancy later */
 	reply = send_and_allow_reentry (cnx, msg, -1, err);
+#endif
     }
     if (!reply)
         goto out;
