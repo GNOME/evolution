@@ -9,6 +9,7 @@
 #include <camel/camel-folder.h>
 #include "camel-store-remote.h"
 #include "camel-object-remote.h"
+
 extern GHashTable *folder_hash;
 GHashTable *folder_rhash = NULL;
 
@@ -445,7 +446,7 @@ CamelFolderInfo * camel_store_get_folder_info_remote (CamelStoreRemote *store, c
 	gboolean ret;
 	DBusError error;
 	gpointer info;
-	int ptr;
+	int ptr = NULL;
 	char *err;
 
 	dbus_error_init(&error);
@@ -455,7 +456,11 @@ CamelFolderInfo * camel_store_get_folder_info_remote (CamelStoreRemote *store, c
 					CAMEL_STORE_OBJECT_PATH,
 					CAMEL_STORE_INTERFACE,
 					"camel_store_get_folder_info",
-					&error, "ssu=>is", store->object_id, top ? top : "", flags, &ptr, &err);
+					&error, "ssu=>is", store->object_id, top ? top : "", flags, &ptr, &error);
+	if (!ret) {
+		g_warning ("camel_store_get_folder_info_remote: failed : %s\n", error.message);
+		return NULL;
+	}
 
 	info = (gpointer)ptr;
 	

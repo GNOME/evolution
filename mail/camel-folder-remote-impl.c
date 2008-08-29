@@ -8,6 +8,7 @@
 #define CAMEL_FOLDER_OBJECT_PATH "/org/gnome/evolution/camel/folder"
 #define CAMEL_FOLDER_INTERFACE "org.gnome.evolution.camel.folder"
 
+#define d(x)
 extern GHashTable *store_hash;
 extern GHashTable *folder_hash;
 
@@ -27,12 +28,12 @@ dbus_listener_message_handler(DBusConnection * connection,
 	CamelStore *store;
 	CamelFolder *folder;	
 
-	printf
+	d(printf
 	    ("D-Bus message: obj_path = '%s' interface = '%s' method = '%s' destination = '%s'\n",
 	     dbus_message_get_path (message),
 	     dbus_message_get_interface (message),
 	     dbus_message_get_member (message),
-	     dbus_message_get_destination (message));
+	     dbus_message_get_destination (message)));
 
 	return_val = dbus_message_new_method_return (message);
 
