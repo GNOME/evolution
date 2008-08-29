@@ -95,7 +95,7 @@
 
 #include <camel-store-remote.h>
 #include "mail-dbus.h"
-
+extern CamelObjectRemote *rsession;
 #define d(x)
 
 static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
@@ -817,7 +817,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
 	if (folder != NULL
-	    && camel_session_remote_is_online(session)
+	    && camel_session_remote_is_online(rsession)
 	    && camel_object_get(folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) == 0
 	    && unsent > 0
 	    && e_error_run(NULL, "mail:exit-unsaved", NULL) != GTK_RESPONSE_YES)
@@ -1125,7 +1125,7 @@ call_mail_sync (gpointer user_data)
 	if (camel_application_is_exiting)
 		return FALSE;
 
-	if (!mc->priv->mail_sync_in_progress && session && camel_session_remote_is_online (session))
+	if (!mc->priv->mail_sync_in_progress && session && camel_session_remote_is_online (rsession))
 		mail_component_stores_foreach (mc, mc_sync_store, mc);
 
 	return !camel_application_is_exiting;
