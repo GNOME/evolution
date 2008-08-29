@@ -1272,8 +1272,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    break;
 	}
 	g_object_get (esb, "state", &search_state, NULL);
-	camel_object_meta_set (emfv->folder, "evolution:search_state", search_state);
-	camel_object_state_write (emfv->folder);
+	camel_object_remote_meta_set (emfv->folder, "evolution:search_state", search_state);
+	camel_object_remote_state_write (emfv->folder);
 	g_free (search_state);
 
 	if (search_word) {
@@ -1380,8 +1380,8 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 		emfb->priv->scope_restricted = TRUE;
 	}
 
-	camel_object_meta_set (emfv->folder, "evolution:selected_uid", uid);
-	camel_object_state_write (emfv->folder);
+	camel_object_remote_meta_set (emfv->folder, "evolution:selected_uid", uid);
+	camel_object_remote_state_write (emfv->folder);
 	g_free (emfb->priv->select_uid);
 	emfb->priv->select_uid = NULL;
 }
@@ -1792,8 +1792,8 @@ emfb_view_threaded(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/thread_list", state[0] != '0', NULL);
 
-	if (camel_object_meta_set(emfv->folder, "evolution:thread_list", state))
-		camel_object_state_write(emfv->folder);
+	if (camel_object_remote_meta_set(emfv->folder, "evolution:thread_list", state))
+		camel_object_remote_state_write(emfv->folder);
 
 	/* FIXME: do set_threaded via meta-data listener on folder? */
 	message_list_set_threaded(emfv->list, state[0] != '0');
@@ -1813,8 +1813,8 @@ emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_preview", state[0] != '0', NULL);
 
-	if (camel_object_meta_set(emfv->folder, "evolution:show_preview", state))
-		camel_object_state_write(emfv->folder);
+	if (camel_object_remote_meta_set(emfv->folder, "evolution:show_preview", state))
+		camel_object_remote_state_write(emfv->folder);
 
 	/* FIXME: do this via folder listener */
 	em_folder_browser_show_preview((EMFolderBrowser *)emfv, state[0] != '0');
@@ -1860,8 +1860,8 @@ emfb_list_scrolled (MessageList *ml, EMFolderBrowser *emfb)
 	position = message_list_get_scrollbar_position (ml);
 	state = g_strdup_printf ("%f", position);
 
-	if (camel_object_meta_set (emfv->folder, "evolution:list_scroll_position", state))
-		camel_object_state_write (emfv->folder);
+	if (camel_object_remote_meta_set (emfv->folder, "evolution:list_scroll_position", state))
+		camel_object_remote_state_write (emfv->folder);
 
 	g_free (state);
 }
@@ -1873,7 +1873,7 @@ scroll_idle_cb (EMFolderBrowser *emfb)
 	double position;
 	char *state;
 
-	if ((state = camel_object_meta_get (emfv->folder, "evolution:list_scroll_position"))) {
+	if ((state = camel_object_remote_meta_get (emfv->folder, "evolution:list_scroll_position"))) {
 		position = strtod (state, NULL);
 		g_free (state);
 	} else {
@@ -2047,9 +2047,9 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 
 		safe = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/safe_list", NULL);
 		if (safe) {
-			if (camel_object_meta_set(emfv->folder, "evolution:show_preview", "0") &&
-			    camel_object_meta_set(emfv->folder, "evolution:selected_uid", NULL)) {
-				camel_object_state_write(emfv->folder);
+			if (camel_object_remote_meta_set(emfv->folder, "evolution:show_preview", "0") &&
+			    camel_object_remote_meta_set(emfv->folder, "evolution:selected_uid", NULL)) {
+				camel_object_remote_state_write(emfv->folder);
 				g_free (emfb->priv->select_uid);
 				emfb->priv->select_uid = NULL;
 			}
@@ -2062,7 +2062,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 									(CamelObjectEventHookFunc)emfb_folder_changed, emfb);
 
 		/* FIXME: this mostly copied from activate() */
-		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview"))) {
+		if ((sstate = camel_object_remote_meta_get(folder, "evolution:show_preview"))) {
 			state = sstate[0] != '0';
 			g_free(sstate);
 		} else
@@ -2071,7 +2071,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		if (emfv->uic)
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 
-		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list"))) {
+		if ((sstate = camel_object_remote_meta_get(folder, "evolution:thread_list"))) {
 			state = sstate[0] != '0';
 			g_free(sstate);
 		} else
@@ -2089,7 +2089,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		}
 
 		/* Fixme */
-		sstate = camel_object_meta_get(folder, "evolution:search_state");
+		sstate = camel_object_remote_meta_get(folder, "evolution:search_state");
 		if (sstate) {
 			g_object_set(emfb->search, "state", sstate, NULL);
 			g_free(sstate);
@@ -2124,7 +2124,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			p->suppress_message_selection = FALSE;
 
 		if (!p->suppress_message_selection)
-			sstate = camel_object_meta_get (
+			sstate = camel_object_remote_meta_get (
 				folder, "evolution:selected_uid");
 		else
 			sstate = NULL;
@@ -2166,7 +2166,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		/* (Pre)view toggle */
 		if (emfv->folder
-		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:show_preview"))) {
+		    && (sstate = camel_object_remote_meta_get(emfv->folder, "evolution:show_preview"))) {
 			state = sstate[0] == '1';
 			g_free(sstate);
 		} else {
@@ -2197,7 +2197,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		/* ViewThreaded */
 		if (emfv->folder
-		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:thread_list"))) {
+		    && (sstate = camel_object_remote_meta_get(emfv->folder, "evolution:thread_list"))) {
 			state = sstate[0] != '0';
 			g_free(sstate);
 		} else {

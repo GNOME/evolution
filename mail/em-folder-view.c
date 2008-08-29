@@ -3168,15 +3168,15 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		if (state_gconf == FALSE)
 			emfv_enable_menus (emfv);
 
-		if ((ret = camel_object_meta_get (emfv->folder, "evolution:show_preview"))) {
+		if ((ret = camel_object_remote_meta_get (emfv->folder, "evolution:show_preview"))) {
 			state_camel = (ret[0] != '0');
 			g_free (ret);
 			if (state_gconf == state_camel)
 				return;
 		}
 
-		if (camel_object_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1" : "0"))
-			camel_object_state_write (emfv->folder);
+		if (camel_object_remote_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1" : "0"))
+			camel_object_remote_state_write (emfv->folder);
 		if (emfv->list_active)
 			em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
 		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
@@ -3200,15 +3200,15 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			return;
 
 		state_gconf = gconf_value_get_bool (value);
-		if ((ret = camel_object_meta_get (emfv->folder, "evolution:thread_list"))) {
+		if ((ret = camel_object_remote_meta_get (emfv->folder, "evolution:thread_list"))) {
 			state_camel = (ret[0] != '0');
 			g_free (ret);
 			if (state_gconf == state_camel)
 				return;
 		}
 
-		if (camel_object_meta_set (emfv->folder, "evolution:thread_list", state_gconf ? "1" : "0"))
-			camel_object_state_write (emfv->folder);
+		if (camel_object_remote_meta_set (emfv->folder, "evolution:thread_list", state_gconf ? "1" : "0"))
+			camel_object_remote_state_write (emfv->folder);
 		message_list_set_threaded (emfv->list, state_gconf);
 		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewThreaded", "state", state_gconf ? "1" : "0", NULL);
 		break; }
