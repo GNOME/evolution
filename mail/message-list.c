@@ -1845,7 +1845,7 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 			      "uniform_row_height", TRUE,
 			      NULL);
 
-		name = camel_store_get_service_name_remote (CAMEL_SERVICE (camel_folder_remote_get_parent_store(message_list->folder)), TRUE);
+		name = camel_store_get_service_name_remote (camel_folder_remote_get_parent_store(message_list->folder), TRUE);
 		d(printf ("folder name is '%s'\n", name));
 
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
@@ -4000,7 +4000,7 @@ regen_list_exec (struct _regen_list_msg *m)
 		}
 	}
 
-	if (camel_exception_is_set (&m->base.ex))
+	if (camel_exception_is_set (&m->base.ex) || !uids)
 		return;
 
 	/* perform hiding */
