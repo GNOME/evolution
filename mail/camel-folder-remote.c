@@ -399,6 +399,82 @@ camel_folder_remote_set_message_user_tag (CamelFolderRemote *folder, const char 
 	d(printf("Camel folder set message user tag remotely\n"));
 }
 
+void
+camel_folder_remote_expunge (CamelFolderRemote *folder, CamelException *ex)
+{
+	gboolean ret;
+	DBusError error;
+	char *err;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_expunge",
+			&error, 
+			"s=>s", folder->object_id, &err); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder expunge: %s\n", error.message);
+		return;
+	}
+
+	d(printf("Camel folder expunge remotely\n"));
+}
+
+gboolean 
+camel_folder_remote_has_search_capability (CamelFolderRemote *folder)
+{
+	gboolean ret, has_search;
+	DBusError error;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_has_search_capability",
+			&error, 
+			"s=>i", folder->object_id, &has_search); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder checking for search capability: %s\n", error.message);
+		return 0;
+	}
+
+	d(printf("Camel folder checking for search capability remotely\n"));
+	return has_search;
+}
+
+guint32 
+camel_folder_remote_get_message_flags (CamelFolderRemote *folder, const char *uid)
+{
+	gboolean ret;
+	DBusError error;
+	guint32 message_flags;
+
+	dbus_error_init (&error);
+	/* Invoke the appropriate dbind call to MailSessionRemoteImpl */
+	ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+			CAMEL_DBUS_NAME,
+			CAMEL_FOLDER_OBJECT_PATH,
+			CAMEL_FOLDER_INTERFACE,
+			"camel_folder_get_message_flags",
+			&error, 
+			"ss=>u", folder->object_id, uid, &message_flags); 
+
+	if (!ret) {
+		g_warning ("Error: Camel folder get message flags: %s\n", error.message);
+		return 0;
+	}
+
+	d(printf("Camel folder get message flags remotely\n"));
+	
+	return message_flags;
+}
 
 void
 camel_folder_remote_set_vee_folder_expression (CamelFolderRemote *folder, const char *query)

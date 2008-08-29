@@ -237,6 +237,51 @@ dbus_listener_message_handler(DBusConnection * connection,
 
 		camel_folder_set_message_user_tag (folder, uid, name, user_tag);
 		dbus_message_append_args (return_val, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_expunge") == 0) {
+		gboolean ret;
+		char *err;
+		CamelException *ex;
+
+		ex = camel_exception_new ();
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		camel_folder_expunge (folder, ex);
+
+		if (camel_exception_is_set(ex))
+			err = g_strdup (camel_exception_get_description (ex));
+		else
+			err = g_strdup ("");
+
+		camel_exception_free (ex);
+
+		dbus_message_append_args (return_val, DBUS_TYPE_STRING, &err, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_has_search_capability") == 0) {
+		gboolean ret, has_search;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		has_search = camel_folder_has_search_capability (folder);
+		dbus_message_append_args (return_val, DBUS_TYPE_INT32, &has_search, DBUS_TYPE_INVALID);
+	} else if (strcmp(method, "camel_folder_get_message_flags") == 0) {
+		gboolean ret;
+		const char *uid;
+		guint32 message_flags;
+
+		ret = dbus_message_get_args (message, NULL,
+				DBUS_TYPE_STRING, &folder_hash_key,
+				DBUS_TYPE_STRING, &uid,
+				DBUS_TYPE_INVALID);
+		folder = g_hash_table_lookup (folder_hash, folder_hash_key);
+
+		message_flags = camel_folder_get_message_flags(folder, uid);
+		dbus_message_append_args (return_val, DBUS_TYPE_UINT32, &message_flags, DBUS_TYPE_INVALID);
 	} else if (strcmp (method, "camel_vee_folder_set_expression") == 0) {
 			gboolean ret;
 			const char *query; 

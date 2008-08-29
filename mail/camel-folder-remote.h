@@ -39,6 +39,15 @@ const char *camel_folder_remote_get_message_user_tag (CamelFolderRemote *folder,
 
 void camel_folder_remote_set_message_user_tag (CamelFolderRemote *folder, const char *uid, const char *name, const char *value);
 
+void camel_folder_remote_expunge (CamelFolderRemote *folder, CamelException *ex);
+
+gboolean camel_folder_remote_has_search_capability (CamelFolderRemote *folder);
+
+guint32 camel_folder_remote_get_message_flags (CamelFolderRemote *folder, const char *uid);
+
+#define camel_folder_remote_delete_message(folder, uid) \
+	camel_folder_remote_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN)
+
 void camel_folder_remote_set_vee_folder_expression (CamelFolderRemote *folder, const char *query);
 
 #endif
