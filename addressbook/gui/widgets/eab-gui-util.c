@@ -48,7 +48,6 @@
 #include "addressbook/gui/contact-editor/eab-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
-#include "addressbook/gui/component/addressbook-component.h"
 #include "addressbook/gui/component/addressbook.h"
 
 /* the NULL's in this table correspond to the status codes
@@ -781,6 +780,7 @@ typedef struct {
 static void
 eab_send_to_contact_and_email_num_list (GList *contact_list)
 {
+#if 0  /* NOT READY FOR COMPOSER YET */
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	GPtrArray *to_array;
@@ -844,6 +844,7 @@ eab_send_to_contact_and_email_num_list (GList *contact_list)
 	e_destination_freev (convert.destinations);
 
 	gtk_widget_show (GTK_WIDGET (composer));
+#endif
 }
 
 static const char *
@@ -868,6 +869,7 @@ get_email (EContact *contact, EContactField field_id, gchar **to_free)
 static void
 eab_send_contact_list_as_attachment (GList *contacts)
 {
+#if 0 /* NOT READY FOR COMPOSER YET */
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	CamelMimePart *attachment;
@@ -943,6 +945,7 @@ eab_send_contact_list_as_attachment (GList *contacts)
 	}
 
 	gtk_widget_show (GTK_WIDGET (composer));
+#endif
 }
 
 void

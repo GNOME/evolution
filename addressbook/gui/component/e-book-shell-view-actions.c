@@ -20,7 +20,10 @@
 
 #include "e-book-shell-view-private.h"
 
+#include <e-util/e-error.h>
 #include <e-util/e-util.h>
+
+#include <addressbook-config.h>
 
 static void
 action_address_book_copy_cb (GtkAction *action,
@@ -101,6 +104,19 @@ action_address_book_move_cb (GtkAction *action,
 }
 
 static void
+action_address_book_new_cb (GtkAction *action,
+                            EBookShellView *book_shell_view)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_window (shell_view);
+
+	addressbook_config_create_new_source (GTK_WIDGET (shell_window));
+}
+
+static void
 action_address_book_properties_cb (GtkAction *action,
                                    EBookShellView *book_shell_view)
 {
@@ -127,7 +143,7 @@ action_address_book_properties_cb (GtkAction *action,
 		GtkWidget *editor;
 
 		editor = addressbook_config_edit_source (
-			GTK_WINDOW (shell_window), source);
+			GTK_WIDGET (shell_window), source);
 
 		closure = g_new (EditorUidClosure, 1);
 		closure->editor = editor;
@@ -342,19 +358,26 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Move the contacts of the selected address book to another"),
 	  G_CALLBACK (action_address_book_move_cb) },
 
+	{ "address-book-new",
+	  "address-book-new",
+	  N_("_New Address Book"),
+	  NULL,
+	  N_("Create a new address book"),
+	  G_CALLBACK (action_address_book_new_cb) },
+
 	{ "address-book-properties",
 	  GTK_STOCK_PROPERTIES,
 	  N_("Address _Book Properties"),
 	  NULL,
-	  N_("Change the properties of the selected address book"),
+	  N_("Show properties of the selected address book"),
 	  G_CALLBACK (action_address_book_properties_cb) },
 
 	{ "address-book-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  N_("S_ave Address Book as VCard"),
+	  N_("S_ave Address Book as vCard"),
 	  NULL,
-	  N_("Save the contacts of the selected address book as a VCard"),
-	  G_CALLBACK (action_address_book_save_as) },
+	  N_("Save the contacts of the selected address book as a vCard"),
+	  G_CALLBACK (action_address_book_save_as_cb) },
 
 	{ "address-book-stop",
 	  GTK_STOCK_STOP,
@@ -435,9 +458,9 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "contact-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  N_("Save as VCard..."),
+	  N_("Save as vCard..."),
 	  NULL,
-	  N_("Save selected contacts as a VCard"),
+	  N_("Save selected contacts as a vCard"),
 	  G_CALLBACK (action_contact_save_as_cb) },
 
 	{ "contact-select-all",
@@ -452,7 +475,39 @@ static GtkActionEntry contact_entries[] = {
 	  N_("_Send Message to Contact..."),
 	  NULL,
 	  N_("Send a message to the selected contacts"),
-	  G_CALLBACK (action_contact_send_message_cb) }
+	  G_CALLBACK (action_contact_send_message_cb) },
+
+	/*** Menus ***/
+
+	{ "actions-menu",
+	  NULL,
+	  N_("_Actions"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	/*** Address Book Popup Actions ***/
+
+	{ "address-book-popup-delete",
+	  GTK_STOCK_DELETE,
+	  NULL,
+	  NULL,
+	  N_("Delete this address book"),
+	  G_CALLBACK (action_address_book_delete_cb) },
+
+	{ "address-book-popup-properties",
+	  GTK_STOCK_PROPERTIES,
+	  NULL,
+	  NULL,
+	  N_("Show properties of this address book"),
+	  G_CALLBACK (action_address_book_properties_cb) },
+
+	{ "address-book-popup-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  N_("_Save as vCard..."),
+	  NULL,
+	  N_("Save the contents of this address book as a vCard"),
+	  G_CALLBACK (action_address_book_save_as_cb) }
 };
 
 static GtkToggleActionEntry contact_toggle_entries[] = {
@@ -473,6 +528,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
+	GtkAction *action;
 	const gchar *domain;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -491,4 +547,9 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		action_group, contact_toggle_entries,
 		G_N_ELEMENTS (contact_toggle_entries), book_shell_view);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+
+	/* Fine tuning. */
+
+	action = ACTION (CONTACT_DELETE);
+	g_object_set (action, "short-label", _("Delete"), NULL);
 }

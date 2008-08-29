@@ -23,8 +23,12 @@
 #ifndef _CERTIFICATE_MANAGER_H_
 #define _CERTIFICATE_MANAGER_H
 
-#include "evolution-config-control.h"
+#include <glib.h>
 
-EvolutionConfigControl* certificate_manager_config_control_new (void);
+G_BEGIN_DECLS
+
+void		certificate_manager_config_init	(void);
+
+G_END_DECLS
 
 #endif /* _CERTIFICATE_MANAGER_H_ */

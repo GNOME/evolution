@@ -28,6 +28,16 @@
 #define V_PADDING 6
 
 struct _ESidebarPrivate {
+
+	/* Header */
+	GtkWidget *event_box;
+	GtkWidget *image;
+	GtkWidget *primary_label;
+	GtkWidget *secondary_label;
+	gchar *primary_text;
+	gchar *secondary_text;
+
+	/* Switcher */
 	GList *proxies;
 	gboolean actions_visible;
 	gboolean style_set;
@@ -39,6 +49,9 @@ struct _ESidebarPrivate {
 enum {
 	PROP_0,
 	PROP_ACTIONS_VISIBLE,
+	PROP_ICON_NAME,
+	PROP_PRIMARY_TEXT,
+	PROP_SECONDARY_TEXT,
 	PROP_TOOLBAR_STYLE
 };
 
@@ -63,7 +76,6 @@ sidebar_layout_actions (ESidebar *sidebar)
 	int x, y;
 	int i;
 
-	/*y = allocation->y + allocation->height - V_PADDING - 1;*/
 	y = allocation->y + allocation->height - 1;
 
 	if (num_btns == 0)
@@ -172,6 +184,24 @@ sidebar_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_ICON_NAME:
+			e_sidebar_set_icon_name (
+				E_SIDEBAR (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_PRIMARY_TEXT:
+			e_sidebar_set_primary_text (
+				E_SIDEBAR (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_SECONDARY_TEXT:
+			e_sidebar_set_secondary_text (
+				E_SIDEBAR (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_TOOLBAR_STYLE:
 			e_sidebar_set_style (
 				E_SIDEBAR (object),
@@ -195,6 +225,24 @@ sidebar_get_property (GObject *object,
 				E_SIDEBAR (object)));
 			return;
 
+		case PROP_ICON_NAME:
+			g_value_set_string (
+				value, e_sidebar_get_icon_name (
+				E_SIDEBAR (object)));
+			return;
+
+		case PROP_PRIMARY_TEXT:
+			g_value_set_string (
+				value, e_sidebar_get_primary_text (
+				E_SIDEBAR (object)));
+			return;
+
+		case PROP_SECONDARY_TEXT:
+			g_value_set_string (
+				value, e_sidebar_get_secondary_text (
+				E_SIDEBAR (object)));
+			return;
+
 		case PROP_TOOLBAR_STYLE:
 			g_value_set_enum (
 				value, e_sidebar_get_style (
@@ -208,7 +256,29 @@ sidebar_get_property (GObject *object,
 static void
 sidebar_dispose (GObject *object)
 {
-	ESidebarPrivate *priv = E_SIDEBAR (object)->priv;
+	ESidebarPrivate *priv;
+
+	priv = E_SIDEBAR_GET_PRIVATE (object);
+
+	if (priv->event_box != NULL) {
+		g_object_unref (priv->event_box);
+		priv->event_box = NULL;
+	}
+
+	if (priv->image != NULL) {
+		g_object_unref (priv->image);
+		priv->image = NULL;
+	}
+
+	if (priv->primary_label != NULL) {
+		g_object_unref (priv->primary_label);
+		priv->image = NULL;
+	}
+
+	if (priv->secondary_label != NULL) {
+		g_object_unref (priv->secondary_label);
+		priv->secondary_label = NULL;
+	}
 
 	while (priv->proxies != NULL) {
 		GtkWidget *widget = priv->proxies->data;
@@ -220,10 +290,25 @@ sidebar_dispose (GObject *object)
 }
 
 static void
+sidebar_finalize (GObject *object)
+{
+	ESidebarPrivate *priv;
+
+	priv = E_SIDEBAR_GET_PRIVATE (object);
+
+	g_free (priv->primary_text);
+	g_free (priv->secondary_text);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 sidebar_size_request (GtkWidget *widget,
                       GtkRequisition *requisition)
 {
 	ESidebarPrivate *priv;
+	GtkRequisition child_requisition;
 	GtkWidget *child;
 	GList *iter;
 
@@ -236,6 +321,11 @@ sidebar_size_request (GtkWidget *widget,
 	} else {
 		gtk_widget_size_request (child, requisition);
 	}
+
+	child = priv->event_box;
+	gtk_widget_size_request (child, &child_requisition);
+	requisition->width = MAX (requisition->width, child_requisition.width);
+	requisition->height += child_requisition.height;
 
 	if (!priv->actions_visible)
 		return;
@@ -260,12 +350,26 @@ sidebar_size_allocate (GtkWidget *widget,
                        GtkAllocation *allocation)
 {
 	ESidebarPrivate *priv;
+	GtkAllocation child_allocation;
+	GtkRequisition child_requisition;
 	GtkWidget *child;
 	gint y;
 
 	priv = E_SIDEBAR_GET_PRIVATE (widget);
 
 	widget->allocation = *allocation;
+
+	child = priv->event_box;
+	gtk_widget_size_request (child, &child_requisition);
+
+	child_allocation.x = allocation->x;
+	child_allocation.y = allocation->y;
+	child_allocation.width = allocation->width;
+	child_allocation.height = child_requisition.height;
+
+	gtk_widget_size_allocate (child, &child_allocation);
+
+	allocation->y += child_requisition.height;
 
 	if (priv->actions_visible)
 		y = sidebar_layout_actions (E_SIDEBAR (widget));
@@ -275,8 +379,6 @@ sidebar_size_allocate (GtkWidget *widget,
 	child = gtk_bin_get_child (GTK_BIN (widget));
 
 	if (child != NULL) {
-		GtkAllocation child_allocation;
-
 		child_allocation.x = allocation->x;
 		child_allocation.y = allocation->y;
 		child_allocation.width = allocation->width;
@@ -330,6 +432,13 @@ sidebar_remove (GtkContainer *container,
 	priv = E_SIDEBAR_GET_PRIVATE (container);
 
 	/* Look in the internal widgets first. */
+
+	if (widget == priv->event_box) {
+		gtk_widget_unparent (priv->event_box);
+		gtk_widget_queue_resize (GTK_WIDGET (container));
+		return;
+	}
+
 	link = g_list_find (priv->proxies, widget);
 	if (link != NULL) {
 		GtkWidget *widget = link->data;
@@ -354,9 +463,11 @@ sidebar_forall (GtkContainer *container,
 
 	priv = E_SIDEBAR_GET_PRIVATE (container);
 
-	if (include_internals)
+	if (include_internals) {
+		callback (priv->event_box, callback_data);
 		g_list_foreach (
 			priv->proxies, (GFunc) callback, callback_data);
+	}
 
 	/* Chain up to parent's forall() method. */
 	GTK_CONTAINER_CLASS (parent_class)->forall (
@@ -418,6 +529,7 @@ sidebar_class_init (ESidebarClass *class)
 	object_class->set_property = sidebar_set_property;
 	object_class->get_property = sidebar_get_property;
 	object_class->dispose = sidebar_dispose;
+	object_class->finalize = sidebar_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = sidebar_size_request;
@@ -438,8 +550,41 @@ sidebar_class_init (ESidebarClass *class)
 			NULL,
 			NULL,
 			TRUE,
-			G_PARAM_CONSTRUCT |
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ICON_NAME,
+		g_param_spec_string (
+			"icon-name",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PRIMARY_TEXT,
+		g_param_spec_string (
+			"primary-text",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SECONDARY_TEXT,
+		g_param_spec_string (
+			"secondary-text",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -450,8 +595,8 @@ sidebar_class_init (ESidebarClass *class)
 			NULL,
 			GTK_TYPE_TOOLBAR_STYLE,
 			E_SIDEBAR_DEFAULT_TOOLBAR_STYLE,
-			G_PARAM_CONSTRUCT |
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	signals[STYLE_CHANGED] = g_signal_new (
 		"style-changed",
@@ -467,9 +612,51 @@ sidebar_class_init (ESidebarClass *class)
 static void
 sidebar_init (ESidebar *sidebar)
 {
+	GtkStyle *style;
+	GtkWidget *container;
+	GtkWidget *widget;
+	const GdkColor *color;
+
 	sidebar->priv = E_SIDEBAR_GET_PRIVATE (sidebar);
 
 	GTK_WIDGET_SET_FLAGS (sidebar, GTK_NO_WINDOW);
+
+	widget = gtk_event_box_new ();
+	style = gtk_widget_get_style (widget);
+	color = &style->bg[GTK_STATE_ACTIVE];
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 1);
+	gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, color);
+	gtk_widget_set_parent (widget, GTK_WIDGET (sidebar));
+	sidebar->priv->event_box = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_image_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	sidebar->priv->image = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	sidebar->priv->primary_label = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_MIDDLE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	sidebar->priv->secondary_label = g_object_ref (widget);
+	gtk_widget_show (widget);
 }
 
 static void
@@ -568,6 +755,102 @@ e_sidebar_set_actions_visible (ESidebar *sidebar,
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 
 	g_object_notify (G_OBJECT (sidebar), "actions-visible");
+}
+
+const gchar *
+e_sidebar_get_icon_name (ESidebar *sidebar)
+{
+	GtkImage *image;
+	const gchar *icon_name;
+
+	g_return_val_if_fail (E_IS_SIDEBAR (sidebar), NULL);
+
+	image = GTK_IMAGE (sidebar->priv->image);
+	gtk_image_get_icon_name (image, &icon_name, NULL);
+
+	return icon_name;
+}
+
+void
+e_sidebar_set_icon_name (ESidebar *sidebar,
+                         const gchar *icon_name)
+{
+	GtkImage *image;
+
+	g_return_if_fail (E_IS_SIDEBAR (sidebar));
+
+	if (icon_name == NULL)
+		icon_name = "image-missing";
+
+	image = GTK_IMAGE (sidebar->priv->image);
+	gtk_image_set_from_icon_name (image, icon_name, GTK_ICON_SIZE_MENU);
+
+	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+	g_object_notify (G_OBJECT (sidebar), "icon-name");
+}
+
+const gchar *
+e_sidebar_get_primary_text (ESidebar *sidebar)
+{
+	g_return_val_if_fail (E_IS_SIDEBAR (sidebar), NULL);
+
+	return sidebar->priv->primary_text;
+}
+
+void
+e_sidebar_set_primary_text (ESidebar *sidebar,
+                            const gchar *primary_text)
+{
+	GtkLabel *label;
+	gchar *markup;
+
+	g_return_if_fail (E_IS_SIDEBAR (sidebar));
+
+	g_free (sidebar->priv->primary_text);
+	sidebar->priv->primary_text = g_strdup (primary_text);
+
+	if (primary_text == NULL)
+		primary_text = "";
+
+	label = GTK_LABEL (sidebar->priv->primary_label);
+	markup = g_markup_printf_escaped ("<b>%s</b>", primary_text);
+	gtk_label_set_markup (label, markup);
+	g_free (markup);
+
+	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+	g_object_notify (G_OBJECT (sidebar), "primary-text");
+}
+
+const gchar *
+e_sidebar_get_secondary_text (ESidebar *sidebar)
+{
+	g_return_val_if_fail (E_IS_SIDEBAR (sidebar), NULL);
+
+	return sidebar->priv->secondary_text;
+}
+
+void
+e_sidebar_set_secondary_text (ESidebar *sidebar,
+                              const gchar *secondary_text)
+{
+	GtkLabel *label;
+	gchar *markup;
+
+	g_return_if_fail (E_IS_SIDEBAR (sidebar));
+
+	g_free (sidebar->priv->secondary_text);
+	sidebar->priv->secondary_text = g_strdup (secondary_text);
+
+	if (secondary_text == NULL)
+		secondary_text = "";
+
+	label = GTK_LABEL (sidebar->priv->secondary_label);
+	markup = g_markup_printf_escaped ("<small>%s</small>", secondary_text);
+	gtk_label_set_markup (label, markup);
+	g_free (markup);
+
+	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+	g_object_notify (G_OBJECT (sidebar), "secondary-text");
 }
 
 GtkToolbarStyle

@@ -90,6 +90,13 @@ test_shell_view_get_status_widget (EShellView *shell_view)
 }
 
 static void
+test_shell_view_changed (EShellView *shell_view,
+                         gboolean visible)
+{
+	g_debug ("%s (visible=%d)", G_STRFUNC, visible);
+}
+
+static void
 test_shell_view_class_init (ETestShellViewClass *class,
                             GTypeModule *type_module)
 {
@@ -102,6 +109,7 @@ test_shell_view_class_init (ETestShellViewClass *class,
 	shell_view_class->label = "Test";
 	shell_view_class->icon_name = "face-monkey";
 	shell_view_class->type_module = type_module;
+	shell_view_class->changed = test_shell_view_changed;
 
 	shell_view_class->get_content_widget =
 		test_shell_view_get_content_widget;

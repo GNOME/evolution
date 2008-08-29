@@ -109,8 +109,6 @@
 #include "e-composer-private.h"
 #include "e-composer-header-table.h"
 
-#include "evolution-shell-component-utils.h"
-
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
 #endif

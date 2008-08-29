@@ -52,7 +52,6 @@ widgetsinclude_HEADERS =			\
 	e-expander.h				\
 	e-icon-entry.h				\
 	e-image-chooser.h			\
-	e-info-label.h				\
 	e-map.h					\
 	e-menu-tool-button.h			\
 	e-preferences-window.h			\
@@ -99,7 +98,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-expander.c				\
 	e-icon-entry.c				\
 	e-image-chooser.c			\
-	e-info-label.c				\
 	e-map.c					\
 	e-menu-tool-button.c			\
 	e-preferences-window.c			\
@@ -156,8 +154,7 @@ noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
 	test-dropdown-button		\
-	test-preferences-window		\
-	test-info-label
+	test-preferences-window	
 
 # test-calendar
 
@@ -195,16 +192,6 @@ test_preferences_window_SOURCES =		\
 	test-preferences-window.c
 
 test_preferences_window_LDADD = 		\
-	libemiscwidgets.la			\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(E_WIDGETS_LIBS)
-
-# test-info-label
-
-test_info_label_SOURCES = 	\
-	test-info-label.c
-
-test_info_label_LDADD = 			\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)

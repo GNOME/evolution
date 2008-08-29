@@ -23,8 +23,12 @@
 #ifndef _AUTOCOMPLETION_CONFIG_H
 #define _AUTOCOMPLETION_CONFIG_H
 
-#include "evolution-config-control.h"
+#include <glib.h>
 
-EvolutionConfigControl* autocompletion_config_control_new (void);
+G_BEGIN_DECLS
+
+void		autocompletion_config_init	(void);
+
+G_END_DECLS
 
 #endif /* _AUTOCOMPLETION_CONFIG_H */

@@ -32,7 +32,6 @@
 #include <glib/gi18n.h>
 
 #include <glade/glade.h>
-#include "evolution-config-control.h"
 #include "ca-trust-dialog.h"
 #include "cert-trust-dialog.h"
 #include "certificate-manager.h"
@@ -49,7 +48,9 @@
 #include <pkcs11.h>
 #include <pk11func.h>
 
-#include "e-util/e-util-private.h"
+#include <e-shell.h>
+#include <e-preferences-window.h>
+#include <e-util/e-util-private.h>
 
 typedef struct {
 	GladeXML *gui;
@@ -975,11 +976,11 @@ populate_ui (CertificateManagerData *cfm)
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
 }
 
-EvolutionConfigControl*
-certificate_manager_config_control_new (void)
+void
+certificate_manager_config_init (void)
 {
 	CertificateManagerData *cfm_data;
-	GtkWidget *control_widget;
+	GtkWidget *widget;
 	char *gladefile;
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */
@@ -1019,14 +1020,19 @@ certificate_manager_config_control_new (void)
 
 	populate_ui (cfm_data);
 
-	control_widget = glade_xml_get_widget (cfm_data->gui, "cert-manager-notebook");
-	g_object_ref (control_widget);
+	widget = glade_xml_get_widget (cfm_data->gui, "cert-manager-notebook");
+	g_object_ref (widget);
 
-	gtk_container_remove (GTK_CONTAINER (control_widget->parent), control_widget);
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
 
 	/* FIXME: remove when implemented */
 	gtk_widget_set_sensitive(cfm_data->backup_your_button, FALSE);
 	gtk_widget_set_sensitive(cfm_data->backup_all_your_button, FALSE);
 
-	return evolution_config_control_new (control_widget);
+	e_preferences_window_add_page (
+		e_shell_get_preferences_window (),
+		"certificates",
+		"preferences-certificates",
+		_("Certificates"),
+		widget, 700);
 }

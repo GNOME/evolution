@@ -49,7 +49,6 @@
 #include "e-util/e-util-private.h"
 
 #include "mail/mail-mt.h"
-#include "mail/mail-component.h"
 #include "mail/mail-tools.h"
 
 #include "mail-importer.h"

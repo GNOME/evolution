@@ -41,6 +41,31 @@ enum {
 
 static gpointer parent_class;
 
+static void
+shell_window_update_sidebar (EShellWindow *shell_window)
+{
+	ESidebar *sidebar;
+	EShellView *shell_view;
+	const gchar *view_name;
+	const gchar *icon_name;
+	const gchar *primary_text;
+	const gchar *secondary_text;
+
+	sidebar = E_SIDEBAR (shell_window->priv->sidebar);
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+
+	/* Update the sidebar header. */
+
+	icon_name = e_shell_view_get_icon_name (shell_view);
+	primary_text = e_shell_view_get_primary_text (shell_view);
+	secondary_text = e_shell_view_get_secondary_text (shell_view);
+
+	e_sidebar_set_icon_name (sidebar, icon_name);
+	e_sidebar_set_primary_text (sidebar, primary_text);
+	e_sidebar_set_secondary_text (sidebar, secondary_text);
+}
+
 static EShellView *
 shell_window_new_view (EShellWindow *shell_window,
                        GType shell_view_type,
@@ -51,6 +76,7 @@ shell_window_new_view (EShellWindow *shell_window,
 	GtkNotebook *notebook;
 	GtkWidget *widget;
 	const gchar *name;
+	gulong handler_id;
 	gint page_num;
 
 	/* Determine the page number for the new shell view. */
@@ -78,6 +104,13 @@ shell_window_new_view (EShellWindow *shell_window,
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
 	widget = e_shell_view_get_status_widget (shell_view);
 	gtk_notebook_append_page (notebook, widget, NULL);
+
+	handler_id = g_signal_connect_swapped (
+		shell_view, "notify",
+		G_CALLBACK (shell_window_update_sidebar), shell_window);
+
+	/* This will be unblocked when the shell view is selected. */
+	g_signal_handler_block (shell_view, handler_id);
 
 	return shell_view;
 }
@@ -327,8 +360,6 @@ e_shell_window_get_view (EShellWindow *shell_window,
 			continue;
 		}
 
-		g_debug ("Comparing %s to %s (%s)", view_name, class->type_module->name, g_type_name (shell_view_type));
-
 		if (strcmp (view_name, class->type_module->name) == 0)
 			shell_view = shell_window_new_view (
 				shell_window, shell_view_type, class->label);
@@ -444,23 +475,31 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 {
 	GtkNotebook *notebook;
 	EShellView *shell_view;
-	const gchar *current_view;
+	GList *list;
+	const gchar *view_name;
 	gint page_num;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	current_view = name_or_alias;
+	if (shell_window->priv->current_view != NULL) {
+		view_name = e_shell_window_get_current_view (shell_window);
+		shell_view = e_shell_window_get_view (shell_window, view_name);
 
-	if (current_view != NULL)
-		current_view =
-			e_shell_registry_get_canonical_name (current_view);
+		g_signal_handlers_block_by_func (
+			shell_view, shell_window_update_sidebar, shell_window);
+	}
 
-	if (current_view == NULL)
-		current_view = shell_window->priv->default_view;
+	view_name = name_or_alias;
 
-	g_return_if_fail (current_view != NULL);
+	if (view_name != NULL)
+		view_name = e_shell_registry_get_canonical_name (view_name);
 
-	shell_view = e_shell_window_get_view (shell_window, current_view);
+	if (view_name == NULL)
+		view_name = shell_window->priv->default_view;
+
+	g_return_if_fail (view_name != NULL);
+
+	shell_view = e_shell_window_get_view (shell_window, view_name);
 	page_num = e_shell_view_get_page_num (shell_view);
 	g_return_if_fail (page_num >= 0);
 
@@ -473,9 +512,18 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
 	gtk_notebook_set_current_page (notebook, page_num);
 
-	shell_window->priv->current_view = current_view;
-
+	shell_window->priv->current_view = view_name;
 	g_object_notify (G_OBJECT (shell_window), "current-view");
+
+	g_signal_handlers_unblock_by_func (
+		shell_view, shell_window_update_sidebar, shell_window);
+
+	shell_window_update_sidebar (shell_window);
+
+	/* Notify all loaded views. */
+	list = g_hash_table_get_values (shell_window->priv->loaded_views);
+	g_list_foreach (list, (GFunc) e_shell_view_changed, NULL);
+	g_list_free (list);
 }
 
 gboolean

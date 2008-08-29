@@ -61,6 +61,7 @@ SUBDIRS = 			\
 	a11y			\
         widgets                 \
         shell                   \
+	$(SMIME_DIR)		\
 	addressbook		\
         art                     \
 	ui			\

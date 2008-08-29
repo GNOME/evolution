@@ -63,8 +63,8 @@ void		e_preferences_window_add_page	(EPreferencesWindow *window,
 						 const gchar *page_name,
 						 const gchar *icon_name,
 						 const gchar *caption,
-						 gint sort_order,
-						 GtkWidget *widget);
+						 GtkWidget *widget,
+						 gint sort_order);
 void		e_preferences_window_show_page	(EPreferencesWindow *window,
 						 const gchar *page_name);
 

@@ -111,10 +111,6 @@ static void activate_source (AddressbookView *view, ESource *source);
 
 static void addressbook_view_init	(AddressbookView      *view);
 static void addressbook_view_class_init	(AddressbookViewClass *klass);
-static void addressbook_view_dispose    (GObject *object);
-
-static ESource *find_first_source  (ESourceList *source_list);
-static ESource *get_primary_source (AddressbookView *view);
 
 static void
 set_status_message (EABView *eav, const char *message, AddressbookView *view)
@@ -234,26 +230,6 @@ load_uri_for_selection (ESourceSelector *selector,
 		activate_source (view, selected_source);
 }
 
-static ESource *
-find_first_source (ESourceList *source_list)
-{
-	GSList *groups, *sources, *l, *m;
-
-	groups = e_source_list_peek_groups (source_list);
-	for (l = groups; l; l = l->next) {
-		ESourceGroup *group = l->data;
-
-		sources = e_source_group_peek_sources (group);
-		for (m = sources; m; m = m->next) {
-			ESource *source = m->data;
-
-			return source;
-		}
-	}
-
-	return NULL;
-}
-
 static void
 save_primary_selection (AddressbookView *view)
 {
@@ -268,38 +244,6 @@ save_primary_selection (AddressbookView *view)
 	gconf_client_set_string (priv->gconf_client,
 				 "/apps/evolution/addressbook/display/primary_addressbook",
 				 e_source_peek_uid (source), NULL);
-}
-
-static ESource *
-get_primary_source (AddressbookView *view)
-{
-	AddressbookViewPrivate *priv = view->priv;
-	ESource *source;
-	char *uid;
-
-	uid = gconf_client_get_string (priv->gconf_client,
-				       "/apps/evolution/addressbook/display/primary_addressbook",
-				       NULL);
-	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
-		g_free (uid);
-	} else {
-		/* Try to create a default if there isn't one */
-		source = find_first_source (priv->source_list);
-	}
-
-	return source;
-}
-
-static void
-load_primary_selection (AddressbookView *view)
-{
-	AddressbookViewPrivate *priv = view->priv;
-	ESource *source;
-
-	source = get_primary_source (view);
-	if (source)
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->selector), source);
 }
 
 /* Folder popup menu callbacks */
@@ -377,85 +321,11 @@ delete_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-new_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	addressbook_config_create_new_source (gtk_widget_get_toplevel(ep->target->widget));
-}
-
-static void
-save_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	AddressbookView *view = data;
-	EABView *v = get_current_view (view);
-       	if (v)
-		eab_view_save_as (v, TRUE);
-}
-
-static void
-edit_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	AddressbookView *view = data;
-	if (view)
-		edit_addressbook_folder (view);
-}
-
-/* Callbacks.  */
-
-static void
 primary_source_selection_changed_callback (ESourceSelector *selector,
 					   AddressbookView *view)
 {
 	load_uri_for_selection (selector, view, FALSE);
 	save_primary_selection (view);
-}
-
-static EPopupItem abv_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "address-book-new", 0, 0 },
- 	{ E_POPUP_ITEM, "20.saveasvcard", N_("Save As vCard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
-
-	{ E_POPUP_BAR,  "30.bar" },
-	{ E_POPUP_ITEM, "30.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
-
-	{ E_POPUP_BAR,  "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
-};
-
-static void
-abv_source_popup_free(EPopup *ep, GSList *list, void *data)
-{
-	g_slist_free(list);
-}
-
-static gboolean
-popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton *event, AddressbookView *view)
-{
-	EABPopup *ep;
-	EABPopupTargetSource *t;
-	GSList *menus = NULL;
-	int i;
-	GtkMenu *menu;
-
-	/** @HookPoint-EABPopup:Addressbook Source Selector Context Menu
-	 * @Id: org.gnome.evolution.addressbook.source.popup
-	 * @Class: org.gnome.evolution.addresbook.popup:1.0
-	 * @Target: EABPopupTargetSource
-	 *
-	 * The context menu on the source selector in the contacts window.
-	 */
-
-	ep = eab_popup_new("org.gnome.evolution.addressbook.source.popup");
-	t = eab_popup_target_new_source(ep, selector);
-	t->target.widget = (GtkWidget *)view->priv->notebook;
-
-	for (i=0;i<sizeof(abv_source_popups)/sizeof(abv_source_popups[0]);i++)
-		menus = g_slist_prepend(menus, &abv_source_popups[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, NULL, abv_source_popup_free, view);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
-
-	return TRUE;
 }
 
 static gboolean
@@ -696,58 +566,6 @@ selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
-
-static void
-destroy_callback(gpointer data, GObject *where_object_was)
-{
-	AddressbookView *view = data;
-	g_object_unref (view);
-}
-
-GType
-addressbook_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (AddressbookViewClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) addressbook_view_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EABView),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) addressbook_view_init,
-		};
-
-		type = g_type_register_static (PARENT_TYPE, "AddressbookView", &info, 0);
-	}
-
-	return type;
-}
-
-static void
-addressbook_view_class_init (AddressbookViewClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	object_class->dispose = addressbook_view_dispose;
-
-	parent_class = g_type_class_peek_parent (klass);
-}
-
-static gboolean
-source_selector_key_press_event_callback (GtkWidget *widget, GdkEventKey *event, AddressbookView *view)
-{
-	if (event->keyval == GDK_Delete) {
-		delete_addressbook_folder (view);
-		return TRUE;
-	}
-	return FALSE;
-}
-
 static void
 addressbook_view_init (AddressbookView *view)
 {
@@ -755,84 +573,21 @@ addressbook_view_init (AddressbookView *view)
 	GtkWidget *selector_scrolled_window;
 	AtkObject *a11y;
 
-	view->priv =
-		priv = g_new0 (AddressbookViewPrivate, 1);
-
-	priv->gconf_client = addressbook_component_peek_gconf_client (addressbook_component_peek ());
-
-	priv->uid_to_view = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_object_unref);
-	priv->uid_to_editor = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_free);
-
-	priv->notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
-
-	g_object_weak_ref (G_OBJECT (priv->notebook), destroy_callback, view);
-
-	/* Create the control. */
-	priv->folder_view_control = bonobo_control_new (priv->notebook);
-
-	gtk_widget_show (priv->notebook);
-
-	e_book_get_addressbooks (&priv->source_list, NULL);
-	g_signal_connect (priv->source_list,
-			  "changed",
-			  G_CALLBACK (source_list_changed_cb), view);
-
-	priv->creatable_items_handler = e_user_creatable_items_handler_new ("contacts", NULL, NULL);
 	priv->menu = eab_menu_new("org.gnome.evolution.addressbook.view");
 
 	g_signal_connect (priv->folder_view_control, "activate",
 			  G_CALLBACK (control_activate_cb), view);
-
-	priv->activity_handler = e_activity_handler_new ();
-
-	priv->statusbar_widget = e_task_bar_new ();
-	gtk_widget_show (priv->statusbar_widget);
-
-	e_activity_handler_attach_task_bar (priv->activity_handler,
-					    E_TASK_BAR (priv->statusbar_widget));
-
-	priv->info_widget = e_info_label_new("x-office-address-book");
-	e_info_label_set_info((EInfoLabel*)priv->info_widget, _("Contacts"), "");
-	gtk_widget_show (priv->info_widget);
-
-	priv->selector = e_source_selector_new (priv->source_list);
 
 	g_signal_connect  (priv->selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), view);
 	g_signal_connect  (priv->selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), view);
 	g_signal_connect  (priv->selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), view);
 	g_signal_connect  (priv->selector, "drag-data-received", G_CALLBACK (selector_tree_drag_data_received), view);
 	gtk_drag_dest_set (priv->selector, GTK_DEST_DEFAULT_ALL, drag_types, num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	a11y = gtk_widget_get_accessible (GTK_WIDGET (priv->selector));
-	atk_object_set_name (a11y, _("Contact Source Selector"));
-
-	e_source_selector_show_selection (E_SOURCE_SELECTOR (priv->selector), FALSE);
-	gtk_widget_show (priv->selector);
-
-	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), priv->selector);
-	gtk_widget_show (selector_scrolled_window);
-
-	priv->sidebar_widget = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX (priv->sidebar_widget), priv->info_widget, FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX (priv->sidebar_widget), selector_scrolled_window, TRUE, TRUE, 0);
-	gtk_widget_show (priv->sidebar_widget);
 
 	g_signal_connect_object (priv->selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view), 0);
-	g_signal_connect_after (priv->selector, "key_press_event",
-		       		G_CALLBACK (source_selector_key_press_event_callback),
-				G_OBJECT (view));
-	g_signal_connect_object (priv->selector, "popup_event",
-				 G_CALLBACK (popup_event_callback),
-				 G_OBJECT (view), 0);
 
-	load_primary_selection (view);
 	load_uri_for_selection (E_SOURCE_SELECTOR (priv->selector), view, TRUE);
 }
 
@@ -847,43 +602,6 @@ destroy_editor (char *key,
 			     editor_weak_notify, closure);
 
 	gtk_widget_destroy (GTK_WIDGET (closure->editor));
-}
-
-static void
-addressbook_view_dispose (GObject *object)
-{
-	AddressbookView *view = ADDRESSBOOK_VIEW (object);
-	AddressbookViewPrivate *priv = view->priv;
-
-	if (view->priv) {
-		if (priv->book)
-			g_object_unref (priv->book);
-
-		g_free(priv->passwd);
-
-		if (priv->source_list)
-			g_object_unref (priv->source_list);
-
-		if (priv->uid_to_view)
-			g_hash_table_destroy (priv->uid_to_view);
-
-		if (priv->uid_to_editor) {
-			g_hash_table_foreach (priv->uid_to_editor, (GHFunc)destroy_editor, NULL);
-			g_hash_table_destroy (priv->uid_to_editor);
-		}
-
-		if (priv->creatable_items_handler)
-			g_object_unref (priv->creatable_items_handler);
-
-		if (priv->menu)
-			g_object_unref (priv->menu);
-
-		g_free (view->priv);
-		view->priv = NULL;
-	}
-
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 typedef struct {
@@ -1031,52 +749,6 @@ activate_source (AddressbookView *view,
 		eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (priv->folder_view_control));
 		update_command_state (EAB_VIEW (uid_view), view);
 	}
-}
-
-AddressbookView *
-addressbook_view_new (void)
-{
-	return g_object_new (ADDRESSBOOK_TYPE_VIEW, NULL);
-}
-
-EActivityHandler*
-addressbook_view_peek_activity_handler (AddressbookView *view)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_VIEW (view), NULL);
-
-	return view->priv->activity_handler;
-}
-
-GtkWidget*
-addressbook_view_peek_info_label (AddressbookView *view)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_VIEW (view), NULL);
-
-	return view->priv->info_widget;
-}
-
-GtkWidget*
-addressbook_view_peek_sidebar (AddressbookView *view)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_VIEW (view), NULL);
-
-	return view->priv->sidebar_widget;
-}
-
-GtkWidget*
-addressbook_view_peek_statusbar (AddressbookView *view)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_VIEW (view), NULL);
-
-	return view->priv->statusbar_widget;
-}
-
-BonoboControl*
-addressbook_view_peek_folder_view (AddressbookView *view)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_VIEW (view), NULL);
-
-	return view->priv->folder_view_control;
 }
 
 void

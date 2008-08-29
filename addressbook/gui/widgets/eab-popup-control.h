@@ -28,6 +28,7 @@
 #ifndef __EAB_POPUP_CONTROL_H__
 #define __EAB_POPUP_CONTROL_H__
 
+#include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-event-source.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>

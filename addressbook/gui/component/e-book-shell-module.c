@@ -18,11 +18,22 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <string.h>
+#include <glib/gi18n.h>
+#include <libebook/e-book.h>
+#include <libedataserver/e-url.h>
+#include <libedataserver/e-source.h>
+#include <libedataserver/e-source-list.h>
+#include <libedataserver/e-source-group.h>
+
 #include <e-shell.h>
 #include <e-shell-module.h>
 #include <e-shell-window.h>
 
-#include "e-book-shell-view.h"
+#include <eab-gui-util.h>
+#include <e-book-shell-view.h>
+#include <addressbook-config.h>
+#include <autocompletion-config.h>
 
 #define MODULE_NAME		"addressbook"
 #define MODULE_ALIASES		""
@@ -174,7 +185,7 @@ book_module_book_loaded_cb (EBook *book,
 	if (g_str_equal (action_name, "contact-new"))
 		eab_show_contact_editor (book, contact, TRUE, TRUE);
 
-	if (g_str_equal (action_name, "contact-list-new") == 0)
+	if (g_str_equal (action_name, "contact-list-new"))
 		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
 
 	g_object_unref (contact);
@@ -189,6 +200,7 @@ action_contact_new_cb (GtkAction *action,
 	GConfClient *client;
 	ESourceList *source_list;
 	const gchar *key;
+	gchar *uid;
 
 	/* This callback is used for both contacts and contact lists. */
 
@@ -260,6 +272,8 @@ book_module_is_busy (EShellModule *shell_module)
 static gboolean
 book_module_shutdown (EShellModule *shell_module)
 {
+	/* FIXME */
+	return TRUE;
 }
 
 static gboolean
@@ -282,7 +296,7 @@ book_module_handle_uri (EShellModule *shell_module,
 		return FALSE;
 	}
 
-	while (*cp != NULL) {
+	while (*cp != '\0') {
 		gchar *header;
 		gchar *content;
 		gsize length;
@@ -345,7 +359,7 @@ book_module_window_created (EShellModule *shell_module,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 
-static EShellmoduleInfo module_info = {
+static EShellModuleInfo module_info = {
 
 	MODULE_NAME,
 	MODULE_ALIASES,
@@ -378,4 +392,6 @@ e_shell_module_init (GTypeModule *type_module)
 	g_signal_connect_swapped (
 		shell, "window-created",
 		G_CALLBACK (book_module_window_created), shell_module);
+
+	autocompletion_config_init ();
 }

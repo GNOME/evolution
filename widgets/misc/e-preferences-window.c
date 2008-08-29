@@ -303,8 +303,8 @@ e_preferences_window_add_page (EPreferencesWindow *dialog,
                                const gchar *page_name,
                                const gchar *icon_name,
                                const gchar *caption,
-                               gint sort_order,
-                               GtkWidget *widget)
+                               GtkWidget *widget,
+                               gint sort_order)
 {
 	GtkTreeRowReference *reference;
 	GtkIconView *icon_view;
@@ -346,6 +346,8 @@ e_preferences_window_add_page (EPreferencesWindow *dialog,
 
 	if (page == 0)
 		e_preferences_window_show_page (dialog, page_name);
+
+	gtk_widget_queue_resize (GTK_WIDGET (dialog));
 }
 
 void

@@ -27,7 +27,7 @@
       <menuitem action='contact-preview'/>
     </menu>
     <placeholder name='custom-menus'>
-      <menu action='action-menu'>
+      <menu action='actions-menu'>
         <menuitem action='contact-forward'/>
         <menuitem action='contact-send-message'/>
         <menuitem action='address-book-stop'/>
@@ -42,4 +42,17 @@
       </menu>
     </placeholder>
   </menubar>
+  <toolbar name='main-toolbar'>
+    <toolitem action='contact-print'/>
+    <toolitem action='contact-delete'/>
+    <toolitem action='address-book-stop'/>
+  </toolbar>
+  <popup name="address-book-popup">
+    <menuitem action='address-book-new'/>
+    <menuitem action='address-book-popup-save-as'/>
+    <separator/>
+    <menuitem action='address-book-popup-delete'/>
+    <separator/>
+    <menuitem action='address-book-popup-properties'/>
+  </popup>
 </ui>

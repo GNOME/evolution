@@ -22,7 +22,6 @@
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
-#include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
@@ -61,9 +60,6 @@ struct _EContactEditor
 	EBook *source_book;
 	EBook *target_book;
 	EContact *contact;
-
-	/* UI handler */
-	BonoboUIComponent *uic;
 
 	GladeXML *gui;
 	GtkWidget *app;

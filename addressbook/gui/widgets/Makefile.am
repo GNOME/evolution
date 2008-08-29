@@ -61,6 +61,9 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-factory-minicard.c		\
 	gal-view-factory-minicard.h
 
+libeabwidgets_la_LIBADD =					\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la
+
 MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
 @EVO_MARSHAL_RULE@
 

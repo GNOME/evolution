@@ -16,47 +16,32 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
- *
- * Authors: Chris Toshok <toshok@ximian.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-
 #include "autocompletion-config.h"
 
-#include "Evolution.h"
-
-#include <bonobo/bonobo-exception.h>
-
-#include <libedataserver/e-source-list.h>
-#include <libedataserverui/e-source-selector.h>
+#include <e-shell.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-
-
-typedef struct {
-	EvolutionConfigControl *config_control;
-
-	GtkWidget *control_widget;
-
-	ESourceList *source_list;
-} AutocompletionConfig;
+#include <e-preferences-window.h>
+#include <libedataserver/e-source-list.h>
+#include <libedataserverui/e-source-selector.h>
 
 static void
-source_selection_changed (ESourceSelector *selector,
-			  AutocompletionConfig *ac)
+source_selection_changed_cb (ESourceSelector *source_selector)
 {
+	ESourceList *source_list;
 	GSList *selection;
 	GSList *l;
 	GSList *groups;
 
+	source_list = e_source_selector_get_source_list (source_selector);
+
 	/* first we clear all the completion flags from all sources */
-	for (groups = e_source_list_peek_groups (ac->source_list); groups; groups = groups->next) {
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		GSList *sources;
+
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
 
@@ -66,86 +51,78 @@ source_selection_changed (ESourceSelector *selector,
 
 	/* then we loop over the selector's selection, setting the
 	   property on those sources */
-	selection = e_source_selector_get_selection (selector);
+	selection = e_source_selector_get_selection (source_selector);
 	for (l = selection; l; l = l->next) {
-		e_source_set_property (E_SOURCE (l->data), "completion", "true");
+		ESource *source = E_SOURCE (l->data);
+
+		e_source_set_property (source, "completion", "true");
 	}
 	e_source_selector_free_selection (selection);
 
-	e_source_list_sync (ac->source_list, NULL); /* XXX we should pop up a dialog if this fails */
+	/* XXX we should pop up a dialog if this fails */
+	e_source_list_sync (source_list, NULL);
 }
 
 static void
-config_control_destroy_notify (void *data,
-			       GObject *where_the_config_control_was)
+initialize_selection (ESourceSelector *source_selector)
 {
-	AutocompletionConfig *ac = (AutocompletionConfig *) data;
-
-	g_object_unref (ac->source_list);
-
-	g_free (ac);
-}
-
-static void
-initialize_selection (AutocompletionConfig *ac)
-{
+	ESourceList *source_list;
 	GSList *groups;
 
-	for (groups = e_source_list_peek_groups (ac->source_list); groups; groups = groups->next) {
+	source_list = e_source_selector_get_source_list (source_selector);
+
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		GSList *sources;
+
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
-			const char *completion = e_source_get_property (source, "completion");
+			const char *completion;
+
+			completion = e_source_get_property (source, "completion");
 			if (completion && !g_ascii_strcasecmp (completion, "true"))
-				e_source_selector_select_source (E_SOURCE_SELECTOR (ac->control_widget),
-								 source);
+				e_source_selector_select_source (source_selector, source);
 		}
 	}
 }
 
-EvolutionConfigControl*
-autocompletion_config_control_new (void)
+void
+autocompletion_config_init (void)
 {
-	AutocompletionConfig *ac;
-	CORBA_Environment ev;
-	GtkWidget *scrolledwin;
+	ESourceList *source_list;
+	GtkWidget *scrolled_window;
+	GtkWidget *source_selector;
+	GtkWidget *preferences_window;
 
-	ac = g_new0 (AutocompletionConfig, 1);
+	source_list = e_source_list_new_for_gconf_default (
+		"/apps/evolution/addressbook/sources");
 
-	CORBA_exception_init (&ev);
-
-	ac->source_list =  e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
 	/* XXX should we watch for the source list to change and
 	   update it in the control?  what about our local changes? */
 	/*	g_signal_connect (ac->source_list, "changed", G_CALLBACK (source_list_changed), ac); */
 
-	scrolledwin = gtk_scrolled_window_new (NULL, NULL);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolled_window),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+	gtk_widget_show (scrolled_window);
 
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwin),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwin),
-					     GTK_SHADOW_IN);
+	source_selector = e_source_selector_new (source_list);
+	g_signal_connect (
+		source_selector, "selection_changed",
+		G_CALLBACK (source_selection_changed_cb), NULL);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), source_selector);
+	gtk_widget_show (source_selector);
 
-	ac->control_widget = e_source_selector_new (ac->source_list);
+	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
-	gtk_container_add (GTK_CONTAINER (scrolledwin), ac->control_widget);
-
-	initialize_selection (ac);
-
-	gtk_widget_show (ac->control_widget);
-	gtk_widget_show (scrolledwin);
-
-	ac->config_control = evolution_config_control_new (scrolledwin);
-
-	g_signal_connect (ac->control_widget, "selection_changed",
-			  G_CALLBACK (source_selection_changed), ac);
-
-	g_object_weak_ref (G_OBJECT (ac->config_control), config_control_destroy_notify, ac);
-
-	CORBA_exception_free (&ev);
-
-	return ac->config_control;
+	e_preferences_window_add_page (
+		e_shell_get_preferences_window (),
+		"autocompletion",
+		"preferences-autocompletion",
+		_("Autocompletion"),
+		scrolled_window,
+		200);
 }
-

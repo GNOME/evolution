@@ -23,6 +23,48 @@
 GType e_book_shell_view_type = 0;
 static gpointer parent_class;
 
+static ESource *
+book_shell_view_get_primary_source (EBookShellView *book_shell_view)
+{
+	GConfClient *client;
+	ESourceList *source_list;
+	ESource *source = NULL;
+	const gchar *key;
+	gchar *uid;
+
+	source_list = book_shell_view->priv->source_list;
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/addressbook/display/primary_addressbook";
+	uid = gconf_client_get_string (client, key, NULL);
+	g_object_unref (client);
+
+	if (uid != NULL) {
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+		g_free (uid);
+	} else {
+		GSList *groups;
+
+		/* Dig up the first source in the source list.
+		 * XXX libedataserver should provide API for this. */
+		groups = e_source_list_peek_groups (source_list);
+		while (groups != NULL) {
+			ESourceGroup *source_group = groups->data;
+			GSList *sources;
+
+			sources = e_source_group_peek_sources (source_group);
+			if (sources != NULL) {
+				source = sources->data;
+				break;
+			}
+
+			groups = g_slist_next (groups);
+		}
+	}
+
+	return source;
+}
+
 static void
 book_shell_view_update_actions (EBookShellView *book_shell_view,
                                 EABView *view)
@@ -111,16 +153,6 @@ book_shell_view_update_actions (EBookShellView *book_shell_view,
 }
 
 static void
-book_shell_view_editor_weak_notify (EditorUidClosure *closure,
-                                    GObject *where_the_object_was)
-{
-	GHashTable *hash_table;
-
-	hash_table = closure->view->priv->uid_to_editor;
-	g_hash_table_remove (hash_table, closure->uid);
-}
-
-static void
 book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
                                         ESourceList *source_list)
 {
@@ -162,7 +194,7 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 		closure = g_hash_table_lookup (priv->uid_to_editor, uid);
 		g_object_weak_unref (
 			G_OBJECT (closure->editor), (GWeakNotify)
-			book_shell_view_editor_weak_notify, closure);
+			e_book_shell_view_editor_weak_notify, closure);
 		gtk_widget_destroy (closure->editor);
 		g_hash_table_remove (priv->uid_to_editor, uid);
 	}
@@ -196,19 +228,56 @@ book_shell_view_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static void
+book_shell_view_constructed (GObject *object)
+{
+	e_book_shell_view_actions_init (E_BOOK_SHELL_VIEW (object));
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+}
+
 static GtkWidget *
 book_shell_view_get_content_widget (EShellView *shell_view)
 {
+	EBookShellViewPrivate *priv;
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	return priv->notebook;
 }
 
 static GtkWidget *
 book_shell_view_get_sidebar_widget (EShellView *shell_view)
 {
+	EBookShellViewPrivate *priv;
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	return priv->scrolled_window;
 }
 
 static GtkWidget *
 book_shell_view_get_status_widget (EShellView *shell_view)
 {
+	EBookShellViewPrivate *priv;
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	return priv->task_bar;
+}
+
+static void
+book_shell_view_changed (EShellView *shell_view,
+                         gboolean visible)
+{
+	EBookShellViewPrivate *priv;
+	GtkActionGroup *action_group;
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	action_group = priv->contact_actions;
+	gtk_action_group_set_visible (action_group, visible);
 }
 
 static void
@@ -218,17 +287,19 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	parent_class = g_type_class_peek-parent (class);
+	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = book_shell_view_dispose;
 	object_class->finalize = book_shell_view_finalize;
+	object_class->constructed = book_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Contacts");
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->type_module = type_module;
+	shell_view_class->changed = book_shell_view_changed;
 
 	shell_view_class->get_content_widget =
 		book_shell_view_get_content_widget;
@@ -241,15 +312,23 @@ book_shell_view_class_init (EBookShellViewClass *class,
 static void
 book_shell_view_init (EBookShellView *book_shell_view)
 {
+	ESourceSelector *selector;
+	ESource *source;
+
 	book_shell_view->priv =
 		E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
 
 	e_book_shell_view_private_init (book_shell_view);
 
 	g_signal_connect_swapped (
-		priv->source_list, "changed",
+		book_shell_view->priv->source_list, "changed",
 		G_CALLBACK (book_shell_view_source_list_changed_cb),
 		book_shell_view);
+
+	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
+	source = book_shell_view_get_primary_source (book_shell_view);
+	if (source != NULL)
+		e_source_selector_set_primary_selection (selector, source);
 }
 
 GType

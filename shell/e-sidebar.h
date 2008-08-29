@@ -69,6 +69,15 @@ void		e_sidebar_add_action		(ESidebar *sidebar,
 gboolean	e_sidebar_get_actions_visible	(ESidebar *sidebar);
 void		e_sidebar_set_actions_visible	(ESidebar *sidebar,
 						 gboolean visible);
+const gchar *	e_sidebar_get_icon_name		(ESidebar *sidebar);
+void		e_sidebar_set_icon_name		(ESidebar *sidebar,
+						 const gchar *icon_name);
+const gchar *	e_sidebar_get_primary_text	(ESidebar *sidebar);
+void		e_sidebar_set_primary_text	(ESidebar *sidebar,
+						 const gchar *primary_text);
+const gchar *	e_sidebar_get_secondary_text	(ESidebar *sidebar);
+void		e_sidebar_set_secondary_text	(ESidebar *sidebar,
+						 const gchar *secondary_text);
 GtkToolbarStyle	e_sidebar_get_style		(ESidebar *sidebar);
 void		e_sidebar_set_style		(ESidebar *sidebar,
 						 GtkToolbarStyle style);

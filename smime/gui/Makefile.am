@@ -6,6 +6,8 @@ INCLUDES =						\
 	-I$(top_builddir)/smime/lib			\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/widgets/misc			\
+	-I$(top_builddir)/widgets/misc			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\

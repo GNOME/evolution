@@ -20,7 +20,7 @@ INCLUDES =							\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-component_LTLIBRARIES = libevolution-addressbook.la
+module_LTLIBRARIES = libevolution-addressbook.la
 
 libevolution_addressbook_la_SOURCES = 	\
 	addressbook-config.c		\
@@ -31,9 +31,6 @@ libevolution_addressbook_la_SOURCES = 	\
 	autocompletion-config.h		\
 	addressbook.c			\
 	addressbook.h			\
-	addressbook-view.c		\
-	addressbook-view.h		\
-	component-factory.c		\
 	e-book-shell-module.c		\
 	e-book-shell-view.c		\
 	e-book-shell-view.h		\

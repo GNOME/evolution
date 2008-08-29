@@ -23,6 +23,16 @@
 
 #include "e-book-shell-view.h"
 
+#include <string.h>
+#include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
+#include <libebook/e-book.h>
+#include <libedataserverui/e-source-selector.h>
+
+#include <eab-menu.h>
+#include <e-activity-handler.h>
+#include <e-addressbook-view.h>
+
 #include <e-book-shell-view-actions.h>
 
 #define E_BOOK_SHELL_VIEW_GET_PRIVATE(obj) \
@@ -60,14 +70,11 @@ struct _EBookShellViewPrivate {
 	/*** Other Stuff ***/
 
 	GtkWidget *notebook;
-	BonoboControl *folder_view_control;
-
-	GtkWidget *statusbar_widget;
-	EActivityHandler *activity_handler;
-
-	GtkWidget *info_widget;
-	GtkWidget *sidebar_widget;
+	GtkWidget *scrolled_window;
 	GtkWidget *selector;
+	GtkWidget *task_bar;
+
+	EActivityHandler *activity_handler;
 
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
@@ -76,7 +83,6 @@ struct _EBookShellViewPrivate {
 	guint activity_id;
 	ESourceList *source_list;
 	gchar *password;
-	EUserCreatableItemsHandler *creatable_items_handler;
 
 	EABMenu *menu;
 };
@@ -94,6 +100,9 @@ void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
 EABView *	e_book_shell_view_get_current_view
 					(EBookShellView *book_shell_view);
+void		e_book_shell_view_editor_weak_notify
+					(EditorUidClosure *closure,
+					 GObject *where_the_object_was);
 
 G_END_DECLS
 
