@@ -110,6 +110,83 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 	return hook->remote_id;
 }
 
+gboolean
+camel_object_remote_meta_set (CamelObjectRemote *object, char *name, char *value)
+{
+	 gboolean ret, ret_val;
+	 DBusError error;
+
+	 dbus_error_init (&error);
+	 /* Invoke the appropriate dbind call to the camel object  */
+	 ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+									  CAMEL_DBUS_NAME,
+									  obj_path[object->type],
+									  obj_if[object->type],
+									  "camel_object_meta_set",
+									  &error, 
+									  "sss=>i", object->object_id, name, value, &ret_val);
+
+	 if (!ret) {
+		  g_warning ("Error: camel_object_remote_meta_set : %s\n", error.message);
+		  return FALSE;
+	 }
+
+
+	 return ret_val;
+}
+
+int
+camel_object_remote_state_write (CamelObjectRemote *object)
+{
+	 gboolean ret;
+	 int ret_val;
+	 DBusError error;
+
+	 dbus_error_init (&error);
+	 /* Invoke the appropriate dbind call to the camel object  */
+	 ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+									  CAMEL_DBUS_NAME,
+									  obj_path[object->type],
+									  obj_if[object->type],
+									  "camel_object_state_write",
+									  &error, 
+									  "s=>i", object->object_id, &ret_val);
+
+	 if (!ret) {
+		  g_warning ("Error: camel_object_remote_state_write : %s\n", error.message);
+		  return -1;
+	 }
+
+
+	 return ret_val;
+}
+
+char *
+camel_object_remote_meta_get (CamelObjectRemote *object, char *name)
+{
+	 gboolean ret;
+	 DBusError error;
+	 char *value;
+
+	 dbus_error_init (&error);
+	 /* Invoke the appropriate dbind call to the camel object  */
+	 ret = dbind_context_method_call (evolution_dbus_peek_context(), 
+									  CAMEL_DBUS_NAME,
+									  obj_path[object->type],
+									  obj_if[object->type],
+									  "camel_object_meta_get",
+									  &error, 
+									  "ss=>s", object->object_id, name, &value);
+
+	 if (!ret) {
+		  g_warning ("Error: camel_object_remote_meta_get : %s\n", error.message);
+		  return NULL;
+	 }
+
+
+	 return value;
+}
+
 static DBusHandlerResult
 dbus_listener_object_handler (DBusConnection *connection,
                                     DBusMessage    *message,

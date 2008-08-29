@@ -74,6 +74,61 @@ camel_object_signal_handler (DBusConnection *connection,
 		ret_id = camel_object_hook_event (object, signal, (CamelObjectEventHookFunc)object_signal_cb, data);
 		dbus_message_append_args (return_val, DBUS_TYPE_UINT32, &ret_id, DBUS_TYPE_INVALID);
 		added = TRUE;
+	} else if(strcmp (method, "camel_object_meta_set")) {
+		 char *name, *value, *object_hash;
+		 gboolean ret;
+
+		 dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &object_hash,
+				DBUS_TYPE_STRING, &name,
+				DBUS_TYPE_STRING, &value,
+				DBUS_TYPE_INVALID);
+		 if (type == CAMEL_ROT_STORE)
+			  object = g_hash_table_lookup (store_hash, object_hash);
+		 else if (type == CAMEL_ROT_FOLDER)
+			  object = g_hash_table_lookup (folder_hash, object_hash);
+		 else 
+			  object = session;
+
+		 ret = camel_object_meta_set (object, name, value);
+		 dbus_message_append_args (return_val, DBUS_TYPE_INT32, &ret, DBUS_TYPE_INVALID);
+		 added = TRUE;
+	} else if(strcmp (method, "camel_object_state_write")) {
+		 char *object_hash;
+		 int ret;
+
+		 dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &object_hash,
+				DBUS_TYPE_INVALID);
+		 
+		 if (type == CAMEL_ROT_STORE)
+			  object = g_hash_table_lookup (store_hash, object_hash);
+		 else if (type == CAMEL_ROT_FOLDER)
+			  object = g_hash_table_lookup (folder_hash, object_hash);
+		 else 
+			  object = session;
+
+		 ret = camel_object_state_write (object);
+		 dbus_message_append_args (return_val, DBUS_TYPE_INT32, &ret, DBUS_TYPE_INVALID);
+		 added = TRUE;
+	} else if(strcmp (method, "camel_object_meta_get")) {
+		 char *name, *value, *object_hash;
+		 gboolean ret;
+
+		 dbus_message_get_args(message, NULL,
+				DBUS_TYPE_STRING, &object_hash,
+				DBUS_TYPE_STRING, &name,
+				DBUS_TYPE_INVALID);
+		 if (type == CAMEL_ROT_STORE)
+			  object = g_hash_table_lookup (store_hash, object_hash);
+		 else if (type == CAMEL_ROT_FOLDER)
+			  object = g_hash_table_lookup (folder_hash, object_hash);
+		 else 
+			  object = session;
+
+		 value = camel_object_meta_get (object, name);
+		 dbus_message_append_args (return_val, DBUS_TYPE_STRING, &value, DBUS_TYPE_INVALID);
+		 added = TRUE;
 	} else /* FIXME: Free memory and return */
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 

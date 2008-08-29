@@ -51,5 +51,7 @@ camel_object_remote_hook_event (CamelObjectRemote *object, char *signal, CamelOb
 
 CamelObjectRemote * camel_object_remote_from_camel_store (CamelStore *store);
 CamelStore * camel_object_remote_get_camel_store (CamelObjectRemote *obj);
-
+gboolean camel_object_remote_meta_set (CamelObjectRemote *object, char *name, char *value);
+int camel_object_remote_state_write (CamelObjectRemote *object);
+char * camel_object_remote_meta_get (CamelObjectRemote *object, char *name);
 #endif
