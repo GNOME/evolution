@@ -2895,9 +2895,10 @@ migrate_to_db()
 	len = e_list_length ((EList *) accounts);
 	
 	camel_session_set_online ((CamelSession *) session, FALSE);
-	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
-			     "folders has been moved to sqlite since Evolution 2.24.\n\nPlease be "
-			     "patient while Evolution migrates your folders..."));
+	em_migrate_setup_progress_dialog (
+		_("The summary format for Evolution's mailbox folders "
+		  "has changed.\n\nPlease be patient while Evolution "
+		  "migrates your folders to the new format..."));
 
 	em_migrate_set_progress ( (double)i/(len+1));
 	store = setup_local_store (component);
