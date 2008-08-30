@@ -215,11 +215,11 @@ e_info_label_set_info(EInfoLabel *el, const char *location, const char *info)
 		el->info = gtk_label_new (NULL);
 
 		gtk_label_set_ellipsize (GTK_LABEL (el->location), PANGO_ELLIPSIZE_END);
-		gtk_misc_set_alignment (GTK_MISC (el->location), 0.0, 0.0);
+		gtk_misc_set_alignment (GTK_MISC (el->location), 0.0, 0.5);
 		gtk_misc_set_padding (GTK_MISC (el->location), 0, 6);
 
 		gtk_label_set_ellipsize (GTK_LABEL (el->info), PANGO_ELLIPSIZE_MIDDLE);
-		gtk_misc_set_alignment (GTK_MISC (el->info), 1.0, 1.0);
+		gtk_misc_set_alignment (GTK_MISC (el->info), 1.0, 0.5);
 		gtk_misc_set_padding (GTK_MISC (el->info), 0, 6);
 
 		gtk_widget_show (el->location);
