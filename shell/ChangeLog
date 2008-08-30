@@ -1,3 +1,10 @@
+2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #549554 (patch from Paul Bolle)
+
+	* e-shell-importer.c: (struct info):
+	Drop sentence about an "Automatic" option.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
