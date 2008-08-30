@@ -1163,9 +1163,12 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Determines whether to lookup in addressbook for sender email</short>
+         <short>Consult address books when testing for junk mail</short>
          <long>
-	 Determines whether to loopup the sender email in addressbook. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote addressbooks (like ldap) are marked for autocompletion.
+	 Consult autocompletion-enabled address books when testing for junk
+         mail. If the sender's email address is found, do not mark the message
+         as junk. Note, this operation can be slow when consulting remote
+         address books such as LDAP.
          </long>
       </locale>
     </schema>

@@ -1,3 +1,10 @@
+2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #549970
+
+	* evolution-mail.schemas.in:
+	Reword the descriptions for "lookup_addressbook" key.
+
 2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #508732
