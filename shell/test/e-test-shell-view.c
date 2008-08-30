@@ -90,20 +90,28 @@ test_shell_view_get_status_widget (EShellView *shell_view)
 }
 
 static void
-test_shell_view_changed (EShellView *shell_view,
-                         gboolean visible)
+test_shell_view_changed (EShellView *shell_view)
 {
-	g_debug ("%s (visible=%d)", G_STRFUNC, visible);
+	gboolean is_selected;
+	const gchar *selected;
+
+	is_selected = e_shell_view_is_selected (shell_view);
+	selected = is_selected ? "selected" : "not selected";
+	g_debug ("%s (%s)", G_STRFUNC, selected);
 }
 
 static void
 test_shell_view_class_init (ETestShellViewClass *class,
                             GTypeModule *type_module)
 {
+	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETestShellViewPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = test_shell_view_dispose;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = "Test";

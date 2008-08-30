@@ -268,15 +268,16 @@ book_shell_view_get_status_widget (EShellView *shell_view)
 }
 
 static void
-book_shell_view_changed (EShellView *shell_view,
-                         gboolean visible)
+book_shell_view_changed (EShellView *shell_view)
 {
 	EBookShellViewPrivate *priv;
 	GtkActionGroup *action_group;
+	gboolean visible;
 
 	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	action_group = priv->contact_actions;
+	visible = e_shell_view_is_selected (shell_view);
 	gtk_action_group_set_visible (action_group, visible);
 }
 

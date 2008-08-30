@@ -32,10 +32,10 @@
 #define E_PREFERENCES_WINDOW_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
 	((cls), E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowClass))
-#define E_IS_MULTI_CONFIG_DIALOG(obj) \
+#define E_IS_PREFERENCES_WINDOW(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_PREFERENCES_WINDOW))
-#define E_IS_MULTI_CONFIG_DIALOG_CLASS(cls) \
+#define E_IS_PREFERENCES_WINDOW_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((obj), E_TYPE_PREFERENCES_WINDOW))
 #define E_PREFERENCES_WINDOW_GET_CLASS(obj) \
@@ -49,12 +49,12 @@ typedef struct _EPreferencesWindowClass EPreferencesWindowClass;
 typedef struct _EPreferencesWindowPrivate EPreferencesWindowPrivate;
 
 struct _EPreferencesWindow {
-	GtkDialog parent;
+	GtkWindow parent;
 	EPreferencesWindowPrivate *priv;
 };
 
 struct _EPreferencesWindowClass {
-	GtkDialogClass parent_class;
+	GtkWindowClass parent_class;
 };
 
 GType		e_preferences_window_get_type	(void);

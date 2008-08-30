@@ -734,6 +734,12 @@ action_preferences_cb (GtkAction *action,
 	GtkWidget *preferences_window;
 
 	preferences_window = e_shell_get_preferences_window ();
+	gtk_window_set_transient_for (
+		GTK_WINDOW (preferences_window),
+		GTK_WINDOW (shell_window));
+	gtk_window_set_position (
+		GTK_WINDOW (preferences_window),
+		GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_present (GTK_WINDOW (preferences_window));
 
 	/* FIXME Switch to a page appropriate for the current view. */

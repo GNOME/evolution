@@ -71,8 +71,7 @@ struct _EShellViewClass {
 
 	/* Signals */
 
-	void		(*changed)		(EShellView *shell_view,
-						 gboolean visible);
+	void		(*changed)		(EShellView *shell_view);
 };
 
 GType		e_shell_view_get_type		(void);

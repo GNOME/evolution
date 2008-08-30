@@ -302,9 +302,8 @@ shell_view_class_init (EShellViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EShellViewClass, changed),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__BOOLEAN,
-		G_TYPE_NONE, 1,
-		G_TYPE_BOOLEAN);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -531,17 +530,7 @@ e_shell_view_get_status_widget (EShellView *shell_view)
 void
 e_shell_view_changed (EShellView *shell_view)
 {
-	EShellWindow *shell_window;
-	EShellView *current_view;
-	const gchar *view_name;
-	gboolean visible;
-
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	shell_window = e_shell_view_get_window (shell_view);
-	view_name = e_shell_window_get_current_view (shell_window);
-	current_view = e_shell_window_get_view (shell_window, view_name);
-	visible = (current_view == shell_view);
-
-	g_signal_emit (shell_view, signals[CHANGED], 0, visible);
+	g_signal_emit (shell_view, signals[CHANGED], 0);
 }
