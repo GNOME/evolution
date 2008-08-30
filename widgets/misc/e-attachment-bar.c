@@ -1378,7 +1378,7 @@ e_attachment_bar_bonobo_ui_populate_with_recent (BonoboUIComponent *uic, const c
 	menuitems = g_string_new ("<submenu");
 	g_string_append (menuitems, " name=\"RecentDocsSubmenu\"");
 	g_string_append_printf (menuitems, " sensitive=\"%s\"", items ? "1" : "0");
-	g_string_append_printf (menuitems, " label=\"%s\"", _("Recent Docu_ments"));
+	g_string_append_printf (menuitems, " label=\"%s\"", _("Recent _Documents"));
 	g_string_append (menuitems, ">\n");
 
 	for (l = g_list_first (items), i = 1; l && i <= limit; l = l->next, ++i) {
