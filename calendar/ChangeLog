@@ -1,3 +1,11 @@
+2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #549967
+
+	* gui/caltypes.xml:
+	* gui/tasktypes.xml:
+	Capitalize "days" in "Next 7 Days".
+
 2008-08-18  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #462242
