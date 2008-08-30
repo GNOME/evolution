@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-29 18:03+0000\n"
-"PO-Revision-Date: 2008-08-29 20:45+0200\n"
+"POT-Creation-Date: 2008-08-30 11:43+0000\n"
+"PO-Revision-Date: 2008-08-30 14:19+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -14002,7 +14002,7 @@ msgstr "Importador de carpetas en formato buzón de Berkeley"
 msgid "Importing mailbox"
 msgstr "Importando buzón de correo"
 
-#: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:514
+#: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:512
 #, c-format
 msgid "Importing `%s'"
 msgstr "Importando «%s»"
@@ -18293,7 +18293,7 @@ msgid "Select Calendar"
 msgstr "Seleccione el calendario"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:259
-#: ../shell/e-shell-importer.c:698
+#: ../shell/e-shell-importer.c:696
 msgid "_Import"
 msgstr "_Importar"
 
@@ -19970,24 +19970,24 @@ msgid "Importing files"
 msgstr "Importando archivos"
 
 #: ../plugins/startup-wizard/startup-wizard.c:135
-#: ../shell/e-shell-importer.c:143
+#: ../shell/e-shell-importer.c:141
 msgid "Please select the information that you would like to import:"
 msgstr "Seleccione la información que quiera importar:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:150
-#: ../shell/e-shell-importer.c:396
+#: ../shell/e-shell-importer.c:394
 #, c-format
 msgid "From %s:"
 msgstr "De %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:230
-#: ../shell/e-shell-importer.c:507
+#: ../shell/e-shell-importer.c:505
 #, c-format
 msgid "Importing data."
 msgstr "Importando datos."
 
 #: ../plugins/startup-wizard/startup-wizard.c:232
-#: ../shell/e-shell-importer.c:521
+#: ../shell/e-shell-importer.c:519
 msgid "Please wait"
 msgstr "Por favor espere"
 
@@ -20376,21 +20376,16 @@ msgstr "Elija el tipo de importador a ejecutar:"
 #: ../shell/e-shell-importer.c:134
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
-"of file it is from the list.\n"
-"\n"
-"You can select \"Automatic\" if you do not know, and Evolution will attempt "
-"to work it out."
+"of file it is from the list."
 msgstr ""
-"Elija el archivo que quiere importar a Evolution y seleccione de la lista el "
-"tipo de archivo que es.\n"
-"\n"
-"Si no lo sabe, puede elegir «Automático» y Evolution tratará de encargarse."
+"Elija el archivo que quiere importar en Evolution y seleccione de la lista "
+"el tipo de archivo que es."
 
-#: ../shell/e-shell-importer.c:140
+#: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
 msgstr "Elija el destino de esta importación"
 
-#: ../shell/e-shell-importer.c:146
+#: ../shell/e-shell-importer.c:144
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -20402,23 +20397,23 @@ msgstr ""
 "configuración que se pueda importar. Si quiere intentarlo de nuevo, pulse\n"
 "el botón «Atrás».\n"
 
-#: ../shell/e-shell-importer.c:284
+#: ../shell/e-shell-importer.c:282
 msgid "F_ilename:"
 msgstr "Nombre del _archivo:"
 
-#: ../shell/e-shell-importer.c:289
+#: ../shell/e-shell-importer.c:287
 msgid "Select a file"
 msgstr "Elija un archivo"
 
-#: ../shell/e-shell-importer.c:298
+#: ../shell/e-shell-importer.c:296
 msgid "File _type:"
 msgstr "_Tipo de archivo:"
 
-#: ../shell/e-shell-importer.c:334
+#: ../shell/e-shell-importer.c:332
 msgid "Import data and settings from _older programs"
 msgstr "Importar datos y configuración de programas _antiguos"
 
-#: ../shell/e-shell-importer.c:337
+#: ../shell/e-shell-importer.c:335
 msgid "Import a _single file"
 msgstr "Importar un _único archivo"
 
