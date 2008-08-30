@@ -1,3 +1,11 @@
+2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #548348
+
+	* printing/Makefile.am:
+	Add a libecontactprint_la_LIBADD stanza so we link to the
+	correct libemiscwidgets and libeutil.
+
 2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #534762

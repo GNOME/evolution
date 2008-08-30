@@ -28,6 +28,10 @@ libecontactprint_la_SOURCES = 			\
 	e-contact-print.c			\
 	e-contact-print.h
 
+libecontactprint_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la
+
 noinst_PROGRAMS =			\
 	contact-print-test		\
 	contact-print-style-editor-test
