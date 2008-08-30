@@ -512,6 +512,8 @@ sidebar_get_style (GtkToolShell *shell)
 static GtkReliefStyle
 sidebar_get_relief_style (GtkToolShell *shell)
 {
+	/* XXX GTK+ 2.13.6 discards this value.
+	 *     http://bugzilla.gnome.org/show_bug.cgi?id=549943 */
 	return GTK_RELIEF_NORMAL;
 }
 

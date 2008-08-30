@@ -428,7 +428,6 @@ e_shell_view_set_secondary_text (EShellView *shell_view,
 
 	g_free (shell_view->priv->secondary_text);
 	shell_view->priv->secondary_text = g_strdup (secondary_text);
-	g_debug ("%s: %s", G_STRFUNC, secondary_text);
 
 	g_object_notify (G_OBJECT (shell_view), "secondary-text");
 }

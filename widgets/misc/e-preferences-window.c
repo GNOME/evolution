@@ -361,8 +361,6 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 
 	if (page == 0)
 		e_preferences_window_show_page (window, page_name);
-
-	gtk_widget_queue_resize (GTK_WIDGET (window));
 }
 
 void
