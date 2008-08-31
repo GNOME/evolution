@@ -1,3 +1,10 @@
+2008-08-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix bug #544430
+
+	* em-folder-properties.c (emfp_get_folder_item):
+	Better formed translatable strings for quota usage.
+
 2008-08-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail/mail-component.c: Disable flag upsync. I need to implement it

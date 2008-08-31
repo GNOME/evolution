@@ -188,11 +188,13 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			if (!info->total)
 				continue;
 
-			/* show quota name only when available and have more than one quota info */
+			/* Show quota name only when available and we
+			 * have more than one quota info. */
 			if (info->name && quota->next)
-				descr = g_strdup_printf ("%s (%s):", _("Quota usage"), _(info->name));
+				descr = g_strdup_printf (
+					_("Quota usage (%s):"), _(info->name));
 			else
-				descr = g_strdup_printf ("%s:", _("Quota usage"));
+				descr = g_strdup_printf (_("Quota usage"));
 
 			procs = (int) ((((double) info->used) / ((double) info->total)) * 100.0 + 0.5);
 
