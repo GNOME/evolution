@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-18 04:43+0000\n"
-"PO-Revision-Date: 2008-04-12 17:02+0200\n"
+"POT-Creation-Date: 2008-08-30 11:43+0000\n"
+"PO-Revision-Date: 2008-08-28 15:33+0200\n"
 "Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,8 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:178
-msgid "evolution addressbook"
+#, fuzzy
+msgid "evolution address book"
 msgstr "ספר הכתובות של Evolution"
 
 #: ../a11y/addressbook/ea-minicard-view.c:32
@@ -108,7 +109,7 @@ msgstr "לך אל היום"
 msgid "Go to Date"
 msgstr "לך אל תאריך"
 
-#: ../a11y/calendar/ea-day-view-main-item.c:303
+#: ../a11y/calendar/ea-day-view-main-item.c:301
 #: ../a11y/calendar/ea-week-view-main-item.c:301
 msgid "a table to view and select the current time range"
 msgstr ""
@@ -152,7 +153,7 @@ msgstr ""
 msgid "calendar view for one or more days"
 msgstr ""
 
-#: ../a11y/calendar/ea-gnome-calendar.c:188
+#: ../a11y/calendar/ea-gnome-calendar.c:186
 #: ../calendar/gui/calendar-component.c:757
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
@@ -163,26 +164,26 @@ msgstr "%A %d %b %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: ../a11y/calendar/ea-gnome-calendar.c:191
+#: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:760
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1568
 #: ../calendar/gui/e-week-view-main-item.c:340
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:193
+#: ../a11y/calendar/ea-gnome-calendar.c:191
+#: ../a11y/calendar/ea-gnome-calendar.c:196
 #: ../a11y/calendar/ea-gnome-calendar.c:198
-#: ../a11y/calendar/ea-gnome-calendar.c:200
 #: ../calendar/gui/calendar-component.c:762
 #: ../calendar/gui/calendar-component.c:767
 #: ../calendar/gui/calendar-component.c:769
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:217
-#: ../a11y/calendar/ea-gnome-calendar.c:223
+#: ../a11y/calendar/ea-gnome-calendar.c:215
+#: ../a11y/calendar/ea-gnome-calendar.c:221
+#: ../a11y/calendar/ea-gnome-calendar.c:227
 #: ../a11y/calendar/ea-gnome-calendar.c:229
-#: ../a11y/calendar/ea-gnome-calendar.c:231
 #: ../calendar/gui/calendar-component.c:781
 #: ../calendar/gui/calendar-component.c:788
 #: ../calendar/gui/calendar-component.c:794
@@ -195,33 +196,33 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../a11y/calendar/ea-gnome-calendar.c:221
+#: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:786
 #: ../calendar/gui/e-day-view-top-item.c:860 ../calendar/gui/e-day-view.c:1584
 #: ../calendar/gui/e-week-view-main-item.c:354
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:247
-#: ../a11y/calendar/ea-gnome-calendar.c:255
+#: ../a11y/calendar/ea-gnome-calendar.c:245
+#: ../a11y/calendar/ea-gnome-calendar.c:253
 #: ../calendar/importers/icalendar-importer.c:766
 msgid "Gnome Calendar"
 msgstr "יומן Gnome"
 
-#: ../a11y/calendar/ea-gnome-calendar.c:290
+#: ../a11y/calendar/ea-gnome-calendar.c:288
 msgid "search bar"
 msgstr ""
 
-#: ../a11y/calendar/ea-gnome-calendar.c:291
+#: ../a11y/calendar/ea-gnome-calendar.c:289
 #, fuzzy
 msgid "evolution calendar search bar"
 msgstr "Evolution לא יכולה להתחיל."
 
-#: ../a11y/calendar/ea-jump-button.c:149
+#: ../a11y/calendar/ea-jump-button.c:147
 msgid "Jump button"
 msgstr ""
 
-#: ../a11y/calendar/ea-jump-button.c:158
+#: ../a11y/calendar/ea-jump-button.c:156
 msgid "Click here, you can find more events."
 msgstr "לחץ כאן, אפשר למצוא אירועים נוספים."
 
@@ -289,7 +290,7 @@ msgstr ""
 
 #: ../a11y/e-table/gal-a11y-e-cell.c:107
 msgid "Table Cell"
-msgstr ""
+msgstr "תא בטבלה"
 
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
 #: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
@@ -301,7 +302,7 @@ msgstr "לחץ כאן כדי להוסיף"
 msgid "click"
 msgstr "לחץ"
 
-#: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
+#: ../a11y/e-table/gal-a11y-e-table-column-header.c:152
 #, fuzzy
 msgid "sort"
 msgstr "מבנה"
@@ -321,24 +322,24 @@ msgstr "יומן: מ-%s ועד %s"
 msgid "evolution calendar item"
 msgstr "פריט יומן evolution"
 
-#: ../a11y/widgets/ea-combo-button.c:39
+#: ../a11y/widgets/ea-combo-button.c:56
 msgid "Combo Button"
 msgstr ""
 
-#: ../a11y/widgets/ea-combo-button.c:49
+#: ../a11y/widgets/ea-combo-button.c:66
 msgid "Activate Default"
 msgstr "הש_תמש בברירת המחדל"
 
-#: ../a11y/widgets/ea-combo-button.c:51
+#: ../a11y/widgets/ea-combo-button.c:68
 msgid "Popup Menu"
 msgstr "תפריט קופץ"
 
-#: ../a11y/widgets/ea-expander.c:39
+#: ../a11y/widgets/ea-expander.c:40
 #, fuzzy
 msgid "Toggle Attachment Bar"
 msgstr "שמור בשם..."
 
-#: ../a11y/widgets/ea-expander.c:49
+#: ../a11y/widgets/ea-expander.c:50
 msgid "activate"
 msgstr "הפעל"
 
@@ -383,7 +384,8 @@ msgid "Could not get schema information for LDAP server."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:10
-msgid "Could not remove addressbook."
+#, fuzzy
+msgid "Could not remove address book."
 msgstr "לא ניתן להסיר ספר כתובות."
 
 #: ../addressbook/addressbook.error.xml.h:11
@@ -398,7 +400,8 @@ msgid "Delete address book '{0}'?"
 msgstr "למחוק את ספר הכתובות '{0}'?"
 
 #: ../addressbook/addressbook.error.xml.h:13
-msgid "Error loading addressbook."
+#, fuzzy
+msgid "Error loading address book."
 msgstr "שגיאה בזמן טעינת ספר הכתובות."
 
 #: ../addressbook/addressbook.error.xml.h:14
@@ -432,7 +435,8 @@ msgid "Some features may not work properly with your current server"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:21
-msgid "The Evolution addressbook has quit unexpectedly."
+#, fuzzy
+msgid "The Evolution address book has quit unexpectedly."
 msgstr "ספר הכתובות של Evolution נסגר באופן בלתי צפוי."
 
 #: ../addressbook/addressbook.error.xml.h:22
@@ -448,29 +452,31 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:24
-msgid "This address book will be removed permanently."
-msgstr "ספר כתובות זה יוסר לצמיתות."
-
-#: ../addressbook/addressbook.error.xml.h:25
-msgid "This addressbook could not be opened."
+#, fuzzy
+msgid "This address book could not be opened."
 msgstr "ספר הכתובות לא יכל להיפתח."
 
+#: ../addressbook/addressbook.error.xml.h:25
+msgid "This address book server does not have any suggested search bases."
+msgstr ""
+
 #: ../addressbook/addressbook.error.xml.h:26
-msgid "This addressbook server does not have any suggested search bases."
+msgid ""
+"This address book server might be unreachable or the server name may be "
+"misspelled or your network connection could be down."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:27
-msgid ""
-"This addressbook server might be unreachable or the server name may be "
-"misspelled or your network connection could be down."
-msgstr ""
+msgid "This address book will be removed permanently."
+msgstr "ספר כתובות זה יוסר לצמיתות."
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "This server does not support LDAPv3 schema information."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:29
-msgid "Unable to open addressbook"
+#, fuzzy
+msgid "Unable to open address book"
 msgstr "לא ניתן לפתוח את ספר הכתובות"
 
 #: ../addressbook/addressbook.error.xml.h:30
@@ -487,7 +493,7 @@ msgstr "האם ברצונך לשמור את השינויים שלך?"
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid ""
-"You are attempting to move a contact from one addressbook to another but it "
+"You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
 
@@ -531,13 +537,13 @@ msgstr "_אל תשמור"
 
 #: ../addressbook/addressbook.error.xml.h:41
 msgid "_Resize"
-msgstr ""
+msgstr "_שנה גודל"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
 msgstr ""
 
-#. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this addressbook was unable to parse this query."
+#. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query."
 #: ../addressbook/addressbook.error.xml.h:44 ../mail/mail.error.xml.h:143
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
 msgid "{0}"
@@ -554,7 +560,8 @@ msgstr ""
 
 #: ../addressbook/conduit/address-conduit.c:1320
 #: ../addressbook/conduit/address-conduit.c:1321
-msgid "Could not load addressbook"
+#, fuzzy
+msgid "Could not load address book"
 msgstr "לא ניתן לטעון ספר כתובות"
 
 #: ../addressbook/conduit/address-conduit.c:1398
@@ -658,7 +665,6 @@ msgid "On LDAP Servers"
 msgstr "על שרתי LDAP"
 
 #: ../addressbook/gui/component/addressbook-component.c:230
-#, fuzzy
 msgctxt "New"
 msgid "_Contact"
 msgstr "איש _קשר"
@@ -668,10 +674,9 @@ msgid "Create a new contact"
 msgstr "צור איש קשר חדש"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
-#, fuzzy
 msgctxt "New"
 msgid "Contact _List"
-msgstr "_רשימת תפוצה"
+msgstr "_רשימת אנשי קשר"
 
 #: ../addressbook/gui/component/addressbook-component.c:239
 msgid "Create a new contact list"
@@ -683,7 +688,6 @@ msgid "New Address Book"
 msgstr "ספר כתובות חדש"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
-#, fuzzy
 msgctxt "New"
 msgid "Address _Book"
 msgstr "ספר _כתובות"
@@ -871,7 +875,7 @@ msgstr "הכנס סיסמה ל-%s (משתמש %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:498
+#: ../plugins/google-account-setup/google-source.c:444
 #: ../plugins/publish-calendar/publish-calendar.c:190
 #: ../smime/gui/component.c:50
 msgid "Enter password"
@@ -1203,7 +1207,7 @@ msgstr "כרטיסים"
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
 #: ../plugins/calendar-http/calendar-http.c:279
 #: ../plugins/calendar-weather/calendar-weather.c:561
-#: ../plugins/google-account-setup/google-source.c:715
+#: ../plugins/google-account-setup/google-source.c:662
 #: ../plugins/google-account-setup/google-contacts-source.c:328
 msgid "minutes"
 msgstr "דקות"
@@ -2736,7 +2740,7 @@ msgstr "בחר..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "_הסתר כתובות בזמן שליחת דואר לרשימה זו"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_List name:"
@@ -3495,28 +3499,27 @@ msgstr "גירסץ שרת לא תקינה"
 
 #. E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD
 #: ../addressbook/gui/widgets/eab-gui-util.c:79
-#, fuzzy
 msgid "Unsupported authentication method"
-msgstr "פעולה לא ניתמכת."
+msgstr "שיטת הזדהות לא נתמכת"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:102
 msgid ""
-"We were unable to open this addressbook. This either means this book is not "
+"We were unable to open this address book. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
-"load the addressbook once in online mode to download its contents"
+"load the address book once in online mode to download its contents"
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:111
 #, c-format
 msgid ""
-"We were unable to open this addressbook.  Please check that the path %s "
+"We were unable to open this address book.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:120
 msgid ""
-"We were unable to open this addressbook.  This either means you have entered "
-"an incorrect URI, or the LDAP server is unreachable."
+"We were unable to open this address book.  This either means you have "
+"entered an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:125
@@ -3528,8 +3531,8 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:132
 msgid ""
-"We were unable to open this addressbook.  This either means you have entered "
-"an incorrect URI, or the server is unreachable."
+"We were unable to open this address book.  This either means you have "
+"entered an incorrect URI, or the server is unreachable."
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:138
@@ -3541,23 +3544,25 @@ msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
 "Please make your search more specific or raise the result limit in\n"
-"the directory server preferences for this addressbook."
+"the directory server preferences for this address book."
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:167
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
-"you have configured for this addressbook.  Please make your search\n"
+"you have configured for this address book.  Please make your search\n"
 "more specific or raise the time limit in the directory server\n"
-"preferences for this addressbook."
+"preferences for this address book."
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:173
-msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+#, fuzzy
+msgid "The backend for this address book was unable to parse this query."
+msgstr "המנוע של ספר כתובות זה סרב לבצע את שאילתה זאת."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:176
-msgid "The backend for this addressbook refused to perform this query."
+#, fuzzy
+msgid "The backend for this address book refused to perform this query."
 msgstr "המנוע של ספר כתובות זה סרב לבצע את שאילתה זאת."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:179
@@ -3708,7 +3713,8 @@ msgid "Show Compact vCard"
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
-msgid "Save in addressbook"
+#, fuzzy
+msgid "Save in address book"
 msgstr "שמור בספר הכתובות"
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:25
@@ -3972,7 +3978,8 @@ msgid "Can not open file"
 msgstr "לא ניתן לפתוח קובץ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-msgid "Couldn't get list of addressbooks"
+#, fuzzy
+msgid "Couldn't get list of address books"
 msgstr "לא ניתן לקבל את רשימת ספרי הכתובות"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:72
@@ -3988,7 +3995,8 @@ msgid "OUTPUTFILE"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
-msgid "List local addressbook folders"
+#, fuzzy
+msgid "List local address book folders"
 msgstr "רשימת תיקיות ספרי כתובות מקומיים"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
@@ -4495,8 +4503,8 @@ msgstr "_תזכורות"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:280 ../calendar/gui/e-memos.c:1120
 #: ../calendar/gui/gnome-cal.c:1774 ../calendar/gui/memos-component.c:548
-#: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:353
-#: ../calendar/gui/memos-control.c:369
+#: ../calendar/gui/memos-component.c:1101 ../calendar/gui/memos-control.c:354
+#: ../calendar/gui/memos-control.c:370
 msgid "Memos"
 msgstr "תזכורות"
 
@@ -4541,7 +4549,7 @@ msgstr[1] "דקות"
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:280
 #: ../plugins/calendar-weather/calendar-weather.c:562
-#: ../plugins/google-account-setup/google-source.c:716
+#: ../plugins/google-account-setup/google-source.c:663
 #: ../plugins/google-account-setup/google-contacts-source.c:329
 msgid "hours"
 msgid_plural "hours"
@@ -4608,11 +4616,11 @@ msgstr "אין מידע מיקום זמין."
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1521
 #, c-format
 msgid "You have %d alarms"
-msgstr ""
+msgstr "יש לך %d התרעות"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1683
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1711
-#: ../mail/mail-component.c:1592
+#: ../mail/mail-component.c:1594
 msgid "Warning"
 msgstr "אזהרה"
 
@@ -5182,7 +5190,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21 ../filter/filter.glade.h:14
 #: ../plugins/calendar-http/calendar-http.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:563
-#: ../plugins/google-account-setup/google-source.c:717
+#: ../plugins/google-account-setup/google-source.c:664
 #: ../plugins/google-account-setup/google-contacts-source.c:330
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -5996,12 +6004,12 @@ msgstr "תזכורת זו נמחקה."
 #: ../calendar/gui/dialogs/changed-comp.c:73
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "%s  ביצעת שינויים. לשכוח את השינויים ולסגור את העורך?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:75
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s  לא ביצעת שינויים, לסגור את העורך?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:80
 msgid "This event has been changed."
@@ -6018,14 +6026,14 @@ msgstr "תזכורת זאת השתנתה."
 #: ../calendar/gui/dialogs/changed-comp.c:97
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
+msgstr "%s  ביצעת שינויים. לשכוח את השינויים ולעדכן את העורך?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:99
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor-page.c:443
+#: ../calendar/gui/dialogs/comp-editor-page.c:448
 #, c-format
 msgid "Validation error: %s"
 msgstr "שגיאת וידוא: %s"
@@ -6580,7 +6588,7 @@ msgstr "התאם"
 #: ../plugins/itip-formatter/itip-formatter.c:2021
 #: ../widgets/misc/e-cell-date-edit.c:307 ../widgets/misc/e-dateedit.c:1517
 #: ../widgets/misc/e-dateedit.c:1731
-#: ../widgets/misc/e-signature-combo-box.c:69
+#: ../widgets/misc/e-signature-combo-box.c:70
 msgid "None"
 msgstr "ללא"
 
@@ -6671,7 +6679,7 @@ msgstr "לא ניתן לפתוח תזכורות ב-'%s'."
 
 #: ../calendar/gui/dialogs/memo-page.c:1002 ../mail/em-format-html.c:1562
 #: ../mail/em-format-html.c:1620 ../mail/em-format-html.c:1646
-#: ../mail/em-format-quote.c:209 ../mail/em-format.c:886
+#: ../mail/em-format-quote.c:210 ../mail/em-format.c:886
 #: ../mail/em-mailer-prefs.c:77 ../mail/message-list.etspec.h:19
 msgid "To"
 msgstr "אל"
@@ -7299,9 +7307,8 @@ msgid "Organizer: %s"
 msgstr "_ארגון:"
 
 #: ../calendar/gui/e-calendar-table.c:408
-#, fuzzy
 msgid "Start: "
-msgstr "מצב"
+msgstr "התחלה:"
 
 #: ../calendar/gui/e-calendar-table.c:420
 #, fuzzy
@@ -7622,8 +7629,8 @@ msgstr[1] "כל %d שבועות"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "כל שבוע ב"
+msgstr[1] "כל %d שבועות ב"
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:813
@@ -7688,7 +7695,7 @@ msgstr ""
 #. Title
 #: ../calendar/gui/e-itip-control.c:1020
 msgid "iCalendar Error"
-msgstr ""
+msgstr "שגיאת iCalendar"
 
 #: ../calendar/gui/e-itip-control.c:1092 ../calendar/gui/e-itip-control.c:1108
 #: ../calendar/gui/e-itip-control.c:1119 ../calendar/gui/e-itip-control.c:1136
@@ -7714,7 +7721,7 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:664
 #: ../plugins/itip-formatter/itip-formatter.c:2034
 msgid "Accepted"
-msgstr ""
+msgstr "התקבל"
 
 #: ../calendar/gui/e-itip-control.c:1195 ../calendar/gui/itip-utils.c:667
 #: ../plugins/itip-formatter/itip-formatter.c:2037
@@ -7923,7 +7930,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1980
 msgid "Update complete\n"
-msgstr ""
+msgstr "העדכון הושלם\n"
 
 #: ../calendar/gui/e-itip-control.c:2014
 msgid "Object is invalid and cannot be updated\n"
@@ -7963,7 +7970,7 @@ msgid "Update"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2355
-#: ../plugins/groupwise-features/process-meeting.c:48
+#: ../plugins/groupwise-features/process-meeting.c:51
 msgid "Accept"
 msgstr "קבל"
 
@@ -7972,7 +7979,7 @@ msgid "Tentatively accept"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2357
-#: ../plugins/groupwise-features/process-meeting.c:50
+#: ../plugins/groupwise-features/process-meeting.c:53
 msgid "Decline"
 msgstr "סרב"
 
@@ -8118,7 +8125,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-store.c:183 ../calendar/gui/e-meeting-store.c:206
 msgid "In Process"
-msgstr ""
+msgstr "בתהליך"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -8240,7 +8247,7 @@ msgid "Click to add a memo"
 msgstr "לחץ כאן כדי להוסיף תזכורת"
 
 #: ../calendar/gui/e-memos.c:760 ../calendar/gui/e-tasks.c:910
-#: ../calendar/gui/gnome-cal.c:2960
+#: ../calendar/gui/gnome-cal.c:2961
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -8316,12 +8323,12 @@ msgstr "טוען משימות ב-%s"
 msgid "Loading memos at %s"
 msgstr "טוען תזכורות ב-%s"
 
-#: ../calendar/gui/gnome-cal.c:2919
+#: ../calendar/gui/gnome-cal.c:2920
 #, c-format
 msgid "Opening %s"
 msgstr "פותח %s"
 
-#: ../calendar/gui/gnome-cal.c:3873
+#: ../calendar/gui/gnome-cal.c:3874
 msgid "Purging"
 msgstr ""
 
@@ -8512,14 +8519,13 @@ msgstr "_רשימת תזכורות"
 msgid "Create a new memo list"
 msgstr "צור רשימת תזכורות חדשה"
 
-#: ../calendar/gui/memos-control.c:353 ../calendar/gui/memos-control.c:369
+#: ../calendar/gui/memos-control.c:354 ../calendar/gui/memos-control.c:370
 msgid "Print Memos"
 msgstr "הדפס תזכורות"
 
 #: ../calendar/gui/memotypes.xml.h:25
-#, fuzzy
 msgid "Next 7 Days"
-msgstr "פגישה לכל ה_יום"
+msgstr "7 הימים הבאים"
 
 #: ../calendar/gui/migration.c:157
 msgid ""
@@ -8746,7 +8752,7 @@ msgstr "עדיפות: %s"
 #: ../calendar/gui/print.c:2591
 #, c-format
 msgid "Percent Complete: %i"
-msgstr ""
+msgstr "אחוז הושלם: %i"
 
 #: ../calendar/gui/print.c:2603
 #, c-format
@@ -8761,11 +8767,6 @@ msgstr "קטגוריות: %s"
 #: ../calendar/gui/print.c:2627
 msgid "Contacts: "
 msgstr "אנשי קשר: "
-
-#. TODO Allow the user to customize the title.
-#: ../calendar/gui/print.c:2762
-msgid "Upcoming Appointments"
-msgstr "פגישות קרובות"
 
 #: ../calendar/gui/tasks-component.c:455
 msgid "_New Task List"
@@ -8915,1532 +8916,1551 @@ msgid "Evolution Calendar intelligent importer"
 msgstr ""
 
 #.
+#. *
+#. * This program is free software; you can redistribute it and/or
+#. * modify it under the terms of the GNU Lesser General Public
+#. * License as published by the Free Software Foundation; either
+#. * version 2 of the License, or (at your option) version 3.
+#. *
+#. * This program is distributed in the hope that it will be useful,
+#. * but WITHOUT ANY WARRANTY; without even the implied warranty of
+#. * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#. * Lesser General Public License for more details.
+#. *
+#. * You should have received a copy of the GNU Lesser General Public
+#. * License along with the program; if not, see <http://www.gnu.org/licenses/>
+#. *
+#. *
+#. * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+#. *
+#.
+#.
 #. * These are the timezone names from the Olson timezone data.
 #. * We only place them here so gettext picks them up for translation.
 #. * Don't include in any C files.
 #.
-#: ../calendar/zones.h:7
+#: ../calendar/zones.h:26
 msgid "Africa/Abidjan"
 msgstr "אפריקה/אבידג'אן"
 
-#: ../calendar/zones.h:8
+#: ../calendar/zones.h:27
 msgid "Africa/Accra"
 msgstr "אפריקה/אקרה"
 
-#: ../calendar/zones.h:9
+#: ../calendar/zones.h:28
 msgid "Africa/Addis_Ababa"
 msgstr "אפריקה/אדיס_אבבה"
 
-#: ../calendar/zones.h:10
+#: ../calendar/zones.h:29
 msgid "Africa/Algiers"
 msgstr "אפריקה/אלג'יר"
 
-#: ../calendar/zones.h:11
+#: ../calendar/zones.h:30
 msgid "Africa/Asmera"
 msgstr "אפריקה/אסמרה"
 
-#: ../calendar/zones.h:12
+#: ../calendar/zones.h:31
 msgid "Africa/Bamako"
 msgstr "אפריקה/במקו"
 
-#: ../calendar/zones.h:13
+#: ../calendar/zones.h:32
 msgid "Africa/Bangui"
 msgstr "אפריקה/בנגואי"
 
-#: ../calendar/zones.h:14
+#: ../calendar/zones.h:33
 msgid "Africa/Banjul"
 msgstr "אפריקה/בנז'ול"
 
-#: ../calendar/zones.h:15
+#: ../calendar/zones.h:34
 msgid "Africa/Bissau"
 msgstr "אפריקה/ביסאו"
 
-#: ../calendar/zones.h:16
+#: ../calendar/zones.h:35
 msgid "Africa/Blantyre"
 msgstr ""
 
-#: ../calendar/zones.h:17
+#: ../calendar/zones.h:36
 msgid "Africa/Brazzaville"
 msgstr "אפריקה/ברזוויל"
 
-#: ../calendar/zones.h:18
+#: ../calendar/zones.h:37
 msgid "Africa/Bujumbura"
 msgstr "אפריקה/בוג'ומבורה"
 
-#: ../calendar/zones.h:19
+#: ../calendar/zones.h:38
 msgid "Africa/Cairo"
 msgstr "אפריקה/קהיר"
 
-#: ../calendar/zones.h:20
+#: ../calendar/zones.h:39
 msgid "Africa/Casablanca"
 msgstr "אפריקה/קזבלנקה"
 
-#: ../calendar/zones.h:21
+#: ../calendar/zones.h:40
 msgid "Africa/Ceuta"
 msgstr "אפריקה/סאוטה"
 
-#: ../calendar/zones.h:22
+#: ../calendar/zones.h:41
 msgid "Africa/Conakry"
 msgstr "אפריקה/קונאקרי"
 
-#: ../calendar/zones.h:23
+#: ../calendar/zones.h:42
 msgid "Africa/Dakar"
 msgstr "אפריקה/דקאר"
 
-#: ../calendar/zones.h:24
+#: ../calendar/zones.h:43
 msgid "Africa/Dar_es_Salaam"
 msgstr ""
 
-#: ../calendar/zones.h:25
+#: ../calendar/zones.h:44
 msgid "Africa/Djibouti"
 msgstr "אפריקה/ג'יבוטי"
 
-#: ../calendar/zones.h:26
+#: ../calendar/zones.h:45
 msgid "Africa/Douala"
 msgstr ""
 
-#: ../calendar/zones.h:27
+#: ../calendar/zones.h:46
 msgid "Africa/El_Aaiun"
 msgstr ""
 
-#: ../calendar/zones.h:28
+#: ../calendar/zones.h:47
 msgid "Africa/Freetown"
 msgstr "אפריקה/פריטאון"
 
-#: ../calendar/zones.h:29
+#: ../calendar/zones.h:48
 msgid "Africa/Gaborone"
 msgstr "אפריקה/גאבורון"
 
-#: ../calendar/zones.h:30
+#: ../calendar/zones.h:49
 msgid "Africa/Harare"
 msgstr "אפריקה/הארארה"
 
-#: ../calendar/zones.h:31
+#: ../calendar/zones.h:50
 msgid "Africa/Johannesburg"
 msgstr "אפריקה/ג'והנסבורג"
 
-#: ../calendar/zones.h:32
+#: ../calendar/zones.h:51
 msgid "Africa/Kampala"
 msgstr "אפריקה/קמפלה"
 
-#: ../calendar/zones.h:33
+#: ../calendar/zones.h:52
 msgid "Africa/Khartoum"
 msgstr "אפריקה/חרטום"
 
-#: ../calendar/zones.h:34
+#: ../calendar/zones.h:53
 msgid "Africa/Kigali"
 msgstr "אפריקה/קיגאלי"
 
-#: ../calendar/zones.h:35
+#: ../calendar/zones.h:54
 msgid "Africa/Kinshasa"
 msgstr "אפריקה/קינשאסה"
 
-#: ../calendar/zones.h:36
+#: ../calendar/zones.h:55
 msgid "Africa/Lagos"
 msgstr "אפריקה/לאגוס"
 
-#: ../calendar/zones.h:37
+#: ../calendar/zones.h:56
 msgid "Africa/Libreville"
 msgstr "אפריקה/ליברוויל"
 
-#: ../calendar/zones.h:38
+#: ../calendar/zones.h:57
 msgid "Africa/Lome"
 msgstr "אפריקה/לום"
 
-#: ../calendar/zones.h:39
+#: ../calendar/zones.h:58
 msgid "Africa/Luanda"
 msgstr "אפריקה/לואנדה"
 
-#: ../calendar/zones.h:40
+#: ../calendar/zones.h:59
 msgid "Africa/Lubumbashi"
 msgstr ""
 
-#: ../calendar/zones.h:41
+#: ../calendar/zones.h:60
 msgid "Africa/Lusaka"
 msgstr "אפריקה/לוסאקה"
 
-#: ../calendar/zones.h:42
+#: ../calendar/zones.h:61
 msgid "Africa/Malabo"
 msgstr "אפריקה/מלאבו"
 
-#: ../calendar/zones.h:43
+#: ../calendar/zones.h:62
 msgid "Africa/Maputo"
 msgstr "אפריקה/מאפוטו"
 
-#: ../calendar/zones.h:44
+#: ../calendar/zones.h:63
 msgid "Africa/Maseru"
 msgstr "אפריקה/מסרו"
 
-#: ../calendar/zones.h:45
+#: ../calendar/zones.h:64
 msgid "Africa/Mbabane"
 msgstr "אפריקה/מבבנה"
 
-#: ../calendar/zones.h:46
+#: ../calendar/zones.h:65
 msgid "Africa/Mogadishu"
 msgstr ""
 
-#: ../calendar/zones.h:47
+#: ../calendar/zones.h:66
 msgid "Africa/Monrovia"
 msgstr "אפריקה/מונרוביה"
 
-#: ../calendar/zones.h:48
+#: ../calendar/zones.h:67
 msgid "Africa/Nairobi"
 msgstr "אפריקה/ניירובי"
 
-#: ../calendar/zones.h:49
+#: ../calendar/zones.h:68
 msgid "Africa/Ndjamena"
 msgstr "אפריקה/נג'מנה"
 
-#: ../calendar/zones.h:50
+#: ../calendar/zones.h:69
 msgid "Africa/Niamey"
 msgstr "אפריקה/ניאמי"
 
-#: ../calendar/zones.h:51
+#: ../calendar/zones.h:70
 msgid "Africa/Nouakchott"
 msgstr "אפריקה/נואקצ'וט"
 
-#: ../calendar/zones.h:52
+#: ../calendar/zones.h:71
 msgid "Africa/Ouagadougou"
 msgstr "אפריקה/וואגאדוגו"
 
-#: ../calendar/zones.h:53
+#: ../calendar/zones.h:72
 msgid "Africa/Porto-Novo"
 msgstr "אפריקה/פורטו נובו"
 
-#: ../calendar/zones.h:54
+#: ../calendar/zones.h:73
 msgid "Africa/Sao_Tome"
 msgstr ""
 
-#: ../calendar/zones.h:55
+#: ../calendar/zones.h:74
 msgid "Africa/Timbuktu"
 msgstr "אפריקה/טימבקטו"
 
-#: ../calendar/zones.h:56
+#: ../calendar/zones.h:75
 msgid "Africa/Tripoli"
 msgstr "אפריקה/טריפולי"
 
-#: ../calendar/zones.h:57
+#: ../calendar/zones.h:76
 msgid "Africa/Tunis"
 msgstr "אפריקה/טוניס"
 
-#: ../calendar/zones.h:58
+#: ../calendar/zones.h:77
 msgid "Africa/Windhoek"
 msgstr "אפריקה/וינדהוק"
 
-#: ../calendar/zones.h:59
+#: ../calendar/zones.h:78
 msgid "America/Adak"
 msgstr ""
 
-#: ../calendar/zones.h:60
+#: ../calendar/zones.h:79
 msgid "America/Anchorage"
 msgstr ""
 
-#: ../calendar/zones.h:61
+#: ../calendar/zones.h:80
 msgid "America/Anguilla"
 msgstr "אמריקה/אנגווילה"
 
-#: ../calendar/zones.h:62
+#: ../calendar/zones.h:81
 msgid "America/Antigua"
 msgstr "אמריקה/אנטיגואה"
 
-#: ../calendar/zones.h:63
+#: ../calendar/zones.h:82
 msgid "America/Araguaina"
 msgstr ""
 
-#: ../calendar/zones.h:64
+#: ../calendar/zones.h:83
 msgid "America/Aruba"
 msgstr "אמריקה/ארובה"
 
-#: ../calendar/zones.h:65
+#: ../calendar/zones.h:84
 msgid "America/Asuncion"
 msgstr "אמריקה/אסונסיון"
 
-#: ../calendar/zones.h:66
+#: ../calendar/zones.h:85
 msgid "America/Barbados"
 msgstr "אמריקה/ברבדוס"
 
-#: ../calendar/zones.h:67
+#: ../calendar/zones.h:86
 msgid "America/Belem"
 msgstr "אמריקה/בלם"
 
-#: ../calendar/zones.h:68
+#: ../calendar/zones.h:87
 msgid "America/Belize"
 msgstr "אמריקה/בליז"
 
-#: ../calendar/zones.h:69
+#: ../calendar/zones.h:88
 msgid "America/Boa_Vista"
 msgstr "אמריקה/בואה_ויסטה"
 
-#: ../calendar/zones.h:70
+#: ../calendar/zones.h:89
 msgid "America/Bogota"
 msgstr "אמריקה/בוגוטה"
 
-#: ../calendar/zones.h:71
+#: ../calendar/zones.h:90
 msgid "America/Boise"
 msgstr "אמריקה/בויסי"
 
-#: ../calendar/zones.h:72
+#: ../calendar/zones.h:91
 msgid "America/Buenos_Aires"
 msgstr "אמריקה/בואנוס_איירס"
 
-#: ../calendar/zones.h:73
+#: ../calendar/zones.h:92
 msgid "America/Cambridge_Bay"
 msgstr ""
 
-#: ../calendar/zones.h:74
+#: ../calendar/zones.h:93
 msgid "America/Cancun"
 msgstr "אמריקה/קנקון"
 
-#: ../calendar/zones.h:75
+#: ../calendar/zones.h:94
 msgid "America/Caracas"
 msgstr "אמריקה/קראקס"
 
-#: ../calendar/zones.h:76
+#: ../calendar/zones.h:95
 msgid "America/Catamarca"
 msgstr ""
 
-#: ../calendar/zones.h:77
+#: ../calendar/zones.h:96
 msgid "America/Cayenne"
 msgstr ""
 
-#: ../calendar/zones.h:78
+#: ../calendar/zones.h:97
 msgid "America/Cayman"
 msgstr ""
 
-#: ../calendar/zones.h:79
+#: ../calendar/zones.h:98
 msgid "America/Chicago"
 msgstr "אמריקה/שיקגו"
 
-#: ../calendar/zones.h:80
+#: ../calendar/zones.h:99
 msgid "America/Chihuahua"
 msgstr ""
 
-#: ../calendar/zones.h:81
+#: ../calendar/zones.h:100
 msgid "America/Cordoba"
 msgstr "אמריקה/קורדובה"
 
-#: ../calendar/zones.h:82
+#: ../calendar/zones.h:101
 msgid "America/Costa_Rica"
 msgstr "אמריקה/קוסטה_ריקה"
 
-#: ../calendar/zones.h:83
+#: ../calendar/zones.h:102
 msgid "America/Cuiaba"
 msgstr "מריקה/קויאבה"
 
-#: ../calendar/zones.h:84
+#: ../calendar/zones.h:103
 msgid "America/Curacao"
 msgstr ""
 
-#: ../calendar/zones.h:85
+#: ../calendar/zones.h:104
 msgid "America/Danmarkshavn"
 msgstr ""
 
-#: ../calendar/zones.h:86
+#: ../calendar/zones.h:105
 msgid "America/Dawson"
 msgstr "אמריקה/דוסון"
 
-#: ../calendar/zones.h:87
+#: ../calendar/zones.h:106
 msgid "America/Dawson_Creek"
 msgstr "אמריקה/דוסון_קריק"
 
-#: ../calendar/zones.h:88
+#: ../calendar/zones.h:107
 msgid "America/Denver"
 msgstr "אמריקה/דנבר"
 
-#: ../calendar/zones.h:89
+#: ../calendar/zones.h:108
 msgid "America/Detroit"
 msgstr "אמריקה/דטרויט"
 
-#: ../calendar/zones.h:90
+#: ../calendar/zones.h:109
 msgid "America/Dominica"
 msgstr ""
 
-#: ../calendar/zones.h:91
+#: ../calendar/zones.h:110
 msgid "America/Edmonton"
 msgstr "אמריקה/אדמונטון"
 
-#: ../calendar/zones.h:92
+#: ../calendar/zones.h:111
 msgid "America/Eirunepe"
 msgstr ""
 
-#: ../calendar/zones.h:93
+#: ../calendar/zones.h:112
 msgid "America/El_Salvador"
 msgstr "אמריקה/אל_סלבדור"
 
-#: ../calendar/zones.h:94
+#: ../calendar/zones.h:113
 msgid "America/Fortaleza"
 msgstr "אמריקה/פורטהלזה"
 
-#: ../calendar/zones.h:95
+#: ../calendar/zones.h:114
 msgid "America/Glace_Bay"
 msgstr ""
 
-#: ../calendar/zones.h:96
+#: ../calendar/zones.h:115
 msgid "America/Godthab"
 msgstr ""
 
-#: ../calendar/zones.h:97
+#: ../calendar/zones.h:116
 msgid "America/Goose_Bay"
 msgstr ""
 
-#: ../calendar/zones.h:98
+#: ../calendar/zones.h:117
 msgid "America/Grand_Turk"
 msgstr ""
 
-#: ../calendar/zones.h:99
+#: ../calendar/zones.h:118
 msgid "America/Grenada"
 msgstr "אצריקה/גרנדה"
 
-#: ../calendar/zones.h:100
+#: ../calendar/zones.h:119
 msgid "America/Guadeloupe"
 msgstr ""
 
-#: ../calendar/zones.h:101
+#: ../calendar/zones.h:120
 msgid "America/Guatemala"
 msgstr "אמריקה/גואטמלה"
 
-#: ../calendar/zones.h:102
+#: ../calendar/zones.h:121
 msgid "America/Guayaquil"
 msgstr "אמריקה/גואטמלה"
 
-#: ../calendar/zones.h:103
+#: ../calendar/zones.h:122
 msgid "America/Guyana"
 msgstr "אמריקה/גויאנה"
 
-#: ../calendar/zones.h:104
+#: ../calendar/zones.h:123
 msgid "America/Halifax"
 msgstr ""
 
-#: ../calendar/zones.h:105
+#: ../calendar/zones.h:124
 msgid "America/Havana"
 msgstr "אמריקה/הוואנה"
 
-#: ../calendar/zones.h:106
+#: ../calendar/zones.h:125
 msgid "America/Hermosillo"
 msgstr ""
 
-#: ../calendar/zones.h:107
+#: ../calendar/zones.h:126
 msgid "America/Indiana/Indianapolis"
 msgstr "אמריקה/אינדיאנה/אינדיאנפוליס"
 
-#: ../calendar/zones.h:108
+#: ../calendar/zones.h:127
 msgid "America/Indiana/Knox"
 msgstr "אמריקה/אינדיאנה/נוקס"
 
-#: ../calendar/zones.h:109
+#: ../calendar/zones.h:128
 msgid "America/Indiana/Marengo"
 msgstr "אמריקה/אינדיאנה/מרנגו"
 
-#: ../calendar/zones.h:110
+#: ../calendar/zones.h:129
 msgid "America/Indiana/Vevay"
 msgstr ""
 
-#: ../calendar/zones.h:111
+#: ../calendar/zones.h:130
 msgid "America/Indianapolis"
 msgstr "אמריקה/אינדיאנפוליס"
 
-#: ../calendar/zones.h:112
+#: ../calendar/zones.h:131
 msgid "America/Inuvik"
 msgstr ""
 
-#: ../calendar/zones.h:113
+#: ../calendar/zones.h:132
 msgid "America/Iqaluit"
 msgstr ""
 
-#: ../calendar/zones.h:114
+#: ../calendar/zones.h:133
 msgid "America/Jamaica"
 msgstr "אמריקה/ג'מייקה"
 
-#: ../calendar/zones.h:115
+#: ../calendar/zones.h:134
 msgid "America/Jujuy"
 msgstr ""
 
-#: ../calendar/zones.h:116
+#: ../calendar/zones.h:135
 msgid "America/Juneau"
 msgstr ""
 
-#: ../calendar/zones.h:117
+#: ../calendar/zones.h:136
 msgid "America/Kentucky/Louisville"
 msgstr "אמריקה/קנטאקי/לואיסוויל"
 
-#: ../calendar/zones.h:118
+#: ../calendar/zones.h:137
 msgid "America/Kentucky/Monticello"
 msgstr "אמריקה/קנטאקי/מונטיסלו"
 
-#: ../calendar/zones.h:119
+#: ../calendar/zones.h:138
 msgid "America/La_Paz"
 msgstr "אמריקה/לה_פאז"
 
-#: ../calendar/zones.h:120
+#: ../calendar/zones.h:139
 msgid "America/Lima"
 msgstr "אמריקה/לימה"
 
-#: ../calendar/zones.h:121
+#: ../calendar/zones.h:140
 msgid "America/Los_Angeles"
 msgstr "אמריקה/לוס_אנג'לס"
 
-#: ../calendar/zones.h:122
+#: ../calendar/zones.h:141
 msgid "America/Louisville"
 msgstr "אמריקה/לואיסוויל"
 
-#: ../calendar/zones.h:123
+#: ../calendar/zones.h:142
 msgid "America/Maceio"
-msgstr ""
+msgstr "אמריקה/מסיו"
 
-#: ../calendar/zones.h:124
+#: ../calendar/zones.h:143
 msgid "America/Managua"
-msgstr ""
+msgstr "אמריקה/מנאגואה"
 
-#: ../calendar/zones.h:125
+#: ../calendar/zones.h:144
 msgid "America/Manaus"
 msgstr "אמריקה/מנאוס"
 
-#: ../calendar/zones.h:126
+#: ../calendar/zones.h:145
 msgid "America/Martinique"
-msgstr ""
+msgstr "אמריקה/מרטיניק"
 
-#: ../calendar/zones.h:127
+#: ../calendar/zones.h:146
 msgid "America/Mazatlan"
 msgstr ""
 
-#: ../calendar/zones.h:128
+#: ../calendar/zones.h:147
 msgid "America/Mendoza"
 msgstr "אמריקה/מנדוזה"
 
-#: ../calendar/zones.h:129
+#: ../calendar/zones.h:148
 msgid "America/Menominee"
 msgstr ""
 
-#: ../calendar/zones.h:130
+#: ../calendar/zones.h:149
 msgid "America/Merida"
-msgstr ""
+msgstr "אמריקה/מרידה"
 
-#: ../calendar/zones.h:131
+#: ../calendar/zones.h:150
 msgid "America/Mexico_City"
 msgstr "אמריקה/מקסיקו_סיטי"
 
-#: ../calendar/zones.h:132
+#: ../calendar/zones.h:151
 msgid "America/Miquelon"
 msgstr ""
 
-#: ../calendar/zones.h:133
+#: ../calendar/zones.h:152
 msgid "America/Monterrey"
 msgstr ""
 
-#: ../calendar/zones.h:134
+#: ../calendar/zones.h:153
 msgid "America/Montevideo"
-msgstr ""
+msgstr "אמריקה/מונטווידיאו"
 
-#: ../calendar/zones.h:135
+#: ../calendar/zones.h:154
 msgid "America/Montreal"
 msgstr "אמריקה/מונטראול"
 
-#: ../calendar/zones.h:136
+#: ../calendar/zones.h:155
 msgid "America/Montserrat"
-msgstr ""
+msgstr "אמריקה/מונסראט"
 
-#: ../calendar/zones.h:137
+#: ../calendar/zones.h:156
 msgid "America/Nassau"
 msgstr ""
 
-#: ../calendar/zones.h:138
+#: ../calendar/zones.h:157
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "America/New_York"
 msgstr "אמריקה/ניו_יורק"
 
-#: ../calendar/zones.h:139
+#: ../calendar/zones.h:158
 msgid "America/Nipigon"
 msgstr ""
 
-#: ../calendar/zones.h:140
+#: ../calendar/zones.h:159
 msgid "America/Nome"
 msgstr ""
 
-#: ../calendar/zones.h:141
+#: ../calendar/zones.h:160
 msgid "America/Noronha"
 msgstr ""
 
-#: ../calendar/zones.h:142
+#: ../calendar/zones.h:161
 msgid "America/North_Dakota/Center"
 msgstr "אמריקה/צפון_דקוטה/מרכז"
 
-#: ../calendar/zones.h:143
+#: ../calendar/zones.h:162
 msgid "America/Panama"
 msgstr "אמריקה/פנמה"
 
-#: ../calendar/zones.h:144
+#: ../calendar/zones.h:163
 msgid "America/Pangnirtung"
 msgstr ""
 
-#: ../calendar/zones.h:145
+#: ../calendar/zones.h:164
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "אמריקה/פרמריבו"
 
-#: ../calendar/zones.h:146
+#: ../calendar/zones.h:165
 msgid "America/Phoenix"
 msgstr "אמריקה/פיניקס"
 
-#: ../calendar/zones.h:147
+#: ../calendar/zones.h:166
 msgid "America/Port-au-Prince"
 msgstr ""
 
-#: ../calendar/zones.h:148
+#: ../calendar/zones.h:167
 msgid "America/Port_of_Spain"
 msgstr ""
 
-#: ../calendar/zones.h:149
+#: ../calendar/zones.h:168
 msgid "America/Porto_Velho"
 msgstr ""
 
-#: ../calendar/zones.h:150
+#: ../calendar/zones.h:169
 msgid "America/Puerto_Rico"
 msgstr "אמריקה/פורטו_ריקו"
 
-#: ../calendar/zones.h:151
+#: ../calendar/zones.h:170
 msgid "America/Rainy_River"
 msgstr ""
 
-#: ../calendar/zones.h:152
+#: ../calendar/zones.h:171
 msgid "America/Rankin_Inlet"
 msgstr ""
 
-#: ../calendar/zones.h:153
+#: ../calendar/zones.h:172
 msgid "America/Recife"
 msgstr "אמריקה/רסיפה"
 
-#: ../calendar/zones.h:154
+#: ../calendar/zones.h:173
 msgid "America/Regina"
-msgstr ""
+msgstr "אמריקה/רגינה"
 
-#: ../calendar/zones.h:155
+#: ../calendar/zones.h:174
 msgid "America/Rio_Branco"
 msgstr "אמריקה/ריו_בראנקו"
 
-#: ../calendar/zones.h:156
+#: ../calendar/zones.h:175
 msgid "America/Rosario"
 msgstr ""
 
-#: ../calendar/zones.h:157
+#: ../calendar/zones.h:176
 msgid "America/Santiago"
 msgstr "אמריקה/סנטיאגו"
 
-#: ../calendar/zones.h:158
+#: ../calendar/zones.h:177
 msgid "America/Santo_Domingo"
 msgstr "אמריקה/סנטו_דומינגו"
 
-#: ../calendar/zones.h:159
+#: ../calendar/zones.h:178
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "אמריקה/סאו פאולו"
 
-#: ../calendar/zones.h:160
+#: ../calendar/zones.h:179
 msgid "America/Scoresbysund"
 msgstr ""
 
-#: ../calendar/zones.h:161
+#: ../calendar/zones.h:180
 msgid "America/Shiprock"
 msgstr ""
 
-#: ../calendar/zones.h:162
+#: ../calendar/zones.h:181
 msgid "America/St_Johns"
-msgstr ""
+msgstr "אמריקה/סנט ג'ונס"
 
-#: ../calendar/zones.h:163
+#: ../calendar/zones.h:182
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "אמריקה/סנט קיטס"
 
-#: ../calendar/zones.h:164
+#: ../calendar/zones.h:183
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "אמריקה/סנט לוסיה"
 
-#: ../calendar/zones.h:165
+#: ../calendar/zones.h:184
 msgid "America/St_Thomas"
 msgstr ""
 
-#: ../calendar/zones.h:166
+#: ../calendar/zones.h:185
 msgid "America/St_Vincent"
 msgstr ""
 
-#: ../calendar/zones.h:167
+#: ../calendar/zones.h:186
 msgid "America/Swift_Current"
 msgstr ""
 
-#: ../calendar/zones.h:168
+#: ../calendar/zones.h:187
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "אמריקה/טגוסיגלפה"
 
-#: ../calendar/zones.h:169
+#: ../calendar/zones.h:188
 msgid "America/Thule"
 msgstr ""
 
-#: ../calendar/zones.h:170
+#: ../calendar/zones.h:189
 msgid "America/Thunder_Bay"
 msgstr ""
 
-#: ../calendar/zones.h:171
+#: ../calendar/zones.h:190
 msgid "America/Tijuana"
 msgstr "אמריקה/טיחואנה"
 
-#: ../calendar/zones.h:172
+#: ../calendar/zones.h:191
 msgid "America/Tortola"
 msgstr ""
 
-#: ../calendar/zones.h:173
+#: ../calendar/zones.h:192
 msgid "America/Vancouver"
 msgstr "אמריקה/וונקובר"
 
-#: ../calendar/zones.h:174
+#: ../calendar/zones.h:193
 msgid "America/Whitehorse"
 msgstr ""
 
-#: ../calendar/zones.h:175
+#: ../calendar/zones.h:194
 msgid "America/Winnipeg"
 msgstr ""
 
-#: ../calendar/zones.h:176
+#: ../calendar/zones.h:195
 msgid "America/Yakutat"
 msgstr ""
 
-#: ../calendar/zones.h:177
+#: ../calendar/zones.h:196
 msgid "America/Yellowknife"
 msgstr ""
 
-#: ../calendar/zones.h:178
+#: ../calendar/zones.h:197
 msgid "Antarctica/Casey"
 msgstr ""
 
-#: ../calendar/zones.h:179
+#: ../calendar/zones.h:198
 msgid "Antarctica/Davis"
 msgstr ""
 
-#: ../calendar/zones.h:180
+#: ../calendar/zones.h:199
 msgid "Antarctica/DumontDUrville"
 msgstr ""
 
-#: ../calendar/zones.h:181
+#: ../calendar/zones.h:200
 msgid "Antarctica/Mawson"
 msgstr ""
 
-#: ../calendar/zones.h:182
+#: ../calendar/zones.h:201
 msgid "Antarctica/McMurdo"
 msgstr ""
 
-#: ../calendar/zones.h:183
+#: ../calendar/zones.h:202
 msgid "Antarctica/Palmer"
 msgstr ""
 
-#: ../calendar/zones.h:184
+#: ../calendar/zones.h:203
 msgid "Antarctica/South_Pole"
 msgstr ""
 
-#: ../calendar/zones.h:185
+#: ../calendar/zones.h:204
 msgid "Antarctica/Syowa"
 msgstr ""
 
-#: ../calendar/zones.h:186
+#: ../calendar/zones.h:205
 msgid "Antarctica/Vostok"
 msgstr ""
 
-#: ../calendar/zones.h:187
+#: ../calendar/zones.h:206
 msgid "Arctic/Longyearbyen"
 msgstr ""
 
-#: ../calendar/zones.h:188
+#: ../calendar/zones.h:207
 msgid "Asia/Aden"
 msgstr "אסיה/עדן"
 
-#: ../calendar/zones.h:189
+#: ../calendar/zones.h:208
 msgid "Asia/Almaty"
 msgstr "אסיה/אלמאטי"
 
-#: ../calendar/zones.h:190
+#: ../calendar/zones.h:209
 msgid "Asia/Amman"
 msgstr "אסיה/אמאן"
 
-#: ../calendar/zones.h:191
+#: ../calendar/zones.h:210
 msgid "Asia/Anadyr"
 msgstr ""
 
-#: ../calendar/zones.h:192
+#: ../calendar/zones.h:211
 msgid "Asia/Aqtau"
 msgstr ""
 
-#: ../calendar/zones.h:193
+#: ../calendar/zones.h:212
 msgid "Asia/Aqtobe"
 msgstr ""
 
-#: ../calendar/zones.h:194
+#: ../calendar/zones.h:213
 msgid "Asia/Ashgabat"
 msgstr "אסיה/אשגאבט"
 
-#: ../calendar/zones.h:195
+#: ../calendar/zones.h:214
 msgid "Asia/Baghdad"
 msgstr "אסיה/בגדד"
 
-#: ../calendar/zones.h:196
+#: ../calendar/zones.h:215
 msgid "Asia/Bahrain"
 msgstr "אסיה/בחריין"
 
-#: ../calendar/zones.h:197
+#: ../calendar/zones.h:216
 msgid "Asia/Baku"
 msgstr "אסיה/באקו"
 
-#: ../calendar/zones.h:198
+#: ../calendar/zones.h:217
 msgid "Asia/Bangkok"
 msgstr "אסיה/בנקוק"
 
-#: ../calendar/zones.h:199
+#: ../calendar/zones.h:218
 msgid "Asia/Beirut"
 msgstr "אסיה/ביירות"
 
-#: ../calendar/zones.h:200
+#: ../calendar/zones.h:219
 msgid "Asia/Bishkek"
 msgstr "אסיה/בישקק"
 
-#: ../calendar/zones.h:201
+#: ../calendar/zones.h:220
 msgid "Asia/Brunei"
 msgstr "אסיה/ברוניי"
 
-#: ../calendar/zones.h:202
+#: ../calendar/zones.h:221
 msgid "Asia/Calcutta"
 msgstr "אסיה/כלכותא"
 
-#: ../calendar/zones.h:203
+#: ../calendar/zones.h:222
 msgid "Asia/Choibalsan"
 msgstr ""
 
-#: ../calendar/zones.h:204
+#: ../calendar/zones.h:223
 msgid "Asia/Chongqing"
 msgstr "אסיה/צ'ונגצ'ינג"
 
-#: ../calendar/zones.h:205
+#: ../calendar/zones.h:224
 msgid "Asia/Colombo"
 msgstr "אסיה/קולומבו"
 
-#: ../calendar/zones.h:206
+#: ../calendar/zones.h:225
 msgid "Asia/Damascus"
 msgstr "אסיה/דמשק"
 
-#: ../calendar/zones.h:207
+#: ../calendar/zones.h:226
 msgid "Asia/Dhaka"
 msgstr "אסיה/דאקה"
 
-#: ../calendar/zones.h:208
+#: ../calendar/zones.h:227
 msgid "Asia/Dili"
 msgstr "אסיה/דילי"
 
-#: ../calendar/zones.h:209
+#: ../calendar/zones.h:228
 msgid "Asia/Dubai"
 msgstr "אסיה/דובאי"
 
-#: ../calendar/zones.h:210
+#: ../calendar/zones.h:229
 msgid "Asia/Dushanbe"
 msgstr "אסיה/דושאנבה"
 
-#: ../calendar/zones.h:211
+#: ../calendar/zones.h:230
 msgid "Asia/Gaza"
 msgstr "אסיה/עזה"
 
-#: ../calendar/zones.h:212
+#: ../calendar/zones.h:231
 msgid "Asia/Harbin"
 msgstr ""
 
-#: ../calendar/zones.h:213
+#: ../calendar/zones.h:232
 msgid "Asia/Hong_Kong"
 msgstr "אסיה/הונג קונג"
 
-#: ../calendar/zones.h:214
+#: ../calendar/zones.h:233
 msgid "Asia/Hovd"
 msgstr ""
 
-#: ../calendar/zones.h:215
+#: ../calendar/zones.h:234
 msgid "Asia/Irkutsk"
 msgstr "אסיה/אירקוטסק"
 
-#: ../calendar/zones.h:216
+#: ../calendar/zones.h:235
 msgid "Asia/Istanbul"
 msgstr "אסיה/איסטנבול"
 
-#: ../calendar/zones.h:217
+#: ../calendar/zones.h:236
 msgid "Asia/Jakarta"
 msgstr "רסיה/ג'קרטה"
 
-#: ../calendar/zones.h:218
+#: ../calendar/zones.h:237
 msgid "Asia/Jayapura"
 msgstr ""
 
-#: ../calendar/zones.h:219
+#: ../calendar/zones.h:238
 msgid "Asia/Jerusalem"
 msgstr "אסיה/ירושלים"
 
-#: ../calendar/zones.h:220
+#: ../calendar/zones.h:239
 msgid "Asia/Kabul"
 msgstr "אסיה/קאבול"
 
-#: ../calendar/zones.h:221
+#: ../calendar/zones.h:240
 msgid "Asia/Kamchatka"
 msgstr "אסיה/קמצ'טקה"
 
-#: ../calendar/zones.h:222
+#: ../calendar/zones.h:241
 msgid "Asia/Karachi"
 msgstr "אסיה/קראצ'י"
 
-#: ../calendar/zones.h:223
+#: ../calendar/zones.h:242
 msgid "Asia/Kashgar"
 msgstr ""
 
-#: ../calendar/zones.h:224
+#: ../calendar/zones.h:243
 msgid "Asia/Katmandu"
 msgstr "אסיה/קטמנדו"
 
-#: ../calendar/zones.h:225
+#: ../calendar/zones.h:244
 msgid "Asia/Krasnoyarsk"
 msgstr ""
 
-#: ../calendar/zones.h:226
+#: ../calendar/zones.h:245
 msgid "Asia/Kuala_Lumpur"
 msgstr "אסיה/קואלה_לומפור"
 
-#: ../calendar/zones.h:227
+#: ../calendar/zones.h:246
 msgid "Asia/Kuching"
 msgstr ""
 
-#: ../calendar/zones.h:228
+#: ../calendar/zones.h:247
 msgid "Asia/Kuwait"
 msgstr "אסיה/כווית"
 
-#: ../calendar/zones.h:229
+#: ../calendar/zones.h:248
 msgid "Asia/Macao"
 msgstr ""
 
-#: ../calendar/zones.h:230
+#: ../calendar/zones.h:249
 msgid "Asia/Macau"
 msgstr ""
 
-#: ../calendar/zones.h:231
+#: ../calendar/zones.h:250
 msgid "Asia/Magadan"
 msgstr ""
 
-#: ../calendar/zones.h:232
+#: ../calendar/zones.h:251
 msgid "Asia/Makassar"
 msgstr ""
 
-#: ../calendar/zones.h:233
+#: ../calendar/zones.h:252
 msgid "Asia/Manila"
 msgstr "אסיה/מנילה"
 
-#: ../calendar/zones.h:234
+#: ../calendar/zones.h:253
 msgid "Asia/Muscat"
 msgstr "אסיה/מסקט"
 
-#: ../calendar/zones.h:235
+#: ../calendar/zones.h:254
 msgid "Asia/Nicosia"
 msgstr "אסיה/ניקוסיה"
 
-#: ../calendar/zones.h:236
+#: ../calendar/zones.h:255
 msgid "Asia/Novosibirsk"
 msgstr "אסיה/נובוסיבירסק"
 
-#: ../calendar/zones.h:237
+#: ../calendar/zones.h:256
 msgid "Asia/Omsk"
 msgstr "אסיה/אומסק"
 
-#: ../calendar/zones.h:238
+#: ../calendar/zones.h:257
 msgid "Asia/Oral"
 msgstr ""
 
-#: ../calendar/zones.h:239
+#: ../calendar/zones.h:258
 msgid "Asia/Phnom_Penh"
 msgstr "אסיה/פנום_פן"
 
-#: ../calendar/zones.h:240
+#: ../calendar/zones.h:259
 msgid "Asia/Pontianak"
 msgstr ""
 
-#: ../calendar/zones.h:241
+#: ../calendar/zones.h:260
 msgid "Asia/Pyongyang"
 msgstr "אסיה/פיונגיאנג"
 
-#: ../calendar/zones.h:242
+#: ../calendar/zones.h:261
 msgid "Asia/Qatar"
 msgstr "אסיה/קטאר"
 
-#: ../calendar/zones.h:243
+#: ../calendar/zones.h:262
 msgid "Asia/Qyzylorda"
 msgstr ""
 
-#: ../calendar/zones.h:244
+#: ../calendar/zones.h:263
 msgid "Asia/Rangoon"
 msgstr "אסיה/רנגון"
 
-#: ../calendar/zones.h:245
+#: ../calendar/zones.h:264
 msgid "Asia/Riyadh"
 msgstr "אסיה/ריאד"
 
-#: ../calendar/zones.h:246
+#: ../calendar/zones.h:265
 msgid "Asia/Saigon"
 msgstr "אסיה/סייגון"
 
-#: ../calendar/zones.h:247
+#: ../calendar/zones.h:266
 msgid "Asia/Sakhalin"
 msgstr "אסיה/סחלין"
 
-#: ../calendar/zones.h:248
+#: ../calendar/zones.h:267
 msgid "Asia/Samarkand"
 msgstr "אסיה/סמרקנד"
 
-#: ../calendar/zones.h:249
+#: ../calendar/zones.h:268
 msgid "Asia/Seoul"
 msgstr "אסיה/סאול"
 
-#: ../calendar/zones.h:250
+#: ../calendar/zones.h:269
 msgid "Asia/Shanghai"
 msgstr "אסיה/שנחאי"
 
-#: ../calendar/zones.h:251
+#: ../calendar/zones.h:270
 msgid "Asia/Singapore"
 msgstr "אסיה/סינגפור"
 
-#: ../calendar/zones.h:252
+#: ../calendar/zones.h:271
 msgid "Asia/Taipei"
 msgstr "אסיה/טאיפיי"
 
-#: ../calendar/zones.h:253
+#: ../calendar/zones.h:272
 msgid "Asia/Tashkent"
 msgstr "אסיה/טשקנט"
 
-#: ../calendar/zones.h:254
+#: ../calendar/zones.h:273
 msgid "Asia/Tbilisi"
 msgstr "אסיה/טביליסי"
 
-#: ../calendar/zones.h:255
+#: ../calendar/zones.h:274
 msgid "Asia/Tehran"
 msgstr "אסיה/טהרן"
 
-#: ../calendar/zones.h:256
+#: ../calendar/zones.h:275
 msgid "Asia/Thimphu"
 msgstr "אסיה/ת'ימפו"
 
-#: ../calendar/zones.h:257
+#: ../calendar/zones.h:276
 msgid "Asia/Tokyo"
 msgstr "אסיה/טוקיו"
 
-#: ../calendar/zones.h:258
+#: ../calendar/zones.h:277
 msgid "Asia/Ujung_Pandang"
 msgstr ""
 
-#: ../calendar/zones.h:259
+#: ../calendar/zones.h:278
 msgid "Asia/Ulaanbaatar"
 msgstr "אסיה/אולן בטור"
 
-#: ../calendar/zones.h:260
+#: ../calendar/zones.h:279
 msgid "Asia/Urumqi"
 msgstr "אסיה/אורומקי"
 
-#: ../calendar/zones.h:261
+#: ../calendar/zones.h:280
 msgid "Asia/Vientiane"
 msgstr "אסיה/ווינטיאן"
 
-#: ../calendar/zones.h:262
+#: ../calendar/zones.h:281
 msgid "Asia/Vladivostok"
 msgstr "אסיה/ולדיווסטוק"
 
-#: ../calendar/zones.h:263
+#: ../calendar/zones.h:282
 msgid "Asia/Yakutsk"
 msgstr ""
 
-#: ../calendar/zones.h:264
+#: ../calendar/zones.h:283
 msgid "Asia/Yekaterinburg"
 msgstr ""
 
-#: ../calendar/zones.h:265
+#: ../calendar/zones.h:284
 msgid "Asia/Yerevan"
 msgstr "אסיה/ירוואן"
 
-#: ../calendar/zones.h:266
+#: ../calendar/zones.h:285
 msgid "Atlantic/Azores"
 msgstr ""
 
-#: ../calendar/zones.h:267
+#: ../calendar/zones.h:286
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "האוקיינוס האטלנטי/ברמודה"
 
-#: ../calendar/zones.h:268
+#: ../calendar/zones.h:287
 msgid "Atlantic/Canary"
 msgstr ""
 
-#: ../calendar/zones.h:269
+#: ../calendar/zones.h:288
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "האוקיינוס האטלנטי/כף ורדה"
 
-#: ../calendar/zones.h:270
+#: ../calendar/zones.h:289
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "האוקיינוס האטלנטי/איי פארו"
 
-#: ../calendar/zones.h:271
+#: ../calendar/zones.h:290
 msgid "Atlantic/Jan_Mayen"
 msgstr ""
 
-#: ../calendar/zones.h:272
+#: ../calendar/zones.h:291
 msgid "Atlantic/Madeira"
 msgstr ""
 
-#: ../calendar/zones.h:273
+#: ../calendar/zones.h:292
 msgid "Atlantic/Reykjavik"
 msgstr ""
 
-#: ../calendar/zones.h:274
+#: ../calendar/zones.h:293
 msgid "Atlantic/South_Georgia"
 msgstr ""
 
-#: ../calendar/zones.h:275
+#: ../calendar/zones.h:294
 msgid "Atlantic/St_Helena"
 msgstr ""
 
-#: ../calendar/zones.h:276
+#: ../calendar/zones.h:295
 msgid "Atlantic/Stanley"
 msgstr ""
 
-#: ../calendar/zones.h:277
+#: ../calendar/zones.h:296
 msgid "Australia/Adelaide"
 msgstr "אוסטרליה/אדלייד"
 
-#: ../calendar/zones.h:278
+#: ../calendar/zones.h:297
 msgid "Australia/Brisbane"
 msgstr "אוסטרליה/בריסביין"
 
-#: ../calendar/zones.h:279
+#: ../calendar/zones.h:298
 msgid "Australia/Broken_Hill"
 msgstr ""
 
-#: ../calendar/zones.h:280
+#: ../calendar/zones.h:299
 msgid "Australia/Darwin"
 msgstr ""
 
-#: ../calendar/zones.h:281
+#: ../calendar/zones.h:300
 msgid "Australia/Hobart"
 msgstr "אוסטרליה/הובארט"
 
-#: ../calendar/zones.h:282
+#: ../calendar/zones.h:301
 msgid "Australia/Lindeman"
 msgstr ""
 
-#: ../calendar/zones.h:283
+#: ../calendar/zones.h:302
 msgid "Australia/Lord_Howe"
 msgstr ""
 
-#: ../calendar/zones.h:284
+#: ../calendar/zones.h:303
 msgid "Australia/Melbourne"
 msgstr "אוסטרליה/מלבורן"
 
-#: ../calendar/zones.h:285
+#: ../calendar/zones.h:304
 msgid "Australia/Perth"
 msgstr "אוסטרליה/פרת'"
 
-#: ../calendar/zones.h:286
+#: ../calendar/zones.h:305
 msgid "Australia/Sydney"
 msgstr "אוסטרליה/סידני"
 
-#: ../calendar/zones.h:287
+#: ../calendar/zones.h:306
 msgid "Europe/Amsterdam"
 msgstr "אירופה/אמסטרדם"
 
-#: ../calendar/zones.h:288
+#: ../calendar/zones.h:307
 msgid "Europe/Andorra"
 msgstr "אירופה/אנדורה"
 
-#: ../calendar/zones.h:289
+#: ../calendar/zones.h:308
 msgid "Europe/Athens"
 msgstr "אירופה/אתונה"
 
-#: ../calendar/zones.h:290
+#: ../calendar/zones.h:309
 msgid "Europe/Belfast"
 msgstr "אירופה/בלפאסט"
 
-#: ../calendar/zones.h:291
+#: ../calendar/zones.h:310
 msgid "Europe/Belgrade"
 msgstr "אירופה/בלגרד"
 
-#: ../calendar/zones.h:292
+#: ../calendar/zones.h:311
 msgid "Europe/Berlin"
 msgstr "אירופה/ברלין"
 
-#: ../calendar/zones.h:293
+#: ../calendar/zones.h:312
 msgid "Europe/Bratislava"
 msgstr "אירופה/ברטיסלאבה"
 
-#: ../calendar/zones.h:294
+#: ../calendar/zones.h:313
 msgid "Europe/Brussels"
 msgstr "אירופה/בריסל"
 
-#: ../calendar/zones.h:295
+#: ../calendar/zones.h:314
 msgid "Europe/Bucharest"
 msgstr "אירופה/בוקרשט"
 
-#: ../calendar/zones.h:296
+#: ../calendar/zones.h:315
 msgid "Europe/Budapest"
 msgstr "אירופה/בודפשט"
 
-#: ../calendar/zones.h:297
+#: ../calendar/zones.h:316
 msgid "Europe/Chisinau"
 msgstr "אירופה/קישינב"
 
-#: ../calendar/zones.h:298
+#: ../calendar/zones.h:317
 msgid "Europe/Copenhagen"
 msgstr "אירופה/קופנהגן"
 
-#: ../calendar/zones.h:299
+#: ../calendar/zones.h:318
 msgid "Europe/Dublin"
 msgstr "אירופה/דבלין"
 
-#: ../calendar/zones.h:300
+#: ../calendar/zones.h:319
 msgid "Europe/Gibraltar"
 msgstr "אירופה/גילברטר"
 
-#: ../calendar/zones.h:301
+#: ../calendar/zones.h:320
 msgid "Europe/Helsinki"
 msgstr "אירופה/הלסינקי"
 
-#: ../calendar/zones.h:302
+#: ../calendar/zones.h:321
 msgid "Europe/Istanbul"
 msgstr "אירופה/איסטנבול"
 
-#: ../calendar/zones.h:303
+#: ../calendar/zones.h:322
 msgid "Europe/Kaliningrad"
 msgstr "אירופה/קאלינינגרד"
 
-#: ../calendar/zones.h:304
+#: ../calendar/zones.h:323
 msgid "Europe/Kiev"
 msgstr "אירופה/קייב"
 
-#: ../calendar/zones.h:305
+#: ../calendar/zones.h:324
 msgid "Europe/Lisbon"
 msgstr "אירופה/ליסבון"
 
-#: ../calendar/zones.h:306
+#: ../calendar/zones.h:325
 msgid "Europe/Ljubljana"
 msgstr "אירופה/לובליאנה"
 
-#: ../calendar/zones.h:307
+#: ../calendar/zones.h:326
 msgid "Europe/London"
 msgstr "אירופה/לונדון"
 
-#: ../calendar/zones.h:308
+#: ../calendar/zones.h:327
 msgid "Europe/Luxembourg"
 msgstr "אירופה/לוקסמבורג"
 
-#: ../calendar/zones.h:309
+#: ../calendar/zones.h:328
 msgid "Europe/Madrid"
 msgstr "אירופה/מדריד"
 
-#: ../calendar/zones.h:310
+#: ../calendar/zones.h:329
 msgid "Europe/Malta"
 msgstr "אירופה/מלטה"
 
-#: ../calendar/zones.h:311
+#: ../calendar/zones.h:330
 msgid "Europe/Minsk"
 msgstr "אירופה/מינסק"
 
-#: ../calendar/zones.h:312
+#: ../calendar/zones.h:331
 msgid "Europe/Monaco"
 msgstr "אירופה/מונקו"
 
-#: ../calendar/zones.h:313
+#: ../calendar/zones.h:332
 msgid "Europe/Moscow"
 msgstr "אירופה/מוסקבה"
 
-#: ../calendar/zones.h:314
+#: ../calendar/zones.h:333
 msgid "Europe/Nicosia"
 msgstr "אירופה/ניקוסיה"
 
-#: ../calendar/zones.h:315
+#: ../calendar/zones.h:334
 msgid "Europe/Oslo"
 msgstr "אירופה/אוסלו"
 
-#: ../calendar/zones.h:316
+#: ../calendar/zones.h:335
 msgid "Europe/Paris"
 msgstr "אירופה/פריז"
 
-#: ../calendar/zones.h:317
+#: ../calendar/zones.h:336
 msgid "Europe/Prague"
 msgstr "אירופה/פראג"
 
-#: ../calendar/zones.h:318
+#: ../calendar/zones.h:337
 msgid "Europe/Riga"
 msgstr "אירופה/ריגה"
 
-#: ../calendar/zones.h:319
+#: ../calendar/zones.h:338
 msgid "Europe/Rome"
 msgstr "אירופה/רומא"
 
-#: ../calendar/zones.h:320
+#: ../calendar/zones.h:339
 msgid "Europe/Samara"
 msgstr "אירופה/סמארה"
 
-#: ../calendar/zones.h:321
+#: ../calendar/zones.h:340
 msgid "Europe/San_Marino"
 msgstr "אירופה/סאן_מארינו"
 
-#: ../calendar/zones.h:322
+#: ../calendar/zones.h:341
 msgid "Europe/Sarajevo"
 msgstr "אירופה/סרייבו"
 
-#: ../calendar/zones.h:323
+#: ../calendar/zones.h:342
 msgid "Europe/Simferopol"
 msgstr ""
 
-#: ../calendar/zones.h:324
+#: ../calendar/zones.h:343
 msgid "Europe/Skopje"
 msgstr "אירופה/סקופיה"
 
-#: ../calendar/zones.h:325
+#: ../calendar/zones.h:344
 msgid "Europe/Sofia"
 msgstr "אירופה/סופיה"
 
-#: ../calendar/zones.h:326
+#: ../calendar/zones.h:345
 msgid "Europe/Stockholm"
 msgstr "אירופה/שטוקהולם"
 
-#: ../calendar/zones.h:327
+#: ../calendar/zones.h:346
 msgid "Europe/Tallinn"
 msgstr "אירופה/טאלין"
 
-#: ../calendar/zones.h:328
+#: ../calendar/zones.h:347
 msgid "Europe/Tirane"
 msgstr "אירופה/טירנה"
 
-#: ../calendar/zones.h:329
+#: ../calendar/zones.h:348
 msgid "Europe/Uzhgorod"
 msgstr ""
 
-#: ../calendar/zones.h:330
+#: ../calendar/zones.h:349
 msgid "Europe/Vaduz"
 msgstr "אירופה/ואדוז"
 
-#: ../calendar/zones.h:331
+#: ../calendar/zones.h:350
 msgid "Europe/Vatican"
 msgstr "אירופה/ותיקן"
 
-#: ../calendar/zones.h:332
+#: ../calendar/zones.h:351
 msgid "Europe/Vienna"
 msgstr "אירופה/וינה"
 
-#: ../calendar/zones.h:333
+#: ../calendar/zones.h:352
 msgid "Europe/Vilnius"
 msgstr "אירופה/וילנה"
 
-#: ../calendar/zones.h:334
+#: ../calendar/zones.h:353
 msgid "Europe/Warsaw"
 msgstr "אירופה/ורשה"
 
-#: ../calendar/zones.h:335
+#: ../calendar/zones.h:354
 msgid "Europe/Zagreb"
 msgstr "אירופה/זגרב"
 
-#: ../calendar/zones.h:336
+#: ../calendar/zones.h:355
 msgid "Europe/Zaporozhye"
 msgstr ""
 
-#: ../calendar/zones.h:337
+#: ../calendar/zones.h:356
 msgid "Europe/Zurich"
 msgstr "אירופה/ציריך"
 
-#: ../calendar/zones.h:338
+#: ../calendar/zones.h:357
 msgid "Indian/Antananarivo"
 msgstr ""
 
-#: ../calendar/zones.h:339
+#: ../calendar/zones.h:358
 msgid "Indian/Chagos"
 msgstr ""
 
-#: ../calendar/zones.h:340
+#: ../calendar/zones.h:359
 msgid "Indian/Christmas"
 msgstr ""
 
-#: ../calendar/zones.h:341
+#: ../calendar/zones.h:360
 msgid "Indian/Cocos"
 msgstr ""
 
-#: ../calendar/zones.h:342
+#: ../calendar/zones.h:361
 msgid "Indian/Comoro"
 msgstr ""
 
-#: ../calendar/zones.h:343
+#: ../calendar/zones.h:362
 msgid "Indian/Kerguelen"
 msgstr ""
 
-#: ../calendar/zones.h:344
+#: ../calendar/zones.h:363
 msgid "Indian/Mahe"
 msgstr ""
 
-#: ../calendar/zones.h:345
+#: ../calendar/zones.h:364
 msgid "Indian/Maldives"
 msgstr ""
 
-#: ../calendar/zones.h:346
+#: ../calendar/zones.h:365
 msgid "Indian/Mauritius"
 msgstr ""
 
-#: ../calendar/zones.h:347
+#: ../calendar/zones.h:366
 msgid "Indian/Mayotte"
 msgstr ""
 
-#: ../calendar/zones.h:348
+#: ../calendar/zones.h:367
 msgid "Indian/Reunion"
 msgstr ""
 
-#: ../calendar/zones.h:349
+#: ../calendar/zones.h:368
 msgid "Pacific/Apia"
 msgstr ""
 
-#: ../calendar/zones.h:350
+#: ../calendar/zones.h:369
 msgid "Pacific/Auckland"
 msgstr ""
 
-#: ../calendar/zones.h:351
+#: ../calendar/zones.h:370
 msgid "Pacific/Chatham"
 msgstr ""
 
-#: ../calendar/zones.h:352
+#: ../calendar/zones.h:371
 msgid "Pacific/Easter"
 msgstr ""
 
-#: ../calendar/zones.h:353
+#: ../calendar/zones.h:372
 msgid "Pacific/Efate"
 msgstr ""
 
-#: ../calendar/zones.h:354
+#: ../calendar/zones.h:373
 msgid "Pacific/Enderbury"
 msgstr ""
 
-#: ../calendar/zones.h:355
+#: ../calendar/zones.h:374
 msgid "Pacific/Fakaofo"
 msgstr ""
 
-#: ../calendar/zones.h:356
+#: ../calendar/zones.h:375
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "האוקיינוס השקט/פיג'י"
 
-#: ../calendar/zones.h:357
+#: ../calendar/zones.h:376
 msgid "Pacific/Funafuti"
 msgstr ""
 
-#: ../calendar/zones.h:358
+#: ../calendar/zones.h:377
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "האוקיינוס השקט/גאלאפאגוס"
 
-#: ../calendar/zones.h:359
+#: ../calendar/zones.h:378
 msgid "Pacific/Gambier"
 msgstr ""
 
-#: ../calendar/zones.h:360
+#: ../calendar/zones.h:379
 msgid "Pacific/Guadalcanal"
 msgstr ""
 
-#: ../calendar/zones.h:361
+#: ../calendar/zones.h:380
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "האוקיינוס השקט/גואם"
 
-#: ../calendar/zones.h:362
+#: ../calendar/zones.h:381
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "האוקיינוס השקט/הונולולו"
 
-#: ../calendar/zones.h:363
+#: ../calendar/zones.h:382
 msgid "Pacific/Johnston"
 msgstr ""
 
-#: ../calendar/zones.h:364
+#: ../calendar/zones.h:383
 msgid "Pacific/Kiritimati"
 msgstr ""
 
-#: ../calendar/zones.h:365
+#: ../calendar/zones.h:384
 msgid "Pacific/Kosrae"
 msgstr ""
 
-#: ../calendar/zones.h:366
+#: ../calendar/zones.h:385
 msgid "Pacific/Kwajalein"
 msgstr ""
 
-#: ../calendar/zones.h:367
+#: ../calendar/zones.h:386
 msgid "Pacific/Majuro"
 msgstr ""
 
-#: ../calendar/zones.h:368
+#: ../calendar/zones.h:387
 msgid "Pacific/Marquesas"
 msgstr ""
 
-#: ../calendar/zones.h:369
+#: ../calendar/zones.h:388
 msgid "Pacific/Midway"
 msgstr ""
 
-#: ../calendar/zones.h:370
+#: ../calendar/zones.h:389
 msgid "Pacific/Nauru"
 msgstr ""
 
-#: ../calendar/zones.h:371
+#: ../calendar/zones.h:390
 msgid "Pacific/Niue"
 msgstr ""
 
-#: ../calendar/zones.h:372
+#: ../calendar/zones.h:391
 msgid "Pacific/Norfolk"
 msgstr ""
 
-#: ../calendar/zones.h:373
+#: ../calendar/zones.h:392
 msgid "Pacific/Noumea"
 msgstr ""
 
-#: ../calendar/zones.h:374
+#: ../calendar/zones.h:393
 msgid "Pacific/Pago_Pago"
 msgstr ""
 
-#: ../calendar/zones.h:375
+#: ../calendar/zones.h:394
 msgid "Pacific/Palau"
 msgstr ""
 
-#: ../calendar/zones.h:376
+#: ../calendar/zones.h:395
 msgid "Pacific/Pitcairn"
 msgstr ""
 
-#: ../calendar/zones.h:377
+#: ../calendar/zones.h:396
 msgid "Pacific/Ponape"
 msgstr ""
 
-#: ../calendar/zones.h:378
+#: ../calendar/zones.h:397
 msgid "Pacific/Port_Moresby"
 msgstr ""
 
-#: ../calendar/zones.h:379
+#: ../calendar/zones.h:398
 msgid "Pacific/Rarotonga"
 msgstr ""
 
-#: ../calendar/zones.h:380
+#: ../calendar/zones.h:399
 msgid "Pacific/Saipan"
 msgstr ""
 
-#: ../calendar/zones.h:381
+#: ../calendar/zones.h:400
 msgid "Pacific/Tahiti"
 msgstr ""
 
-#: ../calendar/zones.h:382
+#: ../calendar/zones.h:401
 msgid "Pacific/Tarawa"
 msgstr ""
 
-#: ../calendar/zones.h:383
+#: ../calendar/zones.h:402
 msgid "Pacific/Tongatapu"
 msgstr ""
 
-#: ../calendar/zones.h:384
+#: ../calendar/zones.h:403
 msgid "Pacific/Truk"
 msgstr ""
 
-#: ../calendar/zones.h:385
+#: ../calendar/zones.h:404
 msgid "Pacific/Wake"
 msgstr ""
 
-#: ../calendar/zones.h:386
+#: ../calendar/zones.h:405
 msgid "Pacific/Wallis"
 msgstr ""
 
-#: ../calendar/zones.h:387
+#: ../calendar/zones.h:406
 msgid "Pacific/Yap"
 msgstr ""
 
@@ -10633,9 +10653,8 @@ msgid "Toggles whether the Reply-To field is displayed"
 msgstr ""
 
 #: ../composer/e-composer-actions.c:649
-#, fuzzy
 msgid "_Subject Field"
-msgstr "שדה _Cc"
+msgstr "שדה _הנושא"
 
 #: ../composer/e-composer-actions.c:651
 msgid "Toggles whether the Subject field is displayed"
@@ -10696,19 +10715,19 @@ msgstr "נו_שא:"
 msgid "Si_gnature:"
 msgstr "ח_תימה:"
 
-#: ../composer/e-composer-name-header.c:114
+#: ../composer/e-composer-name-header.c:115
 msgid "Click here for the address book"
 msgstr ""
 
-#: ../composer/e-composer-post-header.c:136
+#: ../composer/e-composer-post-header.c:137
 msgid "Posting destination"
 msgstr ""
 
-#: ../composer/e-composer-post-header.c:137
+#: ../composer/e-composer-post-header.c:138
 msgid "Choose folders to post the message to."
 msgstr ""
 
-#: ../composer/e-composer-post-header.c:171
+#: ../composer/e-composer-post-header.c:172
 msgid "Click here to select folders to post to"
 msgstr ""
 
@@ -10761,7 +10780,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "כל החשבונות הוסרו."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid ""
@@ -10790,7 +10809,7 @@ msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:8
 msgid "Could not create message."
-msgstr ""
+msgstr "לא ניתן ליצור הודעה."
 
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not read signature file &quot;{0}&quot;."
@@ -10932,11 +10951,11 @@ msgstr "שאילתת Evolution"
 msgid "Internal error, unknown error '%s' requested"
 msgstr ""
 
-#: ../e-util/e-logger.c:154
+#: ../e-util/e-logger.c:156
 msgid "Component"
 msgstr "רכיב"
 
-#: ../e-util/e-logger.c:155
+#: ../e-util/e-logger.c:157
 msgid "Name of the component being logged"
 msgstr ""
 
@@ -10951,15 +10970,15 @@ msgstr "מופעל"
 msgid "Whether the plugin is enabled"
 msgstr ""
 
-#: ../e-util/e-print.c:158
+#: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
 msgstr "אירעה שגיאה בזמן ההדפסה"
 
-#: ../e-util/e-print.c:165
+#: ../e-util/e-print.c:167
 msgid "The printing system reported the following details about the error:"
 msgstr "מערכת ההדפסה דיווחה את הפרטים הבאים לגבי השגיאה:"
 
-#: ../e-util/e-print.c:171
+#: ../e-util/e-print.c:173
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "מערכת ההדפסה לא דיווחה פרטים נוספים לגבי השגיאה."
@@ -10982,8 +11001,7 @@ msgstr "להחליף אותו?"
 
 #: ../e-util/e-system.error.xml.h:5
 msgid "File exists \"{0}\"."
-msgstr ""
-"הקובץ קיים \"{0}\"."
+msgstr "הקובץ קיים \"{0}\"."
 
 #: ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
@@ -11336,7 +11354,7 @@ msgstr ""
 
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:282
 #: ../plugins/calendar-weather/calendar-weather.c:564
-#: ../plugins/google-account-setup/google-source.c:718
+#: ../plugins/google-account-setup/google-source.c:665
 #: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "weeks"
 msgstr "שבועות"
@@ -11409,8 +11427,8 @@ msgstr "Evolution Network configuration control"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:605
 #: ../mail/importers/elm-importer.c:327 ../mail/importers/pine-importer.c:380
-#: ../mail/mail-component.c:595 ../mail/mail-component.c:596
-#: ../mail/mail-component.c:765
+#: ../mail/mail-component.c:597 ../mail/mail-component.c:598
+#: ../mail/mail-component.c:767
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "דואר"
@@ -11447,13 +11465,13 @@ msgid ""
 "and tick the check box for accepting it\n"
 msgstr ""
 
-#: ../mail/em-account-editor.c:466 ../mail/em-filter-folder-element.c:237
+#: ../mail/em-account-editor.c:466 ../mail/em-filter-folder-element.c:239
 #: ../mail/em-vfolder-rule.c:512
 msgid "Select Folder"
 msgstr "בחר תיקייה"
 
 #: ../mail/em-account-editor.c:590 ../mail/em-account-editor.c:635
-#: ../mail/em-account-editor.c:702 ../widgets/misc/e-signature-combo-box.c:97
+#: ../mail/em-account-editor.c:702 ../widgets/misc/e-signature-combo-box.c:98
 msgid "Autogenerated"
 msgstr ""
 
@@ -11539,7 +11557,7 @@ msgstr "הוסף תסריט חתימה"
 msgid "Signature(s)"
 msgstr "חתימה/ות"
 
-#: ../mail/em-composer-utils.c:1148 ../mail/em-format-quote.c:415
+#: ../mail/em-composer-utils.c:1148 ../mail/em-format-quote.c:416
 msgid "-------- Forwarded Message --------"
 msgstr "-------- הודעה מועברת --------"
 
@@ -11739,7 +11757,7 @@ msgstr ""
 
 #. Translators: "Read" as in "has been read" (em-filter-i18n.h)
 #. Translators: "Read" as in "has been read" (message-tag-followup.c)
-#: ../mail/em-filter-i18n.h:53 ../mail/message-tag-followup.c:62
+#: ../mail/em-filter-i18n.h:53 ../mail/message-tag-followup.c:63
 msgid "Read"
 msgstr "קרא"
 
@@ -11811,9 +11829,9 @@ msgstr "מתחיל ב"
 msgid "Stop Processing"
 msgstr ""
 
-#: ../mail/em-filter-i18n.h:72 ../mail/em-format-quote.c:341
+#: ../mail/em-filter-i18n.h:72 ../mail/em-format-quote.c:342
 #: ../mail/em-format.c:889 ../mail/em-mailer-prefs.c:80
-#: ../mail/message-list.etspec.h:18 ../mail/message-tag-followup.c:311
+#: ../mail/message-list.etspec.h:18 ../mail/message-tag-followup.c:312
 #: ../plugins/groupwise-features/properties.glade.h:7
 #: ../smime/lib/e-cert.c:1132
 msgid "Subject"
@@ -11904,7 +11922,7 @@ msgstr "סה\"כ הודעות:"
 #. translators: standard local mailbox names
 #: ../mail/em-folder-properties.c:355 ../mail/em-folder-tree-model.c:507
 #: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:160
-#: ../mail/mail-component.c:583
+#: ../mail/mail-component.c:585
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
 #: ../plugins/exchange-operations/exchange-folder.c:592
 msgid "Inbox"
@@ -12012,7 +12030,7 @@ msgstr "הע_תק אל תיקייה"
 msgid "_Move to Folder"
 msgstr "הע_בר אל תיקייה"
 
-#: ../mail/em-folder-tree.c:1718 ../mail/mail-ops.c:1056
+#: ../mail/em-folder-tree.c:1718 ../mail/mail-ops.c:1058
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "סורק תיקיות ב-\"%s\""
@@ -12048,9 +12066,9 @@ msgid "_Empty Trash"
 msgstr "_רוקן את האשפה"
 
 #: ../mail/em-folder-utils.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "מעתיק את ההודעות ל%s"
+msgstr "מעתיק את `%s' אל `%s'"
 
 #: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1186
 #: ../mail/em-folder-view.c:1201
@@ -12063,20 +12081,20 @@ msgid "C_opy"
 msgstr "_העתק"
 
 #: ../mail/em-folder-utils.c:586
-#: ../plugins/groupwise-features/share-folder-common.c:143
+#: ../plugins/groupwise-features/share-folder-common.c:145
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "יוצר את התיקייה `%s'"
 
 #: ../mail/em-folder-utils.c:744
 #: ../plugins/groupwise-features/install-shared.c:168
-#: ../plugins/groupwise-features/share-folder-common.c:385
+#: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Create folder"
 msgstr "צור תיקייה"
 
 #: ../mail/em-folder-utils.c:744
 #: ../plugins/groupwise-features/install-shared.c:168
-#: ../plugins/groupwise-features/share-folder-common.c:385
+#: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Specify where to create the folder:"
 msgstr "ציין היכן ליצור את התיקייה:"
 
@@ -12210,9 +12228,9 @@ msgstr ""
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2255 ../mail/em-folder-view.c:2298
-#: ../plugins/google-account-setup/google-source.c:301
-#: ../plugins/google-account-setup/google-source.c:586
-#: ../plugins/google-account-setup/google-source.c:772
+#: ../plugins/google-account-setup/google-source.c:251
+#: ../plugins/google-account-setup/google-source.c:532
+#: ../plugins/google-account-setup/google-source.c:718
 msgid "Default"
 msgstr "ברירת מחדל"
 
@@ -12513,19 +12531,19 @@ msgid "Formatting Message..."
 msgstr "חפש _בהודעה..."
 
 #: ../mail/em-format-html.c:1563 ../mail/em-format-html.c:1627
-#: ../mail/em-format-html.c:1649 ../mail/em-format-quote.c:209
+#: ../mail/em-format-html.c:1649 ../mail/em-format-quote.c:210
 #: ../mail/em-format.c:887 ../mail/em-mailer-prefs.c:78
 msgid "Cc"
 msgstr "Cc"
 
 #: ../mail/em-format-html.c:1564 ../mail/em-format-html.c:1633
-#: ../mail/em-format-html.c:1652 ../mail/em-format-quote.c:209
+#: ../mail/em-format-html.c:1652 ../mail/em-format-quote.c:210
 #: ../mail/em-format.c:888 ../mail/em-mailer-prefs.c:79
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: ../mail/em-format-html.c:1744 ../mail/em-format-quote.c:352
+#: ../mail/em-format-html.c:1744 ../mail/em-format-quote.c:353
 #: ../mail/em-mailer-prefs.c:1450
 msgid "Mailer"
 msgstr ""
@@ -12548,13 +12566,13 @@ msgstr " (%R %Z)"
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr ""
 
-#: ../mail/em-format-quote.c:209 ../mail/em-format.c:884
+#: ../mail/em-format-quote.c:210 ../mail/em-format.c:884
 #: ../mail/em-mailer-prefs.c:75 ../mail/message-list.etspec.h:7
-#: ../mail/message-tag-followup.c:307
+#: ../mail/message-tag-followup.c:308
 msgid "From"
 msgstr "מאת"
 
-#: ../mail/em-format-quote.c:209 ../mail/em-format.c:885
+#: ../mail/em-format-quote.c:210 ../mail/em-format.c:885
 #: ../mail/em-mailer-prefs.c:76
 msgid "Reply-To"
 msgstr "השב אל"
@@ -12810,7 +12828,7 @@ msgstr "הוסף כתובת"
 msgid "Messages from %s"
 msgstr "הודעה מ-%s"
 
-#: ../mail/em-vfolder-editor.c:112
+#: ../mail/em-vfolder-editor.c:115
 msgid "Search _Folders"
 msgstr "תיקיות _חיפוש"
 
@@ -12959,22 +12977,25 @@ msgid "Default width of the subscribe dialog."
 msgstr "Default width of the subscribe dialog."
 
 #: ../mail/evolution-mail.schemas.in.h:33
+#, fuzzy
 msgid ""
-"Determines whether to look up addresses for junk filtering in local "
-"addressbook only"
+"Determines whether to look up addresses for junk filtering in local address "
+"book only"
 msgstr ""
 "Determines whether to look up addresses for junk filtering in local "
 "addressbook only"
 
 #: ../mail/evolution-mail.schemas.in.h:34
-msgid "Determines whether to lookup in addressbook for sender email"
+#, fuzzy
+msgid "Determines whether to lookup in address book for sender email"
 msgstr "Determines whether to lookup in addressbook for sender email"
 
 #: ../mail/evolution-mail.schemas.in.h:35
+#, fuzzy
 msgid ""
-"Determines whether to loopup the sender email in addressbook. If found, it "
+"Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
-"can be slow, if remote addressbooks (like ldap) are marked for "
+"can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
 "Determines whether to loopup the sender email in addressbook. If found, it "
@@ -13379,7 +13400,8 @@ msgid "Save directory"
 msgstr "Save directory"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-msgid "Search for the sender photo in local addressbooks"
+#, fuzzy
+msgid "Search for the sender photo in local address books"
 msgstr "Search for the sender photo in local addressbooks"
 
 #: ../mail/evolution-mail.schemas.in.h:115
@@ -13525,9 +13547,10 @@ msgstr ""
 "mail view."
 
 #: ../mail/evolution-mail.schemas.in.h:145
+#, fuzzy
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
-"determine whether to look up addresses in local addressbook only to exclude "
+"determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
 "This option is related to the key lookup_addressbook and is used to "
@@ -13725,7 +13748,7 @@ msgstr ""
 msgid "Importing mailbox"
 msgstr "מייבא תיבת דואר"
 
-#: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:514
+#: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:512
 #, c-format
 msgid "Importing `%s'"
 msgstr "מייבא `%s'"
@@ -13774,150 +13797,149 @@ msgstr "הוסף חוק סינון"
 #: ../mail/mail-component.c:164 ../plugins/templates/templates.c:521
 #: ../plugins/templates/templates.c:691 ../plugins/templates/templates.c:726
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-#, fuzzy
 msgid "Templates"
-msgstr "תבנית:"
+msgstr "תבניות"
 
-#: ../mail/mail-component.c:548
+#: ../mail/mail-component.c:550
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "אחד נבחר, "
 msgstr[1] "%d נבחרו, "
 
-#: ../mail/mail-component.c:552
+#: ../mail/mail-component.c:554
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d נמחק"
 msgstr[1] "%d נמחק"
 
-#: ../mail/mail-component.c:559
+#: ../mail/mail-component.c:561
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d דואר זבל"
 msgstr[1] "%d דואר זבל"
 
-#: ../mail/mail-component.c:562
+#: ../mail/mail-component.c:564
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "טיוטה %d"
 msgstr[1] "%d טיוטות"
 
-#: ../mail/mail-component.c:564
+#: ../mail/mail-component.c:566
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d נשלח"
 msgstr[1] "%d נשלח"
 
-#: ../mail/mail-component.c:566
+#: ../mail/mail-component.c:568
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d לא נשלח"
 msgstr[1] "%d לא נשלח"
 
-#: ../mail/mail-component.c:572
+#: ../mail/mail-component.c:574
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d לא נקראה, "
 msgstr[1] "%d לא נקראו, "
 
-#: ../mail/mail-component.c:573
+#: ../mail/mail-component.c:575
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d סה\"כ"
 msgstr[1] "%d סה\"כ"
 
-#: ../mail/mail-component.c:921
+#: ../mail/mail-component.c:923
 msgid "New Mail Message"
 msgstr "הודאת דואר חדשה"
 
-#: ../mail/mail-component.c:922
+#: ../mail/mail-component.c:924
 #, fuzzy
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_הודעת דואר"
 
-#: ../mail/mail-component.c:923
+#: ../mail/mail-component.c:925
 msgid "Compose a new mail message"
 msgstr "חבר הודעת דואר חדשה"
 
-#: ../mail/mail-component.c:929
+#: ../mail/mail-component.c:931
 msgid "New Mail Folder"
 msgstr "תיקיית דואר חדשה"
 
-#: ../mail/mail-component.c:930
+#: ../mail/mail-component.c:932
 #, fuzzy
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_תיקיית דואר"
 
-#: ../mail/mail-component.c:931
+#: ../mail/mail-component.c:933
 msgid "Create a new mail folder"
 msgstr "צור תיקיית דואר חדשה"
 
-#: ../mail/mail-component.c:1078
+#: ../mail/mail-component.c:1080
 msgid "Failed upgrading Mail settings or folders."
 msgstr ""
 
-#: ../mail/mail-component.c:1591
+#: ../mail/mail-component.c:1593
 msgid "Error"
 msgstr "שגיאה"
 
-#: ../mail/mail-component.c:1591
+#: ../mail/mail-component.c:1593
 msgid "Errors"
 msgstr "שגיאות"
 
-#: ../mail/mail-component.c:1592
+#: ../mail/mail-component.c:1594
 msgid "Warnings and Errors"
 msgstr "אזהרות ושגיאות"
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1595
 msgid "Debug"
 msgstr "ניפוי"
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1595
 msgid "Error, Warnings and Debug messages"
 msgstr "הודעות אזהרה, שגיאה וניפוי"
 
-#: ../mail/mail-component.c:1720
+#: ../mail/mail-component.c:1722
 msgid "Debug Logs"
 msgstr "יומני ניפוי"
 
-#: ../mail/mail-component.c:1734
+#: ../mail/mail-component.c:1736
 msgid "Show _errors in the status bar for"
 msgstr ""
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1750
+#: ../mail/mail-component.c:1752
 msgid "second(s)."
 msgstr "שניות."
 
-#: ../mail/mail-component.c:1756
+#: ../mail/mail-component.c:1758
 msgid "Log Messages:"
 msgstr "הודעות יומן:"
 
-#: ../mail/mail-component.c:1797
+#: ../mail/mail-component.c:1799
 msgid "Log Level"
 msgstr "רמת יומן"
 
-#: ../mail/mail-component.c:1806 ../widgets/misc/e-dateedit.c:395
+#: ../mail/mail-component.c:1808 ../widgets/misc/e-dateedit.c:395
 msgid "Time"
 msgstr "שעה"
 
-#: ../mail/mail-component.c:1816 ../mail/message-list.c:2454
+#: ../mail/mail-component.c:1818 ../mail/message-list.c:2454
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "הודעות"
 
-#: ../mail/mail-component.c:1825 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../mail/mail-component.c:1827 ../ui/evolution-mail-messagedisplay.xml.h:2
 #: ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "סגור חלון זה"
@@ -14177,7 +14199,7 @@ msgid "Do not format messages when text si_ze exceeds"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:72
-msgid "Do not mar_k messages as junk if sender is in my addressbook"
+msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:73
@@ -14379,8 +14401,9 @@ msgid "S_OCKS Host:"
 msgstr "מארח S_OCKS:"
 
 #: ../mail/mail-config.glade.h:127
-msgid "S_earch for sender photograph only in local addressbooks"
-msgstr ""
+#, fuzzy
+msgid "S_earch for sender photograph only in local address books"
+msgstr "Search for the sender photo in local addressbooks"
 
 #: ../mail/mail-config.glade.h:128
 msgid "S_elect..."
@@ -14481,12 +14504,11 @@ msgid "Us_ername:"
 msgstr "שם מ_שתמש:"
 
 #: ../mail/mail-config.glade.h:155
-#, fuzzy
 msgid "Use Authe_ntication"
-msgstr "הזדהות"
+msgstr "שימוש בה_זדהות"
 
 #: ../mail/mail-config.glade.h:156 ../plugins/caldav/caldav-source.c:284
-#: ../plugins/google-account-setup/google-source.c:678
+#: ../plugins/google-account-setup/google-source.c:625
 #: ../plugins/google-account-setup/google-contacts-source.c:278
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
 msgid "User_name:"
@@ -14545,7 +14567,7 @@ msgstr "טען _תמונות בהודעות מאנשי קשר"
 
 #: ../mail/mail-config.glade.h:171
 #, fuzzy
-msgid "_Lookup in local addressbook only"
+msgid "_Lookup in local address book only"
 msgstr "ספר הכתובות של אבולוציה"
 
 #: ../mail/mail-config.glade.h:172
@@ -14674,7 +14696,7 @@ msgstr "_חפש:"
 msgid "Find in Message"
 msgstr "חפש בהודעה"
 
-#: ../mail/mail-dialogs.glade.h:12 ../mail/message-tag-followup.c:276
+#: ../mail/mail-dialogs.glade.h:12 ../mail/message-tag-followup.c:277
 msgid "Flag to Follow Up"
 msgstr ""
 
@@ -14778,134 +14800,135 @@ msgstr "בוטל."
 msgid "Complete."
 msgstr "הסתיים."
 
-#: ../mail/mail-ops.c:869
+#: ../mail/mail-ops.c:871
 msgid "Saving message to folder"
 msgstr "שומר את ההודעה בתיקייה"
 
-#: ../mail/mail-ops.c:947
+#: ../mail/mail-ops.c:949
 #, c-format
 msgid "Moving messages to %s"
 msgstr "מעביר את ההודעות ל%s"
 
-#: ../mail/mail-ops.c:947
+#: ../mail/mail-ops.c:949
 #, c-format
 msgid "Copying messages to %s"
 msgstr "מעתיק את ההודעות ל%s"
 
-#: ../mail/mail-ops.c:1164
+#: ../mail/mail-ops.c:1166
 msgid "Forwarded messages"
 msgstr ""
 
-#: ../mail/mail-ops.c:1205
+#: ../mail/mail-ops.c:1207
 #, c-format
 msgid "Opening folder %s"
 msgstr "פותח את התיקייה %s"
 
-#: ../mail/mail-ops.c:1270
+#: ../mail/mail-ops.c:1272
 #, fuzzy, c-format
 msgid "Retrieving quota information for folder %s"
 msgstr "עורך אנשי הקשר"
 
-#: ../mail/mail-ops.c:1339
+#: ../mail/mail-ops.c:1341
 #, c-format
 msgid "Opening store %s"
 msgstr ""
 
-#: ../mail/mail-ops.c:1410
+#: ../mail/mail-ops.c:1412
 #, c-format
 msgid "Removing folder %s"
 msgstr ""
 
-#: ../mail/mail-ops.c:1499
+#: ../mail/mail-ops.c:1501
 #, c-format
 msgid "Storing folder '%s'"
 msgstr ""
 
-#: ../mail/mail-ops.c:1562
+#: ../mail/mail-ops.c:1564
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr ""
 
-#: ../mail/mail-ops.c:1563
+#: ../mail/mail-ops.c:1565
 #, c-format
 msgid "Storing account '%s'"
 msgstr ""
 
-#: ../mail/mail-ops.c:1617
+#: ../mail/mail-ops.c:1619
 msgid "Refreshing folder"
 msgstr ""
 
-#: ../mail/mail-ops.c:1657 ../mail/mail-ops.c:1707
+#: ../mail/mail-ops.c:1659 ../mail/mail-ops.c:1709
 msgid "Expunging folder"
 msgstr ""
 
-#: ../mail/mail-ops.c:1704
+#: ../mail/mail-ops.c:1706
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "מרוקן את האשפה ב-'%s'"
 
-#: ../mail/mail-ops.c:1705
+#: ../mail/mail-ops.c:1707
 msgid "Local Folders"
 msgstr "תיקיות מקומיות"
 
-#: ../mail/mail-ops.c:1786
+#: ../mail/mail-ops.c:1788
 #, c-format
 msgid "Retrieving message %s"
 msgstr "מקבל הודעה %s"
 
-#: ../mail/mail-ops.c:1893
+#: ../mail/mail-ops.c:1895
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "מקבל הודעה %d"
 msgstr[1] "מקבל %d הודעות"
 
-#: ../mail/mail-ops.c:1978
 # c-format
+#: ../mail/mail-ops.c:1980
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "שומר הודעה אחת"
 msgstr[1] "שומר %d הודעות"
 
-#: ../mail/mail-ops.c:2056
+#: ../mail/mail-ops.c:2058
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
 
-#: ../mail/mail-ops.c:2128
+#: ../mail/mail-ops.c:2130
 msgid "Saving attachment"
 msgstr "שומר תצריף"
 
-#: ../mail/mail-ops.c:2146 ../mail/mail-ops.c:2154
+#: ../mail/mail-ops.c:2148 ../mail/mail-ops.c:2156
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
 
-#: ../mail/mail-ops.c:2169
+#: ../mail/mail-ops.c:2171
 #, c-format
 msgid "Could not write data: %s"
 msgstr ""
 
-#: ../mail/mail-ops.c:2315
+#: ../mail/mail-ops.c:2317
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "מתנתק מ %s"
 
-#: ../mail/mail-ops.c:2315
+#: ../mail/mail-ops.c:2317
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "מתחבר מחדש ל %s"
 
-#: ../mail/mail-ops.c:2411
+#: ../mail/mail-ops.c:2413
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr ""
 
-#: ../mail/mail-ops.c:2497
+#: ../mail/mail-ops.c:2499
 msgid "Checking Service"
 msgstr "בודק שירות"
 
@@ -15066,9 +15089,8 @@ msgid ""
 msgstr "אתה בטוח שברצונך למחוק איש קשר זה?"
 
 #: ../mail/mail.error.xml.h:12
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr "האם לשלוח את ההודעה בתצורת HTML?"
+msgstr "האם אתה בטוח שברצונך לפתוח {0} הודעות בו זמנית?"
 
 #: ../mail/mail.error.xml.h:13
 msgid ""
@@ -15146,14 +15168,12 @@ msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:31
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "לא ניתן לפתוח את המקור"
+msgstr "לא ניתן לפתוח את המקור \"{1}\""
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "לא ניתן לפתוח את המקור"
+msgstr "לא ניתן לפתוח את המקור \"{2}\"."
 
 #: ../mail/mail.error.xml.h:33
 #, fuzzy
@@ -15183,9 +15203,8 @@ msgid "Cannot save to directory \"{0}\"."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:39
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr "לא ניתן לפתוח קובץ"
+msgstr "לא ניתן לשמור לקובץ \"{0}\"."
 
 #: ../mail/mail.error.xml.h:40
 msgid "Cannot set signature script \"{0}\"."
@@ -15215,9 +15234,8 @@ msgid "Delete account?"
 msgstr "למחוק את החשבון?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder \"{0}\"?"
-msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
+msgstr "למחוק הודעות בתיקיית החיפוש \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Delete messages in Search Folder?"
@@ -15246,9 +15264,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:53
-#, fuzzy
 msgid "Do you want to mark all messages as read?"
-msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
+msgstr "לסמן את כל ההודעות כהודעות שנקראו?"
 
 #: ../mail/mail.error.xml.h:54
 msgid "Do you wish to save your changes?"
@@ -15578,20 +15595,19 @@ msgstr "_פתח הודעות"
 
 #: ../mail/message-list.c:1052
 msgid "Unseen"
-msgstr ""
+msgstr "לא נצפה"
 
 #: ../mail/message-list.c:1053
 msgid "Seen"
-msgstr ""
+msgstr "נצפה"
 
 #: ../mail/message-list.c:1054
 msgid "Answered"
-msgstr ""
+msgstr "נענה"
 
 #: ../mail/message-list.c:1055
-#, fuzzy
 msgid "Forwarded"
-msgstr "העבר"
+msgstr "הועבר"
 
 #: ../mail/message-list.c:1056
 msgid "Multiple Unseen Messages"
@@ -15689,39 +15705,39 @@ msgstr "הודעות שנשלחו"
 msgid "Size"
 msgstr "גודל"
 
-#: ../mail/message-tag-followup.c:55
+#: ../mail/message-tag-followup.c:56
 msgid "Call"
 msgstr ""
 
-#: ../mail/message-tag-followup.c:56
+#: ../mail/message-tag-followup.c:57
 msgid "Do Not Forward"
 msgstr "אל תעביר"
 
-#: ../mail/message-tag-followup.c:57
+#: ../mail/message-tag-followup.c:58
 msgid "Follow-Up"
 msgstr ""
 
-#: ../mail/message-tag-followup.c:58
+#: ../mail/message-tag-followup.c:59
 msgid "For Your Information"
 msgstr "לידיעתך"
 
-#: ../mail/message-tag-followup.c:59 ../ui/evolution-mail-message.xml.h:42
+#: ../mail/message-tag-followup.c:60 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "העבר"
 
-#: ../mail/message-tag-followup.c:60
+#: ../mail/message-tag-followup.c:61
 msgid "No Response Necessary"
 msgstr ""
 
-#: ../mail/message-tag-followup.c:63 ../ui/evolution-mail-message.xml.h:80
+#: ../mail/message-tag-followup.c:64 ../ui/evolution-mail-message.xml.h:80
 msgid "Reply"
 msgstr "השב"
 
-#: ../mail/message-tag-followup.c:64 ../ui/evolution-mail-message.xml.h:81
+#: ../mail/message-tag-followup.c:65 ../ui/evolution-mail-message.xml.h:81
 msgid "Reply to All"
 msgstr "השב לכולם"
 
-#: ../mail/message-tag-followup.c:65
+#: ../mail/message-tag-followup.c:66
 msgid "Review"
 msgstr ""
 
@@ -15819,152 +15835,147 @@ msgstr ""
 msgid "Audio inline plugin"
 msgstr ""
 
-#: ../plugins/backup-restore/backup-restore.c:107
-#, fuzzy
+#: ../plugins/backup-restore/backup-restore.c:127
 msgid "Select name of the Evolution backup file"
-msgstr "אזהרת Evolution"
+msgstr "בחר שם לקובץ הגיבוי של Evolution"
 
-#: ../plugins/backup-restore/backup-restore.c:136
+#: ../plugins/backup-restore/backup-restore.c:156
 msgid "_Restart Evolution after backup"
 msgstr ""
 
-#: ../plugins/backup-restore/backup-restore.c:159
-#, fuzzy
+#: ../plugins/backup-restore/backup-restore.c:179
 msgid "Select name of the Evolution backup file to restore"
-msgstr "אזהרת Evolution"
+msgstr "בחר קובץ גיבוי של Evolution לשחזור"
 
-#: ../plugins/backup-restore/backup-restore.c:183
+#: ../plugins/backup-restore/backup-restore.c:203
 msgid "_Restart Evolution after restore"
 msgstr ""
 
-#: ../plugins/backup-restore/backup-restore.c:256
+#: ../plugins/backup-restore/backup-restore.c:276
 msgid "Restore from backup"
 msgstr ""
 
-#: ../plugins/backup-restore/backup-restore.c:258
+#: ../plugins/backup-restore/backup-restore.c:278
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
 
-#: ../plugins/backup-restore/backup-restore.c:264
-#, fuzzy
+#: ../plugins/backup-restore/backup-restore.c:284
 msgid "_Restore Evolution from the backup file"
 msgstr "תקלת Evolution"
 
-#: ../plugins/backup-restore/backup-restore.c:271
+#: ../plugins/backup-restore/backup-restore.c:291
 msgid "Please select an Evolution Archive to restore:"
 msgstr ""
 
-#: ../plugins/backup-restore/backup-restore.c:274
+#: ../plugins/backup-restore/backup-restore.c:294
 msgid "Choose a file to restore"
-msgstr ""
+msgstr "בחר קובץ לשחזר"
 
-#: ../plugins/backup-restore/backup.c:46
+#: ../plugins/backup-restore/backup.c:66
 #, fuzzy
 msgid "Backup Evolution directory"
 msgstr "תקלת Evolution"
 
-#: ../plugins/backup-restore/backup.c:48
+#: ../plugins/backup-restore/backup.c:68
 #, fuzzy
 msgid "Restore Evolution directory"
 msgstr "תקלת Evolution"
 
-#: ../plugins/backup-restore/backup.c:50
+#: ../plugins/backup-restore/backup.c:70
 #, fuzzy
 msgid "Check Evolution Backup"
 msgstr "אזהרת Evolution"
 
-#: ../plugins/backup-restore/backup.c:52
+#: ../plugins/backup-restore/backup.c:72
 msgid "Restart Evolution"
 msgstr "הפעל מחדש את Evolution"
 
-#: ../plugins/backup-restore/backup.c:54
+#: ../plugins/backup-restore/backup.c:74
 msgid "With Graphical User Interface"
 msgstr "עם מנשק משתמש גרפי"
 
-#: ../plugins/backup-restore/backup.c:105
-#: ../plugins/backup-restore/backup.c:238
+#: ../plugins/backup-restore/backup.c:125
+#: ../plugins/backup-restore/backup.c:258
 msgid "Shutting down Evolution"
 msgstr "מכבה את Evolution"
 
-#: ../plugins/backup-restore/backup.c:112
+#: ../plugins/backup-restore/backup.c:132
 msgid "Backing Evolution accounts and settings"
 msgstr "גיבוי חשבונות והגדרות Evolution"
 
-#: ../plugins/backup-restore/backup.c:116
+#: ../plugins/backup-restore/backup.c:136
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 
-#: ../plugins/backup-restore/backup.c:127
+#: ../plugins/backup-restore/backup.c:147
 msgid "Backup complete"
 msgstr "הגיבוי הסתיים"
 
-#: ../plugins/backup-restore/backup.c:132
-#: ../plugins/backup-restore/backup.c:319
+#: ../plugins/backup-restore/backup.c:152
+#: ../plugins/backup-restore/backup.c:339
 msgid "Restarting Evolution"
 msgstr "מאתחל את Evolution"
 
-#: ../plugins/backup-restore/backup.c:242
+#: ../plugins/backup-restore/backup.c:262
 #, fuzzy
 msgid "Backup current Evolution data"
 msgstr "תקלת Evolution"
 
-#: ../plugins/backup-restore/backup.c:247
+#: ../plugins/backup-restore/backup.c:267
 msgid "Extracting files from backup"
 msgstr ""
 
-#: ../plugins/backup-restore/backup.c:254
+#: ../plugins/backup-restore/backup.c:274
 msgid "Loading Evolution settings"
 msgstr "טוען הגדרות Evolution"
 
-#: ../plugins/backup-restore/backup.c:258
+#: ../plugins/backup-restore/backup.c:278
 msgid "Removing temporary backup files"
 msgstr "מסיר קבצי גיבוי זמניים"
 
-#: ../plugins/backup-restore/backup.c:265
+#: ../plugins/backup-restore/backup.c:285
 msgid "Ensuring local sources"
 msgstr ""
 
-#: ../plugins/backup-restore/backup.c:435
-#, fuzzy, c-format
+#: ../plugins/backup-restore/backup.c:455
+#, c-format
 msgid "Backing up to the folder %s"
-msgstr "מעביר את התיקייה %s"
+msgstr "מגבה לתיקייה %s"
 
-#: ../plugins/backup-restore/backup.c:440
-#, fuzzy, c-format
+#: ../plugins/backup-restore/backup.c:460
+#, c-format
 msgid "Restoring from the folder %s"
-msgstr "מתנתק מ %s"
+msgstr "משחזר מהתיקייה %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:459
+#: ../plugins/backup-restore/backup.c:479
 msgid "Evolution Backup"
 msgstr "גיבוי Evolution"
 
-#: ../plugins/backup-restore/backup.c:459
+#: ../plugins/backup-restore/backup.c:479
 msgid "Evolution Restore"
 msgstr "שחזור Evolution"
 
-#: ../plugins/backup-restore/backup.c:494
-#, fuzzy
+#: ../plugins/backup-restore/backup.c:514
 msgid "Backing up Evolution Data"
-msgstr "תקלת Evolution"
+msgstr "מגבה את נתוני Evolution"
 
-#: ../plugins/backup-restore/backup.c:495
+#: ../plugins/backup-restore/backup.c:515
 msgid "Please wait while Evolution is backing up your data."
 msgstr ""
 
-#: ../plugins/backup-restore/backup.c:497
-#, fuzzy
+#: ../plugins/backup-restore/backup.c:517
 msgid "Restoring Evolution Data"
-msgstr "מאתחל את Evolution"
+msgstr "משחזר את נתוני Evolution"
 
-#: ../plugins/backup-restore/backup.c:498
+#: ../plugins/backup-restore/backup.c:518
 msgid "Please wait while Evolution is restoring your data."
 msgstr ""
 
-#: ../plugins/backup-restore/backup.c:516
+#: ../plugins/backup-restore/backup.c:536
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 
@@ -16042,7 +16053,7 @@ msgstr "אנשי קשר אוטומטיים"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:567
-msgid "_Auto-create addressbook entries when replying to messages"
+msgid "_Auto-create address book entries when replying to messages"
 msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:573
@@ -16071,7 +16082,7 @@ msgstr ""
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
-"Automatically fills your addressbook with names and email addresses as you "
+"Automatically fills your address book with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
@@ -16142,7 +16153,7 @@ msgid "_URL:"
 msgstr "_כתובת:"
 
 #: ../plugins/caldav/caldav-source.c:271
-#: ../plugins/google-account-setup/google-source.c:671
+#: ../plugins/google-account-setup/google-source.c:618
 #: ../plugins/google-account-setup/google-contacts-source.c:301
 msgid "Use _SSL"
 msgstr "השתמש ב-_SSL"
@@ -16165,7 +16176,7 @@ msgstr ""
 
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:546
-#: ../plugins/google-account-setup/google-source.c:695
+#: ../plugins/google-account-setup/google-source.c:642
 #: ../plugins/google-account-setup/google-contacts-source.c:320
 msgid "Re_fresh:"
 msgstr "_רענן:"
@@ -16304,7 +16315,7 @@ msgstr "מקורות ברירת המחדל"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid ""
-"Provides functionality for marking a calendar or an addressbook as the "
+"Provides functionality for marking a calendar or an address book as the "
 "default one."
 msgstr ""
 
@@ -16321,7 +16332,7 @@ msgstr "קניה"
 #: ../plugins/email-custom-header/email-custom-header.c:890
 #: ../plugins/templates/templates.c:400
 msgid "Values"
-msgstr ""
+msgstr "ערכים"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.glade.h:2
@@ -16346,7 +16357,7 @@ msgstr "כותרת מותאמת אישית"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
 msgid "List of Custom Headers"
-msgstr"List of Custom Headers"
+msgstr "List of Custom Headers"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid ""
@@ -16419,8 +16430,7 @@ msgstr "אני במשרד"
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:326
 msgid "Change the password for Exchange account"
-msgstr ""
-"החלף את הסיסמה עבור חשבון ה-Exchange"
+msgstr "החלף את הסיסמה עבור חשבון ה-Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:328
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
@@ -16465,14 +16475,12 @@ msgid "A_uthenticate"
 msgstr "הז_דהה"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:735
-#, fuzzy
 msgid "_Mailbox:"
 msgstr "_תיבת דואר:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:936
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "ההזדהות נכשלה"
+msgstr "סוג _הזדהות"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:950
 msgid "Ch_eck for Supported Types"
@@ -16480,15 +16488,15 @@ msgstr "ב_דוק עבור סוגים נתמכים"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1062
 #: ../plugins/exchange-operations/exchange-contacts.c:212
-#, fuzzy, c-format
+#, c-format
 msgid "%s KB"
-msgstr "%ld ק\"ב"
+msgstr "%s KB"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1064
 #: ../plugins/exchange-operations/exchange-contacts.c:214
 #, c-format
 msgid "0 KB"
-msgstr ""
+msgstr "0 KB"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:191
 #: ../plugins/exchange-operations/exchange-contacts.c:165
@@ -16500,13 +16508,13 @@ msgstr ""
 #. User entered a wrong existing
 #. * password. Prompt him again.
 #.
-#: ../plugins/exchange-operations/exchange-change-password.c:113
+#: ../plugins/exchange-operations/exchange-change-password.c:114
 msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
 
-#: ../plugins/exchange-operations/exchange-change-password.c:120
+#: ../plugins/exchange-operations/exchange-change-password.c:121
 msgid "The two passwords do not match. Please re-enter the passwords."
 msgstr ""
 
@@ -16676,14 +16684,14 @@ msgstr "דואר _נכנס:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:18
 msgid "_Summarize permissions"
-msgstr ""
+msgstr "_סכם הרשאות"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:20
 msgid "_Tasks:"
 msgstr "_משימות:"
 
-#: ../plugins/exchange-operations/exchange-folder-permission.c:59
+#: ../plugins/exchange-operations/exchange-folder-permission.c:62
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
 msgstr "הרשאות..."
@@ -16697,11 +16705,11 @@ msgid "Folder Size"
 msgstr "גודל תיקייה"
 
 #. FIXME Limit to one user
-#: ../plugins/exchange-operations/exchange-folder-subscription.c:75
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:78
 msgid "User"
 msgstr "משתמש"
 
-#: ../plugins/exchange-operations/exchange-folder-subscription.c:318
+#: ../plugins/exchange-operations/exchange-folder-subscription.c:321
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
 msgid "Subscribe to Other User's Folder"
 msgstr "הרשם לתיקייה של משתמש אחר"
@@ -16914,10 +16922,6 @@ msgstr "_רגישות:"
 msgid "_User"
 msgstr "_משתמש:"
 
-#: ../plugins/exchange-operations/exchange-send-options.glade.h:17
-msgid "button-user"
-msgstr "button-user"
-
 #: ../plugins/exchange-operations/exchange-user-dialog.c:138
 msgid "Select User"
 msgstr "בחר משתמש"
@@ -17122,7 +17126,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "Please restart Evolution for changes to take effect"
-msgstr ""
+msgstr "נא לאתחל את Evolution כדי שהשינויים יכנסו לתוקף"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid "Please select a user."
@@ -17176,7 +17180,7 @@ msgid "Unknown error looking up {0}"
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-#: ../plugins/google-account-setup/google-source.c:597
+#: ../plugins/google-account-setup/google-source.c:543
 msgid "Unknown error."
 msgstr "שגיאה לא ידועה."
 
@@ -17214,23 +17218,25 @@ msgstr ""
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
-msgstr ""
+msgstr "אתה משתמש ב: {0} KB. נסה לפנות קצת מקום על ידי מחיקת מספר הודעות."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr ""
+msgstr "אתה משתמש ב: {0} KB. לא תוכל לשלוח או לקבל דואר עכשיו."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
 msgstr ""
+"אתה משתמש ב: {0} KB. לא תוכל לשלוח או לקבל דואר עד שלא תפנה מקום על ידי "
+"מחיקת מספר הודעות."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid "Your password has expired."
-msgstr ""
+msgstr "פג תוקף הסיסמה שלך."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:83
 msgid "{0} cannot be added to an access control list"
@@ -17242,7 +17248,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:85
 msgid "{0} is already in the list"
-msgstr ""
+msgstr "{0} כבר ברשימה"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
@@ -17250,7 +17256,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:1
 msgid "Check folder permissions"
-msgstr ""
+msgstr "בדוק הרשאות תיקייה"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Default External Editor"
@@ -17284,6 +17290,7 @@ msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
+"‏Evolution לא הצליח ליצור קובץ זמני כדי לשמור את הדואר שלך. נסה שוב מאוחר יותר."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
@@ -17300,25 +17307,25 @@ msgstr "Composer Window default width"
 msgid "Compose messages using an external editor"
 msgstr ""
 
-#: ../plugins/external-editor/external-editor.c:91
+#: ../plugins/external-editor/external-editor.c:112
 msgid "Command to be executed to launch the editor: "
 msgstr ""
 
-#: ../plugins/external-editor/external-editor.c:92
+#: ../plugins/external-editor/external-editor.c:113
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim\""
 msgstr ""
 
-#: ../plugins/face/face.c:58
+#: ../plugins/face/face.c:59
 msgid "Select a (48*48) png of size < 700bytes"
 msgstr ""
 
-#: ../plugins/face/face.c:68
+#: ../plugins/face/face.c:69
 msgid "PNG files"
 msgstr "קבצי PNG"
 
-#: ../plugins/face/face.c:125
+#: ../plugins/face/face.c:126
 msgid "_Face"
 msgstr "_פנים"
 
@@ -17358,27 +17365,28 @@ msgstr ""
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:493
+#: ../plugins/google-account-setup/google-source.c:439
 msgid "Please enter user name first."
 msgstr "נא להכניס את שם המשתמש קודם."
-#: ../plugins/google-account-setup/google-source.c:497
+
+#: ../plugins/google-account-setup/google-source.c:443
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 
-#: ../plugins/google-account-setup/google-source.c:597
+#: ../plugins/google-account-setup/google-source.c:543
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
 
-#: ../plugins/google-account-setup/google-source.c:747
+#: ../plugins/google-account-setup/google-source.c:693
 #, fuzzy
 msgid "Cal_endar:"
 msgstr "יו_מן:"
 
-#: ../plugins/google-account-setup/google-source.c:782
+#: ../plugins/google-account-setup/google-source.c:728
 #, fuzzy
 msgid "Retrieve _list"
 msgstr "מקבל `%s'"
@@ -17538,9 +17546,8 @@ msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
 msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
-#, fuzzy
 msgid "Account Already Exists"
-msgstr "עורך חשבונות"
+msgstr "החשבון כבר קיים"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
 msgid ""
@@ -17571,7 +17578,7 @@ msgstr "לא ניתן לפתוח קובץ"
 msgid "You have to specify a user name whom you want to add to the list"
 msgstr ""
 
-#: ../plugins/groupwise-features/process-meeting.c:49
+#: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept Tentatively"
 msgstr ""
 
@@ -17695,20 +17702,20 @@ msgstr ""
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 
-#: ../plugins/groupwise-features/share-folder-common.c:319
+#: ../plugins/groupwise-features/share-folder-common.c:321
 #: ../plugins/groupwise-features/share-folder.c:750
 msgid "Users"
 msgstr "משתמשים"
 
-#: ../plugins/groupwise-features/share-folder-common.c:320
+#: ../plugins/groupwise-features/share-folder-common.c:322
 msgid "Enter the users and set permissions"
 msgstr ""
 
-#: ../plugins/groupwise-features/share-folder-common.c:339
+#: ../plugins/groupwise-features/share-folder-common.c:341
 msgid "New _Shared Folder..."
 msgstr "תיקייה משותפת _חדשה..."
 
-#: ../plugins/groupwise-features/share-folder-common.c:447
+#: ../plugins/groupwise-features/share-folder-common.c:449
 msgid "Sharing"
 msgstr "משתף"
 
@@ -17863,7 +17870,7 @@ msgid "Select Calendar"
 msgstr "בחר לוח שנה"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:259
-#: ../shell/e-shell-importer.c:698
+#: ../shell/e-shell-importer.c:696
 msgid "_Import"
 msgstr "_יבא"
 
@@ -17902,7 +17909,8 @@ msgid "iCalendar format (.ics)"
 msgstr ""
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-msgid "Synchronize the selected task/memo/calendar/addressbook with Apple iPod"
+msgid ""
+"Synchronize the selected task/memo/calendar/address book with Apple iPod"
 msgstr ""
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
@@ -18687,14 +18695,18 @@ msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
 msgstr[0] ""
+"יש לך %d הודעות חדשות\n"
+"ב%s."
 msgstr[1] ""
+"יש לך %d הודעות חדשות\n"
+"ב%s."
 
 #: ../plugins/mail-notification/mail-notification.c:462
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "יש לך הודעה חדשה אחת."
+msgstr[1] "יש לך %d הודעות חדשות."
 
 #: ../plugins/mail-notification/mail-notification.c:479
 #: ../plugins/mail-notification/mail-notification.c:484
@@ -18719,9 +18731,8 @@ msgid "_Play sound when new messages arrive"
 msgstr "השמע _צליל כאשר מגיע דואר חדש"
 
 #: ../plugins/mail-notification/mail-notification.c:733
-#, fuzzy
 msgid "_Beep"
-msgstr "עזר_ה"
+msgstr "_צפצף"
 
 #: ../plugins/mail-notification/mail-notification.c:734
 msgid "Play _sound file"
@@ -18748,6 +18759,8 @@ msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
 msgstr ""
+"יוצר הודעת D-Bus או מודיעה למשתמש בעזרת הודעה באזור ההתרעות כאשר יש הודעה "
+"חדשה."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -18769,12 +18782,12 @@ msgstr "ה_פוך בחירה"
 msgid "Mail to meeting"
 msgstr "ישיבה"
 
-#: ../plugins/mail-to-task/mail-to-task.c:270
+#: ../plugins/mail-to-task/mail-to-task.c:287
 #, fuzzy, c-format
 msgid "Cannot open calendar. %s"
 msgstr "לא ניתן לפתוח קובץ"
 
-#: ../plugins/mail-to-task/mail-to-task.c:275
+#: ../plugins/mail-to-task/mail-to-task.c:292
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -18962,24 +18975,24 @@ msgstr "תיאור:"
 msgid "_Unsubscribe from List"
 msgstr "תיקייה _חדשה..."
 
-#: ../plugins/mark-all-read/mark-all-read.c:37
+#: ../plugins/mark-all-read/mark-all-read.c:39
 #, fuzzy
 msgid "Also mark messages in subfolders?"
 msgstr "מעביר הודעות אל התיקייה %s"
 
-#: ../plugins/mark-all-read/mark-all-read.c:39
+#: ../plugins/mark-all-read/mark-all-read.c:41
 #, fuzzy
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
 
-#: ../plugins/mark-all-read/mark-all-read.c:162
+#: ../plugins/mark-all-read/mark-all-read.c:164
 #, fuzzy
 msgid "Current Folder and _Subfolders"
 msgstr "צור תיקייה"
 
-#: ../plugins/mark-all-read/mark-all-read.c:174
+#: ../plugins/mark-all-read/mark-all-read.c:176
 msgid "Current _Folder Only"
 msgstr "תיקייה נוכחית בלבד"
 
@@ -19280,7 +19293,7 @@ msgstr "אפשרויות שליחה לא זמינות."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:865
 msgid "This will make SpamAssassin more reliable, but slower"
-msgstr ""
+msgstr "זה יהפוך את SpamAssassin לאמין יותר, אך הוא יעבוד לאט יותר"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:871
 msgid "I_nclude remote tests"
@@ -19364,14 +19377,12 @@ msgid "Contact List"
 msgstr "רשימת תפוצה"
 
 #: ../plugins/save-calendar/csv-format.c:368
-#, fuzzy
 msgid "Start"
-msgstr "מצב"
+msgstr "התחלה"
 
 #: ../plugins/save-calendar/csv-format.c:369
-#, fuzzy
 msgid "End"
-msgstr "מופעל"
+msgstr "סיום"
 
 #: ../plugins/save-calendar/csv-format.c:371
 msgid "percent Done"
@@ -19501,24 +19512,24 @@ msgid "Importing files"
 msgstr "מייבא קבצים"
 
 #: ../plugins/startup-wizard/startup-wizard.c:135
-#: ../shell/e-shell-importer.c:143
+#: ../shell/e-shell-importer.c:141
 msgid "Please select the information that you would like to import:"
 msgstr "אנא בחר את המידע שברצומך לייבא:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:150
-#: ../shell/e-shell-importer.c:396
+#: ../shell/e-shell-importer.c:394
 #, c-format
 msgid "From %s:"
 msgstr "מ %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:230
-#: ../shell/e-shell-importer.c:507
+#: ../shell/e-shell-importer.c:505
 #, c-format
 msgid "Importing data."
 msgstr "מייבא נתונים."
 
 #: ../plugins/startup-wizard/startup-wizard.c:232
-#: ../shell/e-shell-importer.c:521
+#: ../shell/e-shell-importer.c:519
 msgid "Please wait"
 msgstr "המתן בבקשה"
 
@@ -19537,7 +19548,7 @@ msgid "Thread messages by subject"
 msgstr "השאר הודעות על השרת"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
-#: ../plugins/subject-thread/subject-thread.c:54
+#: ../plugins/subject-thread/subject-thread.c:56
 #, fuzzy
 msgid "F_all back to threading messages by subject"
 msgstr "השאר הודעות על השרת"
@@ -19910,17 +19921,14 @@ msgstr ""
 #: ../shell/e-shell-importer.c:134
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
-"of file it is from the list.\n"
-"\n"
-"You can select \"Automatic\" if you do not know, and Evolution will attempt "
-"to work it out."
+"of file it is from the list."
 msgstr ""
 
-#: ../shell/e-shell-importer.c:140
+#: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
 msgstr ""
 
-#: ../shell/e-shell-importer.c:146
+#: ../shell/e-shell-importer.c:144
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -19928,23 +19936,23 @@ msgid ""
 "try again, please click the \"Back\" button.\n"
 msgstr ""
 
-#: ../shell/e-shell-importer.c:284
+#: ../shell/e-shell-importer.c:282
 msgid "F_ilename:"
 msgstr "ש_ם הקובץ:"
 
-#: ../shell/e-shell-importer.c:289
+#: ../shell/e-shell-importer.c:287
 msgid "Select a file"
 msgstr "בחר קובץ"
 
-#: ../shell/e-shell-importer.c:298
+#: ../shell/e-shell-importer.c:296
 msgid "File _type:"
 msgstr "_סוג הקובץ:"
 
-#: ../shell/e-shell-importer.c:334
+#: ../shell/e-shell-importer.c:332
 msgid "Import data and settings from _older programs"
 msgstr "יבא נתונים והגדרות מ תוכנות _ישנות יותר"
 
-#: ../shell/e-shell-importer.c:337
+#: ../shell/e-shell-importer.c:335
 msgid "Import a _single file"
 msgstr "יבא _קובץ יחיד"
 
@@ -19955,9 +19963,10 @@ msgstr "העדפות Evolution"
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
 #: ../shell/e-shell-view.c:47 ../shell/e-shell-window.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Evolution"
-msgstr "Evolution"
+msgstr ""
+"‏%s ‏- Evolution"
 
 #: ../shell/e-shell-window-commands.c:75
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -19983,6 +19992,7 @@ msgstr "אין אפשרות להריץ את כלי דיווח הבאגים."
 msgid "translator-credits"
 msgstr ""
 "יאיר הרשקוביץ <yairhr@gmail.com>\n"
+"מארק קרפיבנר <mark125@gmail.com>\n"
 "\n"
 "פרוייקט תרגום GNOME לעברית:\n"
 "‏http://gnome-il.berlios.de"
@@ -20008,22 +20018,24 @@ msgid "Work Offline"
 msgstr "עבודה במצב לא מקוון"
 
 #: ../shell/e-shell-window.c:381
-#, fuzzy
 msgid ""
 "Evolution is currently online.\n"
 "Click on this button to work offline."
-msgstr "Evolution נמצאת במצב מקוון. לחץ כאן כדי לעבור למצב לא מקוון."
+msgstr ""
+"Evolution נמצאת במצב מקוון.\n"
+"לחץ כאן כדי לעבור למצב לא מקוון."
 
 #: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "אבולוציה במהלך העברה למצב לא מקוון."
 
 #: ../shell/e-shell-window.c:395
-#, fuzzy
 msgid ""
 "Evolution is currently offline.\n"
 "Click on this button to work online."
-msgstr "Evolution נמצאת במצב לא מקוון. לחץ כאן כדי לעבור למצב מקוון."
+msgstr ""
+"Evolution נמצאת במצב לא מקוון.\n"
+"לחץ כאן כדי לעבור למצב מקוון."
 
 #: ../shell/e-shell-window.c:786
 #, c-format
@@ -20061,17 +20073,17 @@ msgstr "בסיס נתוני ההגדרות לא נמצא"
 msgid "New"
 msgstr "חדש "
 
-#: ../shell/test/evolution-test-component.c:107
+#: ../shell/test/evolution-test-component.c:105
 msgid "New Test"
 msgstr "מבחן חדש"
 
-#: ../shell/test/evolution-test-component.c:108
+#: ../shell/test/evolution-test-component.c:106
 #, fuzzy
 msgctxt "New"
 msgid "_Test"
 msgstr "_מבחן"
 
-#: ../shell/test/evolution-test-component.c:109
+#: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
 msgstr "צור פריט מבחן חדש"
 
@@ -20185,11 +20197,8 @@ msgstr ""
 "  Use %s --help for more information.\n"
 
 #: ../shell/shell.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to forget all remembered passwords?"
-msgstr ""
-"אתה בטוח שברצונך\n"
-"למחוק אנשי קשר אלו?"
+msgstr "לשכוח את כל הסיסמאות השמורות?"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Continue"
@@ -20197,7 +20206,7 @@ msgstr "המשך"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Delete old data from version {0}?"
-msgstr ""
+msgstr "מחיקת מידע ישן מגרסה {0}?"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution can not start."
@@ -20215,7 +20224,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:8
 msgid "Really delete old data?"
-msgstr ""
+msgstr "באמת למחוק מידע ישן?"
 
 #: ../shell/shell.error.xml.h:9
 msgid ""
@@ -20270,17 +20279,16 @@ msgid ""
 msgstr ""
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "_Forget"
-msgstr "_שער:"
+msgstr "_שכח"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Keep Data"
-msgstr ""
+msgstr "_השאר נתונים"
 
 #: ../shell/shell.error.xml.h:33
 msgid "_Remind Me Later"
-msgstr ""
+msgstr "_הזכר לי מאוחר יותר"
 
 #: ../shell/shell.error.xml.h:34
 msgid ""
@@ -20289,6 +20297,9 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{1}\n"
+"\n"
+"אם תבחר להמשיך, יתכן שלא תוכל לגשת לחלק מהמידע הישן שלך.\n"
 
 #: ../smime/gui/ca-trust-dialog.c:102
 #, c-format
@@ -20380,21 +20391,21 @@ msgid "Enter new password"
 msgstr "הכנס סיסמה חדשה"
 
 #. FIXME: add serial no, validity date, uses
-#: ../smime/gui/e-cert-selector.c:115
+#: ../smime/gui/e-cert-selector.c:117
 #, c-format
 msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
 
-#: ../smime/gui/e-cert-selector.c:116
+#: ../smime/gui/e-cert-selector.c:118
 #, c-format
 msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
 
-#: ../smime/gui/e-cert-selector.c:168
+#: ../smime/gui/e-cert-selector.c:170
 msgid "Select certificate"
 msgstr "cjr ,gusv"
 
@@ -20440,11 +20451,11 @@ msgstr "רשויות"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "גיבוי"
 
 #: ../smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
-msgstr ""
+msgstr "גיבוי הכל"
 
 #: ../smime/gui/smime-ui.glade.h:13
 msgid ""
@@ -20486,7 +20497,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:23
 msgid "Edit"
-msgstr ""
+msgstr "עריכה"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
@@ -20554,7 +20565,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
-msgstr ""
+msgstr "תצוגה"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
@@ -20580,7 +20591,7 @@ msgstr ""
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:672
 msgid "Certificate already exists"
-msgstr ""
+msgstr "התעודה כבר קיימת"
 
 #: ../smime/lib/e-cert.c:239 ../smime/lib/e-cert.c:249
 msgid "%d/%m/%Y"
@@ -20674,7 +20685,7 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:835
 msgid "SSL Certificate Authority"
-msgstr ""
+msgstr "רשות חתימת SSL"
 
 #: ../smime/lib/e-cert.c:839
 msgid "Email Certificate Authority"
@@ -20710,15 +20721,15 @@ msgstr ""
 
 #: ../smime/lib/e-cert.c:939
 msgid "Critical"
-msgstr ""
+msgstr "קריטי"
 
 #: ../smime/lib/e-cert.c:941 ../smime/lib/e-cert.c:944
 msgid "Not Critical"
-msgstr ""
+msgstr "לא קריטי"
 
 #: ../smime/lib/e-cert.c:965
 msgid "Extensions"
-msgstr ""
+msgstr "הרחבות"
 
 #: ../smime/lib/e-cert.c:1036
 #, c-format
@@ -20755,7 +20766,7 @@ msgstr ""
 
 #: ../smime/lib/e-pkcs12.c:365
 msgid "Imported Certificate"
-msgstr ""
+msgstr "תעודה מיובאת"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -20779,14 +20790,13 @@ msgid "Change the properties of the selected folder"
 msgstr "שנה את המאפיינים של התיקייה הנבחרת"
 
 #: ../ui/evolution-addressbook.xml.h:4
-#, fuzzy
 msgid "Co_py All Contacts To..."
-msgstr "העתק אנשי קשר ל"
+msgstr "הע_תק את כל אנשי הקשר ל..."
 
 #: ../ui/evolution-addressbook.xml.h:5
 #, fuzzy
 msgid "Contact _Preview"
-msgstr "_רשימת תפוצה"
+msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
@@ -20805,7 +20815,7 @@ msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr ""
+msgstr "העתק את הבחירה"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
@@ -20813,7 +20823,7 @@ msgstr "העתק לתיקייה..."
 
 #: ../ui/evolution-addressbook.xml.h:11
 #, fuzzy
-msgid "Create a new addressbook folder"
+msgid "Create a new address book folder"
 msgstr "הוסף משימה חדשה"
 
 #: ../ui/evolution-addressbook.xml.h:12 ../ui/evolution-memos.xml.h:4
@@ -20823,7 +20833,7 @@ msgstr "גזור"
 
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr ""
+msgstr "גזור את הבחירה"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
@@ -20878,9 +20888,8 @@ msgid "Print selected contacts"
 msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:29
-#, fuzzy
 msgid "Rename the selected folder"
-msgstr "החלף את שם התיקייה \"%s\" ל:"
+msgstr "שנה את שם התיקייה הנבחרת"
 
 #: ../ui/evolution-addressbook.xml.h:30
 #, fuzzy
@@ -20929,15 +20938,15 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
-msgstr ""
+msgstr "עצו_ר"
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
-msgstr ""
+msgstr "עצור"
 
 #: ../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
-msgstr ""
+msgstr "עצור טעינה"
 
 #: ../ui/evolution-addressbook.xml.h:44
 msgid "View the current contact"
@@ -21021,11 +21030,11 @@ msgstr "לך אל"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
-msgstr ""
+msgstr "לך אחורה"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr ""
+msgstr "לך קדימה"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -21200,9 +21209,8 @@ msgid "_Debug Logs"
 msgstr "עמוד"
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "התיקייה אינה מקוונת"
+msgstr "_הורדת הודעות לשימוש לא מקוון"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -21233,9 +21241,8 @@ msgid "_Vertical View"
 msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:1
-#, fuzzy
 msgid "Change the name of this folder"
-msgstr "שנה את המאפיינים של תיקייה זו"
+msgstr "שנה את שם תיקייה זאת"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
@@ -21274,20 +21281,20 @@ msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "הסתר הודעות נ_בחרות"
 
 #: ../ui/evolution-mail-list.xml.h:13
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "הסתר הודעות ש_נמחקו"
 
 #: ../ui/evolution-mail-list.xml.h:14
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "הסתר הודעות _שנקראו"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
+msgstr "הסתר את ההודעות שנמחקו במקום שיוצגו מסומנים עם קו חוצה"
 
 #: ../ui/evolution-mail-list.xml.h:16
 #, fuzzy
@@ -21295,9 +21302,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
 
 #: ../ui/evolution-mail-list.xml.h:17
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
+msgstr "סמן את כל ההודעות בתיקייה כהודעות שנקראו"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
@@ -21305,12 +21311,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "הסר לצמיתות את כל ההודעות שנמחקו מהתיקייה הזאת"
 
 #: ../ui/evolution-mail-list.xml.h:20
-#, fuzzy
 msgid "Permanently remove this folder"
-msgstr "שנה את המאפיינים של תיקייה זו"
+msgstr "הסר את תיקייה זאת לצמיתות"
 
 #: ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh..."
@@ -21336,7 +21341,7 @@ msgstr "בחר את _כל ההודעות"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
+msgstr "בחר את כל ההודעות שאינן מוצגות כעת בלבד"
 
 #: ../ui/evolution-mail-list.xml.h:27
 msgid "Select all messages in the same thread as the selected message"
@@ -21357,15 +21362,15 @@ msgstr "הצג הודעות _נסתרות"
 
 #: ../ui/evolution-mail-list.xml.h:31
 msgid "Show messages that have been temporarily hidden"
-msgstr ""
+msgstr "הצג הודעות שהוסתרו זמנית"
 
 #: ../ui/evolution-mail-list.xml.h:32
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "הסתר זמנית את כל ההודעות שכבר נקראו"
 
 #: ../ui/evolution-mail-list.xml.h:33
 msgid "Temporarily hide the selected messages"
-msgstr ""
+msgstr "הסתר זמנית את ההודעות הנבחרות"
 
 #: ../ui/evolution-mail-list.xml.h:34
 msgid "Threaded Message list"
@@ -21482,11 +21487,11 @@ msgstr "הקטן את גודל הטקסט"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
-msgstr ""
+msgstr "הצג את ההודעה החשובה הבאה"
 
 #: ../ui/evolution-mail-message.xml.h:27
 msgid "Display the next message"
-msgstr ""
+msgstr "הצג את ההודעה הבאה"
 
 #: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next thread"
@@ -21494,19 +21499,19 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
-msgstr ""
+msgstr "הצג את ההודעה שלא נקראה הבאה"
 
 #: ../ui/evolution-mail-message.xml.h:30
 msgid "Display the previous important message"
-msgstr ""
+msgstr "הצג את ההודעה החשובה הקודמת"
 
 #: ../ui/evolution-mail-message.xml.h:31
 msgid "Display the previous message"
-msgstr ""
+msgstr "הצג את ההודעה הקודמת"
 
 #: ../ui/evolution-mail-message.xml.h:32
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "הצג את ההודעה שלא נקראה הקודמת"
 
 #: ../ui/evolution-mail-message.xml.h:33
 #, fuzzy
@@ -21544,7 +21549,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "הכרח טעינה של תמונות בדואר HTML"
 
 #: ../ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
@@ -21623,9 +21628,8 @@ msgid "Open a window for composing a mail message"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Open the selected messages in a new window"
-msgstr "פתח את ההודעה שנבחרה בחלון חדש"
+msgstr "פתח את ההודעות הנבחרות בחלון חדש"
 
 #: ../ui/evolution-mail-message.xml.h:65
 #, fuzzy
@@ -21634,7 +21638,7 @@ msgstr "פתח את ההודעה שנבחרה בחלון חדש"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "ההודעה שלא נקראה הק_קודמת"
 
 #: ../ui/evolution-mail-message.xml.h:67
 msgid "Paste messages from the clipboard"
@@ -21742,11 +21746,11 @@ msgstr "ל_א חשוב"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Zoom _Out"
-msgstr ""
+msgstr "התר_חק"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "_Attached"
-msgstr ""
+msgstr "_מצורף"
 
 #: ../ui/evolution-mail-message.xml.h:101
 #, fuzzy
@@ -21830,9 +21834,8 @@ msgid "_Save Message..."
 msgstr "_שמור הודעה..."
 
 #: ../ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "_Undelete Message"
-msgstr "ההודעה ה_באה"
+msgstr "_בטל מחיקת הודעה"
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
@@ -21840,11 +21843,11 @@ msgstr "_לא נקרא"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
-msgstr ""
+msgstr "_מרחק תצוגה"
 
 #: ../ui/evolution-mail-message.xml.h:132
 msgid "_Zoom In"
-msgstr ""
+msgstr "_התקרב"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 msgid "Close"
@@ -21865,9 +21868,8 @@ msgid "Cut selected memo"
 msgstr "גזור את ההודעה המסומנת"
 
 #: ../ui/evolution-memos.xml.h:7
-#, fuzzy
 msgid "Delete selected memos"
-msgstr "מוחק את האובייקטים שנבחרו..."
+msgstr "מחק את התזכורות הנבחרות"
 
 #: ../ui/evolution-memos.xml.h:9
 msgid "Paste memo from the clipboard"
@@ -21878,9 +21880,8 @@ msgid "Previews the list of memos to be printed"
 msgstr ""
 
 #: ../ui/evolution-memos.xml.h:13
-#, fuzzy
 msgid "Print the list of memos"
-msgstr "הדפס הודעה"
+msgstr "הדפס את רשימת התזכורות"
 
 #: ../ui/evolution-memos.xml.h:14
 msgid "View the selected memo"
@@ -22359,13 +22360,13 @@ msgstr "סוג תצוגה:"
 msgid "Attachment Bar"
 msgstr ""
 
-#: ../widgets/misc/e-attachment.c:290 ../widgets/misc/e-attachment.c:305
-#: ../widgets/misc/e-attachment.c:590 ../widgets/misc/e-attachment.c:607
+#: ../widgets/misc/e-attachment.c:291 ../widgets/misc/e-attachment.c:306
+#: ../widgets/misc/e-attachment.c:591 ../widgets/misc/e-attachment.c:608
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "לא ניתן לצרף את הקובץ %s: %s"
 
-#: ../widgets/misc/e-attachment.c:298 ../widgets/misc/e-attachment.c:599
+#: ../widgets/misc/e-attachment.c:299 ../widgets/misc/e-attachment.c:600
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr ""
@@ -22489,7 +22490,7 @@ msgstr "סינית"
 
 #: ../widgets/misc/e-charset-picker.c:60
 msgid "Cyrillic"
-msgstr ""
+msgstr "קירילי"
 
 #: ../widgets/misc/e-charset-picker.c:61
 msgid "Greek"
@@ -23393,7 +23394,7 @@ msgstr "מודגש"
 
 #: ../widgets/text/e-text.c:3579 ../widgets/text/e-text.c:3580
 msgid "Strikeout"
-msgstr ""
+msgstr "קו חוצה"
 
 #: ../widgets/text/e-text.c:3586 ../widgets/text/e-text.c:3587
 msgid "Anchor"
@@ -23401,7 +23402,7 @@ msgstr "עוגן"
 
 #: ../widgets/text/e-text.c:3594 ../widgets/text/e-text.c:3595
 msgid "Justification"
-msgstr ""
+msgstr "יישור"
 
 #: ../widgets/text/e-text.c:3601 ../widgets/text/e-text.c:3602
 #, fuzzy
@@ -23486,6 +23487,12 @@ msgstr ""
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "Upcoming Appointments"
+#~ msgstr "פגישות קרובות"
+
+#~ msgid "button-user"
+#~ msgstr "button-user"
 
 #~ msgid "_Properties..."
 #~ msgstr "_מאפיינים..."
