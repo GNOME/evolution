@@ -1304,7 +1304,10 @@ mail_component_init (MailComponent *component)
 	mail_autoreceive_init();
 
 	priv->mail_sync_in_progress = 0;
-	priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
+	if (g_getenv("CAMEL_FLUSH_CHANGES"))
+		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
+	else 
+		priv->mail_sync_id = 0;
 }
 
 /* Public API.  */

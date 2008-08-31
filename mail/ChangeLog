@@ -1,3 +1,8 @@
+2008-08-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/mail-component.c: Disable flag upsync. I need to implement it
+	more intelligently.
+
 2008-08-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #509647
