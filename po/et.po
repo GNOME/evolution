@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-08-29 04:43+0000\n"
-"PO-Revision-Date: 2008-08-29 14:24+0300\n"
+"PO-Revision-Date: 2008-08-31 13:35+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,6 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:178
-#, fuzzy
 msgid "evolution address book"
 msgstr "evolutioni aadressiraamat"
 
@@ -3655,13 +3654,11 @@ msgstr ""
 "aadressiraamatu kataloogiserveri eelistustest ajapiirangut."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:173
-#, fuzzy
 msgid "The backend for this address book was unable to parse this query."
 msgstr ""
 "Selle aadressiraamatu taustaprogrammil pole võimalik seda päringut parsida."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:176
-#, fuzzy
 msgid "The backend for this address book refused to perform this query."
 msgstr "Selle aadressiraamatu taustaprogramm keeldus päringut parsimast."
 
@@ -4427,9 +4424,8 @@ msgid "The calendar is not marked for offline usage."
 msgstr "Kalender pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:54
-#, fuzzy
 msgid "The memo list is not marked for offline usage."
-msgstr "Märkmeloend pole märgitud võrguvabas olekus kasutamiseks"
+msgstr "Märkmeloend pole märgitud võrguvabas olekus kasutamiseks."
 
 #: ../calendar/calendar.error.xml.h:55
 msgid "The task list is not marked for offline usage."
@@ -12803,19 +12799,19 @@ msgstr "PGP-sõnumit pole võimalik analüüsida: Tundmatu viga"
 
 #: ../mail/em-mailer-prefs.c:93
 msgid "Every time"
-msgstr "Iga kord"
+msgstr "iga kord"
 
 #: ../mail/em-mailer-prefs.c:94
 msgid "Once per day"
-msgstr "Kord päevas"
+msgstr "kord päevas"
 
 #: ../mail/em-mailer-prefs.c:95
 msgid "Once per week"
-msgstr "Kord nädalas"
+msgstr "kord nädalas"
 
 #: ../mail/em-mailer-prefs.c:96
 msgid "Once per month"
-msgstr "Kord kuus"
+msgstr "kord kuus"
 
 #: ../mail/em-mailer-prefs.c:326
 msgid "Add Custom Junk Header"
@@ -14351,7 +14347,7 @@ msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not format messages when text si_ze exceeds"
-msgstr "Sõnumite tekstiosa ei vo_rmindata kui selle suurus ületab"
+msgstr "Sõnumite tekstiosa ei vo_rmindata, kui selle suurus ületab"
 
 #: ../mail/mail-config.glade.h:72
 #, fuzzy
@@ -14566,7 +14562,6 @@ msgid "S_OCKS Host:"
 msgstr "S_OCKS-i host:"
 
 #: ../mail/mail-config.glade.h:127
-#, fuzzy
 msgid "S_earch for sender photograph only in local address books"
 msgstr "Saatja f_otot otsitakse ainult kohalikust aadressiraamatust"
 
@@ -14733,9 +14728,8 @@ msgid "_Load images in messages from contacts"
 msgstr "Pildid _laaditakse kontaktide poolt saadetud sõnumites"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Lookup in local address book only"
-msgstr "Kohalike aadressiraamatute kaustade kuvamine"
+msgstr "_Otsitakse ainult kohalikest aadressiraamatutest"
 
 #: ../mail/mail-config.glade.h:172
 msgid "_Make this my default account"
@@ -14758,11 +14752,9 @@ msgid "_Path:"
 msgstr "_Rada:"
 
 #: ../mail/mail-config.glade.h:178
-#, fuzzy
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
-"HTML-sõnumi saatmisel seda mittesoovivatele kontakti(de)le _küsitakse "
-"kinnitust"
+"HTML-sõnumi saatmisel seda mittesoovivatele kontaktidele _küsitakse kinnitust"
 
 #: ../mail/mail-config.glade.h:179
 msgid "_Prompt when sending messages with an empty subject line"
@@ -14807,7 +14799,7 @@ msgstr "Kasuta süsteemi _vaikeväärtuseid"
 
 #: ../mail/mail-config.glade.h:191
 msgid "_Use the same fonts as other applications"
-msgstr "_Kasutatakse teiste rakendustega sama kirjatüüpi"
+msgstr "_Kirjatüüp on sama, mis teistes rakendustes"
 
 #: ../mail/mail-config.glade.h:192
 msgid "addresses"
@@ -16242,7 +16234,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Insufficient Permissions"
-msgstr ""
+msgstr "Puuduvad õigused"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Invalid Evolution backup file"
@@ -17560,19 +17552,23 @@ msgstr "Ajutist faili pole võimalik luua"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:2
 msgid "Editor not launchable"
-msgstr ""
+msgstr "Redaktor pole käivitatav"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:3
 msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
+"Evolutionil pole võimalik sõnumi salvestamiseks ajutist faili luua. Proovi "
+"hiljem uuesti."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
 msgstr ""
+"Sinu pluginaeelistustes määratud redaktorit pole võimalik käivitada. Proovi "
+"mõnda muud redaktorit."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in _External Editor"
@@ -17651,9 +17647,10 @@ msgid "Please enter user name first."
 msgstr "Palun sisesta esmalt kasutajanimi."
 
 #: ../plugins/google-account-setup/google-source.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr "Lisab kausta sinu tellitud kaustade nimekirja"
+msgstr ""
+"Sisesta kasutajale %s parool, millega ta tellitud kalendritele ligi pääseb."
 
 #: ../plugins/google-account-setup/google-source.c:543
 #, c-format
