@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-30 18:13+0200\n"
-"PO-Revision-Date: 2008-08-30 18:18+0200\n"
+"POT-Creation-Date: 2008-08-31 16:53+0200\n"
+"PO-Revision-Date: 2008-08-31 16:54+0200\n"
 "Last-Translator: Ignacio Casal Quinteiro <nacho.resa@gmail.com>\n"
 "Language-Team: Galego <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -756,7 +756,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/calendar-setup.c:366
 #: ../calendar/gui/dialogs/calendar-setup.c:377
 #: ../calendar/gui/dialogs/calendar-setup.c:388
-#: ../mail/em-folder-properties.c:280 ../mail/mail-config.glade.h:89
+#: ../mail/em-folder-properties.c:282 ../mail/mail-config.glade.h:89
 #: ../plugins/itip-formatter/itip-formatter.c:2367
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -4760,7 +4760,7 @@ msgstr "Posúe %d alarmas"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1683
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1711
-#: ../mail/mail-component.c:1594
+#: ../mail/mail-component.c:1597
 msgid "Warning"
 msgstr "Aviso"
 
@@ -12125,12 +12125,18 @@ msgid_plural "Total messages:"
 msgstr[0] "Mensaxes totais:"
 msgstr[1] "Mensaxes totais:"
 
-#: ../mail/em-folder-properties.c:193 ../mail/em-folder-properties.c:195
+#: ../mail/em-folder-properties.c:195
+#, c-format
+msgid "Quota usage (%s):"
+msgstr "Uso da cota (%s):"
+
+#: ../mail/em-folder-properties.c:197
+#, c-format
 msgid "Quota usage"
 msgstr "Uso da cota"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:355 ../mail/em-folder-tree-model.c:507
+#: ../mail/em-folder-properties.c:357 ../mail/em-folder-tree-model.c:507
 #: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:160
 #: ../mail/mail-component.c:585
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
@@ -12138,7 +12144,7 @@ msgstr "Uso da cota"
 msgid "Inbox"
 msgstr "Caixa de entrada"
 
-#: ../mail/em-folder-properties.c:386
+#: ../mail/em-folder-properties.c:388
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Propiedades do cartafol"
@@ -14133,58 +14139,58 @@ msgstr "Crear un cartafol de correo novo"
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Fallou ao actualizar a configuración do correo ou os cartafoles."
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1596
 msgid "Error"
 msgstr "Erro"
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1596
 msgid "Errors"
 msgstr "Erros"
 
-#: ../mail/mail-component.c:1594
+#: ../mail/mail-component.c:1597
 msgid "Warnings and Errors"
 msgstr "Avisos e erros"
 
-#: ../mail/mail-component.c:1595
+#: ../mail/mail-component.c:1598
 msgid "Debug"
 msgstr "Depurar"
 
-#: ../mail/mail-component.c:1595
+#: ../mail/mail-component.c:1598
 msgid "Error, Warnings and Debug messages"
 msgstr "Erro, avisos e mensaxes de depuración"
 
-#: ../mail/mail-component.c:1722
+#: ../mail/mail-component.c:1725
 msgid "Debug Logs"
 msgstr "Rexistros de depuración"
 
-#: ../mail/mail-component.c:1736
+#: ../mail/mail-component.c:1739
 msgid "Show _errors in the status bar for"
 msgstr "Mostrar _erros na barra de estado"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1752
+#: ../mail/mail-component.c:1755
 msgid "second(s)."
 msgstr "segundo(s)."
 
-#: ../mail/mail-component.c:1758
+#: ../mail/mail-component.c:1761
 msgid "Log Messages:"
 msgstr "Mensaxes de rexistro:"
 
-#: ../mail/mail-component.c:1799
+#: ../mail/mail-component.c:1802
 msgid "Log Level"
 msgstr "Nivel de rexistro"
 
-#: ../mail/mail-component.c:1808 ../widgets/misc/e-dateedit.c:395
+#: ../mail/mail-component.c:1811 ../widgets/misc/e-dateedit.c:395
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1818 ../mail/message-list.c:2454
+#: ../mail/mail-component.c:1821 ../mail/message-list.c:2454
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensaxes"
 
-#: ../mail/mail-component.c:1827 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../mail/mail-component.c:1830 ../ui/evolution-mail-messagedisplay.xml.h:2
 #: ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "Pechar esta ventá"
