@@ -51,12 +51,10 @@ menu_tool_button_get_first_menu_item (GtkMenuToolButton *menu_tool_button)
 
 	/* XXX GTK+ 2.12 provides no accessor function. */
 	children = GTK_MENU_SHELL (menu)->children;
-	if (children == NULL || children->next == NULL)
+	if (children == NULL)
 		return NULL;
 
-	/* Return the /second/ menu item, which turns out to be the first
-	 * visible item.  The first menu item is some kind of placeholder? */
-	return GTK_MENU_ITEM (children->next->data);
+	return GTK_MENU_ITEM (children->data);
 }
 
 static void

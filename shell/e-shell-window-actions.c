@@ -1256,12 +1256,12 @@ shell_window_extract_actions (EShellWindow *shell_window,
 	 */
 	for (iter = *source_list; iter != NULL; iter = iter->next) {
 		GtkAction *action = iter->data;
-		const gchar *view_name;
+		const gchar *module_name;
 
-		view_name = g_object_get_data (
-			G_OBJECT (action), "view-name");
+		module_name = g_object_get_data (
+			G_OBJECT (action), "module-name");
 
-		if (view_name != current_view)
+		if (strcmp (module_name, current_view) != 0)
 			continue;
 
 		match_list = g_list_append (match_list, iter);
@@ -1372,9 +1372,11 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 	separator = gtk_separator_menu_item_new ();
 	new_item_actions = g_list_prepend (new_item_actions, separator);
+	gtk_widget_show (GTK_WIDGET (separator));
 
 	separator = gtk_separator_menu_item_new ();
 	new_source_actions = g_list_prepend (new_source_actions, separator);
+	gtk_widget_show (GTK_WIDGET (separator));
 
 	/* Merge everything into one list, reflecting the menu layout. */
 
