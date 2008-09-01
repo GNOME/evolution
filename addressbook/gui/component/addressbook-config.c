@@ -736,6 +736,7 @@ eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	tmp = e_source_get_property (sdialog->source, "ssl");
 	sdialog->ssl = tmp ? ldap_parse_ssl (tmp) : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
 	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->ssl_optionmenu), sdialog->ssl);
+	gtk_widget_set_sensitive (sdialog->ssl_optionmenu, strcmp (port, LDAPS_PORT_STRING) != 0);
 	g_signal_connect(sdialog->ssl_optionmenu, "changed", G_CALLBACK(ssl_optionmenu_changed_cb), sdialog);
 
 	g_object_unref(gui);
