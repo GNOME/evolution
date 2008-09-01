@@ -156,6 +156,8 @@ struct _EAttachmentBar *
 		e_msg_composer_get_attachment_bar
 						(EMsgComposer *composer);
 
+gboolean	e_msg_composer_is_exiting (EMsgComposer *composer);
+
 G_END_DECLS
 
 #endif /* E_MSG_COMPOSER_H */

@@ -127,9 +127,8 @@ action_close_cb (GtkAction *action,
 	editor = GTKHTML_EDITOR (composer);
 	widget = GTK_WIDGET (composer);
 
-	if (!gtkhtml_editor_get_changed (editor) &&
-		e_composer_autosave_get_saved (composer)) {
-
+	if (!gtkhtml_editor_get_changed (editor) ||
+	    e_msg_composer_is_exiting (composer)) {
 		gtk_widget_destroy (widget);
 		return;
 	}

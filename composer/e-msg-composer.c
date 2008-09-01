@@ -4597,6 +4597,14 @@ e_msg_composer_set_enable_autosave (EMsgComposer *composer,
 }
 
 gboolean
+e_msg_composer_is_exiting (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+
+	return composer->priv->application_exiting;
+}
+
+gboolean
 e_msg_composer_request_close_all (void)
 {
 	GSList *iter, *next;
