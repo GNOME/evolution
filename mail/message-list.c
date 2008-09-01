@@ -4217,14 +4217,16 @@ regen_list_done (struct _regen_list_msg *m)
 		}
 	}
 
-	if (message_list_length (m->ml) <= 0) {
-		/* space is used to indicate no search too */
-		if (m->ml->search && strcmp (m->ml->search, " ") != 0)
-			e_tree_set_info_message (m->ml->tree, _("No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."));
-		else
-			e_tree_set_info_message (m->ml->tree, _("There are no messages in this folder."));
-	} else
-		e_tree_set_info_message (m->ml->tree, NULL);
+	if (GTK_WIDGET_VISIBLE (GTK_WIDGET (m->ml))) {
+		if (message_list_length (m->ml) <= 0) {
+			/* space is used to indicate no search too */
+			if (m->ml->search && strcmp (m->ml->search, " ") != 0)
+				e_tree_set_info_message (m->ml->tree, _("No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."));
+			else
+				e_tree_set_info_message (m->ml->tree, _("There are no messages in this folder."));
+		} else
+			e_tree_set_info_message (m->ml->tree, NULL);
+	}
 
 	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 	m->ml->priv->any_row_changed = FALSE;
@@ -4369,12 +4371,14 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	}
 
 	if (message_list_length (ml) <= 0) {
-		/* there is some info why the message list is empty, let it be something useful */
-		char *txt = g_strconcat (_("Generating message list"), "..." , NULL);
+		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (ml))) {
+			/* there is some info why the message list is empty, let it be something useful */
+			char *txt = g_strconcat (_("Generating message list"), "..." , NULL);
 
-		e_tree_set_info_message (m->ml->tree, txt);
+			e_tree_set_info_message (m->ml->tree, txt);
 
-		g_free (txt);
+			g_free (txt);
+		}
 	} else if (ml->priv->any_row_changed && m->dotree && !ml->just_set_folder && (!ml->search || g_str_equal (ml->search, " "))) {
 		/* there has been some change on any row, if it was an expand state change,
 		   then let it save; if not, then nothing happen. */

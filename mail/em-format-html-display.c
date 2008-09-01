@@ -2446,7 +2446,12 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 {
 	char *classid, *html;
 	struct _attach_puri *info;
-	CamelStream *stream = ((CamelStreamFilter *) fstream)->source;
+	CamelStream *stream;
+
+	if (CAMEL_IS_STREAM_FILTER (fstream) && ((CamelStreamFilter *) fstream)->source)
+		stream = ((CamelStreamFilter *) fstream)->source;
+	else
+		stream = fstream;
 
 	classid = g_strdup_printf("optional%s", emf->part_id->str);
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);

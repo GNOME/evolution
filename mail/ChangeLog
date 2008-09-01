@@ -1,5 +1,14 @@
 2008-09-01  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #543135
+
+	* em-format-html-display.c: (efhd_format_optional):
+	Write error message to the right stream.
+	* message-list.c: (mail_regen_list), (regen_list_done): Do not try
+	to set information message to the message list when it's not visible.
+
+2008-09-01  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #534039
 
 	* mail-folder-cache.c: (real_flush_updates): Make sure search folder's
