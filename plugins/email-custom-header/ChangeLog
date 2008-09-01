@@ -1,3 +1,8 @@
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* email-custom-header.c:
+	Don't mix declarations and code.
+
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/contact-editor/e-contact-editor.c:

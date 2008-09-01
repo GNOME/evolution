@@ -1,3 +1,8 @@
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Fix compiler warnings in some of the test programs.
+
 2008-08-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #546926

@@ -822,6 +822,8 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 		CamelStream *stream;		
 		CamelMimePart *part;
 		int count1 = 0, string_changed = 0;
+		const char *cur;
+		int i;
 
 		char *str;
 		gint count = 2;
@@ -853,14 +855,14 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 		str = g_strndup ((const gchar*)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 		camel_object_unref (mem);
 
-		const char *cur = str;
-		int i;
+		cur = str;
 		for (i = 0; i < strlen(str); i++) {
 			if (!g_ascii_strncasecmp (cur, "$", 1)) {
 				const char *end = cur, *check_env;
 				char *out;
 				GConfClient *gconf;
 				GSList *clue_list = NULL, *list;
+				char **temp_str;
 
 				gconf = gconf_client_get_default ();
 
@@ -870,7 +872,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 				out = g_strndup ((const gchar *) cur, end - cur);
 				check_env = out;
 
-				char **temp_str = g_strsplit (str, out, 2);
+				temp_str = g_strsplit (str, out, 2);
 
 				/* Get the list from gconf */
 				clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );

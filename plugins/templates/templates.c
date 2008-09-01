@@ -586,6 +586,7 @@ static GSList
 		char *path;
 		EPopupItem *item;
 		CamelMimeMessage *message;
+		UserData *user_data;
 		const char *uid;
 
 		uid = g_strdup (g_ptr_array_index (uids, i));
@@ -615,7 +616,6 @@ static GSList
 		item->visible = EM_POPUP_SELECT_MANY | EM_POPUP_SELECT_ONE;
 
 		/* Make some info available to the callback */
-		UserData *user_data;
 		user_data = g_slice_new(UserData);
 		user_data->msg = message;
 		user_data->t = t;

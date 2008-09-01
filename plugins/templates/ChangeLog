@@ -1,3 +1,8 @@
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* templates.c:
+	Don't mix declarations and code.
+
 2008-08-12  Bharath Acharya  <abharath@novell.com>
 
 	* Makefile.am: Have a check for OS_WIN32 and handle the schema data 
