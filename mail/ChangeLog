@@ -1,3 +1,11 @@
+2008-09-01  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #549661
+
+	* em-folder-tree.c: (emft_drop_async__exec): Use
+	em_utils_selection_get_urilist() for DND_DROP_TYPE_TEXT_URI_LIST (and
+	not em_utils_selection_get_mailbox()).
+
 2008-08-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix bug #544430

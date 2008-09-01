@@ -937,7 +937,7 @@ emft_drop_async__exec (struct _DragDataReceivedAsync *m)
 			break;
 		case DND_DROP_TYPE_TEXT_URI_LIST:
 			/* import an mbox, maildir, or mh folder? */
-			em_utils_selection_get_mailbox(m->selection, folder);
+			em_utils_selection_get_urilist(m->selection, folder);
 			break;
 		default:
 			abort();
