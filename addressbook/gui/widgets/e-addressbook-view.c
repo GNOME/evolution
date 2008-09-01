@@ -1731,7 +1731,7 @@ static void delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer clos
 			break;
 	  	default :
 			/* Unknown error */
-			e_error_run (NULL, "addressbook:generic-error", _("Failed to delete contact"), _("Other error"), NULL);
+			eab_error_dialog (_("Failed to delete contact"), status);
 			break;
 	}
 }

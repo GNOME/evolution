@@ -82,7 +82,12 @@ static const char *status_to_string[] = {
 void
 eab_error_dialog (const char *msg, EBookStatus status)
 {
-	const char *status_str = status_to_string [status];
+	const char *status_str;
+
+	if (status < 0 || status >= G_N_ELEMENTS (status_to_string))
+		status_str = "Other error";
+	else
+		status_str = status_to_string [status];
 
 	if (status_str)
 		e_error_run (NULL, "addressbook:generic-error", msg, _(status_str), NULL);
