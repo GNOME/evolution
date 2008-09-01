@@ -206,6 +206,19 @@ real_flush_updates(void *o, void *event_data, void *data)
 			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
 		}
 
+		if (CAMEL_IS_VEE_STORE (up->store)) {
+			/* Normally the vfolder store takes care of the folder_opened event itself,
+			   but we add folder to the noting system later, thus we do not know about
+			   search folders to update them in a tree, thus ensure their changes will
+			   be tracked correctly. */
+			CamelFolder *folder = camel_store_get_folder (up->store, up->full_name, 0, NULL);
+
+			if (folder) {
+				mail_note_folder (folder);
+				camel_object_unref (folder);
+			}
+		}
+
 		free_update(up);
 
 		LOCK(info_lock);

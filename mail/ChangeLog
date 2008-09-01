@@ -1,3 +1,11 @@
+2008-09-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #534039
+
+	* mail-folder-cache.c: (real_flush_updates): Make sure search folder's
+	unread count will be tracked properly in a tree even before the folder
+	is opened in the UI. (The previous patch for this bug made this issue.)
+
 2008-09-01  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #549661
@@ -117,10 +125,10 @@ License Changes
 
 2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
 
-        ** Fix for bug #547805
+	** Fix for bug #547805
 
 	* em-popup.c: (emp_standard_menu_factory): 
-          don't filter applications using g_app_info_should_show()
+	don't filter applications using g_app_info_should_show()
 
 2008-08-13  Moritz Mertinkat  <moritz@mertinkat.net>
 
