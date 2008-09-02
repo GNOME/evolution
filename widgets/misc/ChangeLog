@@ -1,3 +1,10 @@
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #550334
+
+	* e-activity-handler.c:
+	Use standard icon names for warning and information.
+
 2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-info-label.c (e_info_label_set_info):

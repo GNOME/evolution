@@ -63,7 +63,7 @@ struct _EActivityHandlerPrivate {
 };
 
 /* In the status bar, we show only errors and info. Errors are pictured as warnings. */
-const char *icon_data [] = {"stock_dialog-warning", "stock_dialog-info"};
+const char *icon_data [] = {"dialog-warning", "dialog-information"};
 
 G_DEFINE_TYPE (EActivityHandler, e_activity_handler, G_TYPE_OBJECT)
 
