@@ -1,3 +1,22 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* filter-code.c:
+	* filter-code.h:
+	* filter-colour.c:
+	* filter-colour.h:
+	* filter-datespec.h:
+	* filter-element.h:
+	* filter-file.c:
+	* filter-input.c:
+	* filter-input.h:
+	* filter-option.h:
+	* filter-part.h:
+	* filter-rule.h:
+	* rule-context.c:
+	* rule-editor.h:
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

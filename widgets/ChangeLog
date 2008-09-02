@@ -1,3 +1,21 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-timezone-dialog/e-timezone-dialog.c:
+	* e-timezone-dialog/e-timezone-dialog.h:
+	* menus/gal-define-views-dialog.h:
+	* menus/gal-define-views-model.c:
+	* menus/gal-view-collection.c:
+	* menus/gal-view-collection.h:
+	* menus/gal-view-etable.c:
+	* menus/gal-view-factory.c:
+	* menus/gal-view-menus.c:
+	* menus/gal-view-new-dialog.h:
+	* text/e-text-model-repos.h:
+	* text/e-text-model.c:
+	* text/e-text-model.h:
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -1,3 +1,48 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-activity-handler.c:
+	* e-activity-handler.h:
+	* e-attachment-bar.h:
+	* e-attachment.h:
+	* e-calendar.h:
+	* e-canvas-background.h:
+	* e-canvas-utils.h:
+	* e-canvas-vbox.c:
+	* e-canvas-vbox.h:
+	* e-canvas.h:
+	* e-cell-date-edit.c:
+	* e-cell-renderer-combo.c:
+	* e-colors.h:
+	* e-combo-button.h:
+	* e-combo-cell-editable.c:
+	* e-config-page.h:
+	* e-cursors.c:
+	* e-dropdown-button.h:
+	* e-expander.h:
+	* e-filter-bar.c:
+	* e-filter-bar.h:
+	* e-gui-utils.c:
+	* e-gui-utils.h:
+	* e-image-chooser.c:
+	* e-info-label.c:
+	* e-map.c:
+	* e-pilot-settings.c:
+	* e-popup-menu.c:
+	* e-popup-menu.h:
+	* e-printable.c:
+	* e-reflow.h:
+	* e-selection-model.c:
+	* e-send-options.c:
+	* e-task-bar.c:
+	* e-task-bar.h:
+	* e-task-widget.h:
+	* e-unicode.c:
+	* test-calendar.c:
+	* test-dateedit.c:
+	* test-dropdown-button.c:
+
 2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #550334

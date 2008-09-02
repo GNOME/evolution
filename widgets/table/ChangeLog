@@ -1,3 +1,64 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-cell-combo.c:
+	* e-cell-date.c:
+	* e-cell-hbox.c:
+	* e-cell-number.c:
+	* e-cell-pixbuf.h:
+	* e-cell-popup.c:
+	* e-cell-size.h:
+	* e-cell-text.h:
+	* e-cell-toggle.c:
+	* e-cell-vbox.c:
+	* e-cell.h:
+	* e-table-click-to-add.c:
+	* e-table-click-to-add.h:
+	* e-table-column-specification.c:
+	* e-table-column-specification.h:
+	* e-table-column.c:
+	* e-table-config-field.c:
+	* e-table-config-field.h:
+	* e-table-config.c:
+	* e-table-config.h:
+	* e-table-example-1.c:
+	* e-table-example-2.c:
+	* e-table-extras.c:
+	* e-table-field-chooser-dialog.h:
+	* e-table-group.c:
+	* e-table-header-item.h:
+	* e-table-header.c:
+	* e-table-memory-callbacks.h:
+	* e-table-memory-store.c:
+	* e-table-memory.c:
+	* e-table-memory.h:
+	* e-table-one.h:
+	* e-table-search.c:
+	* e-table-selection-model.c:
+	* e-table-size-test.c:
+	* e-table-sort-info.c:
+	* e-table-sort-info.h:
+	* e-table-sorted-variable.c:
+	* e-table-sorter.c:
+	* e-table-sorter.h:
+	* e-table-sorting-utils.h:
+	* e-table-specification.c:
+	* e-table-state.c:
+	* e-table-state.h:
+	* e-table-subset-variable.c:
+	* e-table-subset-variable.h:
+	* e-table-tooltip.h:
+	* e-table.h:
+	* e-tree-memory-callbacks.h:
+	* e-tree-memory.c:
+	* e-tree-selection-model.h:
+	* e-tree-sorted-variable.c:
+	* e-tree-sorted.c:
+	* e-tree-table-adapter.c:
+	* e-tree-table-adapter.h:
+	* e-tree.h:
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

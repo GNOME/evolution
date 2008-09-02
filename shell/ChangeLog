@@ -1,3 +1,34 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-component-registry.h:
+	* e-component-view.c:
+	* e-corba-config-page.c:
+	* e-corba-config-page.h:
+	* e-shell-constants.h:
+	* e-shell-importer.h:
+	* e-shell.h:
+	* e-user-creatable-items-handler.h:
+	* es-event.c:
+	* es-menu.c:
+	* evolution-component.c:
+	* evolution-config-control.c:
+	* evolution-config-control.h:
+	* evolution-shell-component-utils.c:
+	* evolution-shell-component-utils.h:
+	* importer/evolution-importer-client.c:
+	* importer/evolution-importer-client.h:
+	* importer/evolution-importer-listener.c:
+	* importer/evolution-importer-listener.h:
+	* importer/evolution-importer.c:
+	* importer/evolution-importer.h:
+	* importer/evolution-intelligent-importer.c:
+	* importer/evolution-intelligent-importer.h:
+	* importer/intelligent.c:
+	* importer/intelligent.h:
+	* test/evolution-test-component.h:
+
 2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #549554 (patch from Paul Bolle)

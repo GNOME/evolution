@@ -1,3 +1,83 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* conduits/common/libecalendar-common-conduit.c:
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	* gui/alarm-notify/alarm-notify-dialog.h:
+	* gui/alarm-notify/alarm-notify.c:
+	* gui/calendar-component.h:
+	* gui/calendar-view-factory.c:
+	* gui/calendar-view.c:
+	* gui/comp-editor-factory.h:
+	* gui/control-factory.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/alarm-list-dialog.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/cancel-comp.c:
+	* gui/dialogs/changed-comp.h:
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor-util.c:
+	* gui/dialogs/comp-editor-util.h:
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/e-delegate-dialog.c:
+	* gui/dialogs/e-send-options-utils.h:
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/event-editor.h:
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/memo-editor.c:
+	* gui/dialogs/recur-comp.h:
+	* gui/dialogs/schedule-page.c:
+	* gui/dialogs/schedule-page.h:
+	* gui/dialogs/send-comp.c:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/task-editor.c:
+	* gui/dialogs/task-editor.h:
+	* gui/e-cal-component-memo-preview.h:
+	* gui/e-cal-config.c:
+	* gui/e-cal-event.c:
+	* gui/e-cal-list-view-config.c:
+	* gui/e-cal-list-view.c:
+	* gui/e-cal-menu.c:
+	* gui/e-cal-model-calendar.c:
+	* gui/e-cal-model-memos.c:
+	* gui/e-cal-model.c:
+	* gui/e-calendar-table-config.c:
+	* gui/e-calendar-table.h:
+	* gui/e-calendar-view.h:
+	* gui/e-cell-date-edit-config.c:
+	* gui/e-cell-date-edit-text.c:
+	* gui/e-cell-date-edit-text.h:
+	* gui/e-comp-editor-registry.c:
+	* gui/e-comp-editor-registry.h:
+	* gui/e-date-edit-config.c:
+	* gui/e-date-time-list.c:
+	* gui/e-day-view-config.c:
+	* gui/e-day-view-main-item.h:
+	* gui/e-meeting-attendee.c:
+	* gui/e-meeting-time-sel-item.c:
+	* gui/e-memo-table-config.c:
+	* gui/e-memo-table-config.h:
+	* gui/e-memos.c:
+	* gui/e-memos.h:
+	* gui/e-mini-calendar-config.c:
+	* gui/e-mini-calendar-config.h:
+	* gui/e-select-names-editable.c:
+	* gui/e-select-names-renderer.c:
+	* gui/e-tasks.c:
+	* gui/e-tasks.h:
+	* gui/e-week-view-config.c:
+	* gui/e-week-view-config.h:
+	* gui/e-week-view-layout.c:
+	* gui/e-week-view-main-item.c:
+	* gui/e-week-view-titles-item.c:
+	* gui/goto.h:
+	* gui/itip-bonobo-control.c:
+	* gui/memos-component.h:
+	* gui/tasks-component.h:
+	* gui/weekday-picker.c:
+	* importers/main.c:
+
 2008-08-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Related to bug #547822

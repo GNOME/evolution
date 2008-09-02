@@ -1,3 +1,9 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* profiler.c:
+
 2007-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* profiler.c: Add missing includes.

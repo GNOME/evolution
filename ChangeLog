@@ -1,3 +1,9 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* tools/killev.c:
+
 2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

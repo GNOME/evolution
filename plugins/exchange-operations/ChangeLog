@@ -1,3 +1,17 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* exchange-config-listener.c:
+	* exchange-delegates.c:
+	* exchange-folder-size-display.c:
+	* exchange-folder.c:
+	* exchange-mail-send-options.c:
+	* exchange-permissions-dialog.c:
+	* exchange-permissions-dialog.h:
+	* exchange-send-options.c:
+	* exchange-user-dialog.h:
+
 2008-08-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #458512

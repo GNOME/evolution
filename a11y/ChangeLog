@@ -1,3 +1,54 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* addressbook/ea-addressbook-view.h:
+	* addressbook/ea-addressbook.c:
+	* addressbook/ea-addressbook.h:
+	* addressbook/ea-minicard-view.h:
+	* addressbook/ea-minicard.c:
+	* addressbook/ea-minicard.h:
+	* calendar/ea-cal-view-event.c:
+	* calendar/ea-cal-view-event.h:
+	* calendar/ea-cal-view.c:
+	* calendar/ea-calendar.c:
+	* calendar/ea-day-view.h:
+	* calendar/ea-gnome-calendar.h:
+	* calendar/ea-week-view-cell.h:
+	* calendar/ea-week-view-main-item.c:
+	* calendar/ea-week-view.c:
+	* e-table/gal-a11y-e-cell-popup.c:
+	* e-table/gal-a11y-e-cell-registry.c:
+	* e-table/gal-a11y-e-cell-registry.h:
+	* e-table/gal-a11y-e-cell-text.h:
+	* e-table/gal-a11y-e-cell-toggle.c:
+	* e-table/gal-a11y-e-cell-toggle.h:
+	* e-table/gal-a11y-e-cell-tree.h:
+	* e-table/gal-a11y-e-cell.c:
+	* e-table/gal-a11y-e-cell.h:
+	* e-table/gal-a11y-e-table-click-to-add-factory.c:
+	* e-table/gal-a11y-e-table-click-to-add-factory.h:
+	* e-table/gal-a11y-e-table-click-to-add.c:
+	* e-table/gal-a11y-e-table-click-to-add.h:
+	* e-table/gal-a11y-e-table-item-factory.c:
+	* e-table/gal-a11y-e-table-item-factory.h:
+	* e-table/gal-a11y-e-table-item.c:
+	* e-table/gal-a11y-e-table.c:
+	* e-table/gal-a11y-e-tree-factory.c:
+	* e-table/gal-a11y-e-tree-factory.h:
+	* e-table/gal-a11y-e-tree.c:
+	* e-table/gal-a11y-e-tree.h:
+	* e-text/gal-a11y-e-text-factory.c:
+	* e-text/gal-a11y-e-text-factory.h:
+	* e-text/gal-a11y-e-text.c:
+	* ea-cell-table.c:
+	* ea-cell-table.h:
+	* gal-a11y-factory.h:
+	* widgets/ea-calendar-cell.h:
+	* widgets/ea-calendar-item.c:
+	* widgets/ea-calendar-item.h:
+	* widgets/ea-widgets.c:
+
 2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #534762

@@ -1,3 +1,53 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-searching-tokenizer.c:
+	* em-account-editor.h:
+	* em-composer-prefs.h:
+	* em-config.c:
+	* em-config.h:
+	* em-filter-context.c:
+	* em-filter-editor.c:
+	* em-filter-rule.c:
+	* em-filter-source-element.c:
+	* em-filter-source-element.h:
+	* em-folder-tree-model.h:
+	* em-folder-utils.c:
+	* em-folder-utils.h:
+	* em-folder-view.h:
+	* em-format-hook.c:
+	* em-format-html-print.h:
+	* em-format-quote.h:
+	* em-icon-stream.h:
+	* em-inline-filter.c:
+	* em-junk-hook.c:
+	* em-menu.c:
+	* em-migrate.h:
+	* em-stripsig-filter.h:
+	* em-sync-stream.c:
+	* em-utils.h:
+	* em-vfolder-editor.h:
+	* importers/elm-importer.c:
+	* mail-autofilter.c:
+	* mail-autofilter.h:
+	* mail-component-factory.c:
+	* mail-component.h:
+	* mail-config-factory.h:
+	* mail-crypto.c:
+	* mail-crypto.h:
+	* mail-folder-cache.h:
+	* mail-mt.h:
+	* mail-ops.h:
+	* mail-send-recv.h:
+	* mail-session.h:
+	* mail-signature-editor.c:
+	* mail-tools.c:
+	* mail-tools.h:
+	* mail-vfolder.c:
+	* mail-vfolder.h:
+	* message-list.h:
+
 2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-composer-utils.c (edit_message):

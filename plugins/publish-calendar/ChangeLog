@@ -1,3 +1,13 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* publish-format-fb.c:
+	* publish-format-ical.c:
+	* publish-location.c:
+	* publish-location.h:
+	* url-editor-dialog.h:
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

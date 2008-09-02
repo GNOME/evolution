@@ -1,3 +1,42 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-categories-config.c:
+	* e-config-listener.c:
+	* e-config-listener.h:
+	* e-config.c:
+	* e-corba-utils.c:
+	* e-corba-utils.h:
+	* e-cursor.c:
+	* e-dialog-utils.h:
+	* e-dialog-widgets.c:
+	* e-dialog-widgets.h:
+	* e-error.h:
+	* e-fsutils.h:
+	* e-gui-utils.h:
+	* e-html-utils.h:
+	* e-import.c:
+	* e-logger.h:
+	* e-menu.c:
+	* e-mktemp.c:
+	* e-mktemp.h:
+	* e-pilot-map.c:
+	* e-pilot-map.h:
+	* e-pilot-util.c:
+	* e-plugin.h:
+	* e-popup.c:
+	* e-profile-event.c:
+	* e-request.c:
+	* e-request.h:
+	* e-sorter-array.h:
+	* e-sorter.c:
+	* e-text-event-processor-emacs-like.c:
+	* e-text-event-processor.c:
+	* e-text-event-processor.h:
+	* e-util-labels.c:
+	* e-xml-utils.h:
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
