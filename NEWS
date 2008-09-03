@@ -1,3 +1,37 @@
+Evolution 2.23.91 2008-09-01
+----------------------------
+
+Bug Fixes:
+	#458512: Delete the accessibility tag from the User button (Matthew Barnes)
+	#509647: Do not expunge folder when something goes wrong (Milan Crha)
+	#523327: Show description in monospace font and wrap lines too. (Milan Crha)
+	#525555: Evolution forgets Google Calendar credentials (Milan Crha)
+	#534762: Change "addressbook" to "address book" in translatable strings (Philip Withnall)
+	#544430: Better formed translatable strings for quota usage (Matthew Barnes)
+	#546926: New function to simply call camel_shutdown() (Matthew Barnes)
+	#547822: Make it show "Tasks" for printing tasks list and "Calendar" for printing a calendar (Rouslan Solomakhin)
+	#547822: Use g_malloc() and g_free() instead of malloc() and free() (Matthew Barnes)
+	#548348: Add a libecontactprint_la_LIBADD stanza so we link to the correct libemiscwidgets and libeutil (Matthew Barnes)
+	#549554: Drop sentence about an "Automatic" option (Paul Bolle)
+
+Updated Translations:
+	Andre Klapper (de)
+	Yannick Tailliez and Bruno Brouard (fr)
+	Mark Krapivner(he)
+	Ignacio Casal Quinteiro (gl)
+	Jorge Gonzalez (es)
+	Inaki Larranaga Murgoitio (eu)
+	Ivar Smolin (et)
+	Hendrik Richter (de)
+	Kjartan Maraas (nb)
+	Ilkka Tuohela (fi)
+	Daniel Nylander (sv)
+	Goran Rakić(sr, sr@Latin)
+	Shankar Prasad (kn)
+	Chao-Hsiung Liao (zh_HK, zh_TW)
+	Åsmund Skjæveland (nn)
+	Jovan Naumovski (mk)
+
 Evolution 2.23.90 2008-08-18
 ----------------------------
 
