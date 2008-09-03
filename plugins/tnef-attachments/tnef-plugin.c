@@ -15,6 +15,7 @@
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) Randall Hand <randall.hand@gmail.com>
  *
  */
 
