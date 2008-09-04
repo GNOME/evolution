@@ -1,3 +1,15 @@
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-calendar-item.c:
+	* e-charset-picker.c:
+	* e-config-page.c:
+	* e-dropdown-button.c:
+	* e-multi-config-dialog.c:
+	* e-multi-config-dialog.h:
+	* test-multi-config-dialog.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

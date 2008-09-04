@@ -1,3 +1,13 @@
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-cell-pixbuf.c:
+	* e-cell-size.c:
+	* e-table-group-container.c:
+	* e-table-header-utils.c:
+	* e-table-sorted.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

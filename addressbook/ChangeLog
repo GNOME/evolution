@@ -1,3 +1,10 @@
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/widgets/e-minicard-view.c:
+	* gui/widgets/eab-popup-control.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes
