@@ -36,6 +36,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "faq")
 #define E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "forget-passwords")
+#define E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "gal-custom-view")
+#define E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "gal-define-views")
+#define E_SHELL_WINDOW_ACTION_GAL_SAVE_CUSTOM_VIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "gal-save-custom-view")
+#define E_SHELL_WINDOW_ACTION_GAL_VIEW_MENU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "gal-view-menu")
 #define E_SHELL_WINDOW_ACTION_IMPORT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "import")
 #define E_SHELL_WINDOW_ACTION_NEW_WINDOW(window) \
@@ -70,6 +78,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "work-online")
 
 /* Action Groups */
+#define E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "gal-view")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-item")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE(window) \

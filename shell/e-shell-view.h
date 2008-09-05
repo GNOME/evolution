@@ -24,6 +24,8 @@
 #include <e-shell-common.h>
 #include <e-shell-window.h>
 
+#include <gal-view-instance.h>
+
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \
 	(e_shell_view_get_type ())
@@ -65,12 +67,7 @@ struct _EShellViewClass {
 	 * the GTypeInfo they pass to g_type_module_register_type(). */
 	GTypeModule *type_module;
 
-	GtkWidget *	(*get_content_widget)	(EShellView *shell_view);
-	GtkWidget *	(*get_sidebar_widget)	(EShellView *shell_view);
-	GtkWidget *	(*get_status_widget)	(EShellView *shell_view);
-
 	/* Signals */
-
 	void		(*changed)		(EShellView *shell_view);
 };
 
@@ -88,12 +85,16 @@ void		e_shell_view_set_secondary_text	(EShellView *shell_view,
 const gchar *	e_shell_view_get_title		(EShellView *shell_view);
 void		e_shell_view_set_title		(EShellView *shell_view,
 						 const gchar *title);
+GalViewInstance *
+		e_shell_view_get_view_instance	(EShellView *shell_view);
+void		e_shell_view_set_view_instance	(EShellView *shell_view,
+						 GalViewInstance *instance);
 EShellWindow *	e_shell_view_get_window		(EShellView *shell_view);
 gboolean	e_shell_view_is_selected	(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
 GtkWidget *	e_shell_view_get_content_widget (EShellView *shell_view);
 GtkWidget *	e_shell_view_get_sidebar_widget (EShellView *shell_view);
-GtkWidget *	e_shell_view_get_status_widget	(EShellView *shell_view);
+GtkWidget *	e_shell_view_get_taskbar_widget	(EShellView *shell_view);
 void		e_shell_view_changed		(EShellView *shell_view);
 
 G_END_DECLS

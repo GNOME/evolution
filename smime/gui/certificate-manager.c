@@ -980,6 +980,7 @@ void
 certificate_manager_config_init (void)
 {
 	CertificateManagerData *cfm_data;
+	GtkWidget *preferences_window;
 	GtkWidget *widget;
 	char *gladefile;
 
@@ -1029,8 +1030,9 @@ certificate_manager_config_init (void)
 	gtk_widget_set_sensitive(cfm_data->backup_your_button, FALSE);
 	gtk_widget_set_sensitive(cfm_data->backup_all_your_button, FALSE);
 
+	preferences_window = e_shell_get_preferences_window ();
 	e_preferences_window_add_page (
-		e_shell_get_preferences_window (),
+		E_PREFERENCES_WINDOW (preferences_window),
 		"certificates",
 		"preferences-certificates",
 		_("Certificates"),

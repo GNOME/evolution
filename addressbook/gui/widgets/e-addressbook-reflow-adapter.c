@@ -8,7 +8,6 @@
 #include "eab-marshal.h"
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"
-#include "e-addressbook-view.h"
 #include "eab-gui-util.h"
 
 #include "e-minicard.h"

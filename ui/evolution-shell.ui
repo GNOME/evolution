@@ -25,6 +25,14 @@
       <menuitem action='preferences'/>
     </menu>
     <menu action='view-menu'>
+      <menu action='gal-view-menu'>
+        <placeholder name='gal-view-list'/>
+        <separator/>
+        <menuitem action='gal-custom-view'/>
+        <menuitem action='gal-save-custom-view'/>
+        <separator/>
+        <menuitem action='gal-define-views'/>
+      </menu>
       <menu action='window-menu'/>
       <menu action='layout-menu'>
         <menuitem action='show-toolbar'/>

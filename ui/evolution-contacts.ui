@@ -47,12 +47,31 @@
     <toolitem action='contact-delete'/>
     <toolitem action='address-book-stop'/>
   </toolbar>
-  <popup name="address-book-popup">
+  <popup name='address-book-popup'>
     <menuitem action='address-book-new'/>
     <menuitem action='address-book-popup-save-as'/>
     <separator/>
     <menuitem action='address-book-popup-delete'/>
     <separator/>
     <menuitem action='address-book-popup-properties'/>
+  </popup>
+  <popup name='contact-popup'>
+    <menuitem action='contact-open'/>
+    <separator/>
+    <menuitem action='contact-new'/>
+    <menuitem action='contact-new-list'/>
+    <separator/>
+    <menuitem action='contact-save-as'/>
+    <menuitem action='contact-forward'/>
+    <menuitem action='contact-send-message'/>
+    <menuitem action='contact-print'/>
+    <separator/>
+    <menuitem action='contact-copy'/>
+    <menuitem action='contact-move'/>
+    <separator/>
+    <menuitem action='contact-clipboard-cut'/>
+    <menuitem action='contact-clipboard-copy'/>
+    <menuitem action='contact-clipboard-paste'/>
+    <menuitem action='contact-delete'/>
   </popup>
 </ui>

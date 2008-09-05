@@ -8,12 +8,15 @@ INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)/shell					\
+	-I$(top_srcdir)/widgets/menus				\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/addressbook/util			\
 	-I$(top_srcdir)/addressbook/gui/contact-editor		\
 	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
 	-I$(top_srcdir)/a11y/addressbook			\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\

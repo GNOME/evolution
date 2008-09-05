@@ -12,6 +12,7 @@ INCLUDES =										\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/gui/component	\
+	-I$(top_srcdir)/addressbook/util		\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -54,6 +55,8 @@ libeabwidgets_la_SOURCES =			\
 	e-addressbook-table-adapter.h		\
 	e-addressbook-model.c			\
 	e-addressbook-model.h			\
+	e-addressbook-selector.c		\
+	e-addressbook-selector.h		\
 	e-addressbook-view.c			\
 	e-addressbook-view.h			\
 	gal-view-minicard.c			\

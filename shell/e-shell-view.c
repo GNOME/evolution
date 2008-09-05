@@ -23,29 +23,34 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-shell-window.h"
-#include "e-shell-window-actions.h"
+#include <e-task-bar.h>
+
+#include <e-shell-content.h>
+#include <e-shell-sidebar.h>
+#include <e-shell-window.h>
+#include <e-shell-window-actions.h>
 
 #define E_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
 
 struct _EShellViewPrivate {
-	gchar *icon_name;
-	gchar *primary_text;
-	gchar *secondary_text;
 	gchar *title;
 	gint page_num;
 	gpointer window;  /* weak pointer */
+
+	GtkWidget *content;
+	GtkWidget *sidebar;
+	GtkWidget *taskbar;
+
+	GalViewInstance *view_instance;
 };
 
 enum {
 	PROP_0,
-	PROP_ICON_NAME,
 	PROP_PAGE_NUM,
-	PROP_PRIMARY_TEXT,
-	PROP_SECONDARY_TEXT,
 	PROP_TITLE,
+	PROP_VIEW_INSTANCE,
 	PROP_WINDOW
 };
 
@@ -83,34 +88,22 @@ shell_view_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ICON_NAME:
-			e_shell_view_set_icon_name (
-				E_SHELL_VIEW (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_PAGE_NUM:
 			shell_view_set_page_num (
 				E_SHELL_VIEW (object),
 				g_value_get_int (value));
 			return;
 
-		case PROP_PRIMARY_TEXT:
-			e_shell_view_set_primary_text (
-				E_SHELL_VIEW (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_SECONDARY_TEXT:
-			e_shell_view_set_secondary_text (
-				E_SHELL_VIEW (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_TITLE:
 			e_shell_view_set_title (
 				E_SHELL_VIEW (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_VIEW_INSTANCE:
+			e_shell_view_set_view_instance (
+				E_SHELL_VIEW (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_WINDOW:
@@ -130,33 +123,21 @@ shell_view_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ICON_NAME:
-			g_value_set_string (
-				value, e_shell_view_get_icon_name (
-				E_SHELL_VIEW (object)));
-			return;
-
 		case PROP_PAGE_NUM:
 			g_value_set_int (
 				value, e_shell_view_get_page_num (
 				E_SHELL_VIEW (object)));
 			return;
 
-		case PROP_PRIMARY_TEXT:
-			g_value_set_string (
-				value, e_shell_view_get_primary_text (
-				E_SHELL_VIEW (object)));
-			return;
-
-		case PROP_SECONDARY_TEXT:
-			g_value_set_string (
-				value, e_shell_view_get_secondary_text (
-				E_SHELL_VIEW (object)));
-			return;
-
 		case PROP_TITLE:
 			g_value_set_string (
 				value, e_shell_view_get_title (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_VIEW_INSTANCE:
+			g_value_set_object (
+				value, e_shell_view_get_view_instance (
 				E_SHELL_VIEW (object)));
 			return;
 
@@ -183,6 +164,26 @@ shell_view_dispose (GObject *object)
 		priv->window = NULL;
 	}
 
+	if (priv->content != NULL) {
+		g_object_unref (priv->content);
+		priv->content = NULL;
+	}
+
+	if (priv->sidebar != NULL) {
+		g_object_unref (priv->sidebar);
+		priv->sidebar = NULL;
+	}
+
+	if (priv->taskbar != NULL) {
+		g_object_unref (priv->taskbar);
+		priv->taskbar = NULL;
+	}
+
+	if (priv->view_instance != NULL) {
+		g_object_unref (priv->view_instance);
+		priv->view_instance = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -194,9 +195,6 @@ shell_view_finalize (GObject *object)
 
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
-	g_free (priv->icon_name);
-	g_free (priv->primary_text);
-	g_free (priv->secondary_text);
 	g_free (priv->title);
 
 	/* Chain up to parent's finalize() method. */
@@ -206,6 +204,16 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
+	EShellViewClass *class;
+	GtkWidget *sidebar;
+
+	class = E_SHELL_VIEW_GET_CLASS (object);
+	sidebar = e_shell_view_get_sidebar_widget (E_SHELL_VIEW (object));
+	e_shell_sidebar_set_icon_name (
+		E_SHELL_SIDEBAR (sidebar), class->icon_name);
+	e_shell_sidebar_set_primary_text (
+		E_SHELL_SIDEBAR (sidebar), class->label);
+
 	/* XXX GObjectClass doesn't implement constructed(), so we will.
 	 *     Then subclasses won't have to check the function pointer
 	 *     before chaining up.
@@ -230,17 +238,6 @@ shell_view_class_init (EShellViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ICON_NAME,
-		g_param_spec_string (
-			"icon-name",
-			_("Icon Name"),
-			_("The icon name for the sidebar header"),
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_PAGE_NUM,
 		g_param_spec_int (
 			"page-num",
@@ -254,28 +251,6 @@ shell_view_class_init (EShellViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_PRIMARY_TEXT,
-		g_param_spec_string (
-			"primary-text",
-			_("Primary Text"),
-			_("The primary text for the sidebar header"),
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SECONDARY_TEXT,
-		g_param_spec_string (
-			"secondary-text",
-			_("Secondary Text"),
-			_("The secondary text for the sidebar header"),
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_TITLE,
 		g_param_spec_string (
 			"title",
@@ -284,6 +259,16 @@ shell_view_class_init (EShellViewClass *class)
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VIEW_INSTANCE,
+		g_param_spec_object (
+			"view-instance",
+			_("GAL View Instance"),
+			_("The GAL view instance for the shell view"),
+			GAL_VIEW_INSTANCE_TYPE,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -309,7 +294,21 @@ shell_view_class_init (EShellViewClass *class)
 static void
 shell_view_init (EShellView *shell_view)
 {
+	GtkWidget *widget;
+
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	widget = e_shell_content_new ();
+	shell_view->priv->content = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_sidebar_new ();
+	shell_view->priv->sidebar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_task_bar_new ();
+	shell_view->priv->taskbar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
 }
 
 GType
@@ -357,82 +356,6 @@ e_shell_view_get_name (EShellView *shell_view)
 }
 
 const gchar *
-e_shell_view_get_icon_name (EShellView *shell_view)
-{
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	return shell_view->priv->icon_name;
-}
-
-void
-e_shell_view_set_icon_name (EShellView *shell_view,
-                            const gchar *icon_name)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-
-	if (icon_name == NULL) {
-		EShellViewClass *class;
-
-		/* Fall back to the switcher icon. */
-		class = E_SHELL_VIEW_GET_CLASS (shell_view);
-		icon_name = class->icon_name;
-	}
-
-	g_free (shell_view->priv->icon_name);
-	shell_view->priv->icon_name = g_strdup (icon_name);
-
-	g_object_notify (G_OBJECT (shell_view), "icon-name");
-}
-
-const gchar *
-e_shell_view_get_primary_text (EShellView *shell_view)
-{
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	return shell_view->priv->primary_text;
-}
-
-void
-e_shell_view_set_primary_text (EShellView *shell_view,
-                               const gchar *primary_text)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-
-	if (primary_text == NULL) {
-		EShellViewClass *class;
-
-		/* Fall back to the switcher label. */
-		class = E_SHELL_VIEW_GET_CLASS (shell_view);
-		primary_text = class->label;
-	}
-
-	g_free (shell_view->priv->primary_text);
-	shell_view->priv->primary_text = g_strdup (primary_text);
-
-	g_object_notify (G_OBJECT (shell_view), "primary-text");
-}
-
-const gchar *
-e_shell_view_get_secondary_text (EShellView *shell_view)
-{
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	return shell_view->priv->secondary_text;
-}
-
-void
-e_shell_view_set_secondary_text (EShellView *shell_view,
-                                 const gchar *secondary_text)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-
-	g_free (shell_view->priv->secondary_text);
-	shell_view->priv->secondary_text = g_strdup (secondary_text);
-
-	g_object_notify (G_OBJECT (shell_view), "secondary-text");
-}
-
-const gchar *
 e_shell_view_get_title (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
@@ -450,6 +373,34 @@ e_shell_view_set_title (EShellView *shell_view,
 	shell_view->priv->title = g_strdup (title);
 
 	g_object_notify (G_OBJECT (shell_view), "title");
+}
+
+GalViewInstance *
+e_shell_view_get_view_instance (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->view_instance;
+}
+
+void
+e_shell_view_set_view_instance (EShellView *shell_view,
+                                GalViewInstance *instance)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (instance != NULL)
+		g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
+
+	if (shell_view->priv->view_instance != NULL) {
+		g_object_unref (shell_view->priv->view_instance);
+		shell_view->priv->view_instance = NULL;
+	}		
+
+	if (instance != NULL)
+		shell_view->priv->view_instance = g_object_ref (instance);
+
+	g_object_notify (G_OBJECT (shell_view), "view-instance");
 }
 
 EShellWindow *
@@ -490,40 +441,25 @@ e_shell_view_get_page_num (EShellView *shell_view)
 GtkWidget *
 e_shell_view_get_content_widget (EShellView *shell_view)
 {
-	EShellViewClass *class;
-
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (class->get_content_widget != NULL, NULL);
-
-	return class->get_content_widget (shell_view);
+	return shell_view->priv->content;
 }
 
 GtkWidget *
 e_shell_view_get_sidebar_widget (EShellView *shell_view)
 {
-	EShellViewClass *class;
-
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (class->get_sidebar_widget != NULL, NULL);
-
-	return class->get_sidebar_widget (shell_view);
+	return shell_view->priv->sidebar;
 }
 
 GtkWidget *
-e_shell_view_get_status_widget (EShellView *shell_view)
+e_shell_view_get_taskbar_widget (EShellView *shell_view)
 {
-	EShellViewClass *class;
-
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (class->get_status_widget != NULL, NULL);
-
-	return class->get_status_widget (shell_view);
+	return shell_view->priv->taskbar;
 }
 
 void

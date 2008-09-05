@@ -118,8 +118,10 @@ autocompletion_config_init (void)
 
 	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
+	preferences_window = e_shell_get_preferences_window ();
+
 	e_preferences_window_add_page (
-		e_shell_get_preferences_window (),
+		E_PREFERENCES_WINDOW (preferences_window),
 		"autocompletion",
 		"preferences-autocompletion",
 		_("Autocompletion"),

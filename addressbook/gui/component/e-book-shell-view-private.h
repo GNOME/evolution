@@ -30,8 +30,11 @@
 #include <libedataserverui/e-source-selector.h>
 
 #include <eab-menu.h>
+#include <eab-gui-util.h>
 #include <e-activity-handler.h>
+#include <e-addressbook-selector.h>
 #include <e-addressbook-view.h>
+#include <gal-view-collection.h>
 
 #include <e-book-shell-view-actions.h>
 
@@ -53,6 +56,9 @@
 
 G_BEGIN_DECLS
 
+/* Defined in e-book-shell-module.c */
+extern GalViewCollection *e_book_shell_module_view_collection;
+
 typedef struct _EditorUidClosure EditorUidClosure;
 
 struct _EditorUidClosure {
@@ -70,9 +76,7 @@ struct _EBookShellViewPrivate {
 	/*** Other Stuff ***/
 
 	GtkWidget *notebook;
-	GtkWidget *scrolled_window;
 	GtkWidget *selector;
-	GtkWidget *task_bar;
 
 	EActivityHandler *activity_handler;
 
@@ -98,6 +102,9 @@ void		e_book_shell_view_private_finalize
 
 void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
+void		e_book_shell_view_update_actions
+					(EBookShellView *book_shell_view,
+					 EABView *view);
 EABView *	e_book_shell_view_get_current_view
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_editor_weak_notify

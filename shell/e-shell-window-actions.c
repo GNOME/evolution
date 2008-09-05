@@ -26,6 +26,7 @@
 #include <e-util/e-error.h>
 #include <e-util/e-print.h>
 #include <e-util/e-util.h>
+#include <gal-define-views-dialog.h>
 
 #include <libedataserverui/e-passwords.h>
 
@@ -704,6 +705,63 @@ action_forget_passwords_cb (GtkAction *action,
 }
 
 static void
+action_gal_define_views_cb (GtkAction *action,
+                            EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GalViewInstance *instance;
+	GtkWidget *dialog;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	instance = e_shell_view_get_view_instance (shell_view);
+	g_return_if_fail (instance != NULL);
+
+	dialog = gal_define_views_dialog_new (instance->collection);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+		gal_view_collection_save (instance->collection);
+	gtk_widget_destroy (dialog);
+}
+
+static void
+action_gal_save_custom_view_cb (GtkAction *action,
+                                EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GalViewInstance *instance;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	instance = e_shell_view_get_view_instance (shell_view);
+	g_return_if_fail (instance != NULL);
+
+	gal_view_instance_save_as (instance);
+}
+
+static void
+action_gal_view_cb (GtkRadioAction *action,
+                    GtkRadioAction *current,
+                    EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GalViewInstance *instance;
+	const gchar *view_name;
+	const gchar *view_id;
+
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	instance = e_shell_view_get_view_instance (shell_view);
+	g_return_if_fail (instance != NULL);
+
+	view_id = g_object_get_data (G_OBJECT (current), "view-id");
+	g_return_if_fail (view_id != NULL);
+
+	gal_view_instance_set_current_view_id (instance, view_id);
+}
+
+static void
 action_import_cb (GtkAction *action,
                   EShellWindow *shell_window)
 {
@@ -825,10 +883,13 @@ static void
 action_show_sidebar_cb (GtkToggleAction *action,
                         EShellWindow *shell_window)
 {
+	GtkPaned *paned;
 	GtkWidget *widget;
 	gboolean active;
 
-	widget = shell_window->priv->sidebar;
+	paned = GTK_PANED (shell_window->priv->content_pane);
+
+	widget = gtk_paned_get_child1 (paned);
 	active = gtk_toggle_action_get_active (action);
 	g_object_set (widget, "visible", active, NULL);
 }
@@ -849,12 +910,12 @@ static void
 action_show_switcher_cb (GtkToggleAction *action,
                          EShellWindow *shell_window)
 {
-	ESidebar *sidebar;
+	GtkWidget *widget;
 	gboolean active;
 
-	sidebar = E_SIDEBAR (shell_window->priv->sidebar);
+	widget = shell_window->priv->switcher;
 	active = gtk_toggle_action_get_active (action);
-	e_sidebar_set_actions_visible (sidebar, active);
+	g_object_set (widget, "visible", active, NULL);
 }
 
 static void
@@ -898,10 +959,10 @@ action_switcher_style_cb (GtkRadioAction *action,
                           GtkRadioAction *current,
                           EShellWindow *shell_window)
 {
-	ESidebar *sidebar;
+	EShellSwitcher *switcher;
 	GtkToolbarStyle style;
 
-	sidebar = E_SIDEBAR (shell_window->priv->sidebar);
+	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	style = gtk_radio_action_get_current_value (action);
 
 	switch (style) {
@@ -909,11 +970,11 @@ action_switcher_style_cb (GtkRadioAction *action,
 		case GTK_TOOLBAR_TEXT:
 		case GTK_TOOLBAR_BOTH:
 		case GTK_TOOLBAR_BOTH_HORIZ:
-			e_sidebar_set_style (sidebar, style);
+			e_shell_switcher_set_style (switcher, style);
 			break;
 
 		default:
-			e_sidebar_unset_style (sidebar);
+			e_shell_switcher_unset_style (switcher);
 			break;
 	}
 }
@@ -1208,6 +1269,42 @@ static GtkRadioActionEntry shell_switcher_style_entries[] = {
 	  -1 }
 };
 
+static GtkActionEntry shell_gal_view_entries[] = {
+
+	{ "gal-define-views",
+	  NULL,
+	  N_("Define Views..."),
+	  NULL,
+	  N_("Create or edit views"),
+	  G_CALLBACK (action_gal_define_views_cb) },
+
+	{ "gal-save-custom-view",
+	  NULL,
+	  N_("Save Custom View..."),
+	  NULL,
+	  N_("Save current custom view"),
+	  G_CALLBACK (action_gal_save_custom_view_cb) },
+
+	/*** Menus ***/
+
+	{ "gal-view-menu",
+	  NULL,
+	  N_("C_urrent View"),
+	  NULL,
+	  NULL,
+	  NULL }
+};
+
+static GtkRadioActionEntry shell_gal_view_radio_entries[] = {
+
+	{ "gal-custom-view",
+	  NULL,
+	  N_("Custom View"),
+	  NULL,
+	  N_("Current view is a customized view"),
+	  -1 }
+};
+
 static gint
 shell_window_compare_actions (GtkAction *action1,
                               GtkAction *action2)
@@ -1283,15 +1380,15 @@ void
 e_shell_window_actions_init (EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	const gchar *domain;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	manager = e_shell_window_get_ui_manager (shell_window);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
-	e_load_ui_definition (manager, "evolution-shell.ui");
+	e_load_ui_definition (ui_manager, "evolution-shell.ui");
 
 	/* Shell Actions */
 	action_group = shell_window->priv->shell_actions;
@@ -1305,24 +1402,36 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_group_add_radio_actions (
 		action_group, shell_switcher_style_entries,
 		G_N_ELEMENTS (shell_switcher_style_entries),
-		E_SIDEBAR_DEFAULT_TOOLBAR_STYLE,
+		E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
 		G_CALLBACK (action_switcher_style_cb), shell_window);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_action_group_add_actions (
+		action_group, shell_gal_view_entries,
+		G_N_ELEMENTS (shell_gal_view_entries), shell_window);
+	gtk_action_group_add_radio_actions (
+		action_group, shell_gal_view_radio_entries,
+		G_N_ELEMENTS (shell_gal_view_radio_entries),
+		0, G_CALLBACK (action_gal_view_cb), shell_window);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* GAL View Actions (empty) */
+	action_group = shell_window->priv->gal_view_actions;
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* New Item Actions (empty) */
 	action_group = shell_window->priv->new_item_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* New Source Actions (empty) */
 	action_group = shell_window->priv->new_source_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Shell View Actions (empty) */
 	action_group = shell_window->priv->shell_view_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 }
 
 GtkWidget *
@@ -1404,7 +1513,8 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 	GType *children;
 	GSList *group = NULL;
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
+	EShellSwitcher *switcher;
 	guint n_children, ii;
 	guint merge_id;
 
@@ -1412,8 +1522,9 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 
 	action_group = shell_window->priv->shell_view_actions;
 	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
-	manager = e_shell_window_get_ui_manager (shell_window);
-	merge_id = gtk_ui_manager_new_merge_id (manager);
+	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses and register them with our ESidebar.  These actions
@@ -1480,12 +1591,10 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 		gtk_action_group_add_action (
 			action_group, GTK_ACTION (action));
 
-		e_sidebar_add_action (
-			E_SIDEBAR (shell_window->priv->sidebar),
-			GTK_ACTION (action));
+		e_shell_switcher_add_action (switcher, GTK_ACTION (action));
 
 		gtk_ui_manager_add_ui (
-			manager, merge_id,
+			ui_manager, merge_id,
 			"/main-menu/view-menu/window-menu",
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
@@ -1497,4 +1606,109 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 	}
 
 	g_free (children);
+}
+
+void
+e_shell_window_update_gal_view_menu (EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GtkUIManager *ui_manager;
+	GtkActionGroup *action_group;
+	GalViewInstance *instance;
+	GalViewCollection *collection;
+	GtkRadioAction *radio_action;
+	GtkAction *action;
+	GList *list, *iter;
+	GSList *radio_group;
+	gboolean visible;
+	const gchar *view_name;
+	const gchar *path;
+	gchar *gal_view_id;
+	guint merge_id;
+	gint count, ii;
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	instance = e_shell_view_get_view_instance (shell_view);
+
+	action_group = shell_window->priv->gal_view_actions;
+	merge_id = shell_window->priv->gal_view_merge_id;
+
+	/* Unmerge the previous menu. */
+	gtk_ui_manager_remove_ui (ui_manager, merge_id);
+
+	/* XXX Annoying that GTK+ doesn't provide a function for this.
+	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
+	list = gtk_action_group_list_actions (action_group);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		GtkAction *action = iter->data;
+		gtk_action_group_remove_action (action_group, action);
+	}
+	g_list_free (list);
+
+	/* If there's no view instance then just hide the entire
+	 * "Current View" menu and return. */
+	action = ACTION (GAL_VIEW_MENU);
+	gtk_action_set_visible (action, instance != NULL);
+	if (instance == NULL)
+		return;
+
+	/* We have a view instance, so forge ahead. */
+	collection = instance->collection;
+	count = gal_view_collection_get_count (collection);
+	path = "/main-menu/view-menu/gal-view-menu/gal-view-list";
+	gal_view_id = gal_view_instance_get_current_view_id (instance);
+	g_return_if_fail (gal_view_id != NULL);
+
+	/* Default to "Custom View", unless we find our view ID. */
+	radio_action = GTK_RADIO_ACTION (ACTION (GAL_CUSTOM_VIEW));
+	gtk_radio_action_set_group (radio_action, NULL);
+	radio_group = gtk_radio_action_get_group (radio_action);
+	gtk_radio_action_set_current_value (radio_action, -1);
+
+	/* Add a menu item for each view collection item. */
+	for (ii = 0; ii < count; ii++) {
+		GalViewCollectionItem *item;
+		gchar *action_name;
+		gchar *tooltip;
+
+		item = gal_view_collection_get_view_item (collection, ii);
+
+		action_name = g_strdup_printf (
+			"gal-view-%s-%d", view_name, ii);
+		tooltip = g_strdup_printf ("Select view: %s", item->title);
+
+		radio_action = gtk_radio_action_new (
+			action_name, item->title, tooltip, NULL, ii);
+
+		gtk_radio_action_set_group (radio_action, radio_group);
+		radio_group = gtk_radio_action_get_group (radio_action);
+
+		g_object_set_data_full (
+			G_OBJECT (radio_action), "view-id",
+			g_strdup (item->id), (GDestroyNotify) g_free);
+
+		if (strcmp (item->id, gal_view_id) == 0)
+			gtk_radio_action_set_current_value (radio_action, ii);
+
+		action = GTK_ACTION (radio_action);
+		gtk_action_group_add_action (action_group, action);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, merge_id, path, action_name,
+			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (action_name);
+		g_free (tooltip);
+	}
+
+	/* Doesn't matter which radio action we check. */
+	visible = (gtk_radio_action_get_current_value (radio_action) < 0);
+
+	action = ACTION (GAL_CUSTOM_VIEW);
+	gtk_action_set_visible (action, visible);
+
+	action = ACTION (GAL_SAVE_CUSTOM_VIEW);
+	gtk_action_set_visible (action, visible);
 }

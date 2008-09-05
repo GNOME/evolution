@@ -24,13 +24,16 @@ GType e_book_shell_view_type = 0;
 static gpointer parent_class;
 
 static ESource *
-book_shell_view_get_primary_source (EBookShellView *book_shell_view)
+book_shell_view_load_primary_source (EBookShellView *book_shell_view)
 {
 	GConfClient *client;
 	ESourceList *source_list;
 	ESource *source = NULL;
 	const gchar *key;
 	gchar *uid;
+
+	/* XXX If ESourceSelector had a "primary-uid" property,
+	 *     we could just bind the GConf key to it. */
 
 	source_list = book_shell_view->priv->source_list;
 
@@ -66,90 +69,27 @@ book_shell_view_get_primary_source (EBookShellView *book_shell_view)
 }
 
 static void
-book_shell_view_update_actions (EBookShellView *book_shell_view,
-                                EABView *view)
+book_shell_view_save_primary_source (EBookShellView *book_shell_view)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESource *source;
+	GConfClient *client;
 	ESourceSelector *selector;
-	GtkAction *action;
-	gboolean sensitive;
+	ESource *source;
+	const gchar *key;
+	const gchar *string;
 
-	if (e_book_shell_view_get_current_view (book_shell_view) != view)
-		return;
-
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	/* XXX If ESourceSelector had a "primary-uid" property,
+	 *     we could just bind the GConf key to it. */
 
 	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
 	source = e_source_selector_peek_primary_selection (selector);
+	if (source == NULL)
+		return;
 
-	action = ACTION (ADDRESS_BOOK_STOP);
-	sensitive = eab_view_can_stop (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_CLIPBOARD_COPY);
-	sensitive = eab_view_can_copy (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_CLIPBOARD_CUT);
-	sensitive = eab_view_can_cut (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_CLIPBOARD_PASTE);
-	sensitive = eab_view_can_paste (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_COPY);
-	sensitive = eab_view_can_copy_to_folder (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_DELETE);
-	sensitive = eab_view_can_delete (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_FORWARD);
-	sensitive = eab_view_can_send (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_MOVE);
-	sensitive = eab_view_can_move_to_folder (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_OPEN);
-	sensitive = eab_view_can_view (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_PRINT);
-	sensitive = eab_view_can_print (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_PRINT_PREVIEW);
-	sensitive = eab_view_can_print (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_SAVE_AS);
-	sensitive = eab_view_can_save_as (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_SELECT_ALL);
-	sensitive = eab_view_can_select_all (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (CONTACT_SEND_MESSAGE);
-	sensitive = eab_view_can_send_to (view);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (ADDRESS_BOOK_DELETE);
-	if (source != NULL) {
-		const gchar *uri;
-
-		uri = e_source_peek_relative_uri (source);
-		sensitive = (uri == NULL || strcmp ("system", uri) != 0);
-	} else
-		sensitive = FALSE;
-	gtk_action_set_sensitive (action, sensitive);
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/addressbook/display/primary_addressbook";
+	string = e_source_peek_uid (source);
+	gconf_client_set_string (client, key, string, NULL);
+	g_object_unref (client);
 }
 
 static void
@@ -205,8 +145,8 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 	if (view != NULL) {
 #if 0
 		eab_view_setup_menus (view, bonobo_uic);
-		update_command_state (view, book_shell_view);
 #endif
+		e_book_shell_view_update_actions (book_shell_view, view);
 	}
 }
 
@@ -235,36 +175,6 @@ book_shell_view_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
-}
-
-static GtkWidget *
-book_shell_view_get_content_widget (EShellView *shell_view)
-{
-	EBookShellViewPrivate *priv;
-
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	return priv->notebook;
-}
-
-static GtkWidget *
-book_shell_view_get_sidebar_widget (EShellView *shell_view)
-{
-	EBookShellViewPrivate *priv;
-
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	return priv->scrolled_window;
-}
-
-static GtkWidget *
-book_shell_view_get_status_widget (EShellView *shell_view)
-{
-	EBookShellViewPrivate *priv;
-
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	return priv->task_bar;
 }
 
 static void
@@ -301,13 +211,6 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->type_module = type_module;
 	shell_view_class->changed = book_shell_view_changed;
-
-	shell_view_class->get_content_widget =
-		book_shell_view_get_content_widget;
-	shell_view_class->get_sidebar_widget =
-		book_shell_view_get_sidebar_widget;
-	shell_view_class->get_status_widget =
-		book_shell_view_get_status_widget;
 }
 
 static void
@@ -327,9 +230,13 @@ book_shell_view_init (EBookShellView *book_shell_view)
 		book_shell_view);
 
 	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
-	source = book_shell_view_get_primary_source (book_shell_view);
+	source = book_shell_view_load_primary_source (book_shell_view);
 	if (source != NULL)
 		e_source_selector_set_primary_selection (selector, source);
+	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (book_shell_view_save_primary_source),
+		book_shell_view);
 }
 
 GType

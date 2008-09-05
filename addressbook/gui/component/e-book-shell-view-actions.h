@@ -54,8 +54,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-forward")
 #define E_SHELL_WINDOW_ACTION_CONTACT_MOVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-move")
+#define E_SHELL_WINDOW_ACTION_CONTACT_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-new")
+#define E_SHELL_WINDOW_ACTION_CONTACT_NEW_LIST(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-new-list")
 #define E_SHELL_WINDOW_ACTION_CONTACT_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-open")
+#define E_SHELL_WINDOW_ACTION_CONTACT_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-preview")
 #define E_SHELL_WINDOW_ACTION_CONTACT_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-print")
 #define E_SHELL_WINDOW_ACTION_CONTACT_PRINT_PREVIEW(window) \

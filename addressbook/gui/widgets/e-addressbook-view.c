@@ -156,10 +156,10 @@ enum {
 
 #if 0
 static ESearchBarItem addressbook_search_option_items[] = {
-	{ N_("Name begins with"), ESB_FULL_NAME, ESB_ITEMTYPE_RADIO },
-	{ N_("Email begins with"), ESB_EMAIL, ESB_ITEMTYPE_RADIO },
-	{ N_("Any field contains"), ESB_ANY, ESB_ITEMTYPE_RADIO },
-	{ NULL, -1, 0 }
+	{ N_("Name begins with"), ESB_FULL_NAME },
+	{ N_("Email begins with"), ESB_EMAIL },
+	{ N_("Any field contains"), ESB_ANY },
+	{ NULL, -1 }
 };
 #endif
 
@@ -293,7 +293,7 @@ eab_view_init (EABView *eav)
 	eav->displayed_contact = -1;
 
 	eav->view_instance = NULL;
-	eav->view_menus = NULL;
+	/*eav->view_menus = NULL;*/
 	eav->current_view = NULL;
 	eav->uic = NULL;
 
@@ -343,10 +343,10 @@ eab_view_dispose (GObject *object)
 		eav->view_instance = NULL;
 	}
 
-	if (eav->view_menus) {
+	/*if (eav->view_menus) {
 		g_object_unref (eav->view_menus);
 		eav->view_menus = NULL;
-	}
+	}*/
 
 	if (eav->clipboard_contacts) {
 		g_list_foreach (eav->clipboard_contacts, (GFunc)g_object_unref, NULL);
@@ -541,72 +541,6 @@ writable_status (GtkObject *object, gboolean writable, EABView *eav)
 }
 
 static void
-init_collection (void)
-{
-	GalViewFactory *factory;
-	ETableSpecification *spec;
-	char *galview;
-	char *addressbookdir;
-	char *etspecfile;
-
-	if (collection == NULL) {
-		collection = gal_view_collection_new();
-
-		gal_view_collection_set_title (collection, _("Address Book"));
-
-		galview = gnome_util_prepend_user_home("/.evolution/addressbook/views");
-		addressbookdir = g_build_filename (EVOLUTION_GALVIEWSDIR,
-						   "addressbook",
-						   NULL);
-		gal_view_collection_set_storage_directories
-			(collection,
-			 addressbookdir,
-			 galview);
-		g_free(addressbookdir);
-		g_free(galview);
-
-		spec = e_table_specification_new();
-		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-					       "e-addressbook-view.etspec",
-					       NULL);
-		if (!e_table_specification_load_from_file (spec, etspecfile))
-			g_error ("Unable to load ETable specification file "
-				 "for address book");
-		g_free (etspecfile);
-
-		factory = gal_view_factory_etable_new (spec);
-		g_object_unref (spec);
-		gal_view_collection_add_factory (collection, factory);
-		g_object_unref (factory);
-
-		factory = gal_view_factory_minicard_new();
-		gal_view_collection_add_factory (collection, factory);
-		g_object_unref (factory);
-
-		gal_view_collection_load(collection);
-	}
-}
-
-static void
-set_view_preview (EABView *view)
-{
-	/* XXX this should use the addressbook's global gconf client */
-	GConfClient *gconf_client;
-	gboolean state;
-
-	gconf_client = gconf_client_get_default();
-	state = gconf_client_get_bool(gconf_client, "/apps/evolution/addressbook/display/show_preview", NULL);
-	bonobo_ui_component_set_prop (view->uic,
-				      "/commands/ContactsViewPreview",
-				      "state",
-				      state ? "1" : "0", NULL);
-
-	eab_view_show_contact_preview (view, state);
-
-	g_object_unref (gconf_client);
-}
-
-static void
 display_view(GalViewInstance *instance,
 	     GalView *view,
 	     gpointer data)
@@ -623,48 +557,24 @@ display_view(GalViewInstance *instance,
 	address_view->current_view = view;
 
 	set_paned_position (address_view);
-	set_view_preview (address_view);
-}
-
-static void
-view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	/* XXX this should use the addressbook's global gconf client */
-	GConfClient *gconf_client;
-	EABView *view = EAB_VIEW (data);
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf_client = gconf_client_get_default();
-	gconf_client_set_bool(gconf_client, "/apps/evolution/addressbook/display/show_preview", state[0] != '0', NULL);
-
-	eab_view_show_contact_preview(view, state[0] != '0');
-
-	g_object_unref (gconf_client);
 }
 
 static void
 setup_menus (EABView *view)
 {
 	if (view->book && view->view_instance == NULL) {
-		init_collection ();
 		view->view_instance = gal_view_instance_new (collection, e_book_get_uri (view->book));
 	}
 
 	if (view->view_instance && view->uic) {
-		view->view_menus = gal_view_menus_new(view->view_instance);
-		gal_view_menus_apply(view->view_menus, view->uic, NULL);
+		/*view->view_menus = gal_view_menus_new(view->view_instance);
+		gal_view_menus_apply(view->view_menus, view->uic, NULL);*/
 
 		display_view (view->view_instance, gal_view_instance_get_current_view (view->view_instance), view);
 
 		g_signal_connect(view->view_instance, "display_view",
 				 G_CALLBACK (display_view), view);
 	}
-
-	bonobo_ui_component_add_listener(view->uic, "ContactsViewPreview", view_preview, view);
-
-	set_view_preview (view);
 }
 
 static void
@@ -1635,8 +1545,6 @@ eab_view_setup_menus (EABView *view,
 	g_return_if_fail (uic != NULL);
 	g_return_if_fail (BONOBO_IS_UI_COMPONENT (uic));
 
-	init_collection ();
-
 	view->uic = uic;
 
 	setup_menus (view);
@@ -1660,12 +1568,12 @@ eab_view_discard_menus (EABView *view)
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
-	if (view->view_menus) {
+	/*if (view->view_menus) {
 		gal_view_menus_unmerge (view->view_menus, NULL);
 
 		g_object_unref (view->view_menus);
 		view->view_menus = NULL;
-	}
+	}*/
 
 	if (view->view_instance) {
 		g_object_unref (view->view_instance);

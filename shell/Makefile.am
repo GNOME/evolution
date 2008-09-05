@@ -4,6 +4,7 @@ endif
 
 INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/menus				\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
@@ -56,7 +57,9 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	e-shell-common.h			\
+	e-shell-content.h			\
 	e-shell-module.h			\
+	e-shell-switcher.h			\
 	e-shell-view.h				\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
@@ -65,7 +68,9 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
+	e-shell-content.c			\
 	e-shell-module.c			\
+	e-shell-switcher.c			\
 	e-shell-view.c				\
 	e-shell-window.c			\
 	e-shell-window-actions.c		\
@@ -92,16 +97,17 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-registry.c			\
 	e-shell-registry.h			\
+	e-shell-sidebar.c			\
+	e-shell-sidebar.h			\
 	e-shell-window-private.c		\
 	e-shell-window-private.h		\
-	e-sidebar.c				\
-	e-sidebar.h				\
 	es-event.c				\
 	main.c					
 
 evolution_LDADD =							\
 	libeshell.la							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
+	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(TZDIALOG_LIBS)						\

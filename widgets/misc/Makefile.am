@@ -15,8 +15,8 @@ INCLUDES =								\
 
 
 privsolib_LTLIBRARIES =		\
-	libemiscwidgets.la	\
-	libefilterbar.la
+	libemiscwidgets.la
+#	libefilterbar.la
 
 widgetsincludedir = $(privincludedir)/misc
 
@@ -35,6 +35,7 @@ glade_DATA = e-send-options.glade \
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
 	e-account-combo-box.h			\
+	e-action-combo-box.h			\
 	e-activity-handler.h			\
 	e-attachment.h				\
 	e-attachment-bar.h			\
@@ -83,6 +84,7 @@ libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
 	$(pilot_sources)			\
 	e-account-combo-box.c			\
+	e-action-combo-box.c			\
 	e-activity-handler.c			\
 	e-calendar.c				\
 	e-attachment.c				\
@@ -139,16 +141,16 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTON_MAIL_LIBS)						\
 	$(ICONV_LIBS)
 
-libefilterbar_la_SOURCES =	\
-	e-filter-bar.c		\
-	e-filter-bar.h
-
-libefilterbar_la_LDFLAGS = $(NO_UNDEFINED)
-
-libefilterbar_la_LIBADD =			\
-	$(WIN32_BOOTSTRAP_LIBS)			\
-	libemiscwidgets.la			\
-	$(E_WIDGETS_LIBS)
+#libefilterbar_la_SOURCES =	\
+#	e-filter-bar.c		\
+#	e-filter-bar.h
+#
+#libefilterbar_la_LDFLAGS = $(NO_UNDEFINED)
+#
+#libefilterbar_la_LIBADD =			\
+#	$(WIN32_BOOTSTRAP_LIBS)			\
+#	libemiscwidgets.la			\
+#	$(E_WIDGETS_LIBS)
 
 noinst_PROGRAMS = 			\
 	test-calendar			\

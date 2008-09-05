@@ -22,6 +22,7 @@
 
 #include <e-util/e-error.h>
 #include <e-util/e-util.h>
+#include <e-util/gconf-bridge.h>
 
 #include <addressbook-config.h>
 
@@ -260,6 +261,32 @@ action_contact_move_cb (GtkAction *action,
 }
 
 static void
+action_contact_new_cb (GtkAction *action,
+                       EBookShellView *book_shell_view)
+{
+	EContact *contact;
+	EBook *book;
+
+	contact = e_contact_new ();
+	book = book_shell_view->priv->book;
+	eab_show_contact_editor (book, contact, TRUE, TRUE);
+	g_object_unref (contact);
+}
+
+static void
+action_contact_new_list_cb (GtkAction *action,
+                            EBookShellView *book_shell_view)
+{
+	EContact *contact;
+	EBook *book;
+
+	contact = e_contact_new ();
+	book = book_shell_view->priv->book;
+	eab_show_contact_list_editor (book, contact, TRUE, TRUE);
+	g_object_unref (contact);
+}
+
+static void
 action_contact_open_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
@@ -274,10 +301,12 @@ static void
 action_contact_preview_cb (GtkToggleAction *action,
                            EBookShellView *book_shell_view)
 {
+	EABView *view;
 	gboolean active;
 
+	view = e_book_shell_view_get_current_view (book_shell_view);
 	active = gtk_toggle_action_get_active (action);
-	/* FIXME  Unfinished. */
+	eab_view_show_contact_preview (view, active);
 }
 
 static void
@@ -435,6 +464,20 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Move selected contacts to another address book"),
 	  G_CALLBACK (action_contact_move_cb) },
 
+	{ "contact-new",
+	  "contact-new",
+	  N_("_New Contact..."),
+	  NULL,
+	  N_("Create a new contact"),
+	  G_CALLBACK (action_contact_new_cb) },
+
+	{ "contact-new-list",
+	  "stock_contact-list",
+	  N_("New Contact _List..."),
+	  NULL,
+	  N_("Create a new contact list"),
+	  G_CALLBACK (action_contact_new_list_cb) },
+
 	{ "contact-open",
 	  NULL,
 	  N_("_Open"),
@@ -528,8 +571,11 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
+	GConfBridge *bridge;
 	GtkAction *action;
+	GObject *object;
 	const gchar *domain;
+	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_window (shell_view);
@@ -548,8 +594,104 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		G_N_ELEMENTS (contact_toggle_entries), book_shell_view);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (ACTION (CONTACT_PREVIEW));
+	key = "/apps/evolution/addressbook/display/show_preview";
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
 	/* Fine tuning. */
 
 	action = ACTION (CONTACT_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);
 }
+
+void
+e_book_shell_view_update_actions (EBookShellView *book_shell_view,
+                                  EABView *view)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	ESource *source;
+	ESourceSelector *selector;
+	GtkAction *action;
+	gboolean sensitive;
+
+	if (e_book_shell_view_get_current_view (book_shell_view) != view)
+		return;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_window (shell_view);
+
+	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
+	source = e_source_selector_peek_primary_selection (selector);
+
+	action = ACTION (ADDRESS_BOOK_STOP);
+	sensitive = eab_view_can_stop (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_CLIPBOARD_COPY);
+	sensitive = eab_view_can_copy (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_CLIPBOARD_CUT);
+	sensitive = eab_view_can_cut (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_CLIPBOARD_PASTE);
+	sensitive = eab_view_can_paste (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_COPY);
+	sensitive = eab_view_can_copy_to_folder (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_DELETE);
+	sensitive = eab_view_can_delete (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_FORWARD);
+	sensitive = eab_view_can_send (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_MOVE);
+	sensitive = eab_view_can_move_to_folder (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_OPEN);
+	sensitive = eab_view_can_view (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_PRINT);
+	sensitive = eab_view_can_print (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_PRINT_PREVIEW);
+	sensitive = eab_view_can_print (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_SAVE_AS);
+	sensitive = eab_view_can_save_as (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_SELECT_ALL);
+	sensitive = eab_view_can_select_all (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_SEND_MESSAGE);
+	sensitive = eab_view_can_send_to (view);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (ADDRESS_BOOK_DELETE);
+	if (source != NULL) {
+		const gchar *uri;
+
+		uri = e_source_peek_relative_uri (source);
+		sensitive = (uri == NULL || strcmp ("system", uri) != 0);
+	} else
+		sensitive = FALSE;
+	gtk_action_set_sensitive (action, sensitive);
+}
+

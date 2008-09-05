@@ -32,25 +32,65 @@
  *
  */
 
-#include "config.h"
-
 #include "e-icon-entry.h"
 
-#define E_ICON_ENTRY_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), E_TYPE_ICON_ENTRY, EIconEntryPrivate))
+#define E_ICON_ENTRY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ICON_ENTRY, EIconEntryPrivate))
 
-struct _EIconEntryPrivate
-{
+struct _EIconEntryPrivate {
+	GtkWidget *entry;
 	GtkWidget *hbox;
 };
 
-static GtkWidgetClass *parent_class = NULL;
+static gpointer parent_class;
 
-/* private helper functions */
+static void
+icon_entry_proxy_set_cursor (GtkWidget *widget,
+                             GdkEventCrossing *event)
+{
+	if (event->type == GDK_ENTER_NOTIFY) {
+		GdkCursor *cursor;
 
+		cursor = gdk_cursor_new (GDK_HAND1);
+		gdk_window_set_cursor (widget->window, cursor);
+		gdk_cursor_unref (cursor);
+	} else
+		gdk_window_set_cursor (widget->window, NULL);
+}
+
+static GtkWidget *
+icon_entry_create_proxy (GtkAction *action)
+{
+	GtkWidget *proxy;
+	GtkWidget *widget;
+
+	proxy = gtk_event_box_new ();
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (proxy), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (proxy), 2);
+	gtk_action_connect_proxy (action, proxy);
+	gtk_widget_show (widget);
+
+	widget = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
+	gtk_container_add (GTK_CONTAINER (proxy), widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		proxy, "button-press-event",
+		G_CALLBACK (gtk_action_activate), action);
+	g_signal_connect_after (
+		proxy, "enter-notify-event",
+		G_CALLBACK (icon_entry_proxy_set_cursor), NULL);
+	g_signal_connect_after (
+		proxy, "leave-notify-event",
+		G_CALLBACK (icon_entry_proxy_set_cursor), NULL);
+
+	return proxy;
+}
 static gboolean
-entry_focus_change_cb (GtkWidget *widget,
-		       GdkEventFocus *event,
-		       GtkWidget *entry)
+icon_entry_focus_change_cb (GtkWidget *widget,
+		            GdkEventFocus *event,
+		            GtkWidget *entry)
 {
 	gtk_widget_queue_draw (entry);
 
@@ -58,37 +98,35 @@ entry_focus_change_cb (GtkWidget *widget,
 }
 
 static void
-e_icon_entry_get_borders (GtkWidget *widget,
-			     GtkWidget *entry,
-			     int *xborder,
-			     int *yborder)
+icon_entry_get_borders (GtkWidget *widget,
+			GtkWidget *entry,
+			gint *xborder,
+			gint *yborder)
 {
-	int focus_width;
+	gint focus_width;
 	gboolean interior_focus;
 
 	g_return_if_fail (entry->style != NULL);
 
-	gtk_widget_style_get (entry,
-			      "focus-line-width", &focus_width,
-			      "interior-focus", &interior_focus,
-			      NULL);
+	gtk_widget_style_get (
+		entry, "focus-line-width", &focus_width,
+		"interior-focus", &interior_focus, NULL);
 
 	*xborder = entry->style->xthickness;
 	*yborder = entry->style->ythickness;
 
-	if (!interior_focus)
-	{
+	if (!interior_focus) {
 		*xborder += focus_width;
 		*yborder += focus_width;
 	}
 }
 
 static void
-e_icon_entry_paint (GtkWidget *widget,
+icon_entry_paint (GtkWidget *widget,
 		       GdkEventExpose *event)
 {
 	EIconEntry *entry = E_ICON_ENTRY (widget);
-	GtkWidget *entry_widget = entry->entry;
+	GtkWidget *entry_widget = entry->priv->entry;
 	int x = 0, y = 0, width, height, focus_width;
 	gboolean interior_focus;
 
@@ -133,36 +171,29 @@ e_icon_entry_paint (GtkWidget *widget,
 	}
 }
 
-/* Class implementation */
-
 static void
-e_icon_entry_init (EIconEntry *entry)
+icon_entry_dispose (GObject *object)
 {
 	EIconEntryPrivate *priv;
-	GtkWidget *widget = (GtkWidget *) entry;
 
-	priv = entry->priv = E_ICON_ENTRY_GET_PRIVATE (entry);
+	priv = E_ICON_ENTRY_GET_PRIVATE (object);
 
-	GTK_WIDGET_UNSET_FLAGS (widget, GTK_NO_WINDOW);
+	if (priv->entry != NULL) {
+		g_object_unref (priv->entry);
+		priv->entry = NULL;
+	}
 
-	priv->hbox = gtk_hbox_new (FALSE, /* FIXME */ 0);
-	gtk_container_add (GTK_CONTAINER (entry), priv->hbox);
+	if (priv->hbox != NULL) {
+		g_object_unref (priv->hbox);
+		priv->hbox = NULL;
+	}
 
-	entry->entry = gtk_entry_new ();
-	gtk_entry_set_has_frame (GTK_ENTRY (entry->entry), FALSE);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), entry->entry, TRUE, TRUE, /* FIXME */ 0);
-
-	/* We need to queue a redraw when focus changes, to comply with themes
-	 * (like Clearlooks) which draw focused and unfocused entries differently.
-	 */
-	g_signal_connect_after (entry->entry, "focus-in-event",
-				G_CALLBACK (entry_focus_change_cb), entry);
-	g_signal_connect_after (entry->entry, "focus-out-event",
-				G_CALLBACK (entry_focus_change_cb), entry);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_icon_entry_realize (GtkWidget *widget)
+icon_entry_realize (GtkWidget *widget)
 {
 	GdkWindowAttr attributes;
 	gint attributes_mask;
@@ -185,34 +216,41 @@ e_icon_entry_realize (GtkWidget *widget)
 	attributes.wclass = GDK_INPUT_OUTPUT;
 	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
 
-	widget->window = gdk_window_new (gtk_widget_get_parent_window (widget),
-					 &attributes, attributes_mask);
+	widget->window = gdk_window_new (
+		gtk_widget_get_parent_window (widget),
+		&attributes, attributes_mask);
+
 	gdk_window_set_user_data (widget->window, widget);
 
 	widget->style = gtk_style_attach (widget->style, widget->window);
 
-	gtk_style_set_background (widget->style, widget->window, GTK_STATE_NORMAL);
+	gtk_style_set_background (
+		widget->style, widget->window, GTK_STATE_NORMAL);
 }
 
 static void
-e_icon_entry_size_request (GtkWidget *widget,
-			      GtkRequisition *requisition)
+icon_entry_size_request (GtkWidget *widget,
+                         GtkRequisition *requisition)
 {
-	EIconEntry *entry = E_ICON_ENTRY (widget);
-	GtkContainer *container = GTK_CONTAINER (widget);
-	GtkBin *bin = GTK_BIN (widget);
-	int xborder, yborder;
+	EIconEntryPrivate *priv;
+	GtkContainer *container;
+	GtkWidget *child;
+	gint xborder, yborder;
 
-	requisition->width = requisition->height = container->border_width * 2;
+	priv = E_ICON_ENTRY_GET_PRIVATE (widget);
+	container = GTK_CONTAINER (widget);
 
-	gtk_widget_ensure_style (entry->entry);
-	e_icon_entry_get_borders (widget, entry->entry, &xborder, &yborder);
+	requisition->width = container->border_width * 2;
+	requisition->height = container->border_width * 2;
 
-	if (GTK_WIDGET_VISIBLE (bin->child))
-	{
+	gtk_widget_ensure_style (priv->entry);
+	icon_entry_get_borders (widget, priv->entry, &xborder, &yborder);
+
+	child = GTK_BIN (widget)->child;
+	if (GTK_WIDGET_VISIBLE (child)) {
 		GtkRequisition child_requisition;
 
-		gtk_widget_size_request (bin->child, &child_requisition);
+		gtk_widget_size_request (child, &child_requisition);
 		requisition->width += child_requisition.width;
 		requisition->height += child_requisition.height;
 	}
@@ -222,68 +260,112 @@ e_icon_entry_size_request (GtkWidget *widget,
 }
 
 static void
-e_icon_entry_size_allocate (GtkWidget *widget,
-			       GtkAllocation *allocation)
+icon_entry_size_allocate (GtkWidget *widget,
+                          GtkAllocation *allocation)
 {
-	EIconEntry *entry = E_ICON_ENTRY (widget);
-	GtkContainer *container = GTK_CONTAINER (widget);
-	GtkBin *bin = GTK_BIN (widget);
+	EIconEntryPrivate *priv;
+	GtkContainer *container;
 	GtkAllocation child_allocation;
-	int xborder, yborder;
+	gint xborder, yborder;
+	gint width, height;
+
+	priv = E_ICON_ENTRY_GET_PRIVATE (widget);
+	container = GTK_CONTAINER (widget);
 
 	widget->allocation = *allocation;
 
-	e_icon_entry_get_borders (widget, entry->entry, &xborder, &yborder);
+	icon_entry_get_borders (widget, priv->entry, &xborder, &yborder);
 
-	if (GTK_WIDGET_REALIZED (widget))
-	{
+	if (GTK_WIDGET_REALIZED (widget)) {
+		width = allocation->width - container->border_width * 2;
+		height = allocation->height - container->border_width * 2;
+
 		child_allocation.x = container->border_width;
 		child_allocation.y = container->border_width;
-		child_allocation.width = MAX (allocation->width - container->border_width * 2, 0);
-		child_allocation.height = MAX (allocation->height - container->border_width * 2, 0);
+		child_allocation.width = MAX (width, 0);
+		child_allocation.height = MAX (height, 0);
 
-		gdk_window_move_resize (widget->window,
-					allocation->x + child_allocation.x,
-					allocation->y + child_allocation.y,
-					child_allocation.width,
-					child_allocation.height);
+		gdk_window_move_resize (
+			widget->window,
+			allocation->x + child_allocation.x,
+			allocation->y + child_allocation.y,
+			child_allocation.width,
+			child_allocation.height);
 	}
+
+	width = allocation->width - (container->border_width + xborder) * 2;
+	height = allocation->height - (container->border_width + yborder) * 2;
 
 	child_allocation.x = container->border_width + xborder;
 	child_allocation.y = container->border_width + yborder;
-	child_allocation.width = MAX (allocation->width - (container->border_width + xborder) * 2, 0);
-	child_allocation.height = MAX (allocation->height - (container->border_width + yborder) * 2, 0);
+	child_allocation.width = MAX (width, 0);
+	child_allocation.height = MAX (height, 0);
 
-	gtk_widget_size_allocate (bin->child, &child_allocation);
+	gtk_widget_size_allocate (GTK_BIN (widget)->child, &child_allocation);
 }
 
 static gboolean
-e_icon_entry_expose (GtkWidget *widget,
-			GdkEventExpose *event)
+icon_entry_expose (GtkWidget *widget,
+                   GdkEventExpose *event)
 {
-	if (GTK_WIDGET_DRAWABLE (widget) &&
-	    event->window == widget->window)
-	{
-		e_icon_entry_paint (widget, event);
-	}
+	if (GTK_WIDGET_DRAWABLE (widget) && event->window == widget->window)
+		icon_entry_paint (widget, event);
 
-	return parent_class->expose_event (widget, event);
+	/* Chain up to parent's expose() method. */
+	return GTK_WIDGET_CLASS (parent_class)->expose_event (widget, event);
 }
 
 static void
-e_icon_entry_class_init (EIconEntryClass *klass)
+icon_entry_class_init (EIconEntryClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
-	parent_class = GTK_WIDGET_CLASS (g_type_class_peek_parent (klass));
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EIconEntryPrivate));
 
-	widget_class->realize = e_icon_entry_realize;
-	widget_class->size_request = e_icon_entry_size_request;
-	widget_class->size_allocate = e_icon_entry_size_allocate;
-	widget_class->expose_event = e_icon_entry_expose;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = icon_entry_dispose;
 
-	g_type_class_add_private (object_class, sizeof (EIconEntryPrivate));
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = icon_entry_realize;
+	widget_class->size_request = icon_entry_size_request;
+	widget_class->size_allocate = icon_entry_size_allocate;
+	widget_class->expose_event = icon_entry_expose;
+}
+
+static void
+icon_entry_init (EIconEntry *icon_entry)
+{
+	GtkWidget *widget;
+	GtkWidget *container;
+
+	icon_entry->priv = E_ICON_ENTRY_GET_PRIVATE (icon_entry);
+
+	GTK_WIDGET_UNSET_FLAGS (icon_entry, GTK_NO_WINDOW);
+
+	widget = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (icon_entry), widget);
+	icon_entry->priv->hbox = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_entry_new ();
+	gtk_entry_set_has_frame (GTK_ENTRY (widget), FALSE);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	icon_entry->priv->entry = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	/* We need to queue a redraw when focus changes, to comply with
+	 * themes (like Clearlooks) which draw focused and unfocused
+	 * entries differently. */
+	g_signal_connect_after (
+		widget, "focus-in-event",
+		G_CALLBACK (icon_entry_focus_change_cb), icon_entry);
+	g_signal_connect_after (
+		widget, "focus-out-event",
+		G_CALLBACK (icon_entry_focus_change_cb), icon_entry);
 }
 
 GType
@@ -293,28 +375,25 @@ e_icon_entry_get_type (void)
 
 	if (G_UNLIKELY (type == 0))
 	{
-		static const GTypeInfo our_info =
-		{
+		static const GTypeInfo type_info = {
 			sizeof (EIconEntryClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) e_icon_entry_class_init,
-			NULL,
-			NULL,
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) icon_entry_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
 			sizeof (EIconEntry),
-			0,
-			(GInstanceInitFunc) e_icon_entry_init
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) icon_entry_init,
+			NULL   /* value_table */
 		};
 
-		type = g_type_register_static (GTK_TYPE_BIN,
-					       "EIconEntry",
-					       &our_info, 0);
+		type = g_type_register_static (
+			GTK_TYPE_BIN, "EIconEntry", &type_info, 0);
 	}
 
 	return type;
 }
-
-/* public functions */
 
 GtkWidget *
 e_icon_entry_new (void)
@@ -322,63 +401,41 @@ e_icon_entry_new (void)
 	return GTK_WIDGET (g_object_new (E_TYPE_ICON_ENTRY, NULL));
 }
 
+GtkWidget *
+e_icon_entry_get_entry (EIconEntry *icon_entry)
+{
+	g_return_val_if_fail (E_IS_ICON_ENTRY (icon_entry), NULL);
+
+	return icon_entry->priv->entry;
+}
+
 void
-e_icon_entry_pack_widget (EIconEntry *entry,
-			     GtkWidget *widget,
-			     gboolean start)
+e_icon_entry_add_action_start (EIconEntry *icon_entry,
+                               GtkAction *action)
 {
-	EIconEntryPrivate *priv;
+	GtkWidget *proxy;
+	GtkBox *box;
 
-	g_return_if_fail (E_IS_ICON_ENTRY (entry));
+	g_return_if_fail (E_IS_ICON_ENTRY (icon_entry));
+	g_return_if_fail (GTK_IS_ACTION (action));
 
-	priv = entry->priv;
-
-	if (start)
-	{
-		gtk_box_pack_start (GTK_BOX (priv->hbox), widget, FALSE, FALSE, /* FIXME */ 2);
-		gtk_box_reorder_child (GTK_BOX (priv->hbox), widget, 0);
-	}
-	else
-	{
-		gtk_box_pack_end (GTK_BOX (priv->hbox), widget, FALSE, FALSE, /* FIXME */ 2);
-	}
+	box = GTK_BOX (icon_entry->priv->hbox);
+	proxy = icon_entry_create_proxy (action);
+	gtk_box_pack_start (box, proxy, FALSE, FALSE, 2);
+	gtk_box_reorder_child (box, proxy, 0);
 }
 
-static void
-set_cursor (GtkWidget *widget, GdkEventCrossing *event, gpointer dummy)
+void
+e_icon_entry_add_action_end (EIconEntry *icon_entry,
+                             GtkAction *action)
 {
+	GtkWidget *proxy;
+	GtkBox *box;
 
-    if (event->type == GDK_ENTER_NOTIFY)
-	gdk_window_set_cursor (widget->window, gdk_cursor_new (GDK_HAND1));
-    else
-	gdk_window_set_cursor (widget->window, gdk_cursor_new (GDK_LEFT_PTR));
+	g_return_if_fail (E_IS_ICON_ENTRY (icon_entry));
+	g_return_if_fail (GTK_IS_ACTION (action));
 
-
-}
-
-GtkWidget *
-e_icon_entry_create_button (const char *stock)
-{
-	GtkWidget *eventbox;
-	GtkWidget *image;
-
-	eventbox = gtk_event_box_new ();
-	gtk_container_set_border_width (GTK_CONTAINER (eventbox), 2);
-	gtk_event_box_set_visible_window (GTK_EVENT_BOX (eventbox), FALSE);
-
-	image = gtk_image_new_from_stock (stock, GTK_ICON_SIZE_MENU);
-	gtk_container_add (GTK_CONTAINER (eventbox), image);
-
-	g_signal_connect_after (eventbox, "enter-notify-event", (GCallback) set_cursor, NULL);
-	g_signal_connect_after (eventbox, "leave-notify-event", (GCallback) set_cursor, NULL);
-
-	return eventbox;
-}
-
-GtkWidget *
-e_icon_entry_get_entry (EIconEntry *entry)
-{
-	g_return_val_if_fail (E_IS_ICON_ENTRY (entry), NULL);
-
-	return entry->entry;
+	box = GTK_BOX (icon_entry->priv->hbox);
+	proxy = icon_entry_create_proxy (action);
+	gtk_box_pack_end (box, proxy, FALSE, FALSE, 2);
 }

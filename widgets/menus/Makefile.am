@@ -8,7 +8,6 @@ INCLUDES =					\
 	$(E_UTIL_CFLAGS)
 
 libmenus_la_SOURCES = 				\
-	gal-view-menus.c			\
 	gal-define-views-dialog.c		\
 	gal-define-views-model.c		\
 	gal-view-collection.c			\
@@ -18,8 +17,7 @@ libmenus_la_SOURCES = 				\
 	gal-view-instance-save-as-dialog.c	\
 	gal-view-instance.c			\
 	gal-view-new-dialog.c			\
-	gal-view.c				\
-	gal-view-menus.h
+	gal-view.c
 
 glade_DATA = 					\
 	gal-define-views.glade			\

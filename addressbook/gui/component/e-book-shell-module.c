@@ -30,6 +30,10 @@
 #include <e-shell-module.h>
 #include <e-shell-window.h>
 
+#include <gal-view-collection.h>
+#include <gal-view-factory-etable.h>
+#include <gal-view-factory-minicard.h>
+
 #include <eab-gui-util.h>
 #include <e-book-shell-view.h>
 #include <addressbook-config.h>
@@ -42,9 +46,12 @@
 
 #define LDAP_BASE_URI		"ldap://"
 #define PERSONAL_RELATIVE_URI	"system"
+#define ETSPEC_FILENAME		"e-addressbook-view.etspec"
 
 /* Module Entry Point */
 void e_shell_module_init (GTypeModule *type_module);
+
+GalViewCollection *e_book_shell_module_view_collection = NULL;
 
 static void
 book_module_ensure_sources (EShellModule *shell_module)
@@ -163,6 +170,52 @@ book_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
+book_module_init_view_collection (EShellModule *shell_module)
+{
+	GalViewCollection *collection;
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+	const gchar *base_dir;
+	gchar *filename;
+	gchar *system_dir;
+	gchar *local_dir;
+
+	collection = gal_view_collection_new ();
+	gal_view_collection_set_title (collection, _("Address Book"));
+
+	base_dir = EVOLUTION_GALVIEWSDIR;
+	system_dir = g_build_filename (base_dir, "addressbook", NULL);
+
+	base_dir = e_shell_module_get_data_dir (shell_module);
+	local_dir = g_build_filename (base_dir, "views", NULL);
+
+	gal_view_collection_set_storage_directories (
+		collection, system_dir, local_dir);
+
+	g_free (system_dir);
+	g_free (local_dir);
+
+	base_dir = EVOLUTION_ETSPECDIR;
+	spec = e_table_specification_new ();
+	filename = g_build_filename (base_dir, ETSPEC_FILENAME, NULL);
+	if (!e_table_specification_load_from_file (spec, filename))
+		g_error ("Unable to load ETable specification file "
+			 "for address book");
+	g_free (filename);
+
+	factory = gal_view_factory_etable_new (spec);
+	gal_view_collection_add_factory (collection, factory);
+	g_object_unref (factory);
+	g_object_unref (spec);
+
+	factory = gal_view_factory_minicard_new ();
+	gal_view_collection_add_factory (collection, factory);
+	g_object_unref (factory);
+
+	gal_view_collection_load (collection);
+}
+
+static void
 book_module_book_loaded_cb (EBook *book,
                             EBookStatus status,
                             gpointer user_data)
@@ -245,7 +298,7 @@ static GtkActionEntry item_entries[] = {
 	  N_("Create a new contact"),
 	  G_CALLBACK (action_contact_new_cb) },
 
-	{ "contact-list-new",
+	{ "contact-new-list",
 	  "stock_contact-list",
 	  N_("Contact _List"),
 	  "<Control>l",
@@ -384,6 +437,7 @@ e_shell_module_init (GTypeModule *type_module)
 	e_shell_module_set_info (shell_module, &module_info);
 
 	book_module_ensure_sources (shell_module);
+	book_module_init_view_collection (shell_module);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",

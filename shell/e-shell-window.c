@@ -24,7 +24,6 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 
-#include <e-sidebar.h>
 #include <es-event.h>
 
 #include <e-util/e-plugin-ui.h>
@@ -41,31 +40,6 @@ enum {
 
 static gpointer parent_class;
 
-static void
-shell_window_update_sidebar (EShellWindow *shell_window)
-{
-	ESidebar *sidebar;
-	EShellView *shell_view;
-	const gchar *view_name;
-	const gchar *icon_name;
-	const gchar *primary_text;
-	const gchar *secondary_text;
-
-	sidebar = E_SIDEBAR (shell_window->priv->sidebar);
-	view_name = e_shell_window_get_current_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
-
-	/* Update the sidebar header. */
-
-	icon_name = e_shell_view_get_icon_name (shell_view);
-	primary_text = e_shell_view_get_primary_text (shell_view);
-	secondary_text = e_shell_view_get_secondary_text (shell_view);
-
-	e_sidebar_set_icon_name (sidebar, icon_name);
-	e_sidebar_set_primary_text (sidebar, primary_text);
-	e_sidebar_set_secondary_text (sidebar, secondary_text);
-}
-
 static EShellView *
 shell_window_new_view (EShellWindow *shell_window,
                        GType shell_view_type,
@@ -76,7 +50,6 @@ shell_window_new_view (EShellWindow *shell_window,
 	GtkNotebook *notebook;
 	GtkWidget *widget;
 	const gchar *name;
-	gulong handler_id;
 	gint page_num;
 
 	/* Determine the page number for the new shell view. */
@@ -102,15 +75,8 @@ shell_window_new_view (EShellWindow *shell_window,
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
-	widget = e_shell_view_get_status_widget (shell_view);
+	widget = e_shell_view_get_taskbar_widget (shell_view);
 	gtk_notebook_append_page (notebook, widget, NULL);
-
-	handler_id = g_signal_connect_swapped (
-		shell_view, "notify",
-		G_CALLBACK (shell_window_update_sidebar), shell_window);
-
-	/* This will be unblocked when the shell view is selected. */
-	g_signal_handler_block (shell_view, handler_id);
 
 	return shell_view;
 }
@@ -280,16 +246,16 @@ shell_window_class_init (EShellWindowClass *class)
 static void
 shell_window_init (EShellWindow *shell_window)
 {
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 
 	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
 
 	e_shell_window_private_init (shell_window);
 
-	manager = e_shell_window_get_ui_manager (shell_window);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	e_plugin_ui_register_manager (
-		"org.gnome.evolution.shell", manager, shell_window);
+		"org.gnome.evolution.shell", ui_manager, shell_window);
 }
 
 GType
@@ -386,22 +352,22 @@ e_shell_window_get_ui_manager (EShellWindow *shell_window)
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 
-	return shell_window->priv->manager;
+	return shell_window->priv->ui_manager;
 }
 
 GtkAction *
 e_shell_window_get_action (EShellWindow *shell_window,
                            const gchar *action_name)
 {
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkAction *action = NULL;
 	GList *iter;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	manager = e_shell_window_get_ui_manager (shell_window);
-	iter = gtk_ui_manager_get_action_groups (manager);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	iter = gtk_ui_manager_get_action_groups (ui_manager);
 
 	while (iter != NULL && action == NULL) {
 		GtkActionGroup *action_group = iter->data;
@@ -420,14 +386,14 @@ GtkActionGroup *
 e_shell_window_get_action_group (EShellWindow *shell_window,
                                  const gchar *group_name)
 {
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GList *iter;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
-	manager = e_shell_window_get_ui_manager (shell_window);
-	iter = gtk_ui_manager_get_action_groups (manager);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	iter = gtk_ui_manager_get_action_groups (ui_manager);
 
 	while (iter != NULL) {
 		GtkActionGroup *action_group = iter->data;
@@ -447,14 +413,14 @@ GtkWidget *
 e_shell_window_get_managed_widget (EShellWindow *shell_window,
                                    const gchar *widget_path)
 {
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkWidget *widget;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (widget_path != NULL, NULL);
 
-	manager = e_shell_window_get_ui_manager (shell_window);
-	widget = gtk_ui_manager_get_widget (manager, widget_path);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	widget = gtk_ui_manager_get_widget (ui_manager, widget_path);
 
 	g_return_val_if_fail (widget != NULL, NULL);
 
@@ -480,14 +446,6 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	gint page_num;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	if (shell_window->priv->current_view != NULL) {
-		view_name = e_shell_window_get_current_view (shell_window);
-		shell_view = e_shell_window_get_view (shell_window, view_name);
-
-		g_signal_handlers_block_by_func (
-			shell_view, shell_window_update_sidebar, shell_window);
-	}
 
 	view_name = name_or_alias;
 
@@ -515,10 +473,7 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	shell_window->priv->current_view = view_name;
 	g_object_notify (G_OBJECT (shell_window), "current-view");
 
-	g_signal_handlers_unblock_by_func (
-		shell_view, shell_window_update_sidebar, shell_window);
-
-	shell_window_update_sidebar (shell_window);
+	e_shell_window_update_gal_view_menu (shell_window);
 
 	/* Notify all loaded views. */
 	list = g_hash_table_get_values (shell_window->priv->loaded_views);
@@ -553,7 +508,7 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 {
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
@@ -561,8 +516,8 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	g_return_if_fail (entries != NULL);
 
 	action_group = shell_window->priv->new_item_actions;
-	manager = e_shell_window_get_ui_manager (shell_window);
-	accel_group = gtk_ui_manager_get_accel_group (manager);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	module_name = g_intern_string (module_name);
 
 	gtk_action_group_add_actions (
@@ -600,7 +555,7 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 {
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
@@ -608,8 +563,8 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 	g_return_if_fail (entries != NULL);
 
 	action_group = shell_window->priv->new_source_actions;
-	manager = e_shell_window_get_ui_manager (shell_window);
-	accel_group = gtk_ui_manager_get_accel_group (manager);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	module_name = g_intern_string (module_name);
 
 	gtk_action_group_add_actions (

@@ -28,11 +28,11 @@
 #include <e-shell.h>
 #include <e-shell-view.h>
 #include <e-shell-registry.h>
+#include <e-shell-switcher.h>
 #include <e-shell-window-actions.h>
 
 #include <e-menu-tool-button.h>
 #include <e-online-button.h>
-#include <e-sidebar.h>
 
 #define E_SHELL_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -58,11 +58,13 @@ struct _EShellWindowPrivate {
 
 	/*** UI Management ***/
 
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkActionGroup *shell_actions;
+	GtkActionGroup *gal_view_actions;
 	GtkActionGroup *new_item_actions;
 	GtkActionGroup *new_source_actions;
 	GtkActionGroup *shell_view_actions;
+	guint gal_view_merge_id;
 
 	/*** Shell Views ***/
 
@@ -77,8 +79,8 @@ struct _EShellWindowPrivate {
 	GtkWidget *menu_tool_button;
 	GtkWidget *content_pane;
 	GtkWidget *content_notebook;
-	GtkWidget *sidebar;
 	GtkWidget *sidebar_notebook;
+	GtkWidget *switcher;
 	GtkWidget *status_area;
 	GtkWidget *online_button;
 	GtkWidget *tooltip_label;
@@ -99,6 +101,8 @@ void		e_shell_window_private_finalize	(EShellWindow *shell_window);
 void		e_shell_window_actions_init	(EShellWindow *shell_window);
 GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *shell_window);
 void		e_shell_window_create_shell_view_actions
+						(EShellWindow *shell_window);
+void		e_shell_window_update_gal_view_menu
 						(EShellWindow *shell_window);
 
 G_END_DECLS

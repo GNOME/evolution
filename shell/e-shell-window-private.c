@@ -29,7 +29,6 @@ shell_window_notify_current_view_cb (EShellWindow *shell_window)
 {
 	GtkWidget *menu;
 	GtkWidget *widget;
-	EShellView *shell_view;
 	const gchar *path;
 
 	/* Update the "File -> New" submenu. */
@@ -203,6 +202,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	GtkWidget *widget;
 	GObject *object;
 	const gchar *key;
+	guint merge_id;
 	gint height;
 
 	loaded_views = g_hash_table_new_full (
@@ -210,21 +210,25 @@ e_shell_window_private_init (EShellWindow *shell_window)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	priv->manager = gtk_ui_manager_new ();
+	priv->ui_manager = gtk_ui_manager_new ();
 	priv->shell_actions = gtk_action_group_new ("shell");
+	priv->gal_view_actions = gtk_action_group_new ("gal-view");
 	priv->new_item_actions = gtk_action_group_new ("new-item");
 	priv->new_source_actions = gtk_action_group_new ("new-source");
 	priv->shell_view_actions = gtk_action_group_new ("shell-view");
 	priv->loaded_views = loaded_views;
 
+	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
+	priv->gal_view_merge_id = merge_id;
+
 	e_shell_window_actions_init (shell_window);
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (shell_window),
-		gtk_ui_manager_get_accel_group (priv->manager));
+		gtk_ui_manager_get_accel_group (priv->ui_manager));
 
 	g_signal_connect_swapped (
-		priv->manager, "connect-proxy",
+		priv->ui_manager, "connect-proxy",
 		G_CALLBACK (shell_window_connect_proxy_cb), shell_window);
 
 	/* Construct window widgets. */
@@ -283,9 +287,8 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	container = priv->content_pane;
 
-	widget = e_sidebar_new ();
+	widget = gtk_vbox_new (FALSE, 6);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	priv->sidebar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_notebook_new ();
@@ -295,13 +298,18 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->content_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = priv->sidebar;
+	container = gtk_paned_get_child1 (GTK_PANED (priv->content_pane));
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->sidebar_notebook = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_switcher_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->switcher = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = priv->status_area;
@@ -378,8 +386,9 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 
 	DISPOSE (priv->shell);
 
-	DISPOSE (priv->manager);
+	DISPOSE (priv->ui_manager);
 	DISPOSE (priv->shell_actions);
+	DISPOSE (priv->gal_view_actions);
 	DISPOSE (priv->new_item_actions);
 	DISPOSE (priv->new_source_actions);
 	DISPOSE (priv->shell_view_actions);
@@ -391,8 +400,8 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	DISPOSE (priv->menu_tool_button);
 	DISPOSE (priv->content_pane);
 	DISPOSE (priv->content_notebook);
-	DISPOSE (priv->sidebar);
 	DISPOSE (priv->sidebar_notebook);
+	DISPOSE (priv->switcher);
 	DISPOSE (priv->status_area);
 	DISPOSE (priv->online_button);
 	DISPOSE (priv->tooltip_label);

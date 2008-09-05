@@ -2,6 +2,8 @@ module_LTLIBRARIES = libevolution-test.la
 
 INCLUDES =					\
 	-I$(top_srcdir)/shell			\
+	-I$(top_srcdir)/widgets			\
+	-I$(top_srcdir)/widgets/menus		\
 	-I$(top_srcdir)/widgets/misc		\
 	-I$(top_builddir)/shell			\
 	-DG_LOG_DOMAIN=\"evolution-test\"	\

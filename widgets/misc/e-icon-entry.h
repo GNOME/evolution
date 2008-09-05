@@ -41,44 +41,47 @@
 
 G_BEGIN_DECLS
 
-#define E_TYPE_ICON_ENTRY		(e_icon_entry_get_type())
-#define E_ICON_ENTRY(object)		(G_TYPE_CHECK_INSTANCE_CAST((object), E_TYPE_ICON_ENTRY, EIconEntry))
-#define E_ICON_ENTRY_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST((klass), E_TYPE_ICON_ENTRY, EIconEntryClass))
-#define E_IS_ICON_ENTRY(object)	(G_TYPE_CHECK_INSTANCE_TYPE((object), E_TYPE_ICON_ENTRY))
-#define E_IS_ICON_ENTRY_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE((klass), E_TYPE_ICON_ENTRY))
-#define E_ICON_ENTRY_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), E_TYPE_ICON_ENTRY, EIconEntryClass))
+/* Standard GObject macros */
+#define E_TYPE_ICON_ENTRY \
+	(e_icon_entry_get_type())
+#define E_ICON_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_ICON_ENTRY, EIconEntry))
+#define E_ICON_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_ICON_ENTRY, EIconEntryClass))
+#define E_IS_ICON_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_ICON_ENTRY))
+#define E_IS_ICON_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_ICON_ENTRY))
+#define E_ICON_ENTRY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_ICON_ENTRY, EIconEntryClass))
 
+typedef struct _EIconEntry EIconEntry;
 typedef struct _EIconEntryClass	EIconEntryClass;
-typedef struct _EIconEntry		EIconEntry;
-typedef struct _EIconEntryPrivate	EIconEntryPrivate;
+typedef struct _EIconEntryPrivate EIconEntryPrivate;
+ 
+struct _EIconEntry
+{
+	GtkBin parent;
+	EIconEntryPrivate *priv;
+};
 
 struct _EIconEntryClass
 {
 	GtkBinClass parent_class;
 };
 
-struct _EIconEntry
-{
-	GtkBin parent_object;
-
-	/*< public >*/
-	GtkWidget *entry;
-
-	/*< private >*/
-	EIconEntryPrivate *priv;
-};
-
-GType		e_icon_entry_get_type	(void);
-
-GtkWidget      *e_icon_entry_new		(void);
-
-void		e_icon_entry_pack_widget	(EIconEntry *entry,
-						 GtkWidget *widget,
-						 gboolean start);
-
-GtkWidget      *e_icon_entry_get_entry	(EIconEntry *entry);
-
-GtkWidget *e_icon_entry_create_button (const char *stock);
+GType		e_icon_entry_get_type		(void);
+GtkWidget *	e_icon_entry_new		(void);
+GtkWidget *	e_icon_entry_get_entry		(EIconEntry *entry);
+void		e_icon_entry_add_action_start	(EIconEntry *entry,
+						 GtkAction *action);
+void		e_icon_entry_add_action_end	(EIconEntry *entry,
+						 GtkAction *action);
 
 G_END_DECLS
 

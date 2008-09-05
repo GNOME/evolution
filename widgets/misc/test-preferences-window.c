@@ -44,7 +44,7 @@ add_pages (EPreferencesWindow *preferences_window)
 
 		e_preferences_window_add_page (
 			preferences_window, page_name,
-			"gtk-properties", caption, i, widget);
+			"gtk-properties", caption, widget, i);
 
 		g_free (caption);
 		g_free (page_name);
