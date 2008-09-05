@@ -206,7 +206,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
 		}
 
-		if (CAMEL_IS_VEE_STORE (up->store)) {
+		if (CAMEL_IS_VEE_STORE (up->store) && !up->remove) {
 			/* Normally the vfolder store takes care of the folder_opened event itself,
 			   but we add folder to the noting system later, thus we do not know about
 			   search folders to update them in a tree, thus ensure their changes will
