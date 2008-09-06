@@ -1,3 +1,10 @@
+2008-09-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #549968
+
+	* e-attachment-bar.c (e_attachment_bar_bonobo_ui_populate_with):
+	Use the same mnemonic for "Recent Documents" as composer.
+
 2008-09-06  Michael Meeks  <michael.meeks@novell.com>
 
 	* e-spinner.c: correct licensing cockup; apologies.

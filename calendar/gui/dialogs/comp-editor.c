@@ -1763,7 +1763,7 @@ comp_editor_init (CompEditor *editor)
 		NULL, NULL);  /* no callback */
 	action = e_attachment_bar_recent_action_new (
 		E_ATTACHMENT_BAR (priv->attachment_bar),
-		"attach-recent", _("Recent Docu_ments"));
+		"attach-recent", _("Recent _Documents"));
 	gtk_action_group_add_action (action_group, action);
 	gtk_ui_manager_insert_action_group (
 		priv->manager, action_group, 0);

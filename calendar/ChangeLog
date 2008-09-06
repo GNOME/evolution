@@ -1,3 +1,10 @@
+2008-09-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #549968
+
+	* gui/dialogs/comp-editor.c (comp_editor_init):
+	Use the same mnemonic for "Recent Documents" as composer.
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes
