@@ -1,4 +1,6 @@
 /*
+ * Concrete class for formatting mails to displayed html
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +14,8 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *
- * Authors:
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-/*
-  Concrete class for formatting mails to displayed html
-*/
-
 #ifndef _EM_FORMAT_HTML_PRINT_H
 #define _EM_FORMAT_HTML_PRINT_H
 

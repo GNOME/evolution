@@ -1,4 +1,7 @@
 /*
+ * EWeekViewMainItem - displays the background grid and dates for the Week and
+ * Month calendar views.
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +15,10 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *
  * Authors:
  *		Damon Chaplin <damon@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
- */
-
-/*
- * EWeekViewMainItem - displays the background grid and dates for the Week and
- * Month calendar views.
  */
 
 #ifdef HAVE_CONFIG_H

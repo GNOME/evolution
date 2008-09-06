@@ -1,4 +1,9 @@
 /*
+ * EMeetingTimeSelectorItem - A GnomeCanvasItem which is used for both the main
+ * display canvas and the top display (with the dates, times & All Attendees).
+ * I didn't make these separate GnomeCanvasItems since they share a lot of
+ * code.
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,21 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *
  * Authors:
  *		Damon Chaplin <damon@gtk.org>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
-
-/*
- * EMeetingTimeSelectorItem - A GnomeCanvasItem which is used for both the main
- * display canvas and the top display (with the dates, times & All Attendees).
- * I didn't make these separate GnomeCanvasItems since they share a lot of
- * code.
- */
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

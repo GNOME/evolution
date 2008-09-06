@@ -1,4 +1,7 @@
 /*
+ * ECellDateEditText - a subclass of ECellText used to show and edit the text
+ * representation of the date, from a ECalComponentDateTime* model value.
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,17 +15,10 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *
  * Authors:
  *		Damon Chaplin <damon@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
- */
-
-/*
- * ECellDateEditText - a subclass of ECellText used to show and edit the text
- * representation of the date, from a ECalComponentDateTime* model value.
  */
 
 #ifndef _E_CELL_DATE_EDIT_TEXT_H_
