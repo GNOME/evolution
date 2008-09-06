@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-30 21:59+0200\n"
-"PO-Revision-Date: 2008-08-29 23:10+0200\n"
-"Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
+"POT-Creation-Date: 2008-09-06 12:09+0200\n"
+"PO-Revision-Date: 2008-09-06 12:10+0200\n"
+"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,63 +75,63 @@ msgstr "Contact : "
 msgid "evolution minicard"
 msgstr "mini-carte d'Evolution"
 
-#: ../a11y/calendar/ea-cal-view-event.c:266
+#: ../a11y/calendar/ea-cal-view-event.c:265
 msgid "It has alarms."
 msgstr "Il possède des alarmes."
 
-#: ../a11y/calendar/ea-cal-view-event.c:269
+#: ../a11y/calendar/ea-cal-view-event.c:268
 msgid "It has recurrences."
 msgstr "Il possède des récurrences."
 
-#: ../a11y/calendar/ea-cal-view-event.c:272
+#: ../a11y/calendar/ea-cal-view-event.c:271
 msgid "It is a meeting."
 msgstr "C'est une réunion."
 
-#: ../a11y/calendar/ea-cal-view-event.c:278
+#: ../a11y/calendar/ea-cal-view-event.c:277
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Événement du calendrier : le résumé est %s."
 
-#: ../a11y/calendar/ea-cal-view-event.c:280
+#: ../a11y/calendar/ea-cal-view-event.c:279
 msgid "Calendar Event: It has no summary."
 msgstr "Événement du calendrier : il n'a pas de résumé."
 
-#: ../a11y/calendar/ea-cal-view-event.c:300
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "vue des événements du calendrier"
 
-#: ../a11y/calendar/ea-cal-view-event.c:528
+#: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
 msgstr "Capturer le focus"
 
-#: ../a11y/calendar/ea-cal-view.c:302
+#: ../a11y/calendar/ea-cal-view.c:299
 msgid "New Appointment"
 msgstr "Nouveau rendez-vous"
 
-#: ../a11y/calendar/ea-cal-view.c:303
+#: ../a11y/calendar/ea-cal-view.c:300
 msgid "New All Day Event"
 msgstr "Nouvel événement toute la journée"
 
-#: ../a11y/calendar/ea-cal-view.c:304
+#: ../a11y/calendar/ea-cal-view.c:301
 msgid "New Meeting"
 msgstr "Nouvelle réunion"
 
-#: ../a11y/calendar/ea-cal-view.c:305
+#: ../a11y/calendar/ea-cal-view.c:302
 msgid "Go to Today"
 msgstr "Aller à aujourd'hui"
 
-#: ../a11y/calendar/ea-cal-view.c:306
+#: ../a11y/calendar/ea-cal-view.c:303
 msgid "Go to Date"
 msgstr "Aller à la date"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:301
-#: ../a11y/calendar/ea-week-view-main-item.c:301
+#: ../a11y/calendar/ea-week-view-main-item.c:298
 msgid "a table to view and select the current time range"
 msgstr "un tableau pour consulter et sélectionner l'intervalle de temps actuel"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:150
+#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:147
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -140,14 +140,14 @@ msgstr[1] "Il possède %d événements."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:152
+#: ../a11y/calendar/ea-day-view.c:152 ../a11y/calendar/ea-week-view.c:149
 msgid "It has no events."
 msgstr "Il ne possède pas d'événements."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
 #. week, for example "It has %d event/events." or  "It has no events."
-#: ../a11y/calendar/ea-day-view.c:162
+#: ../a11y/calendar/ea-day-view.c:159
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "Vue hebdomadaire de travail : %s. %s"
@@ -155,16 +155,16 @@ msgstr "Vue hebdomadaire de travail : %s. %s"
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
 #. example "It has %d event/events." or  "It has no events."
-#: ../a11y/calendar/ea-day-view.c:168
+#: ../a11y/calendar/ea-day-view.c:165
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "Vue journalière : %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:199
+#: ../a11y/calendar/ea-day-view.c:196
 msgid "calendar view for a work week"
 msgstr "vue du calendrier pour une semaine de travail"
 
-#: ../a11y/calendar/ea-day-view.c:201
+#: ../a11y/calendar/ea-day-view.c:198
 msgid "calendar view for one or more days"
 msgstr "vue du calendrier pour un ou plusieurs jours"
 
@@ -182,7 +182,7 @@ msgstr "%A %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:760
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1568
-#: ../calendar/gui/e-week-view-main-item.c:340
+#: ../calendar/gui/e-week-view-main-item.c:339
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -214,7 +214,7 @@ msgstr "%d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:786
 #: ../calendar/gui/e-day-view-top-item.c:860 ../calendar/gui/e-day-view.c:1584
-#: ../calendar/gui/e-week-view-main-item.c:354
+#: ../calendar/gui/e-week-view-main-item.c:353
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -240,30 +240,30 @@ msgstr "Bouton du saut"
 msgid "Click here, you can find more events."
 msgstr "Cliquez ici, vous pourrez trouver plus d'événements."
 
-#: ../a11y/calendar/ea-week-view.c:157
+#: ../a11y/calendar/ea-week-view.c:154
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "Vue mensuelle : %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:161
+#: ../a11y/calendar/ea-week-view.c:158
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "Vue hebdomadaire : %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:192
+#: ../a11y/calendar/ea-week-view.c:189
 msgid "calendar view for a month"
 msgstr "vue du calendrier pour un mois"
 
-#: ../a11y/calendar/ea-week-view.c:194
+#: ../a11y/calendar/ea-week-view.c:191
 msgid "calendar view for one or more weeks"
 msgstr "vue du calendrier pour une ou plusieurs semaines"
 
-#: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:121
 msgid "popup"
 msgstr "popup"
 
 #. action name
-#: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:122
 msgid "popup a child"
 msgstr "affiche un fils"
 
@@ -275,12 +275,12 @@ msgstr "modifier"
 msgid "begin editing this cell"
 msgstr "commence la modification de cette cellule"
 
-#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:172
 msgid "toggle"
 msgstr "basculer"
 
 #. action name
-#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:173
 msgid "toggle the cell"
 msgstr "bascule la cellule"
 
@@ -300,17 +300,17 @@ msgstr "réduire"
 msgid "collapses the row in the ETree containing this cell"
 msgstr "réduit la rangée du ETree contenant cette cellule"
 
-#: ../a11y/e-table/gal-a11y-e-cell.c:107
+#: ../a11y/e-table/gal-a11y-e-cell.c:121
 msgid "Table Cell"
 msgstr "Cellule de tableau"
 
-#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
-#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
-#: ../widgets/table/e-table-click-to-add.c:581
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:59
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:134
+#: ../widgets/table/e-table-click-to-add.c:580
 msgid "click to add"
 msgstr "cliquez pour ajouter"
 
-#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:68
 msgid "click"
 msgstr "clic"
 
@@ -318,17 +318,17 @@ msgstr "clic"
 msgid "sort"
 msgstr "tri"
 
-#: ../a11y/widgets/ea-calendar-item.c:298
-#: ../a11y/widgets/ea-calendar-item.c:304
+#: ../a11y/widgets/ea-calendar-item.c:295
+#: ../a11y/widgets/ea-calendar-item.c:301
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../a11y/widgets/ea-calendar-item.c:306
+#: ../a11y/widgets/ea-calendar-item.c:303
 #, c-format
 msgid "Calendar: from %s to %s"
 msgstr "Calendrier : du %s au %s"
 
-#: ../a11y/widgets/ea-calendar-item.c:341
+#: ../a11y/widgets/ea-calendar-item.c:338
 msgid "evolution calendar item"
 msgstr "élément du calendrier d'Evolution"
 
@@ -563,7 +563,7 @@ msgstr ""
 "Vos contacts pour {0} ne seront plus disponibles tant que Evolution n'aura "
 "pas été redémarré."
 
-#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:512
+#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:513
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:18
@@ -632,7 +632,7 @@ msgstr "Configurez la complétion automatique ici"
 #: ../addressbook/gui/component/addressbook-view.c:1326
 #: ../calendar/gui/calendar-component.c:299 ../calendar/gui/migration.c:396
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/exchange-operations/exchange-folder.c:582
 msgid "Contacts"
 msgstr "Contacts"
 
@@ -724,7 +724,7 @@ msgid "Create a new contact list"
 msgstr "Crée une nouvelle liste de contacts"
 
 #: ../addressbook/gui/component/addressbook-component.c:245
-#: ../addressbook/gui/component/addressbook-config.c:1206
+#: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "Nouveau carnet d'adresses"
 
@@ -748,7 +748,7 @@ msgid "Base"
 msgstr "Base"
 
 #: ../addressbook/gui/component/addressbook-config.c:517
-#: ../calendar/gui/dialogs/calendar-setup.c:169
+#: ../calendar/gui/dialogs/calendar-setup.c:170
 msgid "_Type:"
 msgstr "_Type :"
 
@@ -756,48 +756,48 @@ msgstr "_Type :"
 msgid "Copy _book content locally for offline operation"
 msgstr "Copier localement le contenu du _carnet pour les opérations hors ligne"
 
-#: ../addressbook/gui/component/addressbook-config.c:981
+#: ../addressbook/gui/component/addressbook-config.c:982
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.c:366
-#: ../calendar/gui/dialogs/calendar-setup.c:377
-#: ../calendar/gui/dialogs/calendar-setup.c:388
-#: ../mail/em-folder-properties.c:280 ../mail/mail-config.glade.h:89
+#: ../calendar/gui/dialogs/calendar-setup.c:367
+#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:89
 #: ../plugins/itip-formatter/itip-formatter.c:2367
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Général"
 
-#: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/component/addressbook-config.c:983
 #: ../addressbook/gui/widgets/e-addressbook-view.c:555
 #: ../mail/importers/pine-importer.c:385
 msgid "Address Book"
 msgstr "Carnet d'adresses"
 
-#: ../addressbook/gui/component/addressbook-config.c:986
+#: ../addressbook/gui/component/addressbook-config.c:987
 msgid "Server Information"
 msgstr "Informations sur le serveur"
 
-#: ../addressbook/gui/component/addressbook-config.c:988
+#: ../addressbook/gui/component/addressbook-config.c:989
 msgid "Authentication"
 msgstr "Authentification"
 
-#: ../addressbook/gui/component/addressbook-config.c:991
+#: ../addressbook/gui/component/addressbook-config.c:992
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Détails"
 
-#: ../addressbook/gui/component/addressbook-config.c:992
+#: ../addressbook/gui/component/addressbook-config.c:993
 #: ../mail/em-folder-browser.c:983
 msgid "Searching"
 msgstr "Recherche"
 
-#: ../addressbook/gui/component/addressbook-config.c:994
+#: ../addressbook/gui/component/addressbook-config.c:995
 msgid "Downloading"
 msgstr "Téléchargement"
 
-#: ../addressbook/gui/component/addressbook-config.c:1204
+#: ../addressbook/gui/component/addressbook-config.c:1205
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Propriétés du carnet d'adresses"
@@ -865,18 +865,18 @@ msgstr ""
 "Veuillez patienter pendant qu'Evolution migre vos dossiers..."
 
 #: ../addressbook/gui/component/addressbook-view.c:425
-#: ../mail/em-folder-utils.c:502
+#: ../mail/em-folder-utils.c:501
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Renommer le dossier « %s » en :"
 
 #: ../addressbook/gui/component/addressbook-view.c:428
-#: ../mail/em-folder-utils.c:504
+#: ../mail/em-folder-utils.c:503
 msgid "Rename Folder"
 msgstr "Renommer le dossier"
 
 #: ../addressbook/gui/component/addressbook-view.c:433
-#: ../mail/em-folder-utils.c:510
+#: ../mail/em-folder-utils.c:509
 msgid "Folder names cannot contain '/'"
 msgstr "Les noms des dossiers ne peuvent pas contenir le caractère « / »"
 
@@ -919,12 +919,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Accès anonyme au serveur LDAP"
 
 #: ../addressbook/gui/component/addressbook.c:207
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:536
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:535
 msgid "Failed to authenticate.\n"
 msgstr "L'authentification a échoué.\n"
 
 #: ../addressbook/gui/component/addressbook.c:214
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:516
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:515
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Saisissez le mot de passe pour %s (utilisateur %s)"
@@ -933,7 +933,7 @@ msgstr "Saisissez le mot de passe pour %s (utilisateur %s)"
 #: ../calendar/common/authentication.c:51
 #: ../plugins/google-account-setup/google-source.c:444
 #: ../plugins/publish-calendar/publish-calendar.c:190
-#: ../smime/gui/component.c:50
+#: ../smime/gui/component.c:49
 msgid "Enter password"
 msgstr "Saisissez le mot de passe"
 
@@ -1256,7 +1256,7 @@ msgid "_Login method:"
 msgstr "_Méthode d'identification :"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
-#: ../calendar/gui/dialogs/calendar-setup.c:226
+#: ../calendar/gui/dialogs/calendar-setup.c:227
 #: ../mail/mail-config.glade.h:175
 #: ../plugins/groupwise-features/properties.glade.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
@@ -1350,7 +1350,7 @@ msgstr "Ca_tégories..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1156
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1158
 #: ../addressbook/gui/widgets/e-minicard.c:198
 msgid "Contact"
 msgstr "Contact"
@@ -1371,7 +1371,7 @@ msgid "Image"
 msgstr "Image"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:58
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:59
 msgid "MSN Messenger"
 msgstr "Messagerie MSN"
 
@@ -1384,7 +1384,7 @@ msgid "Nic_kname:"
 msgstr "_Surnom :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:54
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:55
 msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
@@ -1398,7 +1398,7 @@ msgstr "Téléphone"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:229
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:230
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:643
@@ -1514,1002 +1514,1002 @@ msgstr "_Où :"
 msgid "_Zip/Postal Code:"
 msgstr "_Code postal :"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:91
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:92
 #: ../addressbook/gui/widgets/eab-contact-display.c:640
 #: ../addressbook/gui/widgets/eab-contact-display.c:655
 msgid "Address"
 msgstr "Adresse"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:98
-#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:91
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:134
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:99
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:92
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:135
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:291
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1176
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1178
 #: ../addressbook/gui/widgets/e-addressbook-model.c:312
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:424
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:130
-#: ../addressbook/gui/widgets/e-minicard-view.c:544
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:131
+#: ../addressbook/gui/widgets/e-minicard-view.c:545
 #: ../addressbook/gui/widgets/e-minicard.c:191
-#: ../widgets/menus/gal-define-views-model.c:179
+#: ../widgets/menus/gal-define-views-model.c:178
 #: ../widgets/table/e-cell-text.c:1836 ../widgets/text/e-text.c:3687
 #: ../widgets/text/e-text.c:3688
 msgid "Editable"
 msgstr "Modifiable"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:131
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:132
 msgid "United States"
 msgstr "États-Unis"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:132
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:133
 msgid "Afghanistan"
 msgstr "Afghanistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:133
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:134
 msgid "Albania"
 msgstr "Albanie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:134
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:135
 msgid "Algeria"
 msgstr "Algérie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:135
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "American Samoa"
 msgstr "Samoa (US)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:136
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "Andorra"
 msgstr "Andorre"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Angola"
 msgstr "Angola"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Anguilla"
 msgstr "Anguilla"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Antarctica"
 msgstr "Antarctique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "Antigua And Barbuda"
 msgstr "Antigua et Barbuda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Argentina"
 msgstr "Argentine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Armenia"
 msgstr "Arménie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Aruba"
 msgstr "Aruba"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Australia"
 msgstr "Australie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Austria"
 msgstr "Autriche"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Azerbaijan"
 msgstr "Azerbaïdjan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
 msgid "Bahrain"
 msgstr "Bahreïn"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Bangladesh"
 msgstr "Bangladesh"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Barbados"
 msgstr "Barbade"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Belarus"
 msgstr "Biélorussie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Belgium"
 msgstr "Belgique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Belize"
 msgstr "Belize"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Benin"
 msgstr "Bénin"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Bermuda"
 msgstr "Bermudes"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Bhutan"
 msgstr "Bhoutan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Bolivia"
 msgstr "Bolivie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Bosnia And Herzegowina"
 msgstr "Bosnie Herzégovine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Botswana"
 msgstr "Botswana"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bouvet Island"
 msgstr "Île Bouvet"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Brazil"
 msgstr "Brésil"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "British Indian Ocean Territory"
 msgstr "Territoire britannique de l'océan Indien"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Brunei Darussalam"
 msgstr "Brunéi Darussalam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Bulgaria"
 msgstr "Bulgarie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Burkina Faso"
 msgstr "Burkina-Faso"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Burundi"
 msgstr "Burundi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "Cambodia"
 msgstr "Cambodge"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Cameroon"
 msgstr "Cameroun"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Canada"
 msgstr "Canada"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Cape Verde"
 msgstr "Cap Vert"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Cayman Islands"
 msgstr "Îles Caïman"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Central African Republic"
 msgstr "République Centrafricaine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Chad"
 msgstr "Tchad"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Chile"
 msgstr "Chili"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "China"
 msgstr "Chine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Christmas Island"
 msgstr "Île Christmas"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Cocos (Keeling) Islands"
 msgstr "Îles Cocos"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "Colombia"
 msgstr "Colombie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
 msgid "Comoros"
 msgstr "Comores"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Congo"
 msgstr "Congo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Congo, The Democratic Republic Of The"
 msgstr "Congo, République démocratique du"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Cook Islands"
 msgstr "Îles Cook"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Cote d'Ivoire"
 msgstr "Côte d'Ivoire"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Croatia"
 msgstr "Croatie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cuba"
 msgstr "Cuba"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cyprus"
 msgstr "Chypre"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Czech Republic"
 msgstr "République Tchèque"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Denmark"
 msgstr "Danemark"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Djibouti"
 msgstr "Djibouti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "Dominica"
 msgstr "Dominique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
 msgid "Dominican Republic"
 msgstr "République Dominicaine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Ecuador"
 msgstr "Équateur"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Egypt"
 msgstr "Égypte"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "El Salvador"
 msgstr "Salvador"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Equatorial Guinea"
 msgstr "Guinée Équatoriale"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Eritrea"
 msgstr "Érythrée"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Estonia"
 msgstr "Estonie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "Ethiopia"
 msgstr "Éthiopie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Falkland Islands"
 msgstr "Îles Malouines"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Faroe Islands"
 msgstr "Îles Féroé"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Fiji"
 msgstr "Îles Fidji"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Finland"
 msgstr "Finlande"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "France"
 msgstr "France"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "French Guiana"
 msgstr "Guyane Française"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "French Polynesia"
 msgstr "Polynésie Française"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "French Southern Territories"
 msgstr "Terres Australes Françaises"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "Gabon"
 msgstr "Gabon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "Gambia"
 msgstr "Gambie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "Georgia"
 msgstr "Géorgie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "Germany"
 msgstr "Allemagne"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Ghana"
 msgstr "Ghana"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:213
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Greece"
 msgstr "Grèce"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Greenland"
 msgstr "Groenland"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Grenada"
 msgstr "Grenade"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Guadeloupe"
 msgstr "Guadeloupe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Guam"
 msgstr "Guam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Guernsey"
 msgstr "Guernesey"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guinea"
 msgstr "Guinée"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guinea-Bissau"
 msgstr "Guinée-Bissau"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guyana"
 msgstr "Guyane"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Haiti"
 msgstr "Haïti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Heard And McDonald Islands"
 msgstr "Îles Heard et McDonald"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Holy See"
 msgstr "Vatican"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Honduras"
 msgstr "Honduras"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Hungary"
 msgstr "Hongrie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Iceland"
 msgstr "Islande"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "India"
 msgstr "Inde"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Indonesia"
 msgstr "Indonésie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
 msgid "Iran"
 msgstr "Iran"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
 msgid "Iraq"
 msgstr "Irak"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
 msgid "Ireland"
 msgstr "Irlande"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
 msgid "Isle of Man"
 msgstr "Isle of Man"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
 msgid "Israel"
 msgstr "Israël"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
 msgid "Italy"
 msgstr "Italie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Jamaica"
 msgstr "Jamaïque"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Japan"
 msgstr "Japon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Jersey"
 msgstr "Jersey"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Jordan"
 msgstr "Jordanie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Kazakhstan"
 msgstr "Kazakhstan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Kenya"
 msgstr "Kenya"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Korea, Democratic People's Republic Of"
 msgstr "Corée, République démocratique populaire de"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Korea, Republic Of"
 msgstr "Corée (République de)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kuwait"
 msgstr "Koweït"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kyrgyzstan"
 msgstr "Kyrgyzstan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Laos"
 msgstr "Laos"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Latvia"
 msgstr "Lettonie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Lebanon"
 msgstr "Liban"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Lesotho"
 msgstr "Lesotho"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Liberia"
 msgstr "Liberia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Libya"
 msgstr "Libye"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lithuania"
 msgstr "Lituanie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Luxembourg"
 msgstr "Luxembourg"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Macao"
 msgstr "Macao"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Macedonia"
 msgstr "Macédoine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Madagascar"
 msgstr "Madagascar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Malawi"
 msgstr "Malawi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Malaysia"
 msgstr "Malaisie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Maldives"
 msgstr "Maldives"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Mali"
 msgstr "Mali"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malta"
 msgstr "Malte"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Marshall Islands"
 msgstr "Îles Marshall"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Martinique"
 msgstr "Martinique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mauritania"
 msgstr "Mauritanie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Mauritius"
 msgstr "Maurice"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Mayotte"
 msgstr "Mayotte"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Mexico"
 msgstr "Mexique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Micronesia"
 msgstr "Micronésie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Moldova, Republic Of"
 msgstr "Moldavie (République de)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Monaco"
 msgstr "Monaco"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mongolia"
 msgstr "Mongolie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Montserrat"
 msgstr "Montserrat"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Morocco"
 msgstr "Maroc"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Mozambique"
 msgstr "Mozambique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Myanmar"
 msgstr "Birmanie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Namibia"
 msgstr "Namibie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Nauru"
 msgstr "Nauru"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Nepal"
 msgstr "Népal"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Netherlands"
 msgstr "Pays-Bas"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Netherlands Antilles"
 msgstr "Antilles Néerlandaises"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "New Caledonia"
 msgstr "Nouvelle Calédonie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "New Zealand"
 msgstr "Nouvelle Zélande"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Nicaragua"
 msgstr "Nicaragua"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Niger"
 msgstr "Niger"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Nigeria"
 msgstr "Nigeria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "Niue"
 msgstr "Niue"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "Norfolk Island"
 msgstr "Île Norfolk"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Northern Mariana Islands"
 msgstr "Îles Marianes"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Norway"
 msgstr "Norvège"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Oman"
 msgstr "Oman"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Pakistan"
 msgstr "Pakistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Palau"
 msgstr "Palau"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Palestinian Territory"
 msgstr "Territoire Palestinien"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Panama"
 msgstr "Panama"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Papua New Guinea"
 msgstr "Papouasie Nouvelle Guinée"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Peru"
 msgstr "Pérou"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Philippines"
 msgstr "Philippines"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Pitcairn"
 msgstr "Pitcairn"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Poland"
 msgstr "Pologne"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Portugal"
 msgstr "Portugal"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Puerto Rico"
 msgstr "Porto Rico"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Qatar"
 msgstr "Qatar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Reunion"
 msgstr "La Réunion"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Romania"
 msgstr "Roumanie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Russian Federation"
 msgstr "Russie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Rwanda"
 msgstr "Rwanda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Saint Kitts And Nevis"
 msgstr "St Kitts et Nevis"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Saint Lucia"
 msgstr "Sainte Lucie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Saint Vincent And The Grenadines"
 msgstr "Saint-Vincent-et-les-Grenadines"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "San Marino"
 msgstr "San Marin"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Sao Tome And Principe"
 msgstr "Sao Tome et Principe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saudi Arabia"
 msgstr "Arabie Saoudite"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Senegal"
 msgstr "Sénégal"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Serbia And Montenegro"
 msgstr "Serbie et Monténégro"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "Seychelles"
 msgstr "Seychelles"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Singapore"
 msgstr "Singapour"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Slovakia"
 msgstr "Slovaquie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Slovenia"
 msgstr "Slovénie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Solomon Islands"
 msgstr "Îles Salomon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Somalia"
 msgstr "Somalie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "South Africa"
 msgstr "Afrique du Sud"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "South Georgia And The South Sandwich Islands"
 msgstr "Géorgie du Sud et Îles Sandwich"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Spain"
 msgstr "Espagne"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "St. Helena"
 msgstr "St Hélène"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "St. Pierre And Miquelon"
 msgstr "Saint-Pierre et Miquelon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Sudan"
 msgstr "Soudan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Suriname"
 msgstr "Surinam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "Svalbard And Jan Mayen Islands"
 msgstr "Îles Svalbard et Jan Mayen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "Swaziland"
 msgstr "Swaziland"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Sweden"
 msgstr "Suède"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Switzerland"
 msgstr "Suisse"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Syria"
 msgstr "Syrie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Taiwan"
 msgstr "Taiwan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Tajikistan"
 msgstr "Tadjikistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Tanzania, United Republic Of"
 msgstr "Tanzanie (République Unie de)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Thailand"
 msgstr "Thaïlande"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Timor-Leste"
 msgstr "Timor oriental"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Togo"
 msgstr "Togo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tokelau"
 msgstr "Tokelau"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Trinidad And Tobago"
 msgstr "Trinidad et Tobago"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Tunisia"
 msgstr "Tunisie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Turkey"
 msgstr "Turquie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Turkmenistan"
 msgstr "Turkménistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Turks And Caicos Islands"
 msgstr "Îles Turks et Caïques"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Uganda"
 msgstr "Ouganda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Ukraine"
 msgstr "Ukraine"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "United Arab Emirates"
 msgstr "Émirats Arabes Unis"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "United Kingdom"
 msgstr "Royaume-Uni"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "United States Minor Outlying Islands"
 msgstr "Îles isolées (US)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "Uzbekistan"
 msgstr "Ouzbékistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:365
 msgid "Venezuela"
 msgstr "Vénézuéla"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:365
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "Viet Nam"
 msgstr "Vietnam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Virgin Islands, British"
 msgstr "Îles Vierges britanniques"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Virgin Islands, U.S."
 msgstr "Îles Vierges américaines"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Wallis And Futuna Islands"
 msgstr "Îles Wallis et Futuna"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Western Sahara"
 msgstr "Sahara Occidental"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Yemen"
 msgstr "Yémen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Zambia"
 msgstr "Zambie"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:85
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:86
 #: ../mail/em-mailer-prefs.c:466
-#: ../plugins/exchange-operations/exchange-delegates.c:952
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:709
-#: ../plugins/plugin-manager/plugin-manager.c:41
+#: ../plugins/exchange-operations/exchange-delegates.c:954
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:711
+#: ../plugins/plugin-manager/plugin-manager.c:57
 #: ../plugins/save-attachments/save-attachments.c:350
 #: ../widgets/menus/gal-define-views-dialog.c:346
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:91
@@ -2517,35 +2517,35 @@ msgstr "Zimbabwe"
 msgid "Name"
 msgstr "Nom"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:53
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:54
 msgid "AOL Instant Messenger"
 msgstr "Messagerie instantanée AOL"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:55
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:56
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:175
 #: ../addressbook/gui/widgets/eab-contact-display.c:617
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:56
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:57
 msgid "Yahoo Messenger"
 msgstr "Messagerie Yahoo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:57
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:58
 msgid "Gadu-Gadu Messenger"
 msgstr "Messagerie Gadu-Gadu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:59
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:60
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:179
 #: ../addressbook/gui/widgets/eab-contact-display.c:616
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:111
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:112
 msgid "Service"
 msgstr "Service"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:120
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:121
 #: ../calendar/gui/caltypes.xml.h:25
 #: ../calendar/gui/e-cal-list-view.etspec.h:3 ../mail/message-list.etspec.h:9
 #: ../plugins/publish-calendar/publish-calendar.c:693
@@ -2553,17 +2553,17 @@ msgstr "Service"
 msgid "Location"
 msgstr "Emplacement"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:127
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:225
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:226
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
 msgstr "Domicile"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:233
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:194
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
 #: ../addressbook/gui/widgets/eab-contact-display.c:528
@@ -2810,7 +2810,7 @@ msgstr "_Service d'IM :"
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:242
+#: ../plugins/exchange-operations/exchange-calendar.c:243
 #: ../plugins/exchange-operations/exchange-contacts.c:234
 msgid "_Location:"
 msgstr "_Emplacement :"
@@ -2820,7 +2820,7 @@ msgid "<b>Members</b>"
 msgstr "<b>Membres</b>"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:668
 msgid "Contact List Editor"
 msgstr "Éditeur de liste de contacts"
 
@@ -2842,25 +2842,25 @@ msgstr ""
 "_Saisissez une adresse électronique ou déplacez un contact dans la liste ci-"
 "dessous :"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:761
 msgid "Contact List Members"
 msgstr "Membres de la liste de contacts"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:898
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1237
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:900
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1239
 msgid "_Members"
 msgstr "_Membres"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1146
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1148
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:410
 #: ../addressbook/gui/widgets/e-addressbook-view.c:212
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:116
-#: ../addressbook/gui/widgets/e-minicard-view.c:530
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:117
+#: ../addressbook/gui/widgets/e-minicard-view.c:531
 msgid "Book"
 msgstr "Carnet"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1166
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1168
 msgid "Is New List"
 msgstr "Est une nouvelle liste"
 
@@ -2902,15 +2902,15 @@ msgstr ""
 "dans ce dossier. Voulez-vous quand même l'ajouter ?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:6
-#: ../addressbook/gui/merging/eab-contact-merging.c:200
+#: ../addressbook/gui/merging/eab-contact-merging.c:214
 msgid "_Merge"
 msgstr "_Fusionner"
 
-#: ../addressbook/gui/merging/eab-contact-merging.c:185
+#: ../addressbook/gui/merging/eab-contact-merging.c:199
 msgid "Merge Contact"
 msgstr "Fusionner le contact"
 
-#: ../addressbook/gui/merging/eab-contact-merging.c:253
+#: ../addressbook/gui/merging/eab-contact-merging.c:267
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
@@ -2948,10 +2948,10 @@ msgstr[0] "%d contact"
 msgstr[1] "%d contacts"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:397
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:417
 #: ../addressbook/gui/widgets/e-addressbook-view.c:226
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:123
-#: ../addressbook/gui/widgets/e-minicard-view.c:537
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:124
+#: ../addressbook/gui/widgets/e-minicard-view.c:538
 msgid "Query"
 msgstr "Requête"
 
@@ -2959,16 +2959,16 @@ msgstr "Requête"
 msgid "Error getting book view"
 msgstr "Erreur d'obtention de l'affichage du carnet"
 
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:411
-#: ../widgets/table/e-table-click-to-add.c:510
-#: ../widgets/table/e-table-selection-model.c:303
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:431
+#: ../widgets/table/e-table-click-to-add.c:509
+#: ../widgets/table/e-table-selection-model.c:302
 #: ../widgets/table/e-table.c:3353
 #: ../widgets/table/e-tree-selection-model.c:821 ../widgets/text/e-text.c:3551
 #: ../widgets/text/e-text.c:3552
 msgid "Model"
 msgstr "Modèle"
 
-#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:131
+#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:150
 msgid "Error modifying card"
 msgstr "Erreur lors de la modification de la carte"
 
@@ -3071,12 +3071,6 @@ msgstr "C_oller"
 #: ../calendar/gui/cal-search-bar.c:687
 msgid "Any Category"
 msgstr "Toutes les catégories"
-
-#. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1734
-#: ../addressbook/gui/widgets/eab-gui-util.c:77
-msgid "Other error"
-msgstr "Autre erreur"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:634
@@ -3212,7 +3206,7 @@ msgstr "Radio"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/e-meeting-list-view.c:520
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:713
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:715
 msgid "Role"
 msgstr "Rôle"
 
@@ -3249,13 +3243,13 @@ msgstr "Site Web"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:154
-#: ../widgets/misc/e-canvas-vbox.c:86 ../widgets/misc/e-canvas-vbox.c:87
+#: ../widgets/misc/e-canvas-vbox.c:85 ../widgets/misc/e-canvas-vbox.c:86
 #: ../widgets/misc/e-reflow.c:1433 ../widgets/misc/e-reflow.c:1434
-#: ../widgets/table/e-table-click-to-add.c:524
+#: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-col.c:99
 #: ../widgets/table/e-table-field-chooser-item.c:655
+#: ../widgets/table/e-table-group-container.c:992
 #: ../widgets/table/e-table-group-container.c:993
-#: ../widgets/table/e-table-group-container.c:994
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-group-leaf.c:638
 #: ../widgets/table/e-table-item.c:3081 ../widgets/table/e-table-item.c:3082
@@ -3265,12 +3259,12 @@ msgstr "Largeur"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:161
-#: ../widgets/misc/e-canvas-vbox.c:98 ../widgets/misc/e-canvas-vbox.c:99
+#: ../widgets/misc/e-canvas-vbox.c:97 ../widgets/misc/e-canvas-vbox.c:98
 #: ../widgets/misc/e-reflow.c:1441 ../widgets/misc/e-reflow.c:1442
-#: ../widgets/table/e-table-click-to-add.c:531
+#: ../widgets/table/e-table-click-to-add.c:530
 #: ../widgets/table/e-table-field-chooser-item.c:662
+#: ../widgets/table/e-table-group-container.c:985
 #: ../widgets/table/e-table-group-container.c:986
-#: ../widgets/table/e-table-group-container.c:987
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-group-leaf.c:631
 #: ../widgets/table/e-table-item.c:3087 ../widgets/table/e-table-item.c:3088
@@ -3299,11 +3293,11 @@ msgstr "Modèle de texte"
 msgid "Max field name length"
 msgstr "Longueur max. du nom du champ"
 
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:137
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:138
 msgid "Column Width"
 msgstr "Largeur des colonnes"
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:177
+#: ../addressbook/gui/widgets/e-minicard-view.c:178
 msgid ""
 "\n"
 "\n"
@@ -3313,7 +3307,7 @@ msgstr ""
 "\n"
 "Recherche des contacts..."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:180
+#: ../addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
 "\n"
 "\n"
@@ -3327,7 +3321,7 @@ msgstr ""
 "\n"
 "ou double-cliquez ici pour créer un nouveau contact."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:183
+#: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
 "\n"
 "\n"
@@ -3341,7 +3335,7 @@ msgstr ""
 "\n"
 "Double-cliquez ici pour créer un nouveau contact."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:187
+#: ../addressbook/gui/widgets/e-minicard-view.c:188
 msgid ""
 "\n"
 "\n"
@@ -3351,7 +3345,7 @@ msgstr ""
 "\n"
 "Rechercher le contact."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:189
+#: ../addressbook/gui/widgets/e-minicard-view.c:190
 msgid ""
 "\n"
 "\n"
@@ -3361,7 +3355,7 @@ msgstr ""
 "\n"
 "Il n'y a aucun élément à afficher dans cette vue."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:523
+#: ../addressbook/gui/widgets/e-minicard-view.c:524
 msgid "Adapter"
 msgstr "Adaptateur"
 
@@ -3439,22 +3433,22 @@ msgstr "Vidéo-conférence"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:92
-#: ../calendar/gui/dialogs/calendar-setup.c:367
+#: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/gnome-cal.c:2451
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:574
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:425
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:456
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:569
-#: ../plugins/hula-account-setup/camel-hula-listener.c:378
-#: ../plugins/hula-account-setup/camel-hula-listener.c:407
+#: ../plugins/exchange-operations/exchange-folder.c:576
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:424
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:455
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:568
+#: ../plugins/hula-account-setup/camel-hula-listener.c:377
+#: ../plugins/hula-account-setup/camel-hula-listener.c:406
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
 msgid "Calendar"
 msgstr "Calendrier"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:637
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:113
+#: ../calendar/gui/dialogs/event-editor.c:115
 msgid "Free/Busy"
 msgstr "Libre/Occupé"
 
@@ -3591,6 +3585,11 @@ msgstr "Aucun message correspondant"
 msgid "Not available in offline mode"
 msgstr "Non disponible en mode hors ligne"
 
+#. E_BOOK_ERROR_OTHER_ERROR
+#: ../addressbook/gui/widgets/eab-gui-util.c:77
+msgid "Other error"
+msgstr "Autre erreur"
+
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:78
 msgid "Invalid server version"
@@ -3601,7 +3600,7 @@ msgstr "Version du serveur non valide"
 msgid "Unsupported authentication method"
 msgstr "Méthode d'authentification non prise en charge"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:102
+#: ../addressbook/gui/widgets/eab-gui-util.c:107
 msgid ""
 "We were unable to open this address book. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -3612,7 +3611,7 @@ msgstr ""
 "téléchargé pour une consultation hors ligne. Veuillez charger ce carnet "
 "d'adresses une fois en mode connecté pour télécharger son contenu."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:111
+#: ../addressbook/gui/widgets/eab-gui-util.c:116
 #, c-format
 msgid ""
 "We were unable to open this address book.  Please check that the path %s "
@@ -3621,7 +3620,7 @@ msgstr ""
 "Impossible d'ouvrir ce carnet d'adresses. Vérifiez que le chemin %s existe "
 "et que vous avez les permissions pour y accéder."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:120
+#: ../addressbook/gui/widgets/eab-gui-util.c:125
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the LDAP server is unreachable."
@@ -3629,7 +3628,7 @@ msgstr ""
 "Impossible d'ouvrir ce carnet d'adresses. Vous avez saisi un URI incorrect "
 "ou le serveur LDAP n'est pas accessible."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:125
+#: ../addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3639,7 +3638,7 @@ msgstr ""
 "utiliser LDAP dans Evolution, vous devez installer un paquet d'Evolution "
 "avec support LDAP activé."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:132
+#: ../addressbook/gui/widgets/eab-gui-util.c:137
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the server is unreachable."
@@ -3647,11 +3646,11 @@ msgstr ""
 "Impossible d'ouvrir ce carnet d'adresses. Vous avez saisi un URI incorrect "
 "ou le serveur n'est pas accessible."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:138
+#: ../addressbook/gui/widgets/eab-gui-util.c:143
 msgid "Detailed error:"
 msgstr "Détails de l'erreur :"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:161
+#: ../addressbook/gui/widgets/eab-gui-util.c:166
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3664,7 +3663,7 @@ msgstr ""
 "recherche ou augmenter le nombre maximum de résultats dans\n"
 "les préférences du serveur d'annuaires de ce carnet d'adresses."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:167
+#: ../addressbook/gui/widgets/eab-gui-util.c:172
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this address book.  Please make your search\n"
@@ -3677,49 +3676,49 @@ msgstr ""
 "temps dans les préférences du serveur d'annuaires de ce carnet \n"
 "d'adresses."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:173
+#: ../addressbook/gui/widgets/eab-gui-util.c:178
 msgid "The backend for this address book was unable to parse this query."
 msgstr ""
 "Le moteur de traitement du carnet d'adresses n'a pas pu analyser cette "
 "requête."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:176
+#: ../addressbook/gui/widgets/eab-gui-util.c:181
 msgid "The backend for this address book refused to perform this query."
 msgstr ""
 "Le moteur de traitement du carnet d'adresses a refusé d'effectuer cette "
 "requête."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:179
+#: ../addressbook/gui/widgets/eab-gui-util.c:184
 msgid "This query did not complete successfully."
 msgstr "Cette requête ne s'est pas terminée correctement."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:201
+#: ../addressbook/gui/widgets/eab-gui-util.c:206
 msgid "Error adding list"
 msgstr "Erreur lors de l'ajout de la liste"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:201
-#: ../addressbook/gui/widgets/eab-gui-util.c:677
+#: ../addressbook/gui/widgets/eab-gui-util.c:206
+#: ../addressbook/gui/widgets/eab-gui-util.c:682
 msgid "Error adding contact"
 msgstr "Erreur lors de l'ajout du contact"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:212
+#: ../addressbook/gui/widgets/eab-gui-util.c:217
 msgid "Error modifying list"
 msgstr "Erreur lors de la modification de la liste"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:212
+#: ../addressbook/gui/widgets/eab-gui-util.c:217
 msgid "Error modifying contact"
 msgstr "Erreur lors de la modification du contact"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
+#: ../addressbook/gui/widgets/eab-gui-util.c:229
 msgid "Error removing list"
 msgstr "Erreur lors de la suppression de la liste"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
-#: ../addressbook/gui/widgets/eab-gui-util.c:627
+#: ../addressbook/gui/widgets/eab-gui-util.c:229
+#: ../addressbook/gui/widgets/eab-gui-util.c:632
 msgid "Error removing contact"
 msgstr "Erreur lors de la suppression du contact"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:306
+#: ../addressbook/gui/widgets/eab-gui-util.c:311
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3734,16 +3733,16 @@ msgstr[1] ""
 "L'affichage de %d contacts implique l'ouverture de %d nouvelles fenêtres.\n"
 "Voulez-vous vraiment afficher ces contacts ?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:314
+#: ../addressbook/gui/widgets/eab-gui-util.c:319
 msgid "_Don't Display"
 msgstr "_Ne pas afficher"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:315
+#: ../addressbook/gui/widgets/eab-gui-util.c:320
 msgid "Display _All Contacts"
 msgstr "Afficher _tous les contacts"
 
 #. For Translators only: "it" refers to the filename %s.
-#: ../addressbook/gui/widgets/eab-gui-util.c:341
+#: ../addressbook/gui/widgets/eab-gui-util.c:346
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3752,70 +3751,70 @@ msgstr ""
 "%s existe déjà.\n"
 "Voulez-vous l'écraser ?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:345
+#: ../addressbook/gui/widgets/eab-gui-util.c:350
 msgid "Overwrite"
 msgstr "Écraser"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:386
-#: ../addressbook/gui/widgets/eab-gui-util.c:389
+#: ../addressbook/gui/widgets/eab-gui-util.c:391
+#: ../addressbook/gui/widgets/eab-gui-util.c:394
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "contact"
 msgstr[1] "contacts"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:435
+#: ../addressbook/gui/widgets/eab-gui-util.c:440
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:472
+#: ../addressbook/gui/widgets/eab-gui-util.c:477
 msgid "Select Address Book"
 msgstr "Sélection du carnet d'adresses"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:586
+#: ../addressbook/gui/widgets/eab-gui-util.c:591
 msgid "list"
 msgstr "liste"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:738
+#: ../addressbook/gui/widgets/eab-gui-util.c:743
 msgid "Move contact to"
 msgstr "Déplacer le contact vers"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:740
+#: ../addressbook/gui/widgets/eab-gui-util.c:745
 msgid "Copy contact to"
 msgstr "Copier le contact vers"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:743
+#: ../addressbook/gui/widgets/eab-gui-util.c:748
 msgid "Move contacts to"
 msgstr "Déplacer les contacts vers"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:745
+#: ../addressbook/gui/widgets/eab-gui-util.c:750
 msgid "Copy contacts to"
 msgstr "Copier les contacts vers"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:890
+#: ../addressbook/gui/widgets/eab-gui-util.c:895
 msgid "Multiple vCards"
 msgstr "vCards multiples"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:897
+#: ../addressbook/gui/widgets/eab-gui-util.c:902
 #, c-format
 msgid "vCard for %s"
 msgstr "vCard pour %s"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:909
-#: ../addressbook/gui/widgets/eab-gui-util.c:935
+#: ../addressbook/gui/widgets/eab-gui-util.c:914
+#: ../addressbook/gui/widgets/eab-gui-util.c:940
 #, c-format
 msgid "Contact information"
 msgstr "Informations sur le contact"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:937
+#: ../addressbook/gui/widgets/eab-gui-util.c:942
 #, c-format
 msgid "Contact information for %s"
 msgstr "Informations sur le contact %s"
 
-#: ../addressbook/gui/widgets/eab-popup-control.c:301
+#: ../addressbook/gui/widgets/eab-popup-control.c:297
 msgid "Querying Address Book..."
 msgstr "Interrogation du carnet d'adresses..."
 
@@ -3839,11 +3838,11 @@ msgstr "Afficher partiellement la vCard"
 msgid "Save in address book"
 msgstr "Enregistrer dans le carnet d'adresses"
 
-#: ../addressbook/gui/widgets/gal-view-factory-minicard.c:25
+#: ../addressbook/gui/widgets/gal-view-factory-minicard.c:37
 msgid "Card View"
 msgstr "Affichage de la carte"
 
-#: ../addressbook/importers/evolution-csv-importer.c:658
+#: ../addressbook/importers/evolution-csv-importer.c:661
 #: ../addressbook/importers/evolution-ldif-importer.c:498
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:306
@@ -3851,27 +3850,27 @@ msgstr "Affichage de la carte"
 msgid "Importing..."
 msgstr "Importation..."
 
-#: ../addressbook/importers/evolution-csv-importer.c:860
+#: ../addressbook/importers/evolution-csv-importer.c:863
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr "Outlook CSV ou Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:861
+#: ../addressbook/importers/evolution-csv-importer.c:864
 msgid "Outlook CSV and Tab Importer"
 msgstr "Importateur Outlook CSV et Tab"
 
-#: ../addressbook/importers/evolution-csv-importer.c:869
+#: ../addressbook/importers/evolution-csv-importer.c:872
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "Mozilla CSV ou Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:870
+#: ../addressbook/importers/evolution-csv-importer.c:873
 msgid "Mozilla CSV and Tab Importer"
 msgstr "Importateur Mozilla CSV et Tab"
 
-#: ../addressbook/importers/evolution-csv-importer.c:878
+#: ../addressbook/importers/evolution-csv-importer.c:881
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr "Evolution CSV ou Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:879
+#: ../addressbook/importers/evolution-csv-importer.c:882
 msgid "Evolution CSV and Tab Importer"
 msgstr "Importateur Evolution CSV et Tab"
 
@@ -3932,12 +3931,12 @@ msgid "Format"
 msgstr "Format"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
-#: ../mail/em-mailer-prefs.c:432 ../widgets/table/e-table-click-to-add.c:503
+#: ../mail/em-mailer-prefs.c:432 ../widgets/table/e-table-click-to-add.c:502
 #: ../widgets/table/e-table-field-chooser-dialog.c:81
 #: ../widgets/table/e-table-field-chooser-item.c:648
 #: ../widgets/table/e-table-field-chooser.c:81
 #: ../widgets/table/e-table-header-item.c:1908
-#: ../widgets/table/e-table-selection-model.c:310
+#: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "En-tête"
 
@@ -4040,7 +4039,7 @@ msgstr "Ombrage"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:1069
-#: ../plugins/exchange-operations/exchange-calendar.c:231
+#: ../plugins/exchange-operations/exchange-calendar.c:232
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
 msgstr "Taille :"
@@ -4058,7 +4057,7 @@ msgid "Top:"
 msgstr "Haut :"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
-#: ../calendar/gui/dialogs/calendar-setup.c:153
+#: ../calendar/gui/dialogs/calendar-setup.c:154
 msgid "Type:"
 msgstr "Type :"
 
@@ -4070,31 +4069,31 @@ msgstr "Largeur :"
 msgid "_Font..."
 msgstr "_Police..."
 
-#: ../addressbook/printing/test-contact-print-style-editor.c:53
+#: ../addressbook/printing/test-contact-print-style-editor.c:54
 msgid "Contact Print Style Editor Test"
 msgstr "Test de l'éditeur de style d'impression de contacts"
 
-#: ../addressbook/printing/test-contact-print-style-editor.c:54
-#: ../addressbook/printing/test-print.c:44
+#: ../addressbook/printing/test-contact-print-style-editor.c:55
+#: ../addressbook/printing/test-print.c:45
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: ../addressbook/printing/test-contact-print-style-editor.c:56
+#: ../addressbook/printing/test-contact-print-style-editor.c:57
 msgid "This should test the contact print style editor widget"
 msgstr ""
 "Ceci devrait tester le composant graphique d'éditeur de style pour "
 "l'impression de contacts"
 
-#: ../addressbook/printing/test-print.c:43
+#: ../addressbook/printing/test-print.c:44
 msgid "Contact Print Test"
 msgstr "Test d'impression de contact"
 
-#: ../addressbook/printing/test-print.c:46
+#: ../addressbook/printing/test-print.c:47
 msgid "This should test the contact print code"
 msgstr "Ceci devrait tester le code d'impression des contacts"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:668
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
 msgstr "Impossible d'ouvrir le fichier"
@@ -4559,7 +4558,7 @@ msgstr ""
 msgid "_Discard Changes"
 msgstr "A_bandonner les modifications"
 
-#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:500
+#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:499
 msgid "_Save"
 msgstr "_Enregistrer"
 
@@ -4689,9 +4688,9 @@ msgstr "Mémos"
 #: ../calendar/importers/icalendar-importer.c:74
 #: ../calendar/importers/icalendar-importer.c:735
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:586
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:426
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:570
+#: ../plugins/exchange-operations/exchange-folder.c:588
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:425
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:569
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Tâches"
@@ -4709,13 +4708,13 @@ msgstr "_Tâches"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Service de notification d'alarme du calendrier d'Evolution"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:101
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:104
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minute"
 msgstr[1] "minutes"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:119
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
@@ -4728,7 +4727,7 @@ msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:273
 msgid "Start time"
 msgstr "Heure de début"
 
@@ -4792,7 +4791,7 @@ msgstr "%d alarmes sont présentes"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1683
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1711
-#: ../mail/mail-component.c:1594
+#: ../mail/mail-component.c:1597
 msgid "Warning"
 msgstr "Avertissement"
 
@@ -4842,13 +4841,13 @@ msgstr ""
 "Impossible de créer la fabrique de services de notification d'alarme, peut-"
 "être qu'elle fonctionne déjà..."
 
-#: ../calendar/gui/alarm-notify/util.c:41
+#: ../calendar/gui/alarm-notify/util.c:44
 msgid "invalid time"
 msgstr "Heure non valide"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:404
-#: ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:404
+#: ../calendar/gui/misc.c:116
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -4856,8 +4855,8 @@ msgstr[0] "%d heure"
 msgstr[1] "%d heures"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:410
-#: ../calendar/gui/misc.c:119
+#: ../calendar/gui/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:410
+#: ../calendar/gui/misc.c:122
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -4867,8 +4866,8 @@ msgstr[1] "%d minutes"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:416
-#: ../calendar/gui/misc.c:123
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/e-alarm-list.c:416
+#: ../calendar/gui/misc.c:126
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -5531,19 +5530,19 @@ msgstr "_Calendrier"
 msgid "Create a new calendar"
 msgstr "Crée un nouveau calendrier"
 
-#: ../calendar/gui/calendar-view-factory.c:109
+#: ../calendar/gui/calendar-view-factory.c:113
 msgid "Day View"
 msgstr "Vue journalière"
 
-#: ../calendar/gui/calendar-view-factory.c:112
+#: ../calendar/gui/calendar-view-factory.c:116
 msgid "Work Week View"
 msgstr "Vue hebdomadaire de travail"
 
-#: ../calendar/gui/calendar-view-factory.c:115
+#: ../calendar/gui/calendar-view-factory.c:119
 msgid "Week View"
 msgstr "Vue hebdomadaire"
 
-#: ../calendar/gui/calendar-view-factory.c:118
+#: ../calendar/gui/calendar-view-factory.c:122
 msgid "Month View"
 msgstr "Vue mensuelle"
 
@@ -5583,15 +5582,15 @@ msgstr "Classification"
 msgid "Competition"
 msgstr "Compétition"
 
-#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:255
-#: ../calendar/gui/e-cal-model.c:333 ../calendar/gui/e-calendar-table.c:547
+#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:254
+#: ../calendar/gui/e-cal-model.c:337 ../calendar/gui/e-calendar-table.c:547
 #: ../calendar/gui/memotypes.xml.h:10
 msgid "Confidential"
 msgstr "Confidentiel"
 
 #: ../calendar/gui/caltypes.xml.h:12 ../calendar/gui/memotypes.xml.h:11
 #: ../calendar/gui/tasktypes.xml.h:14
-#: ../plugins/plugin-manager/plugin-manager.c:43
+#: ../plugins/plugin-manager/plugin-manager.c:59
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Description"
 msgstr "Description"
@@ -5676,20 +5675,20 @@ msgstr "Organisateur"
 msgid "Phone Calls"
 msgstr "Appels téléphoniques"
 
-#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:254
-#: ../calendar/gui/e-cal-model.c:331 ../calendar/gui/e-calendar-table.c:546
+#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:253
+#: ../calendar/gui/e-cal-model.c:335 ../calendar/gui/e-calendar-table.c:546
 #: ../calendar/gui/memotypes.xml.h:29
 msgid "Private"
 msgstr "Privé"
 
-#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:253
-#: ../calendar/gui/e-cal-model.c:322 ../calendar/gui/e-cal-model.c:329
+#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:252
+#: ../calendar/gui/e-cal-model.c:326 ../calendar/gui/e-cal-model.c:333
 #: ../calendar/gui/e-calendar-table.c:545 ../calendar/gui/memotypes.xml.h:30
 msgid "Public"
 msgstr "Public"
 
 #: ../calendar/gui/caltypes.xml.h:33
-#: ../calendar/gui/dialogs/event-editor.c:297
+#: ../calendar/gui/dialogs/event-editor.c:299
 msgid "Recurrence"
 msgstr "Récurrence"
 
@@ -5888,7 +5887,7 @@ msgstr "minute(s)"
 msgid "start of appointment"
 msgstr "Début du rendez-vous"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:242
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:244
 msgid "Action/Trigger"
 msgstr "Action/Activation"
 
@@ -6166,56 +6165,56 @@ msgstr "M_er"
 msgid "before every appointment"
 msgstr "avant chaque rendez-vous"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:269
+#: ../calendar/gui/dialogs/calendar-setup.c:270
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr ""
 "_Copier localement le contenu du calendrier pour les opérations hors ligne"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:271
+#: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y task list contents locally for offline operation"
 msgstr ""
 "_Copier localement le contenu de la liste des tâches pour les opérations "
 "hors ligne"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:273
+#: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr ""
 "_Copier localement le contenu de la liste des mémos pour les opérations hors "
 "ligne"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:343
+#: ../calendar/gui/dialogs/calendar-setup.c:344
 msgid "Colo_r:"
 msgstr "Couleu_r :"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:379
 msgid "Task List"
 msgstr "Liste des tâches"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../calendar/gui/dialogs/calendar-setup.c:390
 msgid "Memo List"
 msgstr "Liste des mémos"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:474
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "Calendar Properties"
 msgstr "Propriétés du calendrier"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:474
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "New Calendar"
 msgstr "Nouveau calendrier"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:530
+#: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "Task List Properties"
 msgstr "Propriétés de la liste des tâches"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:530
+#: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "New Task List"
 msgstr "Nouvelle liste de tâches"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:586
+#: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "Memo List Properties"
 msgstr "Propriétés de la liste des mémos"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:586
+#: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "New Memo List"
 msgstr "Nouvelle liste de mémos"
 
@@ -6275,23 +6274,23 @@ msgstr ""
 msgid "Validation error: %s"
 msgstr "Erreur de validation : %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:182 ../calendar/gui/print.c:2356
+#: ../calendar/gui/dialogs/comp-editor-util.c:186 ../calendar/gui/print.c:2356
 msgid " to "
 msgstr " À "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:186 ../calendar/gui/print.c:2360
+#: ../calendar/gui/dialogs/comp-editor-util.c:190 ../calendar/gui/print.c:2360
 msgid " (Completed "
 msgstr " (terminé "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:188 ../calendar/gui/print.c:2362
+#: ../calendar/gui/dialogs/comp-editor-util.c:192 ../calendar/gui/print.c:2362
 msgid "Completed "
 msgstr "Terminé "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2367
+#: ../calendar/gui/dialogs/comp-editor-util.c:197 ../calendar/gui/print.c:2367
 msgid " (Due "
 msgstr " (date d'échéance "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2369
+#: ../calendar/gui/dialogs/comp-editor-util.c:199 ../calendar/gui/print.c:2369
 msgid "Due "
 msgstr "Date d'échéance "
 
@@ -6311,7 +6310,7 @@ msgstr[0] "Message joint"
 msgstr[1] "%d messages joints"
 
 #: ../calendar/gui/dialogs/comp-editor.c:481 ../composer/e-msg-composer.c:2058
-#: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:365
+#: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
 #: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2045
 msgid "_Move"
 msgstr "_Déplacer"
@@ -6323,7 +6322,7 @@ msgstr "Annuler le _déplacement"
 
 #: ../calendar/gui/dialogs/comp-editor.c:616
 #: ../calendar/gui/dialogs/comp-editor.c:3249 ../mail/em-utils.c:371
-#: ../plugins/prefer-plain/prefer-plain.c:74
+#: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
 msgstr "pièce jointe"
@@ -6424,7 +6423,7 @@ msgid "_View"
 msgstr "_Affichage"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1377
-#: ../composer/e-composer-actions.c:472
+#: ../composer/e-composer-actions.c:471
 msgid "_Attachment..."
 msgstr "_Pièce jointe..."
 
@@ -6510,7 +6509,7 @@ msgid "Recent Docu_ments"
 msgstr "Docu_ments récents"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1785
-#: ../composer/e-composer-actions.c:700
+#: ../composer/e-composer-actions.c:699
 msgid "Attach"
 msgstr "Joindre"
 
@@ -6638,7 +6637,7 @@ msgid "Contacts..."
 msgstr "Contacts..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#: ../plugins/exchange-operations/exchange-delegates.c:415
+#: ../plugins/exchange-operations/exchange-delegates.c:417
 msgid "Delegate To:"
 msgstr "Déléguer à :"
 
@@ -6646,59 +6645,59 @@ msgstr "Déléguer à :"
 msgid "Enter Delegate"
 msgstr "Saisissez un délégué"
 
-#: ../calendar/gui/dialogs/event-editor.c:194
+#: ../calendar/gui/dialogs/event-editor.c:196
 msgid "_Alarms"
 msgstr "_Alarmes"
 
-#: ../calendar/gui/dialogs/event-editor.c:196
+#: ../calendar/gui/dialogs/event-editor.c:198
 msgid "Click here to set or unset alarms for this event"
 msgstr "Cliquez ici pour définir ou annuler les alarmes de cet événement"
 
-#: ../calendar/gui/dialogs/event-editor.c:201
+#: ../calendar/gui/dialogs/event-editor.c:203
 msgid "_Recurrence"
 msgstr "_Récurrence"
 
-#: ../calendar/gui/dialogs/event-editor.c:203
+#: ../calendar/gui/dialogs/event-editor.c:205
 msgid "Make this a recurring event"
 msgstr "Transforme en événement récurrent"
 
-#: ../calendar/gui/dialogs/event-editor.c:208
+#: ../calendar/gui/dialogs/event-editor.c:210
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "Options d'envoi"
 
-#: ../calendar/gui/dialogs/event-editor.c:210
-#: ../calendar/gui/dialogs/task-editor.c:123
+#: ../calendar/gui/dialogs/event-editor.c:212
+#: ../calendar/gui/dialogs/task-editor.c:125
 msgid "Insert advanced send options"
 msgstr "Insère les options avancées d'envoi"
 
-#: ../calendar/gui/dialogs/event-editor.c:218
+#: ../calendar/gui/dialogs/event-editor.c:220
 msgid "All _Day Event"
 msgstr "Toute la _journée"
 
-#: ../calendar/gui/dialogs/event-editor.c:220
+#: ../calendar/gui/dialogs/event-editor.c:222
 msgid "Toggles whether to have All Day Event"
 msgstr "L'état indique si défini comme « Événement toute la journée »"
 
-#: ../calendar/gui/dialogs/event-editor.c:226
+#: ../calendar/gui/dialogs/event-editor.c:228
 msgid "Show Time as _Busy"
 msgstr "Afficher la période comme _occupée"
 
-#: ../calendar/gui/dialogs/event-editor.c:228
+#: ../calendar/gui/dialogs/event-editor.c:230
 msgid "Toggles whether to show time as busy"
 msgstr "L'état indique si la période est affichée comme occupée"
 
-#: ../calendar/gui/dialogs/event-editor.c:237
+#: ../calendar/gui/dialogs/event-editor.c:239
 msgid "_Free/Busy"
 msgstr "_Libre/Occupé"
 
-#: ../calendar/gui/dialogs/event-editor.c:239
+#: ../calendar/gui/dialogs/event-editor.c:241
 msgid "Query free / busy information for the attendees"
 msgstr ""
 "Interroge les personnes attendues sur leur disponibilité (libre/occupé)"
 
-#: ../calendar/gui/dialogs/event-editor.c:294
+#: ../calendar/gui/dialogs/event-editor.c:296
 msgid "Appoint_ment"
 msgstr "_Rendez-vous"
 
@@ -6819,7 +6818,7 @@ msgstr "Personnaliser"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:193
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:2021
-#: ../widgets/misc/e-cell-date-edit.c:307 ../widgets/misc/e-dateedit.c:1517
+#: ../widgets/misc/e-cell-date-edit.c:306 ../widgets/misc/e-dateedit.c:1517
 #: ../widgets/misc/e-dateedit.c:1731
 #: ../widgets/misc/e-signature-combo-box.c:70
 msgid "None"
@@ -7146,12 +7145,12 @@ msgstr "semaine(s)"
 msgid "year(s)"
 msgstr "année(s)"
 
-#: ../calendar/gui/dialogs/task-details-page.c:373
-#: ../calendar/gui/dialogs/task-details-page.c:393
+#: ../calendar/gui/dialogs/task-details-page.c:377
+#: ../calendar/gui/dialogs/task-details-page.c:397
 msgid "Completed date is wrong"
 msgstr "La date d'achèvement est erronée"
 
-#: ../calendar/gui/dialogs/task-details-page.c:478
+#: ../calendar/gui/dialogs/task-details-page.c:482
 msgid "Web Page"
 msgstr "Page Web"
 
@@ -7203,7 +7202,7 @@ msgstr "Basse"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:274
-#: ../calendar/gui/e-cal-model.c:970 ../calendar/gui/e-calendar-table.c:568
+#: ../calendar/gui/e-cal-model.c:974 ../calendar/gui/e-calendar-table.c:568
 #: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1064
 msgid "Normal"
 msgstr "Normale"
@@ -7244,24 +7243,24 @@ msgstr "_Priorité :"
 msgid "_Web Page:"
 msgstr "Page _Web :"
 
-#: ../calendar/gui/dialogs/task-editor.c:111
+#: ../calendar/gui/dialogs/task-editor.c:113
 msgid "_Status Details"
 msgstr "Détails de l'é_tat"
 
-#: ../calendar/gui/dialogs/task-editor.c:113
+#: ../calendar/gui/dialogs/task-editor.c:115
 msgid "Click to change or view the status details of the task"
 msgstr "Cliquer pour modifier ou afficher les détails de l'état de la tâche"
 
-#: ../calendar/gui/dialogs/task-editor.c:121
-#: ../composer/e-composer-actions.c:528
+#: ../calendar/gui/dialogs/task-editor.c:123
+#: ../composer/e-composer-actions.c:527
 msgid "_Send Options"
 msgstr "Options d'_envoi"
 
-#: ../calendar/gui/dialogs/task-editor.c:316
+#: ../calendar/gui/dialogs/task-editor.c:318
 msgid "_Task"
 msgstr "_Tâche"
 
-#: ../calendar/gui/dialogs/task-editor.c:319
+#: ../calendar/gui/dialogs/task-editor.c:321
 msgid "Task Details"
 msgstr "Détails de la tâche"
 
@@ -7433,12 +7432,12 @@ msgstr "Date de fin"
 msgid "Start Date"
 msgstr "Date de début"
 
-#: ../calendar/gui/e-cal-model-calendar.c:183
+#: ../calendar/gui/e-cal-model-calendar.c:187
 #: ../calendar/gui/e-calendar-table.c:619
 msgid "Free"
 msgstr "Libre"
 
-#: ../calendar/gui/e-cal-model-calendar.c:186
+#: ../calendar/gui/e-cal-model-calendar.c:190
 #: ../calendar/gui/e-calendar-table.c:620
 #: ../calendar/gui/e-meeting-time-sel.c:398
 msgid "Busy"
@@ -7454,7 +7453,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:976
+#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:980
 #: ../calendar/gui/e-meeting-list-view.c:191
 #: ../calendar/gui/e-meeting-store.c:153 ../calendar/gui/e-meeting-store.c:163
 #: ../calendar/gui/e-meeting-store.c:746
@@ -7462,7 +7461,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Oui"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:976
+#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:980
 #: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:165
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -7470,7 +7469,7 @@ msgid "No"
 msgstr "Non"
 
 #. This is the default filename used for temporary file creation
-#: ../calendar/gui/e-cal-model.c:335 ../calendar/gui/e-cal-popup.c:105
+#: ../calendar/gui/e-cal-model.c:339 ../calendar/gui/e-cal-popup.c:105
 #: ../calendar/gui/e-cal-popup.c:122 ../calendar/gui/e-cal-popup.c:177
 #: ../calendar/gui/e-itip-control.c:1203 ../calendar/gui/e-itip-control.c:1343
 #: ../calendar/gui/e-meeting-list-view.c:167
@@ -7480,17 +7479,17 @@ msgstr "Non"
 #: ../calendar/gui/print.c:1002 ../mail/em-utils.c:1340
 #: ../plugins/itip-formatter/itip-formatter.c:409
 #: ../plugins/itip-formatter/itip-formatter.c:2046
-#: ../plugins/plugin-manager/plugin-manager.c:73
+#: ../plugins/plugin-manager/plugin-manager.c:89
 #: ../widgets/misc/e-attachment-bar.c:821
-#: ../widgets/misc/e-charset-picker.c:55
+#: ../widgets/misc/e-charset-picker.c:56
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: ../calendar/gui/e-cal-model.c:972
+#: ../calendar/gui/e-cal-model.c:976
 msgid "Recurring"
 msgstr "Récurrent"
 
-#: ../calendar/gui/e-cal-model.c:974
+#: ../calendar/gui/e-cal-model.c:978
 msgid "Assigned"
 msgstr "Attribué"
 
@@ -7610,7 +7609,7 @@ msgstr "Mise à jour des objets"
 
 #: ../calendar/gui/e-calendar-table.c:1348
 #: ../calendar/gui/e-calendar-view.c:1221 ../calendar/gui/e-memo-table.c:821
-#: ../composer/e-composer-actions.c:278
+#: ../composer/e-composer-actions.c:277
 msgid "Save as..."
 msgstr "Enregistrer sous..."
 
@@ -7796,16 +7795,16 @@ msgid "Time: %s %s"
 msgstr "Heure : %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:116
+#: ../calendar/gui/e-cell-date-edit-text.c:115
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:119
+#: ../calendar/gui/e-cell-date-edit-text.c:118
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
-#: ../calendar/gui/e-cell-date-edit-text.c:127
+#: ../calendar/gui/e-cell-date-edit-text.c:126
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -7818,7 +7817,7 @@ msgstr ""
 #. * to change the length of the time division in the calendar day view, e.g.
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
-#: ../calendar/gui/e-day-view-time-item.c:589
+#: ../calendar/gui/e-day-view-time-item.c:587
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i divisions par minute"
@@ -7830,7 +7829,7 @@ msgstr "%02i divisions par minute"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:852 ../calendar/gui/e-day-view.c:1551
-#: ../calendar/gui/e-week-view-main-item.c:331 ../calendar/gui/print.c:1672
+#: ../calendar/gui/e-week-view-main-item.c:330 ../calendar/gui/print.c:1672
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -8378,7 +8377,7 @@ msgstr "En cours"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:473
+#: ../calendar/gui/e-meeting-time-sel-item.c:472
 #: ../calendar/gui/e-meeting-time-sel.c:2122
 msgid "%A, %B %d, %Y"
 msgstr "%A %d %B %Y"
@@ -8387,14 +8386,14 @@ msgstr "%A %d %B %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:477
+#: ../calendar/gui/e-meeting-time-sel-item.c:476
 #: ../calendar/gui/e-meeting-time-sel.c:2153
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:481
+#: ../calendar/gui/e-meeting-time-sel-item.c:480
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
@@ -8541,7 +8540,7 @@ msgstr "Sélectionner un fuseau horaire"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:348 ../calendar/gui/print.c:1653
+#: ../calendar/gui/e-week-view-main-item.c:347 ../calendar/gui/print.c:1653
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -8820,9 +8819,9 @@ msgid "Unable to migrate tasks `%s'"
 msgstr "Impossible de migrer les tâches « %s »"
 
 #: ../calendar/gui/migration.c:1227
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:427
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:458
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:571
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:426
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:570
 msgid "Notes"
 msgstr "Notes"
 
@@ -10738,186 +10737,186 @@ msgstr "Insertion d'une pièce jointe"
 msgid "A_ttach"
 msgstr "_Joindre"
 
-#: ../composer/e-composer-actions.c:143
+#: ../composer/e-composer-actions.c:142
 msgid "Untitled Message"
 msgstr "Message sans sujet"
 
-#: ../composer/e-composer-actions.c:474
+#: ../composer/e-composer-actions.c:473
 msgid "Attach a file"
 msgstr "Joindre un fichier"
 
-#: ../composer/e-composer-actions.c:479 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:478 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
 msgstr "_Fermer"
 
-#: ../composer/e-composer-actions.c:481
+#: ../composer/e-composer-actions.c:480
 msgid "Close the current file"
 msgstr "Ferme le fichier actuel"
 
-#: ../composer/e-composer-actions.c:486 ../mail/em-folder-view.c:1337
+#: ../composer/e-composer-actions.c:485 ../mail/em-folder-view.c:1337
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "_Imprimer..."
 
-#: ../composer/e-composer-actions.c:493 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:492 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "_Aperçu avant impression"
 
-#: ../composer/e-composer-actions.c:502
+#: ../composer/e-composer-actions.c:501
 msgid "Save the current file"
 msgstr "Enregistre le fichier actuel"
 
-#: ../composer/e-composer-actions.c:507
+#: ../composer/e-composer-actions.c:506
 msgid "Save _As..."
 msgstr "Enregistrer _sous..."
 
-#: ../composer/e-composer-actions.c:509
+#: ../composer/e-composer-actions.c:508
 msgid "Save the current file with a different name"
 msgstr "Enregistre le fichier actuel avec un nom différent"
 
-#: ../composer/e-composer-actions.c:514
+#: ../composer/e-composer-actions.c:513
 msgid "Save _Draft"
 msgstr "Enregistrer le _brouillon"
 
-#: ../composer/e-composer-actions.c:516
+#: ../composer/e-composer-actions.c:515
 msgid "Save as draft"
 msgstr "Enregistre comme brouillon"
 
-#: ../composer/e-composer-actions.c:521
+#: ../composer/e-composer-actions.c:520
 msgid "S_end"
 msgstr "E_nvoyer"
 
-#: ../composer/e-composer-actions.c:523
+#: ../composer/e-composer-actions.c:522
 msgid "Send this message"
 msgstr "Envoie ce message"
 
-#: ../composer/e-composer-actions.c:530
+#: ../composer/e-composer-actions.c:529
 msgid "Insert Send options"
 msgstr "Insére les options d'envoi"
 
-#: ../composer/e-composer-actions.c:535
+#: ../composer/e-composer-actions.c:534
 msgid "New _Message"
 msgstr "Nouveau _message"
 
-#: ../composer/e-composer-actions.c:537
+#: ../composer/e-composer-actions.c:536
 msgid "Open New Message window"
 msgstr "Ouvre la fenêtre Nouveau message"
 
-#: ../composer/e-composer-actions.c:544
+#: ../composer/e-composer-actions.c:543
 msgid "Character _Encoding"
 msgstr "_Codage des caractères"
 
-#: ../composer/e-composer-actions.c:551
+#: ../composer/e-composer-actions.c:550
 msgid "_Security"
 msgstr "Séc_urité"
 
-#: ../composer/e-composer-actions.c:561
+#: ../composer/e-composer-actions.c:560
 msgid "PGP _Encrypt"
 msgstr "_Chiffrer avec PGP"
 
-#: ../composer/e-composer-actions.c:563
+#: ../composer/e-composer-actions.c:562
 msgid "Encrypt this message with PGP"
 msgstr "Chiffre ce message avec PGP"
 
-#: ../composer/e-composer-actions.c:569
+#: ../composer/e-composer-actions.c:568
 msgid "PGP _Sign"
 msgstr "_Signer avec PGP"
 
-#: ../composer/e-composer-actions.c:571
+#: ../composer/e-composer-actions.c:570
 msgid "Sign this message with your PGP key"
 msgstr "Signe ce message avec votre clé PGP"
 
-#: ../composer/e-composer-actions.c:577
+#: ../composer/e-composer-actions.c:576
 msgid "_Prioritize Message"
 msgstr "_Prioriser le message"
 
-#: ../composer/e-composer-actions.c:579
+#: ../composer/e-composer-actions.c:578
 msgid "Set the message priority to high"
 msgstr "Affecte une priorité élevée au message"
 
-#: ../composer/e-composer-actions.c:585
+#: ../composer/e-composer-actions.c:584
 msgid "Re_quest Read Receipt"
 msgstr "D_emander un accusé de lecture"
 
-#: ../composer/e-composer-actions.c:587
+#: ../composer/e-composer-actions.c:586
 msgid "Get delivery notification when your message is read"
 msgstr "Obtenir un avertissement quand votre message est lu"
 
-#: ../composer/e-composer-actions.c:593
+#: ../composer/e-composer-actions.c:592
 msgid "S/MIME En_crypt"
 msgstr "C_hiffrer avec S/MIME"
 
-#: ../composer/e-composer-actions.c:595
+#: ../composer/e-composer-actions.c:594
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Chiffre ce message avec votre certificat de chiffrement S/MIME"
 
-#: ../composer/e-composer-actions.c:601
+#: ../composer/e-composer-actions.c:600
 msgid "S/MIME Sig_n"
 msgstr "S_igner avec S/MIME"
 
-#: ../composer/e-composer-actions.c:603
+#: ../composer/e-composer-actions.c:602
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Signe ce message avec votre certificat de signature S/MIME"
 
-#: ../composer/e-composer-actions.c:609
+#: ../composer/e-composer-actions.c:608
 msgid "_Bcc Field"
 msgstr "Champ Cc_i"
 
-#: ../composer/e-composer-actions.c:611
+#: ../composer/e-composer-actions.c:610
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Indique si le champ Cci est affiché"
 
-#: ../composer/e-composer-actions.c:617
+#: ../composer/e-composer-actions.c:616
 msgid "_Cc Field"
 msgstr "Champ _Cc"
 
-#: ../composer/e-composer-actions.c:619
+#: ../composer/e-composer-actions.c:618
 msgid "Toggles whether the CC field is displayed"
 msgstr "Indique si le champ Cc est affiché"
 
-#: ../composer/e-composer-actions.c:625
+#: ../composer/e-composer-actions.c:624
 msgid "_From Field"
 msgstr "Champ _De"
 
-#: ../composer/e-composer-actions.c:627
+#: ../composer/e-composer-actions.c:626
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Indique si le champ De est affiché"
 
 # voir les toggles au dessus !
-#: ../composer/e-composer-actions.c:633
+#: ../composer/e-composer-actions.c:632
 msgid "_Post-To Field"
 msgstr "Champ En_voyé à"
 
-#: ../composer/e-composer-actions.c:635
+#: ../composer/e-composer-actions.c:634
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Indique si le champ Envoyé à est affiché"
 
-#: ../composer/e-composer-actions.c:641
+#: ../composer/e-composer-actions.c:640
 msgid "_Reply-To Field"
 msgstr "Champ _Répondre à"
 
-#: ../composer/e-composer-actions.c:643
+#: ../composer/e-composer-actions.c:642
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Indique si le champ Répondre à est affiché"
 
-#: ../composer/e-composer-actions.c:649
+#: ../composer/e-composer-actions.c:648
 msgid "_Subject Field"
 msgstr "Champ _Sujet"
 
-#: ../composer/e-composer-actions.c:651
+#: ../composer/e-composer-actions.c:650
 msgid "Toggles whether the Subject field is displayed"
 msgstr "Indique si le champ Sujet est affiché"
 
-#: ../composer/e-composer-actions.c:657
+#: ../composer/e-composer-actions.c:656
 msgid "_To Field"
 msgstr "Champ _À"
 
-#: ../composer/e-composer-actions.c:659
+#: ../composer/e-composer-actions.c:658
 msgid "Toggles whether the To field is displayed"
 msgstr "Indique si le champ À est affiché"
 
@@ -11247,7 +11246,7 @@ msgstr "Nom du composant en cours de journalisation"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:776
 #: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:988
-#: ../plugins/plugin-manager/plugin-manager.c:339
+#: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:689
 msgid "Enabled"
 msgstr "Activé"
@@ -11769,7 +11768,7 @@ msgstr ""
 "et cochez la case pour l'accepter\n"
 
 #: ../mail/em-account-editor.c:466 ../mail/em-filter-folder-element.c:239
-#: ../mail/em-vfolder-rule.c:512
+#: ../mail/em-vfolder-rule.c:513
 msgid "Select Folder"
 msgstr "Sélectionnez un dossier"
 
@@ -11860,18 +11859,18 @@ msgstr "Ajouter un script de signature"
 msgid "Signature(s)"
 msgstr "Signatures"
 
-#: ../mail/em-composer-utils.c:1148 ../mail/em-format-quote.c:416
+#: ../mail/em-composer-utils.c:1150 ../mail/em-format-quote.c:416
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Message transféré --------"
 
-#: ../mail/em-composer-utils.c:1960
+#: ../mail/em-composer-utils.c:1962
 msgid "an unknown sender"
 msgstr "Un expéditeur inconnu"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2007
+#: ../mail/em-composer-utils.c:2009
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11879,7 +11878,7 @@ msgstr ""
 "Le ${WeekdayName} ${Day} ${MonthName} ${Year} à ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} a écrit :"
 
-#: ../mail/em-composer-utils.c:2150
+#: ../mail/em-composer-utils.c:2152
 msgid "-----Original Message-----"
 msgstr "-------- Message initial --------"
 
@@ -12146,11 +12145,11 @@ msgid "Unset Status"
 msgstr "Retirer l'état"
 
 #. and now for the action area
-#: ../mail/em-filter-rule.c:521
+#: ../mail/em-filter-rule.c:522
 msgid "Then"
 msgstr "Alors"
 
-#: ../mail/em-filter-rule.c:549
+#: ../mail/em-filter-rule.c:550
 msgid "Add Ac_tion"
 msgstr "Ajouter une ac_tion"
 
@@ -12205,7 +12204,7 @@ msgid "All Account Search"
 msgstr "Rechercher tous les comptes"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:173
+#: ../mail/em-folder-properties.c:174
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Messages non lus :"
@@ -12213,26 +12212,32 @@ msgstr[1] "Messages non lus :"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:177
+#: ../mail/em-folder-properties.c:178
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Total des messages :"
 msgstr[1] "Total des messages :"
 
-#: ../mail/em-folder-properties.c:193 ../mail/em-folder-properties.c:195
+#: ../mail/em-folder-properties.c:196
+#, c-format
+msgid "Quota usage (%s):"
+msgstr "Utilisation de votre quota (%s) :"
+
+#: ../mail/em-folder-properties.c:198
+#, c-format
 msgid "Quota usage"
 msgstr "Utilisation de votre quota"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:355 ../mail/em-folder-tree-model.c:507
+#: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
 #: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:160
 #: ../mail/mail-component.c:585
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/exchange-operations/exchange-folder.c:594
 msgid "Inbox"
 msgstr "Boîte de réception"
 
-#: ../mail/em-folder-properties.c:386
+#: ../mail/em-folder-properties.c:389
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Propriétés du dossier"
@@ -12368,34 +12373,34 @@ msgstr "Vi_der la boîte d'envoi"
 msgid "_Empty Trash"
 msgstr "_Vider la corbeille"
 
-#: ../mail/em-folder-utils.c:102
+#: ../mail/em-folder-utils.c:101
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "Copie de « %s » vers « %s »"
 
-#: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1186
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1186
 #: ../mail/em-folder-view.c:1201
 #: ../mail/importers/evolution-mbox-importer.c:83
 msgid "Select folder"
 msgstr "Sélectionnez un dossier"
 
-#: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1201
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1201
 msgid "C_opy"
 msgstr "C_opier"
 
-#: ../mail/em-folder-utils.c:586
+#: ../mail/em-folder-utils.c:585
 #: ../plugins/groupwise-features/share-folder-common.c:145
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Création du dossier « %s »"
 
-#: ../mail/em-folder-utils.c:744
+#: ../mail/em-folder-utils.c:743
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Create folder"
 msgstr "Création d'un dossier"
 
-#: ../mail/em-folder-utils.c:744
+#: ../mail/em-folder-utils.c:743
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Specify where to create the folder:"
@@ -12786,7 +12791,7 @@ msgstr "Masquer _non formaté"
 msgid "O_pen With"
 msgstr "_Ouvrir avec"
 
-#: ../mail/em-format-html-display.c:2468
+#: ../mail/em-format-html-display.c:2473
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -13164,7 +13169,7 @@ msgstr "Messages de %s"
 msgid "Search _Folders"
 msgstr "Dossiers de _recherche"
 
-#: ../mail/em-vfolder-rule.c:592
+#: ../mail/em-vfolder-rule.c:593
 msgid "Search Folder source"
 msgstr "Source du dossier de recherche"
 
@@ -14138,27 +14143,27 @@ msgstr "Assistant d'importation Pine d'Evolution"
 msgid "Import mail from Pine."
 msgstr "Importation des boîtes à lettres de Pine."
 
-#: ../mail/mail-autofilter.c:79
+#: ../mail/mail-autofilter.c:78
 #, c-format
 msgid "Mail to %s"
 msgstr "Courriel à %s"
 
-#: ../mail/mail-autofilter.c:243 ../mail/mail-autofilter.c:282
+#: ../mail/mail-autofilter.c:242 ../mail/mail-autofilter.c:281
 #, c-format
 msgid "Mail from %s"
 msgstr "Courriel de %s"
 
-#: ../mail/mail-autofilter.c:266
+#: ../mail/mail-autofilter.c:265
 #, c-format
 msgid "Subject is %s"
 msgstr "Le sujet est %s"
 
-#: ../mail/mail-autofilter.c:301
+#: ../mail/mail-autofilter.c:300
 #, c-format
 msgid "%s mailing list"
 msgstr "Liste de diffusion %s"
 
-#: ../mail/mail-autofilter.c:372
+#: ../mail/mail-autofilter.c:371
 msgid "Add Filter Rule"
 msgstr "Ajouter une règle de filtre"
 
@@ -14254,58 +14259,58 @@ msgstr "Crée un nouveau dossier pour le courriel"
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Échec lors de la mise à jour des dossiers ou paramètres de courriel."
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1596
 msgid "Error"
 msgstr "Erreur"
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1596
 msgid "Errors"
 msgstr "Erreurs"
 
-#: ../mail/mail-component.c:1594
+#: ../mail/mail-component.c:1597
 msgid "Warnings and Errors"
 msgstr "Avertissements et erreurs"
 
-#: ../mail/mail-component.c:1595
+#: ../mail/mail-component.c:1598
 msgid "Debug"
 msgstr "Débogage"
 
-#: ../mail/mail-component.c:1595
+#: ../mail/mail-component.c:1598
 msgid "Error, Warnings and Debug messages"
 msgstr "Messages d'erreur, d'avertissement et de débogage"
 
-#: ../mail/mail-component.c:1722
+#: ../mail/mail-component.c:1725
 msgid "Debug Logs"
 msgstr "Journaux de débogage"
 
-#: ../mail/mail-component.c:1736
+#: ../mail/mail-component.c:1739
 msgid "Show _errors in the status bar for"
 msgstr "Afficher les _erreurs dans la barre d'état pendant"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1752
+#: ../mail/mail-component.c:1755
 msgid "second(s)."
 msgstr "seconde(s)."
 
-#: ../mail/mail-component.c:1758
+#: ../mail/mail-component.c:1761
 msgid "Log Messages:"
 msgstr "Journal des messages :"
 
-#: ../mail/mail-component.c:1799
+#: ../mail/mail-component.c:1802
 msgid "Log Level"
 msgstr "Niveau du journal"
 
-#: ../mail/mail-component.c:1808 ../widgets/misc/e-dateedit.c:395
+#: ../mail/mail-component.c:1811 ../widgets/misc/e-dateedit.c:395
 msgid "Time"
 msgstr "Heure"
 
-#: ../mail/mail-component.c:1818 ../mail/message-list.c:2454
+#: ../mail/mail-component.c:1821 ../mail/message-list.c:2454
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Messages"
 
-#: ../mail/mail-component.c:1827 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../mail/mail-component.c:1830 ../ui/evolution-mail-messagedisplay.xml.h:2
 #: ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "Ferme cette fenêtre"
@@ -15129,7 +15134,7 @@ msgstr "_Marqueur :"
 msgid "_Tick this to accept the license agreement"
 msgstr "Cochez ici pour accepter les _termes de la licence"
 
-#: ../mail/mail-folder-cache.c:832
+#: ../mail/mail-folder-cache.c:845
 #, c-format
 msgid "Pinging %s"
 msgstr "Ping sur %s"
@@ -15344,26 +15349,26 @@ msgstr "Attente..."
 msgid "Checking for new mail"
 msgstr "Recherche de nouveau courriel"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:207
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Saisissez la phrase de passe pour %s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:209
 msgid "Enter Passphrase"
 msgstr "Saisissez la phrase de passe"
 
-#: ../mail/mail-session.c:210
-#: ../plugins/exchange-operations/exchange-config-listener.c:711
+#: ../mail/mail-session.c:212
+#: ../plugins/exchange-operations/exchange-config-listener.c:713
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Saisissez le mot de passe pour %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:214
 msgid "Enter Password"
 msgstr "Saisissez le mot de passe"
 
-#: ../mail/mail-session.c:254
+#: ../mail/mail-session.c:256
 msgid "User canceled operation."
 msgstr "L'utilisateur a annulé l'opération."
 
@@ -16128,11 +16133,11 @@ msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3916 ../mail/message-list.c:4373
+#: ../mail/message-list.c:3916 ../mail/message-list.c:4376
 msgid "Generating message list"
 msgstr "Génération de la liste des messages"
 
-#: ../mail/message-list.c:4223
+#: ../mail/message-list.c:4224
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -16140,7 +16145,7 @@ msgstr ""
 "Aucun message ne remplit vos critères de recherche. Effacez la recherche "
 "avec le menu Recherche->Effacer ou modifiez les critères."
 
-#: ../mail/message-list.c:4225
+#: ../mail/message-list.c:4226
 msgid "There are no messages in this folder."
 msgstr "Il n'y a aucun message dans ce dossier."
 
@@ -16780,19 +16785,19 @@ msgstr "Voulez-vous faire d'Evolution votre client de messagerie par défaut ?"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../plugins/default-source/default-source.c:81
+#: ../plugins/default-source/default-source.c:82
 msgid "Mark as _default address book"
 msgstr "Marquer comme carnet d'adresses par _défaut"
 
-#: ../plugins/default-source/default-source.c:102
+#: ../plugins/default-source/default-source.c:103
 msgid "Mark as _default calendar"
 msgstr "Marquer comme calendrier par _défaut"
 
-#: ../plugins/default-source/default-source.c:103
+#: ../plugins/default-source/default-source.c:104
 msgid "Mark as _default task list"
 msgstr "Marquer comme liste de tâches par _défaut"
 
-#: ../plugins/default-source/default-source.c:104
+#: ../plugins/default-source/default-source.c:105
 msgid "Mark as _default memo list"
 msgstr "Marquer comme liste de mémos par _défaut"
 
@@ -16993,7 +16998,7 @@ msgstr "%s Kio"
 msgid "0 KB"
 msgstr "0 Kio"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:191
+#: ../plugins/exchange-operations/exchange-calendar.c:192
 #: ../plugins/exchange-operations/exchange-contacts.c:165
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
@@ -17036,13 +17041,13 @@ msgstr ""
 "Le mot de passe actuel a expiré. Veuillez modifier votre mot de passe dès à "
 "présent."
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:663
+#: ../plugins/exchange-operations/exchange-config-listener.c:665
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "Votre mot de passe expirera dans les %d prochains jours"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:152
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:568
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:570
 msgid "Custom"
 msgstr "Personnalisé"
 
@@ -17067,7 +17072,7 @@ msgid "Delegate Permissions"
 msgstr "Permissions du délégué"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:251
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:176
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:178
 #, c-format
 msgid "Permissions for %s"
 msgstr "Permissions pour %s"
@@ -17109,43 +17114,43 @@ msgstr "Cependant, vous n'êtes pas autorisé à consulter mes éléments privé
 msgid "You have been designated as a delegate for %s"
 msgstr "Vous avez été désigné comme délégué de %s"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:415
+#: ../plugins/exchange-operations/exchange-delegates.c:417
 msgid "Delegate To"
 msgstr "Déléguer à"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:580
+#: ../plugins/exchange-operations/exchange-delegates.c:582
 #, c-format
 msgid "Remove the delegate %s?"
 msgstr "Supprimer le délégué %s ?"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:698
+#: ../plugins/exchange-operations/exchange-delegates.c:700
 msgid "Could not access Active Directory"
 msgstr "Impossible d'accéder à Active Directory"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:710
+#: ../plugins/exchange-operations/exchange-delegates.c:712
 msgid "Could not find self in Active Directory"
 msgstr "Impossible de se trouver soi-même dans l'Active Directory"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:723
+#: ../plugins/exchange-operations/exchange-delegates.c:725
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
 msgstr "Impossible de trouver le délégué %s dans l'Active Directory"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:735
+#: ../plugins/exchange-operations/exchange-delegates.c:737
 #, c-format
 msgid "Could not remove delegate %s"
 msgstr "Impossible de supprimer le délégué %s"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:795
+#: ../plugins/exchange-operations/exchange-delegates.c:797
 msgid "Could not update list of delegates."
 msgstr "Impossible de mettre à jour la liste des délégués."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:813
+#: ../plugins/exchange-operations/exchange-delegates.c:815
 #, c-format
 msgid "Could not add delegate %s"
 msgstr "Impossible d'ajouter le délégué %s"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:981
+#: ../plugins/exchange-operations/exchange-delegates.c:983
 msgid "Error reading delegates list."
 msgstr "Erreur lors de la lecture de la liste des délégués."
 
@@ -17199,11 +17204,11 @@ msgstr "_Tâches :"
 msgid "Permissions..."
 msgstr "Permissions..."
 
-#: ../plugins/exchange-operations/exchange-folder-size-display.c:128
+#: ../plugins/exchange-operations/exchange-folder-size-display.c:130
 msgid "Folder Name"
 msgstr "Nom du dossier"
 
-#: ../plugins/exchange-operations/exchange-folder-size-display.c:132
+#: ../plugins/exchange-operations/exchange-folder-size-display.c:134
 msgid "Folder Size"
 msgstr "Taille du dossier"
 
@@ -17221,20 +17226,20 @@ msgstr "S'abonner à un dossier d'un autre utilisateur"
 msgid "Exchange Folder Tree"
 msgstr "Arborescence des dossiers Exchange"
 
-#: ../plugins/exchange-operations/exchange-folder.c:65
-#: ../plugins/exchange-operations/exchange-folder.c:234
-#: ../plugins/exchange-operations/exchange-folder.c:244
+#: ../plugins/exchange-operations/exchange-folder.c:67
+#: ../plugins/exchange-operations/exchange-folder.c:236
+#: ../plugins/exchange-operations/exchange-folder.c:246
 msgid "Unsubscribe Folder..."
 msgstr "Se désabonner du dossier..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:519
+#: ../plugins/exchange-operations/exchange-folder.c:466
+#: ../plugins/exchange-operations/exchange-folder.c:521
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Voulez-vous vraiment vous désabonner du dossier « %s » ?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:531
+#: ../plugins/exchange-operations/exchange-folder.c:478
+#: ../plugins/exchange-operations/exchange-folder.c:533
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "Se désabonner du dossier « %s »"
@@ -17299,16 +17304,16 @@ msgstr "Votre mot de passe expirera dans 7 jours..."
 msgid "_Change Password"
 msgstr "_Changer le mot de passe"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:293
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
 msgid "(Permission denied.)"
 msgstr "(Permission refusée)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:401
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:403
 msgid "Add User:"
 msgstr "Ajouter un utilisateur :"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:401
-#: ../plugins/exchange-operations/exchange-send-options.c:408
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:403
+#: ../plugins/exchange-operations/exchange-send-options.c:410
 #: ../plugins/groupwise-features/proxy.c:934
 #: ../plugins/groupwise-features/share-folder.c:715
 msgid "Add User"
@@ -17971,7 +17976,7 @@ msgstr "Un greffon pour configurer les calendriers et les contacts Google."
 msgid "Google sources"
 msgstr "Sources Google"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:456
 msgid "Checklist"
 msgstr "Liste de contrôle"
 
@@ -18017,16 +18022,16 @@ msgstr "Installer le dossier partagé"
 msgid "Shared Folder Installation"
 msgstr "Installation du dossier partagé"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:78
+#: ../plugins/groupwise-features/junk-mail-settings.c:80
 msgid "Junk Settings"
 msgstr "Paramètres du pourriel"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:91
+#: ../plugins/groupwise-features/junk-mail-settings.c:93
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
 msgstr "Paramètres de détection des pourriels"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:115
+#: ../plugins/groupwise-features/junk-mail-settings.c:117
 msgid "Junk Mail Settings..."
 msgstr "Paramètres de détection des pourriels..."
 
@@ -18170,7 +18175,7 @@ msgid "Con_tacts..."
 msgstr "Con_tacts..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
-#: ../widgets/table/e-table-click-to-add.c:517
+#: ../widgets/table/e-table-click-to-add.c:516
 msgid "Message"
 msgstr "Message"
 
@@ -18424,27 +18429,27 @@ msgstr "Un greffon pour les fonctionnalités des comptes IMAP."
 msgid "IMAP Features"
 msgstr "Fonctionnalités IMAP"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:77
+#: ../plugins/import-ics-attachments/icsimporter.c:78
 msgid "_Import to Calendar"
 msgstr "_Importer dans le calendrier"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:82
+#: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Tasks"
 msgstr "_Importer dans les tâches"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:200
+#: ../plugins/import-ics-attachments/icsimporter.c:201
 msgid "Import ICS"
 msgstr "Importer ICS"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:223
+#: ../plugins/import-ics-attachments/icsimporter.c:224
 msgid "Select Task List"
 msgstr "Sélectionner une liste de tâches"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:227
+#: ../plugins/import-ics-attachments/icsimporter.c:228
 msgid "Select Calendar"
 msgstr "Sélectionner un calendrier"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:259
+#: ../plugins/import-ics-attachments/icsimporter.c:260
 #: ../shell/e-shell-importer.c:696
 msgid "_Import"
 msgstr "_Importer"
@@ -18694,7 +18699,7 @@ msgstr "Sélectionnez les calendriers où chercher les conflits de réunions"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:189 ../ui/evolution-calendar.xml.h:34
-#: ../widgets/misc/e-cell-date-edit.c:299
+#: ../widgets/misc/e-cell-date-edit.c:298
 msgid "Today"
 msgstr "Aujourd'hui"
 
@@ -19676,7 +19681,7 @@ msgstr "Un greffon pour gérer quels greffons sont actifs ou pas."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:236
+#: ../plugins/plugin-manager/plugin-manager.c:252
 msgid "Plugin Manager"
 msgstr "Gestionnaire de greffons"
 
@@ -19688,24 +19693,24 @@ msgstr "Active et désactive les greffons"
 msgid "_Plugins"
 msgstr "_Greffons"
 
-#: ../plugins/plugin-manager/plugin-manager.c:42
+#: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
 msgstr "Auteur(s)"
 
-#: ../plugins/plugin-manager/plugin-manager.c:130
+#: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
 msgstr "Configuration"
 
-#: ../plugins/plugin-manager/plugin-manager.c:249
+#: ../plugins/plugin-manager/plugin-manager.c:265
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Note : certains changements ne prendront effet qu'après un redémarrage"
 
-#: ../plugins/plugin-manager/plugin-manager.c:275
+#: ../plugins/plugin-manager/plugin-manager.c:291
 msgid "Overview"
 msgstr "Vue d'ensemble"
 
-#: ../plugins/plugin-manager/plugin-manager.c:346
-#: ../plugins/plugin-manager/plugin-manager.c:408
+#: ../plugins/plugin-manager/plugin-manager.c:362
+#: ../plugins/plugin-manager/plugin-manager.c:424
 msgid "Plugin"
 msgstr "Greffon"
 
@@ -19732,19 +19737,19 @@ msgstr "Mode texte simple"
 msgid "Prefer plain-text"
 msgstr "Préférer le texte simple"
 
-#: ../plugins/prefer-plain/prefer-plain.c:174
+#: ../plugins/prefer-plain/prefer-plain.c:191
 msgid "Show HTML if present"
 msgstr "Afficher au format HTML si présent"
 
-#: ../plugins/prefer-plain/prefer-plain.c:175
+#: ../plugins/prefer-plain/prefer-plain.c:192
 msgid "Prefer PLAIN"
 msgstr "Préférer le format PLAIN"
 
-#: ../plugins/prefer-plain/prefer-plain.c:176
+#: ../plugins/prefer-plain/prefer-plain.c:193
 msgid "Only ever show PLAIN"
 msgstr "Afficher toujours au format PLAIN"
 
-#: ../plugins/prefer-plain/prefer-plain.c:219
+#: ../plugins/prefer-plain/prefer-plain.c:236
 msgid "HTML _Mode"
 msgstr "_Mode HTML"
 
@@ -20191,7 +20196,7 @@ msgstr ""
 "Liste de paires mot-clé/valeur pour le greffon Modèles en vue de leur "
 "substitution dans le corps des messages."
 
-#: ../plugins/templates/templates.c:614
+#: ../plugins/templates/templates.c:615
 msgid "No title"
 msgstr "Sans titre"
 
@@ -20599,7 +20604,7 @@ msgstr "Importer les données et paramètres d'_anciens programmes"
 msgid "Import a _single file"
 msgstr "Importer un _seul fichier"
 
-#: ../shell/e-shell-settings-dialog.c:314
+#: ../shell/e-shell-settings-dialog.c:313
 msgid "Evolution Preferences"
 msgstr "Préférences d'Evolution"
 
@@ -20707,7 +20712,7 @@ msgstr "Erreur système inconnue."
 msgid "%ld KB"
 msgstr "%ld Kio"
 
-#: ../shell/e-shell.c:1298 ../widgets/misc/e-cell-date-edit.c:315
+#: ../shell/e-shell.c:1298 ../widgets/misc/e-cell-date-edit.c:314
 msgid "OK"
 msgstr "Valider"
 
@@ -21091,22 +21096,22 @@ msgstr "Adresse électronique"
 msgid "All CA certificate files"
 msgstr "Tous les fichiers de certification CA"
 
-#: ../smime/gui/certificate-viewer.c:339
+#: ../smime/gui/certificate-viewer.c:338
 #, c-format
 msgid "Certificate Viewer: %s"
 msgstr "Visionneur de certificat : %s"
 
-#: ../smime/gui/component.c:47
+#: ../smime/gui/component.c:46
 #, c-format
 msgid "Enter the password for `%s'"
 msgstr "Saisissez le mot de passe pour « %s »"
 
 #. we're setting the password initially
-#: ../smime/gui/component.c:70
+#: ../smime/gui/component.c:69
 msgid "Enter new password for certificate database"
 msgstr "Saisissez le nouveau mot de passe pour la base de certification"
 
-#: ../smime/gui/component.c:72
+#: ../smime/gui/component.c:71
 msgid "Enter new password"
 msgstr "Saisissez le nouveau mot de passe"
 
@@ -22945,7 +22950,7 @@ msgstr ""
 "Utilisez le bouton droit de la souris pour réduire."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
-#: ../widgets/menus/gal-define-views-model.c:186
+#: ../widgets/menus/gal-define-views-model.c:185
 msgid "Collection"
 msgstr "Collection"
 
@@ -22990,7 +22995,7 @@ msgstr "_Remplacer la vue existante"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:582
-#: ../widgets/menus/gal-view-menus.c:354
+#: ../widgets/menus/gal-view-menus.c:368
 msgid "Custom View"
 msgstr "Vue personnalisée"
 
@@ -22999,32 +23004,32 @@ msgid "Save Custom View"
 msgstr "Enregistrer la vue personnalisée"
 
 #: ../widgets/menus/gal-view-instance.c:587
-#: ../widgets/menus/gal-view-menus.c:378
+#: ../widgets/menus/gal-view-menus.c:392
 msgid "Define Views..."
 msgstr "Définir les vues..."
 
-#: ../widgets/menus/gal-view-menus.c:291
+#: ../widgets/menus/gal-view-menus.c:305
 msgid "C_urrent View"
 msgstr "Vue co_urante"
 
-#: ../widgets/menus/gal-view-menus.c:315
+#: ../widgets/menus/gal-view-menus.c:329
 #, c-format
 msgid "Select View: %s"
 msgstr "Sélectionne la vue : %s"
 
-#: ../widgets/menus/gal-view-menus.c:359
+#: ../widgets/menus/gal-view-menus.c:373
 msgid "Current view is a customized view"
 msgstr "La vue actuelle est une vue personnalisée"
 
-#: ../widgets/menus/gal-view-menus.c:364
+#: ../widgets/menus/gal-view-menus.c:378
 msgid "Save Custom View..."
 msgstr "Enregistrer la vue personnalisée..."
 
-#: ../widgets/menus/gal-view-menus.c:369
+#: ../widgets/menus/gal-view-menus.c:383
 msgid "Save current custom view"
 msgstr "Enregistrer la vue personnalisée actuelle"
 
-#: ../widgets/menus/gal-view-menus.c:383
+#: ../widgets/menus/gal-view-menus.c:397
 msgid "Create or edit views"
 msgstr "Crée ou édite des vues"
 
@@ -23082,7 +23087,7 @@ msgid "Suggest automatic display of attachment"
 msgstr "Suggérer l'affichage automatique de la pièce jointe"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1273
+#: ../widgets/misc/e-calendar-item.c:1272
 msgid "%B %Y"
 msgstr "%B %Y"
 
@@ -23132,30 +23137,30 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1426
-#: ../widgets/table/e-table-group-container.c:1000
+#: ../widgets/misc/e-canvas-vbox.c:91 ../widgets/misc/e-reflow.c:1426
+#: ../widgets/table/e-table-group-container.c:999
 #: ../widgets/table/e-table-group-leaf.c:644
 #: ../widgets/table/e-table-item.c:3074
 msgid "Minimum width"
 msgstr "Largeur minimale"
 
-#: ../widgets/misc/e-canvas-vbox.c:93 ../widgets/misc/e-reflow.c:1427
-#: ../widgets/table/e-table-group-container.c:1001
+#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/table/e-table-group-container.c:1000
 #: ../widgets/table/e-table-group-leaf.c:645
 #: ../widgets/table/e-table-item.c:3075
 msgid "Minimum Width"
 msgstr "Largeur minimale"
 
-#: ../widgets/misc/e-canvas-vbox.c:104 ../widgets/misc/e-canvas-vbox.c:105
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-canvas-vbox.c:104
 #: ../widgets/misc/e-expander.c:204
 msgid "Spacing"
 msgstr "Espacement"
 
-#: ../widgets/misc/e-cell-date-edit.c:291
+#: ../widgets/misc/e-cell-date-edit.c:290
 msgid "Now"
 msgstr "Maintenant"
 
-#: ../widgets/misc/e-cell-date-edit.c:848
+#: ../widgets/misc/e-cell-date-edit.c:847
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "La date doit être dans le format : %s"
@@ -23164,98 +23169,98 @@ msgstr "La date doit être dans le format : %s"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Le pourcentage doit être compris entre 0 et 100 inclus"
 
-#: ../widgets/misc/e-charset-picker.c:56
+#: ../widgets/misc/e-charset-picker.c:57
 msgid "Arabic"
 msgstr "Arabe"
 
-#: ../widgets/misc/e-charset-picker.c:57
+#: ../widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
 msgstr "Balte"
 
-#: ../widgets/misc/e-charset-picker.c:58
+#: ../widgets/misc/e-charset-picker.c:59
 msgid "Central European"
 msgstr "Europe centrale"
 
-#: ../widgets/misc/e-charset-picker.c:59
+#: ../widgets/misc/e-charset-picker.c:60
 msgid "Chinese"
 msgstr "Chinois"
 
-#: ../widgets/misc/e-charset-picker.c:60
+#: ../widgets/misc/e-charset-picker.c:61
 msgid "Cyrillic"
 msgstr "Cyrillique"
 
-#: ../widgets/misc/e-charset-picker.c:61
+#: ../widgets/misc/e-charset-picker.c:62
 msgid "Greek"
 msgstr "Grec"
 
-#: ../widgets/misc/e-charset-picker.c:62
+#: ../widgets/misc/e-charset-picker.c:63
 msgid "Hebrew"
 msgstr "Hébreu"
 
-#: ../widgets/misc/e-charset-picker.c:63
+#: ../widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
 msgstr "Japonais"
 
-#: ../widgets/misc/e-charset-picker.c:64
+#: ../widgets/misc/e-charset-picker.c:65
 msgid "Korean"
 msgstr "Coréen"
 
-#: ../widgets/misc/e-charset-picker.c:65
+#: ../widgets/misc/e-charset-picker.c:66
 msgid "Thai"
 msgstr "Thaï"
 
-#: ../widgets/misc/e-charset-picker.c:66
+#: ../widgets/misc/e-charset-picker.c:67
 msgid "Turkish"
 msgstr "Turc"
 
-#: ../widgets/misc/e-charset-picker.c:67
+#: ../widgets/misc/e-charset-picker.c:68
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../widgets/misc/e-charset-picker.c:68
+#: ../widgets/misc/e-charset-picker.c:69
 msgid "Western European"
 msgstr "Européen de l'ouest"
 
-#: ../widgets/misc/e-charset-picker.c:69
+#: ../widgets/misc/e-charset-picker.c:70
 msgid "Western European, New"
 msgstr "Européen de l'ouest, Nouveau"
 
-#: ../widgets/misc/e-charset-picker.c:88 ../widgets/misc/e-charset-picker.c:89
-#: ../widgets/misc/e-charset-picker.c:90
+#: ../widgets/misc/e-charset-picker.c:89 ../widgets/misc/e-charset-picker.c:90
+#: ../widgets/misc/e-charset-picker.c:91
 msgid "Traditional"
 msgstr "Traditionnel"
 
-#: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
-#: ../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
+#: ../widgets/misc/e-charset-picker.c:92 ../widgets/misc/e-charset-picker.c:93
+#: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 msgid "Simplified"
 msgstr "Simplifié"
 
-#: ../widgets/misc/e-charset-picker.c:97
+#: ../widgets/misc/e-charset-picker.c:98
 msgid "Ukrainian"
 msgstr "Ukrainien"
 
-#: ../widgets/misc/e-charset-picker.c:100
+#: ../widgets/misc/e-charset-picker.c:101
 msgid "Visual"
 msgstr "Visuel"
 
-#: ../widgets/misc/e-charset-picker.c:169
+#: ../widgets/misc/e-charset-picker.c:170
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "Jeu de caractères inconnu : %s"
 
-#: ../widgets/misc/e-charset-picker.c:214
+#: ../widgets/misc/e-charset-picker.c:215
 msgid "Character Encoding"
 msgstr "Codage des caractères"
 
-#: ../widgets/misc/e-charset-picker.c:229
+#: ../widgets/misc/e-charset-picker.c:230
 msgid "Enter the character set to use"
 msgstr "Saisissez le jeu de caractères à utiliser"
 
-#: ../widgets/misc/e-charset-picker.c:336
+#: ../widgets/misc/e-charset-picker.c:337
 msgid "Other..."
 msgstr "Autre..."
 
-#: ../widgets/misc/e-charset-picker.c:598
+#: ../widgets/misc/e-charset-picker.c:599
 msgid "Ch_aracter Encoding"
 msgstr "Codage des c_aractères"
 
@@ -23346,61 +23351,61 @@ msgid "Spacing around expander arrow"
 msgstr "Espace autour de la flèche de l'icône d'extension"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:130 ../widgets/misc/e-filter-bar.c:183
-#: ../widgets/misc/e-filter-bar.c:311 ../widgets/misc/e-filter-bar.c:753
+#: ../widgets/misc/e-filter-bar.c:126 ../widgets/misc/e-filter-bar.c:179
+#: ../widgets/misc/e-filter-bar.c:307 ../widgets/misc/e-filter-bar.c:749
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:234
+#: ../widgets/misc/e-filter-bar.c:230
 msgid "Save Search"
 msgstr "Enregistrer la recherche"
 
-#: ../widgets/misc/e-filter-bar.c:271
+#: ../widgets/misc/e-filter-bar.c:267
 msgid "_Searches"
 msgstr "_Recherches"
 
-#: ../widgets/misc/e-filter-bar.c:273
+#: ../widgets/misc/e-filter-bar.c:269
 msgid "Searches"
 msgstr "Recherches"
 
-#: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
+#: ../widgets/misc/e-filter-bar.h:104 ../widgets/misc/e-filter-bar.h:115
 msgid "_Save Search..."
 msgstr "Enre_gistrer la recherche..."
 
-#: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
+#: ../widgets/misc/e-filter-bar.h:105 ../widgets/misc/e-filter-bar.h:116
 msgid "_Edit Saved Searches..."
 msgstr "Mo_difier les recherches enregistrées..."
 
-#: ../widgets/misc/e-filter-bar.h:103 ../widgets/misc/e-filter-bar.h:114
+#: ../widgets/misc/e-filter-bar.h:106 ../widgets/misc/e-filter-bar.h:117
 msgid "_Advanced Search..."
 msgstr "Recherche _avancée..."
 
-#: ../widgets/misc/e-filter-bar.h:104
+#: ../widgets/misc/e-filter-bar.h:107
 msgid "All Accounts"
 msgstr "Tous les comptes"
 
-#: ../widgets/misc/e-filter-bar.h:105
+#: ../widgets/misc/e-filter-bar.h:108
 msgid "Current Account"
 msgstr "Compte actuel"
 
-#: ../widgets/misc/e-filter-bar.h:106
+#: ../widgets/misc/e-filter-bar.h:109
 msgid "Current Folder"
 msgstr "Dossier actuel"
 
-#: ../widgets/misc/e-filter-bar.h:107
+#: ../widgets/misc/e-filter-bar.h:110
 msgid "Current Message"
 msgstr "Message actuel"
 
-#: ../widgets/misc/e-image-chooser.c:167
+#: ../widgets/misc/e-image-chooser.c:169
 msgid "Choose Image"
 msgstr "Choisissez une image"
 
-#: ../widgets/misc/e-map.c:625
+#: ../widgets/misc/e-map.c:627
 msgid "World Map"
 msgstr "Carte du monde"
 
-#: ../widgets/misc/e-map.c:627
+#: ../widgets/misc/e-map.c:629
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
@@ -23418,15 +23423,15 @@ msgstr "En ligne"
 msgid "The button state is online"
 msgstr "L'état du bouton est en ligne"
 
-#: ../widgets/misc/e-pilot-settings.c:103
+#: ../widgets/misc/e-pilot-settings.c:102
 msgid "Sync with:"
 msgstr "Synchroniser avec :"
 
-#: ../widgets/misc/e-pilot-settings.c:111
+#: ../widgets/misc/e-pilot-settings.c:110
 msgid "Sync Private Records:"
 msgstr "Synchroniser les enregistrements privés :"
 
-#: ../widgets/misc/e-pilot-settings.c:120
+#: ../widgets/misc/e-pilot-settings.c:119
 msgid "Sync Categories:"
 msgstr "Synchroniser les catégories :"
 
@@ -23502,19 +23507,19 @@ msgstr "Rangée de curseurs"
 msgid "Cursor Column"
 msgstr "Colonne de curseurs"
 
-#: ../widgets/misc/e-selection-model.c:210
+#: ../widgets/misc/e-selection-model.c:209
 msgid "Sorter"
 msgstr "Trieur"
 
-#: ../widgets/misc/e-selection-model.c:217
+#: ../widgets/misc/e-selection-model.c:216
 msgid "Selection Mode"
 msgstr "Mode de sélection"
 
-#: ../widgets/misc/e-selection-model.c:225
+#: ../widgets/misc/e-selection-model.c:224
 msgid "Cursor Mode"
 msgstr "Mode du curseur"
 
-#: ../widgets/misc/e-send-options.c:518
+#: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
 msgstr "Si s_upprimé :"
 
@@ -23676,7 +23681,7 @@ msgstr "_Catégories disponibles :"
 msgid "categories"
 msgstr "catégories"
 
-#: ../widgets/table/e-cell-combo.c:169
+#: ../widgets/table/e-cell-combo.c:170
 msgid "popup list"
 msgstr "list des popups"
 
@@ -23853,30 +23858,30 @@ msgstr ""
 "Pour ajouter une colonne à votre table, glissez-la\n"
 "à l'emplacement où elle doit apparaître."
 
-#: ../widgets/table/e-table-group-container.c:345
+#: ../widgets/table/e-table-group-container.c:344
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s : %s (%d élément)"
 msgstr[1] "%s : %s (%d éléments)"
 
-#: ../widgets/table/e-table-group-container.c:351
+#: ../widgets/table/e-table-group-container.c:350
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d élément)"
 msgstr[1] "%s (%d éléments)"
 
+#: ../widgets/table/e-table-group-container.c:922
 #: ../widgets/table/e-table-group-container.c:923
-#: ../widgets/table/e-table-group-container.c:924
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-group-leaf.c:582
 #: ../widgets/table/e-table-item.c:3032 ../widgets/table/e-table-item.c:3033
 msgid "Alternating Row Colors"
 msgstr "Couleurs de rangées alternatives"
 
+#: ../widgets/table/e-table-group-container.c:929
 #: ../widgets/table/e-table-group-container.c:930
-#: ../widgets/table/e-table-group-container.c:931
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-group-leaf.c:589
 #: ../widgets/table/e-table-item.c:3039 ../widgets/table/e-table-item.c:3040
@@ -23884,8 +23889,8 @@ msgstr "Couleurs de rangées alternatives"
 msgid "Horizontal Draw Grid"
 msgstr "Grille de dessin horizontal"
 
+#: ../widgets/table/e-table-group-container.c:936
 #: ../widgets/table/e-table-group-container.c:937
-#: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-group-leaf.c:596
 #: ../widgets/table/e-table-item.c:3046 ../widgets/table/e-table-item.c:3047
@@ -23893,8 +23898,8 @@ msgstr "Grille de dessin horizontal"
 msgid "Vertical Draw Grid"
 msgstr "Grille de dessin vertical"
 
+#: ../widgets/table/e-table-group-container.c:943
 #: ../widgets/table/e-table-group-container.c:944
-#: ../widgets/table/e-table-group-container.c:945
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-group-leaf.c:603
 #: ../widgets/table/e-table-item.c:3053 ../widgets/table/e-table-item.c:3054
@@ -23902,24 +23907,24 @@ msgstr "Grille de dessin vertical"
 msgid "Draw focus"
 msgstr "Dessiner le focus"
 
+#: ../widgets/table/e-table-group-container.c:950
 #: ../widgets/table/e-table-group-container.c:951
-#: ../widgets/table/e-table-group-container.c:952
 #: ../widgets/table/e-table-group-leaf.c:609
 #: ../widgets/table/e-table-group-leaf.c:610
 #: ../widgets/table/e-table-item.c:3060 ../widgets/table/e-table-item.c:3061
 msgid "Cursor mode"
 msgstr "Mode du curseur"
 
+#: ../widgets/table/e-table-group-container.c:957
 #: ../widgets/table/e-table-group-container.c:958
-#: ../widgets/table/e-table-group-container.c:959
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-group-leaf.c:624
 #: ../widgets/table/e-table-item.c:3025 ../widgets/table/e-table-item.c:3026
 msgid "Selection model"
 msgstr "Modèle de sélection"
 
+#: ../widgets/table/e-table-group-container.c:964
 #: ../widgets/table/e-table-group-container.c:965
-#: ../widgets/table/e-table-group-container.c:966
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-group-leaf.c:617
 #: ../widgets/table/e-table-item.c:3067 ../widgets/table/e-table-item.c:3068
@@ -23928,8 +23933,8 @@ msgstr "Modèle de sélection"
 msgid "Length Threshold"
 msgstr "Longueur du seuil"
 
+#: ../widgets/table/e-table-group-container.c:971
 #: ../widgets/table/e-table-group-container.c:972
-#: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:658
 #: ../widgets/table/e-table-group-leaf.c:659
 #: ../widgets/table/e-table-item.c:3101 ../widgets/table/e-table-item.c:3102
@@ -23938,8 +23943,8 @@ msgstr "Longueur du seuil"
 msgid "Uniform row height"
 msgstr "Hauteur de rangée uniforme"
 
+#: ../widgets/table/e-table-group-container.c:978
 #: ../widgets/table/e-table-group-container.c:979
-#: ../widgets/table/e-table-group-container.c:980
 #: ../widgets/table/e-table-group-leaf.c:651
 #: ../widgets/table/e-table-group-leaf.c:652
 msgid "Frozen"
@@ -24007,7 +24012,7 @@ msgid "Font Description"
 msgstr "Description de la police"
 
 #: ../widgets/table/e-table-header-item.c:1915
-#: ../widgets/table/e-table-sorter.c:173
+#: ../widgets/table/e-table-sorter.c:172
 msgid "Sort Info"
 msgstr "Info de tri"
 
