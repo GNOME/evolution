@@ -1,3 +1,7 @@
+2008-09-06  Michael Meeks  <michael.meeks@novell.com>
+
+	* e-spinner.c: correct licensing cockup; apologies.
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes
