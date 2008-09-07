@@ -94,7 +94,8 @@ shell_content_size_allocate (GtkWidget *widget,
 	gtk_widget_size_allocate (child, &child_allocation);
 
 	child_allocation.y += child_requisition.height;
-	child_allocation.height = allocation->height - child_allocation.y;
+	child_allocation.height =
+		allocation->height - child_requisition.height;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	if (child != NULL)

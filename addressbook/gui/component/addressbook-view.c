@@ -109,20 +109,6 @@ control_activate (BonoboControl     *control,
 	EABView *v = get_current_view (view);
 	char *xmlfile;
 
-	remote_ui_container = bonobo_control_get_remote_ui_container (control, NULL);
-	bonobo_ui_component_set_container (uic, remote_ui_container, NULL);
-	bonobo_object_release_unref (remote_ui_container, NULL);
-
-	bonobo_ui_component_freeze (uic, NULL);
-
-	xmlfile = g_build_filename (EVOLUTION_UIDIR,
-				    "evolution-addressbook.xml",
-				    NULL);
-	bonobo_ui_util_set_ui (uic, PREFIX,
-			       xmlfile,
-			       "evolution-addressbook", NULL);
-	g_free (xmlfile);
-
 	if (v)
 		eab_view_setup_menus (v, uic);
 

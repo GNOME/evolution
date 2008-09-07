@@ -23,9 +23,12 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <e-task-bar.h>
+#include <filter/rule-context.h>
+#include <widgets/misc/e-search-bar.h>
+#include <widgets/misc/e-task-bar.h>
 
 #include <e-shell-content.h>
+#include <e-shell-module.h>
 #include <e-shell-sidebar.h>
 #include <e-shell-window.h>
 #include <e-shell-window-actions.h>
@@ -61,6 +64,70 @@ enum {
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static void
+shell_view_setup_search_context (EShellView *shell_view)
+{
+	RuleContext *context;
+	EShellViewClass *class;
+	EShellModule *shell_module;
+	FilterRule *rule;
+	FilterPart *part;
+	GtkWidget *widget;
+	gchar *system_filename;
+	gchar *user_filename;
+
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_module = E_SHELL_MODULE (class->type_module);
+
+	/* The filename for built-in searches is specified in a
+	 * module's EShellModuleInfo.  All built-in search rules
+	 * live in the same directory. */
+	system_filename = g_build_filename (
+		EVOLUTION_RULEDIR,
+		e_shell_module_get_searches (shell_module), NULL);
+
+	/* The filename for custom saved searches is always of
+	 * the form "$(shell_module_data_dir)/searches.xml". */
+	user_filename = g_build_filename (
+		e_shell_module_get_data_dir (shell_module),
+		"searches.xml", NULL);
+
+	context = rule_context_new ();
+	rule_context_add_part_set (
+		context, "partset", FILTER_TYPE_PART,
+		rule_context_add_part, rule_context_next_part);
+	rule_context_add_rule_set (
+		context, "ruleset", FILTER_TYPE_RULE,
+		rule_context_add_rule, rule_context_next_rule);
+	rule_context_load (context, system_filename, user_filename);
+
+	/* XXX Not sure why this is necessary. */
+	g_object_set_data_full (
+		G_OBJECT (context), "system", system_filename, g_free);
+	g_object_set_data_full (
+		G_OBJECT (context), "user", user_filename, g_free);
+
+	/* XXX I don't really understand what this does. */
+	rule = filter_rule_new ();
+	part = rule_context_next_part (context, NULL);
+	if (part == NULL)
+		g_warning (
+			"Could not load %s search; no parts.",
+			class->type_module->name);
+	else
+		filter_rule_add_part (rule, filter_part_clone (part));
+
+	g_free (system_filename);
+	g_free (user_filename);
+
+	/* Hand the context off to the search bar. */
+	widget = e_shell_view_get_content_widget (shell_view);
+	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
+	e_search_bar_set_context (E_SEARCH_BAR (widget), context);
+
+	g_object_unref (context);
+}
 
 static void
 shell_view_set_page_num (EShellView *shell_view,
@@ -205,14 +272,18 @@ static void
 shell_view_constructed (GObject *object)
 {
 	EShellViewClass *class;
+	EShellView *shell_view;
 	GtkWidget *sidebar;
 
+	shell_view = E_SHELL_VIEW (object);
 	class = E_SHELL_VIEW_GET_CLASS (object);
-	sidebar = e_shell_view_get_sidebar_widget (E_SHELL_VIEW (object));
+	sidebar = e_shell_view_get_sidebar_widget (shell_view);
 	e_shell_sidebar_set_icon_name (
 		E_SHELL_SIDEBAR (sidebar), class->icon_name);
 	e_shell_sidebar_set_primary_text (
 		E_SHELL_SIDEBAR (sidebar), class->label);
+
+	shell_view_setup_search_context (shell_view);
 
 	/* XXX GObjectClass doesn't implement constructed(), so we will.
 	 *     Then subclasses won't have to check the function pointer
@@ -368,6 +439,9 @@ e_shell_view_set_title (EShellView *shell_view,
                         const gchar *title)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (title == NULL)
+		title = E_SHELL_VIEW_GET_CLASS (shell_view)->label;
 
 	g_free (shell_view->priv->title);
 	shell_view->priv->title = g_strdup (title);

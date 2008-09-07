@@ -27,7 +27,6 @@
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"
 #include "misc/e-search-bar.h"
-#include "misc/e-filter-bar.h"
 
 /* Standard GObject macros */
 #define E_TYPE_AB_VIEW \
@@ -92,13 +91,6 @@ struct _EABView {
 	GalViewInstance *view_instance;
 	/*GalViewMenus *view_menus;*/
 	GalView *current_view;
-	BonoboUIComponent *uic;
-
-	/* the search bar and related machinery */
-	EFilterBar  *search;
-	gint         ecml_changed_id;
-	RuleContext *search_context;
-	FilterRule  *search_rule;
 };
 
 struct _EABViewClass {
@@ -115,13 +107,6 @@ GType		eab_view_get_type		(void);
 GtkWidget *	eab_view_new			(void);
 void		eab_view_show_contact_preview	(EABView *view,
 						 gboolean show);
-void		eab_view_setup_menus		(EABView *view,
-						 BonoboUIComponent *uic);
-void		eab_view_discard_menus		(EABView *view);
-
-RuleContext *	eab_view_peek_search_context	(EABView *view);
-FilterRule *	eab_view_peek_search_rule	(EABView *view);
-
 void		eab_view_save_as		(EABView *view,
 						 gboolean all);
 void		eab_view_view			(EABView *view);

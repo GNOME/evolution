@@ -72,7 +72,6 @@ const gchar *	e_shell_sidebar_get_secondary_text
 void		e_shell_sidebar_set_secondary_text
 						(EShellSidebar *shell_sidebar,
 						 const gchar *secondary_text);
-GtkSizeGroup *	e_shell_sidebar_get_size_group	(EShellSidebar *shell_sidebar);
 
 G_END_DECLS
 

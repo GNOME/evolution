@@ -45,6 +45,9 @@
 	((obj), E_TYPE_SEARCH_BAR, ESearchBarPrivate))
 
 struct _ESearchBarPrivate {
+	RuleContext *context;
+	FilterRule *current_query;
+
 	GtkWidget *filter_label;
 	GtkWidget *filter_combo_box;
 	GtkWidget *search_label;
@@ -60,6 +63,7 @@ struct _ESearchBarPrivate {
 
 enum {
 	PROP_0,
+	PROP_CONTEXT,
 	PROP_FILTER_ACTION,
 	PROP_FILTER_VALUE,
 	PROP_FILTER_VISIBLE,
@@ -121,6 +125,20 @@ static GtkActionEntry search_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_search_type_cb) }
 };
+
+static void
+search_bar_rule_changed (FilterRule *rule,
+                         GtkDialog *dialog)
+{
+	gboolean sensitive;
+
+	sensitive = (rule != NULL && rule->parts != NULL);
+
+	gtk_dialog_set_response_sensitive (
+		dialog, GTK_RESPONSE_OK, sensitive);
+	gtk_dialog_set_response_sensitive (
+		dialog, GTK_RESPONSE_APPLY, sensitive);
+}
 
 static void
 search_bar_update_search_popup (ESearchBar *search_bar)
@@ -355,6 +373,12 @@ search_bar_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CONTEXT:
+			e_search_bar_set_context (
+				E_SEARCH_BAR (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_FILTER_ACTION:
 			e_search_bar_set_filter_action (
 				E_SEARCH_BAR (object),
@@ -426,6 +450,12 @@ search_bar_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CONTEXT:
+			g_value_set_object (
+				value, e_search_bar_get_context (
+				E_SEARCH_BAR (object)));
+			return;
+
 		case PROP_FILTER_ACTION:
 			g_value_set_object (
 				value, e_search_bar_get_filter_action (
@@ -497,6 +527,11 @@ search_bar_dispose (GObject *object)
 
 	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
+	if (priv->context != NULL) {
+		g_object_unref (priv->context);
+		priv->context = NULL;
+	}
+
 	if (priv->filter_label != NULL) {
 		g_object_unref (priv->filter_label);
 		priv->filter_label = NULL;
@@ -553,6 +588,16 @@ search_bar_class_init (ESearchBarClass *class)
 	object_class->set_property = search_bar_set_property;
 	object_class->get_property = search_bar_get_property;
 	object_class->dispose = search_bar_dispose;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CONTEXT,
+		g_param_spec_object (
+			"context",
+			NULL,
+			NULL,
+			RULE_TYPE_CONTEXT,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -809,6 +854,28 @@ e_search_bar_get_action_group (ESearchBar *search_bar)
 	return search_bar->priv->action_group;
 }
 
+RuleContext *
+e_search_bar_get_context (ESearchBar *search_bar)
+{
+	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
+
+	return search_bar->priv->context;
+}
+
+void
+e_search_bar_set_context (ESearchBar *search_bar,
+                          RuleContext *context)
+{
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+	g_return_if_fail (IS_RULE_CONTEXT (context));
+
+	if (search_bar->priv->context != NULL)
+		g_object_unref (search_bar->priv->context);
+
+	search_bar->priv->context = g_object_ref (context);
+	g_object_notify (G_OBJECT (search_bar), "context");
+}
+
 GtkRadioAction *
 e_search_bar_get_filter_action (ESearchBar *search_bar)
 {
@@ -950,6 +1017,7 @@ e_search_bar_set_search_text (ESearchBar *search_bar,
 	icon_entry = E_ICON_ENTRY (search_bar->priv->search_entry);
 	entry = e_icon_entry_get_entry (icon_entry);
 
+	text = (text != NULL) ? text : "";
 	gtk_entry_set_text (GTK_ENTRY (entry), text);
 	g_object_notify (G_OBJECT (search_bar), "search-text");
 }
@@ -1075,4 +1143,78 @@ e_search_bar_set_scope_visible (ESearchBar *search_bar,
 	}
 
 	g_object_notify (G_OBJECT (search_bar), "scope-visible");
+}
+
+static void
+search_bar_rule_changed_cb (FilterRule *rule,
+                            GtkDialog *dialog)
+{
+	/* FIXME Think this does something with sensitivity. */
+}
+
+void
+e_search_bar_save_search_dialog (ESearchBar *search_bar,
+                                 const gchar *filename)
+{
+	RuleContext *context;
+	FilterRule *rule;
+	GtkWidget *dialog;
+	GtkWidget *parent;
+	GtkWidget *widget;
+	const gchar *search_text;
+	gchar *rule_name;
+
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+	g_return_if_fail (filename != NULL);
+
+	g_return_if_fail (search_bar->priv->current_query != NULL);
+
+	rule = filter_rule_clone (search_bar->priv->current_query);
+	search_text = e_search_bar_get_search_text (search_bar);
+	if (search_text == NULL || *search_text == '\0')
+		search_text = "''";
+
+	rule_name = g_strdup_printf ("%s %s", rule->name, search_text);
+	filter_rule_set_name (rule, rule_name);
+	g_free (rule_name);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (search_bar));
+
+	dialog = gtk_dialog_new_with_buttons (
+		_("Save Search"), GTK_WINDOW (parent),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 300);
+	gtk_container_set_border_width (
+		GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
+	gtk_container_set_border_width (
+		GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
+
+	context = search_bar->priv->context;
+	widget = filter_rule_get_widget (rule, context);
+	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	gtk_box_pack_start (
+		GTK_BOX (GTK_DIALOG (dialog)->vbox),
+		widget, TRUE, TRUE, 0);
+
+	g_signal_connect (
+		rule, "changed",
+		G_CALLBACK (search_bar_rule_changed_cb),
+		dialog);
+
+	search_bar_rule_changed_cb (rule, GTK_DIALOG (dialog));
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		if (filter_rule_validate (rule)) {
+			rule_context_add_rule (context, rule);
+			rule_context_save (context, filename);
+		}
+	}
+
+	gtk_widget_destroy (dialog);
 }

@@ -4,7 +4,6 @@ glade_DATA = filter.glade
 INCLUDES = 					\
 	-I $(top_srcdir)			\
 	-I $(top_srcdir)/e-util			\
-	-I $(top_srcdir)/widgets/misc		\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	$(LIBFILTER_CFLAGS)

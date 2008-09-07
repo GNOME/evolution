@@ -1,6 +1,5 @@
 # Somewhat odd looking to have "." in SUBDIRS, but apparently it works?
-#SUBDIRS = e-text e-table . calendar widgets addressbook
-SUBDIRS = e-text e-table . calendar widgets
+SUBDIRS = e-text e-table . calendar widgets addressbook
 
 if OS_WIN32
 WIN32_BOOTSTRAP_LIBS =					\

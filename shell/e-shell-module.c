@@ -303,6 +303,14 @@ e_shell_module_get_filename (EShellModule *shell_module)
 	return shell_module->priv->filename;
 }
 
+const gchar *
+e_shell_module_get_searches (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+
+	return shell_module->priv->info.searches;
+}
+
 EShell *
 e_shell_module_get_shell (EShellModule *shell_module)
 {
@@ -361,6 +369,7 @@ e_shell_module_set_info (EShellModule *shell_module,
 
 	module_info->aliases = g_intern_string (info->aliases);
 	module_info->schemes = g_intern_string (info->schemes);
+	module_info->searches = g_intern_string (info->searches);
 	module_info->sort_order = info->sort_order;
 
 	module_info->is_busy = info->is_busy;

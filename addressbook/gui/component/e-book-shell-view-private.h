@@ -27,7 +27,12 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <libebook/e-book.h>
+#include <libedataserver/e-categories.h>
+#include <libedataserver/e-sexp.h>
 #include <libedataserverui/e-source-selector.h>
+
+#include <shell/e-shell-content.h>
+#include <shell/e-shell-sidebar.h>
 
 #include <eab-menu.h>
 #include <eab-gui-util.h>
@@ -65,6 +70,13 @@ struct _EditorUidClosure {
 	GtkWidget *editor;
 	gchar *uid;
 	EBookShellView *view;
+};
+
+/* List these in the order to be displayed. */
+enum {
+	CONTACT_SEARCH_NAME_CONTAINS,
+	CONTACT_SEARCH_EMAIL_BEGINS_WITH,
+	CONTACT_SEARCH_ANY_FIELD_CONTAINS
 };
 
 struct _EBookShellViewPrivate {
@@ -110,6 +122,8 @@ EABView *	e_book_shell_view_get_current_view
 void		e_book_shell_view_editor_weak_notify
 					(EditorUidClosure *closure,
 					 GObject *where_the_object_was);
+void		e_book_shell_view_update_search_filter
+					(EBookShellView *book_shell_view);
 
 G_END_DECLS
 

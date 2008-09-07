@@ -53,6 +53,7 @@ struct _EShellModuleInfo {
 	const gchar *name;
 	const gchar *aliases;   /* colon-separated list */
 	const gchar *schemes;   /* colon-separated list */
+	const gchar *searches;  /* built-in search rules */
 	gint sort_order;
 
 	gboolean	(*is_busy)		(EShellModule *shell_module);
@@ -75,6 +76,7 @@ gint		e_shell_module_compare		(EShellModule *shell_module_a,
 						 EShellModule *shell_module_b);
 const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
+const gchar *	e_shell_module_get_searches	(EShellModule *shell_module);
 EShell *	e_shell_module_get_shell	(EShellModule *shell_module);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
 gboolean	e_shell_module_shutdown		(EShellModule *shell_module);

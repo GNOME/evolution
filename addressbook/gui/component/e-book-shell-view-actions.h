@@ -43,7 +43,7 @@
 #define E_SHELL_WINDOW_ACTION_CONTACT_CLIPBOARD_COPY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-clipboard-copy")
 #define E_SHELL_WINDOW_ACTION_CONTACT_CLIPBOARD_CUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-clipbard-cut")
+	E_SHELL_WINDOW_ACTION ((window), "contact-clipboard-cut")
 #define E_SHELL_WINDOW_ACTION_CONTACT_CLIPBOARD_PASTE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_CONTACT_COPY(window) \
@@ -72,6 +72,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-select-all")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEND_MESSAGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-send-message")
+
+/* Search Actions */
+#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_ANY_FIELD_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-search-any-field-contains")
+#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_EMAIL_BEGINS_WITH(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-search-email-begins-with")
+#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_NAME_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-search-name-contains")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS(window) \

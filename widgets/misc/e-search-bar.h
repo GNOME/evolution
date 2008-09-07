@@ -22,6 +22,7 @@
 #define E_SEARCH_BAR_H
 
 #include <gtk/gtk.h>
+#include <filter/rule-context.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SEARCH_BAR \
@@ -67,6 +68,9 @@ struct _ESearchBarClass
 GType		e_search_bar_get_type		(void);
 GtkWidget *	e_search_bar_new		(void);
 GtkActionGroup *e_search_bar_get_action_group	(ESearchBar *search_bar);
+RuleContext *	e_search_bar_get_context	(ESearchBar *search_bar);
+void		e_search_bar_set_context	(ESearchBar *search_bar,
+						 RuleContext *context);
 GtkRadioAction *e_search_bar_get_filter_action	(ESearchBar *search_bar);
 void		e_search_bar_set_filter_action	(ESearchBar *search_bar,
 						 GtkRadioAction *action);
@@ -97,6 +101,8 @@ void		e_search_bar_set_scope_value	(ESearchBar *search_bar,
 gboolean	e_search_bar_get_scope_visible	(ESearchBar *search_bar);
 void		e_search_bar_set_scope_visible	(ESearchBar *search_bar,
 						 gboolean visible);
+void		e_search_bar_save_search_dialog	(ESearchBar *search_bar,
+						 const gchar *filename);
 
 G_END_DECLS
 

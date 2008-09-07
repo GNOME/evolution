@@ -92,8 +92,8 @@ void		e_shell_view_set_view_instance	(EShellView *shell_view,
 EShellWindow *	e_shell_view_get_window		(EShellView *shell_view);
 gboolean	e_shell_view_is_selected	(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
-GtkWidget *	e_shell_view_get_content_widget (EShellView *shell_view);
-GtkWidget *	e_shell_view_get_sidebar_widget (EShellView *shell_view);
+GtkWidget *	e_shell_view_get_content_widget	(EShellView *shell_view);
+GtkWidget *	e_shell_view_get_sidebar_widget	(EShellView *shell_view);
 GtkWidget *	e_shell_view_get_taskbar_widget	(EShellView *shell_view);
 void		e_shell_view_changed		(EShellView *shell_view);
 

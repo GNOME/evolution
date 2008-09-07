@@ -56,6 +56,16 @@
 	E_SHELL_WINDOW_ACTION ((window), "quick-reference")
 #define E_SHELL_WINDOW_ACTION_QUIT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "quit")
+#define E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-advanced")
+#define E_SHELL_WINDOW_ACTION_SEARCH_CLEAR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-clear")
+#define E_SHELL_WINDOW_ACTION_SEARCH_EDIT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-edit")
+#define E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-execute")
+#define E_SHELL_WINDOW_ACTION_SEARCH_SAVE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-save")
 #define E_SHELL_WINDOW_ACTION_SEND_RECEIVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "send-receive")
 #define E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR(window) \

@@ -40,6 +40,27 @@ enum {
 
 static gpointer parent_class;
 
+static void
+shell_window_update_title (EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	const gchar *view_title;
+	const gchar *view_name;
+	gchar *window_title;
+
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	view_title = e_shell_view_get_title (shell_view);
+
+	if (!e_shell_view_is_selected (shell_view))
+		return;
+
+	/* Translators: This is used for the main window title. */
+	window_title = g_strdup_printf (_("%s - Evolution"), view_title);
+	gtk_window_set_title (GTK_WINDOW (shell_window), window_title);
+	g_free (window_title);
+}
+
 static EShellView *
 shell_window_new_view (EShellWindow *shell_window,
                        GType shell_view_type,
@@ -77,6 +98,10 @@ shell_window_new_view (EShellWindow *shell_window,
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
 	widget = e_shell_view_get_taskbar_widget (shell_view);
 	gtk_notebook_append_page (notebook, widget, NULL);
+
+	g_signal_connect_swapped (
+		shell_view, "notify::title",
+		G_CALLBACK (shell_window_update_title), shell_window);
 
 	return shell_view;
 }
@@ -473,6 +498,7 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	shell_window->priv->current_view = view_name;
 	g_object_notify (G_OBJECT (shell_window), "current-view");
 
+	shell_window_update_title (shell_window);
 	e_shell_window_update_gal_view_menu (shell_window);
 
 	/* Notify all loaded views. */

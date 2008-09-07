@@ -49,7 +49,14 @@
       </menu>
     </menu>
     <placeholder name='custom-menus'/>
-    <menu action='search-menu'/>
+    <menu action='search-menu'>
+      <menuitem action='search-execute'/>
+      <menuitem action='search-clear'/>
+      <menuitem action='search-advanced'/>
+      <separator/>
+      <menuitem action='search-save'/>
+      <menuitem action='search-edit'/>
+    </menu>
     <menu action='help-menu'>
       <menuitem action='contents'/>
       <menuitem action='quick-reference'/>

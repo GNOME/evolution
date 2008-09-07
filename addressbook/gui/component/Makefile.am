@@ -60,7 +60,6 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/widgets/table/libetable.la					\
 	$(top_builddir)/widgets/text/libetext.la					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
-	$(top_builddir)/widgets/misc/libefilterbar.la					\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la		\
 	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la	\

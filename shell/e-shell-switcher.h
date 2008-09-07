@@ -70,6 +70,9 @@ GtkToolbarStyle	e_shell_switcher_get_style	(EShellSwitcher *switcher);
 void		e_shell_switcher_set_style	(EShellSwitcher *switcher,
 						 GtkToolbarStyle style);
 void		e_shell_switcher_unset_style	(EShellSwitcher *switcher);
+gboolean	e_shell_switcher_get_visible	(EShellSwitcher *switcher);
+void		e_shell_switcher_set_visible	(EShellSwitcher *switcher,
+						 gboolean visible);
 
 G_END_DECLS
 

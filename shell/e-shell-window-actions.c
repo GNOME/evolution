@@ -22,10 +22,10 @@
 
 #include <string.h>
 
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-error.h>
-#include <e-util/e-print.h>
-#include <e-util/e-util.h>
+#include <e-dialog-utils.h>
+#include <e-error.h>
+#include <e-print.h>
+#include <e-util.h>
 #include <gal-define-views-dialog.h>
 
 #include <libedataserverui/e-passwords.h>
@@ -859,6 +859,77 @@ action_quit_cb (GtkAction *action,
 }
 
 static void
+action_search_advanced_cb (GtkAction *action,
+                           EShellWindow *shell_window)
+{
+}
+
+static void
+action_search_clear_cb (GtkAction *action,
+                        EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GtkWidget *widget;
+	const gchar *view_name;
+
+	/* Dig up the search bar. */
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	widget = e_shell_view_get_content_widget (shell_view);
+	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
+
+	e_search_bar_set_search_text (E_SEARCH_BAR (widget), NULL);
+}
+
+static void
+action_search_edit_cb (GtkAction *action,
+                       EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	RuleContext *context;
+	RuleEditor *editor;
+	GtkWidget *widget;
+	const gchar *filename;
+	const gchar *view_name;
+
+	/* Dig up the search bar. */
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	widget = e_shell_view_get_content_widget (shell_view);
+	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
+
+	context = e_search_bar_get_context (E_SEARCH_BAR (widget));
+	g_return_if_fail (context != NULL);
+
+	/* XXX I don't know why the RuleContext can't just store
+	 *     system and user file names properly.  Fix this? */
+	filename = g_object_get_data (G_OBJECT (context), "user");
+	g_return_if_fail (filename != NULL);
+
+	editor = rule_editor_new (
+		context, FILTER_SOURCE_INCOMING, _("Searches"));
+	gtk_window_set_title (GTK_WINDOW (editor), _("Searches"));
+
+	if (gtk_dialog_run (GTK_DIALOG (editor)) == GTK_RESPONSE_OK)
+		rule_context_save (context, filename);
+
+	gtk_widget_destroy (GTK_WIDGET (editor));
+}
+
+static void
+action_search_execute_cb (GtkAction *action,
+                          EShellWindow *shell_window)
+{
+	gtk_action_set_sensitive (action, FALSE);
+}
+
+static void
+action_search_save_cb (GtkAction *action,
+                       EShellWindow *shell_window)
+{
+}
+
+static void
 action_send_receive_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
@@ -910,12 +981,12 @@ static void
 action_show_switcher_cb (GtkToggleAction *action,
                          EShellWindow *shell_window)
 {
-	GtkWidget *widget;
+	EShellSwitcher *switcher;
 	gboolean active;
 
-	widget = shell_window->priv->switcher;
+	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	active = gtk_toggle_action_get_active (action);
-	g_object_set (widget, "visible", active, NULL);
+	e_shell_switcher_set_visible (switcher, active);
 }
 
 static void
@@ -1101,6 +1172,41 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Exit the program"),
 	  G_CALLBACK (action_quit_cb) },
+
+	{ "search-advanced",
+	  NULL,
+	  N_("_Advanced Search..."),
+	  NULL,
+	  N_("Construct a more advanced search"),
+	  G_CALLBACK (action_search_advanced_cb) },
+
+	{ "search-clear",
+	  GTK_STOCK_CLEAR,
+	  NULL,
+	  "<Control><Shift>q",
+	  N_("Clear the current search parameters"),
+	  G_CALLBACK (action_search_clear_cb) },
+
+	{ "search-edit",
+	  NULL,
+	  N_("_Edit Saved Searches..."),
+	  NULL,
+	  N_("Manage your saved searches"),
+	  G_CALLBACK (action_search_edit_cb) },
+
+	{ "search-execute",
+	  GTK_STOCK_FIND,
+	  N_("_Find Now"),
+	  NULL,
+	  N_("Execute the current search parameters"),
+	  G_CALLBACK (action_search_execute_cb) },
+
+	{ "search-save",
+	  NULL,
+	  N_("_Save Search..."),
+	  NULL,
+	  N_("Save the current search parameters"),
+	  G_CALLBACK (action_search_save_cb) },
 
 	{ "send-receive",
 	  "mail-send-receive",
@@ -1534,6 +1640,7 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 		EShellViewClass *class;
 		GtkRadioAction *action;
 		const gchar *view_name;
+		gchar *accelerator;
 		gchar *action_name;
 		gchar *tooltip;
 
@@ -1588,8 +1695,14 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 		gtk_radio_action_set_group (action, group);
 		group = gtk_radio_action_get_group (action);
 
-		gtk_action_group_add_action (
-			action_group, GTK_ACTION (action));
+		/* The first nine views have accelerators Ctrl+(1-9). */
+		if (ii < 9)
+			accelerator = g_strdup_printf ("<Control>%d", ii + 1);
+		else
+			accelerator = g_strdup ("");
+
+		gtk_action_group_add_action_with_accel (
+			action_group, GTK_ACTION (action), accelerator);
 
 		e_shell_switcher_add_action (switcher, GTK_ACTION (action));
 
@@ -1599,6 +1712,7 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 
+		g_free (accelerator);
 		g_free (action_name);
 		g_free (tooltip);
 

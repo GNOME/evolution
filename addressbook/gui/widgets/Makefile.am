@@ -7,6 +7,7 @@ INCLUDES =										\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/filter				\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
@@ -80,5 +81,5 @@ etspec_DATA= e-addressbook-view.etspec
 
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
-	eab-marshal.list	\
-	addresstypes.xml
+	$(rule_DATA)		\
+	eab-marshal.list

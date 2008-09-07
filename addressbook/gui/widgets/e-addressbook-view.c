@@ -98,13 +98,6 @@ static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_dat
 			   guint info, guint time_stamp, EABView *view);
 static void invisible_destroyed (gpointer data, GObject *where_object_was);
 
-static void categories_changed_cb (gpointer object, gpointer user_data);
-static void make_suboptions             (EABView *view);
-static void query_changed               (ESearchBar *esb, EABView *view);
-static void search_activated            (ESearchBar *esb, EABView *view);
-static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
-static GList *get_master_list (gboolean force_rebuild);
-
 static gpointer parent_class;
 
 /* The arguments we take */
@@ -131,11 +124,6 @@ enum DndTargetType {
 #define VCARD_TYPE "text/x-vcard"
 #define SOURCE_VCARD_TYPE "text/x-source-vcard"
 
-typedef struct EABSearchBarItem {
-	ESearchBarItem search;
-	char *image;
-}EABSearchBarItem;
-
 static GtkTargetEntry drag_types[] = {
 	{ SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD },
 	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
@@ -147,29 +135,6 @@ static guint eab_view_signals [LAST_SIGNAL] = {0, };
 static GdkAtom clipboard_atom = GDK_NONE;
 
 static GalViewCollection *collection = NULL;
-
-enum {
-	ESB_FULL_NAME,
-	ESB_EMAIL,
-	ESB_ANY,
-};
-
-#if 0
-static ESearchBarItem addressbook_search_option_items[] = {
-	{ N_("Name begins with"), ESB_FULL_NAME },
-	{ N_("Email begins with"), ESB_EMAIL },
-	{ N_("Any field contains"), ESB_ANY },
-	{ NULL, -1 }
-};
-#endif
-
-static ESearchBarItem addressbook_search_items[] = {
-	E_FILTERBAR_ADVANCED,
-	{NULL, 0, 0},
-	E_FILTERBAR_SAVE,
-	E_FILTERBAR_EDIT,
-	{NULL, -1, 0}
-};
 
 GType
 eab_view_get_type (void)
@@ -295,7 +260,6 @@ eab_view_init (EABView *eav)
 	eav->view_instance = NULL;
 	/*eav->view_menus = NULL;*/
 	eav->current_view = NULL;
-	eav->uic = NULL;
 
 	eav->book = NULL;
 	eav->source = NULL;
@@ -309,8 +273,6 @@ static void
 eab_view_dispose (GObject *object)
 {
 	EABView *eav = EAB_VIEW(object);
-
-	e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), eav);
 
 	if (eav->model) {
 		g_signal_handlers_disconnect_matched (eav->model,
@@ -336,8 +298,6 @@ eab_view_dispose (GObject *object)
 		eav->query = NULL;
 	}
 
-	eav->uic = NULL;
-
 	if (eav->view_instance) {
 		g_object_unref (eav->view_instance);
 		eav->view_instance = NULL;
@@ -357,18 +317,6 @@ eab_view_dispose (GObject *object)
 	if (eav->invisible) {
 		gtk_widget_destroy (eav->invisible);
 		eav->invisible = NULL;
-	}
-
-	/*
-	if (eav->search_context) {
-		g_object_unref (eav->search_context);
-		eav->search_context = NULL;
-	}
-	*/
-
-	if (eav->search_rule) {
-		g_object_unref (eav->search_rule);
-		eav->search_rule = NULL;
 	}
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -413,9 +361,6 @@ eab_view_new (void)
 {
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
 	EABView *eav = EAB_VIEW (widget);
-	FilterPart *part;
-	char *xmlfile;
-	char *userfile;
 
 	/* create our model */
 	eav->model = eab_model_new ();
@@ -439,49 +384,6 @@ eab_view_new (void)
 
 	eav->editable = FALSE;
 	eav->query = g_strdup (SHOW_ALL_SEARCH);
-
-	/* create the search context */
-	eav->search_context = rule_context_new ();
-	rule_context_add_part_set (eav->search_context, "partset", filter_part_get_type (),
-				   rule_context_add_part, rule_context_next_part);
-	rule_context_add_rule_set (eav->search_context, "ruleset", filter_rule_get_type (),
-				   rule_context_add_rule, rule_context_next_rule);
-
-	userfile = g_build_filename ( g_get_home_dir (), ".evolution/addressbook/searches.xml", NULL);
-	xmlfile = g_build_filename (SEARCH_RULE_DIR, "addresstypes.xml", NULL);
-
-	g_object_set_data_full (G_OBJECT (eav->search_context), "user", userfile, g_free);
-	g_object_set_data_full (G_OBJECT (eav->search_context), "system", xmlfile, g_free);
-
-	rule_context_load (eav->search_context, xmlfile, userfile);
-
-	eav->search_rule = filter_rule_new ();
-	part = rule_context_next_part (eav->search_context, NULL);
-
-	if (part == NULL)
-		g_warning ("Could not load addressbook search; no parts.");
-	else
-		filter_rule_add_part (eav->search_rule, filter_part_clone (part));
-
-	eav->search = e_filter_bar_new (eav->search_context, xmlfile, userfile, NULL, eav);
-
-	g_free (xmlfile);
-	g_free (userfile);
-
-	e_search_bar_set_menu ( (ESearchBar *) eav->search, addressbook_search_items);
-	gtk_widget_show (GTK_WIDGET (eav->search));
-	make_suboptions (eav);
-
-	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), eav);
-
-	g_signal_connect (eav->search, "query_changed",
-			  G_CALLBACK (query_changed), eav);
-	g_signal_connect (eav->search, "search_activated",
-			  G_CALLBACK (search_activated), eav);
-	g_signal_connect (eav->search, "menu_activated",
-			  G_CALLBACK (search_menu_activated), eav);
-
-	gtk_box_pack_start (GTK_BOX (eav), GTK_WIDGET (eav->search), FALSE, FALSE, 0);
 
 	/* create the paned window and contact display */
 	eav->paned = gtk_vpaned_new ();
@@ -521,18 +423,6 @@ eab_view_new (void)
 	return widget;
 }
 
-RuleContext *
-eab_view_peek_search_context (EABView *view)
-{
-	return view->search_context;
-}
-
-FilterRule *
-eab_view_peek_search_rule (EABView *view)
-{
-	return view->search_rule;
-}
-
 static void
 writable_status (GtkObject *object, gboolean writable, EABView *eav)
 {
@@ -560,24 +450,6 @@ display_view(GalViewInstance *instance,
 }
 
 static void
-setup_menus (EABView *view)
-{
-	if (view->book && view->view_instance == NULL) {
-		view->view_instance = gal_view_instance_new (collection, e_book_get_uri (view->book));
-	}
-
-	if (view->view_instance && view->uic) {
-		/*view->view_menus = gal_view_menus_new(view->view_instance);
-		gal_view_menus_apply(view->view_menus, view->uic, NULL);*/
-
-		display_view (view->view_instance, gal_view_instance_get_current_view (view->view_instance), view);
-
-		g_signal_connect(view->view_instance, "display_view",
-				 G_CALLBACK (display_view), view);
-	}
-}
-
-static void
 eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	EABView *eav = EAB_VIEW(object);
@@ -590,11 +462,9 @@ eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 		if (g_value_get_object (value)) {
 			eav->book = E_BOOK(g_value_get_object (value));
 			g_object_ref (eav->book);
-			gtk_widget_set_sensitive (GTK_WIDGET (eav->search), TRUE);
 		}
 		else {
 			eav->book = NULL;
-			gtk_widget_set_sensitive (GTK_WIDGET (eav->search), FALSE);
 		}
 
 		if (eav->view_instance) {
@@ -605,8 +475,6 @@ eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 		g_object_set(eav->model,
 			     "book", eav->book,
 			     NULL);
-
-		setup_menus (eav);
 
 		break;
 	case PROP_SOURCE:
@@ -1263,225 +1131,6 @@ change_view_type (EABView *view, EABViewType view_type)
 	command_state_change (view);
 }
 
-
-
-static void
-search_activated (ESearchBar *esb, EABView *v)
-{
-	GList *master_list;
-	char *search_word, *search_query, *view_sexp;
-	const char *category_name;
-	int search_type, subid;
-
-	g_object_get(esb,
-		     "text", &search_word,
-		     "item_id", &search_type,
-		     NULL);
-
-	if (search_type == E_FILTERBAR_ADVANCED_ID) {
-		// gtk_widget_show(eab_search_dialog_new(v));
-	}
-	else {
-		if ((search_word && strlen (search_word))) {
-			GString *s = g_string_new ("");
-			e_sexp_encode_string (s, search_word);
-			switch (search_type) {
-			case ESB_ANY:
-				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" %s)",
-								s->str);
-				break;
-			case ESB_FULL_NAME:
-				search_query = g_strdup_printf ("(contains \"full_name\" %s)",
-								s->str);
-				break;
-			case ESB_EMAIL:
-				search_query = g_strdup_printf ("(beginswith \"email\" %s)",
-								s->str);
-				break;
-			default:
-				search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
-				break;
-			}
-			g_string_free (s, TRUE);
-
-		} else
-			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
-
-		/* Merge view and sexp */
-		subid = e_search_bar_get_viewitem_id (esb);
-
-		if (subid) {
-			master_list = get_master_list (FALSE);
-			category_name = g_list_nth_data (master_list, subid-1);
-			view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
-			search_query = g_strconcat ("(and ", view_sexp, search_query, ")", NULL);
-			g_free (view_sexp);
-		}
-
-		if (search_query)
-			g_object_set (v,
-				      "query", search_query,
-				      NULL);
-
-		g_free (search_query);
-	}
-
-	g_free (search_word);
-	v->displayed_contact = -1;
-	eab_contact_display_render (EAB_CONTACT_DISPLAY (v->contact_display), NULL,
-						    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
-}
-
-static void
-search_menu_activated (ESearchBar *esb, int id, EABView *view)
-{
-	if (id == E_FILTERBAR_ADVANCED_ID)
-		e_search_bar_set_item_id (esb, id);
-}
-
-static void
-query_changed (ESearchBar *esb, EABView *view)
-{
-	int search_type;
-	char *query;
-
-	search_type = e_search_bar_get_item_id(esb);
-	if (search_type == E_FILTERBAR_ADVANCED_ID) {
-		g_object_get (esb, "query", &query, NULL);
-		g_object_set (view, "query", query, NULL);
-		g_free (query);
-	}
-}
-
-static int
-compare_subitems (const void *a, const void *b)
-{
-	const ESearchBarItem *subitem_a = a;
-	const ESearchBarItem *subitem_b = b;
-	char *collate_a, *collate_b;
-	int ret;
-
-	collate_a = g_utf8_collate_key (subitem_a->text, -1);
-	collate_b = g_utf8_collate_key (subitem_b->text, -1);
-
-	ret =  strcmp (collate_a, collate_b);
-
-	g_free (collate_a);
-	g_free (collate_b);
-
-	return ret;
-}
-
-static GtkWidget *
-generate_viewoption_menu (EABSearchBarItem *subitems)
-{
-	GtkWidget *menu, *menu_item;
-	gint i = 0;
-
-	menu = gtk_menu_new ();
-
-	for (i = 0; subitems[i].search.id != -1; ++i) {
-		if (subitems[i].search.text) {
-			char *str = NULL;
-			str = e_str_without_underscores (subitems[i].search.text);
-			menu_item = gtk_image_menu_item_new_with_label (str);
-                        if (subitems[i].image) {
-                                GtkWidget *image;
-
-                                image = gtk_image_new_from_icon_name (
-                                        subitems[i].image,
-                                        GTK_ICON_SIZE_MENU);
-                                gtk_image_menu_item_set_image (
-                                        GTK_IMAGE_MENU_ITEM (menu_item),
-                                        image);
-                        }
-			g_free (str);
-		} else {
-			menu_item = gtk_menu_item_new ();
-			gtk_widget_set_sensitive (menu_item, FALSE);
-		}
-
-		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-				   GINT_TO_POINTER (subitems[i].search.id));
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-	}
-
-	return menu;
-}
-
-static void
-categories_changed_cb (gpointer object, gpointer user_data)
-{
-	get_master_list (TRUE);
-	make_suboptions (user_data);
-}
-
-static void
-make_suboptions (EABView *view)
-{
-	EABSearchBarItem *subitems, *s;
-	GList *master_list;
-	gint i, N;
-	GtkWidget *menu;
-
-	master_list = get_master_list (FALSE);
-	N = g_list_length (master_list);
-	subitems = g_new (EABSearchBarItem, N+2);
-
-	subitems[0].search.id = 0;
-	subitems[0].search.text = g_strdup (_("Any Category"));
-	subitems[0].image = NULL;
-
-	for (i=0; i<N; ++i) {
-		const char *category = g_list_nth_data (master_list, i);
-		subitems[i+1].search.id = i+1;
-		subitems[i+1].search.text = g_strdup (category);
-		subitems[i+1].image = (char *)e_categories_get_icon_file_for (category);
-	}
-
-	subitems[N+1].search.id = -1;
-	subitems[N+1].search.text = NULL;
-	subitems[N+1].image = NULL;
-
-	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
-	menu = generate_viewoption_menu (subitems);
-	e_search_bar_set_viewoption_menu ((ESearchBar *)view->search, menu);
-
-	for (s = subitems; ((ESearchBarItem *)s)->id != -1; s++) {
-		if (((ESearchBarItem *)s)->text)
-			g_free (((ESearchBarItem *)s)->text);
-	}
-	g_free (subitems);
-}
-
-static GList *
-get_master_list (gboolean force_rebuild)
-{
-	static GList *category_list = NULL;
-
-	if (force_rebuild) {
-		g_list_free (category_list);
-		category_list = NULL;
-	}
-
-	if (category_list == NULL) {
-		GList *l, *p = e_categories_get_list ();
-
-		for (l = p; l; l = l->next) {
-			if (e_categories_is_searchable ((const char *) l->data))
-				category_list = g_list_prepend (category_list, l->data);
-		}
-
-		category_list = g_list_reverse (category_list);
-
-		g_list_free (p);
-	}
-
-	return category_list;
-}
-
 static void
 contact_print_button_draw_page (GtkPrintOperation *operation,
                                 GtkPrintContext *context,
@@ -1533,54 +1182,6 @@ eab_view_show_contact_preview (EABView *view, gboolean show)
 		gtk_widget_show (view->contact_display_window);
 	else
 		gtk_widget_hide (view->contact_display_window);
-}
-
-void
-eab_view_setup_menus (EABView *view,
-		      BonoboUIComponent *uic)
-{
-
-	g_return_if_fail (view != NULL);
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-	g_return_if_fail (uic != NULL);
-	g_return_if_fail (BONOBO_IS_UI_COMPONENT (uic));
-
-	view->uic = uic;
-
-	setup_menus (view);
-
-	/* XXX toshok - yeah this really doesn't belong here, but it
-	   needs to happen at the same time and takes the uic */
-	e_search_bar_set_ui_component ( (ESearchBar *)view->search, uic);
-}
-
-/**
- * eab_view_discard_menus:
- * @view: An addressbook view.
- *
- * Makes an addressbook view discard its GAL view menus and its views instance
- * objects.  This should be called when the corresponding Bonobo component is
- * deactivated.
- **/
-void
-eab_view_discard_menus (EABView *view)
-{
-	g_return_if_fail (view != NULL);
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	/*if (view->view_menus) {
-		gal_view_menus_unmerge (view->view_menus, NULL);
-
-		g_object_unref (view->view_menus);
-		view->view_menus = NULL;
-	}*/
-
-	if (view->view_instance) {
-		g_object_unref (view->view_instance);
-		view->view_instance = NULL;
-	}
-
-	view->uic = NULL;
 }
 
 void

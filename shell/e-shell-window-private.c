@@ -287,29 +287,25 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	container = priv->content_pane;
 
-	widget = gtk_vbox_new (FALSE, 6);
+	widget = e_shell_switcher_new ();
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	priv->switcher = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
 	priv->content_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = gtk_paned_get_child1 (GTK_PANED (priv->content_pane));
+	container = priv->switcher;
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->sidebar_notebook = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_switcher_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->switcher = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = priv->status_area;

@@ -3,6 +3,7 @@ SUBDIRS = . test
 endif
 
 INCLUDES =							\
+	-I$(top_srcdir)/e-util					\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/menus				\
 	-I$(top_srcdir)/widgets/misc				\
@@ -15,6 +16,7 @@ INCLUDES =							\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
 	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\
+	-DEVOLUTION_RULEDIR=\""$(ruledir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\

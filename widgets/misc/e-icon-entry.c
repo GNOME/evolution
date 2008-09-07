@@ -69,7 +69,6 @@ icon_entry_create_proxy (GtkAction *action)
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX (proxy), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (proxy), 2);
 	gtk_action_connect_proxy (action, proxy);
-	gtk_widget_show (widget);
 
 	widget = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (proxy), widget);

@@ -17,8 +17,8 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef __E_FILTER_BAR_H__
-#define __E_FILTER_BAR_H__
+#ifndef E_FILTER_BAR_H
+#define E_FILTER_BAR_H
 
 #include <gtk/gtk.h>
 #include <camel/camel-vee-folder.h>
@@ -28,11 +28,6 @@
 
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
 
 /* EFilterBar - A filter rule driven search bar.
  *
@@ -44,14 +39,29 @@ extern "C" {
  * state         string         RW              XML string representing the state.
  */
 
-#define E_FILTER_BAR_TYPE			(e_filter_bar_get_type ())
-#define E_FILTER_BAR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_FILTER_BAR_TYPE, EFilterBar))
-#define E_FILTER_BAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_FILTER_BAR_TYPE, EFilterBarClass))
-#define E_IS_FILTER_BAR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_FILTER_BAR_TYPE))
-#define E_IS_FILTER_BAR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_FILTER_BAR_TYPE))
+/* Standard GObject macros */
+#define E_TYPE_FILTER_BAR \
+	(e_filter_bar_get_type ())
+#define E_FILTER_BAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_FILTER_BAR, EFilterBar))
+#define E_FILTER_BAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_FILTER_BAR, EFilterBarClass))
+#define E_IS_FILTER_BAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_FILTER_BAR))
+#define E_IS_FILTER_BAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_FILTER_BAR))
+#define E_FILTER_BAR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_FILTER_BAR, EFilterBarClass))
 
-typedef struct _EFilterBar       EFilterBar;
-typedef struct _EFilterBarClass  EFilterBarClass;
+G_BEGIN_DECLS
+
+typedef struct _EFilterBar EFilterBar;
+typedef struct _EFilterBarClass EFilterBarClass;
 
 typedef void (*EFilterBarConfigRule)(EFilterBar *, FilterRule *rule, int id, const char *query, void *data);
 
@@ -79,8 +89,7 @@ struct _EFilterBar {
 	CamelOperation *account_search_cancel;
 };
 
-struct _EFilterBarClass
-{
+struct _EFilterBarClass {
 	ESearchBarClass parent_class;
 };
 
@@ -116,23 +125,13 @@ const char * strings[] = {
 #endif
 
 
-GType       e_filter_bar_get_type (void);
+GType		e_filter_bar_get_type		(void);
+EFilterBar *	e_filter_bar_new		(RuleContext *context,
+						 const gchar *systemrules,
+						 const gchar *userrules,
+						 EFilterBarConfigRule config,
+						 gpointer data);
 
-EFilterBar *e_filter_bar_new      (RuleContext *context,
-				   const char *systemrules,
-				   const char *userrules,
-				   EFilterBarConfigRule config,
-				   void *data);
-void
-e_filter_bar_new_construct 	  (RuleContext *context,
-				   const char *systemrules,
-				   const char *userrules,
-				   EFilterBarConfigRule config,
-				   void *data ,EFilterBar *bar );
+G_END_DECLS
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-
-#endif /* __E_FILTER_BAR_H__ */
+#endif /* E_FILTER_BAR_H */

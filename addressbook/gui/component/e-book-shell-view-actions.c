@@ -364,6 +364,93 @@ action_contact_send_message_cb (GtkAction *action,
 	eab_view_send_to (view);
 }
 
+static void
+action_search_execute_cb (GtkAction *action,
+                          EBookShellView *book_shell_view)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkWidget *widget;
+	GString *string;
+	EABView *view;
+	const gchar *search_format;
+	const gchar *search_text;
+	gchar *search_query;
+	gint value;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	if (!e_shell_view_is_selected (shell_view))
+		return;
+
+	/* Dig up the search text. */
+	widget = e_shell_view_get_content_widget (shell_view);
+	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
+	search_text = e_search_bar_get_search_text (E_SEARCH_BAR (widget));
+
+	shell_window = e_shell_view_get_window (shell_view);
+	action = ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS);
+	value = gtk_radio_action_get_current_value (
+		GTK_RADIO_ACTION (action));
+
+	if (search_text == NULL || *search_text == '\0') {
+		search_text = "\"\"";
+		value = CONTACT_SEARCH_ANY_FIELD_CONTAINS;
+	}
+
+	switch (value) {
+		case CONTACT_SEARCH_NAME_CONTAINS:
+			search_format = "(contains \"full_name\" %s)";
+			break;
+
+		case CONTACT_SEARCH_EMAIL_BEGINS_WITH:
+			search_format = "(beginswith \"email\" %s)";
+			break;
+
+		default:
+			search_text = "\"\"";
+			/* fall through */
+
+		case CONTACT_SEARCH_ANY_FIELD_CONTAINS:
+			search_format =
+				"(contains \"x-evolution-any-field\" %s)";
+			break;
+	}
+
+	/* Build the query. */
+	string = g_string_new ("");
+	e_sexp_encode_string (string, search_text);
+	search_query = g_strdup_printf (search_format, string->str);
+	g_string_free (string, TRUE);
+
+	/* Filter by category. */
+	value = e_search_bar_get_filter_value (E_SEARCH_BAR (widget));
+	if (value >= 0) {
+		GList *categories;
+		const gchar *category_name;
+		gchar *temp;
+
+		categories = e_categories_get_list ();
+		category_name = g_list_nth_data (categories, value);
+		g_list_free (categories);
+
+		temp = g_strdup_printf (
+			"(and (is \"category_list\" \"%s\") %s)",
+			category_name, search_query);
+		g_free (search_query);
+		search_query = temp;
+	}
+
+	/* Submit the query. */
+	view = e_book_shell_view_get_current_view (book_shell_view);
+	g_object_set (view, "query", search_query, NULL);
+	g_free (search_query);
+
+	view->displayed_contact = -1;
+	eab_contact_display_render (
+		EAB_CONTACT_DISPLAY (view->contact_display),
+		NULL, EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+}
+
 static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-copy",
@@ -564,6 +651,30 @@ static GtkToggleActionEntry contact_toggle_entries[] = {
 	  TRUE }
 };
 
+static GtkRadioActionEntry contact_search_entries[] = {
+
+	{ "contact-search-any-field-contains",
+	  NULL,
+	  N_("Any field contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  CONTACT_SEARCH_ANY_FIELD_CONTAINS },
+
+	{ "contact-search-email-begins-with",
+	  NULL,
+	  N_("Email begins with"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  CONTACT_SEARCH_EMAIL_BEGINS_WITH },
+
+	{ "contact-search-name-contains",
+	  NULL,
+	  N_("Name contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  CONTACT_SEARCH_NAME_CONTAINS }
+};
+
 void
 e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 {
@@ -592,6 +703,11 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	gtk_action_group_add_toggle_actions (
 		action_group, contact_toggle_entries,
 		G_N_ELEMENTS (contact_toggle_entries), book_shell_view);
+	gtk_action_group_add_radio_actions (
+		action_group, contact_search_entries,
+		G_N_ELEMENTS (contact_search_entries),
+		CONTACT_SEARCH_NAME_CONTAINS,
+		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Bind GObject properties to GConf keys. */
@@ -606,6 +722,10 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	action = ACTION (CONTACT_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);
+
+	g_signal_connect (
+		ACTION (SEARCH_EXECUTE), "activate",
+		G_CALLBACK (action_search_execute_cb), book_shell_view);
 }
 
 void
@@ -694,4 +814,3 @@ e_book_shell_view_update_actions (EBookShellView *book_shell_view,
 		sensitive = FALSE;
 	gtk_action_set_sensitive (action, sensitive);
 }
-

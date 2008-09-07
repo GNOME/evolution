@@ -25,14 +25,17 @@
 
 #include <glib/gi18n.h>
 
+#include <filter/rule-editor.h>
+#include <widgets/misc/e-menu-tool-button.h>
+#include <widgets/misc/e-online-button.h>
+#include <widgets/misc/e-search-bar.h>
+
 #include <e-shell.h>
+#include <e-shell-content.h>
 #include <e-shell-view.h>
 #include <e-shell-registry.h>
 #include <e-shell-switcher.h>
 #include <e-shell-window-actions.h>
-
-#include <e-menu-tool-button.h>
-#include <e-online-button.h>
 
 #define E_SHELL_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

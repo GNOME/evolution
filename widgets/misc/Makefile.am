@@ -5,6 +5,7 @@ endif
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/a11y/widgets					\
+	-I$(top_srcdir)/filter						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
@@ -132,6 +133,7 @@ libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
@@ -166,6 +168,7 @@ test_calendar_SOURCES = 	\
 test_calendar_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
 # test-dateedit
@@ -176,6 +179,7 @@ test_dateedit_SOURCES = 	\
 test_dateedit_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
 # test-dropdown-button
@@ -186,6 +190,7 @@ test_dropdown_button_SOURCES = 	\
 test_dropdown_button_LDADD =			\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la  	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
 # test-preferences-window
@@ -196,6 +201,7 @@ test_preferences_window_SOURCES =		\
 test_preferences_window_LDADD = 		\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
 

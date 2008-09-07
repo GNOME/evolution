@@ -29,7 +29,6 @@ struct _EShellSidebarPrivate {
 	GtkWidget *image;
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
-	GtkSizeGroup *size_group;
 	gchar *primary_text;
 	gchar *secondary_text;
 };
@@ -45,9 +44,9 @@ static gpointer parent_class;
 
 static void
 shell_sidebar_set_property (GObject *object,
-                      guint property_id,
-                      const GValue *value,
-                      GParamSpec *pspec)
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ICON_NAME:
@@ -74,9 +73,9 @@ shell_sidebar_set_property (GObject *object,
 
 static void
 shell_sidebar_get_property (GObject *object,
-                      guint property_id,
-                      GValue *value,
-                      GParamSpec *pspec)
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ICON_NAME:
@@ -107,11 +106,6 @@ shell_sidebar_dispose (GObject *object)
 	EShellSidebarPrivate *priv;
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	if (priv->size_group != NULL) {
-		g_object_unref (priv->size_group);
-		priv->size_group = NULL;
-	}
 
 	if (priv->event_box != NULL) {
 		g_object_unref (priv->event_box);
@@ -175,7 +169,7 @@ shell_sidebar_size_request (GtkWidget *widget,
 
 static void
 shell_sidebar_size_allocate (GtkWidget *widget,
-                       GtkAllocation *allocation)
+                             GtkAllocation *allocation)
 {
 	EShellSidebarPrivate *priv;
 	GtkAllocation child_allocation;
@@ -197,7 +191,8 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 	gtk_widget_size_allocate (child, &child_allocation);
 
 	child_allocation.y += child_requisition.height;
-	child_allocation.height = allocation->height - child_allocation.y;
+	child_allocation.height =
+		allocation->height - child_requisition.height;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	if (child != NULL)
@@ -206,7 +201,7 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 
 static void
 shell_sidebar_remove (GtkContainer *container,
-                GtkWidget *widget)
+                      GtkWidget *widget)
 {
 	EShellSidebarPrivate *priv;
 
@@ -226,9 +221,9 @@ shell_sidebar_remove (GtkContainer *container,
 
 static void
 shell_sidebar_forall (GtkContainer *container,
-                gboolean include_internals,
-                GtkCallback callback,
-                gpointer callback_data)
+                      gboolean include_internals,
+                      GtkCallback callback,
+                      gpointer callback_data)
 {
 	EShellSidebarPrivate *priv;
 
@@ -306,7 +301,6 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 	GtkStyle *style;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkSizeGroup *size_group;
 	const GdkColor *color;
 
 	shell_sidebar->priv = E_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
@@ -349,10 +343,6 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	shell_sidebar->priv->secondary_label = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
-	gtk_size_group_add_widget (size_group, shell_sidebar->priv->event_box);
-	shell_sidebar->priv->size_group = size_group;
 }
 
 GType
@@ -461,7 +451,7 @@ e_shell_sidebar_get_secondary_text (EShellSidebar *shell_sidebar)
 
 void
 e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
-                              const gchar *secondary_text)
+                                    const gchar *secondary_text)
 {
 	GtkLabel *label;
 	gchar *markup;
@@ -481,12 +471,4 @@ e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
 	g_object_notify (G_OBJECT (shell_sidebar), "secondary-text");
-}
-
-GtkSizeGroup *
-e_shell_sidebar_get_size_group (EShellSidebar *shell_sidebar)
-{
-	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
-
-	return shell_sidebar->priv->size_group;
 }

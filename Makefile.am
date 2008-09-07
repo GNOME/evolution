@@ -59,9 +59,9 @@ SUBDIRS = 			\
         data                    \
         e-util                  \
 	a11y			\
+	filter			\
         widgets                 \
         shell                   \
-	filter			\
 	$(SMIME_DIR)		\
 	addressbook		\
         art                     \
